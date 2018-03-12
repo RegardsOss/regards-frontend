@@ -41,12 +41,8 @@ export class DatasetFormSubsettingContainer extends React.Component {
     testSubsetting: PropTypes.func,
   }
 
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: true,
-    }
+  state = {
+    isLoading: true,
   }
 
   componentDidMount() {
@@ -93,8 +89,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),
-  testSubsetting: (dataModelId, subsetting) => dispatch(datasetValidSubsettingTestActions.sendSignal('POST', { query: subsetting }, null, { dataModelId })),
+  fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+  testSubsetting: (dataModelName, subsetting) => dispatch(datasetValidSubsettingTestActions.sendSignal('POST', { query: subsetting }, null, { dataModelName })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetFormSubsettingContainer)

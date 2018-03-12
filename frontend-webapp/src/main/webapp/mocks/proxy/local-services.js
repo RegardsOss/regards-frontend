@@ -328,22 +328,20 @@ function buildLocalServices(gatewayURL) {
     GET: {
       // Mock: add missing dependencies
       proxyDependencies: { url: 'rs-admin/resources', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies) },
-      // proxyQuicklook: { url: 'rs-access-project/dataobjects/search', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-access-project/dataobjects/search`, addQuicklook) },
-      // getBasket: { url: 'rs-order/order/basket', handler: getBasket },
-      getNotifications: {
-        url: 'rs-admin/notifications', handler: () => {
-          const content = JSON.parse(loadFile('mocks/proxy/resources/mock-notifications.json'))
+      getStoragePluginsOrdered: {
+        url: 'rs-storage/data-storage/plugins', handler: () => {
+          const content = JSON.parse(loadFile('mocks/proxy/resources/mock-data-storage-plugins.json'))
           return { content }
         }
       },
-      getEnumeratedValues: {
-        url: 'rs-catalog/search/dataobjects/properties/{name}/values',
-        handler: (req, resp, { name }, { partialText, maxCount, q }) => {
-          return {
-            content: new Array(parseInt(maxCount)).fill('').map((value, index) => `${partialText}-${name}-${index}`)
-          }
-        }
-      },
+      // proxyQuicklook: { url: 'rs-access-project/dataobjects/search', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-access-project/dataobjects/search`, addQuicklook) },
+      // getBasket: { url: 'rs-order/order/basket', handler: getBasket },
+      // getNotifications: {
+      //   url: 'rs-admin/notifications', handler: () => {
+      //     const content = JSON.parse(loadFile('mocks/proxy/resources/mock-notifications.json'))
+      //     return { content }
+      //   }
+      // },
       // getSessions: {
       //   url: 'rs-ingest/sessions', handler: () => {
       //     const content = JSON.parse(loadFile('mocks/proxy/resources/mock-ingest-sessions.json'))
@@ -383,12 +381,6 @@ function buildLocalServices(gatewayURL) {
       //     }
       //   }
       // },
-      getNotifications: {
-        url: 'rs-admin/notifications', handler: () => {
-          const content = JSON.parse(loadFile('mocks/proxy/resources/mock-notifications.json'))
-          return { content }
-        }
-      },
     },
     PUT: {
       // pause order

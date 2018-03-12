@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { datasetActions, datasetSelectors } from '../clients/DatasetClient'
+import { datasetActions } from '../clients/DatasetClient'
 import DatasetListComponent from '../components/DatasetListComponent'
 import messages from '../i18n'
 
@@ -30,28 +30,41 @@ import messages from '../i18n'
  */
 export class DatasetListContainer extends React.Component {
   static propTypes = {
+    meta: PropTypes.shape({
+      // use only in onPropertiesUpdate
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
-    // from mapStateToProps
-    datasetList: DataManagementShapes.DatasetList,
     // from mapDispatchToProps
     fetchDatasetList: PropTypes.func,
     deleteDataset: PropTypes.func,
   }
+
+  static PAGE_SIZE = 100
+
   state = {
     isLoading: true,
   }
+
   componentWillMount() {
-    Promise.resolve(this.props.fetchDatasetList())
-      .then((actionResult) => {
-        if (!actionResult.error) {
-          this.setState({
-            isLoading: false,
-          })
-        }
-      })
+    Promise.resolve(this.props.fetchDatasetList()).then((actionResult) => {
+      if (!actionResult.error) {
+        this.setState({
+          isLoading: false,
+        })
+      }
+    })
+  }
+
+  onRefresh = (filters) => {
+    const { meta, fetchDatasetList } = this.props
+    const curentPage = get(meta, 'number', 0)
+    return fetchDatasetList(0, DatasetListContainer.PAGE_SIZE * (curentPage + 1), {}, filters)
   }
 
   getCreateUrl = () => {
@@ -64,30 +77,34 @@ export class DatasetListContainer extends React.Component {
     return `/admin/${project}/data/collections/board`
   }
 
+  navigateToCreateDataset = () => {
+    browserHistory.push(this.getCreateUrl())
+  }
+
   handleEdit = (datasetId) => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/collections/dataset/${datasetId}/edit`
     browserHistory.push(url)
   }
 
-  handleDelete =(datasetId) => {
+  handleDelete = (datasetId) => {
     this.props.deleteDataset(datasetId)
   }
 
   render() {
-    const { datasetList } = this.props
+    const { fetchDatasetList } = this.props
     const { isLoading } = this.state
     return (
       <I18nProvider messages={messages}>
-        <LoadableContentDisplayDecorator
-          isLoading={isLoading}
-        >
+        <LoadableContentDisplayDecorator isLoading={isLoading}>
           <DatasetListComponent
-            datasetList={datasetList}
+            fetchPage={fetchDatasetList}
             handleDelete={this.handleDelete}
             handleEdit={this.handleEdit}
             backUrl={this.getBackUrl()}
             createUrl={this.getCreateUrl()}
+            navigateToCreateDataset={this.navigateToCreateDataset}
+            onRefresh={this.onRefresh}
           />
         </LoadableContentDisplayDecorator>
       </I18nProvider>
@@ -95,12 +112,11 @@ export class DatasetListContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  datasetList: datasetSelectors.getList(state),
-})
+const mapStateToProps = (state, ownProps) => ({})
 
 const mapDispatchToProps = dispatch => ({
-  fetchDatasetList: () => dispatch(datasetActions.fetchPagedEntityList(0, 100)),
+  fetchDatasetList: (pageIndex, pageSize, requestParams, queryParams) =>
+    dispatch(datasetActions.fetchPagedEntityList(pageIndex, pageSize, requestParams, queryParams)),
   deleteDataset: id => dispatch(datasetActions.deleteEntity(id)),
 })
 

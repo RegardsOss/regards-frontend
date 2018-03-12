@@ -18,6 +18,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import TestIcon from 'material-ui/svg-icons/device/airplanemode-active'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import BreadcrumbElement from '../../src/links/BreadcrumbElement'
 import styles from '../../src/links/styles/styles'
@@ -31,12 +32,54 @@ describe('[Components] Testing BreadcrumbElement', () => {
   it('should exists', () => {
     assert.isDefined(BreadcrumbElement)
   })
-  it('should render properly', () => {
+  it('should render properly root item', () => {
     const props = {
-      label: 'l1',
+      isFirst: true,
+      isLast: true,
       onAction: () => { },
-      RootIconConstructor: () => <div />,
+      label: 'root',
+      rootIcon: <TestIcon />,
     }
-    shallow(<BreadcrumbElement {...props} />, { context })
+    const wrapper = shallow(<BreadcrumbElement {...props} />, { context })
+    assert.lengthOf(wrapper.find(TestIcon), 1, 'There should be the icon for root element')
+    assert.include(wrapper.debug(), props.label, 'Element label should be rendered')
+  })
+  it('should render properly any next item', () => {
+    const props = {
+      isFirst: false,
+      isLast: true,
+      onAction: () => { },
+      label: 'any',
+      rootIcon: <TestIcon />,
+    }
+    const wrapper = shallow(<BreadcrumbElement {...props} />, { context })
+    assert.lengthOf(wrapper.find(TestIcon), 0, 'There should not be the icon as element is not root')
+    assert.include(wrapper.debug(), props.label, 'Element label should be rendered')
+  })
+  it('should call onAction when item is not selected (not last element)', () => {
+    let spiedCalls = 0
+    const props = {
+      isFirst: false,
+      isLast: false,
+      onAction: () => { spiedCalls += 1 },
+      label: 'root',
+      rootIcon: <TestIcon />,
+    }
+    const wrapper = shallow(<BreadcrumbElement {...props} />, { context })
+    wrapper.instance().onClick()
+    assert.equal(spiedCalls, 1, 'onAction should have been invoked')
+  })
+  it('should not call onAction when item is selected (last element)', () => {
+    let spiedCalls = 0
+    const props = {
+      isFirst: false,
+      isLast: true,
+      onAction: () => { spiedCalls += 1 },
+      label: 'root',
+      rootIcon: <TestIcon />,
+    }
+    const wrapper = shallow(<BreadcrumbElement {...props} />, { context })
+    wrapper.instance().onClick()
+    assert.equal(spiedCalls, 0, 'onAction should not have been invoked')
   })
 })

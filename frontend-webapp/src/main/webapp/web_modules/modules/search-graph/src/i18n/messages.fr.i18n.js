@@ -47,7 +47,6 @@ const messages = {
   'form.attributes.facetable.label': 'Activer le filtrage sur cet attribut',
   // user
   'search.graph.title': 'Navigation par graphe',
-  'search.graph.subtitle': 'Parcours des données par collections et affichage des objets contenus dans les jeux de données',
   'search.graph.show.details': 'Détails',
   'search.graph.entity.detail.tooltip': 'Détail',
   'search.graph.level.fetch.model.failed': 'La récupération des collections et jeux de données a échoué',

@@ -23,8 +23,54 @@
  */
 const menuStyles = theme => ({
   admin: {
-    rootStyle: {
-      padding: 20,
+    firstSubheaderStyle: {
+      lineHeight: 1,
+      padding: '0 0 10px 0',
+    },
+    subheaderStyle: {
+      lineHeight: 1,
+      paddingLeft: 0,
+      padding: '40px 0 20px 0',
+    },
+    radioButtonGroupLabelStyle: {
+      padding: '0 0 15px 0',
+    },
+    previewStyle: {
+      borderWidth: 4,
+      borderStyle: 'solid',
+      borderColor: theme.palette.borderColor,
+      borderRadius: 5,
+    },
+    title: { // used for admin interface title (not in form)
+      paddingLeft: 10,
+      fontSize: theme.flatButton.fontSize,
+      fontWeight: theme.flatButton.fontWeight,
+      color: theme.palette.textColor,
+      fontFamily: theme.fontFamily,
+    },
+    navigation: {
+      noElementMessageStyle: {
+        color: theme.palette.disabledColor,
+      },
+      table: {
+        style: {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+        },
+        optionColumnStyle: {
+          width: theme.button.iconButtonSize,
+          padding: 0,
+        },
+        iconStyle: {
+          height: theme.spacing.iconSize,
+          width: theme.spacing.iconSize,
+          marginRight: theme.spacing.iconSize / 2,
+        },
+        warningStatusCell: {
+          color: theme['forms-extension:validation'].warningColor,
+        },
+      },
     },
   },
   user: {
@@ -32,28 +78,56 @@ const menuStyles = theme => ({
       display: 'flex',
       flexWrap: 'nowrap',
       flexDirection: 'row',
-      justifyContent: 'flexStart',
+      justifyContent: 'space-between',
       alignItems: 'center',
-      background: theme.appBar.color,
-      borderWidth: '0 0 1px 0',
-      borderColor: theme.toolbar.separatorColor,
-      borderStyle: 'solid',
+      background: theme['module:menu'].background,
+      borderWidth: theme['module:menu'].borderWidth,
+      borderColor: theme['module:menu'].borderColor,
+      borderStyle: theme['module:menu'].borderStyle,
+    },
+    menuSeparator: {
+      borderColor: theme.palette.textColor,
+      alignSelf: 'stretch',
+      margin: theme['module:menu'].separatorMargin,
+      borderWidth: theme['module:menu'].separatorBorderWidth,
+      borderStyle: theme['module:menu'].separatorBorderStyle,
+      borderRadius: theme['module:menu'].separatorBorderRadius,
+    },
+    titleGroup: {
+      flexGrow: 0,
+      flexShrink: 0,
+      display: 'flex',
+      alignItems: 'center',
+    },
+    navigationGroup: {
+      flexGrow: 1,
+      flexShrink: 1,
+      maxHeight: theme['module:menu'].navigationBarMaxHeight,
+      overflowY: 'hidden',
+      boxSizing: 'content-box',
+    },
+    navigationItem: {
+      displayStyle: {
+        display: 'inline-block',
+      },
+      hiddenStyle: {
+        display: 'none',
+      },
+      defaultTextStyle: {
+        textTransform: theme['module:menu'].navigationItemTextTransform,
+      },
+    },
+    selectedNavigationMenuItem: {
+      color: theme.flatButton.secondaryTextColor,
     },
     optionsGroup: {
       flexGrow: 0,
       flexShrink: 0,
+      display: 'flex',
+      alignItems: 'center',
     },
     optionsLabelStyle: {
       textTransform: undefined,
-    },
-    titleGroup: {
-      flexGrow: 1,
-      flexShrink: 1,
-      fontSize: theme.flatButton.fontSize,
-      fontFamily: theme.fontFamily,
-      textAlign: 'center',
-      color: theme.palette.textColor,
-      fontWeight: 'bold',
     },
     profile: {
       dialog: {
@@ -163,6 +237,7 @@ const menuStyles = theme => ({
         infoColor: '#2196F3',
         errorColor: '#FF9800',
         fatalColor: '#f44336',
+        warningColor: '#f9a825',
       },
       divider: {
         style: {
@@ -179,6 +254,7 @@ const menuStyles = theme => ({
           margin: '-24px 0 -24px -24px',
           position: 'absolute',
           height: '100%',
+          width: '100%',
           display: 'flex',
         },
       },

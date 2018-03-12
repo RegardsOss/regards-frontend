@@ -20,6 +20,7 @@ import find from 'lodash/find'
 import get from 'lodash/get'
 import forEach from 'lodash/forEach'
 import isEqual from 'lodash/isEqual'
+import omit from 'lodash/omit'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
@@ -132,6 +133,22 @@ export class OrderCartContainer extends React.Component {
 
   }
 
+  /** Keys of properties that should not be reported to this children */
+  static NON_REPORTED_PROPS = [
+    'initialSearchQuery',
+    'openSearchQuery',
+    'viewObjectType',
+    'children',
+    'tableViewMode',
+    'isAuthenticated',
+    'modules',
+    'availableDependencies',
+    'toggledElements',
+    'selectionMode',
+    'emptySelection',
+    'dispatchAddToCart',
+  ]
+
   static DEFAULT_STATE = {
     children: [], // pre rendered children
     basketAvailaible: false, // marks a state where basket is available
@@ -189,12 +206,12 @@ export class OrderCartContainer extends React.Component {
     }
 
     // when callbacks or children changed, re render children
-    if (HOCUtils.shouldCloneChildren(this, oldProps, newProps) ||
+    if (HOCUtils.shouldCloneChildren(oldProps, newProps, OrderCartContainer.NON_REPORTED_PROPS) ||
       !isEqual(oldState.onAddElementToBasket, newState.onAddElementToBasket) ||
       !isEqual(oldState.onAddSelectionToBasket, newState.onAddSelectionToBasket)) {
       // pre render children (attempt to enhance render performances)
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
-        ...HOCUtils.getOnlyNonDeclaredProps(this, newProps), // this will report injected service data
+        ...omit(newProps, OrderCartContainer.NON_REPORTED_PROPS), // this will report injected service data
         // report cart information
         onAddElementToCart: newState.onAddElementToBasket,
         onAddSelectionToCart: newState.onAddSelectionToBasket,

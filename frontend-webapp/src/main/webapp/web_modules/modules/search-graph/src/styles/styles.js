@@ -213,7 +213,7 @@ const menuStyles = (theme) => {
             width: 20,
             height: 20,
             transform: 'rotate(-90deg) ',
-            marginRight: 2,
+            marginRight: 0,
             translateY: 2,
             flexShrink: 0,
             flexGrow: 0,
@@ -313,6 +313,7 @@ const menuStyles = (theme) => {
             width: 20,
             height: 20,
             padding: 0,
+            marginLeft: 5,
           },
           iconStyles: {
             width: 18,

@@ -36,11 +36,13 @@ class TableHeaderOptionsArea extends React.Component {
     ]),
     SeparatorConstructor: PropTypes.func,
     reducible: PropTypes.bool,
+    alignLeft: PropTypes.bool,
   }
 
   static defaultProps = {
     SeparatorConstructor: TableHeaderOptionsSeparator,
     reducible: false,
+    alignLeft: false,
   }
 
   static contextTypes = {
@@ -49,8 +51,10 @@ class TableHeaderOptionsArea extends React.Component {
 
 
   render() {
-    const { children = null, SeparatorConstructor, reducible } = this.props
-    const { moduleTheme: { header: { optionsGroup: { fixedAreaStyle, reducibleAreaStyle } } } } = this.context
+    const {
+      children = null, SeparatorConstructor, reducible, alignLeft,
+    } = this.props
+    const { moduleTheme: { header: { optionsGroup: { fixedAreaStyle, reducibleLeftAreaStyle, reducibleRightAreaStyle } } } } = this.context
 
     let presentedChildren = children
     if (isArray(children)) {
@@ -63,12 +67,14 @@ class TableHeaderOptionsArea extends React.Component {
       )
     }
 
+    const reducibleStyle = alignLeft ? reducibleLeftAreaStyle : reducibleRightAreaStyle
+
     return (
-      <div style={reducible ? reducibleAreaStyle : fixedAreaStyle} >
+      <div style={reducible ? reducibleStyle : fixedAreaStyle} >
         {
           presentedChildren
         }
-      </div>
+      </div >
     )
   }
 }

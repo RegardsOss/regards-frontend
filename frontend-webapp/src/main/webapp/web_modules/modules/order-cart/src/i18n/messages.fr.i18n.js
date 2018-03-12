@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
+import { storage } from '@regardsoss/units'
 
 /**
  * Module messages for french language (reports common form messages too)
@@ -38,9 +39,15 @@ const messages = {
   'order-cart.module.clear.tooltip': 'Effacer le contenu du panier',
   'order-cart.module.clear.confirmation.title': 'Vider le panier',
   'order-cart.module.clear.confirmation.message': 'Cette action effacera l\'intégralité des éléments du panier',
-  'order-cart.module.basket.table.column.identifier': 'Nom du dataset / date de l\'ajout',
+  'order-cart.module.objects.count.header.message': `Le panier contient actuellement {effectiveObjectsCount, plural, 
+    one {une donnée}
+    other {{effectiveObjectsCount} données}
+  } à commander`,
+  'order-cart.module.objects.count.size.message': 'La taille totale des fichiers de la commande est {totalSize}',
+  'order-cart.module.duplicate.objects.message.title': 'Données ajoutées plusieurs fois',
+  'order-cart.module.duplicate.objects.message': 'Lors de vos sélections successives, plusieurs données identiques ({duplicatedObjectsCount}) ont été ajoutées. Seules les données uniques ({effectiveObjectsCount}) seront commandées.',
+  'order-cart.module.duplicate.objects.message.close': 'Fermer',
   'order-cart.module.basket.table.column.objects.count': 'Nombre d\'objets',
-  'order-cart.module.basket.table.column.files.count': 'Nombre de fichiers',
   'order-cart.module.basket.table.column.files.size': 'Taille totale des fichiers',
   'order-cart.module.basket.table.column.options': 'Options',
   'order-cart.module.basket.table.delete.dataset.tooltip': 'Supprimer les selections d\'objets de ce jeu de données',
@@ -55,6 +62,8 @@ const messages = {
   'order-cart.module.basket.items.group.selection.detail.close': 'Fermer',
   'order-cart.module.basket.items.group.selection.detail.no.data.title': 'Aucun élément',
   'order-cart.module.basket.items.group.selection.detail.no.data.message': 'Il n\'y a plus d\'élément dans ce groupe de sélection. Ceux-ci ont pu être supprimés ou leurs droits d\'accès ont pus être modifiés.',
+  // adds capicity formatting messages
+  ...storage.messages.fr,
 }
 
 export default messages

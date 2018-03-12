@@ -23,18 +23,25 @@
  */
 
 /** A dated selection item shape */
-const IngestSession = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    lastActivationDate: PropTypes.string.isRequired,
-    sipsCount: PropTypes.number.isRequired,
-    indexedSipsCount: PropTypes.number.isRequired,
-    storedSipsCount: PropTypes.number.isRequired,
-    generatedSipsCount: PropTypes.number.isRequired,
-    errorSipsCount: PropTypes.number.isRequired,
-  }),
+const IngestSessionContent = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  lastActivationDate: PropTypes.string.isRequired,
+  sipsCount: PropTypes.number.isRequired,
+  indexedSipsCount: PropTypes.number.isRequired,
+  storedSipsCount: PropTypes.number.isRequired,
+  generatedSipsCount: PropTypes.number.isRequired,
+  errorSipsCount: PropTypes.number.isRequired,
 })
 
-export default {
+const IngestSession = PropTypes.shape({
+  content: IngestSessionContent,
+})
+const IngestSessionList = PropTypes.objectOf(IngestSession)
+const IngestSessionArray = PropTypes.arrayOf(IngestSession)
+
+module.exports = {
   IngestSession,
+  IngestSessionContent,
+  IngestSessionList,
+  IngestSessionArray,
 }

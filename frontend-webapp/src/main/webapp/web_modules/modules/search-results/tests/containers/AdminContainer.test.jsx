@@ -36,6 +36,7 @@ describe('[Search Results] Testing AdminContainer', () => {
     const props = {
       appName: 'any',
       project: 'any',
+      type: 'any',
       adminForm: {
         isCreating: true,
         isDuplicating: false,

@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
-import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 
 /**
  * i18n messages english language
@@ -26,8 +25,8 @@ import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 const messages = {
   'admin.message.field.label': 'Message to display in example module',
   exampleMessage: 'Message example',
+  // common form messages (to use common Regards fields and validators)
   ...Locales.en,
-  ...MetadataLocales.en,
 }
 
 export default messages

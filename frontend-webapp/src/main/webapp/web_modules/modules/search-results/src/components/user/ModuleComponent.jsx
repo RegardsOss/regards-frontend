@@ -1,49 +1,29 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { DynamicModule } from '@regardsoss/components'
 import { dependencies } from '../../user-dependencies'
+import ModuleConfiguration from '../../models/ModuleConfiguration'
 import SearchResultsContainer from '../../containers/user/results/SearchResultsContainer'
 import NavigationContainer from '../../containers/user/navigation/NavigationContainer'
-import { DISPLAY_MODE_VALUES } from '../../definitions/DisplayModeEnum'
-import DisplayModuleConf from '../../models/DisplayModuleConf'
 
 /**
  * Search results module view
  */
 class ModuleComponent extends React.Component {
   static propTypes = {
-    // sub modules rendering
-    appName: PropTypes.string,
-    project: PropTypes.string,
-    resultsTitle: PropTypes.string,
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+    // redefines expected configuration shape
+    moduleConf: ModuleConfiguration.isRequired,
 
-    // expanded state management
-    expanded: PropTypes.bool.isRequired,
-    onExpandChange: PropTypes.func.isRequired,
-
-    // initial configuration
-    // eslint-disable-next-line react/no-unused-prop-types
-    searchQuery: PropTypes.string,
-
-    // configuration
-    enableFacettes: PropTypes.bool.isRequired,
-    enableDownload: PropTypes.bool.isRequired,
-    enableQuicklooks: PropTypes.bool.isRequired,
-    displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
-    displayConf: DisplayModuleConf,
-    // eslint-disable-next-line react/no-unused-prop-types
-    facettesQuery: PropTypes.string,
-
-    // Attributes configurations for results columns
-    attributesConf: AccessShapes.AttributeConfigurationArray,
-    attributesQuicklookConf: AccessShapes.AttributeConfigurationArray,
-    attributesRegroupementsConf: AccessShapes.AttributesGroupConfigurationArray,
-    datasetAttributesConf: AccessShapes.AttributeConfigurationArray,
-    documentAttributesConf: AccessShapes.AttributeConfigurationArray,
     attributeModels: DataManagementShapes.AttributeModelList,
+
+    // request configuration
+    searchQuery: PropTypes.string,
+    facettesQuery: PropTypes.string,
   }
 
   static contextTypes = {
@@ -52,20 +32,37 @@ class ModuleComponent extends React.Component {
 
   render() {
     const {
-      appName, project, resultsTitle, searchQuery, enableFacettes, expanded, onExpandChange, facettesQuery, enableDownload, enableQuicklooks,
-      displayMode, attributesConf, attributesRegroupementsConf, datasetAttributesConf, documentAttributesConf, attributeModels, displayConf,
-      attributesQuicklookConf,
+      appName,
+      project,
+      facettesQuery,
+      attributeModels,
+      description,
+      page,
+      moduleConf: {
+        enableDownload,
+        enableFacettes,
+        enableQuicklooks,
+        searchQuery,
+        attributes,
+        attributesQuicklook,
+        datasetAttributes,
+        documentAttributes,
+        attributesRegroupements,
+        displayMode,
+        displayConf,
+      },
     } = this.props
     return (
       <DynamicModule
-        title={
+        titleComponent={
           <NavigationContainer
-            resultsTitle={resultsTitle}
+            type={this.props.type}
+            description={description}
+            page={page}
           />
         }
-        onExpandChange={onExpandChange}
-        expanded={expanded}
         requiredDependencies={dependencies}
+        {...this.props}
       >
         <SearchResultsContainer
           appName={appName}
@@ -76,11 +73,11 @@ class ModuleComponent extends React.Component {
           displayMode={displayMode}
           searchQuery={searchQuery}
           facettesQuery={facettesQuery}
-          attributesConf={attributesConf}
-          attributesQuicklookConf={attributesQuicklookConf}
-          attributesRegroupementsConf={attributesRegroupementsConf}
-          datasetAttributesConf={datasetAttributesConf}
-          documentAttributesConf={documentAttributesConf}
+          attributesConf={attributes}
+          attributesQuicklookConf={attributesQuicklook}
+          attributesRegroupementsConf={attributesRegroupements}
+          datasetAttributesConf={datasetAttributes}
+          documentAttributesConf={documentAttributes}
           attributeModels={attributeModels}
           displayConf={displayConf}
         />

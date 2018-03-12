@@ -18,6 +18,7 @@
  **/
 import has from 'lodash/has'
 import { browserHistory } from 'react-router'
+import { UIDomain } from '@regardsoss/domain'
 import { connect } from '@regardsoss/redux'
 import { AccessProjectClient } from '@regardsoss/client'
 import { AccessShapes } from '@regardsoss/shape'
@@ -62,7 +63,7 @@ export class RedirectContainer extends React.Component {
       const moduleRequested = modulesManager.findFirstModuleByType(modules, moduleRequestedName)
       if (moduleRequested) {
         // Redirect the user
-        const nextPath = modulesManager.getModuleURL(project, moduleRequested.content.id)
+        const nextPath = UIDomain.getModuleURL(project, moduleRequested.content.id)
         browserHistory.push({
           pathname: nextPath,
           // Reports any query param not used here to that module

@@ -18,11 +18,13 @@
 **/
 import AceEditorAdapter from './components/AceEditorAdapter'
 import ChartAdapter from './components/ChartAdapter'
+import Measure from './components/MeasureAdapter'
 import ScrollArea from './components/ScrollAreaAdapter'
 
 module.exports = {
   AceEditorAdapter,
   ChartAdapter,
+  Measure,
   ScrollArea,
 }
 

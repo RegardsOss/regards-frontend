@@ -21,19 +21,18 @@ import PieChart from 'material-ui/svg-icons/editor/pie-chart'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
+import Security from 'material-ui/svg-icons/hardware/security'
 import Database from 'mdi-material-ui/Database'
 import Archive from 'mdi-material-ui/Archive'
 import CallSplit from 'mdi-material-ui/CallSplit'
 
-import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { connectionDependencies } from '@regardsoss/admin-data-connection-management'
 import { datasourceDependencies } from '@regardsoss/admin-data-datasource-management'
 import { documentDependencies } from '@regardsoss/admin-data-document-management'
 import { processingChainDependencies } from '@regardsoss/admin-ingest-processing-chain-management'
+import { dataProviderDependencies } from '@regardsoss/admin-data-provider-management'
 import { sipDependencies } from '@regardsoss/admin-ingest-sip-management'
-import { StorageClient } from '@regardsoss/client'
-
-const storageDependencies = [new StorageClient.StoragePluginsActions().getDependency(RequestVerbEnum.GET_LIST)]
+import { storageManagementDependencies } from '@regardsoss/admin-storage-management'
 
 /**
  * BoardItems configuration for ingest module
@@ -42,27 +41,33 @@ const storageDependencies = [new StorageClient.StoragePluginsActions().getDepend
  */
 const items = (projectName, intl) => [
   {
-    title: intl.formatMessage({ id: 'ingest.board.title' }),
-    description: intl.formatMessage({ id: 'ingest.board.description' }),
+    title: intl.formatMessage({ id: 'data.board.storage.title' }),
+    description: intl.formatMessage({ id: 'data.board.storage.description' }),
     advanced: false,
     actions: [
       {
-        path: `/admin/${projectName}/data/acquisition/chain/list`,
-        icon: <Build />,
-        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.chain.list.tooltip' }),
-        hateoasDependencies: processingChainDependencies.listDependencies,
+        path: `/admin/${projectName}/data/acquisition/storage/storages/list`,
+        icon: <Archive />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.tooltip' }),
+        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
       },
       {
-        path: `/admin/${projectName}/data/acquisition/sip/session`,
-        icon: <PageView />,
-        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.monitor.tooltip' }),
-        hateoasDependencies: sipDependencies.listDependencies,
+        path: `/admin/${projectName}/data/acquisition/storage/allocations`,
+        icon: <CallSplit />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.allocations.tooltip' }),
+        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
       },
       {
-        path: `/admin/${projectName}/data/acquisition/sip/submition`,
-        icon: <AddIcon />,
-        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.sumition.tooltip' }),
-        hateoasDependencies: sipDependencies.addDependencies,
+        path: `/admin/${projectName}/data/acquisition/storage/storages/monitoring`,
+        icon: <PieChart />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.monitoring.tooltip' }),
+        hateoasDependencies: storageManagementDependencies.monitoringDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/storage/security`,
+        icon: <Security />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.security.tooltip' }),
+        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
       },
     ],
   },
@@ -75,8 +80,13 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/acquisition/dataprovider/chain/list`,
         icon: <Build />,
         tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.chain.list.tooltip' }),
-        // TODO : Set hateoas dependencies
-        // hateoasDependencies: dataProviderDependencies.listDependencies,
+        hateoasDependencies: dataProviderDependencies.listDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/dataprovider/monitoring/chains`,
+        icon: <PageView />,
+        tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.monitoring.tooltip' }),
+        hateoasDependencies: dataProviderDependencies.listDependencies,
       },
     ],
   },
@@ -106,6 +116,31 @@ const items = (projectName, intl) => [
     ],
   },
   {
+    title: intl.formatMessage({ id: 'ingest.board.title' }),
+    description: intl.formatMessage({ id: 'ingest.board.description' }),
+    advanced: false,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/acquisition/chain/list`,
+        icon: <Build />,
+        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.chain.list.tooltip' }),
+        hateoasDependencies: processingChainDependencies.listDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/sip/session`,
+        icon: <PageView />,
+        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.monitor.tooltip' }),
+        hateoasDependencies: sipDependencies.listDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/sip/submission`,
+        icon: <AddIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.sumition.tooltip' }),
+        hateoasDependencies: sipDependencies.addDependencies,
+      },
+    ],
+  },
+  {
     title: intl.formatMessage({ id: 'data.board.document.title' }),
     description: intl.formatMessage({ id: 'data.board.document.description' }),
     advanced: false,
@@ -121,31 +156,6 @@ const items = (projectName, intl) => [
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
         hateoasDependencies: documentDependencies.addDependencies,
-      },
-    ],
-  },
-  {
-    title: intl.formatMessage({ id: 'data.board.storage.title' }),
-    description: intl.formatMessage({ id: 'data.board.storage.description' }),
-    advanced: false,
-    actions: [
-      {
-        path: `/admin/${projectName}/data/acquisition/storage/storages`,
-        icon: <Archive />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.tooltip' }),
-        hateoasDependencies: documentDependencies.listDependencies,
-      },
-      {
-        path: `/admin/${projectName}/data/acquisition/storage/allocations`,
-        icon: <CallSplit />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.allocations.tooltip' }),
-        hateoasDependencies: documentDependencies.addDependencies,
-      },
-      {
-        path: `/admin/${projectName}/data/acquisition/storage/storages/monitoring`,
-        icon: <PieChart />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.monitoring.tooltip' }),
-        hateoasDependencies: storageDependencies,
       },
     ],
   },

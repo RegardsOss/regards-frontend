@@ -17,19 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import LazyModuleComponent from './components/LazyModuleComponent'
-import ModuleListProvider from './components/ModuleListProvider'
-import ModuleListContainer from './containers/ModuleListContainer'
-import ModuleShape from './model/ModuleShape'
 import modulesManager from './ModulesManager'
 
 /**
  * Main module file to expose public interface
  * @author Sébastien Binda
  */
-export {
+module.exports = {
   LazyModuleComponent,
-  ModuleListProvider,
-  ModuleShape,
-  ModuleListContainer,
   modulesManager,
 }

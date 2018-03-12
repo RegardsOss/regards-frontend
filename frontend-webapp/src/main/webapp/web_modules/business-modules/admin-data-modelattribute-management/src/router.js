@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 export const editModelAttributeRoute = {
-  path: ':model_id/edit',
+  path: ':modelName/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const ModelAttributeFormContainer = require('./containers/ModelAttributeFormContainer')

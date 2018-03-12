@@ -158,7 +158,7 @@ export class DocumentFormComponent extends React.Component {
             >
               {map(modelList, (model, id) => (
                 <MenuItem
-                  value={model.content.id}
+                  value={model.content.name}
                   key={id}
                   primaryText={model.content.name}
                 />

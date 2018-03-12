@@ -18,9 +18,7 @@
  */
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
-import {
-  AuthenticationClient, AuthenticationErrorShape, AuthenticationRouteParameters, AuthenticationRouteHelper,
-} from '@regardsoss/authentication-manager'
+import { AuthenticationClient, AuthenticationErrorShape, AuthenticationRouteParameters, AuthenticationRouteHelper } from '@regardsoss/authentication-manager'
 import AuthenticationFormComponent from '../components/AuthenticationFormComponent'
 
 /**
@@ -31,7 +29,7 @@ export class AuthenticationFormContainer extends React.Component {
     // initial mail value
     initialMail: PropTypes.string,
     // current project (empty if admin)
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     // form title
     title: PropTypes.string.isRequired,
     // show create account link?
@@ -53,17 +51,6 @@ export class AuthenticationFormContainer extends React.Component {
   /** I18N injection */
   static contextTypes = {
     ...i18nContextType,
-  }
-
-  componentDidMount = () => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('DEV', 'Auto connection')
-      const that = this
-      setTimeout(() => {
-        that.onLoginRequest({ username: 'regards-admin@c-s.fr', password: 'root_admin' })
-        //that.onLoginRequest({ username: 'hello@hello.com', password: 'hello' })
-      }, 150)
-    }
   }
 
   onLoginRequest = ({ username, password }) => {

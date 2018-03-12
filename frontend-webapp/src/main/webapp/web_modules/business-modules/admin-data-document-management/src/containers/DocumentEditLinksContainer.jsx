@@ -189,7 +189,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollectionList: () => dispatch(collectionActions.fetchEntityList()),
+  fetchCollectionList: () => dispatch(collectionActions.fetchPagedEntityList(0)),
   fetchDocument: id => dispatch(documentActions.fetchEntity(id)),
   updateDocument: (id, doc) => dispatch(documentActions.updateEntity(id, doc)),
   addTagToDocument: (documentId, tags) => dispatch(documentLinkActions.sendSignal('PUT', tags, { document_id: documentId, operation: 'associate' })),

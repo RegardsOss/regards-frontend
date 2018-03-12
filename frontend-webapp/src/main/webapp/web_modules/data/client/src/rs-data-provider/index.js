@@ -16,16 +16,47 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import GenerationChainActions from './generationChain/GenerationChainActions'
-import getGenerationChainReducer from './generationChain/GenerationChainReducer'
-import getGenerationChainSelectors from './generationChain/GenerationChainSelectors'
+import AcquisitionProcessingChainActions from './AcquisitionProcessingChain/AcquisitionProcessingChainActions'
+import getAcquisitionProcessingChainReducer from './AcquisitionProcessingChain/AcquisitionProcessingChainReducer'
+import getAcquisitionProcessingChainSelectors from './AcquisitionProcessingChain/AcquisitionProcessingChainSelectors'
+
+import RunAcquisitionProcessingChainActions from './AcquisitionProcessingChain/RunAcquisitionProcessingChainActions'
+import StopAcquisitionProcessingChainActions from './AcquisitionProcessingChain/StopAcquisitionProcessingChainActions'
+
+import AcquisitionProcessingChainMonitorActions from './AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorActions'
+import getAcquisitionProcessingChainMonitorReducer from './AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorReducer'
+import getAcquisitionProcessingChainMonitorSelectors from './AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorSelectors'
+
+import ProductActions from './Product/ProductActions'
+import getProductReducer from './Product/ProductReducer'
+import getProductSelectors from './Product/ProductSelectors'
+
+import AcquisitionFileActions from './AcquisitionFile/AcquisitionFileActions'
+import getAcquisitionFileReducer from './AcquisitionFile/AcquisitionFileReducer'
+import getAcquisitionFileSelectors from './AcquisitionFile/AcquisitionFileSelectors'
 
 /**
  * Index for all data provider microservice clients.
  * @author Sébastien Binda
  */
 module.exports = {
-  GenerationChainActions,
-  getGenerationChainReducer,
-  getGenerationChainSelectors,
+  AcquisitionProcessingChainActions,
+  getAcquisitionProcessingChainReducer,
+  getAcquisitionProcessingChainSelectors,
+
+  RunAcquisitionProcessingChainActions,
+  StopAcquisitionProcessingChainActions,
+
+  AcquisitionProcessingChainMonitorActions,
+  getAcquisitionProcessingChainMonitorReducer,
+  getAcquisitionProcessingChainMonitorSelectors,
+
+  ProductActions,
+  getProductReducer,
+  getProductSelectors,
+
+  AcquisitionFileActions,
+  getAcquisitionFileReducer,
+  getAcquisitionFileSelectors,
+
 }

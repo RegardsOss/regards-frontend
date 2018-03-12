@@ -28,7 +28,7 @@ const context = buildTestContext(styles)
 * Component test. Comment Here
 * @author Raphaël Mechali
 */
-describe('[ACE EDITOR] Testing AceEditorAdapter', () => {
+describe('[Adapters] Testing AceEditorAdapter', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

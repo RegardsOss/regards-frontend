@@ -17,12 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEmpty from 'lodash/isEmpty'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 import CartIcon from 'material-ui/svg-icons/action/shopping-cart'
 import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
-import { OrderShapes } from '@regardsoss/shape'
+import { AccessShapes, OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { DynamicModule, ModuleTitle, NoContentMessageInfo } from '@regardsoss/components'
+import { DynamicModule, NoContentMessageInfo } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { dependencies } from '../../user-dependencies'
 import OrderComponent from './options/OrderComponent'
@@ -35,15 +37,15 @@ import OrderCartTableComponent from './OrderCartTableComponent'
  */
 class OrderCartComponent extends React.Component {
   static propTypes = {
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+
     basket: OrderShapes.Basket,
     showDatasets: PropTypes.bool.isRequired,
     isAuthenticated: PropTypes.bool,
     isFetching: PropTypes.bool.isRequired,
     onClearCart: PropTypes.func.isRequired,
     onOrder: PropTypes.func.isRequired,
-    // expanded state management
-    expanded: PropTypes.bool.isRequired,
-    onExpandChange: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -51,22 +53,44 @@ class OrderCartComponent extends React.Component {
     ...themeContextType,
   }
 
+  /** Initial component state */
+  state = {
+    showMessage: false,
+    totalObjectsCount: 0,
+    effectiveObjectsCount: 0,
+  }
+
+  /**
+   * Callback: show duplicated message
+   */
+  onShowDuplicatedMessage = (totalObjectsCount, effectiveObjectsCount) =>
+    this.setState({ totalObjectsCount, effectiveObjectsCount, showMessage: true })
+
+  /**
+   * Callback: show duplicated message
+   */
+  onHideDuplicatedMessage = () =>
+    this.setState({ totalObjectsCount: 0, effectiveObjectsCount: 0, showMessage: false })
+
   /**
    * Renders module options
+   * @param {function} onClearCart on clear cart callback
+   * @param {function} onOrder on order callback
+   * @param {boolean} isFetching is fetching?
+   * @param {boolean} isNoContent is no content?
    * @return [React.Element] options list
    */
-  renderOptions = (isNoContent) => {
-    const { isFetching, onClearCart, onOrder } = this.props
-    return [
-      <OrderComponent key="options.order" disabled={isFetching} empty={isNoContent} onOrder={onOrder} />,
-      <ClearCartComponent key="options.clear.cart" disabled={isFetching} empty={isNoContent} onClearCart={onClearCart} />,
-    ]
-  }
+  renderOptions = (onClearCart, onOrder, isFetching, isNoContent) => [
+    <OrderComponent key="options.order" disabled={isFetching} empty={isNoContent} onOrder={onOrder} />,
+    <ClearCartComponent key="options.clear.cart" disabled={isFetching} empty={isNoContent} onClearCart={onClearCart} />,
+  ]
 
   render() {
     const {
-      isAuthenticated, basket, isFetching, onExpandChange, expanded, showDatasets,
+      isAuthenticated, basket, isFetching, onClearCart, onOrder, showDatasets,
+      ...moduleProperties
     } = this.props
+    const { totalObjectsCount, effectiveObjectsCount, showMessage } = this.state
     const { intl: { formatMessage } } = this.context
 
     const emptyBasket = isEmpty(basket) || isEmpty(basket.datasetSelections)
@@ -78,15 +102,13 @@ class OrderCartComponent extends React.Component {
     const NoContentIconConstructor = !isAuthenticated ? NotLoggedIcon : CartIcon
 
     return (
-      <DynamicModule
-        title={<ModuleTitle IconConstructor={CartIcon} text={formatMessage({ id: 'order-cart.module.title' })} />}
-        onExpandChange={onExpandChange}
-        expanded={expanded}
-        options={this.renderOptions(isNoContent)}
-        requiresAuthentication
-        requiredDependencies={dependencies}
-      >
-        <div>
+      <div>
+        <DynamicModule
+          options={this.renderOptions(onClearCart, onOrder, isFetching, isNoContent)}
+          requiresAuthentication
+          requiredDependencies={dependencies}
+          {...moduleProperties}
+        >
           {/* 2.a - Empty basket display */}
           <NoContentMessageInfo
             noContent={isNoContent}
@@ -95,13 +117,38 @@ class OrderCartComponent extends React.Component {
             Icon={NoContentIconConstructor}
           >
             {/* 2.b - content  */}
-            <OrderCartTableComponent disableOptions={isFetching} basket={basket} showDatasets={showDatasets} />
+            <OrderCartTableComponent
+              disableOptions={isFetching}
+              basket={basket}
+              showDatasets={showDatasets}
+              onShowDuplicatedMessage={this.onShowDuplicatedMessage}
+            />
             {/* 2.c - loading (content is not inside, as we need the table to not be
               unmounted. Indeed the table uses previous props to restore the rows expanded state  */}
             <LoadableContentDisplayDecorator isLoading={isFetching} />
           </NoContentMessageInfo>
-        </div>
-      </DynamicModule>
+        </DynamicModule>
+        { /* 3 - Add dialog component for size informations messages (avoid creating dialogs in table) */}
+        <Dialog
+          open={showMessage}
+          title={formatMessage({ id: 'order-cart.module.duplicate.objects.message.title' })}
+          onRequestClose={this.onHideDuplicatedMessage}
+          actions={
+            <FlatButton
+              key="close.button"
+              label={formatMessage({ id: 'order-cart.module.duplicate.objects.message.close' })}
+              onClick={this.onHideDuplicatedMessage}
+            />}
+        >
+          {
+            formatMessage({ id: 'order-cart.module.duplicate.objects.message' }, {
+              totalObjectsCount,
+              duplicatedObjectsCount: totalObjectsCount - effectiveObjectsCount,
+              effectiveObjectsCount,
+            })
+          }
+        </Dialog>
+      </div>
     )
   }
 }

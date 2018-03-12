@@ -58,7 +58,10 @@ import Order from './order/Order'
 import OrderFile from './order/OrderFile'
 import Sip from './ingest/SIP'
 import Session from './ingest/Session'
-import GenerationChain from './data-provider/GenerationChain'
+import AcquisitionProcessingChain from './data-provider/AcquisitionProcessingChain'
+import AcquisitionProcessingChainMonitor from './data-provider/AcquisitionProcessingChainMonitor'
+import Product from './data-provider/Product'
+import AcquisitionFile from './data-provider/AcquisitionFile'
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -68,80 +71,70 @@ import GenerationChain from './data-provider/GenerationChain'
 
 // Schemas for API responses.
 module.exports = {
+  // Schema !?! TODO : move to each associated microservice
+  ...Accesses,
   ...Account,
-
+  ...Model,
+  ...Notification,
+  ...ProjectConnection,
   ...Project,
-
   ...ProjectUser,
-
   ...Role,
 
-  ...Notification,
-
-  //TODO WHAT ?
-  //STORAGE_PLUGIN: Model.STORAGE_PLUGIN,
-
-  ...Model,
-
-  ...ProjectConnection,
-
-  ...Accesses,
-
-  ...AttributeModel,
-
-  ...ModelAttribute,
-
-  ...AttributeModelRestriction,
-
-  ...Module,
-
-  ...Fragment,
-
-  ...Layout,
-
-  ...Theme,
-
-  ...Plugin,
-
-  ...Entity,
-
-  ...Dataset,
-  ...DatasetWithAccessRight,
-
+  // Admin
+  ...Endpoint,
   ...ResourceAccess,
 
-  ...PluginMetaData,
+  // Access
+  ...Module,
+  ...Layout,
+  ...LinkPluginDataset,
+  ...LinkUIPluginDataset,
+  ...Plugin,
+  ...Theme,
+  ...UIPluginConf,
 
-  ...AdminPluginConfiguration,
-
-  ...Collection,
+  // Archival storage
   ...StoragePlugin,
   ...AIPStatus,
 
-  ...Endpoint,
+  // Catalog
+  ...Entity,
 
+  // Common
+  ...AdminPluginConfiguration,
+  ...PluginMetaData,
   ...PluginParameter,
 
+  // DAM
+  ...AccessGroup,
+  ...AttributeModel,
+  ...AttributeModelRestriction,
+  ...AccessRight,
+  ...Connection,
+  ...Collection,
   ...CrawlerDatasource,
+  ...Dataset,
+  ...DatasetWithAccessRight,
   ...Datasource,
   ...Document,
-  ...AccessRight,
-  ...AccessGroup,
-  ...Connection,
+  ...Fragment,
   ...ModelAttributeComputationTypes,
+  ...ModelAttribute,
 
-  ...LinkPluginDataset,
-  ...UIPluginConf,
+  // Data Provider
+  ...AcquisitionProcessingChain,
+  ...AcquisitionProcessingChainMonitor,
+  ...Product,
+  ...AcquisitionFile,
 
-  ...LinkUIPluginDataset,
+  // Ingest
+  ...ProcessingChain,
+  ...Sip,
+  ...Session,
 
+  // Order
   ...Order,
   ...OrderFile,
 
-  ...ProcessingChain,
-  ...Sip,
-
-  ...Session,
-
-  ...GenerationChain,
 }

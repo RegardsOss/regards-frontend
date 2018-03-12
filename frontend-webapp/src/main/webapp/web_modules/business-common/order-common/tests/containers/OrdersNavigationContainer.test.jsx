@@ -43,7 +43,7 @@ describe('[Order Common] Testing OrdersNavigationContainer', () => {
   it('should render correctly with current navigation path', () => {
     const props = {
       title: 'hello hello, I don\'t know why you say hello',
-      RootIconConstructor: BigIcon,
+      rootIcon: <BigIcon />,
       navigationActions: new OrdersNavigationActions(''), // used in mapDispatchToProps
       navigationSelectors: new OrdersNavigationSelectors(['idk']),
       navigationPath: [],
@@ -54,7 +54,7 @@ describe('[Order Common] Testing OrdersNavigationContainer', () => {
     assert.lengthOf(component, 1, 'There should be the component')
     let compProps = component.props()
     assert.equal(compProps.title, props.title, 'title should be reported')
-    assert.equal(compProps.RootIconConstructor, props.RootIconConstructor, 'icon constructor should be reported')
+    assert.equal(compProps.rootIcon, props.rootIcon, 'icon constructor should be reported')
     assert.equal(compProps.onResetTolevel, props.dispatchResetToLevel, 'on reset to level callback should be correctly set up')
     assert.lengthOf(compProps.navigationPath, 1, 'The container should add root element in path')
     assert.equal(compProps.navigationPath[0], OrdersNavigationComponent.ROOT_MARKER, 'Root element should be inserted from corresponding static field in component')

@@ -1,6 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { ShowableAtRender } from '@regardsoss/components'
@@ -11,8 +12,8 @@ import LicenseDisplayContainer from './LicenseDisplayContainer'
 */
 class LicenseModuleContainer extends React.Component {
   static propTypes = {
-    // from module system
-    project: PropTypes.string.isRequired,
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
     // from mapStateToProps
     isAuthenticated: PropTypes.bool.isRequired,
   }

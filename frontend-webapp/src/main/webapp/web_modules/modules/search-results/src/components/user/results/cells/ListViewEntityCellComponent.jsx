@@ -25,7 +25,7 @@ import { ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import AddElementToCartContainer from '../../../../containers/user/results/options/AddElementToCartContainer'
 import EntityDescriptionContainer from '../../../../containers/user/results/options/EntityDescriptionContainer'
-import DownloadEntityFileContainer from '../../../../containers/user/results/options/DownloadEntityFileContainer'
+import DownloadEntityFileComponent from '../options/DownloadEntityFileComponent'
 import OneElementServicesContainer from '../../../../containers/user/results/options/OneElementServicesContainer'
 import SearchRelatedEntitiesComponent from '../options/SearchRelatedEntitiesComponent'
 
@@ -35,6 +35,7 @@ import SearchRelatedEntitiesComponent from '../options/SearchRelatedEntitiesComp
 export const AttributeRenderData = PropTypes.shape({
   key: PropTypes.string.isRequired,
   label: PropTypes.string, // optional as it is not provided for thumbnail
+  unit: PropTypes.string, // optional unit type of attribute
   renderers: PropTypes.arrayOf(PropTypes.shape({
     path: PropTypes.string.isRequired,
     RenderConstructor: PropTypes.func.isRequired,
@@ -57,6 +58,9 @@ class ListViewEntityCellComponent extends React.Component {
     entitySelected: PropTypes.bool.isRequired,
     displayLabel: PropTypes.bool,
     displayVertically: PropTypes.bool,
+    // auth info
+    accessToken: PropTypes.string,
+    projectName: PropTypes.string.isRequired,
     // Callback
     onSelectEntity: PropTypes.func.isRequired,
     onSearchEntity: PropTypes.func,
@@ -78,7 +82,7 @@ class ListViewEntityCellComponent extends React.Component {
   renderTitle = () => {
     const {
       entity, selectionEnabled, servicesEnabled, enableDownload, entitySelected, onSelectEntity, onSearchEntity, onAddToCart,
-      displayLabel, displayVertically,
+      displayLabel, displayVertically, projectName, accessToken,
     } = this.props
     const { moduleTheme } = this.context
     const {
@@ -107,10 +111,12 @@ class ListViewEntityCellComponent extends React.Component {
         <div style={optionsBarStyles}>
           {/* B-1. Download, when available. Like below, due to props, we can't use a showable at render */}
           <ShowableAtRender show={enableDownload}>
-            <DownloadEntityFileContainer
+            <DownloadEntityFileComponent
               entity={entity}
               style={option.buttonStyles}
               iconStyle={option.iconStyles}
+              accessToken={accessToken}
+              projectName={projectName}
             />
           </ShowableAtRender>
           {/* B-2. Description  */}
@@ -155,13 +161,13 @@ class ListViewEntityCellComponent extends React.Component {
    * @param {AttributeRenderData} renderData render data for attribute
    * @return {[React.Element]} built components array for value
    */
-  renderAttributeValue = ({ key, renderers }) => {
+  renderAttributeValue = ({ key, renderers, unit }) => {
     const { entity } = this.props
     const { intl: { formatMessage } } = this.context
     return flatMap(renderers, ({ path, RenderConstructor }, index) => [
       // insert separator if mutilple values
       index > 0 ? (<div key={`separator.${path}`} >{formatMessage({ id: 'results.cell.multiple.values.separator' })}</div>) : null,
-      <RenderConstructor key={path} value={get(entity, path)} />])
+      <RenderConstructor key={path} value={get(entity, path)} unit={unit} />])
   }
 
   /**

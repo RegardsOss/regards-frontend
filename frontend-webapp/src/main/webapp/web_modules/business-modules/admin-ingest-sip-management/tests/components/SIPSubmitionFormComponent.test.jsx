@@ -20,21 +20,21 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { Field, RenderFileFieldWithMui } from '@regardsoss/form-utils'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SIPSubmitionFormComponent } from '../../src/components/SIPSubmitionFormComponent'
+import { SIPSubmissionFormComponent } from '../../src/components/submission/SIPSubmissionFormComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test SIPSubmitionFormComponent
+* Test SIPsubmissionFormComponent
 * @author Sébastien Binda
 */
-describe('[ADMIN INGEST SIP MANAGEMENT] Testing SIPSubmitionFormComponent', () => {
+describe('[ADMIN INGEST SIP MANAGEMENT] Testing SIPsubmissionFormComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPSubmitionFormComponent)
+    assert.isDefined(SIPSubmissionFormComponent)
   })
   it('should render correctly', () => {
     const props = {
@@ -44,7 +44,7 @@ describe('[ADMIN INGEST SIP MANAGEMENT] Testing SIPSubmitionFormComponent', () =
       isLoading: false,
       handleSubmit: () => new Promise(() => { }),
     }
-    const enzymeWrapper = shallow(<SIPSubmitionFormComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<SIPSubmissionFormComponent {...props} />, { context })
     assert.equal(enzymeWrapper.find(Field).find({ component: RenderFileFieldWithMui }).length, 1, 'There should have a FileRenderer')
   })
 })

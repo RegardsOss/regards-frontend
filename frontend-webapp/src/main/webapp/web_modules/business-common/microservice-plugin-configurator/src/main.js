@@ -20,6 +20,7 @@ import PluginFormContainer from './containers/PluginFormContainer'
 import PluginListContainer from './containers/PluginListContainer'
 import RenderPluginField from './form-utils/RenderPluginField'
 import RenderPluginConfField from './form-utils/RenderPluginConfField'
+import PluginDescriptionCard from './components/PluginDescriptionCard'
 
 /**
  * Module to handle current project of the interface. Fetch the project and put the information in the store.
@@ -31,4 +32,5 @@ module.exports = {
   PluginListContainer,
   RenderPluginField,
   RenderPluginConfField,
+  PluginDescriptionCard,
 }

@@ -18,7 +18,7 @@
  **/
 
 /**
- * Describes a Submited SIP returned by server after a SIP submition process
+ * Describes a Submited SIP returned by server after a SIP submission process
  * @author Sébastien Binda
  */
 
@@ -30,6 +30,6 @@ const SIPSubmited = PropTypes.shape({
   state: PropTypes.string.isRequired,
 })
 
-export default {
+module.exports = {
   SIPSubmited,
 }

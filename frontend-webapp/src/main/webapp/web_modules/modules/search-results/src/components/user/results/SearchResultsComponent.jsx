@@ -33,7 +33,7 @@ import ListViewEntityCellContainer, { packThumbnailRenderData, packGridAttribute
 import AddElementToCartContainer from '../../../containers/user/results/options/AddElementToCartContainer'
 import EntityDescriptionContainer from '../../../containers/user/results/options/EntityDescriptionContainer'
 import OneElementServicesContainer from '../../../containers/user/results/options/OneElementServicesContainer'
-import DownloadEntityFileContainer from '../../../containers/user/results/options/DownloadEntityFileContainer'
+import DownloadEntityFileComponent from './options/DownloadEntityFileComponent'
 import GalleryItemContainer from '../../../containers/user/results/gallery/GalleryItemContainer'
 import EmptyTableComponent from './EmptyTableComponent'
 import OptionsAndTabsHeaderLine from './header/OptionsAndTabsHeaderLine'
@@ -82,6 +82,9 @@ class SearchResultsComponent extends React.Component {
 
     // request control
     searchQuery: PropTypes.string.isRequired,
+
+    accessToken: PropTypes.string,
+    projectName: PropTypes.string.isRequired,
 
     // services from PluginServicesContainer HOC
     selectionServices: AccessShapes.PluginServiceWithContentArray,
@@ -144,7 +147,7 @@ class SearchResultsComponent extends React.Component {
   buildTableColumns = () => {
     const {
       searchSelectors, attributePresentationModels, onSortByAttribute, onSetEntityAsTag,
-      onAddElementToCart, viewObjectType, enableDownload,
+      onAddElementToCart, viewObjectType, enableDownload, accessToken, projectName,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
@@ -152,7 +155,6 @@ class SearchResultsComponent extends React.Component {
     const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
     const enableNavigateTo = SearchResultsComponent.hasNavigateTo(viewObjectType)
-
     return [
       // selection column
       enableSelection ? TableColumnBuilder.buildSelectionColumn(
@@ -171,7 +173,7 @@ class SearchResultsComponent extends React.Component {
       // Options in current context
       TableColumnBuilder.buildOptionsColumn(
         formatMessage({ id: 'results.options.column.label' }),
-        this.buildTableOptions(onAddElementToCart, onSetEntityAsTag, enableServices, enableDownload, enableNavigateTo),
+        this.buildTableOptions(onAddElementToCart, onSetEntityAsTag, enableServices, enableDownload, enableNavigateTo, accessToken, projectName),
         this.isColumnVisible(TableColumnBuilder.optionsColumnKey),
         fixedColumnWidth,
       ),
@@ -185,11 +187,12 @@ class SearchResultsComponent extends React.Component {
    * @param {boolean} enableServices should enable services in options?
    * @param {boolean} enableDownload should enable download in options?
    * @param {boolean} enableNavigateTo should enable navigate to in options?
+   * @param {object} accessToken user auth token
    * @return [{OptionConstructor: function, optionProps: {*}}] table options
    */
-  buildTableOptions = (onAddToCart, onSearchEntity, enableServices, enableDownload, enableNavigateTo) => [
+  buildTableOptions = (onAddToCart, onSearchEntity, enableServices, enableDownload, enableNavigateTo, accessToken, projectName) => [
     // Download file description
-    enableDownload ? { OptionConstructor: DownloadEntityFileContainer } : null,
+    enableDownload ? { OptionConstructor: DownloadEntityFileComponent, optionProps: { accessToken, projectName } } : null,
     // Entity description
     { OptionConstructor: EntityDescriptionContainer },
     // Search entity
@@ -211,7 +214,7 @@ class SearchResultsComponent extends React.Component {
   */
   buildListColumn = () => {
     const {
-      attributePresentationModels, onAddElementToCart, onSetEntityAsTag, enableDownload, viewObjectType,
+      attributePresentationModels, onAddElementToCart, onSetEntityAsTag, enableDownload, viewObjectType, accessToken, projectName,
     } = this.props
     const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
@@ -229,6 +232,8 @@ class SearchResultsComponent extends React.Component {
         onSearchEntity: enableNavigateTo ? onSetEntityAsTag : null,
         onAddToCart: onAddElementToCart,
         enableDownload,
+        accessToken,
+        projectName,
       },
     })
   }
@@ -265,7 +270,7 @@ class SearchResultsComponent extends React.Component {
       viewObjectType, tableViewMode, showingFacettes, facets, filters, searchQuery, selectionServices, onChangeColumnsVisibility, onDeleteFacet,
       onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
       onStartSelectionService, onAddSelectionToCart, onShowQuicklookView, enableQuicklooks, displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook,
-      onAddElementToCart, enableDownload,
+      onAddElementToCart, enableDownload, accessToken, projectName,
     } = this.props
 
     let columns
@@ -291,7 +296,13 @@ class SearchResultsComponent extends React.Component {
     // TODO-V3 do refactor to use request parameters instead or path params
     const pathParams = { parameters: searchQuery }
     const showFacets = ((this.isDisplayingDataobjects() && showingFacettes) || this.isDisplayingDocuments()) && allowingFacettes
-    const itemProps = { attributePresentationModels, onAddElementToCart, enableDownload }
+    const itemProps = {
+      attributePresentationModels,
+      onAddElementToCart,
+      enableDownload,
+      accessToken,
+      projectName,
+    }
     return (
       <TableLayout>
         {/* First header row :Table tabs and options */}

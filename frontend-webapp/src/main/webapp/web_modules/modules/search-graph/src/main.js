@@ -16,13 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ModuleIcon from 'material-ui/svg-icons/hardware/device-hub'
 import moduleContainer from './containers/user/UserModuleContainer'
 import adminContainer from './containers/admin/AdminModuleContainer'
 import styles from './styles/styles'
 import reducer from './reducer'
 import dependencies from './dependencies'
 import messages from './i18n'
+
+// ensure the default module icon is present in bundle
+import '../default-icon.svg'
 
 /**
  * Expose module
@@ -33,6 +35,5 @@ module.exports = {
   reducer,
   styles,
   messages,
-  ModuleIcon,
   dependencies,
 }

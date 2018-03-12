@@ -59,11 +59,13 @@ npm link web_modules/utils/adapters
 npm link web_modules/utils/authentication-manager
 npm link web_modules/utils/display-control
 npm link web_modules/utils/form-utils
+npm link web_modules/utils/file-utils
 npm link web_modules/utils/i18n
 npm link web_modules/utils/i18n-ui
 npm link web_modules/utils/layout
 npm link web_modules/utils/mime-types
 npm link web_modules/utils/modules
+npm link web_modules/utils/modules-api
 npm link web_modules/utils/plugins
 npm link web_modules/utils/plugins-api
 npm link web_modules/utils/redux
@@ -123,7 +125,6 @@ npm link web_modules/business-modules/admin-user-role-resource-access-management
 npm link web_modules/business-modules/admin-user-role-management
 
 # Global modules
-npm link web_modules/modules/aip-status
 npm link web_modules/modules/authentication
 npm link web_modules/modules/embedded-html
 npm link web_modules/modules/licenses

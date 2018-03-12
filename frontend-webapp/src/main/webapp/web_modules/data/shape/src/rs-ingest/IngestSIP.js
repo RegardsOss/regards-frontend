@@ -22,53 +22,60 @@
  * @author Maxime Bouveron
  */
 
-const IngestSIP = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    sipId: PropTypes.string.isRequired,
-    ipId: PropTypes.string.isRequired,
-    owner: PropTypes.string,
-    version: PropTypes.number,
-    state: PropTypes.string,
-    checksum: PropTypes.string.isRequired,
-    sip: PropTypes.shape({
-      ipType: PropTypes.string,
-      id: PropTypes.string.isRequired,
-      geometry: PropTypes.any,
-      properties: PropTypes.shape({
-        contentInformations: PropTypes.arrayOf({
-          dataObject: PropTypes.shape({
-            regardsDataType: PropTypes.string,
-            url: PropTypes.string,
-            algorithm: PropTypes.string,
-            checksum: PropTypes.string,
-          }),
+const IngestSIPContent = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  sipId: PropTypes.string.isRequired,
+  ipId: PropTypes.string.isRequired,
+  owner: PropTypes.string,
+  version: PropTypes.number,
+  state: PropTypes.string,
+  checksum: PropTypes.string.isRequired,
+  sip: PropTypes.shape({
+    ipType: PropTypes.string,
+    id: PropTypes.string.isRequired,
+    geometry: PropTypes.any,
+    properties: PropTypes.shape({
+      contentInformations: PropTypes.arrayOf({
+        dataObject: PropTypes.shape({
+          regardsDataType: PropTypes.string,
+          url: PropTypes.string,
+          algorithm: PropTypes.string,
+          checksum: PropTypes.string,
         }),
-        pdi: PropTypes.shape({
-          contextInformation: PropTypes.object,
-          referenceInformation: PropTypes.object,
-          provenanceInformation: PropTypes.object,
-          fixityInformation: PropTypes.object,
-          accessRightInformation: PropTypes.object,
-        }),
-        descriptiveInformation: PropTypes.object,
       }),
-      type: PropTypes.string,
+      pdi: PropTypes.shape({
+        contextInformation: PropTypes.object,
+        referenceInformation: PropTypes.object,
+        provenanceInformation: PropTypes.object,
+        fixityInformation: PropTypes.object,
+        accessRightInformation: PropTypes.object,
+      }),
+      descriptiveInformation: PropTypes.object,
     }),
-    ingestDate: PropTypes.string,
-    processing: PropTypes.string,
-    session: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      lastActivationDate: PropTypes.string,
-      sipsCount: PropTypes.number,
-      indexedSipsCount: PropTypes.number,
-      storedSipsCount: PropTypes.number,
-      generatedSipsCount: PropTypes.number,
-      errorSipsCount: PropTypes.number,
-    }),
+    type: PropTypes.string,
+  }),
+  ingestDate: PropTypes.string,
+  processing: PropTypes.string,
+  session: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    lastActivationDate: PropTypes.string,
+    sipsCount: PropTypes.number,
+    indexedSipsCount: PropTypes.number,
+    storedSipsCount: PropTypes.number,
+    generatedSipsCount: PropTypes.number,
+    errorSipsCount: PropTypes.number,
   }),
 })
 
-export default {
+const IngestSIP = PropTypes.shape({
+  content: IngestSIPContent,
+})
+const IngestSIPList = PropTypes.objectOf(IngestSIP)
+const IngestSIPArray = PropTypes.arrayOf(IngestSIP)
+
+module.exports = {
   IngestSIP,
+  IngestSIPContent,
+  IngestSIPList,
+  IngestSIPArray,
 }

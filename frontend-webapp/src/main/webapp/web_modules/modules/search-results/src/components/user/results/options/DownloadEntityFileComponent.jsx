@@ -25,6 +25,7 @@ import { CommonDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import MenuItem from 'material-ui/MenuItem'
 import { DropDownButton } from '@regardsoss/components'
+import { URLAuthInjector } from '@regardsoss/domain/common'
 
 
 /** Constructor wrapper to use the IconButton within a DropDownButton */
@@ -46,8 +47,7 @@ class DownloadEntityFileComponent extends React.Component {
     style: PropTypes.object,
     // Current user session info
     accessToken: PropTypes.string,
-    isAuthenticated: PropTypes.bool,
-    scope: PropTypes.string,
+    projectName: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -65,9 +65,6 @@ class DownloadEntityFileComponent extends React.Component {
     textDecoration: 'none',
   }
 
-  /**
-   * FIXME This label is bullshit and should be computed in the parent scope, not in the component itself
-   */
   static getLabel = () => { }
 
 
@@ -91,20 +88,6 @@ class DownloadEntityFileComponent extends React.Component {
     )
   }
 
-  getURIAuth = (uri) => {
-    const { scope, accessToken, isAuthenticated } = this.props
-    let result
-    if (uri.includes('?')) {
-      result = `${uri}&`
-    } else {
-      result = `${uri}?`
-    }
-    if (isAuthenticated) {
-      return `${result}token=${accessToken}`
-    }
-    return `${result}scope=${scope}`
-  }
-
   /**
    * Return the number of downloadeable files attached to the current entity
    */
@@ -117,7 +100,7 @@ class DownloadEntityFileComponent extends React.Component {
   render() {
     // in resolved attributes, get the first data, if any
     const { intl: { formatMessage } } = this.context
-    const { style } = this.props
+    const { style, accessToken, projectName } = this.props
     const nbDownloadeableFiles = this.nbDownloadeableFiles()
     if (nbDownloadeableFiles === 0) {
       return null
@@ -126,7 +109,7 @@ class DownloadEntityFileComponent extends React.Component {
       return (
         <a
           download
-          href={this.getURIAuth(fileURI)}
+          href={URLAuthInjector(fileURI, accessToken, projectName)}
           style={style}
           title={formatMessage({ id: 'download.tooltip' })}
         >
@@ -146,7 +129,7 @@ class DownloadEntityFileComponent extends React.Component {
             <a
               download
               key={file.checksum}
-              href={this.getURIAuth(file.uri)}
+              href={URLAuthInjector(file.uri, accessToken, projectName)}
               style={DownloadEntityFileComponent.resetLinkStyle}
             >
               <MenuItem

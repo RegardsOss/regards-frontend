@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { IFrameURLContentDisplayer } from '@regardsoss/components'
@@ -28,7 +29,9 @@ import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
  **/
 class ModuleContainer extends React.Component {
   static propTypes = {
-    // Module configuration.
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+    // redefines expected configuration shape
     moduleConf: ModuleConfigurationShape,
   }
 

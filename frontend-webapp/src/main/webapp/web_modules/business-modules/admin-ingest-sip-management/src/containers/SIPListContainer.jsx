@@ -17,10 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import { IngestShapes } from '@regardsoss/shape'
-import SIPListComponent from '../components/SIPListComponent'
+import SIPListComponent from '../components/monitoring/sip/SIPListComponent'
 import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
 import { sipActions, sipSelectors } from '../clients/SIPClient'
 
@@ -40,6 +41,7 @@ export class SIPListContainer extends React.Component {
     return {
       chains: processingChainSelectors.getList(state),
       meta: sipSelectors.getMetaData(state),
+      entitiesLoading: sipSelectors.isFetching(state),
     }
   }
 
@@ -74,6 +76,7 @@ export class SIPListContainer extends React.Component {
     deleteSIPBySipId: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     // from mapStateToProps
+    entitiesLoading: PropTypes.bool.isRequired,
     chains: IngestShapes.IngestProcessingChainList.isRequired,
   }
 
@@ -85,13 +88,15 @@ export class SIPListContainer extends React.Component {
 
   static PAGE_SIZE = 20
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      appliedFilters: this.getInitialFilters(props),
-    }
+  state = {
+    contextFilters: {},
+    urlFilters: {},
   }
 
+  componentWillMount() {
+    this.initializeFiltersFromURL()
+    this.initializeContextFilters(this.props)
+  }
 
   componentDidMount() {
     this.props.fetchProcessingChains()
@@ -99,42 +104,55 @@ export class SIPListContainer extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.params.sip !== this.props.params.sip || nextProps.params.session !== this.props.params.session) {
-      this.setState({
-        appliedFilters: this.getInitialFilters(nextProps),
-      })
+      this.initializeContextFilters(nextProps)
     }
   }
 
-  onRefresh = () => {
+  onRefresh = (currentFilters) => {
     const { meta, fetchPage } = this.props
     const curentPage = get(meta, 'number', 0)
-    fetchPage(0, SIPListContainer.PAGE_SIZE * (curentPage + 1), this.state.appliedFilters)
+    fetchPage(0, SIPListContainer.PAGE_SIZE * (curentPage + 1), currentFilters)
   }
 
-
-  getInitialFilters = (props) => {
-    const { params: { session, sip } } = props
-    const filters = {}
-    if (sip) {
-      filters.sipId = sip
-    } else if (session) {
-      filters.sessionId = session
-    }
-
-    return filters
-  }
-
-  handleGoBack = () => {
+  handleGoBack = (level) => {
     const { params: { project, session, sip } } = this.props
     let url
-    if (session && sip) {
-      // Go back to sips of the given session
-      url = `/admin/${project}/data/acquisition/sip/${session}/list`
-    } else {
-      // Go back to sessions
-      url = `/admin/${project}/data/acquisition/sip/session`
+    switch (level) {
+      case 0:
+        // Go back to sessions
+        url = `/admin/${project}/data/acquisition/sip/session`
+        break
+      case 1:
+        // Go back to sips of the given session
+        url = `/admin/${project}/data/acquisition/sip/${session}/list`
+        break
+      default:
+        if (sip) {
+          url = `/admin/${project}/data/acquisition/sip/${session}/list`
+        } else {
+          url = `/admin/${project}/data/acquisition/sip/session`
+        }
+        break
     }
     browserHistory.push(url)
+  }
+
+  initializeContextFilters = (props) => {
+    const { params: { session, sip } } = props
+    const contextFilters = {}
+    if (sip) {
+      contextFilters.sipId = sip
+    } else if (session) {
+      contextFilters.sessionId = session
+    }
+    this.setState({ contextFilters })
+  }
+
+  initializeFiltersFromURL = () => {
+    const { query } = browserHistory.getCurrentLocation()
+    if (values(query).length > 0) {
+      this.setState({ urlFilters: query })
+    }
   }
 
   goToSipHistory = (sipId) => {
@@ -143,35 +161,11 @@ export class SIPListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleFilter = (filters) => {
-    const {
-      chainFilter, dateFilter, stateFilter, sipIdFilter,
-    } = filters
-    const newFilters = {}
-    if (chainFilter) {
-      newFilters.processing = chainFilter
-    }
-    if (dateFilter) {
-      newFilters.from = dateFilter.toISOString()
-    }
-    if (stateFilter) {
-      newFilters.state = stateFilter
-    }
-    if (sipIdFilter) {
-      newFilters.sipId = sipIdFilter
-    }
-    this.setState({
-      appliedFilters: {
-        ...this.getInitialFilters(this.props),
-        ...newFilters,
-      },
-    })
-  }
-
   render() {
     const {
-      meta, fetchPage, deleteSIPByIpId, deleteSIPBySipId, params: { session, sip },
+      meta, fetchPage, deleteSIPByIpId, deleteSIPBySipId, params: { session, sip }, entitiesLoading,
     } = this.props
+    const { urlFilters, contextFilters } = this.state
     return (
       <SIPListComponent
         chains={this.props.chains}
@@ -179,7 +173,9 @@ export class SIPListContainer extends React.Component {
         sip={sip}
         pageSize={SIPListContainer.PAGE_SIZE}
         resultsCount={meta.totalElements}
-        appliedFilters={this.state.appliedFilters}
+        contextFilters={contextFilters}
+        initialFilters={urlFilters}
+        entitiesLoading={entitiesLoading}
         handleFilter={this.handleFilter}
         onBack={this.handleGoBack}
         onRefresh={this.onRefresh}

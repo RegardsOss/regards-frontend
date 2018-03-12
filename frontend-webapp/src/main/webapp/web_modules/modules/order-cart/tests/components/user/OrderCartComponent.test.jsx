@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import Dialog from 'material-ui/Dialog'
 import CartIcon from 'material-ui/svg-icons/action/shopping-cart'
 import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
@@ -44,12 +45,14 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
   })
   it('should render correctly when user is not authenticated', () => {
     const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
       showDatasets: false,
       isAuthenticated: false,
       basket: undefined,
       isFetching: false,
       expanded: true,
-      onExpandChange: () => { },
       onClearCart: () => { },
       onOrder: () => { },
     }
@@ -73,12 +76,14 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
   })
   it('should render correctly when user is authenticated and basket empty', () => {
     const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
       showDatasets: false,
       isAuthenticated: true,
       basket: undefined,
       isFetching: false,
       expanded: true,
-      onExpandChange: () => { },
       onClearCart: () => { },
       onOrder: () => { },
     }
@@ -102,12 +107,14 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
   })
   it('should render correctly when fetching (fetch state SHOULD NEVER show no data)', () => {
     const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
       showDatasets: true,
       isAuthenticated: true,
       basket: undefined,
       isFetching: true,
       expanded: true,
-      onExpandChange: () => { },
       onClearCart: () => { },
       onOrder: () => { },
     }
@@ -123,12 +130,14 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
   })
   it('should render correctly with a basket', () => {
     const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
       showDatasets: false,
       isAuthenticated: true,
       basket: mockBasket1,
       isFetching: false,
       expanded: true,
-      onExpandChange: () => { },
       onClearCart: () => { },
       onOrder: () => { },
     }
@@ -141,9 +150,52 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
     const orderCartTableWrapper = enzymeWrapper.find(OrderCartTableComponent)
     assert.lengthOf(orderCartTableWrapper, 1, 'There should be a table component')
     assert.equal(orderCartTableWrapper.props().basket, props.basket, 'Table should have the right basket value')
+    assert.equal(orderCartTableWrapper.props().onShowDuplicatedMessage, enzymeWrapper.instance().onShowDuplicatedMessage, 'Table should have show message callback')
     // Check loading
     const loadableWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.lengthOf(loadableWrapper, 1, 'There should be a loadable dispayer')
     assert.isFalse(loadableWrapper.props().isLoading, 'Loadable displayer should not be marked loading')
+  })
+  it('should manage correctly duplicate data dialog', () => {
+    const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      showDatasets: false,
+      isAuthenticated: true,
+      basket: mockBasket1,
+      isFetching: false,
+      expanded: true,
+      onClearCart: () => { },
+      onOrder: () => { },
+    }
+    const enzymeWrapper = shallow(<OrderCartComponent {...props} />, { context })
+    let dialog = enzymeWrapper.find(Dialog)
+    assert.lengthOf(dialog, 1, 'There should be the dialog')
+    testSuiteHelpers.assertWrapperProperties(dialog, {
+      open: false,
+      onRequestClose: enzymeWrapper.instance().onHideDuplicatedMessage,
+      title: 'order-cart.module.duplicate.objects.message.title',
+    })
+    // simuate user shows the dialog
+    enzymeWrapper.instance().onShowDuplicatedMessage(25, 22)
+    enzymeWrapper.update()
+    dialog = enzymeWrapper.find(Dialog)
+    testSuiteHelpers.assertWrapperProperties(dialog, {
+      open: true,
+      onRequestClose: enzymeWrapper.instance().onHideDuplicatedMessage,
+      title: 'order-cart.module.duplicate.objects.message.title',
+    })
+    // we should able to find message in dialog children
+    assert.include(enzymeWrapper.debug(), 'order-cart.module.duplicate.objects.message', 'There should be the message')
+    // simulate user hides the dialog
+    dialog.props().onRequestClose()
+    enzymeWrapper.update()
+    dialog = enzymeWrapper.find(Dialog)
+    testSuiteHelpers.assertWrapperProperties(dialog, {
+      open: false,
+      onRequestClose: enzymeWrapper.instance().onHideDuplicatedMessage,
+      title: 'order-cart.module.duplicate.objects.message.title',
+    })
   })
 })

@@ -28,6 +28,15 @@ const context = buildTestContext(styles)
 
 function setup() {
   const props = {
+    currentTheme: {
+      content: {
+        id: 0,
+        name: 'Light',
+        active: false,
+        configuration: {},
+      },
+      links: [],
+    },
     themeList: {
       0: {
         content: {
@@ -44,10 +53,12 @@ function setup() {
           name: 'cdpp',
           active: true,
           configuration: {
-            palette: {
-              primary1Color: '#673ab7',
-              accent1Color: '#ff8f00',
-              canvasColor: '#eeeeee',
+            mainTheme: {
+              palette: {
+                primary1Color: '#673ab7',
+                accent1Color: '#ff8f00',
+                canvasColor: '#eeeeee',
+              },
             },
           },
         },
@@ -59,8 +70,10 @@ function setup() {
           name: 'somethemename',
           active: false,
           configuration: {
-            palette: {
-              primary1Color: '#8bc34a',
+            mainTheme: {
+              palette: {
+                primary1Color: '#8bc34a',
+              },
             },
           },
         },

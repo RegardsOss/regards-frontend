@@ -36,6 +36,7 @@ import DropDownButton from './buttons/DropDownButton'
 import OnHoverSwitchFlatButton from './buttons/OnHoverSwitchFlatButton'
 import OnHoverSwitchIconButton from './buttons/OnHoverSwitchIconButton'
 import OnHoverSwitchRaisedButton from './buttons/OnHoverSwitchRaisedButton'
+import NumericalComparator from './buttons/NumericalComparator'
 
 import ActionButtonComponent from './cards/ActionButtonComponent'
 import CardActionsComponent from './cards/CardActionsComponent'
@@ -65,14 +66,12 @@ import FeedbackDisplayer from './feedback/FeedbackDisplayer'
 
 import HelpMessageComponent from './help/HelpMessageComponent'
 
-import SVGIconFromString from './icon/SVGIconFromString'
-
 import Breadcrumb from './links/Breadcrumb'
 import PictureLinkComponent from './links/PictureLinkComponent'
 import LinkComponent from './links/LinkComponent'
 import AnchorComponent from './links/AnchorComponent'
 
-import AutoCompleteTextField from './list/AutoCompleteTextField'
+import AutoCompleteTextField, { throttleAutocompleteFetch } from './list/AutoCompleteTextField'
 import ChipList from './list/ChipList'
 import ListContainer from './list/ListContainer'
 import PageableListContainer from './list/PageableListContainer'
@@ -82,8 +81,11 @@ import LoadingPaneComponent from './loading/LoadingPaneComponent'
 
 import DynamicModule from './module/DynamicModule'
 import HorizontalAreasSeparator from './module/HorizontalAreasSeparator'
-import ModuleTitle from './module/ModuleTitle'
+import ModuleIcon from './module/ModuleIcon'
+import ModuleTitleText from './module/ModuleTitleText'
 
+import URLPicture from './picture/URLPicture'
+import URLPictureResolver from './picture/URLPictureResolver'
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
 
 import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
@@ -131,9 +133,11 @@ import StringArrayValueRender from './values/StringArrayValueRender'
 import StringValueRender from './values/StringValueRender'
 import URLValueRender from './values/URLValueRender'
 import withValueRenderContext from './values/withValueRenderContext'
+import DurationValueRender from './values/DurationValueRender'
 
 import InfiniteGalleryContainer from './gallery/InfiniteGalleryContainer'
 
+import DatePickerField from './date/DatePickerField'
 
 export {
   ActionButtonComponent,
@@ -164,7 +168,8 @@ export {
   ListContainer,
   LoadingPaneComponent,
   LoadableContentDialogContainer,
-  ModuleTitle,
+  ModuleIcon,
+  ModuleTitleText,
   PageNotFoundComponent,
   PositionedDialog,
   FitContentDialog,
@@ -177,13 +182,13 @@ export {
   OnHoverSwitchFlatButton,
   OnHoverSwitchIconButton,
   OnHoverSwitchRaisedButton,
+  NumericalComparator,
   PageableListContainer,
   Breadcrumb,
   PictureLinkComponent,
   SecondaryActionButtonComponent,
   ShowableAtRender,
   PluginConfigurationPickerComponent,
-  SVGIconFromString,
   LinkComponent,
   AnchorComponent,
   HelpMessageComponent,
@@ -221,10 +226,11 @@ export {
   TableStyles,
 
   Title,
-
   TreeTableComponent,
   TreeTableRow,
-
+  throttleAutocompleteFetch,
+  URLPicture,
+  URLPictureResolver,
   withConfirmDialog,
 
   // values render
@@ -239,6 +245,10 @@ export {
   StringValueRender,
   URLValueRender,
   withValueRenderContext, // use it in values render parent to connect with their context (stacking)
+  DurationValueRender,
 
   InfiniteGalleryContainer,
+
+  // Date
+  DatePickerField,
 }

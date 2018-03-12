@@ -21,6 +21,7 @@ import { assert } from 'chai'
 import { Card } from 'material-ui/Card'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DynamicModule } from '../../src/module/DynamicModule'
+import ModuleTitle from '../../src/module/ModuleTitle'
 import styles from '../../src/module/styles/styles'
 
 const context = buildTestContext(styles)
@@ -38,9 +39,21 @@ describe('[Components] Testing DynamicModule', () => {
   })
   it('should render correctly expanded', () => {
     const props = {
-      title: <div>The title</div>,
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      description: 'any module',
+      page: {
+        home: true,
+        iconType: 'CUSTOM',
+        customIconURL: 'custom.svg',
+        title: {
+          fr: 'quelconque',
+          en: 'any',
+        },
+      },
+      locale: 'en',
       options: [<div key="an.option">An option </div>],
-      onExpandChange: () => { },
       expandable: true,
       expanded: true,
       isAuthenticated: true,
@@ -52,15 +65,44 @@ describe('[Components] Testing DynamicModule', () => {
         </DynamicModule>
       ), { context },
     )
+
+
+    // check card rendering
     const cardWrapper = wrapper.find(Card)
     assert.lengthOf(cardWrapper, 1, 'There should be the card')
-    assert.isTrue(cardWrapper.props().expanded, 'It should be expanded')
+
+    // check title rendering && expanded state
+    assert.isTrue(wrapper.state().expanded, 'Module should be expanded')
+    const titleWrapper = cardWrapper.find(ModuleTitle)
+    assert.lengthOf(titleWrapper, 1, 'There should be the module title')
+    testSuiteHelpers.assertWrapperProperties(titleWrapper, {
+      type: props.type,
+      locale: props.locale,
+      description: props.description,
+      page: props.page,
+      titleComponent: props.titleComponent,
+      options: props.options,
+      expandable: props.expandable,
+      expanded: wrapper.state().expanded,
+      onExpandChange: wrapper.instance().onExpandChange,
+    }, 'Title properties should be correctly reported')
   })
   it('should render correctly collapsed', () => {
     const props = {
-      title: <div>The title</div>,
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      description: 'any',
+      page: {
+        home: false,
+        iconType: 'DEFAULT',
+        customIconURL: null,
+        title: {
+          fr: 'quelconque',
+          en: 'any',
+        },
+      },
       options: [<div key="an.option">An option </div>],
-      onExpandChange: () => { },
       expandable: true,
       expanded: false,
       isAuthenticated: false,
@@ -72,8 +114,25 @@ describe('[Components] Testing DynamicModule', () => {
         </DynamicModule>
       ), { context },
     )
+
+    // check card rendering
     const cardWrapper = wrapper.find(Card)
     assert.lengthOf(cardWrapper, 1, 'There should be the card')
-    assert.isFalse(cardWrapper.props().expanded, 'It should be collapsed')
+
+    // check title rendering && expanded state
+    assert.isFalse(wrapper.state().expanded, 'Module should be expanded')
+    const titleWrapper = cardWrapper.find(ModuleTitle)
+    assert.lengthOf(titleWrapper, 1, 'There should be the module title')
+    testSuiteHelpers.assertWrapperProperties(titleWrapper, {
+      type: props.type,
+      locale: props.locale,
+      description: props.description,
+      page: props.page,
+      titleComponent: props.titleComponent,
+      options: props.options,
+      expandable: props.expandable,
+      expanded: wrapper.state().expanded,
+      onExpandChange: wrapper.instance().onExpandChange,
+    }, 'Title properties should be correctly reported')
   })
 })

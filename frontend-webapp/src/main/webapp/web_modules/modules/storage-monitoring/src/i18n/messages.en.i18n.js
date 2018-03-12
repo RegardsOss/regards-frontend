@@ -23,8 +23,6 @@
  * @author Raphaël Mechali
  */
 const messages = {
-  // module messages
-  'archival.storage.capacity.monitoring.title': 'Storage plugin capacities',
   // chart
   'archival.storage.capacity.monitoring.size.without.percent': '{label}: {capacity}',
   'archival.storage.capacity.monitoring.size.with.percent': '{label}: {capacity} - {percentLabel}%',

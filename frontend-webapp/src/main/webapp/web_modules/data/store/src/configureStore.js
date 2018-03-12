@@ -33,7 +33,10 @@ import SessionLockedMiddleware from './SessionLockedMiddleware'
 const { apiMiddleware } = require('redux-api-middleware')
 
 function configureStore(rootReducer) {
-  const logger = createLogger() // Pass an options object for specific configuration
+  // Pass an options object for specific configuration
+  const logger = createLogger({
+    level: 'log',
+  })
 
   const reducerRegistry = getReducerRegistry(rootReducer)
 

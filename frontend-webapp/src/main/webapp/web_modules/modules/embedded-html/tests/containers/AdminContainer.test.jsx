@@ -38,8 +38,9 @@ describe('[Embedded-html] Testing AdminContainer', () => {
   })
   it('should render properly', () => {
     const props = {
-      appName: 'test',
-      project: 'test',
+      appName: 'x',
+      project: 'y',
+      type: 'any',
       adminForm: {
         isCreating: true,
         isDuplicating: false,

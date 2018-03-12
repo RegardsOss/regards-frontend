@@ -62,14 +62,15 @@ const transformObjectValueIntoArrayFloat = (attrValue) => {
 const getAttributeValue = (attrValue, modelAttribute) => {
   switch (modelAttribute.content.attribute.type) {
     case MODEL_ATTR_TYPES.STRING:
-    case MODEL_ATTR_TYPES.DOUBLE:
-    case MODEL_ATTR_TYPES.LONG:
-    case MODEL_ATTR_TYPES.INTEGER:
     case MODEL_ATTR_TYPES.URL:
     case MODEL_ATTR_TYPES.BOOLEAN:
     case MODEL_ATTR_TYPES.DATE:
       return attrValue
-
+    case MODEL_ATTR_TYPES.INTEGER:
+      return parseInt(attrValue, 10)
+    case MODEL_ATTR_TYPES.DOUBLE:
+    case MODEL_ATTR_TYPES.LONG:
+      return parseFloat(attrValue)
     case MODEL_ATTR_TYPES.STRING_ARRAY:
       if (isRestrictedWithEnum(modelAttribute)) {
         return attrValue

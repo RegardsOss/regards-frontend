@@ -2,12 +2,12 @@
 
 ## Description
 
-This module is a dynamic configurable module for the configurable interfaces. 
-This module is used to manage :
+This module is a dynamic configurable module to be used in REGARDS user interfaces.
+It manages :
   - Authentication to the REGARDS services
   - Unlock accounts
   - Token expiration and session locking
-  - User instansce account and / or project account creation
+  - User instance account and / or project account creation
   - Users password change
   
 ## Module structure
@@ -24,7 +24,8 @@ This module is used to manage :
  |   ├── reducer.js      : Redux reducers  
  |   └── router.js       : React-router configuration  
  ├── tests  
- ├── package.json    : Npm module description file  
+ ├── default-icon.svg    : Default module icon as svg, mandatory
+ ├── package.json        : Npm module description file  
  └── README.md  
 
 ## Route
@@ -40,15 +41,14 @@ This module as a dynamic configurable module exposes is own :
   - adminContainer   : Main module React component used to display the administration panel of this module,
   - reducer          : To configure the general Redux Store.
   - styles           : Styles of the module
-  - messages         : Messages and labels internationalization objcet (default : imported index.js from messages/)
-  - ModuleIcon       : Default module icon (used when displaying a dynamic module)
+  - messages         : Messages and labels internationalization object (default : imported index.js from messages/)
   - dependencies     : The needed resources (backend enpoints) to display each part of the module
 
-# Internationalization
+## Internationalization
 
   All displayed labels are defined in two languages (English and French) and are avaible from the i18n repository.
   
-# Usage
+## Usage
 
   To display a dynamic module as the current one you have to use the here under code :
    

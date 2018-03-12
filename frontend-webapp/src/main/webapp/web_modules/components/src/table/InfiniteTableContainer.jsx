@@ -19,7 +19,7 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isNumber from 'lodash/isNumber'
-import Measure from 'react-measure'
+import { Measure } from '@regardsoss/adapters'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
@@ -203,7 +203,7 @@ class InfiniteTableContainer extends React.Component {
   /**
    * Called when component is resized, to force the inner table implementation at same width
    */
-  onComponentResized = ({ width }) => {
+  onComponentResized = ({ measureDiv: { width } }) => {
     this.setState({ tableWidth: width })
   }
 
@@ -251,28 +251,31 @@ class InfiniteTableContainer extends React.Component {
 
     const currentTotalEntities = this.getCurrentTotalEntities()
     return (
-      <Measure onMeasure={this.onComponentResized}>
-        <div style={allWidthStyles}>
-          <LoadableContentDisplayDecorator
-            isLoading={!currentTotalEntities && entitiesFetching} // Display only the initial loading state to avoid resetting user scroll
-            loadingComponent={loadingComponent}
-            isEmpty={!currentTotalEntities}
-            emptyComponent={emptyComponent}
-          >
-            <Table
-              displayColumnsHeader={displayColumnsHeader}
-              lineHeight={actualLineHeight}
-              minRowCount={minRowCount}
-              maxRowCount={maxRowCount}
+      <Measure bounds onMeasure={this.onComponentResized}>
+        {
+          ({ bind }) => (
+            <div style={allWidthStyles} {...bind('measureDiv')}>
+              <LoadableContentDisplayDecorator
+                isLoading={!currentTotalEntities && entitiesFetching} // Display only the initial loading state to avoid resetting user scroll
+                loadingComponent={loadingComponent}
+                isEmpty={!currentTotalEntities}
+                emptyComponent={emptyComponent}
+              >
+                <Table
+                  displayColumnsHeader={displayColumnsHeader}
+                  lineHeight={actualLineHeight}
+                  minRowCount={minRowCount}
+                  maxRowCount={maxRowCount}
 
-              entities={entities}
-              entitiesCount={entitiesCount}
-              onScrollEnd={this.onScrollEnd}
-              columns={columns}
-              width={tableWidth}
-            />
-          </LoadableContentDisplayDecorator>
-        </div >
+                  entities={entities}
+                  entitiesCount={entitiesCount}
+                  onScrollEnd={this.onScrollEnd}
+                  columns={columns}
+                  width={tableWidth}
+                />
+              </LoadableContentDisplayDecorator>
+            </div >)
+        }
       </Measure >
     )
   }

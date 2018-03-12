@@ -20,6 +20,7 @@ import has from 'lodash/has'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { CatalogShapes } from '@regardsoss/shape'
+import { URLAuthInjector } from '@regardsoss/domain/common'
 
 /**
  * Shows entity description view.
@@ -28,6 +29,8 @@ import { CatalogShapes } from '@regardsoss/shape'
 class DataQuicklookComponent extends React.Component {
   static propTypes = {
     entity: CatalogShapes.Entity,
+    accessToken: PropTypes.string,
+    projectName: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -49,7 +52,7 @@ class DataQuicklookComponent extends React.Component {
 
   render() {
     const {
-      entity,
+      entity, accessToken, projectName,
     } = this.props
     const {
       isZoomed,
@@ -74,7 +77,7 @@ class DataQuicklookComponent extends React.Component {
         onClick={this.toggleZoom}
       >
         <img
-          src={imageSrc}
+          src={URLAuthInjector(imageSrc, accessToken, projectName)}
           alt=""
           style={imageStyle}
         />

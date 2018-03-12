@@ -34,6 +34,10 @@ const storageManagementStyles = theme => ({
     styles: {
       margin: 20,
     },
+    title: {
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+    },
     actionsStyles: {
       display: 'flex',
       flexDirection: 'row',

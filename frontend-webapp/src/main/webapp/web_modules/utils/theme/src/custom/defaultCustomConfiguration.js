@@ -21,7 +21,7 @@
  * Additional mui theme properties for regards.
  * @author Sébastien Binda.
  */
-module.exports = {
+module.exports = baseTheme => ({
   palette: {
     background: '',
     backgroundImage: '',
@@ -31,7 +31,7 @@ module.exports = {
   },
   'components:infinite-table': {
     lineHeight: 50,
-    fixedColumnsWidth: 42,
+    fixedColumnsWidth: baseTheme.button.iconButtonSize, // best fit for default IconButton size
     minRowCount: 13,
     maxRowCount: 13,
     minHeaderRowHeight: 40,
@@ -61,11 +61,24 @@ module.exports = {
     titleBarHeight: '48px',
     titleMarginLeft: 8,
     titleIconSize: 24,
-    titleTextMarginLeft: 8,
+    titleTextMarginLeft: 0,
     titleFontSize: '20px',
     titleFontWeight: '500',
     titleTextTransform: undefined,
     subtitleMarginTop: -4,
+  },
+  // menu module
+  'module:menu': {
+    background: baseTheme.palette.canvasColor,
+    borderWidth: '0 0 1px 0',
+    borderColor: 'rgba(255, 255, 255, 0.175)',
+    borderStyle: 'solid',
+    navigationBarMaxHeight: 36,
+    navigationItemTextTransform: 'none',
+    separatorBorderWidth: 2,
+    separatorBorderRadius: 2,
+    separatorBorderStyle: 'solid',
+    separatorMargin: '12px 10px 12px 0',
   },
   // search results module
   'module:search-results': {
@@ -117,4 +130,4 @@ module.exports = {
     buttonRight: '10px',
     buttonBottom: '10px',
   },
-}
+})

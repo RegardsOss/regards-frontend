@@ -23,6 +23,6 @@ import {
 /**
  * @author <%= author %>
  */
-export default {
+module.exports = {
   [REDUCER_PATH]: AttributeModelReducer,
 }

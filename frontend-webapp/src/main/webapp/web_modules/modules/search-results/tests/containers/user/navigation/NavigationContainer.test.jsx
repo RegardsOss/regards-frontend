@@ -37,6 +37,7 @@ describe('[Search Results] Testing NavigationContainer', () => {
   it('should render correctly', () => {
     const props = {
       displayDatasets: true,
+      type: 'any',
       levels: [new Tag(TagTypes.WORD, 'x', 'x')],
       gotoLevel: () => { },
     }
@@ -46,6 +47,7 @@ describe('[Search Results] Testing NavigationContainer', () => {
   it('should render the levels count', () => {
     const props = {
       displayDatasets: false,
+      type: 'any',
       levels: [new Tag(TagTypes.WORD, 'x', 'x'), new Tag(TagTypes.DATASET, 'Dataset x', 'URN:DATASET:x')],
       gotoLevel: () => { },
     }

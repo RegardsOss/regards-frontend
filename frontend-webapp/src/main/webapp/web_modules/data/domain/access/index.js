@@ -17,22 +17,22 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import UIPluginInfoTypes from './UIPluginInfoTypes'
-import UIPluginConfParameterTypes from './UIPluginConfParameterTypes'
 import AttributeConfigurationController from './AttributeConfigurationController'
+import defaultTheme from './defaultTheme'
+import { PAGE_MODULE_ICON_TYPES, PAGE_MODULE_ICON_TYPES_ENUM } from './PageModuleIconType'
 import PluginServiceConstants from './PluginServiceConstants'
 import RuntimeTargetTypes from './RuntimeTargetTypes'
-import defaultTheme from './defaultTheme'
+import UIPluginInfoTypes from './UIPluginInfoTypes'
+import UIPluginConfParameterTypes from './UIPluginConfParameterTypes'
 
 
 module.exports = {
+  AttributeConfigurationController,
+  defaultTheme,
+  PAGE_MODULE_ICON_TYPES,
+  PAGE_MODULE_ICON_TYPES_ENUM,
+  ...PluginServiceConstants,
+  ...RuntimeTargetTypes,
   ...UIPluginInfoTypes,
   ...UIPluginConfParameterTypes,
-  ...RuntimeTargetTypes,
-
-  AttributeConfigurationController,
-
-  ...PluginServiceConstants,
-
-  defaultTheme,
 }

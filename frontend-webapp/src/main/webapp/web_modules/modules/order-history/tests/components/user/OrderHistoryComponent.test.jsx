@@ -42,15 +42,16 @@ describe('[Order History] Testing OrderHistoryComponent', () => {
   })
   it('should render correctly', () => {
     const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
       ordersActions: orderListActions,
       ordersSelectors: orderListSelectors,
       orderFilesActions,
       orderFilesSelectors,
       navigationActions: ordersNavigationActions,
       navigationSelectors: ordersNavigationSelectors,
-      title: 'I am a title!',
-      expanded: true,
-      onExpandChange: () => { },
+      defaultIconURL: 'any',
     }
     const enzymeWrapper = shallow(<OrderHistoryComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(DynamicModule), 1, 'Module should be rendered in a dynamic module component')

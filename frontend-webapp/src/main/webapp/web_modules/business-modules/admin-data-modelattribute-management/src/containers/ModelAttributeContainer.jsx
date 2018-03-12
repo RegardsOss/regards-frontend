@@ -49,7 +49,7 @@ export class ModelAttributeContainer extends React.Component {
         computationConf: null,
       })
     }
-    return this.props.updateModelAttribute(this.props.modelAttribute.content.id, updatedModelAttribute, updatedModelAttribute.model.id)
+    return this.props.updateModelAttribute(this.props.modelAttribute.content.id, updatedModelAttribute, updatedModelAttribute.model.name)
   }
 
   render() {
@@ -75,7 +75,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateModelAttribute: (id, values, modelId) => dispatch(modelAttributesActions.updateEntity(id, values, { pModelId: modelId })),
+  updateModelAttribute: (id, values, modelName) => dispatch(modelAttributesActions.updateEntity(id, values, { modelName })),
 })
 
 

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { storage } from '@regardsoss/units'
 import ModuleComponent from '../components/ModuleComponent'
@@ -27,8 +28,7 @@ import ModuleComponent from '../components/ModuleComponent'
 export class ModuleContainer extends React.Component {
   static propTypes = {
     // default modules properties
-    expandable: PropTypes.bool.isRequired,
-    expanded: PropTypes.bool.isRequired,
+    ...AccessShapes.runtimeDispayModuleFields,
   }
 
   /**
@@ -36,11 +36,9 @@ export class ModuleContainer extends React.Component {
    */
   componentWillMount = () => {
     this.setState({
-      expanded: this.props.expanded,
       currentScale: storage.StorageUnitScale.bytesScale,
     })
   }
-
 
   /**
    * User callback: on unit scale changed by user
@@ -48,21 +46,13 @@ export class ModuleContainer extends React.Component {
    */
   onUnitScaleChanged = newScale => this.setState({ currentScale: newScale })
 
-  /**
-   * User callback: on toggle expanded state
-   */
-  onExpandChange = () => this.setState({ expanded: !this.state.expanded })
-
   render() {
-    const { expandable } = this.props
-    const { expanded, currentScale } = this.state
+    const { currentScale } = this.state
     return (
       <ModuleComponent
-        expandable={expandable}
-        expanded={expanded}
         scale={currentScale}
-        onExpandChange={this.onExpandChange}
         onUnitScaleChanged={this.onUnitScaleChanged}
+        {...this.props}
       />
     )
   }

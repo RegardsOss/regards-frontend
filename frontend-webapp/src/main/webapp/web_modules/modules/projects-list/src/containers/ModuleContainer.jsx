@@ -28,9 +28,8 @@ import ProjectsAction from '../model/ProjectsAction'
  */
 export class ModuleContainer extends React.Component {
   static propTypes = {
-    // Set by module loader
-    // eslint-disable-next-line react/no-unused-prop-types
-    appName: PropTypes.string.isRequired,
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
     // Set by mapStateToProps
     projects: AccessShapes.ProjectList,
     isFetching: PropTypes.bool,

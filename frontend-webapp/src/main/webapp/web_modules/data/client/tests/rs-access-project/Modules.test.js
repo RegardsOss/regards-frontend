@@ -36,13 +36,9 @@ const entityTester = new ReduxEntityTester(ModulesActions, ModulesReducer, Modul
  * @author Sébastien binda
  */
 describe('[ADMIN CLIENT] Testing client Module', () => {
-  before(() => {
-    entityTester.beforeAll()
-  })
+  before(() => entityTester.beforeAll())
+  after(() => entityTester.afterAll())
 
-  after(() => {
-    entityTester.afterAll()
-  })
   it('should retrieve the list of items, reduce it, and store it on the store.', (done) => {
     entityTester.runTests(done)
   })

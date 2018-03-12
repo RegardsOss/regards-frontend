@@ -16,20 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isNil from 'lodash/isNil'
 import isNaN from 'lodash/isNaN'
-import { FormattedMessage } from 'react-intl'
+import Arrow from 'material-ui/svg-icons/navigation/arrow-forward'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ClearFieldButton } from '@regardsoss/components'
 import TemporalCriteriaComponent from './TemporalCriteriaComponent'
-import EnumTemporalComparator from '../model/EnumTemporalComparator'
 
 /**
  * Component allowing the user to configure the temporal value of a single attribute with two date comparators (before, after, ...).
  * For example, it will display:
- *   23/02/2017 08:00 < [attributeName] < 23/02/2017 12:00
+ *   [attributeName] : 23/02/2017 08:00 → 23/02/2017 12:00
  *
  * The plugin's output is the execution of the passed {@code onChange} prop.
  *
@@ -102,33 +99,32 @@ export class TwoTemporalCriteriaComposedComponent extends PluginCriterionContain
 
   render() {
     const { firstField, secondField } = this.state
-    const clearButtonDisplayed = !isNil(firstField) || !isNil(secondField)
-    const { moduleTheme: { rootStyle, lineStyle, labelSpanStyle }, intl: { formatMessage } } = this.context
+    const {
+      moduleTheme: {
+        rootStyle, lineStyle, labelSpanStyle, lineGroupStyle,
+      },
+    } = this.context
 
     return (
       <div style={rootStyle}>
-        <div style={lineStyle} >
-          <span style={labelSpanStyle}>
-            {formatMessage({ id: 'criterion.aggregator.between' }, { label: this.getAttributeLabel('firstField') })}
-          </span>
-          <TemporalCriteriaComponent
-            label={this.getAttributeLabel('firstField')}
-            comparator={EnumTemporalComparator.GE}
-            value={firstField}
-            onChange={this.changeValue1}
-            hideAttributeName
-            hideComparator
-          />
-          <FormattedMessage id="criterion.aggregator.and" />
-          <TemporalCriteriaComponent
-            label={this.getAttributeLabel('secondField')}
-            comparator={EnumTemporalComparator.LE}
-            value={secondField}
-            onChange={this.changeValue2}
-            hideAttributeName
-            hideComparator
-          />
-          <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
+        <div style={lineStyle}>
+          <span style={labelSpanStyle}>{this.getAttributeLabel('firstField')} :</span>
+          <div style={lineGroupStyle}>
+            <TemporalCriteriaComponent
+              label={this.getAttributeLabel('firstField')}
+              value={firstField}
+              onChange={this.changeValue1}
+              hideAttributeName
+            />
+            <Arrow />
+            <TemporalCriteriaComponent
+              label={this.getAttributeLabel('secondField')}
+              value={secondField}
+              onChange={this.changeValue2}
+              hideAttributeName
+              isStopDate
+            />
+          </div>
         </div>
       </div>
     )

@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { AccessShapes } from '@regardsoss/shape'
 import ModuleConfigurationComponent from '../../components/admin/ModuleConfigurationComponent'
-import { ModuleConfigurationShape } from '../../model/ModuleConfigurationShape'
 
 /**
  * Admin module container for module configuration
@@ -25,16 +25,8 @@ import { ModuleConfigurationShape } from '../../model/ModuleConfigurationShape'
  */
 export class AdminModuleContainer extends React.Component {
   static propTypes = {
-    adminForm: PropTypes.shape({
-      isCreating: PropTypes.bool,
-      isDuplicating: PropTypes.bool,
-      isEditing: PropTypes.bool,
-      currentNamespace: PropTypes.string,
-      // Function to change a field value
-      changeField: PropTypes.func.isRequired,
-      // Current values of the form
-      form: ModuleConfigurationShape,
-    }),
+    // default modules properties
+    ...AccessShapes.runtimeConfigurationModuleFields,
   }
 
   render() {

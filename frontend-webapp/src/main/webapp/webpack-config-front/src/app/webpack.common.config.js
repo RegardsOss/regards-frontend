@@ -36,10 +36,23 @@ module.exports = function (projectContextPath, mode = 'dev') {
           test: /\.jsx?$/,
           // Exclude the DLL folder build from the transpilation
           exclude: [/node_modules/, /dist/],
-          // used to cache the results of the loader.
-          // Next builds will attempt to read from the cache
-          // the cache is different depending of the value of NODE_ENV
-          loader: 'babel-loader?cacheDirectory',
+          use: [
+            // your expensive loader
+            'thread-loader',
+            // used to cache the results of the loader.
+            // Next builds will attempt to read from the cache
+            // the cache is different depending of the value of NODE_ENV
+            'babel-loader?cacheDirectory',
+          ],
+        },
+        { // @regardsoss-modules icon handler
+          test: /default-icon\.svg$/,
+          loader: 'file-loader',
+          options: {
+            regExp: /modules\/([\w-]+)\/default-icon\.svg$/,
+            name: '[1].[ext]',
+            outputPath: 'modules-icon/',
+          },
         },
         {
           test: /\.css$/,
@@ -47,27 +60,41 @@ module.exports = function (projectContextPath, mode = 'dev') {
         },
         {
           test: /\.(jpg|gif|png)$/,
-          loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'img/',
+          },
         },
         {
           test: /staticConfiguration(\.dev)?\.js$/,
-          loader: 'file-loader?name=staticConfiguration.js&outputPath=./conf/',
+          loader: 'file-loader',
+          options: {
+            name: 'staticConfiguration.js',
+            outputPath: 'conf/',
+          },
         },
         {
-          test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          loader: 'url-loader?name=/img/[name].[ext]&limit=10000&minetype=application/font-woff',
-        },
-        {
-          test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          loader: 'file-loader?name=/img/[name].[ext]',
+          test: /\.(svg|ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          exclude: /default-icon.svg/,
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'img/',
+          },
         },
         {
           test: /\.html/,
-          loader: 'file-loader?name=/html/[name].[ext]',
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'html/',
+          },
         },
       ],
     },
     plugins: [
+      new webpack.optimize.OccurrenceOrderPlugin(),
       // Generate the index.html automatically
       new HtmlWebpackPlugin({
         template: 'index.ejs',
@@ -84,7 +111,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
       // Using http://webpack.github.io/analyse/#hints
       // And npm run build:stats
       // We can start to prefetch these files before they are imported
-      new webpack.PrefetchPlugin('./web_modules/vendors/storybook-addon-material-ui-custom/src/index.js'),
       new webpack.PrefetchPlugin('./web_modules/utils/modules/src/components/LazyModuleComponent.jsx'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-microservice-management/src/containers/plugin/PluginConfigurationListContainer.jsx'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-user-role-resource-access-management/src/containers/ResourceAccessFormContainer.jsx'),
@@ -133,7 +159,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ui-layout-management/src/main.js'),
 
       // All modules
-      new webpack.PrefetchPlugin('./web_modules/modules/aip-status/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/authentication/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/licenses/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/order-cart/src/main.js'),

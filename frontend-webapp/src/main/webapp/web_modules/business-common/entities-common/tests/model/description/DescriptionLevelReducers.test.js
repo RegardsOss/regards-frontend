@@ -33,7 +33,6 @@ describe('[Entities Common] Test description level reducer', () => {
     currentState = reduced
   })
 
-
   it('Should fail reducing show related entity when there is no current path', () => {
     assert.throws(reduce.bind(null, DescriptionLevelReducer.DEFAULT_STATE, descriptionLevelActions.showRelatedEntity('err1')))
   })
@@ -47,6 +46,17 @@ describe('[Entities Common] Test description level reducer', () => {
       descriptionLevelActions.showRelatedEntity('test3'),
     )
     assert.deepEqual(reduced, { currentDescriptionPath: ['test1', 'test2', 'test3'], tab: DescriptionLevelActions.TABS_ENUM.PROPERTIES }, 'The reduced path is invalid')
+  })
+
+  it('Should block reducing show related entity when entity is already in path', () => {
+    const reduced = reduce(
+      reduce(
+        reduce(DescriptionLevelReducer.DEFAULT_STATE, descriptionLevelActions.show('test1', DescriptionLevelActions.TABS_ENUM.PROPERTIES)),
+        descriptionLevelActions.showRelatedEntity('test2'),
+      ),
+      descriptionLevelActions.showRelatedEntity('test2'),
+    )
+    assert.deepEqual(reduced, { currentDescriptionPath: ['test1', 'test2'], tab: DescriptionLevelActions.TABS_ENUM.PROPERTIES }, 'The reduced path is invalid')
   })
 
   it('Should fail reducing jump to level action when there is no path', () => {

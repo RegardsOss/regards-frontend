@@ -30,7 +30,6 @@ import { ContainerHelper } from '@regardsoss/layout'
 import { modulesManager } from '@regardsoss/modules'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
-import FormShape from '../model/FormShape'
 import ModuleFormComponent from '../components/ModuleFormComponent'
 import NoContainerAvailables from '../components/NoContainerAvailables'
 import messages from '../i18n'
@@ -55,7 +54,7 @@ class ModuleFormContainer extends React.Component {
     fetchLayout: PropTypes.func,
     isInstance: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
-    form: FormShape,
+    form: AccessShapes.Module,
     changeField: PropTypes.func,
     // Set by mapStateToProps
     module: AccessShapes.Module,
@@ -75,10 +74,11 @@ class ModuleFormContainer extends React.Component {
 
   constructor(props) {
     super(props)
+    const { module_id: editModuleId, duplicate_module_id: duplicateModuleId } = props.params
+    const isDuplicating = !isNil(duplicateModuleId)
+    const isEditing = !isNil(editModuleId)
+    const isCreating = !isEditing && !isDuplicating
 
-    const isDuplicating = !isNil(props.params.duplicate_module_id)
-    const isCreating = isDuplicating || isNil(this.props.params.module_id)
-    const isEditing = !isDuplicating && !isNil(this.props.module)
     this.state = {
       availableModuleTypes: [],
       isLoading: true,
@@ -100,60 +100,50 @@ class ModuleFormContainer extends React.Component {
     }
     // Initialize module list
     const filterModules = ModuleFormContainer.filterAllowedModules.bind(null, this.props.isInstance, this.props.availableEndpoints)
-    tasks.push(
-      modulesManager.getAvailableVisibleModuleTypes(filterModules)
-        .then((availableModuleTypes) => {
-          this.setState({ availableModuleTypes })
-          return availableModuleTypes
-        }),
-    )
+    tasks.push(modulesManager.getAvailableVisibleModuleTypes(filterModules))
+
     Promise.all(tasks).then((results) => {
-      this.setState({ isLoading: false })
+      // last task results
+      const availableModuleTypes = results[results.length - 1]
+      this.setState({ availableModuleTypes, isLoading: false })
     })
   }
 
   handleSubmit = (values) => {
     const { isEditing } = this.state
-    const valuesToSave = Object.assign({}, values)
-    if (valuesToSave.conf) {
-      valuesToSave.conf = JSON.stringify(values.conf)
+    const valuesToSave = { // default values
+      applicationId: this.props.params.applicationId,
+      active: false,
+      ...values,
     }
+    // stringify conf (containing module specific variables) for server
+    valuesToSave.conf = JSON.stringify(values.conf)
+    // stringify page titles (containing text by locale) for server (paying attention to not link references, that
+    // would otherwise destroy form fields values)
+    if (valuesToSave.page) {
+      valuesToSave.page = { // decorrelate JS objects reference to not modify form values
+        ...values.page,
+        title: JSON.stringify({ // decorrelate JS objects reference to not modify form values
+          ...get(values, 'page.title', {}),
+        }),
+      }
+    }
+    let fetchMethod
     if (isEditing) {
-      return this.handleUpdate(valuesToSave)
+      // set ID to update
+      valuesToSave.id = this.props.params.module_id
+      // update module promise builder
+      fetchMethod = this.props.updateModule
+    } else {
+      // create module promise builder
+      fetchMethod = this.props.createModule
     }
-    return this.handleCreate(valuesToSave)
-  }
-
-  handleCreate = (values) => {
-    const defaultProps = {
-      applicationId: this.props.params.applicationId,
-      active: false,
-      defaultDynamicModule: false,
-      conf: '{}',
-    }
-    const submitModel = Object.assign({}, defaultProps, values)
-    Promise.resolve(this.props.createModule(this.props.params.applicationId, submitModel))
+    // resolve promise then handle back if successful
+    Promise.resolve(fetchMethod(this.props.params.applicationId, valuesToSave))
       .then((actionResult) => {
-        // We receive here the action
+        console.error('Action', actionResult)
         if (!actionResult.error) {
-          this.handleBack()
-        }
-      })
-  }
-
-  handleUpdate = (values) => {
-    const defaultProps = {
-      applicationId: this.props.params.applicationId,
-      active: false,
-      defaultDynamicModule: false,
-      conf: '{}',
-    }
-    const submitModel = Object.assign({}, defaultProps, this.props.module, values)
-    Promise.resolve(this.props.updateModule(this.props.params.applicationId, submitModel))
-      .then((actionResult) => {
-        // We receive here the action
-        if (!actionResult.error) {
-          this.handleBack()
+          this.handleBack() // back to list on success
         }
       })
   }
@@ -210,7 +200,6 @@ class ModuleFormContainer extends React.Component {
         delete module.id
       }
     }
-
     const adminForm = {
       currentNamespace: 'conf',
       form: this.props.form,
@@ -242,20 +231,22 @@ class ModuleFormContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  module: ownProps.moduleSelectors.getContentById(state, ownProps.params.module_id),
-  layout: ownProps.params.applicationId ? ownProps.layoutSelectors.getContentById(state, ownProps.params.applicationId) : null,
-  form: getFormValues('edit-module-form')(state),
-  availableEndpoints: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
-})
+const mapStateToProps = (state, ownProps) => {
+  const { module_id: editModuleId, duplicate_module_id: duplicateModuleId } = ownProps.params
+  const thisFormModuleId = editModuleId || duplicateModuleId
+  return {
+    module: ownProps.moduleSelectors.getContentById(state, thisFormModuleId),
+    layout: ownProps.params.applicationId ? ownProps.layoutSelectors.getContentById(state, ownProps.params.applicationId) : null,
+    form: getFormValues('edit-module-form')(state),
+    availableEndpoints: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   changeField: (field, value) => dispatch(change('edit-module-form', field, value)),
 })
 
 const UnconnectedModuleFormContainer = ModuleFormContainer
-export {
-  UnconnectedModuleFormContainer,
-}
+export { UnconnectedModuleFormContainer }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModuleFormContainer)

@@ -41,7 +41,7 @@ class ModulesListContainer extends React.Component {
     updateModule: PropTypes.func,
     deleteModule: PropTypes.func,
     // Set by mapStateToProps
-    modules: AccessShapes.ModuleList,
+    modules: AccessShapes.ModuleArray,
   }
 
   state = {
@@ -129,12 +129,10 @@ class ModulesListContainer extends React.Component {
 }
 
 const UnconnectedModulesListContainer = ModulesListContainer
-export {
-  UnconnectedModulesListContainer,
-}
+export { UnconnectedModulesListContainer }
 
 const mapStateToProps = (state, ownProps) => ({
-  modules: ownProps.moduleSelectors.getList(state),
+  modules: ownProps.moduleSelectors.getOrderedList(state),
 })
 
 export default connect(mapStateToProps, null)(ModulesListContainer)

@@ -20,7 +20,7 @@ import SearchResultForm from './SearchResultForm'
 */
 class ModuleForm extends React.Component {
   static propTypes = {
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     appName: PropTypes.string.isRequired,
     adminForm: PropTypes.shape({
       currentNamespace: PropTypes.string,

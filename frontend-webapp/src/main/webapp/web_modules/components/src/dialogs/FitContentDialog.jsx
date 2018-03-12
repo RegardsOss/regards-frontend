@@ -2,7 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import Dialog from 'material-ui/Dialog'
-import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle, SwitchThemeDecorator } from '@regardsoss/theme'
 import { HOCUtils } from '@regardsoss/display-control'
 import styles from './styles'
 
@@ -44,14 +44,18 @@ class FitContentDialog extends React.Component {
     const contentStyle = { customContentStyle, ...fitContentDialog.contentStyle }
 
     return (
-      <Dialog
-        paperProps={fitContentDialog.paperProps}
-        contentStyle={contentStyle}
-        actionsContainerStyle={actionsContainerStyle}
-        {...dialogProperties}
+      <SwitchThemeDecorator
+        useMainTheme
       >
-        {HOCUtils.renderChildren(children)}
-      </Dialog >
+        <Dialog
+          paperProps={fitContentDialog.paperProps}
+          contentStyle={contentStyle}
+          actionsContainerStyle={actionsContainerStyle}
+          {...dialogProperties}
+        >
+          {HOCUtils.renderChildren(children)}
+        </Dialog >
+      </SwitchThemeDecorator>
     )
   }
 }

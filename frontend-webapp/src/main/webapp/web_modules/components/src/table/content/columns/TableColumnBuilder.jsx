@@ -148,7 +148,7 @@ function buildValuesRenderCell(values) {
     Constructor: ValuesRenderCell, // cell for attribute paths
     props: {
       // ensure default renderer
-      values: values.map(({ getValue, RenderConstructor = StringValueRender }) => ({ getValue, RenderConstructor })),
+      values: values.map(({ getValue, RenderConstructor = StringValueRender, props }) => ({ getValue, RenderConstructor, props })),
     },
   }
 }
@@ -159,9 +159,10 @@ function buildValuesRenderCell(values) {
  * default to simple string property when not provided)
  */
 function buildPropertiesRenderCell(properties) {
-  return buildValuesRenderCell(properties.map(({ path, RenderConstructor }) => ({
+  return buildValuesRenderCell(properties.map(({ path, RenderConstructor, props }) => ({
     getValue: extractPropertyClosure(path),
     RenderConstructor,
+    props,
   })))
 }
 
@@ -197,7 +198,7 @@ function buildProgressPercentRenderCell(getProgressPercent, showLabel = true) {
  * @param {[{OptionConstructor: {func}, optionProps: {*}}]} optionCellsDefinition list of constructor and default properties to build the cells.
  * Note: the cells will automatically receive entity and rowIndex as properties
  * @param {boolean} visible is column visible
- * @param {number} fixedWidth (REQUIRED) fixed width when column should not grow / shrink with width, undefined otherwise
+ * @param {number} fixedWidth (REQUIRED) fixed width when column should not grow / shrink with width
  * @param {string} key (option) column key - or default options key
  * @param {number} order (optional) column order within columns array - or max column order
  * @param {React.Element} headerCell The instantiated header cell (or null header by default)

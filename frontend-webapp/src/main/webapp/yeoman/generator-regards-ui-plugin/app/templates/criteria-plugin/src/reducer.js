@@ -20,5 +20,5 @@
 /**
  * Exports plugin Redux reducers
  */
-export default {}
+module.exports = {}
 

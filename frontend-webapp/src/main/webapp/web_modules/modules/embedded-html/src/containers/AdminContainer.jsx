@@ -19,6 +19,7 @@
 import has from 'lodash/has'
 import get from 'lodash/get'
 import { Card, CardText } from 'material-ui/Card'
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
@@ -31,19 +32,10 @@ import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
  */
 class AdminContainer extends React.Component {
   static propTypes = {
-    // Form parameters
-    adminForm: PropTypes.shape({
-      currentNamespace: PropTypes.string,
-      isCreating: PropTypes.bool,
-      isDuplicating: PropTypes.bool,
-      isEditing: PropTypes.bool,
-      // Function to change a field value
-      changeField: PropTypes.func,
-      // Current values of the form
-      form: ModuleConfigurationShape,
-    }).isRequired,
-    // Default values of the module configuration
-    // moduleConf: ModuleConfigurationShape.isRequired,
+    // default modules properties
+    ...AccessShapes.runtimeConfigurationModuleFields,
+    // redefines expected configuration shape
+    moduleConf: ModuleConfigurationShape.isRequired,
   }
 
   static contextTypes = {

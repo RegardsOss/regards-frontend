@@ -24,7 +24,8 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
-import { IDBDatasourceParamsUtils } from '@regardsoss/domain/dam'
+import { PluginConfParamsUtils } from '@regardsoss/domain/common'
+import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { extractParametersFromFormValues } from '@regardsoss/admin-data-entities-attributes-management'
 import DatasetFormAttributesComponent from '../components/DatasetFormAttributesComponent'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
@@ -54,12 +55,8 @@ export class DatasetFormAttributesContainer extends React.Component {
     fetchDatasource: PropTypes.func,
   }
 
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: true,
-    }
+  state = {
+    isLoading: true,
   }
 
   componentDidMount() {
@@ -67,8 +64,8 @@ export class DatasetFormAttributesContainer extends React.Component {
       this.props.fetchModelList(),
       this.props.fetchDatasource(this.props.currentDatasourceId),
     ]
-    if (has(this.props.currentDataset, 'content.model.id')) {
-      tasks.push(this.props.fetchModelAttributeList(this.props.currentDataset.content.model.id))
+    if (has(this.props.currentDataset, 'content.model.name')) {
+      tasks.push(this.props.fetchModelAttributeList(this.props.currentDataset.content.model.name))
     }
     Promise.all(tasks)
       .then(() => {
@@ -79,23 +76,23 @@ export class DatasetFormAttributesContainer extends React.Component {
   }
 
   onSubmit = (values) => {
-    const datasourceObjectModelId = get(IDBDatasourceParamsUtils.findParam(this.props.currentDatasource, IDBDatasourceParamsUtils.IDBDatasourceParamsEnum.MODEL), 'value.model')
+    const datasourceObjectModelName = get(PluginConfParamsUtils.findParam(this.props.currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value')
     const properties = extractParametersFromFormValues(values, this.props.modelAttributeList)
-    this.props.handleSave(values.label, values.geometry, values.model, properties, datasourceObjectModelId, values.descriptionFileContent, values.descriptionUrl)
+    this.props.handleSave(values.sipId, values.label, values.geometry, values.model, properties, datasourceObjectModelName, values.descriptionFileContent, values.descriptionUrl)
   }
 
 
   /**
    * Used when the user change the value of the model selected
    * In charge to fetch new list of model attributes
-   * @param modelId
+   * @param modelName
    */
-  handleUpdateModel = (modelId) => {
+  handleUpdateModel = (modelName) => {
     // Remove any value defined in the current form if modelAttributeList existed
     forEach(this.props.modelAttributeList, (modelAttribute) => {
       this.props.unregisterField('dataset-attributes-form', `properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`)
     })
-    this.props.fetchModelAttributeList(modelId)
+    this.props.fetchModelAttributeList(modelName)
   }
 
   render() {
@@ -133,7 +130,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: 'DATASET' })),
-  fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),
+  fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
   fetchDatasource: id => dispatch(datasourceActions.fetchEntity(id)),
 })

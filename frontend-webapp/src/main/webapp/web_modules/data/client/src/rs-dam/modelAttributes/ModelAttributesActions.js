@@ -26,7 +26,7 @@ export default class ModelAttributesActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/{pModelId}/attributes`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/{modelName}/attributes`,
       entityPathVariable: 'pAttributeId',
       schemaTypes: {
         ENTITY: Schemas.MODEL_ATTRIBUTE,
@@ -34,7 +34,7 @@ export default class ModelAttributesActions extends BasicListActions {
       },
     })
   }
-  fetchModelAttributes(id) {
-    return this.fetchEntityList({ pModelId: id })
+  fetchModelAttributes(modelName) {
+    return this.fetchEntityList({ modelName })
   }
 }

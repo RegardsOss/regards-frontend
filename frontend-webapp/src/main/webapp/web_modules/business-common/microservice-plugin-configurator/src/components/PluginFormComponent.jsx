@@ -39,6 +39,10 @@ export class PluginFormComponent extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     isEditing: PropTypes.bool,
+    title: PropTypes.string,
+    cardStyle: PropTypes.bool,
+    simpleGlobalParameterConf: PropTypes.bool,
+    hideDynamicParameterConf: PropTypes.bool,
     microserviceName: PropTypes.string.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
@@ -49,6 +53,10 @@ export class PluginFormComponent extends React.Component {
 
   static defaultProps = {
     isEditing: false,
+    title: null,
+    cardStyle: true,
+    simpleGlobalParameterConf: false,
+    hideDynamicParameterConf: false,
   }
 
   static contextTypes = {
@@ -113,47 +121,81 @@ export class PluginFormComponent extends React.Component {
     initialize({ [PluginFormComponent.confFieldName]: initialValues })
   }
 
+  renderField = () => {
+    const {
+      microserviceName, pluginMetaData, simpleGlobalParameterConf, hideDynamicParameterConf,
+    } = this.props
+    return (
+      <Field
+        name={PluginFormComponent.confFieldName}
+        component={RenderPluginConfField}
+        microserviceName={microserviceName}
+        pluginMetaData={pluginMetaData}
+        simpleGlobalParameterConf={simpleGlobalParameterConf}
+        hideDynamicParameterConf={hideDynamicParameterConf}
+      />
+    )
+  }
+
+  renderActions = () => {
+    const {
+      submitting, invalid, isEditing, backUrl,
+    } = this.props
+    const { intl: { formatMessage } } = this.context
+    return (
+      <CardActionsComponent
+        mainButtonLabel={isEditing ?
+          formatMessage({ id: 'plugin.configuration.form.action.submit.save' }) :
+          formatMessage({ id: 'plugin.configuration.form.action.submit.add' })}
+        mainButtonType="submit"
+        isMainButtonDisabled={submitting || invalid}
+        secondaryButtonLabel={formatMessage({ id: 'plugin.configuration.form.action.cancel' })}
+        secondaryButtonUrl={backUrl}
+      />
+    )
+  }
+
   /**
    * Returns React component
    * @returns {XML}
    */
   render() {
     const {
-      pluginConfiguration, microserviceName, handleSubmit, submitting, invalid, isEditing, backUrl, pluginMetaData,
+      pluginConfiguration, handleSubmit, isEditing,
+      title, cardStyle,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
-    const title = isEditing ?
-      formatMessage({ id: 'plugin.configuration.form.edit.title' }, { name: pluginConfiguration.label }) :
-      formatMessage({ id: 'plugin.configuration.form.create.title' })
+    let finalTitle = title
+    if (!title) {
+      finalTitle = isEditing ?
+        formatMessage({ id: 'plugin.configuration.form.edit.title' }, { name: pluginConfiguration.label }) :
+        formatMessage({ id: 'plugin.configuration.form.create.title' })
+    }
 
     return (
       <form
         onSubmit={handleSubmit(this.onSubmit)}
       >
-        <Card>
-          <CardTitle title={title} />
-          <CardText>
-            <Field
-              name={PluginFormComponent.confFieldName}
-              component={RenderPluginConfField}
-              microserviceName={microserviceName}
-              pluginMetaData={pluginMetaData}
-            />
-          </CardText>
+        {cardStyle ?
+          (
+            <Card>
+              <CardTitle title={finalTitle} />
+              <CardText>
+                {this.renderField()}
+              </CardText>
 
-          <CardActions>
-            <CardActionsComponent
-              mainButtonLabel={isEditing ?
-                formatMessage({ id: 'plugin.configuration.form.action.submit.save' }) :
-                formatMessage({ id: 'plugin.configuration.form.action.submit.add' })}
-              mainButtonType="submit"
-              isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={formatMessage({ id: 'plugin.configuration.form.action.cancel' })}
-              secondaryButtonUrl={backUrl}
-            />
-          </CardActions>
-        </Card>
+              <CardActions>
+                {this.renderActions()}
+              </CardActions>
+            </Card>
+          ) :
+          (
+            <div>
+              {this.renderField()}
+              {this.renderActions()}
+            </div>
+          )}
       </form>
     )
   }

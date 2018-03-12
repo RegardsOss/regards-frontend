@@ -20,12 +20,17 @@ import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import FlatButton from 'material-ui/FlatButton'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
   CardActionsComponent, DateValueRender, InfiniteTableContainer, TableColumnBuilder, TableLayout,
-  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
+  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DurationValueRender, ShowableAtRender,
+  FitContentDialog, ConfirmDialogComponent, ConfirmDialogComponentTypes,
 } from '@regardsoss/components'
 import messages from '../i18n'
+import DatasourceStatusTableCell from './DatasourceStatusTableCell'
+import DataSourceMonitoringDeleteAction from './DataSourceMonitoringDeleteAction'
+
 /**
 * DataSourceMonitoringComponent
 * @author Sébastien Binda
@@ -35,40 +40,130 @@ class DataSourceMonitoringComponent extends React.Component {
     crawlerDatasources: DataManagementShapes.CrawlerDatasourceArray.isRequired,
     onBack: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
   }
-
-  static defaultProps = {}
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
+  static wrapperPreserveWhitespace = {
+    whiteSpace: 'pre-wrap',
+  }
+
+  state = {
+    showModal: false,
+    crawlerToDelete: null,
+  }
+
+  onDelete = (crawler) => {
+    this.setState({
+      crawlerToDelete: crawler,
+    })
+  }
+
+  onConfirmDelete = () => {
+    this.closeDeleteDialog()
+    if (this.state.crawlerToDelete) {
+      this.props.onDelete(this.state.crawlerToDelete.id)
+    }
+  }
+
+  getDialogActions = () => [
+    <FlatButton
+      key="cancel"
+      label={this.context.intl.formatMessage({ id: 'crawler.list.stacktrace.action.close' })}
+      primary
+      onClick={this.closeDialog}
+    />,
+  ]
+
+
+  closeDeleteDialog = () => {
+    this.setState({
+      crawlerToDelete: null,
+    })
+  }
+
+  closeDialog = () => {
+    this.setState({
+      stacktrace: null,
+      showModal: false,
+    })
+  }
+
+  openStacktraceDialog = (entity) => {
+    this.setState({
+      stacktrace: entity.content.stackTrace,
+      showModal: true,
+    })
+  }
+
+  renderDeleteConfirmDialog = () => {
+    if (this.state.crawlerToDelete) {
+      return (
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponentTypes.DELETE}
+          title={this.context.intl.formatMessage({ id: 'crawler.delete.confirm.title' }, { crawler: this.state.crawlerToDelete.label })}
+          onConfirm={this.onConfirmDelete}
+          onClose={this.closeDeleteDialog}
+        />
+      )
+    }
+    return null
+  }
+
+  /**
+   * Render the dialog containing the stacktrace.
+   */
+  renderStacktraceDialog = () => (
+    <ShowableAtRender
+      show={this.state.showModal}
+    >
+      <FitContentDialog
+        title={this.context.intl.formatMessage({ id: 'crawler.list.stacktrace.title' })}
+        modal
+        open={this.state.showModal}
+        onRequestClose={this.closeDialog}
+        autoScrollBodyContent
+        actions={this.getDialogActions()}
+      >
+        <div style={DataSourceMonitoringComponent.wrapperPreserveWhitespace}>
+          {this.state.stacktrace}
+        </div>
+      </FitContentDialog>
+    </ShowableAtRender>
+  )
   render() {
     const { crawlerDatasources, onBack, onRefresh } = this.props
-    const { intl } = this.context
+    const { intl, muiTheme } = this.context
+    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
     // emptyComponent
     const columns = [
-      // ID column
       TableColumnBuilder.buildSimplePropertyColumn('label', intl.formatMessage({ id: 'crawler.list.label.column.header' }), 'content.label', 0, true),
-      // Last ingest date
       TableColumnBuilder.buildSimplePropertyColumn('lastIngestDate', intl.formatMessage({ id: 'crawler.list.lastIngestDate.column.header' }), 'content.lastIngestDate', 0, true, DateValueRender),
-      // Duration
-      TableColumnBuilder.buildSimplePropertyColumn('duration', intl.formatMessage({ id: 'crawler.list.duration.column.header' }), 'content.duration', 0, true),
-      // savedObjectsCount
+      TableColumnBuilder.buildSimplePropertyColumn('duration', intl.formatMessage({ id: 'crawler.list.duration.column.header' }), 'content.duration', 0, true, DurationValueRender),
       TableColumnBuilder.buildSimplePropertyColumn('savedObjectsCount', intl.formatMessage({ id: 'crawler.list.savedObjectsCount.column.header' }), 'content.savedObjectsCount', 0, true),
-      // status
-      TableColumnBuilder.buildSimplePropertyColumn('status', intl.formatMessage({ id: 'crawler.list.status.column.header' }), 'content.status', 0, true),
+      TableColumnBuilder.buildSimpleColumnWithCell('status', intl.formatMessage({ id: 'crawler.list.status.column.header' }), {
+        Constructor: DatasourceStatusTableCell,
+        props: { onShow: this.openStacktraceDialog },
+      }, 0, true),
       // Next planed ingest date
       TableColumnBuilder.buildSimplePropertyColumn('nextPlannedIngestDate', intl.formatMessage({ id: 'crawler.list.nextPlannedIngestDate.column.header' }), 'content.nextPlannedIngestDate', 0, true, DateValueRender),
+      TableColumnBuilder.buildOptionsColumn('', [{
+        OptionConstructor: DataSourceMonitoringDeleteAction,
+        optionProps: { onDelete: this.onDelete },
+      }], true, fixedColumnWidth),
     ]
-
-    console.error('render for ', crawlerDatasources)
 
     return (
       <Card>
         <CardTitle
           title={intl.formatMessage({ id: 'crawler.list.title' })}
         />
+        {this.renderStacktraceDialog()}
+        {this.renderDeleteConfirmDialog()}
         <CardText>
           <TableLayout>
             <TableHeaderLine>

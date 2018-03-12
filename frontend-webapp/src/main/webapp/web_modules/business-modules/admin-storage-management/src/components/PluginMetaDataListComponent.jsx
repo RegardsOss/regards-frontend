@@ -24,6 +24,7 @@ import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
 import AddCircle from 'material-ui/svg-icons/content/add-circle'
 import IconButton from 'material-ui/IconButton'
 import IconList from 'material-ui/svg-icons/action/list'
+import { StorageDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
@@ -31,7 +32,9 @@ import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import { CardActionsComponent } from '@regardsoss/components'
 import moduleStyles from '../styles/styles'
-import { pluginConfigurationActions, pluginConfigurationByTypeActions } from '../clients/PluginConfigurationClient'
+import { pluginConfigurationActions, pluginConfigurationByPluginIdActions } from '../clients/PluginConfigurationClient'
+import PluginSecurityActiveTesterContainer from '../containers/PluginSecurityActiveTesterContainer'
+
 
 const ResourceLink = withResourceDisplayControl(Link)
 
@@ -39,7 +42,7 @@ const ResourceLink = withResourceDisplayControl(Link)
  * Displays the list of plugins for the current microservice (in route) as a {@link GridList} of {@link Card}s sorted by
  * plugin type.
  *
- * @autor Xavier-Alexandre Brochard
+ * @author Xavier-Alexandre Brochard
  * @author Léo Mieulet
  */
 export default class PluginMetaDataListComponent extends React.Component {
@@ -86,6 +89,7 @@ export default class PluginMetaDataListComponent extends React.Component {
     <div key={plugin.content.pluginId} className={this.styles.tile.classes}>
       <Card key={plugin.content.pluginId} style={this.styles.tile.styles}>
         <CardTitle
+          titleStyle={this.styles.tile.title}
           title={plugin.content.pluginId}
           subtitle={`${plugin.content.author} | ${plugin.content.version}`}
         />
@@ -103,7 +107,7 @@ export default class PluginMetaDataListComponent extends React.Component {
             </IconButton>
           </ResourceLink>
           <ResourceLink
-            resourceDependencies={pluginConfigurationByTypeActions.getMsDependency(RequestVerbEnum.POST, this.props.microserviceName)}
+            resourceDependencies={pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, this.props.microserviceName)}
             title={this.context.intl.formatMessage({ id: 'storage.plugin.configuration.list.add' })}
             to={this.props.getAddConfURL(plugin.content.pluginId)}
           >
@@ -116,20 +120,48 @@ export default class PluginMetaDataListComponent extends React.Component {
     </div>
   )
 
+  getSecurityIssuePanel = (checkSecurity) => {
+    const { pluginType } = this.props
+    if (checkSecurity) {
+      return (
+        <PluginSecurityActiveTesterContainer
+          pluginType={pluginType}
+        />
+      )
+    }
+    return null
+  }
+
   render() {
     const { intl } = this.context
-    const title = this.props.pluginType === 'fr.cnes.regards.modules.storage.plugin.datastorage.IDataStorage' ?
-      intl.formatMessage({ id: 'storage.locations.configuration.title' }) :
-      intl.formatMessage({ id: 'storage.allocations.configuration.title' })
-    const subtitle = this.props.pluginType === 'fr.cnes.regards.modules.storage.plugin.datastorage.IDataStorage' ?
-      intl.formatMessage({ id: 'storage.locations.configuration.subtitle' }) :
-      intl.formatMessage({ id: 'storage.allocations.configuration.subtitle' })
+    let title
+    let subtitle
+    let checkSecurity = false
+    switch (this.props.pluginType) {
+      case StorageDomain.PluginTypeEnum.STORAGE:
+        title = intl.formatMessage({ id: 'storage.locations.configuration.title' })
+        subtitle = intl.formatMessage({ id: 'storage.locations.configuration.subtitle' })
+        break
+      case StorageDomain.PluginTypeEnum.SECURITY_DELEGATION:
+        title = intl.formatMessage({ id: 'storage.security.configuration.title' })
+        subtitle = intl.formatMessage({ id: 'storage.security.configuration.subtitle' })
+        checkSecurity = true
+        break
+      case StorageDomain.PluginTypeEnum.ALLOCATION_STRATEGY:
+        title = intl.formatMessage({ id: 'storage.allocations.configuration.title' })
+        subtitle = intl.formatMessage({ id: 'storage.allocations.configuration.subtitle' })
+        break
+      default:
+        title = 'Plugin not supported'
+        subtitle = 'Plugin not supported'
+    }
     return (
       <Card>
         <CardTitle
           title={title}
           subtitle={subtitle}
         />
+        {this.getSecurityIssuePanel(checkSecurity)}
         <CardText style={this.styles.root}>
           <div style={this.styles.grid}>
             {this.getGrid()}

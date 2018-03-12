@@ -1,9 +1,23 @@
 /**
-* LICENSE_PLACEHOLDER
-**/
-import FlatButton from 'material-ui/FlatButton'
-import NextLevelIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
 import { themeContextType } from '@regardsoss/theme'
+import { HOCUtils } from '@regardsoss/display-control'
 
 /**
 * Breadcrumb element displayer, to be built by a parent Breadcrumb
@@ -14,28 +28,52 @@ class BreadcrumbElement extends React.Component {
     isLast: PropTypes.bool,
     onAction: PropTypes.func.isRequired, // callback () => void
     label: PropTypes.string.isRequired,
-    RootIconConstructor: PropTypes.func.isRequired,
+    rootIcon: PropTypes.node,
   }
 
   static contextTypes = {
     ...themeContextType,
   }
 
+  /**
+   * On user click callback
+   */
+  onClick = () => {
+    const { isLast, onAction } = this.props
+    // block onAction for selected element (no need to re-select)
+    if (!isLast) {
+      onAction()
+    }
+  }
+
   render() {
     const {
-      isFirst, isLast, onAction, label, RootIconConstructor,
+      isFirst, isLast, label, rootIcon,
     } = this.props
-    const { element: { style, iconStyle, labelStyle } } = this.context.moduleTheme.breadcrumb
-    const IconConstructor = isFirst ? RootIconConstructor : NextLevelIcon
+    const {
+      iconStyle,
+      element: {
+        style, lastStyle, selectedLabelStyle, defaultLabelStyle,
+      },
+    } = this.context.moduleTheme.breadcrumb
+    // is element selected? (last item, when it is not the first)
+    const isSelected = isLast && !isFirst
+    // show root icon for first item (don't show item icon otherwise)
+    const icon = isFirst ? HOCUtils.cloneChildrenWith(rootIcon, { style: iconStyle }) : null
     return (
-      <FlatButton
-        icon={<IconConstructor style={iconStyle} />}
-        label={label}
-        labelStyle={labelStyle}
-        secondary={isLast && !isFirst}
-        onClick={onAction}
-        style={style}
-      />
+      <div
+        style={isSelected ? lastStyle : style}
+        onClick={this.onClick}
+        title={label}
+      >
+        {
+          icon
+        }
+        <div style={isSelected ? selectedLabelStyle : defaultLabelStyle}>
+          {label}
+        </div>
+
+      </div>
     )
   }
 }

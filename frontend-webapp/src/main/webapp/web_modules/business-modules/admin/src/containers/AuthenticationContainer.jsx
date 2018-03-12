@@ -26,7 +26,7 @@ import getModuleStyles from '../styles/styles'
  */
 class AuthenticationContainer extends React.Component {
   static propTypes = {
-    project: PropTypes.string,
+    scope: PropTypes.string,
     isAuthenticated: PropTypes.bool.isRequired,
     children: PropTypes.any, // eslint-disable-line
   }
@@ -37,7 +37,7 @@ class AuthenticationContainer extends React.Component {
   }
 
   render() {
-    const { isAuthenticated, children } = this.props
+    const { isAuthenticated, scope, children } = this.props
     const moduleStyles = getModuleStyles(this.context.muiTheme)
     const module = {
       type: modulesManager.AllDynamicModuleTypes.AUTHENTICATION,
@@ -50,13 +50,12 @@ class AuthenticationContainer extends React.Component {
         onCancelAction: null,
       },
     }
-
     return (
       <div className={moduleStyles.adminApp.layout.app.classes.join(' ')} style={moduleStyles.adminApp.layout.app.styles}>
         <LazyModuleComponent
           module={module}
           appName="admin"
-          project={this.props.project}
+          project={scope}
         />
         {isAuthenticated && children ? children : null}
       </div>

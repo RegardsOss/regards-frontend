@@ -16,30 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import merge from 'lodash/merge'
-import flow from 'lodash/flow'
-import fpmap from 'lodash/fp/map'
-import fpfilter from 'lodash/fp/filter'
-import uniq from 'lodash/fp/uniq'
-import flatten from 'lodash/flatten'
-import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
-import reduce from 'lodash/reduce'
+import flatten from 'lodash/flatten'
+import flow from 'lodash/flow'
+import forEach from 'lodash/forEach'
+import fpfilter from 'lodash/fp/filter'
+import fpmap from 'lodash/fp/map'
 import isEqual from 'lodash/isEqual'
 import isInteger from 'lodash/isInteger'
+import keys from 'lodash/keys'
+import merge from 'lodash/merge'
+import reduce from 'lodash/reduce'
+import uniq from 'lodash/fp/uniq'
 import values from 'lodash/values'
 import unionBy from 'lodash/unionBy'
 import { browserHistory } from 'react-router'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
+import { modulesHelper } from '@regardsoss/modules-api'
 import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
-import { DataManagementShapes } from '@regardsoss/shape'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { LoadingComponent, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
-import DatasetSelectionType from '../models/datasets/DatasetSelectionTypes'
-import ModuleConfiguration from '../models/ModuleConfiguration'
+import DatasetSelectionType from '../domain/DatasetSelectionTypes'
+import ModuleConfiguration from '../shapes/ModuleConfiguration'
 import FormComponent from '../components/user/FormComponent'
 import AttributeModelClient from '../clients/AttributeModelClient'
 
@@ -49,11 +51,9 @@ import AttributeModelClient from '../clients/AttributeModelClient'
  */
 class ModuleContainer extends React.Component {
   static propTypes = {
-    // Props supplied by LazyModuleComponent
-    appName: PropTypes.string,
-    project: PropTypes.string,
-    description: PropTypes.string,
-    // Module configuration
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+    // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
     // Set by mapDispatchToProps
     fetchAttribute: PropTypes.func,
@@ -68,16 +68,17 @@ class ModuleContainer extends React.Component {
     ...i18nContextType,
   }
 
-
   static DATASET_MODEL_IDS_PARAM = 'datasetModelIds'
   static TAGS_PARAM = 'tags'
+  /** Property keys to be reported onto the DynamicModule component */
+  static MODULE_PROPS = keys(AccessShapes.runtimeDispayModuleFields)
 
   constructor(props) {
     super(props)
     this.criterionValues = {}
+    this.clearFunctions = []
     this.state = {
       searchQuery: '',
-      expanded: true,
       hasSearched: false,
     }
   }
@@ -98,9 +99,14 @@ class ModuleContainer extends React.Component {
 
     this.setState({
       searchQuery: q,
-      expanded: true,
       hasSearched: false,
     })
+
+    if (browserHistory) {
+      this.browserHistoryListener = browserHistory.listen((event) => {
+        if (event.action === 'POP') this.handleURLChange() // Change URL is back or forward button is used
+      })
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -112,24 +118,11 @@ class ModuleContainer extends React.Component {
       this.loadCriterionAttributeModels()
     }
 
-    // If query changed from URL
-    const query = browserHistory ? browserHistory.getCurrentLocation().query : null
-    if (query && query.q && query.q !== this.state.searchQuery) {
-      this.setState({
-        searchQuery: query.q,
-        expanded: true,
-        hasSearched: false,
-      })
-      this.criterionValues = {}
-    } else if (!query.q && this.state.searchQuery !== this.getInitialQuery()) {
-      // NO query specified, display the search form open and run initial Query search
-      this.setState({
-        searchQuery: this.getInitialQuery(),
-        hasSearched: false,
-        expanded: true,
-      })
-      this.criterionValues = {}
-    }
+    this.handleURLChange()
+  }
+
+  componentWillUnmount() {
+    this.browserHistoryListener()
   }
 
   /**
@@ -150,26 +143,34 @@ class ModuleContainer extends React.Component {
     let tags = ''
     const { type, selectedDatasets, selectedModels } = this.props.moduleConf.datasets || {}
     if (type === DatasetSelectionType.DATASET_TYPE && selectedDatasets) {
-      tags = reduce(selectedDatasets, (result, dataset) => {
-        if (result && dataset !== undefined) {
-          return `${result} OR "${dataset}"`
-        } else if (dataset !== undefined) {
-          return `"${dataset}"`
-        }
-        return result
-      }, '')
+      tags = reduce(
+        selectedDatasets,
+        (result, dataset) => {
+          if (result && dataset !== undefined) {
+            return `${result} OR "${dataset}"`
+          } else if (dataset !== undefined) {
+            return `"${dataset}"`
+          }
+          return result
+        },
+        '',
+      )
     }
 
     let modelIds = ''
     if (type === DatasetSelectionType.DATASET_MODEL_TYPE && selectedModels) {
-      modelIds = reduce(selectedModels, (result, modelId) => {
-        if (result && modelId !== undefined) {
-          return `${result} OR ${modelId}`
-        } else if (modelId !== undefined) {
-          return `${modelId}`
-        }
-        return result
-      }, '')
+      modelIds = reduce(
+        selectedModels,
+        (result, modelId) => {
+          if (result && modelId !== undefined) {
+            return `${result} OR ${modelId}`
+          } else if (modelId !== undefined) {
+            return `${modelId}`
+          }
+          return result
+        },
+        '',
+      )
     }
 
     if (tags.length > 0) {
@@ -201,16 +202,17 @@ class ModuleContainer extends React.Component {
     forEach(criterionWithAttributtes, (criteria) => {
       // For each attributeModels of the criteria
       if (criteria.conf && criteria.conf.attributes) {
-        forEach(criteria.conf.attributes, (attributeId, key) => {
+        forEach(criteria.conf.attributes, (attributeId, localKey) => {
           // If the associated attribute has already been retrieved from server, the update the criteria
           if (this.props.attributeModels[attributeId]) {
             // eslint-disable-next-line no-param-reassign
-            criteria.conf.attributes[key] = this.props.attributeModels[attributeId].content
+            criteria.conf.attributes[localKey] = this.props.attributeModels[attributeId].content
           } else if (DamDomain.AttributeModelController.standardAttributes[attributeId]) {
-            const standardAttribute = DamDomain.AttributeModelController.standardAttributes[attributeId]
+            const standardAttribute =
+              DamDomain.AttributeModelController.standardAttributes[attributeId]
             // standard attribute
             // eslint-disable-next-line no-param-reassign
-            criteria.conf.attributes[key] = {
+            criteria.conf.attributes[localKey] = {
               label: standardAttribute.label,
               name: attributeId,
               jsonPath: standardAttribute.entityPathName,
@@ -228,13 +230,49 @@ class ModuleContainer extends React.Component {
     const initialValues = {}
     if (parameters && parameters.length > 0) {
       parameters.forEach((parameter) => {
-        const keys = parameter.match(/([^ :]*):(.*)$/)
-        if (keys && keys.length === 3) {
-          initialValues[keys[1]] = keys[2]
+        const matchingKeys = parameter.match(/([^ :]*):(.*)$/)
+        if (matchingKeys && matchingKeys.length === 3) {
+          initialValues[matchingKeys[1]] = matchingKeys[2]
         }
       })
     }
     return initialValues
+  }
+
+  handleURLChange = () => {
+    // If query changed from URL
+    const query = browserHistory ? browserHistory.getCurrentLocation().query : null
+    if (query && query.q && query.q !== this.state.searchQuery) {
+      this.setState({
+        searchQuery: query.q,
+        hasSearched: false,
+      })
+      this.criterionValues = {}
+    } else if (!query.q && this.state.searchQuery !== this.getInitialQuery()) {
+      // NO query specified, display the search form open and run initial Query search
+      this.setState({
+        searchQuery: this.getInitialQuery(),
+        hasSearched: false,
+      })
+      this.criterionValues = {}
+    }
+  }
+
+  registerClear = (clearFunc, remove) => {
+    if (remove) {
+      this.clearFunctions = this.clearFunctions.filter(func => func !== clearFunc)
+    } else {
+      this.clearFunctions.push(clearFunc)
+    }
+  }
+
+  handleClearAll = () => {
+    this.clearFunctions.forEach(func => func())
+    browserHistory.push({ pathname: browserHistory.getCurrentLocation().pathname })
+    this.setState({
+      searchQuery: '',
+    })
+    this.criterionValues = {}
   }
 
   /**
@@ -256,14 +294,18 @@ class ModuleContainer extends React.Component {
    * Create query for the search from all the configured criterion
    */
   createSearchQueryFromCriterion = () => {
-    const query = reduce(this.criterionValues, (result, criteria) => {
-      if (result && criteria && criteria.length > 0) {
-        return `${result} AND ${criteria}`
-      } else if (criteria) {
-        return criteria
-      }
-      return result
-    }, '')
+    const query = reduce(
+      this.criterionValues,
+      (result, criteria) => {
+        if (result && criteria && criteria.length > 0) {
+          return `${result} AND ${criteria}`
+        } else if (criteria) {
+          return criteria
+        }
+        return result
+      },
+      '',
+    )
 
     const initialQuery = this.getInitialQuery()
     if (query.length > 0) {
@@ -291,14 +333,14 @@ class ModuleContainer extends React.Component {
       uniq,
     )(this.props.moduleConf.criterion)
 
-    const attributesToLoad = flow(
-      fpmap(attribute => values(attribute.id)),
-      flatten,
-      uniq,
-    )(this.props.moduleConf.attributes)
+    const attributesToLoad = flow(fpmap(attribute => values(attribute.id)), flatten, uniq)(
+      this.props.moduleConf.attributes,
+    )
 
     // Fetch each form server
-    forEach(unionBy(pluginsAttributesToLoad, attributesToLoad), (attribute => this.props.fetchAttribute(attribute)))
+    forEach(unionBy(pluginsAttributesToLoad, attributesToLoad), attribute =>
+      this.props.fetchAttribute(attribute),
+    )
   }
 
   renderForm() {
@@ -311,6 +353,7 @@ class ModuleContainer extends React.Component {
         onChange: this.onCriteriaChange,
         initialValues: this.getInitialValues(),
         initialQuery: this.getInitialQuery(),
+        registerClear: this.registerClear,
       }
       const criterionWithAttributes = this.getCriterionWithAttributeModels()
       return (
@@ -319,12 +362,11 @@ class ModuleContainer extends React.Component {
           isContentError={this.props.attributeModelsError}
         >
           <FormComponent
-            expanded={this.state.expanded}
-            description={this.props.description}
-            layout={this.props.moduleConf.layout}
             plugins={criterionWithAttributes}
             pluginsProps={pluginsProps}
             handleSearch={this.handleSearch}
+            handleClearAll={this.handleClearAll}
+            {...modulesHelper.getReportedUserModuleProps(this.props)}
           />
         </LoadableContentDisplayDecorator>
       )
@@ -343,11 +385,10 @@ class ModuleContainer extends React.Component {
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
       active: true,
       applicationId: this.props.appName,
-      description: this.props.description,
+      description: formatMessage({ id: 'results.module.title' }), // replaces page definition
       conf: {
         ...this.props.moduleConf.searchResult,
         searchQuery: this.state.searchQuery,
-        breadcrumbInitialContextLabel: formatMessage({ id: 'results.module.title' }),
       },
     }
 
@@ -382,12 +423,11 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAttribute: attributeId => dispatch(AttributeModelClient.AttributeModelActions.fetchEntity(attributeId)),
+  fetchAttribute: attributeId =>
+    dispatch(AttributeModelClient.AttributeModelActions.fetchEntity(attributeId)),
 })
 
 const UnconnectedModuleContainer = ModuleContainer
-export {
-  UnconnectedModuleContainer,
-}
+export { UnconnectedModuleContainer }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModuleContainer)

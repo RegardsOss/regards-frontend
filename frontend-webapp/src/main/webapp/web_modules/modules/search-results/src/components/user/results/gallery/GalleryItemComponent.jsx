@@ -22,6 +22,7 @@ import isEqual from 'lodash/isEqual'
 import ImageOff from 'mdi-material-ui/ImageOff'
 import ImageBroken from 'mdi-material-ui/ImageBroken'
 import { themeContextType } from '@regardsoss/theme'
+import { URLAuthInjector } from '@regardsoss/domain/common'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/display-control'
@@ -39,6 +40,9 @@ class GalleryItemComponent extends React.PureComponent {
     onAddElementToCart: PropTypes.func, // callback to add element to cart, null when disabled
     enableDownload: PropTypes.bool,
     onShowQuicklook: PropTypes.func,
+    // auth info
+    accessToken: PropTypes.string,
+    projectName: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
@@ -121,7 +125,7 @@ class GalleryItemComponent extends React.PureComponent {
       attributesRenderData, iconStyle, imageStyle, imageAndOptionsContainer, imageContainer,
     } = this.state
     const {
-      entity, attributePresentationModels, onAddElementToCart, enableDownload, onShowQuicklook,
+      entity, attributePresentationModels, onAddElementToCart, enableDownload, onShowQuicklook, accessToken, projectName,
     } = this.props
     const { descriptionContainer } = this.context.moduleTheme.user.galleryViewStyles
 
@@ -134,7 +138,7 @@ class GalleryItemComponent extends React.PureComponent {
     } else {
       image = (
         <img
-          src={entity.content.files.QUICKLOOK_SD[0].uri}
+          src={URLAuthInjector(entity.content.files.QUICKLOOK_SD[0].uri, accessToken, projectName)}
           alt=""
           style={imageStyle}
           onClick={onShowQuicklook}
@@ -163,6 +167,9 @@ class GalleryItemComponent extends React.PureComponent {
             entitySelected={false}
             displayLabel={false}
             displayVertically
+            // auth info
+            accessToken={accessToken}
+            projectName={projectName}
             // Callback
             onSelectEntity={() => { }}
             onSearchEntity={null}

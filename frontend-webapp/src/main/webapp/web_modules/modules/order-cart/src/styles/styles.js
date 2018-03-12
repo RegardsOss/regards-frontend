@@ -33,9 +33,18 @@ const moduleStyles = theme => ({
       table: {
         optionColumn: {
           style: {
-            width: 48,
-            height: 48,
+            width: theme.button.iconButtonSize,
+            height: theme.button.iconButtonSize,
             padding: 0,
+          },
+        },
+        objectsCountRender: {
+          style: {
+            display: 'flex',
+            alignItems: 'center',
+          },
+          numberTextStyle: {
+            marginRight: theme.spacing.iconSize / 2,
           },
         },
       },
@@ -47,6 +56,16 @@ const moduleStyles = theme => ({
     },
     header: {
       optionStyle: { marginLeft: 0, marginRight: 6 },
+    },
+    duplicateMessage: {
+      iconButtonStyle: {
+        padding: 0,
+        width: theme.spacing.iconSize,
+        height: theme.spacing.iconSize,
+      },
+      iconStyle: {
+        color: theme.flatButton.secondaryTextColor,
+      },
     },
   },
 })

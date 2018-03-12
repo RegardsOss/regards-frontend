@@ -16,8 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import keys from 'lodash/keys'
-import pick from 'lodash/pick'
+import omit from 'lodash/omit'
 import AutoComplete from 'material-ui/AutoComplete'
 import MenuItem from 'material-ui/MenuItem'
 import LoadingIcon from 'material-ui/svg-icons/av/loop'
@@ -60,13 +59,20 @@ class AutoCompleteTextField extends React.Component {
     // the first parameter, ID, is the hint id (from currentHints list) OR the text user typed
     // the second parameter, isInList,
     onFilterSelected: PropTypes.func.isRequired,
+    // controls the currentHints update
+    onUpdateInput: PropTypes.func.isRequired, // text => ()
+    // menu props to transfer to autocomplete list
+    // eslint-disable-next-line react/forbid-prop-types
+    menuProps: PropTypes.object,
+    // list style to transfer to autocomplete list
+    // eslint-disable-next-line react/forbid-prop-types
+    listStyle: PropTypes.object,
 
     // required materialUI/AutoComplete API elements
     openOnFocus: PropTypes.bool,
     // matching filter
     filter: PropTypes.func,
-    // controls the currentHints update
-    onUpdateInput: PropTypes.func.isRequired, // text => ()
+    // ...props: provided directly to MUI/Autocomplete
   }
 
   static defaultProps = {
@@ -78,7 +84,27 @@ class AutoCompleteTextField extends React.Component {
     openOnFocus: true,
     currentHints: [],
     filter: NO_FILTER,
+
+    menuProps: {
+      maxHeight: 400,
+    },
+    listStyle: {
+      width: 'auto',
+      maxWidth: 'none',
+      overflowX: 'hidden',
+    },
   }
+
+  static NON_REPORTED_PROPERTIES = [
+    'currentHintText',
+    'currentHints',
+    'loadingMessageKey',
+    'noDataMessageKey',
+    'isInError',
+    'isFetching',
+    'onFilterSelected',
+  ]
+
   /** List of property keys that should not be reported to the delegate autocomplete field */
   static NOT_REPORTED_PROPS_KEYS = [
     'currentHintText',
@@ -161,9 +187,9 @@ class AutoCompleteTextField extends React.Component {
 
   render() {
     const { currentHintText, isInError } = this.props
-    // prepare the properties to report  (exclude properties consumed by this component, keep
-    // properties consumed by sub component like 'onUpdateInput', 'filter', 'openOnFocus' )
-    const reportedProps = pick(this.props, keys(AutoComplete.propTypes))
+    // prepare the properties to report  (exclude properties consumed by this component)
+    const reportedProps = omit(this.props, AutoCompleteTextField.NON_REPORTED_PROPERTIES)
+
     return (
       <AutoComplete
         dataSource={this.getDatasource()}

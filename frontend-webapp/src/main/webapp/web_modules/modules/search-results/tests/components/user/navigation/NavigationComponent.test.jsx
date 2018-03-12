@@ -41,6 +41,7 @@ describe('[Search Results] Testing NavigationComponent', () => {
     ]
     const props = {
       navigationLevels: levels,
+      defaultIconURL: 'any',
       onLevelSelected: () => { },
     }
     const enzymeWrapper = shallow(<NavigationComponent {...props} />, { context })

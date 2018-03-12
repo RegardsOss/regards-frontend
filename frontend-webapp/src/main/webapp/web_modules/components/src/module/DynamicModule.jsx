@@ -17,21 +17,24 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
+import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import { Card, CardMedia, CardHeader } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
+import omit from 'lodash/omit'
+import { Card } from 'material-ui/Card'
 import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
-import ExpandedIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
-import CollapsedIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
+import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
+import { HOCUtils, ShowableAtRender } from '@regardsoss/display-control'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { withModuleStyle, themeContextType } from '@regardsoss/theme'
+import { i18nContextType, i18nSelectors, withI18n } from '@regardsoss/i18n'
+import { withModuleStyle, themeContextType, SwitchThemeDecorator } from '@regardsoss/theme'
 import NoContentMessageInfo from '../cards/NoContentMessageInfo'
 import UserInformationLoadingIcon from './UserInformationLoadingIcon'
+import ModuleTitle from './ModuleTitle'
 import styles from './styles'
 import messages from './i18n'
+import CardMediaWithCustomBG from './CardMediaWithCustomBG'
 
 
 /**
@@ -40,6 +43,8 @@ import messages from './i18n'
  * - It binds authentication and endpoints to check if it should show not authentified / not enough right messages
  * - It is intended to display dynamic modules user container. It can adapt to both user and admin interface (ie: user container
  * here is the 'view' part of the dynamic modules - legacy name)
+ * - It resolves module title, icon, expandable and expanded state from module configuration (module fields)
+ * - It provides onExpandChange callback to sub components (as property)
  *
  * @author Raphaël Mechali
  */
@@ -56,22 +61,18 @@ export class DynamicModule extends React.Component {
         AuthenticationClient.authenticationSelectors.isFetching(state),
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
       isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
+      locale: i18nSelectors.getLocale(state),
     }
   }
 
   static propTypes = {
-    // module title component
-    title: PropTypes.node.isRequired,
-    // optional module subtitle compoent
-    subtitle: PropTypes.number,
+    // A - Module configuration related
+    ...AccessShapes.runtimeDispayModuleFields,
+    // B - Control and graphics related
+    // optional module subtitle
+    subtitle: PropTypes.string,
     // module title bar options
     options: PropTypes.arrayOf(PropTypes.node),
-    // toggle expand callback
-    onExpandChange: PropTypes.func.isRequired,
-    // is expandable?
-    expandable: PropTypes.bool,
-    // is currently expanded?
-    expanded: PropTypes.bool,
     // used to create callback on main module area
     onKeyPress: PropTypes.func,
     // does this module require authentication?
@@ -85,6 +86,8 @@ export class DynamicModule extends React.Component {
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
     ]),
+    // Title component: when provided, it replaces the module title and icon
+    titleComponent: PropTypes.node,
     // from map state to props
     // eslint-disable-next-line react/no-unused-prop-types
     fetching: PropTypes.bool,
@@ -92,13 +95,16 @@ export class DynamicModule extends React.Component {
     availableDependencies: PropTypes.arrayOf(PropTypes.string), // async use
     // eslint-disable-next-line react/no-unused-prop-types
     isAuthenticated: PropTypes.bool.isRequired, // async use
-
+    locale: PropTypes.string,
   }
 
   static defaultProps = {
     // API
     options: [],
-    expandable: true,
+    // eslint-disable-next-line react/default-props-match-prop-types
+    expanded: true, // from module fields, true when not provided
+    // eslint-disable-next-line react/default-props-match-prop-types
+    expandable: true, // from module fields, true when not provided
     requiresAuthentication: false,
     requiredDependencies: [],
     // map state to props
@@ -116,6 +122,8 @@ export class DynamicModule extends React.Component {
     // any valid key is ok here
     noDataTitleKey: 'dynamic.module.not.authenticated.title',
     noDataMessageKey: 'dynamic.module.not.authenticated.message',
+    // children list
+    children: null,
   }
 
   /**
@@ -161,73 +169,82 @@ export class DynamicModule extends React.Component {
       }
     } else {
       // 4 - module can be shown
-      newState = DynamicModule.DEFAULT_STATE
+      newState = {
+        ...DynamicModule.DEFAULT_STATE,
+      }
     }
 
-    if (!isEqual(oldState, newState)) {
+    // detect external expanded driving to report it locally
+    if (get(oldProps, 'expanded') !== get(newProps, 'expanded')) {
+      // Initialization or externally drivent state change, report it
+      newState.expanded = newProps.expanded
+    } else {
+      newState.expanded = oldState.expanded
+    }
+
+    // we need to compare logical states properties BUT NOT CHILDREN (as it creates infinite loops)
+    // any children must be updated each time props.children OR state changes
+    const comparedOldState = omit(oldState, ['children'])
+    if (!isEqual(comparedOldState, newState) || oldProps.children !== newProps.children) {
+      newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
+        onExpandChange: this.onExpandChange,
+      })
       this.setState(newState)
     }
   }
 
+  /**
+   * On module expand changed (toggled)
+   */
+  onExpandChange = () => {
+    this.setState({
+      expanded: !this.state.expanded,
+    })
+  }
 
   render() {
     const {
-      title, options, subtitle, children,
-      expandable, expanded, onExpandChange, onKeyPress,
+      locale, description, page, subtitle, options, onKeyPress, expandable,
+      type, titleComponent,
     } = this.props
     const {
-      moduleTheme: {
-        module: {
-          cardHeaderStyle, cardHeaderContentStyle, titleBarDivStyle,
-          titleDivStyle, optionsDivStyle,
-        },
-      }, intl: { formatMessage },
-    } = this.context
-    const {
-      noData, loading, noDataTitleKey, noDataMessageKey,
+      children, noData, loading,
+      noDataTitleKey, noDataMessageKey, expanded,
     } = this.state
+    const { intl: { formatMessage } } = this.context
 
     return (
-      <Card
-        expanded={expanded}
-        onExpandChange={onExpandChange}
-      >
-        <CardHeader
-          style={cardHeaderStyle}
-          textStyle={cardHeaderContentStyle}
-          showExpandableButton={false}
-          title={/* render title, subtitle and options on the title bar */
-            <div style={titleBarDivStyle}>
-              <div style={titleDivStyle}>
-                {title}
-              </div>
-              <div style={optionsDivStyle}>
-                {options}
-                { // add expand collapse option when available
-                  expandable ? (
-                    <IconButton key="expand.collapse" onClick={onExpandChange}>
-                      {
-                        expanded ? <ExpandedIcon /> : <CollapsedIcon />
-                      }
-                    </IconButton>) : null
-                }
-              </div>
-            </div>
-          }
+      <Card expanded>
+        <ModuleTitle
+          type={type}
+          locale={locale}
+          description={description}
+          page={page}
+          titleComponent={titleComponent}
           subtitle={subtitle}
+          options={options}
+          expandable={expandable}
+          expanded={expanded}
+          onExpandChange={this.onExpandChange}
         />
-        <CardMedia onKeyPress={onKeyPress} expandable>
-          {/* prevent children to show when missing rights */}
-          <NoContentMessageInfo
-            noContent={noData || loading}
-            title={formatMessage({ id: noDataTitleKey })}
-            message={formatMessage({ id: noDataMessageKey })}
-            Icon={loading ? UserInformationLoadingIcon : NotLoggedIcon}
-          >
-            {children}
-          </NoContentMessageInfo>
-        </CardMedia>
-      </Card>
+        <SwitchThemeDecorator
+          useMainTheme={false}
+        >
+          <ShowableAtRender show={expanded}>
+            <CardMediaWithCustomBG onKeyPress={onKeyPress}>
+              {/* prevent children to show when missing rights */}
+              <NoContentMessageInfo
+                noContent={noData || loading}
+                title={formatMessage({ id: noDataTitleKey })}
+                message={formatMessage({ id: noDataMessageKey })}
+                Icon={loading ? UserInformationLoadingIcon : NotLoggedIcon}
+              >
+                {HOCUtils.renderChildren(children)}
+              </NoContentMessageInfo>
+            </CardMediaWithCustomBG>
+          </ShowableAtRender>
+        </SwitchThemeDecorator>
+      </Card >
     )
   }
 }

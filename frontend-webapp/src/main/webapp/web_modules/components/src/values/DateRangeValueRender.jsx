@@ -41,7 +41,8 @@ class DateRangeValueRender extends React.Component {
   }
 
   render() {
-    const { value = {} } = this.props
+    const value = this.props.value || {}
+
     const { intl, moduleTheme: { textRenderCell } } = this.context
 
     const textValue = getFormattedRange(intl, getFormattedDate(intl, value.lowerBound), getFormattedDate(intl, value.upperBound)) ||

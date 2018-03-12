@@ -16,10 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import sinon from 'sinon'
 import { shallow } from 'enzyme'
 import root from 'window-or-global'
 import { assert } from 'chai'
+import 'mock-local-storage'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { UIDomain } from '@regardsoss/domain'
 import AuthenticationDialogComponent from '../../src/components/AuthenticationDialogComponent'
 import { SessionManagementContainer } from '../../src/containers/SessionManagementContainer'
 
@@ -43,6 +46,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
   it('should render correctly, using a visible dialog when authentication is visible or session is locked', () => {
     const renderAndTest = (useCase, props) => {
       const enzymeWrapper = shallow(<SessionManagementContainer {...props} />, { context })
+      enzymeWrapper.setState({ initialized: true })
       const dialogComps = enzymeWrapper.find(AuthenticationDialogComponent)
       assert.equal(dialogComps.length, 1, `${useCase} - There should be a rendered dialog frame!`)
       assert.isTrue(dialogComps.props().open, `${useCase} The dialog frame should be visible`)
@@ -50,6 +54,8 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
 
     // test with login visible
     renderAndTest('Login required', {
+      project: 'test-project',
+      application: 'app',
       showLoginWindow: true,
       onRequestClose: null,
       children: <div />,
@@ -58,10 +64,13 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       isSessionLocked: false,
       fetchAuthenticate: () => { },
       dispatchSessionLocked: () => { },
+      notifyAuthenticationChanged: () => { },
     })
 
     // test with session locked
     renderAndTest('Session locked', {
+      project: 'test-project',
+      application: 'app',
       showLoginWindow: false,
       onRequestClose: null,
       children: <div />,
@@ -69,20 +78,78 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       authentication: { sessionLocked: true },
       fetchAuthenticate: () => { },
       dispatchSessionLocked: () => { },
+      notifyAuthenticationChanged: () => { },
     })
   })
   it('should hide the dialog when session is not locked, nor authentication is required', () => {
     const props = {
+      project: 'test-project',
+      application: 'app',
       showLoginWindow: false,
       onRequestClose: null,
       children: <div />,
       authentication: { sessionLocked: false },
       fetchAuthenticate: () => { },
       dispatchSessionLocked: () => { },
+      notifyAuthenticationChanged: () => { },
     }
     const enzymeWrapper = shallow(<SessionManagementContainer {...props} />, { context })
+    enzymeWrapper.setState({ initialized: true })
     const dialogComps = enzymeWrapper.find(AuthenticationDialogComponent)
     assert.equal(dialogComps.length, 1, 'There should be a rendered dialog frame')
     assert.isFalse(dialogComps.props().open, 'The dialog frame should be hidden')
+  })
+  it('should not set the authentication without the stored one in localstorage', () => {
+    const props = {
+      project: 'test-project',
+      application: 'app',
+      showLoginWindow: false,
+      onRequestClose: null,
+      children: <div />,
+      authentication: { sessionLocked: false },
+      fetchAuthenticate: () => { },
+      dispatchSessionLocked: () => { },
+      notifyAuthenticationChanged: sinon.stub().callsFake(() => new Promise(() => { })),
+    }
+    root.localStorage.clear()
+    shallow(<SessionManagementContainer {...props} />, { context })
+    assert.isFalse(props.notifyAuthenticationChanged.called)
+  })
+  it('should set the authentication with the stored one in localstorage', () => {
+    const props = {
+      project: 'test-project',
+      application: 'app',
+      showLoginWindow: false,
+      onRequestClose: null,
+      children: <div />,
+      authentication: { sessionLocked: false },
+      fetchAuthenticate: () => { },
+      dispatchSessionLocked: () => { },
+      notifyAuthenticationChanged: sinon.stub().callsFake(() => new Promise(() => { })),
+    }
+    // Simulate a token non expired in localstorageUser
+    root.localStorage.clear()
+    new UIDomain.LocalStorageUser({ token: 'plop', expires_in: 30 }, Date.now() - 20000, props.project, props.application).save()
+    shallow(<SessionManagementContainer {...props} />, { context })
+    assert.isTrue(props.notifyAuthenticationChanged.called)
+  })
+  it('should not set the authentication with a expired token stored one in localstorage', () => {
+    const props = {
+      project: 'test-project',
+      application: 'app',
+      showLoginWindow: false,
+      onRequestClose: null,
+      children: <div />,
+      authentication: { sessionLocked: false },
+      fetchAuthenticate: () => { },
+      dispatchSessionLocked: () => { },
+      notifyAuthenticationChanged: sinon.stub().callsFake(() => new Promise(() => { })),
+    }
+    // Simulate a token non expired in localstorageUser
+    root.localStorage.clear()
+    new UIDomain.LocalStorageUser({ token: 'plop', expires_in: 10 }, Date.now() - 20000, props.project, props.application).save()
+    shallow(<SessionManagementContainer {...props} />, { context })
+    assert.isFalse(props.notifyAuthenticationChanged.called)
+    assert.isNull(UIDomain.LocalStorageUser.retrieve(props.project, props.application))
   })
 })

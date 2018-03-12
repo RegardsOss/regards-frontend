@@ -21,12 +21,12 @@ const ThemeContent = PropTypes.shape({
   name: PropTypes.string.isRequired,
   active: PropTypes.bool,
   configuration: PropTypes.object,
-}).isRequired
+})
 
 const Theme = PropTypes.shape({
   content: ThemeContent,
   links: PropTypes.array,
-}).isRequired
+})
 
 const ThemeList = PropTypes.objectOf(Theme)
 

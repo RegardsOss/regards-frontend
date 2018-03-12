@@ -17,9 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import omit from 'lodash/omit'
+import isFunction from 'lodash/isFunction'
 import isString from 'lodash/isString'
 import isNil from 'lodash/isNil'
 import map from 'lodash/map'
+import filter from 'lodash/filter'
 import AddBoxIcon from 'material-ui/svg-icons/content/add-box'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import IconButton from 'material-ui/IconButton'
@@ -50,7 +52,7 @@ class RenderArrayObjectField extends React.Component {
   static propTypes = {
     label: PropTypes.string, // List label
     displayLabel: PropTypes.bool,
-    elementLabel: PropTypes.string, // Each element prefix label
+    elementLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.func]), // Each element prefix label
     fieldComponent: PropTypes.func.isRequired, // redux-form Field component to render an object of the list
     // eslint-disable-next-line react/forbid-prop-types
     fieldProps: PropTypes.object, // additional props to pass to the fieldComponent
@@ -160,7 +162,7 @@ class RenderArrayObjectField extends React.Component {
    * Render a ListItem for the given objects
    * @param {*} index : Index of the object from the fields props to render
    */
-  renderListItem = (index) => {
+  renderListItem = (index, object) => {
     const { intl: { formatMessage } } = this.context
     const {
       elementLabel, canBeEmpty, disabled,
@@ -192,7 +194,16 @@ class RenderArrayObjectField extends React.Component {
       </IconMenu>
     )
 
-    const itemLabel = elementLabel ? `${elementLabel} ${index}` : formatMessage({ id: 'render.array-object.item.title' }, { index })
+    let itemLabel = formatMessage({ id: 'render.array-object.item.title' }, { index })
+    if (elementLabel && isFunction(elementLabel)) {
+      itemLabel = elementLabel(object, index)
+      const itemsWithSameItemLabel = filter(this.props.fields, (field, idx, fields) => idx < index && itemLabel === elementLabel(fields.get(idx), idx))
+      if (itemsWithSameItemLabel.length > 0) {
+        itemLabel = `${itemLabel} (${itemsWithSameItemLabel.length})`
+      }
+    } else {
+      itemLabel = elementLabel ? `${elementLabel} ${index}` : itemLabel
+    }
 
     return (
       <ListItem
@@ -262,7 +273,7 @@ class RenderArrayObjectField extends React.Component {
                   defaultValue={displayedFieldIdx}
                   onSelect={this.displayObject}
                 >
-                  {map(fields, (object, idx) => this.renderListItem(idx))}
+                  {map(fields, (object, idx) => this.renderListItem(idx, fields.get(idx)))}
                 </SelectableList>
                 {!this.props.disabled ?
                   <RaisedButton

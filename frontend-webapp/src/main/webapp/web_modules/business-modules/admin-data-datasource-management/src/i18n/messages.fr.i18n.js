@@ -28,11 +28,16 @@ const messages = Object.assign({
   'crawler.list.status.column.header': 'Etat',
   'crawler.list.duration.column.header': 'Durée',
   'crawler.list.refresh.button': 'Rafraîchir',
+  'crawler.list.show.stacktrace.tooltip': 'Afficher la stacktrace',
+  'crawler.list.stacktrace.title': 'Stacktrace',
+  'crawler.list.stacktrace.action.close': 'Fermer',
+  'crawler.list.delete.action': 'Supprimer',
+  'crawler.delete.confirm.title': 'Etes vous sûr de vouloir supprimer l\'indexation {crawler} ?',
 
   'datasource.list.action.add': 'Ajouter',
   'datasource.list.action.cancel': 'Annuler',
-  'datasource.list.title': 'Configurer les aspirations de données depuis des bases de données externes.',
-  'datasource.list.subtitle': 'Une aspiration de données doit être configurée afin de determiner comment faire correspondre les informations provenant de la base à aspirer avec les modèles de données définis précédement.',
+  'datasource.list.title': 'Configurer les aspirations de données.',
+  'datasource.list.subtitle': 'Une aspiration de données doit être configurée afin de déterminer comment faire correspondre les informations des données aspirées avec les modèles de données définis dans REGARDS.',
   'datasource.list.table.label': 'Label',
   'datasource.list.table.actions': 'Actions',
   'datasource.list.table.model': 'Modèle',
@@ -56,7 +61,9 @@ const messages = Object.assign({
   'datasource.form.pluginConfiguration': 'Type de plugin',
   'datasource.form.table.input': 'Valeur de l\'attribut',
   'datasource.form.subtitle': 'Gestion des attributs d\'une source de données',
-  'datasource.form.tags': 'Liste des tags',
+  'datasource.form.tags': 'Liste des tags ajoutés à toutes les données aspirées',
+  'datasource.form.subsettingTags': 'Aspirer uniquement les données contenant l\'un de ces tags (vide = toutes les données sont aspirées)',
+  'datasource.form.attributeFileSize': 'Permet de définir dans le modèle quel est l\'atttribut à utiliser pour récuperer la taille des fichiers RAWDATA',
 
   'datasource.edit.title': 'Edition de la source de données {name}',
   'datasource.create.title': 'Création d\'une source de données',
@@ -98,6 +105,25 @@ const messages = Object.assign({
 
   'invalid.one_pk_required': 'Choisissez un champ comme clé primaire',
   'invalid.only_one_pk_allowed': 'Utilisez une seule clé primaire',
+
+
+  'datasource.form.create.pick-interface.title': 'Choisir le mode d\'aspiration',
+  'datasource.form.create.pick-interface.subtitle': 'Veuillez sélectionner le type d\'aspiration que vous souhaitez créer, selon où ils sont stockés.',
+  'datasource.form.create.pick-interface.description.aip': 'Ce mode permet d\'aspirer des AIPs au format GeoJSON',
+  'datasource.form.create.pick-interface.action.aip': 'Aspirer des AIPs',
+  'datasource.form.create.pick-interface.description.db': 'Ce mode permet d\'aspirer une source de données externe',
+  'datasource.form.create.pick-interface.action.db': 'Aspirer une source de données',
+  'datasource.form.create.pick-interface.action.cancel': 'Annuler',
+  'aip.datasource.create.title': 'Creation d\'une source de données de AIPs',
+  'aip.datasource.form.subtitle': 'bla bla bla blA',
+  'aip.datasource.edit.title': 'Edition de la source de données {name}',
+  'aip.datasource.form.table.fragmentAndLabel': 'Attribut du modèle',
+  'aip.datasource.form.table.type': 'Type',
+  'aip.datasource.form.table.value': 'Chemin dans l\'AIP',
+  'aip.datasource.form.table.staticAttributes': 'Attributs statiques',
+  'aip.datasource.form.table.input': 'Valeur',
+  'aip.datasource.form.table.lowerBound': 'Borne inférieure',
+  'aip.datasource.form.table.upperBound': 'Borne supérieure',
 }, Locales.fr)
 
 export default messages

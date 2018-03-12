@@ -21,6 +21,9 @@
  * Module hateoas depencies
  * @author Sébastien binda
  */
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { adminModuleActions } from './clients/ModulesListClient'
+
 /**
  * Mandatory Dependencies to display module in user interface
  * @type {Array}
@@ -31,7 +34,12 @@ const user = []
  * Mandatory Dependencies to display module in admin interface
  * @type {Array}
  */
-const admin = []
+const admin = [
+  // cannot express that dependency, as there server considers here a path variable. Anyway, it is not required as
+  // it MUST be public for the user app to work
+  // adminLayoutActions.getDependency(RequestVerbEnum.GET_LIST),
+  adminModuleActions.getDependency(RequestVerbEnum.GET_LIST),
+]
 
 module.exports = {
   user,

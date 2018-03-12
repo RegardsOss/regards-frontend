@@ -43,7 +43,16 @@ describe('[Entities Common] Testing TagsContainer', () => {
       onSearchTag: null,
       levelActions: new DescriptionLevelActions('test'),
       levelSelectors: getDescriptionLevelSelectors('test'),
-      dispatchGetEntity: () => { fetchedCount.tags += 1 },
+      dispatchGetEntity: testSuiteHelpers.getSuccessDispatchStub({
+        content: {
+          ipId: 'urn:test',
+          entityType: ENTITY_TYPES_ENUM.DATASET,
+          tags: [],
+          label: 'URN:SDF:SDFSDF:SDFSDFSDFSDFSDF',
+        },
+      }, () => {
+        fetchedCount.tags += 1
+      }),
     }
     const enzymeWrapper = shallow(<TagsContainer {...props} />, { context })
     assert.equal(fetchedCount.tags, 0, 'There should be no fetch for null entity')
@@ -74,7 +83,16 @@ describe('[Entities Common] Testing TagsContainer', () => {
       onSearchTag: null,
       levelActions: new DescriptionLevelActions('test'),
       levelSelectors: getDescriptionLevelSelectors('test'),
-      dispatchGetEntity: () => { fetchedCount.tags += 1 },
+      dispatchGetEntity: testSuiteHelpers.getSuccessDispatchStub({
+        content: {
+          ipId: 'urn:test',
+          entityType: ENTITY_TYPES_ENUM.DATASET,
+          tags: [],
+          label: 'URN:SDF:SDFSDF:SDFSDFSDFSDFSDF',
+        },
+      }, () => {
+        fetchedCount.tags += 1
+      }),
     }
     shallow(<TagsContainer {...props} />, { context })
     assert.isAbove(fetchedCount.tags, 0, 'Entity tags fetching should have started')

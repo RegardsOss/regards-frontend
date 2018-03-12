@@ -17,14 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { DataManagementShapes } from '@regardsoss/shape'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import CollectionModelSelectors from '../../model/CollectionModelSelectors'
 import CollectionModelActions from '../../model/CollectionModelActions'
 import { AttributeModelActions, AttributeModelSelectors } from '../../clients/AttributeModelClient'
 import ModuleForm from '../../components/admin/ModuleForm'
-import ModuleConfiguration from '../../model/ModuleConfiguration'
-
 
 /**
  * Module container for admin interface (module instance configuration)
@@ -32,16 +30,7 @@ import ModuleConfiguration from '../../model/ModuleConfiguration'
 export class AdminModuleContainer extends React.Component {
   static propTypes = {
     // from module loader
-    project: PropTypes.string.isRequired,
-    appName: PropTypes.string.isRequired,
-    adminForm: PropTypes.shape({
-      currentNamespace: PropTypes.string,
-      isCreating: PropTypes.bool,
-      isDuplicating: PropTypes.bool,
-      isEditing: PropTypes.bool,
-      changeField: PropTypes.func,
-      form: ModuleConfiguration,
-    }),
+    ...AccessShapes.runtimeConfigurationModuleFields,
     // form map state to properties
     collectionModels: DataManagementShapes.ModelList.isRequired,
     selectableAttributes: DataManagementShapes.AttributeModelList,

@@ -8,6 +8,7 @@ import { withModuleStyle } from '@regardsoss/theme'
 import { CatalogShapes } from '@regardsoss/shape'
 import { DataManagementClient } from '@regardsoss/client'
 import { BasicListSelectors } from '@regardsoss/store-utils'
+import { AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-manager'
 import DownloadDescriptionClient from '../../clients/DownloadDescriptionClient'
 import DescriptionLevelActions from '../../model/description/DescriptionLevelActions'
 import { DescriptionLevelSelectors } from '../../model/description/DescriptionLevelSelectors'
@@ -26,6 +27,9 @@ export class EntityDescriptionContainer extends React.Component {
     // currently shown entity resolution
     shownEntity: levelSelectors.getShownEntity(state),
     currentTab: levelSelectors.getCurrentTab(state),
+    // user auth info
+    accessToken: AuthenticationClient.authenticationSelectors.getAccessToken(state),
+    projectName: AuthenticationParametersSelectors.getProject(state),
   })
 
   static mapDispatchToProps = (dispatch, { fetchModelAttributesActions, downloadDescriptionClient, levelActions }) => ({
@@ -48,6 +52,9 @@ export class EntityDescriptionContainer extends React.Component {
     // from mapStateToProps
     currentTab: PropTypes.string.isRequired,
     shownEntity: CatalogShapes.Entity, // entity shown or null
+    //auth info
+    accessToken: PropTypes.string,
+    projectName: PropTypes.string.isRequired,
 
     // from mapDispatchToProps
     onClose: PropTypes.func.isRequired,
@@ -69,12 +76,15 @@ export class EntityDescriptionContainer extends React.Component {
     const {
       shownEntity, onClose, downloadDescriptionClient, onSearchTag, changeTab, currentTab,
       fetchModelAttributesActions, fetchModelAttributesSelectors, levelActions, levelSelectors,
+      accessToken, projectName,
     } = this.props
     return (
       <EntityDescriptionComponent
         entity={shownEntity}
         open={!!shownEntity}
         currentTab={currentTab}
+        accessToken={accessToken}
+        projectName={projectName}
 
         downloadDescriptionClient={downloadDescriptionClient}
         fetchModelAttributesActions={fetchModelAttributesActions}

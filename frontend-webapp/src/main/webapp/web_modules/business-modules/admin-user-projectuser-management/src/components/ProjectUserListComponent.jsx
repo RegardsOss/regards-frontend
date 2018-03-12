@@ -32,9 +32,7 @@ import RemoveCircle from 'material-ui/svg-icons/content/remove-circle'
 import Loop from 'material-ui/svg-icons/av/loop'
 import Pause from 'material-ui/svg-icons/av/pause'
 import { AdminShapes } from '@regardsoss/shape'
-import {
-  ActionsMenuCell, CardActionsComponent, NoContentMessageInfo, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
-} from '@regardsoss/components'
+import { ActionsMenuCell, CardActionsComponent, NoContentMessageInfo, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { addDependencies } from '../dependencies'

@@ -19,14 +19,14 @@
 import get from 'lodash/get'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { DataManagementShapes } from '@regardsoss/shape'
-import ModuleConfiguration from '../../../models/ModuleConfiguration'
+import ModuleConfiguration from '../../../shapes/ModuleConfiguration'
 /**
  * Component to display search results parameters
  * @author Sébastien binda
  */
 class SearchResultsComponent extends React.Component {
   static propTypes = {
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     appName: PropTypes.string.isRequired,
     adminForm: PropTypes.shape({
       currentNamespace: PropTypes.string,

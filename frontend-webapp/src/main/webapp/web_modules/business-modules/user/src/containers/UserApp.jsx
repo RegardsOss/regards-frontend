@@ -16,9 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import forEach from 'lodash/forEach'
+import get from 'lodash/get'
+import reduce from 'lodash/reduce'
 import values from 'lodash/values'
 import { browserHistory } from 'react-router'
+import { UIDomain } from '@regardsoss/domain'
 import { connect } from '@regardsoss/redux'
 import { AccessProjectClient } from '@regardsoss/client'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
@@ -91,13 +93,29 @@ export class UserApp extends React.Component {
   componentWillReceiveProps(nextProps) {
     // If there is no dynamic content display the default module
     if (!nextProps.content && nextProps.modules && nextProps.layout) {
-      forEach(nextProps.modules, (module, idx) => {
-        if (module.content.defaultDynamicModule) {
-          if (ContainerHelper.isDynamicContent(module.content.container, nextProps.layout.content.layout.containers)) {
-            browserHistory.replace(`/user/${this.props.params.project}/modules/${module.content.id}`)
+      // find the home page module and redirect user to that page (if there are modules)
+      const allContainers = nextProps.layout.content.layout.containers
+      const allModules = values(nextProps.modules)
+      if (allModules.length) {
+        // find home module: use active module OR (when not found) lowest ID module
+        const homeModule = reduce(nextProps.modules, (foundModule, currentModule) => {
+          // 1 - is it active and dynamic module?
+          if (get(currentModule, 'content.active') &&
+            ContainerHelper.isDynamicContent(get(currentModule, 'content.container'), allContainers)) {
+            // 2 - yes it is: is it default or lower ID than previously found?
+            if (get(currentModule, 'content.page.home') ||
+              get(foundModule, 'content.id', Number.MAX_SAFE_INTEGER) > get(currentModule, 'content.id', Number.MAX_SAFE_INTEGER)) {
+              // this is the default module
+              return currentModule
+            }
           }
+          // 3 - No, keep currently found
+          return foundModule
+        }, null)
+        if (homeModule) {
+          browserHistory.replace(UIDomain.getModuleURL(nextProps.params.project, homeModule.content.id))
         }
-      })
+      }
     }
 
     // authentication state changes or user role changes, refresh endpoints

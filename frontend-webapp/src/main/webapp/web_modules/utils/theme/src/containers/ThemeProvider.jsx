@@ -18,29 +18,28 @@
  **/
 import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
-import merge from 'lodash/merge'
 import has from 'lodash/has'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
+import { defaultTheme } from '@regardsoss/domain/access'
 import { themeActions, themeSelectors } from '../clients/ThemeClient'
 import { themeInstanceActions } from '../clients/ThemeInstanceClient'
 import getCurrentTheme from '../model/selectors/getCurrentTheme'
 import setCurrentTheme from '../model/actions/setCurrentTheme'
-import defaultCustomConfiguration from '../custom/defaultCustomConfiguration'
 import '../custom/reset.css'
 import '../custom/main.css'
 import '../custom/bootstrap_grid_100.css'
 import '../custom/background.jpg'
 import '../custom/animations.css'
-import defaultTheme from '../model/defaultTheme'
+import RegardsThemeDecorator from './RegardsThemeDecorator'
+import ThemeBuilder from '../ThemeBuilder'
 
 /**
- * React HOC customizing the default Material-Ui's theme before injecting it in the context of all children tree.
+ * React HOC fetching the theme and calling RegardsThemeDecorator to provide the theme using context to all sub elements.
  *
  * @author Xavier-Alexandre Brochard
+ * @author Léo Mieulet
  */
 export class ThemeProvider extends React.Component {
   static propTypes = {
@@ -56,21 +55,10 @@ export class ThemeProvider extends React.Component {
     currentTheme: defaultTheme,
   }
 
-  /**
-   * Get MuiTheme with default application custom properties
-   * @param conf
-   * @returns {*}
-   */
-  static getCustomMuiTheme(conf) {
-    return merge({}, defaultCustomConfiguration, getMuiTheme(conf))
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: true,
-      mergedTheme: ThemeProvider.getCustomMuiTheme(props.currentTheme.configuration),
-    }
+  state = {
+    isLoading: true,
+    mainTheme: {},
+    alternativeTheme: {},
   }
 
   componentDidMount() {
@@ -88,7 +76,8 @@ export class ThemeProvider extends React.Component {
       }
       this.setState({
         isLoading: false,
-        mergedTheme: ThemeProvider.getCustomMuiTheme(activeTheme.content.configuration),
+        mainTheme: ThemeBuilder.getPrimaryTheme(activeTheme.content.configuration),
+        alternativeTheme: ThemeBuilder.getAlternativeTheme(activeTheme.content.configuration),
       })
       return dispatchSetCurrentTheme(activeTheme.content.id)
     })
@@ -100,17 +89,21 @@ export class ThemeProvider extends React.Component {
     // Recompute the merged theme when the current theme has changed
     if (!isEqual(nextProps.currentTheme, currentTheme)) {
       this.setState({
-        mergedTheme: ThemeProvider.getCustomMuiTheme(nextProps.currentTheme.content.configuration || defaultTheme),
+        mainTheme: ThemeBuilder.getPrimaryTheme(nextProps.currentTheme.content.configuration),
+        alternativeTheme: ThemeBuilder.getAlternativeTheme(nextProps.currentTheme.content.configuration),
       })
     }
   }
 
   render() {
-    const { mergedTheme, isLoading } = this.state
+    const { mainTheme, alternativeTheme, isLoading } = this.state
     return (
-      <MuiThemeProvider muiTheme={mergedTheme}>
+      <RegardsThemeDecorator
+        mainTheme={mainTheme}
+        alternativeTheme={alternativeTheme}
+      >
         {isLoading ? null : this.props.children}
-      </MuiThemeProvider>
+      </RegardsThemeDecorator>
     )
   }
 }
@@ -121,6 +114,7 @@ const mapStateToProps = state => ({
   project: AuthenticationParametersSelectors.getProject(state),
   isInstance: AuthenticationParametersSelectors.isInstance(state),
 })
+
 const mapDispatchToProps = dispatch => ({
   fetchThemeList: () => dispatch(themeActions.fetchPagedEntityList(0, 100)),
   fetchThemeInstanceList: () => dispatch(themeInstanceActions.fetchPagedEntityList(0, 100)),

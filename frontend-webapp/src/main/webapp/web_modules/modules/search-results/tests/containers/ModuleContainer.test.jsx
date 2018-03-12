@@ -50,6 +50,7 @@ describe('[Search Results] Testing ModuleContainer', () => {
     const props = {
       appName: 'any',
       project: 'any',
+      type: 'any',
       fetchAllModelsAttributes: () => { },
       attributeModels: {},
       moduleConf: {
@@ -59,7 +60,6 @@ describe('[Search Results] Testing ModuleContainer', () => {
         searchQuery: '',
         attributes: [],
         attributesRegroupements: [],
-        breadcrumbInitialContextLabel: 'hello home',
       },
     }
     const enzymeWrapper = shallow(<ModuleContainer {...props} />, { context })

@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import omit from 'lodash/omit'
+import get from 'lodash/get'
 import isString from 'lodash/isString'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
@@ -44,6 +45,7 @@ const withResourceDisplayControl = (DecoratedComponent) => {
         PropTypes.arrayOf(PropTypes.string),
         PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
       ]),
+      hideDisabled: PropTypes.bool,
       // From mapStateToProps
       // The full list of dependencies
       availableDependencies: PropTypes.arrayOf(PropTypes.string),
@@ -54,20 +56,26 @@ const withResourceDisplayControl = (DecoratedComponent) => {
     static defaultProps = {
       displayLogic: allMatchHateoasDisplayLogic,
       resourceDependencies: [],
+      hideDisabled: true,
     }
 
     render() {
       // Remove from otherProps all props that doesn't need to be reinjected in children
       // eslint-disable-next-line no-unused-vars, react/prop-types
       const {
-        displayLogic, resourceDependencies, availableDependencies, isInstance, ...otherProps
+        displayLogic, resourceDependencies, availableDependencies, isInstance, hideDisabled, ...otherProps
       } = this.props
-      const decoratedComponentElement = React.createElement(DecoratedComponent, omit(otherProps, ['theme', 'i18n', 'dispatch']))
       const requiredDependencies = isString(resourceDependencies) ? [resourceDependencies] : resourceDependencies
-      const isDisplayed = requiredDependencies.length === 0 || displayLogic(requiredDependencies, availableDependencies)
+      const isDisplayed = requiredDependencies.length === 0 || displayLogic(requiredDependencies, availableDependencies) || isInstance
+      // we provide a disabled to be used by subcomponent - if you provide too the prop we respect it
+      const disabled = !isDisplayed || get(otherProps, 'disabled', false)
+      const decoratedComponentElement = React.createElement(DecoratedComponent, omit({ ...otherProps, disabled }, ['theme', 'i18n', 'dispatch']))
 
+      if (!hideDisabled) {
+        return decoratedComponentElement
+      }
       return (
-        <ShowableAtRender show={isDisplayed || isInstance}>
+        <ShowableAtRender show={isDisplayed}>
           {decoratedComponentElement}
         </ShowableAtRender>
       )

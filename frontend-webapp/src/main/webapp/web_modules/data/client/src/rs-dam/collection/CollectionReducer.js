@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicListReducers } from '@regardsoss/store-utils'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { CollectionConfiguration } from '@regardsoss/api'
 import CollectionActions from './CollectionActions'
 
@@ -24,7 +24,7 @@ import CollectionActions from './CollectionActions'
  * Redux store reducer for Plugin MetaData entities
  * @author Léo Mieulet
  */
-class PluginMetaDataReducer extends BasicListReducers {
+class PluginMetaDataReducer extends BasicPageableReducers {
   constructor(namespace) {
     super(CollectionConfiguration, new CollectionActions(namespace))
   }

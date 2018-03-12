@@ -16,39 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { FormattedMessage } from 'react-intl'
-import areIntlLocalesSupported from 'intl-locales-supported'
-import DatePicker from 'material-ui/DatePicker'
-import TextField from 'material-ui/TextField'
-import TimePicker from 'material-ui/TimePicker'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ClearFieldButton } from '@regardsoss/components'
-import TemporalComparatorComponent from './TemporalComparatorComponent'
-import EnumTemporalComparator from '../model/EnumTemporalComparator'
-
-let DateTimeFormat
-
-/**
- * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
- */
-if (areIntlLocalesSupported(['fr'])) {
-  DateTimeFormat = global.Intl.DateTimeFormat
-} else {
-  const IntlPolyfill = require('intl')
-  DateTimeFormat = IntlPolyfill.DateTimeFormat
-  require('intl/locale-data/jsonp/fr')
-}
+import { EnumNumericalComparator } from '@regardsoss/domain/common'
+import { DatePickerField, NumericalComparator } from '@regardsoss/components'
 
 /**
  * Search form criteria plugin allowing the user to configure the temporal value of the passed attribute with a comparator.
  *
  * The following terminology for dates is used in this file:
  *
- * 2017-02-10   14:28      59         234
- * ----------  ------   -------   ------------
- *    date      time    seconds   milliseconds
+ * 2017-02-10   14:28      59
+ * ----------  ------    --------
+ *    date      time    seconds
  *
  *  @author Xavier-Alexandre Brochard
  */
@@ -67,7 +48,7 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
 
   state = {
     searchField: undefined,
-    comparator: EnumTemporalComparator.BEFORE,
+    comparator: EnumNumericalComparator.LE,
   }
 
   /**
@@ -76,55 +57,7 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
    * @param {Object} event Change event targetting the text field.
    * @param {Date} newValue The new value of the date field.
    */
-  handleChangeDate = (event, newValue) => {
-    const { searchField } = this.state
-    // Pick the time part from the time picker
-    if (searchField) {
-      newValue.setHours(searchField.getHours(), searchField.getMinutes(), searchField.getSeconds(), searchField.getMilliseconds())
-    }
-    this.setState({ searchField: newValue })
-  }
-
-  /**
-   * Callback function that is fired when the time value changes.
-   *
-   * @param {Object} event Change event targetting the text field.
-   * @param {Date} newValue The new value of the time field.
-   */
-  handleChangeTime = (event, newValue) => {
-    const { searchField } = this.state
-    // Pick the date part from the the date picker
-    if (searchField) {
-      newValue.setFullYear(searchField.getFullYear(), searchField.getMonth(), searchField.getDate())
-    }
-    this.setState({ searchField: newValue })
-  }
-
-  /**
-   * Callback function that is fired when the seconds value changes.
-   *
-   * @param {Object} event Change event targetting the text field.
-   * @param {Integer} seconds The new value of the seconds field.
-   */
-  handleChangeSeconds = (event, seconds) => {
-    const { searchField } = this.state
-    const newValue = searchField || new Date()
-
-    newValue.setSeconds(seconds)
-    this.setState({ searchField: newValue })
-  }
-
-  /**
-   * Callback function that is fired when the milliseconds value changes.
-   *
-   * @param {Object} event Change event targetting the text field.
-   * @param {Integer} milliseconds The new value of the milliseconds field.
-   */
-  handleChangeMilliseconds = (event, milliseconds) => {
-    const { searchField } = this.state
-    const newValue = searchField || new Date()
-
-    newValue.setMilliseconds(milliseconds)
+  handleChangeDate = (newValue) => {
     this.setState({ searchField: newValue })
   }
 
@@ -140,29 +73,15 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
    */
   handleClear = () => this.setState({ searchField: undefined })
 
-  /**
-   * Extract the seconds value to inject in the field input
-   *
-   * @param {Date} date
-   */
-  formatSeconds = date => date ? date.getSeconds() : ''
-
-  /**
-   * Extract the milliseconds value to inject in the field input
-   *
-   * @param {Date} date
-   */
-  formatMilliseconds = date => date ? date.getMilliseconds() : ''
-
   getPluginSearchQuery = (state) => {
     let query = ''
     const attribute = this.getAttributeName('searchField')
     if (state.searchField && state.comparator) {
       switch (state.comparator) {
-        case EnumTemporalComparator.BEFORE:
+        case EnumNumericalComparator.LE:
           query = `${attribute}:[* TO ${state.searchField.toISOString()}]`
           break
-        case EnumTemporalComparator.AFTER:
+        case EnumNumericalComparator.GE:
           query = `${attribute}:[${state.searchField.toISOString()} TO *]`
           break
         default:
@@ -177,11 +96,11 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
     const values = openSearchQuery.match(/\[[ ]{0,1}([^ ]*) TO ([^ ]*)[ ]{0,1}\]/)
     if (values.length === 3) {
       if (values[1] === '*') {
-        this.setState({ comparator: EnumTemporalComparator.BEFORE })
+        this.setState({ comparator: EnumNumericalComparator.LE })
         return new Date(values[2])
       }
       if (values[2] === '*') {
-        this.setState({ comparator: EnumTemporalComparator.AFTER })
+        this.setState({ comparator: EnumNumericalComparator.GE })
         return new Date(values[1])
       }
     }
@@ -189,59 +108,30 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
   }
 
   render() {
-    const {
-      moduleTheme: {
-        rootStyle, labelSpanStyle, datePickerTextFieldStyle,
-        datePickerStyle, timePickerStyles, secondsTextFieldStyle, millisecondsTextFieldStyle,
-      },
-    } = this.context
+    const { moduleTheme: { rootStyle, labelSpanStyle, datePickerStyle }, intl } = this.context
     const attributeLabel = this.getAttributeLabel('searchField')
     const { searchField, comparator } = this.state
-    const clearButtonDisplayed = searchField !== undefined
+    const availableComparators = [EnumNumericalComparator.LE, EnumNumericalComparator.GE]
 
     return (
-      <div style={rootStyle} >
-        <span style={labelSpanStyle} >
-          {attributeLabel}
-        </span>
-        <TemporalComparatorComponent onChange={this.handleChangeComparator} value={comparator} />
-        <DatePicker
+      <div style={rootStyle}>
+        <span style={labelSpanStyle}>{attributeLabel}</span>
+        <NumericalComparator
+          onChange={this.handleChangeComparator}
+          value={comparator}
+          comparators={availableComparators}
+        />
+        <DatePickerField
           value={searchField}
           onChange={this.handleChangeDate}
-          DateTimeFormat={DateTimeFormat}
-          locale="fr"
-          hintText={<FormattedMessage id="criterion.date.field.label" />}
-          floatingLabelText={<FormattedMessage id="criterion.date.field.label" />}
-          okLabel={<FormattedMessage id="criterion.date.picker.ok" />}
-          cancelLabel={<FormattedMessage id="criterion.date.picker.cancel" />}
+          locale={intl.locale}
           style={datePickerStyle}
-          textFieldStyle={datePickerTextFieldStyle}
+          dateHintText={intl.formatMessage({ id: 'criterion.date.field.label' })}
+          timeHintText={intl.formatMessage({ id: 'criterion.time.field.label' })}
+          okLabel={intl.formatMessage({ id: 'criterion.picker.ok.label' })}
+          cancelLabel={intl.formatMessage({ id: 'criterion.picker.cancel.label' })}
+          displayTime
         />
-        <TimePicker
-          value={searchField}
-          onChange={this.handleChangeTime}
-          format="24hr"
-          floatingLabelText={<FormattedMessage id="criterion.time.field.label" />}
-          hintText={<FormattedMessage id="criterion.time.field.label" />}
-          okLabel={<FormattedMessage id="criterion.time.picker.ok" />}
-          cancelLabel={<FormattedMessage id="criterion.time.picker.cancel" />}
-          textFieldStyle={timePickerStyles}
-        />
-        <TextField
-          type="number"
-          floatingLabelText={<FormattedMessage id="criterion.seconds.field.label" />}
-          value={this.formatSeconds(searchField)}
-          onChange={this.handleChangeSeconds}
-          style={secondsTextFieldStyle}
-        />
-        <TextField
-          type="number"
-          floatingLabelText={<FormattedMessage id="criterion.milliseconds.field.label" />}
-          value={this.formatMilliseconds(searchField)}
-          onChange={this.handleChangeMilliseconds}
-          style={millisecondsTextFieldStyle}
-        />
-        <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
       </div>
     )
   }

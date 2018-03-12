@@ -147,16 +147,16 @@ class PluginConfigurationPickerComponent extends React.Component {
               />
             )
           })}
-          <ShowableAtRender show={currentPluginConfiguration != null}>
-            <Divider />
-            <MenuItem
-              key="none"
-              primaryText={this.context.intl.formatMessage({ id: 'component.plugin-parameter.action.reset' })}
-              onClick={() => this.handleChange(null)}
-              rightIcon={<Delete />}
-            />
-          </ShowableAtRender>
         </IconMenu>
+        <ShowableAtRender show={currentPluginConfiguration != null}>
+          <Divider />
+          <MenuItem
+            key="none"
+            primaryText={this.context.intl.formatMessage({ id: 'component.plugin-parameter.action.reset' })}
+            onClick={() => this.handleChange(null)}
+            rightIcon={<Delete />}
+          />
+        </ShowableAtRender>
       </div>
     )
   }

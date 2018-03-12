@@ -84,10 +84,11 @@ function getTypeRender(type = 'DEFAULT') {
  * @param {*} path property path
  * @param {*} type property type, from TYPES_ENUM, optional
  */
-function buildRenderDelegate(path, type) {
+function buildRenderDelegate(path, type, unit) {
   return {
     path,
     RenderConstructor: type ? getTypeRender(type) : undefined,
+    props: { unit }, // specifies unit to value render when provided with attribute
   }
 }
 

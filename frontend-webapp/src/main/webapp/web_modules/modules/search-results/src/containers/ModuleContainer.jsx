@@ -21,8 +21,9 @@ import reduce from 'lodash/reduce'
 import join from 'lodash/join'
 import { connect } from '@regardsoss/redux'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
-import { DataManagementShapes } from '@regardsoss/shape'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { LoadingComponent } from '@regardsoss/display-control'
+import { modulesHelper } from '@regardsoss/modules-api'
 import { AttributeModelActions, AttributeModelSelectors } from '../clients/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import URLManagementContainer from './user/URLManagementContainer'
@@ -32,18 +33,22 @@ import FeedbackDisplayComponent from '../components/user/feedback/FeedbackDispla
 import { TableDisplayModeEnum } from '../models/navigation/TableDisplayModeEnum'
 import { DISPLAY_MODE_ENUM } from '../definitions/DisplayModeEnum'
 
+
 /**
  * Main container to display module form.
  * @author Sébastien binda
  */
 export class ModuleContainer extends React.Component {
   static propTypes = {
-    // Default props given to the form
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+    // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
 
+    // Set by mapStateToProps
+    attributeModels: DataManagementShapes.AttributeModelList,
     // Set by mapDispatchToProps
     fetchAllModelsAttributes: PropTypes.func,
-    attributeModels: DataManagementShapes.AttributeModelList,
   }
 
   constructor(props) {
@@ -59,15 +64,12 @@ export class ModuleContainer extends React.Component {
       value.facetable ? [...result, value.attributeFullQualifiedName] : result, [])
 
     this.state = {
-      expanded: true,
       attributesFetching: true,
       facettesQuery: facettes && facettes.length > 0 ? `facets=${join(facettes, ',')}` : null,
     }
   }
 
   componentDidMount = () => Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => this.setState({ attributesFetching: false }))
-
-  onExpandChange = () => this.setState({ expanded: !this.state.expanded })
 
   getInitialViewObjectType = (displayMode) => {
     switch (displayMode) {
@@ -83,27 +85,10 @@ export class ModuleContainer extends React.Component {
     }
   }
 
-
   render() {
-    const {
-      attributeModels,
-      moduleConf: {
-        enableDownload,
-        enableFacettes,
-        enableQuicklooks,
-        searchQuery,
-        attributes,
-        attributesQuicklook,
-        datasetAttributes,
-        documentAttributes,
-        attributesRegroupements,
-        breadcrumbInitialContextLabel,
-        displayMode,
-        displayConf,
-      },
-    } = this.props
-    const { expanded, attributesFetching, facettesQuery } = this.state
-    const initialViewObjectType = this.getInitialViewObjectType(displayMode)
+    const { attributeModels, moduleConf } = this.props
+    const { attributesFetching, facettesQuery } = this.state
+    const initialViewObjectType = this.getInitialViewObjectType(moduleConf.displayMode)
     if (!attributesFetching) {
       return (
         <div>
@@ -118,24 +103,11 @@ export class ModuleContainer extends React.Component {
             initialViewObjectType={initialViewObjectType}
             initialTableDisplayMode={TableDisplayModeEnum.LIST}
           >
-            { /* View : module */}
+            { /* View : module (report all module properties) */}
             <ModuleComponent
-              expanded={expanded}
-              onExpandChange={this.onExpandChange}
-              resultsTitle={breadcrumbInitialContextLabel}
-              enableFacettes={!!enableFacettes}
-              enableQuicklooks={!!enableQuicklooks}
-              enableDownload={!!enableDownload}
-              searchQuery={searchQuery}
               facettesQuery={facettesQuery}
-              attributesConf={attributes}
-              attributesQuicklookConf={attributesQuicklook}
-              attributesRegroupementsConf={attributesRegroupements}
-              datasetAttributesConf={datasetAttributes}
-              documentAttributesConf={documentAttributes}
               attributeModels={attributeModels}
-              displayMode={displayMode}
-              displayConf={displayConf}
+              {...modulesHelper.getReportedUserModuleProps(this.props)}
             />
           </URLManagementContainer>
         </div>
@@ -155,8 +127,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const UnconnectedModuleContainer = ModuleContainer
-export {
-  UnconnectedModuleContainer,
-}
+export { UnconnectedModuleContainer }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModuleContainer)

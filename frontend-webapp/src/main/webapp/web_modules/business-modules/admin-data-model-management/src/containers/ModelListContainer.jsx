@@ -82,15 +82,15 @@ export class ModelListContainer extends React.Component {
     />)
   }
 
-  handleEdit = (modelId) => {
+  handleEdit = (modelName) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/models/model/${modelId}/edit`
+    const url = `/admin/${project}/data/models/model/${modelName}/edit`
     browserHistory.push(url)
   }
 
-  handleDuplicate = (modelId) => {
+  handleDuplicate = (modelName) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/models/model/${modelId}/duplicate`
+    const url = `/admin/${project}/data/models/model/${modelName}/duplicate`
     browserHistory.push(url)
   }
 

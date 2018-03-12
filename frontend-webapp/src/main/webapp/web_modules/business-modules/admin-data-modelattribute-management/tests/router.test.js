@@ -28,7 +28,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing router', () => {
   it('should return the correct value', () => {
     assert.isDefined(Routes)
     expect(Routes.childRoutes).to.have.length(1)
-    expect(Routes.childRoutes[0].path).to.eq(':model_id/edit')
+    expect(Routes.childRoutes[0].path).to.eq(':modelName/edit')
   })
   it('list should return ModelAttributeFormContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {

@@ -56,6 +56,56 @@ const styles = theme => ({
       overflow: 'auto',
     },
   },
+  monitoring: {
+    totalStyle: {
+      fontSize: '1.2em',
+      textDecoration: 'underline',
+      color: theme['forms-extension:validation'].validColor,
+      cursor: 'pointer',
+    },
+    errorStyle: {
+      fontSize: '1.2em',
+      textDecoration: 'underline',
+      borderLeft: `1px solid ${theme.palette.borderColor}`,
+      paddingLeft: '4px',
+      marginLeft: '4px',
+      color: theme['forms-extension:validation'].errorColor,
+      cursor: 'pointer',
+    },
+    inProgressStyle: {
+      fontSize: '1.2em',
+      textDecoration: 'underline',
+      borderLeft: `1px solid ${theme.palette.borderColor}`,
+      paddingLeft: '4px',
+      marginLeft: '4px',
+      color: theme['forms-extension:validation'].warningColor,
+      cursor: 'pointer',
+    },
+    filters: {
+      fieldStyle: {
+        width: '210px',
+        margin: '0px 10px',
+      },
+      checkboxFieldStyle: {
+        width: '210px',
+        margin: '0px 10px',
+        padding: '12px 0px 0px 0px',
+        height: '48px',
+      },
+    },
+    productSessionLink: {
+      textDecoration: 'underline',
+      cursor: 'pointer',
+    },
+    chainJobs: {
+      descriptionStyle: {
+        marginBottom: '20px',
+      },
+      jobActivityStyle: {
+        margin: '10px 0px',
+      },
+    },
+  },
 })
 
 export default styles

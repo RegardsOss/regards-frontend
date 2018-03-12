@@ -29,7 +29,7 @@ const context = buildTestContext(styles)
 * Test GalleryItemContainer
 * @author Léo Mieulet
 */
-describe('[ Module name] Testing GalleryItemContainer', () => {
+describe('[Search results] Testing GalleryItemContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -55,6 +55,8 @@ describe('[ Module name] Testing GalleryItemContainer', () => {
       dispatchShowQuicklook: () => { },
       entity,
       attributePresentationModels: [],
+      projectName: 'project1',
+      accessToken: 'abcdef....',
     }
     const enzymeWrapper = shallow(<GalleryItemContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(GalleryItemComponent)

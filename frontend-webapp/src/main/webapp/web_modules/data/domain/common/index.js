@@ -21,6 +21,10 @@ import { relativeURLRegexp, validURLRegexp } from './URLRegex'
 import PluginParamType from './PluginParamType'
 import EntityIpIdTester from './EntityIpIdTester'
 import DataTypes from './DataTypes'
+import durationParser from './DurationParser'
+import PluginConfParamsUtils from './PluginConfParamsUtils'
+import URLAuthInjector from './URLAuthInjector'
+import EnumNumericalComparator from './EnumNumericalComparator'
 
 module.exports = {
   // Plugin
@@ -32,5 +36,12 @@ module.exports = {
   relativeURLRegexp,
   validURLRegexp,
 
+  ...EnumNumericalComparator,
+
   EntityIpIdTester,
+
+  durationParser,
+  PluginConfParamsUtils,
+
+  URLAuthInjector,
 }

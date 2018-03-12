@@ -29,32 +29,18 @@ const pluginStyles = theme => ({
   lineStyle: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
+  lineGroupStyle: {
+    display: 'flex',
+    alignItems: 'center',
     flexWrap: 'wrap',
   },
   labelSpanStyle: {
     margin: '0px 10px',
   },
-  datePickerTextFieldStyle: {
-    top: -13,
-    width: 120,
-    margin: '0px 10px',
-  },
   datePickerStyle: {
-    margin: '0px 10px',
-  },
-  timePickerStyles: {
-    width: 120,
     top: -13,
-  },
-  secondsTextFieldStyle: {
-    top: -13,
-    width: 90,
-    margin: '0px 10px',
-  },
-  millisecondsTextFieldStyle: {
-    top: -13,
-    width: 90,
     margin: '0px 10px',
   },
   comparatorButtonStyle: {

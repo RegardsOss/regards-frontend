@@ -21,17 +21,18 @@ const messages = {
   'data.board.action.add.tooltip': 'Add',
 
   'ingest.board.title': 'Manual submission',
-  'ingest.board.description': 'This fonctionality allows you to manually add datas throught information package submission. A Submission Information Package (SIP) contains all needed information to describe the datas and also physicaly locate datas.',
+  'ingest.board.description': 'This feature allows you to manually add datas throught information package submission. A Submission Information Package (SIP) contains all information needed to describe the datas and also physically locate datas.',
   'ingest.board.action.chain.list.tooltip': 'Configure processing chains',
   'ingest.board.action.monitor.tooltip': 'Monitor submissions',
   'ingest.board.action.sumition.tooltip': 'Submit datas',
 
   'data-provider.board.title': 'Automation',
-  'data-provider.board.description': 'This fonctionality allows you to configure automatic processus to add new detected datas. Those processus generate Submission Information Package (SIP) to be provided to the system for submission.',
+  'data-provider.board.description': 'This feature allows you to configure an automatic process to add new detected datas. These processes generate Submission Information Package (SIP) to be provided to the system for submission.',
   'data-provider.board.action.chain.list.tooltip': 'Configure processing chains',
+  'data-provider.board.action.monitoring.tooltip': 'Monitor processing chains activity',
 
   'ingest.board.external.datasources.title': 'Crawling',
-  'ingest.board.external.datasources.description': 'This fonctionality allows you to configure data crawling procesus. A data crawing processus correspond with adding datas throught external data sources.',
+  'ingest.board.external.datasources.description': 'This feature allows you to configure data crawling process. A data crawling process is the addition of adding datas throught external data sources.',
   'ingest.board.action.external.datasources.list.tooltip': 'Map data sources to internal models',
   'ingest.board.action.connection.list.tooltip': 'Configure connections to datasources',
   'ingest.board.action.datasource.monitor.tooltip': 'Monitor data crawling',
@@ -44,7 +45,7 @@ const messages = {
   'data.board.action.storages.tooltip': 'Configure locations',
   'data.board.action.allocations.tooltip': 'Configure strategies',
   'data.board.action.monitoring.tooltip': 'Monitor data storages occupation',
-
+  'data.board.action.security.tooltip': 'Configure archived files access rights',
 }
 
 export default messages

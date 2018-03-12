@@ -28,6 +28,11 @@ const messages = Object.assign({
   'crawler.list.status.column.header': 'Status',
   'crawler.list.duration.column.header': 'Duration',
   'crawler.list.refresh.button': 'Refresh',
+  'crawler.list.show.stacktrace.tooltip': 'Show the stacktrace',
+  'crawler.list.stacktrace.title': 'Stacktrace',
+  'crawler.list.stacktrace.action.close': 'Close',
+  'crawler.list.delete.action': 'Delete',
+  'crawler.delete.confirm.title': 'Are you sure to delete crawler {crawler} ?',
 
   'datasource.list.action.add': 'Add',
   'datasource.list.action.cancel': 'Cancel',
@@ -44,7 +49,7 @@ const messages = Object.assign({
   'datasource.form.create.subtitle': 'Select which connection you want to use for this datasource',
   'datasource.form.create.action.cancel': 'Cancel',
   'datasource.form.create.action.next': 'Next',
-  'datasource.form.create.action.connection': 'Createa a connection',
+  'datasource.form.create.action.connection': 'Create a connection',
   'datasource.form.create.datasource': 'List actives connections',
 
   'datasource.form.action.next': 'Next',
@@ -56,7 +61,9 @@ const messages = Object.assign({
   'datasource.form.pluginConfiguration': 'Plugin type',
   'datasource.form.table.input': 'Attribute value',
   'datasource.form.subtitle': 'Manage datasource attributes',
-  'datasource.form.tags': 'Tags list',
+  'datasource.form.tags': 'Tags list added to all data crawled',
+  'datasource.form.subsettingTags': 'Only crawl data containing these tags (empty = all data crawled)',
+  'datasource.form.attributeFileSize': 'This parameter is used to define which model\'s attribute is used to map the RAW DATA file size',
 
   'datasource.edit.title': 'Edit datasource {name}',
   'datasource.create.title': 'Create a datasource',
@@ -98,6 +105,25 @@ const messages = Object.assign({
 
   'invalid.one_pk_required': 'Choose a field as primary key',
   'invalid.only_one_pk_allowed': 'Use only one primary key',
+
+
+  'datasource.form.create.pick-interface.title': 'Datasource creation',
+  'datasource.form.create.pick-interface.subtitle': 'Please select the type of crawler you want to create.',
+  'datasource.form.create.pick-interface.description.aip': 'AIP crawlers allow to crawl GeoJSON SIPs',
+  'datasource.form.create.pick-interface.action.aip': 'SIPs crawler',
+  'datasource.form.create.pick-interface.description.db': 'This mode allows you to crawl data from an external data source',
+  'datasource.form.create.pick-interface.action.db': 'Crawl databases',
+  'datasource.form.create.pick-interface.action.cancel': 'Cancel',
+  'aip.datasource.create.title': 'SIPs datasource creation',
+  'aip.datasource.form.subtitle': 'bla bla bla blA',
+  'aip.datasource.edit.title': 'Edit datasource {name}',
+  'aip.datasource.form.table.fragmentAndLabel': 'Model attributes',
+  'aip.datasource.form.table.type': 'Type',
+  'aip.datasource.form.table.value': 'AIP path',
+  'aip.datasource.form.table.staticAttributes': 'Statics attributes',
+  'aip.datasource.form.table.input': 'Value',
+  'aip.datasource.form.table.lowerBound': 'Lower bound',
+  'aip.datasource.form.table.upperBound': 'Upper bound',
 }, Locales.en)
 
 export default messages

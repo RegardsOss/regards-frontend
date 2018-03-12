@@ -18,14 +18,15 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MenuItem from 'material-ui/MenuItem'
 import { Field } from '@regardsoss/form-utils'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { CardActionsComponent } from '@regardsoss/components'
-import Styles from '../../src/styles/styles'
+import styles from '../../src/styles/styles'
 import { UnconnectedModuleFormComponent } from '../../src/components/ModuleFormComponent'
 import DynamicModuleFormComponent from '../../src/components/DynamicModuleFormComponent'
+
+const context = buildTestContext(styles)
 
 /**
  * Tests for ModuleFormComponent
@@ -54,24 +55,8 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
     },
   ]
 
-  const muiTheme = getMuiTheme({
-    linkWithoutDecoration: {},
-  })
   const options = {
-    context: {
-      muiTheme,
-      moduleTheme: Styles(muiTheme),
-      intl: {
-        formatMessage: opt => opt.id,
-        formatTime: () => { },
-        formatDate: () => { },
-        formatRelative: () => { },
-        formatNumber: () => { },
-        formatPlural: () => { },
-        formatHTMLMessage: () => { },
-        now: () => { },
-      },
-    },
+    context,
   }
 
   it('Should render correctly form to create a new module', () => {
@@ -90,6 +75,9 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
         isEditing: false,
         isCreating: true,
         isDuplicating: false,
+        form: { // required for module form display
+          aValue: 'a value',
+        },
       },
     }
     const wrapper = shallow(
@@ -99,25 +87,50 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
 
     // Check form static fields
     const staticFields = wrapper.find({ id: 'staticFields' })
-    assert.isDefined(staticFields.find(Field).find({ name: 'name' }), 'Name field should be displayed')
-    assert.isDefined(staticFields.find(Field).find({ name: 'description' }), 'Description field should be displayed')
-    assert.isDefined(staticFields.find(Field).find({ name: 'container' }), 'Container field should be displayed')
-    assert.isTrue(staticFields.find(Field).find({ name: 'container' }).find(MenuItem).length === props.containers.length)
-    assert.isDefined(staticFields.find(Field).find({ name: 'active' }), 'Active field should be displayed')
-    assert.isTrue(staticFields.find(Field).find({ name: 'type' }).find(MenuItem).length === props.availableModuleTypes.length)
+    assert.lengthOf(staticFields.find(Field).find({ name: 'description' }), 1, 'Description field should be displayed')
+    assert.lengthOf(staticFields.find(Field).find({ name: 'type' }), 1, 'Type field should be displayed')
+    const containerFieldWrapper = staticFields.find(Field).find({ name: 'container' })
+    assert.lengthOf(containerFieldWrapper, 1, 'Container field should be displayed')
+    assert.lengthOf(containerFieldWrapper.find(MenuItem), props.containers.length, 'Container field should display one option for each container')
 
-    // Check for dynamic fields
-    let dynamicFields = wrapper.find(DynamicModuleFormComponent)
-    assert.isTrue(dynamicFields.length === 0, 'The dynamic fields should not be displayed since no module is selected')
+    // Check page fields: no container (initial)
+    let pageFields = wrapper.find({ id: 'pageFields' })
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.home' }), 0, 'Page field "page.home" (initial) should be hidden')
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.iconType' }), 0, 'Page field "page.iconType" (initial) should be hidden')
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.customIconURL' }), 0, 'Page field "page.customIconURL" (initial) should be hidden')
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.title.en' }), 0, 'Page field "page.title.en" (initial) should be hidden')
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.title.fr' }), 0, 'Page field "page.title.fr" (initial) should be hidden')
 
-    // Check for buttons
+    // Check page fields: with dynamic container
+    wrapper.setState({ dynamicContainerSelected: true })
+    pageFields = wrapper.find({ id: 'pageFields' })
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.home' }), 1, 'Page field "page.home" (dynamic container) should be displayed')
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.iconType' }), 1, 'Page field "page.iconType" (dynamic container) should be displayed')
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.customIconURL' }), 1, 'Page field "page.customIconURL" (dynamic container) should be displayed')
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.title.en' }), 1, 'Page field "page.title.en" (dynamic container) should be displayed')
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.title.fr' }), 1, 'Page field "page.title.fr" (dynamic container) should be displayed')
+
+    // check page fields: with non dynamic container
+    wrapper.setState({ dynamicContainerSelected: false })
+    pageFields = wrapper.find({ id: 'pageFields' })
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.home' }), 0, 'Page field "page.home" (non dynamic container) should be hidden')
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.iconType' }), 0, 'Page field "page.iconType" (non dynamic container) should be hidden')
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.customIconURL' }), 0, 'Page field "page.customIconURL" (non dynamic container) should be hidden')
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.title.en' }), 0, 'Page field "page.title.en" (non dynamic container) should be hidden')
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.title.fr' }), 0, 'Page field "page.title.fr" (non dynamic container) should be hidden')
+
+    // check dynamic module form: initially hidden
+    let dynamicForm = wrapper.find(DynamicModuleFormComponent)
+    assert.lengthOf(dynamicForm, 0, 'The dynamic form should be hidden (no module selected)')
+
+    // Simulate module selection and check module form is displayed
+    staticFields.find(Field).find({ name: 'type' }).simulate('select', null, 0, props.availableModuleTypes[0], { onChange: () => { } })
+    dynamicForm = wrapper.find(DynamicModuleFormComponent)
+    assert.lengthOf(dynamicForm, 1, 'The dynamic form should be displayed after module selection')
+
+    // Finally, verify that the form buttons are available
     const buttons = wrapper.find(CardActionsComponent)
     assert.isTrue(buttons.length === 1, 'Buttons should be displayed')
-
-    // Simulate module selection
-    staticFields.find(Field).find({ name: 'type' }).simulate('select', null, 0, props.availableModuleTypes[0], { onChange: () => { } })
-    dynamicFields = wrapper.find(DynamicModuleFormComponent)
-    assert.isTrue(dynamicFields.length === 1, 'The dynamic fields should be displayed since a module is selected')
   })
 
   it('Should render correctly form to edit an existing module', () => {
@@ -128,7 +141,9 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
       active: true,
       applicationId: 'test',
       container: 'main',
-      conf: {},
+      conf: {
+
+      },
     }
     const props = {
       project: 'test',
@@ -146,6 +161,9 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
         isEditing: false,
         isCreating: true,
         isDuplicating: false,
+        form: {
+          aValue: 'a value',
+        },
       },
     }
     const wrapper = shallow(
@@ -158,16 +176,23 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
 
     // Check form static fields
     const staticFields = wrapper.find({ id: 'staticFields' })
-    assert.isDefined(staticFields.find(Field).find({ name: 'name' }), 'Name field should be displayed')
-    assert.isDefined(staticFields.find(Field).find({ name: 'description' }), 'Description field should be displayed')
-    assert.isDefined(staticFields.find(Field).find({ name: 'container' }), 'Container field should be displayed')
-    assert.isTrue(staticFields.find(Field).find({ name: 'container' }).find(MenuItem).length === props.containers.length)
-    assert.isDefined(staticFields.find(Field).find({ name: 'active' }), 'Active field should be displayed')
-    assert.isTrue(staticFields.find(Field).find({ name: 'type' }).find(MenuItem).length === props.availableModuleTypes.length)
+    assert.lengthOf(staticFields.find(Field).find({ name: 'description' }), 1, 'Description field should be displayed')
+    assert.lengthOf(staticFields.find(Field).find({ name: 'type' }), 1, 'Type field should be displayed')
+    const containerFieldWrapper = staticFields.find(Field).find({ name: 'container' })
+    assert.lengthOf(containerFieldWrapper, 1, 'Container field should be displayed')
+    assert.lengthOf(containerFieldWrapper.find(MenuItem), props.containers.length, 'Container field should display one option for each container')
 
-    // Check for dynamic fields
-    const dynamicFields = wrapper.find(DynamicModuleFormComponent)
-    assert.isTrue(dynamicFields.length === 1, 'The dynamic fields should be displayed since a module is selected')
+    // Check for page fields (not displayed)
+    const pageFields = wrapper.find({ id: 'pageFields' })
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.home' }), 0, 'Page field "page.home" (initial) should be hidden')
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.iconType' }), 0, 'Page field "page.iconType" (initial) should be hidden')
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.customIconURL' }), 0, 'Page field "page.customIconURL" (initial) should be hidden')
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.title.en' }), 0, 'Page field "page.title.en" (initial) should be hidden')
+    assert.lengthOf(pageFields.find(Field).find({ name: 'page.title.fr' }), 0, 'Page field "page.title.fr" (initial) should be hidden')
+
+    // as module is selected, we should find here the dynamic module fields
+    const dynamicForm = wrapper.find(DynamicModuleFormComponent)
+    assert.lengthOf(dynamicForm, 1, 'The dynamic form should be displayed  in edition')
 
     // Check for buttons
     const buttons = wrapper.find(CardActionsComponent)

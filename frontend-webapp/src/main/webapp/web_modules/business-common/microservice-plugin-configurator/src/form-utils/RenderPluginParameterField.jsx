@@ -64,26 +64,37 @@ export class RenderPluginParameterField extends React.PureComponent {
     hideDynamicParameterConf: false,
   }
 
+  static wrapperPreserveWhitespace = {
+    whiteSpace: 'pre-wrap',
+  }
+
   state = {
     descriptionOpened: false,
   }
 
   componentWillMount() {
     const { input, pluginParameterType, complexParameter } = this.props
-    let initParamValues = {}
+    let initParamValues = ''
     if (complexParameter && (isNil(get(input, 'value.value') || isNil(get(input, 'value.dynamic'))))) {
       initParamValues = {
         dynamic: get(input, 'value.dynamic', false),
         dynamicValues: get(input, 'value.dynamicValues', null),
         name: pluginParameterType.name,
       }
-    } else {
+    } else if (complexParameter) {
       initParamValues = {
         name: pluginParameterType.name,
       }
     }
-    if (get(input, 'value.value', null) !== null) {
-      initParamValues.value = input.value.value
+    // Not complex parameter does not need the name,value properties.
+    // They only have the value and not a structure like {value,name,dynamic,dynamicValues}
+    if (complexParameter && get(input, 'value.value', null) !== null) {
+      initParamValues = {
+        ...initParamValues,
+        value: input.value.value,
+      }
+    } else if (!complexParameter && get(input, 'value', null) !== null) {
+      initParamValues = input.value
     }
     input.onChange(initParamValues)
   }
@@ -109,7 +120,7 @@ export class RenderPluginParameterField extends React.PureComponent {
     }
     const { moduleTheme: { dynamicParameter }, intl: { formatMessage } } = this.context
     return (
-      <div style={dynamicParameter.toggle.style}>
+      <div key={`dynamic-field-${name}`} style={dynamicParameter.toggle.style}>
         <Field
           name={`${name}.dynamic`}
           component={RenderRadio}
@@ -138,12 +149,11 @@ export class RenderPluginParameterField extends React.PureComponent {
   renderParamConfiguration = (name, dynamic, forceHideDynamicConf, component, label, disabled, validators, displayDynamicValues, fieldParams = {}) => {
     const { moduleTheme: { dynamicParameter, pluginParameter: { headerStyle } }, intl: { formatMessage } } = this.context
     const { hideDynamicParameterConf, pluginParameterType: { description, defaultValue } } = this.props
-    const parameters = (
-      <div style={dynamicParameter.layout}>
-        {!forceHideDynamicConf ? this.renderDynamicRadioButton(name) : null}
-        {this.renderParamValueConf(name, dynamic, component, label, disabled, validators, displayDynamicValues, fieldParams)}
-      </div>
-    )
+    const parameterElements = []
+    if (!forceHideDynamicConf) {
+      parameterElements.push(this.renderDynamicRadioButton(name))
+    }
+    parameterElements.push(this.renderParamValueConf(name, dynamic, component, label, disabled, validators, displayDynamicValues, fieldParams))
     // Display parameter header with his own label if dynamic configuration is enabled
     let header
     if ((!hideDynamicParameterConf && !forceHideDynamicConf) || includes([RenderObjectParameterField, RenderMapParameterField, RenderCollectionParameterField], component)) {
@@ -151,15 +161,20 @@ export class RenderPluginParameterField extends React.PureComponent {
       header = (
         <div style={headerStyle}>
           <SubHeader key="label">{label} {devaultValueLabel}</SubHeader>
-          {description ? <IconButton onClick={this.handleOpenDescription}><HelpCircle /></IconButton> : null}
+          {description ? <IconButton key="desc-info-button" onClick={this.handleOpenDescription}><HelpCircle /></IconButton> : null}
           {description ? this.renderDescriptionDialog() : null}
         </div>
       )
+    } else if (description) {
+      parameterElements.push(<IconButton key="desc-info-button" onClick={this.handleOpenDescription}><HelpCircle /></IconButton>)
+      parameterElements.push(this.renderDescriptionDialog())
     }
     return (
       <div>
         {header}
-        {parameters}
+        <div style={dynamicParameter.layout}>
+          {parameterElements}
+        </div>
       </div>
     )
   }
@@ -184,6 +199,7 @@ export class RenderPluginParameterField extends React.PureComponent {
       const { intl: { formatMessage } } = this.context
       return (
         <FieldArray
+          key={`${name}.dynamicsValues`}
           name={`${name}.dynamicsValues`}
           component={RenderArrayTextField}
           fieldsListLabel={formatMessage({ id: 'plugin.parameter.dynamicvalues.title' })}
@@ -198,7 +214,9 @@ export class RenderPluginParameterField extends React.PureComponent {
     const fieldName = complexParameter ? `${name}.value` : name
     return (
       <Field
+        key={fieldName}
         name={fieldName}
+        fullWidth
         component={component}
         disabled={disabled}
         validate={validators}
@@ -214,8 +232,8 @@ export class RenderPluginParameterField extends React.PureComponent {
     const primitiveParameters = getPrimitiveJavaTypeRenderParameters(pluginParameterType.type)
     const parameters = {
       type: primitiveParameters.type,
-      normalize: primitiveParameters.type === 'number' ? val => parseInt(val, 10) : null,
-      format: primitiveParameters.type === 'number' ? val => parseInt(val, 10) : null,
+      normalize: primitiveParameters.type === 'number' ? val => val ? parseInt(val, 10) : '' : null,
+      format: primitiveParameters.type === 'number' ? val => val ? parseInt(val, 10) : '' : null,
       floatingLabelText: this.props.hideDynamicParameterConf ? label : null,
       hintText: label,
       label: this.props.hideDynamicParameterConf ? label : null,
@@ -285,12 +303,15 @@ export class RenderPluginParameterField extends React.PureComponent {
       />]
     return (
       <Dialog
+        key="desc-dialog"
         title={formatMessage({ id: 'plugin.parameter.description.dialog.title' }, { parameter: pluginParameterType.label })}
         actions={actions}
         modal
         open={this.state.descriptionOpened}
       >
-        {pluginParameterType.description}
+        <div style={RenderPluginParameterField.wrapperPreserveWhitespace}>
+          {pluginParameterType.description}
+        </div>
       </Dialog>
     )
   }

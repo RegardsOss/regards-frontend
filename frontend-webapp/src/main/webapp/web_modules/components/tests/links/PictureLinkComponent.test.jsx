@@ -18,9 +18,13 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import PictureLinkComponent from '../../src/links/PictureLinkComponent'
+import styles from '../../src/links/styles/styles'
+
+
+const context = buildTestContext(styles)
 
 describe('[COMPONENTS] Testing PictureLinkComponent', () => {
   before(testSuiteHelpers.before)
@@ -29,16 +33,11 @@ describe('[COMPONENTS] Testing PictureLinkComponent', () => {
   it('should exists', () => {
     assert.isDefined(PictureLinkComponent)
   })
-  const context = {
-    muiTheme: {
-      palette: {},
-    },
-  }
   it('should render properly', () => {
     const props = {
       text: 'Refresh',
       IconComponent: Refresh,
-      onAction: () => {},
+      onAction: () => { },
     }
 
     const enzymeWrapper = shallow(<PictureLinkComponent {...props} />, { context })

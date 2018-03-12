@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import keys from 'lodash/keys'
 import omit from 'lodash/omit'
 import { connect } from '@regardsoss/redux'
 import { AccessDomain } from '@regardsoss/domain'
@@ -51,6 +50,9 @@ export class OneElementServicesContainer extends React.Component {
     // from mapDispatchToProps
     dispatchRunService: PropTypes.func.isRequired,
   }
+
+  /** Properties that will not be reported to sub component */
+  static NON_REPORTED_PROPS = ['entity', 'rowIndex', 'dispatchRunService']
 
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
@@ -96,7 +98,7 @@ export class OneElementServicesContainer extends React.Component {
   }
 
   render() {
-    const subComponentProperties = omit(this.props, keys(OneElementServicesContainer.propTypes))
+    const subComponentProperties = omit(this.props, OneElementServicesContainer.NON_REPORTED_PROPS)
     const { services } = this.state
     return (
       <OneElementServicesComponent

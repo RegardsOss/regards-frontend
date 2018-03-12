@@ -22,13 +22,13 @@ import isNil from 'lodash/isNil'
 import isEmpty from 'lodash/isEmpty'
 import startsWith from 'lodash/startsWith'
 import Paper from 'material-ui/Paper'
+import { AccessShapes } from '@regardsoss/shape'
 import { Field, RenderTextField, ValidationHelpers } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import RaisedButton from 'material-ui/RaisedButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { IFrameURLContentDisplayer } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import ModuleConfiguration from '../models/ModuleConfiguration'
 
 const defaultHomepagePath = '/html/regards-homepage.html'
 
@@ -40,18 +40,8 @@ const defaultHomepagePath = '/html/regards-homepage.html'
  */
 class AdminContainer extends React.Component {
   static propTypes = {
-    adminForm: PropTypes.shape({
-      currentNamespace: PropTypes.string,
-      isCreating: PropTypes.bool,
-      isDuplicating: PropTypes.bool,
-      isEditing: PropTypes.bool,
-      changeField: PropTypes.func,
-      // Current module configuration. Values from the redux-form
-      form: PropTypes.shape({
-        // Specific current module configuration for the current AdminContainer
-        conf: ModuleConfiguration,
-      }),
-    }),
+    // default module properties
+    ...AccessShapes.runtimeConfigurationModuleFields,
   }
 
   static contextTypes = {

@@ -16,37 +16,51 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
-import IconButton from 'material-ui/IconButton'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import ContentCopy from 'material-ui/svg-icons/content/content-copy'
-import Delete from 'material-ui/svg-icons/action/delete'
+import FlatButton from 'material-ui/FlatButton'
+import Refresh from 'material-ui/svg-icons/navigation/refresh'
+import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import { FormattedMessage } from 'react-intl'
-import { DataManagementShapes } from '@regardsoss/shape'
-import { CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, ActionsMenuCell } from '@regardsoss/components'
+import {
+  NoContentComponent,
+  CardActionsComponent,
+  ConfirmDialogComponent,
+  ConfirmDialogComponentTypes,
+  ShowableAtRender,
+  TableColumnBuilder,
+  TableLayout,
+  TableHeaderLine,
+  TableHeaderOptionsArea,
+  TableHeaderOptionGroup,
+  PageableInfiniteTableContainer,
+} from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { collectionDependencies } from '@regardsoss/admin-data-collection-management'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withHateoasDisplayControl, withResourceDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { collectionActions } from '../clients/CollectionClient'
+import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
+import { tableActions } from '../clients/TableClient'
+import CollectionListEditAction from './CollectionListEditAction'
+import CollectionListDuplicateAction from './CollectionListDuplicateAction'
+import CollectionListDeleteAction from './CollectionListDeleteAction'
+import CollectionListFiltersComponent from './CollectionListFiltersComponent'
+import { CollectionListContainer } from '../containers/CollectionListContainer'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const ResourceIconAction = withResourceDisplayControl(IconButton)
-const actionsBreakpoints = [940, 995, 1065]
+const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButton)
 
 /**
  * React component to list collections.
  */
 export class CollectionListComponent extends React.Component {
   static propTypes = {
-    collectionList: DataManagementShapes.CollectionList,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
     handleDuplicate: PropTypes.func.isRequired,
+    onRefresh: PropTypes.func.isRequired,
     createUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
+    navigateToCreateCollection: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -77,11 +91,12 @@ export class CollectionListComponent extends React.Component {
 
   renderDeleteConfirmDialog = () => {
     const name = this.state.entityToDelete ? this.state.entityToDelete.content.label : ' '
-    const title = this.context.intl.formatMessage({ id: 'collection.list.delete.message' }, { name })
+    const title = this.context.intl.formatMessage(
+      { id: 'collection.list.delete.message' },
+      { name },
+    )
     return (
-      <ShowableAtRender
-        show={this.state.deleteDialogOpened}
-      >
+      <ShowableAtRender show={this.state.deleteDialogOpened}>
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => {
@@ -94,17 +109,74 @@ export class CollectionListComponent extends React.Component {
     )
   }
 
-
   render() {
     const {
-      collectionList, handleEdit, handleDuplicate, createUrl, backUrl,
+      handleEdit, handleDuplicate, createUrl, backUrl, onRefresh, navigateToCreateCollection,
     } = this.props
+    const fixedColumnWidth = this.context.muiTheme['components:infinite-table'].fixedColumnsWidth
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
       hoverButtonDuplicate: this.context.muiTheme.palette.primary3Color,
     }
     const { intl } = this.context
+
+    const emptyContentAction = (
+      <FlatButtonWithResourceDisplayControl
+        resourceDependencies={collectionDependencies.addDependencies}
+        label={intl.formatMessage({ id: 'collection.no.collection.subtitle' })}
+        onClick={navigateToCreateCollection}
+        primary
+      />
+    )
+    const emptyComponent = (
+      <NoContentComponent
+        title={intl.formatMessage({ id: 'collection.no.collection.title' })}
+        Icon={AddToPhotos}
+        action={emptyContentAction}
+      />
+    )
+
+    const columns = [
+      // 1 - label column
+      TableColumnBuilder.buildSimplePropertyColumn(
+        'column.label',
+        intl.formatMessage({ id: 'collection.list.table.label' }),
+        'content.label',
+      ),
+      // 2 - model column
+      TableColumnBuilder.buildSimplePropertyColumn(
+        'column.model',
+        intl.formatMessage({ id: 'collection.list.table.model' }),
+        'content.model.name',
+      ),
+      TableColumnBuilder.buildOptionsColumn(
+        '',
+        [
+          {
+            OptionConstructor: CollectionListEditAction,
+            optionProps: { handleEdit, hoverColor: style.hoverButtonEdit },
+          },
+          {
+            OptionConstructor: CollectionListDuplicateAction,
+            optionProps: {
+              handleDuplicate,
+              hoverColor: style.hoverButtonDuplicate,
+              dependency: CollectionListComponent.DEPENDENCY,
+            },
+          },
+          {
+            OptionConstructor: CollectionListDeleteAction,
+            optionProps: {
+              openDeleteDialog: this.openDeleteDialog,
+              hoverColor: style.hoverButtonDelete,
+            },
+          },
+        ],
+        true,
+        fixedColumnWidth,
+      ),
+    ]
     return (
       <Card>
         <CardTitle
@@ -113,73 +185,39 @@ export class CollectionListComponent extends React.Component {
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
-          <Table
-            selectable={false}
-          >
-            <TableHeader
-              enableSelectAll={false}
-              adjustForCheckbox={false}
-              displaySelectAll={false}
-            >
-              <TableRow>
-                <TableHeaderColumn><FormattedMessage id="collection.list.table.label" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="collection.list.table.model" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="collection.list.table.actions" /></TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody
-              displayRowCheckbox={false}
-              preScanRows={false}
-              showRowHover
-            >
-              {map(collectionList, (collection, i) => (
-                <TableRow key={i}>
-                  <TableRowColumn>{collection.content.label}</TableRowColumn>
-                  <TableRowColumn>{collection.content.model.name}</TableRowColumn>
-                  <TableRowColumn>
-                    <ActionsMenuCell
-                      breakpoints={actionsBreakpoints}
-                    >
-                      <HateoasIconAction
-                        entityLinks={collection.links}
-                        hateoasKey={HateoasKeys.UPDATE}
-                        onClick={() => handleEdit(collection.content.id)}
-                        title={intl.formatMessage({ id: 'collection.list.action.edit' })}
-                      >
-                        <Edit hoverColor={style.hoverButtonEdit} />
-                      </HateoasIconAction>
-                      <ResourceIconAction
-                        resourceDependencies={CollectionListComponent.DEPENDENCY}
-                        onClick={() => handleDuplicate(collection.content.id)}
-                        title={intl.formatMessage({ id: 'collection.list.action.duplicate' })}
-                      >
-                        <ContentCopy hoverColor={style.hoverButtonDuplicate} />
-                      </ResourceIconAction>
-                      <HateoasIconAction
-                        entityLinks={collection.links}
-                        hateoasKey={HateoasKeys.DELETE}
-                        onClick={() => this.openDeleteDialog(collection)}
-                        title={intl.formatMessage({ id: 'collection.list.action.delete' })}
-                      >
-                        <Delete hoverColor={style.hoverButtonDelete} />
-                      </HateoasIconAction>
-                    </ActionsMenuCell>
-                  </TableRowColumn>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <TableLayout>
+            <CollectionListFiltersComponent onRefresh={onRefresh} />
+            <TableHeaderLine>
+              <TableHeaderOptionsArea>
+                <TableHeaderOptionGroup>
+                  <FlatButton
+                    label={intl.formatMessage({ id: 'collection.table.refresh.button' })}
+                    icon={<Refresh />}
+                    onClick={this.props.onRefresh}
+                  />
+                </TableHeaderOptionGroup>
+              </TableHeaderOptionsArea>
+            </TableHeaderLine>
+            <PageableInfiniteTableContainer
+              name="collection-management-table"
+              minRowCount={0}
+              pageActions={collectionActions}
+              pageSelectors={collectionSelectors}
+              tableActions={tableActions}
+              pageSize={CollectionListContainer.PAGE_SIZE}
+              columns={columns}
+              emptyComponent={emptyComponent}
+            />
+          </TableLayout>
         </CardText>
         <CardActions>
           <CardActionsComponent
             mainButtonUrl={createUrl}
-            mainButtonLabel={
-              <FormattedMessage
-                id="collection.list.action.add"
-              />
-            }
+            mainButtonLabel={<FormattedMessage id="collection.list.action.add" />}
             mainHateoasDependencies={CollectionListComponent.CREATE_DEPENDENCIES}
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'collection.list.action.cancel' })}
+            secondaryButtonLabel={this.context.intl.formatMessage({
+              id: 'collection.list.action.cancel',
+            })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>
@@ -189,4 +227,3 @@ export class CollectionListComponent extends React.Component {
 }
 
 export default CollectionListComponent
-

@@ -85,10 +85,10 @@ export class AttributesContainer extends React.Component {
     const newState = { ...(oldState || AttributesContainer.DEFAULT_STATE) }
 
     // 1 - detect entity model change to fetch attributes
-    const oldModelId = get(oldEntity, 'content.model.id')
-    const newModelId = get(newEntity, 'content.model.id')
-    if (oldModelId !== newModelId && !isUndefined(newModelId)) {
-      dispatchFetchModelAttributes(newModelId)
+    const oldModelName = get(oldEntity, 'content.model.name')
+    const newModelName = get(newEntity, 'content.model.name')
+    if (oldModelName !== newModelName && !isUndefined(newModelName)) {
+      dispatchFetchModelAttributes(newModelName)
     }
 
     // 2 - detect model attributes change to resolve attributes
@@ -125,12 +125,17 @@ export class AttributesContainer extends React.Component {
       // resolve attribute value in entity (push attribute in content, as it is not normalized )
       const accessPath = DamDomain.AttributeModelController.getAttributeAccessPath({ content: attributeModel })
       const renderValue = DamDomain.AttributeModelController.getEntityAttributeValue(nextEntity, accessPath)
-      return {
+      const resolvedAtribute = {
         id: attributeModel.id,
         label: attributeModel.label,
         Renderer: getTypeRender(attributeModel.type),
         renderValue,
       }
+      // Any dynamic attribute can have a unit specified. If one is present set the unit into the resolved attribute
+      if (attributeModel.unit) {
+        resolvedAtribute.renderUnit = attributeModel.unit
+      }
+      return resolvedAtribute
     })
     // 3 - make table and sort
     return [...descriptionStandardAttributes, ...dynamicAttributes].sort((attr1, attr2) => StringComparison.compare(attr1.label, attr2.label))

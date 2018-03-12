@@ -41,6 +41,7 @@ describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing  IngestProcessingCh
       params: {
         project: 'project',
       },
+      accessToken: 'token',
       deleteChain: () => new Promise(() => { }),
       fetchPage: () => new Promise(() => { }),
     }

@@ -14,6 +14,10 @@ class AuthenticateParametersSelectors extends BasicSelector {
     return this.uncombineStore(state)
   }
 
+  /**
+   * Returns true when the current user is browsing the INSTANCE dashboard
+   * @param {*} state redux state
+   */
   isInstance(state) {
     return this.getProject(state) === INSTANCE
   }

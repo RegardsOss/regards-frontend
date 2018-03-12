@@ -22,7 +22,7 @@ const messages = Object.assign({
   'plugin.configuration.form.create.title': 'Ajouter une configuration',
   'plugin.configuration.form.edit.title': 'Editer la configuration {name}',
   'plugin.configuration.form.pluginClassName': 'Classe du plugin (chemin complet)',
-  'plugin.configuration.form.label': 'Label *',
+  'plugin.configuration.form.label': 'Libellé *',
   'plugin.configuration.form.version': 'Version *',
   'plugin.configuration.form.priorityOrder': 'Priorité *',
   'plugin.configuration.form.icon': 'Icône (lien http)',

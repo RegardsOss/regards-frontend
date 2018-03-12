@@ -23,7 +23,7 @@
 import { Schema, arrayOf } from 'normalizr'
 
 const ModelConfiguration = {
-  entityKey: 'id',
+  entityKey: 'name',
   normalizrKey: 'model',
 }
 

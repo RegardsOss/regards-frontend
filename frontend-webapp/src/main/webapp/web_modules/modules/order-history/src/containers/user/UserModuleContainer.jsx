@@ -16,6 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { AccessShapes } from '@regardsoss/shape'
+import { connect } from '@regardsoss/redux'
+import { UIDomain } from '@regardsoss/domain'
+import { i18nSelectors } from '@regardsoss/i18n'
 import OrderHistoryComponent from '../../components/user/OrderHistoryComponent'
 import orderListClient from '../../client/OrderListClient'
 import orderFilesClient from '../../client/OrderFilesClient'
@@ -25,32 +29,26 @@ import OrdersNavigationClient from '../../client/OrdersNavigationClient'
  * User module container
  * @author Raphaël Mechali
  */
-export default class UserModuleContainer extends React.Component {
-  static propTypes = {
-    description: PropTypes.string.isRequired,
+export class UserModuleContainer extends React.Component {
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      locale: i18nSelectors.getLocale(state),
+    }
   }
 
-  /**
-   * Lifecycle method: component will mount.
-   * Initializes the expanded state of module
-   */
-  componentWillMount = () => this.setExpanded(true)
-
-  /**
-   * User callback: on toggle expanded state
-   */
-  onExpandChange = () => this.setExpanded(!this.state.expanded)
-
-  /**
-   * Sets the expanded state
-   * @param expanded new expanded state
-   */
-  setExpanded = expanded => this.setState({ expanded })
-
+  static propTypes = {
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+    locale: PropTypes.string,
+  }
 
   render() {
-    const { expanded } = this.state
-    const { description } = this.props
     return (
       <OrderHistoryComponent
         ordersActions={orderListClient.orderListActions}
@@ -59,10 +57,11 @@ export default class UserModuleContainer extends React.Component {
         orderFilesSelectors={orderFilesClient.orderFilesSelectors}
         navigationActions={OrdersNavigationClient.ordersNavigationActions}
         navigationSelectors={OrdersNavigationClient.ordersNavigationSelectors}
-        title={description}
-        expanded={expanded}
-        onExpandChange={this.onExpandChange}
+        defaultIconURL={UIDomain.getModuleDefaultIconURL(this.props.type)}
+        {...this.props}
       />
     )
   }
 }
+
+export default connect(UserModuleContainer.mapStateToProps)(UserModuleContainer)

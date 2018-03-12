@@ -49,11 +49,12 @@ export class PluginStorageMonitoringComponent extends React.Component {
 
   render() {
     const { params: { project } } = this.props
-    const { intl } = this.context
+    const { intl: { formatMessage } } = this.context
     const resultsConfiguration = {
       type: modulesManager.AllDynamicModuleTypes.STORAGE_MONITORING,
       active: true,
       applicationId: 'admin',
+      description: formatMessage({ id: 'storage.locations.size.title' }),
       expandable: false,
       expanded: true,
       conf: {},
@@ -68,11 +69,11 @@ export class PluginStorageMonitoringComponent extends React.Component {
         />
         <CardActions>
           <CardActionsComponent
-            mainButtonLabel={intl.formatMessage({ id: 'storage.back.button' })}
+            mainButtonLabel={formatMessage({ id: 'storage.back.button' })}
             mainButtonClick={this.onBack}
           />
         </CardActions>
-      </Card>
+      </Card >
     )
   }
 }

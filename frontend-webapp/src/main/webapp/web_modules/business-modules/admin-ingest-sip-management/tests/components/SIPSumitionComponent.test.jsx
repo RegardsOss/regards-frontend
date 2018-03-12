@@ -20,30 +20,30 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { CardHeader, CardText } from 'material-ui/Card'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SIPSubmitionComponent } from '../../src/components/SIPSubmitionComponent'
+import { SIPSubmissionComponent } from '../../src/components/submission/SIPSubmissionComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test SIPSubmitionComponent
+* Test SIPsubmissionComponent
 * @author Sébastien Binda
 */
-describe('[ADMIN INGEST SIP MANAGEMENT] Testing SIPSubmitionComponent', () => {
+describe('[ADMIN INGEST SIP MANAGEMENT] Testing SIPsubmissionComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPSubmitionComponent)
+    assert.isDefined(SIPSubmissionComponent)
   })
   it('should render correctly a valid SIP', () => {
     const props = {
       sip: {
         id: 'TestSip',
-        state: SIPSubmitionComponent.VALID_STATE,
+        state: SIPSubmissionComponent.VALID_STATE,
       },
     }
-    const enzymeWrapper = shallow(<SIPSubmitionComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<SIPSubmissionComponent {...props} />, { context })
     assert.equal(enzymeWrapper.find(CardHeader).length, 1, 'There should have a CardHeader.')
     assert.equal(enzymeWrapper.find(CardText).length, 0, 'There should not have errors displayed when SIP is in CREATE State.')
   })
@@ -58,7 +58,7 @@ describe('[ADMIN INGEST SIP MANAGEMENT] Testing SIPSubmitionComponent', () => {
         ],
       },
     }
-    const enzymeWrapper = shallow(<SIPSubmitionComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<SIPSubmissionComponent {...props} />, { context })
     assert.equal(enzymeWrapper.find(CardHeader).length, 1, 'There should have a CardHeader.')
     assert.equal(enzymeWrapper.find(CardText).length, 1, 'There should have errors displayed when SIP is in REJECTED State.')
   })

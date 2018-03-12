@@ -32,7 +32,7 @@ import { AccessShapes } from '@regardsoss/shape'
 class FormPreviewComponent extends React.Component {
   static propTypes = {
     currentNamespace: PropTypes.string,
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     module: AccessShapes.Module,
   }
 

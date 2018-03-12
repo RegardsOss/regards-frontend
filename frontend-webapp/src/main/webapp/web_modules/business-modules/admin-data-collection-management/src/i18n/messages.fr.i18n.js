@@ -62,6 +62,12 @@ const messages = Object.assign({
   'collection.list.action.edit': 'Editer',
   'collection.list.action.duplicate': 'Dupliquer',
   'collection.list.action.delete': 'Supprimer',
+  'collection.table.filter.collection.label': 'Collection',
+  'collection.table.filter.clear.button': 'Effacer',
+  'collection.table.filter.button': 'Appliquer',
+  'collection.table.refresh.button': 'Rafraîchir',
+  'collection.no.collection.title': 'Pas de collection',
+  'collection.no.collection.subtitle': 'Créez votre première collection',
 }, Locales.fr)
 
 export default messages

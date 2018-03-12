@@ -279,9 +279,7 @@ const validate = (values) => {
 }
 
 const UnconnectedPluginFormComponent = pluginFormComponent
-export {
-  UnconnectedPluginFormComponent,
-}
+export { UnconnectedPluginFormComponent }
 const selector = formValueSelector('edit-plugin-form')
 const mapStateToProps = state => ({
   pathField: selector(state, 'sourcePath'),

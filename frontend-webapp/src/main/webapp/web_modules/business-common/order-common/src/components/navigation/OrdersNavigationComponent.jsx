@@ -31,7 +31,7 @@ class OrdersNavigationComponent extends React.Component {
 
   static propTypes = {
     title: PropTypes.string.isRequired,
-    RootIconConstructor: PropTypes.func,
+    rootIcon: PropTypes.node,
     navigationPath: PropTypes.arrayOf(PropTypes.oneOfType([
       PropTypes.shape({ id: PropTypes.string.isRequired }), // context level 0 (root dummy marker)
       OrderShapes.OrderWithContent, // context level 1
@@ -77,13 +77,13 @@ class OrdersNavigationComponent extends React.Component {
   }
 
   render() {
-    const { navigationPath, RootIconConstructor } = this.props
+    const { navigationPath, rootIcon } = this.props
     return (
       <Breadcrumb
         elements={navigationPath}
         labelGenerator={this.getLabel}
         onAction={this.onLevelAction}
-        RootIconConstructor={RootIconConstructor}
+        rootIcon={rootIcon}
       />
     )
   }

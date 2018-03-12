@@ -48,6 +48,11 @@ import DatasetEntityDump from '@regardsoss/client/tests/rs-access-project/Datase
 import DataobjectEntityDump from '@regardsoss/client/tests/rs-access-project/DataobjectEntity.dump'
 import CollectionEntityDump from '@regardsoss/client/tests/rs-access-project/CollectionEntity.dump'
 
+import ProductDump from '@regardsoss/client/tests/rs-dataprovider/Product.dump'
+import AcquisitionFileDump from '@regardsoss/client/tests/rs-dataprovider/AcquisitionFile.dump'
+import AcquisitionProcessingChainDump from '@regardsoss/client/tests/rs-dataprovider/AcquisitionProcessingChain.dump'
+import AcquisitionProcessingChainMonitorDump from '@regardsoss/client/tests/rs-dataprovider/AcquisitionProcessingChainMonitor.dump'
+
 import {
 
   ROLE_ARRAY,
@@ -119,6 +124,19 @@ import {
 
   ENTITY_ARRAY as ENTITY_CATALOG_ARRAY,
   EntityConfiguration,
+
+  PRODUCT_ARRAY,
+  ProductConfiguration,
+
+  AcquisitionProcessingChainConfiguration,
+  ACQUISITION_PROCESSING_CHAIN_ARRAY,
+
+  AcquisitionProcessingChainMonitorConfiguration,
+  ACQUISITION_PROCESSING_CHAIN_MONITOR_ARRAY,
+
+  AcquisitionFileConfiguration,
+  ACQUISITION_FILE_ARRAY,
+
 } from '@regardsoss/api'
 
 /**
@@ -289,7 +307,7 @@ module.exports = {
       normalizrKey: DatasetConfiguration.normalizrKey,
     },
     Collection: {
-      isPageable: false,
+      isPageable: true,
       dump: CollectionDump,
       ENTITY_ARRAY: COLLECTION_ARRAY,
       normalizrKey: CollectionConfiguration.normalizrKey,
@@ -313,6 +331,32 @@ module.exports = {
       dump: LinkPluginDatasetDump,
       ENTITY_ARRAY: LINK_UI_PLUGIN_DATASET_ARRAY,
       normalizrKey: LinkUIPluginDatasetConfiguration.normalizrKey,
+    },
+  },
+  DataProviderClient: {
+    Product: {
+      isPageable: true,
+      dump: ProductDump,
+      ENTITY_ARRAY: PRODUCT_ARRAY,
+      normalizrKey: ProductConfiguration.normalizrKey,
+    },
+    AcquisitionFile: {
+      isPageable: true,
+      dump: AcquisitionFileDump,
+      ENTITY_ARRAY: ACQUISITION_FILE_ARRAY,
+      normalizrKey: AcquisitionFileConfiguration.normalizrKey,
+    },
+    AcquisitionProcessingChain: {
+      isPageable: true,
+      dump: AcquisitionProcessingChainDump,
+      ENTITY_ARRAY: ACQUISITION_PROCESSING_CHAIN_ARRAY,
+      normalizrKey: AcquisitionProcessingChainConfiguration.normalizrKey,
+    },
+    AcquisitionProcessingChainMonitor: {
+      isPageable: true,
+      dump: AcquisitionProcessingChainMonitorDump,
+      ENTITY_ARRAY: ACQUISITION_PROCESSING_CHAIN_MONITOR_ARRAY,
+      normalizrKey: AcquisitionProcessingChainMonitorConfiguration.normalizrKey,
     },
   },
 }

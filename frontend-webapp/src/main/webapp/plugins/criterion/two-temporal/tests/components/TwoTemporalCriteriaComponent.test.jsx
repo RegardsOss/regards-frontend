@@ -44,6 +44,7 @@ describe('[PLUGIN TWO TEMPORAL CRITERIA] Testing the two temporal criteria compo
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
+      registerClear: () => {},
       attributes: {
         firstField: {
           name: 'firstAttribute',

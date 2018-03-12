@@ -140,9 +140,10 @@ export class DatasetFormAttributesComponent extends React.Component {
       const { currentDataset, modelAttributeList } = this.props
       const properties = getInitialFormValues(modelAttributeList, currentDataset)
       const initialValues = {
+        sipId: currentDataset.content.sipId,
         label: currentDataset.content.label,
         geometry: currentDataset.content.geometry,
-        model: currentDataset.content.model.id,
+        model: currentDataset.content.model.name,
         descriptionUrl: get(currentDataset.content, 'descriptionFile.url', undefined),
         properties,
       }
@@ -187,6 +188,13 @@ export class DatasetFormAttributesComponent extends React.Component {
             isEditing={this.props.isEditing}
           />
           <CardText>
+            <Field
+              name="sipId"
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              label={this.context.intl.formatMessage({ id: 'dataset.form.sipId' })}
+            />
             <Field
               name="label"
               fullWidth
@@ -276,7 +284,7 @@ export class DatasetFormAttributesComponent extends React.Component {
               {map(modelList, (model, id) => (
                 <MenuItem
                   className={`selenium-pickModel-${model.content.name}`}
-                  value={model.content.id}
+                  value={model.content.name}
                   key={id}
                   primaryText={model.content.name}
                 />

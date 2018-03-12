@@ -24,7 +24,6 @@ import { themeContextType } from '@regardsoss/theme'
  * @author <%= author %>
  **/
 class SampleComponent extends React.Component {
-
   static propTypes = {
     message: PropTypes.string,
   }
@@ -36,6 +35,17 @@ class SampleComponent extends React.Component {
 
   render() {
     const { moduleTheme, intl } = this.context
+    // Note: if this module should be used as dynamic (ie this module is a page),
+    // we could here write instead
+    // import {DynamicModule} from '@regardsoss/components'
+    // return (
+    // <DynamicModule {...this.props} >
+    //   {* Module graphic content goes here *}
+    // </DynamicModule>)
+    //
+    // The DynamicModule will provide expand / collapse, icon and title functionnalities
+    // Please note that the configuration requires a bit more efforts than {...this.props} ;-)
+
     return (
       <div style={moduleTheme.exampleStyle}>
         {intl.formatMessage({ id: 'exampleMessage' })}

@@ -56,6 +56,8 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
       levels: [],
       enableDownload: true,
       displayMode: DISPLAY_MODE_VALUES.DISPLAY_DATA_DATASET,
+      projectName: 'project1',
+      accessToken: 'abcdef....',
       dispatchChangeViewObjectType: () => { },
       dispatchChangeTableDisplayMode: () => { },
       dispatchSetEntityAsTag: () => { },

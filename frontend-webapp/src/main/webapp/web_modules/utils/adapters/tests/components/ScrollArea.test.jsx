@@ -22,7 +22,7 @@ import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import ScrollArea from '../../src/components/ScrollAreaAdapter'
 import styles from '../../src/styles/styles'
 
-describe('[ SCROLL AREA] Testing ScrollArea', () => {
+describe('[Adapters] Testing ScrollArea', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

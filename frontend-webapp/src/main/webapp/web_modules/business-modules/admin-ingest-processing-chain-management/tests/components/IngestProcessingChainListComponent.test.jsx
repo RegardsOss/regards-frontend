@@ -19,9 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import {
-  PageableInfiniteTableContainer,
-} from '@regardsoss/components'
+import { PageableInfiniteTableContainer } from '@regardsoss/components'
 import IngestProcessingChainListComponent from '../../src/components/IngestProcessingChainListComponent'
 import styles from '../../src/styles/styles'
 
@@ -40,6 +38,7 @@ describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing IngestProcessingCha
   })
   it('should render correctly', () => {
     const props = {
+      accessToken: 'toekn',
       fetchPage: () => new Promise(() => { }),
       onDelete: () => new Promise(() => { }),
       onEdit: () => new Promise(() => { }),

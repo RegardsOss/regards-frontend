@@ -23,7 +23,7 @@ import OrdersNavigationClient from './client/OrdersNavigationClient'
 /**
  * Module reducer (configures there combined path at module level)
  */
-export default {
+module.exports = {
   orderList: OrderListClient.orderListReducer,
   orderFiles: OrderFilesClient.orderFilesReducer,
   navigation: OrdersNavigationClient.ordersNavigationReducer,

@@ -69,7 +69,7 @@ function getURLQuery(openSearchQuery, sortingArray = [], facettesQuery = '', qui
   return new URLSearchQuery('', urlParameters)
 }
 
-export default {
+module.exports = {
   getOpenSearchQuery,
   getURLQuery,
   getSearchTagParameter,
