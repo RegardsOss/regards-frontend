@@ -19,18 +19,17 @@
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ClearFieldButton, DatePickerField } from '@regardsoss/components'
-import TemporalComparatorComponent from './TemporalComparatorComponent'
-import EnumTemporalComparator from '../model/EnumTemporalComparator'
+import { EnumNumericalComparator } from '@regardsoss/domain/common'
+import { DatePickerField, NumericalComparator } from '@regardsoss/components'
 
 /**
  * Search form criteria plugin allowing the user to configure the temporal value of the passed attribute with a comparator.
  *
  * The following terminology for dates is used in this file:
  *
- * 2017-02-10   14:28      59         234
- * ----------  ------   -------   ------------
- *    date      time    seconds   milliseconds
+ * 2017-02-10   14:28      59
+ * ----------  ------    --------
+ *    date      time    seconds
  *
  *  @author Xavier-Alexandre Brochard
  */
@@ -49,7 +48,7 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
 
   state = {
     searchField: undefined,
-    comparator: EnumTemporalComparator.BEFORE,
+    comparator: EnumNumericalComparator.LE,
   }
 
   /**
@@ -79,10 +78,10 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
     const attribute = this.getAttributeName('searchField')
     if (state.searchField && state.comparator) {
       switch (state.comparator) {
-        case EnumTemporalComparator.BEFORE:
+        case EnumNumericalComparator.LE:
           query = `${attribute}:[* TO ${state.searchField.toISOString()}]`
           break
-        case EnumTemporalComparator.AFTER:
+        case EnumNumericalComparator.GE:
           query = `${attribute}:[${state.searchField.toISOString()} TO *]`
           break
         default:
@@ -97,11 +96,11 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
     const values = openSearchQuery.match(/\[[ ]{0,1}([^ ]*) TO ([^ ]*)[ ]{0,1}\]/)
     if (values.length === 3) {
       if (values[1] === '*') {
-        this.setState({ comparator: EnumTemporalComparator.BEFORE })
+        this.setState({ comparator: EnumNumericalComparator.LE })
         return new Date(values[2])
       }
       if (values[2] === '*') {
-        this.setState({ comparator: EnumTemporalComparator.AFTER })
+        this.setState({ comparator: EnumNumericalComparator.GE })
         return new Date(values[1])
       }
     }
@@ -109,30 +108,30 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
   }
 
   render() {
-    const {
-      moduleTheme: { rootStyle, labelSpanStyle }, intl,
-    } = this.context
+    const { moduleTheme: { rootStyle, labelSpanStyle, datePickerStyle }, intl } = this.context
     const attributeLabel = this.getAttributeLabel('searchField')
     const { searchField, comparator } = this.state
-    const clearButtonDisplayed = searchField !== undefined
+    const availableComparators = [EnumNumericalComparator.LE, EnumNumericalComparator.GE]
 
     return (
-      <div style={rootStyle} >
-        <span style={labelSpanStyle} >
-          {attributeLabel}
-        </span>
-        <TemporalComparatorComponent onChange={this.handleChangeComparator} value={comparator} />
+      <div style={rootStyle}>
+        <span style={labelSpanStyle}>{attributeLabel}</span>
+        <NumericalComparator
+          onChange={this.handleChangeComparator}
+          value={comparator}
+          comparators={availableComparators}
+        />
         <DatePickerField
           value={searchField}
           onChange={this.handleChangeDate}
           locale={intl.locale}
+          style={datePickerStyle}
           dateHintText={intl.formatMessage({ id: 'criterion.date.field.label' })}
           timeHintText={intl.formatMessage({ id: 'criterion.time.field.label' })}
           okLabel={intl.formatMessage({ id: 'criterion.picker.ok.label' })}
           cancelLabel={intl.formatMessage({ id: 'criterion.picker.cancel.label' })}
           displayTime
         />
-        <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
       </div>
     )
   }

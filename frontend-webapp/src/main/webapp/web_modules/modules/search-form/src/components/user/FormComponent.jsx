@@ -120,6 +120,7 @@ class FormComponent extends React.Component {
           plugins={plugins}
           pluginsProps={pluginsProps}
           onSearch={this.onSearch}
+          onClearAll={this.props.handleClearAll}
         />
       </DynamicModule>)
   }

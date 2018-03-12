@@ -44,6 +44,7 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA COMPOSED] Testing the two numerical cri
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
+      registerClear: () => {},
       attributes: {
         firstAttribute: {
           name: 'firstAttribute',
@@ -59,9 +60,7 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA COMPOSED] Testing the two numerical cri
     const second = children.at(1)
     expect(first.props().reversed).to.equal(true)
     expect(first.props().hideAttributeName).to.equal(true)
-    expect(first.props().fixedComparator).to.equal(true)
     expect(second.props().reversed).to.equal(false)
     expect(second.props().hideAttributeName).to.equal(true)
-    expect(second.props().fixedComparator).to.equal(true)
   })
 })

@@ -130,6 +130,13 @@ export class EnumeratedCriteriaContainer extends PluginCriterionContainer {
   parseOpenSearchQuery = (parameterName, openSearchQuery) => openSearchQuery.replace(/"/g, '')
 
   /**
+   * Method to clear the field of its value
+   */
+  handleClear = () => {
+    this.onUpdateTextFilter()
+  }
+
+  /**
    * Method to display search criteria
    */
   render() {

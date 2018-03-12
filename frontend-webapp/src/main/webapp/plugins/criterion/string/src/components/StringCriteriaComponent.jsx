@@ -25,7 +25,6 @@ import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
-import { ClearFieldButton } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
@@ -52,6 +51,7 @@ export class StringCriteriaComponent extends PluginCriterionContainer {
     searchField: '',
     checked: false,
   }
+
   onCheck = () => {
     this.setState({ checked: !this.state.checked })
   }
@@ -97,7 +97,6 @@ export class StringCriteriaComponent extends PluginCriterionContainer {
 
   render() {
     const attributeLabel = this.getAttributeLabel('searchField')
-    const clearButtonDisplayed = this.state.searchField !== ''
     const {
       moduleTheme: {
         rootStyle, labelSpanStyle, checkboxStyle, textFieldStyle,
@@ -116,7 +115,6 @@ export class StringCriteriaComponent extends PluginCriterionContainer {
           onChange={this.handleChange}
           style={textFieldStyle}
         />
-        <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
         <Checkbox
           label={<FormattedMessage id="criterion.search.field.word.checkbox.label" />}
           labelPosition="right"
