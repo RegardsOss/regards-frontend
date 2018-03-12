@@ -102,9 +102,11 @@ class ModuleContainer extends React.Component {
       hasSearched: false,
     })
 
-    this.browserHistoryListener = browserHistory.listen((event) => {
-      if (event.action === 'POP') this.handleURLChange() // Change URL is back or forward button is used
-    })
+    if (browserHistory) {
+      this.browserHistoryListener = browserHistory.listen((event) => {
+        if (event.action === 'POP') this.handleURLChange() // Change URL is back or forward button is used
+      })
+    }
   }
 
   componentWillReceiveProps(nextProps) {
