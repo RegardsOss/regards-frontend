@@ -40,7 +40,8 @@ describe('[FORM MODULE] Testing FormLayout', () => {
     assert.isDefined(FormLayout)
   })
   it('should render correctly', () => {
-    let callCount = 0
+    let callSearchCount = 0
+    let callClearCount = 0
     const props = {
       layout: {
         id: 'my-container',
@@ -52,16 +53,21 @@ describe('[FORM MODULE] Testing FormLayout', () => {
         getDefaultState: () => { },
         savePluginState: () => { },
       },
-      onSearch: () => { callCount += 1 },
+      onSearch: () => { callSearchCount += 1 },
+      onClearAll: () => { callClearCount += 1 },
     }
     const enzymeWrapper = shallow(<FormLayout {...props} />, { context })
 
     const button = enzymeWrapper.find(RaisedButton)
-    assert.isTrue(enzymeWrapper.find(Container).length === 1, 'Form module should render configured layout')
-    assert.isTrue(button.length === 1, 'There should be a button to run search')
+    assert.lengthOf(button, 2, 'There should be 2 buttons to run search and reset')
+    assert.lengthOf(enzymeWrapper.find(Container), 1, 'Form module should render configured layout')
 
-    assert.equal(callCount, 0, 'Search callback  should not have been called yet')
-    button.simulate('click')
-    assert.equal(callCount, 1, 'Search callback should have been called')
+    assert.equal(callSearchCount, 0, 'Search callback should not have been called yet')
+    assert.equal(callClearCount, 0, 'Clear all callback should not have been called yet')
+
+    button.at(0).simulate('click')
+    button.at(1).simulate('click')
+    assert.equal(callSearchCount, 1, 'Search callback should have been called')
+    assert.equal(callClearCount, 1, 'Clear all callback should have been called')
   })
 })

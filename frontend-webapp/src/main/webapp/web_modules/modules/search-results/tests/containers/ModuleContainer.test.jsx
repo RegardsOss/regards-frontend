@@ -18,7 +18,9 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { CatalogDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { Tag } from '../../src/models/navigation/Tag'
 import ModuleComponent from '../../src/components/user/ModuleComponent'
 import URLManagementContainer from '../../src/containers/user/URLManagementContainer'
 import { ModuleContainer } from '../../src/containers/ModuleContainer'
@@ -27,26 +29,14 @@ import { DISPLAY_MODE_ENUM } from '../../src/definitions/DisplayModeEnum'
 
 const context = buildTestContext(styles)
 
-// mock router
-const router = require('react-router')
-
 describe('[Search Results] Testing ModuleContainer', () => {
-  before(() => {
-    // mocking router browser history
-    router.browserHistory = {
-      getCurrentLocation: () => ({ query: {}, pathname: 'hello/world' }),
-    }
-    testSuiteHelpers.before()
-  })
-  after(() => {
-    delete router.browserHistory
-    testSuiteHelpers.after()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
   it('should exists', () => {
     assert.isDefined(ModuleContainer)
   })
-  it('should render properly', () => {
+  it('should render correctly when in standalone mode', () => {
     const props = {
       appName: 'any',
       project: 'any',
@@ -71,6 +61,39 @@ describe('[Search Results] Testing ModuleContainer', () => {
     enzymeWrapper.update() // wait for update
 
     assert.lengthOf(enzymeWrapper.find(ModuleComponent), 1, 'After loading, the view should be rendered')
-    assert.lengthOf(enzymeWrapper.find(URLManagementContainer), 1, 'After loading, URL management container should be installed')
+    const urlManagementWrapper = enzymeWrapper.find(URLManagementContainer)
+    assert.lengthOf(urlManagementWrapper, 1, 'After loading, URL management container should be installed')
+    assert.isFalse(urlManagementWrapper.props().isExternallyDriven, 'Module should detect standalone mode (no initial tag and no search query)')
+  })
+  it('should render correctly when externally driven', () => {
+    const props = {
+      appName: 'any',
+      project: 'any',
+      type: 'any',
+      fetchAllModelsAttributes: () => { },
+      attributeModels: {},
+      moduleConf: {
+        enableFacettes: true,
+        enableDownload: true,
+        displayMode: DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT,
+        searchQuery: '',
+        attributes: [],
+        attributesRegroupements: [],
+        initialContextTags: [new Tag(CatalogDomain.TagTypes.WORD, 'papa\'s skyline', 'papa\'s skyline')],
+      },
+    }
+    const enzymeWrapper = shallow(<ModuleContainer {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(ModuleComponent), 0, 'While loading, the view should be hidden')
+    assert.lengthOf(enzymeWrapper.find(URLManagementContainer), 0, 'While loading, URL management container should not be installed')
+
+    // When loading, no components / containers
+    enzymeWrapper.instance().setState({ attributesFetching: false })
+    enzymeWrapper.update() // wait for update
+
+    assert.lengthOf(enzymeWrapper.find(ModuleComponent), 1, 'After loading, the view should be rendered')
+    const urlManagementWrapper = enzymeWrapper.find(URLManagementContainer)
+    assert.lengthOf(urlManagementWrapper, 1, 'After loading, URL management container should be installed')
+    assert.isTrue(urlManagementWrapper.props().isExternallyDriven, 'Module should detect standalone mode (no initial tag and no search query)')
+    assert.equal(urlManagementWrapper.props().initialContextTags, props.moduleConf.initialContextTags, 'Initial context tags should be correctly reported to the URL management wrapper')
   })
 })

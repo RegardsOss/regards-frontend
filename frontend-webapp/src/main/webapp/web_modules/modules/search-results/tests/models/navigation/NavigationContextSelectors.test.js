@@ -16,7 +16,7 @@ const buildMockStore = (initState = DEFAULT_STATE) => ({
 
 const mockReduce = (store, action) => buildMockStore(reduce(store['modules.search-results'].navigationContext, action))
 
-describe('[Search Results] Test graph context selectors', () => {
+describe('[Search Results] Test navigation context selectors', () => {
   it('Should select correctly the view object mode', () => {
     let fakeStore = buildMockStore()
     assert.deepEqual(navigationContextSelectors.getViewObjectType(fakeStore), DEFAULT_STATE.viewObjectType, 'Should return initial view object type')
@@ -31,5 +31,15 @@ describe('[Search Results] Test graph context selectors', () => {
     const tag = new Tag(TagTypes.WORD, 'Alibaba', 'Alibaba')
     fakeStore = mockReduce(fakeStore, navigationContextActions.addSearchTag(tag))
     assert.deepEqual(navigationContextSelectors.getLevels(fakeStore), [tag])
+  })
+  it('Should select correctly the initial levels', () => {
+    let fakeStore = buildMockStore()
+    assert.deepEqual(navigationContextSelectors.getLevels(fakeStore), DEFAULT_STATE.initialLevels, 'Should return default initial levels levels')
+    const someInitialTags = [
+      new Tag(TagTypes.COLLECTION, 'ma collec', 'URN:col1'),
+      new Tag(TagTypes.DOCUMENT, 'mon doc', 'URN:doc1'),
+    ]
+    fakeStore = mockReduce(fakeStore, navigationContextActions.initialize('any', 'any', someInitialTags))
+    assert.deepEqual(navigationContextSelectors.getInitialLevels(fakeStore), someInitialTags)
   })
 })

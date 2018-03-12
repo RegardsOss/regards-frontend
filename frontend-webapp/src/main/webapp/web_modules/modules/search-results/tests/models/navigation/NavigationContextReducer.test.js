@@ -20,28 +20,31 @@ describe('[Search Results] Test navigation context reducer', () => {
     }), DEFAULT_STATE, 'Reducer should ignore non related actions')
   })
 
-  it('should reduce initialization from URL parameters to navigation context and levels', () => {
+  it('should reduce initialization navigation context and levels', () => {
     // 1 - without any optional information
     let currentState = DEFAULT_STATE
     let reduced = reduce(currentState, navigationContextActions.initialize('aType', TableDisplayModeEnum.LIST))
     let expected = {
       viewObjectType: 'aType',
       displayMode: TableDisplayModeEnum.LIST,
+      initialLevels: [],
       levels: [],
     }
     assert.deepEqual(reduced, expected, 'Initialization should be correctly reduced without optional parameters')
 
     // 2 - with option informations and a previous context (to verify it is context independent)
     currentState = expected
-    const tags = [
+    const initialTags = [
       new Tag(TagTypes.DATASET, 'label1', 'URN:ip1'),
       new Tag(TagTypes.WORD, 'fries', 'fries'),
     ]
-    reduced = reduce(currentState, navigationContextActions.initialize('anotherType', TableDisplayModeEnum.LIST, tags))
+    const tag = new Tag(TagTypes.WORD, 'one more tag', 'on more tag')
+    reduced = reduce(currentState, navigationContextActions.initialize('anotherType', TableDisplayModeEnum.LIST, initialTags, [tag]))
     expected = {
       viewObjectType: 'anotherType',
       displayMode: TableDisplayModeEnum.LIST,
-      levels: tags,
+      initialLevels: initialTags,
+      levels: [...initialTags, tag],
     }
 
     assert.deepEqual(reduced, expected, 'Initialization should be correctly reduced with optional parameters')
@@ -154,5 +157,48 @@ describe('[Search Results] Test navigation context reducer', () => {
       levels: [],
     }
     assert.deepEqual(reduced, expected, 'Should reduce correctly a root level browsing')
+  })
+  it('should prevent user removing or adding again a tag from externally driven context tags', () => {
+    // 1 - test noop
+    let currentState = {
+      ...DEFAULT_STATE,
+    }
+    const initialTags = [
+      new Tag(TagTypes.DATASET, 'label1', 'URN:ip1'),
+      new Tag(TagTypes.WORD, 'fries', 'fries'),
+    ]
+    let reduced = reduce(currentState, navigationContextActions.initialize('a', 'b', initialTags))
+    let expected = {
+      viewObjectType: 'a',
+      displayMode: 'b',
+      initialLevels: initialTags,
+      levels: initialTags, // levels should contain the initial tags
+    }
+    assert.deepEqual(reduced, expected, 'Initialization should be performed correctly')
+    // 1 - test adding an already known tag from initial tags
+    currentState = reduced
+    reduced = reduce(currentState, navigationContextActions.addSearchTag(new Tag(TagTypes.DATASET, 'label1', 'URN:ip1')))
+    expected = currentState
+    assert.deepEqual(reduced, expected, 'Adding a known initial tag should be rejected')
+
+    // 2 - Add some levels that can be added and verify we can remove them BUT NOT the initial context tags
+    const userAddedTag1 = new Tag(TagTypes.COLLECTION, 'col1', 'URN:COL:ip1')
+    const userAddedTag2 = new Tag(TagTypes.COLLECTION, 'col2', 'URN:COL:ip2')
+    reduced = reduce(
+      reduce(currentState, navigationContextActions.addSearchTag(userAddedTag1)),
+      navigationContextActions.addSearchTag(userAddedTag2))
+    expected = {
+      ...currentState,
+      levels: [...initialTags, userAddedTag1, userAddedTag2],
+    }
+    assert.deepEqual(reduced, expected, 'Adding tags should be performed correctly')
+
+    currentState = reduced
+    reduced = reduce(currentState, navigationContextActions.gotoLevel(0))
+    expected = {
+      ...currentState,
+      levels: initialTags,
+    }
+    assert.deepEqual(reduced, expected, 'The reducer should always keep initial tags in levels list')
   })
 })

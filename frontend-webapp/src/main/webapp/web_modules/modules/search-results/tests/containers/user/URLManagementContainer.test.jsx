@@ -29,11 +29,6 @@ const context = buildTestContext()
 // mock router
 const router = require('react-router')
 
-// dispatch fetch dataset method as promise builder
-const dispatchFetchEntity = datasetIpId => new Promise((resolve, reject) => {
-  resolve({ content: { ipId: datasetIpId, label: 'helloworld', entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET } })
-})
-
 describe('[Search Results] Testing URLManagementContainer', () => {
   let savedTagPromise = Tag.getTagPromise
   const tagPromiseSpy = { // spy for tests parameters
@@ -59,203 +54,118 @@ describe('[Search Results] Testing URLManagementContainer', () => {
     assert.isDefined(URLManagementContainer)
   })
 
-  it('Should initialize redux state from URL', () => {
+  it('Should initialize redux state from URL when in standalone mode', () => {
     // mocking router browser history to spy pushed data
-    const spiedHistoryPush = { called: false }
-    const spiedInit = { called: false }
     router.browserHistory = {
-      push: ({ pathname, query }) => {
-        spiedHistoryPush.called = true
-      },
+      getCurrentLocation: () => ({
+        query: {
+          [URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER]: 'a',
+          [URLManagementContainer.ModuleURLParameters.TABLE_DISPLAY_MODE_PARAMETER]: 'b',
+          [URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER]: 'c,d',
+        },
+        pathname: 'hello/world',
+      }),
     }
 
     const props = {
+      isExternallyDriven: false,
       initialViewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       initialTableDisplayMode: TableDisplayModeEnum.LIST,
-      currentPath: 'hello/world',
-      currentQuery: {
-        [URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-        [URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER]: TableDisplayModeEnum.LIST,
-        [URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER]: 'URN:ds2,find-soda',
-      },
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       displayDatasets: true,
       tableDisplayMode: TableDisplayModeEnum.LIST,
+      initialContextTags: [],
       levels: [], // not initialized here, no need
-      initialize: testSuiteHelpers.getSuccessDispatchStub({}, ({ viewObjectType, tableDisplayMode, tags }) => {
-        spiedInit.called = true
-        spiedInit.viewObjectType = viewObjectType
-        spiedInit.tableDisplayMode = tableDisplayMode
-        spiedInit.tags = tags
-      }),
-      dispatchFetchEntity,
+      initialize: testSuiteHelpers.getSuccessDispatchStub({}),
+      dispatchFetchEntity: testSuiteHelpers.getSuccessDispatchStub({}),
     }
     // reinit call parameters
     tagPromiseSpy.callParameters = []
 
     shallow(<URLManagementContainer {...props} />, { context })
-    // URL should not be updated
-    assert.isFalse(spiedHistoryPush.called, 'URL should not be updated at initialization')
-    // this can no longer be tested due to inner promises
-    // assert.isTrue(spiedInit.called, 'The module state must be computed from URL at initialization')
-    // assert.equal(spiedInit.viewObjectType, SearchResultsTargetsEnum.DATASET_RESULTS, 'View object type must be retrieved from URL')
-    // assert.equal(spiedInit.tableDisplayMode, TableDisplayModeEnum.LIST, 'View object type must be retrieved from URL')
-    // // check that tags were parsed directly on Tag solver
-    // assert.deepEqual(tagPromiseSpy.callParameters, ['URN:ds2', 'find-soda'])
+    // check wrapper called tag promise to resolve tags from URL
+    assert.deepEqual(tagPromiseSpy.callParameters, ['c', 'd'])
+    // asynchronous calls cannot be easily tested
   })
 
-  it('Should block target type dataset from URL when modules is not displaying datasets', () => {
+  it('Should initialize redux state from initial configuration when externally driven', () => {
     // mocking router browser history to spy pushed data
-    const spiedHistoryPush = { called: false }
-    const spiedInit = { called: false }
+    const spiedHistoryReplace = { count: 0 }
     router.browserHistory = {
-      push: ({ pathname, query }) => {
-        spiedHistoryPush.called = true
+      getCurrentLocation: () => ({ pathname: 'hello/world', query: {} }),
+      replace: ({ pathname, query }) => {
+        spiedHistoryReplace.count += 1
+        spiedHistoryReplace.pathname = pathname
+        spiedHistoryReplace.query = query
       },
     }
 
     const props = {
+      isExternallyDriven: true,
+      initialContextLabel: 'any',
       initialViewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       initialTableDisplayMode: TableDisplayModeEnum.LIST,
-      currentPath: 'hello/world',
-      currentQuery: {
-        [URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-        [URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER]: TableDisplayModeEnum.TABLE,
-        [URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER]: 'URN:ip1,find-cookies',
-      },
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      displayDatasets: false,
-      tableDisplayMode: TableDisplayModeEnum.TABLE,
+      displayDatasets: true,
+      tableDisplayMode: TableDisplayModeEnum.LIST,
+      initialContextTags: [
+        { type: CatalogDomain.TagTypes.WORD, label: 'b1', searchKey: 'c1' },
+        { type: CatalogDomain.TagTypes.WORD, label: 'b2', searchKey: 'c2' }],
       levels: [], // not initialized here, no need
-      initialize: testSuiteHelpers.getSuccessDispatchStub({}, ({ viewObjectType, tableDisplayMode, tags }) => {
-        spiedInit.called = true
-        spiedInit.viewObjectType = viewObjectType
-        spiedInit.tableDisplayMode = tableDisplayMode
-        spiedInit.tags = tags
-      }),
-      dispatchFetchEntity,
+      initialize: testSuiteHelpers.getSuccessDispatchStub({}),
+      dispatchFetchEntity: testSuiteHelpers.getSuccessDispatchStub({}),
     }
+
     // reinit call parameters
     tagPromiseSpy.callParameters = []
-
     shallow(<URLManagementContainer {...props} />, { context })
-    // URL should not be updated
-    assert.isFalse(spiedHistoryPush.called, 'URL should not be updated at initialization')
-    // this can no longer be tested due to inner promises
-    // state should be initialized from URL parts (and some propeties)
-    // assert.isTrue(spiedInit.called, 'The module state must be computed from URL at initialization')
-    // assert.equal(spiedInit.viewObjectType, SearchResultsTargetsEnum.DATAOBJECT_RESULTS, 'DATASET view object type must be blocked when modules does not display datasets')
-    // assert.equal(spiedInit.tableDisplayMode, TableDisplayModeEnum.TABLE, 'View object type must be retrieved from URL')
-    // // check that tags were parsed directly on Tag solver
-    // assert.deepEqual(tagPromiseSpy.callParameters, ['URN:ip1', 'find-cookies'])
+    assert.lengthOf(tagPromiseSpy.callParameters, 0, 'When externally driven, the content should not be resolved from URL')
   })
 
   it('Should update URL on redux state change', () => {
     // mocking router browser history to spy pushed data
-    const spiedHistoryPush = { called: false }
-    const spiedInit = { called: false }
+    const spiedHistoryReplace = { called: false }
     router.browserHistory = {
-      push: ({ pathname, query }) => {
-        spiedHistoryPush.called = true
-        spiedHistoryPush.pathname = pathname
-        spiedHistoryPush.query = query
+      getCurrentLocation: () => ({ pathname: 'hello/world', query: {} }),
+      replace: ({ pathname, query }) => {
+        spiedHistoryReplace.called = true
+        spiedHistoryReplace.pathname = pathname
+        spiedHistoryReplace.query = query
       },
     }
 
     const props = {
+      isExternallyDriven: false,
       initialContextLabel: 'any',
       initialViewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       initialTableDisplayMode: TableDisplayModeEnum.LIST,
-      currentPath: 'hello/world',
-      currentQuery: {
-        [URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-        [URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER]: TableDisplayModeEnum.LIST,
-        [URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER]: 'URN:ip1,cupcake',
-      },
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       displayDatasets: true,
       tableDisplayMode: TableDisplayModeEnum.LIST,
       levels: [], // not initialized here, no need
-      initialize: testSuiteHelpers.getSuccessDispatchStub({}, ({ viewObjectType, tableDisplayMode, tags }) => {
-        spiedInit.called = true
-      }),
-      dispatchFetchEntity,
+      initialize: testSuiteHelpers.getSuccessDispatchStub({}),
+      dispatchFetchEntity: testSuiteHelpers.getSuccessDispatchStub({}),
     }
 
     const enzymeWrapper = shallow(<URLManagementContainer {...props} />, { context })
-    // re init
-    spiedInit.called = false
-    spiedHistoryPush.called = false
+    assert.isFalse(spiedHistoryReplace.called, 'URL Cannot be updated while redux state hasn\'t changed')
 
     // change properties like mapStateToProps would
+    spiedHistoryReplace.called = false
     enzymeWrapper.setProps({
       ...props,
+      viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+      tableDisplayMode: TableDisplayModeEnum.TABLE,
       levels: [
         new Tag(CatalogDomain.TagTypes.WORD, 'chocolate', 'chocolate'),
         // remove the dataset level
       ],
     })
-    // verify redux state is unchanged (no initialization called)
-    assert.isFalse(spiedInit.called, 'The state initialization should not be peformed on inner module updates')
     // Verify URL is updated from properties
-    assert.isTrue(spiedHistoryPush.called, 'URL should be update on navigation context changes')
-    assert.equal(spiedHistoryPush.pathname, 'hello/world', 'The URL path should not change')
-    assert.equal(spiedHistoryPush.query[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER], DamDomain.ENTITY_TYPES_ENUM.DATA, 'The object view type should remain unchanged (from properties)')
-    assert.equal(spiedHistoryPush.query[URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER], TableDisplayModeEnum.LIST, 'The view mode should remain unchanged')
-    assert.equal(spiedHistoryPush.query[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER], 'chocolate', 'The new tag should replace the old one in URL')
-  })
-  it('should report URL changes to redux state', () => {
-    // mocking router browser history to spy pushed data
-    const spiedHistoryPush = { called: false }
-    const spiedInit = { called: false }
-    router.browserHistory = {
-      push: ({ pathname, query }) => {
-        spiedHistoryPush.called = true
-      },
-    }
-
-    const props = {
-      initialContextLabel: 'any',
-      initialViewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      initialTableDisplayMode: TableDisplayModeEnum.LIST,
-      currentPath: 'hello/world',
-      currentQuery: {},
-      viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      tableDisplayMode: TableDisplayModeEnum.LIST,
-      levels: [], // not initialized here, no need
-      displayDatasets: true,
-      initialize: testSuiteHelpers.getSuccessDispatchStub({}, ({ viewObjectType, tableDisplayMode, tags }) => {
-        spiedInit.called = true
-        spiedInit.viewObjectType = viewObjectType
-        spiedInit.tableDisplayMode = tableDisplayMode
-        spiedInit.tags = tags
-      }),
-      dispatchFetchEntity,
-    }
-
-    const enzymeWrapper = shallow(<URLManagementContainer {...props} />, { context })
-
-    // re init
-    spiedInit.called = false
-    spiedHistoryPush.called = false
-    tagPromiseSpy.callParameters = []
-
-    enzymeWrapper.setProps({
-      ...props,
-      currentQuery: {
-        [URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-        [URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER]: TableDisplayModeEnum.LIST,
-        [URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER]: 'URN:ds2,find-soda',
-      },
-    })
-    assert.isFalse(spiedHistoryPush.called, 'URL should not be updated')
-
-    // this can no longer be tested due to inner promises
-    // assert.isTrue(spiedInit.called)
-    // assert.equal(spiedInit.viewObjectType, SearchResultsTargetsEnum.DATASET_RESULTS, 'The URL view object type change should be reported to redux state')
-    // assert.equal(spiedInit.tableDisplayMode, TableDisplayModeEnum.LIST, 'The URL view object type change should be reported to redux state')
-
-    // check that tags were parsed directly on Tag solver (which also verifies the initialization is done)
-    assert.deepEqual(tagPromiseSpy.callParameters, ['URN:ds2', 'find-soda'])
+    assert.isTrue(spiedHistoryReplace.called, 'URL should be update on navigation context changes')
+    assert.equal(spiedHistoryReplace.pathname, 'hello/world', 'The URL path should not change')
+    assert.equal(spiedHistoryReplace.query[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER], DamDomain.ENTITY_TYPES_ENUM.DATASET, 'The object view type should be updated (from properties)')
+    assert.equal(spiedHistoryReplace.query[URLManagementContainer.ModuleURLParameters.TABLE_DISPLAY_MODE_PARAMETER], TableDisplayModeEnum.TABLE, 'The view mode should be updated (from properties)')
+    assert.equal(spiedHistoryReplace.query[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER], 'chocolate', 'The new tag should should be updated (from properties)')
   })
 })

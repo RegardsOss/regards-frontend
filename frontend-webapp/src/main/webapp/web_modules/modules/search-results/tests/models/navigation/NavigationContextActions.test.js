@@ -26,9 +26,21 @@ describe('[Search Results] Test navigation context actions', () => {
       type: navigationContextActions.INITIALIZE,
       viewObjectType: 'any1',
       displayMode: 'any2',
+      initialLevels: [],
       tags,
     }
-    dispatchAndCheck(navigationContextActions.initialize('any1', 'any2', tags), expectedAction, buildMockStore({}))
+    dispatchAndCheck(navigationContextActions.initialize('any1', 'any2', [], tags), expectedAction, buildMockStore({}))
+  })
+  it('It should dispatch state initialization (externally driven)', () => {
+    const initialTags = [new Tag(TagTypes.WORD, 'fries', 'fries')]
+    const expectedAction = {
+      type: navigationContextActions.INITIALIZE,
+      viewObjectType: 'any1',
+      displayMode: 'any2',
+      initialLevels: initialTags,
+      tags: [],
+    }
+    dispatchAndCheck(navigationContextActions.initialize('any1', 'any2', initialTags, []), expectedAction, buildMockStore({}))
   })
 
   it('It should dispatch search tag add', () => {

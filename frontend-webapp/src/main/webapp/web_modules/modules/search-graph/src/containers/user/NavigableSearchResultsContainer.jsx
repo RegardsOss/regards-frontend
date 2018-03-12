@@ -2,7 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import { connect } from '@regardsoss/redux'
-import { TagTypes, OpenSearchQuery } from '@regardsoss/domain/catalog'
+import { TagTypes } from '@regardsoss/domain/catalog'
 import { AccessShapes, CatalogShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HorizontalAreasSeparator } from '@regardsoss/components'

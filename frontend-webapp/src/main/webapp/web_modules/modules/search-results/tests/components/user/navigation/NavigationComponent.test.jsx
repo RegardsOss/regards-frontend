@@ -34,7 +34,7 @@ describe('[Search Results] Testing NavigationComponent', () => {
   it('should exists', () => {
     assert.isDefined(NavigationComponent)
   })
-  it('should render properly', () => {
+  it('should render correctly when externally driven (no description nor page)', () => {
     const levels = [
       new Tag(TagTypes.DATASET, 'a dataset', 'URN:TEST'),
       new Tag(TagTypes.DATASET, 'styles:patatoes', 'styles:patatoes'),
@@ -45,6 +45,28 @@ describe('[Search Results] Testing NavigationComponent', () => {
       onLevelSelected: () => { },
     }
     const enzymeWrapper = shallow(<NavigationComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(Breadcrumb), 1, 'There should be a breadcrumb component')
+    const breadcrumb = enzymeWrapper.find(Breadcrumb)
+    assert.lengthOf(breadcrumb, 1, 'There should be a breadcrumb component')
+    assert.deepEqual(breadcrumb.props().elements, props.navigationLevels, 'breacrumb elements should be the defined navigation levels')
+    assert.equal(enzymeWrapper.instance().getLevelLabel(levels[0], 0), 'a dataset', 'level tag should be used as root tag when there is no description')
+  })
+  it('should render correctly when in modules is in standalone mode (description or page)', () => {
+    const levels = [
+      new Tag(TagTypes.DATASET, 'a dataset', 'URN:TEST'),
+      new Tag(TagTypes.DATASET, 'styles:patatoes', 'styles:patatoes'),
+    ]
+    const props = {
+      description: 'aaa',
+      page: { title: { en: 'test-en', fr: 'test-fr' } },
+      locale: 'en',
+      navigationLevels: levels,
+      defaultIconURL: 'any',
+      onLevelSelected: () => { },
+    }
+    const enzymeWrapper = shallow(<NavigationComponent {...props} />, { context })
+    const breadcrumb = enzymeWrapper.find(Breadcrumb)
+    assert.lengthOf(breadcrumb, 1, 'There should be a breadcrumb component')
+    assert.deepEqual(breadcrumb.props().elements, props.navigationLevels, 'breacrumb elements should be the defined navigation levels')
+    assert.equal(enzymeWrapper.instance().getLevelLabel(levels[0], 0), 'test-en', 'root label should come from module configuration')
   })
 })

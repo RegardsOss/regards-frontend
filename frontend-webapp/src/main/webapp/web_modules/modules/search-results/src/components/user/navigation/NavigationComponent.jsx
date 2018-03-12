@@ -21,8 +21,6 @@ import { AccessShapes } from '@regardsoss/shape'
 import { Breadcrumb, ModuleTitleText, ModuleIcon } from '@regardsoss/components'
 import { Tag } from '../../../models/navigation/Tag'
 
-const ROOT_PLACEHOLDER = {}
-
 /**
  * Component to display navigation bar.
  *
@@ -40,7 +38,7 @@ class NavigationComponent extends React.Component {
     page: AccessShapes.ModulePage,
     defaultIconURL: PropTypes.string.isRequired,
     navigationLevels: PropTypes.arrayOf(PropTypes.oneOfType([
-      PropTypes.oneOf([ROOT_PLACEHOLDER]), // placeholder allowed at first position
+      PropTypes.oneOf([NavigationComponent.ROOT_PLACEHOLDER]), // placeholder allowed at first position
       PropTypes.instanceOf(Tag), // tags after
     ])).isRequired,
     onLevelSelected: PropTypes.func.isRequired, // on level selected in breadcrumb: (level, index) => void
@@ -54,7 +52,8 @@ class NavigationComponent extends React.Component {
   getLevelLabel = (levelTag, index) => {
     const { locale, description, page } = this.props
     if (index === 0) {
-      // Root placeholder (no initial tag): return title from configuration or first tag if it was not specified in configuration
+      // Root element (we don't care here if it is a root placeholder or an initial context tag)
+      // Select title in the same way than any other module, fallback on level tag if description / page undefined
       return ModuleTitleText.selectTitle(page && page.title, description || levelTag.label, locale)
     }
     // Tag: return label
