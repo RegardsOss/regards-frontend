@@ -34,29 +34,19 @@ export class NavigableSearchResultsContainer extends React.Component {
     ...i18nContextType,
   }
 
-  static getResultsConfigurationForTag(tag) {
+  /**
+   * Returns initial context tags fro driven search results component
+   * @param {*} tag search graph current tag
+   */
+  static getInitialContextTags(tag) {
     if (!tag) {
-      return {}
+      return []
     }
-    let searchTag = null
-    let singleDatasetIpId = null
-    let description = null
-    switch (tag.type) {
-      case TagTypes.WORD:
-        searchTag = tag.data
-        description = tag.data
-        break
-      case TagTypes.DATASET: // dataset tag: retrieve entity label and IPID, and provide the dataset context to results module
-        description = tag.data.content.label
-        searchTag = tag.data.content.ipId
-        singleDatasetIpId = searchTag
-        break
-      default: // any other entity: same working mode but no initial dataset
-        description = tag.data.content.label
-        searchTag = tag.data.content.ipId
-    }
-    const searchQuery = new OpenSearchQuery(null, [OpenSearchQuery.buildTagParameter(searchTag)]).toQueryString()
-    return { searchQuery, description, singleDatasetIpId }
+    return [{
+      type: tag.type,
+      label: tag.type === TagTypes.WORD ? tag.data : tag.data.content.label,
+      searchKey: tag.type === TagTypes.WORD ? tag.data : tag.data.content.ipId,
+    }]
   }
 
   componentWillMount = () => this.onPropertiesChanged({}, this.props)
@@ -65,18 +55,16 @@ export class NavigableSearchResultsContainer extends React.Component {
 
   onPropertiesChanged = ({ searchTag }, { searchTag: newSearchTag, appName, moduleConf }) => {
     // compute tag related data
-    const { searchQuery, description, singleDatasetIpId } = NavigableSearchResultsContainer.getResultsConfigurationForTag(newSearchTag)
+    const initialContextTags = NavigableSearchResultsContainer.getInitialContextTags(newSearchTag)
     // store new results module configuration in state
     const resultsConfiguration = {
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
       active: true,
       applicationId: appName,
-      description,
       conf: {
         ...moduleConf.searchResult, // results re use a part of this module configuration
         // configure query dataset context if any
-        singleDatasetIpId,
-        searchQuery,
+        initialContextTags,
       },
     }
 

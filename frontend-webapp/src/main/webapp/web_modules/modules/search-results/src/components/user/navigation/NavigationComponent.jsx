@@ -29,6 +29,9 @@ const ROOT_PLACEHOLDER = {}
  * @author Sébastien binda
  */
 class NavigationComponent extends React.Component {
+  /** Allowed element as root of navigation levels */
+  static ROOT_PLACEHOLDER = {}
+
   static propTypes = {
     locale: PropTypes.string,
     // module description
@@ -36,7 +39,10 @@ class NavigationComponent extends React.Component {
     // module page definition
     page: AccessShapes.ModulePage,
     defaultIconURL: PropTypes.string.isRequired,
-    navigationLevels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired,
+    navigationLevels: PropTypes.arrayOf(PropTypes.oneOfType([
+      PropTypes.oneOf([ROOT_PLACEHOLDER]), // placeholder allowed at first position
+      PropTypes.instanceOf(Tag), // tags after
+    ])).isRequired,
     onLevelSelected: PropTypes.func.isRequired, // on level selected in breadcrumb: (level, index) => void
   }
 
@@ -48,9 +54,10 @@ class NavigationComponent extends React.Component {
   getLevelLabel = (levelTag, index) => {
     const { locale, description, page } = this.props
     if (index === 0) {
-      // root level may have no label (use home then)
-      return ModuleTitleText.selectTitle(page && page.title, description, locale)
+      // Root placeholder (no initial tag): return title from configuration or first tag if it was not specified in configuration
+      return ModuleTitleText.selectTitle(page && page.title, description || levelTag.label, locale)
     }
+    // Tag: return label
     return levelTag.label
   }
 
@@ -58,10 +65,6 @@ class NavigationComponent extends React.Component {
     const {
       page, defaultIconURL, navigationLevels, onLevelSelected,
     } = this.props
-    const breadcrumbElements = [
-      ROOT_PLACEHOLDER, // add root (as a placeholder)
-      ...navigationLevels,
-    ]
     return (
       <Breadcrumb
         rootIcon={<ModuleIcon
@@ -69,7 +72,7 @@ class NavigationComponent extends React.Component {
           defaultIconURL={defaultIconURL}
           customIconURL={get(page, 'customIconURL')}
         />}
-        elements={breadcrumbElements}
+        elements={navigationLevels}
         labelGenerator={this.getLevelLabel}
         onAction={onLevelSelected}
       />

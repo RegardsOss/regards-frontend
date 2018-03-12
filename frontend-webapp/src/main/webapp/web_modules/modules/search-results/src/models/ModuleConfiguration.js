@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
+import { CatalogDomain } from '@regardsoss/domain'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { DISPLAY_MODE_VALUES } from '../definitions/DisplayModeEnum'
 import DisplayModuleConf from './DisplayModuleConf'
@@ -35,6 +37,13 @@ const Form = PropTypes.shape({
   documentAttributes: AccessShapes.AttributeConfigurationArray,
   // Special configuration given if the module is not load as a independent module
   selectableAttributes: DataManagementShapes.AttributeModelList,
+
+  // Initial context tags (will be automatically added to breadcumb, the first tag cannot be removed)
+  initialContextTags: PropTypes.arrayOf(PropTypes.shape({
+    type: PropTypes.oneOf(values(CatalogDomain.TagTypes)).isRequired,
+    label: PropTypes.string.isRequired,
+    searchKey: PropTypes.string.isRequired,
+  })),
 
   // Initial search query
   searchQuery: PropTypes.string,

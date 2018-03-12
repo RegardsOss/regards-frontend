@@ -18,14 +18,16 @@ class NavigationContextActions {
    * Initializes the store for module root navigation context (mapped from URL)
    * @param viewObjectType initial view object type (dataobjects or datasets)
    * @param displayMode display mode
+   * @param initialLevels initial context tags
    * @param {[Tag]} tags current tags list (optional)
    * @return {type: string, ...} dispatchable redux action
    */
-  initialize(viewObjectType, displayMode, tags = []) {
+  initialize(viewObjectType, displayMode, initialLevels, tags = []) {
     return {
       type: this.INITIALIZE,
       viewObjectType,
       displayMode,
+      initialLevels,
       tags,
     }
   }

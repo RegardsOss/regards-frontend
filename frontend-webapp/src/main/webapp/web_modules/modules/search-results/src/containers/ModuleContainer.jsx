@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { browserHistory } from 'react-router'
 import reduce from 'lodash/reduce'
 import join from 'lodash/join'
 import { connect } from '@regardsoss/redux'
@@ -89,6 +88,9 @@ export class ModuleContainer extends React.Component {
     const { attributeModels, moduleConf } = this.props
     const { attributesFetching, facettesQuery } = this.state
     const initialViewObjectType = this.getInitialViewObjectType(moduleConf.displayMode)
+    // compute if this component is externally driven: is there parent module parameters?
+    const isExternallyDriven = !!(moduleConf.searchQuery || (moduleConf.initialContextTags && moduleConf.initialContextTags.length))
+
     if (!attributesFetching) {
       return (
         <div>
@@ -98,10 +100,10 @@ export class ModuleContainer extends React.Component {
           <DescriptionContainer />
           { /* URL management container: blocks view while it is not initialized to avoid useless requests (no view) */}
           <URLManagementContainer
-            currentPath={browserHistory.getCurrentLocation().pathname}
-            currentQuery={browserHistory.getCurrentLocation().query}
             initialViewObjectType={initialViewObjectType}
             initialTableDisplayMode={TableDisplayModeEnum.LIST}
+            initialContextTags={this.props.moduleConf.initialContextTags}
+            isExternallyDriven={isExternallyDriven}
           >
             { /* View : module (report all module properties) */}
             <ModuleComponent
