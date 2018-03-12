@@ -36,7 +36,7 @@ module.exports = {
   relativeURLRegexp,
   validURLRegexp,
 
-  EnumNumericalComparator,
+  ...EnumNumericalComparator,
 
   EntityIpIdTester,
 
