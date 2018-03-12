@@ -20,7 +20,6 @@ import has from 'lodash/has'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { CatalogShapes } from '@regardsoss/shape'
-import { AuthenticateShape } from '@regardsoss/authentication-manager'
 import { URLAuthInjector } from '@regardsoss/domain/common'
 
 /**

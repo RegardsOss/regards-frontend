@@ -46,6 +46,8 @@ describe('[Entities Common] Testing EntityDescriptionContainer', () => {
       downloadDescriptionClient: new DownloadDescriptionClient('test', []),
       currentTab: DescriptionLevelActions.TABS_ENUM.DESCRIPTION,
       shownEntity: null, // NO DATA
+      projectName: 'project1',
+      accessToken: 'abcdef....',
       onClose: () => { },
       changeTab: () => { },
     }
@@ -72,6 +74,8 @@ describe('[Entities Common] Testing EntityDescriptionContainer', () => {
           entityType: 'COLLECTION',
         },
       },
+      projectName: 'project1',
+      accessToken: 'abcdef....',
       onClose: () => { },
       changeTab: () => { },
     }

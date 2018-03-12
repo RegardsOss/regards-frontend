@@ -55,6 +55,8 @@ describe('[Search results] Testing GalleryItemContainer', () => {
       dispatchShowQuicklook: () => { },
       entity,
       attributePresentationModels: [],
+      projectName: 'project1',
+      accessToken: 'abcdef....',
     }
     const enzymeWrapper = shallow(<GalleryItemContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(GalleryItemComponent)

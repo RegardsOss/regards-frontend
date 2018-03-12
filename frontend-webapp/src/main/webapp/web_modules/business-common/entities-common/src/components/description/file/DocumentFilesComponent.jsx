@@ -12,7 +12,6 @@ import File from 'material-ui/svg-icons/editor/insert-drive-file'
 import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import { storage } from '@regardsoss/units'
-import { AuthenticateShape } from '@regardsoss/authentication-manager'
 import { URLAuthInjector } from '@regardsoss/domain/common'
 import DescriptionFileComponent from '../../../components/description/file/DescriptionFileComponent'
 /**
