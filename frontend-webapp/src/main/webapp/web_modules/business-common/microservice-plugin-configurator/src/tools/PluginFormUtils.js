@@ -84,6 +84,7 @@ const formatPluginConf = (pluginConfiguration, pluginMetaData, forInit = false) 
     // First level, complex parameters with value
     if (parameterConf && parameterConf.value) {
       parameterConf.value = formatParameterConf(parameterConf.value, p, forInit)
+      console.error('param initialized', parameterConf)
     }
   })
   return formatedConf

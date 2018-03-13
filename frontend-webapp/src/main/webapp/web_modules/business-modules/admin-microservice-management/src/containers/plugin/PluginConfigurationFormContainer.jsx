@@ -55,13 +55,18 @@ export class PluginConfigurationFormContainer extends React.Component {
   }
 
   render() {
-    const { params } = this.props
+    const {
+      params: {
+        microserviceName, pluginId, pluginConfigurationId, formMode,
+      },
+    } = this.props
+
     return (
       <PluginFormContainer
-        microserviceName={params.microserviceName}
-        pluginId={params.pluginId}
-        pluginConfigurationId={params.pluginConfigurationId}
-        formMode={params.formMode}
+        microserviceName={microserviceName}
+        pluginId={pluginId}
+        pluginConfigurationId={pluginConfigurationId ? parseInt(pluginConfigurationId, 10) : null}
+        formMode={formMode}
         backUrl={this.getBackUrl()}
         storePath={PluginConfigurationFormContainer.storePath}
       />
