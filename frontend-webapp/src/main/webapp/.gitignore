@@ -7,3 +7,4 @@ reports/
 .nyc_output/
 .tmp
 .idea
+package-lock.json.*
