@@ -37,8 +37,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
           // Exclude the DLL folder build from the transpilation
           exclude: [/node_modules/, /dist/],
           use: [
-            // your expensive loader
-            'thread-loader',
             // used to cache the results of the loader.
             // Next builds will attempt to read from the cache
             // the cache is different depending of the value of NODE_ENV

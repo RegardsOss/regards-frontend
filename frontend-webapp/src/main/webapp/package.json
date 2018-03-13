@@ -13,6 +13,7 @@
     "build:plugins": "./scripts/build-all-plugins.sh prod all",
     "build:stats": "webpack --config webpack.dev.local.config.js --profile --json > reports/stats-build-dev.json",
     "prestart": "npm run lint:fix || true",
+    "install:plugins": "./scripts/install-all-plugins.sh",
     "start": "npm run start:withpreprod",
     "start:local": "webpack-dev-server --progress --config webpack.dev.local.config.js",
     "start:mock-client": "webpack-dev-server --progress --config webpack.dev.mock.config.js",
