@@ -21,9 +21,9 @@ import { assert } from 'chai'
 import { DynamicModule } from '@regardsoss/components'
 import { storage } from '@regardsoss/units'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ModuleComponent from '../../src/components/ModuleComponent'
-import StorageMonitoringContainer from '../../src/containers/StorageMonitoringContainer'
-import styles from '../../src/styles/styles'
+import ModuleComponent from '../../../src/components/user/ModuleComponent'
+import StorageMonitoringContainer from '../../../src/containers/user/StorageMonitoringContainer'
+import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 

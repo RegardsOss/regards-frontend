@@ -19,34 +19,34 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DropDownButton } from '@regardsoss/components'
-import { storage } from '@regardsoss/units'
-import { ScaleSelectorComponent } from '../../src/components/ScaleSelectorComponent'
-import styles from '../../src/styles/styles'
+import ModuleConfigurationComponent from '../../../src/components/admin/ModuleConfigurationComponent'
+import { AdminModuleContainer } from '../../../src/containers/admin/AdminModuleContainer'
+import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test ScaleSelectorComponent
+* Test AdminModuleContainer
 * @author Raphaël Mechali
 */
-describe('[Storage Monitoring] Testing ScaleSelectorComponent', () => {
+describe('[Storage monitoring] Testing AdminModuleContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ScaleSelectorComponent)
+    assert.isDefined(AdminModuleContainer)
   })
   it('should render correctly', () => {
     const props = {
-      scale: storage.StorageUnitScale.bytesScale,
-      onUnitScaleChanged: () => { },
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      adminForm: {
+        currentNamespace: 'conf',
+        form: {},
+      },
     }
-    const enzymeWrapper = shallow(<ScaleSelectorComponent {...props} />, { context })
-    const dropDownWrapper = enzymeWrapper.find(DropDownButton)
-    // parent container callback should be correctly reported
-    assert.equal(dropDownWrapper.props().onChange, props.onUnitScaleChanged, 'Callback is not reported is sub component!')
-    // current scale should be the value of the drop down menu
-    assert.equal(dropDownWrapper.props().value, props.scale, 'Current avlue is not reported is sub component!')
+    const enzymeWrapper = shallow(<AdminModuleContainer {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(ModuleConfigurationComponent), 1, 'There should be the configuration form')
   })
 })

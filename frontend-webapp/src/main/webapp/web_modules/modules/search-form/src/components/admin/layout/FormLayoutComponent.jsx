@@ -21,6 +21,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { CardActions, CardText } from 'material-ui/Card'
 import { CardActionsComponent, Title } from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
+import { ModulePaneStateField } from '@regardsoss/modules-api'
 import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
 
 const searchFormDefaultLayout = merge({}, DefaultLayout('FormMainContainer'), {
@@ -49,6 +50,7 @@ class FormLayoutComponent extends React.Component {
   static contextTypes = {
     ...i18nContextType,
   }
+
 
   constructor(props) {
     super(props)
@@ -84,9 +86,11 @@ class FormLayoutComponent extends React.Component {
   }
 
   render() {
+    const { currentNamespace } = this.props
     return (
       <div>
         <CardText>
+          <ModulePaneStateField currentNamespace={currentNamespace} />
           <Title
             level={3}
             label={this.context.intl.formatMessage({ id: 'form.layout.tab.title' })}

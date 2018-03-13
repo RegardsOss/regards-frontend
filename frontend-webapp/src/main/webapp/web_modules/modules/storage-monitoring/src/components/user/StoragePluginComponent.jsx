@@ -19,7 +19,7 @@
 import { Card, CardTitle, CardMedia } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { ParsedStoragePluginShape } from '../model/ParsedStoragePluginShape'
+import { ParsedStoragePluginShape } from '../../model/ParsedStoragePluginShape'
 import StoragePluginChartComponent from './StoragePluginChartComponent'
 import StoragePluginLegendComponent from './StoragePluginLegendComponent'
 

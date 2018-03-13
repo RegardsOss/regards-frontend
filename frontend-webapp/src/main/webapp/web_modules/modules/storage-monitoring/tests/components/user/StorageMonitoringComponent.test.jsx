@@ -22,10 +22,10 @@ import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { assert } from 'chai'
 import { storage } from '@regardsoss/units'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import StorageMonitoringComponent from '../../src/components/StorageMonitoringComponent'
-import StoragePluginContainer from '../../src/containers/StoragePluginContainer'
-import styles from '../../src/styles/styles'
-import { dump } from '../dump/dump'
+import StorageMonitoringComponent from '../../../src/components/user/StorageMonitoringComponent'
+import StoragePluginContainer from '../../../src/containers/user/StoragePluginContainer'
+import styles from '../../../src/styles/styles'
+import { dump } from '../../dump/dump'
 
 const context = buildTestContext(styles)
 

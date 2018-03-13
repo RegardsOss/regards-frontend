@@ -26,7 +26,7 @@ import MessagesFR from '../../src/i18n/messages.fr.i18n'
  * Tests for i18n messages
  * @author Sébastien Binda
  */
-describe('[SEARCH UTILS] Testing i18n', () => {
+describe('[Modules API] Testing i18n', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

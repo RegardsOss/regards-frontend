@@ -19,7 +19,7 @@
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ChartAdapter } from '@regardsoss/adapters'
-import { ParsedStoragePluginShape } from '../model/ParsedStoragePluginShape'
+import { ParsedStoragePluginShape } from '../../model/ParsedStoragePluginShape'
 
 /**
 * Component to display a physical storage state as chart. Note: it is independent of scale and should receive

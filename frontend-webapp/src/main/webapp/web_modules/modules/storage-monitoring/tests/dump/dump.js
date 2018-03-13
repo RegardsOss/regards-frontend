@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { storage } from '@regardsoss/units'
-import { StoragePluginContainer } from '../../src/containers/StoragePluginContainer'
+import { StoragePluginContainer } from '../../src/containers/user/StoragePluginContainer'
 
 const dump = {
   1: {

@@ -16,16 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { getAdminURL, getModuleURL, getModuleDefaultIconURL, getPathModuleId } from './URLHelper'
-import { MENU_DISPLAY_MODES, MENU_DISPLAY_MODES_ENUM } from './MenuDisplayModes'
 import LocalStorageUser from './LocalStorageUser'
+import { MENU_DISPLAY_MODES, MENU_DISPLAY_MODES_ENUM } from './MenuDisplayModes'
+import { MODULE_PANE_DISPLAY_MODES_ENUM, MODULE_PANE_DISPLAY_MODES, isModulePaneExpanded, isModulePaneExpansible } from './ModulePaneDisplayModes'
+import { getAdminURL, getModuleURL, getModuleDefaultIconURL, getPathModuleId } from './URLHelper'
 
 module.exports = {
   getAdminURL,
-  getModuleURL,
   getModuleDefaultIconURL,
+  getModuleURL,
   getPathModuleId,
+  isModulePaneExpanded,
+  isModulePaneExpansible,
+  LocalStorageUser,
   MENU_DISPLAY_MODES,
   MENU_DISPLAY_MODES_ENUM,
-  LocalStorageUser,
+  MODULE_PANE_DISPLAY_MODES_ENUM,
+  MODULE_PANE_DISPLAY_MODES,
 }

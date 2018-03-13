@@ -19,35 +19,34 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { ModulePaneStateField } from '@regardsoss/modules-api'
-import ModuleConfigurationComponent from '../../../src/components/admin/ModuleConfigurationComponent'
+import { DropDownButton } from '@regardsoss/components'
+import { storage } from '@regardsoss/units'
+import { ScaleSelectorComponent } from '../../../src/components/user/ScaleSelectorComponent'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test ModuleConfigurationComponent
+* Test ScaleSelectorComponent
 * @author Raphaël Mechali
 */
-describe('[Order Cart] Testing ModuleConfigurationComponent', () => {
+describe('[Storage Monitoring] Testing ScaleSelectorComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ModuleConfigurationComponent)
+    assert.isDefined(ScaleSelectorComponent)
   })
   it('should render correctly', () => {
     const props = {
-      changeField: () => { },
-      currentNamespace: 'conf',
-      isCreating: true,
+      scale: storage.StorageUnitScale.bytesScale,
+      onUnitScaleChanged: () => { },
     }
-    const enzymeWrapper = shallow(<ModuleConfigurationComponent {...props} />, { context })
-    const paneField = enzymeWrapper.find(ModulePaneStateField)
-    assert.lengthOf(paneField, 1, 'There should be the pane field')
-    assert.equal(paneField.props().currentNamespace, props.currentNamespace, 'It should use the right namespace')
-    assert.lengthOf(
-      enzymeWrapper.findWhere(n => n.props().name === enzymeWrapper.instance().SHOW_DATASETS_FIELD),
-      1, 'There should be the show dataset field')
+    const enzymeWrapper = shallow(<ScaleSelectorComponent {...props} />, { context })
+    const dropDownWrapper = enzymeWrapper.find(DropDownButton)
+    // parent container callback should be correctly reported
+    assert.equal(dropDownWrapper.props().onChange, props.onUnitScaleChanged, 'Callback is not reported is sub component!')
+    // current scale should be the value of the drop down menu
+    assert.equal(dropDownWrapper.props().value, props.scale, 'Current avlue is not reported is sub component!')
   })
 })

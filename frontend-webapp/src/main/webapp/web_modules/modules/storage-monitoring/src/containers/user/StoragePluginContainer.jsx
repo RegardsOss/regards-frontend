@@ -19,9 +19,9 @@
 import { withModuleStyle } from '@regardsoss/theme'
 import { StorageShapes } from '@regardsoss/shape'
 import { storage } from '@regardsoss/units'
-import StoragePluginComponent from '../components/StoragePluginComponent'
+import StoragePluginComponent from '../../components/user/StoragePluginComponent'
 
-import styles from '../styles'
+import styles from '../../styles'
 
 /**
 * Storage plugin container

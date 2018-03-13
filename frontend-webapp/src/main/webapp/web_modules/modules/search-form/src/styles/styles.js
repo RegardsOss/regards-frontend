@@ -22,6 +22,11 @@
  * @author Sébastien binda
  */
 const formStyles = theme => ({
+  admin: {
+    layoutTitle: {
+      padding: '20px 0 15px 0',
+    },
+  },
   criteria: {
     label: {
       marginRight: 20,

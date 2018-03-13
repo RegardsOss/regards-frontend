@@ -22,11 +22,6 @@
  * @author Raphaël Mechali
  */
 const moduleStyles = theme => ({
-  admin: {
-    rootStyle: {
-      padding: 20,
-    },
-  },
   user: {
     // module content styles
     content: {

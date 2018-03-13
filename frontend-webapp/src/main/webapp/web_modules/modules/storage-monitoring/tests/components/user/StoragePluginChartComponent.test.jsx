@@ -20,9 +20,9 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ChartAdapter } from '@regardsoss/adapters'
-import StoragePluginChartComponent from '../../src/components/StoragePluginChartComponent'
-import styles from '../../src/styles/styles'
-import { convertedParsablePlugin, convertedPartiallyParsablePlugin, convertedNonParsablePlugin } from '../dump/dump'
+import StoragePluginChartComponent from '../../../src/components/user/StoragePluginChartComponent'
+import styles from '../../../src/styles/styles'
+import { convertedParsablePlugin, convertedPartiallyParsablePlugin, convertedNonParsablePlugin } from '../../dump/dump'
 
 const context = buildTestContext(styles)
 

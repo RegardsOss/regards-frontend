@@ -86,8 +86,6 @@ class ProjectSidebarComponent extends React.Component {
       },
     }
 
-    console.error('isInstance', isInstance)
-
     return (
       <Drawer
         open

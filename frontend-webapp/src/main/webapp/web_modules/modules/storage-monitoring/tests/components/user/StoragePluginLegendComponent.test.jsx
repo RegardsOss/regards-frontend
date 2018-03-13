@@ -20,9 +20,9 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Subheader from 'material-ui/Subheader'
-import { StoragePluginLegendComponent } from '../../src/components/StoragePluginLegendComponent'
-import styles from '../../src/styles/styles'
-import { convertedParsablePlugin, convertedPartiallyParsablePlugin, convertedNonParsablePlugin } from '../dump/dump'
+import { StoragePluginLegendComponent } from '../../../src/components/user/StoragePluginLegendComponent'
+import styles from '../../../src/styles/styles'
+import { convertedParsablePlugin, convertedPartiallyParsablePlugin, convertedNonParsablePlugin } from '../../dump/dump'
 
 const context = buildTestContext(styles)
 

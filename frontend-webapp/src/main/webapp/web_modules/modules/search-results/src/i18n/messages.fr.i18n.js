@@ -25,6 +25,8 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
 
   // Administration messages
+
+  // Configuration tab
   'form.configuration.tab.title': 'Configurez les options d\'affichage des résultats de recherche. ',
   'form.configuration.result.type.data': 'Afficher la vue "données"',
   'form.configuration.result.type.data_datasets': 'Afficher les vues "données" et "jeux de données"',
@@ -34,6 +36,7 @@ const messages = Object.assign({
   'form.configuration.result.enable.quicklooks.label': 'Activer la vue des Imagettes sur les données',
   'form.configuration.result.width.quicklooks.label': 'Largeur des imagettes',
   'form.configuration.result.spacing.quicklooks.label': 'Espacement entre les imagettes',
+  'form.attributes.configuration.section.title': 'Configurez les attributs affichés dans le tableau de résultats',
   'form.attributes.regroupement.form.title': 'Ajout d\'un nouveau regroupement',
   'form.attributes.regroupement.description': 'Un regroupement d\'attributs permet de regrouper l\'affichage de plusieurs attributs d\'un même objet résultat d\'une recherche dans une seule colonne du tableau des résultats de recherche.<br/>' +
     ' Veuillez saisir le label de la colonne voulue (ce label doit être unique) puis sélectionner les attributs à regrouper.',

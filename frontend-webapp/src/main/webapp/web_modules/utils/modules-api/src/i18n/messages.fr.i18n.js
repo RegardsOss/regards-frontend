@@ -23,7 +23,10 @@
  * @author Sébastien Binda
  */
 const messages = {
-  // no message
+  'modules.common.admin.pane.expanded.field.label': 'Le panneau de présentation est:',
+  'modules.common.admin.pane.expanded.label': 'Ouvert initialement',
+  'modules.common.admin.pane.collapsed.label': 'Fermé initialement',
+  'modules.common.admin.pane.always.expanded.label': 'Toujours ouvert',
 }
 
 export default messages

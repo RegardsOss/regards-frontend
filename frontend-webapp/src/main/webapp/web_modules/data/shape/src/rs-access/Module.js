@@ -40,8 +40,6 @@ const moduleFields = {
   description: PropTypes.string,
   active: PropTypes.bool,
   container: PropTypes.string,
-  expandable: PropTypes.bool,
-  expanded: PropTypes.bool,
   page: ModulePage,
   // module configuration, as a json string
   conf: PropTypes.objectOf(PropTypes.any),

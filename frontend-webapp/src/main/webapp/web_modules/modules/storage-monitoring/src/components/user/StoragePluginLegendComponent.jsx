@@ -20,7 +20,7 @@ import Subheader from 'material-ui/Subheader'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { storage } from '@regardsoss/units'
-import { ParsedStoragePluginShape } from '../model/ParsedStoragePluginShape'
+import { ParsedStoragePluginShape } from '../../model/ParsedStoragePluginShape'
 
 /**
  * Displays chart legend to add total size and icons in an unified screen location

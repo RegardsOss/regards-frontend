@@ -16,11 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { AccessShapes } from '@regardsoss/shape'
+import ModuleConfigurationComponent from '../../components/admin/ModuleConfigurationComponent'
 
 /**
- * Styles of the Modules components
- * @author Sébastien Binda
+ * Admin module container for module configuration
+ * @author Raphaël Mechali
  */
-export default theme => ({
-  // no custom style
-})
+export class AdminModuleContainer extends React.Component {
+  static propTypes = {
+    // default modules properties
+    ...AccessShapes.runtimeConfigurationModuleFields,
+  }
+
+  render() {
+    const { currentNamespace } = this.props.adminForm
+    return <ModuleConfigurationComponent currentNamespace={currentNamespace} />
+  }
+}
+export default AdminModuleContainer

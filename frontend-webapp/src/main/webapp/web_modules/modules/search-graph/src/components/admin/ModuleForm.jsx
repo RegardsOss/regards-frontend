@@ -5,11 +5,10 @@ import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import { CardTitle } from 'material-ui/Card'
-import Divider from 'material-ui/Divider'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { FieldArray } from '@regardsoss/form-utils'
+import { Title } from '@regardsoss/components'
 import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 import SelectedLevelFormRender from './SelectedLevelFormRender'
@@ -53,27 +52,26 @@ class ModuleForm extends React.Component {
     const {
       collectionModels, appName, project, adminForm, selectableAttributes,
     } = this.props
+    const { intl: { formatMessage } } = this.context
     const formConf = get(adminForm.form, adminForm.currentNamespace)
     const currentAttributesConfiguration = formConf && formConf.graphDatasetAttributes ? formConf.graphDatasetAttributes : []
     return (
       <Tabs>
-        <Tab label={this.context.intl.formatMessage({ id: 'search.graph.configuration.tab' })}>
-          <CardTitle
-            title={this.context.intl.formatMessage({ id: 'search.graph.configuration.levels.title' })}
-            subtitle={this.context.intl.formatMessage({ id: 'search.graph.configuration.levels.subtitle' })}
+        <Tab label={formatMessage({ id: 'search.graph.configuration.tab' })}>
+          <Title
+            level={3}
+            label={formatMessage({ id: 'search.graph.configuration.levels.message' })}
           />
-          <Divider />
           <FieldArray
             name={this.LEVELS_FIELD_NAME}
             component={SelectedLevelFormRender}
             validate={this.validateSelectedLevels}
             collectionModels={collectionModels}
           />
-          <CardTitle
-            title={this.context.intl.formatMessage({ id: 'search.graph.configuration.attributes.title' })}
-            subtitle={this.context.intl.formatMessage({ id: 'search.graph.configuration.attributes.subtitle' })}
+          <Title
+            level={3}
+            label={formatMessage({ id: 'search.graph.configuration.attributes.message' })}
           />
-          <Divider />
           <MainAttributesConfigurationComponent
             allowFacettes={false}
             allowAttributesRegroupements={false}
@@ -83,7 +81,7 @@ class ModuleForm extends React.Component {
             changeField={adminForm.changeField}
           />
         </Tab>
-        <Tab label={this.context.intl.formatMessage({ id: 'search.graph.results.tab' })}>
+        <Tab label={formatMessage({ id: 'search.graph.results.tab' })}>
           <SearchResultForm
             appName={appName}
             project={project}

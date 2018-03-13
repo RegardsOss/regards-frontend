@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import modulesHelper from './ModulesHelper'
+import ModulePaneStateField from './components/admin/ModulePaneStateField'
 
 /**
  * Main module file to expose public interface
@@ -24,4 +25,5 @@ import modulesHelper from './ModulesHelper'
  */
 module.exports = {
   modulesHelper,
+  ModulePaneStateField,
 }

@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
+import { ModulePaneStateField } from '@regardsoss/modules-api'
 import { RenderCheckbox, Field } from '@regardsoss/form-utils'
 
 /**
@@ -27,7 +27,6 @@ import { RenderCheckbox, Field } from '@regardsoss/form-utils'
 class ModuleConfigurationComponent extends React.Component {
   static contextTypes = {
     ...i18nContextType,
-    ...themeContextType,
   }
 
   static propTypes = {
@@ -54,9 +53,11 @@ class ModuleConfigurationComponent extends React.Component {
 
 
   render() {
-    const { intl, moduleTheme: { admin } } = this.context
+    const { currentNamespace } = this.props
+    const { intl } = this.context
     return (
-      <div style={admin.rootStyle}>
+      <div>
+        <ModulePaneStateField currentNamespace={currentNamespace} />
         <Field
           name={this.SHOW_DATASETS_FIELD}
           component={RenderCheckbox}

@@ -20,34 +20,36 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ModulePaneStateField } from '@regardsoss/modules-api'
-import ModuleConfigurationComponent from '../../../src/components/admin/ModuleConfigurationComponent'
-import styles from '../../../src/styles/styles'
+import { LayoutConfigurationComponent } from '@regardsoss/layout'
+import FormLayoutComponent from '../../../../src/components/admin/layout/FormLayoutComponent'
+import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test ModuleConfigurationComponent
-* @author Raphaël Mechali
-*/
-describe('[Order Cart] Testing ModuleConfigurationComponent', () => {
+ * Test FormLayoutComponent
+ * @author Raphaël Mechali
+ */
+describe('[Search Form] Testing FormLayoutComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ModuleConfigurationComponent)
+    assert.isDefined(FormLayoutComponent)
   })
   it('should render correctly', () => {
     const props = {
+      currentNamespace: 'plop',
+      defaultLayout: null,
       changeField: () => { },
-      currentNamespace: 'conf',
-      isCreating: true,
     }
-    const enzymeWrapper = shallow(<ModuleConfigurationComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<FormLayoutComponent {...props} />, { context })
+    // 1 - Test pane field
     const paneField = enzymeWrapper.find(ModulePaneStateField)
     assert.lengthOf(paneField, 1, 'There should be the pane field')
     assert.equal(paneField.props().currentNamespace, props.currentNamespace, 'It should use the right namespace')
-    assert.lengthOf(
-      enzymeWrapper.findWhere(n => n.props().name === enzymeWrapper.instance().SHOW_DATASETS_FIELD),
-      1, 'There should be the show dataset field')
+    // 2 - Test layout component
+    assert.include(enzymeWrapper.debug(), 'form.layout.tab.title', 'There should be the field title')
+    assert.lengthOf(enzymeWrapper.find(LayoutConfigurationComponent), 1, 'There should be the criteria layout field')
   })
 })

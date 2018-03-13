@@ -29,7 +29,7 @@ const context = buildTestContext(styles)
 * Test ModuleConfigurationComponent
 * @author Raphaël Mechali
 */
-describe('[Order Cart] Testing ModuleConfigurationComponent', () => {
+describe('[Storage monitoring] Testing ModuleConfigurationComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -38,16 +38,11 @@ describe('[Order Cart] Testing ModuleConfigurationComponent', () => {
   })
   it('should render correctly', () => {
     const props = {
-      changeField: () => { },
       currentNamespace: 'conf',
-      isCreating: true,
     }
     const enzymeWrapper = shallow(<ModuleConfigurationComponent {...props} />, { context })
     const paneField = enzymeWrapper.find(ModulePaneStateField)
     assert.lengthOf(paneField, 1, 'There should be the pane field')
     assert.equal(paneField.props().currentNamespace, props.currentNamespace, 'It should use the right namespace')
-    assert.lengthOf(
-      enzymeWrapper.findWhere(n => n.props().name === enzymeWrapper.instance().SHOW_DATASETS_FIELD),
-      1, 'There should be the show dataset field')
   })
 })

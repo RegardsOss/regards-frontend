@@ -24,7 +24,7 @@ import { storage } from '@regardsoss/units'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import StoragePluginContainer from '../containers/StoragePluginContainer'
+import StoragePluginContainer from '../../containers/user/StoragePluginContainer'
 
 
 /**

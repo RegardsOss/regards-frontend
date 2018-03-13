@@ -23,8 +23,7 @@ const messages = {
   'search.graph.results.tab': 'Results',
   'search.graph.configuration.tab': 'Graph',
   // 1.a - Graph levels
-  'search.graph.configuration.levels.title': 'Browsing levels',
-  'search.graph.configuration.levels.subtitle': 'Select below the graph browsing levels',
+  'search.graph.configuration.levels.message': 'Browsing graph levels',
   'search.graph.levels.selection.none.selected.error': 'Select at least 1 item for the graph search',
   'search.graph.levels.selection.no.selection.hint': 'No selection. You can select levels by clicking on "Add level button"',
   'search.graph.add.level': 'Add level',
@@ -35,8 +34,7 @@ const messages = {
   'search.graph.selected.levels.column.actions': 'Actions',
   'search.graph.selected.levels.column.actions.remove.tooltip': 'Remove level',
   // 1.b - Graph dataset attributes
-  'search.graph.configuration.attributes.title': 'Visible attributes',
-  'search.graph.configuration.attributes.subtitle': 'Select below the attributes that will be displayed on datasets in graph',
+  'search.graph.configuration.attributes.message': 'Attributes to display on datasets in graph',
   'form.attributes.standard.section.title': 'Common attributes',
   'form.attributes.section.title': 'Dynamic attributes',
   'form.attributes.section.clear.filters.tooltip': 'Clear current filter',

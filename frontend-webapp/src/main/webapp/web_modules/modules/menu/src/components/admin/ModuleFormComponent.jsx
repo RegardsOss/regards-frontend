@@ -167,19 +167,19 @@ class ModuleFormComponent extends React.Component {
         >
           <RadioButton
             value={HOME_ICON_TYPES_ENUM.NONE}
-            label={this.context.intl.formatMessage({ id: 'menu.form.home.page.icon.type.none' })}
+            label={formatMessage({ id: 'menu.form.home.page.icon.type.none' })}
           />
           <RadioButton
             value={HOME_ICON_TYPES_ENUM.DEFAULT_HOME_ICON}
-            label={this.context.intl.formatMessage({ id: 'menu.form.home.page.icon.type.default' })}
+            label={formatMessage({ id: 'menu.form.home.page.icon.type.default' })}
           />
           <RadioButton
             value={HOME_ICON_TYPES_ENUM.MODULE_ICON}
-            label={this.context.intl.formatMessage({ id: 'menu.form.home.page.icon.type.module' })}
+            label={formatMessage({ id: 'menu.form.home.page.icon.type.module' })}
           />
           <RadioButton
             value={HOME_ICON_TYPES_ENUM.CUSTOM_URL_ICON}
-            label={this.context.intl.formatMessage({ id: 'menu.form.home.page.icon.type.custom' })}
+            label={formatMessage({ id: 'menu.form.home.page.icon.type.custom' })}
           />
         </Field>
         {/* Home icon URL */}
@@ -191,7 +191,7 @@ class ModuleFormComponent extends React.Component {
           component={RenderTextField}
           fullWidth
           type="text"
-          label={this.context.intl.formatMessage({ id: 'menu.form.home.page.icon.custom.url' })}
+          label={formatMessage({ id: 'menu.form.home.page.icon.custom.url' })}
           validate={this.validateCustomHomeIcon}
         />
         {/* Home titles by locale */}
@@ -200,7 +200,7 @@ class ModuleFormComponent extends React.Component {
           component={RenderTextField}
           fullWidth
           type="text"
-          label={this.context.intl.formatMessage({ id: 'menu.form.home.page.title.en' })}
+          label={formatMessage({ id: 'menu.form.home.page.title.en' })}
           validate={ValidationHelpers.required}
         />
         <Field
@@ -208,7 +208,7 @@ class ModuleFormComponent extends React.Component {
           component={RenderTextField}
           fullWidth
           type="text"
-          label={this.context.intl.formatMessage({ id: 'menu.form.home.page.title.fr' })}
+          label={formatMessage({ id: 'menu.form.home.page.title.fr' })}
           validate={ValidationHelpers.required}
         />
         <Subheader style={subheaderStyle}>

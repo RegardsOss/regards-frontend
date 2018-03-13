@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import adminContainer from './containers/admin/AdminModuleContainer'
 import moduleContainer from './containers/user/UserModuleContainer'
 import reducer from './reducer'
 import styles from './styles/styles'
@@ -30,6 +31,7 @@ import '../default-icon.svg'
  * @author Raphaël Mechali
  */
 module.exports = {
+  adminContainer,
   moduleContainer,
   reducer,
   styles,

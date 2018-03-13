@@ -20,10 +20,10 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { storage } from '@regardsoss/units'
-import StoragePluginComponent from '../../src/components/StoragePluginComponent'
-import { StoragePluginContainer } from '../../src/containers/StoragePluginContainer'
-import styles from '../../src/styles/styles'
-import { dump } from '../dump/dump'
+import StoragePluginComponent from '../../../src/components/user/StoragePluginComponent'
+import { StoragePluginContainer } from '../../../src/containers/user/StoragePluginContainer'
+import styles from '../../../src/styles/styles'
+import { dump } from '../../dump/dump'
 
 const context = buildTestContext(styles)
 

@@ -20,9 +20,9 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { storage } from '@regardsoss/units'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { StorageMonitoringContainer } from '../../src/containers/StorageMonitoringContainer'
-import StorageMonitoringComponent from '../../src/components/StorageMonitoringComponent'
-import { dump } from '../dump/dump'
+import { StorageMonitoringContainer } from '../../../src/containers/user/StorageMonitoringContainer'
+import StorageMonitoringComponent from '../../../src/components/user/StorageMonitoringComponent'
+import { dump } from '../../dump/dump'
 
 // Test a component rendering
 describe('[Storage Monitoring] Testing StorageMonitoringContainer', () => {

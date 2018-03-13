@@ -19,12 +19,12 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import StoragePluginComponent from '../../src/components/StoragePluginComponent'
-import StoragePluginChartComponent from '../../src/components/StoragePluginChartComponent'
-import StoragePluginLegendComponent from '../../src/components/StoragePluginLegendComponent'
+import StoragePluginComponent from '../../../src/components/user/StoragePluginComponent'
+import StoragePluginChartComponent from '../../../src/components/user/StoragePluginChartComponent'
+import StoragePluginLegendComponent from '../../../src/components/user/StoragePluginLegendComponent'
 
-import styles from '../../src/styles/styles'
-import { convertedParsablePlugin, convertedNonParsablePlugin } from '../dump/dump'
+import styles from '../../../src/styles/styles'
+import { convertedParsablePlugin, convertedNonParsablePlugin } from '../../dump/dump'
 
 const context = buildTestContext(styles)
 

@@ -23,8 +23,7 @@ const messages = {
   'search.graph.results.tab': 'Résultats',
   'search.graph.configuration.tab': 'Graphe',
   // 1.a - Graph levels
-  'search.graph.configuration.levels.title': 'Niveaux de navigation',
-  'search.graph.configuration.levels.subtitle': 'Vous pouvez sélectionner ci-dessous les niveaux de navigation visibles dans le graphe',
+  'search.graph.configuration.levels.message': 'Niveaux de navigation du graphe',
   'search.graph.levels.selection.none.selected.error': 'Sélectionnez au moins 1 élément pour la recherche par graphe',
   'search.graph.levels.selection.no.selection.hint': 'Aucune sélection. Vous pouvez sélectionner des niveaux en cliquant sur "Ajouter un niveau"',
   'search.graph.add.level': 'Ajouter un niveau',
@@ -35,8 +34,7 @@ const messages = {
   'search.graph.selected.levels.column.actions': 'Actions',
   'search.graph.selected.levels.column.actions.remove.tooltip': 'Supprimer ce niveau',
   // 1.b - Graph dataset attributes
-  'search.graph.configuration.attributes.title': 'Attributs visibles',
-  'search.graph.configuration.attributes.subtitle': 'Vous pouvez sélectionner ci-dessous les attributs des jeux de données qui seront visibles dans le graphe',
+  'search.graph.configuration.attributes.message': 'Attributs à afficher par jeux de données dans le graphe',
   'form.attributes.standard.section.title': 'Attributs communs',
   'form.attributes.section.title': 'Attributs dynamiques ',
   'form.attributes.section.clear.filters.tooltip': 'Effacer le filtre courant',

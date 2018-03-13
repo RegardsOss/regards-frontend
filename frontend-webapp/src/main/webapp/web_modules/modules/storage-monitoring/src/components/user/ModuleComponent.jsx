@@ -20,8 +20,8 @@ import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { storage } from '@regardsoss/units'
 import { DynamicModule } from '@regardsoss/components'
-import { dependencies } from '../user-dependencies'
-import StorageMonitoringContainer from '../containers/StorageMonitoringContainer'
+import { dependencies } from '../../user-dependencies'
+import StorageMonitoringContainer from '../../containers/user/StorageMonitoringContainer'
 import ScaleSelectorComponent from './ScaleSelectorComponent'
 
 

@@ -19,42 +19,34 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ModuleComponent from '../../src/components/ModuleComponent'
-import { ModuleContainer } from '../../src/containers/ModuleContainer'
-import styles from '../../src/styles/styles'
+import ModuleConfigurationComponent from '../../../src/components/admin/ModuleConfigurationComponent'
+import { AdminModuleContainer } from '../../../src/containers/admin/AdminModuleContainer'
+import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test ModuleContainer
- * @author Raphaël Mechali
- */
-describe('[Storage Monitoring] Testing ModuleContainer', () => {
+* Test AdminModuleContainer
+* @author Raphaël Mechali
+*/
+describe('[Order History] Testing AdminModuleContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ModuleContainer)
+    assert.isDefined(AdminModuleContainer)
   })
   it('should render correctly', () => {
     const props = {
       appName: 'x',
       project: 'y',
       type: 'any',
-      expandable: true,
-      expanded: true,
+      adminForm: {
+        currentNamespace: 'conf',
+        form: {},
+      },
     }
-    const enzymeWrapper = shallow(<ModuleContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(ModuleComponent)
-    assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
-    const wrapperInstance = enzymeWrapper.instance()
-    const wrapperState = enzymeWrapper.state()
-    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      expandable: props.expandable,
-      expanded: props.expanded,
-      scale: wrapperState.currentScale,
-      onExpandChange: wrapperInstance.onExpandChange,
-      onUnitScaleChanged: wrapperInstance.onUnitScaleChanged,
-    }, 'Component should define the expected properties')
+    const enzymeWrapper = shallow(<AdminModuleContainer {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(ModuleConfigurationComponent), 1, 'There should be the configuration form')
   })
 })

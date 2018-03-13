@@ -19,14 +19,14 @@
 import get from 'lodash/get'
 import { CardText } from 'material-ui/Card'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import { i18nContextType } from '@regardsoss/i18n'
-import { DataManagementShapes } from '@regardsoss/shape'
-import { Title } from '@regardsoss/components'
-import { ShowableAtRender } from '@regardsoss/display-control'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
+import { DataManagementShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import { ShowableAtRender } from '@regardsoss/display-control'
+import { Title } from '@regardsoss/components'
 import { Field, RenderCheckbox, RenderTextField } from '@regardsoss/form-utils'
 import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
-import { themeContextType } from '@regardsoss/theme'
 import ModuleConfiguration from '../../models/ModuleConfiguration'
 import AdminModuleConf from '../../models/AdminModuleConf'
 import { DISPLAY_MODE_ENUM } from '../../definitions/DisplayModeEnum'
@@ -321,6 +321,10 @@ class SearchResultsConfigurationComponent extends React.Component {
             label={this.context.intl.formatMessage({ id: 'form.configuration.result.enable.download.label' })}
           />
         </div>
+        <Title
+          level={3}
+          label={this.context.intl.formatMessage({ id: 'form.attributes.configuration.section.title' })}
+        />
         {this.renderAttributesConfiguration()}
       </CardText>
     )

@@ -19,7 +19,7 @@
 import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { storage } from '@regardsoss/units'
-import ModuleComponent from '../components/ModuleComponent'
+import ModuleComponent from '../../components/user/ModuleComponent'
 
 /**
  * Module container, instantiates the module component (the module component shows wheter user has enough rights or not)

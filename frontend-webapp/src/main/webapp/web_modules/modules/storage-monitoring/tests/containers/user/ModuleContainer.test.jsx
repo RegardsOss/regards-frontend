@@ -19,35 +19,42 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { ModulePaneStateField } from '@regardsoss/modules-api'
-import ModuleConfigurationComponent from '../../../src/components/admin/ModuleConfigurationComponent'
+import ModuleComponent from '../../../src/components/user/ModuleComponent'
+import { ModuleContainer } from '../../../src/containers/user/ModuleContainer'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test ModuleConfigurationComponent
-* @author Raphaël Mechali
-*/
-describe('[Order Cart] Testing ModuleConfigurationComponent', () => {
+ * Test ModuleContainer
+ * @author Raphaël Mechali
+ */
+describe('[Storage Monitoring] Testing ModuleContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ModuleConfigurationComponent)
+    assert.isDefined(ModuleContainer)
   })
   it('should render correctly', () => {
     const props = {
-      changeField: () => { },
-      currentNamespace: 'conf',
-      isCreating: true,
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      expandable: true,
+      expanded: true,
     }
-    const enzymeWrapper = shallow(<ModuleConfigurationComponent {...props} />, { context })
-    const paneField = enzymeWrapper.find(ModulePaneStateField)
-    assert.lengthOf(paneField, 1, 'There should be the pane field')
-    assert.equal(paneField.props().currentNamespace, props.currentNamespace, 'It should use the right namespace')
-    assert.lengthOf(
-      enzymeWrapper.findWhere(n => n.props().name === enzymeWrapper.instance().SHOW_DATASETS_FIELD),
-      1, 'There should be the show dataset field')
+    const enzymeWrapper = shallow(<ModuleContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(ModuleComponent)
+    assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
+    const wrapperInstance = enzymeWrapper.instance()
+    const wrapperState = enzymeWrapper.state()
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      expandable: props.expandable,
+      expanded: props.expanded,
+      scale: wrapperState.currentScale,
+      onExpandChange: wrapperInstance.onExpandChange,
+      onUnitScaleChanged: wrapperInstance.onUnitScaleChanged,
+    }, 'Component should define the expected properties')
   })
 })

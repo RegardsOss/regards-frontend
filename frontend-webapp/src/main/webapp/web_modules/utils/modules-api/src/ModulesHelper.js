@@ -34,8 +34,6 @@ const userModulePropertiesKeys = [
   'description',
   'active',
   'container',
-  'expandable',
-  'expanded',
   'page',
   'conf',
 ]

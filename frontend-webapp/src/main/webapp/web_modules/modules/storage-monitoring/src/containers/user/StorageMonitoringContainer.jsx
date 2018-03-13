@@ -19,8 +19,8 @@
 import { connect } from '@regardsoss/redux'
 import { StorageShapes } from '@regardsoss/shape'
 import { storage } from '@regardsoss/units'
-import StoragePluginsClient from '../clients/StoragePluginsClient'
-import StorageMonitoringComponent from '../components/StorageMonitoringComponent'
+import StoragePluginsClient from '../../clients/StoragePluginsClient'
+import StorageMonitoringComponent from '../../components/user/StorageMonitoringComponent'
 
 /**
  * Fetches storage plugins monitoring information, then display the corresponding component with fetched data

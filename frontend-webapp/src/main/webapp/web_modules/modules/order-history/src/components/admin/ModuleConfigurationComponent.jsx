@@ -16,11 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { ModulePaneStateField } from '@regardsoss/modules-api'
 
 /**
- * Styles of the Modules components
- * @author Sébastien Binda
+ * Module configuration component (admin form)
+ * @author Raphaël Mechali
  */
-export default theme => ({
-  // no custom style
-})
+class ModuleConfigurationComponent extends React.Component {
+  static propTypes = {
+    currentNamespace: PropTypes.string.isRequired,
+  }
+
+  render() {
+    const { currentNamespace } = this.props
+    return <ModulePaneStateField currentNamespace={currentNamespace} />
+  }
+}
+
+export default ModuleConfigurationComponent
