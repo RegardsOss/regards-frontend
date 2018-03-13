@@ -22,6 +22,47 @@
  * @author Maxime Bouveron
  */
 
+const DataObjectShape = PropTypes.shape({
+  regardsDataType: PropTypes.string,
+  url: PropTypes.string,
+  algorithm: PropTypes.string,
+  checksum: PropTypes.string,
+})
+
+const PdiShape = PropTypes.shape({
+  contextInformation: PropTypes.object,
+  referenceInformation: PropTypes.object,
+  provenanceInformation: PropTypes.object,
+  fixityInformation: PropTypes.object,
+  accessRightInformation: PropTypes.object,
+})
+
+const ContentInformation = PropTypes.shape({
+  representationInformation: PropTypes.shape({
+    syntax: PropTypes.shape({
+      mimeType: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  }),
+  dataObject: DataObjectShape,
+})
+
+const PropertiesShape = PropTypes.shape({
+  contentInformations: PropTypes.arrayOf(ContentInformation),
+  pdi: PdiShape,
+  descriptiveInformation: PropTypes.object,
+})
+
+const Session = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  lastActivationDate: PropTypes.string,
+  sipsCount: PropTypes.number,
+  indexedSipsCount: PropTypes.number,
+  storedSipsCount: PropTypes.number,
+  generatedSipsCount: PropTypes.number,
+  errorSipsCount: PropTypes.number,
+})
+
 const IngestSIPContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   sipId: PropTypes.string.isRequired,
@@ -34,37 +75,12 @@ const IngestSIPContent = PropTypes.shape({
     ipType: PropTypes.string,
     id: PropTypes.string.isRequired,
     geometry: PropTypes.any,
-    properties: PropTypes.shape({
-      contentInformations: PropTypes.arrayOf({
-        dataObject: PropTypes.shape({
-          regardsDataType: PropTypes.string,
-          url: PropTypes.string,
-          algorithm: PropTypes.string,
-          checksum: PropTypes.string,
-        }),
-      }),
-      pdi: PropTypes.shape({
-        contextInformation: PropTypes.object,
-        referenceInformation: PropTypes.object,
-        provenanceInformation: PropTypes.object,
-        fixityInformation: PropTypes.object,
-        accessRightInformation: PropTypes.object,
-      }),
-      descriptiveInformation: PropTypes.object,
-    }),
+    properties: PropertiesShape,
     type: PropTypes.string,
   }),
   ingestDate: PropTypes.string,
   processing: PropTypes.string,
-  session: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    lastActivationDate: PropTypes.string,
-    sipsCount: PropTypes.number,
-    indexedSipsCount: PropTypes.number,
-    storedSipsCount: PropTypes.number,
-    generatedSipsCount: PropTypes.number,
-    errorSipsCount: PropTypes.number,
-  }),
+  session: Session,
 })
 
 const IngestSIP = PropTypes.shape({

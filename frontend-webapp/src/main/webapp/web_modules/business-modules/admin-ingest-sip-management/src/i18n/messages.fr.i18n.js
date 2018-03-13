@@ -58,6 +58,9 @@ const messages = Object.assign({
 
   'sip.details.button.close': 'Fermer',
 
+  'sip.delete.error.dialog.close': 'Fermer',
+  'sip.delete.error.title': 'Erreur durant la suppression du SIP "{id}"',
+
   'sips.session.title': 'Sessions',
   'sips.session.sips.title': 'Session {session}',
   'sips.session.subtitle': 'Visualisation des sessions d\'acquisitions. Une session est un regroupement de paquets d\'information de données (SIP).',

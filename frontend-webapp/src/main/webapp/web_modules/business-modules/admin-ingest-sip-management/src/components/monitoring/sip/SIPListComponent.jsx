@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import map from 'lodash/map'
+import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { Card, CardTitle, CardMedia, CardActions } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
@@ -35,6 +37,7 @@ import SIPDetailComponent from './SIPDetailComponent'
 import SIPDetailTableAction from './SIPDetailTableAction'
 import SIPConfirmDeleteDialog from './SIPConfirmDeleteDialog'
 import SIPListFiltersComponent from './SIPListFiltersComponent'
+import SIPDeletionErrorDialog from './SIPDeletionErrorDialog'
 import { sipActions, sipSelectors } from '../../../clients/SIPClient'
 import messages from '../../../i18n'
 import styles from '../../../styles'
@@ -71,6 +74,7 @@ class SIPListComponent extends React.Component {
     appliedFilters: {},
     sipToView: null,
     sipToDelete: null,
+    deletionErrors: [],
   }
 
   componentWillMount() {
@@ -106,21 +110,30 @@ class SIPListComponent extends React.Component {
   onConfirmDeleteSIP = () => {
     this.closeDeleteDialog()
     if (this.state.sipToDelete) {
-      this.props.onDeleteByIpId(this.state.sipToDelete.content).then(this.state.onDeleteDone)
+      this.props.onDeleteByIpId(this.state.sipToDelete.content).then((ActionResult) => {
+        this.displayDeletionErrors(get(ActionResult, 'payload', []))
+      })
     }
   }
 
   onConfirmDeleteSIPs = () => {
     this.closeDeleteDialog()
     if (this.state.sipToDelete) {
-      this.props.onDeleteBySipId(this.state.sipToDelete.content).then(this.state.onDeleteDone)
+      this.props.onDeleteBySipId(this.state.sipToDelete.content).then((ActionResult) => {
+        this.displayDeletionErrors(get(ActionResult, 'payload', []))
+      })
     }
   }
 
-  onDelete = (sipToDelete, onDone) => {
+  onDelete = (sipToDelete) => {
     this.setState({
       sipToDelete,
-      onDeleteDone: onDone,
+    })
+  }
+
+  onCloseDeletionErrorDialog = () => {
+    this.setState({
+      deletionErrors: [],
     })
   }
 
@@ -170,13 +183,18 @@ class SIPListComponent extends React.Component {
     })
   }
 
+  displayDeletionErrors = (rejectedSips) => {
+    this.setState({
+      deletionErrors: map(rejectedSips, rejectedSip => `${rejectedSip.sipId} : ${rejectedSip.exception}`),
+    })
+  }
+
   goToSipHistory = (entity, index) => {
     this.props.goToSipHistory(entity.content.sipId)
   }
 
 
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
-
 
   renderDeleteConfirmDialog = () => {
     const { sipToDelete } = this.state
@@ -320,6 +338,11 @@ class SIPListComponent extends React.Component {
         </Card>
         {this.renderSIPDetail()}
         {this.renderDeleteConfirmDialog()}
+        <SIPDeletionErrorDialog
+          sipId={this.state.sipToDelete}
+          errors={this.state.deletionErrors}
+          onClose={this.onCloseDeletionErrorDialog}
+        />
       </div>
     )
   }
