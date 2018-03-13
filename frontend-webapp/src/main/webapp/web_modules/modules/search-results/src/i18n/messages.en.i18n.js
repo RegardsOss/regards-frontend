@@ -27,16 +27,17 @@ const messages = Object.assign({
   // Administration messages
 
   // Configuration tab
-  'form.configuration.tab.title': 'Configure options of visualization of your search results.',
+  'form.configuration.visible.tabs.message': 'Result views to display',
   'form.configuration.result.type.data': 'Display "data" results',
   'form.configuration.result.type.data_datasets': 'Display "data" and "dataset" view in results',
   'form.configuration.result.type.documents': 'Display "document" view in results',
+  'form.configuration.results.options.message': 'Results available options',
   'form.configuration.result.enable.facettes.label': 'Enable facets : Results filtering with criterion depending on initial search results',
   'form.configuration.result.enable.download.label': 'Enable download associated files',
   'form.configuration.result.enable.quicklooks.label': 'Enable quicklook view on data',
   'form.configuration.result.width.quicklooks.label': 'Quicklook width',
   'form.configuration.result.spacing.quicklooks.label': 'Quicklook spacing',
-  'form.attributes.configuration.section.title': 'Configure displayed attributes in results table',
+  'form.attributes.configuration.section.title': 'Displayed table columns and attributes',
   'form.attributes.regroupement.form.title': 'Add new attributes clustering',
   'form.attributes.regroupement.description': 'A clustering of attributes allows you to display multiples attributes of a search result object into the same column of the results list.<br/>' +
     ' Please enter the new clustering label (that must be unique) and select attributes to cluster.',

@@ -137,21 +137,25 @@ class ModuleFormComponent extends React.Component {
           name={this.CONF_CART}
           component={RenderCheckbox}
           label={formatMessage({ id: 'menu.form.displaycart' })}
+          noSpacing
         />
         <Field
           name={this.CONF_NOTIF}
           component={RenderCheckbox}
           label={formatMessage({ id: 'menu.form.displaynotifications' })}
+          noSpacing
         />
         <Field
           name={this.CONF_LOCALE}
           component={RenderCheckbox}
           label={formatMessage({ id: 'menu.form.displaylocale' })}
+          noSpacing
         />
         <Field
           name={this.CONF_THEME}
           component={RenderCheckbox}
           label={formatMessage({ id: 'menu.form.displaytheme' })}
+          noSpacing
         />
         <Subheader style={subheaderStyle}>
           {formatMessage({ id: 'user.menu.form.navigation.home.title' })}

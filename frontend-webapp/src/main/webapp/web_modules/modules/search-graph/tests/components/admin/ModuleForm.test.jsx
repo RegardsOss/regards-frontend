@@ -20,6 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { FieldArray } from '@regardsoss/form-utils'
+import { ModulePaneStateField } from '@regardsoss/modules-api'
 import ModuleForm from '../../../src/components/admin/ModuleForm'
 import SearchResultForm from '../../../src/components/admin/SearchResultForm'
 import SelectedLevelFormRender from '../../../src/components/admin/SelectedLevelFormRender'
@@ -54,10 +55,15 @@ describe('[Search Graph] Testing ModuleForm', () => {
       selectableAttributes: {},
     }
     const enzymeWrapper = shallow(<ModuleForm {...props} />, { context })
-    assert.equal(enzymeWrapper.find(SearchResultForm).length, 1, 'The search result configuration form should be used to configure search results')
-    // test render component in array
+    // 1 - Test pane field
+    const paneField = enzymeWrapper.find(ModulePaneStateField)
+    assert.lengthOf(paneField, 1, 'There should be the pane field')
+    assert.equal(paneField.props().currentNamespace, props.currentNamespace, 'It should use the right namespace')
+    // 2 - test render component in array
     const field = enzymeWrapper.find(FieldArray)
     assert.equal(field.length, 1, 'There should be a field for levels')
     assert.equal(field.at(0).props().component, SelectedLevelFormRender, 'The render used should be the specific levels render')
+    // 3 - verify search result form is added
+    assert.equal(enzymeWrapper.find(SearchResultForm).length, 1, 'The search result configuration form should be used to configure search results')
   })
 })

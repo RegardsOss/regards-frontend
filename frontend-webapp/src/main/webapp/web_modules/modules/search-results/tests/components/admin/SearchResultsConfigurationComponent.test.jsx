@@ -19,9 +19,10 @@
 import { shallow } from 'enzyme'
 import { spy } from 'sinon'
 import { assert } from 'chai'
-import { Field } from '@regardsoss/form-utils'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DamDomain } from '@regardsoss/domain'
+import { Field } from '@regardsoss/form-utils'
+import { ModulePaneStateField } from '@regardsoss/modules-api'
 import SearchResultsConfigurationComponent from '../../../src/components/admin/SearchResultsConfigurationComponent'
 import Styles from '../../../src/styles/styles'
 
@@ -61,5 +62,9 @@ describe('[Search Results] Testing SearchResultsConfigurationComponent', () => {
 
     const showFacettes = wrapper.find(Field).find({ name: 'conf.enableFacettes' })
     assert(showFacettes.length === 1, 'The facettes field should be defined')
+
+    const paneField = wrapper.find(ModulePaneStateField)
+    assert.lengthOf(paneField, 1, 'There should be the pane field')
+    assert.equal(paneField.props().currentNamespace, props.currentNamespace, 'It should use the right namespace')
   })
 })

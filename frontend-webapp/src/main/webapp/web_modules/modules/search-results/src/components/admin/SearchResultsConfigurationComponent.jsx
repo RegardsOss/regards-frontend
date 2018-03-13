@@ -20,11 +20,13 @@ import get from 'lodash/get'
 import { CardText } from 'material-ui/Card'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
+import { UIDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/display-control'
 import { Title } from '@regardsoss/components'
+import { ModulePaneStateField } from '@regardsoss/modules-api'
 import { Field, RenderCheckbox, RenderTextField } from '@regardsoss/form-utils'
 import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
 import ModuleConfiguration from '../../models/ModuleConfiguration'
@@ -79,6 +81,9 @@ class SearchResultsConfigurationComponent extends React.Component {
     if (this.props.isCreating) {
       // Display mode is either provided by the parent module either fallback to default value
       this.props.changeField(this.MODULE_DISPLAY_MODE, get(this.props.adminConf, 'initialDisplayMode', DISPLAY_MODE_ENUM.DISPLAY_DATA))
+      // Primary pane state is either provided by the parent module either fallback to default value
+      this.props.changeField(`${this.props.currentNamespace}.primaryPane`,
+        get(this.props.adminConf, 'primaryPane', UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE))
       this.props.changeField(this.CONF_ENABLE_QUICKLOOKS, false)
       this.props.changeField(this.CONF_QUICKLOOKS_WIDTH, 400)
       this.props.changeField(this.CONF_QUICKLOOKS_SPACING, 20)
@@ -254,76 +259,83 @@ class SearchResultsConfigurationComponent extends React.Component {
   )
 
   render() {
-    const { topOptions } = this.context.moduleTheme.configuration
-    const preventAdminToPickDocumentView = get(this.props.adminConf, 'preventAdminToPickDocumentView', false)
-    const displayMode = get(this.props.currentFormValues, 'displayMode')
-    const enableQuicklooks = get(this.props.currentFormValues, 'enableQuicklooks', false)
+    const { adminConf, currentFormValues, currentNamespace } = this.props
+    const { intl: { formatMessage } } = this.context
+    const preventAdminToPickDocumentView = get(adminConf, 'preventAdminToPickDocumentView', false)
+    const displayMode = get(currentFormValues, 'displayMode')
+    const enableQuicklooks = get(currentFormValues, 'enableQuicklooks', false)
     return (
       <CardText>
+        <ModulePaneStateField currentNamespace={currentNamespace} />
         <Title
           level={3}
-          label={this.context.intl.formatMessage({ id: 'form.configuration.tab.title' })}
+          label={formatMessage({ id: 'form.configuration.visible.tabs.message' })}
         />
-        <div style={topOptions.styles}>
-          <RadioButtonGroup
-            onChange={this.changeDisplayMode}
-            valueSelected={displayMode}
-            name="__display_mode"
-          >
-            <RadioButton
-              value={DISPLAY_MODE_ENUM.DISPLAY_DATA}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.type.data' })}
-            />
-            <RadioButton
-              value={DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.type.data_datasets' })}
-            />
-            <RadioButton
-              value={DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.type.documents' })}
-              disabled={preventAdminToPickDocumentView}
-            />
-          </RadioButtonGroup>
-          <Field
-            name={this.CONF_ENABLE_FACETTES}
-            component={RenderCheckbox}
-            label={this.context.intl.formatMessage({ id: 'form.configuration.result.enable.facettes.label' })}
+        <RadioButtonGroup
+          onChange={this.changeDisplayMode}
+          valueSelected={displayMode}
+          name="__display_mode"
+        >
+          <RadioButton
+            value={DISPLAY_MODE_ENUM.DISPLAY_DATA}
+            label={formatMessage({ id: 'form.configuration.result.type.data' })}
           />
+          <RadioButton
+            value={DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
+            label={formatMessage({ id: 'form.configuration.result.type.data_datasets' })}
+          />
+          <RadioButton
+            value={DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
+            label={formatMessage({ id: 'form.configuration.result.type.documents' })}
+            disabled={preventAdminToPickDocumentView}
+          />
+        </RadioButtonGroup>
+        <Title
+          level={3}
+          label={formatMessage({ id: 'form.configuration.results.options.message' })}
+        />
+        <Field
+          name={this.CONF_ENABLE_FACETTES}
+          component={RenderCheckbox}
+          label={formatMessage({ id: 'form.configuration.result.enable.facettes.label' })}
+          noSpacing
+        />
+        <Field
+          name={this.CONF_ENABLE_QUICKLOOKS}
+          component={RenderCheckbox}
+          label={formatMessage({ id: 'form.configuration.result.enable.quicklooks.label' })}
+          disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
+          noSpacing
+        />
+        <Field
+          name={this.CONF_ENABLE_DOWNLOAD}
+          component={RenderCheckbox}
+          label={formatMessage({ id: 'form.configuration.result.enable.download.label' })}
+          noSpacing
+        />
+        <ShowableAtRender show={enableQuicklooks}>
           <Field
-            name={this.CONF_ENABLE_QUICKLOOKS}
-            component={RenderCheckbox}
-            label={this.context.intl.formatMessage({ id: 'form.configuration.result.enable.quicklooks.label' })}
+            name={this.CONF_QUICKLOOKS_WIDTH}
+            component={RenderTextField}
+            type="number"
+            label={formatMessage({ id: 'form.configuration.result.width.quicklooks.label' })}
+            fullWidth
+            normalize={parseIntNormalizer}
             disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
           />
-          <ShowableAtRender show={enableQuicklooks}>
-            <Field
-              name={this.CONF_QUICKLOOKS_WIDTH}
-              component={RenderTextField}
-              type="number"
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.width.quicklooks.label' })}
-              fullWidth
-              normalize={parseIntNormalizer}
-              disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
-            />
-            <Field
-              name={this.CONF_QUICKLOOKS_SPACING}
-              component={RenderTextField}
-              type="number"
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.spacing.quicklooks.label' })}
-              fullWidth
-              normalize={parseIntNormalizer}
-              disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
-            />
-          </ShowableAtRender>
           <Field
-            name={this.CONF_ENABLE_DOWNLOAD}
-            component={RenderCheckbox}
-            label={this.context.intl.formatMessage({ id: 'form.configuration.result.enable.download.label' })}
+            name={this.CONF_QUICKLOOKS_SPACING}
+            component={RenderTextField}
+            type="number"
+            label={formatMessage({ id: 'form.configuration.result.spacing.quicklooks.label' })}
+            fullWidth
+            normalize={parseIntNormalizer}
+            disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
           />
-        </div>
+        </ShowableAtRender>
         <Title
           level={3}
-          label={this.context.intl.formatMessage({ id: 'form.attributes.configuration.section.title' })}
+          label={formatMessage({ id: 'form.attributes.configuration.section.title' })}
         />
         {this.renderAttributesConfiguration()}
       </CardText>

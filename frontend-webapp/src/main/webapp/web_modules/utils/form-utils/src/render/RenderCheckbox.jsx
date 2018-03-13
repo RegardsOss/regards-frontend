@@ -43,6 +43,7 @@ export default class RenderCheckbox extends React.Component {
     alwaysShowError: PropTypes.bool, // bypass touched to show some automatic errors
     disabled: PropTypes.bool,
     defaultValue: PropTypes.bool,
+    noSpacing: PropTypes.bool, // set it to true to not show additional spacing in checkBox buttons groups
   }
 
   static defaultProps = {
@@ -73,14 +74,15 @@ export default class RenderCheckbox extends React.Component {
 
   render() {
     const {
-      alwaysShowError, input, className, label, disabled, meta: { touched, error }, intl,
+      alwaysShowError, input, className, label, disabled, meta: { touched, error },
+      intl, noSpacing,
     } = this.props
     const { muiTheme } = this.context
     const checked = !!input.value
     return (
       <div>
         <Checkbox
-          style={RenderCheckbox.STYLES.rootStyles}
+          style={noSpacing ? null : RenderCheckbox.STYLES.rootStyles}
           labelStyle={RenderCheckbox.STYLES.labelStyles}
           className={className}
           label={label}

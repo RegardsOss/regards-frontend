@@ -1,6 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import { UIDomain } from '@regardsoss/domain'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 
@@ -36,6 +37,7 @@ class SearchResultFormComponent extends React.Component {
       conf: {
         displayMode: 'data',
         preventAdminToPickDocumentView: true,
+        primaryPane: UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE,
       },
     }
 

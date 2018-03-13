@@ -27,16 +27,17 @@ const messages = Object.assign({
   // Administration messages
 
   // Configuration tab
-  'form.configuration.tab.title': 'Configurez les options d\'affichage des résultats de recherche. ',
-  'form.configuration.result.type.data': 'Afficher la vue "données"',
-  'form.configuration.result.type.data_datasets': 'Afficher les vues "données" et "jeux de données"',
-  'form.configuration.result.type.documents': 'Afficher la vue "documents"',
+  'form.configuration.visible.tabs.message': 'Vues de résultats à afficher',
+  'form.configuration.result.type.data': 'Données',
+  'form.configuration.result.type.data_datasets': 'Données et jeux de données',
+  'form.configuration.result.type.documents': 'Documents',
+  'form.configuration.results.options.message': 'Options disponibles pour les résultats',
   'form.configuration.result.enable.facettes.label': 'Activer les facettes : Critères de filtrage dépendant des résultats de la recherche initiale',
   'form.configuration.result.enable.download.label': 'Activer le téléchargement des fichiers associés à l\'entité',
   'form.configuration.result.enable.quicklooks.label': 'Activer la vue des Imagettes sur les données',
   'form.configuration.result.width.quicklooks.label': 'Largeur des imagettes',
   'form.configuration.result.spacing.quicklooks.label': 'Espacement entre les imagettes',
-  'form.attributes.configuration.section.title': 'Configurez les attributs affichés dans le tableau de résultats',
+  'form.attributes.configuration.section.title': 'Colonnes et attibuts du tableau',
   'form.attributes.regroupement.form.title': 'Ajout d\'un nouveau regroupement',
   'form.attributes.regroupement.description': 'Un regroupement d\'attributs permet de regrouper l\'affichage de plusieurs attributs d\'un même objet résultat d\'une recherche dans une seule colonne du tableau des résultats de recherche.<br/>' +
     ' Veuillez saisir le label de la colonne voulue (ce label doit être unique) puis sélectionner les attributs à regrouper.',

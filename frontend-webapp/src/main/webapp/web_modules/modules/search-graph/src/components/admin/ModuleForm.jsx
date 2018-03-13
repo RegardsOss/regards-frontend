@@ -8,6 +8,7 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { FieldArray } from '@regardsoss/form-utils'
+import { ModulePaneStateField } from '@regardsoss/modules-api'
 import { Title } from '@regardsoss/components'
 import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
@@ -53,11 +54,13 @@ class ModuleForm extends React.Component {
       collectionModels, appName, project, adminForm, selectableAttributes,
     } = this.props
     const { intl: { formatMessage } } = this.context
-    const formConf = get(adminForm.form, adminForm.currentNamespace)
+    const { currentNamespace } = adminForm
+    const formConf = get(adminForm.form, currentNamespace)
     const currentAttributesConfiguration = formConf && formConf.graphDatasetAttributes ? formConf.graphDatasetAttributes : []
     return (
       <Tabs>
         <Tab label={formatMessage({ id: 'search.graph.configuration.tab' })}>
+          <ModulePaneStateField currentNamespace={currentNamespace} />
           <Title
             level={3}
             label={formatMessage({ id: 'search.graph.configuration.levels.message' })}

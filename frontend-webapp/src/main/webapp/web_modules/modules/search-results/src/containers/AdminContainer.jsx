@@ -44,7 +44,7 @@ export class AdminContainer extends React.Component {
     // default module properties
     ...AccessShapes.runtimeConfigurationModuleFields,
     // redefines expected configuration shape
-    moduleConf: ModuleConfiguration.isRequired,
+    moduleConf: ModuleConfiguration,
     // Set by mapStateToProps
     dataAttributeModels: DataManagementShapes.AttributeModelList,
     datasetAttributeModels: DataManagementShapes.AttributeModelList,

@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import { UIDomain } from '@regardsoss/domain'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { DataManagementShapes } from '@regardsoss/shape'
 import ModuleConfiguration from '../../../shapes/ModuleConfiguration'
@@ -65,6 +66,7 @@ class SearchResultsComponent extends React.Component {
         initialDisplayMode: this.props.initialDisplayMode,
         // admin should not search document results
         preventAdminToPickDocumentView: true,
+        primaryPane: UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE,
       },
     }
     return (

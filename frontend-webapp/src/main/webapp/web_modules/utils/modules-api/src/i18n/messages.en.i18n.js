@@ -23,7 +23,7 @@
  * @author Sébastien Binda
  */
 const messages = {
-  'modules.common.admin.pane.expanded.field.label': 'Presentation pane is:',
+  'modules.common.admin.pane.expanded.field.label': 'Presentation pane state',
   'modules.common.admin.pane.expanded.label': 'Initially expanded',
   'modules.common.admin.pane.collapsed.label': 'Initially collapsed',
   'modules.common.admin.pane.always.expanded.label': 'Always expanded',

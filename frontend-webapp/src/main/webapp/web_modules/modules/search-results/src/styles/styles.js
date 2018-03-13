@@ -22,13 +22,6 @@
  * @author Sébastien binda
  */
 const styles = theme => ({
-  configuration: {
-    topOptions: {
-      styles: {
-        padding: '0 0 15px 15px',
-      },
-    },
-  },
   user: {
     viewModeButton: {
       minWidth: theme.button.iconButtonSize,
