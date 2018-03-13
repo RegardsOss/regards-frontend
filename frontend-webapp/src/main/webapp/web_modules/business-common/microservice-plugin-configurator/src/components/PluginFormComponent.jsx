@@ -88,37 +88,28 @@ export class PluginFormComponent extends React.Component {
     } = this.props
     // The values are serialized by the backend. So deseralize it all here
 
-    const formatedConf = pluginConfiguration ?
-      PluginFormUtils.formatPluginConfForReduxFormInit(pluginConfiguration, pluginMetaData, true) : null
+    const pluginConf = pluginConfiguration || {
+      active: true,
+      pluginId: pluginMetaData.pluginId,
+      pluginClassName: pluginMetaData.pluginClassName,
+      version: pluginMetaData.version,
+      priorityOrder: 1,
+      parameters: [],
+    }
+    const initValues =
+      PluginFormUtils.formatPluginConfForReduxFormInit(pluginConf, pluginMetaData, true)
 
-    let initialValues
-    if (isEditing) {
-      // Edition mode
-      initialValues = formatedConf
-    } else if (formatedConf) {
-      // Duplication mode
-      // Deep copy pluginConfiguration
-      initialValues = formatedConf
+    if (pluginConfiguration && !isEditing) {
       // In copy mode remove id of the duplicated pluginConfiguration
-      delete initialValues.id
+      delete initValues.id
       // In copy mode remove id of each pluginParameters
-      if (initialValues.parameters && initialValues.parameters.length > 0) {
-        forEach(initialValues.parameters, (parameter, key) => {
-          delete initialValues.parameters[key].id
+      if (initValues.parameters && initValues.parameters.length > 0) {
+        forEach(initValues.parameters, (parameter, key) => {
+          delete initValues.parameters[key].id
         })
       }
-    } else {
-      // Creation mode
-      initialValues = {
-        active: true,
-        pluginId: pluginMetaData.pluginId,
-        pluginClassName: pluginMetaData.pluginClassName,
-        version: pluginMetaData.version,
-        priorityOrder: 1,
-        parameters: [],
-      }
     }
-    initialize({ [PluginFormComponent.confFieldName]: initialValues })
+    initialize({ [PluginFormComponent.confFieldName]: initValues })
   }
 
   renderField = () => {
