@@ -17,45 +17,41 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import Toggle from 'material-ui/Toggle'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import styles from './styles'
 
 /**
  * Material-UI extension of the "Toggle" component, allowing to add extra left and right labels
  *
  * @author Xavier-Alexandre Brochard
+ * @author Sébastien Binda
  */
-const styles = {
-  wrapper: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'baseline',
-  },
-  rightLabel: {
-    marginLeft: 10,
-  },
-  leftLabel: {},
+class DoubleLabelToggle extends React.Component {
+  static propTypes = {
+    rightLabel: PropTypes.string.isRequired,
+    leftLabel: PropTypes.string.isRequired,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+  }
+  render() {
+    const { rightLabel, leftLabel, ...rest } = this.props
+    const { moduleTheme: { doubleLabelToggleStyles } } = this.context
+    return (
+      <div style={doubleLabelToggleStyles.wrapper}>
+        <span>
+          {leftLabel}
+        </span>
+        <Toggle
+          {...rest}
+        />
+        <span style={doubleLabelToggleStyles.rightLabel}>
+          {rightLabel}
+        </span>
+      </div>
+    )
+  }
 }
 
-const DoubleLabelToggle = ({
-  rightLabel,
-  leftLabel,
-  ...rest
-}) => (
-  <div style={styles.wrapper}>
-    <span style={styles.leftLabel}>
-      {leftLabel}
-    </span>
-    <Toggle
-      {...rest}
-    />
-    <span style={styles.rightLabel}>
-      {rightLabel}
-    </span>
-  </div>
-)
-
-DoubleLabelToggle.propTypes = {
-  rightLabel: PropTypes.string.isRequired,
-  leftLabel: PropTypes.string.isRequired,
-}
-
-export default DoubleLabelToggle
+export default withModuleStyle(styles)(DoubleLabelToggle)

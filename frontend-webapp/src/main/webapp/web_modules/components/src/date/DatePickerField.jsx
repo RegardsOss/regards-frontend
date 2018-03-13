@@ -18,6 +18,7 @@
  **/
 import { DatePicker, TimePicker, IconButton, TextField } from 'material-ui'
 import isNaN from 'lodash/isNaN'
+import isEmpty from 'lodash/isEmpty'
 import isDate from 'lodash/isDate'
 import TimeIcon from 'material-ui/svg-icons/device/access-time'
 import ActionDateRange from 'material-ui/svg-icons/action/date-range'
@@ -193,30 +194,43 @@ export default class DatePickerField extends React.Component {
     return false
   }
 
+  /**
+   * Save the Date set manually by the user (e.g. YYYY:MM:DD) when the user unblur the TextField
+   */
   handleDateInputBlur = (dateText) => {
     const {
       value, locale, onChange, defaultTime,
     } = this.props
-    const { timeText } = this.state
-    let parsedDate
-    if (this.state.timeText) {
-      parsedDate = DatePickerField.parseDateWithLocale(dateText, locale, timeText)
+    if (!isEmpty(dateText)) {
+      const { timeText } = this.state
+      let parsedDate
+      if (this.state.timeText) {
+        parsedDate = DatePickerField.parseDateWithLocale(dateText, locale, timeText)
+      } else {
+        parsedDate = DatePickerField.parseDateWithLocale(dateText, locale, defaultTime)
+      }
+      if (this.isADate(parsedDate)) {
+        // the date is valid, let's save it
+        onChange(parsedDate)
+      } else {
+        // the date is invalid, let's rollback
+        this.setState({ dateText: DatePickerField.formatDateWithLocale(value, locale) })
+      }
     } else {
-      parsedDate = DatePickerField.parseDateWithLocale(dateText, locale, defaultTime)
-    }
-    if (this.isADate(parsedDate)) {
-      onChange(parsedDate)
-    } else {
-      this.setState({ dateText: DatePickerField.formatDateWithLocale(value, locale) })
+      // the user wants to remove the date
+      return onChange()
     }
   }
 
+  /**
+   * Save the Datetime set manually by the user (e.g. HH:MM:SS) when the user unselect (unblur) the TextField
+   */
   handleDatetimeInputBlur = (timeText) => {
     let parsedDate
     const { value, onChange, locale } = this.props
     const { dateText } = this.state
     let newDateText
-    if (timeText) {
+    if (!isEmpty(timeText)) {
       if (dateText) {
         newDateText = dateText
         parsedDate = DatePickerField.parseDateWithLocale(dateText, locale, timeText)
@@ -225,10 +239,15 @@ export default class DatePickerField extends React.Component {
         parsedDate = DatePickerField.parseDateWithLocale(newDateText, locale, timeText)
       }
       if (this.isADate(parsedDate)) {
+        // the date is valid, let's save it
         onChange(parsedDate)
       } else {
+        // the date is invalid, let's rollback
         this.setState({ timeText: format(value, DatePickerField.TIME_FORMAT) })
       }
+    } else {
+      // the user wants to remove the time
+      return onChange()
     }
   }
 

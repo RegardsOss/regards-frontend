@@ -145,5 +145,15 @@ export default function styles(theme) {
         margin: '0px 15px',
       },
     },
+    doubleLabelToggleStyles: {
+      wrapper: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'baseline',
+      },
+      rightLabel: {
+        marginLeft: 10,
+      },
+    },
   }
 }
