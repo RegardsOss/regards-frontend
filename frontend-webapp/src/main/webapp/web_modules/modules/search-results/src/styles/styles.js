@@ -28,6 +28,10 @@ const styles = theme => ({
         padding: '0 0 15px 15px',
       },
     },
+    textFieldStyle: {
+      width: '350px',
+      margin: '0px 10px',
+    },
   },
   user: {
     viewModeButton: {

@@ -84,6 +84,9 @@ export class SearchResultsContainer extends React.Component {
     enableQuicklooks: PropTypes.bool.isRequired, // are quicklook available on data items
     displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
     displayConf: DisplayModuleConf,
+    // Navigation labels
+    datasetsSectionLabel: PropTypes.string,
+    dataSectionLabel: PropTypes.string,
 
     // eslint-disable-next-line react/no-unused-prop-types
     facettesQuery: PropTypes.string, // facettes query to be added to search query in order to get the facettes
@@ -410,7 +413,8 @@ export class SearchResultsContainer extends React.Component {
   render() {
     const {
       displayMode, enableFacettes, isFetching, resultsCount, viewObjectType, tableDisplayMode, enableDownload,
-      enableQuicklooks, facettesQuery, dispatchSetEntityAsTag, searchQuery: initialSearchQuery, displayConf, accessToken, projectName,
+      enableQuicklooks, facettesQuery, dispatchSetEntityAsTag, datasetsSectionLabel, dataSectionLabel,
+      searchQuery: initialSearchQuery, displayConf, accessToken, projectName,
     } = this.props
 
     const {
@@ -418,6 +422,7 @@ export class SearchResultsContainer extends React.Component {
       facets, filters, openSearchQuery, fullSearchQuery, displayOnlyQuicklook,
     } = this.state
     const tableViewMode = tableDisplayMode || TableDisplayModeEnum.LIST
+
     return (
       <ModuleStyleProvider module={moduleStyles}>
         {/* enable the services functionnalities */}
@@ -440,6 +445,9 @@ export class SearchResultsContainer extends React.Component {
               allowingFacettes={enableFacettes && !!facettesQuery}
               displayMode={displayMode}
               displayConf={displayConf}
+
+              datasetsSectionLabel={datasetsSectionLabel}
+              dataSectionLabel={dataSectionLabel}
 
               resultsCount={resultsCount}
               isFetching={isFetching}

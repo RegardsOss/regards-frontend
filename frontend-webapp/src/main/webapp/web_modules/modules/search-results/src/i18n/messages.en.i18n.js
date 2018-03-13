@@ -36,6 +36,10 @@ const messages = Object.assign({
   'form.configuration.result.enable.quicklooks.label': 'Enable quicklook view on data',
   'form.configuration.result.width.quicklooks.label': 'Quicklook width',
   'form.configuration.result.spacing.quicklooks.label': 'Quicklook spacing',
+  'form.configuration.result.datasets.section.label.en': 'Datasets View label (English)',
+  'form.configuration.result.datasets.section.label.fr': 'Datasets View label (French)',
+  'form.configuration.result.data.section.label.en': 'Data View label (English)',
+  'form.configuration.result.data.section.label.fr': 'Data View label (French)',
   'form.attributes.regroupement.form.title': 'Add new attributes clustering',
   'form.attributes.regroupement.description': 'A clustering of attributes allows you to display multiples attributes of a search result object into the same column of the results list.<br/>' +
     ' Please enter the new clustering label (that must be unique) and select attributes to cluster.',
