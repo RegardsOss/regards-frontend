@@ -6,7 +6,7 @@ echo "execute preinstallation (bootstrap)"
 npm run bootstrap
 
 echo "execute npm install"
-npm ci
+npm install
 
 # echo "execute tests"
 # npm run test:mocha
