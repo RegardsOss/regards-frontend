@@ -58,6 +58,9 @@ const messages = Object.assign({
 
   'sip.details.button.close': 'Close',
 
+  'sip.delete.error.dialog.close': 'Close',
+  'sip.delete.error.title': 'Error during SIP "{id}" deletion',
+
   'sips.session.title': 'Sessions',
   'sips.session.sips.title': 'Session {session}',
   'sips.session.subtitle': 'Select the session associated to the SIPs you want to view',

@@ -74,6 +74,10 @@ class SearchResultsConfigurationComponent extends React.Component {
     this.CONF_QUICKLOOKS_WIDTH = `${props.currentNamespace}.displayConf.quicklookColumnWidth`
     this.CONF_QUICKLOOKS_SPACING = `${props.currentNamespace}.displayConf.quicklookColumnSpacing`
     this.CONF_ENABLE_DOWNLOAD = `${props.currentNamespace}.enableDownload`
+    this.CONF_DATASETS_SECTION_LABEL_FR = `${props.currentNamespace}.datasetsSectionLabelFr`
+    this.CONF_DATASETS_SECTION_LABEL_EN = `${props.currentNamespace}.datasetsSectionLabelEn`
+    this.CONF_DATA_SECTION_LABEL_FR = `${props.currentNamespace}.dataSectionLabelFr`
+    this.CONF_DATA_SECTION_LABEL_EN = `${props.currentNamespace}.dataSectionLabelEn`
   }
 
   componentDidMount() {
@@ -264,6 +268,7 @@ class SearchResultsConfigurationComponent extends React.Component {
     const preventAdminToPickDocumentView = get(adminConf, 'preventAdminToPickDocumentView', false)
     const displayMode = get(currentFormValues, 'displayMode')
     const enableQuicklooks = get(currentFormValues, 'enableQuicklooks', false)
+    const { textFieldStyle } = this.context.moduleTheme.configuration
     return (
       <CardText>
         <ModulePaneStateField currentNamespace={currentNamespace} />
@@ -333,6 +338,30 @@ class SearchResultsConfigurationComponent extends React.Component {
             disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
           />
         </ShowableAtRender>
+        <Field
+          style={textFieldStyle}
+          name={this.CONF_DATASETS_SECTION_LABEL_FR}
+          component={RenderTextField}
+          label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.fr' })}
+        />
+        <Field
+          style={textFieldStyle}
+          name={this.CONF_DATASETS_SECTION_LABEL_EN}
+          component={RenderTextField}
+          label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.en' })}
+        />
+        <Field
+          style={textFieldStyle}
+          name={this.CONF_DATA_SECTION_LABEL_FR}
+          component={RenderTextField}
+          label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.fr' })}
+        />
+        <Field
+          style={textFieldStyle}
+          name={this.CONF_DATA_SECTION_LABEL_EN}
+          component={RenderTextField}
+          label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.en' })}
+        />
         <Title
           level={3}
           label={formatMessage({ id: 'form.attributes.configuration.section.title' })}

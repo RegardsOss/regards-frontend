@@ -21,7 +21,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import get from 'lodash/get'
 import concat from 'lodash/concat'
 import DownloadIcon from 'material-ui/svg-icons/file/file-download'
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import MenuItem from 'material-ui/MenuItem'
 import { DropDownButton } from '@regardsoss/components'
@@ -69,23 +69,38 @@ class DownloadEntityFileComponent extends React.Component {
 
 
   /**
-   * Retrieve the first link available on the current entity
+   * Retrieve the first link available in the current entity
    */
   getFirstDownloadeableLink = () => {
     const { entity } = this.props
-    return get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}[0].uri`) ||
-      get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}[0].uri`)
+    const firstDocument = get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}[0].uri`)
+    if (this.areRawDataDownloadable()) {
+      return firstDocument || get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}[0].uri`)
+    }
+    return firstDocument
   }
 
   /**
-   * Retrieve the first link available on the current entity
+   * Retrieve the list of object attached files
    */
   getAllDownloadeableFiles = () => {
     const { entity } = this.props
-    return concat(
-      get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}`, []),
-      get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}`, []),
-    )
+    const documentFiles = get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}`, [])
+    if (this.areRawDataDownloadable()) {
+      return concat(
+        get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}`, []),
+        documentFiles,
+      )
+    }
+    return documentFiles
+  }
+
+  /**
+   * The entity store a boolean to tell us if RAW_DATA are downloadeable
+   */
+  areRawDataDownloadable = () => {
+    const { entity } = this.props
+    return entity.content.downloadable
   }
 
   /**
@@ -93,17 +108,37 @@ class DownloadEntityFileComponent extends React.Component {
    */
   nbDownloadeableFiles = () => {
     const { entity } = this.props
-    return get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}`, []).length +
-      get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}`, []).length
+    const nbDocumentFiles = get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}`, []).length
+    if (this.areRawDataDownloadable()) {
+      return nbDocumentFiles + get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}`, []).length
+    }
+    return nbDocumentFiles
+  }
+
+  isDataset = () => {
+    const { entity } = this.props
+    return entity.content.entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET
   }
 
   render() {
     // in resolved attributes, get the first data, if any
     const { intl: { formatMessage } } = this.context
-    const { style, accessToken, projectName } = this.props
+    const {
+      style, accessToken, projectName,
+    } = this.props
     const nbDownloadeableFiles = this.nbDownloadeableFiles()
-    if (nbDownloadeableFiles === 0) {
+    if (this.isDataset()) {
       return null
+    } else if (nbDownloadeableFiles === 0) {
+      return (
+        <IconButton
+          title={formatMessage({ id: 'download.tooltip' })}
+          style={style}
+          disabled
+        >
+          <DownloadIcon />
+        </IconButton>
+      )
     } else if (nbDownloadeableFiles === 1) {
       const fileURI = this.getFirstDownloadeableLink()
       return (

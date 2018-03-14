@@ -218,7 +218,7 @@ export default class DatePickerField extends React.Component {
       }
     } else {
       // the user wants to remove the date
-      return onChange()
+      onChange()
     }
   }
 
@@ -247,7 +247,7 @@ export default class DatePickerField extends React.Component {
       }
     } else {
       // the user wants to remove the time
-      return onChange()
+      onChange()
     }
   }
 

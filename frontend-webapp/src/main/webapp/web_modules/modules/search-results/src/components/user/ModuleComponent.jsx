@@ -1,8 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import get from 'lodash/get'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { DynamicModule } from '@regardsoss/components'
 import { dependencies } from '../../user-dependencies'
 import ModuleConfiguration from '../../models/ModuleConfiguration'
@@ -28,6 +30,7 @@ class ModuleComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {
@@ -50,8 +53,16 @@ class ModuleComponent extends React.Component {
         attributesRegroupements,
         displayMode,
         displayConf,
+        datasetsSectionLabelFr,
+        datasetsSectionLabelEn,
+        dataSectionLabelFr,
+        dataSectionLabelEn,
       },
     } = this.props
+
+    const locale = get(this.context, 'intl.locale', 'en')
+    const datasetsSectionLabel = locale === 'fr' ? datasetsSectionLabelFr : datasetsSectionLabelEn
+    const dataSectionLabel = locale === 'fr' ? dataSectionLabelFr : dataSectionLabelEn
     return (
       <DynamicModule
         titleComponent={
@@ -72,6 +83,8 @@ class ModuleComponent extends React.Component {
           enableQuicklooks={enableQuicklooks}
           displayMode={displayMode}
           searchQuery={searchQuery}
+          datasetsSectionLabel={datasetsSectionLabel}
+          dataSectionLabel={dataSectionLabel}
           facettesQuery={facettesQuery}
           attributesConf={attributes}
           attributesQuicklookConf={attributesQuicklook}

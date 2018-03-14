@@ -58,6 +58,10 @@ class SearchResultsComponent extends React.Component {
     displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
     displayConf: DisplayModuleConf,
 
+    // Navigation
+    datasetsSectionLabel: PropTypes.string,
+    dataSectionLabel: PropTypes.string,
+
     // results related
     resultsCount: PropTypes.number.isRequired,
     isFetching: PropTypes.bool.isRequired,
@@ -82,6 +86,7 @@ class SearchResultsComponent extends React.Component {
 
     // request control
     searchQuery: PropTypes.string.isRequired,
+
 
     accessToken: PropTypes.string,
     projectName: PropTypes.string.isRequired,
@@ -270,7 +275,7 @@ class SearchResultsComponent extends React.Component {
       viewObjectType, tableViewMode, showingFacettes, facets, filters, searchQuery, selectionServices, onChangeColumnsVisibility, onDeleteFacet,
       onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
       onStartSelectionService, onAddSelectionToCart, onShowQuicklookView, enableQuicklooks, displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook,
-      onAddElementToCart, enableDownload, accessToken, projectName,
+      onAddElementToCart, enableDownload, accessToken, projectName, datasetsSectionLabel, dataSectionLabel,
     } = this.props
 
     let columns
@@ -318,6 +323,8 @@ class SearchResultsComponent extends React.Component {
           enableQuicklooks={enableQuicklooks}
           showingFacettes={showingFacettes}
           selectionServices={selectionServices}
+          datasetsSectionLabel={datasetsSectionLabel}
+          dataSectionLabel={dataSectionLabel}
           onAddSelectionToCart={onAddSelectionToCart}
           onChangeColumnsVisibility={onChangeColumnsVisibility}
           onShowDataobjects={onShowDataobjects}

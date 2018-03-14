@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isNil from 'lodash/isNil'
-import get from 'lodash/get'
 import includes from 'lodash/includes'
 import { CommonShapes } from '@regardsoss/shape'
 import { fieldInputPropTypes } from 'redux-form'
@@ -70,33 +68,6 @@ export class RenderPluginParameterField extends React.PureComponent {
 
   state = {
     descriptionOpened: false,
-  }
-
-  componentWillMount() {
-    const { input, pluginParameterType, complexParameter } = this.props
-    let initParamValues = ''
-    if (complexParameter && (isNil(get(input, 'value.value') || isNil(get(input, 'value.dynamic'))))) {
-      initParamValues = {
-        dynamic: get(input, 'value.dynamic', false),
-        dynamicValues: get(input, 'value.dynamicValues', null),
-        name: pluginParameterType.name,
-      }
-    } else if (complexParameter) {
-      initParamValues = {
-        name: pluginParameterType.name,
-      }
-    }
-    // Not complex parameter does not need the name,value properties.
-    // They only have the value and not a structure like {value,name,dynamic,dynamicValues}
-    if (complexParameter && get(input, 'value.value', null) !== null) {
-      initParamValues = {
-        ...initParamValues,
-        value: input.value.value,
-      }
-    } else if (!complexParameter && get(input, 'value', null) !== null) {
-      initParamValues = input.value
-    }
-    input.onChange(initParamValues)
   }
 
   handleCloseDescription = () => {

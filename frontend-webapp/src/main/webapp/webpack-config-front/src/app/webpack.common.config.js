@@ -35,8 +35,10 @@ module.exports = function (projectContextPath, mode = 'dev') {
         {
           test: /\.jsx?$/,
           // Exclude the DLL folder build from the transpilation
-          exclude: [/node_modules/, /dist/],
+          // and staticConfiguration this file is just copied not interpreted
+          exclude: [/node_modules/, /dist/, /staticConfiguration(\.dev)?\.js$/],
           use: [
+            'thread-loader',
             // used to cache the results of the loader.
             // Next builds will attempt to read from the cache
             // the cache is different depending of the value of NODE_ENV

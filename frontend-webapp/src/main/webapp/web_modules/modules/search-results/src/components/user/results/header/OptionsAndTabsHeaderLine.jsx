@@ -65,6 +65,10 @@ class OptionsAndTabsHeaderLine extends React.Component {
     // services
     selectionServices: AccessShapes.PluginServiceWithContentArray.isRequired,
 
+    // Navigation
+    datasetsSectionLabel: PropTypes.string,
+    dataSectionLabel: PropTypes.string,
+
     // callbacks
     onAddSelectionToCart: PropTypes.func, // optional, not available when null or undefined
     onChangeColumnsVisibility: PropTypes.func.isRequired,
@@ -103,6 +107,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
       displayFacettesButton, showingFacettes, enableQuicklooks, selectionServices, onAddSelectionToCart,
       onChangeColumnsVisibility, onShowListView, onShowTableView, onShowDatasets, onShowQuicklookView, displayOnlyQuicklook,
       onShowDataobjects, onSortByAttribute, onStartSelectionService, onToggleShowFacettes, onToggleDisplayOnlyQuicklook,
+      datasetsSectionLabel, dataSectionLabel,
     } = this.props
 
     return (
@@ -112,14 +117,14 @@ class OptionsAndTabsHeaderLine extends React.Component {
           <TableHeaderOptionGroup show={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}>
             <FlatButton
               key="datasets.tab"
-              label={formatMessage({ id: 'navigation.datasets.label' })}
+              label={datasetsSectionLabel || formatMessage({ id: 'navigation.datasets.label' })}
               onClick={onShowDatasets}
               icon={<DatasetLibraryIcon />}
               secondary={!this.isDisplayingDataobjects()}
             />
             <FlatButton
               key="dataobjects.tab"
-              label={formatMessage({ id: 'navigation.dataobjects.label' })}
+              label={dataSectionLabel || formatMessage({ id: 'navigation.dataobjects.label' })}
               onClick={onShowDataobjects}
               icon={<DataLibraryIcon />}
               secondary={this.isDisplayingDataobjects()}

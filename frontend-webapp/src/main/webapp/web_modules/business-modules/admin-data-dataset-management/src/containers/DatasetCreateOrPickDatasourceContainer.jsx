@@ -62,7 +62,7 @@ export class DatasetCreateOrPickDatasourceContainer extends React.Component {
   }
   getCreateDatasourceUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/acquisition/datasource/create/connection`
+    return `/admin/${project}/data/acquisition/datasource/create/interface`
   }
 
   redirectToForm = (datasourceId) => {

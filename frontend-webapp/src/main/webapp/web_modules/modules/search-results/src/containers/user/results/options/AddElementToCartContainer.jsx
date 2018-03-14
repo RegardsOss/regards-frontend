@@ -55,12 +55,12 @@ export class AddElementToCartContainer extends React.Component {
    * @return {boolean} true when add to cart is possible for entity
    */
   canAddToCart() {
-    const { entity: { content: { entityType, containsPhysicalData } } } = this.props
+    const { entity: { content: { entityType, containsPhysicalData, downloadable } } } = this.props
     // add to cart is allowed when:
     // the object is a dataset (A)
     // Or : the object is a data object and containsPhysicalData (B)
     return entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET || // (A)
-      (entityType === DamDomain.ENTITY_TYPES_ENUM.DATA && !!containsPhysicalData) // (B)
+      (entityType === DamDomain.ENTITY_TYPES_ENUM.DATA && containsPhysicalData && downloadable) // (B)
   }
 
   render() {
@@ -70,4 +70,5 @@ export class AddElementToCartContainer extends React.Component {
     )
   }
 }
+
 export default AddElementToCartContainer

@@ -37,6 +37,10 @@ const messages = Object.assign({
   'form.configuration.result.enable.quicklooks.label': 'Activer la vue des Imagettes sur les données',
   'form.configuration.result.width.quicklooks.label': 'Largeur des imagettes',
   'form.configuration.result.spacing.quicklooks.label': 'Espacement entre les imagettes',
+  'form.configuration.result.datasets.section.label.en': 'Nom de la vue "jeux de données" (Anglais)',
+  'form.configuration.result.datasets.section.label.fr': 'Nom de la vue "jeux de données" (Français)',
+  'form.configuration.result.data.section.label.en': 'Nom de la vue "données" (Anglais)',
+  'form.configuration.result.data.section.label.fr': 'Nom de la vue "données" (Français)',
   'form.attributes.configuration.section.title': 'Colonnes et attibuts du tableau',
   'form.attributes.regroupement.form.title': 'Ajout d\'un nouveau regroupement',
   'form.attributes.regroupement.description': 'Un regroupement d\'attributs permet de regrouper l\'affichage de plusieurs attributs d\'un même objet résultat d\'une recherche dans une seule colonne du tableau des résultats de recherche.<br/>' +

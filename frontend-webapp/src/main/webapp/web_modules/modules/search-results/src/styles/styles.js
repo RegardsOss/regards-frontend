@@ -22,6 +22,12 @@
  * @author Sébastien binda
  */
 const styles = theme => ({
+  configuration: {
+    textFieldStyle: {
+      width: '350px',
+      margin: '0px 10px',
+    },
+  },
   user: {
     viewModeButton: {
       minWidth: theme.button.iconButtonSize,
