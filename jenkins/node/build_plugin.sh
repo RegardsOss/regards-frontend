@@ -4,11 +4,8 @@
 typeset -r PLUGIN_PATH="$1"
 
 echo "Plugin path from webapp: ${PLUGIN_PATH}"
-# First install npm links of the main app
 
 cd /app_to_build/plugins/${PLUGIN_PATH}/
-#echo "Install the plugin dependencies"
-#npm install
 
 echo "Run tests"
 npm test
