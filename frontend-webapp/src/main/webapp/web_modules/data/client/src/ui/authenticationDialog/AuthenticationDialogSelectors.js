@@ -16,20 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-/**
- * Combine all reducers for this aa to a single root reducer.
- */
-import { combineReducers } from 'redux'
-import { AccessProjectClient, OrderClient } from '@regardsoss/client'
-import { authenticationDialogReducer } from './clients/AuthenticationDialogUIClient'
+
+import { BasicSelector } from '@regardsoss/store-utils'
 
 /**
- * Reducers for user module
- * @author Sébastien binda
+ * Client seectors to manage common authentication dialog
+ * @author Sébastien Binda
  */
-export default combineReducers({
-  layout: AccessProjectClient.LayoutReducers(), // install default layout client reducer
-  'layout.modules': AccessProjectClient.ModuleReducers(), // install default layout modules client reducer
-  'order-basket': OrderClient.getOrderBasketReducer(), // install default order basket reducer reducer
-  authenticationDialog: authenticationDialogReducer,
-})
+export class AuthenticationDialogSelectors extends BasicSelector {
+  /**
+   * Returns current state of the authentication dialog (true opened, false closed)
+   * @return {boolean}
+   */
+  isAuthDialogOpen(state) {
+    return this.uncombineStore(state).show
+  }
+}
+
+/**
+ * Returns an intsance of authentication selectors on given store path
+ * @param  {[string]} store path: reducer store path
+ * @return {AuthenticationDialogSelectors} AuthenticationDialogSelectors instance
+ */
+export function getAuthenticationDialogSelectors(storePath) {
+  return new AuthenticationDialogSelectors(storePath)
+}

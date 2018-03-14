@@ -31,6 +31,7 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
 import { ProjectHandler } from '@regardsoss/project-handler'
 import { AuthenticationParametersActions, AuthenticationClient } from '@regardsoss/authentication-manager'
+import AuthenticationContainer from './AuthenticationContainer'
 
 // get default layout client actions and reducers instances
 const layoutActions = new AccessProjectClient.LayoutActions()
@@ -144,20 +145,21 @@ export class UserApp extends React.Component {
    * @returns {React.Component}
    */
   render() {
+    const { params: { project } } = this.props
     return (
       <ThemeProvider>
         <LoadableContentDisplayDecorator
           isLoading={this.props.layoutIsFetching || this.props.modulesIsFetching}
           isContentError={!this.props.layout}
         >
-          <div>
+          <AuthenticationContainer scope={project}>
             <ProjectHandler
-              projectName={this.props.params.project}
+              projectName={project}
               title="Data center"
             />
             {this.renderLayout(values(this.props.modules))}
             <ApplicationErrorContainer />
-          </div>
+          </AuthenticationContainer>
         </LoadableContentDisplayDecorator>
       </ThemeProvider>
     )

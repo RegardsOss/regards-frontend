@@ -16,20 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-/**
- * Combine all reducers for this aa to a single root reducer.
- */
-import { combineReducers } from 'redux'
-import { AccessProjectClient, OrderClient } from '@regardsoss/client'
-import { authenticationDialogReducer } from './clients/AuthenticationDialogUIClient'
+import { Locales } from '@regardsoss/form-utils'
 
-/**
- * Reducers for user module
- * @author Sébastien binda
- */
-export default combineReducers({
-  layout: AccessProjectClient.LayoutReducers(), // install default layout client reducer
-  'layout.modules': AccessProjectClient.ModuleReducers(), // install default layout modules client reducer
-  'order-basket': OrderClient.getOrderBasketReducer(), // install default order basket reducer reducer
-  authenticationDialog: authenticationDialogReducer,
-})
+const messages = Object.assign({
+  'authentication.dialog.title': 'Connexion à l\'interface utilisateur {project}',
+}, Locales.fr)
+
+export default messages

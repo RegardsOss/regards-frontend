@@ -20,10 +20,18 @@
 import { FeedbackActions } from './feedback/FeedbackActions'
 import { getFeedbackReducer } from './feedback/FeedbackReducer'
 import { FeedbackSelectors, getFeedbackSelectors } from './feedback/FeedbackSelectors'
+import { AuthenticationDialogActions } from './authenticationDialog/AuthenticationDialogActions'
+import { getAuthenticationDialogReducer } from './authenticationDialog/AuthenticationDialogReducer'
+import { AuthenticationDialogSelectors, getAuthenticationDialogSelectors } from './authenticationDialog/AuthenticationDialogSelectors'
 
 module.exports = {
   FeedbackActions,
   FeedbackSelectors,
   getFeedbackReducer,
   getFeedbackSelectors,
+
+  AuthenticationDialogActions,
+  AuthenticationDialogSelectors,
+  getAuthenticationDialogReducer,
+  getAuthenticationDialogSelectors,
 }
