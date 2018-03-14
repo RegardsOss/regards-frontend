@@ -47,7 +47,7 @@ import CardMediaWithCustomBG from './CardMediaWithCustomBG'
  * - It resolves module title, icon, expandable and expanded state from module configuration (module fields)
  * - It provides onExpandChange callback to sub components (as property)
  *
- * Expand / collapse state is controlled using redux client ModuleExpandState and is therefore shared with
+ * Expand / collapse state is controlled using redux client ModuleExpandedState and is therefore shared with
  * potential external controllers
  *
  * It uses moduleConf field for title, icon, expandable and expanded state
@@ -78,7 +78,11 @@ export class DynamicModulePane extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProp
+  static mapDispatchToProps(dispatch) {
+    return {
+      dispatchSetExpandedState: () => { }, // TODO, with usage
+    }
+  }
 
 
   static propTypes = {
@@ -112,6 +116,8 @@ export class DynamicModulePane extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     isAuthenticated: PropTypes.bool.isRequired, // async use
     locale: PropTypes.string,
+    // from map dispatch to props
+    dispatchSetExpandedState: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -142,11 +148,12 @@ export class DynamicModulePane extends React.Component {
    * Lifecycle method, used here to recompute authentication and dependencies state
    */
   componentWillMount = () => {
-    // when there is an external controller, provide him the callbacks to control this component expanded state
-    const setModuleExpandControllers = get(this.props, 'moduleConf.setModuleExpandControllers')
-    if (setModuleExpandControllers) {
-      setModuleExpandControllers(this.onExpand, this.onCollapse)
-    }
+    // Initialize expandable / expanded state (only when receiving a new prop)
+    // TODO
+    // const primaryPaneMode = get(newProps, 'moduleConf.primaryPane', UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE)
+    //   // 1 - module state initialization is driven by moduleConf
+    //   newState.expandable = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.ALWAYS_EXPANDED
+    //   newState.expanded = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE
 
     this.onPropertiesChanged({}, this.props)
   }
@@ -194,17 +201,6 @@ export class DynamicModulePane extends React.Component {
       }
     }
 
-    // Initialize expandable / expanded state (only when receiving a new prop)
-    const primaryPaneMode = get(newProps, 'moduleConf.primaryPane', UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE)
-    if (get(oldProps, 'moduleConf.primaryPane') !== primaryPaneMode) {
-      // 1 - module state initialization is driven by moduleConf
-      newState.expandable = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.ALWAYS_EXPANDED
-      newState.expanded = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE
-    } else { // report inner control
-      newState.expandable = oldState.expandable
-      newState.expanded = oldState.expanded
-    }
-
     // we need to compare logical states properties BUT NOT CHILDREN (as it creates infinite loops)
     // any children must be updated each time props.children OR state changes
     const comparedOldState = omit(oldState, ['children'])
@@ -226,7 +222,6 @@ export class DynamicModulePane extends React.Component {
       noDataTitleKey, noDataMessageKey,
       expandable, expanded,
     } = this.state
-    console.error('FUCK I DON RENDER..', expanded)
     const { intl: { formatMessage } } = this.context
 
     return (

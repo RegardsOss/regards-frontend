@@ -17,21 +17,27 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { FeedbackActions } from './feedback/FeedbackActions'
-import { getFeedbackReducer } from './feedback/FeedbackReducer'
-import { FeedbackSelectors, getFeedbackSelectors } from './feedback/FeedbackSelectors'
 import { AuthenticationDialogActions } from './authenticationDialog/AuthenticationDialogActions'
 import { getAuthenticationDialogReducer } from './authenticationDialog/AuthenticationDialogReducer'
 import { AuthenticationDialogSelectors, getAuthenticationDialogSelectors } from './authenticationDialog/AuthenticationDialogSelectors'
+import { FeedbackActions } from './feedback/FeedbackActions'
+import { getFeedbackReducer } from './feedback/FeedbackReducer'
+import { FeedbackSelectors, getFeedbackSelectors } from './feedback/FeedbackSelectors'
+import { ModuleExpandedStateActions } from './module/ModuleExpandedStateActions'
+import { getModuleExpandedStateReducer } from './module/ModuleExpandedStateReducer'
+import { ModuleExpandedStateSelectors, getModuleExpandedStateSelectors } from './module/ModuleExpandedStateSelectors'
 
 module.exports = {
-  FeedbackActions,
-  FeedbackSelectors,
-  getFeedbackReducer,
-  getFeedbackSelectors,
-
   AuthenticationDialogActions,
   AuthenticationDialogSelectors,
   getAuthenticationDialogReducer,
   getAuthenticationDialogSelectors,
+  FeedbackActions,
+  FeedbackSelectors,
+  getFeedbackReducer,
+  getFeedbackSelectors,
+  ModuleExpandedStateActions,
+  ModuleExpandedStateSelectors,
+  getModuleExpandedStateReducer,
+  getModuleExpandedStateSelectors,
 }
