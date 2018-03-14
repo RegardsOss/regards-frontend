@@ -18,10 +18,10 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
-import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { AuthenticationClient, routeHelpers } from '@regardsoss/authentication-manager'
 import LoginButton from '../../components/user/LoginButton'
 import LoggedUserContainer from './LoggedUserContainer'
+import { authenticationDialogActions } from '../../clients/AuthenticationDialogUIClient'
 
 /**
  * Manages authentication state machine. The callbacks are provided by parent
@@ -34,6 +34,8 @@ export class AuthenticationMenuContainer extends React.Component {
     display: PropTypes.bool,
     appName: PropTypes.string.isRequired,
     project: PropTypes.string,
+    // from mapDispatchToProps
+    toggleAuthenticationDialogOpen: PropTypes.func.isRequired,
     // from mapStateToProps
     isAuthenticated: PropTypes.bool,
   }
@@ -48,7 +50,7 @@ export class AuthenticationMenuContainer extends React.Component {
   componentWillMount = () => this.setAuthenticationVisible(routeHelpers.isBackFromAuthenticationMail())
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.isAuthenticated && nextProps.isAuthenticated && this.state && this.state.authenticationVisible) {
+    if (!this.props.isAuthenticated && nextProps.isAuthenticated) {
       // user logged in, hide the dialog
       this.onCloseDialog()
     }
@@ -67,33 +69,16 @@ export class AuthenticationMenuContainer extends React.Component {
    * @param authenticationVisible is visible in next state?
    */
   setAuthenticationVisible = (authenticationVisible) => {
-    if (!this.state || this.state.authenticationVisible !== authenticationVisible) {
-      this.setState({ authenticationVisible })
-    }
+    this.props.toggleAuthenticationDialogOpen(authenticationVisible)
   }
 
   render() {
     const {
       display, isAuthenticated, project, appName,
     } = this.props
-    const { authenticationVisible } = this.state
 
     if (!display) { // hidden by configuration
       return null
-    }
-
-    // Initialise the authentication module configuration
-    const authenticationModule = {
-      type: modulesManager.AllDynamicModuleTypes.AUTHENTICATION,
-      active: true,
-      conf: {
-        showLoginWindow: authenticationVisible,
-        loginTitle: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
-        // show cancel button only when not in a specific authentication URL
-        showCancel: !routeHelpers.isBackFromAuthenticationMail(),
-        showAskProjectAccess: true,
-        onCancelAction: this.onCloseDialog,
-      },
     }
 
     // in bar: render user status or connection button
@@ -107,18 +92,17 @@ export class AuthenticationMenuContainer extends React.Component {
     return (
       <div>
         {buttonComponent}
-        <LazyModuleComponent
-          module={authenticationModule}
-          appName={this.props.appName}
-          project={this.props.project}
-        />
       </div>
     )
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  toggleAuthenticationDialogOpen: opened => dispatch(authenticationDialogActions.toggleDialogDisplay(opened)),
+})
+
 const mapStateToProps = state => ({
   isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
 })
 
-export default connect(mapStateToProps)(AuthenticationMenuContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(AuthenticationMenuContainer)

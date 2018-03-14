@@ -16,20 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-/**
- * Combine all reducers for this aa to a single root reducer.
- */
-import { combineReducers } from 'redux'
-import { AccessProjectClient, OrderClient } from '@regardsoss/client'
-import { authenticationDialogReducer } from './clients/AuthenticationDialogUIClient'
 
 /**
- * Reducers for user module
- * @author Sébastien binda
+ * Client actions to manage common authentication dialog
+ * @author Sébastien Binda
  */
-export default combineReducers({
-  layout: AccessProjectClient.LayoutReducers(), // install default layout client reducer
-  'layout.modules': AccessProjectClient.ModuleReducers(), // install default layout modules client reducer
-  'order-basket': OrderClient.getOrderBasketReducer(), // install default order basket reducer reducer
-  authenticationDialog: authenticationDialogReducer,
-})
+export class AuthenticationDialogActions {
+  /**
+   * Constructor
+   * @param {string} namespace actions namespace
+   */
+  constructor(namespace) {
+    this.TOGGLE_AUTH_DIALOG_DISPLAY = `${namespace}/toggle-auth-dialog-display`
+  }
+
+  /**
+   * Shows or hide authentication dialog
+   * @param {boolean} show
+   * @return action to dispatch
+   */
+  toggleDialogDisplay = show => ({
+    type: this.TOGGLE_AUTH_DIALOG_DISPLAY,
+    show,
+  })
+}

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,21 +15,20 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-/**
- * Combine all reducers for this aa to a single root reducer.
  */
-import { combineReducers } from 'redux'
-import { AccessProjectClient, OrderClient } from '@regardsoss/client'
-import { authenticationDialogReducer } from './clients/AuthenticationDialogUIClient'
+import { UIClient } from '@regardsoss/client'
 
 /**
- * Reducers for user module
- * @author Sébastien binda
+ * Client to manage common authentication dialog. No reducer, the reducer is registered by the global user module.
+ * @author Sébastien Binda
  */
-export default combineReducers({
-  layout: AccessProjectClient.LayoutReducers(), // install default layout client reducer
-  'layout.modules': AccessProjectClient.ModuleReducers(), // install default layout modules client reducer
-  'order-basket': OrderClient.getOrderBasketReducer(), // install default order basket reducer reducer
-  authenticationDialog: authenticationDialogReducer,
-})
+const ENTITIES_STORE_PATH = ['user', 'authenticationDialog']
+const REDUX_ACTION_NAMESPACE = 'user-authentication-dialog'
+
+const authenticationDialogActions = new UIClient.AuthenticationDialogActions(REDUX_ACTION_NAMESPACE)
+const authenticationDialogSelectors = UIClient.getAuthenticationDialogSelectors(ENTITIES_STORE_PATH)
+
+module.exports = {
+  authenticationDialogActions,
+  authenticationDialogSelectors,
+}

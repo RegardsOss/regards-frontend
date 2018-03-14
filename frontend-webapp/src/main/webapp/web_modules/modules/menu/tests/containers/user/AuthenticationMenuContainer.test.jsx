@@ -47,11 +47,13 @@ describe('[Menu] Testing AuthenticationMenuContainer', () => {
       project="any"
       appName="any"
       isAuthenticated={false}
+      toggleAuthenticationDialogOpen={() => { }}
     />, { context })
     shallow(<AuthenticationMenuContainer
       project="any"
       appName="any"
       isAuthenticated
+      toggleAuthenticationDialogOpen={() => { }}
     />, { context })
   })
 })

@@ -27,7 +27,6 @@ const messages = {
   // navigation
   'navigation.more.option': 'Plus...',
   // login and options
-  loginFormTitle: 'Connexion à l\'interface projet',
   loginButtonLabel: 'Connexion',
   loginButtonTooltip: 'Connexion',
   loggedButtonLabel: '{login}',
