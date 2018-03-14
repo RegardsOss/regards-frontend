@@ -17,13 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isDate from 'lodash/isDate'
-import DatePicker from 'material-ui/DatePicker'
-import TimePicker from 'material-ui/TimePicker'
 import IconButton from 'material-ui/IconButton'
 import Clear from 'material-ui/svg-icons/content/backspace'
-import { dateTimeFormat } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
-import RenderHelper from './RenderHelper'
+import { DatePickerField } from '@regardsoss/components'
 import styles from '../styles'
 
 
@@ -36,8 +33,9 @@ import styles from '../styles'
  * ----------  ------
  *    date      time
  *
- *  @author Xavier-Alexandre Brochard
- *  @author Léo Mieulet
+ * @author Xavier-Alexandre Brochard
+ * @author Léo Mieulet
+ * @author Sébastien Binda
  */
 export class RenderDateTimeField extends React.Component {
   static propTypes = {
@@ -47,6 +45,7 @@ export class RenderDateTimeField extends React.Component {
       onChange: PropTypes.func,
     }),
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    displayTime: PropTypes.bool,
     intl: PropTypes.shape({
       formatMessage: PropTypes.func,
     }),
@@ -54,13 +53,11 @@ export class RenderDateTimeField extends React.Component {
       touched: PropTypes.bool,
       error: PropTypes.string,
     }),
-    timeFormat: PropTypes.string,
   }
 
   static defaultProps = {
-    timeFormat: '24hr',
+    displayTime: true,
   }
-
 
   static contextTypes = {
     ...themeContextType,
@@ -72,30 +69,9 @@ export class RenderDateTimeField extends React.Component {
    * @param {Object} event Change event targetting the text field.
    * @param {String} newValue The new value of the text field.
    */
-  onChangeDate = (event, newValue) => {
-    const { input: { value, onChange } } = this.props
-    const parsedDate = this.getDateForComponent(value)
-    // Pick the time part from the time picker
-    if (isDate(parsedDate)) {
-      newValue.setHours(parsedDate.getHours(), parsedDate.getMinutes(), parsedDate.getSeconds(), parsedDate.getMilliseconds())
-    }
-    onChange(newValue)
-  }
-
-  /**
-   * Callback function that is fired when the time value changes.
-   *
-   * @param {Object} event Change event targetting the text field.
-   * @param {String} newValue The new value of the text field.
-   */
-  onChangeTime = (event, newValue) => {
-    const { input: { value, onChange } } = this.props
-    const parsedDate = this.getDateForComponent(value)
-    // Pick the date part from the the date picker
-    if (isDate(parsedDate)) {
-      newValue.setFullYear(parsedDate.getFullYear(), parsedDate.getMonth(), parsedDate.getDate())
-    }
-    onChange(newValue)
+  onChangeDate = (newDate) => {
+    const { input: { onChange } } = this.props
+    onChange(newDate)
     this.onTouched() // make sure the field is marked as touched
   }
 
@@ -107,10 +83,6 @@ export class RenderDateTimeField extends React.Component {
     onChange(null)
     this.onTouched() // make sure the field is marked as touched
   }
-  /**
-   * On any field dialog dismissed: make sure the whole field is marked as touched (allow showing errors)
-   */
-  onFieldDialogDismissed = () => this.onTouched() // make sure the field is marked as touched
 
   /**
    * On touched: propagate touched event to redux-form
@@ -139,42 +111,22 @@ export class RenderDateTimeField extends React.Component {
 
   render() {
     const {
-      intl, label, timeFormat, input, meta: { touched, error },
+      intl, input, label, displayTime,
     } = this.props
     const { moduleTheme: { dateFieldStyles } } = this.context
     const clearButtonDisplayed = !!input.value
-    const errorMessage = RenderHelper.getErrorMessage(touched, error, intl)
     // At first the value is an empty string
     const dateValue = this.getDateForComponent(input.value)
     return (
       <div style={dateFieldStyles.fieldsLine} >
-        <DatePicker
+        <DatePickerField
           value={dateValue}
+          defaultTime="00:00:00"
+          dateHintText={intl.formatMessage({ id: 'form.datetimepicker.date.label' }, { label })}
+          timeHintText={intl.formatMessage({ id: 'form.datetimepicker.time.label' }, { label })}
           onChange={this.onChangeDate}
-          DateTimeFormat={dateTimeFormat}
-          locale="fr"
-          hintText={intl.formatMessage({ id: 'form.datetimepicker.date.label' }, { label })}
-          floatingLabelText={intl.formatMessage({ id: 'form.datetimepicker.date.label' }, { label })}
-          okLabel={intl.formatMessage({ id: 'form.datetimepicker.ok' })}
-          cancelLabel={intl.formatMessage({ id: 'form.datetimepicker.cancel' })}
-          style={dateFieldStyles.datePicker}
-          textFieldStyle={dateFieldStyles.datePickerText}
-          onFocus={this.onInnerFieldFocus}
-          onDismiss={this.onFieldDialogDismissed}
-          errorText={errorMessage}
-        />
-        <TimePicker
-          value={dateValue}
-          onChange={this.onChangeTime}
-          format={timeFormat}
-          floatingLabelText={intl.formatMessage({ id: 'form.datetimepicker.time.label' }, { label })}
-          hintText={intl.formatMessage({ id: 'form.datetimepicker.time.label' }, { label })}
-          okLabel={intl.formatMessage({ id: 'form.datetimepicker.ok' })}
-          cancelLabel={intl.formatMessage({ id: 'form.datetimepicker.cancel' })}
-          style={dateFieldStyles.timePicker}
-          textFieldStyle={dateFieldStyles.timePickerText}
-          onDismiss={this.onFieldDialogDismissed}
-          errorText={errorMessage ? ' ' : null} // small hack here to show the error style but not message in double
+          locale={intl.locale}
+          displayTime={displayTime}
         />
         {
           clearButtonDisplayed ? (
