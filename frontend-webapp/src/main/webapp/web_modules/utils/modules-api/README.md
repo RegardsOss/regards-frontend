@@ -10,25 +10,25 @@ To use the REGARDS `modules` you must add the here under package to your package
 
 ## How to
 
-### Provide expected DynamicModule data
+### Provide expected DynamicModulePane data
 
-Most user interface dynamic modules are rendered using the @regardsoss/componenets DynamicModule. That component
+Most user interface dynamic modules are rendered using the @regardsoss/componenets DynamicModulePane. That component
 takes in account the standard modules configuration (title, icon, description, expandable, expanded, and so on...)
 In order to initialize it, the easier and safer way through is to use this helper properties filter as follow:
 
 ```javascript
-// in main module component, that will render the DynamicModule
+// in main module component, that will render the DynamicModulePane
 // note that you can use the same method
 import { modulesHelper } from '@regardsoss/modules-api'
-import { DynamicComponent } from '@regardsoss/components'
+import { DynamicModulePane } from '@regardsoss/components'
 // ...
 
 render(){
   //...
   return (
-    <DynamicComponent {...modulesHelper.getReportedUserModuleProps(this.props)}>
+    <DynamicModulePane {...modulesHelper.getReportedUserModuleProps(this.props)}>
     { /*... */}
-    </DynamicComponent>
+    </DynamicModulePane>
 }
 
 initPlugin(MyRootContainer, reducer, messages, pluginInfo)

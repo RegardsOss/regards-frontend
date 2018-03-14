@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AccessShapes } from '@regardsoss/shape'
-import { connect } from '@regardsoss/redux'
 import { storage } from '@regardsoss/units'
 import ModuleComponent from '../../components/user/ModuleComponent'
 
@@ -57,6 +56,4 @@ export class ModuleContainer extends React.Component {
     )
   }
 }
-export default connect(
-  ModuleContainer.mapStateToProps,
-  ModuleContainer.mapDispatchToProps)(ModuleContainer)
+export default ModuleContainer

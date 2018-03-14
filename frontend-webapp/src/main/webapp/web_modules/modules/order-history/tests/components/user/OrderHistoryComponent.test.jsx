@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DynamicModule } from '@regardsoss/components'
+import { DynamicModulePane } from '@regardsoss/components'
 import { OrderDisplayContainer } from '@regardsoss/order-common'
 import { orderListActions, orderListSelectors } from '../../../src/client/OrderListClient'
 import { orderFilesActions, orderFilesSelectors } from '../../../src/client/OrderFilesClient'
@@ -54,7 +54,7 @@ describe('[Order History] Testing OrderHistoryComponent', () => {
       defaultIconURL: 'any',
     }
     const enzymeWrapper = shallow(<OrderHistoryComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(DynamicModule), 1, 'Module should be rendered in a dynamic module component')
+    assert.lengthOf(enzymeWrapper.find(DynamicModulePane), 1, 'Module should be rendered in a dynamic module component')
     assert.lengthOf(enzymeWrapper.find(OrderDisplayContainer), 1, 'There should be an order list display component')
     // cannot test navigation presence here (it is in title props, rendering it creates an issue with store presence)
   })

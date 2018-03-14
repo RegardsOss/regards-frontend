@@ -61,6 +61,7 @@ class ModuleContainer extends React.Component {
     attributeModels: DataManagementShapes.AttributeModelList,
     attributesLoading: PropTypes.bool,
     attributeModelsError: PropTypes.bool,
+    dispatchExpandResults: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -70,7 +71,7 @@ class ModuleContainer extends React.Component {
 
   static DATASET_MODEL_IDS_PARAM = 'datasetModelIds'
   static TAGS_PARAM = 'tags'
-  /** Property keys to be reported onto the DynamicModule component */
+  /** Property keys to be reported onto the DynamicModulePane component */
   static MODULE_PROPS = keys(AccessShapes.runtimeDispayModuleFields)
 
   constructor(props) {
@@ -79,7 +80,6 @@ class ModuleContainer extends React.Component {
     this.clearFunctions = []
     this.state = {
       searchQuery: '',
-      hasSearched: false,
     }
   }
 
@@ -99,7 +99,6 @@ class ModuleContainer extends React.Component {
 
     this.setState({
       searchQuery: q,
-      hasSearched: false,
     })
 
     if (browserHistory) {
@@ -245,14 +244,12 @@ class ModuleContainer extends React.Component {
     if (query && query.q && query.q !== this.state.searchQuery) {
       this.setState({
         searchQuery: query.q,
-        hasSearched: false,
       })
       this.criterionValues = {}
     } else if (!query.q && this.state.searchQuery !== this.getInitialQuery()) {
       // NO query specified, display the search form open and run initial Query search
       this.setState({
         searchQuery: this.getInitialQuery(),
-        hasSearched: false,
       })
       this.criterionValues = {}
     }
@@ -281,13 +278,14 @@ class ModuleContainer extends React.Component {
   handleSearch = () => {
     const query = this.createSearchQueryFromCriterion()
     this.setState({
-      hasSearched: true, // first search performed
       searchQuery: query,
     })
     this.criterionValues = {}
     const browserPath = browserHistory.getCurrentLocation().pathname
     const browserQuery = merge({}, browserHistory.getCurrentLocation().query || {}, { q: query })
     browserHistory.push({ pathname: browserPath, query: browserQuery })
+    // make sure search results are opened
+    this.props.dispatchExpandResults()
   }
 
   /**
@@ -375,11 +373,12 @@ class ModuleContainer extends React.Component {
   }
 
   renderResults() {
-    if (this.props.moduleConf.preview || !this.state.hasSearched) {
+    if (this.props.moduleConf.preview) {
       // no render when in form preview or when user has not yet clicked search
       return null
     }
     const { intl: { formatMessage } } = this.context
+    const { searchQuery } = this.state
 
     const module = {
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
@@ -388,7 +387,7 @@ class ModuleContainer extends React.Component {
       description: formatMessage({ id: 'results.module.title' }), // replaces page definition
       conf: {
         ...this.props.moduleConf.searchResult,
-        searchQuery: this.state.searchQuery,
+        searchQuery,
       },
     }
 
@@ -425,6 +424,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchAttribute: attributeId =>
     dispatch(AttributeModelClient.AttributeModelActions.fetchEntity(attributeId)),
+  dispatchExpandResults: () => console.error('Implement me'), // TODO
 })
 
 const UnconnectedModuleContainer = ModuleContainer

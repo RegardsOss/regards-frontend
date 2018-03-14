@@ -65,14 +65,12 @@ class FormLayout extends React.Component {
         >
           <RaisedButton
             label={formatMessage({ id: 'form.reset.button.label' })}
-            labelPosition="before"
             icon={<Reset />}
             style={this.context.moduleTheme.user.resetButton}
             onClick={onClearAll}
           />
           <RaisedButton
             label={formatMessage({ id: 'form.search.button.label' })}
-            labelPosition="before"
             primary
             icon={<SearchIcon />}
             style={this.context.moduleTheme.user.searchButton}

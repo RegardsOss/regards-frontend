@@ -19,7 +19,7 @@
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
-import { DynamicModule } from '@regardsoss/components'
+import { DynamicModulePane } from '@regardsoss/components'
 import { dependencies } from '../../user-dependencies'
 import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 import FormLayout from './FormLayout'
@@ -109,8 +109,9 @@ class FormComponent extends React.Component {
     }
 
     return (
-      <DynamicModule
+      <DynamicModulePane
         {...moduleProperties}
+        moduleConf={moduleConf}
         expanded={this.state.expanded}
         onKeyPress={this.onKeyPress}
         requiredDependencies={dependencies}
@@ -122,7 +123,7 @@ class FormComponent extends React.Component {
           onSearch={this.onSearch}
           onClearAll={this.props.handleClearAll}
         />
-      </DynamicModule>)
+      </DynamicModulePane>)
   }
 }
 

@@ -79,7 +79,7 @@ import SelectableList from './list/SelectableList'
 
 import LoadingPaneComponent from './loading/LoadingPaneComponent'
 
-import DynamicModule from './module/DynamicModule'
+import DynamicModulePane from './module/DynamicModulePane'
 import HorizontalAreasSeparator from './module/HorizontalAreasSeparator'
 import ModuleIcon from './module/ModuleIcon'
 import ModuleTitleText from './module/ModuleTitleText'
@@ -157,7 +157,7 @@ export {
   ConfirmDialogComponentTypes,
   DownloadButton,
   DropDownButton,
-  DynamicModule,
+  DynamicModulePane,
   ErrorCardComponent,
   ErrorDecoratorComponent,
   FeedbackDisplayer,

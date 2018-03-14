@@ -20,22 +20,22 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { Card } from 'material-ui/Card'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DynamicModule } from '../../src/module/DynamicModule'
+import { DynamicModulePane } from '../../src/module/DynamicModulePane'
 import ModuleTitle from '../../src/module/ModuleTitle'
 import styles from '../../src/module/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test DynamicModule
+* Test DynamicModulePane
 * @author Raphaël Mechali
 */
-describe('[Components] Testing DynamicModule', () => {
+describe('[Components] Testing DynamicModulePane', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DynamicModule)
+    assert.isDefined(DynamicModulePane)
   })
   it('should render correctly expanded', () => {
     const props = {
@@ -60,9 +60,9 @@ describe('[Components] Testing DynamicModule', () => {
     }
     const wrapper = shallow(
       (
-        <DynamicModule {...props} >
+        <DynamicModulePane {...props} >
           <div>Some content</div>
-        </DynamicModule>
+        </DynamicModulePane>
       ), { context },
     )
 
@@ -109,9 +109,9 @@ describe('[Components] Testing DynamicModule', () => {
     }
     const wrapper = shallow(
       (
-        <DynamicModule {...props} >
+        <DynamicModulePane {...props} >
           <div>Some content</div>
-        </DynamicModule>
+        </DynamicModulePane>
       ), { context },
     )
 

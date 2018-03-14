@@ -19,7 +19,7 @@
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { storage } from '@regardsoss/units'
-import { DynamicModule } from '@regardsoss/components'
+import { DynamicModulePane } from '@regardsoss/components'
 import { dependencies } from '../../user-dependencies'
 import StorageMonitoringContainer from '../../containers/user/StorageMonitoringContainer'
 import ScaleSelectorComponent from './ScaleSelectorComponent'
@@ -54,13 +54,13 @@ class ModuleComponent extends React.Component {
   render() {
     const { scale, onUnitScaleChanged, ...moduleProperties } = this.props
     return (
-      <DynamicModule
+      <DynamicModulePane
         {...moduleProperties}
         options={this.renderOptions(scale, onUnitScaleChanged)}
         requiredDependencies={dependencies}
       >
         <StorageMonitoringContainer scale={scale} />
-      </DynamicModule>
+      </DynamicModulePane>
     )
   }
 }

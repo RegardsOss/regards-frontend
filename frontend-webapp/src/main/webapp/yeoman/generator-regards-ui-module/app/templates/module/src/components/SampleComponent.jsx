@@ -37,13 +37,13 @@ class SampleComponent extends React.Component {
     const { moduleTheme, intl } = this.context
     // Note: if this module should be used as dynamic (ie this module is a page),
     // we could here write instead
-    // import {DynamicModule} from '@regardsoss/components'
+    // import {DynamicModulePane} from '@regardsoss/components'
     // return (
-    // <DynamicModule {...this.props} >
+    // <DynamicModulePane {...this.props} >
     //   {* Module graphic content goes here *}
-    // </DynamicModule>)
+    // </DynamicModulePane>)
     //
-    // The DynamicModule will provide expand / collapse, icon and title functionnalities
+    // The DynamicModulePane will provide expand / collapse, icon and title functionnalities
     // Please note that the configuration requires a bit more efforts than {...this.props} ;-)
 
     return (

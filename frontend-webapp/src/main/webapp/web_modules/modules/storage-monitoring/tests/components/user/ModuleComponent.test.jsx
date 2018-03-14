@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { DynamicModule } from '@regardsoss/components'
+import { DynamicModulePane } from '@regardsoss/components'
 import { storage } from '@regardsoss/units'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ModuleComponent from '../../../src/components/user/ModuleComponent'
@@ -69,7 +69,7 @@ describe('[Storage Monitoring] Testing ModuleComponent', () => {
     it(`should render correctly when ${label}`, () => {
       const enzymeWrapper = shallow(<ModuleComponent {...props} />, { context })
       // module display HOC
-      const moduleDisplayWrapper = enzymeWrapper.find(DynamicModule)
+      const moduleDisplayWrapper = enzymeWrapper.find(DynamicModulePane)
       assert.lengthOf(moduleDisplayWrapper, 1, 'There should be a module display component')
       testSuiteHelpers.assertWrapperProperties(moduleDisplayWrapper, {
         expandable: props.expandable,

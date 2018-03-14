@@ -24,7 +24,7 @@ import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
 import { AccessShapes, OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { DynamicModule, NoContentMessageInfo } from '@regardsoss/components'
+import { DynamicModulePane, NoContentMessageInfo } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { dependencies } from '../../user-dependencies'
 import OrderComponent from './options/OrderComponent'
@@ -103,7 +103,7 @@ class OrderCartComponent extends React.Component {
 
     return (
       <div>
-        <DynamicModule
+        <DynamicModulePane
           options={this.renderOptions(onClearCart, onOrder, isFetching, isNoContent)}
           requiresAuthentication
           requiredDependencies={dependencies}
@@ -127,7 +127,7 @@ class OrderCartComponent extends React.Component {
               unmounted. Indeed the table uses previous props to restore the rows expanded state  */}
             <LoadableContentDisplayDecorator isLoading={isFetching} />
           </NoContentMessageInfo>
-        </DynamicModule>
+        </DynamicModulePane>
         { /* 3 - Add dialog component for size informations messages (avoid creating dialogs in table) */}
         <Dialog
           open={showMessage}

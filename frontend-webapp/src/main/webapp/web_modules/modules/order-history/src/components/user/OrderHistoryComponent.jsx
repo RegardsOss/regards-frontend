@@ -19,7 +19,7 @@
 import { OrderClient } from '@regardsoss/client'
 import { AccessShapes } from '@regardsoss/shape'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
-import { DynamicModule, ModuleIcon, ModuleTitleText } from '@regardsoss/components'
+import { DynamicModulePane, ModuleIcon, ModuleTitleText } from '@regardsoss/components'
 import {
   ORDER_DISPLAY_MODES, OrdersNavigationActions, OrdersNavigationSelectors,
   OrderDisplayContainer, OrdersNavigationContainer,
@@ -51,7 +51,7 @@ class OrderHistoryComponent extends React.Component {
       orderFilesSelectors, navigationActions, navigationSelectors,
     } = this.props
     return (
-      <DynamicModule
+      <DynamicModulePane
         titleComponent={/* custom title component: breadcrumb */
           <OrdersNavigationContainer
             title={ModuleTitleText.selectTitle(page && page.title, description, locale)}
@@ -79,7 +79,7 @@ class OrderHistoryComponent extends React.Component {
           navigationSelectors={navigationSelectors}
           displayMode={ORDER_DISPLAY_MODES.USER}
         />
-      </DynamicModule>
+      </DynamicModulePane>
     )
   }
 }

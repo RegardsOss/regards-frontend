@@ -23,7 +23,7 @@ import pick from 'lodash/pick'
  * @author Raphaël Mechali
  */
 
-/** Module properties to be reported on DynamicModule for instance */
+/** Module properties to be reported on DynamicModulePane for instance */
 const userModulePropertiesKeys = [
   'id',
   'applicationId',
@@ -47,13 +47,13 @@ const adminModulePropertiesKeys = [
 module.exports = {
   /**
    * Returns the list of properties consumed by a module user component (to be used in order to instanciated a
-   * DynamicModule for instance)
+   * DynamicModulePane for instance)
    * @param {*} props parent properties
    */
   getReportedUserModuleProps: props => pick(props, userModulePropertiesKeys),
   /**
    * Returns the list of properties consumed by a module admin component (to be used in order to instanciated a
-   * DynamicModule for instance)
+   * DynamicModulePane for instance)
    * @param {*} props parent properties
    */
   getReportedAdminModuleProps: props => pick(props, adminModulePropertiesKeys),

@@ -22,6 +22,7 @@ import isEqual from 'lodash/isEqual'
 import omit from 'lodash/omit'
 import { Card } from 'material-ui/Card'
 import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
+import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { HOCUtils, ShowableAtRender } from '@regardsoss/display-control'
@@ -46,9 +47,14 @@ import CardMediaWithCustomBG from './CardMediaWithCustomBG'
  * - It resolves module title, icon, expandable and expanded state from module configuration (module fields)
  * - It provides onExpandChange callback to sub components (as property)
  *
+ * Expand / collapse state is controlled using redux client ModuleExpandState and is therefore shared with
+ * potential external controllers
+ *
+ * It uses moduleConf field for title, icon, expandable and expanded state
+ *
  * @author Raphaël Mechali
  */
-export class DynamicModule extends React.Component {
+export class DynamicModulePane extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -64,6 +70,16 @@ export class DynamicModule extends React.Component {
       locale: i18nSelectors.getLocale(state),
     }
   }
+
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProp
+
 
   static propTypes = {
     // A - Module configuration related
@@ -101,10 +117,6 @@ export class DynamicModule extends React.Component {
   static defaultProps = {
     // API
     options: [],
-    // eslint-disable-next-line react/default-props-match-prop-types
-    expanded: true, // from module fields, true when not provided
-    // eslint-disable-next-line react/default-props-match-prop-types
-    expandable: true, // from module fields, true when not provided
     requiresAuthentication: false,
     requiredDependencies: [],
     // map state to props
@@ -129,7 +141,15 @@ export class DynamicModule extends React.Component {
   /**
    * Lifecycle method, used here to recompute authentication and dependencies state
    */
-  componentWillMount = () => this.onPropertiesChanged({}, this.props)
+  componentWillMount = () => {
+    // when there is an external controller, provide him the callbacks to control this component expanded state
+    const setModuleExpandControllers = get(this.props, 'moduleConf.setModuleExpandControllers')
+    if (setModuleExpandControllers) {
+      setModuleExpandControllers(this.onExpand, this.onCollapse)
+    }
+
+    this.onPropertiesChanged({}, this.props)
+  }
 
   /**
    * Lifecycle method, used here to recompute authentication and dependencies state
@@ -170,15 +190,18 @@ export class DynamicModule extends React.Component {
     } else {
       // 4 - module can be shown
       newState = {
-        ...DynamicModule.DEFAULT_STATE,
+        ...DynamicModulePane.DEFAULT_STATE,
       }
     }
 
-    // detect external expanded driving to report it locally
-    if (get(oldProps, 'expanded') !== get(newProps, 'expanded')) {
-      // Initialization or externally drivent state change, report it
-      newState.expanded = newProps.expanded
-    } else {
+    // Initialize expandable / expanded state (only when receiving a new prop)
+    const primaryPaneMode = get(newProps, 'moduleConf.primaryPane', UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE)
+    if (get(oldProps, 'moduleConf.primaryPane') !== primaryPaneMode) {
+      // 1 - module state initialization is driven by moduleConf
+      newState.expandable = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.ALWAYS_EXPANDED
+      newState.expanded = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE
+    } else { // report inner control
+      newState.expandable = oldState.expandable
       newState.expanded = oldState.expanded
     }
 
@@ -193,24 +216,17 @@ export class DynamicModule extends React.Component {
     }
   }
 
-  /**
-   * On module expand changed (toggled)
-   */
-  onExpandChange = () => {
-    this.setState({
-      expanded: !this.state.expanded,
-    })
-  }
-
   render() {
     const {
-      locale, description, page, subtitle, options, onKeyPress, expandable,
+      locale, description, page, subtitle, options, onKeyPress,
       type, titleComponent,
     } = this.props
     const {
       children, noData, loading,
-      noDataTitleKey, noDataMessageKey, expanded,
+      noDataTitleKey, noDataMessageKey,
+      expandable, expanded,
     } = this.state
+    console.error('FUCK I DON RENDER..', expanded)
     const { intl: { formatMessage } } = this.context
 
     return (
@@ -250,6 +266,6 @@ export class DynamicModule extends React.Component {
 }
 
 export default compose(
-  connect(DynamicModule.mapStateToProps),
+  connect(DynamicModulePane.mapStateToProps),
   withI18n(messages, true), withModuleStyle(styles, true),
-)(DynamicModule)
+)(DynamicModulePane)

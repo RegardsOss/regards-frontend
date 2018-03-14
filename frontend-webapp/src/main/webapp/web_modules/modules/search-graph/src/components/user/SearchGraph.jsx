@@ -1,10 +1,11 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import get from 'lodash/get'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { DynamicModule } from '@regardsoss/components'
+import { DynamicModulePane } from '@regardsoss/components'
 import { Measure, ScrollArea } from '@regardsoss/adapters'
 import { dependencies } from '../../user-dependencies'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
@@ -59,7 +60,7 @@ class SearchGraph extends React.Component {
 
   render() {
     const {
-      moduleConf: { graphLevels }, expanded, graphDatasetAttributes,
+      moduleConf, expanded, graphDatasetAttributes,
       ...moduleProps
     } = this.props
     const { viewportStyles } = this.state
@@ -72,9 +73,12 @@ class SearchGraph extends React.Component {
         graphDatasetAttributes={graphDatasetAttributes}
       />]
 
+    const graphLevels = get(moduleConf, 'graphLevels', [])
+
     return (
-      <DynamicModule
+      <DynamicModulePane
         {...moduleProps}
+        moduleConf={moduleConf}
         expanded={expanded}
         options={headerOptionsComponents}
         requiredDependencies={dependencies}
@@ -114,7 +118,7 @@ class SearchGraph extends React.Component {
             }
           </Measure>
         </ScrollArea>
-      </DynamicModule>
+      </DynamicModulePane>
     )
   }
 }

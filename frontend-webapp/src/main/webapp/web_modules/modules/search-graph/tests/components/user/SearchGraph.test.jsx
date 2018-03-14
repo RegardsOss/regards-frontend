@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DynamicModule } from '@regardsoss/components'
+import { DynamicModulePane } from '@regardsoss/components'
 import SearchGraph from '../../../src/components/user/SearchGraph'
 import styles from '../../../src/styles/styles'
 
@@ -48,7 +48,7 @@ describe('[Search Graph] Testing SearchGraph', () => {
     }
     // check correctly rendered
     const enzymeWrapper = shallow(<SearchGraph {...props} />, { context })
-    let moduleDisplayer = enzymeWrapper.find(DynamicModule)
+    let moduleDisplayer = enzymeWrapper.find(DynamicModulePane)
     assert.lengthOf(moduleDisplayer, 1, 'There should be a module displayer render')
     assert.equal(moduleDisplayer.at(0).props().onExpandChange, props.onExpandChange, 'The expand callback should be correctly reported')
     assert.isTrue(moduleDisplayer.at(0).props().expanded, 'The module content should be visible when expanded')
@@ -58,7 +58,7 @@ describe('[Search Graph] Testing SearchGraph', () => {
       expanded: false,
     }
     enzymeWrapper.setProps(nextProps)
-    moduleDisplayer = enzymeWrapper.find(DynamicModule)
+    moduleDisplayer = enzymeWrapper.find(DynamicModulePane)
     assert.isFalse(moduleDisplayer.at(0).props().expanded, 'The module content should be hidden when collapsed')
   })
 })
