@@ -38,6 +38,7 @@ const messages = Object.assign({
   'form.configuration.result.width.quicklooks.label': 'Largeur des imagettes',
   'form.configuration.result.spacing.quicklooks.label': 'Espacement entre les imagettes',
   'form.configuration.result.datasets.section.label.en': 'Nom de la vue "jeux de données" (Anglais)',
+  'form.configuration.tabs.titles.section.title': 'Titres des vues de résultats',
   'form.configuration.result.datasets.section.label.fr': 'Nom de la vue "jeux de données" (Français)',
   'form.configuration.result.data.section.label.en': 'Nom de la vue "données" (Anglais)',
   'form.configuration.result.data.section.label.fr': 'Nom de la vue "données" (Français)',

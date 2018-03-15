@@ -23,8 +23,16 @@
  */
 const styles = theme => ({
   configuration: {
-    textFieldStyle: {
-      width: '350px',
+    titleRowStyle: {
+      marginTop: -20, // this hack allows setting the textfields near their title
+      marginBottom: 20, // this hack allows setting the textfields near their title
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    titleTextFieldStyle: {
+      flexGrow: 1,
+      flexShrink: 1,
       margin: '0px 10px',
     },
   },

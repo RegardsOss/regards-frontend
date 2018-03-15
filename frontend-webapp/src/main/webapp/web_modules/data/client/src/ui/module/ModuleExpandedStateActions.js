@@ -64,12 +64,12 @@ export class ModuleExpandedStateActions {
    * @param {string} moduleType module type or any identifier for component instance
    * @return action to dispatch
    */
-  setCollapsed = moduleType => this.setExpanded(moduleType, false)
+  collapse = moduleType => this.setExpanded(moduleType, false)
 
   /**
    * Sets module expanded
   * @param {string} moduleType module type or any identifier for component instance
    * @return action to dispatch
    */
-  setExpanded = moduleType => this.setExpanded(moduleType, true)
+  expand = moduleType => this.setExpanded(moduleType, true)
 }

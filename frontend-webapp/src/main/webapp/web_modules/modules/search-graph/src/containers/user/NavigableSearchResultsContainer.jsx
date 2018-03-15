@@ -7,6 +7,7 @@ import { AccessShapes, CatalogShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
+import { moduleExpandedStateActions } from '../../clients/ModuleExpandedStateClient'
 import graphContextSelectors from '../../model/graph/GraphContextSelectors'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 
@@ -34,7 +35,8 @@ export class NavigableSearchResultsContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      dispatchExpandResults: () => console.error('Implement me'), // TODO
+      dispatchExpandResults: () => dispatch(moduleExpandedStateActions.expand(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS)),
+      dispatchCollapseGraph: () => dispatch(moduleExpandedStateActions.collapse(modulesManager.AllDynamicModuleTypes.SEARCH_GRAPH)),
     }
   }
 
@@ -44,11 +46,10 @@ export class NavigableSearchResultsContainer extends React.Component {
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
     // from mapStateToProps
-    // eslint-disable-next-line react/no-unused-prop-types
     searchTag: CatalogShapes.Tag,
     // from map dispatch to props
-    // eslint-disable-next-line react/no-unused-prop-types
     dispatchExpandResults: PropTypes.func.isRequired,
+    dispatchCollapseGraph: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -89,7 +90,8 @@ export class NavigableSearchResultsContainer extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     const { searchTag } = oldProps
     const {
-      searchTag: newSearchTag, appName, moduleConf, dispatchExpandResults,
+      searchTag: newSearchTag, appName, moduleConf,
+      dispatchExpandResults, dispatchCollapseGraph,
     } = newProps
 
     // compute tag related data
@@ -108,9 +110,10 @@ export class NavigableSearchResultsContainer extends React.Component {
     }
 
     this.setState({ resultsConfiguration }, () => {
-      // after updating state, expand results when the user selects a new tag
+      // after updating state, expand results and close graph when the user selects a new tag
       if (searchTag !== newSearchTag && newSearchTag) {
         dispatchExpandResults()
+        dispatchCollapseGraph()
       }
     })
   }
@@ -123,7 +126,7 @@ export class NavigableSearchResultsContainer extends React.Component {
     const configurationWithI18N = {
       ...resultsConfiguration,
       // module description: configure only when there is no initial context tag (root label should be tag otherwise)
-      description: resultsConfiguration.initialContextTags.length ? null : formatMessage({ id: 'search.graph.results.title.without.tag' }),
+      description: resultsConfiguration.conf.initialContextTags.length ? null : formatMessage({ id: 'search.graph.results.title.without.tag' }),
     }
     return (
       <div>

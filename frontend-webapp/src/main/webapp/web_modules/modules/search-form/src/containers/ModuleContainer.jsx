@@ -41,9 +41,10 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
 import DatasetSelectionType from '../domain/DatasetSelectionTypes'
+import AttributeModelClient from '../clients/AttributeModelClient'
+import { moduleExpandedStateActions } from '../clients/ModuleExpandedStateClient'
 import ModuleConfiguration from '../shapes/ModuleConfiguration'
 import FormComponent from '../components/user/FormComponent'
-import AttributeModelClient from '../clients/AttributeModelClient'
 
 /**
  * Main container to display module form.
@@ -62,6 +63,7 @@ class ModuleContainer extends React.Component {
     attributesLoading: PropTypes.bool,
     attributeModelsError: PropTypes.bool,
     dispatchExpandResults: PropTypes.func.isRequired,
+    dispatchCollapseForm: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -276,6 +278,7 @@ class ModuleContainer extends React.Component {
    * Run form search with the stored criteria values in the state.criterion
    */
   handleSearch = () => {
+    const { dispatchCollapseForm, dispatchExpandResults } = this.props
     const query = this.createSearchQueryFromCriterion()
     this.setState({
       searchQuery: query,
@@ -284,8 +287,9 @@ class ModuleContainer extends React.Component {
     const browserPath = browserHistory.getCurrentLocation().pathname
     const browserQuery = merge({}, browserHistory.getCurrentLocation().query || {}, { q: query })
     browserHistory.push({ pathname: browserPath, query: browserQuery })
-    // make sure search results are opened
-    this.props.dispatchExpandResults()
+    // make sure search results are opened and close form
+    dispatchExpandResults()
+    dispatchCollapseForm()
   }
 
   /**
@@ -422,9 +426,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAttribute: attributeId =>
-    dispatch(AttributeModelClient.AttributeModelActions.fetchEntity(attributeId)),
-  dispatchExpandResults: () => console.error('Implement me'), // TODO
+  fetchAttribute: attributeId => dispatch(AttributeModelClient.AttributeModelActions.fetchEntity(attributeId)),
+  dispatchCollapseForm: () => dispatch(moduleExpandedStateActions.collapse(modulesManager.AllDynamicModuleTypes.SEARCH_FORM)),
+  dispatchExpandResults: () => dispatch(moduleExpandedStateActions.expand(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS)),
 })
 
 const UnconnectedModuleContainer = ModuleContainer

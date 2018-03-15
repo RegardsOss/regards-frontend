@@ -134,6 +134,21 @@ export class URLPictureResolver extends React.Component {
     }
   }
 
+  /**
+   * Lifecycle method: component will unmount: block stupid react warning messages...
+   */
+  componentWillUnmount() {
+    // block state updates to not get that terrible warning...
+    this.updateBlocked = true
+  }
+
+
+  setState = (newValues) => {
+    if (!this.updateBlocked) {
+      super.setState(newValues)
+    }
+  }
+
   render() {
     const { url } = this.props
     const { loading, resolvedMIMEType, subComponentProperties } = this.state

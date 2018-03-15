@@ -19,7 +19,6 @@
 import compose from 'lodash/fp/compose'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import omit from 'lodash/omit'
 import { Card } from 'material-ui/Card'
 import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
 import { UIDomain } from '@regardsoss/domain'
@@ -30,6 +29,7 @@ import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { i18nContextType, i18nSelectors, withI18n } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType, SwitchThemeDecorator } from '@regardsoss/theme'
+import { moduleExpandedStateActions, moduleExpandedStateSelectors } from './clients/ModuleExpandedStateClient'
 import NoContentMessageInfo from '../cards/NoContentMessageInfo'
 import UserInformationLoadingIcon from './UserInformationLoadingIcon'
 import ModuleTitle from './ModuleTitle'
@@ -38,6 +38,9 @@ import messages from './i18n'
 import CardMediaWithCustomBG from './CardMediaWithCustomBG'
 
 
+/** User app name */
+const userAppName = 'user'
+
 /**
  * Presents a dynamic module.
  * - It appends its own context to parent context
@@ -45,12 +48,13 @@ import CardMediaWithCustomBG from './CardMediaWithCustomBG'
  * - It is intended to display dynamic modules user container. It can adapt to both user and admin interface (ie: user container
  * here is the 'view' part of the dynamic modules - legacy name)
  * - It resolves module title, icon, expandable and expanded state from module configuration (module fields)
- * - It provides onExpandChange callback to sub components (as property)
  *
  * Expand / collapse state is controlled using redux client ModuleExpandedState and is therefore shared with
  * potential external controllers
  *
  * It uses moduleConf field for title, icon, expandable and expanded state
+ *
+ * Please note that expandable functionality is disabled for admin apps (module is shown expanded and not expandable)
  *
  * @author Raphaël Mechali
  */
@@ -61,8 +65,11 @@ export class DynamicModulePane extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state) {
+  static mapStateToProps(state, { type, appName }) {
     return {
+      // in admin apps, use default props (the action/reducer/selectors are only for user app modules)
+      expandable: appName === userAppName ? moduleExpandedStateSelectors.isExpandable(state, type) : undefined,
+      expanded: appName === userAppName ? moduleExpandedStateSelectors.isExpanded(state, type) : undefined,
       fetching: CommonEndpointClient.endpointSelectors.isFetching(state) ||
         AuthenticationClient.authenticationSelectors.isFetching(state),
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
@@ -78,9 +85,15 @@ export class DynamicModulePane extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch) {
+  static mapDispatchToProps(dispatch, { type, appName }) {
+    // use store when in user app, ignore event in admin apps (not expandable when in admin app)
     return {
-      dispatchSetExpandedState: () => { }, // TODO, with usage
+      dispatchSetInitialState: (expandable, expanded) =>
+        appName === userAppName &&
+        dispatch(moduleExpandedStateActions.initialize(type, expandable, expanded)),
+      dispatchSetExpanded: expanded =>
+        (appName === userAppName &&
+          dispatch(moduleExpandedStateActions.setExpanded(type, expanded))),
     }
   }
 
@@ -109,6 +122,8 @@ export class DynamicModulePane extends React.Component {
     // Title component: when provided, it replaces the module title and icon
     titleComponent: PropTypes.node,
     // from map state to props
+    expandable: PropTypes.bool,
+    expanded: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
     fetching: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -117,7 +132,8 @@ export class DynamicModulePane extends React.Component {
     isAuthenticated: PropTypes.bool.isRequired, // async use
     locale: PropTypes.string,
     // from map dispatch to props
-    dispatchSetExpandedState: PropTypes.func.isRequired,
+    dispatchSetInitialState: PropTypes.func.isRequired,
+    dispatchSetExpanded: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -127,6 +143,8 @@ export class DynamicModulePane extends React.Component {
     requiredDependencies: [],
     // map state to props
     availableDependencies: [],
+    expandable: false, // default for admin or when not initialized
+    expanded: true, // default for admin or when not initialized
   }
 
   static contextTypes = {
@@ -148,13 +166,12 @@ export class DynamicModulePane extends React.Component {
    * Lifecycle method, used here to recompute authentication and dependencies state
    */
   componentWillMount = () => {
-    // Initialize expandable / expanded state (only when receiving a new prop)
-    // TODO
-    // const primaryPaneMode = get(newProps, 'moduleConf.primaryPane', UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE)
-    //   // 1 - module state initialization is driven by moduleConf
-    //   newState.expandable = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.ALWAYS_EXPANDED
-    //   newState.expanded = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE
-
+    // initialize redux store with this configuration
+    const primaryPaneMode = get(this.props, 'moduleConf.primaryPane', UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE)
+    const expandable = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.ALWAYS_EXPANDED
+    const expanded = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE
+    this.props.dispatchSetInitialState(expandable, expanded)
+    // let properties changed update this state
     this.onPropertiesChanged({}, this.props)
   }
 
@@ -201,26 +218,26 @@ export class DynamicModulePane extends React.Component {
       }
     }
 
-    // we need to compare logical states properties BUT NOT CHILDREN (as it creates infinite loops)
-    // any children must be updated each time props.children OR state changes
-    const comparedOldState = omit(oldState, ['children'])
-    if (!isEqual(comparedOldState, newState) || oldProps.children !== newProps.children) {
-      newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
-        onExpandChange: this.onExpandChange,
-      })
+    if (!isEqual(oldState, newState) || oldProps.children !== newProps.children) {
       this.setState(newState)
+    }
+  }
+
+  onExpandChange = () => {
+    const { expandable, expanded, dispatchSetExpanded } = this.props
+    if (expandable) {
+      // toggle expanded state
+      dispatchSetExpanded(!expanded)
     }
   }
 
   render() {
     const {
       locale, description, page, subtitle, options, onKeyPress,
-      type, titleComponent,
+      type, titleComponent, expandable, expanded, children,
     } = this.props
     const {
-      children, noData, loading,
-      noDataTitleKey, noDataMessageKey,
-      expandable, expanded,
+      noData, loading, noDataTitleKey, noDataMessageKey,
     } = this.state
     const { intl: { formatMessage } } = this.context
 
@@ -261,6 +278,6 @@ export class DynamicModulePane extends React.Component {
 }
 
 export default compose(
-  connect(DynamicModulePane.mapStateToProps),
+  connect(DynamicModulePane.mapStateToProps, DynamicModulePane.mapDispatchToProps),
   withI18n(messages, true), withModuleStyle(styles, true),
 )(DynamicModulePane)

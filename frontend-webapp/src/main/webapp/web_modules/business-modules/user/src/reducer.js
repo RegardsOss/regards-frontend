@@ -22,6 +22,7 @@
 import { combineReducers } from 'redux'
 import { AccessProjectClient, OrderClient } from '@regardsoss/client'
 import { authenticationDialogReducer } from './clients/AuthenticationDialogUIClient'
+import { moduleExpandedStateReducer } from './clients/ModuleExpandedStateClient'
 
 /**
  * Reducers for user module
@@ -32,4 +33,5 @@ export default combineReducers({
   'layout.modules': AccessProjectClient.ModuleReducers(), // install default layout modules client reducer
   'order-basket': OrderClient.getOrderBasketReducer(), // install default order basket reducer reducer
   authenticationDialog: authenticationDialogReducer,
+  modulesPanesStates: moduleExpandedStateReducer,
 })

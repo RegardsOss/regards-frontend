@@ -37,6 +37,7 @@ const messages = Object.assign({
   'form.configuration.result.enable.quicklooks.label': 'Enable quicklook view on data',
   'form.configuration.result.width.quicklooks.label': 'Quicklook width',
   'form.configuration.result.spacing.quicklooks.label': 'Quicklook spacing',
+  'form.configuration.tabs.titles.section.title': 'Results views titles',
   'form.configuration.result.datasets.section.label.en': 'Datasets View label (English)',
   'form.configuration.result.datasets.section.label.fr': 'Datasets View label (French)',
   'form.configuration.result.data.section.label.en': 'Data View label (English)',

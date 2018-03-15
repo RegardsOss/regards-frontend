@@ -268,7 +268,7 @@ class SearchResultsConfigurationComponent extends React.Component {
     const preventAdminToPickDocumentView = get(adminConf, 'preventAdminToPickDocumentView', false)
     const displayMode = get(currentFormValues, 'displayMode')
     const enableQuicklooks = get(currentFormValues, 'enableQuicklooks', false)
-    const { textFieldStyle } = this.context.moduleTheme.configuration
+    const { titleRowStyle, titleTextFieldStyle } = this.context.moduleTheme.configuration
     return (
       <CardText>
         <ModulePaneStateField currentNamespace={currentNamespace} />
@@ -338,30 +338,38 @@ class SearchResultsConfigurationComponent extends React.Component {
             disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
           />
         </ShowableAtRender>
-        <Field
-          style={textFieldStyle}
-          name={this.CONF_DATASETS_SECTION_LABEL_FR}
-          component={RenderTextField}
-          label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.fr' })}
+        <Title
+          level={3}
+          label={formatMessage({ id: 'form.configuration.tabs.titles.section.title' })}
         />
-        <Field
-          style={textFieldStyle}
-          name={this.CONF_DATASETS_SECTION_LABEL_EN}
-          component={RenderTextField}
-          label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.en' })}
-        />
-        <Field
-          style={textFieldStyle}
-          name={this.CONF_DATA_SECTION_LABEL_FR}
-          component={RenderTextField}
-          label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.fr' })}
-        />
-        <Field
-          style={textFieldStyle}
-          name={this.CONF_DATA_SECTION_LABEL_EN}
-          component={RenderTextField}
-          label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.en' })}
-        />
+        <div style={titleRowStyle}>
+          <Field
+            style={titleTextFieldStyle}
+            name={this.CONF_DATASETS_SECTION_LABEL_FR}
+            component={RenderTextField}
+            label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.fr' })}
+          />
+          <Field
+            style={titleTextFieldStyle}
+            name={this.CONF_DATASETS_SECTION_LABEL_EN}
+            component={RenderTextField}
+            label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.en' })}
+          />
+        </div>
+        <div style={titleRowStyle}>
+          <Field
+            style={titleTextFieldStyle}
+            name={this.CONF_DATA_SECTION_LABEL_FR}
+            component={RenderTextField}
+            label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.fr' })}
+          />
+          <Field
+            style={titleTextFieldStyle}
+            name={this.CONF_DATA_SECTION_LABEL_EN}
+            component={RenderTextField}
+            label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.en' })}
+          />
+        </div>
         <Title
           level={3}
           label={formatMessage({ id: 'form.attributes.configuration.section.title' })}

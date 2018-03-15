@@ -28,32 +28,32 @@ export class ModuleExpandedStateSelectors extends BasicSelector {
    * Returns state for given module stype
    * @param {*} state redux state
    * @param {string} moduleType module type or any identifier for component instance
-   * @return {expandable: boolean, expanded: boolean} current state if any, null otherwise
+   * @return {expandable: boolean, expanded: boolean} current state if any, undefined otherwise
    */
   getExpandState(state, moduleType) {
-    return this.uncombineStore(state)[moduleType] || null
+    return this.uncombineStore(state)[moduleType]
   }
 
   /**
    * Returns expandable state for given module stype
    * @param {*} state redux state
    * @param {string} moduleType module type or any identifier for component instance
-   * @return {boolean} is expandable?
+   * @return {boolean} is expandable? Undefined when uknown
    */
   isExpandable(state, moduleType) {
     const moduleState = this.getExpandState(state, moduleType)
-    return moduleState ? moduleState.expandable : null
+    return moduleState && moduleState.expandable
   }
 
   /**
     * Returns expandable state for given module stype
     * @param {*} state redux state
     * @param {string} moduleType module type or any identifier for component instance
-    * @return {boolean} is expandable?
+    * @return {boolean} is expandable? Undefined when uknown
     */
   isExpanded(state, moduleType) {
     const moduleState = this.getExpandState(state, moduleType)
-    return moduleState ? moduleState.expanded : null
+    return moduleState && moduleState.expanded
   }
 }
 
