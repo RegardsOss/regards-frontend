@@ -85,9 +85,11 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
           selectedModels: [],
         },
       },
-      fetchAttribute: fetchAttributeCallback,
       attributeModels: {},
       attributeModelsFetching: true,
+      fetchAttribute: fetchAttributeCallback,
+      dispatchCollapseForm: () => { },
+      dispatchExpandResults: () => { },
     }
     const wrapper = shallow(<UnconnectedModuleContainer
       {...props}

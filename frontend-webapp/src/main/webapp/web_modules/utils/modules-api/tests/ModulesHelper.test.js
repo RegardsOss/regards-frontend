@@ -42,8 +42,6 @@ describe('[Modules API] Testing ModulesHelper', () => {
     description: true,
     active: true,
     container: true,
-    expandable: true,
-    expanded: true,
     page: true,
     conf: true,
   }
@@ -65,7 +63,8 @@ describe('[Modules API] Testing ModulesHelper', () => {
       assert.isFalse(isEmpty(reportedProps), 'There should be reported props')
 
       const allKeys = keys(propertiesBag)
-      const reportedKeys = keys(reportedProps)
+      const reportedKeys = keys(
+        reportedProps)
       allKeys.forEach((key) => {
         if (expectedFilteredProps.includes(key)) {
           assert.isFalse(reportedKeys.includes(key), `The key ${key} should not have been reported`)

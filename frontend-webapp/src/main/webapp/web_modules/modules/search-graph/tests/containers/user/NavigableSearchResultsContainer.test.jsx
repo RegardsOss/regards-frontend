@@ -43,13 +43,23 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
       // Module configuration
       moduleConf: {},
       searchTag: null,
+      dispatchExpandResults: () => { },
+      dispatchCollapseGraph: () => { },
     }
     const render = shallow(<NavigableSearchResultsContainer {...props} />, { context, lifecycleExperimental: true })
     const lazyModules = render.find(LazyModuleComponent)
-    assert.lengthOf(lazyModules, 0, 'There should be no lazy module when there is no tag')
-    // there should be no initial search query
+    assert.lengthOf(lazyModules, 1, 'There should be the results module')
+    // Test corresponding module properties
+    const lazyModuleProps = lazyModules.props()
+    assert.equal(lazyModuleProps.appName, props.appName, 'App name should be correctly reported')
+    assert.equal(lazyModuleProps.project, props.project, 'Project should be correctly reported')
+    assert.isOk(lazyModuleProps.module, 'There should be the lazy module configuration')
+    assert.equal(lazyModuleProps.module.description, 'search.graph.results.title.without.tag', 'As there is no tag, root description label should be provided')
+    assert.lengthOf(lazyModuleProps.module.conf.initialContextTags, 0, 'No tag should be reported')
   })
   it('should handle search tags changes', () => {
+    let spiedExpandResultsCount = 0
+    let spiedCollapseGraphCount = 0
     const props = {
       appName: 'any',
       project: 'any',
@@ -59,17 +69,24 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
         type: TagTypes.WORD,
         data: 'unemobilette',
       },
+      dispatchExpandResults: () => { spiedExpandResultsCount += 1 },
+      dispatchCollapseGraph: () => { spiedCollapseGraphCount += 1 },
     }
     const render = shallow(<NavigableSearchResultsContainer {...props} />, { context, lifecycleExperimental: true })
+    assert.equal(spiedExpandResultsCount, 1, '(1) As there is a new selected tag, results should get expanded...')
+    assert.equal(spiedCollapseGraphCount, 1, '(1) ...and graph collapsed')
+
     let lazyModules = render.find(LazyModuleComponent)
     assert.lengthOf(lazyModules, 1, 'There should be one lazy module for results')
     // Test corresponding module properties
     let lazyModuleProps = lazyModules.props()
     assert.equal(lazyModuleProps.appName, props.appName, 'App name should be correctly reported')
     assert.equal(lazyModuleProps.project, props.project, 'Propject should be correctly reported')
+    assert.isOk(lazyModuleProps.module, 'There should be the lazy module configuration')
 
     let { module } = lazyModules.props()
     assert.equal(module.type, modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS, 'The right module type should be configured')
+    assert.isNotOk(module.description, 'As there is a tag, root description label should not be provided')
 
     let { conf } = module
     assert.lengthOf(conf.initialContextTags, 1, 'The tag should be reported to search results tag')
@@ -92,6 +109,8 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
         },
       },
     })
+    assert.equal(spiedExpandResultsCount, 2, '(2) As there is a new selected tag, results should get expanded...')
+    assert.equal(spiedCollapseGraphCount, 2, '(2) ...and graph collapsed')
     lazyModules = render.find(LazyModuleComponent)
     assert.lengthOf(lazyModules, 1, 'There should be one lazy module for results')
 
@@ -102,6 +121,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
 
     module = lazyModules.props().module
     assert.equal(module.type, modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS, 'The right module type should be configured')
+    assert.isNotOk(module.description, 'As there is a tag, root description label should not be provided')
 
     conf = module.conf
     assert.lengthOf(conf.initialContextTags, 1, 'The tag should be reported to search results tag')

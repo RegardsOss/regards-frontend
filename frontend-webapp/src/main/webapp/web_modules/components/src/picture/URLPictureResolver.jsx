@@ -81,6 +81,14 @@ export class URLPictureResolver extends React.Component {
   componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
+   * Lifecycle method: component will unmount: block stupid react warning messages...
+   */
+  componentWillUnmount() {
+    // block state updates to not get that terrible warning...
+    this.updateBlocked = true
+  }
+
+  /**
    * Properties change detected: update local state
    * @param oldProps previous component properties
    * @param newProps next component properties
@@ -133,15 +141,6 @@ export class URLPictureResolver extends React.Component {
       })
     }
   }
-
-  /**
-   * Lifecycle method: component will unmount: block stupid react warning messages...
-   */
-  componentWillUnmount() {
-    // block state updates to not get that terrible warning...
-    this.updateBlocked = true
-  }
-
 
   setState = (newValues) => {
     if (!this.updateBlocked) {

@@ -25,7 +25,7 @@ const styles = theme => ({
   configuration: {
     titleRowStyle: {
       marginTop: -20, // this hack allows setting the textfields near their title
-      marginBottom: 20, // this hack allows setting the textfields near their title
+      marginBottom: 20,
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',

@@ -71,7 +71,7 @@ import AcquisitionFile from './data-provider/AcquisitionFile'
 
 // Schemas for API responses.
 module.exports = {
-  // Schema !?! TODO : move to each associated microservice
+  // TODO-V3 Schema !?! move to each associated microservice
   ...Accesses,
   ...Account,
   ...Model,
