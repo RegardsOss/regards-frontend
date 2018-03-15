@@ -15,27 +15,25 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-
-import { Schema, arrayOf } from 'normalizr'
+ */
+import Schemas from '@regardsoss/api'
+import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
- * Storage plugin management for normalizer
+ * Actions to get storage plugins information
+ * @author Raphaël Mechali
  */
-const StoragePluginConfiguration = {
-  entityKey: 'confId',
-  normalizrKey: 'storageMonitoringPlugins',
+class StorageMonitoringActions extends BasicListActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/monitoring`,
+      schemaTypes: {
+        ENTITY: Schemas.STORAGE_MONITORING,
+        ENTITY_ARRAY: Schemas.STORAGE_MONITORING_ARRAY,
+      },
+    })
+  }
 }
 
-const storagePluginSchema = new Schema(StoragePluginConfiguration.normalizrKey, {
-  idAttribute: model =>
-    model.content[StoragePluginConfiguration.entityKey]
-  ,
-})
-
-// Schemas for API responses.
-module.exports = {
-  STORAGE_PLUGIN: storagePluginSchema,
-  STORAGE_PLUGIN_ARRAY: arrayOf(storagePluginSchema),
-  StoragePluginConfiguration,
-}
+export default StorageMonitoringActions

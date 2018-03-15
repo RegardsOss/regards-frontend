@@ -35,7 +35,15 @@ const MICROSERVICE = STATIC_CONF.MSERVICES.STORAGE
  *
  * @author Sébastien Binda
  */
-export class PluginMetaDataListContainer extends React.Component {
+export class PluginSecurityActiveTesterContainer extends React.Component {
+  static mapStateToProps = (state, ownProps) => ({
+    pluginConfList: pluginConfigurationSelectors.getList(state),
+  })
+
+  static mapDispatchToProps = dispatch => ({
+    fetchPluginConfList: pluginType => dispatch(pluginConfigurationActions.fetchEntityList({ microserviceName: MICROSERVICE }, { pluginType })),
+  })
+
   static propTypes = {
     pluginConfList: CommonShapes.PluginConfigurationList,
     fetchPluginConfList: PropTypes.function,
@@ -80,25 +88,25 @@ export class PluginMetaDataListContainer extends React.Component {
     let subtitle
     switch (size(pluginConfActiveList)) {
       case 0:
-        icon = (<IssueIcon style={PluginMetaDataListContainer.iconStyle} color={errorColor} />)
+        icon = (<IssueIcon style={PluginSecurityActiveTesterContainer.iconStyle} color={errorColor} />)
         title = intl.formatMessage({ id: 'storage.security.no.plugin.title' })
         subtitle = intl.formatMessage({ id: 'storage.security.no.plugin.subtitle' })
         break
       case 1:
-        icon = (<OkIcon style={PluginMetaDataListContainer.iconStyle} color={validColor} />)
+        icon = (<OkIcon style={PluginSecurityActiveTesterContainer.iconStyle} color={validColor} />)
         title = intl.formatMessage({ id: 'storage.security.plugin.defined.title' })
         subtitle = intl.formatMessage({ id: 'storage.security.plugin.defined.subtitle' })
         break
       // More than 1 plugin
       default:
-        icon = (<IssueIcon style={PluginMetaDataListContainer.iconStyle} color={errorColor} />)
+        icon = (<IssueIcon style={PluginSecurityActiveTesterContainer.iconStyle} color={errorColor} />)
         title = intl.formatMessage({ id: 'storage.security.too.many.plugin.title' })
         subtitle = intl.formatMessage({ id: 'storage.security.too.many.plugin.subtitle' })
         break
     }
 
     return (
-      <div style={PluginMetaDataListContainer.wrapperStyle}>
+      <div style={PluginSecurityActiveTesterContainer.wrapperStyle}>
 
         {icon}
         <CardTitle
@@ -121,12 +129,5 @@ export class PluginMetaDataListContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  pluginConfList: pluginConfigurationSelectors.getList(state),
-})
-
-const mapDispatchToProps = dispatch => ({
-  fetchPluginConfList: pluginType => dispatch(pluginConfigurationActions.fetchEntityList({ microserviceName: MICROSERVICE }, { pluginType })),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(PluginMetaDataListContainer)
+export default connect(PluginSecurityActiveTesterContainer.mapStateToProps,
+  PluginSecurityActiveTesterContainer.mapDispatchToProps)(PluginSecurityActiveTesterContainer)

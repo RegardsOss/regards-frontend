@@ -21,7 +21,7 @@ import { StorageClient } from '@regardsoss/client'
 import { pluginMetaDataActions } from './clients/PluginMetadataClient'
 import { pluginConfigurationActions, pluginConfigurationByPluginIdActions } from './clients/PluginConfigurationClient'
 
-const storageDependencies = [new StorageClient.StoragePluginsActions().getDependency(RequestVerbEnum.GET_LIST)]
+const storageDependencies = [new StorageClient.StorageMonitoringActions().getDependency(RequestVerbEnum.GET_LIST)]
 /**
  * Module hateoas depencies
  * @author Sébastien binda

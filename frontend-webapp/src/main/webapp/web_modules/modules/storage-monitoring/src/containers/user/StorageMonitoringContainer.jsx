@@ -19,7 +19,7 @@
 import { connect } from '@regardsoss/redux'
 import { StorageShapes } from '@regardsoss/shape'
 import { storage } from '@regardsoss/units'
-import StoragePluginsClient from '../../clients/StoragePluginsClient'
+import StorageMonitoringClient from '../../clients/StorageMonitoringClient'
 import StorageMonitoringComponent from '../../components/user/StorageMonitoringComponent'
 
 /**
@@ -29,7 +29,7 @@ export class StorageMonitoringContainer extends React.Component {
   static propTypes = {
     scale: storage.StorageUnitScaleShape.isRequired,
     // from mapStateToProps
-    storagePlugins: StorageShapes.StoragePluginList.isRequired,
+    storagePlugins: StorageShapes.StorageMonitoringList.isRequired,
     isFetching: PropTypes.bool,
     hasError: PropTypes.bool,
     // from mapDispatchToProps
@@ -63,13 +63,13 @@ export class StorageMonitoringContainer extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  storagePlugins: StoragePluginsClient.storagePluginsSelectors.getList(state),
-  isFetching: StoragePluginsClient.storagePluginsSelectors.isFetching(state),
-  hasError: StoragePluginsClient.storagePluginsSelectors.getError(state).hasError,
+  storagePlugins: StorageMonitoringClient.storageMonitoringSelectors.getList(state),
+  isFetching: StorageMonitoringClient.storageMonitoringSelectors.isFetching(state),
+  hasError: StorageMonitoringClient.storageMonitoringSelectors.getError(state).hasError,
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchStoragePlugins: () => dispatch(StoragePluginsClient.storagePluginsActions.fetchEntityList()),
+  fetchStoragePlugins: () => dispatch(StorageMonitoringClient.storageMonitoringActions.fetchEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(StorageMonitoringContainer)

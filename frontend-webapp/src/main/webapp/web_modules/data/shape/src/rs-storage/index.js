@@ -16,15 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AIPStatusContent, AIPStatus, AIPStatusList } from './AIPStatus'
-import { StoragePlugin, StoragePluginContent, StoragePluginList } from './StoragePlugin'
+import AIPStatus from './AIPStatus'
+import StorageMonitoring from './StorageMonitoring'
+import PrioritizedDataStorage from './PrioritizedDataStorage'
 
 module.exports = {
-  AIPStatusContent,
-  AIPStatus,
-  AIPStatusList,
-
-  StoragePluginContent,
-  StoragePlugin,
-  StoragePluginList,
+  ...AIPStatus,
+  ...StorageMonitoring,
+  ...PrioritizedDataStorage,
 }

@@ -20,19 +20,16 @@ import find from 'lodash/find'
 import ArrowUp from 'material-ui/svg-icons/navigation/arrow-upward'
 import ArrowDown from 'material-ui/svg-icons/navigation/arrow-downward'
 import IconButton from 'material-ui/IconButton'
-import { CommonShapes } from '@regardsoss/shape'
+import { StorageShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
 * Delete table action for datasourceIngestions
 * @author Sébastien Binda
 */
-class PluginStorageConfigurationPriorityAction extends React.Component {
+class PrioritizedDataStoragePriorityAction extends React.Component {
   static propTypes = {
-    entity: PropTypes.shape({
-      content: CommonShapes.PluginConfigurationContent.isRequired,
-      links: PropTypes.array,
-    }),
+    entity: StorageShapes.PrioritizedDataStorage,
     onUp: PropTypes.func,
     onDown: PropTypes.func,
   }
@@ -54,18 +51,18 @@ class PluginStorageConfigurationPriorityAction extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const entityContent = this.props.entity.content
+    const { entity: { content } } = this.props
 
     const title = this.props.onUp ?
       formatMessage({ id: 'storage.data-storage.plugins.list.up.priority.button' }) :
       formatMessage({ id: 'storage.data-storage.plugins.list.down.priority.button' })
     return (
       <IconButton
-        className={`selenium-edit-${entityContent.id}`}
+        className={`selenium-edit-${content.id}`}
         title={title}
-        iconStyle={PluginStorageConfigurationPriorityAction.iconStyle}
-        style={PluginStorageConfigurationPriorityAction.buttonStyle}
-        onClick={() => this.props.onUp ? this.props.onUp(entityContent) : this.props.onDown(entityContent)}
+        iconStyle={PrioritizedDataStoragePriorityAction.iconStyle}
+        style={PrioritizedDataStoragePriorityAction.buttonStyle}
+        onClick={() => this.props.onUp ? this.props.onUp(content) : this.props.onDown(content)}
         disabled={!this.isActionable()}
       >
         {this.props.onUp ? <ArrowUp /> : <ArrowDown />}
@@ -73,4 +70,4 @@ class PluginStorageConfigurationPriorityAction extends React.Component {
     )
   }
 }
-export default PluginStorageConfigurationPriorityAction
+export default PrioritizedDataStoragePriorityAction

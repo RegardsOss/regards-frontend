@@ -15,18 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-const StoragePluginContent = PropTypes.shape({
-  confId: PropTypes.number.isRequired,
-  label: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  totalSize: PropTypes.string,
-  usedSize: PropTypes.string,
-}).isRequired
+ */
+import { BasicListSelectors } from '@regardsoss/store-utils'
 
-const StoragePlugin = PropTypes.shape({
-  content: StoragePluginContent,
-})
-
-const StoragePluginList = PropTypes.objectOf(StoragePlugin)
-module.exports = { StoragePlugin, StoragePluginContent, StoragePluginList }
+/**
+ * Export selectors builder on store path.
+ * @param storePath redux store path to access reduced data
+ * @return selectors instance
+ */
+export default storePath => new BasicListSelectors(storePath)

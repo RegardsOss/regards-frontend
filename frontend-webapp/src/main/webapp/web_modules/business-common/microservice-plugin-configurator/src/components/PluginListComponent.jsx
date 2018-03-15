@@ -116,12 +116,12 @@ export class PluginListComponent extends React.Component {
           {this.props.title ? this.props.title : null}
         </div>
         <DropDownMenu
-          value={this.state.selectedPluginId}
+          value={this.state.selectedPluginId || '__default__'}
           onChange={this.handleSelect}
           style={PluginListComponent.menuStyles}
           disabled={this.props.disabled}
         >
-          <MenuItem value={null} primaryText={this.props.selectLabel || 'none'} />
+          <MenuItem value="__default__" primaryText={this.props.selectLabel || 'none'} />
           {map(this.props.pluginList, this.renderItem)}
         </DropDownMenu>
         <div style={errorStyle}>

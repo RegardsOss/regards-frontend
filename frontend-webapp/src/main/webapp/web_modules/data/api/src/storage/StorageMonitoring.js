@@ -16,14 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { storageMonitoringActions } from './clients/StorageMonitoringClient'
 
+import { Schema, arrayOf } from 'normalizr'
 
 /**
- * User module dependencies, not exported but used internally to let the module show dependencies / authentication messages
- * @author Raphaël Mechali
+ * Storage monitoring management for normalizer
  */
-export const dependencies = [
-  storageMonitoringActions.getDependency(RequestVerbEnum.GET_LIST),
-]
+const StorageMonitoringConfiguration = {
+  entityKey: 'confId',
+  normalizrKey: 'storage-monitoring',
+}
+
+const storageMonitoringSchema = new Schema(StorageMonitoringConfiguration.normalizrKey, {
+  idAttribute: model =>
+    model.content[StorageMonitoringConfiguration.entityKey]
+  ,
+})
+
+// Schemas for API responses.
+module.exports = {
+  STORAGE_MONITORING: storageMonitoringSchema,
+  STORAGE_MONITORING_ARRAY: arrayOf(storageMonitoringSchema),
+  StorageMonitoringConfiguration,
+}

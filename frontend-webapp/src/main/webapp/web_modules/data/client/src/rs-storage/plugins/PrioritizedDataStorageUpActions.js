@@ -17,23 +17,26 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import Schemas from '@regardsoss/api'
-import { BasicListActions } from '@regardsoss/store-utils'
+import { BasicSignalActions, RequestVerbEnum } from '@regardsoss/store-utils'
 
 /**
- * Actions to get storage plugins information
+ * Actions to get PrioritizedDataStorage information
  * @author Raphaël Mechali
  */
-class StoragePluginsActions extends BasicListActions {
+class PrioritizedDataStorageUpDownActions extends BasicSignalActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/monitoring`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/{id}/up`,
       schemaTypes: {
-        ENTITY: Schemas.STORAGE_PLUGIN,
-        ENTITY_ARRAY: Schemas.STORAGE_PLUGIN_ARRAY,
+        ENTITY: Schemas.PRIORIZED_DATASTORAGE,
+        ENTITY_ARRAY: Schemas.PRIORIZED_DATASTORAGE_ARRAY,
       },
     })
   }
+
+  upPriority = (prioritizedDataStorageId, prioritizedDataStorage) =>
+    this.sendSignal(RequestVerbEnum.PUT, prioritizedDataStorage, { id: prioritizedDataStorageId }, {})
 }
 
-export default StoragePluginsActions
+export default PrioritizedDataStorageUpDownActions

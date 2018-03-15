@@ -34,7 +34,7 @@ import StoragePluginContainer from '../../containers/user/StoragePluginContainer
 class StorageMonitoringComponent extends React.Component {
   static propTypes = {
     scale: storage.StorageUnitScaleShape.isRequired,
-    storagePlugins: StorageShapes.StoragePluginList.isRequired,
+    storagePlugins: StorageShapes.StorageMonitoringList.isRequired,
     isFetching: PropTypes.bool.isRequired,
     hasError: PropTypes.bool.isRequired,
   }

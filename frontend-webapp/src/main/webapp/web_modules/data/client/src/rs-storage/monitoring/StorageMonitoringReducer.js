@@ -16,14 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { storageMonitoringActions } from './clients/StorageMonitoringClient'
-
+import { BasicListReducers } from '@regardsoss/store-utils'
+import { StorageMonitoringConfiguration } from '@regardsoss/api'
+import StorageMonitoringActions from './StorageMonitoringActions'
 
 /**
- * User module dependencies, not exported but used internally to let the module show dependencies / authentication messages
+ * Storage plugins fetch reducer
  * @author Raphaël Mechali
  */
-export const dependencies = [
-  storageMonitoringActions.getDependency(RequestVerbEnum.GET_LIST),
-]
+class StorageMonitoringReducers extends BasicListReducers {
+  constructor(namespace) {
+    super(StorageMonitoringConfiguration, new StorageMonitoringActions(namespace))
+  }
+}
+
+/**
+ * Exports the reducer builder on namespace
+ * @param {string} namespace namespace
+ * @return {function} reduce function
+ */
+export default (namespace) => {
+  const instance = new StorageMonitoringReducers(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

@@ -19,19 +19,16 @@
 import find from 'lodash/find'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import IconButton from 'material-ui/IconButton'
-import { CommonShapes } from '@regardsoss/shape'
+import { StorageShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
 * Delete table action for datasourceIngestions
 * @author Sébastien Binda
 */
-class PluginStorageConfigurationEditAction extends React.Component {
+class PrioritizedDataStorageEditAction extends React.Component {
   static propTypes = {
-    entity: PropTypes.shape({
-      content: CommonShapes.PluginConfigurationContent.isRequired,
-      links: PropTypes.array,
-    }),
+    entity: StorageShapes.PrioritizedDataStorage,
     onEdit: PropTypes.func.isRequired,
   }
 
@@ -49,14 +46,14 @@ class PluginStorageConfigurationEditAction extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const entityContent = this.props.entity.content
+    const { entity: { content }, onEdit } = this.props
     return (
       <IconButton
-        className={`selenium-edit-${entityContent.id}`}
+        className={`selenium-edit-${content.id}`}
         title={formatMessage({ id: 'storage.data-storage.plugins.list.edit.button' })}
-        iconStyle={PluginStorageConfigurationEditAction.iconStyle}
-        style={PluginStorageConfigurationEditAction.buttonStyle}
-        onClick={() => this.props.onEdit(entityContent)}
+        iconStyle={PrioritizedDataStorageEditAction.iconStyle}
+        style={PrioritizedDataStorageEditAction.buttonStyle}
+        onClick={() => onEdit(content)}
         disabled={!this.isEditable()}
       >
         <Edit />
@@ -64,4 +61,4 @@ class PluginStorageConfigurationEditAction extends React.Component {
     )
   }
 }
-export default PluginStorageConfigurationEditAction
+export default PrioritizedDataStorageEditAction

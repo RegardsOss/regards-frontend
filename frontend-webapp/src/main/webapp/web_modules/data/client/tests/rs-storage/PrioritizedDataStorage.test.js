@@ -15,35 +15,34 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { StorageShapes } from '@regardsoss/shape'
-import { storagePluginsActions, storagePluginsReducer, storagePluginsSelectors } from '../../src/clients/StoragePluginsClient'
 
-const backendServerResultList = [{
-  content: {
-    id: 1,
-    label: 'ServerHDD',
-    description: 'Main server hard drives',
-    totalSize: '25To',
-    usedSize: '0.9To',
-  },
-  links: [],
-}]
+import EntityActions from '../../src/rs-storage/plugins/PrioritizedDataStorageActions'
+import getEntityReducer from '../../src/rs-storage/plugins/PrioritizedDataStorageReducer'
+import getEntitySelectors from '../../src/rs-storage/plugins/PrioritizedDataStorageSelectors'
+import dump from './PrioritizedDataStorage.dump'
 
-// URL options and parameters
-const options = {}
 
-const entityTester = new ReduxEntityTester(storagePluginsActions, storagePluginsReducer, storagePluginsSelectors, StorageShapes.StoragePluginList.isRequired, backendServerResultList, options)
+const options = {
+}
 
-describe('[Storage Monitoring] Testing model StoragePlugin', () => {
+const actions = new EntityActions('test/action')
+const reducer = getEntityReducer('test/action')
+const selectors = getEntitySelectors(['test', 'files'])
+
+const entityTester = new ReduxEntityTester(actions, reducer, selectors, StorageShapes.PrioritizedDataStorageList.isRequired, dump, options)
+
+describe('[ADMIN CLIENT] Testing client PrioritizedDataStorage', () => {
   before(() => {
     entityTester.beforeAll()
   })
   after(() => {
     entityTester.afterAll()
   })
-  it('should retrieve the list of items, reduce it, and store it within the store.', (done) => {
+  it('should retrieve the list of items, reduce it, and store it on the store.', (done) => {
     entityTester.runTests(done)
   })
 })
+

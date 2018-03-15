@@ -34,17 +34,24 @@ const MICROSERVICE = STATIC_CONF.MSERVICES.STORAGE
  *
  * @author Sébastien Binda
  */
-export class PluginMetaDataListContainer extends React.Component {
+export class AllocationPluginsConfContainer extends React.Component {
+  static mapStateToProps = (state, ownProps) => ({
+    entities: pluginMetaDataSelectors.getList(state),
+  })
+
+  static mapDispatchToProps = dispatch => ({
+    fetch: () => dispatch(pluginMetaDataActions.fetchEntityList({ microserviceName: MICROSERVICE })),
+  })
+
   static propTypes = {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
-      pluginType: PropTypes.oneOf(['storages', 'allocations', 'security']),
     }),
     // from mapStateToProps
-    pluginMetaDataList: CommonShapes.PluginMetaDataList,
+    entities: CommonShapes.PluginMetaDataList,
     // from mapDispatchToProps
-    fetchPluginMetaDataList: PropTypes.func.isRequired,
+    fetch: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -53,7 +60,7 @@ export class PluginMetaDataListContainer extends React.Component {
   }
 
   static defaultProps = {
-    pluginMetaDataList: {},
+    entities: {},
   }
 
   state = {
@@ -61,8 +68,8 @@ export class PluginMetaDataListContainer extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchPluginMetaDataList } = this.props
-    fetchPluginMetaDataList().then((actionResults) => {
+    const { fetch } = this.props
+    fetch().then((actionResults) => {
       this.setState({
         isLoading: false,
       })
@@ -83,38 +90,28 @@ export class PluginMetaDataListContainer extends React.Component {
    * @return create new configuration URL for navigation
    */
   onAddConf = (pluginId) => {
-    const { params: { project, pluginType } } = this.props
-    return `/admin/${project}/microservice/${MICROSERVICE}/plugin/${pluginId}/configuration/create?backUrl=data/acquisition/storage/${pluginType}`
+    const { params: { project } } = this.props
+    return `/admin/${project}/microservice/${MICROSERVICE}/plugin/${pluginId}/configuration/create?backUrl=data/acquisition/storage/${StorageDomain.PluginTypeEnum.ALLOCATION_STRATEGY}`
   }
 
-  getView = () => {
-    let pluginType = ''
-    if (this.props.params.pluginType === 'storages') {
-      pluginType = StorageDomain.PluginTypeEnum.STORAGE
-    } else if (this.props.params.pluginType === 'security') {
-      pluginType = StorageDomain.PluginTypeEnum.SECURITY_DELEGATION
-    } else {
-      pluginType = StorageDomain.PluginTypeEnum.ALLOCATION_STRATEGY
-    }
-    return (
-      <PluginMetaDataListComponent
-        microserviceName={MICROSERVICE}
-        pluginType={pluginType}
-        pluginMetaDataList={this.props.pluginMetaDataList}
-        getProjectConfigurationListURL={this.getProjectConfigurationListURL}
-        getAddConfURL={this.onAddConf}
-        onBack={this.onBack}
-      />
-    )
-  }
+  getView = () => (
+    <PluginMetaDataListComponent
+      microserviceName={MICROSERVICE}
+      pluginType={StorageDomain.PluginTypeEnum.ALLOCATION_STRATEGY}
+      pluginMetaDataList={this.props.entities}
+      getProjectConfigurationListURL={this.getProjectConfigurationListURL}
+      getAddConfURL={this.onAddConf}
+      onBack={this.onBack}
+    />
+  )
 
   /**
    * @param pluginId plugin ID
    * @return project plugins configuration list URL for navigation
    */
   getProjectConfigurationListURL = (pluginId) => {
-    const { params: { project, pluginType } } = this.props
-    return `/admin/${project}/microservice/${MICROSERVICE}/plugin/${pluginId}/configuration/list?backUrl=data/acquisition/storage/${pluginType}`
+    const { params: { project } } = this.props
+    return `/admin/${project}/microservice/${MICROSERVICE}/plugin/${pluginId}/configuration/list?backUrl=data/acquisition/storage/${StorageDomain.PluginTypeEnum.ALLOCATION_STRATEGY}`
   }
 
   render() {
@@ -131,12 +128,5 @@ export class PluginMetaDataListContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  pluginMetaDataList: pluginMetaDataSelectors.getList(state),
-})
-
-const mapDispatchToProps = dispatch => ({
-  fetchPluginMetaDataList: () => dispatch(pluginMetaDataActions.fetchEntityList({ microserviceName: MICROSERVICE })),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(PluginMetaDataListContainer)
+export default connect(AllocationPluginsConfContainer.mapStateToProps,
+  AllocationPluginsConfContainer.mapDispatchToProps)(AllocationPluginsConfContainer)

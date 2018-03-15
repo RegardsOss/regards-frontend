@@ -17,16 +17,16 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { BasicListReducers } from '@regardsoss/store-utils'
-import { StoragePluginConfiguration } from '@regardsoss/api'
-import StoragePluginsActions from './StoragePluginsActions'
+import { PrioritizedDataStorageConfiguration } from '@regardsoss/api'
+import PrioritizedDataStorageActions from './PrioritizedDataStorageActions'
 
 /**
- * Storage plugins fetch reducer
+ * PrioritizedDataStorage fetch reducer
  * @author Raphaël Mechali
  */
-class StoragePluginsReducers extends BasicListReducers {
+class PrioritizedDataStorageReducers extends BasicListReducers {
   constructor(namespace) {
-    super(StoragePluginConfiguration, new StoragePluginsActions(namespace))
+    super(PrioritizedDataStorageConfiguration, new PrioritizedDataStorageActions(namespace))
   }
 }
 
@@ -36,6 +36,6 @@ class StoragePluginsReducers extends BasicListReducers {
  * @return {function} reduce function
  */
 export default (namespace) => {
-  const instance = new StoragePluginsReducers(namespace)
+  const instance = new PrioritizedDataStorageReducers(namespace)
   return (state, action) => instance.reduce(state, action)
 }

@@ -27,7 +27,7 @@ import messages from '../i18n'
 * Component used to load the regardsoss-modules/storage-monitoring module into the admin app.
 * @author Sébastien Binda
 */
-export class PluginStorageMonitoringComponent extends React.Component {
+export class StoragePluginMonitoringComponent extends React.Component {
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -77,4 +77,4 @@ export class PluginStorageMonitoringComponent extends React.Component {
     )
   }
 }
-export default withI18n(messages)(PluginStorageMonitoringComponent)
+export default withI18n(messages)(StoragePluginMonitoringComponent)

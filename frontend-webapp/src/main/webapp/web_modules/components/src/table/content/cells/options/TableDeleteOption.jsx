@@ -37,6 +37,7 @@ class TableDeleteOption extends React.Component {
     entity: PropTypes.object.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     handleHateoas: PropTypes.bool,
+    disableInsteadOfHide: PropTypes.bool,
     fetchPage: PropTypes.func.isRequired, // fetch method: (pageIndex, pageSize, pathParams, requestParams) => Promise
     // eslint-disable-next-line react/forbid-prop-types
     pathParams: PropTypes.object,
@@ -60,6 +61,7 @@ class TableDeleteOption extends React.Component {
 
   static defaultProps = {
     handleHateoas: false,
+    disableInsteadOfHide: false,
   }
 
   static contextTypes = {
@@ -87,7 +89,7 @@ class TableDeleteOption extends React.Component {
 
   renderWithHateoas = () => {
     const { intl: { formatMessage } } = this.context
-    const { entity } = this.props
+    const { entity, disableInsteadOfHide } = this.props
     return (
       <HateoasIconAction
         entityLinks={entity.links}
@@ -95,6 +97,7 @@ class TableDeleteOption extends React.Component {
         alwaysDisplayforInstanceUser={false}
         title={formatMessage({ id: 'table.delete.option.tooltip' })}
         onClick={this.onDelete}
+        disableInsteadOfHide={disableInsteadOfHide}
         {...omit(this.props, TableDeleteOption.NON_REPORTED_PROPS)}
       >
         <DeleteIcon />

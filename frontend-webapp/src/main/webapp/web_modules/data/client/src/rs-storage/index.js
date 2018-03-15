@@ -21,16 +21,29 @@ import AIPStatusActions from './aip/AIPStatusActions'
 import getAIPStatusReducer from './aip/AIPStatusReducer'
 import getAIPStatusSelectors from './aip/AIPStatusSelectors'
 
-import StoragePluginsActions from './plugins/StoragePluginsActions'
-import getStoragePluginsReducer from './plugins/StoragePluginsReducer'
-import getStoragePluginsSelectors from './plugins/StoragePluginsSelectors'
+import StorageMonitoringActions from './monitoring/StorageMonitoringActions'
+import getStorageMonitoringReducer from './monitoring/StorageMonitoringReducer'
+import getStorageMonitoringSelectors from './monitoring/StorageMonitoringSelectors'
+
+import PrioritizedDataStorageActions from './plugins/PrioritizedDataStorageActions'
+import getPrioritizedDataStorageReducer from './plugins/PrioritizedDataStorageReducer'
+import getPrioritizedDataStorageSelectors from './plugins/PrioritizedDataStorageSelectors'
+
+import PrioritizedDataStorageUpActions from './plugins/PrioritizedDataStorageUpActions'
+import PrioritizedDataStorageDownActions from './plugins/PrioritizedDataStorageDownActions'
 
 module.exports = {
   AIPStatusActions,
   getAIPStatusReducer,
   getAIPStatusSelectors,
 
-  StoragePluginsActions,
-  getStoragePluginsReducer,
-  getStoragePluginsSelectors,
+  StorageMonitoringActions,
+  getStorageMonitoringReducer,
+  getStorageMonitoringSelectors,
+
+  PrioritizedDataStorageActions,
+  getPrioritizedDataStorageReducer,
+  getPrioritizedDataStorageSelectors,
+  PrioritizedDataStorageDownActions,
+  PrioritizedDataStorageUpActions,
 }

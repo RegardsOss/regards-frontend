@@ -102,7 +102,6 @@ export class AccessRightListContainer extends React.Component {
    * @param accessRight
    */
   onDelete = (accessRight) => {
-    console.error('access to delete', accessRight)
     Promise.resolve(this.props.deleteAccessRight(accessRight.id))
       .then(() => {
         this.refresh()
