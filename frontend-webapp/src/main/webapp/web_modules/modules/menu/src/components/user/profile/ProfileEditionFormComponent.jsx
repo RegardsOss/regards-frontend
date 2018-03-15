@@ -1,7 +1,8 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import has from 'lodash/has'
+import { CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { ScrollArea } from '@regardsoss/adapters'
 import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
@@ -16,8 +17,6 @@ export class ProfileEditionFormComponent extends React.Component {
   static propTypes = {
     // project metadata
     userMetadata: MetadataList.isRequired,
-    // cancel function
-    onCancel: PropTypes.func.isRequired,
     // submit function
     onEdit: PropTypes.func.isRequired,
     // from redux form
@@ -44,55 +43,55 @@ export class ProfileEditionFormComponent extends React.Component {
     this.props.initialize(initialFormValues)
   }
 
+  onSave = (values) => {
+    this.props.onEdit(values)
+      .then((actionResult) => {
+        // If the result seems good, let's reinitialize the form to show to the user that its changes have been saved
+        if (!has(actionResult, 'error')) {
+          this.props.initialize(values)
+        }
+      })
+  }
+
   render() {
     const {
-      userMetadata, onEdit, onCancel,
-      pristine, submitting, invalid, handleSubmit,
+      userMetadata, pristine, submitting, invalid, handleSubmit,
     } = this.props
     const { moduleTheme: { user: { profile } } } = this.context
     return (
       <div>
-        <form onSubmit={handleSubmit(onEdit)}>
-          <Card>
-            <CardTitle
-              title={this.context.intl.formatMessage({ id: 'edit.profile.form.title' })}
-              subtitle={this.context.intl.formatMessage({ id: 'edit.profile.form.message' })}
+        <form onSubmit={handleSubmit(this.onSave)}>
+          <CardTitle
+            title={this.context.intl.formatMessage({ id: 'edit.profile.form.title' })}
+            subtitle={this.context.intl.formatMessage({ id: 'edit.profile.form.message' })}
+          />
+          <CardText>
+            <ScrollArea
+              vertical
+              horizontal={false}
+              style={profile.scrollArea.styles}
+            >
+              {
+                // show only metadata that are meaningful after registration
+                userMetadata.map(metadata =>
+                  metadata.onlyAtRegistration ?
+                    null :
+                    <MetadataField
+                      key={metadata.key}
+                      metadata={metadata}
+                      fullWidth
+                    />)
+              }
+            </ScrollArea>
+          </CardText>
+          <CardActions style={profile.actions.styles}>
+            <RaisedButton
+              disabled={submitting || invalid || pristine}
+              label={this.context.intl.formatMessage({ id: 'edit.profile.form.save' })}
+              primary
+              type="submit"
             />
-            <CardText>
-              <ScrollArea
-                vertical
-                horizontal={false}
-                style={profile.scrollArea.styles}
-              >
-                {
-                  // show only metadata that are meaningful after registration
-                  userMetadata.map(metadata =>
-                    metadata.onlyAtRegistration ?
-                      null :
-                      <MetadataField
-                        key={metadata.key}
-                        metadata={metadata}
-                        fullWidth
-                      />)
-                }
-                <br />
-                <br />
-              </ScrollArea>
-            </CardText>
-            <CardActions style={profile.actions.styles}>
-              <RaisedButton
-                disabled={submitting}
-                label={this.context.intl.formatMessage({ id: 'edit.profile.form.cancel' })}
-                onClick={onCancel}
-              />
-              <RaisedButton
-                disabled={submitting || invalid || pristine}
-                label={this.context.intl.formatMessage({ id: 'edit.profile.form.confirm' })}
-                primary
-                type="submit"
-              />
-            </CardActions>
-          </Card>
+          </CardActions>
         </form>
       </div >
     )

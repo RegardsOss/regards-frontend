@@ -36,6 +36,7 @@ describe('[Menu] Testing ProfileDialogComponent', () => {
       userMetadata: [],
       onHideDialog: () => { },
       onEdit: () => { },
+      onEditNotificationSettings: () => { },
     }
     shallow(<ProfileEditionDialogComponent {...props} />, { context })
   })

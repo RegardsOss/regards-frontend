@@ -21,6 +21,7 @@ import { borrowableRolesReducer } from './clients/BorrowableRolesClient'
 import { myUserReducer } from './clients/MyUserClient'
 import { notificationReducer, notificationInstanceReducer } from './clients/NotificationClient'
 import { readNotificationReducer, readNotificationInstanceReducer } from './clients/ReadNotificationClient'
+import { notificationSettingsReducer } from './clients/NotificationSettingsClient'
 import { adminLayoutReducer } from './clients/LayoutListClient'
 import { adminModuleReducer } from './clients/ModulesListClient'
 import profileDialogReducer from './model/ProfileDialogReducer'
@@ -39,4 +40,5 @@ module.exports = {
   readNotificationInstance: readNotificationInstanceReducer,
   // local actions / reducers
   profileDialog: profileDialogReducer,
+  notificationSettings: notificationSettingsReducer,
 }

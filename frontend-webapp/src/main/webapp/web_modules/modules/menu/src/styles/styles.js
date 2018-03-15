@@ -138,13 +138,13 @@ const menuStyles = theme => ({
       },
       scrollArea: {
         styles: {
-          height: '55vh',
+          height: '33vh',
         },
       },
       actions: {
         styles: {
           display: 'flex',
-          justifyContent: 'flex-end',
+          justifyContent: 'center',
         },
       },
     },

@@ -22,6 +22,7 @@ import { getMetadataArray, packMetadataField } from '@regardsoss/user-metadata-c
 import profileDialogActions from '../../../model/ProfileDialogActions'
 import profileDialogSelectors from '../../../model/ProfileDialogSelectors'
 import { myUserActions, myUserSelectors } from '../../../clients/MyUserClient'
+import { notificationSettingsActions, notificationSettingsSelectors } from '../../../clients/NotificationSettingsClient'
 import ProfileEditionDialogComponent from '../../../components/user/profile/ProfileEditionDialogComponent'
 
 /**
@@ -31,23 +32,28 @@ export class ProfileEditionContainer extends React.Component {
   static mapStateToProps = state => ({
     visible: profileDialogSelectors.isProfileEditionVisible(state),
     myUser: myUserSelectors.getMyUser(state),
-    isFetching: myUserSelectors.isFetching(state),
+    notificationSettings: notificationSettingsSelectors.getResult(state),
   })
 
   static mapDispatchToProps = dispatch => ({
     hideDialog: () => dispatch(profileDialogActions.hideEdition()),
     fetchMyUser: () => dispatch(myUserActions.fetchMyUser()),
     updateMyUser: user => dispatch(myUserActions.updateMyUser(user)),
+    fetchNotificationSettings: () => dispatch(notificationSettingsActions.fetchNotificationSettings()),
+    updateNotificationSettings: settings => dispatch(notificationSettingsActions.updateNotificationSettings(settings)),
   })
 
   static propTypes = {
     // from mapStateToProps
     visible: PropTypes.bool.isRequired,
     myUser: AdminShapes.ProjectUser,
+    notificationSettings: AdminShapes.NotificationSettings,
     // from mapDispatchToProps
     hideDialog: PropTypes.func.isRequired, // hide edition dialog (cancel)
     fetchMyUser: PropTypes.func.isRequired, // fetch user data
     updateMyUser: PropTypes.func.isRequired, // update user data (which also updates user data by return value)
+    fetchNotificationSettings: PropTypes.func.isRequired,
+    updateNotificationSettings: PropTypes.func.isRequired,
   }
 
   state = {
@@ -57,6 +63,7 @@ export class ProfileEditionContainer extends React.Component {
   componentWillMount = () => {
     // as this component mounts only when user is logged, it doesn't need to fetch when authentication data changes
     this.props.fetchMyUser()
+    this.props.fetchNotificationSettings()
     this.updateMetadata(this.props.myUser)
   }
 
@@ -69,17 +76,17 @@ export class ProfileEditionContainer extends React.Component {
 
   /** Interaction: On edition done */
   onEdit = (formValues) => {
-    const { updateMyUser, hideDialog, myUser } = this.props
+    const { updateMyUser, myUser } = this.props
 
     // now rebuild a user as expected by server (remove the content)
     const updatedUser = {
       ...(myUser.content),
       metadata: packMetadataField(myUser, formValues), // put metadata with new value
     }
-    updateMyUser(updatedUser)
-    // finally request dialog hide
-    hideDialog()
+    return updateMyUser(updatedUser)
   }
+
+  onEditNotificationSettings = newSettings => this.props.updateNotificationSettings(newSettings)
 
   /**
    * Updates userMetadata in state  from loaded myUser data. This method always returns a list of metadata,
@@ -99,8 +106,10 @@ export class ProfileEditionContainer extends React.Component {
     return (
       <ProfileEditionDialogComponent
         userMetadata={userMetadata}
+        notificationSettings={this.props.notificationSettings}
         onHideDialog={hideDialog}
         onEdit={this.onEdit}
+        onEditNotificationSettings={this.onEditNotificationSettings}
       />
     )
   }

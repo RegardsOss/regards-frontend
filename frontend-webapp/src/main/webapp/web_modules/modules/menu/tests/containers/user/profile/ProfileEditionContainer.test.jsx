@@ -39,6 +39,8 @@ describe('[Menu] Testing ProfileEditionContainer', () => {
       hideDialog: () => { },
       fetchMyUser: () => { },
       updateMyUser: () => { },
+      fetchNotificationSettings: () => { },
+      updateNotificationSettings: () => { },
     }
     const enzymeWrapper = shallow(<ProfileEditionContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(ProfileEditionDialogComponent), 1, 'The corresponding component should be rendered')

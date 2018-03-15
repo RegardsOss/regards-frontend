@@ -98,8 +98,20 @@ const messages = {
   'edit.profile.form.mail': 'E-mail address',
   'edit.profile.form.firstName': 'First name',
   'edit.profile.form.lastName': 'Last name',
-  'edit.profile.form.confirm': 'Confirm',
+  'edit.profile.form.save': 'Save',
   'edit.profile.form.cancel': 'Cancel',
+
+  'edit.profile.notification.form.frequencies.custom': 'Custom',
+  'edit.profile.notification.form.frequencies.monthly': 'Monthly',
+  'edit.profile.notification.form.frequencies.weekly': 'Weekly',
+  'edit.profile.notification.form.frequencies.daily': 'Daily',
+  'edit.profile.notification.form.frequencies': 'Email frequency',
+  'edit.profile.notification.form.title': 'Notification settings',
+  'edit.profile.notification.form.message': 'You can update below the frequency with which you want to receive summary emails notifications that you have not read',
+  'edit.profile.notification.form.days': 'Days',
+  'edit.profile.notification.form.hours': 'Hours',
+  'edit.profile.notification.form.save': 'Save',
+
   // notifications
   'user.menu.notification.max.count': '{maxCount}+',
   'user.menu.notification.elements.count.tooltip': `You have {elementsCount, plural,
@@ -113,7 +125,12 @@ const messages = {
   'user.menu.notification.details.sentby': 'Sent by {sender}',
   'user.menu.notification.details.message': 'Message',
   'user.menu.notification.clearAll': 'Clear all new notifications',
+  'user.menu.notification.action.close': 'Close',
 
+  'user.menu.profile.leftbar.title': 'User options',
+  'user.menu.profile.leftbar.profile': 'Profile',
+  'user.menu.profile.leftbar.notification': 'Notifications',
+  'user.menu.profile.action.close': 'Close',
   ...Locales.en,
   ...MetadataLocales.en,
 }

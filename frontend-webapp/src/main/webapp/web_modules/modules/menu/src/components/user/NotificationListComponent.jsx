@@ -269,7 +269,14 @@ class NotificationListComponent extends React.Component {
           </div>
         </div>
         <CardActions style={dialog.details.actions.style}>
-          <FlatButton label="Close" key="close" primary onClick={this.handleClose} />
+          <FlatButton
+            label={
+              <FormattedMessage id="user.menu.notification.action.close" />
+            }
+            key="close"
+            primary
+            onClick={this.handleClose}
+          />
         </CardActions>
       </PositionedDialog>
     ) : null
