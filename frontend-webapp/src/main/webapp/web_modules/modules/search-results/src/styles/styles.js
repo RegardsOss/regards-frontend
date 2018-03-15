@@ -23,17 +23,19 @@
  */
 const styles = theme => ({
   configuration: {
-    titleRowStyle: {
-      marginTop: -20, // this hack allows setting the textfields near their title
-      marginBottom: 20,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
+    formContainer: {
+      class: 'container-fluid',
     },
-    titleTextFieldStyle: {
-      flexGrow: 1,
-      flexShrink: 1,
-      margin: '0px 10px',
+    formRow: {
+      class: 'row',
+    },
+    formGroup: {
+      defaultClass: 'col-xs-95 col-md-45',
+      fullWidthClass: 'col-xs-100',
+      defaultStyle: {
+        marginBottom: 10,
+        marginRight: 20,
+      },
     },
   },
   user: {

@@ -20,6 +20,7 @@ import values from 'lodash/values'
 import { CatalogDomain } from '@regardsoss/domain'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { DISPLAY_MODE_VALUES } from '../definitions/DisplayModeEnum'
+import { TableDisplayModeValues } from './navigation/TableDisplayModeEnum'
 import DisplayModuleConf from './DisplayModuleConf'
 
 /**
@@ -50,8 +51,12 @@ const Form = PropTypes.shape({
 
   // should enable facettes?
   enableFacettes: PropTypes.bool,
+  // (when facets are enabled) should select facets initially?
+  facettesInitiallySelected: PropTypes.bool,
   // Display mode
   displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
+  // Initial view mode for the tab
+  initialViewMode: PropTypes.oneOf(TableDisplayModeValues),
 
   displayConf: DisplayModuleConf,
 })

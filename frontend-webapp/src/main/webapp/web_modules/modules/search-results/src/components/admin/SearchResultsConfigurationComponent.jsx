@@ -24,15 +24,14 @@ import { UIDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { ShowableAtRender } from '@regardsoss/display-control'
-import { Title } from '@regardsoss/components'
 import { ModulePaneStateField } from '@regardsoss/modules-api'
-import { Field, RenderCheckbox, RenderTextField } from '@regardsoss/form-utils'
+import { Field, RenderCheckbox, RenderTextField, RenderRadio } from '@regardsoss/form-utils'
 import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
 import ModuleConfiguration from '../../models/ModuleConfiguration'
 import AdminModuleConf from '../../models/AdminModuleConf'
 import { DISPLAY_MODE_ENUM } from '../../definitions/DisplayModeEnum'
-
+import { TableDisplayModeEnum } from '../../models/navigation/TableDisplayModeEnum'
+import FormGroup from './FormGroup'
 
 const parseIntNormalizer = value => parseInt(value, 10)
 /**
@@ -70,36 +69,72 @@ class SearchResultsConfigurationComponent extends React.Component {
     this.MODULE_REGROUPEMENTS_CONF = `${props.currentNamespace}.attributesRegroupements`
     this.MODULE_DISPLAY_MODE = `${props.currentNamespace}.displayMode`
     this.CONF_ENABLE_FACETTES = `${props.currentNamespace}.enableFacettes`
+    this.CONF_FACETS_INITIALLY_SELECTED = `${props.currentNamespace}.facettesInitiallySelected`
     this.CONF_ENABLE_QUICKLOOKS = `${props.currentNamespace}.enableQuicklooks`
     this.CONF_QUICKLOOKS_WIDTH = `${props.currentNamespace}.displayConf.quicklookColumnWidth`
     this.CONF_QUICKLOOKS_SPACING = `${props.currentNamespace}.displayConf.quicklookColumnSpacing`
     this.CONF_ENABLE_DOWNLOAD = `${props.currentNamespace}.enableDownload`
+    this.CONF_INITIAL_VIEW_MODE = `${props.currentNamespace}.initialViewMode`
     this.CONF_DATASETS_SECTION_LABEL_FR = `${props.currentNamespace}.datasetsSectionLabelFr`
     this.CONF_DATASETS_SECTION_LABEL_EN = `${props.currentNamespace}.datasetsSectionLabelEn`
     this.CONF_DATA_SECTION_LABEL_FR = `${props.currentNamespace}.dataSectionLabelFr`
     this.CONF_DATA_SECTION_LABEL_EN = `${props.currentNamespace}.dataSectionLabelEn`
+    this.CONF_DOCUMENT_SECTION_LABEL_FR = `${props.currentNamespace}.documentSectionLabelFr`
+    this.CONF_DOCUMENT_SECTION_LABEL_EN = `${props.currentNamespace}.documentSectionLabelEn`
   }
 
   componentDidMount() {
+    const {
+      isCreating, changeField, adminConf, currentNamespace,
+    } = this.props
     // Set a default value
-    if (this.props.isCreating) {
+    if (isCreating) {
       // Display mode is either provided by the parent module either fallback to default value
-      this.props.changeField(this.MODULE_DISPLAY_MODE, get(this.props.adminConf, 'initialDisplayMode', DISPLAY_MODE_ENUM.DISPLAY_DATA))
+      changeField(this.MODULE_DISPLAY_MODE, get(adminConf, 'initialDisplayMode', DISPLAY_MODE_ENUM.DISPLAY_DATA))
       // Primary pane state is either provided by the parent module either fallback to default value
-      this.props.changeField(`${this.props.currentNamespace}.primaryPane`,
-        get(this.props.adminConf, 'primaryPane', UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE))
-      this.props.changeField(this.CONF_ENABLE_QUICKLOOKS, false)
-      this.props.changeField(this.CONF_QUICKLOOKS_WIDTH, 400)
-      this.props.changeField(this.CONF_QUICKLOOKS_SPACING, 20)
+      changeField(`${currentNamespace}.primaryPane`,
+        get(adminConf, 'primaryPane', UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE))
+      changeField(this.CONF_ENABLE_QUICKLOOKS, false)
+      changeField(this.CONF_QUICKLOOKS_WIDTH, 400)
+      changeField(this.CONF_QUICKLOOKS_SPACING, 20)
     }
   }
 
-  changeDisplayMode = (event, value) => {
-    this.props.changeField(this.MODULE_DISPLAY_MODE, value)
+  /**
+   * User changed display mode, block unavailble document options when user selected documents
+   */
+  onChangeDisplayMode = (event, value) => {
+    const { currentFormValues, changeField } = this.props
+    changeField(this.MODULE_DISPLAY_MODE, value)
     if (value === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT) {
-      this.props.changeField(this.CONF_ENABLE_FACETTES, false)
-      this.props.changeField(this.CONF_ENABLE_QUICKLOOKS, 400)
-      this.props.changeField(this.CONF_QUICKLOOKS_SPACING, 20)
+      changeField(this.CONF_ENABLE_QUICKLOOKS, false)
+      // if the selected view mode is quicklook, reset it
+      const initialViewMode = get(currentFormValues, 'initialViewMode')
+      if (initialViewMode === TableDisplayModeEnum.QUICKLOOK) {
+        changeField(this.CONF_INITIAL_VIEW_MODE, TableDisplayModeEnum.LIST)
+      }
+    }
+  }
+
+  /**
+   * User changed the facets option: update initially selected facets if he disabled it
+   */
+  onSwitchFacetsEnabled = (event, enabled) => {
+    const { changeField } = this.props
+    if (!enabled) {
+      changeField(this.CONF_FACETS_INITIALLY_SELECTED, false)
+    }
+  }
+
+  /**
+   * User changed the facets option: update initially selected facets if he disabled it
+   */
+  onSwitchQuicklooksEnabled = (event, enabled) => {
+    const { changeField, currentFormValues } = this.props
+    const initialViewMode = get(currentFormValues, 'initialViewMode')
+    // change initial view mode when user disables quicklooks but quicklooks are selected as default
+    if (!enabled && initialViewMode === TableDisplayModeEnum.QUICKLOOK) {
+      changeField(this.CONF_INITIAL_VIEW_MODE, TableDisplayModeEnum.LIST)
     }
   }
 
@@ -264,117 +299,180 @@ class SearchResultsConfigurationComponent extends React.Component {
 
   render() {
     const { adminConf, currentFormValues, currentNamespace } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { configuration: { formContainer, formRow } } } = this.context
+
     const preventAdminToPickDocumentView = get(adminConf, 'preventAdminToPickDocumentView', false)
     const displayMode = get(currentFormValues, 'displayMode')
     const enableQuicklooks = get(currentFormValues, 'enableQuicklooks', false)
-    const { titleRowStyle, titleTextFieldStyle } = this.context.moduleTheme.configuration
+    const enableFacettes = get(currentFormValues, 'enableFacettes', false)
+
     return (
-      <CardText>
-        <ModulePaneStateField currentNamespace={currentNamespace} />
-        <Title
-          level={3}
-          label={formatMessage({ id: 'form.configuration.visible.tabs.message' })}
-        />
-        <RadioButtonGroup
-          onChange={this.changeDisplayMode}
-          valueSelected={displayMode}
-          name="__display_mode"
-        >
-          <RadioButton
-            value={DISPLAY_MODE_ENUM.DISPLAY_DATA}
-            label={formatMessage({ id: 'form.configuration.result.type.data' })}
-          />
-          <RadioButton
-            value={DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
-            label={formatMessage({ id: 'form.configuration.result.type.data_datasets' })}
-          />
-          <RadioButton
-            value={DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
-            label={formatMessage({ id: 'form.configuration.result.type.documents' })}
-            disabled={preventAdminToPickDocumentView}
-          />
-        </RadioButtonGroup>
-        <Title
-          level={3}
-          label={formatMessage({ id: 'form.configuration.results.options.message' })}
-        />
-        <Field
-          name={this.CONF_ENABLE_FACETTES}
-          component={RenderCheckbox}
-          label={formatMessage({ id: 'form.configuration.result.enable.facettes.label' })}
-          noSpacing
-        />
-        <Field
-          name={this.CONF_ENABLE_QUICKLOOKS}
-          component={RenderCheckbox}
-          label={formatMessage({ id: 'form.configuration.result.enable.quicklooks.label' })}
-          disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
-          noSpacing
-        />
-        <Field
-          name={this.CONF_ENABLE_DOWNLOAD}
-          component={RenderCheckbox}
-          label={formatMessage({ id: 'form.configuration.result.enable.download.label' })}
-          noSpacing
-        />
-        <ShowableAtRender show={enableQuicklooks}>
-          <Field
-            name={this.CONF_QUICKLOOKS_WIDTH}
-            component={RenderTextField}
-            type="number"
-            label={formatMessage({ id: 'form.configuration.result.width.quicklooks.label' })}
-            fullWidth
-            normalize={parseIntNormalizer}
-            disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
-          />
-          <Field
-            name={this.CONF_QUICKLOOKS_SPACING}
-            component={RenderTextField}
-            type="number"
-            label={formatMessage({ id: 'form.configuration.result.spacing.quicklooks.label' })}
-            fullWidth
-            normalize={parseIntNormalizer}
-            disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
-          />
-        </ShowableAtRender>
-        <Title
-          level={3}
-          label={formatMessage({ id: 'form.configuration.tabs.titles.section.title' })}
-        />
-        <div style={titleRowStyle}>
-          <Field
-            style={titleTextFieldStyle}
-            name={this.CONF_DATASETS_SECTION_LABEL_FR}
-            component={RenderTextField}
-            label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.fr' })}
-          />
-          <Field
-            style={titleTextFieldStyle}
-            name={this.CONF_DATASETS_SECTION_LABEL_EN}
-            component={RenderTextField}
-            label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.en' })}
-          />
+      <CardText className={formContainer.class}>
+        <div className={formRow.class}>
+          {/* 1 - Presentation pane initial state (title is provided by ModulePaneStateField) */}
+          <FormGroup>
+            <ModulePaneStateField currentNamespace={currentNamespace} />
+          </FormGroup>
+          {/* 2 - Results view tabs configuration */}
+          <FormGroup titleKey="form.configuration.visible.tabs.message">
+            <RadioButtonGroup
+              onChange={this.onChangeDisplayMode}
+              valueSelected={displayMode}
+              name="__display_mode"
+            >
+              <RadioButton
+                value={DISPLAY_MODE_ENUM.DISPLAY_DATA}
+                label={formatMessage({ id: 'form.configuration.result.type.data' })}
+              />
+              <RadioButton
+                value={DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
+                label={formatMessage({ id: 'form.configuration.result.type.data_datasets' })}
+              />
+              <RadioButton
+                value={DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
+                label={formatMessage({ id: 'form.configuration.result.type.documents' })}
+                disabled={preventAdminToPickDocumentView}
+              />
+            </RadioButtonGroup>
+          </FormGroup>
         </div>
-        <div style={titleRowStyle}>
-          <Field
-            style={titleTextFieldStyle}
-            name={this.CONF_DATA_SECTION_LABEL_FR}
-            component={RenderTextField}
-            label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.fr' })}
-          />
-          <Field
-            style={titleTextFieldStyle}
-            name={this.CONF_DATA_SECTION_LABEL_EN}
-            component={RenderTextField}
-            label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.en' })}
-          />
+        <div className={formRow.class}>
+          {/* 3 - Results options (facets, quicklooks...) */}
+          <FormGroup titleKey="form.configuration.results.options.message">
+            <Field
+              name={this.CONF_ENABLE_FACETTES}
+              onChange={this.onSwitchFacetsEnabled}
+              component={RenderCheckbox}
+              label={formatMessage({ id: 'form.configuration.result.enable.facettes.label' })}
+              noSpacing
+            />
+            <Field
+              name={this.CONF_FACETS_INITIALLY_SELECTED}
+              component={RenderCheckbox}
+              label={formatMessage({ id: 'form.configuration.result.select.facettes.initially.label' })}
+              disabled={!enableFacettes}
+              noSpacing
+            />
+            <Field
+              name={this.CONF_ENABLE_QUICKLOOKS}
+              component={RenderCheckbox}
+              label={formatMessage({ id: 'form.configuration.result.enable.quicklooks.label' })}
+              disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
+              onChange={this.onSwitchQuicklooksEnabled}
+              noSpacing
+            />
+            <Field
+              name={this.CONF_ENABLE_DOWNLOAD}
+              component={RenderCheckbox}
+              label={formatMessage({ id: 'form.configuration.result.enable.download.label' })}
+              noSpacing
+            />
+          </FormGroup>
+          {/* 4 - Initial view mode */}
+          <FormGroup titleKey="form.configuration.result.initial.view.mode">
+            <Field
+              name={this.CONF_INITIAL_VIEW_MODE}
+              component={RenderRadio}
+              defaultSelected={TableDisplayModeEnum.LIST}
+            >
+              <RadioButton
+                label={formatMessage({ id: 'form.configuration.result.show.list.initially' })}
+                value={TableDisplayModeEnum.LIST}
+              />
+              <RadioButton
+                label={formatMessage({ id: 'form.configuration.result.show.table.initially' })}
+                value={TableDisplayModeEnum.TABLE}
+              />
+              <RadioButton
+                label={formatMessage({ id: 'form.configuration.result.show.quicklook.initially' })}
+                value={TableDisplayModeEnum.QUICKLOOK}
+                disabled={!enableQuicklooks}
+              />
+            </Field>
+          </FormGroup>
         </div>
-        <Title
-          level={3}
-          label={formatMessage({ id: 'form.attributes.configuration.section.title' })}
-        />
-        {this.renderAttributesConfiguration()}
+        <div className={formRow.class}>
+          {/* 5 - Quicklooks configuration */}
+          <FormGroup titleKey="form.configuration.results.quicklooks.message">
+            <Field
+              name={this.CONF_QUICKLOOKS_WIDTH}
+              component={RenderTextField}
+              type="number"
+              label={formatMessage({ id: 'form.configuration.result.width.quicklooks.label' })}
+              fullWidth
+              normalize={parseIntNormalizer}
+              disabled={!enableQuicklooks || displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
+            />
+            <Field
+              name={this.CONF_QUICKLOOKS_SPACING}
+              component={RenderTextField}
+              type="number"
+              label={formatMessage({ id: 'form.configuration.result.spacing.quicklooks.label' })}
+              fullWidth
+              normalize={parseIntNormalizer}
+              disabled={!enableQuicklooks || displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
+            />
+          </FormGroup>
+          {/* 6 - Document view title configuration */}
+          <FormGroup titleKey="form.configuration.result.document.titles.message">
+            <Field
+              name={this.CONF_DOCUMENT_SECTION_LABEL_FR}
+              component={RenderTextField}
+              label={this.context.intl.formatMessage({ id: 'form.configuration.result.document.section.label.fr' })}
+              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
+              fullWidth
+            />
+            <Field
+              name={this.CONF_DOCUMENT_SECTION_LABEL_EN}
+              component={RenderTextField}
+              label={this.context.intl.formatMessage({ id: 'form.configuration.result.document.section.label.en' })}
+              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
+              fullWidth
+            />
+          </FormGroup>
+        </div>
+        <div className={formRow.class}>
+          {/* 7 - Data view title configuration */}
+          <FormGroup titleKey="form.configuration.result.data.titles.message">
+            <Field
+              name={this.CONF_DATA_SECTION_LABEL_FR}
+              component={RenderTextField}
+              label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.fr' })}
+              disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
+              fullWidth
+            />
+            <Field
+              name={this.CONF_DATA_SECTION_LABEL_EN}
+              component={RenderTextField}
+              label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.en' })}
+              disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
+              fullWidth
+            />
+          </FormGroup>
+          {/* 8 - Datasets view title configuration */}
+          <FormGroup titleKey="form.configuration.result.datasets.title.message">
+            <Field
+              name={this.CONF_DATASETS_SECTION_LABEL_FR}
+              component={RenderTextField}
+              label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.fr' })}
+              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
+              fullWidth
+            />
+            <Field
+              name={this.CONF_DATASETS_SECTION_LABEL_EN}
+              component={RenderTextField}
+              label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.en' })}
+              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
+              fullWidth
+            />
+          </FormGroup>
+        </div>
+        <div className={formRow.class}>
+          {/* 9 - Tab views attibutes configuration titles */}
+          <FormGroup spanFullWidth titleKey="form.attributes.configuration.section.title">
+            {this.renderAttributesConfiguration()}
+          </FormGroup>
+        </div>
       </CardText>
     )
   }
