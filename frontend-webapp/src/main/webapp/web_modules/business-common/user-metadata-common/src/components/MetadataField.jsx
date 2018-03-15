@@ -53,6 +53,11 @@ class MetadataField extends React.Component {
     this.setState({ options })
   }
 
+  showStarIfFieldRequired = () => {
+    const { metadata: { mandatory } } = this.props
+    return mandatory ? '(*)' : ''
+  }
+
 
   validateFieldValue = (fieldValue) => {
     const { metadata: { mandatory } } = this.props
@@ -71,7 +76,7 @@ class MetadataField extends React.Component {
       <Field
         name={metadata.key}
         component={RenderSelectField}
-        floatingLabelText={formatMessage({ id: metadata.labelKey })}
+        floatingLabelText={`${formatMessage({ id: metadata.labelKey })} ${this.showStarIfFieldRequired()}`}
         {...fieldProperties}
         validate={this.validateFieldValue}
       >
@@ -98,7 +103,7 @@ class MetadataField extends React.Component {
         name={metadata.key}
         component={RenderTextField}
         type="text"
-        floatingLabelText={formatMessage({ id: metadata.labelKey })}
+        floatingLabelText={`${formatMessage({ id: metadata.labelKey })} ${this.showStarIfFieldRequired()}`}
         validate={this.validateFieldValue}
         multiLine={multiline}
         rows={multiline ? DEFAULT_MULTILINES_COUNT : 1}

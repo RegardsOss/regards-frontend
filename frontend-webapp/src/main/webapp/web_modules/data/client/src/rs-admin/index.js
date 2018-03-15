@@ -76,6 +76,10 @@ import ReadNotificationActions from './notification/read/ReadNotificationActions
 import getReadNotificationReducer from './notification/read/ReadNotificationReducer'
 import getReadNotificationSelectors from './notification/read/ReadNotificationSelectors'
 
+import NotificationSettingsActions from './notification/settings/NotificationSettingsActions'
+import getNotificationSettingsReducer from './notification/settings/NotificationSettingsReducer'
+import getNotificationSettingsSelectors from './notification/settings/NotificationSettingsSelectors'
+
 import ProjectUserActions from './user/ProjectUserActions'
 import getProjectUserReducer from './user/ProjectUserReducer'
 import getProjectUserSelectors from './user/ProjectUserSelectors'
@@ -141,6 +145,10 @@ module.exports = {
   ReadNotificationActions,
   getReadNotificationReducer,
   getReadNotificationSelectors,
+
+  NotificationSettingsActions,
+  getNotificationSettingsReducer,
+  getNotificationSettingsSelectors,
 
   ProjectUserActions,
   getProjectUserReducer,

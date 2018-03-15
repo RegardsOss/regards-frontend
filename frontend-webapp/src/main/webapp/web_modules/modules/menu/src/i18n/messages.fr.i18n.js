@@ -98,8 +98,20 @@ const messages = {
   'edit.profile.form.mail': 'Adresse e-mail',
   'edit.profile.form.firstName': 'Prénom',
   'edit.profile.form.lastName': 'Nom',
-  'edit.profile.form.confirm': 'Confirmer',
+  'edit.profile.form.save': 'Sauvegarder',
   'edit.profile.form.cancel': 'Annuler',
+
+  'edit.profile.notification.form.frequencies.custom': 'Personnalisé',
+  'edit.profile.notification.form.frequencies.monthly': 'Mensuelle',
+  'edit.profile.notification.form.frequencies.weekly': 'Hebdomadaire',
+  'edit.profile.notification.form.frequencies.daily': 'Journalière',
+  'edit.profile.notification.form.frequencies': 'Frequence d\'envoie des emails',
+  'edit.profile.notification.form.title': 'Gestion des notifications',
+  'edit.profile.notification.form.message': 'Vous pouvez mettre à jour ci-dessous la fréquence à laquelle vous souhaitez recevoir des emails récapitulatifs des notifications que vous n\'avez pas lu',
+  'edit.profile.notification.form.days': 'Jours',
+  'edit.profile.notification.form.hours': 'Heures',
+  'edit.profile.notification.form.save': 'Sauvegarder',
+
   // notifications
   'user.menu.notification.max.count': '{maxCount}+',
   'user.menu.notification.elements.count.tooltip': `{elementsCount, plural,
@@ -113,7 +125,12 @@ const messages = {
   'user.menu.notification.details.sentby': 'Envoyé par {sender}',
   'user.menu.notification.details.message': 'Message',
   'user.menu.notification.clearAll': 'Tout marquer comme lu',
+  'user.menu.notification.action.close': 'Fermer',
 
+  'user.menu.profile.leftbar.title': 'Options utilisateur',
+  'user.menu.profile.leftbar.profile': 'Profil',
+  'user.menu.profile.leftbar.notification': 'Notifications',
+  'user.menu.profile.action.close': 'Fermer',
   ...Locales.fr,
   ...MetadataLocales.fr,
 }

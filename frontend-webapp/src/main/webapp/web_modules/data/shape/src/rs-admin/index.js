@@ -26,6 +26,7 @@ import { ProjectUser, ProjectUserList } from './ProjectUser'
 import { Resource, ResourceList, ResourceArray } from './Resource'
 import { Role, RoleList, RoleArray } from './Role'
 import { Notification, NotificationList, NotificationArray } from './Notification'
+import { NotificationSettings } from './NotificationSettings'
 
 module.exports = {
   Account,
@@ -58,4 +59,6 @@ module.exports = {
   Notification,
   NotificationList,
   NotificationArray,
+
+  NotificationSettings,
 }
