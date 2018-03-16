@@ -1118,6 +1118,7 @@ module.exports = {
     {
       attributeName: 'default.FORMAT',
       type: 'STRING',
+      others: 50,
       values: [
         {
           word: 'vhs',
@@ -1139,6 +1140,7 @@ module.exports = {
     {
       attributeName: 'MISC_INFO.PUBLICATION_DATE',
       type: 'DATE',
+      others: 0,
       values: [
         {
           lowerBound: null,
@@ -1205,6 +1207,7 @@ module.exports = {
     {
       attributeName: 'MISC_INFO.SPECTATORS_COUNT',
       type: 'NUMERIC',
+      others: 0,
       values: [
         {
           upperBound: '10',

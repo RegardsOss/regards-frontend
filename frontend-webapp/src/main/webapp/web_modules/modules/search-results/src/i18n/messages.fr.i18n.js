@@ -105,6 +105,7 @@ const messages = Object.assign({
   'results.cell.multiple.values.separator': ', ',
 
   'search.facets.no.facet.found': 'Pas de facette pour le résultat courant',
+  'search.facets.filter.menu.others.message': 'Les choix disponibles ne sont pas exhaustifs',
   'search.facets.filter.menu.date.before': 'Avant le {date} ({count})',
   'search.facets.filter.menu.date.after': 'Après le {date} ({count})',
   'search.facets.filter.menu.date.range': 'Entre le {minDate} et le {maxDate} ({count})',

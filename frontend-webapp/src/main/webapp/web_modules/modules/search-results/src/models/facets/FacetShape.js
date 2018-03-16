@@ -42,6 +42,8 @@ const commonFacetAttributesPropTypes = {
   attributeName: PropTypes.string.isRequired,
   // facet label, added when locally resolved
   label: PropTypes.string,
+  // elements that are not covered by the facet
+  others: PropTypes.number.isRequired,
 }
 
 /** A date range facet */

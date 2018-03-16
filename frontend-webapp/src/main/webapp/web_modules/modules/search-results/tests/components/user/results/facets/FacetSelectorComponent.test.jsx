@@ -26,8 +26,6 @@ import FacetSelectorComponent from '../../../../../src/components/user/results/f
 import styles from '../../../../../src/styles/styles'
 import facetsNetworkDump from '../../../../dumps/results.dump'
 
-const aFacetModel = facetsNetworkDump.facets[2]
-
 describe('[SEARCH FACETS] Testing FacetSelectorComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
@@ -37,9 +35,10 @@ describe('[SEARCH FACETS] Testing FacetSelectorComponent', () => {
   })
   const context = buildTestContext(styles)
 
-  it('should render properly', () => {
+  it('should render correctly without elements not covered by facets', () => {
+    const noOtherFacet = facetsNetworkDump.facets[2]
     const props = {
-      facet: aFacetModel,
+      facet: noOtherFacet,
       facetValueFormatterForMenu: () => '',
       facetValueFormatterForFilter: () => '',
       onSelectFacet: () => { },
@@ -47,6 +46,24 @@ describe('[SEARCH FACETS] Testing FacetSelectorComponent', () => {
 
     const enzymeWrapper = shallow(<FacetSelectorComponent {...props} />, { context })
     // verify there is one item per facet value
-    assert.equal(enzymeWrapper.find(MenuItem).length, size(aFacetModel.values), 'There should be one item for each facet value')
+    assert.equal(enzymeWrapper.find(MenuItem).length, size(noOtherFacet.values), 'There should be one item for each facet value')
+  })
+  it('should render correctly with elements not covered by facets', () => {
+    const facetWithOthers = facetsNetworkDump.facets[0]
+    const props = {
+      facet: facetWithOthers,
+      facetValueFormatterForMenu: () => '',
+      facetValueFormatterForFilter: () => '',
+      onSelectFacet: () => { },
+    }
+
+    const enzymeWrapper = shallow(<FacetSelectorComponent {...props} />, { context })
+    // verify there is one item per facet value + 1 for message other
+    const allMenuItems = enzymeWrapper.find(MenuItem)
+    assert.equal(allMenuItems.length, size(facetWithOthers.values) + 1, 'There should be one item for each facet value plus one for message')
+
+    const messageItem = allMenuItems.findWhere(n => n.props().disabled)
+    assert.lengthOf(messageItem, 1, 'There should be the message item')
+    assert.equal(messageItem.props().primaryText, 'search.facets.filter.menu.others.message', 'It should have the right label')
   })
 })
