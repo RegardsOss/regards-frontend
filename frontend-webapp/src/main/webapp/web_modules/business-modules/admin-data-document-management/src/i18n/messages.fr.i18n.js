@@ -36,8 +36,8 @@ const messages = Object.assign({
   'document.no.document.title': 'Aucun document',
 
   'document.form.links.component.subtitle': 'Lien de la document courante',
-  'document.form.links.remainingcollection.subtitle': 'Collection disponibles',
-  'document.form.links.collection.subtitle': 'Collection liées',
+  'document.form.links.remainingcollection.subtitle': 'Collections disponibles',
+  'document.form.links.collection.subtitle': 'Collections liées',
   'document.form.links.subtitle': 'Les documents disposent de liens avec des collections afin de simplifier la recherche',
   'document.form.links.title': 'Mise à jour des liens des documents',
   'document.form.links.action.done': 'Terminer',
