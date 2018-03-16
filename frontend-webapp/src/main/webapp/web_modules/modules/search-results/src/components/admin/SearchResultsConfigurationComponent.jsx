@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import isNaN from 'lodash/isNaN'
 import { CardText } from 'material-ui/Card'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
@@ -25,7 +26,7 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ModulePaneStateField } from '@regardsoss/modules-api'
-import { Field, RenderCheckbox, RenderTextField, RenderRadio } from '@regardsoss/form-utils'
+import { Field, RenderCheckbox, RenderTextField, RenderRadio, ValidationHelpers } from '@regardsoss/form-utils'
 import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
 import ModuleConfiguration from '../../models/ModuleConfiguration'
 import AdminModuleConf from '../../models/AdminModuleConf'
@@ -34,6 +35,7 @@ import { TableDisplayModeEnum } from '../../models/navigation/TableDisplayModeEn
 import FormGroup from './FormGroup'
 
 const parseIntNormalizer = value => parseInt(value, 10)
+
 /**
  * Display form to configure main parameters of search form.
  * @author Sébastien binda
@@ -134,6 +136,28 @@ class SearchResultsConfigurationComponent extends React.Component {
     if (!enabled && initialViewMode === TableDisplayModeEnum.QUICKLOOK) {
       changeField(this.CONF_INITIAL_VIEW_MODE, TableDisplayModeEnum.LIST)
     }
+  }
+
+  /**
+   * Formats the value before displaying in the field input component.
+   *
+   * @param {String} value
+   */
+  formatNumberField = value => !isNaN(value) ? value : ''
+
+  /**
+   * Validates the quicklook number field
+   * @param value field value
+   * @param values form values
+   * @return error if any, undefined otherwise
+   */
+  validateQuicklookNumberField = (value, values) => {
+    const isQuicklookEnabled = get(values, this.CONF_ENABLE_QUICKLOOKS)
+    if (isQuicklookEnabled) {
+      // validate required positive number
+      return ValidationHelpers.required(value) || ValidationHelpers.positiveIntNumber(value)
+    }
+    return undefined
   }
 
   renderAttributesConfiguration = () => {
@@ -436,6 +460,8 @@ class SearchResultsConfigurationComponent extends React.Component {
               fullWidth
               normalize={parseIntNormalizer}
               disabled={!enableQuicklooks || displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
+              validate={this.validateQuicklookNumberField}
+              format={this.formatNumberField}
             />
             <Field
               name={this.CONF_QUICKLOOKS_SPACING}
@@ -445,6 +471,8 @@ class SearchResultsConfigurationComponent extends React.Component {
               fullWidth
               normalize={parseIntNormalizer}
               disabled={!enableQuicklooks || displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
+              validate={this.validateQuicklookNumberField}
+              format={this.formatNumberField}
             />
           </FormGroup>
         </div>

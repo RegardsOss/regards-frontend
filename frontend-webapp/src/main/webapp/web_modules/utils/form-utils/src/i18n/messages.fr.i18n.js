@@ -31,6 +31,7 @@ const messages = {
   'invalid.number.lower.than.min': 'La valeur est trop petite',
   'invalid.number.greater.than.max': 'La valeur est trop grande',
   'invalid.integer.number': 'La valeur doit être un nombre entier',
+  'invalid.positive.integer.number': 'La valeur doit être un nombre entier supérieur ou égal à 0',
   'invalid.floating.number': 'La valeur doit être un nombre flottant',
   'invalid.character': 'La valeur doit être un unique caractère',
   'different.password': 'Les mots de passe doivent être identiques',

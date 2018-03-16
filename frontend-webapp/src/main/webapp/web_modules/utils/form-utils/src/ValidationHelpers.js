@@ -217,6 +217,10 @@ const parsableNumberValidator = (parser, parsingError, min, max, regexp = NUMBER
         return ErrorTypes.GREATER_THAN_MAX
       }
     }
+    // when NaN is received as value, handle it separately (this is an error)
+    if (isNaN(value)) {
+      return parsingError
+    }
     // no error
     return undefined
   }
@@ -226,6 +230,9 @@ export const number = parsableNumberValidator(parseFloat, ErrorTypes.NUMERIC, Nu
 
 /** Validates a JS integer number */
 export const intNumber = parsableNumberValidator(parseInt10, ErrorTypes.INVALID_INTEGER_NUMBER, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, INTEGER_REGEXP)
+
+/** Validates a JS integer positive number */
+export const positiveIntNumber = parsableNumberValidator(parseInt10, ErrorTypes.INVALID_POSITIVE_INTEGER_NUMBER, 0, Number.MAX_SAFE_INTEGER, INTEGER_REGEXP)
 
 /** Validates a standard Java byte */
 const javaByteValidator = parsableNumberValidator(parseInt10, ErrorTypes.INVALID_INTEGER_NUMBER, -(2 ** 7), (2 ** 7) - 1, INTEGER_REGEXP)
@@ -270,6 +277,7 @@ module.exports = {
   moreThan,
   number,
   intNumber,
+  positiveIntNumber,
   url,
   characterValidator,
   javaByteValidator,
