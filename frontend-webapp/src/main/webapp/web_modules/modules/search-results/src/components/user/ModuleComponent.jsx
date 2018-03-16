@@ -61,6 +61,7 @@ class ModuleComponent extends React.Component {
     const {
       enableDownload,
       enableFacettes,
+      facettesInitiallySelected,
       enableQuicklooks,
       searchQuery,
       attributes,
@@ -95,6 +96,7 @@ class ModuleComponent extends React.Component {
           appName={appName}
           project={project}
           enableFacettes={enableFacettes}
+          facettesInitiallySelected={facettesInitiallySelected}
           enableDownload={enableDownload}
           enableQuicklooks={enableQuicklooks}
           displayMode={displayMode}

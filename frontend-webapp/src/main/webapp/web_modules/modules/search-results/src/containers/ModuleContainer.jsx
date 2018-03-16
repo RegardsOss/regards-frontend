@@ -88,6 +88,7 @@ export class ModuleContainer extends React.Component {
     const { attributeModels, moduleConf } = this.props
     const { attributesFetching, facettesQuery } = this.state
     const initialViewObjectType = this.getInitialViewObjectType(moduleConf.displayMode)
+    const initialTableDisplayMode = moduleConf.initialViewMode || TableDisplayModeEnum.LIST
     // compute if this component is externally driven: is there parent module parameters?
     const isExternallyDriven = !!(moduleConf.searchQuery || (moduleConf.initialContextTags && moduleConf.initialContextTags.length))
 
@@ -101,7 +102,7 @@ export class ModuleContainer extends React.Component {
           { /* URL management container: blocks view while it is not initialized to avoid useless requests (no view) */}
           <URLManagementContainer
             initialViewObjectType={initialViewObjectType}
-            initialTableDisplayMode={TableDisplayModeEnum.LIST}
+            initialTableDisplayMode={initialTableDisplayMode}
             initialContextTags={this.props.moduleConf.initialContextTags}
             isExternallyDriven={isExternallyDriven}
           >

@@ -91,6 +91,12 @@ class OptionsAndTabsHeaderLine extends React.Component {
   /** @return {boolean} true if currently displaying data objects */
   isDisplayingDataobjects = () => this.props.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
+  /** @return {boolean} true if currently displaying documents */
+  isDisplayingDocuments = () => this.props.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DOCUMENT
+
+  /** @return {boolean} true if current object type is facetable */
+  isDisplayingFacetableObject = () => this.isDisplayingDataobjects() || this.isDisplayingDocuments()
+
   /** @return {boolean} true if currently in list view */
   isInListView = () => this.props.tableViewMode === TableDisplayModeEnum.LIST
 
@@ -144,11 +150,11 @@ class OptionsAndTabsHeaderLine extends React.Component {
             }
           </TableHeaderOptionGroup>
           {/* 1.b.2 Extended options: add to basket and facets */}
-          <TableHeaderOptionGroup show={!!onAddSelectionToCart || (displayFacettesButton && this.isDisplayingDataobjects())}>
+          <TableHeaderOptionGroup show={!!onAddSelectionToCart || (displayFacettesButton && this.isDisplayingFacetableObject())}>
             <ShowableAtRender show={!!onAddSelectionToCart} key="add.selection.to.cart">
               <AddSelectionToCartComponent onAddSelectionToCart={onAddSelectionToCart} />
             </ShowableAtRender>
-            <ShowableAtRender show={displayFacettesButton && this.isDisplayingDataobjects()}>
+            <ShowableAtRender show={displayFacettesButton && this.isDisplayingFacetableObject()}>
               <FlatButton
                 label={formatMessage({ id: 'navigation.filter.by.facets' })}
                 onClick={onToggleShowFacettes}

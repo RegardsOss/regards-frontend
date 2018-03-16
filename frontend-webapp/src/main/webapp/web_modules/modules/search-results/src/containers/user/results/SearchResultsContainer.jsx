@@ -80,6 +80,7 @@ export class SearchResultsContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     searchQuery: PropTypes.string, // initial search query, as provided by module configuration
     enableFacettes: PropTypes.bool.isRequired, // are facettes enabled
+    facettesInitiallySelected: PropTypes.bool,
     enableDownload: PropTypes.bool.isRequired, // is download enable directly from the table
     enableQuicklooks: PropTypes.bool.isRequired, // are quicklook available on data items
     displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
@@ -122,6 +123,7 @@ export class SearchResultsContainer extends React.Component {
     dispatchSetEntityAsTag: PropTypes.func.isRequired,
   }
 
+
   /**
    * Default component state (describes all possible state elements)
    */
@@ -144,6 +146,19 @@ export class SearchResultsContainer extends React.Component {
     // is currently displaying only data with quicklook
     displayOnlyQuicklook: false,
   }
+
+  /**
+   * Constructor, used here to initialize some specific state properties from configuration
+   * @param {*} props component properties
+   */
+  constructor(props) {
+    super(props)
+    this.state = {
+      ...SearchResultsContainer.DEFAULT_STATE,
+      showingFacettes: props.facettesInitiallySelected || false,
+    }
+  }
+
 
   componentWillMount = () => this.onPropertiesChanged({}, this.props)
 
@@ -403,7 +418,6 @@ export class SearchResultsContainer extends React.Component {
       ...newState,
       ...this.buildSearchState(properties, { ...currentState, ...newState }),
     }
-
     // update state if any change is detected
     if (!isEqual(completedNewState, this.state)) {
       this.setState(completedNewState)

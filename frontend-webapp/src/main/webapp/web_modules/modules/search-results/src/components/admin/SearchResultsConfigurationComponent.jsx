@@ -79,8 +79,6 @@ class SearchResultsConfigurationComponent extends React.Component {
     this.CONF_DATASETS_SECTION_LABEL_EN = `${props.currentNamespace}.datasetsSectionLabelEn`
     this.CONF_DATA_SECTION_LABEL_FR = `${props.currentNamespace}.dataSectionLabelFr`
     this.CONF_DATA_SECTION_LABEL_EN = `${props.currentNamespace}.dataSectionLabelEn`
-    this.CONF_DOCUMENT_SECTION_LABEL_FR = `${props.currentNamespace}.documentSectionLabelFr`
-    this.CONF_DOCUMENT_SECTION_LABEL_EN = `${props.currentNamespace}.documentSectionLabelEn`
   }
 
   componentDidMount() {
@@ -309,11 +307,11 @@ class SearchResultsConfigurationComponent extends React.Component {
     return (
       <CardText className={formContainer.class}>
         <div className={formRow.class}>
-          {/* 1 - Presentation pane initial state (title is provided by ModulePaneStateField) */}
+          {/* Presentation pane initial state (title is provided by ModulePaneStateField) */}
           <FormGroup>
             <ModulePaneStateField currentNamespace={currentNamespace} />
           </FormGroup>
-          {/* 2 - Results view tabs configuration */}
+          {/* Results view tabs configuration */}
           <FormGroup titleKey="form.configuration.visible.tabs.message">
             <RadioButtonGroup
               onChange={this.onChangeDisplayMode}
@@ -337,7 +335,7 @@ class SearchResultsConfigurationComponent extends React.Component {
           </FormGroup>
         </div>
         <div className={formRow.class}>
-          {/* 3 - Results options (facets, quicklooks...) */}
+          {/* Results options (facets, quicklooks...) */}
           <FormGroup titleKey="form.configuration.results.options.message">
             <Field
               name={this.CONF_ENABLE_FACETTES}
@@ -368,7 +366,7 @@ class SearchResultsConfigurationComponent extends React.Component {
               noSpacing
             />
           </FormGroup>
-          {/* 4 - Initial view mode */}
+          {/* Initial view mode */}
           <FormGroup titleKey="form.configuration.result.initial.view.mode">
             <Field
               name={this.CONF_INITIAL_VIEW_MODE}
@@ -392,7 +390,43 @@ class SearchResultsConfigurationComponent extends React.Component {
           </FormGroup>
         </div>
         <div className={formRow.class}>
-          {/* 5 - Quicklooks configuration */}
+          {/* Data view title configuration (only when displaying data and dataset, tab is hidden otherwise) */}
+          <FormGroup titleKey="form.configuration.result.data.titles.message">
+            <Field
+              name={this.CONF_DATA_SECTION_LABEL_FR}
+              component={RenderTextField}
+              label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.fr' })}
+              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
+              fullWidth
+            />
+            <Field
+              name={this.CONF_DATA_SECTION_LABEL_EN}
+              component={RenderTextField}
+              label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.en' })}
+              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
+              fullWidth
+            />
+          </FormGroup>
+          {/* Datasets view title configuration (only when displaying data and dataset, tab is hidden otherwise) */}
+          <FormGroup titleKey="form.configuration.result.datasets.title.message">
+            <Field
+              name={this.CONF_DATASETS_SECTION_LABEL_FR}
+              component={RenderTextField}
+              label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.fr' })}
+              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
+              fullWidth
+            />
+            <Field
+              name={this.CONF_DATASETS_SECTION_LABEL_EN}
+              component={RenderTextField}
+              label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.en' })}
+              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
+              fullWidth
+            />
+          </FormGroup>
+        </div>
+        <div className={formRow.class}>
+          {/* Quicklooks configuration */}
           <FormGroup titleKey="form.configuration.results.quicklooks.message">
             <Field
               name={this.CONF_QUICKLOOKS_WIDTH}
@@ -413,62 +447,9 @@ class SearchResultsConfigurationComponent extends React.Component {
               disabled={!enableQuicklooks || displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
             />
           </FormGroup>
-          {/* 6 - Document view title configuration */}
-          <FormGroup titleKey="form.configuration.result.document.titles.message">
-            <Field
-              name={this.CONF_DOCUMENT_SECTION_LABEL_FR}
-              component={RenderTextField}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.document.section.label.fr' })}
-              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
-              fullWidth
-            />
-            <Field
-              name={this.CONF_DOCUMENT_SECTION_LABEL_EN}
-              component={RenderTextField}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.document.section.label.en' })}
-              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
-              fullWidth
-            />
-          </FormGroup>
         </div>
         <div className={formRow.class}>
-          {/* 7 - Data view title configuration */}
-          <FormGroup titleKey="form.configuration.result.data.titles.message">
-            <Field
-              name={this.CONF_DATA_SECTION_LABEL_FR}
-              component={RenderTextField}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.fr' })}
-              disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
-              fullWidth
-            />
-            <Field
-              name={this.CONF_DATA_SECTION_LABEL_EN}
-              component={RenderTextField}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.en' })}
-              disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
-              fullWidth
-            />
-          </FormGroup>
-          {/* 8 - Datasets view title configuration */}
-          <FormGroup titleKey="form.configuration.result.datasets.title.message">
-            <Field
-              name={this.CONF_DATASETS_SECTION_LABEL_FR}
-              component={RenderTextField}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.fr' })}
-              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
-              fullWidth
-            />
-            <Field
-              name={this.CONF_DATASETS_SECTION_LABEL_EN}
-              component={RenderTextField}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.en' })}
-              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
-              fullWidth
-            />
-          </FormGroup>
-        </div>
-        <div className={formRow.class}>
-          {/* 9 - Tab views attibutes configuration titles */}
+          {/* Tab views attibutes configuration titles */}
           <FormGroup spanFullWidth titleKey="form.attributes.configuration.section.title">
             {this.renderAttributesConfiguration()}
           </FormGroup>

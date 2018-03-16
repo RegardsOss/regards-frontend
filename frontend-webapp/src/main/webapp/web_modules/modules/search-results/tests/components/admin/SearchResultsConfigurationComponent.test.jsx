@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import keys from 'lodash/keys'
 import { shallow } from 'enzyme'
 import { spy } from 'sinon'
 import { assert } from 'chai'
@@ -57,12 +58,17 @@ describe('[Search Results] Testing SearchResultsConfigurationComponent', () => {
 
     const wrapper = shallow(<SearchResultsConfigurationComponent {...props} />, options)
 
-    const showDatasetsField = wrapper.find(Field).find({ name: 'conf.enableDownload' })
-    assert(showDatasetsField.length === 1, 'The download field should be defined')
+    // verify each configuration field is available
+    const wrapperInstance = wrapper.instance()
+    const wrapperFieldsProps = keys(wrapperInstance).filter(key => key.match(/CONF_.*/))
+    const allFields = wrapper.find(Field)
+    wrapperFieldsProps.forEach((fieldProperty) => {
+      const fieldName = wrapperInstance[fieldProperty]
+      const field = allFields.findWhere(currentField => currentField.props().name === fieldName)
+      assert.lengthOf(field, 1, `There should be the field for configuration key "${fieldProperty} (${fieldName})"`)
+    })
 
-    const showFacettes = wrapper.find(Field).find({ name: 'conf.enableFacettes' })
-    assert(showFacettes.length === 1, 'The facettes field should be defined')
-
+    // also verify the module pane state field
     const paneField = wrapper.find(ModulePaneStateField)
     assert.lengthOf(paneField, 1, 'There should be the pane field')
     assert.equal(paneField.props().currentNamespace, props.currentNamespace, 'It should use the right namespace')

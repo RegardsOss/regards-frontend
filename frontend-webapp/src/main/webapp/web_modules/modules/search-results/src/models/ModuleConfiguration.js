@@ -27,7 +27,12 @@ import DisplayModuleConf from './DisplayModuleConf'
  * Form entity description
  * @author Sébastien binda
  */
-const Form = PropTypes.shape({
+const ModuleConfiguration = PropTypes.shape({
+  /******************************************************************
+   *                     ADMIN CONFIGURATION                        *
+   *   Those parameters are provided by admin when editing module   *
+   ******************************************************************/
+
   // Search form attributes configuration
   attributes: AccessShapes.AttributeConfigurationArray,
   // Search form attributes regroupements configuration
@@ -36,8 +41,33 @@ const Form = PropTypes.shape({
   datasetAttributes: AccessShapes.AttributeConfigurationArray,
   // Search results documents attributes configuration
   documentAttributes: AccessShapes.AttributeConfigurationArray,
+  // Quicklook attributes
+  attributesQuicklook: AccessShapes.AttributeConfigurationArray,
   // Special configuration given if the module is not load as a independent module
   selectableAttributes: DataManagementShapes.AttributeModelList,
+
+  // Display mode
+  displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
+  // Initial view mode for the tab
+  initialViewMode: PropTypes.oneOf(TableDisplayModeValues),
+  // should enable facettes?
+  enableFacettes: PropTypes.bool,
+  // (when facets are enabled) should select facets initially?
+  facettesInitiallySelected: PropTypes.bool,
+  enableDownload: PropTypes.bool,
+  enableQuicklooks: PropTypes.bool,
+  displayConf: DisplayModuleConf,
+
+  // Tabs labels for english and french locale
+  datasetsSectionLabelFr: PropTypes.string,
+  datasetsSectionLabelEn: PropTypes.string,
+  dataSectionLabelFr: PropTypes.string,
+  dataSectionLabelEn: PropTypes.string,
+
+  /******************************************************************
+   *                     RUNTIME CONFIGURATION                      *
+   *       Those parameters are provided by driving module          *
+   ******************************************************************/
 
   // Initial context tags (will be automatically added to breadcumb, the first tag cannot be removed)
   initialContextTags: PropTypes.arrayOf(PropTypes.shape({
@@ -48,17 +78,6 @@ const Form = PropTypes.shape({
 
   // Initial search query
   searchQuery: PropTypes.string,
-
-  // should enable facettes?
-  enableFacettes: PropTypes.bool,
-  // (when facets are enabled) should select facets initially?
-  facettesInitiallySelected: PropTypes.bool,
-  // Display mode
-  displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
-  // Initial view mode for the tab
-  initialViewMode: PropTypes.oneOf(TableDisplayModeValues),
-
-  displayConf: DisplayModuleConf,
 })
 
-export default Form
+export default ModuleConfiguration
