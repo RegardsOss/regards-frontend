@@ -23,7 +23,7 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = Object.assign({
   'storage.data-storage.plugins.list.title': 'Configuration des espaces de stockage',
-  'storage.data-storage.plugins.list.subtitle': 'Cette section vous permer de configurer les différents espaces de stockage utilisés par le stystème et de les prioriser. La priorité permet, dans le cas ou des données sont stockées sur plusieurs systèmes de stockage, de déterminer sur lequel d\'entre eux récupérer les données.',
+  'storage.data-storage.plugins.list.subtitle': 'Cette section vous permet de configurer les différents espaces de stockage utilisés par le stystème et de les prioriser. La priorité permet, dans le cas ou des données sont stockées sur plusieurs systèmes de stockage, de déterminer sur lequel d\'entre eux récupérer les données.',
   'storage.data-storage.plugins.list.header.priority.label': 'Priorité',
   'storage.data-storage.plugins.list.header.id.label': 'Identifiant',
   'storage.data-storage.plugins.list.header.name.label': 'Mode de stockage',
@@ -40,15 +40,15 @@ const messages = Object.assign({
   'storage.data-storage.plugins.list.empty.title': 'Aucun espace de stockage défini',
   'storage.data-storage.plugins.list.add.button': 'Créer un espace de stockage',
   'storage.data-storage.plugins.online.list.title': 'Espaces de stockage en ligne',
-  'storage.data-storage.plugins.online.list.subtitle': 'Les espaces de stockage en ligne sont des espaces directement accessible où les données pourront être téléchargées directement.',
+  'storage.data-storage.plugins.online.list.subtitle': 'Les espaces de stockage en ligne sont des espaces directement accessibles où les données pourront être téléchargées directement.',
   'storage.data-storage.plugins.online.list.add.button': 'Créer un espace de stockage en ligne',
   'storage.data-storage.plugins.nearline.list.title': 'Espaces de stockage distants',
-  'storage.data-storage.plugins.nearline.list.subtitle': 'Les espaces de stockage distants sont des espaces pour lesquelles la récupération des données peut être longue. De ce fait les données stockées sur ces espaces ne sont pas téléchargeable directement.',
+  'storage.data-storage.plugins.nearline.list.subtitle': 'Les espaces de stockage distants sont des espaces pour lesquels la récupération des données peut être longue. De ce fait les données stockées sur ces espaces ne sont pas téléchargeables directement.',
   'storage.data-storage.plugins.nearline.list.add.button': 'Créer un espace de stockage distant',
 
   'storage.data-storage.plugins.form.create.title': 'Ajout d\'un nouvel espace de stockage',
   'storage.data-storage.plugins.form.edit.title': 'Edition de l\'espace de stockage "{name}"',
-  'storage.data-storage.plugins.form.create.subtitle': 'Après avoir sélectionner le mode de stockage désiré, veuillez renseigner les paramètres de configuration associés.',
+  'storage.data-storage.plugins.form.create.subtitle': 'Après avoir sélectionné le mode de stockage désiré, veuillez renseigner les paramètres de configuration associés.',
   'storage.data-storage.plugins.form.edit.subtitle': 'Veuillez renseigner les paramètres de configuration associés.',
   'storage.data-storage.plugins.form.type.select.title': 'Mode de stockage',
   'storage.data-storage.plugins.form.type.select.label': 'Sélectionnez un mode ...',
@@ -56,7 +56,7 @@ const messages = Object.assign({
 
   'storage.locations.size.title': 'Taux d\'utilisation des espaces de stockage',
   'storage.locations.configuration.title': 'Configuration des espaces de stockage',
-  'storage.locations.configuration.subtitle': 'Cette section vous permet de configurer les espaces de stockage utilisés par le système pour stocker les données soumises. Ci-dessous sont listés les types d\'espaces de stockage que vous pouvez utiliser. Pour chaque type, vous pouvez lister les configurations existantes ou en ajouter une nouvelle. Une fois vos esapces de stockage configurés, veuillez configurer une stratégie de répartition des données depuis l\'écran précédent',
+  'storage.locations.configuration.subtitle': 'Cette section vous permet de configurer les espaces de stockage utilisés par le système pour stocker les données soumises. Ci-dessous sont listés les types d\'espaces de stockage que vous pouvez utiliser. Pour chaque type, vous pouvez lister les configurations existantes ou en ajouter une nouvelle. Une fois vos espaces de stockage configurés, veuillez configurer une stratégie de répartition des données depuis l\'écran précédent',
   'storage.allocations.configuration.title': 'Configuration des stratégies de répartition des données',
   'storage.allocations.configuration.subtitle': 'Cette section vous permet de configurer les stratégies permettant au système de sélectionner un espace de stockage parmis ceux configurés lors de la soumission d\'une donnée. Ci-dessous sont listés les différents types de stratégie à votre disposition. Vous pouvez pour chaque type lister les configurations existantes ou en ajouter une nouvelle. Attention, une seule configuration de stratégie doit être active.',
   'storage.security.configuration.title': 'Configuration des droits d\'accès aux fichiers archivés',
