@@ -35,6 +35,23 @@ export const microserviceBoardRoute = {
 }
 
 /**
+ * Allows to export / import microservices configuration.
+ *
+ * @type {{path: string, getComponents: ((nextState, cb))}}
+ */
+export const microserviceConfBackupRoute = {
+  path: ':microserviceName/conf-backup',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const MicroserviceConfBackupContainer = require('./containers/MicroserviceConfBackupContainer')
+      cb(null, {
+        content: MicroserviceConfBackupContainer.default,
+      })
+    })
+  },
+}
+
+/**
  * Route to the view listing all plugin meta data for a microservice.
  *
  * @type {{path: string, getComponents: ((nextState, cb))}}
@@ -109,6 +126,7 @@ const microserviceManagementRouter = {
     microservicePluginConfigurationsListRoute,
     microservicePluginConfigurationCreateRoute,
     microservicePluginConfigurationEditOrCopyRoute,
+    microserviceConfBackupRoute,
   ],
 }
 

@@ -39,9 +39,6 @@ export class RenderFileFieldWithMui extends React.Component {
     meta: PropTypes.shape({
       error: PropTypes.string,
     }),
-    intl: PropTypes.shape({
-      formatMessage: PropTypes.func,
-    }),
     fullWidth: PropTypes.bool,
     accept: PropTypes.string,
     label: PropTypes.string,
@@ -95,8 +92,9 @@ export class RenderFileFieldWithMui extends React.Component {
   }
 
   render() {
+    const { intl } = this.context
     // eslint-disable-next-line
-    const { input: { value, onChange, onBlur, ...inputProps }, meta: { omitMeta }, fullWidth, accept, intl, label, changeLabel, ...otherProps } = this.props
+    const { input: { value, onChange, onBlur, ...inputProps }, meta: { omitMeta }, fullWidth, accept, label, changeLabel, ...otherProps } = this.props
     const buttonLabel = value ? changeLabel || label || intl.formatMessage({ id: 'renderer.fileField.button.change.label' }) : label || intl.formatMessage({ id: 'renderer.fileField.button.select.label' })
     return (
       <div>

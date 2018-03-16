@@ -85,6 +85,14 @@ const messages = Object.assign({
 
   'microservice-management.plugin.configurations.empty': 'No configuration defined',
 
+
+  'renderer.fileField.button.select.label': 'Select a JSON file',
+  'microservice.conf-backup.title': 'Import and export {name} configuration',
+  'microservice.conf-backup.action.export': 'Export',
+  'microservice.conf-backup.action.back': 'Back',
+  'microservice.conf-backup.export': 'Export the configuration of this microservice',
+  'microservice.conf-backup.import': 'Import the configuration of this microservice',
+
 }, Locales.en)
 
 export default messages

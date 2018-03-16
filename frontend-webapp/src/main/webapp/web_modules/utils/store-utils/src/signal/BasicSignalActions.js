@@ -71,6 +71,37 @@ class BasicSignalActions extends BasicActions {
     }
   }
 
+
+  /**
+   * Allows to send multiple objects on the same time
+   * @param objectValues Object containing key - values with key expected by the API and value an object, a string,...
+   * @param files Object containing key - values with key expected by the API and value a file
+   * @param pathParams
+   * @param queryParams
+   * @returns {{}}
+   */
+  sendEntityUsingMultiPart(verb, objectValues, files, pathParams, queryParams) {
+    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
+    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
+    endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
+    const formData = BasicActions.createFormDataWithFilesMap(objectValues, files)
+    return {
+      [CALL_API]: {
+        types: [
+          this.SIGNAL_REQUEST,
+          this.buildSuccessAction(
+            this.SIGNAL_SUCCESS,
+            (action, state, res) => res.status === 204 ? null : this.buildResults(res),
+          ),
+          this.buildFailureAction(this.SIGNAL_FAILURE),
+        ],
+        endpoint,
+        method: verb,
+        body: formData,
+      },
+    }
+  }
+
   /**
    * Behavior: build result from fetch result
    * @param {*} res fetch result
