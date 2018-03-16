@@ -35,6 +35,7 @@ import getPluginTypeSelectors from './pluginTypes/PluginTypeSelectors'
 
 import MicroserviceReadyActions from './ready/MicroserviceReadyActions'
 
+import MicroserviceConfBackupActions from './confBackup/MicroserviceConfBackupActions'
 
 module.exports = {
   PluginMetaDataActions,
@@ -51,6 +52,8 @@ module.exports = {
   getMicroserviceInfosSelectors,
 
   MicroserviceReadyActions,
+
+  MicroserviceConfBackupActions,
 
   PluginTypeActions,
   getPluginTypeReducer,
