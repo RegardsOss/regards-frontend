@@ -35,6 +35,7 @@ module.exports = {
   LOWER_THAN_MIN: 'invalid.number.lower.than.min',
   GREATER_THAN_MAX: 'invalid.number.greater.than.max',
   INVALID_INTEGER_NUMBER: 'invalid.integer.number',
+  INVALID_POSITIVE_INTEGER_NUMBER: 'invalid.positive.integer.number',
   INVALID_FLOATING_NUMBER: 'invalid.floating.number',
   INVALID_CHARACTER: 'invalid.character',
   invalidRegex: regexp => ({
