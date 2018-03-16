@@ -151,13 +151,10 @@ pipeline {
                         sh 'rm -rf frontend-webapp/src/main/webapp/.sonar || true'
                     },
                     maven: {
-                        dir('rs-cloud') {
-                            git branch: BRANCH_NAME, url: 'http://172.26.46.158:10080/regards/rs-cloud.git'
-                        }
                         sh 'docker run --rm -i -v ${WORKSPACE}/frontend-webapp:/app_to_build rs_node ./reset_rights.sh $(id -u) $(id -g)'
                         sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/rs-cloud/rs-frontend:/app_to_build \
-                            -v ${WORKSPACE}/frontend-webapp/src/main/webapp/dist:/app_to_build/frontend-webapp/src/main/webapp/dist \
+                            -v ${WORKSPACE}/frontend-boot:/app_to_build \
+                            -v ${WORKSPACE}/frontend-webapp/src/main/webapp/dist/prod:/app_to_build/frontend-webapp/src/main/webapp/dist/prod \
                             -v /opt/maven-multibranch-repository:/localRepository \
                             -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins -e MODE=Deploy \
                             172.26.46.158/rs-maven'

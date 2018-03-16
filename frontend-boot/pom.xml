@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- LICENSE_PLACEHOLDER -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>REGARDS Frontend Bootstrap</name>
+	<groupId>fr.cnes.regards</groupId>
+	<artifactId>bootstrap-frontend</artifactId>
+	<packaging>war</packaging>
+	<version>2.0.0-SNAPSHOT</version>
+
+	<parent>
+		<groupId>fr.cnes.regards</groupId>
+		<artifactId>regards-boot-parent</artifactId>
+		<version>2.0.1-SNAPSHOT</version>
+		<relativePath></relativePath>
+	</parent>
+
+	<properties>
+		<fr.cnes.regards.docker.image.name>rs-frontend</fr.cnes.regards.docker.image.name>
+		<sonar.coverage.exclusions>**/*.java</sonar.coverage.exclusions>
+		<webapp.dir>frontend-webapp</webapp.dir>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.tuckey</groupId>
+			<artifactId>urlrewritefilter</artifactId>
+			<version>4.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jetty</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<configuration>
+					<skipDockerBuild>true</skipDockerBuild>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+                                        <layout>WAR</layout>
+                                </configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<webResources>
+			            <resource>
+				              <directory>src/main/webapp</directory>
+			            </resource>
+			            <resource>
+			            	  <targetPath>static</targetPath>
+				              <directory>${webapp.dir}/src/main/webapp/dist/prod</directory>
+			            </resource>
+		          </webResources>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

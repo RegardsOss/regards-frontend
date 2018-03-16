@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE urlrewrite
+    PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+    "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+
+<urlrewrite>
+
+    <rule>
+      <from>^/admin(.*)+$</from>
+      <to type="passthrough" last="true">/index.html</to>
+    </rule>
+
+    <!-- Redirect all urls to user application to index.html. Needed cause of javascript router which simulate routes.  -->
+    <rule>
+      <from>^/user(.*)+$</from>
+      <to type="passthrough" last="true">/index.html</to>
+    </rule>
+
+    <!-- Redirect all urls to portal application to index.html. Needed cause of javascript router which simulate routes.  -->
+    <rule>
+      <from>^/$</from>
+      <to type="passthrough" last="true">/index.html</to>
+    </rule>
+
+    <!-- Rules to handle debug with sourcemap files generate which are not linked with absolute links.-->
+    <rule>
+       <from>^/.+/(bundle\.js(\.map)?)$</from>
+       <to type="redirect" last="true">/$1</to>
+    </rule>
+    <rule>
+       <from>^/.+/(.*\.chunck\.js(\.map)?)$</from>
+       <to type="redirect" last="true">/$1</to>
+    </rule>
+
+</urlrewrite>
