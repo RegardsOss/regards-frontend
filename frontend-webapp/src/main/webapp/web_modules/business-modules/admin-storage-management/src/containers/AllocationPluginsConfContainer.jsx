@@ -91,7 +91,7 @@ export class AllocationPluginsConfContainer extends React.Component {
    */
   onAddConf = (pluginId) => {
     const { params: { project } } = this.props
-    return `/admin/${project}/microservice/${MICROSERVICE}/plugin/${pluginId}/configuration/create?backUrl=data/acquisition/storage/${StorageDomain.PluginTypeEnum.ALLOCATION_STRATEGY}`
+    return `/admin/${project}/microservice/${MICROSERVICE}/plugin/${pluginId}/configuration/create?backUrl=data/acquisition/storage/allocations`
   }
 
   getView = () => (
@@ -111,7 +111,7 @@ export class AllocationPluginsConfContainer extends React.Component {
    */
   getProjectConfigurationListURL = (pluginId) => {
     const { params: { project } } = this.props
-    return `/admin/${project}/microservice/${MICROSERVICE}/plugin/${pluginId}/configuration/list?backUrl=data/acquisition/storage/${StorageDomain.PluginTypeEnum.ALLOCATION_STRATEGY}`
+    return `/admin/${project}/microservice/${MICROSERVICE}/plugin/${pluginId}/configuration/list?backUrl=data/acquisition/storage/allocations`
   }
 
   render() {
