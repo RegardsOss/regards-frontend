@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import forEach from 'lodash/forEach'
+import map from 'lodash/map'
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
@@ -41,17 +41,14 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing microservice board component', () =
   })
 
   it('should render sub-components', () => {
-    const maintenance = {}
-    forEach(microservices, (microservice) => {
-      maintenance[microservice.name] = {}
-      maintenance[microservice.name].isOn = () => { }
-      maintenance[microservice.name].fetch = () => { }
-      maintenance[microservice.name].set = () => { }
-    })
+    const microservicesUp = map(microservices, microservice => microservice.name)
 
     const props = {
       project: 'someProject',
-      maintenance,
+      microservices: microservicesUp,
+      isMicroserviceActive: () => true,
+      isMicroserviceBackupable: () => true,
+      toggleMaintenance: () => { },
     }
     const enzymeWrapper = shallow(<MicroserviceBoardComponent {...props} />, { context })
     const subComponent = enzymeWrapper.find(BoardComponent)

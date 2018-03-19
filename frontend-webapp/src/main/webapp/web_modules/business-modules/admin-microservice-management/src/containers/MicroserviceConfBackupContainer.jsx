@@ -51,12 +51,12 @@ export class MicroserviceConfBackupContainer extends React.Component {
 
   getExportUrl = () => {
     const { params: { microserviceName }, accessToken } = this.props
-    return URLAuthInjector(`${GATEWAY_HOSTNAME}/${API_URL}/${microserviceName}/microservice/configuration/export`, accessToken)
+    return URLAuthInjector(`${GATEWAY_HOSTNAME}/${API_URL}/${microserviceName}/microservice/configuration`, accessToken)
   }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/models/board`
+    return `/admin/${project}/microservice/board`
   }
 
   redirectToBack = () => {

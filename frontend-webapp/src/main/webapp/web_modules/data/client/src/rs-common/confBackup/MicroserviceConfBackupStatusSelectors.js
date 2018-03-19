@@ -16,21 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
-import replace from 'lodash/replace'
+import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
-export default class MicroserviceConfBackupActions extends BasicSignalActions {
-  constructor(namespace) {
-    super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microserviceName}/microservice/configuration`,
-      namespace,
-    })
-  }
-
-  sendBackupConf(microserviceName, file) {
-    console.error('WAT', this.sendEntityUsingMultiPart('POST', {}, file, { microserviceName }, {}))
-    return this.sendEntityUsingMultiPart('POST', {}, file, { microserviceName }, {})
-  }
-
-  getMsDependency = (verb, microserviceName) => replace(this.getDependency(verb), '{microserviceName}', microserviceName)
-}
+export default storePath => new BasicSignalSelectors(storePath)

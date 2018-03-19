@@ -42,7 +42,7 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing SecurityPluginsConfContainer', () =
         project: 'project',
       },
       // from mapStateToProps
-      entities: {},
+      pluginMetaDataList: {},
       // from mapDispatchToProps
       fetchPluginMetaDataList: () => new Promise(() => { }),
     }

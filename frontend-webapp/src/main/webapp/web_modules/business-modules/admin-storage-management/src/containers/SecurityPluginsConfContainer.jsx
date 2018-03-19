@@ -42,13 +42,14 @@ export class SecurityPluginsConfContainer extends React.Component {
   static mapDispatchToProps = dispatch => ({
     fetchPluginMetaDataList: () => dispatch(pluginMetaDataActions.fetchEntityList({ microserviceName: MICROSERVICE })),
   })
+
   static propTypes = {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    entities: CommonShapes.PluginMetaDataList,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
     // from mapDispatchToProps
     fetchPluginMetaDataList: PropTypes.func.isRequired,
   }
@@ -59,7 +60,7 @@ export class SecurityPluginsConfContainer extends React.Component {
   }
 
   static defaultProps = {
-    entities: {},
+    pluginMetaDataList: {},
   }
 
   state = {
@@ -97,7 +98,7 @@ export class SecurityPluginsConfContainer extends React.Component {
     <PluginMetaDataListComponent
       microserviceName={MICROSERVICE}
       pluginType={StorageDomain.PluginTypeEnum.SECURITY_DELEGATION}
-      pluginMetaDataList={this.props.entities}
+      pluginMetaDataList={this.props.pluginMetaDataList}
       getProjectConfigurationListURL={this.getProjectConfigurationListURL}
       getAddConfURL={this.onAddConf}
       onBack={this.onBack}
