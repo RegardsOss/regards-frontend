@@ -44,7 +44,7 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing SecurityPluginsConfContainer', () =
       // from mapStateToProps
       entities: {},
       // from mapDispatchToProps
-      fetch: () => new Promise(() => { }),
+      fetchPluginMetaDataList: () => new Promise(() => { }),
     }
     const enzymeWrapper = shallow(<SecurityPluginsConfContainer {...props} />, { context })
     enzymeWrapper.update()
