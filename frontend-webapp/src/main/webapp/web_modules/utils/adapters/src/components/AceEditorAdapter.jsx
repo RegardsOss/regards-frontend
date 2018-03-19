@@ -48,7 +48,7 @@ export class AceEditorAdapter extends React.Component {
    */
   static initialize(onAsyncLoadingDone) {
     if (!AceEditorAdapter.LOADED_COMPONENT) {
-      const headlessEnvironment = ['test', 'converage'].includes(process.env.NODE_ENV)
+      const headlessEnvironment = ['test', 'coverage'].includes(process.env.NODE_ENV)
       if (headlessEnvironment) {
         // no loading, use headless replacement
         AceEditorAdapter.LOADED_COMPONENT = HeadlessAdapter
