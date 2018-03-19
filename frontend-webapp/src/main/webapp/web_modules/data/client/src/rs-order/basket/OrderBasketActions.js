@@ -39,12 +39,12 @@ class OrderBasketActions {
       entityEndpoint: `${rootEnpoint}/selection`,
       namespace: `${namespace}/selection`,
     })
-    // create dataset delegate
+    // delete dataset delegate
     this.datasetDelegate = new BasicSignalActions({
       entityEndpoint: `${rootEnpoint}/dataset/{datasetSelectionId}`,
       namespace: `${namespace}/dataset`,
     })
-    // create dataset item delegate
+    // delete dataset item delegate
     this.datasetItemDelegate = new BasicSignalActions({
       entityEndpoint: `${rootEnpoint}/dataset/{datasetSelectionId}/{itemsSelectionDate}`,
       namespace: `${namespace}/dataset-item`,

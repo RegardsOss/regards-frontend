@@ -37,6 +37,7 @@ class OrderBasketReducer {
       this.actions.selectionDelegate,
       this.actions.datasetDelegate,
       this.actions.datasetItemDelegate]
+    this.SELECTION_SUCCESS_TYPE = this.actions.selectionDelegate.SIGNAL_SUCCESS
     this.reducerDelegates = allActionsDelegates.reduce((acc, actionDelegate) => {
       const reducerDelegate = new BasicSignalReducers(actionDelegate)
       return {
@@ -57,8 +58,23 @@ class OrderBasketReducer {
    */
   reduce(state = BasicSignalReducers.DEFAULT_STATE, action) {
     // find delegeate to handle signal
+    let nextState = state
     const reducerDelegate = this.reducerDelegates[action.type]
-    return reducerDelegate ? reducerDelegate.reduce(state, action) : state
+    if (reducerDelegate) {
+      /// Signal handled by this reducer
+      nextState = reducerDelegate.reduce(state, action)
+      // there is one specific case with add to basket success:
+      // when adding an empty element, the server may return 203: empty content.
+      // in such case, we must prevent the basket to be cleared
+      if (action.type === this.SELECTION_SUCCESS_TYPE && nextState.statusCode !== 200) {
+        // recover basket content from preview request (avoid emptying the basket in frontend)
+        nextState = {
+          ...nextState,
+          result: state.result,
+        }
+      }
+    }
+    return nextState
   }
 }
 

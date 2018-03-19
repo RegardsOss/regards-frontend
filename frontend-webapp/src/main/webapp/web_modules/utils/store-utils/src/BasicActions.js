@@ -63,8 +63,8 @@ class BasicActions {
       type,
       meta: (action, state, res) => ({
         status: res && res.status,
-        bypassErrorMiddleware: this.bypassErrorMiddleware,
         requestTime,
+        bypassErrorMiddleware: this.bypassErrorMiddleware,
       }),
     }
   }
@@ -80,7 +80,10 @@ class BasicActions {
     return {
       type,
       payload,
-      meta: () => ({ requestTime }),
+      meta: (action, state, res) => ({
+        requestTime,
+        status: res.status,
+      }),
     }
   }
 

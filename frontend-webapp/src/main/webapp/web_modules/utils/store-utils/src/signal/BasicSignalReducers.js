@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
+import get from 'lodash/get'
 
 /**
  * @author Léo Mieulet
@@ -28,10 +29,12 @@ import BasicReducer from '../BasicReducer'
 class BasicSignalReducers extends BasicReducer {
   static DEFAULT_STATE = {
     isFetching: false,
+    statusCode: 200,
     error: {
       hasError: false,
       type: '',
       message: '',
+      // TODO-V3 delete me and similar in other Basic*Actions (see http://172.26.46.158:10080/regards/regards/issues/328)
       status: 200,
     },
   }
@@ -66,17 +69,19 @@ class BasicSignalReducers extends BasicReducer {
         return {
           ...newState,
           isFetching: false,
+          statusCode: get(action.meta, 'status', BasicSignalReducers.DEFAULT_STATE.error.status),
           error: {
             hasError: true,
             type: action.type,
-            message: action.meta ? action.meta.errorMessage : '',
-            status: action.meta ? action.meta.status : BasicSignalReducers.DEFAULT_STATE.error.status,
+            message: get(action.meta, 'errorMessage', ''),
+            status: get(action.meta, 'status', BasicSignalReducers.DEFAULT_STATE.error.status),
           },
         }
       case this.basicSignalActionInstance.SIGNAL_SUCCESS:
         return {
           ...newState,
           isFetching: false,
+          statusCode: get(action.meta, 'status', BasicSignalReducers.DEFAULT_STATE.error.status),
           error: BasicSignalReducers.DEFAULT_STATE.error,
           result: action.payload,
         }

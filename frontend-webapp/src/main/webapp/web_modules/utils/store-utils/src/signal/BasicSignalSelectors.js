@@ -32,6 +32,14 @@ class BasicSignalSelectors extends BasicSelector {
   getResult(state) {
     return this.uncombineStore(state).result
   }
+
+  /**
+   * Returns fetch result
+   * @param state redux store
+   */
+  getStatusCode(state) {
+    return this.uncombineStore(state).statusCode
+  }
 }
 
 export default BasicSignalSelectors
