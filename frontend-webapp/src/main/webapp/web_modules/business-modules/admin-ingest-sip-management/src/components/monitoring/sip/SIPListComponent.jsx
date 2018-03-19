@@ -216,7 +216,7 @@ class SIPListComponent extends React.Component {
     const {
       pageSize, resultsCount, initialFilters, chains, entitiesLoading,
     } = this.props
-    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
+    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
       <NoContentComponent
@@ -251,7 +251,7 @@ class SIPListComponent extends React.Component {
         intl.formatMessage({ id: 'sips.list.table.headers.version' }),
         'content.version',
       ),
-      this.getTableOptions(fixedColumnWidth),
+      this.getTableOptions(fixedColumnsWidth),
     ]
 
     return (

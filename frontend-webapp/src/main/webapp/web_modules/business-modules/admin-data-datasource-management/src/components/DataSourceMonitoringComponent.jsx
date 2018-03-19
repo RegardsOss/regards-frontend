@@ -138,7 +138,7 @@ class DataSourceMonitoringComponent extends React.Component {
   render() {
     const { crawlerDatasources, onBack, onRefresh } = this.props
     const { intl, muiTheme } = this.context
-    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
+    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
     // emptyComponent
     const columns = [
       TableColumnBuilder.buildSimplePropertyColumn('label', intl.formatMessage({ id: 'crawler.list.label.column.header' }), 'content.label', 0, true),
@@ -154,7 +154,7 @@ class DataSourceMonitoringComponent extends React.Component {
       TableColumnBuilder.buildOptionsColumn('', [{
         OptionConstructor: DataSourceMonitoringDeleteAction,
         optionProps: { onDelete: this.onDelete },
-      }], true, fixedColumnWidth),
+      }], true, fixedColumnsWidth),
     ]
 
     return (

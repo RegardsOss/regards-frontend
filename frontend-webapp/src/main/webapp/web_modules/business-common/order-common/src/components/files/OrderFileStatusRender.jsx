@@ -47,7 +47,7 @@ class OrderFileStatusRender extends React.Component {
     // compute icon, text and color
     const text = formatMessage({ id: `files.list.cell.status.${consideredStatus}.text` })
     const tooltip = formatMessage({ id: `files.list.cell.status.${consideredStatus}.tooltip` })
-    const color = muiTheme['module:order-history'][`color.file.${consideredStatus}`]
+    const color = muiTheme.module.orderHistory[`color.file.${consideredStatus}`]
 
     // compute color (ignore if admin destroyed it in theme conf =)
     const cellStyle = color ? { color } : null

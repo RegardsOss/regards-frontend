@@ -89,7 +89,7 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
     if (isWaitingUser && canDownload) {
       buttonStyle = {
         ...buttonStyle,
-        animation: muiTheme['module:order-history']['waiting.user.download.animation'],
+        animation: muiTheme.module.orderHistory['waiting.user.download.animation'],
       }
     }
 

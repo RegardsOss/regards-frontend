@@ -43,7 +43,8 @@ const sampleEntities = [
     number: 62
   },
 ]
-const InfiniteTable = (props, { muiTheme: { ['components:infinite-table']: { fixedColumnsWidth } } }) => (
+
+const InfiniteTable = (props, { muiTheme: { components: { infiniteTable: { fixedColumnsWidth } } } }) => (
   <TableLayout>
     <TableHeaderLineLoadingAndResults isFetching={false} resultsCount={sampleEntities.length} />
     <InfiniteTableContainer

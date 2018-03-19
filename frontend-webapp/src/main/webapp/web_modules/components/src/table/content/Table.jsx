@@ -168,7 +168,7 @@ class Table extends React.Component {
   }
 
   /** @return default header line height from theme */
-  getDefaultHeaderHeight = () => this.context.muiTheme['components:infinite-table'].minHeaderRowHeight
+  getDefaultHeaderHeight = () => this.context.muiTheme.components.infiniteTable.minHeaderRowHeight
 
   /**
    * Retrieve entity for the given rowIndex from the array containing all entities or null if it is outside bounds

@@ -60,7 +60,7 @@ const styles = theme => ({
     totalStyle: {
       fontSize: '1.2em',
       textDecoration: 'underline',
-      color: theme['forms-extension:validation'].validColor,
+      color: theme.formsExtensions.validation.validColor,
       cursor: 'pointer',
     },
     errorStyle: {
@@ -69,7 +69,7 @@ const styles = theme => ({
       borderLeft: `1px solid ${theme.palette.borderColor}`,
       paddingLeft: '4px',
       marginLeft: '4px',
-      color: theme['forms-extension:validation'].errorColor,
+      color: theme.formsExtensions.validation.errorColor,
       cursor: 'pointer',
     },
     inProgressStyle: {
@@ -78,7 +78,7 @@ const styles = theme => ({
       borderLeft: `1px solid ${theme.palette.borderColor}`,
       paddingLeft: '4px',
       marginLeft: '4px',
-      color: theme['forms-extension:validation'].warningColor,
+      color: theme.formsExtensions.validation.warningColor,
       cursor: 'pointer',
     },
     filters: {

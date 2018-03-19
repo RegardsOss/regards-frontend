@@ -109,7 +109,7 @@ export class DatasetListComponent extends React.Component {
       handleEdit, createUrl, backUrl, onRefresh, navigateToCreateDataset,
     } = this.props
     const { intl: { formatMessage } } = this.context
-    const fixedColumnWidth = this.context.muiTheme['components:infinite-table'].fixedColumnsWidth
+    const { fixedColumnsWidth } = this.context.muiTheme.components.infiniteTable
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -160,7 +160,7 @@ export class DatasetListComponent extends React.Component {
           },
         ],
         true,
-        fixedColumnWidth,
+        fixedColumnsWidth,
       ),
     ]
 

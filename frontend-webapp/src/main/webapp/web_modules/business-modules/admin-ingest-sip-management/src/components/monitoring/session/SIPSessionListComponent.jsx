@@ -121,7 +121,7 @@ class SIPSessionListComponent extends React.Component {
       pageSize, resultsCount, initialFilters, entitiesLoading,
     } = this.props
     const { intl, muiTheme, moduleTheme: { session } } = this.context
-    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
+    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
     const { appliedFilters } = this.state
 
     const emptyComponent = (
@@ -205,7 +205,7 @@ class SIPSessionListComponent extends React.Component {
           },
         ],
         true,
-        fixedColumnWidth,
+        fixedColumnsWidth,
       ),
     ]
 

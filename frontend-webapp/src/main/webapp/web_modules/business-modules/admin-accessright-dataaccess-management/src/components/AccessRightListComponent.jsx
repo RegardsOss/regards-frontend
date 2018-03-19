@@ -265,12 +265,12 @@ export class AccessRightListComponent extends React.Component {
       accessGroup, navigateToCreateDataset, backURL,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
-    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
+    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
 
     // Table columns to display
     const columns = [
       // 1 - selection column
-      TableColumnBuilder.buildSelectionColumn('', false, datasetWithAccessRightSelectors, tableActions, tableSelectors, true, fixedColumnWidth),
+      TableColumnBuilder.buildSelectionColumn('', false, datasetWithAccessRightSelectors, tableActions, tableSelectors, true, fixedColumnsWidth),
       // 2 - label column
       TableColumnBuilder.buildSimplePropertyColumn('column.label', formatMessage({ id: 'accessright.table.dataset.label' }), 'content.dataset.label'),
       // 3 - Meta access level column
@@ -288,7 +288,7 @@ export class AccessRightListComponent extends React.Component {
       }, {
         OptionConstructor: AccessRightsTableDeleteAction,
         optionProps: { onDelete: this.openDeleteDialog },
-      }], true, fixedColumnWidth),
+      }], true, fixedColumnsWidth),
     ]
 
     const emptyContentAction = (

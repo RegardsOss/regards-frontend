@@ -65,7 +65,7 @@ class StatusRender extends React.Component {
     // compute icon, text and color
     const text = formatMessage({ id: `order.list.cell.status.${status}.text` })
     const tooltip = formatMessage({ id: `order.list.cell.status.${status}.tooltip` })
-    const theme = muiTheme['module:order-history']
+    const theme = muiTheme.module.orderHistory
     const color = theme[`color.${status}`]
     // compute color (ignore if admin destroyed it in theme conf =)
     const cellStyle = { color }

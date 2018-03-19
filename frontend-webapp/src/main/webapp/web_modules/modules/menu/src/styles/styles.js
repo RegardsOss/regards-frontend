@@ -68,7 +68,7 @@ const menuStyles = theme => ({
           marginRight: theme.spacing.iconSize / 2,
         },
         warningStatusCell: {
-          color: theme['forms-extension:validation'].warningColor,
+          color: theme.formsExtensions.validation.warningColor,
         },
       },
     },
@@ -80,18 +80,18 @@ const menuStyles = theme => ({
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      background: theme['module:menu'].background,
-      borderWidth: theme['module:menu'].borderWidth,
-      borderColor: theme['module:menu'].borderColor,
-      borderStyle: theme['module:menu'].borderStyle,
+      background: theme.module.menu.background,
+      borderWidth: theme.module.menu.borderWidth,
+      borderColor: theme.module.menu.borderColor,
+      borderStyle: theme.module.menu.borderStyle,
     },
     menuSeparator: {
       borderColor: theme.palette.textColor,
       alignSelf: 'stretch',
-      margin: theme['module:menu'].separatorMargin,
-      borderWidth: theme['module:menu'].separatorBorderWidth,
-      borderStyle: theme['module:menu'].separatorBorderStyle,
-      borderRadius: theme['module:menu'].separatorBorderRadius,
+      margin: theme.module.menu.separatorMargin,
+      borderWidth: theme.module.menu.separatorBorderWidth,
+      borderStyle: theme.module.menu.separatorBorderStyle,
+      borderRadius: theme.module.menu.separatorBorderRadius,
     },
     titleGroup: {
       flexGrow: 0,
@@ -102,7 +102,7 @@ const menuStyles = theme => ({
     navigationGroup: {
       flexGrow: 1,
       flexShrink: 1,
-      maxHeight: theme['module:menu'].navigationBarMaxHeight,
+      maxHeight: theme.module.menu.navigationBarMaxHeight,
       overflowY: 'hidden',
       boxSizing: 'content-box',
     },
@@ -114,7 +114,7 @@ const menuStyles = theme => ({
         display: 'none',
       },
       defaultTextStyle: {
-        textTransform: theme['module:menu'].navigationItemTextTransform,
+        textTransform: theme.module.menu.navigationItemTextTransform,
       },
     },
     selectedNavigationMenuItem: {

@@ -42,10 +42,12 @@ class AnchorComponent extends React.Component {
   constructor(props, context) {
     super(props)
     const {
-      'components:button-anchor-scroll-top': {
-        iconColor,
-        buttonRight,
-        buttonBottom,
+      components: {
+        anchorScrollTop: {
+          iconColor,
+          buttonRight,
+          buttonBottom,
+        },
       },
     } = context.muiTheme
     this.state = {
@@ -164,8 +166,10 @@ class AnchorComponent extends React.Component {
     const { children } = this.props
     const { buttonStyle, iconStyle, isVisible } = this.state
     const {
-      'components:button-anchor-scroll-top': {
-        buttonColor,
+      components: {
+        anchorScrollTop: {
+          buttonColor,
+        },
       },
     } = this.context.muiTheme
     return (

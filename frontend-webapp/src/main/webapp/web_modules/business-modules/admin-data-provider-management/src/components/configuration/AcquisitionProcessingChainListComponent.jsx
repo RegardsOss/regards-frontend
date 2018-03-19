@@ -114,7 +114,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
     const {
       onBack, onDuplicate, onEdit, fetchPage, queryPageSize, onCreate,
     } = this.props
-    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
+    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
       <NoContentComponent
@@ -140,7 +140,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
           queryPageSize,
           handleHateoas: true,
         },
-      }], true, fixedColumnWidth),
+      }], true, fixedColumnsWidth),
     ]
 
     return (

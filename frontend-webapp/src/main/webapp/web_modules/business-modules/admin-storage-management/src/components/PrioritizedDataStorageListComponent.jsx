@@ -105,7 +105,7 @@ export class PrioritizedDataStorageListComponent extends React.Component {
       onEdit, onDuplicate, onActivateToggle, onRefresh,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
-    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
+    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
 
     // Table columns to display
     const columns = [
@@ -148,7 +148,7 @@ export class PrioritizedDataStorageListComponent extends React.Component {
           queryPageSize: 20,
         },
       },
-      ], true, fixedColumnWidth),
+      ], true, fixedColumnsWidth),
     ]
 
     const emptyComponent = (

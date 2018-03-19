@@ -99,7 +99,7 @@ export class ProcessingChainListComponent extends React.Component {
 
   render() {
     const { intl, muiTheme } = this.context
-    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
+    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
 
     // Table columns to display
     const columns = [
@@ -120,7 +120,7 @@ export class ProcessingChainListComponent extends React.Component {
           handleHateoas: true,
           disableInsteadOfHide: true,
         },
-      }], true, fixedColumnWidth),
+      }], true, fixedColumnsWidth),
     ]
 
     const emptyComponent = (

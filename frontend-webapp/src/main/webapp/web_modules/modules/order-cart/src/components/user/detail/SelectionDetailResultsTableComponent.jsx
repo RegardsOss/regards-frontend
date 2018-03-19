@@ -95,7 +95,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
   }
 
   computeVisibleRowsCount(availableHeight) {
-    const { lineHeight, minHeaderRowHeight } = this.context.muiTheme['components:infinite-table']
+    const { lineHeight, minHeaderRowHeight } = this.context.muiTheme.components.infiniteTable
     const remainingRowsHeight = availableHeight - (minHeaderRowHeight * 2)
     return Math.floor(remainingRowsHeight / lineHeight)
   }
@@ -105,8 +105,8 @@ class SelectionDetailResultsTableComponent extends React.Component {
    * @return [*] columns
    */
   renderColumns = () => {
-    const fixedColumnWidth = this.context.muiTheme['components:infinite-table'].fixedColumnsWidth
-    return SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(model => AttributeColumnBuilder.buildAttributeColumn(model, true, null, fixedColumnWidth))
+    const { fixedColumnsWidth } = this.context.muiTheme.components.infiniteTable
+    return SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(model => AttributeColumnBuilder.buildAttributeColumn(model, true, null, fixedColumnsWidth))
   }
 
   render() {

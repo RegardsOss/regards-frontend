@@ -95,7 +95,7 @@ class DatasetFilesComponent extends React.Component {
   buildColumns = () => {
     const { columnsVisibility } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
-    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
+    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
 
     return [
       // 1 - Name column
@@ -123,7 +123,7 @@ class DatasetFilesComponent extends React.Component {
       // 5 - options column
       TableColumnBuilder.buildOptionsColumn(formatMessage({ id: 'files.list.column.options' }), [{
         OptionConstructor: FileDownloadContainer, // show download
-      }], get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true), fixedColumnWidth),
+      }], get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true), fixedColumnsWidth),
     ]
   }
 

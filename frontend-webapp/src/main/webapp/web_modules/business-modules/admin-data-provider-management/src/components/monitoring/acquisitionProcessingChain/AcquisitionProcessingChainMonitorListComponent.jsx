@@ -153,7 +153,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     } = this.props
     const { appliedFilters, errorMessage } = this.state
 
-    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
+    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
       <NoContentComponent
@@ -183,7 +183,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
         OptionConstructor: AcquisitionProcessingChainMonitoringTableStopAction,
         optionProps: { onStopChain: this.stopChainAction },
       },
-      ], true, fixedColumnWidth),
+      ], true, fixedColumnsWidth),
     ]
     return (
       <Card>

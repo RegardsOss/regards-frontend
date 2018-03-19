@@ -179,7 +179,7 @@ class InfiniteTableContainer extends React.Component {
     if (entities.length < this.getCurrentTotalEntities() && !this.props.entitiesFetching) {
       // The table is not yet complete, check if we should fetch
       // the scroll offset is the first element to fetch if it is missing
-      const tableTheme = this.context.muiTheme['components:infinite-table']
+      const tableTheme = this.context.muiTheme.components.infiniteTable
 
       const defaultLineHeight = tableTheme.lineHeight
       const { lineHeight = defaultLineHeight, queryPageSize } = this.props
@@ -244,7 +244,7 @@ class InfiniteTableContainer extends React.Component {
       loadingComponent, emptyComponent, entitiesCount,
     } = this.props
     const { tableWidth = 0, entities } = this.state // cached render entities
-    const tableTheme = this.context.muiTheme['components:infinite-table']
+    const tableTheme = this.context.muiTheme.components.infiniteTable
     const actualLineHeight = lineHeight || tableTheme.lineHeight
     const minRowCount = isNumber(this.props.minRowCount) ? this.props.minRowCount : tableTheme.minRowCount
     const maxRowCount = isNumber(this.props.maxRowCount) ? this.props.maxRowCount : tableTheme.maxRowCount

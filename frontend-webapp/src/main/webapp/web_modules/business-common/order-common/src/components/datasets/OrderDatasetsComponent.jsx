@@ -67,7 +67,7 @@ class OrderDatasetsComponent extends React.Component {
   buildColumns = () => {
     const { columnsVisibility, navigationActions } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme['components:infinite-table']
+    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
     return [
       // 1 - Dataset label
       TableColumnBuilder.buildSimplePropertyColumn(

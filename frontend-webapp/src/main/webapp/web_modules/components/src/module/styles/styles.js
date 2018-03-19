@@ -63,25 +63,25 @@ export default function getStyles(theme) {
       },
       moduleTitle: {
         style: {
-          marginLeft: theme.module.titleMarginLeft,
+          marginLeft: theme.module.common.titleMarginLeft,
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'flex-start',
           alignItems: 'center',
-          height: theme.module.titleBarHeight,
+          height: theme.module.common.titleBarHeight,
         },
         iconContainer: {
-          padding: theme.module.titleIconSize / 2,
+          padding: theme.module.common.titleIconSize / 2,
         },
         iconStyle: {
-          width: theme.module.titleIconSize,
-          height: theme.module.titleIconSize,
+          width: theme.module.common.titleIconSize,
+          height: theme.module.common.titleIconSize,
         },
         labelStyle: {
           color: theme.palette.textColor,
-          fontSize: theme.module.titleFontSize,
-          fontWeight: theme.module.titleFontWeight,
-          textTransform: theme.module.textTransform,
+          fontSize: theme.module.common.titleFontSize,
+          fontWeight: theme.module.common.titleFontWeight,
+          textTransform: theme.module.common.textTransform,
         },
       },
     },
@@ -89,13 +89,13 @@ export default function getStyles(theme) {
       styleWithoutInset: {
         paddingLeft: 0,
         lineHeight: 1,
-        marginLeft: theme.module.titleMarginLeft + theme.module.titleTextMarginLeft,
+        marginLeft: theme.module.common.titleMarginLeft + theme.module.common.titleTextMarginLeft,
       },
       styleWithIconInsets: {
-        marginTop: theme.module.subtitleMarginTop,
+        marginTop: theme.module.common.subtitleMarginTop,
         paddingLeft: 0,
         lineHeight: 1,
-        marginLeft: theme.module.titleMarginLeft + theme.module.titleIconSize + theme.module.titleTextMarginLeft + 1,
+        marginLeft: theme.module.common.titleMarginLeft + theme.module.common.titleIconSize + theme.module.common.titleTextMarginLeft + 1,
       },
     },
     loadingIcon: {

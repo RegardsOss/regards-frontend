@@ -26,7 +26,7 @@ export default theme => ({
     display: 'block',
     cursor: 'pointer',
     width: '100%',
-    padding: theme['components:infinite-table'].thumbnailPadding,
+    padding: theme.components.infiniteTable.thumbnailPadding,
   },
   noThumbnailIcon: {
     padding: 5,

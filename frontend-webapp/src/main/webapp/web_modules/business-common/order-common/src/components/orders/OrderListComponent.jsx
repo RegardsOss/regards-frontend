@@ -237,7 +237,7 @@ class OrderListComponent extends React.Component {
   buildColumns = () => {
     const { columnsVisibility, displayMode } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
-    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
+    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
     return [
       // owner when in admin mode
       displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ?
@@ -296,7 +296,7 @@ class OrderListComponent extends React.Component {
       // Options column
       TableColumnBuilder.buildOptionsColumn(
         formatMessage({ id: 'order.list.column.options' }),
-        this.buildOptions(), get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true), fixedColumnWidth,
+        this.buildOptions(), get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true), fixedColumnsWidth,
       ),
     ].filter(c => !!c) // remove null elements
   }

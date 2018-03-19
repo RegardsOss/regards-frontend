@@ -18,8 +18,8 @@
  */
 const sipManagementStyles = theme => ({
   import: {
-    errorColor: theme['forms-extension:validation'].errorColor,
-    validColor: theme['forms-extension:validation'].validColor,
+    errorColor: theme.formsExtensions.validation.errorColor,
+    validColor: theme.formsExtensions.validation.validColor,
   },
   filter: {
     fieldStyle: {

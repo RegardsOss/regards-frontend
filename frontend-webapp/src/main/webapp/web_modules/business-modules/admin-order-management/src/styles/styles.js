@@ -26,7 +26,7 @@ export default theme => ({
       style: {
         width: undefined,
         height: undefined,
-        padding: theme['module:order-history'].clearEmailFilterPadding,
+        padding: theme.module.orderHistory.clearEmailFilterPadding,
       },
     },
   },

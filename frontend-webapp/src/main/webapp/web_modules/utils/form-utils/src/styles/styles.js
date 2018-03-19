@@ -16,58 +16,54 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const jsonFieldNameInTheme = 'forms-extension:jsonField'
-const dateFieldNameInTheme = 'forms-extension:dateField'
 
 /**
- * Form utils styles
- * @author Raphaël Mechali
- */
+* Form utils styles
+* @author Raphaël Mechali
+*/
 export default function styles(theme) {
-  const jsonFieldThemeValues = theme[jsonFieldNameInTheme]
-  const dateFieldThemeValues = theme[dateFieldNameInTheme]
   return {
     // json editor field
     jsonFieldStyles: {
       containerStyle: {
-        padding: jsonFieldThemeValues.padding,
-        lineHeight: jsonFieldThemeValues.lineHeight,
+        padding: theme.formsExtensions.jsonField.padding,
+        lineHeight: theme.formsExtensions.jsonField.lineHeight,
       },
       fieldStyle: {
         width: '100%',
-        height: jsonFieldThemeValues.height,
-        marginTop: jsonFieldThemeValues.marginTop,
+        height: theme.formsExtensions.jsonField.height,
+        marginTop: theme.formsExtensions.jsonField.marginTop,
       },
       labelStyle: {
         color: theme.textField.floatingLabelColor,
       },
       editorProps: {
-        showLineNumbers: jsonFieldThemeValues.showLineNumbers,
+        showLineNumbers: theme.formsExtensions.jsonField.showLineNumbers,
         readOnly: false,
       },
     },
     // date field
     dateFieldStyles: {
       fieldsLine: {
-        marginTop: dateFieldThemeValues.marginTop,
-        height: dateFieldThemeValues.height,
+        marginTop: theme.formsExtensions.dateField.marginTop,
+        height: theme.formsExtensions.dateField.height,
         display: 'flex',
         alignItems: 'center',
       },
       datePicker: {
-        margin: dateFieldThemeValues.innerMargins,
+        margin: theme.formsExtensions.dateField.innerMargins,
         flexGrow: 1,
       },
       datePickerText: {
         width: '100%',
-        top: dateFieldThemeValues.textTop,
+        top: theme.formsExtensions.dateField.textTop,
       },
       timePicker: {
         flexGrow: 1,
       },
       timePickerText: {
         width: '100%',
-        top: dateFieldThemeValues.textTop,
+        top: theme.formsExtensions.dateField.textTop,
       },
     },
     autoCompleteFields: {
@@ -93,7 +89,7 @@ export default function styles(theme) {
         margin: '0px 15px',
       },
       errorIconStyle: {
-        color: theme['forms-extension:validation'].errorColor,
+        color: theme.formsExtensions.validation.errorColor,
       },
     },
     mapField: {
@@ -103,7 +99,7 @@ export default function styles(theme) {
           textOverflow: 'ellipsis',
         },
         errorIconStyle: {
-          color: theme['forms-extension:validation'].errorColor,
+          color: theme.formsExtensions.validation.errorColor,
         },
       },
     },

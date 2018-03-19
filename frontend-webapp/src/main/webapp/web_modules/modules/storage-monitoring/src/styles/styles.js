@@ -17,8 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const MODULE_THEME_KEY = 'module:storage-plugins'
-
 const styles = theme => ({
   user: {
     // root container style
@@ -69,10 +67,10 @@ const styles = theme => ({
             flexShrink: 1,
           },
           curves: {
-            usedSizeColor: theme[MODULE_THEME_KEY].usedSpaceColor,
-            unusedSizeColor: theme[MODULE_THEME_KEY].unusedSpaceColor,
-            borderColor: theme[MODULE_THEME_KEY].chartBorderColor,
-            borderWidth: theme[MODULE_THEME_KEY].chartBorderWidth,
+            usedSizeColor: theme.module.storagePlugins.usedSpaceColor,
+            unusedSizeColor: theme.module.storagePlugins.unusedSpaceColor,
+            borderColor: theme.module.storagePlugins.chartBorderColor,
+            borderWidth: theme.module.storagePlugins.chartBorderWidth,
           },
           options: {
             segmentShowStroke: false,
@@ -91,7 +89,7 @@ const styles = theme => ({
             alignItems: 'flex-end',
             flexGrow: 0,
             flexShrink: 0,
-            marginTop: theme[MODULE_THEME_KEY].legendMarginTop,
+            marginTop: theme.module.storagePlugins.legendMarginTop,
           },
           firstColumnContainerStyle: {
             flexGrow: 1,
@@ -114,21 +112,21 @@ const styles = theme => ({
             flexDirection: 'row',
             justifyContent: 'flex-start',
             alignItems: 'center',
-            marginTop: theme[MODULE_THEME_KEY].legendItemMarginTop,
+            marginTop: theme.module.storagePlugins.legendItemMarginTop,
           },
           legendIcon: {
             style: {
-              width: theme[MODULE_THEME_KEY].circleIconSize,
-              height: theme[MODULE_THEME_KEY].circleIconSize,
+              width: theme.module.storagePlugins.circleIconSize,
+              height: theme.module.storagePlugins.circleIconSize,
             },
             svgData: {
-              center: theme[MODULE_THEME_KEY].circleIconSize / 2,
-              radius: (theme[MODULE_THEME_KEY].circleIconSize / 2) - 1,
+              center: theme.module.storagePlugins.circleIconSize / 2,
+              radius: (theme.module.storagePlugins.circleIconSize / 2) - 1,
             },
           },
           itemLabelStyle: {
             lineHeight: 1,
-            paddingLeft: theme[MODULE_THEME_KEY].legendItemIconToText,
+            paddingLeft: theme.module.storagePlugins.legendItemIconToText,
           },
         },
       },

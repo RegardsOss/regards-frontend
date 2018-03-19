@@ -33,7 +33,7 @@ export default (theme) => {
     display: 'flex',
     justifyContent: 'center',
     borderBottom: cellBorder,
-    minHeight: theme['components:infinite-table'].minHeaderRowHeight,
+    minHeight: theme.components.infiniteTable.minHeaderRowHeight,
   }
 
   const commonCell = {
@@ -77,7 +77,7 @@ export default (theme) => {
         alignItems: 'stretch',
         flexGrow: 1,
         flexShrink: 1,
-        minHeight: theme['components:infinite-table'].minHeaderRowHeight,
+        minHeight: theme.components.infiniteTable.minHeaderRowHeight,
         borderBottom: headerBottomBorder,
       },
       optionsGroup: {
@@ -143,7 +143,7 @@ export default (theme) => {
       },
       autocomplete: {
         textStyle: {
-          height: theme['components:infinite-table'].minHeaderRowHeight - 2,
+          height: theme.components.infiniteTable.minHeaderRowHeight - 2,
         },
       },
       loading: {
@@ -193,10 +193,10 @@ export default (theme) => {
     },
     multipleCellValuesSeparator: {
       borderLeft: `1px solid ${theme.tableRow.borderColor}`,
-      margin: theme['components:infinite-table'].multipleValuesSeparatorMargin,
+      margin: theme.components.infiniteTable.multipleValuesSeparatorMargin,
       flexGrow: 0,
       flexShrink: 0,
-      height: theme['components:infinite-table'].multipleValuesSeparatorHeight,
+      height: theme.components.infiniteTable.multipleValuesSeparatorHeight,
     },
     multipleCellValues: {
       flexGrow: 1,

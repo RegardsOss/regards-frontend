@@ -131,7 +131,7 @@ export const createAttributes = (object, overwrites, addToOverwrites, removeFrom
                             floatingLabelText={key}
                             floatingLabelFixed={true}
                             fullWidth={true}
-                            style={{ marginTop: -14 }}
+                            style={{ marginTop: -14, marginLeft: -15 }}
                             onChange={(evt, text) => addToOverwrites(overwriteSelector, text)}
                         />
                     </div>
@@ -151,7 +151,7 @@ export const createAttributes = (object, overwrites, addToOverwrites, removeFrom
                         floatingLabelText={key}
                         floatingLabelFixed={true}
                         fullWidth={true}
-                        style={{ marginTop: -14 }}
+                        style={{ marginTop: -14, marginLeft: -15 }}
                         onChange={(evt, text) => changeNumericValue(overwriteSelector, text)}
                     />
                 </div>

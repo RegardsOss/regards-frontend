@@ -100,7 +100,7 @@ export class AceEditorAdapter extends React.Component {
       return null // loading
     }
     return (
-      <RenderComponent mode={mode} theme={muiTheme['ACE-editor'].theme} {...otherEditorProps} />
+      <RenderComponent mode={mode} theme={muiTheme.components.editorACE.theme} {...otherEditorProps} />
     )
   }
 }

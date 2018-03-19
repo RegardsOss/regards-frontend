@@ -156,7 +156,7 @@ class SearchResultsComponent extends React.Component {
     } = this.props
     const { intl: { formatMessage } } = this.context
 
-    const fixedColumnWidth = this.context.muiTheme['components:infinite-table'].fixedColumnsWidth
+    const { fixedColumnsWidth } = this.context.muiTheme.components.infiniteTable
     const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
     const enableNavigateTo = SearchResultsComponent.hasNavigateTo(viewObjectType)
@@ -165,7 +165,7 @@ class SearchResultsComponent extends React.Component {
       enableSelection ? TableColumnBuilder.buildSelectionColumn(
         formatMessage({ id: 'results.selection.column.label' }),
         true, searchSelectors, TableClient.tableActions, TableClient.tableSelectors,
-        this.isColumnVisible(TableColumnBuilder.selectionColumnKey), fixedColumnWidth,
+        this.isColumnVisible(TableColumnBuilder.selectionColumnKey), fixedColumnsWidth,
       ) : null,
       // attributes and attributes groups as provided by parent
       ...attributePresentationModels.map(presentationModel =>
@@ -173,14 +173,14 @@ class SearchResultsComponent extends React.Component {
           presentationModel,
           this.isColumnVisible(presentationModel.key),
           onSortByAttribute,
-          fixedColumnWidth,
+          fixedColumnsWidth,
         )),
       // Options in current context
       TableColumnBuilder.buildOptionsColumn(
         formatMessage({ id: 'results.options.column.label' }),
         this.buildTableOptions(onAddElementToCart, onSetEntityAsTag, enableServices, enableDownload, enableNavigateTo, accessToken, projectName),
         this.isColumnVisible(TableColumnBuilder.optionsColumnKey),
-        fixedColumnWidth,
+        fixedColumnsWidth,
       ),
     ].filter(column => !!column) // filter null elements
   }
@@ -267,8 +267,8 @@ class SearchResultsComponent extends React.Component {
 
   render() {
     const { muiTheme } = this.context
-    const tableTheme = muiTheme['components:infinite-table']
-    const resultsTheme = muiTheme['module:search-results']
+    const tableTheme = muiTheme.components.infiniteTable
+    const resultsTheme = muiTheme.module.searchResults
 
     const {
       allowingFacettes, attributePresentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,

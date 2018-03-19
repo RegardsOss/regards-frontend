@@ -80,7 +80,7 @@ export class PluginSecurityActiveTesterContainer extends React.Component {
     const { intl, muiTheme } = this.context
 
     const {
-      'forms-extension:validation': { validColor, errorColor },
+      formsExtensions: { validation: { validColor, errorColor } },
     } = muiTheme
     const pluginConfActiveList = filter(pluginConfList, pluginConf => pluginConf.content.active)
     let icon
