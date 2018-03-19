@@ -23,11 +23,11 @@ const messages = Object.assign({
   'processing-chain.table.description': 'Description',
 
   'processing-chain.list.title': 'Chaînes de traitements',
-  'processing-chain.list.subtitle': 'Les chaînes de traitement peremettent de personnaliser les traitements réalisés sur les données soumises ou SIP (submission information package).',
+  'processing-chain.list.subtitle': 'Les chaînes de traitement permettent de personnaliser les traitements réalisés sur les données soumises ou SIP (Submission Information Package).',
   'processing-chain.info.message': 'Une chaîne de traitement est consitutée des étapes configurables ci-dessous. Toutes ces étapes sont réalisées avant de stocker les AIP générés. ',
   'processing-chain.info.message.step1': '1 - [Optionnel] Prétraitement',
   'processing-chain.info.message.step2': '2 - Validation de la donnée soumise',
-  'processing-chain.info.message.step3': '3 - Génération de la donnée archivée ou AIP (archival information package)',
+  'processing-chain.info.message.step3': '3 - Génération de la donnée archivée ou AIP (Archival Information Package)',
   'processing-chain.info.message.step4': '4 - [Optionnel] Tag de la donnée générée avec divers mots clés, collections, documents, ...',
   'processing-chain.info.message.step5': '5 - [Optionnel] Post traitement. Dernière étape avant stockage du fichier',
   'processing-chain.empty.title': 'Aucune chaîne de traitement définie.',
