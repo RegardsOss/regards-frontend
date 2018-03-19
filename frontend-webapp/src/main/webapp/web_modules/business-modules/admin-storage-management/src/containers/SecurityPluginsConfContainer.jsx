@@ -50,7 +50,7 @@ export class SecurityPluginsConfContainer extends React.Component {
     // from mapStateToProps
     entities: CommonShapes.PluginMetaDataList,
     // from mapDispatchToProps
-    fetch: PropTypes.func.isRequired,
+    fetchPluginMetaDataList: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -67,8 +67,8 @@ export class SecurityPluginsConfContainer extends React.Component {
   }
 
   componentDidMount() {
-    const { fetch } = this.props
-    fetch().then((actionResults) => {
+    const { fetchPluginMetaDataList } = this.props
+    fetchPluginMetaDataList().then((actionResults) => {
       this.setState({
         isLoading: false,
       })
