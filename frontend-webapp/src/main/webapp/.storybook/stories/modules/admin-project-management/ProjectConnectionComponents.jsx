@@ -8,7 +8,7 @@ import DatabaseConnectionTesterIconButton from '@regardsoss/admin-project-manage
 import ProjectConnectionListComponent from '@regardsoss/admin-project-management/src/components/projectConnection/ProjectConnectionListComponent'
 import ProjectConnectionFormComponent from '@regardsoss/admin-project-management/src/components/projectConnection/ProjectConnectionFormComponent'
 import GuidedProjectConfigurationComponent from '@regardsoss/admin-project-management/src/components/projectConnection/GuidedProjectConfigurationComponent'
-import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
+import EnumConnectivity from '@regardsoss/domain/src/admin/EnumConnectivity'
 import { muiTheme } from 'storybook-addon-material-ui'
 import { withStore, withLocale } from '../../decorators/index'
 

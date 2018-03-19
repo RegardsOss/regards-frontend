@@ -24,10 +24,10 @@
 set -e
 
 # Lint
-npm install eslint-config-es6-rules
+npm link eslint-config-es6-rules
 
 # Webpack REGARDS conf
-npm install webpack-config-front
+npm link webpack-config-front
 
 # Data
 npm link web_modules/data/api
