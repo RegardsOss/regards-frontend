@@ -106,8 +106,12 @@ class SearchResultsConfigurationComponent extends React.Component {
   onChangeDisplayMode = (event, value) => {
     const { currentFormValues, changeField } = this.props
     changeField(this.MODULE_DISPLAY_MODE, value)
+    // forbid quick looks in document mode
     if (value === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT) {
       changeField(this.CONF_ENABLE_QUICKLOOKS, false)
+    }
+    // forbid initial view as quicklook in documents (no quicklook) and data/datasets (initial view mode is dataset, that has no quicklook)
+    if (value === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT || value === DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET) {
       // if the selected view mode is quicklook, reset it
       const initialViewMode = get(currentFormValues, 'initialViewMode')
       if (initialViewMode === TableDisplayModeEnum.QUICKLOOK) {
@@ -408,7 +412,7 @@ class SearchResultsConfigurationComponent extends React.Component {
               <RadioButton
                 label={formatMessage({ id: 'form.configuration.result.show.quicklook.initially' })}
                 value={TableDisplayModeEnum.QUICKLOOK}
-                disabled={!enableQuicklooks}
+                disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA}
               />
             </Field>
           </FormGroup>

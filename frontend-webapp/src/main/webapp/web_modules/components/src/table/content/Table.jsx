@@ -100,6 +100,7 @@ class Table extends React.Component {
         fixedWidth: newColumn.fixedWidth,
         visible: newColumn.visible,
         label: newColumn.label,
+        rowCellDefinition: newColumn.rowCellDefinition,
         // also check runtime width, will be ignored if undefined
         runtimeWidth: newColumn.runtimeWidth,
       })) {

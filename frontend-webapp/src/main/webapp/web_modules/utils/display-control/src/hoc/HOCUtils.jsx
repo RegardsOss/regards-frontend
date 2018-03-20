@@ -36,7 +36,7 @@ import omit from 'lodash/omit'
 function shouldCloneChildren(oldProps, newProps, nonReportedPropsKeys) {
   const oldReportedProps = omit(oldProps, nonReportedPropsKeys)
   const newReportedProps = omit(newProps, nonReportedPropsKeys)
-  return !isEqual(oldReportedProps, newReportedProps) || !isEqual(oldProps.children, newProps.children)
+  return !isEqual(oldReportedProps, newReportedProps) || oldProps.children !== newProps.children
 }
 
 /**

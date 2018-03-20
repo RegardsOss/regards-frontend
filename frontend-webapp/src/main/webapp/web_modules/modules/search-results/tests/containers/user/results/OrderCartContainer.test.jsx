@@ -136,9 +136,9 @@ ${expectAddSelectionCallback ? 'with add selection callback' : 'without add sele
       if (expectAddElementCallback) {
         // assert the right callback is set up for mode
         if (testProperties.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
-          assert.equal(onAddElementToCart, enzymeWrapper.instance().onAddDataObjectToBasketHandler, 'The add element callback should be set to dataobject callback')
+          assert.equal(onAddElementToCart, enzymeWrapper.instance().onAddDataObjectToBasket, 'The add element callback should be set to dataobject callback')
         } else {
-          assert.equal(onAddElementToCart, enzymeWrapper.instance().onAddDatasetToBasketHandler, 'The add element callback should be set to dataset callback')
+          assert.equal(onAddElementToCart, enzymeWrapper.instance().onAddDatasetToBasket, 'The add element callback should be set to dataset callback')
         }
       } else {
         assert.isNotOk(onAddElementToCart, 'The add element callback should not be present')
@@ -146,7 +146,7 @@ ${expectAddSelectionCallback ? 'with add selection callback' : 'without add sele
       if (expectAddSelectionCallback) {
         // only one possible callback here
         assert.equal(
-          onAddSelectionToCart, enzymeWrapper.instance().onAddDataObjectsSelectionToBasketHandler,
+          onAddSelectionToCart, enzymeWrapper.instance().onAddDataObjectsSelectionToBasket,
           'The add selection callback should be set to dataobjects selection callback',
         )
       } else {

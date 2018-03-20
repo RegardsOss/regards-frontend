@@ -185,11 +185,11 @@ export class OrderCartContainer extends React.Component {
       if (newState.basketAvailaible) {
         // set up the right callbacks for current state
         if (newProps.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
-          newState.onAddElementToBasket = this.onAddDataObjectToBasketHandler
+          newState.onAddElementToBasket = this.onAddDataObjectToBasket
           // enable selection add only when there is a selection
-          newState.onAddSelectionToBasket = newProps.emptySelection ? null : this.onAddDataObjectsSelectionToBasketHandler
+          newState.onAddSelectionToBasket = newProps.emptySelection ? null : this.onAddDataObjectsSelectionToBasket
         } else {
-          newState.onAddElementToBasket = this.onAddDatasetToBasketHandler
+          newState.onAddElementToBasket = this.onAddDatasetToBasket
           newState.onAddSelectionToBasket = null // user cannot add a dataset selection to basket
         }
       } else {
@@ -233,9 +233,6 @@ export class OrderCartContainer extends React.Component {
     dispatchAddToCart(ipIds)
   }
 
-  /** Corresponding handler */
-  onAddDataObjectToBasketHandler = this.onAddDataObjectToBasket.bind(this)
-
   /**
    * Callback: user adds a dataobjects selection to basket
    */
@@ -249,9 +246,6 @@ export class OrderCartContainer extends React.Component {
     dispatchAddToCart(ipIds, openSearchQuery)
   }
 
-  /** Corresponding handler */
-  onAddDataObjectsSelectionToBasketHandler = this.onAddDataObjectsSelectionToBasket.bind(this)
-
   /**
    * User adds a dataset to basket (ie: every dataset dataobjects)
    * @param datasetEntity dataset entity
@@ -262,14 +256,11 @@ export class OrderCartContainer extends React.Component {
     dispatchAddToCart([], dataobjectQuery.toQueryString())
   }
 
-  /** Corresponding handler */
-  onAddDatasetToBasketHandler = this.onAddDatasetToBasket.bind(this)
-
   /**
- * Computes cart related state fields from component properties
- * @param {*} properties this component properties
- * @return {boolean} true if basket is available
- */
+   * Computes cart related state fields from component properties
+   * @param {*} properties this component properties
+   * @return {boolean} true if basket is available
+   */
   isBasketAvailable = ({
     isAuthenticated, modules, availableDependencies, viewObjectType,
   }) => {
