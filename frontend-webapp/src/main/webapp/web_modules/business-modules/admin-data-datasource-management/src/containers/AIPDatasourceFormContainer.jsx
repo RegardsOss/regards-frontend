@@ -239,7 +239,6 @@ export class AIPDatasourceFormContainer extends React.Component {
         dynamicsValues: [],
       },
     ]
-    console.error('empty', values.attributeFileSize, isEmpty(values.attributeFileSize))
     if (!isEmpty(values.attributeFileSize)) {
       parameters.push(
         {

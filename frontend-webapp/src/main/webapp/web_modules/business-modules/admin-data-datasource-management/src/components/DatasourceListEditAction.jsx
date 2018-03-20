@@ -19,17 +19,17 @@
 import find from 'lodash/find'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import IconButton from 'material-ui/IconButton'
-import { StorageShapes } from '@regardsoss/shape'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
-* Edit table action for datasourceIngestions
-* @author Sébastien Binda
+* Edit table action for Datasource list
+* @author Léo Mieulet
 */
-class PrioritizedDataStorageEditAction extends React.Component {
+class DatasourceListEditAction extends React.Component {
   static propTypes = {
-    entity: StorageShapes.PrioritizedDataStorage,
-    onEdit: PropTypes.func.isRequired,
+    entity: DataManagementShapes.Datasource,
+    handleEdit: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -46,14 +46,14 @@ class PrioritizedDataStorageEditAction extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { entity: { content }, onEdit } = this.props
+    const { entity, handleEdit } = this.props
     return (
       <IconButton
-        className={`selenium-edit-${content.id}`}
-        title={formatMessage({ id: 'storage.data-storage.plugins.list.edit.button' })}
-        iconStyle={PrioritizedDataStorageEditAction.iconStyle}
-        style={PrioritizedDataStorageEditAction.buttonStyle}
-        onClick={() => onEdit(content)}
+        className={`selenium-edit-${entity.content.id}`}
+        title={formatMessage({ id: 'datasource.list.action.edit' })}
+        iconStyle={DatasourceListEditAction.iconStyle}
+        style={DatasourceListEditAction.buttonStyle}
+        onClick={() => handleEdit(entity)}
         disabled={!this.isEditable()}
       >
         <Edit />
@@ -61,4 +61,4 @@ class PrioritizedDataStorageEditAction extends React.Component {
     )
   }
 }
-export default PrioritizedDataStorageEditAction
+export default DatasourceListEditAction

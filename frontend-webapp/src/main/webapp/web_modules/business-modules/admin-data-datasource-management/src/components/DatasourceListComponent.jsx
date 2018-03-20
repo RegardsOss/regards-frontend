@@ -16,42 +16,43 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
+import {
+  TableLayout, InfiniteTableContainer, TableColumnBuilder,
+  NoContentComponent, TableHeaderLineLoadingAndResults, TableDeleteOption, ConfirmDialogComponent,
+  ConfirmDialogComponentTypes, CardActionsComponent, ShowableAtRender,
+} from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
+import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { datasourceActions } from '../clients/DatasourceClient'
-
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const actionsBreakpoints = [940, 995]
+import DatasourceListEditAction from './DatasourceListEditAction'
+import DatasourceListActivationAction from './DatasourceListActivationAction'
 
 /**
  * React component to list datasources.
  */
-export class DatasourceListComponent extends React.Component {
+export default class DatasourceListComponent extends React.Component {
+  static CREATE_DEPENDENCIES = [datasourceActions.getDependency(RequestVerbEnum.POST)]
+
   static propTypes = {
-    datasourceList: DataManagementShapes.DatasourceList,
+    datasourceList: PropTypes.arrayOf(DataManagementShapes.Datasource),
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
+    refreshDatasourceList: PropTypes.func.isRequired,
     createUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
+    onToggleState: PropTypes.func.isRequired,
   }
+
 
   static contextTypes = {
-    ...themeContextType,
     ...i18nContextType,
+    ...themeContextType,
   }
-
-  static CREATE_DEPENDENCIES = [datasourceActions.getDependency(RequestVerbEnum.POST)]
 
   state = {
     deleteDialogOpened: false,
@@ -91,16 +92,44 @@ export class DatasourceListComponent extends React.Component {
     )
   }
 
-
   render() {
     const {
-      datasourceList, handleEdit, createUrl, backUrl,
+      datasourceList, onToggleState, handleEdit, createUrl, backUrl, refreshDatasourceList,
     } = this.props
-    const style = {
-      hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
-      hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
-    }
-    const { intl } = this.context
+    const { intl: { formatMessage }, muiTheme } = this.context
+    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+
+    // Table columns to display
+    const columns = [
+      TableColumnBuilder.buildSimplePropertyColumn('column.name', formatMessage({ id: 'datasource.list.table.label' }), 'content.label'),
+      TableColumnBuilder.buildSimpleColumnWithCell('column.active', formatMessage({ id: 'datasource.list.table.active' }), {
+        Constructor: DatasourceListActivationAction, // custom cell
+        props: { onToggle: onToggleState },
+      }),
+      TableColumnBuilder.buildOptionsColumn('options', [{
+        OptionConstructor: DatasourceListEditAction,
+        optionProps: { handleEdit },
+      },
+      {
+        OptionConstructor: TableDeleteOption,
+        optionProps: {
+          onDelete: this.openDeleteDialog,
+          fetchPage: refreshDatasourceList,
+          handleHateoas: true,
+          disableInsteadOfHide: true,
+          queryPageSize: 20,
+        },
+      },
+      ], true, fixedColumnsWidth),
+    ]
+
+    const emptyComponent = (
+      <NoContentComponent
+        title={formatMessage({ id: 'datasource.list.empty.title' })}
+        Icon={AddToPhotos}
+      />
+    )
+
     return (
       <Card>
         <CardTitle
@@ -109,53 +138,17 @@ export class DatasourceListComponent extends React.Component {
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
-          <Table
-            selectable={false}
-          >
-            <TableHeader
-              enableSelectAll={false}
-              adjustForCheckbox={false}
-              displaySelectAll={false}
-            >
-              <TableRow>
-                <TableHeaderColumn><FormattedMessage id="datasource.list.table.label" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="datasource.list.table.actions" /></TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody
-              displayRowCheckbox={false}
-              preScanRows={false}
-              showRowHover
-            >
-              {map(datasourceList, (datasource, i) => (
-                <TableRow key={i}>
-                  <TableRowColumn>{datasource.content.label}</TableRowColumn>
-                  <TableRowColumn>
-                    <ActionsMenuCell
-                      breakpoints={actionsBreakpoints}
-                    >
-                      <HateoasIconAction
-                        entityLinks={datasource.links}
-                        hateoasKey={HateoasKeys.UPDATE}
-                        onClick={() => handleEdit(datasource)}
-                        title={intl.formatMessage({ id: 'datasource.list.action.edit' })}
-                      >
-                        <Edit hoverColor={style.hoverButtonEdit} />
-                      </HateoasIconAction>
-                      <HateoasIconAction
-                        entityLinks={datasource.links}
-                        hateoasKey={HateoasKeys.DELETE}
-                        onClick={() => this.openDeleteDialog(datasource)}
-                        title={intl.formatMessage({ id: 'datasource.list.action.delete' })}
-                      >
-                        <Delete hoverColor={style.hoverButtonDelete} />
-                      </HateoasIconAction>
-                    </ActionsMenuCell>
-                  </TableRowColumn>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <TableLayout>
+            <TableHeaderLineLoadingAndResults resultsCount={datasourceList.length} />
+            <InfiniteTableContainer
+              columns={columns}
+              entities={datasourceList}
+              emptyComponent={emptyComponent}
+              entitiesCount={datasourceList.length}
+              minRowCount={0}
+              maxRowCount={30}
+            />
+          </TableLayout>
         </CardText>
         <CardActions>
           <CardActionsComponent
@@ -174,6 +167,3 @@ export class DatasourceListComponent extends React.Component {
     )
   }
 }
-
-export default DatasourceListComponent
-

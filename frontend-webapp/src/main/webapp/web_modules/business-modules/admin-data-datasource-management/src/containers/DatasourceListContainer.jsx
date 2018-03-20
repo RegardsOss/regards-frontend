@@ -39,15 +39,22 @@ export class DatasourceListContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    datasourceList: DataManagementShapes.DatasourceList,
+    datasourceList: PropTypes.arrayOf(DataManagementShapes.Datasource),
     isFetching: PropTypes.bool,
     // from mapDispatchToProps
     fetchDatasourceList: PropTypes.func,
     deleteDatasource: PropTypes.func,
+    updateDatasource: PropTypes.func,
   }
 
   componentWillMount() {
     this.props.fetchDatasourceList()
+  }
+
+  onToggleState = (datasource) => {
+    const updatedDatasource = Object.assign({}, datasource)
+    updatedDatasource.content.active = !updatedDatasource.content.active
+    this.props.updateDatasource(updatedDatasource.content.id, updatedDatasource.content)
   }
 
   getCreateUrl = () => {
@@ -59,6 +66,7 @@ export class DatasourceListContainer extends React.Component {
     const { params: { project } } = this.props
     return `/admin/${project}/data/acquisition/board`
   }
+
 
   /**
    * Redirect the user to the corresponding page
@@ -82,6 +90,10 @@ export class DatasourceListContainer extends React.Component {
     this.props.deleteDatasource(datasourceId)
   }
 
+  refreshDatasourceList = () => {
+    this.props.fetchDatasourceList()
+  }
+
   render() {
     const { datasourceList, isFetching } = this.props
     return (
@@ -95,6 +107,8 @@ export class DatasourceListContainer extends React.Component {
             handleEdit={this.handleEdit}
             backUrl={this.getBackUrl()}
             createUrl={this.getCreateUrl()}
+            refreshDatasourceList={this.refreshDatasourceList}
+            onToggleState={this.onToggleState}
           />
         </LoadableContentDisplayDecorator>
       </I18nProvider>
@@ -103,13 +117,14 @@ export class DatasourceListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  datasourceList: datasourceSelectors.getList(state),
+  datasourceList: datasourceSelectors.getOrderedList(state),
   isFetching: datasourceSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchDatasourceList: () => dispatch(datasourceActions.fetchEntityList()),
   deleteDatasource: id => dispatch(datasourceActions.deleteEntity(id)),
+  updateDatasource: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasourceListContainer)

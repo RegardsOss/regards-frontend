@@ -39,11 +39,12 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceListContainer', (
         project: 'someprocjet',
       },
       // from mapStateToProps
-      datasourceList: DumpProvider.get('DataManagementClient', 'Datasource'),
+      datasourceList: [DumpProvider.getFirstEntity('DataManagementClient', 'Datasource')],
       isFetching: false,
       // from mapDispatchToProps
-      fetchDatasourceList: () => {},
-      deleteDatasource: () => {},
+      fetchDatasourceList: () => { },
+      deleteDatasource: () => { },
+      updateDatasource: () => { },
     }
 
     const enzymeWrapper = shallow(<DatasourceListContainer {...props} />, { context })

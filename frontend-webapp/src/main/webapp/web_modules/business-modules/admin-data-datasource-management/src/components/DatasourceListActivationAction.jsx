@@ -17,27 +17,29 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import IconButton from 'material-ui/IconButton'
-import { StorageShapes } from '@regardsoss/shape'
+import Toggle from 'material-ui/Toggle'
 import { i18nContextType } from '@regardsoss/i18n'
+import { DataManagementShapes } from '@regardsoss/shape'
 
 /**
-* Edit table action for datasourceIngestions
-* @author Sébastien Binda
+* Allows to toggle the active boolean on datasource list
+* @author Léo Mieulet
 */
-class PrioritizedDataStorageEditAction extends React.Component {
+class PrioritizedDataStorageActivationAction extends React.Component {
   static propTypes = {
-    entity: StorageShapes.PrioritizedDataStorage,
-    onEdit: PropTypes.func.isRequired,
+    entity: DataManagementShapes.Datasource,
+    onToggle: PropTypes.func.isRequired,
   }
+
+  static defaultProps = {}
 
   static contextTypes = {
     ...i18nContextType,
   }
 
-  static iconStyle = { height: 23, width: 23 }
-  static buttonStyle = { padding: 0, height: 30, width: 30 }
+  onToggle = () => {
+    this.props.onToggle(this.props.entity)
+  }
 
   isEditable = () => {
     const { links } = this.props.entity
@@ -45,20 +47,21 @@ class PrioritizedDataStorageEditAction extends React.Component {
   }
 
   render() {
+    const { entity: { content: { active } } } = this.props
     const { intl: { formatMessage } } = this.context
-    const { entity: { content }, onEdit } = this.props
+    const title = active ?
+      formatMessage({ id: 'datasource.list.action.desactivate' }) :
+      formatMessage({ id: 'datasource.list.action.activate' })
     return (
-      <IconButton
-        className={`selenium-edit-${content.id}`}
-        title={formatMessage({ id: 'storage.data-storage.plugins.list.edit.button' })}
-        iconStyle={PrioritizedDataStorageEditAction.iconStyle}
-        style={PrioritizedDataStorageEditAction.buttonStyle}
-        onClick={() => onEdit(content)}
-        disabled={!this.isEditable()}
-      >
-        <Edit />
-      </IconButton>
+      <div style={{ margin: 'auto' }}>
+        <Toggle
+          toggled={active}
+          onToggle={this.onToggle}
+          title={title}
+          disabled={!this.isEditable()}
+        />
+      </div>
     )
   }
 }
-export default PrioritizedDataStorageEditAction
+export default PrioritizedDataStorageActivationAction
