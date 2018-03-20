@@ -23,6 +23,7 @@ pipeline {
                 sh 'docker run --rm -i \
                     -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss \
                     -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules \
+                    -v ${WORKSPACE}/npm_cacache:/root/.npm/ \
                     -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build \
                     rs_node ./install.sh'
             }
@@ -151,7 +152,7 @@ pipeline {
                     //    sh 'rm -rf frontend-webapp/src/main/webapp/.sonar || true'
                     //},
                     maven: {
-                        sh 'docker run --rm -i -v ${WORKSPACE}/frontend-webapp:/app_to_build rs_node ./reset_rights.sh $(id -u) $(id -g)'
+                        sh 'docker run --rm -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp/dist/prod:/app_to_build rs_node ./reset_rights.sh $(id -u) $(id -g)'
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/frontend-boot:/app_to_build \
                             -v ${WORKSPACE}/frontend-webapp/src/main/webapp/dist/prod:/app_to_build/frontend-webapp/src/main/webapp/dist/prod \
