@@ -59,7 +59,7 @@ describe('[ATTRIBUTES COMMON] Testing ThumbnailAttributeRender', () => {
       [CommonDomain.DataTypesEnum.THUMBNAIL]: [{ uri: 'http://rd1.com' }],
       [CommonDomain.DataTypesEnum.THUMBNAIL]: [{ uri: 'http://th1.com' }, { uri: 'http://th2.com' }],
     }
-    const wrapper = shallow(<ThumbnailAttributeRender value={files} />, { context })
-    assert.lengthOf(wrapper.findWhere(n => n.props().src === 'http://th1.com'), 1, 'There should be an image with first thubnail as source')
+    const wrapper = shallow(<ThumbnailAttributeRender value={files} projectName="project" />, { context })
+    assert.lengthOf(wrapper.findWhere(n => n.props().src === 'http://th1.com?scope=project'), 1, 'There should be an image with first thubnail as source')
   })
 })
