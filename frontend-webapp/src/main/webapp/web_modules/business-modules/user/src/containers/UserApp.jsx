@@ -30,7 +30,7 @@ import { AccessShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
 import { ProjectHandler } from '@regardsoss/project-handler'
-import { AuthenticationParametersActions, AuthenticationClient } from '@regardsoss/authentication-manager'
+import { AuthenticationParametersActions, AuthenticationClient } from '@regardsoss/authentication-utils'
 import AuthenticationContainer from './AuthenticationContainer'
 
 // get default layout client actions and reducers instances

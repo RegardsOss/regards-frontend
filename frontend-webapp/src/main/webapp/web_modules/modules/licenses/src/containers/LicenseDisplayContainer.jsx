@@ -24,7 +24,7 @@ import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { SingleContentURLDialogContainer } from '@regardsoss/components'
 import { CommonShapes } from '@regardsoss/shape'
-import { AuthenticationClient } from '@regardsoss/authentication-manager'
+import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import ProjectLicenseActions from '../model/ProjectLicenseActions'
 import ProjectLicenseSelectors from '../model/ProjectLicenseSelectors'
 

@@ -19,7 +19,7 @@
 import { connect } from '@regardsoss/redux'
 import { OrderShapes } from '@regardsoss/shape'
 import { OrderClient } from '@regardsoss/client'
-import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-manager'
+import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
 import DownloadOrderFilesAsZipComponent from '../../../components/orders/options/DownloadOrderFilesAsZipComponent'
 
 const zipFileActions = new OrderClient.DownloadAllOrderFilesAction()

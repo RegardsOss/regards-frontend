@@ -3,7 +3,7 @@
 **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { WaitingAccountEntitiesActions } from '@regardsoss/admin-account-management'
-import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-manager'
+import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { connect } from '@regardsoss/redux'

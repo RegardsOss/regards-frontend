@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
-import { AuthenticationRouteParameters, AuthenticationRouteHelper } from '@regardsoss/authentication-manager'
+import { AuthenticationRouteParameters, AuthenticationRouteHelper } from '@regardsoss/authentication-utils'
 
 /**
  * Specific actions for create account operation (create account / create user)

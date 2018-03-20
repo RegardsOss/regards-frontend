@@ -19,7 +19,7 @@
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
-import { AuthenticationParametersActions, AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationParametersActions, AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { ApplicationLayout } from '@regardsoss/layout'
 import { ThemeProvider } from '@regardsoss/theme'

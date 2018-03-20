@@ -21,7 +21,7 @@ import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
+import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import InfiniteGalleryComponent from './InfiniteGalleryComponent'
 import GalleryLoadingComponent from './GalleryLoadingComponent'
 

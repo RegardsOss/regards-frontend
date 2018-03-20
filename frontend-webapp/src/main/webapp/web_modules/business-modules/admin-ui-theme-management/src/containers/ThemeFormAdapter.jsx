@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNil from 'lodash/isNil'
-import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
 import { connect } from '@regardsoss/redux'
 import { ThemeActions, ThemeInstanceActions, ThemeSelectors } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'

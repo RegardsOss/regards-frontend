@@ -26,7 +26,7 @@ import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { StringComparison } from '@regardsoss/form-utils'
 import { TableSortOrders } from '@regardsoss/components'
-import { AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-manager'
+import { AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-utils'
 import { Tag } from '../../../models/navigation/Tag'
 import {
   searchDataobjectsActions,

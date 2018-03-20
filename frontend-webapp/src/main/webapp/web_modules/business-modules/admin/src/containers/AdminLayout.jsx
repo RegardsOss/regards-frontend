@@ -19,7 +19,7 @@
 import { UIDomain } from '@regardsoss/domain'
 import { CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
-import { AuthenticationClient } from '@regardsoss/authentication-manager'
+import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
