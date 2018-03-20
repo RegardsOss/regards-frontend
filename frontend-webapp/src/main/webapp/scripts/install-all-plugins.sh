@@ -59,7 +59,7 @@ for rootFolder in "${buildFolders[@]}"; do
             rm -rf "node_modules/@regardsoss"
           fi
           pwd
-          npm install
+          npm install --prefer-offline
           cd ${home}
       fi
     fi
