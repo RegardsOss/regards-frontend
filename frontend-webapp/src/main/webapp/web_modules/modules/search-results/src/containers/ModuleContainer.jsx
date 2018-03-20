@@ -27,8 +27,8 @@ import { AttributeModelActions, AttributeModelSelectors } from '../clients/Attri
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import URLManagementContainer from './user/URLManagementContainer'
 import DescriptionContainer from './user/DescriptionContainer'
+import FeedbackDisplayContainer from './user/feedback/FeedbackDisplayContainer'
 import ModuleComponent from '../components/user/ModuleComponent'
-import FeedbackDisplayComponent from '../components/user/feedback/FeedbackDisplayComponent'
 import { TableDisplayModeEnum } from '../models/navigation/TableDisplayModeEnum'
 import { DISPLAY_MODE_ENUM } from '../definitions/DisplayModeEnum'
 
@@ -96,7 +96,7 @@ export class ModuleContainer extends React.Component {
       return (
         <div>
           {/* Feedback handling for long actions in module */}
-          <FeedbackDisplayComponent />
+          <FeedbackDisplayContainer />
           { /* Description handling */}
           <DescriptionContainer />
           { /* URL management container: blocks view while it is not initialized to avoid useless requests (no view) */}

@@ -41,6 +41,15 @@ class OrderBasketSelectors extends BasicSignalSelectors {
       return datasetSelections.reduce((acc, datasetSelection) => acc + datasetSelection.objectsCount, 0)
     },
   )
+
+  /**
+   * Is currently adding to basket?
+   * @param {*} state redux application state
+   * @return {boolean} true when adding to basket
+   */
+  isAddingToBasket(state) {
+    return this.uncombineStore(state).addingToBasket
+  }
 }
 
 export default (storePath = ['user', 'order-basket']) => new OrderBasketSelectors(storePath)

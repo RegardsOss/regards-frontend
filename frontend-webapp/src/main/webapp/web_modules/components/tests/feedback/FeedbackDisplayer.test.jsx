@@ -19,11 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import Dialog from 'material-ui/Dialog'
-import DoneIcon from 'material-ui/svg-icons/action/done'
-import TestIcon1 from 'material-ui/svg-icons/action/pregnant-woman'
-import TestIcon2 from 'material-ui/svg-icons/device/airplanemode-active'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { UIClient } from '@regardsoss/client'
 import { FeedbackDisplayer } from '../../src/feedback/FeedbackDisplayer'
 import styles from '../../src/feedback/styles'
 
@@ -40,76 +36,123 @@ describe('[COMPONENTS] Testing FeedbackDisplayer', () => {
   it('should exists', () => {
     assert.isDefined(FeedbackDisplayer)
   })
-  it('should render correctly without matching feedback', () => {
+  it('should render correctly with minimal properties configuration', () => {
     const props = {
-      feedbackSelector: UIClient.getFeedbackSelectors([]),
-      iconByType: { testFeedback: TestIcon1 },
+      isFetching: false,
     }
     const enzymeWrapper = shallow(<FeedbackDisplayer {...props} />, { context })
     const dialogWrapper = enzymeWrapper.find(Dialog)
     assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
     assert.isFalse(dialogWrapper.props().open, 'It should be hidden')
-    assert.isNull(enzymeWrapper.state().CurrentFeedbackIconConst, 'Feedback should be hidden')
+    assert.isNull(enzymeWrapper.state().currentFeedbackIcon, 'Feedback should be hidden')
     assert.isTrue(enzymeWrapper.state().showLoading, 'Should be loading (default, not in done transition)')
   })
 
-  it('should render correctly ignoring non handled feedback types', () => {
+  it('should render correctly with complete configuration', () => {
     const props = {
-      feedbackSelector: UIClient.getFeedbackSelectors([]),
-      iconByType: { testFeedback: TestIcon1 },
-      feedbackType: 'nonHandledType',
+      isFetching: false,
+      showDoneTimeMS: 1,
+      doneWithError: true,
+      fetchingIcon: <div id="fetchingIcon" />,
+      doneIcon: <div id="doneIcon" />,
+      doneWithErrorIcon: <div id="doneWithErrorIcon" />,
     }
     const enzymeWrapper = shallow(<FeedbackDisplayer {...props} />, { context })
     const dialogWrapper = enzymeWrapper.find(Dialog)
     assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
     assert.isFalse(dialogWrapper.props().open, 'It should be hidden')
-    assert.isNull(enzymeWrapper.state().CurrentFeedbackIconConst, 'Feedback should be hidden')
+    assert.isNull(enzymeWrapper.state().currentFeedbackIcon, 'Feedback should be hidden')
     assert.isTrue(enzymeWrapper.state().showLoading, 'Should be loading (default, not in done transition)')
   })
 
-  it('should render correctly with handled types, then show DONE after transition, then hide', () => {
-    // test first feedback
+  it('should render correctly a fetch-don cycle (without error)', () => {
+    // initialize
     const props = {
-      feedbackSelector: UIClient.getFeedbackSelectors([]),
-      iconByType: { handledFb1: TestIcon1, handledFb2: TestIcon2 },
-      feedbackType: 'handledFb1',
+      isFetching: false,
+      showDoneTimeMS: 50000,
+      doneWithError: false,
+      fetchingIcon: <div id="fetchingIcon" />,
+      doneIcon: <div id="doneIcon" />,
+      doneWithErrorIcon: <div id="doneWithErrorIcon" />,
     }
     const enzymeWrapper = shallow(<FeedbackDisplayer {...props} />, { context })
     let dialogWrapper = enzymeWrapper.find(Dialog)
+    assert.isNull(enzymeWrapper.state().currentFeedbackIcon, 'Feedback should be hidden')
+    assert.isTrue(enzymeWrapper.state().showLoading, 'Should be loading (default, not in done transition)')
     assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
-    assert.isTrue(dialogWrapper.props().open, 'Disloag should be open as there is known feedback')
-    assert.equal(enzymeWrapper.state().CurrentFeedbackIconConst, TestIcon1, 'Matching icon should be selected for handledFb1')
-    assert.isTrue(enzymeWrapper.state().showLoading, 'It should be loading (default, not in done transition)')
+    assert.isFalse(dialogWrapper.props().open, 'It should be hidden')
 
-    // test second feedback
+    // test showing feedback
     enzymeWrapper.setProps({
       ...props,
-      feedbackType: 'handledFb2',
+      isFetching: true,
     })
     dialogWrapper = enzymeWrapper.find(Dialog)
+    assert.isNotNull(enzymeWrapper.state().currentFeedbackIcon, 'State should hold the loading icon (with styles)')
+    assert.isTrue(enzymeWrapper.state().showLoading, 'It should be marked loading')
     assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
-    assert.isTrue(dialogWrapper.props().open, 'Disloag should be open as there is known feedback')
-    assert.equal(enzymeWrapper.state().CurrentFeedbackIconConst, TestIcon2, 'Matching icon should be selected for handledFb2')
-    assert.isTrue(enzymeWrapper.state().showLoading, 'It should be loading (default, not in done transition)')
+    assert.isTrue(dialogWrapper.props().open, 'It should be visible')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'fetchingIcon'), 1, 'The component should be showing the fetching icon')
 
-    // test after transition (DONE)
+    // test hiding feedback
     enzymeWrapper.setProps({
       ...props,
-      feedbackType: null,
+      isFetching: false,
     })
     dialogWrapper = enzymeWrapper.find(Dialog)
+    assert.isNotNull(enzymeWrapper.state().currentFeedbackIcon, 'State should hold the done icon (with styles)')
+    assert.isFalse(enzymeWrapper.state().showLoading, 'It should no longer be marked loading')
     assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
-    assert.isTrue(dialogWrapper.props().open, 'Disloag should be open as it shows post transition')
-    assert.equal(enzymeWrapper.state().CurrentFeedbackIconConst, DoneIcon, 'DONE icon should be selected')
-    assert.isFalse(enzymeWrapper.state().showLoading, 'It should not be marked loading anymore')
+    assert.isTrue(dialogWrapper.props().open, 'It should be visible')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'doneIcon'), 1, 'The component should be showing the done icon')
+
 
     // test hide
     enzymeWrapper.instance().onHide()
     enzymeWrapper.update()
     dialogWrapper = enzymeWrapper.find(Dialog)
+    assert.isNull(enzymeWrapper.state().currentFeedbackIcon, 'Feedback should be hidden in state')
+    assert.isTrue(enzymeWrapper.state().showLoading, 'Should be loading (default, not in done transition)')
     assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
     assert.isFalse(dialogWrapper.props().open, 'It should be hidden')
-    assert.isNull(enzymeWrapper.state().CurrentFeedbackIconConst, 'Feedback should be hidden')
-    assert.isTrue(enzymeWrapper.state().showLoading, 'Should be loading (back in default state')
+  })
+  it('should render correctly a fetch-don cycle (with error)', () => {
+    // initialize
+    const props = {
+      isFetching: false,
+      showDoneTimeMS: 50000,
+      doneWithError: false,
+      fetchingIcon: <div id="fetchingIcon" />,
+      doneIcon: <div id="doneIcon" />,
+      doneWithErrorIcon: <div id="doneWithErrorIcon" />,
+    }
+    const enzymeWrapper = shallow(<FeedbackDisplayer {...props} />, { context })
+    enzymeWrapper.setProps({
+      ...props,
+      isFetching: true,
+    })
+    // hide feedback with error
+    enzymeWrapper.setProps({
+      ...props,
+      isFetching: false,
+      doneWithError: true,
+    })
+    let dialogWrapper = enzymeWrapper.find(Dialog)
+    assert.isNotNull(enzymeWrapper.state().currentFeedbackIcon, 'State should hold the done with erro icon (with styles)')
+    assert.isFalse(enzymeWrapper.state().showLoading, 'It should no longer be marked loading')
+    assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
+    assert.isTrue(dialogWrapper.props().open, 'It should be visible')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'doneWithErrorIcon'), 1,
+      'The component should be showing the done with error icon')
+
+
+    // test hide
+    enzymeWrapper.instance().onHide()
+    enzymeWrapper.update()
+    dialogWrapper = enzymeWrapper.find(Dialog)
+    assert.isNull(enzymeWrapper.state().currentFeedbackIcon, 'Feedback should be hidden in state')
+    assert.isTrue(enzymeWrapper.state().showLoading, 'Should be loading (default, not in done transition)')
+    assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
+    assert.isFalse(dialogWrapper.props().open, 'It should be hidden')
   })
 })

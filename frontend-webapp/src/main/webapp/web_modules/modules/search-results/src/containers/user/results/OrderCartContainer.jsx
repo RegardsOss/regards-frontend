@@ -36,7 +36,6 @@ import { allMatchHateoasDisplayLogic, HOCUtils } from '@regardsoss/display-contr
 import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/navigation/TableDisplayModeEnum'
 import TableClient from '../../../clients/TableClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
-import { FEEDBACK_TYPES_ENUM, feedbackActions } from '../../../clients/FeedbackClient'
 
 // get default modules client actions and reducers instances - we will use it to verify if a basket exists AND if it is in a dynamic container
 const modulesSelectors = AccessProjectClient.ModuleSelectors()
@@ -89,13 +88,8 @@ export class OrderCartContainer extends React.Component {
        * @param selectAllOpenSearchRequest request to retrieve elements to add, when not null
        * @return {Promise} add to cart promise
        */
-      dispatchAddToCart: (ipIds = [], selectAllOpenSearchRequest = null) => {
-        // show user feedback
-        dispatch(feedbackActions.showFeedback(FEEDBACK_TYPES_ENUM.ADD_TO_BASKET))
-        // run network processing action then hide feedback
-        dispatch(defaultBasketActions.addToBasket(ipIds, selectAllOpenSearchRequest))
-          .then(() => dispatch(feedbackActions.hideFeedback()))
-      },
+      dispatchAddToCart: (ipIds = [], selectAllOpenSearchRequest = null) =>
+        dispatch(defaultBasketActions.addToBasket(ipIds, selectAllOpenSearchRequest)),
     }
   }
 

@@ -189,7 +189,8 @@ export class SearchResultsContainer extends React.Component {
     if (!isEqual(oldProps.facets, newProps.facets) || !isEqual(oldProps.attributeModels, newProps.attributeModels)) {
       // Resolve all facets with their label, removing all empty values and facet without values
       const { attributeModels } = newProps
-      newState.facets = (newProps.facets || []).reduce((acc, { attributeName, type, values }) => {
+      newState.facets = (newProps.facets || []).reduce((acc, facet) => {
+        const { attributeName, values } = facet
         // Clear empty values, check if the facet should be filtered
         const filteredValues = values.filter(value => value.count)
         if (filteredValues.length < 2) {
@@ -198,9 +199,8 @@ export class SearchResultsContainer extends React.Component {
         }
         // Return resulting facet with label and filtered values
         return [...acc, {
-          attributeName,
+          ...facet,
           label: DamDomain.AttributeModelController.findLabelFromAttributeFullyQualifiedName(attributeName, attributeModels),
-          type,
           values: filteredValues,
         }]
       }, []).sort((facet1, facet2) => StringComparison.compare(facet1.label, facet2.label))

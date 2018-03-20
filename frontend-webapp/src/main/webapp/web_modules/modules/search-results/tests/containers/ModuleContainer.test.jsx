@@ -21,9 +21,10 @@ import { assert } from 'chai'
 import { CatalogDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Tag } from '../../src/models/navigation/Tag'
-import ModuleComponent from '../../src/components/user/ModuleComponent'
-import URLManagementContainer from '../../src/containers/user/URLManagementContainer'
 import { ModuleContainer } from '../../src/containers/ModuleContainer'
+import URLManagementContainer from '../../src/containers/user/URLManagementContainer'
+import FeedbackDisplayContainer from '../../src/containers/user/feedback/FeedbackDisplayContainer'
+import ModuleComponent from '../../src/components/user/ModuleComponent'
 import styles from '../../src/styles/styles'
 import { DISPLAY_MODE_ENUM } from '../../src/definitions/DisplayModeEnum'
 
@@ -64,6 +65,8 @@ describe('[Search Results] Testing ModuleContainer', () => {
     const urlManagementWrapper = enzymeWrapper.find(URLManagementContainer)
     assert.lengthOf(urlManagementWrapper, 1, 'After loading, URL management container should be installed')
     assert.isFalse(urlManagementWrapper.props().isExternallyDriven, 'Module should detect standalone mode (no initial tag and no search query)')
+
+    assert.lengthOf(enzymeWrapper.find(FeedbackDisplayContainer), 1, 'The should be add to basket feedback container')
   })
   it('should render correctly when externally driven', () => {
     const props = {
@@ -95,5 +98,7 @@ describe('[Search Results] Testing ModuleContainer', () => {
     assert.lengthOf(urlManagementWrapper, 1, 'After loading, URL management container should be installed')
     assert.isTrue(urlManagementWrapper.props().isExternallyDriven, 'Module should detect standalone mode (no initial tag and no search query)')
     assert.equal(urlManagementWrapper.props().initialContextTags, props.moduleConf.initialContextTags, 'Initial context tags should be correctly reported to the URL management wrapper')
+
+    assert.lengthOf(enzymeWrapper.find(FeedbackDisplayContainer), 1, 'The should be add to basket feedback container')
   })
 })

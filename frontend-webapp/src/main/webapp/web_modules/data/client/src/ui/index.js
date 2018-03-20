@@ -20,9 +20,6 @@
 import { AuthenticationDialogActions } from './authenticationDialog/AuthenticationDialogActions'
 import { getAuthenticationDialogReducer } from './authenticationDialog/AuthenticationDialogReducer'
 import { AuthenticationDialogSelectors, getAuthenticationDialogSelectors } from './authenticationDialog/AuthenticationDialogSelectors'
-import { FeedbackActions } from './feedback/FeedbackActions'
-import { getFeedbackReducer } from './feedback/FeedbackReducer'
-import { FeedbackSelectors, getFeedbackSelectors } from './feedback/FeedbackSelectors'
 import { ModuleExpandedStateActions } from './module/ModuleExpandedStateActions'
 import { getModuleExpandedStateReducer } from './module/ModuleExpandedStateReducer'
 import { ModuleExpandedStateSelectors, getModuleExpandedStateSelectors } from './module/ModuleExpandedStateSelectors'
@@ -32,10 +29,6 @@ module.exports = {
   AuthenticationDialogSelectors,
   getAuthenticationDialogReducer,
   getAuthenticationDialogSelectors,
-  FeedbackActions,
-  FeedbackSelectors,
-  getFeedbackReducer,
-  getFeedbackSelectors,
   ModuleExpandedStateActions,
   ModuleExpandedStateSelectors,
   getModuleExpandedStateReducer,

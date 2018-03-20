@@ -42,12 +42,14 @@ export default theme => ({
       height: 350,
       position: 'relative',
     },
-    iconStyle: {
-      height: 220,
-      width: 220,
-      top: 65,
-      left: 65,
-      position: 'absolute',
+    icon: {
+      style: {
+        height: 220,
+        width: 220,
+        top: 65,
+        left: 65,
+        position: 'absolute',
+      },
     },
     progress: {
       size: 330,

@@ -16,51 +16,53 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import compose from 'lodash/fp/compose'
 import root from 'window-or-global'
 import Dialog from 'material-ui/Dialog'
 import CircularProgress from 'material-ui/CircularProgress'
+import InProgressIcon from 'material-ui/svg-icons/action/settings-backup-restore'
 import DoneIcon from 'material-ui/svg-icons/action/done'
-import { connect } from '@regardsoss/redux'
+import DoneWithErrorIcon from 'material-ui/svg-icons/alert/error-outline'
+import { HOCUtils } from '@regardsoss/display-control'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
-import { UIClient } from '@regardsoss/client'
 import styles from './styles'
 
 /**
- * Container to show feedback for events as defined in redux client regardsoss/ui/feedback.
- * It must be used to inform / block user gestures on long events. It shows an icon for each defined feedback type with loading
- * circle. After hiding feedback, the component shows DONE for SHOW_DONE_MS time then hides.
- * API user must define feedback type to icon map.
- * If this container encounters an unknown feedback type, it will just hide
+ * Container to show feedback for events. It handles the feedback as following
+ * - When fetching, shows fetchingIcon
+ * - When fetching becomes false, shows for showDoneTimeMS (defaults to 500) milliseconds the configured doneIcon or failed icon,
+ * depending on the doneWithError boolean value
+ *
  * Notes: Feedback blocks interaction, and therefore, it should never collide with another feedback. For that reason,
- * this component is best used to show ONLY USER GESTURES FEEDBACK (in progress / done and such).
+ * this component is best used to show ONLY USER GESTURES FEEDBACK (and not automated pull operations for instance).
  * @author Raphaël Mechali
  */
 export class FeedbackDisplayer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { feedbackSelector }) {
-    return {
-      feedbackType: feedbackSelector.getFeedbackType(state),
-    }
+  static propTypes = {
+    // control API
+    // eslint-disable-next-line react/no-unused-prop-types
+    isFetching: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    showDoneTimeMS: PropTypes.number,
+    // eslint-disable-next-line react/no-unused-prop-types
+    doneWithError: PropTypes.bool,
+    // configuration API
+    // icon to show when fetching
+    // eslint-disable-next-line react/no-unused-prop-types
+    fetchingIcon: PropTypes.node,
+    // icon to show on done (calling API is free to switch it on error)
+    // eslint-disable-next-line react/no-unused-prop-types
+    doneIcon: PropTypes.node,
+    // icon to show on done when doneWithError is true
+    // eslint-disable-next-line react/no-unused-prop-types
+    doneWithErrorIcon: PropTypes.node,
   }
 
-
-  static propTypes = {
-    // selector in redux store for feedback state, used in mapStateToProps
-    // eslint-disable-next-line react/no-unused-prop-types
-    feedbackSelector: PropTypes.instanceOf(UIClient.FeedbackSelectors).isRequired,
-    // icon constructor  by feedback type (map as a JS object), used in onPropertiesUpdated
-    // eslint-disable-next-line react/no-unused-prop-types
-    iconByType: PropTypes.objectOf(PropTypes.func.isRequired).isRequired,
-    // from map state to props
-    // current feedback type, used in onPropertiesUpdated
-    // eslint-disable-next-line react/no-unused-prop-types
-    feedbackType: PropTypes.string,
+  static defaultProps = {
+    doneWithError: false,
+    showDoneTimeMS: 500,
+    fetchingIcon: <InProgressIcon />,
+    doneIcon: <DoneIcon />,
+    doneWithErrorIcon: <DoneWithErrorIcon />,
   }
 
   static contextTypes = {
@@ -70,12 +72,13 @@ export class FeedbackDisplayer extends React.Component {
   /** Default component state */
   static DEFAULT_STATE = {
     // holds the current feedback icon
-    CurrentFeedbackIconConst: null,
+    currentFeedbackIcon: null,
     showLoading: true,
   }
 
-  /** DONE icon show time, after loading was done */
-  static SHOW_DONE_MS = 500
+
+  /** Initial component state */
+  state = FeedbackDisplayer.DEFAULT_STATE
 
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
@@ -95,26 +98,31 @@ export class FeedbackDisplayer extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const oldState = this.state || {}
-    const newState = {
-      CurrentFeedbackIconConst: newProps.iconByType[newProps.feedbackType] || null,
-      showLoading: true,
-    }
-    const oldFeedbackIcon = oldState.CurrentFeedbackIconConst
-    const newFeedbackIcon = newState.CurrentFeedbackIconConst
-    if (oldFeedbackIcon !== newFeedbackIcon) {
-      // state change detected, determinate which change it is
-      if (oldFeedbackIcon && !newFeedbackIcon) {
-        // this is a hide feedback operation:
-        // 1 - start timeout for the DONE TRANSITION effect
-        root.setTimeout(this.onHide, FeedbackDisplayer.SHOW_DONE_MS)
-        // 2 - show the done icon instead of none and hide loading
-        newState.CurrentFeedbackIconConst = DoneIcon
-        newState.showLoading = false
+    const {
+      isFetching, fetchingIcon, showDoneTimeMS, doneWithError, doneWithErrorIcon, doneIcon,
+    } = newProps
+
+    if (oldProps.isFetching !== isFetching) {
+      if (isFetching) {
+        // pop feedback pane up
+        this.setState({
+          currentFeedbackIcon: this.decorateIcon(fetchingIcon),
+          showLoading: true,
+        })
+      } else if (oldState.currentFeedbackIcon) { // => no longer fetching: handle only when feedback was shown
+        // show the done icon and hide loading (prepare error icon for current theme rendering)
+        this.setState({
+          currentFeedbackIcon: this.decorateIcon(doneWithError ? doneWithErrorIcon : doneIcon, doneWithError),
+          showLoading: false,
+        }, () => {
+          // start timer to hide OK feedback
+          root.setTimeout(this.onHide, showDoneTimeMS)
+        })
+      } else {
+        // initialize state
+        this.setState(FeedbackDisplayer.DEFAULT_STATE)
       }
-      // else: when new feedback (with or without previous) OR changing the map / selectors, just update to feet the new state
-      this.setState(newState)
     }
-    // else: ignored case since nothing changed in state
   }
 
   /**
@@ -122,27 +130,45 @@ export class FeedbackDisplayer extends React.Component {
    */
   onHide = () => this.setState(FeedbackDisplayer.DEFAULT_STATE)
 
+  /**
+   * Decorates icon as parameter for display in feedback
+   * @param baseIcon base icon from this properties
+   * @param isError is error icon
+   * @return decorated icon
+   */
+  decorateIcon = (baseIcon, isError = false) => {
+    const {
+      moduleTheme: { feedbackDisplay: { icon: { style } } },
+      muiTheme: { textField: { errorColor } },
+    } = this.context
+    return HOCUtils.cloneChildrenWith(baseIcon, {
+      // set up color for error
+      color: isError ? errorColor : null,
+      style: { // merge calling styles with error theme styles
+        ...style,
+        ...(baseIcon.props.style || {}),
+      },
+    })
+  }
 
   render() {
-    const { CurrentFeedbackIconConst, showLoading } = this.state
+    const { currentFeedbackIcon, showLoading } = this.state
     const {
-      contentStyle, bodyStyle, layoutStyle, iconStyle, progress, paperProps,
+      contentStyle, bodyStyle, layoutStyle, progress, paperProps,
     } = this.context.moduleTheme.feedbackDisplay
 
     return (
       // show dialog when there is a feedback icon
       <Dialog
         modal
-        open={!!CurrentFeedbackIconConst}
+        open={!!currentFeedbackIcon}
         contentStyle={contentStyle}
         bodyStyle={bodyStyle}
         paperProps={paperProps}
       >
         <div style={layoutStyle} >
-          { // feedback icon when feedback should be shown
-            CurrentFeedbackIconConst ?
-              <CurrentFeedbackIconConst style={iconStyle} /> :
-              null
+          { // feedback icon when feedback should be shown (worth null otherwise)
+            currentFeedbackIcon
           }
           { // show loading when feedback is display, hide it in DONE transition
             showLoading ?
@@ -156,6 +182,4 @@ export class FeedbackDisplayer extends React.Component {
 }
 
 
-export default compose(
-  connect(FeedbackDisplayer.mapStateToProps, FeedbackDisplayer.mapDispatchToProps),
-  withModuleStyle(styles))(FeedbackDisplayer)
+export default withModuleStyle(styles, true)(FeedbackDisplayer)

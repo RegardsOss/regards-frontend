@@ -24,6 +24,12 @@ import OrderBasketActions from './OrderBasketActions'
  * @author Raphaël Mechali
  */
 class OrderBasketReducer {
+  static DEFAULT_STATE = {
+    ...BasicSignalReducers.DEFAULT_STATE,
+    // adds the adding to basket operation fetching information (required by feedbacks)
+    addingToBasket: false,
+  }
+
   /**
    * Constructor. Exactly like corresponding actions, leave the namespace empty to get common reducer instance
    * @param {string} namespace actions namespace
@@ -37,7 +43,6 @@ class OrderBasketReducer {
       this.actions.selectionDelegate,
       this.actions.datasetDelegate,
       this.actions.datasetItemDelegate]
-    this.SELECTION_SUCCESS_TYPE = this.actions.selectionDelegate.SIGNAL_SUCCESS
     this.reducerDelegates = allActionsDelegates.reduce((acc, actionDelegate) => {
       const reducerDelegate = new BasicSignalReducers(actionDelegate)
       return {
@@ -56,25 +61,42 @@ class OrderBasketReducer {
    * @param {*} state current state
    * @param {*} action current action
    */
-  reduce(state = BasicSignalReducers.DEFAULT_STATE, action) {
+  reduce(state = OrderBasketReducer.DEFAULT_STATE, action) {
     // find delegeate to handle signal
-    let nextState = state
     const reducerDelegate = this.reducerDelegates[action.type]
     if (reducerDelegate) {
-      /// Signal handled by this reducer
-      nextState = reducerDelegate.reduce(state, action)
-      // there is one specific case with add to basket success:
-      // when adding an empty element, the server may return 203: empty content.
-      // in such case, we must prevent the basket to be cleared
-      if (action.type === this.SELECTION_SUCCESS_TYPE && nextState.statusCode !== 200) {
-        // recover basket content from preview request (avoid emptying the basket in frontend)
-        nextState = {
-          ...nextState,
-          result: state.result,
-        }
+      // Signal handled by this reducer
+      const nextState = reducerDelegate.reduce(state, action)
+      // specific cases:
+      // selection delegate: update addingToBasket (used by feedbacks displayer)
+      // selection SUCCESS: do not update the result when server does not answer with 200 (avoids
+      // emptying the basket when user performs a void operation)
+      switch (action.type) {
+        case this.actions.selectionDelegate.SIGNAL_REQUEST:
+          return {
+            ...nextState,
+            addingToBasket: true,
+          }
+        case this.actions.selectionDelegate.SIGNAL_FAILURE:
+          return {
+            ...nextState,
+            addingToBasket: false,
+          }
+        case this.actions.selectionDelegate.SIGNAL_SUCCESS:
+          return {
+            ...nextState,
+            addingToBasket: false,
+            // preserve previous on 204 like codes
+            result: nextState.statusCode !== 200 ? state.result : nextState.result,
+          }
+        default:
+          return {
+            ...nextState,
+            addingToBasket: false,
+          }
       }
     }
-    return nextState
+    return state
   }
 }
 
