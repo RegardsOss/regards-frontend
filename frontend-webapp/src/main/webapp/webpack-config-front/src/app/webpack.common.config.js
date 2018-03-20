@@ -192,7 +192,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/utils/plugins/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/utils/redux/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/utils/theme-ui/src/main.js'),
-      new webpack.PrefetchPlugin('./web_modules/utils/authentication-manager/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/utils/authentication-utils/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/utils/form-utils/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/utils/i18n-ui/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/utils/modules/src/main.js'),

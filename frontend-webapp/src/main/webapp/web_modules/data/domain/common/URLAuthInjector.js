@@ -18,16 +18,23 @@
  **/
 import includes from 'lodash/includes'
 
+// This regex defines if the tested URL comes from a REGARDS µservice, otherwise that URL is outside of our stack
+const regexBackURL = new RegExp(`/${API_URL}/rs_`, 'g')
+
 /**
  * Add auth information on the @param url
  */
 function URLAuthInjector(url, accessToken, projectName) {
-  // Retrieve the separator that we need to append before adding the token
-  const separator = includes(url, '?') ? '&' : '?'
-  if (accessToken) {
-    return `${url}${separator}token=${accessToken}`
+  // Do not try to enhance an URL if it's not defined or not from pointing our stack
+  if (url || url.match(regexBackURL)) {
+    // Retrieve the separator that we need to append before adding the token
+    const separator = includes(url, '?') ? '&' : '?'
+    if (accessToken) {
+      return `${url}${separator}token=${accessToken}`
+    }
+    return `${url}${separator}scope=${projectName}`
   }
-  return `${url}${separator}scope=${projectName}`
+  return url
 }
 
 export default URLAuthInjector

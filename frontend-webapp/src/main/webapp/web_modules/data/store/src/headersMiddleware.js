@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import { AuthenticationClient, AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationClient, AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
 import isString from 'lodash/isString'
 // Redux middleware provides a third-party extension point
 // between dispatching an action, and the moment it reaches the reducer

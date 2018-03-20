@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import { ThemeActions, ThemeInstanceActions, ThemeSelectors, getCurrentTheme } from '@regardsoss/theme'

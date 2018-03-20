@@ -32,7 +32,7 @@ const conf = webpackConfigurator
     entry: {
       coreoss: [
         '@regardsoss/api',
-        '@regardsoss/authentication-manager',
+        '@regardsoss/authentication-utils',
         '@regardsoss/client',
         '@regardsoss/components',
         '@regardsoss/display-control',

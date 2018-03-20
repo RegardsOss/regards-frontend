@@ -94,7 +94,7 @@
     "@regardsoss/admin-user-role-resource-access-management": "0.0.1",
     "@regardsoss/api": "0.0.1",
     "@regardsoss/attributes-common": "0.0.1",
-    "@regardsoss/authentication-manager": "0.0.1",
+    "@regardsoss/authentication-utils": "0.0.1",
     "@regardsoss/client": "0.0.1",
     "@regardsoss/components": "0.0.1",
     "@regardsoss/display-control": "0.0.1",

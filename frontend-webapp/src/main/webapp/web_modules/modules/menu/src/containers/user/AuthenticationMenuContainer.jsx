@@ -18,7 +18,7 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
-import { AuthenticationClient, routeHelpers } from '@regardsoss/authentication-manager'
+import { AuthenticationClient, routeHelpers } from '@regardsoss/authentication-utils'
 import LoginButton from '../../components/user/LoginButton'
 import LoggedUserContainer from './LoggedUserContainer'
 import { authenticationDialogActions } from '../../clients/AuthenticationDialogUIClient'

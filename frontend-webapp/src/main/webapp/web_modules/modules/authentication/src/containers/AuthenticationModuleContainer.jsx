@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import { AccessShapes } from '@regardsoss/shape'
-import { AuthenticationRouteParameters, AuthenticationParametersHelper, AuthenticationClient, routeHelpers } from '@regardsoss/authentication-manager'
+import { AuthenticationRouteParameters, AuthenticationParametersHelper, AuthenticationClient, routeHelpers } from '@regardsoss/authentication-utils'
 import { connect } from '@regardsoss/redux'
 import AuthenticationWorkflowsComponent, { initialModes } from '../components/AuthenticationWorkflowsComponent'
 import SessionManagementContainer from '../containers/SessionManagementContainer'

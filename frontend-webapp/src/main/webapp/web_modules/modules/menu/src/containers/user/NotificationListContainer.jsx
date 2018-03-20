@@ -23,7 +23,7 @@ import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
 import { AdminShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
-import { AuthenticationClient } from '@regardsoss/authentication-manager'
+import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { ShowableAtRender } from '@regardsoss/display-control'
 import NotificationListComponent from '../../components/user/NotificationListComponent'
 import {

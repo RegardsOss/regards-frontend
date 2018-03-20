@@ -22,7 +22,7 @@ import {
   AuthenticationParametersSelectors,
   AuthenticationParametersActions,
   AuthenticationClient,
-} from '@regardsoss/authentication-manager'
+} from '@regardsoss/authentication-utils'
 import { AdminShapes } from '@regardsoss/shape'
 import { borrowableRolesActions, borrowableRolesSelectors } from '../../clients/BorrowableRolesClient'
 import { borrowRoleActions, borrowRoleSelectors } from '../../clients/BorrowRoleClient'

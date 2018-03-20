@@ -42,13 +42,14 @@ export class SecurityPluginsConfContainer extends React.Component {
   static mapDispatchToProps = dispatch => ({
     fetchPluginMetaDataList: () => dispatch(pluginMetaDataActions.fetchEntityList({ microserviceName: MICROSERVICE })),
   })
+
   static propTypes = {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    entities: CommonShapes.PluginMetaDataList,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
     // from mapDispatchToProps
     fetchPluginMetaDataList: PropTypes.func.isRequired,
   }
@@ -59,7 +60,7 @@ export class SecurityPluginsConfContainer extends React.Component {
   }
 
   static defaultProps = {
-    entities: {},
+    pluginMetaDataList: {},
   }
 
   state = {
@@ -90,14 +91,14 @@ export class SecurityPluginsConfContainer extends React.Component {
    */
   onAddConf = (pluginId) => {
     const { params: { project } } = this.props
-    return `/admin/${project}/microservice/${MICROSERVICE}/plugin/${pluginId}/configuration/create?backUrl=data/acquisition/storage/${StorageDomain.PluginTypeEnum.SECURITY_DELEGATION}`
+    return `/admin/${project}/microservice/${MICROSERVICE}/plugin/${pluginId}/configuration/create?backUrl=data/acquisition/storage/security`
   }
 
   getView = () => (
     <PluginMetaDataListComponent
       microserviceName={MICROSERVICE}
       pluginType={StorageDomain.PluginTypeEnum.SECURITY_DELEGATION}
-      pluginMetaDataList={this.props.entities}
+      pluginMetaDataList={this.props.pluginMetaDataList}
       getProjectConfigurationListURL={this.getProjectConfigurationListURL}
       getAddConfURL={this.onAddConf}
       onBack={this.onBack}
@@ -110,7 +111,7 @@ export class SecurityPluginsConfContainer extends React.Component {
    */
   getProjectConfigurationListURL = (pluginId) => {
     const { params: { project } } = this.props
-    return `/admin/${project}/microservice/${MICROSERVICE}/plugin/${pluginId}/configuration/list?backUrl=data/acquisition/storage/${StorageDomain.PluginTypeEnum.SECURITY_DELEGATION}`
+    return `/admin/${project}/microservice/${MICROSERVICE}/plugin/${pluginId}/configuration/list?backUrl=data/acquisition/storage/security`
   }
 
   render() {

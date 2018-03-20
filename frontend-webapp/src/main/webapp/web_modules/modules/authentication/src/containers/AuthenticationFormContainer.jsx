@@ -18,7 +18,7 @@
  */
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AuthenticationClient, AuthenticationErrorShape, AuthenticationRouteParameters, AuthenticationRouteHelper } from '@regardsoss/authentication-manager'
+import { AuthenticationClient, AuthenticationErrorShape, AuthenticationRouteParameters, AuthenticationRouteHelper } from '@regardsoss/authentication-utils'
 import AuthenticationFormComponent from '../components/AuthenticationFormComponent'
 
 /**

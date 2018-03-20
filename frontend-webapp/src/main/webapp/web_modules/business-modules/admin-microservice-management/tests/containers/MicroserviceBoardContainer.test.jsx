@@ -42,6 +42,8 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing microservice board container',
     const props = {
       checkMicroserviceStatus: checkMicroserviceStatusStub,
       fetchMaintenance: () => { },
+      fetchBackupConfStatus: () => { },
+      backupConfAvailable: () => { },
       setMaintenance: () => { },
       maintenanceList: () => { },
       // from router

@@ -20,7 +20,7 @@ import { connect } from '@regardsoss/redux'
 import { OrderDomain } from '@regardsoss/domain'
 import { OrderShapes } from '@regardsoss/shape'
 import { OrderClient } from '@regardsoss/client'
-import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-manager'
+import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
 import DownloadOrderMetaLinkFileComponent from '../../../components/orders/options/DownloadOrderMetaLinkFileComponent'
 
 const metalinkFileActions = new OrderClient.DownloadOrderMetalinkFileActions()

@@ -3,7 +3,7 @@
 **/
 import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
-import { AuthenticationClient } from '@regardsoss/authentication-manager'
+import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { ShowableAtRender } from '@regardsoss/components'
 import LicenseDisplayContainer from './LicenseDisplayContainer'
 

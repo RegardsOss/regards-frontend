@@ -16,8 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import forEach from 'lodash/forEach'
+import sortBy from 'lodash/sortBy'
 import map from 'lodash/map'
+import get from 'lodash/get'
 import concat from 'lodash/concat'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
@@ -26,6 +27,7 @@ import MaintenanceModeActions from '../model/MaintenanceModeActions'
 import MaintenanceModeSelectors from '../model/MaintenanceModeSelectors'
 import SetMaintenanceModeActions, { MAINTENANCES_ACTIONS } from '../model/SetMaintenanceModeActions'
 import MicroserviceInfoClient from '../clients/MicroserviceInfoClient'
+import { MicroserviceConfBackupStatusActions, MicroserviceConfBackupStatusSelector } from '../clients/MicroserviceConfBackupStatusClient'
 import messages from '../i18n'
 
 /**
@@ -39,6 +41,8 @@ export class MicroserviceBoardContainer extends React.Component {
       project: PropTypes.string,
     }),
     fetchMaintenance: PropTypes.func.isRequired,
+    fetchBackupConfStatus: PropTypes.func.isRequired,
+    backupConfAvailable: PropTypes.func.isRequired,
     checkMicroserviceStatus: PropTypes.func.isRequired,
     setMaintenance: PropTypes.func.isRequired,
     maintenanceList: PropTypes.func.isRequired,
@@ -49,7 +53,6 @@ export class MicroserviceBoardContainer extends React.Component {
   }
 
   state = {
-    microservicesMaintenance: {},
     microservicesUp: [],
   }
 
@@ -57,47 +60,45 @@ export class MicroserviceBoardContainer extends React.Component {
     // For each microservice, check if it is up
     return map(STATIC_CONF.MSERVICES, microservice => (
       Promise.resolve(this.props.checkMicroserviceStatus(microservice)).then((actionResult) => {
-        // If microservice is Up, then check for maintenance mode.
         if (!actionResult.error) {
+          // If microservice is Up, check related info
           this.setState({
-            microservicesUp: concat([], this.state.microservicesUp, [microservice]),
-          }, () => this.props.fetchMaintenance(microservice))
+            microservicesUp: sortBy(concat([], this.state.microservicesUp, [microservice]), value => value),
+          }, () => this.fetchRelatedInformations(microservice))
         }
         return actionResult
       })
     ))
   }
 
-  componentWillReceiveProps() {
-    const microservicesMaintenance = {}
-    // Only display active microservices.
-    forEach(this.state.microservicesUp, (microservice) => {
-      // Build maintenance informations for the given microservice
-      microservicesMaintenance[microservice] = {}
-      microservicesMaintenance[microservice].isOn = (projectName) => {
-        const maintenanceTenants = this.props.maintenanceList(microservice).content
-        if (maintenanceTenants && maintenanceTenants[projectName]) {
-          return maintenanceTenants[projectName].active
-        }
-        return false
-      }
-      microservicesMaintenance[microservice].set = (projectName, value) =>
-        this.handleSetMaintenance(microservice, projectName, value ? MAINTENANCES_ACTIONS.ACTIVATE : MAINTENANCES_ACTIONS.DISABLE)
-    })
-    this.setState({
-      microservicesMaintenance,
-    })
+  /**
+   * If a microservice is up, fetch its maintenance mode and if this microservice can export its conf.
+   */
+  fetchRelatedInformations = (microserviceName) => {
+    this.props.fetchMaintenance(microserviceName)
+    this.props.fetchBackupConfStatus(microserviceName)
   }
 
-  handleSetMaintenance = (microserviceName, projectName, action) => Promise.resolve(this.props.setMaintenance(microserviceName, projectName, action))
-    .then(actionResult => this.props.fetchMaintenance(microserviceName))
+  isMicroserviceActive = microserviceName => get(this.props.maintenanceList(microserviceName), `content.${this.props.params.project}.active`, false)
+
+  isMicroserviceBackupable = microserviceName => this.props.backupConfAvailable(microserviceName)
+
+  toggleMaintenance = (microserviceName) => {
+    const isActive = this.isMicroserviceActive(microserviceName)
+    const action = isActive ? MAINTENANCES_ACTIONS.DISABLE : MAINTENANCES_ACTIONS.ACTIVATE
+    return Promise.resolve(this.props.setMaintenance(microserviceName, action))
+      .then(actionResult => this.props.fetchMaintenance(microserviceName))
+  }
 
   render() {
     return (
       <I18nProvider messages={messages}>
         <MicroserviceBoardComponent
           project={this.props.params.project}
-          maintenance={this.state.microservicesMaintenance}
+          microservices={this.state.microservicesUp}
+          isMicroserviceActive={this.isMicroserviceActive}
+          isMicroserviceBackupable={this.isMicroserviceBackupable}
+          toggleMaintenance={this.toggleMaintenance}
         />
       </I18nProvider>
     )
@@ -108,15 +109,19 @@ const mapStateToProps = state => ({
   maintenanceList(microservice) {
     return MaintenanceModeSelectors(microservice).getResult(state)
   },
+  backupConfAvailable(microservice) {
+    return !MicroserviceConfBackupStatusSelector(microservice).isFetching(state) && !MicroserviceConfBackupStatusSelector(microservice).hasError(state)
+  },
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   checkMicroserviceStatus: microserviceName => dispatch(MicroserviceInfoClient.microserviceInfoActions.check(microserviceName)),
   fetchMaintenance: microservice => dispatch(MaintenanceModeActions(microservice).sendSignal('GET')),
-  setMaintenance: (microservice, projectName, action) => dispatch(SetMaintenanceModeActions(microservice).sendSignal('PUT', null, {
+  fetchBackupConfStatus: microserviceName => dispatch(MicroserviceConfBackupStatusActions(microserviceName).check(microserviceName)),
+  setMaintenance: (microservice, action) => dispatch(SetMaintenanceModeActions(microservice).sendSignal('PUT', null, {
     microservice,
     action,
-    tenant: projectName,
+    tenant: ownProps.params.project,
   })),
 })
 

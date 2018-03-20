@@ -28,7 +28,7 @@ import {
   StepLabel,
   StepButton,
 } from 'material-ui/Stepper'
-import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
 /**
  * React component to access to different step of document.
  */

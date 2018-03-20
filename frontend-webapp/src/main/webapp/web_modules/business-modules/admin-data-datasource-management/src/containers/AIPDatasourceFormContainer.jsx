@@ -158,7 +158,9 @@ export class AIPDatasourceFormContainer extends React.Component {
   computeMappings = (values) => {
     const result = {}
     forEach(values.mapping, (value, key) => {
-      result[key.replace(/@/g, '.')] = value
+      if (value) {
+        result[key.replace(/@/g, '.')] = value
+      }
     })
     return result
   }

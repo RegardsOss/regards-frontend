@@ -37,6 +37,11 @@ import MicroserviceReadyActions from './ready/MicroserviceReadyActions'
 
 import MicroserviceConfBackupActions from './confBackup/MicroserviceConfBackupActions'
 
+import getMicroserviceConfBackupStatusReducer from './confBackup/MicroserviceConfBackupStatusReducer'
+import MicroserviceConfBackupStatusActions from './confBackup/MicroserviceConfBackupStatusActions'
+import getMicroserviceConfBackupStatusSelectors from './confBackup/MicroserviceConfBackupStatusSelectors'
+
+
 module.exports = {
   PluginMetaDataActions,
   getPluginMetaDataReducer,
@@ -58,4 +63,9 @@ module.exports = {
   PluginTypeActions,
   getPluginTypeReducer,
   getPluginTypeSelectors,
+
+
+  getMicroserviceConfBackupStatusReducer,
+  MicroserviceConfBackupStatusActions,
+  getMicroserviceConfBackupStatusSelectors,
 }

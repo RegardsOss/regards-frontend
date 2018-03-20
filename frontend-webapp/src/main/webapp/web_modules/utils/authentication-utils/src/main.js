@@ -23,6 +23,7 @@ import AuthenticationParametersSelectors from './AuthenticationParametersSelecto
 import AuthenticateShape, { AuthenticationErrorShape } from './AuthenticateShape'
 import AuthenticationRouteParameters, { AuthenticationParametersHelper, routeHelpers } from './AuthenticationRouteParameters'
 import AuthenticationRouteHelper from './AuthenticationRouteHelper'
+import withAuthInfo from './decorator/withAuthInfo'
 
 export {
   AuthenticationClient,
@@ -36,4 +37,5 @@ export {
   AuthenticationParametersHelper,
   routeHelpers,
   AuthenticationRouteHelper,
+  withAuthInfo,
 }

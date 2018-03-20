@@ -29,7 +29,10 @@ import microserviceBoardItems from './MicroserviceBoardItems'
 class MicroserviceBoardComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
-    maintenance: PropTypes.objectOf(PropTypes.objectOf(PropTypes.func)).isRequired,
+    microservices: PropTypes.arrayOf(PropTypes.string).isRequired,
+    isMicroserviceActive: PropTypes.func.isRequired,
+    isMicroserviceBackupable: PropTypes.func.isRequired,
+    toggleMaintenance: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -40,7 +43,10 @@ class MicroserviceBoardComponent extends React.Component {
   render() {
     const items = microserviceBoardItems(
       this.props.project,
-      this.props.maintenance,
+      this.props.microservices,
+      this.props.isMicroserviceActive,
+      this.props.isMicroserviceBackupable,
+      this.props.toggleMaintenance,
       this.context.intl,
       this.context.muiTheme,
     )

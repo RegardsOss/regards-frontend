@@ -21,12 +21,13 @@ import ExtensionIcon from 'material-ui/svg-icons/action/extension'
 import Checkbox from 'material-ui/Checkbox'
 import Cloud from 'material-ui/svg-icons/file/cloud'
 import CloudOff from 'material-ui/svg-icons/file/cloud-off'
+import SwapVertical from 'mdi-material-ui/SwapVertical'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import styles from '../styles/styles'
 import MaintenanceModeActions from '../model/MaintenanceModeActions'
 import SetMaintenanceModeActions from '../model/SetMaintenanceModeActions'
 import { pluginMetaDataActions } from '../clients/PluginMetadataClient'
-
+import { microserviceConfBackupActions } from '../clients/MicroserviceConfBackupClient'
 
 /**
  * Configuration file for the Microservice Management boards items.
@@ -43,10 +44,10 @@ const getMaintenanceIcon = (isActive, computedStyles) => (
     style={computedStyles.board.checkbox}
   />
 )
-const items = (project, maintenances, intl, theme, initialize) => {
+const items = (project, microservices, isMicroserviceActive, isMicroserviceBackupable, toggleMaintenance, intl, theme) => {
   const computedStyles = styles(theme)
-  return map(maintenances, (maintenance, microservice) => {
-    const maintenanceOn = !maintenance.isOn(project)
+  return map(microservices, (microservice) => {
+    const maintenanceOn = !isMicroserviceActive(microservice)
     const confirmMessage = maintenanceOn ?
       intl.formatMessage({ id: 'microservice-management.maintenance.switch.mode.on.confirm' }, { name: microservice }) :
       intl.formatMessage({ id: 'microservice-management.maintenance.switch.mode.off.confirm' }, { name: microservice })
@@ -59,16 +60,15 @@ const items = (project, maintenances, intl, theme, initialize) => {
       ],
     },
     {
-      initialize: maintenance.fetch,
-      icon: getMaintenanceIcon(maintenance.isOn(project), computedStyles),
+      icon: getMaintenanceIcon(!maintenanceOn, computedStyles),
       tooltipMsg: intl.formatMessage({
-        id: maintenance.isOn(project) ?
-          'microservice-management.maintenance.tooltip.on' :
-          'microservice-management.maintenance.tooltip.off',
+        id: maintenanceOn ?
+          'microservice-management.maintenance.tooltip.off' :
+          'microservice-management.maintenance.tooltip.on',
       }),
       confirmMessage,
       touchTapAction: () => {
-        maintenance.set(project, maintenanceOn)
+        toggleMaintenance(microservice)
       },
       hateoasDependencies: [
         MaintenanceModeActions(microservice).getDependency(RequestVerbEnum.GET),
@@ -76,6 +76,18 @@ const items = (project, maintenances, intl, theme, initialize) => {
         SetMaintenanceModeActions(microservice).getDesactivateDependency(),
       ],
     }]
+    // If we can backup the microservice, add the action
+    if (isMicroserviceBackupable(microservice)) {
+      actions.push({
+        path: `/admin/${project}/microservice/${microservice}/conf-backup`,
+        icon: <SwapVertical />,
+        tooltipMsg: intl.formatMessage({ id: 'microservice-management.backup-conf.tooltip' }),
+        hateoasDependencies: [
+          microserviceConfBackupActions.getMsDependency(RequestVerbEnum.GET, microservice),
+          microserviceConfBackupActions.getMsDependency(RequestVerbEnum.POST, microservice),
+        ],
+      })
+    }
     return ({
       title: microservice,
       description: intl.formatMessage({ id: `microservice-management.${microservice}.description` }),

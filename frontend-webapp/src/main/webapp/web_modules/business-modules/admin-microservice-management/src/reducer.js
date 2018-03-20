@@ -24,11 +24,14 @@ import { pluginMetaDataReducer } from './clients/PluginMetadataClient'
 import MaintenanceModeReducers from './model/MaintenanceModeReducers'
 import SetMaintenanceReducers from './model/SetMaintenanceModeReducers'
 import MicroserviceInfoClient from './clients/MicroserviceInfoClient'
+import { MicroserviceConfBackupStatusReducer } from './clients/MicroserviceConfBackupStatusClient'
 
 const maintenanceReducers = {}
+const confBackupReducers = {}
 forEach(STATIC_CONF.MSERVICES, (microservice) => {
   maintenanceReducers[`maintenance-${microservice}`] = MaintenanceModeReducers(microservice)
   maintenanceReducers[`set-maintenance-${microservice}`] = SetMaintenanceReducers(microservice)
+  confBackupReducers[`conf-backup-${microservice}`] = MicroserviceConfBackupStatusReducer(microservice)
 })
 
 const microserviceManagementReducer = combineReducers({
@@ -37,6 +40,7 @@ const microserviceManagementReducer = combineReducers({
   pluginConfiguration: pluginConfigurationReducer,
   microserviceInfo: MicroserviceInfoClient.microserviceInfoActions,
   ...maintenanceReducers,
+  ...confBackupReducers,
 })
 
 export default microserviceManagementReducer

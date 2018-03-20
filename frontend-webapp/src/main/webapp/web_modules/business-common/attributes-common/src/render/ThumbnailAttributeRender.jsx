@@ -24,10 +24,11 @@ import { CommonDomain } from '@regardsoss/domain'
 import { CatalogShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { withAuthInfo } from '@regardsoss/authentication-utils'
 import { FitContentDialog } from '@regardsoss/components'
+import { URLAuthInjector } from '@regardsoss/domain/common'
 import messages from '../i18n'
 import styles from '../styles'
-
 /**
  * Component to render thumbnail attributes group
  * Note: unlike other render, this one is rendering only the first provided value
@@ -37,6 +38,8 @@ import styles from '../styles'
 export class ThumbnailAttributeRender extends React.Component {
   static propTypes = {
     value: CatalogShapes.entityFiles,
+    projectName: PropTypes.string,
+    accessToken: PropTypes.string,
   }
 
   static contextTypes = {
@@ -83,9 +86,13 @@ export class ThumbnailAttributeRender extends React.Component {
   }
 
   render() {
+    const { value, accessToken, projectName } = this.props
     // in resolved attributes, get the first data, if any
     const { intl: { formatMessage }, moduleTheme: { thumbnailRoot, thumbnailCell, noThumbnailIcon } } = this.context
-    const thumbnailURI = get(this.props.value, `${CommonDomain.DataTypesEnum.THUMBNAIL}[0].uri`, null)
+    let thumbnailURI = get(value, `${CommonDomain.DataTypesEnum.THUMBNAIL}[0].uri`, null)
+    if (thumbnailURI) {
+      thumbnailURI = URLAuthInjector(thumbnailURI, accessToken, projectName)
+    }
     return (
       <div
         style={thumbnailRoot}
@@ -109,4 +116,4 @@ export class ThumbnailAttributeRender extends React.Component {
   }
 }
 
-export default compose(withModuleStyle(styles, true), withI18n(messages, true))(ThumbnailAttributeRender)
+export default compose(withAuthInfo, withModuleStyle(styles, true), withI18n(messages, true))(ThumbnailAttributeRender)

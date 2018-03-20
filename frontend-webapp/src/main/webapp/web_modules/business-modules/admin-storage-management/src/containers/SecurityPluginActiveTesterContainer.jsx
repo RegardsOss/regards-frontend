@@ -35,7 +35,7 @@ const MICROSERVICE = STATIC_CONF.MSERVICES.STORAGE
  *
  * @author Sébastien Binda
  */
-export class PluginSecurityActiveTesterContainer extends React.Component {
+export class SecurityPluginActiveTesterContainer extends React.Component {
   static mapStateToProps = (state, ownProps) => ({
     pluginConfList: pluginConfigurationSelectors.getList(state),
   })
@@ -46,7 +46,7 @@ export class PluginSecurityActiveTesterContainer extends React.Component {
 
   static propTypes = {
     pluginConfList: CommonShapes.PluginConfigurationList,
-    fetchPluginConfList: PropTypes.function,
+    fetchPluginConfList: PropTypes.func,
   }
 
   static contextTypes = {
@@ -88,25 +88,25 @@ export class PluginSecurityActiveTesterContainer extends React.Component {
     let subtitle
     switch (size(pluginConfActiveList)) {
       case 0:
-        icon = (<IssueIcon style={PluginSecurityActiveTesterContainer.iconStyle} color={errorColor} />)
+        icon = (<IssueIcon style={SecurityPluginActiveTesterContainer.iconStyle} color={errorColor} />)
         title = intl.formatMessage({ id: 'storage.security.no.plugin.title' })
         subtitle = intl.formatMessage({ id: 'storage.security.no.plugin.subtitle' })
         break
       case 1:
-        icon = (<OkIcon style={PluginSecurityActiveTesterContainer.iconStyle} color={validColor} />)
+        icon = (<OkIcon style={SecurityPluginActiveTesterContainer.iconStyle} color={validColor} />)
         title = intl.formatMessage({ id: 'storage.security.plugin.defined.title' })
         subtitle = intl.formatMessage({ id: 'storage.security.plugin.defined.subtitle' })
         break
       // More than 1 plugin
       default:
-        icon = (<IssueIcon style={PluginSecurityActiveTesterContainer.iconStyle} color={errorColor} />)
+        icon = (<IssueIcon style={SecurityPluginActiveTesterContainer.iconStyle} color={errorColor} />)
         title = intl.formatMessage({ id: 'storage.security.too.many.plugin.title' })
         subtitle = intl.formatMessage({ id: 'storage.security.too.many.plugin.subtitle' })
         break
     }
 
     return (
-      <div style={PluginSecurityActiveTesterContainer.wrapperStyle}>
+      <div style={SecurityPluginActiveTesterContainer.wrapperStyle}>
 
         {icon}
         <CardTitle
@@ -129,5 +129,5 @@ export class PluginSecurityActiveTesterContainer extends React.Component {
   }
 }
 
-export default connect(PluginSecurityActiveTesterContainer.mapStateToProps,
-  PluginSecurityActiveTesterContainer.mapDispatchToProps)(PluginSecurityActiveTesterContainer)
+export default connect(SecurityPluginActiveTesterContainer.mapStateToProps,
+  SecurityPluginActiveTesterContainer.mapDispatchToProps)(SecurityPluginActiveTesterContainer)

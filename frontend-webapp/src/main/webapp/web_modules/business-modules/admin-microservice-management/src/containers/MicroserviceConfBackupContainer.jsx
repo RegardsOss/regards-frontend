@@ -20,7 +20,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { URLAuthInjector } from '@regardsoss/domain/common'
 import { browserHistory } from 'react-router'
-import { AuthenticationClient } from '@regardsoss/authentication-manager'
+import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { microserviceConfBackupActions } from '../clients/MicroserviceConfBackupClient'
 import MicroserviceConfBackupComponent from '../components/MicroserviceConfBackupComponent'
 import messages from '../i18n'
@@ -51,12 +51,12 @@ export class MicroserviceConfBackupContainer extends React.Component {
 
   getExportUrl = () => {
     const { params: { microserviceName }, accessToken } = this.props
-    return URLAuthInjector(`${GATEWAY_HOSTNAME}/${API_URL}/${microserviceName}/microservice/configuration/export`, accessToken)
+    return URLAuthInjector(`${GATEWAY_HOSTNAME}/${API_URL}/${microserviceName}/microservice/configuration`, accessToken)
   }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/models/board`
+    return `/admin/${project}/microservice/board`
   }
 
   redirectToBack = () => {

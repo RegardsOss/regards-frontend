@@ -19,7 +19,7 @@
 import omit from 'lodash/omit'
 import get from 'lodash/get'
 import isString from 'lodash/isString'
-import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { connect } from '@regardsoss/redux'
 import ShowableAtRender from '../ShowableAtRender'

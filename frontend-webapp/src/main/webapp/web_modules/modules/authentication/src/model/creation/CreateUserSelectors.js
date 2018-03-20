@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { BasicSignalSelectors } from '@regardsoss/store-utils'
-import { AuthenticationRouteHelper } from '@regardsoss/authentication-manager'
+import { AuthenticationRouteHelper } from '@regardsoss/authentication-utils'
 import { pathname } from './CreateUserReducers'
 
 

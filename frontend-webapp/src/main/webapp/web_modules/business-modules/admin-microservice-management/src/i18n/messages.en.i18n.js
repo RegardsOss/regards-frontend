@@ -92,6 +92,7 @@ const messages = Object.assign({
   'microservice.conf-backup.action.back': 'Back',
   'microservice.conf-backup.export': 'Export the configuration of this microservice',
   'microservice.conf-backup.import': 'Import the configuration of this microservice',
+  'microservice-management.backup-conf.tooltip': 'Manage backups',
 
 }, Locales.en)
 

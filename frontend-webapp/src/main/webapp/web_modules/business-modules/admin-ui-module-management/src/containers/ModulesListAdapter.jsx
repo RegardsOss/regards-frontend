@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
 import ModulesListContainer from './ModulesListContainer'
 import { moduleInstanceActions, moduleInstanceSelectors } from '../clients/ModuleInstanceClient'
 import { moduleActions, moduleSelectors } from '../clients/ModuleClient'
