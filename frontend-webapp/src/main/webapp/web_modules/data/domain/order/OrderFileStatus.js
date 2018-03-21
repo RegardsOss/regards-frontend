@@ -32,7 +32,9 @@ export const ORDER_FILE_STATUS_ENUM = {
   ONLINE: 'ONLINE',
   /** Downloaded */
   DOWNLOADED: 'DOWNLOADED',
-  /** Download error */
+  /** Error during download */
+  DOWNLOAD_ERROR: 'DOWNLOAD_ERROR',
+  /** Error during order (or any error) */
   ERROR: 'ERROR',
 }
 

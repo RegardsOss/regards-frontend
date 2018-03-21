@@ -21,7 +21,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { OrderClient } from '@regardsoss/client'
-import { PageableInfiniteTableContainer, RefreshPageableTableOption, TableLayout, TableColumnsVisibilityOption } from '@regardsoss/components'
+import { PageableInfiniteTableContainer, AutoRefreshPageableTableHOC, TableLayout, TableColumnsVisibilityOption } from '@regardsoss/components'
 import DatasetFilesComponent from '../../../src/components/files/DatasetFilesComponent'
 import DatasetFilesCountHeaderMessage from '../../../src/components/files/DatasetFilesCountHeaderMessage'
 import styles from '../../../src/styles/styles'
@@ -53,7 +53,7 @@ describe('[Order Common] Testing DatasetFilesComponent', () => {
     const enzymeWrapper = shallow(<DatasetFilesComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
     assert.lengthOf(enzymeWrapper.find(DatasetFilesCountHeaderMessage), 1, 'There should be the header message')
-    assert.lengthOf(enzymeWrapper.find(RefreshPageableTableOption), 1, 'There should be the refresh data option')
+    assert.lengthOf(enzymeWrapper.find(AutoRefreshPageableTableHOC), 1, 'There should be the auto refresh data HOC')
     assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be the column visibiltiy option')
 
     const tableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)
@@ -76,7 +76,7 @@ describe('[Order Common] Testing DatasetFilesComponent', () => {
     const enzymeWrapper = shallow(<DatasetFilesComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
     assert.lengthOf(enzymeWrapper.find(DatasetFilesCountHeaderMessage), 1, 'There should be the header message')
-    assert.lengthOf(enzymeWrapper.find(RefreshPageableTableOption), 1, 'There should be the refresh data option')
+    assert.lengthOf(enzymeWrapper.find(AutoRefreshPageableTableHOC), 1, 'There should be the auto refresh data HOC')
     assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be the column visibiltiy option')
 
     const tableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)

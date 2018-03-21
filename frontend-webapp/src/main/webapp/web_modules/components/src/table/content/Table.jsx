@@ -17,8 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import isMatch from 'lodash/isMatch'
+import isEqual from 'lodash/isEqual'
 import isNumber from 'lodash/isNumber'
+import omit from 'lodash/omit'
 import map from 'lodash/map'
 import { Table as FixedDataTable, Column } from 'fixed-data-table-2'
 import { themeContextType } from '@regardsoss/theme'
@@ -81,6 +82,19 @@ class Table extends React.Component {
   }
 
   /**
+   * Are compared cells the same
+   * @param {Is} cellDefinition1 first cell definition
+   * @param {*} cellDefinition2 second cell definition
+   * @return {boolean} true if cells definitions are the same
+   */
+  static isSameRowCell(cellDefinition1, cellDefinition2) {
+    console.error('One two', cellDefinition1, cellDefinition2, isEqual(cellDefinition1, cellDefinition2))
+    console.error(get(cellDefinition1, 'values') === get(cellDefinition2, 'values'))
+    return get(cellDefinition1, 'Constructor') === get(cellDefinition2, 'Constructor') &&
+      isEqual(cellDefinition1, cellDefinition2)
+  }
+
+  /**
    * Computes if the two columns list will behave differently in layout
    * @param {*} oldColumns old Columns
    * @param {*} newColumns new Columns
@@ -94,16 +108,8 @@ class Table extends React.Component {
     for (let index = 0; index < oldColumns.length; index += 1) {
       const oldColumn = oldColumns[index]
       const newColumn = newColumns[index]
-      if (!isMatch(oldColumn, {
-        key: newColumn.key,
-        order: newColumn.order,
-        fixedWidth: newColumn.fixedWidth,
-        visible: newColumn.visible,
-        label: newColumn.label,
-        rowCellDefinition: newColumn.rowCellDefinition,
-        // also check runtime width, will be ignored if undefined
-        runtimeWidth: newColumn.runtimeWidth,
-      })) {
+      // compare columns but ignore header cell that may cause infinite loops in isEqual method
+      if (!isEqual(omit(oldColumn, ['headerCell']), omit(newColumn, ['headerCell']))) {
         // found one different column
         return true
       }

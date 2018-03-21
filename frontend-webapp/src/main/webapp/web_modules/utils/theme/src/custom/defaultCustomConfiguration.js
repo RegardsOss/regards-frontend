@@ -115,7 +115,8 @@ module.exports = baseTheme => ({
       'color.file.AVAILABLE': baseTheme.palette.textColor,
       'color.file.ONLINE': baseTheme.palette.textColor,
       'color.file.DOWNLOADED': baseTheme.textField.disabledTextColor,
-      'color.file.ERROR': '#f44336',
+      'color.file.DOWNLOAD_ERROR': baseTheme.textField.errorColor,
+      'color.file.ERROR': baseTheme.textField.errorColor,
       'color.file.UNKNOWN': baseTheme.textField.disabledTextColor,
     },
     // search results module

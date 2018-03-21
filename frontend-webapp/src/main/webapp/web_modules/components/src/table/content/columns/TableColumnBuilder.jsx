@@ -129,13 +129,27 @@ function buildTitleColumnHeader(key, label) {
     />)
 }
 
+
 /**
- * Closure constructor for get property at path on entity
+ * Property closures cache map
+ */
+const propertyClosuresCacheMap = {}
+
+/**
+ * Closure constructor / cache manager for get property at path on entity. Cache is used here to avoid generating new
+ * method lambdas reference, that would otherwise force the table relayouting always (equal does not work on code for
+ * the functions and lambdas)
  * @param {*} path path
  * @return {function} closure like entity => value
  */
-function extractPropertyClosure(path) {
-  return entity => get(entity, path)
+function getCachedPropertyClosure(path) {
+  let cachedClosure = propertyClosuresCacheMap[path]
+  if (!cachedClosure) {
+    // initialize cache
+    cachedClosure = entity => get(entity, path)
+    propertyClosuresCacheMap[path] = cachedClosure
+  }
+  return cachedClosure
 }
 
 /**
@@ -160,7 +174,7 @@ function buildValuesRenderCell(values) {
  */
 function buildPropertiesRenderCell(properties) {
   return buildValuesRenderCell(properties.map(({ path, RenderConstructor, props }) => ({
-    getValue: extractPropertyClosure(path),
+    getValue: getCachedPropertyClosure(path),
     RenderConstructor,
     props,
   })))

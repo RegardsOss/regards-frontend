@@ -24,7 +24,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { HOCUtils } from '@regardsoss/display-control'
 import {
-  PageableInfiniteTableContainer, RefreshPageableTableOption, TableColumnBuilder, TableLayout, TableHeaderLine,
+  PageableInfiniteTableContainer, AutoRefreshPageableTableHOC, TableColumnBuilder, TableLayout, TableHeaderLine,
   TableHeaderOptionsArea, TableHeaderContentBox, TableHeaderOptionGroup, TableHeaderLoadingComponent,
   TableColumnsVisibilityOption, DateValueRender, StorageCapacityRender,
 } from '@regardsoss/components'
@@ -311,6 +311,12 @@ class OrderListComponent extends React.Component {
     // render headers and table
     return (
       <TableLayout>
+        {/* 0 - Table auto refresh HOC (no graphic) */}
+        <AutoRefreshPageableTableHOC
+          pageSize={pageSize}
+          pageableTableActions={ordersActions}
+          pageableTableSelectors={ordersSelectors}
+        />
         <TableHeaderLine>
           {/* 1 - commands count */}
           <TableHeaderContentBox>
@@ -322,12 +328,6 @@ class OrderListComponent extends React.Component {
           {/* 3 - table options  */}
           <TableHeaderOptionsArea >
             <TableHeaderOptionGroup>
-              {/* refresh option */}
-              <RefreshPageableTableOption
-                pageSize={pageSize}
-                pageableTableActions={ordersActions}
-                pageableTableSelectors={ordersSelectors}
-              />
               {/* columns visibility configuration  */}
               <TableColumnsVisibilityOption
                 columns={columns}

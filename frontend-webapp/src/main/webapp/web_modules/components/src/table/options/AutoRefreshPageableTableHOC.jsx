@@ -16,34 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import root from 'window-or-global'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-utils'
+import { RefreshPageableTableOption } from './RefreshPageableTableOption'
 import { DEFAULT_PAGE_SIZE } from '../InfiniteTableContainer'
-import RefreshButtonComponent from './RefreshButtonComponent'
 
 /**
-* Refresh table option adapted to pagable endpont (container and component, made to be embedded within table header )
-* @author Raphaël Mechali
-*/
-export class RefreshPageableTableOption extends React.Component {
-  /**
-   * Refresh table method (static to be share with other components)
-   * @param {*} pageSize table page size
-   * @param {*} shouldRefetchAll should refetch all table elements?
-   * @param {*} pageMetadata page metadata
-   * @param {*} fetchEntities fetch entities method
-   * @return {Promise} dispatched promise
-   */
-  static refreshTable(pageSize, shouldRefetchAll, pageMetadata, fetchEntities) {
-    let fetchPageSize = pageSize
-    if (shouldRefetchAll) {
-      // compute page size to refresh all current entities in the table
-      const lastPage = (pageMetadata && pageMetadata.number) || 0
-      fetchPageSize = pageSize * (lastPage + 1)
-    }
-    return fetchEntities(0, fetchPageSize)
-  }
-
+ * Auto refresh table content HOC. It has no graphics render. It fetches like following:
+ * Wait for fetch to be performed (initial one is done by table container) then start timer on refreshTimeMS then
+ * refresh complete table content
+ *
+ * @author Raphaël Mechali
+ */
+export class AutoRefreshPageableTableHOC extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -72,6 +58,9 @@ export class RefreshPageableTableOption extends React.Component {
   static propTypes = {
     // should refetech all elements (or only first page)
     shouldRefetchAll: PropTypes.bool,
+    // refresh time after previous fetch in milliseconds (see defaultProps for value)
+    // eslint-disable-next-line react/no-unused-prop-types
+    refreshTimeMS: PropTypes.number, // used in onPropertiesUpdated
     // page size, uses default page size when not provided
     pageSize: PropTypes.number,
     // eslint-disable-next-line
@@ -83,7 +72,8 @@ export class RefreshPageableTableOption extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     pageableTableSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // used in map state to props
     // from mapStateToProps
-    isFetching: PropTypes.bool,
+    // eslint-disable-next-line react/no-unused-prop-types
+    isFetching: PropTypes.bool, // used in onPropertiesUpdated
     pageMetadata: PropTypes.shape({
       number: PropTypes.number,
       size: PropTypes.number,
@@ -96,11 +86,43 @@ export class RefreshPageableTableOption extends React.Component {
   static defaultProps = {
     shouldRefetchAll: true,
     pageSize: DEFAULT_PAGE_SIZE,
+    refreshTimeMS: 2500,
   }
 
   /**
- * Refreshes table up to the current last page
- */
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Lifecycle method: component will unmount. Used here to clear any running timer
+   */
+  componentWillUnmount() {
+    if (this.timerID) {
+      root.clearTimeout(this.timerID)
+    }
+  }
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    if (oldProps.isFetching && !newProps.isFetching) {
+      this.timerID = root.setTimeout(this.onRefresh, newProps.refreshTimeMS)
+    }
+  }
+
+  /**
+   * Refreshes table
+   */
   onRefresh = () => {
     const {
       pageSize, shouldRefetchAll, pageMetadata, fetchEntities,
@@ -109,17 +131,11 @@ export class RefreshPageableTableOption extends React.Component {
   }
 
   render() {
-    const { isFetching } = this.props
-    return (
-      <RefreshButtonComponent
-        canFetch={!isFetching}
-        onRefresh={this.onRefresh}
-      />
-    )
+    return null
   }
 }
 
 export default connect(
-  RefreshPageableTableOption.mapStateToProps,
-  RefreshPageableTableOption.mapDispatchToProps,
-)(RefreshPageableTableOption)
+  AutoRefreshPageableTableHOC.mapStateToProps,
+  AutoRefreshPageableTableHOC.mapDispatchToProps,
+)(AutoRefreshPageableTableHOC)

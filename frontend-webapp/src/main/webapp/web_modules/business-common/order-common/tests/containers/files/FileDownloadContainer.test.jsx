@@ -52,9 +52,8 @@ describe('[Order Common] Testing FileDownloadContainer', () => {
   })
   it('should render correctly when not downloadable', () => {
     const NON_DOWNLOADABLE_STATES = [
-      OrderDomain.ORDER_FILE_STATUS_ENUM.DOWNLOADED,
-      OrderDomain.ORDER_FILE_STATUS_ENUM.ERROR,
       OrderDomain.ORDER_FILE_STATUS_ENUM.PENDING,
+      OrderDomain.ORDER_FILE_STATUS_ENUM.ERROR,
     ]
     NON_DOWNLOADABLE_STATES.forEach((state) => {
       mockFile.content.state = state
@@ -78,6 +77,8 @@ describe('[Order Common] Testing FileDownloadContainer', () => {
   it('should render correctly when downloadable', () => {
     const NON_DOWNLOADABLE_STATES = [
       OrderDomain.ORDER_FILE_STATUS_ENUM.AVAILABLE,
+      OrderDomain.ORDER_FILE_STATUS_ENUM.DOWNLOADED,
+      OrderDomain.ORDER_FILE_STATUS_ENUM.DOWNLOAD_ERROR,
       OrderDomain.ORDER_FILE_STATUS_ENUM.ONLINE,
     ]
     NON_DOWNLOADABLE_STATES.forEach((state) => {

@@ -55,6 +55,8 @@ export class FileDownloadContainer extends React.Component {
    */
   static DOWNLOADABLE_FILE_STATES = [
     OrderDomain.ORDER_FILE_STATUS_ENUM.AVAILABLE,
+    OrderDomain.ORDER_FILE_STATUS_ENUM.DOWNLOADED,
+    OrderDomain.ORDER_FILE_STATUS_ENUM.DOWNLOAD_ERROR,
     OrderDomain.ORDER_FILE_STATUS_ENUM.ONLINE,
   ]
 

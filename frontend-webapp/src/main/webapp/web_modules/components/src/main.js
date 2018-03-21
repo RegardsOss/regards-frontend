@@ -89,6 +89,7 @@ import URLPictureResolver from './picture/URLPictureResolver'
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
 
 import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
+import AutoRefreshPageableTableHOC from './table/options/AutoRefreshPageableTableHOC'
 import CheckBoxCell from './table/content/cells/CheckBoxCell'
 import InfiniteTableContainer from './table/InfiniteTableContainer'
 import getTableReducer from './table/model/TableReducer'
@@ -201,6 +202,7 @@ export {
   InfiniteTableContainer,
   getTableReducer,
   getTableSelectors,
+  AutoRefreshPageableTableHOC,
   RefreshPageableTableOption,
   PageableInfiniteTableContainer,
   TableActions,

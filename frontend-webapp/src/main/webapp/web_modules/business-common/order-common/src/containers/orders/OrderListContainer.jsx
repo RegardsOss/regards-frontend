@@ -139,7 +139,6 @@ export class OrderListContainer extends React.Component {
     }
   }
 
-
   /**
    * User callbacker: user updated columns visibility (this container considers only columns keys)
    * @param {[{key, visible}]} updatedColumns updated columns
