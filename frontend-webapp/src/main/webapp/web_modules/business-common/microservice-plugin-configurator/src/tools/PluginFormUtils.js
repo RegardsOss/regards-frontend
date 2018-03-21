@@ -112,6 +112,21 @@ class PluginFormUtils {
     return formatedConf
   }
 
+  static formatPluginParameterConf(parameterMetaData, parameterConf, forInit = false) {
+    if (parameterConf && ((!isNil(parameterConf.value) && parameterConf.value !== parameterMetaData.defaultValue) || parameterConf.dynamic === true)) {
+      // For both initialization && submition, if a value is specified set the parameterConf with the given value or if not, set with default value
+      const formatedParamterConf = cloneDeep(parameterConf)
+      formatedParamterConf.value = PluginFormUtils.formatParameterConf(parameterConf.value, parameterMetaData, forInit)
+      console.error('Writting param : ', formatedParamterConf)
+      return formatedParamterConf
+    } else if (forInit) {
+      // For initialization, we need to create all parameters in configuration
+      return PluginFormUtils.createNewParameterConf(parameterMetaData)
+    }
+    // For submition, no need to add missing parameters in the conf.
+    return null
+  }
+
   /**
    * Format a PluginConfiguration for initialisation or for submition.
    * Initialization mode : If forInit parameter is true, missing parameters in configuration are initialized.
@@ -126,16 +141,9 @@ class PluginFormUtils {
       formatedConf.parameters = []
       forEach(pluginMetaData.parameters, (p) => {
         const parameterConf = find(pluginConfiguration.parameters, { name: p.name })
-        if (parameterConf && ((!isNil(parameterConf.value) && parameterConf.value !== p.defaultValue) || parameterConf.dynamic === true)) {
-          // For both initialization && submition, if a value is specified set the parameterConf with the given value or if not, set with default value
-          const param = cloneDeep(parameterConf)
-          param.value = PluginFormUtils.formatParameterConf(parameterConf.value, p, forInit)
-          formatedConf.parameters.push(param)
-        } else if (forInit) {
-          // For initialization, we need to create all parameters in configuration
-          formatedConf.parameters.push(PluginFormUtils.createNewParameterConf(p))
-        } else {
-          // For submition, no need to add missing parameters in the conf.
+        const formatedParameter = PluginFormUtils.formatPluginParameterConf(p, parameterConf, forInit)
+        if (formatedParameter !== null) {
+          formatedConf.parameters.push(formatedParameter)
         }
       })
     }

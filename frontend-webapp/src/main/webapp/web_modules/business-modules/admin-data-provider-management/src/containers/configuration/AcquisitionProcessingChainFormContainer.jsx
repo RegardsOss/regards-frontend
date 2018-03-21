@@ -119,20 +119,11 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
     } else {
       action = this.props.create(values)
     }
-    // Set loading action
-    this.setState({
-      isLoading: true,
-    }, () => {
-      // Then check results for error.
-      // If no error, return to list view, else display error
-      action.then((actionResults) => {
-        if (!actionResults.error) {
-          this.onBack()
-        }
-        this.setState({
-          isLoading: false,
-        })
-      })
+    action.then((actionResults) => {
+      console.error('result', actionResults)
+      if (!actionResults.error) {
+        this.onBack()
+      }
     })
   }
 

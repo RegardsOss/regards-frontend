@@ -54,7 +54,7 @@ const messages = Object.assign({
   'attrmodel.form.unit.description.dialog.content':
     'Ce paramètre vous permet de déterminer l\'unité de mesure associée à votre attribut.<br/> Les unités de stockage (taille des fichiers) sont gérées pour un meilleur affichage das l\'interface utilisateur veuillez donc utiliser la norme IEEE 1541 <br /><br/>' +
     'Vous pouvez utiliser : <ul>' +
-    '<li> - bytes, byte, B, kB, mB, gB, tB, pB, eB</li>' +
+    '<li> - octets, octet, , ko, mo, go, to, po, eo</li>' +
     '<li> - bit, bits, b, kb, mb, gb, tb, pb, eb</li>' +
     '</ul>',
   'attrmodel.form.unit.description.dialog.close': 'Close',

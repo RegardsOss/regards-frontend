@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEqual from 'lodash/isEqual'
 import includes from 'lodash/includes'
 import { CommonShapes } from '@regardsoss/shape'
 import { fieldInputPropTypes } from 'redux-form'
@@ -33,6 +34,7 @@ import { RenderObjectParameterField } from './RenderObjectParameterField'
 import { RenderCollectionParameterField } from './RenderCollectionParameterField'
 import { RenderMapParameterField } from './RenderMapParameterField'
 import { getPrimitiveJavaTypeRenderParameters } from './JavaPrimitiveTypesTool'
+import PluginFormUtils from '../tools/PluginFormUtils'
 import styles from '../styles'
 import messages from '../i18n'
 
@@ -68,6 +70,15 @@ export class RenderPluginParameterField extends React.PureComponent {
 
   state = {
     descriptionOpened: false,
+  }
+
+  componentWillMount() {
+    // Format plugin parameter conf for initialization with the given metadatas
+    const { pluginParameterType, complexParameter, input: { value, onChange } } = this.props
+    const formatedParam = complexParameter ? PluginFormUtils.formatPluginParameterConf(pluginParameterType, value, true) : value
+    if (!isEqual(formatedParam, value)) {
+      onChange(formatedParam)
+    }
   }
 
   handleCloseDescription = () => {
