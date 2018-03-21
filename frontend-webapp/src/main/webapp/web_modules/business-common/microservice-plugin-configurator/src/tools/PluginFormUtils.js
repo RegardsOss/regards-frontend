@@ -22,6 +22,7 @@ import find from 'lodash/find'
 import forEach from 'lodash/forEach'
 import omit from 'lodash/omit'
 import replace from 'lodash/replace'
+import isNil from 'lodash/isNil'
 import { CommonDomain } from '@regardsoss/domain'
 
 
@@ -75,7 +76,7 @@ class PluginFormUtils {
    * @param {*} complex
    */
   static createNewParameterConf(parameterMetadata, complex = true) {
-    const parameterConf = complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name) : {}
+    const parameterConf = complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.defaultValue) : {}
     if (parameterMetadata.parameters) {
       forEach(parameterMetadata.parameters, (innerParameterMetadata) => {
         parameterConf.value = PluginFormUtils.createNewParameterConf(innerParameterMetadata, false)
@@ -91,7 +92,7 @@ class PluginFormUtils {
    * @param {*} forInit
    */
   static formatParameterConf(parameterConfValue, parameterMeta, forInit) {
-    let formatedConf = parameterConfValue || undefined
+    let formatedConf = !isNil(parameterConfValue) ? parameterConfValue : undefined
     // If the parameter to format is a MAP parameter format keys
     if (parameterMeta.paramType === CommonDomain.PluginParameterTypes.MAP) {
       formatedConf = PluginFormUtils.formatMapParameterKeys(parameterMeta, parameterConfValue, forInit)
@@ -102,7 +103,7 @@ class PluginFormUtils {
     if (!parameterMeta.parameterizedSubTypes) {
       forEach(parameterMeta.parameters, (p) => {
         formatedConf[p.name] = PluginFormUtils.formatParameterConf(
-          parameterConfValue && parameterConfValue[p.name] ? parameterConfValue[p.name] : undefined,
+          parameterConfValue && !isNil(parameterConfValue[p.name]) ? parameterConfValue[p.name] : undefined,
           p,
           forInit,
         )
@@ -125,8 +126,8 @@ class PluginFormUtils {
       formatedConf.parameters = []
       forEach(pluginMetaData.parameters, (p) => {
         const parameterConf = find(pluginConfiguration.parameters, { name: p.name })
-        if (parameterConf && (parameterConf.value || parameterConf.dynamic === true)) {
-          // For both initialization && submition, if a value is specified set the parameterConf with the given value
+        if (parameterConf && ((!isNil(parameterConf.value) && parameterConf.value !== p.defaultValue) || parameterConf.dynamic === true)) {
+          // For both initialization && submition, if a value is specified set the parameterConf with the given value or if not, set with default value
           const param = cloneDeep(parameterConf)
           param.value = PluginFormUtils.formatParameterConf(parameterConf.value, p, forInit)
           formatedConf.parameters.push(param)
