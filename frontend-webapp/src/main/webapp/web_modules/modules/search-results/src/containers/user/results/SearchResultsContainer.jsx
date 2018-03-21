@@ -218,6 +218,7 @@ export class SearchResultsContainer extends React.Component {
       switch (newProps.viewObjectType) {
         case DamDomain.ENTITY_TYPES_ENUM.DATASET:
           newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.datasetAttributesConf, [], false)
+          newState.displayOnlyQuicklook = false
           break
         case DamDomain.ENTITY_TYPES_ENUM.DATA:
           if (newProps.tableDisplayMode !== TableDisplayModeEnum.QUICKLOOK) {
@@ -234,6 +235,7 @@ export class SearchResultsContainer extends React.Component {
           break
         case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT:
           newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.documentAttributesConf, [], false)
+          newState.displayOnlyQuicklook = false
           break
         default:
           throw new Error('Unhandled object type ', newProps.viewObjectType)
@@ -354,17 +356,18 @@ export class SearchResultsContainer extends React.Component {
     // check if facettes should be applied
     const facettes = (showingFacettes && showingDataobjects) || showingDocuments ? filters : []
     const facettesQueryPart = showingFacettes || showingDocuments ? facettesQuery : ''
-    const quicklookQuery = displayOnlyQuicklook ? 'exists=files.QUICKLOOK_SD' : ''
 
     let searchActions
     let sorting
     let initialSearchQuery
+    let quicklookQuery = ''
     const datasetTag = Tag.getSearchedDatasetTag(levels)
 
     // extract search parameters from level tags (every parameter except the datasets, that may be used specifically into the datasets search)
     const parameters = levels.reduce((acc, levelTag) => levelTag.isDataset() ? acc : [...acc, OpenSearchQuery.buildTagParameter(levelTag.searchKey)], [])
     if (viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
-      // 1 - Data object search : use data object actions, search query and dataset as a Tag on dataobjects
+      // 1 - Data object search : use data object actions, search query, dataset as a Tag on dataobjects
+      // and quicklooks filter if enabled
       initialSearchQuery = searchQuery
       searchActions = searchDataobjectsActions
       parameters.push(OpenSearchQuery.buildTagParameter(datasetTag ? datasetTag.searchKey : ''))
@@ -372,6 +375,10 @@ export class SearchResultsContainer extends React.Component {
       const sortingOn = attributePresentationModels.reduce((acc, model) => // transform into key / value sorting elements
         model.sortOrder !== TableSortOrders.NO_SORT ? [...acc, { attributePath: model.key, type: model.sortOrder }] : acc, [])
       sorting = sortingOn.length ? sortingOn : initialSortAttributesPath
+      // check user is currently showing only quicklook pictures
+      if (displayOnlyQuicklook) {
+        quicklookQuery = 'exists=files.QUICKLOOK_SD'
+      }
     } else if (viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATASET) {
       // 2 - Showing datasets: use specific dataset actions to cut down fetch time when possible
       const datasetLevel = Tag.getSearchedDatasetTag(levels)
