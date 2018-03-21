@@ -96,7 +96,8 @@ export class PluginFormComponent extends React.Component {
       priorityOrder: 1,
       parameters: [],
     }
-    const initValues = pluginConf
+    const initValues =
+      PluginFormUtils.formatPluginConfForReduxFormInit(pluginConf, pluginMetaData, true)
 
     if (pluginConfiguration && !isEditing) {
       // In copy mode remove id of the duplicated pluginConfiguration
