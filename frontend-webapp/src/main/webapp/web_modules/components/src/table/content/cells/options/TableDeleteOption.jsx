@@ -57,6 +57,7 @@ class TableDeleteOption extends React.Component {
     'requestParams',
     'onDelete',
     'queryPageSize',
+    'disableInsteadOfHide',
   ]
 
   static defaultProps = {

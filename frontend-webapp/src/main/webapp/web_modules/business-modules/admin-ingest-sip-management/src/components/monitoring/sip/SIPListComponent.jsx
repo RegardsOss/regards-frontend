@@ -108,19 +108,29 @@ class SIPListComponent extends React.Component {
   }
 
   onConfirmDeleteSIP = () => {
-    this.closeDeleteDialog()
-    if (this.state.sipToDelete) {
-      this.props.onDeleteByIpId(this.state.sipToDelete.content).then((ActionResult) => {
-        this.displayDeletionErrors(get(ActionResult, 'payload', []))
-      })
-    }
+    this.onConfirmDelete(this.props.onDeleteByIpId)
   }
 
   onConfirmDeleteSIPs = () => {
+    this.onConfirmDelete(this.props.onDeleteBySipId)
+  }
+
+  onConfirmDelete = (deleteAction) => {
     this.closeDeleteDialog()
     if (this.state.sipToDelete) {
-      this.props.onDeleteBySipId(this.state.sipToDelete.content).then((ActionResult) => {
-        this.displayDeletionErrors(get(ActionResult, 'payload', []))
+      const sipId = get(this.state, 'sipToDelete.content.sipId', '')
+      const { intl: { formatMessage } } = this.context
+      deleteAction(this.state.sipToDelete.content).then((actionResult) => {
+        if (actionResult.error) {
+          const errors = []
+          errors.push({
+            sipId,
+            reason: formatMessage({ id: 'sip.delete.error.title' }, { id: sipId }),
+          })
+          this.displayDeletionErrors(sipId, errors)
+        } else {
+          this.displayDeletionErrors(sipId, get(actionResult, 'payload', []))
+        }
       })
     }
   }
@@ -134,6 +144,7 @@ class SIPListComponent extends React.Component {
   onCloseDeletionErrorDialog = () => {
     this.setState({
       deletionErrors: [],
+      deletionErrorsId: null,
     })
   }
 
@@ -183,9 +194,10 @@ class SIPListComponent extends React.Component {
     })
   }
 
-  displayDeletionErrors = (rejectedSips) => {
+  displayDeletionErrors = (sipId, rejectedSips) => {
     this.setState({
-      deletionErrors: map(rejectedSips, rejectedSip => `${rejectedSip.sipId} : ${rejectedSip.exception}`),
+      deletionErrorsId: sipId,
+      deletionErrors: map(rejectedSips, rejectedSip => `${rejectedSip.sipId} : ${rejectedSip.reason}`),
     })
   }
 
@@ -339,7 +351,7 @@ class SIPListComponent extends React.Component {
         {this.renderSIPDetail()}
         {this.renderDeleteConfirmDialog()}
         <SIPDeletionErrorDialog
-          sipId={this.state.sipToDelete}
+          sipId={this.state.deletionErrorsId}
           errors={this.state.deletionErrors}
           onClose={this.onCloseDeletionErrorDialog}
         />
