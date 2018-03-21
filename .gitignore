@@ -14,12 +14,19 @@
 ######################
 # Intellij
 ######################
-.idea/**
+**/.idea/**
 *.iml
 *.iws
 *.ipr
 *.ids
 *.orig
+
+######################
+# Visual Studio code
+######################
+*.code-workspace
+**/.vscode/**
+**/.history/**
 
 ######################
 # Maven
@@ -37,6 +44,3 @@ Thumbs.db
 ######################
 *.log
 
-frontend-webapp/src/main/webapp/\.vscode/
-
-frontend-webapp/src/main/webapp/\.history/
