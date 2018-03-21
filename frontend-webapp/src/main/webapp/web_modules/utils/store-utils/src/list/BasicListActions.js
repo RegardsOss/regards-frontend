@@ -250,6 +250,28 @@ class BasicListActions extends BasicActions {
     }
   }
 
+  deleteEntityWithPayloadResponse(keyValue, pathParams, queryParams) {
+    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
+    if (keyValue) {
+      endpoint = `${endpoint}/${keyValue}`
+    }
+    endpoint = this.handleRequestQueryParams(endpoint, queryParams)
+    return {
+      [CALL_API]: {
+        types: [
+          this.DELETE_ENTITY_REQUEST,
+          this.buildSuccessAction(
+            this.DELETE_ENTITY_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res),
+          ),
+          this.buildFailureAction(this.DELETE_ENTITY_FAILURE),
+        ],
+        endpoint,
+        method: 'DELETE',
+      },
+    }
+  }
+
   /**
    * Allows to send multiple objects on the same time
    * Requires that the API send back a new entity
@@ -336,7 +358,8 @@ class BasicListActions extends BasicActions {
           this.CREATE_ENTITY_REQUEST,
           {
             type: this.CREATE_ENTITY_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
+
+            payload: (action, state, res) => res.status === 204 ? null : this.buildResults(res),
           },
           this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
         ],
@@ -355,8 +378,18 @@ class BasicListActions extends BasicActions {
       * @return normalization promise
       */
   static extractPayload(res, normalizer) {
-    return getJSON(res).then(json => normalizer(json))
+    if (normalizer) {
+      return getJSON(res).then(json => normalizer(json))
+    }
+    return getJSON(res).then(json => json)
   }
+
+  /**
+   * Behavior: build result from fetch result
+   * @param {*} res fetch result
+   * @return result
+   */
+  buildResults = res => getJSON(res).then(json => json)
 
   /**
     * Normalizes action payload as direct entities list payload
