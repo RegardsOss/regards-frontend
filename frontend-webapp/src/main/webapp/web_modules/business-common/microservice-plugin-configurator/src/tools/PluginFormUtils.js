@@ -117,7 +117,6 @@ class PluginFormUtils {
       // For both initialization && submition, if a value is specified set the parameterConf with the given value or if not, set with default value
       const formatedParamterConf = cloneDeep(parameterConf)
       formatedParamterConf.value = PluginFormUtils.formatParameterConf(parameterConf.value, parameterMetaData, forInit)
-      console.error('Writting param : ', formatedParamterConf)
       return formatedParamterConf
     } else if (forInit) {
       // For initialization, we need to create all parameters in configuration
