@@ -129,6 +129,7 @@ pipeline {
                     //},
                     maven: {
                         sh 'docker run --rm -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh $(id -u) $(id -g)'
+                        sh 'sleep 10'
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/frontend-boot:/app_to_build \
                             -v ${WORKSPACE}/frontend-webapp/src/main/webapp/dist/prod:/app_to_build/frontend-webapp/src/main/webapp/dist/prod \
