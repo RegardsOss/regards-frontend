@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
+import isNil from 'lodash/isNil'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { storage } from '@regardsoss/units'
@@ -38,34 +38,29 @@ export class NumberValueRender extends React.Component {
     ...themeContextType,
   }
 
-  static storageUnitConvertion = {
-    octet: 'B',
-    octets: 'B',
-    byte: 'B',
-    bytes: 'B',
-    bit: 'b',
-    bits: 'b',
-    unitless: null,
-  }
+  /** No unit constant */
+  static unitless = 'unitless'
 
   render() {
     const { value, unit } = this.props
     const { intl: { formatMessage, formatNumber }, moduleTheme: { textRenderCell } } = this.context
     let textValue
-    const convertedUnit = get(NumberValueRender.storageUnitConvertion, unit, unit)
-    if (convertedUnit) {
-      const storageUnit = storage.StorageUnitScale.getMatchingUnit(convertedUnit)
+    // No value
+    if (isNil(value)) {
+      textValue = formatMessage({ id: 'value.render.no.value.label' })
+    } else if (!unit || unit.toLowerCase() === NumberValueRender.unitless) {
+      // no unit
+      textValue = value
+    } else {
+      // unit: is a known scalable unit?
+      const storageUnit = storage.StorageUnitScale.getMatchingUnit(unit)
       if (storageUnit) {
         const valueWithUnit = new storage.StorageCapacity(value, storageUnit).scaleAndConvert(storageUnit.scale)
         textValue = storage.formatStorageCapacity(formatMessage, formatNumber, valueWithUnit)
       } else {
-        textValue = value ? `${value}${unit}` : `-${unit}`
+        textValue = `${value}${unit}`
       }
-    } else {
-      textValue = value
     }
-
-    textValue = textValue || formatMessage({ id: 'value.render.no.value.label' })
 
     return (
       <div style={textRenderCell} title={textValue}>

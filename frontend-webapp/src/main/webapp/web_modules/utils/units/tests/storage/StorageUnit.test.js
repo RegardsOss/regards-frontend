@@ -61,9 +61,10 @@ describe('[Storage Monitoring] Testing units', () => {
       expectedScale: StorageUnitScale.bitsScale,
       expectedSymbol: 'kb',
     }, {
-      // failure case: Capital marker with standard system
+      // case insensitivity test case: Capital marker with standard system
       test: 'Tb',
-      expectedScale: null,
+      expectedScale: StorageUnitScale.bitsScale,
+      expectedSymbol: 'tb',
     }, {
       // simple byte
       test: 'B',
@@ -95,9 +96,10 @@ describe('[Storage Monitoring] Testing units', () => {
       expectedScale: StorageUnitScale.bytesScale,
       expectedSymbol: 'KB',
     }, {
-      // failure : lower letter marker with standard system
+      // case insensitivity test case: lower letter marker with standard system, the parser should still resolve it to bytes
       test: 'tB',
-      expectedScale: null,
+      expectedScale: StorageUnitScale.bytesScale,
+      expectedSymbol: 'TB',
     }, {
       // special case: parse also french units
       test: 'ko',
@@ -114,9 +116,10 @@ describe('[Storage Monitoring] Testing units', () => {
       expectedScale: StorageUnitScale.bytesSIPrefixScale,
       expectedSymbol: 'MiB',
     }, {
-      // failure case : mixed capital lettes in standard system with SI prefix
+      // case insensitivity test case: mixed capital lettes in standard system with SI prefix
       test: 'miB',
-      expectedScale: null,
+      expectedScale: StorageUnitScale.bytesSIPrefixScale,
+      expectedSymbol: 'MiB',
     }, {
       // bits SI prefix singular, case insensitive
       test: 'GIbIt',

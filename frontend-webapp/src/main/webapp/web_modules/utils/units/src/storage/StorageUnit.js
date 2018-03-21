@@ -82,7 +82,8 @@ class StorageUnitScale {
    * @returns {StorageUnit | null} found unit
    */
   findUnit(text) {
-    const matched = this.parsingRegexp.reduce((prevMatched, regexp) => prevMatched || text.trim().match(regexp), null)
+    const matched = this.parsingRegexp.reduce((prevMatched, regexp) =>
+      prevMatched || text.trim().match(regexp), null)
     if (matched) {
       const foundPrefix = matched[1]
       if (!foundPrefix) {
@@ -116,11 +117,28 @@ class StorageUnitScale {
 
 /** Scale steps (inner use only, to generate all units) **/
 StorageUnitScale.scalesSteps = ['k', 'm', 'g', 't', 'p', 'e', 'z', 'y']
-StorageUnitScale.bitsScale = new StorageUnitScale('bits', BIT, 'b', 10 ** 3, [/^\s*([a-z]?)b\s*$/, /^([a-z]?)bit[s]?\s*$/i])
+StorageUnitScale.bitsScale = new StorageUnitScale('bits', BIT, 'b', 10 ** 3, [
+  /^\s*([a-zA-Z]?)b\s*$/, // FR and EN bit
+  /^\s*([a-z]?)bit[s]?\s*$/i, // FR and EN scale name
+])
+
 // Bytes: parsed as both french octets 'o' and standard 'B' 'byte(s)'
-StorageUnitScale.bytesScale = new StorageUnitScale('bytes', BYTE, 'B', 10 ** 3, [/^\s*([A-Z]?)B\s*$/, /^\s*([a-z]?)o\s*$/i, /^\s*([a-z]?)bytes?\s*$/i])
-StorageUnitScale.bitsSIPrefixScale = new StorageUnitScale('bits.si.prefix', BIT, 'ib', 2 ** 10, [/^\s*([a-z])ib\s*$/, /^\s*([a-z])ibits?\s*$/i])
-StorageUnitScale.bytesSIPrefixScale = new StorageUnitScale('bytes.si.prefix', BYTE, 'iB', 2 ** 10, [/^\s*([A-Z])iB\s*$/, /^\s*([a-z])io\s*$/i, /^\s*([a-z])ibytes?\s*$/i])
+StorageUnitScale.bytesScale = new StorageUnitScale('bytes', BYTE, 'B', 10 ** 3, [
+  /^\s*([a-zA-Z]?)B\s*$/, // EN byte symbol
+  /^\s*([a-z]?)o\s*$/i, // FR byte symbol
+  /^\s*([a-z]?)bytes?\s*$/i, // EN bytes scale name
+  /^\s*([a-z]?)octets?\s*$/i, // FR bytes scale name
+])
+StorageUnitScale.bitsSIPrefixScale = new StorageUnitScale('bits.si.prefix', BIT, 'ib', 2 ** 10, [
+  /^\s*([a-z][A-Z]?)ib\s*$/, // FR and EN symbol
+  /^\s*([a-z]?)ibits?\s*$/i, // FR and EN scale name
+])
+StorageUnitScale.bytesSIPrefixScale = new StorageUnitScale('bytes.si.prefix', BYTE, 'iB', 2 ** 10, [
+  /^\s*([a-zA-Z]?)iB\s*$/, // EN symbol
+  /^\s*([a-z]?)io\s*$/i, // FR symbol
+  /^\s*([a-z]?)ibytes?\s*$/i, // EN ibytes scale name
+  /^\s*([a-z]?)ioctets?\s*$/i, // FR ibytes scale name
+])
 // all units, ordered by less specific to more specific
 StorageUnitScale.all = [StorageUnitScale.bitsScale, StorageUnitScale.bytesScale, StorageUnitScale.bitsSIPrefixScale, StorageUnitScale.bytesSIPrefixScale]
 
