@@ -63,6 +63,7 @@ class ModuleComponent extends React.Component {
       enableFacettes,
       facettesInitiallySelected,
       enableQuicklooks,
+      restrictedDatasetsIpIds,
       searchQuery,
       attributes,
       attributesQuicklook,
@@ -100,6 +101,8 @@ class ModuleComponent extends React.Component {
           enableDownload={enableDownload}
           enableQuicklooks={enableQuicklooks}
           displayMode={displayMode}
+          displayConf={displayConf}
+          restrictedDatasetsIpIds={restrictedDatasetsIpIds}
           searchQuery={searchQuery}
           datasetsSectionLabel={datasetsSectionLabel}
           dataSectionLabel={dataSectionLabel}
@@ -110,7 +113,6 @@ class ModuleComponent extends React.Component {
           datasetAttributesConf={datasetAttributes}
           documentAttributesConf={documentAttributes}
           attributeModels={attributeModels}
-          displayConf={displayConf}
         />
       </DynamicModulePane >
     )

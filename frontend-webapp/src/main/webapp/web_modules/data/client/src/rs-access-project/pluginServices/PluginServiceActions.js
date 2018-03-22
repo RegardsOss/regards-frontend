@@ -39,15 +39,15 @@ export default class PluginServiceActions extends BasicSignalActions {
 
   /**
    * Fetches common plugin services for current results context
-   * @param {*} datasetIpId dataset IP ID (optional)
+   * @param {*} datasetIpIds dataset IP ID (optional)
    */
-  fetchPluginServices(datasetIpId = null) {
+  fetchPluginServices(datasetIpIds = null) {
     const queryParams = {
       // when fetching for catalog context, we ignore the ONE services, that are provided on entities
       'applicationModes[]': 'MANY',
     }
-    if (datasetIpId) {
-      queryParams.datasetIpId = datasetIpId
+    if (datasetIpIds && datasetIpIds.length) {
+      queryParams['datasetIpIds[]'] = datasetIpIds.join(',')
     }
     return this.sendSignal('GET', null, null, queryParams)
   }

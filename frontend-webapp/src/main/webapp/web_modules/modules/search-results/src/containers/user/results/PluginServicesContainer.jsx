@@ -71,21 +71,26 @@ export class PluginServicesContainer extends React.Component {
    */
   static getSelectionServices = ({
     selectionMode, toggledElements, pageMetadata, emptySelection,
-    contextSelectionServices, viewObjectType, selectedDatasetIpId, availableDependencies = [],
+    contextSelectionServices, viewObjectType, availableDependencies = [],
+    selectedDatasetTag, restrictedDatasetsIpIds,
   }) => {
     let selectionServices = []
+
+
     if (!emptySelection) {
-      // 1 - recover context services
+      // 1 - Compute if there is a context
+      const hasDastasetContext = selectedDatasetTag || restrictedDatasetsIpIds
+      // 2 - recover context services
       if (contextSelectionServices) {
         // filter service for current context (only selection services, working with current objects type),
         // then remove 'content' wrapper to have basic services shapes
         selectionServices = filter(contextSelectionServices, service =>
           PluginServicesContainer.isUsableSelectionService(service, viewObjectType, availableDependencies))
       }
-      // 2 - Find every service that match all objects in selection
-      // Notes: That operation cannot be performed when selection is exclusive. It is useless when
-      // there is a dataset IP ID set ('MANY' services would then be in "contextSelectionServices")
-      if (!selectedDatasetIpId && selectionMode === TableSelectionModes.includeSelected) {
+      // 3 - Find every service that match all objects in selection
+      // Note 1: That operation cannot be performed when selection is exclusive.
+      // Note 2: It is useless when there is a dataset context ('MANY' services would then be in "contextSelectionServices")
+      if (!hasDastasetContext && selectionMode === TableSelectionModes.includeSelected) {
         // compute first element services (pre: toggled elements cannot be empty here since we are in 'includeSelected' mode)
         // note: we remove doubles here to lower later complexity
         const [{ content: { services: allFirstEntityServices = [] } }, ...otherSelectedElements] = values(toggledElements)
@@ -112,19 +117,10 @@ export class PluginServicesContainer extends React.Component {
     return selectionServices
   }
 
-  /**
-   * Returns selected dataset IP ID or null if none
-   * @param {*} state redux state
-* @param {*} properties component properties
-*/
-  static getSelectedDatasetIpId = (state, { initialDatasetIpId }) => {
-    const dynamicTag = Tag.getSearchedDatasetTag(navigationContextSelectors.getLevels(state))
-    return dynamicTag ? dynamicTag.searchKey : initialDatasetIpId
-  }
 
   static mapStateToProps = (state, props) => ({
     // context related
-    selectedDatasetIpId: PluginServicesContainer.getSelectedDatasetIpId(state, props),
+    selectedDatasetTag: Tag.getSearchedDatasetTag(navigationContextSelectors.getLevels(state)),
     // seletion related
     selectionMode: TableClient.tableSelectors.getSelectionMode(state),
     toggledElements: TableClient.tableSelectors.getToggledElements(state),
@@ -139,7 +135,7 @@ export class PluginServicesContainer extends React.Component {
   })
 
   static mapDispatchToProps = dispatch => ({
-    dispatchFetchPluginServices: datasetIpId => dispatch(pluginServiceActions.fetchPluginServices(datasetIpId)),
+    dispatchFetchPluginServices: datasetIpIds => dispatch(pluginServiceActions.fetchPluginServices(datasetIpIds)),
     dispatchRunService: (service, serviceTarget) => dispatch(runPluginServiceActions.runService(service, serviceTarget)),
     dispatchCloseService: () => dispatch(runPluginServiceActions.closeService()),
   })
@@ -148,7 +144,7 @@ export class PluginServicesContainer extends React.Component {
     // context related
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // currently displayed entities type
     // eslint-disable-next-line react/no-unused-prop-types
-    initialDatasetIpId: PropTypes.string, // initial dataset ip id or none
+    restrictedDatasetsIpIds: PropTypes.arrayOf(PropTypes.string),
     openSearchQuery: PropTypes.string.isRequired,
     // components children, where this container will inject services related properties
     // eslint-disable-next-line react/no-unused-prop-types
@@ -160,7 +156,7 @@ export class PluginServicesContainer extends React.Component {
     // from mapStateToProps
     // context related
     // eslint-disable-next-line react/no-unused-prop-types
-    selectedDatasetIpId: PropTypes.string, // selected dataset ip id (none when not a single dataset)
+    selectedDatasetTag: PropTypes.instanceOf(Tag), // selected dataset ip id
     // selection related
     toggledElements: PropTypes.objectOf(AccessShapes.EntityWithServices).isRequired,
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)),
@@ -190,10 +186,10 @@ export class PluginServicesContainer extends React.Component {
   /** Keys of properties that should not be reported to this children */
   static NON_REPORTED_PROPS = [
     'viewObjectType',
-    'initialDatasetIpId',
+    'restrictedDatasetsIpIds',
     'openSearchQuery',
     'children',
-    'selectedDatasetIpId',
+    'selectedDatasetTag',
     'toggledElements',
     'selectionMode',
     'emptySelection',
@@ -232,10 +228,20 @@ export class PluginServicesContainer extends React.Component {
     const oldState = this.state || {}
     const newState = oldState ? { ...oldState } : PluginServicesContainer.DEFAULT_STATE
 
-    // A - dataset changed, component was mounted or user rights changed, update global services
-    if (oldProps.selectedDatasetIpId !== newProps.selectedDatasetIpId ||
+    // A - dataset tag or context changed, component was mounted or user rights changed, update global services
+    if (oldProps.selectedDatasetTag !== newProps.selectedDatasetTag ||
+      oldProps.restrictedDatasetsIpIds !== newProps.restrictedDatasetsIpIds ||
       !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
-      newProps.dispatchFetchPluginServices(newProps.selectedDatasetIpId)
+      // 1 - compute the list of dataset IP IDs to provide
+      let datasetIpIds = null
+      if (newProps.selectedDatasetTag) {
+        // restricted to the last selected dataset tag
+        datasetIpIds = [newProps.selectedDatasetTag.searchKey]
+      } else if (newProps.restrictedDatasetsIpIds && newProps.restrictedDatasetsIpIds.length) {
+        // restricted to some dataset by configuration
+        datasetIpIds = newProps.restrictedDatasetsIpIds
+      }
+      newProps.dispatchFetchPluginServices(datasetIpIds)
     }
 
     // B - global services, view object type, selection changed, user rights changed or children changed:

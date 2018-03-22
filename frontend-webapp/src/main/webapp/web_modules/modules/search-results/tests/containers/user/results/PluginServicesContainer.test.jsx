@@ -3,9 +3,10 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { AccessDomain, DamDomain, CatalogDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { TableSelectionModes } from '@regardsoss/components'
+import { Tag } from '../../../../src/models/navigation/Tag'
 import { PluginServicesContainer } from '../../../../src/containers/user/results/PluginServicesContainer'
 import styles from '../../../../src/styles/styles'
 
@@ -16,7 +17,6 @@ const TestComponent = () => <div />
 
 const commonProperties = {
   viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-  initialDatasetIpId: null,
   openSearchQuery: '',
 
   selectedDatasetIpId: 'URN:pipo1',
@@ -55,7 +55,7 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
     assert.isDefined(subCompWrapper.props().onStartSelectionService, 'The test component should have selection service callback as property')
   })
 
-  it('should dispatch fetch selection services on selected dataset IP ID, when provided', () => {
+  it('should dispatch fetch selection services on selected dataset tag / restricted datasets if any', () => {
     const spiedFetch = {
       datasetIpId: null,
       count: 0,
@@ -64,9 +64,10 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
       // Component properties
       ...commonProperties,
       // specifically spied values
-      selectedDatasetIpId: 'cool:raoul',
-      dispatchFetchPluginServices: (datasetIpId) => {
-        spiedFetch.datasetIpId = datasetIpId
+      selectedDatasetTag: new Tag(CatalogDomain.TagTypes.DATASET, 'myLabel', 'myIpId'),
+      restrictedDatasetsIpIds: ['ip1', 'ip2'],
+      dispatchFetchPluginServices: (datasetIpIds) => {
+        spiedFetch.datasetIpIds = datasetIpIds
         spiedFetch.count += 1
       },
     }
@@ -76,16 +77,27 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
         <TestComponent />
       </PluginServicesContainer>, { context })
     assert.equal(spiedFetch.count, 1, 'The plugin services should have been fetched one time')
-    assert.equal(spiedFetch.datasetIpId, props.selectedDatasetIpId, `The plugin services should have been fetched for "${props.datasetIpId}"`)
+    assert.deepEqual(spiedFetch.datasetIpIds, ['myIpId'], 'The plugin services should have been fetched for current tag searchKey "myIpId"')
 
     const withoutSelectionProps = {
       ...props,
-      selectedDatasetIpId: null, // change selection to none
+      selectedDatasetTag: null, // change selection to none
     }
     render.setProps(withoutSelectionProps)
 
     assert.equal(spiedFetch.count, 2, 'The plugin services should have been fetched two times')
-    assert.equal(spiedFetch.datasetIpId, withoutSelectionProps.selectedDatasetIpId, 'The plugin services should have been fetched for empty selection')
+    assert.deepEqual(spiedFetch.datasetIpIds, props.restrictedDatasetsIpIds, 'The plugin services should have been fetched for dataset restricted context')
+
+    // verify that it also works without dataset context
+    const withoutDatasetContextProps = {
+      ...props,
+      selectedDatasetTag: null, // change selection to none
+      restrictedDatasetsIpIds: undefined, // change context to none
+    }
+    render.setProps(withoutDatasetContextProps)
+
+    assert.equal(spiedFetch.count, 3, 'The plugin services should have been fetched three times')
+    assert.isNotOk(spiedFetch.datasetIpIds, 'The plugin services should have been fetched without specifying datasets context nor tag')
   })
 
   it('should resolve available services for current selection', () => {

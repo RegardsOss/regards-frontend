@@ -40,7 +40,7 @@ import { LoadingComponent, LoadableContentDisplayDecorator } from '@regardsoss/d
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
-import DatasetSelectionType from '../domain/DatasetSelectionTypes'
+import DatasetSelectionTypes from '../domain/DatasetSelectionTypes'
 import AttributeModelClient from '../clients/AttributeModelClient'
 import { moduleExpandedStateActions } from '../clients/ModuleExpandedStateClient'
 import ModuleConfiguration from '../shapes/ModuleConfiguration'
@@ -143,7 +143,7 @@ class ModuleContainer extends React.Component {
     // Add form associated dataset urn
     let tags = ''
     const { type, selectedDatasets, selectedModels } = this.props.moduleConf.datasets || {}
-    if (type === DatasetSelectionType.DATASET_TYPE && selectedDatasets) {
+    if (type === DatasetSelectionTypes.DATASET_TYPE && selectedDatasets) {
       tags = reduce(
         selectedDatasets,
         (result, dataset) => {
@@ -159,7 +159,7 @@ class ModuleContainer extends React.Component {
     }
 
     let modelIds = ''
-    if (type === DatasetSelectionType.DATASET_MODEL_TYPE && selectedModels) {
+    if (type === DatasetSelectionTypes.DATASET_MODEL_TYPE && selectedModels) {
       modelIds = reduce(
         selectedModels,
         (result, modelId) => {
@@ -377,12 +377,22 @@ class ModuleContainer extends React.Component {
   }
 
   renderResults() {
-    if (this.props.moduleConf.preview) {
+    const {
+      project,
+      appName, moduleConf: { datasets, preview, searchResult },
+    } = this.props
+    if (preview) {
       // no render when in form preview or when user has not yet clicked search
       return null
     }
     const { intl: { formatMessage } } = this.context
     const { searchQuery } = this.state
+
+    // resolve datasets context from this form configuration
+    let restrictedDatasetsIpIds = null
+    if (datasets.type === DatasetSelectionTypes.DATASET_TYPE) {
+      restrictedDatasetsIpIds = datasets.selectedDatasets
+    }
 
     const module = {
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
@@ -390,8 +400,9 @@ class ModuleContainer extends React.Component {
       applicationId: this.props.appName,
       description: formatMessage({ id: 'results.module.title' }), // replaces page definition
       conf: {
-        ...this.props.moduleConf.searchResult,
+        ...searchResult,
         searchQuery,
+        restrictedDatasetsIpIds,
       },
     }
 
@@ -401,8 +412,8 @@ class ModuleContainer extends React.Component {
         <HorizontalAreasSeparator />
         {/* Render sub module */}
         <LazyModuleComponent
-          project={this.props.project}
-          appName={this.props.appName}
+          project={project}
+          appName={appName}
           module={module}
         />
       </div>

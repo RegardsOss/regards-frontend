@@ -85,6 +85,7 @@ export class SearchResultsContainer extends React.Component {
     enableQuicklooks: PropTypes.bool.isRequired, // are quicklook available on data items
     displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
     displayConf: DisplayModuleConf,
+    restrictedDatasetsIpIds: PropTypes.arrayOf(PropTypes.string),
     // Navigation labels
     datasetsSectionLabel: PropTypes.string,
     dataSectionLabel: PropTypes.string,
@@ -435,7 +436,7 @@ export class SearchResultsContainer extends React.Component {
     const {
       displayMode, enableFacettes, isFetching, resultsCount, viewObjectType, tableDisplayMode, enableDownload,
       enableQuicklooks, facettesQuery, dispatchSetEntityAsTag, datasetsSectionLabel, dataSectionLabel,
-      searchQuery: initialSearchQuery, displayConf, accessToken, projectName,
+      searchQuery: initialSearchQuery, restrictedDatasetsIpIds, displayConf, accessToken, projectName,
     } = this.props
 
     const {
@@ -449,7 +450,7 @@ export class SearchResultsContainer extends React.Component {
         {/* enable the services functionnalities */}
         <PluginServicesContainer
           viewObjectType={viewObjectType}
-          initialDatasetIpId={initialSearchQuery}
+          restrictedDatasetsIpIds={restrictedDatasetsIpIds}
           openSearchQuery={openSearchQuery}
         >
           {/* enable the order cart link functionnality */}
