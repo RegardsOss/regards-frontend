@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isFunction from 'lodash/isFunction'
 import map from 'lodash/map'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
@@ -74,6 +75,7 @@ class SIPListComponent extends React.Component {
     appliedFilters: {},
     sipToView: null,
     sipToDelete: null,
+    onDeleteDone: null,
     deletionErrors: [],
   }
 
@@ -117,10 +119,11 @@ class SIPListComponent extends React.Component {
 
   onConfirmDelete = (deleteAction) => {
     this.closeDeleteDialog()
-    if (this.state.sipToDelete) {
+    const { sipToDelete, onDeleteDone } = this.state
+    if (sipToDelete) {
       const sipId = get(this.state, 'sipToDelete.content.sipId', '')
       const { intl: { formatMessage } } = this.context
-      deleteAction(this.state.sipToDelete.content).then((actionResult) => {
+      deleteAction(sipToDelete.content).then((actionResult) => {
         if (actionResult.error) {
           const errors = []
           errors.push({
@@ -129,15 +132,22 @@ class SIPListComponent extends React.Component {
           })
           this.displayDeletionErrors(sipId, errors)
         } else {
+          // Display error dialogs if errors are raised by the service.
+          // A 200 OK response is sent by the backend. So we check errors into the response payload.
           this.displayDeletionErrors(sipId, get(actionResult, 'payload', []))
+          // After, refresh the list
+          if (onDeleteDone && isFunction(onDeleteDone)) {
+            onDeleteDone()
+          }
         }
       })
     }
   }
 
-  onDelete = (sipToDelete) => {
+  onDelete = (sipToDelete, onDeleteDone) => {
     this.setState({
       sipToDelete,
+      onDeleteDone,
     })
   }
 
@@ -162,6 +172,8 @@ class SIPListComponent extends React.Component {
         }, {
           OptionConstructor: TableDeleteOption,
           optionProps: {
+            handleHateoas: true,
+            disableInsteadOfHide: true,
             fetchPage: this.props.fetchPage,
             onDelete: this.onDelete,
             queryPageSize: 20,
@@ -175,6 +187,8 @@ class SIPListComponent extends React.Component {
       }, {
         OptionConstructor: TableDeleteOption,
         optionProps: {
+          handleHateoas: true,
+          disableInsteadOfHide: true,
           fetchPage: this.props.fetchPage,
           onDelete: this.onDelete,
           queryPageSize: 20,
@@ -191,6 +205,7 @@ class SIPListComponent extends React.Component {
   closeDeleteDialog = () => {
     this.setState({
       sipToDelete: null,
+      onDeleteDone: null,
     })
   }
 
