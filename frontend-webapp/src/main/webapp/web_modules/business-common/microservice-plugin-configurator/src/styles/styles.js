@@ -31,6 +31,35 @@ const microserviceManagementStyles = theme => ({
       whiteSpace: 'normal',
     },
   },
+  markdownDialog: {
+    dialogRoot: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingTop: 0,
+    },
+    dialogContent: {
+      position: 'relative',
+      width: '80vw',
+      transform: '',
+    },
+    bodyStyle: {
+      padding: 0,
+    },
+    scrollStyle: {
+      maxHeight: 400,
+      padding: '10px 24px 0px 24px',
+    },
+    textDescriptionStyle: {
+      whiteSpace: 'pre-wrap',
+    },
+    moreInfoButtonStyle: {
+      color: '#03A9F4',
+      fontSize: '0.9em',
+      textDecoration: 'none',
+      marginLeft: 10,
+    },
+  },
   pluginParameter: {
     headerStyle: {
       display: 'flex',
