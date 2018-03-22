@@ -53,13 +53,8 @@ function getURLQuery(openSearchQuery, sortingArray = [], facettesQuery = '', qui
     // 1 - query parameter (q)
     new URLSearchQueryParameter(URLSearchQuery.QUERY_PARAMETER_NAME, queryParamValue),
     // 2 - sort parameters
-    ...sortingArray.map((sorting) => {
-      if (!sorting.attributePath || !sorting.type || !tableToOpenSearchSort[sorting.type]) {
-        throw new Error('Invalid sorting parameter for query ', sorting)
-      }
-      const value = `${sorting.attributePath},${tableToOpenSearchSort[sorting.type]}`
-      return new URLSearchQueryParameter(URLSearchQuery.SORT_PARAMETER_NAME, value)
-    }),
+    ...sortingArray.map(sorting =>
+      new URLSearchQueryParameter(URLSearchQuery.SORT_PARAMETER_NAME, `${sorting.attributePath},${tableToOpenSearchSort[sorting.type]}`)),
     // 3 - facettes query
     new StaticQueryParameter(facettesQuery),
     // 4 - Quicklook filter

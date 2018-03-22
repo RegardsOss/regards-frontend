@@ -51,6 +51,24 @@ class AttributeConfigurationComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   * Path of attributes that should not be  facettable
+   */
+  static NON_FACETABLE_ATTRIBUTES_PATH = [
+    DamDomain.AttributeModelController.standardAttributes[DamDomain.AttributeModelController.standardAttributesKeys.thumbnail].entityPathName,
+  ]
+
+  /**
+   * @param {string} jsonPath: attribute json path
+   * @return {boolean} true if attribute is not facetable, false otherwise
+   */
+  static isNonFacetableAttribute = jsonPath =>
+    AttributeConfigurationComponent.NON_FACETABLE_ATTRIBUTES_PATH.includes(jsonPath)
+
+  /**
+   * @param attribute attribute
+   * @return {string} title for attribute
+   */
   static getTitle = attribute => attribute.fragment && attribute.fragment.name &&
     attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT ? `${attribute.fragment.name} - ${attribute.label}` : attribute.label
 
@@ -65,7 +83,6 @@ class AttributeConfigurationComponent extends React.Component {
       conf: this.props.conf,
     }
   }
-
 
   componentWillReceiveProps(nextProps) {
     if (this.state.conf.initialSort !== nextProps.conf.initialSort) {
@@ -112,7 +129,13 @@ class AttributeConfigurationComponent extends React.Component {
   formatOrder = value => value ? parseInt(value, this) : undefined
 
   render() {
-    const { allowFacettes, filter = '', attribute: { content: { label, description, fragment } } } = this.props
+    const {
+      allowFacettes, filter = '', attribute: {
+        content: {
+          label, jsonPath, description, fragment,
+        },
+      },
+    } = this.props
     let display = !filter.length || label.match(new RegExp(`^${this.props.filter}.*$`, 'i'))
     if (!display && fragment && fragment.name) {
       display = display || fragment.name.match(new RegExp(`^${this.props.filter}.*$`, 'i'))
@@ -127,6 +150,7 @@ class AttributeConfigurationComponent extends React.Component {
     const cardContentStyle = { paddingTop: 0 }
     const searchFiledStyle = { maxWidth: 150 }
 
+    // Are we handling a standard attribute without facets
     return (
       <ShowableAtRender
         show={display}
@@ -163,6 +187,7 @@ class AttributeConfigurationComponent extends React.Component {
                 checked={this.state.conf.facetable}
                 checkedIcon={AttributeConfigurationComponent.searchOnIcon}
                 uncheckedIcon={AttributeConfigurationComponent.searchOffIcon}
+                disabled={AttributeConfigurationComponent.isNonFacetableAttribute(jsonPath)}
                 onCheck={this.changeFacetable}
               />
             </ShowableAtRender>
