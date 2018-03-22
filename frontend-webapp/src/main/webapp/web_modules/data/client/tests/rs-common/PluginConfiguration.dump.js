@@ -30,17 +30,17 @@ export default [
       parameters: [{
         id: 115, name: 'embedded', value: '"1"', dynamic: false, dynamicsValues: [],
       }, {
-        id: 113, name: 'constraints', value: '{"constraints":[{"enabled":true,"pattern":"dfgdg"},{"enabled":false,"pattern":"plop"}]}', dynamic: false, dynamicsValues: [],
+        id: 113, name: 'constraints', value: { constraints: [{ enabled: true, pattern: 'dfgdg' }, { enabled: false, pattern: 'plop' }] }, dynamic: false, dynamicsValues: [],
       }, {
-        id: 114, name: 'scMap', value: '{"dfgfdfgdg":{"enabled":true,"pattern":"dfgfdg"}}', dynamic: false, dynamicsValues: [],
+        id: 114, name: 'scMap', value: { dfgfdfgdg: { enabled: true, pattern: 'dfgfdg' } }, dynamic: false, dynamicsValues: [],
       }, {
-        id: 112, name: 'pojo', value: '{"message":"dfgfdgd"}', dynamic: false, dynamicsValues: [],
+        id: 112, name: 'pojo', value: { message: 'dfgfdgd' }, dynamic: false, dynamicsValues: [],
       }, {
-        id: 111, name: 'ssMap', value: '{"dfgdg":"dfgdg"}', dynamic: false, dynamicsValues: [],
+        id: 111, name: 'ssMap', value: { dfgdg: 'dfgdg' }, dynamic: false, dynamicsValues: [],
       }, {
-        id: 110, name: 'sList', value: '["dfgdg"]', dynamic: false, dynamicsValues: [],
+        id: 110, name: 'sList', value: ['dfgdg'], dynamic: false, dynamicsValues: [],
       }, {
-        id: 110, name: 'sListPojo', value: '[{"message":"value"},{"message":"value2"}]', dynamic: false, dynamicsValues: [],
+        id: 110, name: 'sListPojo', value: [{ message: 'value' }, { message: 'value2' }], dynamic: false, dynamicsValues: [],
       }, {
         id: 109, name: 'pBoolean', value: 'true', dynamic: false, dynamicsValues: [],
       }, {
