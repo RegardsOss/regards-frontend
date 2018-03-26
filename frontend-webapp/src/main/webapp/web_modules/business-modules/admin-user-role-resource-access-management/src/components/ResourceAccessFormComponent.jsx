@@ -90,7 +90,7 @@ export class ResourceAccessFormComponent extends React.Component {
                   ))}
                 </SelectableList>
               </div>
-              <div style={rightColumnStyle} className="col-xs-67 col-lg-75">
+              <div style={rightColumnStyle} className="selenium-microservices-controller col-xs-67 col-lg-75">
                 <ResourceAccessFormByMicroserviceContainer
                   key={activeMicroservice}
                   microserviceName={activeMicroservice}

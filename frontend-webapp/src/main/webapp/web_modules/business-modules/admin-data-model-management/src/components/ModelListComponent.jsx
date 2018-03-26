@@ -114,7 +114,7 @@ export class ModelListComponent extends React.Component {
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => {
-            this.props.handleDelete(this.state.entityToDelete.content.id)
+            this.props.handleDelete(this.state.entityToDelete.content.name)
           }}
           onClose={this.closeDeleteDialog}
           title={title}
