@@ -7,7 +7,7 @@ import Query from '../../../../catalog/query/common/Query'
 import StaticQueryParameter from '../../../../catalog/query/common/StaticQueryParameter'
 import QueryParameter from '../../../../catalog/query/common/QueryParameter'
 
-describe('[Search Results] Testing Query', () => {
+describe('[Domain] Testing Query', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import PluginCriterionContainer from './containers/PluginCriterionContainer'
+import numberRangeHelper from './utils/NumberRangeHelper'
 import { initPlugin } from './utils/InitPlugin'
 
 /**
@@ -26,4 +27,5 @@ import { initPlugin } from './utils/InitPlugin'
 module.exports = {
   PluginCriterionContainer,
   initPlugin,
+  numberRangeHelper,
 }

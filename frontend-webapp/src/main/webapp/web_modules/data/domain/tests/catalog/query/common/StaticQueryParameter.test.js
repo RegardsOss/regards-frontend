@@ -5,7 +5,7 @@ import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import StaticQueryParameter from '../../../../catalog/query/common/StaticQueryParameter'
 
-describe('[Search Results] Testing StaticQueryParameter', () => {
+describe('[Domain] Testing StaticQueryParameter', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

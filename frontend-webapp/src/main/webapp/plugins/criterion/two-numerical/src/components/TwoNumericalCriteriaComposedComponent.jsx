@@ -17,10 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { FormattedMessage } from 'react-intl'
-import { PluginCriterionContainer } from '@regardsoss/plugins-api'
+import { EnumNumericalComparator } from '@regardsoss/domain/common'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { EnumNumericalComparator } from '@regardsoss/domain/common'
+import { PluginCriterionContainer, numberRangeHelper } from '@regardsoss/plugins-api'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
 
 /**
@@ -45,56 +45,64 @@ export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContai
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      firstField: undefined,
-      secondField: undefined,
-    }
+  /** Default component state */
+  static DEFAULT_STATE = {
+    firstField: undefined,
+    secondField: undefined,
   }
 
-  changeValue1 = (value) => {
+  /** Initial state */
+  state = TwoNumericalCriteriaComposedComponent.DEFAULT_STATE
+
+  /**
+   * Callback: user changed value 1
+   * @param {number} value as parsed by NumericalCriteriaComponent
+   */
+  onChangeValue1 = (value) => {
     this.setState({
       firstField: value,
     })
   }
 
-  changeValue2 = (value) => {
+  /**
+   * Callback: user changed value 2
+   * @param {number} value as parsed by NumericalCriteriaComponent
+   */
+  onChangeValue2 = (value) => {
     this.setState({
       secondField: value,
     })
   }
 
+  /**
+   * @param state this current state
+   * @return open search query corresponding to current state
+   */
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
-    const groups = openSearchQuery.match(/\[[ ]{0,1}([0-9*]*) TO ([0-9*]*)[ ]{0,1}\]/)
-    if (groups) {
-      if (groups.length === 3) {
-        if (parameterName === 'firstField') {
-          return groups[1]
-        }
-        return groups[2]
+    const range = numberRangeHelper.parseRange(openSearchQuery)
+    // first field is lower bound, second field is upper bound. The value is set when bound is not infinity
+    if (parameterName === 'firstField') {
+      if (!range.isInfiniteLowerBound()) {
+        return range.lowerBound
       }
+    } else if (!range.isInfiniteUpperBound()) {
+      return range.upperBound
     }
+
     return null
   }
 
   getPluginSearchQuery = (state) => {
     const { firstField, secondField } = state
-    const lvalue1 = firstField || '*'
-    const lvalue2 = secondField || '*'
-    let searchQuery = ''
-    if (firstField || secondField) {
-      searchQuery = `${this.getAttributeName('firstField')}:[${lvalue1} TO ${lvalue2}]`
-    }
-    return searchQuery
+    return numberRangeHelper.getNumberAttributeQueryPart(this.getAttributeName('firstField'),
+      new numberRangeHelper.NumberRange(firstField, secondField))
   }
 
   /**
    * Clear the entered values
    */
   handleClear = () => {
-    this.changeValue1(undefined)
-    this.changeValue2(undefined)
+    this.setState(TwoNumericalCriteriaComposedComponent.DEFAULT_STATE)
   }
 
   render() {
@@ -120,7 +128,7 @@ export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContai
               label={this.getAttributeLabel('firstField')}
               value={firstField}
               comparator={EnumNumericalComparator.LE}
-              onChange={this.changeValue1}
+              onChange={this.onChangeValue1}
               hideAttributeName
               hideComparator
               reversed
@@ -132,7 +140,7 @@ export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContai
               label={this.getAttributeLabel('secondField')}
               value={secondField}
               comparator={EnumNumericalComparator.GE}
-              onChange={this.changeValue2}
+              onChange={this.onChangeValue2}
               hideAttributeName
               hideComparator
             />

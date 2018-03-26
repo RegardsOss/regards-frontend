@@ -16,11 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isNaN from 'lodash/isNaN'
-import { PluginCriterionContainer } from '@regardsoss/plugins-api'
+import { EnumNumericalComparator } from '@regardsoss/domain/common'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { EnumNumericalComparator } from '@regardsoss/domain/common'
+import { PluginCriterionContainer, numberRangeHelper } from '@regardsoss/plugins-api'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
 
 /**
@@ -33,6 +32,13 @@ import NumericalCriteriaComponent from './NumericalCriteriaComponent'
  * @author Xavier-Alexandre Brochard
  */
 export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContainer {
+  /** Available comparison operators */
+  static AVAILABLE_COMPARISON_OPERATORS = [
+    EnumNumericalComparator.EQ,
+    EnumNumericalComparator.LE,
+    EnumNumericalComparator.GE,
+  ]
+
   static propTypes = {
     // parent props
     ...PluginCriterionContainer.propTypes,
@@ -45,115 +51,95 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContaine
     ...i18nContextType,
   }
 
-  state = {
-    firstField: undefined,
-    secondField: undefined,
-    operator1: EnumNumericalComparator.GE,
-    operator2: EnumNumericalComparator.LE,
+  /** Default component state */
+  static DEFAULT_STATE = {
+    firstField: {
+      value: null,
+      operator: EnumNumericalComparator.GE,
+    },
+    secondField: {
+      value: null,
+      operator: EnumNumericalComparator.LE,
+    },
   }
 
-  changeValue1 = (value, operator) => {
+  /** Initial state */
+  state = TwoNumericalCriteriaSimpleComponent.DEFAULT_STATE
+
+  /**
+   * Callback: user changed value 1 number and / or operator
+   * @param {number} value as parsed by NumericalCriteriaComponent
+   * @param {string} operator operator, one of AVAILABLE_COMPARISON_OPERATORS (from EnumNumericalComparator)
+   */
+  onChangeValue1 = (value, operator) => {
     this.setState({
-      firstField: value,
-      operator1: operator,
+      firstField: { value, operator },
     })
   }
 
-  changeValue2 = (value, operator) => {
+  /**
+   * Callback: user changed value 2 number and / or operator
+   * @param {number} value as parsed by NumericalCriteriaComponent
+   * @param {string} operator operator, one of AVAILABLE_COMPARISON_OPERATORS (from EnumNumericalComparator)
+   */
+  onChangeValue2 = (value, operator) => {
     this.setState({
-      secondField: value,
-      operator2: operator,
+      secondField: { value, operator },
     })
   }
 
+  /**
+   * @param state this current state
+   * @return open search query corresponding to current state
+   */
   getPluginSearchQuery = (state) => {
-    const {
-      firstField, secondField, operator1, operator2,
-    } = state
-    let searchQuery = ''
-    if (firstField) {
-      searchQuery = this.criteriaToOpenSearchFormat('firstField', firstField, operator1)
-    }
-    if (secondField) {
-      if (searchQuery && searchQuery.length > 0) {
-        searchQuery = `${searchQuery} AND `
-      }
-      const searchQuery2 = this.criteriaToOpenSearchFormat('secondField', secondField, operator2)
-      searchQuery = `${searchQuery}${searchQuery2}`
-    }
-    return searchQuery
+    const { firstField, secondField } = state
+
+    const firstQueryPart = numberRangeHelper.getNumberAttributeQueryPart(this.getAttributeName('firstField'),
+      numberRangeHelper.convertToRange(firstField.value, firstField.operator))
+
+    const secondQueryPart = numberRangeHelper.getNumberAttributeQueryPart(this.getAttributeName('secondField'),
+      numberRangeHelper.convertToRange(secondField.value, secondField.operator))
+    return `${firstQueryPart}${firstQueryPart && secondQueryPart ? ' AND ' : ''}${secondQueryPart}`
   }
 
+  /**
+   * Parses open search query for a field value
+   * @param {string} parameterName parameter name declared by ths plugin (one of firstField/secondField)
+   * @param {string} openSearchQuery open search query, value part
+   */
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
-    if (isNaN(openSearchQuery)) {
-      const values = openSearchQuery.match(/\[[ ]{0,1}([0-9*]*) TO ([0-9*]*)[ ]{0,1}\]/)
-      if (values && values.length === 3) {
-        const value = values[1] !== '*' ? values[1] : values[2]
-        const operator = values[1] === '*' ? EnumNumericalComparator.LE : EnumNumericalComparator.GE
-        if (parameterName === 'firstField') {
-          this.setState({ operator1: operator })
-        } else {
-          this.setState({ operator2: operator })
-        }
-        return value
+    const foundRange = numberRangeHelper.parseRange(openSearchQuery)
+    // range parsed: this component accepts only ranges like [N, N], [N, +inf] or [-inf, N]
+    if (!foundRange.isFullyInifiniteRange()) {
+      if (foundRange.isSingleValueRange()) {
+        // strict equality tested ([N, N])
+        return { value: foundRange.lowerBound, operator: EnumNumericalComparator.EQ }
       }
-    } else {
-      if (parameterName === 'firstField') {
-        this.setState({ operator1: EnumNumericalComparator.EQ })
-      } else {
-        this.setState({ operator2: EnumNumericalComparator.EQ })
+      if (!foundRange.isInfiniteLowerBound()) {
+        // greater than value range ([N, +inf])
+        return { value: foundRange.lowerBound, operator: EnumNumericalComparator.GE }
       }
-      return openSearchQuery
+      if (foundRange.isInfiniteLowerBound()) {
+        // greater than value range [-inf, N]
+        return { value: foundRange.upperBound, operator: EnumNumericalComparator.LE }
+      }
     }
-
-    return undefined
+    // not parsable (attempt keeping current operator)
+    return { value: null, operator: this.state[parameterName].operator }
   }
 
   /**
    * Clear the entered value
    */
   handleClear = () => {
-    const { operator1, operator2 } = this.state
-    this.changeValue1(undefined, operator1)
-    this.changeValue2(undefined, operator2)
+    this.setState(TwoNumericalCriteriaSimpleComponent.DEFAULT_STATE)
   }
 
-  /**
-   * Format criterion to openSearch format for plugin handler
-   * @param attribute
-   * @param value
-   * @param operator
-   * @returns {string}
-   */
-  criteriaToOpenSearchFormat = (attribute, value, operator) => {
-    let openSearchQuery = ''
-    const lvalue = value || '*'
-    switch (operator) {
-      case EnumNumericalComparator.EQ:
-        openSearchQuery = `${this.getAttributeName(attribute)}:${lvalue}`
-        break
-      case EnumNumericalComparator.LE:
-        openSearchQuery = `${this.getAttributeName(attribute)}:[* TO ${lvalue}]`
-        break
-      case EnumNumericalComparator.GE:
-        openSearchQuery = `${this.getAttributeName(attribute)}:[${lvalue} TO *]`
-        break
-      default:
-        openSearchQuery = ''
-    }
-    return openSearchQuery
-  }
 
   render() {
-    const {
-      firstField, secondField, operator1, operator2,
-    } = this.state
+    const { firstField, secondField } = this.state
     const { moduleTheme: { rootStyle, lineStyle } } = this.context
-    const availableComparators = [
-      EnumNumericalComparator.EQ,
-      EnumNumericalComparator.LE,
-      EnumNumericalComparator.GE,
-    ]
     return (
       <div style={rootStyle}>
         <div
@@ -161,17 +147,17 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContaine
         >
           <NumericalCriteriaComponent
             label={this.getAttributeLabel('firstField')}
-            value={firstField}
-            comparator={operator1}
-            onChange={this.changeValue1}
-            availableComparators={availableComparators}
+            value={firstField.value}
+            comparator={firstField.operator}
+            onChange={this.onChangeValue1}
+            availableComparators={TwoNumericalCriteriaSimpleComponent.AVAILABLE_COMPARISON_OPERATORS}
           />
           <NumericalCriteriaComponent
             label={this.getAttributeLabel('secondField')}
-            value={secondField}
-            comparator={operator2}
-            onChange={this.changeValue2}
-            availableComparators={availableComparators}
+            value={secondField.value}
+            comparator={secondField.operator}
+            onChange={this.onChangeValue2}
+            availableComparators={TwoNumericalCriteriaSimpleComponent.AVAILABLE_COMPARISON_OPERATORS}
           />
         </div>
       </div>

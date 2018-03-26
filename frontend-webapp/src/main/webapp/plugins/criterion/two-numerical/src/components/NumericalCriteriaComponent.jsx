@@ -19,10 +19,11 @@
 import values from 'lodash/values'
 import TextField from 'material-ui/TextField'
 import { FormattedMessage } from 'react-intl'
+import { EnumNumericalComparator } from '@regardsoss/domain/common'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { NumericalComparator } from '@regardsoss/components'
-import { EnumNumericalComparator } from '@regardsoss/domain/common'
+import { numberRangeHelper } from '@regardsoss/plugins-api'
 
 /**
  * Plugin component allowing the user to configure the numerical value of an attribute with a mathematical comparator (=, >, <=, ...).
@@ -110,17 +111,17 @@ export class NumericalCriteriaComponent extends React.Component {
 
   /**
    * Parses the value given from the field input component.
-   *
    * @param {String} value
+   * @return {Number} parsed value (maybe null / undefined / Number.NaN)
    */
   parse = value => parseFloat(value)
 
   /**
    * Formats the value before displaying in the field input component.
-   *
-   * @param {String} value
+   * @param {Number} value value to format (maybe null / undefined / Number.NaN)
+   * @return {string} formatted value
    */
-  format = value => value || ''
+  format = value => numberRangeHelper.isValidNumber(value) ? value : ''
 
   render() {
     const {

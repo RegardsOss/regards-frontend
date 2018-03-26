@@ -16,14 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isNaN from 'lodash/isNaN'
 import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
-import { PluginCriterionContainer } from '@regardsoss/plugins-api'
+import { EnumNumericalComparator } from '@regardsoss/domain/common'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { NumericalComparator } from '@regardsoss/components'
-import { EnumNumericalComparator } from '@regardsoss/domain/common'
+import { PluginCriterionContainer, numberRangeHelper } from '@regardsoss/plugins-api'
 
 /**
  * Search form criteria plugin displaying a simple number field
@@ -31,6 +30,13 @@ import { EnumNumericalComparator } from '@regardsoss/domain/common'
  * @author Xavier-Alexandre Brochard
  */
 export class NumericalCriteriaComponent extends PluginCriterionContainer {
+  /** Available comparisong operators */
+  static AVAILABLE_COMPARISON_OPERATORS = [
+    EnumNumericalComparator.EQ,
+    EnumNumericalComparator.GE,
+    EnumNumericalComparator.LE,
+  ]
+
   static propTypes = {
     // parent props
     ...PluginCriterionContainer.propTypes,
@@ -43,49 +49,66 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
     ...i18nContextType,
   }
 
-  state = {
-    searchField: '',
-    comparator: EnumNumericalComparator.EQ,
+  /** Default component state */
+  static DEFAULT_STATE = {
+    searchField: {
+      value: '',
+      operator: EnumNumericalComparator.EQ,
+    },
   }
 
-  getPluginSearchQuery = (state) => {
-    let query = ''
-    if (state.searchField && state.comparator) {
-      const attribute = this.getAttributeName('searchField')
-      switch (state.comparator) {
-        case EnumNumericalComparator.EQ:
-          query = `${attribute}:${state.searchField}`
-          break
-        case EnumNumericalComparator.GE:
-          query = `${attribute}:[${state.searchField} TO *]`
-          break
-        case EnumNumericalComparator.LE:
-          query = `${attribute}:[* TO ${state.searchField}]`
-          break
-        case EnumNumericalComparator.NE:
-          query = `!(${attribute}:${state.searchField})`
-          break
-        default:
-          console.error('Unavailable comparator')
-      }
-    }
+  /** Initial component state */
+  state = NumericalCriteriaComponent.DEFAULT_STATE
 
-    return query
+  /**
+   * @param state this current state
+   * @return open search query corresponding to current state
+   */
+  getPluginSearchQuery = (state) => {
+    const { value, operator } = state.searchField
+    return numberRangeHelper.getNumberAttributeQueryPart(this.getAttributeName('searchField'),
+      numberRangeHelper.convertToRange(value, operator))
   }
 
   /**
-   * Parses the value given from the field input component.
-   *
-   * @param {String} value
+   * Parses open search query for a field value
+   * @param {string} parameterName parameter name declared by ths plugin (one of firstField/secondField)
+   * @param {string} openSearchQuery open search query, value part
    */
+  parseOpenSearchQuery = (parameterName, openSearchQuery) => {
+    // range parsed: this component accepts ranges like [N, N], [N, +inf], [-inf, N] and ]-inf, N[ U ]N, +inf[
+    const foundRange = numberRangeHelper.parseRange(openSearchQuery)
+    if (!foundRange.isFullyInifiniteRange()) {
+      if (foundRange.isSingleValueRange()) {
+        // strict equality tested ([N, N])
+        return { value: foundRange.lowerBound, operator: EnumNumericalComparator.EQ }
+      }
+      if (!foundRange.isInfiniteLowerBound()) {
+        // greater than value range ([N, +inf])
+        return { value: foundRange.lowerBound, operator: EnumNumericalComparator.GE }
+      }
+      if (foundRange.isInfiniteLowerBound()) {
+        // greater than value range [-inf, N]
+        return { value: foundRange.upperBound, operator: EnumNumericalComparator.LE }
+      }
+    }
+    // not parsable
+    return { value: null, operator: EnumNumericalComparator.EQ }
+  }
+
+  /**
+    * Parses the value given from the field input component.
+    * @param {String} value
+    * @return {Number} parsed value (maybe null / undefined / Number.NaN)
+    */
   parse = value => parseFloat(value)
 
   /**
    * Formats the value before displaying in the field input component.
-   *
-   * @param {String} value
+   * @param {Number} value value to format (maybe null / undefined / Number.NaN)
+   * @return {string} formatted value
    */
-  format = value => !isNaN(value) ? value : ''
+  format = value => numberRangeHelper.isValidNumber(value) ? value : ''
 
   /**
    * Callback function that is fired when the textfield's value changes.
@@ -94,65 +117,40 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeValue = (event, newValue) => {
-    const searchField = this.parse(newValue)
-    this.setState({ searchField })
+    const value = this.parse(newValue)
+    this.setState({ searchField: { value, operator: this.state.searchField.operator } })
   }
 
-  handleChangeComparator = (comparator) => {
-    this.setState({ comparator })
+  handleChangeComparator = (operator) => {
+    this.setState({ searchField: { value: this.state.searchField.value, operator } })
   }
 
   /**
    * Clear the entered value
    */
   handleClear = () => {
-    this.setState({ searchField: '' })
+    this.setState(NumericalCriteriaComponent.DEFAULT_STATE)
   }
-
-  parseOpenSearchQuery = (parameterName, openSearchQuery) => {
-    if (isNaN(openSearchQuery)) {
-      const values = openSearchQuery.match(/\[[ ]{0,1}([0-9*]*) TO ([0-9*]*)[ ]{0,1}\]/) || []
-      if (values.length === 3) {
-        if (values[1] === '*') {
-          this.setState({ comparator: EnumNumericalComparator.LE })
-          return values[2]
-        }
-        if (values[2] === '*') {
-          this.setState({ comparator: EnumNumericalComparator.GE })
-          return values[1]
-        }
-      }
-      return null
-    }
-    return openSearchQuery
-  }
-
 
   render() {
     const { moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle } } = this.context
     const attributeLabel = this.getAttributeLabel('searchField')
-    const { searchField } = this.state
-    const availableComparators = [
-      EnumNumericalComparator.EQ,
-      EnumNumericalComparator.NE,
-      EnumNumericalComparator.GE,
-      EnumNumericalComparator.LE,
-    ]
+    const { searchField: { value, operator } } = this.state
     return (
       <div style={rootStyle} >
         <span style={labelSpanStyle} >
           {attributeLabel}
         </span>
         <NumericalComparator
-          value={this.state.comparator}
+          value={operator}
           onChange={this.handleChangeComparator}
-          comparators={availableComparators}
+          comparators={NumericalCriteriaComponent.AVAILABLE_COMPARISON_OPERATORS}
         />
         <TextField
           id="search"
           type="number"
           floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
-          value={this.format(searchField)}
+          value={this.format(value)}
           onChange={this.handleChangeValue}
           style={textFieldStyle}
         />

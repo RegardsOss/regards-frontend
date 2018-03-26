@@ -171,6 +171,11 @@ class PluginCriterionContainer extends React.Component {
     throw new Error('method handleClear should be overidden by plugin !')
   }
 
+  /**
+   * Parses open search query and return this plugin value (may be a compound object)
+   * @param {string} parameterName declared plugin parameter name
+   * @param {string} openSearchQuery open search query, value part (without attribute)
+   */
   parseOpenSearchQuery = (parameterName, openSearchQuery) => openSearchQuery
 }
 

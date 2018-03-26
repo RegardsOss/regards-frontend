@@ -20,7 +20,6 @@ import values from 'lodash/values'
 
 const EnumNumericalComparator = {
   EQ: 'EQ',
-  NE: 'NE',
   LE: 'LE',
   GE: 'GE',
 }
