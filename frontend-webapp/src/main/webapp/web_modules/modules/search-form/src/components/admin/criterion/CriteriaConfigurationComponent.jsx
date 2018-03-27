@@ -52,9 +52,9 @@ class CriteriaConfigurationComponent extends React.Component {
 
   renderStandardAttributes = () => map(DamDomain.AttributeModelController.searchableStandardAttributes, standardAttribute => (
     <MenuItem
-      key={standardAttribute}
-      value={standardAttribute}
-      primaryText={standardAttribute}
+      key={standardAttribute.id}
+      value={standardAttribute.key}
+      primaryText={standardAttribute.label}
     />))
 
   /**

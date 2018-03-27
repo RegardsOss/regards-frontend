@@ -27,9 +27,20 @@ const ModuleConfiguration = PropTypes.shape({
     // Search form datasets configuration
     datasets: DatasetsConfShape,
     // Search form Layout configuration
-    layout: AccessShapes.ContainerContent.isRequired,
+    layout: AccessShapes.ContainerContent,
     // Search form criterion configuration
-    criterion: AccessShapes.UIPluginConfArray,
+    criterion: PropTypes.arrayOf(PropTypes.shape({
+      pluginId: PropTypes.number.isRequired,
+      container: PropTypes.string.isRequired,
+      active: PropTypes.bool.isRequired,
+      // conf.attributes holds, by plugin attribute name, the attribute ID OR key (for standard attributes)
+      conf: PropTypes.shape({
+        attributes: PropTypes.objectOf(PropTypes.oneOfType([
+          PropTypes.number,
+          PropTypes.string,
+        ])).isRequired,
+      }).isRequired,
+    })),
     // Does search form render for preview or for full use
     preview: PropTypes.bool,
 

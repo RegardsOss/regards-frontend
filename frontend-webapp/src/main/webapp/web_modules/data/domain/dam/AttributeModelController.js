@@ -105,8 +105,19 @@ const standardAttributes = {
   },
 }
 
-const searchableStandardAttributes = ['label', 'creationDate', 'lastUpdate']
-const descriptionStandardAttributes = ['ipId', 'sipId', 'label', 'creationDate', 'lastUpdate']
+const searchableStandardAttributes = [
+  standardAttributesKeys.label,
+  standardAttributesKeys.creationDate,
+  standardAttributesKeys.lastUpdate,
+].map(key => standardAttributes[key])
+
+const descriptionStandardAttributes = [
+  standardAttributesKeys.ipId,
+  standardAttributesKeys.sipId,
+  standardAttributesKeys.label,
+  standardAttributesKeys.creationDate,
+  standardAttributesKeys.lastUpdate,
+].map(key => standardAttributes[key])
 
 const DEFAULT_FRAGMENT = 'default'
 

@@ -107,19 +107,17 @@ export class AttributesContainer extends React.Component {
   */
   resolveEntityAttributes = (nextEntity, newModelAttributes) => {
     // 1 - resolve standard attributes
-    const { standardAttributes } = DamDomain.AttributeModelController
-    const descriptionStandardAttributes = DamDomain.AttributeModelController.descriptionStandardAttributes.map((attrKey, index) => {
-      // retrieve attribute
-      const {
+    const descriptionStandardAttributes = DamDomain.AttributeModelController.descriptionStandardAttributes.map(
+      ({
         id, label, type, entityPathName,
-      } = standardAttributes[attrKey]
-      // retrieve value
-      const value = DamDomain.AttributeModelController.getEntityAttributeValue(nextEntity, entityPathName)
-      // resolve attribute
-      return {
-        id, label, Renderer: getTypeRender(type), renderValue: value,
-      }
-    })
+      }) => {
+        // retrieve value
+        const value = DamDomain.AttributeModelController.getEntityAttributeValue(nextEntity, entityPathName)
+        // resolve attribute
+        return {
+          id, label, Renderer: getTypeRender(type), renderValue: value,
+        }
+      })
     // 2 - resolve dynamic attributes
     const dynamicAttributes = map(newModelAttributes, ({ content: { attribute: attributeModel } }) => {
       // resolve attribute value in entity (push attribute in content, as it is not normalized )

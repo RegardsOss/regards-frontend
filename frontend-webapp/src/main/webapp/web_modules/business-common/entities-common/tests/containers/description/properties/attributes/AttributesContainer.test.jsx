@@ -30,10 +30,9 @@ import styles from '../../../../../src/styles/styles'
 const context = buildTestContext(styles)
 
 function buildExpectedStandardAttributes(entity) {
-  return AttributeModelController.descriptionStandardAttributes.map((key) => {
-    const {
-      id, label, type, entityPathName,
-    } = AttributeModelController.standardAttributes[key]
+  return AttributeModelController.descriptionStandardAttributes.map(({
+    id, label, type, entityPathName,
+  }) => {
     const renderValue = AttributeModelController.getEntityAttributeValue(entity, entityPathName)
     return {
       id, label, Renderer: getTypeRender(type), renderValue,

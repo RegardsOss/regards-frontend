@@ -106,7 +106,7 @@ export default class AuthenticationStatesContainer extends React.Component {
         resizeEvent.initEvent('resize', true, false)
         root.dispatchEvent(resizeEvent)
       } catch (e) {
-        console.trace('Could not recenter dialog, not support by the browser')
+        // not supported by browser, do nothing
       }
       // remove reposition required
       const { currentView, currentMail } = this.state

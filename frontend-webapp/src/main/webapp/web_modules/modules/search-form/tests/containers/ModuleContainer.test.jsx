@@ -113,10 +113,10 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
           pluginId: 1,
           container: 'content',
           conf: {
-            attributes: {
-              testAttr: 0,
-              testAttr2: 1,
-              testAttr3: {
+            attributes: { // not resolved in attributes pool
+              testAttr: undefined,
+              testAttr2: undefined,
+              testAttr3: { // from standard attributes pool
                 jsonPath: 'ipId', name: 'ipId', label: 'Internal ID', type: 'STRING',
               },
             },
@@ -129,9 +129,9 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
           pluginId: 2,
           container: 'content',
           conf: {
-            attributes: {
-              testAttr2: 1,
-              testAttr3: 2,
+            attributes: { // not resolved in attributes pool
+              testAttr2: undefined,
+              testAttr3: undefined,
             },
           },
         },

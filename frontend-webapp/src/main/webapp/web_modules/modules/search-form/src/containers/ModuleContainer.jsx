@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import cloneDeep from 'lodash/cloneDeep'
 import flatten from 'lodash/flatten'
 import flow from 'lodash/flow'
 import forEach from 'lodash/forEach'
 import fpfilter from 'lodash/fp/filter'
 import fpmap from 'lodash/fp/map'
+import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isInteger from 'lodash/isInteger'
 import keys from 'lodash/keys'
@@ -34,7 +34,7 @@ import { browserHistory } from 'react-router'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { connect } from '@regardsoss/redux'
-import { DamDomain } from '@regardsoss/domain'
+import { AccessDomain } from '@regardsoss/domain'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { LoadingComponent, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -86,7 +86,7 @@ class ModuleContainer extends React.Component {
   }
 
   componentWillMount() {
-    this.loadCriterionAttributeModels()
+    this.loadCriterionAttributeModels(this.props)
 
     // Read query parameters form current URL
     const query = browserHistory ? browserHistory.getCurrentLocation().query : null
@@ -115,8 +115,7 @@ class ModuleContainer extends React.Component {
      * If criterion props changed, so load missing attributeModels
      */
     if (!isEqual(this.props.moduleConf.criterion, nextProps.moduleConf.criterion)) {
-      // if (this.props.criterion !== nextProps.criterion) {
-      this.loadCriterionAttributeModels()
+      this.loadCriterionAttributeModels(nextProps)
     }
 
     this.handleURLChange()
@@ -197,34 +196,33 @@ class ModuleContainer extends React.Component {
    * Add the attributeModels properties to the criterion conf
    * @returns {*}
    */
-  getCriterionWithAttributeModels = () => {
-    const criterionWithAttributtes = cloneDeep(this.props.moduleConf.criterion)
-    // For each criteria of this form
-    forEach(criterionWithAttributtes, (criteria) => {
-      // For each attributeModels of the criteria
-      if (criteria.conf && criteria.conf.attributes) {
-        forEach(criteria.conf.attributes, (attributeId, localKey) => {
-          // If the associated attribute has already been retrieved from server, the update the criteria
-          if (this.props.attributeModels[attributeId]) {
-            // eslint-disable-next-line no-param-reassign
-            criteria.conf.attributes[localKey] = this.props.attributeModels[attributeId].content
-          } else if (DamDomain.AttributeModelController.standardAttributes[attributeId]) {
-            const standardAttribute =
-              DamDomain.AttributeModelController.standardAttributes[attributeId]
-            // standard attribute
-            // eslint-disable-next-line no-param-reassign
-            criteria.conf.attributes[localKey] = {
-              label: standardAttribute.label,
-              name: attributeId,
-              jsonPath: standardAttribute.entityPathName,
-              type: standardAttribute.type,
-            }
+  getCriterionWithAttributeModels = () => (this.props.moduleConf.criterion || [])
+    .reduce((acc, criteria) => {
+      const { active, conf, ...otherProps } = criteria
+      if (active) {
+        const attributes = get(conf, 'attributes', {})
+        // resolve criterion attributes, filter the attributes that have not yet been retrieved
+        const resolvedAttributes = reduce(attributes, (resolved, attributeId, localKey) => {
+          // server attributes are resolved on ID and standard ones on key
+          const resolvedAttribute = get(this.props, `attributeModels.${attributeId}.content`) ||
+            get(AccessDomain.AttributeConfigurationController.getStandardAttributeConf(attributeId), 'content')
+          return {
+            ...resolved,
+            [localKey]: resolvedAttribute,
           }
-        })
+        }, {})
+        return [
+          ...acc, {
+            active,
+            conf: { // replace attributes by resolved attributes content
+              attributes: resolvedAttributes,
+            },
+            ...otherProps,
+          },
+        ]
       }
-    })
-    return criterionWithAttributtes
-  }
+      return acc
+    }, [])
 
   getInitialValues = () => {
     const parameters = this.state.searchQuery.match(/[^ ]*:["([][^")\]]*[")\]]|[^ ]*/g)
@@ -324,8 +322,10 @@ class ModuleContainer extends React.Component {
 
   /**
    * Search attributeModels associated to criterion
+   * @param {*} props considered component properties
    */
-  loadCriterionAttributeModels = () => {
+  loadCriterionAttributeModels = (props) => {
+    const { moduleConf, fetchAttribute } = props
     // Get unique list of criterion attributeModels id to load
     const pluginsAttributesToLoad = flow(
       fpmap(criteria => criteria.conf && criteria.conf.attributes),
@@ -333,15 +333,15 @@ class ModuleContainer extends React.Component {
       flatten,
       fpfilter(isInteger),
       uniq,
-    )(this.props.moduleConf.criterion)
+    )(moduleConf.criterion)
 
     const attributesToLoad = flow(fpmap(attribute => values(attribute.id)), flatten, uniq)(
-      this.props.moduleConf.attributes,
+      moduleConf.attributes,
     )
 
     // Fetch each form server
     forEach(unionBy(pluginsAttributesToLoad, attributesToLoad), attribute =>
-      this.props.fetchAttribute(attribute),
+      fetchAttribute(attribute),
     )
   }
 
