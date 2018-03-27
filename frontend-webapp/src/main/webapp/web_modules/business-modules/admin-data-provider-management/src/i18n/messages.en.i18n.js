@@ -183,6 +183,7 @@ const messages = Object.assign({
 
   // 4.3 actions
   'acquisition-product.list.view.files.tooltip': 'See linked files',
+  'acquisition-product.list.product.info.tooltip': 'Product acquisition informations',
   'acquisition-product.list.back.button': 'Back',
   'acquisition.product.list.filters.clear.button': 'Clear',
   'acquisition.product.list.filters.apply.button': 'Apply filters',
@@ -215,6 +216,18 @@ const messages = Object.assign({
   'acquisition.file.list.filters.clear.button': 'Clear',
   'acquisition.file.list.filters.apply.button': 'Apply filters',
   'acquisition.file.list.refresh.button': 'Refresh',
+
+  //6. Product information dialog
+  'acquisition-product.informaton.dialog.title': 'Acquisition information about product {label}',
+  'acquisition-product.informaton.dialog.close.button': 'Close',
+  'acquisition-product.informaton.global.error': 'Acquisition process error : ',
+  'acquisition-product.informaton.generation.job.title': 'Product generation process information',
+  'acquisition-product.informaton.submition.job.title': 'SIP Submition process information',
+  'acquisition-product.informaton.dialog.job.info.percentCompleted': 'Prgoress : ',
+  'acquisition-product.informaton.dialog.job.info.queuedDate': 'Creation date : ',
+  'acquisition-product.informaton.dialog.job.info.startDate': 'Start date : ',
+  'acquisition-product.informaton.dialog.job.info.stopDate': 'Stop date : ',
+  'acquisition-product.informaton.dialog.job.info.status': 'Status : ',
 
 }, Locales.en)
 

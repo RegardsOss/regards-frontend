@@ -133,11 +133,11 @@ const messages = Object.assign({
   'acquisition-chain.jobs.monitor.view.button.label': 'Détails',
   'acquisition-chain.jobs.monitor.dialog.title': 'Etat d\'activité des "Jobs" associés à la chaîne d\'acquisition {label}',
   'acquisition-chain.jobs.monitor.dialog.information.message': 'Ci-dessous sont listés les "Jobs" en cours d\'activité pour la chaîne d\'acquisition courante.',
-  'acquisition-chain.jobs.monitor.product-acquisition.job.label': '{count} "Job(s)" d\'acquisition sont actifs.',
+  'acquisition-chain.jobs.monitor.product-acquisition.job.label': '{count} "Job(s)" d\'acquisition actif(s).',
   'acquisition-chain.jobs.monitor.product-acquisition.job.empty.label': 'Tous les "Jobs" d\'acquisition sont terminés.',
-  'acquisition-chain.jobs.monitor.generation.job.label': '{count} "Job(s)" de génération sont actifs.',
+  'acquisition-chain.jobs.monitor.generation.job.label': '{count} "Job(s)" de génération actif(s).',
   'acquisition-chain.jobs.monitor.generation.job.empty.label': 'Tous les "Jobs" de génération sont terminés.',
-  'acquisition-chain.jobs.monitor.submission.job.label': '{count} "Job(s)" de soumission sont actifs.',
+  'acquisition-chain.jobs.monitor.submission.job.label': '{count} "Job(s)" de soumission actif(s).',
   'acquisition-chain.jobs.monitor.submission.job.empty.label': 'Tous les "Jobs" de soumission sont terminés.',
 
   // 4. Products list
@@ -183,6 +183,7 @@ const messages = Object.assign({
 
   // 4.3 actions
   'acquisition-product.list.view.files.tooltip': 'Voir les fichiers associés',
+  'acquisition-product.list.product.info.tooltip': 'Voir les informations sur l\'acquisition du produit',
   'acquisition-product.list.back.button': 'Retour',
   'acquisition.product.list.filters.clear.button': 'Vider',
   'acquisition.product.list.filters.apply.button': 'Appliquer les filtres',
@@ -215,6 +216,18 @@ const messages = Object.assign({
   'acquisition.file.list.filters.clear.button': 'Vider',
   'acquisition.file.list.filters.apply.button': 'Appliquer les filtres',
   'acquisition.file.list.refresh.button': 'Rafraîchir',
+
+  //6. Product information dialog
+  'acquisition-product.informaton.dialog.title': 'Informations sur l\'acquisition du produit {label}',
+  'acquisition-product.informaton.dialog.close.button': 'Fermer',
+  'acquisition-product.informaton.global.error': 'Erreur durant l`acquisition : ',
+  'acquisition-product.informaton.generation.job.title': 'Informations sur le processus de génération du produit',
+  'acquisition-product.informaton.submition.job.title': 'Information sur le processus de soumission du SIP',
+  'acquisition-product.informaton.dialog.job.info.percentCompleted': 'Avancement : ',
+  'acquisition-product.informaton.dialog.job.info.queuedDate': 'Date de création : ',
+  'acquisition-product.informaton.dialog.job.info.startDate': 'Date de début : ',
+  'acquisition-product.informaton.dialog.job.info.stopDate': 'Date de fin : ',
+  'acquisition-product.informaton.dialog.job.info.status': 'Etat : ',
 
 }, Locales.fr)
 

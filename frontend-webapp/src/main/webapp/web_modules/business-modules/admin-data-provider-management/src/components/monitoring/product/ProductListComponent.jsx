@@ -33,6 +33,8 @@ import ProductSIPStateRender from './ProductSIPStateRender'
 import ProductSessionRender from './ProductSessionRender'
 import ProducListFiltersComponent from './ProducListFiltersComponent'
 import ProductListViewFilesAction from './ProductListViewFilesAction'
+import ProductListViewInformationsAction from './ProductListViewInformationsAction'
+import ProductInformationsDialog from './ProductInformationsDialog'
 import { TableProductActions } from '../../../clients/TableClient'
 import { ProductActions, ProductSelectors } from '../../../clients/ProductClient'
 import messages from '../../../i18n'
@@ -66,6 +68,7 @@ export class ProductListComponent extends React.Component {
 
   state = {
     appliedFilters: {},
+    productInfos: null,
   }
 
   /**
@@ -114,6 +117,21 @@ export class ProductListComponent extends React.Component {
     browserHistory.push(url)
   }
 
+  viewProductInformations = (productInfos) => {
+    this.setState({ productInfos })
+  }
+
+  closeProductInformations = () => {
+    this.setState({ productInfos: null })
+  }
+
+  renderProductInformationsDialog = () => (
+    <ProductInformationsDialog
+      product={this.state.productInfos}
+      onClose={this.closeProductInformations}
+    />
+  )
+
   renderBreadCrump = () => {
     const { onBack } = this.props
     const { intl: { formatMessage } } = this.context
@@ -155,8 +173,10 @@ export class ProductListComponent extends React.Component {
       TableColumnBuilder.buildOptionsColumn('column.files.actions', [{
         OptionConstructor: ProductListViewFilesAction,
         optionProps: { onClick: this.viewFiles },
-      },
-      ], true, fixedColumnsWidth),
+      }, {
+        OptionConstructor: ProductListViewInformationsAction,
+        optionProps: { onClick: this.viewProductInformations },
+      }], true, fixedColumnsWidth),
     ]
     return (
       <Card>
@@ -165,6 +185,7 @@ export class ProductListComponent extends React.Component {
           subtitle={formatMessage({ id: 'acquisition-product.selected-chain.title' }, { chain: get(chain, 'content.label', null) })}
         />
         <CardText>
+          {this.renderProductInformationsDialog()}
           <TableLayout>
             <ProducListFiltersComponent
               initialFilters={initialFilters}

@@ -24,6 +24,30 @@ const styles = theme => ({
   avatarStyles: {
     marginRight: 10,
   },
+  productInfos: {
+    errorStyle: {
+      color: theme.formsExtensions.validation.errorColor,
+    },
+    jobInfos: {
+      titleStyle: {
+        color: theme.palette.textColor,
+        fontSize: '1.2em',
+        borderBottom: '1px solid',
+        borderColor: theme.palette.textColor,
+        margin: '10px 0px',
+      },
+      fieldLabelStyle: {
+        color: theme.palette.textColor,
+        margin: '0px 0px 0px 8px',
+      },
+      stackTraceStyle: {
+        whiteSpace: 'pre-wrap',
+        maxHeight: '200px',
+        overflow: 'auto',
+        margin: '0px 0px 0px 30px',
+      },
+    },
+  },
   metafiles: {
     layoutStyle: {
       display: 'flex',
