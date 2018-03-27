@@ -1,7 +1,7 @@
 {
   "parser": "babel-eslint",
   "extends": [
-    "@regardsoss/es6-rules"
+    "@regardsoss/eslint-config-es6-rules"
   ],
   "globals": {
     "GATEWAY_HOSTNAME": true,

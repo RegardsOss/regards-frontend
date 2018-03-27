@@ -20,7 +20,7 @@ To use our configuration package add te code here under to your .eslintrc config
 ```json
 {
    "extends": [
-       "@regardsoss/es6-rules"
+       "@regardsoss/eslint-config-es6-rules"
     ]
 }
 ```
