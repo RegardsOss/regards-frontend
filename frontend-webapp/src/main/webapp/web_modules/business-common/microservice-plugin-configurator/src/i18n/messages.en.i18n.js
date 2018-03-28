@@ -31,8 +31,12 @@ const messages = Object.assign({
   'plugin.configuration.form.action.submit.add': 'Add',
   'plugin.configuration.form.action.submit.save': 'Save',
   'plugin.configuration.form.action.cancel': 'Cancel',
+  'plugin.configuration.form.description.more': 'More info...',
+  'plugin.configuration.form.description.title': '{plugin} description',
 
   'plugin.parameter.description.dialog.title': '{parameter} description',
+  'plugin.parameter.description.dialog.tab.text': 'Text description',
+  'plugin.parameter.description.dialog.tab.markdown': 'Markdown description',
   'plugin.parameter.description.dialog.close': 'Close',
   'plugin.parameter.static.field': 'Set parameter value',
   'plugin.parameter.dynamic.field': 'Dynamic parameter',

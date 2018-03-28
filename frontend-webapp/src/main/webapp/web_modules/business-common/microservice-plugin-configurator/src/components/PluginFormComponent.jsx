@@ -17,15 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import forEach from 'lodash/forEach'
-import { Card, CardText, CardTitle, CardActions } from 'material-ui/Card'
-import { CardActionsComponent } from '@regardsoss/components'
 import { reduxForm, Field } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { Dialog } from 'material-ui'
+import RaisedButton from 'material-ui/RaisedButton/RaisedButton'
+import { Card, CardText, CardTitle, CardActions } from 'material-ui/Card'
 import { CommonShapes } from '@regardsoss/shape'
-import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import RenderPluginConfField from '../form-utils/RenderPluginConfField'
-import PluginFormUtils from '../tools/PluginFormUtils'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { CardActionsComponent, MarkdownFileContentDisplayer } from '@regardsoss/components'
 import messages from '../i18n'
+import styles from '../styles'
+import PluginFormUtils from '../tools/PluginFormUtils'
+import RenderPluginConfField from '../form-utils/RenderPluginConfField'
 
 /**
  * Display a form to configure (edition or creation) a Pluginconfiguration for a given PluginMetaData.
@@ -72,6 +76,10 @@ export class PluginFormComponent extends React.Component {
     this.handleInitialize()
   }
 
+  state = {
+    descriptionOpen: false,
+  }
+
   onSubmit = (values) => {
     // 1. Check if there is MapParameter to reformat before sending
     const formatedValues = PluginFormUtils.formatPluginConfForReduxFormSubmit(values[PluginFormComponent.confFieldName], this.props.pluginMetaData)
@@ -110,6 +118,18 @@ export class PluginFormComponent extends React.Component {
       }
     }
     initialize({ [PluginFormComponent.confFieldName]: initValues })
+  }
+
+  handleOpenDescriptionDialog = () => {
+    this.setState({
+      descriptionOpen: true,
+    })
+  }
+
+  handleCloseDescriptionDialog = () => {
+    this.setState({
+      descriptionOpen: false,
+    })
   }
 
   renderField = () => {
@@ -152,10 +172,17 @@ export class PluginFormComponent extends React.Component {
    */
   render() {
     const {
-      pluginConfiguration, handleSubmit, isEditing,
-      title, cardStyle,
+      pluginConfiguration,
+      pluginMetaData,
+      handleSubmit,
+      isEditing,
+      title,
+      cardStyle,
     } = this.props
-    const { intl: { formatMessage } } = this.context
+    const {
+      moduleTheme: { markdownDialog },
+      intl: { formatMessage },
+    } = this.context
 
     let finalTitle = title
     if (!title) {
@@ -164,6 +191,29 @@ export class PluginFormComponent extends React.Component {
         formatMessage({ id: 'plugin.configuration.form.create.title' })
     }
 
+    const actions = [
+      <RaisedButton
+        key="close"
+        label={formatMessage({ id: 'plugin.parameter.description.dialog.close' })}
+        primary
+        onClick={this.handleCloseDescriptionDialog}
+      />,
+    ]
+
+    const descriptionText = (
+      <div>
+        {pluginMetaData.description}
+        {pluginMetaData.markdown &&
+        <a
+          style={markdownDialog.moreInfoButtonStyle}
+          onClick={this.handleOpenDescriptionDialog}
+          href="#"
+        >
+          <FormattedMessage id="plugin.configuration.form.description.more" />
+        </a>}
+      </div>
+    )
+
     return (
       <form
         onSubmit={handleSubmit(this.onSubmit)}
@@ -171,7 +221,10 @@ export class PluginFormComponent extends React.Component {
         {cardStyle ?
           (
             <Card>
-              <CardTitle title={finalTitle} />
+              <CardTitle
+                title={finalTitle}
+                subtitle={descriptionText}
+              />
               <CardText>
                 {this.renderField()}
               </CardText>
@@ -183,10 +236,30 @@ export class PluginFormComponent extends React.Component {
           ) :
           (
             <div>
+              {descriptionText}
               {this.renderField()}
               {this.renderActions()}
             </div>
           )}
+        <Dialog
+          title={formatMessage(
+            { id: 'plugin.configuration.form.description.title' },
+            { plugin: pluginMetaData.pluginId })
+          }
+          modal={false}
+          actions={actions}
+          open={this.state.descriptionOpen}
+          onRequestClose={this.handleCloseDescriptionDialog}
+          bodyStyle={markdownDialog.bodyStyle}
+          contentStyle={markdownDialog.dialogContent}
+          style={markdownDialog.dialogRoot}
+          repositionOnUpdate={false}
+        >
+          <MarkdownFileContentDisplayer
+            heightToFit={400}
+            source={pluginMetaData.markdown}
+          />
+        </Dialog>
       </form>
     )
   }
@@ -194,5 +267,5 @@ export class PluginFormComponent extends React.Component {
 
 export default reduxForm({
   form: 'plugin-configuration-form',
-})(withI18n(messages)(PluginFormComponent))
+})(withModuleStyle(styles)(withI18n(messages)(PluginFormComponent)))
 
