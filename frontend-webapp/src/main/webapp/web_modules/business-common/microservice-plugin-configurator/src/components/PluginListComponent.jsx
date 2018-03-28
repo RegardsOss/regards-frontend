@@ -16,14 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import find from 'lodash/find'
 import map from 'lodash/map'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import Divider from 'material-ui/Divider'
 import MenuItem from 'material-ui/MenuItem'
+import { FormattedMessage } from 'react-intl'
 import { CommonShapes } from '@regardsoss/shape'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
+import PluginDescriptionDialog from './PluginDescriptionDialog'
 import messages from '../i18n'
 import moduleStyles from '../styles'
 
@@ -58,6 +61,7 @@ export class PluginListComponent extends React.Component {
     super(props)
     this.state = {
       selectedPluginId: props.defaultSelectedPluginId,
+      descriptionOpen: false,
     }
   }
 
@@ -76,6 +80,18 @@ export class PluginListComponent extends React.Component {
     this.setState({ selectedPluginId: pluginId })
     const plugin = find(this.props.pluginList, p => p.content.pluginId === pluginId, null)
     this.props.onChange(plugin ? plugin.content : null)
+  }
+
+  handleOpenDescriptionDialog = () => {
+    this.setState({
+      descriptionOpen: true,
+    })
+  }
+
+  handleCloseDescriptionDialog = () => {
+    this.setState({
+      descriptionOpen: false,
+    })
   }
 
   /**
@@ -104,6 +120,40 @@ export class PluginListComponent extends React.Component {
     )
   }
 
+  renderDescription = () => {
+    const {
+      moduleTheme: { markdownDialog },
+    } = this.context
+    const { selectedPluginId } = this.state
+    let button
+    if (!selectedPluginId) {
+      return null
+    }
+    // Find plugin
+    const plugin = find(this.props.pluginList, p => p.content.pluginId === selectedPluginId)
+    if (get(plugin, 'content.markdown')) {
+      button = (
+        <a
+          style={markdownDialog.moreInfoButtonStyle}
+          onClick={this.handleOpenDescriptionDialog}
+          href="#"
+        >
+          <FormattedMessage id="plugin.configuration.form.description.more" />
+        </a>
+      )
+    }
+    return (
+      <div>
+        {button}
+        <PluginDescriptionDialog
+          opened={this.state.descriptionOpen}
+          onClose={this.handleCloseDescriptionDialog}
+          pluginMetaData={plugin.content}
+        />
+      </div>
+    )
+  }
+
   /**
    * Returns React component
      * @returns {XML}
@@ -124,6 +174,7 @@ export class PluginListComponent extends React.Component {
           <MenuItem value="__default__" primaryText={this.props.selectLabel || 'none'} />
           {map(this.props.pluginList, this.renderItem)}
         </DropDownMenu>
+        {this.renderDescription()}
         <div style={errorStyle}>
           {this.props.errorText}
         </div>

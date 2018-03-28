@@ -19,17 +19,16 @@
 import forEach from 'lodash/forEach'
 import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { Dialog } from 'material-ui'
-import RaisedButton from 'material-ui/RaisedButton/RaisedButton'
 import { Card, CardText, CardTitle, CardActions } from 'material-ui/Card'
 import { CommonShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { CardActionsComponent, MarkdownFileContentDisplayer } from '@regardsoss/components'
+import { CardActionsComponent } from '@regardsoss/components'
 import messages from '../i18n'
 import styles from '../styles'
 import PluginFormUtils from '../tools/PluginFormUtils'
 import RenderPluginConfField from '../form-utils/RenderPluginConfField'
+import PluginDescriptionDialog from './PluginDescriptionDialog'
 
 /**
  * Display a form to configure (edition or creation) a Pluginconfiguration for a given PluginMetaData.
@@ -86,6 +85,18 @@ export class PluginFormComponent extends React.Component {
     this.props.onSubmit(formatedValues)
   }
 
+  handleOpenDescriptionDialog = () => {
+    this.setState({
+      descriptionOpen: true,
+    })
+  }
+
+  handleCloseDescriptionDialog = () => {
+    this.setState({
+      descriptionOpen: false,
+    })
+  }
+
 
   /**
    * Initialize redux-form values with the given pluginConfiguration if any or with an new empty one.
@@ -118,18 +129,6 @@ export class PluginFormComponent extends React.Component {
       }
     }
     initialize({ [PluginFormComponent.confFieldName]: initValues })
-  }
-
-  handleOpenDescriptionDialog = () => {
-    this.setState({
-      descriptionOpen: true,
-    })
-  }
-
-  handleCloseDescriptionDialog = () => {
-    this.setState({
-      descriptionOpen: false,
-    })
   }
 
   renderField = () => {
@@ -191,26 +190,17 @@ export class PluginFormComponent extends React.Component {
         formatMessage({ id: 'plugin.configuration.form.create.title' })
     }
 
-    const actions = [
-      <RaisedButton
-        key="close"
-        label={formatMessage({ id: 'plugin.parameter.description.dialog.close' })}
-        primary
-        onClick={this.handleCloseDescriptionDialog}
-      />,
-    ]
-
     const descriptionText = (
       <div>
         {pluginMetaData.description}
         {pluginMetaData.markdown &&
-        <a
-          style={markdownDialog.moreInfoButtonStyle}
-          onClick={this.handleOpenDescriptionDialog}
-          href="#"
-        >
-          <FormattedMessage id="plugin.configuration.form.description.more" />
-        </a>}
+          <a
+            style={markdownDialog.moreInfoButtonStyle}
+            onClick={this.handleOpenDescriptionDialog}
+            href="#"
+          >
+            <FormattedMessage id="plugin.configuration.form.description.more" />
+          </a>}
       </div>
     )
 
@@ -241,25 +231,11 @@ export class PluginFormComponent extends React.Component {
               {this.renderActions()}
             </div>
           )}
-        <Dialog
-          title={formatMessage(
-            { id: 'plugin.configuration.form.description.title' },
-            { plugin: pluginMetaData.pluginId })
-          }
-          modal={false}
-          actions={actions}
-          open={this.state.descriptionOpen}
-          onRequestClose={this.handleCloseDescriptionDialog}
-          bodyStyle={markdownDialog.bodyStyle}
-          contentStyle={markdownDialog.dialogContent}
-          style={markdownDialog.dialogRoot}
-          repositionOnUpdate={false}
-        >
-          <MarkdownFileContentDisplayer
-            heightToFit={400}
-            source={pluginMetaData.markdown}
-          />
-        </Dialog>
+        <PluginDescriptionDialog
+          opened={this.state.descriptionOpen}
+          onClose={this.handleCloseDescriptionDialog}
+          pluginMetaData={pluginMetaData}
+        />
       </form>
     )
   }
