@@ -24,6 +24,7 @@ const PluginMetaDataContent = PropTypes.shape({
   interfaceNames: PropTypes.arrayOf(PropTypes.string.isRequired),
   author: PropTypes.string.isRequired,
   description: PropTypes.string,
+  markdown: PropTypes.string,
   version: PropTypes.string.isRequired,
   parameters: PropTypes.arrayOf(PluginParameterType),
 })

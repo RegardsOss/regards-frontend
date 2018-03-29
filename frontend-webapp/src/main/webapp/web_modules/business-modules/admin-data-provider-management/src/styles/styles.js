@@ -27,6 +27,10 @@ const styles = theme => ({
   productInfos: {
     errorStyle: {
       color: theme.formsExtensions.validation.errorColor,
+      whiteSpace: 'pre-wrap',
+      maxHeight: '200px',
+      overflow: 'auto',
+      margin: '0px 0px 0px 30px',
     },
     jobInfos: {
       titleStyle: {

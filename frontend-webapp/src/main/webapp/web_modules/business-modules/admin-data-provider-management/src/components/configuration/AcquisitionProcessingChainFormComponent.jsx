@@ -106,8 +106,10 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
   }
 
   static duplicatePluginConf = (plugin) => {
-    const duplicatedPluginConf = omit(plugin, ['id', 'label'])
+    const duplicatedPluginConf = omit(plugin, ['id', 'label', 'parameters'])
     duplicatedPluginConf.label = plugin.pluginId ? `${plugin.pluginId}-${Date.now()}` : Date.now()
+    const parameters = map(plugin.parameters, parameter => omit(parameter, ['id']))
+    duplicatedPluginConf.parameters = parameters || []
     return duplicatedPluginConf
   }
 

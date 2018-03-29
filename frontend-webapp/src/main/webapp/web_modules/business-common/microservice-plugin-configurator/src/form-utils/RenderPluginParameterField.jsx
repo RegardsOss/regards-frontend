@@ -26,7 +26,10 @@ import SubHeader from 'material-ui/Subheader'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
+import { Tabs, Tab } from 'material-ui'
+import { ScrollArea } from '@regardsoss/adapters'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { MarkdownFileContentDisplayer } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { Field, FieldArray, RenderArrayTextField, RenderRadio, ValidationHelpers } from '@regardsoss/form-utils'
 import { RenderPluginField } from './RenderPluginPluginParameterField'
@@ -130,7 +133,7 @@ export class RenderPluginParameterField extends React.PureComponent {
    */
   renderParamConfiguration = (name, dynamic, forceHideDynamicConf, component, label, disabled, validators, displayDynamicValues, fieldParams = {}) => {
     const { moduleTheme: { dynamicParameter, pluginParameter: { headerStyle } }, intl: { formatMessage } } = this.context
-    const { hideDynamicParameterConf, pluginParameterType: { description, defaultValue } } = this.props
+    const { hideDynamicParameterConf, pluginParameterType: { description, markdown, defaultValue } } = this.props
     const parameterElements = []
     if (!forceHideDynamicConf) {
       parameterElements.push(this.renderDynamicRadioButton(name))
@@ -143,11 +146,11 @@ export class RenderPluginParameterField extends React.PureComponent {
       header = (
         <div style={headerStyle}>
           <SubHeader key="label">{label} {devaultValueLabel}</SubHeader>
-          {description ? <IconButton key="desc-info-button" onClick={this.handleOpenDescription}><HelpCircle /></IconButton> : null}
-          {description ? this.renderDescriptionDialog() : null}
+          {(description || markdown) && <IconButton key="desc-info-button" onClick={this.handleOpenDescription}><HelpCircle /></IconButton>}
+          {(description || markdown) && this.renderDescriptionDialog()}
         </div>
       )
-    } else if (description) {
+    } else if (description || markdown) {
       parameterElements.push(<IconButton key="desc-info-button" onClick={this.handleOpenDescription}><HelpCircle /></IconButton>)
       parameterElements.push(this.renderDescriptionDialog())
     }
@@ -273,7 +276,47 @@ export class RenderPluginParameterField extends React.PureComponent {
     return this.renderParamConfiguration(name, false, true, RenderMapParameterField, label, disabled, validators, false, parameters)
   }
 
+  renderTabs = () => {
+    const {
+      intl: { formatMessage },
+      moduleTheme: { markdownDialog },
+    } = this.context
+    const { pluginParameterType } = this.props
+    return (
+      <Tabs>
+        <Tab
+          label={
+            formatMessage({ id: 'plugin.parameter.description.dialog.tab.text' })
+          }
+        >
+          <ScrollArea
+            style={markdownDialog.scrollStyle}
+            horizontal={false}
+            vertical
+          >
+            <div style={markdownDialog.textDescriptionStyle}>
+              {pluginParameterType.markdown}
+            </div>
+          </ScrollArea>
+        </Tab>
+        <Tab
+          label={
+            formatMessage({ id: 'plugin.parameter.description.dialog.tab.markdown' })
+          }
+        >
+          <div>
+            <MarkdownFileContentDisplayer
+              heightToFit={400}
+              source={pluginParameterType.markdown}
+            />
+          </div>
+        </Tab>
+      </Tabs>
+    )
+  }
+
   renderDescriptionDialog = () => {
+    const { moduleTheme: { markdownDialog } } = this.context
     const { intl: { formatMessage } } = this.context
     const { pluginParameterType } = this.props
     const actions = [
@@ -290,10 +333,20 @@ export class RenderPluginParameterField extends React.PureComponent {
         actions={actions}
         modal
         open={this.state.descriptionOpened}
+        bodyStyle={pluginParameterType.markdown && markdownDialog.bodyStyle}
+        contentStyle={markdownDialog.dialogContent}
+        style={markdownDialog.dialogRoot}
+        repositionOnUpdate={false}
       >
-        <div style={RenderPluginParameterField.wrapperPreserveWhitespace}>
-          {pluginParameterType.description}
-        </div>
+        {/* Show only markdown description */}
+        {!pluginParameterType.description && pluginParameterType.markdown && <MarkdownFileContentDisplayer
+          heightToFit={400}
+          source={pluginParameterType.markdown}
+        />}
+        {/* Show only regular description */}
+        {!pluginParameterType.markdown && pluginParameterType.description}
+        {/* Show both regular and markdown description */}
+        {pluginParameterType.markdown && pluginParameterType.description && this.renderTabs()}
       </Dialog>
     )
   }
