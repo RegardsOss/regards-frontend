@@ -100,9 +100,10 @@ function buildSelectionColumn(label, displaySelectAll, pageSelectors, tableActio
  * @param {*} hideLabel should hide label?
  * @param {*} sortable is sortable?
  * @param {*} sortingOrder current sorting order (external control)
+ * @param {*} sortIndex sort index in multiple sorting tables (ignored if undeinfed)
  * @param {*} onSort on sort callback like (sortId, sortOrder) => ()
  */
-function buildSortableColumnHeader(key, label, hideLabel, sortable, sortingOrder, onSort) {
+function buildSortableColumnHeader(key, label, hideLabel, sortable, sortingOrder, sortIndex, onSort) {
   return (
     <SortableColumnHeaderCell
       key={key}
@@ -111,6 +112,7 @@ function buildSortableColumnHeader(key, label, hideLabel, sortable, sortingOrder
       hideLabel={hideLabel}
       sortable={sortable}
       sortingOrder={sortingOrder}
+      sortIndex={sortIndex}
       onSort={onSort}
     />)
 }

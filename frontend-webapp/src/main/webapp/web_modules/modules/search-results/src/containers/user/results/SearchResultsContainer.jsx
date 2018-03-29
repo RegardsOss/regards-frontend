@@ -314,20 +314,15 @@ export class SearchResultsContainer extends React.Component {
   /**
    * User changed sorting : update attributes presentation models
    * @param modelKey model key
-   * @param type sorting type
+   * @param newSortOrder new sort order
    */
-  onSortByAttribute = (modelKey, type) => this.updateStateAndQuery({
-    // update presentation models to hold the new sorting
-    attributePresentationModels: this.state.attributePresentationModels.map((attrModel) => {
-      let { sortOrder } = attrModel
-      if (attrModel.key === modelKey) {
-        sortOrder = type // update the modified column
-      } else if (this.props.tableDisplayMode === TableDisplayModeEnum.LIST) {
-        sortOrder = TableSortOrders.NO_SORT// in list mode, clear other columns sorting orders
-      }
-      return { ...attrModel, sortOrder }
-    }),
-  })
+  onSortByAttribute = (modelKey, newSortOrder) =>
+    this.updateStateAndQuery({
+      // note: in list mode, we remove other sorting columns
+      attributePresentationModels: AttributesPresentationHelper.changeSortOrder(
+        this.state.attributePresentationModels, modelKey, newSortOrder,
+        this.props.tableDisplayMode === TableDisplayModeEnum.LIST),
+    })
 
   /**
    * Returns filters from state without key as parameter.
@@ -373,8 +368,8 @@ export class SearchResultsContainer extends React.Component {
       searchActions = searchDataobjectsActions
       parameters.push(OpenSearchQuery.buildTagParameter(datasetTag ? datasetTag.searchKey : ''))
       // check if user specified or sorting or provide one (Only available for dataobjects)
-      const sortingOn = attributePresentationModels.reduce((acc, model) => // transform into key / value sorting elements
-        model.sortOrder !== TableSortOrders.NO_SORT ? [...acc, { attributePath: model.key, type: model.sortOrder }] : acc, [])
+      const sortingOn = AttributesPresentationHelper.getSortingOn(attributePresentationModels)
+
       sorting = sortingOn.length ? sortingOn : initialSortAttributesPath
       // check user is currently showing only quicklook pictures
       if (displayOnlyQuicklook) {

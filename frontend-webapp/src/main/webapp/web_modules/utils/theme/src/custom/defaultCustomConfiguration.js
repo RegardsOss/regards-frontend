@@ -45,6 +45,11 @@ module.exports = baseTheme => ({
       multipleValuesSeparatorMargin: '0 10px',
       multipleValuesSeparatorHeight: 14,
       thumbnailPadding: 5,
+      sortIndexNumber: {
+        margin: '7px 0 -7px 0',
+        fontSize: '10px',
+        fontWeight: 'bold',
+      },
     },
   },
   formsExtensions: {

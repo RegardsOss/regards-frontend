@@ -37,11 +37,12 @@ function buildRenderDelegates(attributes) {
 
 /**
  * Builds an attribute column
- * @param {*} presentationModel an attribute presentation model, see AttributePresentationShape
+ * @param {*} presentationModel an attribute presentation model, see AttributePresentationModel shape
  * @return {TableColumnConfiguration} column built
  */
 function buildAttributeColumn({
-  key, label, attributes, order, enableSorting, sortOrder,
+  key, label, attributes, order,
+  enableSorting, sortOrder, sortIndex,
 }, visible, onSort, fixedColumnsWidth) {
   if (attributes.length < 1) {
     throw new Error(`An attribute presentation model must have attributes! (${key}/${label})`)
@@ -63,8 +64,8 @@ function buildAttributeColumn({
     // default column: if sorting enabled, sorting header
     // width: undefined (growing column)
     columnHeader = TableColumnBuilder.buildSortableColumnHeader(
-      key, label, false,
-      enableSorting, sortOrder, onSort,
+      key, label, false, enableSorting,
+      sortOrder, sortIndex, onSort,
     )
   } else {
     columnHeader = TableColumnBuilder.buildTitleColumnHeader(key, label)

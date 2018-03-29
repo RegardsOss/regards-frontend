@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNumber from 'lodash/isNumber'
 import values from 'lodash/values'
 import IconButton from 'material-ui/IconButton'
 import SortDesc from 'material-ui/svg-icons/navigation/arrow-drop-up'
@@ -33,7 +34,10 @@ class SortableColumnHeaderCell extends React.Component {
     // column ID for sort (how will it be retrieved by parent component)
     sortId: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
+    // sort order (ascending, descending, none)
     sortingOrder: PropTypes.oneOf(values(TableSortOrders)),
+    // sort index (used in multi sorting tables), ranging from 0 to N-1
+    sortIndex: PropTypes.number,
     hideLabel: PropTypes.bool.isRequired,
     sortable: PropTypes.bool.isRequired,
     onSort: PropTypes.func.isRequired,
@@ -61,31 +65,40 @@ class SortableColumnHeaderCell extends React.Component {
 
   render() {
     const {
-      label, hideLabel, sortable, sortingOrder,
+      label, hideLabel, sortable, sortingOrder, sortIndex,
     } = this.props
-    const { header: { sortableHeader: { style, sortButtonStyle, sortIconStyle } } } = this.context.moduleTheme
+    const {
+      style, sortButtonStyle, sortComposedIconStyle, sortIndexStyle,
+    } = this.context.moduleTheme.header.sortableHeader
     return (
       <div style={style} >
         {
           sortable ? (
             <IconButton
-              iconStyle={sortIconStyle}
               style={sortButtonStyle}
               onClick={this.onSort}
             >
-              {(() => {
-                switch (sortingOrder) {
-                  case TableSortOrders.ASCENDING_ORDER:
-                    return <SortAsc />
-                  case TableSortOrders.DESCENDING_ORDER:
-                    return <SortDesc />
-                  case TableSortOrders.NO_SORT:
-                    return <Sort />
-                  default:
-                    throw new Error(`Unknown sorting order ${sortingOrder}`)
+              <div style={sortComposedIconStyle}>
+                {/* 1 - sort index if any */
+                  isNumber(sortIndex) ? (
+                    <div style={sortIndexStyle}>{sortIndex + 1}</div>
+                  ) : null
                 }
-              })()
-              }
+                {/* 2 - sort icon */}
+                {(() => {
+                  switch (sortingOrder) {
+                    case TableSortOrders.ASCENDING_ORDER:
+                      return <SortAsc />
+                    case TableSortOrders.DESCENDING_ORDER:
+                      return <SortDesc />
+                    case TableSortOrders.NO_SORT:
+                      return <Sort />
+                    default:
+                      throw new Error(`Unknown sorting order ${sortingOrder}`)
+                  }
+                })()
+                }
+              </div>
             </IconButton >
           ) : null
         }

@@ -16,8 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
 import find from 'lodash/find'
+import isNumber from 'lodash/isNumber'
+import map from 'lodash/map'
 import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { TableSortOrders } from '../../../../components/src/table/model/TableSortOrders'
 
@@ -92,6 +93,7 @@ function buildSimplePresentationModel(configuration, attributesModel, enableSort
     attributes: attributeModel ? [attributeModel] : [], // single attribute
     enableSorting: enableSorting && isSortableAttribute(attributeFullQualifiedName), // yes if available in context and sortable
     sortOrder: TableSortOrders.NO_SORT,
+    sortIndex: null,
     order: configuration.order,
   }
 }
@@ -116,8 +118,9 @@ function buildGroupPresentationModel(configuration, attributeModels) {
     key: configuration.label, // in attribute groups, key is label (supposed unique)
     label: configuration.label,
     attributes: resolvedConfAttributeModels, // group attribute models
-    enableSorting: false, // cannotsort on groups
+    enableSorting: false, // cannot sort on groups
     sortOrder: TableSortOrders.NO_SORT,
+    sortIndex: null,
     order: configuration.order,
   }
 }
@@ -128,8 +131,7 @@ function buildGroupPresentationModel(configuration, attributeModels) {
  * @param {*} simpleAttributesConf simple attributes configuration
  * @param {*} attributesGroupsConf attribute groups configuration
  * @param {boolean} enableSorting is sorting enabled in current context?
- *
- * @return the presentation models that could be built from actual attribute models (filters those with no matching model)
+ * @return {[{*}]} built attributes presentation model (filters those with no matching attribute model)
  */
 function buildAttributesPresentationModels(attributeModels, simpleAttributesConf, attributesGroupsConf, enableSorting) {
   // convert attributes from configuration, then filter on null or empty attributes list
@@ -140,6 +142,78 @@ function buildAttributesPresentationModels(attributeModels, simpleAttributesConf
   ].filter(model => !!model && model.attributes.length)
 }
 
+
+/**
+ * Updates sort order of attributes presentation model as parameter
+ * @param {[{*}]} attributesPresentationModel attributes presentation models as built by this helper (maybe updated)
+ * @param {sting} key updated model key
+ * @param {string} newSortOrder new sort order form TableSortOrders
+ * @return {[{*}]} updated attributes presentation model
+ */
+function changeSortOrder(attributesPresentationModel, key, newSortOrder, removeOtherSorting) {
+  // 0 - retrieve model (pre: it can be retrieved!)
+  const changedColumnIndex = attributesPresentationModel.findIndex(attrModel => attrModel.key === key)
+  const changedColumn = attributesPresentationModel[changedColumnIndex]
+  // Case 1: adding a new column or swithing column order
+  if (newSortOrder !== TableSortOrders.NO_SORT) {
+    // In table, add sorting at end. In list remove other sorting columns
+    // 1.a - compute column sort index
+    const isSwitching = changedColumn.sortOrder !== TableSortOrders.NO_SORT
+    let newSortIndex = 0
+    if (!removeOtherSorting) {
+      if (isSwitching) { // switching column, restore previous sort index
+        newSortIndex = changedColumn.sortIndex
+      } else { // adding new column, compute max sort index +1 (defaults to 0)
+        newSortIndex = attributesPresentationModel.reduce((maxSortIndex, attrModel) =>
+          isNumber(attrModel.sortIndex) ? Math.max(maxSortIndex, attrModel.sortIndex) : maxSortIndex, -1) + 1
+      }
+    }
+    // update column and full module if removeOtherSorting
+    // update presentation models to hold the new sorting order and index
+    return attributesPresentationModel.map((attrModel) => {
+      let { sortOrder, sortIndex } = attrModel
+      if (attrModel.key === key) { // update the modified column
+        sortOrder = newSortOrder
+        sortIndex = newSortIndex
+      } else if (removeOtherSorting) { // clear other columns sorting
+        sortOrder = TableSortOrders.NO_SORT
+        sortIndex = null
+      }
+      return { ...attrModel, sortOrder, sortIndex }
+    })
+  }
+  // Case 2: removing an existing sorting: every following sort index should worth -1
+  return attributesPresentationModel.map((attrModel) => {
+    let { sortOrder, sortIndex } = attrModel
+    if (attrModel.key === key) { // update the modified column
+      sortOrder = TableSortOrders.NO_SORT
+      sortIndex = null
+    } else if (isNumber(sortIndex) && sortIndex > changedColumn.sortIndex) { // this column is after remove one, index -1
+      sortIndex -= 1
+    }
+    return { ...attrModel, sortOrder, sortIndex }
+  })
+}
+
+/**
+ * Builds ordered sorting on array from attributes presentation model
+ * @return {[{*}]} attributesPresentationModel attributes presentation models as built by this helper
+ * @return {[{attributePath: string, type: string}]} ordered array (from first to last sorting attribute) where:
+ * - attributePath is full qualified attribute path
+ * - type is sort order type, TableSortOrders enum
+ */
+function getSortingOn(attributesPresentationModel) {
+  return attributesPresentationModel
+    // 1 - clear non sorting columns
+    .filter(({ sortOrder }) => sortOrder !== TableSortOrders.NO_SORT)
+    // 2 - sort on order priority as user set it (ascending)
+    .sort((model1, model2) => model1.sortIndex - model2.sortIndex)
+    // 3 - convert into {attributePath, type} array
+    .map(({ key, sortOrder }) => ({ attributePath: key, type: sortOrder }))
+}
+
 module.exports = {
   buildAttributesPresentationModels,
+  changeSortOrder,
+  getSortingOn,
 }

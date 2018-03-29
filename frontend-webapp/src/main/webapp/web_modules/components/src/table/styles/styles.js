@@ -169,13 +169,22 @@ export default (theme) => {
           alignItems: 'center',
         },
         sortButtonStyle: {
-          width: 32,
-          height: 32,
-          padding: 4,
+          width: 38,
+          height: 38,
+          padding: 0,
         },
-        sortIconStyle: {
-          width: 24,
-          height: 24,
+        sortComposedIconStyle: {
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        },
+        sortIndexStyle: {
+          lineHeight: 1,
+          color: theme.palette.textColor,
+          fontSize: theme.components.infiniteTable.sortIndexNumber.fontSize,
+          fontWeight: theme.components.infiniteTable.sortIndexNumber.fontWeight,
+          margin: theme.components.infiniteTable.sortIndexNumber.margin,
         },
       },
     },

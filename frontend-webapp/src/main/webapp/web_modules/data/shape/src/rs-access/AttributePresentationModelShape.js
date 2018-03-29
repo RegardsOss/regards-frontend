@@ -35,6 +35,8 @@ const AttributePresentationModel = PropTypes.shape({
   enableSorting: PropTypes.bool.isRequired,
   // Is that attribute currently used for sorting? Note: string value, to allow any custom type of sorting
   sortOrder: PropTypes.string,
+  // Optional sort index when in multi sorting
+  sortIndex: PropTypes.number,
   // optional order in presentation from configuration
   order: PropTypes.number,
 })
