@@ -16,6 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import ClearPluginCacheActions from './pluginMetaData/ClearPluginCacheActions'
+import getClearPluginCacheReducer from './pluginMetaData/ClearPluginCacheReducer'
+import getClearPluginCacheSelectors from './pluginMetaData/ClearPluginCacheSelectors'
+
 import PluginMetaDataActions from './pluginMetaData/PluginMetaDataActions'
 import getPluginMetaDataReducer from './pluginMetaData/PluginMetaDataReducer'
 import getPluginMetaDataSelectors from './pluginMetaData/PluginMetaDataSelectors'
@@ -43,6 +47,10 @@ import getMicroserviceConfBackupStatusSelectors from './confBackup/MicroserviceC
 
 
 module.exports = {
+  ClearPluginCacheActions,
+  getClearPluginCacheReducer,
+  getClearPluginCacheSelectors,
+
   PluginMetaDataActions,
   getPluginMetaDataReducer,
   getPluginMetaDataSelectors,

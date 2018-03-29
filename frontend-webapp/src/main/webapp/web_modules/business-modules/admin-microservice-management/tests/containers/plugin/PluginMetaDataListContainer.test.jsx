@@ -69,7 +69,8 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin metata data list contai
         },
       ],
       isPluginMetaDataListFetching: false,
-      // from mapDispatchToProps
+      // from mapDispatchToProps1
+      fetchClearPluginCache: () => { },
       fetchPluginTypeList: () => { },
       fetchPluginMetaDataList: () => { },
     }

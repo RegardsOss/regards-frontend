@@ -40,6 +40,7 @@ const messages = Object.assign({
   'microservice-management.maintenance.switch.mode.off.confirm': 'Deactivate maintenance mode for microservice {name} ?',
 
   'microservice-management.plugin.list.title': 'Plugins',
+  'microservice-management.plugin.list.clear.cache.tooltip': 'Empty plugins cache',
   'microservice-management.plugin.list.filter.tooltip': 'Filter',
   'microservice-management.plugin.list.filter.title': 'Types',
   'microservice-management.plugin.list.configurations': 'Configurations',

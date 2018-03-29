@@ -24,6 +24,7 @@ import { CommonShapes } from '@regardsoss/shape'
 import PluginMetaDataListComponent from '../../components/plugin/PluginMetaDataListComponent'
 import { pluginTypeSelectors, pluginTypeActions } from '../../clients/PluginTypeClient'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from '../../clients/PluginMetadataClient'
+import { clearPluginCacheActions, clearPluginCacheSelectors } from '../../clients/ClearPluginCacheClient'
 import messages from '../../i18n'
 
 /**
@@ -44,7 +45,9 @@ export class PluginMetaDataListContainer extends React.Component {
       content: PropTypes.string,
     })),
     pluginMetaDataList: CommonShapes.PluginMetaDataList,
+    isFetchingClearPlugin: PropTypes.bool,
     // from mapDispatchToProps
+    fetchClearPluginCache: PropTypes.func.isRequired,
     fetchPluginTypeList: PropTypes.func.isRequired,
     fetchPluginMetaDataList: PropTypes.func.isRequired,
   }
@@ -72,11 +75,16 @@ export class PluginMetaDataListContainer extends React.Component {
         return actionResults
       })
   }
+
+  onClearPluginCache = () => this.props.fetchClearPluginCache(this.props.params.microserviceName)
+
   getView = () => (
     <PluginMetaDataListComponent
+      isFetchingClearPlugin={this.props.isFetchingClearPlugin}
       microserviceName={this.props.params.microserviceName}
       pluginTypes={this.props.pluginTypes}
       pluginMetaDataList={this.props.pluginMetaDataList}
+      onClearPluginCache={this.onClearPluginCache}
       getProjectConfigurationListURL={this.getProjectConfigurationListURL}
       getAddURL={this.getAddURL}
       getBackURL={this.getBackURL}
@@ -125,11 +133,13 @@ export class PluginMetaDataListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+  isFetchingClearPlugin: clearPluginCacheSelectors.isFetching(state),
   pluginTypes: pluginTypeSelectors.getList(state),
   pluginMetaDataList: pluginMetaDataSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
+  fetchClearPluginCache: microserviceName => dispatch(clearPluginCacheActions.clearCache(microserviceName)),
   fetchPluginTypeList: microserviceName => dispatch(pluginTypeActions.fetchEntityList({ microserviceName })),
   fetchPluginMetaDataList: microserviceName => dispatch(pluginMetaDataActions.fetchEntityList({ microserviceName })),
 })

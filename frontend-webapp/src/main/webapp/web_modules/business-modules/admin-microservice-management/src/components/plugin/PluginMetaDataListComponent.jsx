@@ -35,7 +35,8 @@ import { List, ListItem } from 'material-ui/List'
 import Paper from 'material-ui/Paper'
 import Subheader from 'material-ui/Subheader'
 import IconList from 'material-ui/svg-icons/action/list'
-import Filter from 'material-ui/svg-icons/content/filter-list'
+import ClearCacheIcon from 'mdi-material-ui/Sync'
+import FilterIcon from 'material-ui/svg-icons/content/filter-list'
 import Close from 'material-ui/svg-icons/navigation/close'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
@@ -62,8 +63,10 @@ export default class PluginMetaDataListComponent extends React.Component {
     })),
     pluginMetaDataList: CommonShapes.PluginMetaDataList,
     getProjectConfigurationListURL: PropTypes.func.isRequired,
+    isFetchingClearPlugin: PropTypes.bool,
     getAddURL: PropTypes.func.isRequired,
     getBackURL: PropTypes.func.isRequired,
+    onClearPluginCache: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -181,7 +184,7 @@ export default class PluginMetaDataListComponent extends React.Component {
   }
 
   render() {
-    const { microserviceName } = this.props
+    const { microserviceName, onClearPluginCache, isFetchingClearPlugin } = this.props
 
     return (
       <Paper>
@@ -193,12 +196,23 @@ export default class PluginMetaDataListComponent extends React.Component {
             </Link>
           }
           iconElementRight={
-            <IconButton
-              onClick={this.handleFilterSwitch}
-              tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.list.filter.tooltip' })}
-            >
-              <Filter />
-            </IconButton>
+            <div>
+              {/* Clear server cache option */}
+              <IconButton
+                disabled={isFetchingClearPlugin}
+                onClick={onClearPluginCache}
+                tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.list.clear.cache.tooltip' })}
+              >
+                <ClearCacheIcon />
+              </IconButton>
+              {/* Show filters panel option */}
+              <IconButton
+                onClick={this.handleFilterSwitch}
+                tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.list.filter.tooltip' })}
+              >
+                <FilterIcon />
+              </IconButton>
+            </div>
           }
         />
         <div style={this.styles.root}>

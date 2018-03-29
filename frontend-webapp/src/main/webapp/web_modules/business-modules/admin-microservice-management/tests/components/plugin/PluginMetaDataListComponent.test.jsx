@@ -45,6 +45,7 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin metata data list compon
       getProjectConfigurationListURL: () => ' ',
       getAddURL: () => ' ',
       getBackURL: () => ' ',
+      onClearPluginCache: () => { },
     }
 
     const enzymeWrapper = shallow(<PluginMetaDataListComponent {...props} />, { context })
