@@ -38,7 +38,7 @@ const messages = {
   'ingest.board.action.datasource.monitor.tooltip': 'Suivi des aspirations de données',
 
   'data.board.document.title': 'Documents',
-  'data.board.document.description': 'Vous pouvez ici counsulter/ajouter des données de type documents. Les documents sont des données consultables par prévisualisation ou par téléchargement depuis l\'interface utilisateur.',
+  'data.board.document.description': 'Vous pouvez ici consulter/ajouter des données de type documents. Les documents sont des données consultables par prévisualisation ou par téléchargement depuis l\'interface utilisateur.',
 
   'data.board.storage.title': 'Stockage',
   'data.board.storage.description': 'Cette section vous permet de configurer un ou plusieurs espaces de stockage des données ainsi que la stratégie de répartition que le système utilisera.',
