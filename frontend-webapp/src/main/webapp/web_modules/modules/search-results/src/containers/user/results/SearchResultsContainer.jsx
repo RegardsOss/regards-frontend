@@ -369,7 +369,6 @@ export class SearchResultsContainer extends React.Component {
       parameters.push(OpenSearchQuery.buildTagParameter(datasetTag ? datasetTag.searchKey : ''))
       // check if user specified or sorting or provide one (Only available for dataobjects)
       const sortingOn = AttributesPresentationHelper.getSortingOn(attributePresentationModels)
-
       sorting = sortingOn.length ? sortingOn : initialSortAttributesPath
       // check user is currently showing only quicklook pictures
       if (displayOnlyQuicklook) {

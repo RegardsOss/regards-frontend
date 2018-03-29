@@ -90,7 +90,7 @@ function buildSimplePresentationModel(configuration, attributesModel, enableSort
   return {
     key: attributeFullQualifiedName, // key can also be used to retrieve the attribute (helps for sorting / controlling visibility)
     label: attributeModel.content.label,
-    attributes: attributeModel ? [attributeModel] : [], // single attribute
+    attributes: [attributeModel], // single attribute
     enableSorting: enableSorting && isSortableAttribute(attributeFullQualifiedName), // yes if available in context and sortable
     sortOrder: TableSortOrders.NO_SORT,
     sortIndex: null,
@@ -112,8 +112,12 @@ function buildGroupPresentationModel(configuration, attributeModels) {
 
   // 1 - resolve as many attributes from configurations as possible (filter non found)
   const resolvedConfAttributeModels = configuration.attributes.map(id => getAttributeConfigurationById(id, attributeModels)).filter(c => !!c)
+  if (!resolvedConfAttributeModels.length) {
+    // 1.a - no attribute could be retrieved, remove this regroupment
+    return null
+  }
 
-  // 2 - convert into attribute model
+  // 1.b - convert into attribute model as some attributes where found
   return {
     key: configuration.label, // in attribute groups, key is label (supposed unique)
     label: configuration.label,
@@ -134,12 +138,12 @@ function buildGroupPresentationModel(configuration, attributeModels) {
  * @return {[{*}]} built attributes presentation model (filters those with no matching attribute model)
  */
 function buildAttributesPresentationModels(attributeModels, simpleAttributesConf, attributesGroupsConf, enableSorting) {
-  // convert attributes from configuration, then filter on null or empty attributes list
-  // Note: That happens when a model is hidden or cannot be retrieved in attribute models
+  // convert attributes from configuration, then filter on null
+  // Note: A presentation model is null when none of its configured attributes could be retrieved
   return [
     ...map(simpleAttributesConf, conf => buildSimplePresentationModel(conf, attributeModels, enableSorting)),
     ...map(attributesGroupsConf, conf => buildGroupPresentationModel(conf, attributeModels)),
-  ].filter(model => !!model && model.attributes.length)
+  ].filter(model => !!model)
 }
 
 
@@ -213,6 +217,8 @@ function getSortingOn(attributesPresentationModel) {
 }
 
 module.exports = {
+  buildSimplePresentationModel,
+  buildGroupPresentationModel,
   buildAttributesPresentationModels,
   changeSortOrder,
   getSortingOn,

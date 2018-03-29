@@ -141,7 +141,6 @@ class ModuleFormContainer extends React.Component {
     // resolve promise then handle back if successful
     Promise.resolve(fetchMethod(this.props.params.applicationId, valuesToSave))
       .then((actionResult) => {
-        console.error('Action', actionResult)
         if (!actionResult.error) {
           this.handleBack() // back to list on success
         }
