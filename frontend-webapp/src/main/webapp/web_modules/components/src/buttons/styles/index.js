@@ -16,15 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import styles from './styles'
 
-const messages = {
-  'clear.button.tooltip': 'Effacer le contenu du champ',
-  'numerical.comparator.EQ': '=',
-  'numerical.comparator.LE': '≤',
-  'numerical.comparator.GE': '≥',
-  'numerical.comparator.NE': '≠',
-  'components.buttons.select.all': 'Tout sélectionner',
-  'components.buttons.unselect.all': 'Tout déselectionner',
-}
-
-export default messages
+module.exports = { styles }

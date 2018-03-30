@@ -23,6 +23,8 @@ const messages = {
   'numerical.comparator.LE': '≤',
   'numerical.comparator.GE': '≥',
   'numerical.comparator.NE': '≠',
+  'components.buttons.select.all': 'Select all',
+  'components.buttons.unselect.all': 'Unselect all',
 }
 
 export default messages

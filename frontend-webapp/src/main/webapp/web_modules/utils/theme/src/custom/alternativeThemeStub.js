@@ -23,7 +23,7 @@
  * /!\ Values from this file are NOT USED
  * @author Léo Mieulet
  */
-export default {
+module.exports = {
   palette: {
     primary1Color: '#303030',
     primary2Color: '#0097A7',

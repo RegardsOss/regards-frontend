@@ -17,14 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-const messages = {
-  'clear.button.tooltip': 'Effacer le contenu du champ',
-  'numerical.comparator.EQ': '=',
-  'numerical.comparator.LE': '≤',
-  'numerical.comparator.GE': '≥',
-  'numerical.comparator.NE': '≠',
-  'components.buttons.select.all': 'Tout sélectionner',
-  'components.buttons.unselect.all': 'Tout déselectionner',
-}
-
-export default messages
+/**
+ * Styles for buttons components
+ */
+export default theme => ({
+  switchSelectAllButton: {
+    labelStyle: {
+      textTransform: 'none',
+      color: theme.palette.secondaryTextColor,
+    },
+    iconStyle: {
+      color: theme.palette.secondaryTextColor,
+    },
+  },
+})

@@ -60,6 +60,15 @@ export default (theme) => {
   }
 
   return ({
+    dialog: {
+      columnsVisibilityDialog: {
+        titleBarStyle: {
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        },
+      },
+    },
     header: {
       rootStyle: {
         display: 'flex',
