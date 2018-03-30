@@ -37,7 +37,7 @@ const messages = Object.assign({
   'sips.list.table.headers.sip-id': 'SIP ID',
   'sips.list.table.headers.type': 'Type',
   'sips.list.table.headers.state': 'State',
-  'sips.list.table.headers.date': 'Date',
+  'sips.list.table.headers.date': 'Last update',
   'sips.list.table.headers.version': 'Version',
   'sips.list.table.headers.actions': 'Actions',
   'sips.list.table.actions.delete': 'Delete session',
