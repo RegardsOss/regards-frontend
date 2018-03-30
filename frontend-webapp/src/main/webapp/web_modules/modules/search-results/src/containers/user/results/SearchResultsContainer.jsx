@@ -321,7 +321,8 @@ export class SearchResultsContainer extends React.Component {
       // note: in list mode, we remove other sorting columns
       attributePresentationModels: AttributesPresentationHelper.changeSortOrder(
         this.state.attributePresentationModels, modelKey, newSortOrder,
-        this.props.tableDisplayMode === TableDisplayModeEnum.LIST),
+        // multisorting is, so far, enabled only for table view
+        this.props.tableDisplayMode !== TableDisplayModeEnum.TABLE),
     })
 
   /**
