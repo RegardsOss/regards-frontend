@@ -29,7 +29,7 @@ import Entity from './Entity'
 import { FragmentContent, Fragment, FragmentList } from './Fragment'
 import { Model, ModelList } from './Model'
 import { ModelAttribute, ModelAttributeList } from './ModelAttribute'
-import { StandartAttributeModelContent, StandartAttributeModel } from './StandartAttributeModel'
+import { StandardAttributeModelContent, StandardAttributeModel } from './StandardAttributeModel'
 import { ModelAttributeComputationTypes, ModelAttributeComputationTypesList } from './ModelAttributeComputationTypes'
 import { Document, DocumentContent, DocumentList } from './Document'
 import { CrawlerDatasource, CrawlerDatasourceContent, CrawlerDatasourceList, CrawlerDatasourceArray } from './CrawlerDatasource'
@@ -92,6 +92,6 @@ module.exports = {
   ModelAttributeComputationTypes,
   ModelAttributeComputationTypesList,
 
-  StandartAttributeModelContent,
-  StandartAttributeModel,
+  StandardAttributeModelContent,
+  StandardAttributeModel,
 }

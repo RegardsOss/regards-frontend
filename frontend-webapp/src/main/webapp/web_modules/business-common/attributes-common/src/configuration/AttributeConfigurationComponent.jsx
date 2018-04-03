@@ -38,7 +38,7 @@ class AttributeConfigurationComponent extends React.Component {
   static propTypes = {
     allowFacettes: PropTypes.bool.isRequired,
     attribute: PropTypes.oneOfType([
-      DataManagementShapes.StandartAttributeModel,
+      DataManagementShapes.StandardAttributeModel,
       DataManagementShapes.AttributeModel,
     ]).isRequired,
     filter: PropTypes.string,
@@ -170,7 +170,7 @@ class AttributeConfigurationComponent extends React.Component {
               id="search"
               type="number"
               floatingLabelText={this.context.intl.formatMessage({ id: 'form.attributes.order' })}
-              value={this.formatOrder(this.state.conf.order)}
+              value={this.formatOrder(this.state.conf.order) || ''}
               onChange={this.changeAttributeOrder}
               style={searchFiledStyle}
             />

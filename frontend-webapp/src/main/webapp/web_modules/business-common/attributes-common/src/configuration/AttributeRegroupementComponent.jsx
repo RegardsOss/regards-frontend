@@ -134,7 +134,7 @@ class AttributeConfigurationComponent extends React.Component {
             id="search"
             type="number"
             floatingLabelText={this.context.intl.formatMessage({ id: 'form.attributes.order' })}
-            value={this.formatOrder(this.state.conf.order)}
+            value={this.formatOrder(this.state.conf.order) || ''}
             onChange={this.changeAttributeOrder}
             style={searchFieldStyle}
           />

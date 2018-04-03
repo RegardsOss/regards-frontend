@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import isNaN from 'lodash/isNaN'
 import { CardText } from 'material-ui/Card'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
@@ -48,7 +47,7 @@ class SearchResultsConfigurationComponent extends React.Component {
     documentAttributeModels: DataManagementShapes.AttributeModelList,
     currentFormValues: ModuleConfiguration,
     adminConf: AdminModuleConf,
-    initialFormValues: ModuleConfiguration.isRequired,
+    initialFormValues: ModuleConfiguration,
     isCreating: PropTypes.bool,
     currentNamespace: PropTypes.string,
     // Redux form
@@ -142,12 +141,16 @@ class SearchResultsConfigurationComponent extends React.Component {
     }
   }
 
+
   /**
-   * Formats the value before displaying in the field input component.
-   *
-   * @param {String} value
+   * Parses number value in number field
+   * @param {string} value number field value
+   * @return parsed value
    */
-  formatNumberField = value => !isNaN(value) ? value : ''
+  parsePositiveIntNumber = (value) => {
+    const parsedValue = parseFloat(value)
+    return Number.isNaN(parsedValue) || parsedValue < 0 ? 0 : parsedValue
+  }
 
   /**
    * Validates the quicklook number field
@@ -465,7 +468,7 @@ class SearchResultsConfigurationComponent extends React.Component {
               normalize={parseIntNormalizer}
               disabled={!enableQuicklooks || displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
               validate={this.validateQuicklookNumberField}
-              format={this.formatNumberField}
+              parse={this.parsePositiveIntNumber}
             />
             <Field
               name={this.CONF_QUICKLOOKS_SPACING}
@@ -476,7 +479,7 @@ class SearchResultsConfigurationComponent extends React.Component {
               normalize={parseIntNormalizer}
               disabled={!enableQuicklooks || displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
               validate={this.validateQuicklookNumberField}
-              format={this.formatNumberField}
+              parse={this.parsePositiveIntNumber}
             />
           </FormGroup>
         </div>

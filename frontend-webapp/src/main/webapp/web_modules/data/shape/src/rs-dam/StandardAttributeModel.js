@@ -20,15 +20,15 @@
 /**
  * These attributes are already linked to the model without configuration
  */
-const StandartAttributeModelContent = PropTypes.shape({
+const StandardAttributeModelContent = PropTypes.shape({
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   fragment: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
 })
-const StandartAttributeModel = PropTypes.shape({
-  content: StandartAttributeModelContent,
+const StandardAttributeModel = PropTypes.shape({
+  content: StandardAttributeModelContent,
 })
 
-module.exports = { StandartAttributeModelContent, StandartAttributeModel }
+module.exports = { StandardAttributeModelContent, StandardAttributeModel }
