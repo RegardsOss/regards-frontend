@@ -358,8 +358,7 @@ class BasicListActions extends BasicActions {
           this.CREATE_ENTITY_REQUEST,
           {
             type: this.CREATE_ENTITY_SUCCESS,
-
-            payload: (action, state, res) => res.status === 204 ? null : this.buildResults(res),
+            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
           },
           this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
         ],
@@ -383,13 +382,6 @@ class BasicListActions extends BasicActions {
     }
     return getJSON(res).then(json => json)
   }
-
-  /**
-   * Behavior: build result from fetch result
-   * @param {*} res fetch result
-   * @return result
-   */
-  buildResults = res => getJSON(res).then(json => json)
 
   /**
     * Normalizes action payload as direct entities list payload
