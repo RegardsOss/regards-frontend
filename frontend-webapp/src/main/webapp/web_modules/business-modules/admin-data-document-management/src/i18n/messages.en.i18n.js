@@ -60,7 +60,7 @@ const messages = Object.assign({
   'document.form.files.addFile.subtitle': 'Add files',
 
 
-  'document.form.action.next': 'Next',
+  'document.form.action.next': 'Save',
   'document.form.action.cancel': 'Cancel',
   'document.form.model': 'Document models',
   'document.form.label': 'Label',
