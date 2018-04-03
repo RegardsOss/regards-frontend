@@ -24,8 +24,7 @@ const DocumentConfiguration = {
 }
 
 const document = new Schema(DocumentConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[DocumentConfiguration.entityKey],
+  idAttribute: entity => entity.content[DocumentConfiguration.entityKey],
   assignEntity(output, key, value, input) {
     if (value && value.geometry) {
       try {

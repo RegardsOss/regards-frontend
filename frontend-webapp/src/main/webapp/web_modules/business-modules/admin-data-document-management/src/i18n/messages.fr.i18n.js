@@ -35,7 +35,7 @@ const messages = Object.assign({
 
   'document.no.document.title': 'Aucun document',
 
-  'document.form.links.component.subtitle': 'Lien de la document courante',
+  'document.form.links.component.subtitle': 'Lien du document courant',
   'document.form.links.remainingcollection.subtitle': 'Collections disponibles',
   'document.form.links.collection.subtitle': 'Collections liées',
   'document.form.links.subtitle': 'Les documents disposent de liens avec des collections afin de simplifier la recherche',
@@ -70,7 +70,7 @@ const messages = Object.assign({
   'document.form.table.type': 'Type',
   'document.form.table.input': 'Valeur de l\'attribut',
   'document.form.subtitle': 'Gestion des attributs d\'un document',
-  'document.edit.title': 'Edition de la document {name}',
+  'document.edit.title': 'Edition du document {name}',
   'document.create.title': 'Création d\'un document',
   'document.duplicate.title': 'Dupliquer la document {name}',
   'invalid.max_128_carac': 'Le label d\'un document ne peut dépasser 128 caractères',

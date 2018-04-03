@@ -91,7 +91,7 @@ export class DocumentFormComponent extends React.Component {
       const initialValues = {
         label: currentDocument.content.label,
         geometry: currentDocument.content.geometry,
-        model: currentDocument.content.model.id,
+        model: currentDocument.content.model.name,
         properties,
       }
       this.props.initialize(initialValues)

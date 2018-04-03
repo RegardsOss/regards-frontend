@@ -42,32 +42,50 @@ class DocumentTableCustomCellActions extends React.Component {
   static iconStyle = { height: 23, width: 23 }
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
+  /**
+   * User callback: on edit action
+   */
+  onEdit = () => {
+    const { entity, onEdit } = this.props
+    onEdit(entity.content.id)
+  }
+
+  /**
+   * User callback: on delete action
+   */
+  onDelete = () => {
+    const {
+      entity, rowIndex, pageSize, onDelete,
+    } = this.props
+    onDelete(entity.content.id, rowIndex, pageSize)
+  }
+
   render() {
-    const { entity, rowIndex, pageSize } = this.props
+    const { entity } = this.props
     return (
       <div>
         <ActionsMenuCell
           breakpoints={actionsBreakpoints}
         >
           <HateoasIconAction
-            title={this.props.intl.formatMessage({ id: 'document.list.action.delete' })}
-            iconStyle={DocumentTableCustomCellActions.iconStyle}
-            style={DocumentTableCustomCellActions.buttonStyle}
-            onClick={() => this.props.onDelete(entity, rowIndex, pageSize)}
-            entityLinks={entity.links}
-            hateoasKey={HateoasKeys.DELETE}
-          >
-            <Delete />
-          </HateoasIconAction>
-          <HateoasIconAction
             title={this.props.intl.formatMessage({ id: 'document.list.action.edit' })}
             iconStyle={DocumentTableCustomCellActions.iconStyle}
             style={DocumentTableCustomCellActions.buttonStyle}
-            onClick={() => this.props.onEdit(entity.content.id)}
+            onClick={this.onEdit}
             entityLinks={entity.links}
             hateoasKey={HateoasKeys.UPDATE}
           >
             <Edit />
+          </HateoasIconAction>
+          <HateoasIconAction
+            title={this.props.intl.formatMessage({ id: 'document.list.action.delete' })}
+            iconStyle={DocumentTableCustomCellActions.iconStyle}
+            style={DocumentTableCustomCellActions.buttonStyle}
+            onClick={this.onDelete}
+            entityLinks={entity.links}
+            hateoasKey={HateoasKeys.DELETE}
+          >
+            <Delete />
           </HateoasIconAction>
         </ActionsMenuCell>
       </div>

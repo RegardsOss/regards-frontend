@@ -76,9 +76,8 @@ export class DocumentFormContainer extends React.Component {
         .then((actionResult) => {
           // We receive here the action
           if (!actionResult.error) {
-            // We extract the document id from the action
             const document = this.extractDocumentFromActionResult(actionResult)
-            this.props.fetchModelAttributeList(document.model.id)
+            this.props.fetchModelAttributeList(document.model.name)
           }
         })
     }
@@ -125,8 +124,11 @@ export class DocumentFormContainer extends React.Component {
       })
   }
 
-
-  extractDocumentFromActionResult = actionResult => actionResult.payload.entities.document[keys(actionResult.payload.entities.document)[0]].content
+  /**
+   * @return document retrieved from action result payload
+   */
+  extractDocumentFromActionResult = actionResult =>
+    actionResult.payload.entities.document[keys(actionResult.payload.entities.document)[0]].content
 
   /**
    * Handle form submission on duplication / creation
@@ -161,14 +163,14 @@ export class DocumentFormContainer extends React.Component {
   /**
    * Used when the user change the value of the model selected
    * In charge to fetch new list of model attributes
-   * @param modelId
+   * @param modelName
    */
-  handleUpdateModel = (modelId) => {
+  handleUpdateModel = (modelName) => {
     // Remove any value defined in the current form if modelAttributeList existed
     forEach(this.props.modelAttributeList, (modelAttribute) => {
       this.props.unregisterField('document-form', `properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`)
     })
-    this.props.fetchModelAttributeList(modelId)
+    this.props.fetchModelAttributeList(modelName)
   }
 
   render() {
