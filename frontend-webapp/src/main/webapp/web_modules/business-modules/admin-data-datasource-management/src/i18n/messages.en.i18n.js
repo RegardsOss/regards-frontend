@@ -118,7 +118,7 @@ const messages = Object.assign({
   'datasource.form.create.pick-interface.action.db': 'Crawl databases',
   'datasource.form.create.pick-interface.action.cancel': 'Cancel',
   'aip.datasource.create.title': 'SIPs datasource creation',
-  'aip.datasource.form.subtitle': 'bla bla bla blA',
+  'aip.datasource.form.subtitle': 'This form allows you to configure AIPs crawling from storage microservice. To do so, you have to map each attribute of your data model to the key of associated value in the AIPs.',
   'aip.datasource.edit.title': 'Edit datasource {name}',
   'aip.datasource.form.table.fragmentAndLabel': 'Model attributes',
   'aip.datasource.form.table.type': 'Type',

@@ -118,7 +118,7 @@ const messages = Object.assign({
   'datasource.form.create.pick-interface.action.db': 'Aspirer une source de données',
   'datasource.form.create.pick-interface.action.cancel': 'Annuler',
   'aip.datasource.create.title': 'Creation d\'une source de données de AIPs',
-  'aip.datasource.form.subtitle': 'bla bla bla blA',
+  'aip.datasource.form.subtitle': 'Cet écran vous permet de configurer la facon dont les AIPs stockés par le microservice de stockage vont être indexés dans le catalogue. Pour ce faire, vous devez indiquer où dans l\'AIP trouver les informations du modèle de données à indéxer',
   'aip.datasource.edit.title': 'Edition de la source de données {name}',
   'aip.datasource.form.table.fragmentAndLabel': 'Attribut du modèle',
   'aip.datasource.form.table.type': 'Type',
