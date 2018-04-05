@@ -18,14 +18,16 @@
  **/
 import size from 'lodash/size'
 import filter from 'lodash/filter'
+import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
 import { CardTitle } from 'material-ui/Card'
 import IssueIcon from 'mdi-material-ui/CloseCircle'
 import OkIcon from 'mdi-material-ui/CheckCircle'
 import { i18nContextType } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
+import styles from '../styles'
 import { pluginConfigurationSelectors, pluginConfigurationActions } from '../clients/PluginConfigurationClient'
 
 const MICROSERVICE = STATIC_CONF.MSERVICES.STORAGE
@@ -53,14 +55,7 @@ export class SecurityPluginActiveTesterContainer extends React.Component {
     ...i18nContextType,
     ...themeContextType,
   }
-  static iconStyle = {
-    width: '100',
-    height: '100',
-  }
-  static wrapperStyle = {
-    display: 'flex',
-    alignItems: 'center',
-  }
+
   state = {
     isLoading: true,
   }
@@ -77,7 +72,7 @@ export class SecurityPluginActiveTesterContainer extends React.Component {
 
   getView = () => {
     const { pluginConfList } = this.props
-    const { intl, muiTheme } = this.context
+    const { intl, muiTheme, moduleTheme: { securityTester } } = this.context
 
     const {
       formsExtensions: { validation: { validColor, errorColor } },
@@ -88,30 +83,30 @@ export class SecurityPluginActiveTesterContainer extends React.Component {
     let subtitle
     switch (size(pluginConfActiveList)) {
       case 0:
-        icon = (<IssueIcon style={SecurityPluginActiveTesterContainer.iconStyle} color={errorColor} />)
+        icon = (<IssueIcon style={securityTester.iconStyle} color={errorColor} />)
         title = intl.formatMessage({ id: 'storage.security.no.plugin.title' })
         subtitle = intl.formatMessage({ id: 'storage.security.no.plugin.subtitle' })
         break
       case 1:
-        icon = (<OkIcon style={SecurityPluginActiveTesterContainer.iconStyle} color={validColor} />)
+        icon = (<OkIcon style={securityTester.iconStyle} color={validColor} />)
         title = intl.formatMessage({ id: 'storage.security.plugin.defined.title' })
         subtitle = intl.formatMessage({ id: 'storage.security.plugin.defined.subtitle' })
         break
       // More than 1 plugin
       default:
-        icon = (<IssueIcon style={SecurityPluginActiveTesterContainer.iconStyle} color={errorColor} />)
+        icon = (<IssueIcon size={securityTester.iconStyle} color={errorColor} />)
         title = intl.formatMessage({ id: 'storage.security.too.many.plugin.title' })
         subtitle = intl.formatMessage({ id: 'storage.security.too.many.plugin.subtitle' })
         break
     }
 
     return (
-      <div style={SecurityPluginActiveTesterContainer.wrapperStyle}>
-
+      <div style={securityTester.style}>
         {icon}
         <CardTitle
           title={title}
           subtitle={subtitle}
+          style={securityTester.textCardStyle}
         />
       </div>
     )
@@ -129,5 +124,7 @@ export class SecurityPluginActiveTesterContainer extends React.Component {
   }
 }
 
-export default connect(SecurityPluginActiveTesterContainer.mapStateToProps,
-  SecurityPluginActiveTesterContainer.mapDispatchToProps)(SecurityPluginActiveTesterContainer)
+
+export default compose(
+  connect(SecurityPluginActiveTesterContainer.mapStateToProps, SecurityPluginActiveTesterContainer.mapDispatchToProps),
+  withModuleStyle(styles))(SecurityPluginActiveTesterContainer)

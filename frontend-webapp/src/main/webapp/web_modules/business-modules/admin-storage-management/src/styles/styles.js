@@ -25,6 +25,22 @@ const storageManagementStyles = theme => ({
     position: 'relative',
     paddingBottom: 20,
   },
+  securityTester: {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    iconStyle: {
+      padding: '16px 0 16px 16px',
+      height: 50,
+      width: 50,
+      boxSizing: 'content-box',
+    },
+    textCardStyle: {
+      flexGrow: 1,
+      flexShrink: 1,
+    },
+  },
   grid: {
     display: 'flex',
     flexWrap: 'wrap',
