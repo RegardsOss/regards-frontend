@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import filter from 'lodash/filter'
 import cloneDeep from 'lodash/cloneDeep'
 import keys from 'lodash/keys'
 import find from 'lodash/find'
@@ -76,6 +77,9 @@ class PluginFormUtils {
    * @param {*} complex
    */
   static createNewParameterConf(parameterMetadata, complex = true) {
+    if (parameterMetadata.unconfigurable) {
+      return {}
+    }
     const parameterConf = complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.defaultValue) : {}
     if (parameterMetadata.parameters) {
       forEach(parameterMetadata.parameters, (innerParameterMetadata) => {
@@ -91,17 +95,20 @@ class PluginFormUtils {
    * @param {*} parameterMeta
    * @param {*} forInit
    */
-  static formatParameterConf(parameterConfValue, parameterMeta, forInit) {
+  static formatParameterConf(parameterConfValue, parameterMetaData, forInit) {
+    if (parameterMetaData.unconfigurable) {
+      return undefined
+    }
     let formatedConf = !isNil(parameterConfValue) ? parameterConfValue : undefined
     // If the parameter to format is a MAP parameter format keys
-    if (parameterMeta.paramType === CommonDomain.PluginParameterTypes.MAP) {
-      formatedConf = PluginFormUtils.formatMapParameterKeys(parameterMeta, parameterConfValue, forInit)
+    if (parameterMetaData.paramType === CommonDomain.PluginParameterTypes.MAP) {
+      formatedConf = PluginFormUtils.formatMapParameterKeys(parameterMetaData, parameterConfValue, forInit)
     }
 
     // check for other parameters.
     // If the parameter is a parameterized one, then the parameters are the parameters of the subParameter (parameterized)
-    if (!parameterMeta.parameterizedSubTypes) {
-      forEach(parameterMeta.parameters, (p) => {
+    if (!parameterMetaData.parameterizedSubTypes) {
+      forEach(parameterMetaData.parameters, (p) => {
         formatedConf[p.name] = PluginFormUtils.formatParameterConf(
           parameterConfValue && !isNil(parameterConfValue[p.name]) ? parameterConfValue[p.name] : undefined,
           p,
@@ -113,6 +120,9 @@ class PluginFormUtils {
   }
 
   static formatPluginParameterConf(parameterMetaData, parameterConf, forInit = false) {
+    if (parameterMetaData.unconfigurable) {
+      return null
+    }
     if (parameterConf && ((!isNil(parameterConf.value) && parameterConf.value !== parameterMetaData.defaultValue) || parameterConf.dynamic === true)) {
       // For both initialization && submition, if a value is specified set the parameterConf with the given value or if not, set with default value
       const formatedParamterConf = cloneDeep(parameterConf)
@@ -138,7 +148,8 @@ class PluginFormUtils {
     const formatedConf = cloneDeep(omit(pluginConfiguration, ['parameters']))
     if (pluginMetaData.parameters) {
       formatedConf.parameters = []
-      forEach(pluginMetaData.parameters, (p) => {
+      const configurableParameters = filter(pluginMetaData.parameters, ['unconfigurable', false])
+      forEach(configurableParameters, (p) => {
         const parameterConf = find(pluginConfiguration.parameters, { name: p.name })
         const formatedParameter = PluginFormUtils.formatPluginParameterConf(p, parameterConf, forInit)
         if (formatedParameter !== null) {

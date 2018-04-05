@@ -193,19 +193,20 @@ export class RenderPluginConfField extends React.PureComponent {
     }
     return (
       <div>
-        {parameters.map((pluginParameterType, index) => (
-          <Paper key={pluginParameterType.name} style={parameterPaper}>
-            <Field
-              fullWidth
-              component={RenderPluginParameterField}
-              disabled={disabled}
-              name={this.getFormParameterName(pluginParameterType.name, index)}
-              microserviceName={this.props.microserviceName}
-              pluginParameterType={pluginParameterType}
-              hideDynamicParameterConf={hideDynamicParameterConf}
-            />
-          </Paper>
-        ))}
+        {parameters.map((pluginParameterType, index) =>
+          pluginParameterType.unconfigurable ? null : (
+            <Paper key={pluginParameterType.name} style={parameterPaper}>
+              <Field
+                fullWidth
+                component={RenderPluginParameterField}
+                disabled={disabled}
+                name={this.getFormParameterName(pluginParameterType.name, index)}
+                microserviceName={this.props.microserviceName}
+                pluginParameterType={pluginParameterType}
+                hideDynamicParameterConf={hideDynamicParameterConf}
+              />
+            </Paper>
+          ))}
       </div>
     )
   }
