@@ -1,9 +1,9 @@
 ## UI Module generator
 
-Run module generator as here under command and follow instructions.
+Run module generator as here under command and follow instructions, to execute in current folder.
 
 ```bash
+$ npm install -g
 $ npm install -g yo
-$ npm install -g ./generator-regards-ui-module
-$ yo regards-ui-module
+$ yo regards-ui-plugin
 ```

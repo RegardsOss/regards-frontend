@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
 import { OrderDomain } from '@regardsoss/domain'
 import { dataFileFields } from '../rs-dam/DataFile'
 
@@ -30,7 +29,7 @@ export const OrderFile = PropTypes.shape({
   // specific to order files
   id: PropTypes.number.isRequired,
   orderId: PropTypes.number.isRequired,
-  state: PropTypes.oneOf(values(OrderDomain.ORDER_FILE_STATUS)),
+  state: PropTypes.oneOf(OrderDomain.ORDER_FILE_STATUS),
   // common to all data files
   ...dataFileFields,
 })
