@@ -16,14 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import IconButton from 'material-ui/IconButton'
-import { i18nContextType } from '@regardsoss/i18n'
 import get from 'lodash/get'
-import concat from 'lodash/concat'
+import IconButton from 'material-ui/IconButton'
+import MenuItem from 'material-ui/MenuItem'
 import DownloadIcon from 'material-ui/svg-icons/file/file-download'
+import { i18nContextType } from '@regardsoss/i18n'
 import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
-import MenuItem from 'material-ui/MenuItem'
 import { DropDownButton } from '@regardsoss/components'
 import { URLAuthInjector } from '@regardsoss/domain/common'
 
@@ -67,52 +66,17 @@ class DownloadEntityFileComponent extends React.Component {
 
   static getLabel = () => { }
 
-
   /**
-   * Retrieve the first link available in the current entity
-   */
-  getFirstDownloadeableLink = () => {
-    const { entity } = this.props
-    const firstDocument = get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}[0].uri`)
-    if (this.areRawDataDownloadable()) {
-      return firstDocument || get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}[0].uri`)
-    }
-    return firstDocument
-  }
-
-  /**
-   * Retrieve the list of object attached files
+   * @return {[*]} download files for entity, in current state and with current user rights
    */
   getAllDownloadeableFiles = () => {
     const { entity } = this.props
-    const documentFiles = get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}`, [])
-    if (this.areRawDataDownloadable()) {
-      return concat(
-        get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}`, []),
-        documentFiles,
-      )
-    }
-    return documentFiles
-  }
-
-  /**
-   * The entity store a boolean to tell us if RAW_DATA are downloadeable
-   */
-  areRawDataDownloadable = () => {
-    const { entity } = this.props
-    return entity.content.downloadable
-  }
-
-  /**
-   * Return the number of downloadeable files attached to the current entity
-   */
-  nbDownloadeableFiles = () => {
-    const { entity } = this.props
-    const nbDocumentFiles = get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}`, []).length
-    if (this.areRawDataDownloadable()) {
-      return nbDocumentFiles + get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}`, []).length
-    }
-    return nbDocumentFiles
+    return [
+      // raw files when user can access download endpoint and file is online
+      ...this.isAllowingDownload() ? get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}`, []).filter(f => f.online) : [],
+      // documents (always allowed)
+      ...get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}`, []),
+    ]
   }
 
   isDataset = () => {
@@ -120,61 +84,75 @@ class DownloadEntityFileComponent extends React.Component {
     return entity.content.entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET
   }
 
+  /**
+   * The entity store a boolean to tell us if RAW_DATA are downloadeable
+   */
+  isAllowingDownload = () => {
+    const { entity } = this.props
+    return entity.content.downloadable
+  }
+
+
   render() {
     // in resolved attributes, get the first data, if any
     const { intl: { formatMessage } } = this.context
     const {
       style, accessToken, projectName,
     } = this.props
-    const nbDownloadeableFiles = this.nbDownloadeableFiles()
+    const downloadableFiles = this.getAllDownloadeableFiles()
     if (this.isDataset()) {
       return null
-    } else if (nbDownloadeableFiles === 0) {
-      return (
-        <IconButton
-          title={formatMessage({ id: 'download.tooltip' })}
-          style={style}
-          disabled
-        >
-          <DownloadIcon />
-        </IconButton>
-      )
-    } else if (nbDownloadeableFiles === 1) {
-      const fileURI = this.getFirstDownloadeableLink()
-      return (
-        <a
-          download
-          href={URLAuthInjector(fileURI, accessToken, projectName)}
-          style={style}
-          title={formatMessage({ id: 'download.tooltip' })}
-        >
-          <DownloadIcon />
-        </a>
-      )
     }
-    return (
-      <DropDownButton
-        ButtonConstructor={IconButtonConstructorWrapper}
-        getLabel={(DownloadEntityFileComponent.getLabel)}
-        style={style}
-        title={formatMessage({ id: 'download.tooltip' })}
-      >
-        { /* Map all files  */
-          this.getAllDownloadeableFiles().map((file, key) => (
-            <a
-              download
-              key={file.checksum}
-              href={URLAuthInjector(file.uri, accessToken, projectName)}
-              style={DownloadEntityFileComponent.resetLinkStyle}
-            >
-              <MenuItem
-                primaryText={file.name}
-              />
-            </a>
-          ))
-        }
-      </DropDownButton>
-    )
+    switch (downloadableFiles.length) {
+      case 0:
+        // show disabled download button
+        return (
+          <IconButton
+            title={formatMessage({ id: 'download.tooltip' })}
+            style={style}
+            disabled
+          >
+            <DownloadIcon />
+          </IconButton>
+        )
+      case 1:
+        // show direct file link
+        return (
+          <a
+            download
+            href={URLAuthInjector(downloadableFiles[0].uri, accessToken, projectName)}
+            style={style}
+            title={formatMessage({ id: 'download.tooltip' })}
+          >
+            <DownloadIcon />
+          </a>
+        )
+      default:
+        // show drop down menu to download files links
+        return (
+          <DropDownButton
+            ButtonConstructor={IconButtonConstructorWrapper}
+            getLabel={(DownloadEntityFileComponent.getLabel)}
+            style={style}
+            title={formatMessage({ id: 'download.tooltip' })}
+          >
+            { /* Map all files  */
+              downloadableFiles.map((file, key) => (
+                <a
+                  download
+                  key={file.checksum}
+                  href={URLAuthInjector(file.uri, accessToken, projectName)}
+                  style={DownloadEntityFileComponent.resetLinkStyle}
+                >
+                  <MenuItem
+                    primaryText={file.name}
+                  />
+                </a>
+              ))
+            }
+          </DropDownButton>
+        )
+    }
   }
 }
 export default DownloadEntityFileComponent

@@ -18,8 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import IconButton from 'material-ui/IconButton'
+import { DropDownButton } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import MenuItem from 'material-ui/MenuItem'
 import DownloadEntityFileComponent from '../../../../../src/components/user/results/options/DownloadEntityFileComponent'
 import styles from '../../../../../src/styles/styles'
 
@@ -28,7 +29,6 @@ const context = buildTestContext(styles)
 const docFile = {
   content: {
     entityType: 'DOCUMENT',
-    files: {},
     ipId: 'URN:AIP:DOCUMENT:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1',
     label: 'EmptyDoc',
     model: {
@@ -44,8 +44,37 @@ const docFile = {
     groups: ['PublicDocumentGroup'],
     properties: {},
     services: [],
+    files: {},
+    downloadable: true,
   },
 }
+
+const file1 = {
+  uri: 'www.richguys.com/my-wealth',
+  online: true,
+  mimeType: 'picsou-monney/xml',
+  checksum: 'F1',
+}
+
+const file2 = {
+  uri: 'www.file2.com/file',
+  online: true,
+  mimeType: 'picsou-monney/xml',
+  checksum: 'F2',
+}
+
+const dataset = {
+  content: {
+    entityType: 'DATASET',
+    files: {
+      RAWDATA: [file1],
+    },
+    ipId: 'URN:AIP:DOCUMENT:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1',
+    label: 'my dataset',
+    tags: [],
+  },
+}
+
 /**
 * Test DownloadEntityFileComponent
 * @author Léo Mieulet
@@ -57,7 +86,19 @@ describe('[Search Results] Testing DownloadEntityFileComponent', () => {
   it('should exists', () => {
     assert.isDefined(DownloadEntityFileComponent)
   })
-  it('should render correctly and dont display download', () => {
+  it('should render correctly and not display download button when entity is a dataset', () => {
+    const props = {
+      entity: dataset,
+      // Current user session info
+      projectName: 'project1',
+      accessToken: 'abcdef....',
+    }
+    const render = shallow(<DownloadEntityFileComponent {...props} />, { context })
+    assert.lengthOf(render.find('a'), 0, 'No link rendered')
+    assert.lengthOf(render.find(IconButton), 0, 'No icon button rendered')
+    assert.lengthOf(render.find(DropDownButton), 0, 'No drop down button rendered')
+  })
+  it('should render correctly and and display download placeholder when there is no file', () => {
     const props = {
       entity: docFile,
       // Current user session info
@@ -66,39 +107,99 @@ describe('[Search Results] Testing DownloadEntityFileComponent', () => {
     }
     const render = shallow(<DownloadEntityFileComponent {...props} />, { context })
     assert.lengthOf(render.find('a'), 0, 'No link rendered')
+    const downloadPlaceholder = render.find(IconButton)
+    assert.lengthOf(downloadPlaceholder, 1, 'Download placeholder should be rendered')
+    assert.isTrue(downloadPlaceholder.props().disabled, 1, 'Download placeholder should be disabled')
   })
-  it('should render correctly and display multiple files', () => {
-    docFile.content.files = {
-      DOCUMENT: [{
-        uri: 'http://regards/api/v1/rs-dam/documents/52/files/929b1d07289390be600e16a0aa31213e',
-        checksum: '929b1d07289390be600e16a0aa31213e',
-        digestAlgorithm: 'MD5',
-        size: 826,
-        name: 'file.xml',
-        mimeType: 'text/xml',
-      }, {
-        uri: 'http://regards/api/v1/rs-dam/documents/52/files/b72cf5d28db6485bead4c43a54828ea5',
-        checksum: 'b72cf5d28db6485bead4c43a54828ea5',
-        digestAlgorithm: 'MD5',
-        size: 377,
-        name: 'model.xml',
-        mimeType: 'text/xml',
-      }, {
-        uri: 'http://regards/api/v1/rs-dam/documents/52/files/a07683baac2190fec3902f2bfb79d8e',
-        checksum: 'a07683baac2190fec3902f2bfb79d8e',
-        digestAlgorithm: 'MD5',
-        size: 78864635,
-        name: 'v3.2.1.tar.gz',
-        mimeType: 'application/gzip',
-      }],
-    }
+  it('should render correctly and display download placeholder when user has not download rights', () => {
     const props = {
-      entity: docFile,
+      // Current user session info
+      projectName: 'project1',
+      accessToken: 'abcdef....',
+      entity: {
+        content: {
+          ...docFile.content,
+          files: {
+            RAWDATA: [file1],
+          },
+          downloadable: false,
+        },
+      },
+    }
+    const render = shallow(<DownloadEntityFileComponent {...props} />, { context })
+    assert.lengthOf(render.find('a'), 0, 'No link rendered')
+    const downloadPlaceholder = render.find(IconButton)
+    assert.lengthOf(downloadPlaceholder, 1, 'Download placeholder should be rendered')
+    assert.isTrue(downloadPlaceholder.props().disabled, 1, 'Download placeholder should be disabled')
+  })
+  it('should render one link button when there is one downloadable RAWDATA file', () => {
+    const props = {
+      entity: {
+        content: {
+          ...docFile.content,
+          files: {
+            RAWDATA: [file1],
+          },
+          downloadable: true,
+        },
+      },
       // Current user session info
       accessToken: null,
       projectName: 'project1',
     }
     const render = shallow(<DownloadEntityFileComponent {...props} />, { context })
-    assert.lengthOf(render.find(MenuItem), 3, 'It should return 3 Links')
+    assert.lengthOf(render.find('a'), 1, 'There should be one download link')
+    assert.lengthOf(render.find(DropDownButton), 0, 'It should not be embedded in drop down menu')
+  })
+  it('should render one link button when there is one downloadable DOCUMENT file (RAWDATA disabled)', () => {
+    const props = {
+      entity: {
+        content: {
+          ...docFile.content,
+          files: {
+            RAWDATA: [file1],
+            DOCUMENT: [file1],
+          },
+          downloadable: false,
+        },
+      },
+      // Current user session info
+      accessToken: null,
+      projectName: 'project1',
+    }
+    const render = shallow(<DownloadEntityFileComponent {...props} />, { context })
+    assert.lengthOf(render.find('a'), 1, 'There should be one download link')
+    assert.lengthOf(render.find(DropDownButton), 0, 'It should not be embedded in drop down menu')
+  })
+  it('should render one link by downloadable file when there are more than one downloadable file', () => {
+    const props = {
+      entity: {
+        content: {
+          ...docFile.content,
+          files: {
+            RAWDATA: [file1, { // second file should be filtered as it is not only
+              uri: 'www.another-file.com/my-file',
+              online: false,
+              mimeType: 'some/xml-format',
+            }],
+            DOCUMENT: [file2],
+          },
+          downloadable: true,
+        },
+      },
+      // Current user session info
+      accessToken: null,
+      projectName: 'project1',
+    }
+    const render = shallow(<DownloadEntityFileComponent {...props} />, { context })
+    assert.lengthOf(render.find(DropDownButton), 1, 'There should be a dropping menu as there are more links')
+    const linksWrappers = render.find('a')
+    assert.lengthOf(linksWrappers, 2, '2 files should be present')
+    // we should only find the file1 and file2 URI in links
+    const searchedFiles = [file1, file2]
+    searchedFiles.forEach((file) => {
+      const linkForFileURI = linksWrappers.findWhere(n => n.props().href && n.props().href.includes(file.uri))
+      assert.lengthOf(linkForFileURI, 1, `The should be the link for file URI ${file.uri}`)
+    })
   })
 })
