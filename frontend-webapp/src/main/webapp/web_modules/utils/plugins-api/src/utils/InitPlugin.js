@@ -28,22 +28,25 @@ const EMPTY_MESSAGES = { en: {}, fr: {} }
 /** Empty styles */
 const EMPTY_STYLES = { styles: () => ({}) }
 
+/** @return empty reducers configuration */
+const EMPTY_REDUCERS_BUILDER = () => ({})
+
 /**
  * Initializes a plugin in REGARDS environment
  * @param {React.Component} pluginClass React root render class for plugin
  * @param {*} pluginInfo Plugin information (JSON file)
- * @param {*} reducer (optional) plugin reducers
+ * @param {*} getReducer (optional) plugin reducers builder on pluginInstanceId like (pluginInstanceId:string) => {key:reducer,...}
  * @param {en: {*}, fr: {*}}} messages (optional) plugin internationalized messages
  */
-const initPlugin = (pluginClass, pluginInfo, reducer, messages = EMPTY_MESSAGES, styles = EMPTY_STYLES) => {
+const initPlugin = (pluginClass, pluginInfo, getReducer, messages, styles) => {
   const event = new CustomEvent('plugin', {
     detail: {
       sourcePath: document.currentScript.src,
       plugin: pluginClass,
       info: pluginInfo,
-      reducer,
-      messages,
-      styles,
+      getReducer: getReducer || EMPTY_REDUCERS_BUILDER,
+      messages: messages || EMPTY_MESSAGES,
+      styles: styles || EMPTY_STYLES,
     },
   })
   document.dispatchEvent(event)

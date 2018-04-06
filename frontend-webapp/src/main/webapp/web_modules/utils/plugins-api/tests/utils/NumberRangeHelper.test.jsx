@@ -18,7 +18,7 @@
 **/
 import { assert } from 'chai'
 import { EnumNumericalComparator } from '@regardsoss/domain/common'
-import NumberRangeHelper from '../src/utils/NumberRangeHelper'
+import NumberRangeHelper from '../../src/utils/NumberRangeHelper'
 
 describe('[PLUGINS API] Testing NumberRangeHelper', () => {
   it('should correctly convert ranges', () => {
