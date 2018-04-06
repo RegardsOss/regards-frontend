@@ -16,12 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { enumeratedDOPropertyValuesReducer } from './clients/EnumeratedDOPropertyValuesClient'
+import getDOPropertiesValuesClient from './clients/EnumeratedDOPropertyValuesClient'
+
 
 /**
- * Exports plugin Redux reducers
+ * Plugin reducer builder function. Note: plugins reducer must be builder functions using pluginInstanceId as paramter and producing
+ * an object like:
+ * {
+ *   reducerFieldKey: reducerFunction,
+ *   ...
+ * }
+ * That meachnism ensures each plugin owns it separated redux store space
+ * @param {string} pluginInstanceId plugin instance ID, must be used to generate unique namespaces and store paths
+ * @return {*} reducers configuration for plugin instance
+ * @author Raphaël Mechali
  */
-module.exports = {
-  filteredValues: enumeratedDOPropertyValuesReducer,
+export default function getReducer(pluginInstanceId) {
+  return {
+    filteredValues: getDOPropertiesValuesClient(pluginInstanceId).reducer,
+  }
 }
 

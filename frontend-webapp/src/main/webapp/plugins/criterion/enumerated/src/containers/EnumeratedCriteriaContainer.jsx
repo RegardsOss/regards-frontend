@@ -19,8 +19,8 @@
 import React from 'react'
 import throttle from 'lodash/throttle'
 import { connect } from '@regardsoss/redux'
-import { PluginCriterionContainer } from '@regardsoss/plugins-api'
-import { enumeratedDOPropertyValuesActions, enumeratedDOPropertyValuesSelectors } from '../clients/EnumeratedDOPropertyValuesClient'
+import { PluginsClientsMap, PluginCriterionContainer } from '@regardsoss/plugins-api'
+import buildClient from '../clients/EnumeratedDOPropertyValuesClient'
 import EnumeratedCriteriaComponent from '../components/EnumeratedCriteriaComponent'
 
 /** Max number of values shown to user at same time */
@@ -38,17 +38,26 @@ const THROTTLE_DELAY_MS = 300
  */
 export class EnumeratedCriteriaContainer extends PluginCriterionContainer {
   /**
- * Redux: map state to props function
- * @param {*} state: current redux state
- * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
-  static mapStateToProps(state) {
+   * Stores clients map for each client and plugin instance ID, to avoid building new instances each
+   * time mapStateToProps and mapDispatchToProps are called
+   */
+  static CLIENTS_MAP = new PluginsClientsMap()
+
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, { pluginInstanceId }) {
+    // 1 - get selectors for this plugin instance ID
+    const enumeratedValuesSelectors = EnumeratedCriteriaContainer.CLIENTS_MAP.getClient(buildClient, pluginInstanceId).selectors
+    // 2 - select in state fetching data (state and results)
     return {
       // we select here the current or last fetching state of dispatchGetParameterValues request
-      isFetching: enumeratedDOPropertyValuesSelectors.isFetching(state),
+      isFetching: enumeratedValuesSelectors.isFetching(state),
       // we select here the results from last dispatchGetParameterValues request
-      availablePropertyValues: enumeratedDOPropertyValuesSelectors.getArray(state),
+      availablePropertyValues: enumeratedValuesSelectors.getArray(state),
     }
   }
 
@@ -58,13 +67,14 @@ export class EnumeratedCriteriaContainer extends PluginCriterionContainer {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch) {
+  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
+    const enumeratedValuesActions = EnumeratedCriteriaContainer.CLIENTS_MAP.getClient(buildClient, pluginInstanceId).actions
     return {
       // dispatches a request to get property values
       dispatchGetPropertyValues:
         // Note: we throttle here the emitted network requests to avoid dispatching for each key entered
         throttle(
-          (name, filterText = '', q = '') => dispatch(enumeratedDOPropertyValuesActions.fetchValues(name, filterText, MAX_VALUES_COUNT)),
+          (name, filterText = '', q = '') => dispatch(enumeratedValuesActions.fetchValues(name, filterText, MAX_VALUES_COUNT)),
           THROTTLE_DELAY_MS, { leading: true }),
       // make sure not add q parameter when empty / null
     }

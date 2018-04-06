@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNil from 'lodash/isNil'
-import isEmpty from 'lodash/isEmpty'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
@@ -78,14 +77,15 @@ class PluginLoader extends React.Component {
       nextProps.loadPlugin(nextProps.pluginPath, this.errorCallback)
     }
     if (!this.state.registered && nextProps.loadedPlugin) {
-      if (!isEmpty(nextProps.loadedPlugin.reducer)) {
-        const loadedPluginReducerName = `plugins.${nextProps.loadedPlugin.name}`
-        const loadedPluginReducer = {}
-
-        loadedPluginReducer[loadedPluginReducerName] = configureReducers(nextProps.loadedPlugin.reducer)
-        if (!getReducerRegistry().isRegistered(loadedPluginReducer)) {
-          getReducerRegistry().register(loadedPluginReducer)
-        }
+      const { loadedPlugin, pluginInstanceId } = nextProps
+      // install plugin instance reducer for plugin name and instance ID using exported
+      // build plugin reducer on plugin name and instance ID to ensure each plugin has its own Redux store path
+      // (therefore, plugins export a reducer builder function)
+      const pluginReducerRoot = `plugins.${loadedPlugin.name}.${pluginInstanceId}`
+      const loadedPluginReducer = {}
+      loadedPluginReducer[pluginReducerRoot] = configureReducers(loadedPlugin.getReducer(pluginInstanceId))
+      if (!getReducerRegistry().isRegistered(loadedPluginReducer)) {
+        getReducerRegistry().register(loadedPluginReducer)
       }
       this.setState({
         registered: true,

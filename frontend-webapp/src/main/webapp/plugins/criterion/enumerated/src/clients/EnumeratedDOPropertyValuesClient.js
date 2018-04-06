@@ -19,20 +19,24 @@
 import { CatalogClient } from '@regardsoss/client'
 
 /**
- * Redux client to fetch and consume the property values required by this plugin
+ * Redux client builder to fetch and consume the property values required by this plugin. Note: plugin reducer and actions are
+ * dynamically built on the instance name to ensure each plugin has its own separated redux store space
+ * @param {string} pluginInstanceId plugin instance ID DOPropertiesValues model
+ * @return {actions, reduder, selectors} client of
  * @author Raphaël Mechali
  */
-
-const namespace = 'enumerated-criteria/values'
-const enumeratedDOPropertyValuesActions = new CatalogClient.EnumeratedDOPropertyValuesActions(namespace)
-const enumeratedDOPropertyValuesReducer = CatalogClient.getEnumeratedDOPropertyValuesReducer(namespace)
-// store path for plugin is always:
-// 1 - "plugins."{pluginName}
-// 2 - field configured in plugin reducer.js file
-const enumeratedDOPropertyValuesSelectors = CatalogClient.getEnumeratedDOPropertyValuesSelectors(['plugins.enumerated-criteria', 'filteredValues'])
-
-module.exports = {
-  enumeratedDOPropertyValuesActions,
-  enumeratedDOPropertyValuesReducer,
-  enumeratedDOPropertyValuesSelectors,
+export default function getDOPropertiesValuesClient(pluginInstanceId) {
+  // note: namespace requires to be unique among instances to avoid reduction conflicts
+  const namespace = `enumerated-criteria/values/${pluginInstanceId}`
+  const actions = new CatalogClient.EnumeratedDOPropertyValuesActions(namespace)
+  const reducer = CatalogClient.getEnumeratedDOPropertyValuesReducer(namespace)
+  // Note: store path for plugin is always: plugins.{pluginName}.{pluginInstanceId} / {reducerField} (see getReducer returned value in reducer.js file)
+  const selectors = CatalogClient.getEnumeratedDOPropertyValuesSelectors([
+    `plugins.enumerated-criteria.${pluginInstanceId}`, 'filteredValues'])
+  return {
+    actions,
+    reducer,
+    selectors,
+  }
 }
+
