@@ -314,6 +314,7 @@ class OrderListComponent extends React.Component {
         {/* 0 - Table auto refresh HOC (no graphic) */}
         <AutoRefreshPageableTableHOC
           pageSize={pageSize}
+          requestParams={ordersRequestParameters}
           pageableTableActions={ordersActions}
           pageableTableSelectors={ordersSelectors}
         />
