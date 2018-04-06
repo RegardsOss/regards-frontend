@@ -45,29 +45,56 @@ export default class DatePickerField extends React.Component {
       PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     ),
     locale: PropTypes.string,
+    fullWidth: PropTypes.bool,
   }
 
   static defaultProps = {
     defaultTime: '00:00:00',
     displayTime: false,
     locale: 'en',
+    fullWidth: false,
   }
 
   static DATE_FORMAT_US = 'MM/DD/YYYY'
   static DATE_FORMAT = 'DD/MM/YYYY'
   static TIME_FORMAT = 'HH:mm:ss'
 
-  static dateTextFieldStyle = {
-    width: '90px',
-  }
+  /** Default date picker style (hides text field, only shown to get the dialog box) */
+  static datePickerContainerStyle = { width: '0px', height: '0px' }
 
-  static timeTextFieldStyle = {
-    width: '70px',
-  }
-
+  /** Default icon style */
   static iconStyle = {
     opacity: '0.65',
   }
+
+  /** Default text container style */
+  static textContainerStyle = {
+    display: 'flex',
+    flexGrow: 1,
+  }
+
+  /** Default date text field style */
+  static defaultDateTextFieldStyle = {
+    width: '90px',
+  }
+
+  /** Default time text field style */
+  static defaultTimeTextFieldStyle = {
+    width: '70px',
+  }
+
+  /** Full width date text field style */
+  static fullWithDateTextFieldStyle = {
+    flexGrow: 1,
+    flexShrink: 1,
+  }
+
+  /** Full width time text field style */
+  static fullWidthTimeTextFieldStyle = {
+    flexGrow: 1,
+    flexShrink: 1,
+  }
+
 
   static getUsDate = (dateString) => {
     const parts = dateString.split('/')
@@ -251,100 +278,110 @@ export default class DatePickerField extends React.Component {
     }
   }
 
+  /**
+   * Renders time picker components
+   * @return {[React.Component]} built components array
+   */
   renderTimePicker() {
-    const datePickerMargin = '-185px'
-    const { timeHintText } = this.props
+    const { fullWidth, timeHintText } = this.props
 
-    return (
-      <div style={{ display: 'flex', width: '100px' }}>
-        <TextField
-          style={DatePickerField.timeTextFieldStyle}
-          value={this.state.timeText}
-          hintText={timeHintText}
-          onChange={this.handleDatetimeInputChange}
-          onBlur={event => this.handleDatetimeInputBlur(event.currentTarget.value)}
+    return [
+      // 1 - hidden time picker (just for it to show the dialog)
+      <div key="hidden.time.field" style={DatePickerField.datePickerContainerStyle}>
+        <TimePicker
+          id="timePicker"
+          floatingLabelText=""
+          value={this.props.value}
+          errorText=""
+          container="inline"
+          disabled={false}
+          onChange={this.handleChangeTimePicker}
+          fullWidth
+          format="24hr"
+          autoOk={this.props.autoOk}
+          okLabel={this.props.okLabel}
+          cancelLabel={this.props.cancelLabel}
+          ref={(c) => {
+            this.datetimePicker = c
+          }}
         />
-
-        <IconButton
-          style={DatePickerField.iconStyle}
-          onClick={() => this.datetimePicker.focus()}
-        >
-          <TimeIcon />
-        </IconButton>
-
-        <div style={{ width: '0px', height: '0px', marginLeft: datePickerMargin }}>
-          <TimePicker
-            id="timePicker"
-            floatingLabelText=""
-            value={this.props.value}
-            errorText=""
-            container="inline"
-            disabled={false}
-            onChange={this.handleChangeTimePicker}
-            fullWidth
-            format="24hr"
-            autoOk={this.props.autoOk}
-            okLabel={this.props.okLabel}
-            cancelLabel={this.props.cancelLabel}
-            ref={(c) => {
-              this.datetimePicker = c
-            }}
-          />
-        </div>
-      </div>
-    )
+      </div>,
+      // 2 - time text field where user can input time
+      <TextField
+        key="time.text"
+        style={fullWidth ? DatePickerField.fullWidthTimeTextFieldStyle : DatePickerField.defaultTimeTextFieldStyle}
+        value={this.state.timeText}
+        hintText={timeHintText}
+        onChange={this.handleDatetimeInputChange}
+        onBlur={event => this.handleDatetimeInputBlur(event.currentTarget.value)}
+      />,
+      // 3 - Show dialog button
+      <IconButton
+        key="time.selector.button"
+        style={DatePickerField.iconStyle}
+        onClick={() => this.datetimePicker.focus()}
+      >
+        <TimeIcon />
+      </IconButton>]
   }
 
+  /**
+   * Renders date picker components
+   * @return {[React.Component]} built components array
+   */
   renderDate() {
-    const datePickerMargin = '-185px'
-    const { dateHintText } = this.props
-
-    return (
-      <div style={{ display: 'flex', width: '140px' }}>
-        <TextField
-          style={DatePickerField.dateTextFieldStyle}
-          value={this.state.dateText}
-          hintText={dateHintText}
-          onChange={this.handleDateInputChange}
-          onBlur={event => this.handleDateInputBlur(event.currentTarget.value)}
+    const { fullWidth, dateHintText } = this.props
+    return [
+      // 1 - hidden date picker (just for it to show the dialog)
+      <div key="hidden.date.field" style={DatePickerField.datePickerContainerStyle}>
+        <DatePicker
+          id="dataPicker"
+          floatingLabelText=""
+          value={this.props.value}
+          errorText=""
+          disabled={false}
+          formatDate={date => format(date, DatePickerField.DATE_FORMAT_US)}
+          autoOk={this.props.autoOk}
+          okLabel={this.props.okLabel}
+          cancelLabel={this.props.cancelLabel}
+          container="inline"
+          fullWidth
+          onChange={this.handleChangeDatePicker}
+          ref={(c) => {
+            this.datePicker = c
+          }}
         />
-
-        <IconButton
-          style={DatePickerField.iconStyle}
-          onClick={() => this.datePicker.focus()}
-        >
-          <ActionDateRange />
-        </IconButton>
-
-        <div style={{ width: '0px', height: '0px', marginLeft: datePickerMargin }}>
-          <DatePicker
-            id="dataPicker"
-            floatingLabelText=""
-            value={this.props.value}
-            errorText=""
-            disabled={false}
-            formatDate={date => format(date, DatePickerField.DATE_FORMAT_US)}
-            autoOk={this.props.autoOk}
-            okLabel={this.props.okLabel}
-            cancelLabel={this.props.cancelLabel}
-            container="inline"
-            fullWidth
-            onChange={this.handleChangeDatePicker}
-            ref={(c) => {
-              this.datePicker = c
-            }}
-          />
-        </div>
-      </div>
-    )
+      </div >,
+      // 2 - date text field where user can input date
+      <TextField
+        key="date.text"
+        style={fullWidth ? DatePickerField.fullWithDateTextFieldStyle : DatePickerField.defaultDateTextFieldStyle}
+        value={this.state.dateText}
+        hintText={dateHintText}
+        onChange={this.handleDateInputChange}
+        onBlur={event => this.handleDateInputBlur(event.currentTarget.value)}
+      />,
+      // 3 - Show dialog button
+      <IconButton
+        key="date.selector.button"
+        style={DatePickerField.iconStyle}
+        onClick={() => this.datePicker.focus()}
+      >
+        <ActionDateRange />
+      </IconButton>]
   }
 
   render() {
-    const { displayTime, style } = this.props
+    const { displayTime, fullWidth, style } = this.props
+    const dynamicStyle = fullWidth ? { flexGrow: 1, flexShrink: 1 } : {}
     return (
-      <div style={{ ...style, display: 'flex', width: displayTime ? '250px' : '150px' }}>
-        {this.renderDate()}
-        {displayTime ? this.renderTimePicker() : null}
+      <div style={{ ...style, ...dynamicStyle, display: 'inline-flex' }}>
+        {
+          [
+            ...this.renderDate(),
+            ...(displayTime ? this.renderTimePicker() : []),
+          ]
+        }
       </div>
     )
   }
