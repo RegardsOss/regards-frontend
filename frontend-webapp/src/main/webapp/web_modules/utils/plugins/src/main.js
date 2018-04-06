@@ -19,6 +19,7 @@
 import PluginProvider from './containers/PluginProvider'
 import PluginLoader from './containers/PluginLoader'
 import { loadPlugin, savePluginLoaded } from './model/LoadPluginActions'
+import pluginReducerHelper from './helpers/PluginReducerHelper'
 import PluginReducer from './reducer'
 
 /**
@@ -31,4 +32,5 @@ export {
   PluginProvider,
   loadPlugin,
   savePluginLoaded,
+  pluginReducerHelper,
 }

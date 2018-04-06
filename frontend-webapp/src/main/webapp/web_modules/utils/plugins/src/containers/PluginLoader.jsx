@@ -19,13 +19,13 @@
 import isNil from 'lodash/isNil'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
-import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { ErrorCardComponent } from '@regardsoss/components'
 import { loadPlugin } from '../model/LoadPluginActions'
 import LoadPluginSelector from '../model/LoadPluginSelector'
+import pluginReducerHelper from '../helpers/PluginReducerHelper'
 
 /**
  * This component allows to load a given plugin and display it.
@@ -78,15 +78,9 @@ class PluginLoader extends React.Component {
     }
     if (!this.state.registered && nextProps.loadedPlugin) {
       const { loadedPlugin, pluginInstanceId } = nextProps
-      // install plugin instance reducer for plugin name and instance ID using exported
-      // build plugin reducer on plugin name and instance ID to ensure each plugin has its own Redux store path
-      // (therefore, plugins export a reducer builder function)
-      const pluginReducerRoot = `plugins.${loadedPlugin.name}.${pluginInstanceId}`
-      const loadedPluginReducer = {}
-      loadedPluginReducer[pluginReducerRoot] = configureReducers(loadedPlugin.getReducer(pluginInstanceId))
-      if (!getReducerRegistry().isRegistered(loadedPluginReducer)) {
-        getReducerRegistry().register(loadedPluginReducer)
-      }
+      // install reducer
+      pluginReducerHelper.initializePluginReducer(loadedPlugin, pluginInstanceId)
+      // mark as ready to display (registered)
       this.setState({
         registered: true,
       })
