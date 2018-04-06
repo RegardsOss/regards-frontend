@@ -33,7 +33,6 @@ const pluginStyles = theme => ({
   },
   datePickerStyle: {
     top: -13,
-    width: 120,
     margin: '0px 10px',
   },
   comparatorButtonStyle: {
