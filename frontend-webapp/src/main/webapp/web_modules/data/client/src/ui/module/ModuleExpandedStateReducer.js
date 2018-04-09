@@ -51,7 +51,8 @@ export class ModuleExpandedStateReducer {
         }
       case this.actions.SET_EXPANDED_STATE: {
         const currentState = state[action.moduleType]
-        if (currentState) {
+        // refuse switching the current state when unknown or not expandable/collapsible
+        if (currentState && currentState.expandable) {
           return {
             ...state,
             [action.moduleType]: {
