@@ -18,18 +18,26 @@
  **/
 import isEmpty from 'lodash/isEmpty'
 import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import { durationParser } from '@regardsoss/domain/common'
 
 /**
  * @author Léo Mieulet
  */
 class DurationValueRender extends React.Component {
-  static contextTypes = {
-    ...i18nContextType,
-  }
-
   static propTypes = {
     value: PropTypes.string,
+    // should diplay using multiple lines? (false by default)
+    multilineDisplay: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    multilineDisplay: false,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+    ...themeContextType,
   }
 
   static UNITS = {
@@ -69,12 +77,12 @@ class DurationValueRender extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage } } = this.context
-    const { value } = this.props
+    const { value, multilineDisplay } = this.props
+    const { intl: { formatMessage }, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
     if (!isEmpty(value)) {
       const durationInfo = durationParser(value)
       return (
-        <div>
+        <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell}>
           {durationInfo.sign !== '+' ? durationInfo.sign : null}
           {this.shouldShow(DurationValueRender.UNITS.YEARS, durationInfo) && formatMessage({ id: 'value.render.duration.year' }, { year: durationInfo.years })}
           {this.shouldShow(DurationValueRender.UNITS.MONTHS, durationInfo) && formatMessage({ id: 'value.render.duration.month' }, { month: durationInfo.months })}

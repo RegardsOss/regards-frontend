@@ -33,6 +33,12 @@ class DateRangeValueRender extends React.Component {
       lowerBound: PropTypes.string,
       upperBound: PropTypes.string,
     }),
+    // should diplay using multiple lines? (false by default)
+    multilineDisplay: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    multilineDisplay: false,
   }
 
   static contextTypes = {
@@ -42,13 +48,13 @@ class DateRangeValueRender extends React.Component {
 
   render() {
     const value = this.props.value || {}
-
-    const { intl, moduleTheme: { textRenderCell } } = this.context
+    const { multilineDisplay } = this.props
+    const { intl, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
 
     const textValue = getFormattedRange(intl, getFormattedDate(intl, value.lowerBound), getFormattedDate(intl, value.upperBound)) ||
       intl.formatMessage({ id: 'value.render.no.value.label' })
     return (
-      <div style={textRenderCell} title={textValue}>
+      <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue}>
         {textValue}
       </div>)
   }

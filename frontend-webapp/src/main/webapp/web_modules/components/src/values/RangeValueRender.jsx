@@ -50,6 +50,12 @@ class RangeValueRender extends React.Component {
       lowerBound: PropTypes.any,
       upperBound: PropTypes.any,
     }),
+    // should diplay using multiple lines? (false by default)
+    multilineDisplay: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    multilineDisplay: false,
   }
 
   static contextTypes = {
@@ -59,11 +65,12 @@ class RangeValueRender extends React.Component {
 
   render() {
     const value = this.props.value || {}
-    const { intl, moduleTheme: { textRenderCell } } = this.context
+    const { multilineDisplay } = this.props
+    const { intl, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
     const textValue = getFormattedRange(intl, value.lowerBound, value.upperBound) ||
       intl.formatMessage({ id: 'value.render.no.value.label' })
     return (
-      <div style={textRenderCell} title={textValue}>
+      <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue}>
         {textValue}
       </div>)
   }

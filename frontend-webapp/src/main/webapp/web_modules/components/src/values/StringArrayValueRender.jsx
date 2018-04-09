@@ -28,6 +28,12 @@ import { themeContextType } from '@regardsoss/theme'
 class StringArrayValueRender extends React.Component {
   static propTypes = {
     value: PropTypes.arrayOf(PropTypes.string),
+    // should diplay using multiple lines? (false by default)
+    multilineDisplay: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    multilineDisplay: false,
   }
 
   static contextTypes = {
@@ -37,12 +43,13 @@ class StringArrayValueRender extends React.Component {
 
   render() {
     const value = this.props.value || []
-    const { intl, moduleTheme: { textRenderCell } } = this.context
+    const { multilineDisplay } = this.props
+    const { intl, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
     const noValueText = intl.formatMessage({ id: 'value.render.no.value.label' })
     const textValue = value.map(text => text || noValueText).join(intl.formatMessage({ id: 'value.render.array.values.separator' })) ||
       noValueText
     return (
-      <div style={textRenderCell} title={textValue}>
+      <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue}>
         {textValue}
       </div>)
   }

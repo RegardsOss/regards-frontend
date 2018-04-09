@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import flatMap from 'lodash/flatMap'
 import { FormattedMessage } from 'react-intl'
 import Subheader from 'material-ui/Subheader'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -77,23 +78,26 @@ class AttributesComponent extends React.Component {
               return (
                 <div style={attributesContainer.rootStyle} >
                   { // map every attribute to a table row layout
-                    attributes.map(({
+                    flatMap(attributes, ({
                       id, label, Renderer, renderValue, renderUnit,
                     }) =>
-                      (
-                        <div key={id} style={attributesContainer.rowStyle}>
-                          <div style={attributesContainer.labelStyle}>{label}</div>
-                          <div style={attributesContainer.valueStyle}>
-                            <Renderer value={renderValue} unit={renderUnit} />
-                          </div>
-                        </div>
-                      ))
+                      [
+                        <div key={`label.${id}`} style={attributesContainer.labelStyle}>
+                          {label}
+                        </div>,
+                        <div key={`value.${id}`} style={attributesContainer.valueStyle}>
+                          <Renderer
+                            value={renderValue}
+                            unit={renderUnit}
+                            multilineDisplay
+                          />
+                        </div>])
                   }
                 </div>
               )
             }())
           }
-        </div >
+        </div>
       </ScrollArea>
     )
   }

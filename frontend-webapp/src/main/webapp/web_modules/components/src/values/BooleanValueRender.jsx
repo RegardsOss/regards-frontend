@@ -30,6 +30,12 @@ import { themeContextType } from '@regardsoss/theme'
 class BooleanValueRender extends React.Component {
   static propTypes = {
     value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    // should diplay using multiple lines? (false by default)
+    multilineDisplay: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    multilineDisplay: false,
   }
 
   static contextTypes = {
@@ -38,8 +44,8 @@ class BooleanValueRender extends React.Component {
   }
 
   render() {
-    const { value } = this.props
-    const { intl: { formatMessage }, moduleTheme: { textRenderCell } } = this.context
+    const { value, multilineDisplay } = this.props
+    const { intl: { formatMessage }, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
     let textValue
     if (isBoolean(value)) {
       textValue = String(value)
@@ -47,7 +53,7 @@ class BooleanValueRender extends React.Component {
       textValue = value || formatMessage({ id: 'value.render.no.value.label' })
     }
     return (
-      <div style={textRenderCell} title={textValue} >
+      <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue} >
         {textValue}
       </div>)
   }

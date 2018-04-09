@@ -31,6 +31,12 @@ class StringValueRender extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     value: PropTypes.any,
+    // should diplay using multiple lines? (false by default)
+    multilineDisplay: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    multilineDisplay: false,
   }
 
   static contextTypes = {
@@ -39,8 +45,8 @@ class StringValueRender extends React.Component {
   }
 
   render() {
-    const { value } = this.props
-    const { intl, moduleTheme: { textRenderCell } } = this.context
+    const { value, multilineDisplay } = this.props
+    const { intl, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
 
     let textValue
     if (isString(value)) { // string value
@@ -51,7 +57,7 @@ class StringValueRender extends React.Component {
       textValue = intl.formatMessage({ id: 'value.render.no.value.label' })
     }
     return (
-      <div style={textRenderCell} title={textValue}>
+      <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue}>
         {textValue}
       </div>)
   }

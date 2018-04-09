@@ -31,6 +31,12 @@ export class NumberValueRender extends React.Component {
   static propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     unit: PropTypes.string,
+    // should diplay using multiple lines? (false by default)
+    multilineDisplay: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    multilineDisplay: false,
   }
 
   static contextTypes = {
@@ -42,8 +48,8 @@ export class NumberValueRender extends React.Component {
   static unitless = 'unitless'
 
   render() {
-    const { value, unit } = this.props
-    const { intl: { formatMessage, formatNumber }, moduleTheme: { textRenderCell } } = this.context
+    const { value, unit, multilineDisplay } = this.props
+    const { intl: { formatMessage, formatNumber }, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
     let textValue
     // No value
     if (isNil(value)) {
@@ -63,7 +69,7 @@ export class NumberValueRender extends React.Component {
     }
 
     return (
-      <div style={textRenderCell} title={textValue}>
+      <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue}>
         {textValue}
       </div>)
   }

@@ -76,14 +76,21 @@ export default theme => ({
                 scrollArea: { ...growingFlexElement },
                 rootStyle: { ...growingFlexElement, ...verticalLayout },
                 attributesContainer: {
-                  rootStyle: { display: 'table', padding: '0 15px 0 20px' },
-                  rowStyle: { display: 'table-row' },
+                  rootStyle: {
+                    display: 'grid',
+                    gridTemplateColumns: 'auto auto',
+                    padding: '0 15px 0 20px',
+                  },
                   labelStyle: {
-                    display: 'table-cell',
+                    justifySelf: 'left',
                     padding: '0 20px 0.4em 0',
                     textDecoration: 'underline',
                   },
-                  valueStyle: { display: 'table-cell', padding: '0 20px 0.4em 0' },
+                  valueStyle: {
+                    justifySelf: 'stretch',
+                    padding: '0 20px 0.4em 0',
+                    minWidth: 0,
+                  },
                 },
               },
               tags: {

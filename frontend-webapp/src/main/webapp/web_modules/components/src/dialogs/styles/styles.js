@@ -37,6 +37,7 @@ const styles = theme => ({
   },
   dialogCommon: {
     actionsContainerStyle: {
+      backgroundColor: theme.palette.canvasColor,
       borderWidth: '1px 0 0 0',
       borderColor: theme.toolbar.separatorColor,
       borderStyle: 'solid',

@@ -22,6 +22,7 @@ export default theme => ({
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-
   },
+  // no specific style for multiline text
+  multilineTextRenderCell: {},
 })
