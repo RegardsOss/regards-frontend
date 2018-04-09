@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { pluginReducerHelper } from '@regardsoss/plugins'
 import { AccessShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
@@ -58,10 +59,17 @@ export class PluginDisplayerContainer extends React.Component {
     // prepare the plugin on new properties values
     let renderedPlugin = null
     if (newProps) {
-      const pluginInstanceId = `entities-common/ui-service-plugin/${PluginDisplayerContainer.PLUGIN_INSTANCE_ID}`
+      const { pluginConf, pluginInstance } = newProps
+
+      // 0 - generate new instance ID
+      const pluginInstanceId = `service.instance.${PluginDisplayerContainer.PLUGIN_INSTANCE_ID}`
       PluginDisplayerContainer.PLUGIN_INSTANCE_ID += 1
 
-      const { pluginConf, pluginInstance } = newProps
+
+      // 1 - register service reducers
+      pluginReducerHelper.initializePluginReducer(pluginInstance, pluginInstanceId)
+
+      // 2 - build render instance
       renderedPlugin = React.createElement(pluginInstance.plugin, {
         pluginInstanceId,
         ...pluginConf,

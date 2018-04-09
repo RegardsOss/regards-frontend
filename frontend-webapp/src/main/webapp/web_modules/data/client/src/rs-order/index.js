@@ -25,6 +25,7 @@ import getCreateOrderSelectors from './order/CreateOrderSelectors'
 import DownloadAllOrderFilesAction from './order/DownloadAllOrderFilesAction'
 import DownloadOrderFileActions from './order/DownloadOrderFileActions'
 import DownloadOrderMetalinkFileActions from './order/DownloadOrderMetalinkFileActions'
+import DownloadOrderSummaryCSVFileActions from './order/DownloadOrderSummaryCSVFileActions'
 import OrderDatasetFilesActions from './order/OrderDatasetFilesActions'
 import getOrderDatasetFilesReducer from './order/OrderDatasetFilesReducer'
 import getOrderDatasetFilesSelectors from './order/OrderDatasetFilesSelectors'
@@ -52,6 +53,7 @@ module.exports = {
   DownloadAllOrderFilesAction,
   DownloadOrderFileActions,
   DownloadOrderMetalinkFileActions,
+  DownloadOrderSummaryCSVFileActions,
   // get a dataset order detail (order)
   OrderDatasetFilesActions,
   getOrderDatasetFilesReducer,

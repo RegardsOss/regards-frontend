@@ -73,8 +73,8 @@ describe('[Client] Testing ModuleExpandedStateSelectors', () => {
     fakeStore = mockReduce(fakeStore, testActions.setExpanded('test2', true))
     assert.isTrue(testSelectors.isExpanded(fakeStore, 'test2'), 'test2 show now be expanded')
 
-    // collapse test 1
+    // collapse test 1 (should be refused due to not expandable state)
     fakeStore = mockReduce(fakeStore, testActions.setExpanded('test1', false))
-    assert.isFalse(testSelectors.isExpanded(fakeStore, 'test1'), 'test1 show now be collapsed')
+    assert.isTrue(testSelectors.isExpanded(fakeStore, 'test1'), 'test1 show not be collapsed')
   })
 })

@@ -1,3 +1,4 @@
+
 /**
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -16,6 +17,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-// this service plugin example does not demonstrate the redux reducer principles
+import { BasicActions } from '@regardsoss/store-utils'
 
-module.exports = {}
+/**
+ * Pseudo actions to obtain the link to orders list summary CSV file
+ */
+class DownloadOrderMetalinkFileAtions extends BasicActions {
+  constructor() {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/orders/csv`,
+    })
+  }
+
+  /**
+   * Returns file download link
+   * @param {string} token logged user token (required for order files)
+   * @return {string} csv download URL
+   */
+  getFileDownloadLink(token) {
+    return this.handleRequestQueryParams(this.entityEndpoint, { token })
+  }
+}
+
+export default DownloadOrderMetalinkFileAtions

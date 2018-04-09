@@ -57,6 +57,7 @@ describe('[Entities Common] Testing PluginDisplayerContainer', () => {
         pluginInstance: {
           name: 'fake.plugin',
           plugin: FakePluginComponent,
+          getReducer: () => ({}),
           messages: {
             fr: {},
             en: {},

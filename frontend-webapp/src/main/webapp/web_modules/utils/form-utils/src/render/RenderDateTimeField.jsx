@@ -53,10 +53,12 @@ export class RenderDateTimeField extends React.Component {
       touched: PropTypes.bool,
       error: PropTypes.string,
     }),
+    fullWidth: PropTypes.bool,
   }
 
   static defaultProps = {
     displayTime: true,
+    fullWidth: false,
   }
 
   static contextTypes = {
@@ -111,7 +113,7 @@ export class RenderDateTimeField extends React.Component {
 
   render() {
     const {
-      intl, input, label, displayTime,
+      intl, input, label, displayTime, fullWidth,
     } = this.props
     const { moduleTheme: { dateFieldStyles } } = this.context
     const clearButtonDisplayed = !!input.value
@@ -127,6 +129,7 @@ export class RenderDateTimeField extends React.Component {
           onChange={this.onChangeDate}
           locale={intl.locale}
           displayTime={displayTime}
+          fullWidth={fullWidth}
         />
         {
           clearButtonDisplayed ? (

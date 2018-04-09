@@ -17,16 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNil from 'lodash/isNil'
-import isEmpty from 'lodash/isEmpty'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
-import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { ErrorCardComponent } from '@regardsoss/components'
 import { loadPlugin } from '../model/LoadPluginActions'
 import LoadPluginSelector from '../model/LoadPluginSelector'
+import pluginReducerHelper from '../helpers/PluginReducerHelper'
 
 /**
  * This component allows to load a given plugin and display it.
@@ -78,15 +77,10 @@ class PluginLoader extends React.Component {
       nextProps.loadPlugin(nextProps.pluginPath, this.errorCallback)
     }
     if (!this.state.registered && nextProps.loadedPlugin) {
-      if (!isEmpty(nextProps.loadedPlugin.reducer)) {
-        const loadedPluginReducerName = `plugins.${nextProps.loadedPlugin.name}`
-        const loadedPluginReducer = {}
-
-        loadedPluginReducer[loadedPluginReducerName] = configureReducers(nextProps.loadedPlugin.reducer)
-        if (!getReducerRegistry().isRegistered(loadedPluginReducer)) {
-          getReducerRegistry().register(loadedPluginReducer)
-        }
-      }
+      const { loadedPlugin, pluginInstanceId } = nextProps
+      // install reducer
+      pluginReducerHelper.initializePluginReducer(loadedPlugin, pluginInstanceId)
+      // mark as ready to display (registered)
       this.setState({
         registered: true,
       })

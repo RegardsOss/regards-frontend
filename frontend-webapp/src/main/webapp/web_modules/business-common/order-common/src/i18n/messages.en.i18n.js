@@ -30,6 +30,8 @@ const messages = {
   'no.order.information.message': 'You have currently no registered order.',
   'not.logged.information.title': 'User not logged',
   'not.logged.information.message': 'Please log in to access your orders',
+  'order.list.download.summary.csv.label': 'Summary',
+  'order.list.download.summary.csv.tooltip': 'Download summary file as CSV',
   'order.list.admin.no.command.header.message': 'No order',
   'order.list.admin.commands.header.message': '{count} order(s)',
   'order.list.user.no.command.header.message': 'You have no order',

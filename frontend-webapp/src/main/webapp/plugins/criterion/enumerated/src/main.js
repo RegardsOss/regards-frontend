@@ -17,10 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { initPlugin } from '@regardsoss/plugins-api'
+import getReducer from './reducer'
 import EnumeratedCriteriaContainer from './containers/EnumeratedCriteriaContainer'
 import messages from './i18n'
 import styles from './styles'
 import pluginInfo from './plugin-info.json'
-import reducer from './reducer'
 
-initPlugin(EnumeratedCriteriaContainer, pluginInfo, reducer, messages, styles)
+initPlugin(EnumeratedCriteriaContainer, pluginInfo, getReducer, messages, styles)

@@ -24,6 +24,7 @@ import { PageableInfiniteTableContainer, AutoRefreshPageableTableHOC, TableLayou
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ORDER_DISPLAY_MODES } from '../../../src/model/OrderDisplayModes'
 import { OrdersNavigationActions } from '../../../src/model/OrdersNavigationActions'
+import DownloadOrdersCSVSummaryContainer from '../../../src/containers/orders/options/DownloadOrdersCSVSummaryContainer'
 import OrderListComponent from '../../../src/components/orders/OrderListComponent'
 import OrderCountHeaderMessage from '../../../src/components/orders/OrderCountHeaderMessage'
 import { SOME_ORDERS } from '../../dumps/Orders.dumb'
@@ -65,6 +66,7 @@ describe('[Order Common] Testing OrderListComponent', () => {
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
     assert.lengthOf(enzymeWrapper.find(OrderCountHeaderMessage), 1, 'There should be the header message')
     assert.lengthOf(enzymeWrapper.find(AutoRefreshPageableTableHOC), 1, 'There should be the auto refresh data HOC')
+    assert.lengthOf(enzymeWrapper.find(DownloadOrdersCSVSummaryContainer), 1, 'There should be download CSV action')
     assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be the column visibiltiy option')
 
     const tableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)
@@ -99,6 +101,7 @@ describe('[Order Common] Testing OrderListComponent', () => {
     assert.lengthOf(enzymeWrapper.find(OrderCountHeaderMessage), 1, 'There should be the header message')
     assert.lengthOf(enzymeWrapper.find(AutoRefreshPageableTableHOC), 1, 'There should be the auto refresh data HOC')
     assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be the column visibiltiy option')
+    assert.lengthOf(enzymeWrapper.find(DownloadOrdersCSVSummaryContainer), 0, 'There should not be download CSV action')
 
     const tableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)
     assert.lengthOf(tableWrapper, 1, 'There should be an infinite table')

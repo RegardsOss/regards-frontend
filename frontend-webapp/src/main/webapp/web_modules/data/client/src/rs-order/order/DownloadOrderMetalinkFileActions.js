@@ -20,7 +20,7 @@
 import { BasicActions } from '@regardsoss/store-utils'
 
 /**
- * Pseudo actions to obtain the metalink file for an order files
+ * Pseudo actions to obtain the  link to metalink file of an order
  */
 class DownloadOrderMetalinkFileAtions extends BasicActions {
   constructor() {
