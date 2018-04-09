@@ -50,6 +50,12 @@ export const getFormattedDate = ({ formatMessage, formatDate, formatTime }, date
 class DateValueRender extends React.Component {
   static propTypes = {
     value: PropTypes.string,
+    // should diplay using multiple lines? (false by default)
+    multilineDisplay: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    multilineDisplay: false,
   }
 
   static contextTypes = {
@@ -58,11 +64,11 @@ class DateValueRender extends React.Component {
   }
 
   render() {
-    const { value } = this.props
-    const { intl, moduleTheme: { textRenderCell } } = this.context
+    const { value, multilineDisplay } = this.props
+    const { intl, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
     const textValue = getFormattedDate(intl, value) || intl.formatMessage({ id: 'value.render.no.value.label' })
     return (
-      <div style={textRenderCell} title={textValue}>
+      <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue}>
         {textValue}
       </div>)
   }

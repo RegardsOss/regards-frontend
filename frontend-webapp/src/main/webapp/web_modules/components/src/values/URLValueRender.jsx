@@ -29,6 +29,8 @@ class URLValueRender extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     value: PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
+    multilineDisplay: PropTypes.bool, // unused in links, kept here only as it is part of the render API
   }
 
   static contextTypes = {

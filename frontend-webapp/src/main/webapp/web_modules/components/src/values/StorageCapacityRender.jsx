@@ -18,6 +18,7 @@
  **/
 import isNumber from 'lodash/isNumber'
 import isString from 'lodash/isString'
+import { themeContextType } from '@regardsoss/theme'
 import { storage } from '@regardsoss/units'
 
 /**
@@ -38,11 +39,19 @@ class StorageCapacityRender extends React.Component {
     ]),
     presentationScale: PropTypes.oneOf(storage.StorageUnitScale.all),
     numberUnit: PropTypes.oneOf([storage.StorageUnits.BIT, storage.StorageUnits.BYTE]),
+    // should diplay using multiple lines? (false by default)
+    multilineDisplay: PropTypes.bool,
   }
 
   static defaultProps = {
+    multilineDisplay: false,
     presentationScale: storage.StorageUnitScale.bytesScale,
     numberUnit: storage.StorageUnits.BYTE,
+  }
+
+
+  static contextTypes = {
+    ...themeContextType,
   }
 
   /**
@@ -63,10 +72,14 @@ class StorageCapacityRender extends React.Component {
   }
 
   render() {
+    const { multilineDisplay } = this.props
+    const { moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
     return (
-      <storage.FormattedStorageCapacity
-        capacity={this.getValueAsStorageCapacity()}
-      />
+      <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell}>
+        <storage.FormattedStorageCapacity
+          capacity={this.getValueAsStorageCapacity()}
+        />
+      </div>
     )
   }
 }
