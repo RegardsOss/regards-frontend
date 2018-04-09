@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isFunction from 'lodash/isFunction'
 import map from 'lodash/map'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
@@ -75,7 +74,6 @@ class SIPListComponent extends React.Component {
     appliedFilters: {},
     sipToView: null,
     sipToDelete: null,
-    onDeleteDone: null,
     deletionErrors: [],
   }
 
@@ -119,7 +117,7 @@ class SIPListComponent extends React.Component {
 
   onConfirmDelete = (deleteAction) => {
     this.closeDeleteDialog()
-    const { sipToDelete, onDeleteDone } = this.state
+    const { sipToDelete } = this.state
     if (sipToDelete) {
       const sipId = get(this.state, 'sipToDelete.content.sipId', '')
       const { intl: { formatMessage } } = this.context
@@ -136,18 +134,15 @@ class SIPListComponent extends React.Component {
           // A 200 OK response is sent by the backend. So we check errors into the response payload.
           this.displayDeletionErrors(sipId, get(actionResult, 'payload', []))
           // After, refresh the list
-          if (onDeleteDone && isFunction(onDeleteDone)) {
-            onDeleteDone()
-          }
+          this.props.onRefresh()
         }
       })
     }
   }
 
-  onDelete = (sipToDelete, onDeleteDone) => {
+  onDelete = (sipToDelete) => {
     this.setState({
       sipToDelete,
-      onDeleteDone,
     })
   }
 
@@ -205,7 +200,6 @@ class SIPListComponent extends React.Component {
   closeDeleteDialog = () => {
     this.setState({
       sipToDelete: null,
-      onDeleteDone: null,
     })
   }
 
