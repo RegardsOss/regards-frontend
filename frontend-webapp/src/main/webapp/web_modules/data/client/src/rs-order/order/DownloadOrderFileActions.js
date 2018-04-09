@@ -19,7 +19,7 @@
 import { BasicActions } from '@regardsoss/store-utils'
 
 /**
- * Pseudo actions to obtain the link to download order file actions and check dependencies
+ * Pseudo actions to obtain the link to download an order file and build corresponding dependencies
  */
 class DownloadOrderFileActions extends BasicActions {
   constructor() {

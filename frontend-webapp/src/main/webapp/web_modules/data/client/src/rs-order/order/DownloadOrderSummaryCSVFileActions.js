@@ -20,24 +20,22 @@
 import { BasicActions } from '@regardsoss/store-utils'
 
 /**
- * Pseudo actions to obtain the  link to metalink file of an order
+ * Pseudo actions to obtain the link to orders list summary CSV file
  */
 class DownloadOrderMetalinkFileAtions extends BasicActions {
   constructor() {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/user/orders/{orderId}/metalink/download`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/orders/csv`,
     })
   }
 
   /**
    * Returns file download link
-   * @param {number} orderId order id
    * @param {string} token logged user token (required for order files)
-   * @return {string} metalink download URL
+   * @return {string} csv download URL
    */
-  getFileDownloadLink(orderId, token) {
-    const withPathParams = this.handleRequestPathParameters(this.entityEndpoint, { orderId })
-    return this.handleRequestQueryParams(withPathParams, { token })
+  getFileDownloadLink(token) {
+    return this.handleRequestQueryParams(this.entityEndpoint, { token })
   }
 }
 

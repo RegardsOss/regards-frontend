@@ -30,6 +30,8 @@ const messages = {
   'no.order.information.message': 'Vous n\'avez actuellement aucune commande enregistrée.',
   'not.logged.information.title': 'Utilisateur inconnu',
   'not.logged.information.message': 'Vous devez vous authentifier pour accéder à la liste de vos commandes',
+  'order.list.download.summary.csv.label': 'Résumé',
+  'order.list.download.summary.csv.tooltip': 'Télécharger le résumé en CSV',
   'order.list.admin.no.command.header.message': 'Aucune commande',
   'order.list.admin.commands.header.message': '{count} commande(s)',
   'order.list.user.no.command.header.message': 'Vous n\'avez pas de commande',

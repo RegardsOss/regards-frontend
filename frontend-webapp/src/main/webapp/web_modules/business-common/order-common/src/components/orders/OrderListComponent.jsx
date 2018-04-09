@@ -33,6 +33,7 @@ import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
 import NoOrderComponent from './NoOrderComponent'
 import OrderCountHeaderMessage from './OrderCountHeaderMessage'
 import DeleteOrderContainer from '../../containers/orders/options/DeleteOrderContainer'
+import DownloadOrdersCSVSummaryContainer from '../../containers/orders/options/DownloadOrdersCSVSummaryContainer'
 import DownloadOrderFilesAsZipContainer from '../../containers/orders/options/DownloadOrderFilesAsZipContainer'
 import DownloadOrderMetaLinkFileContainer from '../../containers/orders/options/DownloadOrderMetaLinkFileContainer'
 import PauseResumeOrderContainer from '../../containers/orders/options/PauseResumeOrderContainer'
@@ -329,6 +330,11 @@ class OrderListComponent extends React.Component {
           {/* 3 - table options  */}
           <TableHeaderOptionsArea >
             <TableHeaderOptionGroup>
+              {/* downlaod summary (when admin) */
+                displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? (
+                  <DownloadOrdersCSVSummaryContainer />
+                ) : null
+              }
               {/* columns visibility configuration  */}
               <TableColumnsVisibilityOption
                 columns={columns}
