@@ -4,7 +4,10 @@
   "private": true,
   "description": "",
   "main": "src/main.js",
-  "author": "CS-SI",
+  "author":"CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
   "license": "GPL-3.0",
   "dependencies": {
     "autoprefixer": "^8.0.0",

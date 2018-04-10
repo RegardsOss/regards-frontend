@@ -4,6 +4,9 @@
   "private": true,
   "description": "Display the project's about page",
   "main": "src/main.js",
-  "author": "CS-SI",
+  "author":"CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
   "license": "GPL-3.0"
 }
