@@ -26,8 +26,6 @@ import MenuItem from 'material-ui/MenuItem'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 
-const nameValidators = [ValidationHelpers.validAlphaNumericUnderscore, ValidationHelpers.lengthMoreThan(3)]
-
 /**
  * Display edit and create project form
  */
@@ -41,6 +39,7 @@ export class ModelFormComponent extends React.Component {
     // from reduxForm
     submitting: PropTypes.bool,
     pristine: PropTypes.bool,
+    invalid: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
   }
@@ -65,19 +64,54 @@ export class ModelFormComponent extends React.Component {
     return this.context.intl.formatMessage({ id: 'model.duplicate.title' }, { name: this.props.currentModel.content.name })
   }
 
+  /**
+   * Builds a function that will apply validators as parameter (from first to last) only when
+   * import file is not provided (when import file is provided, those fields are no longer mandatory)
+   * @param {[function]} validators validators for field
+   * @return {function} validator
+   */
+  getFieldOrImportValidator = validators =>
+    function fieldValidator(value, values) {
+      let error
+      if (!values.file) {
+        error = validators.reduce((acc, validator) => acc || validator(value, values), undefined)
+      }
+      return error
+    }
+
+  /**
+   * Validates name field
+   * @return validation error
+   */
+  validateName = this.getFieldOrImportValidator([
+    ValidationHelpers.required,
+    ValidationHelpers.validAlphaNumericUnderscore,
+    ValidationHelpers.lengthMoreThan(3),
+  ])
+
+  /**
+   * Validates type field
+   * @return validation error
+   */
+  validateType = this.getFieldOrImportValidator([ValidationHelpers.required])
+
+  /**
+   * Handles component initialization
+   */
   handleInitialize = () => {
     if (!this.props.isCreating) {
       const { currentModel } = this.props
       this.props.initialize({
-        description: currentModel.content.description,
         name: currentModel.content.name,
+        description: currentModel.content.description,
+        type: currentModel.content.type,
       })
     }
   }
 
   render() {
     const {
-      pristine, submitting, isCreating, isEditing,
+      pristine, submitting, isCreating, isEditing, invalid,
     } = this.props
     const title = this.getTitle()
     return (
@@ -89,17 +123,16 @@ export class ModelFormComponent extends React.Component {
             title={title}
           />
           <CardText>
-            <ShowableAtRender show={!isEditing}>
-              <Field
-                name="name"
-                fullWidth
-                component={RenderTextField}
-                type="text"
-                label={this.context.intl.formatMessage({ id: 'model.form.name' })}
-                validate={nameValidators}
-                normalize={trim}
-              />
-            </ShowableAtRender>
+            <Field
+              name="name"
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              label={this.context.intl.formatMessage({ id: 'model.form.name' })}
+              validate={this.validateName}
+              disabled={isEditing}
+              normalize={trim}
+            />
             <Field
               name="description"
               fullWidth
@@ -107,35 +140,35 @@ export class ModelFormComponent extends React.Component {
               type="text"
               label={this.context.intl.formatMessage({ id: 'model.form.description' })}
             />
+            <Field
+              name="type"
+              fullWidth
+              component={RenderSelectField}
+              label={this.context.intl.formatMessage({ id: 'model.form.type' })}
+              validate={this.validateType}
+              disabled={!isCreating}
+            >
+              <MenuItem value="COLLECTION" primaryText={this.context.intl.formatMessage({ id: 'model.type.collection' })} />
+              <MenuItem value="DATA" primaryText={this.context.intl.formatMessage({ id: 'model.type.data' })} />
+              <MenuItem value="DATASET" primaryText={this.context.intl.formatMessage({ id: 'model.type.dataset' })} />
+              <MenuItem value="DOCUMENT" primaryText={this.context.intl.formatMessage({ id: 'model.type.document' })} />
+            </Field>
             <ShowableAtRender show={isCreating}>
-              <div>
-                <Field
-                  name="type"
-                  fullWidth
-                  component={RenderSelectField}
-                  label={this.context.intl.formatMessage({ id: 'model.form.type' })}
-                >
-                  <MenuItem value="COLLECTION" primaryText={this.context.intl.formatMessage({ id: 'model.type.collection' })} />
-                  <MenuItem value="DATA" primaryText={this.context.intl.formatMessage({ id: 'model.type.data' })} />
-                  <MenuItem value="DATASET" primaryText={this.context.intl.formatMessage({ id: 'model.type.dataset' })} />
-                  <MenuItem value="DOCUMENT" primaryText={this.context.intl.formatMessage({ id: 'model.type.document' })} />
-                </Field>
-                <hr />
-                <br />
-                <FormattedMessage id="model.form.file" />
-                <Field
-                  name="file"
-                  component={RenderFileFieldWithMui}
-                  accept=".xml"
-                />
-              </div>
+              <hr />
+              <br />
+              <FormattedMessage id="model.form.file" />
+              <Field
+                name="file"
+                component={RenderFileFieldWithMui}
+                accept=".xml"
+              />
             </ShowableAtRender>
           </CardText>
           <CardActions>
             <CardActionsComponent
               mainButtonLabel={this.context.intl.formatMessage({ id: 'model.form.action.submit' })}
               mainButtonType="submit"
-              isMainButtonDisabled={pristine || submitting}
+              isMainButtonDisabled={pristine || submitting || invalid}
               secondaryButtonLabel={this.context.intl.formatMessage({ id: 'model.form.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />

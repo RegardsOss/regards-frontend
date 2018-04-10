@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "description": "Standard eslint rules for react & lodash es6 project",
-  "author": "CS-SI",
+  "author":"CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
   "license": "GPL-3.0",
   "peerdependencies": {
     "eslint": "~4.18.1",

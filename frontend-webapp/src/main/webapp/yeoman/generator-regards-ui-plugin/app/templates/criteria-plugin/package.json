@@ -15,7 +15,10 @@
     "lint": "eslint src tests --ext .js,.jsx",
     "lint:fix": "eslint --fix  src tests --ext .js,.jsx"
   },
-  "author": "<%= author %>",
+  "author":"CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
   "license": "<%= licence %>",
   "dependencies": {
     "lodash": "^4.17.5",

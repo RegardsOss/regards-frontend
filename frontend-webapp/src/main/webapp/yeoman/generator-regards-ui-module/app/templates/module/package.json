@@ -4,7 +4,10 @@
   "private": true,
   "description": "<%= description %>",
   "main": "src/main.js",
-  "author": "<%= author %>",
+  "author":"CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
   "company": "<%= company %>",
   "license": "<%= licence %>"
 }

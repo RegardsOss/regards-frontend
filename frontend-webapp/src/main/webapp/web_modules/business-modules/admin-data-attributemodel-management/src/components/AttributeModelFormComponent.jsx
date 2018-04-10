@@ -41,8 +41,9 @@ import moduleStyles from '../styles/styles'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 import AttributeModelUnitFieldComponent from './AttributeModelUnitFieldComponent'
 
-const nameFieldValidators = [ValidationHelpers.validAlphaNumericUnderscore, ValidationHelpers.lengthMoreThan(3), ValidationHelpers.lengthLessThan(32)]
-const lessThan20 = ValidationHelpers.lengthLessThan(20)
+const nameFieldValidators = [ValidationHelpers.required, ValidationHelpers.validAlphaNumericUnderscore, ValidationHelpers.lengthMoreThan(3), ValidationHelpers.lengthLessThan(32)]
+
+const labelFieldValidators = [ValidationHelpers.required, ValidationHelpers.lengthLessThan(20)]
 
 /**
  * Display edit and create attribute model form
@@ -273,23 +274,22 @@ export class AttributeModelFormComponent extends React.Component {
                 message={this.context.intl.formatMessage({ id: 'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used' })}
               />
             </ShowableAtRender>
-            <ShowableAtRender show={this.state.isCreating}>
-              <Field
-                name="name"
-                fullWidth
-                component={RenderTextField}
-                type="text"
-                label={this.context.intl.formatMessage({ id: 'attrmodel.form.name' })}
-                validate={nameFieldValidators}
-              />
-            </ShowableAtRender>
+            <Field
+              name="name"
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              label={this.context.intl.formatMessage({ id: 'attrmodel.form.name' })}
+              validate={nameFieldValidators}
+              disabled={!this.state.isCreating}
+            />
             <Field
               name="label"
               fullWidth
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'attrmodel.form.label' })}
-              validate={lessThan20}
+              validate={labelFieldValidators}
             />
             <Field
               name="description"
@@ -305,6 +305,7 @@ export class AttributeModelFormComponent extends React.Component {
               onSelect={this.handleChange}
               label={this.context.intl.formatMessage({ id: 'attrmodel.form.type' })}
               disabled={!this.state.isCreating}
+              validate={ValidationHelpers.required}
             >
               {map(attrModelTypeList, (type, id) => (
                 <MenuItem
