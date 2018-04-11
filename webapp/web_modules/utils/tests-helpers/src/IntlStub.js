@@ -21,14 +21,15 @@
  * Intl object stub for tests (avoids react warnings)
  */
 const IntlStub = {
+  locale: 'en',
   formatMessage: m => m.id,
-  formatDate: () => {},
-  formatTime: () => {},
-  formatRelative: () => {},
-  formatNumber: () => {},
-  formatPlural: () => {},
-  formatHTMLMessage: () => {},
-  now: () => {},
+  formatDate: () => { },
+  formatTime: () => { },
+  formatRelative: () => { },
+  formatNumber: () => { },
+  formatPlural: () => { },
+  formatHTMLMessage: () => { },
+  now: () => { },
 }
 
 export default IntlStub
