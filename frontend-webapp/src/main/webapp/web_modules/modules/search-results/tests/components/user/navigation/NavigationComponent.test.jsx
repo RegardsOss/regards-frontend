@@ -40,6 +40,7 @@ describe('[Search Results] Testing NavigationComponent', () => {
       new Tag(TagTypes.DATASET, 'styles:patatoes', 'styles:patatoes'),
     ]
     const props = {
+      locale: 'fr',
       navigationLevels: levels,
       defaultIconURL: 'any',
       onLevelSelected: () => { },

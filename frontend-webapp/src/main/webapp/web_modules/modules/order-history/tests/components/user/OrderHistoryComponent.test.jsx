@@ -44,6 +44,7 @@ describe('[Order History] Testing OrderHistoryComponent', () => {
     const props = {
       appName: 'x',
       project: 'y',
+      locale: 'fr',
       type: 'any',
       ordersActions: orderListActions,
       ordersSelectors: orderListSelectors,

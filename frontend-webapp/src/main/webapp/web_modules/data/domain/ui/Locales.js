@@ -16,24 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import LocalStorageUser from './LocalStorageUser'
-import { LOCALES_ENUM, LOCALES } from './Locales'
-import { MENU_DISPLAY_MODES, MENU_DISPLAY_MODES_ENUM } from './MenuDisplayModes'
-import { MODULE_PANE_DISPLAY_MODES_ENUM, MODULE_PANE_DISPLAY_MODES, isModulePaneExpanded, isModulePaneExpansible } from './ModulePaneDisplayModes'
-import { getAdminURL, getModuleURL, getModuleDefaultIconURL, getPathModuleId } from './URLHelper'
+import values from 'lodash/values'
 
-module.exports = {
-  getAdminURL,
-  getModuleDefaultIconURL,
-  getModuleURL,
-  getPathModuleId,
-  isModulePaneExpanded,
-  isModulePaneExpansible,
-  LOCALES,
-  LOCALES_ENUM,
-  LocalStorageUser,
-  MENU_DISPLAY_MODES,
-  MENU_DISPLAY_MODES_ENUM,
-  MODULE_PANE_DISPLAY_MODES_ENUM,
-  MODULE_PANE_DISPLAY_MODES,
+/**
+ * Exposes REGARDS supported locales
+ * @author Raphaël Mechali
+ */
+export const LOCALES_ENUM = {
+  en: 'en',
+  fr: 'fr',
 }
+
+export const LOCALES = values(LOCALES_ENUM)
+

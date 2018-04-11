@@ -16,26 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import root from 'window-or-global'
-
-let navigatorLanguage = 'en'
-if (root.navigator && root.navigator.language) {
-  navigatorLanguage = root.navigator.language
-}
-
 const preloadedState = {
-  common: {
-    plugins: {},
-    i18n: {
-      locale: navigatorLanguage,
-      messages: [],
-    },
-    authentication: {},
-    error: {
-      opened: false,
-      message: '',
-    },
-  },
+  common: {},
   portal: {},
   admin: {},
   user: {},

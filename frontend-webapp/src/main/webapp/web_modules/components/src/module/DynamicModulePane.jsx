@@ -130,7 +130,7 @@ export class DynamicModulePane extends React.Component {
     availableDependencies: PropTypes.arrayOf(PropTypes.string), // async use
     // eslint-disable-next-line react/no-unused-prop-types
     isAuthenticated: PropTypes.bool.isRequired, // async use
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // from map dispatch to props
     dispatchSetInitialState: PropTypes.func.isRequired,
     dispatchSetExpanded: PropTypes.func.isRequired,

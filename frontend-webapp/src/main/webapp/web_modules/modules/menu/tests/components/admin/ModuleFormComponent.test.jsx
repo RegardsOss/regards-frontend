@@ -45,6 +45,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     const props = {
       appName: 'any',
       project: 'any',
+      locale: 'fr',
       adminForm: {
         changeField: () => { },
         currentNamespace: 'conf',
@@ -69,6 +70,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     const props = {
       appName: 'any',
       project: 'any',
+      locale: 'fr',
       adminForm: {
         changeField: () => { },
         currentNamespace: 'conf',

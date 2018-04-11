@@ -49,7 +49,7 @@ class NavigationTree extends React.Component {
     homeConfiguration: HomeConfigurationShape,
     dynamicModules: AccessShapes.ModuleArray,
     navigationItems: PropTypes.arrayOf(NavigationEditionItem).isRequired,
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // on create section callback: () => {}
     onCreateSection: PropTypes.func.isRequired,
     // on edit callback: (id, itemType) => {}

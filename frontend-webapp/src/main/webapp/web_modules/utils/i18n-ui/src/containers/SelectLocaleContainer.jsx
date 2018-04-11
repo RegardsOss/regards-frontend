@@ -31,8 +31,6 @@ import styles from '../styles'
 export class SelectLocaleContainer extends React.Component {
   static propTypes = {}
 
-  static LOCALES = ['en', 'fr']
-
   /**
    * on change locale
    * @param {TouchEvent} event
@@ -46,7 +44,6 @@ export class SelectLocaleContainer extends React.Component {
   render() {
     return (
       <SelectLocaleComponent
-        locales={SelectLocaleContainer.LOCALES}
         currentLocale={this.props.currentLocale}
         handleLocaleChange={this.handleLocaleChange}
       />

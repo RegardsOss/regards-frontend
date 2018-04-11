@@ -21,10 +21,11 @@ import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
+import { UIDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import fr from '../fr_flag.png'
-import en from '../gb_flag.png'
+import frIcon from '../fr_flag.png'
+import enIcon from '../gb_flag.png'
 
 /**
  * React component to display the language selector widget
@@ -32,7 +33,6 @@ import en from '../gb_flag.png'
  */
 class SelectLocaleComponent extends React.Component {
   static propTypes = {
-    locales: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentLocale: PropTypes.string,
     handleLocaleChange: PropTypes.func,
   }
@@ -44,12 +44,12 @@ class SelectLocaleComponent extends React.Component {
 
   /** Maps locale to icon */
   static localToIcon = {
-    fr,
-    en,
+    [UIDomain.LOCALES_ENUM.fr]: frIcon,
+    [UIDomain.LOCALES_ENUM.en]: enIcon,
   }
 
   render() {
-    const { locales, currentLocale, handleLocaleChange } = this.props
+    const { currentLocale, handleLocaleChange } = this.props
     const { intl: { formatMessage }, muiTheme: { spacing: { iconSize } } } = this.context
 
     const localeIcon = SelectLocaleComponent.localToIcon[currentLocale]
@@ -66,7 +66,7 @@ class SelectLocaleComponent extends React.Component {
           value={currentLocale}
           onChange={handleLocaleChange}
         >
-          {map(locales, locale => (
+          {map(UIDomain.LOCALES, locale => (
             <MenuItem
               value={locale}
               key={locale}

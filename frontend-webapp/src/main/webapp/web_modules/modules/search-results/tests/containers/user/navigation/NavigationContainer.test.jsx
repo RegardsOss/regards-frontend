@@ -37,7 +37,7 @@ describe('[Search Results] Testing NavigationContainer', () => {
   })
   it('should render correctly empty with only initial levels (externally driven module case)', () => {
     const props = {
-      locale: 'tiger spoken',
+      locale: 'en',
       displayDatasets: true,
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
       initialLevels: [new Tag(CatalogDomain.TagTypes.WORD, 'x', 'x')],
@@ -57,7 +57,7 @@ describe('[Search Results] Testing NavigationContainer', () => {
   })
   it('should render correctly empty without initial level (standalone module case)', () => {
     const props = {
-      locale: 'tiger spoken',
+      locale: 'fr',
       displayDatasets: true,
       description: 'my desc###@',
       page: { fr: 'patate', en: 'potatoe' },
@@ -81,6 +81,7 @@ describe('[Search Results] Testing NavigationContainer', () => {
 
   it('should render correctly with initial levels and levels (externally driven and user updated)', () => {
     const props = {
+      locale: 'en',
       displayDatasets: true,
       type: 'any',
       initialLevels: [new Tag(CatalogDomain.TagTypes.WORD, 'x', 'x')],
@@ -101,6 +102,7 @@ describe('[Search Results] Testing NavigationContainer', () => {
 
   it('should render correctly without initial levels but with levels (standalone and user updated)', () => {
     const props = {
+      locale: 'fr',
       displayDatasets: true,
       type: 'any',
       initialLevels: [],

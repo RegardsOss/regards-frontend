@@ -107,6 +107,7 @@ describe('[Components] Testing DynamicModulePane', () => {
       options: [<div key="an.option">An option </div>],
       expandable: true,
       expanded: false,
+      locale: 'fr',
       isAuthenticated: false,
       dispatchSetInitialState: () => { },
       dispatchSetExpanded: () => { },
@@ -157,6 +158,7 @@ describe('[Components] Testing DynamicModulePane', () => {
       options: [<div key="an.option">An option </div>],
       expandable: true,
       expanded: false,
+      locale: 'en',
       isAuthenticated: false,
       dispatchSetInitialState: (expandable, expanded) => {
         spiedInitialization = { expandable, expanded }

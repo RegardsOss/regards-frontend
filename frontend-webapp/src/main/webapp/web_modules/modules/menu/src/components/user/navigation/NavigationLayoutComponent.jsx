@@ -19,6 +19,7 @@
 import isEqual from 'lodash/isEqual'
 import isNumber from 'lodash/isNumber'
 import throttle from 'lodash/throttle'
+import { UIDomain } from '@regardsoss/domain'
 import { Measure } from '@regardsoss/adapters'
 import { themeContextType } from '@regardsoss/theme'
 import { NavigationItem } from '../../../shapes/Navigation'
@@ -40,7 +41,7 @@ class NavigationLayoutComponent extends React.Component {
 
   static propTypes = {
     navigationElements: PropTypes.arrayOf(NavigationItem),
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     buildLinkURL: PropTypes.func.isRequired,
   }
 

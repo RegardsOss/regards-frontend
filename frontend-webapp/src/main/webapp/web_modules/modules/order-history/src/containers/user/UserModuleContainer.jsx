@@ -45,7 +45,7 @@ export class UserModuleContainer extends React.Component {
   static propTypes = {
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
   }
 
   render() {

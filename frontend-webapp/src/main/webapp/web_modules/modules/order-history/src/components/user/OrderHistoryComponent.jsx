@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import { OrderClient } from '@regardsoss/client'
 import { AccessShapes } from '@regardsoss/shape'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
@@ -32,7 +33,7 @@ import { dependencies } from '../../user-dependencies'
  */
 class OrderHistoryComponent extends React.Component {
   static propTypes = {
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
     ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     orderFilesActions: PropTypes.instanceOf(OrderClient.OrderDatasetFilesActions).isRequired,

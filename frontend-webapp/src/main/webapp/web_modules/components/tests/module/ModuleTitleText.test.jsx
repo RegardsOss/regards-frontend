@@ -35,7 +35,7 @@ describe('[Components] Testing ModuleTitleText', () => {
   it('should exists', () => {
     assert.isDefined(ModuleTitleText)
   })
-  it('should render correctly with locale', () => {
+  it('should render correctly with locale title', () => {
     const props = {
       title: {
         en: 'en-title',
@@ -52,25 +52,13 @@ describe('[Components] Testing ModuleTitleText', () => {
     })
     assert.include(enzymeWrapper.debug(), 'fr-title', 'english title should be selected')
   })
-  it('should select the description when there is no locale', () => {
-    const props = {
-      title: {
-        en: 'en-title',
-        fr: 'fr-title',
-      },
-      description: 'description',
-    }
-    const enzymeWrapper = shallow(<ModuleTitleText {...props} />, { context })
-    assert.include(enzymeWrapper.debug(), 'description', 'description should be selected as title ')
-  })
   it('should select the description when there is no title for locale', () => {
     const props = {
       title: {
         en: 'en-title',
-        fr: 'fr-title',
       },
       description: 'description',
-      locale: 'de',
+      locale: 'fr',
     }
     const enzymeWrapper = shallow(<ModuleTitleText {...props} />, { context })
     assert.include(enzymeWrapper.debug(), 'description', 'description should be selected as title ')

@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import { UIDomain } from '@regardsoss/domain'
 
 /**
  * Resolves module title text
@@ -39,7 +40,7 @@ class ModuleTitleText extends React.Component {
     // module description (used as fallback when title cannot be used)
     description: PropTypes.string,
     // current local if any
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
   }
 
   render() {
