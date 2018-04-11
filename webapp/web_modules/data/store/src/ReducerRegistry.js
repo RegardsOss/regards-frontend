@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-/**
- * LICENSEPLACEHOLDER
- **/
 import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
 import isEmpty from 'lodash/isEmpty'
