@@ -20,7 +20,7 @@
 	<properties>
 		<fr.cnes.regards.docker.image.name>rs-frontend</fr.cnes.regards.docker.image.name>
 		<sonar.coverage.exclusions>**/*.java</sonar.coverage.exclusions>
-		<webapp.dir>frontend-webapp</webapp.dir>
+		<webapp.dir>webapp</webapp.dir>
 	</properties>
 
 	<dependencies>
@@ -87,7 +87,7 @@
 			            </resource>
 			            <resource>
 			            	  <targetPath>static</targetPath>
-				              <directory>${webapp.dir}/src/main/webapp/dist/prod</directory>
+				              <directory>${webapp.dir}/dist/prod</directory>
 			            </resource>
 		          </webResources>
 				</configuration>
