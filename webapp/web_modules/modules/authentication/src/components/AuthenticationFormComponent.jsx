@@ -1,0 +1,177 @@
+/**
+ * Copyright 2017-2018-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+import trim from 'lodash/trim'
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import { formValueSelector } from 'redux-form'
+import RaisedButton from 'material-ui/RaisedButton'
+import UnlockAccountIcon from 'material-ui/svg-icons/action/lock'
+import ResetPasswordIcon from 'material-ui/svg-icons/action/restore-page'
+import ProjectAccessIcon from 'material-ui/svg-icons/action/assignment-ind'
+import { connect } from '@regardsoss/redux'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+import { PictureLinkComponent, FormErrorMessage } from '@regardsoss/components'
+import { RenderTextField, Field, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+
+const mailFieldId = 'username'
+const requiredEmailValidator = [ValidationHelpers.required, ValidationHelpers.email]
+
+/**
+ * React components for login form
+ */
+export class AuthenticationFormComponent extends React.Component {
+  static propTypes = {
+
+    // initial mail value
+    initialMail: PropTypes.string,
+    // form title
+    title: PropTypes.string.isRequired,
+    // show create account link?
+    showAskProjectAccess: PropTypes.bool.isRequired,
+    // show cancel button?
+    showCancel: PropTypes.bool.isRequired,
+    // on cancel button callback, or none if behavior not available
+    onCancelAction: PropTypes.func,
+    // other authentication forms links
+    onGotoCreateAccount: PropTypes.func.isRequired,
+    onGotoResetPassword: PropTypes.func.isRequired,
+    onGotoUnlockAccount: PropTypes.func.isRequired,
+    // on login submit
+    onLogin: PropTypes.func.isRequired,
+    // Form general error
+    errorMessage: PropTypes.string,
+    // from reduxFormSelector
+    currentMailValue: PropTypes.string,
+    // from reduxForm
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
+
+  componentWillMount() {
+    const initialValues = {}
+    initialValues[mailFieldId] = this.props.initialMail
+    this.props.initialize(initialValues)
+  }
+
+  render() {
+    const {
+      errorMessage, currentMailValue, initialMail,
+      showAskProjectAccess, showCancel, onCancelAction, handleSubmit,
+      onLogin, onGotoUnlockAccount, onGotoResetPassword, onGotoCreateAccount,
+    } = this.props
+    const { moduleTheme } = this.context
+    let cancelButtonElt
+    if (showCancel) {
+      cancelButtonElt = (
+        <RaisedButton
+          label={this.context.intl.formatMessage({ id: 'authentication.cancel' })}
+          primary
+          onClick={onCancelAction}
+        />
+      )
+    }
+    return (
+      <div style={moduleTheme.layout}>
+        <form
+          className="selenium-authenticationForm"
+          onSubmit={handleSubmit(onLogin)}
+        >
+          <Card>
+            <CardTitle
+              title={this.props.title}
+              subtitle={this.context.intl.formatMessage({ id: 'authentication.message' })}
+            />
+            <CardText>
+              <FormErrorMessage>{errorMessage}</FormErrorMessage>
+              <Field
+                name={mailFieldId}
+                value={initialMail}
+                fullWidth
+                component={RenderTextField}
+                type="text"
+                label={this.context.intl.formatMessage({ id: 'authentication.username' })}
+                validate={requiredEmailValidator}
+                normalize={trim}
+              />
+              <Field
+                name="password"
+                fullWidth
+                component={RenderTextField}
+                type="password"
+                label={this.context.intl.formatMessage({ id: 'authentication.password' })}
+                validate={ValidationHelpers.required}
+                normalize={trim}
+              />
+            </CardText>
+            <CardActions style={moduleTheme.action}>
+              <RaisedButton
+                disabled={this.props.submitting || this.props.invalid}
+                label={this.context.intl.formatMessage({ id: 'authentication.button' })}
+                primary
+                type="submit"
+              />
+              {cancelButtonElt}
+            </CardActions>
+            <div style={moduleTheme.linksBar}>
+              <PictureLinkComponent
+                className="selenium-projectAccessButton"
+                disabled={!showAskProjectAccess}
+                IconComponent={ProjectAccessIcon}
+                text={this.context.intl.formatMessage({ id: 'authentication.goto.ask.access' })}
+                onAction={() => onGotoCreateAccount(currentMailValue)}
+              />
+              <PictureLinkComponent
+                className="selenium-resetPasswordButton"
+                IconComponent={ResetPasswordIcon}
+                text={this.context.intl.formatMessage({ id: 'authentication.goto.reset.password' })}
+                onAction={() => onGotoResetPassword(currentMailValue)}
+              />
+              <PictureLinkComponent
+                className="selenium-unlockAccountButton"
+                IconComponent={UnlockAccountIcon}
+                text={this.context.intl.formatMessage({ id: 'authentication.goto.unlock.account' })}
+                onAction={() => onGotoUnlockAccount(currentMailValue)}
+              />
+            </div>
+          </Card>
+        </form>
+      </div>
+    )
+  }
+}
+
+// prepare redux form
+const formId = 'authentication-form'
+const connectedReduxForm = reduxForm({
+  form: formId,
+})(AuthenticationFormComponent)
+
+// connect with selector to select the last mail value
+const selector = formValueSelector(formId)
+export default connect(state => ({
+  currentMailValue: selector(state, mailFieldId),
+}))(connectedReduxForm)
+

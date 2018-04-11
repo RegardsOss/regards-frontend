@@ -1,0 +1,74 @@
+/**
+ * Copyright 2017-2018-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+import omit from 'lodash/omit'
+import { DamDomain } from '@regardsoss/domain'
+import { AccessShapes } from '@regardsoss/shape'
+import AddElementToCartComponent from '../../../../components/user/results/options/AddElementToCartComponent'
+
+/**
+* Add element to cart option container
+* @author Raphaël Mechali
+*/
+export class AddElementToCartContainer extends React.Component {
+  static propTypes = {
+    // from table cell API, mentionned here only to be excluded from children properties
+    rowIndex: PropTypes.number,
+    // Entity. Note: when used in options column, this is provided by the table cell API
+    entity: AccessShapes.EntityWithServices.isRequired,
+    // optional callback: add element to cart (entity) => ()
+    onAddToCart: PropTypes.func.isRequired,
+    //... other properties reported to sub-componentt
+  }
+
+  /** List of property keys that should not be reported to sub component */
+  static NON_REPORTED_PROPS = [
+    'rowIndex',
+    'entity',
+    'onAddToCart',
+  ]
+
+  onAddToCart = () => {
+    const { entity, onAddToCart } = this.props
+    if (this.canAddToCart()) {
+      onAddToCart(entity)
+    }
+  }
+
+  /**
+   * Is add to cart possible with current entity ?
+   * @return {boolean} true when add to cart is possible for entity
+   */
+  canAddToCart() {
+    const { entity: { content: { entityType, containsPhysicalData, downloadable } } } = this.props
+    // add to cart is allowed when:
+    // the object is a dataset (A)
+    // Or : the object is a data object and containsPhysicalData (B)
+    return entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET || // (A)
+      (entityType === DamDomain.ENTITY_TYPES_ENUM.DATA && containsPhysicalData && downloadable) // (B)
+  }
+
+  render() {
+    const subComponentProperties = omit(this.props, AddElementToCartContainer.NON_REPORTED_PROPS)
+    return (
+      <AddElementToCartComponent canAddToCart={this.canAddToCart()} onAddToCart={this.onAddToCart} {...subComponentProperties} />
+    )
+  }
+}
+
+export default AddElementToCartContainer
