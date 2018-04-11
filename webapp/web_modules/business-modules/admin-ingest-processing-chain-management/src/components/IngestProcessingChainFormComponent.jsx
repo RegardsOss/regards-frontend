@@ -107,6 +107,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
 
   render() {
     const { invalid, submitting, processingChain } = this.props
+    const { isCreating } = this.state
     const { intl: { formatMessage }, moduleTheme } = this.context
     const preprocessingPlugin = get(processingChain, 'preprocessingPlugin', null)
     const validationPlugin = get(processingChain, 'validationPlugin', null)
@@ -124,11 +125,14 @@ export class IngestProcessingChainFormComponent extends React.Component {
             title={formatMessage({ id: 'processing-chain.form.edit.title' }, { name: processingChain.name })}
           />
         }
-        <ImportFromFileDialogButton
-          onImport={this.props.onImport}
-          onImportSucceed={this.props.onBack}
-          style={moduleTheme.importButtonStyles}
-        />
+        {// import button (when creating only)
+          isCreating ? (
+            <ImportFromFileDialogButton
+              onImport={this.props.onImport}
+              onImportSucceed={this.props.onBack}
+              style={moduleTheme.importButtonStyles}
+            />) : null
+        }
         <form
           onSubmit={this.props.handleSubmit(this.props.onSubmit)}
         >
