@@ -19,6 +19,7 @@
 import get from 'lodash/get'
 import RadioButton from 'material-ui/RadioButton'
 import Subheader from 'material-ui/Subheader'
+import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -38,7 +39,7 @@ class ModuleFormComponent extends React.Component {
     adminForm: AccessShapes.moduleAdminForm,
     dynamicModules: AccessShapes.ModuleArray,
     // locale (for modules titles display)
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
   }
 
   static contextTypes = {

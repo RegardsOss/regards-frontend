@@ -77,11 +77,12 @@ describe('[Components] Testing ModuleTitle', () => {
     })
   })
 
-  it('should render correctly in minimal mode (no option / page / subtitle / locale / description)', () => {
+  it('should render correctly in minimal mode (no option / page / subtitle / description)', () => {
     const props = {
       type: 'any',
       expandable: true,
       expanded: true,
+      locale: 'fr',
       onExpandChange: () => { },
     }
     shallow(<ModuleTitle {...props} />, { context })

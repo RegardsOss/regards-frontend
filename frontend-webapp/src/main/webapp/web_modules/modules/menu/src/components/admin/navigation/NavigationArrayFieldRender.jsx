@@ -18,7 +18,7 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import { AccessDomain } from '@regardsoss/domain'
+import { AccessDomain, UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -103,7 +103,7 @@ class NavigationArrayFieldRender extends React.Component {
   }
 
   static propTypes = {
-    locale: PropTypes.string, // locale (for titles display)
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired, // locale (for titles display)
     dynamicModules: AccessShapes.ModuleArray,
     homeConfiguration: HomeConfigurationShape,
     navigationItems: PropTypes.arrayOf(NavigationEditionItem).isRequired,

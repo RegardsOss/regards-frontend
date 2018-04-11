@@ -22,6 +22,7 @@ import keys from 'lodash/keys'
 import { connect } from 'react-redux'
 import { addLocaleData, IntlProvider } from 'react-intl'
 import frLocaleData from 'react-intl/locale-data/fr'
+import { UIDomain } from '@regardsoss/domain'
 import I18nSelectors from '../model/I18nSelectors'
 import i18nContextType from '../contextType'
 
@@ -51,11 +52,10 @@ export class I18nProvider extends React.Component {
     messages: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)).isRequired,
     stackCallingContext: PropTypes.bool,
     // from mapStateToProps
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
   }
 
   static defaultProps = {
-    locale: 'en',
     stackCallingContext: false,
   }
 

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import { Measure } from '@regardsoss/adapters'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -30,7 +31,7 @@ class MoreNavigationButton extends React.Component {
   static propTypes = {
     displayed: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(NavigationItem),
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     buildLinkURL: PropTypes.func.isRequired,
     onResized: PropTypes.func.isRequired,
   }

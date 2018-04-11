@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { i18nSelectors } from '@regardsoss/i18n'
@@ -60,7 +61,7 @@ export class AdminContainer extends React.Component {
     // default module properties
     ...AccessShapes.runtimeConfigurationModuleFields,
     // from map state to props
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // from map dispatch to props
     fetchLayout: PropTypes.func.isRequired,
     fetchModules: PropTypes.func.isRequired,

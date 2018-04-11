@@ -36,7 +36,7 @@ export class ModuleTitle extends React.Component {
     // module type (from Module fields)
     type: PropTypes.string.isRequired,
     // current locale if any
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // desctiption (from Module fields)
     description: PropTypes.string,
     // module page (from module fields)

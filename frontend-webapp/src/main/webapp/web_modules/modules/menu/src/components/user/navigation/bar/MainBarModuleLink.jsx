@@ -30,7 +30,7 @@ import { ModuleNavigationItem } from '../../../../shapes/Navigation'
 class MainBarModuleLink extends React.Component {
   static propTypes = {
     item: ModuleNavigationItem.isRequired,
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     buildLinkURL: PropTypes.func.isRequired,
   }
 

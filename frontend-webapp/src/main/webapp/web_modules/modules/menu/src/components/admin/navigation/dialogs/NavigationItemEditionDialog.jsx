@@ -24,7 +24,7 @@ import FlatButton from 'material-ui/FlatButton'
 import MenuItem from 'material-ui/MenuItem'
 import RadioButton from 'material-ui/RadioButton'
 import { formValueSelector } from 'redux-form'
-import { AccessDomain } from '@regardsoss/domain'
+import { AccessDomain, UIDomain } from '@regardsoss/domain'
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { reduxForm, RenderTextField, RenderRadio, RenderSelectField, Field, ValidationHelpers } from '@regardsoss/form-utils'
@@ -89,7 +89,7 @@ export class NavigationItemEditionDialog extends React.Component {
   }
 
   static propTypes = {
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     onClose: PropTypes.func.isRequired,
     // provided edition data, null / undefined when not editing
     editionData: PropTypes.shape({

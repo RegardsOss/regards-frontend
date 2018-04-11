@@ -34,7 +34,7 @@ export class NavigationContainer extends React.Component {
     // module type (avoid redefining it)
     type: PropTypes.string.isRequired,
     // from mapStateToProps
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     initialLevels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired, // used only in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types

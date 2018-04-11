@@ -41,7 +41,7 @@ class MainBarDropMenuButton extends React.Component {
     // required items, list size must be greater than 0 (should be filtered otherwise)
     items: PropTypes.arrayOf(NavigationItem).isRequired,
     // current locale if any
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // link URL builder
     buildLinkURL: PropTypes.func.isRequired,
   }

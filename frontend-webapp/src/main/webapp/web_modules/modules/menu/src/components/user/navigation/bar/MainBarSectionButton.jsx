@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import { ModuleTitleText, ModuleIcon } from '@regardsoss/components'
 import { SectionNavigationItem } from '../../../../shapes/Navigation'
 import MainBarDropMenuButton from './MainBarDropMenuButton'
@@ -29,7 +30,7 @@ import defaultSectionIconURL from '../../../../img/section.svg'
 class MainBarSectionButton extends React.Component {
   static propTypes = {
     item: SectionNavigationItem.isRequired,
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     buildLinkURL: PropTypes.func.isRequired,
   }
 

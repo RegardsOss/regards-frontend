@@ -24,6 +24,7 @@ import TimeIcon from 'material-ui/svg-icons/device/access-time'
 import ActionDateRange from 'material-ui/svg-icons/action/date-range'
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
+import { UIDomain } from '@regardsoss/domain'
 
 /**
  * Overrides DatePicker from material UI to allow manual text fill and use of time picker
@@ -44,14 +45,13 @@ export default class DatePickerField extends React.Component {
     style: PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     ),
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     fullWidth: PropTypes.bool,
   }
 
   static defaultProps = {
     defaultTime: '00:00:00',
     displayTime: false,
-    locale: 'en',
     fullWidth: false,
   }
 

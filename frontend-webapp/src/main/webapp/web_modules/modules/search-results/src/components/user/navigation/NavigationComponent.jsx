@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { Breadcrumb, ModuleTitleText, ModuleIcon } from '@regardsoss/components'
 import { Tag } from '../../../models/navigation/Tag'
@@ -31,7 +32,7 @@ class NavigationComponent extends React.Component {
   static ROOT_PLACEHOLDER = {}
 
   static propTypes = {
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // module description
     description: PropTypes.string,
     // module page definition

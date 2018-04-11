@@ -41,6 +41,7 @@ describe('[Order History] Testing UserModuleContainer', () => {
     const props = {
       appName: 'x',
       project: 'y',
+      locale: 'en',
       type: 'z',
       description: 'Some module name',
     }

@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { expect } from 'chai'
 import MenuItem from 'material-ui/MenuItem'
+import { UIDomain } from '@regardsoss/domain'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import SelectLocaleComponent from '../../src/components/SelectLocaleComponent'
 import styles from '../../src/styles'
@@ -39,11 +40,10 @@ describe('[I18N] Testing i18n Select Locale components', () => {
     }
     const props = {
       setLocale: onLocaleChange,
-      currentLocale: 'ru',
-      locales: ['fr', 'en', 'ru', 'es'],
+      currentLocale: 'en',
     }
 
     const wrapper = shallow(<SelectLocaleComponent {...props} />, { context })
-    expect(wrapper.find(MenuItem)).to.have.length(4)
+    expect(wrapper.find(MenuItem)).to.have.length(UIDomain.LOCALES.length)
   })
 })

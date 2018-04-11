@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { expect } from 'chai'
-import reducer from '../../src/model/I18nReducers'
+import { assert, expect } from 'chai'
+import reducer, { parseLanguageLocaleIn } from '../../src/model/I18nReducers'
 import { SET_LOCALE } from '../../src/model/I18nActions'
 
 describe('[I18N] Testing i18n reducer', () => {
@@ -38,5 +38,18 @@ describe('[I18N] Testing i18n reducer', () => {
       locale: 'fr',
     }
     expect(reducer(initState, action)).to.eql(expectedState)
+  })
+  it('should parse correctly simple locales and restrict to REGARDS valid locales', () => {
+    assert.equal(parseLanguageLocaleIn('EN'), 'en', 'EN locale should be retrieved, case insensitive test')
+    assert.equal(parseLanguageLocaleIn('fr'), 'fr', 'fr locale should be retrieved')
+    assert.equal(parseLanguageLocaleIn('it'), 'en', 'it locale should be refused, defaulting to en')
+    assert.equal(parseLanguageLocaleIn('xxx'), 'en', 'unparsable locale should be refused, defaulting to en')
+    assert.equal(parseLanguageLocaleIn(), 'en', 'undefined locale should be refused, defaulting to en')
+  })
+  it('should parse correctly complex locales and restrict to REGARDS valid locales', () => {
+    assert.equal(parseLanguageLocaleIn('EN_US'), 'en', 'EN_US locale should be retrieved, case insensitive with "_" test ')
+    assert.equal(parseLanguageLocaleIn('fr-Fr'), 'fr', 'fr-Fr locale should be retrieved, "-" test case')
+    assert.equal(parseLanguageLocaleIn('it_IT'), 'en', 'it_IT locale should be refused, defaulting to en')
+    assert.equal(parseLanguageLocaleIn('xxx-RFRD*'), 'en', 'unparsable locale should be refused, defaulting to en')
   })
 })

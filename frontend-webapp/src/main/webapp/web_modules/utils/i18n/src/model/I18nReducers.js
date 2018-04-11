@@ -16,22 +16,42 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isUndefined from 'lodash/isUndefined'
+import root from 'window-or-global'
+import { UIDomain } from '@regardsoss/domain'
 import { SET_LOCALE } from './I18nActions'
 
-// If navigator is not defined, set the locale to english
-let navigator
-if (isUndefined(navigator)) {
-  navigator = { language: 'en' }
+
+// 1 - Attempt retrieve language from navigator
+const navigatorRef = root.navigator || {}
+const navigatorLocale = navigatorRef.language || navigatorRef.userLanguage
+
+// 2 - Parse locale when it is formed like language-country or language_country
+const localeSeparators = ['-', '_']
+/**
+ * Parses both simple ('en' / 'fr' / 'CZ') and complex ('en_US', 'fr-FR') locales into REGARDS valid language locales.
+ * Note: it is exported only for unit tests
+ * @param {*} l locale or complex locale to parse
+ * @return found locale in parameter or default REGARDS locale
+ */
+export function parseLanguageLocaleIn(l = '') {
+  let simpleLocale = l.toLowerCase() // 0 - By default considered as simple locale
+  const localeSeparator = localeSeparators.find(separator => l.includes(separator))
+  if (localeSeparator) {
+    // 1.a - This is a composed locale, split on separator and keep the language part
+    const foundParts = l.split(localeSeparator)
+    simpleLocale = foundParts[0]
+  }
+  // 2 - verify that found locale can be used in REGARDS, return default locale otherwise
+  return UIDomain.LOCALES.includes(simpleLocale) ? simpleLocale : UIDomain.LOCALES_ENUM.en
 }
 
-export default (state = {
-  locale: navigator.language,
-}, action) => {
+const DEFAULT_STATE = { locale: parseLanguageLocaleIn(navigatorLocale) }
+
+export default (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     // Running fetch plugins from server
     case SET_LOCALE:
-      return Object.assign({}, state, { locale: action.locale })
+      return { locale: action.locale }
     default:
       return state
   }
