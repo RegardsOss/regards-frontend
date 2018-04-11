@@ -109,7 +109,8 @@ describe('[Search Results] Testing DownloadEntityFileComponent', () => {
     assert.lengthOf(render.find('a'), 0, 'No link rendered')
     const downloadPlaceholder = render.find(IconButton)
     assert.lengthOf(downloadPlaceholder, 1, 'Download placeholder should be rendered')
-    assert.isTrue(downloadPlaceholder.props().disabled, 1, 'Download placeholder should be disabled')
+    assert.isTrue(downloadPlaceholder.props().disabled, 'Download placeholder should be disabled')
+    assert.equal(downloadPlaceholder.props().title, 'no.download.tooltip', 'Computed tooltip should be no file')
   })
   it('should render correctly and display download placeholder when user has not download rights', () => {
     const props = {
@@ -130,7 +131,8 @@ describe('[Search Results] Testing DownloadEntityFileComponent', () => {
     assert.lengthOf(render.find('a'), 0, 'No link rendered')
     const downloadPlaceholder = render.find(IconButton)
     assert.lengthOf(downloadPlaceholder, 1, 'Download placeholder should be rendered')
-    assert.isTrue(downloadPlaceholder.props().disabled, 1, 'Download placeholder should be disabled')
+    assert.isTrue(downloadPlaceholder.props().disabled, 'Download placeholder should be disabled')
+    assert.equal(downloadPlaceholder.props().title, 'download.unsufficient.user.rights.tooltip', 'Computed tooltip should be unsufficient rights')
   })
   it('should render one link button when there is one downloadable RAWDATA file', () => {
     const props = {
@@ -201,5 +203,36 @@ describe('[Search Results] Testing DownloadEntityFileComponent', () => {
       const linkForFileURI = linksWrappers.findWhere(n => n.props().href && n.props().href.includes(file.uri))
       assert.lengthOf(linkForFileURI, 1, `The should be the link for file URI ${file.uri}`)
     })
+  })
+  it('should render correctly and display download placeholder when all files are offline', () => {
+    const props = {
+      entity: {
+        content: {
+          ...docFile.content,
+          files: {
+            RAWDATA: [{
+              uri: 'www.another-file.com/my-file-1',
+              online: false,
+              mimeType: 'some/xml-format',
+            }, {
+              uri: 'www.another-file.com/my-file-1',
+              online: false,
+              mimeType: 'some/xml-format',
+            }],
+            DOCUMENT: [],
+          },
+          downloadable: true,
+        },
+      },
+      // Current user session info
+      accessToken: null,
+      projectName: 'project1',
+    }
+    const render = shallow(<DownloadEntityFileComponent {...props} />, { context })
+    assert.lengthOf(render.find('a'), 0, 'No link rendered')
+    const downloadPlaceholder = render.find(IconButton)
+    assert.lengthOf(downloadPlaceholder, 1, 'Download placeholder should be rendered')
+    assert.isTrue(downloadPlaceholder.props().disabled, 'Download placeholder should be disabled')
+    assert.equal(downloadPlaceholder.props().title, 'download.no.online.file.tooltip', 'Computed tooltip should be no online file')
   })
 })

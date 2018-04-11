@@ -26,7 +26,6 @@ import { AccessShapes } from '@regardsoss/shape'
 import { DropDownButton } from '@regardsoss/components'
 import { URLAuthInjector } from '@regardsoss/domain/common'
 
-
 /** Constructor wrapper to use the IconButton within a DropDownButton */
 const IconButtonConstructorWrapper = props => (
   <IconButton
@@ -79,6 +78,24 @@ class DownloadEntityFileComponent extends React.Component {
     ]
   }
 
+  /** @return {string} no download reason tooltip */
+  getNoDownloadTooltip = () => {
+    const { entity } = this.props
+    const { intl: { formatMessage } } = this.context
+    const dataFilesCount = get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}.length`, 0)
+    const documentFilesCount = get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}.length`, 0)
+    let reasonMessageId
+    if (dataFilesCount + documentFilesCount === 0) { // 1 - the is no file for that object
+      reasonMessageId = 'no.download.tooltip'
+    } else if (!entity.content.downloadable) { // 2 - user has not rights to download files
+      reasonMessageId = 'download.unsufficient.user.rights.tooltip'
+    } else { // 3 - there are files and user has rights: those files are not online
+      reasonMessageId = 'download.no.online.file.tooltip'
+    }
+
+    return formatMessage({ id: reasonMessageId })
+  }
+
   isDataset = () => {
     const { entity } = this.props
     return entity.content.entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET
@@ -108,7 +125,7 @@ class DownloadEntityFileComponent extends React.Component {
         // show disabled download button
         return (
           <IconButton
-            title={formatMessage({ id: 'download.tooltip' })}
+            title={this.getNoDownloadTooltip()}
             style={style}
             disabled
           >

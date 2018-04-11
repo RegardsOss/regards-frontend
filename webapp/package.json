@@ -39,7 +39,7 @@
     "lint": "eslint web_modules src --ext .js,.jsx",
     "lint:fix": "eslint --fix web_modules src --ext .js,.jsx"
   },
-  "author":"CNES (https://cnes.fr)",
+  "author": "CNES (https://cnes.fr)",
   "contributors": [
     "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
   ],
