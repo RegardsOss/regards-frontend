@@ -39,7 +39,7 @@ const messages = Object.assign({
   'connection.list.title': 'Connexions externes',
   'connection.list.subtitle': 'Les connexions permettent au serveur REGARDS de se connecter à la source de vos données que vous souhaitez partager',
   'connection.list.table.label': 'Nom de la connexion',
-  'connection.list.table.isActive': 'Status de la connexion',
+  'connection.list.table.isActive': 'Statut de la connexion',
   'connection.list.isActive.false': 'Désactivée',
   'connection.list.isActive.true': 'Activée',
   'connection.list.table.test': 'Tester la connexion',

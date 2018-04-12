@@ -22,7 +22,7 @@
  */
 const messages = {
   'import.file.dialog.title': 'Importer un fichier',
-  'import.file.error': 'Erreur durant l\'importattion de votre fichier',
+  'import.file.error': 'Erreur durant l\'importation de votre fichier',
   'import.file.submit.button': 'Importer',
   'import.file.cancel.button': 'Annuler',
   'import.file.dialog.open.button': 'Importer depuis un fichier',
