@@ -89,7 +89,7 @@ const messages = {
   // User display component
   'form.search.button.label': 'Rechercher',
   'form.reset.button.label': 'Réinitialiser',
-  'results.module.title': 'Resultats',
+  'results.module.title': 'Résultats',
 }
 
 export default messages
