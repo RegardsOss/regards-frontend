@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,6 +19,7 @@
 import { DataManagementShapes } from '@regardsoss/shape'
 import get from 'lodash/get'
 import Report from 'material-ui/svg-icons/content/report'
+import Info from 'material-ui/svg-icons/action/info'
 import IconButton from 'material-ui/IconButton'
 import { i18nContextType } from '@regardsoss/i18n'
 
@@ -50,17 +51,31 @@ class DatasourceStatusTableCell extends React.Component {
     const { intl: { formatMessage } } = this.context
     const { entity } = this.props
     const status = get(entity, 'content.status', null)
-    // display an icon when the status is error
-    const icon = status === 'ERROR' ? (
-      <IconButton
-        title={formatMessage({ id: 'crawler.list.show.stacktrace.tooltip' })}
-        iconStyle={DatasourceStatusTableCell.iconStyle}
-        style={DatasourceStatusTableCell.buttonStyle}
-        onClick={() => this.props.onShow(entity)}
-      >
-        <Report />
-      </IconButton>
-    ) : null
+    // display an icon if the status can contains a stacktrace
+    let icon = null
+    if (status === 'ERROR') {
+      icon = (
+        <IconButton
+          title={formatMessage({ id: 'crawler.list.show.stacktrace.tooltip' })}
+          iconStyle={DatasourceStatusTableCell.iconStyle}
+          style={DatasourceStatusTableCell.buttonStyle}
+          onClick={() => this.props.onShow(entity)}
+        >
+          <Report />
+        </IconButton>
+      )
+    } else if (status === 'STARTED') {
+      icon = (
+        <IconButton
+          title={formatMessage({ id: 'crawler.list.show.stacktrace.tooltip' })}
+          iconStyle={DatasourceStatusTableCell.iconStyle}
+          style={DatasourceStatusTableCell.buttonStyle}
+          onClick={() => this.props.onShow(entity)}
+        >
+          <Info />
+        </IconButton>
+      )
+    }
     return (
       <div style={DatasourceStatusTableCell.lineWrapper}>
         {status}

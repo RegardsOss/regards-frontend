@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -89,7 +89,7 @@ const messages = {
   // User display component
   'form.search.button.label': 'Rechercher',
   'form.reset.button.label': 'Réinitialiser',
-  'results.module.title': 'Resultats',
+  'results.module.title': 'Résultats',
 }
 
 export default messages
