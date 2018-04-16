@@ -58,7 +58,6 @@ module.exports = function (projectContextPath) {
         }],
       },
     },
-    devtool: 'cheap-module-source-map',
     plugins: [
       // Add a DLL for npm dependencies
       new webpack.DllReferencePlugin({
