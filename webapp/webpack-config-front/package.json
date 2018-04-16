@@ -4,7 +4,7 @@
   "private": true,
   "description": "",
   "main": "src/main.js",
-  "author":"CNES (https://cnes.fr)",
+  "author": "CNES (https://cnes.fr)",
   "contributors": [
     "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
   ],
@@ -22,6 +22,7 @@
     "stats-webpack-plugin": "^0.6.2",
     "style-loader": "~0.20.2",
     "thread-loader": "^1.1.5",
+    "uglifyjs-webpack-plugin": "^1.2.4",
     "url-loader": "~0.6.2",
     "webpack": "3.11.0",
     "webpack-dev-server": "~2.11.0",
