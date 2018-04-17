@@ -393,11 +393,7 @@ export class SearchResultsContainer extends React.Component {
     }
     const openSearchQuery = QueriesHelper.getOpenSearchQuery(initialSearchQuery, facettes, parameters).toQueryString()
 
-    let fullSearchQuery = QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQueryPart, quicklookQuery).toQueryString()
-    // Add threshold if request is datasets from dataobjects
-    if (searchActions === searchDatasetsFromDataObjectsActions) {
-      fullSearchQuery = `${fullSearchQuery}&threshold=${STATIC_CONF.CATALOG_SEARCH_THRESHOLD}`
-    }
+    const fullSearchQuery = QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQueryPart, quicklookQuery).toQueryString()
 
     return {
       searchActions,
