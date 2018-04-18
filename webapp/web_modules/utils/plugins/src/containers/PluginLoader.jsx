@@ -57,33 +57,44 @@ class PluginLoader extends React.Component {
   }
 
   state = {
-    registered: false,
+    pluginInitialized: false,
     loadError: false,
     errorDep: undefined,
   }
 
-  componentWillMount() {
-    if (!this.props.loadedPlugin) {
-      this.props.loadPlugin(this.props.pluginPath, this.errorCallback)
-    }
-  }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.pluginPath !== nextProps.pluginPath) {
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      loadedPlugin, pluginPath, pluginInstanceId,
+    } = newProps
+    // case 1: when loaded plugin could not be retrieved from server, start fetching it
+    if (!loadedPlugin) {
       this.setState({
         loadError: false,
         errorDep: undefined,
+        pluginInitialized: false,
       })
-      nextProps.loadPlugin(nextProps.pluginPath, this.errorCallback)
-    }
-    if (!this.state.registered && nextProps.loadedPlugin) {
-      const { loadedPlugin, pluginInstanceId } = nextProps
-      // install reducer
-      pluginReducerHelper.initializePluginReducer(loadedPlugin, pluginInstanceId)
-      // mark as ready to display (registered)
-      this.setState({
-        registered: true,
-      })
+      newProps.loadPlugin(pluginPath, this.errorCallback)
+    } else if (!this.state.pluginInitialized) {
+      // case 2: when loaded plugin but not yet initilized, perform initialization and mark it done
+      pluginReducerHelper.initializePluginReducer(loadedPlugin, pluginInstanceId) // install reducer
+      this.setState({ pluginInitialized: true }) // mark initialized
     }
   }
 
@@ -98,7 +109,7 @@ class PluginLoader extends React.Component {
   }
 
   renderPlugin() {
-    if (this.props.loadedPlugin) {
+    if (this.props.loadedPlugin && this.state.pluginInitialized) {
       let element = null
       if (this.props.displayPlugin) {
         element = React.createElement(this.props.loadedPlugin.plugin, {
