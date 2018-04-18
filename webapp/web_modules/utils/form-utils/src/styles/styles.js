@@ -49,6 +49,7 @@ export default function styles(theme) {
         height: theme.formsExtensions.dateField.height,
         display: 'flex',
         alignItems: 'center',
+        width: '100%',
       },
       datePicker: {
         margin: theme.formsExtensions.dateField.innerMargins,
