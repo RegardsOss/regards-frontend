@@ -27,6 +27,7 @@ import {
   CardActionsComponent,
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
+  HelpMessageComponent,
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -136,6 +137,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
         OptionConstructor: TableDeleteOption,
         optionProps: {
           fetchPage,
+          disableInsteadOfHide: true,
           onDelete: this.onDelete,
           queryPageSize,
           handleHateoas: true,
@@ -150,6 +152,9 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
           subtitle={formatMessage({ id: 'acquisition-chain.list.subtitle' })}
         />
         <CardText>
+          <HelpMessageComponent
+            message={formatMessage({ id: 'acquisition-chain.list.delete.conditions' })}
+          />
           <TableLayout>
             <PageableInfiniteTableContainer
               name="acquisition-chain-table"

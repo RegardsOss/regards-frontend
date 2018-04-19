@@ -25,6 +25,7 @@ const messages = Object.assign({
   'acquisition-chain.list.subtitle': 'Generation chains are used to automatically generate and add datas.',
   'acquisition-chain.list.info.message': 'You can define specific plugins to handle each generation steps.',
   'acquisition-chain.list.empty.title': 'No generation chain defined',
+  'acquisition-chain.list.delete.conditions': 'To delete a generation chain you have to desactivate it before.',
 
   // 1.2 table headers
   'acquisition-chain.list.table.label': 'Name',
