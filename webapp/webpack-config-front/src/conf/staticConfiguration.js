@@ -50,7 +50,6 @@ STATIC_CONF = {
   },
   // Default driver used to create a project connection (see module admin-database-management)
   projectConnectionDriver: 'org.postgresql.Driver',
-  CATALOG_SEARCH_THRESHOLD: 10000,
   // Intervales in ms between two polls for Waiting user
   POLLING_TIMER_WAITING_USER: 5000,
   // Intervales in ms between two polls for Notifications

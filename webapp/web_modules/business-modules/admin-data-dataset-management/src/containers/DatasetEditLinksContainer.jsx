@@ -24,7 +24,6 @@ import map from 'lodash/map'
 import find from 'lodash/find'
 import filter from 'lodash/filter'
 import startsWith from 'lodash/startsWith'
-import remove from 'lodash/remove'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasetSelectors, datasetActions } from './../clients/DatasetClient'
@@ -123,8 +122,12 @@ export class DatasetEditLinksContainer extends React.Component {
    */
   handleAdd = (tag, usingUpdate) => {
     if (usingUpdate) {
-      this.props.currentDataset.content.tags.push(tag)
-      this.props.updateDataset(this.props.currentDataset.content.id, this.props.currentDataset.content)
+      const { currentDataset: { content }, updateDataset } = this.props
+      const newDatasetContent = {
+        ...content,
+        tags: [...content.tags, tag],
+      }
+      updateDataset(content.id, newDatasetContent)
     } else {
       Promise.resolve(this.props.addTagToDataset(this.props.currentDataset.content.id, [tag]))
         .then((actionResult) => {
@@ -139,9 +142,12 @@ export class DatasetEditLinksContainer extends React.Component {
    */
   handleDelete = (tag, usingUpdate) => {
     if (usingUpdate) {
-      this.props.currentDataset.content.tags = remove(this.props.currentDataset.content.tags, existingTag =>
-        existingTag !== tag)
-      this.props.updateDataset(this.props.currentDataset.content.id, this.props.currentDataset.content)
+      const { currentDataset: { content }, updateDataset } = this.props
+      const newDocumentContent = {
+        ...content,
+        tags: content.tags.filter(existingTag => existingTag !== tag),
+      }
+      updateDataset(content.id, newDocumentContent)
     } else {
       Promise.resolve(this.props.removeTagFromDataset(this.props.currentDataset.content.id, [tag]))
         .then((actionResult) => {

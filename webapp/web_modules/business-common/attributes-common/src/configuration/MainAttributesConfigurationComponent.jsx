@@ -18,7 +18,6 @@
  **/
 import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
-import remove from 'lodash/remove'
 import values from 'lodash/values'
 import Divider from 'material-ui/Divider'
 import { AccessDomain } from '@regardsoss/domain'
@@ -146,8 +145,7 @@ class MainAttributesConfigurationComponent extends React.Component {
    * Callback called to remove an existing regroupement
    */
   onDeleteRegroupement = (regroupementConf) => {
-    const newAttributesConf = [...this.props.attributesRegroupementsConf]
-    remove(newAttributesConf, conf => conf.label === regroupementConf.label)
+    const newAttributesConf = this.props.attributesRegroupementsConf.filter(conf => conf.label !== regroupementConf.label)
     this.props.changeField(this.props.regroupementsFieldName, newAttributesConf)
   }
 
@@ -155,15 +153,9 @@ class MainAttributesConfigurationComponent extends React.Component {
    * Update given attributes configuration with avaialble attributes.
    * If configuration contains attributes that are not available, so remove theme
    */
-  removeUnavailableAttributesConfiguration(attributesConf) {
-    // Remove attribute configuration for unavailable attributes
-    const updatedAttributesConf = [...attributesConf]
-    remove(
-      updatedAttributesConf,
-      attributeConf => !AccessDomain.AttributeConfigurationController.findAttributeConf(values(this.props.selectableAttributes), attributeConf),
-    )
-    return updatedAttributesConf
-  }
+  removeUnavailableAttributesConfiguration = attributesConf =>
+    attributesConf.filter(attributeConf => // keep only attributes configuration where attribute models are found
+      AccessDomain.AttributeConfigurationController.findAttributeConf(values(this.props.selectableAttributes), attributeConf))
 
   render() {
     const {

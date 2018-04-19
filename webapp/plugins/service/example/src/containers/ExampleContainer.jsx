@@ -223,7 +223,7 @@ export class ExampleContainer extends React.Component {
       case AccessDomain.RuntimeTargetTypes.QUERY:
         {
           // query: lets fetch all pages. Note: this is a really wrong practice, as it may overflow the client browser memory
-          const total = Math.min(10000, runtimeTarget.entitiesCount)
+          const total = runtimeTarget.entitiesCount
           const pageSize = 4000
           const pageCount = Math.ceil(total / pageSize)
           const promises = []

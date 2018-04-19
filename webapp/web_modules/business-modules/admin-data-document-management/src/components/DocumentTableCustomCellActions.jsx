@@ -57,7 +57,7 @@ class DocumentTableCustomCellActions extends React.Component {
     const {
       entity, rowIndex, pageSize, onDelete,
     } = this.props
-    onDelete(entity.content.id, rowIndex, pageSize)
+    onDelete(entity, rowIndex, pageSize)
   }
 
   render() {

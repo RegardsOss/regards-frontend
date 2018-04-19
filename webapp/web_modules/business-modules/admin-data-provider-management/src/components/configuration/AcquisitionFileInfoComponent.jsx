@@ -30,9 +30,10 @@ import AcquisitionProcessingChainPluginTypes from './AcquisitionProcessingChainP
 import messages from '../../i18n'
 
 const {
-  required, validStringSize,
+  required, validStringSize, validMimeType,
 } = ValidationHelpers
 const validString255 = [validStringSize(0, 255)]
+const requiredMimeType = [required, validMimeType]
 
 /**
 * Display a form to create or edit a MetaFile entity from a dataprovider generation chain
@@ -98,7 +99,7 @@ export class AcquisitionFileInfoComponent extends React.PureComponent {
         dataSource={mimeTypes}
         dataSourceConfig={mimeTypesConfig}
         filter={AutoComplete.caseInsensitiveFilter}
-        validate={required}
+        validate={requiredMimeType}
       />,
       <Field
         key="dataType"

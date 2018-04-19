@@ -32,7 +32,7 @@ function initializePluginReducer(plugin, pluginInstanceId) {
   // install plugin instance reducer for plugin name and instance ID using exported
   // build plugin reducer on plugin name and instance ID to ensure each plugin has its own Redux store path
   // (therefore, plugins export a reducer builder function)
-  const instanceReducers = plugin.getReducer(pluginInstanceId)
+  const instanceReducers = plugin.getReducer ? plugin.getReducer(pluginInstanceId) : null
   if (!isEmpty(instanceReducers)) {
     // there are reducers for that plugin, install them if nor already done
     const loadedPluginReducer = {

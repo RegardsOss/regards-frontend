@@ -25,6 +25,7 @@ const messages = Object.assign({
   'acquisition-chain.list.subtitle': 'Les chaînes d\'acquisition de données correspondent à l\'enchaînement de traitements réalisés sur les nouvelles données détectées avant leur ajout dans le catalogue de données.',
   'acquisition-chain.list.info.message': 'Vous pouvez définir pour chaque étape de la chaîne un traitement un fonctionnement spécifique grâce aux plugins suivants.',
   'acquisition-chain.list.empty.title': 'Aucune chaîne définie',
+  'acquisition-chain.list.delete.conditions': 'Pour pouvoir supprimer une chaîne d\'acquisition vous devez la désactiver au préalable',
 
   // 1.2 table headers
   'acquisition-chain.list.table.label': 'Nom',

@@ -24,8 +24,6 @@ import { List, ListItem } from 'material-ui/List'
 import filter from 'lodash/filter'
 import map from 'lodash/map'
 import some from 'lodash/some'
-import remove from 'lodash/remove'
-import cloneDeep from 'lodash/cloneDeep'
 import Checkbox from 'material-ui/Checkbox'
 import Subheader from 'material-ui/Subheader'
 import Divider from 'material-ui/Divider'
@@ -54,7 +52,7 @@ export class DatasetEditUIServicesComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      linkUIPluginConfigurationActiveList: cloneDeep(props.linkUIPluginDataset.content.services),
+      linkUIPluginConfigurationActiveList: [...props.linkUIPluginDataset.content.services],
     }
   }
 
@@ -85,18 +83,12 @@ export class DatasetEditUIServicesComponent extends React.Component {
    */
   handleCheck = (uiPluginConfiguration) => {
     const { linkUIPluginConfigurationActiveList } = this.state
-    let updatedLinkUIPluginConfigurationActiveList = cloneDeep(linkUIPluginConfigurationActiveList)
-    if (this.isPluginConfigurationActivated(uiPluginConfiguration)) {
-      remove(updatedLinkUIPluginConfigurationActiveList, value =>
-        uiPluginConfiguration.content.id === value.id)
-    } else {
-      updatedLinkUIPluginConfigurationActiveList = [
-        ...updatedLinkUIPluginConfigurationActiveList,
-        { id: uiPluginConfiguration.content.id },
-      ]
-    }
     this.setState({
-      linkUIPluginConfigurationActiveList: updatedLinkUIPluginConfigurationActiveList,
+      linkUIPluginConfigurationActiveList: this.isPluginConfigurationActivated(uiPluginConfiguration) ?
+        // remove plugin from list
+        linkUIPluginConfigurationActiveList.filter(value => uiPluginConfiguration.content.id !== value.id) :
+        // add plugin in list
+        [...linkUIPluginConfigurationActiveList, { id: uiPluginConfiguration.content.id }],
     })
   }
 
@@ -115,8 +107,8 @@ export class DatasetEditUIServicesComponent extends React.Component {
    */
   isPluginConfigurationActivated = uiPluginConfiguration => (
     this.isPluginConfigurationActivatedForAllDataset(uiPluginConfiguration) ||
-        some(this.state.linkUIPluginConfigurationActiveList, entity =>
-          (entity.id === uiPluginConfiguration.content.id))
+    some(this.state.linkUIPluginConfigurationActiveList, entity =>
+      (entity.id === uiPluginConfiguration.content.id))
   )
 
   isPluginConfigurationActivatedForAllDataset = uiPluginConfiguration => uiPluginConfiguration.content.linkedToAllEntities
@@ -152,7 +144,7 @@ export class DatasetEditUIServicesComponent extends React.Component {
                   this.getConfigurationListItems(uiPluginDefinition)
                 }
               />
-              ))}
+            ))}
           </List>
         </CardText>
         <CardActions>

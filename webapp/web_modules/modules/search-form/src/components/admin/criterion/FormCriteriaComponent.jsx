@@ -48,6 +48,7 @@ class FormCriteriaComponent extends React.Component {
     criterionFetching: PropTypes.bool,
     // from reduxForm
     submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
     pristine: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
@@ -176,7 +177,7 @@ class FormCriteriaComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const { pristine, submitting } = this.props
+    const { pristine, submitting, invalid } = this.props
 
     const required = [ValidationHelpers.required]
 
@@ -209,7 +210,7 @@ class FormCriteriaComponent extends React.Component {
         <CardActionsComponent
           mainButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.criteria.submit.button.label' })}
           mainButtonType="submit"
-          isMainButtonDisabled={pristine || submitting || this.state.pluginLoadError}
+          isMainButtonDisabled={pristine || submitting || invalid || this.state.pluginLoadError}
           secondaryButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.criteria.cancel.button.label' })}
           secondaryButtonClick={this.onCancel}
         />

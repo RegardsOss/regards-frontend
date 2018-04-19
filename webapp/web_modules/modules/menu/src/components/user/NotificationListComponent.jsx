@@ -94,10 +94,14 @@ class NotificationListComponent extends React.Component {
     const {
       moduleTheme: { notifications: { notificationSystem: notificationSystemStyle } },
     } = this.context
-    const levels = {
-      FATAL: 'error',
-      ERROR: 'warning',
-      INFO: 'info',
+    const levels = (type) => {
+      switch (type) {
+        case 'FATAL': return 'error'
+        case 'ERROR': return 'warning'
+        case 'INFO': return 'info'
+        case 'WARNING': return 'warning'
+        default: return 'info'
+      }
     }
     this.notificationSystem.addNotification({
       message: (
@@ -118,7 +122,7 @@ class NotificationListComponent extends React.Component {
           </div>
         </div>
       ),
-      level: levels[notif.type],
+      level: levels(notif.type),
       position: 'br',
       dismissible: false,
       autoDismiss: 7,

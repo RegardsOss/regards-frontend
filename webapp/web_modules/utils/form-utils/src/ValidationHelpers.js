@@ -128,6 +128,12 @@ export const validAlphaNumericUnderscore = value => isValidAlphaNumericUnderscor
 export const validStringSize = (minSize, maxSize) => value => !value || (isString(value) && value.length <= maxSize && value.length >= minSize) ? undefined : ErrorTypes.invalidStringSize(minSize || '0', maxSize)
 
 /**
+ * Checks that the given value is a valid mimeType.
+ * @param value
+ */
+export const validMimeType = value => !isNil(value) && (matchRegex(/[^/ ]*\/[^/ ]/)(value) === undefined) ? undefined : ErrorTypes.INVALID_MIME_TYPE
+
+/**
  * Redux-Form-style validator for Fields which content must be an email.
  *
  * @param {String} value
@@ -268,6 +274,7 @@ module.exports = {
   validStringSize,
   validRequiredNumber,
   validAlphaNumericUnderscore,
+  validMimeType,
   matchRegex,
   isInNumericRange,
   email,

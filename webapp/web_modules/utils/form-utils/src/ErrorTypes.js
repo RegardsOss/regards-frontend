@@ -38,6 +38,7 @@ module.exports = {
   INVALID_POSITIVE_INTEGER_NUMBER: 'invalid.positive.integer.number',
   INVALID_FLOATING_NUMBER: 'invalid.floating.number',
   INVALID_CHARACTER: 'invalid.character',
+  INVALID_MIME_TYPE: 'invalid.mime_type',
   invalidRegex: regexp => ({
     key: 'invalid.regex.pattern',
     props: { regexp },
