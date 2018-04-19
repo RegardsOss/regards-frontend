@@ -35,6 +35,7 @@ class SIPSubmissionNotReadyComponent extends React.Component {
     onBack: PropTypes.func.isRequired,
     onConfigureAllocationStrategies: PropTypes.func.isRequired,
     onConfigureDataStorages: PropTypes.func.isRequired,
+    onConfigureCatalogSecurity: PropTypes.func.isRequired,
     serverMessage: PropTypes.string,
   }
 
@@ -97,6 +98,12 @@ class SIPSubmissionNotReadyComponent extends React.Component {
                 primary
                 icon={<Archive />}
                 onClick={this.props.onConfigureDataStorages}
+              />
+              <RaisedButton
+                label={intl.formatMessage({ id: 'sips.submission.not.ready.config.catalog.security.link.button' })}
+                primary
+                icon={<Archive />}
+                onClick={this.props.onConfigureCatalogSecurity}
               />
             </div>
           </div>
