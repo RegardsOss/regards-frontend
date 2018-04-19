@@ -34,6 +34,7 @@ const messages = {
   'invalid.positive.integer.number': 'La valeur doit être un nombre entier supérieur ou égal à 0',
   'invalid.floating.number': 'La valeur doit être un nombre flottant',
   'invalid.character': 'La valeur doit être un unique caractère',
+  'invalid.mime_type': 'MimeType invalide (un mimeType valide est composé de deux mots clefs espacés par le caractère / : application/xml).',
   'different.password': 'Les mots de passe doivent être identiques',
   'type.string': 'Le type devrait être String',
   'invalid.length.less.than': 'Utilisez {number} caractères ou moins',

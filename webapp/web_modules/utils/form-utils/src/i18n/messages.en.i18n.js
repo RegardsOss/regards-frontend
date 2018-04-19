@@ -34,6 +34,7 @@ const messages = {
   'invalid.positive.integer.number': 'The value must be an integer greater than or equal to 0',
   'invalid.floating.number': 'The value must be a float number',
   'invalid.character': 'The value must be a single character',
+  'invalid.mime_type': 'MimeType invalid (mimeType should be composed with two keywords spaced with  / catacter like application/xml).',
   'different.password': 'Entered passwords must match',
   'type.string': 'Type should be String',
   'invalid.length.less.than': 'Use {number} characters or fewer',
