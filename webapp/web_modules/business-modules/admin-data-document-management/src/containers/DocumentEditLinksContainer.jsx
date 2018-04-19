@@ -21,7 +21,6 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import partition from 'lodash/partition'
 import map from 'lodash/map'
-import remove from 'lodash/remove'
 import some from 'lodash/some'
 import find from 'lodash/find'
 import filter from 'lodash/filter'
@@ -137,8 +136,12 @@ export class DocumentEditLinksContainer extends React.Component {
    */
   handleAdd = (tag, usingUpdate) => {
     if (usingUpdate) {
-      this.props.currentDocument.content.tags.push(tag)
-      this.props.updateDocument(this.props.currentDocument.content.id, this.props.currentDocument.content)
+      const { currentDocument: { content }, updateDocument } = this.props
+      const newDocumentContent = {
+        ...content,
+        tags: [...content.tags, tag],
+      }
+      updateDocument(content.id, newDocumentContent)
     } else {
       Promise.resolve(this.props.addTagToDocument(this.props.currentDocument.content.id, [tag]))
         .then((actionResult) => {
@@ -153,9 +156,12 @@ export class DocumentEditLinksContainer extends React.Component {
    */
   handleDelete = (tag, usingUpdate) => {
     if (usingUpdate) {
-      this.props.currentDocument.content.tags = remove(this.props.currentDocument.content.tags, existingTag =>
-        existingTag !== tag)
-      this.props.updateDocument(this.props.currentDocument.content.id, this.props.currentDocument.content)
+      const { currentDocument: { content }, updateDocument } = this.props
+      const newDocumentContent = {
+        ...content,
+        tags: content.tags.filter(existingTag => existingTag !== tag),
+      }
+      updateDocument(content.id, newDocumentContent)
     } else {
       Promise.resolve(this.props.removeTagFromDocument(this.props.currentDocument.content.id, [tag]))
         .then((actionResult) => {

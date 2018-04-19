@@ -19,7 +19,6 @@
 import map from 'lodash/map'
 import filter from 'lodash/filter'
 import cloneDeep from 'lodash/cloneDeep'
-import remove from 'lodash/remove'
 import some from 'lodash/some'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
@@ -59,20 +58,35 @@ export class DatasetEditPluginComponent extends React.Component {
     }
   }
 
+  /**
+   * On user checked service box callback
+   */
   onCheck = (pluginConfiguration, isInputChecked) => {
-    const { currentLinkPluginDataset } = this.state
-    if (isInputChecked) {
-      currentLinkPluginDataset.content.services.push(pluginConfiguration.content)
-    } else {
-      currentLinkPluginDataset.content.services = remove(currentLinkPluginDataset.content.services, service =>
-        service.id !== pluginConfiguration.content.id)
+    const { currentLinkPluginDataset: { content: previousContent } } = this.state
+    const currentLinkPluginDataset = {
+      content: {
+        ...previousContent,
+        services: isInputChecked ?
+          // add service
+          [...previousContent.services, pluginConfiguration.content] :
+          // remove service
+          previousContent.services.filter(service => service.id !== pluginConfiguration.content.id),
+      },
     }
-    this.setState({
-      currentLinkPluginDataset,
-    })
+    this.setState({ currentLinkPluginDataset })
   }
 
-  getItemMetaData = (pluginMetaData, pluginConfigurationList) => {
+  /**
+   * User submit callback
+   */
+  onSubmit = () => { this.props.onSubmit(this.state.currentLinkPluginDataset) }
+
+  isCheckboxChecked = (pluginConfiguration) => {
+    const { currentLinkPluginDataset } = this.state
+    return some(currentLinkPluginDataset.content.services, service => service.id === pluginConfiguration.content.id)
+  }
+
+  renderItemMetaData = (pluginMetaData, pluginConfigurationList) => {
     const pluginConfigurationAssociated = filter(pluginConfigurationList, pluginConfiguration =>
       pluginConfiguration.content.pluginClassName === pluginMetaData.content.pluginClassName)
     return (
@@ -110,11 +124,6 @@ export class DatasetEditPluginComponent extends React.Component {
       </ShowableAtRender>)
   }
 
-  isCheckboxChecked = (pluginConfiguration) => {
-    const { currentLinkPluginDataset } = this.state
-    return some(currentLinkPluginDataset.content.services, service => service.id === pluginConfiguration.content.id)
-  }
-
   render() {
     const {
       pluginConfigurationList,
@@ -138,7 +147,7 @@ export class DatasetEditPluginComponent extends React.Component {
             <Subheader><FormattedMessage id="dataset.form.plugin.services" /></Subheader>
             <Divider />
             {map(pluginMetaDataList, (pluginMetaData, id) => (
-              this.getItemMetaData(pluginMetaData, pluginConfigurationList)
+              this.renderItemMetaData(pluginMetaData, pluginConfigurationList)
             ))}
           </List>
         </CardText>
@@ -149,7 +158,7 @@ export class DatasetEditPluginComponent extends React.Component {
                 id="dataset.form.plugin.action.next"
               />
             }
-            mainButtonClick={() => { this.props.onSubmit(this.state.currentLinkPluginDataset) }}
+            mainButtonClick={this.onSubmit}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.plugin.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
