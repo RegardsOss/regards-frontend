@@ -43,6 +43,7 @@ class PluginLoader extends React.Component {
    */
   static propTypes = {
     pluginInstanceId: PropTypes.oneOfType([PropTypes.number.isRequired, PropTypes.string.isRequired]),
+    // eslint-disable-next-line react/no-unused-prop-types
     pluginPath: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     pluginConf: PropTypes.object,
@@ -53,6 +54,7 @@ class PluginLoader extends React.Component {
     onErrorCallback: PropTypes.func,
     // Set by mapstatetoprops
     loadedPlugin: AccessShapes.UIPluginInstanceContent,
+    // eslint-disable-next-line react/no-unused-prop-types
     loadPlugin: PropTypes.func,
   }
 
@@ -92,7 +94,7 @@ class PluginLoader extends React.Component {
       })
       newProps.loadPlugin(pluginPath, this.errorCallback)
     } else if (!this.state.pluginInitialized) {
-      // case 2: when loaded plugin but not yet initilized, perform initialization and mark it done
+      // case 2: when plugin is loadeded but not yet initilized, perform initialization and mark it done
       pluginReducerHelper.initializePluginReducer(loadedPlugin, pluginInstanceId) // install reducer
       this.setState({ pluginInitialized: true }) // mark initialized
     }

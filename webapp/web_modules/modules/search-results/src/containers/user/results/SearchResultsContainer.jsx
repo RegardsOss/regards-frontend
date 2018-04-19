@@ -207,11 +207,16 @@ export class SearchResultsContainer extends React.Component {
       }, []).sort((facet1, facet2) => StringComparison.compare(facet1.label, facet2.label))
     }
 
-    // prepare columns models for search results component, according with configuration, models and view object type
-    if (!isEqual(oldProps.attributeModels, newProps.attributeModels) || oldProps.viewObjectType !== newProps.viewObjectType ||
-      oldProps.tableDisplayMode !== newProps.tableDisplayMode) {
-      // re initialize selected facets and hidden columns keys
+    const modelsChanged = !isEqual(oldProps.attributeModels, newProps.attributeModels)
+    const viewObjectChanged = oldProps.viewObjectType !== newProps.viewObjectType
+    const tableModeChanged = oldProps.tableDisplayMode !== newProps.tableDisplayMode
+    // re initialize selected facets when not changing only the table type (facets are available no matter the view)
+    if (modelsChanged || viewObjectChanged) {
       newState.filters = SearchResultsContainer.DEFAULT_STATE.filters
+    }
+    // prepare columns models for search results component, according with configuration, models and view object type
+    if (modelsChanged || viewObjectChanged || tableModeChanged) {
+      // re initialize hidden columns keys
       newState.hiddenColumnKeys = SearchResultsContainer.DEFAULT_STATE.hiddenColumnKeys
 
       // build column models that will hold both attribute and dialogs models (sort, visible....)
