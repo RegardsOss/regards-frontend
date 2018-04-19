@@ -14,7 +14,8 @@ const styles = {
     right: {
         // display: 'flex',
         height: '90vh',
-        width: 'inherit'
+        width: 'inherit',
+        overflow: 'auto',
     },
     left: {
         width: 500,
