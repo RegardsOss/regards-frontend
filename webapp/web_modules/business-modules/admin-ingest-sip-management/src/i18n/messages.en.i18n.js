@@ -102,6 +102,7 @@ const messages = Object.assign({
   'sips.submission.not.ready.server.message': 'The storage service unavaibility response message is : ',
   'sips.submission.not.ready.config.allocations.link.button': 'Configure allocation strategies',
   'sips.submission.not.ready.config.storages.link.button': 'Configure storage locations',
+  'sips.submission.not.ready.config.catalog.security.link.button': 'Configure data access security',
   'sips.submission.not.ready.back.button': 'Back',
 
   CREATED: 'CREATED',

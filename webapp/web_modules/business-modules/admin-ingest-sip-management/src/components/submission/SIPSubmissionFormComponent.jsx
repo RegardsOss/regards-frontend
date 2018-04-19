@@ -90,7 +90,7 @@ export class SIPSubmissionFormComponent extends React.Component {
 }
 
 const connectedReduxForm = reduxForm({
-  form: 'suip-submit-form',
+  form: 'sip-submit-form',
 })(SIPSubmissionFormComponent)
 
 export default connectedReduxForm

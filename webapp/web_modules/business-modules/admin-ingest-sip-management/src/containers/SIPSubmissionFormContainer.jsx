@@ -122,6 +122,12 @@ export class SIPSubmissionFormContainer extends React.Component {
     browserHistory.push(url)
   }
 
+  onConfigureCatalogSecurity = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/storage/security`
+    browserHistory.push(url)
+  }
+
   onSubmit = (values) => {
     this.setState({
       isLoading: true,
@@ -160,6 +166,7 @@ export class SIPSubmissionFormContainer extends React.Component {
         serverMessage={this.state.serverMessage}
         onConfigureDataStorages={this.onConfigureDataStorages}
         onConfigureAllocationStrategies={this.onConfigureAllocationStrategies}
+        onConfigureCatalogSecurity={this.onConfigureCatalogSecurity}
         onBack={this.onBack}
       />
     )
