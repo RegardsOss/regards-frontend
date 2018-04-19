@@ -267,7 +267,7 @@ class ModuleContainer extends React.Component {
     this.clearFunctions.forEach(func => func())
     browserHistory.push({ pathname: browserHistory.getCurrentLocation().pathname })
     this.setState({
-      searchQuery: '',
+      searchQuery: this.getInitialQuery(),
     })
     this.criterionValues = {}
   }
@@ -346,10 +346,6 @@ class ModuleContainer extends React.Component {
   }
 
   renderForm() {
-    // If a search query is set, hide form component
-    /* if (this.state.searchQuery && this.state.searchQuery !== this.getInitialQuery()) {
-      return null
-    } */
     if (this.props.moduleConf.layout) {
       const pluginsProps = {
         onChange: this.onCriteriaChange,
@@ -381,6 +377,7 @@ class ModuleContainer extends React.Component {
       project,
       appName, moduleConf: { datasets, preview, searchResult },
     } = this.props
+
     if (preview) {
       // no render when in form preview or when user has not yet clicked search
       return null
