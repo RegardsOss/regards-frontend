@@ -102,6 +102,7 @@ const messages = Object.assign({
   'sips.submission.not.ready.server.message': 'Le service de stockage indique : ',
   'sips.submission.not.ready.config.allocations.link.button': 'Configurer la répartion',
   'sips.submission.not.ready.config.storages.link.button': 'Configurer les espaces de stockage',
+  'sips.submission.not.ready.config.catalog.security.link.button': 'Sécuriser l\'accès aux données',
   'sips.submission.not.ready.back.button': 'Retour',
 
   CREATED: 'CREATED',

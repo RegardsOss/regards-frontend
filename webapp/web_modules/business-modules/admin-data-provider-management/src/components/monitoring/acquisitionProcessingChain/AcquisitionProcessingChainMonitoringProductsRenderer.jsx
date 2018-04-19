@@ -61,7 +61,7 @@ class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Compone
 
   goToErrorProductList = () => {
     const { project, entity: { content: { chain: { id } } } } = this.props
-    const url = `/admin/${project}/data/acquisition/dataprovider/monitoring/chains/${id}/products?state=ERROR`
+    const url = `/admin/${project}/data/acquisition/dataprovider/monitoring/chains/${id}/products?sipState=GENERATION_ERROR,SUBMISSION_ERROR`
     browserHistory.push(url)
   }
 

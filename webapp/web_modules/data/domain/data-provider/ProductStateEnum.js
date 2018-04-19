@@ -26,7 +26,6 @@ const ProductStateEnum = {
   ACQUIRING: 'ACQUIRING',
   COMPLETED: 'COMPLETED',
   FINISHED: 'FINISHED',
-  ERROR: 'ERROR',
 }
 
 module.exports = {

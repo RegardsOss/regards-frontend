@@ -57,16 +57,16 @@ class ProductListFiltersComponent extends React.Component {
   componentWillMount() {
     const { initialFilters } = this.props
     if (initialFilters) {
-      let filters = {}
-      if (initialFilters.state) {
-        filters = {
-          ...initialFilters,
-          state: initialFilters.state.includes(',') ? initialFilters.state.split(',') : [initialFilters.state],
-        }
-      } else {
-        filters = {
-          ...initialFilters,
-        }
+      const initalStateFilters = initialFilters.state && initialFilters.state.includes(',') ? initialFilters.state.split(',') : [initialFilters.state]
+      const initalSipStateFilters = initialFilters.sipState && initialFilters.sipState.includes(',') ? initialFilters.sipState.split(',') : [initialFilters.sipState]
+      const filters = {
+        ...initialFilters,
+      }
+      if (initialFilters.state && initalStateFilters.length > 0) {
+        filters.state = initalStateFilters
+      }
+      if (initialFilters.sipState && initalSipStateFilters.length > 0) {
+        filters.sipState = initalSipStateFilters
       }
       this.setState({
         filters,
@@ -91,12 +91,12 @@ class ProductListFiltersComponent extends React.Component {
     }
   }
 
-  changeSIPStateFilter = (event, key, newValue) => {
-    if (newValue !== null) {
+  changeSIPStateFilter = (event, key, newValues) => {
+    if (newValues !== null && newValues.length > 0) {
       this.setState({
         filters: {
           ...this.state.filters,
-          sipState: newValue,
+          sipState: newValues,
         },
       })
     }
@@ -222,6 +222,7 @@ class ProductListFiltersComponent extends React.Component {
   renderFilters() {
     const { intl, intl: { formatMessage }, moduleTheme: { monitoring: { filters } } } = this.context
     const stateValues = get(this.state, 'filters.state', [])
+    const sipStateValues = get(this.state, 'filters.sipState', [])
     return (
       <TableHeaderLine key="filters">
         <TableHeaderOptionsArea reducible alignLeft>
@@ -263,6 +264,7 @@ class ProductListFiltersComponent extends React.Component {
           </TableHeaderOptionGroup>
           <TableHeaderOptionGroup>
             <SelectField
+              multiple
               style={filters.fieldStyle}
               hintText={formatMessage({
                 id: 'acquisition.product.list.filters.sipState',
@@ -273,6 +275,8 @@ class ProductListFiltersComponent extends React.Component {
               {map(DataProviderDomain.ProductSIPStateEnumValues, sipState =>
                 (<MenuItem
                   value={sipState}
+                  insetChildren
+                  checked={sipStateValues && sipStateValues.includes(sipState)}
                   primaryText={formatMessage({
                     id: `acquisition.product.list.filters.sipState.${sipState}`,
                   })}
