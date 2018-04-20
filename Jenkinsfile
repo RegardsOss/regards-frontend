@@ -40,11 +40,6 @@ pipeline {
                     -v ${WORKSPACE}/webapp:/app_to_build \
                     rs_node ./install.sh'
             }
-            post {
-                always {
-                    sh 'docker run --rm -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh $(id -u) $(id -g)'
-                }
-            }
         }
         stage('Build') {
             steps {
@@ -104,13 +99,11 @@ pipeline {
                     }
                 )
             }
-            post {
-                always {
-                    sh 'docker run --rm -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh $(id -u) $(id -g)'
-                }
-            }
         }
         stage('Deploy Docker image') {
+	    when {
+                expression { BRANCH_NAME ==~ /(master|develop.*|release.*)/ }
+            }
             steps {
                 // Copy the bundle inside the folder where apache container will be bundled
                 sh 'cp -R ./webapp/dist/prod jenkins/nginx/dist'
@@ -120,9 +113,7 @@ pipeline {
         }
         stage('Deploy Maven artifact') {
             when {
-                anyOf {
-                    branch 'master'; branch 'develop'
-                }
+		expression { BRANCH_NAME ==~ /(master|develop.*|release.*)/ }
             }
             steps {
                 parallel(
@@ -143,21 +134,16 @@ pipeline {
                     //    sh 'rm -rf webapp/.sonar || true'
                     //},
                     maven: {
-                        sh 'docker run --rm -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh $(id -u) $(id -g)'
-                        sh 'sleep 10'
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/frontend-boot:/app_to_build \
-                            -v ${WORKSPACE}/webapp/dist/prod:/app_to_build/webapp/dist/prod \
-                            -v /opt/maven-multibranch-repository:/localRepository \
+                            -v ${WORKSPACE}/webapp/dist/prod:/webapp/dist/prod \
+                            -v /DATA/maven-multibranch-repository:/localRepository \
+                            -v /usr/bin/docker:/bin/docker \
+                            -v /var/run/docker.sock:/var/run/docker.sock \
                             -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins -e MODE=Deploy \
                             172.26.46.158/rs-maven'
                     }
                 )
-            }
-            post {
-                always {
-                    sh 'docker run --rm -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh $(id -u) $(id -g)'
-                }
             }
         }
     }
