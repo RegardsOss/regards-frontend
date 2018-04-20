@@ -101,6 +101,9 @@ pipeline {
             }
         }
         stage('Deploy Docker image') {
+	    when {
+                expression { BRANCH_NAME ==~ /(master|develop.*|release.*)/ }
+            }
             steps {
                 // Copy the bundle inside the folder where apache container will be bundled
                 sh 'cp -R ./webapp/dist/prod jenkins/nginx/dist'
@@ -110,9 +113,7 @@ pipeline {
         }
         stage('Deploy Maven artifact') {
             when {
-                anyOf {
-                    branch 'master'; branch 'develop'
-                }
+		expression { BRANCH_NAME ==~ /(master|develop.*|release.*)/ }
             }
             steps {
                 parallel(
