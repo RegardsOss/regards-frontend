@@ -76,6 +76,28 @@ const styles = theme => ({
       padding: 0,
     },
   },
+  browserChecker: {
+    contentStyle: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'stretch',
+      padding: `0 ${theme.spacing.desktopGutter}px 12px ${theme.spacing.desktopGutter}px`,
+    },
+    messageStyle: {
+      flexGrow: 1,
+      paddingBottom: theme.spacing.desktopGutter,
+    },
+    actionsStyle: {
+      flexGrow: 0,
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    },
+    checkboxStyle: {
+      maxWidth: '60%',
+    },
+  },
 })
 
 export default styles

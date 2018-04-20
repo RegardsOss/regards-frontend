@@ -23,6 +23,7 @@ import { AuthenticationParametersActions, AuthenticationParametersSelectors } fr
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { ApplicationLayout } from '@regardsoss/layout'
 import { ThemeProvider } from '@regardsoss/theme'
+import { BrowserCheckerDialog } from '@regardsoss/components'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
 import ModulesSelector from '../model/modules/ModulesSelector'
@@ -87,13 +88,18 @@ export class PortalApp extends React.Component {
 
     return (
       <ThemeProvider>
-        <ApplicationLayout
-          appName="portal"
-          layout={this.props.layout.content.layout}
-          modules={values(this.props.modules)}
-          project={project}
-          style={styles}
-        />
+        <div>
+          {/* Check browser version and warn user */}
+          <BrowserCheckerDialog browserRequirements={STATIC_CONF.BROWSER_REQUIREMENTS} />
+          {/* Render main tree */}
+          <ApplicationLayout
+            appName="portal"
+            layout={this.props.layout.content.layout}
+            modules={values(this.props.modules)}
+            project={project}
+            style={styles}
+          />
+        </div>
       </ThemeProvider>
     )
   }

@@ -55,5 +55,12 @@ STATIC_CONF = {
       MODEL_NAME_FILTERS: [/GRAPH_*/],
     },
   },
+  // required browsers and versions
+  BROWSER_REQUIREMENTS: {
+    chrome: '64.0',
+    firefox: '58.0',
+    ios: '11.3',
+    safari: '11.1',
+    edge: '16.0',
+  },
 }
-

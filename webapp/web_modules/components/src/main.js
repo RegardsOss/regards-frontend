@@ -51,6 +51,7 @@ import IFrameURLContentDisplayer from './content/IFrameURLContentDisplayer'
 import MarkdownFileContentDisplayer from './content/MarkdownFileContentDisplayer'
 import NoContentComponent from './content/NoContentComponent'
 
+import BrowserCheckerDialog from './dialogs/BrowserCheckerDialog'
 import ConfirmDialogComponent, { ConfirmDialogComponentTypes } from './dialogs/ConfirmDialogComponent'
 import PositionedDialog from './dialogs/PositionedDialog'
 import FitContentDialog from './dialogs/FitContentDialog'
@@ -149,6 +150,7 @@ export {
   BaseBoardItemComponent,
   BoardComponent,
   BoardItemComponent,
+  BrowserCheckerDialog,
   CardActionsComponent,
   CardActionsView,
   CenteredDiv,

@@ -39,7 +39,7 @@ export default class PluginServiceActions extends BasicSignalActions {
   /**
    * Fetches common plugin services for current results context
    * @param {[string]} datasetIpIds dataset IP IDs array (optional)
-   * @param {[string]} applicationModes
+   * @param {[string]} applicationModes plugin service application modes
    */
   fetchPluginServices(datasetIpIds, applicationModes = ['MANY']) {
     return this.sendSignal('GET', null, null, {

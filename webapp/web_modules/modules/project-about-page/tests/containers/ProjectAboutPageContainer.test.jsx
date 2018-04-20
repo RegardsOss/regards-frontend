@@ -18,7 +18,6 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import root from 'window-or-global'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { SingleContentURLDialogContainer } from '@regardsoss/components'
 import ProjectAboutPageContainer from '../../src/containers/ProjectAboutPageContainer'
@@ -30,16 +29,8 @@ const options = {
 
 // Test a component rendering
 describe('[PROJECT ABOUT PAGE MODULE] Testing ProjectAboutPageContainer', () => {
-  before(() => {
-    root.localStorage = {
-      getItem: () => null,
-    }
-    testSuiteHelpers.before()
-  })
-  after(() => {
-    delete root.localStorage
-    testSuiteHelpers.after()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(ProjectAboutPageContainer)
   })

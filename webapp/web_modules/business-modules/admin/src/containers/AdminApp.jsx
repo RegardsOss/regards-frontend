@@ -24,6 +24,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
 import { ThemeProvider } from '@regardsoss/theme'
 import { UIDomain } from '@regardsoss/domain'
+import { BrowserCheckerDialog } from '@regardsoss/components'
 import AdminLayout from './AdminLayout'
 import AuthenticationContainer from './AuthenticationContainer'
 import messages from '../i18n'
@@ -119,10 +120,16 @@ class AdminApp extends React.Component {
 
     return (
       <div>
-        {projectHandlerComp}
+        { /** Project handler */
+          projectHandlerComp
+        }
         <ThemeProvider>
           <I18nProvider messages={messages}>
+            {/* Force authentication */}
             <AuthenticationContainer scope={scope} isAuthenticated={isAuthenticated}>
+              {/* Check browser version and warn user */}
+              <BrowserCheckerDialog browserRequirements={STATIC_CONF.BROWSER_REQUIREMENTS} />
+              {/* Main render tree */}
               <LoadableContentDisplayDecorator isLoading={isLoadingEndpoints}>
                 {this.renderLayout}
               </LoadableContentDisplayDecorator>

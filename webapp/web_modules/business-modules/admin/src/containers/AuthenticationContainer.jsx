@@ -28,7 +28,10 @@ class AuthenticationContainer extends React.Component {
   static propTypes = {
     scope: PropTypes.string,
     isAuthenticated: PropTypes.bool.isRequired,
-    children: PropTypes.any, // eslint-disable-line
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
   }
 
   static contextTypes = {
