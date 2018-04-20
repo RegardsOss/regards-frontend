@@ -133,11 +133,12 @@ pipeline {
                     //    sh 'rm -rf webapp/.sonar || true'
                     //},
                     maven: {
-                        sh 'sleep 10'
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/frontend-boot:/app_to_build \
-                            -v ${WORKSPACE}/webapp/dist/prod:/app_to_build/webapp/dist/prod \
-                            -v /opt/maven-multibranch-repository:/localRepository \
+                            -v ${WORKSPACE}/webapp/dist/prod:/webapp/dist/prod \
+                            -v /DATA/maven-multibranch-repository:/localRepository \
+                            -v /usr/bin/docker:/bin/docker \
+                            -v /var/run/docker.sock:/var/run/docker.sock \
                             -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins -e MODE=Deploy \
                             172.26.46.158/rs-maven'
                     }
