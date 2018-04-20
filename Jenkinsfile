@@ -40,11 +40,6 @@ pipeline {
                     -v ${WORKSPACE}/webapp:/app_to_build \
                     rs_node ./install.sh'
             }
-            post {
-                always {
-                    sh 'docker run --rm -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh $(id -u) $(id -g)'
-                }
-            }
         }
         stage('Build') {
             steps {
@@ -104,11 +99,6 @@ pipeline {
                     }
                 )
             }
-            post {
-                always {
-                    sh 'docker run --rm -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh $(id -u) $(id -g)'
-                }
-            }
         }
         stage('Deploy Docker image') {
             steps {
@@ -143,7 +133,6 @@ pipeline {
                     //    sh 'rm -rf webapp/.sonar || true'
                     //},
                     maven: {
-                        sh 'docker run --rm -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh $(id -u) $(id -g)'
                         sh 'sleep 10'
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/frontend-boot:/app_to_build \
@@ -153,11 +142,6 @@ pipeline {
                             172.26.46.158/rs-maven'
                     }
                 )
-            }
-            post {
-                always {
-                    sh 'docker run --rm -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh $(id -u) $(id -g)'
-                }
             }
         }
     }
