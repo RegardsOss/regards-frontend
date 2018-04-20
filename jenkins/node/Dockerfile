@@ -15,7 +15,7 @@ COPY install.sh build_webapp.sh build_plugin.sh run_coverage.sh /
 RUN chmod +x /install.sh \
 			/build_webapp.sh \
 			/run_coverage.sh \
-			/build_plugin.sh \
+			/build_plugin.sh
 
 USER tux
 	# Use our own registry
