@@ -84,7 +84,7 @@ export class UserApp extends React.Component {
 
     this.props.fetchLayout()
     this.props.fetchModules()
-    this.props.fetchEndpoints()
+    this.fetchEndpoints()
   }
 
   /**
@@ -121,8 +121,21 @@ export class UserApp extends React.Component {
 
     // authentication state changes or user role changes, refresh endpoints
     if (this.props.isAuthenticated !== nextProps.isAuthenticated || this.props.currentRole !== nextProps.currentRole) {
-      this.props.fetchEndpoints()
+      this.fetchEndpoints()
     }
+  }
+
+  /**
+   * Handle fetch of available backend endpoints for current logged user.
+   */
+  fetchEndpoints() {
+    Promise.resolve(this.props.fetchEndpoints()).then((actionResult) => {
+      if (actionResult.error && UIDomain.LocalStorageUser.retrieve(this.props.params.project, 'user')) {
+        // If unrecoverable error is thrown, then clear localStorage to avoid deadlock on IHM access
+        UIDomain.LocalStorageUser.delete(this.props.params.project, 'user')
+        throw new Error('Failed to retrieve endpoint list, which is required on the user dashboard')
+      }
+    })
   }
 
   renderLayout(modulesList) {

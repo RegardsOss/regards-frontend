@@ -23,6 +23,7 @@ import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { I18nProvider } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
 import { ThemeProvider } from '@regardsoss/theme'
+import { UIDomain } from '@regardsoss/domain'
 import AdminLayout from './AdminLayout'
 import AuthenticationContainer from './AuthenticationContainer'
 import messages from '../i18n'
@@ -88,9 +89,11 @@ class AdminApp extends React.Component {
               this.setState({
                 isLoadingEndpoints: false,
               })
-            } else {
-              throw new Error('Failed to retrieve endpoint list, which is required on the admin dashboard')
+            } else if (UIDomain.LocalStorageUser.retrieve(this.props.params.project, 'admin')) {
+              // If unrecoverable error is thrown, then clear localStorage to avoid deadlock on IHM access
+              UIDomain.LocalStorageUser.delete(this.props.params.project, 'admin')
             }
+            throw new Error('Failed to retrieve endpoint list, which is required on the admin dashboard')
           })
       }
     }
