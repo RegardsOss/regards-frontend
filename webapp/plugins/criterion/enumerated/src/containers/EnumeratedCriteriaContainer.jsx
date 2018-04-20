@@ -74,7 +74,7 @@ export class EnumeratedCriteriaContainer extends PluginCriterionContainer {
       dispatchGetPropertyValues:
         // Note: we throttle here the emitted network requests to avoid dispatching for each key entered
         throttle(
-          (name, filterText = '', q = '') => dispatch(enumeratedValuesActions.fetchValues(name, filterText, MAX_VALUES_COUNT)),
+          (name, filterText = '', q = '') => dispatch(enumeratedValuesActions.fetchValues(name, filterText, MAX_VALUES_COUNT, q)),
           THROTTLE_DELAY_MS, { leading: true }),
       // make sure not add q parameter when empty / null
     }

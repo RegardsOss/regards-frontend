@@ -24,6 +24,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
  * @author Raphaël Mechali
  */
 export default class PluginServiceActions extends BasicSignalActions {
+  static PARAMETER_VALUES_SEPARATOR = ','
   /**
    * Construtor
    * @param namespace -
@@ -37,16 +38,13 @@ export default class PluginServiceActions extends BasicSignalActions {
 
   /**
    * Fetches common plugin services for current results context
-   * @param {*} datasetIpIds dataset IP ID (optional)
+   * @param {[string]} datasetIpIds dataset IP IDs array (optional)
+   * @param {[string]} applicationModes
    */
-  fetchPluginServices(datasetIpIds = null) {
-    const queryParams = {
-      // when fetching for catalog context, we ignore the ONE services, that are provided on entities
-      'applicationModes[]': 'MANY',
-    }
-    if (datasetIpIds && datasetIpIds.length) {
-      queryParams['datasetIpIds[]'] = datasetIpIds.join(',')
-    }
-    return this.sendSignal('GET', null, null, queryParams)
+  fetchPluginServices(datasetIpIds, applicationModes = ['MANY']) {
+    return this.sendSignal('GET', null, null, {
+      applicationModes: (applicationModes || []).join(PluginServiceActions.PARAMETER_VALUES_SEPARATOR),
+      datasetIpIds: (datasetIpIds || []).join(PluginServiceActions.PARAMETER_VALUES_SEPARATOR),
+    })
   }
 }
