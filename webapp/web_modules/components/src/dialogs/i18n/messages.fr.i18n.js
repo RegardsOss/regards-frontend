@@ -21,6 +21,11 @@ const messages = {
   'confirm.dialog.refuse': 'Refuser',
   'confirm.dialog.confirm': 'Confirmer',
   'confirm.dialog.cancel': 'Annuler',
+  'browser.check.fail.title': 'Navigateur non supporté',
+  'browser.check.fail.unsupported.browser.message': 'Certaines fonctionnalités du site peuvent ne pas fonctionner car votre navigateur n\'est pas supporté',
+  'browser.check.fail.browser.too.older.message': 'Certaines fonctionnalités du site peuvent ne pas fonctionner car la version de votre navigateur est trop ancienne',
+  'browser.check.fail.close': 'Fermer',
+  'browser.check.fail.do.not.show.again': 'Ne plus afficher',
 }
 
 export default messages

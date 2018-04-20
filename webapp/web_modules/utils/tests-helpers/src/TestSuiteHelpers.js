@@ -20,6 +20,7 @@ import forEach from 'lodash/forEach'
 import Enzyme from 'enzyme'
 import { assert } from 'chai'
 import Adapter from 'enzyme-adapter-react-16'
+import 'mock-local-storage' // installs local storage mock
 
 // Initialize enzyme: it will be run only once (when initially loading this file)
 Enzyme.configure({ adapter: new Adapter() })

@@ -21,6 +21,11 @@ const messages = {
   'confirm.dialog.refuse': 'Refuse',
   'confirm.dialog.confirm': 'Confirm',
   'confirm.dialog.cancel': 'Cancel',
+  'browser.check.fail.title': 'Unsupported browser',
+  'browser.check.fail.unsupported.browser.message': 'Your web browser is unsupported, some functionnalities may not be correctly working.',
+  'browser.check.fail.browser.too.older.message': 'Your web browser version is too old, some functionnalities may not be correctly working.',
+  'browser.check.fail.close': 'Close',
+  'browser.check.fail.do.not.show.again': 'do not show again',
 }
 
 export default messages

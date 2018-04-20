@@ -28,6 +28,7 @@ import { ThemeProvider } from '@regardsoss/theme'
 import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
 import { AccessShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { BrowserCheckerDialog } from '@regardsoss/components'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
 import { ProjectHandler } from '@regardsoss/project-handler'
 import { AuthenticationParametersActions, AuthenticationClient } from '@regardsoss/authentication-utils'
@@ -166,11 +167,17 @@ export class UserApp extends React.Component {
           isContentError={!this.props.layout}
         >
           <AuthenticationContainer scope={project}>
+            {/* Check browser version and warn user */}
+            <BrowserCheckerDialog browserRequirements={STATIC_CONF.BROWSER_REQUIREMENTS} />
+            {/* Resolve project */}
             <ProjectHandler
               projectName={project}
               title="Data center"
             />
-            {this.renderLayout(values(this.props.modules))}
+            { /* render layout */
+              this.renderLayout(values(this.props.modules))
+            }
+            {/* Render network errors */}
             <ApplicationErrorContainer />
           </AuthenticationContainer>
         </LoadableContentDisplayDecorator>

@@ -130,6 +130,7 @@
     "@regardsoss/vendors": "file:web_modules/vendors",
     "chart.js": "^2.7.2",
     "date-fns": "^1.29.0",
+    "detect-browser": "^2.4.0",
     "fixed-data-table-2": "0.8.11",
     "gsap": "^1.20.4",
     "immutable": "~3.8.2",
