@@ -1,34 +1,50 @@
-REGARDS Access frontend
------------------------
+# REGARDS Frontend
+
 
 This is the REGARDS Access frontend.
 
-More explanations on http://172.26.47.52:4000/frontend/
+### Quick setup
 
-Quick setup
------------
 
+Install dependencies with the following:
 ```
-cd path/to/folder/webapp/
-chmod +x ./scripts/bootstrap.sh
-npm run boostrap
 npm install
-npm run test
+```
+**Congratulation**, you're now ready to launch the application.
+
+### Run tests :
+
+It runs tests in then terminal, then creates a report in `reports/mocha/` folder:
+
+```
+npm test
 ```
 
-For more information visit: rs-docs/front/build.md
+### Run test:coverage :
+
+To run tests with coverage, then creates coverage reports (lcov, xunit) inside `reports/coverage/` folder:
+
+```
+npm run test:coverage
+```
+
+
+### Lint :
+
+You shall lint the entire app [using our Regards OSS lint rules](/tree/master/eslint-config-es6-rules) before commiting:
 
 Dependencies
 ------------
 
--	node v6
--	npm v3
--	webpack v1.13
--	babel
--	material-ui
--	react v15
--	redux
--	lodash
--	normalizr
--	mocha, nyc
--	enzyme, chai, sinon
+-	node v8.10
+-	npm v5.7.1 (npm i -g npm to upgrade)
+
+### Known issues
+
+When you install this application, all these NPM warnings can be safely ignored :  
+- `npm WARN enoent SKIPPING OPTIONAL DEPENDENCY: ENOENT`
+- `npm WARN optional SKIPPING OPTIONAL DEPENDENCY`
+- `npm WARN enoent ENOENT: no such file or directory`
+- `npm WARN <some dependency>@<version> requires a peer of <another dependency>@<version> but none is installed. You must install peer dependencies yourself.`
+- `npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform`
+- `npm WARN rollback Rolling back <some dependency>@<version> failed (this is probably harmless)`
