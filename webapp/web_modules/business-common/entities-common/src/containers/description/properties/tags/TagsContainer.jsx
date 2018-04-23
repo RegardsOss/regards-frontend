@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { isURNTag } from '@regardsoss/domain/catalog'
@@ -68,6 +69,7 @@ export class TagsContainer extends React.Component {
           { simpleTags, urnTags: [...urnTags, tag] } :
           { simpleTags: [...simpleTags, tag], urnTags }, { simpleTags: [], urnTags: [] })
         // 2 - sort and store simple tags
+        tagPartitions.simpleTags = tagPartitions.simpleTags.filter(t => !isNil(t))
         tagPartitions.simpleTags.sort(StringComparison.compare)
         newState.simpleTags = tagPartitions.simpleTags
         // 3 - if there are any related entities resolve them

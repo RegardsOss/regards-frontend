@@ -93,8 +93,8 @@ class AdminApp extends React.Component {
             } else if (UIDomain.LocalStorageUser.retrieve(this.props.params.project, 'admin')) {
               // If unrecoverable error is thrown, then clear localStorage to avoid deadlock on IHM access
               UIDomain.LocalStorageUser.delete(this.props.params.project, 'admin')
+              throw new Error('Failed to retrieve endpoint list, which is required on the admin dashboard')
             }
-            throw new Error('Failed to retrieve endpoint list, which is required on the admin dashboard')
           })
       }
     }
