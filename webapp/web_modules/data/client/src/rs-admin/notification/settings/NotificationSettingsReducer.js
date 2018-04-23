@@ -25,7 +25,7 @@ import NotificationSettingsActions from './NotificationSettingsActions'
  */
 class NotificationSettingsReducer extends BasicSignalReducers {
   constructor(namespace) {
-    super(new NotificationSettingsActions(namespace), [])
+    super(new NotificationSettingsActions(namespace))
   }
 }
 
