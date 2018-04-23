@@ -46,7 +46,7 @@ import FormCriteriaComponent from './FormCriteriaComponent'
 class FormCriterionComponent extends React.Component {
   static propTypes = {
     currentNamespace: PropTypes.string,
-    // Fu,ction to update current redux-form
+    // Function to update current redux-form
     changeField: PropTypes.func,
     // Default form criterion list
     defaultCriterion: AccessShapes.UIPluginConfArray,
