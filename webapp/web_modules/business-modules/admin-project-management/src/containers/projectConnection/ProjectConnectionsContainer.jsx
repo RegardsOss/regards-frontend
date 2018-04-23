@@ -53,12 +53,10 @@ export class ProjectConnectionsContainer extends React.Component {
     }),
     // from mapStateToProps
     project: AdminShapes.Project,
-    projectIsFetching: PropTypes.bool,
     // Current project connection to edit
     projectConnection: AdminShapes.ProjectConnection,
     // All project connection of the current editing project
     projectConnections: AdminShapes.ProjectConnectionList,
-    projectConnectionsIsFetching: PropTypes.bool,
     // from mapDispatchToProps
     fetchProject: PropTypes.func.isRequired,
     fetchProjectConnections: PropTypes.func.isRequired,
@@ -75,15 +73,19 @@ export class ProjectConnectionsContainer extends React.Component {
     // Set default mode to configureOneForAll ON for Guided rendering
     configureOneForAll: !(this.props.params.project_connection_id || this.props.params.microservice_name),
     errorMessage: null,
+    projectConnectionsIsFetching: true,
+    projectIsFetching: true,
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // Retrieve all connections for the given project
-    this.props.fetchProjectConnections(this.props.params.project_name)
+    Promise.resolve(this.props.fetchProjectConnections(this.props.params.project_name)).then(() => this.setState({ projectConnectionsIsFetching: false }))
 
     // Retrieve project if not already in store.
     if (!this.props.project) {
-      this.props.fetchProject(this.props.params.project_name)
+      Promise.resolve(this.props.fetchProject(this.props.params.project_name)).then(() => this.setState({ projectIsFetching: false }))
+    } else {
+      this.setState({ projectIsFetching: false })
     }
   }
 
@@ -218,8 +220,9 @@ export class ProjectConnectionsContainer extends React.Component {
    */
   renderGuidedForm() {
     const { projectConnections } = this.props
+    const { projectIsFetching, projectConnectionsIsFetching } = this.state
 
-    if (this.props.projectIsFetching || this.props.projectConnectionsIsFetching) {
+    if (projectIsFetching || projectConnectionsIsFetching) {
       return <LoadingComponent />
     }
 
@@ -248,7 +251,9 @@ export class ProjectConnectionsContainer extends React.Component {
     const microservice = this.props.projectConnection ?
       this.props.projectConnection.content.microservice : this.props.params.microservice_name
 
-    if (this.props.projectIsFetching || this.props.projectConnectionsIsFetching) {
+    const { projectIsFetching, projectConnectionsIsFetching } = this.state
+
+    if (projectIsFetching || projectConnectionsIsFetching) {
       return <LoadingComponent />
     }
 
@@ -296,9 +301,7 @@ export class ProjectConnectionsContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   projectConnection: ownProps.params.project_connection_id ? projectConnectionSelectors.getById(state, ownProps.params.project_connection_id) : null,
   projectConnections: projectConnectionSelectors.getList(state),
-  projectConnectionsIsFetching: ownProps.params.project_connection_id ? projectConnectionSelectors.isFetching(state) : false,
   project: ownProps.params.project_name ? projectSelectors.getById(state, ownProps.params.project_name) : null,
-  projectIsFetching: ownProps.params.project_name ? projectSelectors.isFetching(state) : false,
 })
 
 const mapDispatchToProps = dispatch => ({

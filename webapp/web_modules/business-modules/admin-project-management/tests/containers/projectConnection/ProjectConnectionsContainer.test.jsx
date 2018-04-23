@@ -64,6 +64,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionsContainer', () =>
       createProjectConnection: () => { },
     }
     const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
+    enzymeWrapper.setState({ projectIsFetching: false, projectConnectionsIsFetching: false })
     expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(1)
   })
 
@@ -114,12 +115,13 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionsContainer', () =>
         },
       },
       project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
-      fetchProject: () => { },
-      fetchProjectConnections: () => { },
+      fetchProject: () => new Promise(() => { }),
+      fetchProjectConnections: () => new Promise(() => { }),
       updateProjectConnection: () => { },
       createProjectConnection: () => { },
     }
     const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
+    enzymeWrapper.setState({ projectIsFetching: false, projectConnectionsIsFetching: false })
     expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(0)
     expect(enzymeWrapper.find(GuidedProjectConfigurationComponent)).to.have.length(1)
   })
@@ -145,9 +147,8 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionsContainer', () =>
         },
         links: [],
       },
-      projectIsFetching: true,
-      fetchProject: () => { },
-      fetchProjectConnections: () => { },
+      fetchProject: () => new Promise(() => { }),
+      fetchProjectConnections: () => new Promise(() => { }),
       updateProjectConnection: () => { },
       createProjectConnection: () => { },
     }
@@ -160,13 +161,14 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionsContainer', () =>
       params: {
         project_connection_id: '0',
       },
-      fetchProject: () => { },
-      fetchProjectConnections: () => { },
+      fetchProject: () => new Promise(() => { }),
+      fetchProjectConnections: () => new Promise(() => { }),
       updateProjectConnection: () => { },
       createProjectConnection: () => { },
       projectConnection: undefined,
     }
     const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
+    enzymeWrapper.setState({ projectIsFetching: false, projectConnectionsIsFetching: false })
     expect(enzymeWrapper.find(LoadingComponent)).to.have.length(0)
     expect(enzymeWrapper.find(FormEntityNotFoundComponent)).to.have.length(1)
     expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(0)
