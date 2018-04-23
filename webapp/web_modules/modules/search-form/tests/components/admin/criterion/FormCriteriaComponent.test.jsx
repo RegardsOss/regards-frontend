@@ -58,7 +58,8 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
     const cancelCallback = spy()
     const reduxFormInitialize = spy()
     const handleSubmitCallback = spy()
-    const onChangeCallback = spy()
+    const onChangeSelectorValue = spy()
+    const onChangeField = spy()
 
     const props = {
       criteria: null,
@@ -70,6 +71,7 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
       criterionFetching: false,
       initialize: reduxFormInitialize,
       handleSubmit: handleSubmitCallback,
+      change: onChangeField,
     }
 
     const wrapper = shallow(<UnconnectedFormCriteriaComponent {...props} />, { context })
@@ -94,12 +96,12 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
     assert(criteriaConf.length === 0, 'The CriteriaConfigurationComponent should not be rendered as no plugin as been selected yet')
 
     // Simulate selection of a criteria of id 0
-    assert.isFalse(onChangeCallback.called, 'The redux change value method should not be called yet')
+    assert.isFalse(onChangeSelectorValue.called, 'The redux change value method should not be called yet')
     const event = null
     const index = 0
     const pluginId = 0
     const reduxInput = {
-      onChange: onChangeCallback,
+      onChange: onChangeSelectorValue,
     }
     pluginIdField.simulate('select', event, index, pluginId, reduxInput)
     criteriaConf = wrapper.find(CriteriaConfigurationComponent)
@@ -108,7 +110,8 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
     assert.equal(pluginProvider.prop('pluginId'), 0, 'The pluginProvider should be initialize with selected plugin id = 0')
     assert.equal(pluginProvider.prop('displayPlugin'), false, 'The pluginProvider should be initialize without plugin display')
     assert(criteriaConf.length === 1, 'The CriteriaConfigurationComponent should be rendered as a plugin as been selected')
-    assert(onChangeCallback.calledOnce, 'The redux change value method should be called')
+    assert(onChangeField.calledOnce, 'The redux change field value method should be called')
+    assert(onChangeSelectorValue.calledOnce, 'The redux change selector value method should be called')
   })
 
   it('Should render a edit criteria form', () => {
@@ -138,6 +141,7 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
       criterionFetching: false,
       initialize: reduxFormInitialize,
       handleSubmit: handleSubmitCallback,
+      change: () => {},
     }
 
     const wrapper = shallow(<UnconnectedFormCriteriaComponent {...props} />, { context })

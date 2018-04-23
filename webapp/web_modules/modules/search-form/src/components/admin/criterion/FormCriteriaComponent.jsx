@@ -52,6 +52,7 @@ class FormCriteriaComponent extends React.Component {
     pristine: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -110,8 +111,10 @@ class FormCriteriaComponent extends React.Component {
    * @param value
    */
   selectCriteria = (event, index, value, input) => {
-    input.onChange(value)
-    this.setState({
+    const { change } = this.props
+    input.onChange(value) // update selector value
+    change('conf', {}) // regards/regards#417 - reset attributes to remove previous attributes
+    this.setState({ // update state
       selectedCriteria: value,
       pluginLoadError: false,
     })
