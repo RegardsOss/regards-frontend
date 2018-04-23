@@ -30,7 +30,7 @@ const messages = {
   'authentication.error.ACCOUNT_INACTIVE': 'Your account is inactive. Contact system administrator',
   'authentication.error.ACCOUNT_LOCKED': 'Your account is locked. To unlock it, click "Account locked?"',
   'authentication.error.USER_UNKNOWN': 'You do not have access to the project. To ask access, click "New user?", with option "I already have a REGARDS user account"',
-  'authentication.error.USER_WAITING_ACCESS': 'Your project access has not yet been validated. You will receive a notification by email when it changes',
+  'authentication.error.USER_WAITING_ACCESS': 'Your project access has not yet been validated. You will be notified by email on change',
   'authentication.error.USER_WAITING_EMAIL_VERIFICATION': 'You have not yet validated your account. Please click on the validation link in the email you have received',
   'authentication.error.USER_ACCESS_DENIED': 'Your project access  has been denied',
   'authentication.error.USER_ACCESS_INACTIVE': 'Your project access is inactive. Please contact project administrator',

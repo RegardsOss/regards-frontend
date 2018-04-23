@@ -26,7 +26,7 @@ const messages = {
   'authentication.cancel': 'Annuler',
   'authentication.message': 'Veuillez saisir vos identifiants pour vous connecter',
   'authentication.error.ACCOUNT_UNKNOWN': 'L\'adresse e-mail et / ou le mot de passe sont inconnus',
-  'authentication.error.ACCOUNT_PENDING': 'Votre compte utilisateur REGARDS n\'a pas encore été validé. Vous recevrez un e-mail en cas de changement',
+  'authentication.error.ACCOUNT_PENDING': 'Votre compte utilisateur REGARDS n\'a pas encore été validé. Vous serez notifié par e-mail de tout changement',
   'authentication.error.ACCOUNT_INACTIVE': 'Votre compte utilisateur est désactivé, veuillez contacter l\'administrateur du sytème',
   'authentication.error.ACCOUNT_LOCKED': 'Votre compte est bloqué. Pour le débloquer, cliquez sur "Compte bloqué ?"',
   'authentication.error.USER_UNKNOWN': 'Vous n\'avez pas accès à ce projet. Pour demander l\'accès, cliquez sur "Nouvel utilisateur ?", avec l\'option "J\'ai déjà accès à un autre projet"',
