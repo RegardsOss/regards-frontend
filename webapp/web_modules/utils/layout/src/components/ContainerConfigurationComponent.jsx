@@ -67,6 +67,16 @@ class ContainerConfigurationComponent extends React.Component {
     ...themeContextType,
   }
 
+  /**
+   * Initial container values when editing a new container
+   */
+  static INITIAL_CONTAINER_VALUES = {
+    id: '',
+    type: null,
+    classes: [],
+    styles: {},
+  }
+
   state = {
     advanced: false,
   }
@@ -82,7 +92,9 @@ class ContainerConfigurationComponent extends React.Component {
   }
 
   handleInitialize = () => {
-    this.props.initialize({ ...this.props.container })
+    // compute initial values (provide default values for a new container)
+    const initialValues = this.props.container || ContainerConfigurationComponent.INITIAL_CONTAINER_VALUES
+    this.props.initialize({ ...initialValues })
   }
 
   selectContainerType = (event, index, value, input) => {
