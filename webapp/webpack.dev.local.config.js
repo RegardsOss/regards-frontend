@@ -32,7 +32,7 @@ const conf = webpackConfigurator
   .merge({
     plugins: [
       new webpack.DefinePlugin({
-        GATEWAY_HOSTNAME: JSON.stringify('http://localhost:9030'),
+        GATEWAY_HOSTNAME: JSON.stringify(process.env.npm_config_rsgateway || 'http://localhost:9030'),
       }),
     ],
   })
