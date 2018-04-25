@@ -49,7 +49,7 @@ class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Compone
 
   goToInProgressFileList = () => {
     const { project, entity: { content: { chain: { id } } } } = this.props
-    const url = `/admin/${project}/data/acquisition/dataprovider/monitoring/chains/${id}/files?state=IN_PROGRESS`
+    const url = `/admin/${project}/data/acquisition/dataprovider/monitoring/chains/${id}/files?state=IN_PROGRESS,VALID`
     browserHistory.push(url)
   }
 
