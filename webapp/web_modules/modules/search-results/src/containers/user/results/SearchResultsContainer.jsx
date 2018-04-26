@@ -232,7 +232,7 @@ export class SearchResultsContainer extends React.Component {
             // Remove in the query the onlyQuicklook as we are not displaying quicklook anymore
             newState.displayOnlyQuicklook = false
           } else {
-            newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.attributesQuicklookConf, newProps.attributesRegroupementsConf, true)
+            newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.attributesQuicklookConf, {}, true)
             // Automatically enable displayOnlyQuicklook on first display
             if (oldProps.tableDisplayMode !== newProps.tableDisplayMode) {
               newState.displayOnlyQuicklook = true
