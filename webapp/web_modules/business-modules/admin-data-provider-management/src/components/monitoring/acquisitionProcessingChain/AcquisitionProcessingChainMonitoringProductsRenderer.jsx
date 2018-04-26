@@ -20,6 +20,19 @@ import { browserHistory } from 'react-router'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
+import { DataProviderDomain } from '@regardsoss/domain'
+
+const PRODUCT_RUNNING_SIP_STATES = [
+  DataProviderDomain.ProductSIPStateEnum.NOT_SCHEDULED,
+  DataProviderDomain.ProductSIPStateEnum.SCHEDULED,
+  DataProviderDomain.ProductSIPStateEnum.GENERATED,
+  DataProviderDomain.ProductSIPStateEnum.SUBMISSION_SCHEDULED,
+]
+
+const PRODUCT_ERROR_SIP_STATES = [
+  DataProviderDomain.ProductSIPStateEnum.GENERATION_ERROR,
+  DataProviderDomain.ProductSIPStateEnum.SUBMISSION_ERROR,
+]
 
 /**
 * Component to render the activity indicator for ne chain into the chain monitoring list
@@ -55,13 +68,13 @@ class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Compone
 
   goToInProgressProductList = () => {
     const { project, entity: { content: { chain: { id } } } } = this.props
-    const url = `/admin/${project}/data/acquisition/dataprovider/monitoring/chains/${id}/products?state=ACQUIRING,COMPLETED`
+    const url = `/admin/${project}/data/acquisition/dataprovider/monitoring/chains/${id}/products?sipState=${PRODUCT_RUNNING_SIP_STATES.join(',')}`
     browserHistory.push(url)
   }
 
   goToErrorProductList = () => {
     const { project, entity: { content: { chain: { id } } } } = this.props
-    const url = `/admin/${project}/data/acquisition/dataprovider/monitoring/chains/${id}/products?sipState=GENERATION_ERROR,SUBMISSION_ERROR`
+    const url = `/admin/${project}/data/acquisition/dataprovider/monitoring/chains/${id}/products?sipState=${PRODUCT_ERROR_SIP_STATES.join(',')}`
     browserHistory.push(url)
   }
 
