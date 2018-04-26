@@ -72,7 +72,7 @@ const messages = Object.assign({
   'form.attributes.regroupement.edit': 'Editer',
   'form.attributes.delete.confirm.title': 'Supprimer le regroupement {name} ?',
   'form.attributes.regroupement.form.title.update': 'Mise à jour du regroupement : {name}',
-  'form.attribute.conf.selection.tab.label': 'Attributs des objets',
+  'form.attribute.conf.selection.tab.label': 'Attributs des données',
   'form.attribute.dataset.conf.selection.tab.label': 'Attributs des jeux',
   'form.attribute.quicklook.conf.selection.tab.label': 'Attributs des imagettes',
 

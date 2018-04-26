@@ -72,7 +72,7 @@ const messages = Object.assign({
   'form.attributes.regroupement.edit': 'Edit',
   'form.attributes.delete.confirm.title': 'Remove the attributes clustering {name}?',
   'form.attributes.regroupement.form.title.update': 'Update clustering : {name}',
-  'form.attribute.conf.selection.tab.label': 'Data objects attributes configuration',
+  'form.attribute.conf.selection.tab.label': 'Data attributes configuration',
   'form.attribute.dataset.conf.selection.tab.label': 'Datasets attributes configuration',
   'form.attribute.quicklook.conf.selection.tab.label': 'Quicklook attributes configuration',
 
