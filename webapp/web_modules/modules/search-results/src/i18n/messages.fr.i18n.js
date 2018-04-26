@@ -33,7 +33,7 @@ const messages = Object.assign({
   'form.configuration.result.type.documents': 'Documents',
   'form.configuration.results.options.message': 'Configuration des vues de résultats',
   'form.configuration.result.enable.facettes.label': 'Activer le filtrage des résultats par facettes',
-  'form.configuration.result.select.facettes.initially.label': 'Afficher les facettes initiallement',
+  'form.configuration.result.select.facettes.initially.label': 'Afficher les facettes initialement',
   'form.configuration.result.enable.download.label': 'Activer le téléchargement des fichiers associés à l\'entité',
   'form.configuration.result.enable.quicklooks.label': 'Activer la vue des Imagettes sur les données',
   'form.configuration.results.quicklooks.message': 'Configuration des imagettes',
