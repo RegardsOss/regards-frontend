@@ -45,6 +45,7 @@ export class SessionManagementContainer extends React.Component {
     fetchAuthenticate: PropTypes.func.isRequired,
     dispatchSessionLocked: PropTypes.func.isRequired,
     notifyAuthenticationChanged: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -152,6 +153,9 @@ export class SessionManagementContainer extends React.Component {
     if (user) {
       return [this.props.notifyAuthenticationChanged(user.getAuthenticationInformations())]
     }
+    // Else we have to clean store if an authentication token is present from an other project or user.
+    // Case of switching from one project to another through browser navigation back,next arrows.
+    this.props.logout()
     return []
   }
 
@@ -196,6 +200,7 @@ const mapDispatchToProps = dispatch => ({
   dispatchSessionLocked: () => dispatch(AuthenticationClient.authenticationActions.lockSession()),
   fetchAuthenticate: (login, password, scope) => dispatch(AuthenticationClient.authenticationActions.login(login, password, scope)),
   notifyAuthenticationChanged: authentication => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authentication)),
+  logout: () => dispatch(AuthenticationClient.authenticationActions.logout()),
 })
 
 
