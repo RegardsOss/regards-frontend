@@ -157,7 +157,7 @@ export class ExampleContainer extends React.Component {
       this.setState({ currentIndex: index, lastLoadedEntity: entity.label })// react is cool,ithe will only change those fields in state!
       // R.2 - check if STOP_DATE, from TIME_PERIOD fragment is before or after this date pameter. Note
       // that all fragments are set up in properties attribute. Also note that dates, in backend model, are actually saved as string
-      let { beforeDateCount, afterDateCount, unknown } = previousResult.beforeDateCount
+      let { beforeDateCount, afterDateCount, unknown } = previousResult
       const entityStopDate = get(entity, 'properties.TIME_PERIOD.STOP_DATE')
       if (!entityStopDate) {
         unknown += 1 // model date is not set

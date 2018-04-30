@@ -61,7 +61,7 @@ class QueryRuntimeHelpersBuilder {
     this.actions = QueryRuntimeHelpersBuilder.getActions(serviceTarget.entityType, `plugin-service-runtime/query/instance-${QueryRuntimeHelpersBuilder.INSTANCE_INDEX}`)
     QueryRuntimeHelpersBuilder.INSTANCE_INDEX += 1
     // Note: from actual search results module implementation, query parameters are indeed used as path parameters
-    this.queryParams = { queryParams: serviceTarget.q ? `q=(${serviceTarget.q})` : '' }
+    this.queryParams = { parameters: serviceTarget.q ? `q=(${serviceTarget.q})` : '' }
   }
 
   /**
