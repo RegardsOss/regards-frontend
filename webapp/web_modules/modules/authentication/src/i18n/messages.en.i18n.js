@@ -49,26 +49,26 @@ const messages = {
   'ask.reset.password.form.message': 'Enter your mail address to receive a reset password link',
   'ask.reset.password.form.title': 'Reset password',
   'ask.reset.password.form.send.failed': '{status, plural, ' +
-  '=404 { Entered e-mail address is unknown. } ' +
-  'other: {An unknown error occurred (#)}}',
+    '=404 { Entered e-mail address is unknown. } ' +
+    'other: {An unknown error occurred (#)}}',
 
   // unlock account request form
   'ask.unlock.account.form.message': 'Enter your mail address to request account unlocking',
   'ask.unlock.account.form.title': 'Unlock user account',
   'ask.unlock.account.form.send.failed': '{status, plural, ' +
-  '=403 {That related account is not locked}' +
-  '=404 {Entered e-mail address is unknown.}' +
-  'other: {An unknown error occurred (#)}}',
+    '=403 {That related account is not locked}' +
+    '=404 {Entered e-mail address is unknown.}' +
+    'other: {An unknown error occurred (#)}}',
 
   // ask project access form
   'ask.project.access.request.title': 'Request project access',
   'ask.project.access.request.message': 'Enter below your personal data to request access, or provide your REGARDS account email address if you own already one.',
   'ask.project.access.using.existing.account': 'I already have a REGARDS access to an other project',
-  'ask.project.access.mail': 'E-mail address',
-  'ask.project.access.first.name': 'Firstname',
-  'ask.project.access.last.name': 'Lastname',
-  'ask.project.access.new.password': 'Password',
-  'ask.project.access.confirm.password': 'Confirm password',
+  'ask.project.access.mail': 'E-mail address (*)',
+  'ask.project.access.first.name': 'Firstname (*)',
+  'ask.project.access.last.name': 'Lastname (*)',
+  'ask.project.access.new.password': 'Password (*)',
+  'ask.project.access.confirm.password': 'Confirm password (*)',
   'ask.project.access.send': 'Send',
   'ask.project.access.form.back': 'Cancel',
   'ask.create.account.error.409': 'That email address is already in use',
