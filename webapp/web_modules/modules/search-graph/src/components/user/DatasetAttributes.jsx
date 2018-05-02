@@ -53,15 +53,15 @@ class DatasetAttributes extends React.Component {
           {
             // render values row
             datasetAttributes.map(({
- renderValue, label: attributeLabel, render: TypeRender, renderKey,
-}) =>
+              renderValue, label: attributeLabel, render: TypeRender, renderKey,
+            }) =>
               (
                 <div key={renderKey} style={lineStyles}>
                   <div style={detailLabelStyles}>{attributeLabel}</div>
                   <div style={detailValueStlyles}>
                     {
                       renderValue ?
-                        (<TypeRender attributes={renderValue} />) :
+                        (<TypeRender value={renderValue} />) :
                         (<FormattedMessage id="search.graph.dataset.attribute.no.value" />)
                     }
                   </div>

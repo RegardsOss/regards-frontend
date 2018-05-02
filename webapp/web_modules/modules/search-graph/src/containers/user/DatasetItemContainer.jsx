@@ -101,7 +101,7 @@ export class DatasetItemContainer extends React.Component {
         // prepare a render key for child mapping
         renderKey: attributePath,
         // render value, prepared for renderers
-        renderValue: attributeValue ? { main: attributeValue } : null,
+        renderValue: attributeValue || null,
       }
     }),
   })
