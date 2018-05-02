@@ -49,26 +49,26 @@ const messages = {
   'ask.reset.password.form.message': 'Entrez votre adresse e-mail, un lien de ré-initialisation du mot de passe vous sera envoyé',
   'ask.reset.password.form.title': 'Ré-initialisation du mot de passe',
   'ask.reset.password.form.send.failed': '{status, plural, ' +
-  '=404 {L\'adresse e-mail saisie est inconnue}' +
-  'other {Une erreur inconnue s\'est produite (#)}}',
+    '=404 {L\'adresse e-mail saisie est inconnue}' +
+    'other {Une erreur inconnue s\'est produite (#)}}',
 
   // unlock account request form
   'ask.unlock.account.form.message': 'Entrez votre adresse e-mail pour demander le déverrouillage du compte',
   'ask.unlock.account.form.title': 'Déverrouillage du compte utilisateur',
   'ask.unlock.account.form.send.failed': '{status, plural, ' +
-  '=403 {Le compte lié à ce mail n\'est pas bloqué}' +
-  '=404 {L\'adresse e-mail saisie est inconnue.}' +
-  'other {Une erreur inconnue s\'est produite (#)}}',
+    '=403 {Le compte lié à ce mail n\'est pas bloqué}' +
+    '=404 {L\'adresse e-mail saisie est inconnue.}' +
+    'other {Une erreur inconnue s\'est produite (#)}}',
 
   // ask project access form
   'ask.project.access.request.title': 'Demander un accès projet',
   'ask.project.access.request.message': 'Renseignez ci-dessous vos données personnelles pour obtenir un accès au projet ou renseignez l\'adresse e-mail de votre compte REGARDS si vous en avez déjà un.',
   'ask.project.access.using.existing.account': 'J\'ai déjà accès à un autre projet',
-  'ask.project.access.mail': 'Adresse e-mail',
-  'ask.project.access.first.name': 'Prénom',
-  'ask.project.access.last.name': 'Nom',
-  'ask.project.access.new.password': 'Mot de passe',
-  'ask.project.access.confirm.password': 'Confirmation du mot de passe',
+  'ask.project.access.mail': 'Adresse e-mail (*)',
+  'ask.project.access.first.name': 'Prénom (*)',
+  'ask.project.access.last.name': 'Nom (*)',
+  'ask.project.access.new.password': 'Mot de passe (*)',
+  'ask.project.access.confirm.password': 'Confirmation du mot de passe (*)',
   'ask.project.access.send': 'Envoyer',
   'ask.project.access.form.back': 'Retour',
   'ask.create.account.error.409': 'Cette adresse e-mail est déjà utilisée par un compte REGARDS existant',
