@@ -188,6 +188,8 @@ const menuStyles = (theme) => {
               fontSize: '0.85em',
               padding: '2px 0 0 14px',
               display: 'table-cell',
+              whiteSpace: 'nowrap',
+              verticalAlign: 'text-top',
             },
           },
           detailsValue: {
