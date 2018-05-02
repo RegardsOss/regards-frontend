@@ -25,6 +25,7 @@ import ColumnsIcon from 'material-ui/svg-icons/action/view-column'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import SwitchSelectAllButton from '../../../../buttons/SwitchSelectAllButton'
+import { areDifferentColumnsArrays } from '../ColumnsHelper'
 
 /**
  * Render a react component to display a panel to change visibility of table columns.
@@ -50,19 +51,23 @@ export class TableColumnsVisibilityOption extends React.Component {
   }
 
   /** Lifecycle hook: component will mount. Used here to keep the inner column model up to date */
-  componentWillMount = () => this.onPropertiesUpdated(this.props)
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /** Lifecycle hook: component will receive props. Used here to keep the inner column model up to date
    * @param nextProps next properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(nextProps)
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * On properties updated callback. Updates inner columns model (and initializes dialog state)
-   * @param newProps properties to consider
+   * @param oldProps previous properties set
+   * @param newProps next properties toset
    */
-  onPropertiesUpdated = (newProps) => {
-    this.onReInitialize(newProps)
+  onPropertiesUpdated = (oldProps, newProps) => {
+    // re init only when columns truely change or when it is not yet initialized
+    if (!this.state || areDifferentColumnsArrays(oldProps.columns, newProps.columns)) {
+      this.onReInitialize(newProps)
+    }
   }
 
 
