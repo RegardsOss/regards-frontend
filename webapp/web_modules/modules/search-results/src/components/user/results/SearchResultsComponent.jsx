@@ -300,7 +300,7 @@ class SearchResultsComponent extends React.Component {
 
     // TODO-V3 do refactor to use request parameters instead or path params
     const pathParams = { parameters: searchQuery }
-    const showFacets = ((this.isDisplayingDataobjects() && showingFacettes) || this.isDisplayingDocuments()) && allowingFacettes
+    const showFacets = showingFacettes && allowingFacettes && (this.isDisplayingDataobjects() || this.isDisplayingDocuments())
     const itemProps = {
       attributePresentationModels,
       onAddElementToCart,
