@@ -23,7 +23,6 @@ import { Locales } from '@regardsoss/form-utils'
  * @author Sébastien binda
  */
 const messages = Object.assign({
-
   'portal.layout.title': 'Agencement du portail',
   'project.layout.title': 'Agencement',
   'project.layout.description': 'L\'agencement permet de définir les sections dans lesquelles vous pouvez positioner les modules',
@@ -42,7 +41,6 @@ const messages = Object.assign({
   'portal.theme.title': 'Thèmes du portail',
   'project.theme.title': 'Configuration des thèmes',
   'project.theme.description': 'Personnalisez l`apparence de REGARDS',
-  'project.theme.tooltip': 'Editer les thèmes',
 
   'action.list.tooltip': 'Liste',
   'action.add.tooltip': 'Ajouter',

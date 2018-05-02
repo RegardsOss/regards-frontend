@@ -33,7 +33,8 @@ import { layoutUIDependencies } from '@regardsoss/admin-ui-layout-management'
  * @type {Array}
  */
 export default [
-  ...themeUIDependencies.boardRequiredDependencies,
+  ...themeUIDependencies.boardAddRequiredDependencies,
+  ...themeUIDependencies.boardListRequiredDependencies,
 
   ...pluginUIDependencies.boardAddRequiredDependencies,
   ...pluginUIDependencies.boardListRequiredDependencies,

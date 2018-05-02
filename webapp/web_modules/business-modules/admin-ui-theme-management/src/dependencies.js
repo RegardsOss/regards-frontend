@@ -28,11 +28,16 @@ import { ThemeActions } from '@regardsoss/theme'
  * Mandatory Dependencies to display module in parent board
  * @type {Array}
  */
-const boardRequiredDependencies = [
+const boardAddRequiredDependencies = [
+  ThemeActions.getDependency(RequestVerbEnum.POST),
   ThemeActions.getDependency(RequestVerbEnum.GET),
+]
+
+const boardListRequiredDependencies = [
   ThemeActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 module.exports = {
-  boardRequiredDependencies,
+  boardAddRequiredDependencies,
+  boardListRequiredDependencies,
 }

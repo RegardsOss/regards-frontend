@@ -18,7 +18,6 @@
  **/
 import ExtensionIcon from 'material-ui/svg-icons/action/extension'
 import ViewQuilt from 'material-ui/svg-icons/action/view-quilt'
-import Palette from 'material-ui/svg-icons/image/palette'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import { themeUIDependencies } from '@regardsoss/admin-ui-theme-management'
@@ -67,9 +66,14 @@ export default (project, intl) => [
     advanced: false,
     actions: [{
       path: `/admin/${project}/ui/theme/list`,
-      icon: <Palette />,
-      tooltipMsg: intl.formatMessage({ id: 'project.theme.tooltip' }),
-      hateoasDependencies: themeUIDependencies.boardRequiredDependencies,
+      icon: <ViewLinesIcon />,
+      tooltipMsg: intl.formatMessage({ id: 'action.list.tooltip' }),
+      hateoasDependencies: themeUIDependencies.boardListRequiredDependencies,
+    }, {
+      path: `/admin/${project}/ui/theme/create`,
+      icon: <AddIcon />,
+      tooltipMsg: intl.formatMessage({ id: 'action.add.tooltip' }),
+      hateoasDependencies: themeUIDependencies.boardAddRequiredDependencies,
     }],
   },
   {
