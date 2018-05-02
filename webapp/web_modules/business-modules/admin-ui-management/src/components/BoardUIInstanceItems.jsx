@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import ViewQuilt from 'material-ui/svg-icons/action/view-quilt'
-import Palette from 'material-ui/svg-icons/image/palette'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 
@@ -58,8 +57,12 @@ export default intl => [
     advanced: false,
     actions: [{
       path: '/admin/ui/theme/list',
-      icon: <Palette />,
-      tooltipMsg: intl.formatMessage({ id: 'project.theme.tooltip' }),
+      icon: <ViewLinesIcon />,
+      tooltipMsg: intl.formatMessage({ id: 'action.list.tooltip' }),
+    }, {
+      path: '/admin/ui/theme/create',
+      icon: <AddIcon />,
+      tooltipMsg: intl.formatMessage({ id: 'action.add.tooltip' }),
     }],
   },
 ]
