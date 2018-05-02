@@ -19,12 +19,12 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isNumber from 'lodash/isNumber'
-import omit from 'lodash/omit'
 import map from 'lodash/map'
 import { Table as FixedDataTable, Column } from 'fixed-data-table-2'
 import { themeContextType } from '@regardsoss/theme'
 import ColumnHeaderWrapper from './columns/ColumnHeaderWrapper'
 import CellWrapper from './cells/CellWrapper'
+import { areDifferentColumnsArrays } from './columns/ColumnsHelper'
 import TableColumnConfiguration from './columns/model/TableColumnConfiguration'
 
 /** Minimal width for a column */
@@ -95,29 +95,6 @@ class Table extends React.Component {
   }
 
   /**
-   * Computes if the two columns list will behave differently in layout
-   * @param {*} oldColumns old Columns
-   * @param {*} newColumns new Columns
-   */
-  static areDifferentLayoutColumn(oldColumns = [], newColumns = []) {
-    // same count?
-    if (oldColumns.length !== newColumns.length) {
-      return true
-    }
-    // same content for each column? (check layout related data: key, order, fixedWidth and visible)
-    for (let index = 0; index < oldColumns.length; index += 1) {
-      const oldColumn = oldColumns[index]
-      const newColumn = newColumns[index]
-      // compare columns but ignore header cell that may cause infinite loops in isEqual method
-      if (!isEqual(omit(oldColumn, ['headerCell']), omit(newColumn, ['headerCell']))) {
-        // found one different column
-        return true
-      }
-    }
-    return false
-  }
-
-  /**
    * Lifecycle method component will mount. Used here to initialize runtime graphic data in state
    */
   componentWillMount = () => this.onPropertiesChanged({}, this.props)
@@ -149,11 +126,11 @@ class Table extends React.Component {
 
     // update columns when: scroll state changed, width changed or columns list changed
     if (wasShowingScroll !== willShowScroll || oldProps.width !== newProps.width ||
-      Table.areDifferentLayoutColumn(oldProps.columns, newProps.columns)) {
+      areDifferentColumnsArrays(oldProps.columns, newProps.columns)) {
       newState.runtimeColumns = this.computeColumnsModelsWithWidth(newProps)
     }
 
-    if (oldState.height !== newState.height || Table.areDifferentLayoutColumn(newState.runtimeColumns, oldState.runtimeColumns)) {
+    if (oldState.height !== newState.height || areDifferentColumnsArrays(newState.runtimeColumns, oldState.runtimeColumns)) {
       this.setState(newState)
     }
   }
