@@ -36,7 +36,6 @@ describe('[LICENSE MODULE] Testing license module container', () => {
   })
   it('should render self and subcomponents', () => {
     const props = {
-      project: 'any',
       // from  mapDispatchToProps
       licenseLink: undefined,
       accepted: undefined,

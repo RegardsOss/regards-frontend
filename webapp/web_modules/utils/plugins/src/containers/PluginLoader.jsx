@@ -136,8 +136,10 @@ class PluginLoader extends React.Component {
   }
 
   render() {
-    const isLoading = isNil(this.props.loadedPlugin)
-    if (this.state.loadError) {
+    const { loadError } = this.state
+    // loading when plugin is not loaded and has not failed
+    const isLoading = !loadError && isNil(this.props.loadedPlugin)
+    if (loadError) {
       return (
         <ErrorCardComponent
           message={`Error loading plugin ${this.state.errorDep}`}

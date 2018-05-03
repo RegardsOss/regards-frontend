@@ -49,7 +49,7 @@ export const savePluginLoaded = ({
 /**
  * Load a plugin with a given name and a given sourcePath
  * @param {string} sourcePath plugin source path
- * @param {function}onErrorCallback error callback, first param is attempted loading path
+ * @param {function} onErrorCallback error callback, first param is attempted loading path
  * @param {function} dispatchAction Dispatch success action (can also be used as success callback, first param is action to dispatch)
  */
 export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
@@ -70,6 +70,11 @@ export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
         dispatchAction(savePluginLoaded(event.detail, sourcePath))
       }
     })
+    root.document.addEventListener('error', (e, url) => {
+      if (get(e, 'srcElement.src', null) === sourcePathPluginWithDateTag) {
+        onErrorCallback(fullSourcePlugin)
+      }
+    }, true)
 
     try {
       scriptjs(sourcePathPluginWithDateTag, sourcePath)
@@ -77,11 +82,5 @@ export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
       console.error('Error getting plugin', e)
       onErrorCallback(fullSourcePlugin)
     }
-    root.document.addEventListener('error', (e, url) => {
-      if (get(e, 'srcElement.src', null) === sourcePathPluginWithDateTag) {
-        console.error('Error loading plugin', e.srcElement.src)
-        onErrorCallback(fullSourcePlugin)
-      }
-    }, true)
   }
 }

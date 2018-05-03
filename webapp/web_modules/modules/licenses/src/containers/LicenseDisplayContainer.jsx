@@ -34,7 +34,6 @@ import ProjectLicenseSelectors from '../model/ProjectLicenseSelectors'
  */
 export class LicenseDisplayContainer extends React.Component {
   static propTypes = {
-    project: PropTypes.string,
     // from mapStateToProps
     licenseLink: CommonShapes.URL,
     accepted: PropTypes.bool,
@@ -53,8 +52,8 @@ export class LicenseDisplayContainer extends React.Component {
 
   componentDidMount = () => {
     // mounting: the user just authentified, fetch license state
-    const { project, fetchLicenseInformation } = this.props
-    fetchLicenseInformation(project)
+    const { fetchLicenseInformation } = this.props
+    fetchLicenseInformation()
   }
 
   componentWillUnmount = () => {
@@ -63,8 +62,8 @@ export class LicenseDisplayContainer extends React.Component {
   }
 
   onAccept = () => {
-    const { project, sendAcceptLicense } = this.props
-    sendAcceptLicense(project)
+    const { sendAcceptLicense } = this.props
+    sendAcceptLicense()
   }
 
   onRefuse = () => { this.props.logout() }
@@ -114,8 +113,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchLicenseInformation: (project) => { dispatch(ProjectLicenseActions.fetchLicenseInformation(project)) },
-  sendAcceptLicense: (project) => { dispatch(ProjectLicenseActions.sendAcceptLicense(project)) },
+  fetchLicenseInformation: () => { dispatch(ProjectLicenseActions.fetchLicenseInformation()) },
+  sendAcceptLicense: () => { dispatch(ProjectLicenseActions.sendAcceptLicense()) },
   flushLicenseInformation: () => { dispatch(ProjectLicenseActions.flush()) },
   logout: () => { dispatch(AuthenticationClient.authenticationActions.flush()) },
 })

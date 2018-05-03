@@ -92,26 +92,34 @@ class pluginFormComponent extends React.Component {
     }
   }
 
+  /**
+   * Callback: Plugin was loaded sucessfully (and is currently rendered)
+   * @param plugin loaded plugin
+   */
   handlePluginValid = (plugin) => {
-    if (plugin) {
-      // Fix static plugin definition values from the plugin info
-      this.props.change('name', plugin.info.name)
-      this.props.change('type', plugin.info.type)
+    // Fix static plugin definition values from the plugin info
+    this.props.change('name', plugin.info.name)
+    this.props.change('type', plugin.info.type)
 
-      if (plugin.info.conf && plugin.info.conf.applicationModes) {
-        this.props.change('applicationModes', plugin.info.conf.applicationModes)
-      }
-      if (plugin.info.conf && plugin.info.conf.entityTypes) {
-        this.props.change('entityTypes', plugin.info.conf.entityTypes)
-      }
-      this.setState({
-        pluginIsValid: true,
-      })
-    } else {
-      this.setState({
-        pluginIsValid: false,
-      })
+    if (plugin.info.conf && plugin.info.conf.applicationModes) {
+      this.props.change('applicationModes', plugin.info.conf.applicationModes)
     }
+    if (plugin.info.conf && plugin.info.conf.entityTypes) {
+      this.props.change('entityTypes', plugin.info.conf.entityTypes)
+    }
+    this.setState({
+      pluginIsValid: true,
+    })
+  }
+
+  /**
+   * Callback: Plugin could not be loaded
+   */
+  handlePluginInvalid = () => {
+    // FIXME-V3 this is not called because scriptJS does not provide the unknwon URL error callback
+    this.setState({
+      pluginIsValid: false,
+    })
   }
 
   loadIcon = (path) => {
@@ -136,6 +144,7 @@ class pluginFormComponent extends React.Component {
               pluginInstanceId={this.state.path}
               pluginPath={this.state.path}
               displayPlugin={false}
+              onErrorCallback={this.handlePluginInvalid}
             >
               <PluginDefinitionComponent
                 key={this.state.path}
