@@ -25,24 +25,22 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 export class ProjectLicenseActions extends BasicSignalActions {
   constructor() {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/license/{project}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/license`,
       namespace: 'licenses/information',
     })
   }
   /**
    * Fetch project license information
-   * @param project project
    */
-  fetchLicenseInformation(project) {
-    return this.sendSignal('GET', null, { project })
+  fetchLicenseInformation() {
+    return this.sendSignal('GET', null)
   }
 
   /**
    * Send reset accepted licenses
-   * @param project project
    */
-  sendAcceptLicense(project) {
-    return this.sendSignal('PUT', null, { project })
+  sendAcceptLicense() {
+    return this.sendSignal('PUT', null)
   }
 }
 

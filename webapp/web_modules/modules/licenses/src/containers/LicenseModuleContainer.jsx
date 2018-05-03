@@ -37,10 +37,10 @@ class LicenseModuleContainer extends React.Component {
 
   render() {
     // we mount / unmount the sub container according with authenticated state
-    const { project, isAuthenticated } = this.props
+    const { isAuthenticated } = this.props
     return (
       <ShowableAtRender show={isAuthenticated}>
-        <LicenseDisplayContainer project={project} />
+        <LicenseDisplayContainer />
       </ShowableAtRender>
     )
   }
