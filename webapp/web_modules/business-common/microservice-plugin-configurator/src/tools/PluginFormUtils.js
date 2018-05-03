@@ -74,19 +74,42 @@ class PluginFormUtils {
   /**
    * Creates a new parameter configuration object for the given parameterMetadata
    * @param {*} parameterMetadata
-   * @param {*} complex
+   * @param {*} complex only roots parameters are considered as complex
    */
   static createNewParameterConf(parameterMetadata, complex = true) {
-    if (parameterMetadata.unconfigurable) {
-      return {}
+    switch (parameterMetadata.paramType) {
+      case 'OBJECT': {
+        if (parameterMetadata.unconfigurable) {
+          return {}
+        }
+        const parameterConf = complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, {}) : {}
+        if (parameterMetadata.parameters.length > 0) {
+          forEach(parameterMetadata.parameters, (innerParameterMetadata) => {
+            parameterConf.value[innerParameterMetadata.name] = PluginFormUtils.createNewParameterConf(innerParameterMetadata, false)
+          })
+        }
+        return parameterConf
+      }
+      case 'PRIMITIVE': {
+        if (parameterMetadata.unconfigurable) {
+          return ''
+        }
+        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.defaultValue) : undefined
+      }
+      case 'COLLECTION':
+        if (parameterMetadata.unconfigurable) {
+          return []
+        }
+        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, []) : []
+      case 'PLUGIN':
+      case 'MAP':
+        if (parameterMetadata.unconfigurable) {
+          return {}
+        }
+        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, {}) : {}
+      default:
+        throw new Error('Unexpected type of parameter')
     }
-    const parameterConf = complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.defaultValue) : {}
-    if (parameterMetadata.parameters) {
-      forEach(parameterMetadata.parameters, (innerParameterMetadata) => {
-        parameterConf.value = PluginFormUtils.createNewParameterConf(innerParameterMetadata, false)
-      })
-    }
-    return parameterConf
   }
 
   /**
