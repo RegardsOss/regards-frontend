@@ -55,13 +55,19 @@ function configureStore(rootReducer) {
     middlewares = concat([], middlewares, [logger])
   }
 
+  // Enable redux dev tools
+  // eslint-disable-next-line no-underscore-dangle
+  const composeEnhancers = root.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+    // Specify redux dev tools options
+    maxAge: 80,
+  }) || compose
+
   // Create the application store
   const store = createStore(
     configureReducers(reducerRegistry.getReducers()),
     preloadedState,
-    compose(
+    composeEnhancers(
       applyMiddleware(...middlewares),
-      root.devToolsExtension ? root.devToolsExtension() : f => f, // Enable redux dev tools
     ),
   )
 
