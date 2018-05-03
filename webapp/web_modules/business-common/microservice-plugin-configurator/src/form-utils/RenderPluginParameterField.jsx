@@ -319,6 +319,7 @@ export class RenderPluginParameterField extends React.PureComponent {
     const { moduleTheme: { markdownDialog } } = this.context
     const { intl: { formatMessage } } = this.context
     const { pluginParameterType } = this.props
+    const bodyStyle = pluginParameterType.markdown ? markdownDialog.bodyStyle : {}
     const actions = [
       <RaisedButton
         key="close"
@@ -333,7 +334,7 @@ export class RenderPluginParameterField extends React.PureComponent {
         actions={actions}
         modal
         open={this.state.descriptionOpened}
-        bodyStyle={pluginParameterType.markdown && markdownDialog.bodyStyle}
+        bodyStyle={bodyStyle}
         contentStyle={markdownDialog.dialogContent}
         style={markdownDialog.dialogRoot}
         repositionOnUpdate={false}
