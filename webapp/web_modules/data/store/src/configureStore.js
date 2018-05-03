@@ -60,7 +60,7 @@ function configureStore(rootReducer) {
   // eslint-disable-next-line no-underscore-dangle
   const composeEnhancers = root.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && isFunction(root.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ? root.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
     // Specify redux dev tools options
-    maxAge: 80,
+    // maxAge: 80,
   }) : compose
 
   // Create the application store
