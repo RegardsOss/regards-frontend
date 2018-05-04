@@ -16,19 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { accountReducer } from './clients/AccountClient'
-import { accountWaitingReducer } from './clients/AccountWaitingClient'
-import { acceptAccountReducer } from './clients/AcceptAccountClient'
-import { enableAccountReducer } from './clients/EnableAccountClient'
-import { refuseAccountReducer } from './clients/RefuseAccountClient'
+import values from 'lodash/values'
 
-const accountManagementReducer = combineReducers({
-  account: accountReducer,
-  waitingAccount: accountWaitingReducer,
-  acceptAccount: acceptAccountReducer,
-  enableAccount: enableAccountReducer,
-  refuseAccount: refuseAccountReducer,
-})
+/**
+ * Account states enumeration
+ * @author Raphaël Mechali
+ */
 
-export default accountManagementReducer
+export const ACCOUNT_STATUS_ENUM = {
+  PENDING: 'PENDING',
+  ACTIVE: 'ACTIVE',
+  LOCKED: 'LOCKED',
+  INACTIVE: 'INACTIVE',
+}
+
+export const ACCOUNT_STATUS = values(ACCOUNT_STATUS_ENUM)

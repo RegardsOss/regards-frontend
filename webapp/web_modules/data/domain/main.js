@@ -18,6 +18,7 @@
  **/
 import AccessDomain from './access'
 import AdminDomain from './admin'
+import AdminInstanceDomain from './admin-instance'
 import ArchivalStorageDomain from './archival-storage'
 import CatalogDomain from './catalog'
 import CommonDomain from './common'
@@ -31,6 +32,7 @@ import UIDomain from './ui'
 module.exports = {
   AccessDomain,
   AdminDomain,
+  AdminInstanceDomain,
   ArchivalStorageDomain,
   CatalogDomain,
   CommonDomain,

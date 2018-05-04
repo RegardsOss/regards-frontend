@@ -16,19 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { accountReducer } from './clients/AccountClient'
-import { accountWaitingReducer } from './clients/AccountWaitingClient'
-import { acceptAccountReducer } from './clients/AcceptAccountClient'
-import { enableAccountReducer } from './clients/EnableAccountClient'
-import { refuseAccountReducer } from './clients/RefuseAccountClient'
+import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
-const accountManagementReducer = combineReducers({
-  account: accountReducer,
-  waitingAccount: accountWaitingReducer,
-  acceptAccount: acceptAccountReducer,
-  enableAccount: enableAccountReducer,
-  refuseAccount: refuseAccountReducer,
-})
+/**
+ * Refuse account state selectors
+ * @author Raphaël Mechali
+ */
 
-export default accountManagementReducer
+/**
+ * Selectors instance builders
+ * @param {[string]} storePath path to access state in redux store
+ * @return selectors instance
+ */
+export default function getRefuseAccountSelectors(storePath) {
+  return new BasicSignalSelectors(storePath)
+}

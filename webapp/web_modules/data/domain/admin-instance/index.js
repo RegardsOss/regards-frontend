@@ -16,22 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
 
-export class RefuseAccountSignalActions extends BasicSignalActions {
-  constructor() {
-    super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/accounts/{account_email}/refuse`,
-      namespace: 'admin-account-management/refuse-account-signals',
-    })
-  }
+import { ACCOUNT_STATUS, ACCOUNT_STATUS_ENUM } from './AccountStateEnum'
 
-  sendRefuse(accountEmail) {
-    return this.sendSignal('PUT', null, {
-      account_email: accountEmail,
-    })
-  }
+
+module.exports = {
+  ACCOUNT_STATUS,
+  ACCOUNT_STATUS_ENUM,
 }
-
-// export singleton instance
-export default new RefuseAccountSignalActions()

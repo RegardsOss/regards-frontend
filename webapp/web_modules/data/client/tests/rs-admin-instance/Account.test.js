@@ -18,16 +18,20 @@
  **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { AdminShapes } from '@regardsoss/shape'
-import AccountActions from '../../src/model/AccountActions'
-import getAccountReducer from '../../src/model/AccountReducers'
-import AccountSelectors from '../../src/model/AccountSelectors'
-import AccountNetworkDump from './dump/AccountNetworkDump'
+import AccountActions from '../../src/rs-admin-instance/account/AccountActions'
+import getAccountReducer from '../../src/rs-admin-instance/account/AccountReducer'
+import getAccountSelectors from '../../src/rs-admin-instance/account/AccountSelectors'
+import AccountNetworkDump from './Account.dump'
 
 const backendServerResultList = AccountNetworkDump
 const options = {
 }
 
-const entityTester = new ReduxEntityTester(AccountActions, getAccountReducer, AccountSelectors, AdminShapes.ProjectUserList.isRequired, backendServerResultList, options)
+
+const actions = new AccountActions('test/action')
+const reducer = getAccountReducer('test/action')
+const selectors = getAccountSelectors(['test', 'modules'])
+const entityTester = new ReduxEntityTester(actions, reducer, selectors, AdminShapes.ProjectUserList.isRequired, backendServerResultList, options)
 
 describe('[ADMIN ACCOUNT MANAGEMENT] Testing model Account', () => {
   before(() => {

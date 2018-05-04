@@ -19,13 +19,12 @@
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
-import { AdminShapes } from '@regardsoss/shape'
-import AccountActions from '../model/AccountActions'
-import AccountSelectors from '../model/AccountSelectors'
-import WaitingAccountEntitiesSelectors from '../model/WaitingAccountEntitiesSelectors'
-import WaitingAccountEntitiesActions from '../model/WaitingAccountEntitiesActions'
-import WaitingAccountSignalActions from '../model/WaitingAccountSignalActions'
-import RefuseAccountSignalActions from '../model/RefuseAccountSignalActions'
+import { AdminInstanceShapes } from '@regardsoss/shape'
+import { accountActions, accountSelectors } from '../clients/AccountClient'
+import { accountWaitingActions, accountWaitingSelectors } from '../clients/AccountWaitingClient'
+import { acceptAccountActions } from '../clients/AcceptAccountClient'
+import { enableAccountActions } from '../clients/EnableAccountClient'
+import { refuseAccountActions } from '../clients/RefuseAccountClient'
 import AccountListComponent from '../components/AccountListComponent'
 import messages from '../i18n'
 
@@ -37,12 +36,12 @@ export class AccountListContainer extends React.Component {
     // from mapStateToProps
     allAccounts: PropTypes.shape({
       content: PropTypes.objectOf({
-        Account: AdminShapes.Account,
+        Account: AdminInstanceShapes.Account,
       }),
     }),
     waitingAccounts: PropTypes.shape({
       content: PropTypes.objectOf({
-        Account: AdminShapes.Account,
+        Account: AdminInstanceShapes.Account,
       }),
     }),
     isFetchingContent: PropTypes.bool.isRequired,
@@ -51,15 +50,24 @@ export class AccountListContainer extends React.Component {
     fetchWaitingAccountList: PropTypes.func.isRequired,
     sendAcceptUser: PropTypes.func.isRequired,
     sendRefuseUser: PropTypes.func.isRequired,
+    sendEnableUser: PropTypes.func.isRequired,
     deleteAccount: PropTypes.func.isRequired,
   }
 
-  componentWillMount = () => {
+  state = { initialFecthing: true, isFetchingActions: false }
+
+  /**
+   * Lifecycle method: component did mount. Used here to fetch user lists
+   */
+  componentDidMount = () => {
+    this.setState({ initialFecthing: true, isFetchingActions: false })
     this.props.fetchAccountList()
     this.props.fetchWaitingAccountList()
-    this.setState({ initialFecthing: true, isFetchingActions: false })
   }
 
+  /**
+   * Lifecycle method component will receive props, used here to detect initial fetching finished
+   */
   componentWillReceiveProps = (nextProps) => {
     // mark initial fetching done (ignore next ones)
     if (this.props.isFetchingContent && !nextProps.isFetchingContent) {
@@ -67,33 +75,58 @@ export class AccountListContainer extends React.Component {
     }
   }
 
+  /**
+   * Account deletion confirmed callback: performs delete then updates list
+   */
   onDelete = (accountId) => {
     this.performAll([this.props.deleteAccount(accountId)])
   }
 
+  /**
+   * Account edition callback: shows edit form
+   */
   onEdit = (accountId) => {
     const url = `/admin/account/${accountId}/edit`
     browserHistory.push(url)
   }
 
+  /**
+   * Account acceptation callback: performs accept then updates list
+   */
   onAccept = (accountEmail) => {
     this.performAll([this.props.sendAcceptUser(accountEmail)])
   }
 
+  /**
+   * User refusal confirmed callback: performs delete then updates list
+   */
   onRefuse = (accountEmail) => {
     this.performAll([this.props.sendRefuseUser(accountEmail)])
   }
 
-  setInitialFetching = initialFecthing => this.updateState({ initialFecthing })
-
-  setFetchingActions = isFetchingActions => this.updateState({ isFetchingActions })
-
-  updateState = newValues => this.setState({ ...this.state, ...newValues })
+  /**
+   * User enabled callback: performs enabled then updates list
+   */
+  onEnable = (accountEmail) => {
+    this.performAll([this.props.sendEnableUser(accountEmail)])
+  }
 
   /**
-  * Marks fetching true, performs all promises as parameter, update waiting users state then marks fetching false
-  * @param promises promises
-  */
+   * Sets initial fetching state
+   * @param {bool} initialFetching is initially fetching?
+   */
+  setInitialFetching = initialFecthing => this.setState({ initialFecthing })
+
+  /**
+   * Set actions fetching state
+   * @param {bool} isFetchingActions is fetching actions?
+   */
+  setFetchingActions = isFetchingActions => this.setState({ isFetchingActions })
+
+  /**
+   * Marks fetching true, performs all promises as parameter, update waiting users state then marks fetching false
+   * @param promises promises
+   */
   performAll = (promises) => {
     this.setFetchingActions(true)
     const onDone = () => { this.setFetchingActions(false) }
@@ -117,6 +150,7 @@ export class AccountListContainer extends React.Component {
           onEdit={this.onEdit}
           onAccept={this.onAccept}
           onRefuse={this.onRefuse}
+          onEnable={this.onEnable}
           onDelete={this.onDelete}
         />
       </I18nProvider>
@@ -125,17 +159,18 @@ export class AccountListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  allAccounts: AccountSelectors.getList(state) || {},
-  waitingAccounts: WaitingAccountEntitiesSelectors.getList(state) || {},
-  isFetchingContent: AccountSelectors.isFetching(state) || WaitingAccountEntitiesSelectors.isFetching(state),
+  allAccounts: accountSelectors.getList(state) || {},
+  waitingAccounts: accountWaitingSelectors.getList(state) || {},
+  isFetchingContent: accountSelectors.isFetching(state) || accountWaitingSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAccountList: () => dispatch(AccountActions.fetchPagedEntityList()),
-  fetchWaitingAccountList: () => dispatch(WaitingAccountEntitiesActions.fetchWaitingAccountsEntityList()),
-  sendAcceptUser: accountEmail => dispatch(WaitingAccountSignalActions.sendAccept(accountEmail)),
-  sendRefuseUser: accountEmail => dispatch(RefuseAccountSignalActions.sendRefuse(accountEmail)),
-  deleteAccount: accountId => dispatch(AccountActions.deleteEntity(accountId)),
+  fetchAccountList: () => dispatch(accountActions.fetchPagedEntityList()),
+  fetchWaitingAccountList: () => dispatch(accountWaitingActions.fetchWaitingAccountsEntityList()),
+  sendAcceptUser: accountEmail => dispatch(acceptAccountActions.sendAccept(accountEmail)),
+  sendEnableUser: accountEmail => dispatch(enableAccountActions.sendEnable(accountEmail)),
+  sendRefuseUser: accountEmail => dispatch(refuseAccountActions.sendRefuse(accountEmail)),
+  deleteAccount: accountId => dispatch(accountActions.deleteEntity(accountId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountListContainer)

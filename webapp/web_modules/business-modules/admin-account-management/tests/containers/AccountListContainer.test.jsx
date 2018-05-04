@@ -44,6 +44,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list container', () => {
   it('should exists', () => {
     assert.isDefined(AccountListContainer)
   })
+
   it('should render self and subcomponents', () => {
     const props = {
       // from mapStateToProps
@@ -55,6 +56,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list container', () => {
       fetchWaitingAccountList: () => { },
       sendAcceptUser: () => { },
       sendRefuseUser: () => { },
+      sendEnableUser: () => { },
       deleteAccount: () => { },
     }
 

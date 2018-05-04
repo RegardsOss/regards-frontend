@@ -19,6 +19,8 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
+  'accounts.title': 'Comptes',
+  'accounts.subtitle': 'Gérer les comptes utilisateur',
   'account.list.table.firstName': 'Prénom',
   'account.list.table.lastName': 'Nom',
   'account.list.table.email': 'E-mail',
@@ -31,14 +33,13 @@ const messages = Object.assign({
   'account.list.subtitle': 'Liste des comptes tous projets confondus',
   'account.list.table.no.content.title': 'Rien à afficher',
   'account.list.table.action.edit.tooltip': 'Editer',
-  'account.list.table.action.accept.tooltip': 'Valider',
-  'account.list.table.action.refuse.tooltip': 'Refuser',
+  'account.list.table.action.accept.tooltip': 'Accepter le compte',
+  'account.list.table.action.refuse.tooltip': 'Refuser le compte',
+  'account.list.table.action.enable.tooltip': 'Activer le compte',
   'account.list.table.action.delete.tooltip': 'Supprimer',
   'account.list.all.tab': 'Tous les comptes ({count})',
-  'account.list.all.subtitle': 'Tous les comptes de l\'application',
   'account.list.all.no.content.message': 'Pas de compte enregistré dans l\'application',
   'account.list.waiting.tab': 'Nouveaux comptes ({count})',
-  'account.list.waiting.subtitle': 'Nouveaux comptes de l\'application en attente de validation',
   'account.list.waiting.no.content.message': 'Pas de compte en attente de validation. Vous pouvez consulter et éditer la liste des comptes dans l\'onglet "Tous les comptes"',
   'account.list.delete.message': 'Supprimer le compte {name} ?',
   'account.list.refuse.message': 'Refuser la demande ?',

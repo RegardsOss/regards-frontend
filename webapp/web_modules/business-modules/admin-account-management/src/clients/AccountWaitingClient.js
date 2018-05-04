@@ -16,19 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { accountReducer } from './clients/AccountClient'
-import { accountWaitingReducer } from './clients/AccountWaitingClient'
-import { acceptAccountReducer } from './clients/AcceptAccountClient'
-import { enableAccountReducer } from './clients/EnableAccountClient'
-import { refuseAccountReducer } from './clients/RefuseAccountClient'
+import { AdminInstanceClient } from '@regardsoss/client'
 
-const accountManagementReducer = combineReducers({
-  account: accountReducer,
-  waitingAccount: accountWaitingReducer,
-  acceptAccount: acceptAccountReducer,
-  enableAccount: enableAccountReducer,
-  refuseAccount: refuseAccountReducer,
-})
+const namespace = 'admin-account-management/waiting-accounts'
+const accountWaitingActions = new AdminInstanceClient.AccountWaitingActions(namespace)
+const accountWaitingReducer = AdminInstanceClient.getAccountWaitingReducer(namespace)
+const accountWaitingSelectors = AdminInstanceClient.getAccountWaitingSelectors(['admin', 'account-management', 'waitingAccount'])
 
-export default accountManagementReducer
+module.exports = {
+  accountWaitingActions,
+  accountWaitingReducer,
+  accountWaitingSelectors,
+}

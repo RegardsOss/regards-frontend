@@ -16,19 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { accountReducer } from './clients/AccountClient'
-import { accountWaitingReducer } from './clients/AccountWaitingClient'
-import { acceptAccountReducer } from './clients/AcceptAccountClient'
-import { enableAccountReducer } from './clients/EnableAccountClient'
-import { refuseAccountReducer } from './clients/RefuseAccountClient'
+import AccountActions from './AccountActions'
 
-const accountManagementReducer = combineReducers({
-  account: accountReducer,
-  waitingAccount: accountWaitingReducer,
-  acceptAccount: acceptAccountReducer,
-  enableAccount: enableAccountReducer,
-  refuseAccount: refuseAccountReducer,
-})
+/**
+ * Actions to fetch waiting accounts (based on account actions)
+ * @author Raphaël Mechali
+ */
+class AccountWaitingActions extends AccountActions {
+  fetchWaitingAccountsEntityList(index, size) {
+    return this.fetchPagedEntityList(index, size, null, { status: 'PENDING' })
+  }
+}
 
-export default accountManagementReducer
+export default AccountWaitingActions

@@ -18,22 +18,19 @@
  **/
 import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { AccountConfiguration } from '@regardsoss/api'
-import AccountActions from './AccountActions'
-
-export class AccountReducers extends BasicPageableReducers {
-  constructor(Actions = AccountActions) {
-    super(AccountConfiguration, Actions)
-  }
-}
-
-const instance = new AccountReducers()
+import AccountWaitingActions from './AccountWaitingActions'
 
 /**
- * Return a function where the reducer instance exists
- * @param state redux previous state
- * @param action redux action received
- * @return new state
+ * Waiting accounts reducer
+ * @author Raphaël Mechali
  */
-export default (state, action) => instance.reduce(state, action)
 
-export const PATHNAME = 'account'
+/**
+ * Builds reduce closure on actions namespace
+ * @param {*} namespace namespace
+ * @return {function} reduce function (state, action) => state
+ */
+export default function getWaitingAccountReducer(namespace) {
+  const instance = new BasicPageableReducers(AccountConfiguration, new AccountWaitingActions(namespace))
+  return (state, action) => instance.reduce(state, action)
+}

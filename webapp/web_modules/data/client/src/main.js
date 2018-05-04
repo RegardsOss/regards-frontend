@@ -19,6 +19,7 @@
 import AccessInstanceClient from './rs-access-instance/main'
 import AccessProjectClient from './rs-access-project/main'
 import AdminClient from './rs-admin'
+import AdminInstanceClient from './rs-admin-instance'
 import AuthenticationClient from './rs-authentication'
 import CatalogClient from './rs-catalog'
 import CommonClient from './rs-common'
@@ -47,6 +48,7 @@ module.exports = {
   AccessProjectClient,
   AuthenticationClient,
   AdminClient,
+  AdminInstanceClient,
   CatalogClient,
   CommonClient,
   DataManagementClient,

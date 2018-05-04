@@ -16,19 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { accountReducer } from './clients/AccountClient'
-import { accountWaitingReducer } from './clients/AccountWaitingClient'
-import { acceptAccountReducer } from './clients/AcceptAccountClient'
-import { enableAccountReducer } from './clients/EnableAccountClient'
-import { refuseAccountReducer } from './clients/RefuseAccountClient'
+import { BasicSignalReducers } from '@regardsoss/store-utils'
+import EnableAccountActions from './EnableAccountActions'
 
-const accountManagementReducer = combineReducers({
-  account: accountReducer,
-  waitingAccount: accountWaitingReducer,
-  acceptAccount: acceptAccountReducer,
-  enableAccount: enableAccountReducer,
-  refuseAccount: refuseAccountReducer,
-})
+/**
+ * Enable account reducer
+ * @author Raphaël Mechali
+ */
 
-export default accountManagementReducer
+/**
+ * Builds reduce closure on actions namespace
+ * @param {*} namespace namespace
+ * @return {function} reduce function (state, action) => state
+ */
+export default function getEnableAccountReducer(namespace) {
+  const instance = new BasicSignalReducers(new EnableAccountActions(namespace))
+  return (state, action) => instance.reduce(state, action)
+}

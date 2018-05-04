@@ -16,23 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccountReducers } from './AccountReducers'
-import WaitingAccountEntitiesActions from './WaitingAccountEntitiesActions'
-
-class WaitingAccountEntitiesReducers extends AccountReducers {
-  constructor() {
-    super(WaitingAccountEntitiesActions)
-  }
-}
-
-const instance = new WaitingAccountEntitiesReducers()
+import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
 /**
- * Return a function where the reducer instance exists
- * @param state redux previous state
- * @param action redux action received
- * @return new state
+ * Accept account state selectors
+ * @author Raphaël Mechali
  */
-export default (state, action) => instance.reduce(state, action)
 
-export const PATHNAME = 'waiting-account-entities'
+/**
+ * Selectors instance builders
+ * @param {[string]} storePath path to access state in redux store
+ * @return selectors instance
+ */
+export default function getAcceptAccountSelectors(storePath) {
+  return new BasicSignalSelectors(storePath)
+}

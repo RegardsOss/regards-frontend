@@ -96,7 +96,7 @@ const messages = {
 
   // order datasets table
   'datasets.list.no.dataset.information.title': 'Aucun jeu de données',
-  'datasets.list.no.dataset.information.message': 'Il n\'y a aucun jeu de données dans la commande sélectionnée',
+  'datasets.list.no.dataset.information.message': 'Aucun jeu de données n\'a été résolu pour cette commande. Vous n\'avez plus les droits d\'accès aux données commandées.',
   'datasets.list.no.dataset.header.message': 'Aucun jeu de données',
   'datasets.list.datasets.header.message': '{count} jeu(x) de données',
   'datasets.list.column.label': 'Nom',

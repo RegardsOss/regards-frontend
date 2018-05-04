@@ -21,7 +21,7 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { reduxForm, RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AdminShapes } from '@regardsoss/shape'
+import { AdminInstanceShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
@@ -29,7 +29,7 @@ import { themeContextType } from '@regardsoss/theme'
  */
 export class AccountFormComponent extends React.Component {
   static propTypes = {
-    currentAccount: AdminShapes.Account.isRequired,
+    currentAccount: AdminInstanceShapes.Account.isRequired,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     // from reduxForm
@@ -69,12 +69,12 @@ export class AccountFormComponent extends React.Component {
           <CardTitle
             title={
               this.context.intl.formatMessage(
-{ id: 'account.form.edit.title' },
+                { id: 'account.form.edit.title' },
                 {
                   firstName: this.props.currentAccount.content.firstName,
                   lastName: this.props.currentAccount.content.lastName,
                 },
-)}
+              )}
           />
           <CardText>
 

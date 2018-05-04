@@ -16,19 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { accountReducer } from './clients/AccountClient'
-import { accountWaitingReducer } from './clients/AccountWaitingClient'
-import { acceptAccountReducer } from './clients/AcceptAccountClient'
-import { enableAccountReducer } from './clients/EnableAccountClient'
-import { refuseAccountReducer } from './clients/RefuseAccountClient'
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
-const accountManagementReducer = combineReducers({
-  account: accountReducer,
-  waitingAccount: accountWaitingReducer,
-  acceptAccount: acceptAccountReducer,
-  enableAccount: enableAccountReducer,
-  refuseAccount: refuseAccountReducer,
-})
+/**
+ * Accept account actions
+ * @author Raphaël Mechali
+ */
+export class AcceptAccountActions extends BasicSignalActions {
+  constructor(namespace) {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/accounts/{account_email}/accept`,
+      namespace,
+    })
+  }
 
-export default accountManagementReducer
+  /**
+   * Builds action to send accept account signal to backend
+   * @param {string} accountEmail account e-mail
+   * @return {type: string, *} redux action to dispatch
+   */
+  sendAccept(accountEmail) {
+    return this.sendSignal('PUT', null, {
+      account_email: accountEmail,
+    })
+  }
+}
+
+// export singleton instance
+export default AcceptAccountActions
