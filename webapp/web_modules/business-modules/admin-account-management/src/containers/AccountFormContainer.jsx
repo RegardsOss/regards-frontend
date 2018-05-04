@@ -20,10 +20,9 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { I18nProvider } from '@regardsoss/i18n'
-import { AdminShapes } from '@regardsoss/shape'
-import AccountActions from '../model/AccountActions'
+import { AdminInstanceShapes } from '@regardsoss/shape'
+import { accountActions, accountSelectors } from '../clients/AccountClient'
 import AccountFormComponent from '../components/AccountFormComponent'
-import AccountSelectors from '../model/AccountSelectors'
 import messages from '../i18n'
 
 export class AccountFormContainer extends React.Component {
@@ -33,7 +32,7 @@ export class AccountFormContainer extends React.Component {
       account_id: PropTypes.string,
     }),
     // from mapStateToProps
-    account: AdminShapes.Account,
+    account: AdminInstanceShapes.Account,
     isFetching: PropTypes.bool,
     // from mapDispatchToProps
     fetchAccount: PropTypes.func,
@@ -82,13 +81,13 @@ export class AccountFormContainer extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  account: ownProps.params.account_id ? AccountSelectors.getById(state, ownProps.params.account_id) : null,
-  isFetching: AccountSelectors.isFetching(state),
+  account: ownProps.params.account_id ? accountSelectors.getById(state, ownProps.params.account_id) : null,
+  isFetching: accountSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateAccount: (id, values) => dispatch(AccountActions.updateEntity(id, values)),
-  fetchAccount: accountId => dispatch(AccountActions.fetchEntity(accountId)),
+  updateAccount: (id, values) => dispatch(accountActions.updateEntity(id, values)),
+  fetchAccount: accountId => dispatch(accountActions.fetchEntity(accountId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountFormContainer)

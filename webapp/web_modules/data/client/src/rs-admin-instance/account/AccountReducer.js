@@ -16,17 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccountActions } from './AccountActions'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { AccountConfiguration } from '@regardsoss/api'
+import AccountActions from './AccountActions'
 
-class WaitingAccountEntitiesActions extends AccountActions {
-  constructor() {
-    super('admin-account-management/waiting-accounts-entities')
-  }
+/**
+ * AccountActions reducer
+ * @author Raphaël Mechali
+ */
 
-  fetchWaitingAccountsEntityList(index, size) {
-    return this.fetchPagedEntityList(index, size, null, { status: 'PENDING' })
-  }
+/**
+ * Builds reduce closure on actions namespace
+ * @param {*} namespace namespace
+ * @return {function} reduce function (state, action) => state
+ */
+export default function getAccountReducer(namespace) {
+  const instance = new BasicPageableReducers(AccountConfiguration, new AccountActions(namespace))
+  return (state, action) => instance.reduce(state, action)
 }
-
-const instance = new WaitingAccountEntitiesActions()
-export default instance

@@ -16,7 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalSelectors } from '@regardsoss/store-utils'
-import { PATHNAME } from './WaitingAccountSignalReducers'
+import { AdminInstanceClient } from '@regardsoss/client'
 
-export default new BasicSignalSelectors(['admin', 'account-management', PATHNAME])
+const namespace = 'admin-account-management/refuse-account'
+const refuseAccountActions = new AdminInstanceClient.RefuseAccountActions(namespace)
+const refuseAccountReducer = AdminInstanceClient.getRefuseAccountReducer(namespace)
+const refuseAccountSelectors = AdminInstanceClient.getRefuseAccountSelectors(['admin', 'account-management', 'refuseAccount'])
+
+module.exports = {
+  refuseAccountActions,
+  refuseAccountReducer,
+  refuseAccountSelectors,
+}

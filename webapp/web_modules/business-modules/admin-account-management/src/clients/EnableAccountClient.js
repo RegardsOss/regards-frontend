@@ -16,21 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Schemas from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+import { AdminInstanceClient } from '@regardsoss/client'
 
-export class AccountActions extends BasicPageableActions {
-  constructor(namespace = 'admin-account-management/accounts') {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/accounts`,
-      schemaTypes: {
-        ENTITY: Schemas.ACCOUNT,
-        ENTITY_ARRAY: Schemas.ACCOUNT_ARRAY,
-      },
-    })
-  }
+const namespace = 'admin-account-management/enable-account'
+const enableAccountActions = new AdminInstanceClient.EnableAccountActions(namespace)
+const enableAccountReducer = AdminInstanceClient.getEnableAccountReducer(namespace)
+const enableAccountSelectors = AdminInstanceClient.getEnableAccountSelectors([['admin', 'account-management', 'enableAccount']])
+
+module.exports = {
+  enableAccountActions,
+  enableAccountReducer,
+  enableAccountSelectors,
 }
-
-const instance = new AccountActions()
-export default instance

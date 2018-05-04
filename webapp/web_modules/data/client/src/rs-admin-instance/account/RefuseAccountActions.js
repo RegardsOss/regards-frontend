@@ -16,17 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const Account = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number,
-    lastName: PropTypes.string,
-    email: PropTypes.string,
-    firstName: PropTypes.string,
-    status: PropTypes.string,
-  }),
-})
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
-const AccountList = PropTypes.objectOf(Account)
+/**
+ * Actions to send refuse account signal
+ * @author Raphaël Mechali
+ */
+export class RefuseAccountActions extends BasicSignalActions {
+  constructor(namespace) {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/accounts/{account_email}/refuse`,
+      namespace,
+    })
+  }
 
+  /**
+   * Builds action to send refuse account signal to backend
+   * @param {string} accountEmail account e-mail
+   * @return {type: string, *} redux action to dispatch
+   */
+  sendRefuse(accountEmail) {
+    return this.sendSignal('PUT', null, {
+      account_email: accountEmail,
+    })
+  }
+}
 
-module.exports = { Account, AccountList }
+export default RefuseAccountActions

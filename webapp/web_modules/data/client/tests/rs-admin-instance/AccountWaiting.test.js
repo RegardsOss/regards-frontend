@@ -18,19 +18,21 @@
  **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { AdminShapes } from '@regardsoss/shape'
-import WaitingAccountEntitiesActions from '../../src/model/WaitingAccountEntitiesActions'
-import getWaitingAccountEntitiesReducer from '../../src/model/WaitingAccountEntitiesReducers'
+import AccountWaitingActions from '../../src/rs-admin-instance/account/AccountWaitingActions'
+import getAccountWaitingReducer from '../../src/rs-admin-instance/account/AccountWaitingReducer'
+import AccountWaitingSelectors from '../../src/rs-admin-instance/account/AccountWaitingSelectors'
+import AccountWaitingNetworkDump from './AccountWaiting.dump'
 
-import WaitingAccountEntitiesSelectors from '../../src/model/WaitingAccountEntitiesSelectors'
-import WaitingAccountEntitiesNetworkDump from './dump/WaitingAccountEntitiesNetworkDump'
-
-const backendServerResultList = WaitingAccountEntitiesNetworkDump
+const backendServerResultList = AccountWaitingNetworkDump
 const options = {
 }
 
-const entityTester = new ReduxEntityTester(WaitingAccountEntitiesActions, getWaitingAccountEntitiesReducer, WaitingAccountEntitiesSelectors, AdminShapes.ProjectUserList.isRequired, backendServerResultList, options)
+const actions = new AccountWaitingActions('test/action')
+const reducer = getAccountWaitingReducer('test/action')
+const selectors = AccountWaitingSelectors(['test', 'modules'])
+const entityTester = new ReduxEntityTester(actions, reducer, selectors, AdminShapes.ProjectUserList.isRequired, backendServerResultList, options)
 
-describe('[ADMIN ACCOUNT MANAGEMENT] Testing model WaitingAccountEntities', () => {
+describe('[ADMIN ACCOUNT MANAGEMENT] Testing model AccountWaiting', () => {
   before(() => {
     entityTester.beforeAll()
   })

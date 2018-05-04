@@ -16,14 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
-import { PATHNAME } from './WaitingAccountEntitiesReducers'
+import { AdminInstanceClient } from '@regardsoss/client'
 
-class WaitingAccountEntitiesSelectors extends BasicPageableSelectors {
-  constructor() {
-    super(['admin', 'account-management', PATHNAME])
-  }
+const namespace = 'admin-account-management/accept-account'
+const acceptAccountActions = new AdminInstanceClient.AcceptAccountActions(namespace)
+const acceptAccountReducer = AdminInstanceClient.getAcceptAccountReducer(namespace)
+const acceptAccountSelectors = AdminInstanceClient.getAcceptAccountSelectors(['admin', 'account-management', 'acceptAccount'])
+
+module.exports = {
+  acceptAccountActions,
+  acceptAccountReducer,
+  acceptAccountSelectors,
 }
-
-const instance = new WaitingAccountEntitiesSelectors()
-export default instance

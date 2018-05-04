@@ -17,14 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
-import { PATHNAME } from './AccountReducers'
 
-class AccountSelectors extends BasicPageableSelectors {
-  constructor() {
-    super(['admin', 'account-management', PATHNAME])
-  }
+/**
+ * Waiting account state selectors
+ * @author Raphaël Mechali
+ */
+
+/**
+ * Selectors instance builders
+ * @param {[string]} storePath path to access state in redux store
+ * @return selectors instance
+ */
+export default function getAccountSelectors(storePath) {
+  return new BasicPageableSelectors(storePath)
 }
-
-const instance = new AccountSelectors()
-export default instance
-

@@ -24,24 +24,20 @@ import { Card, CardTitle, CardText } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
-import Done from 'material-ui/svg-icons/action/done'
-import RemoveCircle from 'material-ui/svg-icons/content/remove-circle'
-import { AdminShapes } from '@regardsoss/shape'
+import EditAccountIcon from 'material-ui/svg-icons/editor/mode-edit'
+import DeleteAccountIcon from 'material-ui/svg-icons/action/delete'
+import ValidateAccountIcon from 'mdi-material-ui/AccountCheck'
+import RefuseAccountIcon from 'mdi-material-ui/AccountRemove'
+import EnabledAccountIcon from 'mdi-material-ui/AccountConvert'
+import { AdminInstanceDomain } from '@regardsoss/domain'
+import { AdminInstanceShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ActionsMenuCell, NoContentComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, HelpMessageComponent } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator, HateoasKeys, withHateoasDisplayControl } from '@regardsoss/display-control'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const actionsBreakpoints = [550, 1040, 1040, 1040]
-const status = {
-  pending: 'PENDING',
-  active: 'ACTIVE',
-  locked: 'LOCKED',
-  inactive: 'INACTIVE',
-}
+const actionsBreakpoints = [550, 1040, 1040, 1040, 1040]
 
 /**
  * Tabs Id
@@ -56,10 +52,11 @@ export const TABS = {
  */
 export class AccountListComponent extends React.Component {
   static propTypes = {
-    allAccounts: PropTypes.objectOf(AdminShapes.Account),
-    waitingAccounts: PropTypes.objectOf(AdminShapes.Account),
+    allAccounts: PropTypes.objectOf(AdminInstanceShapes.Account),
+    waitingAccounts: PropTypes.objectOf(AdminInstanceShapes.Account),
     onAccept: PropTypes.func.isRequired,
     onRefuse: PropTypes.func.isRequired,
+    onEnable: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     initialFecthing: PropTypes.bool.isRequired,
@@ -71,12 +68,19 @@ export class AccountListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static SUBHEADER_STYLES = {
+    paddingLeft: 0,
+  }
+
   state = {
     deleteDialogOpened: false,
     refuseDialogOpened: false,
     entityToDeleteOrRefuse: null,
   }
 
+  /**
+   * Lifecycle method: component will mount. Used here to initialize the selected tab
+   */
   componentWillReceiveProps = (nextProps) => {
     if (this.props.initialFecthing && !nextProps.initialFecthing) {
       // first loading: show waiting tab if there are any waiting account
@@ -84,58 +88,95 @@ export class AccountListComponent extends React.Component {
     }
   }
 
+  /**
+   * User callback: changed tab
+   */
   onTabChange = (value) => {
     this.selectTab(value)
   }
 
-  getWaitingAccountsTabContent = () => ({
-    tabSubtitleKey: 'account.list.waiting.subtitle',
-    noDataMessageKey: 'account.list.waiting.no.content.message',
-    accounts: this.props.waitingAccounts,
-  })
-
-  getAllAccountsTabContent = () => ({
-    tabSubtitleKey: 'account.list.all.subtitle',
-    noDataMessageKey: 'account.list.all.no.content.message',
-    accounts: this.props.allAccounts,
-  })
-
-  closeDeleteDialog = () => {
+  /**
+   * User callback: closed delete dialog
+   */
+  onCloseDeleteDialog = () => {
     this.setState({
       deleteDialogOpened: false,
       entityToDeleteOrRefuse: null,
     })
   }
 
-  openDeleteDialog = (entity) => {
+  /**
+   * User callback: opened delete dialog
+   */
+  onOpenDeleteDialog = (entity) => {
     this.setState({
       deleteDialogOpened: true,
       entityToDeleteOrRefuse: entity,
     })
   }
 
-  closeRefuseDialog = () => {
+  /**
+   * User callback: closed refuse dialog
+   */
+  onCloseRefuseDialog = () => {
     this.setState({
       refuseDialogOpened: false,
       entityToDeleteOrRefuse: null,
     })
   }
 
-  openRefuseDialog = (entity) => {
+  /**
+   * User callback: opened refuse dialog
+   */
+  onOpenRefuseDialog = (entity) => {
     this.setState({
       refuseDialogOpened: true,
       entityToDeleteOrRefuse: entity,
     })
   }
 
-  canAcceptAccount = account => [status.pending].includes(account.content.status)
+  /**
+   * @return waiting accounts tab related content
+   */
+  getWaitingAccountsTabContent = () => ({
+    noDataMessageKey: 'account.list.waiting.no.content.message',
+    accounts: this.props.waitingAccounts,
+  })
 
-  canRefuseAccount = account => [status.pending].includes(account.content.status)
+  /**
+   * @return waiting accounts tab related content
+   */
+  getAllAccountsTabContent = () => ({
+    noDataMessageKey: 'account.list.all.no.content.message',
+    accounts: this.props.allAccounts,
+  })
 
+  /**
+   * @return {boolean} true if administrator can accept this account
+   */
+  canAcceptAccount = account => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
+
+  /**
+   * @return {boolean} true if administrator can refuse this account
+   */
+  canRefuseAccount = account => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
+
+  /**
+   * @return {boolean} true if administrator can enabled this account
+   */
+  canEnableAccount = account => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.INACTIVE === account.content.status
+
+  /**
+   * Shows selected tab
+   * @param selectedTab tab selected, that should be shown
+   */
   selectTab = (selectedTab) => {
     this.setState({ selectedTab })
   }
 
+  /**
+   * Renders account deletion confirmation dialog
+   */
   renderDeleteConfirmDialog = () => {
     const name = this.state.entityToDeleteOrRefuse ? this.state.entityToDeleteOrRefuse.content.email : ' '
     const title = this.context.intl.formatMessage({ id: 'account.list.delete.message' }, { name })
@@ -146,13 +187,16 @@ export class AccountListComponent extends React.Component {
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => this.props.onDelete(this.state.entityToDeleteOrRefuse.content.id)}
-          onClose={this.closeDeleteDialog}
+          onClose={this.onCloseDeleteDialog}
           title={title}
         />
       </ShowableAtRender>
     )
   }
 
+  /**
+   * Renders account refusal confirmation dialog
+   */
   renderRefuseConfirmDialog = () => {
     const name = this.state.entityToDeleteOrRefuse ? this.state.entityToDeleteOrRefuse.content.email : ' '
     const title = this.context.intl.formatMessage({ id: 'account.list.refuse.message' })
@@ -161,7 +205,7 @@ export class AccountListComponent extends React.Component {
       open={this.state.refuseDialogOpened}
       dialogType={ConfirmDialogComponentTypes.REFUSE}
       onConfirm={() => this.props.onRefuse(this.state.entityToDeleteOrRefuse.content.email)}
-      onClose={this.closeRefuseDialog}
+      onClose={this.onCloseRefuseDialog}
       title={title}
       message={message}
     />)
@@ -175,29 +219,29 @@ export class AccountListComponent extends React.Component {
       deleteActionHoverColor: this.context.muiTheme.palette.accent1Color,
     }
     const {
-      allAccounts, waitingAccounts, onEdit, onAccept, initialFecthing, isFetchingActions,
+      allAccounts, waitingAccounts, onEdit, onAccept, initialFecthing, isFetchingActions, onEnable,
     } = this.props
-    const { intl } = this.context
+    const { intl: { formatMessage } } = this.context
     const emptyComponent = (<NoContentComponent
-      title={this.context.intl.formatMessage({ id: 'account.list.table.no.content.title' })}
-      message={this.context.intl.formatMessage({ id: tabContent.noDataMessageKey })}
+      title={formatMessage({ id: 'account.list.table.no.content.title' })}
+      message={formatMessage({ id: tabContent.noDataMessageKey })}
     />)
 
     return (
       <Card>
+        <CardTitle title={formatMessage({ id: 'accounts.title' })} subtitle={formatMessage({ id: 'accounts.subtitle' })} />
         <Tabs onChange={this.onTabChange} value={selectedTab}>
           <Tab
             className="selenium-waitingTab"
-            label={this.context.intl.formatMessage({ id: 'account.list.waiting.tab' }, { count: size(waitingAccounts) || '0' })}
+            label={formatMessage({ id: 'account.list.waiting.tab' }, { count: size(waitingAccounts) || '0' })}
             value={TABS.waiting}
           />
           <Tab
             className="selenium-allTab"
-            label={this.context.intl.formatMessage({ id: 'account.list.all.tab' }, { count: size(allAccounts) || '0' })}
+            label={formatMessage({ id: 'account.list.all.tab' }, { count: size(allAccounts) || '0' })}
             value={TABS.all}
           />
         </Tabs>
-        <CardTitle subtitle={this.context.intl.formatMessage({ id: tabContent.tabSubtitleKey })} />
         <CardText>
           <LoadableContentDisplayDecorator
             isLoading={initialFecthing}
@@ -251,47 +295,58 @@ export class AccountListComponent extends React.Component {
                         >
                           <HateoasIconAction
                             className="selenium-editButton"
-                            title={intl.formatMessage({ id: 'account.list.table.action.edit.tooltip' })}
+                            title={formatMessage({ id: 'account.list.table.action.edit.tooltip' })}
                             onClick={() => onEdit(account.content.id)}
                             disabled={isFetchingActions}
                             entityLinks={account.links}
                             hateoasKey={HateoasKeys.UPDATE}
                             alwaysDisplayforInstanceUser={false}
                           >
-                            <Edit hoverColor={style.commonActionHoverColor} />
+                            <EditAccountIcon hoverColor={style.commonActionHoverColor} />
                           </HateoasIconAction>
                           <HateoasIconAction
                             className="selenium-acceptButton"
-                            title={intl.formatMessage({ id: 'account.list.table.action.accept.tooltip' })}
+                            title={formatMessage({ id: 'account.list.table.action.accept.tooltip' })}
                             onClick={() => onAccept(account.content.email)}
                             disabled={isFetchingActions || !this.canAcceptAccount(account)}
                             entityLinks={account.links}
                             hateoasKey={HateoasKeys.ACCEPT}
                             alwaysDisplayforInstanceUser={false}
                           >
-                            <Done hoverColor={style.commonActionHoverColor} />
+                            <ValidateAccountIcon hoverColor={style.commonActionHoverColor} />
                           </HateoasIconAction>
                           <HateoasIconAction
                             className="selenium-refuseButton"
-                            title={intl.formatMessage({ id: 'account.list.table.action.refuse.tooltip' })}
-                            onClick={() => this.openRefuseDialog(account)}
+                            title={formatMessage({ id: 'account.list.table.action.refuse.tooltip' })}
+                            onClick={() => this.onOpenRefuseDialog(account)}
                             disabled={isFetchingActions || !this.canRefuseAccount(account)}
                             entityLinks={account.links}
                             hateoasKey={HateoasKeys.REFUSE}
                             alwaysDisplayforInstanceUser={false}
                           >
-                            <RemoveCircle hoverColor={style.deleteActionHoverColor} />
+                            <RefuseAccountIcon hoverColor={style.deleteActionHoverColor} />
+                          </HateoasIconAction>
+                          <HateoasIconAction
+                            className="selenium-enableButton"
+                            title={formatMessage({ id: 'account.list.table.action.enable.tooltip' })}
+                            onClick={() => onEnable(account.content.email)}
+                            disabled={isFetchingActions || !this.canEnableAccount(account)}
+                            entityLinks={account.links}
+                            hateoasKey={HateoasKeys.ACTIVE}
+                            alwaysDisplayforInstanceUser={false}
+                          >
+                            <EnabledAccountIcon hoverColor={style.commonActionHoverColor} />
                           </HateoasIconAction>
                           <HateoasIconAction
                             className="selenium-deleteButton"
-                            title={intl.formatMessage({ id: 'account.list.table.action.delete.tooltip' })}
-                            onClick={() => this.openDeleteDialog(account)}
+                            title={formatMessage({ id: 'account.list.table.action.delete.tooltip' })}
+                            onClick={() => this.onOpenDeleteDialog(account)}
                             disabled={isFetchingActions}
                             entityLinks={account.links}
                             hateoasKey={HateoasKeys.DELETE}
                             alwaysDisplayforInstanceUser={false}
                           >
-                            <Delete hoverColor={style.deleteActionHoverColor} />
+                            <DeleteAccountIcon hoverColor={style.deleteActionHoverColor} />
                           </HateoasIconAction>
                         </ActionsMenuCell>
                       </TableRowColumn>

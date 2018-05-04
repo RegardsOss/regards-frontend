@@ -19,6 +19,8 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
+  'accounts.title': 'Accounts',
+  'accounts.subtitle': 'Manage user accounts',
   'account.list.table.firstName': 'Firstname',
   'account.list.table.lastName': 'Lastname',
   'account.list.table.email': 'E-mail',
@@ -31,14 +33,13 @@ const messages = Object.assign({
   'account.list.subtitle': 'Accounts shared by all projects',
   'account.list.table.no.content.title': 'Nothing to show',
   'account.list.table.action.edit.tooltip': 'Edit',
-  'account.list.table.action.accept.tooltip': 'Accept',
-  'account.list.table.action.refuse.tooltip': 'Refuse',
+  'account.list.table.action.accept.tooltip': 'Accept account',
+  'account.list.table.action.refuse.tooltip': 'Refuse account',
+  'account.list.table.action.enable.tooltip': 'Enable account',
   'account.list.table.action.delete.tooltip': 'Remove',
   'account.list.all.tab': 'All users ({count})',
-  'account.list.all.subtitle': 'List of all accounts in application',
   'account.list.all.no.content.message': 'No account in the application',
   'account.list.waiting.tab': 'New accounts ({count})',
-  'account.list.waiting.subtitle': 'List of accounts waiting for validation',
   'account.list.waiting.no.content.message': 'No account waiting for validation. You can view and edit accounts "All accounts" tab',
   'account.list.delete.message': 'Remove the account {name}?',
   'account.list.refuse.message': 'Refuse the request?',

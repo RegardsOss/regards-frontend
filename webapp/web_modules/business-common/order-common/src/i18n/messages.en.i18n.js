@@ -96,7 +96,7 @@ const messages = {
 
   // order datasets table
   'datasets.list.no.dataset.information.title': 'No dataset',
-  'datasets.list.no.dataset.information.message': 'There is no dataset in selected order',
+  'datasets.list.no.dataset.information.message': 'No dataset resolved for that command. You have no longer access to ordered data files.',
   'datasets.list.no.dataset.header.message': 'No dataset',
   'datasets.list.datasets.header.message': '{count} dataset(s)',
   'datasets.list.column.label': 'Name',

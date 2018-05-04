@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { WaitingAccountEntitiesActions } from '@regardsoss/admin-account-management'
+import { accountWaitingActions } from '@regardsoss/admin-account-management'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
@@ -39,7 +39,7 @@ const projectNotificationsDependencies = [
 /** Notifications fetchers for instance admin interface */
 const instanceNotificationsFetchers = [
   // fetch account waiting instance administrator validation
-  () => WaitingAccountEntitiesActions.fetchWaitingAccountsEntityList(),
+  () => accountWaitingActions.fetchWaitingAccountsEntityList(),
 ]
 
 /** Corresponding dependencies: none (instance has all dependencies valid) */

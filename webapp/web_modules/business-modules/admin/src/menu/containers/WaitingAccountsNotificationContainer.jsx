@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { WaitingAccountEntitiesSelectors } from '@regardsoss/admin-account-management'
+import { accountWaitingSelectors } from '@regardsoss/admin-account-management'
 import NotificationCountContainer from './NotificationCountContainer'
 
 /**
 * Shows users waiting access notification count
 */
 class WaitingAccountsNotificationContainer extends React.Component {
-  countEntities = state => WaitingAccountEntitiesSelectors.getSize(state)
+  countEntities = state => accountWaitingSelectors.getSize(state)
 
   render() {
     // instantiate refresh handler and notification displayer

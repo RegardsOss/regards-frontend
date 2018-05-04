@@ -16,22 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
 
-export class WaitingAccountSignalActions extends BasicSignalActions {
-  constructor() {
-    super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/accounts/{account_email}/accept`,
-      namespace: 'admin-account-management/waiting-account-signals',
-    })
-  }
+import { Account, AccountList } from './Account'
 
-  sendAccept(accountEmail) {
-    return this.sendSignal('PUT', null, {
-      account_email: accountEmail,
-    })
-  }
+module.exports = {
+  Account,
+  AccountList,
 }
-
-// export singleton instance
-export default new WaitingAccountSignalActions()

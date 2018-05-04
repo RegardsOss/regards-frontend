@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { Account, AccountList } from './Account'
 import { ConnectivityCheck, ConnectivityCheckList } from './ConnectivityCheck'
 import { MetadataContent, MetadataContentArray } from './Metadata'
 import { ProjectContent, Project, ProjectList } from './Project'
@@ -29,9 +28,6 @@ import { Notification, NotificationList, NotificationArray } from './Notificatio
 import { NotificationSettings } from './NotificationSettings'
 
 module.exports = {
-  Account,
-  AccountList,
-
   ConnectivityCheck,
   ConnectivityCheckList,
 

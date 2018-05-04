@@ -18,6 +18,7 @@
  **/
 import AccessShapes from './rs-access/index'
 import AdminShapes from './rs-admin/index'
+import AdminInstanceShapes from './rs-admin-instance/index'
 import StorageShapes from './rs-storage/index'
 import CommonShapes from './rs-common/index'
 import CatalogShapes from './rs-catalog/index'
@@ -29,6 +30,7 @@ import OrderShapes from './rs-order/index'
 module.exports = {
   AccessShapes,
   AdminShapes,
+  AdminInstanceShapes,
   StorageShapes,
   CatalogShapes,
   CommonShapes,

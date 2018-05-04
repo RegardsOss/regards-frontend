@@ -16,18 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalReducers } from '@regardsoss/store-utils'
-import { WaitingAccountSignalActions } from './WaitingAccountSignalActions'
+import { AdminInstanceDomain } from '@regardsoss/domain'
+
+const Account = PropTypes.shape({
+  content: PropTypes.shape({
+    id: PropTypes.number,
+    lastName: PropTypes.string,
+    email: PropTypes.string,
+    firstName: PropTypes.string,
+    status: PropTypes.oneOf(AdminInstanceDomain.ACCOUNT_STATUS),
+  }),
+})
+
+const AccountList = PropTypes.objectOf(Account)
 
 
-const instance = new BasicSignalReducers(WaitingAccountSignalActions)
-
-/**
- * Return a function where the reducer instance exists
- * @param state redux previous state
- * @param action redux action received
- * @return new state
- */
-export default (state, action) => instance.reduce(state, action)
-
-export const PATHNAME = 'waiting-account-signals'
+module.exports = { Account, AccountList }

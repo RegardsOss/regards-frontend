@@ -18,13 +18,12 @@
  **/
 import accountManagementRouter from './router'
 import accountManagementReducer from './reducer'
-import WaitingAccountEntitiesActions from './model/WaitingAccountEntitiesActions'
-import WaitingAccountEntitiesSelectors from './model/WaitingAccountEntitiesSelectors'
+import { accountWaitingActions, accountWaitingSelectors } from './clients/AccountWaitingClient'
 
 module.exports = {
   accountManagementReducer,
   accountManagementRouter,
   // expose module elements used externally
-  WaitingAccountEntitiesActions,
-  WaitingAccountEntitiesSelectors,
+  accountWaitingActions,
+  accountWaitingSelectors,
 }
