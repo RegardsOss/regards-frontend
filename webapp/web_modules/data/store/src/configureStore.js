@@ -20,6 +20,7 @@ import concat from 'lodash/concat'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
+import isFunction from 'lodash/isFunction'
 import root from 'window-or-global'
 import headersMiddleware from './headersMiddleware'
 import formatURLMiddleware from './formatURLMiddleware'
@@ -55,13 +56,19 @@ function configureStore(rootReducer) {
     middlewares = concat([], middlewares, [logger])
   }
 
+  // Enable redux dev tools
+  // eslint-disable-next-line no-underscore-dangle
+  const composeEnhancers = root.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && isFunction(root.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ? root.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+    // Specify redux dev tools options
+    // maxAge: 80,
+  }) : compose
+
   // Create the application store
   const store = createStore(
     configureReducers(reducerRegistry.getReducers()),
     preloadedState,
-    compose(
+    composeEnhancers(
       applyMiddleware(...middlewares),
-      root.devToolsExtension ? root.devToolsExtension() : f => f, // Enable redux dev tools
     ),
   )
 
