@@ -56,6 +56,7 @@ describe('[Search Results] Testing AddElementToCartContainer', () => {
           ...basicEntityFields,
           entityType: ENTITY_TYPES_ENUM.DATA,
           containsPhysicalData: false,
+          canBeExternallyDownloaded: false,
           downloadable: false,
         },
       },
@@ -69,13 +70,35 @@ describe('[Search Results] Testing AddElementToCartContainer', () => {
       onAddToCart: enzymeWrapper.instance().onAddToCart,
     }, 'Add to cart should be disabled for a DATA where containsPhysicalData is false')
   })
-  it('should render correctly and enable action when DATA entity can be added to basket', () => {
+  it('should render correctly and enable action when DATA entity can be added to basket (local data)', () => {
     const props = {
       entity: {
         content: {
           ...basicEntityFields,
           entityType: ENTITY_TYPES_ENUM.DATA,
           containsPhysicalData: true,
+          canBeExternallyDownloaded: false,
+          downloadable: true,
+        },
+      },
+      onAddToCart: () => { },
+    }
+    const enzymeWrapper = shallow(<AddElementToCartContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(AddElementToCartComponent)
+    assert.lengthOf(componentWrapper, 1, 'Sub component should be rendered')
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      canAddToCart: true,
+      onAddToCart: enzymeWrapper.instance().onAddToCart,
+    }, 'Add to cart should be enabled for a DATA where containsPhysicalData is true')
+  })
+  it('should render correctly and enable action when DATA entity can be added to basket (external data)', () => {
+    const props = {
+      entity: {
+        content: {
+          ...basicEntityFields,
+          entityType: ENTITY_TYPES_ENUM.DATA,
+          containsPhysicalData: false,
+          canBeExternallyDownloaded: true,
           downloadable: true,
         },
       },
