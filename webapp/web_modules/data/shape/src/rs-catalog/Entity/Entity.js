@@ -46,7 +46,7 @@ const entityFields = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   // these two booleans are provided on ENTITY_TYPES.DATA
   containsPhysicalData: PropTypes.bool,
-  downloadable: PropTypes.bool,
+  allowingDownload: PropTypes.bool,
   // description file for collections and datasets only
   descriptionFile: PropTypes.shape({
     // URL: external URL file (cannot be present at same time than type)
