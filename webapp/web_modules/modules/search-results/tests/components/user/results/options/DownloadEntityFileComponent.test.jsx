@@ -45,20 +45,20 @@ const docFile = {
     properties: {},
     services: [],
     files: {},
-    downloadable: true,
+    allowingDownload: true,
   },
 }
 
 const file1 = {
   uri: 'www.richguys.com/my-wealth',
-  online: true,
+  downloadable: true,
   mimeType: 'picsou-monney/xml',
   checksum: 'F1',
 }
 
 const file2 = {
   uri: 'www.file2.com/file',
-  online: true,
+  downloadable: true,
   mimeType: 'picsou-monney/xml',
   checksum: 'F2',
 }
@@ -123,7 +123,7 @@ describe('[Search Results] Testing DownloadEntityFileComponent', () => {
           files: {
             RAWDATA: [file1],
           },
-          downloadable: false,
+          allowingDownload: false,
         },
       },
     }
@@ -142,7 +142,7 @@ describe('[Search Results] Testing DownloadEntityFileComponent', () => {
           files: {
             RAWDATA: [file1],
           },
-          downloadable: true,
+          allowingDownload: true,
         },
       },
       // Current user session info
@@ -162,7 +162,7 @@ describe('[Search Results] Testing DownloadEntityFileComponent', () => {
             RAWDATA: [file1],
             DOCUMENT: [file1],
           },
-          downloadable: false,
+          allowingDownload: false,
         },
       },
       // Current user session info
@@ -181,7 +181,7 @@ describe('[Search Results] Testing DownloadEntityFileComponent', () => {
           files: {
             RAWDATA: [file1, { // second file should be filtered as it is not only
               uri: 'www.another-file.com/my-file',
-              online: false,
+              downloadable: false,
               mimeType: 'some/xml-format',
             }],
             DOCUMENT: [file2],
@@ -204,7 +204,7 @@ describe('[Search Results] Testing DownloadEntityFileComponent', () => {
       assert.lengthOf(linkForFileURI, 1, `The should be the link for file URI ${file.uri}`)
     })
   })
-  it('should render correctly and display download placeholder when all files are offline', () => {
+  it('should render correctly and display download placeholder when all files are not downloadable', () => {
     const props = {
       entity: {
         content: {
@@ -212,16 +212,16 @@ describe('[Search Results] Testing DownloadEntityFileComponent', () => {
           files: {
             RAWDATA: [{
               uri: 'www.another-file.com/my-file-1',
-              online: false,
+              downloadable: false,
               mimeType: 'some/xml-format',
             }, {
               uri: 'www.another-file.com/my-file-1',
-              online: false,
+              downloadable: false,
               mimeType: 'some/xml-format',
             }],
             DOCUMENT: [],
           },
-          downloadable: true,
+          allowingDownload: true,
         },
       },
       // Current user session info

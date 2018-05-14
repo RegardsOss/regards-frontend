@@ -63,16 +63,12 @@ class DownloadEntityFileComponent extends React.Component {
     textDecoration: 'none',
   }
 
-  static getLabel = () => { }
-
-  /**
-   * @return {[*]} download files for entity, in current state and with current user rights
-   */
+  /** @return {[*]} download files for entity, in current state and with current user rights */
   getAllDownloadeableFiles = () => {
     const { entity } = this.props
     return [
-      // raw files when user can access download endpoint and file is online
-      ...this.isAllowingDownload() ? get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}`, []).filter(f => f.online) : [],
+      // raw files when user can access download endpoint and file is downloadable (download means ONLINE or external file)
+      ...this.isAllowingDownload() ? get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}`, []).filter(f => f.downloadable) : [],
       // documents (always allowed)
       ...get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}`, []),
     ]
@@ -87,7 +83,7 @@ class DownloadEntityFileComponent extends React.Component {
     let reasonMessageId
     if (dataFilesCount + documentFilesCount === 0) { // 1 - the is no file for that object
       reasonMessageId = 'no.download.tooltip'
-    } else if (!entity.content.downloadable) { // 2 - user has not rights to download files
+    } else if (!this.isAllowingDownload()) { // 2 - user has not rights to download files
       reasonMessageId = 'download.unsufficient.user.rights.tooltip'
     } else { // 3 - there are files and user has rights: those files are not online
       reasonMessageId = 'download.no.online.file.tooltip'
@@ -96,18 +92,11 @@ class DownloadEntityFileComponent extends React.Component {
     return formatMessage({ id: reasonMessageId })
   }
 
-  isDataset = () => {
-    const { entity } = this.props
-    return entity.content.entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET
-  }
+  /** @return {boolean} true if current entity is a dataset */
+  isDataset = () => get(this.props.entity, 'content.entityType') === DamDomain.ENTITY_TYPES_ENUM.DATASET
 
-  /**
-   * The entity store a boolean to tell us if RAW_DATA are downloadeable
-   */
-  isAllowingDownload = () => {
-    const { entity } = this.props
-    return entity.content.downloadable
-  }
+  /** @return {boolean} true if user is allowed downloading entity files */
+  isAllowingDownload = () => get(this.props.entity, 'content.allowingDownload', false)
 
 
   render() {
@@ -149,7 +138,6 @@ class DownloadEntityFileComponent extends React.Component {
         return (
           <DropDownButton
             ButtonConstructor={IconButtonConstructorWrapper}
-            getLabel={(DownloadEntityFileComponent.getLabel)}
             style={style}
             title={formatMessage({ id: 'download.tooltip' })}
           >

@@ -44,15 +44,12 @@ class OneElementServicesComponent extends React.Component {
 
   static contextTypes = { ...i18nContextType, ...themeContextType }
 
-  static NO_LABEL_FUNCTION = () => ''
-
   render() {
     const { services, onServiceStarted, ...otherButtonProperties } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <DropDownButton
         title={formatMessage({ id: 'show.entity.services.tooltip' })}
-        getLabel={OneElementServicesComponent.NO_LABEL_FUNCTION}
         onChange={onServiceStarted}
         disabled={!services || !services.length}
         ButtonConstructor={IconButtonConstructorWrapper}
