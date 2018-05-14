@@ -140,7 +140,7 @@ export class CollectionFormComponent extends React.Component {
       const initialValues = {
         label: currentCollection.content.label,
         geometry: currentCollection.content.geometry,
-        model: currentCollection.content.model.id,
+        model: currentCollection.content.model.name,
         descriptionUrl: get(currentCollection.content, 'descriptionFile.url', undefined),
         properties,
       }
