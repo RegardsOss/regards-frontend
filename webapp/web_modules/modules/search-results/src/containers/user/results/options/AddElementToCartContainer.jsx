@@ -58,7 +58,7 @@ export class AddElementToCartContainer extends React.Component {
     const {
       entity: {
         content: {
-          entityType, containsPhysicalData, canBeExternallyDownloaded, downloadable,
+          entityType, containsPhysicalData, canBeExternallyDownloaded, allowingDownload,
         },
       },
     } = this.props
@@ -66,7 +66,7 @@ export class AddElementToCartContainer extends React.Component {
     // the object is a dataset (A)
     // Or : the object is a data object and (containsPhysicalData or canBeExternallyDownloaded (B)) && user has download rights (C)
     return entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET || // (A)
-      (entityType === DamDomain.ENTITY_TYPES_ENUM.DATA && (containsPhysicalData || canBeExternallyDownloaded) && downloadable) // (B) && (C)
+      (entityType === DamDomain.ENTITY_TYPES_ENUM.DATA && (containsPhysicalData || canBeExternallyDownloaded) && allowingDownload) // (B) && (C)
   }
 
   render() {
