@@ -76,7 +76,7 @@ export class CollectionFormContainer extends React.Component {
         .then((actionResult) => {
           // We receive here the action
           if (!actionResult.error) {
-            // We extract the collection id from the action
+            // We extract the collection name from the action
             const collection = this.extractCollectionFromActionResult(actionResult)
             this.props.fetchModelAttributeList(collection.model.name)
           }
