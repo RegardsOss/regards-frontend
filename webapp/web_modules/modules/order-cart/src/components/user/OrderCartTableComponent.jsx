@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import flatMap from 'lodash/flatMap'
-import get from 'lodash/get'
 import reduce from 'lodash/reduce'
 import { TableHeaderColumn, TableRowColumn } from 'material-ui/Table'
 import { OrderShapes } from '@regardsoss/shape'

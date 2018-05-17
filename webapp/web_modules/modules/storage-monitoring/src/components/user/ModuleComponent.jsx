@@ -55,8 +55,8 @@ class ModuleComponent extends React.Component {
 
   render() {
     const {
- userApp, scale, onUnitScaleChanged, ...moduleProperties 
-} = this.props
+      userApp, scale, onUnitScaleChanged, ...moduleProperties
+    } = this.props
     return (
       <DynamicModulePane
         {...moduleProperties}
