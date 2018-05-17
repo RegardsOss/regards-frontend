@@ -99,7 +99,7 @@ export class ProcessingChainListComponent extends React.Component {
 
   render() {
     const { intl, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount }, fixedColumnsWidth } = muiTheme.components.infiniteTable
 
     // Table columns to display
     const columns = [
@@ -160,8 +160,8 @@ export class ProcessingChainListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              minRowCount={0}
-              maxRowCount={10}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               queryPageSize={this.props.queryPageSize}
             />
           </TableLayout>

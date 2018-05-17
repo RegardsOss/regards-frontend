@@ -21,11 +21,11 @@ import filter from 'lodash/filter'
 import find from 'lodash/find'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import keys from 'lodash/keys'
 import sortBy from 'lodash/sortBy'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
-import { DamDomain, AccessDomain } from '@regardsoss/domain'
+import { DamDomain, AccessDomain, UIDomain } from '@regardsoss/domain'
+import { UIClient } from '@regardsoss/client'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { modulesHelper } from '@regardsoss/modules-api'
@@ -45,14 +45,16 @@ import NavigableSearchResultsContainer from './NavigableSearchResultsContainer'
 import SearchGraph from '../../components/user/SearchGraph'
 import DescriptionContainer from './DescriptionContainer'
 
+const moduleExpandedStateSelectors = UIClient.getModuleExpandedStateSelectors()
+
 /**
  * Module container for user interface
  **/
 export class UserModuleContainer extends React.Component {
-  static mapStateToProps = (state, { moduleConf }) => ({
+  static mapStateToProps = (state, { type }) => ({
+    presentationState: moduleExpandedStateSelectors.getPresentationState(state, type),
     selectionPath: graphContextSelectors.getSelectionPath(state),
     attributeModels: AttributeModelSelectors.getList(state),
-    moduleCollapsed: graphContextSelectors.isModuleCollapsed(state),
     // authentication, to refresh content on login / logout
     authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
   })
@@ -78,10 +80,10 @@ export class UserModuleContainer extends React.Component {
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
     // from map state to props
+    presentationState: PropTypes.oneOf(UIDomain.PRESENTATION_STATE),
     // eslint-disable-next-line react/no-unused-prop-types
     selectionPath: SelectionPath.isRequired,
     attributeModels: DataManagementShapes.AttributeModelList,
-    moduleCollapsed: PropTypes.bool.isRequired,
     authentication: AuthenticateShape,
     // from map dispatch to props
     fetchAttributeModels: PropTypes.func.isRequired,
@@ -95,7 +97,9 @@ export class UserModuleContainer extends React.Component {
     dispatchLevelDataLoaded: PropTypes.func.isRequired,
   }
 
-  static MODULE_PROPS = keys(AccessShapes.runtimeDispayModuleFields)
+  static defaultProps = {
+    presentationState: UIDomain.PRESENTATION_STATE_ENUM.NORMAL, // default for admin or when not initialized
+  }
 
   componentWillMount = () => {
     this.onPropertiesChanged(undefined, this.props)
@@ -204,22 +208,21 @@ export class UserModuleContainer extends React.Component {
   }
 
   render() {
-    const { moduleCollapsed } = this.props
+    const { presentationState } = this.props
     const { graphDatasetAttributes } = this.state
     return (
-      <div>
+      <React.Fragment>
         { /* Description handling */}
         <DescriptionContainer />
         <SearchGraph
           graphDatasetAttributes={graphDatasetAttributes}
+          presentationState={presentationState}
           {...modulesHelper.getReportedUserModuleProps(this.props)}
-          expanded={!moduleCollapsed // overrides the initial module expanded state value
-          }
         />
         <NavigableSearchResultsContainer
           {...modulesHelper.getReportedUserModuleProps(this.props)}
         />
-      </div>)
+      </React.Fragment>)
   }
 }
 

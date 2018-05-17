@@ -33,6 +33,8 @@ class ModuleComponent extends React.Component {
   static propTypes = {
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
+    // is in user app
+    userApp: PropTypes.bool.isRequired,
     // scale state management
     scale: storage.StorageUnitScaleShape.isRequired,
     onUnitScaleChanged: PropTypes.func.isRequired,
@@ -52,14 +54,16 @@ class ModuleComponent extends React.Component {
     [<ScaleSelectorComponent key="selector" scale={scale} onUnitScaleChanged={onUnitScaleChanged} />]
 
   render() {
-    const { scale, onUnitScaleChanged, ...moduleProperties } = this.props
+    const {
+ userApp, scale, onUnitScaleChanged, ...moduleProperties 
+} = this.props
     return (
       <DynamicModulePane
         {...moduleProperties}
         options={this.renderOptions(scale, onUnitScaleChanged)}
         requiredDependencies={dependencies}
       >
-        <StorageMonitoringContainer scale={scale} />
+        <StorageMonitoringContainer userApp={userApp} scale={scale} />
       </DynamicModulePane>
     )
   }

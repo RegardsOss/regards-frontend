@@ -24,6 +24,8 @@ import { DynamicModulePane } from '@regardsoss/components'
 import { dependencies } from '../../user-dependencies'
 import ModuleConfiguration from '../../models/ModuleConfiguration'
 import SearchResultsContainer from '../../containers/user/results/SearchResultsContainer'
+import DescriptionContainer from '../../containers/user/DescriptionContainer'
+import FeedbackDisplayContainer from '../../containers/user/feedback/FeedbackDisplayContainer'
 import NavigationContainer from '../../containers/user/navigation/NavigationContainer'
 
 /**
@@ -80,41 +82,49 @@ class ModuleComponent extends React.Component {
     const locale = get(this.context, 'intl.locale', 'en')
     const datasetsSectionLabel = locale === 'fr' ? datasetsSectionLabelFr : datasetsSectionLabelEn
     const dataSectionLabel = locale === 'fr' ? dataSectionLabelFr : dataSectionLabelEn
+    const { moduleTheme: { user: { rootModuleContainer } } } = this.context
     return (
-      <DynamicModulePane
-        titleComponent={
-          <NavigationContainer
-            type={this.props.type}
-            description={description}
-            page={page}
-          />
+      <div style={rootModuleContainer}>
+        {/* Main pane */}
+        <DynamicModulePane
+          titleComponent={
+            <NavigationContainer
+              type={this.props.type}
+              description={description}
+              page={page}
+            />
         }
-        requiredDependencies={dependencies}
-        moduleConf={moduleConf}
-        {...this.props}
-      >
-        <SearchResultsContainer
-          appName={appName}
-          project={project}
-          enableFacettes={enableFacettes}
-          facettesInitiallySelected={facettesInitiallySelected}
-          enableDownload={enableDownload}
-          enableQuicklooks={enableQuicklooks}
-          displayMode={displayMode}
-          displayConf={displayConf}
-          restrictedDatasetsIpIds={restrictedDatasetsIpIds}
-          searchQuery={searchQuery}
-          datasetsSectionLabel={datasetsSectionLabel}
-          dataSectionLabel={dataSectionLabel}
-          facettesQuery={facettesQuery}
-          attributesConf={attributes}
-          attributesQuicklookConf={attributesQuicklook}
-          attributesRegroupementsConf={attributesRegroupements}
-          datasetAttributesConf={datasetAttributes}
-          documentAttributesConf={documentAttributes}
-          attributeModels={attributeModels}
-        />
-      </DynamicModulePane >
+          requiredDependencies={dependencies}
+          moduleConf={moduleConf}
+          {...this.props}
+        >
+          <SearchResultsContainer
+            appName={appName}
+            project={project}
+            enableFacettes={enableFacettes}
+            facettesInitiallySelected={facettesInitiallySelected}
+            enableDownload={enableDownload}
+            enableQuicklooks={enableQuicklooks}
+            displayMode={displayMode}
+            displayConf={displayConf}
+            restrictedDatasetsIpIds={restrictedDatasetsIpIds}
+            searchQuery={searchQuery}
+            datasetsSectionLabel={datasetsSectionLabel}
+            dataSectionLabel={dataSectionLabel}
+            facettesQuery={facettesQuery}
+            attributesConf={attributes}
+            attributesQuicklookConf={attributesQuicklook}
+            attributesRegroupementsConf={attributesRegroupements}
+            datasetAttributesConf={datasetAttributes}
+            documentAttributesConf={documentAttributes}
+            attributeModels={attributeModels}
+          />
+        </DynamicModulePane >
+        {/* Feedback handling for long actions in module */}
+        <FeedbackDisplayContainer />
+        { /* Description handling */}
+        <DescriptionContainer />
+      </div>
     )
   }
 }

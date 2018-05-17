@@ -67,13 +67,6 @@ class GraphContextSelectors extends BasicSelector {
    */
   areDatasetAttributesVisible = state => this.uncombineStore(state).datasetsAttributesVisible
 
-  /**
-   * Returns module collapsed from state
-   * @param state redux state
-   * @return bool
-   */
-  isModuleCollapsed = state => this.uncombineStore(state).moduleCollapsed
-
   /** @return current search tag as a (see @regardsoss/domain/catalog/Tag)  */
   getSearchTag = state => this.uncombineStore(state).searchTag
 }

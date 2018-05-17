@@ -17,14 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
+import { UIClient } from '@regardsoss/client'
 import { TagTypes } from '@regardsoss/domain/catalog'
 import { AccessShapes, CatalogShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
-import { moduleExpandedStateActions } from '../../clients/ModuleExpandedStateClient'
 import graphContextSelectors from '../../model/graph/GraphContextSelectors'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
+
+/** Module pane state actions default instance */
+const moduleExpandedStateActions = new UIClient.ModuleExpandedStateActions()
 
 /**
 * Navigable search results container: connect results to current search tag in graph (dataset or tag)
@@ -50,8 +53,8 @@ export class NavigableSearchResultsContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      dispatchExpandResults: () => dispatch(moduleExpandedStateActions.expand(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS)),
-      dispatchCollapseGraph: () => dispatch(moduleExpandedStateActions.collapse(modulesManager.AllDynamicModuleTypes.SEARCH_GRAPH)),
+      dispatchExpandResults: () => dispatch(moduleExpandedStateActions.setNormal(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS)),
+      dispatchCollapseGraph: () => dispatch(moduleExpandedStateActions.setMinimized(modulesManager.AllDynamicModuleTypes.SEARCH_GRAPH)),
     }
   }
 
@@ -144,14 +147,14 @@ export class NavigableSearchResultsContainer extends React.Component {
       description: resultsConfiguration.conf.initialContextTags.length ? null : formatMessage({ id: 'search.graph.results.title.without.tag' }),
     }
     return (
-      <div>
+      <React.Fragment>
         <HorizontalAreasSeparator />
         <LazyModuleComponent
           project={project}
           appName={appName}
           module={configurationWithI18N}
         />
-      </div>
+      </React.Fragment>
     )
   }
 }

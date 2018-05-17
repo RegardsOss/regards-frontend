@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { assert } from 'chai'
+import { UIDomain } from '@regardsoss/domain'
 import { ModuleExpandedStateActions } from '../../../src/ui/module/ModuleExpandedStateActions'
 import { getModuleExpandedStateReducer, ModuleExpandedStateReducer } from '../../../src/ui/module/ModuleExpandedStateReducer'
 import { ModuleExpandedStateSelectors, getModuleExpandedStateSelectors } from '../../../src/ui/module/ModuleExpandedStateSelectors'
@@ -45,36 +46,40 @@ describe('[Client] Testing ModuleExpandedStateSelectors', () => {
   })
   it('should select correctly expandable and expanded states as it changes', () => {
     let fakeStore = buildMockStore()
-    assert.isNotOk(testSelectors.getExpandState(fakeStore, 'test1'), 'test1 element state should not yet be defined')
+    assert.isNotOk(testSelectors.getFullState(fakeStore, 'test1'), 'test1 element full state should not yet be defined')
     assert.isNotOk(testSelectors.isExpandable(fakeStore, 'test1'), 'test1 isExpandable state should not yet be defined')
-    assert.isNotOk(testSelectors.isExpanded(fakeStore, 'test1'), 'test1 isExpanded state should not yet be defined')
-    assert.isNotOk(testSelectors.getExpandState(fakeStore, 'test2'), 'test2 element state should not yet be defined')
+    assert.isNotOk(testSelectors.getPresentationState(fakeStore, 'test1'), 'test1 getPresentationState state should not yet be defined')
+    assert.isNotOk(testSelectors.getFullState(fakeStore, 'test2'), 'test2 element full state should not yet be defined')
     assert.isNotOk(testSelectors.isExpandable(fakeStore, 'test2'), 'test2 isExpandable state should not yet be defined')
-    assert.isNotOk(testSelectors.isExpanded(fakeStore, 'test2'), 'test2 isExpanded state should not yet be defined')
+    assert.isNotOk(testSelectors.getPresentationState(fakeStore, 'test2'), 'test2 getPresentationState state should not yet be defined')
 
     // init test1
     fakeStore = mockReduce(fakeStore, testActions.initialize('test1', false, true))
-    assert.isOk(testSelectors.getExpandState(fakeStore, 'test1'), 'test1 element state should now be defined')
+    assert.isOk(testSelectors.getFullState(fakeStore, 'test1'), 'test1 element state should now be defined')
     assert.isFalse(testSelectors.isExpandable(fakeStore, 'test1'), 'test1 isExpandable should be false')
-    assert.isTrue(testSelectors.isExpanded(fakeStore, 'test1'), 'test1 isExpanded should be true')
-    assert.isNotOk(testSelectors.getExpandState(fakeStore, 'test2'), 'test2 element state should not yet be defined')
+    assert.equal(testSelectors.getPresentationState(fakeStore, 'test1'), UIDomain.PRESENTATION_STATE_ENUM.NORMAL, 'test1 should be in normal state')
+    assert.isNotOk(testSelectors.getFullState(fakeStore, 'test2'), 'test2 element state should not yet be defined')
     assert.isNotOk(testSelectors.isExpandable(fakeStore, 'test2'), 'test2 isExpandable state should not yet be defined')
-    assert.isNotOk(testSelectors.isExpanded(fakeStore, 'test2'), 'test2 isExpanded state should not yet be defined')
+    assert.isNotOk(testSelectors.getPresentationState(fakeStore, 'test2'), 'test2 getPresentationState state should not yet be defined')
 
     // init test2
     fakeStore = mockReduce(fakeStore, testActions.initialize('test2', true, false))
     assert.isFalse(testSelectors.isExpandable(fakeStore, 'test1'), 'test1 should not have changed')
-    assert.isTrue(testSelectors.isExpanded(fakeStore, 'test1'), 'test1 should not have changed')
-    assert.isOk(testSelectors.getExpandState(fakeStore, 'test2'), 'test2 element state should now be defined')
+    assert.equal(testSelectors.getPresentationState(fakeStore, 'test1'), UIDomain.PRESENTATION_STATE_ENUM.NORMAL, 'test1 state should not have changed')
+    assert.isOk(testSelectors.getFullState(fakeStore, 'test2'), 'test2 element state should now be defined')
     assert.isTrue(testSelectors.isExpandable(fakeStore, 'test2'), 'test2 isExpandable should be true')
-    assert.isFalse(testSelectors.isExpanded(fakeStore, 'test2'), 'test2 isExpanded show be false')
+    assert.equal(testSelectors.getPresentationState(fakeStore, 'test2'), UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED, 'test2 should be in minimized state')
 
-    // expand test 2
-    fakeStore = mockReduce(fakeStore, testActions.setExpanded('test2', true))
-    assert.isTrue(testSelectors.isExpanded(fakeStore, 'test2'), 'test2 show now be expanded')
+    // maximize test 2
+    fakeStore = mockReduce(fakeStore, testActions.setMaximized('test2'))
+    assert.equal(testSelectors.getPresentationState(fakeStore, 'test2'), UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED, 'test2 should be in maximized state')
 
-    // collapse test 1 (should be refused due to not expandable state)
-    fakeStore = mockReduce(fakeStore, testActions.setExpanded('test1', false))
-    assert.isTrue(testSelectors.isExpanded(fakeStore, 'test1'), 'test1 show not be collapsed')
+    // collapse test 1
+    fakeStore = mockReduce(fakeStore, testActions.setMinimized('test1'))
+    assert.equal(testSelectors.getPresentationState(fakeStore, 'test1'), UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED, 'test1 should be in minimized state')
+
+    // expand back test 1
+    fakeStore = mockReduce(fakeStore, testActions.setNormal('test1'))
+    assert.equal(testSelectors.getPresentationState(fakeStore, 'test1'), UIDomain.PRESENTATION_STATE_ENUM.NORMAL, 'test1 should be back in normal state')
   })
 })

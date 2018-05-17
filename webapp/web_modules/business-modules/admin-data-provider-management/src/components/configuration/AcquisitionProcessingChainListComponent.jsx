@@ -115,7 +115,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
     const {
       onBack, onDuplicate, onEdit, fetchPage, queryPageSize, onCreate,
     } = this.props
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount }, fixedColumnsWidth } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
       <NoContentComponent
@@ -164,8 +164,8 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              minRowCount={0}
-              maxRowCount={10}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               queryPageSize={queryPageSize}
             />
           </TableLayout>

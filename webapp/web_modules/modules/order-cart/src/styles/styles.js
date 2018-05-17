@@ -24,7 +24,21 @@
 const moduleStyles = theme => ({
   user: {
     // module content styles
+    root: { // report parent layout
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'stretch',
+      flexGrow: 1,
+      flexShrink: 1,
+    },
     content: {
+      spaceConsumer: {
+        flexGrow: 1,
+        flexShrink: 1,
+      },
+      scrollContentArea: {
+        paddingRight: theme.components.scrollArea.scrollingSidePadding,
+      },
       table: {
         optionColumn: {
           style: {

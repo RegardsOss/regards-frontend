@@ -65,13 +65,11 @@ export class DynamicModulePane extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state, { type, appName }) {
+  static mapStateToProps(state, { type }) {
     return {
-      // in admin apps, use default props (the action/reducer/selectors are only for user app modules)
-      expandable: appName === userAppName ? moduleExpandedStateSelectors.isExpandable(state, type) : undefined,
-      expanded: appName === userAppName ? moduleExpandedStateSelectors.isExpanded(state, type) : undefined,
-      fetching: CommonEndpointClient.endpointSelectors.isFetching(state) ||
-        AuthenticationClient.authenticationSelectors.isFetching(state),
+      expandable: moduleExpandedStateSelectors.isExpandable(state, type),
+      presentationState: moduleExpandedStateSelectors.getPresentationState(state, type),
+      fetching: CommonEndpointClient.endpointSelectors.isFetching(state) || AuthenticationClient.authenticationSelectors.isFetching(state),
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
       isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
       locale: i18nSelectors.getLocale(state),
@@ -85,23 +83,21 @@ export class DynamicModulePane extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch, { type, appName }) {
+  static mapDispatchToProps(dispatch, { type }) {
     // use store when in user app, ignore event in admin apps (not expandable when in admin app)
     return {
-      dispatchSetInitialState: (expandable, expanded) =>
-        appName === userAppName &&
-        dispatch(moduleExpandedStateActions.initialize(type, expandable, expanded)),
-      dispatchSetExpanded: expanded =>
-        (appName === userAppName &&
-          dispatch(moduleExpandedStateActions.setExpanded(type, expanded))),
+      dispatchSetInitialState: (expandable, expanded) => dispatch(moduleExpandedStateActions.initialize(type, expandable, expanded)),
+      dispatchSetMinimized: () => dispatch(moduleExpandedStateActions.setMinimized(type)),
+      dispatchSetNormal: () => dispatch(moduleExpandedStateActions.setNormal(type)),
+      dispatchSetMaximized: () => dispatch(moduleExpandedStateActions.setMaximized(type)),
     }
   }
-
 
   static propTypes = {
     // A - Module configuration related
     ...AccessShapes.runtimeDispayModuleFields,
     // B - Control and graphics related
+    mainModule: PropTypes.bool, // set to false to get a non growing dynamic module pane
     // optional module subtitle
     subtitle: PropTypes.string,
     // module title bar options
@@ -123,7 +119,7 @@ export class DynamicModulePane extends React.Component {
     titleComponent: PropTypes.node,
     // from map state to props
     expandable: PropTypes.bool,
-    expanded: PropTypes.bool,
+    presentationState: PropTypes.oneOf(UIDomain.PRESENTATION_STATE),
     // eslint-disable-next-line react/no-unused-prop-types
     fetching: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -133,7 +129,9 @@ export class DynamicModulePane extends React.Component {
     locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // from map dispatch to props
     dispatchSetInitialState: PropTypes.func.isRequired,
-    dispatchSetExpanded: PropTypes.func.isRequired,
+    dispatchSetMinimized: PropTypes.func.isRequired,
+    dispatchSetNormal: PropTypes.func.isRequired,
+    dispatchSetMaximized: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -144,7 +142,8 @@ export class DynamicModulePane extends React.Component {
     // map state to props
     availableDependencies: [],
     expandable: false, // default for admin or when not initialized
-    expanded: true, // default for admin or when not initialized
+    presentationState: UIDomain.PRESENTATION_STATE_ENUM.NORMAL, // default for admin or when not initialized
+    mainModule: true, // convenient default for auto driven modules
   }
 
   static contextTypes = {
@@ -158,22 +157,23 @@ export class DynamicModulePane extends React.Component {
     // any valid key is ok here
     noDataTitleKey: 'dynamic.module.not.authenticated.title',
     noDataMessageKey: 'dynamic.module.not.authenticated.message',
-    // children list
-    children: null,
   }
 
   /**
    * Lifecycle method, used here to recompute authentication and dependencies state
    */
   componentWillMount = () => {
-    // initialize redux store with this configuration
-    const primaryPaneMode = get(this.props, 'moduleConf.primaryPane', UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE)
-    const expandable = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.ALWAYS_EXPANDED
-    const expanded = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE
-    this.props.dispatchSetInitialState(expandable, expanded)
+    // initialize redux store with this configuration, when layout options should be shown
+    if (this.showLayoutOptions()) {
+      const primaryPaneMode = get(this.props, 'moduleConf.primaryPane', UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE)
+      const expandable = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.ALWAYS_EXPANDED
+      const expanded = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE
+      this.props.dispatchSetInitialState(expandable, expanded)
+    }
     // let properties changed update this state
     this.onPropertiesChanged({}, this.props)
   }
+
 
   /**
    * Lifecycle method, used here to recompute authentication and dependencies state
@@ -181,6 +181,11 @@ export class DynamicModulePane extends React.Component {
    */
   componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
 
+  /**
+   * On properties changed: used to detect changes in incoming component properties
+   * @param {*} oldProps old component properties
+   * @param {*} newProps new component properties
+   */
   onPropertiesChanged = (oldProps, newProps) => {
     const oldState = this.state
     let newState
@@ -218,31 +223,56 @@ export class DynamicModulePane extends React.Component {
       }
     }
 
-    if (!isEqual(oldState, newState) || oldProps.children !== newProps.children) {
+    if (!isEqual(oldState, newState)) {
       this.setState(newState)
     }
   }
 
-  onExpandChange = () => {
-    const { expandable, expanded, dispatchSetExpanded } = this.props
-    if (expandable) {
-      // toggle expanded state
-      dispatchSetExpanded(!expanded)
+  /**
+   * @return applying module style for current presentation state
+   */
+  getModuleStyle = () => {
+    const { presentationState, mainModule } = this.props
+    const { maximizedStyle, growingStyle, defaultStyle } = this.context.moduleTheme.module
+    if (presentationState === UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED) {
+      return maximizedStyle // maximized
     }
+    if (mainModule) {
+      return growingStyle // growing vertically
+    }
+    return defaultStyle // default
   }
+
+  /**
+   * @return true if layout options should be shown
+   */
+  showLayoutOptions = () => this.props.appName === userAppName
 
   render() {
     const {
       locale, description, page, subtitle, options, onKeyPress,
-      type, titleComponent, expandable, expanded, children,
+      type, titleComponent, expandable, presentationState, children,
+      dispatchSetMinimized, dispatchSetNormal, dispatchSetMaximized,
     } = this.props
     const {
       noData, loading, noDataTitleKey, noDataMessageKey,
     } = this.state
-    const { intl: { formatMessage } } = this.context
-
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        module: {
+          cardRootContainerStyle,
+          content: {
+            moduleMediaRootStyle, moduleMediaStyle, moduleContentStyle,
+          },
+        },
+      },
+    } = this.context
     return (
-      <Card expanded>
+      <Card
+        style={this.getModuleStyle()}
+        containerStyle={cardRootContainerStyle}
+        expanded
+      >
         <ModuleTitle
           type={type}
           locale={locale}
@@ -252,22 +282,31 @@ export class DynamicModulePane extends React.Component {
           subtitle={subtitle}
           options={options}
           expandable={expandable}
-          expanded={expanded}
-          onExpandChange={this.onExpandChange}
+          presentationState={presentationState}
+          onSetMinimized={dispatchSetMinimized}
+          onSetNormalState={dispatchSetNormal}
+          onSetMaximized={dispatchSetMaximized}
+          showLayoutOptions={this.showLayoutOptions()}
         />
         <SwitchThemeDecorator
           useMainTheme={false}
         >
-          <ShowableAtRender show={expanded}>
-            <CardMediaWithCustomBG onKeyPress={onKeyPress}>
-              {/* prevent children to show when missing rights */}
+          <ShowableAtRender show={presentationState !== UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED}>
+            <CardMediaWithCustomBG
+              style={moduleMediaRootStyle}
+              mediaStyle={moduleMediaStyle}
+              onKeyPress={onKeyPress}
+            >
+              {/* prevent children to show when missing rights  */}
               <NoContentMessageInfo
                 noContent={noData || loading}
                 title={formatMessage({ id: noDataTitleKey })}
                 message={formatMessage({ id: noDataMessageKey })}
                 Icon={loading ? UserInformationLoadingIcon : NotLoggedIcon}
               >
-                {HOCUtils.renderChildren(children)}
+                <div style={moduleContentStyle}>
+                  {HOCUtils.renderChildren(children)}
+                </div>
               </NoContentMessageInfo>
             </CardMediaWithCustomBG>
           </ShowableAtRender>

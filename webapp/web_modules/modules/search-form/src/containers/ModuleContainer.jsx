@@ -35,6 +35,7 @@ import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { connect } from '@regardsoss/redux'
 import { AccessDomain } from '@regardsoss/domain'
+import { UIClient } from '@regardsoss/client'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { LoadingComponent, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -42,9 +43,11 @@ import { themeContextType } from '@regardsoss/theme'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
 import DatasetSelectionTypes from '../domain/DatasetSelectionTypes'
 import AttributeModelClient from '../clients/AttributeModelClient'
-import { moduleExpandedStateActions } from '../clients/ModuleExpandedStateClient'
 import ModuleConfiguration from '../shapes/ModuleConfiguration'
 import FormComponent from '../components/user/FormComponent'
+
+/** Module pane state actions default instance */
+const moduleExpandedStateActions = new UIClient.ModuleExpandedStateActions()
 
 /**
  * Main container to display module form.
@@ -404,7 +407,7 @@ class ModuleContainer extends React.Component {
     }
 
     return (
-      <div>
+      <React.Fragment>
         {/* Separare sub module */}
         <HorizontalAreasSeparator />
         {/* Render sub module */}
@@ -413,16 +416,16 @@ class ModuleContainer extends React.Component {
           appName={appName}
           module={module}
         />
-      </div>
+      </React.Fragment>
     )
   }
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         {this.renderForm()}
         {this.renderResults()}
-      </div>
+      </React.Fragment>
     )
   }
 }
@@ -435,8 +438,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchAttribute: attributeId => dispatch(AttributeModelClient.AttributeModelActions.fetchEntity(attributeId)),
-  dispatchCollapseForm: () => dispatch(moduleExpandedStateActions.collapse(modulesManager.AllDynamicModuleTypes.SEARCH_FORM)),
-  dispatchExpandResults: () => dispatch(moduleExpandedStateActions.expand(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS)),
+  dispatchCollapseForm: () => dispatch(moduleExpandedStateActions.setMinimized(modulesManager.AllDynamicModuleTypes.SEARCH_FORM)),
+  dispatchExpandResults: () => dispatch(moduleExpandedStateActions.setNormal(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS)),
 })
 
 const UnconnectedModuleContainer = ModuleContainer

@@ -18,16 +18,41 @@
  */
 
 const styles = theme => ({
+  admin: {
+    // in admin mode, we replace the root to not be limited in height
+    root: {
+      style: {
+        flexGrow: 1,
+        flexShrink: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        minHeight: '66vh',
+      },
+    },
+    pluginCard: {
+      classes: 'col-lg-33 col-md-45 col-xs-80',
+    },
+  },
   user: {
     // root container style
     root: {
       style: {
+        flexGrow: 1,
+        flexShrink: 1,
         display: 'flex',
-        flexDirection: 'horizontal',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+      },
+    },
+    scollContentArea: {
+      style: {
+        display: 'flex',
+        flexDirection: 'row',
         justifyContent: 'flex-start',
         flexWrap: 'wrap',
         alignItems: 'stretch',
-        paddingBottom: '10px',
+        paddingRight: theme.components.scrollArea.scrollingSidePadding,
       },
     },
     // plugin card and sub content styles

@@ -24,6 +24,7 @@ import { storage } from '@regardsoss/units'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { Measure, ScrollArea } from '@regardsoss/adapters'
 import StoragePluginContainer from '../../containers/user/StoragePluginContainer'
 
 
@@ -33,6 +34,7 @@ import StoragePluginContainer from '../../containers/user/StoragePluginContainer
  */
 class StorageMonitoringComponent extends React.Component {
   static propTypes = {
+    userApp: PropTypes.bool.isRequired,
     scale: storage.StorageUnitScaleShape.isRequired,
     storagePlugins: StorageShapes.StorageMonitoringList.isRequired,
     isFetching: PropTypes.bool.isRequired,
@@ -41,31 +43,63 @@ class StorageMonitoringComponent extends React.Component {
 
   static contextTypes = { ...themeContextType, ...i18nContextType }
 
+  state = {
+    scrollAreaStyle: {
+      height: 0,
+    },
+  }
+
+  /**
+   * Component was resized
+   */
+  onComponentResized = ({ measureDiv: { height } }) => {
+    const previousHeight = this.state.scrollAreaStyle.height
+    this.setState({
+      // XXX-WORKAROUND see InfiniteTableContainer for more explanation (in this case, the component will simply not resize when
+      // size is lower)
+      scrollAreaStyle: {
+        height: height <= previousHeight ? height - 100 : height,
+      },
+    })
+  }
+
   render() {
-    const { moduleTheme: { user } } = this.context
+    const { moduleTheme: { admin, user } } = this.context
     const {
-      isFetching, hasError, storagePlugins, scale,
+      userApp, isFetching, hasError, storagePlugins, scale,
     } = this.props
+    const { scrollAreaStyle } = this.state
     return (
       <LoadableContentDisplayDecorator
         isLoading={isFetching}
         isEmpty={isUndefined(storagePlugins) || !size(storagePlugins)}
         isContentError={hasError}
       >
-        <div style={user.root.style}>
-          {
+        <Measure bounds onMeasure={this.onComponentResized}>
+          { // measure available vertical space to show the scroll area
+        ({ bind }) => (
+          <div style={userApp ? user.root.style : admin.root.style} {...bind('measureDiv')}>
+            <ScrollArea
+              style={scrollAreaStyle}
+              contentStyle={user.scollContentArea.style}
+              vertical
+            >
+              {
             // map all plugins to cards
             map(storagePlugins, plugin => (
               <StoragePluginContainer
+                userApp={userApp}
                 key={plugin.content.confId}
                 scale={scale}
                 plugin={plugin}
               />
             ))
           }
-        </div>
+            </ScrollArea>
+          </div>)
+      }
+        </Measure>
       </LoadableContentDisplayDecorator>
-
     )
   }
 }

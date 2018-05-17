@@ -69,6 +69,7 @@ const allRules = {
   'react/require-default-props': 0,
   'react/prefer-stateless-function': 0,
   'react/display-name': 0,
+  'react/jsx-no-undef': [2, { allowGlobals: true }],
 
   // Lodash rules configuration
   'lodash/import-scope': [2, 'method'],

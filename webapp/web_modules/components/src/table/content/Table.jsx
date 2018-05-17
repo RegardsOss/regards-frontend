@@ -55,10 +55,6 @@ class Table extends React.Component {
     // table configuration properties
     displayColumnsHeader: PropTypes.bool,
     lineHeight: PropTypes.number.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    minRowCount: PropTypes.number.isRequired, // use in graphics computing
-    // eslint-disable-next-line react/no-unused-prop-types
-    maxRowCount: PropTypes.number.isRequired,
 
     // dynamic properties
     entities: PropTypes.arrayOf(PropTypes.object), // Current fetched entities
@@ -69,6 +65,7 @@ class Table extends React.Component {
     columns: PropTypes.arrayOf(TableColumnConfiguration).isRequired, // used in state update
 
     // required runtime width for columns size adjustements
+    height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
   }
 
@@ -116,9 +113,6 @@ class Table extends React.Component {
     const oldState = this.state || {}
     const newState = oldState ? { ...oldState } : {}
 
-    // compute height
-    newState.height = this.computeHeight(newProps)
-
     // compute columns with width, BUT AVOID updating it when entities change (do update only
     // when the scroll is visible and wasnt before)
     const wasShowingScroll = (oldProps.entities || []).length > (oldProps.maxRowCount || 0)
@@ -130,7 +124,7 @@ class Table extends React.Component {
       newState.runtimeColumns = this.computeColumnsModelsWithWidth(newProps)
     }
 
-    if (oldState.height !== newState.height || areDifferentColumnsArrays(newState.runtimeColumns, oldState.runtimeColumns)) {
+    if (areDifferentColumnsArrays(newState.runtimeColumns, oldState.runtimeColumns)) {
       this.setState(newState)
     }
   }
@@ -151,9 +145,6 @@ class Table extends React.Component {
     })
   }
 
-  /** @return default header line height from theme */
-  getDefaultHeaderHeight = () => this.context.muiTheme.components.infiniteTable.minHeaderRowHeight
-
   /**
    * Retrieve entity for the given rowIndex from the array containing all entities or null if it is outside bounds
    * @param rowIndex
@@ -162,21 +153,12 @@ class Table extends React.Component {
   getEntity = rowIndex => rowIndex < 0 || rowIndex >= this.props.entities.length ? null : this.props.entities[rowIndex]
 
   /**
-   * Returns the rows count to consider to show table
-   * @param {number} entitiesCount entities count
-   * @param {number} minRowCount min number of rows to show
-   * @param {number} maxRowCount max number of row to show
-   * @return {number} selected row count
+   * Returns header height for current xconfiguration
+   * @param {boolean} displayColumnsHeader  component properties
+   * @return current header height
    */
-  getRowCount = (entitiesCount, minRowCount, maxRowCount) => {
-    if (entitiesCount < minRowCount) {
-      return minRowCount
-    }
-    if (entitiesCount > maxRowCount) {
-      return maxRowCount
-    }
-    return entitiesCount
-  }
+  getHeaderHeight = displayColumnsHeader =>
+    displayColumnsHeader ? this.context.muiTheme.components.infiniteTable.minHeaderRowHeight : 0
 
   /**
    * Is there an entity on specified row index?
@@ -187,25 +169,12 @@ class Table extends React.Component {
   hasEntity = rowIndex => rowIndex >= 0 && this.props.entities.length > rowIndex
 
   /**
-   * Computes current component height
-   * @param props component properties to consider
-   * @return component height
-   */
-  computeHeight = ({
-    lineHeight, minRowCount, maxRowCount, displayColumnsHeader, entitiesCount,
-  }) => {
-    // If total number of entities is too small don't display all the lines.
-    const rowCount = this.getRowCount(entitiesCount, minRowCount, maxRowCount)
-    return (lineHeight * rowCount) + RESERVED_BORDERS_HEIGHT + (displayColumnsHeader ? this.getDefaultHeaderHeight() : 0)
-  }
-
-  /**
    * Computes graphics measures and provides a usable component state
    * @return {nbEntitiesByPage:{number}, height:{number}, runtimeColumns:{RuntimeColumn}} usable state for component, with
    * runtime columns (default table columns enriched with required runtime data and filtered on visible state)
    */
   computeColumnsModelsWithWidth = ({
-    minRowCount, maxRowCount, entities, width, columns = [],
+    entities, lineHeight, height, width, columns = [], displayColumnsHeader,
   }) => {
     // 2 - Update columns width related data
     // 2.a - prepare columns (filter unvisible and sort on order)
@@ -217,10 +186,10 @@ class Table extends React.Component {
     let lastFloatingColumnWidth = 0
     if (floatingColumnsCount > 0) {
       // 2.c - There are floarting columns, compute how many space they have (refuse column width less than MIN_COL_WIDTH)
-      const entitiesCount = get(entities, 'length', 0)
       // consider total width, but remove right scrollbar size if shown
-      const displayedRowsCount = this.getRowCount(get(entities, 'length', 0), minRowCount, maxRowCount)
-      const availableWidth = width - (entitiesCount > displayedRowsCount ? SCROLLBAR_SIZE : 0)
+      const visibleRowsCount = (height - this.getHeaderHeight(displayColumnsHeader)) / lineHeight
+      const totalRowsCount = get(entities, 'length', 0)
+      const availableWidth = width - (totalRowsCount > visibleRowsCount ? SCROLLBAR_SIZE : 0)
       const fixedColumnsWidth = renderColumns.reduce((acc, column) =>
         isNumber(column.fixedWidth) ? acc + column.fixedWidth : acc, 0)
       const floatingWidth = availableWidth - fixedColumnsWidth
@@ -251,19 +220,19 @@ class Table extends React.Component {
       return null
     }
     const {
-      entities, width, lineHeight = this.getDefaultLineHeight(), displayColumnsHeader, onScrollEnd,
+      entities, width, height, lineHeight, displayColumnsHeader, onScrollEnd,
     } = this.props
-    const { runtimeColumns, height } = this.state
+    const { runtimeColumns } = this.state
     return (
       <FixedDataTable
         rowHeight={lineHeight}
-        headerHeight={displayColumnsHeader ? this.getDefaultHeaderHeight() : 0}
+        headerHeight={this.getHeaderHeight(displayColumnsHeader)}
         rowsCount={entities.length}
         onColumnResizeEndCallback={this.onColumnResizeEndCallback}
         isColumnResizing={false}
         onScrollEnd={onScrollEnd}
         width={width}
-        height={height}
+        height={height - RESERVED_BORDERS_HEIGHT}
       >
         { // map runtime columns from state (they are enriched with width information)
           map(runtimeColumns, (column, index) => (

@@ -121,7 +121,7 @@ class SIPSessionListComponent extends React.Component {
       pageSize, resultsCount, initialFilters, entitiesLoading,
     } = this.props
     const { intl, muiTheme, moduleTheme: { session } } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount }, fixedColumnsWidth } = muiTheme.components.infiniteTable
     const { appliedFilters } = this.state
 
     const emptyComponent = (
@@ -223,8 +223,8 @@ class SIPSessionListComponent extends React.Component {
             pageActions={sessionActions}
             pageSelectors={sessionSelectors}
             pageSize={pageSize}
-            minRowCount={0}
-            maxRowCount={10}
+            minRowCount={minRowCount}
+            maxRowCount={maxRowCount}
             columns={columns}
             requestParams={appliedFilters}
             emptyComponent={emptyComponent}

@@ -26,8 +26,6 @@ import { modulesHelper } from '@regardsoss/modules-api'
 import { AttributeModelActions, AttributeModelSelectors } from '../clients/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import URLManagementContainer from './user/URLManagementContainer'
-import DescriptionContainer from './user/DescriptionContainer'
-import FeedbackDisplayContainer from './user/feedback/FeedbackDisplayContainer'
 import ModuleComponent from '../components/user/ModuleComponent'
 import { TableDisplayModeEnum } from '../models/navigation/TableDisplayModeEnum'
 import { DISPLAY_MODE_ENUM } from '../definitions/DisplayModeEnum'
@@ -91,29 +89,22 @@ export class ModuleContainer extends React.Component {
     const initialTableDisplayMode = moduleConf.initialViewMode || TableDisplayModeEnum.LIST
     // compute if this component is externally driven: is there parent module parameters?
     const isExternallyDriven = !!(moduleConf.searchQuery || (moduleConf.initialContextTags && moduleConf.initialContextTags.length))
-
     if (!attributesFetching) {
       return (
-        <div>
-          {/* Feedback handling for long actions in module */}
-          <FeedbackDisplayContainer />
-          { /* Description handling */}
-          <DescriptionContainer />
-          { /* URL management container: blocks view while it is not initialized to avoid useless requests (no view) */}
-          <URLManagementContainer
-            initialViewObjectType={initialViewObjectType}
-            initialTableDisplayMode={initialTableDisplayMode}
-            initialContextTags={this.props.moduleConf.initialContextTags}
-            isExternallyDriven={isExternallyDriven}
-          >
-            { /* View : module (report all module properties) */}
-            <ModuleComponent
-              facettesQuery={facettesQuery}
-              attributeModels={attributeModels}
-              {...modulesHelper.getReportedUserModuleProps(this.props)}
-            />
-          </URLManagementContainer>
-        </div>
+      /* URL management container: blocks view while it is not initialized to avoid useless requests (no view) */
+        <URLManagementContainer
+          initialViewObjectType={initialViewObjectType}
+          initialTableDisplayMode={initialTableDisplayMode}
+          initialContextTags={this.props.moduleConf.initialContextTags}
+          isExternallyDriven={isExternallyDriven}
+        >
+          { /* View : module (report all module properties) */}
+          <ModuleComponent
+            facettesQuery={facettesQuery}
+            attributeModels={attributeModels}
+            {...modulesHelper.getReportedUserModuleProps(this.props)}
+          />
+        </URLManagementContainer>
       )
     }
     return (

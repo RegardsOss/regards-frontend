@@ -113,11 +113,12 @@ export class CollectionListComponent extends React.Component {
     const {
       handleEdit, handleDuplicate, createUrl, backUrl, onRefresh, navigateToCreateCollection,
     } = this.props
-    const { fixedColumnsWidth } = this.context.muiTheme.components.infiniteTable
+    const { muiTheme } = this.context
+    const { admin: { minRowCount, maxRowCount }, fixedColumnsWidth } = muiTheme.components.infiniteTable
     const style = {
-      hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
-      hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
-      hoverButtonDuplicate: this.context.muiTheme.palette.primary3Color,
+      hoverButtonEdit: muiTheme.palette.primary1Color,
+      hoverButtonDelete: muiTheme.palette.accent1Color,
+      hoverButtonDuplicate: muiTheme.palette.primary3Color,
     }
     const { intl } = this.context
 
@@ -200,7 +201,8 @@ export class CollectionListComponent extends React.Component {
             </TableHeaderLine>
             <PageableInfiniteTableContainer
               name="collection-management-table"
-              minRowCount={0}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               pageActions={collectionActions}
               pageSelectors={collectionSelectors}
               tableActions={tableActions}

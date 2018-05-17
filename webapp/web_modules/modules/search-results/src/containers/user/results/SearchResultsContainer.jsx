@@ -430,9 +430,10 @@ export class SearchResultsContainer extends React.Component {
 
   render() {
     const {
-      displayMode, enableFacettes, isFetching, resultsCount, viewObjectType, tableDisplayMode, enableDownload,
-      enableQuicklooks, facettesQuery, dispatchSetEntityAsTag, datasetsSectionLabel, dataSectionLabel,
-      searchQuery: initialSearchQuery, restrictedDatasetsIpIds, displayConf, accessToken, projectName,
+      displayMode, enableFacettes, isFetching, resultsCount, viewObjectType, tableDisplayMode,
+      enableDownload, enableQuicklooks, facettesQuery, dispatchSetEntityAsTag,
+      datasetsSectionLabel, dataSectionLabel, searchQuery: initialSearchQuery,
+      restrictedDatasetsIpIds, displayConf, accessToken, projectName,
     } = this.props
 
     const {

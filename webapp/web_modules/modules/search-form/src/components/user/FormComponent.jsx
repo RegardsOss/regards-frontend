@@ -115,6 +115,7 @@ class FormComponent extends React.Component {
         expanded={this.state.expanded}
         onKeyPress={this.onKeyPress}
         requiredDependencies={dependencies}
+        mainModule={false}
       >
         <FormLayout
           layout={retroCompatibleLayout}

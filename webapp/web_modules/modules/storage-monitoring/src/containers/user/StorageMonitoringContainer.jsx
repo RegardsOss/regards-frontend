@@ -28,6 +28,7 @@ import StorageMonitoringComponent from '../../components/user/StorageMonitoringC
 export class StorageMonitoringContainer extends React.Component {
   static propTypes = {
     scale: storage.StorageUnitScaleShape.isRequired,
+    userApp: PropTypes.bool.isRequired,
     // from mapStateToProps
     storagePlugins: StorageShapes.StorageMonitoringList.isRequired,
     isFetching: PropTypes.bool,
@@ -48,10 +49,11 @@ export class StorageMonitoringContainer extends React.Component {
    */
   render() {
     const {
-      scale, storagePlugins, isFetching, hasError,
+      userApp, scale, storagePlugins, isFetching, hasError,
     } = this.props
     return (
       <StorageMonitoringComponent
+        userApp={userApp}
         isFetching={isFetching}
         hasError={hasError}
         scale={scale}

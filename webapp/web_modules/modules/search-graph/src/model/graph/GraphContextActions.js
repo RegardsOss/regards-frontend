@@ -20,7 +20,6 @@ class GraphContextActions {
   constructor() {
     this.ENTITY_SELECTED = 'search-graph/ENTITY_SELECTED'
     this.SET_DATASET_ATTRIBUTES_VISIBLE = 'search-graph/SET_DATASET_VISIBLE'
-    this.SET_MODULE_COLLAPSED = 'search-graph/SET_MODULE_COLLAPSED'
     this.SET_SEARCH_TAG = 'search-graph/SET_SEARCH_TAG'
   }
 
@@ -47,18 +46,6 @@ class GraphContextActions {
     return {
       type: this.SET_DATASET_ATTRIBUTES_VISIBLE,
       visible,
-    }
-  }
-
-  /**
-   * Sets module collaped (or expanded)
-   * @param bool collapsed is collapsed?
-   * @return action to return
-   */
-  setModuleCollapsed(collapsed) {
-    return {
-      type: this.SET_MODULE_COLLAPSED,
-      collapsed,
     }
   }
 

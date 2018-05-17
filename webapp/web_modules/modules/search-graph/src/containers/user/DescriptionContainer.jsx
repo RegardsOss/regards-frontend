@@ -24,8 +24,8 @@ import { descriptionLevelActions, descriptionLevelSelectors } from '../../model/
 import graphContextActions from '../../model/graph/GraphContextActions'
 
 /**
-* Entity description container
-*/
+ * Entity description container
+ */
 export class DescriptionContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {

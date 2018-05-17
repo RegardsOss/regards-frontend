@@ -43,7 +43,7 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
     const props = {
       basket: undefined,
       showDatasets: true,
-      disableOptions: false,
+      isFetching: false,
       onShowDuplicatedMessage: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartTableComponent {...props} />, { context })
@@ -61,7 +61,7 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
     const props = {
       basket: mockBasket1,
       showDatasets: true,
-      disableOptions: false,
+      isFetching: false,
       onShowDuplicatedMessage: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartTableComponent {...props} />, { context })
@@ -80,7 +80,7 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
     const enzymeWrapper = shallow(
       <OrderCartTableComponent
         showDatasets
-        disableOptions
+        isFetching
         onShowDuplicatedMessage={() => { }}
       />, { context })
 
@@ -93,7 +93,7 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
     const enzymeWrapper = shallow(
       <OrderCartTableComponent
         showDatasets
-        disableOptions
+        isFetching
         onShowDuplicatedMessage={() => { }}
       />, { context })
     const models = [{ label: 'Mock model 1', model: mockBasket1 }, { label: 'Mock model 2', model: mockBasket2 }]
@@ -110,7 +110,7 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
     const enzymeWrapper = shallow(
       <OrderCartTableComponent
         showDatasets={false}
-        disableOptions
+        isFetching
         onShowDuplicatedMessage={() => { }}
       />, { context })
     // test complex mock models

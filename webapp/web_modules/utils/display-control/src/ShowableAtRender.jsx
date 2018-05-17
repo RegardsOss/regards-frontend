@@ -29,10 +29,7 @@ class ShowableAtRender extends React.Component {
   render() {
     const { show, children } = this.props
     if (show) {
-      if (React.Children.count(children) === 1) {
-        return React.Children.only(children)
-      }
-      return (<div>{children}</div>)
+      return children
     }
     return null
   }

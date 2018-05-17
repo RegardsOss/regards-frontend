@@ -36,11 +36,12 @@ module.exports = baseTheme => ({
     editorACE: {
       theme: 'monokai',
     },
+    scrollArea: {
+      scrollingSidePadding: 15,
+    },
     infiniteTable: {
       lineHeight: 50,
       fixedColumnsWidth: baseTheme.button.iconButtonSize, // best fit for default IconButton size
-      minRowCount: 13,
-      maxRowCount: 13,
       minHeaderRowHeight: 40,
       multipleValuesSeparatorMargin: '0 10px',
       multipleValuesSeparatorHeight: 14,
@@ -49,6 +50,10 @@ module.exports = baseTheme => ({
         margin: '7px 0 -7px 0',
         fontSize: '10px',
         fontWeight: 'bold',
+      },
+      admin: {
+        minRowCount: 2,
+        maxRowCount: 10,
       },
     },
   },
@@ -83,6 +88,10 @@ module.exports = baseTheme => ({
       titleFontWeight: 500,
       titleTextTransform: undefined,
       subtitleMarginTop: -4,
+      layoutOptionSize: 24,
+      layoutOptionPadding: 3,
+      layoutIconSize: 18,
+      minContentHeight: 200,
     },
     // menu module
     menu: {
@@ -126,8 +135,6 @@ module.exports = baseTheme => ({
     },
     // search results module
     searchResults: {
-      minListRowCount: 4,
-      maxListRowCount: 4,
       listLineHeight: 160,
       listRowsByColumnCount: 4,
     },

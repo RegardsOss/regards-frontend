@@ -105,7 +105,7 @@ export class PrioritizedDataStorageListComponent extends React.Component {
       onEdit, onDuplicate, onActivateToggle, onRefresh,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount }, fixedColumnsWidth } = muiTheme.components.infiniteTable
 
     // Table columns to display
     const columns = [
@@ -168,8 +168,8 @@ export class PrioritizedDataStorageListComponent extends React.Component {
             entities={entities}
             emptyComponent={emptyComponent}
             entitiesCount={entities.length}
-            minRowCount={0}
-            maxRowCount={30}
+            minRowCount={minRowCount}
+            maxRowCount={maxRowCount}
           />
         </TableLayout>
       </div>

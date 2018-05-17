@@ -152,8 +152,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
       onBack, pageSize, resultsCount, entitiesLoading, project, initialFilters,
     } = this.props
     const { appliedFilters, errorMessage } = this.state
-
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount }, fixedColumnsWidth } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
       <NoContentComponent
@@ -209,8 +208,8 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              minRowCount={0}
-              maxRowCount={20}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               queryPageSize={pageSize}
             />
           </TableLayout>

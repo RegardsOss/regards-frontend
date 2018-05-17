@@ -108,11 +108,11 @@ export class DatasetListComponent extends React.Component {
     const {
       handleEdit, createUrl, backUrl, onRefresh, navigateToCreateDataset,
     } = this.props
-    const { intl: { formatMessage } } = this.context
-    const { fixedColumnsWidth } = this.context.muiTheme.components.infiniteTable
+    const { intl: { formatMessage }, muiTheme } = this.context
+    const { admin: { minRowCount, maxRowCount }, fixedColumnsWidth } = muiTheme.components.infiniteTable
     const style = {
-      hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
-      hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
+      hoverButtonEdit: muiTheme.palette.primary1Color,
+      hoverButtonDelete: muiTheme.palette.accent1Color,
     }
 
     const emptyContentAction = (
@@ -187,7 +187,8 @@ export class DatasetListComponent extends React.Component {
             </TableHeaderLine>
             <PageableInfiniteTableContainer
               name="dataset-management-table"
-              minRowCount={0}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               pageActions={datasetActions}
               pageSelectors={datasetSelectors}
               tableActions={tableActions}

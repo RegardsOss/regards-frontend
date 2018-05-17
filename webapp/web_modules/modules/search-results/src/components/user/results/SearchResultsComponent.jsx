@@ -93,6 +93,7 @@ class SearchResultsComponent extends React.Component {
 
     // services from PluginServicesContainer HOC
     selectionServices: AccessShapes.PluginServiceWithContentArray,
+
     // control
     onChangeColumnsVisibility: PropTypes.func.isRequired,
     onDeleteFacet: PropTypes.func.isRequired,
@@ -272,8 +273,8 @@ class SearchResultsComponent extends React.Component {
 
     const {
       allowingFacettes, attributePresentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
-      viewObjectType, tableViewMode, showingFacettes, facets, filters, searchQuery, selectionServices, onChangeColumnsVisibility, onDeleteFacet,
-      onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
+      viewObjectType, tableViewMode, showingFacettes, facets, filters, searchQuery, selectionServices, onChangeColumnsVisibility,
+      onDeleteFacet, onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
       onStartSelectionService, onAddSelectionToCart, onShowQuicklookView, enableQuicklooks, displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook,
       onAddElementToCart, enableDownload, accessToken, projectName, datasetsSectionLabel, dataSectionLabel,
     } = this.props
@@ -281,18 +282,12 @@ class SearchResultsComponent extends React.Component {
     let columns
     let { lineHeight } = tableTheme
     let displayColumnsHeader
-    let minRowCount
-    let maxRowCount
 
     const tableColumns = this.buildTableColumns()
     if (this.isInTableView()) {
       columns = tableColumns
       displayColumnsHeader = true
-      minRowCount = tableTheme.minRowCount
-      maxRowCount = tableTheme.maxRowCount
     } else if (this.isInListView()) { // use list columns
-      minRowCount = resultsTheme.minListRowCount
-      maxRowCount = resultsTheme.maxListRowCount
       lineHeight = resultsTheme.listLineHeight
       columns = [this.buildListColumn()]
       displayColumnsHeader = false
@@ -351,8 +346,8 @@ class SearchResultsComponent extends React.Component {
           filters={filters}
           onDeleteFilter={onDeleteFacet}
         />
-        {this.isInQuicklookView() ?
-          (<InfiniteGalleryContainer
+        {this.isInQuicklookView() ? (
+          <InfiniteGalleryContainer
             itemComponent={GalleryItemContainer}
             pageActions={searchActions}
             pageSelectors={searchSelectors}
@@ -362,26 +357,25 @@ class SearchResultsComponent extends React.Component {
             queryPageSize={QUICKLOOK_PAGE_SIZE}
             emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
             itemProps={itemProps}
-          />) : (<PageableInfiniteTableContainer
-            key={viewObjectType} // unmount the table when change entity type (using key trick)
-            // infinite table configuration
-            pageActions={searchActions}
-            pageSelectors={searchSelectors}
-            tableActions={TableClient.tableActions}
+          />) : (
+            <PageableInfiniteTableContainer
+              key={viewObjectType} // unmount the table when change entity type (using key trick)
+              // infinite table configuration
+              pageActions={searchActions}
+              pageSelectors={searchSelectors}
+              tableActions={TableClient.tableActions}
 
-            displayColumnsHeader={displayColumnsHeader}
-            lineHeight={lineHeight}
-            minRowCount={minRowCount}
-            maxRowCount={maxRowCount}
-            columns={columns}
-            queryPageSize={RESULTS_PAGE_SIZE}
-            pathParams={pathParams}
-            emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
-          />)
+              displayColumnsHeader={displayColumnsHeader}
+              lineHeight={lineHeight}
+              columns={columns}
+              queryPageSize={RESULTS_PAGE_SIZE}
+              pathParams={pathParams}
+              emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
+            />)
         }
-      </TableLayout>
-    )
+      </TableLayout>)
   }
 }
 
 export default SearchResultsComponent
+

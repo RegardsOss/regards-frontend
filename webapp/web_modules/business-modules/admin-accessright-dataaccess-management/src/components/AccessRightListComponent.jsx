@@ -265,7 +265,7 @@ export class AccessRightListComponent extends React.Component {
       accessGroup, navigateToCreateDataset, backURL,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount }, fixedColumnsWidth } = muiTheme.components.infiniteTable
 
     // Table columns to display
     const columns = [
@@ -327,7 +327,8 @@ export class AccessRightListComponent extends React.Component {
             {this.renderActionsLine()}
             <PageableInfiniteTableContainer
               name="access-rights-datasets-table"
-              minRowCount={0}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               pageActions={datasetWithAccessRightActions}
               pageSelectors={datasetWithAccessRightSelectors}
               tableActions={tableActions}

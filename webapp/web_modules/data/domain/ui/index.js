@@ -20,6 +20,7 @@ import LocalStorageUser from './LocalStorageUser'
 import { LOCALES_ENUM, LOCALES } from './Locales'
 import { MENU_DISPLAY_MODES, MENU_DISPLAY_MODES_ENUM } from './MenuDisplayModes'
 import { MODULE_PANE_DISPLAY_MODES_ENUM, MODULE_PANE_DISPLAY_MODES, isModulePaneExpanded, isModulePaneExpansible } from './ModulePaneDisplayModes'
+import { PRESENTATION_STATE_ENUM, PRESENTATION_STATE } from './ModulePresentationState'
 import { getAdminURL, getModuleURL, getModuleDefaultIconURL, getPathModuleId } from './URLHelper'
 
 module.exports = {
@@ -36,4 +37,6 @@ module.exports = {
   MENU_DISPLAY_MODES_ENUM,
   MODULE_PANE_DISPLAY_MODES_ENUM,
   MODULE_PANE_DISPLAY_MODES,
+  PRESENTATION_STATE_ENUM,
+  PRESENTATION_STATE,
 }

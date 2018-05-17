@@ -97,7 +97,7 @@ export default class DatasourceListComponent extends React.Component {
       datasourceList, onToggleState, handleEdit, createUrl, backUrl, refreshDatasourceList,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount }, fixedColumnsWidth } = muiTheme.components.infiniteTable
 
     // Table columns to display
     const columns = [
@@ -145,8 +145,8 @@ export default class DatasourceListComponent extends React.Component {
               entities={datasourceList}
               emptyComponent={emptyComponent}
               entitiesCount={datasourceList.length}
-              minRowCount={0}
-              maxRowCount={30}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
             />
           </TableLayout>
         </CardText>

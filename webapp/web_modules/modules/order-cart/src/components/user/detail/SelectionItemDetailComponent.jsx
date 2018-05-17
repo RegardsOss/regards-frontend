@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Measure } from '@regardsoss/adapters'
 import FlatButton from 'material-ui/FlatButton'
 import { PositionedDialog } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -57,22 +56,10 @@ class SelectionItemDetailComponent extends React.Component {
   /** Expand all styles (used to measure available table height) */
   static EXPAND_ALL_STYLES = { flexGrow: 1, flexShrink: 1, overflowY: 'hidden' }
 
-  /** Default component state */
-  static DEFAULT_STATE = {
-    availableHeight: 0,
-  }
-
-  /** Lifecycle method: component will mount. Used here to initialize state */
-  componentWillMount = () => this.setState(SelectionItemDetailComponent.DEFAULT_STATE)
-
-  /** On component resized (measure): update available height for sub table component */
-  onComponentResized = ({ measureDiv: { height } }) => this.setState({ availableHeight: height })
-
   render() {
     const {
       showDatasets, visible, date, datasetLabel, openSearchRequest, onClose,
     } = this.props
-    const { availableHeight } = this.state
     const { intl: { formatDate, formatMessage } } = this.context
     const { moduleTheme: { user: { content: { detail } } } } = this.context
 
@@ -101,14 +88,7 @@ class SelectionItemDetailComponent extends React.Component {
         actions={actions}
         open={visible}
       >
-        <Measure bounds onMeasure={this.onComponentResized}>
-          {
-            ({ bind }) => (
-              <div style={SelectionItemDetailComponent.EXPAND_ALL_STYLES} {...bind('measureDiv')} >
-                <SelectionDetailResultsTableContainer availableHeight={availableHeight} openSearchRequest={openSearchRequest} />
-              </div>)
-          }
-        </Measure >
+        <SelectionDetailResultsTableContainer openSearchRequest={openSearchRequest} />
       </PositionedDialog >
     )
   }

@@ -16,11 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { UIClient } from '@regardsoss/client'
+import values from 'lodash/values'
 
-// get actions for default client (reducer installed by the user app)
-const moduleExpandedStateActions = new UIClient.ModuleExpandedStateActions()
-
-module.exports = {
-  moduleExpandedStateActions,
+/**
+ * Possible module dynamic pane presentation states
+ * @author Raphaël Mechali
+ */
+export const PRESENTATION_STATE_ENUM = {
+  MINIMIZED: 'MINIMIZED',
+  NORMAL: 'NORMAL',
+  MAXIMIZED: 'MAXIMIZED',
 }
+
+export const PRESENTATION_STATE = values(PRESENTATION_STATE_ENUM)

@@ -28,6 +28,7 @@ import StoragePluginLegendComponent from './StoragePluginLegendComponent'
  */
 class StoragePluginComponent extends React.Component {
   static propTypes = {
+    userApp: PropTypes.bool.isRequired,
     // storage info, as reshaped by parent container and expected by sub components
     storagePlugin: ParsedStoragePluginShape.isRequired,
   }
@@ -38,17 +39,21 @@ class StoragePluginComponent extends React.Component {
   }
 
   render() {
-    const { storagePlugin } = this.props
+    const { userApp, storagePlugin } = this.props
     const { label, description } = storagePlugin
-    const { moduleTheme: { user: { pluginCard } } } = this.context
+    const { moduleTheme: { user, admin } } = this.context
 
     return (
-      <Card className={pluginCard.classes} style={pluginCard.root} containerStyle={pluginCard.contentStyle}>
+      <Card
+        className={userApp ? user.pluginCard.classes : admin.pluginCard.classes}
+        style={user.pluginCard.root}
+        containerStyle={user.pluginCard.contentStyle}
+      >
         <CardTitle
           title={label}
           subtitle={description}
         />
-        <CardMedia style={pluginCard.media.rootStyle} mediaStyle={pluginCard.media.contentStyle} >
+        <CardMedia style={user.pluginCard.media.rootStyle} mediaStyle={user.pluginCard.media.contentStyle} >
           <StoragePluginChartComponent storagePlugin={storagePlugin} />
           <StoragePluginLegendComponent storagePlugin={storagePlugin} />
         </CardMedia>

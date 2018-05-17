@@ -69,12 +69,23 @@ export default (theme) => {
         },
       },
     },
+    containerStyle: {
+      flexGrow: 1,
+      flexShrink: 1,
+    },
+    tableHolderStyle: {
+      flexGrow: 1,
+      flexShrink: 1,
+    },
     header: {
       rootStyle: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'stretch',
+        flexGrow: 1,
+        flexShrink: 1,
+        minHeight: 0,
       },
       dividerStyle: {
         width: '100%',
@@ -84,8 +95,8 @@ export default (theme) => {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'stretch',
-        flexGrow: 1,
-        flexShrink: 1,
+        flexGrow: 0,
+        flexShrink: 0,
         minHeight: theme.components.infiniteTable.minHeaderRowHeight,
         borderBottom: headerBottomBorder,
       },

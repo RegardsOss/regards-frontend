@@ -18,7 +18,6 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import isNumber from 'lodash/isNumber'
 import { Measure } from '@regardsoss/adapters'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
@@ -33,8 +32,6 @@ import './styles/fixed-data-table-mui.css'
 /** Exports default page size for inner use */
 export const DEFAULT_PAGE_SIZE = 20
 
-const allWidthStyles = { width: '100%' }
-
 /**
  * Infinite table container:
  * Wraps fixed data table into regardsoss adapted component.
@@ -43,8 +40,7 @@ const allWidthStyles = { width: '100%' }
  * - Be used with a fixed list of entities (when entity list changes, the page index is considered as new list start index,
  * meaning entities can be inserted in list or replacing current list)
  *
- * Please note that the component changes sub components context to provides his fetch method: this allows any sub element (including
- * cells) to use through context the TableContext elements
+ * Note: this component can be placed in a flex layout to grow automatically (not using min and max row count) or can have fixed height (using min AND/OR max row count)
  *
  * @author Sébastien Binda
  */
@@ -60,10 +56,10 @@ class InfiniteTableContainer extends React.Component {
     // table configuration properties
     displayColumnsHeader: PropTypes.bool,
     lineHeight: PropTypes.number, // defaults to theme when not provided
-    // min visible rows count
-    minRowCount: PropTypes.number, // default to theme when not provided
-    // max visible rows count
-    maxRowCount: PropTypes.number, // default to theme when not provided
+    // Min and max row count: when not specified, the table attempts to auto fit the available height
+    minRowCount: PropTypes.number,
+    maxRowCount: PropTypes.number,
+
     columns: PropTypes.arrayOf(TableColumnConfiguration).isRequired,
     // configures when the loading should start when user scrolls in page: this is a number in ]0; 1[ standing for
     // "after half", "after 2/3" (default), ... Adapt it to your queryPageSize
@@ -124,6 +120,9 @@ class InfiniteTableContainer extends React.Component {
     entities: [],
     entitiesCount: 0, // inhibits he pageable behavior
     allColumns: [],
+    tableHeight: 1,
+    measuredHeight: 1,
+    tableWidth: 1,
   }
 
   /** Initialize state */
@@ -162,6 +161,14 @@ class InfiniteTableContainer extends React.Component {
       nextState.entities = [...restoredEntities, ...nextProps.entities]
     }
 
+    // when min / max row count or entities total changes, update the table height (for not auto control cases)
+    if (previousProps.minRowCount !== nextProps.minRowCount ||
+      previousProps.maxRowCount !== nextProps.maxRowCount ||
+      get(this.state, 'entities.length', 0) !== nextState.entities.length) {
+      nextState.tableHeight = this.computeTableHeight(nextProps.minRowCount,
+        nextProps.maxRowCount, nextState.measuredHeight, nextState.entities)
+    }
+
     if (!isEqual(previousState, nextState)) {
       this.setState(nextState)
     }
@@ -179,14 +186,15 @@ class InfiniteTableContainer extends React.Component {
     if (entities.length < this.getCurrentTotalEntities() && !this.props.entitiesFetching) {
       // The table is not yet complete, check if we should fetch
       // the scroll offset is the first element to fetch if it is missing
-      const tableTheme = this.context.muiTheme.components.infiniteTable
 
-      const defaultLineHeight = tableTheme.lineHeight
-      const { lineHeight = defaultLineHeight, queryPageSize } = this.props
+      // const defaultLineHeight = tableTheme.lineHeight
+      const { queryPageSize, displayColumnsHeader } = this.props
+      const lineHeight = this.getTableLineHeight()
 
       // when the last visible index is at 2/3 of the last loaded page, start loading next page
       const firstVisibleIndex = Math.floor(scrollEndOffset / lineHeight)
-      const actualRowCount = isNumber(this.props.maxRowCount) ? this.props.maxRowCount : tableTheme.maxRowCount
+      const headerHeight = displayColumnsHeader ? this.context.muiTheme.components.infiniteTable.minHeaderRowHeight : 0
+      const actualRowCount = (this.state.tableHeight - headerHeight) / lineHeight
       const lastVisibleIndex = firstVisibleIndex + actualRowCount
       const totalPages = Math.floor(entities.length / queryPageSize)
 
@@ -203,8 +211,12 @@ class InfiniteTableContainer extends React.Component {
   /**
    * Called when component is resized, to force the inner table implementation at same width
    */
-  onComponentResized = ({ measureDiv: { width } }) => {
-    this.setState({ tableWidth: width })
+  onComponentResized = ({ measureDiv: { height, width } }) => {
+    this.setState({
+      measuredHeight: height,
+      tableHeight: this.computeTableHeight(this.props.minRowCount, this.props.maxRowCount, height, this.state.entities),
+      tableWidth: width,
+    })
   }
 
   /**
@@ -212,6 +224,32 @@ class InfiniteTableContainer extends React.Component {
    */
   getCurrentTotalEntities = () => Math.max(this.props.entitiesCount || 0, (this.props.entities || []).length)
 
+  /** @return line height to consider for table */
+  getTableLineHeight = () => this.props.lineHeight || this.context.muiTheme.components.infiniteTable.lineHeight
+
+  /**
+   * Computes table height
+   * @param {number} minRowCount the min row count set (or none)
+   * @param {number} minRowCount the min row count set (or none)
+   * @param {number} measuredHeight measured height
+   * @param {[*]} entities entities
+   * @return table height, taking in account the driven mode (min / max lines provided) and the auto size mode
+   */
+  computeTableHeight = (minRowCount, maxRowCount, measuredHeight, entities) => {
+    if (minRowCount || maxRowCount) {
+      // Min / max rows mode
+      const consideredMin = minRowCount || 1
+      const consideredMax = maxRowCount || 20
+      const consideredLinesCount = Math.min(Math.max(consideredMin, entities.length), consideredMax)
+      return (consideredLinesCount + 1) * this.getTableLineHeight()
+    }
+    // Self measured mode
+    if (this.state.tableHeight > measuredHeight) {
+      // XXX-WORKAROUND forces quick dimensioning when sizing down the table (avoid 5-10 seconds waiting...)
+      return measuredHeight - 100
+    }
+    return measuredHeight
+  }
   /**
    * Flushes current entities and selection if such methods exist
    */
@@ -238,23 +276,20 @@ class InfiniteTableContainer extends React.Component {
     }
   }
 
+
   render() {
     const {
-      displayColumnsHeader, lineHeight, columns, entitiesFetching,
+      displayColumnsHeader, columns, entitiesFetching,
       loadingComponent, emptyComponent, entitiesCount,
     } = this.props
-    const { tableWidth = 0, entities } = this.state // cached render entities
-    const tableTheme = this.context.muiTheme.components.infiniteTable
-    const actualLineHeight = lineHeight || tableTheme.lineHeight
-    const minRowCount = isNumber(this.props.minRowCount) ? this.props.minRowCount : tableTheme.minRowCount
-    const maxRowCount = isNumber(this.props.maxRowCount) ? this.props.maxRowCount : tableTheme.maxRowCount
-
+    const { tableHeight, tableWidth = 0, entities } = this.state // cached render entities
+    const { moduleTheme: { containerStyle } } = this.context
     const currentTotalEntities = this.getCurrentTotalEntities()
     return (
       <Measure bounds onMeasure={this.onComponentResized}>
         {
           ({ bind }) => (
-            <div style={allWidthStyles} {...bind('measureDiv')}>
+            <div style={containerStyle} {...bind('measureDiv')}>
               <LoadableContentDisplayDecorator
                 isLoading={!currentTotalEntities && entitiesFetching} // Display only the initial loading state to avoid resetting user scroll
                 loadingComponent={loadingComponent}
@@ -263,21 +298,19 @@ class InfiniteTableContainer extends React.Component {
               >
                 <Table
                   displayColumnsHeader={displayColumnsHeader}
-                  lineHeight={actualLineHeight}
-                  minRowCount={minRowCount}
-                  maxRowCount={maxRowCount}
+                  lineHeight={this.getTableLineHeight()}
 
                   entities={entities}
                   entitiesCount={entitiesCount}
                   onScrollEnd={this.onScrollEnd}
                   columns={columns}
+                  height={tableHeight}
                   width={tableWidth}
                 />
               </LoadableContentDisplayDecorator>
             </div >)
         }
-      </Measure >
-    )
+      </Measure >)
   }
 }
 

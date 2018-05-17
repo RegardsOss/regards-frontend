@@ -205,7 +205,6 @@ export class RunServiceDialogComponent extends React.Component {
             title={formatMessage({ id: currentStep.error ? 'entities.common.services.error.title' : 'entities.common.services.notice.title' })}
             message={stepType === RunServiceDialogComponent.Steps.MESSAGE ? currentStep.message : ''}
             Icon={currentStep.error ? ErrorIcon : MessageIcon}
-            rootStyles={pluginServiceDialog.contentStyles}
           >
             { // render interactive steps: configuration or results
               stepType === RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION ?
