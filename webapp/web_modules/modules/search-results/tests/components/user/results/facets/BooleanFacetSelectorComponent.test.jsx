@@ -15,45 +15,33 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ResultsAndFacetsHeaderRow from '../../../../../src/components/user/results/header/ResultsAndFacetsHeaderRow'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import BooleanFacetSelectorComponent from '../../../../../src/components/user/results/facets/BooleanFacetSelectorComponent'
+import FacetSelectorComponent from '../../../../../src/components/user/results/facets/FacetSelectorComponent'
 import styles from '../../../../../src/styles/styles'
 import facetsNetworkDump from '../../../../dumps/results.dump'
 
-const context = buildTestContext(styles)
+const aBooleanFacetModel = facetsNetworkDump.facets[3]
 
-/**
-* Test ResultsAndFacetsHeaderRow
-* @author Raphaël Mechali
-*/
-describe('[Search Results] Testing ResultsAndFacetsHeaderRow', () => {
+describe('[SEARCH FACETS] Testing BooleanFacetSelectorComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ResultsAndFacetsHeaderRow)
+    assert.isDefined(BooleanFacetSelectorComponent)
   })
-  it('should render correctly loading', () => {
+  const context = buildTestContext(styles)
+
+  it('should render properly', () => {
     const props = {
-      isFetching: true,
-      showFacets: true,
+      facet: aBooleanFacetModel,
       onSelectFacet: () => { },
-      facets: [],
-      resultsCount: 22,
     }
-    shallow(<ResultsAndFacetsHeaderRow {...props} />, { context })
-  })
-  it('should render correctly facets for all facet types (from dump)', () => {
-    const props = {
-      isFetching: false,
-      showFacets: true,
-      onSelectFacet: () => { },
-      facets: facetsNetworkDump.facets,
-      resultsCount: 22,
-    }
-    shallow(<ResultsAndFacetsHeaderRow {...props} />, { context })
+    const enzymeWrapper = shallow(<BooleanFacetSelectorComponent {...props} />, { context })
+    // We assert here that the rendering is correctly delegated to FacetSelectorComponent
+    assert.equal(enzymeWrapper.find(FacetSelectorComponent).length, 1, 'Rendering should be delegated to RangeFacetSelectorComponent')
   })
 })

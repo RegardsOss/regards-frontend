@@ -1284,5 +1284,19 @@ module.exports = {
         },
       ],
     },
+    {
+      attributeName: 'MISC_INFO.MY_BOOL',
+      type: 'BOOLEAN',
+      others: 2,
+      values: [{
+        value: false,
+        count: 5,
+        openSearchQuery: 'MISC_INFO.SPECTATORS_COUNT: [10133423..*)',
+      }, {
+        value: true,
+        count: 18,
+        openSearchQuery: 'MISC_INFO.SPECTATORS_COUNT: [10133423..*)',
+      }],
+    },
   ],
 }

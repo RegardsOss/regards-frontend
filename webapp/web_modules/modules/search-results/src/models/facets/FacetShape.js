@@ -19,9 +19,10 @@
 import { DateTextBoundPropType, NumericTextBoundPropType } from './TextBoundPropType'
 
 const FacetTypes = {
-  String: 'STRING',
+  Boolean: 'BOOLEAN',
   Date: 'DATE',
   Number: 'NUMERIC',
+  String: 'STRING',
 }
 
 /** Attributes common to all facet values shapes */
@@ -49,6 +50,12 @@ const NumberRangeFacetValue = PropTypes.shape({
 /** A value for string facets (no range, word cound) */
 const StringFacetValue = PropTypes.shape({
   word: PropTypes.string.isRequired,
+  ...commonFacetValuesAttributesPropTypes,
+})
+
+/** A value for string facets (no range, word cound) */
+const BooleanFacetValue = PropTypes.shape({
+  value: PropTypes.bool.isRequired,
   ...commonFacetValuesAttributesPropTypes,
 })
 
@@ -82,13 +89,22 @@ const StringFacet = PropTypes.shape({
   values: PropTypes.arrayOf(StringFacetValue),
 })
 
+/** A boolean facet */
+const BooleanFacet = PropTypes.shape({
+  ...commonFacetAttributesPropTypes,
+  type: PropTypes.oneOf([FacetTypes.Boolean]).isRequired,
+  values: PropTypes.arrayOf(BooleanFacetValue),
+})
+
 /** describes unpecific facet notion */
-const Facet = PropTypes.oneOfType([DateRangeFacet, NumberRangeFacet, StringFacet])
+const Facet = PropTypes.oneOfType([DateRangeFacet, NumberRangeFacet, BooleanFacet, StringFacet])
 
 /** A facet array */
 const FacetArray = PropTypes.arrayOf(Facet)
 
 module.exports = {
+  BooleanFacetValue,
+  BooleanFacet,
   DateRangeFacetValue,
   DateRangeFacet,
   Facet,

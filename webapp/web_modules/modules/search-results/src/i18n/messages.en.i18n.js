@@ -108,6 +108,10 @@ const messages = Object.assign({
 
   'search.facets.no.facet.found': 'No facet for current result',
   'search.facets.filter.menu.others.message': 'Available choices are not exhaustive',
+  'search.facets.filter.boolean.value.true': 'true',
+  'search.facets.filter.boolean.value.false': 'false',
+  'search.facets.filter.menu.boolean.value': '{valueLabel} ({count})',
+  'search.facets.filter.chip.boolean.value': '{label}: {valueLabel}',
   'search.facets.filter.menu.date.before': 'Before {date} ({count})',
   'search.facets.filter.menu.date.after': 'After {date} ({count})',
   'search.facets.filter.menu.date.range': 'From {minDate} to {maxDate} ({count})',
