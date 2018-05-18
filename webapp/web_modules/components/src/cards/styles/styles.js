@@ -18,21 +18,16 @@
  **/
 
 /**
- * Data file related shapes
+ * Module styles
+ * @param {*} theme current application theme
  * @author Raphaël Mechali
  */
-
-/** only fields (for extending files to re-use) */
-export const dataFileFields = {
-  uri: PropTypes.string,
-  checksum: PropTypes.string,
-  digestAlgorithm: PropTypes.string,
-  size: PropTypes.number,
-  name: PropTypes.string,
-  online: PropTypes.bool,
-  mimeType: PropTypes.string,
-  downloadable: PropTypes.bool,
-}
-
-/** complete object */
-export const DataFile = PropTypes.shape(dataFileFields)
+export default theme => ({
+  noDataContainerStyle: {
+    flexGrow: 1,
+    flexShrink: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+  },
+})

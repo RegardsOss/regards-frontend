@@ -27,7 +27,6 @@ import { AccessShapes, OrderShapes } from '@regardsoss/shape'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { createOrderActions, createOrderSelectors } from '../../client/CreateOrderClient'
 import { ModuleConfigurationShape } from '../../shapes/ModuleConfigurationShape'
-import SelectionItemDetailContainer from './detail/SelectionItemDetailContainer'
 import OrderCartComponent from '../../components/user/OrderCartComponent'
 
 // get default modules client actions and reducers instances - required to check a basket exists AND is in a dynamic container
@@ -159,21 +158,17 @@ export class UserModuleContainer extends React.Component {
       basket, hasError, isAuthenticated, isFetching, dispatchClearCart, moduleConf: { showDatasets = true },
     } = this.props
     return (
-      <div>
-        {/* 1 - Add main view */}
-        <OrderCartComponent
-          basket={basket}
-          showDatasets={showDatasets}
-          hasError={hasError}
-          isFetching={isFetching}
-          isAuthenticated={isAuthenticated}
-          onClearCart={dispatchClearCart}
-          onOrder={this.onOrder}
-          {...modulesHelper.getReportedUserModuleProps(this.props)}
-        />
-        {/* 2 - Add detail dialog */}
-        <SelectionItemDetailContainer showDatasets={showDatasets} />
-      </div>
+      /* main view */
+      <OrderCartComponent
+        basket={basket}
+        showDatasets={showDatasets}
+        hasError={hasError}
+        isFetching={isFetching}
+        isAuthenticated={isAuthenticated}
+        onClearCart={dispatchClearCart}
+        onOrder={this.onOrder}
+        {...modulesHelper.getReportedUserModuleProps(this.props)}
+      />
     )
   }
 }

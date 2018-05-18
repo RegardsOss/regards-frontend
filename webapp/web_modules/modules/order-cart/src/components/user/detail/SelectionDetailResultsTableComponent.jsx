@@ -36,9 +36,6 @@ class SelectionDetailResultsTableComponent extends React.Component {
     // results information
     resultsCount: PropTypes.number.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    // parent provided available height, to let this component adjust table size depending on current space
-    // eslint-disable-next-line react/no-unused-prop-types
-    availableHeight: PropTypes.number.isRequired, // used in onPropertiesChanged
   }
 
   static contextTypes = {
@@ -68,32 +65,6 @@ class SelectionDetailResultsTableComponent extends React.Component {
   /** Min page size for table */
   static MIN_TABLE_PAGE_SIZE = 5
 
-  /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
-   * Properties change detected: update local state
-   * @param oldProps previous component properties
-   * @param newProps next component properties
-   */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    // update table rows count to adjust available size
-    if (oldProps.availableHeight !== newProps.availableHeight) {
-      // compute the number of elements that should be visible at same timerow count
-      this.setState({
-        visibleRowsCount: this.computeVisibleRowsCount(newProps.availableHeight),
-      })
-    }
-  }
-
   computeVisibleRowsCount(availableHeight) {
     const { lineHeight, minHeaderRowHeight } = this.context.muiTheme.components.infiniteTable
     const remainingRowsHeight = availableHeight - (minHeaderRowHeight * 2)
@@ -113,15 +84,12 @@ class SelectionDetailResultsTableComponent extends React.Component {
     const {
       pageActions, pageSelectors, pathParams, resultsCount, isFetching,
     } = this.props
-    const { visibleRowsCount } = this.state
     return (
       <TableLayout>
         <TableHeaderLineLoadingAndResults resultsCount={resultsCount} isFetching={isFetching} />
         <PageableInfiniteTableContainer
           pageActions={pageActions}
           pageSelectors={pageSelectors}
-          minRowCount={visibleRowsCount}
-          maxRowCount={visibleRowsCount}
           columns={this.renderColumns()}
           pathParams={pathParams}
           emptyComponent={SelectionDetailResultsTableComponent.NO_DATA_COMPONENT}

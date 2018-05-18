@@ -308,6 +308,7 @@ class OrderListComponent extends React.Component {
       onChangeColumnsVisibility, ordersRequestParameters, ordersActions, ordersSelectors,
     } = this.props
     const columns = this.buildColumns()
+    const { admin: { minRowCount, maxRowCount } } = this.context.muiTheme.components.infiniteTable
 
     // render headers and table
     return (
@@ -354,7 +355,8 @@ class OrderListComponent extends React.Component {
           queryPageSize={pageSize}
           columns={columns}
           emptyComponent={OrderListComponent.EMPTY_COMPONENT}
-          minRowCount={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? 0 : null}
+          minRowCount={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? minRowCount : null}
+          maxRowCount={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? maxRowCount : null}
         />
       </TableLayout>
     )

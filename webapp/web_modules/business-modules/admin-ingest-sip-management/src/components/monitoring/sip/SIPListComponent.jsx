@@ -237,7 +237,7 @@ class SIPListComponent extends React.Component {
     const {
       pageSize, resultsCount, initialFilters, chains, entitiesLoading,
     } = this.props
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount }, fixedColumnsWidth } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
       <NoContentComponent
@@ -291,8 +291,8 @@ class SIPListComponent extends React.Component {
             pageActions={sipActions}
             pageSelectors={sipSelectors}
             pageSize={pageSize}
-            minRowCount={0}
-            maxRowCount={10}
+            minRowCount={minRowCount}
+            maxRowCount={maxRowCount}
             columns={columns}
             requestParams={this.state.appliedFilters}
             emptyComponent={emptyComponent}

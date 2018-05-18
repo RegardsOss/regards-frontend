@@ -39,6 +39,12 @@ const styles = theme => ({
     },
   },
   user: {
+    rootModuleContainer: {
+      flexGrow: 1,
+      flexShrink: 1,
+      display: 'flex',
+      flexDirection: 'column',
+    },
     viewModeButton: {
       minWidth: theme.button.iconButtonSize,
     },

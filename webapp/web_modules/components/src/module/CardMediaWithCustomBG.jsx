@@ -28,26 +28,30 @@ export class CardMediaWithCustomBG extends React.Component {
   static propTypes = {
     // used to create callback on main module area
     onKeyPress: PropTypes.func,
+    // custom root style to merge with background color
+    // eslint-disable-next-line react/forbid-prop-types
+    style: PropTypes.object,
+    // custom media style
+    // eslint-disable-next-line react/forbid-prop-types
+    mediaStyle: PropTypes.object,
     children: PropTypes.node.isRequired,
+  }
+
+  static defaultProps = {
+    style: {},
+    mediaStyle: {},
   }
 
   static contextTypes = {
     ...themeContextType,
   }
 
-  constructor(props, context) {
-    super(props, context)
-    const { muiTheme } = context
-    this.style = {
-      backgroundColor: muiTheme.palette.canvasColor,
-    }
-  }
-
   render() {
-    const { onKeyPress } = this.props
-
+    const { onKeyPress, style, mediaStyle } = this.props
+    const { muiTheme } = this.context
+    const thisStyle = { backgroundColor: muiTheme.palette.canvasColor, ...style }
     return (
-      <CardMedia style={this.style} onKeyPress={onKeyPress}>
+      <CardMedia style={thisStyle} mediaStyle={mediaStyle} onKeyPress={onKeyPress}>
         {this.props.children}
       </CardMedia>
     )

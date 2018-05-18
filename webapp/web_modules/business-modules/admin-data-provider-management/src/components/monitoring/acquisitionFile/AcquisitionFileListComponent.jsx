@@ -134,11 +134,12 @@ export class AcquisitionFileListComponent extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, muiTheme } = this.context
     const {
       onBackToProducts, onBackToChains, pageSize, resultsCount, entitiesLoading, initialFilters, product, chain,
     } = this.props
     const { appliedFilters } = this.state
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
       <NoContentComponent
@@ -182,8 +183,8 @@ export class AcquisitionFileListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              minRowCount={0}
-              maxRowCount={20}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               queryPageSize={pageSize}
             />
           </TableLayout>

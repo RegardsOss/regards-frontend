@@ -385,7 +385,7 @@ export class SearchResultsContainer extends React.Component {
       const datasetLevel = Tag.getSearchedDatasetTag(levels)
       if (datasetLevel || parameters.length || !searchQuery) {
         // not restricted or requestable directly onto the datasets
-        searchActions = searchDatasetsActions // FIXME V3 this will induce a problem because we don't know if we speak about DO or DS tag!!
+        searchActions = searchDatasetsActions // FIXME-V3 this will induce a problem because we don't know if we speak about DO or DS tag!!
       } else {
         // restricted, requires to check the dataobjects in order to gather corresponding datasets
         initialSearchQuery = searchQuery
@@ -430,9 +430,10 @@ export class SearchResultsContainer extends React.Component {
 
   render() {
     const {
-      displayMode, enableFacettes, isFetching, resultsCount, viewObjectType, tableDisplayMode, enableDownload,
-      enableQuicklooks, facettesQuery, dispatchSetEntityAsTag, datasetsSectionLabel, dataSectionLabel,
-      searchQuery: initialSearchQuery, restrictedDatasetsIpIds, displayConf, accessToken, projectName,
+      displayMode, enableFacettes, isFetching, resultsCount, viewObjectType, tableDisplayMode,
+      enableDownload, enableQuicklooks, facettesQuery, dispatchSetEntityAsTag,
+      datasetsSectionLabel, dataSectionLabel, searchQuery: initialSearchQuery,
+      restrictedDatasetsIpIds, displayConf, accessToken, projectName,
     } = this.props
 
     const {

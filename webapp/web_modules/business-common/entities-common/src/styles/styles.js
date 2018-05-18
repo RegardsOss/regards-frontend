@@ -177,10 +177,6 @@ export default theme => ({
       borderStyle: 'solid',
       padding: '0',
     },
-    contentStyles: {
-      flexGrow: 1,
-      flexShrink: 1,
-    },
     parameterPresentation: {
       display: 'flex',
       flexDirection: 'row',

@@ -44,15 +44,16 @@ const sampleEntities = [
   },
 ]
 
-const InfiniteTable = (props, { muiTheme: { components: { infiniteTable: { fixedColumnsWidth } } } }) => (
+const InfiniteTable = (props, 
+  { muiTheme: { components: { infiniteTable: { admin: { minRowCount, maxRowCount },fixedColumnsWidth } } } }) => (
   <TableLayout>
     <TableHeaderLineLoadingAndResults isFetching={false} resultsCount={sampleEntities.length} />
     <InfiniteTableContainer
       columns={getColumns(fixedColumnsWidth)}
       entities={sampleEntities}
       entitiesCount={sampleEntities.length}
-      minRowCount={0}
-      maxRowCount={5}
+      minRowCount={minRowCount}
+      maxRowCount={maxRowCount}
     />
   </TableLayout>
 )

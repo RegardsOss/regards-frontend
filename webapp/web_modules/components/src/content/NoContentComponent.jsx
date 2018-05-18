@@ -17,13 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import DefaultIcon from 'material-ui/svg-icons/social/sentiment-very-satisfied'
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { FormattedMessage } from 'react-intl'
+import styles from './styles'
 
 /**
  * Shows illustration/icon and messages for a user-friendly no content area
+ * Note: spans full area when single child of a flex box
  */
-class NoContentComponent extends React.Component {
+export class NoContentComponent extends React.Component {
   static propTypes = {
     title: PropTypes.node.isRequired,
     message: PropTypes.node,
@@ -41,53 +43,22 @@ class NoContentComponent extends React.Component {
     ...themeContextType,
   }
 
-  getStyle = theme => ({
-    wrapper: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'column',
-      minHeight: '30vh',
-    },
-    iconStyle: {
-      width: '128px',
-      height: '128px',
-      opacity: '0.2',
-    },
-    titleWrapper: {
-      maxWidth: '40%',
-      marginTop: '0.2em',
-      color: theme.palette.textColor,
-      fontSize: '1.5em',
-    },
-    messageWrapper: {
-      maxWidth: '40%',
-      marginTop: '0.6em',
-      color: theme.palette.secondaryTextColor,
-      textAlign: 'center',
-      fontSize: '1em',
-    },
-    actionWrapper: {
-    },
-  })
-
   render() {
     const {
       title, message, Icon, action,
     } = this.props
-    const theme = this.context.muiTheme
-    const style = this.getStyle(theme)
+    const { muiTheme, moduleTheme: { noContent } } = this.context
     return (
-      <div style={style.wrapper}>
-        <Icon color={theme.palette.primary1Color} style={style.iconStyle} />
-        <div style={style.titleWrapper}>
+      <div style={noContent.wrapper}>
+        <Icon color={muiTheme.palette.primary1Color} style={noContent.iconStyle} />
+        <div style={noContent.titleWrapper}>
           {title || <FormattedMessage id="no.content.information.title" />}
         </div>
-        <div style={style.messageWrapper}>
+        <div style={noContent.messageWrapper}>
           {message}
         </div>
         {action ? (
-          <div style={style.actionWrapper}>
+          <div style={noContent.actionWrapper}>
             {action}
           </div>
         ) : null}
@@ -95,4 +66,5 @@ class NoContentComponent extends React.Component {
     )
   }
 }
-export default NoContentComponent
+
+export default withModuleStyle(styles, true)(NoContentComponent)

@@ -29,6 +29,7 @@ import styles from '../../styles'
 */
 export class StoragePluginContainer extends React.Component {
   static propTypes = {
+    userApp: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     scale: storage.StorageUnitScaleShape.isRequired, // used only in onPropertiesChanged
     // eslint-disable-next-line react/no-unused-prop-types
@@ -116,9 +117,10 @@ export class StoragePluginContainer extends React.Component {
   }
 
   render() {
+    const { userApp } = this.props
     const { parsedStoragePlugin } = this.state
     return (
-      <StoragePluginComponent storagePlugin={parsedStoragePlugin} />
+      <StoragePluginComponent userApp={userApp} storagePlugin={parsedStoragePlugin} />
     )
   }
 }

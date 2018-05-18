@@ -16,11 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import keys from 'lodash/keys'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { ShowableAtRender } from '@regardsoss/components'
-import { ScrollArea } from '@regardsoss/adapters'
 import GraphLevelDisplayer from '../../../src/components/user/GraphLevelDisplayer'
 import styles from '../../../src/styles/styles'
 import GraphLevelLoadingDisplayer from '../../../src/components/user/GraphLevelLoadingDisplayer'
@@ -47,7 +47,8 @@ const isErrorShowable = node => isMessageShowable(node, 'search.graph.level.fetc
 const isEmptyShowable = node => isMessageShowable(node, 'search.graph.level.no.model')
 
 const isContentShowable = node => node.type() === ShowableAtRender &&
-  node.children().length === 1 && node.children().at(0).type() === ScrollArea
+  !isRootShowable(node) && !isLoadingShowable(node) && !isMessageShowable(node) &&
+  !isErrorShowable(node) && !isEmptyShowable(node)
 
 const getAllShowable = enzymeWrapper => ({
   rootShowable: enzymeWrapper.findWhere(isRootShowable).at(0),
@@ -151,13 +152,19 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
     assert.isFalse(showables.contentShowable.props().show, 'Content should be hidden when there is no content')
 
     // switch loading to true
-    enzymeWrapper.setProps({
+    const withContentProps = {
       ...props,
       collections: DumpProvider.get('AccessProjectClient', 'CollectionEntity'),
-    })
+      datasets: DumpProvider.get('AccessProjectClient', 'DatasetEntity'),
+    }
+    enzymeWrapper.setProps(withContentProps)
     showables = getAllShowable(enzymeWrapper)
     assert.isFalse(showables.emptyShowable.props().show, 'Empty message should be hidden')
     assert.isTrue(showables.contentShowable.props().show, 'Content should be visible when there is content')
+
+    // check for element was rendered by collection / dataset
+    const expectedItemsInLevel = keys(withContentProps.collections).length + keys(withContentProps.datasets).length
+    assert.equal(showables.contentShowable.props().children.length, expectedItemsInLevel, 'There should be one item by collection / dataset')
   })
   it('Should render exclusively one element at same time, between loading / error / empty and content', () => {
     // test here all states combination and check that they are exclusive

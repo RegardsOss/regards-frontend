@@ -22,6 +22,7 @@ import { Card } from 'material-ui/Card'
 import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DynamicModulePane } from '../../src/module/DynamicModulePane'
+import NoContentMessageInfo from '../../src/cards/NoContentMessageInfo'
 import ModuleTitle from '../../src/module/ModuleTitle'
 import styles from '../../src/module/styles/styles'
 
@@ -38,9 +39,9 @@ describe('[Components] Testing DynamicModulePane', () => {
   it('should exists', () => {
     assert.isDefined(DynamicModulePane)
   })
-  it('should render correctly expanded', () => {
+  it('should render correctly expanded, in user app', () => {
     const props = {
-      appName: 'x',
+      appName: 'user',
       project: 'y',
       type: 'any',
       description: 'any module',
@@ -53,13 +54,16 @@ describe('[Components] Testing DynamicModulePane', () => {
           en: 'any',
         },
       },
+      expandable: true,
+      mainModule: true,
       locale: 'en',
       options: [<div key="an.option">An option </div>],
-      expandable: true,
-      expanded: true,
       isAuthenticated: true,
-      dispatchSetInitialState: () => { },
-      dispatchSetExpanded: () => { },
+      presentationState: UIDomain.PRESENTATION_STATE_ENUM.NORMAL,
+      dispatchSetInitialState: () => {},
+      dispatchSetMinimized: () => {},
+      dispatchSetNormal: () => {},
+      dispatchSetMaximized: () => {},
     }
     const wrapper = shallow(
       (
@@ -85,8 +89,11 @@ describe('[Components] Testing DynamicModulePane', () => {
       titleComponent: props.titleComponent,
       options: props.options,
       expandable: props.expandable,
-      expanded: props.expanded,
-      onExpandChange: wrapper.instance().onExpandChange,
+      presentationState: props.presentationState,
+      onSetMinimized: props.dispatchSetMinimized,
+      onSetNormalState: props.dispatchSetNormal,
+      onSetMaximized: props.dispatchSetMaximized,
+      showLayoutOptions: true, // as it is in user app
     }, 'Title properties should be correctly reported')
   })
   it('should render correctly collapsed', () => {
@@ -104,13 +111,74 @@ describe('[Components] Testing DynamicModulePane', () => {
           en: 'any',
         },
       },
+      mainModule: false,
       options: [<div key="an.option">An option </div>],
       expandable: true,
-      expanded: false,
+      presentationState: UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED,
       locale: 'fr',
       isAuthenticated: false,
-      dispatchSetInitialState: () => { },
-      dispatchSetExpanded: () => { },
+      subtitle: 'Any subtitle',
+      dispatchSetInitialState: () => {},
+      dispatchSetMinimized: () => {},
+      dispatchSetNormal: () => {},
+      dispatchSetMaximized: () => {},
+    }
+    const wrapper = shallow(
+      (
+        <DynamicModulePane {...props} >
+          <div>Some content</div>
+        </DynamicModulePane>
+      ), { context },
+    )
+
+    // check card rendering
+    const cardWrapper = wrapper.find(Card)
+    assert.lengthOf(cardWrapper, 1, 'There should be the card')
+
+    // check title rendering && expanded state
+    const titleWrapper = cardWrapper.find(ModuleTitle)
+    assert.lengthOf(titleWrapper, 1, 'There should be the module title')
+
+    testSuiteHelpers.assertWrapperProperties(titleWrapper, {
+      type: props.type,
+      locale: props.locale,
+      description: props.description,
+      page: props.page,
+      titleComponent: props.titleComponent,
+      subtitle: props.subtitle,
+      options: props.options,
+      expandable: props.expandable,
+      presentationState: props.presentationState,
+      onSetMinimized: props.dispatchSetMinimized,
+      onSetNormalState: props.dispatchSetNormal,
+      onSetMaximized: props.dispatchSetMaximized,
+      showLayoutOptions: false, // as it is not in user app
+    }, 'Title properties should be correctly reported')
+  })
+  it('should render correctly maximized', () => {
+    const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      description: 'any',
+      page: {
+        home: false,
+        iconType: 'DEFAULT',
+        customIconURL: null,
+        title: {
+          fr: 'quelconque',
+          en: 'any',
+        },
+      },
+      options: [<div key="an.option">An option </div>],
+      expandable: false,
+      presentationState: UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED,
+      locale: 'fr',
+      isAuthenticated: false,
+      dispatchSetInitialState: () => {},
+      dispatchSetMinimized: () => {},
+      dispatchSetNormal: () => {},
+      dispatchSetMaximized: () => {},
     }
     const wrapper = shallow(
       (
@@ -135,8 +203,11 @@ describe('[Components] Testing DynamicModulePane', () => {
       titleComponent: props.titleComponent,
       options: props.options,
       expandable: props.expandable,
-      expanded: props.expanded,
-      onExpandChange: wrapper.instance().onExpandChange,
+      presentationState: props.presentationState,
+      onSetMinimized: props.dispatchSetMinimized,
+      onSetNormalState: props.dispatchSetNormal,
+      onSetMaximized: props.dispatchSetMaximized,
+      showLayoutOptions: false, // as it is not in user app
     }, 'Title properties should be correctly reported')
   })
   it('should attempt initializing its own state in redux store from module configuration when in user app', () => {
@@ -163,10 +234,12 @@ describe('[Components] Testing DynamicModulePane', () => {
       dispatchSetInitialState: (expandable, expanded) => {
         spiedInitialization = { expandable, expanded }
       },
-      dispatchSetExpanded: () => { },
       moduleConf: {
         primaryPane: UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE,
       },
+      dispatchSetMinimized: () => {},
+      dispatchSetNormal: () => {},
+      dispatchSetMaximized: () => {},
     }
     shallow(<DynamicModulePane {...props} ><div /></DynamicModulePane>, { context })
     assert.equal(spiedInitialization.expandable, true, 'EXPANDED_COLLAPSIBLE shoud be resolved as expandable')
@@ -191,5 +264,122 @@ describe('[Components] Testing DynamicModulePane', () => {
     shallow(<DynamicModulePane {...props3} ><div /></DynamicModulePane>, { context })
     assert.equal(spiedInitialization.expandable, false, 'ALWAYS_EXPANDED shoud be resolved as not expandable')
     assert.equal(spiedInitialization.expanded, true, 'ALWAYS_EXPANDED shoud be resolved as expanded')
+  })
+  it('should hide module when fetching', () => {
+    const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      description: 'any',
+      fetching: true,
+      page: {
+        home: false,
+        iconType: 'DEFAULT',
+        customIconURL: null,
+        title: {
+          fr: 'quelconque',
+          en: 'any',
+        },
+      },
+      expandable: false,
+      presentationState: UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED,
+      locale: 'fr',
+      isAuthenticated: true,
+      dispatchSetInitialState: () => {},
+      dispatchSetMinimized: () => {},
+      dispatchSetNormal: () => {},
+      dispatchSetMaximized: () => {},
+    }
+    const enzymeWrapper = shallow(<DynamicModulePane {...props} ><div /></DynamicModulePane>, { context })
+    let noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
+    assert.lengthOf(noContentWrapper, 1, 'There should be authentication message displayer')
+    assert.isTrue(noContentWrapper.props().noContent, 'Module content should be blocked as module is loading content')
+    assert.equal(noContentWrapper.props().title, 'dynamic.module.loading.title', 'Loading title should be shown')
+    assert.equal(noContentWrapper.props().message, 'dynamic.module.loading.message', 'Loading message should be shown')
+
+    enzymeWrapper.setProps({ ...props, fetching: false })
+    noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
+    assert.isFalse(noContentWrapper.props().noContent, 'Module content should be shown as module is no longer loading')
+  })
+  it('should hide module when authentication is required but no user is logged', () => {
+    const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      description: 'any',
+      page: {
+        home: false,
+        iconType: 'DEFAULT',
+        customIconURL: null,
+        title: {
+          fr: 'quelconque',
+          en: 'any',
+        },
+      },
+      expandable: false,
+      presentationState: UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED,
+      locale: 'fr',
+      requiresAuthentication: true,
+      isAuthenticated: false,
+      dispatchSetInitialState: () => {},
+      dispatchSetMinimized: () => {},
+      dispatchSetNormal: () => {},
+      dispatchSetMaximized: () => {},
+    }
+    const enzymeWrapper = shallow(<DynamicModulePane {...props} ><div /></DynamicModulePane>, { context })
+    let noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
+    assert.lengthOf(noContentWrapper, 1, 'There should be authentication message displayer')
+    assert.isTrue(noContentWrapper.props().noContent, 'Module content should be blocked as user is not authenticated')
+    assert.equal(noContentWrapper.props().title, 'dynamic.module.not.authenticated.title', 'Not authenticated title should be shown')
+    assert.equal(noContentWrapper.props().message, 'dynamic.module.not.authenticated.message', 'Not authenticated message should be shown')
+
+    enzymeWrapper.setProps({ ...props, isAuthenticated: true })
+    noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
+    assert.isFalse(noContentWrapper.props().noContent, 'Module content should be shown as user is authenticated')
+  })
+  it('should hide module when there are missing dependencies and show it back when dependencies are available', () => {
+    const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      description: 'any',
+      page: {
+        home: false,
+        iconType: 'DEFAULT',
+        customIconURL: null,
+        title: {
+          fr: 'quelconque',
+          en: 'any',
+        },
+      },
+      expandable: false,
+      presentationState: UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED,
+      locale: 'fr',
+      requiresAuthentication: false,
+      isAuthenticated: false,
+      fetching: false,
+      requiredDependencies: ['dep1', 'dep3'],
+      availableDependencies: [],
+      dispatchSetInitialState: () => {},
+      dispatchSetMinimized: () => {},
+      dispatchSetNormal: () => {},
+      dispatchSetMaximized: () => {},
+    }
+    const enzymeWrapper = shallow(<DynamicModulePane {...props} ><div /></DynamicModulePane>, { context })
+    let noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
+    assert.lengthOf(noContentWrapper, 1, 'There should be rights message displayer')
+    assert.isTrue(noContentWrapper.props().noContent, 'Module content should be blocked as user has not all dependencies (1)')
+    assert.equal(noContentWrapper.props().title, 'dynamic.module.not.authenticated.title', 'Not authenticated title should be used while user is not authenticated (missing rights for PUBLIC profile)')
+    assert.equal(noContentWrapper.props().message, 'dynamic.module.not.authenticated.message', 'Not authenticated message should be shown while user is not authenticated (missing rights for PUBLIC profile)')
+
+    enzymeWrapper.setProps({ ...props, isAuthenticated: true })
+    noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
+    assert.isTrue(noContentWrapper.props().noContent, 'Module content should be blocked as user has not all dependencies (2)')
+    assert.equal(noContentWrapper.props().title, 'dynamic.module.unsufficient.rights.title', 'Missing dependencies title should be shown')
+    assert.equal(noContentWrapper.props().message, 'dynamic.module.unsufficient.rights.message', 'Missing dependencies message should be shown')
+
+    enzymeWrapper.setProps({ ...props, availableDependencies: ['dep1', 'dep2', 'dep3'] })
+    noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
+    assert.isFalse(noContentWrapper.props().noContent, 'Module content should be shown as user has now enough rights')
   })
 })

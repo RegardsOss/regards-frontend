@@ -86,7 +86,7 @@ export class AutoRefreshPageableTableHOC extends React.Component {
   static defaultProps = {
     shouldRefetchAll: true,
     pageSize: DEFAULT_PAGE_SIZE,
-    refreshTimeMS: 2500,
+    refreshTimeMS: 5000,
   }
 
   /**

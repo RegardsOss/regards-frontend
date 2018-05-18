@@ -30,7 +30,7 @@ const buildMockStore = (initState = reduce(undefined, {})) => ({
 
 const mockReduce = (store, action) => buildMockStore(reduce(store['modules.search-graph'][REDUCER_PATH], action))
 
-describe('[Search Graph] Test graph context selectors', () => {
+describe('[Search Graph] Test GraphContextSelectors', () => {
   it('Should select correctly selection path', () => {
     let fakeStore = buildMockStore()
     assert.deepEqual(graphContextSelectors.getSelectionPath(fakeStore), [], 'Should return initial selection')
@@ -41,17 +41,11 @@ describe('[Search Graph] Test graph context selectors', () => {
     assert.isOk(graphContextSelectors.getSelectionForLevel(fakeStore, 0), 'No selection should be defined')
     assert.isNotOk(graphContextSelectors.getSelectionForLevel(fakeStore, 1), 'No selection should be defined')
   })
-  it('Should select collapsed state', () => {
-    let fakeStore = buildMockStore()
-    assert.isFalse(graphContextSelectors.isModuleCollapsed(fakeStore), [], 'Should select false for module collapsed')
-    fakeStore = mockReduce(fakeStore, graphContextActions.setModuleCollapsed(true))
-    assert.isTrue(graphContextSelectors.isModuleCollapsed(fakeStore), [], 'Should select true for module collapsed')
-  })
   it('Should select dataset attributes visible state', () => {
     let fakeStore = buildMockStore()
-    assert.isFalse(graphContextSelectors.areDatasetAttributesVisible(fakeStore), [], 'Should select false for module collapsed')
+    assert.isFalse(graphContextSelectors.areDatasetAttributesVisible(fakeStore), [], 'Should select false for dataset attributes visible')
     fakeStore = mockReduce(fakeStore, graphContextActions.setDatasetAttributesVisible(true))
-    assert.isTrue(graphContextSelectors.areDatasetAttributesVisible(fakeStore), [], 'Should select true for module collapsed')
+    assert.isTrue(graphContextSelectors.areDatasetAttributesVisible(fakeStore), [], 'Should select true for dataset attributes visible')
   })
   it('Should select searchTag state', () => {
     let fakeStore = buildMockStore()

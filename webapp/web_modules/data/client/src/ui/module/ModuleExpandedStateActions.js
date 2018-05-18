@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 
 /**
  * ModuleExpandedStateActions: use by module displayers (mostly DynamicModulePane) to share control over their
@@ -29,7 +30,7 @@ export class ModuleExpandedStateActions {
    */
   constructor(namespace = 'user-module-panes-expand') {
     this.INITIALIZE = `${namespace}/initialize`
-    this.SET_EXPANDED_STATE = `${namespace}/set-expanded-state`
+    this.SET_STATE = `${namespace}/set-state`
   }
 
 
@@ -44,32 +45,30 @@ export class ModuleExpandedStateActions {
     type: this.INITIALIZE,
     moduleType,
     expandable,
-    expanded,
+    state: expanded ? UIDomain.PRESENTATION_STATE_ENUM.NORMAL : UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED,
   })
 
-  /**
-   * Sets expanded module state
-   * @param {string} moduleType module type or any identifier for component instance
-   * @param {boolean} expanded Is expanded?
-   * @return action to dispatch
-   */
-  setExpanded = (moduleType, expanded) => ({
-    type: this.SET_EXPANDED_STATE,
+  setState = (moduleType, state) => ({
+    type: this.SET_STATE,
     moduleType,
-    expanded,
+    state,
   })
 
   /**
-   * Sets module collapsed
-   * @param {string} moduleType module type or any identifier for component instance
-   * @return action to dispatch
+   * @param {string} moduleType module type or any identifier for that pane
+   * @return redux action to set module presentation as minimized
    */
-  collapse = moduleType => this.setExpanded(moduleType, false)
+  setMinimized = moduleType => this.setState(moduleType, UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED)
 
   /**
-   * Sets module expanded
-  * @param {string} moduleType module type or any identifier for component instance
-   * @return action to dispatch
+   * @param {string} moduleType module type or any identifier for that pane
+   * @return redux action to set module presentation in normal state
    */
-  expand = moduleType => this.setExpanded(moduleType, true)
+  setNormal = moduleType => this.setState(moduleType, UIDomain.PRESENTATION_STATE_ENUM.NORMAL)
+
+  /**
+   * @param {string} moduleType module type or any identifier for that pane
+   * @return redux action to set module presentation in maximized state
+   */
+  setMaximized = moduleType => this.setState(moduleType, UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED)
 }

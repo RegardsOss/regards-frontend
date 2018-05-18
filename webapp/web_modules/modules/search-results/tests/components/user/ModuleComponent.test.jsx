@@ -20,6 +20,9 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ModuleComponent from '../../../src/components/user/ModuleComponent'
+import SearchResultsContainer from '../../../src/containers/user/results/SearchResultsContainer'
+import DescriptionContainer from '../../../src/containers/user/DescriptionContainer'
+import FeedbackDisplayContainer from '../../../src/containers/user/feedback/FeedbackDisplayContainer'
 import styles from '../../../src/styles/styles'
 import { DISPLAY_MODE_VALUES } from '../../../src/definitions/DisplayModeEnum'
 
@@ -54,6 +57,10 @@ describe('[Search Results] Testing ModuleComponent', () => {
       facettesQuery: '',
       searchQuery: 'kikikisonlessnorki?',
     }
-    shallow(<ModuleComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<ModuleComponent {...props} />, { context })
+
+    assert.lengthOf(enzymeWrapper.find(SearchResultsContainer), 1, 'There should be the results display container')
+    assert.lengthOf(enzymeWrapper.find(DescriptionContainer), 1, 'There should be entities description container')
+    assert.lengthOf(enzymeWrapper.find(FeedbackDisplayContainer), 1, 'There should be add to basket feedback container')
   })
 })

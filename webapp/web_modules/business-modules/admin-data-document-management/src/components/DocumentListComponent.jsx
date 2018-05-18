@@ -116,18 +116,18 @@ class DocumentListComponent extends React.Component {
 
 
   render() {
-    const { intl } = this.context
+    const { intl, muiTheme } = this.context
     const { createUrl, backUrl, handleEdit } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     // Table columns to display
     const columns = [
       // 2 - label column
-      TableColumnBuilder.buildSimplePropertyColumn('label', formatMessage({ id: 'document.list.table.label' }), 'content.label'),
+      TableColumnBuilder.buildSimplePropertyColumn('label', intl.formatMessage({ id: 'document.list.table.label' }), 'content.label'),
       // 2 - model column
-      TableColumnBuilder.buildSimplePropertyColumn('model', formatMessage({ id: 'document.list.table.model' }), 'content.model.name'),
+      TableColumnBuilder.buildSimplePropertyColumn('model', intl.formatMessage({ id: 'document.list.table.model' }), 'content.model.name'),
       // 3 - Actions column
-      TableColumnBuilder.buildSimpleColumnWithCell('actions', formatMessage({ id: 'document.list.table.actions' }), {
+      TableColumnBuilder.buildSimpleColumnWithCell('actions', intl.formatMessage({ id: 'document.list.table.actions' }), {
         Constructor: DocumentTableCustomCellActions, // custom cell
         props: {
           pageSize: DocumentListComponent.PAGE_SIZE,
@@ -147,8 +147,8 @@ class DocumentListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'document.list.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'document.list.subtitle' })}
+          title={intl.formatMessage({ id: 'document.list.title' })}
+          subtitle={intl.formatMessage({ id: 'document.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
@@ -161,7 +161,8 @@ class DocumentListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              minRowCount={0}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
             />
           </TableLayout>
 
@@ -174,7 +175,7 @@ class DocumentListComponent extends React.Component {
                 />
               }
               mainHateoasDependencies={DocumentListComponent.CREATE_DEPENDENCIES}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'document.list.action.cancel' })}
+              secondaryButtonLabel={intl.formatMessage({ id: 'document.list.action.cancel' })}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>

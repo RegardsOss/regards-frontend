@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { assert } from 'chai'
+import { UIDomain } from '@regardsoss/domain'
 import { ModuleExpandedStateActions } from '../../../src/ui/module/ModuleExpandedStateActions'
 import { ModuleExpandedStateReducer, getModuleExpandedStateReducer } from '../../../src/ui/module/ModuleExpandedStateReducer'
 
@@ -47,7 +48,7 @@ describe('[Client] Testing ModuleExpandedStateReducer', () => {
     assert.deepEqual(nextState, {
       test1: {
         expandable: false,
-        expanded: true,
+        state: UIDomain.PRESENTATION_STATE_ENUM.NORMAL,
       },
     }, 'Test 1 initialize action should be correctly reduced')
     initAction = testActions.initialize('test2', true, false)
@@ -55,41 +56,50 @@ describe('[Client] Testing ModuleExpandedStateReducer', () => {
     assert.deepEqual(nextState, {
       test1: {
         expandable: false,
-        expanded: true,
+        state: UIDomain.PRESENTATION_STATE_ENUM.NORMAL,
       },
       test2: {
         expandable: true,
-        expanded: false,
+        state: UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED,
       },
     }, 'Test 2 initialize should be correctly reduced, not conflicting with test1 store part')
   })
-  it('should reduce correctly expand state actions', () => {
+  it('should reduce correctly change state actions', () => {
     // prepare a store with 2 modules
     let currentState = testReduce(
       testReduce(undefined, testActions.initialize('test1', true, true)),
       testActions.initialize('test2', true, false))
     // test collapsing the two modules
-    let nextState = testReduce(currentState, testActions.setExpanded('test2', false))
-    assert.isTrue(nextState.test1.expandable)
-    assert.isTrue(nextState.test1.expanded)
-    assert.isTrue(nextState.test2.expandable)
-    assert.isFalse(nextState.test2.expanded)
+    let nextState = testReduce(currentState, testActions.setMinimized('test2'))
+    assert.isTrue(nextState.test1.expandable, '(1) test1 component should be expandable')
+    assert.equal(nextState.test1.state, UIDomain.PRESENTATION_STATE_ENUM.NORMAL, '(1) test1 component should be in normal state')
+    assert.isTrue(nextState.test2.expandable, '(1) test2 component should be expandable')
+    assert.equal(nextState.test2.state, UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED, '(1) test2 component should be minimized')
 
     currentState = nextState
-    nextState = testReduce(currentState, testActions.setExpanded('test1', false))
-    assert.isTrue(nextState.test1.expandable)
-    assert.isFalse(nextState.test1.expanded)
-    assert.isTrue(nextState.test2.expandable)
-    assert.isFalse(nextState.test2.expanded)
+    nextState = testReduce(currentState, testActions.setMaximized('test1'))
+    assert.isTrue(nextState.test1.expandable, '(2) test1 component should be expandable')
+    assert.equal(nextState.test1.state, UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED, '(2) test1 component should be maximized')
+    assert.isTrue(nextState.test2.expandable, '(2) test2 component should be expandable')
+    assert.equal(nextState.test2.state, UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED, '(2) test2 component should be minimized')
 
-    // test expanding them back
     currentState = nextState
-    nextState = testReduce(
-      testReduce(currentState, testActions.setExpanded('test1', true)),
-      testActions.setExpanded('test2', true))
-    assert.isTrue(nextState.test1.expandable)
-    assert.isTrue(nextState.test1.expanded)
-    assert.isTrue(nextState.test2.expandable)
-    assert.isTrue(nextState.test2.expanded)
+    nextState = testReduce(currentState, testActions.setNormal('test1'))
+    assert.isTrue(nextState.test1.expandable, '(3) test1 component should be expandable')
+    assert.equal(nextState.test1.state, UIDomain.PRESENTATION_STATE_ENUM.NORMAL, '(3) test1 component should be in normal state')
+    assert.isTrue(nextState.test2.expandable, '(3) test2 component should be expandable')
+    assert.equal(nextState.test2.state, UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED, '(3) test2 component should be minimized')
+  })
+  it('should not minimize a module that cannot be collapsed', () => {
+    // prepare a store with 2 modules
+    let currentState = testReduce(undefined, testActions.initialize('test', false, true))
+    assert.equal(currentState.test.state, UIDomain.PRESENTATION_STATE_ENUM.NORMAL, '(0) test component should be in normal state')
+    // test collapsing the two modules
+    let nextState = testReduce(currentState, testActions.setMaximized('test'))
+    assert.equal(nextState.test.state, UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED, '(1) test component should be in maximized state')
+
+    currentState = nextState
+    nextState = testReduce(currentState, testActions.setMinimized('test'))
+    assert.equal(nextState.test.state, UIDomain.PRESENTATION_STATE_ENUM.NORMAL, '(2) test component should be back in normal state (and not minimized)')
   })
 })

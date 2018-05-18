@@ -23,6 +23,38 @@
 * @author Raphaël Mechali
 */
 const styles = theme => ({
+  noContent: {
+    wrapper: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      minHeight: '30vh',
+      // auto alignement in flex container
+      flexGrow: 1,
+      flexShrink: 1,
+    },
+    iconStyle: {
+      width: '128px',
+      height: '128px',
+      opacity: '0.2',
+    },
+    titleWrapper: {
+      maxWidth: '40%',
+      marginTop: '0.2em',
+      color: theme.palette.textColor,
+      fontSize: '1.5em',
+    },
+    messageWrapper: {
+      maxWidth: '40%',
+      marginTop: '0.6em',
+      color: theme.palette.secondaryTextColor,
+      textAlign: 'center',
+      fontSize: '1em',
+    },
+    actionWrapper: {
+    },
+  },
   code: {
     styles: {
       width: '100%',

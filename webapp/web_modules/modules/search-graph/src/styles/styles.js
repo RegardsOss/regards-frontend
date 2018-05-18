@@ -93,10 +93,17 @@ const menuStyles = (theme) => {
       toggle: {
         width: 'auto', // prevent material UI 100% width behavior........
       },
-      // scrolling definition
-      scrolling: {
-        width: '100%',
-        height: 250,
+      scrollArea: {
+        fullscreenStyles: {
+          flexGrow: 1,
+          flexShrink: 1,
+          maxHeight: `calc(100vh - ${theme.module.common.titleBarHeight}px)`,
+        },
+        defaultStyles: {
+          flexGrow: 1,
+          flexShrink: 1,
+          maxHeight: theme.module.common.minContentHeight,
+        },
       },
       graphScrollableContent: {
         styles: {

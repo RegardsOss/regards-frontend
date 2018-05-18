@@ -138,7 +138,7 @@ class DataSourceMonitoringComponent extends React.Component {
   render() {
     const { crawlerDatasources, onBack, onRefresh } = this.props
     const { intl, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount }, fixedColumnsWidth } = muiTheme.components.infiniteTable
     // emptyComponent
     const columns = [
       TableColumnBuilder.buildSimplePropertyColumn('label', intl.formatMessage({ id: 'crawler.list.label.column.header' }), 'content.label', 0, true),
@@ -181,8 +181,8 @@ class DataSourceMonitoringComponent extends React.Component {
             <InfiniteTableContainer
               columns={columns}
               entities={crawlerDatasources}
-              minRowCount={0}
-              maxRowCount={10}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               entitiesCount={crawlerDatasources.length}
             />
           </TableLayout>

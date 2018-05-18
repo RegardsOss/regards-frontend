@@ -160,7 +160,7 @@ export class ProductListComponent extends React.Component {
         Icon={AddToPhotos}
       />
     )
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount }, fixedColumnsWidth } = muiTheme.components.infiniteTable
     const columns = [
       TableColumnBuilder.buildSimplePropertyColumn('column.productName', formatMessage({ id: 'acquisition-product.list.productName' }), 'content.productName', 1),
       TableColumnBuilder.buildSimplePropertyColumn('column.lastUpdate', formatMessage({ id: 'acquisition-product.list.lastUpdate' }), 'content.lastUpdate', 2, true, DateValueRender),
@@ -202,8 +202,8 @@ export class ProductListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              minRowCount={0}
-              maxRowCount={20}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               queryPageSize={pageSize}
             />
           </TableLayout>

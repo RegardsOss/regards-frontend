@@ -21,6 +21,7 @@ import { CardHeader } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
 import ExpandedIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 import CollapsedIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
+import MaximizeIcon from 'mdi-material-ui/Fullscreen'
 import { AccessDomain, UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import ModuleTitleText from './ModuleTitleText'
@@ -46,35 +47,78 @@ export class ModuleTitle extends React.Component {
       customIconURL: PropTypes.string,
       title: PropTypes.objectOf(PropTypes.string),
     }),
+    // Should show layout options?
+    showLayoutOptions: PropTypes.bool.isRequired,
     // Title component: when provided, it replaces the module title and icon
     titleComponent: PropTypes.node,
     // is expandable? (from module fields)
     expandable: PropTypes.bool.isRequired,
-    // is expanded?
-    expanded: PropTypes.bool.isRequired,
+    // current presentation state
+    presentationState: PropTypes.oneOf(UIDomain.PRESENTATION_STATE).isRequired,
     // optional module subtitle
     subtitle: PropTypes.string,
     // module title bar options
     options: PropTypes.arrayOf(PropTypes.node),
     // callback: on expand changed
-    onExpandChange: PropTypes.func.isRequired,
+    onSetMinimized: PropTypes.func.isRequired,
+    onSetNormalState: PropTypes.func.isRequired,
+    onSetMaximized: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
   }
 
+  /**
+   * Renders layout options for component
+   */
+  renderLayoutOptions = () => {
+    const {
+      expandable, showLayoutOptions, presentationState, onSetMaximized, onSetMinimized, onSetNormalState,
+    } = this.props
+    const { moduleTheme: { module: { layoutOptionsStyle, layoutOptionsIconStyle, selectedLayoutOptionsColor } } } = this.context
+    if (!showLayoutOptions) {
+      return null
+    }
+    const isMinimized = presentationState === UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED
+    const isMaximized = presentationState === UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED
+    const options = []
+    // first option: normal state when minimied, minimize otherwise - hidden when not expandable
+    if (expandable) {
+      options.push(
+        <IconButton
+          key="collapse.option"
+          style={layoutOptionsStyle}
+          iconStyle={layoutOptionsIconStyle}
+          onClick={isMinimized ? onSetNormalState : onSetMinimized}
+        >
+          {isMinimized ? <CollapsedIcon /> : <ExpandedIcon />}
+        </IconButton>)
+    }
+    // second option: normal state when maximized, maximize otherwise (note: when maximized, draw same button as selected)
+    options.push(
+      <IconButton
+        key="maximize.option"
+        style={layoutOptionsStyle}
+        iconStyle={layoutOptionsIconStyle}
+        onClick={isMaximized ? onSetNormalState : onSetMaximized}
+      >
+        <MaximizeIcon color={isMaximized ? selectedLayoutOptionsColor : null} />
+      </IconButton>)
+
+    return options
+  }
+
   render() {
     const {
-      type, locale, page, description, subtitle, titleComponent,
-      options, expandable, expanded, onExpandChange,
+      type, locale, page, description,
+      subtitle, titleComponent, options,
     } = this.props
     const {
       moduleTheme: {
         module: {
-          cardHeaderStyle, cardHeaderContentStyle,
+          cardHeaderStyle, cardHeaderContentStyle, moduleTitle,
           titleBarDivStyle, titleDivStyle, optionsDivStyle,
-          moduleTitle,
         },
       },
     } = this.context
@@ -112,13 +156,8 @@ export class ModuleTitle extends React.Component {
                 { // provided module options
                   options
                 }
-                { // expand collapse option when available
-                  expandable ? (
-                    <IconButton key="expand.collapse" onClick={onExpandChange}>
-                      {
-                        expanded ? <ExpandedIcon /> : <CollapsedIcon />
-                      }
-                    </IconButton>) : null
+                { // layout options
+                  this.renderLayoutOptions()
                 }
               </div>
             }
