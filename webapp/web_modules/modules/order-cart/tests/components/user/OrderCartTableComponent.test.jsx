@@ -19,7 +19,6 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TreeTableComponent } from '@regardsoss/components'
 import { OrderCartTableComponent } from '../../../src/components/user/OrderCartTableComponent'
 import OrderCartContentSummaryComponent from '../../../src/components/user/OrderCartContentSummaryComponent'
 import styles from '../../../src/styles/styles'
@@ -47,9 +46,7 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
       onShowDuplicatedMessage: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartTableComponent {...props} />, { context })
-    const treeTableWrapper = enzymeWrapper.find(TreeTableComponent)
-    assert.lengthOf(treeTableWrapper, 1, 'There should be a tree table')
-    assert.equal(treeTableWrapper.props().model, props.basket, 'Model should be correctly reported')
+    // can not test anymore tree table as it is now in scroll area
     const summaryWrapper = enzymeWrapper.find(OrderCartContentSummaryComponent)
     assert.lengthOf(summaryWrapper, 1, 'There should be the summary')
     testSuiteHelpers.assertWrapperProperties(summaryWrapper, {
@@ -65,9 +62,7 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
       onShowDuplicatedMessage: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartTableComponent {...props} />, { context })
-    const treeTableWrapper = enzymeWrapper.find(TreeTableComponent)
-    assert.lengthOf(treeTableWrapper, 1, 'There should be a tree table')
-    assert.equal(treeTableWrapper.props().model, props.basket, 'Model should be correctly reported')
+    // can not test anymore tree table as it is now in scroll area
     const summaryWrapper = enzymeWrapper.find(OrderCartContentSummaryComponent)
     assert.lengthOf(summaryWrapper, 1, 'There should be the summary')
     testSuiteHelpers.assertWrapperProperties(summaryWrapper, {

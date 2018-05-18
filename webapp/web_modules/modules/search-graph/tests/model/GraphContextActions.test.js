@@ -33,8 +33,8 @@ function dispatchAndCheck(action, expectedAction, store) {
   \tStore actions: ${JSON.stringify(store.getActions())}`)
 }
 
-describe('[Search Graph] Test graph context actions', () => {
-  it('It should dispatch selection reset by level', () => {
+describe('[Search Graph] Test GraphContextActions', () => {
+  it('It should dispatch entity selection reset by level', () => {
     const expectedAction = {
       type: graphContextActions.ENTITY_SELECTED,
       levelIndex: 0,
@@ -43,7 +43,7 @@ describe('[Search Graph] Test graph context actions', () => {
     dispatchAndCheck(graphContextActions.selectEntity(0, null), expectedAction, buildMockStore({}))
   })
 
-  it('It should dispatch object selection by level', () => {
+  it('It should dispatch entity selection by level', () => {
     const entity = {
       aField: 'aValue',
     }
@@ -58,13 +58,6 @@ describe('[Search Graph] Test graph context actions', () => {
     type: graphContextActions.SET_DATASET_ATTRIBUTES_VISIBLE,
     visible: true,
   }, buildMockStore({})))
-
-  it('It should dispatch module collapsed change event', () => {
-    dispatchAndCheck(graphContextActions.setModuleCollapsed(false), {
-      type: graphContextActions.SET_MODULE_COLLAPSED,
-      collapsed: false,
-    }, buildMockStore({}))
-  })
 
   it('It should dispatch set search tag event', () => {
     dispatchAndCheck(graphContextActions.setSearchTag({ type: TagTypes.WORD, data: 'w' }), {

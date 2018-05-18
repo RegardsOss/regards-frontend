@@ -90,4 +90,16 @@ describe('[Client] Testing ModuleExpandedStateReducer', () => {
     assert.isTrue(nextState.test2.expandable, '(3) test2 component should be expandable')
     assert.equal(nextState.test2.state, UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED, '(3) test2 component should be minimized')
   })
+  it('should not minimize a module that cannot be collapsed', () => {
+    // prepare a store with 2 modules
+    let currentState = testReduce(undefined, testActions.initialize('test', false, true))
+    assert.equal(currentState.test.state, UIDomain.PRESENTATION_STATE_ENUM.NORMAL, '(0) test component should be in normal state')
+    // test collapsing the two modules
+    let nextState = testReduce(currentState, testActions.setMaximized('test'))
+    assert.equal(nextState.test.state, UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED, '(1) test component should be in maximized state')
+
+    currentState = nextState
+    nextState = testReduce(currentState, testActions.setMinimized('test'))
+    assert.equal(nextState.test.state, UIDomain.PRESENTATION_STATE_ENUM.NORMAL, '(2) test component should be back in normal state (and not minimized)')
+  })
 })

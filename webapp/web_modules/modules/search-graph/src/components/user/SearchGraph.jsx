@@ -77,7 +77,7 @@ class SearchGraph extends React.Component {
 
   render() {
     const {
-      moduleConf, expanded, graphDatasetAttributes,
+      moduleConf, graphDatasetAttributes,
       presentationState, ...moduleProps
     } = this.props
     const { viewportStyles } = this.state
@@ -90,13 +90,13 @@ class SearchGraph extends React.Component {
         graphDatasetAttributes={graphDatasetAttributes}
       />]
 
+
     const graphLevels = get(moduleConf, 'graphLevels', [])
 
     return (
       <DynamicModulePane
         {...moduleProps}
         moduleConf={moduleConf}
-        expanded={expanded}
         options={headerOptionsComponents}
         requiredDependencies={dependencies}
         mainModule={false}

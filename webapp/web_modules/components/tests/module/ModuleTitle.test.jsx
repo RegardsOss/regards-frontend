@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { CardHeader } from 'material-ui/Card'
+import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ModuleTitle from '../../src/module/ModuleTitle'
 import styles from '../../src/module/styles/styles'
@@ -36,58 +37,7 @@ describe('[Components] Testing ModuleTitle', () => {
   it('should exists', () => {
     assert.isDefined(ModuleTitle)
   })
-  it('should render correctly', () => {
-    const props = {
-      type: 'any',
-      locale: 'en',
-      description: 'any-module',
-      page: {
-        home: true,
-        iconType: 'DEFAULT',
-        customIconURL: 'any.svg',
-        title: {
-          en: 'any',
-          fr: 'quelconque',
-        },
-      },
-      titleComponent: null,
-      expandable: true,
-      expanded: true,
-      subtitle: 'a subtitle',
-      // module title bar options
-      options: [<div key="1" id="option.1" />, <div key="2" id="option.2" />],
-      onExpandChange: () => { },
-    }
-    const enzymeWrapper = shallow(<ModuleTitle {...props} />, { context })
-    const cardHeader = enzymeWrapper.find(CardHeader)
-    assert.lengthOf(cardHeader, 1, 'There should be a card header')
-
-    // render title component
-    assert.isOk(cardHeader.props().title, 'There should be a title prop in card header')
-    // note: MUI forbids further tests here (context issue)
-    // test expandable change
-    enzymeWrapper.setProps({
-      ...props,
-      expandable: false,
-    })
-    // test expanded change
-    enzymeWrapper.setProps({
-      ...props,
-      expandable: true,
-    })
-  })
-
-  it('should render correctly in minimal mode (no option / page / subtitle / description)', () => {
-    const props = {
-      type: 'any',
-      expandable: true,
-      expanded: true,
-      locale: 'fr',
-      onExpandChange: () => { },
-    }
-    shallow(<ModuleTitle {...props} />, { context })
-  })
-  it('should render correctly with component title', () => {
+  it('should render correctly in normal mode (with options, page, title, subtile, layout options)', () => {
     const props = {
       type: 'any',
       locale: 'en',
@@ -103,11 +53,48 @@ describe('[Components] Testing ModuleTitle', () => {
       },
       titleComponent: <div id="title" />,
       expandable: true,
-      expanded: true,
+      presentationState: UIDomain.PRESENTATION_STATE_ENUM.NORMAL,
       subtitle: 'a subtitle',
+      showLayoutOptions: true,
       // module title bar options
       options: [<div key="1" id="option.1" />, <div key="2" id="option.2" />],
-      onExpandChange: () => { },
+      onSetMinimized: () => {},
+      onSetNormalState: () => {},
+      onSetMaximized: () => {},
+    }
+    const enzymeWrapper = shallow(<ModuleTitle {...props} />, { context })
+    const cardHeader = enzymeWrapper.find(CardHeader)
+    assert.lengthOf(cardHeader, 1, 'There should be a card header')
+
+    // check there is title component
+    assert.isOk(cardHeader.props().title, 'There should be a title prop in card header')
+    // check there is subtitle
+    assert.isOk(cardHeader.props().subtitle, 'There should be a subtitle prop in card header')
+  })
+
+  it('should render correctly in minimal mode (no option, page, subtitle, description, layout options)', () => {
+    const props = {
+      type: 'any',
+      expandable: true,
+      presentationState: UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED,
+      locale: 'fr',
+      showLayoutOptions: false,
+      onSetMinimized: () => {},
+      onSetNormalState: () => {},
+      onSetMaximized: () => {},
+    }
+    shallow(<ModuleTitle {...props} />, { context })
+  })
+  it('should render correctly in maximized mode', () => {
+    const props = {
+      type: 'any',
+      expandable: true,
+      presentationState: UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED,
+      locale: 'fr',
+      showLayoutOptions: false,
+      onSetMinimized: () => {},
+      onSetNormalState: () => {},
+      onSetMaximized: () => {},
     }
     shallow(<ModuleTitle {...props} />, { context })
   })

@@ -76,10 +76,6 @@ describe('[Client] Testing ModuleExpandedStateSelectors', () => {
 
     // collapse test 1
     fakeStore = mockReduce(fakeStore, testActions.setMinimized('test1'))
-    assert.equal(testSelectors.getPresentationState(fakeStore, 'test1'), UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED, 'test1 should be in minimized state')
-
-    // expand back test 1
-    fakeStore = mockReduce(fakeStore, testActions.setNormal('test1'))
-    assert.equal(testSelectors.getPresentationState(fakeStore, 'test1'), UIDomain.PRESENTATION_STATE_ENUM.NORMAL, 'test1 should be back in normal state')
+    assert.equal(testSelectors.getPresentationState(fakeStore, 'test1'), UIDomain.PRESENTATION_STATE_ENUM.NORMAL, 'test1 should not be minimized (as it is not expandable)')
   })
 })

@@ -40,6 +40,7 @@ describe('[Order Cart] Testing OrderCartContentSummaryComponent', () => {
   it('should render correctly without basket', () => {
     const props = {
       basket: null,
+      isFetching: false,
       onShowDuplicatedMessage: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartContentSummaryComponent {...props} />, { context })
@@ -58,6 +59,7 @@ describe('[Order Cart] Testing OrderCartContentSummaryComponent', () => {
   it('should render correctly with empty basket', () => {
     const props = {
       basket: emptyBasket,
+      isFetching: false,
       onShowDuplicatedMessage: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartContentSummaryComponent {...props} />, { context })
@@ -76,6 +78,7 @@ describe('[Order Cart] Testing OrderCartContentSummaryComponent', () => {
   it('should render correctly with a basket containing no double', () => {
     const props = {
       basket: mockBasket2,
+      isFetching: false,
       onShowDuplicatedMessage: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartContentSummaryComponent {...props} />, { context })
@@ -99,6 +102,7 @@ describe('[Order Cart] Testing OrderCartContentSummaryComponent', () => {
   it('should render correctly with a basket containing doubles', () => {
     const props = {
       basket: mockBasket1,
+      isFetching: false,
       onShowDuplicatedMessage: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartContentSummaryComponent {...props} />, { context })
@@ -122,6 +126,7 @@ describe('[Order Cart] Testing OrderCartContentSummaryComponent', () => {
   it('should detect basket change and update self state', () => {
     const props = {
       basket: emptyBasket,
+      isFetching: false,
       onShowDuplicatedMessage: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartContentSummaryComponent {...props} />, { context })

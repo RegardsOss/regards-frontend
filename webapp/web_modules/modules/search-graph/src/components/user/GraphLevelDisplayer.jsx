@@ -76,7 +76,7 @@ class GraphLevelDispayer extends React.Component {
           <ShowableAtRender show={!isLoading && !hasError && !hasContent}>
             <GraphLevelMessageDisplayer messageKey="search.graph.level.no.model" />
           </ShowableAtRender>
-          <ShowableAtRender show={!hasError && !isLoading && hasContent}>
+          <ShowableAtRender show={!isLoading && !hasError && hasContent}>
             { // collections
               values(collections).sort(GraphLevelDispayer.compareEntities).map(collection =>
                 (<CollectionItemContainer

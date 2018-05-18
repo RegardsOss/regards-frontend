@@ -56,6 +56,8 @@ describe('[COMPONENTS] Testing InfiniteGalleryComponent', () => {
       itemProps: {
         someIdea: 42,
       },
+      width: 500,
+      height: 500,
       onInfiniteLoad: () => {
       },
     }
