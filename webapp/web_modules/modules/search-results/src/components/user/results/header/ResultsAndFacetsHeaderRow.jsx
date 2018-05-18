@@ -21,8 +21,8 @@ import {
   TableHeaderLineLoadingAndResults, TableHeaderOptionsArea, TableHeaderOptionGroup,
   TableHeaderContentBox, TableHeaderText,
 } from '@regardsoss/components'
-
 import { FacetArray, FacetTypes } from '../../../../models/facets/FacetShape'
+import BooleanFacetSelectorComponent from '../facets/BooleanFacetSelectorComponent'
 import DateRangeFacetSelectorComponent from '../facets/DateRangeFacetSelectorComponent'
 import NumberRangeFacetSelectorComponent from '../facets/NumberRangeFacetSelectorComponent'
 import WordFacetSelectorComponent from '../facets/WordFacetSelectorComponent'
@@ -78,12 +78,14 @@ class ResultsAndFacetsHeaderRow extends React.Component {
                     facets.map((facet) => {
                       const selectorProps = { key: facet.attributeName, facet, onSelectFacet }
                       switch (facet.type) {
-                        case FacetTypes.String:
-                          return (<WordFacetSelectorComponent {...selectorProps} />)
-                        case FacetTypes.Number:
-                          return (<NumberRangeFacetSelectorComponent {...selectorProps} />)
+                        case FacetTypes.Boolean:
+                        return (<BooleanFacetSelectorComponent {...selectorProps} />)
                         case FacetTypes.Date:
                           return (<DateRangeFacetSelectorComponent {...selectorProps} />)
+                          case FacetTypes.Number:
+                          return (<NumberRangeFacetSelectorComponent {...selectorProps} />)
+                          case FacetTypes.String:
+                            return (<WordFacetSelectorComponent {...selectorProps} />)
                         default:
                           throw new Error(`Unknown facet type ${facet.type}`)
                       }
