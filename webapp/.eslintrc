@@ -1,0 +1,11 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "@regardsoss/eslint-config-es6-rules"
+  ],
+  "globals": {
+    "GATEWAY_HOSTNAME": true,
+    "STATIC_CONF": true,
+    "API_URL": true
+  }
+}

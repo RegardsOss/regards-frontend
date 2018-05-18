@@ -1,9 +1,0 @@
-{
-  "name": "@regardsoss-modules/archival-storage-plugins-monitoring",
-  "version": "0.0.1",
-  "private": true,
-  "description": "Monitoring for storage plugins capacities in micro service rs-archival-storage",
-  "main": "src/main.js",
-  "author": "CS-SI",
-  "license": "GPL-3.0"
-}

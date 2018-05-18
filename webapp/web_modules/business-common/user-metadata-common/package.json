@@ -1,0 +1,12 @@
+{
+  "name": "@regardsoss/user-metadata-common",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Tools, constants and components to work with user metadata",
+  "main": "src/main.js",
+  "author":"CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
+  "license": "GPL-3.0"
+}

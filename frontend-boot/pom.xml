@@ -1,25 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- LICENSE_PLACEHOLDER -->
+<!--
+ Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ 
+ This file is part of REGARDS.
+ 
+ REGARDS is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ REGARDS is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<packaging>war</packaging>
+	<name>REGARDS Frontend Bootstrap</name>
 	<groupId>fr.cnes.regards</groupId>
 	<artifactId>bootstrap-frontend</artifactId>
-	<description>Starter module</description>
-	<version>1.1.0</version>
+	<packaging>war</packaging>
+	<version>2.0.0-RELEASE</version>
 
 	<parent>
 		<groupId>fr.cnes.regards</groupId>
 		<artifactId>regards-boot-parent</artifactId>
-		<version>1.1.0</version>
+		<version>2.0.0-RELEASE</version>
 		<relativePath></relativePath>
 	</parent>
 
 	<properties>
 		<fr.cnes.regards.docker.image.name>rs-frontend</fr.cnes.regards.docker.image.name>
 		<sonar.coverage.exclusions>**/*.java</sonar.coverage.exclusions>
+		<webapp.dir>../webapp</webapp.dir>
 	</properties>
 
 	<dependencies>
@@ -41,11 +59,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jetty</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>fr.cnes.regards</groupId>
-			<artifactId>frontend-webapp</artifactId>
-			<type>war</type>
 		</dependency>
 	</dependencies>
 
@@ -83,14 +96,17 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
+				<version>3.0.0</version>
 				<configuration>
-					<overlays>
-						<overlay>
-							<groupId>fr.cnes.regards</groupId>
-							<artifactId>frontend-webapp</artifactId>
-							<targetPath>static</targetPath>
-						</overlay>
-					</overlays>
+					<webResources>
+			            <resource>
+				              <directory>src/main/webapp</directory>
+			            </resource>
+			            <resource>
+			            	  <targetPath>static</targetPath>
+				              <directory>${webapp.dir}/dist/prod</directory>
+			            </resource>
+		          </webResources>
 				</configuration>
 			</plugin>
 		</plugins>

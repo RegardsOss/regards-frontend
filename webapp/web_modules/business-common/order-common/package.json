@@ -1,0 +1,12 @@
+{
+  "name": "@regardsoss/order-common",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Common tools to display orders in Regards",
+  "main": "src/main.js",
+  "author":"CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
+  "license": "GPL-3.0"
+}

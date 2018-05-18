@@ -1,9 +1,0 @@
-{
-  "name": "@regardsoss/admin-data-fragment-management",
-  "version": "0.0.1",
-  "private": true,
-  "description": "",
-  "main": "src/main.js",
-  "author": "CS-SI",
-  "license": "GPL-3.0"
-}
