@@ -31,7 +31,7 @@ const allFiltersDependencies = [
 // a default page size
 const PAGE_SIZE = 50
 // throttle delay for users list request
-const THROTTLE_DELAY_MS = 300
+const THROTTLE_DELAY_MS = 500
 // Sub components with added rights
 export const OrderListFiltersComponentWithRights = withResourceDisplayControl(OrderListFiltersComponent)
 
@@ -65,7 +65,7 @@ export class OrderListFiltersContainer extends React.Component {
       dispatchGetUsers:
         throttle(
           partialEmail => dispatch(projectUserActions.fetchPagedEntityList(0, PAGE_SIZE, null, { partialEmail })),
-          THROTTLE_DELAY_MS, { leading: true }),
+          THROTTLE_DELAY_MS, { leading: false }),
     }
   }
 
