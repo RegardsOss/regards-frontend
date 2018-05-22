@@ -24,7 +24,7 @@ import {
 import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { mimeTypes } from '@regardsoss/mime-types'
+import { mimeTypesDefinitions } from '@regardsoss/mime-types'
 import { CommonDomain } from '@regardsoss/domain'
 import AcquisitionProcessingChainPluginTypes from './AcquisitionProcessingChainPluginTypes'
 import messages from '../../i18n'
@@ -96,7 +96,7 @@ export class AcquisitionFileInfoComponent extends React.PureComponent {
         component={RenderAutoCompleteField}
         hintText={formatMessage({ id: 'acquisition-chain.form.fileInfo.mimeType' })}
         floatingLabelText={formatMessage({ id: 'acquisition-chain.form.fileInfo.mimeType' })}
-        dataSource={mimeTypes}
+        dataSource={mimeTypesDefinitions}
         dataSourceConfig={mimeTypesConfig}
         filter={AutoComplete.caseInsensitiveFilter}
         validate={requiredMimeType}

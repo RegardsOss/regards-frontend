@@ -18,6 +18,7 @@
  **/
 import ReactSVG from 'react-svg'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { MIME_TYPES } from '@regardsoss/mime-types'
 import styles from './styles'
 
 /**
@@ -26,7 +27,7 @@ import styles from './styles'
  */
 export class URLSVGPicture extends React.Component {
   /** Supported MIME types */
-  static SUPPORTED_MIME_TYPES = ['image/svg+xml']
+  static SUPPORTED_MIME_TYPES = [MIME_TYPES.SVG_MIME_TYPE]
 
   static propTypes = {
     color: PropTypes.string,

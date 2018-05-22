@@ -34,19 +34,18 @@ export class URLPicture extends React.Component {
     URLCommonPicture,
     URLSVGPicture,
   ]
-
   /**
    * @param {class} PictureRender picture render to test (all render defined static property SUPPORTED_MIME_TYPES)
    * @param {string} mimeType MIME type (optional, returns false when not provided)
    * @return {boolean} true if MIME type is accepted by that Render
    */
   static accepts(PictureRender, mimeType) {
-    const lowerMimeType = mimeType && mimeType.toLowerCase()
-    return PictureRender.SUPPORTED_MIME_TYPES.includes(lowerMimeType)
+    return PictureRender.SUPPORTED_MIME_TYPES.includes(mimeType)
   }
 
   static propTypes = {
-    // when not provided, placeholder will be displayed instead (for loading or non resolved)
+    // when not provided, placeholder will be displayed instead (for loading or non resolved).
+    // when provided, that mime type should be listed in mimeTypesDefinitions from regardsoss/mime-types
     mimeType: PropTypes.string,
     url: PropTypes.string,
     // accepts any other properties that can apply to pictures
