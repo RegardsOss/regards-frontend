@@ -95,6 +95,7 @@ class AutoCompleteTextField extends React.Component {
     },
   }
 
+  /** List of property keys that should not be reported to the delegate autocomplete field */
   static NON_REPORTED_PROPERTIES = [
     'currentHintText',
     'currentHints',
@@ -104,18 +105,6 @@ class AutoCompleteTextField extends React.Component {
     'isFetching',
     'onFilterSelected',
   ]
-
-  /** List of property keys that should not be reported to the delegate autocomplete field */
-  static NOT_REPORTED_PROPS_KEYS = [
-    'currentHintText',
-    'currentHints',
-    'loadingMessageKey',
-    'noDataMessageKey',
-    'isInError',
-    'isFetching',
-    'onFilterSelected',
-  ]
-
 
   static contextTypes = {
     ...themeContextType,
@@ -135,6 +124,18 @@ class AutoCompleteTextField extends React.Component {
     const { onUpdateInput, currentHintText } = this.props
     onUpdateInput(currentHintText)
   }
+
+  /**
+   * Lifecycle method: component will receive props. Used here to reinit users list when text is externally changed
+   * (onUpdateInput should be correctly throttled to avoid this system sending to many requests)
+   * @param {*} nextProps next properties
+   */
+  componentWillReceiveProps(nextProps) {
+    if (this.props.currentHintText !== nextProps.currentHintText) {
+      nextProps.onUpdateInput(nextProps.currentHintText)
+    }
+  }
+
 
   /**
    * On new request: before callback, check if item is complete or just a string (user typed enter key).
