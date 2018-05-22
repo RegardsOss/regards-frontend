@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
+import { MIME_TYPES } from '@regardsoss/mime-types'
 import DownloadDescriptionDefinitions from './DownloadDescriptionDefinitions'
 
 
@@ -30,7 +31,7 @@ export default class DownloadEntityDescriptionActions extends BasicSignalActions
       namespace: `${namespacePrefix}/${objectType}`,
       entityEndpoint: DownloadDescriptionDefinitions.getActionDownloadURL(objectType),
       headers: {
-        Accept: DownloadDescriptionDefinitions.MARKDOWN_MIMETYPE, // application/octet-stream
+        Accept: MIME_TYPES.MARKDOWN_MIME_TYPE,
       },
     })
   }
@@ -43,12 +44,11 @@ export default class DownloadEntityDescriptionActions extends BasicSignalActions
    * Overriden to not parse as JSON content but as pure text
    * @param {*} res raw result
    */
-  // eslint-disable-next-line class-methods-use-this
   buildResults = stream =>
     // asserted: char stream here, and not bytes!
     stream.text().then(content => ({
       entityId: this.currentDownloadEntityId,
-      contentType: DownloadDescriptionDefinitions.MARKDOWN_MIMETYPE,
+      contentType: MIME_TYPES.MARKDOWN_MIME_TYPE,
       content,
     }))
 }

@@ -22,6 +22,7 @@ import root from 'window-or-global'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { DataManagementClient } from '@regardsoss/client'
+import { MIME_TYPES } from '@regardsoss/mime-types'
 import DescriptionFileComponent from '../../../../src/components/description/file/DescriptionFileComponent'
 import { DescriptionFileContainer } from '../../../../src/containers/description/file/DescriptionFileContainer'
 import DownloadDescriptionClient from '../../../../src/clients/DownloadDescriptionClient'
@@ -267,12 +268,12 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
       },
       fetchedDatasetDescriptionResult: {
         entityId: datasetIpId,
-        contentType: DataManagementClient.DownloadDescriptionDefinitions.MARKDOWN_MIMETYPE,
+        contentType: MIME_TYPES.MARKDOWN_MIME_TYPE,
         content: '#Hello collection!',
       },
       fetchedCollectionDescriptionResult: {
         entityId: datasetIpId,
-        contentType: DataManagementClient.DownloadDescriptionDefinitions.MARKDOWN_MIMETYPE,
+        contentType: MIME_TYPES.MARKDOWN_MIME_TYPE,
         content: '#Hello collection!',
       },
     }

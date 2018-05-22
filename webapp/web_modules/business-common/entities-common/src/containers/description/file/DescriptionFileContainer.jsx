@@ -22,6 +22,7 @@ import { connect } from '@regardsoss/redux'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { CatalogShapes } from '@regardsoss/shape'
 import { DataManagementClient } from '@regardsoss/client'
+import { MIME_TYPES } from '@regardsoss/mime-types'
 import DownloadDescriptionClient from '../../../clients/DownloadDescriptionClient'
 import DescriptionFileComponent from '../../../components/description/file/DescriptionFileComponent'
 
@@ -80,7 +81,7 @@ export class DescriptionFileContainer extends React.Component {
   }
 
   /** Locally handled content types */
-  static DOWNLOAD_CONTENT_TYPES = [DataManagementClient.DownloadDescriptionDefinitions.MARKDOWN_MIMETYPE]
+  static DOWNLOAD_CONTENT_TYPES = [MIME_TYPES.MARKDOWN_MIME_TYPE]
 
   static DEFAULT_STATE = {
     description: { // description state: should show, how to show (if both showable attributes are null then description is empty)

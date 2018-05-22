@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import keys from 'lodash/keys'
 import { CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { MIME_TYPES } from '@regardsoss/mime-types'
 
 /**
 * Displays picture files
@@ -29,18 +29,19 @@ class ImageFileDisplayer extends React.Component {
   /**
    * Maps MIME type to editor mode
    */
-  static MIMETypes = {
-    'image/png': 'image/png',
-    'image/gif': 'image/gif',
-    'image/jpeg': 'image/jpeg',
-  }
+  static MIMETypes = [
+    MIME_TYPES.JPEG_MIME_TYPE,
+    MIME_TYPES.GIF_MIME_TYPE,
+    MIME_TYPES.PNG_MIME_TYPE,
+    MIME_TYPES.TIF_MIME_TYPE,
+  ]
 
   static getSupportedMIMETypes() {
-    return keys(ImageFileDisplayer.MIMETypes)
+    return ImageFileDisplayer.MIMETypes
   }
 
   static isSupportedType(mimeType) {
-    return !!ImageFileDisplayer.MIMETypes[mimeType]
+    return ImageFileDisplayer.MIMETypes.includes(mimeType)
   }
 
   static propTypes = {
