@@ -75,6 +75,7 @@ function buildAttributeColumn({
   return TableColumnBuilder.buildColumn(
     key, label, columnHeader,
     TableColumnBuilder.buildPropertiesRenderCell(buildRenderDelegates(attributes)), visible, order, columnWidth,
+    sortOrder, sortIndex, // append sort order and index at end so that the table can re-render on sorting
   )
 }
 

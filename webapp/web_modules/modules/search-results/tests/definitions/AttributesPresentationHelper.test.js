@@ -108,6 +108,7 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
       sortOrder: TableSortOrders.NO_SORT,
       sortIndex: null,
       order: convertableSimpleServerAttributeConf.order,
+      defaultSorting: false,
     }, 'Attribute should be correctly converted')
   })
   it('Should convert correctly a simple attribute configuration on standard attribute', () => {
@@ -121,6 +122,7 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
       sortOrder: TableSortOrders.NO_SORT,
       sortIndex: null,
       order: convertableSimpleStandardAttributeConf.order,
+      defaultSorting: true,
     }, 'Attribute should be correctly converted')
   })
   it('Should refuse converting non visible simple attribute configuration (such configuration is used for sorting or facets)', () => {
@@ -142,6 +144,7 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
       sortOrder: TableSortOrders.NO_SORT,
       sortIndex: null,
       order: fullyConvertableRegroupmentConf.order,
+      defaultSorting: false,
     }, 'Group should be correctly converted, respecting label and attributes order')
   })
   it('Should convert correctly an attributes regroupment configuration, filtering models not found', () => {
@@ -155,6 +158,7 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
       sortOrder: TableSortOrders.NO_SORT,
       sortIndex: null,
       order: partiallyConvertableRegroupementConf.order,
+      defaultSorting: false,
     }, 'Group should be correctly converted, filtering missing attributes')
   })
   it('Should refuse converting a non visible attributes regroupment configuration', () => {

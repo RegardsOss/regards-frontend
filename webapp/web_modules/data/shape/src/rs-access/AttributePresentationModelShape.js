@@ -39,6 +39,8 @@ const AttributePresentationModel = PropTypes.shape({
   sortIndex: PropTypes.number,
   // optional order in presentation from configuration
   order: PropTypes.number,
+  // Is this presentation model attribute used for default results sorting?
+  defaultSorting: PropTypes.bool.isRequired,
 })
 
 const AttributePresentationModelArray = PropTypes.arrayOf(AttributePresentationModel)

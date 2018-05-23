@@ -95,6 +95,7 @@ function buildSimplePresentationModel(configuration, attributesModel, enableSort
     sortOrder: TableSortOrders.NO_SORT,
     sortIndex: null,
     order: configuration.order,
+    defaultSorting: !!configuration.initialSort,
   }
 }
 
@@ -126,6 +127,7 @@ function buildGroupPresentationModel(configuration, attributeModels) {
     sortOrder: TableSortOrders.NO_SORT,
     sortIndex: null,
     order: configuration.order,
+    defaultSorting: false,
   }
 }
 
