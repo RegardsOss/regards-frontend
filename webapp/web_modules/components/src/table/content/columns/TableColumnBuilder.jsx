@@ -50,9 +50,12 @@ const optionsColumnKey = 'column.table.options'
  * @param {boolean} visible (optional) is column visible
  * @param {number} order (optional) column order within columns array (column without order go at index 1000)
  * @param {number} fixedWidth (optional) fixed width when column should not grow / shrink with width, undefined otherwise
+ * @param {*} otherAttributes other attributes to be added to the column header: when using sort and sort order, it is useful
+ * to add them here, so that columns EQUAL method do not return true when sort order changed
  * @return packed column model
  */
-function buildColumn(key, label, headerCell, rowCellDefinition, visible = true, order = unorderedColumnIndex, fixedWidth) {
+function buildColumn(key, label, headerCell, rowCellDefinition, visible = true, order = unorderedColumnIndex, fixedWidth,
+  ...otherAttributes) {
   return {
     key,
     label,
@@ -61,6 +64,7 @@ function buildColumn(key, label, headerCell, rowCellDefinition, visible = true, 
     rowCellDefinition,
     fixedWidth,
     visible,
+    ...(otherAttributes || {}),
   }
 }
 

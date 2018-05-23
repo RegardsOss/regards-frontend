@@ -52,6 +52,7 @@ describe('[Search Results] Testing OptionsAndTabsHeaderLine', () => {
         enableSorting: true,
         sortOrder: TableSortOrders.NO_SORT,
         order: 0,
+        defaultSorting: false,
       }],
       displayMode: DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA, // current view object type
