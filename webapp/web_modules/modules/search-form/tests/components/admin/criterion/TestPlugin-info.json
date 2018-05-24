@@ -10,12 +10,12 @@
       {
         "name": "searchField1",
         "description": "Attribute to search",
-        "type": "string"
+        "attributeType": ["STRING"]
       },
       {
         "name": "searchField2",
         "description": "Attribute to search",
-        "type": "string"
+        "attributeType": ["STRING"]
       }
     ]
   }

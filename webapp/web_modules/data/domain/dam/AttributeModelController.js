@@ -91,6 +91,8 @@ const standardAttributes = {
 }
 
 const searchableStandardAttributes = [
+  standardAttributesKeys.ipId,
+  standardAttributesKeys.sipId,
   standardAttributesKeys.label,
   standardAttributesKeys.creationDate,
   standardAttributesKeys.lastUpdate,
