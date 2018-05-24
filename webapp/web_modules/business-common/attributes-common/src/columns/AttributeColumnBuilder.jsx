@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DamDomain } from '@regardsoss/domain'
+import { CommonDomain } from '@regardsoss/domain'
 import { TableColumnBuilder } from '@regardsoss/components'
 import { buildRenderDelegate } from '../render/AttributesTypeToRender'
 
@@ -49,7 +49,7 @@ function buildAttributeColumn({
   }
 
   const isSpecialAttr = attributes.length === 1 && [
-    DamDomain.AttributeModelController.ATTRIBUTE_TYPES.THUMBNAIL,
+    CommonDomain.DataTypesEnum.THUMBNAIL,
   ].includes(attributes[0].content.type)
   const isSortable = attributes.length === 1 && enableSorting
 

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
@@ -27,11 +28,13 @@ import { themeContextType } from '@regardsoss/theme'
  * @param {string} upper upper bound text
  */
 export const getFormattedRange = (intl, lower, upper) => {
-  if (upper && lower) {
+  const hasLower = !isNil(lower)
+  const hasUpper = !isNil(upper)
+  if (hasLower && hasUpper) {
     return intl.formatMessage({ id: 'value.render.range.full.label' }, { lower, upper })
-  } else if (upper) {
+  } else if (hasUpper) {
     return intl.formatMessage({ id: 'value.render.range.upper.only.label' }, { upper })
-  } else if (lower) {
+  } else if (hasLower) {
     return intl.formatMessage({ id: 'value.render.range.lower.only.label' }, { lower })
   }
   // undefined range

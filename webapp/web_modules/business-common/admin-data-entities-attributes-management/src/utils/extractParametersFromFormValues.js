@@ -64,7 +64,7 @@ const getAttributeValue = (attrValue, modelAttribute) => {
     case MODEL_ATTR_TYPES.STRING:
     case MODEL_ATTR_TYPES.URL:
     case MODEL_ATTR_TYPES.BOOLEAN:
-    case MODEL_ATTR_TYPES.DATE:
+    case MODEL_ATTR_TYPES.DATE_ISO8601:
       return attrValue
     case MODEL_ATTR_TYPES.INTEGER:
       return parseInt(attrValue, 10)
