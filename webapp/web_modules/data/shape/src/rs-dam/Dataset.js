@@ -28,7 +28,7 @@ const DatasetContent = PropTypes.shape({
   subsetting: PropTypes.string,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   model: ModelContent.isRequired,
-  dataModel: PropTypes.number.isRequired,
+  dataModel: PropTypes.string.isRequired,
   plgConfDataSource: PluginConfigurationContent,
   descriptionFile: PropTypes.shape({
     url: PropTypes.string,

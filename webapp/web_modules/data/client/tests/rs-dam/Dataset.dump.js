@@ -37,7 +37,7 @@ module.exports = {
           type: 'DATASET',
         },
         creationDate: '2017-06-09T13:35:53.408Z',
-        dataModel: 5,
+        dataModel: '5',
         plgConfDataSource: {
           id: 6,
           pluginId: 'postgresql-datasource-single-table',
