@@ -19,14 +19,15 @@
 import values from 'lodash/values'
 import map from 'lodash/map'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FieldArray } from 'redux-form'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import Divider from 'material-ui/Divider'
+import { DamDomain } from '@regardsoss/domain'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FieldArray } from 'redux-form'
-import Divider from 'material-ui/Divider'
-import { reduxForm, RenderTextField, Field } from '@regardsoss/form-utils'
+import { reduxForm, RenderTextField, Field, StringComparison } from '@regardsoss/form-utils'
 import { CardActionsComponent, ChipList } from '@regardsoss/components'
-import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 
 /**
  * Component to display an attributes regroupement form.
@@ -92,14 +93,21 @@ class AttributeRegroupementFormComponent extends React.Component {
       })
     }
 
+    // sort available attributes available
+    const orderedSelectableAttributes = values(this.props.selectableAttributes).sort(
+      (e1, e2) => StringComparison.compare(
+        DamDomain.AttributeModelController.getAttributeModelFullLabel(e1), // compare on final label
+        DamDomain.AttributeModelController.getAttributeModelFullLabel(e2)))
+
     return (
       <div style={{ marginTop: 15 }}>
         <ChipList
-          availableEntities={values(this.props.selectableAttributes)}
+          availableEntities={orderedSelectableAttributes}
           selectedEntities={attributes}
           onAddEntity={entity => this.addAttribute(entity, fields)}
           onRemoveEntity={entity => this.removeAttribute(entity, fields)}
-          getEntityLabel={entity => entity.content.name}
+          getEntityKey={entity => entity.content.name}
+          getEntityLabel={entity => DamDomain.AttributeModelController.getAttributeModelFullLabel(entity)}
           uniqValues
         />
       </div>

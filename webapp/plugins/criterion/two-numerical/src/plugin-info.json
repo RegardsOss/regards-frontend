@@ -13,12 +13,12 @@
       {
         "name": "firstField",
         "description": "First attribute to search",
-        "type": "numerical"
+        "attributeType": ["INTEGER", "DOUBLE", "LONG"]
       },
       {
         "name": "secondField",
         "description": "Second attribute to search",
-        "type": "numerical"
+        "attributeType": ["INTEGER", "DOUBLE", "LONG"]
       }
     ]
   }

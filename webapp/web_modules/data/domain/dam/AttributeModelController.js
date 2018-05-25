@@ -19,31 +19,16 @@
 import find from 'lodash/find'
 import get from 'lodash/get'
 import isString from 'lodash/isString'
+
+import { DataTypesEnum } from '../common/DataTypes'
+import MODEL_ATTR_TYPES from './ModelAttrTypes'
+
 /**
- * Controller for AttributeModel entities
+ * Enumeration and controller for AttributeModel entities
  *
  * @author Sébastien Binda
  */
 
-/**
- * Enum for all available attribute types.
- * @type {{DEFAULT: string, BOOLEAN: string, DATE_ISO8601: string, DATE_INTERVAL: string, DATE_ARRAY: string, DOUBLE_INTERVAL: string, INTEGER: string, INTEGER_INTERVAL: string, LONG_INTERVAL: string, STRING: string, URL: string, THUMBMAIL: string, DOWNLOAD_LINK: string}}
- */
-const ATTRIBUTE_TYPES = {
-  DEFAULT: 'DEFAULT',
-  BOOLEAN: 'BOOLEAN',
-  DATE_ISO8601: 'DATE_ISO8601',
-  DATE_INTERVAL: 'DATE_INTERVAL',
-  DATE_ARRAY: 'DATE_ARRAY',
-  DOUBLE_INTERVAL: 'DOUBLE_INTERVAL',
-  INTEGER: 'INTEGER',
-  INTEGER_INTERVAL: 'INTEGER_INTERVAL',
-  LONG_INTERVAL: 'LONG_INTERVAL',
-  STRING: 'STRING',
-  URL: 'URL',
-  THUMBNAIL: 'THUMBNAIL',
-  DOWNLOAD_LINK: 'DOWNLOAD_LINK',
-}
 
 const SPECIAL_FILES_ATTRIBUTE_NAME = 'files'
 
@@ -65,47 +50,49 @@ const standardAttributes = {
     key: standardAttributesKeys.ipId,
     id: -1, // use negative index to not conflict with DB attribute models
     label: 'Internal ID',
-    type: ATTRIBUTE_TYPES.STRING,
+    type: MODEL_ATTR_TYPES.STRING,
     entityPathName: 'ipId',
   },
   [standardAttributesKeys.sipId]: {
     key: standardAttributesKeys.sipId,
     id: -2,
     label: 'Provider ID',
-    type: ATTRIBUTE_TYPES.STRING,
+    type: MODEL_ATTR_TYPES.STRING,
     entityPathName: 'sipId',
   },
   [standardAttributesKeys.label]: {
     key: standardAttributesKeys.label,
     id: -3,
     label: 'Label',
-    type: ATTRIBUTE_TYPES.STRING,
+    type: MODEL_ATTR_TYPES.STRING,
     entityPathName: 'label',
   },
   [standardAttributesKeys.creationDate]: {
     key: standardAttributesKeys.creationDate,
     id: -4,
     label: 'Creation date',
-    type: ATTRIBUTE_TYPES.DATE_ISO8601,
+    type: MODEL_ATTR_TYPES.DATE_ISO8601,
     entityPathName: 'creationDate',
   },
   [standardAttributesKeys.lastUpdate]: {
     key: standardAttributesKeys.lastUpdate,
     id: -5,
     label: 'Last update',
-    type: ATTRIBUTE_TYPES.DATE_ISO8601,
+    type: MODEL_ATTR_TYPES.DATE_ISO8601,
     entityPathName: 'lastUpdate',
   },
   [standardAttributesKeys.thumbnail]: {
     key: standardAttributesKeys.thumbnail,
     id: -6,
     label: 'Thumbnail',
-    type: ATTRIBUTE_TYPES.THUMBNAIL,
+    type: DataTypesEnum.THUMBNAIL,
     entityPathName: SPECIAL_FILES_ATTRIBUTE_NAME,
   },
 }
 
 const searchableStandardAttributes = [
+  standardAttributesKeys.ipId,
+  standardAttributesKeys.sipId,
   standardAttributesKeys.label,
   standardAttributesKeys.creationDate,
   standardAttributesKeys.lastUpdate,
@@ -203,5 +190,4 @@ module.exports = {
   standardAttributesKeys,
   searchableStandardAttributes,
   descriptionStandardAttributes,
-  ATTRIBUTE_TYPES,
 }

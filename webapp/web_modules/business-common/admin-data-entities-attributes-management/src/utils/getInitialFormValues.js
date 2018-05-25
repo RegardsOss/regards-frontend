@@ -81,7 +81,7 @@ const saveAttributeValueInForm = (formResult, attrValue, modelAttribute) => {
     case MODEL_ATTR_TYPES.INTEGER:
     case MODEL_ATTR_TYPES.URL:
     case MODEL_ATTR_TYPES.BOOLEAN:
-    case MODEL_ATTR_TYPES.DATE:
+    case MODEL_ATTR_TYPES.DATE_ISO8601:
       set(formResult, retrieveFieldKeyUsedOnForm(modelAttribute), attrValue)
       break
 

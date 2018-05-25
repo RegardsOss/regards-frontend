@@ -54,7 +54,7 @@ export class AIPDatasourceAttributeLineConfigurationComponent extends React.Comp
       case MODEL_ATTR_TYPES.INTEGER:
       case MODEL_ATTR_TYPES.URL:
       case MODEL_ATTR_TYPES.BOOLEAN:
-      case MODEL_ATTR_TYPES.DATE:
+      case MODEL_ATTR_TYPES.DATE_ISO8601:
       case MODEL_ATTR_TYPES.STRING_ARRAY:
       case MODEL_ATTR_TYPES.INTEGER_ARRAY:
       case MODEL_ATTR_TYPES.DOUBLE_ARRAY:
