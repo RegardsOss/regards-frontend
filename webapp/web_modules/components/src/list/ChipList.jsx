@@ -26,9 +26,9 @@ import Avatar from 'material-ui/Avatar'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import { FormattedMessage } from 'react-intl'
+import { ShowableAtRender } from '@regardsoss/display-control'
 import { I18nProvider } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { ShowableAtRender } from '@regardsoss/display-control'
 import messages from './i18n'
 
 /**
@@ -42,6 +42,7 @@ class ChipList extends React.Component {
     onRemoveEntity: PropTypes.func.isRequired,
     onAddEntity: PropTypes.func.isRequired,
     getEntityLabel: PropTypes.func.isRequired,
+    getEntityKey: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -116,20 +117,23 @@ class ChipList extends React.Component {
             onRequestClose={this.handlePopoverClose}
           >
             <Menu>
-              {map(this.props.availableEntities, (entity) => {
-                const key = this.props.getEntityLabel(entity)
+              { // Map entities to items
+                map(this.props.availableEntities, (entity) => {
+                const key = this.props.getEntityKey(entity)
+                const label = this.props.getEntityLabel(entity)
                 return (
                   <ShowableAtRender key={key} show={!find(this.props.selectedEntities, o => isEqual(o, entity))}>
                     <MenuItem
                       key={key}
-                      primaryText={key}
+                      primaryText={label}
                       onClick={() => {
                         this.props.onAddEntity(entity)
                         this.handlePopoverClose()
                       }}
                     />
                   </ShowableAtRender>)
-              })}
+                })
+              }
             </Menu>
           </Popover>
         </div>
