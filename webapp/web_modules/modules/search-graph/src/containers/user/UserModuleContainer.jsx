@@ -138,6 +138,7 @@ export class UserModuleContainer extends React.Component {
             label: attrModel.label,
             attributePath: fullQualifiedName,
             render: getTypeRender(attrModel.type),
+            unit: null,
           }
         } else {
           // 3.b - dynamic attribute mapping, resolves if found in fetched models
@@ -148,6 +149,7 @@ export class UserModuleContainer extends React.Component {
               label: foundModel.content.label,
               attributePath: DamDomain.AttributeModelController.getAttributeAccessPath(foundModel), // fragment attribute
               render: getTypeRender(foundModel.content.type),
+              unit: foundModel.content.unit, // attribute unit if any
             }
           }
           // else : not found, ignore it

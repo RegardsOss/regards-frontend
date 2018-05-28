@@ -94,7 +94,9 @@ export class DatasetItemContainer extends React.Component {
    */
   storeDatasetAttributes = ({ dataset, graphDatasetAttributes = [] }) => this.setState({
     // build dataset attributes with only useful data for component: label, render, value or null / undefined
-    datasetAttributes: graphDatasetAttributes.map(({ label, render, attributePath }) => {
+    datasetAttributes: graphDatasetAttributes.map(({
+      label, render, attributePath, unit,
+    }) => {
       const attributeValue = AttributeModelController.getEntityAttributeValue(dataset, attributePath)
       return {
         label,
@@ -103,6 +105,9 @@ export class DatasetItemContainer extends React.Component {
         renderKey: attributePath,
         // render value, prepared for renderers
         renderValue: attributeValue || null,
+        renderProps: {
+          unit,
+        },
       }
     }),
   })
