@@ -83,7 +83,7 @@ class Table extends React.Component {
 
   /**
    * Are compared cells the same
-   * @param {Is} cellDefinition1 first cell definition
+   * @param {*} cellDefinition1 first cell definition
    * @param {*} cellDefinition2 second cell definition
    * @return {boolean} true if cells definitions are the same
    */

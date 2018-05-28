@@ -64,16 +64,16 @@ describe('[Search Graph] Testing DatasetAttributes', () => {
           label: 'attr1',
           render: () => <div />,
           renderKey: 'attr1',
-          renderValue: {
-            main: 'val1',
-          },
+          renderValue: 'val1',
+          renderProps: {},
         },
         {
           label: 'attr2',
           render: () => <div />,
           renderKey: 'attr2',
-          renderValue: {
-            main: 'val2',
+          renderValue: '2',
+          renderProps: {
+            unit: 'ko',
           },
         },
       ],
