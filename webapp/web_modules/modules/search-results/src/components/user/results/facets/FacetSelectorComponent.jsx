@@ -72,7 +72,7 @@ class FacetSelectorComponent extends React.Component {
             )
           })
         }
-        { // append non exhaustive message when others count is greater than 0
+        { // append non exhaustive message when others count is defined and greater than 0
           others ? [
             <Divider key="message.separator" />,
             <MenuItem

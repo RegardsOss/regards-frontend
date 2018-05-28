@@ -117,13 +117,14 @@ const getAttributeAccessPath = attributeModel => get(attributeModel, 'content.js
 
 const findAttribute = (attributeName, attributeFragment, attributeModelsList) => find(attributeModelsList, ({ content: { name, fragment } }) => attributeName === name && attributeFragment === fragment.name)
 
-const findLabelFromAttributeFullyQualifiedName = (attributeFullyQualifiedName, attributeModels) => {
-  // []
-  // content >> fragment >> name ("default" for example)
-  // content >> name
-  const foundAttribute = find(attributeModels, ({ content: { jsonPath } }) => jsonPath === attributeFullyQualifiedName)
-  return foundAttribute ? foundAttribute.content.label : attributeFullyQualifiedName
-}
+/**
+ * Retrieves an attribute from its full qualified name
+ * @param attributeFullyQualifiedName attribute full qualified name
+ * @param attributeModels attribute models
+ * @return found attribute or undefined
+ */
+const findModelFromAttributeFullyQualifiedName = (attributeFullyQualifiedName, attributeModels) =>
+  find(attributeModels, ({ content: { jsonPath } }) => jsonPath === attributeFullyQualifiedName)
 
 /**
   * Finds an attribute value from the full qualified path
@@ -183,7 +184,7 @@ function getAttributeModelFullLabel(attribute) {
 module.exports = {
   getAttributeAccessPath,
   getEntityAttributeValue,
-  findLabelFromAttributeFullyQualifiedName,
+  findModelFromAttributeFullyQualifiedName,
   findAttribute,
   getAttributeModelFullLabel,
   standardAttributes,
