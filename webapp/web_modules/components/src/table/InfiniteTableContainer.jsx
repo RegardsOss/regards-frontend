@@ -24,7 +24,6 @@ import { themeContextType } from '@regardsoss/theme'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import TableColumnConfiguration from './content/columns/model/TableColumnConfiguration'
-import TableContentLoadingComponent from './content/TableContentLoadingComponent'
 import Table from './content/Table'
 
 import './styles/fixed-data-table-mui.css'
@@ -66,7 +65,6 @@ class InfiniteTableContainer extends React.Component {
     loadAtPagePoint: PropTypes.number,
     // Customize state display
     emptyComponent: PropTypes.element,
-    loadingComponent: PropTypes.element,
 
     // Request page size
     queryPageSize: PropTypes.number,
@@ -111,7 +109,6 @@ class InfiniteTableContainer extends React.Component {
   static defaultProps = {
     loadAtPagePoint: 2 / 3,
     queryPageSize: 20,
-    loadingComponent: <TableContentLoadingComponent />,
     // by default we consider here that provided entities starts at 0
     entitiesPageIndex: 0,
   }
@@ -279,8 +276,7 @@ class InfiniteTableContainer extends React.Component {
 
   render() {
     const {
-      displayColumnsHeader, columns, entitiesFetching,
-      loadingComponent, emptyComponent, entitiesCount,
+      displayColumnsHeader, columns, emptyComponent, entitiesCount,
     } = this.props
     const { tableHeight, tableWidth = 0, entities } = this.state // cached render entities
     const { moduleTheme: { containerStyle } } = this.context
@@ -291,8 +287,6 @@ class InfiniteTableContainer extends React.Component {
           ({ bind }) => (
             <div style={containerStyle} {...bind('measureDiv')}>
               <LoadableContentDisplayDecorator
-                isLoading={!currentTotalEntities && entitiesFetching} // Display only the initial loading state to avoid resetting user scroll
-                loadingComponent={loadingComponent}
                 isEmpty={!currentTotalEntities}
                 emptyComponent={emptyComponent}
               >
@@ -308,13 +302,13 @@ class InfiniteTableContainer extends React.Component {
                   width={tableWidth}
                 />
               </LoadableContentDisplayDecorator>
-            </div >)
+            </div>)
         }
       </Measure >)
   }
 }
 
-const mapStateToProps = (state, { pageSelectors }) => ({
+const mapStateToProps = state => ({
   // authentication, mapped to reload entities on changes
   authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
 })
