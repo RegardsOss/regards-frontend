@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import reject from 'lodash/reject'
@@ -195,13 +196,14 @@ export class SearchResultsContainer extends React.Component {
         // Clear empty values, check if the facet should be filtered
         const filteredValues = values.filter(value => value.count)
         if (filteredValues.length < 2) {
-          // there is no meaning in a facet with zero or one element (it doesn't facet anything)
+          // when facet has only one or no value, hide it
           return acc
         }
-        // Return resulting facet with label and filtered values
+        const attrModel = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attributeName, attributeModels)
         return [...acc, {
           ...facet,
-          label: DamDomain.AttributeModelController.findLabelFromAttributeFullyQualifiedName(attributeName, attributeModels),
+          label: get(attrModel, 'content.label', attributeName),
+          unit: get(attrModel, 'content.unit'),
           values: filteredValues,
         }]
       }, []).sort((facet1, facet2) => StringComparison.compare(facet1.label, facet2.label))

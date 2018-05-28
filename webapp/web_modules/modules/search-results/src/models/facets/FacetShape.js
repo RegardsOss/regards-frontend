@@ -65,7 +65,9 @@ const commonFacetAttributesPropTypes = {
   // facet label, added when locally resolved
   label: PropTypes.string,
   // elements that are not covered by the facet
-  others: PropTypes.number.isRequired,
+  others: PropTypes.number,
+  // Unit (mostly used for numbers but allowed in most attributes) - note: it may hold 'unitless' constant
+  unit: PropTypes.string,
 }
 
 /** A date range facet */

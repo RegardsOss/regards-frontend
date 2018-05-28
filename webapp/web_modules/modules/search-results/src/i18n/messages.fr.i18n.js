@@ -17,12 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
+import { storage } from '@regardsoss/units'
 
 /**
  * i18n messages French language
  * @author Sébastien binda
  */
-const messages = Object.assign({
+const messages = {
+  // form messages
+  ...Locales.fr,
+  // units messages
+  ...storage.messages.fr,
 
   // Administration messages
 
@@ -130,6 +135,6 @@ const messages = Object.assign({
   'search.facets.filter.chip.number.value': '{label} = {value}',
   'search.facets.filter.menu.word.value': '{word} ({count})',
   'search.facets.filter.chip.word.value': '{label} = {word}',
-}, Locales.fr)
+}
 
 export default messages
