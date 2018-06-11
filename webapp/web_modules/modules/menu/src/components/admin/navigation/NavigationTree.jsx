@@ -108,7 +108,7 @@ class NavigationTree extends React.Component {
         default:
           throw new Error(`Unknown field type ${item.type} in field ${JSON.stringify(item)}`)
       }
-    })
+    }).filter(row => !!row) // delete here the elements that could not be retrieved (temporary state)
 
   /**
    * Builds a module tree table row
@@ -119,8 +119,8 @@ class NavigationTree extends React.Component {
     const { dynamicModules, homeConfiguration } = this.props
     // 1 - retrieve corresponding module
     const moduleModel = dynamicModules.find(({ content: { id: moduleId } }) => moduleId === id)
-    if (!moduleModel) { // that should never happen!
-      throw new Error(`Module not found for id ${id}`)
+    if (!moduleModel) { // happens only while parent field is changing value
+      return null
     }
 
     // 2 - resolve icon (taking home fields in account)
