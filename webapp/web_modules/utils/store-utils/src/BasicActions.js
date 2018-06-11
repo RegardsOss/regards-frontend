@@ -65,6 +65,7 @@ class BasicActions {
         status: res && res.status,
         requestTime,
         bypassErrorMiddleware: this.bypassErrorMiddleware,
+        path: this.entityEndpoint,
       }),
     }
   }
@@ -83,6 +84,7 @@ class BasicActions {
       meta: (action, state, res) => ({
         requestTime,
         status: res.status,
+        path: this.entityEndpoint,
       }),
     }
   }
