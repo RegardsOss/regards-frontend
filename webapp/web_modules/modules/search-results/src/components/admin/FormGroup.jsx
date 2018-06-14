@@ -30,6 +30,7 @@ class FormGroup extends React.Component {
     // when title is not provide, only the layout will render
     titleKey: PropTypes.string,
     spanFullWidth: PropTypes.bool,
+    clearSpaceToChildren: PropTypes.bool,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -37,6 +38,7 @@ class FormGroup extends React.Component {
   }
 
   static defaultProps = {
+    clearSpaceToChildren: false,
     spanFullWidth: false,
   }
 
@@ -46,8 +48,18 @@ class FormGroup extends React.Component {
   }
 
   render() {
-    const { titleKey, spanFullWidth, children } = this.props
-    const { intl: { formatMessage }, moduleTheme: { configuration: { formGroup: { defaultClass, defaultStyle, fullWidthClass } } } } = this.context
+    const {
+      titleKey, clearSpaceToChildren, spanFullWidth, children,
+    } = this.props
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        configuration: {
+          formGroup: {
+            defaultClass, defaultStyle, fullWidthClass, clearSpaceToChildrenStyle,
+          },
+        },
+      },
+    } = this.context
     return (
       <div
         style={spanFullWidth ? null : defaultStyle}
@@ -60,7 +72,9 @@ class FormGroup extends React.Component {
               label={formatMessage({ id: titleKey })}
             />) : null
         }
-        {HOCUtils.renderChildren(children)}
+        <div style={clearSpaceToChildren ? clearSpaceToChildrenStyle : null}>
+          {HOCUtils.renderChildren(children)}
+        </div>
       </div >
     )
   }

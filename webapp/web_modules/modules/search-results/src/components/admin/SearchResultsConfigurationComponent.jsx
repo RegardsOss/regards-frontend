@@ -225,12 +225,14 @@ class SearchResultsConfigurationComponent extends React.Component {
           ...SearchResultsConfigurationComponent.EDITION_TAB.data,
           allowFacets: SearchResultsConfigurationComponent.EDITION_TAB.data.allowFacets && enableFacettes,
           selectableAttributes: selectableDataAttributes,
+          specificViewRender: this.renderDataSpecificGroups, // user must also give view labels
         })
         if (dataEnableQuicklook) { // QUICKLOOKS when enabled
           tabViewsData.push({
             ...SearchResultsConfigurationComponent.EDITION_TAB.quicklook,
             allowFacets: SearchResultsConfigurationComponent.EDITION_TAB.quicklook.allowFacets && enableFacettes,
             selectableAttributes: selectableDataAttributes,
+            specificViewRender: this.renderQuiklookSpecificFieldsGroups,
           })
         }
         break
@@ -239,18 +241,21 @@ class SearchResultsConfigurationComponent extends React.Component {
           ...SearchResultsConfigurationComponent.EDITION_TAB.data,
           allowFacets: SearchResultsConfigurationComponent.EDITION_TAB.data.allowFacets && enableFacettes,
           selectableAttributes: selectableDataAttributes,
+          specificViewRender: this.renderDataSpecificGroups, // user must also give view labels
         })
         if (dataEnableQuicklook) { // quicklook when enabled
           tabViewsData.push({
             ...SearchResultsConfigurationComponent.EDITION_TAB.quicklook,
             allowFacets: SearchResultsConfigurationComponent.EDITION_TAB.quicklook.allowFacets && enableFacettes,
             selectableAttributes: selectableDataAttributes,
+            specificViewRender: this.renderQuiklookSpecificFieldsGroups,
           })
         }
         tabViewsData.push({ // dataset
           ...SearchResultsConfigurationComponent.EDITION_TAB.dataset,
           allowFacets: SearchResultsConfigurationComponent.EDITION_TAB.dataset.allowFacets && enableFacettes,
           selectableAttributes: selectableDatasetAttributes,
+          specificViewRender: this.renderDatasetSpecificFieldsGroups,
         })
         break
       case DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT:
@@ -268,7 +273,7 @@ class SearchResultsConfigurationComponent extends React.Component {
     if (tabViewsData.length > 1) {
       // render in tabs
       return (
-        <Tabs>
+        <Tabs style={this.context.moduleTheme.configuration.viewTabsContainer.style}>
           {tabViewsData.map(this.renderViewModeTab)}
         </Tabs>)
     }
@@ -298,6 +303,7 @@ class SearchResultsConfigurationComponent extends React.Component {
   renderViewModeForm = ({
     fieldName, allowFacets, allowSorting,
     allowAttributesRegroupements, selectableAttributes,
+    specificViewRender = null, // optional specific view form render
   }) => {
     const { currentFormValues, currentNamespace, changeField } = this.props
     const columnsSubField = `${fieldName}.${SearchResultsConfigurationComponent.VIEW_COLUMNS_SUBFIELD}`
@@ -305,6 +311,9 @@ class SearchResultsConfigurationComponent extends React.Component {
     const sortingSubField = `${fieldName}.${SearchResultsConfigurationComponent.VIEW_SORTING_SUBFIELD}`
     return (
       <React.Fragment>
+        {/* 0. Show all specific view type fields, if any */
+          specificViewRender ? specificViewRender() : null
+        }
         {/* 1. Columns for view */}
         <FormGroup spanFullWidth titleKey="form.attribute.conf.columns">
           <AttributesListConfigurationComponent
@@ -350,13 +359,92 @@ class SearchResultsConfigurationComponent extends React.Component {
       </React.Fragment>)
   }
 
+  /**
+   * @return specific field groups for data view
+   */
+  renderDataSpecificGroups = () => {
+    // Dataset tab labels group, when displaying datasets
+    const { currentFormValues } = this.props
+    const displayMode = get(currentFormValues, 'displayMode')
+    const { intl: { formatMessage } } = this.context
+    return displayMode === DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET ? (
+      <FormGroup clearSpaceToChildren spanFullWidth titleKey="form.configuration.result.data.titles.message">
+        <Field
+          name={this.CONF_DATA_SECTION_LABEL_EN}
+          component={RenderTextField}
+          label={formatMessage({ id: 'form.configuration.result.data.section.label.en' })}
+          fullWidth
+        />
+        <Field
+          name={this.CONF_DATA_SECTION_LABEL_FR}
+          component={RenderTextField}
+          label={formatMessage({ id: 'form.configuration.result.data.section.label.fr' })}
+          fullWidth
+        />
+      </FormGroup>) : null
+  }
+
+  /**
+   * @return specific field groups for quicklook view
+   */
+  renderQuiklookSpecificFieldsGroups = () => {
+    const { intl: { formatMessage } } = this.context
+    return (
+      <FormGroup clearSpaceToChildren spanFullWidth titleKey="form.configuration.results.quicklooks.message">
+        <Field
+          name={this.CONF_QUICKLOOKS_WIDTH}
+          component={RenderTextField}
+          type="number"
+          label={formatMessage({ id: 'form.configuration.result.width.quicklooks.label' })}
+          fullWidth
+          normalize={parseIntNormalizer}
+          validate={this.validateQuicklookNumberField}
+          parse={this.parsePositiveIntNumber}
+        />
+        <Field
+          name={this.CONF_QUICKLOOKS_SPACING}
+          component={RenderTextField}
+          type="number"
+          label={formatMessage({ id: 'form.configuration.result.spacing.quicklooks.label' })}
+          fullWidth
+          normalize={parseIntNormalizer}
+          validate={this.validateQuicklookNumberField}
+          parse={this.parsePositiveIntNumber}
+        />
+      </FormGroup>)
+  }
+
+  /**
+   * @return specific field groups for data view
+   */
+  renderDatasetSpecificFieldsGroups = () => {
+    const { currentFormValues } = this.props
+    const displayMode = get(currentFormValues, 'displayMode')
+    const { intl: { formatMessage } } = this.context
+    // Dataset tab labels group, when displaying datasets
+    return displayMode === DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET ? (
+      <FormGroup clearSpaceToChildren spanFullWidth titleKey="form.configuration.result.datasets.title.message">
+        <Field
+          name={this.CONF_DATASETS_SECTION_LABEL_EN}
+          component={RenderTextField}
+          label={formatMessage({ id: 'form.configuration.result.datasets.section.label.en' })}
+          fullWidth
+        />
+        <Field
+          name={this.CONF_DATASETS_SECTION_LABEL_FR}
+          component={RenderTextField}
+          label={formatMessage({ id: 'form.configuration.result.datasets.section.label.fr' })}
+          fullWidth
+        />
+      </FormGroup>) : null
+  }
+
   render() {
     const { adminConf, currentFormValues, currentNamespace } = this.props
     const { intl: { formatMessage }, moduleTheme: { configuration: { formContainer, formRow } } } = this.context
 
     const preventAdminToPickDocumentView = get(adminConf, 'preventAdminToPickDocumentView', false)
     const displayMode = get(currentFormValues, 'displayMode')
-    const enableQuicklooks = get(currentFormValues, 'enableQuicklooks', false)
     const enableFacettes = get(currentFormValues, 'enableFacettes', false)
 
     return (
@@ -442,69 +530,6 @@ class SearchResultsConfigurationComponent extends React.Component {
                 disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA}
               />
             </Field>
-          </FormGroup>
-        </div>
-        <div className={formRow.class}>
-          {/* Data view title configuration (only when displaying data and dataset, tab is hidden otherwise) */}
-          <FormGroup titleKey="form.configuration.result.data.titles.message">
-            <Field
-              name={this.CONF_DATA_SECTION_LABEL_FR}
-              component={RenderTextField}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.fr' })}
-              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
-              fullWidth
-            />
-            <Field
-              name={this.CONF_DATA_SECTION_LABEL_EN}
-              component={RenderTextField}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.en' })}
-              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
-              fullWidth
-            />
-          </FormGroup>
-          {/* Datasets view title configuration (only when displaying data and dataset, tab is hidden otherwise) */}
-          <FormGroup titleKey="form.configuration.result.datasets.title.message">
-            <Field
-              name={this.CONF_DATASETS_SECTION_LABEL_FR}
-              component={RenderTextField}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.fr' })}
-              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
-              fullWidth
-            />
-            <Field
-              name={this.CONF_DATASETS_SECTION_LABEL_EN}
-              component={RenderTextField}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.en' })}
-              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
-              fullWidth
-            />
-          </FormGroup>
-        </div>
-        <div className={formRow.class}>
-          {/* Quicklooks configuration */}
-          <FormGroup titleKey="form.configuration.results.quicklooks.message">
-            <Field
-              name={this.CONF_QUICKLOOKS_WIDTH}
-              component={RenderTextField}
-              type="number"
-              label={formatMessage({ id: 'form.configuration.result.width.quicklooks.label' })}
-              fullWidth
-              normalize={parseIntNormalizer}
-              disabled={!enableQuicklooks || displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
-              validate={this.validateQuicklookNumberField}
-              parse={this.parsePositiveIntNumber}
-            />
-            <Field
-              name={this.CONF_QUICKLOOKS_SPACING}
-              component={RenderTextField}
-              type="number"
-              label={formatMessage({ id: 'form.configuration.result.spacing.quicklooks.label' })}
-              fullWidth
-              normalize={parseIntNormalizer}
-              disabled={!enableQuicklooks || displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
-              validate={this.validateQuicklookNumberField}
-              parse={this.parsePositiveIntNumber}
-            />
           </FormGroup>
         </div>
         <div className={formRow.class}>
