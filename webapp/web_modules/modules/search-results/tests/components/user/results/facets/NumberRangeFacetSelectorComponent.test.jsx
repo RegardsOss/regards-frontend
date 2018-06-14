@@ -38,7 +38,7 @@ describe('[SEARCH FACETS] Testing NumberRangeFacetSelectorComponent', () => {
   it('should render properly', () => {
     const props = {
       facet: aFacetModel,
-      onSelectFacet: () => { },
+      onAddFilter: () => { },
     }
     const enzymeWrapper = shallow(<NumberRangeFacetSelectorComponent {...props} />, { context })
     // We assert here that the rendering is correctly delegated to FacetSelectorComponent

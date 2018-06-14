@@ -30,7 +30,7 @@ const styles = theme => ({
       class: 'row',
     },
     formGroup: {
-      defaultClass: 'col-xs-95 col-md-45',
+      defaultClass: 'col-xs-100 col-md-48',
       fullWidthClass: 'col-xs-100',
       defaultStyle: {
         marginBottom: 10,

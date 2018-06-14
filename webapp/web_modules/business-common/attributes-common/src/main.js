@@ -17,12 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import AttributeColumnBuilder from './columns/AttributeColumnBuilder'
-import MainAttributesConfigurationComponent from './configuration/MainAttributesConfigurationComponent'
+import AttributesListConfigurationComponent from './configuration/AttributesListConfigurationComponent'
 import { buildRenderDelegate, getTypeRender } from './render/AttributesTypeToRender'
 
 module.exports = {
-  // configuration component
-  MainAttributesConfigurationComponent,
+  // configuration component for lists and columns of attributes
+  AttributesListConfigurationComponent,
   // render get method for given type
   buildRenderDelegate,
   getTypeRender,

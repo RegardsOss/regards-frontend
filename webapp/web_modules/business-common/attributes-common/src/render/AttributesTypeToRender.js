@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CommonDomain, DamDomain } from '@regardsoss/domain'
+import { DamDomain } from '@regardsoss/domain'
 import {
   BooleanValueRender, DateArrayValueRender, DateRangeValueRender, DateValueRender,
   NumberValueRender, RangeValueRender, StringArrayValueRender, StringValueRender,
@@ -35,8 +35,6 @@ const DEFAULT_RENDER = StringValueRender
  * @author Sébastien Binda
  */
 const typeToRenderMap = {
-  // specific types render (file types)
-  [CommonDomain.DataTypesEnum.THUMBNAIL]: ThumbnailAttributeRender,
   // Render by type
   [DamDomain.MODEL_ATTR_TYPES.STRING]: StringValueRender,
   [DamDomain.MODEL_ATTR_TYPES.INTEGER]: NumberValueRender,
@@ -78,7 +76,15 @@ function buildRenderDelegate(path, type, unit) {
   }
 }
 
+function buildThumbnailRenderDelegate(path) {
+  return {
+    path,
+    RenderConstructor: ThumbnailAttributeRender,
+  }
+}
+
 module.exports = {
   buildRenderDelegate,
+  buildThumbnailRenderDelegate,
   getTypeRender,
 }

@@ -160,8 +160,17 @@ export default (theme) => {
           margin: '0 10px',
           color: theme.palette.textColor,
         },
+        errorTextStyle: {
+          margin: '0 10px',
+          color: theme.formsExtensions.validation.errorColor,
+        },
       },
       autocomplete: {
+        textStyle: {
+          height: theme.components.infiniteTable.minHeaderRowHeight - 2,
+        },
+      },
+      textfield: {
         textStyle: {
           height: theme.components.infiniteTable.minHeaderRowHeight - 2,
         },
@@ -284,6 +293,14 @@ export default (theme) => {
       styles: {
         height: '45vh',
       },
+    },
+    noDataMessage: {
+      margin: '0 10px',
+      height: theme.components.infiniteTable.lineHeight,
+      // px is required here as line height is a multiplication of font height otherwise
+      lineHeight: `${theme.components.infiniteTable.lineHeight}px`,
+      color: theme.palette.disabledColor,
+      verticalAlign: 'middle',
     },
   })
 }

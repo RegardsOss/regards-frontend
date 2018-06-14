@@ -27,7 +27,7 @@ class BooleanFacetSelectorComponent extends React.Component {
   static propTypes = {
     facet: BooleanFacet.isRequired,
     // applies a facet filter (key:string, label:string, searchQuery: string)
-    onSelectFacet: PropTypes.func.isRequired,
+    onAddFilter: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -57,13 +57,13 @@ class BooleanFacetSelectorComponent extends React.Component {
   }
 
   render() {
-    const { facet, onSelectFacet } = this.props
+    const { facet, onAddFilter } = this.props
     return (
       <FacetSelectorComponent
         facet={facet}
         facetValueFormatterForMenu={this.formatFacetValueForMenu}
         facetValueFormatterForFilter={this.formatFacetValueForFilter}
-        onSelectFacet={onSelectFacet}
+        onAddFilter={onAddFilter}
       />
     )
   }

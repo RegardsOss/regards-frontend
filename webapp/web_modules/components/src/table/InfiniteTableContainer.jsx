@@ -70,7 +70,7 @@ class InfiniteTableContainer extends React.Component {
     queryPageSize: PropTypes.number,
 
     // abstracted properties: result of a parent selector
-    entities: PropTypes.arrayOf(PropTypes.object),
+    entities: PropTypes.arrayOf(PropTypes.any),
     // page index of entities in results (change it to handle next/previous pages)
     // eslint-disable-next-line react/no-unused-prop-types
     entitiesPageIndex: PropTypes.number,
@@ -111,6 +111,7 @@ class InfiniteTableContainer extends React.Component {
     queryPageSize: 20,
     // by default we consider here that provided entities starts at 0
     entitiesPageIndex: 0,
+    displayColumnsHeader: true,
   }
 
   static DEFAULT_STATE = {
@@ -217,12 +218,19 @@ class InfiniteTableContainer extends React.Component {
   }
 
   /**
-   * @return the number of entities to consider (subset of total or total itself)
+   * @return {number} the number of entities to consider (subset of total or total itself)
    */
   getCurrentTotalEntities = () => Math.max(this.props.entitiesCount || 0, (this.props.entities || []).length)
 
-  /** @return line height to consider for table */
+  /** @return {number} line height to consider for table */
   getTableLineHeight = () => this.props.lineHeight || this.context.muiTheme.components.infiniteTable.lineHeight
+
+  /** @return {number} table header height to consider for table */
+  getTableHeaderHeight = () => this.props.displayColumnsHeader ?
+    this.context.muiTheme.components.infiniteTable.minHeaderRowHeight : 0
+
+  /** @return {number} fixed content margin bottom, from theme */
+  getContentMarginBottom = () => this.context.muiTheme.components.infiniteTable.fixedContentMarginBottom
 
   /**
    * Computes table height
@@ -238,7 +246,8 @@ class InfiniteTableContainer extends React.Component {
       const consideredMin = minRowCount || 1
       const consideredMax = maxRowCount || 20
       const consideredLinesCount = Math.min(Math.max(consideredMin, entities.length), consideredMax)
-      return (consideredLinesCount + 1) * this.getTableLineHeight()
+      const contentViewHeight = (consideredLinesCount * this.getTableLineHeight()) + this.getTableHeaderHeight()
+      return contentViewHeight + this.getContentMarginBottom()
     }
     // Self measured mode
     if (this.state.tableHeight > measuredHeight) {

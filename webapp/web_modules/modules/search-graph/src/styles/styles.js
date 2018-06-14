@@ -31,64 +31,6 @@ const menuStyles = (theme) => {
   }
   const progressSize = 120
   return {
-    admin: {
-      form: {
-        graphLevelsRender: {
-          styles: {
-            padding: '0 0 0 20px',
-            display: 'flex',
-            flexDirection: 'column',
-          },
-          tableContainer: {
-            styles: {
-              display: 'flex',
-              flexDirection: 'row',
-            },
-          },
-          selectedLevelsTable: {
-            styles: {
-              padding: '0 0 1em 0',
-              flexGrow: 1,
-              flexShrink: 1,
-            },
-            hintMessage: {
-              styles: {
-                color: theme.textField.hintColor,
-              },
-            },
-            columnLevel: {
-              styles: {
-                width: '70px',
-              },
-            },
-            columnName: {
-              styles: {
-                width: '25%',
-              },
-            },
-            columnActions: {
-              styles: {
-                width: '70px',
-              },
-            },
-          },
-          addButton: {
-            styles: {
-              padding: '1em 0 0 1em',
-              flexGrow: '0',
-              flexShrink: '0',
-            },
-            labelPosition: 'before',
-          },
-          errorMessage: {
-            styles: {
-              padding: '1em 0 0 0',
-              color: theme.textField.errorColor,
-            },
-          },
-        },
-      },
-    },
     user: {
       toggle: {
         width: 'auto', // prevent material UI 100% width behavior........

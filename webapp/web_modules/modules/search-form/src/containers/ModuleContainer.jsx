@@ -16,25 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import flatten from 'lodash/flatten'
-import flow from 'lodash/flow'
-import forEach from 'lodash/forEach'
-import fpfilter from 'lodash/fp/filter'
-import fpmap from 'lodash/fp/map'
 import get from 'lodash/get'
-import isEqual from 'lodash/isEqual'
-import isInteger from 'lodash/isInteger'
 import keys from 'lodash/keys'
 import merge from 'lodash/merge'
 import reduce from 'lodash/reduce'
-import uniq from 'lodash/fp/uniq'
-import values from 'lodash/values'
-import unionBy from 'lodash/unionBy'
 import { browserHistory } from 'react-router'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { connect } from '@regardsoss/redux'
-import { AccessDomain } from '@regardsoss/domain'
+import { DamDomain } from '@regardsoss/domain'
 import { UIClient } from '@regardsoss/client'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { LoadingComponent, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -60,7 +50,7 @@ class ModuleContainer extends React.Component {
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
     // Set by mapDispatchToProps
-    fetchAttribute: PropTypes.func,
+    fetchAllModelsAttributes: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     attributeModels: DataManagementShapes.AttributeModelList,
     attributesLoading: PropTypes.bool,
@@ -89,8 +79,6 @@ class ModuleContainer extends React.Component {
   }
 
   componentWillMount() {
-    this.loadCriterionAttributeModels(this.props)
-
     // Read query parameters form current URL
     const query = browserHistory ? browserHistory.getCurrentLocation().query : null
 
@@ -113,14 +101,18 @@ class ModuleContainer extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    /**
-     * If criterion props changed, so load missing attributeModels
-     */
-    if (!isEqual(this.props.moduleConf.criterion, nextProps.moduleConf.criterion)) {
-      this.loadCriterionAttributeModels(nextProps)
-    }
+  /**
+   * Lifecycle method: component did mount. Used here to fetch server model attributes
+   */
+  componentDidMount() {
+    this.props.fetchAllModelsAttributes()
+  }
 
+  /**
+   * Lifecycle method: component will receive new properties. Used here to check URL changes and update search fields
+   * @param {*} nextProps next properties
+   */
+  componentWillReceiveProps(nextProps) {
     this.handleURLChange()
   }
 
@@ -201,19 +193,16 @@ class ModuleContainer extends React.Component {
    */
   getCriterionWithAttributeModels = () => (this.props.moduleConf.criterion || [])
     .reduce((acc, criteria) => {
+      const { attributeModels } = this.props
       const { active, conf, ...otherProps } = criteria
       if (active) {
         const attributes = get(conf, 'attributes', {})
         // resolve criterion attributes, filter the attributes that have not yet been retrieved
-        const resolvedAttributes = reduce(attributes, (resolved, attributeId, localKey) => {
-          // server attributes are resolved on ID and standard ones on key
-          const resolvedAttribute = get(this.props, `attributeModels.${attributeId}.content`) ||
-            get(AccessDomain.AttributeConfigurationController.getStandardAttributeConf(attributeId), 'content')
-          return {
-            ...resolved,
-            [localKey]: resolvedAttribute,
-          }
-        }, {})
+        const resolvedAttributes = reduce(attributes, (resolved, attributePath, localKey) => ({
+          ...resolved,
+          // search in both server and standard attributes, provide attribute content only (not encapsulated)
+          [localKey]: get(DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attributePath, attributeModels), 'content'),
+        }), {})
         return [
           ...acc, {
             active,
@@ -323,31 +312,6 @@ class ModuleContainer extends React.Component {
     return ''
   }
 
-  /**
-   * Search attributeModels associated to criterion
-   * @param {*} props considered component properties
-   */
-  loadCriterionAttributeModels = (props) => {
-    const { moduleConf, fetchAttribute } = props
-    // Get unique list of criterion attributeModels id to load
-    const pluginsAttributesToLoad = flow(
-      fpmap(criteria => criteria.conf && criteria.conf.attributes),
-      fpmap(attribute => values(attribute)),
-      flatten,
-      fpfilter(isInteger),
-      uniq,
-    )(moduleConf.criterion)
-
-    const attributesToLoad = flow(fpmap(attribute => values(attribute.id)), flatten, uniq)(
-      moduleConf.attributes,
-    )
-
-    // Fetch each form server
-    forEach(unionBy(pluginsAttributesToLoad, attributesToLoad), attribute =>
-      fetchAttribute(attribute),
-    )
-  }
-
   renderForm() {
     if (this.props.moduleConf.layout) {
       const pluginsProps = {
@@ -437,7 +401,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAttribute: attributeId => dispatch(AttributeModelClient.AttributeModelActions.fetchEntity(attributeId)),
+  fetchAllModelsAttributes: () => dispatch(AttributeModelClient.AttributeModelActions.fetchEntityList()),
   dispatchCollapseForm: () => dispatch(moduleExpandedStateActions.setMinimized(modulesManager.AllDynamicModuleTypes.SEARCH_FORM)),
   dispatchExpandResults: () => dispatch(moduleExpandedStateActions.setNormal(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS)),
 })

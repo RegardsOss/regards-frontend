@@ -36,6 +36,8 @@ class ListSortingComponent extends React.Component {
     defaultSortingModel: AccessShapes.AttributePresentationModel,
     // all models available
     sortableModels: AccessShapes.AttributePresentationModelArray.isRequired,
+    // current locale
+    locale: PropTypes.string.isRequired,
     onSortBy: PropTypes.func.isRequired,
   }
 
@@ -51,14 +53,15 @@ class ListSortingComponent extends React.Component {
    */
   getLabel = (model) => {
     const { intl: { formatMessage } } = this.context
+    const { locale } = this.props
     const prefix = formatMessage({ id: 'list.sort.prefix.label' })
-    return `${prefix} ${model ? model.label : formatMessage({ id: 'list.sort.none.label' })}`
+    return `${prefix} ${model ? model.label[locale] : formatMessage({ id: 'list.sort.none.label' })}`
   }
 
   render() {
     const { intl: { formatMessage } } = this.context
     const {
-      sortingModel, defaultSortingModel, sortableModels, onSortBy,
+      sortingModel, defaultSortingModel, sortableModels, locale, onSortBy,
     } = this.props
     return (
       <DropDownButton
@@ -68,14 +71,14 @@ class ListSortingComponent extends React.Component {
         value={sortingModel || defaultSortingModel || null}
       >
         {/* No sort item, when there is no default sorting model*/
-        defaultSortingModel ? null : (
-          <MenuItem
-            key="no.sort"
-            checked={!sortingModel}
-            primaryText={formatMessage({ id: 'list.sort.none.label' })}
-            insetChildren
-            value={null}
-          />)
+          defaultSortingModel ? null : (
+            <MenuItem
+              key="no.sort"
+              checked={!sortingModel}
+              primaryText={formatMessage({ id: 'list.sort.none.label' })}
+              insetChildren
+              value={null}
+            />)
         }
         { /* Map all available items for sorting */
           sortableModels.map((model, key) => (
@@ -88,7 +91,7 @@ class ListSortingComponent extends React.Component {
                 (!sortingModel && defaultSortingModel && defaultSortingModel.key === model.key)
               }
               value={model}
-              primaryText={model.label}
+              primaryText={model.label[locale]}
               insetChildren
             />))
         }

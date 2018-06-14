@@ -41,7 +41,7 @@ describe('[SEARCH FACETS] Testing FacetSelectorComponent', () => {
       facet: noOtherFacet,
       facetValueFormatterForMenu: () => '',
       facetValueFormatterForFilter: () => '',
-      onSelectFacet: () => { },
+      onAddFilter: () => { },
     }
 
     const enzymeWrapper = shallow(<FacetSelectorComponent {...props} />, { context })
@@ -54,7 +54,7 @@ describe('[SEARCH FACETS] Testing FacetSelectorComponent', () => {
       facet: facetWithOthers,
       facetValueFormatterForMenu: () => '',
       facetValueFormatterForFilter: () => '',
-      onSelectFacet: () => { },
+      onAddFilter: () => { },
     }
 
     const enzymeWrapper = shallow(<FacetSelectorComponent {...props} />, { context })

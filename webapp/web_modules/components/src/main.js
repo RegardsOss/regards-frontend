@@ -111,7 +111,9 @@ import TableHeaderOptionsArea from './table/header/TableHeaderOptionsArea'
 import TableHeaderOptionGroup from './table/header/TableHeaderOptionGroup'
 import TableHeaderOptionsSeparator from './table/header/TableHeaderOptionsSeparator'
 import TableHeaderText from './table/header/TableHeaderText'
+import TableHeaderTextField from './table/header/TableHeaderTextField'
 import TableLayout from './table/TableLayout'
+import TableNoDataMessage from './table/content/TableNoDataMessage'
 import TableDeleteOption from './table/content/cells/options/TableDeleteOption'
 import TableSimpleActionOption from './table/content/cells/options/TableSimpleActionOption'
 import TableSelectAllOption from './table/options/TableSelectAllOption'
@@ -221,7 +223,9 @@ export {
   TableHeaderOptionGroup,
   TableHeaderOptionsSeparator,
   TableHeaderText,
+  TableHeaderTextField,
   TableLayout,
+  TableNoDataMessage,
   TableDeleteOption,
   TableSimpleActionOption,
   TableSelectAllOption,

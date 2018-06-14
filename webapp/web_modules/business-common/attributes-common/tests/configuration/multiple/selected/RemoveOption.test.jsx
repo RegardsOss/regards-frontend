@@ -15,40 +15,42 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import IconButton from 'material-ui/IconButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import SelectedLevelFormRender from '../../../src/components/admin/SelectedLevelFormRender'
-import styles from '../../../src/styles/styles'
+import RemoveOption from '../../../../src/configuration/multiple/selected/RemoveOption'
+import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Search Graph] Testing SelectedLevelFormRender', () => {
+/**
+ * Test RemoveOption
+ * @author Raphaël Mechali
+ */
+describe('[Attributes Common] Testing RemoveOption', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SelectedLevelFormRender)
+    assert.isDefined(RemoveOption)
   })
-
-  it('should render properly', () => {
-    // mimic the redux form fields methods
-    const fields = {
-      getAll: () => undefined,
-    }
+  it('should render correctly', () => {
+    let spiedRemoveData = null
     const props = {
-      collectionModels: {},
-      meta: {
-        touched: false,
-        error: null,
+      rowIndex: 99,
+      onRemove: (rowIndex) => {
+        spiedRemoveData = rowIndex
       },
-      intl: {
-        formatMessage: ({ id }) => id,
-      },
-      fields,
     }
-    // simple render test
-    shallow(<SelectedLevelFormRender {...props} />, { context })
+    const enzymeWrapper = shallow(<RemoveOption {...props} />, { context })
+    const button = enzymeWrapper.find(IconButton)
+    assert.lengthOf(button, 1, 'There should be the button')
+    assert.equal(button.props().onClick, enzymeWrapper.instance().onRemove, 'Callback should be correctly reported')
+    // test callback
+    assert.isNull(spiedRemoveData, 'Callback should not have yet been called')
+    enzymeWrapper.instance().onRemove()
+    assert.equal(spiedRemoveData, props.rowIndex, 'Callback should provide the row index to remove element')
   })
 })

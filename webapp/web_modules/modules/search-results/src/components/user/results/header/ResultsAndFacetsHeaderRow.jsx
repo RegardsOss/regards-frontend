@@ -35,7 +35,7 @@ class ResultsAndFacetsHeaderRow extends React.Component {
     isFetching: PropTypes.bool.isRequired,
     showFacets: PropTypes.bool.isRequired,
     // applies a facet filter (key:string, label:string, searchQuery: string)
-    onSelectFacet: PropTypes.func.isRequired,
+    onAddFilter: PropTypes.func.isRequired,
     // facets array
     facets: FacetArray,
     resultsCount: PropTypes.number.isRequired,
@@ -47,7 +47,7 @@ class ResultsAndFacetsHeaderRow extends React.Component {
 
   render() {
     const {
-      showFacets, facets, onSelectFacet, resultsCount, isFetching,
+      showFacets, facets, onAddFilter, resultsCount, isFetching,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
@@ -76,7 +76,7 @@ class ResultsAndFacetsHeaderRow extends React.Component {
                 <TableHeaderOptionGroup show={showFacets}>
                   {
                     facets.map((facet) => {
-                      const selectorProps = { key: facet.attributeName, facet, onSelectFacet }
+                      const selectorProps = { key: facet.attributeName, facet, onAddFilter }
                       switch (facet.type) {
                         case FacetTypes.Boolean:
                         return (<BooleanFacetSelectorComponent {...selectorProps} />)

@@ -55,6 +55,7 @@ module.exports = baseTheme => ({
         minRowCount: 2,
         maxRowCount: 10,
       },
+      fixedContentMarginBottom: 5,
     },
   },
   formsExtensions: {

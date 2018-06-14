@@ -16,17 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
-import reject from 'lodash/reject'
 import { connect } from '@regardsoss/redux'
-import { AccessDomain, DamDomain } from '@regardsoss/domain'
+import { DamDomain } from '@regardsoss/domain'
 import { OpenSearchQuery } from '@regardsoss/domain/catalog'
-import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { ModuleStyleProvider } from '@regardsoss/theme'
-import { StringComparison } from '@regardsoss/form-utils'
-import { TableSortOrders } from '@regardsoss/components'
+import { i18nSelectors } from '@regardsoss/i18n'
 import { AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-utils'
 import { Tag } from '../../../models/navigation/Tag'
 import {
@@ -47,6 +44,7 @@ import OrderCartContainer from './OrderCartContainer'
 import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
 import styles from '../../../styles/styles'
 import { DISPLAY_MODE_VALUES } from '../../../definitions/DisplayModeEnum'
+import { DataViewShape, QuicklookViewShape, DatasetViewShape, DocumentViewShape } from '../../../models/ModuleConfiguration'
 import DisplayModuleConf from '../../../models/DisplayModuleConf'
 
 const moduleStyles = { styles }
@@ -65,6 +63,7 @@ export class SearchResultsContainer extends React.Component {
     levels: navigationContextSelectors.getLevels(state),
     viewObjectType: navigationContextSelectors.getViewObjectType(state),
     tableDisplayMode: navigationContextSelectors.getDisplayMode(state),
+    locale: i18nSelectors.getLocale(state),
   })
 
   static mapDispatchToProps = dispatch => ({
@@ -91,19 +90,17 @@ export class SearchResultsContainer extends React.Component {
     datasetsSectionLabel: PropTypes.string,
     dataSectionLabel: PropTypes.string,
 
+    // views configurations (used only in onPropertiesChanged)
     // eslint-disable-next-line react/no-unused-prop-types
-    facettesQuery: PropTypes.string, // facettes query to be added to search query in order to get the facettes
-    // Attributes configurations for results columns
+    data: DataViewShape,
     // eslint-disable-next-line react/no-unused-prop-types
-    attributesConf: AccessShapes.AttributeConfigurationArray,
+    quicklook: QuicklookViewShape,
     // eslint-disable-next-line react/no-unused-prop-types
-    attributesQuicklookConf: AccessShapes.AttributeConfigurationArray,
+    dataset: DatasetViewShape,
     // eslint-disable-next-line react/no-unused-prop-types
-    attributesRegroupementsConf: AccessShapes.AttributesGroupConfigurationArray,
-    // eslint-disable-next-line react/no-unused-prop-types
-    datasetAttributesConf: AccessShapes.AttributeConfigurationArray,
-    // eslint-disable-next-line react/no-unused-prop-types
-    documentAttributesConf: AccessShapes.AttributeConfigurationArray,
+    document: DocumentViewShape,
+
+    // server attributes model
     // eslint-disable-next-line react/no-unused-prop-types
     attributeModels: DataManagementShapes.AttributeModelList,
 
@@ -118,6 +115,7 @@ export class SearchResultsContainer extends React.Component {
     tableDisplayMode: PropTypes.oneOf(TableDisplayModeValues).isRequired, // Display mode
     // eslint-disable-next-line react/no-unused-prop-types
     levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired, // only used to build query
+    locale: PropTypes.string, // current locale
 
     // From map dispatch to props
     dispatchChangeViewObjectType: PropTypes.func.isRequired,
@@ -125,6 +123,97 @@ export class SearchResultsContainer extends React.Component {
     dispatchSetEntityAsTag: PropTypes.func.isRequired,
   }
 
+  static defaultProps = {
+    locale: 'en',
+  }
+
+  /**
+   * Selects the applying view configuration for current view object type
+   * @param {*} props properties to consider (holds view and table mode)
+   * @return view configuration in current view mode, with granted configuration fields (if they were forgotten in form configuration)
+   */
+  static getViewConfiguration({
+    viewObjectType, tableDisplayMode, data, quicklook, dataset, document,
+  }) {
+    let configuration = null
+    switch (viewObjectType) {
+      case DamDomain.ENTITY_TYPES_ENUM.DATA:
+        configuration = tableDisplayMode === TableDisplayModeEnum.QUICKLOOK ? quicklook : data
+        break
+      case DamDomain.ENTITY_TYPES_ENUM.DATASET:
+        configuration = dataset
+        break
+      case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT:
+        configuration = document
+        break
+      default:
+        throw new Error('Unknown view object type', viewObjectType)
+    }
+    return {
+      columns: [],
+      facets: [],
+      sorting: [],
+      ...configuration,
+    }
+  }
+
+  /**
+   * Returns true when object type as parameter allows for sorting
+   * @param {string} viewObjectType  view object type from ENTITY_TYPES_ENUM
+   * @return {bool} true when sorting is allowed, false otherwise
+   */
+  static isSortingAllowed(viewObjectType) {
+    switch (viewObjectType) {
+      case DamDomain.ENTITY_TYPES_ENUM.DATA:
+      case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT:
+        return true
+      case DamDomain.ENTITY_TYPES_ENUM.DATASET:
+      default:
+        return false
+    }
+  }
+
+  /**
+   * Builds facets models from results facets list, current configuration and current attribute models
+   * @param {[{*}]} resultsFacets results facets
+   * @param {[{*}]} configuredFacets configured facets
+   * @param {*} attributeModels current attribute models list (or map)
+   * @return facets list
+   */
+  static buildFacetModels(resultsFacets = [], configuredFacets = [], attributeModels = {}) {
+    // build the facet list in the order configured for view
+    return configuredFacets.reduce((acc, { attributes: [{ name }] }) => {
+      // check if corresponding facet is present in results, has enough values and a valid attribute model
+      const correspondingResultFacet = resultsFacets.find(({ attributeName }) => attributeName === name)
+      if (correspondingResultFacet) {
+        const filteredFacetValues = correspondingResultFacet.values.filter(value => value.count)
+        if (filteredFacetValues.length >= 2) {
+          const attrModel = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels)
+          if (attrModel) { // that facet can be displayed to user
+            return [
+              ...acc, { // return facet plus required presentation attributes
+                ...correspondingResultFacet,
+                label: attrModel.content.label,
+                unit: attrModel.content.unit,
+                values: filteredFacetValues,
+              },
+            ]
+          }
+        }
+      }
+      return acc // facet will not be displayed to user, because it has either to few values or no valid model
+    }, [])
+  }
+
+  /**
+   * Removes a filter by its key in filters list
+   * @param [{ filterKey: string}] filters filters list
+   * @param {string} filterKey key of the filter to remove
+   * @returns [{ filterKey: string}] new filters list without key as parameter
+   */
+  static removeFilterIn(filters = [], filterKey = '') {
+    return filters.filter(({ filterKey: f }) => f !== filterKey)
+  }
 
   /**
    * Default component state (describes all possible state elements)
@@ -136,8 +225,6 @@ export class SearchResultsContainer extends React.Component {
     hiddenColumnKeys: [],
     // is currently showing facettes
     showingFacettes: false,
-    // initial sorting attributes array
-    initialSortAttributesPath: [],
     // Current sorting attributes array like {attributePath: String, type: (optional) one of 'ASC' / 'DESC'}
     filters: [],
     facets: [],
@@ -171,91 +258,37 @@ export class SearchResultsContainer extends React.Component {
    */
   onPropertiesChanged = (oldProps, newProps) => {
     const newState = {} // Default  state will be recovered by updateStateAndQuery
+    const { attributeModels, viewObjectType, tableDisplayMode } = newProps
+    const attributeModelsChanged = !isEqual(oldProps.attributeModels, newProps.attributeModels)
+    const newViewConfiguration = SearchResultsContainer.getViewConfiguration(newProps)
 
-    //  initial sort attributes (used while the user hasn't set any sortedColumns)
-    if (oldProps.viewObjectType !== newProps.viewObjectType ||
-      oldProps.attributesConf !== newProps.attributesConf) {
-      if (newProps.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATASET) {
-        newState.initialSortAttributesPath = [] // no initial sorting for datasets
-      } else {
-        // Data: resolve some initial sorting
-        newState.initialSortAttributesPath =
-          (AccessDomain.AttributeConfigurationController.getInitialSortAttributes(newProps.attributesConf) || []).map(attribute => ({
-            attributePath: attribute,
-            type: TableSortOrders.ASCENDING_ORDER, // default is ascending
-          }))
-      }
-    }
-
-    // recompute facets when results facets or attribute models changed
-    if (!isEqual(oldProps.facets, newProps.facets) || !isEqual(oldProps.attributeModels, newProps.attributeModels)) {
+    // 1 - recompute facets (ie selectable filters) when results facets or attribute models changed
+    if (attributeModelsChanged || !isEqual(oldProps.facets, newProps.facets)) {
       // Resolve all facets with their label, removing all empty values and facet without values
-      const { attributeModels } = newProps
-      newState.facets = (newProps.facets || []).reduce((acc, facet) => {
-        const { attributeName, values } = facet
-        // Clear empty values, check if the facet should be filtered
-        const filteredValues = values.filter(value => value.count)
-        if (filteredValues.length < 2) {
-          // when facet has only one or no value, hide it
-          return acc
-        }
-        const attrModel = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attributeName, attributeModels)
-        return [...acc, {
-          ...facet,
-          label: get(attrModel, 'content.label', attributeName),
-          unit: get(attrModel, 'content.unit'),
-          values: filteredValues,
-        }]
-      }, []).sort((facet1, facet2) => StringComparison.compare(facet1.label, facet2.label))
+      newState.facets = SearchResultsContainer.buildFacetModels(newProps.facets, newViewConfiguration.facets, attributeModels)
     }
 
-    const modelsChanged = !isEqual(oldProps.attributeModels, newProps.attributeModels)
-    const viewObjectChanged = oldProps.viewObjectType !== newProps.viewObjectType
-    const tableModeChanged = oldProps.tableDisplayMode !== newProps.tableDisplayMode
-    // re initialize selected facets when not changing only the table type (facets are available no matter the view)
-    if (modelsChanged || viewObjectChanged) {
+    const viewObjectChanged = oldProps.viewObjectType !== viewObjectType
+    const tableModeChanged = oldProps.tableDisplayMode !== tableDisplayMode
+    // 2 - re initialize filters (id selected facets) when it view objects type changes
+    if (attributeModelsChanged || viewObjectChanged) {
       newState.filters = SearchResultsContainer.DEFAULT_STATE.filters
     }
-    // prepare columns models for search results component, according with configuration, models and view object type
-    if (modelsChanged || viewObjectChanged || tableModeChanged) {
-      // re initialize hidden columns keys
+    // 3 - recompute columns when either attributes, view object type of table view mode changes
+    if (attributeModelsChanged || viewObjectChanged || tableModeChanged) {
+      // 3.a - Show all columns back
       newState.hiddenColumnKeys = SearchResultsContainer.DEFAULT_STATE.hiddenColumnKeys
-
-      // build column models that will hold both attribute and dialogs models (sort, visible....)
-      // note: we take here in account the fact that hidden columns and sorting orders could have been reset
-      switch (newProps.viewObjectType) {
-        case DamDomain.ENTITY_TYPES_ENUM.DATASET:
-          newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.datasetAttributesConf, [], false)
-          newState.displayOnlyQuicklook = false
-          break
-        case DamDomain.ENTITY_TYPES_ENUM.DATA:
-          if (newProps.tableDisplayMode !== TableDisplayModeEnum.QUICKLOOK) {
-            newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.attributesConf, newProps.attributesRegroupementsConf, true)
-            // Remove in the query the onlyQuicklook as we are not displaying quicklook anymore
-            newState.displayOnlyQuicklook = false
-          } else {
-            newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.attributesQuicklookConf, {}, true)
-            // Automatically enable displayOnlyQuicklook on first display
-            if (oldProps.tableDisplayMode !== newProps.tableDisplayMode) {
-              newState.displayOnlyQuicklook = true
-            }
-          }
-          break
-        case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT:
-          newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.documentAttributesConf, [], false)
-          newState.displayOnlyQuicklook = false
-          break
-        default:
-          throw new Error('Unhandled object type ', newProps.viewObjectType)
-      }
-    } else if (oldProps.viewMode !== newProps.viewMode) {
-      // facets unchanged, re initialize hidden columns keys
-      newState.hiddenColumnKeys = []
+      // 3.b : build columns models for current configuration
+      newState.attributePresentationModels = AttributesPresentationHelper
+        .buildAttributesPresentationModels(attributeModels,
+          newViewConfiguration.columns, newViewConfiguration.sorting,
+          SearchResultsContainer.isSortingAllowed(viewObjectType))
+      // 3.c reinitialize the ONLY quicklook filter state when user changes view parametersenters or exits quicklook mode
+      newState.displayOnlyQuicklook = tableDisplayMode === TableDisplayModeEnum.QUICKLOOK
     }
 
     this.updateStateAndQuery(newState, newProps, true)
   }
-
 
   /** On show datasets */
   onShowDatasets = () => {
@@ -286,24 +319,26 @@ export class SearchResultsContainer extends React.Component {
   onToggleDisplayOnlyQuicklook = () => this.updateStateAndQuery({ displayOnlyQuicklook: !this.state.displayOnlyQuicklook })
 
   /**
-   * On user selected a facet
+   * User callback: new filter selected (from an existing facet value)
    * @param filterKey key to add
    * @param filterLabel filter label
    * @param openSearchQuery corresponding query
    */
-  onSelectFacet = (filterKey, filterLabel, openSearchQuery) => this.updateStateAndQuery({
-    // remove facet if previously shown, then add it back at end
+  onAddFilter = (filterKey, filterLabel, openSearchQuery) => this.updateStateAndQuery({
     filters: [
-      ...this.getFiltersWithout(filterKey), // remove previous filter for the same key, if any
+      // remove previous filter for the same key, if any
+      ...SearchResultsContainer.removeFilterIn(this.state.filters, filterKey),
+      // add new filter
       { filterKey, filterLabel, openSearchQuery },
     ],
   })
 
   /**
-   * User deleted a selected filter
+   * User callback: a selected filter was removed
+   * @param {filterKey: string} filter to remove
    */
-  onDeleteFacet = filter => this.updateStateAndQuery({
-    filters: this.getFiltersWithout(filter.filterKey),
+  onDeleteFilter = filter => this.updateStateAndQuery({
+    filters: SearchResultsContainer.removeFilterIn(this.state.filters, filter.filterKey),
   })
 
   /**
@@ -333,51 +368,42 @@ export class SearchResultsContainer extends React.Component {
     })
 
   /**
-   * Returns filters from state without key as parameter.
-   * Note: lodash MODIFIES the array, so we need to clone it here
-   * @param {string} filterKey filter key
-   * @returns filters without key as parameter
-   */
-  getFiltersWithout = filterKey => reject(this.state.filters, { filterKey })
-
-  /**
    * Builds opensearch query from properties and state as parameter
    * @param properties : properties to consider when building query
    * @param state : state to consider when building query
    * @return { openSearchQuery, fullSearchQuery, searchActions }: new search state
    */
-  buildSearchState = (
-    {
-      viewObjectType, searchQuery, facettesQuery, levels,
-    },
-    {
-      showingFacettes, filters, attributePresentationModels, initialSortAttributesPath, displayOnlyQuicklook,
-    },
+  buildSearchState = (properties, {
+    showingFacettes, filters, attributePresentationModels, displayOnlyQuicklook,
+  },
   ) => {
-    const showingDataobjects = viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
-    const showingDocuments = viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DOCUMENT
+    const { viewObjectType, searchQuery, levels } = properties
+    const viewConfiguration = SearchResultsContainer.getViewConfiguration(properties)
+    // 1 - compute facets to request and apply (only when they are enabled or working with documents - always enabled)
+    const facetsCurrentlyEnabled = (showingFacettes || viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DOCUMENT) &&
+      viewConfiguration.facets && viewConfiguration.facets.length
+    const requestedFacets = facetsCurrentlyEnabled ? viewConfiguration.facets : []
+    const appliedFilters = facetsCurrentlyEnabled ? filters : []
 
-    // check if facettes should be applied
-    const facettes = (showingFacettes && showingDataobjects) || showingDocuments ? filters : []
-    const facettesQueryPart = showingFacettes || showingDocuments ? facettesQuery : ''
+    // 2 - compute sorting to apply
+    const sortingOn = AttributesPresentationHelper.getSortingOn(attributePresentationModels)
+    const requestedSortingAttributes = sortingOn.length ? sortingOn : AttributesPresentationHelper.getInitialSorting(viewConfiguration.sorting)
 
+    // 3 - compute request to perform on backend
     let searchActions
-    let sorting
     let initialSearchQuery
     let quicklookQuery = ''
     const datasetTag = Tag.getSearchedDatasetTag(levels)
 
     // extract search parameters from level tags (every parameter except the datasets, that may be used specifically into the datasets search)
-    const parameters = levels.reduce((acc, levelTag) => levelTag.isDataset() ? acc : [...acc, OpenSearchQuery.buildTagParameter(levelTag.searchKey)], [])
+    const parameters = levels.reduce((acc, levelTag) => levelTag.isDataset() ?
+      acc : [...acc, OpenSearchQuery.buildTagParameter(levelTag.searchKey)], [])
     if (viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
       // 1 - Data object search : use data object actions, search query, dataset as a Tag on dataobjects
       // and quicklooks filter if enabled
       initialSearchQuery = searchQuery
       searchActions = searchDataobjectsActions
       parameters.push(OpenSearchQuery.buildTagParameter(datasetTag ? datasetTag.searchKey : ''))
-      // check if user specified or sorting or provide one (Only available for dataobjects)
-      const sortingOn = AttributesPresentationHelper.getSortingOn(attributePresentationModels)
-      sorting = sortingOn.length ? sortingOn : initialSortAttributesPath
       // check user is currently showing only quicklook pictures
       if (displayOnlyQuicklook) {
         quicklookQuery = 'exists=files.QUICKLOOK_SD'
@@ -398,9 +424,8 @@ export class SearchResultsContainer extends React.Component {
       // 3 - Showing documents
       searchActions = searchDocumentsActions
     }
-    const openSearchQuery = QueriesHelper.getOpenSearchQuery(initialSearchQuery, facettes, parameters).toQueryString()
-
-    const fullSearchQuery = QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQueryPart, quicklookQuery).toQueryString()
+    const openSearchQuery = QueriesHelper.getOpenSearchQuery(initialSearchQuery, appliedFilters, parameters).toQueryString()
+    const fullSearchQuery = QueriesHelper.getURLQuery(openSearchQuery, requestedSortingAttributes, requestedFacets, quicklookQuery).toQueryString()
 
     return {
       searchActions,
@@ -430,12 +455,17 @@ export class SearchResultsContainer extends React.Component {
     }
   }
 
+  /**
+   * @return {bool} true when current view mode has available facettes: current view configuration has a valid facettes definition
+   */
+  hasFacettes = () => SearchResultsContainer.getViewConfiguration(this.props).facets.length > 0
+
   render() {
     const {
       displayMode, enableFacettes, isFetching, resultsCount, viewObjectType, tableDisplayMode,
-      enableDownload, enableQuicklooks, facettesQuery, dispatchSetEntityAsTag,
+      enableDownload, enableQuicklooks, dispatchSetEntityAsTag,
       datasetsSectionLabel, dataSectionLabel, searchQuery: initialSearchQuery,
-      restrictedDatasetsIpIds, displayConf, accessToken, projectName,
+      restrictedDatasetsIpIds, displayConf, accessToken, projectName, locale,
     } = this.props
 
     const {
@@ -463,7 +493,7 @@ export class SearchResultsContainer extends React.Component {
             <SearchResultsComponent
               enableDownload={enableDownload}
               enableQuicklooks={enableQuicklooks}
-              allowingFacettes={enableFacettes && !!facettesQuery}
+              allowingFacettes={enableFacettes && this.hasFacettes()}
               displayMode={displayMode}
               displayConf={displayConf}
 
@@ -490,11 +520,12 @@ export class SearchResultsContainer extends React.Component {
               attributePresentationModels={attributePresentationModels}
               accessToken={accessToken}
               projectName={projectName}
+              locale={locale}
 
               onChangeColumnsVisibility={this.onChangeColumnsVisibility}
-              onDeleteFacet={this.onDeleteFacet}
+              onDeleteFilter={this.onDeleteFilter}
               onSetEntityAsTag={dispatchSetEntityAsTag}
-              onSelectFacet={this.onSelectFacet}
+              onAddFilter={this.onAddFilter}
               onShowDatasets={this.onShowDatasets}
               onShowDataobjects={this.onShowDataobjects}
               onShowListView={this.onShowListView}

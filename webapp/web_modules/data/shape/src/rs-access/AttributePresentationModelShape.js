@@ -27,8 +27,11 @@ import { AttributeModel } from '../rs-dam/AttributeModel'
 const AttributePresentationModel = PropTypes.shape({
   // The key used to refer to this model
   key: PropTypes.string.isRequired,
-  // Label
-  label: PropTypes.string.isRequired,
+  // internationalized label for presentation
+  label: PropTypes.shape({
+    en: PropTypes.string.isRequired,
+    fr: PropTypes.string.isRequired,
+  }),
   // list (maybe a single element) of attributes to show in this column
   attributes: PropTypes.arrayOf(AttributeModel).isRequired,
   // enable sorting on column?

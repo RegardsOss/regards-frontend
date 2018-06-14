@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { DamDomain } from '@regardsoss/domain'
+
 module.exports = {
   sipId: {
     content: {
@@ -28,7 +30,7 @@ module.exports = {
       attribute: {
         name: 'sipId',
         label: 'sipId',
-        type: '',
+        type: DamDomain.MODEL_ATTR_TYPES.STRING,
         optional: false,
         fragment: {
           id: -1,
@@ -48,7 +50,7 @@ module.exports = {
       attribute: {
         name: 'label',
         label: 'label',
-        type: '',
+        type: DamDomain.MODEL_ATTR_TYPES.STRING,
         optional: false,
         fragment: {
           id: -1,
@@ -68,7 +70,7 @@ module.exports = {
       attribute: {
         name: 'lastUpdate',
         label: 'lastUpdate',
-        type: '',
+        type: DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601,
         optional: true,
         fragment: {
           id: -1,
@@ -88,7 +90,7 @@ module.exports = {
       attribute: {
         name: 'thumbnail',
         label: 'thumbnail',
-        type: '',
+        type: DamDomain.MODEL_ATTR_TYPES.STRING,
         optional: true,
         fragment: {
           id: -1,
@@ -108,7 +110,7 @@ module.exports = {
       attribute: {
         name: 'rawdata',
         label: 'Raw data',
-        type: '',
+        type: DamDomain.MODEL_ATTR_TYPES.STRING,
         optional: true,
         fragment: {
           id: -1,
@@ -128,7 +130,7 @@ module.exports = {
       attribute: {
         name: 'geometry',
         label: 'geometry',
-        type: '',
+        type: DamDomain.MODEL_ATTR_TYPES.STRING,
         optional: true,
         fragment: {
           id: -1,

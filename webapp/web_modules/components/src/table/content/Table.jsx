@@ -57,7 +57,7 @@ class Table extends React.Component {
     lineHeight: PropTypes.number.isRequired,
 
     // dynamic properties
-    entities: PropTypes.arrayOf(PropTypes.object), // Current fetched entities
+    entities: PropTypes.arrayOf(PropTypes.any), // Current fetched entities
     // eslint-disable-next-line react/no-unused-prop-types
     entitiesCount: PropTypes.number, // Total number of entities (even the unfetched ones)
     onScrollEnd: PropTypes.func.isRequired,
@@ -85,8 +85,6 @@ class Table extends React.Component {
    * @return {boolean} true if cells definitions are the same
    */
   static isSameRowCell(cellDefinition1, cellDefinition2) {
-    console.error('One two', cellDefinition1, cellDefinition2, isEqual(cellDefinition1, cellDefinition2))
-    console.error(get(cellDefinition1, 'values') === get(cellDefinition2, 'values'))
     return get(cellDefinition1, 'Constructor') === get(cellDefinition2, 'Constructor') &&
       isEqual(cellDefinition1, cellDefinition2)
   }

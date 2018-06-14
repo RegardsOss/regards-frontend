@@ -24,15 +24,8 @@ const ModuleConfiguration = PropTypes.shape({
   // name of collection model, ordered by level for graph navigation
   graphLevels: PropTypes.arrayOf(PropTypes.string),
   // array of attributes to display on datasets in graph
-  graphDatasetAttributes: AccessShapes.AttributeConfigurationArray,
-  // [Result form module] Default Target of results
-  resultType: PropTypes.string,
-  // [Result form module] Search form attributes configuration
-  attributes: AccessShapes.AttributeConfigurationArray,
-  // [Result form module] Search form attributes regroupements configuration
-  attributesRegroupements: AccessShapes.AttributesGroupConfigurationArray,
-  // [Result form module] should enable facettes?
-  enableFacettes: PropTypes.bool,
+  graphDatasetAttributes: AccessShapes.AttributeListConfigurationModel,
+  // searchResults field: holds search results configuration (cannot type it here as modules don't export that object)
 })
 
 export default ModuleConfiguration

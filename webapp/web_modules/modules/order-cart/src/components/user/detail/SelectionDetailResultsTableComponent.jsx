@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccessDomain, DamDomain } from '@regardsoss/domain'
+import { DamDomain } from '@regardsoss/domain'
 import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
@@ -44,20 +44,19 @@ class SelectionDetailResultsTableComponent extends React.Component {
 
   /** List of attributes presentation models (easier to use with table) */
   static DISPLAYED_ATTRIBUTES_MODELS = [
-    DamDomain.AttributeModelController.standardAttributes.thumbnail,
-    DamDomain.AttributeModelController.standardAttributes.label,
-    DamDomain.AttributeModelController.standardAttributes.ipId,
-    DamDomain.AttributeModelController.standardAttributes.creationDate,
-    DamDomain.AttributeModelController.standardAttributes.lastUpdate,
-  ].map(({
-    key, label, entityPathName, type,
-  }) =>
-    ({
-      key,
-      label,
-      attributes: [AccessDomain.AttributeConfigurationController.getStandardAttributeConf(key)],
-      enableSorting: false,
-    }))
+    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.thumbnail),
+    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.label),
+    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.ipId),
+    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.creationDate),
+    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.lastUpdate),
+  ].map(attribute => ({
+    key: attribute.content.name,
+    label: { // FIXME-WAIT-DM (corresponds with another PM): this is an emulated behavior for non internationalized attributes
+      fakeLocale: attribute.content.label,
+    },
+    attributes: [attribute],
+    enableSorting: false,
+  }))
 
   /** static rendering component (it will update itself with context changes) */
   static NO_DATA_COMPONENT = <SelectionDetailNoDataComponent />
@@ -77,7 +76,9 @@ class SelectionDetailResultsTableComponent extends React.Component {
    */
   renderColumns = () => {
     const { fixedColumnsWidth } = this.context.muiTheme.components.infiniteTable
-    return SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(model => AttributeColumnBuilder.buildAttributeColumn(model, true, null, fixedColumnsWidth))
+    return SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(model =>
+      // FIXME-WAIT-DM (corresponds with another PM): this is an emulated behavior for non internationalized attributes
+      AttributeColumnBuilder.buildAttributeColumn(model, true, null, fixedColumnsWidth, 'fakeLocale'))
   }
 
   render() {

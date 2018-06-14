@@ -30,10 +30,10 @@ import styles from '../../../../../src/styles/styles'
 const context = buildTestContext(styles)
 
 function buildExpectedStandardAttributes(entity) {
-  return AttributeModelController.descriptionStandardAttributes.map(({
-    id, label, type, entityPathName,
+  return AttributesContainer.DESCRIPTION_ATTRIBUTES.map(({
+    id, label, type, jsonPath,
   }) => {
-    const renderValue = AttributeModelController.getEntityAttributeValue(entity, entityPathName)
+    const renderValue = AttributeModelController.getEntityAttributeValue(entity, jsonPath)
     return {
       id, label, Renderer: getTypeRender(type), renderValue,
     }
@@ -151,7 +151,7 @@ describe('[Entities Common] Testing AttributesContainer', () => {
               name: 'aproperty',
               label: 'A Property Label',
               jsonPath: 'properties.aproperty',
-              type: 'string',
+              type: 'STRING',
               fragment: { id: 0, name: 'DEFAULT' },
             },
           },

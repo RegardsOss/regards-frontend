@@ -26,16 +26,23 @@ class TableHeaderText extends React.Component {
   static propTypes = {
     // text to show
     text: PropTypes.string.isRequired,
+    error: PropTypes.bool,
   }
+
+  static defaultProps = {
+    error: false,
+  }
+
   static contextTypes = {
     ...themeContextType,
   }
 
   render() {
-    const { text } = this.props
+    const { text, error } = this.props
     const { moduleTheme: { header } } = this.context
+    const style = error ? header.contentBox.errorTextStyle : header.contentBox.textStyle
     return (
-      <div style={header.contentBox.textStyle}>
+      <div style={style}>
         {
           text
         }

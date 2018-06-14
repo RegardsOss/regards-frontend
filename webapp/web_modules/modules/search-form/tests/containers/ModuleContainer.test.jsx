@@ -18,7 +18,6 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { spy } from 'sinon'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import Styles from '../../src/styles/styles'
 import { UnconnectedModuleContainer } from '../../src/containers/ModuleContainer'
@@ -34,9 +33,7 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
   after(testSuiteHelpers.after)
 
   const context = buildTestContext(Styles)
-  it('Should fetch the model attributes before rendering the criterion plugins', () => {
-    const fetchAttributeCallback = spy()
-
+  it('render and resolve correctly the plugins attributes', () => {
     const criterion = [
       {
         id: 1,
@@ -46,9 +43,9 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
         container: 'content',
         conf: {
           attributes: {
-            testAttr: 0,
-            testAttr2: 1,
-            testAttr3: 'ipId',
+            testAttr: 'a.b.c.failure', // should resolve to server attribute
+            testAttr2: 'undefined.1',
+            testAttr3: 'ipId', // should resolve to standard attribute IP ID
           },
         },
       },
@@ -60,8 +57,8 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
         container: 'content',
         conf: {
           attributes: {
-            testAttr2: 1,
-            testAttr3: 2,
+            testAttr2: 'undefined.2',
+            testAttr3: 'label',
           },
         },
       },
@@ -85,21 +82,25 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
           selectedModels: [],
         },
       },
-      attributeModels: {},
+      attributeModels: {
+        1: {
+          content: {
+            id: 1,
+            jsonPath: 'a.b.c.failure',
+            name: 'failure',
+            label: 'Failure',
+            type: 'INTEGER',
+          },
+        },
+      },
       attributeModelsFetching: true,
-      fetchAttribute: fetchAttributeCallback,
+      fetchAllModelsAttributes: () => { },
       dispatchCollapseForm: () => { },
       dispatchExpandResults: () => { },
     }
     const wrapper = shallow(<UnconnectedModuleContainer
       {...props}
     />, { context })
-
-    // Only 3 attributes to fetch, ids : 0,1 and 2. The attribute with id=ipId is a standard attribute and can not be load
-    assert.equal(fetchAttributeCallback.callCount, 3, 'There should be 3 attributes to fetch')
-    assert.isTrue(fetchAttributeCallback.calledWith(0), 'The attribute with id 0 should be fetched')
-    assert.isTrue(fetchAttributeCallback.calledWith(1), 'The attribute with id 1 should be fetched')
-    assert.isTrue(fetchAttributeCallback.calledWith(2), 'The attribute with id 2 should be fetched')
 
     // Check parameters passed to FormComponent
     const formComponent = wrapper.find(FormComponent)
@@ -113,11 +114,21 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
           pluginId: 1,
           container: 'content',
           conf: {
-            attributes: { // not resolved in attributes pool
-              testAttr: undefined,
-              testAttr2: undefined,
+            attributes: {
+              testAttr: { // resolved from server attributes pool
+                id: 1,
+                jsonPath: 'a.b.c.failure',
+                name: 'failure',
+                label: 'Failure',
+                type: 'INTEGER',
+              },
+              testAttr2: undefined, // not resolved in attributes pool
               testAttr3: { // from standard attributes pool
-                jsonPath: 'ipId', name: 'ipId', label: 'Internal ID', type: 'STRING',
+                id: -1,
+                jsonPath: 'ipId',
+                name: 'ipId',
+                label: 'Internal ID',
+                type: 'STRING',
               },
             },
           },
@@ -129,9 +140,15 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
           pluginId: 2,
           container: 'content',
           conf: {
-            attributes: { // not resolved in attributes pool
-              testAttr2: undefined,
-              testAttr3: undefined,
+            attributes: {
+              testAttr2: undefined, // not resolved in attributes pool
+              testAttr3: { // from standard attributes pool
+                id: -3,
+                name: 'label',
+                label: 'Label',
+                type: 'STRING',
+                jsonPath: 'label',
+              },
             },
           },
         },

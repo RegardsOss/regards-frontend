@@ -57,11 +57,11 @@ const tableToOpenSearchSort = {
  * Returns URL query
  * @param sortingArray [{attributePath, type}] sorting array, where attribute is an attribute path and type is sorting type,
  * from table columns sorting types
- * @param facettesQuery facettes query, facettes to be provided on results (optional)
- * @param facettesQuery quicklook filter (optional)
+ * @param requestedFacets requested facets as configured in module view (with attributes array field)
+ * @param quicklookFilterQuery quicklook filter (optional)
  * @return URL query
  */
-function getURLQuery(openSearchQuery, sortingArray = [], facettesQuery = '', quicklookFilterQuery = '') {
+function getURLQuery(openSearchQuery, sortingArray = [], requestedFacets = [], quicklookFilterQuery = '') {
   // specific query format: put parameter value in parenthesis (when available)
   const queryParamValue = openSearchQuery && `(${openSearchQuery})`
   const urlParameters = [
@@ -71,7 +71,9 @@ function getURLQuery(openSearchQuery, sortingArray = [], facettesQuery = '', qui
     ...sortingArray.map(sorting =>
       new URLSearchQueryParameter(URLSearchQuery.SORT_PARAMETER_NAME, `${sorting.attributePath},${tableToOpenSearchSort[sorting.type]}`)),
     // 3 - facettes query
-    new StaticQueryParameter(facettesQuery),
+    new URLSearchQueryParameter(URLSearchQuery.FACETTES_PARAMETER_NAME,
+      // facette attributes list is always single attribute (by form configuration)
+      requestedFacets.reduce((acc, { attributes }) => [...acc, attributes[0].name], []).join(',')),
     // 4 - Quicklook filter
     new StaticQueryParameter(quicklookFilterQuery),
   ]

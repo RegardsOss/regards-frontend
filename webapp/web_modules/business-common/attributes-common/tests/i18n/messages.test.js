@@ -22,7 +22,7 @@ import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MessagesFr from '../../src/i18n/messages.fr.i18n'
 import MessagesEn from '../../src/i18n/messages.en.i18n'
 
-describe('[Entities Common] Testing i18n', () => {
+describe('[Attributes Common] Testing i18n', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

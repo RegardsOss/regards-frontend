@@ -16,26 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import TextField from 'material-ui/TextField'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
- * Type definition for AttributeRegroupmentConfiguration objects
- * @author Sébastien binda
+ * Adapated text field for table header (just adds styles to a common text field then reports all properties)
+ * @author Raphaël Mechali
  */
-const AttributesGroupConfigurationContent = PropTypes.shape({
-  // Regroupement label
-  label: PropTypes.string,
-  // Attributes associated to this regroupement
-  attributes: PropTypes.arrayOf(PropTypes.number),
-  // Is the regroupement visible ?
-  visibility: PropTypes.bool,
-  // Display order of the attribute
-  order: PropTypes.number,
-})
+class TableHeaderTextField extends React.Component {
+  static contextTypes = {
+    ...themeContextType,
+  }
 
-const AttributesGroupConfigurationArray = PropTypes.arrayOf(AttributesGroupConfigurationContent)
-
-
-module.exports = {
-  AttributesGroupConfigurationContent,
-  AttributesGroupConfigurationArray,
+  render() {
+    const { moduleTheme: { header: { textfield } } } = this.context
+    return (
+      <TextField
+        style={textfield.textStyle}
+        {...this.props}
+      />
+    )
+  }
 }
+export default TableHeaderTextField

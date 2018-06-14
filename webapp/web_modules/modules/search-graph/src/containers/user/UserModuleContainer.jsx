@@ -17,14 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
-import filter from 'lodash/filter'
 import find from 'lodash/find'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import sortBy from 'lodash/sortBy'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
-import { DamDomain, AccessDomain, UIDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { UIClient } from '@regardsoss/client'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
@@ -123,39 +121,21 @@ export class UserModuleContainer extends React.Component {
     if (!isEqual(graphDatasetAttributes, nextGraphDatasetAttributes) || !isEqual(attributeModels, nextAttributesModels)) {
       const attributesConfiguration = nextGraphDatasetAttributes || []
       const fetchedAtributesModels = nextAttributesModels || {}
-      // 1 - filter (only visible attributes from configuration)
-      const filtered = filter(attributesConfiguration, ({ visibility }) => visibility)
-      // 2 - order them as they sould be dispayed (if no order, place before all)
-      const sorted = sortBy(filtered, a => a.order || 0)
-      // 3 - resolve attributes from model (ignore the non resolved attributes, as they come from model changes)
-      const resolvedGraphDatasetAttributes = sorted.reduce((resolvedAcc, attributeConfiguration) => {
-        const fullQualifiedName = attributeConfiguration.attributeFullQualifiedName
-        let resolvedAttribute = null
-        if (AccessDomain.AttributeConfigurationController.isStandardAttribute(attributeConfiguration)) {
-          const attrModel = DamDomain.AttributeModelController.standardAttributes[fullQualifiedName]
-          // 3.a - standard attribute mapping, always resolves
-          resolvedAttribute = {
-            label: attrModel.label,
-            attributePath: fullQualifiedName,
-            render: getTypeRender(attrModel.type),
-            unit: null,
-          }
-        } else {
-          // 3.b - dynamic attribute mapping, resolves if found in fetched models
-          const foundModel = find(fetchedAtributesModels, attributeModel =>
-            DamDomain.AttributeModelController.getAttributeAccessPath(attributeModel) === fullQualifiedName)
-          if (foundModel) {
-            resolvedAttribute = {
-              label: foundModel.content.label,
-              attributePath: DamDomain.AttributeModelController.getAttributeAccessPath(foundModel), // fragment attribute
-              render: getTypeRender(foundModel.content.type),
-              unit: foundModel.content.unit, // attribute unit if any
-            }
-          }
-          // else : not found, ignore it
+      // resolve attributes from model (ignore the non resolved attributes, as they come from model changes)
+      // Note: by configuration, each graphDatasetAttributes element has one and only one attribute
+      const resolvedGraphDatasetAttributes = attributesConfiguration.reduce((resolvedAcc, attributeElement) => {
+        const foundModel = DamDomain.AttributeModelController
+          .findModelFromAttributeFullyQualifiedName(attributeElement.attributes[0].name, fetchedAtributesModels)
+        if (foundModel) {
+          return [...resolvedAcc, {
+            label: foundModel.content.label,
+            attributePath: foundModel.content.jsonPath, // fragment attribute
+            render: getTypeRender(foundModel.content.type),
+            unit: foundModel.content.unit, // attribute unit if any
+          }]
         }
-        // Append only when resolved
-        return resolvedAttribute ? [...resolvedAcc, resolvedAttribute] : resolvedAcc
+        // else : not found, ignore it
+        return resolvedAcc
       }, [])
       this.setState({ graphDatasetAttributes: resolvedGraphDatasetAttributes })
     }

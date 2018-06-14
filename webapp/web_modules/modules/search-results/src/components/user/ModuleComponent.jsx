@@ -37,12 +37,11 @@ class ModuleComponent extends React.Component {
     ...AccessShapes.runtimeDispayModuleFields,
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
-
+    // resolved attribute models containing standard attributes
     attributeModels: DataManagementShapes.AttributeModelList,
 
     // request configuration
     searchQuery: PropTypes.string,
-    facettesQuery: PropTypes.string,
   }
 
   static contextTypes = {
@@ -54,7 +53,6 @@ class ModuleComponent extends React.Component {
     const {
       appName,
       project,
-      facettesQuery,
       attributeModels,
       description,
       page,
@@ -67,17 +65,16 @@ class ModuleComponent extends React.Component {
       enableQuicklooks,
       restrictedDatasetsIpIds,
       searchQuery,
-      attributes,
-      attributesQuicklook,
-      datasetAttributes,
-      documentAttributes,
-      attributesRegroupements,
       displayMode,
       displayConf,
       datasetsSectionLabelFr,
       datasetsSectionLabelEn,
       dataSectionLabelFr,
       dataSectionLabelEn,
+      data,
+      quicklook,
+      dataset,
+      document,
     } = moduleConf
     const locale = get(this.context, 'intl.locale', 'en')
     const datasetsSectionLabel = locale === 'fr' ? datasetsSectionLabelFr : datasetsSectionLabelEn
@@ -93,7 +90,7 @@ class ModuleComponent extends React.Component {
               description={description}
               page={page}
             />
-        }
+          }
           requiredDependencies={dependencies}
           moduleConf={moduleConf}
           {...this.props}
@@ -111,13 +108,12 @@ class ModuleComponent extends React.Component {
             searchQuery={searchQuery}
             datasetsSectionLabel={datasetsSectionLabel}
             dataSectionLabel={dataSectionLabel}
-            facettesQuery={facettesQuery}
-            attributesConf={attributes}
-            attributesQuicklookConf={attributesQuicklook}
-            attributesRegroupementsConf={attributesRegroupements}
-            datasetAttributesConf={datasetAttributes}
-            documentAttributesConf={documentAttributes}
             attributeModels={attributeModels}
+            // typed views configuration
+            data={data}
+            quicklook={quicklook}
+            dataset={dataset}
+            document={document}
           />
         </DynamicModulePane >
         {/* Feedback handling for long actions in module */}

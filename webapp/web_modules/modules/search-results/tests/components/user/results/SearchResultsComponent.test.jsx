@@ -57,15 +57,16 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
 
     projectName: 'project1',
     accessToken: 'abcdef....',
+    locale: 'en',
 
     displayOnlyQuicklook: false,
 
     selectionServices: [],
     // control
     onChangeColumnsVisibility: () => { },
-    onDeleteFacet: () => { },
+    onDeleteFilter: () => { },
     onSetEntityAsTag: () => { },
-    onSelectFacet: () => { },
+    onAddFilter: () => { },
     onShowDatasets: () => { },
     onShowDataobjects: () => { },
     onShowListView: () => { },

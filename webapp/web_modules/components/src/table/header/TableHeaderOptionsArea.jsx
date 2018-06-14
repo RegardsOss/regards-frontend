@@ -24,7 +24,7 @@ import TableHeaderOptionsSeparator from './TableHeaderOptionsSeparator'
 
 /**
  * Table header options area, to be used with tied options, as it allows separating groups (its children) from each other.
- * It is intended to receive TableHeaderOptionsGroup as child (other types will also work though)
+ * It is intended to receive TableHeaderOptionGroup as child (other types will also work though)
  * @author Raphaël Mechali
  */
 class TableHeaderOptionsArea extends React.Component {

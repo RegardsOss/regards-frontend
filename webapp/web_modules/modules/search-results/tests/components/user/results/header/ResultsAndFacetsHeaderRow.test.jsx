@@ -40,7 +40,7 @@ describe('[Search Results] Testing ResultsAndFacetsHeaderRow', () => {
     const props = {
       isFetching: true,
       showFacets: true,
-      onSelectFacet: () => { },
+      onAddFilter: () => { },
       facets: [],
       resultsCount: 22,
     }
@@ -50,7 +50,7 @@ describe('[Search Results] Testing ResultsAndFacetsHeaderRow', () => {
     const props = {
       isFetching: false,
       showFacets: true,
-      onSelectFacet: () => { },
+      onAddFilter: () => { },
       facets: facetsNetworkDump.facets,
       resultsCount: 22,
     }

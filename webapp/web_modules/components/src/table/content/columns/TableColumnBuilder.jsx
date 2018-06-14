@@ -143,7 +143,7 @@ const propertyClosuresCacheMap = {}
 
 /**
  * Closure constructor / cache manager for get property at path on entity. Cache is used here to avoid generating new
- * method lambdas reference, that would otherwise force the table relayouting always (equal does not work on code for
+ * method references, that would otherwise force the table relayouting always (equal does not work on code for
  * the functions and lambdas)
  * @param {*} path path
  * @return {function} closure like entity => value

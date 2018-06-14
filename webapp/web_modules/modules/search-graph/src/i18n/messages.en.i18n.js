@@ -24,17 +24,22 @@ const messages = {
   'search.graph.configuration.tab': 'Graph',
   // 1.a - Graph levels
   'search.graph.configuration.levels.message': 'Browsing graph levels',
-  'search.graph.levels.selection.none.selected.error': 'Select at least 1 item for the graph search',
-  'search.graph.levels.selection.no.selection.hint': 'No selection. You can select levels by clicking on "Add level button"',
-  'search.graph.add.level': 'Add level',
+  'search.graph.levels.selection.none.selected.error': 'No display level selected',
+  'search.graph.levels.selection.header.message': `{count, plural, 
+    =0 {No browing level}
+    one {# browing level}
+    other {# browsing levels}
+  } defined`,
+  'search.graph.levels.selection.no.selection.hint': 'Add here graph browsing levels',
+  'search.graph.add.level': 'Add',
   'search.graph.collection.model.label': '{name} - {description}',
-  'search.graph.selected.levels.column.index': 'Level',
   'search.graph.selected.levels.column.name': 'Name',
   'search.graph.selected.levels.column.description': 'Description',
-  'search.graph.selected.levels.column.actions': 'Actions',
-  'search.graph.selected.levels.column.actions.remove.tooltip': 'Remove level',
+  'search.graph.selected.levels.column.options': 'Options',
+  'search.graph.selected.levels.column.options.remove.tooltip': 'Remove that level',
   // 1.b - Graph dataset attributes
-  'search.graph.configuration.attributes.message': 'Attributes to display on datasets in graph',
+  'search.graph.configuration.attributes.message': 'Displayed datasets attributes',
+  'search.graph.configuration.dataset.attributes.hint': 'Add here attributes to show for datasets when details option is enabled',
   'form.attributes.standard.section.title': 'Common attributes',
   'form.attributes.section.title': 'Dynamic attributes',
   'form.attributes.section.clear.filters.tooltip': 'Clear current filter',

@@ -38,7 +38,7 @@ describe('[SEARCH FACETS] Testing BooleanFacetSelectorComponent', () => {
   it('should render properly', () => {
     const props = {
       facet: aBooleanFacetModel,
-      onSelectFacet: () => { },
+      onAddFilter: () => { },
     }
     const enzymeWrapper = shallow(<BooleanFacetSelectorComponent {...props} />, { context })
     // We assert here that the rendering is correctly delegated to FacetSelectorComponent

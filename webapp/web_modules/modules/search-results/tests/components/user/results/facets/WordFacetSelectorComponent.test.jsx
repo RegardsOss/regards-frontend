@@ -38,7 +38,7 @@ describe('[SEARCH FACETS] Testing WordFacetSelectorComponent', () => {
   it('should render properly', () => {
     const props = {
       facet: aFacetModel,
-      onSelectFacet: () => { },
+      onAddFilter: () => { },
     }
     const enzymeWrapper = shallow(<WordFacetSelectorComponent {...props} />, { context })
     // We assert here that the rendering is correctly delegated to FacetSelectorComponent

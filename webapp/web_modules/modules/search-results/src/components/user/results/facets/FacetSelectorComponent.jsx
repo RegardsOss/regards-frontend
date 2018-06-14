@@ -35,7 +35,7 @@ class FacetSelectorComponent extends React.Component {
     // formats the facet value for filter display
     facetValueFormatterForFilter: PropTypes.func.isRequired,
     // applies a facet filter (key:string, label:string, searchQuery: string)
-    onSelectFacet: PropTypes.func.isRequired,
+    onAddFilter: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -43,10 +43,10 @@ class FacetSelectorComponent extends React.Component {
     ...i18nContextType,
   }
 
-  onSelectFacet = (facetValue) => {
+  onAddFilter = (facetValue) => {
     // apply filter (compute the label value for it)
-    const { onSelectFacet, facetValueFormatterForFilter, facet: { attributeName: filterKey, label } } = this.props
-    onSelectFacet(filterKey, facetValueFormatterForFilter(label || filterKey, facetValue), facetValue.openSearchQuery)
+    const { onAddFilter, facetValueFormatterForFilter, facet: { attributeName: filterKey, label } } = this.props
+    onAddFilter(filterKey, facetValueFormatterForFilter(label || filterKey, facetValue), facetValue.openSearchQuery)
   }
 
   getLabel = () => {
@@ -62,7 +62,7 @@ class FacetSelectorComponent extends React.Component {
     return (
       <DropDownButton
         getLabel={this.getLabel}
-        onChange={this.onSelectFacet}
+        onChange={this.onAddFilter}
       >
         { // add all facets possible choices
           values.map((facetValue) => {

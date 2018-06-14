@@ -80,7 +80,6 @@ export class AdminContainer extends React.Component {
           datasetAttributeModels={this.props.datasetAttributeModels}
           documentAttributeModels={this.props.documentAttributeModels}
           currentFormValues={currentFormValues}
-          initialFormValues={this.props.moduleConf}
           isCreating={this.props.adminForm.isCreating}
           adminConf={adminConf}
           changeField={this.props.adminForm.changeField}

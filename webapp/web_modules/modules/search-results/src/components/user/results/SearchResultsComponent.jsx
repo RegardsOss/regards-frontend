@@ -87,18 +87,18 @@ class SearchResultsComponent extends React.Component {
     // request control
     searchQuery: PropTypes.string.isRequired,
 
-
     accessToken: PropTypes.string,
     projectName: PropTypes.string.isRequired,
+    locale: PropTypes.string.isRequired,
 
     // services from PluginServicesContainer HOC
     selectionServices: AccessShapes.PluginServiceWithContentArray,
 
     // control
     onChangeColumnsVisibility: PropTypes.func.isRequired,
-    onDeleteFacet: PropTypes.func.isRequired,
+    onDeleteFilter: PropTypes.func.isRequired,
     onSetEntityAsTag: PropTypes.func.isRequired,
-    onSelectFacet: PropTypes.func.isRequired,
+    onAddFilter: PropTypes.func.isRequired,
     onShowDatasets: PropTypes.func.isRequired,
     onShowDataobjects: PropTypes.func.isRequired,
     onShowListView: PropTypes.func.isRequired,
@@ -153,7 +153,7 @@ class SearchResultsComponent extends React.Component {
   buildTableColumns = () => {
     const {
       searchSelectors, attributePresentationModels, onSortByAttribute, onSetEntityAsTag,
-      onAddElementToCart, viewObjectType, enableDownload, accessToken, projectName,
+      onAddElementToCart, viewObjectType, enableDownload, accessToken, projectName, locale,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
@@ -175,6 +175,7 @@ class SearchResultsComponent extends React.Component {
           this.isColumnVisible(presentationModel.key),
           onSortByAttribute,
           fixedColumnsWidth,
+          locale,
         )),
       // Options in current context
       TableColumnBuilder.buildOptionsColumn(
@@ -220,7 +221,8 @@ class SearchResultsComponent extends React.Component {
   */
   buildListColumn = () => {
     const {
-      attributePresentationModels, onAddElementToCart, onSetEntityAsTag, enableDownload, viewObjectType, accessToken, projectName,
+      attributePresentationModels, onAddElementToCart, onSetEntityAsTag,
+      enableDownload, viewObjectType, accessToken, projectName, locale,
     } = this.props
     const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
@@ -232,7 +234,7 @@ class SearchResultsComponent extends React.Component {
       props: {
         // prefetch attributes from models to enhance render time
         thumbnailRenderData: packThumbnailRenderData(attributePresentationModels),
-        gridAttributesRenderData: packGridAttributesRenderData(attributePresentationModels),
+        gridAttributesRenderData: packGridAttributesRenderData(attributePresentationModels, locale),
         selectionEnabled: enableSelection,
         servicesEnabled: enableServices,
         onSearchEntity: enableNavigateTo ? onSetEntityAsTag : null,
@@ -274,9 +276,9 @@ class SearchResultsComponent extends React.Component {
     const {
       allowingFacettes, attributePresentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
       viewObjectType, tableViewMode, showingFacettes, facets, filters, searchQuery, selectionServices, onChangeColumnsVisibility,
-      onDeleteFacet, onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
+      onDeleteFilter, onAddFilter, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
       onStartSelectionService, onAddSelectionToCart, onShowQuicklookView, enableQuicklooks, displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook,
-      onAddElementToCart, enableDownload, accessToken, projectName, datasetsSectionLabel, dataSectionLabel,
+      onAddElementToCart, enableDownload, accessToken, projectName, datasetsSectionLabel, dataSectionLabel, locale,
     } = this.props
 
     let columns
@@ -320,6 +322,7 @@ class SearchResultsComponent extends React.Component {
           selectionServices={selectionServices}
           datasetsSectionLabel={datasetsSectionLabel}
           dataSectionLabel={dataSectionLabel}
+          locale={locale}
           onAddSelectionToCart={onAddSelectionToCart}
           onChangeColumnsVisibility={onChangeColumnsVisibility}
           onShowDataobjects={onShowDataobjects}
@@ -337,14 +340,14 @@ class SearchResultsComponent extends React.Component {
           showFacets={showFacets}
           resultsCount={resultsCount}
           facets={facets}
-          onSelectFacet={onSelectFacet}
+          onAddFilter={onAddFilter}
           isFetching={isFetching}
         />
         {/* Third header row (only with facets enabled):  */}
         <SelectedFacetsHeaderRow
           showingFacettes={showFacets}
           filters={filters}
-          onDeleteFilter={onDeleteFacet}
+          onDeleteFilter={onDeleteFilter}
         />
         {this.isInQuicklookView() ? (
           <InfiniteGalleryContainer

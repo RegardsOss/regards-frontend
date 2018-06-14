@@ -27,7 +27,7 @@ export default class OptionsCell extends React.Component {
     // common cell content properties
     rowIndex: PropTypes.number.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    entity: PropTypes.object.isRequired,
+    entity: PropTypes.any.isRequired,
     // list of properties with render delegate constructor for that property
     optionsDefinitions: PropTypes.arrayOf(PropTypes.shape({
       OptionConstructor: PropTypes.func.isRequired,

@@ -22,7 +22,7 @@ import { themeContextType } from '@regardsoss/theme'
  * Contains a group of options (to be used in a table header options area)
  * @author Raphaël Mechali
  */
-class TableHeaderOptionsGroup extends React.Component {
+class TableHeaderOptionGroup extends React.Component {
   static propTypes = {
     // expected options as children
     children: PropTypes.oneOfType([
@@ -46,5 +46,5 @@ class TableHeaderOptionsGroup extends React.Component {
     return show ? (<div style={groupStyle}>{children}</div>) : null
   }
 }
-export default TableHeaderOptionsGroup
+export default TableHeaderOptionGroup
 

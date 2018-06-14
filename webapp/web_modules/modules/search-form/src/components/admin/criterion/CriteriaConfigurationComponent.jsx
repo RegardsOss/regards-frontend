@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
+import values from 'lodash/values'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -53,19 +54,17 @@ class CriteriaConfigurationComponent extends React.Component {
     const allowedAttributesTypes = criteriaAttribute.attributeType || []
 
     const allAttributes = [
-      // 1 - Convert all attributes to have objects like: { id (react key), key (item value), label, type, ...*}
-      ...DamDomain.AttributeModelController.searchableStandardAttributes,
-      ...map(selectableAttributes, selectableAttribute => ({
-        id: selectableAttribute.content.id,
-        key: selectableAttribute.content.id,
-        type: selectableAttribute.content.type,
-        label: DamDomain.AttributeModelController.getAttributeModelFullLabel(selectableAttribute),
-      }))].filter(
+      // 1 - add all searchable standard attributes and server attributes
+      ...DamDomain.AttributeModelController.standardAttributesAsModel.filter(
+        DamDomain.AttributeModelController.isSearchableAttribute),
+      ...values(selectableAttributes),
+    ].filter(
       // 2 - filter attributes on expected type
-      ({ type }) => allowedAttributesTypes.includes(type),
-    ).sort(
-      // 3 - sort attributes alphabetically
-      ({ label: l1 }, { label: l2 }) => StringComparison.compare(l1, l2))
+      ({ content: { type } }) => allowedAttributesTypes.includes(type),
+    ).sort( // 3 - sort attributes alphabetically
+      (a1, a2) => StringComparison.compare(
+        DamDomain.AttributeModelController.getAttributeModelFullLabel(a1),
+        DamDomain.AttributeModelController.getAttributeModelFullLabel(a2)))
 
     return (
       <div key={criteriaAttribute.name}>
@@ -79,13 +78,13 @@ class CriteriaConfigurationComponent extends React.Component {
           validate={ValidationHelpers.required}
           label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.attribute.label' })}
         >
-          { // map each parameter available, built previously
-              allAttributes.map(({ id, key, label }) => (
-                <MenuItem
-                  key={id}
-                  value={key}
-                  primaryText={label}
-                />))
+          { // map each parameter available
+            allAttributes.map(attribute => (
+              <MenuItem
+                key={attribute.content.id}
+                value={attribute.content.jsonPath}
+                primaryText={DamDomain.AttributeModelController.getAttributeModelFullLabel(attribute)}
+              />))
           }
         </Field>
       </div>

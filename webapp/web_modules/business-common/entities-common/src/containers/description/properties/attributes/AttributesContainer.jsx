@@ -20,7 +20,7 @@ import compose from 'lodash/fp/compose'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isUndefined from 'lodash/isUndefined'
-import map from 'lodash/map'
+import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
 import { CatalogShapes, DataManagementShapes } from '@regardsoss/shape'
@@ -64,6 +64,15 @@ export class AttributesContainer extends React.Component {
     attributes: [], // currently fetched attributes
   }
 
+  /** List of description attributes we want to show in description view */
+  static DESCRIPTION_ATTRIBUTES = [
+    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.ipId),
+    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.sipId),
+    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.label),
+    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.creationDate),
+    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.lastUpdate),
+  ].map(({ content }) => content)
+
   componentWillMount = () => this.onPropertiesChanges({}, this.props)
 
   componentWillReceiveProps = nextProps => this.onPropertiesChanges(this.props, nextProps)
@@ -105,39 +114,24 @@ export class AttributesContainer extends React.Component {
   /**
   * Resolves found model attributes in
   */
-  resolveEntityAttributes = (nextEntity, newModelAttributes) => {
-    // 1 - resolve standard attributes
-    const descriptionStandardAttributes = DamDomain.AttributeModelController.descriptionStandardAttributes.map(
-      ({
-        id, label, type, entityPathName,
-      }) => {
-        // retrieve value
-        const value = DamDomain.AttributeModelController.getEntityAttributeValue(nextEntity, entityPathName)
-        // resolve attribute
-        return {
-          id, label, Renderer: getTypeRender(type), renderValue: value,
-        }
-      })
-    // 2 - resolve dynamic attributes
-    const dynamicAttributes = map(newModelAttributes, ({ content: { attribute: attributeModel } }) => {
-      // resolve attribute value in entity (push attribute in content, as it is not normalized )
-      const accessPath = DamDomain.AttributeModelController.getAttributeAccessPath({ content: attributeModel })
-      const renderValue = DamDomain.AttributeModelController.getEntityAttributeValue(nextEntity, accessPath)
-      const resolvedAtribute = {
-        id: attributeModel.id,
-        label: attributeModel.label,
-        Renderer: getTypeRender(attributeModel.type),
-        renderValue,
-      }
-      // Any dynamic attribute can have a unit specified. If one is present set the unit into the resolved attribute
-      if (attributeModel.unit) {
-        resolvedAtribute.renderUnit = attributeModel.unit
-      }
-      return resolvedAtribute
-    })
-    // 3 - make table and sort
-    return [...descriptionStandardAttributes, ...dynamicAttributes].sort((attr1, attr2) => StringComparison.compare(attr1.label, attr2.label))
-  }
+  resolveEntityAttributes = (nextEntity, newModelAttributes) => [
+    // 1 - build the full list of attributes (standard + server ones) (note: we want common attributes outside content here)
+    ...AttributesContainer.DESCRIPTION_ATTRIBUTES,
+    ...values(newModelAttributes).map(({ content: { attribute } }) => attribute),
+  ].map((attributeModel) => { // 2 - convert it to render model (with resolved value and render)
+    const resolvedAtribute = {
+      id: attributeModel.id,
+      label: attributeModel.label,
+      Renderer: getTypeRender(attributeModel.type),
+      renderValue: DamDomain.AttributeModelController.getEntityAttributeValue(nextEntity, attributeModel.jsonPath),
+    }
+    // Any dynamic attribute can have a unit specified. If one is present set the unit into the resolved attribute
+    if (attributeModel.unit) {
+      resolvedAtribute.renderUnit = attributeModel.unit
+    }
+    return resolvedAtribute
+  }).sort((attr1, attr2) => // 3 - sort on label
+    StringComparison.compare(attr1.label, attr2.label))
 
   render() {
     const { loading } = this.props
