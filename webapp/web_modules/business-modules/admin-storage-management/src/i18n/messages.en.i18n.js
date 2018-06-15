@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
+
 /**
  * @author Sébastien Binda
  */
@@ -25,8 +26,8 @@ const messages = Object.assign({
   'storage.data-storage.plugins.list.subtitle': 'This section allows you to configure storage locations and their prority. The priority is used by the system to determine on which storage location retrieve datas if they are stored on many of them.',
   'storage.data-storage.plugins.list.header.priority.label': 'Priority',
   'storage.data-storage.plugins.list.header.id.label': 'Identifier',
-  'storage.data-storage.plugins.list.header.name.label': 'Storage',
-  'storage.data-storage.plugins.list.header.type.label': 'Storage type',
+  'storage.data-storage.plugins.list.header.name.label': 'Label',
+  'storage.data-storage.plugins.list.header.type.label': 'Storage mode',
   'storage.data-storage.plugins.list.header.active.label': 'Enable/Disable',
   'storage.data-storage.plugins.list.edit.button': 'Edit configuration',
   'storage.data-storage.plugins.list.duplicate.button': 'Duplicate configuration',
