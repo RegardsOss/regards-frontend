@@ -1,37 +1,46 @@
 [
   {
-    "confId": 1,
-    "label": "ServerHDD",
-    "description": "Main server hard drives",
-    "totalSize": "25To",
-    "usedSize": "0.9To"
+    "content": {
+      "confId": 202,
+      "description": "Plugin to handle files storage for a specific archive of the CNES STAF (Mock) System.",
+      "label": "STAF Mock",
+      "totalSize": "10000000000B",
+      "usedSize": "13330000000B",
+      "ratio": 1.333
+    },
+    "links": [
+      {
+        "rel": "list",
+        "href": "http://172.26.47.52/api/v1/rs-storage/storages/monitoring",
+        "template": {
+          "variables": {
+            "variables": []
+          },
+          "baseUri": "http://172.26.47.52/api/v1/rs-storage/storages/monitoring"
+        }
+      }
+    ]
   },
   {
-    "confId": 2,
-    "label": "STAFF",
-    "description": "STAFF storage engine",
-    "totalSize": "1500tib",
-    "usedSize": "152.85666tib"
-  },
-  {
-    "confId": 3,
-    "label": "Emergency server HDD",
-    "description": "DB Storage with postgreSQL",
-    "totalSize": "12.5To",
-    "usedSize": "8To"
-  },
-  {
-    "confId": 4,
-    "label": "FLUT",
-    "description": "FLUT - External safe cloud storage",
-    "totalSize": "0.5Po",
-    "usedSize": "0boot"
-  },
-  {
-    "confId": 5,
-    "label": "Strange plugin",
-    "description": "A strange storage plugin with wrong formats",
-    "totalSize": "8Txxo",
-    "usedSize": "ddOp"
+    "content": {
+      "confId": 1,
+      "description": "Plugin handling the storage on local file system",
+      "label": "chris local storage",
+      "totalSize": "10000000000B",
+      "usedSize": "92258664B",
+      "ratio": 0.9225866399999999
+    },
+    "links": [
+      {
+        "rel": "list",
+        "href": "http://172.26.47.52/api/v1/rs-storage/storages/monitoring",
+        "template": {
+          "variables": {
+            "variables": []
+          },
+          "baseUri": "http://172.26.47.52/api/v1/rs-storage/storages/monitoring"
+        }
+      }
+    ]
   }
 ]

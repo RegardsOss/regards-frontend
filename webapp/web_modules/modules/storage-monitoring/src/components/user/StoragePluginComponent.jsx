@@ -41,7 +41,6 @@ class StoragePluginComponent extends React.Component {
     const { storagePlugin } = this.props
     const { label, description } = storagePlugin
     const { moduleTheme: { user: { pluginCard } } } = this.context
-
     return (
       <Card className={pluginCard.classes} style={pluginCard.root} containerStyle={pluginCard.contentStyle}>
         <CardTitle

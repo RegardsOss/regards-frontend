@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CommonShapes } from '@regardsoss/shape'
 import { storage } from '@regardsoss/units'
 
 /**
@@ -32,6 +31,6 @@ export const ParsedStoragePluginShape = PropTypes.shape({
   totalSize: PropTypes.instanceOf(storage.StorageCapacity),
   usedSize: PropTypes.instanceOf(storage.StorageCapacity),
   unusedSize: PropTypes.instanceOf(storage.StorageCapacity),
-  usedPercent: CommonShapes.Percent,
-  unusedPercent: CommonShapes.Percent,
+  usedPercent: PropTypes.number,
+  unusedPercent: PropTypes.number,
 })
