@@ -140,7 +140,7 @@ class AcquisitionProcessingChainMonitoringListFiltersComponent extends React.Com
   renderFilters = () => {
     const { intl: { formatMessage }, moduleTheme: { monitoring: { filters } } } = this.context
     return (
-      <TableHeaderLine>
+      <TableHeaderLine key="filters">
         <TableHeaderOptionsArea reducible>
           <TableHeaderOptionGroup>
             <SelectField
@@ -213,7 +213,7 @@ class AcquisitionProcessingChainMonitoringListFiltersComponent extends React.Com
   }
 
   renderActionsLine = () => (
-    <TableHeaderLine>
+    <TableHeaderLine key="options">
       <TableHeaderOptionsArea>
         <TableHeaderOptionGroup>
           <FlatButton
