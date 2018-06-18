@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNumber from 'lodash/isNumber'
 import { StorageUnits } from './StorageUnit'
 
 /**
@@ -49,7 +50,7 @@ const SMALL_UNITS_FORMAT_OPTIONS = {
 export default function formatStorageCapacity(formatMessage, formatNumber, capacity) {
   let id = 'storage.capacity.monitoring.capacity.unknown'
   const values = {}
-  if (capacity && capacity.value && capacity.unit) {
+  if (capacity && isNumber(capacity.value) && capacity.unit) {
     id = 'storage.capacity.monitoring.capacity'
     // unit
     values.unitLabel = formatMessage({ id: capacity.unit.messageKey })

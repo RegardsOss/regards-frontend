@@ -331,71 +331,12 @@ function buildLocalServices(gatewayURL) {
         url: 'rs-admin/resources',
         handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies)
       },
-      getPrioritizedDataStorages: {
-        url: 'rs-storage/storages',
-        handler: (req, resp, pathParameters, { type }) => {
-          const content = type === 'ONLINE' ?
-            JSON.parse(loadFile('mocks/proxy/resources/mock-prioritizeddatastorage-online.json')) :
-            JSON.parse(loadFile('mocks/proxy/resources/mock-prioritizeddatastorage-nearline.json'))
-          return { content }
+      getStorages: {
+        url: 'rs-storage/storages/monitoring',
+        handler: (req, resp) => {
+          return { content: JSON.parse(loadFile('mocks/proxy/resources/mock-storage-monitoring.json')) }
         }
       },
-      getPrioritizedDataStorage: {
-        url: 'rs-storage/storages/{id}',
-        handler: (req, resp, { id }, { dataStorageType }) => {
-          const onlines = JSON.parse(loadFile('mocks/proxy/resources/mock-prioritizeddatastorage-online.json'))
-          const nearlines = JSON.parse(loadFile('mocks/proxy/resources/mock-prioritizeddatastorage-nearline.json'))
-          const content = onlines.find(c => c.content.id === parseInt(id)) || nearlines.find(c => c.content.id === parseInt(id)) || {}
-          return { content }
-        }
-      },
-      // proxyQuicklook: { url: 'rs-access-project/dataobjects/search', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-access-project/dataobjects/search`, addQuicklook) },
-      // getBasket: { url: 'rs-order/order/basket', handler: getBasket },
-      // getNotifications: {
-      //   url: 'rs-admin/notifications', handler: () => {
-      //     const content = JSON.parse(loadFile('mocks/proxy/resources/mock-notifications.json'))
-      //     return { content }
-      //   }
-      // },
-      // getSessions: {
-      //   url: 'rs-ingest/sessions', handler: () => {
-      //     const content = JSON.parse(loadFile('mocks/proxy/resources/mock-ingest-sessions.json'))
-      //     return { content }
-      //   }
-      // },
-      // userOrders: {
-      //   url: 'user/orders', handler: (req, resp, pathParameters, { page, size }) => {
-      //     const pageIndex = parseInt(page, 10)
-      //     const ordersList = MOCKED_ORDERS_LIST.slice(pageIndex * size, Math.min((pageIndex + 1) * size, MOCKED_ORDERS_LIST.length))
-      //     return {
-      //       content: {
-      //         content: ordersList,
-      //         metadata: {
-      //           number: pageIndex,
-      //           size: ordersList.length,
-      //           totalElements: MOCKED_ORDERS_LIST.length,
-      //         },
-      //       }
-      //     }
-      //   }
-      // },
-      // userOderFiles: {
-      //   url: 'rs-order/orders/{orderId}/dataset/{datasetId}/files',
-      //   handler: (req, resp, { orderId, datasetId }, { page, size }) => {
-      //     const pageIndex = parseInt(page, 10)
-      //     const filesList = MOCKED_ORDER_DS_FILES_LIST.slice(pageIndex * size, Math.min((pageIndex + 1) * size, MOCKED_ORDER_DS_FILES_LIST.length))
-      //     return {
-      //       content: {
-      //         content: filesList,
-      //         metadata: {
-      //           number: pageIndex,
-      //           size: filesList.length,
-      //           totalElements: MOCKED_ORDER_DS_FILES_LIST.length,
-      //         },
-      //       }
-      //     }
-      //   }
-      // },
     },
     PUT: {
       // pause order

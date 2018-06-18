@@ -83,6 +83,26 @@ describe('[Storage Monitoring] Testing StoragePluginContainer ', () => {
     assert.isNotOk(secondConvertedPlugin.usedPercent)
     assert.isNotOk(secondConvertedPlugin.unusedPercent)
   })
+  it('should round unused size to 0 when used size overflows capacity', () => {
+    // An overflowing used size storage plugin
+    const props = {
+      userApp: true,
+      scale: storage.StorageUnitScale.bytesScale,
+      plugin: {
+        content: {
+          confId: 1,
+          label: 'X',
+          description: 'Y',
+          totalSize: '25To',
+          usedSize: '27To',
+        },
+      },
+    }
+    const enzymeWrapper = shallow(<StoragePluginContainer {...props} />, { context })
+    const { parsedStoragePlugin } = enzymeWrapper.state()
+    assert.equal(parsedStoragePlugin.unusedSize.value, 0)
+    assert.equal(parsedStoragePlugin.unusedPercent, 0)
+  })
   it('should render correctly in admin app', () => {
     const props = {
       userApp: false,

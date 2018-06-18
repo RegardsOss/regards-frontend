@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNumber from 'lodash/isNumber'
 import Subheader from 'material-ui/Subheader'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
@@ -71,7 +72,7 @@ export class StoragePluginLegendComponent extends React.Component {
     const label = formatMessage({ id: labelKey })
     const capacity = storage.formatStorageCapacity(formatMessage, formatNumber, size)
     let message
-    if (percent) { // label for knwon percent
+    if (isNumber(percent)) { // label for knwon percent
       const percentLabel = formatNumber(percent, StoragePluginLegendComponent.NUMBER_FORMAT_OPTIONS)
       message = formatMessage({ id: 'archival.storage.capacity.monitoring.size.with.percent' }, { label, capacity, percentLabel })
     } else { // no label

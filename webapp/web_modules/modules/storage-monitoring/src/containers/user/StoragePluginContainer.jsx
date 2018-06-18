@@ -98,9 +98,13 @@ export class StoragePluginContainer extends React.Component {
     let unusedPercent = null
 
     if (totalSize && usedSize) {
-      unusedSize = totalSize.subtract(usedSize)
       usedPercent = StoragePluginContainer.computePercents(totalSize, usedSize)
-      unusedPercent = StoragePluginContainer.TOTAL_PERCENT - usedPercent
+      // compute unused size, knowing the server lets used size grow ABOVE 100% (forbid negative values)
+      unusedSize = totalSize.subtract(usedSize)
+      if (unusedSize.value < 0) {
+        unusedSize.value = 0
+      }
+      unusedPercent = Math.max(StoragePluginContainer.TOTAL_PERCENT - usedPercent, 0)
     }
     this.setState({
       parsedStoragePlugin: {
