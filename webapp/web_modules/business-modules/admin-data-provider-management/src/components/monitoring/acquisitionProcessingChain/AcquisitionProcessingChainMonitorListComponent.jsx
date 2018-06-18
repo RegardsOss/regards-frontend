@@ -30,6 +30,7 @@ import AcquisitionProcessingChainMonitoringTableStopAction from './AcquisitionPr
 import AcquisitionProcessingChainMonitoringActivityRenderer from './AcquisitionProcessingChainMonitoringActivityRenderer'
 import AcquisitionProcessingChainMonitoringProductsRenderer from './AcquisitionProcessingChainMonitoringProductsRenderer'
 import AcquisitionProcessingChainMonitoringFilesRenderer from './AcquisitionProcessingChainMonitoringFilesRenderer'
+import AcquisitionProcessingChainMonitorModeRenderer from './AcquisitionProcessingChainMonitorModeRenderer'
 import AcquisitionProcessingChainMonitoringListFiltersComponent from './AcquisitionProcessingChainMonitoringListFiltersComponent'
 import { AcquisitionProcessingChainMonitorActions, AcquisitionProcessingChainMonitorSelectors }
   from '../../../clients/AcquisitionProcessingChainMonitorClient'
@@ -89,7 +90,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     if (this.timeout) {
       clearTimeout(this.timeout)
     }
-    this.handleRefresh().then((ActionResult) => {
+    this.handleRefresh().then(() => {
       this.timeout = setTimeout(this.autoRefresh, AcquisitionProcessingChainMonitorListComponent.AUTO_REFRESH_PERIOD)
     })
   }
@@ -162,18 +163,20 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     )
 
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('column.name', formatMessage({ id: 'acquisition-chain.monitor.list.label' }), 'content.chain.label'),
+      TableColumnBuilder.buildSimplePropertyColumn('column.name', formatMessage({ id: 'acquisition-chain.monitor.list.label' }), 'content.chain.label', 1, true),
+      TableColumnBuilder.buildSimplePropertyColumn('column.mode', formatMessage({ id: 'acquisition-chain.monitor.list.mode' }), 'content.chain.mode', 2, true,
+        AcquisitionProcessingChainMonitorModeRenderer),
       TableColumnBuilder.buildSimpleColumnWithCell('column.running', formatMessage({ id: 'acquisition-chain.monitor.list.running' }), {
         Constructor: AcquisitionProcessingChainMonitoringActivityRenderer,
-      }),
+      }, 3, true),
       TableColumnBuilder.buildSimpleColumnWithCell('column.products', formatMessage({ id: 'acquisition-chain.monitor.list.total-nb-products' }), {
         Constructor: AcquisitionProcessingChainMonitoringProductsRenderer,
         props: { project },
-      }),
+      }, 4, true),
       TableColumnBuilder.buildSimpleColumnWithCell('column.files', formatMessage({ id: 'acquisition-chain.monitor.list.total-nb-files' }), {
         Constructor: AcquisitionProcessingChainMonitoringFilesRenderer,
         props: { project },
-      }),
+      }, 5, true),
       TableColumnBuilder.buildOptionsColumn('column.files.actions', [{
         OptionConstructor: AcquisitionProcessingChainMonitoringTableRunAction,
         optionProps: { onRunChain: this.runChainAction },
