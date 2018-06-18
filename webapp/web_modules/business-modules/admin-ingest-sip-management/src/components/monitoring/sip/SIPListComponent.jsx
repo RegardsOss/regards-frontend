@@ -117,7 +117,7 @@ class SIPListComponent extends React.Component {
 
   onConfirmDelete = (deleteAction) => {
     this.closeDeleteDialog()
-    const { sipToDelete } = this.state
+    const { sipToDelete, appliedFilters } = this.state
     if (sipToDelete) {
       const sipId = get(this.state, 'sipToDelete.content.sipId', '')
       const { intl: { formatMessage } } = this.context
@@ -133,14 +133,14 @@ class SIPListComponent extends React.Component {
           // Display error dialogs if errors are raised by the service.
           // A 200 OK response is sent by the backend. So we check errors into the response payload.
           this.displayDeletionErrors(sipId, get(actionResult, 'payload', []))
-          // After, refresh the list
-          this.props.onRefresh()
+          // Refresh view
+          this.props.onRefresh(appliedFilters)
         }
       })
     }
   }
 
-  onDelete = (sipToDelete) => {
+  onDelete = (sipToDelete) => { // note: we ignore here the table callback (refresh will be performed locally)
     this.setState({
       sipToDelete,
     })
@@ -169,7 +169,7 @@ class SIPListComponent extends React.Component {
           optionProps: {
             handleHateoas: true,
             disableInsteadOfHide: true,
-            fetchPage: this.props.fetchPage,
+            fetchPage: this.props.fetchPage, // note: this will not be used (refresh is handled locally)
             onDelete: this.onDelete,
             queryPageSize: 20,
           },
@@ -185,7 +185,7 @@ class SIPListComponent extends React.Component {
           handleHateoas: true,
           disableInsteadOfHide: true,
           fetchPage: this.props.fetchPage,
-          onDelete: this.onDelete,
+          onDelete: this.onDelete, // note: this will not be used (refresh is handled locally)
           queryPageSize: 20,
         },
       }], true, fixedColumnWidth)
