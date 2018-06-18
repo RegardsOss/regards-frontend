@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { DataProviderDomain } from '@regardsoss/domain'
 import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfiguration'
 import { AcquisitionFileInfoContent } from './AcquisitionFileInfo'
 
@@ -29,7 +30,7 @@ const AcquisitionProcessingChainContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
   active: PropTypes.bool.isRequired,
-  mode: PropTypes.string.isRequired,
+  mode: PropTypes.oneOf(DataProviderDomain.AcquisitionProcessingChainModes).isRequired,
   session: PropTypes.string,
   locked: PropTypes.bool,
   lastDateActivation: PropTypes.string,

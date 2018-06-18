@@ -97,6 +97,9 @@ const messages = Object.assign({
 
   // 3.1.2 Table header
   'acquisition-chain.monitor.list.label': 'Label',
+  'acquisition-chain.monitor.list.mode': 'Mode',
+  'acquisition-chain.monitor.list.mode.AUTO': 'Automatic',
+  'acquisition-chain.monitor.list.mode.MANUAL': 'Manual',
   'acquisition-chain.monitor.list.running': 'Status',
   'acquisition-chain.monitor.list.activity.not.running': 'Stopped',
   'acquisition-chain.monitor.list.activity.not.running.date': 'Stopped since {date}',
