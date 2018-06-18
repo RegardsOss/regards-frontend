@@ -116,6 +116,7 @@ export class SIPListContainer extends React.Component {
 
   handleGoBack = (level) => {
     const { params: { project, session, sip } } = this.props
+    const encodedSessionName = encodeURIComponent(session)
     let url
     switch (level) {
       case 0:
@@ -124,11 +125,11 @@ export class SIPListContainer extends React.Component {
         break
       case 1:
         // Go back to sips of the given session
-        url = `/admin/${project}/data/acquisition/sip/${session}/list`
+        url = `/admin/${project}/data/acquisition/sip/${encodedSessionName}/list`
         break
       default:
         if (sip) {
-          url = `/admin/${project}/data/acquisition/sip/${session}/list`
+          url = `/admin/${project}/data/acquisition/sip/${encodedSessionName}/list`
         } else {
           url = `/admin/${project}/data/acquisition/sip/session`
         }
@@ -157,7 +158,9 @@ export class SIPListContainer extends React.Component {
 
   goToSipHistory = (sipId) => {
     const { params: { project, session } } = this.props
-    const url = `/admin/${project}/data/acquisition/sip/${session}/${sipId}/history`
+    const encodedSessionName = encodeURIComponent(session)
+    const encodedSipId = encodeURIComponent(sipId)
+    const url = `/admin/${project}/data/acquisition/sip/${encodedSessionName}/${encodedSipId}/history`
     browserHistory.push(url)
   }
 
