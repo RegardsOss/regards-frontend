@@ -90,7 +90,7 @@ const menuStyles = (theme) => {
         styles: {
           alignSelf: 'center',
           maxWidth: `${column.bestWidth - (column.leftMargin + column.rightMargin)}px`,
-          wordWrap: 'break-word',
+          wordBreak: 'break-all',
           fontSize: '0.9em',
           margin: '5px 0 0 0',
           textAlign: 'center',
@@ -242,7 +242,7 @@ const menuStyles = (theme) => {
           // common styles for all states
           commonStyles: {
             margin: '3px 0 0 0',
-            wordWrap: 'break-word',
+            wordBreak: 'break-all',
             flexShrink: 1,
             flexGrow: 1,
           },
