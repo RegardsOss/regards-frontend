@@ -86,14 +86,14 @@ class PluginLoader extends React.Component {
       loadedPlugin, pluginPath, pluginInstanceId,
     } = newProps
     // case 1: when loaded plugin could not be retrieved from server, start fetching it
-    if (!loadedPlugin) {
+    if (!loadedPlugin && oldProps.pluginPath !== newProps.pluginPath) {
       this.setState({
         loadError: false,
         errorDep: undefined,
         pluginInitialized: false,
       })
       newProps.loadPlugin(pluginPath, this.errorCallback)
-    } else if (!this.state.pluginInitialized) {
+    } else if (!this.state.pluginInitialized && loadedPlugin) {
       // case 2: when plugin is loadeded but not yet initilized, perform initialization and mark it done
       pluginReducerHelper.initializePluginReducer(loadedPlugin, pluginInstanceId) // install reducer
       this.setState({ pluginInitialized: true }) // mark initialized
