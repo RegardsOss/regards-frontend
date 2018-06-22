@@ -49,49 +49,37 @@ function buildThumbnailDelegates(thumbnailAttribute) {
  * @param {*} presentationModel an attribute presentation model, see AttributePresentationModel shape
  * @param {bool} visible is column visible
  * @param {func} onSort on sort callback
- * @param {number} fixedColumnsWidth fixed columns width for options and alike
  * @param {string} locale the locale to resolve label to use for column
  * @return {TableColumnConfiguration} column built
  */
 function buildAttributeColumn({
   key, label, attributes, order,
   enableSorting, sortOrder, sortIndex,
-}, visible, onSort, fixedColumnsWidth, locale) {
+}, visible, onSort, locale) {
   if (attributes.length < 1) {
     throw new Error(`An attribute presentation model must have attributes! (${key}/${label})`)
   }
-  // 0 - precompute column label
-  const columnLabel = get(label, locale, '')
-  // 1 - determine column header, width and render
-  let columnHeader
-  let columnWidth
-  let renderDelegates
+  // 1 - build common column elements
+  const columnBuilder = new TableColumnBuilder(key).label(get(label, locale, '')).visible(visible).order(order)
+  // 2 - determine column header, width and render
   // check, by key, if we are currently rendering the thumbnail column
   const isThumbnailColumn = attributes.length === 1 &&
     DamDomain.AttributeModelController.standardAttributesKeys.thumbnail === attributes[0].content.name
   if (isThumbnailColumn) {
     // thumbnail attribute: no header, fixed width, single picture delegate
-    columnHeader = null
-    columnWidth = fixedColumnsWidth
-    renderDelegates = buildThumbnailDelegates(attributes[0])
+    columnBuilder.optionsSizing(1).propertiesRenderCell(buildThumbnailDelegates(attributes[0]))
   } else {
     // a common single or attributes group column: build attributes render delegates, keep width undefined (not fixed) and prepare header
-    renderDelegates = buildRenderDelegates(attributes)
+    columnBuilder.propertiesRenderCell(buildRenderDelegates(attributes))
     const isSortable = attributes.length === 1 && enableSorting
     if (isSortable) {
       // default column: if sorting enabled, sorting header
-      columnHeader = TableColumnBuilder.buildSortableColumnHeader(
-        key, columnLabel, false, enableSorting,
-        sortOrder, sortIndex, onSort)
-    } else { // group column: never sortable
-      columnHeader = TableColumnBuilder.buildTitleColumnHeader(key, columnLabel)
+      columnBuilder.sortableHeaderCell(sortOrder, sortIndex, onSort)
+    } else { // group column: never sortable, show only the title
+      columnBuilder.titleHeaderCell()
     }
   }
-
-  // 2 - Build column (note: we append sort order and index to let table re-render when those model values change)
-  return TableColumnBuilder.buildColumn(
-    key, columnLabel, columnHeader, TableColumnBuilder.buildPropertiesRenderCell(renderDelegates),
-    visible, order, columnWidth, sortOrder, sortIndex)
+  return columnBuilder.build()
 }
 
 

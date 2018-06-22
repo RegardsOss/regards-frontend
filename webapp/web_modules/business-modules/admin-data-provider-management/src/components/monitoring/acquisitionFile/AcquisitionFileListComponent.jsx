@@ -149,12 +149,15 @@ export class AcquisitionFileListComponent extends React.Component {
     )
 
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('column.filePath',
-        formatMessage({ id: 'acquisition.file.list.filePath' }), 'content.filePath', 1),
-      TableColumnBuilder.buildSimplePropertyColumn('column.acqDate',
-        formatMessage({ id: 'acquisition.file.list.acqDate' }), 'content.acqDate', 2, true, DateValueRender),
-      TableColumnBuilder.buildSimplePropertyColumn('column.state',
-        formatMessage({ id: 'acquisition.file.list.state' }), 'content.state', 3, true, AcquisitionFileStateRender),
+      new TableColumnBuilder('column.filePath').titleHeaderCell().propertyRenderCell('content.filePath')
+        .label(formatMessage({ id: 'acquisition.file.list.filePath' }))
+        .build(),
+      new TableColumnBuilder('column.acqDate').titleHeaderCell().propertyRenderCell('content.acqDate', DateValueRender)
+        .label(formatMessage({ id: 'acquisition.file.list.acqDate' }))
+        .build(),
+      new TableColumnBuilder('column.state').titleHeaderCell().propertyRenderCell('content.state', AcquisitionFileStateRender)
+        .label(formatMessage({ id: 'acquisition.file.list.state' }))
+        .build(),
     ]
 
     const title = product ?

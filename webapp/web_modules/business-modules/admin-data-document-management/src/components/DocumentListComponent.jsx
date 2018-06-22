@@ -34,7 +34,8 @@ import { themeContextType } from '@regardsoss/theme'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { tableActions } from '../clients/TableClient'
 import { documentActions, documentSelectors } from '../clients/DocumentClient'
-import DocumentTableCustomCellActions from './DocumentTableCustomCellActions'
+import EditDocumentTableAction from './EditDocumentTableAction'
+import DeleteDocumentTableAction from './DeleteDocumentTableAction'
 
 /**
  * Component to list Document
@@ -122,20 +123,27 @@ class DocumentListComponent extends React.Component {
 
     // Table columns to display
     const columns = [
-      // 2 - label column
-      TableColumnBuilder.buildSimplePropertyColumn('label', intl.formatMessage({ id: 'document.list.table.label' }), 'content.label'),
+      // 1 - label column
+      new TableColumnBuilder('label').titleHeaderCell().propertyRenderCell('content.label')
+        .label(intl.formatMessage({ id: 'document.list.table.label' }))
+        .build(),
       // 2 - model column
-      TableColumnBuilder.buildSimplePropertyColumn('model', intl.formatMessage({ id: 'document.list.table.model' }), 'content.model.name'),
+      new TableColumnBuilder('model').titleHeaderCell().propertyRenderCell('content.model.name')
+        .label(intl.formatMessage({ id: 'document.list.table.model' }))
+        .build(),
       // 3 - Actions column
-      TableColumnBuilder.buildSimpleColumnWithCell('actions', intl.formatMessage({ id: 'document.list.table.actions' }), {
-        Constructor: DocumentTableCustomCellActions, // custom cell
-        props: {
+      new TableColumnBuilder().optionsColumn([{ // edit
+        OptionConstructor: EditDocumentTableAction, // custom cell
+        optionProps: {
+          onEdit: handleEdit,
+        },
+      }, {
+        OptionConstructor: DeleteDocumentTableAction, // custom cell
+        optionProps: {
           pageSize: DocumentListComponent.PAGE_SIZE,
           onDelete: this.openDeleteDialog,
-          onEdit: handleEdit,
-          intl,
         },
-      }),
+      }]).build(),
     ]
 
     const emptyComponent = (

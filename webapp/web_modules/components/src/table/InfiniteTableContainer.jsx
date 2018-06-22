@@ -23,7 +23,7 @@ import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import TableColumnConfiguration from './content/columns/model/TableColumnConfiguration'
+import { TableColumnConfiguration } from './content/columns/model/TableColumnConfiguration'
 import Table from './content/Table'
 
 import './styles/fixed-data-table-mui.css'

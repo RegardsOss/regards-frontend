@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import FlatButton from 'material-ui/FlatButton'
-import { InfiniteTableContainer } from '@regardsoss/components'
+import { InfiniteTableContainer, TableColumnBuilder } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AttributeListTableComponent from '../../../src/configuration/table/AttributeListTableComponent'
 import AttributesListHeaderMessage from '../../../src/configuration/table/AttributesListHeaderMessage'
@@ -70,7 +70,7 @@ describe('[Attributes Common] Testing AttributeListTableComponent', () => {
       'label.en', // english label (as label functionnality is enabled)
       'label.fr', // french label (as label functionnality is enabled)
       'attributes', // attributes list (as groups functionnality is enabled)
-      'options', // options column
+      TableColumnBuilder.optionsColumnKey, // options column
     ]
     expectedColumnsKeys.forEach((key) => {
       const foundColumn = columns.find(c => c.key === key)
@@ -95,7 +95,7 @@ describe('[Attributes Common] Testing AttributeListTableComponent', () => {
     const { columns = [] } = table.props()
     const expectedColumnsKeys = [
       'label', // basic label as user labels functionnality is disabled
-      'options', // options column
+      TableColumnBuilder.optionsColumnKey, // options column
     ]
     expectedColumnsKeys.forEach((key) => {
       const foundColumn = columns.find(c => c.key === key)

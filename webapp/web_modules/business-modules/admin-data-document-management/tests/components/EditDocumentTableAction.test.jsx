@@ -15,36 +15,30 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
-import Delete from 'material-ui/svg-icons/action/delete'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import DocumentTableCustomCellActions from '../../src/components/DocumentTableCustomCellActions'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
+import EditDocumentTableAction from '../../src/components/EditDocumentTableAction'
 
-describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentTableCustomCellActions', () => {
+const context = buildTestContext()
+
+/**
+ * Test EditDocumentTableAction
+ * @author Raphaël Mechali
+ */
+describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing EditDocumentTableAction', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DocumentTableCustomCellActions)
+    assert.isDefined(EditDocumentTableAction)
   })
-  const context = buildTestContext()
-
-
-  it('Render properly', () => {
+  it('should render correctly', () => {
     const props = {
       entity: DumpProvider.getFirstEntity('DataManagementClient', 'Document'),
-      rowIndex: 3,
-      pageSize: 10,
-      onDelete: () => { },
       onEdit: () => { },
-      intl: context.intl,
-      lineHeight: 40,
     }
-    const enzymeWrapper = shallow(<DocumentTableCustomCellActions {...props} />)
-    expect(enzymeWrapper.find(Delete)).to.have.length(1)
-    expect(enzymeWrapper.find(Edit)).to.have.length(1)
+    shallow(<EditDocumentTableAction {...props} />, { context })
   })
 })

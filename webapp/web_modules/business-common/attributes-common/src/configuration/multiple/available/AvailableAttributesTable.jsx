@@ -112,19 +112,21 @@ class AvailableAttributesTable extends React.Component {
    */
   buildColumns = () => {
     const { onAdd } = this.props
-    const { intl: { formatMessage }, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { intl: { formatMessage } } = this.context
     return [
       // 1 - attribute label
-      TableColumnBuilder.buildSimpleColumnWithCell(
-        'attribute', formatMessage({ id: 'attribute.configuration.selectable.attributes.table.attribute.column' }), {
-          Constructor: AttributeRender,
-        }, 1),
+      new TableColumnBuilder('attribute')
+        .label(formatMessage({ id: 'attribute.configuration.selectable.attributes.table.attribute.column' }))
+        .titleHeaderCell()
+        .rowCellDefinition({ Constructor: AttributeRender })
+        .order(1)
+        .build(),
       // 2 - Add option
-      TableColumnBuilder.buildOptionsColumn('', [{
+      new TableColumnBuilder().optionsColumn([{
         OptionConstructor: AddOption,
         optionProps: { onAdd },
-      }], true, fixedColumnsWidth),
+      }])
+        .build(),
     ]
   }
 

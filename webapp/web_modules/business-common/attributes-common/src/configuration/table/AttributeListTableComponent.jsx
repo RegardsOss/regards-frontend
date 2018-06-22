@@ -24,7 +24,7 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   InfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLine,
   TableHeaderOptionsArea, TableHeaderContentBox, TableHeaderOptionGroup,
-  StringValueRender, TableNoDataMessage,
+  TableNoDataMessage,
 } from '@regardsoss/components'
 import AttributesListHeaderMessage from './AttributesListHeaderMessage'
 import AttributesRender from './AttributesRender'
@@ -66,44 +66,48 @@ class AttributeListTableComponent extends React.Component {
     const {
       allowAttributesRegroupements, attributeModels, allowLabel, onEdit, onDelete,
     } = this.props
-    const { intl: { formatMessage }, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { intl: { formatMessage } } = this.context
     return [
       // 1 - Direct label column (that renders attributes label) when label functionnality is disabled on columns
-      TableColumnBuilder.buildSimpleColumnWithCell(
-        'label', formatMessage({ id: 'attributes.configuration.label.simple.column' }), {
+      new TableColumnBuilder('label').titleHeaderCell().order(1).visible(!allowLabel)
+        .label(formatMessage({ id: 'attributes.configuration.label.simple.column' }))
+        .rowCellDefinition({
           Constructor: AttributesRender,
           props: {
             attributeModels,
           },
-        }, 1, !allowLabel),
+        })
+        .build(),
       // 2 - English label when label functionnality is enabled for columns
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'label.en', formatMessage({ id: 'attributes.configuration.label.english.column' }), 'label.en',
-        2, allowLabel, StringValueRender),
+      new TableColumnBuilder('label.en').titleHeaderCell().order(2).visible(allowLabel)
+        .propertyRenderCell('label.en')
+        .label(formatMessage({ id: 'attributes.configuration.label.english.column' }))
+        .build(),
       // 3 - French label when label functionnality is enabled for columns
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'label.fr', formatMessage({ id: 'attributes.configuration.label.french.column' }), 'label.fr',
-        3, allowLabel, StringValueRender),
+      new TableColumnBuilder('label.fr').titleHeaderCell().order(3).visible(allowLabel)
+        .propertyRenderCell('label.fr')
+        .label(formatMessage({ id: 'attributes.configuration.label.french.column' }))
+        .build(),
       // 4 - Attributes column, when groups are allowed
-      TableColumnBuilder.buildSimpleColumnWithCell(
-        'attributes', formatMessage({ id: 'attributes.configuration.attributes.column' }), {
+      new TableColumnBuilder('attributes').titleHeaderCell().order(4).visible(allowAttributesRegroupements)
+        .label(formatMessage({ id: 'attributes.configuration.attributes.column' }))
+        .rowCellDefinition({
           Constructor: AttributesRender,
           props: {
             attributeModels,
           },
-        }, 4, allowAttributesRegroupements),
+        })
+        .build(),
       // 5 - Options columns
-      TableColumnBuilder.buildOptionsColumn(
-        formatMessage({ id: 'attributes.configuration.options.column' }), [{
-          // 1 - edit option
-          OptionConstructor: EditOption,
-          optionProps: { onEdit },
-        }, {
-          // 2 - delete option
-          OptionConstructor: DeleteOption,
-          optionProps: { onDelete },
-        }], true, fixedColumnsWidth, 'options', 5),
+      new TableColumnBuilder().optionsColumn([{
+        // 1 - edit option
+        OptionConstructor: EditOption,
+        optionProps: { onEdit },
+      }, {
+        // 2 - delete option
+        OptionConstructor: DeleteOption,
+        optionProps: { onDelete },
+      }]).build(),
     ]
   }
 

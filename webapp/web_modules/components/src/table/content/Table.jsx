@@ -18,14 +18,14 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import isNumber from 'lodash/isNumber'
 import map from 'lodash/map'
 import { Table as FixedDataTable, Column } from 'fixed-data-table-2'
 import { themeContextType } from '@regardsoss/theme'
 import ColumnHeaderWrapper from './columns/ColumnHeaderWrapper'
 import CellWrapper from './cells/CellWrapper'
-import { areDifferentColumnsArrays } from './columns/ColumnsHelper'
-import TableColumnConfiguration from './columns/model/TableColumnConfiguration'
+import { TableColumnConfiguration } from './columns/model/TableColumnConfiguration'
+import { OptionsColumnSize } from './columns/size/OptionColumnSize'
+import { GrowingColumnSize } from './columns/size/GrowingColumnSize'
 
 /** Minimal width for a column */
 const MIN_COL_WIDTH = 150
@@ -118,11 +118,11 @@ class Table extends React.Component {
 
     // update columns when: scroll state changed, width changed or columns list changed
     if (wasShowingScroll !== willShowScroll || oldProps.width !== newProps.width ||
-      areDifferentColumnsArrays(oldProps.columns, newProps.columns)) {
+      !isEqual(oldProps.columns, newProps.columns)) {
       newState.runtimeColumns = this.computeColumnsModelsWithWidth(newProps)
     }
 
-    if (areDifferentColumnsArrays(newState.runtimeColumns, oldState.runtimeColumns)) {
+    if (!isEqual(newState.runtimeColumns, oldState.runtimeColumns)) {
       this.setState(newState)
     }
   }
@@ -174,12 +174,14 @@ class Table extends React.Component {
   computeColumnsModelsWithWidth = ({
     entities, lineHeight, height, width, columns = [], displayColumnsHeader,
   }) => {
+    const { fixedColumnsWidth } = this.context.muiTheme.components.infiniteTable
+
     // 2 - Update columns width related data
     // 2.a - prepare columns (filter unvisible and sort on order)
     const renderColumns = columns.filter(c => c.visible).sort((c1, c2) => c1.order - c2.order)
 
     // 2.b - compute if there are floating columns (otherwise, next layout is useless)
-    const floatingColumnsCount = renderColumns.reduce((acc, c) => !isNumber(c.fixedWidth) ? acc + 1 : acc, 0)
+    const floatingColumnsCount = renderColumns.reduce((acc, c) => acc + (c.sizing.type === GrowingColumnSize.TYPE ? 1 : 0), 0)
     let floatingColumnWidth = 0
     let lastFloatingColumnWidth = 0
     if (floatingColumnsCount > 0) {
@@ -188,9 +190,10 @@ class Table extends React.Component {
       const visibleRowsCount = (height - this.getHeaderHeight(displayColumnsHeader)) / lineHeight
       const totalRowsCount = get(entities, 'length', 0)
       const availableWidth = width - (totalRowsCount > visibleRowsCount ? SCROLLBAR_SIZE : 0)
-      const fixedColumnsWidth = renderColumns.reduce((acc, column) =>
-        isNumber(column.fixedWidth) ? acc + column.fixedWidth : acc, 0)
-      const floatingWidth = availableWidth - fixedColumnsWidth
+      const reservedFixedColumnsWidth = renderColumns.reduce((acc, column) => // consider width of cumulated fixed columns
+        acc + (column.sizing.type === OptionsColumnSize.TYPE ?
+          column.sizing.optionsCount * fixedColumnsWidth : 0), 0)
+      const floatingWidth = availableWidth - reservedFixedColumnsWidth
       floatingColumnWidth = Math.max(Math.floor(floatingWidth / floatingColumnsCount), MIN_COL_WIDTH)
       // 2.d - consume remaining pixels (avoid int imprecision there)
       lastFloatingColumnWidth = Math.max(Math.ceil(floatingWidth - (floatingColumnWidth * (floatingColumnsCount - 1))), MIN_COL_WIDTH)
@@ -201,9 +204,9 @@ class Table extends React.Component {
     const { columnsAcc: runtimeColumns } = renderColumns.reduce(({ floatingCountAcc, columnsAcc }, column, index) => {
       let nextFloatingCount
       let runtimeWidth
-      if (isNumber(column.fixedWidth)) {
+      if (column.sizing.type === OptionsColumnSize.TYPE) {
         nextFloatingCount = floatingCountAcc
-        runtimeWidth = column.fixedWidth
+        runtimeWidth = fixedColumnsWidth * column.sizing.optionsCount
       } else {
         nextFloatingCount = floatingCountAcc + 1
         runtimeWidth = floatingCountAcc === floatingColumnsCount ? lastFloatingColumnWidth : floatingColumnWidth
@@ -237,24 +240,25 @@ class Table extends React.Component {
             <Column
               key={column.key}
               columnKey={column.key}
+              fixedRight={column.fixedColumn}
               header={
-                <ColumnHeaderWrapper isLastColumn={index === runtimeColumns.length - 1}>
-                  { // provide header cell as child
-                    column.headerCell
-                  }
-                </ColumnHeaderWrapper>
+                <ColumnHeaderWrapper
+                  columnKey={column.key}
+                  label={column.label}
+                  headerCellDefinition={column.headerCellDefinition}
+                  isLastColumn={index === runtimeColumns.length - 1}
+                />
               }
               cell={
                 <CellWrapper
                   lineHeight={this.props.lineHeight}
                   isLastColumn={index === runtimeColumns.length - 1}
                   getEntity={rowIndex => this.getEntity(rowIndex)}
-                  CellContentBuilder={column.rowCellDefinition.Constructor}
-                  cellContentBuilderProps={column.rowCellDefinition.props}
+                  rowCellDefinition={column.rowCellDefinition}
                 />
               }
               width={column.runtimeWidth}
-              isResizable={!column.fixedWidth}
+              isResizable={column.sizing.type !== OptionsColumnSize.TYPE} // forbid fixed width columns to resize
             />))
         }
       </FixedDataTable>

@@ -152,64 +152,48 @@ class SearchResultsComponent extends React.Component {
    */
   buildTableColumns = () => {
     const {
-      searchSelectors, attributePresentationModels, onSortByAttribute, onSetEntityAsTag,
-      onAddElementToCart, viewObjectType, enableDownload, accessToken, projectName, locale,
+      searchSelectors, attributePresentationModels, onSortByAttribute, onSetEntityAsTag: onSearchEntity,
+      onAddElementToCart: onAddToCart, viewObjectType, enableDownload, accessToken, projectName, locale,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
-    const { fixedColumnsWidth } = this.context.muiTheme.components.infiniteTable
     const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
     const enableNavigateTo = SearchResultsComponent.hasNavigateTo(viewObjectType)
     return [
       // selection column
-      enableSelection ? TableColumnBuilder.buildSelectionColumn(
-        formatMessage({ id: 'results.selection.column.label' }),
-        true, searchSelectors, TableClient.tableActions, TableClient.tableSelectors,
-        this.isColumnVisible(TableColumnBuilder.selectionColumnKey), fixedColumnsWidth,
-      ) : null,
+      enableSelection ? new TableColumnBuilder()
+        .label(formatMessage({ id: 'results.selection.column.label' }))
+        .visible(this.isColumnVisible(TableColumnBuilder.selectionColumnKey))
+        .selectionColumn(true, searchSelectors, TableClient.tableActions, TableClient.tableSelectors)
+        .build() : null,
       // attributes and attributes groups as provided by parent
       ...attributePresentationModels.map(presentationModel =>
         AttributeColumnBuilder.buildAttributeColumn(
           presentationModel,
           this.isColumnVisible(presentationModel.key),
           onSortByAttribute,
-          fixedColumnsWidth,
           locale,
         )),
       // Options in current context
-      TableColumnBuilder.buildOptionsColumn(
-        formatMessage({ id: 'results.options.column.label' }),
-        this.buildTableOptions(onAddElementToCart, onSetEntityAsTag, enableServices, enableDownload, enableNavigateTo, accessToken, projectName),
-        this.isColumnVisible(TableColumnBuilder.optionsColumnKey),
-        fixedColumnsWidth,
-      ),
+      new TableColumnBuilder()
+        .label(formatMessage({ id: 'results.options.column.label' }))
+        .visible(this.isColumnVisible(TableColumnBuilder.optionsColumnKey))
+        .optionsColumn([
+          // Download
+          enableDownload ? { OptionConstructor: DownloadEntityFileComponent, optionProps: { accessToken, projectName } } : null,
+          // Description
+          { OptionConstructor: EntityDescriptionContainer },
+          // Search by tag
+          enableNavigateTo ? { OptionConstructor: SearchRelatedEntitiesComponent, optionProps: { onSearchEntity } } : null,
+          // Services
+          enableServices ? { OptionConstructor: OneElementServicesContainer } : null,
+          // Add to cart
+          onAddToCart ? { OptionConstructor: AddElementToCartContainer, optionProps: { onAddToCart } } : null,
+        ])
+        .build(),
     ].filter(column => !!column) // filter null elements
   }
-
-  /**
-   * Builds table options
-   * @param {function} onAddElementToCart callback to add element to cart (element) => (). Null if not available in context
-   * @param {function} onSearchEntity callback to add element to cart (element) => (). Null if not available in context
-   * @param {boolean} enableServices should enable services in options?
-   * @param {boolean} enableDownload should enable download in options?
-   * @param {boolean} enableNavigateTo should enable navigate to in options?
-   * @param {object} accessToken user auth token
-   * @return [{OptionConstructor: function, optionProps: {*}}] table options
-   */
-  buildTableOptions = (onAddToCart, onSearchEntity, enableServices, enableDownload, enableNavigateTo, accessToken, projectName) => [
-    // Download file description
-    enableDownload ? { OptionConstructor: DownloadEntityFileComponent, optionProps: { accessToken, projectName } } : null,
-    // Entity description
-    { OptionConstructor: EntityDescriptionContainer },
-    // Search entity
-    enableNavigateTo ? { OptionConstructor: SearchRelatedEntitiesComponent, optionProps: { onSearchEntity } } : null,
-    // Entity services, only when enabled
-    enableServices ? { OptionConstructor: OneElementServicesContainer } : null,
-    // Add to cart, only when enabled
-    onAddToCart ? { OptionConstructor: AddElementToCartContainer, optionProps: { onAddToCart } } : null]
-    .filter(option => !!option) // filter null options
-
 
   /**
   * Create columns configuration for table view
@@ -229,7 +213,7 @@ class SearchResultsComponent extends React.Component {
     const enableNavigateTo = SearchResultsComponent.hasNavigateTo(viewObjectType)
 
     // build column. Note: label is ignored here as the columns button will get removed
-    return TableColumnBuilder.buildColumn('single.list.column', 'single.list.column', null, {
+    return new TableColumnBuilder('single.list.column').rowCellDefinition({
       Constructor: ListViewEntityCellContainer,
       props: {
         // prefetch attributes from models to enhance render time
@@ -243,7 +227,7 @@ class SearchResultsComponent extends React.Component {
         accessToken,
         projectName,
       },
-    })
+    }).build()
   }
 
   /**

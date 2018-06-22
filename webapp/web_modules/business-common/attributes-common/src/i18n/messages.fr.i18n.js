@@ -38,7 +38,6 @@ const messages = {
   'attributes.configuration.label.english.column': 'Label anglais',
   'attributes.configuration.label.french.column': 'Label français',
   'attributes.configuration.attributes.column': 'Attribut(s)',
-  'attributes.configuration.options.column': 'Options',
   'attributes.configuration.edit.option.tooltip': 'Editer l\'élément',
   'attributes.configuration.delete.option.tooltip': 'Supprimer l\'élément',
   'attribute.configuration.new.item.en.label': 'Column {itemNumber}',

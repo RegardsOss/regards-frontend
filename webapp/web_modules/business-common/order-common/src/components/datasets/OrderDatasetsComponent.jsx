@@ -66,34 +66,36 @@ class OrderDatasetsComponent extends React.Component {
    */
   buildColumns = () => {
     const { columnsVisibility, navigationActions } = this.props
-    const { intl: { formatMessage }, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { intl: { formatMessage } } = this.context
     return [
       // 1 - Dataset label
-      TableColumnBuilder.buildSimplePropertyColumn(
-        LABEL_KEY, formatMessage({ id: 'datasets.list.column.label' }),
-        'datasetLabel', 0, get(columnsVisibility, LABEL_KEY, true),
-      ),
+      new TableColumnBuilder(LABEL_KEY).titleHeaderCell().propertyRenderCell('datasetLabel').order(1)
+        .label(formatMessage({ id: 'datasets.list.column.label' }))
+        .visible(get(columnsVisibility, LABEL_KEY, true))
+        .build(),
       // 2 - Objects count
-      TableColumnBuilder.buildSimplePropertyColumn(
-        OBJECT_COUNT_KEY, formatMessage({ id: 'datasets.list.column.objects.count' }),
-        'objectsCount', 1, get(columnsVisibility, OBJECT_COUNT_KEY, true),
-      ),
+      new TableColumnBuilder(OBJECT_COUNT_KEY).titleHeaderCell().propertyRenderCell('objectsCount').order(2)
+        .label(formatMessage({ id: 'datasets.list.column.objects.count' }))
+        .visible(get(columnsVisibility, OBJECT_COUNT_KEY, true))
+        .build(),
       // 3 - Files count
-      TableColumnBuilder.buildSimplePropertyColumn(
-        FILES_COUNT_KEY, formatMessage({ id: 'datasets.list.column.files.count' }),
-        'filesCount', 2, get(columnsVisibility, FILES_COUNT_KEY, true),
-      ),
+      new TableColumnBuilder(FILES_COUNT_KEY).titleHeaderCell().propertyRenderCell('filesCount').order(3)
+        .label(formatMessage({ id: 'datasets.list.column.files.count' }))
+        .visible(get(columnsVisibility, FILES_COUNT_KEY, true))
+        .build(),
       // 4 - Files size
-      TableColumnBuilder.buildSimplePropertyColumn(
-        FILES_SIZE_KEY, formatMessage({ id: 'datasets.list.column.files.size' }),
-        'filesSize', 3, get(columnsVisibility, FILES_SIZE_KEY, true), StorageCapacityRender,
-      ),
+      new TableColumnBuilder(FILES_SIZE_KEY).titleHeaderCell().propertyRenderCell('filesSize', StorageCapacityRender).order(4)
+        .label(formatMessage({ id: 'datasets.list.column.files.size' }))
+        .visible(get(columnsVisibility, FILES_SIZE_KEY, true))
+        .build(),
       // 5 - Options
-      TableColumnBuilder.buildOptionsColumn(formatMessage({ id: 'datasets.list.column.options' }), [{
-        OptionConstructor: ShowDatasetFilesContainer, // show dataset files
-        optionProps: { navigationActions },
-      }], get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true), fixedColumnsWidth),
+      new TableColumnBuilder().visible(get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true))
+        .label(formatMessage({ id: 'datasets.list.column.options' }))
+        .optionsColumn([{
+          OptionConstructor: ShowDatasetFilesContainer, // show dataset files
+          optionProps: { navigationActions },
+        }])
+        .build(),
     ]
   }
 

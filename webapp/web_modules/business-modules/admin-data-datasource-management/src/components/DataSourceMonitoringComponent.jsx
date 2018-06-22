@@ -138,23 +138,35 @@ class DataSourceMonitoringComponent extends React.Component {
   render() {
     const { crawlerDatasources, onBack, onRefresh } = this.props
     const { intl, muiTheme } = this.context
-    const { admin: { minRowCount, maxRowCount }, fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     // emptyComponent
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('label', intl.formatMessage({ id: 'crawler.list.label.column.header' }), 'content.label', 0, true),
-      TableColumnBuilder.buildSimplePropertyColumn('lastIngestDate', intl.formatMessage({ id: 'crawler.list.lastIngestDate.column.header' }), 'content.lastIngestDate', 0, true, DateValueRender),
-      TableColumnBuilder.buildSimplePropertyColumn('duration', intl.formatMessage({ id: 'crawler.list.duration.column.header' }), 'content.duration', 0, true, DurationValueRender),
-      TableColumnBuilder.buildSimplePropertyColumn('savedObjectsCount', intl.formatMessage({ id: 'crawler.list.savedObjectsCount.column.header' }), 'content.savedObjectsCount', 0, true),
-      TableColumnBuilder.buildSimpleColumnWithCell('status', intl.formatMessage({ id: 'crawler.list.status.column.header' }), {
+      new TableColumnBuilder('label').titleHeaderCell().propertyRenderCell('content.label')
+        .label(intl.formatMessage({ id: 'crawler.list.label.column.header' }))
+        .build(),
+      new TableColumnBuilder('lastIngestDate').titleHeaderCell().propertyRenderCell('content.lastIngestDate', DateValueRender)
+        .label(intl.formatMessage({ id: 'crawler.list.lastIngestDate.column.header' }))
+        .build(),
+      new TableColumnBuilder('duration').titleHeaderCell().propertyRenderCell('content.duration', DurationValueRender)
+        .label(intl.formatMessage({ id: 'crawler.list.duration.column.header' }))
+        .build(),
+      new TableColumnBuilder('status').titleHeaderCell().rowCellDefinition({
         Constructor: DatasourceStatusTableCell,
         props: { onShow: this.openStacktraceDialog },
-      }, 0, true),
+      })
+        .label(intl.formatMessage({ id: 'crawler.list.status.column.header' }))
+        .build(),
+      new TableColumnBuilder('savedObjectsCount').titleHeaderCell().propertyRenderCell('content.savedObjectsCount')
+        .label(intl.formatMessage({ id: 'crawler.list.savedObjectsCount.column.header' }))
+        .build(),
       // Next planed ingest date
-      TableColumnBuilder.buildSimplePropertyColumn('nextPlannedIngestDate', intl.formatMessage({ id: 'crawler.list.nextPlannedIngestDate.column.header' }), 'content.nextPlannedIngestDate', 0, true, DateValueRender),
-      TableColumnBuilder.buildOptionsColumn('', [{
+      new TableColumnBuilder('nextPlannedIngestDate').titleHeaderCell().propertyRenderCell('content.nextPlannedIngestDate')
+        .label(intl.formatMessage({ id: 'crawler.list.nextPlannedIngestDate.column.header' }))
+        .build(),
+      new TableColumnBuilder().optionsColumn([{
         OptionConstructor: DataSourceMonitoringDeleteAction,
         optionProps: { onDelete: this.onDelete },
-      }], true, fixedColumnsWidth),
+      }]).build(),
     ]
 
     return (

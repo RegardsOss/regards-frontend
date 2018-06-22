@@ -54,20 +54,22 @@ class SelectedAttributesTable extends React.Component {
    */
   buildColumns = () => {
     const { attributeModels, onRemove } = this.props
-    const { intl: { formatMessage }, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { intl: { formatMessage } } = this.context
     return [
       // 1 - attribute label
-      TableColumnBuilder.buildSimpleColumnWithCell(
-        'attribute', formatMessage({ id: 'attribute.configuration.selected.attributes.table.attribute.column' }), {
+      new TableColumnBuilder('attribute')
+        .label(formatMessage({ id: 'attribute.configuration.selected.attributes.table.attribute.column' }))
+        .rowCellDefinition({
           Constructor: AttributeRender,
           props: { attributeModels },
-        }, 1),
+        }).titleHeaderCell()
+        .order(1)
+        .build(),
       // 2 - Add option
-      TableColumnBuilder.buildOptionsColumn('', [{
+      new TableColumnBuilder().optionsColumn([{
         OptionConstructor: RemoveOption,
         optionProps: { onRemove },
-      }], true, fixedColumnsWidth),
+      }]).build(),
     ]
   }
 

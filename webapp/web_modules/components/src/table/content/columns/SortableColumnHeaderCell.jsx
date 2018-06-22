@@ -31,8 +31,8 @@ import { getNextSortOrder, TableSortOrders } from '../../model/TableSortOrders'
  */
 class SortableColumnHeaderCell extends React.Component {
   static propTypes = {
-    // column ID for sort (how will it be retrieved by parent component)
-    sortId: PropTypes.string.isRequired,
+    // column ID for sort (provided by column cell wrapper)
+    columnKey: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     // sort order (ascending, descending, none)
     sortingOrder: PropTypes.oneOf(values(TableSortOrders)),
@@ -56,10 +56,10 @@ class SortableColumnHeaderCell extends React.Component {
    */
   onSort = () => {
     const {
-      sortable, sortingOrder, sortId, onSort,
+      sortable, sortingOrder, columnKey, onSort,
     } = this.props
     if (sortable && sortingOrder) { // do change sort only when sortable with known sorting state
-      onSort(sortId, getNextSortOrder(sortingOrder))
+      onSort(columnKey, getNextSortOrder(sortingOrder))
     }
   }
 

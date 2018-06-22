@@ -153,7 +153,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
       onBack, pageSize, resultsCount, entitiesLoading, project, initialFilters,
     } = this.props
     const { appliedFilters, errorMessage } = this.state
-    const { admin: { minRowCount, maxRowCount }, fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
       <NoContentComponent
@@ -163,29 +163,39 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     )
 
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('column.name', formatMessage({ id: 'acquisition-chain.monitor.list.label' }), 'content.chain.label', 1, true),
-      TableColumnBuilder.buildSimplePropertyColumn('column.mode', formatMessage({ id: 'acquisition-chain.monitor.list.mode' }), 'content.chain.mode', 2, true,
-        AcquisitionProcessingChainMonitorModeRenderer),
-      TableColumnBuilder.buildSimpleColumnWithCell('column.running', formatMessage({ id: 'acquisition-chain.monitor.list.running' }), {
-        Constructor: AcquisitionProcessingChainMonitoringActivityRenderer,
-      }, 3, true),
-      TableColumnBuilder.buildSimpleColumnWithCell('column.products', formatMessage({ id: 'acquisition-chain.monitor.list.total-nb-products' }), {
-        Constructor: AcquisitionProcessingChainMonitoringProductsRenderer,
-        props: { project },
-      }, 4, true),
-      TableColumnBuilder.buildSimpleColumnWithCell('column.files', formatMessage({ id: 'acquisition-chain.monitor.list.total-nb-files' }), {
-        Constructor: AcquisitionProcessingChainMonitoringFilesRenderer,
-        props: { project },
-      }, 5, true),
-      TableColumnBuilder.buildOptionsColumn('column.files.actions', [{
+      new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.chain.label')
+        .label(formatMessage({ id: 'acquisition-chain.monitor.list.label' }))
+        .build(),
+      new TableColumnBuilder('column.mode').titleHeaderCell()
+        .propertyRenderCell('content.chain.mode', AcquisitionProcessingChainMonitorModeRenderer)
+        .label(formatMessage({ id: 'acquisition-chain.monitor.list.mode' }))
+        .build(),
+      new TableColumnBuilder('column.running').titleHeaderCell()
+        .rowCellDefinition({ Constructor: AcquisitionProcessingChainMonitoringActivityRenderer })
+        .label(formatMessage({ id: 'acquisition-chain.monitor.list.running' }))
+        .build(),
+      new TableColumnBuilder('column.products').titleHeaderCell()
+        .rowCellDefinition({
+          Constructor: AcquisitionProcessingChainMonitoringProductsRenderer,
+          props: { project },
+        })
+        .label(formatMessage({ id: 'acquisition-chain.monitor.list.total-nb-products' }))
+        .build(),
+      new TableColumnBuilder('column.files').titleHeaderCell()
+        .rowCellDefinition({
+          Constructor: AcquisitionProcessingChainMonitoringFilesRenderer,
+          props: { project },
+        })
+        .label(formatMessage({ id: 'acquisition-chain.monitor.list.total-nb-files' }))
+        .build(),
+      new TableColumnBuilder().optionsColumn([{
         OptionConstructor: AcquisitionProcessingChainMonitoringTableRunAction,
         optionProps: { onRunChain: this.runChainAction },
       },
       {
         OptionConstructor: AcquisitionProcessingChainMonitoringTableStopAction,
         optionProps: { onStopChain: this.stopChainAction },
-      },
-      ], true, fixedColumnsWidth),
+      }]).build(),
     ]
     return (
       <Card>

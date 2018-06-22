@@ -94,36 +94,35 @@ class DatasetFilesComponent extends React.Component {
    */
   buildColumns = () => {
     const { columnsVisibility } = this.props
-    const { intl: { formatMessage }, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
-
+    const { intl: { formatMessage } } = this.context
     return [
       // 1 - Name column
-      TableColumnBuilder.buildSimpleColumnWithCell(
-        NAME_KEY, formatMessage({ id: 'files.list.column.name' }),
-        TableColumnBuilder.buildValuesRenderCell([{ getValue: DatasetFilesComponent.getFileName }]), 0,
-        get(columnsVisibility, NAME_KEY, true),
-      ),
+      new TableColumnBuilder(NAME_KEY).titleHeaderCell().order(1).visible(get(columnsVisibility, NAME_KEY, true))
+        .label(formatMessage({ id: 'files.list.column.name' }))
+        .valuesRenderCell([{ getValue: DatasetFilesComponent.getFileName }])
+        .build(),
       // 2 - size column
-      TableColumnBuilder.buildSimplePropertyColumn(
-        SIZE_KEY, formatMessage({ id: 'files.list.column.size' }),
-        'content.size', 1, get(columnsVisibility, SIZE_KEY, true), StorageCapacityRender,
-      ),
+      new TableColumnBuilder(SIZE_KEY).titleHeaderCell().order(2).visible(get(columnsVisibility, SIZE_KEY, true))
+        .label(formatMessage({ id: 'files.list.column.size' }))
+        .propertyRenderCell('content.size', StorageCapacityRender)
+        .build(),
       // 3 - MIME type column
-      TableColumnBuilder.buildSimplePropertyColumn(
-        TYPE_KEY, formatMessage({ id: 'files.list.column.type' }),
-        'content.mimeType', 2, get(columnsVisibility, TYPE_KEY, true),
-      ),
+      new TableColumnBuilder(TYPE_KEY).titleHeaderCell().order(3).visible(get(columnsVisibility, TYPE_KEY, true))
+        .label(formatMessage({ id: 'files.list.column.type' }))
+        .propertyRenderCell('content.mimeType')
+        .build(),
       // 4 - status column
-      TableColumnBuilder.buildSimpleColumnWithCell(
-        STATUS_KEY, formatMessage({ id: 'files.list.column.status' }),
-        TableColumnBuilder.buildValuesRenderCell([{ getValue: DatasetFilesComponent.getStatus, RenderConstructor: OrderFileStatusRender }]),
-        3, get(columnsVisibility, STATUS_KEY, true),
-      ),
+      new TableColumnBuilder(STATUS_KEY).titleHeaderCell().order(4).visible(get(columnsVisibility, STATUS_KEY, true))
+        .label(formatMessage({ id: 'files.list.column.status' }))
+        .valuesRenderCell([{ getValue: DatasetFilesComponent.getStatus, RenderConstructor: OrderFileStatusRender }])
+        .build(),
       // 5 - options column
-      TableColumnBuilder.buildOptionsColumn(formatMessage({ id: 'files.list.column.options' }), [{
-        OptionConstructor: FileDownloadContainer, // show download
-      }], get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true), fixedColumnsWidth),
+      new TableColumnBuilder().visible(get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true))
+        .label(formatMessage({ id: 'files.list.column.options' }))
+        .optionsColumn([{
+          OptionConstructor: FileDownloadContainer, // show download
+        }])
+        .build(),
     ]
   }
 

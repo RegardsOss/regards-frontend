@@ -109,7 +109,7 @@ export class DatasetListComponent extends React.Component {
       handleEdit, createUrl, backUrl, onRefresh, navigateToCreateDataset,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
-    const { admin: { minRowCount, maxRowCount }, fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const style = {
       hoverButtonEdit: muiTheme.palette.primary1Color,
       hoverButtonDelete: muiTheme.palette.accent1Color,
@@ -133,35 +133,26 @@ export class DatasetListComponent extends React.Component {
 
     const columns = [
       // 1 - label column
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.label',
-        formatMessage({ id: 'dataset.list.table.label' }),
-        'content.label',
-      ),
+      new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.label')
+        .label(formatMessage({ id: 'dataset.list.table.label' }))
+        .build(),
       // 2 - model column
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.model',
-        formatMessage({ id: 'dataset.list.table.model' }),
-        'content.model.name',
-      ),
-      TableColumnBuilder.buildOptionsColumn(
-        '',
-        [
-          {
-            OptionConstructor: DatasetListEditAction,
-            optionProps: { handleEdit, hoverColor: style.hoverButtonEdit },
-          },
-          {
-            OptionConstructor: DatasetListDeleteAction,
-            optionProps: {
-              openDeleteDialog: this.openDeleteDialog,
-              hoverColor: style.hoverButtonDelete,
-            },
-          },
-        ],
-        true,
-        fixedColumnsWidth,
-      ),
+      new TableColumnBuilder('column.model').titleHeaderCell().propertyRenderCell('content.model.name')
+        .label(formatMessage({ id: 'dataset.list.table.model' }))
+        .build(),
+      // 3 - options
+      new TableColumnBuilder().optionsColumn([{
+        OptionConstructor: DatasetListEditAction,
+        optionProps: { handleEdit, hoverColor: style.hoverButtonEdit },
+      },
+      {
+        OptionConstructor: DatasetListDeleteAction,
+        optionProps: {
+          openDeleteDialog: this.openDeleteDialog,
+          hoverColor: style.hoverButtonDelete,
+        },
+      },
+      ]).build(),
     ]
 
     return (

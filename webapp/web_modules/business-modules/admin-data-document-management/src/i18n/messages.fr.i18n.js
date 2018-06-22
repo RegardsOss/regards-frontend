@@ -30,7 +30,6 @@ const messages = Object.assign({
   'document.list.action.delete': 'Supprimer',
 
   'document.list.table.label': 'Label',
-  'document.list.table.actions': 'Actions',
   'document.list.table.model': 'Modèle',
 
   'document.no.document.title': 'Aucun document',

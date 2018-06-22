@@ -14,12 +14,16 @@ const EditButtonComponent = () => (
   </IconButton>
 )
 
-const getColumns = (iconSize) => ([
-  TableColumnBuilder.buildSimplePropertyColumn('column.name', "Serie name", 'label'),
-  TableColumnBuilder.buildSimplePropertyColumn('column.type', "Number of episodes", 'number'),
-  TableColumnBuilder.buildOptionsColumn('', [{
+const getColumns = () => ([
+  new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('label')
+    .label('Serie name')
+    .build(),
+  new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('number')
+    .label('Number of episodes')
+    .build(),
+  new TableColumnBuilder().optionsColumn([{
     OptionConstructor: EditButtonComponent,
-  }], true, iconSize)
+  }]).build(),
 ])
 
 
@@ -44,19 +48,19 @@ const sampleEntities = [
   },
 ]
 
-const InfiniteTable = (props, 
-  { muiTheme: { components: { infiniteTable: { admin: { minRowCount, maxRowCount },fixedColumnsWidth } } } }) => (
-  <TableLayout>
-    <TableHeaderLineLoadingAndResults isFetching={false} resultsCount={sampleEntities.length} />
-    <InfiniteTableContainer
-      columns={getColumns(fixedColumnsWidth)}
-      entities={sampleEntities}
-      entitiesCount={sampleEntities.length}
-      minRowCount={minRowCount}
-      maxRowCount={maxRowCount}
-    />
-  </TableLayout>
-)
+const InfiniteTable = (props,
+  { muiTheme: { components: { infiniteTable: { admin: { minRowCount, maxRowCount } } } } }) => (
+    <TableLayout>
+      <TableHeaderLineLoadingAndResults isFetching={false} resultsCount={sampleEntities.length} />
+      <InfiniteTableContainer
+        columns={getColumns()}
+        entities={sampleEntities}
+        entitiesCount={sampleEntities.length}
+        minRowCount={minRowCount}
+        maxRowCount={maxRowCount}
+      />
+    </TableLayout>
+  )
 InfiniteTable.contextTypes = {
   ...themeContextType,
 }

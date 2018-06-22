@@ -99,7 +99,7 @@ import PageableInfiniteTableContainer from './table/PageableInfiniteTableContain
 import RefreshPageableTableOption from './table/options/RefreshPageableTableOption'
 import TableActions from './table/model/TableActions'
 import TableColumnBuilder from './table/content/columns/TableColumnBuilder'
-import TableColumnConfiguration from './table/content/columns/model/TableColumnConfiguration'
+import { TableColumnConfiguration } from './table/content/columns/model/TableColumnConfiguration'
 import TableColumnConfigurationController from './table/content/columns/model/ColumnConfigurationController'
 import TableColumnsVisibilityOption from './table/content/columns/options/TableColumnsVisibilityOption'
 import TableHeaderAutoCompleteFilter from './table/header/TableHeaderAutoCompleteFilter'

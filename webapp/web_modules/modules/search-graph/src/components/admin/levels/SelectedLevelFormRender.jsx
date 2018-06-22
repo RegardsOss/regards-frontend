@@ -20,7 +20,7 @@ import filter from 'lodash/filter'
 import find from 'lodash/find'
 import {
   TableLayout, TableHeaderLine, InfiniteTableContainer, TableHeaderOptionsArea, TableColumnBuilder,
-  TableHeaderOptionGroup, TableHeaderContentBox, TableHeaderText, TableNoDataMessage, StringValueRender,
+  TableHeaderOptionGroup, TableHeaderContentBox, TableHeaderText, TableNoDataMessage,
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -101,22 +101,21 @@ class SelectedLevelFormRender extends React.Component {
    * @return built table columns
    */
   buildColumns = () => {
-    const { intl: { formatMessage }, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { intl: { formatMessage } } = this.context
     return [
       // 1 - name
-      TableColumnBuilder.buildSimplePropertyColumn('name', formatMessage({ id: 'search.graph.selected.levels.column.name' }),
-        'content.name', 1, true, StringValueRender),
+      new TableColumnBuilder('name').titleHeaderCell().propertyRenderCell('content.name')
+        .label(formatMessage({ id: 'search.graph.selected.levels.column.name' }))
+        .build(),
       // 2 - description
-      TableColumnBuilder.buildSimplePropertyColumn('description', formatMessage({ id: 'search.graph.selected.levels.column.description' }),
-        'content.description', 1, true, StringValueRender),
+      new TableColumnBuilder('description').titleHeaderCell().propertyRenderCell('content.description')
+        .label(formatMessage({ id: 'search.graph.selected.levels.column.description' }))
+        .build(),
       // 3 - options
-      TableColumnBuilder.buildOptionsColumn(
-        formatMessage({ id: 'search.graph.selected.levels.column.options' }), [{
-          // 1 - edit option
-          OptionConstructor: RemoveLevelOption,
-          optionProps: { onDelete: this.onRemoveLevel },
-        }], true, fixedColumnsWidth, 'options', 5),
+      new TableColumnBuilder().optionsColumn([{ // edit option
+        OptionConstructor: RemoveLevelOption,
+        optionProps: { onDelete: this.onRemoveLevel },
+      }]).build(),
     ]
   }
 

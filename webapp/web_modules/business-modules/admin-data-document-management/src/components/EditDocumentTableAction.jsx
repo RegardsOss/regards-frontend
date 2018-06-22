@@ -16,42 +16,52 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import FilesIcon from 'mdi-material-ui/FileTree'
 import IconButton from 'material-ui/IconButton'
-import { DataProviderShapes } from '@regardsoss/shape'
+import EditIcon from 'material-ui/svg-icons/editor/mode-edit'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
+
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
-* Edit button action cell for the infinite table used to display ingest processing chains
-* @author Sébastien Binda
-*/
-class ProductListViewFilesAction extends React.Component {
+ * Action to edit documents in table
+ * @author Raphaël Mechali
+ */
+class EditDocumentTableAction extends React.Component {
   static propTypes = {
-    entity: DataProviderShapes.Product.isRequired,
-    onClick: PropTypes.func.isRequired,
+    // table API
+    entity: DataManagementShapes.Document,
+    // custom props
+    onEdit: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
   }
 
-  static iconStyle = { height: 23, width: 23 }
-  static buttonStyle = { padding: 0, height: 30, width: 30 }
+  /**
+   * User callback: on edit action
+   */
+  onEdit = () => {
+    const { entity, onEdit } = this.props
+    onEdit(entity.content.id)
+  }
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { entity: { content: { id } } } = this.props
+    const { entity } = this.props
     return (
-      <IconButton
-        className={`selenium-run-${id}`}
-        title={formatMessage({ id: 'acquisition-product.list.view.files.tooltip' })}
-        iconStyle={ProductListViewFilesAction.iconStyle}
-        style={ProductListViewFilesAction.buttonStyle}
-        onClick={() => this.props.onClick(id)}
+      <HateoasIconAction
+        title={formatMessage({ id: 'document.list.action.edit' })}
+        onClick={this.onEdit}
+        entityLinks={entity.links}
+        hateoasKey={HateoasKeys.UPDATE}
+        disableInsteadOfHide
       >
-        <FilesIcon />
-      </IconButton>
+        <EditIcon />
+      </HateoasIconAction>
     )
   }
 }
-export default ProductListViewFilesAction
+export default EditDocumentTableAction

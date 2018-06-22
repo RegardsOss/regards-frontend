@@ -35,7 +35,6 @@ const messages = {
   'search.graph.collection.model.label': '{name} - {description}',
   'search.graph.selected.levels.column.name': 'Name',
   'search.graph.selected.levels.column.description': 'Description',
-  'search.graph.selected.levels.column.options': 'Options',
   'search.graph.selected.levels.column.options.remove.tooltip': 'Remove that level',
   // 1.b - Graph dataset attributes
   'search.graph.configuration.attributes.message': 'Displayed datasets attributes',

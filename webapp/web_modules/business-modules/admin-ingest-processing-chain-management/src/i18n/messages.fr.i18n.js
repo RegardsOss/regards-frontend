@@ -24,6 +24,8 @@ const messages = Object.assign({
 
   'processing-chain.list.title': 'Chaînes de traitements',
   'processing-chain.list.subtitle': 'Les chaînes de traitement permettent de personnaliser les traitements réalisés sur les données soumises ou SIP (Submission Information Package).',
+  'processing-chain.list.name.column': 'Nom',
+  'processing-chain.list.description.column': 'Description',
   'processing-chain.info.message': 'Une chaîne de traitement est consitutée des étapes configurables ci-dessous. Toutes ces étapes sont réalisées avant de stocker les AIP générés. ',
   'processing-chain.info.message.step1': '1 - [Optionnel] Prétraitement',
   'processing-chain.info.message.step2': '2 - Validation de la donnée soumise',
