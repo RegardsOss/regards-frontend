@@ -25,14 +25,10 @@ import ColumnHeaderWrapper from './columns/ColumnHeaderWrapper'
 import CellWrapper from './cells/CellWrapper'
 import { TableColumnConfiguration } from './columns/model/TableColumnConfiguration'
 import { OptionsColumnSize } from './columns/size/OptionColumnSize'
-import { GrowingColumnSize } from './columns/size/GrowingColumnSize'
+import { layout } from './TableLayoutHelper'
 
-/** Minimal width for a column */
-const MIN_COL_WIDTH = 150
 /** Protects from undesired vertical scrollbar (due to the component CSS borders) */
 const RESERVED_BORDERS_HEIGHT = 2
-/** CSS scrollbar size (taken in account when computing the available width for columns) */
-const SCROLLBAR_SIZE = 17
 /**
  * Fixed data table from facebook library integrated with material ui theme
  * and infinite scroll functionality.
@@ -174,46 +170,13 @@ class Table extends React.Component {
   computeColumnsModelsWithWidth = ({
     entities, lineHeight, height, width, columns = [], displayColumnsHeader,
   }) => {
-    const { fixedColumnsWidth } = this.context.muiTheme.components.infiniteTable
-
-    // 2 - Update columns width related data
-    // 2.a - prepare columns (filter unvisible and sort on order)
-    const renderColumns = columns.filter(c => c.visible).sort((c1, c2) => c1.order - c2.order)
-
-    // 2.b - compute if there are floating columns (otherwise, next layout is useless)
-    const floatingColumnsCount = renderColumns.reduce((acc, c) => acc + (c.sizing.type === GrowingColumnSize.TYPE ? 1 : 0), 0)
-    let floatingColumnWidth = 0
-    let lastFloatingColumnWidth = 0
-    if (floatingColumnsCount > 0) {
-      // 2.c - There are floarting columns, compute how many space they have (refuse column width less than MIN_COL_WIDTH)
-      // consider total width, but remove right scrollbar size if shown
-      const visibleRowsCount = (height - this.getHeaderHeight(displayColumnsHeader)) / lineHeight
-      const totalRowsCount = get(entities, 'length', 0)
-      const availableWidth = width - (totalRowsCount > visibleRowsCount ? SCROLLBAR_SIZE : 0)
-      const reservedFixedColumnsWidth = renderColumns.reduce((acc, column) => // consider width of cumulated fixed columns
-        acc + (column.sizing.type === OptionsColumnSize.TYPE ?
-          column.sizing.optionsCount * fixedColumnsWidth : 0), 0)
-      const floatingWidth = availableWidth - reservedFixedColumnsWidth
-      floatingColumnWidth = Math.max(Math.floor(floatingWidth / floatingColumnsCount), MIN_COL_WIDTH)
-      // 2.d - consume remaining pixels (avoid int imprecision there)
-      lastFloatingColumnWidth = Math.max(Math.ceil(floatingWidth - (floatingColumnWidth * (floatingColumnsCount - 1))), MIN_COL_WIDTH)
-    }
-
-    // 3 - duplicate locally the column models to hold their width
-    // Algo: we need here to count the floating rows to know when we are handling the last one
-    const { columnsAcc: runtimeColumns } = renderColumns.reduce(({ floatingCountAcc, columnsAcc }, column, index) => {
-      let nextFloatingCount
-      let runtimeWidth
-      if (column.sizing.type === OptionsColumnSize.TYPE) {
-        nextFloatingCount = floatingCountAcc
-        runtimeWidth = fixedColumnsWidth * column.sizing.optionsCount
-      } else {
-        nextFloatingCount = floatingCountAcc + 1
-        runtimeWidth = floatingCountAcc === floatingColumnsCount ? lastFloatingColumnWidth : floatingColumnWidth
-      }
-      return { floatingCount: nextFloatingCount, columnsAcc: [...columnsAcc, { ...column, runtimeWidth }] }
-    }, { floatingCountAcc: 0, columnsAcc: [] })
-    return runtimeColumns
+    const { fixedColumnsWidth, minColumnsWidth } = this.context.muiTheme.components.infiniteTable
+    // check if the vertical scrollbar should be shown
+    const effectiveHeight = height - this.getHeaderHeight()
+    const entitiesHeight = entities.length * lineHeight
+    const showVerticalScrollBar = entitiesHeight > effectiveHeight
+    // let table layout provide columns with runtime width
+    return layout(columns, width, showVerticalScrollBar, fixedColumnsWidth, minColumnsWidth)
   }
 
   render() {

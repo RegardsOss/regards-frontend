@@ -42,6 +42,7 @@ module.exports = baseTheme => ({
     infiniteTable: {
       lineHeight: 50,
       fixedColumnsWidth: baseTheme.button.iconButtonSize, // best fit for default IconButton size
+      minColumnsWidth: 200,
       minHeaderRowHeight: 40,
       multipleValuesSeparatorMargin: '0 10px',
       multipleValuesSeparatorHeight: 14,
