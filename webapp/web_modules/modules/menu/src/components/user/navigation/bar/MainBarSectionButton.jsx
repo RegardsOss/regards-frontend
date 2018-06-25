@@ -43,7 +43,7 @@ class MainBarSectionButton extends React.Component {
           <ModuleIcon
             iconDisplayMode={item.iconType}
             defaultIconURL={defaultSectionIconURL}
-            customIconURL={item.CustomIconURL}
+            customIconURL={item.customIconURL}
           />
         }
         items={item.children}
