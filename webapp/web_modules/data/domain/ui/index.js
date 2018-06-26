@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import LocalStorageUser from './LocalStorageUser'
+import LocalStorageUserData from './LocalStorageUserData'
 import { LOCALES_ENUM, LOCALES } from './Locales'
 import { MENU_DISPLAY_MODES, MENU_DISPLAY_MODES_ENUM } from './MenuDisplayModes'
 import { MODULE_PANE_DISPLAY_MODES_ENUM, MODULE_PANE_DISPLAY_MODES, isModulePaneExpanded, isModulePaneExpansible } from './ModulePaneDisplayModes'
@@ -33,6 +34,7 @@ module.exports = {
   LOCALES,
   LOCALES_ENUM,
   LocalStorageUser,
+  LocalStorageUserData,
   MENU_DISPLAY_MODES,
   MENU_DISPLAY_MODES_ENUM,
   MODULE_PANE_DISPLAY_MODES_ENUM,

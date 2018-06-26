@@ -24,13 +24,14 @@ import { browserHistory } from 'react-router'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { connect } from '@regardsoss/redux'
-import { DamDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { UIClient } from '@regardsoss/client'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { LoadingComponent, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
+import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import DatasetSelectionTypes from '../domain/DatasetSelectionTypes'
 import AttributeModelClient from '../clients/AttributeModelClient'
 import ModuleConfiguration from '../shapes/ModuleConfiguration'
@@ -49,20 +50,26 @@ class ModuleContainer extends React.Component {
     ...AccessShapes.runtimeDispayModuleFields,
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
-    // Set by mapDispatchToProps
-    fetchAllModelsAttributes: PropTypes.func,
-    // eslint-disable-next-line react/no-unused-prop-types
+    // Set by mapStateToProps
+    authentication: AuthenticateShape,
     attributeModels: DataManagementShapes.AttributeModelList,
     attributesLoading: PropTypes.bool,
     attributeModelsError: PropTypes.bool,
+    // Set by mapDispatchToProps
+    fetchAllModelsAttributes: PropTypes.func,
+    // eslint-disable-next-line react/no-unused-prop-types
     dispatchExpandResults: PropTypes.func.isRequired,
     dispatchCollapseForm: PropTypes.func.isRequired,
+    dispatchInitializeWithOpenedResults: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
   }
+
+  /** Key in local storage */
+  static FORM_STORAGE_KEY = 'seach-form'
 
   static DATASET_MODEL_IDS_PARAM = 'datasetModelIds'
   static TAGS_PARAM = 'tags'
@@ -78,16 +85,34 @@ class ModuleContainer extends React.Component {
     }
   }
 
+  /**
+   * Lifecycle method: component will mount. In search form, it attempts to restore from URL the form values. If none were found, it
+   * searches then in local storage some data associated with this, for current user in current module. Finally, if none was
+   * found either, it initializes with the default query
+   */
   componentWillMount() {
+    const {
+      appName, project, id, dispatchInitializeWithOpenedResults,
+    } = this.props
+    // build default query
+    let q
     // Read query parameters form current URL
     const query = browserHistory ? browserHistory.getCurrentLocation().query : null
-
-    let q = this.getInitialQuery()
-
+    // Is there a query in browser?
     if (query && query.q) {
+      // yes: user pasted some search from another REGARDS (higher priority), initialize with results visible
       ({ q } = query)
+      dispatchInitializeWithOpenedResults()
+    } else {
+      const initialUserData = UIDomain.LocalStorageUserData.getUserData(appName, project, this.getUser(), id, ModuleContainer.FORM_STORAGE_KEY)
+      if (initialUserData) {
+        q = initialUserData // default values from local storage
+        const browserPath = browserHistory.getCurrentLocation().pathname
+        browserHistory.replace({ pathname: browserPath, query: { q } })
+      } else {
+        q = this.getInitialQuery() // no default values
+      }
     }
-
     q = q && q.length > 0 ? q : this.createSearchQueryFromCriterion()
 
     this.setState({
@@ -128,6 +153,9 @@ class ModuleContainer extends React.Component {
   onCriteriaChange = (criteria, pluginId) => {
     this.criterionValues[pluginId] = criteria
   }
+
+  /** @return {string} current user if any */
+  getUser = () => get(this.props, 'authentication.sub')
 
   /**
    * Get the default query for this form at initialization
@@ -256,8 +284,14 @@ class ModuleContainer extends React.Component {
   }
 
   handleClearAll = () => {
+    const { appName, project, id } = this.props
+    // 1 - clear each plugin
     this.clearFunctions.forEach(func => func())
-    browserHistory.push({ pathname: browserHistory.getCurrentLocation().pathname })
+    // 2 - clear browser URL
+    browserHistory.replace({ pathname: browserHistory.getCurrentLocation().pathname })
+    // 3 - update local storage
+    UIDomain.LocalStorageUserData.clearUserDataUserData(appName, project, this.getUser(), id, ModuleContainer.FORM_STORAGE_KEY)
+    // 4 - update local state
     this.setState({
       searchQuery: this.getInitialQuery(),
     })
@@ -268,16 +302,23 @@ class ModuleContainer extends React.Component {
    * Run form search with the stored criteria values in the state.criterion
    */
   handleSearch = () => {
-    const { dispatchCollapseForm, dispatchExpandResults } = this.props
+    const {
+      appName, project, id, dispatchCollapseForm, dispatchExpandResults,
+    } = this.props
+    // 0 - build the query
     const query = this.createSearchQueryFromCriterion()
+    // 1 - save query in user data
+    UIDomain.LocalStorageUserData.saveUserData(appName, project, this.getUser(), id, ModuleContainer.FORM_STORAGE_KEY, query)
+    // 2 - Update state
     this.setState({
       searchQuery: query,
     })
     this.criterionValues = {}
+    // 3 - update browser URL
     const browserPath = browserHistory.getCurrentLocation().pathname
     const browserQuery = merge({}, browserHistory.getCurrentLocation().query || {}, { q: query })
     browserHistory.push({ pathname: browserPath, query: browserQuery })
-    // make sure search results are opened and close form
+    // 4 - make sure search results are opened and close form
     dispatchExpandResults()
     dispatchCollapseForm()
   }
@@ -341,8 +382,8 @@ class ModuleContainer extends React.Component {
 
   renderResults() {
     const {
-      project,
-      appName, moduleConf: { datasets, preview, searchResult },
+      project, appName, id,
+      moduleConf: { datasets, preview, searchResult },
     } = this.props
 
     if (preview) {
@@ -357,8 +398,8 @@ class ModuleContainer extends React.Component {
     if (datasets.type === DatasetSelectionTypes.DATASET_TYPE) {
       restrictedDatasetsIpIds = datasets.selectedDatasets
     }
-
     const module = {
+      id,
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
       active: true,
       applicationId: this.props.appName,
@@ -395,16 +436,29 @@ class ModuleContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
   attributeModels: AttributeModelClient.AttributeModelSelectors.getList(state),
   attributesLoading: AttributeModelClient.AttributeModelSelectors.isFetching(state),
   attributeModelsError: AttributeModelClient.AttributeModelSelectors.hasError(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchAllModelsAttributes: () => dispatch(AttributeModelClient.AttributeModelActions.fetchEntityList()),
-  dispatchCollapseForm: () => dispatch(moduleExpandedStateActions.setMinimized(modulesManager.AllDynamicModuleTypes.SEARCH_FORM)),
-  dispatchExpandResults: () => dispatch(moduleExpandedStateActions.setNormal(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS)),
-})
+const mapDispatchToProps = (dispatch, { id, conf }) => {
+  // build keys for module sub panes (both share the module id)
+  const searchFormPaneKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(modulesManager.AllDynamicModuleTypes.SEARCH_FORM, id)
+  const searchResultsPaneKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS, id)
+  return {
+    fetchAllModelsAttributes: () => dispatch(AttributeModelClient.AttributeModelActions.fetchEntityList()),
+    dispatchCollapseForm: () => dispatch(moduleExpandedStateActions.setMinimized(searchFormPaneKey)),
+    dispatchExpandResults: () => dispatch(moduleExpandedStateActions.setNormal(searchResultsPaneKey)),
+    dispatchInitializeWithOpenedResults: () => {
+      // 1 - compute expansible state from conf
+      const searchFormExpansible = UIDomain.isModulePaneExpansible(get(conf, 'primaryPane')) // true by default
+      const searchResultsExpansible = UIDomain.isModulePaneExpansible(get(conf, 'searchResults.primaryPane')) // true by default
+      dispatch(moduleExpandedStateActions.initialize(searchFormPaneKey, searchFormExpansible, !searchFormExpansible))
+      dispatch(moduleExpandedStateActions.initialize(searchResultsPaneKey, searchResultsExpansible, true))
+    },
+  }
+}
 
 const UnconnectedModuleContainer = ModuleContainer
 export { UnconnectedModuleContainer }

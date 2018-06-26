@@ -19,9 +19,11 @@
 import compose from 'lodash/fp/compose'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import isNil from 'lodash/isNil'
 import { Card } from 'material-ui/Card'
 import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
 import { UIDomain } from '@regardsoss/domain'
+import { UIClient } from '@regardsoss/client'
 import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { HOCUtils, ShowableAtRender } from '@regardsoss/display-control'
@@ -42,15 +44,12 @@ import CardMediaWithCustomBG from './CardMediaWithCustomBG'
 const userAppName = 'user'
 
 /**
- * Presents a dynamic module.
- * - It appends its own context to parent context
- * - It binds authentication and endpoints to check if it should show not authentified / not enough right messages
- * - It is intended to display dynamic modules user container. It can adapt to both user and admin interface (ie: user container
+ * This module is intended to display dynamic modules user container. It can adapt to both user and admin interface (ie: user container
  * here is the 'view' part of the dynamic modules - legacy name)
- * - It resolves module title, icon, expandable and expanded state from module configuration (module fields)
- *
- * Expand / collapse state is controlled using redux client ModuleExpandedState and is therefore shared with
- * potential external controllers
+ * - It appends its own context to parent context (i18n and styles)
+ * - It binds authentication and endpoints to check if it should show not authentified / not enough right messages
+ * - It resolves module title, icon and presentation state from module configuration (module fields)
+ * - It initializes the module presentation state in redux if not already done, using ModuleExpandedState client
  *
  * It uses moduleConf field for title, icon, expandable and expanded state
  *
@@ -65,10 +64,13 @@ export class DynamicModulePane extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state, { type }) {
+  static mapStateToProps(state, { type, id }) {
+    const presentationKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(type, id)
+    const presentationState = moduleExpandedStateSelectors.getPresentationState(state, presentationKey)
     return {
-      expandable: moduleExpandedStateSelectors.isExpandable(state, type),
-      presentationState: moduleExpandedStateSelectors.getPresentationState(state, type),
+      expandable: moduleExpandedStateSelectors.isExpandable(state, presentationKey),
+      presentationState,
+      storedPresentationState: presentationState, // raw presentation state from redux
       fetching: CommonEndpointClient.endpointSelectors.isFetching(state) || AuthenticationClient.authenticationSelectors.isFetching(state),
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
       isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
@@ -83,13 +85,14 @@ export class DynamicModulePane extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch, { type }) {
+  static mapDispatchToProps(dispatch, { type, id }) {
+    const presentationKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(type, id)
     // use store when in user app, ignore event in admin apps (not expandable when in admin app)
     return {
-      dispatchSetInitialState: (expandable, expanded) => dispatch(moduleExpandedStateActions.initialize(type, expandable, expanded)),
-      dispatchSetMinimized: () => dispatch(moduleExpandedStateActions.setMinimized(type)),
-      dispatchSetNormal: () => dispatch(moduleExpandedStateActions.setNormal(type)),
-      dispatchSetMaximized: () => dispatch(moduleExpandedStateActions.setMaximized(type)),
+      dispatchSetInitialState: (expandable, expanded) => dispatch(moduleExpandedStateActions.initialize(presentationKey, expandable, expanded)),
+      dispatchSetMinimized: () => dispatch(moduleExpandedStateActions.setMinimized(presentationKey)),
+      dispatchSetNormal: () => dispatch(moduleExpandedStateActions.setNormal(presentationKey)),
+      dispatchSetMaximized: () => dispatch(moduleExpandedStateActions.setMaximized(presentationKey)),
     }
   }
 
@@ -120,6 +123,8 @@ export class DynamicModulePane extends React.Component {
     // from map state to props
     expandable: PropTypes.bool,
     presentationState: PropTypes.oneOf(UIDomain.PRESENTATION_STATE),
+    // raw presentation state from store, without default value, that is used to determine initialization state
+    storedPresentationState: PropTypes.oneOf(UIDomain.PRESENTATION_STATE),
     // eslint-disable-next-line react/no-unused-prop-types
     fetching: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -163,12 +168,14 @@ export class DynamicModulePane extends React.Component {
    * Lifecycle method, used here to recompute authentication and dependencies state
    */
   componentWillMount = () => {
-    // initialize redux store with this configuration, when layout options should be shown
-    if (this.showLayoutOptions()) {
+    const { storedPresentationState } = this.props
+    // initialize redux store with this configuration, when layout options should be shown AND not yet initializd (keeps state while
+    // user change pages)
+    if (this.showLayoutOptions() && isNil(storedPresentationState)) {
       const primaryPaneMode = get(this.props, 'moduleConf.primaryPane', UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE)
-      const expandable = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.ALWAYS_EXPANDED
-      const expanded = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE
-      this.props.dispatchSetInitialState(expandable, expanded)
+      const expansible = UIDomain.isModulePaneExpansible(primaryPaneMode)
+      const expanded = UIDomain.isModulePaneExpanded(primaryPaneMode)
+      this.props.dispatchSetInitialState(expansible, expanded)
     }
     // let properties changed update this state
     this.onPropertiesChanged({}, this.props)

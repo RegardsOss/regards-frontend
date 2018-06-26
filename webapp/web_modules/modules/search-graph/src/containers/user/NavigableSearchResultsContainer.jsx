@@ -51,10 +51,12 @@ export class NavigableSearchResultsContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch) {
+  static mapDispatchToProps(dispatch, { id }) {
+    const searchGraphPaneKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(modulesManager.AllDynamicModuleTypes.SEARCH_GRAPH, id)
+    const searchResultsPaneKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS, id)
     return {
-      dispatchExpandResults: () => dispatch(moduleExpandedStateActions.setNormal(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS)),
-      dispatchCollapseGraph: () => dispatch(moduleExpandedStateActions.setMinimized(modulesManager.AllDynamicModuleTypes.SEARCH_GRAPH)),
+      dispatchExpandResults: () => dispatch(moduleExpandedStateActions.setNormal(searchResultsPaneKey)),
+      dispatchCollapseGraph: () => dispatch(moduleExpandedStateActions.setMinimized(searchGraphPaneKey)),
     }
   }
 
@@ -119,6 +121,7 @@ export class NavigableSearchResultsContainer extends React.Component {
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
       active: true,
       applicationId: appName,
+      id: newProps.id,
       // should force opening the results module (on tag selection)
       conf: {
         ...moduleConf.searchResult, // results re use a part of this module configuration

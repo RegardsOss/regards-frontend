@@ -25,6 +25,16 @@ import { UIDomain } from '@regardsoss/domain'
  */
 export class ModuleExpandedStateActions {
   /**
+   * Builds a key for presentation state in store (shares builder accros different consumers in REGARDS)
+   * @param {string} moduleType module type, identifies this component module type (not necessarily related with a module)
+   * @param {number} moduleId module ID, optional, identifies this component type over multiple modules instances
+   * @return {string} built key
+   */
+  static getPresentationModuleKey(moduleType, moduleId = 0) {
+    return `${moduleType}-${moduleId}`
+  }
+
+  /**
    * Constructor
    * @param {string} namespace actions namespace or default namespace
    */

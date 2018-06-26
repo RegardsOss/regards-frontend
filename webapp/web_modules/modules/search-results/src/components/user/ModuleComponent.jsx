@@ -53,6 +53,7 @@ class ModuleComponent extends React.Component {
     const {
       appName,
       project,
+      id,
       attributeModels,
       description,
       page,
@@ -92,6 +93,7 @@ class ModuleComponent extends React.Component {
             />
           }
           requiredDependencies={dependencies}
+          id={id}
           moduleConf={moduleConf}
           {...this.props}
         >

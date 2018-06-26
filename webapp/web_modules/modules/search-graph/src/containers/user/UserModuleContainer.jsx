@@ -26,6 +26,7 @@ import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { UIClient } from '@regardsoss/client'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
+import { modulesManager } from '@regardsoss/modules'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { withValueRenderContext } from '@regardsoss/components'
@@ -49,13 +50,16 @@ const moduleExpandedStateSelectors = UIClient.getModuleExpandedStateSelectors()
  * Module container for user interface
  **/
 export class UserModuleContainer extends React.Component {
-  static mapStateToProps = (state, { type }) => ({
-    presentationState: moduleExpandedStateSelectors.getPresentationState(state, type),
-    selectionPath: graphContextSelectors.getSelectionPath(state),
-    attributeModels: AttributeModelSelectors.getList(state),
-    // authentication, to refresh content on login / logout
-    authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
-  })
+  static mapStateToProps = (state, { type, id }) => {
+    const searchGraphPaneKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(modulesManager.AllDynamicModuleTypes.SEARCH_GRAPH, id)
+    return {
+      presentationState: moduleExpandedStateSelectors.getPresentationState(state, searchGraphPaneKey),
+      selectionPath: graphContextSelectors.getSelectionPath(state),
+      attributeModels: AttributeModelSelectors.getList(state),
+      // authentication, to refresh content on login / logout
+      authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
+    }
+  }
 
   static mapDispatchToProps = dispatch => ({
     fetchAttributeModels: () => dispatch(AttributeModelActions.fetchEntityList({ pModelType: ENTITY_TYPES_ENUM.DATASET })),

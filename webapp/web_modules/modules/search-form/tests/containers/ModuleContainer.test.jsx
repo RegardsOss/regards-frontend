@@ -97,6 +97,7 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
       fetchAllModelsAttributes: () => { },
       dispatchCollapseForm: () => { },
       dispatchExpandResults: () => { },
+      dispatchInitializeWithOpenedResults: () => { },
     }
     const wrapper = shallow(<UnconnectedModuleContainer
       {...props}
