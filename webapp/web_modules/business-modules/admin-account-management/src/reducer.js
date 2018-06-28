@@ -22,6 +22,7 @@ import { accountWaitingReducer } from './clients/AccountWaitingClient'
 import { acceptAccountReducer } from './clients/AcceptAccountClient'
 import { enableAccountReducer } from './clients/EnableAccountClient'
 import { refuseAccountReducer } from './clients/RefuseAccountClient'
+import { accountSettingsReducer } from './clients/AccountSettingsClient'
 
 const accountManagementReducer = combineReducers({
   account: accountReducer,
@@ -29,6 +30,7 @@ const accountManagementReducer = combineReducers({
   acceptAccount: acceptAccountReducer,
   enableAccount: enableAccountReducer,
   refuseAccount: refuseAccountReducer,
+  settings: accountSettingsReducer,
 })
 
 export default accountManagementReducer

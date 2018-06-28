@@ -45,6 +45,7 @@ const messages = Object.assign({
   'account.list.refuse.message': 'Refuse the request?',
   'account.list.refuse.message.detail': 'This will remove the account {name}',
   'account.list.info.why-cant-remove-account-having-project-user': 'You can\'t delete an account if it has a project user',
+  'account.list.action.cancel': 'Cancel',
 
   'account.form.input.firstName': 'Firstname',
   'account.form.input.lastName': 'Lastname',
@@ -53,6 +54,14 @@ const messages = Object.assign({
   'account.form.create.title': 'Create an account',
   'account.form.action.save': 'Save',
   'account.form.action.cancel': 'Cancel',
+
+  'account.settings.title': 'Account settings',
+  'account.settings.subtitle': 'Manage common user accounts settings',
+  'account.settings.mode.field': 'Validation mode',
+  'account.settings.mode.MANUAL': 'Manual: each account creation request must be acknowledged by the administrator',
+  'account.settings.mode.AUTO': 'Automatic: account creation requests are automatically acknowledged',
+  'account.settings.action.confirm': 'Confirm',
+  'account.settings.action.cancel': 'Cancel',
 }, Locales.en)
 
 export default messages

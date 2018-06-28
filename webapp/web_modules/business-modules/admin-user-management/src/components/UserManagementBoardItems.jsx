@@ -18,6 +18,7 @@
  **/
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
+import SettingsIcon from 'material-ui/svg-icons/action/settings'
 import { projectUserDependencies } from '@regardsoss/admin-user-projectuser-management'
 import { roleDependencies } from '@regardsoss/admin-user-role-management'
 import { orderDependencies } from '@regardsoss/admin-order-management'
@@ -41,6 +42,11 @@ export default (project, intl) => [
       className: 'selenium-userList',
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
       hateoasDependencies: projectUserDependencies.listDependencies,
+    }, {
+      path: `/admin/${project}/user/project-user/settings`,
+      icon: <SettingsIcon />,
+      tooltipMsg: intl.formatMessage({ id: 'user.board.settings.tooltip' }),
+      hateoasDependencies: projectUserDependencies.settingsDependencies,
     }, {
       path: `/admin/${project}/user/project-user/create`,
       icon: <AddIcon />,

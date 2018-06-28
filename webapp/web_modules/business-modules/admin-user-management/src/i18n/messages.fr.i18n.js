@@ -19,6 +19,7 @@
 const messages = {
   'user.board.tooltip.list': 'Liste',
   'user.board.tooltip.add': 'Ajouter',
+  'user.board.settings.tooltip': 'Paramètres',
 
   'user.board.project-user.description': 'Consulter et éditer les utilisateurs du projet et les demandes d\'accès',
   'user.board.project-user.title': 'Utilisateurs',

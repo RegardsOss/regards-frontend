@@ -23,6 +23,9 @@ import getAcceptAccountSelectors from './account/AcceptAccountSelectors'
 import AccountActions from './account/AccountActions'
 import getAccountReducer from './account/AccountReducer'
 import getAccountSelectors from './account/AccountSelectors'
+import AccountSettingsActions from './account/AccountSettingsActions'
+import getAccountSettingsReducer from './account/AccountSettingsReducer'
+import getAccountSettingsSelectors from './account/AccountSettingsSelectors'
 import AccountWaitingActions from './account/AccountWaitingActions'
 import getAccountWaitingReducer from './account/AccountWaitingReducer'
 import getAccountWaitingSelectors from './account/AccountWaitingSelectors'
@@ -40,15 +43,23 @@ module.exports = {
   AcceptAccountActions,
   getAcceptAccountReducer,
   getAcceptAccountSelectors,
+
   AccountActions,
   getAccountReducer,
   getAccountSelectors,
+
+  AccountSettingsActions,
+  getAccountSettingsReducer,
+  getAccountSettingsSelectors,
+
   AccountWaitingActions,
   getAccountWaitingReducer,
   getAccountWaitingSelectors,
+
   EnableAccountActions,
   getEnableAccountReducer,
   getEnableAccountSelectors,
+
   RefuseAccountActions,
   getRefuseAccountReducer,
   getRefuseAccountSelectors,

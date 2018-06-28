@@ -23,6 +23,14 @@ import AccountActions from './AccountActions'
  * @author Raphaël Mechali
  */
 class AccountWaitingActions extends AccountActions {
+  /**
+   * Constructor
+   * @param {*} namespace default namespace (builds shared actions for administration)
+   */
+  constructor(namespace = 'admin-account-management/waiting-accounts') {
+    super(namespace)
+  }
+
   fetchWaitingAccountsEntityList(index, size) {
     return this.fetchPagedEntityList(index, size, null, { status: 'PENDING' })
   }

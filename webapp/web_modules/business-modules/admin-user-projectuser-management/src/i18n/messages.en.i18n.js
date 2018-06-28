@@ -67,6 +67,14 @@ const messages = {
   'projectUser.create.action.create': 'Create',
   'projectUser.create.action.cancel': 'Cancel',
 
+  'project.user.settings.title': 'User settings',
+  'project.user.settings.subtitle': 'Manage common project user settings',
+  'project.user.settings.mode.field': 'Validation mode',
+  'project.user.settings.mode.MANUAL': 'Manual: each project user creation request must be acknowledged by the administrator',
+  'project.user.settings.mode.AUTO': 'Automatic: project user creation requests are automatically acknowledged',
+  'project.user.settings.action.confirm': 'Confirm',
+  'project.user.settings.action.cancel': 'Cancel',
+
   ...Locales.en,
   ...MetadataLocales.en,
 }

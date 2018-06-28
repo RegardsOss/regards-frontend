@@ -27,7 +27,7 @@ import AccountWaitingActions from './AccountWaitingActions'
 
 /**
  * Builds reduce closure on actions namespace
- * @param {*} namespace namespace
+ * @param {*} namespace namespace (do not provide to get the default client)
  * @return {function} reduce function (state, action) => state
  */
 export default function getWaitingAccountReducer(namespace) {

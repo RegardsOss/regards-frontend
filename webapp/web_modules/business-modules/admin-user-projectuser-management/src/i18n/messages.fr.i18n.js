@@ -67,6 +67,14 @@ const messages = {
   'projectUser.create.action.create': 'Créer',
   'projectUser.create.action.cancel': 'Annuler',
 
+  'project.user.settings.title': 'Paramètres de utilisateurs',
+  'project.user.settings.subtitle': 'Gérer les paramètres communs aux utilisateurs du projet',
+  'project.user.settings.mode.field': 'Mode de validation',
+  'project.user.settings.mode.MANUAL': 'Manuel: chaque demande de création d\'un utilistaeur projet doit être validée par l\'administrateur',
+  'project.user.settings.mode.AUTO': 'Automatique: les demandes de création d\'un utilisateur projet sont automatiquement validées',
+  'project.user.settings.action.confirm': 'Confirmer',
+  'project.user.settings.action.cancel': 'Annuler',
+
   ...Locales.fr,
   ...MetadataLocales.fr,
 }

@@ -54,11 +54,11 @@ export const projectRouter = {
  * @type {{path: string, getChildRoutes: ((nextState, cb))}}
  */
 export const accountRouter = {
-  path: 'account',
+  path: 'accounts',
   getChildRoutes(nextState, cb) {
     require.ensure([], (require) => {
-      const adminAccountManagement = require('@regardsoss/admin-account-management')
-      cb(null, [adminAccountManagement.accountManagementRouter])
+      const adminAccountManagement = require('@regardsoss/admin-board-account')
+      cb(null, [adminAccountManagement.accountsRouter])
     })
   },
 }

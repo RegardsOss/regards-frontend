@@ -16,7 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import getProjectUserReducer from './ProjectUserReducer'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { ProjectUserConfiguration } from '@regardsoss/api'
+import WaitingAccessUsersEntitiesActions from './WaitingAccessUsersEntitiesActions'
 
-// strictly the same reducer, given the namespace
-export default getProjectUserReducer
+export class WaitingAccessUserEntitiesReducer extends BasicPageableReducers {
+  /**
+   * Constructor
+   * @param {string} namespace namespace (leave empty to get default namespace for admin)
+   */
+  constructor(namespace) {
+    super(ProjectUserConfiguration, new WaitingAccessUsersEntitiesActions(namespace))
+  }
+}
+
+/**
+ * Closure builder for reducer function
+ * @param {string} namespace actions namespace (leave empty to get default namespace for admin)
+ * @return {Function} reducer function
+ */
+export default (namespace) => {
+  const reducerInstance = new WaitingAccessUserEntitiesReducer(namespace)
+  return (state, action) => reducerInstance.reduce(state, action)
+}
+
