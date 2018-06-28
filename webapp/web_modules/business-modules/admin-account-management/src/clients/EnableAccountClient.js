@@ -21,7 +21,7 @@ import { AdminInstanceClient } from '@regardsoss/client'
 const namespace = 'admin-account-management/enable-account'
 const enableAccountActions = new AdminInstanceClient.EnableAccountActions(namespace)
 const enableAccountReducer = AdminInstanceClient.getEnableAccountReducer(namespace)
-const enableAccountSelectors = AdminInstanceClient.getEnableAccountSelectors([['admin', 'account-management', 'enableAccount']])
+const enableAccountSelectors = AdminInstanceClient.getEnableAccountSelectors([['admin', 'account-management', 'accounts', 'enableAccount']])
 
 module.exports = {
   enableAccountActions,

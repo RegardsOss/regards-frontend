@@ -20,10 +20,13 @@
 import EnumConnectivity from './EnumConnectivity'
 import EnumJavaPrimitiveType from './EnumJavaPrimitiveType'
 import ProjectConnectionStateEnum from './ProjectConnectionStateEnum'
+import { PROJECT_USER_SETTINGS_MODE, PROJECT_USER_SETTINGS_MODE_ENUM } from './ProjectUserSettingsMode'
 
 
 module.exports = {
   EnumConnectivity,
   EnumJavaPrimitiveType,
   ProjectConnectionStateEnum,
+  PROJECT_USER_SETTINGS_MODE,
+  PROJECT_USER_SETTINGS_MODE_ENUM,
 }

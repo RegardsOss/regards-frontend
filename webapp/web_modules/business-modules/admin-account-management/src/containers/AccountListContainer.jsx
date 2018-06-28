@@ -86,8 +86,15 @@ export class AccountListContainer extends React.Component {
    * Account edition callback: shows edit form
    */
   onEdit = (accountId) => {
-    const url = `/admin/account/${accountId}/edit`
+    const url = `/admin/accounts/management/${accountId}/edit`
     browserHistory.push(url)
+  }
+
+  /**
+   * On back callback
+   */
+  onBack = () => {
+    browserHistory.push('/admin/accounts/board')
   }
 
   /**
@@ -152,6 +159,7 @@ export class AccountListContainer extends React.Component {
           onRefuse={this.onRefuse}
           onEnable={this.onEnable}
           onDelete={this.onDelete}
+          onBack={this.onBack}
         />
       </I18nProvider>
     )

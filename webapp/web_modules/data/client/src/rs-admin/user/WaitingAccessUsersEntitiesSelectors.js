@@ -16,7 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import getProjectUserSelectors from './ProjectUserSelectors'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-// stricly the same selectors given the store path
-export default getProjectUserSelectors
+/**
+ * Selectors builder
+ * @param {[string]} storePath store path (leave empty to get default store path for admin)
+ */
+export default (storePath = ['admin', 'notifications-waiting-users']) => new BasicPageableSelectors(storePath)

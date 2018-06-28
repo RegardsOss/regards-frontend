@@ -25,9 +25,9 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 /**
  * Selectors instance builders
- * @param {[string]} storePath path to access state in redux store
+ * @param {[string]} storePath path to access state in redux store (optional, default client path for admin when not provided)
  * @return selectors instance
  */
-export default function getAccountSelectors(storePath) {
+export default function getAccountSelectors(storePath = ['admin', 'account-management', 'accounts', 'waitingAccount']) {
   return new BasicPageableSelectors(storePath)
 }

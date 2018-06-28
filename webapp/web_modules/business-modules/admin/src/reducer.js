@@ -19,10 +19,10 @@
 import { combineReducers } from 'redux'
 import { userManagementReducer } from '@regardsoss/admin-user-management'
 import { projectManagementReducer } from '@regardsoss/admin-project-management'
-import { accountManagementReducer } from '@regardsoss/admin-account-management'
 import { uiManagementReducer } from '@regardsoss/admin-ui-management'
 import { microserviceManagementReducer } from '@regardsoss/admin-microservice-management'
 import { accessRightManagementReducer } from '@regardsoss/admin-accessright-management'
+import { accountsReducer } from '@regardsoss/admin-board-account'
 import { acquisitionReducers } from '@regardsoss/admin-board-acquisition'
 import { collectionsReducers } from '@regardsoss/admin-board-collections'
 import { modelsReducers } from '@regardsoss/admin-board-models'
@@ -37,7 +37,7 @@ const adminReducer = combineReducers({
   // this reducers
   'notifications-waiting-users': waitingAccessUsersEntitiesReducer,
   // sub modules reducers
-  'account-management': accountManagementReducer,
+  'account-management': accountsReducer,
   'microservice-management': microserviceManagementReducer,
   'project-management': projectManagementReducer,
   ui: uiManagementReducer,

@@ -64,6 +64,7 @@
     "@regardsoss/admin-accessright-dataaccess-management": "file:web_modules/business-modules/admin-accessright-dataaccess-management",
     "@regardsoss/admin-accessright-management": "file:web_modules/business-modules/admin-accessright-management",
     "@regardsoss/admin-account-management": "file:web_modules/business-modules/admin-account-management",
+    "@regardsoss/admin-board-account": "file:web_modules/business-modules/admin-board-account",
     "@regardsoss/admin-board-acquisition": "file:web_modules/business-modules/admin-board-acquisition",
     "@regardsoss/admin-board-collections": "file:web_modules/business-modules/admin-board-collections",
     "@regardsoss/admin-board-models": "file:web_modules/business-modules/admin-board-models",

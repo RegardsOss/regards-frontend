@@ -21,7 +21,7 @@ import { AdminInstanceClient } from '@regardsoss/client'
 const namespace = 'admin-account-management/refuse-account'
 const refuseAccountActions = new AdminInstanceClient.RefuseAccountActions(namespace)
 const refuseAccountReducer = AdminInstanceClient.getRefuseAccountReducer(namespace)
-const refuseAccountSelectors = AdminInstanceClient.getRefuseAccountSelectors(['admin', 'account-management', 'refuseAccount'])
+const refuseAccountSelectors = AdminInstanceClient.getRefuseAccountSelectors(['admin', 'account-management', 'accounts', 'refuseAccount'])
 
 module.exports = {
   refuseAccountActions,
