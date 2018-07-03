@@ -61,6 +61,14 @@ class TableHeaderLoadingComponent extends React.Component {
   componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
+   * Lifecycle method: component will unmount: prevents here to call set state when component is not mounted
+   */
+  componentWillUnmount() {
+    this.willUnmount = true
+  }
+
+
+  /**
    * Properties change detected: update local state
    * @param oldProps previous component properties
    * @param newProps next component properties
@@ -102,7 +110,9 @@ class TableHeaderLoadingComponent extends React.Component {
    */
   onVisibilityPeriodFinished = () => {
     this.currentTimeout = null // delete current timeout
-    this.setState({ loadingVisible: false }) // hide loading
+    if (!this.willUnmount) {
+      this.setState({ loadingVisible: false }) // hide loading
+    }
   }
 
 
