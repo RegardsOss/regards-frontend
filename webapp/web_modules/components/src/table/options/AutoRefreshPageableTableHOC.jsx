@@ -22,6 +22,8 @@ import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-
 import { RefreshPageableTableOption } from './RefreshPageableTableOption'
 import { DEFAULT_PAGE_SIZE } from '../InfiniteTableContainer'
 
+export const DEFAULT_REFRESH_TIME = 5000
+
 /**
  * Auto refresh table content HOC. It has no graphics render. It fetches like following:
  * Wait for fetch to be performed (initial one is done by table container) then start timer on refreshTimeMS then
@@ -86,7 +88,7 @@ export class AutoRefreshPageableTableHOC extends React.Component {
   static defaultProps = {
     shouldRefetchAll: true,
     pageSize: DEFAULT_PAGE_SIZE,
-    refreshTimeMS: 5000,
+    refreshTimeMS: DEFAULT_REFRESH_TIME,
   }
 
   /**

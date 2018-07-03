@@ -65,9 +65,6 @@ class DatasetFilesComponent extends React.Component {
   /** No data component (avoids re-rendering it) */
   static EMPTY_COMPONENT = <NoFileComponent />
 
-  /** Loading component (avoids re-rendering it) */
-  static LOADING_COMPONENT = <TableHeaderLoadingComponent />
-
   /**
    * Returns something that can be used as name for file as parameter
    * @param {OrderFile} file file
@@ -146,9 +143,8 @@ class DatasetFilesComponent extends React.Component {
           <TableHeaderContentBox>
             <DatasetFilesCountHeaderMessage totalFilesCount={totalFilesCount} />
           </TableHeaderContentBox >
-          {/* 2 - loading */
-            isFetching ? DatasetFilesComponent.LOADING_COMPONENT : null
-          }
+          {/* 2 - loading */}
+          <TableHeaderLoadingComponent loading={isFetching} />
           {/* 3 - table options  */}
           <TableHeaderOptionsArea >
             <TableHeaderOptionGroup>

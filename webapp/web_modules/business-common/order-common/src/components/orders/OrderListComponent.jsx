@@ -133,9 +133,6 @@ class OrderListComponent extends React.Component {
   /** No data component (avoids re-rendering it) */
   static EMPTY_COMPONENT = <NoOrderComponent />
 
-  /** Loading component (avoids re-rendering it) */
-  static LOADING_COMPONENT = <TableHeaderLoadingComponent />
-
   /**
    * Sums up all properties from datasets tasks in order (must be a path to a numeric property)
    * @param {order} order order as described in OrderWithContent
@@ -317,9 +314,8 @@ class OrderListComponent extends React.Component {
           <TableHeaderContentBox>
             <OrderCountHeaderMessage displayMode={displayMode} totalOrderCount={totalOrderCount} />
           </TableHeaderContentBox >
-          {/* 2 - loading */
-            isFetching ? OrderListComponent.LOADING_COMPONENT : null
-          }
+          {/* 2 - loading */}
+          <TableHeaderLoadingComponent loading={isFetching} />
           {/* 3 - table options  */}
           <TableHeaderOptionsArea >
             <TableHeaderOptionGroup>

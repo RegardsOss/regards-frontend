@@ -136,11 +136,9 @@ class OrderCartContentSummary extends React.Component {
           }
           <br />
         </TableHeaderContentBox>
-        { // show loading feedback
-          isFetching ?
-            <TableHeaderLoadingComponent /> :
-          null
-        }
+        { /* show loading feedback */}
+        <TableHeaderLoadingComponent loading={isFetching} />
+
         <TableHeaderContentBox>
           <TableHeaderText text={formatMessage({ id: 'order-cart.module.objects.count.size.message' }, sizeMessageParameters)} />
         </TableHeaderContentBox>
