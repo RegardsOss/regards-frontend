@@ -17,13 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import forEach from 'lodash/forEach'
-import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardText, CardTitle, CardActions } from 'material-ui/Card'
 import { CommonShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CardActionsComponent } from '@regardsoss/components'
+import { reduxForm, Field } from '@regardsoss/form-utils'
 import messages from '../i18n'
 import styles from '../styles'
 import PluginFormUtils from '../tools/PluginFormUtils'

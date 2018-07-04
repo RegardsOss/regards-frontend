@@ -22,13 +22,12 @@ import omit from 'lodash/omit'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { reduxForm } from 'redux-form'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, HelpMessageComponent } from '@regardsoss/components'
 import {
-  RenderTextField, RenderPageableAutoCompleteField, RenderSelectField,
+  RenderTextField, RenderPageableAutoCompleteField, RenderSelectField, reduxForm,
   RenderArrayObjectField, RenderCheckbox, ValidationHelpers, Field, FieldArray,
 } from '@regardsoss/form-utils'
 import { DataProviderDomain } from '@regardsoss/domain'
