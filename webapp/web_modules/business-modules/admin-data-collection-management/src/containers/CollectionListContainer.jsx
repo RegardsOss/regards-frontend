@@ -83,7 +83,7 @@ export class CollectionListContainer extends React.Component {
 
   handleDuplicate = (collectionId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/collection/${collectionId}/duplicate`
+    const url = `/admin/${project}/data/collections/collection/${collectionId}/duplicate`
     browserHistory.push(url)
   }
 
