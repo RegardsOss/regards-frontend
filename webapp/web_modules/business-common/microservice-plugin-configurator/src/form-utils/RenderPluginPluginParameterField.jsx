@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import has from 'lodash/has'
 import values from 'lodash/values'
 import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
@@ -87,16 +88,17 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
       openMenu: false,
       pluginMetaDataList: [],
       pluginConfigurationList: [],
+      selectedPluginConfiguration: null,
     }
   }
 
   componentDidMount() {
     const {
-      pluginParameterType, fetchPluginConfigurationList, fetchPluginMetadataList, microserviceName, disabled,
+      pluginParameterType, fetchPluginConfigurationList, fetchPluginMetadataList, microserviceName,
     } = this.props
     const pluginId = this.props.input.value
 
-    if (pluginParameterType.type && !disabled) {
+    if (pluginParameterType.type) {
       // 1. Retrieve pluginMetadatas for the microservice.
       fetchPluginMetadataList(microserviceName, pluginParameterType.type).then((actionResults) => {
         this.setState({
@@ -153,7 +155,14 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
     input.onChange(value ? value.toString() : null)
   }
 
-  renderDisabled = () => (<span>{this.props.input.value}</span>)
+  renderDisabled = () => {
+    if (has(this.state.selectedPluginConfiguration, 'content.label')) {
+      // Display the plugin conf name
+      return (<span>{this.state.selectedPluginConfiguration.content.label} - ID {this.state.selectedPluginConfiguration.content.id}</span>)
+    }
+    // No plugin value
+    return null
+  }
 
   renderEnabled = () => {
     const {

@@ -151,6 +151,11 @@ class PluginFormUtils {
       const formatedParamterConf = cloneDeep(parameterConf)
       formatedParamterConf.value = PluginFormUtils.formatParameterConf(parameterConf.value, parameterMetaData, forInit)
       return formatedParamterConf
+    } else if (parameterConf && !isNil(parameterConf.pluginConfiguration)) {
+      // Handle plugin values
+      const formatedParamterConf = cloneDeep(parameterConf)
+      formatedParamterConf.value = parameterConf.pluginConfiguration.id
+      return formatedParamterConf
     } else if (forInit) {
       // For initialization, we need to create all parameters in configuration
       return PluginFormUtils.createNewParameterConf(parameterMetaData)
