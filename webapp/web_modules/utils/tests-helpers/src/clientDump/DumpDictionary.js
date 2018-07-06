@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
+import ThemeListClientDump from '@regardsoss/client/tests/rs-access-project/ThemeList.dump'
 import UIPluginConfigurationClientDump from '@regardsoss/client/tests/rs-access-project/UIPluginConfiguration.dump'
 import UIPluginDefinitionClientDump from '@regardsoss/client/tests/rs-access-project/UIPluginDefinition.dump'
 import LinkUIPluginDatasetDump from '@regardsoss/client/tests/rs-access-project/LinkUIPluginDataset.dump'
@@ -146,6 +147,9 @@ import {
   STORAGE_MONITORING_ARRAY,
   StorageMonitoringConfiguration,
 
+  THEME_ARRAY,
+  ThemeConfiguration,
+
 } from '@regardsoss/api'
 
 /**
@@ -171,6 +175,12 @@ module.exports = {
     },
   },
   AccessProjectClient: {
+    Themes: {
+      isPageable: true,
+      dump: ThemeListClientDump,
+      ENTITY_ARRAY: THEME_ARRAY,
+      normalizrKey: ThemeConfiguration.normalizrKey,
+    },
     UIPluginConfiguration: {
       isPageable: true,
       dump: UIPluginConfigurationClientDump,

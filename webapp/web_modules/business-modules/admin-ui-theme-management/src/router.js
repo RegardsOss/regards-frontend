@@ -22,7 +22,7 @@
 
 
 export const editThemeRoute = {
-  path: ':themeId/edit',
+  path: ':themeId/:mode',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const ThemeFormAdapter = require('./containers/ThemeFormAdapter')

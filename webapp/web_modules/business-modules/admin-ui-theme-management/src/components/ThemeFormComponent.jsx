@@ -17,14 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import trim from 'lodash/trim'
-import merge from 'lodash/merge'
-import set from 'lodash/set'
-import isEqual from 'lodash/isEqual'
 import cloneDeep from 'lodash/cloneDeep'
+import find from 'lodash/find'
 import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import isUndefined from 'lodash/isUndefined'
+import merge from 'lodash/merge'
+import set from 'lodash/set'
+import trim from 'lodash/trim'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
@@ -38,9 +39,6 @@ import SelectField from 'material-ui/SelectField'
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
 
-// Varchar 16
-const nameValidators = [ValidationHelpers.validAlphaNumericUnderscore, ValidationHelpers.lengthMoreThan(3), ValidationHelpers.lengthLessThan(16)]
-
 /**
  * Display the theme form component
  * @author Léo Mieulet
@@ -48,12 +46,15 @@ const nameValidators = [ValidationHelpers.validAlphaNumericUnderscore, Validatio
 export class ThemeFormComponent extends React.Component {
   static propTypes = {
     currentTheme: AccessShapes.Theme,
+    themeList: AccessShapes.ThemeList,
     backUrl: PropTypes.string,
-    isCreating: PropTypes.bool,
-    onSubmit: PropTypes.func,
+    isCreating: PropTypes.bool.isRequired,
+    isEditing: PropTypes.bool.isRequired,
+    isDuplicating: PropTypes.bool.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
-    pristine: PropTypes.bool,
+    invalid: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
   }
@@ -84,14 +85,18 @@ export class ThemeFormComponent extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !isEqual(this.state.lastRefresh, nextState.lastRefresh) || !isEqual(this.state.value, nextState.value)
+    return !isEqual(this.state.lastRefresh, nextState.lastRefresh) || !isEqual(this.state.value, nextState.value) || !isEqual(this.props, nextProps)
   }
 
   getTitle = () => {
-    if (this.props.isCreating) {
-      return this.context.intl.formatMessage({ id: 'theme.create.title' })
+    const { isCreating, isEditing, currentTheme } = this.props
+    const { formatMessage } = this.context.intl
+    if (isCreating) {
+      return formatMessage({ id: 'theme.create.title' })
+    } else if (isEditing) {
+      return formatMessage({ id: 'theme.edit.title' }, { name: currentTheme.content.name })
     }
-    return this.context.intl.formatMessage({ id: 'theme.edit.title' }, { name: this.props.currentTheme.content.name })
+    return formatMessage({ id: 'theme.duplicate.title' }, { name: currentTheme.content.name })
   }
 
   getRegardsComponentsKeys = (currentConfiguration) => {
@@ -161,13 +166,17 @@ export class ThemeFormComponent extends React.Component {
   }
 
   handleInitialize = () => {
-    if (!this.props.isCreating) {
-      const { currentTheme } = this.props
+    const {
+      isEditing, isDuplicating, currentTheme, initialize,
+    } = this.props
+    if (isEditing || isDuplicating) {
       const currentConfiguration = currentTheme.content.configuration
       const customConfigurationKeys = this.getRegardsComponentsKeys(currentConfiguration)
-
-      this.props.initialize({
+      const initialName = currentTheme.content.name
+      const editionName = isDuplicating ? `${initialName}_COPY` : initialName
+      initialize({
         active: currentTheme.content.active,
+        name: editionName,
       })
       this.setState({
         initialConfiguration: currentConfiguration,
@@ -175,8 +184,8 @@ export class ThemeFormComponent extends React.Component {
         lastRefresh: Date.now(),
         customConfigurationKeys,
       })
-    } else {
-      this.props.initialize({
+    } else { // new theme from scratch
+      initialize({
         active: false,
       })
     }
@@ -213,23 +222,40 @@ export class ThemeFormComponent extends React.Component {
   }
 
   sendForm = (values) => {
-    const { isCreating, currentTheme } = this.props
+    const { isEditing, currentTheme } = this.props
     const { configuration } = this.state
     const result = {
       ...values,
       configuration,
     }
-    if (!isCreating) {
+    if (isEditing) {
       result.id = currentTheme.content.id
       result.name = currentTheme.content.name
     }
     this.props.onSubmit(result)
   }
 
+  /**
+   * Validates unique theme names
+   * @return {string} error message key for duplicated names errors, undefined otherwise
+   */
+  validateUniqueName = formName =>
+    find(this.props.themeList, ({ content: { name } }) => name === formName) ? 'theme.form.name.not.unique.error' : undefined
+
+  /* Validators for name: varchar 16, no duplicated name */
+  nameValidators = [
+    ValidationHelpers.required,
+    ValidationHelpers.validAlphaNumericUnderscore,
+    ValidationHelpers.lengthMoreThan(3),
+    ValidationHelpers.lengthLessThan(16),
+    this.validateUniqueName,
+  ]
+
   render() {
     const {
-      pristine, submitting, isCreating,
+      invalid, submitting, isCreating, isDuplicating,
     } = this.props
+    const { configuration } = this.state
     const title = this.getTitle()
     return (
       <form
@@ -240,17 +266,20 @@ export class ThemeFormComponent extends React.Component {
             title={title}
           />
           <CardText>
-            <ShowableAtRender show={isCreating}>
+            {/* 1. Name field when creating or duplicating */}
+            <ShowableAtRender show={isCreating || isDuplicating}>
               <Field
                 name="name"
                 fullWidth
                 component={RenderTextField}
                 type="text"
                 label={this.context.intl.formatMessage({ id: 'theme.form.name' })}
-                validate={nameValidators}
+                validate={this.nameValidators}
                 normalize={trim}
-                disabled={!isCreating}
               />
+            </ShowableAtRender>
+            {/* 2. Base theme, when creating */}
+            <ShowableAtRender show={isCreating}>
               <SelectField
                 floatingLabelText={this.context.intl.formatMessage({ id: 'theme.form.baseTheme' })}
                 value={this.state.value}
@@ -282,7 +311,7 @@ export class ThemeFormComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={this.context.intl.formatMessage({ id: 'theme.form.action.submit' })}
               mainButtonType="submit"
-              isMainButtonDisabled={(isCreating && pristine) || submitting}
+              isMainButtonDisabled={submitting || invalid || isEmpty(configuration)}
               secondaryButtonLabel={this.context.intl.formatMessage({ id: 'theme.form.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />

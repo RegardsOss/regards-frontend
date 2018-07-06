@@ -29,11 +29,12 @@ import messages from '../i18n'
 export class ThemeListContainer extends React.Component {
   static propTypes = {
     themeList: AccessShapes.ThemeList,
-    backUrl: PropTypes.string,
-    createUrl: PropTypes.string,
-    handleEdit: PropTypes.func,
-    fetchThemeList: PropTypes.func,
-    deleteTheme: PropTypes.func,
+    backUrl: PropTypes.string.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    handleDuplicate: PropTypes.func.isRequired,
+    fetchThemeList: PropTypes.func.isRequired,
+    deleteTheme: PropTypes.func.isRequired,
   }
 
   state = {
@@ -57,7 +58,9 @@ export class ThemeListContainer extends React.Component {
   }
 
   render() {
-    const { themeList } = this.props
+    const {
+      themeList, handleEdit, handleDuplicate, backUrl, createUrl,
+    } = this.props
     const { isLoading } = this.state
     return (
       <I18nProvider messages={messages}>
@@ -67,9 +70,10 @@ export class ThemeListContainer extends React.Component {
           <ThemeListComponent
             themeList={themeList}
             handleDelete={this.handleDelete}
-            handleEdit={this.props.handleEdit}
-            backUrl={this.props.backUrl}
-            createUrl={this.props.createUrl}
+            handleEdit={handleEdit}
+            handleDuplicate={handleDuplicate}
+            backUrl={backUrl}
+            createUrl={createUrl}
           />
         </LoadableContentDisplayDecorator>
       </I18nProvider>
