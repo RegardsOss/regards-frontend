@@ -142,16 +142,19 @@ export class PluginListComponent extends React.Component {
         </a>
       )
     }
-    return (
-      <div>
-        {button}
-        <PluginDescriptionDialog
-          opened={this.state.descriptionOpen}
-          onClose={this.handleCloseDescriptionDialog}
-          pluginMetaData={plugin.content}
-        />
-      </div>
-    )
+    if (plugin != null) {
+      return (
+        <div>
+          {button}
+          <PluginDescriptionDialog
+            opened={this.state.descriptionOpen}
+            onClose={this.handleCloseDescriptionDialog}
+            pluginMetaData={plugin.content}
+          />
+        </div>
+      )
+    }
+    return null
   }
 
   /**
