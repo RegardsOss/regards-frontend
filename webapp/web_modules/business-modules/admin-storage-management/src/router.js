@@ -35,11 +35,35 @@ export const securityPluginConfRoute = {
   },
 }
 
-export const allocationsPluginConfRoute = {
+export const allocationsPluginListRoute = {
   path: 'allocations',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/AllocationPluginsConfContainer')
+      const container = require('./containers/allocations/AllocationStrategyListContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
+export const allocationsPluginCreateFormRoute = {
+  path: 'allocations/create',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/allocations/AllocationStrategyFormContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
+export const allocationsPluginEditFormRoute = {
+  path: 'allocations/:id/:mode',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/allocations/AllocationStrategyFormContainer')
       cb(null, {
         content: container.default,
       })
@@ -103,7 +127,9 @@ const storageManagementRouter = {
     storagePluginEditFormRoute,
     storagePluginMonitoringRoute,
     securityPluginConfRoute,
-    allocationsPluginConfRoute,
+    allocationsPluginListRoute,
+    allocationsPluginCreateFormRoute,
+    allocationsPluginEditFormRoute,
   ],
 }
 

@@ -19,8 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import PluginMetaDataListComponent from '../../src/components/PluginMetaDataListComponent'
-import { AllocationPluginsConfContainer } from '../../src/containers/AllocationPluginsConfContainer'
+import AllocationStrategyListComponent from '../../src/components/allocations/AllocationStrategyListComponent'
+import { AllocationStrategyListContainer } from '../../src/containers/allocations/AllocationStrategyListContainer'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -29,25 +29,27 @@ const context = buildTestContext(styles)
 * Test AllocationPluginsConfContainer
 * @author Sébastien Binda
 */
-describe('[ADMIN STORAGE MANAGEMENT] Testing AllocationPluginsConfContainer', () => {
+describe('[ADMIN STORAGE MANAGEMENT] Testing AllocationStrategyListContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(AllocationPluginsConfContainer)
+    assert.isDefined(AllocationStrategyListContainer)
   })
-  it('should render correctly security plugins configuration', () => {
+  it('should render correctly allocation strategy plugin configurations', () => {
     const props = {
       params: {
         project: 'project',
       },
       // from mapStateToProps
-      entities: {},
+      entities: [],
+      isLoading: false,
       // from mapDispatchToProps
       fetch: () => new Promise(() => { }),
+      update: () => new Promise(() => { }),
+      delete: () => new Promise(() => { }),
     }
-    const enzymeWrapper = shallow(<AllocationPluginsConfContainer {...props} />, { context })
-    enzymeWrapper.update()
-    assert.equal(enzymeWrapper.find(PluginMetaDataListComponent).length, 1, 'There should have a PluginMetaDataListComponent rendered')
+    const enzymeWrapper = shallow(<AllocationStrategyListContainer {...props} />, { context })
+    assert.equal(enzymeWrapper.find(AllocationStrategyListComponent).length, 1, 'There should have a AllocationStrategyListComponent rendered')
   })
 })

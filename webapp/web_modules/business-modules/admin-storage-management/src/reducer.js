@@ -18,6 +18,7 @@
  **/
 import { combineReducers } from 'redux'
 import { onlinePrioritizedDataStorageReducer, nearlinePrioritizedDataStorageReducer } from './clients/PrioritizedDataStorageClient'
+import { allocationStrategyReducer } from './clients/AllocationStrategyClient'
 import { pluginConfigurationReducer } from './clients/PluginConfigurationClient'
 import { pluginMetaDataReducer } from './clients/PluginMetadataClient'
 
@@ -27,6 +28,7 @@ import { pluginMetaDataReducer } from './clients/PluginMetadataClient'
 const microserviceManagementReducer = combineReducers({
   pluginMetadata: pluginMetaDataReducer,
   pluginConfiguration: pluginConfigurationReducer,
+  'allocation-strategy': allocationStrategyReducer,
   'prioritized-datastorage-online': onlinePrioritizedDataStorageReducer,
   'prioritized-datastorage-nearline': nearlinePrioritizedDataStorageReducer,
 })
