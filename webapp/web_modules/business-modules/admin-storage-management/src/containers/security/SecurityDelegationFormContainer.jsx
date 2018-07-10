@@ -20,15 +20,15 @@ import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { allocationStrategyActions, allocationStrategyByPluginIdActions, allocationStrategySelectors } from '../../clients/AllocationStrategyClient'
-import AllocationStrategyFormComponent from '../../components/allocations/AllocationStrategyFormComponent'
+import { securityDelegationActions, securityDelegationByPluginIdActions, securityDelegationSelectors } from '../../clients/SecurityDelegationClient'
+import SecurityDelegationFormComponent from '../../components/security/SecurityDelegationFormComponent'
 
 const MICROSERVICE = STATIC_CONF.MSERVICES.STORAGE
 /**
-* Container to handle create/edit/duplicate form of a storage allocation strategy plugin
+* Container to handle create/edit/duplicate form of a security delegation plugin
 * @author Sébastien Binda
 */
-export class AllocationStrategyFormContainer extends React.Component {
+export class SecurityDelegationFormContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -37,7 +37,7 @@ export class AllocationStrategyFormContainer extends React.Component {
    */
   static mapStateToProps(state, ownProps) {
     return {
-      entity: get(ownProps, 'params.id') ? allocationStrategySelectors.getById(state, ownProps.params.id) : null,
+      entity: get(ownProps, 'params.id') ? securityDelegationSelectors.getById(state, ownProps.params.id) : null,
     }
   }
 
@@ -49,9 +49,9 @@ export class AllocationStrategyFormContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, ownProps) {
     return {
-      fetch: entityId => dispatch(allocationStrategyActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
-      create: entity => dispatch(allocationStrategyActions.createEntity(entity, { microserviceName: MICROSERVICE })),
-      update: (entityId, entity) => dispatch(allocationStrategyByPluginIdActions.updateEntity(entityId, entity, { microserviceName: MICROSERVICE, pluginId: entity.pluginId })),
+      fetch: entityId => dispatch(securityDelegationActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
+      create: entity => dispatch(securityDelegationActions.createEntity(entity, { microserviceName: MICROSERVICE })),
+      update: (entityId, entity) => dispatch(securityDelegationByPluginIdActions.updateEntity(entityId, entity, { microserviceName: MICROSERVICE, pluginId: entity.pluginId })),
     }
   }
 
@@ -93,10 +93,10 @@ export class AllocationStrategyFormContainer extends React.Component {
         isLoading={this.state.isLoading}
       >
         {() => (
-          <AllocationStrategyFormComponent
+          <SecurityDelegationFormComponent
             mode={mode || 'create'}
             pluginConfiguration={entity}
-            backUrl={`/admin/${project}/data/acquisition/storage/allocations`}
+            backUrl={`/admin/${project}/data/acquisition/storage/security`}
             onUpdate={update}
             onCreate={create}
           />
@@ -107,5 +107,5 @@ export class AllocationStrategyFormContainer extends React.Component {
   }
 }
 export default connect(
-  AllocationStrategyFormContainer.mapStateToProps,
-  AllocationStrategyFormContainer.mapDispatchToProps)(AllocationStrategyFormContainer)
+  SecurityDelegationFormContainer.mapStateToProps,
+  SecurityDelegationFormContainer.mapDispatchToProps)(SecurityDelegationFormContainer)

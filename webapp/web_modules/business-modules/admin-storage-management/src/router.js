@@ -23,11 +23,35 @@
  *
  * @type {{path: string, getComponents: ((nextState, cb))}}
  */
-export const securityPluginConfRoute = {
+export const securityPluginListRoute = {
   path: 'security',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/SecurityPluginsConfContainer')
+      const container = require('./containers/security/SecurityDelegationListContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
+export const securityPluginCreateFormRoute = {
+  path: 'security/create',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/security/SecurityDelegationFormContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
+export const securityPluginEditFormRoute = {
+  path: 'security/:id/:mode',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/security/SecurityDelegationFormContainer')
       cb(null, {
         content: container.default,
       })
@@ -126,10 +150,12 @@ const storageManagementRouter = {
     storagePluginCreateFormRoute,
     storagePluginEditFormRoute,
     storagePluginMonitoringRoute,
-    securityPluginConfRoute,
     allocationsPluginListRoute,
     allocationsPluginCreateFormRoute,
     allocationsPluginEditFormRoute,
+    securityPluginListRoute,
+    securityPluginCreateFormRoute,
+    securityPluginEditFormRoute,
   ],
 }
 

@@ -19,22 +19,22 @@
 import { CommonClient } from '@regardsoss/client'
 
 /**
- * allocationStrategy entities client.
+ * securityDelegation entities client.
  *
  * @author Sébastien Binda
  */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'storage', 'allocation-strategy']
-const REDUX_ACTION_NAMESPACE = 'admin-storage/allocation-strategy'
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'storage', 'security-delegation']
+const REDUX_ACTION_NAMESPACE = 'admin-storage/security-delegation'
 
-const allocationStrategyReducer = CommonClient.getPluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
-const allocationStrategyActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_NAMESPACE)
-const allocationStrategyByPluginIdActions = new CommonClient.PluginConfigurationByPluginIdActions(REDUX_ACTION_NAMESPACE)
-const allocationStrategySelectors = CommonClient.getPluginConfigurationSelectors(ENTITIES_STORE_PATH)
+const securityDelegationReducer = CommonClient.getPluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
+const securityDelegationActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_NAMESPACE)
+const securityDelegationByPluginIdActions = new CommonClient.PluginConfigurationByPluginIdActions(REDUX_ACTION_NAMESPACE)
+const securityDelegationSelectors = CommonClient.getPluginConfigurationSelectors(ENTITIES_STORE_PATH)
 
 
 module.exports = {
-  allocationStrategyReducer,
-  allocationStrategyActions,
-  allocationStrategyByPluginIdActions,
-  allocationStrategySelectors,
+  securityDelegationReducer,
+  securityDelegationActions,
+  securityDelegationByPluginIdActions,
+  securityDelegationSelectors,
 }
