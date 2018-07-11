@@ -18,8 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import TextField from 'material-ui/TextField'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { DamDomain } from '@regardsoss/domain'
 import { ExampleCriteriaComponent } from '../../src/components/ExampleCriteriaComponent'
 import styles from '../../src/styles/styles'
 
@@ -50,7 +51,7 @@ describe('[PLUGIN STRING CRITERIA] Testing the example criteria component', () =
         searchField: {
           name: 'searchField',
           description: 'Attribute to search',
-          type: 'string',
+          type: DamDomain.MODEL_ATTR_TYPES.STRING,
         },
       },
     }

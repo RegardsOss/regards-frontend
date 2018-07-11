@@ -20,6 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import TextField from 'material-ui/TextField'
 import { EnumNumericalComparator } from '@regardsoss/domain/common'
+import { DamDomain } from '@regardsoss/domain'
 import { NumericalComparator } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import NumericalCriteriaComponent from '../../src/components/NumericalCriteriaComponent'
@@ -64,7 +65,7 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing NumericalCriteriaComponent', (
     const textField = enzymeWrapper.find(TextField)
     assert.lengthOf(textField, 1, 'There should be the text field')
     testSuiteHelpers.assertWrapperProperties(textField, {
-      type: 'number',
+      type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
       value: 25,
       onChange: enzymeWrapper.instance().handleChangeValue,
     }, 'Properties should be correctly reported to text field')

@@ -20,6 +20,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import TextField from 'material-ui/TextField'
 import { EnumNumericalComparator } from '@regardsoss/domain/common'
+import { DamDomain } from '@regardsoss/domain'
 import { NumericalComparator } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import NumericalCriteriaComponent from '../../src/components/NumericalCriteriaComponent'
@@ -50,7 +51,7 @@ describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component',
         searchField: {
           name: 'searchField',
           description: 'Attribute to search',
-          type: 'numerical',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }
@@ -70,7 +71,7 @@ describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component',
         searchField: {
           name: 'myAttribute',
           description: 'Attribute to search',
-          type: 'numerical',
+          type: 'INTEGER',
         },
       },
     }

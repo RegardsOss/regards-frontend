@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { DamDomain } from '@regardsoss/domain'
 import TwoNumericalCriteriaComponent from '../../src/components/TwoNumericalCriteriaComponent'
 import TwoNumericalCriteriaSimpleComponent from '../../src/components/TwoNumericalCriteriaSimpleComponent'
 import TwoNumericalCriteriaComposedComponent from '../../src/components/TwoNumericalCriteriaComposedComponent'
@@ -44,17 +45,17 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing the two numerical criteria com
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
-      registerClear: () => {},
+      registerClear: () => { },
       attributes: {
         firstField: {
           name: 'firstAttribute',
           description: 'First attribute to search',
-          type: 'numerical',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
         secondField: {
           name: 'secondAttribute',
           description: 'Second attribute to search',
-          type: 'numerical',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }
@@ -73,7 +74,7 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing the two numerical criteria com
         firstAttribute: {
           name: 'attribute',
           description: 'First attribute to search',
-          type: 'numerical',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }
