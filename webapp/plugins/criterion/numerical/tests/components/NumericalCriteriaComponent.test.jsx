@@ -71,7 +71,7 @@ describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component',
         searchField: {
           name: 'myAttribute',
           description: 'Attribute to search',
-          type: 'INTEGER',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }
@@ -107,7 +107,7 @@ describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component',
           name: 'myAttribute',
           jsonPath: 'xptdr.myAttribute',
           description: 'Attribute to search',
-          type: 'numerical',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }
@@ -136,7 +136,7 @@ describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component',
         searchField: {
           name: 'myAttribute',
           description: 'Attribute to search',
-          type: 'numerical',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     })
