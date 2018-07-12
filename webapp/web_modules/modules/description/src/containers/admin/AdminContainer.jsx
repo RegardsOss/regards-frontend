@@ -31,7 +31,7 @@ import AdminFormComponent from '../../components/admin/AdminFormComponent'
  * Module container for admin interface display (configuration)
  * @author Raphaël Mechali
  */
-class AdminContainer extends React.Component {
+export class AdminContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
