@@ -72,6 +72,7 @@ describe('[Attributes Common] Testing EditItemForm', () => {
         spiedInitValues = values
       },
       handleSubmit: () => { },
+      change: () => { },
     }
     const enzymeWrapper = shallow(<EditItemForm {...props} />, { context })
     // 1 - check initialization was correctly performed (adding single attribute field)
@@ -139,6 +140,7 @@ describe('[Attributes Common] Testing EditItemForm', () => {
       initialize: (values) => {
         spiedInitValues = values
       },
+      change: () => { },
       handleSubmit: () => { },
     }
     const enzymeWrapper = shallow(<EditItemForm {...props} />, { context })

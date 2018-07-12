@@ -19,28 +19,28 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import FormGroup from '../../../src/components/admin/FormGroup'
-import styles from '../../../src/styles'
+import FieldsGroup from '../../src/display/FieldsGroup'
+import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test FormGroup
+ * Test FieldsGroup
  * @author Raphaël Mechali
  */
-describe('[Search Results] Testing FormGroup', () => {
+describe('[FORM UTILS] Testing FieldsGroup', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(FormGroup)
+    assert.isDefined(FieldsGroup)
   })
   it('should render without title and span full width', () => {
     const props = {}
     const enzymeWrapper = shallow(
-      <FormGroup {...props} >
+      <FieldsGroup {...props} >
         <div id="x" />
-      </FormGroup >, { context })
+      </FieldsGroup >, { context })
 
     assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'x'), 1, 'Group should render its children')
   })
@@ -50,9 +50,9 @@ describe('[Search Results] Testing FormGroup', () => {
       spanFullWidth: true,
     }
     const enzymeWrapper = shallow(
-      <FormGroup {...props} >
+      <FieldsGroup {...props} >
         <div id="y" />
-      </FormGroup >, { context })
+      </FieldsGroup >, { context })
 
     assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'y'), 1, 'Group should render its children')
     assert.include(enzymeWrapper.debug(), props.titleKey, 'Title should be rendered')

@@ -23,8 +23,7 @@ import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { BasicFacetsPageableActions, BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
-import { FacetArray } from '../../../models/facets/FacetShape'
-import { FilterListShape } from '../../../models/facets/FilterShape'
+import { UIFacetArray, SelectedFacetArray } from '../../../models/facets/FacetShape'
 import TableClient from '../../../clients/TableClient'
 import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/navigation/TableDisplayModeEnum'
 import DisplayModuleConf from '../../../models/DisplayModuleConf'
@@ -78,8 +77,8 @@ class SearchResultsComponent extends React.Component {
 
     // facets control
     showingFacettes: PropTypes.bool.isRequired,
-    facets: FacetArray.isRequired,
-    filters: FilterListShape.isRequired,
+    facets: UIFacetArray.isRequired,
+    selectedFacets: SelectedFacetArray.isRequired,
 
     // quicklook search filter
     displayOnlyQuicklook: PropTypes.bool.isRequired,
@@ -96,9 +95,9 @@ class SearchResultsComponent extends React.Component {
 
     // control
     onChangeColumnsVisibility: PropTypes.func.isRequired,
-    onDeleteFilter: PropTypes.func.isRequired,
     onSetEntityAsTag: PropTypes.func.isRequired,
-    onAddFilter: PropTypes.func.isRequired,
+    onSelectFacet: PropTypes.func.isRequired,
+    onUnselectFacet: PropTypes.func.isRequired,
     onShowDatasets: PropTypes.func.isRequired,
     onShowDataobjects: PropTypes.func.isRequired,
     onShowListView: PropTypes.func.isRequired,
@@ -259,8 +258,8 @@ class SearchResultsComponent extends React.Component {
 
     const {
       allowingFacettes, attributePresentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
-      viewObjectType, tableViewMode, showingFacettes, facets, filters, searchQuery, selectionServices, onChangeColumnsVisibility,
-      onDeleteFilter, onAddFilter, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
+      viewObjectType, tableViewMode, showingFacettes, facets, selectedFacets, searchQuery, selectionServices, onChangeColumnsVisibility,
+      onSelectFacet, onUnselectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
       onStartSelectionService, onAddSelectionToCart, onShowQuicklookView, enableQuicklooks, displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook,
       onAddElementToCart, enableDownload, accessToken, projectName, datasetsSectionLabel, dataSectionLabel, locale,
     } = this.props
@@ -324,14 +323,14 @@ class SearchResultsComponent extends React.Component {
           showFacets={showFacets}
           resultsCount={resultsCount}
           facets={facets}
-          onAddFilter={onAddFilter}
+          onSelectFacet={onSelectFacet}
           isFetching={isFetching}
         />
         {/* Third header row (only with facets enabled):  */}
         <SelectedFacetsHeaderRow
           showingFacettes={showFacets}
-          filters={filters}
-          onDeleteFilter={onDeleteFilter}
+          selectedFacets={selectedFacets}
+          onUnselectFacet={onUnselectFacet}
         />
         {this.isInQuicklookView() ? (
           <InfiniteGalleryContainer

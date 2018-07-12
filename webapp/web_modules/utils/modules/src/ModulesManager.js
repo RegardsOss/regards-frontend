@@ -30,6 +30,7 @@ import values from 'lodash/values'
  * Dynamic module types that can be instantiated by the administrator
  */
 const VisibleModuleTypes = {
+  DESCRIPTION: 'description',
   EMBEDDED_HMTL: 'embedded-html',
   LICENSE: 'licenses',
   MENU: 'menu',

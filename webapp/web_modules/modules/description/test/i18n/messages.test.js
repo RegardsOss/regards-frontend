@@ -16,31 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import SelectedFacetComponent from '../../../../../src/components/user/results/facets/SelectedFacetComponent'
-import styles from '../../../../../src/styles/styles'
+import keys from 'lodash/keys'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import MessagesEN from '../../src/i18n/messages.en.i18n'
+import MessagesFR from '../../src/i18n/messages.fr.i18n'
 
-describe('[SEARCH FACETS] Testing SelectedFacetComponent', () => {
+/**
+ * Tests for i18n messages of search-form module
+ * @author Sébastien binda
+ */
+describe('[Description] Testing i18n', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('should exists', () => {
-    assert.isDefined(SelectedFacetComponent)
+  it('should exist', () => {
+    assert.isDefined(MessagesEN)
+    assert.isDefined(MessagesFR)
   })
-  const context = buildTestContext(styles)
-
-  it('should render properly', () => {
-    const props = {
-      filter: {
-        filterLabel: 'any',
-        filterKey: 'any',
-        openSearchQuery: ' any',
-      },
-      onDeleteFilter: () => { },
-    }
-    // simple render test (nothing static to test here)
-    shallow(<SelectedFacetComponent {...props} />, { context })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFR), keys(MessagesEN))
   })
 })

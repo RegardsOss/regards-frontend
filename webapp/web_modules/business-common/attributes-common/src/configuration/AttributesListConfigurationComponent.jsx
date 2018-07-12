@@ -22,7 +22,7 @@ import values from 'lodash/values'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { withModuleStyle } from '@regardsoss/theme'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { withI18n } from '@regardsoss/i18n'
 import { StringComparison } from '@regardsoss/form-utils'
 import AttributeListTableComponent from './table/AttributeListTableComponent'
 import styles from '../styles'
@@ -67,10 +67,6 @@ export class AttributesListConfigurationComponent extends React.Component {
     allowLabel: false,
     attributesFilter: AttributesListConfigurationComponent.filterNone,
     attributesList: [],
-  }
-
-  static contextTypes = {
-    ...i18nContextType,
   }
 
   /**
@@ -220,14 +216,12 @@ export class AttributesListConfigurationComponent extends React.Component {
    * Builds a new item for current allowed options
    */
   buildNewItem = () => {
-    const { attributesList, allowLabel } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { allowLabel } = this.props
     const newItem = { attributes: [] }
     if (allowLabel) {
-      const itemNumber = attributesList.length + 1
       newItem.label = {
-        en: formatMessage({ id: 'attribute.configuration.new.item.en.label' }, { itemNumber }),
-        fr: formatMessage({ id: 'attribute.configuration.new.item.fr.label' }, { itemNumber }),
+        en: '',
+        fr: '',
       }
     }
     return newItem

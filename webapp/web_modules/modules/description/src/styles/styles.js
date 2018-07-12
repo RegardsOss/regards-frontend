@@ -15,19 +15,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-const FilterShape = PropTypes.shape({
-  // unique in filters list: filter key
-  filterKey: PropTypes.string.isRequired,
-  // label for filter display
-  filterLabel: PropTypes.string.isRequired,
-  // Open search query corresponding to that filer
-  openSearchQuery: PropTypes.string.isRequired,
+ */
+const styles = theme => ({
+  admin: {
+    topSeparator: {
+      marginTop: 40,
+    },
+    group: {
+      attributes: {
+        marginTop: 25,
+      },
+      options: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+      },
+    },
+  },
 })
 
-const FilterListShape = PropTypes.arrayOf(FilterShape)
-
-module.exports = {
-  FilterShape,
-  FilterListShape,
-}
+export default styles

@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import { CardText } from 'material-ui/Card'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
@@ -25,14 +24,16 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ModulePaneStateField } from '@regardsoss/modules-api'
-import { Field, RenderCheckbox, RenderTextField, RenderRadio, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  Field, RenderCheckbox, RenderTextField, RenderRadio, ValidationHelpers,
+  FormPresentation, FormRow, FieldsGroup,
+} from '@regardsoss/form-utils'
 import { ShowableAtRender } from '@regardsoss/display-control'
 import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
 import ModuleConfiguration from '../../models/ModuleConfiguration'
 import AdminModuleConf from '../../models/AdminModuleConf'
 import { DISPLAY_MODE_ENUM } from '../../definitions/DisplayModeEnum'
 import { TableDisplayModeEnum } from '../../models/navigation/TableDisplayModeEnum'
-import FormGroup from './FormGroup'
 
 const parseIntNormalizer = value => parseInt(value, 10)
 
@@ -306,6 +307,7 @@ class SearchResultsConfigurationComponent extends React.Component {
     specificViewRender = null, // optional specific view form render
   }) => {
     const { currentFormValues, currentNamespace, changeField } = this.props
+    const { formatMessage } = this.context.intl
     const columnsSubField = `${fieldName}.${SearchResultsConfigurationComponent.VIEW_COLUMNS_SUBFIELD}`
     const facetsSubField = `${fieldName}.${SearchResultsConfigurationComponent.VIEW_FACETS_SUBFIELD}`
     const sortingSubField = `${fieldName}.${SearchResultsConfigurationComponent.VIEW_SORTING_SUBFIELD}`
@@ -315,7 +317,7 @@ class SearchResultsConfigurationComponent extends React.Component {
           specificViewRender ? specificViewRender() : null
         }
         {/* 1. Columns for view */}
-        <FormGroup spanFullWidth titleKey="form.attribute.conf.columns">
+        <FieldsGroup spanFullWidth title={formatMessage({ id: 'form.attribute.conf.columns' })}>
           <AttributesListConfigurationComponent
             selectableAttributes={selectableAttributes}
             attributesList={get(currentFormValues, columnsSubField, [])}
@@ -325,10 +327,10 @@ class SearchResultsConfigurationComponent extends React.Component {
             allowAttributesRegroupements={allowAttributesRegroupements}
             allowLabel
           />
-        </FormGroup>
+        </FieldsGroup>
         {/* 2. Facets for view */}
         <ShowableAtRender show={allowFacets}>
-          <FormGroup titleKey="form.attribute.conf.facets">
+          <FieldsGroup title={formatMessage({ id: 'form.attribute.conf.facets' })}>
             <AttributesListConfigurationComponent
               selectableAttributes={selectableAttributes}
               attributesList={get(currentFormValues, facetsSubField, [])}
@@ -336,14 +338,14 @@ class SearchResultsConfigurationComponent extends React.Component {
               hintMessageKey="form.attribute.conf.no.facet"
               changeField={changeField}
               allowAttributesRegroupements={false}
-              allowLabel={false}
+              allowLabel
               attributesFilter={DamDomain.AttributeModelController.isSearchableAttribute}
             />
-          </FormGroup>
+          </FieldsGroup>
         </ShowableAtRender>
         {/* 3. Sorting elements */}
         <ShowableAtRender show={allowSorting}>
-          <FormGroup titleKey="form.attribute.conf.sorting">
+          <FieldsGroup title={formatMessage({ id: 'form.attribute.conf.sorting' })}>
             <AttributesListConfigurationComponent
               selectableAttributes={selectableAttributes}
               attributesList={get(currentFormValues, sortingSubField, [])}
@@ -354,7 +356,7 @@ class SearchResultsConfigurationComponent extends React.Component {
               allowLabel={false}
               attributesFilter={DamDomain.AttributeModelController.isSearchableAttribute}
             />
-          </FormGroup>
+          </FieldsGroup>
         </ShowableAtRender>
       </React.Fragment>)
   }
@@ -368,7 +370,7 @@ class SearchResultsConfigurationComponent extends React.Component {
     const displayMode = get(currentFormValues, 'displayMode')
     const { intl: { formatMessage } } = this.context
     return displayMode === DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET ? (
-      <FormGroup clearSpaceToChildren spanFullWidth titleKey="form.configuration.result.data.titles.message">
+      <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'form.configuration.result.data.titles.message' })}>
         <Field
           name={this.CONF_DATA_SECTION_LABEL_EN}
           component={RenderTextField}
@@ -381,7 +383,7 @@ class SearchResultsConfigurationComponent extends React.Component {
           label={formatMessage({ id: 'form.configuration.result.data.section.label.fr' })}
           fullWidth
         />
-      </FormGroup>) : null
+      </FieldsGroup>) : null
   }
 
   /**
@@ -390,7 +392,7 @@ class SearchResultsConfigurationComponent extends React.Component {
   renderQuiklookSpecificFieldsGroups = () => {
     const { intl: { formatMessage } } = this.context
     return (
-      <FormGroup clearSpaceToChildren spanFullWidth titleKey="form.configuration.results.quicklooks.message">
+      <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'form.configuration.results.quicklooks.message' })}>
         <Field
           name={this.CONF_QUICKLOOKS_WIDTH}
           component={RenderTextField}
@@ -411,7 +413,7 @@ class SearchResultsConfigurationComponent extends React.Component {
           validate={this.validateQuicklookNumberField}
           parse={this.parsePositiveIntNumber}
         />
-      </FormGroup>)
+      </FieldsGroup>)
   }
 
   /**
@@ -423,7 +425,7 @@ class SearchResultsConfigurationComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     // Dataset tab labels group, when displaying datasets
     return displayMode === DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET ? (
-      <FormGroup clearSpaceToChildren spanFullWidth titleKey="form.configuration.result.datasets.title.message">
+      <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'form.configuration.result.datasets.title.message' })}>
         <Field
           name={this.CONF_DATASETS_SECTION_LABEL_EN}
           component={RenderTextField}
@@ -436,26 +438,26 @@ class SearchResultsConfigurationComponent extends React.Component {
           label={formatMessage({ id: 'form.configuration.result.datasets.section.label.fr' })}
           fullWidth
         />
-      </FormGroup>) : null
+      </FieldsGroup>) : null
   }
 
   render() {
     const { adminConf, currentFormValues, currentNamespace } = this.props
-    const { intl: { formatMessage }, moduleTheme: { configuration: { formContainer, formRow } } } = this.context
+    const { intl: { formatMessage } } = this.context
 
     const preventAdminToPickDocumentView = get(adminConf, 'preventAdminToPickDocumentView', false)
     const displayMode = get(currentFormValues, 'displayMode')
     const enableFacettes = get(currentFormValues, 'enableFacettes', false)
 
     return (
-      <CardText className={formContainer.class}>
-        <div className={formRow.class}>
+      <FormPresentation>
+        <FormRow>
           {/* Presentation pane initial state (title is provided by ModulePaneStateField) */}
-          <FormGroup>
+          <FieldsGroup>
             <ModulePaneStateField currentNamespace={currentNamespace} />
-          </FormGroup>
+          </FieldsGroup>
           {/* Results view tabs configuration */}
-          <FormGroup titleKey="form.configuration.visible.tabs.message">
+          <FieldsGroup title={formatMessage({ id: 'form.configuration.visible.tabs.message' })}>
             <RadioButtonGroup
               onChange={this.onChangeDisplayMode}
               valueSelected={displayMode}
@@ -475,11 +477,11 @@ class SearchResultsConfigurationComponent extends React.Component {
                 disabled={preventAdminToPickDocumentView}
               />
             </RadioButtonGroup>
-          </FormGroup>
-        </div>
-        <div className={formRow.class}>
+          </FieldsGroup>
+        </FormRow>
+        <FormRow>
           {/* Results options (facets, quicklooks...) */}
-          <FormGroup titleKey="form.configuration.results.options.message">
+          <FieldsGroup title={formatMessage({ id: 'form.configuration.results.options.message' })}>
             <Field
               name={this.CONF_ENABLE_FACETTES}
               onChange={this.onSwitchFacetsEnabled}
@@ -508,9 +510,9 @@ class SearchResultsConfigurationComponent extends React.Component {
               label={formatMessage({ id: 'form.configuration.result.enable.download.label' })}
               noSpacing
             />
-          </FormGroup>
+          </FieldsGroup>
           {/* Initial view mode */}
-          <FormGroup titleKey="form.configuration.result.initial.view.mode">
+          <FieldsGroup title={formatMessage({ id: 'form.configuration.result.initial.view.mode' })}>
             <Field
               name={this.CONF_INITIAL_VIEW_MODE}
               component={RenderRadio}
@@ -530,14 +532,14 @@ class SearchResultsConfigurationComponent extends React.Component {
                 disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA}
               />
             </Field>
-          </FormGroup>
-        </div>
-        <div className={formRow.class}>
+          </FieldsGroup>
+        </FormRow>
+        <FormRow>
           { /* Tab views attibutes configuration titles */
             this.renderAttributesConfiguration()
           }
-        </div>
-      </CardText>
+        </FormRow>
+      </FormPresentation>
     )
   }
 }

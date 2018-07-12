@@ -40,8 +40,6 @@ const messages = {
   'attributes.configuration.attributes.column': 'Attribut(s)',
   'attributes.configuration.edit.option.tooltip': 'Editer l\'élément',
   'attributes.configuration.delete.option.tooltip': 'Supprimer l\'élément',
-  'attribute.configuration.new.item.en.label': 'Column {itemNumber}',
-  'attribute.configuration.new.item.fr.label': 'Colonne {itemNumber}',
   'attribute.configuration.new.item.title': 'Créer un élément',
   'attribute.configuration.edit.item.title': 'Modifief un élément',
   'attribute.configuration.cancel.edition': 'Annuler',
@@ -68,7 +66,7 @@ const messages = {
     other {# attributs définis}
   }`,
   'attribute.configuration.selected.attributes.table.attribute.column': 'Attribut',
-  'attribute.configuration.selected.attributes.no.data': 'Ajouter ici des attributs depuis le tableau des attributs disponibles, à gauche',
+  'attribute.configuration.selected.attributes.no.data': 'Ajouter ici des attributs depuis le tableau des attributs disponibles, à gauche. Si vous en sélectionnez plusieurs, cet élément sera présenté groupé',
   'attribute.configuration.selected.attributes.error': 'Aucun attribut défini',
 }
 

@@ -18,7 +18,7 @@
  **/
 import isString from 'lodash/isString'
 import root from 'window-or-global'
-import { CommonShapes } from '@regardsoss/shape'
+import getChainableTypeChecker from './ChainableTypeChecker'
 
 /**
  * Validates a textual bound type: asserts we have here a parsable string or null
@@ -43,10 +43,10 @@ const parseInt = (intText) => {
   return !root.isNaN(n) && Number.isInteger(n)
 }
 
-const NumericTextBoundPropType = CommonShapes.getChainableTypeChecker(getTextBoundPropType(parseInt))
+const NumericTextBoundPropType = getChainableTypeChecker(getTextBoundPropType(parseInt))
 
 const parseDate = dateText => !root.isNaN(Date.parse(dateText))
-const DateTextBoundPropType = CommonShapes.getChainableTypeChecker(getTextBoundPropType(parseDate))
+const DateTextBoundPropType = getChainableTypeChecker(getTextBoundPropType(parseDate))
 
 module.exports = {
   DateTextBoundPropType,

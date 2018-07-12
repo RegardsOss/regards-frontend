@@ -26,7 +26,7 @@ import FacetSelectorComponent from '../../../../../src/components/user/results/f
 import styles from '../../../../../src/styles/styles'
 import facetsNetworkDump from '../../../../dumps/results.dump'
 
-describe('[SEARCH FACETS] Testing FacetSelectorComponent', () => {
+describe('[Search Results] Testing FacetSelectorComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -38,23 +38,34 @@ describe('[SEARCH FACETS] Testing FacetSelectorComponent', () => {
   it('should render correctly without elements not covered by facets', () => {
     const noOtherFacet = facetsNetworkDump.facets[2]
     const props = {
-      facet: noOtherFacet,
-      facetValueFormatterForMenu: () => '',
-      facetValueFormatterForFilter: () => '',
-      onAddFilter: () => { },
+      facet: {
+        label: { en: 'EN', fr: 'FR' },
+        model: noOtherFacet,
+      },
+      facetValueFormatter: () => '',
+      onSelectFacet: () => { },
     }
 
     const enzymeWrapper = shallow(<FacetSelectorComponent {...props} />, { context })
     // verify there is one item per facet value
     assert.equal(enzymeWrapper.find(MenuItem).length, size(noOtherFacet.values), 'There should be one item for each facet value')
+    // verify that label is resolved from facet label
+    const savedLocale = context.intl.locale
+    context.intl.locale = 'en'
+    assert.equal(enzymeWrapper.instance().getLabel(), 'EN')
+    context.intl.locale = 'fr'
+    assert.equal(enzymeWrapper.instance().getLabel(), 'FR')
+    context.intl.locale = savedLocale
   })
   it('should render correctly with elements not covered by facets', () => {
     const facetWithOthers = facetsNetworkDump.facets[0]
     const props = {
-      facet: facetWithOthers,
-      facetValueFormatterForMenu: () => '',
-      facetValueFormatterForFilter: () => '',
-      onAddFilter: () => { },
+      facet: {
+        label: { en: 'EN', fr: 'FR' },
+        model: facetWithOthers,
+      },
+      facetValueFormatter: () => '',
+      onSelectFacet: () => { },
     }
 
     const enzymeWrapper = shallow(<FacetSelectorComponent {...props} />, { context })

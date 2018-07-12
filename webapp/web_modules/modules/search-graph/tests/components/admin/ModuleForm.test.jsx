@@ -70,7 +70,7 @@ describe('[Search Graph] Testing ModuleForm', () => {
     assert.equal(listConfigurationField.props().attributesListFieldName, enzymeWrapper.instance().DATASET_ATTRIBUTES_FIELD_NAME,
       'It should be configurated to point out the right configuration field')
     assert.isFalse(listConfigurationField.props().allowAttributesRegroupements, 'It should forbid groups configuration')
-    assert.isFalse(listConfigurationField.props().allowLabel, 'It should forbid label configuration')
+    assert.isTrue(listConfigurationField.props().allowLabel, 'It should allow label configuration')
     // 4 - verify search result form is added
     assert.equal(enzymeWrapper.find(SearchResultForm).length, 1, 'The search result configuration form should be used to configure search results')
   })

@@ -295,10 +295,8 @@ export default (theme) => {
       },
     },
     noDataMessage: {
-      margin: '0 10px',
+      margin: '10px 10px',
       height: theme.components.infiniteTable.lineHeight,
-      // px is required here as line height is a multiplication of font height otherwise
-      lineHeight: `${theme.components.infiniteTable.lineHeight}px`,
       color: theme.palette.disabledColor,
       verticalAlign: 'middle',
     },

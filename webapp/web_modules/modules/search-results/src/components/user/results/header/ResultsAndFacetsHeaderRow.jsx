@@ -16,12 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { CatalogDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableHeaderLineLoadingAndResults, TableHeaderOptionsArea, TableHeaderOptionGroup,
   TableHeaderContentBox, TableHeaderText,
 } from '@regardsoss/components'
-import { FacetArray, FacetTypes } from '../../../../models/facets/FacetShape'
+import { UIFacetArray } from '../../../../models/facets/FacetShape'
 import BooleanFacetSelectorComponent from '../facets/BooleanFacetSelectorComponent'
 import DateRangeFacetSelectorComponent from '../facets/DateRangeFacetSelectorComponent'
 import NumberRangeFacetSelectorComponent from '../facets/NumberRangeFacetSelectorComponent'
@@ -34,11 +35,11 @@ class ResultsAndFacetsHeaderRow extends React.Component {
   static propTypes = {
     isFetching: PropTypes.bool.isRequired,
     showFacets: PropTypes.bool.isRequired,
-    // applies a facet filter (key:string, label:string, searchQuery: string)
-    onAddFilter: PropTypes.func.isRequired,
     // facets array
-    facets: FacetArray,
+    facets: UIFacetArray,
     resultsCount: PropTypes.number.isRequired,
+    // applies a facet filter (key:string, label:string, searchQuery: string)
+    onSelectFacet: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -47,7 +48,7 @@ class ResultsAndFacetsHeaderRow extends React.Component {
 
   render() {
     const {
-      showFacets, facets, onAddFilter, resultsCount, isFetching,
+      showFacets, facets, onSelectFacet, resultsCount, isFetching,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
@@ -76,16 +77,16 @@ class ResultsAndFacetsHeaderRow extends React.Component {
                 <TableHeaderOptionGroup show={showFacets}>
                   {
                     facets.map((facet) => {
-                      const selectorProps = { key: facet.attributeName, facet, onAddFilter }
-                      switch (facet.type) {
-                        case FacetTypes.Boolean:
-                        return (<BooleanFacetSelectorComponent {...selectorProps} />)
-                        case FacetTypes.Date:
+                      const selectorProps = { key: facet.model.attributeName, facet, onSelectFacet }
+                      switch (facet.model.type) {
+                        case CatalogDomain.FACET_TYPES_ENUM.BOOLEAN:
+                          return (<BooleanFacetSelectorComponent {...selectorProps} />)
+                        case CatalogDomain.FACET_TYPES_ENUM.DATE:
                           return (<DateRangeFacetSelectorComponent {...selectorProps} />)
-                          case FacetTypes.Number:
+                        case CatalogDomain.FACET_TYPES_ENUM.NUMBER:
                           return (<NumberRangeFacetSelectorComponent {...selectorProps} />)
-                          case FacetTypes.String:
-                            return (<WordFacetSelectorComponent {...selectorProps} />)
+                        case CatalogDomain.FACET_TYPES_ENUM.STRING:
+                          return (<WordFacetSelectorComponent {...selectorProps} />)
                         default:
                           throw new Error(`Unknown facet type ${facet.type}`)
                       }

@@ -21,7 +21,7 @@ import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
 import { OpenSearchQuery } from '@regardsoss/domain/catalog'
-import { DataManagementShapes } from '@regardsoss/shape'
+import { DataManagementShapes, CatalogShapes } from '@regardsoss/shape'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { i18nSelectors } from '@regardsoss/i18n'
 import { AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-utils'
@@ -34,7 +34,6 @@ import {
   selectors as searchSelectors,
 } from '../../../clients/SearchEntitiesClient'
 import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/navigation/TableDisplayModeEnum'
-import { FacetArray } from '../../../models/facets/FacetShape'
 import navigationContextActions from '../../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
 import QueriesHelper from '../../../definitions/QueriesHelper'
@@ -108,7 +107,7 @@ export class SearchResultsContainer extends React.Component {
     accessToken: PropTypes.string,
     projectName: PropTypes.string.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    facets: FacetArray,
+    facets: CatalogShapes.FacetArray, // facets as provided by the backend
     isFetching: PropTypes.bool.isRequired,
     resultsCount: PropTypes.number.isRequired,
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
@@ -182,7 +181,7 @@ export class SearchResultsContainer extends React.Component {
    */
   static buildFacetModels(resultsFacets = [], configuredFacets = [], attributeModels = {}) {
     // build the facet list in the order configured for view
-    return configuredFacets.reduce((acc, { attributes: [{ name }] }) => {
+    return configuredFacets.reduce((acc, { label, attributes: [{ name }] }) => {
       // check if corresponding facet is present in results, has enough values and a valid attribute model
       const correspondingResultFacet = resultsFacets.find(({ attributeName }) => attributeName === name)
       if (correspondingResultFacet) {
@@ -192,10 +191,12 @@ export class SearchResultsContainer extends React.Component {
           if (attrModel) { // that facet can be displayed to user
             return [
               ...acc, { // return facet plus required presentation attributes
-                ...correspondingResultFacet,
-                label: attrModel.content.label,
+                label,
                 unit: attrModel.content.unit,
-                values: filteredFacetValues,
+                model: { // facet model
+                  ...correspondingResultFacet,
+                  values: filteredFacetValues,
+                },
               },
             ]
           }
@@ -206,13 +207,13 @@ export class SearchResultsContainer extends React.Component {
   }
 
   /**
-   * Removes a filter by its key in filters list
-   * @param [{ filterKey: string}] filters filters list
-   * @param {string} filterKey key of the filter to remove
-   * @returns [{ filterKey: string}] new filters list without key as parameter
+   * Removes a selected facet by its attribute model name
+   * @param [UIFacet] selectedFacets selected UI facets list
+   * @param {string} removeAttrName facet to remove, by its attribute model name
+   * @returns [UIFacet] new selected UI facets list without key as parameter
    */
-  static removeFilterIn(filters = [], filterKey = '') {
-    return filters.filter(({ filterKey: f }) => f !== filterKey)
+  static removeSelectedFacetIn(selectedFacets = [], removeAttrName = '') {
+    return selectedFacets.filter(({ model }) => model.attributeName !== removeAttrName)
   }
 
   /**
@@ -226,7 +227,7 @@ export class SearchResultsContainer extends React.Component {
     // is currently showing facettes
     showingFacettes: false,
     // Current sorting attributes array like {attributePath: String, type: (optional) one of 'ASC' / 'DESC'}
-    filters: [],
+    selectedFacets: [],
     facets: [],
     // runtime qearch query, generated from all query elements known
     fullSearchQuery: null,
@@ -262,7 +263,7 @@ export class SearchResultsContainer extends React.Component {
     const attributeModelsChanged = !isEqual(oldProps.attributeModels, newProps.attributeModels)
     const newViewConfiguration = SearchResultsContainer.getViewConfiguration(newProps)
 
-    // 1 - recompute facets (ie selectable filters) when results facets or attribute models changed
+    // 1 - recompute facets when results facets or attribute models changed
     if (attributeModelsChanged || !isEqual(oldProps.facets, newProps.facets)) {
       // Resolve all facets with their label, removing all empty values and facet without values
       newState.facets = SearchResultsContainer.buildFacetModels(newProps.facets, newViewConfiguration.facets, attributeModels)
@@ -270,9 +271,9 @@ export class SearchResultsContainer extends React.Component {
 
     const viewObjectChanged = oldProps.viewObjectType !== viewObjectType
     const tableModeChanged = oldProps.tableDisplayMode !== tableDisplayMode
-    // 2 - re initialize filters (id selected facets) when it view objects type changes
+    // 2 - re initialize selected facets when it view objects type changes
     if (attributeModelsChanged || viewObjectChanged) {
-      newState.filters = SearchResultsContainer.DEFAULT_STATE.filters
+      newState.selectedFacets = SearchResultsContainer.DEFAULT_STATE.selectedFacets
     }
     // 3 - recompute columns when either attributes, view object type of table view mode changes
     if (attributeModelsChanged || viewObjectChanged || tableModeChanged) {
@@ -319,26 +320,27 @@ export class SearchResultsContainer extends React.Component {
   onToggleDisplayOnlyQuicklook = () => this.updateStateAndQuery({ displayOnlyQuicklook: !this.state.displayOnlyQuicklook })
 
   /**
-   * User callback: new filter selected (from an existing facet value)
-   * @param filterKey key to add
-   * @param filterLabel filter label
-   * @param openSearchQuery corresponding query
+   * User callback: facet selected
+   * @param selectedFacet to select
+   * @param selectedValue value selected in facet
    */
-  onAddFilter = (filterKey, filterLabel, openSearchQuery) => this.updateStateAndQuery({
-    filters: [
-      // remove previous filter for the same key, if any
-      ...SearchResultsContainer.removeFilterIn(this.state.filters, filterKey),
-      // add new filter
-      { filterKey, filterLabel, openSearchQuery },
+  onSelectFacet = (selectedFacet, selectedValue) => this.updateStateAndQuery({
+    selectedFacets: [
+      // remove previously selected facet for the same key, if any
+      ...SearchResultsContainer.removeSelectedFacetIn(this.state.selectedFacets, selectedFacet.model.attributeName),
+      {
+        ...selectedFacet, // report UI facet fields
+        value: selectedValue,
+      },
     ],
   })
 
   /**
-   * User callback: a selected filter was removed
-   * @param {filterKey: string} filter to remove
+   * User callback: a selected facet was unselected
+   * @param {key: string} selectedFacet to unselect
    */
-  onDeleteFilter = filter => this.updateStateAndQuery({
-    filters: SearchResultsContainer.removeFilterIn(this.state.filters, filter.filterKey),
+  onUnselectFacet = selectedFacet => this.updateStateAndQuery({
+    selectedFacets: SearchResultsContainer.removeSelectedFacetIn(this.state.selectedFacets, selectedFacet.model.attributeName),
   })
 
   /**
@@ -374,7 +376,7 @@ export class SearchResultsContainer extends React.Component {
    * @return { openSearchQuery, fullSearchQuery, searchActions }: new search state
    */
   buildSearchState = (properties, {
-    showingFacettes, filters, attributePresentationModels, displayOnlyQuicklook,
+    showingFacettes, selectedFacets, attributePresentationModels, displayOnlyQuicklook,
   },
   ) => {
     const { viewObjectType, searchQuery, levels } = properties
@@ -383,7 +385,7 @@ export class SearchResultsContainer extends React.Component {
     const facetsCurrentlyEnabled = (showingFacettes || viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DOCUMENT) &&
       viewConfiguration.facets && viewConfiguration.facets.length
     const requestedFacets = facetsCurrentlyEnabled ? viewConfiguration.facets : []
-    const appliedFilters = facetsCurrentlyEnabled ? filters : []
+    const appliedFacetValues = facetsCurrentlyEnabled ? selectedFacets : []
 
     // 2 - compute sorting to apply
     const sortingOn = AttributesPresentationHelper.getSortingOn(attributePresentationModels)
@@ -424,7 +426,7 @@ export class SearchResultsContainer extends React.Component {
       // 3 - Showing documents
       searchActions = searchDocumentsActions
     }
-    const openSearchQuery = QueriesHelper.getOpenSearchQuery(initialSearchQuery, appliedFilters, parameters).toQueryString()
+    const openSearchQuery = QueriesHelper.getOpenSearchQuery(initialSearchQuery, appliedFacetValues, parameters).toQueryString()
     const fullSearchQuery = QueriesHelper.getURLQuery(openSearchQuery, requestedSortingAttributes, requestedFacets, quicklookQuery).toQueryString()
 
     return {
@@ -470,7 +472,7 @@ export class SearchResultsContainer extends React.Component {
 
     const {
       attributePresentationModels, hiddenColumnKeys, searchActions, showingFacettes,
-      facets, filters, openSearchQuery, fullSearchQuery, displayOnlyQuicklook,
+      facets, selectedFacets, openSearchQuery, fullSearchQuery, displayOnlyQuicklook,
     } = this.state
     const tableViewMode = tableDisplayMode || TableDisplayModeEnum.LIST
 
@@ -512,7 +514,7 @@ export class SearchResultsContainer extends React.Component {
 
               showingFacettes={showingFacettes}
               facets={facets}
-              filters={filters}
+              selectedFacets={selectedFacets}
 
               searchQuery={fullSearchQuery}
 
@@ -523,9 +525,9 @@ export class SearchResultsContainer extends React.Component {
               locale={locale}
 
               onChangeColumnsVisibility={this.onChangeColumnsVisibility}
-              onDeleteFilter={this.onDeleteFilter}
               onSetEntityAsTag={dispatchSetEntityAsTag}
-              onAddFilter={this.onAddFilter}
+              onSelectFacet={this.onSelectFacet}
+              onUnselectFacet={this.onUnselectFacet}
               onShowDatasets={this.onShowDatasets}
               onShowDataobjects={this.onShowDataobjects}
               onShowListView={this.onShowListView}

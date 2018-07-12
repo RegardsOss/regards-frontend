@@ -18,33 +18,39 @@
  **/
 import Chip from 'material-ui/Chip'
 import { themeContextType } from '@regardsoss/theme'
-import { FilterShape } from '../../../../models/facets/FilterShape'
+import { SelectedFacet } from '../../../../../models/facets/FacetShape'
 
 /**
 * Displays a selected facet with delete option (== filter)
 */
 class SelectedFacetComponent extends React.Component {
   static propTypes = {
-    filter: FilterShape.isRequired,
+    label: PropTypes.string.isRequired,
+    selectedFacet: SelectedFacet.isRequired,
     // on delete filter
-    onDeleteFilter: PropTypes.func.isRequired,
+    onUnselectFacet: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
   }
 
-  onDelete = () => {
-    const { onDeleteFilter, filter } = this.props
-    onDeleteFilter(filter)
+  /**
+   * User callback: user unselect this facet value
+   */
+  onUnselect = () => {
+    const { onUnselectFacet, selectedFacet } = this.props
+    onUnselectFacet(selectedFacet)
   }
 
   render() {
-    const { filter: { filterLabel } } = this.props
+    const { label } = this.props
     const { moduleTheme: { user: { filters } } } = this.context
     return (
-      <Chip style={filters.style} onRequestDelete={this.onDelete} >
-        {filterLabel}
+      <Chip style={filters.style} onRequestDelete={this.onUnselect}>
+        {
+          label
+        }
       </Chip>
     )
   }

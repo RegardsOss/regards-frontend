@@ -16,19 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { HOCUtils } from '@regardsoss/display-control'
 import { Title } from '@regardsoss/components'
+import styles from '../styles'
 
 /**
- * A presentation form group for module form (diminuation of boiler plate code! =D)
+ * A presentation fields group for forms, to be used with a FormPresentation, in FormRow
+ * Note: as it is an HOC, it stack context to let its children render in parent context
+ *
  * @author Raphaël Mechali
  */
-class FormGroup extends React.Component {
+class FieldsGroup extends React.Component {
   static propTypes = {
-    // when title is not provide, only the layout will render
-    titleKey: PropTypes.string,
+    // when title key is not provided, only the layout will render
+    title: PropTypes.string,
     spanFullWidth: PropTypes.bool,
     clearSpaceToChildren: PropTypes.bool,
     children: PropTypes.oneOfType([
@@ -44,19 +46,16 @@ class FormGroup extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
-    ...i18nContextType,
   }
 
   render() {
     const {
-      titleKey, clearSpaceToChildren, spanFullWidth, children,
+      title, clearSpaceToChildren, spanFullWidth, children,
     } = this.props
     const {
-      intl: { formatMessage }, moduleTheme: {
-        configuration: {
-          formGroup: {
-            defaultClass, defaultStyle, fullWidthClass, clearSpaceToChildrenStyle,
-          },
+      moduleTheme: {
+        fieldsGroup: {
+          defaultClass, defaultStyle, fullWidthClass, clearSpaceToChildrenStyle,
         },
       },
     } = this.context
@@ -66,11 +65,7 @@ class FormGroup extends React.Component {
         className={spanFullWidth ? fullWidthClass : defaultClass}
       >
         {
-          titleKey ? (
-            <Title
-              level={3}
-              label={formatMessage({ id: titleKey })}
-            />) : null
+          title ? <Title level={3} label={title} /> : null
         }
         <div style={clearSpaceToChildren ? clearSpaceToChildrenStyle : null}>
           {HOCUtils.renderChildren(children)}
@@ -79,4 +74,5 @@ class FormGroup extends React.Component {
     )
   }
 }
-export default FormGroup
+
+export default withModuleStyle(styles, true)(FieldsGroup)
