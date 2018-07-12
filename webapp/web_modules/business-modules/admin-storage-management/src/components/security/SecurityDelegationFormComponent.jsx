@@ -25,19 +25,18 @@ import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
 import { StorageDomain } from '@regardsoss/domain'
 import { PluginListContainer, PluginFormContainer } from '@regardsoss/microservice-plugin-configurator'
-import { StorageShapes } from '@regardsoss/shape'
-import messages from '../i18n'
-import styles from '../styles'
+import { CommonShapes } from '@regardsoss/shape'
+import messages from '../../i18n'
+import styles from '../../styles'
 
 /**
-* Component to create/edit/diplicate a storage location plugin configuration
+* Component to create/edit/diplicate a storage security delegation plugin configuration
 * @author Sébastien Binda
 */
-class PrioritizedDataStorageFormComponent extends React.Component {
+export class SecurityDelegationFormComponent extends React.Component {
   static propTypes = {
     mode: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(StorageDomain.DataStorageTypeEnumValues).isRequired,
-    entity: StorageShapes.PrioritizedDataStorage,
+    pluginConfiguration: CommonShapes.PluginConfiguration,
     backUrl: PropTypes.string.isRequired,
     onUpdate: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
@@ -53,13 +52,8 @@ class PrioritizedDataStorageFormComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedPlugin: get(this.getPluginConfiguration(props), 'content', null),
+      selectedPlugin: get(props, 'pluginConfiguration.content', null),
     }
-  }
-
-  getPluginConfiguration = (props) => {
-    const dataStorageConfiguration = get(props ? props.entity : this.props.entity, 'content.dataStorageConfiguration', null)
-    return dataStorageConfiguration ? { content: dataStorageConfiguration } : null
   }
 
   selectPluginType = (plugin) => {
@@ -68,37 +62,16 @@ class PrioritizedDataStorageFormComponent extends React.Component {
     }
   }
 
-  /**
-   * Update a PrioritizedDataStorage entity from the given updated PluginConfiguration.
-   */
-  updatePrioritizedDataStorage = (newPluginConfiguration, microservice, pluginId, pluginConfId) => {
-    const { onUpdate, entity } = this.props
-    const prioritizedDataStorageToUpdate = Object.assign({}, entity.content)
-    prioritizedDataStorageToUpdate.dataStorageConfiguration = newPluginConfiguration
-    return onUpdate(entity.content.id, prioritizedDataStorageToUpdate)
-  }
-
-  /**
-   * Create a PrioritizedDataStorage entity from the given updated PluginConfiguration.
-   */
-  createPrioritizedDataStorage = (newPluginConfiguration, microservice, pluginId) => {
-    const { onCreate } = this.props
-    const prioritizedDataStorageToUpdate = {
-      dataStorageConfiguration: newPluginConfiguration,
-    }
-    return onCreate(prioritizedDataStorageToUpdate)
-  }
-
   renderContent = (pluginConfiguration, selectedPluginId) => {
-    const { type, mode, backUrl } = this.props
+    const {
+      mode, backUrl, onUpdate, onCreate,
+    } = this.props
     const { intl: { formatMessage } } = this.context
-    const pluginType = type === StorageDomain.DataStorageTypeEnum.ONLINE ?
-      StorageDomain.PluginTypeEnum.ONLINE_STORAGE :
-      StorageDomain.PluginTypeEnum.NEARLINE_STORAGE
+
     if (mode !== 'create' && !pluginConfiguration) {
       return (
         <NoContentComponent
-          title={formatMessage({ id: 'storage.plugins.storage.form.invalid.id' })}
+          title={formatMessage({ id: 'storage.plugins.security.form.invalid.id' })}
           Icon={MoodIcon}
         />
       )
@@ -106,10 +79,10 @@ class PrioritizedDataStorageFormComponent extends React.Component {
     return (
       <div>
         <PluginListContainer
-          title={formatMessage({ id: 'storage.plugins.storage.form.type.select.title' })}
-          selectLabel={formatMessage({ id: 'storage.plugins.storage.form.type.select.label' })}
+          title={formatMessage({ id: 'storage.plugins.security.form.type.select.title' })}
+          selectLabel={formatMessage({ id: 'storage.plugins.security.form.type.select.label' })}
           microserviceName={STATIC_CONF.MSERVICES.STORAGE}
-          pluginType={pluginType}
+          pluginType={StorageDomain.PluginTypeEnum.SECURITY_DELEGATION}
           selectedPluginId={selectedPluginId}
           disabled={!!pluginConfiguration}
           handleSelect={this.selectPluginType}
@@ -126,8 +99,8 @@ class PrioritizedDataStorageFormComponent extends React.Component {
             cardStyle={false}
             simpleGlobalParameterConf
             hideDynamicParameterConf
-            onUpdatePluginConfiguration={this.updatePrioritizedDataStorage}
-            onCreatePluginConfiguration={this.createPrioritizedDataStorage}
+            onUpdatePluginConfiguration={onUpdate}
+            onCreatePluginConfiguration={onCreate}
           /> : null
         }
       </div>
@@ -135,18 +108,17 @@ class PrioritizedDataStorageFormComponent extends React.Component {
   }
 
   render() {
-    const { backUrl, mode } = this.props
-    const pluginConfiguration = this.getPluginConfiguration()
+    const { backUrl, mode, pluginConfiguration } = this.props
     const { selectedPlugin } = this.state
     const selectedPluginId = get(selectedPlugin, 'pluginId', null)
     const { intl: { formatMessage }, moduleTheme } = this.context
 
     const title = mode === 'edit' ?
-      formatMessage({ id: 'storage.plugins.storage.form.edit.title' }, { name: get(pluginConfiguration, 'content.label', '<>') }) :
-      formatMessage({ id: 'storage.plugins.storage.form.create.title' })
+      formatMessage({ id: 'storage.plugins.security.form.edit.title' }, { name: get(pluginConfiguration, 'content.label', '<>') }) :
+      formatMessage({ id: 'storage.plugins.security.form.create.title' })
     const subtitle = mode === 'edit' ?
-      formatMessage({ id: 'storage.plugins.storage.form.edit.subtitle' }) :
-      formatMessage({ id: 'storage.plugins.storage.form.create.subtitle' })
+      formatMessage({ id: 'storage.plugins.security.form.edit.subtitle' }) :
+      formatMessage({ id: 'storage.plugins.security.form.create.subtitle' })
     return (
       <Card>
         <CardTitle
@@ -160,7 +132,7 @@ class PrioritizedDataStorageFormComponent extends React.Component {
           (
             <CardActions>
               <CardActionsComponent
-                mainButtonLabel={formatMessage({ id: 'storage.plugins.storage.form.back.button' })}
+                mainButtonLabel={formatMessage({ id: 'storage.plugins.security.list.back.button' })}
                 mainButtonUrl={backUrl}
               />
             </CardActions>
@@ -171,5 +143,5 @@ class PrioritizedDataStorageFormComponent extends React.Component {
   }
 }
 
-export default withModuleStyle(styles)(withI18n(messages)(PrioritizedDataStorageFormComponent))
+export default withModuleStyle(styles)(withI18n(messages)(SecurityDelegationFormComponent))
 

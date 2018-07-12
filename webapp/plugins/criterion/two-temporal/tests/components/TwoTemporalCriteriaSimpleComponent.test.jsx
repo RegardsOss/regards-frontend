@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { DamDomain } from '@regardsoss/domain'
 import TwoTemporalCriteriaSimpleComponent from '../../src/components/TwoTemporalCriteriaSimpleComponent'
 import TemporalCriteriaComponent from '../../src/components/TemporalCriteriaComponent'
 import styles from '../../src/styles/styles'
@@ -49,12 +50,12 @@ describe('[PLUGIN TWO TEMPORAL CRITERIA SIMPLE] Testing the two temporal criteri
         firstField: {
           name: 'firstField',
           description: 'First attribute to search',
-          type: 'temporal',
+          type: DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601,
         },
         secondField: {
           name: 'secondField',
           description: 'Second attribute to search',
-          type: 'temporal',
+          type: DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601,
         },
       },
     }

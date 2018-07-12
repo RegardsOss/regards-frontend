@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { DamDomain } from '@regardsoss/domain'
 import TwoNumericalCriteriaComposedComponent from '../../src/components/TwoNumericalCriteriaComposedComponent'
 import NumericalCriteriaComponent from '../../src/components/NumericalCriteriaComponent'
 import styles from '../../src/styles/styles'
@@ -50,7 +51,7 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA COMPOSED] Testing the two numerical cri
           name: 'myAttribute',
           jsonPath: 'somewhere.over.the.rainbow',
           description: 'First attribute to search',
-          type: 'numerical',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }
@@ -77,7 +78,7 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA COMPOSED] Testing the two numerical cri
           name: 'myAttribute',
           jsonPath: 'somewhere.over.the.rainbow',
           description: 'First attribute to search',
-          type: 'numerical',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }
@@ -131,7 +132,7 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA COMPOSED] Testing the two numerical cri
           name: 'myAttribute',
           jsonPath: 'somewhere.over.the.rainbow',
           description: 'First attribute to search',
-          type: 'numerical',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }
@@ -159,7 +160,7 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA COMPOSED] Testing the two numerical cri
           name: 'myAttribute',
           // remove json path
           description: 'First attribute to search',
-          type: 'numerical',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     })

@@ -18,16 +18,17 @@
  **/
 import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
-import { StorageShapes } from '@regardsoss/shape'
+import { CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { getActions, getSelectors } from '../clients/PrioritizedDataStorageClient'
-import PrioritizedDataStorageFormComponent from '../components/PrioritizedDataStorageFormComponent'
+import { allocationStrategyActions, allocationStrategyByPluginIdActions, allocationStrategySelectors } from '../../clients/AllocationStrategyClient'
+import AllocationStrategyFormComponent from '../../components/allocations/AllocationStrategyFormComponent'
 
+const MICROSERVICE = STATIC_CONF.MSERVICES.STORAGE
 /**
-* Container to handle create/edit/duplicate form of a storage location plugin
+* Container to handle create/edit/duplicate form of a storage allocation strategy plugin
 * @author Sébastien Binda
 */
-export class PrioritizedDataStorageFormContainer extends React.Component {
+export class AllocationStrategyFormContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -36,7 +37,7 @@ export class PrioritizedDataStorageFormContainer extends React.Component {
    */
   static mapStateToProps(state, ownProps) {
     return {
-      entity: get(ownProps, 'params.id') ? getSelectors(ownProps.params.type).getById(state, ownProps.params.id) : null,
+      entity: get(ownProps, 'params.id') ? allocationStrategySelectors.getById(state, ownProps.params.id) : null,
     }
   }
 
@@ -48,9 +49,9 @@ export class PrioritizedDataStorageFormContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, ownProps) {
     return {
-      fetch: entityId => dispatch(getActions(ownProps.params.type).fetchEntity(entityId)),
-      create: entity => dispatch(getActions(ownProps.params.type).createEntity(entity)),
-      update: (entityId, entity) => dispatch(getActions(ownProps.params.type).updateEntity(entityId, entity)),
+      fetch: entityId => dispatch(allocationStrategyActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
+      create: entity => dispatch(allocationStrategyActions.createEntity(entity, { microserviceName: MICROSERVICE })),
+      update: (entityId, entity) => dispatch(allocationStrategyByPluginIdActions.updateEntity(entityId, entity, { microserviceName: MICROSERVICE, pluginId: entity.pluginId })),
     }
   }
 
@@ -58,12 +59,11 @@ export class PrioritizedDataStorageFormContainer extends React.Component {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
       id: PropTypes.string,
       mode: PropTypes.string,
     }),
     // from mapStateToProps
-    entity: StorageShapes.PrioritizedDataStorage,
+    entity: CommonShapes.PluginConfiguration,
     // from mapDispatchToProps
     fetch: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired,
@@ -86,18 +86,17 @@ export class PrioritizedDataStorageFormContainer extends React.Component {
 
   render() {
     const {
-      params: { mode, project, type }, entity, update, create,
+      params: { mode, project }, entity, update, create,
     } = this.props
     return (
       <LoadableContentDisplayDecorator
         isLoading={this.state.isLoading}
       >
         {() => (
-          <PrioritizedDataStorageFormComponent
+          <AllocationStrategyFormComponent
             mode={mode || 'create'}
-            entity={entity}
-            type={type}
-            backUrl={`/admin/${project}/data/acquisition/storage/storages`}
+            pluginConfiguration={entity}
+            backUrl={`/admin/${project}/data/acquisition/storage/allocations`}
             onUpdate={update}
             onCreate={create}
           />
@@ -107,7 +106,6 @@ export class PrioritizedDataStorageFormContainer extends React.Component {
     )
   }
 }
-
 export default connect(
-  PrioritizedDataStorageFormContainer.mapStateToProps,
-  PrioritizedDataStorageFormContainer.mapDispatchToProps)(PrioritizedDataStorageFormContainer)
+  AllocationStrategyFormContainer.mapStateToProps,
+  AllocationStrategyFormContainer.mapDispatchToProps)(AllocationStrategyFormContainer)

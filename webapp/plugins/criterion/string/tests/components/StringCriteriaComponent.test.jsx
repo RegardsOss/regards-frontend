@@ -20,6 +20,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import TextField from 'material-ui/TextField'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { DamDomain } from '@regardsoss/domain'
 import { StringCriteriaComponent } from '../../src/components/StringCriteriaComponent'
 import styles from '../../src/styles/styles'
 
@@ -44,12 +45,12 @@ describe('[PLUGIN STRING CRITERIA] Testing the string criteria component', () =>
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
-      registerClear: () => {},
+      registerClear: () => { },
       attributes: {
         searchField: {
           name: 'searchField',
           description: 'Attribute to search',
-          type: 'string',
+          type: DamDomain.MODEL_ATTR_TYPES.STRING,
         },
       },
     }

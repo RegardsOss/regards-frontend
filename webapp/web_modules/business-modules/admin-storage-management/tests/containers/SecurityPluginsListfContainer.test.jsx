@@ -19,22 +19,22 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import PluginMetaDataListComponent from '../../src/components/PluginMetaDataListComponent'
-import { SecurityPluginsConfContainer } from '../../src/containers/SecurityPluginsConfContainer'
+import { SecurityDelegationListContainer } from '../../src/containers/security/SecurityDelegationListContainer'
+import SecurityDelegationListComponent from '../../src/components/security/SecurityDelegationListComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test SecurityPluginsConfContainer
+* Test SecurityPluginsListContainer
 * @author Sébastien Binda
 */
-describe('[ADMIN STORAGE MANAGEMENT] Testing SecurityPluginsConfContainer', () => {
+describe('[ADMIN STORAGE MANAGEMENT] Testing SecurityDelegationListContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SecurityPluginsConfContainer)
+    assert.isDefined(SecurityDelegationListContainer)
   })
   it('should render correctly security plugins configuration', () => {
     const props = {
@@ -42,12 +42,15 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing SecurityPluginsConfContainer', () =
         project: 'project',
       },
       // from mapStateToProps
-      pluginMetaDataList: {},
+      entities: [],
+      isLoading: false,
       // from mapDispatchToProps
-      fetchPluginMetaDataList: () => new Promise(() => { }),
+      fetch: () => new Promise(() => { }),
+      update: () => new Promise(() => { }),
+      delete: () => new Promise(() => { }),
     }
-    const enzymeWrapper = shallow(<SecurityPluginsConfContainer {...props} />, { context })
+    const enzymeWrapper = shallow(<SecurityDelegationListContainer {...props} />, { context })
     enzymeWrapper.update()
-    assert.equal(enzymeWrapper.find(PluginMetaDataListComponent).length, 1, 'There should have a PluginMetaDataListComponent rendered')
+    assert.equal(enzymeWrapper.find(SecurityDelegationListComponent).length, 1, 'There should have a SecurityDelegationListComponent rendered')
   })
 })

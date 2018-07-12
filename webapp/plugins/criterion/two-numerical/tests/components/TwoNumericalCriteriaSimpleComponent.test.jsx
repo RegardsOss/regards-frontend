@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { EnumNumericalComparator } from '@regardsoss/domain/common'
+import { DamDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import TwoNumericalCriteriaSimpleComponent from '../../src/components/TwoNumericalCriteriaSimpleComponent'
 import NumericalCriteriaComponent from '../../src/components/NumericalCriteriaComponent'
@@ -50,13 +51,13 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA SIMPLE] Testing the two numerical crite
           name: 'firstField',
           jsonPath: 'pipapa.padapo',
           description: 'First attribute to search',
-          type: 'numerical',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
         secondField: {
           name: 'secondField',
           jsonPath: 'papapa.padapo',
           description: 'Second attribute to search',
-          type: 'numerical',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }
@@ -76,13 +77,13 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA SIMPLE] Testing the two numerical crite
           name: 'firstField',
           jsonPath: 'pipapa.padapo',
           description: 'First attribute to search',
-          type: 'numerical',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
         secondField: {
           name: 'secondField',
           jsonPath: 'papapa.padapo',
           description: 'Second attribute to search',
-          type: 'numerical',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }
@@ -120,13 +121,13 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA SIMPLE] Testing the two numerical crite
           name: 'firstField',
           jsonPath: 'pipapa.padapo',
           description: 'First attribute to search',
-          type: 'numerical',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
         secondField: {
           name: 'secondField',
           jsonPath: 'papapa.padapo',
           description: 'Second attribute to search',
-          type: 'numerical',
+          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }

@@ -23,11 +23,11 @@
  *
  * @type {{path: string, getComponents: ((nextState, cb))}}
  */
-export const securityPluginConfRoute = {
+export const securityPluginListRoute = {
   path: 'security',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/SecurityPluginsConfContainer')
+      const container = require('./containers/security/SecurityDelegationListContainer')
       cb(null, {
         content: container.default,
       })
@@ -35,11 +35,59 @@ export const securityPluginConfRoute = {
   },
 }
 
-export const allocationsPluginConfRoute = {
+export const securityPluginCreateFormRoute = {
+  path: 'security/create',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/security/SecurityDelegationFormContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
+export const securityPluginEditFormRoute = {
+  path: 'security/:id/:mode',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/security/SecurityDelegationFormContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
+export const allocationsPluginListRoute = {
   path: 'allocations',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/AllocationPluginsConfContainer')
+      const container = require('./containers/allocations/AllocationStrategyListContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
+export const allocationsPluginCreateFormRoute = {
+  path: 'allocations/create',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/allocations/AllocationStrategyFormContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
+export const allocationsPluginEditFormRoute = {
+  path: 'allocations/:id/:mode',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/allocations/AllocationStrategyFormContainer')
       cb(null, {
         content: container.default,
       })
@@ -102,8 +150,12 @@ const storageManagementRouter = {
     storagePluginCreateFormRoute,
     storagePluginEditFormRoute,
     storagePluginMonitoringRoute,
-    securityPluginConfRoute,
-    allocationsPluginConfRoute,
+    allocationsPluginListRoute,
+    allocationsPluginCreateFormRoute,
+    allocationsPluginEditFormRoute,
+    securityPluginListRoute,
+    securityPluginCreateFormRoute,
+    securityPluginEditFormRoute,
   ],
 }
 
