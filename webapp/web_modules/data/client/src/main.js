@@ -16,20 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import AccessInstanceClient from './rs-access-instance/main'
-import AccessProjectClient from './rs-access-project/main'
-import AdminClient from './rs-admin'
-import AdminInstanceClient from './rs-admin-instance'
-import AuthenticationClient from './rs-authentication'
-import CatalogClient from './rs-catalog'
-import CommonClient from './rs-common'
-import DataManagementClient from './rs-dam'
-import DataProviderClient from './rs-data-provider'
-import IngestClient from './rs-ingest'
-import OrderClient from './rs-order'
-import StorageClient from './rs-storage'
-import UIClient from './ui'
-
 
 /**
  * Module Client exports all the common REST API Client to request informations from REGARDS backend server.
@@ -43,19 +29,16 @@ import UIClient from './ui'
  * From the other modules of this application ou should only use Actions and Selectors.
  *
  */
-module.exports = {
-  AccessInstanceClient,
-  AccessProjectClient,
-  AuthenticationClient,
-  AdminClient,
-  AdminInstanceClient,
-  CatalogClient,
-  CommonClient,
-  DataManagementClient,
-  DataProviderClient,
-  IngestClient,
-  OrderClient,
-  StorageClient,
-  UIClient,
-}
-
+export { default as AccessInstanceClient } from './rs-access-instance/main'
+export { default as AccessProjectClient } from './rs-access-project/main'
+export { default as AdminClient } from './rs-admin'
+export { default as AdminInstanceClient } from './rs-admin-instance'
+export { default as AuthenticationClient } from './rs-authentication'
+export { default as CatalogClient } from './rs-catalog'
+export { default as CommonClient } from './rs-common'
+export { default as DataManagementClient } from './rs-dam'
+export { default as DataProviderClient } from './rs-data-provider'
+export { default as IngestClient } from './rs-ingest'
+export { default as OrderClient } from './rs-order'
+export { default as StorageClient } from './rs-storage'
+export { default as UIClient } from './ui'
