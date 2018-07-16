@@ -65,7 +65,7 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing NumericalCriteriaComponent', (
     const textField = enzymeWrapper.find(TextField)
     assert.lengthOf(textField, 1, 'There should be the text field')
     testSuiteHelpers.assertWrapperProperties(textField, {
-      type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
+      type: 'number',
       value: 25,
       onChange: enzymeWrapper.instance().handleChangeValue,
     }, 'Properties should be correctly reported to text field')
