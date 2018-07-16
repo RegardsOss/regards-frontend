@@ -27,19 +27,19 @@ import {
 } from '@regardsoss/components'
 import { CommonShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import AttributePluginEditAction from './AttributePluginEditAction'
-import AttributePluginActivationAction from './AttributePluginActivationAction'
+import ServiceEditAction from './ServiceEditAction'
+import ServiceActivationAction from './ServiceActivationAction'
 import { pluginConfigurationByPluginIdActions } from '../clients/PluginConfigurationClient'
 import messages from '../i18n'
 import styles from '../styles'
 
-const MICROSERVICE = STATIC_CONF.MSERVICES.DAM
+const MICROSERVICE = STATIC_CONF.MSERVICES.CATALOG
 
 /**
-* Component to display list of attribute calculation plugin configurations
+* Component to display list of service plugin configurations
 * @author Sébastien Binda
 */
-export class AttributePluginListComponent extends React.Component {
+export class ServiceListComponent extends React.Component {
   static addDependencies = [pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, MICROSERVICE)]
 
   static propTypes = {
@@ -90,7 +90,7 @@ export class AttributePluginListComponent extends React.Component {
       return (
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
-          title={this.context.intl.formatMessage({ id: 'model.attribute.calculation.plugins.list.confirm.delete.title' }, { name })}
+          title={this.context.intl.formatMessage({ id: 'dataaccess.services.list.confirm.delete.title' }, { name })}
           onConfirm={this.onConfirmDelete}
           onClose={this.closeDeleteDialog}
         />
@@ -108,20 +108,20 @@ export class AttributePluginListComponent extends React.Component {
     // Table columns to display
     const columns = [
       new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.label')
-        .label(formatMessage({ id: 'model.attribute.calculation.plugins.list.header.name.label' }))
+        .label(formatMessage({ id: 'dataaccess.services.list.header.name.label' }))
         .build(),
       new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.pluginId')
-        .label(formatMessage({ id: 'model.attribute.calculation.plugins.list.header.type.label' }))
+        .label(formatMessage({ id: 'dataaccess.services.list.header.type.label' }))
         .build(),
       new TableColumnBuilder('column.active').titleHeaderCell()
         .rowCellDefinition({
-          Constructor: AttributePluginActivationAction, // custom cell
+          Constructor: ServiceActivationAction, // custom cell
           props: { onToggle: onActivateToggle },
         })
-        .label(formatMessage({ id: 'model.attribute.calculation.plugins.list.header.active.label' }))
+        .label(formatMessage({ id: 'dataaccess.services.list.header.active.label' }))
         .build(),
       new TableColumnBuilder().optionsColumn([{
-        OptionConstructor: AttributePluginEditAction,
+        OptionConstructor: ServiceEditAction,
         optionProps: { onEdit },
       }, {
         OptionConstructor: TableDeleteOption,
@@ -137,7 +137,7 @@ export class AttributePluginListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'model.attribute.calculation.plugins.list.empty.title' })}
+        title={formatMessage({ id: 'dataaccess.services.list.empty.title' })}
         Icon={AddToPhotos}
       />
     )
@@ -145,8 +145,8 @@ export class AttributePluginListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={formatMessage({ id: 'model.attribute.calculation.plugins.list.title' })}
-          subtitle={formatMessage({ id: 'model.attribute.calculation.plugins.list.subtitle' })}
+          title={formatMessage({ id: 'dataaccess.services.list.title' })}
+          subtitle={formatMessage({ id: 'dataaccess.services.list.subtitle' })}
         />
         <CardText style={moduleTheme.root} >
           {this.renderDeleteConfirmDialog()}
@@ -163,14 +163,14 @@ export class AttributePluginListComponent extends React.Component {
           </TableLayout>
         </CardText>
         <CardActionsComponent
-          mainButtonLabel={formatMessage({ id: 'model.attribute.calculation.plugins.list.add.button' })}
+          mainButtonLabel={formatMessage({ id: 'dataaccess.services.list.add.button' })}
           mainButtonClick={onAddNewConf}
-          mainHateoasDependencies={AttributePluginListComponent.addDependencies}
-          secondaryButtonLabel={formatMessage({ id: 'model.attribute.calculation.plugins.list.back.button' })}
+          mainHateoasDependencies={ServiceListComponent.addDependencies}
+          secondaryButtonLabel={formatMessage({ id: 'dataaccess.services.list.back.button' })}
           secondaryButtonClick={onBack}
         />
       </Card>
     )
   }
 }
-export default withModuleStyle(styles)(withI18n(messages)(AttributePluginListComponent))
+export default withModuleStyle(styles)(withI18n(messages)(ServiceListComponent))

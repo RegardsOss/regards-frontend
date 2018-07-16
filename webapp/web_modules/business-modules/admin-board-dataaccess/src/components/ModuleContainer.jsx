@@ -16,22 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const messages = {
-  'menu.logout': 'Logout',
-  'menu.projects': 'Projects',
-  'menu.users': 'Users',
-  'menu.accounts': 'Accounts',
-  'menu.ui.configuration': 'User Interface',
-  'menu.instance.ui.configuration': 'Portal',
-  'menu.microservices': 'Microservices',
-  'menu.plugins': 'Plugins',
-  'menu.collections': 'Collections & Datasets',
-  'menu.datamodels': 'Data models',
-  'menu.dataaccessrights': 'Access Rights',
-  'menu.dataaccess': 'Catalog Access',
-  'menu.dataacquisition': 'Add data',
-  'menu.instance': 'Instance administration',
-  'menu.back': 'Back',
+import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
+import DataAccessBoardComponent from './DataAccessBoardComponent'
+import messages from '../i18n'
+
+/**
+ * Main container to render for the Datamanagement module
+ */
+class ModuleContainer extends React.Component {
+  static propTypes = {
+    params: PropTypes.shape({
+      project: PropTypes.string,
+    }),
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  render() {
+    const { project } = this.props.params
+    return (
+      <I18nProvider messages={messages}>
+        <DataAccessBoardComponent project={project} />
+      </I18nProvider>
+    )
+  }
 }
 
-export default messages
+export default ModuleContainer

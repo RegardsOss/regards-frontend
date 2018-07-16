@@ -20,15 +20,15 @@ import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { securityDelegationActions, securityDelegationByPluginIdActions, securityDelegationSelectors } from '../../clients/SecurityDelegationClient'
-import SecurityDelegationFormComponent from '../../components/security/SecurityDelegationFormComponent'
+import { pluginConfigurationActions, pluginConfigurationByPluginIdActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
+import ServiceFormComponent from '../components/ServiceFormComponent'
 
-const MICROSERVICE = STATIC_CONF.MSERVICES.STORAGE
+const MICROSERVICE = STATIC_CONF.MSERVICES.CATALOG
 /**
-* Container to handle create/edit/duplicate form of a security delegation plugin
+* Container to handle create/edit/duplicate form of a service plugin
 * @author Sébastien Binda
 */
-export class SecurityDelegationFormContainer extends React.Component {
+export class ServiceFormContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -37,7 +37,7 @@ export class SecurityDelegationFormContainer extends React.Component {
    */
   static mapStateToProps(state, ownProps) {
     return {
-      entity: get(ownProps, 'params.id') ? securityDelegationSelectors.getById(state, ownProps.params.id) : null,
+      entity: get(ownProps, 'params.pluginId') ? pluginConfigurationSelectors.getById(state, ownProps.params.pluginId) : null,
     }
   }
 
@@ -49,9 +49,9 @@ export class SecurityDelegationFormContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, ownProps) {
     return {
-      fetch: entityId => dispatch(securityDelegationActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
-      create: (entity, microserviceName, pluginId) => dispatch(securityDelegationByPluginIdActions.createEntity(entity, { microserviceName, pluginId })),
-      update: (entity, microserviceName, pluginId, pluginConfId) => dispatch(securityDelegationByPluginIdActions.updateEntity(pluginConfId, entity, { microserviceName, pluginId })),
+      fetch: entityId => dispatch(pluginConfigurationActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
+      create: (entity, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.createEntity(entity, { microserviceName, pluginId })),
+      update: (entity, microserviceName, pluginId, pluginConfId) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(pluginConfId, entity, { microserviceName, pluginId })),
     }
   }
 
@@ -59,7 +59,7 @@ export class SecurityDelegationFormContainer extends React.Component {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string.isRequired,
-      id: PropTypes.string,
+      pluginId: PropTypes.string,
       mode: PropTypes.string,
     }),
     // from mapStateToProps
@@ -73,14 +73,16 @@ export class SecurityDelegationFormContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: !!get(props, 'params.id', false),
+      isLoading: !!get(props, 'params.pluginId', false),
     }
   }
 
   componentWillMount() {
-    const { params: { id }, fetch } = this.props
-    if (id) {
-      fetch(id).then(() => this.setState({ isLoading: false }))
+    const { params: { pluginId }, fetch } = this.props
+    console.error('props', this.props)
+    if (pluginId) {
+      console.error(`fetching ${pluginId} for ${MICROSERVICE}`)
+      fetch(pluginId).then(() => this.setState({ isLoading: false }))
     }
   }
 
@@ -88,15 +90,16 @@ export class SecurityDelegationFormContainer extends React.Component {
     const {
       params: { mode, project }, entity, update, create,
     } = this.props
+    console.error('entity', entity)
     return (
       <LoadableContentDisplayDecorator
         isLoading={this.state.isLoading}
       >
         {() => (
-          <SecurityDelegationFormComponent
+          <ServiceFormComponent
             mode={mode || 'create'}
             pluginConfiguration={entity}
-            backUrl={`/admin/${project}/data/acquisition/storage/security`}
+            backUrl={`/admin/${project}/dataaccess/services/list`}
             onUpdate={update}
             onCreate={create}
           />
@@ -107,5 +110,5 @@ export class SecurityDelegationFormContainer extends React.Component {
   }
 }
 export default connect(
-  SecurityDelegationFormContainer.mapStateToProps,
-  SecurityDelegationFormContainer.mapDispatchToProps)(SecurityDelegationFormContainer)
+  ServiceFormContainer.mapStateToProps,
+  ServiceFormContainer.mapDispatchToProps)(ServiceFormContainer)

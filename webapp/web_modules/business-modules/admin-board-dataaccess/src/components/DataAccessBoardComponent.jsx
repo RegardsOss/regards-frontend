@@ -16,22 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const messages = {
-  'menu.logout': 'Logout',
-  'menu.projects': 'Projects',
-  'menu.users': 'Users',
-  'menu.accounts': 'Accounts',
-  'menu.ui.configuration': 'User Interface',
-  'menu.instance.ui.configuration': 'Portal',
-  'menu.microservices': 'Microservices',
-  'menu.plugins': 'Plugins',
-  'menu.collections': 'Collections & Datasets',
-  'menu.datamodels': 'Data models',
-  'menu.dataaccessrights': 'Access Rights',
-  'menu.dataaccess': 'Catalog Access',
-  'menu.dataacquisition': 'Add data',
-  'menu.instance': 'Instance administration',
-  'menu.back': 'Back',
+import { BoardComponent } from '@regardsoss/components'
+import { i18nContextType } from '@regardsoss/i18n'
+import dataAccessItems from './DataAccessBoardItems'
+
+/**
+ * Board to display data access funcionalities.
+ */
+class DataAccessBoardComponent extends React.Component {
+  static propTypes = {
+    project: PropTypes.string.isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  render() {
+    const { project } = this.props
+    const items = dataAccessItems(project, this.context.intl)
+    return (
+      <BoardComponent items={items} />
+    )
+  }
 }
 
-export default messages
+export default DataAccessBoardComponent

@@ -16,22 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const messages = {
-  'menu.logout': 'Logout',
-  'menu.projects': 'Projects',
-  'menu.users': 'Users',
-  'menu.accounts': 'Accounts',
-  'menu.ui.configuration': 'User Interface',
-  'menu.instance.ui.configuration': 'Portal',
-  'menu.microservices': 'Microservices',
-  'menu.plugins': 'Plugins',
-  'menu.collections': 'Collections & Datasets',
-  'menu.datamodels': 'Data models',
-  'menu.dataaccessrights': 'Access Rights',
-  'menu.dataaccess': 'Catalog Access',
-  'menu.dataacquisition': 'Add data',
-  'menu.instance': 'Instance administration',
-  'menu.back': 'Back',
+import values from 'lodash/values'
+
+/**
+ * @author Sébastien Binda
+ */
+const PluginTypeEnum = {
+  SERVICES: 'fr.cnes.regards.modules.catalog.services.domain.plugins.IService',
+  SEARCHENGINES: 'fr.cnes.regards.modules.search.domain.plugin.ISearchEngine',
 }
 
-export default messages
+const PluginTypeEnumValues = values(PluginTypeEnum)
+
+module.exports = {
+  PluginTypeEnum,
+  PluginTypeEnumValues,
+}

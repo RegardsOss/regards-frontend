@@ -165,6 +165,19 @@ export const collectionsRouter = {
   },
 }
 
+/**
+ * @type {{path: string, getChildRoutes: ((nextState, cb))}}
+ */
+export const dataAccessRouter = {
+  path: ':project/dataaccess',
+  getChildRoutes(nextState, cb) {
+    require.ensure([], (require) => {
+      const board = require('@regardsoss/admin-board-dataaccess')
+      cb(null, [board.dataAccessRouter])
+    })
+  },
+}
+
 
 /**
  * Main Routes for administration application
@@ -183,6 +196,7 @@ module.exports = {
     acquisitionRouter,
     collectionsRouter,
     modelsRouter,
+    dataAccessRouter,
   ],
   getComponent(nextState, cb) {
     require.ensure([], (require) => {

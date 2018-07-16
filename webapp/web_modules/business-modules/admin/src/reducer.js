@@ -25,6 +25,7 @@ import { accessRightManagementReducer } from '@regardsoss/admin-accessright-mana
 import { accountsReducer } from '@regardsoss/admin-board-account'
 import { acquisitionReducers } from '@regardsoss/admin-board-acquisition'
 import { collectionsReducers } from '@regardsoss/admin-board-collections'
+import { dataAccessReducers } from '@regardsoss/admin-board-dataaccess'
 import { modelsReducers } from '@regardsoss/admin-board-models'
 
 import { waitingAccessUsersEntitiesReducer } from './clients/WaitingAccessUsersEntitiesClient'
@@ -46,6 +47,7 @@ const adminReducer = combineReducers({
   acquisition: acquisitionReducers,
   collections: collectionsReducers,
   models: modelsReducers,
+  dataaccess: dataAccessReducers,
 })
 
 export default adminReducer

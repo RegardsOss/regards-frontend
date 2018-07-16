@@ -159,6 +159,9 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/business-modules/user/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-connection-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ui-layout-management/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-board-dataaccess/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-dataaccess-searchengines-management/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-dataaccess-services-management/src/main.js'),
 
       // All modules
       new webpack.PrefetchPlugin('./web_modules/modules/authentication/src/main.js'),

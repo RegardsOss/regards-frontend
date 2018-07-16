@@ -16,24 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { pluginConfigurationActions, pluginConfigurationByPluginIdActions } from './clients/PluginConfigurationClient'
 
-import { isURNTag, TagTypes } from './Tags'
-import Geometry from './geo/Geometry'
-import StaticQueryParameter from './query/common/StaticQueryParameter'
-import OpenSearchQuery from './query/opensearch/OpenSearchQuery'
-import OpenSearchQueryParameter from './query/opensearch/OpenSearchQueryParameter'
-import URLSearchQuery from './query/url/URLSearchQuery'
-import URLSearchQueryParameter from './query/url/URLSearchQueryParameter'
-import PluginTypeEnum from './PluginTypeEnum'
 
+/**
+ * Mandatory Dependencies to display module in parent board
+ * @type {Array}
+ */
+const listDependencies = [
+  pluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, STATIC_CONF.MSERVICES.DAM),
+  pluginConfigurationActions.getMsDependency(RequestVerbEnum.GET, STATIC_CONF.MSERVICES.DAM),
+]
+
+/**
+ * Mandatory Dependencies to display module in parent board
+ * @type {Array}
+ */
+const addDependencies = [
+  pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, STATIC_CONF.MSERVICES.DAM),
+]
 module.exports = {
-  Geometry,
-  isURNTag,
-  TagTypes,
-  StaticQueryParameter,
-  OpenSearchQuery,
-  OpenSearchQueryParameter,
-  URLSearchQuery,
-  URLSearchQueryParameter,
-  ...PluginTypeEnum,
+  listDependencies,
+  addDependencies,
 }

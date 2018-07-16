@@ -16,22 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const messages = {
-  'menu.logout': 'Logout',
-  'menu.projects': 'Projects',
-  'menu.users': 'Users',
-  'menu.accounts': 'Accounts',
-  'menu.ui.configuration': 'User Interface',
-  'menu.instance.ui.configuration': 'Portal',
-  'menu.microservices': 'Microservices',
-  'menu.plugins': 'Plugins',
-  'menu.collections': 'Collections & Datasets',
-  'menu.datamodels': 'Data models',
-  'menu.dataaccessrights': 'Access Rights',
-  'menu.dataaccess': 'Catalog Access',
-  'menu.dataacquisition': 'Add data',
-  'menu.instance': 'Instance administration',
-  'menu.back': 'Back',
-}
+import { combineReducers } from 'redux'
 
-export default messages
+const searchEnginesReducer = combineReducers({
+})
+
+export default searchEnginesReducer
