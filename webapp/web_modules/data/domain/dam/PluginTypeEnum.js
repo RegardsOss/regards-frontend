@@ -16,16 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 
-export { default as AccessDomain } from './access'
-export { default as AdminDomain } from './admin'
-export { default as AdminInstanceDomain } from './admin-instance'
-export { default as ArchivalStorageDomain } from './archival-storage'
-export { default as CatalogDomain } from './catalog'
-export { default as CommonDomain } from './common'
-export { default as DamDomain } from './dam'
-export { default as DataProviderDomain } from './data-provider'
-export { default as IngestDomin } from './ingest'
-export { default as OrderDomain } from './order'
-export { default as StorageDomain } from './storage'
-export { default as UIDomain } from './ui'
+/**
+ * @author Sébastien Binda
+ */
+const PluginTypeEnum = {
+  CONNECTION: 'fr.cnes.regards.modules.datasources.domain.plugins.IConnectionPlugin',
+  DB_CONNECTION: 'fr.cnes.regards.modules.datasources.domain.plugins.IDBConnectionPlugin',
+  COMPUTED_ATTR: 'fr.cnes.regards.modules.models.domain.IComputedAttribute',
+  DATASOURCE: 'fr.cnes.regards.modules.datasources.domain.plugins.IDataSourcePlugin',
+  DB_DATASOURCE: 'fr.cnes.regards.modules.datasources.domain.plugins.IDBDataSourcePlugin',
+  AIP_DATASOURCE: 'fr.cnes.regards.modules.datasources.domain.plugins.IAipDataSourcePlugin',
+}
+
+const PluginTypeEnumValues = values(PluginTypeEnum)
+
+module.exports = {
+  PluginTypeEnum,
+  PluginTypeEnumValues,
+}

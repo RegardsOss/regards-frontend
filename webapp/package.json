@@ -77,6 +77,7 @@
     "@regardsoss/admin-data-entities-attributes-management": "file:web_modules/business-common/admin-data-entities-attributes-management",
     "@regardsoss/admin-data-fragment-management": "file:web_modules/business-modules/admin-data-fragment-management",
     "@regardsoss/admin-data-model-management": "file:web_modules/business-modules/admin-data-model-management",
+    "@regardsoss/admin-data-attribute-plugins-management": "file:web_modules/business-modules/admin-data-attribute-plugins-management",
     "@regardsoss/admin-data-modelattribute-management": "file:web_modules/business-modules/admin-data-modelattribute-management",
     "@regardsoss/admin-data-provider-management": "file:web_modules/business-modules/admin-data-provider-management",
     "@regardsoss/admin-ingest-processing-chain-management": "file:web_modules/business-modules/admin-ingest-processing-chain-management",

@@ -70,6 +70,16 @@ export const fragmentModelManagementRouter = {
   },
 }
 
+export const attributePluginsRouter = {
+  path: 'calculationplugins',
+  getChildRoutes(nextState, cb) {
+    require.ensure([], (require) => {
+      const adminDataAttrPluginsManagement = require('@regardsoss/admin-data-attribute-plugins-management')
+      cb(null, [adminDataAttrPluginsManagement.attributePluginDataManagementRouter])
+    })
+  },
+}
+
 const modelsRouter = {
   childRoutes: [
     boardRoute,
@@ -77,6 +87,7 @@ const modelsRouter = {
     modelAttributeManagementRouter,
     attributeModelManagementRouter,
     fragmentModelManagementRouter,
+    attributePluginsRouter,
   ],
 }
 

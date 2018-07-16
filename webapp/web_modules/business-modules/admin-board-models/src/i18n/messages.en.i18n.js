@@ -28,6 +28,9 @@ const messages = {
 
   'data.board.fragment.description': 'Fragments are consistent sets of attributes',
   'data.board.fragment.title': 'Fragments',
+
+  'data.board.calculation.plugins.title': 'Attribute calculation plugins',
+  'data.board.calculation.plugins.description': 'When a new data is associated to a dataset, some attributes of the dataset can be (re)calculated .To do so, you have to define the way to calculate the value with one of the existing plugins. Once each calculation plugins are configured, they can be associated to each attribute of dataset models during model configuration.',
 }
 
 export default messages

@@ -28,6 +28,9 @@ const messages = {
 
   'data.board.fragment.description': 'Les fragments sont des ensembles cohérents d\'attributs',
   'data.board.fragment.title': 'Fragments',
+
+  'data.board.calculation.plugins.title': 'Plugins de calcul des attributs',
+  'data.board.calculation.plugins.description': 'Lorsqu\'une nouvelle donnée est associée à un jeu de données, certains des attributs du jeu peuvent être (re)calculés. Pour ce faire, vous devez determiner quelle méthode de calcul utiliser au travers des plugins disponibles. Cette section vous permet de configurer ces différentes méthodes de calculs. Une fois configurée, vous pouvez associer une méthode de calcul pour chaque attribut d\'un model de jeu de données dans l\'écran d\'association des attriuts aux models de jeux de données.',
 }
 
 export default messages
