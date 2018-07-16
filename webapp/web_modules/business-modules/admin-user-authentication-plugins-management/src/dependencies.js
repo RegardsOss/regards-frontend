@@ -25,8 +25,8 @@ import { pluginConfigurationActions, pluginConfigurationByPluginIdActions } from
  * @type {Array}
  */
 const listDependencies = [
-  pluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, STATIC_CONF.MSERVICES.CATALOG),
-  pluginConfigurationActions.getMsDependency(RequestVerbEnum.GET, STATIC_CONF.MSERVICES.CATALOG),
+  pluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, STATIC_CONF.MSERVICES.AUTHENTICATION),
+  pluginConfigurationActions.getMsDependency(RequestVerbEnum.GET, STATIC_CONF.MSERVICES.AUTHENTICATION),
 ]
 
 /**
@@ -34,7 +34,7 @@ const listDependencies = [
  * @type {Array}
  */
 const addDependencies = [
-  pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, STATIC_CONF.MSERVICES.DAM),
+  pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, STATIC_CONF.MSERVICES.AUTHENTICATION),
 ]
 module.exports = {
   listDependencies,

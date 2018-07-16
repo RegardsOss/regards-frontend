@@ -99,6 +99,7 @@
     "@regardsoss/admin-user-projectuser-management": "file:web_modules/business-modules/admin-user-projectuser-management",
     "@regardsoss/admin-user-role-management": "file:web_modules/business-modules/admin-user-role-management",
     "@regardsoss/admin-user-role-resource-access-management": "file:web_modules/business-modules/admin-user-role-resource-access-management",
+    "@regardsoss/admin-user-authentication-plugins-management": "file:web_modules/business-modules/admin-user-authentication-plugins-management",
     "@regardsoss/api": "file:web_modules/data/api",
     "@regardsoss/attributes-common": "file:web_modules/business-common/attributes-common",
     "@regardsoss/authentication-utils": "file:web_modules/utils/authentication-utils",

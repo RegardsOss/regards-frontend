@@ -16,17 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import styles from './styles'
 
-export { default as AccessDomain } from './access'
-export { default as AdminDomain } from './admin'
-export { default as AdminInstanceDomain } from './admin-instance'
-export { default as ArchivalStorageDomain } from './archival-storage'
-export { default as CatalogDomain } from './catalog'
-export { default as CommonDomain } from './common'
-export { default as DamDomain } from './dam'
-export { default as DataProviderDomain } from './data-provider'
-export { default as IngestDomin } from './ingest'
-export { default as OrderDomain } from './order'
-export { default as StorageDomain } from './storage'
-export { default as UIDomain } from './ui'
-export { default as AuthenticationDomain } from './authentication'
+/**
+ * @author Sébastien Binda
+ */
+module.exports = { styles }
