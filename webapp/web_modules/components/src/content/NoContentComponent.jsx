@@ -49,7 +49,7 @@ export class NoContentComponent extends React.Component {
     } = this.props
     const { muiTheme, moduleTheme: { noContent } } = this.context
     return (
-      <div style={noContent.wrapper}>
+      <div style={noContent.wrapper} className="selenium-noResult">
         <Icon color={muiTheme.palette.primary1Color} style={noContent.iconStyle} />
         <div style={noContent.titleWrapper}>
           {title || <FormattedMessage id="no.content.information.title" />}

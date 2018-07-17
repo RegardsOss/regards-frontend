@@ -51,7 +51,7 @@ class AccessRightsTableEditAction extends React.Component {
     const { intl: { formatMessage } } = this.context
     return (
       <IconButton
-        className={`selenium-edit-${this.props.entity.content.label}`}
+        className={`selenium-edit-${this.props.entity.content.dataset.label}`}
         title={formatMessage({ id: 'accessright.edit.tooltip' })}
         iconStyle={AccessRightsTableEditAction.iconStyle}
         style={AccessRightsTableEditAction.buttonStyle}
