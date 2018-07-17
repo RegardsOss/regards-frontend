@@ -16,11 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { searchEngineConfigurationsReducer } from './clients/SearchEngineConfigurationsClient'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { SearchEngineConfiguration } from '@regardsoss/api'
+import SearchEngineConfigurationsActions from './SearchEngineConfigurationsActions'
 
-const searchEnginesReducer = combineReducers({
-  configurations: searchEngineConfigurationsReducer,
-})
+class SearchEngineConfigurationsReducer extends BasicPageableReducers {
+  constructor(namespace) {
+    super(SearchEngineConfiguration, new SearchEngineConfigurationsActions(namespace))
+  }
+}
 
-export default searchEnginesReducer
+export default (namespace) => {
+  const instance = new SearchEngineConfigurationsReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

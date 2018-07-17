@@ -18,11 +18,11 @@
  **/
 import { combineReducers } from 'redux'
 import { servicesManagementReducer } from '@regardsoss/admin-dataaccess-services-management'
-import { searchEnginesManagementReducer } from '@regardsoss/admin-dataaccess-searchengines-management'
+import { searchEnginesReducer } from '@regardsoss/admin-dataaccess-searchengines-management'
 
 const modelsReducers = combineReducers({
   services: servicesManagementReducer,
-  // searchengines: searchEnginesManagementReducer,
+  searchengines: searchEnginesReducer,
 })
 
 

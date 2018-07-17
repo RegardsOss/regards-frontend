@@ -32,8 +32,18 @@ export const servicesManagementRouter = {
   path: 'services',
   getChildRoutes(nextState, cb) {
     require.ensure([], (require) => {
-      const adminDataModelManagement = require('@regardsoss/admin-dataaccess-services-management')
-      cb(null, [adminDataModelManagement.servicesManagementRouter])
+      const servicesManagement = require('@regardsoss/admin-dataaccess-services-management')
+      cb(null, [servicesManagement.servicesManagementRouter])
+    })
+  },
+}
+
+export const searchenginesManagementRouter = {
+  path: 'searchengines',
+  getChildRoutes(nextState, cb) {
+    require.ensure([], (require) => {
+      const searchenginesManagement = require('@regardsoss/admin-dataaccess-searchengines-management')
+      cb(null, [searchenginesManagement.searchEnginesRouter])
     })
   },
 }
@@ -42,6 +52,7 @@ const modelsRouter = {
   childRoutes: [
     boardRoute,
     servicesManagementRouter,
+    searchenginesManagementRouter,
   ],
 }
 

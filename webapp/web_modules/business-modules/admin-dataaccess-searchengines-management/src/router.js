@@ -16,9 +16,47 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+export const listSearchEngineConfigurationRoute = {
+  path: 'list',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const SearchEngineConfigurationListContainer = require('./containers/configuration/SearchEngineConfigurationListContainer')
+      cb(null, {
+        content: SearchEngineConfigurationListContainer.default,
+      })
+    })
+  },
+}
+
+export const createSearchEngineConfigurationRoute = {
+  path: 'create',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const SearchEngineConfigurationFormContainer = require('./containers/configuration/SearchEngineConfigurationFormContainer')
+      cb(null, {
+        content: SearchEngineConfigurationFormContainer.default,
+      })
+    })
+  },
+}
+
+export const editSearchEngineConfigurationRoute = {
+  path: ':confId/:mode',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const SearchEngineConfigurationFormContainer = require('./containers/configuration/SearchEngineConfigurationFormContainer')
+      cb(null, {
+        content: SearchEngineConfigurationFormContainer.default,
+      })
+    })
+  },
+}
 
 const searchEnginesRouter = {
   childRoutes: [
+    listSearchEngineConfigurationRoute,
+    createSearchEngineConfigurationRoute,
+    editSearchEngineConfigurationRoute,
   ],
 }
 

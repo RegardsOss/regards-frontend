@@ -20,15 +20,15 @@ import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { pluginConfigurationActions, pluginConfigurationByPluginIdActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
-import ServiceFormComponent from '../components/ServiceFormComponent'
+import { searchEngineConfigurationsActions, searchEngineConfigurationsSelectors } from '../../clients/SearchEngineConfigurationsClient'
+import SearchEngineConfigurationFormComponent from '../../components/configuration/SearchEngineConfigurationFormComponent'
 
 const MICROSERVICE = STATIC_CONF.MSERVICES.CATALOG
 /**
-* Container to handle create/edit/duplicate form of a service plugin
+* Container to handle create/edit/duplicate form of a SearchEngine configuration
 * @author Sébastien Binda
 */
-export class ServiceFormContainer extends React.Component {
+export class SearchEngineConfigurationFormContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -37,7 +37,7 @@ export class ServiceFormContainer extends React.Component {
    */
   static mapStateToProps(state, ownProps) {
     return {
-      entity: get(ownProps, 'params.pluginId') ? pluginConfigurationSelectors.getById(state, ownProps.params.pluginId) : null,
+      entity: get(ownProps, 'params.confId') ? searchEngineConfigurationsSelectors.getById(state, ownProps.params.confId) : null,
     }
   }
 
@@ -49,9 +49,9 @@ export class ServiceFormContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, ownProps) {
     return {
-      fetch: entityId => dispatch(pluginConfigurationActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
-      create: (entity, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.createEntity(entity, { microserviceName, pluginId })),
-      update: (entity, microserviceName, pluginId, pluginConfId) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(pluginConfId, entity, { microserviceName, pluginId })),
+      fetch: entityId => dispatch(searchEngineConfigurationsActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
+      create: entity => dispatch(searchEngineConfigurationsActions.createEntity(entity)),
+      update: (entity, confId) => dispatch(searchEngineConfigurationsActions.updateEntity(confId, entity)),
     }
   }
 
@@ -59,7 +59,7 @@ export class ServiceFormContainer extends React.Component {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string.isRequired,
-      pluginId: PropTypes.string,
+      confId: PropTypes.string,
       mode: PropTypes.string,
     }),
     // from mapStateToProps
@@ -73,14 +73,14 @@ export class ServiceFormContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: !!get(props, 'params.pluginId', false),
+      isLoading: !!get(props, 'params.confId', false),
     }
   }
 
   componentWillMount() {
-    const { params: { pluginId }, fetch } = this.props
-    if (pluginId) {
-      fetch(pluginId).then(() => this.setState({ isLoading: false }))
+    const { params: { confId }, fetch } = this.props
+    if (confId) {
+      fetch(confId).then(() => this.setState({ isLoading: false }))
     }
   }
 
@@ -93,10 +93,10 @@ export class ServiceFormContainer extends React.Component {
         isLoading={this.state.isLoading}
       >
         {() => (
-          <ServiceFormComponent
+          <SearchEngineConfigurationFormComponent
             mode={mode || 'create'}
-            pluginConfiguration={entity}
-            backUrl={`/admin/${project}/dataaccess/services/list`}
+            searchEngineConfigurations={entity}
+            backUrl={`/admin/${project}/dataaccess/searchengines/list`}
             onUpdate={update}
             onCreate={create}
           />
@@ -107,5 +107,5 @@ export class ServiceFormContainer extends React.Component {
   }
 }
 export default connect(
-  ServiceFormContainer.mapStateToProps,
-  ServiceFormContainer.mapDispatchToProps)(ServiceFormContainer)
+  SearchEngineConfigurationFormContainer.mapStateToProps,
+  SearchEngineConfigurationFormContainer.mapDispatchToProps)(SearchEngineConfigurationFormContainer)

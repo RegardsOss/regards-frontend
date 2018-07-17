@@ -16,11 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { searchEngineConfigurationsReducer } from './clients/SearchEngineConfigurationsClient'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-const searchEnginesReducer = combineReducers({
-  configurations: searchEngineConfigurationsReducer,
-})
+export default storePath => new BasicPageableSelectors(storePath)
 
-export default searchEnginesReducer

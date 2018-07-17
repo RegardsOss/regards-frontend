@@ -20,7 +20,6 @@ import EnumeratedDOPropertyValuesActions from './search/EnumeratedDOPropertyValu
 import getEnumeratedDOPropertyValuesReducer from './search/EnumeratedDOPropertyValuesReducer'
 import getEnumeratedDOPropertyValuesSelectors from './search/EnumeratedDOPropertyValuesSelectors'
 
-
 import LinkPluginDatasetActions from './linkPluginDataset/LinkPluginDatasetActions'
 import getLinkPluginDatasetReducer from './linkPluginDataset/LinkPluginDatasetReducer'
 import getLinkPluginDatasetSelectors from './linkPluginDataset/LinkPluginDatasetSelectors'
@@ -36,6 +35,10 @@ import getSearchEntitiesSelectors from './search/SearchEntitiesSelectors'
 import SearchEntityActions from './search/SearchEntityActions'
 
 import CatalogPluginServiceResultActions from './services/CatalogPluginServiceResultActions'
+
+import SearchEngineConfigurationsActions from './search-engines/SearchEngineConfigurationsActions'
+import getSearchEngineConfigurationsReducer from './search-engines/SearchEngineConfigurationsReducer'
+import getSearchEngineConfigurationsSelectors from './search-engines/SearchEngineConfigurationsSelectors'
 
 module.exports = {
   EnumeratedDOPropertyValuesActions,
@@ -57,4 +60,8 @@ module.exports = {
 
   SearchEntityActions,
   CatalogPluginServiceResultActions,
+
+  SearchEngineConfigurationsActions,
+  getSearchEngineConfigurationsReducer,
+  getSearchEngineConfigurationsSelectors,
 }

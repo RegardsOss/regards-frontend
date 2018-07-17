@@ -15,12 +15,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { combineReducers } from 'redux'
-import { searchEngineConfigurationsReducer } from './clients/SearchEngineConfigurationsClient'
+ */
 
-const searchEnginesReducer = combineReducers({
-  configurations: searchEngineConfigurationsReducer,
+/**
+ * @author Sébastien Binda
+ */
+const storageManagementStyles = theme => ({
+  root: {
+    position: 'relative',
+    paddingBottom: 20,
+  },
 })
 
-export default searchEnginesReducer
+export default storageManagementStyles

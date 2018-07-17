@@ -33,13 +33,13 @@ const items = (projectName, intl) => [
     advanced: false,
     actions: [
       {
-        path: `/admin/${projectName}/dataaccess/services/list`,
+        path: `/admin/${projectName}/dataaccess/searchengines/list`,
         icon: <ViewLinesIcon />,
         tooltipMsg: intl.formatMessage({ id: 'dataaccess.board.action.list.tooltip' }),
         hateoasDependencies: servicesManagementDependencies.listDependencies,
       },
       {
-        path: `/admin/${projectName}/dataaccess/services/create`,
+        path: `/admin/${projectName}/dataaccess/searchengines/create`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
         hateoasDependencies: servicesManagementDependencies.addDependencies,

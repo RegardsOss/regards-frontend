@@ -16,11 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { searchEngineConfigurationsReducer } from './clients/SearchEngineConfigurationsClient'
 
-const searchEnginesReducer = combineReducers({
-  configurations: searchEngineConfigurationsReducer,
+
+import { Schema, arrayOf } from 'normalizr'
+
+const SearchEngineConfiguration = {
+  entityKey: 'id',
+  normalizrKey: 'searchEngine',
+}
+
+
+// Read more about Normalizr: https://github.com/paularmstrong/normalizr
+const entitySchema = new Schema(SearchEngineConfiguration.normalizrKey, {
+  idAttribute: entity =>
+    entity.content[SearchEngineConfiguration.entityKey]
+  ,
 })
 
-export default searchEnginesReducer
+// Schemas for API responses.
+module.exports = {
+  SEARCH_ENGINE: entitySchema,
+  SEARCH_ENGINE_ARRAY: arrayOf(entitySchema),
+  SearchEngineConfiguration,
+}

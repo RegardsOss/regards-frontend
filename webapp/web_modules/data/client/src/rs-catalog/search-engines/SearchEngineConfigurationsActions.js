@@ -16,11 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { searchEngineConfigurationsReducer } from './clients/SearchEngineConfigurationsClient'
+import Schemas from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
-const searchEnginesReducer = combineReducers({
-  configurations: searchEngineConfigurationsReducer,
-})
-
-export default searchEnginesReducer
+export default class SearchEngineConfigurationsActions extends BasicPageableActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/enginesconfig`,
+      schemaTypes: {
+        ENTITY: Schemas.SEARCH_ENGINE,
+        ENTITY_ARRAY: Schemas.SEARCH_ENGINE_ARRAY,
+      },
+    })
+  }
+}

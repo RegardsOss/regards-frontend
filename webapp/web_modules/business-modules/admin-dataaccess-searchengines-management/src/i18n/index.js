@@ -16,11 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { searchEngineConfigurationsReducer } from './clients/SearchEngineConfigurationsClient'
+import en from './messages.en.i18n'
+import fr from './messages.fr.i18n'
 
-const searchEnginesReducer = combineReducers({
-  configurations: searchEngineConfigurationsReducer,
-})
-
-export default searchEnginesReducer
+/**
+ * @author Sébastien Binda
+ */
+module.exports = {
+  en,
+  fr,
+}
