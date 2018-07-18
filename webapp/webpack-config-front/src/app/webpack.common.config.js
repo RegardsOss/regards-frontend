@@ -1,6 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = function (projectContextPath, mode = 'dev') {
@@ -56,7 +56,10 @@ module.exports = function (projectContextPath, mode = 'dev') {
         },
         {
           test: /\.css$/,
-          loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }),
+          use: [
+            MiniCssExtractPlugin.loader,
+            'css-loader',
+          ],
         },
         {
           test: /\.(jpg|gif|png)$/,
@@ -107,7 +110,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
         PropTypes: 'prop-types',
       }),
       // Create a single css file for the whole application instead of setting css inline in the javascript
-      new ExtractTextPlugin({ filename: 'css/styles.css', disable: false, allChunks: true }),
+      new MiniCssExtractPlugin({ filename: 'css/styles.css' }),
       // Using http://webpack.github.io/analyse/#hints
       // And npm run build:stats
       // We can start to prefetch these files before they are imported
@@ -155,6 +158,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-project-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/portal/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-collection-management/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-storage-aip-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-storage-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/user/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-connection-management/src/main.js'),
