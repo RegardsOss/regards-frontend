@@ -34,8 +34,8 @@ class SubSectionCard extends React.Component {
   static sectionStyle = {
     border: '1px solid',
     borderRadius: '5px',
-    marginTop: '10px',
     padding: '15px',
+    marginRight: '5px',
   }
 
   static titleStyle = {
@@ -47,7 +47,7 @@ class SubSectionCard extends React.Component {
 
   static pointerStyle = {
     border: 'solid 10px transparent',
-    position: 'absolute',
+    width: '10px',
     marginTop: '-20px',
   }
 

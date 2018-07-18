@@ -82,7 +82,9 @@ export class PluginListContainer extends React.Component {
       })
       if (this.props.selectedPluginId) {
         const plugin = find(pluginList, p => p.content.pluginId === this.props.selectedPluginId)
-        this.props.handleSelect(plugin.content, true)
+        if (plugin) {
+          this.props.handleSelect(plugin.content, true)
+        }
       }
     } else {
       this.setState({
