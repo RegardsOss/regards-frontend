@@ -18,9 +18,11 @@
  **/
 import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
-import { CommonShapes } from '@regardsoss/shape'
+import { CommonShapes, CatalogShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { searchEngineConfigurationsActions, searchEngineConfigurationsSelectors } from '../../clients/SearchEngineConfigurationsClient'
+import { pluginConfigurationActions, pluginConfigurationSelectors } from '../../clients/PluginConfigurationClient'
+import { pluginMetaDataActions, pluginMetaDataSelectors } from '../../clients/PluginMetadataClient'
 import SearchEngineConfigurationFormComponent from '../../components/configuration/SearchEngineConfigurationFormComponent'
 
 const MICROSERVICE = STATIC_CONF.MSERVICES.CATALOG
@@ -37,7 +39,9 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
    */
   static mapStateToProps(state, ownProps) {
     return {
-      entity: get(ownProps, 'params.confId') ? searchEngineConfigurationsSelectors.getById(state, ownProps.params.confId) : null,
+      searchEngine: get(ownProps, 'params.confId') ? searchEngineConfigurationsSelectors.getById(state, ownProps.params.confId) : null,
+      pluginConfigurationList: pluginConfigurationSelectors.getList(state),
+      pluginMetaDataList: pluginMetaDataSelectors.getList(state),
     }
   }
 
@@ -52,6 +56,14 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
       fetch: entityId => dispatch(searchEngineConfigurationsActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
       create: entity => dispatch(searchEngineConfigurationsActions.createEntity(entity)),
       update: (entity, confId) => dispatch(searchEngineConfigurationsActions.updateEntity(confId, entity)),
+      fetchPluginConfigurationList: () => dispatch(pluginConfigurationActions.fetchEntityList(
+        { microserviceName: 'rs-storage' }, {
+          pluginType: 'fr.cnes.regards.modules.storage.domain.plugin.IDataStorage',
+        })),
+      fetchPluginMetaDataList: microserviceName => dispatch(pluginMetaDataActions.fetchEntityList(
+        { microserviceName: 'rs-storage' }, {
+          pluginType: 'fr.cnes.regards.modules.storage.domain.plugin.IDataStorage',
+        })),
     }
   }
 
@@ -63,30 +75,44 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
       mode: PropTypes.string,
     }),
     // from mapStateToProps
-    entity: CommonShapes.PluginConfiguration,
+    searchEngine: CatalogShapes.SearchEngineConfiguration,
+    pluginConfigurationList: CommonShapes.PluginConfigurationList,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
     // from mapDispatchToProps
     fetch: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired,
     create: PropTypes.func.isRequired,
+    fetchPluginMetaDataList: PropTypes.func.isRequired,
+    fetchPluginConfigurationList: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: !!get(props, 'params.confId', false),
+      isLoading: true,
     }
   }
 
   componentWillMount() {
     const { params: { confId }, fetch } = this.props
+    const actions = []
     if (confId) {
-      fetch(confId).then(() => this.setState({ isLoading: false }))
+      actions.push(fetch(confId))
     }
+    actions.push(this.props.fetchPluginMetaDataList())
+    actions.push(this.props.fetchPluginConfigurationList())
+
+    Promise.all(actions)
+      .then(() => {
+        this.setState({
+          isLoading: false,
+        })
+      })
   }
 
   render() {
     const {
-      params: { mode, project }, entity, update, create,
+      params: { mode, project }, searchEngine, update, create, pluginMetaDataList, pluginConfigurationList,
     } = this.props
     return (
       <LoadableContentDisplayDecorator
@@ -95,10 +121,12 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
         {() => (
           <SearchEngineConfigurationFormComponent
             mode={mode || 'create'}
-            searchEngineConfigurations={entity}
+            searchEngineConfiguration={searchEngine}
             backUrl={`/admin/${project}/dataaccess/searchengines/list`}
             onUpdate={update}
             onCreate={create}
+            pluginConfigurationList={pluginConfigurationList}
+            pluginMetaDataList={pluginMetaDataList}
           />
         )
         }

@@ -16,22 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfiguration'
+import { DatasetContent } from '../rs-dam/Dataset'
 
-import { Entity, EntityList, entityFiles } from './Entity/Entity'
-import Tag from './Entity/Tag'
+const SearchEngineConfigurationContent = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired,
+  configuration: PluginConfigurationContent.isRequired,
+  datasetUrn: PropTypes.string,
+  dataset: DatasetContent,
+})
 
-import { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'
-import SearchEngineConfiguration from './SearchEngineConfiguration'
-
+const SearchEngineConfiguration = PropTypes.shape({
+  content: SearchEngineConfigurationContent.isRequired,
+})
+const SearchEngineConfigurationList = PropTypes.objectOf(SearchEngineConfiguration)
 
 module.exports = {
-  entityFiles,
-  Entity,
-  EntityList,
-  Tag,
-
-  LinkPluginDataset,
-  LinkPluginDatasetList,
-
-  ...SearchEngineConfiguration,
+  SearchEngineConfigurationContent,
+  SearchEngineConfiguration,
+  SearchEngineConfigurationList,
 }

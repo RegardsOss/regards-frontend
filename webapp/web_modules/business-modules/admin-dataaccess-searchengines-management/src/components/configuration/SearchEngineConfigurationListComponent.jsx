@@ -32,7 +32,7 @@ import messages from '../../i18n'
 import styles from '../../styles'
 
 /**
-* Component to display list of service plugin configurations
+* Component to display search engine configurations list
 * @author Sébastien Binda
 */
 export class SearchEngineConfigurationListComponent extends React.Component {
@@ -42,6 +42,7 @@ export class SearchEngineConfigurationListComponent extends React.Component {
     onBack: PropTypes.func.isRequired,
     onAddNewConf: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     resultsCount: PropTypes.number.isRequired,
@@ -95,7 +96,7 @@ export class SearchEngineConfigurationListComponent extends React.Component {
 
   render() {
     const {
-      resultsCount, isLoading, onAddNewConf, onBack,
+      resultsCount, isLoading, onAddNewConf, onEdit, onBack,
     } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
 
@@ -103,17 +104,17 @@ export class SearchEngineConfigurationListComponent extends React.Component {
     const columns = [
       // id column
       new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.label')
-        .label(formatMessage({ id: 'search-engines.list.table.headers.label' }))
+        .label(formatMessage({ id: 'dataaccess.searchengines.list.header.label' }))
         .build(),
       new TableColumnBuilder('column.engine').titleHeaderCell().propertyRenderCell('content.configuration.pluginId')
-        .label(formatMessage({ id: 'search-engines.list.table.headers.engine' }))
+        .label(formatMessage({ id: 'dataaccess.searchengines.list.header.engine' }))
         .build(),
       new TableColumnBuilder('column.state').titleHeaderCell().propertyRenderCell('content.dataset.feature.label')
-        .label(formatMessage({ id: 'search-engines.list.table.headers.dataset' }))
+        .label(formatMessage({ id: 'dataaccess.searchengines.list.header.dataset' }))
         .build(),
       new TableColumnBuilder().optionsColumn([{
         OptionConstructor: SearchEngineConfigurationEditAction,
-        optionProps: { onEdit: this.onEdit },
+        optionProps: { onEdit },
       }, {
         OptionConstructor: TableDeleteOption,
         optionProps: {

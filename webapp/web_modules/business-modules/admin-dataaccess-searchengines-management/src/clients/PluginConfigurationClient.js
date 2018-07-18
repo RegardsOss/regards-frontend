@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,23 +15,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { CommonClient } from '@regardsoss/client'
 
-import { Entity, EntityList, entityFiles } from './Entity/Entity'
-import Tag from './Entity/Tag'
+/**
+ * Plugin configuration entities client.
+ *
+ * @author Sébastien Binda
+ */
+const ENTITIES_STORE_PATH = ['admin', 'dataaccess', 'searchengines', 'pluginConfiguration']
+const REDUX_ACTION_NAMESPACE = 'admin-dataaccess/searchengines-pluginConfiguration'
 
-import { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'
-import SearchEngineConfiguration from './SearchEngineConfiguration'
+const pluginConfigurationReducer = CommonClient.getPluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
+const pluginConfigurationActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_NAMESPACE)
+const pluginConfigurationSelectors = CommonClient.getPluginConfigurationSelectors(ENTITIES_STORE_PATH)
 
 
 module.exports = {
-  entityFiles,
-  Entity,
-  EntityList,
-  Tag,
-
-  LinkPluginDataset,
-  LinkPluginDatasetList,
-
-  ...SearchEngineConfiguration,
+  pluginConfigurationReducer,
+  pluginConfigurationActions,
+  pluginConfigurationSelectors,
 }

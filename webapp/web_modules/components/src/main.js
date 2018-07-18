@@ -50,6 +50,7 @@ import CodeFileDisplayer from './content/CodeFileDisplayer'
 import IFrameURLContentDisplayer from './content/IFrameURLContentDisplayer'
 import MarkdownFileContentDisplayer from './content/MarkdownFileContentDisplayer'
 import NoContentComponent from './content/NoContentComponent'
+import SubSectionCard from './content/SubSectionCard'
 
 import BrowserCheckerDialog from './dialogs/BrowserCheckerDialog'
 import ConfirmDialogComponent, { ConfirmDialogComponentTypes } from './dialogs/ConfirmDialogComponent'
@@ -199,6 +200,7 @@ export {
   HelpMessageComponent,
   NoContentComponent,
   SelectableList,
+  SubSectionCard,
 
   // Table
   ActionsMenuCell,

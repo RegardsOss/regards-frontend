@@ -23,7 +23,7 @@ import { CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
-* Edit table action for service plugins
+* Edit table action for search engine configurations
 * @author Sébastien Binda
 */
 class ServiceEditAction extends React.Component {

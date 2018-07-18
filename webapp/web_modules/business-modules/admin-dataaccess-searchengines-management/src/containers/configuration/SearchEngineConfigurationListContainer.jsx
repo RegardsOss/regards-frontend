@@ -22,7 +22,7 @@ import { searchEngineConfigurationsActions, searchEngineConfigurationsSelectors 
 import SearchEngineConfigurationListComponent from '../../components/configuration/SearchEngineConfigurationListComponent'
 
 /**
-* Container to handle service plugin configurations
+* Container to handle search engine configurations list
 * @author Sébastien Binda
 */
 export class SearchEngineConfigurationListContainer extends React.Component {

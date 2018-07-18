@@ -24,9 +24,9 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'dataaccess.searchengines.list.title': 'Configure catalog search engines',
   'dataaccess.searchengines.list.subtitle': 'This section allows you to configure data catalog search engines. Each engine configuration can be assocaited to all catalog o to a specific dataset.',
-  'dataaccess.searchengines.list.header.id.label': 'Identifier',
-  'dataaccess.searchengines.list.header.name.label': 'Label',
-  'dataaccess.searchengines.list.header.type.label': 'Search engine',
+  'dataaccess.searchengines.list.header.label': 'Label',
+  'dataaccess.searchengines.list.header.engine': 'Search engine',
+  'dataaccess.searchengines.list.header.dataset': 'Dataset',
   'dataaccess.searchengines.list.edit.button': 'Edit engine',
   'dataaccess.searchengines.list.confirm.title': 'Delete search engine {name} ?',
   'dataaccess.searchengines.list.back.button': 'Back',
@@ -35,12 +35,28 @@ const messages = Object.assign({
 
   'dataaccess.searchengines.form.create.title': 'Add new search engine',
   'dataaccess.searchengines.form.edit.title': 'Edit search engine "{name}"',
-  'dataaccess.searchengines.form.create.subtitle': 'First you have to select a search engine. When its done, you have to configure the needed parameters.',
+  'dataaccess.searchengines.form.create.subtitle': 'This form allows you to configure a new search engine. A search engine can be used for all catalog search or for a specific dataset search. After choosing an engine type, you can use an existing configuration or create a new one.',
   'dataaccess.searchengines.form.edit.subtitle': 'Please configure the search engines parameters.',
   'dataaccess.searchengines.form.type.select.title': 'Search engine',
   'dataaccess.searchengines.form.type.select.label': 'Select a search engine ...',
   'dataaccess.searchengines.form.invalid.id': 'Search engine configuration selected does not exists anymore.',
   'dataaccess.searchengines.form.back.button': 'Cancel',
+
+  'search-engines.form.label': 'Label',
+  'search-engines.form.label.infos': 'Search engine short description',
+  'search-engines.form.dataset.type.all': 'Use this search engine for every search on catalog',
+  'search-engines.form.dataset.type.selected': 'Use this search engine only for search on the selected dataset',
+  'search-engines.form.dataset.section.title': 'Select dataset',
+  'search-engines.form.dataset': 'Select the dataset for which this search engine is for.',
+  'search-engines.form.dataset.hinttext': 'This field allows tou to filter dasets from all datasets availables.',
+  'search-engines.form.dataset.infos': 'The shown dataset list can be a non-exhaustive list. To find not displayed datasets, please filter the list giving the first caracters of his label.',
+  'component.plugin-parameter.action.choose-plugin': 'Choose a search engine',
+  'component.plugin-parameter.action.create-plugin': 'New configuration',
+  'component.plugin-parameter.action.reset': 'Remove selected search engine',
+  'component.plugin-parameter.no-plugin-available': 'No search engine available',
+  'component.plugin-parameter.new.conf.option': 'New configuration',
+  'search-engines.form.action.save': 'Create',
+  'search-engines.form.action.cancel': 'Cancel',
 
 }, Locales.en)
 
