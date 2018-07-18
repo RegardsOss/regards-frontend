@@ -23,8 +23,8 @@ const messages = {
   'dataaccess.board.services.title': 'Services',
   'dataaccess.board.services.description': 'Services applicables aux données du catalogue projet.',
 
-  'dataaccess.board.searchengines.title': 'Moteurs de recherche',
-  'dataaccess.board.searchengines.description': 'Configuration des moteurs de recherches de données dans le catalogue projet.',
+  'dataaccess.board.searchengines.title': 'Protocoles de recherche',
+  'dataaccess.board.searchengines.description': 'Configuration des protocoles de recherche de données dans le catalogue projet.',
 }
 
 export default messages
