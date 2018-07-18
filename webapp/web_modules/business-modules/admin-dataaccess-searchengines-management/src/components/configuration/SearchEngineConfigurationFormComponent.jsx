@@ -153,6 +153,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
             label={formatMessage({ id: 'search-engines.form.dataset.type.selected' })}
           />
         </RadioButtonGroup>
+        <br />
         {
           this.state.datasetSelector === 'selected' ?
             <SubSectionCard
