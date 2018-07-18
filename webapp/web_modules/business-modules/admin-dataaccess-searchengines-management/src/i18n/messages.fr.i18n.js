@@ -23,7 +23,7 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = Object.assign({
   'dataaccess.searchengines.list.title': 'Définition des protocoles d\'accès à vos données',
-  'dataaccess.searchengines.list.subtitle': 'Chaque protocole d\'accès peut être associé à l\'enssemble du catalogue ou bien à un jeu de données précis.',
+  'dataaccess.searchengines.list.subtitle': 'Chaque protocole d\'accès peut être associé à l\'ensemble du catalogue ou bien à un jeu de données précis.',
   'dataaccess.searchengines.list.header.label': 'Libellé',
   'dataaccess.searchengines.list.header.engine': 'Protocole',
   'dataaccess.searchengines.list.header.dataset': 'Jeu de données',
@@ -35,7 +35,7 @@ const messages = Object.assign({
 
   'dataaccess.searchengines.form.create.title': 'Configurer un protocole',
   'dataaccess.searchengines.form.edit.title': 'Edition du protocole "{name}"',
-  'dataaccess.searchengines.form.create.subtitle': 'Un protocole peut être global afin d\'être utilisé pour toute recherches ou bien être spécifique à un jeu de données. Après avoir sélectionner le type de protocole que vous souhaitez, vous pouvez utiliser une configration existante ou bien en créer une nouvelle.',
+  'dataaccess.searchengines.form.create.subtitle': 'Un protocole peut être global afin d\'être utilisé pour toute recherches ou bien être spécifique à un jeu de données. Après avoir sélectionner le type de protocole que vous souhaitez, vous pouvez utiliser une configuration existante ou bien en créer une nouvelle.',
   'dataaccess.searchengines.form.edit.subtitle': 'Veuillez renseigner les paramètres de configuration associés.',
   'dataaccess.searchengines.form.type.select.label': 'Sélectionnez un protocole ...',
   'dataaccess.searchengines.form.invalid.id': 'Le protocole sélectionné n\'existe plus',
@@ -48,7 +48,7 @@ const messages = Object.assign({
   'search-engines.form.dataset.section.title': 'Choisir un jeu de données',
   'search-engines.form.dataset': 'Selectionner le jeu de données auquel ce protocole sera associé.',
   'search-engines.form.dataset.hinttext': 'Ce champ vous permet de filtrer la liste des jeux de données par leur label',
-  'search-engines.form.dataset.infos': 'La liste des jeux proposée par défaut n\'est pas exhaustive. Pour faire apparaître un jeu non présent vous pouvez filtrer en tapant les premières lettres de sont libelé.',
+  'search-engines.form.dataset.infos': 'La liste des jeux proposée par défaut n\'est pas exhaustive. Pour faire apparaître un jeu non présent vous pouvez filtrer en tapant les premières lettres de sont libellé.',
   'search-engines.form.new.plugin.section.title': 'Créer une nouvelle configuration du protocole {engine}',
   'component.plugin-parameter.action.choose-plugin': 'Choisir le protocole',
   'component.plugin-parameter.action.create-plugin': 'Nouvelle configuration',
