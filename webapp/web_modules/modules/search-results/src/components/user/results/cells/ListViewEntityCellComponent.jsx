@@ -24,8 +24,8 @@ import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import AddElementToCartContainer from '../../../../containers/user/results/options/AddElementToCartContainer'
-import EntityDescriptionContainer from '../../../../containers/user/results/options/EntityDescriptionContainer'
 import DownloadEntityFileComponent from '../options/DownloadEntityFileComponent'
+import EntityDescriptionComponent from '../options/EntityDescriptionComponent'
 import OneElementServicesContainer from '../../../../containers/user/results/options/OneElementServicesContainer'
 import SearchRelatedEntitiesComponent from '../options/SearchRelatedEntitiesComponent'
 
@@ -58,6 +58,7 @@ class ListViewEntityCellComponent extends React.Component {
     entitySelected: PropTypes.bool.isRequired,
     displayLabel: PropTypes.bool,
     displayVertically: PropTypes.bool,
+    isDescAvailableFor: PropTypes.func.isRequired,
     // auth info
     accessToken: PropTypes.string,
     projectName: PropTypes.string.isRequired,
@@ -65,6 +66,7 @@ class ListViewEntityCellComponent extends React.Component {
     onSelectEntity: PropTypes.func.isRequired,
     onSearchEntity: PropTypes.func,
     onAddToCart: PropTypes.func,
+    onShowDescription: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -76,13 +78,22 @@ class ListViewEntityCellComponent extends React.Component {
     displayLabel: true,
     displayVertically: false,
   }
+
+  /**
+   * Callback: user requested description display
+   */
+  onShowDescription = () => {
+    const { entity, onShowDescription } = this.props
+    onShowDescription(entity)
+  }
+
   /**
    * Renders title area of the list cell (title, with checkbox if selection enabled, empty space and options)
    */
   renderTitle = () => {
     const {
-      entity, selectionEnabled, servicesEnabled, enableDownload, entitySelected, onSelectEntity, onSearchEntity, onAddToCart,
-      displayLabel, displayVertically, projectName, accessToken,
+      entity, selectionEnabled, servicesEnabled, enableDownload, entitySelected, displayLabel, displayVertically, projectName, accessToken,
+      isDescAvailableFor, onSelectEntity, onSearchEntity, onAddToCart,
     } = this.props
     const { moduleTheme } = this.context
     const {
@@ -120,11 +131,14 @@ class ListViewEntityCellComponent extends React.Component {
             />
           </ShowableAtRender>
           {/* B-2. Description  */}
-          <EntityDescriptionContainer
-            entity={entity}
-            style={option.buttonStyles}
-            iconStyle={option.iconStyles}
-          />
+          <ShowableAtRender show={isDescAvailableFor(entity.content.entityType)}>
+            <EntityDescriptionComponent
+              entity={entity}
+              onShowDescription={this.onShowDescription}
+              style={option.buttonStyles}
+              iconStyle={option.iconStyles}
+            />
+          </ShowableAtRender>
           {/* B-3 Show dataset content when enabled */}
           <ShowableAtRender show={!!onSearchEntity}>
             <SearchRelatedEntitiesComponent

@@ -118,8 +118,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/components/src/content/MarkdownFileContentDisplayer.jsx'),
       new webpack.PrefetchPlugin('./web_modules/modules/search-results/src/containers/AdminContainer.jsx'),
       new webpack.PrefetchPlugin('./web_modules/modules/search-results/src/containers/ModuleContainer.jsx'),
-      new webpack.PrefetchPlugin('./web_modules/business-common/entities-common/src/containers/description/EntityDescriptionContainer.jsx'),
-      new webpack.PrefetchPlugin('./web_modules/business-common/entities-common/src/components/description/properties/PropertiesTabComponent.jsx'),
       new webpack.PrefetchPlugin('./web_modules/modules/search-graph/src/containers/user/UserModuleContainer.jsx'),
       new webpack.PrefetchPlugin('./web_modules/modules/search-graph/src/components/user/SearchGraph.jsx'),
       new webpack.PrefetchPlugin('./web_modules/modules/search-graph/src/containers/user/GraphLevelDisplayerContainer.jsx'),
@@ -161,6 +159,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
 
       // All modules
       new webpack.PrefetchPlugin('./web_modules/modules/authentication/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/modules/description/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/licenses/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/order-cart/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/projects-list/src/main.js'),

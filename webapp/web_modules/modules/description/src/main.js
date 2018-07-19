@@ -28,7 +28,7 @@ import '../default-icon.svg'
 
 /**
  * Module main file to expose public interface
- * @author Sébastien binda
+ * @author Raphaël Mechali
  */
 module.exports = {
   moduleContainer: ModuleContainer,

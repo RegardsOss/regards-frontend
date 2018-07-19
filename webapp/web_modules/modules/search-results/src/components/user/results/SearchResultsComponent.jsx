@@ -30,10 +30,10 @@ import DisplayModuleConf from '../../../models/DisplayModuleConf'
 import { DISPLAY_MODE_VALUES } from '../../../definitions/DisplayModeEnum'
 import ListViewEntityCellContainer, { packThumbnailRenderData, packGridAttributesRenderData } from '../../../containers/user/results/cells/ListViewEntityCellContainer'
 import AddElementToCartContainer from '../../../containers/user/results/options/AddElementToCartContainer'
-import EntityDescriptionContainer from '../../../containers/user/results/options/EntityDescriptionContainer'
 import OneElementServicesContainer from '../../../containers/user/results/options/OneElementServicesContainer'
+import EntityDescriptionComponent from './options/EntityDescriptionComponent'
 import DownloadEntityFileComponent from './options/DownloadEntityFileComponent'
-import GalleryItemContainer from '../../../containers/user/results/gallery/GalleryItemContainer'
+import GalleryItemComponent from './gallery/GalleryItemComponent'
 import EmptyTableComponent from './EmptyTableComponent'
 import OptionsAndTabsHeaderLine from './header/OptionsAndTabsHeaderLine'
 import ResultsAndFacetsHeaderRow from './header/ResultsAndFacetsHeaderRow'
@@ -111,6 +111,9 @@ class SearchResultsComponent extends React.Component {
     // from OrderCartContainer HOC
     onAddSelectionToCart: PropTypes.func, // callback to add selection to cart, null when disabled
     onAddElementToCart: PropTypes.func, // callback to add element to cart, null when disabled
+    // from DescriptionProviderContainer HOC
+    onShowDescription: PropTypes.func,
+    isDescAvailableFor: PropTypes.func,
   }
 
   static contextTypes = {
@@ -151,8 +154,8 @@ class SearchResultsComponent extends React.Component {
    */
   buildTableColumns = () => {
     const {
-      searchSelectors, attributePresentationModels, onSortByAttribute, onSetEntityAsTag: onSearchEntity,
-      onAddElementToCart: onAddToCart, viewObjectType, enableDownload, accessToken, projectName, locale,
+      searchSelectors, attributePresentationModels, viewObjectType, enableDownload, accessToken, projectName, locale,
+      isDescAvailableFor, onSortByAttribute, onSetEntityAsTag: onSearchEntity, onAddElementToCart: onAddToCart, onShowDescription,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
@@ -181,8 +184,8 @@ class SearchResultsComponent extends React.Component {
         .optionsColumn([
           // Download
           enableDownload ? { OptionConstructor: DownloadEntityFileComponent, optionProps: { accessToken, projectName } } : null,
-          // Description
-          { OptionConstructor: EntityDescriptionContainer },
+          // Description if available for current object type
+          isDescAvailableFor(viewObjectType) ? { OptionConstructor: EntityDescriptionComponent, optionProps: { onShowDescription } } : null,
           // Search by tag
           enableNavigateTo ? { OptionConstructor: SearchRelatedEntitiesComponent, optionProps: { onSearchEntity } } : null,
           // Services
@@ -204,8 +207,8 @@ class SearchResultsComponent extends React.Component {
   */
   buildListColumn = () => {
     const {
-      attributePresentationModels, onAddElementToCart, onSetEntityAsTag,
-      enableDownload, viewObjectType, accessToken, projectName, locale,
+      attributePresentationModels, enableDownload, viewObjectType, accessToken, projectName, locale,
+      isDescAvailableFor, onAddElementToCart, onSetEntityAsTag, onShowDescription,
     } = this.props
     const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
@@ -222,6 +225,8 @@ class SearchResultsComponent extends React.Component {
         servicesEnabled: enableServices,
         onSearchEntity: enableNavigateTo ? onSetEntityAsTag : null,
         onAddToCart: onAddElementToCart,
+        isDescAvailableFor,
+        onShowDescription,
         enableDownload,
         accessToken,
         projectName,
@@ -258,10 +263,12 @@ class SearchResultsComponent extends React.Component {
 
     const {
       allowingFacettes, attributePresentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
-      viewObjectType, tableViewMode, showingFacettes, facets, selectedFacets, searchQuery, selectionServices, onChangeColumnsVisibility,
-      onSelectFacet, onUnselectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
-      onStartSelectionService, onAddSelectionToCart, onShowQuicklookView, enableQuicklooks, displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook,
-      onAddElementToCart, enableDownload, accessToken, projectName, datasetsSectionLabel, dataSectionLabel, locale,
+      viewObjectType, tableViewMode, showingFacettes, facets, selectedFacets, searchQuery, selectionServices, enableQuicklooks,
+      displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook, enableDownload, accessToken, projectName, datasetsSectionLabel,
+      dataSectionLabel, locale, isDescAvailableFor,
+      onChangeColumnsVisibility, onSelectFacet, onUnselectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView,
+      onSortByAttribute, onToggleShowFacettes, onStartSelectionService, onAddSelectionToCart, onShowQuicklookView,
+      onAddElementToCart, onShowDescription,
     } = this.props
 
     let columns
@@ -283,7 +290,9 @@ class SearchResultsComponent extends React.Component {
     const showFacets = showingFacettes && allowingFacettes && (this.isDisplayingDataobjects() || this.isDisplayingDocuments())
     const itemProps = {
       attributePresentationModels,
+      isDescAvailableFor,
       onAddElementToCart,
+      onShowDescription,
       enableDownload,
       accessToken,
       projectName,
@@ -334,7 +343,7 @@ class SearchResultsComponent extends React.Component {
         />
         {this.isInQuicklookView() ? (
           <InfiniteGalleryContainer
-            itemComponent={GalleryItemContainer}
+            itemComponent={GalleryItemComponent}
             pageActions={searchActions}
             pageSelectors={searchSelectors}
             columnWidth={displayConf.quicklookColumnWidth}

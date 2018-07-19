@@ -16,11 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import DownloadDescriptionClient from './clients/DownloadDescriptionClient'
-import DescriptionLevelActions from './model/description/DescriptionLevelActions'
-import getDescriptionLevelReducer from './model/description/DescriptionLevelReducer'
-import getDescriptionLevelSelectors from './model/description/DescriptionLevelSelectors'
-import EntityDescriptionContainer from './containers/description/EntityDescriptionContainer'
+import DescriptionProviderContainer from './containers/description/DescriptionProviderContainer'
+import { buildDescriptionModuleConsumerID } from './definitions/description/DescriptionConsumerID'
 
 import ServiceContainer from './containers/services/ServiceContainer'
 import { PluginServiceRunModel } from './definitions/PluginServiceRunModel'
@@ -32,13 +29,9 @@ import DateParameterField from './components/services/parameters/DateParameterFi
 import TextParameterField from './components/services/parameters/TextParameterField'
 
 module.exports = {
-  DownloadDescriptionClient,
-  EntityDescriptionContainer,
-  descriptionLevelModel: {
-    DescriptionLevelActions,
-    getDescriptionLevelReducer,
-    getDescriptionLevelSelectors,
-  },
+  // Description
+  DescriptionProviderContainer,
+  buildDescriptionModuleConsumerID,
   // Services
   ServiceContainer,
   PluginServiceRunModel,

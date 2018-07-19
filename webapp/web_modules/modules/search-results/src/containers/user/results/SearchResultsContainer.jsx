@@ -25,6 +25,7 @@ import { DataManagementShapes, CatalogShapes } from '@regardsoss/shape'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { i18nSelectors } from '@regardsoss/i18n'
 import { AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-utils'
+import { DescriptionProviderContainer } from '@regardsoss/entities-common'
 import { Tag } from '../../../models/navigation/Tag'
 import {
   searchDataobjectsActions,
@@ -68,11 +69,13 @@ export class SearchResultsContainer extends React.Component {
   static mapDispatchToProps = dispatch => ({
     dispatchChangeViewObjectType: viewObjectType => dispatch(navigationContextActions.changeViewObjectType(viewObjectType)),
     dispatchChangeTableDisplayMode: tableDisplayMode => dispatch(navigationContextActions.changeTableDisplayMode(tableDisplayMode)),
-    // lets user select an entity and set it as a current search tag
+    // allows user selecting an entity and set it as a current search tag in results table
     dispatchSetEntityAsTag: ({ content: { entityType, label, ipId } }) => {
       dispatch(navigationContextActions.addSearchTag(new Tag(entityType, label, ipId)))
       dispatch(navigationContextActions.changeViewObjectType(DamDomain.ENTITY_TYPES_ENUM.DATA))
     },
+    // allows user selecting an entity and add it in current search context tags in description window
+    dispatchAddSearchTag: tag => dispatch(navigationContextActions.addSearchTag(tag)),
   })
 
   static propTypes = {
@@ -120,6 +123,7 @@ export class SearchResultsContainer extends React.Component {
     dispatchChangeViewObjectType: PropTypes.func.isRequired,
     dispatchChangeTableDisplayMode: PropTypes.func.isRequired,
     dispatchSetEntityAsTag: PropTypes.func.isRequired,
+    dispatchAddSearchTag: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -320,6 +324,15 @@ export class SearchResultsContainer extends React.Component {
   onToggleDisplayOnlyQuicklook = () => this.updateStateAndQuery({ displayOnlyQuicklook: !this.state.displayOnlyQuicklook })
 
   /**
+   * On user search tag callback (used by description window) - packs the new tag into a Tag model and then dispatches action
+   * @param descriptionTag description tag, as callback from tag selection in description component
+   */
+  onDescriptionSearch = (descriptionTag) => {
+    const { dispatchAddSearchTag } = this.props
+    dispatchAddSearchTag(Tag.fromDescriptionTag(descriptionTag))
+  }
+
+  /**
    * User callback: facet selected
    * @param selectedFacet to select
    * @param selectedValue value selected in facet
@@ -465,9 +478,9 @@ export class SearchResultsContainer extends React.Component {
   render() {
     const {
       displayMode, enableFacettes, isFetching, resultsCount, viewObjectType, tableDisplayMode,
-      enableDownload, enableQuicklooks, dispatchSetEntityAsTag,
-      datasetsSectionLabel, dataSectionLabel, searchQuery: initialSearchQuery,
-      restrictedDatasetsIpIds, displayConf, accessToken, projectName, locale,
+      enableDownload, enableQuicklooks, datasetsSectionLabel, dataSectionLabel,
+      searchQuery: initialSearchQuery, restrictedDatasetsIpIds, displayConf, accessToken,
+      projectName, locale, dispatchSetEntityAsTag,
     } = this.props
 
     const {
@@ -478,68 +491,71 @@ export class SearchResultsContainer extends React.Component {
 
     return (
       <ModuleStyleProvider module={moduleStyles}>
-        {/* enable the services functionnalities */}
-        <PluginServicesContainer
-          viewObjectType={viewObjectType}
-          restrictedDatasetsIpIds={restrictedDatasetsIpIds}
-          openSearchQuery={openSearchQuery}
-        >
-          {/* enable the order cart link functionnality */}
-          <OrderCartContainer
+        {/* Enable entities description management */}
+        <DescriptionProviderContainer onSearchTag={this.onDescriptionSearch} >
+          {/* enable the services functionnalities */}
+          <PluginServicesContainer
             viewObjectType={viewObjectType}
-            initialSearchQuery={initialSearchQuery}
+            restrictedDatasetsIpIds={restrictedDatasetsIpIds}
             openSearchQuery={openSearchQuery}
-            tableViewMode={tableViewMode}
           >
-            {/** Render a default search results component with common properties (sub elements will clone it with added properties)*/}
-            <SearchResultsComponent
-              enableDownload={enableDownload}
-              enableQuicklooks={enableQuicklooks}
-              allowingFacettes={enableFacettes && this.hasFacettes()}
-              displayMode={displayMode}
-              displayConf={displayConf}
-
-              datasetsSectionLabel={datasetsSectionLabel}
-              dataSectionLabel={dataSectionLabel}
-
-              resultsCount={resultsCount}
-              isFetching={isFetching}
-              searchActions={searchActions}
-              searchSelectors={searchSelectors}
-
+            {/* enable the order cart link functionnality */}
+            <OrderCartContainer
               viewObjectType={viewObjectType}
+              initialSearchQuery={initialSearchQuery}
+              openSearchQuery={openSearchQuery}
               tableViewMode={tableViewMode}
+            >
+              {/** Render a default search results component with common properties (sub elements will clone it with added properties)*/}
+              <SearchResultsComponent
+                enableDownload={enableDownload}
+                enableQuicklooks={enableQuicklooks}
+                allowingFacettes={enableFacettes && this.hasFacettes()}
+                displayMode={displayMode}
+                displayConf={displayConf}
 
-              displayOnlyQuicklook={displayOnlyQuicklook}
+                datasetsSectionLabel={datasetsSectionLabel}
+                dataSectionLabel={dataSectionLabel}
 
-              showingFacettes={showingFacettes}
-              facets={facets}
-              selectedFacets={selectedFacets}
+                resultsCount={resultsCount}
+                isFetching={isFetching}
+                searchActions={searchActions}
+                searchSelectors={searchSelectors}
 
-              searchQuery={fullSearchQuery}
+                viewObjectType={viewObjectType}
+                tableViewMode={tableViewMode}
 
-              hiddenColumnKeys={hiddenColumnKeys}
-              attributePresentationModels={attributePresentationModels}
-              accessToken={accessToken}
-              projectName={projectName}
-              locale={locale}
+                displayOnlyQuicklook={displayOnlyQuicklook}
 
-              onChangeColumnsVisibility={this.onChangeColumnsVisibility}
-              onSetEntityAsTag={dispatchSetEntityAsTag}
-              onSelectFacet={this.onSelectFacet}
-              onUnselectFacet={this.onUnselectFacet}
-              onShowDatasets={this.onShowDatasets}
-              onShowDataobjects={this.onShowDataobjects}
-              onShowListView={this.onShowListView}
-              onShowTableView={this.onShowTableView}
-              onShowQuicklookView={this.onShowQuicklookView}
-              onSortByAttribute={this.onSortByAttribute}
-              onToggleShowFacettes={this.onToggleShowFacettes}
-              onToggleDisplayOnlyQuicklook={this.onToggleDisplayOnlyQuicklook}
-            />
-          </OrderCartContainer>
-        </PluginServicesContainer>
-      </ModuleStyleProvider>
+                showingFacettes={showingFacettes}
+                facets={facets}
+                selectedFacets={selectedFacets}
+
+                searchQuery={fullSearchQuery}
+
+                hiddenColumnKeys={hiddenColumnKeys}
+                attributePresentationModels={attributePresentationModels}
+                accessToken={accessToken}
+                projectName={projectName}
+                locale={locale}
+
+                onChangeColumnsVisibility={this.onChangeColumnsVisibility}
+                onSetEntityAsTag={dispatchSetEntityAsTag}
+                onSelectFacet={this.onSelectFacet}
+                onUnselectFacet={this.onUnselectFacet}
+                onShowDatasets={this.onShowDatasets}
+                onShowDataobjects={this.onShowDataobjects}
+                onShowListView={this.onShowListView}
+                onShowTableView={this.onShowTableView}
+                onShowQuicklookView={this.onShowQuicklookView}
+                onSortByAttribute={this.onSortByAttribute}
+                onToggleShowFacettes={this.onToggleShowFacettes}
+                onToggleDisplayOnlyQuicklook={this.onToggleDisplayOnlyQuicklook}
+              />
+            </OrderCartContainer>
+          </PluginServicesContainer>
+        </DescriptionProviderContainer>
+      </ModuleStyleProvider >
     )
   }
 }

@@ -18,6 +18,10 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
+/**
+ * Module french messages
+ * @author Raphaël Mechali
+ */
 const messages = {
   // admin
   'module.description.configuration.type.COLLECTION': 'Collections',
@@ -44,6 +48,35 @@ const messages = {
   'module.description.configuration.group.move.group.after': 'Après le groupe n°{number}',
   'module.description.configuration.group.remove.action.label': 'Supprimer',
   'module.description.configuration.group.remove.action.tooltip': 'Supprimer ce groupe',
+
+  // user
+  'module.description.breadcrumb.root': 'Description: {entityLabel}',
+  'module.description.properties.tabs': 'Propriétés',
+  'module.description.description.tabs': 'Description',
+  'module.description.files.tabs': 'Fichiers',
+  'module.description.quicklook.tabs': 'Imagettes',
+  'module.description.file.subheader': 'Cliquez sur un des fichiers ci-dessous pour le télécharger',
+  'module.description.close.button': 'Fermer',
+  'module.description.properties.attributes': 'Attributs',
+  'module.description.properties.loading.attributes': 'Chargement des attributs',
+  'module.description.properties.no.attribute': 'Aucun attribut à afficher',
+  'module.description.properties.tags.entities': 'Mot-clefs liés',
+  'module.description.properties.documents.entities': 'Documents associés',
+  'module.description.properties.document.entities': 'Documents associés',
+  'module.description.properties.loading.tags': 'Chargement des mot-clefs',
+  'module.description.properties.loading.document': 'Chargement des documents',
+  'module.description.properties.no.tag': 'Cette entité n\'a pas de mot-clef',
+  'module.description.properties.no.document': 'Cette entité n\'a pas de document',
+  'module.description.properties.tag.search.tooltip': 'Rechercher les entités portant ce tag',
+  'module.description.properties.tag.show.description.tooltip': 'Afficher les détails de l\'entité',
+  'module.description.properties.thumbnail.alt.text': 'vignette',
+
+  'module.description.description.loading': 'Chargement de la description',
+  'module.description.description.no.value.title': 'Aucune description',
+  'module.description.description.no.value.message': 'Cette entité n\'a pas de description',
+  'module.description.document.files.no.value.title': 'Aucun fichier',
+  'module.description.document.files.no.value.message': 'Ce document n\'a pas de fichiers joints',
+
 
   // Forms i18n messages for admin
   ...Locales.fr,

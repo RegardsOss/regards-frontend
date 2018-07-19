@@ -42,7 +42,7 @@ export const DescriptionConfiguration = PropTypes.shape({
   showTags: PropTypes.bool.isRequired,
   showLinkedDocuments: PropTypes.bool.isRequired,
   showThumbnail: PropTypes.bool.isRequired,
-  descriptionGroups: PropTypes.arrayOf(DescriptionGroup).isRequired,
+  groups: PropTypes.arrayOf(DescriptionGroup).isRequired,
 })
 
 /**

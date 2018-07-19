@@ -24,10 +24,11 @@ import { documentAttributeModelActions } from './clients/DocumentAttributeModelC
 
 /**
  * Dependencies needed to display user page of the module
- * @author Sébastien binda
+ * @author Raphaël Mechali
  */
 const user = [
-  // TODO
+  // none: this module dependencies are resolved by the description provider HOC (checks user has rights before showing
+  // the option)
 ]
 
 /**

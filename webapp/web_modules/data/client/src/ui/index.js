@@ -20,6 +20,9 @@
 import { AuthenticationDialogActions } from './authenticationDialog/AuthenticationDialogActions'
 import { getAuthenticationDialogReducer } from './authenticationDialog/AuthenticationDialogReducer'
 import { AuthenticationDialogSelectors, getAuthenticationDialogSelectors } from './authenticationDialog/AuthenticationDialogSelectors'
+import DialogRequestsActions from './dialog/DialogRequestsActions'
+import { getDialogRequestsReducer } from './dialog/DialogRequestsReducer'
+import getDialogRequestsSelectors from './dialog/DialogRequestsSelectors'
 import { ModuleExpandedStateActions } from './module/ModuleExpandedStateActions'
 import { getModuleExpandedStateReducer } from './module/ModuleExpandedStateReducer'
 import { ModuleExpandedStateSelectors, getModuleExpandedStateSelectors } from './module/ModuleExpandedStateSelectors'
@@ -29,6 +32,9 @@ module.exports = {
   AuthenticationDialogSelectors,
   getAuthenticationDialogReducer,
   getAuthenticationDialogSelectors,
+  DialogRequestsActions,
+  getDialogRequestsReducer,
+  getDialogRequestsSelectors,
   ModuleExpandedStateActions,
   ModuleExpandedStateSelectors,
   getModuleExpandedStateReducer,

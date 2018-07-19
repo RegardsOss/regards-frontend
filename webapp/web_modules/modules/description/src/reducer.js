@@ -20,17 +20,26 @@ import { collectionAttributeModelReducer } from './clients/CollectionAttributeMo
 import { dataAttributeModelReducer } from './clients/DataobjectAttributeModelClient'
 import { datasetAttributeModelReducer } from './clients/DatasetAttributeModelClient'
 import { documentAttributeModelReducer } from './clients/DocumentAttributeModelClient'
-
+import { modelAttributesReducer } from './clients/ModelAttributesClient'
+import { descriptionLevelsReducer } from './clients/DescriptionLevelClient'
+import { downloadCollectionDescriptionReducer } from './clients/DownloadCollectionDescriptionClient'
+import { downloadDatasetDescriptionReducer } from './clients/DownloadDatasetDescriptionClient'
 
 /**
  * Reducers for description module
- * @author Sébastien binda
+ * @author Raphaël Mechali
  */
 const searchResultsReducers = {
+  // admin reducers
   'collections-attributes': collectionAttributeModelReducer,
   'dataobjects-attributes': dataAttributeModelReducer,
   'datasets-attributes': datasetAttributeModelReducer,
   'documents-attributes': documentAttributeModelReducer,
+  // user reducer
+  model: modelAttributesReducer,
+  levels: descriptionLevelsReducer,
+  collectionDescriptionFile: downloadCollectionDescriptionReducer,
+  datasetDescriptionFile: downloadDatasetDescriptionReducer,
 }
 
 export default searchResultsReducers

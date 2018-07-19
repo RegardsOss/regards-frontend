@@ -18,6 +18,10 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
+/**
+ * Module english messages
+ * @author Raphaël Mechali
+ */
 const messages = {
   // admin
   'module.description.configuration.type.COLLECTION': 'Collections',
@@ -44,6 +48,34 @@ const messages = {
   'module.description.configuration.group.move.group.after': 'After group #{number}',
   'module.description.configuration.group.remove.action.label': 'Remove',
   'module.description.configuration.group.remove.action.tooltip': 'Remove this group',
+
+  // user
+  'module.description.breadcrumb.root': 'Description: {entityLabel}',
+  'module.description.properties.tabs': 'Properties',
+  'module.description.description.tabs': 'Description',
+  'module.description.files.tabs': 'Files',
+  'module.description.quicklook.tabs': 'Quicklook',
+  'module.description.file.subheader': 'Click on a file to download it',
+  'module.description.close.button': 'Close',
+  'module.description.properties.attributes': 'Attributes',
+  'module.description.properties.loading.attributes': 'Loading attributes information',
+  'module.description.properties.no.attribute': 'No attribute to dislay',
+  'module.description.properties.tags.entities': 'Related tags',
+  'module.description.properties.documents.entities': 'Related documents',
+  'module.description.properties.document.entities': 'Related documents',
+  'module.description.properties.loading.tags': 'Loading tags information',
+  'module.description.properties.loading.document': 'Loading documents information',
+  'module.description.properties.no.tag': 'This entity has no tag',
+  'module.description.properties.no.document': 'This entity has no document',
+  'module.description.properties.tag.search.tooltip': 'Search for entities with that tag',
+  'module.description.properties.tag.show.description.tooltip': 'Show entity detail',
+  'module.description.properties.thumbnail.alt.text': 'thumbnail',
+
+  'module.description.description.loading': 'Loading description information',
+  'module.description.description.no.value.title': 'No description',
+  'module.description.description.no.value.message': 'This entity has no description',
+  'module.description.document.files.no.value.title': 'No files',
+  'module.description.document.files.no.value.message': 'This document has no files',
 
   // Forms i18n messages for admin
   ...Locales.en,
