@@ -25,6 +25,7 @@ import OpenSearchQuery from './query/opensearch/OpenSearchQuery'
 import OpenSearchQueryParameter from './query/opensearch/OpenSearchQueryParameter'
 import URLSearchQuery from './query/url/URLSearchQuery'
 import URLSearchQueryParameter from './query/url/URLSearchQueryParameter'
+import PluginTypeEnum from './PluginTypeEnum'
 
 module.exports = {
   FACET_TYPES,
@@ -37,4 +38,5 @@ module.exports = {
   OpenSearchQueryParameter,
   URLSearchQuery,
   URLSearchQueryParameter,
+  ...PluginTypeEnum,
 }

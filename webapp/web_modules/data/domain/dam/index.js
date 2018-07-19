@@ -34,6 +34,8 @@ import DATASOURCE_REFRESH_RATE from './DatasourceRefreshRate'
 import IDBDatasourceParamsEnum from './IDBDatasourceParamsEnum'
 import IAIPDatasourceParamsEnum from './IAIPDatasourceParamsEnum'
 
+import PluginTypeEnum from './PluginTypeEnum'
+
 module.exports = {
   getAbstractEntityDescription,
   getFullQualifiedAttributeName,
@@ -55,4 +57,6 @@ module.exports = {
 
   IDBDatasourceParamsEnum,
   IAIPDatasourceParamsEnum,
+
+  ...PluginTypeEnum,
 }

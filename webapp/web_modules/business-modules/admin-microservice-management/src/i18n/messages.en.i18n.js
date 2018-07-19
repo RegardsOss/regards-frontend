@@ -95,6 +95,8 @@ const messages = Object.assign({
   'microservice.conf-backup.import': 'Import the configuration of this microservice',
   'microservice-management.backup-conf.tooltip': 'Manage backups',
 
+  'plugin.description.more': 'More details ...',
+
 }, Locales.en)
 
 export default messages

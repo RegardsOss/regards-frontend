@@ -337,6 +337,18 @@ function buildLocalServices(gatewayURL) {
           return { content: JSON.parse(loadFile('mocks/proxy/resources/mock-storage-monitoring.json')) }
         }
       },
+      getSearchEngines: {
+        url: 'rs-catalog/enginesconfig',
+        handler: (req, resp) => {
+          return { content: JSON.parse(loadFile('mocks/proxy/resources/mock-searchengines.json')) }
+        }
+      },
+      getSearchEngine: {
+        url: 'rs-catalog/enginesconfig/2',
+        handler: (req, resp) => {
+          return { content: JSON.parse(loadFile('mocks/proxy/resources/mock-searchengine.json')) }
+        }
+      }
     },
     PUT: {
       // pause order

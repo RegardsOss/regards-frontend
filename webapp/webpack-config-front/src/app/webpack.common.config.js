@@ -137,6 +137,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ui-theme-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-account-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-model-management/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-attribute-plugins-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-user-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-board-account/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-board-acquisition/src/main.js'),
@@ -156,6 +157,10 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/business-modules/user/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-connection-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ui-layout-management/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-board-dataaccess/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-dataaccess-searchengines-management/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-dataaccess-services-management/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-user-authentication-plugins-management/src/main.js'),
 
       // All modules
       new webpack.PrefetchPlugin('./web_modules/modules/authentication/src/main.js'),

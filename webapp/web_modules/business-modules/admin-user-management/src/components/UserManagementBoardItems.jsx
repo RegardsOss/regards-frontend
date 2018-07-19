@@ -22,6 +22,7 @@ import SettingsIcon from 'material-ui/svg-icons/action/settings'
 import { projectUserDependencies } from '@regardsoss/admin-user-projectuser-management'
 import { roleDependencies } from '@regardsoss/admin-user-role-management'
 import { orderDependencies } from '@regardsoss/admin-order-management'
+import { authenticationPluginManagementDependencies } from '@regardsoss/admin-user-authentication-plugins-management'
 import UsersListWithCountIconContainer from '../containers/UsersListWithCountIconContainer'
 
 
@@ -85,6 +86,24 @@ export default (project, intl) => [
       className: 'selenium-ordersList',
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
       hateoasDependencies: orderDependencies.listDependencies,
+    }],
+  },
+  {
+    title: intl.formatMessage({ id: 'user.board.authentication-plugins.title' }),
+    description: intl.formatMessage({ id: 'user.board.authentication-plugins.description' }),
+    advanced: false,
+    actions: [{
+      path: `/admin/${project}/user/authenticationplugins/list`,
+      icon: <ViewLinesIcon />,
+      className: 'selenium-authenticationpluginsList',
+      tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
+      hateoasDependencies: authenticationPluginManagementDependencies.listDependencies,
+    }, {
+      path: `/admin/${project}/user/authenticationplugins/create`,
+      icon: <AddIcon />,
+      className: 'selenium-authenticationpluginsCreate',
+      tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.add' }),
+      hateoasDependencies: authenticationPluginManagementDependencies.addDependencies,
     }],
   },
 ]

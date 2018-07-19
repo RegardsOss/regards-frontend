@@ -25,6 +25,7 @@ import {
 import Tag from './Entity/Tag'
 
 import { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'
+import SearchEngineConfiguration from './SearchEngineConfiguration'
 
 
 module.exports = {
@@ -46,4 +47,6 @@ module.exports = {
   StringFacetValue,
   Facet,
   FacetArray,
+
+  ...SearchEngineConfiguration,
 }

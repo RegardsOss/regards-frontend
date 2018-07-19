@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import merge from 'lodash/merge'
+import PackageVariant from 'mdi-material-ui/PackageVariant'
 import Drawer from 'material-ui/Drawer'
 import VerifiedUser from 'material-ui/svg-icons/action/verified-user'
 import Widgets from 'material-ui/svg-icons/device/widgets'
@@ -36,6 +37,7 @@ import { userDependencies } from '@regardsoss/admin-user-management'
 import { modelsDependencies } from '@regardsoss/admin-board-models'
 import { collectionsDependencies } from '@regardsoss/admin-board-collections'
 import { acquisitionDependencies } from '@regardsoss/admin-board-acquisition'
+import { dataAccessDependencies } from '@regardsoss/admin-board-dataaccess'
 import { accessRightDependencies } from '@regardsoss/admin-accessright-management'
 import { microserviceDependencies } from '@regardsoss/admin-microservice-management'
 import { ShowableAtRender, someMatchHateoasDisplayLogic, withResourceDisplayControl } from '@regardsoss/display-control'
@@ -150,6 +152,17 @@ class ProjectSidebarComponent extends React.Component {
         />
         <SidebarElementWithResourceDisplayControl
           key="6"
+          resourceDependencies={dataAccessDependencies}
+          displayLogic={someMatchHateoasDisplayLogic}
+          to={`/admin/${projectName}/dataaccess/board`}
+          currentPath={this.props.currentPath}
+          primaryText={this.context.intl.formatMessage({ id: 'menu.dataaccess' })}
+          leftIcon={<PackageVariant
+            color={this.context.muiTheme.svgIcon.color}
+          />}
+        />
+        <SidebarElementWithResourceDisplayControl
+          key="7"
           resourceDependencies={microserviceDependencies}
           displayLogic={someMatchHateoasDisplayLogic}
           to={`/admin/${projectName}/microservice/board`}
@@ -160,7 +173,7 @@ class ProjectSidebarComponent extends React.Component {
           />}
         />
         <SidebarElementWithResourceDisplayControl
-          key="7"
+          key="8"
           resourceDependencies={uiManagementDependencies}
           displayLogic={someMatchHateoasDisplayLogic}
           to={`/admin/${projectName}/ui/board`}

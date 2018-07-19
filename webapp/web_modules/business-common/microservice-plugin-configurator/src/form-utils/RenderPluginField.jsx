@@ -19,6 +19,7 @@
 import isString from 'lodash/isString'
 import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import { Field, RenderHelper } from '@regardsoss/form-utils'
+import { SubSectionCard } from '@regardsoss/components'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import PluginListContainer from '../containers/PluginListContainer'
@@ -111,15 +112,17 @@ export class RenderPluginField extends React.PureComponent {
 
     if (this.state.selectedPluginMetaData) {
       return (
-        <Field
-          name={input.name}
-          component={RenderPluginConfField}
-          microserviceName={microserviceName}
-          pluginMetaData={this.state.selectedPluginMetaData}
-          newPluginConfLabel={defaultPluginConfLabel}
-          hideGlobalParameterConf={hideGlobalParameterConf}
-          hideDynamicParameterConf={hideDynamicParameterConf}
-        />
+        <SubSectionCard>
+          <Field
+            name={input.name}
+            component={RenderPluginConfField}
+            microserviceName={microserviceName}
+            pluginMetaData={this.state.selectedPluginMetaData}
+            newPluginConfLabel={defaultPluginConfLabel}
+            hideGlobalParameterConf={hideGlobalParameterConf}
+            hideDynamicParameterConf={hideDynamicParameterConf}
+          />
+        </SubSectionCard>
       )
     }
     return null

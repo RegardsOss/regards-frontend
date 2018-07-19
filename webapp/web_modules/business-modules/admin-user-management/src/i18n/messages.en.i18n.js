@@ -30,6 +30,9 @@ const messages = {
   'user.board.orders.title': 'Orders',
   'orders.board.orders.description': 'View and manage user orders on the project',
 
+  'user.board.authentication-plugins.title': 'Authentication system',
+  'user.board.authentication-plugins.description': 'User authentication method configuration.',
+
 }
 
 export default messages

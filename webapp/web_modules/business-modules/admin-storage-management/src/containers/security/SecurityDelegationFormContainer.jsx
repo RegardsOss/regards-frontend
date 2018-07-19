@@ -50,8 +50,8 @@ export class SecurityDelegationFormContainer extends React.Component {
   static mapDispatchToProps(dispatch, ownProps) {
     return {
       fetch: entityId => dispatch(securityDelegationActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
-      create: entity => dispatch(securityDelegationActions.createEntity(entity, { microserviceName: MICROSERVICE })),
-      update: (entityId, entity) => dispatch(securityDelegationByPluginIdActions.updateEntity(entityId, entity, { microserviceName: MICROSERVICE, pluginId: entity.pluginId })),
+      create: (entity, microserviceName, pluginId) => dispatch(securityDelegationByPluginIdActions.createEntity(entity, { microserviceName, pluginId })),
+      update: (entity, microserviceName, pluginId, pluginConfId) => dispatch(securityDelegationByPluginIdActions.updateEntity(pluginConfId, entity, { microserviceName, pluginId })),
     }
   }
 

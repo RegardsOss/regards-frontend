@@ -144,6 +144,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
             entityLinks={roleResource.links}
             hateoasKey={HateoasKeys.DELETE}
             toggled
+            value="on"
           />
         </HateoasIconAction>
       )
@@ -158,6 +159,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
       >
         <Toggle
           toggled={false}
+          value="off"
         />
       </IconButton>
     )

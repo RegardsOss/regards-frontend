@@ -50,8 +50,8 @@ export class AllocationStrategyFormContainer extends React.Component {
   static mapDispatchToProps(dispatch, ownProps) {
     return {
       fetch: entityId => dispatch(allocationStrategyActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
-      create: entity => dispatch(allocationStrategyActions.createEntity(entity, { microserviceName: MICROSERVICE })),
-      update: (entityId, entity) => dispatch(allocationStrategyByPluginIdActions.updateEntity(entityId, entity, { microserviceName: MICROSERVICE, pluginId: entity.pluginId })),
+      create: (entity, microserviceName, pluginId) => dispatch(allocationStrategyByPluginIdActions.createEntity(entity, { microserviceName, pluginId })),
+      update: (entity, microserviceName, pluginId, pluginConfId) => dispatch(allocationStrategyByPluginIdActions.updateEntity(pluginConfId, entity, { microserviceName, pluginId })),
     }
   }
 

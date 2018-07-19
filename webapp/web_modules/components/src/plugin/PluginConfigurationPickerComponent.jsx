@@ -21,21 +21,23 @@ import isEmpty from 'lodash/isEmpty'
 import filter from 'lodash/filter'
 import find from 'lodash/find'
 import get from 'lodash/get'
-import { FormattedMessage } from 'react-intl'
 import RaisedButton from 'material-ui/RaisedButton'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
+import Divider from 'material-ui/Divider'
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
-import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/display-control'
 
 class PluginConfigurationPickerComponent extends React.Component {
   static propTypes = {
+    rightRemoveIcon: PropTypes.bool,
+    onNewPluginConf: PropTypes.func,
     // Callback provided by redux-form in order to manually change a field value
     // must return a promise
     onChange: PropTypes.func,
@@ -46,12 +48,14 @@ class PluginConfigurationPickerComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       currentPluginConfiguration: props.currentPluginConfiguration,
+      newConfSelected: false,
     }
   }
 
@@ -69,9 +73,11 @@ class PluginConfigurationPickerComponent extends React.Component {
   getStyle = () => ({
     pluginButton: {
       marginLeft: 10,
+      verticalAlign: 'text-bottom',
     },
     iconMenu: {
       visibility: 'hidden',
+      width: '0px',
     },
     field: {
       display: 'none',
@@ -81,22 +87,34 @@ class PluginConfigurationPickerComponent extends React.Component {
   handleChange = (value) => {
     this.setState({
       openMenu: false,
+      newConfSelected: false,
     })
-    this.props.onChange(value)
+    const selectedConf = find(this.props.pluginConfigurationList, el => el.content.id === value)
+    this.props.onChange(value, get(selectedConf, 'content', undefined))
       .then((actionResults) => {
         if (!actionResults.error) {
-          const currentPluginConfiguration = find(this.props.pluginConfigurationList, el => el.content.id === value)
           this.setState({
-            currentPluginConfiguration: get(currentPluginConfiguration, 'content', undefined),
+            currentPluginConfiguration: get(selectedConf, 'content', undefined),
           })
         }
         return actionResults
       })
   }
 
+  handleNewConf = (pluginMetadata) => {
+    this.setState({
+      openMenu: false,
+      newConfSelected: true,
+      currentPluginConfiguration: null,
+    })
+    this.props.onChange(null)
+    this.props.onNewPluginConf(pluginMetadata.content)
+  }
+
   handleOnRequestChange = (value) => {
     this.setState({
       openMenu: value,
+      newConfSelected: false,
     })
   }
 
@@ -106,24 +124,95 @@ class PluginConfigurationPickerComponent extends React.Component {
     })
   }
 
-  buildMenuItemPrimaryText = (leftContent, rightContent) => (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+  buildMenuItemPrimaryText = (leftContent, rightContent, color) => (
+    <div style={{ display: 'flex', justifyContent: 'space-between', color }}>
       {leftContent}
-      <span style={{ color: '#bdbdbd' }}>
-        {rightContent}
-      </span>
+      {rightContent ? <span style={{ color: '#bdbdbd' }}>{rightContent}</span> : null}
     </div>
   )
 
+  buildAvailablePluginItems = (plugins, pluginConfs, selectedPluginConf, onNewPluginConf) => map(plugins, (plugin) => {
+    const pluginConfsForThisPluginMetaData =
+      filter(pluginConfs, pluginConfiguration => pluginConfiguration.content.pluginId === plugin.content.pluginId)
+    const isPluginConfigurationListEmpty = isEmpty(pluginConfsForThisPluginMetaData)
+    return (
+      <MenuItem
+        key={plugin.content.pluginId}
+        primaryText={this.buildMenuItemPrimaryText(plugin.content.pluginId, plugin.content.version)}
+        rightIcon={<ArrowDropRight />}
+        disabled={isPluginConfigurationListEmpty}
+        menuItems={this.buildAvailableConfItems(plugin, pluginConfsForThisPluginMetaData, selectedPluginConf, onNewPluginConf)}
+      />
+    )
+  })
+
+  buildAvailableConfItems = (plugin, confs, selectedConf, onNewPluginConf) => {
+    const items = map(confs, conf =>
+      (<MenuItem
+        key={conf.content.id}
+        primaryText={this.buildMenuItemPrimaryText(conf.content.label, conf.content.version)}
+        onClick={() => this.handleChange(conf.content.id)}
+        checked={selectedConf && conf.content.id === selectedConf.id}
+      />))
+    if (onNewPluginConf) {
+      items.push(
+        <MenuItem
+          key="newpluginconf"
+          primaryText={this.buildMenuItemPrimaryText(
+            this.context.intl.formatMessage({ id: 'component.plugin-parameter.new.conf.option' }), null, this.context.muiTheme.palette.accent1Color)
+          }
+          onClick={() => this.handleNewConf(plugin)}
+        />,
+      )
+    }
+    return items
+  }
+
+  renderRemoveSelected = (styles) => {
+    const { rightRemoveIcon } = this.props
+    const { currentPluginConfiguration } = this.state
+    const { intl: { formatMessage } } = this.context
+    if (rightRemoveIcon) {
+      return (
+        <ShowableAtRender show={currentPluginConfiguration != null}>
+          <IconButton
+            key="remove"
+            title={formatMessage({ id: 'component.plugin-parameter.action.reset' })}
+            onClick={() => this.handleChange(null)}
+          >
+            <Delete />
+          </IconButton>
+        </ShowableAtRender>
+      )
+    }
+    return (
+      <ShowableAtRender show={currentPluginConfiguration != null}>
+        <Divider />
+        <MenuItem
+          key="none"
+          primaryText={formatMessage({ id: 'component.plugin-parameter.action.reset' })}
+          onClick={() => this.handleChange(null)}
+        />
+      </ShowableAtRender>
+    )
+  }
+
   render() {
-    const { pluginMetaDataList, pluginConfigurationList } = this.props
-    const { openMenu, currentPluginConfiguration } = this.state
+    const { pluginMetaDataList, pluginConfigurationList, onNewPluginConf } = this.props
+    const { openMenu, currentPluginConfiguration, newConfSelected } = this.state
+    const { intl: { formatMessage } } = this.context
     const styles = this.getStyle()
     const hasNoPlugin = isEmpty(pluginMetaDataList) || isEmpty(pluginConfigurationList)
+
+    const defaultLabel = newConfSelected ? formatMessage({ id: 'component.plugin-parameter.action.create-plugin' }) :
+      formatMessage({ id: 'component.plugin-parameter.action.choose-plugin' })
+    const buttonLabel = currentPluginConfiguration ? currentPluginConfiguration.label : defaultLabel
+
     return (
       <div>
+        <br />
         <RaisedButton
-          label={currentPluginConfiguration ? currentPluginConfiguration.label : <FormattedMessage id="component.plugin-parameter.action.choose-plugin" />}
+          label={buttonLabel}
           onClick={this.handleOpenMenu}
           style={styles.pluginButton}
           disabled={hasNoPlugin}
@@ -137,37 +226,10 @@ class PluginConfigurationPickerComponent extends React.Component {
           autoWidth
           style={styles.iconMenu}
         >
-          {map(pluginMetaDataList, (pluginMetaData) => {
-            const pluginConfigurationListForThisPluginMetaData = filter(pluginConfigurationList, pluginConfiguration => pluginConfiguration.content.pluginId === pluginMetaData.content.pluginId)
-            const isPluginConfigurationListEmpty = isEmpty(pluginConfigurationListForThisPluginMetaData)
-            return (
-              <MenuItem
-                key={pluginMetaData.content.pluginId}
-                primaryText={this.buildMenuItemPrimaryText(pluginMetaData.content.pluginId, pluginMetaData.content.version)}
-                rightIcon={<ArrowDropRight />}
-                disabled={isPluginConfigurationListEmpty}
-                menuItems={
-                  map(pluginConfigurationListForThisPluginMetaData, pluginConfiguration =>
-                    (<MenuItem
-                      key={pluginConfiguration.content.id}
-                      primaryText={this.buildMenuItemPrimaryText(pluginConfiguration.content.label, pluginConfiguration.content.version)}
-                      onClick={() => this.handleChange(pluginConfiguration.content.id)}
-                      checked={currentPluginConfiguration && pluginConfiguration.content.id === currentPluginConfiguration.id}
-                    />))
-                }
-              />
-            )
-          })}
+          {this.buildAvailablePluginItems(pluginMetaDataList,
+            pluginConfigurationList, currentPluginConfiguration, onNewPluginConf)}
         </IconMenu>
-        <ShowableAtRender show={currentPluginConfiguration != null}>
-          <Divider />
-          <MenuItem
-            key="none"
-            primaryText={this.context.intl.formatMessage({ id: 'component.plugin-parameter.action.reset' })}
-            onClick={() => this.handleChange(null)}
-            rightIcon={<Delete />}
-          />
-        </ShowableAtRender>
+        {this.renderRemoveSelected(styles)}
       </div>
     )
   }

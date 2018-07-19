@@ -185,11 +185,13 @@ export class RenderPluginConfField extends React.PureComponent {
 
   renderParameters = () => {
     const { pluginMetaData, hideDynamicParameterConf, disabled } = this.props
-    const { moduleTheme: { pluginParameter: { parameterPaper } } } = this.context
+    const { moduleTheme: { pluginParameter: { parameterPaper } }, intl: { formatMessage } } = this.context
     const parameters = get(pluginMetaData, 'parameters', [])
     this.parameterIndex = 0
     if (parameters.length === 0) {
-      return null
+      return formatMessage({
+        id: 'plugin.configuration.form.no.parameters',
+      })
     }
     return (
       <div>

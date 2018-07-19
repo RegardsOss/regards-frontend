@@ -16,30 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AccessDomain from './access'
-import AdminDomain from './admin'
-import AdminInstanceDomain from './admin-instance'
-import ArchivalStorageDomain from './archival-storage'
-import CatalogDomain from './catalog'
-import CommonDomain from './common'
-import DamDomain from './dam'
-import DataProviderDomain from './data-provider'
-import IngestDomin from './ingest'
-import OrderDomain from './order'
-import StorageDomain from './storage'
-import UIDomain from './ui'
 
-module.exports = {
-  AccessDomain,
-  AdminDomain,
-  AdminInstanceDomain,
-  ArchivalStorageDomain,
-  CatalogDomain,
-  CommonDomain,
-  DamDomain,
-  DataProviderDomain,
-  IngestDomin,
-  OrderDomain,
-  StorageDomain,
-  UIDomain,
-}
+export { default as AccessDomain } from './access'
+export { default as AdminDomain } from './admin'
+export { default as AdminInstanceDomain } from './admin-instance'
+export { default as ArchivalStorageDomain } from './archival-storage'
+export { default as CatalogDomain } from './catalog'
+export { default as CommonDomain } from './common'
+export { default as DamDomain } from './dam'
+export { default as DataProviderDomain } from './data-provider'
+export { default as IngestDomin } from './ingest'
+export { default as OrderDomain } from './order'
+export { default as StorageDomain } from './storage'
+export { default as UIDomain } from './ui'
+export { default as AuthenticationDomain } from './authentication'

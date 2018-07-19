@@ -54,6 +54,7 @@ import ModelAttributeComputationTypes from './dam/ModelAttributeComputationTypes
 import AIPStatus from './storage/AIPStatus'
 import Endpoint from './admin/Endpoint'
 import LinkPluginDataset from './catalog/LinkPluginDataset'
+import SearchEngineConfiguration from './catalog/SearchEngineConfiguration'
 import ProcessingChain from './ingest/ProcessingChain'
 import Order from './order/Order'
 import OrderFile from './order/OrderFile'
@@ -89,7 +90,6 @@ module.exports = {
   // Access
   ...Module,
   ...Layout,
-  ...LinkPluginDataset,
   ...LinkUIPluginDataset,
   ...Plugin,
   ...Theme,
@@ -102,6 +102,8 @@ module.exports = {
 
   // Catalog
   ...Entity,
+  ...LinkPluginDataset,
+  ...SearchEngineConfiguration,
 
   // Common
   ...AdminPluginConfiguration,

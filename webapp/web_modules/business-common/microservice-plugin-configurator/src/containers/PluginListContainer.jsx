@@ -49,6 +49,7 @@ export class PluginListContainer extends React.Component {
     handleSelect: PropTypes.func.isRequired,
     errorText: PropTypes.string,
     disabled: PropTypes.bool,
+    displayMoreInfoButton: PropTypes.bool,
     // Set by connect
     fetchPlugins: PropTypes.func.isRequired,
   }
@@ -81,7 +82,9 @@ export class PluginListContainer extends React.Component {
       })
       if (this.props.selectedPluginId) {
         const plugin = find(pluginList, p => p.content.pluginId === this.props.selectedPluginId)
-        this.props.handleSelect(plugin.content, true)
+        if (plugin) {
+          this.props.handleSelect(plugin.content, true)
+        }
       }
     } else {
       this.setState({
@@ -106,6 +109,7 @@ export class PluginListContainer extends React.Component {
           defaultSelectedPluginId={this.props.selectedPluginId}
           disabled={this.props.disabled}
           errorText={this.props.errorText}
+          displayMoreInfoButton={this.props.displayMoreInfoButton}
         />
       </LoadableContentDisplayDecorator>
     )
