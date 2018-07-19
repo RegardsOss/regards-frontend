@@ -1,0 +1,112 @@
+/**
+ * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+import find from 'lodash/find'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
+import { FormattedMessage } from 'react-intl'
+import { CatalogShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import { MarkdownFileContentDisplayer } from '@regardsoss/components'
+import { withAuthInfo } from '@regardsoss/authentication-utils'
+
+
+class SearchEngineConfigurationInfoDialog extends React.Component {
+  static propTypes = {
+    searchEngineConfiguration: CatalogShapes.SearchEngineConfiguration,
+    onClose: PropTypes.func.isRequired,
+    // From withAuthInfo
+    accessToken: PropTypes.string.isRequired,
+    projectName: PropTypes.string,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+    ...themeContextType,
+  }
+
+  getSearchLink = (withAuth) => {
+    const searchLink = find(this.props.searchEngineConfiguration.links, l => l.rel === 'search')
+    if (searchLink) {
+      return withAuth ?
+        `${searchLink.href}?scope=${this.props.projectName}&token=${this.props.accessToken}` :
+        searchLink.href
+    }
+    return null
+  }
+
+  render() {
+    console.error('props', this.props)
+    const { searchEngineConfiguration, onClose } = this.props
+    const { intl: { formatMessage }, muiTheme } = this.context
+    if (!searchEngineConfiguration) {
+      return null
+    }
+
+    const actions = [
+      <FlatButton
+        key="close"
+        label={formatMessage({ id: 'dataaccess.searchengines.info.close' })}
+        primary
+        onClick={onClose}
+      />,
+    ]
+
+    let content = null
+    if (searchEngineConfiguration.content.dataset) {
+      const decoratedLabel = (
+        <span style={{ color: muiTheme.palette.accent1Color }}>
+          {searchEngineConfiguration.content.dataset.label}
+        </span>
+      )
+      const values = {
+        label: decoratedLabel,
+      }
+      content = (
+        <FormattedMessage
+          id="dataaccess.searchengines.info.content.dataset"
+          values={values}
+        />
+      )
+    } else {
+      content = formatMessage({ id: 'dataaccess.searchengines.info.content.all' })
+    }
+
+    return (
+      <Dialog
+        actions={actions}
+        title={formatMessage({ id: 'dataaccess.searchengines.info.title' }, { name: searchEngineConfiguration.content.label })}
+        open
+        onRequestClose={onClose}
+      >
+        {content}
+        <br />
+        <br />
+        <MarkdownFileContentDisplayer
+          source={this.getSearchLink()}
+        />
+        <br />
+        <br />
+        <a style={{ color: muiTheme.palette.accent1Color }} href={this.getSearchLink(true)} target="_blanck">{formatMessage({ id: 'dataaccess.searchengines.info.test' })}</a>
+      </Dialog>
+    )
+  }
+}
+
+export default withAuthInfo(SearchEngineConfigurationInfoDialog)

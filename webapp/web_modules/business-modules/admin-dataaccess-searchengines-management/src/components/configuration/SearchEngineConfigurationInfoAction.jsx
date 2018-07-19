@@ -17,19 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import DetailIcon from 'material-ui/svg-icons/action/info-outline'
 import IconButton from 'material-ui/IconButton'
-import { CatalogShapes } from '@regardsoss/shape'
+import { CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
 * Edit table action for search engine configurations
 * @author Sébastien Binda
 */
-class SearchEngineConfigurationEditAction extends React.Component {
+class SearchConfigurationInfoAction extends React.Component {
   static propTypes = {
-    entity: CatalogShapes.SearchEngineConfiguration,
-    onEdit: PropTypes.func.isRequired,
+    entity: CommonShapes.PluginConfiguration,
+    onClick: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -39,26 +39,26 @@ class SearchEngineConfigurationEditAction extends React.Component {
   static iconStyle = { height: 23, width: 23 }
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
-  isEditable = () => {
+  infoAvailable = () => {
     const { links } = this.props.entity
-    return !!find(links, l => l.rel === 'update')
+    return !!find(links, l => l.rel === 'search')
   }
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { entity: { content }, onEdit } = this.props
+    const { entity, entity: { content }, onClick } = this.props
     return (
       <IconButton
         className={`selenium-edit-${content.id}`}
-        title={formatMessage({ id: 'dataaccess.searchengines.list.edit.button' })}
-        iconStyle={SearchEngineConfigurationEditAction.iconStyle}
-        style={SearchEngineConfigurationEditAction.buttonStyle}
-        onClick={() => onEdit(content)}
-        disabled={!this.isEditable()}
+        title={formatMessage({ id: 'dataaccess.searchengines.list.info.button' })}
+        iconStyle={SearchConfigurationInfoAction.iconStyle}
+        style={SearchConfigurationInfoAction.buttonStyle}
+        onClick={() => onClick(entity)}
+        disabled={!this.infoAvailable()}
       >
-        <Edit />
+        <DetailIcon />
       </IconButton>
     )
   }
 }
-export default SearchEngineConfigurationEditAction
+export default SearchConfigurationInfoAction

@@ -28,10 +28,17 @@ const messages = Object.assign({
   'dataaccess.searchengines.list.header.engine': 'Protocole',
   'dataaccess.searchengines.list.header.dataset': 'Jeu de données',
   'dataaccess.searchengines.list.edit.button': 'Editer le protocole',
+  'dataaccess.searchengines.list.info.button': 'Informations d\'accès',
   'dataaccess.searchengines.list.confirm.title': 'Suppression du protocole {name} ?',
   'dataaccess.searchengines.list.back.button': 'Retour',
   'dataaccess.searchengines.list.empty.title': 'Aucun protocole défini',
   'dataaccess.searchengines.list.add.button': 'Définir un nouveau protocole',
+
+  'dataaccess.searchengines.info.title': 'Informations d\'accès à la recherche de données pour le protocole < {name} >',
+  'dataaccess.searchengines.info.content.all': 'Ce protocole vous permet de rechercher des données sur tous les jeux du catalogue. Pour ce faire vous devez utiliser le point d\'accès ci-dessous.',
+  'dataaccess.searchengines.info.content.dataset': 'Ce protocole vous permet de rechercher des données contenues dans le jeu de données {label}. Pour ce faire vous devez utiliser le point d\'accès ci-dessous.',
+  'dataaccess.searchengines.info.test': 'Cliquer ici pour tester une recherche avec ce protocol',
+  'dataaccess.searchengines.info.close': 'Fermer',
 
   'dataaccess.searchengines.form.create.title': 'Configurer un protocole',
   'dataaccess.searchengines.form.edit.title': 'Edition du protocole "{name}"',

@@ -28,10 +28,17 @@ const messages = Object.assign({
   'dataaccess.searchengines.list.header.engine': 'Search protocol',
   'dataaccess.searchengines.list.header.dataset': 'Dataset',
   'dataaccess.searchengines.list.edit.button': 'Edit protocol',
+  'dataaccess.searchengines.list.info.button': 'Access information',
   'dataaccess.searchengines.list.confirm.title': 'Delete search protocol {name} ?',
   'dataaccess.searchengines.list.back.button': 'Back',
   'dataaccess.searchengines.list.empty.title': 'No search protocol configuration available',
   'dataaccess.searchengines.list.add.button': 'Save protocol',
+
+  'dataaccess.searchengines.info.title': 'Access information for catalog search with < {name} > protocol',
+  'dataaccess.searchengines.info.content.all': 'This protocol allows you to search datas over the whole catalog. To do so, you can use the here-under endpoint.',
+  'dataaccess.searchengines.info.content.dataset': 'This protocol allows you to search datas from the dataset {dataset}. To do so, you can use the here-under endpoint.',
+  'dataaccess.searchengines.info.test': 'Click here to check protocol request',
+  'dataaccess.searchengines.info.close': 'Close',
 
   'dataaccess.searchengines.form.create.title': 'Configure search protocol',
   'dataaccess.searchengines.form.edit.title': 'Edit search protocol "{name}"',

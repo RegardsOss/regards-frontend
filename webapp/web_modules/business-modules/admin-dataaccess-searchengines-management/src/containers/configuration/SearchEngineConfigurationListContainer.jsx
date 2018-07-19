@@ -94,15 +94,18 @@ export class SearchEngineConfigurationListContainer extends React.Component {
   }
 
   render() {
+    const {
+      fetchPage, isLoading, meta: { totalElements },
+    } = this.props
     return (
       <SearchEngineConfigurationListComponent
         onBack={this.goToBoard}
         onAddNewConf={this.goToCreateForm}
         onEdit={this.onEdit}
         onDelete={this.onDelete}
-        fetchPage={this.props.fetchPage}
-        isLoading={this.props.isLoading}
-        resultsCount={this.props.meta.totalElements}
+        fetchPage={fetchPage}
+        isLoading={isLoading}
+        resultsCount={totalElements}
       />
     )
   }
