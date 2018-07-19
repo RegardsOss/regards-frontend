@@ -158,7 +158,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-project-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/portal/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-collection-management/src/main.js'),
-      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-storage-aip-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-storage-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/user/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-connection-management/src/main.js'),
