@@ -23,6 +23,29 @@
 * @author Raphaël Mechali
 */
 const styles = theme => ({
+  subSection: {
+    sectionStyle: {
+      border: '1px solid',
+      borderRadius: '5px',
+      padding: '15px',
+      marginRight: '5px',
+      borderColor: theme.palette.primary1Color,
+    },
+    titleStyle: {
+      borderBottom: '1px solid',
+      fontSize: '1.1em',
+      marginBottom: '15px',
+      paddingBottom: '4px',
+      color: theme.palette.textColor,
+      borderBottomColor: theme.palette.primary1Color,
+    },
+    pointerStyle: {
+      border: 'solid 10px transparent',
+      width: '10px',
+      marginTop: '-20px',
+      borderBottomColor: theme.palette.primary1Color,
+    },
+  },
   noContent: {
     wrapper: {
       display: 'flex',

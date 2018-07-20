@@ -141,6 +141,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
     return (
       <div>
         <RadioButtonGroup
+          name="dataset-selector"
           defaultSelected={this.state.datasetSelector}
           onChange={this.onChangeDatasetSelector}
         >

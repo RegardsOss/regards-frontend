@@ -27,13 +27,13 @@ import { MarkdownFileContentDisplayer } from '@regardsoss/components'
 import { withAuthInfo } from '@regardsoss/authentication-utils'
 
 
-class SearchEngineConfigurationInfoDialog extends React.Component {
+export class SearchEngineConfigurationInfoDialog extends React.Component {
   static propTypes = {
     searchEngineConfiguration: CatalogShapes.SearchEngineConfiguration,
     onClose: PropTypes.func.isRequired,
     // From withAuthInfo
     accessToken: PropTypes.string.isRequired,
-    projectName: PropTypes.string,
+    projectName: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -52,7 +52,6 @@ class SearchEngineConfigurationInfoDialog extends React.Component {
   }
 
   render() {
-    console.error('props', this.props)
     const { searchEngineConfiguration, onClose } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     if (!searchEngineConfiguration) {
