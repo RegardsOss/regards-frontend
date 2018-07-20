@@ -46,6 +46,7 @@ const messages = Object.assign({
   'dataaccess.searchengines.form.edit.subtitle': 'Please configure the search protocol parameters.',
   'dataaccess.searchengines.form.type.select.label': 'Select a protocol ...',
   'dataaccess.searchengines.form.invalid.id': 'Search protocol configuration selected does not exists anymore.',
+  'dataaccess.searchengines.form.no.plugin.avalaible': 'No search protocol avalaible.',
   'dataaccess.searchengines.form.back.button': 'Cancel',
 
   'search-engines.form.label': 'Label',

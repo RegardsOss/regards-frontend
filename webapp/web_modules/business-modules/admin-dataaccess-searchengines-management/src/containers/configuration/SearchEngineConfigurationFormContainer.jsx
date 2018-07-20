@@ -19,6 +19,7 @@
 import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { CommonShapes, CatalogShapes } from '@regardsoss/shape'
+import { CatalogDomain } from '@regardsoss/domain'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { searchEngineConfigurationsActions, searchEngineConfigurationsSelectors } from '../../clients/SearchEngineConfigurationsClient'
 import { pluginConfigurationActions, pluginConfigurationSelectors } from '../../clients/PluginConfigurationClient'
@@ -57,12 +58,12 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
       create: entity => dispatch(searchEngineConfigurationsActions.createEntity(entity)),
       update: (entity, confId) => dispatch(searchEngineConfigurationsActions.updateEntity(confId, entity)),
       fetchPluginConfigurationList: () => dispatch(pluginConfigurationActions.fetchEntityList(
-        { microserviceName: 'rs-storage' }, {
-          pluginType: 'fr.cnes.regards.modules.storage.domain.plugin.IDataStorage',
+        { microserviceName: MICROSERVICE }, {
+          pluginType: CatalogDomain.PluginTypeEnum.SEARCHENGINES,
         })),
       fetchPluginMetaDataList: microserviceName => dispatch(pluginMetaDataActions.fetchEntityList(
-        { microserviceName: 'rs-storage' }, {
-          pluginType: 'fr.cnes.regards.modules.storage.domain.plugin.IDataStorage',
+        { microserviceName: MICROSERVICE }, {
+          pluginType: CatalogDomain.PluginTypeEnum.SEARCHENGINES,
         })),
     }
   }
