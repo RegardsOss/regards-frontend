@@ -71,9 +71,11 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
       }],
       servicesEnabled: true,
       entitySelected: true,
+      isDescAvailableFor: () => true,
       onSelectEntity: () => { },
       onSearchEntity: () => { },
       onAddToCart: () => { },
+      onShowDescription: () => { },
     }
     shallow(<ListViewEntityCellComponent {...props} />, { context })
   })

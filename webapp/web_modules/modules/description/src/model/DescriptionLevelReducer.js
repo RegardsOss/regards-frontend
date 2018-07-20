@@ -66,7 +66,7 @@ export class DescriptionLevelReducer {
       case this.actionsModel.CLOSE:
         return DescriptionLevelReducer.DEFAULT_STATE
       case this.actionsModel.SHOW_RELATED_ENTITY:
-        if (!state.currentDescriptionPath) {
+        if (!state.currentDescriptionPath.length) {
           throw new Error('No root path element')
         }
         return {
@@ -78,7 +78,7 @@ export class DescriptionLevelReducer {
           // do not handle the 'jump to' the last level, already shown
           return state
         }
-        if (!state.currentDescriptionPath) {
+        if (!state.currentDescriptionPath.length) {
           throw new Error('Cannot jump to a new level when no path is set up!')
         }
         if (action.levelIndex < 0 || action.levelIndex >= state.currentDescriptionPath.length) {

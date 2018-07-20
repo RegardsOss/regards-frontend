@@ -64,7 +64,7 @@ export class UserContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      initializeContext: (entity, onSearchTag) => dispatch(descriptionLevelsActions.initializeContext(entity, onSearchTag)),
+      initializeContext: entity => dispatch(descriptionLevelsActions.initializeContext(entity)),
       onClose: () => {
         // dispose navigation context (locally reported context)
         dispatch(descriptionLevelsActions.closeDescription())
@@ -104,7 +104,7 @@ export class UserContainer extends React.Component {
       visible: PropTypes.bool.isRequired,
       consumerID: PropTypes.string, // provided only when visible
       parameters: PropTypes.object, // depends on request, this module expects { entity, onSearchTag }
-    }),
+    }).isRequired,
     // bound from current description context
     shownEntity: CatalogShapes.Entity, // entity shown or null
     currentTab: PropTypes.oneOf(DESCRIPTION_TABS),
@@ -147,8 +147,8 @@ export class UserContainer extends React.Component {
     const wasVisible = UserContainer.isDialogVisible(this.consumerID, oldProps.dialogState, oldProps.moduleConf)
     const becomesVisible = UserContainer.isDialogVisible(this.consumerID, dialogState, moduleConf)
     if (!wasVisible && becomesVisible) {
-      const { entity, onSearchTag } = dialogState.parameters
-      initializeContext(entity, onSearchTag)
+      const { entity } = dialogState.parameters
+      initializeContext(entity)
     }
   }
 

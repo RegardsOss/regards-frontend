@@ -80,8 +80,10 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
       gridAttributesRenderData: packGridAttributesRenderData(someModels),
       selectionEnabled: true,
       servicesEnabled: true,
+      isDescAvailableFor: () => true,
       onSearchEntity: () => { },
       onAddToCart: () => { },
+      onShowDescription: () => { },
 
       // from map state to props
       toggledElements: {},

@@ -42,6 +42,7 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
       searchQuery: 'spacy=abit',
       enableFacettes: true,
       enableQuicklooks: false,
+      facettesInitiallySelected: false,
       facettesQuery: 'facettes=condiments',
       displayConf: {},
       attributesConf: [],
@@ -61,6 +62,8 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
       dispatchChangeViewObjectType: () => { },
       dispatchChangeTableDisplayMode: () => { },
       dispatchSetEntityAsTag: () => { },
+      dispatchAddSearchTag: () => { },
+
     }
     const enzymeWrapper = shallow(<SearchResultsContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(PluginServicesContainer), 1, 'It should render the service container')

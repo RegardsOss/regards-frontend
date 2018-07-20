@@ -219,7 +219,7 @@ export class AttributesContainer extends React.Component {
 
     let thumbnailURL = null
     if (typeConfiguration.showThumbnail) {
-      thumbnailURL = get(entity, THUMBNAIL_URL_PATH_IN_ENTITY)
+      thumbnailURL = get(entity, THUMBNAIL_URL_PATH_IN_ENTITY, null)
     }
 
     return (

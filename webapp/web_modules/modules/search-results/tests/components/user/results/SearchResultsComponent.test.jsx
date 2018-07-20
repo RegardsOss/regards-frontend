@@ -81,6 +81,9 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     onAddSelectionToCart: null, // callback to add selection to cart, null when disabled
     onAddElementToCart: null, // callback to add element
 
+    onShowDescription: () => { },
+    isDescAvailableFor: () => true,
+
   }
 
   // define the test cases

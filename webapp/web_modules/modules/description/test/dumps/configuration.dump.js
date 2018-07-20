@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { DamDomain } from '@regardsoss/domain'
 
 /**
  * Some configuration dumps
@@ -29,7 +30,7 @@ export const someGroups = [{ // Group 1
     fr: 'FR',
   },
   elements: [{
-    label: { en: 'attr1.en', fr: 'attr1.fr' }, attributes: [{ name: 'attr1' }],
+    label: { en: 'attr1.en', fr: 'attr1.fr' }, attributes: [{ name: 'test.attr1' }],
   }],
 }, {
   showTitle: false,
@@ -38,6 +39,41 @@ export const someGroups = [{ // Group 1
     fr: '',
   },
   elements: [{ // Group 2
-    label: { en: 'attr2.en', fr: 'attr2.fr' }, attributes: [{ name: 'attr2' }],
+    label: { en: 'attr2And3.en', fr: 'attr2And3.fr' }, attributes: [{ name: 'test.attr2' }, { name: 'test.attr3' }],
+  }, { // standard attribute label
+    label: { en: 'Standard label', fr: 'Libellé standard' }, attributes: [{ name: 'label' }],
   }],
 }]
+
+/** A full module configuration */
+export const fullModuleConf = {
+  allowTagSearch: true,
+  [DamDomain.ENTITY_TYPES_ENUM.COLLECTION]: {
+    showDescription: false,
+    showTags: false,
+    showLinkedDocuments: false,
+    showThumbnail: false,
+    groups: [],
+  },
+  [DamDomain.ENTITY_TYPES_ENUM.DATASET]: {
+    showDescription: false,
+    showTags: false,
+    showLinkedDocuments: false,
+    showThumbnail: false,
+    groups: [],
+  },
+  [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]: {
+    showDescription: false,
+    showTags: false,
+    showLinkedDocuments: false,
+    showThumbnail: false,
+    groups: [],
+  },
+  [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
+    showDescription: true,
+    showTags: true,
+    showLinkedDocuments: true,
+    showThumbnail: true,
+    groups: someGroups,
+  },
+}
