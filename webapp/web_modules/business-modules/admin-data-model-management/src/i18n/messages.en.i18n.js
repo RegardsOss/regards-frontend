@@ -33,6 +33,8 @@ const messages = Object.assign({
   'model.list.action.duplicate': 'Duplicate',
   'model.list.action.delete': 'Delete',
   'model.list.delete.title': 'Delete model {name} ?',
+  'model.list.table.no.content.title': 'Nothing to show',
+  'model.list.no.content.message': 'No data model have been created for this project',
 
   'model.type.dataset': 'Dataset',
   'model.type.data': 'Data',
