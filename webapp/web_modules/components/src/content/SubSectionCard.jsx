@@ -66,4 +66,4 @@ export class SubSectionCard extends React.Component {
   }
 }
 
-export default withModuleStyle(styles)(SubSectionCard)
+export default withModuleStyle(styles, true)(SubSectionCard)
