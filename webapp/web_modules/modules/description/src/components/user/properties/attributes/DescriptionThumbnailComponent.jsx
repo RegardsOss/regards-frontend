@@ -25,7 +25,7 @@ import { URLAuthInjector } from '@regardsoss/domain/common'
  * Shows entity thumbnail in description view
  * @author Raphaël Mechali
  */
-class DescriptionThumbnailComponent extends React.Component {
+export class DescriptionThumbnailComponent extends React.Component {
   static propTypes = {
     accessToken: PropTypes.string,
     projectName: PropTypes.string,
@@ -49,7 +49,6 @@ class DescriptionThumbnailComponent extends React.Component {
         src={thumbnailURLWithAuth}
         style={thumbnailStyle}
         alt={formatMessage({ id: 'module.description.properties.thumbnail.alt.text' })}
-
       />
     )
   }

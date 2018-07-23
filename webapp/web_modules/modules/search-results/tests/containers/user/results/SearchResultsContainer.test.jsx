@@ -20,6 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DamDomain } from '@regardsoss/domain'
+import { DescriptionProviderContainer } from '@regardsoss/entities-common'
 import { SearchResultsContainer } from '../../../../src/containers/user/results/SearchResultsContainer'
 import PluginServicesContainer from '../../../../src/containers/user/results/PluginServicesContainer'
 import OrderCartContainer from '../../../../src/containers/user/results/OrderCartContainer'
@@ -66,6 +67,7 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
 
     }
     const enzymeWrapper = shallow(<SearchResultsContainer {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(DescriptionProviderContainer), 1, 'It should render the description provider')
     assert.lengthOf(enzymeWrapper.find(PluginServicesContainer), 1, 'It should render the service container')
     assert.lengthOf(enzymeWrapper.find(OrderCartContainer), 1, 'It should render order cart enabling container')
     assert.lengthOf(enzymeWrapper.find(SearchResultsComponent), 1, 'It should render a search results component')
