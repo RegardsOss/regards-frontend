@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
+import MoodIcon from 'material-ui/svg-icons/social/mood'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
@@ -26,7 +28,7 @@ import {
   reduxForm, Field, RenderTextField,
   ValidationHelpers, RenderPageableAutoCompleteField,
 } from '@regardsoss/form-utils'
-import { CardActionsComponent, PluginConfigurationPickerComponent, SubSectionCard } from '@regardsoss/components'
+import { CardActionsComponent, PluginConfigurationPickerComponent, SubSectionCard, NoContentComponent } from '@regardsoss/components'
 import { RenderPluginConfField } from '@regardsoss/microservice-plugin-configurator'
 import { DataManagementClient } from '@regardsoss/client'
 import { DatasetConfiguration } from '@regardsoss/api'
@@ -141,6 +143,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
     return (
       <div>
         <RadioButtonGroup
+          name="dataset-selector"
           defaultSelected={this.state.datasetSelector}
           onChange={this.onChangeDatasetSelector}
         >
@@ -186,6 +189,17 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
       pluginConfigurationList, pluginMetaDataList, submitting,
     } = this.props
     const { intl: { formatMessage } } = this.context
+
+    if (!pluginMetaDataList || isEmpty(pluginMetaDataList)) {
+      return (
+        <Card>
+          <NoContentComponent
+            title={formatMessage({ id: 'dataaccess.searchengines.form.no.plugin.avalaible' })}
+            Icon={MoodIcon}
+          />
+        </Card>
+      )
+    }
 
     const title = mode === 'edit' ?
       formatMessage({ id: 'dataaccess.searchengines.form.edit.title' }, { name: get(searchEngineConfiguration, 'content.label', '<>') }) :

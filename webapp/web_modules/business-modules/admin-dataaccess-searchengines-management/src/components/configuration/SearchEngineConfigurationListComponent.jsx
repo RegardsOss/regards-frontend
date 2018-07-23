@@ -27,6 +27,8 @@ import {
 } from '@regardsoss/components'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import SearchEngineConfigurationEditAction from './SearchEngineConfigurationEditAction'
+import SearchEngineConfigurationInfoAction from './SearchEngineConfigurationInfoAction'
+import SearchEngineConfigurationInfoDialog from './SearchEngineConfigurationInfoDialog'
 import { searchEngineConfigurationsActions, searchEngineConfigurationsSelectors } from '../../clients/SearchEngineConfigurationsClient'
 import messages from '../../i18n'
 import styles from '../../styles'
@@ -57,7 +59,10 @@ export class SearchEngineConfigurationListComponent extends React.Component {
 
   state = {
     entitytoDelete: null,
+    engineForInfos: null,
   }
+
+  onCloseInfoDialog = () => this.showInformation(null)
 
   onConfirmDelete = () => {
     this.closeDeleteDialog()
@@ -75,6 +80,12 @@ export class SearchEngineConfigurationListComponent extends React.Component {
   closeDeleteDialog = () => {
     this.setState({
       entitytoDelete: null,
+    })
+  }
+
+  showInformation = (engine) => {
+    this.setState({
+      engineForInfos: engine,
     })
   }
 
@@ -113,6 +124,9 @@ export class SearchEngineConfigurationListComponent extends React.Component {
         .label(formatMessage({ id: 'dataaccess.searchengines.list.header.dataset' }))
         .build(),
       new TableColumnBuilder().optionsColumn([{
+        OptionConstructor: SearchEngineConfigurationInfoAction,
+        optionProps: { onClick: this.showInformation },
+      }, {
         OptionConstructor: SearchEngineConfigurationEditAction,
         optionProps: { onEdit },
       }, {
@@ -155,6 +169,10 @@ export class SearchEngineConfigurationListComponent extends React.Component {
               emptyComponent={emptyComponent}
             />
           </TableLayout>
+          <SearchEngineConfigurationInfoDialog
+            searchEngineConfiguration={this.state.engineForInfos}
+            onClose={this.onCloseInfoDialog}
+          />
         </CardText>
         <CardActionsComponent
           mainButtonLabel={formatMessage({ id: 'dataaccess.searchengines.list.add.button' })}

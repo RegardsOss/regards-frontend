@@ -16,13 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import styles from './styles'
 
-class SubSectionCard extends React.Component {
+/**
+ * Component to display a sub section into a form associated to the upper field.
+ * This widget display the given children into a section with a top arrow.
+ */
+export class SubSectionCard extends React.Component {
   static propTypes = {
     title: PropTypes.string,
-    marginLeft: PropTypes.number,
-    arrowMarginLeft: PropTypes.number,
+    marginLeft: PropTypes.number, // Section left margin. Defautl value : 15
+    arrowMarginLeft: PropTypes.number, // Top arrow left margin from border. Default value : 10.
     children: PropTypes.element.isRequired,
   }
 
@@ -31,57 +36,34 @@ class SubSectionCard extends React.Component {
     arrowMarginLeft: 10,
   }
 
-  static sectionStyle = {
-    border: '1px solid',
-    borderRadius: '5px',
-    padding: '15px',
-    marginRight: '5px',
-  }
-
-  static titleStyle = {
-    borderBottom: '1px solid',
-    fontSize: '1.1em',
-    marginBottom: '15px',
-    paddingBottom: '4px',
-  }
-
-  static pointerStyle = {
-    border: 'solid 10px transparent',
-    width: '10px',
-    marginTop: '-20px',
-  }
-
   static contextTypes = {
     ...themeContextType,
   }
 
   componentWillMount() {
-    const { muiTheme } = this.context
-    this.pointerStyle = Object.assign({}, SubSectionCard.pointerStyle, {
-      borderBottomColor: muiTheme.palette.primary1Color,
+    const { moduleTheme: { subSection } } = this.context
+    this.pointerStyle = Object.assign({}, subSection.pointerStyle, {
       marginLeft: `${this.props.marginLeft + this.props.arrowMarginLeft}px`,
     })
-    this.sectionStyle = Object.assign({}, SubSectionCard.sectionStyle, {
-      borderColor: muiTheme.palette.primary1Color,
+    this.sectionStyle = Object.assign({}, subSection.sectionStyle, {
       marginLeft: `${this.props.marginLeft}px`,
     })
-    this.titleStyle = Object.assign({}, SubSectionCard.titleStyle, {
-      color: muiTheme.palette.textColor,
-      borderBottomColor: muiTheme.palette.primary1Color,
-    })
+    this.titleStyle = subSection.titleStyle
   }
 
   render() {
     return (
       <div>
-        <div style={this.pointerStyle} />
-        <div style={this.sectionStyle}>
-          {this.props.title ? <div style={this.titleStyle}>{this.props.title}</div> : null}
-          {this.props.children}
+        <div id="subsectionCardTopArrow" style={this.pointerStyle} />
+        <div id="subsection-card" style={this.sectionStyle}>
+          {this.props.title ? <div id="subsection-card-title" style={this.titleStyle}>{this.props.title}</div> : null}
+          <div id="subsection-card-content">
+            {this.props.children}
+          </div>
         </div>
       </div>
     )
   }
 }
 
-export default SubSectionCard
+export default withModuleStyle(styles, true)(SubSectionCard)

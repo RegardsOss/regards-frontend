@@ -15,20 +15,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { assert } from 'chai'
 import keys from 'lodash/keys'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MessagesFr from '../../src/i18n/messages.fr.i18n'
 import MessagesEn from '../../src/i18n/messages.en.i18n'
 
-describe('[ADMIN BOARD COLLECTIONS] Testing i18n', () => {
+/**
+ * Admin searchengines tests.
+ * @author Sébastien Binda
+ */
+describe('[ADMIN SEARCH ENGINES] Testing i18n', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exist', () => {
-    assert.isNotNull(MessagesFr)
-    assert.isNotNull(MessagesEn)
+    assert.isDefined(MessagesFr)
+    assert.isDefined(MessagesEn)
   })
   it('should define same sentences', () => {
     assert.deepEqual(keys(MessagesFr), keys(MessagesEn))
