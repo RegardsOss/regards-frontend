@@ -1,5 +1,5 @@
 const webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const StatsPlugin = require('stats-webpack-plugin')
 
 module.exports = function (projectContextPath) {
@@ -38,7 +38,10 @@ module.exports = function (projectContextPath) {
         },
         {
           test: /\.css$/,
-          loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }),
+          use: [
+            MiniCssExtractPlugin.loader,
+            'css-loader',
+          ],
         },
         {
           test: /\.(jpg|gif|png)$/,
@@ -65,7 +68,7 @@ module.exports = function (projectContextPath) {
         PropTypes: 'prop-types',
       }),
       // Create a single css file for the whole application instead of setting css inline in the javascript
-      new ExtractTextPlugin({ filename: 'css/styles.css', disable: false, allChunks: true }),
+      new MiniCssExtractPlugin({ filename: 'css/styles.css' }),
       new StatsPlugin(`../../reports/dll-${Date.now()}-profile.json`, {
         chunkModules: true,
       }),
