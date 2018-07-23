@@ -95,6 +95,23 @@ module.exports = baseTheme => ({
       layoutIconSize: 18,
       minContentHeight: 200,
     },
+    // description module
+    description: {
+      thumbnail: {
+        maxSize: 128,
+        margin: '1em 0 0.4em 20px',
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: baseTheme.palette.textColor,
+      },
+      attributeGroupTitlePadding: '1em 0 0.4em 0',
+      attributeGroupTitleColor: baseTheme.palette.accent1Color,
+      attributeGroupTitlePlaceholderPadding: '1em 0 0.4em 0',
+      attributeLabelPadding: '0.4em 20px 0.4em 0',
+      attributeLabelTextDecoration: 'underline',
+      attributeValuesPadding: '0.4em 20px 0.4em 0',
+      attributeValuesTextDecoration: 'none',
+    },
     // menu module
     menu: {
       background: baseTheme.palette.canvasColor,

@@ -42,7 +42,6 @@ import graphLevelDatasetActions from '../../model/graph/GraphLevelDatasetActions
 import getLevelPartitionKey from '../../model/graph/PartitionsConstants'
 import NavigableSearchResultsContainer from './NavigableSearchResultsContainer'
 import SearchGraph from '../../components/user/SearchGraph'
-import DescriptionContainer from './DescriptionContainer'
 
 const moduleExpandedStateSelectors = UIClient.getModuleExpandedStateSelectors()
 
@@ -132,7 +131,7 @@ export class UserModuleContainer extends React.Component {
           .findModelFromAttributeFullyQualifiedName(attributeElement.attributes[0].name, fetchedAtributesModels)
         if (foundModel) {
           return [...resolvedAcc, {
-            label: foundModel.content.label,
+            label: attributeElement.label,
             attributePath: foundModel.content.jsonPath, // fragment attribute
             render: getTypeRender(foundModel.content.type),
             unit: foundModel.content.unit, // attribute unit if any
@@ -198,8 +197,6 @@ export class UserModuleContainer extends React.Component {
     const { graphDatasetAttributes } = this.state
     return (
       <React.Fragment>
-        { /* Description handling */}
-        <DescriptionContainer />
         <SearchGraph
           graphDatasetAttributes={graphDatasetAttributes}
           presentationState={presentationState}

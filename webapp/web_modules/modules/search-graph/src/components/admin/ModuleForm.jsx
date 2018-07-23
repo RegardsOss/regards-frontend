@@ -98,8 +98,8 @@ class ModuleForm extends React.Component {
             hintMessageKey="search.graph.configuration.dataset.attributes.hint"
             attributesConf={get()}
             allowAttributesRegroupements={false}
-            allowLabel={false}
             attributesFilter={DamDomain.AttributeModelController.isSearchableAttribute}
+            allowLabel
           />
         </Tab>
         <Tab label={formatMessage({ id: 'search.graph.results.tab' })}>

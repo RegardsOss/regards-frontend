@@ -37,9 +37,10 @@ class GalleryItemComponent extends React.PureComponent {
     gridWidth: PropTypes.number,
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
     attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired,
+    isDescAvailableFor: PropTypes.func.isRequired,
     onAddElementToCart: PropTypes.func, // callback to add element to cart, null when disabled
     enableDownload: PropTypes.bool,
-    onShowQuicklook: PropTypes.func,
+    onShowDescription: PropTypes.func.isRequired,
     // auth info
     accessToken: PropTypes.string,
     projectName: PropTypes.string.isRequired,
@@ -120,12 +121,21 @@ class GalleryItemComponent extends React.PureComponent {
     }
   }
 
+  /**
+   * User callback: show description request
+   */
+  onShowDescription = () => {
+    const { entity, onShowDescription } = this.props
+    onShowDescription(entity)
+  }
+
   renderImage(hasImage, hasIssueWithImage) {
     const {
       attributesRenderData, iconStyle, imageStyle, imageAndOptionsContainer, imageContainer,
     } = this.state
     const {
-      entity, attributePresentationModels, onAddElementToCart, enableDownload, onShowQuicklook, accessToken, projectName,
+      entity, attributePresentationModels, accessToken, projectName, isDescAvailableFor,
+      onAddElementToCart, enableDownload, onShowDescription,
     } = this.props
     const { descriptionContainer } = this.context.moduleTheme.user.galleryViewStyles
 
@@ -141,7 +151,7 @@ class GalleryItemComponent extends React.PureComponent {
           src={URLAuthInjector(entity.content.files.QUICKLOOK_SD[0].uri, accessToken, projectName)}
           alt=""
           style={imageStyle}
-          onClick={onShowQuicklook}
+          onClick={isDescAvailableFor(entity.content.entityType) ? this.onShowDescription : null}
         />)
       imageContainerStyle = imageContainer
     }
@@ -166,6 +176,7 @@ class GalleryItemComponent extends React.PureComponent {
             servicesEnabled
             entitySelected={false}
             displayLabel={false}
+            isDescAvailableFor={isDescAvailableFor}
             displayVertically
             // auth info
             accessToken={accessToken}
@@ -174,6 +185,7 @@ class GalleryItemComponent extends React.PureComponent {
             onSelectEntity={() => { }}
             onSearchEntity={null}
             onAddToCart={onAddElementToCart}
+            onShowDescription={onShowDescription}
           />
         </div>
       </div>,

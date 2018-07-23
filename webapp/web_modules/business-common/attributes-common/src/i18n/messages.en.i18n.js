@@ -40,8 +40,6 @@ const messages = {
   'attributes.configuration.attributes.column': 'Attribute(s)',
   'attributes.configuration.edit.option.tooltip': 'Edit item',
   'attributes.configuration.delete.option.tooltip': 'Delete item',
-  'attribute.configuration.new.item.en.label': 'Column {itemNumber}',
-  'attribute.configuration.new.item.fr.label': 'Colonne {itemNumber}',
   'attribute.configuration.new.item.title': 'Add new item',
   'attribute.configuration.edit.item.title': 'Edit item',
   'attribute.configuration.cancel.edition': 'Cancel',
@@ -68,7 +66,7 @@ const messages = {
     other {# attributes}
   } defined`,
   'attribute.configuration.selected.attributes.table.attribute.column': 'Attribute',
-  'attribute.configuration.selected.attributes.no.data': 'Add here attributes from the available attributes table on the left',
+  'attribute.configuration.selected.attributes.no.data': 'Add here attributes from the available attributes table on the left. When adding more than one attribute, that element will be displayed as a group',
   'attribute.configuration.selected.attributes.error': 'No attribute defined',
 }
 

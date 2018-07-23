@@ -60,6 +60,8 @@ describe('[Search Results] Testing GalleryItemComponent', () => {
       columnWidth: 600,
       projectName: 'project1',
       accessToken: 'abcdef....',
+      isDescAvailableFor: () => true,
+      onShowDescription: () => { },
     }
     const enzymeWrapper = shallow(<GalleryItemComponent name {...props} />, { context })
     expect(enzymeWrapper.find(GalleryParametersComponent)).to.have.length(1)

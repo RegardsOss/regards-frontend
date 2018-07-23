@@ -18,6 +18,10 @@
  **/
 
 import { Entity, EntityList, entityFiles } from './Entity/Entity'
+import {
+  BooleanFacet, BooleanFacetValue, DateRangeFacet, DateRangeFacetValue,
+  NumberRangeFacet, NumberRangeFacetValue, StringFacet, StringFacetValue, Facet, FacetArray,
+} from './Facets'
 import Tag from './Entity/Tag'
 
 import { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'
@@ -32,6 +36,17 @@ module.exports = {
 
   LinkPluginDataset,
   LinkPluginDatasetList,
+
+  BooleanFacet,
+  BooleanFacetValue,
+  DateRangeFacet,
+  DateRangeFacetValue,
+  NumberRangeFacet,
+  NumberRangeFacetValue,
+  StringFacet,
+  StringFacetValue,
+  Facet,
+  FacetArray,
 
   ...SearchEngineConfiguration,
 }

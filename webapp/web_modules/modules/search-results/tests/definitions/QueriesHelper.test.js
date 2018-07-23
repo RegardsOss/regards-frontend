@@ -32,7 +32,7 @@ describe('[Search Results] Testing QueriesHelper', () => {
   it('Should display correctly the url search with open search query', () => {
     const openSearchQuery = QueriesHelper.getOpenSearchQuery(
       'meta:false', // root query
-      [{ openSearchQuery: 'anyBlblblbl' }], // facettes selected
+      [{ value: { openSearchQuery: 'anyBlblblbl' } }], // selected facets
       [QueriesHelper.getDatasetIpIdParameter('mimi-c-mati')],
     ) // other parameters
     assert.equal(openSearchQuery.toQueryString(), 'meta:false AND anyBlblblbl AND tags:"mimi-c-mati"', 'Open search query should be correctly generated')

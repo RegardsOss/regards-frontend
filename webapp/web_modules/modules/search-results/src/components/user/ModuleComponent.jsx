@@ -24,7 +24,6 @@ import { DynamicModulePane } from '@regardsoss/components'
 import { dependencies } from '../../user-dependencies'
 import ModuleConfiguration from '../../models/ModuleConfiguration'
 import SearchResultsContainer from '../../containers/user/results/SearchResultsContainer'
-import DescriptionContainer from '../../containers/user/DescriptionContainer'
 import FeedbackDisplayContainer from '../../containers/user/feedback/FeedbackDisplayContainer'
 import NavigationContainer from '../../containers/user/navigation/NavigationContainer'
 
@@ -120,8 +119,6 @@ class ModuleComponent extends React.Component {
         </DynamicModulePane >
         {/* Feedback handling for long actions in module */}
         <FeedbackDisplayContainer />
-        { /* Description handling */}
-        <DescriptionContainer />
       </div>
     )
   }

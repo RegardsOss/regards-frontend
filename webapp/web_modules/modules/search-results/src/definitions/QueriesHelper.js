@@ -32,18 +32,17 @@ function getDatasetIpIdParameter(datasetIpId) {
 
 /**
  * Returns open search query
- * @param rootSearchQuery root search query (optional)
- * @param facetFilters [{openSearchQuery}] facet filters, to be applied on result (optional)
- * @param otherParameters other query parameters (optional)
+ * @param {string} rootSearchQuery root search query (optional)
+ * @param {[UISelectedFacets]} appliedFacetValues  selected facets, to be applied on result (optional)
+ * @param [OpenSearchParameters] otherParameters other query parameters (optional)
  * @returns open search query
  */
-function getOpenSearchQuery(rootSearchQuery, facettesFilters = [], otherParameters = []) {
+function getOpenSearchQuery(rootSearchQuery, appliedFacetValues = [], otherParameters = []) {
   // compute all query parameters
   const openSearchParameters = [
-    ...facettesFilters.map(({ openSearchQuery }) => new StaticQueryParameter(openSearchQuery)),
+    ...appliedFacetValues.map(({ value: { openSearchQuery } }) => new StaticQueryParameter(openSearchQuery)),
     ...otherParameters,
   ]
-
   return new OpenSearchQuery(rootSearchQuery, openSearchParameters)
 }
 

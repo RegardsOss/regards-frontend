@@ -46,6 +46,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "@regardsoss-modules/authentication": "file:web_modules/modules/authentication",
+    "@regardsoss-modules/description": "file:web_modules/modules/description",
     "@regardsoss-modules/embedded-html": "file:web_modules/modules/embedded-html",
     "@regardsoss-modules/licenses": "file:web_modules/modules/licenses",
     "@regardsoss-modules/menu": "file:web_modules/modules/menu",

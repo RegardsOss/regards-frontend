@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import omit from 'lodash/omit'
 import IconButton from 'material-ui/IconButton'
 import InfoIcon from 'material-ui/svg-icons/action/info-outline'
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
@@ -26,6 +28,8 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class EntityDescriptionComponent extends React.Component {
   static propTypes = {
+    // Entity. Note: when used in options column, this is provided by the table cell API
+    entity: AccessShapes.EntityWithServices.isRequired,
     onShowDescription: PropTypes.func.isRequired,
     // other properties are reported to the button
   }
@@ -34,14 +38,25 @@ class EntityDescriptionComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /** Properties that should not be reported to render child button */
+  static NON_REPORTED_PROPS = ['entity', 'rowIndex', 'onShowDescription']
+
+  /**
+   * On show description callback
+   * @param {CatalogEntity} entity entity that was requested by user for description display
+   */
+  onShowDescription = () => {
+    const { entity, onShowDescription } = this.props
+    onShowDescription(entity)
+  }
+
   render() {
-    const { onShowDescription, ...otherProperties } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <IconButton
         title={formatMessage({ id: 'show.description.tooltip' })}
-        onClick={onShowDescription}
-        {...otherProperties}
+        onClick={this.onShowDescription}
+        {...omit(this.props, EntityDescriptionComponent.NON_REPORTED_PROPS)}
       >
         <InfoIcon />
       </IconButton>

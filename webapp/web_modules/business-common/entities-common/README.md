@@ -4,44 +4,15 @@
 
 This module allow to manipulate REGARDS catalog entities.
 
-## Usage
+## Exports
 
 This module exports :
-  - DownloadDescriptionClient
-  - DetailViewContainer
-
-### DownloadDescriptionClient
-
-Client to retrieve information about entities description files.  
-Description files can be markdown or PDF files.
-
-### DetailViewContainer
-
-React component to display a dialog with entity information : 
-  - attributes values
-  - description
-  - tags
-  
-To use this component you have to :
-
-```js
-import {DetailViewContainer} from '@regardsoss/entities-common'
-
-class SampleComponent extends React.Component {
-   
-   render(){
-      return (
-        <DetailViewContainer
-          // Does the dialog is opened ?
-          open={this.state.opened}
-          // Entity to display  
-          entity={entity}
-          // Close dialog compoenent
-          onClose={() => this.setState({opened:false})}
-          // Action callback when click on a entity tag
-          onSearchTag={() => {}}
-        />
-      )
-   }
-}
-```
+ * DescriptionProviderContainer: HOC Helper to connect a component with configured description module (provides callback and functions to check if description is available and to open it)
+ * buildDescriptionModuleConsumerID: Builds the description module consumer ID for centralized redux model
+ * ServiceContainer: Container able to configure and display service runtime
+ * PluginServiceRunModel: Service runtime module
+ * target: service runtime target
+ * BooleanParameterField: boolean field for service admin configuration or runtime
+ * ChoiceParameterField: choice field for service admin configuration or runtime
+ * DateParameterField: date field for service admin configuration or runtime
+ * TextParameterField: text field for service admin configuration or runtime

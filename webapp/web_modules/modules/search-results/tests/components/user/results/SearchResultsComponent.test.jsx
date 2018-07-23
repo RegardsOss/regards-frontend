@@ -46,7 +46,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     displayConf: {},
 
     showingFacettes: true,
-    filters: [],
+    selectedFacets: [],
     resultsCount: 45,
     searchSelectors,
 
@@ -64,9 +64,9 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     selectionServices: [],
     // control
     onChangeColumnsVisibility: () => { },
-    onDeleteFilter: () => { },
     onSetEntityAsTag: () => { },
-    onAddFilter: () => { },
+    onSelectFacet: () => { },
+    onUnselectFacet: () => { },
     onShowDatasets: () => { },
     onShowDataobjects: () => { },
     onShowListView: () => { },
@@ -80,6 +80,9 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     // from OrderCartContainer HOC
     onAddSelectionToCart: null, // callback to add selection to cart, null when disabled
     onAddElementToCart: null, // callback to add element
+
+    onShowDescription: () => { },
+    isDescAvailableFor: () => true,
 
   }
 

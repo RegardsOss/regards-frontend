@@ -17,10 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
+import keys from 'lodash/keys'
+import { formValueSelector } from 'redux-form'
 import FlatButton from 'material-ui/FlatButton'
 import MenuItem from 'material-ui/MenuItem'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
+import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/display-control'
@@ -54,6 +58,11 @@ export class EditItemForm extends React.Component {
     invalid: PropTypes.bool,
     initialize: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
+    // from mapStateToProps (selected in redux form values)
+    editedAttributes: PropTypes.arrayOf(AccessShapes.AttributeConfigurationData),
+    editedSingleAttribute: AccessShapes.AttributeConfigurationData,
+    editedLabel: PropTypes.objectOf(PropTypes.string),
   }
 
   static contextTypes = {
@@ -64,7 +73,7 @@ export class EditItemForm extends React.Component {
   /**
    * Returns label to use for attribute qualified name as parameter.
    * @param {string} qualifiedName attribute qualified name
-   * @param {[*]} attributeModels attribute model
+   * @param {[*]} attributeModels available attributes models (to retrieve label)
    * @return {string} null when attribute was not found, label otherwise
    */
   static getAttributeLabel(qualifiedName, attributeModels) {
@@ -73,6 +82,29 @@ export class EditItemForm extends React.Component {
     return foundAttribute ? DamDomain.AttributeModelController.getAttributeModelFullLabel(foundAttribute) : null
   }
 
+  /**
+   * Builds automatic label for a multiple attributes edition
+   * @param {[*]} editedAtrributes edited attribtues as an array of AttributeConfigurationData
+   * @param {[*]} attributeModels available attributes models (to retrieve label)
+   */
+  static buildAutoLabelForMultipleAttr(editedAtrributes = [], attributeModels) {
+    return editedAtrributes ?
+      editedAtrributes.map(({ name }) => EditItemForm.getAttributeLabel(name, attributeModels)).join(', ') : ''
+  }
+
+  /**
+   * Builds automatic label for a multiple attributes edition
+   * @param {*} singleEditedAttribute edited attribtues as an array of AttributeConfigurationData
+   * @param {[*]} attributeModels available attributes models (to retrieve label)
+   */
+  static buildAutoLabelForSingleAttr(singleEditedAttribute, attributeModels) {
+    const qualifiedName = get(singleEditedAttribute, 'name')
+    return qualifiedName ? EditItemForm.getAttributeLabel(qualifiedName, attributeModels) : ''
+  }
+
+  /**
+   * Lifecycle method: component will mount. Used here to initialize form values
+   */
   componentWillMount() {
     // 1 - setup item to edit in form (when mounting, it is necessary available)
     const { initialize, editionData: { attributesList, editedElementIndex } } = this.props
@@ -86,6 +118,41 @@ export class EditItemForm extends React.Component {
     }
     initialize(initialValues)
   }
+
+  /**
+   * Lifecycle method: component will receive props. Used here to update labels when they are undefined
+   */
+  componentWillReceiveProps = (nextProps) => {
+    // check if labels should be updated: while user did not modify them, we auto update them here
+    if (nextProps.allowLabel) {
+      if (!isEqual(this.props.editedAttributes, nextProps.editedAttributes) ||
+        !isEqual(this.props.editedSingleAttribute, nextProps.editedSingleAttribute)
+      ) {
+        const oldAutoLabel = nextProps.allowAttributesRegroupements ?
+          EditItemForm.buildAutoLabelForMultipleAttr(this.props.editedAttributes, nextProps.attributeModels) :
+          EditItemForm.buildAutoLabelForSingleAttr(this.props.editedSingleAttribute, nextProps.attributeModels)
+        const nextAutoLabel = nextProps.allowAttributesRegroupements ?
+          EditItemForm.buildAutoLabelForMultipleAttr(nextProps.editedAttributes, nextProps.attributeModels) :
+          EditItemForm.buildAutoLabelForSingleAttr(nextProps.editedSingleAttribute, nextProps.attributeModels)
+        const allLangugageKeys = keys(nextProps.editedLabel)
+
+        // update each label that was not edited
+        const updatedWithAutoLabel = allLangugageKeys.reduce((acc, key) => {
+          const editedLanguageLabel = nextProps.editedLabel[key]
+          return {
+            ...acc,
+            [key]: editedLanguageLabel === oldAutoLabel ? nextAutoLabel : editedLanguageLabel,
+          }
+        }, {})
+
+        if (!isEqual(nextProps.editedLabel, updatedWithAutoLabel)) {
+          // there are some auto label to update
+          nextProps.change('label', updatedWithAutoLabel)
+        }
+      }
+    }
+  }
+
 
   /**
    * On submit: modify edited form values to provide attributes list as expected for
@@ -151,28 +218,29 @@ export class EditItemForm extends React.Component {
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit)} style={editDialog.formStyle}>
-        {/* 1.a labels */}
-        <ShowableAtRender show={allowLabel}>
-          <Field
-            name="label.en"
-            label={formatMessage({ id: 'attribute.configuration.label.en.field' })}
-            fullWidth
-            component={RenderTextField}
-            type="text"
-            validate={ValidationHelpers.required}
-          />
-        </ShowableAtRender>
-        <ShowableAtRender show={allowLabel}>
-          <Field
-            name="label.fr"
-            label={formatMessage({ id: 'attribute.configuration.label.fr.field' })}
-            fullWidth
-            component={RenderTextField}
-            type="text"
-            validate={ValidationHelpers.required}
-          />
-        </ShowableAtRender>
-        {/* 1.b position in columns list */}
+        { /** 1 - Attribute selector: when groups are allowed use attributes in a field array form property,
+              use singleAttribute formValue otherwise  */
+          allowAttributesRegroupements ? (
+            <FieldArray // multiple elements field
+              name="attributes"
+              component={MultipleAttributesFieldRender}
+              allowMultiselection={allowAttributesRegroupements}
+              attributeModels={attributeModels}
+              validate={this.validateMultipleAttributesField}
+              label={formatMessage({ id: 'attribute.configuration.multiple.attribute.field' })}
+            />) : (
+              <Field // single element field
+                key="field"
+                name="singleAttribute.name"
+                component={SingleAttributeFieldRender}
+                attributeModels={attributeModels}
+                format={this.formatSingleAttributeValue}
+                validate={this.validateSingleAttributeNameField}
+                label={formatMessage({ id: 'attribute.configuration.single.attribute.field' })}
+                fullWidth
+              />)
+        }
+        {/* 2 position in columns list */}
         <Field
           name="order"
           component={RenderSelectField}
@@ -199,41 +267,40 @@ export class EditItemForm extends React.Component {
                         label: allowLabel ?
                           attribute.label[locale] :
                           // when label is not edited, use first attribute as label (the groups should normally be forbidden)
-                          EditItemForm.getAttributeLabel(attribute.attributes[0], attributeModels),
+                          EditItemForm.getAttributeLabel(attribute.attributes[0].name, attributeModels),
                         // after element position, in a table range from 1 to N
                         index: editedElementIndex < index ? index + 1 : index + 2,
                       })}
                   />)),
           ]}
         </Field>
-        { /** Field: when groups are allowed use attributes in a field array form property,
-              use singleAttribute formValue otherwise  */
-          allowAttributesRegroupements ? (
-            <FieldArray
-              name="attributes"
-              component={MultipleAttributesFieldRender}
-              allowMultiselection={allowAttributesRegroupements}
-              attributeModels={attributeModels}
-              validate={this.validateMultipleAttributesField}
-              label={formatMessage({ id: 'attribute.configuration.multiple.attribute.field' })}
-            />) : (
-              <React.Fragment>
-                {/* 1. name field */}
-                <Field // single element field
-                  key="field"
-                  name="singleAttribute.name"
-                  component={SingleAttributeFieldRender}
-                  attributeModels={attributeModels}
-                  format={this.formatSingleAttributeValue}
-                  validate={this.validateSingleAttributeNameField}
-                  label={formatMessage({ id: 'attribute.configuration.single.attribute.field' })}
-                  fullWidth
-                />
-                {/* 2. space consumer to bottom */}
-                <div key="space.consumer" style={editDialog.spaceConsumerStyle} />
-              </React.Fragment>)
+        {/* 3 labels */}
+        <ShowableAtRender show={allowLabel}>
+          <Field
+            name="label.en"
+            label={formatMessage({ id: 'attribute.configuration.label.en.field' })}
+            fullWidth
+            component={RenderTextField}
+            type="text"
+            validate={ValidationHelpers.required}
+          />
+        </ShowableAtRender>
+        <ShowableAtRender show={allowLabel}>
+          <Field
+            name="label.fr"
+            label={formatMessage({ id: 'attribute.configuration.label.fr.field' })}
+            fullWidth
+            component={RenderTextField}
+            type="text"
+            validate={ValidationHelpers.required}
+          />
+        </ShowableAtRender>
+        {/* 4. Space consumer when regroupements are forbidden (otherwise, the table uses vertical space) */
+          allowAttributesRegroupements ? null : (
+            <div key="space.consumer" style={editDialog.spaceConsumerStyle} />
+          )
         }
-        {/* 2. form actions */}
+        {/* 5. form actions */}
         <div style={editDialog.actionsStyle}>
           <FlatButton
             label={formatMessage({ id: 'attribute.configuration.cancel.edition' })}
@@ -249,4 +316,19 @@ export class EditItemForm extends React.Component {
     )
   }
 }
-export default reduxForm({ form: 'edit-attribute-list-item-form' })(EditItemForm)
+
+const formID = 'edit-attribute-list-item-form'
+const formValuesSelector = formValueSelector(formID)
+
+/**
+ * Selects currently edited attributes
+ */
+function selectedEditedAttributes(state) {
+  return {
+    editedAttributes: formValuesSelector(state, 'attributes'),
+    editedSingleAttribute: formValuesSelector(state, 'singleAttribute'),
+    editedLabel: formValuesSelector(state, 'label'),
+  }
+}
+
+export default connect(selectedEditedAttributes)(reduxForm({ form: formID })(EditItemForm))

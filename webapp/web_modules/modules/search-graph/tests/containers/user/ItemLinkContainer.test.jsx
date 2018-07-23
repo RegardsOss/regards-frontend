@@ -18,6 +18,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { DescriptionProviderContainer } from '@regardsoss/entities-common'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import ItemLink from '../../../src/components/user/ItemLink'
 import { ItemLinkContainer } from '../../../src/containers/user/ItemLinkContainer'
@@ -40,18 +41,21 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
       onSelect: () => { },
       locked: false,
       selected: false,
-      dispatchShowDescription: () => { },
+      dispatchSetSearchTag: () => { },
     }
     const enzymeWrapper = shallow(<ItemLinkContainer {...props} />, { context })
     const itemLink = enzymeWrapper.find(ItemLink)
     assert.lengthOf(itemLink, 1, 'The corresponding component should be rendered')
     testSuiteHelpers.assertWrapperProperties(itemLink, {
-      text: props.entity.content.label,
+      entity: props.entity,
       Icon: props.Icon,
       additiveLineComponent: props.additiveLineComponent,
       // also verify the link shares parent container state
       displayState: enzymeWrapper.state('displayState'),
     })
+    // also check description HOC was rendered
+    const descriptionHOCWrapper = enzymeWrapper.find(DescriptionProviderContainer)
+    assert.lengthOf(descriptionHOCWrapper, 1, 'Description HOC should be rendered')
   })
   it('should manage display state when not locked and not selected, and provide it to child link component and to listeners', () => {
     let lastNotifiedState = null
@@ -62,7 +66,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
       onSelect: () => { },
       locked: false,
       selected: false,
-      dispatchShowDescription: () => { },
+      dispatchSetSearchTag: () => { },
       onStateChange: (newState) => {
         lastNotifiedState = newState
       },
@@ -100,7 +104,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
       onSelect: () => { },
       locked: false,
       selected: true,
-      dispatchShowDescription: () => { },
+      dispatchSetSearchTag: () => { },
       onStateChange: (newState) => {
         lastNotifiedState = newState
       },
@@ -138,7 +142,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
       onSelect: () => { },
       locked: true,
       selected: false,
-      dispatchShowDescription: () => { },
+      dispatchSetSearchTag: () => { },
       onStateChange: (newState) => {
         lastNotifiedState = newState
       },
@@ -172,7 +176,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
       onSelect: () => { },
       locked: false,
       selected: false,
-      dispatchShowDescription: () => { },
+      dispatchSetSearchTag: () => { },
       onStateChange: (newState) => {
         callCount += 1
       },

@@ -27,7 +27,7 @@ import { DISPLAY_MODE_VALUES } from '../definitions/DisplayModeEnum'
 const AdminModuleConf = PropTypes.shape({
   // Default display mode
   initialDisplayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
-  // Special configuration given if the module is not load as a independent module
+  // Special configuration given if the module is not loaded as a independent module
   selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
   // For modules that only displays DataObjects (never Dataset or Documents) - used by AdminForm
   preventAdminToPickDocumentView: PropTypes.bool,

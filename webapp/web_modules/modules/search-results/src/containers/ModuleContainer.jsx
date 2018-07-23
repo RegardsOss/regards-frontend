@@ -28,7 +28,6 @@ import ModuleComponent from '../components/user/ModuleComponent'
 import { TableDisplayModeEnum } from '../models/navigation/TableDisplayModeEnum'
 import { DISPLAY_MODE_ENUM } from '../definitions/DisplayModeEnum'
 
-
 /**
  * Main container to display module form.
  * @author Sébastien binda

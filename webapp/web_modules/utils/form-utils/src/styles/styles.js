@@ -23,6 +23,25 @@
 */
 export default function styles(theme) {
   return {
+    /** Form presentation */
+    formContainer: {
+      class: 'container-fluid',
+    },
+    formRow: {
+      class: 'row',
+    },
+    // fields group
+    fieldsGroup: {
+      defaultClass: 'col-xs-100 col-md-48',
+      fullWidthClass: 'col-xs-100',
+      defaultStyle: {
+        marginBottom: 10,
+        marginRight: 20,
+      },
+      clearSpaceToChildrenStyle: {
+        marginTop: -15, // this is used to clear some of the MUI space on top of text fields
+      },
+    },
     // json editor field
     jsonFieldStyles: {
       containerStyle: {

@@ -114,9 +114,11 @@ export class ListViewEntityCellContainer extends React.Component {
     selectionEnabled: PropTypes.bool,
     servicesEnabled: PropTypes.bool.isRequired,
     enableDownload: PropTypes.bool.isRequired,
-    // Callback
+    isDescAvailableFor: PropTypes.func.isRequired,
+    // Callbacks
     onSearchEntity: PropTypes.func,
     onAddToCart: PropTypes.func,
+    onShowDescription: PropTypes.func.isRequired,
     // auth info
     accessToken: PropTypes.string,
     projectName: PropTypes.string.isRequired,
@@ -155,7 +157,7 @@ export class ListViewEntityCellContainer extends React.Component {
   render() {
     const {
       entity, enableDownload, thumbnailRenderData, gridAttributesRenderData, selectionEnabled,
-      servicesEnabled, onAddToCart, onSelectEntity, accessToken, projectName,
+      servicesEnabled, accessToken, projectName, isDescAvailableFor, onAddToCart, onSelectEntity, onShowDescription,
     } = this.props
     return (
       <ListViewEntityCellComponent
@@ -163,12 +165,14 @@ export class ListViewEntityCellContainer extends React.Component {
         enableDownload={enableDownload}
         thumbnailRenderData={thumbnailRenderData}
         gridAttributesRenderData={gridAttributesRenderData}
+        isDescAvailableFor={isDescAvailableFor}
         selectionEnabled={selectionEnabled}
         servicesEnabled={servicesEnabled}
         entitySelected={this.isSelectedRow()}
         onSelectEntity={onSelectEntity}
         onSearchEntity={this.getSearchEntityCallback()}
         onAddToCart={onAddToCart}
+        onShowDescription={onShowDescription}
         accessToken={accessToken}
         projectName={projectName}
       />

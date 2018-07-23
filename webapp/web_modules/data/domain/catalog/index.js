@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import { FACET_TYPES, FACET_TYPES_ENUM } from './FacetType'
 import { isURNTag, TagTypes } from './Tags'
 import Geometry from './geo/Geometry'
 import StaticQueryParameter from './query/common/StaticQueryParameter'
@@ -27,6 +28,8 @@ import URLSearchQueryParameter from './query/url/URLSearchQueryParameter'
 import PluginTypeEnum from './PluginTypeEnum'
 
 module.exports = {
+  FACET_TYPES,
+  FACET_TYPES_ENUM,
   Geometry,
   isURNTag,
   TagTypes,

@@ -16,6 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import FieldsGroup from './display/FieldsGroup'
+import FormPresentation from './display/FormPresentation'
+import FormRow from './display/FormRow'
 import RenderTextField from './render/RenderTextField'
 import RenderArrayTextField from './render/RenderArrayTextField'
 import RenderArrayObjectField from './render/RenderArrayObjectField'
@@ -45,6 +48,9 @@ import RenderPageableAutoCompleteField from './render/RenderPageableAutoComplete
 import RenderHelper from './render/RenderHelper'
 
 module.exports = {
+  FieldsGroup,
+  FormPresentation,
+  FormRow,
   RenderAutoCompleteField,
   RenderPageableAutoCompleteField,
   RenderTextField,

@@ -23,23 +23,6 @@
  */
 const styles = theme => ({
   configuration: {
-    formContainer: {
-      class: 'container-fluid',
-    },
-    formRow: {
-      class: 'row',
-    },
-    formGroup: {
-      defaultClass: 'col-xs-100 col-md-48',
-      fullWidthClass: 'col-xs-100',
-      defaultStyle: {
-        marginBottom: 10,
-        marginRight: 20,
-      },
-      clearSpaceToChildrenStyle: {
-        marginTop: -15, // this is used to clear some of the MUI space on top of text fields
-      },
-    },
     viewTabsContainer: {
       style: {
         paddingTop: 20,
