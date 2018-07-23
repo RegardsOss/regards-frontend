@@ -303,7 +303,7 @@ export class PluginServicesContainer extends React.Component {
     const { dispatchCloseService, serviceRunModel } = this.props
     const { children } = this.state
     return (
-      <div >
+      <React.Fragment>
         <ServiceContainer
           serviceRunModel={serviceRunModel} // running service display
           onQuit={dispatchCloseService}
@@ -311,7 +311,7 @@ export class PluginServicesContainer extends React.Component {
         { // render the children list (from pre rendered elements, see on properties changed)
           HOCUtils.renderChildren(children)
         }
-      </div >
+      </React.Fragment>
     )
   }
 }

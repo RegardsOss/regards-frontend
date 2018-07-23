@@ -22,6 +22,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DynamicModulePane } from '@regardsoss/components'
 import { Measure, ScrollArea } from '@regardsoss/adapters'
+import { UIDomain } from '@regardsoss/domain'
 import { dependencies } from '../../user-dependencies'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
@@ -37,6 +38,7 @@ class SearchGraph extends React.Component {
     ...AccessShapes.runtimeDispayModuleFields,
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
+    presentationState: PropTypes.oneOf(UIDomain.PRESENTATION_STATE).isRequired,
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
   }
 
@@ -75,8 +77,8 @@ class SearchGraph extends React.Component {
 
   render() {
     const {
-      moduleConf, expanded, graphDatasetAttributes,
-      ...moduleProps
+      moduleConf, graphDatasetAttributes,
+      presentationState, ...moduleProps
     } = this.props
     const { viewportStyles } = this.state
     const { moduleTheme: { user } } = this.context
@@ -88,21 +90,25 @@ class SearchGraph extends React.Component {
         graphDatasetAttributes={graphDatasetAttributes}
       />]
 
+
     const graphLevels = get(moduleConf, 'graphLevels', [])
 
     return (
       <DynamicModulePane
         {...moduleProps}
         moduleConf={moduleConf}
-        expanded={expanded}
         options={headerOptionsComponents}
         requiredDependencies={dependencies}
+        mainModule={false}
       >
         { /* Graph horizontal scroll area, holding columns */}
         <ScrollArea
           horizontal
-          vertical={false}
+          vertical
           smoothScrolling
+          style={presentationState === UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED ?
+            user.scrollArea.fullscreenStyles :
+            user.scrollArea.defaultStyles} // limit height in normal and fullscreen modes
           contentStyle={viewportStyles}
           ref={(scrollArea) => { this.scrollArea = scrollArea }}
         >

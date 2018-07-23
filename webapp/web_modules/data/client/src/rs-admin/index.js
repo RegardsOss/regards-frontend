@@ -32,6 +32,10 @@ import ProjectConnectionTestActions from './projectConnection/ProjectConnectionT
 import ProjectConnectionTestReducers from './projectConnection/ProjectConnectionTestReducers'
 import ProjectConnectionTestSelectors from './projectConnection/ProjectConnectionTestSelectors'
 
+import ProjectUserSettingsActions from './user/ProjectUserSettingsActions'
+import getProjectUserSettingsReducer from './user/ProjectUserSettingsReducer'
+import getProjectUserSettingsSelectors from './user/ProjectUserSettingsSelectors'
+
 import ResourceActions from './resource/ResourceActions'
 import ResourceReducers from './resource/ResourceReducers'
 import ResourceSelectors from './resource/ResourceSelectors'
@@ -125,6 +129,10 @@ module.exports = {
   ProjectConnectionTestActions,
   ProjectConnectionTestReducers,
   ProjectConnectionTestSelectors,
+
+  ProjectUserSettingsActions,
+  getProjectUserSettingsReducer,
+  getProjectUserSettingsSelectors,
 
   ResourceActions,
   ResourceReducers,

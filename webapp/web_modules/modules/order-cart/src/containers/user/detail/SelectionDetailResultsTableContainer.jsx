@@ -41,7 +41,6 @@ export class SelectionDetailResultsTableContainer extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     openSearchRequest: PropTypes.string, // used in onPropertiesChanged
-    availableHeight: PropTypes.number.isRequired,
     // from mapStateToProps
     resultsCount: PropTypes.number.isRequired,
     isFetching: PropTypes.bool.isRequired,
@@ -71,7 +70,7 @@ export class SelectionDetailResultsTableContainer extends React.Component {
   }
 
   render() {
-    const { resultsCount, isFetching, availableHeight } = this.props
+    const { resultsCount, isFetching } = this.props
     const { pathParams } = this.state
     return (
       <SelectionDetailResultsTableComponent
@@ -80,7 +79,6 @@ export class SelectionDetailResultsTableContainer extends React.Component {
         pathParams={pathParams}
         resultsCount={resultsCount}
         isFetching={isFetching}
-        availableHeight={availableHeight}
       />
     )
   }

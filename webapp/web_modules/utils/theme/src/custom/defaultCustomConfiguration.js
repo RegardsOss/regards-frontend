@@ -36,11 +36,13 @@ module.exports = baseTheme => ({
     editorACE: {
       theme: 'monokai',
     },
+    scrollArea: {
+      scrollingSidePadding: 15,
+    },
     infiniteTable: {
       lineHeight: 50,
       fixedColumnsWidth: baseTheme.button.iconButtonSize, // best fit for default IconButton size
-      minRowCount: 13,
-      maxRowCount: 13,
+      minColumnsWidth: 200,
       minHeaderRowHeight: 40,
       multipleValuesSeparatorMargin: '0 10px',
       multipleValuesSeparatorHeight: 14,
@@ -50,6 +52,11 @@ module.exports = baseTheme => ({
         fontSize: '10px',
         fontWeight: 'bold',
       },
+      admin: {
+        minRowCount: 2,
+        maxRowCount: 10,
+      },
+      fixedContentMarginBottom: 5,
     },
   },
   formsExtensions: {
@@ -83,6 +90,27 @@ module.exports = baseTheme => ({
       titleFontWeight: 500,
       titleTextTransform: undefined,
       subtitleMarginTop: -4,
+      layoutOptionSize: 24,
+      layoutOptionPadding: 3,
+      layoutIconSize: 18,
+      minContentHeight: 200,
+    },
+    // description module
+    description: {
+      thumbnail: {
+        maxSize: 128,
+        margin: '1em 0 0.4em 20px',
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: baseTheme.palette.textColor,
+      },
+      attributeGroupTitlePadding: '1em 0 0.4em 0',
+      attributeGroupTitleColor: baseTheme.palette.accent1Color,
+      attributeGroupTitlePlaceholderPadding: '1em 0 0.4em 0',
+      attributeLabelPadding: '0.4em 20px 0.4em 0',
+      attributeLabelTextDecoration: 'underline',
+      attributeValuesPadding: '0.4em 20px 0.4em 0',
+      attributeValuesTextDecoration: 'none',
     },
     // menu module
     menu: {
@@ -126,8 +154,6 @@ module.exports = baseTheme => ({
     },
     // search results module
     searchResults: {
-      minListRowCount: 4,
-      maxListRowCount: 4,
       listLineHeight: 160,
       listRowsByColumnCount: 4,
     },

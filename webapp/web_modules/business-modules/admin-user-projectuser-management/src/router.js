@@ -53,6 +53,17 @@ export const editProjectUserRoute = {
     })
   },
 }
+export const settingsProjectUserRoute = {
+  path: 'settings',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const ProjectUserSettingsFormContainer = require('./containers/ProjectUserSettingsFormContainer')
+      cb(null, {
+        content: ProjectUserSettingsFormContainer.default,
+      })
+    })
+  },
+}
 
 
 const projectUserManagementRouter = {
@@ -60,6 +71,7 @@ const projectUserManagementRouter = {
     listProjectUserRoute,
     createProjectUserRoute,
     editProjectUserRoute,
+    settingsProjectUserRoute,
   ],
 }
 

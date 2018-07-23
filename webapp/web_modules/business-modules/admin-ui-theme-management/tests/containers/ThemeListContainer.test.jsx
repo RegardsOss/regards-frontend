@@ -46,6 +46,7 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeListContainer', () => {
       backUrl,
       createUrl: backUrl,
       handleEdit: testSuiteHelpers.getSuccessDispatchStub(),
+      handleDuplicate: testSuiteHelpers.getSuccessDispatchStub(),
       fetchThemeList: testSuiteHelpers.getSuccessDispatchStub(),
       deleteTheme: testSuiteHelpers.getSuccessDispatchStub(),
     }

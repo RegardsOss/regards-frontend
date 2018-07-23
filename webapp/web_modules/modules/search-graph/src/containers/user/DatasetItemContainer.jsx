@@ -17,14 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
-import { AttributeModelController } from '@regardsoss/domain/dam'
 import { TagTypes } from '@regardsoss/domain/catalog'
+import { AttributeModelController } from '@regardsoss/domain/dam'
 import { CatalogShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
 import GraphContextActions from '../../model/graph/GraphContextActions'
 import GraphContextSelectors from '../../model/graph/GraphContextSelectors'
 import DatasetItem from '../../components/user/DatasetItem'
+
 /** must be present in dataset links for it to be unlocked */
 const accesGrantedRel = 'dataobjects'
 

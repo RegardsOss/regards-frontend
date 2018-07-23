@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
+import ThemeListClientDump from '@regardsoss/client/tests/rs-access-project/ThemeList.dump'
 import UIPluginConfigurationClientDump from '@regardsoss/client/tests/rs-access-project/UIPluginConfiguration.dump'
 import UIPluginDefinitionClientDump from '@regardsoss/client/tests/rs-access-project/UIPluginDefinition.dump'
 import LinkUIPluginDatasetDump from '@regardsoss/client/tests/rs-access-project/LinkUIPluginDataset.dump'
@@ -29,6 +30,7 @@ import ConnectionTableDump from '@regardsoss/client/tests/rs-dam/ConnectionTable
 import ConnectionTableAttributeDump from '@regardsoss/client/tests/rs-dam/ConnectionTableAttribute.dump'
 import DatasourceDump from '@regardsoss/client/tests/rs-dam/Datasource.dump'
 import LinkPluginDatasetDump from '@regardsoss/client/tests/rs-catalog/LinkPluginDataset.dump'
+import SearchEngineConfigurationDump from '@regardsoss/client/tests/rs-catalog/SearchEngineConfiguration.dump'
 import DatasetDump from '@regardsoss/client/tests/rs-dam/Dataset.dump'
 import PluginConfigurationDump from '@regardsoss/client/tests/rs-common/PluginConfiguration.dump'
 import CollectionDump from '@regardsoss/client/tests/rs-dam/Collection.dump'
@@ -113,6 +115,9 @@ import {
   LINK_PLUGIN_DATASET_ARRAY,
   LinkPluginDatasetConfiguration,
 
+  SEARCH_ENGINE_ARRAY,
+  SearchEngineConfiguration,
+
   PLUGIN_CONFIGURATION_ARRAY,
   AdminPluginConfigurationSchemaConfiguration,
 
@@ -146,6 +151,9 @@ import {
   STORAGE_MONITORING_ARRAY,
   StorageMonitoringConfiguration,
 
+  THEME_ARRAY,
+  ThemeConfiguration,
+
 } from '@regardsoss/api'
 
 /**
@@ -171,6 +179,12 @@ module.exports = {
     },
   },
   AccessProjectClient: {
+    Themes: {
+      isPageable: true,
+      dump: ThemeListClientDump,
+      ENTITY_ARRAY: THEME_ARRAY,
+      normalizrKey: ThemeConfiguration.normalizrKey,
+    },
     UIPluginConfiguration: {
       isPageable: true,
       dump: UIPluginConfigurationClientDump,
@@ -354,6 +368,12 @@ module.exports = {
       dump: LinkPluginDatasetDump,
       ENTITY_ARRAY: LINK_UI_PLUGIN_DATASET_ARRAY,
       normalizrKey: LinkUIPluginDatasetConfiguration.normalizrKey,
+    },
+    SearchEngineConfiguration: {
+      isPageable: true,
+      dump: SearchEngineConfigurationDump,
+      ENTITY_ARRAY: SEARCH_ENGINE_ARRAY,
+      normalizrKey: SearchEngineConfiguration.normalizrKey,
     },
   },
   DataProviderClient: {

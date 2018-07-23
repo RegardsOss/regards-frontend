@@ -18,6 +18,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DynamicModulePane } from '@regardsoss/components'
 import SearchGraph from '../../../src/components/user/SearchGraph'
@@ -32,33 +33,25 @@ describe('[Search Graph] Testing SearchGraph', () => {
   it('should exists', () => {
     assert.isDefined(SearchGraph)
   })
-  it('should render when module is expanded', () => {
-    const props = {
-      appName: 'x',
-      project: 'y',
-      type: 'any',
-      graphDatasetAttributes: [],
-      expanded: true,
-      moduleConf: {
-        graphLevels: [
 
-        ],
+  UIDomain.PRESENTATION_STATE.forEach(presentationState =>
+    it(`should render corrent in state ${presentationState}`, () => {
+      const props = {
+        appName: 'x',
+        project: 'y',
+        type: 'any',
+        presentationState,
         graphDatasetAttributes: [],
-      },
-    }
-    // check correctly rendered
-    const enzymeWrapper = shallow(<SearchGraph {...props} />, { context })
-    let moduleDisplayer = enzymeWrapper.find(DynamicModulePane)
-    assert.lengthOf(moduleDisplayer, 1, 'There should be a module displayer render')
-    assert.equal(moduleDisplayer.at(0).props().onExpandChange, props.onExpandChange, 'The expand callback should be correctly reported')
-    assert.isTrue(moduleDisplayer.at(0).props().expanded, 'The module content should be visible when expanded')
+        moduleConf: {
+          graphLevels: [
 
-    const nextProps = {
-      ...props,
-      expanded: false,
-    }
-    enzymeWrapper.setProps(nextProps)
-    moduleDisplayer = enzymeWrapper.find(DynamicModulePane)
-    assert.isFalse(moduleDisplayer.at(0).props().expanded, 'The module content should be hidden when collapsed')
-  })
+          ],
+          graphDatasetAttributes: [],
+        },
+      }
+      // check correctly rendered
+      const enzymeWrapper = shallow(<SearchGraph {...props} />, { context })
+      const moduleDisplayer = enzymeWrapper.find(DynamicModulePane)
+      assert.lengthOf(moduleDisplayer, 1, 'There should be a module displayer render')
+    }))
 })

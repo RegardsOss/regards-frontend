@@ -21,6 +21,7 @@ import PluginListContainer from './containers/PluginListContainer'
 import RenderPluginField from './form-utils/RenderPluginField'
 import RenderPluginConfField from './form-utils/RenderPluginConfField'
 import PluginDescriptionCard from './components/PluginDescriptionCard'
+import PluginDescriptionDialog from './components/PluginDescriptionDialog'
 import PluginFormUtils from './tools/PluginFormUtils'
 
 /**
@@ -34,5 +35,6 @@ module.exports = {
   RenderPluginField,
   RenderPluginConfField,
   PluginDescriptionCard,
+  PluginDescriptionDialog,
   PluginFormUtils,
 }

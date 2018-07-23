@@ -27,10 +27,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 */
 class ProductListViewFilesAction extends React.Component {
   static propTypes = {
-    entity: PropTypes.shape({
-      content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
-      links: PropTypes.array,
-    }),
+    entity: DataProviderShapes.Product.isRequired,
     onClick: PropTypes.func.isRequired,
   }
 

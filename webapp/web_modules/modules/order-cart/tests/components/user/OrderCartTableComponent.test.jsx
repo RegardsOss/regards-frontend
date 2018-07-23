@@ -19,7 +19,6 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TreeTableComponent } from '@regardsoss/components'
 import { OrderCartTableComponent } from '../../../src/components/user/OrderCartTableComponent'
 import OrderCartContentSummaryComponent from '../../../src/components/user/OrderCartContentSummaryComponent'
 import styles from '../../../src/styles/styles'
@@ -43,13 +42,11 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
     const props = {
       basket: undefined,
       showDatasets: true,
-      disableOptions: false,
+      isFetching: false,
       onShowDuplicatedMessage: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartTableComponent {...props} />, { context })
-    const treeTableWrapper = enzymeWrapper.find(TreeTableComponent)
-    assert.lengthOf(treeTableWrapper, 1, 'There should be a tree table')
-    assert.equal(treeTableWrapper.props().model, props.basket, 'Model should be correctly reported')
+    // can not test anymore tree table as it is now in scroll area
     const summaryWrapper = enzymeWrapper.find(OrderCartContentSummaryComponent)
     assert.lengthOf(summaryWrapper, 1, 'There should be the summary')
     testSuiteHelpers.assertWrapperProperties(summaryWrapper, {
@@ -61,13 +58,11 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
     const props = {
       basket: mockBasket1,
       showDatasets: true,
-      disableOptions: false,
+      isFetching: false,
       onShowDuplicatedMessage: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartTableComponent {...props} />, { context })
-    const treeTableWrapper = enzymeWrapper.find(TreeTableComponent)
-    assert.lengthOf(treeTableWrapper, 1, 'There should be a tree table')
-    assert.equal(treeTableWrapper.props().model, props.basket, 'Model should be correctly reported')
+    // can not test anymore tree table as it is now in scroll area
     const summaryWrapper = enzymeWrapper.find(OrderCartContentSummaryComponent)
     assert.lengthOf(summaryWrapper, 1, 'There should be the summary')
     testSuiteHelpers.assertWrapperProperties(summaryWrapper, {
@@ -80,7 +75,7 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
     const enzymeWrapper = shallow(
       <OrderCartTableComponent
         showDatasets
-        disableOptions
+        isFetching
         onShowDuplicatedMessage={() => { }}
       />, { context })
 
@@ -93,7 +88,7 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
     const enzymeWrapper = shallow(
       <OrderCartTableComponent
         showDatasets
-        disableOptions
+        isFetching
         onShowDuplicatedMessage={() => { }}
       />, { context })
     const models = [{ label: 'Mock model 1', model: mockBasket1 }, { label: 'Mock model 2', model: mockBasket2 }]
@@ -110,7 +105,7 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
     const enzymeWrapper = shallow(
       <OrderCartTableComponent
         showDatasets={false}
-        disableOptions
+        isFetching
         onShowDuplicatedMessage={() => { }}
       />, { context })
     // test complex mock models

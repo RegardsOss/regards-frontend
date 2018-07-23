@@ -18,11 +18,13 @@
  **/
 import compose from 'lodash/fp/compose'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { HOCUtils } from '@regardsoss/display-control'
 import { withI18n } from '@regardsoss/i18n'
 import styles from './styles'
 import messages from './i18n'
 import valuesStyles from '../values/styles'
 import valuesMessages from '../values/i18n'
+
 
 /** Local context: table and values styles */
 const tableStyles = {
@@ -43,6 +45,7 @@ const tableMessages = {
  * Note: It keeps the calling context, so that any components it displays will not have to change the context!
  * Note 2: It provides both table and values render context, to use the values render as not connected (better overall
  * performances in table)
+ * Note 3: When parent is flex layout, it will attempt to grow horizontally and vertically
  */
 export class TableLayout extends React.Component {
   static propTypes = {
@@ -63,7 +66,7 @@ export class TableLayout extends React.Component {
     return (
       <div style={header.rootStyle}>
         {
-          children
+          HOCUtils.renderChildren(children)
         }
       </div>
     )

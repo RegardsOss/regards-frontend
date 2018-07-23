@@ -17,22 +17,20 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import DefaultIcon from 'material-ui/svg-icons/social/sentiment-very-satisfied'
-import { themeContextType } from '@regardsoss/theme'
-import { ShowableAtRender } from '@regardsoss/display-control'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import NoContentComponent from '../content/NoContentComponent'
+import styles from './styles'
 
 /**
-* Shows icon and messages for a no content area, shows area otherwise
-*/
-class NoContentMessageInfo extends React.Component {
+ * Shows icon and messages for a no content area, shows area otherwise. Designed for easy integration within a parent flex box layout
+ */
+export class NoContentMessageInfo extends React.Component {
   static propTypes = {
     noContent: PropTypes.bool.isRequired,
     title: PropTypes.node.isRequired,
     message: PropTypes.node,
     Icon: PropTypes.func,
     children: PropTypes.node,
-    // eslint-disable-next-line react/forbid-prop-types
-    rootStyles: PropTypes.object,
   }
 
   static defaultProps = {
@@ -45,18 +43,19 @@ class NoContentMessageInfo extends React.Component {
 
   render() {
     const {
-      title, message, noContent, Icon, children, rootStyles,
+      title, message, noContent, Icon, children,
     } = this.props
+    const { moduleTheme: { noDataContainerStyle } } = this.context
     return (
-      <div style={rootStyles}>
-        <ShowableAtRender show={noContent}>
-          <NoContentComponent title={title} message={message} Icon={Icon} />
-        </ShowableAtRender>
-        <ShowableAtRender show={!noContent}>
-          {children}
-        </ShowableAtRender>
+      <div style={noDataContainerStyle}>
+        {
+          noContent ?
+            <NoContentComponent title={title} message={message} Icon={Icon} /> :
+            children
+        }
       </div>
     )
   }
 }
-export default NoContentMessageInfo
+
+export default withModuleStyle(styles, true)(NoContentMessageInfo)

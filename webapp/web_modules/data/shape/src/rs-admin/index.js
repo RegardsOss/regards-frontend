@@ -22,6 +22,7 @@ import { MetadataContent, MetadataContentArray } from './Metadata'
 import { ProjectContent, Project, ProjectList } from './Project'
 import { ProjectConnection, ProjectConnectionList } from './ProjectConnection'
 import { ProjectUser, ProjectUserList } from './ProjectUser'
+import { ProjectUserSettings, ProjectUserSettingsWithContent } from './ProjectUserSettings'
 import { Resource, ResourceList, ResourceArray } from './Resource'
 import { Role, RoleList, RoleArray } from './Role'
 import { Notification, NotificationList, NotificationArray } from './Notification'
@@ -43,6 +44,9 @@ module.exports = {
 
   ProjectUser,
   ProjectUserList,
+
+  ProjectUserSettings,
+  ProjectUserSettingsWithContent,
 
   Resource,
   ResourceList,

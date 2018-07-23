@@ -69,6 +69,9 @@ class OptionsAndTabsHeaderLine extends React.Component {
     datasetsSectionLabel: PropTypes.string,
     dataSectionLabel: PropTypes.string,
 
+    // context
+    locale: PropTypes.string.isRequired,
+
     // callbacks
     onAddSelectionToCart: PropTypes.func, // optional, not available when null or undefined
     onChangeColumnsVisibility: PropTypes.func.isRequired,
@@ -113,7 +116,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
       displayFacettesButton, showingFacettes, enableQuicklooks, selectionServices, onAddSelectionToCart,
       onChangeColumnsVisibility, onShowListView, onShowTableView, onShowDatasets, onShowQuicklookView, displayOnlyQuicklook,
       onShowDataobjects, onSortByAttribute, onStartSelectionService, onToggleShowFacettes, onToggleDisplayOnlyQuicklook,
-      datasetsSectionLabel, dataSectionLabel,
+      datasetsSectionLabel, dataSectionLabel, locale,
     } = this.props
 
     return (
@@ -165,7 +168,11 @@ class OptionsAndTabsHeaderLine extends React.Component {
           </TableHeaderOptionGroup>
           {/* 1.b.3 List or quicklook option - select all and sort options */}
           <TableHeaderOptionGroup show={!this.isInTableView() && this.isDisplayingDataobjects()}>
-            <ListSortingContainer onSortByAttribute={onSortByAttribute} attributePresentationModels={attributePresentationModels} />
+            <ListSortingContainer
+              locale={locale}
+              onSortByAttribute={onSortByAttribute}
+              attributePresentationModels={attributePresentationModels}
+            />
             <ShowableAtRender show={this.isInListView()}>
               <TableSelectAllContainer pageSelectors={searchSelectors} />
             </ShowableAtRender>

@@ -39,7 +39,6 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeListAdapter', () => {
     assert.isDefined(ThemeListAdapter)
   })
   it('should render correctly', () => {
-    const fetchThemeInstanceList = () => { }
     const props = {
       // from router
       params: {
@@ -52,7 +51,7 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeListAdapter', () => {
 
       // Set by mapDispatchToProps
       fetchThemeList: () => { },
-      fetchThemeInstanceList,
+      fetchThemeInstanceList: () => { },
       deleteTheme: () => { },
       deleteInstanceTheme: () => { },
     }
@@ -60,6 +59,6 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeListAdapter', () => {
     const listContainerWrapper = enzymeWrapper.find(ThemeListContainer)
     assert.lengthOf(listContainerWrapper, 1, 'Should find the list container')
 
-    assert.deepEqual(listContainerWrapper.prop('fetchThemeList'), fetchThemeInstanceList)
+    assert.deepEqual(listContainerWrapper.prop('fetchThemeList'), props.fetchThemeInstanceList)
   })
 })

@@ -28,6 +28,7 @@ const messages = {
   'menu.collections': 'Collections & Jeux',
   'menu.datamodels': 'Modèles de données',
   'menu.dataaccessrights': 'Droits d\'accès',
+  'menu.dataaccess': 'Accès aux données',
   'menu.dataacquisition': 'Ajout de données',
   'menu.instance': 'Administration instance',
   'menu.back': 'Retour',

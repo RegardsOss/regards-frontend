@@ -126,7 +126,7 @@ class NavigationLayoutComponent extends React.Component {
    * @param {width: number} dimensions
    */
   onComponentResized = ({ measureDiv: { width } }) => {
-    // WORKAROUND: see OBSERVED_FIRST_WIDTH_ERROR comment
+    // XXX-WORKAROUND: see OBSERVED_FIRST_WIDTH_ERROR comment
     this.layoutWidth = Math.max(0, Math.floor(width) - NavigationLayoutComponent.OBSERVED_FIRST_WIDTH_ERROR)
     // update, bypassing throttle
     this.onLayoutUpdateImpl(this.props.navigationElements)

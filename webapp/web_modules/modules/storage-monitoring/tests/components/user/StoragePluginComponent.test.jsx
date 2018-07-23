@@ -37,12 +37,13 @@ describe('[Storage Monitoring] Testing StoragePluginComponent', () => {
   })
 
   const testData = [
-    { type: 'parsable', storagePlugin: convertedParsablePlugin },
-    { type: 'non parsable', storagePlugin: convertedNonParsablePlugin }]
+    { type: 'parsable', storagePlugin: convertedParsablePlugin, userApp: true },
+    { type: 'non parsable', storagePlugin: convertedNonParsablePlugin, userApp: true },
+    { type: 'parsable', storagePlugin: convertedParsablePlugin, userApp: false }]
 
-  testData.forEach(({ type, storagePlugin }) => {
-    it(`Should render properly a ${type} plugin`, () => {
-      const props = { storagePlugin }
+  testData.forEach(({ type, storagePlugin, userApp }) => {
+    it(`Should render properly a ${type} plugin in ${userApp ? 'user' : 'admin'} app`, () => {
+      const props = { storagePlugin, userApp }
       const enzymeWrapper = shallow(<StoragePluginComponent {...props} />, { context })
       // check the chart
       const chartWrapper = enzymeWrapper.find(StoragePluginChartComponent)

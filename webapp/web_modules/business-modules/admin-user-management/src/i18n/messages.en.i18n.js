@@ -19,6 +19,7 @@
 const messages = {
   'user.board.tooltip.list': 'List',
   'user.board.tooltip.add': 'Add',
+  'user.board.settings.tooltip': 'Settings',
 
   'user.board.project-user.description': 'View and manage project users and project access requests',
   'user.board.project-user.title': 'Users',
@@ -28,6 +29,9 @@ const messages = {
 
   'user.board.orders.title': 'Orders',
   'orders.board.orders.description': 'View and manage user orders on the project',
+
+  'user.board.authentication-plugins.title': 'Authentication system',
+  'user.board.authentication-plugins.description': 'User authentication method configuration.',
 
 }
 

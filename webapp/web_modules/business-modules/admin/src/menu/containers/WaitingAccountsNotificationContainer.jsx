@@ -16,8 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { accountWaitingSelectors } from '@regardsoss/admin-account-management'
+import { AdminInstanceClient } from '@regardsoss/client'
 import NotificationCountContainer from './NotificationCountContainer'
+
+// default client selectors instance
+const accountWaitingSelectors = AdminInstanceClient.getAccountWaitingSelectors()
 
 /**
 * Shows users waiting access notification count

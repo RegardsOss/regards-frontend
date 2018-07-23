@@ -232,7 +232,7 @@ body[dir="rtl"] .fixedDataTableColumnResizerLineLayout_main {
 }
 
 .fixedDataTableRowLayout_columnsShadow {
-  width: 4px;
+  width: 0;
 }
 
 .fixedDataTableRowLayout_rowWrapper {
@@ -255,42 +255,32 @@ body[dir="rtl"] .fixedDataTableColumnResizerLineLayout_main {
   outline: none;
   overflow: hidden;
   position: absolute;
-  -webkit-transition-duration: 250ms;
-          transition-duration: 250ms;
-  -webkit-transition-timing-function: ease;
-          transition-timing-function: ease;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
 }
 
 .ScrollbarLayout_mainVertical {
   bottom: 0;
   right: 0;
   top: 0;
-  -webkit-transition-property: background-color width;
-          transition-property: background-color width;
   width: 15px;
+  background-color: #fff;
 }
 
 .ScrollbarLayout_mainVertical.public_Scrollbar_mainActive,
 .ScrollbarLayout_mainVertical:hover {
-  width: 17px;
+  
 }
 
 .ScrollbarLayout_mainHorizontal {
   bottom: 0;
   height: 15px;
   left: 0;
-  -webkit-transition-property: background-color height;
-          transition-property: background-color height;
+  background-color: #fff;
 }
 
 /* Touching the scroll-track directly makes the scroll-track bolder */
 .ScrollbarLayout_mainHorizontal.public_Scrollbar_mainActive,
 .ScrollbarLayout_mainHorizontal:hover {
-  height: 17px;
+  
 }
 
 .ScrollbarLayout_face {
@@ -311,8 +301,6 @@ body[dir="rtl"] .fixedDataTableColumnResizerLineLayout_main {
   content: '';
   display: block;
   position: absolute;
-  -webkit-transition: background-color 250ms ease;
-          transition: background-color 250ms ease;
 }
 
 .ScrollbarLayout_faceHorizontal {
@@ -388,7 +376,7 @@ body[dir="rtl"] .fixedDataTableColumnResizerLineLayout_main {
   background: 0 0 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAECAYAAABP2FU6AAAAHElEQVQI12MwNjZmZdAT1+Nm0JDWEGZQk1GTBgAWkwIeAEp52AAAAABJRU5ErkJggg==) repeat-x;
 }
 
-.public_fixedDataTable_horizontalScrollbar .public_Scrollbar_mainHorizontal {
+.public_fixeddatatable_horizontalscrollbar .public_Scrollbar_mainHorizontal {
   background-color: #fff;
 }
 /**
@@ -421,7 +409,7 @@ body[dir="rtl"] .fixedDataTableColumnResizerLineLayout_main {
 
 .public_fixedDataTableCell_columnResizerKnob {
   top: 10px;
-  right: 6px;
+  right: 0;
   width: 1px;
   height: 20px !important;
   background-color: gray;
@@ -493,7 +481,7 @@ body[dir="rtl"] .fixedDataTableColumnResizerLineLayout_main {
 /* Touching the scroll-track directly makes the scroll-track bolder */
 .public_Scrollbar_main.public_Scrollbar_mainActive,
 .public_Scrollbar_main:hover {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: #fff;
 }
 
 .public_Scrollbar_mainOpaque,

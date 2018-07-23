@@ -72,6 +72,16 @@ export const orderAdminRouter = {
   },
 }
 
+export const authenticationPluginsAdminRouter = {
+  path: 'authenticationplugins',
+  getChildRoutes(nextState, cb) {
+    const authenticationPluginsManagement = require('@regardsoss/admin-user-authentication-plugins-management')
+    require.ensure([], (require) => {
+      cb(null, [authenticationPluginsManagement.authenticationPluginManagementRouter])
+    })
+  },
+}
+
 
 const projectUserManagementRouter = {
   childRoutes: [
@@ -80,6 +90,7 @@ const projectUserManagementRouter = {
     projectUserAdminRouter,
     roleAdminRouter,
     orderAdminRouter,
+    authenticationPluginsAdminRouter,
   ],
 }
 

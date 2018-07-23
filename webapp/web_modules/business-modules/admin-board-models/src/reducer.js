@@ -21,12 +21,14 @@ import { modelDataManagementReducer } from '@regardsoss/admin-data-model-managem
 import { attributeModelDataManagementReducer } from '@regardsoss/admin-data-attributemodel-management'
 import { fragmentDataManagementReducer } from '@regardsoss/admin-data-fragment-management'
 import { modelAttributeDataManagementReducer } from '@regardsoss/admin-data-modelattribute-management'
+import { attributePluginDataManagementReducer } from '@regardsoss/admin-data-attribute-plugins-management'
 
 const modelsReducers = combineReducers({
   'model-management': modelDataManagementReducer,
   'attribute-model-management': attributeModelDataManagementReducer,
   'model-attribute-management': modelAttributeDataManagementReducer,
   'fragment-management': fragmentDataManagementReducer,
+  'plugin-management': attributePluginDataManagementReducer,
 })
 
 

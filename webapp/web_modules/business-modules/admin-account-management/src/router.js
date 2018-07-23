@@ -16,18 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export const createAccountRoute = {
-  path: 'create',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const AccountFormContainer = require('./containers/AccountFormContainer')
-      cb(null, {
-        content: AccountFormContainer.default,
-      })
-    })
-  },
-}
-
 
 export const editAccountRoute = {
   path: ':account_id/edit',
@@ -53,12 +41,24 @@ export const listAccountRoute = {
   },
 }
 
+export const settingsAccountRoute = {
+  path: 'settings',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const AccountsSettingsContainer = require('./containers/AccountsSettingsContainer')
+      cb(null, {
+        content: AccountsSettingsContainer.default,
+      })
+    })
+  },
+}
+
 
 const accountManagementRouter = {
   childRoutes: [
-    listAccountRoute,
-    createAccountRoute,
     editAccountRoute,
+    listAccountRoute,
+    settingsAccountRoute,
   ],
 }
 

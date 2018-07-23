@@ -153,44 +153,6 @@ class SIPListComponent extends React.Component {
     })
   }
 
-  getTableOptions = (fixedColumnWidth) => {
-    if (!this.props.sip) {
-      const { intl: { formatMessage } } = this.context
-      return TableColumnBuilder.buildOptionsColumn('', [
-        {
-          OptionConstructor: TableSimpleActionOption,
-          optionProps: { onAction: this.goToSipHistory, icon: HistoryIcon, title: formatMessage({ id: 'sips.list.sip-history.title' }) },
-        },
-        {
-          OptionConstructor: SIPDetailTableAction,
-          optionProps: { onViewDetail: this.onViewSIPDetail },
-        }, {
-          OptionConstructor: TableDeleteOption,
-          optionProps: {
-            handleHateoas: true,
-            disableInsteadOfHide: true,
-            fetchPage: this.props.fetchPage, // note: this will not be used (refresh is handled locally)
-            onDelete: this.onDelete,
-            queryPageSize: 20,
-          },
-        }], true, fixedColumnWidth)
-    }
-    return TableColumnBuilder.buildOptionsColumn('', [
-      {
-        OptionConstructor: SIPDetailTableAction,
-        optionProps: { onViewDetail: this.onViewSIPDetail },
-      }, {
-        OptionConstructor: TableDeleteOption,
-        optionProps: {
-          handleHateoas: true,
-          disableInsteadOfHide: true,
-          fetchPage: this.props.fetchPage,
-          onDelete: this.onDelete, // note: this will not be used (refresh is handled locally)
-          queryPageSize: 20,
-        },
-      }], true, fixedColumnWidth)
-  }
-
   applyFilters = (filters) => {
     const { contextFilters } = this.props
     const appliedFilters = { ...filters, ...contextFilters }
@@ -234,10 +196,11 @@ class SIPListComponent extends React.Component {
 
   renderTable = () => {
     const { intl, muiTheme } = this.context
+    const { sip } = this.props
     const {
       pageSize, resultsCount, initialFilters, chains, entitiesLoading,
     } = this.props
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
       <NoContentComponent
@@ -248,31 +211,55 @@ class SIPListComponent extends React.Component {
 
     const columns = [
       // id column
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.sipId',
-        intl.formatMessage({ id: 'sips.list.table.headers.sip-id' }),
-        'content.sipId',
-      ),
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.type',
-        intl.formatMessage({ id: 'sips.list.table.headers.type' }),
-        'content.sip.ipType',
-      ),
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.state',
-        intl.formatMessage({ id: 'sips.list.table.headers.state' }),
-        'content.state',
-      ),
-      TableColumnBuilder.buildSimpleColumnWithCell('column.active',
-        intl.formatMessage({ id: 'sips.list.table.headers.date' }), {
-          Constructor: SIPListDateColumnRenderer,
-        }),
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.version',
-        intl.formatMessage({ id: 'sips.list.table.headers.version' }),
-        'content.version',
-      ),
-      this.getTableOptions(fixedColumnsWidth),
+      new TableColumnBuilder('column.sipId').titleHeaderCell().propertyRenderCell('content.sipId')
+        .label(intl.formatMessage({ id: 'sips.list.table.headers.sip-id' }))
+        .build(),
+      new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.sip.ipType')
+        .label(intl.formatMessage({ id: 'sips.list.table.headers.type' }))
+        .build(),
+      new TableColumnBuilder('column.state').titleHeaderCell().propertyRenderCell('content.state')
+        .label(intl.formatMessage({ id: 'sips.list.table.headers.state' }))
+        .build(),
+      new TableColumnBuilder('column.active').titleHeaderCell()
+        .rowCellDefinition({ Constructor: SIPListDateColumnRenderer })
+        .label(intl.formatMessage({ id: 'sips.list.table.headers.date' }))
+        .build(),
+      new TableColumnBuilder('column.version').titleHeaderCell().propertyRenderCell('content.version')
+        .label(intl.formatMessage({ id: 'sips.list.table.headers.version' }))
+        .build(),
+      new TableColumnBuilder().optionsColumn(sip ? [{ // sip detail options
+        OptionConstructor: SIPDetailTableAction,
+        optionProps: { onViewDetail: this.onViewSIPDetail },
+      }, {
+        OptionConstructor: TableDeleteOption,
+        optionProps: {
+          handleHateoas: true,
+          disableInsteadOfHide: true,
+          fetchPage: this.props.fetchPage,
+          onDelete: this.onDelete, // note: this will not be used (refresh is handled locally)
+          queryPageSize: 20,
+        },
+      }] : [{ // sip list options
+        OptionConstructor: TableSimpleActionOption,
+        optionProps: {
+          onAction: this.goToSipHistory,
+          icon: HistoryIcon,
+          title: intl.formatMessage({ id: 'sips.list.sip-history.title' }),
+        },
+      }, {
+        OptionConstructor: SIPDetailTableAction,
+        optionProps: { onViewDetail: this.onViewSIPDetail },
+      }, {
+        OptionConstructor: TableDeleteOption,
+        optionProps: {
+          handleHateoas: true,
+          disableInsteadOfHide: true,
+          fetchPage: this.props.fetchPage, // note: this will not be used (refresh is handled locally)
+          onDelete: this.onDelete,
+          queryPageSize: 20,
+        },
+      }])
+        .build(),
     ]
 
     return (
@@ -291,8 +278,8 @@ class SIPListComponent extends React.Component {
             pageActions={sipActions}
             pageSelectors={sipSelectors}
             pageSize={pageSize}
-            minRowCount={0}
-            maxRowCount={10}
+            minRowCount={minRowCount}
+            maxRowCount={maxRowCount}
             columns={columns}
             requestParams={this.state.appliedFilters}
             emptyComponent={emptyComponent}

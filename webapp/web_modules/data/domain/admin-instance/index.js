@@ -17,10 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import { ACCOUNT_SETTINGS_MODE, ACCOUNT_SETTINGS_MODE_ENUM } from './AccountSettingsMode'
 import { ACCOUNT_STATUS, ACCOUNT_STATUS_ENUM } from './AccountStateEnum'
 
 
 module.exports = {
+  ACCOUNT_SETTINGS_MODE,
+  ACCOUNT_SETTINGS_MODE_ENUM,
   ACCOUNT_STATUS,
   ACCOUNT_STATUS_ENUM,
 }

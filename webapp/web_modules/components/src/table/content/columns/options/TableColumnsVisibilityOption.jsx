@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
 import sortBy from 'lodash/sortBy'
 import FlatButton from 'material-ui/FlatButton'
@@ -25,7 +26,6 @@ import ColumnsIcon from 'material-ui/svg-icons/action/view-column'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import SwitchSelectAllButton from '../../../../buttons/SwitchSelectAllButton'
-import { areDifferentColumnsArrays } from '../ColumnsHelper'
 
 /**
  * Render a react component to display a panel to change visibility of table columns.
@@ -65,7 +65,7 @@ export class TableColumnsVisibilityOption extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     // re init only when columns truely change or when it is not yet initialized
-    if (!this.state || areDifferentColumnsArrays(oldProps.columns, newProps.columns)) {
+    if (!this.state || !isEqual(oldProps.columns, newProps.columns)) {
       this.onReInitialize(newProps)
     }
   }

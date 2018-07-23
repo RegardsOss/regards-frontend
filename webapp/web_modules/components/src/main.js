@@ -50,6 +50,7 @@ import CodeFileDisplayer from './content/CodeFileDisplayer'
 import IFrameURLContentDisplayer from './content/IFrameURLContentDisplayer'
 import MarkdownFileContentDisplayer from './content/MarkdownFileContentDisplayer'
 import NoContentComponent from './content/NoContentComponent'
+import SubSectionCard from './content/SubSectionCard'
 
 import BrowserCheckerDialog from './dialogs/BrowserCheckerDialog'
 import ConfirmDialogComponent, { ConfirmDialogComponentTypes } from './dialogs/ConfirmDialogComponent'
@@ -99,7 +100,7 @@ import PageableInfiniteTableContainer from './table/PageableInfiniteTableContain
 import RefreshPageableTableOption from './table/options/RefreshPageableTableOption'
 import TableActions from './table/model/TableActions'
 import TableColumnBuilder from './table/content/columns/TableColumnBuilder'
-import TableColumnConfiguration from './table/content/columns/model/TableColumnConfiguration'
+import { TableColumnConfiguration } from './table/content/columns/model/TableColumnConfiguration'
 import TableColumnConfigurationController from './table/content/columns/model/ColumnConfigurationController'
 import TableColumnsVisibilityOption from './table/content/columns/options/TableColumnsVisibilityOption'
 import TableHeaderAutoCompleteFilter from './table/header/TableHeaderAutoCompleteFilter'
@@ -111,7 +112,9 @@ import TableHeaderOptionsArea from './table/header/TableHeaderOptionsArea'
 import TableHeaderOptionGroup from './table/header/TableHeaderOptionGroup'
 import TableHeaderOptionsSeparator from './table/header/TableHeaderOptionsSeparator'
 import TableHeaderText from './table/header/TableHeaderText'
+import TableHeaderTextField from './table/header/TableHeaderTextField'
 import TableLayout from './table/TableLayout'
+import TableNoDataMessage from './table/content/TableNoDataMessage'
 import TableDeleteOption from './table/content/cells/options/TableDeleteOption'
 import TableSimpleActionOption from './table/content/cells/options/TableSimpleActionOption'
 import TableSelectAllOption from './table/options/TableSelectAllOption'
@@ -197,6 +200,7 @@ export {
   HelpMessageComponent,
   NoContentComponent,
   SelectableList,
+  SubSectionCard,
 
   // Table
   ActionsMenuCell,
@@ -221,7 +225,9 @@ export {
   TableHeaderOptionGroup,
   TableHeaderOptionsSeparator,
   TableHeaderText,
+  TableHeaderTextField,
   TableLayout,
+  TableNoDataMessage,
   TableDeleteOption,
   TableSimpleActionOption,
   TableSelectAllOption,

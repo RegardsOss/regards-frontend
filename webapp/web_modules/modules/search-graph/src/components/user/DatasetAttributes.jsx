@@ -19,6 +19,7 @@
 import values from 'lodash/values'
 import { FormattedMessage } from 'react-intl'
 import { ShowableAtRender } from '@regardsoss/components'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ResolvedDatasetAttributesArray } from '../../model/DatasetAttributesForGraph'
 import ItemLink from './ItemLink'
@@ -35,11 +36,12 @@ class DatasetAttributes extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {
     const { visible, state, datasetAttributes } = this.props
-    const { moduleTheme: { user: { datasetItem: { attributes } } } } = this.context
+    const { intl: { locale }, moduleTheme: { user: { datasetItem: { attributes } } } } = this.context
 
     // compute styles for current state
     const containerStyles = ItemLink.selectStyles(state, attributes.container, attributes.container.commonStyles)
@@ -53,11 +55,11 @@ class DatasetAttributes extends React.Component {
           {
             // render values row
             datasetAttributes.map(({
-              renderValue, label: attributeLabel, render: TypeRender, renderKey, renderProps,
+              renderValue, label, render: TypeRender, renderKey, renderProps,
             }) =>
               (
                 <div key={renderKey} style={lineStyles}>
-                  <div style={detailLabelStyles}>{attributeLabel}</div>
+                  <div style={detailLabelStyles}>{label[locale]}</div>
                   <div style={detailValueStlyles}>
                     {
                       renderValue ?

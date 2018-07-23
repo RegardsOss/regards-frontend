@@ -45,6 +45,8 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeFormContainer', () => {
       backUrl,
       currentTheme: null,
       isCreating: true,
+      isEditing: false,
+      isDuplicating: false,
 
       fetchTheme: () => { },
       updateTheme: () => { },

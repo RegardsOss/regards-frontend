@@ -17,15 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { i18nContextType } from '@regardsoss/i18n'
-import { BooleanFacet } from '../../../../models/facets/FacetShape'
 import FacetSelectorComponent from './FacetSelectorComponent'
+import { UIFacet } from '../../../../models/facets/FacetShape'
 
 /**
  * Boolean facet selector
+ * @author Raphaël Mechali
  */
 class BooleanFacetSelectorComponent extends React.Component {
   static propTypes = {
-    facet: BooleanFacet.isRequired,
+    facet: UIFacet.isRequired, // granted to be a boolean UI facet
+
     // applies a facet filter (key:string, label:string, searchQuery: string)
     onSelectFacet: PropTypes.func.isRequired,
   }
@@ -44,16 +46,18 @@ class BooleanFacetSelectorComponent extends React.Component {
     })
   }
 
-  formatFacetValueForFilter = (label, { value }) => {
-    const { intl: { formatMessage } } = this.context
-    const valueLabel = this.getValueLabel(value)
-    return formatMessage({ id: 'search.facets.filter.chip.boolean.value' }, { label, valueLabel })
-  }
-
-  formatFacetValueForMenu = (label, { value, count }) => {
+  /**
+   * Formats facet value
+   * @param {FacetValue} facetValue as returned by the backend
+   * @return {string} value label
+   */
+  formatFacetValue = ({ value, count }) => {
     const { intl: { formatNumber, formatMessage } } = this.context
-    const valueLabel = this.getValueLabel(value)
-    return formatMessage({ id: 'search.facets.filter.menu.boolean.value' }, { valueLabel, count: formatNumber(count) })
+    const valueLabel = formatMessage({ id: value ? 'search.facets.filter.boolean.value.true' : 'search.facets.filter.boolean.value.false' })
+    return formatMessage({ id: 'search.facets.filter.menu.boolean.value' }, {
+      valueLabel,
+      count: formatNumber(count),
+    })
   }
 
   render() {
@@ -61,8 +65,7 @@ class BooleanFacetSelectorComponent extends React.Component {
     return (
       <FacetSelectorComponent
         facet={facet}
-        facetValueFormatterForMenu={this.formatFacetValueForMenu}
-        facetValueFormatterForFilter={this.formatFacetValueForFilter}
+        facetValueFormatter={this.formatFacetValue}
         onSelectFacet={onSelectFacet}
       />
     )

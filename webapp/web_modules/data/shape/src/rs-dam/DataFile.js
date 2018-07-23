@@ -31,6 +31,7 @@ export const dataFileFields = {
   name: PropTypes.string,
   online: PropTypes.bool,
   mimeType: PropTypes.string,
+  downloadable: PropTypes.bool,
 }
 
 /** complete object */

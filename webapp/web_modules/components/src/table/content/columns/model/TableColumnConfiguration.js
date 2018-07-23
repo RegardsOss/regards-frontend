@@ -21,23 +21,26 @@
  * Column configuration entity
  * @author Sébastien Binda
  */
-const TableColumnConfiguration = PropTypes.shape({
+
+/** A cell builder */
+export const CellDefinition = PropTypes.shape({
+  // React cell content constructor
+  Constructor: PropTypes.func,
+  // built cell default properties
+  props: PropTypes.object, // note: the style properties can be used here to override default cell styles
+})
+
+/** a table column */
+export const TableColumnConfiguration = PropTypes.shape({
   key: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   order: PropTypes.number, // optional column order (columns without order goes at the middle - index 1000)
   // The instantiated header cell (optional, remove to get an headerless columns)
-  headerCell: PropTypes.node,
+  headerCellDefinition: CellDefinition,
   // define the table cell
-  rowCellDefinition: PropTypes.shape({
-    // React cell content constructor
-    Constructor: PropTypes.func,
-    // built cell default properties
-    props: PropTypes.object, // note: the style properties can be used here to override default cell styles
-  }).isRequired,
+  rowCellDefinition: CellDefinition.isRequired,
   // Optional fixed width: if provided the column is always the same size (do not provide to get an adapting column)
   fixedWidth: PropTypes.number,
   // Is column visible?
   visible: PropTypes.bool.isRequired,
 })
-
-export default TableColumnConfiguration

@@ -105,24 +105,31 @@ export class PrioritizedDataStorageListComponent extends React.Component {
       onEdit, onDuplicate, onActivateToggle, onRefresh,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     // Table columns to display
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.priority',
-        formatMessage({ id: 'storage.data-storage.plugins.list.header.priority.label' }),
-        'content.priority',
-        undefined, undefined, undefined, 75,
-      ),
-      TableColumnBuilder.buildSimplePropertyColumn('column.id', formatMessage({ id: 'storage.data-storage.plugins.list.header.id.label' }), 'content.dataStorageConfiguration.id'),
-      TableColumnBuilder.buildSimplePropertyColumn('column.name', formatMessage({ id: 'storage.data-storage.plugins.list.header.name.label' }), 'content.dataStorageConfiguration.label'),
-      TableColumnBuilder.buildSimplePropertyColumn('column.type', formatMessage({ id: 'storage.data-storage.plugins.list.header.type.label' }), 'content.dataStorageConfiguration.pluginId'),
-      TableColumnBuilder.buildSimpleColumnWithCell('column.active', formatMessage({ id: 'storage.data-storage.plugins.list.header.active.label' }), {
-        Constructor: PrioritizedDataStorageActivationAction, // custom cell
-        props: { onToggle: onActivateToggle },
-      }),
-      TableColumnBuilder.buildOptionsColumn('options', [{
+      new TableColumnBuilder('column.priority').titleHeaderCell().propertyRenderCell('content.priority')
+        .optionsSizing(2) // fix width
+        .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.priority.label' }))
+        .build(),
+      new TableColumnBuilder('column.id').titleHeaderCell().propertyRenderCell('content.dataStorageConfiguration.id')
+        .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.id.label' }))
+        .build(),
+      new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.dataStorageConfiguration.label')
+        .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.name.label' }))
+        .build(),
+      new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.dataStorageConfiguration.pluginId')
+        .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.type.label' }))
+        .build(),
+      new TableColumnBuilder('column.active').titleHeaderCell()
+        .rowCellDefinition({
+          Constructor: PrioritizedDataStorageActivationAction, // custom cell
+          props: { onToggle: onActivateToggle },
+        })
+        .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.active.label' }))
+        .build(),
+      new TableColumnBuilder().optionsColumn([{
         OptionConstructor: PrioritizedDataStorageEditAction,
         optionProps: { onEdit },
       },
@@ -148,7 +155,8 @@ export class PrioritizedDataStorageListComponent extends React.Component {
           queryPageSize: 20,
         },
       },
-      ], true, fixedColumnsWidth),
+      ])
+        .build(),
     ]
 
     const emptyComponent = (
@@ -168,8 +176,8 @@ export class PrioritizedDataStorageListComponent extends React.Component {
             entities={entities}
             emptyComponent={emptyComponent}
             entitiesCount={entities.length}
-            minRowCount={0}
-            maxRowCount={30}
+            minRowCount={minRowCount}
+            maxRowCount={maxRowCount}
           />
         </TableLayout>
       </div>

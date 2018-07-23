@@ -22,7 +22,6 @@ import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { TableSelectionModes } from '@regardsoss/components'
-import { StringComparison } from '@regardsoss/form-utils'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
 import { tableActions, tableSelectors } from '../../../../clients/TableClient'
 import ListViewEntityCellComponent, { AttributeRenderData } from '../../../../components/user/results/cells/ListViewEntityCellComponent'
@@ -40,30 +39,19 @@ function isAttribute({ attributes }, attributeName) {
 }
 
 /**
- * Returns attribute presentation model for name as parameter
- * @param {[AttributePresentationModel]} attributePresentationModels presentation models
- * @param {string} attributeName searched attribute name
- * @return {AttributePresentationModel} model found or null if that attribute stands for name as parameter
- */
-function getAttributeModel(attributePresentationModels, attributeName) {
-  return attributePresentationModels.find(m => isAttribute(m, attributeName))
-}
-
-
-/**
  * Packs thumbnail attribute data for render (or null if not present)
  * @param {[AttributePresentationModel]} attributePresentationModels presentation models
  * @return {AttributeRenderData} packed render data
  */
 export function packThumbnailRenderData(attributePresentationModels) {
-  const model = getAttributeModel(attributePresentationModels, DamDomain.AttributeModelController.standardAttributesKeys.thumbnail)
+  const model = attributePresentationModels.find(m => isAttribute(m, DamDomain.AttributeModelController.standardAttributesKeys.thumbnail))
   if (!model) {
     return null
   }
   return {
     key: model.key,
-    label: model.label,
-    renderers: AttributeColumnBuilder.buildRenderDelegates(model.attributes),
+    label: '', // useless
+    renderers: AttributeColumnBuilder.buildThumbnailDelegates(model.attributes[0]),
   }
 }
 
@@ -72,16 +60,14 @@ export function packThumbnailRenderData(attributePresentationModels) {
  * @param {[AttributePresentationModel]} attributePresentationModels presentation models
  * @return {[AttributeRenderData]} built render data for attributes
  */
-export function packGridAttributesRenderData(attributePresentationModels) {
+export function packGridAttributesRenderData(attributePresentationModels, locale) {
+  // keep attributes in configured order, but extract the specific attributes like thumbnail
   return attributePresentationModels
-    .filter(model => // 1 - filter attributes, remove thumbnail and download
-      !isAttribute(model, DamDomain.AttributeModelController.standardAttributesKeys.download) &&
+    .filter(model => // 1 - filter attributes, remove thumbnail (that is rendered separately)
       !isAttribute(model, DamDomain.AttributeModelController.standardAttributesKeys.thumbnail))
-    .sort((a, b) => // 2 - sort alpha
-      StringComparison.compare(a.label, b.label))
-    .map(model => ({ // 3 - pack them for render
+    .map(model => ({ // 2 - pack them for render
       key: model.key,
-      label: model.label,
+      label: model.label[locale],
       unit: get(model, 'attributes.length', 0) === 1 ? get(model.attributes[0], 'content.unit', null) : null,
       renderers: AttributeColumnBuilder.buildRenderDelegates(model.attributes),
     }))
@@ -128,9 +114,11 @@ export class ListViewEntityCellContainer extends React.Component {
     selectionEnabled: PropTypes.bool,
     servicesEnabled: PropTypes.bool.isRequired,
     enableDownload: PropTypes.bool.isRequired,
-    // Callback
+    isDescAvailableFor: PropTypes.func.isRequired,
+    // Callbacks
     onSearchEntity: PropTypes.func,
     onAddToCart: PropTypes.func,
+    onShowDescription: PropTypes.func.isRequired,
     // auth info
     accessToken: PropTypes.string,
     projectName: PropTypes.string.isRequired,
@@ -169,7 +157,7 @@ export class ListViewEntityCellContainer extends React.Component {
   render() {
     const {
       entity, enableDownload, thumbnailRenderData, gridAttributesRenderData, selectionEnabled,
-      servicesEnabled, onAddToCart, onSelectEntity, accessToken, projectName,
+      servicesEnabled, accessToken, projectName, isDescAvailableFor, onAddToCart, onSelectEntity, onShowDescription,
     } = this.props
     return (
       <ListViewEntityCellComponent
@@ -177,12 +165,14 @@ export class ListViewEntityCellContainer extends React.Component {
         enableDownload={enableDownload}
         thumbnailRenderData={thumbnailRenderData}
         gridAttributesRenderData={gridAttributesRenderData}
+        isDescAvailableFor={isDescAvailableFor}
         selectionEnabled={selectionEnabled}
         servicesEnabled={servicesEnabled}
         entitySelected={this.isSelectedRow()}
         onSelectEntity={onSelectEntity}
         onSearchEntity={this.getSearchEntityCallback()}
         onAddToCart={onAddToCart}
+        onShowDescription={onShowDescription}
         accessToken={accessToken}
         projectName={projectName}
       />

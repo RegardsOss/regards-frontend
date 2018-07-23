@@ -31,12 +31,15 @@ import messages from '../i18n'
 export class ThemeFormContainer extends React.Component {
   static propTypes = {
     currentTheme: AccessShapes.Theme,
+    themeList: AccessShapes.ThemeList,
     backUrl: PropTypes.string,
-    isCreating: PropTypes.bool,
+    isCreating: PropTypes.bool.isRequired,
+    isEditing: PropTypes.bool.isRequired,
+    isDuplicating: PropTypes.bool.isRequired,
 
-    fetchTheme: PropTypes.func,
-    updateTheme: PropTypes.func,
-    createTheme: PropTypes.func,
+    fetchTheme: PropTypes.func.isRequired,
+    updateTheme: PropTypes.func.isRequired,
+    createTheme: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -48,7 +51,9 @@ export class ThemeFormContainer extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.isCreating) {
+    const { isEditing, isDuplicating } = this.props
+    if (isEditing || isDuplicating) {
+      // retrieve original theme model
       Promise.resolve(this.props.fetchTheme())
         .then((actionResult) => {
           if (!actionResult.error) {
@@ -63,7 +68,10 @@ export class ThemeFormContainer extends React.Component {
   getForm = () => (
     <ThemeFormComponent
       currentTheme={this.props.currentTheme}
+      themeList={this.props.themeList}
       isCreating={this.props.isCreating}
+      isEditing={this.props.isEditing}
+      isDuplicating={this.props.isDuplicating}
       backUrl={this.props.backUrl}
       onSubmit={this.handleSubmit}
     />
@@ -73,7 +81,7 @@ export class ThemeFormContainer extends React.Component {
     const themeToSave = Object.assign({}, values)
     themeToSave.configuration = JSON.stringify(themeToSave.configuration)
     let task
-    if (this.props.isCreating) {
+    if (this.props.isCreating || this.props.isDuplicating) {
       task = this.props.createTheme(themeToSave)
     } else {
       task = this.props.updateTheme(themeToSave)

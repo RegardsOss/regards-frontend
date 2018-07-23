@@ -18,6 +18,7 @@
  **/
 import find from 'lodash/find'
 import get from 'lodash/get'
+import map from 'lodash/map'
 import isString from 'lodash/isString'
 
 import { DataTypesEnum } from '../common/DataTypes'
@@ -29,8 +30,6 @@ import MODEL_ATTR_TYPES from './ModelAttrTypes'
  * @author Sébastien Binda
  */
 
-
-const SPECIAL_FILES_ATTRIBUTE_NAME = 'files'
 
 const standardAttributesKeys = {
   ipId: 'ipId',
@@ -51,80 +50,101 @@ const standardAttributes = {
     id: -1, // use negative index to not conflict with DB attribute models
     label: 'Internal ID',
     type: MODEL_ATTR_TYPES.STRING,
-    entityPathName: 'ipId',
+    jsonPath: 'ipId',
   },
   [standardAttributesKeys.sipId]: {
     key: standardAttributesKeys.sipId,
     id: -2,
     label: 'Provider ID',
     type: MODEL_ATTR_TYPES.STRING,
-    entityPathName: 'sipId',
+    jsonPath: 'sipId',
   },
   [standardAttributesKeys.label]: {
     key: standardAttributesKeys.label,
     id: -3,
     label: 'Label',
     type: MODEL_ATTR_TYPES.STRING,
-    entityPathName: 'label',
+    jsonPath: 'label',
   },
   [standardAttributesKeys.creationDate]: {
     key: standardAttributesKeys.creationDate,
     id: -4,
     label: 'Creation date',
     type: MODEL_ATTR_TYPES.DATE_ISO8601,
-    entityPathName: 'creationDate',
+    jsonPath: 'creationDate',
   },
   [standardAttributesKeys.lastUpdate]: {
     key: standardAttributesKeys.lastUpdate,
     id: -5,
     label: 'Last update',
     type: MODEL_ATTR_TYPES.DATE_ISO8601,
-    entityPathName: 'lastUpdate',
+    jsonPath: 'lastUpdate',
   },
   [standardAttributesKeys.thumbnail]: {
     key: standardAttributesKeys.thumbnail,
     id: -6,
     label: 'Thumbnail',
-    type: DataTypesEnum.THUMBNAIL,
-    entityPathName: SPECIAL_FILES_ATTRIBUTE_NAME,
+    type: MODEL_ATTR_TYPES.URL,
+    jsonPath: `files.${DataTypesEnum.THUMBNAIL}[0]`,
   },
 }
 
-const searchableStandardAttributes = [
-  standardAttributesKeys.ipId,
-  standardAttributesKeys.sipId,
-  standardAttributesKeys.label,
-  standardAttributesKeys.creationDate,
-  standardAttributesKeys.lastUpdate,
-].map(key => standardAttributes[key])
+/**
+ * Return an AttributeConfiguration for the given standardAttribute. Return null if attribute is not a standard attribute
+ * @param standardAttributeKey standard attribute key
+ * @return {{content: {label: *, name: *, type: *}}} attribute in the server shape
+ */
+function buildAsModel(standardAttributeKey) {
+  const attribute = standardAttributes[standardAttributeKey]
+  return {
+    content: {
+      id: attribute.id,
+      label: attribute.label,
+      name: standardAttributeKey,
+      type: attribute.type,
+      jsonPath: attribute.jsonPath,
+    },
+  }
+}
 
-const descriptionStandardAttributes = [
-  standardAttributesKeys.ipId,
-  standardAttributesKeys.sipId,
-  standardAttributesKeys.label,
-  standardAttributesKeys.creationDate,
-  standardAttributesKeys.lastUpdate,
-].map(key => standardAttributes[key])
+/** All standard attributes with server AttributeModel shape, in a dictionnary by ID (mimics server) */
+const standardAttributesAsModel = map(standardAttributesKeys, buildAsModel)
+
+/**
+ * Returns attribute model for standard attribute name as parameter
+ * @param {string} standardAttributeKey standard attribute key
+ * @return {*} attribute found as an attribute model or null
+ */
+function getStandardAttributeModel(standardAttributeKey) {
+  return standardAttributesAsModel.find(({ content: { name } }) => name === standardAttributeKey)
+}
+
+
+/** Pseudo attributes, marks elements that should not be used with the server */
+const pseudoAttributesKeys = [
+  standardAttributesKeys.thumbnail,
+]
+
+/**
+ * Filters attributes that can be searched
+ * @param {*} attribute attribute as returned by the server (within content field)
+ * @return {bool} true when that attribute can be used to search, filter, sort...
+ */
+const isSearchableAttribute = attribute => !pseudoAttributesKeys.includes(get(attribute, 'content.name'))
 
 const DEFAULT_FRAGMENT = 'default'
 
 /**
- * Returns path to attribute
- *  @param attribute : attribute model
- * @return [String] attribute access path in an entity
- */
-const getAttributeAccessPath = attributeModel => get(attributeModel, 'content.jsonPath')
-
-const findAttribute = (attributeName, attributeFragment, attributeModelsList) => find(attributeModelsList, ({ content: { name, fragment } }) => attributeName === name && attributeFragment === fragment.name)
-
-/**
- * Retrieves an attribute from its full qualified name
- * @param attributeFullyQualifiedName attribute full qualified name
- * @param attributeModels attribute models
- * @return found attribute or undefined
+ * Retrieves an attribute from its full qualified name, searching in standard attributes and in attributes as parameter
+ * @param {string} attributeFullyQualifiedName attribute full qualified name
+ * @param {*} attributeModels server attribute models, as array or ID map
+ * @return {*} found attribute model or undefined
  */
 const findModelFromAttributeFullyQualifiedName = (attributeFullyQualifiedName, attributeModels) =>
-  find(attributeModels, ({ content: { jsonPath } }) => jsonPath === attributeFullyQualifiedName)
+  // 1 - search in server attributes
+  find(attributeModels, ({ content: { jsonPath } }) => jsonPath === attributeFullyQualifiedName) ||
+  // 2 - search in statndard attributes
+  find(standardAttributesAsModel, ({ content: { jsonPath } }) => jsonPath === attributeFullyQualifiedName)
 
 /**
   * Finds an attribute value from the full qualified path
@@ -182,13 +202,11 @@ function getAttributeModelFullLabel(attribute) {
 }
 
 module.exports = {
-  getAttributeAccessPath,
   getEntityAttributeValue,
+  getStandardAttributeModel,
   findModelFromAttributeFullyQualifiedName,
-  findAttribute,
   getAttributeModelFullLabel,
-  standardAttributes,
+  isSearchableAttribute,
   standardAttributesKeys,
-  searchableStandardAttributes,
-  descriptionStandardAttributes,
+  standardAttributesAsModel,
 }

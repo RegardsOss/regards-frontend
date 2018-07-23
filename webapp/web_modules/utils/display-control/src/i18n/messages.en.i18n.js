@@ -23,7 +23,7 @@
  * @author Xavier-Alexandre Brochard
  */
 const messages = {
-  'request.entity.too.large': 'We could not handle your request because the result is too large',
+  // empty
 }
 
 export default messages

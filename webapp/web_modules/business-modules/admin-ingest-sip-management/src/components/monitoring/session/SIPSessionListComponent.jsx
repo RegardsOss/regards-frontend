@@ -121,7 +121,7 @@ class SIPSessionListComponent extends React.Component {
       pageSize, resultsCount, initialFilters, entitiesLoading,
     } = this.props
     const { intl, muiTheme, moduleTheme: { session } } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const { appliedFilters } = this.state
 
     const emptyComponent = (
@@ -133,21 +133,19 @@ class SIPSessionListComponent extends React.Component {
 
     const columns = [
       // id column
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.id',
-        intl.formatMessage({ id: 'sips.session.table.headers.id' }),
-        'content.id',
-      ),
+      new TableColumnBuilder('column.id').titleHeaderCell().propertyRenderCell('content.id')
+        .label(intl.formatMessage({ id: 'sips.session.table.headers.id' }))
+        .build(),
+      // steps columns
       ...['generated', 'stored', 'indexed'].map(step =>
-        TableColumnBuilder.buildSimpleColumnWithCell(
-          `column.${step}`,
-          intl.formatMessage({ id: `sips.session.table.headers.${step}` }),
-          TableColumnBuilder.buildProgressRenderCell(this.getProgressPercent(step), this.getProgressLabel(step)),
-        )),
-      TableColumnBuilder.buildSimpleColumnWithCell(
-        'column.errors',
-        intl.formatMessage({ id: 'sips.session.table.headers.errors' }),
-        {
+        new TableColumnBuilder(`column.${step}`).titleHeaderCell()
+          .progressRenderCell(this.getProgressPercent(step), this.getProgressLabel(step))
+          .label(intl.formatMessage({ id: `sips.session.table.headers.${step}` }))
+          .build()),
+      // errors columns
+      new TableColumnBuilder('column.errors').titleHeaderCell()
+        .label(intl.formatMessage({ id: 'sips.session.table.headers.errors' }))
+        .rowCellDefinition({
           Constructor: props => (
             <div style={session.error.rowColumnStyle}>
               <div style={session.error.textStyle}>
@@ -169,44 +167,30 @@ class SIPSessionListComponent extends React.Component {
               </ShowableAtRender>
             </div>
           ),
+        })
+        .build(),
+      new TableColumnBuilder('column.date').titleHeaderCell().propertyRenderCell('content.lastActivationDate', DateValueRender)
+        .label(intl.formatMessage({ id: 'sips.session.table.headers.date' }))
+        .build(),
+      new TableColumnBuilder().optionsColumn([{
+        OptionConstructor: TableDeleteOption,
+        optionProps: {
+          fetchPage: this.props.fetchPage,
+          onDelete: this.onDelete,
+          queryPageSize: 20,
         },
-      ),
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.date',
-        intl.formatMessage({ id: 'sips.session.table.headers.date' }),
-        'content.lastActivationDate',
-        undefined,
-        undefined,
-        DateValueRender,
-      ),
-      TableColumnBuilder.buildOptionsColumn(
-        'options',
-        [
-          {
-            OptionConstructor: TableDeleteOption,
-            optionProps: {
-              fetchPage: this.props.fetchPage,
-              onDelete: this.onDelete,
-              queryPageSize: 20,
-            },
-          },
-          {
-            OptionConstructor: props => (
-              <IconButton
-                title={intl.formatMessage({
-                  id: 'sips.session.table.actions.list',
-                })}
-                onClick={() => this.props.handleOpen(props.entity.content.id)}
-              >
-                <Arrow />
-              </IconButton>
-            ),
-            optionProps: {},
-          },
-        ],
-        true,
-        fixedColumnsWidth,
-      ),
+      }, {
+        OptionConstructor: props => (
+          <IconButton
+            title={intl.formatMessage({
+              id: 'sips.session.table.actions.list',
+            })}
+            onClick={() => this.props.handleOpen(props.entity.content.id)}
+          >
+            <Arrow />
+          </IconButton>
+        ),
+      }]).build(),
     ]
 
     return (
@@ -223,8 +207,8 @@ class SIPSessionListComponent extends React.Component {
             pageActions={sessionActions}
             pageSelectors={sessionSelectors}
             pageSize={pageSize}
-            minRowCount={0}
-            maxRowCount={10}
+            minRowCount={minRowCount}
+            maxRowCount={maxRowCount}
             columns={columns}
             requestParams={appliedFilters}
             emptyComponent={emptyComponent}

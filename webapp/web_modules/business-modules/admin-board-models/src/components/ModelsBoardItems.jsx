@@ -21,6 +21,7 @@ import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import { modelDependencies } from '@regardsoss/admin-data-model-management'
 import { attributeModelDependencies } from '@regardsoss/admin-data-attributemodel-management'
 import { fragmentDependencies } from '@regardsoss/admin-data-fragment-management'
+import { attributePluginDependencies } from '@regardsoss/admin-data-attribute-plugins-management'
 
 /**
  * BoardItems configuration for Datamanagement module
@@ -82,6 +83,25 @@ const items = (projectName, intl) => [
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
         hateoasDependencies: fragmentDependencies.addDependencies,
+      },
+    ],
+  },
+  {
+    title: intl.formatMessage({ id: 'data.board.calculation.plugins.title' }),
+    description: intl.formatMessage({ id: 'data.board.calculation.plugins.description' }),
+    advanced: false,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/models/calculationplugins/list`,
+        icon: <ViewLinesIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
+        hateoasDependencies: attributePluginDependencies.listDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/models/calculationplugins/create`,
+        icon: <AddIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
+        hateoasDependencies: attributePluginDependencies.addDependencies,
       },
     ],
   },

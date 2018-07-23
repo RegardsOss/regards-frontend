@@ -1207,9 +1207,9 @@ module.exports = {
         },
         {
           lowerBound: '2006-01-01T00:30:12.038',
-          upperBound: '2009-02-28T11:59:59.999',
+          upperBound: '2006-01-01T00:30:12.038',
           count: 7,
-          openSearchQuery: 'MISC_INFO.PUBLICATION_DATE: [2006-01-01T00:30:12.038..2009-02-28T11:59:59.999)',
+          openSearchQuery: 'MISC_INFO.PUBLICATION_DATE: 2006-01-01T00:30:12.038',
         },
         {
           lowerBound: '2009-02-28T11:59:59.999',
@@ -1266,19 +1266,19 @@ module.exports = {
           openSearchQuery: 'MISC_INFO.SPECTATORS_COUNT: [5001580:6301455)',
         },
         {
-          lowerBound: '6301455',
-          upperBound: '8881234',
+          lowerBound: '6301456',
+          upperBound: '10133422',
           count: 8,
           openSearchQuery: 'MISC_INFO.SPECTATORS_COUNT: [6301455..8881234)',
         },
         {
-          lowerBound: '8881234',
+          lowerBound: '10133423',
           upperBound: '10133423',
           count: 7,
           openSearchQuery: 'MISC_INFO.SPECTATORS_COUNT: [8881234..10133423)',
         },
         {
-          lowerBound: '10133423',
+          lowerBound: '10133424',
           count: 9,
           openSearchQuery: 'MISC_INFO.SPECTATORS_COUNT: [10133423..*)',
         },

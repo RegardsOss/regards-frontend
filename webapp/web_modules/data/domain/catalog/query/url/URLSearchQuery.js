@@ -21,14 +21,22 @@ import Query from '../common/Query'
 /**
  * URL search query model (open search request URL)  (note: ? parameter is useless)
  */
-export default class OpenSearchQuery extends Query {
+export default class URLSearchQuery extends Query {
+  /** parameters separator */
   static PARAMETERS_SEPARATOR = '&'
 
+  /** Query parameter name */
   static QUERY_PARAMETER_NAME = 'q'
+
+  /** Sort parameter name */
   static SORT_PARAMETER_NAME = 'sort'
 
+  /** Facets parameter name */
+  static FACETTES_PARAMETER_NAME = 'facets'
+
+
   constructor(rootQuery, parameters) {
-    super(rootQuery, parameters, OpenSearchQuery.PARAMETERS_SEPARATOR)
+    super(rootQuery, parameters, URLSearchQuery.PARAMETERS_SEPARATOR)
   }
 }
 

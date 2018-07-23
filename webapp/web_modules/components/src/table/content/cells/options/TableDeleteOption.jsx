@@ -101,7 +101,7 @@ class TableDeleteOption extends React.Component {
         disableInsteadOfHide={disableInsteadOfHide}
         {...omit(this.props, TableDeleteOption.NON_REPORTED_PROPS)}
       >
-        <DeleteIcon />
+        <DeleteIcon className="selenium-deleteButton" />
       </HateoasIconAction>
     )
   }

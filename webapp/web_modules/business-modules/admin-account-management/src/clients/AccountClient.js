@@ -21,7 +21,7 @@ import { AdminInstanceClient } from '@regardsoss/client'
 const namespace = 'admin-account-management/accounts'
 const accountActions = new AdminInstanceClient.AccountActions(namespace)
 const accountReducer = AdminInstanceClient.getAccountReducer(namespace)
-const accountSelectors = AdminInstanceClient.getAccountSelectors(['admin', 'account-management', 'account'])
+const accountSelectors = AdminInstanceClient.getAccountSelectors(['admin', 'account-management', 'accounts', 'account'])
 
 module.exports = {
   accountActions,

@@ -43,6 +43,7 @@ export class PluginListComponent extends React.Component {
     disabled: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     errorText: PropTypes.string,
+    displayMoreInfoButton: PropTypes.bool,
   }
 
   static contextTypes = {
@@ -121,6 +122,7 @@ export class PluginListComponent extends React.Component {
   }
 
   renderDescription = () => {
+    const { displayMoreInfoButton } = this.props
     const {
       moduleTheme: { markdownDialog },
     } = this.context
@@ -131,7 +133,7 @@ export class PluginListComponent extends React.Component {
     }
     // Find plugin
     const plugin = find(this.props.pluginList, p => p.content.pluginId === selectedPluginId)
-    if (get(plugin, 'content.markdown')) {
+    if (get(plugin, 'content.markdown') && displayMoreInfoButton) {
       button = (
         <a
           style={markdownDialog.moreInfoButtonStyle}

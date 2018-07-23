@@ -23,18 +23,17 @@ import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { BasicFacetsPageableActions, BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
-import { FacetArray } from '../../../models/facets/FacetShape'
-import { FilterListShape } from '../../../models/facets/FilterShape'
+import { UIFacetArray, SelectedFacetArray } from '../../../models/facets/FacetShape'
 import TableClient from '../../../clients/TableClient'
 import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/navigation/TableDisplayModeEnum'
 import DisplayModuleConf from '../../../models/DisplayModuleConf'
 import { DISPLAY_MODE_VALUES } from '../../../definitions/DisplayModeEnum'
 import ListViewEntityCellContainer, { packThumbnailRenderData, packGridAttributesRenderData } from '../../../containers/user/results/cells/ListViewEntityCellContainer'
 import AddElementToCartContainer from '../../../containers/user/results/options/AddElementToCartContainer'
-import EntityDescriptionContainer from '../../../containers/user/results/options/EntityDescriptionContainer'
 import OneElementServicesContainer from '../../../containers/user/results/options/OneElementServicesContainer'
+import EntityDescriptionComponent from './options/EntityDescriptionComponent'
 import DownloadEntityFileComponent from './options/DownloadEntityFileComponent'
-import GalleryItemContainer from '../../../containers/user/results/gallery/GalleryItemContainer'
+import GalleryItemComponent from './gallery/GalleryItemComponent'
 import EmptyTableComponent from './EmptyTableComponent'
 import OptionsAndTabsHeaderLine from './header/OptionsAndTabsHeaderLine'
 import ResultsAndFacetsHeaderRow from './header/ResultsAndFacetsHeaderRow'
@@ -78,8 +77,8 @@ class SearchResultsComponent extends React.Component {
 
     // facets control
     showingFacettes: PropTypes.bool.isRequired,
-    facets: FacetArray.isRequired,
-    filters: FilterListShape.isRequired,
+    facets: UIFacetArray.isRequired,
+    selectedFacets: SelectedFacetArray.isRequired,
 
     // quicklook search filter
     displayOnlyQuicklook: PropTypes.bool.isRequired,
@@ -87,17 +86,18 @@ class SearchResultsComponent extends React.Component {
     // request control
     searchQuery: PropTypes.string.isRequired,
 
-
     accessToken: PropTypes.string,
     projectName: PropTypes.string.isRequired,
+    locale: PropTypes.string.isRequired,
 
     // services from PluginServicesContainer HOC
     selectionServices: AccessShapes.PluginServiceWithContentArray,
+
     // control
     onChangeColumnsVisibility: PropTypes.func.isRequired,
-    onDeleteFacet: PropTypes.func.isRequired,
     onSetEntityAsTag: PropTypes.func.isRequired,
     onSelectFacet: PropTypes.func.isRequired,
+    onUnselectFacet: PropTypes.func.isRequired,
     onShowDatasets: PropTypes.func.isRequired,
     onShowDataobjects: PropTypes.func.isRequired,
     onShowListView: PropTypes.func.isRequired,
@@ -111,6 +111,9 @@ class SearchResultsComponent extends React.Component {
     // from OrderCartContainer HOC
     onAddSelectionToCart: PropTypes.func, // callback to add selection to cart, null when disabled
     onAddElementToCart: PropTypes.func, // callback to add element to cart, null when disabled
+    // from DescriptionProviderContainer HOC
+    onShowDescription: PropTypes.func,
+    isDescAvailableFor: PropTypes.func,
   }
 
   static contextTypes = {
@@ -151,63 +154,48 @@ class SearchResultsComponent extends React.Component {
    */
   buildTableColumns = () => {
     const {
-      searchSelectors, attributePresentationModels, onSortByAttribute, onSetEntityAsTag,
-      onAddElementToCart, viewObjectType, enableDownload, accessToken, projectName,
+      searchSelectors, attributePresentationModels, viewObjectType, enableDownload, accessToken, projectName, locale,
+      isDescAvailableFor, onSortByAttribute, onSetEntityAsTag: onSearchEntity, onAddElementToCart: onAddToCart, onShowDescription,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
-    const { fixedColumnsWidth } = this.context.muiTheme.components.infiniteTable
     const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
     const enableNavigateTo = SearchResultsComponent.hasNavigateTo(viewObjectType)
     return [
       // selection column
-      enableSelection ? TableColumnBuilder.buildSelectionColumn(
-        formatMessage({ id: 'results.selection.column.label' }),
-        true, searchSelectors, TableClient.tableActions, TableClient.tableSelectors,
-        this.isColumnVisible(TableColumnBuilder.selectionColumnKey), fixedColumnsWidth,
-      ) : null,
+      enableSelection ? new TableColumnBuilder()
+        .label(formatMessage({ id: 'results.selection.column.label' }))
+        .visible(this.isColumnVisible(TableColumnBuilder.selectionColumnKey))
+        .selectionColumn(true, searchSelectors, TableClient.tableActions, TableClient.tableSelectors)
+        .build() : null,
       // attributes and attributes groups as provided by parent
       ...attributePresentationModels.map(presentationModel =>
         AttributeColumnBuilder.buildAttributeColumn(
           presentationModel,
           this.isColumnVisible(presentationModel.key),
           onSortByAttribute,
-          fixedColumnsWidth,
+          locale,
         )),
       // Options in current context
-      TableColumnBuilder.buildOptionsColumn(
-        formatMessage({ id: 'results.options.column.label' }),
-        this.buildTableOptions(onAddElementToCart, onSetEntityAsTag, enableServices, enableDownload, enableNavigateTo, accessToken, projectName),
-        this.isColumnVisible(TableColumnBuilder.optionsColumnKey),
-        fixedColumnsWidth,
-      ),
+      new TableColumnBuilder()
+        .label(formatMessage({ id: 'results.options.column.label' }))
+        .visible(this.isColumnVisible(TableColumnBuilder.optionsColumnKey))
+        .optionsColumn([
+          // Download
+          enableDownload ? { OptionConstructor: DownloadEntityFileComponent, optionProps: { accessToken, projectName } } : null,
+          // Description if available for current object type
+          isDescAvailableFor(viewObjectType) ? { OptionConstructor: EntityDescriptionComponent, optionProps: { onShowDescription } } : null,
+          // Search by tag
+          enableNavigateTo ? { OptionConstructor: SearchRelatedEntitiesComponent, optionProps: { onSearchEntity } } : null,
+          // Services
+          enableServices ? { OptionConstructor: OneElementServicesContainer } : null,
+          // Add to cart
+          onAddToCart ? { OptionConstructor: AddElementToCartContainer, optionProps: { onAddToCart } } : null,
+        ])
+        .build(),
     ].filter(column => !!column) // filter null elements
   }
-
-  /**
-   * Builds table options
-   * @param {function} onAddElementToCart callback to add element to cart (element) => (). Null if not available in context
-   * @param {function} onSearchEntity callback to add element to cart (element) => (). Null if not available in context
-   * @param {boolean} enableServices should enable services in options?
-   * @param {boolean} enableDownload should enable download in options?
-   * @param {boolean} enableNavigateTo should enable navigate to in options?
-   * @param {object} accessToken user auth token
-   * @return [{OptionConstructor: function, optionProps: {*}}] table options
-   */
-  buildTableOptions = (onAddToCart, onSearchEntity, enableServices, enableDownload, enableNavigateTo, accessToken, projectName) => [
-    // Download file description
-    enableDownload ? { OptionConstructor: DownloadEntityFileComponent, optionProps: { accessToken, projectName } } : null,
-    // Entity description
-    { OptionConstructor: EntityDescriptionContainer },
-    // Search entity
-    enableNavigateTo ? { OptionConstructor: SearchRelatedEntitiesComponent, optionProps: { onSearchEntity } } : null,
-    // Entity services, only when enabled
-    enableServices ? { OptionConstructor: OneElementServicesContainer } : null,
-    // Add to cart, only when enabled
-    onAddToCart ? { OptionConstructor: AddElementToCartContainer, optionProps: { onAddToCart } } : null]
-    .filter(option => !!option) // filter null options
-
 
   /**
   * Create columns configuration for table view
@@ -219,28 +207,31 @@ class SearchResultsComponent extends React.Component {
   */
   buildListColumn = () => {
     const {
-      attributePresentationModels, onAddElementToCart, onSetEntityAsTag, enableDownload, viewObjectType, accessToken, projectName,
+      attributePresentationModels, enableDownload, viewObjectType, accessToken, projectName, locale,
+      isDescAvailableFor, onAddElementToCart, onSetEntityAsTag, onShowDescription,
     } = this.props
     const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
     const enableNavigateTo = SearchResultsComponent.hasNavigateTo(viewObjectType)
 
     // build column. Note: label is ignored here as the columns button will get removed
-    return TableColumnBuilder.buildColumn('single.list.column', 'single.list.column', null, {
+    return new TableColumnBuilder('single.list.column').rowCellDefinition({
       Constructor: ListViewEntityCellContainer,
       props: {
         // prefetch attributes from models to enhance render time
         thumbnailRenderData: packThumbnailRenderData(attributePresentationModels),
-        gridAttributesRenderData: packGridAttributesRenderData(attributePresentationModels),
+        gridAttributesRenderData: packGridAttributesRenderData(attributePresentationModels, locale),
         selectionEnabled: enableSelection,
         servicesEnabled: enableServices,
         onSearchEntity: enableNavigateTo ? onSetEntityAsTag : null,
         onAddToCart: onAddElementToCart,
+        isDescAvailableFor,
+        onShowDescription,
         enableDownload,
         accessToken,
         projectName,
       },
-    })
+    }).build()
   }
 
   /**
@@ -272,27 +263,23 @@ class SearchResultsComponent extends React.Component {
 
     const {
       allowingFacettes, attributePresentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
-      viewObjectType, tableViewMode, showingFacettes, facets, filters, searchQuery, selectionServices, onChangeColumnsVisibility, onDeleteFacet,
-      onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
-      onStartSelectionService, onAddSelectionToCart, onShowQuicklookView, enableQuicklooks, displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook,
-      onAddElementToCart, enableDownload, accessToken, projectName, datasetsSectionLabel, dataSectionLabel,
+      viewObjectType, tableViewMode, showingFacettes, facets, selectedFacets, searchQuery, selectionServices, enableQuicklooks,
+      displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook, enableDownload, accessToken, projectName, datasetsSectionLabel,
+      dataSectionLabel, locale, isDescAvailableFor,
+      onChangeColumnsVisibility, onSelectFacet, onUnselectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView,
+      onSortByAttribute, onToggleShowFacettes, onStartSelectionService, onAddSelectionToCart, onShowQuicklookView,
+      onAddElementToCart, onShowDescription,
     } = this.props
 
     let columns
     let { lineHeight } = tableTheme
     let displayColumnsHeader
-    let minRowCount
-    let maxRowCount
 
     const tableColumns = this.buildTableColumns()
     if (this.isInTableView()) {
       columns = tableColumns
       displayColumnsHeader = true
-      minRowCount = tableTheme.minRowCount
-      maxRowCount = tableTheme.maxRowCount
     } else if (this.isInListView()) { // use list columns
-      minRowCount = resultsTheme.minListRowCount
-      maxRowCount = resultsTheme.maxListRowCount
       lineHeight = resultsTheme.listLineHeight
       columns = [this.buildListColumn()]
       displayColumnsHeader = false
@@ -303,7 +290,9 @@ class SearchResultsComponent extends React.Component {
     const showFacets = showingFacettes && allowingFacettes && (this.isDisplayingDataobjects() || this.isDisplayingDocuments())
     const itemProps = {
       attributePresentationModels,
+      isDescAvailableFor,
       onAddElementToCart,
+      onShowDescription,
       enableDownload,
       accessToken,
       projectName,
@@ -325,6 +314,7 @@ class SearchResultsComponent extends React.Component {
           selectionServices={selectionServices}
           datasetsSectionLabel={datasetsSectionLabel}
           dataSectionLabel={dataSectionLabel}
+          locale={locale}
           onAddSelectionToCart={onAddSelectionToCart}
           onChangeColumnsVisibility={onChangeColumnsVisibility}
           onShowDataobjects={onShowDataobjects}
@@ -348,12 +338,12 @@ class SearchResultsComponent extends React.Component {
         {/* Third header row (only with facets enabled):  */}
         <SelectedFacetsHeaderRow
           showingFacettes={showFacets}
-          filters={filters}
-          onDeleteFilter={onDeleteFacet}
+          selectedFacets={selectedFacets}
+          onUnselectFacet={onUnselectFacet}
         />
-        {this.isInQuicklookView() ?
-          (<InfiniteGalleryContainer
-            itemComponent={GalleryItemContainer}
+        {this.isInQuicklookView() ? (
+          <InfiniteGalleryContainer
+            itemComponent={GalleryItemComponent}
             pageActions={searchActions}
             pageSelectors={searchSelectors}
             columnWidth={displayConf.quicklookColumnWidth}
@@ -362,26 +352,25 @@ class SearchResultsComponent extends React.Component {
             queryPageSize={QUICKLOOK_PAGE_SIZE}
             emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
             itemProps={itemProps}
-          />) : (<PageableInfiniteTableContainer
-            key={viewObjectType} // unmount the table when change entity type (using key trick)
-            // infinite table configuration
-            pageActions={searchActions}
-            pageSelectors={searchSelectors}
-            tableActions={TableClient.tableActions}
+          />) : (
+            <PageableInfiniteTableContainer
+              key={viewObjectType} // unmount the table when change entity type (using key trick)
+              // infinite table configuration
+              pageActions={searchActions}
+              pageSelectors={searchSelectors}
+              tableActions={TableClient.tableActions}
 
-            displayColumnsHeader={displayColumnsHeader}
-            lineHeight={lineHeight}
-            minRowCount={minRowCount}
-            maxRowCount={maxRowCount}
-            columns={columns}
-            queryPageSize={RESULTS_PAGE_SIZE}
-            pathParams={pathParams}
-            emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
-          />)
+              displayColumnsHeader={displayColumnsHeader}
+              lineHeight={lineHeight}
+              columns={columns}
+              queryPageSize={RESULTS_PAGE_SIZE}
+              pathParams={pathParams}
+              emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
+            />)
         }
-      </TableLayout>
-    )
+      </TableLayout>)
   }
 }
 
 export default SearchResultsComponent
+

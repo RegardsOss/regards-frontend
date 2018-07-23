@@ -18,21 +18,17 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import isNumber from 'lodash/isNumber'
 import map from 'lodash/map'
 import { Table as FixedDataTable, Column } from 'fixed-data-table-2'
 import { themeContextType } from '@regardsoss/theme'
 import ColumnHeaderWrapper from './columns/ColumnHeaderWrapper'
 import CellWrapper from './cells/CellWrapper'
-import { areDifferentColumnsArrays } from './columns/ColumnsHelper'
-import TableColumnConfiguration from './columns/model/TableColumnConfiguration'
+import { TableColumnConfiguration } from './columns/model/TableColumnConfiguration'
+import { OptionsColumnSize } from './columns/size/OptionColumnSize'
+import { layout } from './TableLayoutHelper'
 
-/** Minimal width for a column */
-const MIN_COL_WIDTH = 150
 /** Protects from undesired vertical scrollbar (due to the component CSS borders) */
 const RESERVED_BORDERS_HEIGHT = 2
-/** CSS scrollbar size (taken in account when computing the available width for columns) */
-const SCROLLBAR_SIZE = 17
 /**
  * Fixed data table from facebook library integrated with material ui theme
  * and infinite scroll functionality.
@@ -55,13 +51,9 @@ class Table extends React.Component {
     // table configuration properties
     displayColumnsHeader: PropTypes.bool,
     lineHeight: PropTypes.number.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    minRowCount: PropTypes.number.isRequired, // use in graphics computing
-    // eslint-disable-next-line react/no-unused-prop-types
-    maxRowCount: PropTypes.number.isRequired,
 
     // dynamic properties
-    entities: PropTypes.arrayOf(PropTypes.object), // Current fetched entities
+    entities: PropTypes.arrayOf(PropTypes.any), // Current fetched entities
     // eslint-disable-next-line react/no-unused-prop-types
     entitiesCount: PropTypes.number, // Total number of entities (even the unfetched ones)
     onScrollEnd: PropTypes.func.isRequired,
@@ -69,6 +61,7 @@ class Table extends React.Component {
     columns: PropTypes.arrayOf(TableColumnConfiguration).isRequired, // used in state update
 
     // required runtime width for columns size adjustements
+    height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
   }
 
@@ -88,8 +81,6 @@ class Table extends React.Component {
    * @return {boolean} true if cells definitions are the same
    */
   static isSameRowCell(cellDefinition1, cellDefinition2) {
-    console.error('One two', cellDefinition1, cellDefinition2, isEqual(cellDefinition1, cellDefinition2))
-    console.error(get(cellDefinition1, 'values') === get(cellDefinition2, 'values'))
     return get(cellDefinition1, 'Constructor') === get(cellDefinition2, 'Constructor') &&
       isEqual(cellDefinition1, cellDefinition2)
   }
@@ -116,9 +107,6 @@ class Table extends React.Component {
     const oldState = this.state || {}
     const newState = oldState ? { ...oldState } : {}
 
-    // compute height
-    newState.height = this.computeHeight(newProps)
-
     // compute columns with width, BUT AVOID updating it when entities change (do update only
     // when the scroll is visible and wasnt before)
     const wasShowingScroll = (oldProps.entities || []).length > (oldProps.maxRowCount || 0)
@@ -126,11 +114,11 @@ class Table extends React.Component {
 
     // update columns when: scroll state changed, width changed or columns list changed
     if (wasShowingScroll !== willShowScroll || oldProps.width !== newProps.width ||
-      areDifferentColumnsArrays(oldProps.columns, newProps.columns)) {
+      !isEqual(oldProps.columns, newProps.columns)) {
       newState.runtimeColumns = this.computeColumnsModelsWithWidth(newProps)
     }
 
-    if (oldState.height !== newState.height || areDifferentColumnsArrays(newState.runtimeColumns, oldState.runtimeColumns)) {
+    if (!isEqual(newState.runtimeColumns, oldState.runtimeColumns)) {
       this.setState(newState)
     }
   }
@@ -151,9 +139,6 @@ class Table extends React.Component {
     })
   }
 
-  /** @return default header line height from theme */
-  getDefaultHeaderHeight = () => this.context.muiTheme.components.infiniteTable.minHeaderRowHeight
-
   /**
    * Retrieve entity for the given rowIndex from the array containing all entities or null if it is outside bounds
    * @param rowIndex
@@ -162,21 +147,12 @@ class Table extends React.Component {
   getEntity = rowIndex => rowIndex < 0 || rowIndex >= this.props.entities.length ? null : this.props.entities[rowIndex]
 
   /**
-   * Returns the rows count to consider to show table
-   * @param {number} entitiesCount entities count
-   * @param {number} minRowCount min number of rows to show
-   * @param {number} maxRowCount max number of row to show
-   * @return {number} selected row count
+   * Returns header height for current xconfiguration
+   * @param {boolean} displayColumnsHeader  component properties
+   * @return current header height
    */
-  getRowCount = (entitiesCount, minRowCount, maxRowCount) => {
-    if (entitiesCount < minRowCount) {
-      return minRowCount
-    }
-    if (entitiesCount > maxRowCount) {
-      return maxRowCount
-    }
-    return entitiesCount
-  }
+  getHeaderHeight = displayColumnsHeader =>
+    displayColumnsHeader ? this.context.muiTheme.components.infiniteTable.minHeaderRowHeight : 0
 
   /**
    * Is there an entity on specified row index?
@@ -187,63 +163,20 @@ class Table extends React.Component {
   hasEntity = rowIndex => rowIndex >= 0 && this.props.entities.length > rowIndex
 
   /**
-   * Computes current component height
-   * @param props component properties to consider
-   * @return component height
-   */
-  computeHeight = ({
-    lineHeight, minRowCount, maxRowCount, displayColumnsHeader, entitiesCount,
-  }) => {
-    // If total number of entities is too small don't display all the lines.
-    const rowCount = this.getRowCount(entitiesCount, minRowCount, maxRowCount)
-    return (lineHeight * rowCount) + RESERVED_BORDERS_HEIGHT + (displayColumnsHeader ? this.getDefaultHeaderHeight() : 0)
-  }
-
-  /**
    * Computes graphics measures and provides a usable component state
    * @return {nbEntitiesByPage:{number}, height:{number}, runtimeColumns:{RuntimeColumn}} usable state for component, with
    * runtime columns (default table columns enriched with required runtime data and filtered on visible state)
    */
   computeColumnsModelsWithWidth = ({
-    minRowCount, maxRowCount, entities, width, columns = [],
+    entities, lineHeight, height, width, columns = [], displayColumnsHeader,
   }) => {
-    // 2 - Update columns width related data
-    // 2.a - prepare columns (filter unvisible and sort on order)
-    const renderColumns = columns.filter(c => c.visible).sort((c1, c2) => c1.order - c2.order)
-
-    // 2.b - compute if there are floating columns (otherwise, next layout is useless)
-    const floatingColumnsCount = renderColumns.reduce((acc, c) => !isNumber(c.fixedWidth) ? acc + 1 : acc, 0)
-    let floatingColumnWidth = 0
-    let lastFloatingColumnWidth = 0
-    if (floatingColumnsCount > 0) {
-      // 2.c - There are floarting columns, compute how many space they have (refuse column width less than MIN_COL_WIDTH)
-      const entitiesCount = get(entities, 'length', 0)
-      // consider total width, but remove right scrollbar size if shown
-      const displayedRowsCount = this.getRowCount(get(entities, 'length', 0), minRowCount, maxRowCount)
-      const availableWidth = width - (entitiesCount > displayedRowsCount ? SCROLLBAR_SIZE : 0)
-      const fixedColumnsWidth = renderColumns.reduce((acc, column) =>
-        isNumber(column.fixedWidth) ? acc + column.fixedWidth : acc, 0)
-      const floatingWidth = availableWidth - fixedColumnsWidth
-      floatingColumnWidth = Math.max(Math.floor(floatingWidth / floatingColumnsCount), MIN_COL_WIDTH)
-      // 2.d - consume remaining pixels (avoid int imprecision there)
-      lastFloatingColumnWidth = Math.max(Math.ceil(floatingWidth - (floatingColumnWidth * (floatingColumnsCount - 1))), MIN_COL_WIDTH)
-    }
-
-    // 3 - duplicate locally the column models to hold their width
-    // Algo: we need here to count the floating rows to know when we are handling the last one
-    const { columnsAcc: runtimeColumns } = renderColumns.reduce(({ floatingCountAcc, columnsAcc }, column, index) => {
-      let nextFloatingCount
-      let runtimeWidth
-      if (isNumber(column.fixedWidth)) {
-        nextFloatingCount = floatingCountAcc
-        runtimeWidth = column.fixedWidth
-      } else {
-        nextFloatingCount = floatingCountAcc + 1
-        runtimeWidth = floatingCountAcc === floatingColumnsCount ? lastFloatingColumnWidth : floatingColumnWidth
-      }
-      return { floatingCount: nextFloatingCount, columnsAcc: [...columnsAcc, { ...column, runtimeWidth }] }
-    }, { floatingCountAcc: 0, columnsAcc: [] })
-    return runtimeColumns
+    const { fixedColumnsWidth, minColumnsWidth } = this.context.muiTheme.components.infiniteTable
+    // check if the vertical scrollbar should be shown
+    const effectiveHeight = height - this.getHeaderHeight()
+    const entitiesHeight = entities.length * lineHeight
+    const showVerticalScrollBar = entitiesHeight > effectiveHeight
+    // let table layout provide columns with runtime width
+    return layout(columns, width, showVerticalScrollBar, fixedColumnsWidth, minColumnsWidth)
   }
 
   render() {
@@ -251,43 +184,44 @@ class Table extends React.Component {
       return null
     }
     const {
-      entities, width, lineHeight = this.getDefaultLineHeight(), displayColumnsHeader, onScrollEnd,
+      entities, width, height, lineHeight, displayColumnsHeader, onScrollEnd,
     } = this.props
-    const { runtimeColumns, height } = this.state
+    const { runtimeColumns } = this.state
     return (
       <FixedDataTable
         rowHeight={lineHeight}
-        headerHeight={displayColumnsHeader ? this.getDefaultHeaderHeight() : 0}
+        headerHeight={this.getHeaderHeight(displayColumnsHeader)}
         rowsCount={entities.length}
         onColumnResizeEndCallback={this.onColumnResizeEndCallback}
         isColumnResizing={false}
         onScrollEnd={onScrollEnd}
         width={width}
-        height={height}
+        height={height - RESERVED_BORDERS_HEIGHT}
       >
         { // map runtime columns from state (they are enriched with width information)
           map(runtimeColumns, (column, index) => (
             <Column
               key={column.key}
               columnKey={column.key}
+              fixedRight={column.fixedColumn}
               header={
-                <ColumnHeaderWrapper isLastColumn={index === runtimeColumns.length - 1}>
-                  { // provide header cell as child
-                    column.headerCell
-                  }
-                </ColumnHeaderWrapper>
+                <ColumnHeaderWrapper
+                  columnKey={column.key}
+                  label={column.label}
+                  headerCellDefinition={column.headerCellDefinition}
+                  isLastColumn={index === runtimeColumns.length - 1}
+                />
               }
               cell={
                 <CellWrapper
                   lineHeight={this.props.lineHeight}
                   isLastColumn={index === runtimeColumns.length - 1}
                   getEntity={rowIndex => this.getEntity(rowIndex)}
-                  CellContentBuilder={column.rowCellDefinition.Constructor}
-                  cellContentBuilderProps={column.rowCellDefinition.props}
+                  rowCellDefinition={column.rowCellDefinition}
                 />
               }
               width={column.runtimeWidth}
-              isResizable={!column.fixedWidth}
+              isResizable={column.sizing.type !== OptionsColumnSize.TYPE} // forbid fixed width columns to resize
             />))
         }
       </FixedDataTable>

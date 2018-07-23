@@ -21,7 +21,6 @@ import ShowableAtRender from '../ShowableAtRender'
 import LoadingComponent from './loading/LoadingComponent'
 import DefaultErrorComponent from './error/DefaultErrorComponent'
 import DefaultEmptyComponent from './empty/DefaultEmptyComponent'
-import DefaultRequestEntityTooLargeComponent from './error/DefaultRequestEntityTooLargeComponent'
 
 /**
  * Component handling the proper display of a subcomponent with async loading content.
@@ -40,8 +39,6 @@ class LoadableContentDisplayDecorator extends React.Component {
     contentErrorComponent: PropTypes.element,
     isEmpty: PropTypes.bool,
     emptyComponent: PropTypes.element,
-    isRequestEntityTooLarge: PropTypes.bool,
-    requestEntityTooLargeComponent: PropTypes.element,
   }
 
   static defaultProps = {
@@ -51,8 +48,6 @@ class LoadableContentDisplayDecorator extends React.Component {
     contentErrorComponent: <DefaultErrorComponent />,
     isEmpty: false,
     emptyComponent: <DefaultEmptyComponent />,
-    isRequestEntityTooLarge: false,
-    requestEntityTooLargeComponent: <DefaultRequestEntityTooLargeComponent />,
   }
 
   /**
@@ -72,26 +67,23 @@ class LoadableContentDisplayDecorator extends React.Component {
 
   render() {
     const {
-      isLoading, loadingComponent, isContentError, contentErrorComponent, isEmpty, emptyComponent, isRequestEntityTooLarge, requestEntityTooLargeComponent,
+      isLoading, loadingComponent, isContentError, contentErrorComponent, isEmpty, emptyComponent,
     } = this.props
     return (
-      <div>
+      <React.Fragment>
         <ShowableAtRender show={isLoading}>
           {loadingComponent}
         </ShowableAtRender>
         <ShowableAtRender show={isContentError && !isLoading}>
           {contentErrorComponent}
         </ShowableAtRender>
-        <ShowableAtRender show={isRequestEntityTooLarge && !isContentError && !isLoading}>
-          {requestEntityTooLargeComponent}
-        </ShowableAtRender>
-        <ShowableAtRender show={!isRequestEntityTooLarge && isEmpty && !isContentError && !isLoading}>
+        <ShowableAtRender show={isEmpty && !isContentError && !isLoading}>
           {emptyComponent}
         </ShowableAtRender>
-        <ShowableAtRender show={!isRequestEntityTooLarge && !isEmpty && !isContentError && !isLoading}>
+        <ShowableAtRender show={!isEmpty && !isContentError && !isLoading}>
           {this.renderChild()}
         </ShowableAtRender>
-      </div>
+      </React.Fragment>
     )
   }
 }

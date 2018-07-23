@@ -40,6 +40,7 @@ describe('[Storage Monitoring] Testing StoragePluginContainer ', () => {
   })
   it('should render correctly and provide data from state to children', () => {
     const props = {
+      userApp: true,
       scale: storage.StorageUnitScale.bytesScale,
       plugin: dump[1],
     }
@@ -53,6 +54,7 @@ describe('[Storage Monitoring] Testing StoragePluginContainer ', () => {
   it('should pre-convert correctly the plugin data in its state, ignoring non parsable sizes', () => {
     // first plugin (parsable)
     const props = {
+      userApp: true,
       scale: storage.StorageUnitScale.bytesScale,
       plugin: dump[1],
     }
@@ -84,6 +86,7 @@ describe('[Storage Monitoring] Testing StoragePluginContainer ', () => {
   it('should round unused size to 0 when used size overflows capacity', () => {
     // An overflowing used size storage plugin
     const props = {
+      userApp: true,
       scale: storage.StorageUnitScale.bytesScale,
       plugin: {
         content: {
@@ -99,5 +102,18 @@ describe('[Storage Monitoring] Testing StoragePluginContainer ', () => {
     const { parsedStoragePlugin } = enzymeWrapper.state()
     assert.equal(parsedStoragePlugin.unusedSize.value, 0)
     assert.equal(parsedStoragePlugin.unusedPercent, 0)
+  })
+  it('should render correctly in admin app', () => {
+    const props = {
+      userApp: false,
+      scale: storage.StorageUnitScale.bytesScale,
+      plugin: dump[1],
+    }
+    const enzymeWrapper = shallow(<StoragePluginContainer {...props} />, { context })
+    const subComponent = enzymeWrapper.find(StoragePluginComponent)
+    assert.lengthOf(subComponent, 1, 'The sub component should be rendered')
+    testSuiteHelpers.assertWrapperProperties(subComponent, {
+      storagePlugin: enzymeWrapper.state().parsedStoragePlugin,
+    }, 'Container data is not correctly reported')
   })
 })

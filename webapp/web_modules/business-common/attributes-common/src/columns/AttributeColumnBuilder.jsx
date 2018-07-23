@@ -16,15 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CommonDomain } from '@regardsoss/domain'
+import get from 'lodash/get'
+import { DamDomain } from '@regardsoss/domain'
 import { TableColumnBuilder } from '@regardsoss/components'
-import { buildRenderDelegate } from '../render/AttributesTypeToRender'
+import { buildRenderDelegate, buildThumbnailRenderDelegate } from '../render/AttributesTypeToRender'
 
 /**
  * Helper to build data model attribute table columns
  * @author Raphaël Mechali
  */
-
 
 /**
  * Returns render delegates for attributes
@@ -36,48 +36,51 @@ function buildRenderDelegates(attributes) {
 }
 
 /**
+ * Returns thumbnail render delegate as array
+ * @param {*} thumbnailAttribute thumbnail attribute
+ * @return {path:{string}, RenderConstructor:{function}} delegate builder with props
+ */
+function buildThumbnailDelegates(thumbnailAttribute) {
+  return [buildThumbnailRenderDelegate(`content.${thumbnailAttribute.content.jsonPath}`)]
+}
+
+/**
  * Builds an attribute column
  * @param {*} presentationModel an attribute presentation model, see AttributePresentationModel shape
+ * @param {bool} visible is column visible
+ * @param {func} onSort on sort callback
+ * @param {string} locale the locale to resolve label to use for column
  * @return {TableColumnConfiguration} column built
  */
 function buildAttributeColumn({
   key, label, attributes, order,
   enableSorting, sortOrder, sortIndex,
-}, visible, onSort, fixedColumnsWidth) {
+}, visible, onSort, locale) {
   if (attributes.length < 1) {
     throw new Error(`An attribute presentation model must have attributes! (${key}/${label})`)
   }
-
-  const isSpecialAttr = attributes.length === 1 && [
-    CommonDomain.DataTypesEnum.THUMBNAIL,
-  ].includes(attributes[0].content.type)
-  const isSortable = attributes.length === 1 && enableSorting
-
-  // 1 - determine column header and width
-  let columnHeader
-  let columnWidth
-  if (isSpecialAttr) {
-    // special attributes: no header, fixed width
-    columnHeader = null
-    columnWidth = fixedColumnsWidth
-  } else if (isSortable) {
-    // default column: if sorting enabled, sorting header
-    // width: undefined (growing column)
-    columnHeader = TableColumnBuilder.buildSortableColumnHeader(
-      key, label, false, enableSorting,
-      sortOrder, sortIndex, onSort,
-    )
+  // 1 - build common column elements
+  const columnBuilder = new TableColumnBuilder(key).label(get(label, locale, '')).visible(visible).order(order)
+  // 2 - determine column header, width and render
+  // check, by key, if we are currently rendering the thumbnail column
+  const isThumbnailColumn = attributes.length === 1 &&
+    DamDomain.AttributeModelController.standardAttributesKeys.thumbnail === attributes[0].content.name
+  if (isThumbnailColumn) {
+    // thumbnail attribute: no header, fixed width, single picture delegate
+    columnBuilder.optionsSizing(1).propertiesRenderCell(buildThumbnailDelegates(attributes[0]))
   } else {
-    columnHeader = TableColumnBuilder.buildTitleColumnHeader(key, label)
+    // a common single or attributes group column: build attributes render delegates, keep width undefined (not fixed) and prepare header
+    columnBuilder.propertiesRenderCell(buildRenderDelegates(attributes))
+    const isSortable = attributes.length === 1 && enableSorting
+    if (isSortable) {
+      // default column: if sorting enabled, sorting header
+      columnBuilder.sortableHeaderCell(sortOrder, sortIndex, onSort)
+    } else { // group column: never sortable, show only the title
+      columnBuilder.titleHeaderCell()
+    }
   }
-
-  // 2 - detemines cell rendeer
-  return TableColumnBuilder.buildColumn(
-    key, label, columnHeader,
-    TableColumnBuilder.buildPropertiesRenderCell(buildRenderDelegates(attributes)), visible, order, columnWidth,
-    sortOrder, sortIndex, // append sort order and index at end so that the table can re-render on sorting
-  )
+  return columnBuilder.build()
 }
 
 
-module.exports = { buildRenderDelegates, buildAttributeColumn }
+module.exports = { buildRenderDelegates, buildThumbnailDelegates, buildAttributeColumn }

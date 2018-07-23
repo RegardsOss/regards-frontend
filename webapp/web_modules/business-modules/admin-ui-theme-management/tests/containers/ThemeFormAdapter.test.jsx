@@ -39,7 +39,6 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeFormAdapter', () => {
     assert.isDefined(ThemeFormAdapter)
   })
   it('should render correctly', () => {
-    const fetchThemeInstance = () => { }
     const props = {
       // from router
       params: {
@@ -53,7 +52,7 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeFormAdapter', () => {
 
       // Set by mapDispatchToProps
       fetchTheme: () => { },
-      fetchThemeInstance,
+      fetchThemeInstance: () => { },
       updateTheme: () => { },
       updateInstanceTheme: () => { },
       createTheme: () => { },
@@ -63,6 +62,6 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeFormAdapter', () => {
     const formContainerWrapper = enzymeWrapper.find(ThemeFormContainer)
     assert.lengthOf(formContainerWrapper, 1, 'Should find the form container')
 
-    assert.deepEqual(formContainerWrapper.prop('fetchTheme'), fetchThemeInstance)
+    assert.deepEqual(formContainerWrapper.prop('fetchTheme'), props.fetchThemeInstance)
   })
 })

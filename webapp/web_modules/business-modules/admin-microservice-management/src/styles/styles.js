@@ -30,6 +30,11 @@ const microserviceManagementStyles = theme => ({
       position: 'relative',
       paddingBottom: 20,
     },
+    moreInfoLink: {
+      color: theme.palette.accent1Color,
+      textDecoration: 'none',
+      marginTop: 10,
+    },
     grid: {
       display: 'flex',
       flexWrap: 'wrap',

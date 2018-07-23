@@ -23,7 +23,7 @@
  * @author Xavier-Alexandre Brochard
  */
 const messages = {
-  'request.entity.too.large': 'Traitement abandonné dû à une requête trop importante',
+  //empty
 }
 
 export default messages

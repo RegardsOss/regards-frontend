@@ -35,10 +35,7 @@ const ModuleConfiguration = PropTypes.shape({
       active: PropTypes.bool.isRequired,
       // conf.attributes holds, by plugin attribute name, the attribute ID OR key (for standard attributes)
       conf: PropTypes.shape({
-        attributes: PropTypes.objectOf(PropTypes.oneOfType([
-          PropTypes.number,
-          PropTypes.string,
-        ])).isRequired,
+        attributes: PropTypes.objectOf(PropTypes.string).isRequired,
       }).isRequired,
     })),
     // Does search form render for preview or for full use

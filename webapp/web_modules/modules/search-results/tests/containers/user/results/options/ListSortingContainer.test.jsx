@@ -28,16 +28,16 @@ const context = buildTestContext(styles)
 
 const models = [
   {
-    key: '0', label: 'L3', attributes: [], enableSorting: true, sortOrder: '', defaultSorting: true,
+    key: '0', label: { en: 'L3', fr: 'L3' }, attributes: [], enableSorting: true, sortOrder: '', defaultSorting: true,
   },
   {
-    key: '1', label: 'L2', attributes: [], enableSorting: false, sortOrder: '', defaultSorting: false,
+    key: '1', label: { en: 'L2', fr: 'L2' }, attributes: [], enableSorting: false, sortOrder: '', defaultSorting: false,
   },
   {
-    key: '2', label: 'L1', attributes: [], enableSorting: true, sortOrder: '', defaultSorting: false,
+    key: '2', label: { en: 'L1', fr: 'L1' }, attributes: [], enableSorting: true, sortOrder: '', defaultSorting: false,
   },
   {
-    key: '3', label: 'L4', attributes: [], enableSorting: true, sortOrder: '', defaultSorting: false,
+    key: '3', label: { en: 'L4', fr: 'L4' }, attributes: [], enableSorting: true, sortOrder: '', defaultSorting: false,
   },
 ]
 
@@ -56,16 +56,14 @@ describe('[Search Results] Testing ListSortingContainer', () => {
     const props = {
       attributePresentationModels: models,
       onSortByAttribute: () => { },
+      locale: 'en',
     }
     const enzymeWrapper = shallow(<ListSortingContainer {...props} />, { context })
     const component = enzymeWrapper.find(ListSortingComponent)
     assert.lengthOf(component, 1, 'There should be the render component')
-    // check that non sortable attributes were removed and alphabetical order is granted
+    // check that non sortable attributes were removed
     const { sortableModels, sortingModel, defaultSortingModel } = component.props()
     assert.lengthOf(sortableModels, 3, 'The non sortable models should be filters!')
-    assert.equal(sortableModels[0].key, '2', 'Model 2 should be at alphabetical position 0')
-    assert.equal(sortableModels[1].key, '0', 'Model 0 should be at alphabetical position 1')
-    assert.equal(sortableModels[2].key, '3', 'Model 3 should be at alphabetical position 2')
     // check that no model was retrieved
     assert.isNotOk(sortingModel, 'No sorting model should be configured')
     // check that default sorting model was retireved
@@ -75,6 +73,7 @@ describe('[Search Results] Testing ListSortingContainer', () => {
     const props = {
       attributePresentationModels: models.slice(1), // remove first model which is default one
       onSortByAttribute: () => { },
+      locale: 'fr',
     }
     const enzymeWrapper = shallow(<ListSortingContainer {...props} />, { context })
     const component = enzymeWrapper.find(ListSortingComponent)
@@ -92,6 +91,7 @@ describe('[Search Results] Testing ListSortingContainer', () => {
     const props = {
       attributePresentationModels: modelsWithSortingOn3,
       onSortByAttribute: () => { },
+      locale: 'fr',
     }
     const enzymeWrapper = shallow(<ListSortingContainer {...props} />, { context })
     const component = enzymeWrapper.find(ListSortingComponent)
@@ -108,6 +108,7 @@ describe('[Search Results] Testing ListSortingContainer', () => {
       onSortByAttribute: (key, order) => {
         sortSpy = { key, order }
       },
+      locale: 'fr',
     }
     const enzymeWrapper = shallow(<ListSortingContainer {...props} />, { context })
     // 1 - there is currently no sorting: attempt removing sorting should not be propagated

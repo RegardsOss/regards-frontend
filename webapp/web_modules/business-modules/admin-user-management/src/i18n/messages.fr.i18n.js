@@ -19,6 +19,7 @@
 const messages = {
   'user.board.tooltip.list': 'Liste',
   'user.board.tooltip.add': 'Ajouter',
+  'user.board.settings.tooltip': 'Paramètres',
 
   'user.board.project-user.description': 'Consulter et éditer les utilisateurs du projet et les demandes d\'accès',
   'user.board.project-user.title': 'Utilisateurs',
@@ -29,6 +30,8 @@ const messages = {
   'user.board.orders.title': 'Commandes',
   'orders.board.orders.description': 'Consulter et gérer les commandes lancées par les utilisateurs du projet',
 
+  'user.board.authentication-plugins.title': 'Système d\'authentification',
+  'user.board.authentication-plugins.description': 'Configuration du système de connexion des utilisateurs.',
 }
 
 export default messages

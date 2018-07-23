@@ -17,21 +17,23 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import { CardText } from 'material-ui/Card'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
-import { UIDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ModulePaneStateField } from '@regardsoss/modules-api'
-import { Field, RenderCheckbox, RenderTextField, RenderRadio, ValidationHelpers } from '@regardsoss/form-utils'
-import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
+import {
+  Field, RenderCheckbox, RenderTextField, RenderRadio, ValidationHelpers,
+  FormPresentation, FormRow, FieldsGroup,
+} from '@regardsoss/form-utils'
+import { ShowableAtRender } from '@regardsoss/display-control'
+import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
 import ModuleConfiguration from '../../models/ModuleConfiguration'
 import AdminModuleConf from '../../models/AdminModuleConf'
 import { DISPLAY_MODE_ENUM } from '../../definitions/DisplayModeEnum'
 import { TableDisplayModeEnum } from '../../models/navigation/TableDisplayModeEnum'
-import FormGroup from './FormGroup'
 
 const parseIntNormalizer = value => parseInt(value, 10)
 
@@ -47,7 +49,6 @@ class SearchResultsConfigurationComponent extends React.Component {
     documentAttributeModels: DataManagementShapes.AttributeModelList,
     currentFormValues: ModuleConfiguration,
     adminConf: AdminModuleConf,
-    initialFormValues: ModuleConfiguration,
     isCreating: PropTypes.bool,
     currentNamespace: PropTypes.string,
     // Redux form
@@ -59,15 +60,54 @@ class SearchResultsConfigurationComponent extends React.Component {
     ...themeContextType,
   }
 
+  /** Sub fields in view fields to access columns edition model */
+  static VIEW_COLUMNS_SUBFIELD = 'columns'
+  /** Sub fields in view fields to access facets edition model */
+  static VIEW_FACETS_SUBFIELD = 'facets'
+  /** Sub fields in view fields to access sorting edition model */
+  static VIEW_SORTING_SUBFIELD = 'sorting'
+
+  /**
+   * Data for each edition view tab (data/quicklook/document/dataset). It allows iterating on tabs to create
+   * the form.
+   * Note: allow facets means it is allowed for type, but the current form value should be checked
+   */
+  static EDITION_TAB = {
+    data: {
+      tabTitleKey: 'form.attribute.conf.selection.tab.label',
+      fieldName: 'data',
+      allowFacets: true,
+      allowSorting: true,
+      allowAttributesRegroupements: true,
+    },
+    quicklook: {
+      tabTitleKey: 'form.attribute.quicklook.conf.selection.tab.label',
+      fieldName: 'quicklook',
+      allowFacets: false,
+      allowSorting: true,
+      allowAttributesRegroupements: false,
+    },
+    dataset: {
+      tabTitleKey: 'form.attribute.dataset.conf.selection.tab.label',
+      fieldName: 'dataset',
+      allowFacets: false,
+      allowSorting: false,
+      allowAttributesRegroupements: true,
+    },
+    document: {
+      tabTitleKey: 'form.attribute.document.conf.selection.tab.label', // this key has no message as such tab is always single (used as component key)
+      fieldName: 'document',
+      allowFacets: true,
+      allowSorting: true,
+      allowAttributesRegroupements: true,
+    },
+  }
+
+
   constructor(props) {
     super(props)
 
     // Redux form fields name
-    this.MODULE_ATTRIBUTES_CONF = `${props.currentNamespace}.attributes`
-    this.MODULE_ATTRIBUTES_QUICKLOOK_CONF = `${props.currentNamespace}.attributesQuicklook`
-    this.MODULE_DATASET_ATTRIBUTES_CONF = `${props.currentNamespace}.datasetAttributes`
-    this.MODULE_DOCUMENT_ATTRIBUTES_CONF = `${props.currentNamespace}.documentAttributes`
-    this.MODULE_REGROUPEMENTS_CONF = `${props.currentNamespace}.attributesRegroupements`
     this.MODULE_DISPLAY_MODE = `${props.currentNamespace}.displayMode`
     this.CONF_ENABLE_FACETTES = `${props.currentNamespace}.enableFacettes`
     this.CONF_FACETS_INITIALLY_SELECTED = `${props.currentNamespace}.facettesInitiallySelected`
@@ -167,183 +207,257 @@ class SearchResultsConfigurationComponent extends React.Component {
     return undefined
   }
 
+  /**
+   * Renders attribute (columns and facets) configuration for current view modes
+   */
   renderAttributesConfiguration = () => {
-    const { currentFormValues, initialFormValues, adminConf } = this.props
+    const { currentFormValues, adminConf } = this.props
     const displayMode = get(currentFormValues, 'displayMode', DISPLAY_MODE_ENUM.DISPLAY_DATA)
-    // Data
-    // Uses the parent module list of available attributes if available, otherwise use the global list of data object attributes
-    const selectableDataObjectsAttributes = get(adminConf, 'selectableDataObjectsAttributes', this.props.dataAttributeModels)
-    const selectableDataSetsAttributes = get(adminConf, 'selectableDataSetsAttributes', this.props.datasetAttributeModels)
 
-    const currentAttributesConf = get(currentFormValues, 'attributes', [])
-    const initialAttributesConf = get(initialFormValues, 'attributes', [])
-    const currentAttributesGroupsConf = get(currentFormValues, 'attributesRegroupements', [])
-    const initialAttributesGroupsConf = get(initialFormValues, 'attributesRegroupements', [])
+    // 1 - compute rendered tabs values according with DISPLAY_MODE
     const enableFacettes = get(currentFormValues, 'enableFacettes', false)
     const dataEnableQuicklook = get(currentFormValues, 'enableQuicklooks', false)
-
-    // Dataset
-    const currentDatasetAttributesConf = get(currentFormValues, 'datasetAttributes', [])
-    const initialDatasetAttributesConf = get(initialFormValues, 'datasetAttributes', [])
-
-    // Quicklook
-    const currentAttributesQuicklookConf = get(currentFormValues, 'attributesQuicklook', [])
-    const initialAttributesQuicklookConf = get(initialFormValues, 'attributesQuicklook', [])
-
-    // Document
-    const currentDocumentAttributesConf = get(currentFormValues, 'documentAttributes', [])
-    const initialDocumentAttributesConf = get(initialFormValues, 'documentAttributes', [])
-
+    const selectableDataAttributes = get(adminConf, 'selectableDataObjectsAttributes', this.props.dataAttributeModels)
+    const selectableDatasetAttributes = get(adminConf, 'selectableDataSetsAttributes', this.props.datasetAttributeModels)
+    const tabViewsData = []
     switch (displayMode) {
       case DISPLAY_MODE_ENUM.DISPLAY_DATA:
-
-        if (dataEnableQuicklook) {
-          // return the Object attrs and Quicklook attrs HMI
-          return (
-            <Tabs>
-              <Tab label={this.context.intl.formatMessage({ id: 'form.attribute.conf.selection.tab.label' })}>
-                {this.renderObjectsAttributesConfiguration(
-                  selectableDataObjectsAttributes,
-                  currentAttributesConf,
-                  initialAttributesConf,
-                  currentAttributesGroupsConf,
-                  initialAttributesGroupsConf,
-                  enableFacettes,
-                )}
-              </Tab>
-              <Tab label={this.context.intl.formatMessage({ id: 'form.attribute.quicklook.conf.selection.tab.label' })}>
-                {this.renderObjectsQuicklookAttributesConfiguration(
-                  currentAttributesQuicklookConf,
-                  initialAttributesQuicklookConf,
-                )}
-              </Tab>
-            </Tabs>
-          )
+        tabViewsData.push({ // DATA
+          ...SearchResultsConfigurationComponent.EDITION_TAB.data,
+          allowFacets: SearchResultsConfigurationComponent.EDITION_TAB.data.allowFacets && enableFacettes,
+          selectableAttributes: selectableDataAttributes,
+          specificViewRender: this.renderDataSpecificGroups, // user must also give view labels
+        })
+        if (dataEnableQuicklook) { // QUICKLOOKS when enabled
+          tabViewsData.push({
+            ...SearchResultsConfigurationComponent.EDITION_TAB.quicklook,
+            allowFacets: SearchResultsConfigurationComponent.EDITION_TAB.quicklook.allowFacets && enableFacettes,
+            selectableAttributes: selectableDataAttributes,
+            specificViewRender: this.renderQuiklookSpecificFieldsGroups,
+          })
         }
-        // Only return attr HMI
-        return this.renderObjectsAttributesConfiguration(
-          selectableDataObjectsAttributes,
-          currentAttributesConf,
-          initialAttributesConf,
-          currentAttributesGroupsConf,
-          initialAttributesGroupsConf,
-          enableFacettes,
-        )
+        break
       case DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET:
-        return (
-          <Tabs>
-            <Tab label={this.context.intl.formatMessage({ id: 'form.attribute.conf.selection.tab.label' })}>
-              {this.renderObjectsAttributesConfiguration(
-                selectableDataObjectsAttributes,
-                currentAttributesConf,
-                initialAttributesConf,
-                currentAttributesGroupsConf,
-                initialAttributesGroupsConf,
-                enableFacettes,
-              )}
-            </Tab>
-            {/* Add Quicklook configuration if enabled */}
-            {
-              dataEnableQuicklook ? (
-                <Tab label={this.context.intl.formatMessage({ id: 'form.attribute.quicklook.conf.selection.tab.label' })}>
-                  {this.renderObjectsQuicklookAttributesConfiguration(
-                    currentAttributesQuicklookConf,
-                    initialAttributesQuicklookConf,
-                  )}
-                </Tab>) : null
-            }
-            <Tab label={this.context.intl.formatMessage({ id: 'form.attribute.dataset.conf.selection.tab.label' })}>
-              {this.renderDatasetsAttributesConfiguration(
-                selectableDataSetsAttributes,
-                currentDatasetAttributesConf,
-                initialDatasetAttributesConf,
-              )}
-            </Tab>
-          </Tabs>)
+        tabViewsData.push({ // data
+          ...SearchResultsConfigurationComponent.EDITION_TAB.data,
+          allowFacets: SearchResultsConfigurationComponent.EDITION_TAB.data.allowFacets && enableFacettes,
+          selectableAttributes: selectableDataAttributes,
+          specificViewRender: this.renderDataSpecificGroups, // user must also give view labels
+        })
+        if (dataEnableQuicklook) { // quicklook when enabled
+          tabViewsData.push({
+            ...SearchResultsConfigurationComponent.EDITION_TAB.quicklook,
+            allowFacets: SearchResultsConfigurationComponent.EDITION_TAB.quicklook.allowFacets && enableFacettes,
+            selectableAttributes: selectableDataAttributes,
+            specificViewRender: this.renderQuiklookSpecificFieldsGroups,
+          })
+        }
+        tabViewsData.push({ // dataset
+          ...SearchResultsConfigurationComponent.EDITION_TAB.dataset,
+          allowFacets: SearchResultsConfigurationComponent.EDITION_TAB.dataset.allowFacets && enableFacettes,
+          selectableAttributes: selectableDatasetAttributes,
+          specificViewRender: this.renderDatasetSpecificFieldsGroups,
+        })
+        break
       case DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT:
-        return this.renderDocumentsAttributesConfiguration(
-          currentDocumentAttributesConf,
-          initialDocumentAttributesConf,
-          enableFacettes,
-        )
+        tabViewsData.push({ // document
+          ...SearchResultsConfigurationComponent.EDITION_TAB.document,
+          allowFacets: SearchResultsConfigurationComponent.EDITION_TAB.document.allowFacets && enableFacettes,
+          selectableAttributes: this.props.documentAttributeModels,
+        })
+        break
       default:
         throw new Error(`Unknow display type : ${displayMode}`)
     }
+
+    // 2 - map each view tab to render
+    if (tabViewsData.length > 1) {
+      // render in tabs
+      return (
+        <Tabs style={this.context.moduleTheme.configuration.viewTabsContainer.style}>
+          {tabViewsData.map(this.renderViewModeTab)}
+        </Tabs>)
+    }
+    // render directly (without wrapping tabs). Note: we assert here the there array is never empty
+    return this.renderViewModeForm(tabViewsData[0])
   }
-  renderObjectsAttributesConfiguration = (selectableDataObjectAttributes, currentAttributesConf, initialAttributesConf, currentAttributesGroupsConf, initialAttributesGroupsConf, enableFacettes) => (
-    <MainAttributesConfigurationComponent
-      allowFacettes={enableFacettes}
-      allowAttributesRegroupements
-      attributesFieldName={this.MODULE_ATTRIBUTES_CONF}
-      regroupementsFieldName={this.MODULE_REGROUPEMENTS_CONF}
-      changeField={this.props.changeField}
-      selectableAttributes={selectableDataObjectAttributes}
 
-      attributesConf={currentAttributesConf}
-      defaultAttributesConf={initialAttributesConf}
-
-      attributesRegroupementsConf={currentAttributesGroupsConf}
-      defaultAttributesRegroupementsConf={initialAttributesGroupsConf}
-    />
-  )
+  /**
+   * Renders a view mode in a tab
+   * @param {*} tabViewData tab view data as built by renderAttributesConfiguration
+   * @return built render element
+   */
+  renderViewModeTab = tabViewData => (
+    <Tab
+      key={tabViewData.tabTitleKey}
+      label={this.context.intl.formatMessage({ id: tabViewData.tabTitleKey })}
+    >
+      {this.renderViewModeForm(tabViewData)}
+    </Tab>)
 
 
-  renderObjectsQuicklookAttributesConfiguration = (currentAttributesConf, initialAttributesConf) => (
-    <MainAttributesConfigurationComponent
-      allowFacettes={false}
-      allowAttributesRegroupements={false}
-      attributesFieldName={this.MODULE_ATTRIBUTES_QUICKLOOK_CONF}
-      changeField={this.props.changeField}
-      selectableAttributes={this.props.dataAttributeModels}
+  /**
+   * Renders a view mode form content
+   * @param {*} tabViewData tab view data as built by renderAttributesConfiguration
+   * @return built render element rendering columns, facets (if allowed) and initial sorting (if allowed) edition arrays
+   */
+  renderViewModeForm = ({
+    fieldName, allowFacets, allowSorting,
+    allowAttributesRegroupements, selectableAttributes,
+    specificViewRender = null, // optional specific view form render
+  }) => {
+    const { currentFormValues, currentNamespace, changeField } = this.props
+    const { formatMessage } = this.context.intl
+    const columnsSubField = `${fieldName}.${SearchResultsConfigurationComponent.VIEW_COLUMNS_SUBFIELD}`
+    const facetsSubField = `${fieldName}.${SearchResultsConfigurationComponent.VIEW_FACETS_SUBFIELD}`
+    const sortingSubField = `${fieldName}.${SearchResultsConfigurationComponent.VIEW_SORTING_SUBFIELD}`
+    return (
+      <React.Fragment>
+        {/* 0. Show all specific view type fields, if any */
+          specificViewRender ? specificViewRender() : null
+        }
+        {/* 1. Columns for view */}
+        <FieldsGroup spanFullWidth title={formatMessage({ id: 'form.attribute.conf.columns' })}>
+          <AttributesListConfigurationComponent
+            selectableAttributes={selectableAttributes}
+            attributesList={get(currentFormValues, columnsSubField, [])}
+            attributesListFieldName={`${currentNamespace}.${columnsSubField}`}
+            hintMessageKey="form.attribute.conf.no.column"
+            changeField={changeField}
+            allowAttributesRegroupements={allowAttributesRegroupements}
+            allowLabel
+          />
+        </FieldsGroup>
+        {/* 2. Facets for view */}
+        <ShowableAtRender show={allowFacets}>
+          <FieldsGroup title={formatMessage({ id: 'form.attribute.conf.facets' })}>
+            <AttributesListConfigurationComponent
+              selectableAttributes={selectableAttributes}
+              attributesList={get(currentFormValues, facetsSubField, [])}
+              attributesListFieldName={`${currentNamespace}.${facetsSubField}`}
+              hintMessageKey="form.attribute.conf.no.facet"
+              changeField={changeField}
+              allowAttributesRegroupements={false}
+              allowLabel
+              attributesFilter={DamDomain.AttributeModelController.isSearchableAttribute}
+            />
+          </FieldsGroup>
+        </ShowableAtRender>
+        {/* 3. Sorting elements */}
+        <ShowableAtRender show={allowSorting}>
+          <FieldsGroup title={formatMessage({ id: 'form.attribute.conf.sorting' })}>
+            <AttributesListConfigurationComponent
+              selectableAttributes={selectableAttributes}
+              attributesList={get(currentFormValues, sortingSubField, [])}
+              attributesListFieldName={`${currentNamespace}.${sortingSubField}`}
+              hintMessageKey="form.attribute.conf.no.sorting"
+              changeField={changeField}
+              allowAttributesRegroupements={false}
+              allowLabel={false}
+              attributesFilter={DamDomain.AttributeModelController.isSearchableAttribute}
+            />
+          </FieldsGroup>
+        </ShowableAtRender>
+      </React.Fragment>)
+  }
 
-      attributesConf={currentAttributesConf}
-      defaultAttributesConf={initialAttributesConf}
-    />
-  )
+  /**
+   * @return specific field groups for data view
+   */
+  renderDataSpecificGroups = () => {
+    // Dataset tab labels group, when displaying datasets
+    const { currentFormValues } = this.props
+    const displayMode = get(currentFormValues, 'displayMode')
+    const { intl: { formatMessage } } = this.context
+    return displayMode === DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET ? (
+      <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'form.configuration.result.data.titles.message' })}>
+        <Field
+          name={this.CONF_DATA_SECTION_LABEL_EN}
+          component={RenderTextField}
+          label={formatMessage({ id: 'form.configuration.result.data.section.label.en' })}
+          fullWidth
+        />
+        <Field
+          name={this.CONF_DATA_SECTION_LABEL_FR}
+          component={RenderTextField}
+          label={formatMessage({ id: 'form.configuration.result.data.section.label.fr' })}
+          fullWidth
+        />
+      </FieldsGroup>) : null
+  }
 
-  renderDatasetsAttributesConfiguration = (selectableDataSetsAttributes, currentDatasetAttributesConf, initialDatasetAttributesConf) => (
-    <MainAttributesConfigurationComponent
-      allowFacettes={false}
-      allowAttributesRegroupements={false}
-      attributesFieldName={this.MODULE_DATASET_ATTRIBUTES_CONF}
-      changeField={this.props.changeField}
-      selectableAttributes={selectableDataSetsAttributes}
+  /**
+   * @return specific field groups for quicklook view
+   */
+  renderQuiklookSpecificFieldsGroups = () => {
+    const { intl: { formatMessage } } = this.context
+    return (
+      <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'form.configuration.results.quicklooks.message' })}>
+        <Field
+          name={this.CONF_QUICKLOOKS_WIDTH}
+          component={RenderTextField}
+          type="number"
+          label={formatMessage({ id: 'form.configuration.result.width.quicklooks.label' })}
+          fullWidth
+          normalize={parseIntNormalizer}
+          validate={this.validateQuicklookNumberField}
+          parse={this.parsePositiveIntNumber}
+        />
+        <Field
+          name={this.CONF_QUICKLOOKS_SPACING}
+          component={RenderTextField}
+          type="number"
+          label={formatMessage({ id: 'form.configuration.result.spacing.quicklooks.label' })}
+          fullWidth
+          normalize={parseIntNormalizer}
+          validate={this.validateQuicklookNumberField}
+          parse={this.parsePositiveIntNumber}
+        />
+      </FieldsGroup>)
+  }
 
-      attributesConf={currentDatasetAttributesConf}
-      defaultAttributesConf={initialDatasetAttributesConf}
-    />
-  )
-  renderDocumentsAttributesConfiguration = (currentDocumentAttributesConf, initialDocumentAttributesConf, enableFacettes) => (
-    <MainAttributesConfigurationComponent
-      allowFacettes={enableFacettes}
-      allowAttributesRegroupements={false}
-      attributesFieldName={this.MODULE_DOCUMENT_ATTRIBUTES_CONF}
-      changeField={this.props.changeField}
-      selectableAttributes={this.props.documentAttributeModels}
-
-      attributesConf={currentDocumentAttributesConf}
-      defaultAttributesConf={initialDocumentAttributesConf}
-    />
-  )
+  /**
+   * @return specific field groups for data view
+   */
+  renderDatasetSpecificFieldsGroups = () => {
+    const { currentFormValues } = this.props
+    const displayMode = get(currentFormValues, 'displayMode')
+    const { intl: { formatMessage } } = this.context
+    // Dataset tab labels group, when displaying datasets
+    return displayMode === DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET ? (
+      <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'form.configuration.result.datasets.title.message' })}>
+        <Field
+          name={this.CONF_DATASETS_SECTION_LABEL_EN}
+          component={RenderTextField}
+          label={formatMessage({ id: 'form.configuration.result.datasets.section.label.en' })}
+          fullWidth
+        />
+        <Field
+          name={this.CONF_DATASETS_SECTION_LABEL_FR}
+          component={RenderTextField}
+          label={formatMessage({ id: 'form.configuration.result.datasets.section.label.fr' })}
+          fullWidth
+        />
+      </FieldsGroup>) : null
+  }
 
   render() {
     const { adminConf, currentFormValues, currentNamespace } = this.props
-    const { intl: { formatMessage }, moduleTheme: { configuration: { formContainer, formRow } } } = this.context
+    const { intl: { formatMessage } } = this.context
 
     const preventAdminToPickDocumentView = get(adminConf, 'preventAdminToPickDocumentView', false)
     const displayMode = get(currentFormValues, 'displayMode')
-    const enableQuicklooks = get(currentFormValues, 'enableQuicklooks', false)
     const enableFacettes = get(currentFormValues, 'enableFacettes', false)
 
     return (
-      <CardText className={formContainer.class}>
-        <div className={formRow.class}>
+      <FormPresentation>
+        <FormRow>
           {/* Presentation pane initial state (title is provided by ModulePaneStateField) */}
-          <FormGroup>
+          <FieldsGroup>
             <ModulePaneStateField currentNamespace={currentNamespace} />
-          </FormGroup>
+          </FieldsGroup>
           {/* Results view tabs configuration */}
-          <FormGroup titleKey="form.configuration.visible.tabs.message">
+          <FieldsGroup title={formatMessage({ id: 'form.configuration.visible.tabs.message' })}>
             <RadioButtonGroup
               onChange={this.onChangeDisplayMode}
               valueSelected={displayMode}
@@ -363,11 +477,11 @@ class SearchResultsConfigurationComponent extends React.Component {
                 disabled={preventAdminToPickDocumentView}
               />
             </RadioButtonGroup>
-          </FormGroup>
-        </div>
-        <div className={formRow.class}>
+          </FieldsGroup>
+        </FormRow>
+        <FormRow>
           {/* Results options (facets, quicklooks...) */}
-          <FormGroup titleKey="form.configuration.results.options.message">
+          <FieldsGroup title={formatMessage({ id: 'form.configuration.results.options.message' })}>
             <Field
               name={this.CONF_ENABLE_FACETTES}
               onChange={this.onSwitchFacetsEnabled}
@@ -396,9 +510,9 @@ class SearchResultsConfigurationComponent extends React.Component {
               label={formatMessage({ id: 'form.configuration.result.enable.download.label' })}
               noSpacing
             />
-          </FormGroup>
+          </FieldsGroup>
           {/* Initial view mode */}
-          <FormGroup titleKey="form.configuration.result.initial.view.mode">
+          <FieldsGroup title={formatMessage({ id: 'form.configuration.result.initial.view.mode' })}>
             <Field
               name={this.CONF_INITIAL_VIEW_MODE}
               component={RenderRadio}
@@ -418,78 +532,14 @@ class SearchResultsConfigurationComponent extends React.Component {
                 disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA}
               />
             </Field>
-          </FormGroup>
-        </div>
-        <div className={formRow.class}>
-          {/* Data view title configuration (only when displaying data and dataset, tab is hidden otherwise) */}
-          <FormGroup titleKey="form.configuration.result.data.titles.message">
-            <Field
-              name={this.CONF_DATA_SECTION_LABEL_FR}
-              component={RenderTextField}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.fr' })}
-              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
-              fullWidth
-            />
-            <Field
-              name={this.CONF_DATA_SECTION_LABEL_EN}
-              component={RenderTextField}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.data.section.label.en' })}
-              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
-              fullWidth
-            />
-          </FormGroup>
-          {/* Datasets view title configuration (only when displaying data and dataset, tab is hidden otherwise) */}
-          <FormGroup titleKey="form.configuration.result.datasets.title.message">
-            <Field
-              name={this.CONF_DATASETS_SECTION_LABEL_FR}
-              component={RenderTextField}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.fr' })}
-              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
-              fullWidth
-            />
-            <Field
-              name={this.CONF_DATASETS_SECTION_LABEL_EN}
-              component={RenderTextField}
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.datasets.section.label.en' })}
-              disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
-              fullWidth
-            />
-          </FormGroup>
-        </div>
-        <div className={formRow.class}>
-          {/* Quicklooks configuration */}
-          <FormGroup titleKey="form.configuration.results.quicklooks.message">
-            <Field
-              name={this.CONF_QUICKLOOKS_WIDTH}
-              component={RenderTextField}
-              type="number"
-              label={formatMessage({ id: 'form.configuration.result.width.quicklooks.label' })}
-              fullWidth
-              normalize={parseIntNormalizer}
-              disabled={!enableQuicklooks || displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
-              validate={this.validateQuicklookNumberField}
-              parse={this.parsePositiveIntNumber}
-            />
-            <Field
-              name={this.CONF_QUICKLOOKS_SPACING}
-              component={RenderTextField}
-              type="number"
-              label={formatMessage({ id: 'form.configuration.result.spacing.quicklooks.label' })}
-              fullWidth
-              normalize={parseIntNormalizer}
-              disabled={!enableQuicklooks || displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
-              validate={this.validateQuicklookNumberField}
-              parse={this.parsePositiveIntNumber}
-            />
-          </FormGroup>
-        </div>
-        <div className={formRow.class}>
-          {/* Tab views attibutes configuration titles */}
-          <FormGroup spanFullWidth titleKey="form.attributes.configuration.section.title">
-            {this.renderAttributesConfiguration()}
-          </FormGroup>
-        </div>
-      </CardText>
+          </FieldsGroup>
+        </FormRow>
+        <FormRow>
+          { /* Tab views attibutes configuration titles */
+            this.renderAttributesConfiguration()
+          }
+        </FormRow>
+      </FormPresentation>
     )
   }
 }

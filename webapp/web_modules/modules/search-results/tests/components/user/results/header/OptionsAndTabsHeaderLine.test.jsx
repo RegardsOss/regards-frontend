@@ -47,7 +47,10 @@ describe('[Search Results] Testing OptionsAndTabsHeaderLine', () => {
       // state
       attributePresentationModels: [{
         key: 'some.model',
-        label: 'Some model',
+        label: {
+          en: 'a model',
+          fr: 'un model',
+        },
         attributes: [],
         enableSorting: true,
         sortOrder: TableSortOrders.NO_SORT,
@@ -73,6 +76,7 @@ describe('[Search Results] Testing OptionsAndTabsHeaderLine', () => {
       displayOnlyQuicklook: false,
       selectionServices: [],
       onAddSelectionToCart: null,
+      locale: 'en',
       onChangeColumnsVisibility: () => { },
       onShowDataobjects: () => { },
       onShowDatasets: () => { },

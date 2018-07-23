@@ -19,7 +19,6 @@
 import isEqual from 'lodash/isEqual'
 import { AccessShapes } from '@regardsoss/shape'
 import { TableSortOrders } from '@regardsoss/components'
-import { StringComparison } from '@regardsoss/form-utils'
 import ListSortingComponent from '../../../../components/user/results/options/ListSortingComponent'
 
 /**
@@ -30,6 +29,7 @@ export class ListSortingContainer extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired, // presentation model, used in onPropertiesChanged
+    locale: PropTypes.string.isRequired,
     onSortByAttribute: PropTypes.func.isRequired, // sort changed callback
   }
 
@@ -54,10 +54,8 @@ export class ListSortingContainer extends React.Component {
     const oldState = this.state
     const newState = {}
     if (!isEqual(oldProps, newProps)) {
-      // 1 - Filter to keep only models enabling sorting, then sort them alpĥabetically
-      newState.sortableModels = newProps.attributePresentationModels
-        .filter(model => model.enableSorting)
-        .sort((m1, m2) => StringComparison.compare(m1.label, m2.label))
+      // 1 - Filter to keep only models enabling sorting; keep the configured user order
+      newState.sortableModels = newProps.attributePresentationModels.filter(model => model.enableSorting)
       // 2 - Find in those the currently selected model
       newState.sortingModel = newState.sortableModels.find(model => model.sortOrder && model.sortOrder !== TableSortOrders.NO_SORT)
       // 3 - Check if default sorting is in attributes
@@ -90,12 +88,14 @@ export class ListSortingContainer extends React.Component {
   }
 
   render() {
+    const { locale } = this.props
     const { sortableModels, sortingModel, defaultSortingModel } = this.state
     return (
       <ListSortingComponent
         sortingModel={sortingModel}
         defaultSortingModel={defaultSortingModel}
         sortableModels={sortableModels}
+        locale={locale}
         onSortBy={this.onSortBy}
       />
     )

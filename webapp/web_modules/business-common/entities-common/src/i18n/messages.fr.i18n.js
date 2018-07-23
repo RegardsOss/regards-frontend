@@ -23,33 +23,6 @@ import { Locales } from '@regardsoss/form-utils'
  * @author Raphaël Mechali
  */
 const messages = {
-  // description
-  'description.breadcrumb.root': 'Description: {entityLabel}',
-  'entities.common.properties.tabs': 'Propriétés',
-  'entities.common.description.tabs': 'Description',
-  'entities.common.files.tabs': 'Fichiers',
-  'entities.common.quicklook.tabs': 'Imagettes',
-  'entities.common.file.subheader': 'Cliquez sur un des fichiers ci-dessous pour le télécharger',
-  'entities.common.close.button': 'Fermer',
-  'entities.common.properties.attributes': 'Attributs',
-  'entities.common.properties.loading.attributes': 'Chargement des attributs',
-  'entities.common.properties.no.attribute': 'Cette entité n\'a pas d\'attribut',
-  'entities.common.properties.tags.entities': 'Mot-clefs liés',
-  'entities.common.properties.documents.entities': 'Documents associés',
-  'entities.common.properties.document.entities': 'Documents associés',
-  'entities.common.properties.loading.tags': 'Chargement des mot-clefs',
-  'entities.common.properties.loading.document': 'Chargement des documents',
-  'entities.common.properties.no.tag': 'Cette entité n\'a pas de mot-clef',
-  'entities.common.properties.no.document': 'Cette entité n\'a pas de document',
-  'entities.common.properties.tag.search.tooltip': 'Rechercher les entités portant ce tag',
-  'entities.common.properties.tag.show.description.tooltip': 'Afficher les détails de l\'entité',
-
-  'entities.common.description.loading': 'Chargement de la description',
-  'entities.common.description.no.value.title': 'Aucune description',
-  'entities.common.description.no.value.message': 'Cette entité n\'a pas de description',
-  'entities.common.document.files.no.value.title': 'Aucun fichier',
-  'entities.common.document.files.no.value.message': 'Ce document n\'a pas de fichiers joints',
-
   // services
   'entities.common.services.error.title': 'Erreur de service',
   'entities.common.services.notice.title': 'Service exécuté',

@@ -23,7 +23,7 @@ import CartIcon from 'material-ui/svg-icons/action/shopping-cart'
 import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { NoContentMessageInfo } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import SelectionItemDetailContainer from '../../../src/containers/user/detail/SelectionItemDetailContainer'
 import OrderCartComponent from '../../../src/components/user/OrderCartComponent'
 import OrderCartTableComponent from '../../../src/components/user/OrderCartTableComponent'
 import styles from '../../../src/styles/styles'
@@ -69,10 +69,9 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
     const orderCartTableWrapper = enzymeWrapper.find(OrderCartTableComponent)
     assert.lengthOf(orderCartTableWrapper, 1, 'There should be a table component')
     assert.equal(orderCartTableWrapper.props().basket, props.basket, 'Table should have the right basket value')
-    // Check loading
-    const loadableWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
-    assert.lengthOf(loadableWrapper, 1, 'There should be a loadable dispayer')
-    assert.isFalse(loadableWrapper.props().isLoading, 'Loadable displayer should not be marked loading')
+    assert.isFalse(orderCartTableWrapper.props().isFetching, 'Table should not be marked loading')
+    // check detail container
+    assert.lengthOf(enzymeWrapper.find(SelectionItemDetailContainer), 1, 'This component should also add detail functionnality, using a detail container')
   })
   it('should render correctly when user is authenticated and basket empty', () => {
     const props = {
@@ -100,10 +99,9 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
     const orderCartTableWrapper = enzymeWrapper.find(OrderCartTableComponent)
     assert.lengthOf(orderCartTableWrapper, 1, 'There should be a table component')
     assert.equal(orderCartTableWrapper.props().basket, props.basket, 'Table should have the right basket value')
-    // Check loading
-    const loadableWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
-    assert.lengthOf(loadableWrapper, 1, 'There should be a loadable dispayer')
-    assert.isFalse(loadableWrapper.props().isLoading, 'Loadable displayer should not be marked loading')
+    assert.isFalse(orderCartTableWrapper.props().isFetching, 'Table should not be marked loading')
+    // check detail container
+    assert.lengthOf(enzymeWrapper.find(SelectionItemDetailContainer), 1, 'This component should also add detail functionnality, using a detail container')
   })
   it('should render correctly when fetching (fetch state SHOULD NEVER show no data)', () => {
     const props = {
@@ -123,10 +121,12 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
     const noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
     assert.lengthOf(noContentWrapper, 1, 'There should be a no data component')
     assert.isFalse(noContentWrapper.props().noContent, 'No data component should be hidden')
-    // Check loading
-    const loadableWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
-    assert.lengthOf(loadableWrapper, 1, 'There should be a loadable dispayer')
-    assert.isTrue(loadableWrapper.props().isLoading, 'Loadable dispayer should  be marked loading')
+    // Check table
+    const orderCartTableWrapper = enzymeWrapper.find(OrderCartTableComponent)
+    assert.lengthOf(orderCartTableWrapper, 1, 'There should be a table component')
+    assert.isTrue(orderCartTableWrapper.props().isFetching, 'Table should be marked loading')
+    // check detail container
+    assert.lengthOf(enzymeWrapper.find(SelectionItemDetailContainer), 1, 'This component should also add detail functionnality, using a detail container')
   })
   it('should render correctly with a basket', () => {
     const props = {
@@ -150,11 +150,10 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
     const orderCartTableWrapper = enzymeWrapper.find(OrderCartTableComponent)
     assert.lengthOf(orderCartTableWrapper, 1, 'There should be a table component')
     assert.equal(orderCartTableWrapper.props().basket, props.basket, 'Table should have the right basket value')
+    assert.isFalse(orderCartTableWrapper.props().isFetching, 'Table should not be marked loading')
     assert.equal(orderCartTableWrapper.props().onShowDuplicatedMessage, enzymeWrapper.instance().onShowDuplicatedMessage, 'Table should have show message callback')
-    // Check loading
-    const loadableWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
-    assert.lengthOf(loadableWrapper, 1, 'There should be a loadable dispayer')
-    assert.isFalse(loadableWrapper.props().isLoading, 'Loadable displayer should not be marked loading')
+    // check detail container
+    assert.lengthOf(enzymeWrapper.find(SelectionItemDetailContainer), 1, 'This component should also add detail functionnality, using a detail container')
   })
   it('should manage correctly duplicate data dialog', () => {
     const props = {

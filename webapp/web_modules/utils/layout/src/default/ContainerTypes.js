@@ -73,6 +73,9 @@ module.exports = {
       margin: 0,
       flexShrink: 1,
       flexGrow: 1,
+      display: 'flex',
+      alignItems: 'stretch',
+      flexDirection: 'column',
     },
   },
   /**

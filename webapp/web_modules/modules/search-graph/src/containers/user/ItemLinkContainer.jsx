@@ -18,8 +18,8 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { CatalogShapes } from '@regardsoss/shape'
-import { descriptionLevelModel } from '@regardsoss/entities-common'
-import { descriptionLevelActions } from '../../model/description/DescriptionLevelModel'
+import { DescriptionProviderContainer } from '@regardsoss/entities-common'
+import graphContextActions from '../../model/graph/GraphContextActions'
 import ItemLink from '../../components/user/ItemLink'
 
 /**
@@ -27,8 +27,7 @@ import ItemLink from '../../components/user/ItemLink'
 */
 export class ItemLinkContainer extends React.Component {
   static mapDispatchToProps = dispatch => ({
-    dispatchShowDescription: entity =>
-      dispatch(descriptionLevelActions.show(entity, descriptionLevelModel.DescriptionLevelActions.TABS_ENUM.PROPERTIES)),
+    dispatchSetSearchTag: tag => dispatch(graphContextActions.setSearchTag(tag)),
   })
 
   static propTypes = {
@@ -40,7 +39,7 @@ export class ItemLinkContainer extends React.Component {
     selected: PropTypes.bool.isRequired,
     onStateChange: PropTypes.func, // optional callback on state change: (newState:ItemLink.States) => void
     // from mapDispatchToProps
-    dispatchShowDescription: PropTypes.func.isRequired,
+    dispatchSetSearchTag: PropTypes.func.isRequired,
   }
 
   componentWillMount = () => {
@@ -56,10 +55,9 @@ export class ItemLinkContainer extends React.Component {
     this.updateDisplayState(this.getNewState(locked, selected, hover))
   }
 
-
   /**
-  * Mouse over handler
-  */
+   * Mouse over handler
+   */
   onMouseOver = () => {
     const { locked, selected } = this.props
     this.updateDisplayState(this.getNewState(locked, selected, true))
@@ -81,14 +79,6 @@ export class ItemLinkContainer extends React.Component {
     if (!locked) {
       onSelect()
     }
-  }
-
-  /**
-   * On information clicked : dispatch show description
-   */
-  onDescriptionClicked = () => {
-    const { dispatchShowDescription, entity } = this.props
-    dispatchShowDescription(entity)
   }
 
   getNewState = (locked, selected, hover) => {
@@ -122,19 +112,22 @@ export class ItemLinkContainer extends React.Component {
   }
 
   render() {
-    const { Icon, entity: { content: { label } }, additiveLineComponent } = this.props
+    const {
+      Icon, entity, dispatchSetSearchTag, additiveLineComponent,
+    } = this.props
     const { displayState } = this.state
-    return (
-      <ItemLink
-        text={label}
-        Icon={Icon}
-        additiveLineComponent={additiveLineComponent}
-        displayState={displayState}
-        onMouseOver={this.onMouseOver}
-        onMouseOut={this.onMouseOut}
-        onLinkClicked={this.onLinkClicked}
-        onDescriptionClicked={this.onDescriptionClicked}
-      />
+    return ( // Provide description callbacks to sub component
+      <DescriptionProviderContainer onSearchTag={dispatchSetSearchTag}>
+        <ItemLink
+          entity={entity}
+          Icon={Icon}
+          additiveLineComponent={additiveLineComponent}
+          displayState={displayState}
+          onMouseOver={this.onMouseOver}
+          onMouseOut={this.onMouseOut}
+          onLinkClicked={this.onLinkClicked}
+        />
+      </DescriptionProviderContainer>
     )
   }
 }

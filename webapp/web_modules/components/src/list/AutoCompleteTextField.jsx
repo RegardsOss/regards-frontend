@@ -51,6 +51,7 @@ class AutoCompleteTextField extends React.Component {
     })),
     loadingMessageKey: PropTypes.string,
     noDataMessageKey: PropTypes.string,
+    errorMessage: PropTypes.string,
     // is currently in error?
     isInError: PropTypes.bool, // externally controlled error, true to show, false to hide
     // Is currently fetching data?
@@ -78,6 +79,7 @@ class AutoCompleteTextField extends React.Component {
   static defaultProps = {
     loadingMessageKey: 'autocomplete.filter.loading',
     noDataMessageKey: 'autocomplete.filter.empty',
+    errorMessage: AutoCompleteTextField.ERROR_EMPTY_MESSAGE,
     isInError: false,
     isFetching: false,
 
@@ -101,6 +103,7 @@ class AutoCompleteTextField extends React.Component {
     'currentHints',
     'loadingMessageKey',
     'noDataMessageKey',
+    'errorMessage',
     'isInError',
     'isFetching',
     'onFilterSelected',
@@ -187,7 +190,7 @@ class AutoCompleteTextField extends React.Component {
   }
 
   render() {
-    const { currentHintText, isInError } = this.props
+    const { currentHintText, isInError, errorMessage } = this.props
     // prepare the properties to report  (exclude properties consumed by this component)
     const reportedProps = omit(this.props, AutoCompleteTextField.NON_REPORTED_PROPERTIES)
 
@@ -195,7 +198,7 @@ class AutoCompleteTextField extends React.Component {
       <AutoComplete
         dataSource={this.getDatasource()}
         searchText={currentHintText}
-        errorText={isInError ? AutoCompleteTextField.ERROR_EMPTY_MESSAGE : null}
+        errorText={isInError ? errorMessage : null}
         onNewRequest={this.onNewRequest}
         {...reportedProps}
       />

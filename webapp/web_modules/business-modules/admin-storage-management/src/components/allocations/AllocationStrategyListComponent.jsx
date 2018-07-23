@@ -103,22 +103,27 @@ export class AllocationStrategyListComponent extends React.Component {
     const {
       entities, isLoading, onEdit, onActivateToggle, onRefresh, onAddNewConf, onBack,
     } = this.props
-    const { intl: { formatMessage }, moduleTheme, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { intl: { formatMessage }, moduleTheme } = this.context
 
     // Table columns to display
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('column.label', formatMessage({ id: 'storage.allocation-strategy.plugins.list.header.name.label' }), 'content.label'),
-      TableColumnBuilder.buildSimplePropertyColumn('column.type', formatMessage({ id: 'storage.allocation-strategy.plugins.list.header.type.label' }), 'content.pluginId'),
-      TableColumnBuilder.buildSimpleColumnWithCell('column.active', formatMessage({ id: 'storage.allocation-strategy.plugins.list.header.active.label' }), {
-        Constructor: AllocationStrategyActivationAction, // custom cell
-        props: { onToggle: onActivateToggle },
-      }),
-      TableColumnBuilder.buildOptionsColumn('options', [{
+      new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.label')
+        .label(formatMessage({ id: 'storage.allocation-strategy.plugins.list.header.name.label' }))
+        .build(),
+      new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.pluginId')
+        .label(formatMessage({ id: 'storage.allocation-strategy.plugins.list.header.type.label' }))
+        .build(),
+      new TableColumnBuilder('column.active').titleHeaderCell()
+        .rowCellDefinition({
+          Constructor: AllocationStrategyActivationAction, // custom cell
+          props: { onToggle: onActivateToggle },
+        })
+        .label(formatMessage({ id: 'storage.allocation-strategy.plugins.list.header.active.label' }))
+        .build(),
+      new TableColumnBuilder().optionsColumn([{
         OptionConstructor: AllocationStrategyEditAction,
         optionProps: { onEdit },
-      },
-      {
+      }, {
         OptionConstructor: TableDeleteOption,
         optionProps: {
           onDelete: this.onDelete,
@@ -127,8 +132,7 @@ export class AllocationStrategyListComponent extends React.Component {
           disableInsteadOfHide: true,
           queryPageSize: 20,
         },
-      },
-      ], true, fixedColumnsWidth),
+      }]).build(),
     ]
 
     const emptyComponent = (

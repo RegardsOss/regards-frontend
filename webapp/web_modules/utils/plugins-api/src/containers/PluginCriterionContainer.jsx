@@ -51,7 +51,7 @@ class PluginCriterionContainer extends React.Component {
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: DataManagementShapes.AttributeModelList,
+    attributes: PropTypes.objectOf(DataManagementShapes.AttributeModelContent),
     /**
      * Function to get initial plugin state saved by the next props savePluginState
      */

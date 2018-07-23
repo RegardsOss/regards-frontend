@@ -33,26 +33,30 @@ export class ThemeFormAdapter extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
       themeId: PropTypes.string,
+      mode: PropTypes.string,
     }),
 
     // Set by mapStateToProps
     isInstance: PropTypes.bool,
     currentTheme: AccessShapes.Theme,
+    themeList: AccessShapes.ThemeList,
 
     // Set by mapDispatchToProps
-    fetchTheme: PropTypes.func,
-    fetchThemeInstance: PropTypes.func,
-    updateTheme: PropTypes.func,
-    updateInstanceTheme: PropTypes.func,
-    createTheme: PropTypes.func,
-    createInstanceTheme: PropTypes.func,
+    fetchTheme: PropTypes.func.isRequired,
+    fetchThemeInstance: PropTypes.func.isRequired,
+    updateTheme: PropTypes.func.isRequired,
+    updateInstanceTheme: PropTypes.func.isRequired,
+    createTheme: PropTypes.func.isRequired,
+    createInstanceTheme: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isCreating: isNil(props.params.themeId),
-    }
+  componentWillMount() {
+    const { themeId, mode } = this.props.params
+    this.setState({
+      isCreating: isNil(themeId),
+      isEditing: !isNil(themeId) && mode === 'edit',
+      isDuplicating: !isNil(themeId) && mode === 'duplicate',
+    })
   }
 
   getBackUrl = () => {
@@ -64,19 +68,25 @@ export class ThemeFormAdapter extends React.Component {
   }
 
   render() {
-    const createTheme = this.props.isInstance ? this.props.createInstanceTheme : this.props.createTheme
-    const updateTheme = this.props.isInstance ? this.props.updateInstanceTheme : this.props.updateTheme
-    const fetchTheme = this.props.isInstance ? this.props.fetchThemeInstance : this.props.fetchTheme
+    const {
+      currentTheme, themeList, isInstance,
+      createInstanceTheme, createTheme,
+      updateInstanceTheme, updateTheme,
+      fetchThemeInstance, fetchTheme,
+    } = this.props
+    const { isCreating, isEditing, isDuplicating } = this.state
 
     return (
       <ThemeFormContainer
         backUrl={this.getBackUrl()}
-        isCreating={this.state.isCreating}
-        currentTheme={this.props.currentTheme}
-
-        createTheme={createTheme}
-        updateTheme={updateTheme}
-        fetchTheme={fetchTheme}
+        isCreating={isCreating}
+        isEditing={isEditing}
+        isDuplicating={isDuplicating}
+        currentTheme={currentTheme}
+        themeList={themeList}
+        createTheme={isInstance ? createInstanceTheme : createTheme}
+        updateTheme={isInstance ? updateInstanceTheme : updateTheme}
+        fetchTheme={isInstance ? fetchThemeInstance : fetchTheme}
       />
     )
   }

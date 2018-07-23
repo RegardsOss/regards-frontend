@@ -19,6 +19,9 @@
 import omit from 'lodash/omit'
 import { Cell as FixedDataTableCell } from 'fixed-data-table-2'
 import { themeContextType } from '@regardsoss/theme'
+import { CellDefinition } from '../columns/model/TableColumnConfiguration'
+
+const NO_PROPS = {}
 
 /**
  * Cell wrapper for every table cell: it renders itself for common styles then its children with following properties
@@ -32,11 +35,7 @@ class CellWrapper extends React.PureComponent {
     lineHeight: PropTypes.number,
     isLastColumn: PropTypes.bool.isRequired,
     getEntity: PropTypes.func,
-    // optional: cell content builder
-    CellContentBuilder: PropTypes.func,
-    // optional: cell props, containing an option style element (that will be consumed by this wrapper)
-    // eslint-disable-next-line react/forbid-prop-types
-    cellContentBuilderProps: PropTypes.object,
+    rowCellDefinition: CellDefinition.isRequired,
   }
 
   /** List of prop types that should not be reported to child */
@@ -44,8 +43,7 @@ class CellWrapper extends React.PureComponent {
     'lineHeight',
     'isLastColumn',
     'getEntity',
-    'CellContentBuilder',
-    'cellContentBuilderProps',
+    'rowCellDefinition',
   ]
 
   static contextTypes = {
@@ -71,7 +69,7 @@ class CellWrapper extends React.PureComponent {
     // render with styles
     const styles = this.context.moduleTheme
     const {
-      isLastColumn, lineHeight, CellContentBuilder, cellContentBuilderProps = {}, rowIndex,
+      isLastColumn, lineHeight, rowCellDefinition: { Constructor, props = NO_PROPS }, rowIndex,
     } = this.props
 
     // 1 - Select style
@@ -84,7 +82,7 @@ class CellWrapper extends React.PureComponent {
       basicCellStyle = isLastColumn ? styles.lastCellOdd : styles.cellOdd
     }
     // merge styles with line height and cell wrapperStyle if any (those take precedence)
-    const completeCellStyle = { height: lineHeight, ...basicCellStyle, ...(cellContentBuilderProps.wrapperStyle || {}) }
+    const completeCellStyle = { height: lineHeight, ...basicCellStyle, ...(props.wrapperStyle || {}) }
 
     // 2 - prepare table cell properties
     const cellProperties = omit(this.props, CellWrapper.NON_REPORTED_PROPS)
@@ -94,9 +92,12 @@ class CellWrapper extends React.PureComponent {
       <FixedDataTableCell {...cellProperties} >
         <div style={completeCellStyle}>
           { // render child cell content only when there is some entity and some constructor
-            this.hasEntity() && CellContentBuilder ?
-              <CellContentBuilder rowIndex={rowIndex} entity={this.getEntity()} {...cellContentBuilderProps} /> :
-              null
+            this.hasEntity() && Constructor ? (
+              <Constructor
+                rowIndex={rowIndex}
+                entity={this.getEntity()}
+                {...props}
+              />) : null
           }
         </div>
       </FixedDataTableCell>

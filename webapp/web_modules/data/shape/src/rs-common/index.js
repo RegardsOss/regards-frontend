@@ -27,6 +27,7 @@ import Percent from './Percent'
 import URL from './URL'
 import RangedNumber from './RangedNumber'
 import LocationShape from './LocationShape'
+import { DateTextBoundPropType, NumericTextBoundPropType } from './TextBoundPropType'
 
 module.exports = {
   PluginParameterContent,
@@ -49,4 +50,7 @@ module.exports = {
   RangedNumber,
   Percent,
   LocationShape,
+
+  DateTextBoundPropType,
+  NumericTextBoundPropType,
 }

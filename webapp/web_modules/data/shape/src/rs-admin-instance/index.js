@@ -18,8 +18,11 @@
  **/
 
 import { Account, AccountList } from './Account'
+import { AccountSettings, AccountSettingsWithContent } from './AccountSettings'
 
 module.exports = {
   Account,
   AccountList,
+  AccountSettings,
+  AccountSettingsWithContent,
 }

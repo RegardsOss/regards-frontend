@@ -238,6 +238,7 @@ class ProductListFiltersComponent extends React.Component {
             >
               {map(DataProviderDomain.ProductStateValues, state =>
                 (<MenuItem
+                  key={state}
                   value={state}
                   insetChildren
                   checked={stateValues && stateValues.includes(state)}

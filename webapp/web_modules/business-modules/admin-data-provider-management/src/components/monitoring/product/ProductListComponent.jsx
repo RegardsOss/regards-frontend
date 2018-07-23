@@ -160,23 +160,33 @@ export class ProductListComponent extends React.Component {
         Icon={AddToPhotos}
       />
     )
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('column.productName', formatMessage({ id: 'acquisition-product.list.productName' }), 'content.productName', 1),
-      TableColumnBuilder.buildSimplePropertyColumn('column.lastUpdate', formatMessage({ id: 'acquisition-product.list.lastUpdate' }), 'content.lastUpdate', 2, true, DateValueRender),
-      TableColumnBuilder.buildSimplePropertyColumn('column.state', formatMessage({ id: 'acquisition-product.list.state' }), 'content.state', 3, true, ProductStateRender),
-      TableColumnBuilder.buildSimplePropertyColumn('column.sipState', formatMessage({ id: 'acquisition-product.list.sipState' }), 'content.sipState', 4, true, ProductSIPStateRender),
-      TableColumnBuilder.buildSimpleColumnWithCell('column.session', formatMessage({ id: 'acquisition-product.list.session' }), {
+      new TableColumnBuilder('column.productName').titleHeaderCell().propertyRenderCell('content.productName')
+        .label(formatMessage({ id: 'acquisition-product.list.productName' }))
+        .build(),
+      new TableColumnBuilder('column.lastUpdate').titleHeaderCell().propertyRenderCell('content.lastUpdate', DateValueRender)
+        .label(formatMessage({ id: 'acquisition-product.list.lastUpdate' }))
+        .build(),
+      new TableColumnBuilder('column.state').titleHeaderCell().propertyRenderCell('content.state', ProductStateRender)
+        .label(formatMessage({ id: 'acquisition-product.list.state' }))
+        .build(),
+      new TableColumnBuilder('column.sipState').titleHeaderCell().propertyRenderCell('content.sipState', ProductSIPStateRender)
+        .label(formatMessage({ id: 'acquisition-product.list.sipState' }))
+        .build(),
+      new TableColumnBuilder('column.session').titleHeaderCell().rowCellDefinition({
         Constructor: ProductSessionRender,
         props: { project },
-      }),
-      TableColumnBuilder.buildOptionsColumn('column.files.actions', [{
+      })
+        .label(formatMessage({ id: 'acquisition-product.list.session' }))
+        .build(),
+      new TableColumnBuilder().optionsColumn([{
         OptionConstructor: ProductListViewFilesAction,
         optionProps: { onClick: this.viewFiles },
       }, {
         OptionConstructor: ProductListViewInformationsAction,
         optionProps: { onClick: this.viewProductInformations },
-      }], true, fixedColumnsWidth),
+      }]).build(),
     ]
     return (
       <Card>
@@ -202,8 +212,8 @@ export class ProductListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              minRowCount={0}
-              maxRowCount={20}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               queryPageSize={pageSize}
             />
           </TableLayout>

@@ -19,12 +19,13 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-
   'processing-chain.table.name': 'Name',
   'processing-chain.table.description': 'Description',
 
   'processing-chain.list.title': 'List of processing chains',
   'processing-chain.list.subtitle': 'Processing chains are used to customize the way data are archived into catalog.',
+  'processing-chain.list.name.column': 'Name',
+  'processing-chain.list.description.column': 'Description',
   'processing-chain.info.message': 'A processing chain consist of executing here under step for data submission : ',
   'processing-chain.info.message.step1': '1 - [Optional] Pre processing',
   'processing-chain.info.message.step2': '2 - Submitted data validation',

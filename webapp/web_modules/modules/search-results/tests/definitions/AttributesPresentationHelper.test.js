@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { assert } from 'chai'
-import { AccessDomain, DamDomain } from '@regardsoss/domain'
+import { DamDomain } from '@regardsoss/domain'
 import { TableSortOrders } from '@regardsoss/components'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AttributesPresentationHelper from '../../src/definitions/AttributesPresentationHelper'
@@ -29,177 +29,140 @@ import { attributes } from '../dumps/attributes.dump'
  * @author Raphaël Mechali
  */
 
-const sipIdStandardAttribute = DamDomain.AttributeModelController.standardAttributes[DamDomain.AttributeModelController.standardAttributesKeys.sipId]
+const sipIdStandardAttribute =
+  DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.sipId)
 
 
 /** A simple attribute model configuration that can be converted from dumps */
 const convertableSimpleServerAttributeConf = {
-  attributeFullQualifiedName: 'my.attr.2',
-  order: 3,
-  visibility: true,
-  facetable: true,
-  initialSort: false,
+  attributes: [{ name: 'my.attr.2' }],
+  label: {
+    en: 'a',
+    fr: 'b',
+  },
 }
 
 /** A simple attribute model configuration that can be converted from standard attribues */
 const convertableSimpleStandardAttributeConf = {
-  attributeFullQualifiedName: sipIdStandardAttribute.entityPathName,
-  order: 8,
-  visibility: true,
-  facetable: true,
-  initialSort: true,
+  attributes: [{ name: sipIdStandardAttribute.content.jsonPath }],
+  label: {
+    en: 'a',
+    fr: 'b',
+  },
 }
 
 /** A configuration that cannot be converted */
 const nonConvertableSimpleAttributeConf = {
   ...convertableSimpleServerAttributeConf,
-  attributeFullQualifiedName: 'i.dont.exist',
-}
-
-/** A configuration that cannot be converted */
-const nonVisibleSimpleAttributeConf = {
-  ...convertableSimpleServerAttributeConf,
-  visibility: false,
-  initialSort: false,
+  attributes: [{ name: 'i.dont.exist' }],
 }
 
 /** An attributes regroupement configuration where all attributes can be resolved */
 const fullyConvertableRegroupmentConf = {
-  label: 'fully resolved',
-  attributes: [2, 1],
-  visibility: true,
-  order: 2,
+  label: {
+    en: 'a',
+    fr: 'b',
+  },
+  attributes: [{ name: 'my.attr.2' }, { name: 'my.attr.1' }, { name: sipIdStandardAttribute.content.jsonPath }],
 }
 
 /** An attributes regroupement configuration where some attributes can be resolved */
 const partiallyConvertableRegroupementConf = {
-  label: 'partially resolved',
-  attributes: [2, 88],
-  visibility: true,
-  order: 95,
+  label: {
+    en: 'a',
+    fr: 'b',
+  },
+  attributes: [{ name: 'my.attr.2' }, { name: 'i.dont.exist' }],
 }
 
 /** An attributes regroupement configuration where no attribute can be resolved */
 const nonConvertableRegroupmentConf = {
   ...fullyConvertableRegroupmentConf,
-  label: 'not resolved',
-  attributes: [999, 1000],
-}
-
-/** An attributes regroupement configuration that is not visible */
-const nonVisibleRegroupmenentConf = {
-  ...fullyConvertableRegroupmentConf,
-  label: 'not visible',
-  visibility: false,
+  attributes: [{ name: 'i.dont.exist.1' }, { name: 'i.dont.exist.2' }],
 }
 
 describe('[Search Results] Testing AttributesPresentationHelper', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('Should convert correctly a simple attribute configuration on server attribute', () => {
-    const converted = AttributesPresentationHelper.buildSimplePresentationModel(convertableSimpleServerAttributeConf, attributes, true)
+  it('Should convert correctly a simple attribute configuration on server attribute, as default sorting', () => {
+    const converted = AttributesPresentationHelper.buildPresentationModel(
+      attributes, convertableSimpleServerAttributeConf, [{ attributes: [{ name: 'my.attr.2' }] }], true, 8)
     assert.isDefined(converted)
     assert.deepEqual(converted, {
-      key: convertableSimpleServerAttributeConf.attributeFullQualifiedName,
-      label: attributes[2].content.label,
+      key: 'configured.column.8',
+      label: convertableSimpleServerAttributeConf.label,
       attributes: [attributes[2]],
       enableSorting: true,
       sortOrder: TableSortOrders.NO_SORT,
       sortIndex: null,
-      order: convertableSimpleServerAttributeConf.order,
-      defaultSorting: false,
-    }, 'Attribute should be correctly converted')
-  })
-  it('Should convert correctly a simple attribute configuration on standard attribute', () => {
-    const converted = AttributesPresentationHelper.buildSimplePresentationModel(convertableSimpleStandardAttributeConf, attributes, false)
-    assert.isDefined(converted)
-    assert.deepEqual(converted, {
-      key: convertableSimpleStandardAttributeConf.attributeFullQualifiedName,
-      label: sipIdStandardAttribute.label,
-      attributes: [AccessDomain.AttributeConfigurationController.getStandardAttributeConf(DamDomain.AttributeModelController.standardAttributesKeys.sipId)],
-      enableSorting: false,
-      sortOrder: TableSortOrders.NO_SORT,
-      sortIndex: null,
-      order: convertableSimpleStandardAttributeConf.order,
+      order: 8,
       defaultSorting: true,
     }, 'Attribute should be correctly converted')
   })
-  it('Should refuse converting non visible simple attribute configuration (such configuration is used for sorting or facets)', () => {
-    const converted = AttributesPresentationHelper.buildSimplePresentationModel(nonVisibleSimpleAttributeConf, attributes, false)
-    assert.isNotOk(converted)
-  })
-  it('Should refuse converting a simple attribute configuration where attribute cannot be retrieved', () => {
-    const converted = AttributesPresentationHelper.buildSimplePresentationModel(nonConvertableSimpleAttributeConf, attributes, false)
-    assert.isNotOk(converted)
-  })
-  it('Should convert correctly an attributes regroupment configuration (such structure contains only server attribute models)', () => {
-    const converted = AttributesPresentationHelper.buildGroupPresentationModel(fullyConvertableRegroupmentConf, attributes)
+  it('Should convert correctly a simple attribute configuration on standard attribute (not default sorting)', () => {
+    const converted = AttributesPresentationHelper.buildPresentationModel(
+      attributes, convertableSimpleStandardAttributeConf, [], false, 3)
     assert.isDefined(converted)
     assert.deepEqual(converted, {
-      key: fullyConvertableRegroupmentConf.label,
+      key: 'configured.column.3',
+      label: convertableSimpleServerAttributeConf.label,
+      attributes: [DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.sipId)],
+      enableSorting: false,
+      sortOrder: TableSortOrders.NO_SORT,
+      sortIndex: null,
+      order: 3,
+      defaultSorting: false,
+    }, 'Attribute should be correctly converted')
+  })
+  it('Should reject converting a simple attribute configuration where attribute cannot be retrieved', () => {
+    const converted = AttributesPresentationHelper.buildPresentationModel(attributes, nonConvertableSimpleAttributeConf, [], false, 1)
+    assert.isNotOk(converted)
+  })
+  it('Should convert correctly an attributes regroupment configuration', () => {
+    const converted = AttributesPresentationHelper.buildPresentationModel(attributes, fullyConvertableRegroupmentConf, [], true, 2)
+    assert.isDefined(converted)
+    assert.deepEqual(converted, {
+      key: 'configured.column.2',
       label: fullyConvertableRegroupmentConf.label,
-      attributes: [attributes[2], attributes[1]],
+      attributes: [attributes[2], attributes[1], DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.sipId)],
       enableSorting: false, // cannot sort on groups
       sortOrder: TableSortOrders.NO_SORT,
       sortIndex: null,
-      order: fullyConvertableRegroupmentConf.order,
+      order: 2,
       defaultSorting: false,
     }, 'Group should be correctly converted, respecting label and attributes order')
   })
   it('Should convert correctly an attributes regroupment configuration, filtering models not found', () => {
-    const converted = AttributesPresentationHelper.buildGroupPresentationModel(partiallyConvertableRegroupementConf, attributes)
+    const converted = AttributesPresentationHelper.buildPresentationModel(attributes, partiallyConvertableRegroupementConf, [], false, 7)
     assert.isDefined(converted)
     assert.deepEqual(converted, {
-      key: partiallyConvertableRegroupementConf.label, // in attribute groups, key is label (supposed unique)
+      key: 'configured.column.7',
       label: partiallyConvertableRegroupementConf.label,
       attributes: [attributes[2]],
       enableSorting: false,
       sortOrder: TableSortOrders.NO_SORT,
       sortIndex: null,
-      order: partiallyConvertableRegroupementConf.order,
+      order: 7,
       defaultSorting: false,
     }, 'Group should be correctly converted, filtering missing attributes')
   })
-  it('Should refuse converting a non visible attributes regroupment configuration', () => {
-    const converted = AttributesPresentationHelper.buildGroupPresentationModel(nonVisibleRegroupmenentConf, attributes)
+  it('Should reject converting an attributes regroupment where no attribute can be retrieved', () => {
+    const converted = AttributesPresentationHelper.buildPresentationModel(attributes, nonConvertableRegroupmentConf, [], false, 8)
     assert.isNotOk(converted)
   })
-  it('Should refuse converting an attributes regroupment where no attribute can be retrieved', () => {
-    const converted = AttributesPresentationHelper.buildGroupPresentationModel(nonConvertableRegroupmentConf, attributes)
-    assert.isNotOk(converted)
-  })
-  it('Should correctly convert presentation models, filtering elements that are hidden or using only non resolved attributes', () => {
+  it('Should correctly convert presentation models, filtering elements that are using only non resolved attributes', () => {
     const convertedModels =
       AttributesPresentationHelper.buildAttributesPresentationModels(attributes, [
         convertableSimpleServerAttributeConf, // conversion count: +1
         convertableSimpleStandardAttributeConf, // +1
         nonConvertableSimpleAttributeConf, // +0
-        nonVisibleSimpleAttributeConf, // +0
-      ], [
         fullyConvertableRegroupmentConf, // +1
         partiallyConvertableRegroupementConf, // +1
         nonConvertableRegroupmentConf, // +0
-        nonVisibleRegroupmenentConf, // +0
-      ], true)
+      ], [], true)
     // check converted content
     assert.lengthOf(convertedModels, 4, 'It should convert expected configurations and filter others')
-    // convertableSimpleServerAttributeConf
-    let convertedModel = convertedModels.find(model => model.key === convertableSimpleServerAttributeConf.attributeFullQualifiedName)
-    assert.isDefined(convertedModel, 'We should retrieve convertableSimpleServerAttributeConf in converted reuslts')
-    assert.isTrue(convertedModel.enableSorting, 'convertableSimpleServerAttributeConf converted model should be sortable')
-    // convertableSimpleStandardAttributeConf
-    convertedModel = convertedModels.find(model => model.key === convertableSimpleStandardAttributeConf.attributeFullQualifiedName)
-    assert.isDefined(convertedModel, 'We should retrieve convertableSimpleStandardAttributeConf in converted reuslts')
-    assert.isTrue(convertedModel.enableSorting, 'convertableSimpleStandardAttributeConf converted model should be sortable')
-    // fullyConvertableRegroupmentConf
-    convertedModel = convertedModels.find(model => model.key === fullyConvertableRegroupmentConf.label)
-    assert.isDefined(convertedModel, 'We should retrieve fullyConvertableRegroupmentConf in converted reuslts')
-    assert.isFalse(convertedModel.enableSorting, 'fullyConvertableRegroupmentConf converted model should not be sortable as it is a group')
-    // partiallyConvertableRegroupementConf
-    convertedModel = convertedModels.find(model => model.key === partiallyConvertableRegroupementConf.label)
-    assert.isDefined(convertedModel, 'We should retrieve partiallyConvertableRegroupementConf in converted reuslts')
-    assert.isFalse(convertedModel.enableSorting, 'partiallyConvertableRegroupementConf converted model should not be sortable as it is a group')
   })
   it('Should add correctly sorting on presentation model when in multi sorting ', () => {
     // 1 - empty list
@@ -323,19 +286,48 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
   })
   it('Should generate correctly sorting order for query, using presentation models order', () => {
     assert.lengthOf(AttributesPresentationHelper.getSortingOn([
-      { key: 'PM1', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
-      { key: 'PM2', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
-      { key: 'PM3', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
+      { key: 'a1', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
+      { key: 'a2', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
+      { key: 'a3', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
     ]), 0, 'Sorting path should be correctly generated without sorting')
 
     assert.deepEqual(AttributesPresentationHelper.getSortingOn([
-      { key: 'PM1', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
-      { key: 'PM2', sortOrder: TableSortOrders.ASCENDING_ORDER, sortIndex: 1 },
-      { key: 'PM3', sortOrder: TableSortOrders.DESCENDING_ORDER, sortIndex: 0 },
+      {
+        key: 'a1',
+        sortOrder: TableSortOrders.NO_SORT,
+        sortIndex: null,
+        attributes: [{ content: { jsonPath: 'a.1' } }],
+      },
+      {
+        key: 'a2',
+        sortOrder: TableSortOrders.ASCENDING_ORDER,
+        sortIndex: 1,
+        attributes: [{ content: { jsonPath: 'b.2' } }],
+      },
+      {
+        key: 'a3',
+        sortOrder: TableSortOrders.DESCENDING_ORDER,
+        sortIndex: 0,
+        attributes: [{ content: { jsonPath: 'c.3' } }],
+      },
     ]), [
-      { attributePath: 'PM3', type: TableSortOrders.DESCENDING_ORDER },
-      { attributePath: 'PM2', type: TableSortOrders.ASCENDING_ORDER },
+      { attributePath: 'c.3', type: TableSortOrders.DESCENDING_ORDER },
+      { attributePath: 'b.2', type: TableSortOrders.ASCENDING_ORDER },
     ], 'Sorting path should be correctly generated with sorting')
+  })
+  it('Should generate correctly initial sorting from configuration', () => {
+    assert.isEmpty(AttributesPresentationHelper.getInitialSorting([]), 'Empty initial sorting should be correctly converted')
+    assert.deepEqual(AttributesPresentationHelper.getInitialSorting([{
+      attributes: [{ name: 'attr.2' }],
+    }, {
+      attributes: [{ name: 'attr.3' }],
+    }]), [{
+      attributePath: 'attr.2',
+      type: TableSortOrders.ASCENDING_ORDER,
+    }, {
+      attributePath: 'attr.3',
+      type: TableSortOrders.ASCENDING_ORDER,
+    }], 'Initial sorting should be correctly converted')
   })
 })
 

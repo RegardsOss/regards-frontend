@@ -20,7 +20,6 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { UserModuleContainer } from '../../../src/containers/user/UserModuleContainer'
-import DescriptionContainer from '../../../src/containers/user/DescriptionContainer'
 import SearchGraph from '../../../src/components/user/SearchGraph'
 import styles from '../../../src/styles/styles'
 
@@ -55,6 +54,5 @@ describe('[Search Graph] Testing UserModuleContainer', () => {
     }
     const enzymeWrapper = shallow(<UserModuleContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(SearchGraph), 1, 'The corresponding component should be rendered')
-    assert.lengthOf(enzymeWrapper.find(DescriptionContainer), 1, 'The module should render the description container')
   })
 })

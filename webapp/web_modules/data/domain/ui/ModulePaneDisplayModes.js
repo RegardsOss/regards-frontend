@@ -35,7 +35,7 @@ export const MODULE_PANE_DISPLAY_MODES = values(MODULE_PANE_DISPLAY_MODES_ENUM)
  * @return {boolean} true if module is expanded in mode as parameter, false otherwise
  */
 export function isModulePaneExpanded(displayMode) {
-  return displayMode !== MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE
+  return displayMode !== MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE
 }
 
 /**

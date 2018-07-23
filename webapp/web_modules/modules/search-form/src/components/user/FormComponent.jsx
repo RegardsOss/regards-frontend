@@ -48,23 +48,14 @@ class FormComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      expanded: true,
-    }
     this.pluginStates = {}
   }
 
   onKeyPress = (e) => {
-    if (e.charCode === 13) {
-      this.onSearch()
+    const { handleSearch } = this.props
+    if (e.charCode === 13) { // seach on enter key pressed
+      handleSearch()
     }
-  }
-
-  onSearch = () => {
-    this.props.handleSearch()
-    this.setState({
-      expanded: false,
-    })
   }
 
   /**
@@ -75,12 +66,6 @@ class FormComponent extends React.Component {
    * @returns {{}}
    */
   getPluginDefaultState = pluginId => this.pluginStates[pluginId] ? this.pluginStates[pluginId] : {}
-
-  handleExpand = () => {
-    this.setState({
-      expanded: !this.state.expanded,
-    })
-  }
 
   /**
    * Function passed to plugins to save their state. So they can retrieve it later
@@ -93,7 +78,7 @@ class FormComponent extends React.Component {
 
   render() {
     const {
-      plugins, pluginsProps: initialPluginProps, moduleConf, ...moduleProperties
+      plugins, pluginsProps: initialPluginProps, moduleConf, handleSearch, ...moduleProperties
     } = this.props
 
     const pluginsProps = {
@@ -112,15 +97,15 @@ class FormComponent extends React.Component {
       <DynamicModulePane
         {...moduleProperties}
         moduleConf={moduleConf}
-        expanded={this.state.expanded}
         onKeyPress={this.onKeyPress}
         requiredDependencies={dependencies}
+        mainModule={false}
       >
         <FormLayout
           layout={retroCompatibleLayout}
           plugins={plugins}
           pluginsProps={pluginsProps}
-          onSearch={this.onSearch}
+          onSearch={handleSearch}
           onClearAll={this.props.handleClearAll}
         />
       </DynamicModulePane>)

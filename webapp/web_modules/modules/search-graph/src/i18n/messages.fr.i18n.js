@@ -24,17 +24,21 @@ const messages = {
   'search.graph.configuration.tab': 'Graphe',
   // 1.a - Graph levels
   'search.graph.configuration.levels.message': 'Niveaux de navigation du graphe',
-  'search.graph.levels.selection.none.selected.error': 'Sélectionnez au moins 1 élément pour la recherche par graphe',
-  'search.graph.levels.selection.no.selection.hint': 'Aucune sélection. Vous pouvez sélectionner des niveaux en cliquant sur "Ajouter un niveau"',
-  'search.graph.add.level': 'Ajouter un niveau',
+  'search.graph.levels.selection.none.selected.error': 'Aucun niveau d\'affichage sélectionné',
+  'search.graph.levels.selection.header.message': `{count, plural, 
+    =0 {Aucun niveau de navigation défini}
+    one {# niveau de navigation défini}
+    other {# niveaux de navigation définis}
+  }`,
+  'search.graph.levels.selection.no.selection.hint': 'Ajouter ici les niveaux de navigation du graphe',
+  'search.graph.add.level': 'Ajouter',
   'search.graph.collection.model.label': '{name} - {description}',
-  'search.graph.selected.levels.column.index': 'Niveau',
   'search.graph.selected.levels.column.name': 'Nom',
   'search.graph.selected.levels.column.description': 'Description',
-  'search.graph.selected.levels.column.actions': 'Actions',
-  'search.graph.selected.levels.column.actions.remove.tooltip': 'Supprimer ce niveau',
+  'search.graph.selected.levels.column.options.remove.tooltip': 'Supprimer ce niveau',
   // 1.b - Graph dataset attributes
-  'search.graph.configuration.attributes.message': 'Attributs à afficher par jeux de données dans le graphe',
+  'search.graph.configuration.attributes.message': 'Attributs des jeux de données affichés',
+  'search.graph.configuration.dataset.attributes.hint': 'Ajouter ici les attributs à afficher pour les jeux de données du graphe, quand l\'option détail est active',
   'form.attributes.standard.section.title': 'Attributs communs',
   'form.attributes.section.title': 'Attributs dynamiques ',
   'form.attributes.section.clear.filters.tooltip': 'Effacer le filtre courant',

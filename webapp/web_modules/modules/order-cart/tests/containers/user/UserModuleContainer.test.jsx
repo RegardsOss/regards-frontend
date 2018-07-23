@@ -20,7 +20,6 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import OrderCartComponent from '../../../src/components/user/OrderCartComponent'
-import SelectionItemDetailContainer from '../../../src/containers/user/detail/SelectionItemDetailContainer'
 import { UserModuleContainer } from '../../../src/containers/user/UserModuleContainer'
 import styles from '../../../src/styles/styles'
 
@@ -99,9 +98,6 @@ describe('[Order Cart] Testing UserModuleContainer', () => {
         onClearCart: props.dispatchClearCart,
         onOrder: enzymeWrapper.instance().onOrder,
       }, `Properties should be correctly reported to sub component - property set n°${index}`)
-
-      const detailContainerWrapper = enzymeWrapper.find(SelectionItemDetailContainer)
-      assert.lengthOf(detailContainerWrapper, 1, `This container should also add detail functionnality, using a detail container - property set n°${index}`)
     })
   })
 })
