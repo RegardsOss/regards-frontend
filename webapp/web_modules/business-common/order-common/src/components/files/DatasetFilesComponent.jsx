@@ -94,22 +94,22 @@ class DatasetFilesComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     return [
       // 1 - Name column
-      new TableColumnBuilder(NAME_KEY).titleHeaderCell().order(1).visible(get(columnsVisibility, NAME_KEY, true))
+      new TableColumnBuilder(NAME_KEY).titleHeaderCell().visible(get(columnsVisibility, NAME_KEY, true))
         .label(formatMessage({ id: 'files.list.column.name' }))
         .valuesRenderCell([{ getValue: DatasetFilesComponent.getFileName }])
         .build(),
       // 2 - size column
-      new TableColumnBuilder(SIZE_KEY).titleHeaderCell().order(2).visible(get(columnsVisibility, SIZE_KEY, true))
+      new TableColumnBuilder(SIZE_KEY).titleHeaderCell().visible(get(columnsVisibility, SIZE_KEY, true))
         .label(formatMessage({ id: 'files.list.column.size' }))
         .propertyRenderCell('content.size', StorageCapacityRender)
         .build(),
       // 3 - MIME type column
-      new TableColumnBuilder(TYPE_KEY).titleHeaderCell().order(3).visible(get(columnsVisibility, TYPE_KEY, true))
+      new TableColumnBuilder(TYPE_KEY).titleHeaderCell().visible(get(columnsVisibility, TYPE_KEY, true))
         .label(formatMessage({ id: 'files.list.column.type' }))
         .propertyRenderCell('content.mimeType')
         .build(),
       // 4 - status column
-      new TableColumnBuilder(STATUS_KEY).titleHeaderCell().order(4).visible(get(columnsVisibility, STATUS_KEY, true))
+      new TableColumnBuilder(STATUS_KEY).titleHeaderCell().visible(get(columnsVisibility, STATUS_KEY, true))
         .label(formatMessage({ id: 'files.list.column.status' }))
         .valuesRenderCell([{ getValue: DatasetFilesComponent.getStatus, RenderConstructor: OrderFileStatusRender }])
         .build(),

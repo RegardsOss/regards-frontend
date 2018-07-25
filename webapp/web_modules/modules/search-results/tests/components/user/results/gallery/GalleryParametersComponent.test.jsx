@@ -38,7 +38,7 @@ describe('[Search Results] Testing GalleryParametersComponent', () => {
   it('should render correctly', () => {
     const props = {
       entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DataobjectEntity'),
-      attributePresentationModels: [],
+      presentationModels: [],
     }
     const enzymeWrapper = shallow(<GalleryParametersComponent {...props} />, { context })
     expect(enzymeWrapper.find('div')).to.have.length(3)

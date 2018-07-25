@@ -26,6 +26,8 @@ import { URLAuthInjector } from '@regardsoss/domain/common'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/display-control'
+import { TableColumnBuilder } from '@regardsoss/components'
+import { ColumnPresentationModelArray } from '../../../../models/table/TableColumnModel'
 import ListViewEntityCellComponent from '../cells/ListViewEntityCellComponent'
 import GalleryParametersComponent from './GalleryParametersComponent'
 
@@ -36,7 +38,7 @@ class GalleryItemComponent extends React.PureComponent {
     width: PropTypes.number,
     gridWidth: PropTypes.number,
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
-    attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired,
+    presentationModels: ColumnPresentationModelArray.isRequired,
     isDescAvailableFor: PropTypes.func.isRequired,
     onAddElementToCart: PropTypes.func, // callback to add element to cart, null when disabled
     enableDownload: PropTypes.bool,
@@ -57,12 +59,23 @@ class GalleryItemComponent extends React.PureComponent {
 
   static getColumnSpanFromProps = props => 1
 
+  /**
+   * Retains only attributes presentation model in presentation models list
+   * @param {[ColumnPresentationModel]} presentationModels all presentation model
+   * @return {[AttributePresentationModel]} filtered attributes presentation models
+   */
+  static filterAttributesPresentationModels(presentationModels) {
+    return presentationModels.filter(model =>
+      model.key !== TableColumnBuilder.selectionColumnKey &&
+      model.key !== TableColumnBuilder.optionsColumnKey)
+  }
 
   static getHeightFromProps = (props, columnSpan, columnGutter, gridWidth, itemProps) => {
     // when there is no attributes, we do not display footer
     let footerHeight = 0
-    if (itemProps.attributePresentationModels.length > 0) {
-      footerHeight = itemProps.attributePresentationModels.length * 19
+    const attributesPresentationModels = GalleryItemComponent.filterAttributesPresentationModels(itemProps.presentationModels)
+    if (attributesPresentationModels.length > 0) {
+      footerHeight = attributesPresentationModels.length * 19
     }
     // Check if the entity has a quicklook to display
 
@@ -134,10 +147,12 @@ class GalleryItemComponent extends React.PureComponent {
       attributesRenderData, iconStyle, imageStyle, imageAndOptionsContainer, imageContainer,
     } = this.state
     const {
-      entity, attributePresentationModels, accessToken, projectName, isDescAvailableFor,
+      entity, presentationModels, accessToken, projectName, isDescAvailableFor,
       onAddElementToCart, enableDownload, onShowDescription,
     } = this.props
     const { descriptionContainer } = this.context.moduleTheme.user.galleryViewStyles
+
+    const attributesPresentationModels = GalleryItemComponent.filterAttributesPresentationModels(presentationModels)
 
     let image
     let imageContainerStyle = {}
@@ -190,12 +205,12 @@ class GalleryItemComponent extends React.PureComponent {
         </div>
       </div>,
       <ShowableAtRender
-        show={attributePresentationModels.length > 0}
+        show={attributesPresentationModels.length > 0}
         key="desc"
       >
         <CardText style={descriptionContainer}>
           <GalleryParametersComponent
-            attributePresentationModels={attributePresentationModels}
+            presentationModels={attributesPresentationModels}
             entity={entity}
           />
         </CardText>

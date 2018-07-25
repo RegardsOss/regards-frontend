@@ -39,6 +39,22 @@ const styles = theme => ({
     viewModeButton: {
       minWidth: theme.button.iconButtonSize,
     },
+    columnsDialog: {
+      widthPercent: 70,
+      heightPercent: 80,
+      visibleColumnCell: {
+        color: theme.palette.textColor,
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      },
+      hiddenColumnCell: {
+        color: theme.palette.disabledColor,
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      },
+    },
     filters: {
       style: {
         margin: '0 5px',

@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
-import { AccessShapes } from '@regardsoss/shape'
 import { TableSortOrders } from '@regardsoss/components'
 import ListSortingComponent from '../../../../components/user/results/options/ListSortingComponent'
+import { ColumnPresentationModelArray } from '../../../../models/table/TableColumnModel'
 
 /**
  * Table sort filter options container (sort by in lists)
@@ -28,7 +28,7 @@ import ListSortingComponent from '../../../../components/user/results/options/Li
 export class ListSortingContainer extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired, // presentation model, used in onPropertiesChanged
+    presentationModels: ColumnPresentationModelArray.isRequired, // presentation model, used in onPropertiesChanged
     locale: PropTypes.string.isRequired,
     onSortByAttribute: PropTypes.func.isRequired, // sort changed callback
   }
@@ -54,8 +54,8 @@ export class ListSortingContainer extends React.Component {
     const oldState = this.state
     const newState = {}
     if (!isEqual(oldProps, newProps)) {
-      // 1 - Filter to keep only models enabling sorting; keep the configured user order
-      newState.sortableModels = newProps.attributePresentationModels.filter(model => model.enableSorting)
+      // 1 - Filter to keep only attribute models enabling sorting; keep the configured user order (note: table columns will be filtered by 'enableSorting)
+      newState.sortableModels = newProps.presentationModels.filter(model => model.enableSorting)
       // 2 - Find in those the currently selected model
       newState.sortingModel = newState.sortableModels.find(model => model.sortOrder && model.sortOrder !== TableSortOrders.NO_SORT)
       // 3 - Check if default sorting is in attributes

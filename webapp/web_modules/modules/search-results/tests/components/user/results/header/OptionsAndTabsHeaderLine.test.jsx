@@ -45,7 +45,7 @@ describe('[Search Results] Testing OptionsAndTabsHeaderLine', () => {
   it('should render correctly', () => {
     const props = {
       // state
-      attributePresentationModels: [{
+      presentationModels: [{
         key: 'some.model',
         label: {
           en: 'a model',

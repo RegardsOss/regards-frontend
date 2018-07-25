@@ -63,7 +63,6 @@ class SelectedAttributesTable extends React.Component {
           Constructor: AttributeRender,
           props: { attributeModels },
         }).titleHeaderCell()
-        .order(1)
         .build(),
       // 2 - Add option
       new TableColumnBuilder().optionsColumn([{

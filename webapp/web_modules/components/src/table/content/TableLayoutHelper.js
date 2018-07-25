@@ -75,6 +75,5 @@ export function layout(columns, tableWidth, showVerticalScrollBar, fixedColumnsW
       runtimeWidth: index === growingColumns.length - 1 ? lastGrowingColumnWidth : growingColumnWidth,
     }))
   }
-  // sort columns on provided order
-  return [...completedFixedColumns, ...completedGrowingColumns].sort((c1, c2) => (c1.order) - (c2.order))
+  return [...completedFixedColumns, ...completedGrowingColumns]
 }

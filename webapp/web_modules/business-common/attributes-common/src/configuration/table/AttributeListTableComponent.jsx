@@ -69,7 +69,7 @@ class AttributeListTableComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     return [
       // 1 - Direct label column (that renders attributes label) when label functionnality is disabled on columns
-      new TableColumnBuilder('label').titleHeaderCell().order(1).visible(!allowLabel)
+      new TableColumnBuilder('label').titleHeaderCell().visible(!allowLabel)
         .label(formatMessage({ id: 'attributes.configuration.label.simple.column' }))
         .rowCellDefinition({
           Constructor: AttributesRender,
@@ -79,17 +79,17 @@ class AttributeListTableComponent extends React.Component {
         })
         .build(),
       // 2 - English label when label functionnality is enabled for columns
-      new TableColumnBuilder('label.en').titleHeaderCell().order(2).visible(allowLabel)
+      new TableColumnBuilder('label.en').titleHeaderCell().visible(allowLabel)
         .propertyRenderCell('label.en')
         .label(formatMessage({ id: 'attributes.configuration.label.english.column' }))
         .build(),
       // 3 - French label when label functionnality is enabled for columns
-      new TableColumnBuilder('label.fr').titleHeaderCell().order(3).visible(allowLabel)
+      new TableColumnBuilder('label.fr').titleHeaderCell().visible(allowLabel)
         .propertyRenderCell('label.fr')
         .label(formatMessage({ id: 'attributes.configuration.label.french.column' }))
         .build(),
       // 4 - Attributes column, when groups are allowed
-      new TableColumnBuilder('attributes').titleHeaderCell().order(4).visible(allowAttributesRegroupements)
+      new TableColumnBuilder('attributes').titleHeaderCell().visible(allowAttributesRegroupements)
         .label(formatMessage({ id: 'attributes.configuration.attributes.column' }))
         .rowCellDefinition({
           Constructor: AttributesRender,

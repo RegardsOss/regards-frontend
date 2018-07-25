@@ -54,7 +54,7 @@ describe('[Search Results] Testing ListSortingContainer', () => {
   })
   it('should filter and sort attributes, and retrieve no sorting model when none is set', () => {
     const props = {
-      attributePresentationModels: models,
+      presentationModels: models,
       onSortByAttribute: () => { },
       locale: 'en',
     }
@@ -71,7 +71,7 @@ describe('[Search Results] Testing ListSortingContainer', () => {
   })
   it('should filter and sort attributes, and retrieve no default sorting model when none is set', () => {
     const props = {
-      attributePresentationModels: models.slice(1), // remove first model which is default one
+      presentationModels: models.slice(1), // remove first model which is default one
       onSortByAttribute: () => { },
       locale: 'fr',
     }
@@ -89,7 +89,7 @@ describe('[Search Results] Testing ListSortingContainer', () => {
       sortOrder: TableSortOrders.ASCENDING_ORDER,
     }
     const props = {
-      attributePresentationModels: modelsWithSortingOn3,
+      presentationModels: modelsWithSortingOn3,
       onSortByAttribute: () => { },
       locale: 'fr',
     }
@@ -104,7 +104,7 @@ describe('[Search Results] Testing ListSortingContainer', () => {
   it('should handle add and remove sorting, and ignore it when no previous sorting was set', () => {
     let sortSpy = null
     const props = {
-      attributePresentationModels: models,
+      presentationModels: models,
       onSortByAttribute: (key, order) => {
         sortSpy = { key, order }
       },
@@ -115,7 +115,7 @@ describe('[Search Results] Testing ListSortingContainer', () => {
     enzymeWrapper.instance().onSortBy(null)
     assert.isNull(sortSpy, 'Sort should no propagate a remove sorting event when there is no sorting')
     // 2 - add sorting on a model
-    const sortingAttribute = props.attributePresentationModels[1]
+    const sortingAttribute = props.presentationModels[1]
     enzymeWrapper.instance().onSortBy(sortingAttribute)
     assert.deepEqual(sortSpy, { key: sortingAttribute.key, order: TableSortOrders.ASCENDING_ORDER }, 'Sort callback should be called to set new attribute as sorting element')
     // 3 - change props to clear an existing sorting
@@ -126,7 +126,7 @@ describe('[Search Results] Testing ListSortingContainer', () => {
       }]
     enzymeWrapper.setProps({
       ...props,
-      attributePresentationModels: modelsWithSortingOn3,
+      presentationModels: modelsWithSortingOn3,
     })
     enzymeWrapper.instance().onSortBy(null)
     assert.deepEqual(sortSpy, { key: models[3].key, order: TableSortOrders.NO_SORT }, 'Sort callback should be called to remove order on attribute')

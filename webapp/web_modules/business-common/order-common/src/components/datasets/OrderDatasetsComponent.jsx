@@ -69,22 +69,22 @@ class OrderDatasetsComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     return [
       // 1 - Dataset label
-      new TableColumnBuilder(LABEL_KEY).titleHeaderCell().propertyRenderCell('datasetLabel').order(1)
+      new TableColumnBuilder(LABEL_KEY).titleHeaderCell().propertyRenderCell('datasetLabel')
         .label(formatMessage({ id: 'datasets.list.column.label' }))
         .visible(get(columnsVisibility, LABEL_KEY, true))
         .build(),
       // 2 - Objects count
-      new TableColumnBuilder(OBJECT_COUNT_KEY).titleHeaderCell().propertyRenderCell('objectsCount').order(2)
+      new TableColumnBuilder(OBJECT_COUNT_KEY).titleHeaderCell().propertyRenderCell('objectsCount')
         .label(formatMessage({ id: 'datasets.list.column.objects.count' }))
         .visible(get(columnsVisibility, OBJECT_COUNT_KEY, true))
         .build(),
       // 3 - Files count
-      new TableColumnBuilder(FILES_COUNT_KEY).titleHeaderCell().propertyRenderCell('filesCount').order(3)
+      new TableColumnBuilder(FILES_COUNT_KEY).titleHeaderCell().propertyRenderCell('filesCount')
         .label(formatMessage({ id: 'datasets.list.column.files.count' }))
         .visible(get(columnsVisibility, FILES_COUNT_KEY, true))
         .build(),
       // 4 - Files size
-      new TableColumnBuilder(FILES_SIZE_KEY).titleHeaderCell().propertyRenderCell('filesSize', StorageCapacityRender).order(4)
+      new TableColumnBuilder(FILES_SIZE_KEY).titleHeaderCell().propertyRenderCell('filesSize', StorageCapacityRender)
         .label(formatMessage({ id: 'datasets.list.column.files.size' }))
         .visible(get(columnsVisibility, FILES_SIZE_KEY, true))
         .build(),

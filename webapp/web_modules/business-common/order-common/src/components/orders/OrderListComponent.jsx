@@ -228,57 +228,57 @@ class OrderListComponent extends React.Component {
     return [
       // owner when in admin mode
       displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ?
-        new TableColumnBuilder(OWNER_KEY).titleHeaderCell().propertyRenderCell('content.owner').order(1)
+        new TableColumnBuilder(OWNER_KEY).titleHeaderCell().propertyRenderCell('content.owner')
           .visible(get(columnsVisibility, OWNER_KEY, true))
           .label(formatMessage({ id: 'order.list.column.owner' }))
           .build() : null,
 
       // number
-      new TableColumnBuilder(NUMBER_KEY).titleHeaderCell().propertyRenderCell('content.id').order(2)
+      new TableColumnBuilder(NUMBER_KEY).titleHeaderCell().propertyRenderCell('content.id')
         .visible(get(columnsVisibility, NUMBER_KEY, true))
         .label(formatMessage({ id: 'order.list.column.number' }))
         .build(),
 
       // Progress column
-      new TableColumnBuilder(PROGRESS_KEY).titleHeaderCell().progressPercentRenderCell(OrderListComponent.getProgress).order(3)
+      new TableColumnBuilder(PROGRESS_KEY).titleHeaderCell().progressPercentRenderCell(OrderListComponent.getProgress)
         .visible(get(columnsVisibility, PROGRESS_KEY, true))
         .label(formatMessage({ id: 'order.list.column.progress' }))
         .build(),
 
       // creation date
-      new TableColumnBuilder(CREATION_DATE_KEY).titleHeaderCell().propertyRenderCell('content.creationDate', DateValueRender).order(4)
+      new TableColumnBuilder(CREATION_DATE_KEY).titleHeaderCell().propertyRenderCell('content.creationDate', DateValueRender)
         .visible(get(columnsVisibility, CREATION_DATE_KEY, true))
         .label(formatMessage({ id: 'order.list.column.creation.date' }))
         .build(),
 
       // expiration date
-      new TableColumnBuilder(EXPIRATION_DATE_KEY).titleHeaderCell().propertyRenderCell('content.expirationDate', DateValueRender).order(5)
+      new TableColumnBuilder(EXPIRATION_DATE_KEY).titleHeaderCell().propertyRenderCell('content.expirationDate', DateValueRender)
         .visible(get(columnsVisibility, EXPIRATION_DATE_KEY, true))
         .label(formatMessage({ id: 'order.list.column.expiration.date' }))
         .build(),
 
       // objects count (as extracted, using getObjectCount)
-      new TableColumnBuilder(OBJECTS_COUNT_KEY).titleHeaderCell().valuesRenderCell([{ getValue: OrderListComponent.getObjectsCount }]).order(6)
+      new TableColumnBuilder(OBJECTS_COUNT_KEY).titleHeaderCell().valuesRenderCell([{ getValue: OrderListComponent.getObjectsCount }])
         .visible(get(columnsVisibility, OBJECTS_COUNT_KEY, true))
         .label(formatMessage({ id: 'order.list.column.object.count' }))
         .build(),
 
       // total files size  (as extracted, using getFilesSize)
       new TableColumnBuilder(FILES_SIZE_KEY).titleHeaderCell()
-        .valuesRenderCell([{ getValue: OrderListComponent.getFilesSize, RenderConstructor: StorageCapacityRender }]).order(7)
+        .valuesRenderCell([{ getValue: OrderListComponent.getFilesSize, RenderConstructor: StorageCapacityRender }])
         .visible(get(columnsVisibility, FILES_SIZE_KEY, true))
         .label(formatMessage({ id: 'order.list.column.files.size' }))
         .build(),
 
       // error files count
-      new TableColumnBuilder(ERRORS_COUNT_KEY).titleHeaderCell().propertyRenderCell('content.filesInErrorCount', ErrorsCountRender).order(8)
+      new TableColumnBuilder(ERRORS_COUNT_KEY).titleHeaderCell().propertyRenderCell('content.filesInErrorCount', ErrorsCountRender)
         .visible(get(columnsVisibility, ERRORS_COUNT_KEY, true))
         .label(formatMessage({ id: 'order.list.column.errors.count' }))
         .build(),
 
       // Status column
       new TableColumnBuilder(STATUS_KEY).titleHeaderCell()
-        .valuesRenderCell([{ getValue: StatusRender.getStatus, RenderConstructor: StatusRender }]).order(9)
+        .valuesRenderCell([{ getValue: StatusRender.getStatus, RenderConstructor: StatusRender }])
         .visible(get(columnsVisibility, STATUS_KEY, true))
         .label(formatMessage({ id: 'order.list.column.status' }))
         .build(),
@@ -287,6 +287,7 @@ class OrderListComponent extends React.Component {
       new TableColumnBuilder()
         .label(formatMessage({ id: 'order.list.column.options' }))
         .optionsColumn(this.buildOptions())
+        .visible(get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true))
         .build(),
     ].filter(c => !!c) // remove null elements
   }

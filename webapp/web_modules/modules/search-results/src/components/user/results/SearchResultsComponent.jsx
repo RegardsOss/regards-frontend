@@ -25,10 +25,11 @@ import { BasicFacetsPageableActions, BasicFacetsPageableSelectors } from '@regar
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
 import { UIFacetArray, SelectedFacetArray } from '../../../models/facets/FacetShape'
 import TableClient from '../../../clients/TableClient'
+import { ColumnPresentationModelArray } from '../../../models/table/TableColumnModel'
 import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/navigation/TableDisplayModeEnum'
 import DisplayModuleConf from '../../../models/DisplayModuleConf'
 import { DISPLAY_MODE_VALUES } from '../../../definitions/DisplayModeEnum'
-import ListViewEntityCellContainer, { packThumbnailRenderData, packGridAttributesRenderData } from '../../../containers/user/results/cells/ListViewEntityCellContainer'
+import ListViewEntityCellContainer, { packThumbnailRenderData, packGridAttributesRenderData, hasSelection } from '../../../containers/user/results/cells/ListViewEntityCellContainer'
 import AddElementToCartContainer from '../../../containers/user/results/options/AddElementToCartContainer'
 import OneElementServicesContainer from '../../../containers/user/results/options/OneElementServicesContainer'
 import EntityDescriptionComponent from './options/EntityDescriptionComponent'
@@ -68,8 +69,7 @@ class SearchResultsComponent extends React.Component {
     searchSelectors: PropTypes.instanceOf(BasicFacetsPageableSelectors).isRequired,
 
     // configuration related: attributes presentation model as converted by parent container
-    hiddenColumnKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
-    attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired,
+    presentationModels: ColumnPresentationModelArray.isRequired,
 
     // dynamic display control
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
@@ -94,7 +94,7 @@ class SearchResultsComponent extends React.Component {
     selectionServices: AccessShapes.PluginServiceWithContentArray,
 
     // control
-    onChangeColumnsVisibility: PropTypes.func.isRequired,
+    onConfigureColumns: PropTypes.func.isRequired,
     onSetEntityAsTag: PropTypes.func.isRequired,
     onSelectFacet: PropTypes.func.isRequired,
     onUnselectFacet: PropTypes.func.isRequired,
@@ -129,13 +129,6 @@ class SearchResultsComponent extends React.Component {
   static hasServices = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
   /**
-   * Should selection be enabled for object type as parameter
-   * @param {objectType} entity type
-   * @return true if selection should be enabled
-   */
-  static hasSelection = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATA
-
-  /**
    * Should navigate to be enabled for object type as parameter. Note: navigate to is used to apply an element
    * as filter for results
    * @param {objectType} entity type
@@ -154,63 +147,59 @@ class SearchResultsComponent extends React.Component {
    */
   buildTableColumns = () => {
     const {
-      searchSelectors, attributePresentationModels, viewObjectType, enableDownload, accessToken, projectName, locale,
+      searchSelectors, presentationModels, viewObjectType, enableDownload, accessToken, projectName, locale,
       isDescAvailableFor, onSortByAttribute, onSetEntityAsTag: onSearchEntity, onAddElementToCart: onAddToCart, onShowDescription,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
-    const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
     const enableNavigateTo = SearchResultsComponent.hasNavigateTo(viewObjectType)
-    return [
-      // selection column
-      enableSelection ? new TableColumnBuilder()
-        .label(formatMessage({ id: 'results.selection.column.label' }))
-        .visible(this.isColumnVisible(TableColumnBuilder.selectionColumnKey))
-        .selectionColumn(true, searchSelectors, TableClient.tableActions, TableClient.tableSelectors)
-        .build() : null,
-      // attributes and attributes groups as provided by parent
-      ...attributePresentationModels.map(presentationModel =>
-        AttributeColumnBuilder.buildAttributeColumn(
-          presentationModel,
-          this.isColumnVisible(presentationModel.key),
-          onSortByAttribute,
-          locale,
-        )),
-      // Options in current context
-      new TableColumnBuilder()
-        .label(formatMessage({ id: 'results.options.column.label' }))
-        .visible(this.isColumnVisible(TableColumnBuilder.optionsColumnKey))
-        .optionsColumn([
-          // Download
-          enableDownload ? { OptionConstructor: DownloadEntityFileComponent, optionProps: { accessToken, projectName } } : null,
-          // Description if available for current object type
-          isDescAvailableFor(viewObjectType) ? { OptionConstructor: EntityDescriptionComponent, optionProps: { onShowDescription } } : null,
-          // Search by tag
-          enableNavigateTo ? { OptionConstructor: SearchRelatedEntitiesComponent, optionProps: { onSearchEntity } } : null,
-          // Services
-          enableServices ? { OptionConstructor: OneElementServicesContainer } : null,
-          // Add to cart
-          onAddToCart ? { OptionConstructor: AddElementToCartContainer, optionProps: { onAddToCart } } : null,
-        ])
-        .build(),
-    ].filter(column => !!column) // filter null elements
+    // map presentation models, with their current order, onto table columns
+    return presentationModels.map((model, index) => {
+      switch (model.key) {
+        // selection column
+        case TableColumnBuilder.selectionColumnKey:
+          return new TableColumnBuilder().label(formatMessage({ id: 'results.selection.column.label' }))
+            .visible(model.visible)
+            .selectionColumn(true, searchSelectors, TableClient.tableActions, TableClient.tableSelectors)
+            .build()
+        // options column
+        case TableColumnBuilder.optionsColumnKey:
+          return new TableColumnBuilder().label(formatMessage({ id: 'results.options.column.label' }))
+            .visible(model.visible)
+            .optionsColumn([ // Options in current context
+              // Download
+              enableDownload ? { OptionConstructor: DownloadEntityFileComponent, optionProps: { accessToken, projectName } } : null,
+              // Description if available for current object type
+              isDescAvailableFor(viewObjectType) ? { OptionConstructor: EntityDescriptionComponent, optionProps: { onShowDescription } } : null,
+              // Search by tag
+              enableNavigateTo ? { OptionConstructor: SearchRelatedEntitiesComponent, optionProps: { onSearchEntity } } : null,
+              // Services
+              enableServices ? { OptionConstructor: OneElementServicesContainer } : null,
+              // Add to cart
+              onAddToCart ? { OptionConstructor: AddElementToCartContainer, optionProps: { onAddToCart } } : null,
+            ])
+            .build()
+        default:
+          // attribute column (use helper)
+          return AttributeColumnBuilder.buildAttributeColumn(model, onSortByAttribute, locale)
+      }
+    })
   }
 
   /**
-  * Create columns configuration for table view
-  * @param tableColumns table columns
-  * @param props component properties
-  * @param enableServices enable services?
-  * @param onAddElementToCart on add element to cart callback
-  * @returns {Array}
-  */
+   * Create columns configuration for table view
+   * @param tableColumns table columns
+   * @param props component properties
+   * @param enableServices enable services?
+   * @param onAddElementToCart on add element to cart callback
+   * @returns {Array}
+   */
   buildListColumn = () => {
     const {
-      attributePresentationModels, enableDownload, viewObjectType, accessToken, projectName, locale,
+      presentationModels, enableDownload, viewObjectType, accessToken, projectName, locale,
       isDescAvailableFor, onAddElementToCart, onSetEntityAsTag, onShowDescription,
     } = this.props
-    const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
     const enableNavigateTo = SearchResultsComponent.hasNavigateTo(viewObjectType)
 
@@ -219,9 +208,9 @@ class SearchResultsComponent extends React.Component {
       Constructor: ListViewEntityCellContainer,
       props: {
         // prefetch attributes from models to enhance render time
-        thumbnailRenderData: packThumbnailRenderData(attributePresentationModels),
-        gridAttributesRenderData: packGridAttributesRenderData(attributePresentationModels, locale),
-        selectionEnabled: enableSelection,
+        thumbnailRenderData: packThumbnailRenderData(presentationModels),
+        gridAttributesRenderData: packGridAttributesRenderData(presentationModels, locale),
+        selectionEnabled: hasSelection(presentationModels),
         servicesEnabled: enableServices,
         onSearchEntity: enableNavigateTo ? onSetEntityAsTag : null,
         onAddToCart: onAddElementToCart,
@@ -233,13 +222,6 @@ class SearchResultsComponent extends React.Component {
       },
     }).build()
   }
-
-  /**
-   * Is column visible?
-   * @param columnLabel column label
-   * @return true if visible
-   */
-  isColumnVisible = columnKey => !this.props.hiddenColumnKeys.includes(columnKey)
 
   /** @return {boolean} true if currently displaying dataobjects */
   isDisplayingDataobjects = () => this.props.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
@@ -262,11 +244,11 @@ class SearchResultsComponent extends React.Component {
     const resultsTheme = muiTheme.module.searchResults
 
     const {
-      allowingFacettes, attributePresentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
+      allowingFacettes, presentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
       viewObjectType, tableViewMode, showingFacettes, facets, selectedFacets, searchQuery, selectionServices, enableQuicklooks,
       displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook, enableDownload, accessToken, projectName, datasetsSectionLabel,
       dataSectionLabel, locale, isDescAvailableFor,
-      onChangeColumnsVisibility, onSelectFacet, onUnselectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView,
+      onConfigureColumns, onSelectFacet, onUnselectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView,
       onSortByAttribute, onToggleShowFacettes, onStartSelectionService, onAddSelectionToCart, onShowQuicklookView,
       onAddElementToCart, onShowDescription,
     } = this.props
@@ -289,7 +271,7 @@ class SearchResultsComponent extends React.Component {
     const pathParams = { parameters: searchQuery }
     const showFacets = showingFacettes && allowingFacettes && (this.isDisplayingDataobjects() || this.isDisplayingDocuments())
     const itemProps = {
-      attributePresentationModels,
+      presentationModels,
       isDescAvailableFor,
       onAddElementToCart,
       onShowDescription,
@@ -305,7 +287,7 @@ class SearchResultsComponent extends React.Component {
           viewObjectType={viewObjectType}
           tableViewMode={tableViewMode}
           searchSelectors={searchSelectors}
-          attributePresentationModels={attributePresentationModels}
+          presentationModels={presentationModels}
           tableColumns={tableColumns}
           displayFacettesButton={allowingFacettes}
           displayOnlyQuicklook={displayOnlyQuicklook}
@@ -316,7 +298,7 @@ class SearchResultsComponent extends React.Component {
           dataSectionLabel={dataSectionLabel}
           locale={locale}
           onAddSelectionToCart={onAddSelectionToCart}
-          onChangeColumnsVisibility={onChangeColumnsVisibility}
+          onConfigureColumns={onConfigureColumns}
           onShowDataobjects={onShowDataobjects}
           onShowDatasets={onShowDatasets}
           onShowListView={onShowListView}

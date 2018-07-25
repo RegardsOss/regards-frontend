@@ -30,7 +30,7 @@ import { getTypeRender } from '@regardsoss/attributes-common'
 class GalleryParametersComponent extends React.PureComponent {
   static propTypes = {
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
-    attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired,
+    presentationModels: AccessShapes.AttributePresentationModelArray.isRequired,
   }
 
   static contextTypes = {
@@ -40,7 +40,7 @@ class GalleryParametersComponent extends React.PureComponent {
 
   render = () => {
     const { moduleTheme } = this.context
-    const { attributePresentationModels } = this.props
+    const { presentationModels } = this.props
     const {
       attributesStyles, labelCellStyle, labelColumnStyles, valueCellStyle, valueColumnStyles,
     } = moduleTheme.user.listViewStyles
@@ -50,7 +50,7 @@ class GalleryParametersComponent extends React.PureComponent {
         <div style={labelColumnStyles}>
 
           {
-            map(attributePresentationModels, (attributePresentationModel) => {
+            map(presentationModels, (attributePresentationModel) => {
               const firstAttributeDisplayed = attributePresentationModel.attributes[0].content
               return (
                 <div style={labelCellStyle} key={firstAttributeDisplayed.name}>
@@ -62,7 +62,7 @@ class GalleryParametersComponent extends React.PureComponent {
         <div style={valueColumnStyles}>
 
           {
-            map(attributePresentationModels, (attributePresentationModel) => {
+            map(presentationModels, (attributePresentationModel) => {
               const firstAttributeDisplayed = attributePresentationModel.attributes[0].content
               const AttributeConstructor = getTypeRender(firstAttributeDisplayed.type)
               const value = get(this.props.entity, `content.${firstAttributeDisplayed.jsonPath}`)

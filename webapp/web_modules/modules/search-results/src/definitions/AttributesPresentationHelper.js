@@ -18,6 +18,7 @@
  **/
 import isNumber from 'lodash/isNumber'
 import { DamDomain } from '@regardsoss/domain'
+import { TableColumnBuilder } from '@regardsoss/components'
 import { TableSortOrders } from '../../../../components/src/table/model/TableSortOrders'
 
 /**
@@ -29,7 +30,8 @@ import { TableSortOrders } from '../../../../components/src/table/model/TableSor
  * List of attributes the server cannot sort on
  */
 const nonSortableAttributes = [
-  DamDomain.AttributeModelController.standardAttributesKeys.thumbnail,
+  DamDomain.AttributeModelController.getStandardAttributeModel(
+    DamDomain.AttributeModelController.standardAttributesKeys.thumbnail).content.jsonPath,
 ]
 /**
  * Is attribute as parameter (by its name) sortable
@@ -48,7 +50,7 @@ function isSortableAttribute(attributeFullQualifiedName) {
  * @param {number} index index in configured columns list, that can be safely used here as a key
  * @return {*} presentation model or null
  */
-function buildPresentationModel(attributeModels = {}, { label, attributes = [] }, initialSorting, allowsSorting, index) {
+export function buildPresentationModel(attributeModels = {}, { label, attributes = [] }, initialSorting, allowsSorting, index) {
   // 1 - Retrieve all attributes that can be retrieved
   const columnAttributeModels = attributes.map(({ name }) =>
     DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels))
@@ -72,12 +74,25 @@ function buildPresentationModel(attributeModels = {}, { label, attributes = [] }
   return {
     key: `configured.column.${index}`,
     label,
+    visible: true,
     attributes: columnAttributeModels,
     enableSorting,
     sortOrder: TableSortOrders.NO_SORT,
     sortIndex: null,
-    order: index,
     defaultSorting,
+  }
+}
+
+/**
+ * @param {string} key placeholder column key
+ * @return {presentationModel} built presentation model
+ */
+export function buildColumnPlaceholder(key) {
+  return {
+    key,
+    visible: true,
+    enableSorting: false,
+    sortOrder: TableSortOrders.NO_SORT,
   }
 }
 
@@ -87,27 +102,31 @@ function buildPresentationModel(attributeModels = {}, { label, attributes = [] }
  * @param {[{*}]} configuredColumns configured columns, matches AttributeListConfigurationModel shape
  * @param {[{*}]} initialSorting configured initial sorting
  * @param {boolean} allowsSorting is sorting allowed in current context?
+ * @param {boolean} selectionAllowed is selection allowed?
  * @return {[{*}]} built attributes presentation model (filters those with no matching attribute model)
  */
-function buildAttributesPresentationModels(attributeModels = {}, configuredColumns = [], initialSorting = [], allowsSorting = false) {
-  // 1- build the presentation model, or null when no attribute model could be retrieved
-  return configuredColumns.map((c, index) => buildPresentationModel(attributeModels, c, initialSorting, allowsSorting, index))
-    // 2 - filter to remove null elements
-    .filter(model => !!model)
+export function buildAttributesPresentationModels(attributeModels = {}, configuredColumns = [], initialSorting = [], allowsSorting = false, selectionAllowed = false) {
+  return [
+    // 1 - selection if enabled for current
+    selectionAllowed ? buildColumnPlaceholder(TableColumnBuilder.selectionColumnKey) : null,
+    // 2 - build the presentation model, or null when no attribute model could be retrieved (filter null elements)
+    ...configuredColumns.map((c, index) => buildPresentationModel(attributeModels, c, initialSorting, allowsSorting, index)),
+    // 3 - options columns
+    buildColumnPlaceholder(TableColumnBuilder.optionsColumnKey),
+  ].filter(model => !!model)
 }
-
 
 /**
  * Updates sort order of attributes presentation model as parameter
- * @param {[{*}]} attributesPresentationModel attributes presentation models as built by this helper (maybe updated)
+ * @param {[{*}]} presentationModels attributes presentation models as built by this helper (maybe updated)
  * @param {sting} key updated model key
  * @param {string} newSortOrder new sort order form TableSortOrders
  * @return {[{*}]} updated attributes presentation model
  */
-function changeSortOrder(attributesPresentationModel, key, newSortOrder, removeOtherSorting) {
+export function changeSortOrder(presentationModels, key, newSortOrder, removeOtherSorting) {
   // 0 - retrieve model (pre: it can be retrieved!)
-  const changedColumnIndex = attributesPresentationModel.findIndex(presentationModel => presentationModel.key === key)
-  const changedColumn = attributesPresentationModel[changedColumnIndex]
+  const changedColumnIndex = presentationModels.findIndex(presentationModel => presentationModel.key === key)
+  const changedColumn = presentationModels[changedColumnIndex]
   // Case 1: adding a new column or swithing column order
   if (newSortOrder !== TableSortOrders.NO_SORT) {
     // In table, add sorting at end. In list remove other sorting columns
@@ -118,13 +137,13 @@ function changeSortOrder(attributesPresentationModel, key, newSortOrder, removeO
       if (isSwitching) { // switching column, restore previous sort index
         newSortIndex = changedColumn.sortIndex
       } else { // adding new column, compute max sort index +1 (defaults to 0)
-        newSortIndex = attributesPresentationModel.reduce((maxSortIndex, attrModel) =>
+        newSortIndex = presentationModels.reduce((maxSortIndex, attrModel) =>
           isNumber(attrModel.sortIndex) ? Math.max(maxSortIndex, attrModel.sortIndex) : maxSortIndex, -1) + 1
       }
     }
     // update column and full module if removeOtherSorting
     // update presentation models to hold the new sorting order and index
-    return attributesPresentationModel.map((presentationModel) => {
+    return presentationModels.map((presentationModel) => {
       let { sortOrder, sortIndex } = presentationModel
       if (presentationModel.key === key) { // update the modified column
         sortOrder = newSortOrder
@@ -137,7 +156,7 @@ function changeSortOrder(attributesPresentationModel, key, newSortOrder, removeO
     })
   }
   // Case 2: removing an existing sorting: every following sort index should worth -1
-  return attributesPresentationModel.map((presentationModel) => {
+  return presentationModels.map((presentationModel) => {
     let { sortOrder, sortIndex } = presentationModel
     if (presentationModel.key === key) { // update the modified column
       sortOrder = TableSortOrders.NO_SORT
@@ -151,13 +170,13 @@ function changeSortOrder(attributesPresentationModel, key, newSortOrder, removeO
 
 /**
  * Builds ordered sorting on array from attributes presentation model
- * @return {[{*}]} attributesPresentationModel attributes presentation models as built by this helper
+ * @return {[{*}]} presentationModel  presentation models as built by this helper
  * @return {[{attributePath: string, type: string}]} ordered array (from first to last sorting attribute) where:
  * - attributePath is full qualified attribute path
  * - type is sort order type, TableSortOrders enum
  */
-function getSortingOn(attributesPresentationModel) {
-  return attributesPresentationModel
+export function getSortingOn(presentationModels) {
+  return presentationModels
     // 1 - clear non sorting columns
     .filter(({ sortOrder }) => sortOrder !== TableSortOrders.NO_SORT)
     // 2 - sort on order priority as user set it (ascending)
@@ -173,17 +192,9 @@ function getSortingOn(attributesPresentationModel) {
  * - attributePath is full qualified attribute path
  * - type is sort order type, TableSortOrders enum
  */
-function getInitialSorting(initialSorting = []) {
+export function getInitialSorting(initialSorting = []) {
   return initialSorting.map(({ attributes }) => ({
     attributePath: attributes[0].name, // by configuration (see form), only one attribute is allowed for sorting
     type: TableSortOrders.ASCENDING_ORDER,
   }))
-}
-
-module.exports = {
-  buildPresentationModel,
-  buildAttributesPresentationModels,
-  changeSortOrder,
-  getInitialSorting,
-  getSortingOn,
 }

@@ -18,7 +18,6 @@
  **/
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
-import sortBy from 'lodash/sortBy'
 import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
 import Checkbox from 'material-ui/Checkbox'
@@ -77,7 +76,7 @@ export class TableColumnsVisibilityOption extends React.Component {
    */
   onReInitialize = ({ columns }) => this.onUpdateColumnsState(
     // get local column buffer with partial columns models, sorted on table columns order
-    sortBy(columns, ['order']).map(({ key, visible, label }) => ({ key, visible, label })),
+    columns.map(({ key, visible, label }) => ({ key, visible, label })),
     { dialogVisible: false }) // mark dialog hidden
 
   /**

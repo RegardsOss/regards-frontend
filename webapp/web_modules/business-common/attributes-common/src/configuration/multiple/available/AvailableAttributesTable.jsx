@@ -119,14 +119,12 @@ class AvailableAttributesTable extends React.Component {
         .label(formatMessage({ id: 'attribute.configuration.selectable.attributes.table.attribute.column' }))
         .titleHeaderCell()
         .rowCellDefinition({ Constructor: AttributeRender })
-        .order(1)
         .build(),
       // 2 - Add option
       new TableColumnBuilder().optionsColumn([{
         OptionConstructor: AddOption,
         optionProps: { onAdd },
-      }])
-        .build(),
+      }]).build(),
     ]
   }
 

@@ -47,20 +47,19 @@ function buildThumbnailDelegates(thumbnailAttribute) {
 /**
  * Builds an attribute column
  * @param {*} presentationModel an attribute presentation model, see AttributePresentationModel shape
- * @param {bool} visible is column visible
  * @param {func} onSort on sort callback
  * @param {string} locale the locale to resolve label to use for column
  * @return {TableColumnConfiguration} column built
  */
 function buildAttributeColumn({
-  key, label, attributes, order,
+  key, label, visible, attributes,
   enableSorting, sortOrder, sortIndex,
-}, visible, onSort, locale) {
+}, onSort, locale) {
   if (attributes.length < 1) {
     throw new Error(`An attribute presentation model must have attributes! (${key}/${label})`)
   }
   // 1 - build common column elements
-  const columnBuilder = new TableColumnBuilder(key).label(get(label, locale, '')).visible(visible).order(order)
+  const columnBuilder = new TableColumnBuilder(key).label(get(label, locale, '')).visible(visible || true)
   // 2 - determine column header, width and render
   // check, by key, if we are currently rendering the thumbnail column
   const isThumbnailColumn = attributes.length === 1 &&

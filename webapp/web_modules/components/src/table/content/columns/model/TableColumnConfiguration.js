@@ -30,11 +30,10 @@ export const CellDefinition = PropTypes.shape({
   props: PropTypes.object, // note: the style properties can be used here to override default cell styles
 })
 
-/** a table column */
+/** a table column (order information is provided by columns array) */
 export const TableColumnConfiguration = PropTypes.shape({
   key: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  order: PropTypes.number, // optional column order (columns without order goes at the middle - index 1000)
   // The instantiated header cell (optional, remove to get an headerless columns)
   headerCellDefinition: CellDefinition,
   // define the table cell

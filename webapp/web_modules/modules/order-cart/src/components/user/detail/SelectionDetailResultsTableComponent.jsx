@@ -54,6 +54,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
     label: { // FIXME-WAIT-DM (corresponds with another PM): this is an emulated behavior for non internationalized attributes
       fakeLocale: attribute.content.label,
     },
+    visible: true,
     attributes: [attribute],
     enableSorting: false,
   }))
@@ -77,7 +78,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
   renderColumns = () =>
     SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(
       // FIXME-WAIT-DM (corresponds with another PM): this is an emulated behavior for non internationalized attributes
-      model => AttributeColumnBuilder.buildAttributeColumn(model, true, null, 'fakeLocale'))
+      model => AttributeColumnBuilder.buildAttributeColumn(model, null, 'fakeLocale'))
 
   render() {
     const {

@@ -39,10 +39,6 @@ import PercentProgressRenderCell from '../cells/PercentProgressRenderCell'
  * @author Raphaël Mechali
  */
 export default class TableColumnBuilder {
-  /** Unordered column index */
-  static unorderedColumnIndex = 1000
-  // last column index
-  static lastColumnIndex = Number.MAX_SAFE_INTEGER
   /** Key for selection column */
   static selectionColumnKey = 'column.table.selection'
   /** Key for options column */
@@ -97,14 +93,7 @@ export default class TableColumnBuilder {
     this.labelImpl = label
     return this
   }
-  /**
-   * @param {number} order column order
-   * @return {TableColumnBuilder} builder instance
-   */
-  order(order) {
-    this.orderImpl = order
-    return this
-  }
+
   /**
    * @param {Constructor: {func}, props: {*}} headerCellDefinition column header cell definition
    * @return {TableColumnBuilder} builder instance
@@ -166,7 +155,6 @@ export default class TableColumnBuilder {
     return {
       key: this.keyImpl,
       label: this.labelImpl,
-      order: this.orderImpl,
       headerCellDefinition: this.headerCellDefinitionImpl,
       rowCellDefinition: this.rowCellDefinitionImpl,
       sizing: this.sizingImpl,
@@ -279,7 +267,7 @@ export default class TableColumnBuilder {
    * @return {TableColumnBuilder} builder configured for sortable column
    */
   selectionColumn(displaySelectAll, pageSelectors, tableActions, tableSelectors) {
-    return this.key(TableColumnBuilder.selectionColumnKey).optionsSizing(1).order(0)
+    return this.key(TableColumnBuilder.selectionColumnKey).optionsSizing(1)
       .headerCellDefinition({
         Constructor: CheckboxColumnHeaderCell,
         props: {
@@ -303,7 +291,6 @@ export default class TableColumnBuilder {
   optionsColumn(optionsDefinitions) {
     const retainedOptions = optionsDefinitions.filter(option => !!option)
     return this.key(TableColumnBuilder.optionsColumnKey)
-      .order(TableColumnBuilder.lastColumnIndex)
       .optionsSizing(retainedOptions.length)
       .fixedColumn(true)
       .rowCellDefinition({

@@ -55,7 +55,7 @@ describe('[Search Results] Testing GalleryItemComponent', () => {
       left: 20,
       width: 20,
       entity,
-      attributePresentationModels: [],
+      presentationModels: [],
       columnGutter: 80,
       columnWidth: 600,
       projectName: 'project1',

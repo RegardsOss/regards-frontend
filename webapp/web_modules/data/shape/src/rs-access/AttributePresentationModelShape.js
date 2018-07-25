@@ -32,6 +32,8 @@ const AttributePresentationModel = PropTypes.shape({
     en: PropTypes.string.isRequired,
     fr: PropTypes.string.isRequired,
   }),
+  // visible: should this column be currently displayed?
+  visible: PropTypes.bool.isRequired,
   // list (maybe a single element) of attributes to show in this column
   attributes: PropTypes.arrayOf(AttributeModel).isRequired,
   // enable sorting on column?
@@ -40,8 +42,6 @@ const AttributePresentationModel = PropTypes.shape({
   sortOrder: PropTypes.string,
   // Optional sort index when in multi sorting
   sortIndex: PropTypes.number,
-  // optional order in presentation from configuration
-  order: PropTypes.number,
   // Is this presentation model attribute used for default results sorting?
   defaultSorting: PropTypes.bool.isRequired,
 })

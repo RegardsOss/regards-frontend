@@ -38,7 +38,7 @@ import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/na
 import navigationContextActions from '../../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
 import QueriesHelper from '../../../definitions/QueriesHelper'
-import AttributesPresentationHelper from '../../../definitions/AttributesPresentationHelper'
+import { buildAttributesPresentationModels, changeSortOrder, getSortingOn, getInitialSorting } from '../../../definitions/AttributesPresentationHelper'
 import PluginServicesContainer from './PluginServicesContainer'
 import OrderCartContainer from './OrderCartContainer'
 import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
@@ -161,9 +161,8 @@ export class SearchResultsContainer extends React.Component {
   }
 
   /**
-   * Returns true when object type as parameter allows for sorting
    * @param {string} viewObjectType  view object type from ENTITY_TYPES_ENUM
-   * @return {bool} true when sorting is allowed, false otherwise
+   * @return {boolean} true when sorting is allowed, false otherwise
    */
   static isSortingAllowed(viewObjectType) {
     switch (viewObjectType) {
@@ -171,6 +170,19 @@ export class SearchResultsContainer extends React.Component {
       case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT:
         return true
       case DamDomain.ENTITY_TYPES_ENUM.DATASET:
+      default:
+        return false
+    }
+  }
+
+  /**
+   * @param {string} viewObjectType  view object type from ENTITY_TYPES_ENUM
+   * @return {boolean} true when selectection is allowed, false otherwise
+   */
+  static isSelectionAllowed(viewObjectType) {
+    switch (viewObjectType) {
+      case DamDomain.ENTITY_TYPES_ENUM.DATA:
+        return true
       default:
         return false
     }
@@ -225,9 +237,7 @@ export class SearchResultsContainer extends React.Component {
    */
   static DEFAULT_STATE = {
     // pre-resolved columns models for sub component
-    attributePresentationModels: [],
-    // Hidden columns management: this is kept separately of models as the presentation adds custom columns
-    hiddenColumnKeys: [],
+    presentationModels: [],
     // is currently showing facettes
     showingFacettes: false,
     // Current sorting attributes array like {attributePath: String, type: (optional) one of 'ASC' / 'DESC'}
@@ -281,13 +291,10 @@ export class SearchResultsContainer extends React.Component {
     }
     // 3 - recompute columns when either attributes, view object type of table view mode changes
     if (attributeModelsChanged || viewObjectChanged || tableModeChanged) {
-      // 3.a - Show all columns back
-      newState.hiddenColumnKeys = SearchResultsContainer.DEFAULT_STATE.hiddenColumnKeys
-      // 3.b : build columns models for current configuration
-      newState.attributePresentationModels = AttributesPresentationHelper
-        .buildAttributesPresentationModels(attributeModels,
-          newViewConfiguration.columns, newViewConfiguration.sorting,
-          SearchResultsContainer.isSortingAllowed(viewObjectType))
+      newState.presentationModels = buildAttributesPresentationModels(attributeModels,
+        newViewConfiguration.columns, newViewConfiguration.sorting,
+        SearchResultsContainer.isSortingAllowed(viewObjectType),
+        SearchResultsContainer.isSelectionAllowed(viewObjectType))
       // 3.c reinitialize the ONLY quicklook filter state when user changes view parametersenters or exits quicklook mode
       newState.displayOnlyQuicklook = tableDisplayMode === TableDisplayModeEnum.QUICKLOOK
     }
@@ -357,15 +364,11 @@ export class SearchResultsContainer extends React.Component {
   })
 
   /**
-   * Columns management (provided to avoid stateful children, despite it is mainly a graphic attribute)
-   * @param {TableColumnConfiguration} editedColumns table columns with visibility attribute edited
+   * Callback: columns order or visibility was updated
+   * @param {TableColumnConfiguration} presentationModels edited columns models with
    */
-  onChangeColumnsVisibility = (editedColumns) => {
-    const previousHiddenKeys = this.state.hiddenColumnKeys
-    const hiddenColumnKeys = editedColumns.reduce((acc, { key, visible }) => visible ? acc : [...acc, key], [])
-    if (!isEqual(previousHiddenKeys, hiddenColumnKeys)) {
-      this.setState({ hiddenColumnKeys })
-    }
+  onConfigureColumns = (presentationModels) => {
+    this.updateStateAndQuery({ presentationModels })
   }
 
   /**
@@ -376,8 +379,8 @@ export class SearchResultsContainer extends React.Component {
   onSortByAttribute = (modelKey, newSortOrder) =>
     this.updateStateAndQuery({
       // note: in list mode, we remove other sorting columns
-      attributePresentationModels: AttributesPresentationHelper.changeSortOrder(
-        this.state.attributePresentationModels, modelKey, newSortOrder,
+      presentationModels: changeSortOrder(
+        this.state.presentationModels, modelKey, newSortOrder,
         // multisorting is, so far, enabled only for table view
         this.props.tableDisplayMode !== TableDisplayModeEnum.TABLE),
     })
@@ -389,7 +392,7 @@ export class SearchResultsContainer extends React.Component {
    * @return { openSearchQuery, fullSearchQuery, searchActions }: new search state
    */
   buildSearchState = (properties, {
-    showingFacettes, selectedFacets, attributePresentationModels, displayOnlyQuicklook,
+    showingFacettes, selectedFacets, presentationModels, displayOnlyQuicklook,
   },
   ) => {
     const { viewObjectType, searchQuery, levels } = properties
@@ -401,8 +404,8 @@ export class SearchResultsContainer extends React.Component {
     const appliedFacetValues = facetsCurrentlyEnabled ? selectedFacets : []
 
     // 2 - compute sorting to apply
-    const sortingOn = AttributesPresentationHelper.getSortingOn(attributePresentationModels)
-    const requestedSortingAttributes = sortingOn.length ? sortingOn : AttributesPresentationHelper.getInitialSorting(viewConfiguration.sorting)
+    const sortingOn = getSortingOn(presentationModels)
+    const requestedSortingAttributes = sortingOn.length ? sortingOn : getInitialSorting(viewConfiguration.sorting)
 
     // 3 - compute request to perform on backend
     let searchActions
@@ -484,7 +487,7 @@ export class SearchResultsContainer extends React.Component {
     } = this.props
 
     const {
-      attributePresentationModels, hiddenColumnKeys, searchActions, showingFacettes,
+      presentationModels, searchActions, showingFacettes,
       facets, selectedFacets, openSearchQuery, fullSearchQuery, displayOnlyQuicklook,
     } = this.state
     const tableViewMode = tableDisplayMode || TableDisplayModeEnum.LIST
@@ -533,13 +536,12 @@ export class SearchResultsContainer extends React.Component {
 
                 searchQuery={fullSearchQuery}
 
-                hiddenColumnKeys={hiddenColumnKeys}
-                attributePresentationModels={attributePresentationModels}
+                presentationModels={presentationModels}
                 accessToken={accessToken}
                 projectName={projectName}
                 locale={locale}
 
-                onChangeColumnsVisibility={this.onChangeColumnsVisibility}
+                onConfigureColumns={this.onConfigureColumns}
                 onSetEntityAsTag={dispatchSetEntityAsTag}
                 onSelectFacet={this.onSelectFacet}
                 onUnselectFacet={this.onUnselectFacet}

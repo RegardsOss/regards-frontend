@@ -21,7 +21,7 @@ import values from 'lodash/values'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
-import { TableSelectionModes } from '@regardsoss/components'
+import { TableSelectionModes, TableColumnBuilder } from '@regardsoss/components'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
 import { tableActions, tableSelectors } from '../../../../clients/TableClient'
 import ListViewEntityCellComponent, { AttributeRenderData } from '../../../../components/user/results/cells/ListViewEntityCellComponent'
@@ -40,11 +40,14 @@ function isAttribute({ attributes }, attributeName) {
 
 /**
  * Packs thumbnail attribute data for render (or null if not present)
- * @param {[AttributePresentationModel]} attributePresentationModels presentation models
+ * @param {[ColumnPresentationModel]} presentationModels presentation models
  * @return {AttributeRenderData} packed render data
  */
-export function packThumbnailRenderData(attributePresentationModels) {
-  const model = attributePresentationModels.find(m => isAttribute(m, DamDomain.AttributeModelController.standardAttributesKeys.thumbnail))
+export function packThumbnailRenderData(presentationModels) {
+  const model = presentationModels.find(m =>
+    m.key !== TableColumnBuilder.selectionColumnKey &&
+    m.key !== TableColumnBuilder.optionsColumnKey &&
+    isAttribute(m, DamDomain.AttributeModelController.standardAttributesKeys.thumbnail))
   if (!model) {
     return null
   }
@@ -56,14 +59,17 @@ export function packThumbnailRenderData(attributePresentationModels) {
 }
 
 /**
- * Packs attributes to render in grid (not thumbnail, nor download)
- * @param {[AttributePresentationModel]} attributePresentationModels presentation models
+ * Packs attributes to render in grid (not thumbnail, nor selection / options)
+ * @param {[ColumnPresentationModel]} presentationModels presentation models
  * @return {[AttributeRenderData]} built render data for attributes
  */
-export function packGridAttributesRenderData(attributePresentationModels, locale) {
+export function packGridAttributesRenderData(presentationModels, locale) {
   // keep attributes in configured order, but extract the specific attributes like thumbnail
-  return attributePresentationModels
-    .filter(model => // 1 - filter attributes, remove thumbnail (that is rendered separately)
+  return presentationModels
+    .filter(model =>
+      // 1 - filter attributes, remove thumbnail (that is rendered separately) and columns placeholders
+      model.key !== TableColumnBuilder.selectionColumnKey &&
+      model.key !== TableColumnBuilder.optionsColumnKey &&
       !isAttribute(model, DamDomain.AttributeModelController.standardAttributesKeys.thumbnail))
     .map(model => ({ // 2 - pack them for render
       key: model.key,
@@ -71,6 +77,14 @@ export function packGridAttributesRenderData(attributePresentationModels, locale
       unit: get(model, 'attributes.length', 0) === 1 ? get(model.attributes[0], 'content.unit', null) : null,
       renderers: AttributeColumnBuilder.buildRenderDelegates(model.attributes),
     }))
+}
+
+/**
+ * @param {[ColumnPresentationModel]} presentationModels presentation models
+ * @return {boolean} true when list view should have selection displayed
+ */
+export function hasSelection(presentationModels) {
+  return presentationModels.some(model => model.key === TableColumnBuilder.selectionColumnKey)
 }
 
 /**

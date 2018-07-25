@@ -50,8 +50,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     resultsCount: 45,
     searchSelectors,
 
-    hiddenColumnKeys: [],
-    attributePresentationModels: [],
+    presentationModels: [],
     facets: [],
     searchQuery: '',
 
