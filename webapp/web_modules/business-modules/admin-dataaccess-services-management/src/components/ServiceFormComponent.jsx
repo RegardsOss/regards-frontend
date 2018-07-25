@@ -98,7 +98,6 @@ export class ServiceFormComponent extends React.Component {
             backUrl={backUrl}
             cardStyle={false}
             simpleGlobalParameterConf
-            hideDynamicParameterConf
             onUpdatePluginConfiguration={onUpdate}
             onCreatePluginConfiguration={onCreate}
           /> : null
