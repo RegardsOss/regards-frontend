@@ -106,11 +106,13 @@ class MoveColumnOption extends React.Component {
   }
 
   render() {
+    const { intl: { formatMessage } } = this.context
     const options = this.getAvailbleMoveOptions()
     return (
       <DropDownButton
         ButtonConstructor={IconButtonNoChild}
         getLabel={noop}
+        title={formatMessage({ id: 'search.results.configure.columns.move.tooltip' })}
         disabled={options.length <= 1}
         onChange={this.onMove}
         value={null}

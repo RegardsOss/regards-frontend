@@ -78,6 +78,7 @@ describe('[Search Results] Testing OptionsAndTabsHeaderLine', () => {
       onAddSelectionToCart: null,
       locale: 'en',
       onConfigureColumns: () => { },
+      onResetColumns: () => { },
       onShowDataobjects: () => { },
       onShowDatasets: () => { },
       onShowListView: () => { },

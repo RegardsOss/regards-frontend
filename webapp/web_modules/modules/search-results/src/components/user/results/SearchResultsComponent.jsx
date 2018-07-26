@@ -95,6 +95,7 @@ class SearchResultsComponent extends React.Component {
 
     // control
     onConfigureColumns: PropTypes.func.isRequired,
+    onResetColumns: PropTypes.func.isRequired,
     onSetEntityAsTag: PropTypes.func.isRequired,
     onSelectFacet: PropTypes.func.isRequired,
     onUnselectFacet: PropTypes.func.isRequired,
@@ -243,14 +244,15 @@ class SearchResultsComponent extends React.Component {
     const tableTheme = muiTheme.components.infiniteTable
     const resultsTheme = muiTheme.module.searchResults
 
+
     const {
       allowingFacettes, presentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
       viewObjectType, tableViewMode, showingFacettes, facets, selectedFacets, searchQuery, selectionServices, enableQuicklooks,
       displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook, enableDownload, accessToken, projectName, datasetsSectionLabel,
       dataSectionLabel, locale, isDescAvailableFor,
-      onConfigureColumns, onSelectFacet, onUnselectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView,
-      onSortByAttribute, onToggleShowFacettes, onStartSelectionService, onAddSelectionToCart, onShowQuicklookView,
-      onAddElementToCart, onShowDescription,
+      onConfigureColumns, onResetColumns, onSelectFacet, onUnselectFacet, onShowDatasets, onShowDataobjects,
+      onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes, onStartSelectionService,
+      onAddSelectionToCart, onShowQuicklookView, onAddElementToCart, onShowDescription,
     } = this.props
 
     let columns
@@ -299,6 +301,7 @@ class SearchResultsComponent extends React.Component {
           locale={locale}
           onAddSelectionToCart={onAddSelectionToCart}
           onConfigureColumns={onConfigureColumns}
+          onResetColumns={onResetColumns}
           onShowDataobjects={onShowDataobjects}
           onShowDatasets={onShowDatasets}
           onShowListView={onShowListView}

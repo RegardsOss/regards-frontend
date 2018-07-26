@@ -103,7 +103,6 @@ export class SearchResultsContainer extends React.Component {
     document: DocumentViewShape,
 
     // server attributes model
-    // eslint-disable-next-line react/no-unused-prop-types
     attributeModels: DataManagementShapes.AttributeModelList,
 
     // From map state to props
@@ -371,6 +370,19 @@ export class SearchResultsContainer extends React.Component {
     this.updateStateAndQuery({ presentationModels })
   }
 
+  /** Callback: column models reset requested by user (resets to admin settings) */
+  onResetColumns = () => {
+    const { attributeModels, viewObjectType } = this.props
+    const viewConfiguration = SearchResultsContainer.getViewConfiguration(this.props)
+    this.updateStateAndQuery({
+      // rebuild columns from configuration
+      presentationModels: buildAttributesPresentationModels(attributeModels,
+        viewConfiguration.columns, viewConfiguration.sorting,
+        SearchResultsContainer.isSortingAllowed(viewObjectType),
+        SearchResultsContainer.isSelectionAllowed(viewObjectType)),
+    })
+  }
+
   /**
    * User changed sorting : update attributes presentation models
    * @param modelKey model key
@@ -542,6 +554,7 @@ export class SearchResultsContainer extends React.Component {
                 locale={locale}
 
                 onConfigureColumns={this.onConfigureColumns}
+                onResetColumns={this.onResetColumns}
                 onSetEntityAsTag={dispatchSetEntityAsTag}
                 onSelectFacet={this.onSelectFacet}
                 onUnselectFacet={this.onUnselectFacet}

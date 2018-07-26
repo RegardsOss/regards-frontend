@@ -73,6 +73,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
     // callbacks
     onAddSelectionToCart: PropTypes.func, // optional, not available when null or undefined
     onConfigureColumns: PropTypes.func.isRequired,
+    onResetColumns: PropTypes.func.isRequired,
     onShowDataobjects: PropTypes.func.isRequired,
     onShowDatasets: PropTypes.func.isRequired,
     onShowQuicklookView: PropTypes.func.isRequired,
@@ -111,10 +112,10 @@ class OptionsAndTabsHeaderLine extends React.Component {
     const { intl: { formatMessage }, moduleTheme: { user: { viewModeButton } } } = this.context
     const {
       presentationModels, displayMode, searchSelectors, displayFacettesButton, showingFacettes,
-      enableQuicklooks, selectionServices, onAddSelectionToCart, onConfigureColumns, onShowListView,
-      onShowTableView, onShowDatasets, onShowQuicklookView, displayOnlyQuicklook, onShowDataobjects,
-      onSortByAttribute, onStartSelectionService, onToggleShowFacettes, onToggleDisplayOnlyQuicklook,
-      datasetsSectionLabel, dataSectionLabel, locale,
+      enableQuicklooks, selectionServices, onAddSelectionToCart, onConfigureColumns, onResetColumns,
+      onShowListView, onShowTableView, onShowDatasets, onShowQuicklookView, displayOnlyQuicklook,
+      onShowDataobjects, onSortByAttribute, onStartSelectionService, onToggleShowFacettes,
+      onToggleDisplayOnlyQuicklook, datasetsSectionLabel, dataSectionLabel, locale,
     } = this.props
 
     return (
@@ -185,6 +186,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
           <TableHeaderOptionGroup show={this.isInTableView()}>
             <EditColumnsSettingsComponent
               onConfigureColumns={onConfigureColumns}
+              onResetColumns={onResetColumns}
               presentationModels={presentationModels}
             />
           </TableHeaderOptionGroup>

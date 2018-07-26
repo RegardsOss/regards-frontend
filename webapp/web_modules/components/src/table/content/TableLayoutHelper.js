@@ -42,27 +42,30 @@ export function layout(columns, tableWidth, showVerticalScrollBar, fixedColumnsW
   // A  - compute the available width for columns (remove scroll bar reserved width if shown)
   const availableColumnsWidth = showVerticalScrollBar ? tableWidth - RESERVED_VSCROLLBAR_WIDTH : tableWidth
 
-  // B - First loop: remove unvisible columns, split fixed columns and growing columns, compute reserved fixed width
-  const { fc: completedFixedColumns, gc: growingColumns, rFW: reservedFixedColumnsWidth } =
-    columns.reduce(({ fc, gc, rFW }, column) => {
+  // B - First pass: remove unvisible columns, provide fixed columns with and tack growing columns plus consumed width
+  const { cWL: columnsWithLayout, gc: growingColumns, rFW: reservedFixedColumnsWidth } =
+    // fc: completedFixedColumns, gc: growingColumns, rFW: reservedFixedColumnsWidth } =
+    columns.reduce(({ cWL, gc, rFW }, column) => {
       if (!column.visible) {
-        return { fc, gc, rFW } // filter that column as it is not visible
+        return { cWL, gc, rFW } // filter that column as it is not visible
       }
       switch (column.sizing.type) {
-        case GrowingColumnSize.TYPE:
-          return { fc, gc: [...gc, column], rFW } // split: growing column
+        case GrowingColumnSize.TYPE: {
+          // report column unchanged but keep its reference for second pass
+          const columnRef = { ...column, runtimeWidth: 0 }
+          return { cWL: [...cWL, columnRef], gc: [...gc, columnRef], rFW }
+        }
         case OptionsColumnSize.TYPE: {
           const columnWidth = column.sizing.optionsCount * fixedColumnsWidth
           // split: fixed column, save reserved space
-          return { fc: [...fc, { ...column, runtimeWidth: columnWidth }], gc, rFW: rFW + columnWidth }
+          return { cWL: [...cWL, { ...column, runtimeWidth: columnWidth }], gc, rFW: rFW + columnWidth }
         }
         default:
           throw new Error(`Unhandled column sizing type ${column.sizing.type}`)
       }
-    }, { fc: [], gc: [], rFW: 0 })
+    }, { cWL: [], gc: [], rFW: 0 })
 
-  // C - Provide size to each growing column
-  let completedGrowingColumns = []
+  // C - Second pass: Provide dynamic size to each growing column (by reference)
   if (growingColumns.length) {
     // B.1 - compute medium column width
     const remainingTableWidth = availableColumnsWidth - reservedFixedColumnsWidth
@@ -70,10 +73,11 @@ export function layout(columns, tableWidth, showVerticalScrollBar, fixedColumnsW
     // B.2 - adapt last column width to consume precisely all pixels
     const lastGrowingColumnWidth = Math.max(remainingTableWidth - (growingColumnWidth * (growingColumns.length - 1)), minColumnsWidth)
     // B.3 - complete column models with runtime width
-    completedGrowingColumns = growingColumns.map((column, index) => ({
-      ...column,
-      runtimeWidth: index === growingColumns.length - 1 ? lastGrowingColumnWidth : growingColumnWidth,
-    }))
+    growingColumns.forEach((column, index) => {
+      // Note: column object pointed out by column reference has been duplicated in first pass, we can modify the object here
+      // eslint-disable-next-line no-param-reassign
+      column.runtimeWidth = index === growingColumns.length - 1 ? lastGrowingColumnWidth : growingColumnWidth
+    })
   }
-  return [...completedFixedColumns, ...completedGrowingColumns]
+  return columnsWithLayout
 }

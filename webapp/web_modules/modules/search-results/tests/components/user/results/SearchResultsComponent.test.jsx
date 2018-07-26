@@ -63,6 +63,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     selectionServices: [],
     // control
     onConfigureColumns: () => { },
+    onResetColumns: () => { },
     onSetEntityAsTag: () => { },
     onSelectFacet: () => { },
     onUnselectFacet: () => { },

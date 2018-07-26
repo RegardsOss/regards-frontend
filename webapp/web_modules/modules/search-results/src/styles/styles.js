@@ -42,6 +42,13 @@ const styles = theme => ({
     columnsDialog: {
       widthPercent: 70,
       heightPercent: 80,
+      actionsContainer: {
+        display: 'flex',
+      },
+      actionsSeparator: {
+        flexGrow: 1,
+        flexShrink: 1,
+      },
       visibleColumnCell: {
         color: theme.palette.textColor,
         whiteSpace: 'nowrap',

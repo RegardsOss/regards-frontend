@@ -29,6 +29,7 @@ import ColumnsSettingsComponent from '../columns/ColumnsSettingsComponent'
 class EditColumnsSettingsComponent extends React.Component {
   static propTypes = {
     presentationModels: ColumnPresentationModelArray.isRequired,
+    onResetColumns: PropTypes.func.isRequired,
     onConfigureColumns: PropTypes.func.isRequired,
   }
 
@@ -57,8 +58,17 @@ class EditColumnsSettingsComponent extends React.Component {
    */
   onDone = (presentationModels) => {
     const { onConfigureColumns } = this.props
-    onConfigureColumns(presentationModels)
     this.onClose()
+    onConfigureColumns(presentationModels)
+  }
+
+  /**
+   * User callback: reset request (locally wrapped)
+   */
+  onResetColumns = () => {
+    const { onResetColumns } = this.props
+    this.onClose()
+    onResetColumns()
   }
 
   render() {
@@ -80,6 +90,7 @@ class EditColumnsSettingsComponent extends React.Component {
           open={showDialog}
           presentationModels={presentationModels}
           onDone={this.onDone}
+          onResetColumns={this.onResetColumns}
           onClose={this.onClose}
         />
       </React.Fragment>

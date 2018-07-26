@@ -40,6 +40,7 @@ class ColumnsSettingsComponent extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     presentationModels: ColumnPresentationModelArray.isRequired, // used only in onPropertiesUpdated
     onDone: PropTypes.func.isRequired, // edition done callback (presentation models) => ()
+    onResetColumns: PropTypes.func.isRequired, // reset callback () => ()
     onClose: PropTypes.func.isRequired, // close callback
   }
 
@@ -208,38 +209,40 @@ class ColumnsSettingsComponent extends React.Component {
     ]
   }
 
-  /**
-   * @return [React.Element] dialog actions
-   */
-  renderDialogActions = () => {
-    const { onClose } = this.props
-    const { valid, modified } = this.state
-    const { intl: { formatMessage } } = this.context
-    return [
-      <FlatButton
-        key="cancel.button"
-        label={formatMessage({ id: 'search.results.configure.columns.dialog.cancel' })}
-        onClick={onClose}
-      />,
-      <FlatButton
-        key="confirm.button"
-        label={formatMessage({ id: 'search.results.configure.columns.dialog.confirm' })}
-        disabled={!valid || !modified}
-        onClick={this.onDone}
-      />]
-  }
-
   render() {
-    const { open } = this.props
+    const { open, onClose, onResetColumns } = this.props
     const { intl: { formatMessage }, moduleTheme: { user: { columnsDialog } } } = this.context
-    const { editionModels, allVisible } = this.state
+    const {
+      valid, modified, allVisible, editionModels,
+    } = this.state
     return (
       <PositionedDialog
         dialogWidthPercent={columnsDialog.widthPercent}
         dialogHeightPercent={columnsDialog.heightPercent}
-        actions={this.renderDialogActions()}
         open={open}
         modal
+        actions={// render dialog actions
+          <div style={columnsDialog.actionsContainer}>
+            <FlatButton
+              key="reset.button"
+              label={formatMessage({ id: 'search.results.configure.columns.dialog.reset' })}
+              title={formatMessage({ id: 'search.results.configure.columns.dialog.reset.tooltip' })}
+              onClick={onResetColumns}
+            />
+            <div style={columnsDialog.actionsSeparator} />
+            <FlatButton
+              key="cancel.button"
+              label={formatMessage({ id: 'search.results.configure.columns.dialog.cancel' })}
+              onClick={onClose}
+            />
+            <FlatButton
+              key="confirm.button"
+              label={formatMessage({ id: 'search.results.configure.columns.dialog.confirm' })}
+              disabled={!valid || !modified}
+              onClick={this.onDone}
+            />
+          </div>
+        }
       >
         <TableLayout>
           <TableHeaderLine>

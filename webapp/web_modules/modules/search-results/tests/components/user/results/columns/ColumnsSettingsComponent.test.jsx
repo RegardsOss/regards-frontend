@@ -42,6 +42,7 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
       open: false,
       presentationModels: [],
       onDone: () => { },
+      onResetColumns: () => { },
       onClose: () => { },
     }
     const enzymeWrapper = shallow(<ColumnsSettingsComponent {...props} />, { context })
@@ -54,6 +55,7 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
       open: true,
       presentationModels: [],
       onDone: () => { },
+      onResetColumns: () => { },
       onClose: () => { },
     }
     const enzymeWrapper = shallow(<ColumnsSettingsComponent {...props} />, { context })
@@ -119,6 +121,7 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
       open: true,
       presentationModels: initialPresentationModels,
       onDone: (presentationModels) => { spiedOnDonePM = presentationModels },
+      onResetColumns: () => { },
       onClose: () => { },
     }
     const enzymeWrapper = shallow(<ColumnsSettingsComponent {...props} />, { context })
