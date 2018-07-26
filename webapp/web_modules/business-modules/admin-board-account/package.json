@@ -2,6 +2,7 @@
   "name": "@regardsoss/admin-board-account",
   "version": "1.0.0",
   "private": true,
+  "sideEffects": false,
   "description": "",
   "main": "src/main.js",
   "author": "CNES (https://cnes.fr)",

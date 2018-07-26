@@ -2,9 +2,10 @@
   "name": "@regardsoss/attributes-common",
   "version": "0.0.1",
   "private": true,
+  "sideEffects": false,
   "description": "Holds common functionalities related to attributes",
   "main": "src/main.js",
-  "author":"CNES (https://cnes.fr)",
+  "author": "CNES (https://cnes.fr)",
   "contributors": [
     "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
   ],
