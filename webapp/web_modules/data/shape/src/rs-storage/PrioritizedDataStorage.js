@@ -19,22 +19,16 @@
 import { StorageDomain } from '@regardsoss/domain'
 import { PluginConfigurationContent } from '../rs-common'
 
-const PrioritizedDataStorageContent = PropTypes.shape({
+export const PrioritizedDataStorageContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   dataStorageConfiguration: PluginConfigurationContent.isRequired,
   dataStorageType: PropTypes.oneOf(StorageDomain.DataStorageTypeEnumValues).isRequired,
   priority: PropTypes.number.isRequired,
 }).isRequired
 
-const PrioritizedDataStorage = PropTypes.shape({
+export const PrioritizedDataStorage = PropTypes.shape({
   content: PrioritizedDataStorageContent,
 })
 
-const PrioritizedDataStorageList = PropTypes.objectOf(PrioritizedDataStorage)
-const PrioritizedDataStorageArray = PropTypes.arrayOf(PrioritizedDataStorage)
-module.exports = {
-  PrioritizedDataStorage,
-  PrioritizedDataStorageContent,
-  PrioritizedDataStorageList,
-  PrioritizedDataStorageArray,
-}
+export const PrioritizedDataStorageList = PropTypes.objectOf(PrioritizedDataStorage)
+export const PrioritizedDataStorageArray = PropTypes.arrayOf(PrioritizedDataStorage)
