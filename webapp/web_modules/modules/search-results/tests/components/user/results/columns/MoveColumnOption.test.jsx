@@ -35,10 +35,10 @@ const allModels = [{ // 1- selection
 
 }, { // 2 - an attribute model
   key: 'anything.else.key',
-  label: PropTypes.shape({
+  label: {
     en: 'IDK.en',
     fr: 'IDK.fr',
-  }),
+  },
   visible: true,
   attributes: [
     DamDomain.AttributeModelController.getStandardAttributeModel(

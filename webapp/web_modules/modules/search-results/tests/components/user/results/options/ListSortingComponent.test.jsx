@@ -28,16 +28,16 @@ const context = buildTestContext(styles)
 
 const models = [
   {
-    key: '1', label: { en: 'enL1', fr: 'frL1' }, attributes: [], enableSorting: true, sortOrder: '', defaultSorting: false,
+    key: '1', label: { en: 'enL1', fr: 'frL1' }, attributes: [], visible: true, enableSorting: true, sortOrder: '', defaultSorting: false,
   },
   {
-    key: '2', label: { en: 'enL2', fr: 'frL2' }, attributes: [], enableSorting: true, sortOrder: '', defaultSorting: false,
+    key: '2', label: { en: 'enL2', fr: 'frL2' }, attributes: [], visible: true, enableSorting: true, sortOrder: '', defaultSorting: false,
   },
   {
-    key: '3', label: { en: 'enL3', fr: 'frL3' }, attributes: [], enableSorting: true, sortOrder: '', defaultSorting: false,
+    key: '3', label: { en: 'enL3', fr: 'frL3' }, attributes: [], visible: true, enableSorting: true, sortOrder: '', defaultSorting: false,
   },
   {
-    key: '4', label: { en: 'enL4', fr: 'frL4' }, attributes: [], enableSorting: true, sortOrder: '', defaultSorting: false,
+    key: '4', label: { en: 'enL4', fr: 'frL4' }, attributes: [], visible: true, enableSorting: true, sortOrder: '', defaultSorting: false,
   },
 ]
 

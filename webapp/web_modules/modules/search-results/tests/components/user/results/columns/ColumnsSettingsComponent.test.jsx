@@ -46,7 +46,7 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
     }
     const enzymeWrapper = shallow(<ColumnsSettingsComponent {...props} />, { context })
     const dialog = enzymeWrapper.find(PositionedDialog)
-    assert.lengthOf(1)
+    assert.lengthOf(dialog, 1)
     assert.isFalse(dialog.props().open)
   })
   it('should render correctly visible', () => {
@@ -58,7 +58,7 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
     }
     const enzymeWrapper = shallow(<ColumnsSettingsComponent {...props} />, { context })
     const dialog = enzymeWrapper.find(PositionedDialog)
-    assert.lengthOf(1)
+    assert.lengthOf(dialog, 1)
     assert.isTrue(dialog.props().open)
   })
   it('should update correctly models through onChangeVisibility, onMove and onDone', () => {
@@ -70,10 +70,10 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
       sortOrder: TableSortOrders.NO_SORT,
     }, {
       key: 'c1',
-      label: PropTypes.shape({
+      label: {
         en: 'c1.en',
         fr: 'c1.fr',
-      }),
+      },
       visible: true,
       attributes: [DamDomain.AttributeModelController.getStandardAttributeModel(
         DamDomain.AttributeModelController.standardAttributesKeys.label)],
@@ -83,10 +83,10 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
       defaultSorting: true,
     }, {
       key: 'c2',
-      label: PropTypes.shape({
+      label: {
         en: 'c2.en',
         fr: 'c2.fr',
-      }),
+      },
       visible: true,
       attributes: [DamDomain.AttributeModelController.getStandardAttributeModel(
         DamDomain.AttributeModelController.standardAttributesKeys.ipId)],
@@ -96,10 +96,10 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
       defaultSorting: false,
     }, {
       key: 'c3',
-      label: PropTypes.shape({
+      label: {
         en: 'c3.en',
         fr: 'c3.fr',
-      }),
+      },
       visible: true,
       attributes: [DamDomain.AttributeModelController.getStandardAttributeModel(
         DamDomain.AttributeModelController.standardAttributesKeys.creationDate)],
@@ -163,23 +163,23 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
 
     // 3 - test invalid model (all columns hidden)
     instance = enzymeWrapper.instance()
-    instance.onChangeVisibility(0, false)
-    instance.onChangeVisibility(1, false)
-    instance.onChangeVisibility(2, false)
-    instance.onChangeVisibility(3, false)
-    instance.onChangeVisibility(4, false)
+    instance.onChangeVisibility(initialPresentationModels[0], false)
+    instance.onChangeVisibility(initialPresentationModels[1], false)
+    instance.onChangeVisibility(initialPresentationModels[2], false)
+    instance.onChangeVisibility(initialPresentationModels[3], false)
+    instance.onChangeVisibility(initialPresentationModels[4], false)
     enzymeWrapper.update()
     nextPresentationModels = nextPresentationModels.map(m => ({ ...m, visible: false }))
     assert.deepEqual(enzymeWrapper.state().editionModels, nextPresentationModels, '[3] presentation models visibility should be correctly updated')
-    assert.isFalse(enzymeWrapper.state().valid, '[2] model is not valid (all columns hidden)')
-    assert.isTrue(enzymeWrapper.state().modified, '[2] model is modified')
+    assert.isFalse(enzymeWrapper.state().valid, '[3] model is not valid (all columns hidden)')
+    assert.isTrue(enzymeWrapper.state().modified, '[3] model is modified')
 
     // 4 - set back c3, c2, selection and options visible and check that sorting order is currectly updated
     instance = enzymeWrapper.instance()
-    instance.onChangeVisibility(0, true)
-    instance.onChangeVisibility(2, true)
-    instance.onChangeVisibility(3, true)
-    instance.onChangeVisibility(4, true)
+    instance.onChangeVisibility(initialPresentationModels[0], true)
+    instance.onChangeVisibility(initialPresentationModels[2], true)
+    instance.onChangeVisibility(initialPresentationModels[3], true)
+    instance.onChangeVisibility(initialPresentationModels[4], true)
     enzymeWrapper.update()
     // check nothing was committed so far
     assert.isNull(spiedOnDonePM)
@@ -202,10 +202,10 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
       ...nextPresentationModels[3],
       visible: true,
     }, {
-      ...nextPresentationModels[3],
+      ...nextPresentationModels[4],
       visible: true,
     },
     ]
-    assert.deepEqual(spiedOnDonePM, nextPresentationModels, 'Committed models sort order should be correctly updated')
+    assert.deepEqual(spiedOnDonePM, nextPresentationModels, '[4] Committed models sort order should be correctly updated')
   })
 })

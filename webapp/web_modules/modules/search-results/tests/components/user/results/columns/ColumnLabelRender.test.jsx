@@ -65,10 +65,10 @@ describe('[Search Results] Testing ColumnLabelRender', () => {
     const props = {
       entity: {
         key: 'anything.else.key',
-        label: PropTypes.shape({
+        label: {
           en: 'IDK.en',
           fr: 'IDK.fr',
-        }),
+        },
         visible: true,
         attributes: [
           DamDomain.AttributeModelController.getStandardAttributeModel(

@@ -62,7 +62,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
 
     selectionServices: [],
     // control
-    onChangeColumnsVisibility: () => { },
+    onConfigureColumns: () => { },
     onSetEntityAsTag: () => { },
     onSelectFacet: () => { },
     onUnselectFacet: () => { },

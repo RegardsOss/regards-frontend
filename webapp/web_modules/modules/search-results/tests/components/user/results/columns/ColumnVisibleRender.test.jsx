@@ -47,6 +47,7 @@ describe('[Search Results] Testing ColumnVisibleRender', () => {
         enableSorting: false,
         sortOrder: TableSortOrders.NO_SORT,
       },
+      onChangeVisibility: () => { },
     }
     const enzymeWrapper = shallow(<ColumnVisibleRender {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(CheckedIcon), 1, 'Checked icon should be added in DOM as column is visible')
@@ -60,6 +61,7 @@ describe('[Search Results] Testing ColumnVisibleRender', () => {
         enableSorting: false,
         sortOrder: TableSortOrders.NO_SORT,
       },
+      onChangeVisibility: () => { },
     }
     const enzymeWrapper = shallow(<ColumnVisibleRender {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(CheckedIcon), 0, 'Checked icon should not be added in DOM as column is hidden')
@@ -69,10 +71,10 @@ describe('[Search Results] Testing ColumnVisibleRender', () => {
     const props = {
       entity: {
         key: 'anything.else.key',
-        label: PropTypes.shape({
+        label: {
           en: 'IDK.en',
           fr: 'IDK.fr',
-        }),
+        },
         visible: true,
         attributes: [
           DamDomain.AttributeModelController.getStandardAttributeModel(
@@ -85,6 +87,7 @@ describe('[Search Results] Testing ColumnVisibleRender', () => {
         sortIndex: null,
         defaultSorting: false,
       },
+      onChangeVisibility: () => { },
     }
 
     const enzymeWrapper = shallow(<ColumnVisibleRender {...props} />, { context })

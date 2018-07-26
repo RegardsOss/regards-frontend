@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableSortOrders } from '@regardsoss/components'
+import { TableSortOrders, TableColumnBuilder } from '@regardsoss/components'
 import ListSortingComponent from '../../../../../src/components/user/results/options/ListSortingComponent'
 import { ListSortingContainer } from '../../../../../src/containers/user/results/options/ListSortingContainer'
 import styles from '../../../../../src/styles/styles'
@@ -28,16 +28,19 @@ const context = buildTestContext(styles)
 
 const models = [
   {
-    key: '0', label: { en: 'L3', fr: 'L3' }, attributes: [], enableSorting: true, sortOrder: '', defaultSorting: true,
+    key: '0', label: { en: 'L3', fr: 'L3' }, visible: true, attributes: [], enableSorting: true, sortOrder: '', defaultSorting: true,
   },
   {
-    key: '1', label: { en: 'L2', fr: 'L2' }, attributes: [], enableSorting: false, sortOrder: '', defaultSorting: false,
+    key: '1', label: { en: 'L2', fr: 'L2' }, visible: true, attributes: [], enableSorting: false, sortOrder: '', defaultSorting: false,
   },
   {
-    key: '2', label: { en: 'L1', fr: 'L1' }, attributes: [], enableSorting: true, sortOrder: '', defaultSorting: false,
+    key: '2', label: { en: 'L1', fr: 'L1' }, visible: true, attributes: [], enableSorting: true, sortOrder: '', defaultSorting: false,
   },
   {
-    key: '3', label: { en: 'L4', fr: 'L4' }, attributes: [], enableSorting: true, sortOrder: '', defaultSorting: false,
+    key: '3', label: { en: 'L4', fr: 'L4' }, visible: true, attributes: [], enableSorting: true, sortOrder: '', defaultSorting: false,
+  },
+  { // Table options column
+    key: TableColumnBuilder.optionsColumnKey, visible: true, enableSorting: false, sortOrder: TableSortOrders.NO_SORT,
   },
 ]
 
@@ -63,7 +66,7 @@ describe('[Search Results] Testing ListSortingContainer', () => {
     assert.lengthOf(component, 1, 'There should be the render component')
     // check that non sortable attributes were removed
     const { sortableModels, sortingModel, defaultSortingModel } = component.props()
-    assert.lengthOf(sortableModels, 3, 'The non sortable models should be filters!')
+    assert.lengthOf(sortableModels, 3, 'The non sortable and table columns models should be filters')
     // check that no model was retrieved
     assert.isNotOk(sortingModel, 'No sorting model should be configured')
     // check that default sorting model was retireved
