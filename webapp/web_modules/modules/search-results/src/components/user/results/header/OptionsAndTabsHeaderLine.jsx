@@ -67,9 +67,6 @@ class OptionsAndTabsHeaderLine extends React.Component {
     datasetsSectionLabel: PropTypes.string,
     dataSectionLabel: PropTypes.string,
 
-    // context
-    locale: PropTypes.string.isRequired,
-
     // callbacks
     onAddSelectionToCart: PropTypes.func, // optional, not available when null or undefined
     onConfigureColumns: PropTypes.func.isRequired,
@@ -115,7 +112,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
       enableQuicklooks, selectionServices, onAddSelectionToCart, onConfigureColumns, onResetColumns,
       onShowListView, onShowTableView, onShowDatasets, onShowQuicklookView, displayOnlyQuicklook,
       onShowDataobjects, onSortByAttribute, onStartSelectionService, onToggleShowFacettes,
-      onToggleDisplayOnlyQuicklook, datasetsSectionLabel, dataSectionLabel, locale,
+      onToggleDisplayOnlyQuicklook, datasetsSectionLabel, dataSectionLabel,
     } = this.props
 
     return (
@@ -168,7 +165,6 @@ class OptionsAndTabsHeaderLine extends React.Component {
           {/* 1.b.3 List or quicklook option - select all and sort options */}
           <TableHeaderOptionGroup show={!this.isInTableView() && this.isDisplayingDataobjects()}>
             <ListSortingContainer
-              locale={locale}
               onSortByAttribute={onSortByAttribute}
               presentationModels={presentationModels}
             />

@@ -45,7 +45,6 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     const props = {
       appName: 'any',
       project: 'any',
-      locale: 'fr',
       adminForm: {
         changeField: () => { },
         currentNamespace: 'conf',
@@ -70,7 +69,6 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     const props = {
       appName: 'any',
       project: 'any',
-      locale: 'fr',
       adminForm: {
         changeField: () => { },
         currentNamespace: 'conf',
@@ -116,7 +114,6 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     const props = {
       appName: 'any',
       project: 'any',
-      locale: 'en',
       dynamicModule: [],
       adminForm: {
         changeField: () => { },
@@ -133,7 +130,6 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     testSuiteHelpers.assertWrapperProperties(navigationField, {
       name: enzymeWrapper.instance().CONF_NAVIGATION,
       component: NavigationArrayFieldRender,
-      locale: props.locale,
       dynamicModules: props.dynamicModules,
       homeConfiguration: props.adminForm.form.conf.home,
       navigationItems: props.adminForm.form.conf.navigation,

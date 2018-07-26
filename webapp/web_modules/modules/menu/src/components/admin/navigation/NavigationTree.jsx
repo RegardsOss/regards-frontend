@@ -49,7 +49,6 @@ class NavigationTree extends React.Component {
     homeConfiguration: HomeConfigurationShape,
     dynamicModules: AccessShapes.ModuleArray,
     navigationItems: PropTypes.arrayOf(NavigationEditionItem).isRequired,
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // on create section callback: () => {}
     onCreateSection: PropTypes.func.isRequired,
     // on edit callback: (id, itemType) => {}
@@ -229,7 +228,7 @@ class NavigationTree extends React.Component {
         },
       },
     } = this.context
-    const { locale, onEdit, onDeleteSection } = this.props
+    const { onEdit, onDeleteSection } = this.props
     let cellContent = null
     let cellStyle
     switch (column) {
@@ -243,7 +242,7 @@ class NavigationTree extends React.Component {
         cellContent = (
           <div>
             <ModuleIcon style={iconStyle} {...value.iconCellValue} />
-            <ModuleTitleText locale={locale} {...value.titleCellValue} />
+            <ModuleTitleText {...value.titleCellValue} />
           </div>)
         break
       case NavigationTree.COLUMNS_INDEX.STATUS:

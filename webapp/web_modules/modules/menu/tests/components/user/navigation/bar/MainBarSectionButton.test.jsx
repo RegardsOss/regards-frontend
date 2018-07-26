@@ -40,18 +40,20 @@ describe('[Menu] Testing MainBarSectionButton', () => {
   it('should render correctly', () => {
     const props = {
       item: fullConvertedNavigationModel[1],
-      locale: 'en',
       buildLinkURL: () => { },
     }
+    const savedLocale = context.intl.locale
+    context.intl.locale = 'en'
     const enzymeWrapper = shallow(<MainBarSectionButton {...props} />, { context })
     const buttonDelegate = enzymeWrapper.find(MainBarDropMenuButton)
     assert.lengthOf(buttonDelegate, 1, 'It should delegate rendering to a MainBarDropMenuButton ')
     testSuiteHelpers.assertWrapperProperties(buttonDelegate, {
       label: props.item.title.en,
       items: props.item.children,
-      locale: props.locale,
       buildLinkURL: props.buildLinkURL,
     }, 'It should provide rigth properties to the render delegate')
     assert.isOk(buttonDelegate.props().icon, 'It should configure section icon')
+
+    context.intl.locale = savedLocale
   })
 })

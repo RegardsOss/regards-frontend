@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { UIDomain } from '@regardsoss/domain'
 import { OrderClient } from '@regardsoss/client'
 import { AccessShapes } from '@regardsoss/shape'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { i18nContextType } from '@regardsoss/i18n'
 import { DynamicModulePane, ModuleIcon, ModuleTitleText } from '@regardsoss/components'
 import {
   ORDER_DISPLAY_MODES, OrdersNavigationActions, OrdersNavigationSelectors,
@@ -33,7 +33,6 @@ import { dependencies } from '../../user-dependencies'
  */
 class OrderHistoryComponent extends React.Component {
   static propTypes = {
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
     ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     orderFilesActions: PropTypes.instanceOf(OrderClient.OrderDatasetFilesActions).isRequired,
@@ -45,12 +44,18 @@ class OrderHistoryComponent extends React.Component {
     ...AccessShapes.runtimeDispayModuleFields,
   }
 
+
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
   render() {
     const {
-      locale, description, page, defaultIconURL,
+      description, page, defaultIconURL,
       ordersActions, ordersSelectors, orderFilesActions,
       orderFilesSelectors, navigationActions, navigationSelectors,
     } = this.props
+    const { intl: { locale } } = this.context
     return (
       <DynamicModulePane
         titleComponent={/* custom title component: breadcrumb */

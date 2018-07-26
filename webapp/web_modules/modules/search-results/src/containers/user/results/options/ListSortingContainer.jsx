@@ -29,7 +29,6 @@ export class ListSortingContainer extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     presentationModels: ColumnPresentationModelArray.isRequired, // presentation model, used in onPropertiesChanged
-    locale: PropTypes.string.isRequired,
     onSortByAttribute: PropTypes.func.isRequired, // sort changed callback
   }
 
@@ -88,14 +87,12 @@ export class ListSortingContainer extends React.Component {
   }
 
   render() {
-    const { locale } = this.props
     const { sortableModels, sortingModel, defaultSortingModel } = this.state
     return (
       <ListSortingComponent
         sortingModel={sortingModel}
         defaultSortingModel={defaultSortingModel}
         sortableModels={sortableModels}
-        locale={locale}
         onSortBy={this.onSortBy}
       />
     )

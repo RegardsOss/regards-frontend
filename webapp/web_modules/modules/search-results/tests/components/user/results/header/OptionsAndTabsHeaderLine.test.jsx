@@ -76,7 +76,6 @@ describe('[Search Results] Testing OptionsAndTabsHeaderLine', () => {
       displayOnlyQuicklook: false,
       selectionServices: [],
       onAddSelectionToCart: null,
-      locale: 'en',
       onConfigureColumns: () => { },
       onResetColumns: () => { },
       onShowDataobjects: () => { },

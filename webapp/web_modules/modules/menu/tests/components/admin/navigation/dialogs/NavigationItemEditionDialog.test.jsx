@@ -47,7 +47,6 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
   })
   it('should render correctly when not editing', () => {
     const props = {
-      locale: 'en',
       onClose: () => { },
       editionData: null, // not editing
       handleSubmit: () => { },
@@ -66,7 +65,6 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
   })
   it('should render correctly when editing a module', () => {
     const props = {
-      locale: 'en',
       onClose: () => { },
       editionData: {
         onDone: () => { },
@@ -107,7 +105,6 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
 
   it('should render correctly when editing a section', () => {
     const props = {
-      locale: 'fr',
       onClose: () => { },
       editionData: {
         onDone: () => { },
@@ -260,7 +257,6 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
   }) => it(`Should resolve correctly values, parent and siblings when editing ${label}`, () => {
     let spiedInitValues = {}
     const props = {
-      locale: 'fr',
       onClose: () => { },
       editionData: {
         onDone: () => { },
@@ -310,7 +306,6 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
   it('Should update sibling correctly when changing parent', () => {
     const spiedChangeValue = {}
     const props = {
-      locale: 'fr',
       onClose: () => { },
       editionData: {
         onDone: () => { },
@@ -385,7 +380,6 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     it(`Should resolve correctly new insert path when ${label}`, () => {
       const spiedDoneValues = {}
       const props = {
-        locale: 'fr',
         onClose: () => { },
         editionData: {
           onDone: (item, insertAtPath) => {

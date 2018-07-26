@@ -36,7 +36,6 @@ describe('[Menu] Testing AdminContainer', () => {
     const props = {
       appName: 'x',
       project: 'y',
-      locale: 'fr',
       type: 'any',
       adminForm: {
         changeField: () => { },

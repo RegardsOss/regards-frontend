@@ -23,7 +23,6 @@ import { DamDomain } from '@regardsoss/domain'
 import { OpenSearchQuery } from '@regardsoss/domain/catalog'
 import { DataManagementShapes, CatalogShapes } from '@regardsoss/shape'
 import { ModuleStyleProvider } from '@regardsoss/theme'
-import { i18nSelectors } from '@regardsoss/i18n'
 import { AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-utils'
 import { DescriptionProviderContainer } from '@regardsoss/entities-common'
 import { Tag } from '../../../models/navigation/Tag'
@@ -63,7 +62,6 @@ export class SearchResultsContainer extends React.Component {
     levels: navigationContextSelectors.getLevels(state),
     viewObjectType: navigationContextSelectors.getViewObjectType(state),
     tableDisplayMode: navigationContextSelectors.getDisplayMode(state),
-    locale: i18nSelectors.getLocale(state),
   })
 
   static mapDispatchToProps = dispatch => ({
@@ -116,17 +114,12 @@ export class SearchResultsContainer extends React.Component {
     tableDisplayMode: PropTypes.oneOf(TableDisplayModeValues).isRequired, // Display mode
     // eslint-disable-next-line react/no-unused-prop-types
     levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired, // only used to build query
-    locale: PropTypes.string, // current locale
 
     // From map dispatch to props
     dispatchChangeViewObjectType: PropTypes.func.isRequired,
     dispatchChangeTableDisplayMode: PropTypes.func.isRequired,
     dispatchSetEntityAsTag: PropTypes.func.isRequired,
     dispatchAddSearchTag: PropTypes.func.isRequired,
-  }
-
-  static defaultProps = {
-    locale: 'en',
   }
 
   /**
@@ -495,7 +488,7 @@ export class SearchResultsContainer extends React.Component {
       displayMode, enableFacettes, isFetching, resultsCount, viewObjectType, tableDisplayMode,
       enableDownload, enableQuicklooks, datasetsSectionLabel, dataSectionLabel,
       searchQuery: initialSearchQuery, restrictedDatasetsIpIds, displayConf, accessToken,
-      projectName, locale, dispatchSetEntityAsTag,
+      projectName, dispatchSetEntityAsTag,
     } = this.props
 
     const {
@@ -551,7 +544,6 @@ export class SearchResultsContainer extends React.Component {
                 presentationModels={presentationModels}
                 accessToken={accessToken}
                 projectName={projectName}
-                locale={locale}
 
                 onConfigureColumns={this.onConfigureColumns}
                 onResetColumns={this.onResetColumns}

@@ -18,7 +18,7 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import { AccessDomain, UIDomain } from '@regardsoss/domain'
+import { AccessDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -103,7 +103,6 @@ class NavigationArrayFieldRender extends React.Component {
   }
 
   static propTypes = {
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired, // locale (for titles display)
     dynamicModules: AccessShapes.ModuleArray,
     homeConfiguration: HomeConfigurationShape,
     navigationItems: PropTypes.arrayOf(NavigationEditionItem).isRequired,
@@ -251,7 +250,7 @@ class NavigationArrayFieldRender extends React.Component {
 
   render() {
     const {
-      dynamicModules, homeConfiguration, navigationItems, locale,
+      dynamicModules, homeConfiguration, navigationItems,
     } = this.props
     const { editionData } = this.state
     const { intl: { formatMessage }, moduleTheme: { admin: { navigation: { noElementMessageStyle } } } } = this.context
@@ -259,7 +258,7 @@ class NavigationArrayFieldRender extends React.Component {
     return (
       <div>
         {/* insert edition dialog */}
-        <NavigationItemEditionDialog onClose={this.onEditClosed} editionData={editionData} locale={locale} />
+        <NavigationItemEditionDialog onClose={this.onEditClosed} editionData={editionData} />
         {/* insert tree or no data view */}
         {
           navigationItems.length && dynamicModules.length ? (
@@ -268,7 +267,6 @@ class NavigationArrayFieldRender extends React.Component {
               homeConfiguration={homeConfiguration}
               navigationItems={navigationItems}
               dynamicModules={dynamicModules}
-              locale={locale}
               onEdit={this.onEditItem}
               onCreateSection={this.onCreateSection}
               onDeleteSection={this.onDeleteSection}

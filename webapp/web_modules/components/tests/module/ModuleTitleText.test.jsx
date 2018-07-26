@@ -42,15 +42,16 @@ describe('[Components] Testing ModuleTitleText', () => {
         fr: 'fr-title',
       },
       description: 'description',
-      locale: 'en',
     }
+    const savedLocale = context.intl.locale
+    context.intl.locale = 'en'
     const enzymeWrapper = shallow(<ModuleTitleText {...props} />, { context })
     assert.include(enzymeWrapper.debug(), 'en-title', 'english title should be selected')
-    enzymeWrapper.setProps({
-      ...props,
-      locale: 'fr',
-    })
-    assert.include(enzymeWrapper.debug(), 'fr-title', 'english title should be selected')
+
+    context.intl.locale = 'fr'
+    const enzymeWrapper2 = shallow(<ModuleTitleText {...props} />, { context })
+    assert.include(enzymeWrapper2.debug(), 'fr-title', 'english title should be selected')
+    context.intl.locale = savedLocale
   })
   it('should select the description when there is no title for locale', () => {
     const props = {
@@ -58,15 +59,15 @@ describe('[Components] Testing ModuleTitleText', () => {
         en: 'en-title',
       },
       description: 'description',
-      locale: 'fr',
     }
+    const savedLocale = context.intl.locale
+    context.intl.locale = 'fr'
     const enzymeWrapper = shallow(<ModuleTitleText {...props} />, { context })
     assert.include(enzymeWrapper.debug(), 'description', 'description should be selected as title ')
-    enzymeWrapper.setProps({
-      title: null,
-      description: 'description2',
-      locale: 'en',
-    })
-    assert.include(enzymeWrapper.debug(), 'description2', 'description2 should be selected as title ')
+
+    context.intl.locale = 'en'
+    const enzymeWrapper2 = shallow(<ModuleTitleText {...props} />, { context })
+    assert.include(enzymeWrapper2.debug(), 'en-title', 'description2 should be selected as title ')
+    context.intl.locale = savedLocale
   })
 })

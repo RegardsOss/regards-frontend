@@ -68,7 +68,6 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
   })
   it('should render correctly, hide the tree while not valid and update when receiving modules list', () => {
     const props = {
-      locale: 'en',
       dynamicModules: [],
       homeConfiguration: anHomeConfiguration,
       navigationItems: aNavigationConfiguration,
@@ -87,7 +86,6 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
   it('should resolve correctly the initial model, adding missing modules and removing deleted modules', () => {
     let spiedChangeFieldValue = null
     const props = {
-      locale: 'en',
       dynamicModules: [],
       homeConfiguration: anHomeConfiguration,
       navigationItems: aNavigationConfiguration,
@@ -112,7 +110,6 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
     assert.equal(treeProps.homeConfiguration, props.homeConfiguration, 'It should report correctly the "homeConfiguration" property')
     assert.equal(treeProps.navigationItems, props.navigationItems, 'It should report correctly the "navigationItems" property')
     assert.equal(treeProps.dynamicModules, allDefaultConfigDumpModules, 'It should report correctly the "dynamicModules" property')
-    assert.equal(treeProps.locale, props.locale, 'It should report correctly the "locale" property')
     assert.equal(treeProps.onEdit, wrapperInstance.onEditItem, 'It should report correctly the "onEdit" property')
     assert.equal(treeProps.onCreateSection, wrapperInstance.onCreateSection, 'It should report correctly the "onCreateSection" property')
     assert.equal(treeProps.onDeleteSection, wrapperInstance.onDeleteSection, 'It should report correctly the "onDeleteSection" property')
@@ -122,7 +119,6 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
   it('should resolve match correctly the initial model with current modules definitions', () => {
     let spiedChangeFieldValue = null
     const props = {
-      locale: 'en',
       dynamicModules: modulesWithNewAndDeleted,
       homeConfiguration: anHomeConfiguration,
       navigationItems: aNavigationConfiguration,
@@ -152,7 +148,6 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
 
   it('should handle correctly create section', () => {
     const props = {
-      locale: 'en',
       dynamicModules: allDefaultConfigDumpModules,
       homeConfiguration: anHomeConfiguration,
       navigationItems: aNavigationConfiguration,
@@ -187,7 +182,6 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
   })
   it('should handle correctly edit section', () => {
     const props = {
-      locale: 'en',
       dynamicModules: allDefaultConfigDumpModules,
       homeConfiguration: anHomeConfiguration,
       navigationItems: aNavigationConfiguration,
@@ -215,7 +209,6 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
   })
   it('should handle correctly edit module', () => {
     const props = {
-      locale: 'en',
       dynamicModules: allDefaultConfigDumpModules,
       homeConfiguration: anHomeConfiguration,
       navigationItems: aNavigationConfiguration,
@@ -244,7 +237,6 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
   it('should update correctly after editing', () => {
     let spiedChangeFieldValue = null
     const props = {
-      locale: 'en',
       dynamicModules: allDefaultConfigDumpModules,
       homeConfiguration: anHomeConfiguration,
       navigationItems: aNavigationConfiguration,

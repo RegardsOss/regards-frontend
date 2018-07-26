@@ -16,10 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
-import { i18nSelectors } from '@regardsoss/i18n'
 import { adminModuleActions, adminModuleSelectors } from '../../clients/ModulesListClient'
 import { adminLayoutActions, adminLayoutSelectors } from '../../clients/LayoutListClient'
 import DynamicModulesProviderContainer from '../common/DynamicModulesProviderContainer'
@@ -30,18 +28,6 @@ import ModuleFormComponent from '../../components/admin/ModuleFormComponent'
  * @author Sébastien binda
  */
 export class AdminContainer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state) {
-    return {
-      locale: i18nSelectors.getLocale(state),
-    }
-  }
-
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
@@ -60,8 +46,6 @@ export class AdminContainer extends React.Component {
     project: PropTypes.string,
     // default module properties
     ...AccessShapes.runtimeConfigurationModuleFields,
-    // from map state to props
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // from map dispatch to props
     fetchLayout: PropTypes.func.isRequired,
     fetchModules: PropTypes.func.isRequired,
@@ -79,7 +63,7 @@ export class AdminContainer extends React.Component {
 
   render() {
     const {
-      appName, project, adminForm, locale,
+      appName, project, adminForm,
     } = this.props
     return (
       <DynamicModulesProviderContainer
@@ -91,13 +75,12 @@ export class AdminContainer extends React.Component {
           appName={appName}
           project={project}
           adminForm={adminForm}
-          locale={locale}
         />
       </DynamicModulesProviderContainer>)
   }
 }
 
 export default connect(
-  AdminContainer.mapStateToProps,
+  null,
   AdminContainer.mapDispatchToProps)(AdminContainer)
 

@@ -36,8 +36,6 @@ export class ModuleTitle extends React.Component {
   static propTypes = {
     // module type (from Module fields)
     type: PropTypes.string.isRequired,
-    // current locale if any
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // desctiption (from Module fields)
     description: PropTypes.string,
     // module page (from module fields)
@@ -111,7 +109,7 @@ export class ModuleTitle extends React.Component {
 
   render() {
     const {
-      type, locale, page, description,
+      type, page, description,
       subtitle, titleComponent, options,
     } = this.props
     const {
@@ -145,7 +143,6 @@ export class ModuleTitle extends React.Component {
                       <ModuleTitleText
                         title={get(page, 'title')}
                         description={description}
-                        locale={locale}
                       />
                     </div>
                   </div>)

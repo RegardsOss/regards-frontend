@@ -19,7 +19,6 @@
 import get from 'lodash/get'
 import RadioButton from 'material-ui/RadioButton'
 import Subheader from 'material-ui/Subheader'
-import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -38,8 +37,6 @@ class ModuleFormComponent extends React.Component {
     project: PropTypes.string,
     adminForm: AccessShapes.moduleAdminForm,
     dynamicModules: AccessShapes.ModuleArray,
-    // locale (for modules titles display)
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
   }
 
   static contextTypes = {
@@ -106,7 +103,7 @@ class ModuleFormComponent extends React.Component {
 
   render() {
     const {
-      appName, project, adminForm, dynamicModules, locale,
+      appName, project, adminForm, dynamicModules,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { admin: { subheaderStyle, firstSubheaderStyle, radioButtonGroupLabelStyle } } } = this.context
     return (
@@ -223,7 +220,6 @@ class ModuleFormComponent extends React.Component {
         <FieldArray
           name={this.CONF_NAVIGATION}
           component={NavigationArrayFieldRender}
-          locale={locale}
           dynamicModules={dynamicModules}
           homeConfiguration={get(adminForm, `form.${this.HOME_CONFIGURATION_ROOT}`)}
           navigationItems={get(adminForm, `form.${this.CONF_NAVIGATION}`, [])}

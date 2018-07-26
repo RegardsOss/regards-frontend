@@ -59,7 +59,6 @@ describe('[Search Results] Testing ListSortingContainer', () => {
     const props = {
       presentationModels: models,
       onSortByAttribute: () => { },
-      locale: 'en',
     }
     const enzymeWrapper = shallow(<ListSortingContainer {...props} />, { context })
     const component = enzymeWrapper.find(ListSortingComponent)
@@ -76,7 +75,6 @@ describe('[Search Results] Testing ListSortingContainer', () => {
     const props = {
       presentationModels: models.slice(1), // remove first model which is default one
       onSortByAttribute: () => { },
-      locale: 'fr',
     }
     const enzymeWrapper = shallow(<ListSortingContainer {...props} />, { context })
     const component = enzymeWrapper.find(ListSortingComponent)
@@ -94,7 +92,6 @@ describe('[Search Results] Testing ListSortingContainer', () => {
     const props = {
       presentationModels: modelsWithSortingOn3,
       onSortByAttribute: () => { },
-      locale: 'fr',
     }
     const enzymeWrapper = shallow(<ListSortingContainer {...props} />, { context })
     const component = enzymeWrapper.find(ListSortingComponent)
@@ -111,7 +108,6 @@ describe('[Search Results] Testing ListSortingContainer', () => {
       onSortByAttribute: (key, order) => {
         sortSpy = { key, order }
       },
-      locale: 'fr',
     }
     const enzymeWrapper = shallow(<ListSortingContainer {...props} />, { context })
     // 1 - there is currently no sorting: attempt removing sorting should not be propagated

@@ -36,8 +36,6 @@ class ListSortingComponent extends React.Component {
     defaultSortingModel: AccessShapes.AttributePresentationModel,
     // all models available
     sortableModels: AccessShapes.AttributePresentationModelArray.isRequired,
-    // current locale
-    locale: PropTypes.string.isRequired,
     onSortBy: PropTypes.func.isRequired,
   }
 
@@ -52,16 +50,15 @@ class ListSortingComponent extends React.Component {
    * @return {string} label to use for button
    */
   getLabel = (model) => {
-    const { intl: { formatMessage } } = this.context
-    const { locale } = this.props
+    const { intl: { formatMessage, locale } } = this.context
     const prefix = formatMessage({ id: 'list.sort.prefix.label' })
     return `${prefix} ${model ? model.label[locale] : formatMessage({ id: 'list.sort.none.label' })}`
   }
 
   render() {
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage, locale } } = this.context
     const {
-      sortingModel, defaultSortingModel, sortableModels, locale, onSortBy,
+      sortingModel, defaultSortingModel, sortableModels, onSortBy,
     } = this.props
     return (
       <DropDownButton

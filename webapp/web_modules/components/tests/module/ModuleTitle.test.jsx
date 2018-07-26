@@ -40,7 +40,6 @@ describe('[Components] Testing ModuleTitle', () => {
   it('should render correctly in normal mode (with options, page, title, subtile, layout options)', () => {
     const props = {
       type: 'any',
-      locale: 'en',
       description: 'any-module',
       page: {
         home: true,
@@ -58,9 +57,9 @@ describe('[Components] Testing ModuleTitle', () => {
       showLayoutOptions: true,
       // module title bar options
       options: [<div key="1" id="option.1" />, <div key="2" id="option.2" />],
-      onSetMinimized: () => {},
-      onSetNormalState: () => {},
-      onSetMaximized: () => {},
+      onSetMinimized: () => { },
+      onSetNormalState: () => { },
+      onSetMaximized: () => { },
     }
     const enzymeWrapper = shallow(<ModuleTitle {...props} />, { context })
     const cardHeader = enzymeWrapper.find(CardHeader)
@@ -77,11 +76,10 @@ describe('[Components] Testing ModuleTitle', () => {
       type: 'any',
       expandable: true,
       presentationState: UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED,
-      locale: 'fr',
       showLayoutOptions: false,
-      onSetMinimized: () => {},
-      onSetNormalState: () => {},
-      onSetMaximized: () => {},
+      onSetMinimized: () => { },
+      onSetNormalState: () => { },
+      onSetMaximized: () => { },
     }
     shallow(<ModuleTitle {...props} />, { context })
   })
@@ -90,11 +88,10 @@ describe('[Components] Testing ModuleTitle', () => {
       type: 'any',
       expandable: true,
       presentationState: UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED,
-      locale: 'fr',
       showLayoutOptions: false,
-      onSetMinimized: () => {},
-      onSetNormalState: () => {},
-      onSetMaximized: () => {},
+      onSetMinimized: () => { },
+      onSetNormalState: () => { },
+      onSetMaximized: () => { },
     }
     shallow(<ModuleTitle {...props} />, { context })
   })

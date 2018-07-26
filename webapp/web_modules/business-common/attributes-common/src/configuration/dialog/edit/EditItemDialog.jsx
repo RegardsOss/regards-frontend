@@ -17,9 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import { connect } from '@regardsoss/redux'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
-import { i18nContextType, i18nSelectors } from '@regardsoss/i18n'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { PositionedDialog } from '@regardsoss/components'
 import EditItemForm from './EditItemForm'
@@ -30,18 +29,6 @@ import EditItemForm from './EditItemForm'
  * @author Raphaël Mechali
  */
 export class EditItemDialog extends React.Component {
-  /**
- * Redux: map state to props function
- * @param {*} state: current redux state
- * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
-  static mapStateToProps(state) {
-    return {
-      locale: i18nSelectors.getLocale(state), // bind current locale for label presentation
-    }
-  }
-
   static propTypes = {
     allowLabel: PropTypes.bool.isRequired,
     allowAttributesRegroupements: PropTypes.bool.isRequired,
@@ -58,12 +45,6 @@ export class EditItemDialog extends React.Component {
     onCancel: PropTypes.func.isRequired,
     // callback: on confirm (newList:AttributeListConfigurationModel) => ()
     onConfirm: PropTypes.func.isRequired,
-    // from mapStateToProps
-    locale: PropTypes.string,
-  }
-
-  static defaultProps = {
-    locale: 'en', // make sure we have a locale in this component
   }
 
   static contextTypes = {
@@ -90,7 +71,7 @@ export class EditItemDialog extends React.Component {
 
   render() {
     const {
-      locale, allowLabel, allowAttributesRegroupements, attributeModels, editionData, onCancel,
+      allowLabel, allowAttributesRegroupements, attributeModels, editionData, onCancel,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { configuration: { editDialog } } } = this.context
 
@@ -117,11 +98,10 @@ export class EditItemDialog extends React.Component {
           editionData={editionData}
           onCancel={onCancel}
           onConfirm={this.onConfirm}
-          locale={locale}
         />
       </PositionedDialog >
     )
   }
 }
 
-export default connect(EditItemDialog.mapStateToProps)(EditItemDialog)
+export default EditItemDialog

@@ -18,8 +18,6 @@
  **/
 import { UIDomain } from '@regardsoss/domain'
 import { AccessProjectClient } from '@regardsoss/client'
-import { connect } from '@regardsoss/redux'
-import { i18nSelectors } from '@regardsoss/i18n'
 import { adminLayoutSelectors } from '../../../clients/LayoutListClient'
 import { adminModuleSelectors } from '../../../clients/ModulesListClient'
 import { HomeConfigurationShape, NavigationEditionItem } from '../../../shapes/ModuleConfiguration'
@@ -37,26 +35,12 @@ const moduleSelectors = AccessProjectClient.ModuleSelectors()
  * @author Raphaël Mechali
  */
 export class NavigationMenuContainer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state) {
-    return {
-      locale: i18nSelectors.getLocale(state),
-    }
-  }
-
   static propTypes = {
     project: PropTypes.string,
     currentModuleId: PropTypes.number,
     displayMode: PropTypes.oneOf(UIDomain.MENU_DISPLAY_MODES),
     homeConfiguration: HomeConfigurationShape,
     navigationConfiguration: PropTypes.arrayOf(NavigationEditionItem),
-    // from mapStateToProps
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
   }
 
   /**
@@ -76,7 +60,7 @@ export class NavigationMenuContainer extends React.Component {
 
   render() {
     const {
-      homeConfiguration, navigationConfiguration, displayMode, currentModuleId, locale,
+      homeConfiguration, navigationConfiguration, displayMode, currentModuleId,
     } = this.props
     return (
       // resolve modules: note that, when in admin, we use specific admin selectors to access this module loaded data
@@ -93,12 +77,12 @@ export class NavigationMenuContainer extends React.Component {
           currentModuleId={currentModuleId}
         >
           {/* main navigation view component */}
-          <NavigationLayoutComponent buildLinkURL={this.buildLinkURL} locale={locale} />
+          <NavigationLayoutComponent buildLinkURL={this.buildLinkURL} />
         </NavigationModelResolutionContainer>
       </DynamicModulesProviderContainer>
     )
   }
 }
 
-export default connect(NavigationMenuContainer.mapStateToProps)(NavigationMenuContainer)
+export default NavigationMenuContainer
 

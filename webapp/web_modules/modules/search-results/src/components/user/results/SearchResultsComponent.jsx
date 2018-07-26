@@ -88,7 +88,6 @@ class SearchResultsComponent extends React.Component {
 
     accessToken: PropTypes.string,
     projectName: PropTypes.string.isRequired,
-    locale: PropTypes.string.isRequired,
 
     // services from PluginServicesContainer HOC
     selectionServices: AccessShapes.PluginServiceWithContentArray,
@@ -148,10 +147,10 @@ class SearchResultsComponent extends React.Component {
    */
   buildTableColumns = () => {
     const {
-      searchSelectors, presentationModels, viewObjectType, enableDownload, accessToken, projectName, locale,
+      searchSelectors, presentationModels, viewObjectType, enableDownload, accessToken, projectName,
       isDescAvailableFor, onSortByAttribute, onSetEntityAsTag: onSearchEntity, onAddElementToCart: onAddToCart, onShowDescription,
     } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage, locale } } = this.context
 
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
     const enableNavigateTo = SearchResultsComponent.hasNavigateTo(viewObjectType)
@@ -198,9 +197,10 @@ class SearchResultsComponent extends React.Component {
    */
   buildListColumn = () => {
     const {
-      presentationModels, enableDownload, viewObjectType, accessToken, projectName, locale,
+      presentationModels, enableDownload, viewObjectType, accessToken, projectName,
       isDescAvailableFor, onAddElementToCart, onSetEntityAsTag, onShowDescription,
     } = this.props
+    const { intl: { locale } } = this.context
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
     const enableNavigateTo = SearchResultsComponent.hasNavigateTo(viewObjectType)
 
@@ -249,7 +249,7 @@ class SearchResultsComponent extends React.Component {
       allowingFacettes, presentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
       viewObjectType, tableViewMode, showingFacettes, facets, selectedFacets, searchQuery, selectionServices, enableQuicklooks,
       displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook, enableDownload, accessToken, projectName, datasetsSectionLabel,
-      dataSectionLabel, locale, isDescAvailableFor,
+      dataSectionLabel, isDescAvailableFor,
       onConfigureColumns, onResetColumns, onSelectFacet, onUnselectFacet, onShowDatasets, onShowDataobjects,
       onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes, onStartSelectionService,
       onAddSelectionToCart, onShowQuicklookView, onAddElementToCart, onShowDescription,
@@ -298,7 +298,6 @@ class SearchResultsComponent extends React.Component {
           selectionServices={selectionServices}
           datasetsSectionLabel={datasetsSectionLabel}
           dataSectionLabel={dataSectionLabel}
-          locale={locale}
           onAddSelectionToCart={onAddSelectionToCart}
           onConfigureColumns={onConfigureColumns}
           onResetColumns={onResetColumns}

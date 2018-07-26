@@ -56,14 +56,13 @@ describe('[Components] Testing DynamicModulePane', () => {
       },
       expandable: true,
       mainModule: true,
-      locale: 'en',
       options: [<div key="an.option">An option </div>],
       isAuthenticated: true,
       presentationState: UIDomain.PRESENTATION_STATE_ENUM.NORMAL,
-      dispatchSetInitialState: () => {},
-      dispatchSetMinimized: () => {},
-      dispatchSetNormal: () => {},
-      dispatchSetMaximized: () => {},
+      dispatchSetInitialState: () => { },
+      dispatchSetMinimized: () => { },
+      dispatchSetNormal: () => { },
+      dispatchSetMaximized: () => { },
     }
     const wrapper = shallow(
       (
@@ -83,7 +82,6 @@ describe('[Components] Testing DynamicModulePane', () => {
     assert.lengthOf(titleWrapper, 1, 'There should be the module title')
     testSuiteHelpers.assertWrapperProperties(titleWrapper, {
       type: props.type,
-      locale: props.locale,
       description: props.description,
       page: props.page,
       titleComponent: props.titleComponent,
@@ -115,13 +113,12 @@ describe('[Components] Testing DynamicModulePane', () => {
       options: [<div key="an.option">An option </div>],
       expandable: true,
       presentationState: UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED,
-      locale: 'fr',
       isAuthenticated: false,
       subtitle: 'Any subtitle',
-      dispatchSetInitialState: () => {},
-      dispatchSetMinimized: () => {},
-      dispatchSetNormal: () => {},
-      dispatchSetMaximized: () => {},
+      dispatchSetInitialState: () => { },
+      dispatchSetMinimized: () => { },
+      dispatchSetNormal: () => { },
+      dispatchSetMaximized: () => { },
     }
     const wrapper = shallow(
       (
@@ -141,7 +138,6 @@ describe('[Components] Testing DynamicModulePane', () => {
 
     testSuiteHelpers.assertWrapperProperties(titleWrapper, {
       type: props.type,
-      locale: props.locale,
       description: props.description,
       page: props.page,
       titleComponent: props.titleComponent,
@@ -173,12 +169,11 @@ describe('[Components] Testing DynamicModulePane', () => {
       options: [<div key="an.option">An option </div>],
       expandable: false,
       presentationState: UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED,
-      locale: 'fr',
       isAuthenticated: false,
-      dispatchSetInitialState: () => {},
-      dispatchSetMinimized: () => {},
-      dispatchSetNormal: () => {},
-      dispatchSetMaximized: () => {},
+      dispatchSetInitialState: () => { },
+      dispatchSetMinimized: () => { },
+      dispatchSetNormal: () => { },
+      dispatchSetMaximized: () => { },
     }
     const wrapper = shallow(
       (
@@ -197,7 +192,6 @@ describe('[Components] Testing DynamicModulePane', () => {
     assert.lengthOf(titleWrapper, 1, 'There should be the module title')
     testSuiteHelpers.assertWrapperProperties(titleWrapper, {
       type: props.type,
-      locale: props.locale,
       description: props.description,
       page: props.page,
       titleComponent: props.titleComponent,
@@ -229,7 +223,6 @@ describe('[Components] Testing DynamicModulePane', () => {
       options: [<div key="an.option">An option </div>],
       expandable: true,
       expanded: false,
-      locale: 'en',
       isAuthenticated: false,
       dispatchSetInitialState: (expandable, expanded) => {
         spiedInitialization = { expandable, expanded }
@@ -237,9 +230,9 @@ describe('[Components] Testing DynamicModulePane', () => {
       moduleConf: {
         primaryPane: UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE,
       },
-      dispatchSetMinimized: () => {},
-      dispatchSetNormal: () => {},
-      dispatchSetMaximized: () => {},
+      dispatchSetMinimized: () => { },
+      dispatchSetNormal: () => { },
+      dispatchSetMaximized: () => { },
     }
     shallow(<DynamicModulePane {...props} ><div /></DynamicModulePane>, { context })
     assert.equal(spiedInitialization.expandable, true, 'EXPANDED_COLLAPSIBLE shoud be resolved as expandable')
@@ -283,12 +276,11 @@ describe('[Components] Testing DynamicModulePane', () => {
       },
       expandable: false,
       presentationState: UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED,
-      locale: 'fr',
       isAuthenticated: true,
-      dispatchSetInitialState: () => {},
-      dispatchSetMinimized: () => {},
-      dispatchSetNormal: () => {},
-      dispatchSetMaximized: () => {},
+      dispatchSetInitialState: () => { },
+      dispatchSetMinimized: () => { },
+      dispatchSetNormal: () => { },
+      dispatchSetMaximized: () => { },
     }
     const enzymeWrapper = shallow(<DynamicModulePane {...props} ><div /></DynamicModulePane>, { context })
     let noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
@@ -318,13 +310,12 @@ describe('[Components] Testing DynamicModulePane', () => {
       },
       expandable: false,
       presentationState: UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED,
-      locale: 'fr',
       requiresAuthentication: true,
       isAuthenticated: false,
-      dispatchSetInitialState: () => {},
-      dispatchSetMinimized: () => {},
-      dispatchSetNormal: () => {},
-      dispatchSetMaximized: () => {},
+      dispatchSetInitialState: () => { },
+      dispatchSetMinimized: () => { },
+      dispatchSetNormal: () => { },
+      dispatchSetMaximized: () => { },
     }
     const enzymeWrapper = shallow(<DynamicModulePane {...props} ><div /></DynamicModulePane>, { context })
     let noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
@@ -354,16 +345,15 @@ describe('[Components] Testing DynamicModulePane', () => {
       },
       expandable: false,
       presentationState: UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED,
-      locale: 'fr',
       requiresAuthentication: false,
       isAuthenticated: false,
       fetching: false,
       requiredDependencies: ['dep1', 'dep3'],
       availableDependencies: [],
-      dispatchSetInitialState: () => {},
-      dispatchSetMinimized: () => {},
-      dispatchSetNormal: () => {},
-      dispatchSetMaximized: () => {},
+      dispatchSetInitialState: () => { },
+      dispatchSetMinimized: () => { },
+      dispatchSetNormal: () => { },
+      dispatchSetMaximized: () => { },
     }
     const enzymeWrapper = shallow(<DynamicModulePane {...props} ><div /></DynamicModulePane>, { context })
     let noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)

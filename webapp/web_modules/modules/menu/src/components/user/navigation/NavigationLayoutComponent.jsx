@@ -19,7 +19,6 @@
 import isEqual from 'lodash/isEqual'
 import isNumber from 'lodash/isNumber'
 import throttle from 'lodash/throttle'
-import { UIDomain } from '@regardsoss/domain'
 import { Measure } from '@regardsoss/adapters'
 import { themeContextType } from '@regardsoss/theme'
 import { NavigationItem } from '../../../shapes/Navigation'
@@ -41,7 +40,6 @@ class NavigationLayoutComponent extends React.Component {
 
   static propTypes = {
     navigationElements: PropTypes.arrayOf(NavigationItem),
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     buildLinkURL: PropTypes.func.isRequired,
   }
 
@@ -197,7 +195,7 @@ class NavigationLayoutComponent extends React.Component {
 
 
   render() {
-    const { navigationElements, locale, buildLinkURL } = this.props
+    const { navigationElements, buildLinkURL } = this.props
     const { shownBarItemsCount, moreButtonItems, forceMoreButton } = this.state
     const { moduleTheme: { user: { navigationGroup } } } = this.context
     return (
@@ -211,7 +209,6 @@ class NavigationLayoutComponent extends React.Component {
                     key={navigationElement.key}
                     item={navigationElement}
                     displayed={index < shownBarItemsCount}
-                    locale={locale}
                     buildLinkURL={buildLinkURL}
                     onItemResized={this.onBarItemResized}
                   />
@@ -221,7 +218,6 @@ class NavigationLayoutComponent extends React.Component {
               <MainBarMoreNavigationButton
                 displayed={forceMoreButton || moreButtonItems.length > 0}
                 items={moreButtonItems}
-                locale={locale}
                 buildLinkURL={buildLinkURL}
                 onResized={this.onMoreButtonResized}
               />

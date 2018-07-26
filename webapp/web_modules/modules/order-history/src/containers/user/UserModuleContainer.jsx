@@ -17,9 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AccessShapes } from '@regardsoss/shape'
-import { connect } from '@regardsoss/redux'
 import { UIDomain } from '@regardsoss/domain'
-import { i18nSelectors } from '@regardsoss/i18n'
 import OrderHistoryComponent from '../../components/user/OrderHistoryComponent'
 import orderListClient from '../../client/OrderListClient'
 import orderFilesClient from '../../client/OrderFilesClient'
@@ -30,22 +28,9 @@ import OrdersNavigationClient from '../../client/OrdersNavigationClient'
  * @author Raphaël Mechali
  */
 export class UserModuleContainer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state) {
-    return {
-      locale: i18nSelectors.getLocale(state),
-    }
-  }
-
   static propTypes = {
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
   }
 
   render() {
@@ -64,4 +49,4 @@ export class UserModuleContainer extends React.Component {
   }
 }
 
-export default connect(UserModuleContainer.mapStateToProps)(UserModuleContainer)
+export default UserModuleContainer

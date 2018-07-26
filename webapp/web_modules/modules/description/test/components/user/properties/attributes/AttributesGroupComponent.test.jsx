@@ -61,7 +61,7 @@ describe('[Description] Testing AttributesGroupComponent', () => {
         }],
       },
     }
-    // set locale: fr
+    // set locale fr
     const savedLocale = context.intl.locale
     context.intl.locale = 'fr'
 
@@ -106,7 +106,7 @@ describe('[Description] Testing AttributesGroupComponent', () => {
         }],
       },
     }
-    // set locale: en
+    // set locale en
     const savedLocale = context.intl.locale
     context.intl.locale = 'en'
 
@@ -116,7 +116,7 @@ describe('[Description] Testing AttributesGroupComponent', () => {
     assert.include(debugText, props.group.title.en, 'The group title should be rendered in english')
     assert.include(debugText, props.group.elements[0].label.en, 'The first group element label should be rendered in english')
 
-    // set locale: fr
+    // set locale fr
     context.intl.locale = 'fr'
     enzymeWrapper = shallow(<AttributesGroupComponent {...props} />, { context })
     debugText = enzymeWrapper.debug()

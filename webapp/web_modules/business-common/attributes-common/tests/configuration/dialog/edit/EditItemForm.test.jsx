@@ -63,7 +63,6 @@ describe('[Attributes Common] Testing EditItemForm', () => {
         }],
         editedElementIndex: 0,
       },
-      locale: 'fr',
       onConfirm: (newItem, order) => {
         spiedConfirmValues = { newItem, order }
       },
@@ -132,7 +131,6 @@ describe('[Attributes Common] Testing EditItemForm', () => {
           { attributes: [{ name: 'attr4' }] }],
         editedElementIndex: 2,
       },
-      locale: 'fr',
       onConfirm: (newItem, order) => {
         spiedConfirmValues = { newItem, order }
       },

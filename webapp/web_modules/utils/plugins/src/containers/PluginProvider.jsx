@@ -35,8 +35,6 @@ class PluginProvider extends React.Component {
   /**
    * pluginConf : Props to add to te plugin rendering element,
    * displayPlugin : Display the plugin component. If false the plugin is only passed as a prop to the children of this provider
-   *
-   * @type {{pluginId: *, pluginConf: *, displayPlugin: *, children: *, loadedPlugin: *, loadPlugin: *, locale: *}}
    */
   static propTypes = {
     /**

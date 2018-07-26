@@ -49,7 +49,6 @@ describe('[Menu] Testing NavigationMenuContainer', () => {
       displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.USER,
       homeConfiguration: anHomeConfiguration,
       navigationConfiguration: aNavigationConfiguration,
-      locale: 'en',
     }
     const enzymeWrapper = shallow(<NavigationMenuContainer {...props} />, { context })
 
@@ -79,7 +78,6 @@ describe('[Menu] Testing NavigationMenuContainer', () => {
       displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW,
       homeConfiguration: anHomeConfiguration,
       navigationConfiguration: aNavigationConfiguration,
-      locale: 'en',
     }
     const enzymeWrapper = shallow(<NavigationMenuContainer {...props} />, { context })
 
@@ -100,7 +98,6 @@ describe('[Menu] Testing NavigationMenuContainer', () => {
     const componentWrapper = enzymeWrapper.find(NavigationLayoutComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     assert.equal(componentWrapper.props().buildLinkURL, enzymeWrapper.instance().buildLinkURL, 'buildLinkURL callback should be correctly reported')
-    assert.equal(componentWrapper.props().locale, props.locale, 'The right locale should be reported')
   })
   it('should provide an URL for modules in user mode and none for undefined modules (sections)', () => {
     // render only to get instance
@@ -110,7 +107,6 @@ describe('[Menu] Testing NavigationMenuContainer', () => {
       displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.USER,
       homeConfiguration: anHomeConfiguration,
       navigationConfiguration: aNavigationConfiguration,
-      locale: 'en',
     }
     const enzymeWrapper = shallow(<NavigationMenuContainer {...props} />, { context })
 
@@ -130,7 +126,6 @@ describe('[Menu] Testing NavigationMenuContainer', () => {
       displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW,
       homeConfiguration: anHomeConfiguration,
       navigationConfiguration: aNavigationConfiguration,
-      locale: 'en',
     }
     const enzymeWrapper = shallow(<NavigationMenuContainer {...props} />, { context })
 

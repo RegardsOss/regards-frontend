@@ -29,7 +29,7 @@ import { connect } from '@regardsoss/redux'
 import { HOCUtils, ShowableAtRender } from '@regardsoss/display-control'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
-import { i18nContextType, i18nSelectors, withI18n } from '@regardsoss/i18n'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType, SwitchThemeDecorator } from '@regardsoss/theme'
 import { moduleExpandedStateActions, moduleExpandedStateSelectors } from './clients/ModuleExpandedStateClient'
 import NoContentMessageInfo from '../cards/NoContentMessageInfo'
@@ -74,7 +74,6 @@ export class DynamicModulePane extends React.Component {
       fetching: CommonEndpointClient.endpointSelectors.isFetching(state) || AuthenticationClient.authenticationSelectors.isFetching(state),
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
       isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
-      locale: i18nSelectors.getLocale(state),
     }
   }
 
@@ -131,7 +130,6 @@ export class DynamicModulePane extends React.Component {
     availableDependencies: PropTypes.arrayOf(PropTypes.string), // async use
     // eslint-disable-next-line react/no-unused-prop-types
     isAuthenticated: PropTypes.bool.isRequired, // async use
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // from map dispatch to props
     dispatchSetInitialState: PropTypes.func.isRequired,
     dispatchSetMinimized: PropTypes.func.isRequired,
@@ -257,7 +255,7 @@ export class DynamicModulePane extends React.Component {
 
   render() {
     const {
-      locale, description, page, subtitle, options, onKeyPress,
+      description, page, subtitle, options, onKeyPress,
       type, titleComponent, expandable, presentationState, children,
       dispatchSetMinimized, dispatchSetNormal, dispatchSetMaximized,
     } = this.props
@@ -282,7 +280,6 @@ export class DynamicModulePane extends React.Component {
       >
         <ModuleTitle
           type={type}
-          locale={locale}
           description={description}
           page={page}
           titleComponent={titleComponent}

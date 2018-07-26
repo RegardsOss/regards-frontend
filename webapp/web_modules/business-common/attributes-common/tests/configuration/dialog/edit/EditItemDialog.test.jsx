@@ -60,7 +60,6 @@ describe('[Attributes Common] Testing EditItemDialog', () => {
       },
       onCancel: () => { },
       onConfirm: (resultingValue) => { spiedConfirmValue = resultingValue },
-      locale: 'en',
     }
     const enzymeWrapper = shallow(<EditItemDialog {...props} />, { context })
 
@@ -78,7 +77,6 @@ describe('[Attributes Common] Testing EditItemDialog', () => {
       editionData: props.editionData,
       onCancel: props.onCancel,
       onConfirm: enzymeWrapper.instance().onConfirm,
-      locale: props.locale,
     }, 'Form properties should be correctly reported')
 
     // test commiting an edited item (ignores the elements shape, useless here)
@@ -124,7 +122,6 @@ describe('[Attributes Common] Testing EditItemDialog', () => {
       },
       onCancel: () => { },
       onConfirm: (resultingValue) => { spiedConfirmValue = resultingValue },
-      locale: 'en',
     }
     const enzymeWrapper = shallow(<EditItemDialog {...props} />, { context })
 
@@ -142,7 +139,6 @@ describe('[Attributes Common] Testing EditItemDialog', () => {
       editionData: props.editionData,
       onCancel: props.onCancel,
       onConfirm: enzymeWrapper.instance().onConfirm,
-      locale: props.locale,
     }, 'Form properties should be correctly reported')
 
     // test commiting an edited item (ignores the elements shape, useless here)
@@ -163,7 +159,6 @@ describe('[Attributes Common] Testing EditItemDialog', () => {
       editionData: null,
       onCancel: () => { },
       onConfirm: () => { },
-      locale: 'en',
     }
 
     const enzymeWrapper = shallow(<EditItemDialog {...props} />, { context })

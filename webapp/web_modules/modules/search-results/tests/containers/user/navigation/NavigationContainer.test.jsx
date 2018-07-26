@@ -37,7 +37,6 @@ describe('[Search Results] Testing NavigationContainer', () => {
   })
   it('should render correctly empty with only initial levels (externally driven module case)', () => {
     const props = {
-      locale: 'en',
       displayDatasets: true,
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
       initialLevels: [new Tag(CatalogDomain.TagTypes.WORD, 'x', 'x')],
@@ -57,7 +56,6 @@ describe('[Search Results] Testing NavigationContainer', () => {
   })
   it('should render correctly empty without initial level (standalone module case)', () => {
     const props = {
-      locale: 'fr',
       displayDatasets: true,
       description: 'my desc###@',
       page: { fr: 'patate', en: 'potatoe' },
@@ -70,7 +68,6 @@ describe('[Search Results] Testing NavigationContainer', () => {
     const component = enzymeWrapper.find(NavigationComponent)
     assert.lengthOf(component, 1, 'The corresponding component should be rendered')
     testSuiteHelpers.assertWrapperProperties(component, {
-      locale: props.locale,
       description: props.description,
       page: props.page,
       defaultIconURL: UIDomain.getModuleDefaultIconURL(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS),
@@ -81,7 +78,6 @@ describe('[Search Results] Testing NavigationContainer', () => {
 
   it('should render correctly with initial levels and levels (externally driven and user updated)', () => {
     const props = {
-      locale: 'en',
       displayDatasets: true,
       type: 'any',
       initialLevels: [new Tag(CatalogDomain.TagTypes.WORD, 'x', 'x')],
@@ -92,7 +88,6 @@ describe('[Search Results] Testing NavigationContainer', () => {
     const component = enzymeWrapper.find(NavigationComponent)
     assert.lengthOf(component, 1, 'The corresponding component should be rendered')
     testSuiteHelpers.assertWrapperProperties(component, {
-      locale: props.locale,
       description: props.description,
       page: props.page,
       navigationLevels: props.levels, //asserting there is not the root placeholder
@@ -102,7 +97,6 @@ describe('[Search Results] Testing NavigationContainer', () => {
 
   it('should render correctly without initial levels but with levels (standalone and user updated)', () => {
     const props = {
-      locale: 'fr',
       displayDatasets: true,
       type: 'any',
       initialLevels: [],
@@ -113,7 +107,6 @@ describe('[Search Results] Testing NavigationContainer', () => {
     const component = enzymeWrapper.find(NavigationComponent)
     assert.lengthOf(component, 1, 'The corresponding component should be rendered')
     testSuiteHelpers.assertWrapperProperties(component, {
-      locale: props.locale,
       description: props.description,
       page: props.page,
       // there should be root placeholder

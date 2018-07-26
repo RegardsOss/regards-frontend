@@ -53,9 +53,10 @@ describe('[Search Results] Testing ListSortingComponent', () => {
     const props = {
       sortingModel: models[1], // model '2'
       sortableModels: models,
-      locale: 'en',
       onSortBy: () => { },
     }
+    const savedLocale = context.intl.locale
+    context.intl.locale = 'en'
     const renderWrapper = shallow(<ListSortingComponent {...props} />, { context })
     // 1 - check selected value
     const button = renderWrapper.find(DropDownButton)
@@ -68,15 +69,18 @@ describe('[Search Results] Testing ListSortingComponent', () => {
     const selectedMenuItem = renderWrapper.findWhere(n => n.props().checked)
     assert.lengthOf(selectedMenuItem, 1, 'There must be one and only one selected menu item')
     assert.equal(selectedMenuItem.props().primaryText, 'enL2', 'The model menu item L2 should be selected and correctly internationalized')
+
+    context.intl.locale = savedLocale
   })
 
   it('Should render available models without selection and default model, showing NONE menu item', () => {
     const props = {
       // sortingModel: no selection
       sortableModels: models,
-      locale: 'fr',
       onSortBy: () => { },
     }
+    const savedLocale = context.intl.locale
+    context.intl.locale = 'fr'
     const renderWrapper = shallow(<ListSortingComponent {...props} />, { context })
     // 1 - check selected value
     const button = renderWrapper.find(DropDownButton)
@@ -89,6 +93,7 @@ describe('[Search Results] Testing ListSortingComponent', () => {
     const selectedMenuItem = renderWrapper.findWhere(n => n.props().checked)
     assert.lengthOf(selectedMenuItem, 1, 'There must be one and only one selected menu item')
     assert.include(selectedMenuItem.props().primaryText, 'list.sort.none.label', 'The no data option should be selected')
+    context.intl.locale = savedLocale
   })
   it('Should render available models, selecting default model and hiding NONE menu item when it is available', () => {
     // make first model the default sorting one
@@ -98,13 +103,14 @@ describe('[Search Results] Testing ListSortingComponent', () => {
     }
     const props = {
       defaultSortingModel,
-      locale: 'fr',
       sortableModels: [
         defaultSortingModel,
         ...models.slice(1),
       ],
       onSortBy: () => { },
     }
+    const savedLocale = context.intl.locale
+    context.intl.locale = 'fr'
     const renderWrapper = shallow(<ListSortingComponent {...props} />, { context })
     // 1 - check selected value
     const button = renderWrapper.find(DropDownButton)
@@ -117,5 +123,6 @@ describe('[Search Results] Testing ListSortingComponent', () => {
     const selectedMenuItem = renderWrapper.findWhere(n => n.props().checked)
     assert.lengthOf(selectedMenuItem, 1, 'There must be one and only one selected menu item')
     assert.include(selectedMenuItem.props().primaryText, 'frL1', 'The default sorting model must be selected and correctly internationalized')
+    context.intl.locale = savedLocale
   })
 })

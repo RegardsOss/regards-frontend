@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { UIDomain } from '@regardsoss/domain'
 import { Measure } from '@regardsoss/adapters'
 import { themeContextType } from '@regardsoss/theme'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../../domain/NavigationItemTypes'
@@ -32,7 +31,6 @@ class MainBarNavigationItem extends React.Component {
   static propTypes = {
     item: NavigationItem.isRequired,
     displayed: PropTypes.bool.isRequired,
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     buildLinkURL: PropTypes.func.isRequired,
     onItemResized: PropTypes.func.isRequired,
   }
@@ -54,7 +52,7 @@ class MainBarNavigationItem extends React.Component {
 
   render() {
     const {
-      item, displayed, buildLinkURL, locale,
+      item, displayed, buildLinkURL,
     } = this.props
     const { moduleTheme: { user: { navigationItem } } } = this.context
     return (
@@ -70,13 +68,11 @@ class MainBarNavigationItem extends React.Component {
               item.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE ? (
                 <MainBarModuleLink
                   item={item}
-                  locale={locale}
                   buildLinkURL={buildLinkURL}
 
                 />) : (
                   <MainBarSectionButton
                     item={item}
-                    locale={locale}
                     buildLinkURL={buildLinkURL}
                   />)
             }

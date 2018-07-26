@@ -40,7 +40,6 @@ describe('[Search Results] Testing NavigationComponent', () => {
       new Tag(TagTypes.DATASET, 'styles:patatoes', 'styles:patatoes'),
     ]
     const props = {
-      locale: 'fr',
       navigationLevels: levels,
       defaultIconURL: 'any',
       onLevelSelected: () => { },
@@ -59,15 +58,23 @@ describe('[Search Results] Testing NavigationComponent', () => {
     const props = {
       description: 'aaa',
       page: { title: { en: 'test-en', fr: 'test-fr' } },
-      locale: 'en',
       navigationLevels: levels,
       defaultIconURL: 'any',
       onLevelSelected: () => { },
     }
+    // test en render
+    const savedLocale = context.intl.locale
+    context.intl.locale = 'en'
     const enzymeWrapper = shallow(<NavigationComponent {...props} />, { context })
     const breadcrumb = enzymeWrapper.find(Breadcrumb)
     assert.lengthOf(breadcrumb, 1, 'There should be a breadcrumb component')
     assert.deepEqual(breadcrumb.props().elements, props.navigationLevels, 'breacrumb elements should be the defined navigation levels')
-    assert.equal(enzymeWrapper.instance().getLevelLabel(levels[0], 0), 'test-en', 'root label should come from module configuration')
+    assert.equal(enzymeWrapper.instance().getLevelLabel(levels[0], 0), 'test-en', 'root label should come from module configuration (EN)')
+    // test fr render
+    context.intl.locale = 'fr'
+    const enzymeWrapper2 = shallow(<NavigationComponent {...props} />, { context })
+    assert.equal(enzymeWrapper2.instance().getLevelLabel(levels[0], 0), 'test-fr', 'root label should come from module configuration (FR)')
+
+    context.intl.locale = savedLocale
   })
 })

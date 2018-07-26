@@ -40,7 +40,6 @@ describe('[Menu] Testing MainBarMoreNavigationButton', () => {
     const props = {
       displayed: true,
       items: fullConvertedNavigationModel, // all items
-      locale: 'en',
       buildLinkURL: () => { },
       onResized: () => { },
     }
@@ -50,7 +49,6 @@ describe('[Menu] Testing MainBarMoreNavigationButton', () => {
     const props = {
       displayed: true,
       items: fullConvertedNavigationModel, // all items
-      locale: 'en',
       buildLinkURL: () => { },
       onResized: () => { },
     }
@@ -61,7 +59,6 @@ describe('[Menu] Testing MainBarMoreNavigationButton', () => {
     const props = {
       displayed: true,
       items: [],
-      locale: 'en',
       buildLinkURL: () => { },
       onResized: () => { },
     }
@@ -73,7 +70,6 @@ describe('[Menu] Testing MainBarMoreNavigationButton', () => {
     const props = {
       displayed: true,
       items: fullConvertedNavigationModel, // all items
-      locale: 'en',
       buildLinkURL: () => { },
       onResized: (width) => { spiedResizeWidth = width },
     }
@@ -82,12 +78,11 @@ describe('[Menu] Testing MainBarMoreNavigationButton', () => {
     enzymeWrapper.instance().onComponentResized({ measureDiv: { width: 2555 } })
     assert.equal(spiedResizeWidth, 2555, 'Parent resize callback should have been invoked with right parameters')
   })
-  it('should blovk call parent calls on resize', () => {
+  it('should precent parent calls on resize', () => {
     let spiedResizeWidth = null
     const props = {
       displayed: false,
       items: fullConvertedNavigationModel, // all items
-      locale: 'en',
       buildLinkURL: () => { },
       onResized: (width) => { spiedResizeWidth = width },
     }

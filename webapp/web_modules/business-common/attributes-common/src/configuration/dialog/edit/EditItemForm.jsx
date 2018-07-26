@@ -49,7 +49,6 @@ export class EditItemForm extends React.Component {
       attributesList: AccessShapes.AttributeListConfigurationModel.isRequired,
       editedElementIndex: PropTypes.number.isRequired,
     }),
-    locale: PropTypes.string.isRequired,
     onConfirm: PropTypes.func.isRequired, // (item: {*}, order: number) => ()
     onCancel: PropTypes.func.isRequired,
     // from redux form
@@ -211,10 +210,10 @@ export class EditItemForm extends React.Component {
   render() {
     const {
       allowLabel, allowAttributesRegroupements, attributeModels,
-      editionData: { attributesList, editedElementIndex }, locale,
+      editionData: { attributesList, editedElementIndex },
       pristine, invalid, submitting, onCancel, handleSubmit,
     } = this.props
-    const { intl: { formatMessage }, moduleTheme: { configuration: { editDialog } } } = this.context
+    const { intl: { formatMessage, locale }, moduleTheme: { configuration: { editDialog } } } = this.context
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit)} style={editDialog.formStyle}>
