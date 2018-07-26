@@ -16,27 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AccessShapes from './rs-access/index'
-import AdminShapes from './rs-admin/index'
-import AdminInstanceShapes from './rs-admin-instance/index'
-import StorageShapes from './rs-storage/index'
-import CommonShapes from './rs-common/index'
-import CatalogShapes from './rs-catalog/index'
-import DataManagementShapes from './rs-dam/index'
-import DataProviderShapes from './rs-data-provider/index'
-import IngestShapes from './rs-ingest/index'
-import OrderShapes from './rs-order/index'
+import * as AccessSh from './rs-access/index'
+import * as AdminSh from './rs-admin/index'
+import * as AdminInstanceSh from './rs-admin-instance/index'
+import * as StorageSh from './rs-storage/index'
+import * as CommonSh from './rs-common/index'
+import * as CatalogSh from './rs-catalog/index'
+import * as DataManagementSh from './rs-dam/index'
+import * as DataProviderSh from './rs-data-provider/index'
+import * as IngestSh from './rs-ingest/index'
+import * as OrderSh from './rs-order/index'
 
-module.exports = {
-  AccessShapes,
-  AdminShapes,
-  AdminInstanceShapes,
-  StorageShapes,
-  CatalogShapes,
-  CommonShapes,
-  DataManagementShapes,
-  DataProviderShapes,
-  IngestShapes,
-  OrderShapes,
-}
 
+export const AccessShapes = AccessSh
+export const AdminShapes = AdminSh
+export const AdminInstanceShapes = AdminInstanceSh
+export const StorageShapes = StorageSh
+export const CatalogShapes = CatalogSh
+export const CommonShapes = CommonSh
+export const DataManagementShapes = DataManagementSh
+export const DataProviderShapes = DataProviderSh
+export const IngestShapes = IngestSh
+export const OrderShapes = OrderSh

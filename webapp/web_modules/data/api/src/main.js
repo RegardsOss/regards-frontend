@@ -52,6 +52,9 @@ import Collection from './dam/Collection'
 import Connection from './dam/Connection'
 import ModelAttributeComputationTypes from './dam/ModelAttributeComputationTypes'
 import AIPStatus from './storage/AIPStatus'
+import AipSession from './storage/AIPSession'
+import Aip from './storage/AIP'
+import AIPFile from './storage/AIPFile'
 import Endpoint from './admin/Endpoint'
 import LinkPluginDataset from './catalog/LinkPluginDataset'
 import SearchEngineConfiguration from './catalog/SearchEngineConfiguration'
@@ -99,6 +102,9 @@ module.exports = {
   ...PrioritizedDataStorage,
   ...StorageMonitoring,
   ...AIPStatus,
+  ...Aip,
+  ...AipSession,
+  ...AIPFile,
 
   // Catalog
   ...Entity,

@@ -2,9 +2,10 @@
   "name": "@regardsoss/microservice-plugin-configurator",
   "version": "1.0.0",
   "private": true,
+  "sideEffects": false,
   "description": "Common tool to configure a REGARDS backend microservice plugin",
   "main": "src/main.js",
-  "author":"CNES (https://cnes.fr)",
+  "author": "CNES (https://cnes.fr)",
   "contributors": [
     "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
   ],

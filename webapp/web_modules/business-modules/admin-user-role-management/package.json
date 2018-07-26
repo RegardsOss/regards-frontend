@@ -2,9 +2,10 @@
   "name": "@regardsoss/admin-user-role-management",
   "version": "0.0.1",
   "private": true,
+  "sideEffects": false,
   "description": "",
   "main": "src/main.js",
-  "author":"CNES (https://cnes.fr)",
+  "author": "CNES (https://cnes.fr)",
   "contributors": [
     "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
   ],

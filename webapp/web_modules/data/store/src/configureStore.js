@@ -20,7 +20,6 @@ import concat from 'lodash/concat'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
-import isFunction from 'lodash/isFunction'
 import root from 'window-or-global'
 import headersMiddleware from './headersMiddleware'
 import formatURLMiddleware from './formatURLMiddleware'
@@ -34,11 +33,6 @@ import SessionLockedMiddleware from './SessionLockedMiddleware'
 const { apiMiddleware } = require('redux-api-middleware')
 
 function configureStore(rootReducer) {
-  // Pass an options object for specific configuration
-  const logger = createLogger({
-    level: 'log',
-  })
-
   const reducerRegistry = getReducerRegistry(rootReducer)
 
   // Define the used middlewares (order matters)
@@ -52,23 +46,28 @@ function configureStore(rootReducer) {
   ]
 
   if (process.env.NODE_ENV === 'development') {
+    // Pass an options object for specific configuration
+    const logger = createLogger({
+      level: 'log',
+      // Do not log these actions
+      predicate: (getState, action) =>
+        !action.type.match(/menu\/notification/) &&
+        !action.type.match(/@@redux-form\/REGISTER_FIELD/) &&
+        !action.type.match(/admin\/waiting-access-users/) &&
+        !action.type.match(/common\/themes\//),
+    })
     // Logger must be the last middleware in chain, otherwise it will log thunk and promise, not actual actions]
     middlewares = concat([], middlewares, [logger])
   }
 
-  // Enable redux dev tools
-  // eslint-disable-next-line no-underscore-dangle
-  const composeEnhancers = root.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && isFunction(root.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ? root.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-    // Specify redux dev tools options
-    // maxAge: 80,
-  }) : compose
 
   // Create the application store
   const store = createStore(
     configureReducers(reducerRegistry.getReducers()),
     preloadedState,
-    composeEnhancers(
+    compose(
       applyMiddleware(...middlewares),
+      root.devToolsExtension ? root.devToolsExtension() : f => f, // Enable redux dev tools
     ),
   )
 

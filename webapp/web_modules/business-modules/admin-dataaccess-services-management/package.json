@@ -2,6 +2,7 @@
   "name": "@regardsoss/admin-dataaccess-services-management",
   "version": "0.0.1",
   "private": true,
+  "sideEffects": false,
   "description": "",
   "main": "src/main.js",
   "author": "CNES (https://cnes.fr)",
