@@ -15,26 +15,21 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+import { AdminClient } from '@regardsoss/client'
+
+/**
+ * Client to request role resources.
+ * @author Raphaël Mechali
  */
-import { shallow } from 'enzyme'
-import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import LoginButton from '../../../src/components/user/LoginButton'
-import styles from '../../../src/styles/styles'
+const namespace = 'ADMIN/MENU/ROLE'
+const roleActions = new AdminClient.RoleActions(namespace)
+const roleReducer = AdminClient.getRoleReducer(namespace)
+const roleSelectors = AdminClient.getRoleSelectors(['modules.menu', 'role'])
 
-const context = buildTestContext(styles)
+module.exports = {
+  roleActions,
+  roleReducer,
+  roleSelectors,
+}
 
-describe('[Menu] Testing LoginButton', () => {
-  before(testSuiteHelpers.before)
-  after(testSuiteHelpers.after)
-
-  it('should exists', () => {
-    assert.isDefined(LoginButton)
-  })
-  it('should render properly', () => {
-    const props = {
-      onLoginAction: () => { },
-    }
-    shallow(<LoginButton {...props} />, { context })
-  })
-})

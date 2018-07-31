@@ -18,6 +18,7 @@
  **/
 import { UIDomain } from '@regardsoss/domain'
 import { AccessProjectClient } from '@regardsoss/client'
+import { AdminShapes } from '@regardsoss/shape'
 import { adminLayoutSelectors } from '../../../clients/LayoutListClient'
 import { adminModuleSelectors } from '../../../clients/ModulesListClient'
 import { HomeConfigurationShape, NavigationEditionItem } from '../../../shapes/ModuleConfiguration'
@@ -41,6 +42,8 @@ export class NavigationMenuContainer extends React.Component {
     displayMode: PropTypes.oneOf(UIDomain.MENU_DISPLAY_MODES),
     homeConfiguration: HomeConfigurationShape,
     navigationConfiguration: PropTypes.arrayOf(NavigationEditionItem),
+    currentRole: PropTypes.string,
+    roleList: AdminShapes.RoleList.isRequired,
   }
 
   /**
@@ -60,7 +63,8 @@ export class NavigationMenuContainer extends React.Component {
 
   render() {
     const {
-      homeConfiguration, navigationConfiguration, displayMode, currentModuleId,
+      homeConfiguration, navigationConfiguration, displayMode,
+      currentModuleId, currentRole, roleList,
     } = this.props
     return (
       // resolve modules: note that, when in admin, we use specific admin selectors to access this module loaded data
@@ -75,6 +79,8 @@ export class NavigationMenuContainer extends React.Component {
           homeConfiguration={homeConfiguration}
           navigationConfiguration={navigationConfiguration}
           currentModuleId={currentModuleId}
+          currentRole={currentRole}
+          roleList={roleList}
         >
           {/* main navigation view component */}
           <NavigationLayoutComponent buildLinkURL={this.buildLinkURL} />

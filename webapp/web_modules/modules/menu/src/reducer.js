@@ -24,12 +24,14 @@ import { readNotificationReducer, readNotificationInstanceReducer } from './clie
 import { notificationSettingsReducer } from './clients/NotificationSettingsClient'
 import { adminLayoutReducer } from './clients/LayoutListClient'
 import { adminModuleReducer } from './clients/ModulesListClient'
+import { roleReducer } from './clients/RoleClient'
 import profileDialogReducer from './model/ProfileDialogReducer'
 
 module.exports = {
   // admin reducers
   adminLayout: adminLayoutReducer,
   adminModule: adminModuleReducer,
+  role: roleReducer,
   // user reducers
   borrowRole: borrowRoleReducer,
   borrowableRoles: borrowableRolesReducer,

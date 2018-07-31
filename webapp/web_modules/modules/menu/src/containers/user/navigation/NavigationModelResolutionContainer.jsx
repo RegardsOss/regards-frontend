@@ -19,10 +19,11 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { AccessDomain } from '@regardsoss/domain'
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, AdminShapes } from '@regardsoss/shape'
 import { HOCUtils } from '@regardsoss/display-control'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../domain/NavigationItemTypes'
 import { HOME_ICON_TYPES_ENUM } from '../../../domain/HomeIconType'
+import { VISIBILITY_MODES_ENUM } from '../../../domain/VisibilityModes'
 import { HomeConfigurationShape, NavigationEditionItem } from '../../../shapes/ModuleConfiguration'
 import homeSVGPublicURL from '../../../img/home.svg' // consume home svg icon to let webpack bundle it
 
@@ -38,6 +39,63 @@ const EMPTY_PAGE = {
  * @author Raphaël Mechali
  */
 export class NavigationModelResolutionContainer extends React.Component {
+  /** Standard public role */
+  static PUBLIC_ROLE = 'PUBLIC'
+  /** Standard instance admin role (has rights to all modules) */
+  static INSTANCE_ADMIN = 'INSTANCE_ADMIN'
+  /** Standard project admin role (has rights to all modules) */
+  static PROJECT_ADMIN = 'PROJECT_ADMIN'
+
+  /**
+   * Checks if role name stands for role or one of its parents
+   * @param {string} roleName role name
+   * @param {*} role
+   */
+  static isRoleOrParent(roleName, role) {
+    if (!role) {
+      // beak case: searched role is not part of that role hierarchy
+      return false
+    }
+    return roleName === role.name || NavigationModelResolutionContainer.isRoleOrParent(roleName, role.parentRole)
+  }
+
+  /**
+   * Computes if requested role is allowed for current role
+   * @param {requestedRole}
+   * @param {*} role current role from borrowable roles list, not provided when user isn't logged. Shape: Role.content
+   * @param {boolean} true if role is above or is requested role itself
+   */
+  static hasRequestedRole(requestedRole = NavigationModelResolutionContainer.PUBLIC_ROLE, role = {}) {
+    return (
+      // A - Is requested role public?
+      requestedRole === NavigationModelResolutionContainer.PUBLIC_ROLE) ||
+      // B - Is current role the requested role or above
+      NavigationModelResolutionContainer.isRoleOrParent(requestedRole, role) ||
+      // C - Is it instance admin virtual role? (always allowed)
+      role.name === NavigationModelResolutionContainer.INSTANCE_ADMIN ||
+      // D - Is it project admin or one of its children roles? (always allowed)
+      NavigationModelResolutionContainer.isRoleOrParent(NavigationModelResolutionContainer.PROJECT_ADMIN, role)
+  }
+
+  /**
+   * Is navigation item as parameter available for current role
+   * @param {*} item item
+   * @param {*} role current role from borrowable roles list, not provided when user isn't logged. Shape: Role.content
+   */
+  static isNavigationItemAvailable(item, role) {
+    switch (item.visibilityMode) {
+      case VISIBILITY_MODES_ENUM.ALWAYS:
+        return true
+      case VISIBILITY_MODES_ENUM.NEVER:
+        return false
+      case VISIBILITY_MODES_ENUM.FOR_ROLE:
+        return NavigationModelResolutionContainer.hasRequestedRole(item.visibleForRole, role)
+      default:
+        throw new Error(`Unknown visibility mode ${item.visibilityMode}`)
+    }
+  }
+
+
   /**
    * Converts a module edited item and into corresponding runtime navigation item using both model and home configuration
    * @param {Module} dynamicModule found dynamic module (with content) as model for this runtime item, null if not found
@@ -102,18 +160,21 @@ export class NavigationModelResolutionContainer extends React.Component {
    * Converts a section edited item and into corresponding runtime navigation item, or null if it shouldn't be displayed (no child)
    * @param {EditionSection} navigationSectionItem section as edited by module administrator
    * @param {[NavigationItem]} children children
+   * @param {string} role current role (null when user is not logged)
+   * @param {RoleList} borrowableRoles user borrowable roles (to retrieve current one)
    * @return {SectionNavigationItem} built section or null
    */
-  static convertSection(navigationSectionItem, children) {
-    return children.length ? {
-      key: `section.${navigationSectionItem.id}`,
-      type: navigationSectionItem.type,
-      title: navigationSectionItem.title,
-      iconType: navigationSectionItem.icon.type,
-      customIconURL: navigationSectionItem.icon.url,
-      selected: false,
-      children,
-    } : null
+  static convertSection(navigationSectionItem, children, role, borrowableRoles) {
+    return children.length &&
+      NavigationModelResolutionContainer.isNavigationItemAvailable(navigationSectionItem, role) ? {
+        key: `section.${navigationSectionItem.id}`,
+        type: navigationSectionItem.type,
+        title: navigationSectionItem.title,
+        iconType: navigationSectionItem.icon.type,
+        customIconURL: navigationSectionItem.icon.url,
+        selected: false,
+        children,
+      } : null
   }
 
   /**
@@ -121,21 +182,30 @@ export class NavigationModelResolutionContainer extends React.Component {
    * @param {EditionModule} navigationModuleItem  navigation module item as edited by the user
    * @param {ModuleArray} dynamicModules current dynamic modules in application
    * @param {HomeConfigurationShape} homeConfiguration home configuration, respects the HomeConfigurationShape
+   * @param {*} role current role from borrowable roles list, not provided when user isn't logged. Shape: Role.content
    * @return {remainingDynamicModules: ModuleArray, navigationItem:{ModuleNavigationItem}, isHome:{boolean}}:
    * - remainingDynamicModules: list of dynamic modules without this one if it was found.
    * - navigationItem: ModuleNavigationItem built for runtime display (null if not active)
    * - isHome: true if this module is home
    */
-  static resolveModule(navigationModuleItem, dynamicModules, homeConfiguration) {
-    // retrieve module, add conversion fields when found
+  static resolveModule(navigationModuleItem, dynamicModules, homeConfiguration, role) {
+    // retrieve module, add conversion fields when found (if forbidden, still consume the dynamic module
+    // from list as the remaining modules list will be considered PUBLIC)
     return dynamicModules.reduce(
-      ({ remainingDynamicModules, isHome, navigationItem }, currentDynamicModule) =>
-        currentDynamicModule.content.id === navigationModuleItem.id ?
-          // we found the model, convert it
-          { remainingDynamicModules, ...this.convertModule(currentDynamicModule, homeConfiguration) } :
-          // not the right model, keep it in remaining modules
-          { remainingDynamicModules: [...remainingDynamicModules, currentDynamicModule], isHome, navigationItem }
-      , { remainingDynamicModules: [], isHome: false, navigationItem: null })
+      ({ remainingDynamicModules, isHome, navigationItem }, currentDynamicModule) => {
+        if (currentDynamicModule.content.id === navigationModuleItem.id) {
+          // we found the model, convert it if it is allowed for current user role
+          const isAllowedItem = NavigationModelResolutionContainer.isNavigationItemAvailable(navigationModuleItem, role)
+          // note: to get a 'no module info', when forbidden, we simply provide no dynamic module to converter
+          return {
+            remainingDynamicModules,
+            // append all converted fields
+            ...this.convertModule(isAllowedItem ? currentDynamicModule : null, homeConfiguration),
+          }
+        }
+        // not the right model, keep it in remaining modules
+        return { remainingDynamicModules: [...remainingDynamicModules, currentDynamicModule], isHome, navigationItem }
+      }, { remainingDynamicModules: [], isHome: false, navigationItem: null })
   }
 
   /**
@@ -144,17 +214,18 @@ export class NavigationModelResolutionContainer extends React.Component {
    * @param {[NavigationEditionItem]} editedItems items array as edited by module administrator
    * @param {ModuleArray} dynamicModules current dynamic modules in application
    * @param {HomeConfigurationShape} homeConfiguration home configuration, respects the HomeConfigurationShape
+   * @param {*} role current role from borrowable roles list, not provided when user isn't logged. Shape: Role.content
    * @return {remainingDynamicModules: ModuleArray, items: [NavigationItem], homeItem: {ModuleNavigationItem}} :
    * - remainingDynamicModules: list of dynamic modules without this children modules
    * - items: items that should be displayed
    * - homeItem: ModuleNavigationItem built for home item if it was found in this section or in its children
    */
-  static resolveItems(editedItems, dynamicModules, homeConfiguration) {
+  static resolveItems(editedItems, dynamicModules, homeConfiguration, role) {
     return editedItems.reduce(({ remainingDynamicModules, items, homeItem }, item) => {
       if (item.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE) {
         // recursive break case
         const { remainingDynamicModules: moduleRDM, navigationItem, isHome } =
-          NavigationModelResolutionContainer.resolveModule(item, remainingDynamicModules, homeConfiguration)
+          NavigationModelResolutionContainer.resolveModule(item, remainingDynamicModules, homeConfiguration, role)
         const isChild = !!navigationItem && !isHome
         return {
           remainingDynamicModules: moduleRDM,
@@ -164,8 +235,8 @@ export class NavigationModelResolutionContainer extends React.Component {
       }
       // section (recursively loop)
       const { remainingDynamicModules: sectionRDM, items: sectionItems, homeItem: sectionHomeItem } =
-        NavigationModelResolutionContainer.resolveItems(item.children, remainingDynamicModules, homeConfiguration)
-      const sectionItem = NavigationModelResolutionContainer.convertSection(item, sectionItems)
+        NavigationModelResolutionContainer.resolveItems(item.children, remainingDynamicModules, homeConfiguration, role)
+      const sectionItem = NavigationModelResolutionContainer.convertSection(item, sectionItems, role)
       return {
         remainingDynamicModules: sectionRDM,
         items: sectionItem ? [...items, sectionItem] : items, // preserve children order
@@ -179,12 +250,13 @@ export class NavigationModelResolutionContainer extends React.Component {
    * @param {[NavigationEditionItem]} navigationConfiguration list of configured navigation edition items
    * @param {ModuleArray} dynamicModules current dynamic modules in application
    * @param {HomeConfigurationShape} homeConfiguration home configuration, respects the HomeConfigurationShape
+   * @param {*} role current role from borrowable roles list, not provided when user isn't logged. Shape: Role.content
    * @return {[NavigationItem]} navigation items to display
    */
-  static resolveNavigationModel(navigationConfiguration, dynamicModules, homeConfiguration) {
+  static resolveNavigationModel(navigationConfiguration, dynamicModules, homeConfiguration, role) {
     // 1 - resolve modules that can be retrieved
     const { remainingDynamicModules, items = [], homeItem } =
-      NavigationModelResolutionContainer.resolveItems(navigationConfiguration, dynamicModules, homeConfiguration)
+      NavigationModelResolutionContainer.resolveItems(navigationConfiguration, dynamicModules, homeConfiguration, role)
     const resultingNavigationItems = []
     if (homeItem) {
       resultingNavigationItems.push(homeItem)
@@ -194,6 +266,7 @@ export class NavigationModelResolutionContainer extends React.Component {
     // 2 - also create navigation elements for modules that was not defined last time administrator edited the menu configuration
     return remainingDynamicModules.reduce((navigationItems, module) => {
       // the home may have changed, and be undefined in items list. Therefore we also check here if we find it
+      // Note: when working with undefined modules, we consider visibility mode as being ALWAYS (no check performed)
       const { navigationItem, isHome } = NavigationModelResolutionContainer.convertModule(module, homeConfiguration)
       if (navigationItem) {
         // append at end, except if the found dynamic module is home
@@ -236,6 +309,12 @@ export class NavigationModelResolutionContainer extends React.Component {
     navigationConfiguration: PropTypes.arrayOf(NavigationEditionItem), // used only in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
     dynamicModules: PropTypes.arrayOf(AccessShapes.Module), // used only in onPropertiesUpdated
+    // eslint-disable-next-line react/no-unused-prop-types
+    roleList: AdminShapes.RoleList.isRequired,
+    // from mapStateToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    role: PropTypes.string,
+
   }
 
   static defaultProps = {
@@ -267,36 +346,45 @@ export class NavigationModelResolutionContainer extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     // Algorithm: if the navigation model changed (including selection state), reclone the children with new model
-    // Note: selection state is handled separately as tree resolution is a long operation (we avoid to perform it
-    // too many times)
+    // Note: selection state and children change are handled separately as tree resolution is a long operation
     let navigationElements = null
-    // 1 - detect children or modules list changes
-    if (!isEqual(oldProps.dynamicModules, newProps.dynamicModules) ||
-      !isEqual(oldProps.homeConfiguration, newProps.homeConfiguration) ||
-      !isEqual(oldProps.navigationConfiguration, newProps.navigationConfiguration) ||
-      oldProps.children !== newProps.children) {
+    // 1 - detect modules list, configuration or current user role change to update navigation items list
+    const {
+      dynamicModules, homeConfiguration, navigationConfiguration,
+      currentRole, roleList, currentModuleId, children,
+    } = newProps
+    if (!isEqual(oldProps.dynamicModules, dynamicModules) ||
+      !isEqual(oldProps.homeConfiguration, homeConfiguration) ||
+      !isEqual(oldProps.navigationConfiguration, navigationConfiguration) ||
+      !isEqual(oldProps.currentRole, currentRole) ||
+      !isEqual(oldProps.roleList, roleList)) {
       // 2 - convert modules and configuration into a navigation model
-      const { dynamicModules, homeConfiguration, navigationConfiguration } = newProps
+      const roleData = get(roleList, `${currentRole}.content`)
       navigationElements =
-        NavigationModelResolutionContainer.resolveNavigationModel(navigationConfiguration, dynamicModules, homeConfiguration)
+        NavigationModelResolutionContainer.resolveNavigationModel(navigationConfiguration, dynamicModules, homeConfiguration, roleData)
     }
     // 2 - detect selection changes or navigation tree changes to update selection in tree (note: navigation
     // elements is only set here when point 1 was previously executed)
-    if (!isEqual(oldProps.currentModuleId, newProps.currentModuleId) || navigationElements) {
+    if (!isEqual(oldProps.currentModuleId, currentModuleId) || navigationElements) {
       // considered tree model: built at point 1 or previously built
       const currentNavigationElements = navigationElements || this.state.navigationElements
-      navigationElements = NavigationModelResolutionContainer.updateSelection(currentNavigationElements, newProps.currentModuleId)
+      navigationElements = NavigationModelResolutionContainer.updateSelection(currentNavigationElements, currentModuleId)
     }
 
-    // 3 - When navigation tree changed, store in state children with navigation elements as property
+    // 3 - just for updating purposes: when children list changes, mimic a navigation tree update
+    // note: it is not required when navigation elements were already updated
+    if (oldProps.children !== children && !navigationElements) {
+      navigationElements = this.state.navigationElements
+    }
+
+    // 4 - When navigation tree changed (or children changed, see previous step), update children and state
     if (navigationElements) {
       this.setState({
         navigationElements,
-        children: HOCUtils.cloneChildrenWith(newProps.children, { navigationElements }),
+        children: HOCUtils.cloneChildrenWith(children, { navigationElements }),
       })
     }
   }
-
 
   render() {
     const { children } = this.state

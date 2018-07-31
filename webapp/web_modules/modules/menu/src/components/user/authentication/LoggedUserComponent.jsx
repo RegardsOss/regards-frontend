@@ -31,7 +31,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { AdminShapes } from '@regardsoss/shape'
 
-import ProfileEditionContainer from '../../containers/user/profile/ProfileEditionContainer'
+import ProfileEditionContainer from '../../../containers/user/profile/ProfileEditionContainer'
 
 
 /**

@@ -19,28 +19,41 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import LoggedUserComponent from '../../../src/components/user/LoggedUserComponent'
-import styles from '../../../src/styles/styles'
+import { AuthenticationMenuContainer } from '../../../../src/containers/user/authentication/AuthenticationMenuContainer'
+import styles from '../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Menu] Testing LoggedUserComponent', () => {
-  before(testSuiteHelpers.before)
-  after(testSuiteHelpers.after)
+const router = require('react-router')
+
+describe('[Menu] Testing AuthenticationMenuContainer', () => {
+  before(() => {
+    // mocking router browser history
+    router.browserHistory = {
+      getCurrentLocation: () => ({ query: {} }),
+    }
+    testSuiteHelpers.before()
+  })
+  after(() => {
+    delete router.browserHistory
+    testSuiteHelpers.after()
+  })
 
   it('should exists', () => {
-    assert.isDefined(LoggedUserComponent)
+    assert.isDefined(AuthenticationMenuContainer)
   })
   it('should render properly', () => {
-    const props = {
-      name: 'Oui-oui',
-      currentRole: 'Universe administrator',
-      borrowableRoles: {},
-      onBorrowRole: () => { },
-      onLogout: () => { },
-      showProfileEdition: true,
-      onShowProfileEdition: () => { },
-    }
-    shallow(<LoggedUserComponent {...props} />, { context })
+    shallow(<AuthenticationMenuContainer
+      project="any"
+      appName="any"
+      isAuthenticated={false}
+      toggleAuthenticationDialogOpen={() => { }}
+    />, { context })
+    shallow(<AuthenticationMenuContainer
+      project="any"
+      appName="any"
+      isAuthenticated
+      toggleAuthenticationDialogOpen={() => { }}
+    />, { context })
   })
 })

@@ -21,10 +21,10 @@ import { themeContextType } from '@regardsoss/theme'
 import { SelectLocaleContainer } from '@regardsoss/i18n-ui'
 import { SelectThemeContainer } from '@regardsoss/theme-ui'
 import { UIDomain } from '@regardsoss/domain'
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, AdminShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/components'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
-import AuthenticationMenuContainer from '../../containers/user/AuthenticationMenuContainer'
+import AuthenticationContainer from '../../containers/user/authentication/AuthenticationContainer'
 import NotificationListContainer from '../../containers/user/NotificationListContainer'
 import CartSelectorContainer from '../../containers/user/CartSelectorContainer'
 import ProjectAboutPageLinkContainer from '../../containers/user/ProjectAboutPageLinkContainer'
@@ -39,8 +39,13 @@ import MenuSeparator from './MenuSeparator'
 */
 class MainMenuComponent extends React.Component {
   static propTypes = {
-    // provided by root container
     currentModuleId: PropTypes.number,
+    authenticationName: PropTypes.string,
+    currentRole: PropTypes.string,
+    borrowableRoles: AdminShapes.RoleList.isRequired,
+    roleList: AdminShapes.RoleList.isRequired,
+    isInstance: PropTypes.bool.isRequired,
+
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
     // redefines expected configuration shape
@@ -58,6 +63,11 @@ class MainMenuComponent extends React.Component {
       appName,
       project,
       currentModuleId,
+      authenticationName,
+      currentRole,
+      borrowableRoles,
+      roleList,
+      isInstance,
       moduleConf: {
         displayMode = UIDomain.MENU_DISPLAY_MODES_ENUM.USER, // defaults to user display for standard module case
         displayAuthentication,
@@ -83,7 +93,9 @@ class MainMenuComponent extends React.Component {
                 displayMode={displayMode}
                 currentModuleId={currentModuleId}
                 project={project}
-                homeConfiguration={home}
+                currentRole={currentRole}
+                roleList={roleList}
+                hiomeConfiguration={home}
                 navigationConfiguration={navigation}
               />,
               <MenuSeparator key="separator.after" />]
@@ -97,7 +109,16 @@ class MainMenuComponent extends React.Component {
         {/* Right options */}
         <div style={optionsGroup}>
           {/* Authentication access, state and options */}
-          <AuthenticationMenuContainer display={displayAuthentication} appName={appName} project={project} />
+          <ShowableAtRender show={displayAuthentication}>
+            <AuthenticationContainer
+              appName={appName}
+              project={project}
+              authenticationName={authenticationName}
+              currentRole={currentRole}
+              borrowableRoles={borrowableRoles}
+              isInstance={isInstance}
+            />
+          </ShowableAtRender>
           {/* Notifications */}
           <ShowableAtRender show={displayNotificationsSelector}>
             <NotificationListContainer project={project} />

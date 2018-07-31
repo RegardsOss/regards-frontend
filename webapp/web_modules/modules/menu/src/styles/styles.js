@@ -30,10 +30,13 @@ const menuStyles = theme => ({
     subheaderStyle: {
       lineHeight: 1,
       paddingLeft: 0,
-      padding: '40px 0 20px 0',
+      padding: '30px 0 20px 0',
     },
     radioButtonGroupLabelStyle: {
       padding: '0 0 15px 0',
+    },
+    previewRoleStyle: {
+      paddingBottom: 20,
     },
     previewStyle: {
       borderWidth: 4,
@@ -67,7 +70,7 @@ const menuStyles = theme => ({
           width: theme.spacing.iconSize,
           marginRight: theme.spacing.iconSize / 2,
         },
-        warningStatusCell: {
+        warningCell: {
           color: theme.formsExtensions.validation.warningColor,
         },
       },

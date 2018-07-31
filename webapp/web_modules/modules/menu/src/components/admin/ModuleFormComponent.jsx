@@ -19,7 +19,7 @@
 import get from 'lodash/get'
 import RadioButton from 'material-ui/RadioButton'
 import Subheader from 'material-ui/Subheader'
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, RenderCheckbox, RenderRadio, Field, FieldArray, ValidationHelpers } from '@regardsoss/form-utils'
@@ -37,6 +37,7 @@ class ModuleFormComponent extends React.Component {
     project: PropTypes.string,
     adminForm: AccessShapes.moduleAdminForm,
     dynamicModules: AccessShapes.ModuleArray,
+    roleList: AdminShapes.RoleList.isRequired,
   }
 
   static contextTypes = {
@@ -103,7 +104,7 @@ class ModuleFormComponent extends React.Component {
 
   render() {
     const {
-      appName, project, adminForm, dynamicModules,
+      appName, project, adminForm, dynamicModules, roleList,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { admin: { subheaderStyle, firstSubheaderStyle, radioButtonGroupLabelStyle } } } = this.context
     return (
@@ -221,6 +222,7 @@ class ModuleFormComponent extends React.Component {
           name={this.CONF_NAVIGATION}
           component={NavigationArrayFieldRender}
           dynamicModules={dynamicModules}
+          roleList={roleList}
           homeConfiguration={get(adminForm, `form.${this.HOME_CONFIGURATION_ROOT}`)}
           navigationItems={get(adminForm, `form.${this.CONF_NAVIGATION}`, [])}
           changeNavigationFieldValue={this.changeNavigationFieldValue}
@@ -231,6 +233,7 @@ class ModuleFormComponent extends React.Component {
         <MenuPreviewComponent
           appName={appName}
           project={project}
+          roleList={roleList}
           moduleConfiguration={get(adminForm, `form.${adminForm.currentNamespace}`)}
         />
       </div>

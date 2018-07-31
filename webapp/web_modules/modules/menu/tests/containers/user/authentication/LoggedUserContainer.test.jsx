@@ -19,18 +19,18 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import LoggedUserComponent from '../../../src/components/user/LoggedUserComponent'
-import { LoggedUserContainer } from '../../../src/containers/user/LoggedUserContainer'
-import styles from '../../../src/styles/styles'
+import LoggedUserComponent from '../../../../src/components/user/authentication/LoggedUserComponent'
+import { AuthenticationContainer } from '../../../../src/containers/user/authentication/AuthenticationContainer'
+import styles from '../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Menu] Testing LoggedUserContainer', () => {
+describe('[Menu] Testing AuthenticationContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(LoggedUserContainer)
+    assert.isDefined(AuthenticationContainer)
   })
   it('should render properly', () => {
     const props = {
@@ -48,7 +48,7 @@ describe('[Menu] Testing LoggedUserContainer', () => {
       dispatchRoleBorrowed: () => { },
       showProfileEdition: () => { },
     }
-    const enzymeWrapper = shallow(<LoggedUserContainer {...props} />, { context })
+    const enzymeWrapper = shallow(<AuthenticationContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(LoggedUserComponent), 1, 'The corresponding component should be rendered')
   })
 })

@@ -19,15 +19,17 @@
 import values from 'lodash/values'
 
 /**
- * Possible home icon types
+ * Possible navigation item visibility mode
  * @author Raphaël Mechali
  */
 
-export const HOME_ICON_TYPES_ENUM = {
-  NONE: 'NONE',
-  DEFAULT_HOME_ICON: 'DEFAULT_HOME_ICON',
-  MODULE_ICON: 'MODULE_ICON',
-  CUSTOM_URL_ICON: 'CUSTOM_URL_ICON',
+export const VISIBILITY_MODES_ENUM = {
+  /** Such item is always visible */
+  ALWAYS: 'ALWAYS',
+  /** Such item is never visible */
+  NEVER: 'NEVER',
+  /** Such item is visible when profile is greater than or equal to */
+  FOR_ROLE: 'FOR_ROLE',
 }
 
-export const HOME_ICON_TYPES = values(HOME_ICON_TYPES_ENUM)
+export const VISIBILITY_MODES = values(VISIBILITY_MODES_ENUM)

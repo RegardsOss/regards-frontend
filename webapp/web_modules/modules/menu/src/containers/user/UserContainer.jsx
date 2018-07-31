@@ -16,32 +16,114 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEqual from 'lodash/isEqual'
 import { browserHistory } from 'react-router'
+import { connect } from '@regardsoss/redux'
 import { UIDomain } from '@regardsoss/domain'
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, AdminShapes } from '@regardsoss/shape'
+import { AuthenticationClient, AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
+import { borrowableRolesActions, borrowableRolesSelectors } from '../../clients/BorrowableRolesClient'
 import MainMenuComponent from '../../components/user/MainMenuComponent'
 
 /**
- * Main component of module menu (user part)
+ * Main container of module menu (user part). It fetches / re-initializes borrowable roles on user change, as they are shared by
+ * many sub components
  * @author Sébastien binda
  **/
-class UserContainer extends React.Component {
+export class UserContainer extends React.Component {
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    const isAuthenticated = AuthenticationClient.authenticationSelectors.isAuthenticated(state)
+    return {
+      authenticationName: isAuthenticated ? AuthenticationClient.authenticationSelectors.getAuthentication(state).result.sub : '',
+      userRole: isAuthenticated ? AuthenticationClient.authenticationSelectors.getAuthentication(state).result.role : '',
+      borrowableRoles: borrowableRolesSelectors.getList(state),
+      isInstance: AuthenticationParametersSelectors.isInstance(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      fetchBorrowableRoles: () => dispatch(borrowableRolesActions.fetchEntityList()),
+      flushBorrowableRoles: () => dispatch(borrowableRolesActions.flush()),
+    }
+  }
+
   static propTypes = {
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration,
+    // from map state to props
+    authenticationName: PropTypes.string,
+    userRole: PropTypes.string,
+    borrowableRoles: AdminShapes.RoleList.isRequired,
+    isInstance: PropTypes.bool.isRequired,
   }
 
+  /**
+    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+    */
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      isInstance, fetchBorrowableRoles, flushBorrowableRoles, authenticationName,
+    } = newProps
+    if (!isInstance && !isEqual(oldProps.authenticationName, authenticationName)) {
+      // when user changes, fetch or clear roles (not on instance as that functionnality should not be used here)
+      if (authenticationName) {
+        fetchBorrowableRoles()
+      } else {
+        flushBorrowableRoles()
+      }
+    }
+  }
 
   render() {
     const currentModuleId = UIDomain.getPathModuleId(browserHistory.getCurrentLocation().pathname)
+    const {
+      userRole, borrowableRoles, moduleConf, ...remainingProps
+    } = this.props
+    // nota: we keep borrowable role list and role list separatated fro preview mode, where the real list is fetched from server
+    // as instance admin cannot borrow any role...
+    // One is used by borrow role functionnality, the other to resolve the visible modules by user role
     return (
-      // Insert main render component
-      <MainMenuComponent {...this.props} currentModuleId={currentModuleId} />
+      <MainMenuComponent
+        currentRole={moduleConf.displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW ? moduleConf.previewRole : userRole}
+        roleList={moduleConf.displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW ? moduleConf.roleList : borrowableRoles}
+        borrowableRoles={borrowableRoles}
+        currentModuleId={currentModuleId}
+        moduleConf={moduleConf}
+        {...remainingProps}
+      />
     )
   }
 }
 
-export default UserContainer
+export default connect(
+  UserContainer.mapStateToProps,
+  UserContainer.mapDispatchToProps)(UserContainer)

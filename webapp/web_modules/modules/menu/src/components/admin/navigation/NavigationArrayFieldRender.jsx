@@ -19,7 +19,7 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { AccessDomain } from '@regardsoss/domain'
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../domain/NavigationItemTypes'
@@ -29,6 +29,7 @@ import {
   getItemPathIn, getItemByPathIn, removeItemAt, moveItemAtPath,
 } from '../../../domain/NavigationTreeHelper'
 import NavigationTree from './NavigationTree'
+import { VISIBILITY_MODES_ENUM } from '../../../domain/VisibilityModes'
 import NavigationItemEditionDialog from './dialogs/NavigationItemEditionDialog'
 
 /**
@@ -106,6 +107,7 @@ class NavigationArrayFieldRender extends React.Component {
     dynamicModules: AccessShapes.ModuleArray,
     homeConfiguration: HomeConfigurationShape,
     navigationItems: PropTypes.arrayOf(NavigationEditionItem).isRequired,
+    roleList: AdminShapes.RoleList.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     changeNavigationFieldValue: PropTypes.func.isRequired, // used only in onPropertiesUpdated
   }
@@ -164,6 +166,8 @@ class NavigationArrayFieldRender extends React.Component {
         item: {
           id: newSectionId,
           type: NAVIGATION_ITEM_TYPES_ENUM.SECTION,
+          visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+          visibleForRole: null,
           icon: { type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT, url: '' },
           title: { en: 'New section', fr: 'Nouvelle section' }, // no need for i18n here
           children: [],
@@ -200,20 +204,12 @@ class NavigationArrayFieldRender extends React.Component {
 
   /**
    * On create section confirmed (edition dialog confirm callback)
-   * @param {NavigationEditionItem} initialItem initial item
+   * @param {NavigationEditionItem} editedItem item as edited
    * @param {[number]} insertAtPath the path user selected for that item
-   * @param {{type:string, url: string}} icon edited icon (only for sections)
-   * @param {{en:string, fr: string}} title edited title (only for sections)
    */
-  onEditDone = (initialItem, insertAtPath, icon, title) => {
+  onEditDone = (editedItem, insertAtPath) => {
     const { navigationItems } = this.props
-    const newItem = initialItem.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE ?
-      initialItem : { // merge section values
-        ...initialItem,
-        icon,
-        title,
-      }
-    this.publishNewItems(moveItemAtPath(navigationItems, newItem, insertAtPath))
+    this.publishNewItems(moveItemAtPath(navigationItems, editedItem, insertAtPath))
     this.onEditClosed()
   }
 
@@ -250,7 +246,7 @@ class NavigationArrayFieldRender extends React.Component {
 
   render() {
     const {
-      dynamicModules, homeConfiguration, navigationItems,
+      dynamicModules, homeConfiguration, navigationItems, roleList,
     } = this.props
     const { editionData } = this.state
     const { intl: { formatMessage }, moduleTheme: { admin: { navigation: { noElementMessageStyle } } } } = this.context
@@ -258,9 +254,8 @@ class NavigationArrayFieldRender extends React.Component {
     return (
       <div>
         {/* insert edition dialog */}
-        <NavigationItemEditionDialog onClose={this.onEditClosed} editionData={editionData} />
-        {/* insert tree or no data view */}
-        {
+        <NavigationItemEditionDialog roleList={roleList} onClose={this.onEditClosed} editionData={editionData} />
+        { /* insert tree or no data view */
           navigationItems.length && dynamicModules.length ? (
             // Show navigation tree
             <NavigationTree
