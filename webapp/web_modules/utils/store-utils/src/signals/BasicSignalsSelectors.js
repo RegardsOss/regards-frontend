@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,14 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
 
-export default class UserGroupActions extends BasicSignalActions {
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/accessgroups/{name}/{email}`,
-    })
-  }
+/**
+ * @author Léo Mieulet
+ */
+import BasicSignalSelectors from '../signal/BasicSignalSelectors'
+/**
+ *  Provide an high level class to interact with entity stored in a list
+ */
+class BasicSignalsSelectors extends BasicSignalSelectors {
 }
 
+export default BasicSignalsSelectors

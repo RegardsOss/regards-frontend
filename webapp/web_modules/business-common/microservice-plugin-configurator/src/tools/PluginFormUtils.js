@@ -35,6 +35,17 @@ class PluginFormUtils {
    */
   static DOT_CHAR_REPLACEMENT = '_____'
 
+  static initNewConfiguration(pluginMetaData) {
+    return {
+      active: true,
+      pluginId: pluginMetaData.pluginId,
+      pluginClassName: pluginMetaData.pluginClassName,
+      version: pluginMetaData.version,
+      priorityOrder: 1,
+      parameters: [],
+    }
+  }
+
   /**
    * Format keys of a PluginParameter type MAP to remove dot caracters
    * @param {*} parameterConf

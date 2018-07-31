@@ -41,7 +41,7 @@ describe('[ADMIN SEARCH ENGINES] Testing SearchEngineConfigurationFormComponent'
   it('should render correctly a create form', () => {
     const props = {
       mode: 'create',
-      backUrl: '/backUrl',
+      onBack: () => { },
       onUpdate: () => { },
       onCreate: () => { },
       pluginConfigurationList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
@@ -76,7 +76,7 @@ describe('[ADMIN SEARCH ENGINES] Testing SearchEngineConfigurationFormComponent'
     const props = {
       mode: 'edit',
       searchEngineConfiguration: DumpProvider.getNthEntity('CatalogClient', 'SearchEngineConfiguration', 1),
-      backUrl: '/backUrl',
+      onBack: () => { },
       onUpdate: () => { },
       onCreate: () => { },
       pluginConfigurationList: DumpProvider.get('CommonClient', 'PluginConfiguration'),

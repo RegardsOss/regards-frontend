@@ -61,8 +61,9 @@ const messages = Object.assign({
 
   'document.form.action.next': 'Sauvegarder',
   'document.form.action.cancel': 'Annuler',
-  'document.form.model': 'Modèles de document',
-  'document.form.label': 'Libellé',
+  'document.form.providerId': 'Identifiant de soumission (*)',
+  'document.form.model': 'Modèles de document (*)',
+  'document.form.label': 'Libellé (*)',
   'document.form.geometry': 'Géometrie',
   'document.form.table.value': 'Valeur fixe',
   'document.form.table.fragmentAndLabel': 'Fragment et Nom de l\'attribut du modèle',

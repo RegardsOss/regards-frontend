@@ -16,30 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Feature from './Feature'
-import { ModelContent } from './Model'
+import { assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import Module from '../src/main'
 
-const DocumentContent = PropTypes.shape({
-  id: PropTypes.number,
-  ipId: PropTypes.string.isRequired,
-  creationDate: PropTypes.string,
-  lastUpdate: PropTypes.string,
-  entityType: PropTypes.string,
-  feature: Feature,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  groups: PropTypes.arrayOf(PropTypes.string).isRequired,
-  model: ModelContent.isRequired,
+/**
+ * Tests for menu module interfaces
+ * @author Léo Mieulet
+ */
+describe('[Map] Testing module interface', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  it('Should supply valid module interface', () => {
+    assert.isDefined(Module.adminContainer, 'Module should define a main container for administration page')
+    assert.isDefined(Module.moduleContainer, 'Module should define a main container')
+    assert.isDefined(Module.styles, 'Module should define a styles file')
+    assert.isDefined(Module.messages, 'Form module should define his internationalization messages')
+  })
 })
 
-const Document = PropTypes.shape({
-  content: DocumentContent.isRequired,
-})
-
-const DocumentList = PropTypes.objectOf(Document)
-
-
-module.exports = {
-  Document,
-  DocumentContent,
-  DocumentList,
-}

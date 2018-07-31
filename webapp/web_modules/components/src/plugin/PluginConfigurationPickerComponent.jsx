@@ -134,7 +134,7 @@ class PluginConfigurationPickerComponent extends React.Component {
   buildAvailablePluginItems = (plugins, pluginConfs, selectedPluginConf, onNewPluginConf) => map(plugins, (plugin) => {
     const pluginConfsForThisPluginMetaData =
       filter(pluginConfs, pluginConfiguration => pluginConfiguration.content.pluginId === plugin.content.pluginId)
-    const isPluginConfigurationListEmpty = isEmpty(pluginConfsForThisPluginMetaData)
+    const isPluginConfigurationListEmpty = (isEmpty(pluginConfsForThisPluginMetaData) && !onNewPluginConf)
     return (
       <MenuItem
         key={plugin.content.pluginId}
@@ -202,7 +202,7 @@ class PluginConfigurationPickerComponent extends React.Component {
     const { openMenu, currentPluginConfiguration, newConfSelected } = this.state
     const { intl: { formatMessage } } = this.context
     const styles = this.getStyle()
-    const hasNoPlugin = isEmpty(pluginMetaDataList) || isEmpty(pluginConfigurationList)
+    const hasNoPlugin = isEmpty(pluginMetaDataList) || (isEmpty(pluginConfigurationList) && !onNewPluginConf)
 
     const defaultLabel = newConfSelected ? formatMessage({ id: 'component.plugin-parameter.action.create-plugin' }) :
       formatMessage({ id: 'component.plugin-parameter.action.choose-plugin' })

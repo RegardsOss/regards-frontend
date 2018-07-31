@@ -16,31 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Schema, arrayOf } from 'normalizr'
-import has from 'lodash/has'
 
-const DocumentConfiguration = {
-  entityKey: 'id',
-  normalizrKey: 'document',
-}
+/**
+ * Module hateoas depencies
+ * @author Léo Mieulet
+ */
+/**
+ * Mandatory Dependencies to display module in user interface
+ * @type {Array}
+ */
+const user = []
 
-const document = new Schema(DocumentConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[DocumentConfiguration.entityKey],
-  assignEntity(output, key, value, input) {
-    if (has(value, 'feature.geometry')) {
-      try {
-        // eslint-disable-next-line no-param-reassign
-        output.content.feature.geometry = JSON.stringify(value.feature.geometry)
-      } catch (e) {
-        console.error(`Invalid attribute geometry for document ${value.id}`, e)
-      }
-    }
-  },
-})
+/**
+ * Mandatory Dependencies to display module in admin interface
+ * @type {Array}
+ */
+const admin = []
 
-// Schemas for API responses.
 module.exports = {
-  DOCUMENT: document,
-  DOCUMENT_ARRAY: arrayOf(document),
-  DocumentConfiguration,
+  user,
+  admin,
 }

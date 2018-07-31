@@ -139,10 +139,10 @@ export class DatasetFormAttributesComponent extends React.Component {
       const { currentDataset, modelAttributeList } = this.props
       const properties = getInitialFormValues(modelAttributeList, currentDataset)
       const initialValues = {
-        sipId: currentDataset.content.sipId,
-        label: currentDataset.content.label,
-        geometry: currentDataset.content.geometry,
-        model: currentDataset.content.model.name,
+        providerId: currentDataset.content.feature.providerId,
+        label: currentDataset.content.feature.label,
+        geometry: currentDataset.content.feature.geometry,
+        model: currentDataset.content.feature.model,
         descriptionUrl: get(currentDataset.content, 'descriptionFile.url', undefined),
         properties,
       }
@@ -188,11 +188,11 @@ export class DatasetFormAttributesComponent extends React.Component {
           />
           <CardText>
             <Field
-              name="sipId"
+              name="providerId"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({ id: 'dataset.form.sipId' })}
+              label={this.context.intl.formatMessage({ id: 'dataset.form.providerId' })}
             />
             <Field
               name="label"

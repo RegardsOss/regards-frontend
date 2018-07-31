@@ -54,8 +54,8 @@ export default class DocumentActions extends BasicPageableActions {
     const objectValuesWithGeometryAsJson = {
       ...values,
     }
-    if (has(values, 'geometry')) {
-      objectValuesWithGeometryAsJson.geometry = DocumentActions.transformStringToJSon(values.geometry)
+    if (has(values, 'feature.geometry')) {
+      objectValuesWithGeometryAsJson.feature.geometry = DocumentActions.transformStringToJSon(values.feature.geometry)
     }
     return super.createEntity(objectValuesWithGeometryAsJson, pathParams, queryParams)
   }
@@ -72,8 +72,8 @@ export default class DocumentActions extends BasicPageableActions {
     const objectValuesWithGeometryAsJson = {
       ...values,
     }
-    if (has(values, 'geometry')) {
-      objectValuesWithGeometryAsJson.geometry = DocumentActions.transformStringToJSon(values.geometry)
+    if (has(values, 'feature.geometry')) {
+      objectValuesWithGeometryAsJson.feature.geometry = DocumentActions.transformStringToJSon(values.feature.geometry)
     }
     return super.updateEntity(keyValue, objectValuesWithGeometryAsJson, pathParams, queryParams)
   }

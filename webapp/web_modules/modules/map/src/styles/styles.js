@@ -15,31 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import Feature from './Feature'
-import { ModelContent } from './Model'
+ */
 
-const DocumentContent = PropTypes.shape({
-  id: PropTypes.number,
-  ipId: PropTypes.string.isRequired,
-  creationDate: PropTypes.string,
-  lastUpdate: PropTypes.string,
-  entityType: PropTypes.string,
-  feature: Feature,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  groups: PropTypes.arrayOf(PropTypes.string).isRequired,
-  model: ModelContent.isRequired,
-})
+/**
+ * Styles for map module
+ * @author Léo Mieulet
+ */
+const moduleStyles = theme => (
+  {
+    mizarConfStyle: {
+      height: '300px',
+      width: '100%',
+    },
+  })
 
-const Document = PropTypes.shape({
-  content: DocumentContent.isRequired,
-})
-
-const DocumentList = PropTypes.objectOf(Document)
-
-
-module.exports = {
-  Document,
-  DocumentContent,
-  DocumentList,
-}
+export default moduleStyles

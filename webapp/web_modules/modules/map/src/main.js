@@ -16,31 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Schema, arrayOf } from 'normalizr'
-import has from 'lodash/has'
+import moduleContainer from './containers/ModuleContainer'
+import adminContainer from './containers/AdminContainer'
+import styles from './styles/styles'
+import messages from './i18n'
+import dependencies from './dependencies'
 
-const DocumentConfiguration = {
-  entityKey: 'id',
-  normalizrKey: 'document',
-}
+// ensure the default module icon is present in bundle
+import '../default-icon.svg'
 
-const document = new Schema(DocumentConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[DocumentConfiguration.entityKey],
-  assignEntity(output, key, value, input) {
-    if (has(value, 'feature.geometry')) {
-      try {
-        // eslint-disable-next-line no-param-reassign
-        output.content.feature.geometry = JSON.stringify(value.feature.geometry)
-      } catch (e) {
-        console.error(`Invalid attribute geometry for document ${value.id}`, e)
-      }
-    }
-  },
-})
+console.error('YOOO')
 
-// Schemas for API responses.
+/**
+ * Main file of module to expose public interface
+ * @author Léo Mieulet
+ **/
 module.exports = {
-  DOCUMENT: document,
-  DOCUMENT_ARRAY: arrayOf(document),
-  DocumentConfiguration,
+  adminContainer,
+  moduleContainer,
+  styles,
+  messages,
+  dependencies,
 }

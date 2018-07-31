@@ -28,7 +28,6 @@ export default class MicroserviceConfBackupActions extends BasicSignalActions {
   }
 
   sendBackupConf(microserviceName, file) {
-    console.error('WAT', this.sendEntityUsingMultiPart('POST', {}, file, { microserviceName }, {}))
     return this.sendEntityUsingMultiPart('POST', {}, file, { microserviceName }, {})
   }
 

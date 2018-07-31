@@ -111,9 +111,12 @@ export class DocumentFormContainer extends React.Component {
   handleUpdate = (values) => {
     const properties = extractParametersFromFormValues(values, this.props.modelAttributeList)
     const updatedDocument = Object.assign({}, this.props.currentDocument.content, {
-      label: values.label,
-      geometry: values.geometry,
-      properties,
+      feature: {
+        ...this.props.currentDocument.content.feature,
+        label: values.label,
+        geometry: values.geometry,
+        properties,
+      },
     })
     Promise.resolve(this.props.updateDocument(this.props.currentDocument.content.id, updatedDocument))
       .then((actionResult) => {
@@ -143,11 +146,17 @@ export class DocumentFormContainer extends React.Component {
       defaultValues.tags = this.props.currentDocument.content.tags
     }
     const newDocument = Object.assign({}, defaultValues, {
-      label: values.label,
-      geometry: values.geometry,
-      model,
-      properties,
       entityType: ENTITY_TYPES_ENUM.DOCUMENT,
+      model,
+      feature: {
+        label: values.label,
+        model: values.model,
+        providerId: values.providerId,
+        geometry: values.geometry,
+        properties,
+        entityType: ENTITY_TYPES_ENUM.DOCUMENT,
+        type: 'Feature',
+      },
     })
     Promise.resolve(this.props.createDocument(newDocument))
       .then((actionResult) => {

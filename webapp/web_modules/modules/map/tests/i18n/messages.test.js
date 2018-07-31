@@ -15,31 +15,26 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import Feature from './Feature'
-import { ModelContent } from './Model'
+ */
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import MessagesEN from '../../src/i18n/messages.en.i18n'
+import MessagesFR from '../../src/i18n/messages.fr.i18n'
 
-const DocumentContent = PropTypes.shape({
-  id: PropTypes.number,
-  ipId: PropTypes.string.isRequired,
-  creationDate: PropTypes.string,
-  lastUpdate: PropTypes.string,
-  entityType: PropTypes.string,
-  feature: Feature,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  groups: PropTypes.arrayOf(PropTypes.string).isRequired,
-  model: ModelContent.isRequired,
+/**
+ * Tests for i18n messages of menu module
+ * @author Léo Mieulet
+ */
+describe('[Map] Testing i18n', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  it('should exist', () => {
+    assert.isDefined(MessagesEN)
+    assert.isDefined(MessagesFR)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFR), keys(MessagesEN))
+  })
 })
-
-const Document = PropTypes.shape({
-  content: DocumentContent.isRequired,
-})
-
-const DocumentList = PropTypes.objectOf(Document)
-
-
-module.exports = {
-  Document,
-  DocumentContent,
-  DocumentList,
-}

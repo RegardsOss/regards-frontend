@@ -89,9 +89,10 @@ export class DocumentFormComponent extends React.Component {
       const { modelAttributeList, currentDocument } = this.props
       const properties = getInitialFormValues(modelAttributeList, currentDocument)
       const initialValues = {
-        label: currentDocument.content.label,
-        geometry: currentDocument.content.geometry,
-        model: currentDocument.content.model.name,
+        label: currentDocument.content.feature.label,
+        geometry: currentDocument.content.feature.geometry,
+        model: currentDocument.content.feature.model,
+        providerId: currentDocument.content.feature.providerId,
         properties,
       }
       this.props.initialize(initialValues)
@@ -133,6 +134,14 @@ export class DocumentFormComponent extends React.Component {
             currentDocumentId={get(this.props.currentDocument, 'content.id', 'undefined')}
           />
           <CardText>
+            <Field
+              name="providerId"
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              label={this.context.intl.formatMessage({ id: 'document.form.providerId' })}
+              disabled={!this.state.isCreating && !this.state.isDuplicating}
+            />
             <Field
               name="label"
               fullWidth

@@ -29,7 +29,7 @@ import {
   ValidationHelpers, RenderPageableAutoCompleteField,
 } from '@regardsoss/form-utils'
 import { CardActionsComponent, PluginConfigurationPickerComponent, SubSectionCard, NoContentComponent } from '@regardsoss/components'
-import { RenderPluginConfField } from '@regardsoss/microservice-plugin-configurator'
+import { RenderPluginConfField, PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { DataManagementClient } from '@regardsoss/client'
 import { DatasetConfiguration } from '@regardsoss/api'
 import messages from '../../i18n'
@@ -49,7 +49,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
   static propTypes = {
     mode: PropTypes.string.isRequired,
     searchEngineConfiguration: CatalogShapes.SearchEngineConfiguration,
-    backUrl: PropTypes.string.isRequired,
+    onBack: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
     pluginConfigurationList: CommonShapes.PluginConfigurationList,
@@ -86,11 +86,17 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
 
   onSubmit = (values) => {
     const searchConf = Object.assign(values, { datasetUrn: get(values, 'dataset.ipId', null), dataset: null })
+    let task
     if (this.props.mode === 'edit') {
-      this.props.onUpdate(searchConf, searchConf.id)
+      task = this.props.onUpdate(searchConf, searchConf.id)
     } else {
-      this.props.onCreate(values)
+      task = this.props.onCreate(values)
     }
+    task.then((actionResults) => {
+      if (!actionResults.error) {
+        this.props.onBack()
+      }
+    })
   }
 
   onNewPluginConf = (pluginMetadata) => {
@@ -98,7 +104,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
       pluginToConfigure: pluginMetadata,
     })
     // Remove current conf in form
-    this.props.change('configuration', null)
+    this.props.change('configuration', PluginFormUtils.initNewConfiguration(pluginMetadata))
   }
 
   onChangeSelectedConf = (selectedConfId, selectedConf) => {
@@ -185,7 +191,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
 
   render() {
     const {
-      backUrl, mode, searchEngineConfiguration, handleSubmit, invalid,
+      onBack, mode, searchEngineConfiguration, handleSubmit, invalid,
       pluginConfigurationList, pluginMetaDataList, submitting,
     } = this.props
     const { intl: { formatMessage } } = this.context
@@ -247,7 +253,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
                 mainButtonType="submit"
                 isMainButtonDisabled={submitting || invalid}
                 secondaryButtonLabel={this.context.intl.formatMessage({ id: 'search-engines.form.action.cancel' })}
-                secondaryButtonUrl={backUrl}
+                secondaryButtonClick={onBack}
               />
             </CardActions>
           </form>

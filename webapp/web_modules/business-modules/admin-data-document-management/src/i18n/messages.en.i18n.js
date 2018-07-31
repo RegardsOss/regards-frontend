@@ -61,8 +61,9 @@ const messages = Object.assign({
 
   'document.form.action.next': 'Save',
   'document.form.action.cancel': 'Cancel',
-  'document.form.model': 'Document models',
-  'document.form.label': 'Label',
+  'document.form.providerId': 'Provider ID (*)',
+  'document.form.model': 'Document models (*)',
+  'document.form.label': 'Label (*)',
   'document.form.geometry': 'Geometry',
   'document.form.table.value': 'Fixed value',
   'document.form.table.fragmentAndLabel': 'Fragment and attribute name',
