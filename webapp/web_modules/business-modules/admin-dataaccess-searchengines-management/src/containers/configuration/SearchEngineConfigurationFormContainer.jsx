@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { CommonShapes, CatalogShapes } from '@regardsoss/shape'
 import { CatalogDomain } from '@regardsoss/domain'
@@ -111,9 +112,15 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
       })
   }
 
+  onBack = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/dataaccess/searchengines/list`
+    browserHistory.push(url)
+  }
+
   render() {
     const {
-      params: { mode, project }, searchEngine, update, create, pluginMetaDataList, pluginConfigurationList,
+      params: { mode }, searchEngine, update, create, pluginMetaDataList, pluginConfigurationList,
     } = this.props
     return (
       <LoadableContentDisplayDecorator
@@ -123,7 +130,7 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
           <SearchEngineConfigurationFormComponent
             mode={mode || 'create'}
             searchEngineConfiguration={searchEngine}
-            backUrl={`/admin/${project}/dataaccess/searchengines/list`}
+            onBack={this.onBack}
             onUpdate={update}
             onCreate={create}
             pluginConfigurationList={pluginConfigurationList}
