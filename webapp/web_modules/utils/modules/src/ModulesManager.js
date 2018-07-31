@@ -33,6 +33,7 @@ const VisibleModuleTypes = {
   DESCRIPTION: 'description',
   EMBEDDED_HMTL: 'embedded-html',
   LICENSE: 'licenses',
+  MAP: 'map',
   MENU: 'menu',
   ORDER_CART: 'order-cart',
   ORDER_HISTORY: 'order-history',

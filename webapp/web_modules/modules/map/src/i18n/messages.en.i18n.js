@@ -16,14 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import { Locales } from '@regardsoss/form-utils'
+import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 
-export default class UserGroupActions extends BasicSignalActions {
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/accessgroups/{name}/{email}`,
-    })
-  }
+/**
+ * i18n messages english language
+ * @author Léo Mieulet
+ */
+const messages = {
+  'map.admin.info': 'You can consult some configuration examples on <a style="color: inherit;" href="https://github.com/MizarWeb/MizarWidget/tree/master/conf">the repository of MizarWidget</a>',
+  'map.admin.json-invalid': 'Invalid JSON',
+  ...Locales.en,
+  ...MetadataLocales.en,
 }
 
+export default messages

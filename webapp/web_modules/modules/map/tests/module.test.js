@@ -16,14 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import { assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import Module from '../src/main'
 
-export default class UserGroupActions extends BasicSignalActions {
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/accessgroups/{name}/{email}`,
-    })
-  }
-}
+/**
+ * Tests for menu module interfaces
+ * @author Léo Mieulet
+ */
+describe('[Map] Testing module interface', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  it('Should supply valid module interface', () => {
+    assert.isDefined(Module.adminContainer, 'Module should define a main container for administration page')
+    assert.isDefined(Module.moduleContainer, 'Module should define a main container')
+    assert.isDefined(Module.styles, 'Module should define a styles file')
+    assert.isDefined(Module.messages, 'Form module should define his internationalization messages')
+  })
+})
 

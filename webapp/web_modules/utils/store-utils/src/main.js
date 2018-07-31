@@ -39,6 +39,9 @@ import BasicSignalSelectors from './signal/BasicSignalSelectors'
 import BasicSignalActions from './signal/BasicSignalActions'
 import BasicSignalReducers from './signal/BasicSignalReducers'
 
+import BasicSignalsActions from './signals/BasicSignalsActions'
+import BasicSignalsReducers from './signals/BasicSignalsReducers'
+import BasicSignalsSelectors from './signals/BasicSignalsSelectors'
 
 import BasicPartitionSelectors from './partition/BasicPartitionSelectors'
 import BasicPartitionActions from './partition/BasicPartitionActions'
@@ -70,6 +73,9 @@ module.exports = {
   BasicSignalSelectors,
   BasicSignalActions,
   BasicSignalReducers,
+  BasicSignalsSelectors,
+  BasicSignalsActions,
+  BasicSignalsReducers,
   BasicPartitionActions,
   BasicPartitionReducers,
   BasicPartitionSelectors,

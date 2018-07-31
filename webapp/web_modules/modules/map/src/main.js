@@ -16,14 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import moduleContainer from './containers/ModuleContainer'
+import adminContainer from './containers/AdminContainer'
+import styles from './styles/styles'
+import messages from './i18n'
+import dependencies from './dependencies'
 
-export default class UserGroupActions extends BasicSignalActions {
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/accessgroups/{name}/{email}`,
-    })
-  }
+// ensure the default module icon is present in bundle
+import '../default-icon.svg'
+
+console.error('YOOO')
+
+/**
+ * Main file of module to expose public interface
+ * @author Léo Mieulet
+ **/
+module.exports = {
+  adminContainer,
+  moduleContainer,
+  styles,
+  messages,
+  dependencies,
 }
-

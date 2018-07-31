@@ -81,13 +81,13 @@ class SIPSessionListComponent extends React.Component {
 
   getProgressLabel = step => (entity) => {
     const progress = entity.content[`${step}SipsCount`]
-    const total = entity.content.sipsCount
+    const total = entity.content.sipsCount - entity.content.deletedSipsCount
     return `${progress} / ${total}`
   }
 
   getProgressPercent = step => (entity) => {
     const progress = entity.content[`${step}SipsCount`]
-    const total = entity.content.sipsCount
+    const total = entity.content.sipsCount - entity.content.deletedSipsCount
     return progress / total * 100
   }
 
@@ -149,7 +149,7 @@ class SIPSessionListComponent extends React.Component {
           Constructor: props => (
             <div style={session.error.rowColumnStyle}>
               <div style={session.error.textStyle}>
-                {props.entity.content.errorSipsCount} / {props.entity.content.sipsCount}
+                {props.entity.content.errorSipsCount} / {props.entity.content.sipsCount - props.entity.content.deletedSipsCount}
               </div>
               <ShowableAtRender
                 style={session.error.iconContainerStyle}
