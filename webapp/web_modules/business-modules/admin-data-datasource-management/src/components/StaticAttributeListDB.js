@@ -19,7 +19,7 @@
 import { DamDomain } from '@regardsoss/domain'
 
 module.exports = {
-  sipId: {
+  providerId: {
     content: {
       mode: '',
       model: {
@@ -28,8 +28,8 @@ module.exports = {
         name: '',
       },
       attribute: {
-        name: 'sipId',
-        label: 'sipId',
+        name: 'providerId',
+        label: 'Provider identifier',
         type: DamDomain.MODEL_ATTR_TYPES.STRING,
         optional: false,
         fragment: {
