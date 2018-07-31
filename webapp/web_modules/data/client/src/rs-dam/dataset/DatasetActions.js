@@ -41,14 +41,14 @@ export default class DatasetActions extends BasicPageableActions {
    * @param pathParams
    * @param queryParams
    */
-  createEntityUsingMultiPart(objectValues, files, pathParams, queryParams) {
+  createEntity(objectValues, pathParams, queryParams) {
     const objectValuesWithGeometryAsJson = {
       ...objectValues,
     }
-    if (has(objectValuesWithGeometryAsJson, 'dataset.geometry')) {
-      objectValuesWithGeometryAsJson.dataset.geometry = DatasetActions.transformStringToJSon(objectValues.dataset.geometry)
+    if (has(objectValuesWithGeometryAsJson, 'feature.geometry')) {
+      objectValuesWithGeometryAsJson.feature.geometry = DatasetActions.transformStringToJSon(objectValues.feature.geometry)
     }
-    return super.createEntityUsingMultiPart(objectValuesWithGeometryAsJson, files, pathParams, queryParams)
+    return super.createEntity(objectValuesWithGeometryAsJson, pathParams, queryParams)
   }
 
   /**
@@ -59,14 +59,14 @@ export default class DatasetActions extends BasicPageableActions {
    * @param pathParams
    * @param queryParams
    */
-  updateEntityUsingMultiPart(keyValue, objectValues, files, pathParams, queryParams) {
+  updateEntity(keyValue, objectValues, pathParams, queryParams) {
     const objectValuesWithGeometryAsJson = {
       ...objectValues,
     }
-    if (has(objectValuesWithGeometryAsJson, 'dataset.geometry')) {
-      objectValuesWithGeometryAsJson.dataset.geometry = DatasetActions.transformStringToJSon(objectValues.dataset.geometry)
+    if (has(objectValuesWithGeometryAsJson, 'feature.geometry')) {
+      objectValuesWithGeometryAsJson.feature.geometry = DatasetActions.transformStringToJSon(objectValues.feature.geometry)
     }
-    return super.updateEntityUsingMultiPart(keyValue, objectValuesWithGeometryAsJson, files, pathParams, queryParams)
+    return super.updateEntity(keyValue, objectValuesWithGeometryAsJson, pathParams, queryParams)
   }
 
   static transformStringToJSon(valueAsString) {

@@ -133,11 +133,11 @@ export class DatasetListComponent extends React.Component {
 
     const columns = [
       // 1 - label column
-      new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.label')
+      new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.feature.label')
         .label(formatMessage({ id: 'dataset.list.table.label' }))
         .build(),
       // 2 - model column
-      new TableColumnBuilder('column.model').titleHeaderCell().propertyRenderCell('content.model.name')
+      new TableColumnBuilder('column.model').titleHeaderCell().propertyRenderCell('content.feature.model')
         .label(formatMessage({ id: 'dataset.list.table.model' }))
         .build(),
       // 3 - options

@@ -20,14 +20,21 @@ module.exports = {
   content: [
     {
       content: {
-        label: 'sdfqsdf',
         entityType: 'DATASET',
-        score: 0,
-        attributes: {
-          Attribute_0_0: 'QSDf',
-          'Fragment 2': {
-            Attribute_4: 'qsdf',
+        feature: {
+          label: 'sdfqsdf',
+          model: 'VALIDATION_DATASET_MODEL_1',
+          attributes: {
+            Attribute_0_0: 'QSDf',
+            'Fragment 2': {
+              Attribute_4: 'qsdf',
+            },
           },
+          id: 'URN:AIP:DATASET:project1:e206f4e2-8bb7-4955-b5b6-0cfdca1b3238:V1',
+          tags: [
+            'URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1',
+            'habla espanol',
+          ],
         },
         model: {
           id: 2,
@@ -124,7 +131,6 @@ module.exports = {
           'URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1',
           'habla espanol',
         ],
-        ipId: 'URN:AIP:DATASET:project1:e206f4e2-8bb7-4955-b5b6-0cfdca1b3238:V1',
         subsetting: 'fqsdsdf qsdf qsf sdf sf f',
         id: 23,
       },
