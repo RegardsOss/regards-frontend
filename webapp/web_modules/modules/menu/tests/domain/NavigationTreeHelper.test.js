@@ -18,6 +18,7 @@
  **/
 import { assert } from 'chai'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../src/domain/NavigationItemTypes'
+import { VISIBILITY_MODES_ENUM } from '../../src/domain/VisibilityModes'
 import {
   buildItemForModule,
   filterModuleItem,
@@ -41,6 +42,8 @@ describe('[Menu] Testing NavigationTreeHelper', () => {
     assert.deepEqual(builtItem, {
       id: 1,
       type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+      visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+      visibleForRole: null,
     })
   })
   it('(filterModuleItem) should filter a module item correctly, clearing the corresponding item in dynamic modules and adding home information', () => {
@@ -145,6 +148,7 @@ describe('[Menu] Testing NavigationTreeHelper', () => {
     assert.deepEqual(results.homeItem, {
       id: 5,
       type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+      visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
     }, 'Home item should not be retrieved')
     assert.deepEqual(results.newModules, [], 'All modules should have been found')
     assert.lengthOf(results.items, aNavigationConfiguration.length - 1, 'All items should still be at root level, except home (returned separately)')

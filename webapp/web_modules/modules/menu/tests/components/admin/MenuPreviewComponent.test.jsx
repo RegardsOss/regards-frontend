@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import SelectField from 'material-ui/SelectField'
 import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
@@ -42,10 +43,12 @@ describe('[Menu] Testing MenuPreviewComponent', () => {
     const props = {
       appName: 'any',
       project: 'any',
+      roleList: {},
       moduleConfiguration: {},
     }
     const enzymeWrapper = shallow(<MenuPreviewComponent {...props} />, { context })
     const moduleLoader = enzymeWrapper.find(LazyModuleComponent)
+    assert.lengthOf(enzymeWrapper.find(SelectField), 1, 'There should be the role selector')
     assert.lengthOf(moduleLoader, 1, 'There should be the menu module loader')
     testSuiteHelpers.assertWrapperProperties(moduleLoader, {
       appName: props.appName,
@@ -56,6 +59,8 @@ describe('[Menu] Testing MenuPreviewComponent', () => {
         active: true,
         conf: {
           displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW,
+          roleList: props.roleList,
+          previewRole: enzymeWrapper.state().previewRole,
         },
       },
     }, 'It should provide right properties and configuration to loader, setting the module in PREVIEW display mode')
@@ -64,10 +69,19 @@ describe('[Menu] Testing MenuPreviewComponent', () => {
     const props = {
       appName: 'any',
       project: 'any',
+      roleList: {
+        1: {
+          content: {
+            name: 'ROLE1',
+          },
+        },
+      },
       moduleConfiguration: aModuleCompleteConfiguration,
     }
     const enzymeWrapper = shallow(<MenuPreviewComponent {...props} />, { context })
-    const moduleLoader = enzymeWrapper.find(LazyModuleComponent)
+    const selector = enzymeWrapper.find(SelectField)
+    assert.lengthOf(selector, 1, 'There should be the role selector')
+    let moduleLoader = enzymeWrapper.find(LazyModuleComponent)
     assert.lengthOf(moduleLoader, 1, 'There should be the menu module loader')
     testSuiteHelpers.assertWrapperProperties(moduleLoader, {
       appName: props.appName,
@@ -78,9 +92,17 @@ describe('[Menu] Testing MenuPreviewComponent', () => {
         active: true,
         conf: {
           displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW,
+          previewRole: enzymeWrapper.state().previewRole,
+          roleList: props.roleList,
           ...props.moduleConfiguration,
         },
       },
     }, 'It should provide right properties and configuration to loader, setting the module in PREVIEW display mode')
+
+    // Update role through selector and check it was updated in preview
+    selector.props().onChange(null, 0, 'ROLE1')
+    enzymeWrapper.update()
+    moduleLoader = enzymeWrapper.find(LazyModuleComponent)
+    assert.equal(moduleLoader.props().module.conf.previewRole, 'ROLE1')
   })
 })

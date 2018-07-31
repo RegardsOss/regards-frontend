@@ -17,8 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AccessDomain, UIDomain } from '@regardsoss/domain'
-import { AdminShapes } from '@regardsoss/shape'
-import { CommonShapes } from '@regardsoss/shape'
+import { AdminShapes, CommonShapes } from '@regardsoss/shape'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../domain/NavigationItemTypes'
 import { VISIBILITY_MODES } from '../domain/VisibilityModes'
 import { HOME_ICON_TYPES } from '../domain/HomeIconType'

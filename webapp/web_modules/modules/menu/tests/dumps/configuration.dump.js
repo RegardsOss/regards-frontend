@@ -19,6 +19,7 @@
 import { AccessDomain } from '@regardsoss/domain'
 import { HOME_ICON_TYPES_ENUM } from '../../src/domain/HomeIconType'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../src/domain/NavigationItemTypes'
+import { VISIBILITY_MODES_ENUM } from '../../src/domain/VisibilityModes'
 
 /**
  * Holds shared configuration data for tests
@@ -28,9 +29,11 @@ import { NAVIGATION_ITEM_TYPES_ENUM } from '../../src/domain/NavigationItemTypes
 export const aNavigationConfiguration = [{ // Home module
   id: 5,
   type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+  visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
 }, {// first section
   id: 0,
   type: NAVIGATION_ITEM_TYPES_ENUM.SECTION,
+  visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
   icon: {
     type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT,
   },
@@ -41,12 +44,15 @@ export const aNavigationConfiguration = [{ // Home module
   children: [{
     id: 3,
     type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+    visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
   }, {
     id: 1,
     type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+    visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
   }, { // embedded second section
     id: 1,
     type: NAVIGATION_ITEM_TYPES_ENUM.SECTION,
+    visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
     icon: {
       type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM,
       url: './cocorico.svg',
@@ -58,17 +64,21 @@ export const aNavigationConfiguration = [{ // Home module
     children: [{
       id: 2,
       type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+      visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
     }, {
       id: 4,
       type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+      visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
     }],
   }],
 }, { // some root level module
   id: 6,
   type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+  visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
 }, { // some empty section
   id: 2,
   type: NAVIGATION_ITEM_TYPES_ENUM.SECTION,
+  visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
   icon: {
     type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.NONE,
   },

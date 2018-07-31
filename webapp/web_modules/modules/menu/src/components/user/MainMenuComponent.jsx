@@ -95,7 +95,7 @@ class MainMenuComponent extends React.Component {
                 project={project}
                 currentRole={currentRole}
                 roleList={roleList}
-                hiomeConfiguration={home}
+                homeConfiguration={home}
                 navigationConfiguration={navigation}
               />,
               <MenuSeparator key="separator.after" />]

@@ -71,6 +71,9 @@ export class UserContainer extends React.Component {
     userRole: PropTypes.string,
     borrowableRoles: AdminShapes.RoleList.isRequired,
     isInstance: PropTypes.bool.isRequired,
+    // from mapDispatchToProps
+    fetchBorrowableRoles: PropTypes.func.isRequired,
+    flushBorrowableRoles: PropTypes.func.isRequired,
   }
 
   /**

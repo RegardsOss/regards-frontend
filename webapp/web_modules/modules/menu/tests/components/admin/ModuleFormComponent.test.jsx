@@ -30,6 +30,14 @@ import { aModuleCompleteConfiguration } from '../../dumps/configuration.dump'
 
 const context = buildTestContext(styles)
 
+const roleList = {
+  1: {
+    content: {
+      name: 'IDK',
+    },
+  },
+}
+
 /**
  * Test ModuleFormComponent
  * @author Raphaël Mechali
@@ -45,6 +53,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     const props = {
       appName: 'any',
       project: 'any',
+      roleList,
       adminForm: {
         changeField: () => { },
         currentNamespace: 'conf',
@@ -69,6 +78,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     const props = {
       appName: 'any',
       project: 'any',
+      roleList,
       adminForm: {
         changeField: () => { },
         currentNamespace: 'conf',
@@ -114,6 +124,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     const props = {
       appName: 'any',
       project: 'any',
+      roleList,
       dynamicModule: [],
       adminForm: {
         changeField: () => { },

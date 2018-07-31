@@ -23,7 +23,7 @@ import { SelectLocaleContainer } from '@regardsoss/i18n-ui'
 import { SelectThemeContainer } from '@regardsoss/theme-ui'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import NavigationMenuContainer from '../../../src/containers/user/navigation/NavigationMenuContainer'
-import AuthenticationMenuContainer from '../../../src/containers/user/AuthenticationMenuContainer'
+import AuthenticationContainer from '../../../src/containers/user/authentication/AuthenticationContainer'
 import CartSelectorContainer from '../../../src/containers/user/CartSelectorContainer'
 import NotificationListContainer from '../../../src/containers/user/NotificationListContainer'
 import ProjectAboutPageLinkContainer from '../../../src/containers/user/ProjectAboutPageLinkContainer'
@@ -52,6 +52,11 @@ describe('[Menu] Testing MainMenuComponent', () => {
       appName: 'any1',
       project: 'any2',
       type: 'menu',
+      authenticationName: 'AUTH',
+      currentRole: 'ROLE1',
+      borrowableRoles: { 1: { content: { name: 'ROLE1' } } },
+      roleList: { 2: { content: { name: 'ROLE2' } } },
+      isInstance: false,
       moduleConf: aModuleCompleteConfiguration,
     }
     const enzymeWrapper = shallow(<MainMenuComponent {...props} />, { context })
@@ -60,17 +65,30 @@ describe('[Menu] Testing MainMenuComponent', () => {
 
     const navigationContainer = enzymeWrapper.find(NavigationMenuContainer)
     assert.lengthOf(navigationContainer, 1, 'The navigation container should be added')
+    testSuiteHelpers.assertWrapperProperties(navigationContainer, {
+      currentModuleId: props.currentModuleId,
+      project: props.project,
+      currentRole: props.currentRole,
+      roleList: props.roleList,
+      homeConfiguration: props.moduleConf.home,
+      navigationConfiguration: props.moduleConf.navigation,
+    }, 'Navigation container properties should be correctly provided')
     assert.equal(navigationContainer.props().project, props.project, 'NavigationMenuContainer should have right project prop')
     assert.equal(navigationContainer.props().displayMode, UIDomain.MENU_DISPLAY_MODES_ENUM.USER, 'NavigationMenuContainer should have right displayMode prop')
     assert.equal(navigationContainer.props().currentModuleId, props.currentModuleId, 'NavigationMenuContainer should have right currentModuleId prop')
     assert.deepEqual(navigationContainer.props().homeConfiguration, props.moduleConf.home, 'NavigationMenuContainer should have right homeConfiguration prop')
     assert.deepEqual(navigationContainer.props().navigationConfiguration, props.moduleConf.navigation, 'NavigationMenuContainer should have right project prop')
 
-    const authenticationContainer = enzymeWrapper.find(AuthenticationMenuContainer)
-    assert.lengthOf(authenticationContainer, 1, 'AuthenticationMenuContainer should be added')
-    assert.equal(authenticationContainer.props().appName, props.appName, 'AuthenticationMenuContainer should have right appName prop')
-    assert.equal(authenticationContainer.props().project, props.project, 'AuthenticationMenuContainer should have right project prop')
-    assert.equal(authenticationContainer.props().display, props.moduleConf.displayAuthentication, 'AuthenticationMenuContainer should have right display prop')
+    const authenticationContainer = enzymeWrapper.find(AuthenticationContainer)
+    assert.lengthOf(authenticationContainer, 1, 'AuthenticationContainer should be added')
+    testSuiteHelpers.assertWrapperProperties(authenticationContainer, {
+      appName: props.appName,
+      project: props.project,
+      authenticationName: props.authenticationName,
+      currentRole: props.currentRole,
+      borrowableRoles: props.borrowableRoles,
+      isInstance: props.isInstance,
+    }, 'Authentication container properties should be correctly reported')
 
     const notificationListContainer = enzymeWrapper.find(NotificationListContainer)
     assert.lengthOf(notificationListContainer, 1, 'NotificationListContainer should be added')
@@ -100,28 +118,43 @@ describe('[Menu] Testing MainMenuComponent', () => {
       appName: 'any1',
       project: 'any2',
       type: 'menu',
+      authenticationName: 'AUTH',
+      currentRole: 'ROLE1',
+      borrowableRoles: { 1: { content: { name: 'ROLE1' } } },
+      roleList: { 2: { content: { name: 'ROLE2' } } },
+      isInstance: false,
       moduleConf: {
         ...aModuleCompleteConfiguration,
         displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW,
       },
     }
+
     const enzymeWrapper = shallow(<MainMenuComponent {...props} />, { context })
     // check current mode elements
     assert.lengthOf(enzymeWrapper.find(AppTitleComponent), 0, 'Title should not be displayed in this mode')
 
     const navigationContainer = enzymeWrapper.find(NavigationMenuContainer)
     assert.lengthOf(navigationContainer, 1, 'The navigation container should be added')
-    assert.equal(navigationContainer.props().project, props.project, 'NavigationMenuContainer should have right project prop')
-    assert.equal(navigationContainer.props().displayMode, props.moduleConf.displayMode, 'NavigationMenuContainer should have right displayMode prop')
-    assert.equal(navigationContainer.props().currentModuleId, props.currentModuleId, 'NavigationMenuContainer should have right currentModuleId prop')
-    assert.deepEqual(navigationContainer.props().homeConfiguration, props.moduleConf.home, 'NavigationMenuContainer should have right homeConfiguration prop')
-    assert.deepEqual(navigationContainer.props().navigationConfiguration, props.moduleConf.navigation, 'NavigationMenuContainer should have right project prop')
+    testSuiteHelpers.assertWrapperProperties(navigationContainer, {
+      displayMode: props.moduleConf.displayMode,
+      currentModuleId: props.currentModuleId,
+      project: props.project,
+      currentRole: props.currentRole,
+      roleList: props.roleList,
+      homeConfiguration: props.moduleConf.home,
+      navigationConfiguration: props.moduleConf.navigation,
+    }, 'Navigation container properties should be correctly provided')
 
-    const authenticationContainer = enzymeWrapper.find(AuthenticationMenuContainer)
-    assert.lengthOf(authenticationContainer, 1, 'AuthenticationMenuContainer should be added')
-    assert.equal(authenticationContainer.props().appName, props.appName, 'AuthenticationMenuContainer should have right appName prop')
-    assert.equal(authenticationContainer.props().project, props.project, 'AuthenticationMenuContainer should have right project prop')
-    assert.equal(authenticationContainer.props().display, props.moduleConf.displayAuthentication, 'AuthenticationMenuContainer should have right display prop')
+    const authenticationContainer = enzymeWrapper.find(AuthenticationContainer)
+    assert.lengthOf(authenticationContainer, 1, 'AuthenticationContainer should be added')
+    testSuiteHelpers.assertWrapperProperties(authenticationContainer, {
+      appName: props.appName,
+      project: props.project,
+      authenticationName: props.authenticationName,
+      currentRole: props.currentRole,
+      borrowableRoles: props.borrowableRoles,
+      isInstance: props.isInstance,
+    }, 'Authentication container properties should be correctly reported')
 
     const notificationListContainer = enzymeWrapper.find(NotificationListContainer)
     assert.lengthOf(notificationListContainer, 1, 'NotificationListContainer should be added')
@@ -151,6 +184,11 @@ describe('[Menu] Testing MainMenuComponent', () => {
       appName: 'any1',
       project: 'any2',
       type: 'menu',
+      authenticationName: 'AUTH',
+      currentRole: 'ROLE1',
+      borrowableRoles: { 1: { content: { name: 'ROLE1' } } },
+      roleList: { 2: { content: { name: 'ROLE2' } } },
+      isInstance: false,
       moduleConf: {
         ...aModuleCompleteConfiguration,
         displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN_PROJECT,
@@ -165,11 +203,16 @@ describe('[Menu] Testing MainMenuComponent', () => {
 
     assert.lengthOf(enzymeWrapper.find(NavigationMenuContainer), 0, 'The navigation container should be not be displayed in this mode')
 
-    const authenticationContainer = enzymeWrapper.find(AuthenticationMenuContainer)
-    assert.lengthOf(authenticationContainer, 1, 'AuthenticationMenuContainer should be added')
-    assert.equal(authenticationContainer.props().appName, props.appName, 'AuthenticationMenuContainer should have right appName prop')
-    assert.equal(authenticationContainer.props().project, props.project, 'AuthenticationMenuContainer should have right project prop')
-    assert.equal(authenticationContainer.props().display, props.moduleConf.displayAuthentication, 'AuthenticationMenuContainer should have right display prop')
+    const authenticationContainer = enzymeWrapper.find(AuthenticationContainer)
+    assert.lengthOf(authenticationContainer, 1, 'AuthenticationContainer should be added')
+    testSuiteHelpers.assertWrapperProperties(authenticationContainer, {
+      appName: props.appName,
+      project: props.project,
+      authenticationName: props.authenticationName,
+      currentRole: props.currentRole,
+      borrowableRoles: props.borrowableRoles,
+      isInstance: props.isInstance,
+    }, 'Authentication container properties should be correctly reported')
 
     const notificationListContainer = enzymeWrapper.find(NotificationListContainer)
     assert.lengthOf(notificationListContainer, 1, 'NotificationListContainer should be added')
@@ -199,11 +242,17 @@ describe('[Menu] Testing MainMenuComponent', () => {
       appName: 'any1',
       project: 'any2',
       type: 'menu',
+      authenticationName: 'AUTH',
+      currentRole: 'ROLE1',
+      borrowableRoles: { 1: { content: { name: 'ROLE1' } } },
+      roleList: { 2: { content: { name: 'ROLE2' } } },
+      isInstance: true,
       moduleConf: {
         ...aModuleCompleteConfiguration,
         displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN_INSTANCE,
       },
     }
+
     const enzymeWrapper = shallow(<MainMenuComponent {...props} />, { context })
     // check current mode elements
     const appTitleComponent = enzymeWrapper.find(AppTitleComponent)
@@ -213,11 +262,16 @@ describe('[Menu] Testing MainMenuComponent', () => {
 
     assert.lengthOf(enzymeWrapper.find(NavigationMenuContainer), 0, 'The navigation container should be not be displayed in this mode')
 
-    const authenticationContainer = enzymeWrapper.find(AuthenticationMenuContainer)
-    assert.lengthOf(authenticationContainer, 1, 'AuthenticationMenuContainer should be added')
-    assert.equal(authenticationContainer.props().appName, props.appName, 'AuthenticationMenuContainer should have right appName prop')
-    assert.equal(authenticationContainer.props().project, props.project, 'AuthenticationMenuContainer should have right project prop')
-    assert.equal(authenticationContainer.props().display, props.moduleConf.displayAuthentication, 'AuthenticationMenuContainer should have right display prop')
+    const authenticationContainer = enzymeWrapper.find(AuthenticationContainer)
+    assert.lengthOf(authenticationContainer, 1, 'AuthenticationContainer should be added')
+    testSuiteHelpers.assertWrapperProperties(authenticationContainer, {
+      appName: props.appName,
+      project: props.project,
+      authenticationName: props.authenticationName,
+      currentRole: props.currentRole,
+      borrowableRoles: props.borrowableRoles,
+      isInstance: props.isInstance,
+    }, 'Authentication container properties should be correctly reported')
 
     const notificationListContainer = enzymeWrapper.find(NotificationListContainer)
     assert.lengthOf(notificationListContainer, 1, 'NotificationListContainer should be added')

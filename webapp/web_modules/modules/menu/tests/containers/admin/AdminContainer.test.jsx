@@ -32,11 +32,12 @@ describe('[Menu] Testing AdminContainer', () => {
   it('should exists', () => {
     assert.isDefined(AdminContainer)
   })
-  it('should render properly', () => {
+  it('should render properly, hiding component when roles are not available', () => {
     const props = {
       appName: 'x',
       project: 'y',
       type: 'any',
+      roleList: {},
       adminForm: {
         changeField: () => { },
         currentNamespace: 'conf',
@@ -44,6 +45,32 @@ describe('[Menu] Testing AdminContainer', () => {
       },
       fetchLayout: () => { },
       fetchModules: () => { },
+      fetchRoleList: () => { },
+    }
+    const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(ModuleFormComponent)
+    assert.lengthOf(componentWrapper, 0, 'Component should be hidden')
+  })
+  it('should render properly, showing component when roles are available', () => {
+    const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      roleList: {
+        1: {
+          content: {
+            name: 'ROLE1',
+          },
+        },
+      },
+      adminForm: {
+        changeField: () => { },
+        currentNamespace: 'conf',
+        form: {},
+      },
+      fetchLayout: () => { },
+      fetchModules: () => { },
+      fetchRoleList: () => { },
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(ModuleFormComponent)

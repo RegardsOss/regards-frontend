@@ -31,6 +31,15 @@ import { aNavigationConfiguration, anHomeConfiguration } from '../../../dumps/co
 
 const context = buildTestContext(styles)
 
+/** Simple role list dump */
+const roleList = {
+  1: {
+    content: {
+      name: 'AROLE',
+    },
+  },
+}
+
 /**
  * Test NavigationMenuContainer
  * @author Raphaël Mechali
@@ -49,6 +58,8 @@ describe('[Menu] Testing NavigationMenuContainer', () => {
       displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.USER,
       homeConfiguration: anHomeConfiguration,
       navigationConfiguration: aNavigationConfiguration,
+      roleList,
+      currentRole: 'TESTROLE',
     }
     const enzymeWrapper = shallow(<NavigationMenuContainer {...props} />, { context })
 
@@ -62,9 +73,14 @@ describe('[Menu] Testing NavigationMenuContainer', () => {
 
     // check navigation resolution container properties
     const navResolutionContainer = enzymeWrapper.find(NavigationModelResolutionContainer)
-    assert.deepEqual(navResolutionContainer.props().homeConfiguration, props.homeConfiguration, 'the right home configuration should be provided')
-    assert.deepEqual(navResolutionContainer.props().navigationConfiguration, props.navigationConfiguration, 'the right navigation configuration should be provided')
-    assert.equal(navResolutionContainer.props().currentModuleId, props.currentModuleId, 'the right selected module ID should be provided')
+    assert.lengthOf(navResolutionContainer, 1, 'There should be the navigation resolution container')
+    testSuiteHelpers.assertWrapperProperties(navResolutionContainer, {
+      homeConfiguration: props.homeConfiguration,
+      navigationConfiguration: props.navigationConfiguration,
+      currentModuleId: props.currentModuleId,
+      currentRole: props.currentRole,
+      roleList: props.roleList,
+    }, 'Navigation resolution properties should be correctly reported')
 
     const componentWrapper = enzymeWrapper.find(NavigationLayoutComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
@@ -78,6 +94,8 @@ describe('[Menu] Testing NavigationMenuContainer', () => {
       displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW,
       homeConfiguration: anHomeConfiguration,
       navigationConfiguration: aNavigationConfiguration,
+      roleList,
+      currentRole: 'TESTROLE',
     }
     const enzymeWrapper = shallow(<NavigationMenuContainer {...props} />, { context })
 
@@ -91,9 +109,14 @@ describe('[Menu] Testing NavigationMenuContainer', () => {
 
     // check navigation resolution container properties
     const navResolutionContainer = enzymeWrapper.find(NavigationModelResolutionContainer)
-    assert.deepEqual(navResolutionContainer.props().homeConfiguration, props.homeConfiguration, 'the right home configuration should be provided')
-    assert.deepEqual(navResolutionContainer.props().navigationConfiguration, props.navigationConfiguration, 'the right navigation configuration should be provided')
-    assert.equal(navResolutionContainer.props().currentModuleId, props.currentModuleId, 'the right selected module ID should be provided')
+    assert.lengthOf(navResolutionContainer, 1, 'There should be the navigation resolution container')
+    testSuiteHelpers.assertWrapperProperties(navResolutionContainer, {
+      homeConfiguration: props.homeConfiguration,
+      navigationConfiguration: props.navigationConfiguration,
+      currentModuleId: props.currentModuleId,
+      currentRole: props.currentRole,
+      roleList: props.roleList,
+    }, 'Navigation resolution properties should be correctly reported')
 
     const componentWrapper = enzymeWrapper.find(NavigationLayoutComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
@@ -107,6 +130,8 @@ describe('[Menu] Testing NavigationMenuContainer', () => {
       displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.USER,
       homeConfiguration: anHomeConfiguration,
       navigationConfiguration: aNavigationConfiguration,
+      roleList,
+      currentRole: 'TESTROLE',
     }
     const enzymeWrapper = shallow(<NavigationMenuContainer {...props} />, { context })
 
@@ -126,6 +151,8 @@ describe('[Menu] Testing NavigationMenuContainer', () => {
       displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW,
       homeConfiguration: anHomeConfiguration,
       navigationConfiguration: aNavigationConfiguration,
+      roleList,
+      currentRole: 'TESTROLE',
     }
     const enzymeWrapper = shallow(<NavigationMenuContainer {...props} />, { context })
 

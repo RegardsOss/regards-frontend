@@ -41,10 +41,12 @@ const EMPTY_PAGE = {
 export class NavigationModelResolutionContainer extends React.Component {
   /** Standard public role */
   static PUBLIC_ROLE = 'PUBLIC'
-  /** Standard instance admin role (has rights to all modules) */
-  static INSTANCE_ADMIN = 'INSTANCE_ADMIN'
   /** Standard project admin role (has rights to all modules) */
   static PROJECT_ADMIN = 'PROJECT_ADMIN'
+  /** Virtual instance admin role, as it is not provided by the backend (has rights to all modules) */
+  static INSTANCE_ADMIN_VIRTUAL_ROLE = {
+    name: 'INSTANCE_ADMIN',
+  }
 
   /**
    * Checks if role name stands for role or one of its parents
@@ -72,7 +74,7 @@ export class NavigationModelResolutionContainer extends React.Component {
       // B - Is current role the requested role or above
       NavigationModelResolutionContainer.isRoleOrParent(requestedRole, role) ||
       // C - Is it instance admin virtual role? (always allowed)
-      role.name === NavigationModelResolutionContainer.INSTANCE_ADMIN ||
+      role === NavigationModelResolutionContainer.INSTANCE_ADMIN_VIRTUAL_ROLE ||
       // D - Is it project admin or one of its children roles? (always allowed)
       NavigationModelResolutionContainer.isRoleOrParent(NavigationModelResolutionContainer.PROJECT_ADMIN, role)
   }
@@ -311,10 +313,8 @@ export class NavigationModelResolutionContainer extends React.Component {
     dynamicModules: PropTypes.arrayOf(AccessShapes.Module), // used only in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
     roleList: AdminShapes.RoleList.isRequired,
-    // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
-    role: PropTypes.string,
-
+    currentRole: PropTypes.string, // used only in onPropertiesUpdated
   }
 
   static defaultProps = {
@@ -358,8 +358,11 @@ export class NavigationModelResolutionContainer extends React.Component {
       !isEqual(oldProps.navigationConfiguration, navigationConfiguration) ||
       !isEqual(oldProps.currentRole, currentRole) ||
       !isEqual(oldProps.roleList, roleList)) {
-      // 2 - convert modules and configuration into a navigation model
-      const roleData = get(roleList, `${currentRole}.content`)
+      // 1.a - retrieve role (or provide virtual ADMIN_INSTANCE role if admin instance)
+      const roleData = currentRole === NavigationModelResolutionContainer.INSTANCE_ADMIN_VIRTUAL_ROLE.name ?
+        NavigationModelResolutionContainer.INSTANCE_ADMIN_VIRTUAL_ROLE : // provide virtual instance admin role
+        get(roleList, `${currentRole}.content`) // provide role from borrowable roles
+      // 1.b - convert modules and configuration into a navigation model with rights management
       navigationElements =
         NavigationModelResolutionContainer.resolveNavigationModel(navigationConfiguration, dynamicModules, homeConfiguration, roleData)
     }
