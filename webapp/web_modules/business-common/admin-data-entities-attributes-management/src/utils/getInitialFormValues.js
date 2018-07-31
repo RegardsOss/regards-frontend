@@ -31,9 +31,9 @@ import isRestrictedWithEnum from './isRestrictedWithEnum'
  */
 const retrieveEntityKeyInsideEntity = (modelAttribute) => {
   if (modelAttribute.content.attribute.fragment.name !== DEFAULT_FRAGMENT) {
-    return `content.properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`
+    return `content.feature.properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`
   }
-  return `content.properties.${modelAttribute.content.attribute.name}`
+  return `content.feature.properties.${modelAttribute.content.attribute.name}`
 }
 
 /**

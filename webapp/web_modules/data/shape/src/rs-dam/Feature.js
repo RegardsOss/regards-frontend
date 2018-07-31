@@ -16,30 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Feature from './Feature'
-import { ModelContent } from './Model'
-
-const DocumentContent = PropTypes.shape({
-  id: PropTypes.number,
-  ipId: PropTypes.string.isRequired,
-  creationDate: PropTypes.string,
-  lastUpdate: PropTypes.string,
+const Feature = PropTypes.shape({
+  id: PropTypes.string.isRequired,
   entityType: PropTypes.string,
-  feature: Feature,
+  files: PropTypes.any,
+  properties: PropTypes.any,
+  model: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  providerId: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  groups: PropTypes.arrayOf(PropTypes.string).isRequired,
-  model: ModelContent.isRequired,
+  type: PropTypes.string.isRequired,
 })
 
-const Document = PropTypes.shape({
-  content: DocumentContent.isRequired,
-})
-
-const DocumentList = PropTypes.objectOf(Document)
-
-
-module.exports = {
-  Document,
-  DocumentContent,
-  DocumentList,
-}
+export default Feature

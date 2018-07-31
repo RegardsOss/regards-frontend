@@ -124,11 +124,11 @@ class DocumentListComponent extends React.Component {
     // Table columns to display
     const columns = [
       // 1 - label column
-      new TableColumnBuilder('label').titleHeaderCell().propertyRenderCell('content.label')
+      new TableColumnBuilder('label').titleHeaderCell().propertyRenderCell('content.feature.label')
         .label(intl.formatMessage({ id: 'document.list.table.label' }))
         .build(),
       // 2 - model column
-      new TableColumnBuilder('model').titleHeaderCell().propertyRenderCell('content.model.name')
+      new TableColumnBuilder('model').titleHeaderCell().propertyRenderCell('content.feature.model')
         .label(intl.formatMessage({ id: 'document.list.table.model' }))
         .build(),
       // 3 - Actions column
