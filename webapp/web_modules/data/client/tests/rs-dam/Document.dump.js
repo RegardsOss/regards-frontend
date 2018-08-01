@@ -72,6 +72,7 @@ module.exports = {
         lastUpdate: '2017-09-19T15:57:15.335Z',
         creationDate: '2017-09-19T15:57:15.201Z',
         id: 5320,
+        ipId: 'URN:AIP:DOCUMENT:PROJECT:d3c87a0f-9edb-4a34-84b5-41c69abf41a3:V1',
         tags: [],
         groups: [],
       },
