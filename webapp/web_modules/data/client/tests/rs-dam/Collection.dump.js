@@ -48,7 +48,7 @@ module.exports = {
         type: 'COLLECTION',
         lastUpdate: '2017-01-30T11:16:23.919',
         creationDate: '2017-01-30T11:16:23.919',
-        id: 1,
+        id: 4,
         ipId: 'URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1',
         label: 'label',
         tags: ['URN:AIP:COLLECTION:PROJECT:c70a2428-8a93-4d06-a90a-f657c26d3930:V1'],

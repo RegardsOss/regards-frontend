@@ -114,11 +114,11 @@ export class DatasetEditLinksComponent extends React.Component {
                 />
                 {map(remainingCollections, (collection, id) => (
                   <ListItem
-                    key={collection.content.ipId}
-                    primaryText={collection.content.label}
+                    key={collection.content.feature.id}
+                    primaryText={collection.content.feature.label}
                     rightIconButton={
                       <IconButton
-                        onClick={() => handleAdd(collection.content.ipId, false)}
+                        onClick={() => handleAdd(collection.content.feature.id, false)}
                         tooltip={this.context.intl.formatMessage({ id: 'dataset.form.links.remainingcollection.add.button' })}
                       >
                         <Add />
@@ -138,10 +138,10 @@ export class DatasetEditLinksComponent extends React.Component {
                 {map(linkedCollections, (collection, id) => (
                   <ListItem
                     key={`collection-${id}`}
-                    primaryText={collection.content.label}
+                    primaryText={collection.content.feature.label}
                     rightIconButton={
                       <IconButton
-                        onClick={() => handleDelete(collection.content.ipId, false)}
+                        onClick={() => handleDelete(collection.content.feature.id, false)}
                         tooltip={this.context.intl.formatMessage({ id: 'dataset.form.links.collection.remove.button' })}
                       >
                         <Clear />
