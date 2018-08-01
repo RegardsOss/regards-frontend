@@ -28,6 +28,7 @@ module.exports = {
         label: 'label',
         tags: ['URN:AIP:COLLECTION:PROJECT:c70a2428-8a93-4d06-a90a-f657c26d3930:V1'],
         feature: {
+          id: 'URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1',
           providerId: 'SipId1',
           entityType: 'COLLECTION',
           label: 'label',
@@ -59,6 +60,7 @@ module.exports = {
           type: 'COLLECTION',
         },
         feature: {
+          id: 'URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1',
           providerId: 'SipId2',
           entityType: 'COLLECTION',
           label: 'label',
@@ -84,6 +86,7 @@ module.exports = {
           type: 'COLLECTION',
         },
         feature: {
+          id: 'URN:AIP:COLLECTION:PROJECT:c70a2428-8a93-4d06-a90a-f657c26d3930:V1',
           providerId: 'SipId3',
           entityType: 'COLLECTION',
           label: 'Collection 2',
@@ -109,6 +112,7 @@ module.exports = {
           type: 'COLLECTION',
         },
         feature: {
+          id: 'URN:AIP:COLLECTION:PROJECT:sdfjkljsdklfj-8a93-4d06-a90a-f657c26d3930:V1',
           providerId: 'SipId4',
           entityType: 'COLLECTION',
           label: 'Collection 3',

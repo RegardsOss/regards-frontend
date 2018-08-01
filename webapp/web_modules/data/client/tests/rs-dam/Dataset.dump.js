@@ -21,6 +21,8 @@ module.exports = {
     {
       content: {
         entityType: 'DATASET',
+        id: 23,
+        ipId: 'URN:AIP:DATASET:project1:e206f4e2-8bb7-4955-b5b6-0cfdca1b3238:V1',
         feature: {
           label: 'sdfqsdf',
           model: 'VALIDATION_DATASET_MODEL_1',
@@ -133,7 +135,6 @@ module.exports = {
           'habla espanol',
         ],
         subsetting: 'fqsdsdf qsdf qsf sdf sf f',
-        id: 23,
       },
       links: [],
     },
