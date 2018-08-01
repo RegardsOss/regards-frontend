@@ -17,46 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import getAbstractEntityDescription from './getAbstractEntityDescription'
-import getFullQualifiedAttributeName from './getFullQualifiedAttributeName'
-import { ENTITY_TYPES, ENTITY_TYPES_ENUM } from './EntityTypes'
+export { default as getAbstractEntityDescription } from './getAbstractEntityDescription'
+export { default as getFullQualifiedAttributeName } from './getFullQualifiedAttributeName'
+export { ENTITY_TYPES, ENTITY_TYPES_ENUM } from './EntityTypes'
 
-import MODEL_ATTR_TYPES from './ModelAttrTypes'
-import FRAGMENT_NONE from './FragmentNone'
-import AttributeModelController from './AttributeModelController'
-import {
+export { default as MODEL_ATTR_TYPES } from './ModelAttrTypes'
+export { default as FRAGMENT_NONE, default as DEFAULT_FRAGMENT } from './FragmentNone'
+export { default as AttributeModelController } from './AttributeModelController'
+export {
   ATTRIBUTE_MODEL_RESTRICTIONS_TYPES,
   ATTRIBUTE_MODEL_RESTRICTIONS_ENUM,
 } from './AttributeModelResctrictionEnum'
 
-import DATASOURCE_REFRESH_RATE from './DatasourceRefreshRate'
+export { default as DATASOURCE_REFRESH_RATE } from './DatasourceRefreshRate'
 
-import IDBDatasourceParamsEnum from './IDBDatasourceParamsEnum'
-import IAIPDatasourceParamsEnum from './IAIPDatasourceParamsEnum'
-
-import PluginTypeEnum from './PluginTypeEnum'
-
-module.exports = {
-  getAbstractEntityDescription,
-  getFullQualifiedAttributeName,
-
-  ENTITY_TYPES,
-  ENTITY_TYPES_ENUM,
-
-  ATTRIBUTE_MODEL_RESTRICTIONS_TYPES,
-  ATTRIBUTE_MODEL_RESTRICTIONS_ENUM,
-
-  MODEL_ATTR_TYPES,
-
-  FRAGMENT_NONE,
-  DEFAULT_FRAGMENT: FRAGMENT_NONE,
-
-  AttributeModelController,
-
-  DATASOURCE_REFRESH_RATE,
-
-  IDBDatasourceParamsEnum,
-  IAIPDatasourceParamsEnum,
-
-  ...PluginTypeEnum,
-}
+export { default as IDBDatasourceParamsEnum } from './IDBDatasourceParamsEnum'
+export { default as IAIPDatasourceParamsEnum } from './IAIPDatasourceParamsEnum'

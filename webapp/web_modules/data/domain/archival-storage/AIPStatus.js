@@ -19,14 +19,10 @@
 
 
 /** Possible states for AIP in storage process */
-const AIP_STATES = [
+export const AIP_STATES = [
   'VALID', // Valid, waiting for storage
   'PENDING', // storage in progress
   'STORED', // stored
   'STORAGE_ERROR', // storage error, waiting for next attempt
   'DELETED', // deleted
 ]
-
-module.exports = {
-  AIP_STATES,
-}

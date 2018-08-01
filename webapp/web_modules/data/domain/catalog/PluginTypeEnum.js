@@ -21,14 +21,10 @@ import values from 'lodash/values'
 /**
  * @author Sébastien Binda
  */
-const PluginTypeEnum = {
+export const PluginTypeEnum = {
   SERVICES: 'fr.cnes.regards.modules.catalog.services.domain.plugins.IService',
   SEARCHENGINES: 'fr.cnes.regards.modules.search.domain.plugin.ISearchEngine',
 }
 
-const PluginTypeEnumValues = values(PluginTypeEnum)
+export const PluginTypeEnumValues = values(PluginTypeEnum)
 
-module.exports = {
-  PluginTypeEnum,
-  PluginTypeEnumValues,
-}

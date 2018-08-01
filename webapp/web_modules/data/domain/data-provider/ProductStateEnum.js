@@ -27,8 +27,4 @@ const ProductStateEnum = {
   COMPLETED: 'COMPLETED',
   FINISHED: 'FINISHED',
 }
-
-module.exports = {
-  ProductStateEnum,
-  ProductStateValues: values(ProductStateEnum),
-}
+export const ProductStateValues = values(ProductStateEnum)

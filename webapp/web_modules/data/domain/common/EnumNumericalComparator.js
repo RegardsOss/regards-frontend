@@ -18,13 +18,10 @@
  **/
 import values from 'lodash/values'
 
-const EnumNumericalComparator = {
+export const EnumNumericalComparator = {
   EQ: 'EQ',
   LE: 'LE',
   GE: 'GE',
 }
+export const EnumNumericalComparators = values(EnumNumericalComparator)
 
-module.exports = {
-  EnumNumericalComparator,
-  EnumNumericalComparators: values(EnumNumericalComparator),
-}

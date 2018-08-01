@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const GEOMETRY_TYPES = {
+export const GEOMETRY_TYPES = {
   Point: 'Point',
   MultiPoint: 'MultiPoint',
   LineString: 'LineString',
@@ -24,8 +24,4 @@ const GEOMETRY_TYPES = {
   Polygon: 'Polygon',
   MultiPolygon: 'MultiPolygon',
   GeometryCollection: 'GeometryCollection',
-}
-
-module.exports = {
-  GEOMETRY_TYPES,
 }

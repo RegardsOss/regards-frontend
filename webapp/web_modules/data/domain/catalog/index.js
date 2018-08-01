@@ -17,26 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { FACET_TYPES, FACET_TYPES_ENUM } from './FacetType'
-import { isURNTag, TagTypes } from './Tags'
-import Geometry from './geo/Geometry'
-import StaticQueryParameter from './query/common/StaticQueryParameter'
-import OpenSearchQuery from './query/opensearch/OpenSearchQuery'
-import OpenSearchQueryParameter from './query/opensearch/OpenSearchQueryParameter'
-import URLSearchQuery from './query/url/URLSearchQuery'
-import URLSearchQueryParameter from './query/url/URLSearchQueryParameter'
-import PluginTypeEnum from './PluginTypeEnum'
-
-module.exports = {
-  FACET_TYPES,
-  FACET_TYPES_ENUM,
-  Geometry,
-  isURNTag,
-  TagTypes,
-  StaticQueryParameter,
-  OpenSearchQuery,
-  OpenSearchQueryParameter,
-  URLSearchQuery,
-  URLSearchQueryParameter,
-  ...PluginTypeEnum,
-}
+export { FACET_TYPES, FACET_TYPES_ENUM } from './FacetType'
+export { isURNTag, TagTypes } from './Tags'
+export { default as Geometry } from './geo/Geometry'
+export { default as StaticQueryParameter } from './query/common/StaticQueryParameter'
+export { default as OpenSearchQuery } from './query/opensearch/OpenSearchQuery'
+export { default as OpenSearchQueryParameter } from './query/opensearch/OpenSearchQueryParameter'
+export { default as URLSearchQuery } from './query/url/URLSearchQuery'
+export { default as URLSearchQueryParameter } from './query/url/URLSearchQueryParameter'
+export { PluginTypeEnum, PluginTypeEnumValues } from './PluginTypeEnum'

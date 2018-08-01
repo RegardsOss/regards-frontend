@@ -21,13 +21,8 @@ import values from 'lodash/values'
 /**
  * @author Sébastien Binda
  */
-const PluginTypeEnum = {
+export const PluginTypeEnum = {
   AUTHENTICATION: 'fr.cnes.regards.modules.authentication.plugins.IAuthenticationPlugin',
 }
 
-const PluginTypeEnumValues = values(PluginTypeEnum)
-
-module.exports = {
-  PluginTypeEnum,
-  PluginTypeEnumValues,
-}
+export const PluginTypeEnumValues = values(PluginTypeEnum)

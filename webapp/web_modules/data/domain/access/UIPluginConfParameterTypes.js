@@ -18,7 +18,7 @@
  **/
 import values from 'lodash/values'
 
-const UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM = {
+export const UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM = {
   BOOL: 'bool',
   CHAR: 'char',
   DATE: 'date',
@@ -26,8 +26,4 @@ const UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM = {
   INT: 'int',
   STRING: 'string',
 }
-
-module.exports = {
-  UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM,
-  UI_PLUGIN_CONF_PARAMETER_TYPES: values(UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM),
-}
+export const UI_PLUGIN_CONF_PARAMETER_TYPES = values(UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM)

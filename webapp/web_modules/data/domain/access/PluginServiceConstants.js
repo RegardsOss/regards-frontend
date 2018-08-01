@@ -23,17 +23,12 @@
  * @author Raphaël Mechali
  */
 
-const applicationModes = {
+export const applicationModes = {
   ONE: 'ONE',
   MANY: 'MANY',
 }
 
-const pluginTypes = {
+export const pluginTypes = {
   UI: 'UI',
   CATALOG: 'CATALOG',
-}
-
-module.exports = {
-  applicationModes,
-  pluginTypes,
 }

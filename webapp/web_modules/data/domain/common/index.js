@@ -16,32 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+// URL
+export { relativeURLRegexp, validURLRegexp } from './URLRegex'
+// Plugin
+export { PluginParameterTypes, PluginParamType, JavaPrimitiveTypes } from './PluginParamType'
+export { default as PluginConfParamsUtils } from './PluginConfParamsUtils'
 
-import { relativeURLRegexp, validURLRegexp } from './URLRegex'
-import PluginParamType from './PluginParamType'
-import EntityIpIdTester from './EntityIpIdTester'
-import DataTypes from './DataTypes'
-import durationParser from './DurationParser'
-import PluginConfParamsUtils from './PluginConfParamsUtils'
-import URLAuthInjector from './URLAuthInjector'
-import EnumNumericalComparator from './EnumNumericalComparator'
-
-module.exports = {
-  // Plugin
-  ...PluginParamType,
-  // Data types
-  ...DataTypes,
-
-  // URL
-  relativeURLRegexp,
-  validURLRegexp,
-
-  ...EnumNumericalComparator,
-
-  EntityIpIdTester,
-
-  durationParser,
-  PluginConfParamsUtils,
-
-  URLAuthInjector,
-}
+export { default as EntityIpIdTester } from './EntityIpIdTester'
+// Data types
+export { DataTypes, DataTypesEnum } from './DataTypes'
+export { default as URLAuthInjector } from './URLAuthInjector'
+export { EnumNumericalComparator, EnumNumericalComparators } from './EnumNumericalComparator'
+export { default as durationParser } from './DurationParser'

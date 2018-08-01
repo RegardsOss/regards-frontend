@@ -23,7 +23,7 @@ import { SIPStateEnum } from '../ingest/SIPStateEnum'
  * Possible states for SIPs associated to an acquisition chain product.
  * @author Sébastien Binda
  */
-const ProductSIPStateEnum = {
+export const ProductSIPStateEnum = {
   ...SIPStateEnum,
   NOT_SCHEDULED: 'NOT_SCHEDULED',
   SCHEDULED: 'SCHEDULED',
@@ -32,8 +32,4 @@ const ProductSIPStateEnum = {
   SUBMISSION_SCHEDULED: 'SUBMISSION_SCHEDULED',
   SUBMISSION_ERROR: 'SUBMISSION_ERROR',
 }
-
-module.exports = {
-  ProductSIPStateEnum,
-  ProductSIPStateEnumValues: values(ProductSIPStateEnum),
-}
+export const ProductSIPStateEnumValues = values(ProductSIPStateEnum)
