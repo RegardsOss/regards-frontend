@@ -89,9 +89,9 @@ export class CollectionEditLinksComponent extends React.Component {
                 {map(remainingCollections, (collection, id) => (
                   <ListItem
                     key={id}
-                    primaryText={collection.content.label}
+                    primaryText={collection.content.feature.label}
                     rightIconButton={
-                      <IconButton onClick={() => handleAdd(collection.content.ipId)}>
+                      <IconButton onClick={() => handleAdd(collection.content.feature.id)}>
                         <Add />
                       </IconButton>
                     }
@@ -106,9 +106,9 @@ export class CollectionEditLinksComponent extends React.Component {
                 {map(linkedCollections, (collection, id) => (
                   <ListItem
                     key={id}
-                    primaryText={collection.content.label}
+                    primaryText={collection.content.feature.label}
                     rightIconButton={
-                      <IconButton onClick={() => handleDelete(collection.content.ipId)}>
+                      <IconButton onClick={() => handleDelete(collection.content.feature.id)}>
                         <Clear />
                       </IconButton>
                     }

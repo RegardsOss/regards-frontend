@@ -97,24 +97,15 @@ export class CollectionFormContainer extends React.Component {
 
   handleUpdate = (values) => {
     const properties = extractParametersFromFormValues(values, this.props.modelAttributeList)
-    const descriptionFile = getAbstractEntityDescription(values.descriptionFileContent, values.descriptionUrl)
     const updatedCollection = Object.assign({}, this.props.currentCollection.content, {
-      label: values.label,
-      geometry: values.geometry,
-      properties,
+      feature: {
+        ...this.props.currentCollection.content.feature,
+        label: values.label,
+        geometry: values.geometry,
+        properties,
+      },
     })
-    // Update the descriptionFile object if the user changed that value
-    if (descriptionFile) {
-      updatedCollection.descriptionFile = descriptionFile
-    }
-    const files = {}
-    if (values.descriptionFileContent) {
-      files.file = values.descriptionFileContent
-    }
-    const apiValues = {
-      collection: updatedCollection,
-    }
-    Promise.resolve(this.props.updateCollection(this.props.currentCollection.content.id, apiValues, files))
+    Promise.resolve(this.props.updateCollection(this.props.currentCollection.content.id, updatedCollection))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -140,21 +131,26 @@ export class CollectionFormContainer extends React.Component {
     }
     const descriptionFile = getAbstractEntityDescription(values.descriptionFileContent, values.descriptionUrl)
     const files = {}
+    //TODO files
     // Send the file if there is
     if (values.descriptionFileContent) {
       files.file = values.descriptionFileContent
     }
-    const apiValues = {
-      collection: Object.assign({}, defaultValues, {
+    const apiValues = Object.assign({}, defaultValues, {
+      feature: {
+        providerId: values.providerId,
+        entityType: ENTITY_TYPES_ENUM.COLLECTION,
+        model: values.model,
+        properties,
         label: values.label,
         geometry: values.geometry,
-        descriptionFile,
-        model,
-        properties,
-        entityType: ENTITY_TYPES_ENUM.COLLECTION,
-      }),
-    }
-    Promise.resolve(this.props.createCollection(apiValues, files))
+      },
+      // descriptionFile,
+      model,
+      entityType: ENTITY_TYPES_ENUM.COLLECTION,
+    })
+
+    Promise.resolve(this.props.createCollection(apiValues))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -216,8 +212,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchCollection: id => dispatch(collectionActions.fetchEntity(id)),
-  createCollection: (values, files) => dispatch(collectionActions.createEntityUsingMultiPart(values, files)),
-  updateCollection: (id, values, files) => dispatch(collectionActions.updateEntityUsingMultiPart(id, values, files)),
+  createCollection: values => dispatch(collectionActions.createEntity(values)),
+  updateCollection: (id, values) => dispatch(collectionActions.updateEntity(id, values)),
   fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: ENTITY_TYPES_ENUM.COLLECTION })),
   fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),

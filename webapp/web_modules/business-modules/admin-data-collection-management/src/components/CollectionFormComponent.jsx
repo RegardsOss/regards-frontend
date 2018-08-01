@@ -138,9 +138,10 @@ export class CollectionFormComponent extends React.Component {
       const { currentCollection, modelAttributeList } = this.props
       const properties = getInitialFormValues(modelAttributeList, currentCollection)
       const initialValues = {
-        label: currentCollection.content.label,
-        geometry: currentCollection.content.geometry,
-        model: currentCollection.content.model.name,
+        providerId: currentCollection.content.feature.providerId,
+        label: currentCollection.content.feature.label,
+        geometry: currentCollection.content.feature.geometry,
+        model: currentCollection.content.feature.model,
         descriptionUrl: get(currentCollection.content, 'descriptionFile.url', undefined),
         properties,
       }
@@ -180,6 +181,14 @@ export class CollectionFormComponent extends React.Component {
           />
           <CollectionStepperComponent stepIndex={0} />
           <CardText>
+            <Field
+              name="providerId"
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              label={this.context.intl.formatMessage({ id: 'collection.form.providerId' })}
+              disabled={!this.state.isCreating && !this.state.isDuplicating}
+            />
             <Field
               name="label"
               fullWidth

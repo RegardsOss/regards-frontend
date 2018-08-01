@@ -93,12 +93,12 @@ export class CollectionEditLinksContainer extends React.Component {
    */
   getRemainingCollection = (currentCollection, collectionList) => {
     const { collectionName } = this.state
-    const collectionLinkedToCurrentCollection = partition(collectionList, collection => some(currentCollection.content.tags, tag => tag === collection.content.ipId))
+    const collectionLinkedToCurrentCollection = partition(collectionList, collection => some(currentCollection.content.tags, tag => tag === collection.content.feature.id))
     return [
       collectionLinkedToCurrentCollection[0],
       // Remove the currentCollection from collectionList and use, if setup, the search input value
       filter(collectionLinkedToCurrentCollection[1], collection =>
-        collection.content.id !== currentCollection.content.id && startsWith(collection.content.label.toLowerCase(), collectionName)),
+        collection.content.id !== currentCollection.content.id && startsWith(collection.content.feature.label.toLowerCase(), collectionName)),
     ]
   }
 

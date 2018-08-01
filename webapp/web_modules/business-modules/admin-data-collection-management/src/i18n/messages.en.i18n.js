@@ -37,6 +37,7 @@ const messages = Object.assign({
   'collection.list.table.model': 'Model',
   'collection.form.action.next': 'Next',
   'collection.form.action.cancel': 'Cancel',
+  'collection.form.providerId': 'Supplier identifier (*)',
   'collection.form.model': 'Collection models',
   'collection.form.label': 'Label',
   'collection.form.geometry': 'Geometry',

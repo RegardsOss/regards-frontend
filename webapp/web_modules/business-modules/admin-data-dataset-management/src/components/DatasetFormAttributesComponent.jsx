@@ -193,6 +193,7 @@ export class DatasetFormAttributesComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'dataset.form.providerId' })}
+              disabled={this.state.isEditing}
             />
             <Field
               name="label"

@@ -46,36 +46,34 @@ export default class CollectionActions extends BasicPageableActions {
   /**
    * Serialize the geometry attribute before create / update collection
    * @param objectValues
-   * @param files
    * @param pathParams
    * @param queryParams
    */
-  createEntityUsingMultiPart(objectValues, files, pathParams, queryParams) {
+  createEntity(objectValues, pathParams, queryParams) {
     const objectValuesWithGeometryAsJson = {
       ...objectValues,
     }
-    if (has(objectValues, 'collection.geometry')) {
-      objectValuesWithGeometryAsJson.collection.geometry = CollectionActions.transformStringToJSon(objectValues.collection.geometry)
+    if (has(objectValues, 'feature.geometry')) {
+      objectValuesWithGeometryAsJson.feature.geometry = CollectionActions.transformStringToJSon(objectValues.feature.geometry)
     }
-    return super.createEntityUsingMultiPart(objectValuesWithGeometryAsJson, files, pathParams, queryParams)
+    return super.createEntity(objectValuesWithGeometryAsJson, pathParams, queryParams)
   }
 
   /**
    * Serialize the geometry attribute before create / update collection
    * @param keyValue
    * @param objectValues
-   * @param files
    * @param pathParams
    * @param queryParams
    */
-  updateEntityUsingMultiPart(keyValue, objectValues, files, pathParams, queryParams) {
+  updateEntity(keyValue, objectValues, pathParams, queryParams) {
     const objectValuesWithGeometryAsJson = {
       ...objectValues,
     }
-    if (has(objectValuesWithGeometryAsJson, 'collection.geometry')) {
-      objectValuesWithGeometryAsJson.collection.geometry = CollectionActions.transformStringToJSon(objectValues.collection.geometry)
+    if (has(objectValuesWithGeometryAsJson, 'feature.geometry')) {
+      objectValuesWithGeometryAsJson.feature.geometry = CollectionActions.transformStringToJSon(objectValues.feature.geometry)
     }
-    return super.updateEntityUsingMultiPart(keyValue, objectValuesWithGeometryAsJson, files, pathParams, queryParams)
+    return super.updateEntity(keyValue, objectValuesWithGeometryAsJson, pathParams, queryParams)
   }
 
   static transformStringToJSon(valueAsString) {
