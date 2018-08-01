@@ -21,7 +21,6 @@ import cloneDeep from 'lodash/cloneDeep'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { getAbstractEntityDescription } from '@regardsoss/domain/dam'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasetSelectors, datasetActions } from './../clients/DatasetClient'
 import DatasetFormAttributesContainer from './DatasetFormAttributesContainer'
@@ -139,7 +138,6 @@ export class DatasetFormContainer extends React.Component {
    */
   saveAttributes = (providerId, label, geometry, modelDatasetName, properties, modelObjectName, descriptionFileContent, descriptionUrl) => {
     const { isCreating, currentDataset } = this.state
-    const descriptionFile = getAbstractEntityDescription(descriptionFileContent, descriptionUrl)
     // Save the file in the state if there is
     if (descriptionFileContent) {
       this.setState({
