@@ -22,15 +22,15 @@
  */
 import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
 
-export function isDatasetURN(id) { return id.match(/URN:AIP:DATASET:.*/) }
+function isDatasetURN(id) { return id.match(/URN:AIP:DATASET:.*/) }
 
-export function isCollectionURN(id) { return id.match(/URN:AIP:COLLECTION:.*/) }
+function isCollectionURN(id) { return id.match(/URN:AIP:COLLECTION:.*/) }
 
-export function isDocumentURN(id) { return id.match(/URN:AIP:DOCUMENT:.*/) }
+function isDocumentURN(id) { return id.match(/URN:AIP:DOCUMENT:.*/) }
 
-export function isDataURN(id) { return id.match(/URN:AIP:DATA:.*/) }
+function isDataURN(id) { return id.match(/URN:AIP:DATA:.*/) }
 
-export function getTypeForURN(id) {
+function getTypeForURN(id) {
   if (isCollectionURN(id)) {
     return ENTITY_TYPES_ENUM.COLLECTION
   } else if (isDatasetURN(id)) {
