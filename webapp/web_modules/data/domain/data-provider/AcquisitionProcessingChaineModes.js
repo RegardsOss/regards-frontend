@@ -27,7 +27,3 @@ export const AcquisitionProcessingChainModeEnum = {
   MANUAL: 'MANUAL',
 }
 export const AcquisitionProcessingChainModes = values(AcquisitionProcessingChainModeEnum)
-
-module.exports = {
-
-}
