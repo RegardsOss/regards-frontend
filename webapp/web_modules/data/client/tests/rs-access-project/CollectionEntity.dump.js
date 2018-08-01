@@ -32,7 +32,18 @@ module.exports = {
       label: 'collection1',
       tags: [],
       files: {
-        RAWDATA: [],
+        DESCRIPTION: [{
+          dataType: 'DESCRIPTION',
+          reference: true,
+          filename: 'description.pdf',
+          online: true,
+          uri: 'http://localhost/documents/5320/files/description.pdf',
+          mimeType: {
+            type: 'application',
+            subtype: 'pdf',
+            parameters: {},
+          },
+        }],
       },
       properties: {
         name: 'collection1',
