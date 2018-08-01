@@ -16,32 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ProcessingChainActions from './processingChain/ProcessingChainActions'
-import ProcessingChainReducer from './processingChain/ProcessingChainReducer'
-import ProcessingChainSelectors from './processingChain/ProcessingChainSelectors'
-import ProcessingChainImportActions from './processingChain/ProcessingChainImportActions'
-import SIPActions from './sip/SIPActions'
-import getSIPReducer from './sip/SIPReducer'
-import getSIPSelectors from './sip/SIPSelectors'
-import SIPImportActions from './sipImport/SIPImportActions'
-import getSIPImportReducer from './sipImport/SIPImportReducer'
-import getSIPImportSelectors from './sipImport/SIPImportSelectors'
-import SessionActions from './session/SessionActions'
-import getSessionReducer from './session/SessionReducer'
-import getSessionSelectors from './session/SessionSelectors'
-
-module.exports = {
-  ProcessingChainActions,
-  ProcessingChainImportActions,
-  ProcessingChainReducer,
-  ProcessingChainSelectors,
-  SIPActions,
-  getSIPReducer,
-  getSIPSelectors,
-  SIPImportActions,
-  getSIPImportReducer,
-  getSIPImportSelectors,
-  SessionActions,
-  getSessionReducer,
-  getSessionSelectors,
-}
+export { default as ProcessingChainActions } from './processingChain/ProcessingChainActions'
+export { default as ProcessingChainReducer } from './processingChain/ProcessingChainReducer'
+export { default as ProcessingChainSelectors } from './processingChain/ProcessingChainSelectors'
+export { default as ProcessingChainImportActions } from './processingChain/ProcessingChainImportActions'
+export { default as SIPActions } from './sip/SIPActions'
+export { default as getSIPReducer } from './sip/SIPReducer'
+export { default as getSIPSelectors } from './sip/SIPSelectors'
+export { default as SIPImportActions } from './sipImport/SIPImportActions'
+export { default as getSIPImportReducer } from './sipImport/SIPImportReducer'
+export { default as getSIPImportSelectors } from './sipImport/SIPImportSelectors'
+export { default as SessionActions } from './session/SessionActions'
+export { default as getSessionReducer } from './session/SessionReducer'
+export { default as getSessionSelectors } from './session/SessionSelectors'

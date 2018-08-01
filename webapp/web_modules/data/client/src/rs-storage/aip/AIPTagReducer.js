@@ -16,14 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
-export { FACET_TYPES, FACET_TYPES_ENUM } from './FacetType'
-export { isURNTag, TagTypes } from './Tags'
-export { default as GEOMETRY_TYPES } from './geo/Geometry'
-export { LEGACY_SEARCH_ENGINE } from './SearchConstants'
-export { default as StaticQueryParameter } from './query/common/StaticQueryParameter'
-export { default as OpenSearchQuery } from './query/opensearch/OpenSearchQuery'
-export { default as OpenSearchQueryParameter } from './query/opensearch/OpenSearchQueryParameter'
-export { default as URLSearchQuery } from './query/url/URLSearchQuery'
-export { default as URLSearchQueryParameter } from './query/url/URLSearchQueryParameter'
-export { PluginTypeEnum, PluginTypeEnumValues } from './PluginTypeEnum'
+import { BasicSignalsReducers } from '@regardsoss/store-utils'
+import AIPTagActions from './AIPTagActions'
+/**
+ * Redux Reducer for AIP tags
+ * @author Léo Mieulet
+ */
+export default function getAipTagReducer(namespace) {
+  const instance = new BasicSignalsReducers(new AIPTagActions(namespace))
+  return (state, action) => instance.reduce(state, action)
+}

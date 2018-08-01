@@ -15,15 +15,32 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import Schemas from '@regardsoss/api'
+import { BasicListActions } from '@regardsoss/store-utils'
 
-export { FACET_TYPES, FACET_TYPES_ENUM } from './FacetType'
-export { isURNTag, TagTypes } from './Tags'
-export { default as GEOMETRY_TYPES } from './geo/Geometry'
-export { LEGACY_SEARCH_ENGINE } from './SearchConstants'
-export { default as StaticQueryParameter } from './query/common/StaticQueryParameter'
-export { default as OpenSearchQuery } from './query/opensearch/OpenSearchQuery'
-export { default as OpenSearchQueryParameter } from './query/opensearch/OpenSearchQueryParameter'
-export { default as URLSearchQuery } from './query/url/URLSearchQuery'
-export { default as URLSearchQueryParameter } from './query/url/URLSearchQueryParameter'
-export { PluginTypeEnum, PluginTypeEnumValues } from './PluginTypeEnum'
+/**
+ * Actions to fetchs AIP file(s)
+ * @author Léo Mieulet
+ */
+class AIPFileActions extends BasicListActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/data-file/aip/{id}`,
+      schemaTypes: {
+        ENTITY: Schemas.AIP_FILE,
+        ENTITY_ARRAY: Schemas.AIP_FILE_ARRAY,
+      },
+    })
+  }
+  /**
+   * Return an action that fetch all AIP files related to provided AIP id
+   */
+  fetchAIPFiles(aipId) {
+    console.error('aip', aipId)
+    return this.fetchEntityList({ id: aipId })
+  }
+}
+
+export default AIPFileActions

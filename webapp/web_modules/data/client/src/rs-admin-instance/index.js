@@ -17,50 +17,24 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import AcceptAccountActions from './account/AcceptAccountActions'
-import getAcceptAccountReducer from './account/AcceptAccountReducer'
-import getAcceptAccountSelectors from './account/AcceptAccountSelectors'
-import AccountActions from './account/AccountActions'
-import getAccountReducer from './account/AccountReducer'
-import getAccountSelectors from './account/AccountSelectors'
-import AccountSettingsActions from './account/AccountSettingsActions'
-import getAccountSettingsReducer from './account/AccountSettingsReducer'
-import getAccountSettingsSelectors from './account/AccountSettingsSelectors'
-import AccountWaitingActions from './account/AccountWaitingActions'
-import getAccountWaitingReducer from './account/AccountWaitingReducer'
-import getAccountWaitingSelectors from './account/AccountWaitingSelectors'
-import EnableAccountActions from './account/EnableAccountActions'
-import getEnableAccountReducer from './account/EnableAccountReducer'
-import getEnableAccountSelectors from './account/EnableAccountSelectors'
-import RefuseAccountActions from './account/RefuseAccountActions'
-import getRefuseAccountReducer from './account/RefuseAccountReducer'
-import getRefuseAccountSelectors from './account/RefuseAccountSelectors'
-
 /**
  * Admin instance actions/reducers/selectors.
  */
-module.exports = {
-  AcceptAccountActions,
-  getAcceptAccountReducer,
-  getAcceptAccountSelectors,
-
-  AccountActions,
-  getAccountReducer,
-  getAccountSelectors,
-
-  AccountSettingsActions,
-  getAccountSettingsReducer,
-  getAccountSettingsSelectors,
-
-  AccountWaitingActions,
-  getAccountWaitingReducer,
-  getAccountWaitingSelectors,
-
-  EnableAccountActions,
-  getEnableAccountReducer,
-  getEnableAccountSelectors,
-
-  RefuseAccountActions,
-  getRefuseAccountReducer,
-  getRefuseAccountSelectors,
-}
+export { default as AcceptAccountActions } from './account/AcceptAccountActions'
+export { default as getAcceptAccountReducer } from './account/AcceptAccountReducer'
+export { default as getAcceptAccountSelectors } from './account/AcceptAccountSelectors'
+export { default as AccountActions } from './account/AccountActions'
+export { default as getAccountReducer } from './account/AccountReducer'
+export { default as getAccountSelectors } from './account/AccountSelectors'
+export { default as AccountSettingsActions } from './account/AccountSettingsActions'
+export { default as getAccountSettingsReducer } from './account/AccountSettingsReducer'
+export { default as getAccountSettingsSelectors } from './account/AccountSettingsSelectors'
+export { default as AccountWaitingActions } from './account/AccountWaitingActions'
+export { default as getAccountWaitingReducer } from './account/AccountWaitingReducer'
+export { default as getAccountWaitingSelectors } from './account/AccountWaitingSelectors'
+export { default as EnableAccountActions } from './account/EnableAccountActions'
+export { default as getEnableAccountReducer } from './account/EnableAccountReducer'
+export { default as getEnableAccountSelectors } from './account/EnableAccountSelectors'
+export { default as RefuseAccountActions } from './account/RefuseAccountActions'
+export { default as getRefuseAccountReducer } from './account/RefuseAccountReducer'
+export { default as getRefuseAccountSelectors } from './account/RefuseAccountSelectors'

@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import AuthenticateActions, { SPECIFIC_ENDPOINT_MARKER } from './AuthenticateActions'
-import AuthenticateReducers from './AuthenticateReducers'
-import AuthenticateSelectors from './AuthenticateSelectors'
 
 /**
  * Common authentication actions.
@@ -26,9 +23,6 @@ import AuthenticateSelectors from './AuthenticateSelectors'
  * for the autentication middleware to know that this endpoint don't need a public token scope. All other endpoints are
  * avaiable without token by passing the scope in query param or into the request header.
  */
-module.exports = {
-  AuthenticateActions,
-  AuthenticateReducers,
-  AuthenticateSelectors,
-  SPECIFIC_ENDPOINT_MARKER,
-}
+export { default as AuthenticateActions, SPECIFIC_ENDPOINT_MARKER } from './AuthenticateActions'
+export { default as AuthenticateReducers } from './AuthenticateReducers'
+export { default as AuthenticateSelectors } from './AuthenticateSelectors'

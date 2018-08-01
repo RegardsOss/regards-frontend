@@ -24,7 +24,7 @@ import { AttributeModel } from '../rs-dam/AttributeModel'
  * data, betwen the SearchResultsContainer and the corresponding component)
  * @author Raphaël Mechali
  */
-const AttributePresentationModel = PropTypes.shape({
+export const AttributePresentationModel = PropTypes.shape({
   // The key used to refer to this model
   key: PropTypes.string.isRequired,
   // internationalized label for presentation
@@ -46,9 +46,4 @@ const AttributePresentationModel = PropTypes.shape({
   defaultSorting: PropTypes.bool.isRequired,
 })
 
-const AttributePresentationModelArray = PropTypes.arrayOf(AttributePresentationModel)
-
-module.exports = {
-  AttributePresentationModel,
-  AttributePresentationModelArray,
-}
+export const AttributePresentationModelArray = PropTypes.arrayOf(AttributePresentationModel)

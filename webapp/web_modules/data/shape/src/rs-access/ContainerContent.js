@@ -21,7 +21,7 @@
  * Container entity
  * @author Sébastien Binda
  */
-const ContainerContent = PropTypes.shape({
+export const ContainerContent = PropTypes.shape({
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   classes: PropTypes.arrayOf(PropTypes.string),
@@ -29,5 +29,3 @@ const ContainerContent = PropTypes.shape({
   containers: PropTypes.arrayOf(PropTypes.object),
   dynamicContent: PropTypes.bool,
 })
-
-export default ContainerContent

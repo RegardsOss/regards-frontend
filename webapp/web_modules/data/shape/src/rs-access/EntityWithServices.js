@@ -24,13 +24,9 @@ import { PluginServiceWithContentArray } from './PluginService'
  * Defines entity shape, as enriched by the access microservice (front-end proxy)
  * @author Raphaël Mechali
  */
-const EntityWithServices = PropTypes.shape({
+export const EntityWithServices = PropTypes.shape({
   content: PropTypes.shape({
     ...entityFields,
     services: PluginServiceWithContentArray,
   }).isRequired,
 })
-
-module.exports = {
-  EntityWithServices,
-}

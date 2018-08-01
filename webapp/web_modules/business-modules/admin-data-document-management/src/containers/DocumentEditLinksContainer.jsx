@@ -118,9 +118,9 @@ export class DocumentEditLinksContainer extends React.Component {
     const { collectionName } = this.state
 
     const collectionLinkedToCurrentDocument = partition(collectionList, collection =>
-      some(currentDocument.content.tags, tag => tag === collection.content.ipId))
+      some(currentDocument.content.tags, tag => tag === collection.content.feature.id))
     return filter(collectionLinkedToCurrentDocument[1], collection =>
-      startsWith(collection.content.label.toLowerCase(), collectionName))
+      startsWith(collection.content.feature.label.toLowerCase(), collectionName))
   }
 
   partitionDatasetLinkedTags = (currentDocument) => {

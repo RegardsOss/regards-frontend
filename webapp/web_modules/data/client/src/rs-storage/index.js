@@ -17,33 +17,32 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import AIPStatusActions from './aip/AIPStatusActions'
-import getAIPStatusReducer from './aip/AIPStatusReducer'
-import getAIPStatusSelectors from './aip/AIPStatusSelectors'
+export { default as AIPStatusActions } from './aip/AIPStatusActions'
+export { default as getAIPStatusReducer } from './aip/AIPStatusReducer'
+export { default as getAIPStatusSelectors } from './aip/AIPStatusSelectors'
 
-import StorageMonitoringActions from './monitoring/StorageMonitoringActions'
-import getStorageMonitoringReducer from './monitoring/StorageMonitoringReducer'
-import getStorageMonitoringSelectors from './monitoring/StorageMonitoringSelectors'
+export { default as AIPActions } from './aip/AIPActions'
+export { default as getAIPReducer } from './aip/AIPReducer'
+export { default as getAIPSelectors } from './aip/AIPSelectors'
 
-import PrioritizedDataStorageActions from './plugins/PrioritizedDataStorageActions'
-import getPrioritizedDataStorageReducer from './plugins/PrioritizedDataStorageReducer'
-import getPrioritizedDataStorageSelectors from './plugins/PrioritizedDataStorageSelectors'
+export { default as AIPTagActions } from './aip/AIPTagActions'
+export { default as getAIPTagReducer } from './aip/AIPTagReducer'
+export { default as getAIPTagSelectors } from './aip/AIPTagSelectors'
 
-import PrioritizedDataStorageUpActions from './plugins/PrioritizedDataStorageUpActions'
-import PrioritizedDataStorageDownActions from './plugins/PrioritizedDataStorageDownActions'
+export { default as AIPSessionActions } from './aip/AIPSessionActions'
+export { default as getAIPSessionReducer } from './aip/AIPSessionReducer'
+export { default as getAIPSessionSelectors } from './aip/AIPSessionSelectors'
 
-module.exports = {
-  AIPStatusActions,
-  getAIPStatusReducer,
-  getAIPStatusSelectors,
+export { default as AIPFileActions } from './aip/AIPFileActions'
+export { default as getAIPFileReducer } from './aip/AIPFileReducer'
+export { default as getAIPFileSelectors } from './aip/AIPFileSelectors'
 
-  StorageMonitoringActions,
-  getStorageMonitoringReducer,
-  getStorageMonitoringSelectors,
+export { default as StorageMonitoringActions } from './monitoring/StorageMonitoringActions'
+export { default as getStorageMonitoringReducer } from './monitoring/StorageMonitoringReducer'
+export { default as getStorageMonitoringSelectors } from './monitoring/StorageMonitoringSelectors'
 
-  PrioritizedDataStorageActions,
-  getPrioritizedDataStorageReducer,
-  getPrioritizedDataStorageSelectors,
-  PrioritizedDataStorageDownActions,
-  PrioritizedDataStorageUpActions,
-}
+export { default as PrioritizedDataStorageActions } from './plugins/PrioritizedDataStorageActions'
+export { default as getPrioritizedDataStorageReducer } from './plugins/PrioritizedDataStorageReducer'
+export { default as getPrioritizedDataStorageSelectors } from './plugins/PrioritizedDataStorageSelectors'
+export { default as PrioritizedDataStorageUpActions } from './plugins/PrioritizedDataStorageUpActions'
+export { default as PrioritizedDataStorageDownActions } from './plugins/PrioritizedDataStorageDownActions'

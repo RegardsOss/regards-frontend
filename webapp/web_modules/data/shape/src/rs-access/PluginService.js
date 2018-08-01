@@ -28,7 +28,7 @@ import URL from '../rs-common/URL'
 /**
  * A single plugin service
  */
-const PluginService = PropTypes.shape({
+export const PluginService = PropTypes.shape({
   // config Id, used to retrieve config when running that service
   configId: PropTypes.number.isRequired,
   // label
@@ -45,15 +45,10 @@ const PluginService = PropTypes.shape({
 
 
 /** Plugin service with content */
-const PluginServiceWithContent = PropTypes.shape({
+export const PluginServiceWithContent = PropTypes.shape({
   content: PluginService,
 })
 
 /** Plugin services as array */
-const PluginServiceWithContentArray = PropTypes.arrayOf(PluginServiceWithContent)
+export const PluginServiceWithContentArray = PropTypes.arrayOf(PluginServiceWithContent)
 
-module.exports = {
-  PluginService,
-  PluginServiceWithContent,
-  PluginServiceWithContentArray,
-}

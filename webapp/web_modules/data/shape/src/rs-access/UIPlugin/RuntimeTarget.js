@@ -55,6 +55,4 @@ const queryTarget = PropTypes.shape({
   getReducePromise: PropTypes.func.isRequired,
 })
 
-const RuntimeTarget = PropTypes.oneOfType([oneEntityTarget, manyEntitiesTarget, queryTarget])
-
-module.exports = { RuntimeTarget }
+export const RuntimeTarget = PropTypes.oneOfType([oneEntityTarget, manyEntitiesTarget, queryTarget])

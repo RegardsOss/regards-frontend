@@ -17,13 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-const RuntimeConfiguration = PropTypes.shape({
+export const RuntimeConfiguration = PropTypes.shape({
   // static: map parameter key => value
   static: PropTypes.objectOf(PropTypes.any),
   // dynamic: map parameter key => value
   dynamic: PropTypes.objectOf(PropTypes.any),
 })
-
-module.exports = {
-  RuntimeConfiguration,
-}

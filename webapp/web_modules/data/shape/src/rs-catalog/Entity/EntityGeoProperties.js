@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
-import { Geometry } from '@regardsoss/domain/catalog'
+import { GEOMETRY_TYPES } from '@regardsoss/domain/catalog'
 
 const Position = PropTypes.arrayOf(PropTypes.number)
 
@@ -26,7 +26,7 @@ const Position = PropTypes.arrayOf(PropTypes.number)
  * @author Sébastien Binda
  */
 export default PropTypes.shape({
-  type: PropTypes.oneOf(values(Geometry.GEOMETRY_TYPES)),
+  type: PropTypes.oneOf(values(GEOMETRY_TYPES)),
   coordinates: PropTypes.oneOfType([
     Position, // Simple point
     PropTypes.arrayOf(Position), // LineString, MultiPoint

@@ -16,64 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ClearPluginCacheActions from './pluginMetaData/ClearPluginCacheActions'
-import getClearPluginCacheReducer from './pluginMetaData/ClearPluginCacheReducer'
-import getClearPluginCacheSelectors from './pluginMetaData/ClearPluginCacheSelectors'
+export { default as ClearPluginCacheActions } from './pluginMetaData/ClearPluginCacheActions'
+export { default as getClearPluginCacheReducer } from './pluginMetaData/ClearPluginCacheReducer'
+export { default as getClearPluginCacheSelectors } from './pluginMetaData/ClearPluginCacheSelectors'
 
-import PluginMetaDataActions from './pluginMetaData/PluginMetaDataActions'
-import getPluginMetaDataReducer from './pluginMetaData/PluginMetaDataReducer'
-import getPluginMetaDataSelectors from './pluginMetaData/PluginMetaDataSelectors'
+export { default as PluginMetaDataActions } from './pluginMetaData/PluginMetaDataActions'
+export { default as getPluginMetaDataReducer } from './pluginMetaData/PluginMetaDataReducer'
+export { default as getPluginMetaDataSelectors } from './pluginMetaData/PluginMetaDataSelectors'
 
-import PluginConfigurationActions from './pluginConfiguration/PluginConfigurationActions'
-import PluginConfigurationByPluginIdActions from './pluginConfiguration/PluginConfigurationByPluginIdActions'
-import getPluginConfigurationReducer from './pluginConfiguration/PluginConfigurationReducer'
-import getPluginConfigurationSelectors from './pluginConfiguration/PluginConfigurationSelectors'
+export { default as PluginConfigurationActions } from './pluginConfiguration/PluginConfigurationActions'
+export { default as PluginConfigurationByPluginIdActions } from './pluginConfiguration/PluginConfigurationByPluginIdActions'
+export { default as getPluginConfigurationReducer } from './pluginConfiguration/PluginConfigurationReducer'
+export { default as getPluginConfigurationSelectors } from './pluginConfiguration/PluginConfigurationSelectors'
 
-import MicroserviceInfosActions from './info/MicroserviceInfosActions'
-import getMicroserviceInfosReducer from './info/MicroserviceInfosReducer'
-import getMicroserviceInfosSelectors from './info/MicroserviceInfosSelectors'
+export { default as MicroserviceInfosActions } from './info/MicroserviceInfosActions'
+export { default as getMicroserviceInfosReducer } from './info/MicroserviceInfosReducer'
+export { default as getMicroserviceInfosSelectors } from './info/MicroserviceInfosSelectors'
 
-import PluginTypeActions from './pluginTypes/PluginTypeActions'
-import getPluginTypeReducer from './pluginTypes/PluginTypeReducer'
-import getPluginTypeSelectors from './pluginTypes/PluginTypeSelectors'
+export { default as PluginTypeActions } from './pluginTypes/PluginTypeActions'
+export { default as getPluginTypeReducer } from './pluginTypes/PluginTypeReducer'
+export { default as getPluginTypeSelectors } from './pluginTypes/PluginTypeSelectors'
 
-import MicroserviceReadyActions from './ready/MicroserviceReadyActions'
+export { default as MicroserviceReadyActions } from './ready/MicroserviceReadyActions'
 
-import MicroserviceConfBackupActions from './confBackup/MicroserviceConfBackupActions'
+export { default as MicroserviceConfBackupActions } from './confBackup/MicroserviceConfBackupActions'
 
-import getMicroserviceConfBackupStatusReducer from './confBackup/MicroserviceConfBackupStatusReducer'
-import MicroserviceConfBackupStatusActions from './confBackup/MicroserviceConfBackupStatusActions'
-import getMicroserviceConfBackupStatusSelectors from './confBackup/MicroserviceConfBackupStatusSelectors'
+export { default as getMicroserviceConfBackupStatusReducer } from './confBackup/MicroserviceConfBackupStatusReducer'
+export { default as MicroserviceConfBackupStatusActions } from './confBackup/MicroserviceConfBackupStatusActions'
+export { default as getMicroserviceConfBackupStatusSelectors } from './confBackup/MicroserviceConfBackupStatusSelectors'
 
-
-module.exports = {
-  ClearPluginCacheActions,
-  getClearPluginCacheReducer,
-  getClearPluginCacheSelectors,
-
-  PluginMetaDataActions,
-  getPluginMetaDataReducer,
-  getPluginMetaDataSelectors,
-
-  PluginConfigurationActions,
-  PluginConfigurationByPluginIdActions,
-  getPluginConfigurationReducer,
-  getPluginConfigurationSelectors,
-
-  MicroserviceInfosActions,
-  getMicroserviceInfosReducer,
-  getMicroserviceInfosSelectors,
-
-  MicroserviceReadyActions,
-
-  MicroserviceConfBackupActions,
-
-  PluginTypeActions,
-  getPluginTypeReducer,
-  getPluginTypeSelectors,
-
-
-  getMicroserviceConfBackupStatusReducer,
-  MicroserviceConfBackupStatusActions,
-  getMicroserviceConfBackupStatusSelectors,
-}

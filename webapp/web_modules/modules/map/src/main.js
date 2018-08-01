@@ -25,8 +25,6 @@ import dependencies from './dependencies'
 // ensure the default module icon is present in bundle
 import '../default-icon.svg'
 
-console.error('YOOO')
-
 /**
  * Main file of module to expose public interface
  * @author Léo Mieulet

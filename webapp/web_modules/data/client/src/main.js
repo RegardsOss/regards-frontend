@@ -29,16 +29,31 @@
  * From the other modules of this application ou should only use Actions and Selectors.
  *
  */
-export { default as AccessInstanceClient } from './rs-access-instance/main'
-export { default as AccessProjectClient } from './rs-access-project/main'
-export { default as AdminClient } from './rs-admin'
-export { default as AdminInstanceClient } from './rs-admin-instance'
-export { default as AuthenticationClient } from './rs-authentication'
-export { default as CatalogClient } from './rs-catalog'
-export { default as CommonClient } from './rs-common'
-export { default as DataManagementClient } from './rs-dam'
-export { default as DataProviderClient } from './rs-data-provider'
-export { default as IngestClient } from './rs-ingest'
-export { default as OrderClient } from './rs-order'
-export { default as StorageClient } from './rs-storage'
-export { default as UIClient } from './ui'
+import * as AccessInstanceCl from './rs-access-instance/main'
+import * as AccessProjectCl from './rs-access-project/main'
+import * as AdminCl from './rs-admin'
+import * as AdminInstanceCl from './rs-admin-instance'
+import * as AuthenticationCl from './rs-authentication'
+import * as CatalogCl from './rs-catalog'
+import * as CommonCl from './rs-common'
+import * as DataManagementCl from './rs-dam'
+import * as DataProviderCl from './rs-data-provider'
+import * as IngestCl from './rs-ingest'
+import * as OrderCl from './rs-order'
+import * as StorageCl from './rs-storage'
+import * as UICl from './ui'
+
+
+export const AccessInstanceClient = AccessInstanceCl
+export const AccessProjectClient = AccessProjectCl
+export const AdminClient = AdminCl
+export const AdminInstanceClient = AdminInstanceCl
+export const AuthenticationClient = AuthenticationCl
+export const CatalogClient = CatalogCl
+export const CommonClient = CommonCl
+export const DataManagementClient = DataManagementCl
+export const DataProviderClient = DataProviderCl
+export const IngestClient = IngestCl
+export const OrderClient = OrderCl
+export const StorageClient = StorageCl
+export const UIClient = UICl

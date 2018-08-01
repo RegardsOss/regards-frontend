@@ -24,7 +24,7 @@ import { AccessDomain } from '@regardsoss/domain'
  * @author Raphaël Mechali
  */
 
-const ModulePage = PropTypes.shape({
+export const ModulePage = PropTypes.shape({
   home: PropTypes.bool,
   iconType: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES),
   customIconURL: PropTypes.string,
@@ -45,21 +45,21 @@ const moduleFields = {
   conf: PropTypes.objectOf(PropTypes.any),
 }
 
-const ModuleWithoutContent = PropTypes.shape({
+export const ModuleWithoutContent = PropTypes.shape({
   ...moduleFields,
 })
 
-const Module = PropTypes.shape({
+export const Module = PropTypes.shape({
   content: ModuleWithoutContent,
 })
 
-const ModuleList = PropTypes.objectOf(Module)
-const ModuleArray = PropTypes.arrayOf(Module)
+export const ModuleList = PropTypes.objectOf(Module)
+export const ModuleArray = PropTypes.arrayOf(Module)
 
 /**
  * Fields for a runtime display module (ie: userContainer in dynamic module)
  */
-const runtimeDispayModuleFields = {
+export const runtimeDispayModuleFields = {
   appName: PropTypes.string.isRequired,
   project: PropTypes.string,
   // module configuration
@@ -70,7 +70,7 @@ const runtimeDispayModuleFields = {
 /**
  *  admin form shape
  */
-const moduleAdminForm = PropTypes.shape({
+export const moduleAdminForm = PropTypes.shape({
   // While creating the module, every fields shall be created in the redux form using that namespace
   // which allows us to launch a module from another module
   currentNamespace: PropTypes.string,
@@ -91,19 +91,7 @@ const moduleAdminForm = PropTypes.shape({
 /**
  * Fields for a runtime configuration module (ie: adminContainer in dynamic module)
  */
-const runtimeConfigurationModuleFields = {
+export const runtimeConfigurationModuleFields = {
   ...runtimeDispayModuleFields,
   adminForm: moduleAdminForm,
-}
-
-
-module.exports = {
-  ModuleWithoutContent,
-  ModuleList,
-  Module,
-  ModulePage,
-  ModuleArray,
-  moduleAdminForm,
-  runtimeDispayModuleFields,
-  runtimeConfigurationModuleFields,
 }

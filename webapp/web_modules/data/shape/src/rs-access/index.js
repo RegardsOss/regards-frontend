@@ -16,75 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { LinkUIPluginDataset, LinkUIPluginDatasetList } from './UIPlugin/LinkUIPluginDataset'
-import { UIPluginInstanceContent } from './UIPlugin/UIPluginInstanceContent'
-import { UIPluginDefinitionContent, UIPluginDefinition, UIPluginDefinitionList } from './UIPlugin/UIPluginDefinition'
-import { UIPluginInfoContent } from './UIPlugin/UIPluginInfoContent'
-import { UIPluginConfContent, UIPluginConf, UIPluginConfList, UIPluginConfArray } from './UIPlugin/UIPluginConf'
-import RuntimeConfiguration from './UIPlugin/RuntimeConfiguration'
-import RuntimeTarget from './UIPlugin/RuntimeTarget'
+export { LinkUIPluginDataset, LinkUIPluginDatasetList } from './UIPlugin/LinkUIPluginDataset'
+export { UIPluginInstanceContent } from './UIPlugin/UIPluginInstanceContent'
+export { UIPluginDefinitionContent, UIPluginDefinition, UIPluginDefinitionList } from './UIPlugin/UIPluginDefinition'
+export { UIPluginInfoContent } from './UIPlugin/UIPluginInfoContent'
+export { UIPluginConfContent, UIPluginConf, UIPluginConfList, UIPluginConfArray } from './UIPlugin/UIPluginConf'
+export { RuntimeConfiguration } from './UIPlugin/RuntimeConfiguration'
+export { RuntimeTarget } from './UIPlugin/RuntimeTarget'
 
 
-import { AttributeConfigurationData, AttributeElementModel, AttributeListConfigurationModel } from './AttributeListConfigurationModel'
-import { AttributePresentationModel, AttributePresentationModelArray } from './AttributePresentationModelShape'
+export { AttributeConfigurationData, AttributeElementModel, AttributeListConfigurationModel } from './AttributeListConfigurationModel'
+export { AttributePresentationModel, AttributePresentationModelArray } from './AttributePresentationModelShape'
 
-import ContainerContent from './ContainerContent'
-import { Layout, LayoutContent, LayoutList } from './Layout'
-import {
+export { ContainerContent } from './ContainerContent'
+export { Layout, LayoutContent, LayoutList } from './Layout'
+export {
   ModuleWithoutContent, Module, ModulePage, ModuleList,
   ModuleArray, moduleAdminForm, runtimeDispayModuleFields, runtimeConfigurationModuleFields,
 } from './Module'
-import { Project, ProjectList, ProjectArray } from './Project'
-import { ThemeContent, Theme, ThemeList } from './Theme'
+export { Project, ProjectList, ProjectArray } from './Project'
+export { ThemeContent, Theme, ThemeList } from './Theme'
 
-import PluginServiceDefinitions from './PluginService'
-import { EntityWithServices } from './EntityWithServices'
-
-module.exports = {
-  LinkUIPluginDataset,
-  LinkUIPluginDatasetList,
-  UIPluginInstanceContent,
-  UIPluginDefinition,
-  UIPluginDefinitionContent,
-  UIPluginDefinitionList,
-  UIPluginInfoContent,
-  UIPluginConfContent,
-  UIPluginConf,
-  UIPluginConfList,
-  UIPluginConfArray,
-
-  AttributeConfigurationData,
-  AttributeElementModel,
-  AttributeListConfigurationModel,
-  AttributePresentationModel,
-  AttributePresentationModelArray,
-
-  ContainerContent,
-
-  Layout,
-  LayoutContent,
-  LayoutList,
-
-  Module,
-  ModulePage,
-  ModuleList,
-  ModuleArray,
-  ModuleWithoutContent,
-  moduleAdminForm,
-  runtimeDispayModuleFields,
-  runtimeConfigurationModuleFields,
-
-  Project,
-  ProjectList,
-  ProjectArray,
-
-  ThemeContent,
-  Theme,
-  ThemeList,
-
-  ...PluginServiceDefinitions,
-  ...RuntimeConfiguration,
-  ...RuntimeTarget,
-
-  EntityWithServices,
-}
+export { PluginService, PluginServiceWithContent, PluginServiceWithContentArray } from './PluginService'
+export { EntityWithServices } from './EntityWithServices'
