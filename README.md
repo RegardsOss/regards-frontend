@@ -8,10 +8,8 @@ The webapp directory contains the source code of the frontend webapp. Please rea
 
 Frontend boot, is a maven project to create an executable WAR with his own jetty application-server.
 
-To compile the executable WAR file run command :
-```
-mvn clean install
-```
+## Build
+The [README](https://github.com/RegardsOss/regards-deployment/blob/master/README.md) of the project [rs-deployment](https://github.com/RegardsOss/regards-deployment) describes how to generate all the REGARDS repositories.
 
 To run the compiled WAR file run command :
 ```
