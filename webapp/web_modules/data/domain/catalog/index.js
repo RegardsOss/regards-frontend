@@ -20,6 +20,7 @@
 import { FACET_TYPES, FACET_TYPES_ENUM } from './FacetType'
 import { isURNTag, TagTypes } from './Tags'
 import Geometry from './geo/Geometry'
+import { LEGACY_SEARCH_ENGINE } from './SearchConstants'
 import StaticQueryParameter from './query/common/StaticQueryParameter'
 import OpenSearchQuery from './query/opensearch/OpenSearchQuery'
 import OpenSearchQueryParameter from './query/opensearch/OpenSearchQueryParameter'
@@ -32,6 +33,7 @@ module.exports = {
   FACET_TYPES_ENUM,
   Geometry,
   isURNTag,
+  LEGACY_SEARCH_ENGINE,
   TagTypes,
   StaticQueryParameter,
   OpenSearchQuery,
