@@ -30,6 +30,7 @@ module.exports = {
           properties: {},
           providerId: 'hello you',
           tags: [],
+          type: 'Feature',
           files: {
             DOCUMENT: [{
               dataType: 'DOCUMENT',
