@@ -20,7 +20,6 @@ import { ENTITY_TYPES } from '@regardsoss/domain/dam'
 import { CommonDomain } from '@regardsoss/domain'
 import EntityGeoProperties from './EntityGeoProperties'
 import { DataFile } from '../../rs-dam/DataFile'
-import URL from '../../rs-common/URL'
 
 /**
  * Catalog entity definitions
@@ -35,25 +34,17 @@ const entityFiles = PropTypes.shape(CommonDomain.DataTypes.reduce((acc, fileType
 
 /** Fields of an entity (for re-use) */
 const entityFields = {
-  id: PropTypes.number,
-  ipId: PropTypes.string.isRequired,
-  sipId: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  model: PropTypes.string.isRequired,
+  providerId: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
   files: entityFiles,
-  geometry: EntityGeoProperties,
   properties: PropTypes.object,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  // these two booleans are provided on ENTITY_TYPES.DATA
-  containsPhysicalData: PropTypes.bool,
-  allowingDownload: PropTypes.bool,
-  // description file for collections and datasets only
-  descriptionFile: PropTypes.shape({
-    // URL: external URL file (cannot be present at same time than type)
-    url: URL,
-    // type: MIME type for internal file (cannot be present at same time than URL)
-    type: PropTypes.string, // cannot specify it better with MIME types as we use extended notations, text/markdown for instance
-  }),
+  geometry: EntityGeoProperties,
+  bbox: PropTypes.arrayOf(PropTypes.number),
+  crs: PropTypes.string,
 }
 
 /**

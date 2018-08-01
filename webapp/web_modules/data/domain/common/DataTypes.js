@@ -30,6 +30,7 @@ const DataTypesEnum = {
   THUMBNAIL: 'THUMBNAIL',
   OTHER: 'OTHER',
   AIP: 'AIP',
+  DESCRIPTION: 'DESCRIPTION',
 }
 
 module.exports = {

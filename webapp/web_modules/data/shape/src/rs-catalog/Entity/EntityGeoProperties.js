@@ -33,4 +33,6 @@ export default PropTypes.shape({
     PropTypes.arrayOf(PropTypes.arrayOf(Position)), // Polygon, MultiLineString
     PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(Position))), // Multi polygon
   ]),
+  bbox: PropTypes.arrayOf(PropTypes.number),
+  crs: PropTypes.string,
 })
