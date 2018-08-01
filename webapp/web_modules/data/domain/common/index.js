@@ -22,7 +22,7 @@ export { relativeURLRegexp, validURLRegexp } from './URLRegex'
 export { PluginParameterTypes, PluginParamType, JavaPrimitiveTypes } from './PluginParamType'
 export { default as PluginConfParamsUtils } from './PluginConfParamsUtils'
 
-export { default as EntityIpIdTester } from './EntityIpIdTester'
+export { default as EntityIdTester } from './EntityIdTester'
 // Data types
 export { DataTypes, DataTypesEnum } from './DataTypes'
 export { default as URLAuthInjector } from './URLAuthInjector'

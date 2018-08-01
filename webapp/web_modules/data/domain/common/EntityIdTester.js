@@ -17,28 +17,36 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 /**
- * Each IpId provides the type of entity
+ * Each id provides the type of entity
  * @author Léo Mieulet
  */
 import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
 
-export function isIpIdADataset(ipId) { return ipId.match(/URN:AIP:DATASET:.*/) }
+export function isDatasetURN(id) { return id.match(/URN:AIP:DATASET:.*/) }
 
-export function isIpIdACollection(ipId) { return ipId.match(/URN:AIP:COLLECTION:.*/) }
+export function isCollectionURN(id) { return id.match(/URN:AIP:COLLECTION:.*/) }
 
-export function isIpIdADocument(ipId) { return ipId.match(/URN:AIP:DOCUMENT:.*/) }
+export function isDocumentURN(id) { return id.match(/URN:AIP:DOCUMENT:.*/) }
 
-export function isIpIdAData(ipId) { return ipId.match(/URN:AIP:DATA:.*/) }
+export function isDataURN(id) { return id.match(/URN:AIP:DATA:.*/) }
 
-export function getIpIdType(ipId) {
-  if (isIpIdACollection(ipId)) {
+export function getTypeForURN(id) {
+  if (isCollectionURN(id)) {
     return ENTITY_TYPES_ENUM.COLLECTION
-  } else if (isIpIdADataset(ipId)) {
+  } else if (isDatasetURN(id)) {
     return ENTITY_TYPES_ENUM.DATASET
-  } else if (isIpIdAData(ipId)) {
+  } else if (isDataURN(id)) {
     return ENTITY_TYPES_ENUM.DATA
-  } else if (isIpIdADocument(ipId)) {
+  } else if (isDocumentURN(id)) {
     return ENTITY_TYPES_ENUM.DOCUMENT
   }
-  throw new Error(`Unknow IpId received: ${ipId}`)
+  throw new Error(`Unknow id type received: ${id}`)
+}
+
+export default {
+  isDatasetURN,
+  isCollectionURN,
+  isDocumentURN,
+  isDataURN,
+  getTypeForURN,
 }
