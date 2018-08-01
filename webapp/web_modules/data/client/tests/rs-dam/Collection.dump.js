@@ -25,9 +25,15 @@ module.exports = {
         creationDate: '2017-01-30T11:16:23.919',
         id: 1,
         ipId: 'URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1',
-        sipId: 'SipId1',
         label: 'label',
         tags: ['URN:AIP:COLLECTION:PROJECT:c70a2428-8a93-4d06-a90a-f657c26d3930:V1'],
+        feature: {
+          providerId: 'SipId1',
+          entityType: 'COLLECTION',
+          label: 'label',
+          model: 'modelName1',
+          files: {},
+        },
         model: {
           id: 1,
           name: 'modelName1',
@@ -35,7 +41,6 @@ module.exports = {
           type: 'COLLECTION',
         },
       },
-
       links: [],
     },
     {
@@ -45,7 +50,6 @@ module.exports = {
         creationDate: '2017-01-30T11:16:23.919',
         id: 1,
         ipId: 'URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1',
-        sipId: 'SipId1',
         label: 'label',
         tags: ['URN:AIP:COLLECTION:PROJECT:c70a2428-8a93-4d06-a90a-f657c26d3930:V1'],
         model: {
@@ -53,6 +57,13 @@ module.exports = {
           name: 'modelName1',
           description: 'model desc',
           type: 'COLLECTION',
+        },
+        feature: {
+          providerId: 'SipId2',
+          entityType: 'COLLECTION',
+          label: 'label',
+          model: 'modelName1',
+          files: {},
         },
       },
       links: [],
@@ -64,7 +75,6 @@ module.exports = {
         creationDate: '2017-01-30T11:16:23.919',
         id: 2,
         ipId: 'URN:AIP:COLLECTION:PROJECT:c70a2428-8a93-4d06-a90a-f657c26d3930:V1',
-        sipId: 'SipId1',
         label: 'Collection 2',
         tags: [],
         model: {
@@ -72,6 +82,13 @@ module.exports = {
           name: 'modelName1',
           description: 'model desc',
           type: 'COLLECTION',
+        },
+        feature: {
+          providerId: 'SipId3',
+          entityType: 'COLLECTION',
+          label: 'Collection 2',
+          model: 'modelName1',
+          files: {},
         },
       },
       links: [],
@@ -83,7 +100,6 @@ module.exports = {
         creationDate: '2017-01-30T11:16:23.919',
         id: 3,
         ipId: 'URN:AIP:COLLECTION:PROJECT:sdfjkljsdklfj-8a93-4d06-a90a-f657c26d3930:V1',
-        sipId: 'SipId1',
         label: 'Collection 3',
         tags: [],
         model: {
@@ -91,6 +107,13 @@ module.exports = {
           name: 'modelName1',
           description: 'model desc',
           type: 'COLLECTION',
+        },
+        feature: {
+          providerId: 'SipId4',
+          entityType: 'COLLECTION',
+          label: 'Collection 3',
+          model: 'modelName1',
+          files: {},
         },
       },
       links: [],
