@@ -48,7 +48,19 @@ describe('[Attributes Common] Testing ThumbnailAttributeRender', () => {
 
   it('Should render the first available Thumbmail file', () => {
     // No thumbnail file in files array
-    const file = { uri: 'http://rd1.com' }
+    const file = {
+      uri: 'http://rd1.com',
+      dataType: 'THUMBNAIL',
+      reference: false, // Does the file is a external reference ? not stored by regards.
+      mimeType: 'img',
+      imageWidth: 200,
+      imageHeight: 200,
+      online: true, // Does the file is directly accessible ? If not online, file is not downloadable.
+      checksum: 'abcd',
+      digestAlgorithm: 'leo method',
+      filesize: 14555668,
+      filename: 'hello.jpg',
+    }
     const wrapper = shallow(<ThumbnailAttributeRender value={file} projectName="project" />, { context })
     assert.lengthOf(wrapper.findWhere(n => n.props().src === 'http://rd1.com?scope=project'), 1, 'There should be an image with thubnail URI as source, adding scope')
   })
