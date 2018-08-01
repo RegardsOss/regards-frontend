@@ -21,10 +21,15 @@ const messages = {
   'dataaccess.board.action.add.tooltip': 'Add',
 
   'dataaccess.board.services.title': 'Services',
-  'dataaccess.board.services.description': 'Services applicables aux données du catalogue projet.',
+  'dataaccess.board.services.description': 'Services applicables aux données du catalogue projet. Ces services sont accessibles au travers de l\'IHM utilisateur du projet lors de la consultation des données ou directement via des requêtes HTTP.',
 
   'dataaccess.board.searchengines.title': 'Protocoles de recherche',
-  'dataaccess.board.searchengines.description': 'Configuration des protocoles de recherche de données dans le catalogue projet.',
+  'dataaccess.board.searchengines.description': 'Configuration des protocoles de recherche de données dans le catalogue projet. Le protocole \'Legacy\' est le procole spécifique à REGARDS. Les autres protocoles peuvent être configurés pour l\'interopérabilité avec d\'autre systèmes qui voudraient interroger le catalogue de données.',
+
+  'accessright.board.tooltip.list': 'Liste',
+  'accessright.board.tooltip.add': 'Ajouter',
+  'accessright.board.accessgroup.title': 'Groupes d\'accès',
+  'accessright.board.accessgroup.description': 'Les groupes d\'accès permettent de limiter l\'accès aux données du catalogue à certains utilisateurs. Ils permettent également d\'affiner le niveau d\'accès en accordant l\'accès aux métadonnées ou aux données ou aux deux.',
 }
 
 export default messages

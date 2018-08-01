@@ -24,7 +24,6 @@ import { projectManagementRouter } from '@regardsoss/admin-project-management'
 import { accountsRouter } from '@regardsoss/admin-board-account'
 import { microserviceManagementRouter } from '@regardsoss/admin-microservice-management'
 import { uiManagementRouter } from '@regardsoss/admin-ui-management'
-import { accessRightManagementRouter } from '@regardsoss/admin-accessright-management'
 import { dataAccessRouter } from '@regardsoss/admin-board-dataaccess'
 import Routes from '../src/router'
 
@@ -42,11 +41,10 @@ describe('[ADMIN MANAGEMENT] Testing admin router', () => {
     expect(Routes.childRoutes[4].path).to.eq(':project/ui')
     expect(Routes.childRoutes[5].path).to.eq(':project')
     expect(Routes.childRoutes[6].path).to.eq(':project/microservice')
-    expect(Routes.childRoutes[7].path).to.eq(':project/data/access-right')
-    expect(Routes.childRoutes[8].path).to.eq(':project/data/acquisition')
-    expect(Routes.childRoutes[9].path).to.eq(':project/data/collections')
-    expect(Routes.childRoutes[10].path).to.eq(':project/data/models')
-    expect(Routes.childRoutes[11].path).to.eq(':project/dataaccess')
+    expect(Routes.childRoutes[7].path).to.eq(':project/data/acquisition')
+    expect(Routes.childRoutes[8].path).to.eq(':project/data/collections')
+    expect(Routes.childRoutes[9].path).to.eq(':project/data/models')
+    expect(Routes.childRoutes[10].path).to.eq(':project/dataaccess')
   })
 
   it('projects should return projectManagementRouter', (done) => {
@@ -80,20 +78,14 @@ describe('[ADMIN MANAGEMENT] Testing admin router', () => {
       done()
     })
   })
-  it('create should return accessRightManagementRouter', (done) => {
-    Routes.childRoutes[7].getChildRoutes(undefined, (smth, component) => {
-      expect(component[0]).to.eq(accessRightManagementRouter)
-      done()
-    })
-  })
   it('create should return modelsRouter', (done) => {
-    Routes.childRoutes[10].getChildRoutes(undefined, (smth, component) => {
+    Routes.childRoutes[9].getChildRoutes(undefined, (smth, component) => {
       expect(component[0]).to.eq(modelsRouter)
       done()
     })
   })
   it('create should return dataAccessRouter', (done) => {
-    Routes.childRoutes[11].getChildRoutes(undefined, (smth, component) => {
+    Routes.childRoutes[10].getChildRoutes(undefined, (smth, component) => {
       expect(component[0]).to.eq(dataAccessRouter)
       done()
     })

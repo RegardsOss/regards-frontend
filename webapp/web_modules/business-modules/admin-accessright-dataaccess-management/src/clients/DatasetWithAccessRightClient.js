@@ -23,7 +23,7 @@ import { DataManagementClient } from '@regardsoss/client'
  *
  * @author Sébastien Binda
  */
-const ENTITIES_STORE_PATH = ['admin', 'access-right-management', 'access-rights-management', 'access-rights-datasets']
+const ENTITIES_STORE_PATH = ['admin', 'dataaccess', 'access-rights-management', 'access-rights-datasets']
 const REDUX_ACTION_NAMESPACE = 'admin-accessright-management/dataset-access-right'
 
 const datasetWithAccessRightReducer = DataManagementClient.getDatasetWithAccessRightReducer(REDUX_ACTION_NAMESPACE)

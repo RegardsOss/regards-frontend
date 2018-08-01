@@ -19,7 +19,7 @@
 import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
 
 const NAMESPACE = 'admin-accessright-management/access-right-table'
-const STORE_PATH = ['admin', 'access-right-management', 'access-rights-management', 'access-right-datasets-table']
+const STORE_PATH = ['admin', 'dataaccess', 'access-rights-management', 'access-right-datasets-table']
 
 module.exports = {
   tableActions: new TableActions(NAMESPACE),

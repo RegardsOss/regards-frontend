@@ -19,7 +19,6 @@
 import merge from 'lodash/merge'
 import PackageVariant from 'mdi-material-ui/PackageVariant'
 import Drawer from 'material-ui/Drawer'
-import VerifiedUser from 'material-ui/svg-icons/action/verified-user'
 import Widgets from 'material-ui/svg-icons/device/widgets'
 import AddBox from 'material-ui/svg-icons/content/add-box'
 import CloudQueue from 'material-ui/svg-icons/file/cloud-queue'
@@ -38,7 +37,6 @@ import { modelsDependencies } from '@regardsoss/admin-board-models'
 import { collectionsDependencies } from '@regardsoss/admin-board-collections'
 import { acquisitionDependencies } from '@regardsoss/admin-board-acquisition'
 import { dataAccessDependencies } from '@regardsoss/admin-board-dataaccess'
-import { accessRightDependencies } from '@regardsoss/admin-accessright-management'
 import { microserviceDependencies } from '@regardsoss/admin-microservice-management'
 import { ShowableAtRender, someMatchHateoasDisplayLogic, withResourceDisplayControl } from '@regardsoss/display-control'
 import getModuleStyles from '../../styles/styles'
@@ -141,17 +139,6 @@ class ProjectSidebarComponent extends React.Component {
         />
         <SidebarElementWithResourceDisplayControl
           key="5"
-          resourceDependencies={accessRightDependencies}
-          displayLogic={someMatchHateoasDisplayLogic}
-          to={`/admin/${projectName}/data/access-right/board`}
-          currentPath={this.props.currentPath}
-          primaryText={this.context.intl.formatMessage({ id: 'menu.dataaccessrights' })}
-          leftIcon={<VerifiedUser
-            color={this.context.muiTheme.svgIcon.color}
-          />}
-        />
-        <SidebarElementWithResourceDisplayControl
-          key="6"
           resourceDependencies={dataAccessDependencies}
           displayLogic={someMatchHateoasDisplayLogic}
           to={`/admin/${projectName}/dataaccess/board`}
@@ -162,7 +149,7 @@ class ProjectSidebarComponent extends React.Component {
           />}
         />
         <SidebarElementWithResourceDisplayControl
-          key="7"
+          key="6"
           resourceDependencies={microserviceDependencies}
           displayLogic={someMatchHateoasDisplayLogic}
           to={`/admin/${projectName}/microservice/board`}
@@ -173,7 +160,7 @@ class ProjectSidebarComponent extends React.Component {
           />}
         />
         <SidebarElementWithResourceDisplayControl
-          key="8"
+          key="7"
           resourceDependencies={uiManagementDependencies}
           displayLogic={someMatchHateoasDisplayLogic}
           to={`/admin/${projectName}/ui/board`}

@@ -19,10 +19,14 @@
 import { combineReducers } from 'redux'
 import { servicesManagementReducer } from '@regardsoss/admin-dataaccess-services-management'
 import { searchEnginesReducer } from '@regardsoss/admin-dataaccess-searchengines-management'
+import { accessGroupManagementReducer } from '@regardsoss/admin-accessright-accessgroup-management'
+import { accessRightManagementReducer } from '@regardsoss/admin-accessright-dataaccess-management'
 
 const modelsReducers = combineReducers({
   services: servicesManagementReducer,
   searchengines: searchEnginesReducer,
+  'access-group-management': accessGroupManagementReducer,
+  'access-rights-management': accessRightManagementReducer,
 })
 
 

@@ -19,6 +19,7 @@
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import { servicesManagementDependencies } from '@regardsoss/admin-dataaccess-services-management'
+import { listDependencies as GroupEditDep, addDependencies as GroupAddDep } from '@regardsoss/admin-accessright-accessgroup-management/src/dependencies'
 
 
 /**
@@ -64,6 +65,24 @@ const items = (projectName, intl) => [
         hateoasDependencies: servicesManagementDependencies.addDependencies,
       },
     ],
+  },
+  {
+    title: intl.formatMessage({ id: 'accessright.board.accessgroup.title' }),
+    description: intl.formatMessage({ id: 'accessright.board.accessgroup.description' }),
+    advanced: false,
+    actions: [{
+      path: `/admin/${projectName}/dataaccess/access-group/list`,
+      icon: <ViewLinesIcon />,
+      className: 'selenium-accessgroupList',
+      tooltipMsg: intl.formatMessage({ id: 'accessright.board.tooltip.list' }),
+      hateoasDependencies: GroupEditDep,
+    }, {
+      path: `/admin/${projectName}/dataaccess/access-group/create`,
+      icon: <AddIcon />,
+      className: 'selenium-accessgroupCreate',
+      tooltipMsg: intl.formatMessage({ id: 'accessright.board.tooltip.add' }),
+      hateoasDependencies: GroupAddDep,
+    }],
   },
 ]
 

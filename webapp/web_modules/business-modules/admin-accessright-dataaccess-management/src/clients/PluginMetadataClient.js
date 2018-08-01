@@ -23,7 +23,7 @@ import { CommonClient } from '@regardsoss/client'
  *
  * @author Sébastien Binda
  */
-const ENTITIES_STORE_PATH = ['admin', 'access-right-management', 'access-rights-management', 'pluginMetadata']
+const ENTITIES_STORE_PATH = ['admin', 'dataaccess', 'access-rights-management', 'pluginMetadata']
 const REDUX_ACTION_NAMESPACE = 'admin-accessright-management/pluginMetaData'
 
 const pluginMetaDataReducer = CommonClient.getPluginMetaDataReducer(REDUX_ACTION_NAMESPACE)

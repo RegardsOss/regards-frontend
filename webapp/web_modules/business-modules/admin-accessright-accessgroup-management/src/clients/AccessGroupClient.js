@@ -23,7 +23,7 @@ import { DataManagementClient } from '@regardsoss/client'
  *
  * @author Sébastien Binda
  */
-const ENTITIES_STORE_PATH = ['admin', 'access-right-management', 'access-group-management', 'access-group']
+const ENTITIES_STORE_PATH = ['admin', 'dataaccess', 'access-group-management', 'access-group']
 const REDUX_ACTION_NAMESPACE = 'admin-accessright-accessgroup-management'
 
 const accessGroupReducer = DataManagementClient.getAccessGroupReducer(REDUX_ACTION_NAMESPACE)

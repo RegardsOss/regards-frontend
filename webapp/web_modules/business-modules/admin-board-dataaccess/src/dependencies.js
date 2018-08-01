@@ -18,6 +18,7 @@
  **/
 import { servicesManagementDependencies } from '@regardsoss/admin-dataaccess-services-management'
 import { searchEnginesDependencies } from '@regardsoss/admin-dataaccess-searchengines-management'
+import { accessGroupDependencies } from '@regardsoss/admin-accessright-accessgroup-management'
 
 /**
  * Mandatory Dependencies to display module in project menu
@@ -28,4 +29,6 @@ export default [
   ...servicesManagementDependencies.addDependencies,
   ...searchEnginesDependencies.listDependencies,
   ...searchEnginesDependencies.addDependencies,
+  ...accessGroupDependencies.addDependencies,
+  ...accessGroupDependencies.listDependencies,
 ]

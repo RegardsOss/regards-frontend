@@ -21,10 +21,15 @@ const messages = {
   'dataaccess.board.action.add.tooltip': 'Add',
 
   'dataaccess.board.services.title': 'Services',
-  'dataaccess.board.services.description': 'Services applyable on every entity from the current project catalog',
+  'dataaccess.board.services.description': 'Services applyable on every entity from the current project catalog. Services are available directory from user interface or by using direct HTTP requests.',
 
   'dataaccess.board.searchengines.title': 'Search protocols',
-  'dataaccess.board.searchengines.description': 'Search protocols configuration',
+  'dataaccess.board.searchengines.description': 'Search protocols configuration. Legacy protocol is the REGARDS standard procotol. Others protocols can be configured in order to allow external systems to consult your project data catalog.',
+
+  'accessright.board.tooltip.list': 'List',
+  'accessright.board.tooltip.add': 'Add',
+  'accessright.board.accessgroup.title': 'Access group',
+  'accessright.board.accessgroup.description': 'Access groups allows to limit access to data for users.',
 }
 
 export default messages
