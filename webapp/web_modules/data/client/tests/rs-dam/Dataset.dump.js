@@ -40,10 +40,6 @@ module.exports = {
           },
           providerId: 'dataset1',
           id: 'URN:AIP:DATASET:project1:e206f4e2-8bb7-4955-b5b6-0cfdca1b3238:V1',
-          tags: [
-            'URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1',
-            'habla espanol',
-          ],
         },
         model: {
           id: 2,

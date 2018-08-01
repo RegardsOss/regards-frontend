@@ -30,9 +30,9 @@ const DatasetContent = PropTypes.shape({
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   feature: Feature,
   subsetting: PropTypes.string,
-  // The Dataset model 
+  // The Dataset model
   model: ModelContent.isRequired,
-  // The feature model of features that will contains this dataset 
+  // The feature model of features that will contains this dataset
   dataModel: PropTypes.string.isRequired,
   plgConfDataSource: PluginConfigurationContent,
 })

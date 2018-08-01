@@ -155,16 +155,13 @@ export default {
         datasetUrn: 'URN:AIP:DATASET:project1:27de606c-a6cd-411f-a5ba-bd1b2f29c965:V1',
         dataset: {
           entityType: 'DATASET',
-          metadata: {
-            dataObjectsGroups: {},
-          },
-          dataModel: '5',
           id: 1,
           ipId: 'URN:AIP:DATASET:project1:27de606c-a6cd-411f-a5ba-bd1b2f29c965:V1',
           label: 'Mocked dataset response from mock dataset dam client',
           model: {
             name: 'MockedModel',
           },
+          dataModel: '5',
           tags: [],
           groups: [],
           feature: {
@@ -174,8 +171,8 @@ export default {
             files: {},
             tags: [],
             id: 'URN:AIP:DATASET:project1:27de606c-a6cd-411f-a5ba-bd1b2f29c965:V1',
+            providerId: 'datasetTest',
             properties: {},
-            type: 'Feature',
           },
         },
       },
