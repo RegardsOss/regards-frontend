@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export default [
+const EnumJavaPrimitiveType = [
   'java.lang.String',
   'java.lang.Character',
   'java.lang.Byte',
@@ -27,3 +27,4 @@ export default [
   'java.lang.Short',
   'java.lang.Boolean',
 ]
+export default EnumJavaPrimitiveType

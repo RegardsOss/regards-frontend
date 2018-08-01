@@ -37,21 +37,21 @@ describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentFormComponent', () =>
   it('Render properly', () => {
     const props = {
       currentDocument: DumpProvider.getFirstEntity('DataManagementClient', 'Document'),
-      onSubmit: () => {},
+      onSubmit: () => { },
       backUrl: '#',
       modelList: DumpProvider.get('DataManagementClient', 'Model'),
       modelAttributeList: DumpProvider.get('DataManagementClient', 'ModelAttribute'),
       isDuplicating: false,
-      handleUpdateModel: () => {},
+      handleUpdateModel: () => { },
       // from reduxForm
       submitting: false,
       invalid: false,
-      handleSubmit: () => {},
-      change: () => {},
-      initialize: () => {},
+      handleSubmit: () => { },
+      change: () => { },
+      initialize: () => { },
     }
     const enzymeWrapper = shallow(<DocumentFormComponent {...props} />, { context })
-    expect(enzymeWrapper.find(Field)).to.have.length(3)
+    expect(enzymeWrapper.find(Field)).to.have.length(4)
     expect(enzymeWrapper.find(MenuItem)).to.have.length(1)
     expect(enzymeWrapper.find(DocumentStepperContainer)).to.have.length(1)
   })

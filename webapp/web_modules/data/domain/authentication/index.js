@@ -17,9 +17,4 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import PluginTypeEnum from './PluginTypeEnum'
-
-
-module.exports = {
-  ...PluginTypeEnum,
-}
+export { PluginTypeEnum, PluginTypeEnumValues } from './PluginTypeEnum'

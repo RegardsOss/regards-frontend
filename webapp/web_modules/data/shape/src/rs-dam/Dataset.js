@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfiguration'
+import Feature from './Feature'
 import { ModelContent } from './Model'
 
 const DatasetContent = PropTypes.shape({
@@ -24,21 +25,16 @@ const DatasetContent = PropTypes.shape({
   ipId: PropTypes.string,
   creationDate: PropTypes.string,
   lastUpdate: PropTypes.string,
-  label: PropTypes.string.isRequired,
-  subsetting: PropTypes.string,
+  entityType: PropTypes.string,
+  groups: PropTypes.any,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  feature: Feature,
+  subsetting: PropTypes.string,
+  // The Dataset model
   model: ModelContent.isRequired,
+  // The feature model of features that will contains this dataset
   dataModel: PropTypes.string.isRequired,
   plgConfDataSource: PluginConfigurationContent,
-  descriptionFile: PropTypes.shape({
-    url: PropTypes.string,
-    type: PropTypes.string,
-  }),
-  properties: PropTypes.any,
-  quotations: PropTypes.any,
-  groups: PropTypes.any,
-  score: PropTypes.number,
-  entityType: PropTypes.string,
 })
 
 const Dataset = PropTypes.shape({

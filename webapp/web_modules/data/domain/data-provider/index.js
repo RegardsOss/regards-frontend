@@ -17,14 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import AcquisitionProcessingChaineModes from './AcquisitionProcessingChaineModes'
-import ProductStateEnum from './ProductStateEnum'
-import ProductSIPStateEnum from './ProductSIPStateEnum'
-import AcquisitionfileStateEnum from './AcquisitionfileStateEnum'
+export { AcquisitionProcessingChainModeEnum, AcquisitionProcessingChainModes } from './AcquisitionProcessingChaineModes'
+export { ProductStateEnum, ProductStateValues } from './ProductStateEnum'
+export { ProductSIPStateEnum, ProductSIPStateEnumValues } from './ProductSIPStateEnum'
+export { AcquisitionFileStateEnum, AcquisitionFileStateValues } from './AcquisitionfileStateEnum'
 
-module.exports = {
-  ...AcquisitionProcessingChaineModes,
-  ...ProductStateEnum,
-  ...ProductSIPStateEnum,
-  ...AcquisitionfileStateEnum,
-}

@@ -77,7 +77,7 @@ export class DatasetEditLinksContainer extends React.Component {
   getDoneUrl = () => {
     const { params: { project, datasetId } } = this.props
     const { currentDataset } = this.props
-    return `/admin/${project}/data/collections/dataset/${datasetId}/${currentDataset.content.ipId}/plugins`
+    return `/admin/${project}/data/collections/dataset/${datasetId}/${currentDataset.content.feature.id}/plugins`
   }
 
 
@@ -92,9 +92,9 @@ export class DatasetEditLinksContainer extends React.Component {
     const { collectionName } = this.state
     const collectionLinkedToCurrentCollection = partition(collectionList, collection =>
       some(currentDataset.content.tags, tag =>
-        tag === collection.content.ipId))
+        tag === collection.content.feature.id))
     return filter(collectionLinkedToCurrentCollection[1], remainingCollection =>
-      startsWith(remainingCollection.content.label.toLowerCase(), collectionName))
+      startsWith(remainingCollection.content.feature.label.toLowerCase(), collectionName))
   }
 
 

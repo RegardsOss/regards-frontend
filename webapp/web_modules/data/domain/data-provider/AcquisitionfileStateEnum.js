@@ -22,7 +22,7 @@ import values from 'lodash/values'
  * Possible acqisition file status
  * @author Sébastien Binda
  */
-const AcquisitionFileStateEnum = {
+export const AcquisitionFileStateEnum = {
   IN_PROGRESS: 'IN_PROGRESS',
   VALID: 'VALID',
   ACQUIRED: 'ACQUIRED',
@@ -30,8 +30,4 @@ const AcquisitionFileStateEnum = {
   INVALID: 'INVALID',
   ERROR: 'ERROR',
 }
-
-module.exports = {
-  AcquisitionFileStateEnum,
-  AcquisitionFileStateValues: values(AcquisitionFileStateEnum),
-}
+export const AcquisitionFileStateValues = values(AcquisitionFileStateEnum)

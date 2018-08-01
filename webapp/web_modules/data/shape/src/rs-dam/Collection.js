@@ -16,14 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import Feature from './Feature'
+import { ModelContent } from './Model'
+
+const CollectionContent = PropTypes.shape({
+  id: PropTypes.number,
+  ipId: PropTypes.string.isRequired,
+  creationDate: PropTypes.string,
+  lastUpdate: PropTypes.string,
+  entityType: PropTypes.string,
+  feature: Feature,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  groups: PropTypes.arrayOf(PropTypes.string).isRequired,
+  model: ModelContent.isRequired,
+})
+
 const Collection = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-  }).isRequired,
+  content: CollectionContent.isRequired,
 })
 
 const CollectionList = PropTypes.objectOf(Collection)
 const CollectionArray = PropTypes.arrayOf(Collection)
 
-module.exports = { Collection, CollectionList, CollectionArray }
+module.exports = { CollectionContent, Collection, CollectionList, CollectionArray }

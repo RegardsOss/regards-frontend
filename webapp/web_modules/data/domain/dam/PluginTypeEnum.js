@@ -21,7 +21,7 @@ import values from 'lodash/values'
 /**
  * @author Sébastien Binda
  */
-const PluginTypeEnum = {
+export const PluginTypeEnum = {
   CONNECTION: 'fr.cnes.regards.modules.datasources.domain.plugins.IConnectionPlugin',
   DB_CONNECTION: 'fr.cnes.regards.modules.datasources.domain.plugins.IDBConnectionPlugin',
   COMPUTED_ATTR: 'fr.cnes.regards.modules.models.domain.IComputedAttribute',
@@ -30,9 +30,4 @@ const PluginTypeEnum = {
   AIP_DATASOURCE: 'fr.cnes.regards.modules.datasources.domain.plugins.IAipDataSourcePlugin',
 }
 
-const PluginTypeEnumValues = values(PluginTypeEnum)
-
-module.exports = {
-  PluginTypeEnum,
-  PluginTypeEnumValues,
-}
+export const PluginTypeEnumValues = values(PluginTypeEnum)

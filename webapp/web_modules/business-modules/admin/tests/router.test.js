@@ -33,7 +33,7 @@ describe('[ADMIN MANAGEMENT] Testing admin router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(12)
+    expect(Routes.childRoutes).to.have.length(11)
     expect(Routes.childRoutes[0].path).to.eq('projects')
     expect(Routes.childRoutes[1].path).to.eq('accounts')
     expect(Routes.childRoutes[2].path).to.eq('ui')

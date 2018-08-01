@@ -17,8 +17,4 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import SIPStateEnum from './SIPStateEnum'
-
-module.exports = {
-  ...SIPStateEnum,
-}
+export { SIPStateEnum, SIPStateValues } from './SIPStateEnum'

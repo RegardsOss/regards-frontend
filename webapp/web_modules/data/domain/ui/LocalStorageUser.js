@@ -22,7 +22,7 @@ import get from 'lodash/get'
  * Helper to handle user connection informations into the web browser localstorage
  * @author Sébastien Binda
  */
-class LocalStorageUser {
+export default class LocalStorageUser {
   static LOCALSTRAOGE_KEY = 'current-user'
 
   static getLocalStorageKey = (project, application) => `${LocalStorageUser.LOCALSTRAOGE_KEY}-${application}-${project}`
@@ -103,5 +103,3 @@ class LocalStorageUser {
    */
   getApplication = () => this.application
 }
-
-export default LocalStorageUser

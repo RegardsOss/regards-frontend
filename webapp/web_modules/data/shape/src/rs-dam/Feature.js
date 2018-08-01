@@ -25,7 +25,6 @@ const Feature = PropTypes.shape({
   label: PropTypes.string.isRequired,
   providerId: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  type: PropTypes.string.isRequired,
 })
 
 export default Feature

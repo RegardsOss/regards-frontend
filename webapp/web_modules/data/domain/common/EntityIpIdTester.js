@@ -22,15 +22,15 @@
  */
 import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
 
-function isIpIdADataset(ipId) { return ipId.match(/URN:AIP:DATASET:.*/) }
+export function isIpIdADataset(ipId) { return ipId.match(/URN:AIP:DATASET:.*/) }
 
-function isIpIdACollection(ipId) { return ipId.match(/URN:AIP:COLLECTION:.*/) }
+export function isIpIdACollection(ipId) { return ipId.match(/URN:AIP:COLLECTION:.*/) }
 
-function isIpIdADocument(ipId) { return ipId.match(/URN:AIP:DOCUMENT:.*/) }
+export function isIpIdADocument(ipId) { return ipId.match(/URN:AIP:DOCUMENT:.*/) }
 
-function isIpIdAData(ipId) { return ipId.match(/URN:AIP:DATA:.*/) }
+export function isIpIdAData(ipId) { return ipId.match(/URN:AIP:DATA:.*/) }
 
-function getIpIdType(ipId) {
+export function getIpIdType(ipId) {
   if (isIpIdACollection(ipId)) {
     return ENTITY_TYPES_ENUM.COLLECTION
   } else if (isIpIdADataset(ipId)) {
@@ -41,12 +41,4 @@ function getIpIdType(ipId) {
     return ENTITY_TYPES_ENUM.DOCUMENT
   }
   throw new Error(`Unknow IpId received: ${ipId}`)
-}
-
-module.exports = {
-  isIpIdADataset,
-  isIpIdACollection,
-  isIpIdADocument,
-  isIpIdAData,
-  getIpIdType,
 }

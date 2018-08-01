@@ -22,7 +22,7 @@ import values from 'lodash/values'
  * Possible acqisition processing chain
  * @author Sébastien Binda
  */
-const SIPStateEnum = {
+export const SIPStateEnum = {
   CREATED: 'CREATED',
   VALID: 'VALID',
   AIP_CREATED: 'AIP_CREATED',
@@ -36,8 +36,4 @@ const SIPStateEnum = {
   INCOMPLETE: 'INCOMPLETE',
   DELETED: 'DELETED',
 }
-
-module.exports = {
-  SIPStateEnum,
-  SIPStateValues: values(SIPStateEnum),
-}
+export const SIPStateValues = values(SIPStateEnum)
