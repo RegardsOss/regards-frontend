@@ -27,7 +27,7 @@ export default class OpenSearchQuery extends Query {
   static PARAMETERS_SEPARATOR = ' AND '
   static TAGS_PARAM_NAME = 'tags'
   static MODEL_NAME_PARAM_NAME = 'model.name'
-  static IP_ID_PARAM_NAME = 'ipId'
+  static ID_PARAM_NAME = 'id'
 
   /**
    * Builds a tag parameter
@@ -55,8 +55,8 @@ export default class OpenSearchQuery extends Query {
    * @param {boolean} negate should negate parameter value in final request?
    * @return built parameter
    */
-  static buildIpIdParameter(values, negate = false) {
-    return new OpenSearchQueryParameter(OpenSearchQuery.IP_ID_PARAM_NAME, values, negate)
+  static buildIDParameter(values, negate = false) {
+    return new OpenSearchQueryParameter(OpenSearchQuery.ID_PARAM_NAME, values, negate)
   }
 
   constructor(rootQuery, parameters) {

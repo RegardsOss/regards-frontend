@@ -36,8 +36,8 @@ describe('[Search Graph] Test GraphContextSelectors', () => {
     assert.deepEqual(graphContextSelectors.getSelectionPath(fakeStore), [], 'Should return initial selection')
     assert.isNotOk(graphContextSelectors.getSelectionForLevel(fakeStore, 0), 'No selection should be defined')
     // reduce selection and check it is correctly selected by level
-    fakeStore = mockReduce(fakeStore, graphContextActions.selectEntity(0, { content: { ipId: 'ipId1', label: 'label', entityType: 'COLLECTION' } }))
-    assert.deepEqual(graphContextSelectors.getSelectionPath(fakeStore), [{ ipId: 'ipId1', label: 'label', entityType: 'COLLECTION' }], 'Should return initial selection')
+    fakeStore = mockReduce(fakeStore, graphContextActions.selectEntity(0, { content: { id: 'id1', label: 'label', entityType: 'COLLECTION' } }))
+    assert.deepEqual(graphContextSelectors.getSelectionPath(fakeStore), [{ id: 'id1', label: 'label', entityType: 'COLLECTION' }], 'Should return initial selection')
     assert.isOk(graphContextSelectors.getSelectionForLevel(fakeStore, 0), 'No selection should be defined')
     assert.isNotOk(graphContextSelectors.getSelectionForLevel(fakeStore, 1), 'No selection should be defined')
   })

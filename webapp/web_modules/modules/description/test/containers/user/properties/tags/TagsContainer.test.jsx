@@ -43,7 +43,7 @@ describe('[Description] Testing TagsContainer', () => {
       onSearchTag: null,
       dispatchGetEntity: testSuiteHelpers.getSuccessDispatchStub({
         content: {
-          ipId: 'urn:test',
+          id: 'urn:test',
           entityType: ENTITY_TYPES_ENUM.DATASET,
           tags: [],
           label: 'URN:SDF:SDFSDF:SDFSDFSDFSDFSDF',
@@ -73,7 +73,7 @@ describe('[Description] Testing TagsContainer', () => {
       moduleConf: fullModuleConf,
       entity: {
         content: {
-          ipId: 'urn:test',
+          id: 'urn:test',
           label: 'kikou',
           entityType: ENTITY_TYPES_ENUM.DATA,
           tags: ['simpleTag1', 'simpleTag2', 'URN:entityTag1', 'URN:entityTag2'],
@@ -82,7 +82,7 @@ describe('[Description] Testing TagsContainer', () => {
       onSearchTag: null,
       dispatchGetEntity: testSuiteHelpers.getSuccessDispatchStub({
         content: {
-          ipId: 'urn:test',
+          id: 'urn:test',
           entityType: ENTITY_TYPES_ENUM.DATASET,
           tags: [],
           label: 'URN:SDF:SDFSDF:SDFSDFSDFSDFSDF',

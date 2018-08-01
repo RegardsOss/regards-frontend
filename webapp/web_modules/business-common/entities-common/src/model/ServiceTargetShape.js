@@ -41,7 +41,7 @@ const QUERY_ELEMENTS_TARGET = PropTypes.shape({
   q: PropTypes.string.isRequired, // query
   entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
   entitiesCount: PropTypes.number.isRequired,
-  excludedIpIds: PropTypes.arrayOf(PropTypes.string).isRequired, // excluded entities list
+  excludedIDs: PropTypes.arrayOf(PropTypes.string).isRequired, // excluded entities list
 })
 
 const ServiceTargetShape = PropTypes.oneOfType([

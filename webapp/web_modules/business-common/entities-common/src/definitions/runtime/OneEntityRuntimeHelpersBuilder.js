@@ -49,10 +49,10 @@ class OneEntityRuntimeHelpersBuilder {
   /**
    * get fetch action implementation
    * @param {BasicSignalActions} actions actions - partially applied, never seen by user
-   * @param {string} ipId entity IP ID - partially applied, never seen by user
+   * @param {string} id entity URN - partially applied, never seen by user
    * @return {*} dispatchable action
    */
-  getFetchAction = (actions, ipId) => actions.getEntity(ipId)
+  getFetchAction = (actions, id) => actions.getEntity(id)
 
   /**
    * Builds 'getReducePromise' method closure
@@ -65,13 +65,13 @@ class OneEntityRuntimeHelpersBuilder {
   /**
    * Returns a promise to apply a reducer on each entity
    * @param {BasicSignalActions} actions actions - partially applied, never seen by user
-   * @param {string} ipId entity IP ID - partially applied, never seen by user
+   * @param {string} id entity URN - partially applied, never seen by user
    * @param {function} dispatchMethod redux dispatch method, strictly required to run fetch
    * @param {*} applier treatment to apply, like (accumulator, entity content, index) => *
    * @param {*} initialValue optional initial value (will be provided as first acculmulator in applier)
    */
-  getReducePromise = (actions, ipId, dispatchMethod, applier, initialValue) =>
-    dispatchMethod(actions.getEntity(ipId)).then(({ payload, error = false }) => {
+  getReducePromise = (actions, id, dispatchMethod, applier, initialValue) =>
+    dispatchMethod(actions.getEntity(id)).then(({ payload, error = false }) => {
       const entityContent = get(payload, 'content')
       // 1 - check error and invalid content
       if (error || !entityContent) { // reject promise

@@ -106,7 +106,7 @@ describe('[Attributes Common] Testing EditItemDialog', () => {
               en: 'Second',
               fr: 'Second',
             },
-            name: 'ipId',
+            name: 'id',
           }],
         }, {
           attributes: [{

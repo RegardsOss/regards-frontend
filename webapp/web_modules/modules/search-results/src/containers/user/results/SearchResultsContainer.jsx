@@ -68,8 +68,8 @@ export class SearchResultsContainer extends React.Component {
     dispatchChangeViewObjectType: viewObjectType => dispatch(navigationContextActions.changeViewObjectType(viewObjectType)),
     dispatchChangeTableDisplayMode: tableDisplayMode => dispatch(navigationContextActions.changeTableDisplayMode(tableDisplayMode)),
     // allows user selecting an entity and set it as a current search tag in results table
-    dispatchSetEntityAsTag: ({ content: { entityType, label, ipId } }) => {
-      dispatch(navigationContextActions.addSearchTag(new Tag(entityType, label, ipId)))
+    dispatchSetEntityAsTag: ({ content: { entityType, label, id } }) => {
+      dispatch(navigationContextActions.addSearchTag(new Tag(entityType, label, id)))
       dispatch(navigationContextActions.changeViewObjectType(DamDomain.ENTITY_TYPES_ENUM.DATA))
     },
     // allows user selecting an entity and add it in current search context tags in description window
@@ -85,7 +85,7 @@ export class SearchResultsContainer extends React.Component {
     enableQuicklooks: PropTypes.bool.isRequired, // are quicklook available on data items
     displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
     displayConf: DisplayModuleConf,
-    restrictedDatasetsIpIds: PropTypes.arrayOf(PropTypes.string),
+    restrictedDatasetsIds: PropTypes.arrayOf(PropTypes.string),
     // Navigation labels
     datasetsSectionLabel: PropTypes.string,
     dataSectionLabel: PropTypes.string,
@@ -442,7 +442,7 @@ export class SearchResultsContainer extends React.Component {
         initialSearchQuery = searchQuery
         searchActions = searchDatasetsFromDataObjectsActions
       }
-      parameters.push(OpenSearchQuery.buildIpIdParameter(datasetLevel ? datasetLevel.searchKey : ''))
+      parameters.push(OpenSearchQuery.buildIDParameter(datasetLevel ? datasetLevel.searchKey : ''))
     } else {
       // 3 - Showing documents
       searchActions = searchDocumentsActions
@@ -487,7 +487,7 @@ export class SearchResultsContainer extends React.Component {
     const {
       displayMode, enableFacettes, isFetching, resultsCount, viewObjectType, tableDisplayMode,
       enableDownload, enableQuicklooks, datasetsSectionLabel, dataSectionLabel,
-      searchQuery: initialSearchQuery, restrictedDatasetsIpIds, displayConf, accessToken,
+      searchQuery: initialSearchQuery, restrictedDatasetsIds, displayConf, accessToken,
       projectName, dispatchSetEntityAsTag,
     } = this.props
 
@@ -504,7 +504,7 @@ export class SearchResultsContainer extends React.Component {
           {/* enable the services functionnalities */}
           <PluginServicesContainer
             viewObjectType={viewObjectType}
-            restrictedDatasetsIpIds={restrictedDatasetsIpIds}
+            restrictedDatasetsIds={restrictedDatasetsIds}
             openSearchQuery={openSearchQuery}
           >
             {/* enable the order cart link functionnality */}

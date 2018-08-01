@@ -88,7 +88,7 @@ describe('[Description] Testing AttributesContainer', () => {
       entity: {
         content: {
           entityType: 'DATA',
-          ipId: 'URN:AIP:DATA:0',
+          id: 'URN:AIP:DATA:0',
           label: 'ça',
           model: { name: 'NEW_MODEL' },
           descriptionFile: { type: 'text/markdown' },
@@ -117,11 +117,9 @@ describe('[Description] Testing AttributesContainer', () => {
             attr2: 'myAttr2Value',
           },
           // standard attributes
-          ipId: 'urn:child',
-          sipId: 'urn:sip-parent',
+          id: 'urn:child',
+          providerId: 'Provider1',
           label: 'thelabel',
-          creationDate: null,
-          lastUpdate: null,
           properties: {
             aproperty: 'entityPropertyValue',
           },

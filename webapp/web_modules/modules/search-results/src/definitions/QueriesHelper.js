@@ -26,8 +26,8 @@ function getSearchTagParameter(searchTag) {
   return new OpenSearchQueryParameter(OpenSearchQuery.TAGS_PARAM_NAME, searchTag)
 }
 
-function getDatasetIpIdParameter(datasetIpId) {
-  return new OpenSearchQueryParameter(OpenSearchQuery.TAGS_PARAM_NAME, datasetIpId)
+function getDatasetIdParameter(datasetId) {
+  return new OpenSearchQueryParameter(OpenSearchQuery.TAGS_PARAM_NAME, datasetId)
 }
 
 /**
@@ -84,6 +84,6 @@ module.exports = {
   getOpenSearchQuery,
   getURLQuery,
   getSearchTagParameter,
-  getDatasetIpIdParameter,
+  getDatasetIdParameter,
 }
 

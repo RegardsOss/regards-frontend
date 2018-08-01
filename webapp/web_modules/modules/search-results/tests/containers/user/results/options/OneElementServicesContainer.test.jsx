@@ -41,9 +41,8 @@ describe('[Search Results] Testing OneElementServicesContainer', () => {
     const props = {
       entity: {
         content: {
-          id: 1,
-          ipId: 'coucou',
-          sipId: '1',
+          id: 'coucou',
+          providerId: '1',
           label: 'O.D.I.L',
           entityType: ENTITY_TYPES_ENUM.DATA,
           files: {},
@@ -64,9 +63,8 @@ describe('[Search Results] Testing OneElementServicesContainer', () => {
     const props = {
       entity: {
         content: {
-          id: 1,
-          ipId: 'coucou',
-          sipId: '1',
+          id: 'coucou',
+          providerId: '1',
           label: 'O.D.I.L',
           entityType: ENTITY_TYPES_ENUM.DATA,
           files: {},

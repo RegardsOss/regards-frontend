@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { BasicSignalActions, RequestVerbEnum } from '@regardsoss/store-utils'
+import { CatalogDomain } from '@regardsoss/domain'
 
 /**
  * Order basket (cart) action, to control logged user basket content. To implement that behavior, this class uses a composition to
@@ -77,14 +78,24 @@ class OrderBasketActions {
   }
 
   /**
-   * Returns action to add IP IDs or Open search request results (excluding IP IDs) in basket
-   * @param {[string]} ipIds elements IP IDs, to either include (if there is no request) or exclude (when specifying request)
+   * Returns action to add entities ID or Open search request results (excluding entities IDs) in basket
+   * @param {[string]} ipIds entities IDs, to either include (if there is no request) or exclude (when specifying request)
    * @param {string} selectAllOpenSearchRequest open search request that provides all elements to include, or null / undefined if
-   * elements to include are in the IP IDs list
+   * elements to include are in the entities ID list
+   * @param {string} datasetID dataset ID to specify search on a specific dataset
    * @return {type:string, ...} redux action (redux API middleware compatible) to add elements or request to the basket
    */
-  addToBasket(ipIds = [], selectAllOpenSearchRequest = null) {
-    return this.selectionDelegate.sendSignal(RequestVerbEnum.POST, { ipIds, selectAllOpenSearchRequest })
+  addToBasket(ipIds = [], selectAllOpenSearchRequest = null, datasetID = null) {
+    let searchParameters = {}
+    if (selectAllOpenSearchRequest) {
+      searchParameters = { q: selectAllOpenSearchRequest }
+    }
+    return this.selectionDelegate.sendSignal(RequestVerbEnum.POST, {
+      datasetUrn: datasetID,
+      searchParameters,
+      ipIds,
+      engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
+    })
   }
 
   /**

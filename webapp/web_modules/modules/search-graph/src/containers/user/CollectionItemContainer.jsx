@@ -23,12 +23,12 @@ import GraphContextSelectors from '../../model/graph/GraphContextSelectors'
 import CollectionItem from '../../components/user/CollectionItem'
 
 /**
-* Displays a collection
-*/
+ * Displays a collection
+ */
 export class CollectionItemContainer extends React.Component {
   static mapStateToProps = (state, { levelIndex, collection }) => {
     const levelSelection = GraphContextSelectors.getSelectionForLevel(state, levelIndex)
-    const selected = levelSelection ? levelSelection.ipId === collection.content.ipId : false
+    const selected = levelSelection ? levelSelection.id === collection.content.id : false
     return {
       selected,
     }

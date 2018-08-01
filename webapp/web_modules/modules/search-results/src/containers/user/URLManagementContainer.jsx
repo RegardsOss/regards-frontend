@@ -50,7 +50,7 @@ export class URLManagementContainer extends React.Component {
   })
 
   static mapDispatchToProps = dispatch => ({
-    dispatchFetchEntity: datasetIpId => dispatch(searchEntityActions.getEntity(datasetIpId)),
+    dispatchFetchEntity: datasetId => dispatch(searchEntityActions.getEntity(datasetId)),
     initialize: ((viewObjectType, tableDisplayMode, initialContextTags, tags) =>
       dispatch(navigationContextActions.initialize(viewObjectType, tableDisplayMode, initialContextTags, tags))),
   })

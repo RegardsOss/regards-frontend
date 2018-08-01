@@ -80,21 +80,21 @@ class GraphLevelDispayer extends React.Component {
             { // collections
               values(collections).sort(GraphLevelDispayer.compareEntities).map(collection =>
                 (<CollectionItemContainer
-                  key={collection.content.ipId}
+                  key={collection.content.id}
                   collection={collection}
                   levelIndex={levelIndex}
                   isLastLevel={isLastLevel}
                 />))
-              }
+            }
             { // datasets
               values(datasets).sort(GraphLevelDispayer.compareEntities).map(dataset =>
                 (<DatasetItemContainer
                   graphDatasetAttributes={graphDatasetAttributes}
-                  key={dataset.content.ipId}
+                  key={dataset.content.id}
                   dataset={dataset}
                   levelIndex={levelIndex}
                 />))
-              }
+            }
           </ShowableAtRender>
         </div>
       </ShowableAtRender >

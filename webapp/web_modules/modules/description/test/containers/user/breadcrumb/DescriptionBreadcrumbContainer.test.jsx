@@ -27,7 +27,7 @@ const context = buildTestContext(styles)
 
 const testEntity = {
   content: {
-    ipId: 'test',
+    id: 'test',
     label: 'test',
     entityType: 'COLLECTION',
     tags: [],

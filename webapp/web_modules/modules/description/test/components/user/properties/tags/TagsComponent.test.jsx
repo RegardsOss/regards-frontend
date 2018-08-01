@@ -72,7 +72,7 @@ describe('[Description] Testing TagsComponent', () => {
       simpleTags: ['sTag1', 'sTag2'],
       entityTags: [{
         content: {
-          ipId: 'URN:helloooooooooooooo Nanny!',
+          id: 'URN:helloooooooooooooo Nanny!',
           model: {
             id: 1,
           },
@@ -83,7 +83,7 @@ describe('[Description] Testing TagsComponent', () => {
       }],
       documentTags: [{
         content: {
-          ipId: 'URN:ANOTHERDOC!',
+          id: 'URN:ANOTHERDOC!',
           model: {
             id: 1,
           },

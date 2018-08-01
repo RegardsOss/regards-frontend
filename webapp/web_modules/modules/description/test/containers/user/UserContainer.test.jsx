@@ -71,7 +71,7 @@ describe('[Description] Testing UserContainer', () => {
       },
       shownEntity: {
         content: {
-          ipId: 'URN:helloooooooooooooo Nanny!',
+          id: 'URN:helloooooooooooooo Nanny!',
           model: {
             id: 1,
           },
@@ -148,7 +148,7 @@ describe('[Description] Testing UserContainer', () => {
     // Mimics a reduced dialog state change
     const descriptionEntity = {
       content: {
-        ipId: 'URN:helloooooooooooooo Nanny!',
+        id: 'URN:helloooooooooooooo Nanny!',
         model: {
           id: 1,
         },

@@ -41,7 +41,7 @@ describe('[Description] Testing EntityTagContainer', () => {
       moduleConf: fullModuleConf,
       entity: {
         content: {
-          ipId: 'urn:test',
+          id: 'urn:test',
           label: 'test',
           entityType: ENTITY_TYPES_ENUM.DATA,
           tags: [],
@@ -69,7 +69,7 @@ describe('[Description] Testing EntityTagContainer', () => {
       moduleConf: fullModuleConf,
       entity: {
         content: {
-          ipId: 'urn:test',
+          id: 'urn:test',
           label: 'test',
           entityType: ENTITY_TYPES_ENUM.DATASET, // not allowed for description, by configuration
           tags: [],
@@ -89,7 +89,7 @@ describe('[Description] Testing EntityTagContainer', () => {
     const dispatchShowDetail = () => { }
     const entity = {
       content: {
-        ipId: 'urn:test',
+        id: 'urn:test',
         label: 'test',
         entityType: ENTITY_TYPES_ENUM.DATASET,
         tags: [],

@@ -41,8 +41,7 @@ describe('[Search Results] Testing EntityDescriptionComponent', () => {
     const props = {
       entity: {
         content: {
-          id: 1,
-          ipId: 'URN:test',
+          id: 'URN:test',
           label: 'test',
           entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
           tags: ['test-tag'],

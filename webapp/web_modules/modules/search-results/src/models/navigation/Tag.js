@@ -55,11 +55,11 @@ class Tag {
     return isURNTag(tagValue) ?
       // 1 - An entity tag: resolve through fetching
       dispatchSearchEntity(tagValue).then(({ payload }) => {
-        const { entityType, ipId, label } = get(payload, 'content', {})
-        if (payload.error || !ipId) {
+        const { entityType, id, label } = get(payload, 'content', {})
+        if (payload.error || !id) {
           throw new Error('Fetching entity failed')
         }
-        return new Tag(entityType, label, ipId)
+        return new Tag(entityType, label, id)
       }) : // 2 - a word tag: return immediately resolved promise
       new Promise((resolve, reject) => {
         resolve(new Tag(TagTypes.WORD, tagValue, tagValue))
@@ -78,7 +78,7 @@ class Tag {
         return new Tag(type, data, data)
       default:
         // data is an entity
-        return new Tag(type, data.content.label, data.content.ipId)
+        return new Tag(type, data.content.label, data.content.id)
     }
   }
 

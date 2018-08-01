@@ -394,9 +394,9 @@ class ModuleContainer extends React.Component {
     const { searchQuery } = this.state
 
     // resolve datasets context from this form configuration
-    let restrictedDatasetsIpIds = null
+    let restrictedDatasetsIds = null
     if (datasets.type === DatasetSelectionTypes.DATASET_TYPE) {
-      restrictedDatasetsIpIds = datasets.selectedDatasets
+      restrictedDatasetsIds = datasets.selectedDatasets
     }
     const module = {
       id,
@@ -407,7 +407,7 @@ class ModuleContainer extends React.Component {
       conf: {
         ...searchResult,
         searchQuery,
-        restrictedDatasetsIpIds,
+        restrictedDatasetsIds,
       },
     }
 

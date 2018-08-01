@@ -125,7 +125,7 @@ export class DescriptionFileContainer extends React.Component {
     if (!isEqual(oldProps.entity, newEntity)) {
       if (newEntity) {
         // Check if entity has description and if it should be downloaded
-        const { content: { ipId: entityId, entityType, descriptionFile } } = newEntity
+        const { content: { id: entityId, entityType, descriptionFile } } = newEntity
         if ([ENTITY_TYPES_ENUM.COLLECTION, ENTITY_TYPES_ENUM.DATASET].includes(entityType) &&
           descriptionFile && DescriptionFileContainer.DOWNLOAD_CONTENT_TYPES.includes(get(descriptionFile, 'type'))) {
           // entity is a collection or dataset and its content should be download
@@ -154,7 +154,7 @@ export class DescriptionFileContainer extends React.Component {
   resolveDescription = (newEntity, nextCollectionDesc, nextDatasetDesc, accessToken, projectName) => {
     const nextDescription = { ...DescriptionFileContainer.DEFAULT_STATE.description }
     if (newEntity) {
-      const { content: { ipId, entityType, descriptionFile } } = newEntity
+      const { content: { id, entityType, descriptionFile } } = newEntity
       // Only collection and dataset can have description
       if ([ENTITY_TYPES_ENUM.COLLECTION, ENTITY_TYPES_ENUM.DATASET].includes(entityType)) {
         const { type: fileType, url } = (descriptionFile || {}) // initialize found file type and URL
@@ -163,16 +163,16 @@ export class DescriptionFileContainer extends React.Component {
         } else if (fileType) { // Case 2: locally stored file
           if (DescriptionFileContainer.DOWNLOAD_CONTENT_TYPES.includes(fileType)) {
             // Case 2a: locally downloaded file
-            if (entityType === ENTITY_TYPES_ENUM.COLLECTION && nextCollectionDesc && nextCollectionDesc.entityId === ipId) {
+            if (entityType === ENTITY_TYPES_ENUM.COLLECTION && nextCollectionDesc && nextCollectionDesc.entityId === id) {
               // a collection description
               nextDescription.localContent = nextCollectionDesc
-            } else if (entityType === ENTITY_TYPES_ENUM.DATASET && nextDatasetDesc && nextDatasetDesc.entityId === ipId) {
+            } else if (entityType === ENTITY_TYPES_ENUM.DATASET && nextDatasetDesc && nextDatasetDesc.entityId === id) {
               // a dataset description
               nextDescription.localContent = nextDatasetDesc
             }
           } else {
             // Case 2b: local file addressed as external URL
-            nextDescription.url = DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(entityType, ipId, accessToken, projectName)
+            nextDescription.url = DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(entityType, id, accessToken, projectName)
           }
         }
       }

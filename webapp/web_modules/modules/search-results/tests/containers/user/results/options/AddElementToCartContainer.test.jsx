@@ -27,9 +27,8 @@ import styles from '../../../../../src/styles/styles'
 const context = buildTestContext(styles)
 
 const basicEntityFields = {
-  id: 1,
-  ipId: 'coucou',
-  sipId: '1',
+  id: 'coucou',
+  providerId: '1',
   label: 'O.D.I.L',
   files: {},
   geometry: null,

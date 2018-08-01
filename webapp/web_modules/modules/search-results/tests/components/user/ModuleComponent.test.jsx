@@ -44,7 +44,6 @@ describe('[Search Results] Testing ModuleComponent', () => {
         enableDownload: true,
         enableQuicklooks: false,
         displayMode: DISPLAY_MODE_VALUES.DISPLAY_DATA_DATASET,
-        initialDatasetIpId: 'URN:DATASET:8',
         attributes: [],
         attributesRegroupements: [],
         attributesQuicklook: [],

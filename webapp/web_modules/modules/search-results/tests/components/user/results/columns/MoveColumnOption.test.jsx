@@ -44,7 +44,7 @@ const allModels = [{ // 1- selection
     DamDomain.AttributeModelController.getStandardAttributeModel(
       DamDomain.AttributeModelController.standardAttributesKeys.label),
     DamDomain.AttributeModelController.getStandardAttributeModel(
-      DamDomain.AttributeModelController.standardAttributesKeys.ipId),
+      DamDomain.AttributeModelController.standardAttributesKeys.id),
   ],
   enableSorting: false,
   sortOrder: TableSortOrders.NO_SORT,

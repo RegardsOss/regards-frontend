@@ -42,7 +42,7 @@ describe('[Attributes Common] Testing MultipleAttributesFieldRender', () => {
     const props = {
       attributeModels: attributeModelsArray,
       fields: {
-        getAll: () => [{ name: 'properties.attr2' }, { name: 'ipId' }],
+        getAll: () => [{ name: 'properties.attr2' }, { name: 'id' }],
         push: () => { },
         remove: () => { },
       },
@@ -57,7 +57,7 @@ describe('[Attributes Common] Testing MultipleAttributesFieldRender', () => {
     const state = enzymeWrapper.state()
     assert.deepEqual(state.selectedAttributes, props.fields.getAll(), 'Selected attributes should be retrieved from fields.getAll')
     assert.deepEqual(state.availableAttributesModels,
-      attributeModelsArray.filter(({ content: { jsonPath } }) => jsonPath !== 'properties.attr2' && jsonPath !== 'ipId'),
+      attributeModelsArray.filter(({ content: { jsonPath } }) => jsonPath !== 'properties.attr2' && jsonPath !== 'id'),
       'Available attributes should be filtered, not including the attributes already selected')
     // check the right properties are provided to available attributes table
     const availableAttributesTable = enzymeWrapper.find(AvailableAttributesTable)

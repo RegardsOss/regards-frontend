@@ -170,16 +170,16 @@ export class UserModuleContainer extends React.Component {
         const collections = get(collectionsFetchResult, 'payload.entities.entities', {})
         const datasets = get(datasetFetchResults, 'payload.entities.entities', {})
         if (selection.length) {
-          const [{ ipId: selectedParentIpId, entityType: selectedParentType }, ...nextSelectedElements] = selection
-          const retrievedParentSelection = find({ ...collections, ...datasets }, ({ content: { ipId } }) => selectedParentIpId === ipId)
+          const [{ id: selectedParentId, entityType: selectedParentType }, ...nextSelectedElements] = selection
+          const retrievedParentSelection = find({ ...collections, ...datasets }, ({ content: { id } }) => selectedParentId === id)
           if (!retrievedParentSelection) {
             // (break case) the parent level selection could not be restored: remove it from selection then stop
             dispatchClearLevelSelection(level - 1)
           } else if (selectedParentType !== ENTITY_TYPES_ENUM.DATASET) {
             // loop case: resolve next
-            const parentPath = selectionPath.slice(0, level).map(({ ipId }) => ipId) // prepare parent path for datasets
+            const parentPath = selectionPath.slice(0, level).map(({ id }) => id) // prepare parent path for datasets
             Promise.all([
-              fetchCollections(level, selectedParentIpId, graphLevels[level]),
+              fetchCollections(level, selectedParentId, graphLevels[level]),
               fetchDatasets(level, parentPath)]).then(getRecursiveUpdater(nextSelectedElements, level + 1))
           }
         }

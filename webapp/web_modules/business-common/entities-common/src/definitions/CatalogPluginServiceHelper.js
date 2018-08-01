@@ -117,7 +117,7 @@ function packTargetParameters(target) {
       return { entitiesId: target.entities }
     case RuntimeTargetTypes.QUERY:
     {
-      const q = new OpenSearchQuery(target.q, [OpenSearchQuery.buildIpIdParameter(target.excludedIpIds, true)]).toQueryString()
+      const q = new OpenSearchQuery(target.q, [OpenSearchQuery.buildIDParameter(target.excludedIDs, true)]).toQueryString()
       return { q, entityType: target.entityType }
     }
     default:

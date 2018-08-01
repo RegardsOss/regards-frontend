@@ -37,7 +37,7 @@ export class DatasetItemContainer extends React.Component {
     const levelSelection = GraphContextSelectors.getSelectionForLevel(state, levelIndex)
     // a dataset is locked when the user cannot acces a link with rel field 'dataobjects'
     const locked = !dataset.links.find(({ rel }) => rel.toLowerCase().includes(accesGrantedRel))
-    const selected = !!levelSelection && levelSelection.ipId === dataset.content.ipId
+    const selected = !!levelSelection && levelSelection.id === dataset.content.id
     return {
       attributesVisible: GraphContextSelectors.areDatasetAttributesVisible(state),
       locked,

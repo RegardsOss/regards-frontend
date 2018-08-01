@@ -91,7 +91,7 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
       },
       visible: true,
       attributes: [DamDomain.AttributeModelController.getStandardAttributeModel(
-        DamDomain.AttributeModelController.standardAttributesKeys.ipId)],
+        DamDomain.AttributeModelController.standardAttributesKeys.id)],
       enableSorting: true,
       sortOrder: TableSortOrders.DESCENDING_ORDER,
       sortIndex: 1,
@@ -104,7 +104,7 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
       },
       visible: true,
       attributes: [DamDomain.AttributeModelController.getStandardAttributeModel(
-        DamDomain.AttributeModelController.standardAttributesKeys.creationDate)],
+        DamDomain.AttributeModelController.standardAttributesKeys.id)],
       enableSorting: true,
       sortOrder: TableSortOrders.NO_SORT,
       sortIndex: 1,

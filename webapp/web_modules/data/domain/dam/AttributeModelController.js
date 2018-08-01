@@ -32,11 +32,9 @@ import MODEL_ATTR_TYPES from './ModelAttrTypes'
 
 
 const standardAttributesKeys = {
-  ipId: 'ipId',
-  sipId: 'sipId',
+  id: 'id', // === URN
+  providerId: 'providerId',
   label: 'label',
-  creationDate: 'creationDate',
-  lastUpdate: 'lastUpdate',
   thumbnail: 'thumbnail',
 }
 
@@ -45,19 +43,19 @@ const standardAttributesKeys = {
  * @type {string}
  */
 const standardAttributes = {
-  [standardAttributesKeys.ipId]: {
-    key: standardAttributesKeys.ipId,
+  [standardAttributesKeys.id]: {
+    key: standardAttributesKeys.id,
     id: -1, // use negative index to not conflict with DB attribute models
     label: 'Internal ID',
     type: MODEL_ATTR_TYPES.STRING,
-    jsonPath: 'ipId',
+    jsonPath: 'id',
   },
-  [standardAttributesKeys.sipId]: {
-    key: standardAttributesKeys.sipId,
+  [standardAttributesKeys.providerId]: {
+    key: standardAttributesKeys.providerId,
     id: -2,
     label: 'Provider ID',
     type: MODEL_ATTR_TYPES.STRING,
-    jsonPath: 'sipId',
+    jsonPath: 'providerId',
   },
   [standardAttributesKeys.label]: {
     key: standardAttributesKeys.label,
@@ -65,20 +63,6 @@ const standardAttributes = {
     label: 'Label',
     type: MODEL_ATTR_TYPES.STRING,
     jsonPath: 'label',
-  },
-  [standardAttributesKeys.creationDate]: {
-    key: standardAttributesKeys.creationDate,
-    id: -4,
-    label: 'Creation date',
-    type: MODEL_ATTR_TYPES.DATE_ISO8601,
-    jsonPath: 'creationDate',
-  },
-  [standardAttributesKeys.lastUpdate]: {
-    key: standardAttributesKeys.lastUpdate,
-    id: -5,
-    label: 'Last update',
-    type: MODEL_ATTR_TYPES.DATE_ISO8601,
-    jsonPath: 'lastUpdate',
   },
   [standardAttributesKeys.thumbnail]: {
     key: standardAttributesKeys.thumbnail,

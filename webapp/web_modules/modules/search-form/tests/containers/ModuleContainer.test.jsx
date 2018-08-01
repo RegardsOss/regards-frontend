@@ -45,7 +45,7 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
           attributes: {
             testAttr: 'a.b.c.failure', // should resolve to server attribute
             testAttr2: 'undefined.1',
-            testAttr3: 'ipId', // should resolve to standard attribute IP ID
+            testAttr3: 'id', // should resolve to standard attribute IP ID
           },
         },
       },
@@ -126,8 +126,8 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
               testAttr2: undefined, // not resolved in attributes pool
               testAttr3: { // from standard attributes pool
                 id: -1,
-                jsonPath: 'ipId',
-                name: 'ipId',
+                jsonPath: 'id',
+                name: 'id',
                 label: 'Internal ID',
                 type: 'STRING',
               },

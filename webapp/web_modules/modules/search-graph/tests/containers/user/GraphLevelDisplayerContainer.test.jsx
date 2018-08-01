@@ -45,7 +45,7 @@ describe('[Search Graph] Testing GraphLevelDisplayerContainer', () => {
       hasError: false,
       collections: {},
       datasets: {},
-      parentIpId: null,
+      parentId: null,
 
       // from mapDispatchToProps
       dispatchFetchLevelCollections: () => { },

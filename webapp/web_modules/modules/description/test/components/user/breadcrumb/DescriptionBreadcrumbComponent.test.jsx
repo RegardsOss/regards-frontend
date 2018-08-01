@@ -27,7 +27,7 @@ const context = buildTestContext(styles)
 
 const testEntity = {
   content: {
-    ipId: 'URN:helloooooooooooooo Nanny!',
+    id: 'URN:helloooooooooooooo Nanny!',
     model: {
       id: 1,
     },

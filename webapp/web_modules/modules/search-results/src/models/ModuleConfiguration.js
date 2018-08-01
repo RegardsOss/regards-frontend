@@ -112,7 +112,7 @@ const ModuleConfiguration = PropTypes.shape({
   // Initial search query
   searchQuery: PropTypes.string,
   // Restricted dataset context as IP ID array
-  restrictedDatasetsIpIds: PropTypes.arrayOf(PropTypes.string),
+  restrictedDatasetsIds: PropTypes.arrayOf(PropTypes.string),
 
 })
 

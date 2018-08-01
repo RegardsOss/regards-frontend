@@ -32,8 +32,8 @@ import { attributes } from '../dumps/attributes.dump'
  * @author Raphaël Mechali
  */
 
-const sipIdStandardAttribute =
-  DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.sipId)
+const providerIdStandardAttribute =
+  DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId)
 
 
 /** A simple attribute model configuration that can be converted from dumps */
@@ -47,7 +47,7 @@ const convertableSimpleServerAttributeConf = {
 
 /** A simple attribute model configuration that can be converted from standard attribues */
 const convertableSimpleStandardAttributeConf = {
-  attributes: [{ name: sipIdStandardAttribute.content.jsonPath }],
+  attributes: [{ name: providerIdStandardAttribute.content.jsonPath }],
   label: {
     en: 'a',
     fr: 'b',
@@ -66,7 +66,7 @@ const fullyConvertableRegroupmentConf = {
     en: 'a',
     fr: 'b',
   },
-  attributes: [{ name: 'my.attr.2' }, { name: 'my.attr.1' }, { name: sipIdStandardAttribute.content.jsonPath }],
+  attributes: [{ name: 'my.attr.2' }, { name: 'my.attr.1' }, { name: providerIdStandardAttribute.content.jsonPath }],
 }
 
 /** An attributes regroupement configuration where some attributes can be resolved */
@@ -110,7 +110,7 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
     assert.deepEqual(converted, {
       key: 'configured.column.3',
       label: convertableSimpleServerAttributeConf.label,
-      attributes: [DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.sipId)],
+      attributes: [DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId)],
       enableSorting: false,
       sortOrder: TableSortOrders.NO_SORT,
       sortIndex: null,
@@ -128,7 +128,7 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
     assert.deepEqual(converted, {
       key: 'configured.column.2',
       label: fullyConvertableRegroupmentConf.label,
-      attributes: [attributes[2], attributes[1], DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.sipId)],
+      attributes: [attributes[2], attributes[1], DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId)],
       enableSorting: false, // cannot sort on groups
       sortOrder: TableSortOrders.NO_SORT,
       sortIndex: null,

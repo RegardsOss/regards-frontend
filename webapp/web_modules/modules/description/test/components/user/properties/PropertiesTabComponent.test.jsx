@@ -41,7 +41,7 @@ describe('[Description] Testing PropertiesTabComponent', () => {
       typeConfiguration: fullModuleConf[DamDomain.ENTITY_TYPES_ENUM.DATA],
       entity: {
         content: {
-          ipId: 'URN:helloooooooooooooo Nanny!',
+          id: 'URN:helloooooooooooooo Nanny!',
           model: {
             id: 1,
           },

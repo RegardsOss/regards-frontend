@@ -55,7 +55,7 @@ describe('[Description] Testing DocumentFilesComponent', () => {
       projectName: 'project1',
       entity: {
         content: {
-          ipId: 'URN:TEST',
+          id: 'URN:TEST',
           label: 'test',
           entityType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
           files: {
@@ -83,7 +83,7 @@ describe('[Description] Testing DocumentFilesComponent', () => {
       projectName: 'project1',
       entity: {
         content: {
-          ipId: 'URN:TEST2',
+          id: 'URN:TEST2',
           label: 'test',
           entityType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
           files: {

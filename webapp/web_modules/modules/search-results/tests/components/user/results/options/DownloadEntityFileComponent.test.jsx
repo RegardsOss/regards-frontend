@@ -29,7 +29,7 @@ const context = buildTestContext(styles)
 const docFile = {
   content: {
     entityType: 'DOCUMENT',
-    ipId: 'URN:AIP:DOCUMENT:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1',
+    id: 'URN:AIP:DOCUMENT:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1',
     label: 'EmptyDoc',
     model: {
       id: 1,
@@ -37,9 +37,6 @@ const docFile = {
       description: 'model',
       type: 'DOCUMENT',
     },
-    lastUpdate: '2017-11-29T10:14:35.642Z',
-    creationDate: '2017-11-28T14:49:44.622Z',
-    id: 154,
     tags: [],
     groups: ['PublicDocumentGroup'],
     properties: {},
@@ -69,7 +66,7 @@ const dataset = {
     files: {
       RAWDATA: [file1],
     },
-    ipId: 'URN:AIP:DOCUMENT:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1',
+    id: 'URN:AIP:DOCUMENT:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1',
     label: 'my dataset',
     tags: [],
   },

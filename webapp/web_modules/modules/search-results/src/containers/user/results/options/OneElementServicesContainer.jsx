@@ -93,7 +93,7 @@ export class OneElementServicesContainer extends React.Component {
     const { entity, dispatchRunService } = this.props
     dispatchRunService(new PluginServiceRunModel(
       service,
-      target.buildOneElementTarget(entity.content.ipId),
+      target.buildOneElementTarget(entity.content.id),
     ))
   }
 

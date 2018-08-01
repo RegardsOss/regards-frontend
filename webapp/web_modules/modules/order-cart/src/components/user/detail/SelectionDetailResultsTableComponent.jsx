@@ -46,9 +46,8 @@ class SelectionDetailResultsTableComponent extends React.Component {
   static DISPLAYED_ATTRIBUTES_MODELS = [
     DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.thumbnail),
     DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.label),
-    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.ipId),
-    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.creationDate),
-    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.lastUpdate),
+    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.id),
+    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId),
   ].map(attribute => ({
     key: attribute.content.name,
     label: { // FIXME-WAIT-DM (corresponds with another PM): this is an emulated behavior for non internationalized attributes

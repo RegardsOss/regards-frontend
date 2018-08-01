@@ -87,7 +87,7 @@ class QueryRuntimeHelpersBuilder {
    * @return {function} function like ( {function} applier , {function} dispatchMethod, {*} initialValue ) => Promise
    */
   buildGetReducePromise() {
-    return partial(this.getReducePromise, this.actions, this.queryParams, this.serviceTarget.entitiesCount, this.serviceTarget.excludedIpIds)
+    return partial(this.getReducePromise, this.actions, this.queryParams, this.serviceTarget.entitiesCount, this.serviceTarget.excludedIDs)
   }
 
   /**
@@ -95,13 +95,13 @@ class QueryRuntimeHelpersBuilder {
    * @param {BasicFacetsPageableActions} actions actions - partially applied, never seen by user
    * @param {*} queryParams query parameters  - partially applied, never seen by user.
    * @param {number} elementsCount total elements count
-   * @param {Array} excludedIpIds excluded IP IDs from query results
+   * @param {Array} excludedIDs excluded entity ID (URN) from query results
    * @param {function} dispatchMethod redux dispatch method, strictly required to run fetch
    * @param {*} applier treatment to apply, like (accumulator, entity content, index) => *
    * @param {*} initialValue optional initial value (will be provided as first acculmulator in applier)
    * @param {number} pageSize optional page size
    */
-  getReducePromise = (actions, queryParams, elementsCount, excludedIpIds, dispatchMethod, applier, initialValue, pageSize = 1000) => {
+  getReducePromise = (actions, queryParams, elementsCount, excludedIDs, dispatchMethod, applier, initialValue, pageSize = 1000) => {
     const totalPages = Math.ceil(elementsCount / pageSize)
     // build a promise that will resolve and reduce, page by page, and terminate on last page
     return new Promise((resolve, reject) => {
@@ -124,7 +124,7 @@ class QueryRuntimeHelpersBuilder {
             let currentIndex = entityIndex // sadly not provided by lodash.reduce :-(
             const pageResult = reduce(entities, (accumulator, { content: entityContent }, key, index) => {
               // do not handle the excluded IP IDs
-              if (excludedIpIds.includes(entityContent.ipId)) {
+              if (excludedIDs.includes(entityContent.id)) {
                 return accumulator // do not call reducer nor improve entity index
               }
               currentIndex += 1

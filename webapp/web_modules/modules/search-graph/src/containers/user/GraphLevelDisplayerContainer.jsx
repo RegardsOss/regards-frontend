@@ -41,13 +41,13 @@ const moduleStyles = { styles }
 export class GraphLevelDisplayerContainer extends React.Component {
   static mapStateToProps = (state, { levelIndex, isFirstLevel }) => {
     const partitionKey = getLevelPartitionKey(levelIndex)
-    // has parent selection, and is it a collectionb?
+    // has parent selection, and is it a collection?
     const parentSelection = GraphContextSelectors.getSelectionForParentLevel(state, levelIndex)
-    const parentIpId = parentSelection && parentSelection.entityType === ENTITY_TYPES_ENUM.COLLECTION ? parentSelection.ipId : null
+    const parentId = parentSelection && parentSelection.entityType === ENTITY_TYPES_ENUM.COLLECTION ? parentSelection.id : null
     return {
-      parentIpId,
+      parentId,
       // retrieve level data from partitioned store
-      isShowable: isFirstLevel || !!parentIpId, // shown only when in a valid path
+      isShowable: isFirstLevel || !!parentId, // shown only when in a valid path
       isLoading: GraphLevelCollectionSelectors.isLoading(state, partitionKey) || GraphLevelDatasetSelectors.isLoading(state, partitionKey),
       hasError: GraphLevelCollectionSelectors.hasError(state, partitionKey) || GraphLevelDatasetSelectors.hasError(state, partitionKey),
       collections: GraphLevelCollectionSelectors.getCollections(state, partitionKey),
@@ -83,10 +83,10 @@ export class GraphLevelDisplayerContainer extends React.Component {
 
   static mapDispatchToProps = (dispatch, { levelIndex, levelModelName }) => ({
     // fetch collections and dispatch level partitions update state
-    dispatchFetchLevelCollections: parentIpId =>
+    dispatchFetchLevelCollections: parentId =>
       GraphLevelDisplayerContainer.dispatchFetchLevelData(
         levelIndex, dispatch, GraphLevelCollectionActions,
-        () => FetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentIpId, levelModelName),
+        () => FetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentId, levelModelName),
       ),
     // fetch datasets and dispatch level partitions update state
     dispatchFetchLevelDatasets: parentPath =>
@@ -110,7 +110,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
     hasError: PropTypes.bool.isRequired, // has fetch error
     collections: CatalogShapes.EntityList.isRequired, // level displayed collections
     datasets: CatalogShapes.EntityList.isRequired, // the level displayed dataset
-    parentIpId: PropTypes.string, // currently selected parent collection IP ID or null
+    parentId: PropTypes.string, // currently selected parent collection IP ID or null
 
     // from mapDispatchToProps
     dispatchFetchLevelCollections: PropTypes.func.isRequired,
@@ -121,8 +121,8 @@ export class GraphLevelDisplayerContainer extends React.Component {
    * Lifecycle hook: fetch initial content data (at least for root level, as it has no parent collection)
    */
   componentDidMount = () => {
-    const { isShowable, parentIpId, selectionPath } = this.props
-    this.updateLevelElements(isShowable, parentIpId, selectionPath)
+    const { isShowable, parentId, selectionPath } = this.props
+    this.updateLevelElements(isShowable, parentId, selectionPath)
   }
 
 
@@ -130,19 +130,19 @@ export class GraphLevelDisplayerContainer extends React.Component {
    * Lifecycle hook: fetch when parent collection changes (if parent collection is defined)
    * @param {*} nextProps
    */
-  componentWillReceiveProps = ({ parentIpId: nextParentIpId, isShowable, selectionPath }) => {
-    const { parentIpId } = this.props
-    if (parentIpId !== nextParentIpId && nextParentIpId) { // refetch on parent change, if showable
-      this.updateLevelElements(isShowable, nextParentIpId, selectionPath)
+  componentWillReceiveProps = ({ parentId: nextparentId, isShowable, selectionPath }) => {
+    const { parentId } = this.props
+    if (parentId !== nextparentId && nextparentId) { // refetch on parent change, if showable
+      this.updateLevelElements(isShowable, nextparentId, selectionPath)
     }
   }
 
   /**
    * Updates level elements. Checks that the level has a valid parent (or is root), avoids updating if not
    * @param isShowable is level showable in current state
-   * @param parentCollectionIpId: contextual parent collection ip id (null for root)
+   * @param parentCollectionId: contextual parent collection id (null for root)
    */
-  updateLevelElements = (isShowable, parentIpId, selectionPath) => {
+  updateLevelElements = (isShowable, parentCollectionId, selectionPath) => {
     // update only when in a showable state
     if (isShowable) {
       const {
@@ -152,15 +152,15 @@ export class GraphLevelDisplayerContainer extends React.Component {
       const showCollections = !isLastLevel // no collection on last level (used only to show parent collection's datasets)
       // 1 - Fetch collections
       if (showCollections) {
-        dispatchFetchLevelCollections(parentIpId)
+        dispatchFetchLevelCollections(parentCollectionId)
       }
       // 2 - Fetch datasets
       if (showDatasets) {
         // rebuild parent path (level != 0, there is necessary a selection)
-        const parentIndex = selectionPath.findIndex(selectionElement => selectionElement.ipId === parentIpId)
+        const parentIndex = selectionPath.findIndex(selectionElement => selectionElement.id === parentCollectionId)
         if (parentIndex !== -1) {
           // get parent path from selection, map it to IP ID array
-          const parentPath = selectionPath.slice(0, parentIndex + 1).map(({ ipId }) => ipId)
+          const parentPath = selectionPath.slice(0, parentIndex + 1).map(({ id }) => id)
           dispatchFetchLevelDatasets(parentPath)
         }
       }

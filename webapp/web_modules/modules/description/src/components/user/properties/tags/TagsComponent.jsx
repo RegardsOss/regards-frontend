@@ -108,7 +108,7 @@ class TagsComponent extends React.Component {
                   {
                     entityTags.map(entity => (
                       <EntityTagContainer
-                        key={entity.content.ipId}
+                        key={entity.content.id}
                         entity={entity}
                         moduleConf={moduleConf}
                         onSearchTag={allowSearchTag ? onSearchTag : null}

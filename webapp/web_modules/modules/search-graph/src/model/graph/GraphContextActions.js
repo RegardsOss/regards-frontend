@@ -26,7 +26,7 @@ class GraphContextActions {
   /**
    * Changes selected entity for a given level
    * @param {*} levelIndex level index (0 to N-1)
-   * @param {*} entity entity selected (contains ipId and type) or null to remove level selection
+   * @param {*} entity entity selected (contains ID and type) or null to remove level selection
    * @return action to return
    */
   selectEntity(levelIndex, entity) {

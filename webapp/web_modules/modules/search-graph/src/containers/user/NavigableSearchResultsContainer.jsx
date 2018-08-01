@@ -87,7 +87,7 @@ export class NavigableSearchResultsContainer extends React.Component {
     return [{
       type: tag.type,
       label: tag.type === TagTypes.WORD ? tag.data : tag.data.content.label,
-      searchKey: tag.type === TagTypes.WORD ? tag.data : tag.data.content.ipId,
+      searchKey: tag.type === TagTypes.WORD ? tag.data : tag.data.content.id,
     }]
   }
 

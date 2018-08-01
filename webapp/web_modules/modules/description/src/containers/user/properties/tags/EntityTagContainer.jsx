@@ -73,7 +73,7 @@ export class EntityTagContainer extends React.Component {
     const oldState = this.state
     // verify if entity is already in description path (to avoid loops in path)
     const newState = {
-      alreadyInPath: !!(newPath || []).find(({ content: { ipId } }) => ipId === entity.content.ipId),
+      alreadyInPath: !!(newPath || []).find(({ content: { id } }) => id === entity.content.id),
     }
     if (!isEqual(oldState, newState)) {
       this.setState(newState)

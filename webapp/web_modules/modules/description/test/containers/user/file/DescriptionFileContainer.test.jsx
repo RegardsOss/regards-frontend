@@ -88,7 +88,7 @@ describe('[Description] Testing DescriptionFileContainer', () => {
       entity: {
         content: {
           entityType: 'DATA',
-          ipId: 'URN:AIP:DATA:0',
+          id: 'URN:AIP:DATA:0',
           label: 'ça',
           model: { id: 0 },
           descriptionFile: { type: 'text/markdown' },
@@ -120,7 +120,7 @@ describe('[Description] Testing DescriptionFileContainer', () => {
       entity: {
         content: {
           entityType: ENTITY_TYPES_ENUM.COLLECTION,
-          ipId: 'URN:AIP:COLLECTION:0',
+          id: 'URN:AIP:COLLECTION:0',
           label: 'ça',
           model: { id: 0 },
           descriptionFile: {
@@ -145,7 +145,7 @@ describe('[Description] Testing DescriptionFileContainer', () => {
       entity: {
         content: {
           entityType: ENTITY_TYPES_ENUM.DATASET,
-          ipId: 'URN:AIP:DATASET:0',
+          id: 'URN:AIP:DATASET:0',
           label: 'ça',
           model: { id: 1 },
           descriptionFile: {
@@ -170,7 +170,7 @@ describe('[Description] Testing DescriptionFileContainer', () => {
       description: 0,
     }
 
-    const ipId = 'URN:AIP:COLLECTION:0'
+    const id = 'URN:AIP:COLLECTION:0'
     const accessToken = '0123'
     const scope = 'project1'
 
@@ -184,7 +184,7 @@ describe('[Description] Testing DescriptionFileContainer', () => {
       entity: {
         content: {
           entityType: ENTITY_TYPES_ENUM.COLLECTION,
-          ipId,
+          id,
           label: 'ça',
           model: { id: 0 },
           descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
@@ -200,18 +200,18 @@ describe('[Description] Testing DescriptionFileContainer', () => {
     assert.equal(componentWrapper.length, 1, 'The corresponding component should be rendered for collection entity')
     assert.equal(
       componentWrapper.props().descriptionFileURL,
-      DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(ENTITY_TYPES_ENUM.COLLECTION, ipId, accessToken, scope),
+      DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(ENTITY_TYPES_ENUM.COLLECTION, id, accessToken, scope),
       'The file should use the internal description download URL',
     )
     assert.isNull(componentWrapper.props().descriptionFile, 'The file should not use an internal content description!')
 
-    const datasetIpId = 'URN:AIP:DATASET:0'
+    const datasetId = 'URN:AIP:DATASET:0'
     const props2 = {
       ...props,
       entity: {
         content: {
           entityType: ENTITY_TYPES_ENUM.DATASET,
-          ipId: datasetIpId,
+          id: datasetId,
           label: 'ça',
           model: { id: 1 },
           descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
@@ -226,7 +226,7 @@ describe('[Description] Testing DescriptionFileContainer', () => {
     assert.equal(componentWrapper.length, 1, 'The corresponding component should be rendered for dataset entity')
     assert.equal(
       componentWrapper.props().descriptionFileURL,
-      DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(ENTITY_TYPES_ENUM.DATASET, datasetIpId, accessToken, scope),
+      DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(ENTITY_TYPES_ENUM.DATASET, datasetId, accessToken, scope),
       'The file should use the internal description download URL',
     )
     assert.isNull(componentWrapper.props().descriptionFile, 'The file should not use an internal content description!')
@@ -237,8 +237,8 @@ describe('[Description] Testing DescriptionFileContainer', () => {
       description: 0,
     }
 
-    const datasetIpId = 'URN:AIP:DATASET:0'
-    const collectionIpId = 'URN:AIP:COLLECTION:0'
+    const datasetId = 'URN:AIP:DATASET:0'
+    const collectionId = 'URN:AIP:COLLECTION:0'
 
     const props = {
       // from mapStateToProps
@@ -249,7 +249,7 @@ describe('[Description] Testing DescriptionFileContainer', () => {
       entity: {
         content: {
           entityType: ENTITY_TYPES_ENUM.COLLECTION,
-          ipId: datasetIpId,
+          id: datasetId,
           label: 'ça',
           model: { id: 1 },
           descriptionFile: { type: 'text/markdown' },
@@ -260,12 +260,12 @@ describe('[Description] Testing DescriptionFileContainer', () => {
         },
       },
       fetchedDatasetDescriptionResult: {
-        entityId: datasetIpId,
+        entityId: datasetId,
         contentType: MIME_TYPES.MARKDOWN_MIME_TYPE,
         content: '#Hello collection!',
       },
       fetchedCollectionDescriptionResult: {
-        entityId: datasetIpId,
+        entityId: datasetId,
         contentType: MIME_TYPES.MARKDOWN_MIME_TYPE,
         content: '#Hello collection!',
       },
@@ -284,7 +284,7 @@ describe('[Description] Testing DescriptionFileContainer', () => {
       entity: {
         content: {
           entityType: ENTITY_TYPES_ENUM.DATASET,
-          ipId: datasetIpId,
+          id: datasetId,
           label: 'ça',
           model: { id: 1 },
           descriptionFile: { type: 'text/markdown' },
@@ -307,7 +307,7 @@ describe('[Description] Testing DescriptionFileContainer', () => {
       entity: {
         content: {
           entityType: ENTITY_TYPES_ENUM.COLLECTION,
-          ipId: collectionIpId,
+          id: collectionId,
           label: 'ça',
           model: { id: 1 },
           descriptionFile: { type: 'text/markdown' },

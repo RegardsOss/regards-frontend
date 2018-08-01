@@ -36,7 +36,7 @@ const searchEntityActions = new CatalogClient.SearchEntityActions('description/s
 export class TagsContainer extends React.Component {
   static mapDispatchToProps = dispatch => ({
     // entity loading
-    dispatchGetEntity: ipId => dispatch(searchEntityActions.getEntity(ipId)),
+    dispatchGetEntity: id => dispatch(searchEntityActions.getEntity(id)),
   })
 
   static propTypes = {
