@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { CatalogDomain } from '@regardsoss/domain'
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
 /**
@@ -25,7 +26,7 @@ export default class SearchEntityActions extends BasicSignalActions {
   constructor(namespace, bypassErrorMiddleware = false) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/search/entities/{urn}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/engines/${CatalogDomain.LEGACY_SEARCH_ENGINE}/entities/{urn}`,
       bypassErrorMiddleware,
     })
   }

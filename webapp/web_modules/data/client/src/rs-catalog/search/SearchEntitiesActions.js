@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { CatalogDomain } from '@regardsoss/domain'
 import { BasicFacetsPageableActions } from '@regardsoss/store-utils'
 import Schemas from '@regardsoss/api'
 
@@ -28,7 +29,8 @@ export default class CatalogSearchEntitiesActions extends BasicFacetsPageableAct
    * @param {*} namespace namespace for actions
    * @param {*} endpoint endpoint (optional, default to generic search catalog endpoint)
    */
-  constructor(namespace, endpoint = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/search?{parameters}`) {
+  constructor(namespace,
+    endpoint = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/engines/${CatalogDomain.LEGACY_SEARCH_ENGINE}/entities/search?{parameters}`) {
     super({
       namespace,
       entityEndpoint: endpoint,
