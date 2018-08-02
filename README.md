@@ -1,5 +1,7 @@
 # REGARDS Frontend
 
+REGARDS is still under development. **This version is a beta version**.
+
 ## Webapp
 
 The webapp directory contains the source code of the frontend webapp. Please read [Webbapp README](webapp/README.md)
