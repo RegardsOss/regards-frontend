@@ -18,17 +18,13 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { withAuthInfo } from '@regardsoss/authentication-utils'
-import { URLAuthInjector } from '@regardsoss/domain/common'
 
 /**
  * Shows entity thumbnail in description view
  * @author Raphaël Mechali
  */
-export class DescriptionThumbnailComponent extends React.Component {
+class DescriptionThumbnailComponent extends React.Component {
   static propTypes = {
-    accessToken: PropTypes.string,
-    projectName: PropTypes.string,
     thumbnailURL: PropTypes.string.isRequired,
   }
 
@@ -39,18 +35,17 @@ export class DescriptionThumbnailComponent extends React.Component {
   }
 
   render() {
-    const { accessToken, projectName, thumbnailURL } = this.props
-    const thumbnailURLWithAuth = URLAuthInjector(thumbnailURL, accessToken, projectName)
+    const { thumbnailURL } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
     const { thumbnailStyle } = moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
 
     return (
       <img
-        src={thumbnailURLWithAuth}
+        src={thumbnailURL}
         style={thumbnailStyle}
         alt={formatMessage({ id: 'module.description.properties.thumbnail.alt.text' })}
       />
     )
   }
 }
-export default withAuthInfo(DescriptionThumbnailComponent)
+export default DescriptionThumbnailComponent

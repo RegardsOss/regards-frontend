@@ -59,11 +59,11 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
       rowIndex: 1,
       entity: {
         content: {
-          id: 1,
           id: 'coucou',
           providerId: '1',
           label: 'O.D.I.L',
           entityType: ENTITY_TYPES_ENUM.DATASET,
+          model: '1',
           files: {},
           geometry: null,
           properties: {},

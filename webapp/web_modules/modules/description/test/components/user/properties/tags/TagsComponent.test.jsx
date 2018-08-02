@@ -73,9 +73,8 @@ describe('[Description] Testing TagsComponent', () => {
       entityTags: [{
         content: {
           id: 'URN:helloooooooooooooo Nanny!',
-          model: {
-            id: 1,
-          },
+          providerId: 'Provider1',
+          model: '1',
           label: 'Hello, dear nanny',
           tags: [],
           entityType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
@@ -84,9 +83,8 @@ describe('[Description] Testing TagsComponent', () => {
       documentTags: [{
         content: {
           id: 'URN:ANOTHERDOC!',
-          model: {
-            id: 1,
-          },
+          providerId: 'Provider1',
+          model: '2',
           label: 'Hello, dear doc!',
           tags: [],
           entityType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,

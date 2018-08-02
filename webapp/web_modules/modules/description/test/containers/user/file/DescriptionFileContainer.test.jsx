@@ -89,8 +89,9 @@ describe('[Description] Testing DescriptionFileContainer', () => {
         content: {
           entityType: 'DATA',
           id: 'URN:AIP:DATA:0',
+          providerId: 'Provider1',
           label: 'ça',
-          model: { id: 0 },
+          model: '1',
           descriptionFile: { type: 'text/markdown' },
           tags: [],
         },
@@ -121,8 +122,9 @@ describe('[Description] Testing DescriptionFileContainer', () => {
         content: {
           entityType: ENTITY_TYPES_ENUM.COLLECTION,
           id: 'URN:AIP:COLLECTION:0',
+          providerId: 'Provider1',
           label: 'ça',
-          model: { id: 0 },
+          model: '0',
           descriptionFile: {
             url: 'http://www.google.com',
           },
@@ -145,9 +147,10 @@ describe('[Description] Testing DescriptionFileContainer', () => {
       entity: {
         content: {
           entityType: ENTITY_TYPES_ENUM.DATASET,
+          providerId: 'Provider1',
           id: 'URN:AIP:DATASET:0',
           label: 'ça',
-          model: { id: 1 },
+          model: '1',
           descriptionFile: {
             url: 'http://www.macron.c.con',
           },
@@ -185,8 +188,9 @@ describe('[Description] Testing DescriptionFileContainer', () => {
         content: {
           entityType: ENTITY_TYPES_ENUM.COLLECTION,
           id,
+          providerId: 'Provider1',
           label: 'ça',
-          model: { id: 0 },
+          model: '0',
           descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
           tags: [],
         },
@@ -212,8 +216,9 @@ describe('[Description] Testing DescriptionFileContainer', () => {
         content: {
           entityType: ENTITY_TYPES_ENUM.DATASET,
           id: datasetId,
+          providerId: 'Provider1',
           label: 'ça',
-          model: { id: 1 },
+          model: '1',
           descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
           tags: [],
         },
@@ -250,8 +255,9 @@ describe('[Description] Testing DescriptionFileContainer', () => {
         content: {
           entityType: ENTITY_TYPES_ENUM.COLLECTION,
           id: datasetId,
+          providerId: 'Provider1',
           label: 'ça',
-          model: { id: 1 },
+          model: '1',
           descriptionFile: { type: 'text/markdown' },
           properties: {
             aproperty: 'entityPropertyValue',
@@ -285,8 +291,9 @@ describe('[Description] Testing DescriptionFileContainer', () => {
         content: {
           entityType: ENTITY_TYPES_ENUM.DATASET,
           id: datasetId,
+          providerId: 'Provider1',
           label: 'ça',
-          model: { id: 1 },
+          model: '1',
           descriptionFile: { type: 'text/markdown' },
           properties: {
             aproperty: 'entityPropertyValue',
@@ -308,8 +315,9 @@ describe('[Description] Testing DescriptionFileContainer', () => {
         content: {
           entityType: ENTITY_TYPES_ENUM.COLLECTION,
           id: collectionId,
+          providerId: 'Provider1',
           label: 'ça',
-          model: { id: 1 },
+          model: '1',
           descriptionFile: { type: 'text/markdown' },
           properties: {
             aproperty: 'entityPropertyValue',

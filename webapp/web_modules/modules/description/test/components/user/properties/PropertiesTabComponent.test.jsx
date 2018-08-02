@@ -37,17 +37,18 @@ describe('[Description] Testing PropertiesTabComponent', () => {
   })
   it('should render properly', () => {
     const props = {
+      accessToken: 'abde',
+      projectName: 'project1',
       moduleConf: fullModuleConf,
       typeConfiguration: fullModuleConf[DamDomain.ENTITY_TYPES_ENUM.DATA],
       entity: {
         content: {
           id: 'URN:helloooooooooooooo Nanny!',
-          model: {
-            id: 1,
-          },
+          providerId: 'Provider1',
+          model: '1',
           label: 'Hello, dear nanny',
           tags: [],
-          entityType: 'COLLECTION',
+          entityType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
         },
       },
     }

@@ -102,7 +102,9 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
         data: {
           content: {
             id: 'URN:dataset1',
+            providerId: 'Provider1',
             label: 'dslabel',
+            model: 'MonLapin',
             entityType: ENTITY_TYPES_ENUM.DATASET,
             tags: [],
           },

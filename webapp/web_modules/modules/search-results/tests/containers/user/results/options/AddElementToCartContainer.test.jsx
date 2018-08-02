@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
+import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import AddElementToCartComponent from '../../../../../src/components/user/results/options/AddElementToCartComponent'
 import { AddElementToCartContainer } from '../../../../../src/containers/user/results/options/AddElementToCartContainer'
 import styles from '../../../../../src/styles/styles'
@@ -30,7 +30,7 @@ const basicEntityFields = {
   id: 'coucou',
   providerId: '1',
   label: 'O.D.I.L',
-  files: {},
+  model: '1',
   geometry: null,
   properties: {},
   tags: [],
@@ -53,10 +53,8 @@ describe('[Search Results] Testing AddElementToCartContainer', () => {
       entity: {
         content: {
           ...basicEntityFields,
-          entityType: ENTITY_TYPES_ENUM.DATA,
-          containsPhysicalData: false,
-          canBeExternallyDownloaded: false,
-          allowingDownload: false,
+          entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+          files: {}, // No file
         },
       },
       onAddToCart: () => { },
@@ -67,17 +65,24 @@ describe('[Search Results] Testing AddElementToCartContainer', () => {
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       canAddToCart: false,
       onAddToCart: enzymeWrapper.instance().onAddToCart,
-    }, 'Add to cart should be disabled for a DATA where containsPhysicalData is false')
+    }, 'Add to cart should be disabled for a DATA that has no orderable file')
   })
-  it('should render correctly and enable action when DATA entity can be added to basket (local data)', () => {
+  it('should render correctly and enable action when DATA entity can be added to basket (RAW data)', () => {
     const props = {
       entity: {
         content: {
           ...basicEntityFields,
-          entityType: ENTITY_TYPES_ENUM.DATA,
-          containsPhysicalData: true,
-          canBeExternallyDownloaded: false,
-          allowingDownload: true,
+          entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+          files: {
+            [CommonDomain.DataTypesEnum.RAWDATA]: [{
+              dataType: CommonDomain.DataTypesEnum.RAWDATA,
+              reference: true,
+              uri: 'http://somewhere.com/somefile.csv',
+              mimeType: 'text/csv',
+              online: false,
+              filename: 'somefile.csv',
+            }],
+          },
         },
       },
       onAddToCart: () => { },
@@ -88,17 +93,24 @@ describe('[Search Results] Testing AddElementToCartContainer', () => {
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       canAddToCart: true,
       onAddToCart: enzymeWrapper.instance().onAddToCart,
-    }, 'Add to cart should be enabled for a DATA where containsPhysicalData is true')
+    }, 'Add to cart should be enabled for a DATA that has orderable RAW data file')
   })
-  it('should render correctly and enable action when DATA entity can be added to basket (external data)', () => {
+  it('should render correctly and enable action when DATA entity can be added to basket (QUICKLOOK data)', () => {
     const props = {
       entity: {
         content: {
           ...basicEntityFields,
-          entityType: ENTITY_TYPES_ENUM.DATA,
-          containsPhysicalData: false,
-          canBeExternallyDownloaded: true,
-          allowingDownload: true,
+          entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+          files: {
+            [CommonDomain.DataTypesEnum.QUICKLOOK_MD]: [{
+              dataType: CommonDomain.DataTypesEnum.QUICKLOOK_MD,
+              reference: true,
+              uri: 'http://somewhere.com/somefile.csv',
+              mimeType: 'text/csv',
+              online: false,
+              filename: 'somefile.csv',
+            }],
+          },
         },
       },
       onAddToCart: () => { },
@@ -109,16 +121,14 @@ describe('[Search Results] Testing AddElementToCartContainer', () => {
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       canAddToCart: true,
       onAddToCart: enzymeWrapper.instance().onAddToCart,
-    }, 'Add to cart should be enabled for a DATA where containsPhysicalData is true')
+    }, 'Add to cart should be enabled for a DATA that has orderable QUICKLOOK data')
   })
-  it('should render correctly and enable action for dataset, no matter the containsPhysicalData value', () => {
+  it('should render correctly and enable action for dataset, no matter the files', () => {
     const props = {
       entity: {
         content: {
           ...basicEntityFields,
-          entityType: ENTITY_TYPES_ENUM.DATASET,
-          containsPhysicalData: null,
-          allowingDownload: null,
+          entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
         },
       },
       onAddToCart: () => { },
@@ -136,9 +146,17 @@ describe('[Search Results] Testing AddElementToCartContainer', () => {
       entity: {
         content: {
           ...basicEntityFields,
-          entityType: ENTITY_TYPES_ENUM.COLLECTION,
-          containsPhysicalData: null,
-          allowingDownload: null,
+          entityType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
+          files: {
+            [CommonDomain.DataTypesEnum.QUICKLOOK_MD]: [{
+              dataType: CommonDomain.DataTypesEnum.QUICKLOOK_MD,
+              reference: true,
+              uri: 'http://somewhere.com/somefile.csv',
+              mimeType: 'text/csv',
+              online: false,
+              filename: 'somefile.csv',
+            }],
+          },
         },
       },
       onAddToCart: () => { },
@@ -155,9 +173,17 @@ describe('[Search Results] Testing AddElementToCartContainer', () => {
       entity: {
         content: {
           ...basicEntityFields,
-          entityType: ENTITY_TYPES_ENUM.DOCUMENT,
-          containsPhysicalData: true,
-          allowingDownload: false,
+          entityType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
+          files: {
+            [CommonDomain.DataTypesEnum.QUICKLOOK_MD]: [{
+              dataType: CommonDomain.DataTypesEnum.QUICKLOOK_MD,
+              reference: true,
+              uri: 'http://somewhere.com/somefile.csv',
+              mimeType: 'text/csv',
+              online: false,
+              filename: 'somefile.csv',
+            }],
+          },
         },
       },
       onAddToCart: () => { },
@@ -168,6 +194,6 @@ describe('[Search Results] Testing AddElementToCartContainer', () => {
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       canAddToCart: false,
       onAddToCart: enzymeWrapper.instance().onAddToCart,
-    }, 'Add to cart should be disabled for collections')
+    }, 'Add to cart should be disabled for documents')
   })
 })

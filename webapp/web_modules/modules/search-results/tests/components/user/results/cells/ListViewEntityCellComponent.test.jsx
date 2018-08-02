@@ -42,6 +42,7 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
           providerId: '1',
           label: 'O.D.I.L',
           entityType: ENTITY_TYPES_ENUM.DATASET,
+          model: '1',
           files: {},
           geometry: null,
           properties: {},

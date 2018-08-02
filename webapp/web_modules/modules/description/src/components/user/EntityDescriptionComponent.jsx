@@ -91,7 +91,9 @@ class EntityDescriptionComponent extends React.Component {
    * @return {React.Element} rendered properties tab
    */
   renderPropertiesTab = () => {
-    const { entity, onSearchTag, moduleConf } = this.props
+    const {
+      entity, onSearchTag, moduleConf, accessToken, projectName,
+    } = this.props
     const { formatMessage } = this.context.intl
     const currentEntityConfiguration = this.getCurrentEntityConfiguration()
     return (
@@ -101,6 +103,8 @@ class EntityDescriptionComponent extends React.Component {
         value={DESCRIPTION_TABS_ENUM.PROPERTIES}
       >
         <PropertiesTabComponent
+          accessToken={accessToken}
+          projectName={projectName}
           moduleConf={moduleConf}
           typeConfiguration={currentEntityConfiguration}
           entity={entity}

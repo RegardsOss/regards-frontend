@@ -24,7 +24,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { DropDownButton } from '@regardsoss/components'
-import { URLAuthInjector } from '@regardsoss/domain/common'
 
 /** Constructor wrapper to use the IconButton within a DropDownButton */
 const IconButtonConstructorWrapper = props => (
@@ -63,41 +62,41 @@ class DownloadEntityFileComponent extends React.Component {
     textDecoration: 'none',
   }
 
+  /** File types available through download option */
+  static DOWNLOADABLE_FILES_TYPES = [
+    CommonDomain.DataTypesEnum.RAWDATA,
+    CommonDomain.DataTypesEnum.DOCUMENT,
+  ]
+
   /** @return {[*]} download files for entity, in current state and with current user rights */
   getAllDownloadeableFiles = () => {
-    const { entity } = this.props
-    return [
-      // raw files when user can access download endpoint and file is downloadable (download means ONLINE or external file)
-      ...this.isAllowingDownload() ? get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}`, []).filter(f => f.downloadable) : [],
-      // documents (always allowed)
-      ...get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}`, []),
-    ]
+    const { entity: { content: { files } } } = this.props
+    // retrieve each downloadable file, ie for each downloadable file type, find online files (documents and
+    // external files are always online)
+    return DownloadEntityFileComponent.DOWNLOADABLE_FILES_TYPES.reduce((acc, fileType) =>
+      [...acc, ...get(files, fileType, []).filter(f => f.online)], [])
   }
 
-  /** @return {string} no download reason tooltip */
+  /**
+   * Called when no download is available. Computes and returns no download reason
+   * @return {string} no download reason tooltip
+   */
   getNoDownloadTooltip = () => {
-    const { entity } = this.props
+    const { entity: { content: { files } } } = this.props
     const { intl: { formatMessage } } = this.context
-    const dataFilesCount = get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}.length`, 0)
-    const documentFilesCount = get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}.length`, 0)
-    let reasonMessageId
-    if (dataFilesCount + documentFilesCount === 0) { // 1 - the is no file for that object
-      reasonMessageId = 'no.download.tooltip'
-    } else if (!this.isAllowingDownload()) { // 2 - user has not rights to download files
-      reasonMessageId = 'download.unsufficient.user.rights.tooltip'
-    } else { // 3 - there are files and user has rights: those files are not online
-      reasonMessageId = 'download.no.online.file.tooltip'
-    }
+    // compute total filesa count
+    const filesCount = DownloadEntityFileComponent.DOWNLOADABLE_FILES_TYPES.reduce((count, fileType) =>
+      count + get(files, `${fileType}.length`, 0), 0)
 
-    return formatMessage({ id: reasonMessageId })
+    return formatMessage({
+      id: !filesCount ?
+        'no.download.tooltip' : // no file found: there is none user has not enough rights
+        'download.no.online.file.tooltip',
+    }) // there are file that cannot be downloaded: offline files
   }
 
   /** @return {boolean} true if current entity is a dataset */
   isDataset = () => get(this.props.entity, 'content.entityType') === DamDomain.ENTITY_TYPES_ENUM.DATASET
-
-  /** @return {boolean} true if user is allowed downloading entity files */
-  isAllowingDownload = () => get(this.props.entity, 'content.allowingDownload', false)
-
 
   render() {
     // in resolved attributes, get the first data, if any
@@ -126,7 +125,7 @@ class DownloadEntityFileComponent extends React.Component {
         return (
           <a
             download
-            href={URLAuthInjector(downloadableFiles[0].uri, accessToken, projectName)}
+            href={DamDomain.DataFileController.getFileURI(downloadableFiles[0], accessToken, projectName)}
             style={style}
             title={formatMessage({ id: 'download.tooltip' })}
           >
@@ -145,8 +144,8 @@ class DownloadEntityFileComponent extends React.Component {
               downloadableFiles.map((file, key) => (
                 <a
                   download
-                  key={file.checksum}
-                  href={URLAuthInjector(file.uri, accessToken, projectName)}
+                  key={file.uri}
+                  href={DamDomain.DataFileController.getFileURI(file, accessToken, projectName)}
                   style={DownloadEntityFileComponent.resetLinkStyle}
                 >
                   <MenuItem

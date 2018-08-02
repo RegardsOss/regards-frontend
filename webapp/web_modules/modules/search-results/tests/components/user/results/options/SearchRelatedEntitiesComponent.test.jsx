@@ -43,6 +43,7 @@ describe('[Search Results] Testing SearchRelatedEntitiesComponent', () => {
           id: 'coucou',
           providerId: '1',
           label: 'O.D.I.L',
+          model: '1',
           entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
           files: {},
           geometry: null,

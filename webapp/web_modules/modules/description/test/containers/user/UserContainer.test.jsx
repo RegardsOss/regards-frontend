@@ -72,12 +72,12 @@ describe('[Description] Testing UserContainer', () => {
       shownEntity: {
         content: {
           id: 'URN:helloooooooooooooo Nanny!',
-          model: {
-            id: 1,
-          },
+          providerId: 'UnLapin',
           label: 'Hello, dear nanny',
-          tags: [],
           entityType: 'COLLECTION',
+          model: '1',
+          files: {},
+          tags: [],
         },
       },
       initializeContext: () => { },

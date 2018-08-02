@@ -29,6 +29,8 @@ import TagsContainer from '../../../containers/user/properties/tags/TagsContaine
  */
 class PropertiesTabComponent extends React.Component {
   static propTypes = {
+    accessToken: PropTypes.string,
+    projectName: PropTypes.string,
     moduleConf: ModuleConfiguration.isRequired, // complete module configuration
     typeConfiguration: DescriptionConfiguration.isRequired, // module configuration for current entity type
     entity: CatalogShapes.Entity,
@@ -42,12 +44,18 @@ class PropertiesTabComponent extends React.Component {
   render() {
     const {
       entity, onSearchTag, moduleConf, typeConfiguration,
+      accessToken, projectName,
     } = this.props
     const { rootStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
 
     return (
       <div style={rootStyle}>
-        <AttributesContainer typeConfiguration={typeConfiguration} entity={entity} />
+        <AttributesContainer
+          accessToken={accessToken}
+          projectName={projectName}
+          typeConfiguration={typeConfiguration}
+          entity={entity}
+        />
         <TagsContainer
           moduleConf={moduleConf}
           entity={entity}

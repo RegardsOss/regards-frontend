@@ -149,6 +149,8 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
             id: 'DO-IP1',
             label: 'DO-IP1',
             entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+            providerId: 'provider1',
+            model: '1',
             tags: [],
             services: [{
               content: {
@@ -166,6 +168,8 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
             id: 'DO-IP2',
             label: 'DO-IP2',
             entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+            providerId: 'provider1',
+            model: '2',
             tags: [],
             services: [{
               content: {

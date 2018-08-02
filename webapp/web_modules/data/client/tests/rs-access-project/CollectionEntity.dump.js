@@ -38,11 +38,7 @@ module.exports = {
           filename: 'description.pdf',
           online: true,
           uri: 'http://localhost/documents/5320/files/description.pdf',
-          mimeType: {
-            type: 'application',
-            subtype: 'pdf',
-            parameters: {},
-          },
+          mimeType: 'application/pdf',
         }],
       },
       properties: {

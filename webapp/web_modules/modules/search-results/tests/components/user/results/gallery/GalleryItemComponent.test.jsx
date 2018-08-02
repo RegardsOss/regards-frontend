@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert, expect } from 'chai'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
+import { CommonDomain } from '@regardsoss/domain'
 import GalleryItemComponent from '../../../../../src/components/user/results/gallery/GalleryItemComponent'
 import GalleryParametersComponent from '../../../../../src/components/user/results/gallery/GalleryParametersComponent'
 import styles from '../../../../../src/styles/styles'
@@ -38,23 +39,38 @@ describe('[Search Results] Testing GalleryItemComponent', () => {
   })
   it('should render correctly', () => {
     const entity = DumpProvider.getFirstEntity('AccessProjectClient', 'DataobjectEntity')
-    entity.content.files = {
-      QUICKLOOK_SD: [
-        {
-          uri: 'http://www.google.fr',
+    const localEntity = {
+      content: {
+        ...entity.content,
+        files: {
+          [CommonDomain.DataTypesEnum.QUICKLOOK_SD]: [
+            {
+              dataType: CommonDomain.DataTypesEnum.QUICKLOOK_SD,
+              uri: 'http://www.google.fr',
+              reference: true,
+              mimeType: 'text/html',
+              online: true,
+              filename: 'google.fr',
+            },
+          ],
+          [CommonDomain.DataTypesEnum.QUICKLOOK_MD]: [
+            {
+              dataType: CommonDomain.DataTypesEnum.QUICKLOOK_MD,
+              uri: 'http://www.google.fr',
+              reference: true,
+              mimeType: 'text/html',
+              online: true,
+              filename: 'google.fr',
+            },
+          ],
         },
-      ],
-      QUICKLOOK_MD: [
-        {
-          uri: 'http://www.google.fr',
-        },
-      ],
+      },
     }
     const props = {
       top: 20,
       left: 20,
       width: 20,
-      entity,
+      entity: localEntity,
       presentationModels: [],
       columnGutter: 80,
       columnWidth: 600,

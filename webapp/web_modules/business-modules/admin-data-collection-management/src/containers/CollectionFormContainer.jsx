@@ -25,7 +25,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
 import { extractParametersFromFormValues } from '@regardsoss/admin-data-entities-attributes-management'
-import { getAbstractEntityDescription, ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
 import CollectionFormComponent from '../components/CollectionFormComponent'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
@@ -129,7 +129,8 @@ export class CollectionFormContainer extends React.Component {
     if (this.state.isDuplicating) {
       defaultValues.tags = this.props.currentCollection.content.tags
     }
-    const descriptionFile = getAbstractEntityDescription(values.descriptionFileContent, values.descriptionUrl)
+    // TODO delete me ASAP
+    // const descriptionFile = getAbstractEntityDescription(values.descriptionFileContent, values.descriptionUrl)
     const files = {}
     //TODO files
     // Send the file if there is

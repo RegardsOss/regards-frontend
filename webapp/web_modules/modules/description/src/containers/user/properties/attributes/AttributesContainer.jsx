@@ -33,7 +33,7 @@ import AttributesComponent from '../../../../components/user/properties/attribut
 // compute thumbnail path
 const THUMBNAIL_ATTRIBUTE_MODEL =
   DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.thumbnail)
-const THUMBNAIL_URL_PATH_IN_ENTITY = `content.${THUMBNAIL_ATTRIBUTE_MODEL.content.jsonPath}.uri`
+const THUMBNAIL_PATH_IN_ENTITY = `content.${THUMBNAIL_ATTRIBUTE_MODEL.content.jsonPath}`
 
 /**
  * Attributes container: resolves attributes for current entity model and map them onto the configured attributes list
@@ -65,6 +65,8 @@ export class AttributesContainer extends React.Component {
   })
 
   static propTypes = {
+    accessToken: PropTypes.string,
+    projectName: PropTypes.string,
     // configuration for current entity type
     typeConfiguration: DescriptionConfiguration.isRequired,
     // entity displayed
@@ -187,8 +189,8 @@ export class AttributesContainer extends React.Component {
     const newState = { ...(oldState || AttributesContainer.DEFAULT_STATE) }
 
     // 1 - detect entity model change to fetch attributes
-    const oldModelName = get(oldEntity, 'content.model.name')
-    const newModelName = get(newEntity, 'content.model.name')
+    const oldModelName = get(oldEntity, 'content.model')
+    const newModelName = get(newEntity, 'content.model')
     if (oldModelName !== newModelName && !isUndefined(newModelName)) {
       fetchEntityModelAttributes(newModelName)
     }
@@ -214,12 +216,14 @@ export class AttributesContainer extends React.Component {
   }
 
   render() {
-    const { entity, loading, typeConfiguration } = this.props
+    const {
+      accessToken, projectName, entity, loading, typeConfiguration,
+    } = this.props
     const { attributeGroups } = this.state
 
     let thumbnailURL = null
     if (typeConfiguration.showThumbnail) {
-      thumbnailURL = get(entity, THUMBNAIL_URL_PATH_IN_ENTITY, null)
+      thumbnailURL = DamDomain.DataFileController.getFileURI(get(entity, THUMBNAIL_PATH_IN_ENTITY, null), accessToken, projectName)
     }
 
     return (

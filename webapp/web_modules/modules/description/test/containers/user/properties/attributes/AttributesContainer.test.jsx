@@ -89,9 +89,10 @@ describe('[Description] Testing AttributesContainer', () => {
         content: {
           entityType: 'DATA',
           id: 'URN:AIP:DATA:0',
+          providerId: 'Provider1',
           label: 'ça',
-          model: { name: 'NEW_MODEL' },
-          descriptionFile: { type: 'text/markdown' },
+          model: 'NEW_MODEL',
+          files: {},
           tags: [],
         },
       },
@@ -102,14 +103,23 @@ describe('[Description] Testing AttributesContainer', () => {
   })
   it('should convert correctly attribute models and thumbnail when receiving them (after fetch)', () => {
     const props = {
+      accessToken: 'abde',
+      projectName: 'project1',
       loading: false,
       entity: {
         content: {
           entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-          model: { name: 'MODEL_1' },
+          model: 'MODEL_1',
           files: { // provide a thumbnail for test
             [CommonDomain.DataTypesEnum.THUMBNAIL]: [{
+              dataType: CommonDomain.DataTypesEnum.THUMBNAIL,
               uri: 'test:thumnail.png',
+              reference: false,
+              mimeType: 'image/png',
+              imageWidth: 10,
+              imageHeight: 10,
+              online: true,
+              filename: 'thumbnail.png',
             }],
           },
           test: {
@@ -160,7 +170,7 @@ describe('[Description] Testing AttributesContainer', () => {
     // 1 - check thumbnail was retrieved
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       loading: false,
-      thumbnailURL: 'test:thumnail.png',
+      thumbnailURL: 'test:thumnail.png?token=abde',
     })
     // 2 - confirm groups without retrievable attributes are filtered and attributes elements is preserved
     const resolvedGroups = componentWrapper.props().attributeGroups

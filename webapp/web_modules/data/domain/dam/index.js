@@ -30,6 +30,7 @@ export {
 } from './AttributeModelResctrictionEnum'
 
 export { default as DATASOURCE_REFRESH_RATE } from './DatasourceRefreshRate'
+export { default as DataFileController } from './DataFileController'
 
 export { default as IDBDatasourceParamsEnum } from './IDBDatasourceParamsEnum'
 export { default as IAIPDatasourceParamsEnum } from './IAIPDatasourceParamsEnum'

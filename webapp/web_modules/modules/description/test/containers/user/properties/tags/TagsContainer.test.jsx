@@ -44,9 +44,11 @@ describe('[Description] Testing TagsContainer', () => {
       dispatchGetEntity: testSuiteHelpers.getSuccessDispatchStub({
         content: {
           id: 'urn:test',
-          entityType: ENTITY_TYPES_ENUM.DATASET,
-          tags: [],
+          providerId: 'Provider1',
           label: 'URN:SDF:SDFSDF:SDFSDFSDFSDFSDF',
+          entityType: ENTITY_TYPES_ENUM.DATASET,
+          model: '1',
+          tags: [],
         },
       }, () => {
         fetchedCount.tags += 1
@@ -74,8 +76,11 @@ describe('[Description] Testing TagsContainer', () => {
       entity: {
         content: {
           id: 'urn:test',
+          providerId: 'Provider1',
           label: 'kikou',
           entityType: ENTITY_TYPES_ENUM.DATA,
+          model: '1',
+          files: {},
           tags: ['simpleTag1', 'simpleTag2', 'URN:entityTag1', 'URN:entityTag2'],
         },
       },
@@ -83,9 +88,12 @@ describe('[Description] Testing TagsContainer', () => {
       dispatchGetEntity: testSuiteHelpers.getSuccessDispatchStub({
         content: {
           id: 'urn:test',
-          entityType: ENTITY_TYPES_ENUM.DATASET,
-          tags: [],
+          providerId: 'Provider1',
           label: 'URN:SDF:SDFSDF:SDFSDFSDFSDFSDF',
+          entityType: ENTITY_TYPES_ENUM.DATASET,
+          model: '1',
+          files: {},
+          tags: [],
         },
       }, () => {
         fetchedCount.tags += 1

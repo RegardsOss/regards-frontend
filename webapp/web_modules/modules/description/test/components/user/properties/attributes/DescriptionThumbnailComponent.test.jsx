@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DescriptionThumbnailComponent } from '../../../../../src/components/user/properties/attributes/DescriptionThumbnailComponent'
+import DescriptionThumbnailComponent from '../../../../../src/components/user/properties/attributes/DescriptionThumbnailComponent'
 import styles from '../../../../../src/styles'
 
 const context = buildTestContext(styles)
@@ -35,10 +35,8 @@ describe('[Description] Testing DescriptionThumbnailComponent', () => {
   it('should exists', () => {
     assert.isDefined(DescriptionThumbnailComponent)
   })
-  it('should render correct thumbnail URL with only project scope', () => {
+  it('should render correctly with thumbnail URL', () => {
     const props = {
-      accessToken: null,
-      projectName: 'test-project',
       thumbnailURL: 'test:thumbnail.png',
     }
 
@@ -46,19 +44,6 @@ describe('[Description] Testing DescriptionThumbnailComponent', () => {
     const imgWrapper = enzymeWrapper.find('img')
     assert.lengthOf(imgWrapper, 1)
     assert.equal(imgWrapper.props().alt, 'module.description.properties.thumbnail.alt.text')
-    assert.equal(imgWrapper.props().src, 'test:thumbnail.png?scope=test-project')
-  })
-  it('should render correct thumbnail URL with token', () => {
-    const props = {
-      accessToken: 'test-token',
-      projectName: 'test-project',
-      thumbnailURL: 'test:thumbnail.png',
-    }
-
-    const enzymeWrapper = shallow(<DescriptionThumbnailComponent {...props} />, { context })
-    const imgWrapper = enzymeWrapper.find('img')
-    assert.lengthOf(imgWrapper, 1)
-    assert.equal(imgWrapper.props().alt, 'module.description.properties.thumbnail.alt.text')
-    assert.equal(imgWrapper.props().src, 'test:thumbnail.png?token=test-token')
+    assert.equal(imgWrapper.props().src, 'test:thumbnail.png')
   })
 })

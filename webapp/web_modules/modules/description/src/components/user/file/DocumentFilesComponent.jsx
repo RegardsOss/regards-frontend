@@ -20,14 +20,13 @@ import get from 'lodash/get'
 import map from 'lodash/map'
 import root from 'window-or-global'
 import { CatalogShapes } from '@regardsoss/shape'
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import File from 'material-ui/svg-icons/editor/insert-drive-file'
 import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import { storage } from '@regardsoss/units'
-import { URLAuthInjector } from '@regardsoss/domain/common'
 import DescriptionFileComponent from '../../../components/user/file/DescriptionFileComponent'
 /**
  * Document files container: display document files
@@ -54,11 +53,8 @@ export class DocumentFilesComponent extends React.Component {
    */
   getFirstDownloadeableLink = () => {
     const { entity, accessToken, projectName } = this.props
-    if (this.nbDownloadeableFiles() === 0) {
-      return null
-    }
-    const downloadLink = get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}[0].uri`)
-    return this.addOriginToURI(URLAuthInjector(downloadLink, accessToken, projectName))
+    const downloadFile = get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}[0]`)
+    return this.addOriginToURI(DamDomain.DataFileController.getFileURI(downloadFile, accessToken, projectName))
   }
 
   /**
@@ -109,15 +105,15 @@ export class DocumentFilesComponent extends React.Component {
           {map(this.getAllDownloadeableFiles(), file => (
             <a
               download
-              href={this.addOriginToURI(URLAuthInjector(file.uri, accessToken, projectName))}
-              key={file.checksum}
+              href={this.addOriginToURI(DamDomain.DataFileController.getFileURI(file, accessToken, projectName))}
+              key={file.uri}
               style={DocumentFilesComponent.resetLinkStyle}
             >
               <ListItem
                 primaryText={(
                   <div>
-                    {`${file.name}, `}
-                    {this.transformBytesIntoReadeableSize(file.size)}
+                    {`${file.filename}, `}
+                    {this.transformBytesIntoReadeableSize(file.filesize)}
                   </div>)}
                 leftIcon={<File />}
               />

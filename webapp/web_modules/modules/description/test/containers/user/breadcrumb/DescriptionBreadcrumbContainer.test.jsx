@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { DamDomain } from '@regardsoss/domain'
 import DescriptionBreadcrumbComponent from '../../../../src/components/user/breadcrumb/DescriptionBreadcrumbComponent'
 import { DescriptionBreadcrumbContainer } from '../../../../src/containers/user/breadcrumb/DescriptionBreadcrumbContainer'
 import styles from '../../../../src/styles/styles'
@@ -28,8 +29,10 @@ const context = buildTestContext(styles)
 const testEntity = {
   content: {
     id: 'test',
+    providerId: 'Provider1',
     label: 'test',
-    entityType: 'COLLECTION',
+    entityType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
+    model: '1',
     tags: [],
   },
 }

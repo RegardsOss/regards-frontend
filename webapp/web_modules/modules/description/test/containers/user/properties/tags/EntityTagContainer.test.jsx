@@ -42,9 +42,12 @@ describe('[Description] Testing EntityTagContainer', () => {
       entity: {
         content: {
           id: 'urn:test',
+          providerId: 'Provider1',
           label: 'test',
           entityType: ENTITY_TYPES_ENUM.DATA,
+          model: '1',
           tags: [],
+          files: {},
         },
       },
       onSearchTag,
@@ -70,8 +73,11 @@ describe('[Description] Testing EntityTagContainer', () => {
       entity: {
         content: {
           id: 'urn:test',
+          providerId: 'Provider1',
           label: 'test',
+          model: '1',
           entityType: ENTITY_TYPES_ENUM.DATASET, // not allowed for description, by configuration
+          files: {},
           tags: [],
         },
       },
@@ -90,8 +96,11 @@ describe('[Description] Testing EntityTagContainer', () => {
     const entity = {
       content: {
         id: 'urn:test',
+        providerId: 'Provider1',
         label: 'test',
+        model: '1',
         entityType: ENTITY_TYPES_ENUM.DATASET,
+        files: {},
         tags: [],
       },
     }

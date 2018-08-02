@@ -42,8 +42,10 @@ describe('[Search Results] Testing EntityDescriptionComponent', () => {
       entity: {
         content: {
           id: 'URN:test',
+          providerId: 'Provider1',
           label: 'test',
           entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+          model: '1',
           tags: ['test-tag'],
         },
       },
