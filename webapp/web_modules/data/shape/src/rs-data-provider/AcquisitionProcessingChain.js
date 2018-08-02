@@ -26,7 +26,7 @@ import { AcquisitionFileInfoContent } from './AcquisitionFileInfo'
  */
 
 /** A dated selection item shape */
-const AcquisitionProcessingChainContent = PropTypes.shape({
+export const AcquisitionProcessingChainContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
   active: PropTypes.bool.isRequired,
@@ -43,15 +43,8 @@ const AcquisitionProcessingChainContent = PropTypes.shape({
   postProcessSipPluginConf: PluginConfigurationContent,
 })
 
-const AcquisitionProcessingChain = PropTypes.shape({
+export const AcquisitionProcessingChain = PropTypes.shape({
   content: AcquisitionProcessingChainContent,
 })
-const AcquisitionProcessingChainList = PropTypes.objectOf(AcquisitionProcessingChain)
-const AcquisitionProcessingChainArray = PropTypes.arrayOf(AcquisitionProcessingChain)
-
-module.exports = {
-  AcquisitionProcessingChainList,
-  AcquisitionProcessingChainArray,
-  AcquisitionProcessingChainContent,
-  AcquisitionProcessingChain,
-}
+export const AcquisitionProcessingChainList = PropTypes.objectOf(AcquisitionProcessingChain)
+export const AcquisitionProcessingChainArray = PropTypes.arrayOf(AcquisitionProcessingChain)

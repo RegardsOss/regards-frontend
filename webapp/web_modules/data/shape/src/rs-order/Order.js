@@ -24,7 +24,7 @@ import { OrderDomain } from '@regardsoss/domain'
  */
 
 /** An order dataset */
-const DatasetTask = PropTypes.shape({
+export const DatasetTask = PropTypes.shape({
   id: PropTypes.number.isRequired,
   datasetLabel: PropTypes.string.isRequired,
   objectsCount: PropTypes.number.isRequired,
@@ -33,7 +33,7 @@ const DatasetTask = PropTypes.shape({
 })
 
 /** An order */
-const Order = PropTypes.shape({
+export const Order = PropTypes.shape({
   id: PropTypes.number.isRequired,
   owner: PropTypes.string.isRequired,
   creationDate: PropTypes.string.isRequired,
@@ -48,15 +48,8 @@ const Order = PropTypes.shape({
 })
 
 /** An order with both content and links */
-const OrderWithContent = PropTypes.shape({
+export const OrderWithContent = PropTypes.shape({
   content: Order,
 })
 
-const OrderList = PropTypes.objectOf(OrderWithContent).isRequired
-
-module.exports = {
-  DatasetTask,
-  Order,
-  OrderWithContent,
-  OrderList,
-}
+export const OrderList = PropTypes.objectOf(OrderWithContent).isRequired

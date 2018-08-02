@@ -23,20 +23,14 @@ import { AccessRightContent } from './AccessRight'
  * Shape for DatasetWithAccessRight entities
  * @author Sébastien Binda
  */
-const DatasetWithAccessRightContent = PropTypes.shape({
+export const DatasetWithAccessRightContent = PropTypes.shape({
   dataset: DatasetContent,
   accessRight: AccessRightContent,
 })
 
-const DatasetWithAccessRight = PropTypes.shape({
+export const DatasetWithAccessRight = PropTypes.shape({
   content: DatasetWithAccessRightContent.isRequired,
 })
 
-const DatasetWithAccessRightList = PropTypes.objectOf(DatasetWithAccessRight)
+export const DatasetWithAccessRightList = PropTypes.objectOf(DatasetWithAccessRight)
 
-
-module.exports = {
-  DatasetWithAccessRight,
-  DatasetWithAccessRightContent,
-  DatasetWithAccessRightList,
-}

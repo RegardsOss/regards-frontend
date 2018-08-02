@@ -23,7 +23,7 @@ import PropertiesShape from './../rs-common/IP'
  * @author Maxime Bouveron
  */
 
-const Session = PropTypes.shape({
+export const Session = PropTypes.shape({
   id: PropTypes.string.isRequired,
   lastActivationDate: PropTypes.string,
   sipsCount: PropTypes.number,
@@ -34,7 +34,7 @@ const Session = PropTypes.shape({
   deletedSipsCount: PropTypes.number,
 })
 
-const IngestSIPContent = PropTypes.shape({
+export const IngestSIPContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   sipId: PropTypes.string.isRequired,
   ipId: PropTypes.string.isRequired,
@@ -54,15 +54,8 @@ const IngestSIPContent = PropTypes.shape({
   session: Session,
 })
 
-const IngestSIP = PropTypes.shape({
+export const IngestSIP = PropTypes.shape({
   content: IngestSIPContent,
 })
-const IngestSIPList = PropTypes.objectOf(IngestSIP)
-const IngestSIPArray = PropTypes.arrayOf(IngestSIP)
-
-module.exports = {
-  IngestSIP,
-  IngestSIPContent,
-  IngestSIPList,
-  IngestSIPArray,
-}
+export const IngestSIPList = PropTypes.objectOf(IngestSIP)
+export const IngestSIPArray = PropTypes.arrayOf(IngestSIP)

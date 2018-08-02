@@ -62,6 +62,6 @@ export class ModuleExpandedStateSelectors extends BasicSelector {
  * @param  {[string]} store path: reducer store path (default provided)
  * @return {ModuleExpandedStateSelectors} feedback selectors instance
  */
-export function getModuleExpandedStateSelectors(storePath = ['user', 'modulesPanesStates']) {
+export default function getModuleExpandedStateSelectors(storePath = ['user', 'modulesPanesStates']) {
   return new ModuleExpandedStateSelectors(storePath)
 }

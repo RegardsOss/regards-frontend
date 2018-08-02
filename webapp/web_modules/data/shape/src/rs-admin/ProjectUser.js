@@ -18,7 +18,7 @@
  **/
 import { MetadataArray } from './Metadata'
 
-const ProjectUser = PropTypes.shape({
+export const ProjectUser = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
     role: PropTypes.shape({
@@ -32,7 +32,5 @@ const ProjectUser = PropTypes.shape({
     metadata: MetadataArray,
   }),
 })
-const ProjectUserList = PropTypes.objectOf(ProjectUser)
+export const ProjectUserList = PropTypes.objectOf(ProjectUser)
 
-
-module.exports = { ProjectUser, ProjectUserList }

@@ -23,7 +23,7 @@
  */
 
 /** A dated selection item shape */
-const IngestSessionContent = PropTypes.shape({
+export const IngestSessionContent = PropTypes.shape({
   id: PropTypes.string.isRequired,
   lastActivationDate: PropTypes.string.isRequired,
   sipsCount: PropTypes.number.isRequired,
@@ -33,15 +33,8 @@ const IngestSessionContent = PropTypes.shape({
   errorSipsCount: PropTypes.number.isRequired,
 })
 
-const IngestSession = PropTypes.shape({
+export const IngestSession = PropTypes.shape({
   content: IngestSessionContent,
 })
-const IngestSessionList = PropTypes.objectOf(IngestSession)
-const IngestSessionArray = PropTypes.arrayOf(IngestSession)
-
-module.exports = {
-  IngestSession,
-  IngestSessionContent,
-  IngestSessionList,
-  IngestSessionArray,
-}
+export const IngestSessionList = PropTypes.objectOf(IngestSession)
+export const IngestSessionArray = PropTypes.arrayOf(IngestSession)

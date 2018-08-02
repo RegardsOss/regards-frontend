@@ -20,7 +20,7 @@ import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfigurat
 import Feature from './Feature'
 import { ModelContent } from './Model'
 
-const DatasetContent = PropTypes.shape({
+export const DatasetContent = PropTypes.shape({
   id: PropTypes.number,
   ipId: PropTypes.string,
   creationDate: PropTypes.string,
@@ -37,15 +37,8 @@ const DatasetContent = PropTypes.shape({
   plgConfDataSource: PluginConfigurationContent,
 })
 
-const Dataset = PropTypes.shape({
+export const Dataset = PropTypes.shape({
   content: DatasetContent.isRequired,
 })
 
-const DatasetList = PropTypes.objectOf(Dataset)
-
-
-module.exports = {
-  Dataset,
-  DatasetContent,
-  DatasetList,
-}
+export const DatasetList = PropTypes.objectOf(Dataset)

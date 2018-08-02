@@ -16,19 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasketDatedItemsSelection, BasketDatasetSelection, Basket } from './Basket'
-import { DatasetTask, Order, OrderWithContent, OrderList } from './Order'
-import { OrderFile, OrderFileWithContent, OrderFilesList } from './OrderFile'
+export { BasketDatedItemsSelection, BasketDatasetSelection, Basket } from './Basket'
+export { DatasetTask, Order, OrderWithContent, OrderList } from './Order'
+export { OrderFile, OrderFileWithContent, OrderFilesList } from './OrderFile'
 
-module.exports = {
-  Basket,
-  BasketDatedItemsSelection,
-  BasketDatasetSelection,
-  DatasetTask,
-  Order,
-  OrderFile,
-  OrderFileWithContent,
-  OrderFilesList,
-  OrderList,
-  OrderWithContent,
-}

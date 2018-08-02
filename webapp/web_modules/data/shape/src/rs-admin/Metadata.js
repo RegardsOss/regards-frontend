@@ -16,16 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const MetadataContent = PropTypes.shape({
+export const MetadataContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   key: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
 })
 
-const MetadataContentArray = PropTypes.arrayOf(MetadataContent)
+export const MetadataContentArray = PropTypes.arrayOf(MetadataContent)
 
-
-module.exports = {
-  MetadataContent,
-  MetadataContentArray,
-}

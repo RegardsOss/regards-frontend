@@ -39,7 +39,7 @@ const getDownloadURL = (entityType, id = '{id}') =>
 /**
  * This module provides common variables to access file description downloads
  */
-module.exports = {
+export default {
   /**
    * Returns the relative path to download file for entity type as parameter, or undefined if the entity type as parameter
    * has no description file

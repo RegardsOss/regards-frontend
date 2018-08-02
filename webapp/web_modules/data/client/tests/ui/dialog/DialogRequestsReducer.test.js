@@ -18,7 +18,7 @@
  **/
 import { assert } from 'chai'
 import DialogRequestsActions from '../../../src/ui/dialog/DialogRequestsActions'
-import { DialogRequestsReducer, getDialogRequestsReducer } from '../../../src/ui/dialog/DialogRequestsReducer'
+import getDialogRequestsReducer, { DialogRequestsReducer } from '../../../src/ui/dialog/DialogRequestsReducer'
 
 const testActions = new DialogRequestsActions('tests')
 const testReduce = getDialogRequestsReducer('tests')

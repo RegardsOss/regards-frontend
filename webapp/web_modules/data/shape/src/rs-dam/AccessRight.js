@@ -18,7 +18,7 @@
  **/
 import { DatasetContent } from './Dataset'
 
-const AccessRightContent = PropTypes.shape({
+export const AccessRightContent = PropTypes.shape({
   id: PropTypes.number,
   accessLevel: PropTypes.string,
   dataAccessRight: PropTypes.shape({
@@ -33,14 +33,7 @@ const AccessRightContent = PropTypes.shape({
   }),
 })
 
-const AccessRight = PropTypes.shape({
+export const AccessRight = PropTypes.shape({
   content: AccessRightContent.isRequired,
 })
-const AccessRightList = PropTypes.objectOf(AccessRight)
-
-module.exports = {
-  AccessRight,
-  AccessRightContent,
-  AccessRightList,
-}
-
+export const AccessRightList = PropTypes.objectOf(AccessRight)

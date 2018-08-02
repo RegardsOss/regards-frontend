@@ -27,13 +27,13 @@ import { DataFile } from '../../rs-dam/DataFile'
  */
 
 /* Entity files attribute as key: file type, value: file array */
-const entityFiles = PropTypes.shape(CommonDomain.DataTypes.reduce((acc, fileType) => ({
+export const entityFiles = PropTypes.shape(CommonDomain.DataTypes.reduce((acc, fileType) => ({
   ...acc,
   [fileType]: PropTypes.arrayOf(DataFile),
 }), {}))
 
 /** Fields of an entity (for re-use) */
-const entityFields = {
+export const entityFields = {
   id: PropTypes.string.isRequired,
   model: PropTypes.string.isRequired,
   providerId: PropTypes.string.isRequired,
@@ -51,15 +51,8 @@ const entityFields = {
  * Entity definition for all catalog entities like datasets, dataobjects, collections or documents.
  * @author Sébastien Binda
  */
-const Entity = PropTypes.shape({
+export const Entity = PropTypes.shape({
   content: PropTypes.shape(entityFields).isRequired,
 })
 
-const EntityList = PropTypes.objectOf(Entity)
-
-module.exports = {
-  entityFields,
-  entityFiles,
-  Entity,
-  EntityList,
-}
+export const EntityList = PropTypes.objectOf(Entity)

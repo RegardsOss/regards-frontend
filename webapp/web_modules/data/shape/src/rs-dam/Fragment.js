@@ -16,20 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const FragmentContent = PropTypes.shape({
+export const FragmentContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   description: PropTypes.string,
 })
 
-const Fragment = PropTypes.shape({
+export const Fragment = PropTypes.shape({
   content: FragmentContent.isRequired,
 })
 
-const FragmentList = PropTypes.objectOf(Fragment)
+export const FragmentList = PropTypes.objectOf(Fragment)
 
-module.exports = {
-  Fragment,
-  FragmentContent,
-  FragmentList,
-}

@@ -17,12 +17,5 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { Account, AccountList } from './Account'
-import { AccountSettings, AccountSettingsWithContent } from './AccountSettings'
-
-module.exports = {
-  Account,
-  AccountList,
-  AccountSettings,
-  AccountSettingsWithContent,
-}
+export { Account, AccountList } from './Account'
+export { AccountSettings, AccountSettingsWithContent } from './AccountSettings'

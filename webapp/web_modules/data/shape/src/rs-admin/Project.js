@@ -18,7 +18,7 @@
  **/
 import URL from '../rs-common/URL'
 
-const ProjectContent = PropTypes.shape({
+export const ProjectContent = PropTypes.shape({
   id: PropTypes.number,
   label: PropTypes.string.isRequired,
   description: PropTypes.string,
@@ -30,14 +30,8 @@ const ProjectContent = PropTypes.shape({
   host: PropTypes.string,
 })
 
-const Project = PropTypes.shape({
+export const Project = PropTypes.shape({
   content: ProjectContent,
 })
 
-const ProjectList = PropTypes.objectOf(Project)
-
-module.exports = {
-  ProjectContent,
-  Project,
-  ProjectList,
-}
+export const ProjectList = PropTypes.objectOf(Project)

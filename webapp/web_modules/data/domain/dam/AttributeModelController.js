@@ -185,7 +185,7 @@ function getAttributeModelFullLabel(attribute) {
   return fullAttributeLabel
 }
 
-module.exports = {
+export default {
   getEntityAttributeValue,
   getStandardAttributeModel,
   findModelFromAttributeFullyQualifiedName,

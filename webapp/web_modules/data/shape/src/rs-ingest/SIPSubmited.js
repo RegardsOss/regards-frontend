@@ -23,13 +23,9 @@
  */
 
 /** A dated selection item shape */
-const SIPSubmited = PropTypes.shape({
+export const SIPSubmited = PropTypes.shape({
   id: PropTypes.string.isRequired,
   version: PropTypes.number,
   rejectionCauses: PropTypes.arrayOf(PropTypes.string),
   state: PropTypes.string.isRequired,
 })
-
-module.exports = {
-  SIPSubmited,
-}

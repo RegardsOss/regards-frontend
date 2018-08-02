@@ -23,7 +23,7 @@ import { UIDomain } from '@regardsoss/domain'
  * expandable and expanded states
  * @author Raphaël Mechali
  */
-export class ModuleExpandedStateActions {
+export default class ModuleExpandedStateActions {
   /**
    * Builds a key for presentation state in store (shares builder accros different consumers in REGARDS)
    * @param {string} moduleType module type, identifies this component module type (not necessarily related with a module)

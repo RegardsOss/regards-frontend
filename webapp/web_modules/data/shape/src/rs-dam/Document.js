@@ -19,7 +19,7 @@
 import Feature from './Feature'
 import { ModelContent } from './Model'
 
-const DocumentContent = PropTypes.shape({
+export const DocumentContent = PropTypes.shape({
   id: PropTypes.number,
   ipId: PropTypes.string.isRequired,
   creationDate: PropTypes.string,
@@ -31,15 +31,9 @@ const DocumentContent = PropTypes.shape({
   model: ModelContent.isRequired,
 })
 
-const Document = PropTypes.shape({
+export const Document = PropTypes.shape({
   content: DocumentContent.isRequired,
 })
 
-const DocumentList = PropTypes.objectOf(Document)
+export const DocumentList = PropTypes.objectOf(Document)
 
-
-module.exports = {
-  Document,
-  DocumentContent,
-  DocumentList,
-}

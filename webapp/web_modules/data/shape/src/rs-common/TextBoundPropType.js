@@ -43,12 +43,7 @@ const parseInt = (intText) => {
   return !root.isNaN(n) && Number.isInteger(n)
 }
 
-const NumericTextBoundPropType = getChainableTypeChecker(getTextBoundPropType(parseInt))
+export const NumericTextBoundPropType = getChainableTypeChecker(getTextBoundPropType(parseInt))
 
 const parseDate = dateText => !root.isNaN(Date.parse(dateText))
-const DateTextBoundPropType = getChainableTypeChecker(getTextBoundPropType(parseDate))
-
-module.exports = {
-  DateTextBoundPropType,
-  NumericTextBoundPropType,
-}
+export const DateTextBoundPropType = getChainableTypeChecker(getTextBoundPropType(parseDate))

@@ -18,7 +18,7 @@
  **/
 import PluginParameterType from './PluginParameterType'
 
-const PluginMetaDataContent = PropTypes.shape({
+export const PluginMetaDataContent = PropTypes.shape({
   pluginId: PropTypes.string.isRequired,
   pluginClassName: PropTypes.string.isRequired,
   interfaceNames: PropTypes.arrayOf(PropTypes.string.isRequired),
@@ -29,14 +29,8 @@ const PluginMetaDataContent = PropTypes.shape({
   parameters: PropTypes.arrayOf(PluginParameterType),
 })
 
-const PluginMetaData = PropTypes.shape({
+export const PluginMetaData = PropTypes.shape({
   content: PluginMetaDataContent,
 })
-const PluginMetaDataList = PropTypes.objectOf(PluginMetaData)
-const PluginMetaDataArray = PropTypes.arrayOf(PluginMetaData)
-module.exports = {
-  PluginMetaDataContent,
-  PluginMetaData,
-  PluginMetaDataList,
-  PluginMetaDataArray,
-}
+export const PluginMetaDataList = PropTypes.objectOf(PluginMetaData)
+export const PluginMetaDataArray = PropTypes.arrayOf(PluginMetaData)

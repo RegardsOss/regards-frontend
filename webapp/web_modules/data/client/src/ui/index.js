@@ -17,26 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { AuthenticationDialogActions } from './authenticationDialog/AuthenticationDialogActions'
-import { getAuthenticationDialogReducer } from './authenticationDialog/AuthenticationDialogReducer'
-import { AuthenticationDialogSelectors, getAuthenticationDialogSelectors } from './authenticationDialog/AuthenticationDialogSelectors'
-import DialogRequestsActions from './dialog/DialogRequestsActions'
-import { getDialogRequestsReducer } from './dialog/DialogRequestsReducer'
-import getDialogRequestsSelectors from './dialog/DialogRequestsSelectors'
-import { ModuleExpandedStateActions } from './module/ModuleExpandedStateActions'
-import { getModuleExpandedStateReducer } from './module/ModuleExpandedStateReducer'
-import { ModuleExpandedStateSelectors, getModuleExpandedStateSelectors } from './module/ModuleExpandedStateSelectors'
-
-module.exports = {
-  AuthenticationDialogActions,
-  AuthenticationDialogSelectors,
-  getAuthenticationDialogReducer,
-  getAuthenticationDialogSelectors,
-  DialogRequestsActions,
-  getDialogRequestsReducer,
-  getDialogRequestsSelectors,
-  ModuleExpandedStateActions,
-  ModuleExpandedStateSelectors,
-  getModuleExpandedStateReducer,
-  getModuleExpandedStateSelectors,
-}
+export { default as AuthenticationDialogActions } from './authenticationDialog/AuthenticationDialogActions'
+export { default as getAuthenticationDialogReducer } from './authenticationDialog/AuthenticationDialogReducer'
+export { default as getAuthenticationDialogSelectors, AuthenticationDialogSelectors } from './authenticationDialog/AuthenticationDialogSelectors'
+export { default as DialogRequestsActions } from './dialog/DialogRequestsActions'
+export { default as getDialogRequestsReducer } from './dialog/DialogRequestsReducer'
+export { default as getDialogRequestsSelectors } from './dialog/DialogRequestsSelectors'
+export { default as ModuleExpandedStateActions } from './module/ModuleExpandedStateActions'
+export { default as getModuleExpandedStateReducer } from './module/ModuleExpandedStateReducer'
+export { default as getModuleExpandedStateSelectors, ModuleExpandedStateSelectors } from './module/ModuleExpandedStateSelectors'

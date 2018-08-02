@@ -17,40 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import PluginParameterContent from './Plugin/PluginParameter'
-import { PluginMetaDataContent, PluginMetaData, PluginMetaDataList, PluginMetaDataArray } from './Plugin/PluginMetaData'
-import { PluginConfiguration, PluginConfigurationContent, PluginConfigurationList, PluginConfigurationArray } from './Plugin/PluginConfiguration'
-import PluginParameterType from './Plugin/PluginParameterType'
+export { default as PluginParameterContent } from './Plugin/PluginParameter'
+export { PluginMetaDataContent, PluginMetaData, PluginMetaDataList, PluginMetaDataArray } from './Plugin/PluginMetaData'
+export { PluginConfiguration, PluginConfigurationContent, PluginConfigurationList, PluginConfigurationArray } from './Plugin/PluginConfiguration'
+export { default as PluginParameterType } from './Plugin/PluginParameterType'
 
-import getChainableTypeChecker from './ChainableTypeChecker'
-import Percent from './Percent'
-import URL from './URL'
-import RangedNumber from './RangedNumber'
-import LocationShape from './LocationShape'
-import { DateTextBoundPropType, NumericTextBoundPropType } from './TextBoundPropType'
-
-module.exports = {
-  PluginParameterContent,
-  PluginMetaDataContent,
-  PluginMetaData,
-  PluginMetaDataList,
-  PluginMetaDataArray,
-  PluginConfiguration,
-  PluginConfigurationContent,
-  PluginConfigurationList,
-  PluginConfigurationArray,
-
-  PluginParameterType,
-
-  // Common
-  getChainableTypeChecker,
-
-  URL,
-
-  RangedNumber,
-  Percent,
-  LocationShape,
-
-  DateTextBoundPropType,
-  NumericTextBoundPropType,
-}
+export { default as getChainableTypeChecker } from './ChainableTypeChecker'
+export { default as Percent } from './Percent'
+export { default as URL } from './URL'
+export { default as RangedNumber } from './RangedNumber'
+export { default as LocationShape } from './LocationShape'
+export { DateTextBoundPropType, NumericTextBoundPropType } from './TextBoundPropType'

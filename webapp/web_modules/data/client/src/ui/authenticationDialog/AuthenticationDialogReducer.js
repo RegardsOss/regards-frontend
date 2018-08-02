@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AuthenticationDialogActions } from './AuthenticationDialogActions'
+import AuthenticationDialogActions from './AuthenticationDialogActions'
 
 /**
  * Client reducer to manage common authentication dialog
@@ -54,7 +54,7 @@ export class AuthenticationDialogReducer {
  * @param {string} namespace actions namespace
  * @return {FeedbackReducer} reducer instance
  */
-export function getAuthenticationDialogReducer(namespace) {
+export default function getAuthenticationDialogReducer(namespace) {
   const reducerInstance = new AuthenticationDialogReducer(namespace)
   return (state, action) => reducerInstance.reduce(state, action)
 }

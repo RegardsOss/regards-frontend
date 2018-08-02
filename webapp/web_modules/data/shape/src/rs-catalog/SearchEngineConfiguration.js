@@ -19,7 +19,7 @@
 import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfiguration'
 import { DatasetContent } from '../rs-dam/Dataset'
 
-const SearchEngineConfigurationContent = PropTypes.shape({
+export const SearchEngineConfigurationContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
   configuration: PluginConfigurationContent.isRequired,
@@ -27,13 +27,7 @@ const SearchEngineConfigurationContent = PropTypes.shape({
   dataset: DatasetContent,
 })
 
-const SearchEngineConfiguration = PropTypes.shape({
+export const SearchEngineConfiguration = PropTypes.shape({
   content: SearchEngineConfigurationContent.isRequired,
 })
-const SearchEngineConfigurationList = PropTypes.objectOf(SearchEngineConfiguration)
-
-module.exports = {
-  SearchEngineConfigurationContent,
-  SearchEngineConfiguration,
-  SearchEngineConfigurationList,
-}
+export const SearchEngineConfigurationList = PropTypes.objectOf(SearchEngineConfiguration)

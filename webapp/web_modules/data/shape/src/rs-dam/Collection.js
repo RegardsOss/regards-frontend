@@ -19,7 +19,7 @@
 import Feature from './Feature'
 import { ModelContent } from './Model'
 
-const CollectionContent = PropTypes.shape({
+export const CollectionContent = PropTypes.shape({
   id: PropTypes.number,
   ipId: PropTypes.string.isRequired,
   creationDate: PropTypes.string,
@@ -31,11 +31,9 @@ const CollectionContent = PropTypes.shape({
   model: ModelContent.isRequired,
 })
 
-const Collection = PropTypes.shape({
+export const Collection = PropTypes.shape({
   content: CollectionContent.isRequired,
 })
 
-const CollectionList = PropTypes.objectOf(Collection)
-const CollectionArray = PropTypes.arrayOf(Collection)
-
-module.exports = { CollectionContent, Collection, CollectionList, CollectionArray }
+export const CollectionList = PropTypes.objectOf(Collection)
+export const CollectionArray = PropTypes.arrayOf(Collection)

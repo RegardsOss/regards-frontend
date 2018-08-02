@@ -21,7 +21,7 @@
  * Client actions to manage common authentication dialog
  * @author Sébastien Binda
  */
-export class AuthenticationDialogActions {
+export default class AuthenticationDialogActions {
   /**
    * Constructor
    * @param {string} namespace actions namespace

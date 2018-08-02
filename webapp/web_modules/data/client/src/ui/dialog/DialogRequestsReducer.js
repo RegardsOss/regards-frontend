@@ -61,7 +61,7 @@ export class DialogRequestsReducer {
  * Returns reduce function instance for a given namespace
  * @param {*} namespace namespace (optional, leave empty to get default reducer)
  */
-export function getDialogRequestsReducer(namespace) {
+export default function getDialogRequestsReducer(namespace) {
   const reducer = new DialogRequestsReducer(namespace)
   return function reduce(state, action) {
     return reducer.reduce(state, action)

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const Feature = PropTypes.shape({
+export default PropTypes.shape({
   id: PropTypes.string.isRequired,
   entityType: PropTypes.string,
   files: PropTypes.any,
@@ -27,4 +27,3 @@ const Feature = PropTypes.shape({
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 })
 
-export default Feature

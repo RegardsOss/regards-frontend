@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const Resource = PropTypes.shape({
+export const Resource = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
     microservice: PropTypes.string,
@@ -24,11 +24,6 @@ const Resource = PropTypes.shape({
     verb: PropTypes.string,
   }),
 })
-const ResourceList = PropTypes.objectOf(Resource)
-const ResourceArray = PropTypes.arrayOf(Resource)
+export const ResourceList = PropTypes.objectOf(Resource)
+export const ResourceArray = PropTypes.arrayOf(Resource)
 
-module.exports = {
-  Resource,
-  ResourceList,
-  ResourceArray,
-}

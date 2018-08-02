@@ -18,13 +18,11 @@
  **/
 import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfiguration'
 
-const LinkPluginDataset = PropTypes.shape({
+export const LinkPluginDataset = PropTypes.shape({
   content: PropTypes.shape({
     linkId: PropTypes.number,
     datasetId: PropTypes.string.isRequired,
     services: PropTypes.arrayOf(PluginConfigurationContent).isRequired,
   }).isRequired,
 })
-const LinkPluginDatasetList = PropTypes.objectOf(LinkPluginDataset)
-
-module.exports = { LinkPluginDataset, LinkPluginDatasetList }
+export const LinkPluginDatasetList = PropTypes.objectOf(LinkPluginDataset)

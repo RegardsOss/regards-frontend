@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const Role = PropTypes.shape({
+export const Role = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
@@ -30,7 +30,6 @@ const Role = PropTypes.shape({
   }),
 })
 
-const RoleList = PropTypes.objectOf(Role)
-const RoleArray = PropTypes.arrayOf(Role)
+export const RoleList = PropTypes.objectOf(Role)
+export const RoleArray = PropTypes.arrayOf(Role)
 
-module.exports = { Role, RoleList, RoleArray }

@@ -18,7 +18,7 @@
  **/
 import PluginParameterContent from './PluginParameter'
 
-const PluginConfigurationContent = PropTypes.shape({
+export const PluginConfigurationContent = PropTypes.shape({
   id: PropTypes.number,
   pluginId: PropTypes.string,
   label: PropTypes.string,
@@ -30,17 +30,9 @@ const PluginConfigurationContent = PropTypes.shape({
   parameters: PropTypes.arrayOf(PluginParameterContent),
   iconUrl: PropTypes.string,
 })
-const PluginConfiguration = PropTypes.shape({
+export const PluginConfiguration = PropTypes.shape({
   content: PluginConfigurationContent,
 })
-const PluginConfigurationList = PropTypes.objectOf(PluginConfiguration)
+export const PluginConfigurationList = PropTypes.objectOf(PluginConfiguration)
 
-const PluginConfigurationArray = PropTypes.arrayOf(PluginConfiguration)
-
-
-module.exports = {
-  PluginConfigurationContent,
-  PluginConfiguration,
-  PluginConfigurationList,
-  PluginConfigurationArray,
-}
+export const PluginConfigurationArray = PropTypes.arrayOf(PluginConfiguration)

@@ -24,7 +24,7 @@
  */
 
 /** A dated selection item shape */
-const BasketDatedItemsSelection = PropTypes.shape({
+export const BasketDatedItemsSelection = PropTypes.shape({
   objectsCount: PropTypes.number.isRequired,
   filesCount: PropTypes.number.isRequired,
   filesSize: PropTypes.number.isRequired,
@@ -34,7 +34,7 @@ const BasketDatedItemsSelection = PropTypes.shape({
 
 
 /** A dataset selection shape, containing dated selection items */
-const BasketDatasetSelection = PropTypes.shape({
+export const BasketDatasetSelection = PropTypes.shape({
   id: PropTypes.number.isRequired,
   datasetIpid: PropTypes.string.isRequired,
   datasetLabel: PropTypes.string.isRequired,
@@ -45,13 +45,7 @@ const BasketDatasetSelection = PropTypes.shape({
 })
 
 /** The basket shape */
-const Basket = PropTypes.shape({
+export const Basket = PropTypes.shape({
   id: PropTypes.number.isRequired,
   datasetSelections: PropTypes.arrayOf(BasketDatasetSelection),
 })
-
-module.exports = {
-  BasketDatedItemsSelection,
-  BasketDatasetSelection,
-  Basket,
-}

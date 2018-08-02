@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { UIDomain } from '@regardsoss/domain'
-import { ModuleExpandedStateActions } from './ModuleExpandedStateActions'
+import ModuleExpandedStateActions from './ModuleExpandedStateActions'
 
 /**
  * Module expanded state reducer
@@ -76,7 +76,7 @@ export class ModuleExpandedStateReducer {
  * @param {string} namespace actions namespace
  * @return {ModuleExpandedStateReducer} reducer instance
  */
-export function getModuleExpandedStateReducer(namespace) {
+export default function getModuleExpandedStateReducer(namespace) {
   const reducerInstance = new ModuleExpandedStateReducer(namespace)
   return (state, action) => reducerInstance.reduce(state, action)
 }
