@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { assert } from 'chai'
-import { getAdminURL, getModuleURL, getPathModuleId, getModuleDefaultIconURL } from '../../ui/URLHelper'
+import { getAdminURL, getModuleURL, getModuleDefaultIconURL } from '../../ui/URLHelper'
 
 /**
  * Test ModulesManager
@@ -29,9 +29,6 @@ describe('[Domain] Testing URLHelper', () => {
   })
   it('getModuleURL should return module URL for project and ID', () => {
     assert.equal(getModuleURL('p1', 25), '/user/p1/modules/25')
-  })
-  it('getPathModuleId should retrieve the right module ID in path', () => {
-    assert.equal(getPathModuleId('http://myDomain:888/user/anyProject/modules/208'), 208)
   })
   it('getModuleDefaultIconURL should return SVG icon URL for module', () => {
     assert.equal(getModuleDefaultIconURL('my-module'), '/modules-icon/my-module.svg')

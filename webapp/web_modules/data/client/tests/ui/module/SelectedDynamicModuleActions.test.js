@@ -16,10 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { default as LocalStorageUser } from './LocalStorageUser'
-export { default as LocalStorageUserData } from './LocalStorageUserData'
-export { LOCALES_ENUM, LOCALES } from './Locales'
-export { MENU_DISPLAY_MODES, MENU_DISPLAY_MODES_ENUM } from './MenuDisplayModes'
-export { MODULE_PANE_DISPLAY_MODES_ENUM, MODULE_PANE_DISPLAY_MODES, isModulePaneExpanded, isModulePaneExpansible } from './ModulePaneDisplayModes'
-export { PRESENTATION_STATE_ENUM, PRESENTATION_STATE } from './ModulePresentationState'
-export { getAdminURL, getModuleURL, getModuleDefaultIconURL } from './URLHelper'
+import { assert } from 'chai'
+import SelectedDynamicModuleActions from '../../../src/ui/module/SelectedDynamicModuleActions'
+
+const testActions = new SelectedDynamicModuleActions('tests')
+
+
+/**
+ * Test SelectedDynamicModuleActions
+ * @author Raphaël Mechali
+ */
+describe('[Client] Testing SelectedDynamicModuleActions', () => {
+  it('should exists', () => {
+    assert.isDefined(SelectedDynamicModuleActions)
+  })
+  it('should return setDynamicModule action', () => {
+    assert.deepEqual(testActions.setDynamicModule('HaHo!'), {
+      type: testActions.SET_DYNAMIC_MODULE,
+      dynamicModuleId: 'HaHo!',
+    })
+  })
+})

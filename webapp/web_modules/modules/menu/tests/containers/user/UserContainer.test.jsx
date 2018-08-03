@@ -24,8 +24,6 @@ import { UserContainer } from '../../../src/containers/user/UserContainer'
 import MainMenuComponent from '../../../src/components/user/MainMenuComponent'
 import styles from '../../../src/styles/styles'
 
-const router = require('react-router')
-
 const context = buildTestContext(styles)
 
 const commonProps = {
@@ -73,17 +71,8 @@ const commonProps = {
 }
 
 describe('[Menu] Testing UserContainer', () => {
-  before(() => {
-    // mocking router browser history
-    router.browserHistory = {
-      getCurrentLocation: () => ({ query: {}, pathname: 'hello/world' }),
-    }
-    testSuiteHelpers.before()
-  })
-  after(() => {
-    delete router.browserHistory
-    testSuiteHelpers.after()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
   it('should exists', () => {
     assert.isDefined(UserContainer)
@@ -132,6 +121,7 @@ describe('[Menu] Testing UserContainer', () => {
     const props = {
       ...commonProps,
       isInstance: false,
+      currentModuleId: 555,
       moduleConf: {
         ...commonProps.moduleConf,
         displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.USER,
@@ -146,6 +136,7 @@ describe('[Menu] Testing UserContainer', () => {
       currentRole: props.userRole,
       roleList: props.borrowableRoles, // should come from fetched borrowable roles
       borrowableRoles: props.borrowableRoles,
+      currentModuleId: 555,
     })
   })
   it('should render correctly with complete conf in PREVIEW mode', () => {

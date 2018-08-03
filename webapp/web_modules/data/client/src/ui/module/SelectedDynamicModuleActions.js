@@ -16,30 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { assert } from 'chai'
-import DialogRequestsActions from '../../../src/ui/dialog/DialogRequestsActions'
-
-const testActions = new DialogRequestsActions('tests')
-
 
 /**
- * Test DialogRequestsActions
+ * DynamicModuleStateActions: used by user app to initialize current dynamic module ID
+ * in user app redux state
  * @author Raphaël Mechali
  */
-describe('[Client] Testing DialogRequestsActions', () => {
-  it('should exists', () => {
-    assert.isDefined(DialogRequestsActions)
+export default class SelectedDynamicModuleActions {
+  /**
+   * Constructor
+   * @param {string} namespace actions namespace or default namespace
+   */
+  constructor(namespace = 'application/user') {
+    this.SET_DYNAMIC_MODULE = `${namespace}/set-dynamic-module`
+  }
+
+
+  /**
+   * Dispatches dynamic module change
+   * @param {number} dynamicModuleId current dynamic module ID
+   * @return action to dispatch
+   */
+  setDynamicModule = dynamicModuleId => ({
+    type: this.SET_DYNAMIC_MODULE,
+    dynamicModuleId,
   })
-  it('should return show request action', () => {
-    assert.deepEqual(testActions.show({ a: 'a', other: [] }, 'my-consumer'), {
-      type: testActions.SHOW,
-      parameters: {
-        a: 'a', other: [],
-      },
-      consumerID: 'my-consumer',
-    }, 'show action should be correctly built')
-  })
-  it('should return hide request action', () => {
-    assert.deepEqual(testActions.hide(), { type: testActions.HIDE })
-  })
-})
+}

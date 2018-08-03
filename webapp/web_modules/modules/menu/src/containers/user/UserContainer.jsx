@@ -17,14 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
-import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { UIDomain } from '@regardsoss/domain'
+import { UIClient } from '@regardsoss/client'
 import { AccessShapes, AdminShapes } from '@regardsoss/shape'
 import { AuthenticationClient, AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
 import { borrowableRolesActions, borrowableRolesSelectors } from '../../clients/BorrowableRolesClient'
 import MainMenuComponent from '../../components/user/MainMenuComponent'
+
+// default selector instance to get currently displayed dynamic module ID
+const selectedDynamicModuleIdSelectors = UIClient.getSelectedDynamicModuleSelectors()
 
 /**
  * Main container of module menu (user part). It fetches / re-initializes borrowable roles on user change, as they are shared by
@@ -41,6 +44,7 @@ export class UserContainer extends React.Component {
   static mapStateToProps(state) {
     const isAuthenticated = AuthenticationClient.authenticationSelectors.isAuthenticated(state)
     return {
+      currentModuleId: selectedDynamicModuleIdSelectors.getDynamicModuleId(state),
       authenticationName: isAuthenticated ? AuthenticationClient.authenticationSelectors.getAuthentication(state).result.sub : '',
       userRole: isAuthenticated ? AuthenticationClient.authenticationSelectors.getAuthentication(state).result.role : '',
       borrowableRoles: borrowableRolesSelectors.getList(state),
@@ -67,6 +71,7 @@ export class UserContainer extends React.Component {
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration,
     // from map state to props
+    currentModuleId: PropTypes.number,
     authenticationName: PropTypes.string,
     userRole: PropTypes.string,
     borrowableRoles: AdminShapes.RoleList.isRequired,
@@ -107,9 +112,8 @@ export class UserContainer extends React.Component {
   }
 
   render() {
-    const currentModuleId = UIDomain.getPathModuleId(browserHistory.getCurrentLocation().pathname)
     const {
-      userRole, borrowableRoles, moduleConf, ...remainingProps
+      currentModuleId, userRole, borrowableRoles, moduleConf, ...remainingProps
     } = this.props
     // nota: we keep borrowable role list and role list separatated fro preview mode, where the real list is fetched from server
     // as instance admin cannot borrow any role...

@@ -26,3 +26,6 @@ export { default as getDialogRequestsSelectors } from './dialog/DialogRequestsSe
 export { default as ModuleExpandedStateActions } from './module/ModuleExpandedStateActions'
 export { default as getModuleExpandedStateReducer } from './module/ModuleExpandedStateReducer'
 export { default as getModuleExpandedStateSelectors, ModuleExpandedStateSelectors } from './module/ModuleExpandedStateSelectors'
+export { default as SelectedDynamicModuleActions } from './module/SelectedDynamicModuleActions'
+export { default as getSelectedDynamicModuleReducer } from './module/SelectedDynamicModuleReducer'
+export { default as getSelectedDynamicModuleSelectors, SelectedDynamicModuleSelectors } from './module/SelectedDynamicModuleSelectors'

@@ -41,16 +41,6 @@ export function getModuleURL(project, moduleId) {
 }
 
 /**
- * Returns module ID in user application URL
- * @param {string} path path
- * @return {number} module id if any could be found in path
- */
-export function getPathModuleId(path) {
-  const matchedElements = path.match(/modules\/([0-9]+)/)
-  return matchedElements && matchedElements.length > 1 ? parseInt(matchedElements[1], 10) : null
-}
-
-/**
  * Returns module default icon path
  * @param {string} moduleType module type
  * @return {string} icon path
