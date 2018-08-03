@@ -70,7 +70,7 @@ class FetchGraphEntitiesActions extends BasicPageableActions {
     }
 
     if (levelModelName) {
-      openSearchParameters.push(OpenSearchQuery.buildModelNameParameter(levelModelName))
+      openSearchParameters.push(OpenSearchQuery.buildModelParameter(levelModelName))
     }
     // build search query and fetch server data (keep invocation context for action metadata)
     const searchQuery = new OpenSearchQuery(null, openSearchParameters).toQueryString()

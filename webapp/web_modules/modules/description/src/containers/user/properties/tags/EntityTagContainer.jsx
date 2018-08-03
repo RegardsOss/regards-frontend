@@ -91,7 +91,7 @@ export class EntityTagContainer extends React.Component {
   }
 
   isDisplayable = () => {
-    const modelName = get(this.props.entity, 'content.model.name', null)
+    const modelName = get(this.props.entity, 'content.model', null)
     if (modelName) {
       return !find(get(STATIC_CONF, 'ENTITY_DESCRIPTION.TAGS.MODEL_NAME_FILTERS', []), regexp => modelName.match(regexp))
     }

@@ -26,7 +26,7 @@ import OpenSearchQueryParameter from './OpenSearchQueryParameter'
 export default class OpenSearchQuery extends Query {
   static PARAMETERS_SEPARATOR = ' AND '
   static TAGS_PARAM_NAME = 'tags'
-  static MODEL_NAME_PARAM_NAME = 'model.name'
+  static MODEL_PARAM_NAME = 'model'
   static ID_PARAM_NAME = 'id'
 
   /**
@@ -45,8 +45,8 @@ export default class OpenSearchQuery extends Query {
    * @param {boolean} negate should negate parameter value in final request?
    * @return built parameter
    */
-  static buildModelNameParameter(values, negate = false) {
-    return new OpenSearchQueryParameter(OpenSearchQuery.MODEL_NAME_PARAM_NAME, values, negate)
+  static buildModelParameter(values, negate = false) {
+    return new OpenSearchQueryParameter(OpenSearchQuery.MODEL_PARAM_NAME, values, negate)
   }
 
   /**
