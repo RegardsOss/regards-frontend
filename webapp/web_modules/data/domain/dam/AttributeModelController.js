@@ -35,6 +35,8 @@ const standardAttributesKeys = {
   id: 'id', // === URN
   providerId: 'providerId',
   label: 'label',
+  model: 'model',
+  tags: 'tags',
   thumbnail: 'thumbnail',
 }
 
@@ -63,6 +65,20 @@ const standardAttributes = {
     label: 'Label',
     type: MODEL_ATTR_TYPES.STRING,
     jsonPath: 'label',
+  },
+  [standardAttributesKeys.model]: {
+    key: standardAttributesKeys.label,
+    id: -4,
+    label: 'Model',
+    type: MODEL_ATTR_TYPES.STRING,
+    jsonPath: 'model',
+  },
+  [standardAttributesKeys.tags]: {
+    key: standardAttributesKeys.label,
+    id: -5,
+    label: 'Tags',
+    type: MODEL_ATTR_TYPES.STRING_ARRAY,
+    jsonPath: 'tags',
   },
   [standardAttributesKeys.thumbnail]: {
     key: standardAttributesKeys.thumbnail,

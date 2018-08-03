@@ -82,9 +82,9 @@ describe('[SEARCH FORM] Testing CriteriaConfigurationComponent', () => {
     assert.equal(attributes.at(0).prop('name'), 'conf.attributes.searchField1', 'The first attribute to configure should be searchField1 as defined in TestPlugin-info.json')
     assert.equal(attributes.at(1).prop('name'), 'conf.attributes.searchField2', 'The second attribute to configure should be searchField2 as defined in TestPlugin-info.json')
 
-    // note: 5 selectable attributes are expected for plugin attributeType ["String"] (2 from above properties, 3 from standard
+    // note: 6 selectable attributes are expected for plugin attributeType ["String"] (2 from above properties, 4 from standard
     // parameters)
-    assert.lengthOf(attributes.at(0).find(MenuItem), 5, 'There should be available attributes (filtered by type using plugin info)')
-    assert.lengthOf(attributes.at(1).find(MenuItem), 5, 'There should be available attributes (filtered by type using plugin info)')
+    assert.lengthOf(attributes.at(0).find(MenuItem), 6, 'There should be available attributes (filtered by type using plugin info)')
+    assert.lengthOf(attributes.at(1).find(MenuItem), 6, 'There should be available attributes (filtered by type using plugin info)')
   })
 })
