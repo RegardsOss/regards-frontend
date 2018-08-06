@@ -224,7 +224,7 @@ class PageableListContainer extends React.Component {
         >
           {map(this.state.loadedEntities, (entity) => {
             const selected = some(
-this.props.selectedEntities,
+              this.props.selectedEntities,
               selectedEntity => selectedEntity[this.props.entityIdentifier] === entity.content[this.props.entityIdentifier],
             )
             return (

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { DataManagementShapes } from '@regardsoss/shape'
 /**
  * Display a dataset element into the infinite scroll list.
@@ -28,7 +29,7 @@ class DatasetLineComponent extends React.Component {
 
   render() {
     return (
-      <div>{this.props.entity.content.label}</div>
+      <div>{get(this.props.entity, 'content.feature.label', null)}</div>
     )
   }
 }
