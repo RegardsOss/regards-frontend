@@ -16,14 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import modulesHelper from './ModulesHelper'
-import ModulePaneStateField from './components/admin/ModulePaneStateField'
 
 /**
  * Main module file to expose public interface
  * @author Sébastien Binda
  */
-module.exports = {
-  modulesHelper,
-  ModulePaneStateField,
-}
+export { default as modulesHelper } from './ModulesHelper'
+export { default as ModulePaneStateField } from './components/admin/ModulePaneStateField'

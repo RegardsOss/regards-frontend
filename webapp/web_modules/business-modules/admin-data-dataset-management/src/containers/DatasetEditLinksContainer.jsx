@@ -71,7 +71,7 @@ export class DatasetEditLinksContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project, datasetId } } = this.props
-    return `/admin/${project}/data/collections/dataset/${datasetId}/edit`
+    return `/admin/${project}/data/collections/dataset/${datasetId}/files`
   }
 
   getDoneUrl = () => {

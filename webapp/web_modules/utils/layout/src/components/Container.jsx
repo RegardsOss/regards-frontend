@@ -66,6 +66,12 @@ class Container extends React.Component {
 
   static iconMenu = (<IconButton><MoreVertIcon /></IconButton>)
 
+  static PLUGIN_WRAPPER_STYLE = {
+    display: 'flex',
+    alignItems: 'flex-start',
+    flexDirection: 'column',
+  }
+
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
@@ -251,11 +257,7 @@ class Container extends React.Component {
         {this.renderConfigurationMode()}
         {this.renderModules()}
         <div
-          style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            flexDirection: 'column',
-          }}
+          style={Container.PLUGIN_WRAPPER_STYLE}
         >
           {this.renderPlugins()}
         </div>

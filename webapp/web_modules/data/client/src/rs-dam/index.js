@@ -143,3 +143,7 @@ export { default as UserGroupActions } from './userGroup/UserGroupActions'
 export { default as getUserGroupReducer } from './userGroup/UserGroupReducer'
 export { default as getUserGroupSelectors } from './userGroup/UserGroupSelectors'
 
+
+export { default as EntityAttachmentActions } from './entityAttachment/EntityAttachmentActions'
+export { default as getEntityAttachmentReducer } from './entityAttachment/EntityAttachmentReducer'
+export { default as getEntityAttachmentSelectors } from './entityAttachment/EntityAttachmentSelectors'

@@ -59,7 +59,6 @@ export class DatasetFormContainer extends React.Component {
       isLoading: !isCreating,
       state: states.FORM_ATTRIBUTE,
       currentDataset: null,
-      descriptionFile: null,
     }
   }
 
@@ -92,9 +91,9 @@ export class DatasetFormContainer extends React.Component {
     return `/admin/${project}/data/collections/dataset/create/datasource`
   }
 
-  redirectToLink = (datasetId) => {
+  redirectToFiles = (datasetId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/collections/dataset/${datasetId}/links`
+    const url = `/admin/${project}/data/collections/dataset/${datasetId}/files`
     browserHistory.push(url)
   }
 
@@ -107,7 +106,7 @@ export class DatasetFormContainer extends React.Component {
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          this.redirectToLink(this.props.params.datasetId)
+          this.redirectToFiles(this.props.params.datasetId)
         }
       })
   }
@@ -122,7 +121,7 @@ export class DatasetFormContainer extends React.Component {
         // We receive here the action
         if (!actionResult.error) {
           const datasetId = actionResult.payload.result
-          this.redirectToLink(datasetId)
+          this.redirectToFiles(datasetId)
         }
       })
   }
@@ -136,14 +135,8 @@ export class DatasetFormContainer extends React.Component {
    * @param attributes
    * @param modelObjectId
    */
-  saveAttributes = (providerId, label, geometry, modelDatasetName, properties, modelObjectName, descriptionFileContent, descriptionUrl) => {
+  saveAttributes = (providerId, label, geometry, modelDatasetName, properties, modelObjectName) => {
     const { isCreating, currentDataset } = this.state
-    // Save the file in the state if there is
-    if (descriptionFileContent) {
-      this.setState({
-        descriptionFile: descriptionFileContent,
-      })
-    }
     if (isCreating) {
       const newValues = {
         content: {
@@ -182,16 +175,11 @@ export class DatasetFormContainer extends React.Component {
   }
 
   saveSubsetting = (subsetting) => {
-    const { currentDataset, descriptionFile } = this.state
+    const { currentDataset } = this.state
     currentDataset.content.openSearchSubsettingClause = subsetting
     this.setState({
       currentDataset,
     })
-    // TODO files ??
-    const files = {}
-    if (descriptionFile) {
-      files.file = descriptionFile
-    }
     if (this.state.isEditing) {
       this.handleUpdate(currentDataset.content)
     } else {

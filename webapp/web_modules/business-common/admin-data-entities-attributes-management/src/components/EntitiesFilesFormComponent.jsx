@@ -16,16 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import { DataManagementShapes } from '@regardsoss/shape'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 
-class CollectionLinkActions extends BasicSignalActions {
-  constructor() {
-    super({
-      namespace: 'admin-data-collection-management/collection-link',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/collections/{collection_id}/{operation}`,
-    })
+/**
+ * Form component to edit datasets/collection attributes that the admin has to define.
+ */
+export class EntitiesFilesFormComponent extends React.Component {
+  static propTypes = {
+    currentEntity: DataManagementShapes.Entity,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
+
+  render() {
+    return (
+      <span>Hello world</span>
+    )
   }
 }
 
-const instance = new CollectionLinkActions()
-export default instance
+
+export default EntitiesFilesFormComponent

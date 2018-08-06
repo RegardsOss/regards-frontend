@@ -16,73 +16,41 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import BasicSelector from './BasicSelector'
-import BasicActions from './BasicActions'
+export { default as BasicSelector } from './BasicSelector'
+export { default as BasicActions } from './BasicActions'
 
-import BasicListSelectors from './list/BasicListSelectors'
-import BasicListActions from './list/BasicListActions'
-import BasicListReducers from './list/BasicListReducers'
+export { default as BasicListSelectors } from './list/BasicListSelectors'
+export { default as BasicListActions } from './list/BasicListActions'
+export { default as BasicListReducers } from './list/BasicListReducers'
 
-import BasicPageableSelectors from './pageable/BasicPageableSelectors'
-import BasicPageableActions from './pageable/BasicPageableActions'
-import BasicPageableReducers from './pageable/BasicPageableReducers'
+export { default as BasicPageableSelectors } from './pageable/BasicPageableSelectors'
+export { default as BasicPageableActions } from './pageable/BasicPageableActions'
+export { default as BasicPageableReducers } from './pageable/BasicPageableReducers'
 
-import BasicFacetsPageableSelectors from './facets/BasicFacetsPageableSelectors'
-import BasicFacetsPageableActions from './facets/BasicFacetsPageableActions'
-import BasicFacetsPageableReducers from './facets/BasicFacetsPageableReducers'
+export { default as BasicFacetsPageableSelectors } from './facets/BasicFacetsPageableSelectors'
+export { default as BasicFacetsPageableActions } from './facets/BasicFacetsPageableActions'
+export { default as BasicFacetsPageableReducers } from './facets/BasicFacetsPageableReducers'
 
-import BasicArraySelectors from './array/BasicArraySelectors'
-import BasicArrayActions from './array/BasicArrayActions'
-import BasicArrayReducers from './array/BasicArrayReducers'
+export { default as BasicArraySelectors } from './array/BasicArraySelectors'
+export { default as BasicArrayActions } from './array/BasicArrayActions'
+export { default as BasicArrayReducers } from './array/BasicArrayReducers'
 
-import BasicSignalSelectors from './signal/BasicSignalSelectors'
-import BasicSignalActions from './signal/BasicSignalActions'
-import BasicSignalReducers from './signal/BasicSignalReducers'
+export { default as BasicSignalSelectors } from './signal/BasicSignalSelectors'
+export { default as BasicSignalActions } from './signal/BasicSignalActions'
+export { default as BasicSignalReducers } from './signal/BasicSignalReducers'
 
-import BasicSignalsActions from './signals/BasicSignalsActions'
-import BasicSignalsReducers from './signals/BasicSignalsReducers'
-import BasicSignalsSelectors from './signals/BasicSignalsSelectors'
+export { default as BasicSignalsActions } from './signals/BasicSignalsActions'
+export { default as BasicSignalsReducers } from './signals/BasicSignalsReducers'
+export { default as BasicSignalsSelectors } from './signals/BasicSignalsSelectors'
 
-import BasicPartitionSelectors from './partition/BasicPartitionSelectors'
-import BasicPartitionActions from './partition/BasicPartitionActions'
-import BasicPartitionReducers from './partition/BasicPartitionReducers'
-import entityListPartitionDataHandler from './partition/EntityListPartitionDataHandler'
+export { default as BasicPartitionSelectors } from './partition/BasicPartitionSelectors'
+export { default as BasicPartitionActions } from './partition/BasicPartitionActions'
+export { default as BasicPartitionReducers } from './partition/BasicPartitionReducers'
+export { default as entityListPartitionDataHandler } from './partition/EntityListPartitionDataHandler'
 
-import DownloadFileSelectors from './download/DownloadFileSelectors'
-import DownloadFileActions from './download/DownloadFileActions'
-import DownloadFileReducers from './download/DownloadFileReducers'
+export { default as DownloadFileSelectors } from './download/DownloadFileSelectors'
+export { default as DownloadFileActions } from './download/DownloadFileActions'
+export { default as DownloadFileReducers } from './download/DownloadFileReducers'
 
-import RequestVerbEnum from './RequestVerbEnum'
-import RequestErrorShape from './RequestErrorShape'
-
-module.exports = {
-  BasicSelector,
-  BasicActions,
-  BasicListSelectors,
-  BasicListActions,
-  BasicListReducers,
-  BasicPageableSelectors,
-  BasicPageableActions,
-  BasicPageableReducers,
-  BasicFacetsPageableSelectors,
-  BasicFacetsPageableActions,
-  BasicFacetsPageableReducers,
-  BasicArraySelectors,
-  BasicArrayActions,
-  BasicArrayReducers,
-  BasicSignalSelectors,
-  BasicSignalActions,
-  BasicSignalReducers,
-  BasicSignalsSelectors,
-  BasicSignalsActions,
-  BasicSignalsReducers,
-  BasicPartitionActions,
-  BasicPartitionReducers,
-  BasicPartitionSelectors,
-  entityListPartitionDataHandler,
-  DownloadFileActions,
-  DownloadFileReducers,
-  DownloadFileSelectors,
-  RequestErrorShape,
-  RequestVerbEnum,
-}
+export { default as RequestVerbEnum } from './RequestVerbEnum'
+export { default as RequestErrorShape } from './RequestErrorShape'

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,24 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicListReducers } from '@regardsoss/store-utils'
-import { ModelConfiguration } from '@regardsoss/api'
-import ModelActions from './ModelActions'
+import { DataManagementClient } from '@regardsoss/client'
 
-class ModelReducers extends BasicListReducers {
-  constructor() {
-    super(ModelConfiguration, ModelActions)
-  }
-}
+const REDUX_ACTION_NAMESPACE = 'admin-data-entities-common-management/entityAttachment'
 
-const instance = new ModelReducers()
+const entityAttachmentActions = new DataManagementClient.EntityAttachmentActions(REDUX_ACTION_NAMESPACE)
 
-/**
- * Return an function where the reducer instance exists
- * @param state redux previous state
- * @param action redux action received
- * @return new state
- */
-export default function (state, action) {
-  return instance.reduce(state, action)
+module.exports = {
+  entityAttachmentActions,
 }

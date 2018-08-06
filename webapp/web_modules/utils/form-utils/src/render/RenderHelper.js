@@ -40,6 +40,6 @@ const getErrorMessage = (touched, error, intl) => {
   return errorMessage
 }
 
-module.exports = {
+export default {
   getErrorMessage,
 }

@@ -137,7 +137,7 @@ export class DatasetEditPluginComponent extends React.Component {
           subtitle={this.context.intl.formatHTMLMessage({ id: 'dataset.form.plugin.subtitle' })}
         />
         <DatasetStepperContainer
-          stepIndex={3}
+          stepIndex={4}
           currentDatasetIpId={this.props.currentDatasetIpId}
           currentDatasetId={this.props.currentDatasetId}
           isEditing

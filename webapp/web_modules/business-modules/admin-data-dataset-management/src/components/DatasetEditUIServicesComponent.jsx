@@ -122,7 +122,7 @@ export class DatasetEditUIServicesComponent extends React.Component {
           subtitle={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.subtitle' })}
         />
         <DatasetStepperContainer
-          stepIndex={4}
+          stepIndex={5}
           currentDatasetIpId={this.props.currentDatasetIpId}
           currentDatasetId={this.props.currentDatasetId}
           isEditing

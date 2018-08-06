@@ -16,28 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ShowableAtRender from './ShowableAtRender'
-import withResourceDisplayControl from './resources/withResourceDisplayControl'
-import withHateoasDisplayControl from './hateoas/withHateoasDisplayControl'
-import HateoasKeys from './model/HateoasKeys'
-import HateoasLinks from './model/HateoasLinks'
-import allMatchHateoasDisplayLogic from './logics/allMatchHateoasDisplayLogic'
-import someMatchHateoasDisplayLogic from './logics/someMatchHateoasDisplayLogic'
-import someListMatchHateoasDisplayLogic from './logics/someListMatchHateoasDisplayLogic'
-import LoadableContentDisplayDecorator from './async/LoadableContentDisplayDecorator'
-import LoadingComponent from './async/loading/LoadingComponent'
-import HOCUtils from './hoc/HOCUtils'
+export { default as ShowableAtRender } from './ShowableAtRender'
+export { default as withResourceDisplayControl } from './resources/withResourceDisplayControl'
+export { default as withHateoasDisplayControl } from './hateoas/withHateoasDisplayControl'
+export { default as HateoasKeys } from './model/HateoasKeys'
+export { default as HateoasLinks } from './model/HateoasLinks'
+export { default as allMatchHateoasDisplayLogic } from './logics/allMatchHateoasDisplayLogic'
+export { default as someMatchHateoasDisplayLogic } from './logics/someMatchHateoasDisplayLogic'
+export { default as someListMatchHateoasDisplayLogic } from './logics/someListMatchHateoasDisplayLogic'
+export { default as LoadableContentDisplayDecorator } from './async/LoadableContentDisplayDecorator'
+export { default as LoadingComponent } from './async/loading/LoadingComponent'
+export { default as HOCUtils } from './hoc/HOCUtils'
 
-export {
-  allMatchHateoasDisplayLogic,
-  HateoasKeys,
-  HateoasLinks,
-  HOCUtils,
-  LoadingComponent,
-  LoadableContentDisplayDecorator,
-  ShowableAtRender,
-  someMatchHateoasDisplayLogic,
-  someListMatchHateoasDisplayLogic,
-  withHateoasDisplayControl,
-  withResourceDisplayControl,
-}

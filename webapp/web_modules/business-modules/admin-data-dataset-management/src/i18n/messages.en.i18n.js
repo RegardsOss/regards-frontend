@@ -102,6 +102,7 @@ const messages = Object.assign({
 
   'dataset.stepper.links': 'Edit links',
   'dataset.stepper.attributes': 'Attributes',
+  'dataset.stepper.files': 'Associated files',
   'dataset.stepper.subsetting': 'Subsetting',
   'dataset.stepper.plugins': 'Plugins',
   'dataset.stepper.uiServices': 'UI services',

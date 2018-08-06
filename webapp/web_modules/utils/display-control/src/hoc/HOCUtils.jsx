@@ -80,8 +80,8 @@ function renderChildren(children) {
   }
 }
 
-module.exports = {
-  cloneChildrenWith,
+export default {
   shouldCloneChildren,
+  cloneChildrenWith,
   renderChildren,
 }

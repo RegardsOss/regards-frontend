@@ -17,28 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import has from 'lodash/has'
 import isNil from 'lodash/isNil'
 import get from 'lodash/get'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, RenderFileFieldWithMui, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { RenderTextField, RenderSelectField, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import { EntitiesAttributesFormContainer, getInitialFormValues } from '@regardsoss/admin-data-entities-attributes-management'
 import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 
-const DESCRIPTION_MODE = {
-  NOTHING: 'nothing',
-  FILE: 'file',
-  FILE_ALREADY_DEFINED: 'file_already_defined',
-  URL: 'url',
-}
 
 const labelValidators = [ValidationHelpers.required, ValidationHelpers.lengthLessThan(128)]
 
@@ -61,7 +52,6 @@ export class DatasetFormAttributesComponent extends React.Component {
     invalid: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
-    change: PropTypes.func.isRequired,
   }
 
 
@@ -73,19 +63,7 @@ export class DatasetFormAttributesComponent extends React.Component {
   constructor(props) {
     super(props)
     const isCreating = isNil(props.currentDataset)
-    let showDescriptionMode = DESCRIPTION_MODE.NOTHING
-    let disableNoDescription = false
-    if (!isCreating) {
-      if (has(props.currentDataset.content, 'descriptionFile.url')) {
-        showDescriptionMode = DESCRIPTION_MODE.URL
-      } else if (has(props.currentDataset.content, 'descriptionFile.type')) {
-        showDescriptionMode = DESCRIPTION_MODE.FILE
-        disableNoDescription = true
-      }
-    }
     this.state = {
-      showDescriptionMode,
-      disableNoDescription,
       isDisplayAttributeValue: !isCreating,
     }
   }
@@ -94,32 +72,6 @@ export class DatasetFormAttributesComponent extends React.Component {
     this.handleInitialize()
   }
 
-
-  onChange = (event, value) => {
-    switch (value) {
-      case DESCRIPTION_MODE.FILE:
-        this.props.change('descriptionUrl', '')
-        this.setState({
-          showDescriptionMode: DESCRIPTION_MODE.FILE,
-        })
-        break
-      case DESCRIPTION_MODE.URL:
-        this.props.change('descriptionFileContent', '')
-        this.setState({
-          showDescriptionMode: DESCRIPTION_MODE.URL,
-        })
-        break
-      case DESCRIPTION_MODE.NOTHING:
-        this.props.change('descriptionFileContent', '')
-        this.props.change('descriptionUrl', '')
-        this.setState({
-          showDescriptionMode: DESCRIPTION_MODE.NOTHING,
-        })
-        break
-      default:
-        throw new Error('Unexpected state')
-    }
-  }
 
   getTitle = () => {
     let title
@@ -143,7 +95,6 @@ export class DatasetFormAttributesComponent extends React.Component {
         label: currentDataset.content.feature.label,
         geometry: currentDataset.content.feature.geometry,
         model: currentDataset.content.feature.model,
-        descriptionUrl: get(currentDataset.content, 'descriptionFile.url', undefined),
         properties,
       }
       this.props.initialize(initialValues)
@@ -170,7 +121,6 @@ export class DatasetFormAttributesComponent extends React.Component {
       currentDataset, modelList, modelAttributeList, currentDatasource, submitting, invalid, backUrl,
     } = this.props
     const title = this.getTitle()
-    const { showDescriptionMode, disableNoDescription } = this.state
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -214,55 +164,6 @@ export class DatasetFormAttributesComponent extends React.Component {
                 primaryText={currentDatasource.content.label}
               />
             </SelectField>
-            <div className="row">
-              <div className="col-sm-30">
-                <br />
-                <RadioButtonGroup
-                  valueSelected={showDescriptionMode}
-                  onChange={this.onChange}
-                  name="descriptionMode"
-                >
-                  <RadioButton
-                    value={DESCRIPTION_MODE.NOTHING}
-                    label={this.context.intl.formatMessage({ id: 'dataset.form.radio.none' })}
-                    disabled={disableNoDescription}
-                  />
-                  <RadioButton
-                    value={DESCRIPTION_MODE.FILE}
-                    label={this.context.intl.formatMessage({ id: 'dataset.form.radio.descriptionFileContent' })}
-                  />
-                  <RadioButton
-                    value={DESCRIPTION_MODE.URL}
-                    label={this.context.intl.formatMessage({ id: 'dataset.form.radio.descriptionUrl' })}
-                  />
-                </RadioButtonGroup>
-              </div>
-              <div className="col-sm-70">
-                <ShowableAtRender show={showDescriptionMode === DESCRIPTION_MODE.URL}>
-                  <Field
-                    name="descriptionUrl"
-                    fullWidth
-                    component={RenderTextField}
-                    type="text"
-                    label={this.context.intl.formatMessage({ id: 'dataset.form.descriptionUrl' })}
-                  />
-                </ShowableAtRender>
-                <ShowableAtRender show={showDescriptionMode === DESCRIPTION_MODE.FILE}>
-                  <ShowableAtRender show={!disableNoDescription}>
-                    <FormattedMessage id="dataset.form.descriptionFileContent" />
-                  </ShowableAtRender>
-                  <ShowableAtRender show={disableNoDescription}>
-                    <FormattedMessage id="dataset.form.descriptionFileContentReuploadToOverride" />
-                  </ShowableAtRender>
-                  <Field
-                    name="descriptionFileContent"
-                    fullWidth
-                    accept=".md,.pdf"
-                    component={RenderFileFieldWithMui}
-                  />
-                </ShowableAtRender>
-              </div>
-            </div>
             <Field
               name="geometry"
               fullWidth

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+
 export default PropTypes.shape({
   id: PropTypes.string.isRequired,
   entityType: PropTypes.string,

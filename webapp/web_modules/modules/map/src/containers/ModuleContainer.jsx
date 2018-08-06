@@ -55,7 +55,7 @@ export class ModuleContainer extends React.Component {
     if (authentication) {
       return `${baseURL}${encodeURIComponent(`${accessURL}?token=${authentication.access_token}`)}`
     }
-    return `${baseURL}${encodeURIComponent(`${accessURL}?tenant=${project}`)}`
+    return `${baseURL}${encodeURIComponent(`${accessURL}?scope=${project}`)}`
   }
 
 

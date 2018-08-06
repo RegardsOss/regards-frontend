@@ -17,12 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import EntitiesAttributesFormContainer from './containers/EntitiesAttributesFormContainer'
-import getInitialFormValues from './utils/getInitialFormValues'
-import extractParametersFromFormValues from './utils/extractParametersFromFormValues'
-
-module.exports = {
-  EntitiesAttributesFormContainer,
-  getInitialFormValues,
-  extractParametersFromFormValues,
-}
+export { default as EntitiesAttributesFormContainer } from './containers/EntitiesAttributesFormContainer'
+export { default as EntitiesFilesFormContainer } from './containers/EntitiesFilesFormContainer'
+export { default as getInitialFormValues } from './utils/getInitialFormValues'
+export { default as extractParametersFromFormValues } from './utils/extractParametersFromFormValues'

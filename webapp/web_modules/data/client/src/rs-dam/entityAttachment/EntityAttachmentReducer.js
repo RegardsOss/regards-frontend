@@ -16,23 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalReducers } from '@regardsoss/store-utils'
-import CollectionLinkActions from './CollectionLinkActions'
+import { BasicSignalsReducers } from '@regardsoss/store-utils'
+import EntityAttachmentActions from './EntityAttachmentActions'
 
-class CollectionLinkReducers extends BasicSignalReducers {
-  constructor() {
-    super(CollectionLinkActions)
+/**
+ * Redux store reducer for Plugin MetaData entities
+ * @author Léo Mieulet
+ */
+class DocumentReducer extends BasicSignalsReducers {
+  constructor(namespace) {
+    super(new EntityAttachmentActions(namespace))
   }
 }
 
-const instance = new CollectionLinkReducers()
-
-/**
- * Return an function where the reducer instance exists
- * @param state redux previous state
- * @param action redux action received
- * @return new state
- */
-export default function (state, action) {
-  return instance.reduce(state, action)
+export default (namespace) => {
+  const instance = new DocumentReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
 }

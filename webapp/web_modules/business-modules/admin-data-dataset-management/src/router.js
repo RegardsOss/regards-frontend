@@ -65,6 +65,17 @@ export const editDatasetRoute = {
   },
 }
 
+export const editFilesDatasetRoute = {
+  path: ':datasetId/files',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const DatasetFormContainer = require('./containers/DatasetEditFilesContainer')
+      cb(null, {
+        content: DatasetFormContainer.default,
+      })
+    })
+  },
+}
 
 export const editLinksDatasetRoute = {
   path: ':datasetId/links',
@@ -109,6 +120,7 @@ const datasetDataManagementRouter = {
     pickDatasourceDatasetRoute,
     createDatasetRoute,
     editDatasetRoute,
+    editFilesDatasetRoute,
     editLinksDatasetRoute,
     editPluginDatasetRoute,
     editUIServicesDatasetRoute,

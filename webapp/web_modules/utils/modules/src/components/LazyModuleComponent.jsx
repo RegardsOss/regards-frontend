@@ -128,7 +128,6 @@ class LazyModuleComponent extends React.Component {
 
   /**
    * Render module if loaded or a loading message if not.
-   * @returns {XML}
    */
   render() {
     const { isLoaded, module } = this.state

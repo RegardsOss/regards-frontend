@@ -82,7 +82,7 @@ export class DatasetEditLinksComponent extends React.Component {
           subtitle={this.context.intl.formatMessage({ id: 'dataset.form.links.subtitle' })}
         />
         <DatasetStepperContainer
-          stepIndex={2}
+          stepIndex={3}
           currentDatasetIpId={currentDataset.content.ipId}
           currentDatasetId={currentDataset.content.id}
           isEditing

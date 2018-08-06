@@ -157,11 +157,11 @@ export default {
           entityType: 'DATASET',
           id: 1,
           ipId: 'URN:AIP:DATASET:project1:27de606c-a6cd-411f-a5ba-bd1b2f29c965:V1',
-          label: 'Mocked dataset response from mock dataset dam client',
           model: {
             name: 'MockedModel',
           },
           dataModel: '5',
+          creationDate: '2017-06-09T13:35:53.408Z',
           tags: [],
           groups: [],
           feature: {

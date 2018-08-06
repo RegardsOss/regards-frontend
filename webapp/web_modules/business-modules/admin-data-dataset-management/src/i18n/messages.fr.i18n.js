@@ -102,6 +102,7 @@ const messages = Object.assign({
 
   'dataset.stepper.links': 'Édition des liens',
   'dataset.stepper.attributes': 'Saisie des attributs',
+  'dataset.stepper.files': 'Fichiers associés',
   'dataset.stepper.subsetting': 'Filtrage',
   'dataset.stepper.plugins': 'Plugins',
   'dataset.stepper.uiServices': 'Services IHM',

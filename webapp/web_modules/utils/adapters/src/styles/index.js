@@ -17,6 +17,4 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import styles from './styles'
-
-module.exports = { styles }
+export { default as styles } from './styles'
