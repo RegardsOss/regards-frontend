@@ -16,8 +16,4 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import SelectLocaleContainer from './containers/SelectLocaleContainer'
-
-module.exports = {
-  SelectLocaleContainer,
-}
+export { default as SelectLocaleContainer} from './containers/SelectLocaleContainer'

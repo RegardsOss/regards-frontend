@@ -22,12 +22,12 @@ import values from 'lodash/values'
  * @author Sébastien Binda
  */
 export const PluginTypeEnum = {
-  CONNECTION: 'fr.cnes.regards.modules.datasources.domain.plugins.IConnectionPlugin',
-  DB_CONNECTION: 'fr.cnes.regards.modules.datasources.domain.plugins.IDBConnectionPlugin',
+  CONNECTION: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IConnectionPlugin',
+  DB_CONNECTION: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBConnectionPlugin',
   COMPUTED_ATTR: 'fr.cnes.regards.modules.models.domain.IComputedAttribute',
-  DATASOURCE: 'fr.cnes.regards.modules.datasources.domain.plugins.IDataSourcePlugin',
-  DB_DATASOURCE: 'fr.cnes.regards.modules.datasources.domain.plugins.IDBDataSourcePlugin',
-  AIP_DATASOURCE: 'fr.cnes.regards.modules.datasources.domain.plugins.IAipDataSourcePlugin',
+  DATASOURCE: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDataSourcePlugin',
+  DB_DATASOURCE: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourcePlugin',
+  AIP_DATASOURCE: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IAipDataSourcePlugin',
 }
 
 export const PluginTypeEnumValues = values(PluginTypeEnum)

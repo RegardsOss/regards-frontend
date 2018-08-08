@@ -16,26 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
-import AuthenticationClient from './AuthenticationClient'
-import AuthenticationParametersActions from './AuthenticationParametersActions'
-import AuthenticationParametersReducers, { PATH as AUTHENTICATION_PARAMETERS_REDUCERS_PATH } from './AuthenticationParametersReducers'
-import AuthenticationParametersSelectors from './AuthenticationParametersSelectors'
-import AuthenticateShape, { AuthenticationErrorShape } from './AuthenticateShape'
-import AuthenticationRouteParameters, { AuthenticationParametersHelper, routeHelpers } from './AuthenticationRouteParameters'
-import AuthenticationRouteHelper from './AuthenticationRouteHelper'
-import withAuthInfo from './decorator/withAuthInfo'
+export { default as AuthenticationClient } from './AuthenticationClient'
+export { default as AuthenticationParametersActions } from './AuthenticationParametersActions'
+export { default as AuthenticationParametersReducers, PATH as AUTHENTICATION_PARAMETERS_REDUCERS_PATH } from './AuthenticationParametersReducers'
+export { default as AuthenticationParametersSelectors } from './AuthenticationParametersSelectors'
+export { default as AuthenticateShape, AuthenticationErrorShape } from './AuthenticateShape'
+export { default as AuthenticationRouteParameters, AuthenticationParametersHelper, routeHelpers } from './AuthenticationRouteParameters'
+export { default as AuthenticationRouteHelper } from './AuthenticationRouteHelper'
+export { default as withAuthInfo } from './decorator/withAuthInfo'
 
-export {
-  AuthenticationClient,
-  AuthenticationParametersActions,
-  AuthenticationParametersReducers,
-  AUTHENTICATION_PARAMETERS_REDUCERS_PATH,
-  AuthenticationParametersSelectors,
-  AuthenticateShape,
-  AuthenticationErrorShape,
-  AuthenticationRouteParameters,
-  AuthenticationParametersHelper,
-  routeHelpers,
-  AuthenticationRouteHelper,
-  withAuthInfo,
-}

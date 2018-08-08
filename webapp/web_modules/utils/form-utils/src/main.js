@@ -16,66 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import FieldsGroup from './display/FieldsGroup'
-import FormPresentation from './display/FormPresentation'
-import FormRow from './display/FormRow'
-import RenderTextField from './render/RenderTextField'
-import RenderArrayTextField from './render/RenderArrayTextField'
-import RenderArrayObjectField from './render/RenderArrayObjectField'
-import RenderMapField from './render/RenderMapField'
-import RenderSelectField from './render/RenderSelectField'
-import RenderCheckbox from './render/RenderCheckbox'
-import RenderRadio from './render/RenderRadio'
-import RenderFileFieldWithMui from './render/RenderFileFieldWithMui'
-import RenderToggle from './render/RenderToggle'
-import RenderDoubleLabelToggle from './render/RenderDoubleLabelToggle'
-import RenderDateTimeField from './render/RenderDateTimeField'
-import RenderJsonCodeEditorField from './render/RenderJsonCodeEditorField'
-import RenderSlider from './render/RenderSlider'
-import ErrorTypes from './ErrorTypes'
-import Locales from './i18n/Locales'
-import Field from './Field'
-import FieldArray from './FieldArray'
-import ValidationHelpers from './ValidationHelpers'
-import FormEntityNotFoundComponent from './FormEntityNotFoundComponent'
-import FormLoadingComponent from './FormLoadingComponent'
-import EnumInputsComponent from './EnumInputs/EnumInputsComponent'
-import EnumInputsHelper from './EnumInputs/EnumInputsHelper'
-import StringComparison from './StringComparison'
-import reduxForm from './reduxForm'
-import RenderAutoCompleteField from './render/RenderAutoCompleteField'
-import RenderPageableAutoCompleteField from './render/RenderPageableAutoCompleteField'
-import RenderHelper from './render/RenderHelper'
+export { default as FieldsGroup } from './display/FieldsGroup'
+export { default as FormPresentation } from './display/FormPresentation'
+export { default as FormRow } from './display/FormRow'
+export { default as RenderTextField } from './render/RenderTextField'
+export { default as RenderArrayTextField } from './render/RenderArrayTextField'
+export { default as RenderArrayObjectField } from './render/RenderArrayObjectField'
+export { default as RenderMapField } from './render/RenderMapField'
+export { default as RenderSelectField } from './render/RenderSelectField'
+export { default as RenderCheckbox } from './render/RenderCheckbox'
+export { default as RenderRadio } from './render/RenderRadio'
+export { default as RenderFileFieldWithMui } from './render/RenderFileFieldWithMui'
+export { default as RenderToggle } from './render/RenderToggle'
+export { default as RenderDoubleLabelToggle } from './render/RenderDoubleLabelToggle'
+export { default as RenderDateTimeField } from './render/RenderDateTimeField'
+export { default as RenderJsonCodeEditorField } from './render/RenderJsonCodeEditorField'
+export { default as RenderSlider } from './render/RenderSlider'
+export { default as ErrorTypes } from './ErrorTypes'
+export { default as Locales } from './i18n/Locales'
+export { default as Field } from './Field'
+export { default as FieldArray } from './FieldArray'
+export { default as ValidationHelpers } from './ValidationHelpers'
+export { default as FormEntityNotFoundComponent } from './FormEntityNotFoundComponent'
+export { default as FormLoadingComponent } from './FormLoadingComponent'
+export { default as EnumInputsComponent } from './EnumInputs/EnumInputsComponent'
+export { default as EnumInputsHelper } from './EnumInputs/EnumInputsHelper'
+export { default as StringComparison } from './StringComparison'
+export { default as reduxForm } from './reduxForm'
+export { default as RenderAutoCompleteField } from './render/RenderAutoCompleteField'
+export { default as RenderPageableAutoCompleteField } from './render/RenderPageableAutoCompleteField'
+export { default as RenderHelper } from './render/RenderHelper'
 
-module.exports = {
-  FieldsGroup,
-  FormPresentation,
-  FormRow,
-  RenderAutoCompleteField,
-  RenderPageableAutoCompleteField,
-  RenderTextField,
-  RenderArrayTextField,
-  RenderArrayObjectField,
-  RenderMapField,
-  RenderToggle,
-  RenderDoubleLabelToggle,
-  RenderSelectField,
-  RenderCheckbox,
-  RenderRadio,
-  RenderFileFieldWithMui,
-  RenderDateTimeField,
-  RenderSlider,
-  ErrorTypes,
-  Locales,
-  Field,
-  FieldArray,
-  ValidationHelpers,
-  FormLoadingComponent,
-  FormEntityNotFoundComponent,
-  EnumInputsComponent,
-  EnumInputsHelper,
-  StringComparison,
-  reduxForm,
-  RenderJsonCodeEditorField,
-  RenderHelper,
-}

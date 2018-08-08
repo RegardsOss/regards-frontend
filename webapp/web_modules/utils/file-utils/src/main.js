@@ -20,6 +20,5 @@
 /**
  * @author Sébastien Binda
  */
-import ImportFromFileDialogButton from './ImportFromFileDialogButton'
+export { default as ImportFromFileDialogButton } from './ImportFromFileDialogButton'
 
-export { ImportFromFileDialogButton }

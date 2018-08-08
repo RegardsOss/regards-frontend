@@ -16,8 +16,4 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import SelectThemeContainer from './containers/SelectThemeContainer'
-
-module.exports = {
-  SelectThemeContainer,
-}
+export { default as SelectThemeContainer } from './containers/SelectThemeContainer'

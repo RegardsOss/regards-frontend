@@ -16,40 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import themeContextType from './contextType'
-import ThemeInjector from './ThemeInjector'
-import injectTheme from './ThemeInjectionDecorator'
-import reducers from './model/reducers'
-import getCurrentTheme from './model/selectors/getCurrentTheme'
-import setCurrentTheme from './model/actions/setCurrentTheme'
-import ThemeProvider from './containers/ThemeProvider'
-import defaultCustomConfiguration from './custom/defaultCustomConfiguration'
-import getAlternativeThemeConfSubset from './custom/getAlternativeThemeConfSubset'
-import {
+export { default as themeContextType } from './contextType'
+export { default as ThemeInjector } from './ThemeInjector'
+export { default as injectTheme } from './ThemeInjectionDecorator'
+export { default as reducers } from './model/reducers'
+export { default as getCurrentTheme } from './model/selectors/getCurrentTheme'
+export { default as setCurrentTheme } from './model/actions/setCurrentTheme'
+export { default as ThemeProvider } from './containers/ThemeProvider'
+export { default as defaultCustomConfiguration } from './custom/defaultCustomConfiguration'
+export { default as getAlternativeThemeConfSubset } from './custom/getAlternativeThemeConfSubset'
+export {
   themeSelectors as ThemeSelectors,
   themeActions as ThemeActions,
 } from './clients/ThemeClient'
-import { themeInstanceActions as ThemeInstanceActions } from './clients/ThemeInstanceClient'
-import ModuleStyleProvider from './containers/ModuleStyleProvider'
-import withModuleStyle from './decorators/withModuleStyle'
-import SwitchThemeDecorator from './containers/SwitchThemeDecorator'
-import ThemeBuilder from './ThemeBuilder'
-
-export {
-  themeContextType,
-  ThemeInjector,
-  injectTheme,
-  reducers,
-  ThemeSelectors,
-  getCurrentTheme,
-  setCurrentTheme,
-  ThemeActions,
-  ThemeInstanceActions,
-  defaultCustomConfiguration,
-  getAlternativeThemeConfSubset,
-  ThemeProvider,
-  ModuleStyleProvider,
-  SwitchThemeDecorator,
-  withModuleStyle,
-  ThemeBuilder,
-}
+export { themeInstanceActions as ThemeInstanceActions } from './clients/ThemeInstanceClient'
+export { default as ModuleStyleProvider } from './containers/ModuleStyleProvider'
+export { default as withModuleStyle } from './decorators/withModuleStyle'
+export { default as SwitchThemeDecorator } from './containers/SwitchThemeDecorator'
+export { default as ThemeBuilder } from './ThemeBuilder'

@@ -16,18 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import PluginsClientsMap from './client/PluginsClientsMap'
-import PluginCriterionContainer from './containers/PluginCriterionContainer'
-import numberRangeHelper from './utils/NumberRangeHelper'
-import { initPlugin } from './utils/InitPlugin'
 
 /**
  * Main interface to write modules
  * @author Sébastien Binda
  */
-module.exports = {
-  PluginsClientsMap,
-  PluginCriterionContainer,
-  initPlugin,
-  numberRangeHelper,
-}
+export { default as PluginsClientsMap } from './client/PluginsClientsMap'
+export { default as PluginCriterionContainer } from './containers/PluginCriterionContainer'
+export { default as numberRangeHelper } from './utils/NumberRangeHelper'
+export { initPlugin } from './utils/InitPlugin'
