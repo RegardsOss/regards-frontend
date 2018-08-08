@@ -44,7 +44,7 @@ const styles = theme => ({
   },
   descriptionDialog: {
     widthPercent: 88,
-    heightPercent: 68,
+    heightPercent: 88,
     body: { padding: '0', overflowY: 'none' },
     card: {
       style: {
@@ -73,9 +73,6 @@ const styles = theme => ({
               circleThickness: 1.5,
               messageStyle: { fontWeight: '0.8em', padding: '16px 0 0 16px', color: theme.subheader.color },
             },
-            descriptionTab: {
-              rootStyle: growingFlexElement,
-            },
             quicklook: {
               imageContainerZoomOut: {
                 display: 'flex',
@@ -94,6 +91,49 @@ const styles = theme => ({
               imageZoomIn: {
                 display: 'block',
                 margin: 'auto',
+              },
+            },
+            filesTab: {
+              rootStyle: {
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                flexGrow: 1,
+                flexShrink: 1,
+              },
+              fileOptions: {
+                position: 'absolute',
+                top: theme.module.description.filesOptions.top,
+                right: theme.module.description.filesOptions.right,
+                background: theme.module.description.filesOptions.background,
+                padding: theme.module.description.filesOptions.padding,
+                display: 'flex',
+                alignItems: 'center',
+                zIndex: 1,
+              },
+              fileContent: {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: 0,
+              },
+              fileMeaureDiv: {
+                width: '100%',
+                height: '100%',
+              },
+              centeredFileContent: {
+                height: '100%',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              },
+              contentBackground: {
+                height: '100%',
+                width: '100%',
+                background: theme.module.description.fileContentBackground,
               },
             },
             propertiesTab: {

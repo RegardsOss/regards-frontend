@@ -19,6 +19,7 @@
 import { Tab, Tabs } from 'material-ui/Tabs'
 import FlatButton from 'material-ui/FlatButton'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
+import { CommonDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { PositionedDialog } from '@regardsoss/components'
@@ -26,10 +27,10 @@ import { CatalogShapes } from '@regardsoss/shape'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
 import { DESCRIPTION_TABS, DESCRIPTION_TABS_ENUM, getAvailableTabs } from '../../model/DescriptionTabsEnum'
 import DescriptionBreadcrumbContainer from '../../containers/user/breadcrumb/DescriptionBreadcrumbContainer'
-import DescriptionFileContainer from '../../containers/user/file/DescriptionFileContainer'
+import FilesContainer from '../../containers/user/files/FilesContainer'
 import PropertiesTabComponent from './properties/PropertiesTabComponent'
-import DocumentFilesComponent from './file/DocumentFilesComponent'
 import DataQuicklookComponent from './quicklook/DataQuicklookComponent'
+
 
 /**
  * Main description module component. It show entity description view.
@@ -125,8 +126,9 @@ class EntityDescriptionComponent extends React.Component {
         label={formatMessage({ id: 'module.description.description.tabs' })}
         value={DESCRIPTION_TABS_ENUM.DESCRIPTION}
       >
-        <DescriptionFileContainer
+        <FilesContainer
           entity={entity}
+          fileType={CommonDomain.DataTypesEnum.DESCRIPTION}
           accessToken={accessToken}
           projectName={projectName}
         />
@@ -134,24 +136,24 @@ class EntityDescriptionComponent extends React.Component {
   }
 
   /**
-   * @return {React.Element} rendered files tab
+   * @return {React.Element} rendered document files tab
    */
-  renderFilesTab = () => {
+  renderDocumentFilesTab = () => {
     const { entity, accessToken, projectName } = this.props
     const { formatMessage } = this.context.intl
     return (
       <Tab
-        key="files"
+        key="documents"
         label={formatMessage({ id: 'module.description.files.tabs' })}
         value={DESCRIPTION_TABS_ENUM.FILES}
       >
-        <DocumentFilesComponent
+        <FilesContainer
           entity={entity}
+          fileType={CommonDomain.DataTypesEnum.DOCUMENT}
           accessToken={accessToken}
           projectName={projectName}
         />
-      </Tab>
-    )
+      </Tab>)
   }
 
   /**
@@ -220,7 +222,7 @@ class EntityDescriptionComponent extends React.Component {
                       case DESCRIPTION_TABS_ENUM.DESCRIPTION:
                         return this.renderDescriptionTab()
                       case DESCRIPTION_TABS_ENUM.FILES:
-                        return this.renderFilesTab()
+                        return this.renderDocumentFilesTab()
                       case DESCRIPTION_TABS_ENUM.QUICKLOOK:
                         return this.renderQuicklookTab()
                       default:

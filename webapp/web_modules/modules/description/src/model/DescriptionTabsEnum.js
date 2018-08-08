@@ -17,10 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import has from 'lodash/has'
-import isEmpty from 'lodash/isEmpty'
+import isNumber from 'lodash/isNumber'
 import values from 'lodash/values'
-import { CommonDomain, DamDomain } from '@regardsoss/domain'
+import { CommonDomain } from '@regardsoss/domain'
 
 /**
  * Possible description tabs enumeration. Provides tools to resolve available tabs for entity as parameter
@@ -39,22 +38,31 @@ export const DESCRIPTION_TABS_ENUM = {
 export const DESCRIPTION_TABS = values(DESCRIPTION_TABS_ENUM)
 
 /**
+ * Returns online files of a given file type in entity
+ * @param {*} entity entity
+ * @param {*} fileType fileType
+ * @return [DataFile] files found in entity for file type
+ */
+function getOnlineFiles(entity, fileType) {
+  return get(entity, `content.files.${fileType}`, []).filter(f => f.online)
+}
+
+/**
  * Computes if description file tab should be available for entity as parameter
  * @param {Entity} entity entity
  * @return {boolean} true if description tab should be available for entity
  */
 function isDescriptionTabAvailable(entity) {
-  return !isEmpty(get(entity, 'content.descriptionFile', {}))
+  return getOnlineFiles(entity, CommonDomain.DataTypesEnum.DESCRIPTION).length > 0
 }
 
-
 /**
- * Computes if files tab should be available for entity as parameter
+ * Computes if files tab (documents) should be available for entity as parameter
  * @param {Entity} entity entity
  * @return {boolean} true if files tab should be available for entity
  */
-function isFilesTabAvailableDocument(entity) {
-  return get(entity, 'content.entityType') === DamDomain.ENTITY_TYPES_ENUM.DOCUMENT
+function isFilesTabAvailable(entity) {
+  return getOnlineFiles(entity, CommonDomain.DataTypesEnum.DOCUMENT).length > 0
 }
 
 /**
@@ -63,8 +71,12 @@ function isFilesTabAvailableDocument(entity) {
  * @return {boolean} true if quicklook tab should be available for entity
  */
 function isQuicklookTabAvailable(entity) {
-  return has(entity, `content.files.${CommonDomain.DataTypesEnum.QUICKLOOK_SD}[0].imageWidth`) &&
-    has(entity, `content.files.${CommonDomain.DataTypesEnum.QUICKLOOK_SD}[0].imageHeight`)
+  const allValidQuicklooks = [
+    ...getOnlineFiles(entity, CommonDomain.DataTypesEnum.QUICKLOOK_SD),
+    ...getOnlineFiles(entity, CommonDomain.DataTypesEnum.QUICKLOOK_MD),
+    ...getOnlineFiles(entity, CommonDomain.DataTypesEnum.QUICKLOOK_HD),
+  ].filter(({ imageWidth, imageHeight }) => isNumber(imageWidth) && isNumber(imageHeight))
+  return allValidQuicklooks.length > 0
 }
 
 /**
@@ -77,7 +89,7 @@ export function getAvailableTabs(entity) {
   if (isDescriptionTabAvailable(entity)) {
     allTabs.push(DESCRIPTION_TABS_ENUM.DESCRIPTION)
   }
-  if (isFilesTabAvailableDocument(entity)) {
+  if (isFilesTabAvailable(entity)) {
     allTabs.push(DESCRIPTION_TABS_ENUM.FILES)
   }
   if (isQuicklookTabAvailable(entity)) {

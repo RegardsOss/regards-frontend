@@ -16,12 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalSelectors } from '@regardsoss/store-utils'
+import { DownloadFileActions } from '@regardsoss/store-utils'
 
-export default class DownloadEntityDescriptionSelectors extends BasicSignalSelectors {
+/**  */
+class DownloadEntityFileActions extends DownloadFileActions {
+  constructor() {
+    super({
+      entityEndpoint: '{filePath}',
+      namespace: 'description/download/file',
+      bypassErrorMiddleware: true,
+    })
+  }
+
   /**
-   * Returns downloaded file content. Fails if there is not download result
-   * @return file content
+   * Builds and returns action to download a file
+   * @param {string} filePath file path
+   * @return {*} redux action to start downloading file
    */
-  getFileContent = state => this.getResult(state).fileContent
+  downloadFile(filePath) {
+    return this.download({ filePath })
+  }
 }
+
+export const downloadEntityFileActions = new DownloadEntityFileActions()

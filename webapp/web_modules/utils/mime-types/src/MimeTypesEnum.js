@@ -24,6 +24,7 @@
 
 /** Raw mime types definitions (subset accessed as constant throughout the application) */
 export const MIME_TYPES = {
+  TEXT: 'text/plain',
   CSS_MIME_TYPE: 'text/css',
   GIF_MIME_TYPE: 'image/gif',
   HTML_MIME_TYPE: 'text/html',

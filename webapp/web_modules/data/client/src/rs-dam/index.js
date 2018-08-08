@@ -39,11 +39,6 @@ export { default as AttributeModelForModelTypeActions } from './attributesModel/
 export { default as AttributeModelForModelTypeReducer } from './attributesModel/AttributeModelForModelTypeReducer'
 export { default as AttributeModelForModelTypeSelectors } from './attributesModel/AttributeModelForModelTypeSelectors'
 
-export { default as DownloadDescriptionDefinitions } from './description/DownloadDescriptionDefinitions'
-export { default as DownloadEntityDescriptionActions } from './description/DownloadEntityDescriptionActions'
-export { default as DownloadEntityDescriptionReducer } from './description/DownloadEntityDescriptionReducer'
-export { default as DownloadEntityDescriptionSelectors } from './description/DownloadEntityDescriptionSelectors'
-
 export { default as ModelAttributesActions } from './modelAttributes/ModelAttributesActions'
 export { default as ModelAttributesReducer } from './modelAttributes/ModelAttributesReducer'
 export { default as ModelAttributesSelectors } from './modelAttributes/ModelAttributesSelectors'

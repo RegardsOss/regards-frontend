@@ -16,10 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DownloadDescriptionClient } from '@regardsoss/entities-common'
+import { shallow } from 'enzyme'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import FileLoadingComponent from '../../../../src/components/user/files/FileLoadingComponent'
+import styles from '../../../../src/styles'
 
-const clientInstance = new DownloadDescriptionClient('search-results/description', ['modules.search-results'])
-export default clientInstance
+const context = buildTestContext(styles)
 
-export const DATASET_REDUCER_PATH = DownloadDescriptionClient.LAST_DATASET_REDUCER_PATH_ELT
-export const COLLECTION_REDUCER_PATH = DownloadDescriptionClient.LAST_COLLECTION_REDUCER_PATH_ELT
+/**
+ * Test FileLoadingComponent
+ * @author Raphaël Mechali
+ */
+describe('[Description] Testing FileLoadingComponent', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  it('should exists', () => {
+    assert.isDefined(FileLoadingComponent)
+  })
+  it('should render correctly', () => {
+    shallow(<FileLoadingComponent />, { context })
+  })
+})

@@ -16,54 +16,42 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { MIME_TYPES } from '@regardsoss/mime-types'
+import { NoContentMessageInfo } from '@regardsoss/components'
 
 /**
-* Displays picture files
-* @author Raphaël Mechali
-*/
-class ImageFileDisplayer extends React.Component {
-  /**
-   * Maps MIME type to editor mode
-   */
-  static MIMETypes = [
-    MIME_TYPES.JPEG_MIME_TYPE,
-    MIME_TYPES.GIF_MIME_TYPE,
-    MIME_TYPES.PNG_MIME_TYPE,
-    MIME_TYPES.TIF_MIME_TYPE,
-  ]
-
-  static getSupportedMIMETypes() {
-    return ImageFileDisplayer.MIMETypes
-  }
-
-  static isSupportedType(mimeType) {
-    return ImageFileDisplayer.MIMETypes.includes(mimeType)
-  }
-
+ * Displays file loading for file tab
+ * @author Raphaël Mechali
+ */
+class FileMessageComponent extends React.Component {
   static propTypes = {
-    imageURL: PropTypes.string.isRequired,
+    titleKey: PropTypes.string.isRequired,
+    messageKey: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
-    ...i18nContextType,
     ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {
-    const { imageURL } = this.props
-    const { intl: { formatMessage }, moduleTheme: { image } } = this.context
+    const { titleKey, messageKey } = this.props
+    const { intl: { formatMessage }, moduleTheme } = this.context
+    const { centeredFileContent } = moduleTheme.descriptionDialog.card.media.tabs.tab.filesTab
     return (
-      <div style={image.containerStyles}>
-        <img
-          src={imageURL}
-          alt={formatMessage({ id: 'image.file.not.displayed' })}
-          style={image.styles}
-        />
+      <div style={centeredFileContent}>
+        <NoContentMessageInfo
+          noContent
+          title={formatMessage({ id: titleKey })}
+          message={formatMessage({ id: messageKey })}
+          Icon={NoDataIcon}
+        >
+          <div />
+        </NoContentMessageInfo >
       </div>
     )
   }
 }
-export default ImageFileDisplayer
+export default FileMessageComponent

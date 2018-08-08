@@ -16,20 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DataManagementClient } from '@regardsoss/client'
 
 /**
- * Client to fetch a document description file
+ * This files holds entity data files as they are returned by the backend
  * @author Raphaël Mechali
  */
 
-const namespace = 'description/collection/file'
-const downloadCollectionDescriptionActions = new DataManagementClient.DownloadEntityDescriptionActions(namespace)
-const downloadCollectionDescriptionReducer = DataManagementClient.DownloadEntityDescriptionReducer(namespace)
-const downloadCollectionDescriptionSelectors = new DataManagementClient.DownloadEntityDescriptionSelectors(['modules.description', 'collectionDescriptionFile'])
-
-module.exports = {
-  downloadCollectionDescriptionActions,
-  downloadCollectionDescriptionReducer,
-  downloadCollectionDescriptionSelectors,
-}
+export const dataFilesDump = [{
+  filename: 'temp.pdf',
+  reference: true,
+  mimeType: 'application/pdf',
+  filesize: 2500,
+  online: true,
+  uri: 'file://files/temp.pdf',
+}, {
+  filename: 'temp.md',
+  reference: false,
+  mimeType: 'text/markdown',
+  filesize: 5000,
+  online: true,
+  uri: 'file://files/temp.md',
+}, {
+  filename: 'temp.offline',
+  reference: false,
+  mimeType: 'text/idk',
+  filesize: 5000,
+  online: false,
+  uri: 'file://files/temp.offline',
+}]

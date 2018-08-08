@@ -16,20 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DataManagementClient } from '@regardsoss/client'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import LoadingDisplayerComponent from '../LoadingDisplayerComponent'
 
 /**
- * Client to fetch a dataset description file
+ * Displays file loading for file tab
  * @author Raphaël Mechali
  */
+class FileLoadingComponent extends React.Component {
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
 
-const namespace = 'description/dataset/file'
-const downloadDatasetDescriptionActions = new DataManagementClient.DownloadEntityDescriptionActions(namespace)
-const downloadDatasetDescriptionReducer = DataManagementClient.DownloadEntityDescriptionReducer(namespace)
-const downloadDatasetDescriptionSelectors = new DataManagementClient.DownloadEntityDescriptionSelectors(['modules.description', 'datasetDescriptionFile'])
-
-module.exports = {
-  downloadDatasetDescriptionActions,
-  downloadDatasetDescriptionReducer,
-  downloadDatasetDescriptionSelectors,
+  render() {
+    const { intl: { formatMessage }, moduleTheme } = this.context
+    const { centeredFileContent } = moduleTheme.descriptionDialog.card.media.tabs.tab.filesTab
+    return (
+      <div style={centeredFileContent}>
+        <LoadingDisplayerComponent message={formatMessage({ id: 'module.description.file.loading' })} />
+      </div>
+    )
+  }
 }
+export default FileLoadingComponent

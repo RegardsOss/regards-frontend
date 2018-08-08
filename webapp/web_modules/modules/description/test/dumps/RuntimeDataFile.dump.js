@@ -16,16 +16,36 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalReducers } from '@regardsoss/store-utils'
 
 /**
- * Reducer closure in actions context
+ * This files holds converted data files for runtime display
+ * @author Raphaël Mechali
  */
-const getReduceMethod = (downloadDescriptionActions) => {
-  // stored actions instance in context
-  const reducerInstance = new BasicSignalReducers(downloadDescriptionActions)
-  // return reduce method
-  return (state, action) => reducerInstance.reduce(state, action)
+
+export const pdfFile = {
+  filename: 'file1.pdf',
+  mimeType: 'application/pdf',
+  filesize: 10000,
+  uri: 'test://www.test.org/file1.pdf',
 }
 
-export default getReduceMethod
+export const markdownFile = {
+  filename: 'file2.md',
+  mimeType: 'text/markdown',
+  filesize: 5000,
+  uri: 'test://www.test.org/file2.md?token=ABCDE&origin=test://www.origin.org',
+}
+
+export const javascriptFile = {
+  filename: 'file3.js',
+  mimeType: 'application/javascript',
+  filesize: 1000000,
+  uri: 'test://www.test.org/file3.js',
+}
+
+export const epubFile = {
+  filename: 'file4.epub',
+  mimeType: 'application/epub+zip',
+  filesize: 100000,
+  uri: 'test://www.test.org/file4.epub',
+}

@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
+import { storage } from '@regardsoss/units'
 
 /**
  * Module english messages
@@ -71,14 +72,19 @@ const messages = {
   'module.description.properties.tag.show.description.tooltip': 'Show entity detail',
   'module.description.properties.thumbnail.alt.text': 'thumbnail',
 
-  'module.description.description.loading': 'Loading description information',
-  'module.description.description.no.value.title': 'No description',
-  'module.description.description.no.value.message': 'This entity has no description',
-  'module.description.document.files.no.value.title': 'No files',
-  'module.description.document.files.no.value.message': 'This document has no files',
+  'module.description.file.selector.file.label': '{filename} ({sizeMessage})',
+  'module.description.file.selector.file.unkown.size': 'unknown size',
+  'module.description.files.download.button': 'Download',
+  'module.description.file.loading': 'Loading file',
+  'module.description.file.media.unsuported.title': 'Unsupported media type',
+  'module.description.file.media.unsuported.message': 'The file preview cannot be displayed',
+  'module.description.files.error.title': 'Error downloading',
+  'module.description.files.error.message': 'The file could not be downloaded from server',
 
   // Forms i18n messages for admin
   ...Locales.en,
+  // Storage units messages
+  ...storage.messages.en,
 }
 
 export default messages

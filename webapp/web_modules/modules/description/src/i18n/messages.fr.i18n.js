@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
+import { storage } from '@regardsoss/units'
 
 /**
  * Module french messages
@@ -71,15 +72,19 @@ const messages = {
   'module.description.properties.tag.show.description.tooltip': 'Afficher les détails de l\'entité',
   'module.description.properties.thumbnail.alt.text': 'vignette',
 
-  'module.description.description.loading': 'Chargement de la description',
-  'module.description.description.no.value.title': 'Aucune description',
-  'module.description.description.no.value.message': 'Cette entité n\'a pas de description',
-  'module.description.document.files.no.value.title': 'Aucun fichier',
-  'module.description.document.files.no.value.message': 'Ce document n\'a pas de fichiers joints',
-
+  'module.description.file.selector.file.label': '{filename} ({sizeMessage})',
+  'module.description.file.selector.file.unkown.size': 'taille inconnue',
+  'module.description.files.download.button': 'Télécharger',
+  'module.description.file.loading': 'Chargement du fichier',
+  'module.description.file.media.unsuported.title': 'Type de fichier non supporté',
+  'module.description.file.media.unsuported.message': 'La prévisualisation du fichier ne peut pas être affichée',
+  'module.description.files.error.title': 'Erreur de chargement',
+  'module.description.files.error.message': 'Echec du téléchargement du fichier correspondant',
 
   // Forms i18n messages for admin
   ...Locales.fr,
+  // Storage units messages
+  ...storage.messages.fr,
 }
 
 export default messages

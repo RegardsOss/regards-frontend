@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { themeContextType } from '@regardsoss/theme'
-import buildStyles from '../styles/styles'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { styles } from '../styles'
 
 const HeadlessAdapter = ({ children }) => (<div>{children}</div>)
 HeadlessAdapter.propTypes = {
@@ -57,8 +57,7 @@ class ScrollAreaAdapter extends React.Component {
   scrollXTo = leftPosition => this.canDelegate() && this.delegateInstance.scrollXTo(leftPosition)
 
   render() {
-    const { muiTheme } = this.context
-    const moduleTheme = buildStyles(muiTheme)
+    const { moduleTheme } = this.context
 
     const RenderComponent = this.renderComponent
 
@@ -76,4 +75,5 @@ class ScrollAreaAdapter extends React.Component {
   }
 }
 
-export default ScrollAreaAdapter
+
+export default withModuleStyle(styles, true)(ScrollAreaAdapter)

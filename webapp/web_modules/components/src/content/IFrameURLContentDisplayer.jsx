@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CommonShapes } from '@regardsoss/shape'
 import { MIME_TYPES } from '@regardsoss/mime-types'
 
 /**
@@ -28,13 +27,14 @@ class IFrameURLContentDisplayer extends React.Component {
    * Maps MIME type to editor mode
    */
   static MIMETypes = [
+    MIME_TYPES.TEXT,
     MIME_TYPES.HTML_MIME_TYPE,
     MIME_TYPES.PDF_MIME_TYPE,
     MIME_TYPES.XHTML_MIME_TYPE,
   ]
 
   static propTypes = {
-    contentURL: CommonShapes.URL.isRequired,
+    contentURL: PropTypes.string.isRequired,
     onContentLoaded: PropTypes.func, // callback, called when IFrame content was loaded
     onContentError: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types

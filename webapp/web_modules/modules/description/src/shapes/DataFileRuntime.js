@@ -16,10 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DownloadDescriptionClient } from '@regardsoss/entities-common'
 
-const clientInstance = new DownloadDescriptionClient('search-graph', ['modules.search-graph'])
-export default clientInstance
+/**
+ * Holds shapes for data files as they are resolved by the file container for runtime
+ * @author Raphaël Mechali
+ */
 
-export const DATASET_REDUCER_PATH = DownloadDescriptionClient.LAST_DATASET_REDUCER_PATH_ELT
-export const COLLECTION_REDUCER_PATH = DownloadDescriptionClient.LAST_COLLECTION_REDUCER_PATH_ELT
+export const RuntimeDataFile = PropTypes.shape({
+  filename: PropTypes.string.isRequired,
+  mimeType: PropTypes.string.isRequired,
+  filesize: PropTypes.number,
+  uri: PropTypes.string.isRequired,
+})

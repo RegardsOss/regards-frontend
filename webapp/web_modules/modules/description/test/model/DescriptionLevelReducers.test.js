@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { assert } from 'chai'
-import { DamDomain } from '@regardsoss/domain'
+import { CommonDomain } from '@regardsoss/domain'
 import { DESCRIPTION_TABS_ENUM } from '../../src/model/DescriptionTabsEnum'
 import DescriptionLevelActions from '../../src/model/DescriptionLevelActions'
 import getReducer, { DescriptionLevelReducer } from '../../src/model/DescriptionLevelReducer'
@@ -42,7 +42,9 @@ describe('[Description] Test description level reducer', () => {
     // we create here an entity with files tab, to check that is is selected by default
     const entity = {
       content: {
-        entityType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
+        files: {
+          [CommonDomain.DataTypesEnum.DOCUMENT]: [{ online: true }],
+        },
       },
     }
     let reduced = reduce(currentState, descriptionLevelActions.initializeContext(entity))
@@ -50,11 +52,7 @@ describe('[Description] Test description level reducer', () => {
     assert.deepEqual(reduced, nextState, 'First show action should be correctly reduced')
 
     // we create an entity without any specific tab, to check PROPERTIES get selected by default
-    const entity2 = {
-      content: {
-        entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      },
-    }
+    const entity2 = {}
     currentState = nextState
     reduced = reduce(currentState, descriptionLevelActions.initializeContext(entity2))
     nextState = { currentDescriptionPath: [entity2], currentTab: DESCRIPTION_TABS_ENUM.PROPERTIES }
@@ -66,9 +64,9 @@ describe('[Description] Test description level reducer', () => {
   })
 
   it('Should reduce show related entity when there is a parent path', () => {
-    const entity1 = { content: { entityType: DamDomain.ENTITY_TYPES_ENUM.DATA } }
-    const entity2 = { content: { entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET } }
-    const entity3 = { content: { entityType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT } }
+    const entity1 = { content: { id: 'IDK1' } }
+    const entity2 = { content: { id: 'IDK2' } }
+    const entity3 = { content: { id: 'IDK3', files: { [CommonDomain.DataTypesEnum.DESCRIPTION]: [{ online: true }] } } }
     const reduced = reduce(
       reduce(
         reduce(DescriptionLevelReducer.DEFAULT_STATE, descriptionLevelActions.initializeContext(entity1)),
@@ -78,7 +76,7 @@ describe('[Description] Test description level reducer', () => {
     )
     assert.deepEqual(reduced, {
       currentDescriptionPath: [entity1, entity2, entity3],
-      currentTab: DESCRIPTION_TABS_ENUM.FILES, // the files tab should have been selected (as entity is document)
+      currentTab: DESCRIPTION_TABS_ENUM.DESCRIPTION, // the description tab should have been selected (as entity has an online description file)
     }, 'The reduced path is invalid')
   })
 

@@ -111,6 +111,13 @@ module.exports = baseTheme => ({
       attributeLabelTextDecoration: 'underline',
       attributeValuesPadding: '0.4em 20px 0.4em 0',
       attributeValuesTextDecoration: 'none',
+      fileContentBackground: 'white',
+      filesOptions: {
+        top: 60,
+        right: 40,
+        padding: '0 0 0 10px',
+        background: baseTheme.palette.primary1Color,
+      },
     },
     // menu module
     menu: {
