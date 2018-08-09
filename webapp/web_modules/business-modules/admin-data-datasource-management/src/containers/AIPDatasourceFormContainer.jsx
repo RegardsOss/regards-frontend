@@ -250,7 +250,7 @@ export class AIPDatasourceFormContainer extends React.Component {
     if (isCreating) {
       const datasource = {
         label: values.label,
-        pluginClassName: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.AipDataSourcePlugin',
+        pluginClassName: 'fr.cnes.regards.modules.dam.plugins.datasources.AipDataSourcePlugin',
         pluginId: 'aip-storage-datasource',
         interfaceNames: ['fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourcePlugin'],
         parameters,

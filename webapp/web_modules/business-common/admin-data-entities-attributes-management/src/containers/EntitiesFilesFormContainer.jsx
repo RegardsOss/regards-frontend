@@ -16,7 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
+import reject from 'lodash/reject'
+import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
@@ -43,6 +44,7 @@ export class EntitiesFilesFormContainer extends React.Component {
 
     // from mapDispatchToProps
     addFiles: PropTypes.func.isRequired,
+    removeFile: PropTypes.func.isRequired,
     removeOneFieldOfTheForm: PropTypes.func.isRequired,
   }
 
@@ -57,7 +59,7 @@ export class EntitiesFilesFormContainer extends React.Component {
 
   static mapDispatchToProps = dispatch => ({
     addFiles: (entityId, dataType, formValues, files) => dispatch(entityAttachmentActions.uploadEntityFile(entityId, dataType, formValues, files)),
-    removeFile: (entityId, documentFileChecksum) => dispatch(entityAttachmentActions.deleteEntity(documentFileChecksum, { entityId })),
+    removeFile: (entityId, documentFileChecksum) => dispatch(entityAttachmentActions.deleteEntityFile(entityId, documentFileChecksum)),
     removeOneFieldOfTheForm: (form, name) => dispatch(unregisterField(form, name)),
   })
   state = {
@@ -84,8 +86,33 @@ export class EntitiesFilesFormContainer extends React.Component {
         }
       })
   }
-  handleDeleteFile = (checksum) => {
-
+  handleDeleteFile = (type, file) => {
+    const { currentEntity } = this.props
+    if (file.reference) {
+      // remove the file reference from the entity and re save the entity
+      const newFileList = reject(get(currentEntity, `content.feature.files.${type}`), f => (
+        f.uri === file.uri
+      ))
+      const newEntity = {
+        ...currentEntity.content,
+        feature: {
+          ...currentEntity.content.feature,
+          files: {
+            ...currentEntity.content.feature.files,
+            [type]: newFileList,
+          },
+        },
+      }
+      this.props.handleUpdateEntity(newEntity)
+    } else {
+      // send a signal to remove that file from the entity
+      this.props.removeFile(currentEntity.content.feature.id, file.checksum)
+        .then((actionResult) => {
+          if (!actionResult.error) {
+            this.props.handleRefreshEntity()
+          }
+        })
+    }
   }
 
   render() {

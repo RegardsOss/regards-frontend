@@ -96,8 +96,12 @@ export class EntitiesFilesFormComponent extends React.Component {
       refs,
       ...files
     } = values
+    const formValues = {}
+    if (refs) {
+      formValues.refs = refs
+    }
     const { type } = this.state
-    this.props.onSubmit(type, { refs }, files)
+    this.props.onSubmit(type, formValues, files)
   }
   /**
    * @return {string} the list of extension allowed on the file input
@@ -116,9 +120,12 @@ export class EntitiesFilesFormComponent extends React.Component {
   /**
    * @return {string} link to see an associated file
    */
-  getDocumentUrlWithToken = (document) => {
+  getDocumentUrlWithToken = (file) => {
     const { accessToken } = this.props
-    return `${document.uri}?token=${accessToken}` || ''
+    if (file.reference) {
+      return file.uri
+    }
+    return `${file.uri}?token=${accessToken}` || ''
   }
 
   /**
@@ -300,7 +307,7 @@ export class EntitiesFilesFormComponent extends React.Component {
             <a href={this.getDocumentUrlWithToken(file)} target="_black" rel="noopener noreferrer">
               <Download />
             </a>
-            <IconButton onClick={() => this.props.handleDeleteFile(file.checksum)}>
+            <IconButton onClick={() => this.props.handleDeleteFile(this.state.type, file)}>
               <Remove />
             </IconButton>
           </div>
