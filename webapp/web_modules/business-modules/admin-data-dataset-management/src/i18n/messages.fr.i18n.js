@@ -58,6 +58,10 @@ const messages = Object.assign({
   'dataset.form.uiservices.services': 'Services IHMs',
   'dataset.form.uiservices.latestVersion': 'latest',
 
+  'dataset.form.files.action.cancel': 'Retour',
+  'dataset.form.files.action.next': 'Suite',
+  'dataset.form.files.subtitle': 'Ajouter un ou plusieurs fichier(s) de description au jeu de données pour expliquer son contenu. Trois formats de fichier sont supportés : HTML, PDF et Markdown.',
+  'dataset.form.files.title': 'Gestion des fichiers associés au jeu de données',
 
   'dataset.form.subsetting.subtitle': 'Mise en place du subsetting',
   'dataset.form.subsetting.attributes': 'Attributs du modèle d\'objet',

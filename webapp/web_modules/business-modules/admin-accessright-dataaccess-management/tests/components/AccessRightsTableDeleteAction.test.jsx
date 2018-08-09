@@ -46,7 +46,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessRightsTableDeleteAction',
       onDelete: () => { },
       entity: {
         content: {
-          datasetIpId: dataset.content.ipId,
+          datasetIpId: dataset.content.feature.id,
           dataset: dataset.content,
           accessRight: accessRight.content,
         },

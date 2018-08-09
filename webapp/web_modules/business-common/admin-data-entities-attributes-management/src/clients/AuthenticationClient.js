@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,22 +15,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { BasicListReducers } from '@regardsoss/store-utils'
-import { DocumentConfiguration } from '@regardsoss/api'
-import DocumentFileActions from './DocumentFileActions'
+ */
+import { AuthenticationClient } from '@regardsoss/client'
 
 /**
- * Redux store reducer for Document files entities
+ * Current user login information client.
+ *
  * @author Léo Mieulet
  */
-class DocumentFileReducer extends BasicListReducers {
-  constructor(namespace) {
-    super(DocumentConfiguration, new DocumentFileActions(namespace))
-  }
-}
+const ENTITIES_STORE_PATH = ['common', 'authentication']
 
-export default (namespace) => {
-  const instance = new DocumentFileReducer(namespace)
-  return (state, action) => instance.reduce(state, action)
-}
+export const authenticationSelectors = AuthenticationClient.AuthenticateSelectors(ENTITIES_STORE_PATH)
+

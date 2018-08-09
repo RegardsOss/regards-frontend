@@ -40,6 +40,8 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionEditLinksComponen
     const props = {
       backUrl: '#',
       doneUrl: '#',
+      projectName: 'project',
+      collectionId: '52',
       handleDelete: () => { },
       handleAdd: () => { },
       handleSearch: () => { },

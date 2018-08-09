@@ -77,6 +77,8 @@ export class CollectionEditLinksContainer extends React.Component {
       handleSearch={this.handleSearch}
       backUrl={this.getBackUrl()}
       doneUrl={this.getDoneUrl()}
+      projectName={this.props.params.project}
+      collectionId={this.props.params.collectionId}
     />)
 
   getDoneUrl = () => {

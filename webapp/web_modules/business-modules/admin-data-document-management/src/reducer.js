@@ -19,7 +19,6 @@
 import { combineReducers } from 'redux'
 import { collectionReducer } from './clients/CollectionClient'
 import { documentReducer } from './clients/DocumentClient'
-import { documentFileReducer } from './clients/DocumentFileClient'
 import { modelReducer } from './clients/ModelClient'
 import { modelAttributesReducer } from './clients/ModelAttributesClient'
 import { documentLinkReducer } from './clients/DocumentLinkClient'
@@ -31,7 +30,6 @@ const documentDataManagementReducer = combineReducers({
   document: documentReducer,
   model: modelReducer,
   'document-table': tableReducer,
-  'document-file': documentFileReducer,
   'model-attribute': modelAttributesReducer,
   'document-link': documentLinkReducer,
 })

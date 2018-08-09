@@ -18,27 +18,30 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { Stepper } from 'material-ui/Stepper'
-import CollectionStepperComponent from '../../src/components/CollectionStepperComponent'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
+import { EntitiesFilesFormContainer } from '@regardsoss/admin-data-entities-attributes-management'
+import { DatasetEditFilesComponent } from '../../src/components/DatasetEditFilesComponent'
 
-describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionStepperComponent', () => {
+const context = buildTestContext()
+
+describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditFilesComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(CollectionStepperComponent)
+    assert.isDefined(DatasetEditFilesComponent)
+    assert.isDefined(EntitiesFilesFormContainer)
   })
-  const context = buildTestContext()
-
   it('Render properly', () => {
     const props = {
-      stepIndex: 0,
-      isEditing: true,
-      currentCollectionId: '52',
-      projectName: 'project',
+      currentDataset: DumpProvider.getFirstEntity('DataManagementClient', 'Dataset'),
+      backURL: '#',
+      linksURL: '#',
+      handleRefreshEntity: () => {},
+      handleUpdateEntity: () => {},
     }
-    const enzymeWrapper = shallow(<CollectionStepperComponent {...props} />, { context })
-    expect(enzymeWrapper.find(Stepper)).to.have.length(1)
+
+    const enzymeWrapper = shallow(<DatasetEditFilesComponent {...props} />, { context })
+    expect(enzymeWrapper.find(EntitiesFilesFormContainer)).to.have.length(1)
   })
 })

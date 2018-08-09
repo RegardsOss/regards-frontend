@@ -96,10 +96,6 @@ export { default as DocumentActions } from './document/DocumentActions'
 export { default as getDocumentReducer } from './document/DocumentReducer'
 export { default as getDocumentSelectors } from './document/DocumentSelectors'
 
-
-export { default as DocumentFileActions } from './documentFile/DocumentFileActions'
-export { default as getDocumentFileReducer } from './documentFile/DocumentFileReducer'
-
 export { default as DocumentLinkActions } from './documentLink/DocumentLinkActions'
 export { default as getDocumentLinkReducer } from './documentLink/DocumentLinkReducer'
 

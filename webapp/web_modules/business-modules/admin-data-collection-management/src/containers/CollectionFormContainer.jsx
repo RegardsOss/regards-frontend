@@ -194,6 +194,7 @@ export class CollectionFormContainer extends React.Component {
             onSubmit={isEditing ? this.handleUpdate : this.handleCreate}
             handleUpdateModel={this.handleUpdateModel}
             backUrl={this.getBackUrl()}
+            projectName={this.props.params.project}
           />)
           }
         </LoadableContentDisplayDecorator>

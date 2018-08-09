@@ -21,16 +21,20 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
+import { DamDomain } from '@regardsoss/domain'
 import { EntitiesFilesFormContainer } from '@regardsoss/admin-data-entities-attributes-management'
 import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 
 /**
- * React component to list datasets.
+ * React component to list dataset files.
  */
 export class DatasetEditFilesComponent extends React.Component {
   static propTypes = {
-    backUrl: PropTypes.string.isRequired,
+    backURL: PropTypes.string.isRequired,
+    linksURL: PropTypes.string.isRequired,
     currentDataset: DataManagementShapes.Dataset,
+    handleRefreshEntity: PropTypes.func.isRequired,
+    handleUpdateEntity: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -38,13 +42,17 @@ export class DatasetEditFilesComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static allowedDataTypes = [DamDomain.DATATYPE_ENUM.DESCRIPTION]
+
   render() {
-    const { backUrl, currentDataset } = this.props
+    const {
+      backURL, linksURL, currentDataset, handleRefreshEntity, handleUpdateEntity,
+    } = this.props
     return (
       <Card>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.subtitle' })}
+          title={this.context.intl.formatMessage({ id: 'dataset.form.files.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'dataset.form.files.subtitle' })}
         />
         <DatasetStepperContainer
           stepIndex={2}
@@ -55,14 +63,17 @@ export class DatasetEditFilesComponent extends React.Component {
         <CardText>
           <EntitiesFilesFormContainer
             currentEntity={currentDataset}
+            allowedDataType={DatasetEditFilesComponent.allowedDataTypes}
+            handleRefreshEntity={handleRefreshEntity}
+            handleUpdateEntity={handleUpdateEntity}
           />
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.action.next' })}
-            mainButtonClick={this.handleSubmit}
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.action.cancel' })}
-            secondaryButtonUrl={backUrl}
+            mainButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.files.action.next' })}
+            mainButtonUrl={linksURL}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.files.action.cancel' })}
+            secondaryButtonUrl={backURL}
           />
         </CardActions>
       </Card>

@@ -50,6 +50,7 @@ const messages = Object.assign({
   'collection.create.title': 'Création d\'une collection',
   'collection.duplicate.title': 'Dupliquer la collection {name}',
   'collection.stepper.links': 'Edition des liens avec les autres collections',
+  'collection.stepper.files': 'Fichiers associés',
   'collection.stepper.attributes': 'Saisie des attributs d\'une collection',
 
   'collection.form.descriptionUrl': 'URL de la page décrivant le jeu de données',
@@ -69,6 +70,11 @@ const messages = Object.assign({
   'collection.table.refresh.button': 'Rafraîchir',
   'collection.no.collection.title': 'Pas de collection',
   'collection.no.collection.subtitle': 'Créez votre première collection',
+
+  'collection.form.files.action.cancel': 'Retour',
+  'collection.form.files.action.next': 'Suite',
+  'collection.form.files.subtitle': 'Ajouter un ou plusieurs fichier(s) de description à la collection pour expliquer son contenu. Trois formats de fichier sont supportés : HTML, PDF et Markdown.',
+  'collection.form.files.title': 'Gestion des fichiers associés à la collection',
 }, Locales.fr)
 
 export default messages

@@ -58,7 +58,7 @@ module.exports = {
           priorityOrder: 0,
           active: true,
           pluginClassName: 'fr.cnes.regards.modules.datasources.plugins.PostgreDataSourceFromSingleTablePlugin',
-          interfaceNames: ['fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourceFromSingleTablePlugin', 'fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourcePlugin'],
+          interfaceNames: ['fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourceFromSingleTablePlugin', 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDataSourcePlugin'],
           parameters: [{
             id: 18,
             name: 'connection',
@@ -70,7 +70,7 @@ module.exports = {
               priorityOrder: 0,
               active: true,
               pluginClassName: 'fr.cnes.regards.modules.datasources.plugins.DefaultPostgreConnectionPlugin',
-              interfaceNames: ['fr.cnes.regards.modules.datasources.plugins.interfaces.IDBConnectionPlugin', 'fr.cnes.regards.modules.datasources.plugins.interfaces.IConnectionPlugin'],
+              interfaceNames: ['fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBConnectionPlugin', 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IConnectionPlugin'],
               parameters: [{
                 id: 7,
                 name: 'minPoolSize',

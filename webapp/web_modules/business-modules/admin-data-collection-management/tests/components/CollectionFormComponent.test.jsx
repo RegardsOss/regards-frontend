@@ -37,6 +37,7 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionFormComponent', (
       currentCollection: DumpProvider.getFirstEntity('DataManagementClient', 'Collection'),
       onSubmit: () => { },
       backUrl: '#',
+      projectName: 'project',
       modelList: DumpProvider.get('DataManagementClient', 'Model'),
       modelAttributeList: DumpProvider.get('DataManagementClient', 'ModelAttribute'),
       isDuplicating: false,

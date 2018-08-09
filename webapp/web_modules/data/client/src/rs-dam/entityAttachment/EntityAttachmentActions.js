@@ -45,8 +45,8 @@ export default class EntityAttachmentActions extends BasicSignalsActions {
     })
   }
 
-  uploadEntityFile(urn, dataType, files) {
-    return this.getSubAction(EntityAttachmentActions.UPLOAD_FILES_ACTIONS).sendEntityUsingMultiPart('POST', {}, { files }, { urn, dataType })
+  uploadEntityFile(urn, dataType, formValues, files) {
+    return this.getSubAction(EntityAttachmentActions.UPLOAD_FILES_ACTIONS).sendEntityAndArrayOfFilesUsingMultiPart('POST', formValues, files, 'file', { urn, dataType })
   }
 
   deleteEntityFile(urn, checksum) {

@@ -34,3 +34,5 @@ export { default as DataFileController } from './DataFileController'
 
 export { default as IDBDatasourceParamsEnum } from './IDBDatasourceParamsEnum'
 export { default as IAIPDatasourceParamsEnum } from './IAIPDatasourceParamsEnum'
+
+export { DATATYPE, DATATYPE_ENUM } from './DataType'

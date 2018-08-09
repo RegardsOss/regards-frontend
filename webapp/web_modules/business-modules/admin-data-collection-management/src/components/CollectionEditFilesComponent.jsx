@@ -17,24 +17,25 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { DataManagementShapes } from '@regardsoss/shape'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { DamDomain } from '@regardsoss/domain'
 import { EntitiesFilesFormContainer } from '@regardsoss/admin-data-entities-attributes-management'
-import DocumentStepperContainer from '../containers/DocumentStepperContainer'
+import CollectionStepperComponent from './CollectionStepperComponent'
 
 /**
- * React component to list documents files.
+ * React component to list collection files.
  */
-export class DocumentEditFilesComponent extends React.Component {
+export class CollectionEditFilesComponent extends React.Component {
   static propTypes = {
-    document: DataManagementShapes.Document,
-    backUrl: PropTypes.string.isRequired,
-    linksUrl: PropTypes.string.isRequired,
+    backURL: PropTypes.string.isRequired,
+    linksURL: PropTypes.string.isRequired,
+    currentCollection: DataManagementShapes.Collection,
     handleRefreshEntity: PropTypes.func.isRequired,
     handleUpdateEntity: PropTypes.func.isRequired,
+    projectName: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -42,44 +43,38 @@ export class DocumentEditFilesComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static rowInputAndButtonStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  }
-
-  static allowedDataTypes = [DamDomain.DATATYPE_ENUM.DOCUMENT]
+  static allowedDataTypes = [DamDomain.DATATYPE_ENUM.DESCRIPTION]
 
   render() {
     const {
-      document, backUrl, linksUrl, handleRefreshEntity, handleUpdateEntity,
+      backURL, linksURL, currentCollection, handleRefreshEntity, handleUpdateEntity, projectName,
     } = this.props
     return (
       <Card>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'document.form.files.title' }, { name: document.content.name })}
-          subtitle={this.context.intl.formatMessage({ id: 'document.form.files.subtitle' })}
+          title={this.context.intl.formatMessage({ id: 'collection.form.files.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'collection.form.files.subtitle' })}
         />
-        <DocumentStepperContainer
+        <CollectionStepperComponent
           stepIndex={1}
           isEditing
-          currentDocumentId={document.content.id}
+          currentCollectionId={currentCollection.content.id}
+          projectName={projectName}
         />
         <CardText>
-
           <EntitiesFilesFormContainer
-            currentEntity={document}
-            allowedDataType={DocumentEditFilesComponent.allowedDataTypes}
+            currentEntity={currentCollection}
+            allowedDataType={CollectionEditFilesComponent.allowedDataTypes}
             handleRefreshEntity={handleRefreshEntity}
             handleUpdateEntity={handleUpdateEntity}
           />
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonLabel={this.context.intl.formatMessage({ id: 'document.form.files.action.next' })}
-            mainButtonUrl={linksUrl}
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'document.form.files.action.cancel' })}
-            secondaryButtonUrl={backUrl}
+            mainButtonLabel={this.context.intl.formatMessage({ id: 'collection.form.files.action.next' })}
+            mainButtonUrl={linksURL}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'collection.form.files.action.cancel' })}
+            secondaryButtonUrl={backURL}
           />
         </CardActions>
       </Card>
@@ -87,6 +82,5 @@ export class DocumentEditFilesComponent extends React.Component {
   }
 }
 
-
-export default DocumentEditFilesComponent
+export default CollectionEditFilesComponent
 

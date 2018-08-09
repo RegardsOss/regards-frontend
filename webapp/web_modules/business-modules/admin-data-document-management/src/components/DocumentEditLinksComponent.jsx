@@ -112,11 +112,11 @@ export class DocumentEditLinksComponent extends React.Component {
                 />
                 {map(remainingCollections, (collection, id) => (
                   <ListItem
-                    key={collection.content.ipId}
-                    primaryText={collection.content.label}
+                    key={collection.content.feature.id}
+                    primaryText={collection.content.feature.label}
                     rightIconButton={
                       <IconButton
-                        onClick={() => handleAdd(collection.content.ipId, false)}
+                        onClick={() => handleAdd(collection.content.feature.id, false)}
                         tooltip={this.context.intl.formatMessage({ id: 'document.form.links.remainingcollection.add.button' })}
                       >
                         <Add />
@@ -134,11 +134,11 @@ export class DocumentEditLinksComponent extends React.Component {
                 <Divider />
                 {map(linkedCollections, (collection, id) => (
                   <ListItem
-                    key={collection.content.ipId}
-                    primaryText={collection.content.label}
+                    key={collection.content.feature.id}
+                    primaryText={collection.content.feature.label}
                     rightIconButton={
                       <IconButton
-                        onClick={() => handleDelete(collection.content.ipId, false)}
+                        onClick={() => handleDelete(collection.content.feature.id, false)}
                         tooltip={this.context.intl.formatMessage({ id: 'document.form.links.collection.remove.button' })}
                       >
                         <Clear />

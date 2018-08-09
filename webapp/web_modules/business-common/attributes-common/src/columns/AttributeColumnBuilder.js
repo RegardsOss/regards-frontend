@@ -81,5 +81,8 @@ function buildAttributeColumn({
   return columnBuilder.build()
 }
 
-
-module.exports = { buildRenderDelegates, buildThumbnailDelegates, buildAttributeColumn }
+export default {
+  buildRenderDelegates,
+  buildThumbnailDelegates,
+  buildAttributeColumn,
+}

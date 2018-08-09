@@ -44,6 +44,8 @@ export class CollectionEditLinksComponent extends React.Component {
     handleSearch: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     doneUrl: PropTypes.string.isRequired,
+    projectName: PropTypes.string.isRequired,
+    collectionId: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -54,7 +56,7 @@ export class CollectionEditLinksComponent extends React.Component {
 
   render() {
     const {
-      linkedCollections, remainingCollections, handleAdd, handleDelete, handleSearch, doneUrl, backUrl,
+      linkedCollections, remainingCollections, handleAdd, handleDelete, handleSearch, doneUrl, backUrl, projectName, collectionId,
     } = this.props
     return (
       <Card>
@@ -62,7 +64,12 @@ export class CollectionEditLinksComponent extends React.Component {
           title={this.context.intl.formatMessage({ id: 'collection.form.links.title' })}
           subtitle={this.context.intl.formatMessage({ id: 'collection.form.links.subtitle' })}
         />
-        <CollectionStepperComponent stepIndex={1} />
+        <CollectionStepperComponent
+          stepIndex={2}
+          isEditing
+          projectName={projectName}
+          currentCollectionId={collectionId}
+        />
         <CardText>
           <div className="row">
             <div className="col-sm-48">

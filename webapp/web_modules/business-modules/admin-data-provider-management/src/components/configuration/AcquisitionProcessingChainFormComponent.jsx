@@ -271,8 +271,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   component={RenderArrayObjectField}
                   elementLabel={this.renderFileInfoItemLabel}
                   fieldComponent={AcquisitionFileInfoComponent}
-                  getEmptyObject={this.getEmptyMetaFile}
-                  duplicationTransfromation={this.duplicateMetaFile}
                   canBeEmpty={false}
                   listHeight="600px"
                   validate={required}

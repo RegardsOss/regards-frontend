@@ -19,12 +19,8 @@
 import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
-import { browserHistory } from 'react-router'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { unregisterField } from 'redux-form'
-import { authenticationSelectors } from '../clients/AuthenticationClient'
 import { documentActions, documentSelectors } from '../clients/DocumentClient'
-import { documentFileActions } from '../clients/DocumentFileClient'
 import DocumentEditFilesComponent from '../components/DocumentEditFilesComponent'
 import messages from '../i18n'
 
@@ -40,12 +36,9 @@ export class DocumentEditFilesContainer extends React.Component {
     }),
     // from mapStateToProps
     currentDocument: DataManagementShapes.Document,
-    accessToken: PropTypes.string,
     // from mapDispatchToProps
-    addFiles: PropTypes.func,
-    removeFile: PropTypes.func,
-    unregisterField: PropTypes.func,
     fetchDocument: PropTypes.func,
+    updateDocument: PropTypes.func,
   }
 
   state = {
@@ -59,7 +52,6 @@ export class DocumentEditFilesContainer extends React.Component {
       .then(() => {
         this.setState({
           isLoading: false,
-          isSendingFiles: false,
         })
       })
   }
@@ -68,58 +60,39 @@ export class DocumentEditFilesContainer extends React.Component {
     const { params: { project, documentId } } = this.props
     return `/admin/${project}/data/acquisition/document/${documentId}/edit`
   }
+  getLinksUrl = () => {
+    const { params: { project, documentId } } = this.props
+    return `/admin/${project}/data/acquisition/document/${documentId}/links`
+  }
 
   getComponent = () => {
-    const { currentDocument, accessToken } = this.props
+    const { currentDocument } = this.props
     return (
       <DocumentEditFilesComponent
         document={currentDocument}
-        accessToken={accessToken}
         handleDeleteDocFile={this.handleDeleteDocFile}
         onSubmit={this.handleSubmit}
         backUrl={this.getBackUrl()}
-        removeOneFieldOfTheForm={this.props.unregisterField}
+        linksUrl={this.getLinksUrl()}
+        handleRefreshEntity={this.handleRefreshEntity}
+        handleUpdateEntity={this.handleUpdateEntity}
       />)
   }
 
-  redirectToLinksPage = () => {
-    const { params: { project, documentId } } = this.props
-    const url = `/admin/${project}/data/acquisition/document/${documentId}/links`
-    browserHistory.push(url)
+  handleRefreshEntity = () => {
+    this.props.fetchDocument(this.props.params.documentId)
   }
 
-  /**
-   * When the user sends file(s)
-   * @param tag
-   */
-  handleSubmit = (values) => {
-    this.setState({
-      isSendingFiles: true,
-    })
-    Promise.resolve(this.props.addFiles(values, this.props.params.documentId))
-      .then((actionResult) => {
-        this.setState({
-          isSendingFiles: false,
-        })
-        // We receive here the action
-        if (!actionResult.error) {
-          this.redirectToLinksPage()
-        }
-      })
+  handleUpdateEntity = (entity) => {
+    this.props.updateDocument(this.props.params.documentId, entity)
   }
-  /**
-   * When the user remove a file
-   * @param tag
-   */
-  handleDeleteDocFile = documentFileChecksum => Promise.resolve(this.props.removeFile(this.props.currentDocument.content.id, documentFileChecksum))
-    .then(actionResult => this.props.fetchDocument(this.props.currentDocument.content.id))
 
   render() {
-    const { isLoading, isSendingFiles } = this.state
+    const { isLoading } = this.state
     return (
       <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
-          isLoading={isLoading || isSendingFiles}
+          isLoading={isLoading}
         >
           {this.getComponent}
         </LoadableContentDisplayDecorator>
@@ -130,14 +103,11 @@ export class DocumentEditFilesContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   currentDocument: documentSelectors.getById(state, ownProps.params.documentId),
-  accessToken: authenticationSelectors.getAccessToken(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchDocument: id => dispatch(documentActions.fetchEntity(id)),
-  addFiles: (files, docId) => dispatch(documentFileActions.sendMultipleFiles({}, files, 'files', { document_id: docId })),
-  removeFile: (docId, documentFileChecksum) => dispatch(documentFileActions.deleteEntity(documentFileChecksum, { document_id: docId })),
-  unregisterField: (form, name) => dispatch(unregisterField(form, name)),
+  updateDocument: (id, entity) => dispatch(documentActions.updateEntity(id, entity)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocumentEditFilesContainer)

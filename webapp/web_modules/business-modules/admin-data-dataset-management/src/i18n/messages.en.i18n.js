@@ -58,6 +58,11 @@ const messages = Object.assign({
   'dataset.form.uiservices.services': 'Services UI',
   'dataset.form.uiservices.latestVersion': 'latest',
 
+  'dataset.form.files.action.cancel': 'Back',
+  'dataset.form.files.action.next': 'Next',
+  'dataset.form.files.subtitle': 'Add one or more description file(s) to the dataset to explain its content. Three file formats are allowed : HTML, PDF and Markdown.',
+  'dataset.form.files.title': 'Manage files associated with the dataset',
+
 
   'dataset.form.subsetting.subtitle': 'Setup subsetting',
   'dataset.form.subsetting.attributes': 'Attribute from object model',

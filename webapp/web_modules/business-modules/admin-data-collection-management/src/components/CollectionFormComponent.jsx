@@ -52,6 +52,7 @@ export class CollectionFormComponent extends React.Component {
     modelAttributeList: DataManagementShapes.ModelAttributeList,
     isDuplicating: PropTypes.bool,
     handleUpdateModel: PropTypes.func.isRequired,
+    projectName: PropTypes.string.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
@@ -166,9 +167,11 @@ export class CollectionFormComponent extends React.Component {
 
   render() {
     const {
-      modelList, modelAttributeList, submitting, invalid, backUrl,
+      modelList, modelAttributeList, submitting, invalid, backUrl, projectName, currentCollection,
     } = this.props
-    const { showDescriptionMode, disableNoDescription } = this.state
+    const {
+      showDescriptionMode, disableNoDescription, isCreating, isDuplicating,
+    } = this.state
     const title = this.getTitle()
     return (
       <form
@@ -179,7 +182,12 @@ export class CollectionFormComponent extends React.Component {
             title={title}
             subtitle={this.context.intl.formatMessage({ id: 'collection.form.subtitle' })}
           />
-          <CollectionStepperComponent stepIndex={0} />
+          <CollectionStepperComponent
+            currentCollectionId={!isCreating && !isDuplicating && currentCollection.content.id}
+            stepIndex={0}
+            isEditing={!isCreating && !isDuplicating}
+            projectName={projectName}
+          />
           <CardText>
             <Field
               name="providerId"

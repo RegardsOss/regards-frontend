@@ -20,33 +20,33 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { DataManagementShapes } from '@regardsoss/shape'
-import DatasetEditFilesComponent from '../components/DatasetEditFilesComponent'
-import { datasetSelectors, datasetActions } from './../clients/DatasetClient'
+import CollectionEditFilesComponent from '../components/CollectionEditFilesComponent'
+import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
 import messages from '../i18n'
 
-export class DatasetEditFilesContainer extends React.Component {
+export class CollectionEditFilesContainer extends React.Component {
   static propTypes = {
     // from router
     params: PropTypes.shape({
-      project: PropTypes.string.isRequired,
-      datasetId: PropTypes.string.isRequired,
+      project: PropTypes.string,
+      collectionId: PropTypes.string,
     }).isRequired,
 
     // from mapStateToProps
-    currentDataset: DataManagementShapes.Dataset,
+    currentCollection: DataManagementShapes.Collection,
 
     // from mapDispatchToProps
-    fetchDataset: PropTypes.func,
-    updateDataset: PropTypes.func,
+    fetchCollection: PropTypes.func,
+    updateCollection: PropTypes.func,
   }
 
   static mapStateToProps = (state, ownProps) => ({
-    currentDataset: datasetSelectors.getById(state, ownProps.params.datasetId),
+    currentCollection: collectionSelectors.getById(state, ownProps.params.collectionId),
   })
 
   static mapDispatchToProps = dispatch => ({
-    fetchDataset: id => dispatch(datasetActions.fetchEntity(id)),
-    updateDataset: (id, entity) => dispatch(datasetActions.updateEntity(id, entity)),
+    fetchCollection: id => dispatch(collectionActions.fetchEntity(id)),
+    updateCollection: (id, entity) => dispatch(collectionActions.updateEntity(id, entity)),
   })
 
   state = {
@@ -54,7 +54,7 @@ export class DatasetEditFilesContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchDataset(this.props.params.datasetId)
+    this.props.fetchCollection(this.props.params.collectionId)
       .then(() =>
         this.setState({
           isLoading: false,
@@ -62,22 +62,23 @@ export class DatasetEditFilesContainer extends React.Component {
   }
 
   getBackUrl = () => {
-    const { params: { project }, currentDataset } = this.props
-    return `/admin/${project}/data/collections/dataset/${currentDataset.content.id}/edit`
+    const { params: { project }, currentCollection } = this.props
+    return `/admin/${project}/data/collections/collection/${currentCollection.content.id}/edit`
   }
 
   getLinksUrl = () => {
-    const { params: { project }, currentDataset } = this.props
-    return `/admin/${project}/data/collections/dataset/${currentDataset.content.id}/links`
+    const { params: { project }, currentCollection } = this.props
+    return `/admin/${project}/data/collections/collection/${currentCollection.content.id}/links`
   }
 
   getForm = () => {
-    const { currentDataset } = this.props
+    const { currentCollection } = this.props
     return (
-      <DatasetEditFilesComponent
-        currentDataset={currentDataset}
+      <CollectionEditFilesComponent
+        currentCollection={currentCollection}
         backURL={this.getBackUrl()}
         linksURL={this.getLinksUrl()}
+        projectName={this.props.params.project}
         handleRefreshEntity={this.handleRefreshEntity}
         handleUpdateEntity={this.handleUpdateEntity}
       />
@@ -85,12 +86,13 @@ export class DatasetEditFilesContainer extends React.Component {
   }
 
   handleRefreshEntity = () => {
-    this.props.fetchDataset(this.props.params.datasetId)
+    this.props.fetchCollection(this.props.params.collectionId)
   }
 
   handleUpdateEntity = (entity) => {
-    this.props.updateDataset(this.props.params.datasetId, entity)
+    this.props.updateCollection(this.props.params.collectionId, entity)
   }
+
 
   render() {
     const { isLoading } = this.state
@@ -107,4 +109,4 @@ export class DatasetEditFilesContainer extends React.Component {
 }
 
 
-export default connect(DatasetEditFilesContainer.mapStateToProps, DatasetEditFilesContainer.mapDispatchToProps)(DatasetEditFilesContainer)
+export default connect(CollectionEditFilesContainer.mapStateToProps, CollectionEditFilesContainer.mapDispatchToProps)(CollectionEditFilesContainer)

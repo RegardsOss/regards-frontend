@@ -50,6 +50,7 @@ const messages = Object.assign({
   'collection.create.title': 'Create a collection',
   'collection.duplicate.title': 'Duplicate the collection {name}',
   'collection.stepper.links': 'Edit links with others collections',
+  'collection.stepper.files': 'Associated files',
   'collection.stepper.attributes': 'Setup collection attributes',
 
   'collection.form.descriptionUrl': 'Page URL describing the dataset',
@@ -69,6 +70,11 @@ const messages = Object.assign({
   'collection.table.refresh.button': 'Refresh',
   'collection.no.collection.title': 'No collections',
   'collection.no.collection.subtitle': 'Create your first collection',
+
+  'collection.form.files.action.cancel': 'Back',
+  'collection.form.files.action.next': 'Next',
+  'collection.form.files.subtitle': 'Add one or more description file(s) to the dataset to explain its content. Three file formats are allowed : HTML, PDF and Markdown.',
+  'collection.form.files.title': 'Manage files associated with the dataset',
 }, Locales.en)
 
 export default messages
