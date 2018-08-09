@@ -16,4 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { default as SelectLocaleContainer } from './containers/SelectLocaleContainer'
+
+/**
+ * @author Léo Mieulet
+ */
+const aipStatus = {
+  VALID: 'VALID',
+  PENDING: 'PENDING',
+  STORING_METADATA: 'STORING_METADATA',
+  STORED: 'STORED',
+  STORAGE_ERROR: 'STORAGE_ERROR',
+  UPDATED: 'UPDATED',
+  DELETED: 'DELETED',
+}
+
+export default aipStatus

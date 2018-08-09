@@ -25,6 +25,7 @@ const messages = {
   'ingest.board.action.chain.list.tooltip': 'Configurer les chaînes d\'ingestion',
   'ingest.board.action.monitor.tooltip': 'Visualiser les soumissions',
   'ingest.board.action.sumition.tooltip': 'Soumettre des données',
+  'data.board.action.aip-management.tooltip': 'Visualiser les AIPs',
 
   'data-provider.board.title': 'Automatisation',
   'data-provider.board.description': 'Cette fonctionalité vous permet de configurer des processus d\'ajout automatique des nouvelles données détectées. Pour chaque donnée détectée, un paquet d\'information (SIP) est généré et ensuite fourni au système pour soumission.',

@@ -16,4 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { default as SelectLocaleContainer } from './containers/SelectLocaleContainer'
+import { combineReducers } from 'redux'
+import { aipReducer } from './clients/AIPClient'
+import { aipSessionReducer } from './clients/AIPSessionClient'
+import { aipTagReducer } from './clients/AIPTagClient'
+import { tableReducer } from './clients/TableClient'
+import { aipFileReducer } from './clients/AIPFileClient'
+
+const aipManagementReducer = combineReducers({
+  aip: aipReducer,
+  'aip-session': aipSessionReducer,
+  'aip-tag': aipTagReducer,
+  'aip-file': aipFileReducer,
+  table: tableReducer,
+})
+
+export default aipManagementReducer

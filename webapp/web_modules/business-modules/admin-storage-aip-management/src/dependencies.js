@@ -16,4 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { default as SelectLocaleContainer } from './containers/SelectLocaleContainer'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { aipActions } from './clients/AIPClient'
+/**
+ * Module hateoas depencies
+ * @author Léo Mieulet
+ */
+
+/**
+ * Mandatory Dependencies to display module in parent board
+ * @type {Array}
+ */
+const listDependencies = [
+  aipActions.getDependency(RequestVerbEnum.GET_LIST),
+]
+
+/**
+ * Mandatory Dependencies to display module in parent board
+ * @type {Array}
+ */
+const addDependencies = [
+  aipActions.getDependency(RequestVerbEnum.POST),
+]
+
+module.exports = {
+  listDependencies,
+  addDependencies,
+}

@@ -16,4 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { default as SelectLocaleContainer } from './containers/SelectLocaleContainer'
+import en from './messages.en.i18n'
+import fr from './messages.fr.i18n'
+
+module.exports = {
+  en,
+  fr,
+}

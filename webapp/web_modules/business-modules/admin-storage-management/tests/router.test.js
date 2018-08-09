@@ -18,6 +18,7 @@
  **/
 import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { aipManagementRouter } from '@regardsoss/admin-storage-aip-management'
 import Routes from '../src/router'
 import PrioritizedDataStorageFormContainer from '../src/containers/PrioritizedDataStorageFormContainer'
 import PrioritizedDataStoragesComponent from '../src/components/PrioritizedDataStoragesComponent'
@@ -26,7 +27,6 @@ import AllocationStrategyListContainer from '../src/containers/allocations/Alloc
 import AllocationStrategyFormContainer from '../src/containers/allocations/AllocationStrategyFormContainer'
 import SecurityDelegationListContainer from '../src/containers/security/SecurityDelegationListContainer'
 import SecurityDelegationFormContainer from '../src/containers/security/SecurityDelegationFormContainer'
-
 /**
  * @author Sébastien Binda
  */
@@ -36,7 +36,7 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing storage router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(10)
+    expect(Routes.childRoutes).to.have.length(11)
     expect(Routes.childRoutes[0].path).to.eq('storages')
     expect(Routes.childRoutes[1].path).to.eq('storages/:type/create')
     expect(Routes.childRoutes[2].path).to.eq('storages/:type/:id/:mode')
@@ -47,6 +47,7 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing storage router', () => {
     expect(Routes.childRoutes[7].path).to.eq('security')
     expect(Routes.childRoutes[8].path).to.eq('security/create')
     expect(Routes.childRoutes[9].path).to.eq('security/:id/:mode')
+    expect(Routes.childRoutes[10].path).to.eq('aip')
   })
   it('board should return PrioritizedDataStoragesComponent', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -105,6 +106,12 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing storage router', () => {
   it('security/:id/:mode should return SecurityDelegationFormContainer', (done) => {
     Routes.childRoutes[9].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(SecurityDelegationFormContainer)
+      done()
+    })
+  })
+  it('aip should return aipManagementRouter', (done) => {
+    Routes.childRoutes[10].getChildRoutes(undefined, (smth, component) => {
+      expect(component[0]).to.eq(aipManagementRouter)
       done()
     })
   })

@@ -16,4 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { default as SelectLocaleContainer } from './containers/SelectLocaleContainer'
+import aipManagementRouter from './router'
+import aipManagementReducer from './reducer'
+import aipDependencies from './dependencies'
+
+module.exports = {
+  aipManagementReducer,
+  aipManagementRouter,
+  aipDependencies,
+}

@@ -25,6 +25,7 @@ const messages = {
   'ingest.board.action.chain.list.tooltip': 'Configure processing chains',
   'ingest.board.action.monitor.tooltip': 'Monitor submissions',
   'ingest.board.action.sumition.tooltip': 'Submit datas',
+  'data.board.action.aip-management.tooltip': 'Monitor AIPs',
 
   'data-provider.board.title': 'Automation',
   'data-provider.board.description': 'This feature allows you to configure an automatic process to add new detected datas. These processes generate Submission Information Package (SIP) to be provided to the system for submission.',
