@@ -42,7 +42,7 @@ export class DatasetEditFilesComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static allowedDataTypes = [DamDomain.DATATYPE_ENUM.DESCRIPTION]
+  static allowedDataTypes = [DamDomain.DATATYPE_ENUM.DESCRIPTION, DamDomain.DATATYPE_ENUM.THUMBNAIL]
 
   render() {
     const {

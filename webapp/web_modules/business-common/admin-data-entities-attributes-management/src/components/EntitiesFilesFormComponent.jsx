@@ -111,8 +111,9 @@ export class EntitiesFilesFormComponent extends React.Component {
       case DamDomain.DATATYPE_ENUM.THUMBNAIL:
         return '.jpg,.jpeg,.png,.gif'
       case DamDomain.DATATYPE_ENUM.DESCRIPTION:
+        return '.md,.pdf,.html'
       case DamDomain.DATATYPE_ENUM.DOCUMENT:
-        return '.md,.pdf'
+        return '.md,.pdf,.html,.zip,.tar,.rar'
       default:
         return ''
     }
@@ -151,8 +152,9 @@ export class EntitiesFilesFormComponent extends React.Component {
       case DamDomain.DATATYPE_ENUM.THUMBNAIL:
         return [CommonDomain.MimeTypes.jpg, CommonDomain.MimeTypes.png, CommonDomain.MimeTypes.gif]
       case DamDomain.DATATYPE_ENUM.DESCRIPTION:
-      case DamDomain.DATATYPE_ENUM.DOCUMENT:
         return [CommonDomain.MimeTypes.pdf, CommonDomain.MimeTypes.md, CommonDomain.MimeTypes.html]
+      case DamDomain.DATATYPE_ENUM.DOCUMENT:
+        return [CommonDomain.MimeTypes.pdf, CommonDomain.MimeTypes.md, CommonDomain.MimeTypes.html, CommonDomain.MimeTypes.zip, CommonDomain.MimeTypes.tar, CommonDomain.MimeTypes.rar]
       default:
         return []
     }

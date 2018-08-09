@@ -429,7 +429,7 @@ export class SearchResultsContainer extends React.Component {
       parameters.push(OpenSearchQuery.buildTagParameter(datasetTag ? datasetTag.searchKey : ''))
       // check user is currently showing only quicklook pictures
       if (displayOnlyQuicklook) {
-        quicklookQuery = 'exists=files.QUICKLOOK_SD'
+        quicklookQuery = 'exists=feature.files.QUICKLOOK_SD'
       }
     } else if (viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATASET) {
       // 2 - Showing datasets: use specific dataset actions to cut down fetch time when possible
