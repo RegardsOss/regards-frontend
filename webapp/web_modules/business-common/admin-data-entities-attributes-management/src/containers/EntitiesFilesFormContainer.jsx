@@ -30,7 +30,7 @@ import { authenticationSelectors } from '../clients/AuthenticationClient'
 import messages from '../i18n'
 
 /**
- * Form component to edit datasets/collection attributes that the admin has to define.
+ * Form component to edit datasets/collection/document files.
  */
 export class EntitiesFilesFormContainer extends React.Component {
   static propTypes = {

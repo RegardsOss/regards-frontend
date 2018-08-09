@@ -48,7 +48,7 @@ const STATE = {
   FORM: 'FORM',
 }
 /**
- * Form component to edit datasets/collection attributes that the admin has to define.
+ * Form component to edit datasets/collection/documents files.
  */
 export class EntitiesFilesFormComponent extends React.Component {
   static propTypes = {
@@ -250,7 +250,6 @@ export class EntitiesFilesFormComponent extends React.Component {
           fieldProps={this.getFilesRefProps()}
           canBeEmpty
           listHeight="450px"
-
         />
         <CardActionsComponent
           mainButtonLabel={this.context.intl.formatMessage({ id: 'entities-files.form.upload.action.send' })}

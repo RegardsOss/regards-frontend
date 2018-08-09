@@ -25,9 +25,9 @@ import messages from '../i18n'
 
 
 /**
-* Render for selected levels field
+* Render for form for external file
 */
-class EntitiesFilesRefFieldArray extends React.Component {
+export class EntitiesFilesRefFieldArray extends React.Component {
   static propTypes = {
     mimeTypeList: PropTypes.arrayOf(PropTypes.string),
     name: PropTypes.string.isRequired,
