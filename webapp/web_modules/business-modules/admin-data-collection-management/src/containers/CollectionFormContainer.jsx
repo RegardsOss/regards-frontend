@@ -129,14 +129,6 @@ export class CollectionFormContainer extends React.Component {
     if (this.state.isDuplicating) {
       defaultValues.tags = this.props.currentCollection.content.tags
     }
-    // TODO delete me ASAP
-    // const descriptionFile = getAbstractEntityDescription(values.descriptionFileContent, values.descriptionUrl)
-    const files = {}
-    //TODO files
-    // Send the file if there is
-    if (values.descriptionFileContent) {
-      files.file = values.descriptionFileContent
-    }
     const apiValues = Object.assign({}, defaultValues, {
       feature: {
         providerId: values.providerId,

@@ -17,27 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import has from 'lodash/has'
-import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, Field, RenderFileFieldWithMui, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { RenderTextField, RenderSelectField, Field, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { EntitiesAttributesFormContainer, getInitialFormValues } from '@regardsoss/admin-data-entities-attributes-management'
 import MenuItem from 'material-ui/MenuItem'
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import CollectionStepperComponent from './CollectionStepperComponent'
 
-const DESCRIPTION_MODE = {
-  NOTHING: 'nothing',
-  FILE: 'file',
-  FILE_ALREADY_DEFINED: 'file_already_defined',
-  URL: 'url',
-}
 
 const lessThan128 = ValidationHelpers.lengthLessThan(128)
 /**
@@ -58,7 +48,6 @@ export class CollectionFormComponent extends React.Component {
     invalid: PropTypes.bool,
     handleSubmit: PropTypes.func,
     initialize: PropTypes.func,
-    change: PropTypes.func,
   }
 
   static contextTypes = {
@@ -69,21 +58,8 @@ export class CollectionFormComponent extends React.Component {
   constructor(props) {
     super(props)
     const isCreating = isNil(props.currentCollection)
-
-    let showDescriptionMode = DESCRIPTION_MODE.NOTHING
-    let disableNoDescription = false
-    if (!isCreating) {
-      if (has(props.currentCollection.content, 'descriptionFile.url')) {
-        showDescriptionMode = DESCRIPTION_MODE.URL
-      } else if (has(props.currentCollection.content, 'descriptionFile.type')) {
-        showDescriptionMode = DESCRIPTION_MODE.FILE
-        disableNoDescription = true
-      }
-    }
     this.state = {
       isCreating,
-      disableNoDescription,
-      showDescriptionMode,
       isDuplicating: props.isDuplicating,
       isDisplayAttributeValue: !isCreating,
     }
@@ -91,32 +67,6 @@ export class CollectionFormComponent extends React.Component {
 
   componentDidMount() {
     this.handleInitialize()
-  }
-
-  onChange = (event, value) => {
-    switch (value) {
-      case DESCRIPTION_MODE.FILE:
-        this.props.change('descriptionUrl', '')
-        this.setState({
-          showDescriptionMode: DESCRIPTION_MODE.FILE,
-        })
-        break
-      case DESCRIPTION_MODE.URL:
-        this.props.change('descriptionFileContent', '')
-        this.setState({
-          showDescriptionMode: DESCRIPTION_MODE.URL,
-        })
-        break
-      case DESCRIPTION_MODE.NOTHING:
-        this.props.change('descriptionFileContent', '')
-        this.props.change('descriptionUrl', '')
-        this.setState({
-          showDescriptionMode: DESCRIPTION_MODE.NOTHING,
-        })
-        break
-      default:
-        throw new Error('Unexpected state')
-    }
   }
 
   getTitle = () => {
@@ -143,7 +93,6 @@ export class CollectionFormComponent extends React.Component {
         label: currentCollection.content.feature.label,
         geometry: currentCollection.content.feature.geometry,
         model: currentCollection.content.feature.model,
-        descriptionUrl: get(currentCollection.content, 'descriptionFile.url', undefined),
         properties,
       }
       this.props.initialize(initialValues)
@@ -170,7 +119,7 @@ export class CollectionFormComponent extends React.Component {
       modelList, modelAttributeList, submitting, invalid, backUrl, projectName, currentCollection,
     } = this.props
     const {
-      showDescriptionMode, disableNoDescription, isCreating, isDuplicating,
+      isCreating, isDuplicating,
     } = this.state
     const title = this.getTitle()
     return (
@@ -205,55 +154,6 @@ export class CollectionFormComponent extends React.Component {
               label={this.context.intl.formatMessage({ id: 'collection.form.label' })}
               validate={lessThan128}
             />
-            <div className="row">
-              <div className="col-sm-30">
-                <br />
-                <RadioButtonGroup
-                  valueSelected={showDescriptionMode}
-                  onChange={this.onChange}
-                  name="descriptionMode"
-                >
-                  <RadioButton
-                    value={DESCRIPTION_MODE.NOTHING}
-                    label={this.context.intl.formatMessage({ id: 'collection.form.radio.none' })}
-                    disabled={disableNoDescription}
-                  />
-                  <RadioButton
-                    value={DESCRIPTION_MODE.FILE}
-                    label={this.context.intl.formatMessage({ id: 'collection.form.radio.descriptionFileContent' })}
-                  />
-                  <RadioButton
-                    value={DESCRIPTION_MODE.URL}
-                    label={this.context.intl.formatMessage({ id: 'collection.form.radio.descriptionUrl' })}
-                  />
-                </RadioButtonGroup>
-              </div>
-              <div className="col-sm-70">
-                <ShowableAtRender show={showDescriptionMode === DESCRIPTION_MODE.URL}>
-                  <Field
-                    name="descriptionUrl"
-                    fullWidth
-                    component={RenderTextField}
-                    type="text"
-                    label={this.context.intl.formatMessage({ id: 'collection.form.descriptionUrl' })}
-                  />
-                </ShowableAtRender>
-                <ShowableAtRender show={showDescriptionMode === DESCRIPTION_MODE.FILE}>
-                  <ShowableAtRender show={!disableNoDescription}>
-                    <FormattedMessage id="collection.form.descriptionFileContent" />
-                  </ShowableAtRender>
-                  <ShowableAtRender show={disableNoDescription}>
-                    <FormattedMessage id="collection.form.descriptionFileContentReuploadToOverride" />
-                  </ShowableAtRender>
-                  <Field
-                    name="descriptionFileContent"
-                    fullWidth
-                    accept=".md,.pdf"
-                    component={RenderFileFieldWithMui}
-                  />
-                </ShowableAtRender>
-              </div>
-            </div>
             <Field
               name="geometry"
               fullWidth

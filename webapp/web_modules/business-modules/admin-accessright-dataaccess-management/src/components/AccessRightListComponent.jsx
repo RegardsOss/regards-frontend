@@ -272,7 +272,7 @@ export class AccessRightListComponent extends React.Component {
       // 1 - selection column
       new TableColumnBuilder().selectionColumn(false, datasetWithAccessRightSelectors, tableActions, tableSelectors).build(),
       // 2 - label column
-      new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.dataset.label')
+      new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.dataset.feature.label')
         .label(formatMessage({ id: 'accessright.table.dataset.label' }))
         .build(),
       // 3 - Meta access level column

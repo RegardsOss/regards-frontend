@@ -36,3 +36,5 @@ export { default as IDBDatasourceParamsEnum } from './IDBDatasourceParamsEnum'
 export { default as IAIPDatasourceParamsEnum } from './IAIPDatasourceParamsEnum'
 
 export { DATATYPE, DATATYPE_ENUM } from './DataType'
+
+export { PluginTypeEnum, PluginTypeEnumValues } from './PluginTypeEnum'
