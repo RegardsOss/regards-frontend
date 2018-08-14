@@ -152,7 +152,11 @@ const styles = theme => ({
                 borderColor: theme.module.description.thumbnail.borderColor,
               },
               attributes: {
-                scrollArea: { ...growingFlexElement },
+                scrollArea: {
+                  flexShrink: '1',
+                  flexGrow: '2',
+                  flexBasis: 0,
+                },
                 rootStyle: { ...growingFlexElement, ...verticalLayout },
                 attributesContainer: {
                   rootStyle: {
@@ -190,6 +194,9 @@ const styles = theme => ({
                 rootStyle: {
                   display: 'flex',
                   flexDirection: 'column',
+                  flexShrink: '1',
+                  flexGrow: '1',
+                  flexBasis: 0,
                 },
                 tagsRootStyle: {
                   flexGrow: 1,
