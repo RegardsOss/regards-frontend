@@ -16,28 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import RaisedButton from 'material-ui/RaisedButton'
-import ActionButtonComponent from './ActionButtonComponent'
+import values from 'lodash/values'
 
-/**
- * Generic back button
- */
-function MainActionButtonComponent(props) {
-  return (<ActionButtonComponent
-    button={RaisedButton}
-    primary
-    {...props}
-  />)
+export const PROJECT_USER_STATUS_ENUM = {
+  ACCESS_GRANTED: 'ACCESS_GRANTED',
+  WAITING_ACCESS: 'WAITING_ACCESS',
+  WAITING_EMAIL_VERIFICATION: 'WAITING_EMAIL_VERIFICATION',
+  ACCESS_DENIED: 'ACCESS_DENIED',
+  ACCESS_INACTIVE: 'ACCESS_INACTIVE',
+  WAITING_ACCOUNT_ACTIVE: 'WAITING_ACCOUNT_ACTIVE',
 }
-MainActionButtonComponent.propTypes = {
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-  url: PropTypes.string,
-  type: PropTypes.string,
-  // eslint-disable-next-line react/forbid-prop-types
-  style: PropTypes.object,
-  onClick: PropTypes.func,
-  isVisible: PropTypes.bool,
-  disabled: PropTypes.bool,
-  title: PropTypes.string,
-}
-export default MainActionButtonComponent
+
+export const PROJECT_USER_STATUS = values(PROJECT_USER_STATUS_ENUM)

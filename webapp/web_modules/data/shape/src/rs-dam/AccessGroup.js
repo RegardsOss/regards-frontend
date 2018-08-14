@@ -20,6 +20,7 @@
 export const AccessGroupContent = PropTypes.shape({
   id: PropTypes.number,
   name: PropTypes.string,
+  isPublic: PropTypes.bool,
   users: PropTypes.arrayOf(PropTypes.shape({
     email: PropTypes.string,
   })),

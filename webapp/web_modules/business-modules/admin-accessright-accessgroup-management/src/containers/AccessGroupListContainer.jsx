@@ -56,6 +56,15 @@ export class AccessGroupListContainer extends React.Component {
     return `/admin/${project}/dataaccess/board`
   }
 
+  /**
+   * User callback: request to show group content
+   */
+  handleShowGroupUsers = (accessgroupName) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/user/project-user/list?group=${accessgroupName}&onlyWaiting=false`
+    browserHistory.push(url)
+  }
+
   handleDuplicate = (accessgroupName) => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/dataaccess/access-group/${accessgroupName}/duplicate`
@@ -78,6 +87,7 @@ export class AccessGroupListContainer extends React.Component {
     this.props.deleteAccessGroup(accessgroupName)
   }
 
+
   render() {
     const { accessGroupList, isFetching } = this.props
     return (
@@ -87,6 +97,7 @@ export class AccessGroupListContainer extends React.Component {
         >
           <AccessGroupListComponent
             accessGroupList={accessGroupList}
+            handleShowGroupUsers={this.handleShowGroupUsers}
             handleDuplicate={this.handleDuplicate}
             handleDelete={this.handleDelete}
             handleEdit={this.handleEdit}

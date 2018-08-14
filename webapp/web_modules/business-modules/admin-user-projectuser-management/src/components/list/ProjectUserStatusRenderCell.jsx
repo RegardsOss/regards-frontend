@@ -16,28 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import RaisedButton from 'material-ui/RaisedButton'
-import ActionButtonComponent from './ActionButtonComponent'
+import { AdminDomain } from '@regardsoss/domain'
+import { i18nContextType } from '@regardsoss/i18n'
+import { StringValueRender } from '@regardsoss/components'
 
 /**
- * Generic back button
+ * Renders project user status
+ * @author Raphaël Mechali
  */
-function MainActionButtonComponent(props) {
-  return (<ActionButtonComponent
-    button={RaisedButton}
-    primary
-    {...props}
-  />)
+class ProjectUserStatusRenderCell extends React.Component {
+  static propTypes = {
+    value: PropTypes.oneOf(AdminDomain.PROJECT_USER_STATUS).isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  render() {
+    const { value } = this.props
+    const { intl: { formatMessage } } = this.context
+    return <StringValueRender value={formatMessage({ id: `projectUser.list.table.status.label.${value}` })} />
+  }
 }
-MainActionButtonComponent.propTypes = {
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-  url: PropTypes.string,
-  type: PropTypes.string,
-  // eslint-disable-next-line react/forbid-prop-types
-  style: PropTypes.object,
-  onClick: PropTypes.func,
-  isVisible: PropTypes.bool,
-  disabled: PropTypes.bool,
-  title: PropTypes.string,
-}
-export default MainActionButtonComponent
+export default ProjectUserStatusRenderCell

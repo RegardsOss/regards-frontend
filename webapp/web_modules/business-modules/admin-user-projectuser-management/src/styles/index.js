@@ -16,28 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import RaisedButton from 'material-ui/RaisedButton'
-import ActionButtonComponent from './ActionButtonComponent'
+import styles from './styles'
 
-/**
- * Generic back button
- */
-function MainActionButtonComponent(props) {
-  return (<ActionButtonComponent
-    button={RaisedButton}
-    primary
-    {...props}
-  />)
+module.exports = {
+  styles,
 }
-MainActionButtonComponent.propTypes = {
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-  url: PropTypes.string,
-  type: PropTypes.string,
-  // eslint-disable-next-line react/forbid-prop-types
-  style: PropTypes.object,
-  onClick: PropTypes.func,
-  isVisible: PropTypes.bool,
-  disabled: PropTypes.bool,
-  title: PropTypes.string,
-}
-export default MainActionButtonComponent

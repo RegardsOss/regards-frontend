@@ -24,6 +24,7 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import Settings from 'material-ui/svg-icons/action/settings-input-component'
 import Delete from 'material-ui/svg-icons/action/delete'
+import ShowGroupUsersIcon from 'material-ui/svg-icons/action/open-in-new'
 import { FormattedMessage } from 'react-intl'
 import { HateoasKeys, withHateoasDisplayControl, withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
@@ -44,6 +45,7 @@ const actionsBreakpoints = [360, 510, 900, 900]
 export class AccessGroupListComponent extends React.Component {
   static propTypes = {
     accessGroupList: DataManagementShapes.AccessGroupList,
+    handleShowGroupUsers: PropTypes.func.isRequired,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
     handleEditAccessRights: PropTypes.func.isRequired,
@@ -100,7 +102,7 @@ export class AccessGroupListComponent extends React.Component {
 
   render() {
     const {
-      accessGroupList, handleEdit, handleEditAccessRights, handleDuplicate, createUrl, backUrl,
+      accessGroupList, handleShowGroupUsers, handleEdit, handleEditAccessRights, handleDuplicate, createUrl, backUrl,
     } = this.props
     const { intl } = this.context
     const style = {
@@ -142,6 +144,12 @@ export class AccessGroupListComponent extends React.Component {
                   <TableRowColumn>{accessGroup.content.users.length}</TableRowColumn>
                   <TableRowColumn>
                     <ActionsMenuCell breakpoints={actionsBreakpoints}>
+                      <IconButton
+                        title={intl.formatMessage({ id: 'group.list.table.actions.show.group.users' })}
+                        onClick={() => handleShowGroupUsers(accessGroup.content.name)}
+                      >
+                        <ShowGroupUsersIcon hoverColor={style.hoverButtonEdit} />
+                      </IconButton>
                       <HateoasIconAction
                         title={intl.formatMessage({ id: 'group.list.table.actions.edit' })}
                         entityLinks={accessGroup.links}

@@ -38,6 +38,7 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListComponent',
     const props = {
 
       accessGroupList,
+      handleShowGroupUsers: () => { },
       handleEditAccessRights: () => { },
       handleDelete: () => { },
       handleEdit: () => { },

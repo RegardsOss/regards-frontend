@@ -170,6 +170,10 @@ export default (theme) => {
           height: theme.components.infiniteTable.minHeaderRowHeight - 2,
         },
       },
+      checkbox: {
+        whiteSpace: 'nowrap',
+        width: 'auto',
+      },
       textfield: {
         textStyle: {
           height: theme.components.infiniteTable.minHeaderRowHeight - 2,

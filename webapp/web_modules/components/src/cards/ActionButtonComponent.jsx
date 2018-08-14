@@ -74,7 +74,7 @@ class ActionButtonComponent extends React.Component {
 
   render() {
     const {
-      className, button, isVisible, disabled, url, style, label, primary, secondary, onClick, type, title,
+      button: ButtonConstructor, isVisible, url, style, ...remainingProps
     } = this.props
     return (
       <ShowableAtRender show={isVisible}>
@@ -82,30 +82,11 @@ class ActionButtonComponent extends React.Component {
           if (url) {
             return (
               <Link to={url} style={style}>
-                {this.getComponent(button, {
-                  className,
-                  label,
-                  primary,
-                  secondary,
-                  type,
-                  disabled,
-                  title,
-                })}
+                <ButtonConstructor {...remainingProps} />
               </Link>
             )
           }
-          return (
-            this.getComponent(button, {
-              className,
-              label,
-              primary,
-              secondary,
-              onClick,
-              type,
-              disabled,
-              title,
-            })
-          )
+          return <ButtonConstructor {...remainingProps} />
         })()}
       </ShowableAtRender>
     )

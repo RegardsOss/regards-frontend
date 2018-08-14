@@ -177,6 +177,12 @@ function buildLocalServices(gatewayURL) {
           return { content: loadFile('mocks/proxy/resources/files/temp-file.jpg', 'binary'), contentType: 'image/jpeg', binary: true }
         },
       },
+      tempUnknownFile: {
+        url: 'files/temp.unknow',
+        handler: (req, resp) => {
+          return { content: 'ABCDE', contentType: 'text/unkown' }
+        },
+      }
     },
     PUT: {
     },

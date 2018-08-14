@@ -20,7 +20,24 @@ import { Locales } from '@regardsoss/form-utils'
 import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 
 const messages = {
-  'projectUser.list.table.no.content.title': 'Nothing to show',
+  'projectUser.list.card.title': 'Users',
+  'projectUser.list.card.subtitle': 'Created project users list',
+  'projectUser.list.users.count': `{count, plural, 
+    =0 {No user}
+    one {# user}
+    other {# users}
+  }{waitingUsersCount, plural,
+    =0 {}
+    one { (# new account)}
+    other { (# new accounts)}
+  }`,
+  'projectUser.list.only.waiting.users': 'waiting users',
+  'projectUser.list.filter.label': 'Filter: {groupFilter}',
+  'projectUser.list.filter.none': 'none',
+  'projectUser.list.filter.title': 'Filter users by access group',
+  'projectUser.list.table.no.content.title': 'No user',
+  'projectUser.list.table.no.content.without.filter.message': 'There is no user in current project',
+  'projectUser.list.table.no.content.with.filter.message': 'There is no user matching current filters in project',
   'projectUser.list.table.lastupdate': 'Last update',
   'projectUser.list.table.role': 'Role',
   'projectUser.list.table.email': 'E-mail',
@@ -33,21 +50,16 @@ const messages = {
   'projectUser.list.table.status.label.ACCESS_INACTIVE': 'Access deactivated',
   'projectUser.list.table.lastConnection': 'Last connection',
   'projectUser.list.table.action': 'Actions',
+  'projectUser.list.table.action.accept': 'Accept access',
+  'projectUser.list.table.action.deny': 'Deny access',
+  'projectUser.list.table.action.enable': 'Enable access',
+  'projectUser.list.table.action.disable': 'Disable access',
   'projectUser.list.table.action.edit.tooltip': 'Edit',
-  'projectUser.list.table.action.accept.tooltip': 'Accept access',
-  'projectUser.list.table.action.deny.tooltip': 'Deny access',
-  'projectUser.list.table.action.active.tooltip': 'Enable access',
-  'projectUser.list.table.action.inactive.tooltip': 'Disable access',
   'projectUser.list.table.action.delete.tooltip': 'Remove',
   'projectUser.list.action.cancel': 'Cancel',
-  'projectUser.list.all.tab': 'All users ({count})',
-  'projectUser.list.all.subtitle': 'List of all project users',
   'projectUser.list.all.action.create': 'Add',
-  'projectUser.list.all.no.content.message': 'No user for this project',
-  'projectUser.list.waiting.tab': 'New users ({count})',
-  'projectUser.list.waiting.subtitle': 'New users waiting for access validation',
-  'projectUser.list.waiting.accept.all': 'Accept all',
-  'projectUser.list.waiting.no.content.message': 'No user waiting for an access. You can view and modify users list in "All users" tab',
+  'projectUser.list.accept.all': 'Accept all',
+  'projectUser.list.accept.all.tooltip': 'Grant access to all new users users displayed in table',
   'projectUser.list.delete.message': 'Remove user {name}?',
 
   'projectUser.edit.title': 'Edit the user {email}',

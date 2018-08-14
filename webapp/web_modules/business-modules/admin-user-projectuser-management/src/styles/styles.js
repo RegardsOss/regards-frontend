@@ -16,15 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AdminClient } from '@regardsoss/client'
 
-const namespace = 'admin-user-projectuser-management/waiting-access-users-entities'
-const waitingAccessUsersEntitiesActions = new AdminClient.WaitingAccessUsersEntitiesActions(namespace)
-const waitingAccessUsersEntitiesReducer = AdminClient.getWaitingAccessUsersEntitiesReducer(namespace)
-const waitingAccessUsersEntitiesSelectors = AdminClient.getWaitingAccessUsersEntitiesSelectors(['admin', 'user-management', 'project-user-management', 'waitingAccessUsersEntities'])
-
-module.exports = {
-  waitingAccessUsersEntitiesActions,
-  waitingAccessUsersEntitiesReducer,
-  waitingAccessUsersEntitiesSelectors,
+/**
+  * Builds module style
+  * @param {*} theme MUI theme
+  * @return {*} module styles
+  * @author Raphaël Mechali
+  */
+export default function buildStyles(theme) {
+  return {
+    usersList: {
+      actionsStyles: {
+        display: 'flex',
+        justifyContent: 'space-between',
+      },
+    },
+  }
 }

@@ -16,28 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import RaisedButton from 'material-ui/RaisedButton'
-import ActionButtonComponent from './ActionButtonComponent'
+import Checkbox from 'material-ui/Checkbox'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
- * Generic back button
+ * Table header check box: It uses the CheckBox API and customizes styles for table header.
+ * @author Raphaël Mechali
  */
-function MainActionButtonComponent(props) {
-  return (<ActionButtonComponent
-    button={RaisedButton}
-    primary
-    {...props}
-  />)
+class TableHeaderCheckbox extends React.Component {
+  static propTypes = {
+    ...Checkbox.propTypes,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+  }
+
+  render() {
+    const { moduleTheme: { header: { checkbox } } } = this.context
+    return (
+      <Checkbox
+        style={checkbox}
+        {...this.props}
+      />
+    )
+  }
 }
-MainActionButtonComponent.propTypes = {
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-  url: PropTypes.string,
-  type: PropTypes.string,
-  // eslint-disable-next-line react/forbid-prop-types
-  style: PropTypes.object,
-  onClick: PropTypes.func,
-  isVisible: PropTypes.bool,
-  disabled: PropTypes.bool,
-  title: PropTypes.string,
-}
-export default MainActionButtonComponent
+export default TableHeaderCheckbox

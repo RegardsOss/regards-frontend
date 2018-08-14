@@ -31,8 +31,8 @@ function SecondaryActionButtonComponent(props) {
 SecondaryActionButtonComponent.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   url: PropTypes.string,
-
-  style: PropTypes.objectOf(PropTypes.string),
+  // eslint-disable-next-line react/forbid-prop-types
+  style: PropTypes.object,
   onClick: PropTypes.func,
   isVisible: PropTypes.bool,
   disabled: PropTypes.bool,

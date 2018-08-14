@@ -19,6 +19,10 @@
 import { Tab, Tabs } from 'material-ui/Tabs'
 import FlatButton from 'material-ui/FlatButton'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
+import PropertiesIcon from 'material-ui/svg-icons/action/view-list'
+import DescriptionIcon from 'material-ui/svg-icons/action/description'
+import DocumentsIcon from 'material-ui/svg-icons/file/folder'
+import QuicklookIcon from 'material-ui/svg-icons/image/panorama'
 import { CommonDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -100,6 +104,7 @@ class EntityDescriptionComponent extends React.Component {
     return (
       <Tab
         key="properties"
+        icon={<PropertiesIcon />}
         label={formatMessage({ id: 'module.description.properties.tabs' })}
         value={DESCRIPTION_TABS_ENUM.PROPERTIES}
       >
@@ -123,6 +128,7 @@ class EntityDescriptionComponent extends React.Component {
     return (
       <Tab
         key="description"
+        icon={<DescriptionIcon />}
         label={formatMessage({ id: 'module.description.description.tabs' })}
         value={DESCRIPTION_TABS_ENUM.DESCRIPTION}
       >
@@ -144,6 +150,7 @@ class EntityDescriptionComponent extends React.Component {
     return (
       <Tab
         key="documents"
+        icon={<DocumentsIcon />}
         label={formatMessage({ id: 'module.description.files.tabs' })}
         value={DESCRIPTION_TABS_ENUM.FILES}
       >
@@ -165,6 +172,7 @@ class EntityDescriptionComponent extends React.Component {
     return (
       <Tab
         key="quicklook"
+        icon={<QuicklookIcon />}
         label={formatMessage({ id: 'module.description.quicklook.tabs' })}
         value={DESCRIPTION_TABS_ENUM.QUICKLOOK}
       >
