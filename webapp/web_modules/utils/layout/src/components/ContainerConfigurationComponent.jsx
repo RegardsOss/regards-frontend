@@ -153,9 +153,10 @@ class ContainerConfigurationComponent extends React.Component {
                   ? <MenuItem value={containerKey} key={containerKey} primaryText={formatMessage({ id: containerOption.i18nKey })} />
                   : null)
               }
-              </Field> : null}
+            </Field> : null}
           {!this.props.hideDynamicContentOption && hasDynamicOptions
-            ? <DynamicContentField change={this.props.change} /> : null}
+            ? <DynamicContentField change={this.props.change} />
+            : null}
           <ShowHideAdvancedOptions advanced={advanced} onClick={this.onAdvancedClick} />
           <ShowableAtRender
             show={advanced}

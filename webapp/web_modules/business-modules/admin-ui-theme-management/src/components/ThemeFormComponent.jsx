@@ -87,6 +87,15 @@ export class ThemeFormComponent extends React.Component {
     lastRefresh: 0,
   }
 
+  /* Validators for name: varchar 16, no duplicated name */
+  nameValidators = [
+    ValidationHelpers.required,
+    ValidationHelpers.validAlphaNumericUnderscore,
+    ValidationHelpers.lengthMoreThan(3),
+    ValidationHelpers.lengthLessThan(16),
+    this.validateUniqueName,
+  ]
+
   componentDidMount() {
     this.handleInitialize()
   }
@@ -247,15 +256,6 @@ export class ThemeFormComponent extends React.Component {
    * @return {string} error message key for duplicated names errors, undefined otherwise
    */
   validateUniqueName = formName => find(this.props.themeList, ({ content: { name } }) => name === formName) ? 'theme.form.name.not.unique.error' : undefined
-
-  /* Validators for name: varchar 16, no duplicated name */
-  nameValidators = [
-    ValidationHelpers.required,
-    ValidationHelpers.validAlphaNumericUnderscore,
-    ValidationHelpers.lengthMoreThan(3),
-    ValidationHelpers.lengthLessThan(16),
-    this.validateUniqueName,
-  ]
 
   render() {
     const {

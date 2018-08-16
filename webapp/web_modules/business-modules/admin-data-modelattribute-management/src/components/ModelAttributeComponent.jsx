@@ -109,7 +109,9 @@ class ModelAttributeComponent extends React.Component {
             <TableRowColumn>
               {modelAttribute.content.attribute.name}
               {this.showIfAttributeIsNotOptional(modelAttribute)}
-              ({modelAttribute.content.attribute.type})
+              (
+              {modelAttribute.content.attribute.type}
+              )
             </TableRowColumn>
             { /* show 2nd column only when the computing plugins are allowed */
               this.isComputingPluginAllowed() ? (

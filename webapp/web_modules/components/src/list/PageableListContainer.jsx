@@ -87,6 +87,8 @@ class PageableListContainer extends React.Component {
     style: {},
   }
 
+  debouncedHandleFetch = debounce(this.handleFetch, 300)
+
   constructor(props) {
     super(props)
     this.state = {
@@ -190,7 +192,6 @@ class PageableListContainer extends React.Component {
     }
   }
 
-  debouncedHandleFetch = debounce(this.handleFetch, 300)
 
   render() {
     const { searchValue } = this.state

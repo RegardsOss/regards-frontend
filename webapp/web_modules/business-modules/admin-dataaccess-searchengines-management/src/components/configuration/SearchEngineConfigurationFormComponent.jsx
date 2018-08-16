@@ -187,7 +187,8 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
                 entitiesConfig={datasetAutoCompletConfig}
                 format={dataset => dataset ? dataset.label : ''}
               />
-              </SubSectionCard> : null
+            </SubSectionCard>
+            : null
         }
       </div>
     )

@@ -43,27 +43,25 @@ export function layout(columns, tableWidth, showVerticalScrollBar, fixedColumnsW
   const availableColumnsWidth = showVerticalScrollBar ? tableWidth - RESERVED_VSCROLLBAR_WIDTH : tableWidth
 
   // B - First pass: remove unvisible columns, provide fixed columns with and tack growing columns plus consumed width
-  const { cWL: columnsWithLayout, gc: growingColumns, rFW: reservedFixedColumnsWidth } =
-    // fc: completedFixedColumns, gc: growingColumns, rFW: reservedFixedColumnsWidth } =
-    columns.reduce(({ cWL, gc, rFW }, column) => {
-      if (!column.visible) {
-        return { cWL, gc, rFW } // filter that column as it is not visible
+  const { cWL: columnsWithLayout, gc: growingColumns, rFW: reservedFixedColumnsWidth } = columns.reduce(({ cWL, gc, rFW }, column) => {
+    if (!column.visible) {
+      return { cWL, gc, rFW } // filter that column as it is not visible
+    }
+    switch (column.sizing.type) {
+      case GrowingColumnSize.TYPE: {
+        // report column unchanged but keep its reference for second pass
+        const columnRef = { ...column, runtimeWidth: 0 }
+        return { cWL: [...cWL, columnRef], gc: [...gc, columnRef], rFW }
       }
-      switch (column.sizing.type) {
-        case GrowingColumnSize.TYPE: {
-          // report column unchanged but keep its reference for second pass
-          const columnRef = { ...column, runtimeWidth: 0 }
-          return { cWL: [...cWL, columnRef], gc: [...gc, columnRef], rFW }
-        }
-        case OptionsColumnSize.TYPE: {
-          const columnWidth = column.sizing.optionsCount * fixedColumnsWidth
-          // split: fixed column, save reserved space
-          return { cWL: [...cWL, { ...column, runtimeWidth: columnWidth }], gc, rFW: rFW + columnWidth }
-        }
-        default:
-          throw new Error(`Unhandled column sizing type ${column.sizing.type}`)
+      case OptionsColumnSize.TYPE: {
+        const columnWidth = column.sizing.optionsCount * fixedColumnsWidth
+        // split: fixed column, save reserved space
+        return { cWL: [...cWL, { ...column, runtimeWidth: columnWidth }], gc, rFW: rFW + columnWidth }
       }
-    }, { cWL: [], gc: [], rFW: 0 })
+      default:
+        throw new Error(`Unhandled column sizing type ${column.sizing.type}`)
+    }
+  }, { cWL: [], gc: [], rFW: 0 })
 
   // C - Second pass: Provide dynamic size to each growing column (by reference)
   if (growingColumns.length) {

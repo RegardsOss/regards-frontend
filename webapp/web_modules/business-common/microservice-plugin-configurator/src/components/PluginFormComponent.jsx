@@ -201,7 +201,8 @@ export class PluginFormComponent extends React.Component {
             href="#"
           >
             <FormattedMessage id="plugin.configuration.form.description.more" />
-             </a>}
+          </a>
+        }
       </div>
     )
 

@@ -108,7 +108,8 @@ class CheckboxColumnHeaderCell extends React.Component {
           onClick={this.onToggleSelectAll}
         >
           <Icon />
-          </IconButton> : null
+        </IconButton>
+        : null
     )
   }
 }

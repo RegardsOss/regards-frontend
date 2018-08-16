@@ -146,7 +146,7 @@ class AdminContainer extends React.Component {
               contentURL={path}
               onContentLoaded={this.finishTest}
             />
-            </Paper>
+          </Paper>
           : null}
       </div>
     )

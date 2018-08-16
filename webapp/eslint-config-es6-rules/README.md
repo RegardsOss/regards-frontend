@@ -87,6 +87,8 @@ Special configuration for plugin:react rules :
   | require-default-props     | `Disabled`    |    |
   | prefer-stateless-function | `Disabled`    |    |
   | react/destructuring-assignment| `Disabled`|    |
+  | no-access-state-in-setstate | `Disabled`|    |
+  | jsx-closing-tag-location | `Disabled`|    |
   | react/display-name        | `Disabled`    |  Only detect sipaly names of components during debug  |
 
 #### plugin:react-perf

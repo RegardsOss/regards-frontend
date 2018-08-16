@@ -58,7 +58,7 @@ class ProductInformationDialog extends React.Component {
         <div>
           <span style={productInfos.jobInfos.fieldLabelStyle}>{formatMessage({ id: 'acquisition-product.informaton.dialog.job.info.percentCompleted' })}</span>
           {jobInfos.status.percentCompleted}
-%
+          %
         </div>
         <div>
           <span style={productInfos.jobInfos.fieldLabelStyle}>{formatMessage({ id: 'acquisition-product.informaton.dialog.job.info.queuedDate' })}</span>
@@ -80,7 +80,8 @@ class ProductInformationDialog extends React.Component {
           ? <div>
             <div style={productInfos.jobInfos.fieldLabelStyle}>error : </div>
             <div style={productInfos.jobInfos.stackTraceStyle}>{jobInfos.status.stackTrace}</div>
-            </div> : null}
+          </div>
+          : null}
       </div>
     )
   }
@@ -113,7 +114,8 @@ class ProductInformationDialog extends React.Component {
           ? <div>
             <div style={jobInfos.titleStyle}>{formatMessage({ id: 'acquisition-product.informaton.global.error' })}</div>
             <div style={errorStyle}>{product.error}</div>
-            </div> : null
+          </div>
+          : null
         }
         {this.renderJobInformations(formatMessage({ id: 'acquisition-product.informaton.generation.job.title' }), product.lastSIPGenerationJobInfo)}
         {this.renderJobInformations(formatMessage({ id: 'acquisition-product.informaton.submition.job.title' }), product.lastSIPSubmissionJobInfo)}

@@ -74,6 +74,8 @@ const allRules = {
   'react/jsx-no-undef': [2, { allowGlobals: true }],
   'react/destructuring-assignment': 0,
   'react/jsx-wrap-multilines': 0,
+  'react/no-access-state-in-setstate': 0,
+  'react/jsx-closing-tag-location': 0,
 
   // Lodash rules configuration
   'lodash/import-scope': [2, 'method'],

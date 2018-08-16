@@ -180,7 +180,8 @@ export default class PluginMetaDataListComponent extends React.Component {
               >
                 {this.context.intl.formatMessage({ id: 'plugin.description.more' })}
               </a>
-              </div> : null
+            </div>
+            : null
           }
 
         </CardText>

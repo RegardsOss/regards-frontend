@@ -196,7 +196,7 @@ class Container extends React.Component {
                 {this.props.container.dynamicContent
                   ? <div title={this.context.intl.formatMessage({ id: 'container.form.dynamicContent' })}>
                     <Bookmark color={this.context.muiTheme.palette.accent1Color} />
-                    </div>
+                  </div>
                   : null}
               </ToolbarGroup>
               <ToolbarGroup key="actions" lastChild>

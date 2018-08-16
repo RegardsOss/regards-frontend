@@ -90,7 +90,8 @@ export class StoragePluginLegendComponent extends React.Component {
                 r={legendIcon.svgData.radius}
                 fill={mainColor}
               />
-              </svg> : null
+            </svg>
+            : null
         }
         <Subheader style={itemLabelStyle}>
           {message}

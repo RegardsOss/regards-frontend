@@ -186,7 +186,8 @@ class AnchorComponent extends React.Component {
             iconStyle={iconStyle}
           >
             <Up />
-            </FloatingActionButton> : null
+          </FloatingActionButton>
+          : null
         }
       </div>
     )

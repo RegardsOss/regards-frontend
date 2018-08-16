@@ -89,7 +89,8 @@ class ParameterPresentation extends React.Component {
             onClick={this.handleOpenDescription}
           >
             <HelpCircle />
-            </IconButton> : null}
+          </IconButton>
+          : null}
         {description ? this.renderDescriptionDialog() : null}
       </div>
     )

@@ -65,6 +65,9 @@ export class RenderPluginConfField extends React.PureComponent {
     ...i18nContextType,
   }
 
+  // XXX : count to save the number of indexed parameters in the pluginConfiguration.
+  parameterIndex = 0
+
   getFormFieldName = fieldName => `${this.props.input.name}.${fieldName}`
 
   getFormParameterName = (name, idx) => {
@@ -78,9 +81,6 @@ export class RenderPluginConfField extends React.PureComponent {
     this.parameterIndex += 1
     return this.getFormFieldName(`parameters.${index}`)
   }
-
-  // XXX : count to save the number of indexed parameters in the pluginConfiguration.
-  parameterIndex = 0
 
   renderGlobalConf = () => {
     const {
