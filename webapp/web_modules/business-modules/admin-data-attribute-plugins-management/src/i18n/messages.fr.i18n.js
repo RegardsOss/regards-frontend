@@ -27,7 +27,7 @@ const messages = Object.assign({
   'model.attribute.calculation.plugins.list.header.id.label': 'Identifiant',
   'model.attribute.calculation.plugins.list.header.name.label': 'Libellé',
   'model.attribute.calculation.plugins.list.header.type.label': 'Tyoe de calcul',
-  'model.attribute.calculation.plugins.list.header.active.label': 'Activer/Désactiver',
+  'model.attribute.calculation.plugins.list.header.active.label': 'Activer',
   'model.attribute.calculation.plugins.list.edit.button': 'Editer la configuration',
   'model.attribute.calculation.plugins.list.duplicate.button': 'Dupliquer la configuration',
   'model.attribute.calculation.plugins.list.active.on.button': 'Activer ce type de calcul',

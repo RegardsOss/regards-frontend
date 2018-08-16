@@ -27,7 +27,7 @@ const messages = Object.assign({
   'dataaccess.services.list.header.id.label': 'Identifier',
   'dataaccess.services.list.header.name.label': 'Label',
   'dataaccess.services.list.header.type.label': 'Service type',
-  'dataaccess.services.list.header.active.label': 'Enable/Disable',
+  'dataaccess.services.list.header.active.label': 'Enable',
   'dataaccess.services.list.edit.button': 'Edit service',
   'dataaccess.services.list.duplicate.button': 'Duplicate service',
   'dataaccess.services.list.active.on.button': 'Enable service',

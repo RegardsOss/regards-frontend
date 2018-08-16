@@ -24,6 +24,8 @@ const messages = Object.assign({
   'aips.list.filters.from.label': 'Depuis',
   'aips.list.filters.to.label': 'Jusqu\'à',
   'aips.list.filters.tag.label': 'Tags',
+  'aips.list.remove-tag.button': 'Supprimer tag',
+  'aips.list.add-tag.button': 'Ajouter tag',
   'aips.list.table.headers.providerId': 'Identifiant producteur',
   'aips.list.table.headers.type': 'Type',
   'aips.list.table.headers.state': 'Statut',
@@ -51,7 +53,7 @@ const messages = Object.assign({
 
   'aips.session.title': 'Sessions',
   'aips.session.aips.title': 'Session {session}',
-  'aips.session.subtitle': 'Visualisation des sessions d\'acquisitions. Une session est un regroupement de paquets d\'information de données (AIP).',
+  'aips.session.subtitle': 'Visualisation des objets stockés par session d\'acquisition.',
   'aips.session.filter.name.label': 'Nom',
   'aips.session.filter.from.label': 'Début',
   'aips.session.filter.to.label': 'Fin',

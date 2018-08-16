@@ -227,20 +227,21 @@ class AIPListFiltersComponent extends React.Component {
     )
   }
 
+
   renderRefreshLine = () => (
     <TableHeaderLine key="buttonsLine">
       <TableHeaderOptionsArea>
         <TableHeaderOptionGroup>
           <FlatButton
             key="add tag"
-            label="Add tag"
+            label={this.context.intl.formatMessage({ id: 'aips.list.add-tag.button' })}
             icon={<Plus />}
             disabled={this.props.isEmptySelection}
             onClick={this.props.openAddTagModal}
           />
           <FlatButton
             key="remove tag"
-            label="Remove tag"
+            label={this.context.intl.formatMessage({ id: 'aips.list.remove-tag.button' })}
             icon={<Minus />}
             disabled={this.props.isEmptySelection}
             onClick={this.props.openRemoveTagModal}

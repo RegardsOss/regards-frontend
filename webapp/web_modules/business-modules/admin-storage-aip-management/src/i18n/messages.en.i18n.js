@@ -51,7 +51,7 @@ const messages = Object.assign({
 
   'aips.session.title': 'Sessions',
   'aips.session.aips.title': 'Session {session}',
-  'aips.session.subtitle': 'Select the session associated to the AIPs you want to view. A session is a group of data informational package (AIP).',
+  'aips.session.subtitle': 'Select the session associated to the AIPs you want to view.',
   'aips.session.filter.name.label': 'Name',
   'aips.session.filter.from.label': 'From',
   'aips.session.filter.to.label': 'To',

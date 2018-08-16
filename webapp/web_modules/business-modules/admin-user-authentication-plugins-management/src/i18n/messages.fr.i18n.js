@@ -27,7 +27,7 @@ const messages = Object.assign({
   'user.authentication.plugins.list.header.id.label': 'Identifiant',
   'user.authentication.plugins.list.header.name.label': 'Libellé',
   'user.authentication.plugins.list.header.type.label': 'Type d\'authentification',
-  'user.authentication.plugins.list.header.active.label': 'Activer/Désactiver',
+  'user.authentication.plugins.list.header.active.label': 'Activer',
   'user.authentication.plugins.list.edit.button': 'Editer la configuration',
   'user.authentication.plugins.list.duplicate.button': 'Dupliquer la configuration',
   'user.authentication.plugins.list.active.on.button': 'Activer ce système d\'authentification',

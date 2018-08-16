@@ -28,7 +28,7 @@ const messages = Object.assign({
   'storage.data-storage.plugins.list.header.id.label': 'Identifier',
   'storage.data-storage.plugins.list.header.name.label': 'Label',
   'storage.data-storage.plugins.list.header.type.label': 'Storage mode',
-  'storage.data-storage.plugins.list.header.active.label': 'Enable/Disable',
+  'storage.data-storage.plugins.list.header.active.label': 'Enable',
   'storage.data-storage.plugins.list.edit.button': 'Edit configuration',
   'storage.data-storage.plugins.list.duplicate.button': 'Duplicate configuration',
   'storage.data-storage.plugins.list.up.priority.button': 'Up priority',

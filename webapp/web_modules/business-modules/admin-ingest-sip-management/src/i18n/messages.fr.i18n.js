@@ -24,6 +24,8 @@ const messages = Object.assign({
   'sips.button.back': 'Retour',
   'sips.list.subtitle': 'Liste des SIPS pour la session sélectionnée',
   'sips.list.filters.chain.label': 'Chaîne de traitement',
+  'aips.list.remove-tag.button': 'Supprimer tag',
+  'aips.list.add-tag.button': 'Ajouter tag',
   'sips.list.filters.sipid.label': 'Identient SIP',
   'sips.list.filters.chain.all': 'Toutes les chaînes',
   'sips.list.filters.status.label': 'Etat',

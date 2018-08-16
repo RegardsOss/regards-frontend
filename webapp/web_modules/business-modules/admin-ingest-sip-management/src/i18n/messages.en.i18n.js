@@ -23,6 +23,8 @@ const messages = Object.assign({
   'sips.button.filter': 'Filter',
   'sips.button.back': 'Back',
   'sips.list.subtitle': 'List of SIPs for selected session',
+  'aips.list.remove-tag.button': 'Remove tag',
+  'aips.list.add-tag.button': 'Add tag',
   'sips.list.filters.chain.label': 'Processing chain',
   'sips.list.filters.sipid.label': 'SIP Identifier',
   'sips.list.filters.chain.all': 'All chains',
