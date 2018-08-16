@@ -261,8 +261,8 @@ class RenderArrayObjectField extends React.Component {
       <Card>
         <CardMedia>
           {label && displayLabel ? <SubHeader inset={false}>{label}</SubHeader> : null}
-          {meta.error && isString(meta.error) ?
-            <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
+          {meta.error && isString(meta.error)
+            ? <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
             : null}
           <div style={layoutStyle}>
             <div style={titleStyle} />
@@ -275,8 +275,8 @@ class RenderArrayObjectField extends React.Component {
                 >
                   {map(fields, (object, idx) => this.renderListItem(idx, fields.get(idx)))}
                 </SelectableList>
-                {!this.props.disabled ?
-                  <RaisedButton
+                {!this.props.disabled
+                  ? <RaisedButton
                     label={formatMessage({ id: 'render.array-object.add.button' })}
                     fullWidth
                     primary

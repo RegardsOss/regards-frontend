@@ -137,11 +137,10 @@ export class AccountListContainer extends React.Component {
   performAll = (promises) => {
     this.setFetchingActions(true)
     const onDone = () => { this.setFetchingActions(false) }
-    Promise.all(promises).then(() =>
-      Promise.all([
-        this.props.fetchWaitingAccountList(),
-        this.props.fetchAccountList(),
-      ]).then(onDone).catch(onDone)).catch(onDone)
+    Promise.all(promises).then(() => Promise.all([
+      this.props.fetchWaitingAccountList(),
+      this.props.fetchAccountList(),
+    ]).then(onDone).catch(onDone)).catch(onDone)
   }
 
   render() {

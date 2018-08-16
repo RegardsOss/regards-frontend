@@ -91,10 +91,10 @@ class DatabaseConnectionTesterIconButton extends React.Component {
     const switchActions = [this.handleTouchTap, this.handleTouchTap]
 
     const successButton = (
-      <OnHoverSwitchIconButton onClick={switchActions} title={formatMessage({ id: 'database.connectionTester.success.tooltip' })} >
+      <OnHoverSwitchIconButton onClick={switchActions} title={formatMessage({ id: 'database.connectionTester.success.tooltip' })}>
         <Check color={this.context.muiTheme.palette.primary1Color} />
         <PlayArrow />
-      </OnHoverSwitchIconButton >)
+      </OnHoverSwitchIconButton>)
 
     const warningButton = (
       <OnHoverSwitchIconButton onClick={switchActions} title={formatMessage({ id: 'database.connectionTester.warn.tooltip' })}>

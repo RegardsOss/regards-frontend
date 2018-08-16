@@ -60,6 +60,7 @@ export class DocumentEditFilesContainer extends React.Component {
     const { params: { project, documentId } } = this.props
     return `/admin/${project}/data/acquisition/document/${documentId}/edit`
   }
+
   getLinksUrl = () => {
     const { params: { project, documentId } } = this.props
     return `/admin/${project}/data/acquisition/document/${documentId}/links`

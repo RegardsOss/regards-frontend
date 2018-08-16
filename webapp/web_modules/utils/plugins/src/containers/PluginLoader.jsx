@@ -120,13 +120,13 @@ class PluginLoader extends React.Component {
           ...this.props.pluginProps,
         })
         return (
-          <I18nProvider messages={this.props.loadedPlugin.messages} >
-            <ModuleStyleProvider module={this.props.loadedPlugin.styles} >
+          <I18nProvider messages={this.props.loadedPlugin.messages}>
+            <ModuleStyleProvider module={this.props.loadedPlugin.styles}>
               {element}
             </ModuleStyleProvider>
           </I18nProvider>
         )
-      } else if (this.props.children) {
+      } if (this.props.children) {
         return React.cloneElement(this.props.children, { plugin: this.props.loadedPlugin })
       }
       console.warn('No children defined for plugin provider')

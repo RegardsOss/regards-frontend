@@ -22,7 +22,9 @@ import forEach from 'lodash/forEach'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { FieldArray, RenderArrayObjectField, RenderArrayTextField } from '@regardsoss/form-utils'
-import { buildTestContext, testSuiteHelpers, ReduxFormTestHelper, DumpProvider } from '@regardsoss/tests-helpers'
+import {
+  buildTestContext, testSuiteHelpers, ReduxFormTestHelper, DumpProvider,
+} from '@regardsoss/tests-helpers'
 import { RenderCollectionParameterField } from '../../src/form-utils/RenderCollectionParameterField'
 import RenderObjectParameterField from '../../src/form-utils/RenderObjectParameterField'
 import { getPrimitiveJavaTypeRenderParameters } from '../../src/form-utils/JavaPrimitiveTypesTool'

@@ -147,8 +147,7 @@ export class ProjectUserFormContainer extends React.Component {
     const updateUser = this.props.updateProjectUser(this.props.params.user_id, updatedUser)
     // Retrieve new group
     const addUserToGroupTasks = flow(
-      fpfilter(currentGroup => every(groupList[currentGroup].content.users, userInfo =>
-        userInfo.email !== email)),
+      fpfilter(currentGroup => every(groupList[currentGroup].content.users, userInfo => userInfo.email !== email)),
       fpmap(currentGroup => this.props.assignGroup(currentGroup, email)),
     )(groups)
     const removeUserFromGroupTasks = flow(
@@ -188,8 +187,7 @@ export class ProjectUserFormContainer extends React.Component {
         if (!actionResult.error) {
           // Retrieve new group
           const addUserToGroupTasks = flow(
-            fpfilter(currentGroup => every(groupList[currentGroup].content.users, userInfo =>
-              userInfo.email !== values.email)),
+            fpfilter(currentGroup => every(groupList[currentGroup].content.users, userInfo => userInfo.email !== values.email)),
             fpmap(currentGroup => this.props.assignGroup(currentGroup, values.email)),
           )(values.groups)
           Promise.all(addUserToGroupTasks).then((actionResults) => {

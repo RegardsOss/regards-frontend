@@ -70,16 +70,15 @@ class OneEntityRuntimeHelpersBuilder {
    * @param {*} applier treatment to apply, like (accumulator, entity content, index) => *
    * @param {*} initialValue optional initial value (will be provided as first acculmulator in applier)
    */
-  getReducePromise = (actions, id, dispatchMethod, applier, initialValue) =>
-    dispatchMethod(actions.getEntity(id)).then(({ payload, error = false }) => {
-      const entityContent = get(payload, 'content')
-      // 1 - check error and invalid content
-      if (error || !entityContent) { // reject promise
-        throw new Error(`Entity could not be retrieved: ${payload.message || 'unknow error'}`)
-      }
-      // 2 - apply reducer treatment on entity content
-      return applier(initialValue, entityContent, 0) // will be the value in next then
-    })
+  getReducePromise = (actions, id, dispatchMethod, applier, initialValue) => dispatchMethod(actions.getEntity(id)).then(({ payload, error = false }) => {
+    const entityContent = get(payload, 'content')
+    // 1 - check error and invalid content
+    if (error || !entityContent) { // reject promise
+      throw new Error(`Entity could not be retrieved: ${payload.message || 'unknow error'}`)
+    }
+    // 2 - apply reducer treatment on entity content
+    return applier(initialValue, entityContent, 0) // will be the value in next then
+  })
 }
 
 module.exports = {

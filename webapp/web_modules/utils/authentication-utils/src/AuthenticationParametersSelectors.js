@@ -39,4 +39,3 @@ class AuthenticateParametersSelectors extends BasicSelector {
 }
 
 export default new AuthenticateParametersSelectors()
-

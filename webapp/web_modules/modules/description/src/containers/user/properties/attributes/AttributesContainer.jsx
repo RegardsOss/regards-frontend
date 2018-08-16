@@ -31,8 +31,7 @@ import { modelAttributesActions, modelAttributesSelectors } from '../../../../cl
 import AttributesComponent from '../../../../components/user/properties/attributes/AttributesComponent'
 
 // compute thumbnail path
-const THUMBNAIL_ATTRIBUTE_MODEL =
-  DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.thumbnail)
+const THUMBNAIL_ATTRIBUTE_MODEL = DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.thumbnail)
 const THUMBNAIL_PATH_IN_ENTITY = `content.${THUMBNAIL_ATTRIBUTE_MODEL.content.jsonPath}`
 
 /**
@@ -124,9 +123,9 @@ export class AttributesContainer extends React.Component {
   static filterAndConvertElements(entity, attributes, elements) {
     return elements.reduce((acc, element, index) => {
       const convertedElement = AttributesContainer.filterOrConvertElement(entity, attributes, element, index)
-      return convertedElement ?
-        [...acc, convertedElement] : // some attributes in that group row could be retrieved, retain it
-        acc // no attribute in that group row could be retrieve, remove it
+      return convertedElement
+        ? [...acc, convertedElement] // some attributes in that group row could be retrieved, retain it
+        : acc // no attribute in that group row could be retrieve, remove it
     }, [])
   }
 
@@ -196,17 +195,17 @@ export class AttributesContainer extends React.Component {
     }
 
     // 2 - detect model attributes change to resolve attributes
-    if (!isEqual(oldModelAttributes, newModelAttributes) ||
-      !isEqual(oldEntity, newEntity) ||
-      !isEqual(oldTypeConfiguration, newTypeConfiguration)) {
+    if (!isEqual(oldModelAttributes, newModelAttributes)
+      || !isEqual(oldEntity, newEntity)
+      || !isEqual(oldTypeConfiguration, newTypeConfiguration)) {
       // A - prepare searchable attributes pool as expected by the attribute model controller
       // From Model attribute like { content: { attribute: { *attr }}}
       // To attribute model like {content: attr }
       const attributeModels = values(newModelAttributes).map(
         ({ content: { attribute } }) => ({ content: attribute }))
       // B - convert groups
-      newState.attributeGroups = newEntity ?
-        AttributesContainer.filterAndConvertGroups(newEntity, attributeModels, newTypeConfiguration) : []
+      newState.attributeGroups = newEntity
+        ? AttributesContainer.filterAndConvertGroups(newEntity, attributeModels, newTypeConfiguration) : []
     }
 
     // 3 - set state if any change is detected
@@ -242,4 +241,3 @@ export default compose(
   connect(AttributesContainer.mapStateToProps, AttributesContainer.mapDispatchToProps),
   withValueRenderContext,
 )(AttributesContainer)
-

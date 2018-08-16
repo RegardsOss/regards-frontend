@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import trim from 'lodash/trim'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import { formValueSelector } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import UnlockAccountIcon from 'material-ui/svg-icons/action/lock'
@@ -27,7 +29,9 @@ import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { PictureLinkComponent, FormErrorMessage } from '@regardsoss/components'
-import { RenderTextField, Field, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderTextField, Field, reduxForm, ValidationHelpers,
+} from '@regardsoss/form-utils'
 
 const mailFieldId = 'username'
 const requiredEmailValidator = [ValidationHelpers.required, ValidationHelpers.email]
@@ -174,4 +178,3 @@ const selector = formValueSelector(formId)
 export default connect(state => ({
   currentMailValue: selector(state, mailFieldId),
 }))(connectedReduxForm)
-

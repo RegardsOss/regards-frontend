@@ -51,7 +51,7 @@ describe('[Menu] Testing DynamicModulesProviderContainer', () => {
       isFetching: true,
     }
     const wrapper = shallow(
-      <DynamicModulesProviderContainer {...props} >
+      <DynamicModulesProviderContainer {...props}>
         <TempComponent />
       </DynamicModulesProviderContainer>, { context })
     assert.lengthOf(wrapper.find(TempComponent), 0, 'Children should not get mounted while dynamic modules are loading')
@@ -66,7 +66,7 @@ describe('[Menu] Testing DynamicModulesProviderContainer', () => {
       isFetching: false,
     }
     const wrapper = shallow(
-      <DynamicModulesProviderContainer {...props} >
+      <DynamicModulesProviderContainer {...props}>
         <TempComponent />
       </DynamicModulesProviderContainer>, { context })
     assert.lengthOf(wrapper.find(TempComponent), 1, 'Children should be loaded')

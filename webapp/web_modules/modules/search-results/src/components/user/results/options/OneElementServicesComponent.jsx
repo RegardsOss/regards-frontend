@@ -62,9 +62,9 @@ class OneElementServicesComponent extends React.Component {
               value={service}
               leftIcon={
                 // render the icon only when service has one
-                service.content.iconUrl ?
-                  <URLPictureResolver url={service.content.iconUrl} /> :
-                  null}
+                service.content.iconUrl
+                  ? <URLPictureResolver url={service.content.iconUrl} />
+                  : null}
               primaryText={service.content.label}
             />))
         }

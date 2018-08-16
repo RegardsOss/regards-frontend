@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DatePicker, TimePicker, IconButton, TextField } from 'material-ui'
+import {
+  DatePicker, TimePicker, IconButton, TextField,
+} from 'material-ui'
 import isNaN from 'lodash/isNaN'
 import isEmpty from 'lodash/isEmpty'
 import isDate from 'lodash/isDate'
@@ -56,7 +58,9 @@ export default class DatePickerField extends React.Component {
   }
 
   static DATE_FORMAT_US = 'MM/DD/YYYY'
+
   static DATE_FORMAT = 'DD/MM/YYYY'
+
   static TIME_FORMAT = 'HH:mm:ss'
 
   /** Default date picker style (hides text field, only shown to get the dialog box) */
@@ -114,15 +118,15 @@ export default class DatePickerField extends React.Component {
   static parseDateWithLocale = (dateString, locale, timeString) => {
     if (locale === 'en') {
       if (timeString) {
-        return dateString ? parse(`${dateString} ${timeString}`, `${DatePickerField.DATE_FORMAT_US} ${DatePickerField.TIME_FORMAT}`) :
-          parse(`${timeString}`, DatePickerField.TIME_FORMAT)
+        return dateString ? parse(`${dateString} ${timeString}`, `${DatePickerField.DATE_FORMAT_US} ${DatePickerField.TIME_FORMAT}`)
+          : parse(`${timeString}`, DatePickerField.TIME_FORMAT)
       }
       return dateString ? parse(`${dateString}`, DatePickerField.DATE_FORMAT_US) : ''
     }
     const usDateString = DatePickerField.getUsDate(dateString)
     if (timeString) {
-      return dateString ? parse(`${usDateString} ${timeString}`, `${DatePickerField.DATE_FORMAT} ${DatePickerField.TIME_FORMAT}`) :
-        parse(`${timeString}`, DatePickerField.TIME_FORMAT)
+      return dateString ? parse(`${usDateString} ${timeString}`, `${DatePickerField.DATE_FORMAT} ${DatePickerField.TIME_FORMAT}`)
+        : parse(`${timeString}`, DatePickerField.TIME_FORMAT)
     }
     return dateString ? parse(usDateString, DatePickerField.DATE_FORMAT_US) : null
   }
@@ -131,8 +135,8 @@ export default class DatePickerField extends React.Component {
     super(props)
 
     const date = isDate(props.defaultValue) ? props.defaultValue : props.value
-    const defaultDate = date ||
-      parse(`${format(new Date(), DatePickerField.DATE_FORMAT_US)} ${props.defaultTime}`,
+    const defaultDate = date
+      || parse(`${format(new Date(), DatePickerField.DATE_FORMAT_US)} ${props.defaultTime}`,
         `${DatePickerField.DATE_FORMAT_US} ${DatePickerField.TIME_FORMAT}`)
 
     this.state = {
@@ -351,7 +355,7 @@ export default class DatePickerField extends React.Component {
             this.datePicker = c
           }}
         />
-      </div >,
+      </div>,
       // 2 - date text field where user can input date
       <TextField
         key="date.text"

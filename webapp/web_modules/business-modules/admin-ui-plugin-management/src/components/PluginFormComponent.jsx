@@ -18,7 +18,9 @@
  **/
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
 import { themeContextType } from '@regardsoss/theme'
@@ -26,7 +28,9 @@ import { connect } from '@regardsoss/redux'
 import { CardActionsComponent, FormErrorMessage } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
-import { RenderTextField, Field, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import {
+  RenderTextField, Field, ErrorTypes, reduxForm,
+} from '@regardsoss/form-utils'
 import { formValueSelector } from 'redux-form'
 import { PluginLoader } from '@regardsoss/plugins'
 import PluginDefinitionComponent from './PluginDefinitionComponent'
@@ -191,7 +195,7 @@ class PluginFormComponent extends React.Component {
     const { loadedIcon } = this.state
     if (loadedIcon) {
       return <img src={loadedIcon} alt="" width="75" height="75" />
-    } else if (get(plugin, 'content.iconUrl', null)) {
+    } if (get(plugin, 'content.iconUrl', null)) {
       return <img src={plugin.content.iconUrl} alt="" width="75" height="75" />
     }
     return null

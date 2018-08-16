@@ -48,17 +48,17 @@ const messages = {
   // reset account password request form
   'ask.reset.password.form.message': 'Entrez votre adresse e-mail, un lien de ré-initialisation du mot de passe vous sera envoyé',
   'ask.reset.password.form.title': 'Ré-initialisation du mot de passe',
-  'ask.reset.password.form.send.failed': '{status, plural, ' +
-    '=404 {L\'adresse e-mail saisie est inconnue}' +
-    'other {Une erreur inconnue s\'est produite (#)}}',
+  'ask.reset.password.form.send.failed': '{status, plural, '
+    + '=404 {L\'adresse e-mail saisie est inconnue}'
+    + 'other {Une erreur inconnue s\'est produite (#)}}',
 
   // unlock account request form
   'ask.unlock.account.form.message': 'Entrez votre adresse e-mail pour demander le déverrouillage du compte',
   'ask.unlock.account.form.title': 'Déverrouillage du compte utilisateur',
-  'ask.unlock.account.form.send.failed': '{status, plural, ' +
-    '=403 {Le compte lié à ce mail n\'est pas bloqué}' +
-    '=404 {L\'adresse e-mail saisie est inconnue.}' +
-    'other {Une erreur inconnue s\'est produite (#)}}',
+  'ask.unlock.account.form.send.failed': '{status, plural, '
+    + '=403 {Le compte lié à ce mail n\'est pas bloqué}'
+    + '=404 {L\'adresse e-mail saisie est inconnue.}'
+    + 'other {Une erreur inconnue s\'est produite (#)}}',
 
   // ask project access form
   'ask.project.access.request.title': 'Demander un accès projet',

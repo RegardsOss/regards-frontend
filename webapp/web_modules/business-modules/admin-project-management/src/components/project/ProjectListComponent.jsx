@@ -18,16 +18,22 @@
  */
 import map from 'lodash/map'
 import noop from 'lodash/noop'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
+import {
+  Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
+} from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Settings from 'material-ui/svg-icons/action/settings-input-component'
 import Open from 'material-ui/svg-icons/action/open-in-new'
 import Delete from 'material-ui/svg-icons/action/delete'
 import ResetLicences from 'material-ui/svg-icons/action/assignment-late'
-import { ActionsMenuCell, CardActionsComponent, ShowableAtRender, ConfirmDialogComponent } from '@regardsoss/components'
+import {
+  ActionsMenuCell, CardActionsComponent, ShowableAtRender, ConfirmDialogComponent,
+} from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
@@ -260,4 +266,3 @@ export class ProjectListComponent extends React.Component {
 }
 
 export default ProjectListComponent
-

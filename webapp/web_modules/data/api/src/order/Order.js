@@ -25,8 +25,7 @@ const OrderConfiguration = {
 }
 
 const order = new Schema(OrderConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[OrderConfiguration.entityKey]
+  idAttribute: entity => entity.content[OrderConfiguration.entityKey]
   ,
 })
 

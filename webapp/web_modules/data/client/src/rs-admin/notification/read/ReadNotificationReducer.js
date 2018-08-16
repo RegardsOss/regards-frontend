@@ -30,4 +30,3 @@ export default (namespace, instance = false) => {
   const reducerInstance = new ReadNotificationReducer(namespace, instance)
   return (state, action) => reducerInstance.reduce(state, action)
 }
-

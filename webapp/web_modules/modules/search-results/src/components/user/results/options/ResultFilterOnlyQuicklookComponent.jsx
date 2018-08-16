@@ -37,11 +37,11 @@ export class TableSelectAllOption extends React.Component {
 
   render() {
     const { displayOnlyQuicklook, onToggleDisplayOnlyQuicklook } = this.props
-    const [icon, titleKey] = !displayOnlyQuicklook ?
+    const [icon, titleKey] = !displayOnlyQuicklook
       // select all
-      [<CheckBoxOutLineIcon key="0" />, 'table.filter.select.only.quicklook.tooltip'] :
+      ? [<CheckBoxOutLineIcon key="0" />, 'table.filter.select.only.quicklook.tooltip']
       // deselect all
-      [<CheckBoxIcon key="1" />, 'table.filter.deselect.only.quicklook.label']
+      : [<CheckBoxIcon key="1" />, 'table.filter.deselect.only.quicklook.label']
     return (
       <FlatButton
         onClick={onToggleDisplayOnlyQuicklook}

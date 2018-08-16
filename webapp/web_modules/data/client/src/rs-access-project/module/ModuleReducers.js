@@ -47,4 +47,3 @@ export default (namespace) => {
   const instance = new ModuleReducers(namespace)
   return (state, action) => instance.reduce(state, action)
 }
-

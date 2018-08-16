@@ -134,6 +134,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       disabled={this.isDisabled()}
     />
   )
+
   getFieldSelect = modelAttribute => (
     <Field
       className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
@@ -269,7 +270,8 @@ export class EntitiesAttributeFormComponent extends React.Component {
           title={modelAttribute.content.attribute.description}
         >
           {modelAttribute.content.attribute.label}
-          {this.showStarIfInputRequired(modelAttribute.content.attribute)}<br />
+          {this.showStarIfInputRequired(modelAttribute.content.attribute)}
+          <br />
           {getFullQualifiedAttributeName(modelAttribute.content.attribute)}
         </TableRowColumn>
         <TableRowColumn

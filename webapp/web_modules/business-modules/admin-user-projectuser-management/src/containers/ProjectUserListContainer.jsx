@@ -51,8 +51,8 @@ export class ProjectUserListContainer extends React.Component {
       users: projectUserSelectors.getList(state),
       groups: accessGroupSelectors.getList(state),
       isFetchingViewData:
-        projectUserSelectors.isFetching(state) ||
-        accessGroupSelectors.isFetching(state),
+        projectUserSelectors.isFetching(state)
+        || accessGroupSelectors.isFetching(state),
       isFetchingActions: projectUserSignalSelectors.isFetching(state),
     }
   }
@@ -127,8 +127,7 @@ export class ProjectUserListContainer extends React.Component {
    * @return {number} waiting users count
    */
   static countWaitingUsers(users) {
-    return users.reduce((acc, user) =>
-      user.content.status === AdminDomain.PROJECT_USER_STATUS_ENUM.WAITING_ACCESS ? acc + 1 : acc, 0)
+    return users.reduce((acc, user) => user.content.status === AdminDomain.PROJECT_USER_STATUS_ENUM.WAITING_ACCESS ? acc + 1 : acc, 0)
   }
 
   /** Initial state */
@@ -167,8 +166,8 @@ export class ProjectUserListContainer extends React.Component {
 
     // 1 - recompute selected groups when it changes or group list was updated
     const newGroup = get(newProps.location, 'query.group', NO_GROUP_FILTER)
-    if (!isEqual(get(oldProps, 'query.group'), newGroup) ||
-      !isEqual(oldProps.groups, newProps.groups)) {
+    if (!isEqual(get(oldProps, 'query.group'), newGroup)
+      || !isEqual(oldProps.groups, newProps.groups)) {
       if (!newGroup || newGroup === NO_GROUP_FILTER) {
         newState.selectedGroup = null
       } else {

@@ -79,8 +79,7 @@ export class AttributesListConfigurationComponent extends React.Component {
   static filterElementsList(attributesList = [], attributeModels) {
     return attributesList.reduce((acc, attributeConfiguration) => {
       // A - compute filtered grouped attributes
-      const filteredAttributes = attributeConfiguration.attributes.filter(({ name }) =>
-        !!DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels))
+      const filteredAttributes = attributeConfiguration.attributes.filter(({ name }) => !!DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels))
       // B - return updated attribute element if not empty
       return filteredAttributes.length ? [...acc, {
         ...attributeConfiguration,
@@ -124,8 +123,8 @@ export class AttributesListConfigurationComponent extends React.Component {
     // 1 - Update current configurations when selectable attributes change
     const oldState = this.state || {}
     const newState = { ...oldState }
-    if ((!isEqual(selectableAttributes, oldProps.selectableAttributes) ||
-      !isEqual(attributesFilter, oldProps.attributesFilter)) && selectableAttributes) {
+    if ((!isEqual(selectableAttributes, oldProps.selectableAttributes)
+      || !isEqual(attributesFilter, oldProps.attributesFilter)) && selectableAttributes) {
       // 1.a - prepare the list of attributes that user can select, allowing standard attributes and sorted on label
       newState.attributeModels = [
         ...DamDomain.AttributeModelController.standardAttributesAsModel, // all standard attributes

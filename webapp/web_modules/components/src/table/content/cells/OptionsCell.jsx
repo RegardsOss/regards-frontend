@@ -47,4 +47,3 @@ export default class OptionsCell extends React.Component {
     ))
   }
 }
-

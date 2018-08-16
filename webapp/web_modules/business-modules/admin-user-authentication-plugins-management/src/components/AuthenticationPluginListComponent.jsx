@@ -148,7 +148,7 @@ export class AuthenticationPluginListComponent extends React.Component {
           title={formatMessage({ id: 'user.authentication.plugins.list.title' })}
           subtitle={formatMessage({ id: 'user.authentication.plugins.list.subtitle' })}
         />
-        <CardText style={moduleTheme.root} >
+        <CardText style={moduleTheme.root}>
           {this.renderDeleteConfirmDialog()}
           <TableLayout>
             <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={entities.length} />

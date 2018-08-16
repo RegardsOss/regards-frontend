@@ -31,5 +31,6 @@ export default class PluginConfigurationByPluginIdActions extends BasicListActio
       },
     })
   }
+
   getMsDependency = (verb, microserviceName) => replace(this.getDependency(verb), '{microserviceName}', microserviceName)
 }

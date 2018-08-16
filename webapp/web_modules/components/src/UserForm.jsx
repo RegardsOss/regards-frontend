@@ -23,11 +23,13 @@ function UserForm() {
     <form>
       <TextField
         floatingLabelText="Nom"
-      /><br />
+      />
+      <br />
       <TextField
         floatingLabelText="Mot de passe"
         type="password"
-      /><br />
+      />
+      <br />
       <TextField
         floatingLabelText="Mot de passe (confirmer)"
         type="password"

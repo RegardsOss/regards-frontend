@@ -20,7 +20,9 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { StorageShapes } from '@regardsoss/shape'
 import { StorageDomain } from '@regardsoss/domain'
-import { getActions, getSelectors, prioritizedDataStorageDownActions, prioritizedDataStorageUpActions } from '../clients/PrioritizedDataStorageClient'
+import {
+  getActions, getSelectors, prioritizedDataStorageDownActions, prioritizedDataStorageUpActions,
+} from '../clients/PrioritizedDataStorageClient'
 import PrioritizedDataStorageListComponent from '../components/PrioritizedDataStorageListComponent'
 
 /**

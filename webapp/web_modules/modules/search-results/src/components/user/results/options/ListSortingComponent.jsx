@@ -83,9 +83,9 @@ class ListSortingComponent extends React.Component {
               key={model.key}
               checked={
                 // check if it is the current sorting model, selected by user
-                (sortingModel && sortingModel.key === model.key) ||
+                (sortingModel && sortingModel.key === model.key)
                 // OR if it is the default and there is no user sorting
-                (!sortingModel && defaultSortingModel && defaultSortingModel.key === model.key)
+                || (!sortingModel && defaultSortingModel && defaultSortingModel.key === model.key)
               }
               value={model}
               primaryText={model.label[locale]}

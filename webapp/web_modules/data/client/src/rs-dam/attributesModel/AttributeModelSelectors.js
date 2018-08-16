@@ -44,4 +44,3 @@ class AttributeModelSelectors extends BasicListSelectors {
 }
 
 export default storePath => new AttributeModelSelectors(storePath)
-

@@ -18,7 +18,9 @@
  **/
 import map from 'lodash/map'
 import get from 'lodash/get'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import Subheader from 'material-ui/Subheader'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -110,7 +112,7 @@ export class DatasetFormSubsettingComponent extends React.Component {
                     key={id}
                     disabled
                   />
-                  ))}
+                ))}
               </List>
             </div>
             <div className="col-sm-70">
@@ -147,4 +149,3 @@ export class DatasetFormSubsettingComponent extends React.Component {
 }
 
 export default DatasetFormSubsettingComponent
-

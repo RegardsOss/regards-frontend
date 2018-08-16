@@ -37,7 +37,7 @@ export class ProjectAboutPageLinkContainer extends React.Component {
   render() {
     const { projectAboutPage, appName, project } = this.props
     return (
-      <ShowableAtRender show={!!projectAboutPage} >
+      <ShowableAtRender show={!!projectAboutPage}>
         <ProjectAboutPageLinkComponent
           appName={appName}
           project={project}

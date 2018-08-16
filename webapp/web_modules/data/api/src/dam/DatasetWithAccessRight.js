@@ -26,8 +26,7 @@ const DatasetWithAccessRightConfiguration = {
 }
 
 const datasetWithAccessRight = new Schema(DatasetWithAccessRightConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[DatasetWithAccessRightConfiguration.entityKey]
+  idAttribute: entity => entity.content[DatasetWithAccessRightConfiguration.entityKey]
   ,
 })
 

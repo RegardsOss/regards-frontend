@@ -82,8 +82,8 @@ const OPEN_SEARCH_NUMBER_ESCAPING = '\\'
  */
 function toNumberValue(openSearchNumberText) {
   const trimed = trim(openSearchNumberText)
-  const numberText = trimed.startsWith(OPEN_SEARCH_NUMBER_ESCAPING) ?
-    trimed.slice(1) : trimed
+  const numberText = trimed.startsWith(OPEN_SEARCH_NUMBER_ESCAPING)
+    ? trimed.slice(1) : trimed
   return parseFloat(numberText)
 }
 
@@ -169,4 +169,3 @@ module.exports = {
   NumberRange,
   parseRange,
 }
-

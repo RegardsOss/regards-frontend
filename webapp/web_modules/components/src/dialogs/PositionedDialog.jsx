@@ -31,6 +31,7 @@ import styles from './styles'
 */
 class PositionedDialog extends React.Component {
   static DEFAULT_MIN_WIDTH = 600
+
   static DEFAULT_MIN_HEIGHT = 320
 
   static propTypes = {
@@ -83,8 +84,7 @@ class PositionedDialog extends React.Component {
    * @param minDimension minimum dimension value
    * @param maxDimension maximum dimension value
    */
-  getDimension = (screenDimension, percentDimension, minDimension, maxDimension) =>
-    Math.min(maxDimension, Math.max(minDimension, (screenDimension * percentDimension) / 100))
+  getDimension = (screenDimension, percentDimension, minDimension, maxDimension) => Math.min(maxDimension, Math.max(minDimension, (screenDimension * percentDimension) / 100))
 
   getScreenDimensions = () => {
     const documentElement = get(root, 'document.documentElement', {})
@@ -144,7 +144,7 @@ class PositionedDialog extends React.Component {
           {...dialogProperties}
         >
           {HOCUtils.renderChildren(children)}
-        </Dialog >
+        </Dialog>
       </SwitchThemeDecorator>
     )
   }

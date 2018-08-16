@@ -97,10 +97,7 @@ export class DocumentEditLinksContainer extends React.Component {
       />)
   }
 
-  getCollectionLinked = (collectionIpIdList, collectionList) =>
-    map(collectionIpIdList, collectionIpId =>
-      find(collectionList, collection =>
-        collection.content.ipId === collectionIpId))
+  getCollectionLinked = (collectionIpIdList, collectionList) => map(collectionIpIdList, collectionIpId => find(collectionList, collection => collection.content.ipId === collectionIpId))
 
   getDoneUrl = () => {
     const { params: { project } } = this.props
@@ -117,15 +114,12 @@ export class DocumentEditLinksContainer extends React.Component {
   getRemainingCollections = (currentDocument, collectionList) => {
     const { collectionName } = this.state
 
-    const collectionLinkedToCurrentDocument = partition(collectionList, collection =>
-      some(currentDocument.content.tags, tag => tag === collection.content.feature.id))
-    return filter(collectionLinkedToCurrentDocument[1], collection =>
-      startsWith(collection.content.feature.label.toLowerCase(), collectionName))
+    const collectionLinkedToCurrentDocument = partition(collectionList, collection => some(currentDocument.content.tags, tag => tag === collection.content.feature.id))
+    return filter(collectionLinkedToCurrentDocument[1], collection => startsWith(collection.content.feature.label.toLowerCase(), collectionName))
   }
 
   partitionDatasetLinkedTags = (currentDocument) => {
-    const linkedTags = partition(currentDocument.content.tags, tag =>
-      tag.match(/URN:.*:COLLECTION.*/))
+    const linkedTags = partition(currentDocument.content.tags, tag => tag.match(/URN:.*:COLLECTION.*/))
     return linkedTags
   }
 
@@ -169,6 +163,7 @@ export class DocumentEditLinksContainer extends React.Component {
         })
     }
   }
+
   handleSearch = (event, collectionName) => {
     this.setState({
       collectionName: collectionName.toLowerCase(),

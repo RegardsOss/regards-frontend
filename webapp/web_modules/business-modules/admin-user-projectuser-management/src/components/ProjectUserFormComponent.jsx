@@ -24,10 +24,14 @@ import forEach from 'lodash/forEach'
 import map from 'lodash/map'
 import trim from 'lodash/trim'
 import { formValueSelector } from 'redux-form'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField, RenderCheckbox, reduxForm } from '@regardsoss/form-utils'
+import {
+  RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField, RenderCheckbox, reduxForm,
+} from '@regardsoss/form-utils'
 import { AdminShapes, DataManagementShapes } from '@regardsoss/shape'
 import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
 import { connect } from '@regardsoss/redux'
@@ -234,18 +238,18 @@ export class ProjectUserFormComponent extends React.Component {
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
       >
         <Card>
-          {this.state.isCreating ?
-            <CardTitle
+          {this.state.isCreating
+            ? <CardTitle
               title={formatMessage({ id: 'projectUser.create.title' })}
               subtitle={formatMessage({ id: 'projectUser.create.message' }, { passwordRules })}
-            /> :
-            <CardTitle
+            />
+            : <CardTitle
               title={formatMessage({ id: 'projectUser.edit.title' }, { email: this.props.currentUser.content.email })}
             />
           }
           <CardText>
 
-            <ShowableAtRender show={this.state.isCreating} >
+            <ShowableAtRender show={this.state.isCreating}>
               <Field
                 name="useExistingAccount"
                 component={RenderCheckbox}
@@ -264,7 +268,7 @@ export class ProjectUserFormComponent extends React.Component {
               normalize={trim}
             />
             { /* Show account creation options when creating an account */}
-            <ShowableAtRender show={!useExistingAccount && this.state.isCreating} >
+            <ShowableAtRender show={!useExistingAccount && this.state.isCreating}>
               <div>
                 <Field
                   name="password"
@@ -318,12 +322,11 @@ export class ProjectUserFormComponent extends React.Component {
             </Field>
             {
               // show user metadata for project
-              userMetadata.map(metadata =>
-                (<MetadataField
-                  key={metadata.key}
-                  metadata={metadata}
-                  fullWidth
-                />))
+              userMetadata.map(metadata => (<MetadataField
+                key={metadata.key}
+                metadata={metadata}
+                fullWidth
+              />))
             }
             <div style={this.style.groupsLabel}>
               <FormattedMessage id="projectUser.create.input.groups" />
@@ -333,9 +336,9 @@ export class ProjectUserFormComponent extends React.Component {
           <CardActions>
             <CardActionsComponent
               mainButtonLabel={
-                this.state.isCreating ?
-                  formatMessage({ id: 'projectUser.create.action.create' }) :
-                  formatMessage({ id: 'projectUser.edit.action.save' })
+                this.state.isCreating
+                  ? formatMessage({ id: 'projectUser.create.action.create' })
+                  : formatMessage({ id: 'projectUser.edit.action.save' })
               }
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}

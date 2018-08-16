@@ -32,4 +32,3 @@ const contextTypes = {
   moduleTheme: PropTypes.object,
 }
 export default contextTypes
-

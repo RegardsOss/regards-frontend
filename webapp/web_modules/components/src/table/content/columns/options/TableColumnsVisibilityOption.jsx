@@ -101,8 +101,7 @@ export class TableColumnsVisibilityOption extends React.Component {
    * @param column column to toggle
    */
   onColumnVisibilityChanged = column => this.onUpdateColumnsState(
-    this.state.bufferedColumns.map(bufferedColumn => // swap visibility of that column, keep others unchanged
-      column.key === bufferedColumn.key ? { ...bufferedColumn, visible: !bufferedColumn.visible } : bufferedColumn))
+    this.state.bufferedColumns.map(bufferedColumn => column.key === bufferedColumn.key ? { ...bufferedColumn, visible: !bufferedColumn.visible } : bufferedColumn))
 
   /**
    * On update columns: inner called to update state
@@ -163,8 +162,10 @@ export class TableColumnsVisibilityOption extends React.Component {
       >
         <Dialog
           title={// show title and select / unselect all right option
-            <div style={titleBarStyle} >
-              <div> {intl.formatMessage({ id: 'table.column.visibility.filter.dialog' })} </div>
+            <div style={titleBarStyle}>
+              <div>
+                {intl.formatMessage({ id: 'table.column.visibility.filter.dialog' })}
+              </div>
               <SwitchSelectAllButton
                 key="toggle.select.all"
                 areAllSelected={areAllVisible}

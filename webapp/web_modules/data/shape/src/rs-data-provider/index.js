@@ -19,8 +19,18 @@
 /**
  * @author Sébastien Binda
  */
-export { AcquisitionProcessingChainContent, AcquisitionProcessingChain, AcquisitionProcessingChainList, AcquisitionProcessingChainArray } from './AcquisitionProcessingChain'
-export { AcquisitionProcessingChainMonitorContent, AcquisitionProcessingChainMonitor, AcquisitionProcessingChainMonitorList, AcquisitionProcessingChainMonitorArray } from './AcquisitionProcessingChainMonitor'
-export { AcquisitionFileInfoContent, AcquisitionFileInfo, AcquisitionFileInfoList, AcquisitionFileInfoArray } from './AcquisitionFileInfo'
-export { ProductContent, Product, ProductList, ProductArray } from './Product'
-export { AcquisitionFileContent, AcquisitionFile, AcquisitionFileList, AcquisitionFileArray } from './AcquisitionFile'
+export {
+  AcquisitionProcessingChainContent, AcquisitionProcessingChain, AcquisitionProcessingChainList, AcquisitionProcessingChainArray,
+} from './AcquisitionProcessingChain'
+export {
+  AcquisitionProcessingChainMonitorContent, AcquisitionProcessingChainMonitor, AcquisitionProcessingChainMonitorList, AcquisitionProcessingChainMonitorArray,
+} from './AcquisitionProcessingChainMonitor'
+export {
+  AcquisitionFileInfoContent, AcquisitionFileInfo, AcquisitionFileInfoList, AcquisitionFileInfoArray,
+} from './AcquisitionFileInfo'
+export {
+  ProductContent, Product, ProductList, ProductArray,
+} from './Product'
+export {
+  AcquisitionFileContent, AcquisitionFile, AcquisitionFileList, AcquisitionFileArray,
+} from './AcquisitionFile'

@@ -106,16 +106,16 @@ class SearchGraph extends React.Component {
           horizontal
           vertical
           smoothScrolling
-          style={presentationState === UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED ?
-            user.scrollArea.fullscreenStyles :
-            user.scrollArea.defaultStyles} // limit height in normal and fullscreen modes
+          style={presentationState === UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED
+            ? user.scrollArea.fullscreenStyles
+            : user.scrollArea.defaultStyles} // limit height in normal and fullscreen modes
           contentStyle={viewportStyles}
           ref={(scrollArea) => { this.scrollArea = scrollArea }}
         >
           <Measure bounds onMeasure={this.onLevelsResized}>
             {
               ({ bind }) => (
-                <div style={user.levels.styles} {...bind('measureDiv')} >
+                <div style={user.levels.styles} {...bind('measureDiv')}>
                   {graphLevels.map((levelModelName, index) => (
                     <GraphLevelDisplayerContainer
                       graphDatasetAttributes={graphDatasetAttributes}

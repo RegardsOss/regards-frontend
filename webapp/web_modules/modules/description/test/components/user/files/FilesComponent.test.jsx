@@ -24,7 +24,9 @@ import FilesComponent from '../../../../src/components/user/files/FilesComponent
 import FileSelectorComponent from '../../../../src/components/user/files/FileSelectorComponent'
 import FileContainer from '../../../../src/containers/user/files/FileContainer'
 import styles from '../../../../src/styles'
-import { pdfFile, epubFile, javascriptFile, markdownFile } from '../../../dumps/RuntimeDataFile.dump'
+import {
+  pdfFile, epubFile, javascriptFile, markdownFile,
+} from '../../../dumps/RuntimeDataFile.dump'
 
 const context = buildTestContext(styles)
 

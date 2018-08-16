@@ -62,8 +62,7 @@ export class PluginServicesContainer extends React.Component {
    * @return common plugin services to both lists (services list intersection)
    */
   static retainCommon(services1 = [], services2 = []) {
-    services1.filter(({ configId: originId }) =>
-      services2.some(({ configId: targetId }) => originId === targetId))
+    services1.filter(({ configId: originId }) => services2.some(({ configId: targetId }) => originId === targetId))
   }
 
   /**
@@ -73,10 +72,10 @@ export class PluginServicesContainer extends React.Component {
    * @param availableDependencies available dependencies for current user
    */
   static isUsableSelectionService({ content: { applicationModes, entityTypes, type } }, viewObjectType, availableDependencies) {
-    return applicationModes.includes(AccessDomain.applicationModes.MANY) &&
-      entityTypes.includes(viewObjectType) &&
+    return applicationModes.includes(AccessDomain.applicationModes.MANY)
+      && entityTypes.includes(viewObjectType)
       // For catalog service only: the user must be allowed to run catalog plugin service
-      (type !== AccessDomain.pluginTypes.CATALOG || availableDependencies.includes(catalogServiceDependency))
+      && (type !== AccessDomain.pluginTypes.CATALOG || availableDependencies.includes(catalogServiceDependency))
   }
 
   /**
@@ -99,8 +98,7 @@ export class PluginServicesContainer extends React.Component {
       if (contextSelectionServices) {
         // filter service for current context (only selection services, working with current objects type),
         // then remove 'content' wrapper to have basic services shapes
-        selectionServices = filter(contextSelectionServices, service =>
-          PluginServicesContainer.isUsableSelectionService(service, viewObjectType, availableDependencies))
+        selectionServices = filter(contextSelectionServices, service => PluginServicesContainer.isUsableSelectionService(service, viewObjectType, availableDependencies))
       }
       // 3 - Find every service that match all objects in selection
       // Note 1: That operation cannot be performed when selection is exclusive.
@@ -109,19 +107,13 @@ export class PluginServicesContainer extends React.Component {
         // compute first element services (pre: toggled elements cannot be empty here since we are in 'includeSelected' mode)
         // note: we remove doubles here to lower later complexity
         const [{ content: { services: allFirstEntityServices = [] } }, ...otherSelectedElements] = values(toggledElements)
-        const filteredFirstEntityServices = allFirstEntityServices.filter(service => PluginServicesContainer.isUsableSelectionService(service, viewObjectType, availableDependencies) &&
-          !selectionServices.some(({ content: { configId, type } }) =>
-            configId === service.content.configId && type === service.content.type))
+        const filteredFirstEntityServices = allFirstEntityServices.filter(service => PluginServicesContainer.isUsableSelectionService(service, viewObjectType, availableDependencies)
+          && !selectionServices.some(({ content: { configId, type } }) => configId === service.content.configId && type === service.content.type))
 
         // compute next selected entities valid services intersection (contains only usable services in context since first element services have been filtered)
         const commonEntitiesSelectionServices = otherSelectedElements.reduce(
-          (commonServices, { content: { services: entityServices } }) =>
-            // retain only intersection with previous list
-            commonServices.filter(({ content: collectedService }) =>
-              // intersection is valid if a service with same config Id and type can be retrieved in next entity services
-              entityServices && entityServices.some(({ content: entityService }) =>
-                entityService.configId === collectedService.configId && entityService.type === collectedService.type))
-          , filteredFirstEntityServices,
+          (commonServices, { content: { services: entityServices } }) => commonServices.filter(({ content: collectedService }) => entityServices && entityServices.some(({ content: entityService }) => entityService.configId === collectedService.configId && entityService.type === collectedService.type)),
+          filteredFirstEntityServices,
         )
 
 
@@ -244,9 +236,9 @@ export class PluginServicesContainer extends React.Component {
     const newState = oldState ? { ...oldState } : PluginServicesContainer.DEFAULT_STATE
 
     // A - dataset tag or context changed, component was mounted or user rights changed, update global services
-    if (oldProps.selectedDatasetTag !== newProps.selectedDatasetTag ||
-      oldProps.restrictedDatasetsIds !== newProps.restrictedDatasetsIds ||
-      !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
+    if (oldProps.selectedDatasetTag !== newProps.selectedDatasetTag
+      || oldProps.restrictedDatasetsIds !== newProps.restrictedDatasetsIds
+      || !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
       // 1 - compute the list of dataset IDs to provide
       let datasetIds = null
       if (newProps.selectedDatasetTag) {
@@ -261,15 +253,15 @@ export class PluginServicesContainer extends React.Component {
 
     // B - global services, view object type, selection changed, user rights changed or children changed:
     // update available selection services and clone children with new values
-    if (newProps.contextSelectionServices !== oldProps.contextSelectionServices || oldProps.selectionMode !== newProps.selectionMode ||
-      oldProps.toggledElements !== newProps.toggledElements || oldProps.pageMetadata !== newProps.pageMetadata ||
-      oldProps.viewObjectType !== newProps.viewObjectType || !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
+    if (newProps.contextSelectionServices !== oldProps.contextSelectionServices || oldProps.selectionMode !== newProps.selectionMode
+      || oldProps.toggledElements !== newProps.toggledElements || oldProps.pageMetadata !== newProps.pageMetadata
+      || oldProps.viewObjectType !== newProps.viewObjectType || !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
       newState.selectionServices = PluginServicesContainer.getSelectionServices(newProps)
     }
 
     // when children changed or selection services changed, recompute children
-    if (!isEqual(oldState.selectionServices, newState.selectionServices) ||
-      HOCUtils.shouldCloneChildren(oldProps, newProps, PluginServicesContainer.NON_REPORTED_PROPS)) {
+    if (!isEqual(oldState.selectionServices, newState.selectionServices)
+      || HOCUtils.shouldCloneChildren(oldProps, newProps, PluginServicesContainer.NON_REPORTED_PROPS)) {
       // pre render children (attempts to enhance render performances)
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
         ...omit(newProps, PluginServicesContainer.NON_REPORTED_PROPS),
@@ -292,9 +284,9 @@ export class PluginServicesContainer extends React.Component {
     // pack ip ID array
     const idArray = map(toggledElements, elt => elt.content.id)
     // pack query
-    const serviceTarget = selectionMode === TableSelectionModes.includeSelected ?
-      target.buildManyElementsTarget(idArray) :
-      target.buildQueryTarget(openSearchQuery, viewObjectType, pageMetadata.totalElements, idArray)
+    const serviceTarget = selectionMode === TableSelectionModes.includeSelected
+      ? target.buildManyElementsTarget(idArray)
+      : target.buildQueryTarget(openSearchQuery, viewObjectType, pageMetadata.totalElements, idArray)
     // note : only service content is dipatched (see top methods conversion)
     dispatchRunService(new PluginServiceRunModel(service, serviceTarget))
   }

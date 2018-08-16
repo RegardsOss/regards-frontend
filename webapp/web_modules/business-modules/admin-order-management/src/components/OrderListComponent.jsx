@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import { OrderClient } from '@regardsoss/client'
 import { i18nContextType } from '@regardsoss/i18n'

@@ -17,9 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
+import {
+  Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
+} from 'material-ui/Table'
 import Toggle from 'material-ui/Toggle'
 import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
@@ -101,14 +105,30 @@ class ServiceConfigurationListComponent extends React.Component {
         <CardText>
           <div className={styles.line.classes}>
             <div className={styles.description.classes}>
-              <div><FormattedMessage id="service.listconf.plugin.title" /> </div>
-              <div><FormattedMessage id="service.listconf.plugin.description" values={descriptionMsgValues} /> </div>
-              <div><FormattedMessage id="service.listconf.plugin.version" values={versionMsgValues} /> </div>
-              <div><FormattedMessage id="service.listconf.plugin.author" values={authorMsgValues} /> </div>
-              <div><FormattedMessage id="service.listconf.plugin.company" values={companyMsgValues} /> </div>
-              <div><FormattedMessage id="service.listconf.plugin.email" values={emailMsgValues} /> </div>
-              <div><FormattedMessage id="service.listconf.plugin.license" values={licenseMsgValues} /> </div>
-              <div><FormattedMessage id="service.listconf.plugin.url" values={urlMsgValues} /> </div>
+              <div>
+                <FormattedMessage id="service.listconf.plugin.title" />
+              </div>
+              <div>
+                <FormattedMessage id="service.listconf.plugin.description" values={descriptionMsgValues} />
+              </div>
+              <div>
+                <FormattedMessage id="service.listconf.plugin.version" values={versionMsgValues} />
+              </div>
+              <div>
+                <FormattedMessage id="service.listconf.plugin.author" values={authorMsgValues} />
+              </div>
+              <div>
+                <FormattedMessage id="service.listconf.plugin.company" values={companyMsgValues} />
+              </div>
+              <div>
+                <FormattedMessage id="service.listconf.plugin.email" values={emailMsgValues} />
+              </div>
+              <div>
+                <FormattedMessage id="service.listconf.plugin.license" values={licenseMsgValues} />
+              </div>
+              <div>
+                <FormattedMessage id="service.listconf.plugin.url" values={urlMsgValues} />
+              </div>
             </div>
             <div className={styles.icon.classes}>
               {this.renderIcon()}
@@ -204,4 +224,3 @@ class ServiceConfigurationListComponent extends React.Component {
 }
 
 export default ServiceConfigurationListComponent
-

@@ -70,7 +70,7 @@ class FieldsGroup extends React.Component {
         <div style={clearSpaceToChildren ? clearSpaceToChildrenStyle : null}>
           {HOCUtils.renderChildren(children)}
         </div>
-      </div >
+      </div>
     )
   }
 }

@@ -109,7 +109,7 @@ class ContainerHelper {
     const dynamicContainer = find(containers, (container, idx) => {
       if (container.id === containerName) {
         return container.dynamicContent
-      } else if (container.containers) {
+      } if (container.containers) {
         return this.isDynamicContent(containerName, container.containers)
       }
       return false

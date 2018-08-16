@@ -17,12 +17,16 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import trim from 'lodash/trim'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { FormErrorMessage } from '@regardsoss/components'
-import { RenderTextField, Field, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderTextField, Field, reduxForm, ValidationHelpers,
+} from '@regardsoss/form-utils'
 
 /**
  * Session management component : if session is locked, shows unlock screen, renders children otherwise

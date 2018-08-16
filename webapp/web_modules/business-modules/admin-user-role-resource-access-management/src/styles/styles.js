@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { lightBlue200, yellow300, green300, purple300 } from 'material-ui/styles/colors'
+import {
+  lightBlue200, yellow300, green300, purple300,
+} from 'material-ui/styles/colors'
 
 const styles = theme => ({
   listItem: {

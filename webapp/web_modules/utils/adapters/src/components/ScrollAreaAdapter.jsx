@@ -43,6 +43,7 @@ class ScrollAreaAdapter extends React.Component {
     this.renderComponent = this.renderHeadless ? HeadlessAdapter : require('react-scrollbar').default
     this.delegateInstance = null
   }
+
   /**
    * Can delegate to scroll area render?
    */
@@ -50,10 +51,15 @@ class ScrollAreaAdapter extends React.Component {
 
   // expose scroll area API
   scrollTop = () => this.canDelegate() && this.delegateInstance.scrollTop()
+
   scrollBottom = () => this.canDelegate() && this.delegateInstance.scrollBottom()
+
   scrollYTo = topPosition => this.canDelegate() && this.delegateInstance.scrollYTo(topPosition)
+
   scrollLeft = () => this.canDelegate() && this.delegateInstance.scrollLeft()
+
   scrollRight = () => this.canDelegate() && this.delegateInstance.scrollRight()
+
   scrollXTo = leftPosition => this.canDelegate() && this.delegateInstance.scrollXTo(leftPosition)
 
   render() {

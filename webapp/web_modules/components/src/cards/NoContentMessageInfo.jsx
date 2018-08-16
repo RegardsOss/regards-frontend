@@ -49,9 +49,9 @@ export class NoContentMessageInfo extends React.Component {
     return (
       <div style={noDataContainerStyle}>
         {
-          noContent ?
-            <NoContentComponent title={title} message={message} Icon={Icon} /> :
-            children
+          noContent
+            ? <NoContentComponent title={title} message={message} Icon={Icon} />
+            : children
         }
       </div>
     )

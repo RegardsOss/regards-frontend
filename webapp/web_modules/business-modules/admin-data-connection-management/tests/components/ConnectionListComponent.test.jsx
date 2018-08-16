@@ -48,4 +48,3 @@ describe('[ADMIN DATA CONNECTION MANAGEMENT] Testing ConnectionListComponent', (
     expect(enzymeWrapper.find(ConnectionTesterIconButton)).to.have.length(1)
   })
 })
-

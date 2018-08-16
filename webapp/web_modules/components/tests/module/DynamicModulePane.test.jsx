@@ -66,7 +66,7 @@ describe('[Components] Testing DynamicModulePane', () => {
     }
     const wrapper = shallow(
       (
-        <DynamicModulePane {...props} >
+        <DynamicModulePane {...props}>
           <div>Some content</div>
         </DynamicModulePane>
       ), { context },
@@ -122,7 +122,7 @@ describe('[Components] Testing DynamicModulePane', () => {
     }
     const wrapper = shallow(
       (
-        <DynamicModulePane {...props} >
+        <DynamicModulePane {...props}>
           <div>Some content</div>
         </DynamicModulePane>
       ), { context },
@@ -177,7 +177,7 @@ describe('[Components] Testing DynamicModulePane', () => {
     }
     const wrapper = shallow(
       (
-        <DynamicModulePane {...props} >
+        <DynamicModulePane {...props}>
           <div>Some content</div>
         </DynamicModulePane>
       ), { context },
@@ -234,7 +234,7 @@ describe('[Components] Testing DynamicModulePane', () => {
       dispatchSetNormal: () => { },
       dispatchSetMaximized: () => { },
     }
-    shallow(<DynamicModulePane {...props} ><div /></DynamicModulePane>, { context })
+    shallow(<DynamicModulePane {...props}><div /></DynamicModulePane>, { context })
     assert.equal(spiedInitialization.expandable, true, 'EXPANDED_COLLAPSIBLE shoud be resolved as expandable')
     assert.equal(spiedInitialization.expanded, true, 'EXPANDED_COLLAPSIBLE shoud be resolved as expanded')
 
@@ -244,7 +244,7 @@ describe('[Components] Testing DynamicModulePane', () => {
         primaryPane: UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE,
       },
     }
-    shallow(<DynamicModulePane {...props2} ><div /></DynamicModulePane>, { context })
+    shallow(<DynamicModulePane {...props2}><div /></DynamicModulePane>, { context })
     assert.equal(spiedInitialization.expandable, true, 'COLLAPSED_EXPANDABLE shoud be resolved as expandable')
     assert.equal(spiedInitialization.expanded, false, 'COLLAPSED_EXPANDABLE shoud be resolved as not expanded')
 
@@ -254,7 +254,7 @@ describe('[Components] Testing DynamicModulePane', () => {
         primaryPane: UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.ALWAYS_EXPANDED,
       },
     }
-    shallow(<DynamicModulePane {...props3} ><div /></DynamicModulePane>, { context })
+    shallow(<DynamicModulePane {...props3}><div /></DynamicModulePane>, { context })
     assert.equal(spiedInitialization.expandable, false, 'ALWAYS_EXPANDED shoud be resolved as not expandable')
     assert.equal(spiedInitialization.expanded, true, 'ALWAYS_EXPANDED shoud be resolved as expanded')
   })
@@ -282,7 +282,7 @@ describe('[Components] Testing DynamicModulePane', () => {
       dispatchSetNormal: () => { },
       dispatchSetMaximized: () => { },
     }
-    const enzymeWrapper = shallow(<DynamicModulePane {...props} ><div /></DynamicModulePane>, { context })
+    const enzymeWrapper = shallow(<DynamicModulePane {...props}><div /></DynamicModulePane>, { context })
     let noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
     assert.lengthOf(noContentWrapper, 1, 'There should be authentication message displayer')
     assert.isTrue(noContentWrapper.props().noContent, 'Module content should be blocked as module is loading content')
@@ -317,7 +317,7 @@ describe('[Components] Testing DynamicModulePane', () => {
       dispatchSetNormal: () => { },
       dispatchSetMaximized: () => { },
     }
-    const enzymeWrapper = shallow(<DynamicModulePane {...props} ><div /></DynamicModulePane>, { context })
+    const enzymeWrapper = shallow(<DynamicModulePane {...props}><div /></DynamicModulePane>, { context })
     let noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
     assert.lengthOf(noContentWrapper, 1, 'There should be authentication message displayer')
     assert.isTrue(noContentWrapper.props().noContent, 'Module content should be blocked as user is not authenticated')
@@ -355,7 +355,7 @@ describe('[Components] Testing DynamicModulePane', () => {
       dispatchSetNormal: () => { },
       dispatchSetMaximized: () => { },
     }
-    const enzymeWrapper = shallow(<DynamicModulePane {...props} ><div /></DynamicModulePane>, { context })
+    const enzymeWrapper = shallow(<DynamicModulePane {...props}><div /></DynamicModulePane>, { context })
     let noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
     assert.lengthOf(noContentWrapper, 1, 'There should be rights message displayer')
     assert.isTrue(noContentWrapper.props().noContent, 'Module content should be blocked as user has not all dependencies (1)')

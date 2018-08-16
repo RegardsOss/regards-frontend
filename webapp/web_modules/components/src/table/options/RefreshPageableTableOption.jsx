@@ -67,8 +67,7 @@ export class RefreshPageableTableOption extends React.Component {
    */
   static mapDispatchToProps(dispatch, { pageableTableActions }) {
     return {
-      fetchEntities: (pageIndex, pageSize, pathParams, requestParams) =>
-        dispatch(pageableTableActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, requestParams)),
+      fetchEntities: (pageIndex, pageSize, pathParams, requestParams) => dispatch(pageableTableActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, requestParams)),
     }
   }
 

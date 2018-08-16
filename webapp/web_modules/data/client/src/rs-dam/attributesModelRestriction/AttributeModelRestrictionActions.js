@@ -34,6 +34,7 @@ export default class AttributeModelRestrictionsActions extends BasicArrayActions
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/attributes/restrictions`,
     })
   }
+
   getList(modelAttributeType) {
     this.entityEndpoint = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/attributes/restrictions?type=${modelAttributeType}`
     return super.fetchEntityList()

@@ -53,14 +53,14 @@ class ColumnVisibleRender extends React.Component {
       <IconButton
         onClick={this.onToggleVisibility}
         title={formatMessage({
-          id: visible ?
-            'search.results.configure.columns.visible.title' :
-            'search.results.configure.columns.hidden.title',
+          id: visible
+            ? 'search.results.configure.columns.visible.title'
+            : 'search.results.configure.columns.hidden.title',
         })}
       >
-        {visible ?
-          <CheckedIcon /> :
-          <UncheckedIcon />
+        {visible
+          ? <CheckedIcon />
+          : <UncheckedIcon />
 
         }
       </IconButton>

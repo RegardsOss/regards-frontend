@@ -32,9 +32,9 @@ export const getFormattedRange = (intl, lower, upper) => {
   const hasUpper = !isNil(upper)
   if (hasLower && hasUpper) {
     return intl.formatMessage({ id: 'value.render.range.full.label' }, { lower, upper })
-  } else if (hasUpper) {
+  } if (hasUpper) {
     return intl.formatMessage({ id: 'value.render.range.upper.only.label' }, { upper })
-  } else if (hasLower) {
+  } if (hasLower) {
     return intl.formatMessage({ id: 'value.render.range.lower.only.label' }, { lower })
   }
   // undefined range
@@ -70,8 +70,8 @@ class RangeValueRender extends React.Component {
     const value = this.props.value || {}
     const { multilineDisplay } = this.props
     const { intl, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
-    const textValue = getFormattedRange(intl, value.lowerBound, value.upperBound) ||
-      intl.formatMessage({ id: 'value.render.no.value.label' })
+    const textValue = getFormattedRange(intl, value.lowerBound, value.upperBound)
+      || intl.formatMessage({ id: 'value.render.no.value.label' })
     return (
       <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue}>
         {textValue}
@@ -80,4 +80,3 @@ class RangeValueRender extends React.Component {
 }
 
 export default RangeValueRender
-

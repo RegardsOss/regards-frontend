@@ -40,4 +40,3 @@ class VerifyEmailActions extends BasicSignalActions {
 }
 
 export default new VerifyEmailActions()
-

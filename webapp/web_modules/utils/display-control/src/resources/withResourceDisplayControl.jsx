@@ -23,7 +23,7 @@ import { AuthenticationParametersSelectors } from '@regardsoss/authentication-ut
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { connect } from '@regardsoss/redux'
 import ShowableAtRender from '../ShowableAtRender'
-import allMatchHateoasDisplayLogic from './../logics/allMatchHateoasDisplayLogic'
+import allMatchHateoasDisplayLogic from '../logics/allMatchHateoasDisplayLogic'
 import getDisplayName from '../getDisplayName'
 
 /**

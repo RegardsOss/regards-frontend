@@ -18,9 +18,13 @@
  **/
 import map from 'lodash/map'
 import isNil from 'lodash/isNil'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, Field, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderTextField, RenderSelectField, Field, reduxForm, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -205,4 +209,3 @@ export class CollectionFormComponent extends React.Component {
 export default reduxForm({
   form: 'collection-form',
 })(CollectionFormComponent)
-

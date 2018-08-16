@@ -18,11 +18,15 @@
  */
 import get from 'lodash/get'
 import trim from 'lodash/trim'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { RenderTextField, Field, ErrorTypes, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderTextField, Field, ErrorTypes, reduxForm, ValidationHelpers,
+} from '@regardsoss/form-utils'
 
 /**
  * Reset password request form component
@@ -133,4 +137,3 @@ export default reduxForm({
   asyncValidate,
   asyncBlurFields: ['newPassword'],
 })(ChangePasswordFormComponent)
-

@@ -55,8 +55,8 @@ export class FilesComponent extends React.Component {
       return null
     }
     return (
-      <div style={rootStyle} >
-        <div style={fileOptions} >
+      <div style={rootStyle}>
+        <div style={fileOptions}>
           <FileSelectorComponent
             files={files}
             selectedFile={selectedFile}
@@ -70,7 +70,7 @@ export class FilesComponent extends React.Component {
             <DownloadIcon />
           </DownloadButton>
         </div>
-        <div style={fileContent} >
+        <div style={fileContent}>
           <FileContainer file={selectedFile} />
         </div>
       </div>

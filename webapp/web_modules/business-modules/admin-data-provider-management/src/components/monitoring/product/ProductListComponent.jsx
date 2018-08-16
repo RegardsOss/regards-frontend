@@ -18,7 +18,9 @@
  **/
 import get from 'lodash/get'
 import { browserHistory } from 'react-router'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import {

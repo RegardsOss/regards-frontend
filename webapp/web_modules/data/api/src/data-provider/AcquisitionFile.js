@@ -26,8 +26,7 @@ const AcquisitionFileConfiguration = {
 }
 
 const AcquisitionFile = new Schema(AcquisitionFileConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[AcquisitionFileConfiguration.entityKey]
+  idAttribute: entity => entity.content[AcquisitionFileConfiguration.entityKey]
   ,
 })
 

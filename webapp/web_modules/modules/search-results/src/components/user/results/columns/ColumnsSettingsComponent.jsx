@@ -86,13 +86,12 @@ class ColumnsSettingsComponent extends React.Component {
    * inner callback: updates edition model and related variables in state
    * @param {[ColumnPresentationModel]} editionModels new edition models
    */
-  onEditionModelsUpdate = (initialEditionModels, editionModels) =>
-    this.setState({
-      editionModels,
-      valid: editionModels.some(m => m.visible),
-      modified: !isEqual(initialEditionModels, editionModels),
-      allVisible: !editionModels.find(m => !m.visible),
-    })
+  onEditionModelsUpdate = (initialEditionModels, editionModels) => this.setState({
+    editionModels,
+    valid: editionModels.some(m => m.visible),
+    modified: !isEqual(initialEditionModels, editionModels),
+    allVisible: !editionModels.find(m => !m.visible),
+  })
 
   /**
    * User callback: on edition done (locally wrapped). It clears previous sorting state from hidden models
@@ -130,8 +129,7 @@ class ColumnsSettingsComponent extends React.Component {
     // update state through inner callback
     this.onEditionModelsUpdate(
       this.props.presentationModels,
-      this.state.editionModels.map(model =>
-        model.key === presentationModel.key ? { ...model, visible } : model))
+      this.state.editionModels.map(model => model.key === presentationModel.key ? { ...model, visible } : model))
   }
 
   /**
@@ -159,10 +157,9 @@ class ColumnsSettingsComponent extends React.Component {
    * Inner callback: Toggles all columns visible state
    * @param {boolean} visible new visible state for all columns
    */
-  onToggleAll = visible =>
-    this.onEditionModelsUpdate(
-      this.props.presentationModels,
-      this.state.editionModels.map(m => ({ ...m, visible })))
+  onToggleAll = visible => this.onEditionModelsUpdate(
+    this.props.presentationModels,
+    this.state.editionModels.map(m => ({ ...m, visible })))
 
   /** User callback: hide all columns */
   onToggleAllHidden = () => this.onToggleAll(false)
@@ -255,9 +252,9 @@ class ColumnsSettingsComponent extends React.Component {
             <TableHeaderOptionsArea>
               <FlatButton
                 label={formatMessage({
-                  id: allVisible ?
-                    'search.results.configure.columns.toggle.all.hidden' :
-                    'search.results.configure.columns.toggle.all.visible',
+                  id: allVisible
+                    ? 'search.results.configure.columns.toggle.all.hidden'
+                    : 'search.results.configure.columns.toggle.all.visible',
                 })}
                 onClick={allVisible ? this.onToggleAllHidden : this.onToggleAllVisible}
               />
@@ -274,4 +271,3 @@ class ColumnsSettingsComponent extends React.Component {
   }
 }
 export default ColumnsSettingsComponent
-

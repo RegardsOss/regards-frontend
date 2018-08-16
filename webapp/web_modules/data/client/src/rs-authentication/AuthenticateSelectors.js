@@ -39,8 +39,8 @@ class AuthenticateSelectors extends BasicSignalSelectors {
    */
   isAuthenticated(state) {
     const authentication = this.getAuthentication(state)
-    if (authentication && authentication.authenticateDate &&
-      authentication.result && authentication.result.expires_in) {
+    if (authentication && authentication.authenticateDate
+      && authentication.result && authentication.result.expires_in) {
       return authentication.result.sub !== undefined
     }
     return false

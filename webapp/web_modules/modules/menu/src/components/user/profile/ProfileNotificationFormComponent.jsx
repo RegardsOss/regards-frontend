@@ -19,7 +19,9 @@
 import has from 'lodash/has'
 import { CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
-import { RenderTextField, Field, RenderSelectField, reduxForm } from '@regardsoss/form-utils'
+import {
+  RenderTextField, Field, RenderSelectField, reduxForm,
+} from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
@@ -145,7 +147,7 @@ export class ProfileNotificationFormComponent extends React.Component {
             />
           </CardActions>
         </form>
-      </div >
+      </div>
     )
   }
 }

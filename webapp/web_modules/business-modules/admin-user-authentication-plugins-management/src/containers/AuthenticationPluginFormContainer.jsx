@@ -105,7 +105,7 @@ export class AuthenticationPluginFormContainer extends React.Component {
           />
         )
         }
-      </LoadableContentDisplayDecorator >
+      </LoadableContentDisplayDecorator>
     )
   }
 }

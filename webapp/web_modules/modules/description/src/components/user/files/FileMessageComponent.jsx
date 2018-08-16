@@ -49,7 +49,7 @@ class FileMessageComponent extends React.Component {
           Icon={NoDataIcon}
         >
           <div />
-        </NoContentMessageInfo >
+        </NoContentMessageInfo>
       </div>
     )
   }

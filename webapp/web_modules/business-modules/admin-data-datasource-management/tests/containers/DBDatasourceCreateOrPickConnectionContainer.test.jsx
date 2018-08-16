@@ -50,4 +50,3 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceCreateOrPickCon
     assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')
   })
 })
-

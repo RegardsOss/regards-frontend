@@ -27,4 +27,3 @@ export { default as someListMatchHateoasDisplayLogic } from './logics/someListMa
 export { default as LoadableContentDisplayDecorator } from './async/LoadableContentDisplayDecorator'
 export { default as LoadingComponent } from './async/loading/LoadingComponent'
 export { default as HOCUtils } from './hoc/HOCUtils'
-

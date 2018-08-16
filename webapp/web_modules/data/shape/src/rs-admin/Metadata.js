@@ -23,4 +23,3 @@ export const MetadataContent = PropTypes.shape({
 })
 
 export const MetadataContentArray = PropTypes.arrayOf(MetadataContent)
-

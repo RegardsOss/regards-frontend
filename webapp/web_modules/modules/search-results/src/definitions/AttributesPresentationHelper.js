@@ -52,8 +52,7 @@ function isSortableAttribute(attributeFullQualifiedName) {
  */
 export function buildPresentationModel(attributeModels = {}, { label, attributes = [] }, initialSorting, allowsSorting, index) {
   // 1 - Retrieve all attributes that can be retrieved
-  const columnAttributeModels = attributes.map(({ name }) =>
-    DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels))
+  const columnAttributeModels = attributes.map(({ name }) => DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels))
     .filter(model => !!model) // remove non retrieved models
   if (!columnAttributeModels.length) {
     return null // cannot show that column as no attribute could be retrieved
@@ -66,8 +65,8 @@ export function buildPresentationModel(attributeModels = {}, { label, attributes
   let defaultSorting = false
   if (enableSorting && initialSorting && initialSorting.length === 1) {
     const initialSortingAttributes = initialSorting[0].attributes
-    defaultSorting = initialSortingAttributes.length === 1 &&
-      initialSortingAttributes[0].name === attributes[0].name
+    defaultSorting = initialSortingAttributes.length === 1
+      && initialSortingAttributes[0].name === attributes[0].name
   }
 
   // 1.b - convert into attribute model as some attributes where found
@@ -137,8 +136,7 @@ export function changeSortOrder(presentationModels, key, newSortOrder, removeOth
       if (isSwitching) { // switching column, restore previous sort index
         newSortIndex = changedColumn.sortIndex
       } else { // adding new column, compute max sort index +1 (defaults to 0)
-        newSortIndex = presentationModels.reduce((maxSortIndex, attrModel) =>
-          isNumber(attrModel.sortIndex) ? Math.max(maxSortIndex, attrModel.sortIndex) : maxSortIndex, -1) + 1
+        newSortIndex = presentationModels.reduce((maxSortIndex, attrModel) => isNumber(attrModel.sortIndex) ? Math.max(maxSortIndex, attrModel.sortIndex) : maxSortIndex, -1) + 1
       }
     }
     // update column and full module if removeOtherSorting

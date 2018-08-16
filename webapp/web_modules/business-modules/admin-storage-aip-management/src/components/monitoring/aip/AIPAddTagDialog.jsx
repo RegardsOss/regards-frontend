@@ -55,10 +55,12 @@ class AIPAddTagDialog extends React.Component {
       value,
     })
   }
+
   handleSubmit = () => {
     const { tagsToAdd } = this.state
     this.props.onSubmit(tagsToAdd)
   }
+
   addTag = () => {
     const { tagsToAdd, value } = this.state
     this.setState({
@@ -66,12 +68,14 @@ class AIPAddTagDialog extends React.Component {
       value: '',
     })
   }
+
   removeTag = (tag) => {
     const { tagsToAdd } = this.state
     this.setState({
       tagsToAdd: without(tagsToAdd, tag),
     })
   }
+
   renderActions = () => {
     const { onClose } = this.props
     const { tagsToAdd } = this.state
@@ -114,6 +118,7 @@ class AIPAddTagDialog extends React.Component {
       </div>
     )
   }
+
   renderTags = (tagList) => {
     const { moduleTheme } = this.context
     return (
@@ -129,6 +134,7 @@ class AIPAddTagDialog extends React.Component {
       </div>
     )
   }
+
   render() {
     const { intl: { formatMessage }, moduleTheme } = this.context
     const { tagsToAdd } = this.state

@@ -21,7 +21,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { DataManagementShapes } from '@regardsoss/shape'
 import DatasetEditFilesComponent from '../components/DatasetEditFilesComponent'
-import { datasetSelectors, datasetActions } from './../clients/DatasetClient'
+import { datasetSelectors, datasetActions } from '../clients/DatasetClient'
 import messages from '../i18n'
 
 export class DatasetEditFilesContainer extends React.Component {
@@ -55,10 +55,9 @@ export class DatasetEditFilesContainer extends React.Component {
 
   componentDidMount() {
     this.props.fetchDataset(this.props.params.datasetId)
-      .then(() =>
-        this.setState({
-          isLoading: false,
-        }))
+      .then(() => this.setState({
+        isLoading: false,
+      }))
   }
 
   getBackUrl = () => {

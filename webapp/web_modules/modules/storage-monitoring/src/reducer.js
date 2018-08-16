@@ -23,4 +23,3 @@ const archivalStorageReducer = {
 }
 
 export default archivalStorageReducer
-

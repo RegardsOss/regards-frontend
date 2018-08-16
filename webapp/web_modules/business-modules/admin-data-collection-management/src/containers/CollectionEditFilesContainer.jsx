@@ -55,10 +55,9 @@ export class CollectionEditFilesContainer extends React.Component {
 
   componentDidMount() {
     this.props.fetchCollection(this.props.params.collectionId)
-      .then(() =>
-        this.setState({
-          isLoading: false,
-        }))
+      .then(() => this.setState({
+        isLoading: false,
+      }))
   }
 
   getBackUrl = () => {

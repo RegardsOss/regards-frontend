@@ -46,4 +46,3 @@ describe('[ADMIN CLIENT] Testing model PluginConfiguration', () => {
     entityTester.runTests(done)
   })
 })
-

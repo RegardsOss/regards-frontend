@@ -50,9 +50,9 @@ class DynamicModuleFormComponent extends React.Component {
     if (!this.props.adminForm.form || !this.props.adminForm.form.conf) {
       return true
     }
-    return !isEqual(this.state, nextState) ||
-      !isEqual(this.props.adminForm.form.type, nextProps.adminForm.form.type) ||
-      !isEqual(this.props.adminForm.form.conf, nextProps.adminForm.form.conf)
+    return !isEqual(this.state, nextState)
+      || !isEqual(this.props.adminForm.form.type, nextProps.adminForm.form.type)
+      || !isEqual(this.props.adminForm.form.conf, nextProps.adminForm.form.conf)
   }
 
   moduleLoaded = (module) => {
@@ -68,9 +68,9 @@ class DynamicModuleFormComponent extends React.Component {
     return (
       <div>
         { /* No configuration common message */
-          this.state.module && !this.state.module.adminContainer ?
-            <FormattedMessage id="module.form.module.no.setting.message" /> :
-            null
+          this.state.module && !this.state.module.adminContainer
+            ? <FormattedMessage id="module.form.module.no.setting.message" />
+            : null
         }
         {/* Module loader */}
         <LazyModuleComponent

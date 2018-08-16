@@ -31,4 +31,3 @@ describe('[Domain] Testing StaticQueryParameter', () => {
     assert.equal(p2.toQueryString(), '')
   })
 })
-

@@ -108,10 +108,10 @@ export class CartSelectorContainer extends React.Component {
     const oldState = this.state
     const newState = { ...(oldState || CartSelectorContainer.DEFAULT_STATE) }
     // 1 - Attempt to retrieve the corresponding order cart dynamic module
-    if (!isEqual(oldProps.isAuthenticated, newProps.isAuthenticated) ||
-      !isEqual(oldProps.dynamicContainerId, newProps.dynamicContainerId) ||
-      !isEqual(oldProps.modules, newProps.modules) ||
-      !isEqual(oldProps.availableEndpoints, newProps.availableEndpoints)) {
+    if (!isEqual(oldProps.isAuthenticated, newProps.isAuthenticated)
+      || !isEqual(oldProps.dynamicContainerId, newProps.dynamicContainerId)
+      || !isEqual(oldProps.modules, newProps.modules)
+      || !isEqual(oldProps.availableEndpoints, newProps.availableEndpoints)) {
       newState.cartModuleId = this.getCartModuleId(newProps)
     }
 

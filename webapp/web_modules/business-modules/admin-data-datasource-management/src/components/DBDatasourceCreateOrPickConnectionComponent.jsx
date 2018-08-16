@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { browserHistory } from 'react-router'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import map from 'lodash/map'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -51,6 +53,7 @@ export class DBDatasourceCreateOrPickConnectionComponent extends React.Component
       currentConnection: undefined,
     }
   }
+
   handleChange = (event, index, value) => {
     this.setState({
       currentConnection: value,
@@ -129,4 +132,3 @@ export class DBDatasourceCreateOrPickConnectionComponent extends React.Component
 }
 
 export default DBDatasourceCreateOrPickConnectionComponent
-

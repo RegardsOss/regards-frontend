@@ -85,4 +85,3 @@ const withConfirmDialog = (DecoratedComponent) => {
 }
 
 export default withConfirmDialog
-

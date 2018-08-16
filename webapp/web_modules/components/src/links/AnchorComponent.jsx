@@ -34,7 +34,9 @@ class AnchorComponent extends React.Component {
       PropTypes.node,
     ]),
   }
+
   static THRESHOLD_VISIBLE = 600
+
   static contextTypes = {
     ...themeContextType,
   }
@@ -175,8 +177,8 @@ class AnchorComponent extends React.Component {
     return (
       <div>
         {children}
-        {isVisible ?
-          <FloatingActionButton
+        {isVisible
+          ? <FloatingActionButton
             mini
             style={buttonStyle}
             backgroundColor={buttonColor}
@@ -184,7 +186,7 @@ class AnchorComponent extends React.Component {
             iconStyle={iconStyle}
           >
             <Up />
-          </FloatingActionButton> : null
+            </FloatingActionButton> : null
         }
       </div>
     )

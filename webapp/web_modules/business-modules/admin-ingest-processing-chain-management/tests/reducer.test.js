@@ -32,4 +32,3 @@ describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing reducer', () => {
     assert.isDefined(Reducer)
   })
 })
-

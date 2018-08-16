@@ -36,6 +36,7 @@ export class ClearFieldButton extends React.Component {
   }
 
   static DISPLAYED_STYLES = { transform: 'scale(1)' }
+
   static HIDDEN_STYLES = { transform: 'scale(0)' }
 
   render() {

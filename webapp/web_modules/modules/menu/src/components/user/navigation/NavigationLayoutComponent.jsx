@@ -137,9 +137,8 @@ class NavigationLayoutComponent extends React.Component {
   onLayoutUpdateImpl = (navigationElements) => {
     // 0 - check if initialized (if not, show all)
     let nextState = NavigationLayoutComponent.NON_INITIALIZE_STATE
-    const isInitialized = isNumber(this.layoutWidth) && isNumber(this.moreButtonWidth) &&
-      navigationElements.reduce((acc, navigationElement) =>
-        acc && isNumber(this.barItemsWidths[navigationElement.key]), true)
+    const isInitialized = isNumber(this.layoutWidth) && isNumber(this.moreButtonWidth)
+      && navigationElements.reduce((acc, navigationElement) => acc && isNumber(this.barItemsWidths[navigationElement.key]), true)
     if (isInitialized) {
       // 1 - consume this width to show more possible elements
       let shownBarItemsCount = 0

@@ -62,10 +62,9 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
   }
 
   componentWillMount() {
-    Promise.resolve(this.props.fetchControllerList(this.props.microserviceName)).then(() =>
-      this.setState({
-        controllersLoading: false,
-      }))
+    Promise.resolve(this.props.fetchControllerList(this.props.microserviceName)).then(() => this.setState({
+      controllersLoading: false,
+    }))
   }
 
   handleOpenController = (controllerName) => {
@@ -119,18 +118,17 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
         <LoadableContentDisplayDecorator
           isLoading={this.state.controllersLoading}
         >
-          {() =>
-            (<ResourceAccessFormByMicroserviceComponent
-              controllerList={controllerList}
-              resourceList={resourceList}
-              resourceListFetching={this.props.resourceListFetching}
-              currentRole={currentRole}
-              roleResources={roleResources}
-              microserviceName={microserviceName}
-              handleOpenController={this.handleOpenController}
-              handleToggleResourceAccess={this.handleToggleResourceAccess}
-              handleOpenResourceAccess={this.handleOpenResourceAccessModal}
-            />)
+          {() => (<ResourceAccessFormByMicroserviceComponent
+            controllerList={controllerList}
+            resourceList={resourceList}
+            resourceListFetching={this.props.resourceListFetching}
+            currentRole={currentRole}
+            roleResources={roleResources}
+            microserviceName={microserviceName}
+            handleOpenController={this.handleOpenController}
+            handleToggleResourceAccess={this.handleToggleResourceAccess}
+            handleOpenResourceAccess={this.handleOpenResourceAccessModal}
+          />)
           }
         </LoadableContentDisplayDecorator>
       </div>
@@ -158,4 +156,3 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResourceAccessFormByMicroserviceContainer)
-

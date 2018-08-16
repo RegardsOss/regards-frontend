@@ -25,8 +25,11 @@ import OpenSearchQueryParameter from './OpenSearchQueryParameter'
  */
 export default class OpenSearchQuery extends Query {
   static PARAMETERS_SEPARATOR = ' AND '
+
   static TAGS_PARAM_NAME = 'tags'
+
   static MODEL_PARAM_NAME = 'model'
+
   static ID_PARAM_NAME = 'id'
 
   /**

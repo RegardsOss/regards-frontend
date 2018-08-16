@@ -27,7 +27,9 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { DamDomain, CommonDomain } from '@regardsoss/domain'
 import { List, ListItem, makeSelectable } from 'material-ui/List'
 import Badge from 'material-ui/Badge'
-import { Field, FieldArray, RenderFileFieldWithMui, RenderArrayObjectField, reduxForm } from '@regardsoss/form-utils'
+import {
+  Field, FieldArray, RenderFileFieldWithMui, RenderArrayObjectField, reduxForm,
+} from '@regardsoss/form-utils'
 import Subheader from 'material-ui/Subheader'
 import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent, ShowableAtRender, NoContentComponent } from '@regardsoss/components'
@@ -69,6 +71,7 @@ export class EntitiesFilesFormComponent extends React.Component {
     alignItems: 'center',
     justifyContent: 'space-between',
   }
+
   static addFileWrapperStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -100,6 +103,7 @@ export class EntitiesFilesFormComponent extends React.Component {
     const { type } = this.state
     this.props.onSubmit(type, formValues, files)
   }
+
   /**
    * @return {string} the list of extension allowed on the file input
    */
@@ -115,6 +119,7 @@ export class EntitiesFilesFormComponent extends React.Component {
         return ''
     }
   }
+
   /**
    * @return {string} link to see an associated file
    */
@@ -134,6 +139,7 @@ export class EntitiesFilesFormComponent extends React.Component {
     const { type } = this.state
     return get(currentEntity, `content.feature.files.${type}`, [])
   }
+
   /**
    * @return {int} the number of file for the provided type
    */
@@ -141,6 +147,7 @@ export class EntitiesFilesFormComponent extends React.Component {
     const { currentEntity } = this.props
     return size(get(currentEntity, `content.feature.files.${type}`, []))
   }
+
   /**
    * @return {Array<String>} The list of Mimetype available for the current type of DataFile
    */
@@ -156,6 +163,7 @@ export class EntitiesFilesFormComponent extends React.Component {
         return []
     }
   }
+
   /**
    * Return props for EntitiesFilesRefFieldArray component
    */
@@ -181,6 +189,7 @@ export class EntitiesFilesFormComponent extends React.Component {
       nbInputs: this.state.nbInputs - 1,
     })
   }
+
   /**
    * Change the type of DataType displayed
    */
@@ -195,16 +204,19 @@ export class EntitiesFilesFormComponent extends React.Component {
     }
     this.setState(stateChanges)
   }
+
   handleOpenForm = () => {
     this.setState({
       state: STATE.FORM,
     })
   }
+
   handleCloseForm = () => {
     this.setState({
       state: STATE.INIT,
     })
   }
+
   renderFileInput = inputId => (
     <div
       style={EntitiesFilesFormComponent.rowInputAndButtonStyle}
@@ -230,6 +242,7 @@ export class EntitiesFilesFormComponent extends React.Component {
       </ShowableAtRender>
     </div>
   )
+
   renderFormNewValue = () => {
     if (this.state.state !== STATE.FORM) {
       return null
@@ -259,12 +272,13 @@ export class EntitiesFilesFormComponent extends React.Component {
       </form>
     )
   }
+
   renderType = (type) => {
     const nbFile = this.getNbFile(type)
     const { formatMessage } = this.context.intl
     const { allowedDataType } = this.props
-    return includes(allowedDataType, type) ?
-      (<ListItem
+    return includes(allowedDataType, type)
+      ? (<ListItem
         rightIcon={<Badge
           secondary
           badgeContent={nbFile}
@@ -275,6 +289,7 @@ export class EntitiesFilesFormComponent extends React.Component {
         value={type}
       />) : null
   }
+
   renderTypeList = () => (
     <div className="col-sm-25">
       <SelectableList value={this.state.type} onChange={this.handleChangeDataType}>
@@ -284,6 +299,7 @@ export class EntitiesFilesFormComponent extends React.Component {
       </SelectableList>
     </div>
   )
+
   renderListValue = () => {
     if (this.state.state !== STATE.INIT) {
       return null
@@ -341,4 +357,3 @@ export class EntitiesFilesFormComponent extends React.Component {
 export default reduxForm({
   form: 'entities-files',
 })(EntitiesFilesFormComponent)
-

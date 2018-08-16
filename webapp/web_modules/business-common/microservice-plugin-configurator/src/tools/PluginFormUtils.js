@@ -162,12 +162,12 @@ class PluginFormUtils {
       const formatedParamterConf = cloneDeep(parameterConf)
       formatedParamterConf.value = PluginFormUtils.formatParameterConf(parameterConf.value, parameterMetaData, forInit)
       return formatedParamterConf
-    } else if (parameterConf && !isNil(parameterConf.pluginConfiguration)) {
+    } if (parameterConf && !isNil(parameterConf.pluginConfiguration)) {
       // Handle plugin values
       const formatedParamterConf = cloneDeep(parameterConf)
       formatedParamterConf.value = parameterConf.pluginConfiguration.id
       return formatedParamterConf
-    } else if (forInit) {
+    } if (forInit) {
       // For initialization, we need to create all parameters in configuration
       return PluginFormUtils.createNewParameterConf(parameterMetaData)
     }
@@ -207,6 +207,7 @@ class PluginFormUtils {
   static formatPluginConfForReduxFormInit(pluginConfiguration, pluginMetaData) {
     return PluginFormUtils.formatPluginConf(pluginConfiguration, pluginMetaData, true)
   }
+
   /**
    * Format a PluginConfiguration before Redux form submit
    * @param {*} pluginConfiguration

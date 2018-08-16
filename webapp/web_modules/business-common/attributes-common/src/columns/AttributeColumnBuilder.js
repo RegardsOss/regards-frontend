@@ -62,8 +62,8 @@ function buildAttributeColumn({
   const columnBuilder = new TableColumnBuilder(key).label(get(label, locale, '')).visible(visible)
   // 2 - determine column header, width and render
   // check, by key, if we are currently rendering the thumbnail column
-  const isThumbnailColumn = attributes.length === 1 &&
-    DamDomain.AttributeModelController.standardAttributesKeys.thumbnail === attributes[0].content.name
+  const isThumbnailColumn = attributes.length === 1
+    && DamDomain.AttributeModelController.standardAttributesKeys.thumbnail === attributes[0].content.name
   if (isThumbnailColumn) {
     // thumbnail attribute: no header, fixed width, single picture delegate
     columnBuilder.optionsSizing(1).propertiesRenderCell(buildThumbnailDelegates(attributes[0]))

@@ -20,7 +20,9 @@ import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import MoodIcon from 'material-ui/svg-icons/social/mood'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
-import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
+import {
+  Card, CardActions, CardText, CardTitle,
+} from 'material-ui/Card'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CatalogShapes, CommonShapes } from '@regardsoss/shape'
@@ -28,7 +30,9 @@ import {
   reduxForm, Field, RenderTextField,
   ValidationHelpers, RenderPageableAutoCompleteField,
 } from '@regardsoss/form-utils'
-import { CardActionsComponent, PluginConfigurationPickerComponent, SubSectionCard, NoContentComponent } from '@regardsoss/components'
+import {
+  CardActionsComponent, PluginConfigurationPickerComponent, SubSectionCard, NoContentComponent,
+} from '@regardsoss/components'
 import { RenderPluginConfField, PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { DataManagementClient } from '@regardsoss/client'
 import { DatasetConfiguration } from '@regardsoss/api'
@@ -164,8 +168,8 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
         </RadioButtonGroup>
         <br />
         {
-          this.state.datasetSelector === 'selected' ?
-            <SubSectionCard
+          this.state.datasetSelector === 'selected'
+            ? <SubSectionCard
               title={formatMessage({ id: 'search-engines.form.dataset.section.title' })}
               arrowMarginLeft={30}
             >
@@ -183,7 +187,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
                 entitiesConfig={datasetAutoCompletConfig}
                 format={dataset => dataset ? dataset.label : ''}
               />
-            </SubSectionCard> : null
+              </SubSectionCard> : null
         }
       </div>
     )
@@ -207,12 +211,12 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
       )
     }
 
-    const title = mode === 'edit' ?
-      formatMessage({ id: 'dataaccess.searchengines.form.edit.title' }, { name: get(searchEngineConfiguration, 'content.label', '<>') }) :
-      formatMessage({ id: 'dataaccess.searchengines.form.create.title' })
-    const subtitle = mode === 'edit' ?
-      formatMessage({ id: 'dataaccess.searchengines.form.edit.subtitle' }) :
-      formatMessage({ id: 'dataaccess.searchengines.form.create.subtitle' })
+    const title = mode === 'edit'
+      ? formatMessage({ id: 'dataaccess.searchengines.form.edit.title' }, { name: get(searchEngineConfiguration, 'content.label', '<>') })
+      : formatMessage({ id: 'dataaccess.searchengines.form.create.title' })
+    const subtitle = mode === 'edit'
+      ? formatMessage({ id: 'dataaccess.searchengines.form.edit.subtitle' })
+      : formatMessage({ id: 'dataaccess.searchengines.form.create.subtitle' })
 
     return (
       <Card>
@@ -220,7 +224,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
           title={title}
           subtitle={subtitle}
         />
-        <CardText >
+        <CardText>
           <form
             onSubmit={handleSubmit(this.onSubmit)}
           >

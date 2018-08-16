@@ -30,7 +30,7 @@ import { extractParametersFromFormValues } from '@regardsoss/admin-data-entities
 import DatasetFormAttributesComponent from '../components/DatasetFormAttributesComponent'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
 import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
-import { datasourceSelectors, datasourceActions } from './../clients/DatasourceClient'
+import { datasourceSelectors, datasourceActions } from '../clients/DatasourceClient'
 import messages from '../i18n'
 
 /**

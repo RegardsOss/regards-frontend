@@ -42,8 +42,8 @@ export class TableSelectors extends BasicSelector {
       ], (pageMetadata, selectionMode, toggledElements) => {
         const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
         const selectionSize = keys(toggledElements).length
-        return (selectionMode === TableSelectionModes.includeSelected && selectionSize === 0) ||
-          (totalElements > 0 && selectionSize === totalElements)
+        return (selectionMode === TableSelectionModes.includeSelected && selectionSize === 0)
+          || (totalElements > 0 && selectionSize === totalElements)
       })
     }
     // select or reselect
@@ -70,8 +70,8 @@ export class TableSelectors extends BasicSelector {
         const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
         const selectionSize = keys(toggledElements).length
         return totalElements > 0 && (
-          (selectionMode === TableSelectionModes.includeSelected && selectionSize === totalElements) ||
-          (selectionMode === TableSelectionModes.excludeSelected && !selectionSize))
+          (selectionMode === TableSelectionModes.includeSelected && selectionSize === totalElements)
+          || (selectionMode === TableSelectionModes.excludeSelected && !selectionSize))
       })
     }
     // select or reselect
@@ -104,4 +104,3 @@ export class TableSelectors extends BasicSelector {
 }
 
 export default storePath => new TableSelectors(storePath)
-

@@ -63,4 +63,3 @@ describe('[Search Results] Testing QueriesHelper', () => {
     assert.equal(urlQuery.toQueryString(), 'sort=taille,DESC&jeveuxlesfacettes=oui', 'The URL query should be correctly generated without q param')
   })
 })
-

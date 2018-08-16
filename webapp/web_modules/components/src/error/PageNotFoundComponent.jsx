@@ -45,19 +45,19 @@ class PageNotFoundComponent extends React.Component {
         }}
       >
         <div style={{
- display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', minHeight: '30vh', width: '100%',
-}}
+          display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', minHeight: '30vh', width: '100%',
+        }}
         >
           <Icon color={theme.palette.primary1Color} style={iconStyle} />
           <div style={{
- maxWidth: '40%', marginTop: '0.2em', color: theme.palette.textColor, fontSize: '1.5em',
-}}
+            maxWidth: '40%', marginTop: '0.2em', color: theme.palette.textColor, fontSize: '1.5em',
+          }}
           >
             REGARDS : Page Not Found !
           </div>
           <div style={{
- maxWidth: '40%', marginTop: '0.6em', color: theme.palette.secondaryTextColor, textAlign: 'center', fontSize: '1em',
-}}
+            maxWidth: '40%', marginTop: '0.6em', color: theme.palette.secondaryTextColor, textAlign: 'center', fontSize: '1em',
+          }}
           >
             Requested page does not exists
           </div>

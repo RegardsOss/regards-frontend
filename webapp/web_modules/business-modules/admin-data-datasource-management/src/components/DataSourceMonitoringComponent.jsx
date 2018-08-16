@@ -18,7 +18,9 @@
  **/
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import FlatButton from 'material-ui/FlatButton'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -135,6 +137,7 @@ class DataSourceMonitoringComponent extends React.Component {
       </FitContentDialog>
     </ShowableAtRender>
   )
+
   render() {
     const { crawlerDatasources, onBack, onRefresh } = this.props
     const { intl, muiTheme } = this.context
@@ -180,7 +183,7 @@ class DataSourceMonitoringComponent extends React.Component {
           <TableLayout>
             <TableHeaderLine>
               <TableHeaderOptionsArea />
-              <TableHeaderOptionsArea >
+              <TableHeaderOptionsArea>
                 <TableHeaderOptionGroup>
                   <FlatButton
                     icon={<Refresh />}
@@ -188,7 +191,7 @@ class DataSourceMonitoringComponent extends React.Component {
                     onClick={onRefresh}
                   />
                 </TableHeaderOptionGroup>
-              </TableHeaderOptionsArea >
+              </TableHeaderOptionsArea>
             </TableHeaderLine>
             <InfiniteTableContainer
               columns={columns}

@@ -102,7 +102,7 @@ export class ServiceFormContainer extends React.Component {
           />
         )
         }
-      </LoadableContentDisplayDecorator >
+      </LoadableContentDisplayDecorator>
     )
   }
 }

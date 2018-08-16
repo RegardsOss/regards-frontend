@@ -49,9 +49,9 @@ class PrioritizedDataStorageActivationAction extends React.Component {
   render() {
     const { entity: { content: { active } } } = this.props
     const { intl: { formatMessage } } = this.context
-    const title = active ?
-      formatMessage({ id: 'datasource.list.action.desactivate' }) :
-      formatMessage({ id: 'datasource.list.action.activate' })
+    const title = active
+      ? formatMessage({ id: 'datasource.list.action.desactivate' })
+      : formatMessage({ id: 'datasource.list.action.activate' })
     return (
       <div style={{ margin: 'auto' }}>
         <Toggle

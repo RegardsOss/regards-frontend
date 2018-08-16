@@ -102,7 +102,7 @@ export class SecurityDelegationFormContainer extends React.Component {
           />
         )
         }
-      </LoadableContentDisplayDecorator >
+      </LoadableContentDisplayDecorator>
     )
   }
 }

@@ -36,7 +36,7 @@ class DialogLoadingComponent extends React.Component {
     const { styles, progressSize, messageStyles } = this.context.moduleTheme.loading
     const { loadingMessage } = this.props
     return (
-      <div style={styles} >
+      <div style={styles}>
         <CircularProgress size={progressSize} />
         <p style={messageStyles}>{loadingMessage}</p>
       </div>

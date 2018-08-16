@@ -24,7 +24,9 @@ import get from 'lodash/get'
 import fpmap from 'lodash/fp/map'
 import fpsortBy from 'lodash/fp/sortBy'
 import { CardTitle, CardText } from 'material-ui/Card'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
+import {
+  Table, TableBody, TableHeader, TableHeaderColumn, TableRow,
+} from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, Field } from '@regardsoss/form-utils'

@@ -109,9 +109,9 @@ class OrderDatasetsComponent extends React.Component {
           {/* 1 - commands count */}
           <TableHeaderContentBox>
             <OrderDatasetsCountHeaderMessage totalDatasetsCount={datasets.length} />
-          </TableHeaderContentBox >
+          </TableHeaderContentBox>
           {/* 2 - table options  */}
-          <TableHeaderOptionsArea >
+          <TableHeaderOptionsArea>
             <TableHeaderOptionGroup>
               {/* columns visibility configuration  */}
               <TableColumnsVisibilityOption
@@ -119,7 +119,7 @@ class OrderDatasetsComponent extends React.Component {
                 onChangeColumnsVisibility={onChangeColumnsVisibility}
               />
             </TableHeaderOptionGroup>
-          </TableHeaderOptionsArea >
+          </TableHeaderOptionsArea>
         </TableHeaderLine>
         <InfiniteTableContainer
           columns={columns}

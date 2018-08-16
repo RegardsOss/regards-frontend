@@ -123,8 +123,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollectionList: (pageIndex, pageSize, requestParams, queryParams) =>
-    dispatch(collectionActions.fetchPagedEntityList(pageIndex, pageSize, requestParams, queryParams)),
+  fetchCollectionList: (pageIndex, pageSize, requestParams, queryParams) => dispatch(collectionActions.fetchPagedEntityList(pageIndex, pageSize, requestParams, queryParams)),
   deleteCollection: id => dispatch(collectionActions.deleteEntity(id)),
 })
 

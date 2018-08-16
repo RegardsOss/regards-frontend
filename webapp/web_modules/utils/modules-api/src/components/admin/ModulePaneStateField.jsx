@@ -96,7 +96,7 @@ export class ModulePaneStateField extends React.Component {
             value={UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.ALWAYS_EXPANDED}
           />
         </Field>
-      </div >
+      </div>
     )
   }
 }

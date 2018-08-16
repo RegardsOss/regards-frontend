@@ -102,6 +102,7 @@ class ProjectComponent extends React.Component {
     }
     return null
   }
+
   render() {
     const { moduleTheme } = this.context
     const { isAccessible } = this.props.project.content
@@ -109,7 +110,7 @@ class ProjectComponent extends React.Component {
       return this.renderProject()
     }
     return (
-      <Link to={this.getProjectUrl()} style={moduleTheme.linkWithoutDecoration} >
+      <Link to={this.getProjectUrl()} style={moduleTheme.linkWithoutDecoration}>
         {this.renderProject()}
       </Link>
     )
@@ -117,4 +118,3 @@ class ProjectComponent extends React.Component {
 }
 
 export default ProjectComponent
-

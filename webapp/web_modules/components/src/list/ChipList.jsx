@@ -119,19 +119,19 @@ class ChipList extends React.Component {
             <Menu>
               { // Map entities to items
                 map(this.props.availableEntities, (entity) => {
-                const key = this.props.getEntityKey(entity)
-                const label = this.props.getEntityLabel(entity)
-                return (
-                  <ShowableAtRender key={key} show={!find(this.props.selectedEntities, o => isEqual(o, entity))}>
-                    <MenuItem
-                      key={key}
-                      primaryText={label}
-                      onClick={() => {
-                        this.props.onAddEntity(entity)
-                        this.handlePopoverClose()
-                      }}
-                    />
-                  </ShowableAtRender>)
+                  const key = this.props.getEntityKey(entity)
+                  const label = this.props.getEntityLabel(entity)
+                  return (
+                    <ShowableAtRender key={key} show={!find(this.props.selectedEntities, o => isEqual(o, entity))}>
+                      <MenuItem
+                        key={key}
+                        primaryText={label}
+                        onClick={() => {
+                          this.props.onAddEntity(entity)
+                          this.handlePopoverClose()
+                        }}
+                      />
+                    </ShowableAtRender>)
                 })
               }
             </Menu>

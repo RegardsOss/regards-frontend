@@ -49,8 +49,7 @@ export class SIPSessionListContainer extends React.Component {
    */
   static mapDispatchToProps = dispatch => ({
     deleteSession: session => dispatch(sessionActions.deleteEntity(session.id)),
-    fetchPage: (pageIndex, pageSize, queryParams) =>
-      dispatch(sessionActions.fetchPagedEntityList(pageIndex, pageSize, {}, queryParams)),
+    fetchPage: (pageIndex, pageSize, queryParams) => dispatch(sessionActions.fetchPagedEntityList(pageIndex, pageSize, {}, queryParams)),
   })
 
   static propTypes = {

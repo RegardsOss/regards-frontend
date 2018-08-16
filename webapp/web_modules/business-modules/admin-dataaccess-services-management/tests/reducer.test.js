@@ -32,4 +32,3 @@ describe('[ADMIN CATALOG SERVICES] Testing reducer', () => {
     assert.isDefined(Reducer)
   })
 })
-

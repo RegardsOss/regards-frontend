@@ -25,7 +25,9 @@ import fpfilter from 'lodash/fp/filter'
 import last from 'lodash/fp/last'
 import { Link } from 'react-router'
 import AppBar from 'material-ui/AppBar'
-import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
+import {
+  Card, CardActions, CardText, CardTitle,
+} from 'material-ui/Card'
 import Checkbox from 'material-ui/Checkbox'
 import Drawer from 'material-ui/Drawer'
 import AddCircle from 'material-ui/svg-icons/content/add-circle'
@@ -168,8 +170,8 @@ export default class PluginMetaDataListComponent extends React.Component {
         <CardText>
           {plugin.content.description}
 
-          {plugin.content.markdown ?
-            <div>
+          {plugin.content.markdown
+            ? <div>
               <br />
               <a
                 style={this.styles.moreInfoLink}
@@ -178,7 +180,7 @@ export default class PluginMetaDataListComponent extends React.Component {
               >
                 {this.context.intl.formatMessage({ id: 'plugin.description.more' })}
               </a>
-            </div> : null
+              </div> : null
           }
 
         </CardText>
@@ -270,8 +272,8 @@ export default class PluginMetaDataListComponent extends React.Component {
             {this.getFilterListItems()}
           </List>
         </Drawer>
-        {this.state.pluginDesc ?
-          <PluginDescriptionDialog
+        {this.state.pluginDesc
+          ? <PluginDescriptionDialog
             opened
             pluginMetaData={this.state.pluginDesc}
             onClose={this.handleCloseDescriptionDialog}

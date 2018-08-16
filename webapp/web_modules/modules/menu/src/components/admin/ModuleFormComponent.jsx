@@ -22,7 +22,9 @@ import Subheader from 'material-ui/Subheader'
 import { AccessShapes, AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { RenderTextField, RenderCheckbox, RenderRadio, Field, FieldArray, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderTextField, RenderCheckbox, RenderRadio, Field, FieldArray, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { HOME_ICON_TYPES_ENUM } from '../../domain/HomeIconType'
 import NavigationArrayFieldRender from './navigation/NavigationArrayFieldRender'
 import MenuPreviewComponent from './MenuPreviewComponent'
@@ -46,6 +48,7 @@ class ModuleFormComponent extends React.Component {
   }
 
   static validateOptionalEmail = value => value && ValidationHelpers.email(value)
+
   static validateOptionalUrl = value => value && ValidationHelpers.url(value)
 
   constructor(props) {
@@ -227,7 +230,7 @@ class ModuleFormComponent extends React.Component {
           navigationItems={get(adminForm, `form.${this.CONF_NAVIGATION}`, [])}
           changeNavigationFieldValue={this.changeNavigationFieldValue}
         />
-        <Subheader style={subheaderStyle} >
+        <Subheader style={subheaderStyle}>
           {formatMessage({ id: 'user.menu.form.preview.title' })}
         </Subheader>
         <MenuPreviewComponent

@@ -24,4 +24,3 @@ export { applicationModes, pluginTypes } from './PluginServiceConstants'
 export { RuntimeTargetTypes } from './RuntimeTargetTypes'
 export { UI_PLUGIN_INFO_TYPES_ENUM, UI_PLUGIN_INFO_TYPES } from './UIPluginInfoTypes'
 export { UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM, UI_PLUGIN_CONF_PARAMETER_TYPES } from './UIPluginConfParameterTypes'
-

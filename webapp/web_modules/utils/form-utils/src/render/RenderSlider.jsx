@@ -30,8 +30,8 @@ const renderSlider = ({
       max={max}
       step={step}
       onChange={(event, value) => {
-          input.onChange(value)
-        }}
+        input.onChange(value)
+      }}
       disabled={disabled}
       {...rest}
     />

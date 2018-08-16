@@ -60,4 +60,3 @@ export default (namespace) => {
   const reducer = new TableReducer(namespace)
   return (state, action) => reducer.reduce(state, action)
 }
-

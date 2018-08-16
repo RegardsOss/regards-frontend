@@ -34,6 +34,7 @@ class AIPFileActions extends BasicListActions {
       },
     })
   }
+
   /**
    * Return an action that fetch all AIP files related to provided AIP id
    */

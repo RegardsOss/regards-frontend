@@ -41,6 +41,7 @@ import PercentProgressRenderCell from '../cells/PercentProgressRenderCell'
 export default class TableColumnBuilder {
   /** Key for selection column */
   static selectionColumnKey = 'column.table.selection'
+
   /** Key for options column */
   static optionsColumnKey = 'column.table.options'
 
@@ -102,6 +103,7 @@ export default class TableColumnBuilder {
     this.headerCellDefinitionImpl = headerCellDefinition
     return this
   }
+
   /**
    * @param {Constructor: {func}, props: {*}} rowCellDefinition column row cell definition
    * @return {TableColumnBuilder} builder instance
@@ -182,8 +184,7 @@ export default class TableColumnBuilder {
       Constructor: ValuesRenderCell, // cell for attribute paths
       props: {
         // ensure default renderer
-        values: values.map(({ getValue, RenderConstructor = StringValueRender, props }) =>
-          ({ getValue, RenderConstructor, props })),
+        values: values.map(({ getValue, RenderConstructor = StringValueRender, props }) => ({ getValue, RenderConstructor, props })),
       },
     })
   }

@@ -34,24 +34,23 @@ describe('[Search Graph] Testing SearchGraph', () => {
     assert.isDefined(SearchGraph)
   })
 
-  UIDomain.PRESENTATION_STATE.forEach(presentationState =>
-    it(`should render corrent in state ${presentationState}`, () => {
-      const props = {
-        appName: 'x',
-        project: 'y',
-        type: 'any',
-        presentationState,
-        graphDatasetAttributes: [],
-        moduleConf: {
-          graphLevels: [
+  UIDomain.PRESENTATION_STATE.forEach(presentationState => it(`should render corrent in state ${presentationState}`, () => {
+    const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      presentationState,
+      graphDatasetAttributes: [],
+      moduleConf: {
+        graphLevels: [
 
-          ],
-          graphDatasetAttributes: [],
-        },
-      }
-      // check correctly rendered
-      const enzymeWrapper = shallow(<SearchGraph {...props} />, { context })
-      const moduleDisplayer = enzymeWrapper.find(DynamicModulePane)
-      assert.lengthOf(moduleDisplayer, 1, 'There should be a module displayer render')
-    }))
+        ],
+        graphDatasetAttributes: [],
+      },
+    }
+    // check correctly rendered
+    const enzymeWrapper = shallow(<SearchGraph {...props} />, { context })
+    const moduleDisplayer = enzymeWrapper.find(DynamicModulePane)
+    assert.lengthOf(moduleDisplayer, 1, 'There should be a module displayer render')
+  }))
 })

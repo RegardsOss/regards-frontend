@@ -22,7 +22,9 @@ import filter from 'lodash/filter'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { RenderMapField } from '@regardsoss/form-utils'
-import { buildTestContext, testSuiteHelpers, DumpProvider, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
+import {
+  buildTestContext, testSuiteHelpers, DumpProvider, ReduxFormTestHelper,
+} from '@regardsoss/tests-helpers'
 import { getPrimitiveJavaTypeRenderParameters } from '../../src/form-utils/JavaPrimitiveTypesTool'
 import { RenderMapParameterField } from '../../src/form-utils/RenderMapParameterField'
 import RenderObjectParameterField from '../../src/form-utils/RenderObjectParameterField'

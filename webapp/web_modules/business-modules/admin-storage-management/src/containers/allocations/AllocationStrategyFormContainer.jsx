@@ -102,7 +102,7 @@ export class AllocationStrategyFormContainer extends React.Component {
           />
         )
         }
-      </LoadableContentDisplayDecorator >
+      </LoadableContentDisplayDecorator>
     )
   }
 }

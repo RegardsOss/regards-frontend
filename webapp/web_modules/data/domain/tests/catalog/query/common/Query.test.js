@@ -41,4 +41,3 @@ describe('[Domain] Testing Query', () => {
     assert.equal(query.toQueryString(), 'www.bitmasks.sucks/x.x?reason=none&simple=no&sucky=yes', 'Wrong generated URL')
   })
 })
-

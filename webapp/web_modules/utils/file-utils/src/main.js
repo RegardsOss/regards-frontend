@@ -21,4 +21,3 @@
  * @author Sébastien Binda
  */
 export { default as ImportFromFileDialogButton } from './ImportFromFileDialogButton'
-

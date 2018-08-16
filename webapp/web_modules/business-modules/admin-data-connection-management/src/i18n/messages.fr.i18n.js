@@ -57,4 +57,3 @@ const messages = Object.assign({
 }, Locales.fr)
 
 export default messages
-

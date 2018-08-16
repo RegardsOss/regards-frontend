@@ -24,7 +24,9 @@ import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import { CardActionsComponent, HelpMessageComponent } from '@regardsoss/components'
 import {
   RenderTextField, RenderPageableAutoCompleteField, RenderSelectField, reduxForm,
@@ -135,9 +137,9 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     const {
       invalid, submitting, onBack, mode,
     } = this.props
-    const label = mode === 'create' || mode === 'duplicate' ?
-      formatMessage({ id: 'acquisition-chain.form.create.button' }) :
-      formatMessage({ id: 'acquisition-chain.form.update.button' })
+    const label = mode === 'create' || mode === 'duplicate'
+      ? formatMessage({ id: 'acquisition-chain.form.create.button' })
+      : formatMessage({ id: 'acquisition-chain.form.update.button' })
     return (
       <CardActions>
         <CardActionsComponent
@@ -204,7 +206,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
             <HelpMessageComponent message={infoMessage} />
             <br />
             <Tabs>
-              <Tab label={formatMessage({ id: 'acquisition-chain.form.general.section.title' })} >
+              <Tab label={formatMessage({ id: 'acquisition-chain.form.general.section.title' })}>
                 <Field
                   name="label"
                   fullWidth
@@ -265,7 +267,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   validate={required}
                 />
               </Tab>
-              <Tab label={formatMessage({ id: 'acquisition-chain.form.fileInfos.section' })} >
+              <Tab label={formatMessage({ id: 'acquisition-chain.form.fileInfos.section' })}>
                 <FieldArray
                   name="fileInfos"
                   component={RenderArrayObjectField}
@@ -276,7 +278,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   validate={required}
                 />
               </Tab>
-              <Tab label={formatMessage({ id: 'acquisition-chain.form.plugins.section' })} >
+              <Tab label={formatMessage({ id: 'acquisition-chain.form.plugins.section' })}>
                 <AcquisitionProcessingChainFormPluginsComponent
                   chain={chain}
                 />

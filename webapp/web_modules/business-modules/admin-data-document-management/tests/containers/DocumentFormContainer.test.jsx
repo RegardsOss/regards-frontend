@@ -74,4 +74,3 @@ describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentFormContainer', () =>
     assert.isFalse(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be false')
   })
 })
-

@@ -46,6 +46,7 @@ export class RunServiceDialogComponent extends React.Component {
    * @return usable step for this component
    */
   static buildLoadingStep = message => ({ step: RunServiceDialogComponent.Steps.LOADING, message })
+
   /**
    * Builds a message step, that can be used for both error and no data messages
    * @param message message
@@ -59,6 +60,7 @@ export class RunServiceDialogComponent extends React.Component {
     error,
     customOptions,
   })
+
   /**
    * Builds parameter configuration step
    * @param parameters parameters list
@@ -72,6 +74,7 @@ export class RunServiceDialogComponent extends React.Component {
     parametersValues,
     onSubmit,
   })
+
   /**
    * Builds results step
    * @param resultsComponent results component to show
@@ -193,9 +196,9 @@ export class RunServiceDialogComponent extends React.Component {
           actions={this.renderActions()}
           loaded={stepType !== RunServiceDialogComponent.Steps.LOADING}
           loadingMessage={stepType === RunServiceDialogComponent.Steps.LOADING ? currentStep.message : ''}
-          bodyStyle={stepType === RunServiceDialogComponent.Steps.RESULTS ?
-            pluginServiceDialog.resultsBodyStyle :
-            pluginServiceDialog.commonBodyStyles}
+          bodyStyle={stepType === RunServiceDialogComponent.Steps.RESULTS
+            ? pluginServiceDialog.resultsBodyStyle
+            : pluginServiceDialog.commonBodyStyles}
           modal
           open
           {...otherDialogProps}
@@ -207,13 +210,13 @@ export class RunServiceDialogComponent extends React.Component {
             Icon={currentStep.error ? ErrorIcon : MessageIcon}
           >
             { // render interactive steps: configuration or results
-              stepType === RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION ?
-                <ParametersConfigurationComponent parameters={currentStep.parameters} parametersValues={currentStep.parametersValues} initialize={initialize} /> : // configuration step
-                currentStep.resultsComponent || RunServiceDialogComponent.EMPTY_COMPONENT // results step or none
+              stepType === RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION
+                ? <ParametersConfigurationComponent parameters={currentStep.parameters} parametersValues={currentStep.parametersValues} initialize={initialize} /> // configuration step
+                : currentStep.resultsComponent || RunServiceDialogComponent.EMPTY_COMPONENT // results step or none
             }
           </NoContentMessageInfo>
         </LoadableContentDialogContainer>
-      </form >
+      </form>
     )
   }
 }

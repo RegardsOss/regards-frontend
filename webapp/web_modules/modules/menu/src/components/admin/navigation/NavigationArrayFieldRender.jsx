@@ -54,13 +54,12 @@ class NavigationArrayFieldRender extends React.Component {
       editionModelItems.push(homeItem)
     } else {
       // home item wasn't found, check in new modules
-      const { modules: newModulesWitoutHome, home: homeModule } =
-        newModules.reduce(({ modules, home }, module) => {
-          if (!home && get(module, 'content.page.home')) { // home when not found before
-            return { modules, home: module }
-          }
-          return { modules: [...modules, module], home }
-        }, { modules: [], home: null })
+      const { modules: newModulesWitoutHome, home: homeModule } = newModules.reduce(({ modules, home }, module) => {
+        if (!home && get(module, 'content.page.home')) { // home when not found before
+          return { modules, home: module }
+        }
+        return { modules: [...modules, module], home }
+      }, { modules: [], home: null })
       if (homeModule) {
         // home item was found, update items list and new modules list (home module must be removed from new modules list)
         filteredNewModules = newModulesWitoutHome
@@ -156,8 +155,7 @@ class NavigationArrayFieldRender extends React.Component {
   onCreateSection = () => {
     const { homeConfiguration, dynamicModules, navigationItems } = this.props
     // 1 - get sections to generate a unique ID greater than the last known section
-    const newSectionId = 1 + findAllSections(navigationItems).reduce((foundMax, sectionItem) =>
-      sectionItem.id > foundMax ? sectionItem.id : foundMax, 0)
+    const newSectionId = 1 + findAllSections(navigationItems).reduce((foundMax, sectionItem) => sectionItem.id > foundMax ? sectionItem.id : foundMax, 0)
     // 2 - Pack edition data
     this.setState({
       editionData: {
@@ -268,7 +266,7 @@ class NavigationArrayFieldRender extends React.Component {
             />) : (
               // no dynamic module found
               <div style={noElementMessageStyle}>{formatMessage({ id: 'menu.form.navigation.no.module.message' })}</div>
-            )
+          )
         }
       </div>
     )

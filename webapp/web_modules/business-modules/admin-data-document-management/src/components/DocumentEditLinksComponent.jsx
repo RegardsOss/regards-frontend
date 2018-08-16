@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { List, ListItem } from 'material-ui/List'
 import { FormattedMessage } from 'react-intl'
 import map from 'lodash/map'
@@ -216,4 +218,3 @@ export class DocumentEditLinksComponent extends React.Component {
 }
 
 export default DocumentEditLinksComponent
-

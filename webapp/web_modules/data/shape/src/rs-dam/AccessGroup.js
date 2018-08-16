@@ -35,4 +35,3 @@ export const AccessGroup = PropTypes.shape({
 })
 
 export const AccessGroupList = PropTypes.objectOf(AccessGroup)
-

@@ -61,4 +61,3 @@ export default (namespace) => {
   const instance = new EndpointReducers(namespace)
   return (state, action) => instance.reduce(state, action)
 }
-

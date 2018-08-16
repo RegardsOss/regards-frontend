@@ -18,7 +18,9 @@
  **/
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import FlatButton from 'material-ui/FlatButton'

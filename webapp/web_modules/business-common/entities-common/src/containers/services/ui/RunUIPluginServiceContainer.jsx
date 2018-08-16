@@ -178,8 +178,8 @@ export class RunUIPluginServiceContainer extends React.Component {
   hasPreviousStep = () => !!this.state.resolvedParameters.length
 
   /** Renders previous option if any */
-  renderPreviousOption = () => this.hasPreviousStep() ?
-    <PreviousButton key="previous.button" onPrevious={this.onPrevious} /> : null
+  renderPreviousOption = () => this.hasPreviousStep()
+    ? <PreviousButton key="previous.button" onPrevious={this.onPrevious} /> : null
 
   /**
    * Renders the plugin itself. Pre: pluginInstance has been retrieved and set in this instance

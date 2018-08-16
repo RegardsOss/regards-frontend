@@ -167,4 +167,3 @@ export function initializeEnumerationForm(initialValues, currentAttrModel) {
 }
 
 export default EnumerationComponent
-

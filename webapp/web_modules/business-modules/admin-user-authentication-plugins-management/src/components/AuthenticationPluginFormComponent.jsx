@@ -19,7 +19,9 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import MoodIcon from 'material-ui/svg-icons/social/mood'
-import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
+import {
+  Card, CardActions, CardText, CardTitle,
+} from 'material-ui/Card'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
@@ -88,8 +90,8 @@ export class AuthenticationPluginFormComponent extends React.Component {
           handleSelect={this.selectPluginType}
           errorText=""
         />
-        {selectedPluginId ?
-          <PluginFormContainer
+        {selectedPluginId
+          ? <PluginFormContainer
             key={`plugin-conf-${selectedPluginId}`}
             microserviceName={STATIC_CONF.MSERVICES.AUTHENTICATION}
             pluginId={selectedPluginId}
@@ -113,12 +115,12 @@ export class AuthenticationPluginFormComponent extends React.Component {
     const selectedPluginId = get(selectedPlugin, 'pluginId', null)
     const { intl: { formatMessage }, moduleTheme } = this.context
 
-    const title = mode === 'edit' ?
-      formatMessage({ id: 'user.authentication.plugins.form.edit.title' }, { name: get(pluginConfiguration, 'content.label', '<>') }) :
-      formatMessage({ id: 'user.authentication.plugins.form.create.title' })
-    const subtitle = mode === 'edit' ?
-      formatMessage({ id: 'user.authentication.plugins.form.edit.subtitle' }) :
-      formatMessage({ id: 'user.authentication.plugins.form.create.subtitle' })
+    const title = mode === 'edit'
+      ? formatMessage({ id: 'user.authentication.plugins.form.edit.title' }, { name: get(pluginConfiguration, 'content.label', '<>') })
+      : formatMessage({ id: 'user.authentication.plugins.form.create.title' })
+    const subtitle = mode === 'edit'
+      ? formatMessage({ id: 'user.authentication.plugins.form.edit.subtitle' })
+      : formatMessage({ id: 'user.authentication.plugins.form.create.subtitle' })
     return (
       <Card>
         <CardTitle
@@ -128,8 +130,8 @@ export class AuthenticationPluginFormComponent extends React.Component {
         <CardText style={moduleTheme.root}>
           {this.renderContent(pluginConfiguration, selectedPluginId)}
         </CardText>
-        {selectedPluginId ? null :
-          (
+        {selectedPluginId ? null
+          : (
             <CardActions>
               <CardActionsComponent
                 mainButtonLabel={formatMessage({ id: 'user.authentication.plugins.list.back.button' })}
@@ -144,4 +146,3 @@ export class AuthenticationPluginFormComponent extends React.Component {
 }
 
 export default withModuleStyle(styles)(withI18n(messages)(AuthenticationPluginFormComponent))
-

@@ -44,9 +44,9 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
   getSearchLink = (withAuth) => {
     const searchLink = find(this.props.searchEngineConfiguration.links, l => l.rel === 'search')
     if (searchLink) {
-      return withAuth ?
-        `${searchLink.href}?scope=${this.props.projectName}&token=${this.props.accessToken}` :
-        searchLink.href
+      return withAuth
+        ? `${searchLink.href}?scope=${this.props.projectName}&token=${this.props.accessToken}`
+        : searchLink.href
     }
     return null
   }

@@ -99,8 +99,7 @@ export class CollectionEditLinksContainer extends React.Component {
     return [
       collectionLinkedToCurrentCollection[0],
       // Remove the currentCollection from collectionList and use, if setup, the search input value
-      filter(collectionLinkedToCurrentCollection[1], collection =>
-        collection.content.id !== currentCollection.content.id && startsWith(collection.content.feature.label.toLowerCase(), collectionName)),
+      filter(collectionLinkedToCurrentCollection[1], collection => collection.content.id !== currentCollection.content.id && startsWith(collection.content.feature.label.toLowerCase(), collectionName)),
     ]
   }
 
@@ -110,6 +109,7 @@ export class CollectionEditLinksContainer extends React.Component {
    */
   handleAdd = tag => Promise.resolve(this.props.addTagToCollection(this.props.currentCollection.content.id, [tag]))
     .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
+
   /**
    * When the user remove a tag
    * @param tag

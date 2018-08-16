@@ -25,6 +25,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
  */
 export default class PluginServiceActions extends BasicSignalActions {
   static PARAMETER_VALUES_SEPARATOR = ','
+
   /**
    * Construtor
    * @param namespace -

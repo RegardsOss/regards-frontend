@@ -26,8 +26,7 @@ const AccessRightConfiguration = {
 }
 
 const accessRight = new Schema(AccessRightConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[AccessRightConfiguration.entityKey]
+  idAttribute: entity => entity.content[AccessRightConfiguration.entityKey]
   ,
 })
 

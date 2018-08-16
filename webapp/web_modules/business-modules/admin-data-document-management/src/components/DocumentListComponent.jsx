@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CardActions, Card, CardTitle, CardText } from 'material-ui/Card'
+import {
+  CardActions, Card, CardTitle, CardText,
+} from 'material-ui/Card'
 import get from 'lodash/get'
 import {
   CardActionsComponent,

@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
+import {
+  Card, CardActions, CardText, CardTitle,
+} from 'material-ui/Card'
 import { Field, RenderFileFieldWithMui, reduxForm } from '@regardsoss/form-utils'
 import {
   CardActionsComponent,
@@ -60,8 +62,8 @@ export class SIPSubmissionFormComponent extends React.Component {
               subtitle={intl.formatMessage({ id: 'sips.submit.subtitle' })}
             />
             <CardText>
-              {isError ?
-                <FormErrorMessage>{intl.formatMessage({ id: 'sips.submit.error.message' })}</FormErrorMessage>
+              {isError
+                ? <FormErrorMessage>{intl.formatMessage({ id: 'sips.submit.error.message' })}</FormErrorMessage>
                 : null
               }
               <Field

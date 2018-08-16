@@ -47,8 +47,7 @@ class AttributesComponent extends React.Component {
   render() {
     const { loading, attributeGroups, thumbnailURL } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
-    const { attributes: { rootStyle, attributesContainer, scrollArea }, messageContainerStyle, loadingContainerStyle } =
-      moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
+    const { attributes: { rootStyle, attributesContainer, scrollArea }, messageContainerStyle, loadingContainerStyle } = moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
 
     const noData = !attributeGroups.length
 
@@ -63,25 +62,25 @@ class AttributesComponent extends React.Component {
           }
           { /* 2. loading */
             loading ? (
-              <div style={loadingContainerStyle} >
+              <div style={loadingContainerStyle}>
                 <LoadingDisplayerComponent message={formatMessage({ id: 'module.description.properties.loading.attributes' })} />
               </div>
             ) : null
           }
           { /* 3. No data (when not loading) */
             !loading && noData ? (
-              <div style={messageContainerStyle} >
+              <div style={messageContainerStyle}>
                 <FormattedMessage id="module.description.properties.no.attribute" />
               </div>
             ) : null
           }
           { /* 4. Thumbnail (when not loading, nor empty and thumnail is available) */
-            !loading && !noData && thumbnailURL ?
-              <DescriptionThumbnailComponent thumbnailURL={thumbnailURL} /> : null
+            !loading && !noData && thumbnailURL
+              ? <DescriptionThumbnailComponent thumbnailURL={thumbnailURL} /> : null
           }
           { /* 5. Groups (when not loading nor empty) */
             !loading && !noData ? (
-              <div style={attributesContainer.rootStyle} >
+              <div style={attributesContainer.rootStyle}>
                 { // render every group
                   attributeGroups.map(group => <AttributesGroupComponent key={group.key} group={group} />)
                 }

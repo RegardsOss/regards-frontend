@@ -26,7 +26,9 @@ const context = buildTestContext()
 
 class FakeItem extends React.PureComponent {
   static getColumnSpanFromProps = (props, getState) => 1
+
   static getHeightFromProps = (getState, props, columnSpan, columnGutter, gridWidth, itemProps) => 2
+
   render() {
     return (<div />)
   }

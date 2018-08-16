@@ -18,7 +18,9 @@
  **/
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { AdminInstanceDomain } from '@regardsoss/domain'
 import { AdminInstanceShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'

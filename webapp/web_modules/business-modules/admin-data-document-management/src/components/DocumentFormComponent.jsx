@@ -20,9 +20,13 @@ import map from 'lodash/map'
 import keys from 'lodash/keys'
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, Field, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import {
+  RenderTextField, RenderSelectField, Field, ErrorTypes, reduxForm,
+} from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -223,4 +227,3 @@ export default reduxForm({
   form: 'document-form',
   validate,
 })(DocumentFormComponent)
-

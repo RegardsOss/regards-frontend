@@ -40,6 +40,7 @@ export class ModuleContainer extends React.Component {
   componentWillMount() {
     this.props.fetchProjects()
   }
+
   /**
    * @returns {React.Component}
    */

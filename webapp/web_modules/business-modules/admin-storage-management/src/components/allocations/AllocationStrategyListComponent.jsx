@@ -148,7 +148,7 @@ export class AllocationStrategyListComponent extends React.Component {
           title={formatMessage({ id: 'storage.allocation-strategy.plugins.list.title' })}
           subtitle={formatMessage({ id: 'storage.allocation-strategy.plugins.list.subtitle' })}
         />
-        <CardText style={moduleTheme.root} >
+        <CardText style={moduleTheme.root}>
           {this.renderDeleteConfirmDialog()}
           <TableLayout>
             <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={entities.length} />

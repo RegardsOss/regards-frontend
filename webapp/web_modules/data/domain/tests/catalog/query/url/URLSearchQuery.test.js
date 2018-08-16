@@ -40,4 +40,3 @@ describe('[Domain] Testing URLSearchQuery', () => {
     assert.equal(query.toQueryString(), 'lala?bitmasks=bullshit&ragemode=true&simple=no&sucky=yes', 'Wrong generated URL')
   })
 })
-

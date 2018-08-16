@@ -39,4 +39,3 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing model PluginConfiguration', ()
     entityTester.runTests(done)
   })
 })
-

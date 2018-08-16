@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { FormattedMessage } from 'react-intl'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'

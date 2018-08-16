@@ -54,9 +54,9 @@ class AttributePluginActivationAction extends React.Component {
   render() {
     const { entity: { content: { active } } } = this.props
     const { intl: { formatMessage } } = this.context
-    const title = active ?
-      formatMessage({ id: 'model.attribute.calculation.plugins.list.active.off.button' }) :
-      formatMessage({ id: 'model.attribute.calculation.plugins.list.active.on.button' })
+    const title = active
+      ? formatMessage({ id: 'model.attribute.calculation.plugins.list.active.off.button' })
+      : formatMessage({ id: 'model.attribute.calculation.plugins.list.active.on.button' })
     return (
       <div style={{ margin: 'auto' }}>
         <Toggle

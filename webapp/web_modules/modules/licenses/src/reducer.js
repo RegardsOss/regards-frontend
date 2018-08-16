@@ -23,4 +23,3 @@ const licenseReducer = {
 }
 
 export default licenseReducer
-

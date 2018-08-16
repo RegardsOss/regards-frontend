@@ -37,9 +37,11 @@ class DataQuicklookComponent extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
+
   state = {
     isZoomed: false,
   }
+
   /**
    * On user click, toggle the zoom
    */

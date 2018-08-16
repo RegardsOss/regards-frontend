@@ -18,9 +18,13 @@
  */
 import trim from 'lodash/trim'
 import root from 'window-or-global'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, Field, RenderCheckbox, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import {
+  RenderTextField, Field, RenderCheckbox, ValidationHelpers, reduxForm,
+} from '@regardsoss/form-utils'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -51,6 +55,7 @@ export class ProjectFormComponent extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
   }
+
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
@@ -93,9 +98,9 @@ export class ProjectFormComponent extends React.Component {
     const {
       currentProject, pristine, submitting, invalid,
     } = this.props
-    const title = this.state.isCreating ?
-      this.context.intl.formatMessage({ id: 'project.create.title' }) :
-      this.context.intl.formatMessage({ id: 'project.edit.title' }, { name: currentProject.content.name })
+    const title = this.state.isCreating
+      ? this.context.intl.formatMessage({ id: 'project.create.title' })
+      : this.context.intl.formatMessage({ id: 'project.edit.title' }, { name: currentProject.content.name })
     const hostFieldStyle = { marginBottom: 15 }
 
     return (
@@ -195,4 +200,3 @@ export class ProjectFormComponent extends React.Component {
 export default reduxForm({
   form: 'project-form',
 })(ProjectFormComponent)
-

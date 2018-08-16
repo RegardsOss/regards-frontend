@@ -25,7 +25,9 @@ class TestFileReader {
   constructor() {
     this.listeners = {}
   }
+
   addEventListener = (evt, l) => { this.listeners[evt] = [...(this.listeners[evt] || []), l] }
+
   readAsText = (testBlob) => {
     this.result = testBlob.text
     this.listeners.loadend.forEach(listener => listener())

@@ -24,4 +24,3 @@ export { default as AuthenticateShape, AuthenticationErrorShape } from './Authen
 export { default as AuthenticationRouteParameters, AuthenticationParametersHelper, routeHelpers } from './AuthenticationRouteParameters'
 export { default as AuthenticationRouteHelper } from './AuthenticationRouteHelper'
 export { default as withAuthInfo } from './decorator/withAuthInfo'
-

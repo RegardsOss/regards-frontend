@@ -162,19 +162,19 @@ class RenderArrayTextField extends React.Component {
       </div>
     ) : null
     return (
-      <div style={arrayField.layout} >
-        <Paper style={arrayField.list} >
+      <div style={arrayField.layout}>
+        <Paper style={arrayField.list}>
           {header}
 
-          {meta.error && isString(meta.error) ?
-            <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
+          {meta.error && isString(meta.error)
+            ? <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
             : null}
           <List style={arrayField.listContent}>
             {fields.map(this.renderField)}
           </List>
-          {disabled ?
-            null :
-            <RaisedButton
+          {disabled
+            ? null
+            : <RaisedButton
               onClick={this.openAddDialog}
               label={addButtonLabel || formatMessage({ id: 'render.array-field.add.new.value.button' })}
               fullWidth

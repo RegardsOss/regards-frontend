@@ -50,12 +50,15 @@ export class DatasetStepperContainer extends React.Component {
     currentDatasetId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     projectName: PropTypes.string.isRequired,
   }
+
   static defaultProps = {
     isEditing: false,
   }
+
   static SCROLL_AREA_CONTENT_STYLE = {
     display: 'inline-block',
   }
+
   static STEPPER_WRAPPER_STYLE = {
     width: '980px',
   }

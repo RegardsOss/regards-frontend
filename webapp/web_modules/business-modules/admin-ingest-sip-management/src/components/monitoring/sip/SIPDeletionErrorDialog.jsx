@@ -65,7 +65,10 @@ class SIPDeletionErrorDialog extends React.Component {
         open={errors.length > 0}
       >
         <ul>
-          {map(errors, error => <li>{error}<br /></li>)}
+          {map(errors, error => <li>
+            {error}
+            <br />
+          </li>)}
         </ul>
       </Dialog>
 

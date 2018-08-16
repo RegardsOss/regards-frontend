@@ -52,7 +52,7 @@ class MainBarModuleLink extends React.Component {
     } = this.props
     const { intl: { locale }, moduleTheme: { user: { navigationItem } } } = this.context
     return (
-      <Link to={buildLinkURL(module)} >
+      <Link to={buildLinkURL(module)}>
         <FlatButton
           label={ModuleTitleText.selectTitle(title, module.description, locale)}
           secondary={selected}

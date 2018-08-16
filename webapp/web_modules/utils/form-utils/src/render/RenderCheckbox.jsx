@@ -95,4 +95,3 @@ export default class RenderCheckbox extends React.Component {
     )
   }
 }
-

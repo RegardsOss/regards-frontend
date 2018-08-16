@@ -103,7 +103,7 @@ export class PrioritizedDataStorageFormContainer extends React.Component {
           />
         )
         }
-      </LoadableContentDisplayDecorator >
+      </LoadableContentDisplayDecorator>
     )
   }
 }

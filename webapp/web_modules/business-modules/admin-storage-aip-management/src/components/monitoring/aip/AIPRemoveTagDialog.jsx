@@ -63,6 +63,7 @@ class AIPRemoveTagDialog extends React.Component {
     const { tagsToRemove } = this.state
     this.props.onSubmit(tagsToRemove)
   }
+
   handleInitialise = (props) => {
     this.setState({
       tagsRemaining: props.tags,
@@ -78,6 +79,7 @@ class AIPRemoveTagDialog extends React.Component {
       tagsToRemove: concat(tagsToRemove, tag),
     })
   }
+
   handleReAddTag = (tag) => {
     const { tagsRemaining, tagsToRemove } = this.state
     this.setState({
@@ -124,6 +126,7 @@ class AIPRemoveTagDialog extends React.Component {
       </div>
     )
   }
+
   render() {
     const { searchingTags } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context

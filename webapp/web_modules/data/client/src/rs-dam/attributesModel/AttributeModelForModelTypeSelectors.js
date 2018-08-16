@@ -23,4 +23,3 @@ import { BasicListSelectors } from '@regardsoss/store-utils'
  * @author Léo Mieulet
  */
 export default storePath => new BasicListSelectors(storePath)
-

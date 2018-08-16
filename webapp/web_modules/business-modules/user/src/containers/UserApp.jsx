@@ -102,11 +102,11 @@ export class UserApp extends React.Component {
         // find home module: use active module OR (when not found) lowest ID module
         const homeModule = reduce(nextProps.modules, (foundModule, currentModule) => {
           // 1 - is it active and dynamic module?
-          if (get(currentModule, 'content.active') &&
-            ContainerHelper.isDynamicContent(get(currentModule, 'content.container'), allContainers)) {
+          if (get(currentModule, 'content.active')
+            && ContainerHelper.isDynamicContent(get(currentModule, 'content.container'), allContainers)) {
             // 2 - yes it is: is it default or lower ID than previously found?
-            if (get(currentModule, 'content.page.home') ||
-              get(foundModule, 'content.id', Number.MAX_SAFE_INTEGER) > get(currentModule, 'content.id', Number.MAX_SAFE_INTEGER)) {
+            if (get(currentModule, 'content.page.home')
+              || get(foundModule, 'content.id', Number.MAX_SAFE_INTEGER) > get(currentModule, 'content.id', Number.MAX_SAFE_INTEGER)) {
               // this is the default module
               return currentModule
             }

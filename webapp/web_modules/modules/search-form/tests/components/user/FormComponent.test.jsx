@@ -67,4 +67,3 @@ describe('[FORM MODULE] Testing FormComponent', () => {
     assert.lengthOf(layoutWrapper, 1, 'There should be the layout wrapper')
   })
 })
-

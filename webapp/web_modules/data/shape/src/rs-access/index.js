@@ -20,7 +20,9 @@ export { LinkUIPluginDataset, LinkUIPluginDatasetList } from './UIPlugin/LinkUIP
 export { UIPluginInstanceContent } from './UIPlugin/UIPluginInstanceContent'
 export { UIPluginDefinitionContent, UIPluginDefinition, UIPluginDefinitionList } from './UIPlugin/UIPluginDefinition'
 export { UIPluginInfoContent } from './UIPlugin/UIPluginInfoContent'
-export { UIPluginConfContent, UIPluginConf, UIPluginConfList, UIPluginConfArray } from './UIPlugin/UIPluginConf'
+export {
+  UIPluginConfContent, UIPluginConf, UIPluginConfList, UIPluginConfArray,
+} from './UIPlugin/UIPluginConf'
 export { RuntimeConfiguration } from './UIPlugin/RuntimeConfiguration'
 export { RuntimeTarget } from './UIPlugin/RuntimeTarget'
 

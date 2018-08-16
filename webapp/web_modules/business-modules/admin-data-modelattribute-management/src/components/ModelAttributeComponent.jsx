@@ -19,7 +19,9 @@
 import get from 'lodash/get'
 import { DamDomain } from '@regardsoss/domain'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
-import { Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn } from 'material-ui/Table'
+import {
+  Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn,
+} from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import { PluginConfigurationPickerComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -83,7 +85,7 @@ class ModelAttributeComponent extends React.Component {
             { /* show 2nd column only when the computing plugins are allowed */
               this.isComputingPluginAllowed() ? (
                 <TableHeaderColumn><FormattedMessage id="modelattr.edit.table.computationMethod" /></TableHeaderColumn>
-            ) : null
+              ) : null
             }
           </TableRow>
         </TableHeader>)
@@ -104,7 +106,11 @@ class ModelAttributeComponent extends React.Component {
           showRowHover={false}
         >
           <TableRow>
-            <TableRowColumn>{modelAttribute.content.attribute.name}{this.showIfAttributeIsNotOptional(modelAttribute)} ({modelAttribute.content.attribute.type})</TableRowColumn>
+            <TableRowColumn>
+              {modelAttribute.content.attribute.name}
+              {this.showIfAttributeIsNotOptional(modelAttribute)}
+              ({modelAttribute.content.attribute.type})
+            </TableRowColumn>
             { /* show 2nd column only when the computing plugins are allowed */
               this.isComputingPluginAllowed() ? (
                 <TableRowColumn>
@@ -115,7 +121,7 @@ class ModelAttributeComponent extends React.Component {
                     currentPluginConfiguration={get(modelAttribute, 'content.computationConf', undefined)}
                   />
                 </TableRowColumn>
-            ) : null
+              ) : null
             }
           </TableRow>
         </TableBody>

@@ -61,4 +61,3 @@ export default class AccountOperationActions extends BasicSignalActions {
     }, { accountEmail })
   }
 }
-

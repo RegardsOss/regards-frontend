@@ -27,9 +27,13 @@ import merge from 'lodash/merge'
 import set from 'lodash/set'
 import trim from 'lodash/trim'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
-import { RenderTextField, Field, RenderCheckbox, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderTextField, Field, RenderCheckbox, reduxForm, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import MenuItem from 'material-ui/MenuItem'
 import { themeContextType, defaultCustomConfiguration } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -63,8 +67,11 @@ export class ThemeFormComponent extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
+
   static UNDEFINED_THEME = ''
+
   static DARK_THEME = 'dark'
+
   static LIGHT_THEME = 'light'
 
   // Generate the basic configuration using the Dark or Light theme
@@ -93,7 +100,7 @@ export class ThemeFormComponent extends React.Component {
     const { formatMessage } = this.context.intl
     if (isCreating) {
       return formatMessage({ id: 'theme.create.title' })
-    } else if (isEditing) {
+    } if (isEditing) {
       return formatMessage({ id: 'theme.edit.title' }, { name: currentTheme.content.name })
     }
     return formatMessage({ id: 'theme.duplicate.title' }, { name: currentTheme.content.name })
@@ -239,8 +246,7 @@ export class ThemeFormComponent extends React.Component {
    * Validates unique theme names
    * @return {string} error message key for duplicated names errors, undefined otherwise
    */
-  validateUniqueName = formName =>
-    find(this.props.themeList, ({ content: { name } }) => name === formName) ? 'theme.form.name.not.unique.error' : undefined
+  validateUniqueName = formName => find(this.props.themeList, ({ content: { name } }) => name === formName) ? 'theme.form.name.not.unique.error' : undefined
 
   /* Validators for name: varchar 16, no duplicated name */
   nameValidators = [

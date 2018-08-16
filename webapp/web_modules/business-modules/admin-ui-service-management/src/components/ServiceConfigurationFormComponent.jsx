@@ -19,10 +19,14 @@
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import trim from 'lodash/trim'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import Subheader from 'material-ui/Subheader'
 import { AccessShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderCheckbox, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import {
+  RenderTextField, RenderCheckbox, Field, ValidationHelpers, reduxForm,
+} from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -188,4 +192,3 @@ export class ServiceConfigurationFormComponent extends React.Component {
 export default reduxForm({
   form: 'service-form',
 })(ServiceConfigurationFormComponent)
-

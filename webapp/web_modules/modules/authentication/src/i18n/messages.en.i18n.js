@@ -48,17 +48,17 @@ const messages = {
   // reset account password request form
   'ask.reset.password.form.message': 'Enter your mail address to receive a reset password link',
   'ask.reset.password.form.title': 'Reset password',
-  'ask.reset.password.form.send.failed': '{status, plural, ' +
-    '=404 { Entered e-mail address is unknown. } ' +
-    'other: {An unknown error occurred (#)}}',
+  'ask.reset.password.form.send.failed': '{status, plural, '
+    + '=404 { Entered e-mail address is unknown. } '
+    + 'other: {An unknown error occurred (#)}}',
 
   // unlock account request form
   'ask.unlock.account.form.message': 'Enter your mail address to request account unlocking',
   'ask.unlock.account.form.title': 'Unlock user account',
-  'ask.unlock.account.form.send.failed': '{status, plural, ' +
-    '=403 {That related account is not locked}' +
-    '=404 {Entered e-mail address is unknown.}' +
-    'other: {An unknown error occurred (#)}}',
+  'ask.unlock.account.form.send.failed': '{status, plural, '
+    + '=403 {That related account is not locked}'
+    + '=404 {Entered e-mail address is unknown.}'
+    + 'other: {An unknown error occurred (#)}}',
 
   // ask project access form
   'ask.project.access.request.title': 'Request project access',

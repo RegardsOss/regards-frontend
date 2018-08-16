@@ -32,8 +32,7 @@ import { attributes } from '../dumps/attributes.dump'
  * @author Raphaël Mechali
  */
 
-const providerIdStandardAttribute =
-  DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId)
+const providerIdStandardAttribute = DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId)
 
 
 /** A simple attribute model configuration that can be converted from dumps */
@@ -164,15 +163,14 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
     })
   })
   it('Should correctly convert presentation models, filtering elements that are using only non resolved attributes and adding table columns', () => {
-    const convertedModels =
-      buildAttributesPresentationModels(attributes, [
-        convertableSimpleServerAttributeConf, // conversion count: +1
-        convertableSimpleStandardAttributeConf, // +1
-        nonConvertableSimpleAttributeConf, // +0
-        fullyConvertableRegroupmentConf, // +1
-        partiallyConvertableRegroupementConf, // +1
-        nonConvertableRegroupmentConf, // +0
-      ], [], true, true)
+    const convertedModels = buildAttributesPresentationModels(attributes, [
+      convertableSimpleServerAttributeConf, // conversion count: +1
+      convertableSimpleStandardAttributeConf, // +1
+      nonConvertableSimpleAttributeConf, // +0
+      fullyConvertableRegroupmentConf, // +1
+      partiallyConvertableRegroupementConf, // +1
+      nonConvertableRegroupmentConf, // +0
+    ], [], true, true)
     // check converted content
     assert.lengthOf(convertedModels, 6, 'It should convert expected configurations, add columns and filter others')
     assert.deepEqual(convertedModels[0], {
@@ -354,4 +352,3 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
     }], 'Initial sorting should be correctly converted')
   })
 })
-

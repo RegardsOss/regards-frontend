@@ -35,8 +35,7 @@ class PrioritizedDataStorageUpDownActions extends BasicSignalActions {
     })
   }
 
-  upPriority = (prioritizedDataStorageId, prioritizedDataStorage) =>
-    this.sendSignal(RequestVerbEnum.PUT, prioritizedDataStorage, { id: prioritizedDataStorageId }, {})
+  upPriority = (prioritizedDataStorageId, prioritizedDataStorage) => this.sendSignal(RequestVerbEnum.PUT, prioritizedDataStorage, { id: prioritizedDataStorageId }, {})
 }
 
 export default PrioritizedDataStorageUpDownActions

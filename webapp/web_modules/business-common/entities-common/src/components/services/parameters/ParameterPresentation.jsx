@@ -83,13 +83,13 @@ class ParameterPresentation extends React.Component {
     return (
       <div style={moduleTheme.pluginServiceDialog.parameterPresentation}>
         {children}
-        {description ?
-          <IconButton
+        {description
+          ? <IconButton
             style={moduleTheme.pluginServiceDialog.parameterDescriptionIcon}
             onClick={this.handleOpenDescription}
           >
             <HelpCircle />
-          </IconButton> : null}
+            </IconButton> : null}
         {description ? this.renderDescriptionDialog() : null}
       </div>
     )

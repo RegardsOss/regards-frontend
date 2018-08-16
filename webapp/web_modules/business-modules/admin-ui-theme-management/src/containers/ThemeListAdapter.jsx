@@ -19,7 +19,9 @@
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
-import { ThemeActions, ThemeInstanceActions, ThemeSelectors, getCurrentTheme } from '@regardsoss/theme'
+import {
+  ThemeActions, ThemeInstanceActions, ThemeSelectors, getCurrentTheme,
+} from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
 import ThemeListContainer from './ThemeListContainer'
 
@@ -66,22 +68,19 @@ export class ThemeListAdapter extends React.Component {
    * Browse to edition form
    * @param {*} themeId theme ID
    */
-  handleEdit = themeId =>
-    browserHistory.push(`${this.getRootURL()}/ui/theme/${themeId}/edit`)
+  handleEdit = themeId => browserHistory.push(`${this.getRootURL()}/ui/theme/${themeId}/edit`)
 
   /**
    * Browse to edition form
    * @param {*} themeId theme ID
    */
-  handleEdit = themeId =>
-    browserHistory.push(`${this.getRootURL()}/ui/theme/${themeId}/edit`)
+  handleEdit = themeId => browserHistory.push(`${this.getRootURL()}/ui/theme/${themeId}/edit`)
 
   /**
    * Browse to duplicate form
    * @param {*} themeId theme ID
    */
-  handleDuplicate = themeId =>
-    browserHistory.push(`${this.getRootURL()}/ui/theme/${themeId}/duplicate`)
+  handleDuplicate = themeId => browserHistory.push(`${this.getRootURL()}/ui/theme/${themeId}/duplicate`)
 
 
   render() {

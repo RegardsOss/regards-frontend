@@ -138,16 +138,16 @@ class SelectedLevelFormRender extends React.Component {
                 { count: selectedLevels.length })
               }
             />
-          </TableHeaderContentBox >
+          </TableHeaderContentBox>
           {/* 2 - table options  */}
-          <TableHeaderOptionsArea >
+          <TableHeaderOptionsArea>
             <TableHeaderOptionGroup>
               <AddLevelOption
                 selectableLevels={selectableLevels}
                 onAddLevel={this.onAddLevel}
               />
             </TableHeaderOptionGroup>
-          </TableHeaderOptionsArea >
+          </TableHeaderOptionsArea>
         </TableHeaderLine>
         <InfiniteTableContainer
           columns={this.buildColumns()}

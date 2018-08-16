@@ -26,7 +26,9 @@ import AIPActions from './AIPActions'
 class AIPReducer extends BasicPageableReducers {
   constructor(namespace) {
     super(AIPConfiguration, new AIPActions(namespace))
-  } AIPReducer
+  }
+
+ AIPReducer
 }
 
 export default (namespace) => {

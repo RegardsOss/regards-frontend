@@ -24,4 +24,3 @@ export const EnumNumericalComparator = {
   GE: 'GE',
 }
 export const EnumNumericalComparators = values(EnumNumericalComparator)
-

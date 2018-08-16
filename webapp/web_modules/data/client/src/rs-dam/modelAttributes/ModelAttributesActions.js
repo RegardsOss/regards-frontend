@@ -34,6 +34,7 @@ export default class ModelAttributesActions extends BasicListActions {
       },
     })
   }
+
   fetchModelAttributes(modelName) {
     return this.fetchEntityList({ modelName })
   }

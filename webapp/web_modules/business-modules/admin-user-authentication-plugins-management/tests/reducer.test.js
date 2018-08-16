@@ -32,4 +32,3 @@ describe('[ADMIN AUTHENTICATION PLUGINS] Testing reducer', () => {
     assert.isDefined(Reducer)
   })
 })
-

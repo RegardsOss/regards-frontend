@@ -45,4 +45,3 @@ describe('[ADMIN CLIENT] Testing client IngestSIP', () => {
     entityTester.runTests(done)
   })
 })
-

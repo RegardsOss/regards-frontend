@@ -21,9 +21,9 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import IconButton from 'material-ui/IconButton'
 import { TableHeaderAutoCompleteFilter } from '@regardsoss/components'
+import { AdminDomain } from '@regardsoss/domain'
 import OrderListFiltersComponent from '../../src/components/OrderListFiltersComponent'
 import styles from '../../src/styles/styles'
-import { AdminDomain } from '@regardsoss/domain'
 
 const context = buildTestContext(styles)
 

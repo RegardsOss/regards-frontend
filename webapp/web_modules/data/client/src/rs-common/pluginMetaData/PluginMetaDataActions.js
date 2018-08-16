@@ -40,5 +40,6 @@ export default class PluginMetaDataActions extends BasicListActions {
       },
     })
   }
+
   getMsDependency = (verb, microserviceName) => replace(this.getDependency(verb), '{microserviceName}', microserviceName)
 }

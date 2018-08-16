@@ -33,11 +33,11 @@ function isDataURN(id) { return id.match(/URN:AIP:DATA:.*/) }
 function getTypeForURN(id) {
   if (isCollectionURN(id)) {
     return ENTITY_TYPES_ENUM.COLLECTION
-  } else if (isDatasetURN(id)) {
+  } if (isDatasetURN(id)) {
     return ENTITY_TYPES_ENUM.DATASET
-  } else if (isDataURN(id)) {
+  } if (isDataURN(id)) {
     return ENTITY_TYPES_ENUM.DATA
-  } else if (isDocumentURN(id)) {
+  } if (isDocumentURN(id)) {
     return ENTITY_TYPES_ENUM.DOCUMENT
   }
   throw new Error(`Unknow id type received: ${id}`)

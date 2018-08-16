@@ -103,7 +103,9 @@ export class PluginListComponent extends React.Component {
     const infos = (
       <div>
         <div style={moduleTheme.pluginListSelector.version}>{`${plugin.content.author} | ${plugin.content.version}`}</div>
-        <div style={moduleTheme.pluginListSelector.description}> {plugin.content.description}</div>
+        <div style={moduleTheme.pluginListSelector.description}>
+          {plugin.content.description}
+        </div>
       </div>
     )
 
@@ -114,7 +116,8 @@ export class PluginListComponent extends React.Component {
           key={plugin.content.pluginId}
           value={plugin.content.pluginId}
           primaryText={plugin.content.pluginId}
-        >{infos}
+        >
+          {infos}
         </MenuItem>,
         <Divider key={`divider-${plugin.content.pluginId}`} />,
       ]

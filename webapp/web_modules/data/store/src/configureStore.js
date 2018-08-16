@@ -50,11 +50,10 @@ function configureStore(rootReducer) {
     const logger = createLogger({
       level: 'log',
       // Do not log these actions
-      predicate: (getState, action) =>
-        !action.type.match(/menu\/notification/) &&
-        !action.type.match(/@@redux-form\/REGISTER_FIELD/) &&
-        !action.type.match(/admin\/waiting-access-users/) &&
-        !action.type.match(/common\/themes\//),
+      predicate: (getState, action) => !action.type.match(/menu\/notification/)
+        && !action.type.match(/@@redux-form\/REGISTER_FIELD/)
+        && !action.type.match(/admin\/waiting-access-users/)
+        && !action.type.match(/common\/themes\//),
     })
     // Logger must be the last middleware in chain, otherwise it will log thunk and promise, not actual actions]
     middlewares = concat([], middlewares, [logger])

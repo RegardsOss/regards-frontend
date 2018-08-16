@@ -18,14 +18,16 @@
  **/
 import map from 'lodash/map'
 import values from 'lodash/values'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { ListItem } from 'material-ui/List'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { SelectableList, CardActionsComponent } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
-import ResourceAccessFormByMicroserviceContainer from './../containers/ResourceAccessFormByMicroserviceContainer'
+import ResourceAccessFormByMicroserviceContainer from '../containers/ResourceAccessFormByMicroserviceContainer'
 import moduleStyles from '../styles/styles'
 
 /**
@@ -118,4 +120,3 @@ export class ResourceAccessFormComponent extends React.Component {
 }
 
 export default ResourceAccessFormComponent
-

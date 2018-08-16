@@ -19,7 +19,9 @@
 import nock from 'nock'
 import { assert } from 'chai'
 import thunk from 'redux-thunk'
-import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
+import {
+  combineReducers, createStore, applyMiddleware, compose,
+} from 'redux'
 
 const { apiMiddleware } = require('redux-api-middleware')
 // Since redux-api-middleware v2, we need to add the polyfill ourself
@@ -113,7 +115,7 @@ export default class ReduxEntityTester {
         assert.isDefined(this.backendServerResultList.metadata, 'Your Action is Pageable but the result you provided comes from a list entrypoint')
         return store.dispatch(this.entityActions.fetchPagedEntityList(null, null, this.options.urlParams))
           .then(action => this.onPostActionTest(action, store, done))
-      } else if (this.entityActions.fetchEntityList) {
+      } if (this.entityActions.fetchEntityList) {
         assert.isUndefined(this.backendServerResultList.metadata, 'Your Action is a List but the result you provided comes from a pageable entrypoint')
         return store.dispatch(this.entityActions.fetchEntityList(this.options.urlParams))
           .then(action => this.onPostActionTest(action, store, done))

@@ -28,8 +28,7 @@ const SearchEngineConfiguration = {
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 const entitySchema = new Schema(SearchEngineConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[SearchEngineConfiguration.entityKey]
+  idAttribute: entity => entity.content[SearchEngineConfiguration.entityKey]
   ,
 })
 

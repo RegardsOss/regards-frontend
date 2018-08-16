@@ -89,7 +89,7 @@ class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Compone
         title={formatMessage({ id: 'acquisition-chain.monitor.list.total-products.tooltip' })}
       >
         {content.nbProducts}
-      </span >
+      </span>
     )
   }
 
@@ -105,7 +105,7 @@ class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Compone
           title={formatMessage({ id: 'acquisition-chain.monitor.list.error-nb-products.tooltip' })}
         >
           {content.nbProductErrors}
-        </span >
+        </span>
       )
     }
     return null
@@ -123,11 +123,12 @@ class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Compone
           title={formatMessage({ id: 'acquisition-chain.monitor.list.inprogress-nb-products.tooltip' })}
         >
           {content.nbProductsInProgress}
-        </span >
+        </span>
       )
     }
     return null
   }
+
   render() {
     return [
       this.renderTotal(),

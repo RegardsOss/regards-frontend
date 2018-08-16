@@ -79,4 +79,3 @@ export const routeHelpers = {
     browserHistory.push(AuthenticationParametersHelper.getOriginURL())
   },
 }
-

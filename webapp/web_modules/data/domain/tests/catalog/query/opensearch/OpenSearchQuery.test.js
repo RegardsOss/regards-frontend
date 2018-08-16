@@ -41,4 +41,3 @@ describe('[Domain] Testing OpenSearchQuery', () => {
     assert.equal(query.toQueryString(), 'bitmasks:less%20please AND simple=no AND sucky:yes', 'Wrong generated URL')
   })
 })
-

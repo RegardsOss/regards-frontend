@@ -40,8 +40,8 @@ export default class UIPluginConfigurationActions extends BasicPageableActions {
    */
   constructor(namespace, isRequestingByUIPlugin = true) {
     // Either you request UIPluginConfiguration by UIPluginDefinition either you can fetch all UIPluginConfiguration
-    const entityEndpoint = isRequestingByUIPlugin ? `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/uiplugins/{pluginId}/configurations` :
-      `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/uiplugins/configurations`
+    const entityEndpoint = isRequestingByUIPlugin ? `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/uiplugins/{pluginId}/configurations`
+      : `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/uiplugins/configurations`
     super({
       namespace,
       entityEndpoint,

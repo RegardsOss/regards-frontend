@@ -19,8 +19,16 @@
 export { AIPStatusContent, AIPStatus, AIPStatusList } from './AIPStatus'
 
 export { AIPSession } from './AIPSession'
-export { AIP, AIPContent, AIPList, AIPArray } from './AIP'
-export { StorageMonitoring, StorageMonitoringContent, StorageMonitoringList, StorageMonitoringArray } from './StorageMonitoring'
-export { PrioritizedDataStorage, PrioritizedDataStorageContent, PrioritizedDataStorageList, PrioritizedDataStorageArray }
+export {
+  AIP, AIPContent, AIPList, AIPArray,
+} from './AIP'
+export {
+  StorageMonitoring, StorageMonitoringContent, StorageMonitoringList, StorageMonitoringArray,
+} from './StorageMonitoring'
+export {
+  PrioritizedDataStorage, PrioritizedDataStorageContent, PrioritizedDataStorageList, PrioritizedDataStorageArray,
+}
   from './PrioritizedDataStorage'
-export { DataObject, DataObjectContent, DataObjectList, DataObjectArray } from './DataObject'
+export {
+  DataObject, DataObjectContent, DataObjectList, DataObjectArray,
+} from './DataObject'

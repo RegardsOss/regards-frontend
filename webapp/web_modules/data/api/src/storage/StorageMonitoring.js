@@ -28,8 +28,7 @@ const StorageMonitoringConfiguration = {
 }
 
 const storageMonitoringSchema = new Schema(StorageMonitoringConfiguration.normalizrKey, {
-  idAttribute: model =>
-    model.content[StorageMonitoringConfiguration.entityKey]
+  idAttribute: model => model.content[StorageMonitoringConfiguration.entityKey]
   ,
 })
 

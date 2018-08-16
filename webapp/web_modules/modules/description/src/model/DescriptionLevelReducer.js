@@ -39,19 +39,16 @@ export class DescriptionLevelReducer {
   /**
    * Builds new path for entity as parameter: if entity is not in path, add it at end, blocks adding it otherwise
    */
-  buildNewPath = (currentPath, entity) =>
-    currentPath.find(e => isEqual(e, entity)) ?
-      currentPath : // block an entity already in path
-      [...currentPath, entity]
+  buildNewPath = (currentPath, entity) => currentPath.find(e => isEqual(e, entity))
+    ? currentPath // block an entity already in path
+    : [...currentPath, entity]
 
   /**
    * Selects initial tab for entity as parameter
    * @param {Entity} entity entity
    * @return {string} initially selected tab, from DESCRIPTION_TABS_ENUM values
    */
-  selectInitialTab = entity =>
-    // tabs are ordered by specificity: open the more specific tab available by default
-    last(getAvailableTabs(entity))
+  selectInitialTab = entity => last(getAvailableTabs(entity))
 
   /**
    * Reducer for description levels (sort of breadcrumb controlling the component visibility)
@@ -110,4 +107,3 @@ export default function getDescriptionLevelReducer() {
     return reducer.reduce(state, action)
   }
 }
-

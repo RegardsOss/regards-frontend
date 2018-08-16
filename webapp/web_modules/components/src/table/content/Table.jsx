@@ -81,8 +81,8 @@ class Table extends React.Component {
    * @return {boolean} true if cells definitions are the same
    */
   static isSameRowCell(cellDefinition1, cellDefinition2) {
-    return get(cellDefinition1, 'Constructor') === get(cellDefinition2, 'Constructor') &&
-      isEqual(cellDefinition1, cellDefinition2)
+    return get(cellDefinition1, 'Constructor') === get(cellDefinition2, 'Constructor')
+      && isEqual(cellDefinition1, cellDefinition2)
   }
 
   /**
@@ -113,8 +113,8 @@ class Table extends React.Component {
     const willShowScroll = (newProps.entities || []).length > newProps.maxRowCount
 
     // update columns when: scroll state changed, width changed or columns list changed
-    if (wasShowingScroll !== willShowScroll || oldProps.width !== newProps.width ||
-      !isEqual(oldProps.columns, newProps.columns)) {
+    if (wasShowingScroll !== willShowScroll || oldProps.width !== newProps.width
+      || !isEqual(oldProps.columns, newProps.columns)) {
       newState.runtimeColumns = this.computeColumnsModelsWithWidth(newProps)
     }
 
@@ -151,8 +151,7 @@ class Table extends React.Component {
    * @param {boolean} displayColumnsHeader  component properties
    * @return current header height
    */
-  getHeaderHeight = displayColumnsHeader =>
-    displayColumnsHeader ? this.context.muiTheme.components.infiniteTable.minHeaderRowHeight : 0
+  getHeaderHeight = displayColumnsHeader => displayColumnsHeader ? this.context.muiTheme.components.infiniteTable.minHeaderRowHeight : 0
 
   /**
    * Is there an entity on specified row index?

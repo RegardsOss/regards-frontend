@@ -62,10 +62,9 @@ describe('[Search Results] Testing SearchResultsConfigurationComponent', () => {
     // verify each configuration field is available
     const wrapperInstance = wrapper.instance()
 
-    const wrapperFieldsProps = keys(wrapperInstance).filter(key =>
-      key.match(/CONF_.*/) && // math all CONF fields
+    const wrapperFieldsProps = keys(wrapperInstance).filter(key => key.match(/CONF_.*/) // math all CONF fields
       // remove specific view fields, that cannot be found outside specific view configuration
-      !['CONF_DATA_SECTION_LABEL_FR', 'CONF_DATA_SECTION_LABEL_EN',
+      && !['CONF_DATA_SECTION_LABEL_FR', 'CONF_DATA_SECTION_LABEL_EN',
         'CONF_QUICKLOOKS_WIDTH', 'CONF_QUICKLOOKS_SPACING',
         'CONF_DATASETS_SECTION_LABEL_FR', 'CONF_DATASETS_SECTION_LABEL_EN',
       ].includes(key))

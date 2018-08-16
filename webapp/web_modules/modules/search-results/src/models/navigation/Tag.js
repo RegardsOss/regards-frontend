@@ -52,16 +52,16 @@ class Tag {
    * @param {*} tagValue tag value
    */
   static getTagPromise(dispatchSearchEntity, tagValue) {
-    return isURNTag(tagValue) ?
+    return isURNTag(tagValue)
       // 1 - An entity tag: resolve through fetching
-      dispatchSearchEntity(tagValue).then(({ payload }) => {
+      ? dispatchSearchEntity(tagValue).then(({ payload }) => {
         const { entityType, id, label } = get(payload, 'content', {})
         if (payload.error || !id) {
           throw new Error('Fetching entity failed')
         }
         return new Tag(entityType, label, id)
-      }) : // 2 - a word tag: return immediately resolved promise
-      new Promise((resolve, reject) => {
+      }) // 2 - a word tag: return immediately resolved promise
+      : new Promise((resolve, reject) => {
         resolve(new Tag(TagTypes.WORD, tagValue, tagValue))
       })
   }

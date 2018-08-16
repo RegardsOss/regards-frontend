@@ -80,17 +80,17 @@ export class StoragePluginLegendComponent extends React.Component {
     }
 
     return (
-      <div key={labelKey} style={itemRootContainerStyle} >
+      <div key={labelKey} style={itemRootContainerStyle}>
         {
-          mainColor ?
-            <svg style={legendIcon.style} xmlns="http://www.w3.org/2000/svg">
+          mainColor
+            ? <svg style={legendIcon.style} xmlns="http://www.w3.org/2000/svg">
               <circle
                 cx={legendIcon.svgData.center}
                 cy={legendIcon.svgData.center}
                 r={legendIcon.svgData.radius}
                 fill={mainColor}
               />
-            </svg> : null
+              </svg> : null
         }
         <Subheader style={itemLabelStyle}>
           {message}
@@ -118,12 +118,12 @@ export class StoragePluginLegendComponent extends React.Component {
     } = this.props
 
     return (
-      <div style={rootContainerStyle} >
+      <div style={rootContainerStyle}>
         {/* used and unused sizes column */}
         <div style={firstColumnContainerStyle}>
           {
-            usedSize ?
-              [ // used size is defined, we have here all chart parts rendered
+            usedSize
+              ? [ // used size is defined, we have here all chart parts rendered
                 this.renderLegendItem('archival.storage.capacity.monitoring.chart.used.label', usedSize, curves.usedSizeColor, usedPercent),
                 this.renderLegendItem('archival.storage.capacity.monitoring.chart.free.label', unusedSize, curves.unusedSizeColor, unusedPercent),
               ] : null

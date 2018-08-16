@@ -66,8 +66,7 @@ export class AdminContainer extends React.Component {
       this.props.fetchAllDataAttributes(),
     ]
     Promise.all(tasks)
-      .then(() =>
-        this.setState({ isLoading: false }))
+      .then(() => this.setState({ isLoading: false }))
   }
 
   render() {
@@ -108,4 +107,3 @@ const UnconnectedAdminContainer = AdminContainer
 export { UnconnectedAdminContainer }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminContainer)
-

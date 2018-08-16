@@ -78,9 +78,8 @@ export class OneElementServicesContainer extends React.Component {
         services: get(newProps.entity, 'content.services', [])
           // keep only services that have one element application mode and
           // entity type as target
-          .filter(({ content: { applicationModes, entityTypes } }) =>
-            applicationModes.includes(AccessDomain.applicationModes.ONE) &&
-            entityTypes.includes(entityType)),
+          .filter(({ content: { applicationModes, entityTypes } }) => applicationModes.includes(AccessDomain.applicationModes.ONE)
+            && entityTypes.includes(entityType)),
       })
     }
   }

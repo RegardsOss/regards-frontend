@@ -22,7 +22,7 @@ import { AdminShapes } from '@regardsoss/shape'
 import { adminLayoutSelectors } from '../../../clients/LayoutListClient'
 import { adminModuleSelectors } from '../../../clients/ModulesListClient'
 import { HomeConfigurationShape, NavigationEditionItem } from '../../../shapes/ModuleConfiguration'
-import DynamicModulesProviderContainer from '../../../containers/common/DynamicModulesProviderContainer'
+import DynamicModulesProviderContainer from '../../common/DynamicModulesProviderContainer'
 import NavigationModelResolutionContainer from './NavigationModelResolutionContainer'
 import NavigationLayoutComponent from '../../../components/user/navigation/NavigationLayoutComponent'
 
@@ -91,4 +91,3 @@ export class NavigationMenuContainer extends React.Component {
 }
 
 export default NavigationMenuContainer
-

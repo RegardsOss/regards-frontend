@@ -42,13 +42,14 @@ export default class OpenSearchQueryParameter extends QueryParameter {
    */
   static escape = (value) => {
     if (value) {
-      return OpenSearchQueryParameter.ESCAPED_CHARS.some(char => value.includes(char)) ?
+      return OpenSearchQueryParameter.ESCAPED_CHARS.some(char => value.includes(char))
         // there are special characters in some of the parameter parts
-        `"${encodeURIComponent(value)}"` :
-        encodeURIComponent(value) // no lucen special char
+        ? `"${encodeURIComponent(value)}"`
+        : encodeURIComponent(value) // no lucen special char
     }
     return value // no value
   }
+
   /**
    * Compute the parameter value and serialize it, based on
    * @param {string|[string]} value parameter value as string or array of string in the case of choices
@@ -56,9 +57,9 @@ export default class OpenSearchQueryParameter extends QueryParameter {
   static computeParameterValue(value = '') {
     if (isArray(value)) {
       const paramValue = value.map(OpenSearchQueryParameter.escape).join(OpenSearchQueryParameter.CHOICE_SEPARATOR)
-      return value.length > 1 ?
-        `(${paramValue})` : // make sure choice values are enclose in parenthesis
-        paramValue
+      return value.length > 1
+        ? `(${paramValue})` // make sure choice values are enclose in parenthesis
+        : paramValue
     }
     return OpenSearchQueryParameter.escape(value)
   }

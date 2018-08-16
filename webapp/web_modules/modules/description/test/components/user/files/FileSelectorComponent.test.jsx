@@ -23,7 +23,9 @@ import { DropDownButton } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import FileSelectorComponent from '../../../../src/components/user/files/FileSelectorComponent'
 import styles from '../../../../src/styles'
-import { pdfFile, epubFile, javascriptFile, markdownFile } from '../../../dumps/RuntimeDataFile.dump'
+import {
+  pdfFile, epubFile, javascriptFile, markdownFile,
+} from '../../../dumps/RuntimeDataFile.dump'
 
 const context = buildTestContext(styles)
 

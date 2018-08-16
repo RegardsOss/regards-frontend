@@ -32,4 +32,3 @@ import styles from './styles'
 export default function withValuesRenderContext(Component) {
   return compose(withI18n(messages, true), withModuleStyle(styles, true))(Component)
 }
-

@@ -81,21 +81,20 @@ export class Breadcrumb extends React.Component {
       <div style={style}>
         {
           // for each element, generate array of separator from previous (if not first) and clickable element.
-          flatMap(elements, ({ label, onAction }, index) =>
-            [
-              // add separator when not the first element
-              index ? <NextLevelIcon key={`${label}.separator`} style={iconStyle} /> : null,
-              // add element itself
-              <BreadcrumbElement
-                isFirst={!index}
-                isLast={index === elements.length - 1}
-                key={label}
-                label={label}
-                onAction={onAction}
-                rootIcon={rootIcon}
-              />,
+          flatMap(elements, ({ label, onAction }, index) => [
+            // add separator when not the first element
+            index ? <NextLevelIcon key={`${label}.separator`} style={iconStyle} /> : null,
+            // add element itself
+            <BreadcrumbElement
+              isFirst={!index}
+              isLast={index === elements.length - 1}
+              key={label}
+              label={label}
+              onAction={onAction}
+              rootIcon={rootIcon}
+            />,
 
-            ])
+          ])
         }
       </div>
     )

@@ -72,7 +72,9 @@ class ModuleContainer extends React.Component {
   static FORM_STORAGE_KEY = 'seach-form'
 
   static DATASET_MODEL_IDS_PARAM = 'datasetModelIds'
+
   static TAGS_PARAM = 'tags'
+
   /** Property keys to be reported onto the DynamicModulePane component */
   static MODULE_PROPS = keys(AccessShapes.runtimeDispayModuleFields)
 
@@ -171,7 +173,7 @@ class ModuleContainer extends React.Component {
         (result, dataset) => {
           if (result && dataset !== undefined) {
             return `${result} OR "${dataset}"`
-          } else if (dataset !== undefined) {
+          } if (dataset !== undefined) {
             return `"${dataset}"`
           }
           return result
@@ -187,7 +189,7 @@ class ModuleContainer extends React.Component {
         (result, modelId) => {
           if (result && modelId !== undefined) {
             return `${result} OR ${modelId}`
-          } else if (modelId !== undefined) {
+          } if (modelId !== undefined) {
             return `${modelId}`
           }
           return result
@@ -332,7 +334,7 @@ class ModuleContainer extends React.Component {
       (result, criteria) => {
         if (result && criteria && criteria.length > 0) {
           return `${result} AND ${criteria}`
-        } else if (criteria) {
+        } if (criteria) {
           return criteria
         }
         return result
@@ -346,7 +348,7 @@ class ModuleContainer extends React.Component {
         return `${query} AND ${initialQuery}`
       }
       return `${query}`
-    } else if (initialQuery.length > 0) {
+    } if (initialQuery.length > 0) {
       return initialQuery
     }
 

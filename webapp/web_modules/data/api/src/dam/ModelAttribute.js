@@ -24,8 +24,7 @@ const ModelAttributeConfiguration = {
 }
 
 const modelAttribute = new Schema(ModelAttributeConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[ModelAttributeConfiguration.entityKey]
+  idAttribute: entity => entity.content[ModelAttributeConfiguration.entityKey]
   ,
 })
 

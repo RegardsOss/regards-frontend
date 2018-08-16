@@ -106,7 +106,7 @@ class AdminFormComponent extends React.Component {
         <Tabs>
           { // map each entity type to a description configuration form
             AdminFormComponent.CONFIGURATION_ENTITY_TYPES.map(entityType => (
-              <Tab key={entityType} label={formatMessage({ id: `module.description.configuration.type.${entityType}` })} >
+              <Tab key={entityType} label={formatMessage({ id: `module.description.configuration.type.${entityType}` })}>
                 <DescriptionConfigurationFormComponent
                   entityType={entityType}
                   isCreating={isCreating}
@@ -116,7 +116,7 @@ class AdminFormComponent extends React.Component {
                 />
               </Tab>))
           }
-        </Tabs >
+        </Tabs>
       </div>
     )
   }

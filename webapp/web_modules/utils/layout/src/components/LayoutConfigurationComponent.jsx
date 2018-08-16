@@ -122,7 +122,7 @@ class LayoutConfigurationComponent extends React.Component {
     const dialogTitle = intl.formatMessage({ id: 'container.configuration.edit.dialog.title' })
 
     return (
-      <div >
+      <div>
         <Container
           appName="admin"
           container={this.props.layout}
@@ -145,7 +145,7 @@ class LayoutConfigurationComponent extends React.Component {
             onSubmit={this.state.containerToEdit ? this.onUpdate : this.onCreate}
           />
         </Dialog>
-      </div >
+      </div>
     )
   }
 }

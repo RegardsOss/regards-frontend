@@ -63,4 +63,3 @@ export default class ValuesRenderCell extends React.Component {
     ])
   }
 }
-

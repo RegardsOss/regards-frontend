@@ -51,7 +51,7 @@ class ColumnHeaderWrapper extends React.Component {
     const InnerHeader = get(headerCellDefinition, 'Constructor', null)
     const innerHeaderProps = get(headerCellDefinition, 'props', NO_PROPS)
     return (
-      <div style={cellStyle} >
+      <div style={cellStyle}>
         { /** Render configured header if any */
           InnerHeader ? (
             <InnerHeader

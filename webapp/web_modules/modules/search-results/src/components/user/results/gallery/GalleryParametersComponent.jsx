@@ -46,7 +46,7 @@ class GalleryParametersComponent extends React.PureComponent {
     } = moduleTheme.user.listViewStyles
 
     return (
-      <div style={attributesStyles} >
+      <div style={attributesStyles}>
         <div style={labelColumnStyles}>
 
           {

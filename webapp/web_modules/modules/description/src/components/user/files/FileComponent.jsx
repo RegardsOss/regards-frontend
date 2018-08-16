@@ -61,8 +61,8 @@ export class FileComponent extends React.Component {
    * Updates display area style
    */
   updateDisplayAreaStyle = (width, height) => {
-    if (width !== get(this.state, 'displayAreaStyle.width') ||
-      height !== get(this.state, 'displayAreaStyle.height')) {
+    if (width !== get(this.state, 'displayAreaStyle.width')
+      || height !== get(this.state, 'displayAreaStyle.height')) {
       this.setState({ displayAreaStyle: { width, height } })
     }
   }

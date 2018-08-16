@@ -28,7 +28,9 @@ import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
-import { ShowableAtRender, TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup } from '@regardsoss/components'
+import {
+  ShowableAtRender, TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
+} from '@regardsoss/components'
 import { ColumnPresentationModelArray } from '../../../../models/table/TableColumnModel'
 import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../../models/navigation/TableDisplayModeEnum'
 import TableSelectAllContainer from '../../../../containers/user/results/options/TableSelectAllContainer'

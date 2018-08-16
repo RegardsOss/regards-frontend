@@ -71,8 +71,8 @@ export class AccountRequestFormContainer extends React.Component {
       initialMail, onBack, hasError, errorStatus, requestFormId,
     } = this.props
     // should show error message?
-    const errorMessage = hasError ?
-      this.context.intl.formatMessage({
+    const errorMessage = hasError
+      ? this.context.intl.formatMessage({
         id: `${requestFormId}.send.failed`,
       }, {
         status: errorStatus,
@@ -125,4 +125,3 @@ export const AskUnlockAccountFormContainer = connect(
   buildMapStateToProps(UnlockAccountSelectors),
   buildMapDispatchToProps(UnlockAccountActions.sendAskUnlockAccount),
 )(AskUnlockAccountForm)
-

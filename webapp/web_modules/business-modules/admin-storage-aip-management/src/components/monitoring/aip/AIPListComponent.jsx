@@ -19,7 +19,9 @@
 import map from 'lodash/map'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import { Card, CardTitle, CardMedia, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardMedia, CardActions,
+} from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import PageView from 'material-ui/svg-icons/action/pageview'
@@ -215,6 +217,7 @@ class AIPListComponent extends React.Component {
       showRemoveTagDialog: true,
     })
   }
+
   handleRemoveTags = (tags) => {
     const { intl } = this.context
     this.props.removeTags(this.state.appliedFilters, tags)
@@ -238,6 +241,7 @@ class AIPListComponent extends React.Component {
         }
       })
   }
+
   handleAddTags = (tags) => {
     const { intl } = this.context
     this.props.addTags(this.state.appliedFilters, tags)
@@ -261,6 +265,7 @@ class AIPListComponent extends React.Component {
         }
       })
   }
+
   handleSnackbarClose = () => {
     this.setState({
       showSnackbar: false,

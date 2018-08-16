@@ -26,4 +26,3 @@ import connect from './Connect'
 export { connect }
 
 export default connect
-

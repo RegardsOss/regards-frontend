@@ -97,4 +97,3 @@ export function getAvailableTabs(entity) {
   }
   return allTabs
 }
-

@@ -53,7 +53,7 @@ class StoragePluginComponent extends React.Component {
           title={label}
           subtitle={description}
         />
-        <CardMedia style={user.pluginCard.media.rootStyle} mediaStyle={user.pluginCard.media.contentStyle} >
+        <CardMedia style={user.pluginCard.media.rootStyle} mediaStyle={user.pluginCard.media.contentStyle}>
           <StoragePluginChartComponent storagePlugin={storagePlugin} />
           <StoragePluginLegendComponent storagePlugin={storagePlugin} />
         </CardMedia>

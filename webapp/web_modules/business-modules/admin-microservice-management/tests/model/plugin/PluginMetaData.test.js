@@ -38,4 +38,3 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing model PluginMetaData', () => {
     entityTester.runTests(done)
   })
 })
-

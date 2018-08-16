@@ -24,8 +24,7 @@ const FragmentConfiguration = {
 }
 
 const fragmentModel = new Schema(FragmentConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[FragmentConfiguration.entityKey]
+  idAttribute: entity => entity.content[FragmentConfiguration.entityKey]
   ,
 })
 

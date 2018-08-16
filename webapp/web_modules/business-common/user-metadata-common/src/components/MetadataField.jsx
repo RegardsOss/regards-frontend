@@ -19,7 +19,9 @@
 import sortBy from 'lodash/sortBy'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Field, RenderTextField, RenderSelectField, ErrorTypes, StringComparison } from '@regardsoss/form-utils'
+import {
+  Field, RenderTextField, RenderSelectField, ErrorTypes, StringComparison,
+} from '@regardsoss/form-utils'
 import { Metadata } from '../model/Metadata'
 import metadatav1 from '../definitions/metadatav1'
 
@@ -125,6 +127,7 @@ class MetadataField extends React.Component {
         {...fieldProperties}
       />)
   }
+
   render() {
     const { metadata, ...fieldProperties } = this.props
     const metaEditorType = metadata.editor.type

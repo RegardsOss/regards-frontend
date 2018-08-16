@@ -23,4 +23,3 @@
  */
 export { mimeTypesDefinitions, MIME_TYPES } from './MimeTypesEnum'
 export { contentTypeParser } from './ContentTypeParser'
-

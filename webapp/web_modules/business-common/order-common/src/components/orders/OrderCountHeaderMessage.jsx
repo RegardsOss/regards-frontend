@@ -43,14 +43,14 @@ class OrderCountHeaderMessage extends React.Component {
     let headerCountMessage
     if (displayMode === ORDER_DISPLAY_MODES.USER) {
       // user messages
-      headerCountMessage = totalOrderCount ?
-        formatMessage({ id: 'order.list.user.commands.header.message' }, { count: totalOrderCount }) :
-        formatMessage({ id: 'order.list.user.no.command.header.message' })
+      headerCountMessage = totalOrderCount
+        ? formatMessage({ id: 'order.list.user.commands.header.message' }, { count: totalOrderCount })
+        : formatMessage({ id: 'order.list.user.no.command.header.message' })
     } else {
       // admin messages
-      headerCountMessage = totalOrderCount ?
-        formatMessage({ id: 'order.list.admin.commands.header.message' }, { count: totalOrderCount }) :
-        formatMessage({ id: 'order.list.admin.no.command.header.message' })
+      headerCountMessage = totalOrderCount
+        ? formatMessage({ id: 'order.list.admin.commands.header.message' }, { count: totalOrderCount })
+        : formatMessage({ id: 'order.list.admin.no.command.header.message' })
     }
     return (
       <TableHeaderText text={headerCountMessage} />

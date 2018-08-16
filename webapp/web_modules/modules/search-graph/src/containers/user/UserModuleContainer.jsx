@@ -62,8 +62,7 @@ export class UserModuleContainer extends React.Component {
 
   static mapDispatchToProps = dispatch => ({
     fetchAttributeModels: () => dispatch(AttributeModelActions.fetchEntityList({ pModelType: ENTITY_TYPES_ENUM.DATASET })),
-    fetchCollections: (levelIndex, parentEntityId, levelModelName) =>
-      dispatch(fetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentEntityId, levelModelName)),
+    fetchCollections: (levelIndex, parentEntityId, levelModelName) => dispatch(fetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentEntityId, levelModelName)),
     fetchDatasets: (levelIndex, parentPath) => dispatch(fetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentPath)),
     dispatchClearLevelSelection: levelIndex => dispatch(graphContextActions.selectEntity(levelIndex, null)),
     dispatchLevelDataLoaded: (levelIndex, results, patitionTypeActions) => {
@@ -214,4 +213,3 @@ export class UserModuleContainer extends React.Component {
 export default compose(
   connect(UserModuleContainer.mapStateToProps, UserModuleContainer.mapDispatchToProps),
   withValueRenderContext)(UserModuleContainer)
-

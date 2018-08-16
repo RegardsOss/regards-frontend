@@ -84,8 +84,8 @@ export class PluginDisplayerContainer extends React.Component {
     const { pluginInstance } = this.props
     const { renderedPlugin } = this.state
     return (
-      <I18nProvider messages={pluginInstance.messages || PluginDisplayerContainer.DEFAULT_MESSAGES} >
-        <ModuleStyleProvider module={pluginInstance.styles || PluginDisplayerContainer.DEFAULT_STYLES} >
+      <I18nProvider messages={pluginInstance.messages || PluginDisplayerContainer.DEFAULT_MESSAGES}>
+        <ModuleStyleProvider module={pluginInstance.styles || PluginDisplayerContainer.DEFAULT_STYLES}>
           {renderedPlugin}
         </ModuleStyleProvider>
       </I18nProvider>

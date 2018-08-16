@@ -82,8 +82,7 @@ class StorageUnitScale {
    * @returns {StorageUnit | null} found unit
    */
   findUnit(text) {
-    const matched = this.parsingRegexp.reduce((prevMatched, regexp) =>
-      prevMatched || text.trim().match(regexp), null)
+    const matched = this.parsingRegexp.reduce((prevMatched, regexp) => prevMatched || text.trim().match(regexp), null)
     if (matched) {
       const foundPrefix = matched[1]
       if (!foundPrefix) {

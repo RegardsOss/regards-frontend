@@ -27,7 +27,9 @@ import Minus from 'mdi-material-ui/PlaylistMinus'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
-import { TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField } from '@regardsoss/components'
+import {
+  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField,
+} from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import AIPStatusEnum from './AIPStatusEnum'
@@ -252,10 +254,10 @@ class AIPListFiltersComponent extends React.Component {
             label={this.context.intl.formatMessage({ id: 'aips.session.clear.filters.button' })}
             icon={<Close />}
             disabled={
-              !get(this.state, 'filters.from') &&
-              !get(this.state, 'filters.state') &&
-              !get(this.state, 'filters.tags') &&
-              !get(this.state, 'filters.aipId')
+              !get(this.state, 'filters.from')
+              && !get(this.state, 'filters.state')
+              && !get(this.state, 'filters.tags')
+              && !get(this.state, 'filters.aipId')
             }
             onClick={this.handleClearFilters}
           />

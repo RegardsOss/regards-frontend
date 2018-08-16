@@ -39,8 +39,8 @@ describe('[FORM UTILS] Testing FormPresentation', () => {
     const enzymeWrapper = shallow(
       <FormPresentation>
         <div id="test.id" />
-      </FormPresentation>
-      , { context })
+      </FormPresentation>,
+      { context })
     assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'test.id'), 1)
   })
 })

@@ -83,17 +83,15 @@ export class GraphLevelDisplayerContainer extends React.Component {
 
   static mapDispatchToProps = (dispatch, { levelIndex, levelModelName }) => ({
     // fetch collections and dispatch level partitions update state
-    dispatchFetchLevelCollections: parentId =>
-      GraphLevelDisplayerContainer.dispatchFetchLevelData(
-        levelIndex, dispatch, GraphLevelCollectionActions,
-        () => FetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentId, levelModelName),
-      ),
+    dispatchFetchLevelCollections: parentId => GraphLevelDisplayerContainer.dispatchFetchLevelData(
+      levelIndex, dispatch, GraphLevelCollectionActions,
+      () => FetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentId, levelModelName),
+    ),
     // fetch datasets and dispatch level partitions update state
-    dispatchFetchLevelDatasets: parentPath =>
-      GraphLevelDisplayerContainer.dispatchFetchLevelData(
-        levelIndex, dispatch, GraphLevelDatasetActions,
-        () => FetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentPath),
-      ),
+    dispatchFetchLevelDatasets: parentPath => GraphLevelDisplayerContainer.dispatchFetchLevelData(
+      levelIndex, dispatch, GraphLevelDatasetActions,
+      () => FetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentPath),
+    ),
   })
 
   static propTypes = {

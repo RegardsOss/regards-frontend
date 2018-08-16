@@ -39,4 +39,3 @@ export default class URLSearchQuery extends Query {
     super(rootQuery, parameters, URLSearchQuery.PARAMETERS_SEPARATOR)
   }
 }
-

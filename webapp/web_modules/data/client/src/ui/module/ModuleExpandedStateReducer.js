@@ -53,9 +53,9 @@ export class ModuleExpandedStateReducer {
       case this.actions.SET_STATE: {
         const currentState = state[action.moduleType]
         // compute next state : collapse a pane only when it can be collapsed (set to normal state otherwise)
-        const nextPaneState = action.state === UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED && !currentState.expandable ?
-          UIDomain.PRESENTATION_STATE_ENUM.NORMAL :
-          action.state
+        const nextPaneState = action.state === UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED && !currentState.expandable
+          ? UIDomain.PRESENTATION_STATE_ENUM.NORMAL
+          : action.state
 
         return {
           ...state,

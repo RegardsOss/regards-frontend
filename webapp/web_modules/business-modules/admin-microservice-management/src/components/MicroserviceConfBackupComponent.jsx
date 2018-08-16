@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { reduxForm } from '@regardsoss/form-utils'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -52,14 +54,17 @@ export class MicroserviceConfBackupComponent extends React.Component {
     flexDirection: 'column',
     alignItems: 'center',
   }
+
   static styleIcon = {
     height: 108,
     width: 108,
     margin: '30px 0px',
   }
+
   static styleButton = {
     margin: '30px 0px',
   }
+
   static contentWrapper = {
     display: 'flex',
     alignItems: 'center',

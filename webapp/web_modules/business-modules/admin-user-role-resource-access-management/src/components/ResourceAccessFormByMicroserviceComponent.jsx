@@ -169,14 +169,13 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
    * Check if one of the roleResources match the given resource, return the roleResource or undefined
    * @param resource
    */
-  getResource = resource =>
-    find(this.props.roleResources, {
-      content: {
-        resource: resource.content.resource,
-        microservice: resource.content.microservice,
-        verb: resource.content.verb,
-      },
-    })
+  getResource = resource => find(this.props.roleResources, {
+    content: {
+      resource: resource.content.resource,
+      microservice: resource.content.microservice,
+      verb: resource.content.verb,
+    },
+  })
 
   handleToggleController = (controller) => {
     const { isControllerOpen } = this.state
@@ -203,7 +202,8 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
     const { controllerList, resourceListFetching } = this.props
     const { isControllerOpen } = this.state
     const items = resourceListFetching ? [
-      <ListItem key={1} ><LoadingComponent />
+      <ListItem key={1}>
+        <LoadingComponent />
       </ListItem>] : this.getResourceListItems()
 
     return (
@@ -228,4 +228,3 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
 }
 
 export default ResourceAccessFormByMicroserviceComponent
-

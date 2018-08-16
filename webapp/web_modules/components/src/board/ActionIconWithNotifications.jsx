@@ -58,7 +58,7 @@ class ActionIconWithNotifications extends React.Component {
     }
 
     return (
-      <div >
+      <div>
         <ShowableAtRender show={!!notificationsCount}>
           <Badge
             badgeContent={notificationsCount}

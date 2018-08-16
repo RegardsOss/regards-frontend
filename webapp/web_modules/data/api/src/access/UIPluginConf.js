@@ -26,8 +26,7 @@ const UIPluginConfConfiguration = {
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 const UIPluginConfSchema = new Schema(UIPluginConfConfiguration.normalizrKey, {
-  idAttribute: plugin =>
-    plugin.content[UIPluginConfConfiguration.entityKey],
+  idAttribute: plugin => plugin.content[UIPluginConfConfiguration.entityKey],
   assignEntity(output, key, value, input) {
     if (value && value.conf) {
       try {

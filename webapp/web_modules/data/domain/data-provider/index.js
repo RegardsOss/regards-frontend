@@ -21,4 +21,3 @@ export { AcquisitionProcessingChainModeEnum, AcquisitionProcessingChainModes } f
 export { ProductStateEnum, ProductStateValues } from './ProductStateEnum'
 export { ProductSIPStateEnum, ProductSIPStateEnumValues } from './ProductSIPStateEnum'
 export { AcquisitionFileStateEnum, AcquisitionFileStateValues } from './AcquisitionfileStateEnum'
-

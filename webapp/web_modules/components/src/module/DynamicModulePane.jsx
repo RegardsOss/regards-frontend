@@ -315,7 +315,7 @@ export class DynamicModulePane extends React.Component {
             </CardMediaWithCustomBG>
           </ShowableAtRender>
         </SwitchThemeDecorator>
-      </Card >
+      </Card>
     )
   }
 }

@@ -26,8 +26,7 @@ const PluginConfiguration = {
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 const pluginSchema = new Schema(PluginConfiguration.normalizrKey, {
-  idAttribute: plugin =>
-    plugin.content[PluginConfiguration.entityKey]
+  idAttribute: plugin => plugin.content[PluginConfiguration.entityKey]
   ,
 })
 

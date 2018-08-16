@@ -50,8 +50,7 @@ class ModuleComponent extends React.Component {
    * @param onUnitScaleChanged unit scale changed callback
    * @return {[React.element]} module options
    */
-  renderOptions = (scale, onUnitScaleChanged) =>
-    [<ScaleSelectorComponent key="selector" scale={scale} onUnitScaleChanged={onUnitScaleChanged} />]
+  renderOptions = (scale, onUnitScaleChanged) => [<ScaleSelectorComponent key="selector" scale={scale} onUnitScaleChanged={onUnitScaleChanged} />]
 
   render() {
     const {

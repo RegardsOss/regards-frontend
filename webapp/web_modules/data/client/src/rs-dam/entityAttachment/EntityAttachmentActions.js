@@ -25,7 +25,9 @@ import { BasicSignalsActions } from '@regardsoss/store-utils'
  */
 export default class EntityAttachmentActions extends BasicSignalsActions {
   static ROOT_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/entities/{urn}/files`
+
   static REMOVE_FILE_ACTIONS = 'removeFileEndpoint'
+
   static UPLOAD_FILES_ACTIONS = 'uploadFilesEndpoint'
 
   /**

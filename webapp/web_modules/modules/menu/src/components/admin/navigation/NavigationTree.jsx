@@ -23,7 +23,9 @@ import { AccessDomain, UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { TreeTableComponent, TreeTableRow, ModuleIcon, ModuleTitleText } from '@regardsoss/components'
+import {
+  TreeTableComponent, TreeTableRow, ModuleIcon, ModuleTitleText,
+} from '@regardsoss/components'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../domain/NavigationItemTypes'
 import { HOME_ICON_TYPES_ENUM } from '../../../domain/HomeIconType'
 import { HomeConfigurationShape, NavigationEditionItem } from '../../../shapes/ModuleConfiguration'
@@ -101,17 +103,16 @@ class NavigationTree extends React.Component {
    * @param {[NavigationEditionItem]} navigationEditionItems navigation items (initially redux form fields)
    * @return {[TreeTableRow]} built rows
    */
-  buildTreeTableRows = navigationItems =>
-    navigationItems.map((item) => {
-      switch (item.type) {
-        case NAVIGATION_ITEM_TYPES_ENUM.MODULE:
-          return this.buildModuleTreeTableRow(item)
-        case NAVIGATION_ITEM_TYPES_ENUM.SECTION:
-          return this.buildSectionTreeTableRow(item)
-        default:
-          throw new Error(`Unknown field type ${item.type} in field ${JSON.stringify(item)}`)
-      }
-    }).filter(row => !!row) // delete here the elements that could not be retrieved (temporary state)
+  buildTreeTableRows = navigationItems => navigationItems.map((item) => {
+    switch (item.type) {
+      case NAVIGATION_ITEM_TYPES_ENUM.MODULE:
+        return this.buildModuleTreeTableRow(item)
+      case NAVIGATION_ITEM_TYPES_ENUM.SECTION:
+        return this.buildSectionTreeTableRow(item)
+      default:
+        throw new Error(`Unknown field type ${item.type} in field ${JSON.stringify(item)}`)
+    }
+  }).filter(row => !!row) // delete here the elements that could not be retrieved (temporary state)
 
   /**
    * Builds a module tree table row
@@ -241,9 +242,9 @@ class NavigationTree extends React.Component {
     let cellStyle
     switch (column) {
       case NavigationTree.COLUMNS_INDEX.TYPE:
-        cellContent = value.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION ?
-          formatMessage({ id: 'menu.form.navigation.table.column.type.section.message' }) :
-          formatMessage({ id: 'menu.form.navigation.table.column.type.module.message' }, { moduleType: value.moduleType })
+        cellContent = value.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION
+          ? formatMessage({ id: 'menu.form.navigation.table.column.type.section.message' })
+          : formatMessage({ id: 'menu.form.navigation.table.column.type.module.message' }, { moduleType: value.moduleType })
         break
       case NavigationTree.COLUMNS_INDEX.ICON_AND_TITLE:
         // show both icon and title
@@ -291,7 +292,7 @@ class NavigationTree extends React.Component {
         throw new Error(`Unknown column index ${column}`)
     }
     return (
-      <TableRowColumn style={cellStyle} key={`cell-${column}`} >
+      <TableRowColumn style={cellStyle} key={`cell-${column}`}>
         {cellContent}
       </TableRowColumn>)
   }

@@ -30,4 +30,3 @@ export const StandardAttributeModelContent = PropTypes.shape({
 export const StandardAttributeModel = PropTypes.shape({
   content: StandardAttributeModelContent,
 })
-

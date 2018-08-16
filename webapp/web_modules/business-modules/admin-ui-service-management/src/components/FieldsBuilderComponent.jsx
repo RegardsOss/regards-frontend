@@ -46,6 +46,7 @@ class FieldBuilderComponent extends React.Component {
       type: PropTypes.oneOf(UI_PLUGIN_CONF_PARAMETER_TYPES).isRequired,
     }).isRequired,
   }
+
   static contextTypes = {
     ...i18nContextType,
   }

@@ -27,4 +27,3 @@ export default PropTypes.shape({
   providerId: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 })
-

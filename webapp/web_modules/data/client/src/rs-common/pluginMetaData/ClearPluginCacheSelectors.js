@@ -24,4 +24,3 @@ import { BasicSignalSelectors } from '@regardsoss/store-utils'
  */
 const getClearPluginCacheSelectors = storePath => new BasicSignalSelectors(storePath)
 export default getClearPluginCacheSelectors
-

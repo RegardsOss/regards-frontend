@@ -18,7 +18,9 @@
  **/
 export { AccessGroup, AccessGroupContent, AccessGroupList } from './AccessGroup'
 export { AccessRight, AccessRightContent, AccessRightList } from './AccessRight'
-export { AttributeModelContent, AttributeModel, AttributeModelList, AttributeModelArray } from './AttributeModel'
+export {
+  AttributeModelContent, AttributeModel, AttributeModelList, AttributeModelArray,
+} from './AttributeModel'
 export { Collection, CollectionList, CollectionArray } from './Collection'
 export { Connection, ConnectionList } from './Connection'
 export { Dataset, DatasetContent, DatasetList } from './Dataset'
@@ -33,4 +35,6 @@ export { ModelAttribute, ModelAttributeList } from './ModelAttribute'
 export { StandardAttributeModelContent, StandardAttributeModel } from './StandardAttributeModel'
 export { ModelAttributeComputationTypes, ModelAttributeComputationTypesList } from './ModelAttributeComputationTypes'
 export { Document, DocumentContent, DocumentList } from './Document'
-export { CrawlerDatasource, CrawlerDatasourceContent, CrawlerDatasourceList, CrawlerDatasourceArray } from './CrawlerDatasource'
+export {
+  CrawlerDatasource, CrawlerDatasourceContent, CrawlerDatasourceList, CrawlerDatasourceArray,
+} from './CrawlerDatasource'

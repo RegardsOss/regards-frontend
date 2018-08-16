@@ -69,7 +69,7 @@ class FitContentDialog extends React.Component {
           {...dialogProperties}
         >
           {HOCUtils.renderChildren(children)}
-        </Dialog >
+        </Dialog>
       </SwitchThemeDecorator>
     )
   }

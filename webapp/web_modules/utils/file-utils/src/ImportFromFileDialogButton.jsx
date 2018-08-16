@@ -108,7 +108,7 @@ class ImportFromFileDialogButton extends React.Component {
             secondaryButtonLabel={formatMessage({ id: 'import.file.cancel.button' })}
             secondaryButtonClick={this.handleClose}
           />
-        </form >
+        </form>
       </Dialog>
 
     )

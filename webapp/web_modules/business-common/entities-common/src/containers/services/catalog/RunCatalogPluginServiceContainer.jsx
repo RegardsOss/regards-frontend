@@ -193,8 +193,8 @@ export class RunCatalogPluginServiceContainer extends React.Component {
   hasPreviousStep = () => !!this.state.resolvedParameters.length
 
   /** Renders previous option if any */
-  renderPreviousOption = () => this.hasPreviousStep() ?
-    <PreviousButton key="previous.button" onPrevious={this.onPrevious} /> : null
+  renderPreviousOption = () => this.hasPreviousStep()
+    ? <PreviousButton key="previous.button" onPrevious={this.onPrevious} /> : null
 
   /**
    * Returns current render step
@@ -274,8 +274,7 @@ function mapDispatchToProps(dispatch) {
     dispatchFetchPluginMetaData: pluginId => dispatch(pluginMetaDataActions.fetchEntity(pluginId, {
       microserviceName: STATIC_CONF.MSERVICES.CATALOG,
     })),
-    dispatchFetchPluginResult: (pluginConfigurationId, dynamicParameters, targetParams) =>
-      dispatch(catalogPluginServiceResultActions.fetchResult(pluginConfigurationId, dynamicParameters, targetParams)),
+    dispatchFetchPluginResult: (pluginConfigurationId, dynamicParameters, targetParams) => dispatch(catalogPluginServiceResultActions.fetchResult(pluginConfigurationId, dynamicParameters, targetParams)),
   }
 }
 

@@ -29,4 +29,3 @@ export const Theme = PropTypes.shape({
 })
 
 export const ThemeList = PropTypes.objectOf(Theme)
-

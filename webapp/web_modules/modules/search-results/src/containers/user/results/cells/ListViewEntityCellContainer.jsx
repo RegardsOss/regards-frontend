@@ -44,10 +44,9 @@ function isAttribute({ attributes }, attributeName) {
  * @return {AttributeRenderData} packed render data
  */
 export function packThumbnailRenderData(presentationModels) {
-  const model = presentationModels.find(m =>
-    m.key !== TableColumnBuilder.selectionColumnKey &&
-    m.key !== TableColumnBuilder.optionsColumnKey &&
-    isAttribute(m, DamDomain.AttributeModelController.standardAttributesKeys.thumbnail))
+  const model = presentationModels.find(m => m.key !== TableColumnBuilder.selectionColumnKey
+    && m.key !== TableColumnBuilder.optionsColumnKey
+    && isAttribute(m, DamDomain.AttributeModelController.standardAttributesKeys.thumbnail))
   if (!model) {
     return null
   }
@@ -66,11 +65,9 @@ export function packThumbnailRenderData(presentationModels) {
 export function packGridAttributesRenderData(presentationModels, locale) {
   // keep attributes in configured order, but extract the specific attributes like thumbnail
   return presentationModels
-    .filter(model =>
-      // 1 - filter attributes, remove thumbnail (that is rendered separately) and columns placeholders
-      model.key !== TableColumnBuilder.selectionColumnKey &&
-      model.key !== TableColumnBuilder.optionsColumnKey &&
-      !isAttribute(model, DamDomain.AttributeModelController.standardAttributesKeys.thumbnail))
+    .filter(model => model.key !== TableColumnBuilder.selectionColumnKey
+      && model.key !== TableColumnBuilder.optionsColumnKey
+      && !isAttribute(model, DamDomain.AttributeModelController.standardAttributesKeys.thumbnail))
     .map(model => ({ // 2 - pack them for render
       key: model.key,
       label: model.label[locale],
@@ -164,8 +161,8 @@ export class ListViewEntityCellContainer extends React.Component {
    */
   isSelectedRow = () => {
     const { rowIndex, selectionMode, toggledElements } = this.props
-    return (selectionMode === TableSelectionModes.includeSelected && !!toggledElements[rowIndex]) ||
-      (selectionMode === TableSelectionModes.excludeSelected && !toggledElements[rowIndex])
+    return (selectionMode === TableSelectionModes.includeSelected && !!toggledElements[rowIndex])
+      || (selectionMode === TableSelectionModes.excludeSelected && !toggledElements[rowIndex])
   }
 
   render() {

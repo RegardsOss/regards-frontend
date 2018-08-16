@@ -248,8 +248,8 @@ export class ProjectConnectionsContainer extends React.Component {
    * @returns {XML}
    */
   renderSimpleForm() {
-    const microservice = this.props.projectConnection ?
-      this.props.projectConnection.content.microservice : this.props.params.microservice_name
+    const microservice = this.props.projectConnection
+      ? this.props.projectConnection.content.microservice : this.props.params.microservice_name
 
     const { projectIsFetching, projectConnectionsIsFetching } = this.state
 
@@ -305,10 +305,9 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchProjectConnections: projectName =>
-    dispatch(projectConnectionActions.fetchPagedEntityList(0, 0, {
-      projectName,
-    })),
+  fetchProjectConnections: projectName => dispatch(projectConnectionActions.fetchPagedEntityList(0, 0, {
+    projectName,
+  })),
   updateProjectConnection: (id, projectConnection) => dispatch(projectConnectionActions.updateEntity(id, projectConnection, {
     projectName: projectConnection.project.name,
   })),

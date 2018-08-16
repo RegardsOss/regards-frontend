@@ -67,4 +67,3 @@ export default function getDialogRequestsReducer(namespace) {
     return reducer.reduce(state, action)
   }
 }
-

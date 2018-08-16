@@ -91,8 +91,8 @@ class LoggedUserComponent extends React.Component {
                 leftIcon={accountIcon}
                 onClick={onShowProfileEdition}
                 value={null}
-              />) :
-              null
+              />)
+              : null
           }
           { /* Show borrowables roles submenu, only when there are borrowable roles (do not insert a showable to not block menu auto-closing) */
             showBorrowableRoles ? (

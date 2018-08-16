@@ -51,8 +51,7 @@ export class URLManagementContainer extends React.Component {
 
   static mapDispatchToProps = dispatch => ({
     dispatchFetchEntity: datasetId => dispatch(searchEntityActions.getEntity(datasetId)),
-    initialize: ((viewObjectType, tableDisplayMode, initialContextTags, tags) =>
-      dispatch(navigationContextActions.initialize(viewObjectType, tableDisplayMode, initialContextTags, tags))),
+    initialize: ((viewObjectType, tableDisplayMode, initialContextTags, tags) => dispatch(navigationContextActions.initialize(viewObjectType, tableDisplayMode, initialContextTags, tags))),
   })
 
   static propTypes = {
@@ -134,9 +133,9 @@ export class URLManagementContainer extends React.Component {
       const tableDisplayMode = query[URLManagementContainer.ModuleURLParameters.TABLE_DISPLAY_MODE_PARAMETER] || initialTableDisplayMode
       // 1.b - dispatch re-init
       this.dispatchInitEvent(viewObjectType, tableDisplayMode, nextProps.initialContextTags, [])
-    } else if (!isEqual(this.props.levels, nextProps.levels) ||
-      !isEqual(this.props.viewObjectType, nextProps.viewObjectType) ||
-      !isEqual(this.props.tableDisplayMode, nextProps.tableDisplayMode)) {
+    } else if (!isEqual(this.props.levels, nextProps.levels)
+      || !isEqual(this.props.viewObjectType, nextProps.viewObjectType)
+      || !isEqual(this.props.tableDisplayMode, nextProps.tableDisplayMode)) {
       // 2 - The component state was updated (by user or by driving module): update URL to reflect changes
       // 2.a - a restore query simple parameters
       const nextBrowserQuery = { ...query }

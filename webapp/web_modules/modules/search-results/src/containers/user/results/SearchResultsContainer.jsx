@@ -37,13 +37,17 @@ import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/na
 import navigationContextActions from '../../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
 import QueriesHelper from '../../../definitions/QueriesHelper'
-import { buildAttributesPresentationModels, changeSortOrder, getSortingOn, getInitialSorting } from '../../../definitions/AttributesPresentationHelper'
+import {
+  buildAttributesPresentationModels, changeSortOrder, getSortingOn, getInitialSorting,
+} from '../../../definitions/AttributesPresentationHelper'
 import PluginServicesContainer from './PluginServicesContainer'
 import OrderCartContainer from './OrderCartContainer'
 import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
 import styles from '../../../styles/styles'
 import { DISPLAY_MODE_VALUES } from '../../../definitions/DisplayModeEnum'
-import { DataViewShape, QuicklookViewShape, DatasetViewShape, DocumentViewShape } from '../../../models/ModuleConfiguration'
+import {
+  DataViewShape, QuicklookViewShape, DatasetViewShape, DocumentViewShape,
+} from '../../../models/ModuleConfiguration'
 import DisplayModuleConf from '../../../models/DisplayModuleConf'
 
 const moduleStyles = { styles }
@@ -381,14 +385,13 @@ export class SearchResultsContainer extends React.Component {
    * @param modelKey model key
    * @param newSortOrder new sort order
    */
-  onSortByAttribute = (modelKey, newSortOrder) =>
-    this.updateStateAndQuery({
-      // note: in list mode, we remove other sorting columns
-      presentationModels: changeSortOrder(
-        this.state.presentationModels, modelKey, newSortOrder,
-        // multisorting is, so far, enabled only for table view
-        this.props.tableDisplayMode !== TableDisplayModeEnum.TABLE),
-    })
+  onSortByAttribute = (modelKey, newSortOrder) => this.updateStateAndQuery({
+    // note: in list mode, we remove other sorting columns
+    presentationModels: changeSortOrder(
+      this.state.presentationModels, modelKey, newSortOrder,
+      // multisorting is, so far, enabled only for table view
+      this.props.tableDisplayMode !== TableDisplayModeEnum.TABLE),
+  })
 
   /**
    * Builds opensearch query from properties and state as parameter
@@ -403,8 +406,8 @@ export class SearchResultsContainer extends React.Component {
     const { viewObjectType, searchQuery, levels } = properties
     const viewConfiguration = SearchResultsContainer.getViewConfiguration(properties)
     // 1 - compute facets to request and apply (only when they are enabled or working with documents - always enabled)
-    const facetsCurrentlyEnabled = (showingFacettes || viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DOCUMENT) &&
-      viewConfiguration.facets && viewConfiguration.facets.length
+    const facetsCurrentlyEnabled = (showingFacettes || viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DOCUMENT)
+      && viewConfiguration.facets && viewConfiguration.facets.length
     const requestedFacets = facetsCurrentlyEnabled ? viewConfiguration.facets : []
     const appliedFacetValues = facetsCurrentlyEnabled ? selectedFacets : []
 
@@ -419,8 +422,8 @@ export class SearchResultsContainer extends React.Component {
     const datasetTag = Tag.getSearchedDatasetTag(levels)
 
     // extract search parameters from level tags (every parameter except the datasets, that may be used specifically into the datasets search)
-    const parameters = levels.reduce((acc, levelTag) => levelTag.isDataset() ?
-      acc : [...acc, OpenSearchQuery.buildTagParameter(levelTag.searchKey)], [])
+    const parameters = levels.reduce((acc, levelTag) => levelTag.isDataset()
+      ? acc : [...acc, OpenSearchQuery.buildTagParameter(levelTag.searchKey)], [])
     if (viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
       // 1 - Data object search : use data object actions, search query, dataset as a Tag on dataobjects
       // and quicklooks filter if enabled
@@ -500,7 +503,7 @@ export class SearchResultsContainer extends React.Component {
     return (
       <ModuleStyleProvider module={moduleStyles}>
         {/* Enable entities description management */}
-        <DescriptionProviderContainer onSearchTag={this.onDescriptionSearch} >
+        <DescriptionProviderContainer onSearchTag={this.onDescriptionSearch}>
           {/* enable the services functionnalities */}
           <PluginServicesContainer
             viewObjectType={viewObjectType}
@@ -562,7 +565,7 @@ export class SearchResultsContainer extends React.Component {
             </OrderCartContainer>
           </PluginServicesContainer>
         </DescriptionProviderContainer>
-      </ModuleStyleProvider >
+      </ModuleStyleProvider>
     )
   }
 }

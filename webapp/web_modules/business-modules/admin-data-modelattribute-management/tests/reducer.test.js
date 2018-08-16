@@ -28,4 +28,3 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing reducer', () => {
     assert.isDefined(Reducer)
   })
 })
-

@@ -38,9 +38,9 @@ describe('[FORM UTILS] Testing FieldsGroup', () => {
   it('should render without title and span full width', () => {
     const props = {}
     const enzymeWrapper = shallow(
-      <FieldsGroup {...props} >
+      <FieldsGroup {...props}>
         <div id="x" />
-      </FieldsGroup >, { context })
+      </FieldsGroup>, { context })
 
     assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'x'), 1, 'Group should render its children')
   })
@@ -50,9 +50,9 @@ describe('[FORM UTILS] Testing FieldsGroup', () => {
       spanFullWidth: true,
     }
     const enzymeWrapper = shallow(
-      <FieldsGroup {...props} >
+      <FieldsGroup {...props}>
         <div id="y" />
-      </FieldsGroup >, { context })
+      </FieldsGroup>, { context })
 
     assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'y'), 1, 'Group should render its children')
     assert.include(enzymeWrapper.debug(), props.titleKey, 'Title should be rendered')

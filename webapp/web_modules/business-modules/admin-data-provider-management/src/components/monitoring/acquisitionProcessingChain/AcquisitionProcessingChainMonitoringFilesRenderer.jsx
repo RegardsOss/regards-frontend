@@ -70,7 +70,7 @@ class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Compone
         title={formatMessage({ id: 'acquisition-chain.monitor.list.total-files.tooltip' })}
       >
         {content.nbFiles}
-      </span >
+      </span>
     )
   }
 
@@ -86,7 +86,7 @@ class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Compone
           title={formatMessage({ id: 'acquisition-chain.monitor.list.error-nb-files.tooltip' })}
         >
           {content.nbFileErrors}
-        </span >
+        </span>
       )
     }
     return null
@@ -104,11 +104,12 @@ class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Compone
           title={formatMessage({ id: 'acquisition-chain.monitor.list.inprogress-nb-files.tooltip' })}
         >
           {content.nbFilesInProgress}
-        </span >
+        </span>
       )
     }
     return null
   }
+
   render() {
     return [
       this.renderTotal(),

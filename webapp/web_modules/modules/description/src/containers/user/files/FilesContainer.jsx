@@ -71,8 +71,8 @@ export class FilesContainer extends React.Component {
 
     // compute next state: convert all files with final URL and only useful information
     const files = get(entity, `content.files.${fileType}`, [])
-      .reduce((acc, dataFile) => dataFile.online ?
-        [...acc, {
+      .reduce((acc, dataFile) => dataFile.online
+        ? [...acc, {
           filename: dataFile.filename,
           mimeType: dataFile.mimeType,
           filesize: dataFile.filesize,

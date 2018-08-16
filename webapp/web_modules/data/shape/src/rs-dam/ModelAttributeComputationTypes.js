@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { PluginConfiguration } from './../rs-common/Plugin/PluginConfiguration'
-import { PluginMetaData } from './../rs-common/Plugin/PluginMetaData'
+import { PluginConfiguration } from '../rs-common/Plugin/PluginConfiguration'
+import { PluginMetaData } from '../rs-common/Plugin/PluginMetaData'
 
 export const ModelAttributeComputationTypes = PropTypes.shape({
   content: PropTypes.shape({
@@ -27,4 +27,3 @@ export const ModelAttributeComputationTypes = PropTypes.shape({
   }),
 })
 export const ModelAttributeComputationTypesList = PropTypes.objectOf(ModelAttributeComputationTypes)
-

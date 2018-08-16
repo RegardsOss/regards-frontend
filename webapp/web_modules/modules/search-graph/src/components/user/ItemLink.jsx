@@ -147,7 +147,7 @@ class ItemLink extends React.Component {
           onMouseOver={onMouseOver}
         >
           {/* Conditional: lock icon (shown only when locked) */}
-          <ShowableAtRender show={displayState === ItemLink.States.LOCKED} >
+          <ShowableAtRender show={displayState === ItemLink.States.LOCKED}>
             <LockIcon style={lockIcon.styles} />
           </ShowableAtRender>
           {/* File type icon */}

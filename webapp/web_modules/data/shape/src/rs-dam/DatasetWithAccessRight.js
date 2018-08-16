@@ -33,4 +33,3 @@ export const DatasetWithAccessRight = PropTypes.shape({
 })
 
 export const DatasetWithAccessRightList = PropTypes.objectOf(DatasetWithAccessRight)
-

@@ -130,8 +130,7 @@ export class DocumentFormContainer extends React.Component {
   /**
    * @return document retrieved from action result payload
    */
-  extractDocumentFromActionResult = actionResult =>
-    actionResult.payload.entities.document[keys(actionResult.payload.entities.document)[0]].content
+  extractDocumentFromActionResult = actionResult => actionResult.payload.entities.document[keys(actionResult.payload.entities.document)[0]].content
 
   /**
    * Handle form submission on duplication / creation

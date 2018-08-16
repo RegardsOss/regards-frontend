@@ -57,7 +57,7 @@ class MainBarNavigationItem extends React.Component {
     const { moduleTheme: { user: { navigationItem } } } = this.context
     return (
       // handle locally the resizing management
-      <Measure bounds onMeasure={this.onComponentResized} >
+      <Measure bounds onMeasure={this.onComponentResized}>
         {({ bind }) => (
           <div
             style={displayed ? navigationItem.displayStyle : navigationItem.hiddenStyle}

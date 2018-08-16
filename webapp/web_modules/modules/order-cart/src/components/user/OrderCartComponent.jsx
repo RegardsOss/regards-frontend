@@ -63,14 +63,12 @@ class OrderCartComponent extends React.Component {
   /**
    * Callback: show duplicated message
    */
-  onShowDuplicatedMessage = (totalObjectsCount, effectiveObjectsCount) =>
-    this.setState({ totalObjectsCount, effectiveObjectsCount, showMessage: true })
+  onShowDuplicatedMessage = (totalObjectsCount, effectiveObjectsCount) => this.setState({ totalObjectsCount, effectiveObjectsCount, showMessage: true })
 
   /**
    * Callback: show duplicated message
    */
-  onHideDuplicatedMessage = () =>
-    this.setState({ totalObjectsCount: 0, effectiveObjectsCount: 0, showMessage: false })
+  onHideDuplicatedMessage = () => this.setState({ totalObjectsCount: 0, effectiveObjectsCount: 0, showMessage: false })
 
   /**
    * Renders module options

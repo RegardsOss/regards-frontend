@@ -39,7 +39,7 @@ class LoadingDisplayerComponent extends React.Component {
     } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.loading
 
     return (
-      <div style={rootStyle} >
+      <div style={rootStyle}>
         <CircularProgress size={circleSize} thickness={circleThickness} />
         <div style={messageStyle}>{message}</div>
       </div>

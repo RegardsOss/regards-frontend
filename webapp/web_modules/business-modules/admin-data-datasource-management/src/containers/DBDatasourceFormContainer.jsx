@@ -28,13 +28,13 @@ import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { datasourceSelectors, datasourceActions } from './../clients/DatasourceClient'
+import { datasourceSelectors, datasourceActions } from '../clients/DatasourceClient'
 import DBDatasourceFormAttributesContainer from './DBDatasourceFormAttributesContainer'
 import DBDatasourceFormMappingContainer from './DBDatasourceFormMappingContainer'
-import { pluginMetaDataActions, pluginMetaDataSelectors } from './../clients/PluginMetaDataClient'
-import { fragmentSelectors } from './../clients/FragmentClient'
+import { pluginMetaDataActions, pluginMetaDataSelectors } from '../clients/PluginMetaDataClient'
+import { fragmentSelectors } from '../clients/FragmentClient'
 import messages from '../i18n'
-import StaticAttributeListDB from './../components/StaticAttributeListDB'
+import StaticAttributeListDB from '../components/StaticAttributeListDB'
 
 const { findParam } = PluginConfParamsUtils
 
@@ -98,6 +98,7 @@ export class DBDatasourceFormContainer extends React.Component {
       })
     }
   }
+
   getCurrentPluginMetaData = () => {
     const { currentDatasource } = this.state
     const { pluginMetaDataList } = this.props
@@ -167,8 +168,7 @@ export class DBDatasourceFormContainer extends React.Component {
   saveAttributes = (values) => {
     const { isCreating, currentDatasource } = this.state
     if (isCreating) {
-      const { pluginId } = find(this.props.pluginMetaDataList, pluginMetaData =>
-        pluginMetaData.content.pluginClassName === values.pluginClassName,
+      const { pluginId } = find(this.props.pluginMetaDataList, pluginMetaData => pluginMetaData.content.pluginClassName === values.pluginClassName,
       ).content
       const newValues = {
         content: {
@@ -340,6 +340,7 @@ export class DBDatasourceFormContainer extends React.Component {
         return null
     }
   }
+
   render() {
     const { isLoading } = this.state
     return (

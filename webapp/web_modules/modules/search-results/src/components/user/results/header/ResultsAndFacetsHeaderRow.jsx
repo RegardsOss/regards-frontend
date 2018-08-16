@@ -53,7 +53,7 @@ class ResultsAndFacetsHeaderRow extends React.Component {
     const { intl: { formatMessage } } = this.context
     return (
       // 1 - results count message and loading
-      <TableHeaderLineLoadingAndResults resultsCount={resultsCount} isFetching={isFetching} >
+      <TableHeaderLineLoadingAndResults resultsCount={resultsCount} isFetching={isFetching}>
         {
           // Render the facets component through an IIF as follow:
           (() => {

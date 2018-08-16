@@ -60,7 +60,7 @@ class IFrameURLContentDisplayer extends React.Component {
     const { contentURL, onContentLoaded, onContentError } = this.props
     const styles = this.props.style ? this.props.style : IFrameURLContentDisplayer.DEFAULT_STYLES
     return (
-      <div style={IFrameURLContentDisplayer.LAYOUT_STYLE} >
+      <div style={IFrameURLContentDisplayer.LAYOUT_STYLE}>
         <iframe
           title="content-displayer"
           style={styles}

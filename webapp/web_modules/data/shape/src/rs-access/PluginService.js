@@ -51,4 +51,3 @@ export const PluginServiceWithContent = PropTypes.shape({
 
 /** Plugin services as array */
 export const PluginServiceWithContentArray = PropTypes.arrayOf(PluginServiceWithContent)
-

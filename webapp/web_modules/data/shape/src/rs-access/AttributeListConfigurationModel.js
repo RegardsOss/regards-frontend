@@ -42,4 +42,3 @@ export const AttributeElementModel = PropTypes.shape({
 })
 
 export const AttributeListConfigurationModel = PropTypes.arrayOf(AttributeElementModel)
-

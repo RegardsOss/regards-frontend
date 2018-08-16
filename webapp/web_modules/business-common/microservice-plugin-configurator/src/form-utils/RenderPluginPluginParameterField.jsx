@@ -56,8 +56,7 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
   * @return {*} list of actions ready to be dispatched in the redux store
   */
   static mapDispatchToProps = dispatch => ({
-    fetchPluginConfigurationList: (pluginType, microserviceName) =>
-      dispatch(pluginParameterConfigurationActions.fetchEntityList({ microserviceName }, { pluginType })),
+    fetchPluginConfigurationList: (pluginType, microserviceName) => dispatch(pluginParameterConfigurationActions.fetchEntityList({ microserviceName }, { pluginType })),
     fetchPluginMetadataList: (microserviceName, pluginType) => dispatch(pluginParameterMetaDataActions.fetchEntityList({ microserviceName }, { pluginType })),
   })
 
@@ -158,7 +157,13 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
   renderDisabled = () => {
     if (has(this.state.selectedPluginConfiguration, 'content.label')) {
       // Display the plugin conf name
-      return (<span>{this.state.selectedPluginConfiguration.content.label} - ID {this.state.selectedPluginConfiguration.content.id}</span>)
+      return (<span>
+        {this.state.selectedPluginConfiguration.content.label}
+        {' '}
+        - ID
+        {' '}
+        {this.state.selectedPluginConfiguration.content.id}
+      </span>)
     }
     // No plugin value
     return null
@@ -195,13 +200,12 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
               rightIcon={<ArrowDropRight />}
               disabled={pluginConfigurationListIsEmpty}
               menuItems={
-                map(pluginConfigurationListForThisPluginMetaData, pc =>
-                  (<MenuItem
-                    key={pc.content.id}
-                    primaryText={this.buildMenuItemPrimaryText(pc.content.label, pc.content.version)}
-                    onClick={() => this.handleChange(pc.content.id)}
-                    checked={pc.content.id === this.state.value}
-                  />))
+                map(pluginConfigurationListForThisPluginMetaData, pc => (<MenuItem
+                  key={pc.content.id}
+                  primaryText={this.buildMenuItemPrimaryText(pc.content.label, pc.content.version)}
+                  onClick={() => this.handleChange(pc.content.id)}
+                  checked={pc.content.id === this.state.value}
+                />))
               }
             />
           )

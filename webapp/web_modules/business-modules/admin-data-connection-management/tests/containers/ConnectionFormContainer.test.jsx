@@ -54,4 +54,3 @@ describe('[ADMIN DATA CONNECTION MANAGEMENT] Testing ConnectionFormContainer', (
     assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')
   })
 })
-

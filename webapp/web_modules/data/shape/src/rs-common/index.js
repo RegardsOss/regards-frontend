@@ -18,8 +18,12 @@
  **/
 
 export { default as PluginParameterContent } from './Plugin/PluginParameter'
-export { PluginMetaDataContent, PluginMetaData, PluginMetaDataList, PluginMetaDataArray } from './Plugin/PluginMetaData'
-export { PluginConfiguration, PluginConfigurationContent, PluginConfigurationList, PluginConfigurationArray } from './Plugin/PluginConfiguration'
+export {
+  PluginMetaDataContent, PluginMetaData, PluginMetaDataList, PluginMetaDataArray,
+} from './Plugin/PluginMetaData'
+export {
+  PluginConfiguration, PluginConfigurationContent, PluginConfigurationList, PluginConfigurationArray,
+} from './Plugin/PluginConfiguration'
 export { default as PluginParameterType } from './Plugin/PluginParameterType'
 
 export { default as getChainableTypeChecker } from './ChainableTypeChecker'

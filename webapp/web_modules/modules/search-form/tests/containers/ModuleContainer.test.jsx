@@ -106,54 +106,53 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
     // Check parameters passed to FormComponent
     const formComponent = wrapper.find(FormComponent)
     assert.isTrue(formComponent.length === 1, 'There should be one FormComponent rendered')
-    const expectedPlugins =
-      [
-        {
-          id: 1,
-          label: 'string-criterion',
-          active: true,
-          pluginId: 1,
-          container: 'content',
-          conf: {
-            attributes: {
-              testAttr: { // resolved from server attributes pool
-                id: 1,
-                jsonPath: 'a.b.c.failure',
-                name: 'failure',
-                label: 'Failure',
-                type: 'INTEGER',
-              },
-              testAttr2: undefined, // not resolved in attributes pool
-              testAttr3: { // from standard attributes pool
-                id: -1,
-                jsonPath: 'id',
-                name: 'id',
-                label: 'Internal ID',
-                type: 'STRING',
-              },
+    const expectedPlugins = [
+      {
+        id: 1,
+        label: 'string-criterion',
+        active: true,
+        pluginId: 1,
+        container: 'content',
+        conf: {
+          attributes: {
+            testAttr: { // resolved from server attributes pool
+              id: 1,
+              jsonPath: 'a.b.c.failure',
+              name: 'failure',
+              label: 'Failure',
+              type: 'INTEGER',
+            },
+            testAttr2: undefined, // not resolved in attributes pool
+            testAttr3: { // from standard attributes pool
+              id: -1,
+              jsonPath: 'id',
+              name: 'id',
+              label: 'Internal ID',
+              type: 'STRING',
             },
           },
         },
-        {
-          id: 2,
-          label: 'test-criterion',
-          active: true,
-          pluginId: 2,
-          container: 'content',
-          conf: {
-            attributes: {
-              testAttr2: undefined, // not resolved in attributes pool
-              testAttr3: { // from standard attributes pool
-                id: -3,
-                name: 'label',
-                label: 'Label',
-                type: 'STRING',
-                jsonPath: 'label',
-              },
+      },
+      {
+        id: 2,
+        label: 'test-criterion',
+        active: true,
+        pluginId: 2,
+        container: 'content',
+        conf: {
+          attributes: {
+            testAttr2: undefined, // not resolved in attributes pool
+            testAttr3: { // from standard attributes pool
+              id: -3,
+              name: 'label',
+              label: 'Label',
+              type: 'STRING',
+              jsonPath: 'label',
             },
           },
         },
-      ]
+      },
+    ]
 
     assert.deepEqual(formComponent.prop('plugins'), expectedPlugins, 'Invalid plugins passed to FormComponent')
   })

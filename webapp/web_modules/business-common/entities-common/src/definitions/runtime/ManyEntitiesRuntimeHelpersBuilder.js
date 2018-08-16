@@ -70,18 +70,17 @@ class ManyEntitiesRuntimeHelpersBuilder {
    * @param {*} applier treatment to apply, like (accumulator, entity content, index) => *
    * @param {*} initialValue optional initial value (will be provided as first acculmulator in applier)
    */
-  getReducePromise = (actions, ids, dispatchMethod, applier, initialValue) =>
-    Promise.all(ids.map(id => dispatchMethod(actions.getEntity(id))))
-      .then(results => results.reduce((accumulator, { payload, error = false }, index) => {
-        // reduce promise results (will be next then value) or throw error (will enter catch)
-        const entityContent = get(payload, 'content')
-        // 1 - Error while fetching
-        if (error || !entityContent) {
-          throw new Error(`One entity could not be retrieved: ${payload.message || 'unknow error'}`)
-        }
-        // 2 - reduce that entity and jump to next
-        return applier(accumulator, entityContent, index)
-      }, initialValue))
+  getReducePromise = (actions, ids, dispatchMethod, applier, initialValue) => Promise.all(ids.map(id => dispatchMethod(actions.getEntity(id))))
+    .then(results => results.reduce((accumulator, { payload, error = false }, index) => {
+      // reduce promise results (will be next then value) or throw error (will enter catch)
+      const entityContent = get(payload, 'content')
+      // 1 - Error while fetching
+      if (error || !entityContent) {
+        throw new Error(`One entity could not be retrieved: ${payload.message || 'unknow error'}`)
+      }
+      // 2 - reduce that entity and jump to next
+      return applier(accumulator, entityContent, index)
+    }, initialValue))
 }
 
 module.exports = {

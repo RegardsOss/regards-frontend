@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { browserHistory } from 'react-router'
-import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
+import {
+  Card, CardActions, CardText, CardTitle,
+} from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
@@ -72,7 +74,7 @@ class PrioritizedDataStoragesComponent extends React.Component {
           title={formatMessage({ id: 'storage.data-storage.plugins.list.title' })}
           subtitle={formatMessage({ id: 'storage.data-storage.plugins.list.subtitle' })}
         />
-        <CardText style={moduleTheme.root} >
+        <CardText style={moduleTheme.root}>
           <CardTitle
             title={formatMessage({ id: 'storage.data-storage.plugins.online.list.title' })}
             subtitle={formatMessage({ id: 'storage.data-storage.plugins.online.list.subtitle' })}

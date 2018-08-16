@@ -26,8 +26,7 @@ const AttributeModelRestrictionConfiguration = {
 }
 
 const attributeModel = new Schema(AttributeModelRestrictionConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[AttributeModelRestrictionConfiguration.entityKey]
+  idAttribute: entity => entity.content[AttributeModelRestrictionConfiguration.entityKey]
   ,
 })
 

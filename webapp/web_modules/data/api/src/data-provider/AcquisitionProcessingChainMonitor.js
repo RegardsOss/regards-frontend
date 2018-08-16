@@ -26,8 +26,7 @@ const AcquisitionProcessingChainMonitorConfiguration = {
 }
 
 const AcquisitionProcessingChainMonitor = new Schema(AcquisitionProcessingChainMonitorConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[AcquisitionProcessingChainMonitorConfiguration.entityKey]
+  idAttribute: entity => entity.content[AcquisitionProcessingChainMonitorConfiguration.entityKey]
   ,
 })
 

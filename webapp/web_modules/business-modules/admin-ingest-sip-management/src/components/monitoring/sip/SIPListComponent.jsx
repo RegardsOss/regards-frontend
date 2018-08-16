@@ -19,7 +19,9 @@
 import map from 'lodash/map'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import { Card, CardTitle, CardMedia, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardMedia, CardActions,
+} from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import HistoryIcon from 'material-ui/svg-icons/action/history'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'

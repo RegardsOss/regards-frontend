@@ -48,9 +48,9 @@ class PauseResultOrderComponent extends React.Component {
         disabled={!canUpdate}
         onClick={isPaused ? onResume : onPause}
         title={
-          isPaused ?
-            formatMessage({ id: 'order.list.option.cell.resume.order.tooltip' }) :
-            formatMessage({ id: 'order.list.option.cell.pause.order.tooltip' })
+          isPaused
+            ? formatMessage({ id: 'order.list.option.cell.resume.order.tooltip' })
+            : formatMessage({ id: 'order.list.option.cell.pause.order.tooltip' })
         }
       >
         {

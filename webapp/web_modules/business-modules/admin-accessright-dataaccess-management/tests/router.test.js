@@ -37,4 +37,3 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing accessright router', () => {
     })
   })
 })
-

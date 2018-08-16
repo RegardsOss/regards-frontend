@@ -20,7 +20,9 @@ import values from 'lodash/values'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { OrderClient } from '@regardsoss/client'
-import { PageableInfiniteTableContainer, AutoRefreshPageableTableHOC, TableLayout, TableColumnsVisibilityOption } from '@regardsoss/components'
+import {
+  PageableInfiniteTableContainer, AutoRefreshPageableTableHOC, TableLayout, TableColumnsVisibilityOption,
+} from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ORDER_DISPLAY_MODES } from '../../../src/model/OrderDisplayModes'
 import { OrdersNavigationActions } from '../../../src/model/OrdersNavigationActions'

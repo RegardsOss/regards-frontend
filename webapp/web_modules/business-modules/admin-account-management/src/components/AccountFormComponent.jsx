@@ -17,9 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import trim from 'lodash/trim'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
-import { reduxForm, RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  reduxForm, RenderTextField, Field, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminInstanceShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
@@ -120,4 +124,3 @@ export class AccountFormComponent extends React.Component {
 export default reduxForm({
   form: 'account-form',
 })(AccountFormComponent)
-

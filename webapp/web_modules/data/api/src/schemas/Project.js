@@ -26,8 +26,7 @@ const ProjectConfiguration = {
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 const projectSchema = new Schema(ProjectConfiguration.normalizrKey, {
-  idAttribute: project =>
-    project.content[ProjectConfiguration.entityKey]
+  idAttribute: project => project.content[ProjectConfiguration.entityKey]
   ,
 })
 

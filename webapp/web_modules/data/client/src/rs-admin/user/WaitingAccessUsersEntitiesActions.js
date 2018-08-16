@@ -31,4 +31,3 @@ export default class WaitingAccessUsersEntitiesActions extends ProjectUserAction
     return this.fetchPagedEntityList(index, size, null, { status: 'WAITING_ACCESS' })
   }
 }
-

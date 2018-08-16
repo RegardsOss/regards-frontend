@@ -96,4 +96,3 @@ const reduce = (state = DEFAULT_STATE, action) => {
 }
 
 export default reduce
-

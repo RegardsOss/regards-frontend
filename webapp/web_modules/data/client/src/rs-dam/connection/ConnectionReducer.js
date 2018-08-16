@@ -34,4 +34,3 @@ export default (namespace) => {
   const instance = new ConnectionReducers(namespace)
   return (state, action) => instance.reduce(state, action)
 }
-

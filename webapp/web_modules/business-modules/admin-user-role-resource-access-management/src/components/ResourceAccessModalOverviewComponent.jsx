@@ -64,6 +64,7 @@ class ResourceAccessModalOverviewComponent extends React.Component {
     this.props.editRoleResources(role)
     this.props.onClose()
   }
+
   render() {
     const { currentResource } = this.props
     const styles = moduleStyles(this.context.muiTheme)
@@ -101,9 +102,10 @@ class ResourceAccessModalOverviewComponent extends React.Component {
                       style={styles.chipItem}
                       onClick={() => this.handleEditRoleResources(role)}
                       key={role.content.id}
-                    >{role.content.name}
+                    >
+                      {role.content.name}
                     </Chip>
-                    ))
+                  ))
                   }
                 </div>
               </div>
@@ -121,4 +123,3 @@ class ResourceAccessModalOverviewComponent extends React.Component {
 }
 
 export default ResourceAccessModalOverviewComponent
-

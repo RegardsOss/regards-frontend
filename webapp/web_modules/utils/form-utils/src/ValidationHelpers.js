@@ -107,13 +107,11 @@ export const string = value => isString(value) || isNil(value) ? undefined : Err
  * @param {String} value
  * @returns {String||undefined}
  */
-export const validRequiredNumber = value =>
-  !isNil(value) && value !== '' && !isNaN(value) ? undefined : ErrorTypes.REQUIRED
+export const validRequiredNumber = value => !isNil(value) && value !== '' && !isNaN(value) ? undefined : ErrorTypes.REQUIRED
 
 export const matchRegex = regex => value => isString(value) && (value.search(regex) !== -1) ? undefined : ErrorTypes.invalidRegex(regex)
 
-export const isInNumericRange = (lowerBound, upperBound, minExcluded, maxExcluded) => value =>
-  !isNaN(lowerBound) && !isNaN(upperBound) && ((maxExcluded && value < upperBound) || (!maxExcluded && value <= upperBound))
+export const isInNumericRange = (lowerBound, upperBound, minExcluded, maxExcluded) => value => !isNaN(lowerBound) && !isNaN(upperBound) && ((maxExcluded && value < upperBound) || (!maxExcluded && value <= upperBound))
     && ((minExcluded && value > lowerBound) || (!minExcluded && value >= lowerBound)) ? undefined : ErrorTypes.invalidNumericRange(lowerBound, upperBound)
 
 /**
@@ -199,37 +197,36 @@ const parseInt10 = partialRight(parseInt, 10)
  * @param {string} max max accepted value
  * @return {function} value validator like {string} => {string|undefined}
  */
-const parsableNumberValidator = (parser, parsingError, min, max, regexp = NUMBER_REGEXP) =>
-  (value) => {
-    if (value) {
-      let asNumberValue = null
-      // 1 - compute value to consider
-      if (isString(value)) {
-        // string input
-        asNumberValue = value.match(regexp) ? parser(value) : Number.NaN
-      } else if (isNumber(value)) {
-        // number input
-        asNumberValue = value
-      } else {
-        // non handled type
-        asNumberValue = Number.NaN
-      }
-      // 2 - check value
-      if (!isNumber(asNumberValue) || !isFinite(asNumberValue) || isNaN(asNumberValue)) {
-        return parsingError
-      } else if (asNumberValue < min) {
-        return ErrorTypes.LOWER_THAN_MIN
-      } else if (asNumberValue > max) {
-        return ErrorTypes.GREATER_THAN_MAX
-      }
+const parsableNumberValidator = (parser, parsingError, min, max, regexp = NUMBER_REGEXP) => (value) => {
+  if (value) {
+    let asNumberValue = null
+    // 1 - compute value to consider
+    if (isString(value)) {
+      // string input
+      asNumberValue = value.match(regexp) ? parser(value) : Number.NaN
+    } else if (isNumber(value)) {
+      // number input
+      asNumberValue = value
+    } else {
+      // non handled type
+      asNumberValue = Number.NaN
     }
-    // when NaN is received as value, handle it separately (this is an error)
-    if (isNaN(value)) {
+    // 2 - check value
+    if (!isNumber(asNumberValue) || !isFinite(asNumberValue) || isNaN(asNumberValue)) {
       return parsingError
+    } if (asNumberValue < min) {
+      return ErrorTypes.LOWER_THAN_MIN
+    } if (asNumberValue > max) {
+      return ErrorTypes.GREATER_THAN_MAX
     }
-    // no error
-    return undefined
   }
+  // when NaN is received as value, handle it separately (this is an error)
+  if (isNaN(value)) {
+    return parsingError
+  }
+  // no error
+  return undefined
+}
 
 /** Validates a JS number */
 export const number = parsableNumberValidator(parseFloat, ErrorTypes.NUMERIC, Number.MIN_VALUE, Number.MAX_VALUE)

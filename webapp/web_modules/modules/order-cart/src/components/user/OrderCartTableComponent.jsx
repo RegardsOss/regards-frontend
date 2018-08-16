@@ -141,12 +141,10 @@ export class OrderCartTableComponent extends React.Component {
     const { showDatasets } = this.props
     if (showDatasets) {
       // datasets as root rows
-      return basket.datasetSelections.map(selection =>
-        this.buildDatasetSelectionRow(selection, basket.datasetSelections.length <= OrderCartTableComponent.AUTO_EXPANDED_DS_SELECTIONS_COUNT))
+      return basket.datasetSelections.map(selection => this.buildDatasetSelectionRow(selection, basket.datasetSelections.length <= OrderCartTableComponent.AUTO_EXPANDED_DS_SELECTIONS_COUNT))
     }
     // selections as root rows, datasets hidden
-    return flatMap(basket.datasetSelections, ({ id, datasetLabel, itemsSelections }) =>
-      itemsSelections.map(itemSelection => this.buildDatedSelectionRow(id, datasetLabel, itemSelection)))
+    return flatMap(basket.datasetSelections, ({ id, datasetLabel, itemsSelections }) => itemsSelections.map(itemSelection => this.buildDatedSelectionRow(id, datasetLabel, itemSelection)))
   }
 
 
@@ -157,17 +155,16 @@ export class OrderCartTableComponent extends React.Component {
    */
   buildDatasetSelectionRow = ({
     id, datasetLabel, objectsCount, filesSize, itemsSelections = [],
-  }, rowExpanded) =>
-    new TreeTableRow(
-      `dataset.selection.${id}`, [datasetLabel, {
-        effectiveObjectsCount: objectsCount,
-        totalObjectsCount: OrderCartTableComponent.getTotalSelectionsObjectsCount(itemsSelections),
-      }, OrderCartTableComponent.getStorageCapacity(filesSize),
-      null, { // keep dataset selection id
-        datasetSelectionId: id,
-      }], itemsSelections.map(datedSelectionItem => this.buildDatedSelectionRow(id, datasetLabel, datedSelectionItem)), // sub rows
-      rowExpanded,
-    )
+  }, rowExpanded) => new TreeTableRow(
+    `dataset.selection.${id}`, [datasetLabel, {
+      effectiveObjectsCount: objectsCount,
+      totalObjectsCount: OrderCartTableComponent.getTotalSelectionsObjectsCount(itemsSelections),
+    }, OrderCartTableComponent.getStorageCapacity(filesSize),
+    null, { // keep dataset selection id
+      datasetSelectionId: id,
+    }], itemsSelections.map(datedSelectionItem => this.buildDatedSelectionRow(id, datasetLabel, datedSelectionItem)), // sub rows
+    rowExpanded,
+  )
 
   /**
    * Builds a dated selection item row
@@ -176,18 +173,16 @@ export class OrderCartTableComponent extends React.Component {
    */
   buildDatedSelectionRow = (datasetSelectionId, datasetLabel, {
     date, objectsCount, filesSize, openSearchRequest,
-  }) =>
-    // row cell values (no sub row)
-    new TreeTableRow(`dated.item.selection.${datasetSelectionId}-${date}`, [date, {
-      // cannot know the effective objects count here, but total is OK as we do not want to show the warning one those cells
-      effectiveObjectsCount: objectsCount,
-      totalObjectsCount: objectsCount,
-    }, OrderCartTableComponent.getStorageCapacity(filesSize), { // scale the size to the level its the more readable
-      datasetLabel, date, openSearchRequest,
-    }, { // keep label, date and request for detail option
-      datasetSelectionId, itemsSelectionDate: date,
-    }, // keep parent id and date for delete option
-    ])
+  }) => new TreeTableRow(`dated.item.selection.${datasetSelectionId}-${date}`, [date, {
+    // cannot know the effective objects count here, but total is OK as we do not want to show the warning one those cells
+    effectiveObjectsCount: objectsCount,
+    totalObjectsCount: objectsCount,
+  }, OrderCartTableComponent.getStorageCapacity(filesSize), { // scale the size to the level its the more readable
+    datasetLabel, date, openSearchRequest,
+  }, { // keep label, date and request for detail option
+    datasetSelectionId, itemsSelectionDate: date,
+  }, // keep parent id and date for delete option
+  ])
 
   /**
    * Builds table cell for cell value as parameter (see methods above to build row cell values)
@@ -203,8 +198,8 @@ export class OrderCartTableComponent extends React.Component {
       <TableRowColumn
         key={`cell-${columnIndex}`}
         style={
-          columnID === OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL || // specify options columns styles
-            columnID === OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE ? table.optionColumn.style : undefined
+          columnID === OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL // specify options columns styles
+            || columnID === OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE ? table.optionColumn.style : undefined
         }
       >
         {
@@ -228,11 +223,11 @@ export class OrderCartTableComponent extends React.Component {
     switch (columnID) {
       // ID column
       case OrderCartTableComponent.ColumnKeys.ID:
-        return isDatasetCell ?
+        return isDatasetCell
           // dataset: no change (use label)
-          cellValue :
+          ? cellValue
           // selection: format date
-          `${formatDate(new Date(Date.parse(cellValue)), OrderCartTableComponent.SELECTION_DATE_OPTIONS)}`
+          : `${formatDate(new Date(Date.parse(cellValue)), OrderCartTableComponent.SELECTION_DATE_OPTIONS)}`
       // files size: cell value is a storage capacity (or undefined), render it internationalized
       case OrderCartTableComponent.ColumnKeys.OBJECTS_COUNT:
         return (
@@ -244,11 +239,11 @@ export class OrderCartTableComponent extends React.Component {
         return <storage.FormattedStorageCapacity capacity={cellValue} />
       // detail option
       case OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL:
-        return isDatasetCell ?
+        return isDatasetCell
           // dataset: no detail
-          null :
+          ? null
           // selection: detail option, cell value is open search request
-          <ShowDatedItemSelectionDetailContainer
+          : <ShowDatedItemSelectionDetailContainer
             datasetLabel={cellValue.datasetLabel}
             date={cellValue.date}
             openSearchRequest={cellValue.openSearchRequest}
@@ -258,13 +253,13 @@ export class OrderCartTableComponent extends React.Component {
       case OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE: {
         // extract option parameters from cell value
         const { datasetSelectionId, itemsSelectionDate } = cellValue
-        return isDatasetCell ?
+        return isDatasetCell
           // dataset: delete dataset
-          <DeleteDatasetSelectionContainer
+          ? <DeleteDatasetSelectionContainer
             datasetSelectionId={datasetSelectionId}
             disabled={isFetching}
-          /> :
-          <DeleteDatedItemSelectionContainer
+          />
+          : <DeleteDatedItemSelectionContainer
             datasetSelectionId={datasetSelectionId}
             itemsSelectionDate={itemsSelectionDate}
             disabled={isFetching}

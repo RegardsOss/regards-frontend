@@ -19,16 +19,22 @@
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import find from 'lodash/find'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
+import {
+  Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
+} from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import Settings from 'material-ui/svg-icons/action/settings-input-composite'
 import Download from 'material-ui/svg-icons/file/file-download'
-import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, NoContentMessageInfo } from '@regardsoss/components'
+import {
+  ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, NoContentMessageInfo,
+} from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -260,4 +266,3 @@ export class ModelListComponent extends React.Component {
 }
 
 export default ModelListComponent
-

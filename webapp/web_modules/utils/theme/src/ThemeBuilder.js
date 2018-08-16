@@ -28,6 +28,7 @@ export default class ThemeBuilder {
   static getPrimaryTheme(themeOverwrite) {
     return ThemeBuilder.getThemeWithCustomComponents(ThemeBuilder.getPrimaryOverwrite(themeOverwrite))
   }
+
   static getAlternativeTheme(themeOverwrite) {
     return ThemeBuilder.getThemeWithCustomComponents(ThemeBuilder.getAlternativeOverwrite(themeOverwrite))
   }
@@ -35,9 +36,11 @@ export default class ThemeBuilder {
   static getPrimaryOverwrite(themeOverwrite) {
     return themeOverwrite.mainTheme
   }
+
   static getAlternativeOverwrite(themeOverwrite) {
     return merge({}, themeOverwrite.mainTheme, themeOverwrite.alternativeTheme)
   }
+
   /**
    * Return a theme complete and useable
    * @param {*Object} themeOverwrite object that overwrite mui properties

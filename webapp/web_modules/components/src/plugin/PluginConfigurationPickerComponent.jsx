@@ -132,8 +132,7 @@ class PluginConfigurationPickerComponent extends React.Component {
   )
 
   buildAvailablePluginItems = (plugins, pluginConfs, selectedPluginConf, onNewPluginConf) => map(plugins, (plugin) => {
-    const pluginConfsForThisPluginMetaData =
-      filter(pluginConfs, pluginConfiguration => pluginConfiguration.content.pluginId === plugin.content.pluginId)
+    const pluginConfsForThisPluginMetaData = filter(pluginConfs, pluginConfiguration => pluginConfiguration.content.pluginId === plugin.content.pluginId)
     const isPluginConfigurationListEmpty = (isEmpty(pluginConfsForThisPluginMetaData) && !onNewPluginConf)
     return (
       <MenuItem
@@ -147,13 +146,12 @@ class PluginConfigurationPickerComponent extends React.Component {
   })
 
   buildAvailableConfItems = (plugin, confs, selectedConf, onNewPluginConf) => {
-    const items = map(confs, conf =>
-      (<MenuItem
-        key={conf.content.id}
-        primaryText={this.buildMenuItemPrimaryText(conf.content.label, conf.content.version)}
-        onClick={() => this.handleChange(conf.content.id)}
-        checked={selectedConf && conf.content.id === selectedConf.id}
-      />))
+    const items = map(confs, conf => (<MenuItem
+      key={conf.content.id}
+      primaryText={this.buildMenuItemPrimaryText(conf.content.label, conf.content.version)}
+      onClick={() => this.handleChange(conf.content.id)}
+      checked={selectedConf && conf.content.id === selectedConf.id}
+    />))
     if (onNewPluginConf) {
       items.push(
         <MenuItem
@@ -204,8 +202,8 @@ class PluginConfigurationPickerComponent extends React.Component {
     const styles = this.getStyle()
     const hasNoPlugin = isEmpty(pluginMetaDataList) || (isEmpty(pluginConfigurationList) && !onNewPluginConf)
 
-    const defaultLabel = newConfSelected ? formatMessage({ id: 'component.plugin-parameter.action.create-plugin' }) :
-      formatMessage({ id: 'component.plugin-parameter.action.choose-plugin' })
+    const defaultLabel = newConfSelected ? formatMessage({ id: 'component.plugin-parameter.action.create-plugin' })
+      : formatMessage({ id: 'component.plugin-parameter.action.choose-plugin' })
     const buttonLabel = currentPluginConfiguration ? currentPluginConfiguration.label : defaultLabel
 
     return (

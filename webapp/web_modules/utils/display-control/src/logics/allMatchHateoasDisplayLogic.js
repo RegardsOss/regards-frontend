@@ -32,8 +32,7 @@ import isEmpty from 'lodash/isEmpty'
  * @return {boolean}
  * @author Xavier-Alexandre Brochard
  */
-const allMatchHateoasDisplayLogic = (requiredEndpoints, availableEndpoints) =>
-  every(requiredEndpoints, item => (includes(availableEndpoints, item))) || isEmpty(requiredEndpoints)
+const allMatchHateoasDisplayLogic = (requiredEndpoints, availableEndpoints) => every(requiredEndpoints, item => (includes(availableEndpoints, item))) || isEmpty(requiredEndpoints)
 
 
 export default allMatchHateoasDisplayLogic

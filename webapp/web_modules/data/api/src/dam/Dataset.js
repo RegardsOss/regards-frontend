@@ -26,8 +26,7 @@ const DatasetConfiguration = {
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 const datasetSchema = new Schema(DatasetConfiguration.normalizrKey, {
-  idAttribute: dataset =>
-    dataset.content[DatasetConfiguration.entityKey],
+  idAttribute: dataset => dataset.content[DatasetConfiguration.entityKey],
   assignEntity(output, key, value, input) {
     if (value && value.geometry) {
       try {

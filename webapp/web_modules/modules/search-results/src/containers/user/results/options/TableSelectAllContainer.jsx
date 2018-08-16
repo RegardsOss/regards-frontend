@@ -97,8 +97,8 @@ export class TableSelectAllContainer extends React.Component {
     const totalElements = get(pageMetadata, 'totalElements', 0)
     const selectionSize = keys(toggledElements).length
     // selectionSize > 0 avoid showing 'unselect all' when table is empty
-    return (selectionMode === TableSelectionModes.includeSelected && selectionSize === totalElements && selectionSize > 0) ||
-      (selectionMode === TableSelectionModes.excludeSelected && selectionSize === 0)
+    return (selectionMode === TableSelectionModes.includeSelected && selectionSize === totalElements && selectionSize > 0)
+      || (selectionMode === TableSelectionModes.excludeSelected && selectionSize === 0)
   }
 
   render() {

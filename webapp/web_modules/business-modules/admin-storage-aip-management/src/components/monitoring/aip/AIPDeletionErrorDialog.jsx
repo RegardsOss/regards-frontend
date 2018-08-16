@@ -65,7 +65,10 @@ class AIPDeletionErrorDialog extends React.Component {
         open={errors.length > 0}
       >
         <ul>
-          {map(errors, (error, i) => <li key={i}>{error}<br /></li>)}
+          {map(errors, (error, i) => <li key={i}>
+            {error}
+            <br />
+          </li>)}
         </ul>
       </Dialog>
 

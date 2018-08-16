@@ -28,8 +28,7 @@ const PrioritizedDataStorageConfiguration = {
 }
 
 const prioritizedDataStorageSchema = new Schema(PrioritizedDataStorageConfiguration.normalizrKey, {
-  idAttribute: model =>
-    model.content[PrioritizedDataStorageConfiguration.entityKey]
+  idAttribute: model => model.content[PrioritizedDataStorageConfiguration.entityKey]
   ,
 })
 

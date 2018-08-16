@@ -21,4 +21,3 @@ import { DataManagementClient } from '@regardsoss/client'
 const REDUX_ACTION_NAMESPACE = 'admin-data-entities-common-management/entityAttachment'
 
 export const entityAttachmentActions = new DataManagementClient.EntityAttachmentActions(REDUX_ACTION_NAMESPACE)
-

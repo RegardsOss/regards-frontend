@@ -122,9 +122,9 @@ class AttributeListTableComponent extends React.Component {
             <AttributesListHeaderMessage
               count={attributesList.length}
             />
-          </TableHeaderContentBox >
+          </TableHeaderContentBox>
           {/* 2 - table options  */}
-          <TableHeaderOptionsArea >
+          <TableHeaderOptionsArea>
             <TableHeaderOptionGroup>
               {/* Add element  */}
               <FlatButton
@@ -133,7 +133,7 @@ class AttributeListTableComponent extends React.Component {
                 onClick={onAdd}
               />
             </TableHeaderOptionGroup>
-          </TableHeaderOptionsArea >
+          </TableHeaderOptionsArea>
         </TableHeaderLine>
         <InfiniteTableContainer
           columns={this.buildColumns()}

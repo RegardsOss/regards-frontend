@@ -82,7 +82,7 @@ class ServiceListComponent extends React.Component {
             </ResourceIconAction>
           </CardActions>
         </Card>
-      </div >
+      </div>
     )
   }
 

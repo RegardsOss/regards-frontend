@@ -26,8 +26,7 @@ const ModuleConfiguration = {
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 const moduleSchema = new Schema(ModuleConfiguration.normalizrKey, {
-  idAttribute: module =>
-    module.content[ModuleConfiguration.entityKey],
+  idAttribute: module => module.content[ModuleConfiguration.entityKey],
   assignEntity(output, key, value, input) {
     if (value) {
       if (value.conf) {

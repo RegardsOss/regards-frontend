@@ -50,10 +50,8 @@ class AvailableAttributesTable extends React.Component {
    * @return [{*}] filtered attributes list
    */
   static filterAttributes(filterText, attributeModels = []) {
-    return attributeModels.filter(attribute =>
-      // to be more usable here, we accept searching in the middle of labels, case insensitive
-      DamDomain.AttributeModelController.getAttributeModelFullLabel(attribute)
-        .toLowerCase().includes(filterText.toLowerCase()))
+    return attributeModels.filter(attribute => DamDomain.AttributeModelController.getAttributeModelFullLabel(attribute)
+      .toLowerCase().includes(filterText.toLowerCase()))
   }
 
   /** Empty table component */
@@ -63,6 +61,7 @@ class AvailableAttributesTable extends React.Component {
     filterText: '',
     attributeModels: [],
   }
+
   /**
     * Lifecycle method: component will mount. Used here to detect first properties change and update local state
     */

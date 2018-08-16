@@ -24,8 +24,7 @@ const CrawlerDatasourceConfiguration = {
 }
 
 const crawlerDatasource = new Schema(CrawlerDatasourceConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[CrawlerDatasourceConfiguration.entityKey]
+  idAttribute: entity => entity.content[CrawlerDatasourceConfiguration.entityKey]
   ,
 })
 

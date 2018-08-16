@@ -40,6 +40,7 @@ class DataSourceMonitoringDeleteAction extends React.Component {
   }
 
   static iconStyle = { height: 23, width: 23 }
+
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
   isDeletable = () => {

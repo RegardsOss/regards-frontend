@@ -257,10 +257,9 @@ export class ProjectUserListComponent extends React.Component {
             />
           </div>
         </CardActions>
-      </Card >
+      </Card>
     )
   }
 }
 
 export default ProjectUserListComponent
-

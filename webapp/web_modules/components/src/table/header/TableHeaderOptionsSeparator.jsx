@@ -34,4 +34,3 @@ class TableHeaderOptionsSeparator extends React.Component {
   }
 }
 export default TableHeaderOptionsSeparator
-

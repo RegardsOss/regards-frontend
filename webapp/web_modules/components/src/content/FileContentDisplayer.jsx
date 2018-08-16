@@ -36,10 +36,9 @@ class FileContentDisplayer extends React.Component {
     return root.URL.createObjectURL(blob)
   }
 
-  static isSupportedMIMEType = file =>
-    CodeFileDisplayer.isSupportedType(file.contentType) ||
-    ImageFileDisplayer.isSupportedType(file.contentType) ||
-    IFrameURLContentDisplayer.isSupportedType(file.contentType)
+  static isSupportedMIMEType = file => CodeFileDisplayer.isSupportedType(file.contentType)
+    || ImageFileDisplayer.isSupportedType(file.contentType)
+    || IFrameURLContentDisplayer.isSupportedType(file.contentType)
 
   static propTypes = {
     file: PropTypes.shape({
@@ -57,7 +56,9 @@ class FileContentDisplayer extends React.Component {
 
 
   componentWillMount = () => this.onPropertiesChanged({}, this.props)
+
   componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+
   componentWillUnmount = () => this.onPropertiesChanged(this.props, {})
 
 

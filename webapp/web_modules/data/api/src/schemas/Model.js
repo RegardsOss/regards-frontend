@@ -28,8 +28,7 @@ const ModelConfiguration = {
 }
 
 const modelSchema = new Schema(ModelConfiguration.normalizrKey, {
-  idAttribute: model =>
-    model.content[ModelConfiguration.entityKey]
+  idAttribute: model => model.content[ModelConfiguration.entityKey]
   ,
 })
 

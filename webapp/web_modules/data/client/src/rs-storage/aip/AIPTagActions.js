@@ -25,8 +25,11 @@ import { BasicSignalsActions } from '@regardsoss/store-utils'
 export default class AIPTagActions extends BasicSignalsActions {
   /** Root endpoints for order state actions */
   static ROOT_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/aips`
+
   static ADD_TAG_ACTIONS = 'addTagEndpoint'
+
   static REMOVE_TAG_ACTIONS = 'removeTagEndpoint'
+
   static SEARCH_TAG_ACTIONS = 'searchTagEndpoint'
 
   /**
@@ -49,6 +52,7 @@ export default class AIPTagActions extends BasicSignalsActions {
       },
     })
   }
+
   /**
    * Build an action that adds some tags to a set of aips
    */

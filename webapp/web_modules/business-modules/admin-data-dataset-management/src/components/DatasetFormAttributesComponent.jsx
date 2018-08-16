@@ -19,9 +19,13 @@
 import map from 'lodash/map'
 import isNil from 'lodash/isNil'
 import get from 'lodash/get'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import {
+  RenderTextField, RenderSelectField, Field, ValidationHelpers, reduxForm,
+} from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -215,4 +219,3 @@ export class DatasetFormAttributesComponent extends React.Component {
 export default reduxForm({
   form: 'dataset-attributes-form',
 })(DatasetFormAttributesComponent)
-

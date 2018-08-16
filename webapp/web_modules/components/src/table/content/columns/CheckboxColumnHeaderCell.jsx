@@ -95,20 +95,20 @@ class CheckboxColumnHeaderCell extends React.Component {
     const { intl: { formatMessage }, moduleTheme: { checkButton: { styles, checkedIcon, uncheckedIcon } } } = this.context
     const { displaySelectAll, allSelected } = this.props
 
-    const [tooltipKey, iconStyle, Icon] = allSelected ?
-      ['table.deselect.all.tooltip', checkedIcon, Checked] :
-      ['table.select.all.tooltip', uncheckedIcon, Unchecked]
+    const [tooltipKey, iconStyle, Icon] = allSelected
+      ? ['table.deselect.all.tooltip', checkedIcon, Checked]
+      : ['table.select.all.tooltip', uncheckedIcon, Unchecked]
 
     return (
-      displaySelectAll ?
-        <IconButton
+      displaySelectAll
+        ? <IconButton
           style={styles}
           title={formatMessage({ id: tooltipKey })}
           iconStyle={iconStyle}
           onClick={this.onToggleSelectAll}
         >
           <Icon />
-        </IconButton> : null
+          </IconButton> : null
     )
   }
 }

@@ -26,7 +26,7 @@ import filter from 'lodash/filter'
 import startsWith from 'lodash/startsWith'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { datasetSelectors, datasetActions } from './../clients/DatasetClient'
+import { datasetSelectors, datasetActions } from '../clients/DatasetClient'
 import DatasetEditLinksComponent from '../components/DatasetEditLinksComponent'
 import { datasetLinkActions } from '../clients/DatasetLinkClient'
 import { collectionSelectors, collectionActions } from '../clients/CollectionClient'
@@ -90,22 +90,15 @@ export class DatasetEditLinksContainer extends React.Component {
    */
   getRemainingCollection = (currentDataset, collectionList) => {
     const { collectionName } = this.state
-    const collectionLinkedToCurrentCollection = partition(collectionList, collection =>
-      some(currentDataset.content.tags, tag =>
-        tag === collection.content.feature.id))
-    return filter(collectionLinkedToCurrentCollection[1], remainingCollection =>
-      startsWith(remainingCollection.content.feature.label.toLowerCase(), collectionName))
+    const collectionLinkedToCurrentCollection = partition(collectionList, collection => some(currentDataset.content.tags, tag => tag === collection.content.feature.id))
+    return filter(collectionLinkedToCurrentCollection[1], remainingCollection => startsWith(remainingCollection.content.feature.label.toLowerCase(), collectionName))
   }
 
 
-  getCollectionLinked = (collectionIpIdList, collectionList) =>
-    map(collectionIpIdList, collectionIpId =>
-      find(collectionList, collection =>
-        collection.content.ipId === collectionIpId))
+  getCollectionLinked = (collectionIpIdList, collectionList) => map(collectionIpIdList, collectionIpId => find(collectionList, collection => collection.content.ipId === collectionIpId))
 
   partitionDatasetLinkedTags = (currentDataset) => {
-    const linkedTags = partition(currentDataset.content.tags, tag =>
-      tag.match(/URN:.*:COLLECTION.*/))
+    const linkedTags = partition(currentDataset.content.tags, tag => tag.match(/URN:.*:COLLECTION.*/))
     return linkedTags
   }
 

@@ -24,8 +24,8 @@ function isSilentError(action) {
   // Silent errors if:
   // - it is an async form validation action (should'nt be handled, local action!)
   // - it is explicity marked to bypass error middleware
-  return action.type === ASYNC_VALIDATION_ACTION_TYPE ||
-    (action.meta && action.meta.bypassErrorMiddleware)
+  return action.type === ASYNC_VALIDATION_ACTION_TYPE
+    || (action.meta && action.meta.bypassErrorMiddleware)
 }
 
 /**

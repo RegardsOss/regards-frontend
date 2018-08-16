@@ -140,11 +140,9 @@ const DEFAULT_FRAGMENT = 'default'
  * @param {*} attributeModels server attribute models, as array or ID map
  * @return {*} found attribute model or undefined
  */
-const findModelFromAttributeFullyQualifiedName = (attributeFullyQualifiedName, attributeModels) =>
-  // 1 - search in server attributes
-  find(attributeModels, ({ content: { jsonPath } }) => jsonPath === attributeFullyQualifiedName) ||
+const findModelFromAttributeFullyQualifiedName = (attributeFullyQualifiedName, attributeModels) => find(attributeModels, ({ content: { jsonPath } }) => jsonPath === attributeFullyQualifiedName)
   // 2 - search in statndard attributes
-  find(standardAttributesAsModel, ({ content: { jsonPath } }) => jsonPath === attributeFullyQualifiedName)
+  || find(standardAttributesAsModel, ({ content: { jsonPath } }) => jsonPath === attributeFullyQualifiedName)
 
 /**
   * Finds an attribute value from the full qualified path
@@ -168,9 +166,9 @@ function getEntityAttributeValue(entity, fullQualifiedPath) {
   // 2 - recursive resolution (break when path length === 1)
   const resolveAttribute = (currentSource, [pathElement, ...remainingPath]) => {
     const subsource = currentSource[pathElement] || null
-    return remainingPath.length && subsource ?
-      resolveAttribute(subsource, remainingPath) : // next level
-      subsource // finished path or no such attribute
+    return remainingPath.length && subsource
+      ? resolveAttribute(subsource, remainingPath) // next level
+      : subsource // finished path or no such attribute
   }
   return resolveAttribute(entity.content, path)
 }

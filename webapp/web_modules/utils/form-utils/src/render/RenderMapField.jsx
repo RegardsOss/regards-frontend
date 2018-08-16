@@ -40,7 +40,9 @@ import { ListItem } from 'material-ui/List'
 import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
-import { SelectableList, FormErrorMessage, ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
+import {
+  SelectableList, FormErrorMessage, ConfirmDialogComponent, ConfirmDialogComponentTypes,
+} from '@regardsoss/components'
 import RenderHelper from './RenderHelper'
 import ValidationHelpers from '../ValidationHelpers'
 import Field from '../Field'
@@ -81,6 +83,7 @@ class RenderMapField extends React.Component {
   }
 
   static DOT_CHAR_REGEXP = '\\.'
+
   static DOT_CHAR = '.'
 
   constructor(props) {
@@ -412,8 +415,8 @@ class RenderMapField extends React.Component {
       />) : null
     return (
       <Card>
-        {meta.error && isString(meta.error) ?
-          <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
+        {meta.error && isString(meta.error)
+          ? <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
           : null}
         <CardMedia>
           <div style={layoutStyle}>
@@ -428,9 +431,9 @@ class RenderMapField extends React.Component {
                 >
                   {map(mapKeys, (localKey, idx) => this.renderListItem(localKey))}
                 </SelectableList>
-                {disabled ?
-                  null :
-                  <RaisedButton
+                {disabled
+                  ? null
+                  : <RaisedButton
                     label={formatMessage({ id: 'render.array-object.add.button' })}
                     fullWidth
                     primary

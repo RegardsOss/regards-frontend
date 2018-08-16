@@ -71,7 +71,7 @@ class SortableColumnHeaderCell extends React.Component {
       style, sortButtonStyle, sortComposedIconStyle, sortIndexStyle,
     } = this.context.moduleTheme.header.sortableHeader
     return (
-      <div style={style} >
+      <div style={style}>
         {
           sortable ? (
             <IconButton
@@ -99,7 +99,7 @@ class SortableColumnHeaderCell extends React.Component {
                 })()
                 }
               </div>
-            </IconButton >
+            </IconButton>
           ) : null
         }
         {hideLabel ? null : label}

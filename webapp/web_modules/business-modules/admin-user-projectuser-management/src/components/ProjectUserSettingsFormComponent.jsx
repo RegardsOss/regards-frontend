@@ -18,7 +18,9 @@
  **/
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { AdminDomain } from '@regardsoss/domain'
 import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -42,6 +44,7 @@ export class ProjectUserSettingsFormComponent extends React.Component {
     initialize: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
   }
+
   static contextTypes = {
     ...i18nContextType,
   }

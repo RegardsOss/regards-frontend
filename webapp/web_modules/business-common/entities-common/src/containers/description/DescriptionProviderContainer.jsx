@@ -72,8 +72,7 @@ export class DescriptionProviderContainer extends React.Component {
  */
   static mapDispatchToProps(dispatch) {
     return {
-      onShowDescriptionModule: (entity, onSearchTag, consumerId) =>
-        dispatch(dialogRequestsActions.show({ entity, onSearchTag }, consumerId)),
+      onShowDescriptionModule: (entity, onSearchTag, consumerId) => dispatch(dialogRequestsActions.show({ entity, onSearchTag }, consumerId)),
     }
   }
 
@@ -122,8 +121,8 @@ export class DescriptionProviderContainer extends React.Component {
       const moduleType = get(module, 'content.type', '')
       const isActiveModule = get(module, 'content.active', false)
       // module is retained when active, of type description and set up in any non dynamic container
-      return isActiveModule && modulesManager.AllDynamicModuleTypes.DESCRIPTION === moduleType &&
-        dynamicContainerId !== containerId
+      return isActiveModule && modulesManager.AllDynamicModuleTypes.DESCRIPTION === moduleType
+        && dynamicContainerId !== containerId
     })
     // log warning if there are many available description modules (only one can be used and there is no selection rule!)
     if (staticDescriptionModules.length > 1 && !DescriptionProviderContainer.hasLoggedWarning) {
@@ -159,9 +158,9 @@ export class DescriptionProviderContainer extends React.Component {
     // description is available
     const { availableDependencies, dynamicContainerId, modules } = newProps
     const newState = { ...this.state }
-    if (!isEqual(oldProps.availableDependencies, availableDependencies) ||
-      !isEqual(oldProps.dynamicContainerId, dynamicContainerId) ||
-      !isEqual(oldProps.modules, modules)) {
+    if (!isEqual(oldProps.availableDependencies, availableDependencies)
+      || !isEqual(oldProps.dynamicContainerId, dynamicContainerId)
+      || !isEqual(oldProps.modules, modules)) {
       newState.descriptionModule = DescriptionProviderContainer.getFirstDescriptionModule(
         availableDependencies, dynamicContainerId, modules)
     }

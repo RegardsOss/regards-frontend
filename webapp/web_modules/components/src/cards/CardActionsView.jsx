@@ -65,8 +65,8 @@ class CardActionsView extends React.Component {
       <div style={CardActionsView.styleCardActions}>
         {
           // secondary button if any
-          (this.props.secondaryButtonUrl || this.props.secondaryButtonClick) &&
-            this.props.isSecondaryButtonVisible ? (
+          (this.props.secondaryButtonUrl || this.props.secondaryButtonClick)
+            && this.props.isSecondaryButtonVisible ? (
               <SecondaryActionButtonComponentWithResourceDisplayControl
                 resourceDependencies={secondaryRequiredEndpoints}
                 className={this.props.secondaryButtonClassName}
@@ -78,8 +78,8 @@ class CardActionsView extends React.Component {
         }
         {
           // primary if any
-          (this.props.mainButtonUrl || this.props.mainButtonClick || this.props.mainButtonType) &&
-            this.props.isMainButtonVisible ? (
+          (this.props.mainButtonUrl || this.props.mainButtonClick || this.props.mainButtonType)
+            && this.props.isMainButtonVisible ? (
               <MainActionButtonComponentWithResourceDisplayControl
                 resourceDependencies={this.props.mainHateoasDependencies}
                 className={this.props.mainButtonClassName}

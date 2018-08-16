@@ -62,6 +62,7 @@ export class EntitiesFilesFormContainer extends React.Component {
     removeFile: (entityId, documentFileChecksum) => dispatch(entityAttachmentActions.deleteEntityFile(entityId, documentFileChecksum)),
     removeOneFieldOfTheForm: (form, name) => dispatch(unregisterField(form, name)),
   })
+
   state = {
     isSendingFiles: false,
   }
@@ -86,6 +87,7 @@ export class EntitiesFilesFormContainer extends React.Component {
         }
       })
   }
+
   handleDeleteFile = (type, file) => {
     const { currentEntity } = this.props
     if (file.reference) {

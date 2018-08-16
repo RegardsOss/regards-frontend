@@ -32,4 +32,3 @@ describe('[ADMIN SEARCH ENGINES] Testing reducer', () => {
     assert.isDefined(Reducer)
   })
 })
-

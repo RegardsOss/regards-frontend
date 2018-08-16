@@ -37,6 +37,7 @@ describe('[Description] Testing MarkdownFileContainer', () => {
     root.FileReader = (
       class Temp {
         addEventListener = () => { }
+
         readAsText = () => { }
       }
     )

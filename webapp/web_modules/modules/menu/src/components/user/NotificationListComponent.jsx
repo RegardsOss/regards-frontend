@@ -74,9 +74,9 @@ class NotificationListComponent extends React.Component {
     const date = new Date()
     const notifDate = new Date(nDate)
     const isSameYear = date.getFullYear() === notifDate.getFullYear()
-    return date.getDate() === notifDate.getDate() &&
-      date.getMonth() === notifDate.getMonth() &&
-      date.getFullYear() === notifDate.getFullYear() ? (
+    return date.getDate() === notifDate.getDate()
+      && date.getMonth() === notifDate.getMonth()
+      && date.getFullYear() === notifDate.getFullYear() ? (
         <FormattedDate value={nDate} hour="2-digit" minute="2-digit" />
       ) : (
         <FormattedDate
@@ -267,7 +267,9 @@ class NotificationListComponent extends React.Component {
               </div>
             </div>
             <CardText style={dialog.details.message.style}>
-              <FormattedMessage id="user.menu.notification.details.message" />:<br />
+              <FormattedMessage id="user.menu.notification.details.message" />
+:
+              <br />
               {this.state.openedNotification.message}
             </CardText>
           </div>
@@ -296,13 +298,12 @@ class NotificationListComponent extends React.Component {
     const readCount = this.props.readNotifications.length
 
     // compute label for current count
-    const elementsCountLabel =
-      unreadCount < NotificationListComponent.MAX_ELEMENTS_COUNT
-        ? unreadCount
-        : formatMessage(
-          { id: 'user.menu.notification.max.count' },
-          { maxCount: NotificationListComponent.MAX_ELEMENTS_COUNT },
-        )
+    const elementsCountLabel = unreadCount < NotificationListComponent.MAX_ELEMENTS_COUNT
+      ? unreadCount
+      : formatMessage(
+        { id: 'user.menu.notification.max.count' },
+        { maxCount: NotificationListComponent.MAX_ELEMENTS_COUNT },
+      )
 
     // render
     return (
@@ -315,10 +316,9 @@ class NotificationListComponent extends React.Component {
           style={notificationStyle.iconButton.style}
           iconStyle={notificationStyle.iconButton.iconStyle}
           disabled={!unreadCount && !readCount}
-          onClick={() =>
-            this.handleOpen(
-              unreadCount > 0 ? this.props.unreadNotifications[0] : this.props.readNotifications[0],
-            )
+          onClick={() => this.handleOpen(
+            unreadCount > 0 ? this.props.unreadNotifications[0] : this.props.readNotifications[0],
+          )
           }
         >
           {/*Create a free position chip over the icon */}
@@ -335,7 +335,7 @@ class NotificationListComponent extends React.Component {
               <Notification style={notificationStyle.icon.style} />
             ) : (
               <NotificationNone style={notificationStyle.icon.style} />
-              )}
+            )}
           </div>
         </IconButton>
         {this.renderNotificationDialog()}

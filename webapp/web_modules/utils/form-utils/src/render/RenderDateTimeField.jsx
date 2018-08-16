@@ -120,7 +120,7 @@ export class RenderDateTimeField extends React.Component {
     // At first the value is an empty string
     const dateValue = this.getDateForComponent(input.value)
     return (
-      <div style={dateFieldStyles.fieldsLine} >
+      <div style={dateFieldStyles.fieldsLine}>
         <DatePickerField
           value={dateValue}
           defaultTime="00:00:00"

@@ -31,7 +31,7 @@ const IconButtonConstructorWrapper = props => (
     {...props}
   >
     <DownloadIcon />
-  </IconButton >)
+  </IconButton>)
 
 /**
  * Option to show description in results table
@@ -73,8 +73,7 @@ class DownloadEntityFileComponent extends React.Component {
     const { entity: { content: { files } } } = this.props
     // retrieve each downloadable file, ie for each downloadable file type, find online files (documents and
     // external files are always online)
-    return DownloadEntityFileComponent.DOWNLOADABLE_FILES_TYPES.reduce((acc, fileType) =>
-      [...acc, ...get(files, fileType, []).filter(f => f.online)], [])
+    return DownloadEntityFileComponent.DOWNLOADABLE_FILES_TYPES.reduce((acc, fileType) => [...acc, ...get(files, fileType, []).filter(f => f.online)], [])
   }
 
   /**
@@ -85,13 +84,12 @@ class DownloadEntityFileComponent extends React.Component {
     const { entity: { content: { files } } } = this.props
     const { intl: { formatMessage } } = this.context
     // compute total filesa count
-    const filesCount = DownloadEntityFileComponent.DOWNLOADABLE_FILES_TYPES.reduce((count, fileType) =>
-      count + get(files, `${fileType}.length`, 0), 0)
+    const filesCount = DownloadEntityFileComponent.DOWNLOADABLE_FILES_TYPES.reduce((count, fileType) => count + get(files, `${fileType}.length`, 0), 0)
 
     return formatMessage({
-      id: !filesCount ?
-        'no.download.tooltip' : // no file found: there is none user has not enough rights
-        'download.no.online.file.tooltip',
+      id: !filesCount
+        ? 'no.download.tooltip' // no file found: there is none user has not enough rights
+        : 'download.no.online.file.tooltip',
     }) // there are file that cannot be downloaded: offline files
   }
 

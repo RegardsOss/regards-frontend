@@ -103,17 +103,16 @@ describe('[Description] Test description level reducer', () => {
 
   it('Should reduce jump to level action', () => {
     // prepare some levels
-    const state =
+    const state = reduce(
       reduce(
         reduce(
-          reduce(
-            reduce(DescriptionLevelReducer.DEFAULT_STATE, descriptionLevelActions.initializeContext('test1', DESCRIPTION_TABS_ENUM.PROPERTIES)),
-            descriptionLevelActions.showRelatedEntity('test2'),
-          ),
-          descriptionLevelActions.showRelatedEntity('test3'),
+          reduce(DescriptionLevelReducer.DEFAULT_STATE, descriptionLevelActions.initializeContext('test1', DESCRIPTION_TABS_ENUM.PROPERTIES)),
+          descriptionLevelActions.showRelatedEntity('test2'),
         ),
-        descriptionLevelActions.showRelatedEntity('test4'),
-      )
+        descriptionLevelActions.showRelatedEntity('test3'),
+      ),
+      descriptionLevelActions.showRelatedEntity('test4'),
+    )
 
     assert.deepEqual(state, { currentDescriptionPath: ['test1', 'test2', 'test3', 'test4'], currentTab: DESCRIPTION_TABS_ENUM.PROPERTIES }, 'Initially reduced path is invalid')
     // check that jump to last level (current), does'nt change anything
@@ -134,17 +133,16 @@ describe('[Description] Test description level reducer', () => {
   })
   it('Should reduce close action by disposing current context', () => {
     // prepare some levels
-    const state =
+    const state = reduce(
       reduce(
         reduce(
-          reduce(
-            reduce(DescriptionLevelReducer.DEFAULT_STATE, descriptionLevelActions.initializeContext('test1', DESCRIPTION_TABS_ENUM.PROPERTIES)),
-            descriptionLevelActions.showRelatedEntity('test2'),
-          ),
-          descriptionLevelActions.showRelatedEntity('test3'),
+          reduce(DescriptionLevelReducer.DEFAULT_STATE, descriptionLevelActions.initializeContext('test1', DESCRIPTION_TABS_ENUM.PROPERTIES)),
+          descriptionLevelActions.showRelatedEntity('test2'),
         ),
-        descriptionLevelActions.showRelatedEntity('test4'),
-      )
+        descriptionLevelActions.showRelatedEntity('test3'),
+      ),
+      descriptionLevelActions.showRelatedEntity('test4'),
+    )
 
     assert.deepEqual(state, { currentDescriptionPath: ['test1', 'test2', 'test3', 'test4'], currentTab: DESCRIPTION_TABS_ENUM.PROPERTIES }, 'Initially reduced path is invalid')
     // check that hide clears the path

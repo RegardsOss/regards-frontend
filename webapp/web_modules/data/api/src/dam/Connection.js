@@ -24,8 +24,7 @@ const ConnectionConfiguration = {
 }
 
 const connection = new Schema(ConnectionConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[ConnectionConfiguration.entityKey]
+  idAttribute: entity => entity.content[ConnectionConfiguration.entityKey]
   ,
 })
 

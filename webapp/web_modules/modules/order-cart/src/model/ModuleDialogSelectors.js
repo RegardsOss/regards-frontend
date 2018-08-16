@@ -41,4 +41,3 @@ module.exports = {
   // default instance
   moduleDialogSelectors: new ModuleDialogSelectors(),
 }
-

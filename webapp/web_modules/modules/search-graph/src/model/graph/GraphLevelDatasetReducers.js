@@ -31,4 +31,3 @@ class GraphLevelDatasetReducers extends BasicPartitionReducers {
 const instance = new GraphLevelDatasetReducers()
 export default (state, action) => instance.reduce(state, action)
 export const REDUCER_PATH = 'level-datasets'
-

@@ -52,7 +52,7 @@ class FormLayout extends React.Component {
     } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
     return (
-      <div >
+      <div>
         <Container
           appName="user"
           container={layout}

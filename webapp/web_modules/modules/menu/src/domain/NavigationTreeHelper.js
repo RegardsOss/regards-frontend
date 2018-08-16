@@ -251,12 +251,11 @@ export function removeItemAt(items, [firstIndex, ...remainingPath]) {
     return items.filter((item, index) => index !== firstIndex)
   }
   // there is a parent item, search in its children
-  return items.map((item, index) =>
-    index === firstIndex ? {
-      // parent of the item to remove, get copy and remove in children
-      ...item,
-      children: removeItemAt(item.children, remainingPath),
-    } : item, // not on path, return reference
+  return items.map((item, index) => index === firstIndex ? {
+    // parent of the item to remove, get copy and remove in children
+    ...item,
+    children: removeItemAt(item.children, remainingPath),
+  } : item, // not on path, return reference
   )
 }
 /**
@@ -276,8 +275,8 @@ function insertItemAtPath(items, item, [firstIndex, ...remainingIndex]) {
     ]
   }
   // an ancestor level
-  return items.map((childItem, index) => index === firstIndex ?
-    ({ // an ancestor section
+  return items.map((childItem, index) => index === firstIndex
+    ? ({ // an ancestor section
       ...childItem,
       children: insertItemAtPath(childItem.children, item, remainingIndex),
     }) : childItem) // another tree element, not modified

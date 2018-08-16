@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
+import {
+  Card, CardActions, CardText, CardTitle,
+} from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
 import { IngestShapes } from '@regardsoss/shape'
 import { CardActionsComponent } from '@regardsoss/components'

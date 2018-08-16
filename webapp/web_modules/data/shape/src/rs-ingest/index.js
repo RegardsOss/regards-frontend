@@ -16,7 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { IngestProcessingChainList, IngestProcessingChainArray, IngestProcessingChainContent, IngestProcessingChain } from './IngestProcessingChain'
-export { IngestSIP, IngestSIPContent, IngestSIPList, IngestSIPArray } from './IngestSIP'
-export { IngestSession, IngestSessionContent, IngestSessionList, IngestSessionArray } from './IngestSession'
+export {
+  IngestProcessingChainList, IngestProcessingChainArray, IngestProcessingChainContent, IngestProcessingChain,
+} from './IngestProcessingChain'
+export {
+  IngestSIP, IngestSIPContent, IngestSIPList, IngestSIPArray,
+} from './IngestSIP'
+export {
+  IngestSession, IngestSessionContent, IngestSessionList, IngestSessionArray,
+} from './IngestSession'
 export { SIPSubmited } from './SIPSubmited'

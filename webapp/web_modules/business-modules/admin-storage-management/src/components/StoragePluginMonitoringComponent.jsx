@@ -73,7 +73,7 @@ export class StoragePluginMonitoringComponent extends React.Component {
             mainButtonClick={this.onBack}
           />
         </CardActions>
-      </Card >
+      </Card>
     )
   }
 }

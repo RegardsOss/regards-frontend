@@ -82,10 +82,9 @@ export class TagsContainer extends React.Component {
       // update tags list
       if (newProps.entity) {
         // 1 - make tags partition
-        const tagPartitions = newProps.entity.content.tags.reduce(({ simpleTags, urnTags }, tag) =>
-          CatalogDomain.isURNTag(tag) ?
-            { simpleTags, urnTags: [...urnTags, tag] } :
-            { simpleTags: [...simpleTags, tag], urnTags }, { simpleTags: [], urnTags: [] })
+        const tagPartitions = newProps.entity.content.tags.reduce(({ simpleTags, urnTags }, tag) => CatalogDomain.isURNTag(tag)
+          ? { simpleTags, urnTags: [...urnTags, tag] }
+          : { simpleTags: [...simpleTags, tag], urnTags }, { simpleTags: [], urnTags: [] })
         // 2 - sort and store simple tags
         tagPartitions.simpleTags = tagPartitions.simpleTags.filter(t => !isNil(t))
         tagPartitions.simpleTags.sort(StringComparison.compare)

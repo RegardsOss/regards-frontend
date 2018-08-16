@@ -26,7 +26,9 @@ import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
 import TextField from 'material-ui/TextField/TextField'
-import { TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField } from '@regardsoss/components'
+import {
+  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField,
+} from '@regardsoss/components'
 import { DataProviderDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -148,9 +150,9 @@ class AcquisitionFileListFiltersComponent extends React.Component {
             label={this.context.intl.formatMessage({ id: 'acquisition.file.list.filters.clear.button' })}
             icon={<Close />}
             disabled={
-              !get(this.state, 'filters.state') &&
-              !get(this.state, 'filters.filePath') &&
-              !get(this.state, 'filters.from')
+              !get(this.state, 'filters.state')
+              && !get(this.state, 'filters.filePath')
+              && !get(this.state, 'filters.from')
             }
             onClick={this.handleClearFilters}
           />
@@ -191,16 +193,15 @@ class AcquisitionFileListFiltersComponent extends React.Component {
               value={get(this.state, 'filters.state', undefined)}
               onChange={this.changeStateFilter}
             >
-              {map(DataProviderDomain.AcquisitionFileStateValues, state =>
-                (<MenuItem
-                  key={state}
-                  value={state}
-                  insetChildren
-                  checked={stateValues && stateValues.includes(state)}
-                  primaryText={formatMessage({
-                    id: `acquisition.file.list.filters.state.${state}`,
-                  })}
-                />),
+              {map(DataProviderDomain.AcquisitionFileStateValues, state => (<MenuItem
+                key={state}
+                value={state}
+                insetChildren
+                checked={stateValues && stateValues.includes(state)}
+                primaryText={formatMessage({
+                  id: `acquisition.file.list.filters.state.${state}`,
+                })}
+              />),
               )}
             </SelectField>
             <TextField

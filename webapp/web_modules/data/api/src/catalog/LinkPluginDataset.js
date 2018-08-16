@@ -28,8 +28,7 @@ const LinkPluginDatasetConfiguration = {
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 const entitySchema = new Schema(LinkPluginDatasetConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[LinkPluginDatasetConfiguration.entityKey]
+  idAttribute: entity => entity.content[LinkPluginDatasetConfiguration.entityKey]
   ,
 })
 

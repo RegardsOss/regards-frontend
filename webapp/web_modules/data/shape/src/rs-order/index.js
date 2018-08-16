@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 export { BasketDatedItemsSelection, BasketDatasetSelection, Basket } from './Basket'
-export { DatasetTask, Order, OrderWithContent, OrderList } from './Order'
+export {
+  DatasetTask, Order, OrderWithContent, OrderList,
+} from './Order'
 export { OrderFile, OrderFileWithContent, OrderFilesList } from './OrderFile'
-

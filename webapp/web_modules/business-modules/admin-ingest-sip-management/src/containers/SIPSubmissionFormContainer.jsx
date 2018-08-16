@@ -184,7 +184,7 @@ export class SIPSubmissionFormContainer extends React.Component {
             {this.renderSIPSubmissionForm()}
           </LoadableContentDisplayDecorator>
         </ModuleStyleProvider>
-      </I18nProvider >
+      </I18nProvider>
     )
   }
 }

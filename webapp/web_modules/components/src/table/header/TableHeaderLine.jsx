@@ -38,7 +38,7 @@ export class TableHeaderLine extends React.Component {
     const { children } = this.props
     const { moduleTheme: { header } } = this.context
     return (
-      <div style={header.rowStyle} >
+      <div style={header.rowStyle}>
         {children}
       </div>
     )

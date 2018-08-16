@@ -39,18 +39,17 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserStatusRenderCell', (
     assert.isDefined(ProjectUserStatusRenderCell)
   })
 
-  AdminDomain.PROJECT_USER_STATUS.forEach(status =>
-    it(`should render correctly for status ${status}`, () => {
-      const props = {
-        value: status,
-      }
-      const enzymeWrapper = shallow(<ProjectUserStatusRenderCell {...props} />, { context })
-      const renderWrapper = enzymeWrapper.find(StringValueRender)
-      assert.lengthOf(renderWrapper, 1, 'There should be the render')
-      const expectedMessage = `projectUser.list.table.status.label.${status}`
-      assert.equal(renderWrapper.props().value, expectedMessage, 'Status should be internationalized')
-      // No check it is defined in messages
-      assert.isOk(messages.en[expectedMessage], 'Status should be defined for en locale')
-      assert.isOk(messages.fr[expectedMessage], 'Status should be defined for fr locale')
-    }))
+  AdminDomain.PROJECT_USER_STATUS.forEach(status => it(`should render correctly for status ${status}`, () => {
+    const props = {
+      value: status,
+    }
+    const enzymeWrapper = shallow(<ProjectUserStatusRenderCell {...props} />, { context })
+    const renderWrapper = enzymeWrapper.find(StringValueRender)
+    assert.lengthOf(renderWrapper, 1, 'There should be the render')
+    const expectedMessage = `projectUser.list.table.status.label.${status}`
+    assert.equal(renderWrapper.props().value, expectedMessage, 'Status should be internationalized')
+    // No check it is defined in messages
+    assert.isOk(messages.en[expectedMessage], 'Status should be defined for en locale')
+    assert.isOk(messages.fr[expectedMessage], 'Status should be defined for fr locale')
+  }))
 })

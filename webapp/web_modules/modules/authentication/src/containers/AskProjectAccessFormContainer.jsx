@@ -162,11 +162,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchNewUser: (mail, metadata) => dispatch(CreateUserActions.sendCreateUser(mail, metadata)),
-  fetchNewAccount: (mail, firstName, lastName, password, metadata) =>
-    dispatch(CreateAccountActions.sendCreateAccount(mail, firstName, lastName, password, metadata)),
+  fetchNewAccount: (mail, firstName, lastName, password, metadata) => dispatch(CreateAccountActions.sendCreateAccount(mail, firstName, lastName, password, metadata)),
   fetchPasswordValidity: newPassword => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
   fetchPasswordRules: () => dispatch(accountPasswordActions.fetchPasswordRules()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AskProjectAccessFormContainer)
-

@@ -62,8 +62,10 @@ class SearchResultsConfigurationComponent extends React.Component {
 
   /** Sub fields in view fields to access columns edition model */
   static VIEW_COLUMNS_SUBFIELD = 'columns'
+
   /** Sub fields in view fields to access facets edition model */
   static VIEW_FACETS_SUBFIELD = 'facets'
+
   /** Sub fields in view fields to access sorting edition model */
   static VIEW_SORTING_SUBFIELD = 'sorting'
 

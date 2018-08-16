@@ -145,9 +145,9 @@ export class InfiniteGalleryContainer extends React.Component {
     const previousState = this.state
     const nextState = this.state ? { ...this.state } : { ...InfiniteGalleryContainer.DEFAULT_STATE } // initialize to previous state or use default one
     // initialization or authentication update: fetch the first page
-    if (!isEqual(nextProps.requestParams, previousProps.requestParams) ||
-      !isEqual(nextProps.pathParams, previousProps.pathParams) ||
-      !isEqual(nextProps.authentication, previousProps.authentication)) {
+    if (!isEqual(nextProps.requestParams, previousProps.requestParams)
+      || !isEqual(nextProps.pathParams, previousProps.pathParams)
+      || !isEqual(nextProps.authentication, previousProps.authentication)) {
       // remove any previously fetched data
       nextState.entities = []
       // Remove entities in store

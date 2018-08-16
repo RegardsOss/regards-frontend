@@ -148,7 +148,7 @@ export class ServiceListComponent extends React.Component {
           title={formatMessage({ id: 'dataaccess.services.list.title' })}
           subtitle={formatMessage({ id: 'dataaccess.services.list.subtitle' })}
         />
-        <CardText style={moduleTheme.root} >
+        <CardText style={moduleTheme.root}>
           {this.renderDeleteConfirmDialog()}
           <TableLayout>
             <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={entities.length} />

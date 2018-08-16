@@ -21,7 +21,9 @@ import values from 'lodash/values'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
-import { RenderSelectField, Field, ValidationHelpers, StringComparison } from '@regardsoss/form-utils'
+import {
+  RenderSelectField, Field, ValidationHelpers, StringComparison,
+} from '@regardsoss/form-utils'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'

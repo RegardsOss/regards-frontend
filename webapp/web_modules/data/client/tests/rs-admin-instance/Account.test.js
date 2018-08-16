@@ -44,4 +44,3 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing model Account', () => {
     entityTester.runTests(done)
   })
 })
-

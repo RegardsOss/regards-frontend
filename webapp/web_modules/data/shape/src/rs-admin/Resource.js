@@ -26,4 +26,3 @@ export const Resource = PropTypes.shape({
 })
 export const ResourceList = PropTypes.objectOf(Resource)
 export const ResourceArray = PropTypes.arrayOf(Resource)
-

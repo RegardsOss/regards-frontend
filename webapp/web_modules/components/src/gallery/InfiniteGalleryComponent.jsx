@@ -88,10 +88,10 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     const extraThreshold = viewableHeight
     // trigger area = viewable area with buffer areas
     if (
-      (start >= top - extraThreshold && stop <= top + viewableHeight + extraThreshold) || // If page starts and stops within the trigger area
-      (start <= top + extraThreshold && stop >= top - extraThreshold) || // If page starts before and runs within trigger area
-      (start >= top - extraThreshold && start <= top + viewableHeight + extraThreshold) || // If page starts within the trigger area
-      (stop > top - extraThreshold && stop <= top + viewableHeight + extraThreshold) // If the page stops within the trigger area
+      (start >= top - extraThreshold && stop <= top + viewableHeight + extraThreshold) // If page starts and stops within the trigger area
+      || (start <= top + extraThreshold && stop >= top - extraThreshold) // If page starts before and runs within trigger area
+      || (start >= top - extraThreshold && start <= top + viewableHeight + extraThreshold) // If page starts within the trigger area
+      || (stop > top - extraThreshold && stop <= top + viewableHeight + extraThreshold) // If the page stops within the trigger area
     ) {
       return true
     }
@@ -124,9 +124,9 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
    * Lifecycle method component will receive props. Used here to layout the component when its size changes
    */
   componentWillReceiveProps(nextProps) {
-    if (nextProps.items.length !== this.props.items.length ||
-      nextProps.width !== this.props.width ||
-      nextProps.height !== this.props.height) {
+    if (nextProps.items.length !== this.props.items.length
+      || nextProps.width !== this.props.width
+      || nextProps.height !== this.props.height) {
       this.layout(nextProps)
     }
   }
@@ -247,17 +247,15 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
 
         // Where the item can't span next columns
         const nextColumns = fillableColumnGaps.slice(index + 1)
-        return nextColumns.every(nextSpannableColumn =>
-          // By looking for a gap it can fit into
-          nextSpannableColumn.find((nextSpannableColumnGap) => {
-            const [nextSpannableColumnGapTop, nextSpannableColumnGapHeight] = nextSpannableColumnGap
+        return nextColumns.every(nextSpannableColumn => nextSpannableColumn.find((nextSpannableColumnGap) => {
+          const [nextSpannableColumnGapTop, nextSpannableColumnGapHeight] = nextSpannableColumnGap
 
-            // only if it can slide right in there ;)
-            return (
-              nextSpannableColumnGapTop <= thisColumnGapTop &&
-              nextSpannableColumnGapTop + nextSpannableColumnGapHeight >= thisColumnGapTop + thisColumnGapHeight
-            )
-          }))
+          // only if it can slide right in there ;)
+          return (
+            nextSpannableColumnGapTop <= thisColumnGapTop
+              && nextSpannableColumnGapTop + nextSpannableColumnGapHeight >= thisColumnGapTop + thisColumnGapHeight
+          )
+        }))
       })
 
       return acc
@@ -315,10 +313,10 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
 
     // Here we decide if we layout the entire grid or just new items
     const shouldRearrange = (
-      rearrange ||
-      !this.state.lastWorkingPage ||
-      this.state.lastWorkingIndex === null ||
-      maxColumns !== this.state.maxColumns
+      rearrange
+      || !this.state.lastWorkingPage
+      || this.state.lastWorkingIndex === null
+      || maxColumns !== this.state.maxColumns
     )
 
     // Setup our boundaries for layout
@@ -409,10 +407,10 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
             const [gapTop, gapHeight] = gap
             if (
               // If we filled the gap
-              (item.top <= gapTop && item.top + item.height >= gapTop) ||
-              (item.top >= gapTop && item.top <= gapTop + gapHeight) ||
+              (item.top <= gapTop && item.top + item.height >= gapTop)
+              || (item.top >= gapTop && item.top <= gapTop + gapHeight)
               // or if the gap is above our fill zone
-              gapTop < minPreviousSlicedItemTop
+              || gapTop < minPreviousSlicedItemTop
             ) {
               return false
             }
@@ -525,21 +523,20 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       >
         {page.items.map(({
           props, left, top, width, height, columnSpan,
-        }, itemIndex) =>
-          (
-            <Item
+        }, itemIndex) => (
+          <Item
               // eslint-disable-next-line react/no-array-index-key
-              key={`page-${index}-item-${itemIndex}`}
-              columnSpan={columnSpan}
-              left={left}
-              top={top}
-              width={width}
-              entity={props}
-              columnGutter={columnGutter}
-              gridWidth={columnWidth}
-              {...this.props.itemProps}
-            />
-          ))}
+            key={`page-${index}-item-${itemIndex}`}
+            columnSpan={columnSpan}
+            left={left}
+            top={top}
+            width={width}
+            entity={props}
+            columnGutter={columnGutter}
+            gridWidth={columnWidth}
+            {...this.props.itemProps}
+          />
+        ))}
       </div>
     )
   }

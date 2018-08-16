@@ -28,7 +28,9 @@ import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/display-control'
-import { RenderTextField, RenderSelectField, Field, FieldArray, reduxForm, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
+import {
+  RenderTextField, RenderSelectField, Field, FieldArray, reduxForm, ValidationHelpers, ErrorTypes,
+} from '@regardsoss/form-utils'
 import SingleAttributeFieldRender from '../../single/SingleAttributeFieldRender'
 import MultipleAttributesFieldRender from '../../multiple/MultipleAttributesFieldRender'
 
@@ -87,8 +89,8 @@ export class EditItemForm extends React.Component {
    * @param {[*]} attributeModels available attributes models (to retrieve label)
    */
   static buildAutoLabelForMultipleAttr(editedAtrributes = [], attributeModels) {
-    return editedAtrributes ?
-      editedAtrributes.map(({ name }) => EditItemForm.getAttributeLabel(name, attributeModels)).join(', ') : ''
+    return editedAtrributes
+      ? editedAtrributes.map(({ name }) => EditItemForm.getAttributeLabel(name, attributeModels)).join(', ') : ''
   }
 
   /**
@@ -124,15 +126,15 @@ export class EditItemForm extends React.Component {
   componentWillReceiveProps = (nextProps) => {
     // check if labels should be updated: while user did not modify them, we auto update them here
     if (nextProps.allowLabel) {
-      if (!isEqual(this.props.editedAttributes, nextProps.editedAttributes) ||
-        !isEqual(this.props.editedSingleAttribute, nextProps.editedSingleAttribute)
+      if (!isEqual(this.props.editedAttributes, nextProps.editedAttributes)
+        || !isEqual(this.props.editedSingleAttribute, nextProps.editedSingleAttribute)
       ) {
-        const oldAutoLabel = nextProps.allowAttributesRegroupements ?
-          EditItemForm.buildAutoLabelForMultipleAttr(this.props.editedAttributes, nextProps.attributeModels) :
-          EditItemForm.buildAutoLabelForSingleAttr(this.props.editedSingleAttribute, nextProps.attributeModels)
-        const nextAutoLabel = nextProps.allowAttributesRegroupements ?
-          EditItemForm.buildAutoLabelForMultipleAttr(nextProps.editedAttributes, nextProps.attributeModels) :
-          EditItemForm.buildAutoLabelForSingleAttr(nextProps.editedSingleAttribute, nextProps.attributeModels)
+        const oldAutoLabel = nextProps.allowAttributesRegroupements
+          ? EditItemForm.buildAutoLabelForMultipleAttr(this.props.editedAttributes, nextProps.attributeModels)
+          : EditItemForm.buildAutoLabelForSingleAttr(this.props.editedSingleAttribute, nextProps.attributeModels)
+        const nextAutoLabel = nextProps.allowAttributesRegroupements
+          ? EditItemForm.buildAutoLabelForMultipleAttr(nextProps.editedAttributes, nextProps.attributeModels)
+          : EditItemForm.buildAutoLabelForSingleAttr(nextProps.editedSingleAttribute, nextProps.attributeModels)
         const allLangugageKeys = keys(nextProps.editedLabel)
 
         // update each label that was not edited
@@ -174,9 +176,9 @@ export class EditItemForm extends React.Component {
    */
   validateMultipleAttributesField = (value) => {
     const { intl: { formatMessage } } = this.context
-    return !value || !value.length ?
-      formatMessage({ id: 'attribute.configuration.selected.attributes.error' }) :
-      undefined
+    return !value || !value.length
+      ? formatMessage({ id: 'attribute.configuration.selected.attributes.error' })
+      : undefined
   }
 
   /**
@@ -252,25 +254,24 @@ export class EditItemForm extends React.Component {
               value={0}
               primaryText={formatMessage({ id: 'attribute.configuration.index.first' })}
             />, // After other attribute elements option
-            ...attributesList.map((attribute, index) =>
-              index === editedElementIndex ?
-                null : ( // do not propose self position =)
-                  <MenuItem
+            ...attributesList.map((attribute, index) => index === editedElementIndex
+              ? null : ( // do not propose self position =)
+                <MenuItem
                     // eslint-disable-next-line react/no-array-index-key
-                    key={index} // index is ok as list cannot change before unmount
-                    value={// value is final position in table (remove this element index if it was before current attribute)
+                  key={index} // index is ok as list cannot change before unmount
+                  value={// value is final position in table (remove this element index if it was before current attribute)
                       editedElementIndex < index ? index : index + 1
                     }
-                    primaryText={formatMessage({ id: 'attribute.configuration.index.after.element' },
-                      {
-                        label: allowLabel ?
-                          attribute.label[locale] :
-                          // when label is not edited, use first attribute as label (the groups should normally be forbidden)
-                          EditItemForm.getAttributeLabel(attribute.attributes[0].name, attributeModels),
-                        // after element position, in a table range from 1 to N
-                        index: editedElementIndex < index ? index + 1 : index + 2,
-                      })}
-                  />)),
+                  primaryText={formatMessage({ id: 'attribute.configuration.index.after.element' },
+                    {
+                      label: allowLabel
+                        ? attribute.label[locale]
+                      // when label is not edited, use first attribute as label (the groups should normally be forbidden)
+                        : EditItemForm.getAttributeLabel(attribute.attributes[0].name, attributeModels),
+                      // after element position, in a table range from 1 to N
+                      index: editedElementIndex < index ? index + 1 : index + 2,
+                    })}
+                />)),
           ]}
         </Field>
         {/* 3 labels */}

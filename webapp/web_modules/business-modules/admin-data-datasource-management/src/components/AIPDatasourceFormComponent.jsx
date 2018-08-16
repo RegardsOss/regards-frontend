@@ -26,16 +26,24 @@ import isEmpty from 'lodash/isEmpty'
 import flow from 'lodash/flow'
 import fpmap from 'lodash/fp/map'
 import fpsortBy from 'lodash/fp/sortBy'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
-import { reduxForm, RenderTextField, RenderSelectField, Field, FieldArray, ValidationHelpers, RenderArrayTextField } from '@regardsoss/form-utils'
+import {
+  Table, TableBody, TableHeader, TableHeaderColumn, TableRow,
+} from 'material-ui/Table'
+import {
+  reduxForm, RenderTextField, RenderSelectField, Field, FieldArray, ValidationHelpers, RenderArrayTextField,
+} from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
-import { getFullQualifiedAttributeName, IAIPDatasourceParamsEnum, DATASOURCE_REFRESH_RATE, MODEL_ATTR_TYPES } from '@regardsoss/domain/dam'
+import {
+  getFullQualifiedAttributeName, IAIPDatasourceParamsEnum, DATASOURCE_REFRESH_RATE, MODEL_ATTR_TYPES,
+} from '@regardsoss/domain/dam'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
 import AIPDatasourceAttributeLineConfigurationComponent from './AIPDatasourceAttributeLineConfigurationComponent'
 import { ShowableAtRender } from '../../../../utils/display-control/src/main'
@@ -105,6 +113,7 @@ export class AIPDatasourceFormComponent extends React.Component {
       modelAttribute.content.attribute.type === MODEL_ATTR_TYPES.LONG
     ))
   )
+
   /**
    * Return the value expected by the server
    */
@@ -341,4 +350,3 @@ export class AIPDatasourceFormComponent extends React.Component {
 export default reduxForm({
   form: 'aip-datasource-form',
 })(AIPDatasourceFormComponent)
-

@@ -90,11 +90,11 @@ class TagsComponent extends React.Component {
             (function renderContent() {
               if (loading) {
                 return (
-                  <div style={loadingContainerStyle} >
+                  <div style={loadingContainerStyle}>
                     <LoadingDisplayerComponent message={formatMessage({ id: messages.loadingKey })} />
                   </div>
                 )
-              } else if (!simpleTags.length && !entityTags.length) {
+              } if (!simpleTags.length && !entityTags.length) {
                 return (
                   <div style={messageContainerStyle}>
                     <FormattedMessage id={messages.noDataKey} />

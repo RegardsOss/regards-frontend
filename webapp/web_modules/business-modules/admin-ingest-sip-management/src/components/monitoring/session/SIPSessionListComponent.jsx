@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardTitle, CardActions, CardMedia } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardActions, CardMedia,
+} from 'material-ui/Card'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import IconButton from 'material-ui/IconButton'
 import Error from 'material-ui/svg-icons/alert/error'
@@ -137,11 +139,10 @@ class SIPSessionListComponent extends React.Component {
         .label(intl.formatMessage({ id: 'sips.session.table.headers.id' }))
         .build(),
       // steps columns
-      ...['generated', 'stored', 'indexed'].map(step =>
-        new TableColumnBuilder(`column.${step}`).titleHeaderCell()
-          .progressRenderCell(this.getProgressPercent(step), this.getProgressLabel(step))
-          .label(intl.formatMessage({ id: `sips.session.table.headers.${step}` }))
-          .build()),
+      ...['generated', 'stored', 'indexed'].map(step => new TableColumnBuilder(`column.${step}`).titleHeaderCell()
+        .progressRenderCell(this.getProgressPercent(step), this.getProgressLabel(step))
+        .label(intl.formatMessage({ id: `sips.session.table.headers.${step}` }))
+        .build()),
       // errors columns
       new TableColumnBuilder('column.errors').titleHeaderCell()
         .label(intl.formatMessage({ id: 'sips.session.table.headers.errors' }))
@@ -149,7 +150,9 @@ class SIPSessionListComponent extends React.Component {
           Constructor: props => (
             <div style={session.error.rowColumnStyle}>
               <div style={session.error.textStyle}>
-                {props.entity.content.errorSipsCount} / {props.entity.content.sipsCount - props.entity.content.deletedSipsCount}
+                {props.entity.content.errorSipsCount}
+                /
+                {props.entity.content.sipsCount - props.entity.content.deletedSipsCount}
               </div>
               <ShowableAtRender
                 style={session.error.iconContainerStyle}

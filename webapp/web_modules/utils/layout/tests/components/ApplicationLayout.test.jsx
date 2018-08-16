@@ -41,8 +41,8 @@ describe('[LAYOUT] Testing Application layout ', () => {
         appName="testApp"
         project="test"
         container={testLayout}
-      />
-      , { context },
+      />,
+      { context },
     )
 
     expect(wrapper.find('.mainapp')).to.have.length(1)
@@ -54,8 +54,8 @@ describe('[LAYOUT] Testing Application layout ', () => {
         project="test"
         container={testLayout.containers[1]}
         modules={testModules}
-      />
-      , { context },
+      />,
+      { context },
     )
 
     expect(wrapper2.find('.row')).to.have.length(1)

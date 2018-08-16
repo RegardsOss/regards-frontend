@@ -26,8 +26,7 @@ const AccessGroupConfiguration = {
 }
 
 const accessGroup = new Schema(AccessGroupConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[AccessGroupConfiguration.entityKey]
+  idAttribute: entity => entity.content[AccessGroupConfiguration.entityKey]
   ,
 })
 

@@ -21,7 +21,9 @@ import isDate from 'lodash/isDate'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM } from '@regardsoss/domain/access'
 import { buildOneElementTarget, buildManyElementsTarget, buildQueryTarget } from '../../src/definitions/ServiceTarget'
-import { resolveParameter, resolveParameters, packRuntimeTarget, packRuntimeConfiguration } from '../../src/definitions/UIPluginServiceHelper'
+import {
+  resolveParameter, resolveParameters, packRuntimeTarget, packRuntimeConfiguration,
+} from '../../src/definitions/UIPluginServiceHelper'
 import { Parameter } from '../../src/definitions/parameters/Parameter'
 
 /**
@@ -44,21 +46,20 @@ describe('[Entities Common] Testing UIPluginServiceHelper', () => {
   ]
   basicTypesTests.map(({
     type, correspondingFieldType, validator = false, name = 'common.field', defaultValue = null, label = 'common.label', required = false,
-  }) =>
-    it(`should convert correctly a basic type "${type}" parameter`, () => {
-      const resolved = resolveParameter(name, defaultValue, { label, type, required })
-      assert.isNotNull(resolved, 'the parameter should be converted')
-      assert.equal(resolved.name, name, 'The parameter name should be correctly reported')
-      assert.equal(resolved.label, label, 'The parameter name should be correctly reported')
-      assert.equal(resolved.editorType, correspondingFieldType, 'The parameter editor type is erroneous')
-      assert.equal(resolved.defaultValue, defaultValue, 'The parameter default value is erroneous')
-      assert.equal(resolved.required, required, 'The parameter required value is erroneous')
-      if (validator) {
-        assert.isNotNull(resolved.valueValidator, 'There should be a validator')
-      } else {
-        assert.isNull(resolved.valueValidator, 'There should be no validator')
-      }
-    }))
+  }) => it(`should convert correctly a basic type "${type}" parameter`, () => {
+    const resolved = resolveParameter(name, defaultValue, { label, type, required })
+    assert.isNotNull(resolved, 'the parameter should be converted')
+    assert.equal(resolved.name, name, 'The parameter name should be correctly reported')
+    assert.equal(resolved.label, label, 'The parameter name should be correctly reported')
+    assert.equal(resolved.editorType, correspondingFieldType, 'The parameter editor type is erroneous')
+    assert.equal(resolved.defaultValue, defaultValue, 'The parameter default value is erroneous')
+    assert.equal(resolved.required, required, 'The parameter required value is erroneous')
+    if (validator) {
+      assert.isNotNull(resolved.valueValidator, 'There should be a validator')
+    } else {
+      assert.isNull(resolved.valueValidator, 'There should be no validator')
+    }
+  }))
 
   it('should fail converting unknown  types', () => {
     assert.throws(
@@ -113,16 +114,15 @@ describe('[Entities Common] Testing UIPluginServiceHelper', () => {
     testMessage: 'should build the right target fields for QUERY target',
     localTarget: buildQueryTarget('a=a&b=b', ENTITY_TYPES_ENUM.DATA, 15, []),
   }]
-  testCases.map(({ testMessage, localTarget, count }) =>
-    it(testMessage, () => {
-      // 1 - convert to runtime target
-      const runtimeTarget = packRuntimeTarget(localTarget)
-      // Check all fields from local target are preserved
-      assert.include(runtimeTarget, localTarget, 'Some fields have not been reported to runtime target')
-      // Check API methods have been added
-      assert.isDefined(runtimeTarget.getReducePromise, 'The getReducePromise method should be defined')
-      assert.isDefined(runtimeTarget.getFetchAction, 'The getFetchAction method should be defined')
-    }))
+  testCases.map(({ testMessage, localTarget, count }) => it(testMessage, () => {
+    // 1 - convert to runtime target
+    const runtimeTarget = packRuntimeTarget(localTarget)
+    // Check all fields from local target are preserved
+    assert.include(runtimeTarget, localTarget, 'Some fields have not been reported to runtime target')
+    // Check API methods have been added
+    assert.isDefined(runtimeTarget.getReducePromise, 'The getReducePromise method should be defined')
+    assert.isDefined(runtimeTarget.getFetchAction, 'The getFetchAction method should be defined')
+  }))
   it('Should resolve runtime configuration, overriding the configuration values and ensuring types', () => {
     // light plugin instance
     const pluginInstance = {

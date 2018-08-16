@@ -46,4 +46,3 @@ describe('[ADMIN CLIENT] Testing model PluginMetaData', () => {
     entityTester.runTests(done)
   })
 })
-

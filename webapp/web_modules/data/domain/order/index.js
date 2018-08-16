@@ -19,4 +19,3 @@
 
 export { ORDER_STATUS_ENUM, ORDER_STATUS } from './OrderStatus'
 export { ORDER_FILE_STATUS_ENUM, ORDER_FILE_STATUS } from './OrderFileStatus'
-

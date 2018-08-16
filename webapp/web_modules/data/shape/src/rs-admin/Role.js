@@ -32,4 +32,3 @@ export const Role = PropTypes.shape({
 
 export const RoleList = PropTypes.objectOf(Role)
 export const RoleArray = PropTypes.arrayOf(Role)
-

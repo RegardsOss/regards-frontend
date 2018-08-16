@@ -18,7 +18,9 @@
  **/
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PageableInfiniteTableContainer, TableLayout, TableColumnBuilder, InfiniteGalleryContainer } from '@regardsoss/components'
+import {
+  PageableInfiniteTableContainer, TableLayout, TableColumnBuilder, InfiniteGalleryContainer,
+} from '@regardsoss/components'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { BasicFacetsPageableActions, BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
@@ -357,4 +359,3 @@ class SearchResultsComponent extends React.Component {
 }
 
 export default SearchResultsComponent
-

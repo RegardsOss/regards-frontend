@@ -21,7 +21,9 @@ import flatMap from 'lodash/flatMap'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import omit from 'lodash/omit'
-import { Table, TableBody, TableHeader, TableRow, TableRowColumn, TableHeaderColumn } from 'material-ui/Table'
+import {
+  Table, TableBody, TableHeader, TableRow, TableRowColumn, TableHeaderColumn,
+} from 'material-ui/Table'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import TreeTableRow from './TreeTableRow'
@@ -157,22 +159,20 @@ export class TreeTableComponent extends React.Component {
         style={depthLevel % 2 === 0 ? evenLevelRowStyle : oddLevelRowStyle}
       >
         { // render all cell values
-          row.rowCells.map((rowCell, columnIndex) =>
-            this.renderCell(rowCell, columnIndex, depthLevel, leftIndentation))
+          row.rowCells.map((rowCell, columnIndex) => this.renderCell(rowCell, columnIndex, depthLevel, leftIndentation))
         }
         {/* add last column cell for expand collapse */}
         <TableRowColumn key={`${row.key}.cell.expand`} style={expandCell.style}>
           {
             // render: nothing when row has no sub row, or expanded / collapsed icon
-            row.subRows.length ?
-              <ExpandCollapseComponent rowModel={row} onToggleExpanded={this.onToggleExpanded} /> : null
+            row.subRows.length
+              ? <ExpandCollapseComponent rowModel={row} onToggleExpanded={this.onToggleExpanded} /> : null
           }
         </TableRowColumn>
-      </TableRow >)
+      </TableRow>)
     // 3 - Render sub level rows
-    const subRows = row.expanded && row.subRows.length ?
-      flatMap(row.subRows, (subRow, indexInSubLevel) =>
-        this.renderRow(subRow, indexInSubLevel, uniqueKeyChain, leftIndentation + firstCell.leftMarginForLevel)) : []
+    const subRows = row.expanded && row.subRows.length
+      ? flatMap(row.subRows, (subRow, indexInSubLevel) => this.renderRow(subRow, indexInSubLevel, uniqueKeyChain, leftIndentation + firstCell.leftMarginForLevel)) : []
     return [rootRow, ...subRows]
   }
 
@@ -206,7 +206,7 @@ export class TreeTableComponent extends React.Component {
             flatMap(tableRootRow.subRows, (row, indexInLevel) => this.renderRow(row, indexInLevel))
           }
         </TableBody>
-      </Table >
+      </Table>
     )
   }
 }

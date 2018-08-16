@@ -72,4 +72,3 @@ class NewsListContainer extends React.Component {
   }
 }
 export default NewsListContainer
-

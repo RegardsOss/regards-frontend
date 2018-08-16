@@ -88,8 +88,7 @@ export class OrderCartContainer extends React.Component {
        * @param selectAllOpenSearchRequest request to retrieve elements to add, when not null
        * @return {Promise} add to cart promise
        */
-      dispatchAddToCart: (ids = [], selectAllOpenSearchRequest = null, datasetUrn = null) =>
-        dispatch(defaultBasketActions.addToBasket(ids, selectAllOpenSearchRequest, datasetUrn)),
+      dispatchAddToCart: (ids = [], selectAllOpenSearchRequest = null, datasetUrn = null) => dispatch(defaultBasketActions.addToBasket(ids, selectAllOpenSearchRequest, datasetUrn)),
     }
   }
 
@@ -171,17 +170,17 @@ export class OrderCartContainer extends React.Component {
     // note that it may throw an exception to inform the administor that the module configuration is wrong
     const oldState = this.state || {}
     const newState = { ...(oldState || OrderCartContainer.DEFAULT_STATE) }
-    if (!isEqual(oldProps.isAuthenticated, newProps.isAuthenticated) ||
-      !isEqual(oldProps.modules, newProps.modules) ||
-      !isEqual(oldProps.toggledElements, newProps.toggledElements) ||
-      !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
+    if (!isEqual(oldProps.isAuthenticated, newProps.isAuthenticated)
+      || !isEqual(oldProps.modules, newProps.modules)
+      || !isEqual(oldProps.toggledElements, newProps.toggledElements)
+      || !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
       // recompute if basket should be displayed
       newState.basketAvailaible = this.isBasketAvailable(newProps)
     }
     // update callbacks when basket available state changes or view object type changes
-    if (oldProps.viewObjectType !== newProps.viewObjectType ||
-      oldProps.emptySelection !== newProps.emptySelection ||
-      oldState.basketAvailaible !== newState.basketAvailaible) {
+    if (oldProps.viewObjectType !== newProps.viewObjectType
+      || oldProps.emptySelection !== newProps.emptySelection
+      || oldState.basketAvailaible !== newState.basketAvailaible) {
       if (newState.basketAvailaible) {
         // set up the right callbacks for current state
         if (newProps.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
@@ -200,9 +199,9 @@ export class OrderCartContainer extends React.Component {
     }
 
     // when callbacks or children changed, re render children
-    if (HOCUtils.shouldCloneChildren(oldProps, newProps, OrderCartContainer.NON_REPORTED_PROPS) ||
-      !isEqual(oldState.onAddElementToBasket, newState.onAddElementToBasket) ||
-      !isEqual(oldState.onAddSelectionToBasket, newState.onAddSelectionToBasket)) {
+    if (HOCUtils.shouldCloneChildren(oldProps, newProps, OrderCartContainer.NON_REPORTED_PROPS)
+      || !isEqual(oldState.onAddElementToBasket, newState.onAddElementToBasket)
+      || !isEqual(oldState.onAddSelectionToBasket, newState.onAddSelectionToBasket)) {
       // pre render children (attempt to enhance render performances)
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
         ...omit(newProps, OrderCartContainer.NON_REPORTED_PROPS), // this will report injected service data
@@ -268,9 +267,8 @@ export class OrderCartContainer extends React.Component {
     // A - User is logged in - and not displaying documents
     if (isAuthenticated && viewObjectType !== DamDomain.ENTITY_TYPES_ENUM.DOCUMENT) {
       // B - There is / are active Order cart module(s)
-      const hasOrderCartModule = find((modules || {}), module =>
-        (get(module, 'content.type', '') === modulesManager.AllDynamicModuleTypes.ORDER_CART &&
-          get(module, 'content.active', false)))
+      const hasOrderCartModule = find((modules || {}), module => (get(module, 'content.type', '') === modulesManager.AllDynamicModuleTypes.ORDER_CART
+          && get(module, 'content.active', false)))
       if (hasOrderCartModule) {
         // C - Finally, user must have rights to manage the basket
         return allMatchHateoasDisplayLogic(OrderCartContainer.BASKET_DEPENDENCIES, availableDependencies)

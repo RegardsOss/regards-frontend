@@ -47,8 +47,8 @@ class StringArrayValueRender extends React.Component {
     const { multilineDisplay } = this.props
     const { intl, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
     const noValueText = intl.formatMessage({ id: 'value.render.no.value.label' })
-    const textValue = value.map(text => isNil(text) ? noValueText : text).join(intl.formatMessage({ id: 'value.render.array.values.separator' })) ||
-      noValueText
+    const textValue = value.map(text => isNil(text) ? noValueText : text).join(intl.formatMessage({ id: 'value.render.array.values.separator' }))
+      || noValueText
     return (
       <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue}>
         {textValue}

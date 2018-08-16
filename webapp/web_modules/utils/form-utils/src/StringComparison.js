@@ -39,9 +39,8 @@ export default class StringComparison {
   static getComparableLabel(str) {
     return reduce(
       StringComparison.charToAccentMap,
-      (acc, accents, char) =>
-        accents.reduce((innerAcc, accent) => innerAcc.split(accent).join(char), acc)
-      , str.toLowerCase(),
+      (acc, accents, char) => accents.reduce((innerAcc, accent) => innerAcc.split(accent).join(char), acc),
+      str.toLowerCase(),
     )
   }
 

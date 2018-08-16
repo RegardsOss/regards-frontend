@@ -44,4 +44,3 @@ describe('[ADMIN CLIENT] Testing client role', () => {
     entityTester.runTests(done)
   })
 })
-

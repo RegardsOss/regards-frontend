@@ -87,8 +87,8 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
     }
 
     const wrapper = shallow(
-      <ModuleListComponent {...props} />
-      , options,
+      <ModuleListComponent {...props} />,
+      options,
     )
 
     expect(wrapper.find(TableBody).find(TableRow)).to.have.length(3)
@@ -110,8 +110,8 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
     }
 
     const wrapper = shallow(
-      <ModuleListComponent {...props} />
-      , options,
+      <ModuleListComponent {...props} />,
+      options,
     )
 
     const numberOfHateoasIconByModule = 2

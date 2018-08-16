@@ -50,18 +50,16 @@ export class NotificationListContainer extends React.Component {
 
   static mapDispatchToProps(dispatch) {
     return {
-      fetchNotifications: (instance = false) =>
-        dispatch(
-          instance
-            ? notificationInstanceActions.fetchEntityList()
-            : notificationActions.fetchEntityList(),
-        ),
-      sendReadNotification: (notificationId, instance = false) =>
-        dispatch(
-          instance
-            ? readNotificationInstanceActions.readNotification(notificationId)
-            : readNotificationActions.readNotification(notificationId),
-        ),
+      fetchNotifications: (instance = false) => dispatch(
+        instance
+          ? notificationInstanceActions.fetchEntityList()
+          : notificationActions.fetchEntityList(),
+      ),
+      sendReadNotification: (notificationId, instance = false) => dispatch(
+        instance
+          ? readNotificationInstanceActions.readNotification(notificationId)
+          : readNotificationActions.readNotification(notificationId),
+      ),
     }
   }
 
@@ -99,8 +97,8 @@ export class NotificationListContainer extends React.Component {
       if (Object.keys(this.props.notifications).length > 0 && !!this.notify) {
         forEach(nextProps.notifications, (notif) => {
           if (
-            !find(this.props.notifications, o => o.id === notif.id) &&
-            notif.status === 'UNREAD'
+            !find(this.props.notifications, o => o.id === notif.id)
+            && notif.status === 'UNREAD'
           ) {
             this.notify(notif)
           }

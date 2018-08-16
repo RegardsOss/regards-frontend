@@ -39,4 +39,3 @@ export default (namespace) => {
   const reducerInstance = new WaitingAccessUserEntitiesReducer(namespace)
   return (state, action) => reducerInstance.reduce(state, action)
 }
-

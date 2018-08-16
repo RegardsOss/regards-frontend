@@ -26,7 +26,9 @@ import MenuItem from 'material-ui/MenuItem'
 import { connect } from 'react-redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { withModuleStyle, themeContextType, getCurrentTheme, setCurrentTheme, ThemeSelectors, defaultTheme } from '@regardsoss/theme'
+import {
+  withModuleStyle, themeContextType, getCurrentTheme, setCurrentTheme, ThemeSelectors, defaultTheme,
+} from '@regardsoss/theme'
 import messages from '../i18n'
 import styles from '../styles'
 

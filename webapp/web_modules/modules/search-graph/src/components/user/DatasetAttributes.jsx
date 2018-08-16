@@ -51,25 +51,24 @@ class DatasetAttributes extends React.Component {
 
     return (
       <ShowableAtRender show={visible && datasetAttributes.length > 0}>
-        <div style={containerStyles} >
+        <div style={containerStyles}>
           {
             // render values row
             datasetAttributes.map(({
               renderValue, label, render: TypeRender, renderKey, renderProps,
-            }) =>
-              (
-                <div key={renderKey} style={lineStyles}>
-                  <div style={detailLabelStyles}>{label[locale]}</div>
-                  <div style={detailValueStlyles}>
-                    {
-                      renderValue ?
-                        (<TypeRender multilineDisplay value={renderValue} {...renderProps} />) :
-                        (<FormattedMessage id="search.graph.dataset.attribute.no.value" />)
+            }) => (
+              <div key={renderKey} style={lineStyles}>
+                <div style={detailLabelStyles}>{label[locale]}</div>
+                <div style={detailValueStlyles}>
+                  {
+                      renderValue
+                        ? (<TypeRender multilineDisplay value={renderValue} {...renderProps} />)
+                        : (<FormattedMessage id="search.graph.dataset.attribute.no.value" />)
                     }
-                  </div>
-                </div>))
+                </div>
+              </div>))
           }
-        </div >
+        </div>
       </ShowableAtRender>
     )
   }

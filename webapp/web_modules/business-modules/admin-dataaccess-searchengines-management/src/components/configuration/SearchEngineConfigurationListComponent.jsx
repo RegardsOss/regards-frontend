@@ -154,7 +154,7 @@ export class SearchEngineConfigurationListComponent extends React.Component {
           title={formatMessage({ id: 'dataaccess.searchengines.list.title' })}
           subtitle={formatMessage({ id: 'dataaccess.searchengines.list.subtitle' })}
         />
-        <CardText style={moduleTheme.root} >
+        <CardText style={moduleTheme.root}>
           {this.renderDeleteConfirmDialog()}
           <TableLayout>
             <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={resultsCount} />

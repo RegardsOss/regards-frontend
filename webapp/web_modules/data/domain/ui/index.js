@@ -20,6 +20,8 @@ export { default as LocalStorageUser } from './LocalStorageUser'
 export { default as LocalStorageUserData } from './LocalStorageUserData'
 export { LOCALES_ENUM, LOCALES } from './Locales'
 export { MENU_DISPLAY_MODES, MENU_DISPLAY_MODES_ENUM } from './MenuDisplayModes'
-export { MODULE_PANE_DISPLAY_MODES_ENUM, MODULE_PANE_DISPLAY_MODES, isModulePaneExpanded, isModulePaneExpansible } from './ModulePaneDisplayModes'
+export {
+  MODULE_PANE_DISPLAY_MODES_ENUM, MODULE_PANE_DISPLAY_MODES, isModulePaneExpanded, isModulePaneExpansible,
+} from './ModulePaneDisplayModes'
 export { PRESENTATION_STATE_ENUM, PRESENTATION_STATE } from './ModulePresentationState'
 export { getAdminURL, getModuleURL, getModuleDefaultIconURL } from './URLHelper'

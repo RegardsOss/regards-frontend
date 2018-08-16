@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import PropertiesShape from './../rs-common/IP'
+import PropertiesShape from '../rs-common/IP'
 
 /**
  * Describes a SIP shape and related sub objects

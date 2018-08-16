@@ -153,7 +153,9 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
     if (!isStaticAttribute && modelAttribute.content.attribute.fragment.name !== fragmentSelectors.noneFragmentName) {
       return (
         <div>
-          <FormattedMessage id="datasource.form.mapping.table.fragment" />: {modelAttribute.content.attribute.fragment.name}
+          <FormattedMessage id="datasource.form.mapping.table.fragment" />
+:
+          {modelAttribute.content.attribute.fragment.name}
           <br />
         </div>
       )
@@ -167,7 +169,9 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
     if (!isStaticAttribute) {
       return (
         <div>
-          <FormattedMessage id="datasource.form.mapping.table.type" />: {modelAttribute.content.attribute.type}
+          <FormattedMessage id="datasource.form.mapping.table.type" />
+:
+          {modelAttribute.content.attribute.type}
           <br />
         </div>
       )
@@ -183,7 +187,9 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
       <TableRow>
         <TableRowColumn>
           {this.renderFragmentName()}
-          <FormattedMessage id="datasource.form.mapping.table.attrName" />: {modelAttribute.content.attribute.name}
+          <FormattedMessage id="datasource.form.mapping.table.attrName" />
+:
+          {modelAttribute.content.attribute.name}
           <br />
           {this.renderType()}
           {this.showIfOptional(modelAttribute.content.attribute.optional)}

@@ -67,8 +67,7 @@ function getURLQuery(openSearchQuery, sortingArray = [], requestedFacets = [], q
     // 1 - query parameter (q)
     new URLSearchQueryParameter(URLSearchQuery.QUERY_PARAMETER_NAME, queryParamValue),
     // 2 - sort parameters
-    ...sortingArray.map(sorting =>
-      new URLSearchQueryParameter(URLSearchQuery.SORT_PARAMETER_NAME, `${sorting.attributePath},${tableToOpenSearchSort[sorting.type]}`)),
+    ...sortingArray.map(sorting => new URLSearchQueryParameter(URLSearchQuery.SORT_PARAMETER_NAME, `${sorting.attributePath},${tableToOpenSearchSort[sorting.type]}`)),
     // 3 - facettes query
     new URLSearchQueryParameter(URLSearchQuery.FACETTES_PARAMETER_NAME,
       // facette attributes list is always single attribute (by form configuration)
@@ -86,4 +85,3 @@ module.exports = {
   getSearchTagParameter,
   getDatasetIdParameter,
 }
-

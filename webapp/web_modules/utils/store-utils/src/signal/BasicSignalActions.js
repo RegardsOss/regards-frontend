@@ -132,6 +132,7 @@ class BasicSignalActions extends BasicActions {
       },
     }
   }
+
   /**
    * Behavior: build result from fetch result
    * @param {*} res fetch result

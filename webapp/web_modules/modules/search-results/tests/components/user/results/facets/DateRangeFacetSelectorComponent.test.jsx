@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import DateRangeFacetSelectorComponent from '../../../../../src/components/user/results/facets/DateRangeFacetSelectorComponent'
-import FacetSelectorComponent from '../../../../../src/components/user/results/facets//FacetSelectorComponent'
+import FacetSelectorComponent from '../../../../../src/components/user/results/facets/FacetSelectorComponent'
 
 import styles from '../../../../../src/styles/styles'
 import resultsDump from '../../../../dumps/results.dump'

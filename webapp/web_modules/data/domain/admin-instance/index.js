@@ -19,4 +19,3 @@
 
 export { ACCOUNT_SETTINGS_MODE, ACCOUNT_SETTINGS_MODE_ENUM } from './AccountSettingsMode'
 export { ACCOUNT_STATUS, ACCOUNT_STATUS_ENUM } from './AccountStateEnum'
-

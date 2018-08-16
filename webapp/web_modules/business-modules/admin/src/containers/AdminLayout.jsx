@@ -109,7 +109,7 @@ export class AdminLayout extends React.Component {
 
     // install notification manager and application error containers when starting app
     return (
-      <NotificationsManagerContainer isOnInstanceDashboard={isOnInstanceDashboard} >
+      <NotificationsManagerContainer isOnInstanceDashboard={isOnInstanceDashboard}>
         <AnchorComponent>
           <div className={`selenium-adminLayout ${style.app.classes}`} style={style.app.styles}>
             <div className={style.menu.classes}>

@@ -104,7 +104,7 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
         iconStyle={downloadWithCount.iconButton.iconStyle}
       >
         <div>
-          <ShowableAtRender show={!!filesCountText} >
+          <ShowableAtRender show={!!filesCountText}>
             <div style={downloadWithCount.overlay.style}>
               <Chip
                 labelStyle={downloadWithCount.overlay.chip.labelStyle}

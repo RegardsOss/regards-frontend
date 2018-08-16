@@ -54,9 +54,9 @@ class ServiceActivationAction extends React.Component {
   render() {
     const { entity: { content: { active } } } = this.props
     const { intl: { formatMessage } } = this.context
-    const title = active ?
-      formatMessage({ id: 'dataaccess.services.list.active.off.button' }) :
-      formatMessage({ id: 'dataaccess.services.list.active.on.button' })
+    const title = active
+      ? formatMessage({ id: 'dataaccess.services.list.active.off.button' })
+      : formatMessage({ id: 'dataaccess.services.list.active.on.button' })
     return (
       <div style={{ margin: 'auto' }}>
         <Toggle

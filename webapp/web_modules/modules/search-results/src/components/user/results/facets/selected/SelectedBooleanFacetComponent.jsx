@@ -43,9 +43,9 @@ class SelectedBooleanFacetComponent extends React.Component {
     const { intl: { locale, formatMessage } } = this.context
     const attributeLabel = label[locale]
     const valueLabel = formatMessage({
-      id: value ?
-        'search.facets.filter.boolean.value.true' :
-        'search.facets.filter.boolean.value.false',
+      id: value
+        ? 'search.facets.filter.boolean.value.true'
+        : 'search.facets.filter.boolean.value.false',
     })
     return formatMessage({ id: 'search.facets.filter.chip.boolean.value' }, { label: attributeLabel, valueLabel })
   }

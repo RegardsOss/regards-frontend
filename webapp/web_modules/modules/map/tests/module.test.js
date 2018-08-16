@@ -35,4 +35,3 @@ describe('[Map] Testing module interface', () => {
     assert.isDefined(Module.messages, 'Form module should define his internationalization messages')
   })
 })
-

@@ -75,4 +75,3 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListContainer',
     assert.isTrue(fetchListSpy.calledOnce)
   })
 })
-

@@ -74,10 +74,9 @@ class SelectionDetailResultsTableComponent extends React.Component {
    * Renders columns
    * @return [*] columns
    */
-  renderColumns = () =>
-    SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(
-      // FIXME-WAIT-DM (corresponds with another PM): this is an emulated behavior for non internationalized attributes
-      model => AttributeColumnBuilder.buildAttributeColumn(model, null, 'fakeLocale'))
+  renderColumns = () => SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(
+    // FIXME-WAIT-DM (corresponds with another PM): this is an emulated behavior for non internationalized attributes
+    model => AttributeColumnBuilder.buildAttributeColumn(model, null, 'fakeLocale'))
 
   render() {
     const {

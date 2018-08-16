@@ -36,8 +36,7 @@ export class PluginListContainer extends React.Component {
   * @return {*} list of actions ready to be dispatched in the redux store
   */
   static mapDispatchToProps = dispatch => ({
-    fetchPlugins: (microserviceName, pluginType) =>
-      dispatch(pluginMetadataActions.fetchEntityList({ microserviceName }, { pluginType })),
+    fetchPlugins: (microserviceName, pluginType) => dispatch(pluginMetadataActions.fetchEntityList({ microserviceName }, { pluginType })),
   })
 
   static propTypes = {

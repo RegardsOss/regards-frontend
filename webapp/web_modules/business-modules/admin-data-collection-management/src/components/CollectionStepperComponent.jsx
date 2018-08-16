@@ -145,4 +145,3 @@ export class CollectionStepperComponent extends React.Component {
 }
 
 export default CollectionStepperComponent
-

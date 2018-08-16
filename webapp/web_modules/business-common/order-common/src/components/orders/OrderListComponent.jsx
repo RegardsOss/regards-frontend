@@ -227,8 +227,8 @@ class OrderListComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     return [
       // owner when in admin mode
-      displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ?
-        new TableColumnBuilder(OWNER_KEY).titleHeaderCell().propertyRenderCell('content.owner')
+      displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR
+        ? new TableColumnBuilder(OWNER_KEY).titleHeaderCell().propertyRenderCell('content.owner')
           .visible(get(columnsVisibility, OWNER_KEY, true))
           .label(formatMessage({ id: 'order.list.column.owner' }))
           .build() : null,
@@ -314,11 +314,11 @@ class OrderListComponent extends React.Component {
           {/* 1 - commands count */}
           <TableHeaderContentBox>
             <OrderCountHeaderMessage displayMode={displayMode} totalOrderCount={totalOrderCount} />
-          </TableHeaderContentBox >
+          </TableHeaderContentBox>
           {/* 2 - loading */}
           <TableHeaderLoadingComponent loading={isFetching} />
           {/* 3 - table options  */}
-          <TableHeaderOptionsArea >
+          <TableHeaderOptionsArea>
             <TableHeaderOptionGroup>
               {/* downlaod summary (when admin) */
                 displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? (
@@ -331,7 +331,7 @@ class OrderListComponent extends React.Component {
                 onChangeColumnsVisibility={onChangeColumnsVisibility}
               />
             </TableHeaderOptionGroup>
-          </TableHeaderOptionsArea >
+          </TableHeaderOptionsArea>
         </TableHeaderLine>
         {/** Optional additive header lines **/}
         {HOCUtils.renderChildren(children)}

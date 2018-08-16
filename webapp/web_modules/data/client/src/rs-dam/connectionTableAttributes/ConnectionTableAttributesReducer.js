@@ -29,4 +29,3 @@ export default (namespace) => {
   const instance = new ConnectionTableAttributesReducers(namespace)
   return (state, action) => instance.reduce(state, action)
 }
-

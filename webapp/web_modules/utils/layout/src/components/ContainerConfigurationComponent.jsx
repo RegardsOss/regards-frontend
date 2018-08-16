@@ -138,8 +138,8 @@ class ContainerConfigurationComponent extends React.Component {
             label={formatMessage({ id: 'container.form.id' })}
             validate={ValidationHelpers.required}
           />
-          {hasDynamicOptions ? // available for new elements and
-            <Field
+          {hasDynamicOptions // available for new elements and
+            ? <Field
               name="type"
               fullWidth
               component={RenderSelectField}
@@ -149,14 +149,13 @@ class ContainerConfigurationComponent extends React.Component {
               validate={ValidationHelpers.required}
             >
               { /** Show option (remove container types used for root container) */
-                map(ContainerTypes, (containerOption, containerKey) =>
-                  containerOption.inUserApp ?
-                    <MenuItem value={containerKey} key={containerKey} primaryText={formatMessage({ id: containerOption.i18nKey })} /> :
-                    null)
+                map(ContainerTypes, (containerOption, containerKey) => containerOption.inUserApp
+                  ? <MenuItem value={containerKey} key={containerKey} primaryText={formatMessage({ id: containerOption.i18nKey })} />
+                  : null)
               }
-            </Field> : null}
-          {!this.props.hideDynamicContentOption && hasDynamicOptions ?
-            <DynamicContentField change={this.props.change} /> : null}
+              </Field> : null}
+          {!this.props.hideDynamicContentOption && hasDynamicOptions
+            ? <DynamicContentField change={this.props.change} /> : null}
           <ShowHideAdvancedOptions advanced={advanced} onClick={this.onAdvancedClick} />
           <ShowableAtRender
             show={advanced}
@@ -186,7 +185,7 @@ class ContainerConfigurationComponent extends React.Component {
             secondaryButtonClick={onCancel}
           />
         </div>
-      </form >
+      </form>
     )
   }
 }

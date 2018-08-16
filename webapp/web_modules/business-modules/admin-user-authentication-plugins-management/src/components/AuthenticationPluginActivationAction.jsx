@@ -54,9 +54,9 @@ class AuthenticationPluginActivationAction extends React.Component {
   render() {
     const { entity: { content: { active } } } = this.props
     const { intl: { formatMessage } } = this.context
-    const title = active ?
-      formatMessage({ id: 'user.authentication.plugins.list.active.off.button' }) :
-      formatMessage({ id: 'user.authentication.plugins.list.active.on.button' })
+    const title = active
+      ? formatMessage({ id: 'user.authentication.plugins.list.active.off.button' })
+      : formatMessage({ id: 'user.authentication.plugins.list.active.on.button' })
     return (
       <div style={{ margin: 'auto' }}>
         <Toggle

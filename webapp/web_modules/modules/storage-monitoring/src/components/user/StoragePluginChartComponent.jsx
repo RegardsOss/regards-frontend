@@ -81,7 +81,7 @@ class StoragePluginChartComponent extends React.Component {
     const chartData = this.buildPieData(storagePlugin.totalSize, storagePlugin.usedPercent, storagePlugin.unusedPercent)
 
     return (
-      <div style={chart.root} >
+      <div style={chart.root}>
         <ChartAdapter
           ChartComponent="Pie"
           data={chartData}

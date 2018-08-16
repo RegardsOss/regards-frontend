@@ -27,4 +27,3 @@ export const PluginTypeEnum = {
 }
 
 export const PluginTypeEnumValues = values(PluginTypeEnum)
-

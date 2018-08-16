@@ -66,7 +66,7 @@ class GraphLevelDispayer extends React.Component {
     const hasContent = size(collections) + size(datasets) > 0
     return (
       <ShowableAtRender show={isShowable}>
-        <div style={user.level.styles} >
+        <div style={user.level.styles}>
           <ShowableAtRender show={isLoading}>
             <GraphLevelLoadingDisplayer />
           </ShowableAtRender>
@@ -78,26 +78,24 @@ class GraphLevelDispayer extends React.Component {
           </ShowableAtRender>
           <ShowableAtRender show={!isLoading && !hasError && hasContent}>
             { // collections
-              values(collections).sort(GraphLevelDispayer.compareEntities).map(collection =>
-                (<CollectionItemContainer
-                  key={collection.content.id}
-                  collection={collection}
-                  levelIndex={levelIndex}
-                  isLastLevel={isLastLevel}
-                />))
+              values(collections).sort(GraphLevelDispayer.compareEntities).map(collection => (<CollectionItemContainer
+                key={collection.content.id}
+                collection={collection}
+                levelIndex={levelIndex}
+                isLastLevel={isLastLevel}
+              />))
             }
             { // datasets
-              values(datasets).sort(GraphLevelDispayer.compareEntities).map(dataset =>
-                (<DatasetItemContainer
-                  graphDatasetAttributes={graphDatasetAttributes}
-                  key={dataset.content.id}
-                  dataset={dataset}
-                  levelIndex={levelIndex}
-                />))
+              values(datasets).sort(GraphLevelDispayer.compareEntities).map(dataset => (<DatasetItemContainer
+                graphDatasetAttributes={graphDatasetAttributes}
+                key={dataset.content.id}
+                dataset={dataset}
+                levelIndex={levelIndex}
+              />))
             }
           </ShowableAtRender>
         </div>
-      </ShowableAtRender >
+      </ShowableAtRender>
     )
   }
 }

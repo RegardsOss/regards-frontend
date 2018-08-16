@@ -47,4 +47,3 @@ class TableHeaderOptionGroup extends React.Component {
   }
 }
 export default TableHeaderOptionGroup
-

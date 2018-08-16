@@ -54,4 +54,3 @@ describe('[Domain] Testing Open search query parameter', () => {
     })
   })
 })
-

@@ -29,4 +29,3 @@ export const Model = PropTypes.shape({
 })
 
 export const ModelList = PropTypes.objectOf(Model)
-

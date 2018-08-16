@@ -17,8 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
+import {
+  Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
+} from 'material-ui/Table'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
@@ -29,7 +33,9 @@ import { FormattedMessage } from 'react-intl'
 import { HateoasKeys, withHateoasDisplayControl, withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, ActionsMenuCell } from '@regardsoss/components'
+import {
+  CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, ActionsMenuCell,
+} from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { accessRightDependencies } from '@regardsoss/admin-accessright-dataaccess-management'
@@ -208,4 +214,3 @@ export class AccessGroupListComponent extends React.Component {
 }
 
 export default AccessGroupListComponent
-

@@ -22,7 +22,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DBDatasourceFormAttributesComponent from '../components/DBDatasourceFormAttributesComponent'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
-import { connectionActions, connectionSelectors } from './../clients/ConnectionClient'
+import { connectionActions, connectionSelectors } from '../clients/ConnectionClient'
 import messages from '../i18n'
 
 /**

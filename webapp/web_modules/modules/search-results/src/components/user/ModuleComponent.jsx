@@ -116,7 +116,7 @@ class ModuleComponent extends React.Component {
             dataset={dataset}
             document={document}
           />
-        </DynamicModulePane >
+        </DynamicModulePane>
         {/* Feedback handling for long actions in module */}
         <FeedbackDisplayContainer />
       </div>

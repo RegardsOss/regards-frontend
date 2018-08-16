@@ -31,7 +31,9 @@ import { ScrollArea } from '@regardsoss/adapters'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { MarkdownFileContentDisplayer } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { Field, FieldArray, RenderArrayTextField, RenderRadio, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  Field, FieldArray, RenderArrayTextField, RenderRadio, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { RenderPluginField } from './RenderPluginPluginParameterField'
 import { RenderObjectParameterField } from './RenderObjectParameterField'
 import { RenderCollectionParameterField } from './RenderCollectionParameterField'
@@ -115,7 +117,7 @@ export class RenderPluginParameterField extends React.PureComponent {
           <RadioButton value={false} label={formatMessage({ id: 'plugin.parameter.static.field' })} labelStyle={dynamicParameter.toggle.labelStyle} />
           <RadioButton value label={formatMessage({ id: 'plugin.parameter.dynamic.field' })} labelStyle={dynamicParameter.toggle.labelStyle} />
         </Field>
-      </div >
+      </div>
     )
   }
 
@@ -145,7 +147,11 @@ export class RenderPluginParameterField extends React.PureComponent {
       const devaultValueLabel = defaultValue ? formatMessage({ id: 'plugin.parameter.default.value.label' }, { defaultValue }) : null
       header = (
         <div style={headerStyle}>
-          <SubHeader key="label">{label} {devaultValueLabel}</SubHeader>
+          <SubHeader key="label">
+            {label}
+            {' '}
+            {devaultValueLabel}
+          </SubHeader>
           {(description || markdown) && <IconButton key="desc-info-button" onClick={this.handleOpenDescription}><HelpCircle /></IconButton>}
           {(description || markdown) && this.renderDescriptionDialog()}
         </div>
@@ -193,7 +199,7 @@ export class RenderPluginParameterField extends React.PureComponent {
           {...fieldParams}
         />
       )
-    } else if (dynamic && !displayDynamicValues) {
+    } if (dynamic && !displayDynamicValues) {
       return null
     }
     const fieldName = complexParameter ? `${name}.value` : name

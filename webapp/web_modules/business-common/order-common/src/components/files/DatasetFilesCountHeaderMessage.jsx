@@ -37,9 +37,9 @@ class OrderDatasetsCountHeaderMessage extends React.Component {
     const { totalFilesCount } = this.props
     const { intl: { formatMessage } } = this.context
     // compute message to show (no data / count)
-    const message = totalFilesCount ?
-      formatMessage({ id: 'files.list.files.header.message' }, { count: totalFilesCount }) :
-      formatMessage({ id: 'files.list.no.file.header.message' })
+    const message = totalFilesCount
+      ? formatMessage({ id: 'files.list.files.header.message' }, { count: totalFilesCount })
+      : formatMessage({ id: 'files.list.no.file.header.message' })
     return (
       <TableHeaderText text={message} />
     )

@@ -29,11 +29,11 @@ import GraphLevelMessageDisplayer from '../../../src/components/user/GraphLevelM
 const context = buildTestContext(styles)
 
 // define retrieval methods in component
-const isRootShowable = node => node.type() === ShowableAtRender &&
-  node.children().length === 1 && node.children().at(0).type() === 'div'
+const isRootShowable = node => node.type() === ShowableAtRender
+  && node.children().length === 1 && node.children().at(0).type() === 'div'
 
-const isLoadingShowable = node => node.type() === ShowableAtRender &&
-  node.children().length === 1 && node.children().at(0).type() === GraphLevelLoadingDisplayer
+const isLoadingShowable = node => node.type() === ShowableAtRender
+  && node.children().length === 1 && node.children().at(0).type() === GraphLevelLoadingDisplayer
 
 const isMessageShowable = (node, key) => {
   if (node.type() === ShowableAtRender && node.children().length === 1) {
@@ -46,9 +46,9 @@ const isMessageShowable = (node, key) => {
 const isErrorShowable = node => isMessageShowable(node, 'search.graph.level.fetch.model.failed')
 const isEmptyShowable = node => isMessageShowable(node, 'search.graph.level.no.model')
 
-const isContentShowable = node => node.type() === ShowableAtRender &&
-  !isRootShowable(node) && !isLoadingShowable(node) && !isMessageShowable(node) &&
-  !isErrorShowable(node) && !isEmptyShowable(node)
+const isContentShowable = node => node.type() === ShowableAtRender
+  && !isRootShowable(node) && !isLoadingShowable(node) && !isMessageShowable(node)
+  && !isErrorShowable(node) && !isEmptyShowable(node)
 
 const getAllShowable = enzymeWrapper => ({
   rootShowable: enzymeWrapper.findWhere(isRootShowable).at(0),

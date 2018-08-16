@@ -26,7 +26,9 @@ import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
-import { TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField } from '@regardsoss/components'
+import {
+  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField,
+} from '@regardsoss/components'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -216,10 +218,10 @@ class SIPListFiltersComponent extends React.Component {
             label={this.context.intl.formatMessage({ id: 'sips.session.clear.filters.button' })}
             icon={<Close />}
             disabled={
-              !get(this.state, 'filters.from') &&
-              !get(this.state, 'filters.state') &&
-              !get(this.state, 'filters.processing') &&
-              !get(this.state, 'filters.sipId')
+              !get(this.state, 'filters.from')
+              && !get(this.state, 'filters.state')
+              && !get(this.state, 'filters.processing')
+              && !get(this.state, 'filters.sipId')
             }
             onClick={this.handleClearFilters}
           />

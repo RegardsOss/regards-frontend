@@ -81,9 +81,9 @@ class MainBarDropMenuButton extends React.Component {
           <ModuleIcon
             iconDisplayMode={iconType}
             defaultIconURL={
-              type === NAVIGATION_ITEM_TYPES_ENUM.SECTION ? // provide default icon for section too
-                defaultSectionIconURL :
-                UIDomain.getModuleDefaultIconURL(module.type)}
+              type === NAVIGATION_ITEM_TYPES_ENUM.SECTION // provide default icon for section too
+                ? defaultSectionIconURL
+                : UIDomain.getModuleDefaultIconURL(module.type)}
             customIconURL={customIconURL}
             color={selected ? selectedNavigationMenuItem.color : null}
           />

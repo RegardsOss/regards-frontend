@@ -20,7 +20,9 @@ import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
 import MenuItem from 'material-ui/MenuItem'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import MoveIcon from 'material-ui/svg-icons/content/redo'
 import DeleteIcon from 'material-ui/svg-icons/action/delete'
 import { DamDomain } from '@regardsoss/domain'
@@ -150,9 +152,9 @@ class GroupComponent extends React.Component {
         // eslint-disable-next-line react/no-array-index-key
         key={indexInList} // no better key in groups array
         primaryText={
-          indexInList === 0 ?
-            formatMessage({ id: 'module.description.configuration.group.move.group.first' }) :
-            formatMessage({ id: 'module.description.configuration.group.move.group.after' }, { number: previousGroupIndex })
+          indexInList === 0
+            ? formatMessage({ id: 'module.description.configuration.group.move.group.first' })
+            : formatMessage({ id: 'module.description.configuration.group.move.group.after' }, { number: previousGroupIndex })
         }
         disabled={indexInList === index}
         value={indexInList}

@@ -26,4 +26,3 @@ const LocationShape = PropTypes.shape({
 })
 
 export default LocationShape
-

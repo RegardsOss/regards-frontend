@@ -57,21 +57,20 @@ describe('[Modules API] Testing ModulesHelper', () => {
     appliedFunction: modulesHelper.getReportedAdminModuleProps,
   }]
 
-  testCases.forEach(({ label, expectedFilteredProps, appliedFunction }) =>
-    it(label, () => {
-      const reportedProps = appliedFunction(propertiesBag)
-      assert.isFalse(isEmpty(reportedProps), 'There should be reported props')
+  testCases.forEach(({ label, expectedFilteredProps, appliedFunction }) => it(label, () => {
+    const reportedProps = appliedFunction(propertiesBag)
+    assert.isFalse(isEmpty(reportedProps), 'There should be reported props')
 
-      const allKeys = keys(propertiesBag)
-      const reportedKeys = keys(
-        reportedProps)
-      allKeys.forEach((key) => {
-        if (expectedFilteredProps.includes(key)) {
-          assert.isFalse(reportedKeys.includes(key), `The key ${key} should not have been reported`)
-        } else {
-          assert.isTrue(reportedKeys.includes(key), `The key ${key} should have been reported`)
-        }
-      })
-    }),
+    const allKeys = keys(propertiesBag)
+    const reportedKeys = keys(
+      reportedProps)
+    allKeys.forEach((key) => {
+      if (expectedFilteredProps.includes(key)) {
+        assert.isFalse(reportedKeys.includes(key), `The key ${key} should not have been reported`)
+      } else {
+        assert.isTrue(reportedKeys.includes(key), `The key ${key} should have been reported`)
+      }
+    })
+  }),
   )
 })

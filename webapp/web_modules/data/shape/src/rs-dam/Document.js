@@ -27,4 +27,3 @@ export const Document = PropTypes.shape({
 })
 
 export const DocumentList = PropTypes.objectOf(Document)
-

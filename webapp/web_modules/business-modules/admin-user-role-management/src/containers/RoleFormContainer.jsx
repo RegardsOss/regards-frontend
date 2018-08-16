@@ -51,6 +51,7 @@ export class RoleFormContainer extends React.Component {
   componentDidMount() {
     this.props.fetchRoleList()
   }
+
   getBackUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/user/role/list`

@@ -41,8 +41,10 @@ const EMPTY_PAGE = {
 export class NavigationModelResolutionContainer extends React.Component {
   /** Standard public role */
   static PUBLIC_ROLE = 'PUBLIC'
+
   /** Standard project admin role (has rights to all modules) */
   static PROJECT_ADMIN = 'PROJECT_ADMIN'
+
   /** Virtual instance admin role, as it is not provided by the backend (has rights to all modules) */
   static INSTANCE_ADMIN_VIRTUAL_ROLE = {
     name: 'INSTANCE_ADMIN',
@@ -70,13 +72,13 @@ export class NavigationModelResolutionContainer extends React.Component {
   static hasRequestedRole(requestedRole = NavigationModelResolutionContainer.PUBLIC_ROLE, role = {}) {
     return (
       // A - Is requested role public?
-      requestedRole === NavigationModelResolutionContainer.PUBLIC_ROLE) ||
+      requestedRole === NavigationModelResolutionContainer.PUBLIC_ROLE)
       // B - Is current role the requested role or above
-      NavigationModelResolutionContainer.isRoleOrParent(requestedRole, role) ||
+      || NavigationModelResolutionContainer.isRoleOrParent(requestedRole, role)
       // C - Is it instance admin virtual role? (always allowed)
-      role === NavigationModelResolutionContainer.INSTANCE_ADMIN_VIRTUAL_ROLE ||
+      || role === NavigationModelResolutionContainer.INSTANCE_ADMIN_VIRTUAL_ROLE
       // D - Is it project admin or one of its children roles? (always allowed)
-      NavigationModelResolutionContainer.isRoleOrParent(NavigationModelResolutionContainer.PROJECT_ADMIN, role)
+      || NavigationModelResolutionContainer.isRoleOrParent(NavigationModelResolutionContainer.PROJECT_ADMIN, role)
   }
 
   /**
@@ -167,8 +169,8 @@ export class NavigationModelResolutionContainer extends React.Component {
    * @return {SectionNavigationItem} built section or null
    */
   static convertSection(navigationSectionItem, children, role, borrowableRoles) {
-    return children.length &&
-      NavigationModelResolutionContainer.isNavigationItemAvailable(navigationSectionItem, role) ? {
+    return children.length
+      && NavigationModelResolutionContainer.isNavigationItemAvailable(navigationSectionItem, role) ? {
         key: `section.${navigationSectionItem.id}`,
         type: navigationSectionItem.type,
         title: navigationSectionItem.title,
@@ -226,8 +228,7 @@ export class NavigationModelResolutionContainer extends React.Component {
     return editedItems.reduce(({ remainingDynamicModules, items, homeItem }, item) => {
       if (item.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE) {
         // recursive break case
-        const { remainingDynamicModules: moduleRDM, navigationItem, isHome } =
-          NavigationModelResolutionContainer.resolveModule(item, remainingDynamicModules, homeConfiguration, role)
+        const { remainingDynamicModules: moduleRDM, navigationItem, isHome } = NavigationModelResolutionContainer.resolveModule(item, remainingDynamicModules, homeConfiguration, role)
         const isChild = !!navigationItem && !isHome
         return {
           remainingDynamicModules: moduleRDM,
@@ -236,8 +237,7 @@ export class NavigationModelResolutionContainer extends React.Component {
         }
       }
       // section (recursively loop)
-      const { remainingDynamicModules: sectionRDM, items: sectionItems, homeItem: sectionHomeItem } =
-        NavigationModelResolutionContainer.resolveItems(item.children, remainingDynamicModules, homeConfiguration, role)
+      const { remainingDynamicModules: sectionRDM, items: sectionItems, homeItem: sectionHomeItem } = NavigationModelResolutionContainer.resolveItems(item.children, remainingDynamicModules, homeConfiguration, role)
       const sectionItem = NavigationModelResolutionContainer.convertSection(item, sectionItems, role)
       return {
         remainingDynamicModules: sectionRDM,
@@ -257,8 +257,7 @@ export class NavigationModelResolutionContainer extends React.Component {
    */
   static resolveNavigationModel(navigationConfiguration, dynamicModules, homeConfiguration, role) {
     // 1 - resolve modules that can be retrieved
-    const { remainingDynamicModules, items = [], homeItem } =
-      NavigationModelResolutionContainer.resolveItems(navigationConfiguration, dynamicModules, homeConfiguration, role)
+    const { remainingDynamicModules, items = [], homeItem } = NavigationModelResolutionContainer.resolveItems(navigationConfiguration, dynamicModules, homeConfiguration, role)
     const resultingNavigationItems = []
     if (homeItem) {
       resultingNavigationItems.push(homeItem)
@@ -353,18 +352,17 @@ export class NavigationModelResolutionContainer extends React.Component {
       dynamicModules, homeConfiguration, navigationConfiguration,
       currentRole, roleList, currentModuleId, children,
     } = newProps
-    if (!isEqual(oldProps.dynamicModules, dynamicModules) ||
-      !isEqual(oldProps.homeConfiguration, homeConfiguration) ||
-      !isEqual(oldProps.navigationConfiguration, navigationConfiguration) ||
-      !isEqual(oldProps.currentRole, currentRole) ||
-      !isEqual(oldProps.roleList, roleList)) {
+    if (!isEqual(oldProps.dynamicModules, dynamicModules)
+      || !isEqual(oldProps.homeConfiguration, homeConfiguration)
+      || !isEqual(oldProps.navigationConfiguration, navigationConfiguration)
+      || !isEqual(oldProps.currentRole, currentRole)
+      || !isEqual(oldProps.roleList, roleList)) {
       // 1.a - retrieve role (or provide virtual ADMIN_INSTANCE role if admin instance)
-      const roleData = currentRole === NavigationModelResolutionContainer.INSTANCE_ADMIN_VIRTUAL_ROLE.name ?
-        NavigationModelResolutionContainer.INSTANCE_ADMIN_VIRTUAL_ROLE : // provide virtual instance admin role
-        get(roleList, `${currentRole}.content`) // provide role from borrowable roles
+      const roleData = currentRole === NavigationModelResolutionContainer.INSTANCE_ADMIN_VIRTUAL_ROLE.name
+        ? NavigationModelResolutionContainer.INSTANCE_ADMIN_VIRTUAL_ROLE // provide virtual instance admin role
+        : get(roleList, `${currentRole}.content`) // provide role from borrowable roles
       // 1.b - convert modules and configuration into a navigation model with rights management
-      navigationElements =
-        NavigationModelResolutionContainer.resolveNavigationModel(navigationConfiguration, dynamicModules, homeConfiguration, roleData)
+      navigationElements = NavigationModelResolutionContainer.resolveNavigationModel(navigationConfiguration, dynamicModules, homeConfiguration, roleData)
     }
     // 2 - detect selection changes or navigation tree changes to update selection in tree (note: navigation
     // elements is only set here when point 1 was previously executed)

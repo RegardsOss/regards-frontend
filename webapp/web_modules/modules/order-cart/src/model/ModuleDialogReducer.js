@@ -75,4 +75,3 @@ module.exports = {
   // default instance
   moduleDialogReducer: getReducer(),
 }
-

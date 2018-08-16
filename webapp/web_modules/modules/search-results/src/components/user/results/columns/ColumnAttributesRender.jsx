@@ -41,13 +41,12 @@ class ColumnAttributesRender extends React.Component {
     const { entity: { key, visible, attributes } } = this.props
     const { intl: { formatMessage }, moduleTheme: { user: { columnsDialog } } } = this.context
     // 1 - build attributes label
-    const attributesLabel =
-      key === TableColumnBuilder.selectionColumnKey || key === TableColumnBuilder.optionsColumnKey ?
-        // 1.a That model is not related with attributes (options / selection columns): show NA label
-        formatMessage({ id: 'search.results.configure.columns.attribute.not.available' }) :
-        // 1.b There is a list: format each attribute and join on separator
-        attributes.map(attribute => DamDomain.AttributeModelController.getAttributeModelFullLabel(attribute))
-          .join(formatMessage({ id: 'search.results.configure.columns.attribute.label.separator' }))
+    const attributesLabel = key === TableColumnBuilder.selectionColumnKey || key === TableColumnBuilder.optionsColumnKey
+    // 1.a That model is not related with attributes (options / selection columns): show NA label
+      ? formatMessage({ id: 'search.results.configure.columns.attribute.not.available' })
+    // 1.b There is a list: format each attribute and join on separator
+      : attributes.map(attribute => DamDomain.AttributeModelController.getAttributeModelFullLabel(attribute))
+        .join(formatMessage({ id: 'search.results.configure.columns.attribute.label.separator' }))
 
     return (
       <div

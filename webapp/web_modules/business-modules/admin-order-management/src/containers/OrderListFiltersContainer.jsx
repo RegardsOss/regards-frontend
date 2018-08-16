@@ -94,6 +94,7 @@ export class OrderListFiltersContainer extends React.Component {
     // B - dipatch get users list for text (it will provide the new matching users list)
     this.props.dispatchGetUsers(newText)
   }
+
   /**
    * Callback: the user selected a user mail or typed in some text
    * @param userEmail: user email or input text

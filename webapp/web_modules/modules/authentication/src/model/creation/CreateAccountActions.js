@@ -34,12 +34,11 @@ module.exports = {
    * @param password password
    * @param metadata array of user metadata
    */
-  sendCreateAccount: (email, firstName, lastName, password, metadata) =>
-    CreateAccountActions.sendCreateRequest({
-      email,
-      firstName,
-      lastName,
-      password,
-      metadata,
-    }),
+  sendCreateAccount: (email, firstName, lastName, password, metadata) => CreateAccountActions.sendCreateRequest({
+    email,
+    firstName,
+    lastName,
+    password,
+    metadata,
+  }),
 }

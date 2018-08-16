@@ -54,9 +54,9 @@ class SecurityDelegationActivationAction extends React.Component {
   render() {
     const { entity: { content: { active } } } = this.props
     const { intl: { formatMessage } } = this.context
-    const title = active ?
-      formatMessage({ id: 'storage.security-delegation.plugins.list.active.off.button' }) :
-      formatMessage({ id: 'storage.security-delegation.plugins.list.active.on.button' })
+    const title = active
+      ? formatMessage({ id: 'storage.security-delegation.plugins.list.active.off.button' })
+      : formatMessage({ id: 'storage.security-delegation.plugins.list.active.on.button' })
     return (
       <div style={{ margin: 'auto' }}>
         <Toggle

@@ -102,4 +102,3 @@ export function initializeNumberRangeForm(type, initialValues, currentAttrModel)
 }
 
 export default NumberRangeComponent
-

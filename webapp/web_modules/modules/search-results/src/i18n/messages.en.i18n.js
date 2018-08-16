@@ -56,8 +56,8 @@ const messages = {
   'form.configuration.result.show.quicklook.initially': 'Quicklooks',
   'form.attributes.configuration.section.title': 'Displayed table columns and attributes',
   'form.attributes.regroupement.form.title': 'Add new attributes clustering',
-  'form.attributes.regroupement.description': 'A clustering of attributes allows you to display multiples attributes of a search result object into the same column of the results list.<br/>' +
-    ' Please enter the new clustering label (that must be unique) and select attributes to cluster.',
+  'form.attributes.regroupement.description': 'A clustering of attributes allows you to display multiples attributes of a search result object into the same column of the results list.<br/>'
+    + ' Please enter the new clustering label (that must be unique) and select attributes to cluster.',
   'form.attributes.regroupement.form.label': 'Label',
   'form.attributes.regroupement.form.save': 'Add',
   'form.attributes.regroupement.form.update': 'Update',

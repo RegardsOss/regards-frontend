@@ -24,8 +24,7 @@ const ProcessingChainConfiguration = {
 }
 
 const processingChain = new Schema(ProcessingChainConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[ProcessingChainConfiguration.entityKey]
+  idAttribute: entity => entity.content[ProcessingChainConfiguration.entityKey]
   ,
 })
 

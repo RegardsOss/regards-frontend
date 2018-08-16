@@ -54,8 +54,8 @@ class SelectionServiceComponent extends React.Component {
     const newState = oldState ? { ...oldState } : SelectionServiceComponent.DEFAULT_STATE
     if (oldService !== newService) {
       // prepare service icon to avoid building new instances at runtime
-      newState.serviceIconComponent = newService.content.iconUrl ?
-        <URLPictureResolver url={newService.content.iconUrl} />
+      newState.serviceIconComponent = newService.content.iconUrl
+        ? <URLPictureResolver url={newService.content.iconUrl} />
         : null
     }
     if (!isEqual(oldState, newState)) {

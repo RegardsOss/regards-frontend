@@ -19,8 +19,12 @@
 import map from 'lodash/map'
 import get from 'lodash/get'
 import find from 'lodash/find'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
+import {
+  Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
+} from 'material-ui/Table'
 import WarningIcon from 'material-ui/svg-icons/alert/warning'
 import TimeIcon from 'material-ui/svg-icons/device/access-time'
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh'

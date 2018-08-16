@@ -18,13 +18,19 @@
  **/
 import map from 'lodash/map'
 import { FormattedMessage } from 'react-intl'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
+import {
+  Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
+} from 'material-ui/Table'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Duplicate from 'material-ui/svg-icons/content/content-copy'
 import Delete from 'material-ui/svg-icons/action/delete'
-import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
+import {
+  ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
+} from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
@@ -94,6 +100,7 @@ export class ThemeListComponent extends React.Component {
       </ShowableAtRender>
     )
   }
+
   render() {
     const {
       themeList, handleEdit, handleDuplicate, createUrl, backUrl,
@@ -185,4 +192,3 @@ export class ThemeListComponent extends React.Component {
 }
 
 export default ThemeListComponent
-

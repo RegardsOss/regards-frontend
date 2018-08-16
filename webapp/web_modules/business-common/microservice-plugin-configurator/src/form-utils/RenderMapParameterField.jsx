@@ -62,6 +62,7 @@ export class RenderMapParameterField extends React.PureComponent {
       console.error(e.message)
     }
   }
+
   /**
    * Initialize the map renderer by calculating the map value renderer and its props.
    */
@@ -120,11 +121,11 @@ export class RenderMapParameterField extends React.PureComponent {
       return null
     }
 
-    const newValueDialogLabel = pluginParameterType.keyLabel ?
-      formatMessage({ id: 'plugin.parameter.map.new.key.dialog.title' }, { key: pluginParameterType.keyLabel }) :
-      null
+    const newValueDialogLabel = pluginParameterType.keyLabel
+      ? formatMessage({ id: 'plugin.parameter.map.new.key.dialog.title' }, { key: pluginParameterType.keyLabel })
+      : null
     return (
-      <div style={fullWidthStyle} >
+      <div style={fullWidthStyle}>
         <RenderMapField
           mapValueFieldComponent={component}
           mapValueFieldProps={fieldProps}

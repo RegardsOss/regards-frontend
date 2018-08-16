@@ -53,7 +53,7 @@ class AttributesGroupComponent extends React.Component {
               {title[locale]}
             </Subheader>) : ( // no title, show placeholder
               <div style={attributesContainer.groupTitlePlaceholdStyle} />
-            )
+          )
         }
         { /* 2. Show group elements */
           elements.map(({ key: elementKey, label, attributes }) => (

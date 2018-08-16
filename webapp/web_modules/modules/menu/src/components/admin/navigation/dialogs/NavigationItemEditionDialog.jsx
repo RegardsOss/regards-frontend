@@ -29,11 +29,15 @@ import { AccessDomain } from '@regardsoss/domain'
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
-import { reduxForm, RenderTextField, RenderRadio, RenderSelectField, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  reduxForm, RenderTextField, RenderRadio, RenderSelectField, Field, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { ModuleTitleText } from '@regardsoss/components'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../../domain/NavigationItemTypes'
 import { NavigationEditionItem, EditionSection } from '../../../../shapes/ModuleConfiguration'
-import { findAll, getItemPathIn, getParentByPath, isSection, isChildOrSelf } from '../../../../domain/NavigationTreeHelper'
+import {
+  findAll, getItemPathIn, getParentByPath, isSection, isChildOrSelf,
+} from '../../../../domain/NavigationTreeHelper'
 import { VISIBILITY_MODES, VISIBILITY_MODES_ENUM } from '../../../../domain/VisibilityModes'
 
 /** Fields ID constants (exported for tests only) */
@@ -58,6 +62,7 @@ export const AFTER_ELEMENT_FIELD = 'afterElement'
 export class NavigationItemEditionDialog extends React.Component {
   /** Main bar value for corresponding field selector */
   static MAIN_BAR = { ITEM_ID: 'MAIN_BAR' }
+
   /** First position value value for corresponding field selector */
   static FIRST_POSITION = { ITEM_ID: 'FIRST_POSITION' }
 
@@ -86,8 +91,7 @@ export class NavigationItemEditionDialog extends React.Component {
   static getParentSectionChoices(item, navigationItems) {
     // search all sections of the current tree that are not this edited item nor part of its children
     // note: we keep the reference, otherwise selector field equal method cannot work
-    const allSelectableSections = findAll(navigationItems, currentItem =>
-      isSection(currentItem) && !isChildOrSelf(item, currentItem))
+    const allSelectableSections = findAll(navigationItems, currentItem => isSection(currentItem) && !isChildOrSelf(item, currentItem))
     return [
       NavigationItemEditionDialog.MAIN_BAR,
       ...allSelectableSections,
@@ -184,8 +188,8 @@ export class NavigationItemEditionDialog extends React.Component {
 
         // dispatch initialize
         initialize(initialFormValues)
-      } else if (!isEqual(oldProps.selectedParentSection, selectedParentSection) &&
-        oldProps.selectedParentSection) { // check that previous properties was provided to avoid initial update
+      } else if (!isEqual(oldProps.selectedParentSection, selectedParentSection)
+        && oldProps.selectedParentSection) { // check that previous properties was provided to avoid initial update
         // 1 - update possible choices in state
         const afterElementChoices = NavigationItemEditionDialog.getAfterElementChoices(item, selectedParentSection, navigationItems)
         this.setState({ afterElementChoices })
@@ -364,11 +368,11 @@ export class NavigationItemEditionDialog extends React.Component {
                       key={value.ITEM_ID || `${value.type}-${value.id}`}
                       value={value}
                       primaryText={
-                        value.ITEM_ID ?
+                        value.ITEM_ID
                           // the MAIN_BAR placeholder
-                          formatMessage({ id: 'menu.form.navigation.edit.item.dialog.parent.section.none' }) :
+                          ? formatMessage({ id: 'menu.form.navigation.edit.item.dialog.parent.section.none' })
                           // a section
-                          ModuleTitleText.selectTitle(value.title, null, locale)
+                          : ModuleTitleText.selectTitle(value.title, null, locale)
                       }
                     />))
                 }
@@ -380,20 +384,19 @@ export class NavigationItemEditionDialog extends React.Component {
                 fullWidth
               >
                 { /* possible positions, from state */
-                  afterElementChoices.map(value =>
-                    (<MenuItem
-                      key={value.ITEM_ID || `${value.type}-${value.id}`}
-                      value={value}
-                      primaryText={
-                        value.ITEM_ID ?
+                  afterElementChoices.map(value => (<MenuItem
+                    key={value.ITEM_ID || `${value.type}-${value.id}`}
+                    value={value}
+                    primaryText={
+                        value.ITEM_ID
                           // the FIRST_POSITION placeholder
-                          formatMessage({ id: 'menu.form.navigation.edit.item.dialog.insert.at.first.position' }) :
+                          ? formatMessage({ id: 'menu.form.navigation.edit.item.dialog.insert.at.first.position' })
                           // After a section or module WITH TITLE (see props comments)
-                          formatMessage(
+                          : formatMessage(
                             { id: 'menu.form.navigation.edit.item.dialog.insert.after' },
                             { itemTitle: ModuleTitleText.selectTitle(value.title, value.description, locale) })
                       }
-                    />))
+                  />))
                 }
               </Field>
               {/* Visibility mode */}
@@ -449,4 +452,3 @@ export default connect(state => ({
   selectedParentSection: selector(state, PARENT_SECTION_FIELD),
   selectedVisibilityMode: selector(state, VISIBILITY_MODE_FIELD),
 }))(connectedReduxForm)
-

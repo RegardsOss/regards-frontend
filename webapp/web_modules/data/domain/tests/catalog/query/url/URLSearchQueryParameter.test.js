@@ -38,4 +38,3 @@ describe('[Domain] Testing URL search query parameter', () => {
     })
   })
 })
-

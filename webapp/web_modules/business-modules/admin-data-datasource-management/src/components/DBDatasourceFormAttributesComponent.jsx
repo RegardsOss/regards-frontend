@@ -19,9 +19,13 @@
 import map from 'lodash/map'
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
-import { reduxForm, RenderTextField, RenderSelectField, Field, FieldArray, ValidationHelpers, RenderArrayTextField } from '@regardsoss/form-utils'
+import {
+  reduxForm, RenderTextField, RenderSelectField, Field, FieldArray, ValidationHelpers, RenderArrayTextField,
+} from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -203,4 +207,3 @@ export class DBDatasourceFormAttributesComponent extends React.Component {
 export default reduxForm({
   form: 'datasource-form',
 })(DBDatasourceFormAttributesComponent)
-

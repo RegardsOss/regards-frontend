@@ -27,4 +27,3 @@ export const Fragment = PropTypes.shape({
 })
 
 export const FragmentList = PropTypes.objectOf(Fragment)
-

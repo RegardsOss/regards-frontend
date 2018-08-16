@@ -105,7 +105,7 @@ class ListViewEntityCellComponent extends React.Component {
     return (
       <div style={rootStyles}>
         {/* A. clickable title area, with checkbox when it can be selected */}
-        <div style={labelGroup} >
+        <div style={labelGroup}>
           {selectionEnabled ? (
             <Checkbox
               onCheck={onSelectEntity}
@@ -180,7 +180,7 @@ class ListViewEntityCellComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     return flatMap(renderers, ({ path, RenderConstructor }, index) => [
       // insert separator if mutilple values
-      index > 0 ? (<div key={`separator.${path}`} >{formatMessage({ id: 'results.cell.multiple.values.separator' })}</div>) : null,
+      index > 0 ? (<div key={`separator.${path}`}>{formatMessage({ id: 'results.cell.multiple.values.separator' })}</div>) : null,
       <RenderConstructor key={path} value={get(entity, path)} unit={unit} />])
   }
 
@@ -228,10 +228,10 @@ class ListViewEntityCellComponent extends React.Component {
     const asColumns = this.renderAsColumns(gridAttributesRenderData)
 
     return (
-      <div style={attributesStyles} >
+      <div style={attributesStyles}>
         {/* 1. show thumbnail column if configured */
           thumbnailRenderData ? (
-            <div style={thumbnailColumnStyle} >
+            <div style={thumbnailColumnStyle}>
               {
                 this.renderAttributeValue(thumbnailRenderData, false)
               }
@@ -259,7 +259,7 @@ class ListViewEntityCellComponent extends React.Component {
   render() {
     const { moduleTheme: { user: { listViewStyles } } } = this.context
     return (
-      <div style={listViewStyles.rootStyles} >
+      <div style={listViewStyles.rootStyles}>
         {/* 1. title */
           this.renderTitle()
         }

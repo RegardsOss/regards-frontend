@@ -411,57 +411,56 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
   }]
   confirmTestCases.forEach(({
     label, itemPath, newAfterItemIndex, newParentPath, expectedInsertAtPath,
-  }) =>
-    it(`Should resolve correctly new insert path when ${label}`, () => {
-      const spiedDoneValues = {}
-      const props = {
-        roleList,
-        onClose: () => { },
-        editionData: {
-          onDone: (item, insertAtPath) => {
-            spiedDoneValues.item = item
-            spiedDoneValues.insertAtPath = insertAtPath
-          },
-          dialogTitleKey: 'some.title.key',
-          item: getItemByPathIn(aNavigationConfiguration, itemPath),
-          itemPath,
-          navigationItems: aNavigationConfiguration,
+  }) => it(`Should resolve correctly new insert path when ${label}`, () => {
+    const spiedDoneValues = {}
+    const props = {
+      roleList,
+      onClose: () => { },
+      editionData: {
+        onDone: (item, insertAtPath) => {
+          spiedDoneValues.item = item
+          spiedDoneValues.insertAtPath = insertAtPath
         },
-        selectedParentSection: NavigationItemEditionDialog.MAIN_BAR, // this is intial form value (before initial update)
-        handleSubmit: f => f,
-        initialize: () => { },
-        change: () => { },
-      }
-      const enzymeWrapper = shallow(<NavigationItemEditionDialog {...props} />, { context })
-      const instance = enzymeWrapper.instance()
-      // simulate onConfirm and get results in spiedDoneValues
-      const simulatedNewParent = newParentPath.length ?
-        getItemByPathIn(aNavigationConfiguration, newParentPath) :
-        NavigationItemEditionDialog.MAIN_BAR
-      const consideredChildren = simulatedNewParent === NavigationItemEditionDialog.MAIN_BAR ?
-        aNavigationConfiguration : simulatedNewParent.children
-      const simulatedNewAfterItem = newAfterItemIndex >= 0 ? consideredChildren[newAfterItemIndex] : NavigationItemEditionDialog.FIRST_POSITION
-      instance.onConfirm({
-        [PARENT_SECTION_FIELD]: simulatedNewParent,
-        [AFTER_ELEMENT_FIELD]: simulatedNewAfterItem,
-        [COMMON_ICON_FIELD]: { type: 'potatoe-icon', url: 'many-potatoes.jpg' },
-        [COMMON_TITLE_FIELD]: { en: 'title-en', fr: 'title-fr' },
-        [VISIBILITY_MODE_FIELD]: 'WHEN-I-WANT',
-        [VISIBLE_FOR_ROLE_FIELD]: 'Teletobies',
-      })
-      // check receive values
-      const initialModel = getItemByPathIn(aNavigationConfiguration, itemPath)
-      const expectedModel = {
-        ...initialModel,
-        visibilityMode: 'WHEN-I-WANT',
-        visibleForRole: 'Teletobies',
-      }
-      if (initialModel.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
-        // title and icon should be set in item for sections
-        expectedModel.icon = { type: 'potatoe-icon', url: 'many-potatoes.jpg' }
-        expectedModel.title = { en: 'title-en', fr: 'title-fr' }
-      }
-      assert.deepEqual(spiedDoneValues.item, expectedModel, 'Edited item should be correctly reported')
-      assert.deepEqual(spiedDoneValues.insertAtPath, expectedInsertAtPath)
-    }))
+        dialogTitleKey: 'some.title.key',
+        item: getItemByPathIn(aNavigationConfiguration, itemPath),
+        itemPath,
+        navigationItems: aNavigationConfiguration,
+      },
+      selectedParentSection: NavigationItemEditionDialog.MAIN_BAR, // this is intial form value (before initial update)
+      handleSubmit: f => f,
+      initialize: () => { },
+      change: () => { },
+    }
+    const enzymeWrapper = shallow(<NavigationItemEditionDialog {...props} />, { context })
+    const instance = enzymeWrapper.instance()
+    // simulate onConfirm and get results in spiedDoneValues
+    const simulatedNewParent = newParentPath.length
+      ? getItemByPathIn(aNavigationConfiguration, newParentPath)
+      : NavigationItemEditionDialog.MAIN_BAR
+    const consideredChildren = simulatedNewParent === NavigationItemEditionDialog.MAIN_BAR
+      ? aNavigationConfiguration : simulatedNewParent.children
+    const simulatedNewAfterItem = newAfterItemIndex >= 0 ? consideredChildren[newAfterItemIndex] : NavigationItemEditionDialog.FIRST_POSITION
+    instance.onConfirm({
+      [PARENT_SECTION_FIELD]: simulatedNewParent,
+      [AFTER_ELEMENT_FIELD]: simulatedNewAfterItem,
+      [COMMON_ICON_FIELD]: { type: 'potatoe-icon', url: 'many-potatoes.jpg' },
+      [COMMON_TITLE_FIELD]: { en: 'title-en', fr: 'title-fr' },
+      [VISIBILITY_MODE_FIELD]: 'WHEN-I-WANT',
+      [VISIBLE_FOR_ROLE_FIELD]: 'Teletobies',
+    })
+    // check receive values
+    const initialModel = getItemByPathIn(aNavigationConfiguration, itemPath)
+    const expectedModel = {
+      ...initialModel,
+      visibilityMode: 'WHEN-I-WANT',
+      visibleForRole: 'Teletobies',
+    }
+    if (initialModel.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
+      // title and icon should be set in item for sections
+      expectedModel.icon = { type: 'potatoe-icon', url: 'many-potatoes.jpg' }
+      expectedModel.title = { en: 'title-en', fr: 'title-fr' }
+    }
+    assert.deepEqual(spiedDoneValues.item, expectedModel, 'Edited item should be correctly reported')
+    assert.deepEqual(spiedDoneValues.insertAtPath, expectedInsertAtPath)
+  }))
 })

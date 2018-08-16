@@ -25,7 +25,9 @@ import { fieldInputPropTypes } from 'redux-form'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { Card, CardText } from 'material-ui/Card'
-import { RenderTextField, RenderDoubleLabelToggle, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderTextField, RenderDoubleLabelToggle, Field, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { CommonShapes } from '@regardsoss/shape'
 import { RenderPluginParameterField } from './RenderPluginParameterField'
 import styles from '../styles'
@@ -105,7 +107,7 @@ export class RenderPluginConfField extends React.PureComponent {
               label={formatMessage({ id: 'plugin.configuration.form.label' })}
             />
           </CardText>
-        </Card >
+        </Card>
       )
     }
 
@@ -179,7 +181,7 @@ export class RenderPluginConfField extends React.PureComponent {
             defaultToggled={pluginConfiguration ? pluginConfiguration.active : true}
           />
         </CardText>
-      </Card >
+      </Card>
     )
   }
 
@@ -195,20 +197,19 @@ export class RenderPluginConfField extends React.PureComponent {
     }
     return (
       <div>
-        {parameters.map((pluginParameterType, index) =>
-          pluginParameterType.unconfigurable ? null : (
-            <Paper key={pluginParameterType.name} style={parameterPaper}>
-              <Field
-                fullWidth
-                component={RenderPluginParameterField}
-                disabled={disabled}
-                name={this.getFormParameterName(pluginParameterType.name, index)}
-                microserviceName={this.props.microserviceName}
-                pluginParameterType={pluginParameterType}
-                hideDynamicParameterConf={hideDynamicParameterConf}
-              />
-            </Paper>
-          ))}
+        {parameters.map((pluginParameterType, index) => pluginParameterType.unconfigurable ? null : (
+          <Paper key={pluginParameterType.name} style={parameterPaper}>
+            <Field
+              fullWidth
+              component={RenderPluginParameterField}
+              disabled={disabled}
+              name={this.getFormParameterName(pluginParameterType.name, index)}
+              microserviceName={this.props.microserviceName}
+              pluginParameterType={pluginParameterType}
+              hideDynamicParameterConf={hideDynamicParameterConf}
+            />
+          </Paper>
+        ))}
       </div>
     )
   }

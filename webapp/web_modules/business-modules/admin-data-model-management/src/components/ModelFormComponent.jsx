@@ -17,10 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import trim from 'lodash/trim'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, RenderFileFieldWithMui, Field, RenderSelectField, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderTextField, RenderFileFieldWithMui, Field, RenderSelectField, reduxForm, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
 import MenuItem from 'material-ui/MenuItem'
 import { themeContextType } from '@regardsoss/theme'
@@ -70,14 +74,13 @@ export class ModelFormComponent extends React.Component {
    * @param {[function]} validators validators for field
    * @return {function} validator
    */
-  getFieldOrImportValidator = validators =>
-    function fieldValidator(value, values) {
-      let error
-      if (!values.file) {
-        error = validators.reduce((acc, validator) => acc || validator(value, values), undefined)
-      }
-      return error
+  getFieldOrImportValidator = validators => function fieldValidator(value, values) {
+    let error
+    if (!values.file) {
+      error = validators.reduce((acc, validator) => acc || validator(value, values), undefined)
     }
+    return error
+  }
 
   /**
    * Validates name field
@@ -182,4 +185,3 @@ export class ModelFormComponent extends React.Component {
 export default reduxForm({
   form: 'model-form',
 })(ModelFormComponent)
-

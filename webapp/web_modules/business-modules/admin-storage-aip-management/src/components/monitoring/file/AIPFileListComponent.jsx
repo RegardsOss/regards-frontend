@@ -82,6 +82,7 @@ export class AIPFileListComponent extends React.Component {
       showModal: false,
     })
   }
+
   openErrorDialog = (entity) => {
     this.setState({
       stacktraces: entity.content.failureCauses,
@@ -107,7 +108,8 @@ export class AIPFileListComponent extends React.Component {
         <div style={AIPFileListComponent.wrapperPreserveWhitespace}>
           {map(this.state.stacktraces, stacktrace => (
             <span>
-              {stacktrace} <br />
+              {stacktrace}
+              <br />
             </span>
           ))}
         </div>
@@ -175,7 +177,7 @@ export class AIPFileListComponent extends React.Component {
           subtitle={formatMessage({ id: 'aips.files.subtitle' })}
         />
         {this.renderStacktraceDialog()}
-        <CardText style={moduleTheme.root} >
+        <CardText style={moduleTheme.root}>
           <TableLayout>
             <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={entities.length} />
             <InfiniteTableContainer

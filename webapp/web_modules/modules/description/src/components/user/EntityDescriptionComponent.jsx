@@ -212,7 +212,7 @@ class EntityDescriptionComponent extends React.Component {
             style={descriptionDialog.card.titleStyle}
           />
           <CardMedia style={descriptionDialog.card.media.rootStyle} mediaStyle={descriptionDialog.card.media.mediaStyle}>
-            <div style={descriptionDialog.card.media.tabs.rootStyle} >
+            <div style={descriptionDialog.card.media.tabs.rootStyle}>
               <Tabs
                 style={descriptionDialog.card.media.tabs.rootStyle}
                 tabItemContainerStyle={descriptionDialog.card.media.tabs.tabItemContainerStyle}
@@ -242,7 +242,7 @@ class EntityDescriptionComponent extends React.Component {
             </div>
           </CardMedia>
         </Card>
-      </PositionedDialog >
+      </PositionedDialog>
 
     )
   }

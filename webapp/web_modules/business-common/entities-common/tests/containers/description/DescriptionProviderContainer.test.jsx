@@ -142,10 +142,10 @@ describe('[Entities Common] Testing DescriptionProviderContainer', () => {
     }
     const TestComponent = () => <div />
     const enzymeWrapper = shallow(
-      <DescriptionProviderContainer {...props} >
+      <DescriptionProviderContainer {...props}>
         <TestComponent />
-      </DescriptionProviderContainer>
-      , { context })
+      </DescriptionProviderContainer>,
+      { context })
     assert.isNull(enzymeWrapper.state().descriptionModule, 'Module should not have been stored in state (not found)')
 
     let wrapperInstance = enzymeWrapper.instance()

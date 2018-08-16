@@ -142,11 +142,11 @@ class DatasetFilesComponent extends React.Component {
           {/* 1 - commands count */}
           <TableHeaderContentBox>
             <DatasetFilesCountHeaderMessage totalFilesCount={totalFilesCount} />
-          </TableHeaderContentBox >
+          </TableHeaderContentBox>
           {/* 2 - loading */}
           <TableHeaderLoadingComponent loading={isFetching} />
           {/* 3 - table options  */}
-          <TableHeaderOptionsArea >
+          <TableHeaderOptionsArea>
             <TableHeaderOptionGroup>
               {/* columns visibility configuration  */}
               <TableColumnsVisibilityOption
@@ -154,7 +154,7 @@ class DatasetFilesComponent extends React.Component {
                 onChangeColumnsVisibility={onChangeColumnsVisibility}
               />
             </TableHeaderOptionGroup>
-          </TableHeaderOptionsArea >
+          </TableHeaderOptionsArea>
         </TableHeaderLine>
         {/* the table itself */}
         <PageableInfiniteTableContainer

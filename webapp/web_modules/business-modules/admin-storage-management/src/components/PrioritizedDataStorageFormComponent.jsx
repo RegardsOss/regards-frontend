@@ -19,7 +19,9 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import MoodIcon from 'material-ui/svg-icons/social/mood'
-import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
+import {
+  Card, CardActions, CardText, CardTitle,
+} from 'material-ui/Card'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
@@ -92,9 +94,9 @@ class PrioritizedDataStorageFormComponent extends React.Component {
   renderContent = (pluginConfiguration, selectedPluginId) => {
     const { type, mode, backUrl } = this.props
     const { intl: { formatMessage } } = this.context
-    const pluginType = type === StorageDomain.DataStorageTypeEnum.ONLINE ?
-      StorageDomain.PluginTypeEnum.ONLINE_STORAGE :
-      StorageDomain.PluginTypeEnum.NEARLINE_STORAGE
+    const pluginType = type === StorageDomain.DataStorageTypeEnum.ONLINE
+      ? StorageDomain.PluginTypeEnum.ONLINE_STORAGE
+      : StorageDomain.PluginTypeEnum.NEARLINE_STORAGE
     if (mode !== 'create' && !pluginConfiguration) {
       return (
         <NoContentComponent
@@ -115,8 +117,8 @@ class PrioritizedDataStorageFormComponent extends React.Component {
           handleSelect={this.selectPluginType}
           errorText=""
         />
-        {selectedPluginId ?
-          <PluginFormContainer
+        {selectedPluginId
+          ? <PluginFormContainer
             key={`plugin-conf-${selectedPluginId}`}
             microserviceName={STATIC_CONF.MSERVICES.STORAGE}
             pluginId={selectedPluginId}
@@ -141,12 +143,12 @@ class PrioritizedDataStorageFormComponent extends React.Component {
     const selectedPluginId = get(selectedPlugin, 'pluginId', null)
     const { intl: { formatMessage }, moduleTheme } = this.context
 
-    const title = mode === 'edit' ?
-      formatMessage({ id: 'storage.plugins.storage.form.edit.title' }, { name: get(pluginConfiguration, 'content.label', '<>') }) :
-      formatMessage({ id: 'storage.plugins.storage.form.create.title' })
-    const subtitle = mode === 'edit' ?
-      formatMessage({ id: 'storage.plugins.storage.form.edit.subtitle' }) :
-      formatMessage({ id: 'storage.plugins.storage.form.create.subtitle' })
+    const title = mode === 'edit'
+      ? formatMessage({ id: 'storage.plugins.storage.form.edit.title' }, { name: get(pluginConfiguration, 'content.label', '<>') })
+      : formatMessage({ id: 'storage.plugins.storage.form.create.title' })
+    const subtitle = mode === 'edit'
+      ? formatMessage({ id: 'storage.plugins.storage.form.edit.subtitle' })
+      : formatMessage({ id: 'storage.plugins.storage.form.create.subtitle' })
     return (
       <Card>
         <CardTitle
@@ -156,8 +158,8 @@ class PrioritizedDataStorageFormComponent extends React.Component {
         <CardText style={moduleTheme.root}>
           {this.renderContent(pluginConfiguration, selectedPluginId)}
         </CardText>
-        {selectedPluginId ? null :
-          (
+        {selectedPluginId ? null
+          : (
             <CardActions>
               <CardActionsComponent
                 mainButtonLabel={formatMessage({ id: 'storage.plugins.storage.form.back.button' })}
@@ -172,4 +174,3 @@ class PrioritizedDataStorageFormComponent extends React.Component {
 }
 
 export default withModuleStyle(styles)(withI18n(messages)(PrioritizedDataStorageFormComponent))
-

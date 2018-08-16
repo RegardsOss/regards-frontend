@@ -76,16 +76,14 @@ describe('[Components] Testing FileContentDisplayer', () => {
     message: 'should render any other MIME type through NoPreviewDisplayer for type',
   }]
 
-  testCases.forEach(({ contentTypes, expectedComponent, message }) =>
-    contentTypes.forEach(mimeType =>
-      it(`${message} "${mimeType}"`, () => {
-        const file = {
-          content: new TestBlob('local'),
-          contentType: mimeType,
-        }
-        const render = shallow(<FileContentDisplayer file={file} />, { context })
-        assert.lengthOf(render.find(expectedComponent), 1, `The component for MIME type should be a(n) ${expectedComponent}`)
-      })))
+  testCases.forEach(({ contentTypes, expectedComponent, message }) => contentTypes.forEach(mimeType => it(`${message} "${mimeType}"`, () => {
+    const file = {
+      content: new TestBlob('local'),
+      contentType: mimeType,
+    }
+    const render = shallow(<FileContentDisplayer file={file} />, { context })
+    assert.lengthOf(render.find(expectedComponent), 1, `The component for MIME type should be a(n) ${expectedComponent}`)
+  })))
 
 
   it('should create local URLs when they are not provided', () => {

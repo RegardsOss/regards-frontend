@@ -50,12 +50,12 @@ class TableHeaderLineLoadingAndResults extends React.Component {
           <ResultsCountMessage count={resultsCount} isFetching={isFetching} />
         </TableHeaderContentBox>
         { /* loading or custom childrens groups */}
-        <TableHeaderLoadingComponent loading={isFetching} >
+        <TableHeaderLoadingComponent loading={isFetching}>
           {children}
         </TableHeaderLoadingComponent>
         {/* On right: placeholder */}
         <div />
-      </TableHeaderLine >
+      </TableHeaderLine>
     )
   }
 }

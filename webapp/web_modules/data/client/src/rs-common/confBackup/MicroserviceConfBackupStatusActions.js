@@ -26,6 +26,7 @@ export default class MicroserviceConfBackupStatusActions extends BasicSignalActi
       bypassErrorMiddleware: true,
     })
   }
+
   check = microserviceName => (
     this.sendSignal('GET', {}, { microserviceName })
   )

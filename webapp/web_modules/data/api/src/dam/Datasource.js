@@ -24,8 +24,7 @@ const DatasourceConfiguration = {
 }
 
 const datasource = new Schema(DatasourceConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[DatasourceConfiguration.entityKey]
+  idAttribute: entity => entity.content[DatasourceConfiguration.entityKey]
   ,
 })
 

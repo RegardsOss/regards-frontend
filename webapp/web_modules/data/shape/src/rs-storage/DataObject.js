@@ -33,4 +33,3 @@ export const DataObject = PropTypes.shape({
 })
 export const DataObjectList = PropTypes.objectOf(DataObject)
 export const DataObjectArray = PropTypes.arrayOf(DataObject)
-

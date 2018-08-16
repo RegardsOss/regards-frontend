@@ -34,4 +34,3 @@ export const ProjectUser = PropTypes.shape({
   }),
 })
 export const ProjectUserList = PropTypes.objectOf(ProjectUser)
-

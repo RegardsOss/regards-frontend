@@ -31,7 +31,7 @@ import AIPDatasourceFormComponent from '../components/AIPDatasourceFormComponent
 import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
 import messages from '../i18n'
-import { datasourceSelectors, datasourceActions } from './../clients/DatasourceClient'
+import { datasourceSelectors, datasourceActions } from '../clients/DatasourceClient'
 
 const { findParam } = PluginConfParamsUtils
 

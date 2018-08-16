@@ -87,8 +87,8 @@ export class ThumbnailAttributeRender extends React.Component {
     const { value, accessToken, projectName } = this.props
     // in resolved attributes, get the first data, if any
     const { intl: { formatMessage }, moduleTheme: { thumbnailRoot, thumbnailCell, noThumbnailIcon } } = this.context
-    const thumbnailURI = value ?
-      DamDomain.DataFileController.getFileURI(value, accessToken, projectName) : null
+    const thumbnailURI = value
+      ? DamDomain.DataFileController.getFileURI(value, accessToken, projectName) : null
     return (
       <div
         style={thumbnailRoot}

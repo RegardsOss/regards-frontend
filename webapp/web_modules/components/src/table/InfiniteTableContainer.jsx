@@ -141,10 +141,10 @@ class InfiniteTableContainer extends React.Component {
 
     // initialization or authentication update: fetch the first page if table is dynamic
     const isAutoControlled = nextProps.fetchEntities
-    if (isAutoControlled &&
-      (!isEqual(nextProps.requestParams, previousProps.requestParams) ||
-        !isEqual(nextProps.pathParams, previousProps.pathParams) ||
-        !isEqual(nextProps.authentication, previousProps.authentication))) {
+    if (isAutoControlled
+      && (!isEqual(nextProps.requestParams, previousProps.requestParams)
+        || !isEqual(nextProps.pathParams, previousProps.pathParams)
+        || !isEqual(nextProps.authentication, previousProps.authentication))) {
       // remove any previously fetched data
       nextState.entities = []
       // Remove entities in store CONSIDERING CURRENT STATE (and not next state fetch method)
@@ -160,9 +160,9 @@ class InfiniteTableContainer extends React.Component {
     }
 
     // when min / max row count or entities total changes, update the table height (for not auto control cases)
-    if (previousProps.minRowCount !== nextProps.minRowCount ||
-      previousProps.maxRowCount !== nextProps.maxRowCount ||
-      get(this.state, 'entities.length', 0) !== nextState.entities.length) {
+    if (previousProps.minRowCount !== nextProps.minRowCount
+      || previousProps.maxRowCount !== nextProps.maxRowCount
+      || get(this.state, 'entities.length', 0) !== nextState.entities.length) {
       nextState.tableHeight = this.computeTableHeight(nextProps.minRowCount,
         nextProps.maxRowCount, nextState.measuredHeight, nextState.entities)
     }
@@ -226,8 +226,8 @@ class InfiniteTableContainer extends React.Component {
   getTableLineHeight = () => this.props.lineHeight || this.context.muiTheme.components.infiniteTable.lineHeight
 
   /** @return {number} table header height to consider for table */
-  getTableHeaderHeight = () => this.props.displayColumnsHeader ?
-    this.context.muiTheme.components.infiniteTable.minHeaderRowHeight : 0
+  getTableHeaderHeight = () => this.props.displayColumnsHeader
+    ? this.context.muiTheme.components.infiniteTable.minHeaderRowHeight : 0
 
   /** @return {number} fixed content margin bottom, from theme */
   getContentMarginBottom = () => this.context.muiTheme.components.infiniteTable.fixedContentMarginBottom
@@ -256,6 +256,7 @@ class InfiniteTableContainer extends React.Component {
     }
     return measuredHeight
   }
+
   /**
    * Flushes current entities and selection if such methods exist
    */
@@ -313,7 +314,7 @@ class InfiniteTableContainer extends React.Component {
               </LoadableContentDisplayDecorator>
             </div>)
         }
-      </Measure >)
+      </Measure>)
   }
 }
 
@@ -323,4 +324,3 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps)(InfiniteTableContainer)
-

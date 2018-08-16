@@ -68,8 +68,7 @@ class AttributesSelectionTable extends React.Component {
     // 1.a - selected
     const selectedAttributes = newProps.fields.getAll()
     // 1.b - selectable (not selected yet)
-    const availableAttributesModels = newProps.attributeModels.filter(({ content: { jsonPath } }) =>
-      !selectedAttributes.find(({ name }) => jsonPath === name))
+    const availableAttributesModels = newProps.attributeModels.filter(({ content: { jsonPath } }) => !selectedAttributes.find(({ name }) => jsonPath === name))
     this.setState({
       availableAttributesModels,
       selectedAttributes,
@@ -102,7 +101,7 @@ class AttributesSelectionTable extends React.Component {
     } = this.context.moduleTheme.configuration.editDialog.multipleSelector
     return (
       <React.Fragment>
-        <Subheader style={fieldLabelStyle} >
+        <Subheader style={fieldLabelStyle}>
           {label}
         </Subheader>
         <div style={rootStyle}>

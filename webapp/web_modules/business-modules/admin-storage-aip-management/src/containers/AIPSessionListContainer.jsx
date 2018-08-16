@@ -49,8 +49,7 @@ export class AIPSessionListContainer extends React.Component {
    */
   static mapDispatchToProps = dispatch => ({
     deleteAips: session => dispatch(aipSessionActions.deleteEntity(session.id)),
-    fetchPage: (pageIndex, pageSize, queryParams) =>
-      dispatch(aipSessionActions.fetchPagedEntityList(pageIndex, pageSize, {}, queryParams)),
+    fetchPage: (pageIndex, pageSize, queryParams) => dispatch(aipSessionActions.fetchPagedEntityList(pageIndex, pageSize, {}, queryParams)),
   })
 
   static propTypes = {

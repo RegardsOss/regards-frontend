@@ -138,7 +138,7 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
           />
         )
         }
-      </LoadableContentDisplayDecorator >
+      </LoadableContentDisplayDecorator>
     )
   }
 }

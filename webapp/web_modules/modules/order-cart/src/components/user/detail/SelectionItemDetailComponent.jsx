@@ -73,9 +73,9 @@ class SelectionItemDetailComponent extends React.Component {
     // prepare title acording with configuration
     const dateLabel = date ? formatDate(new Date(Date.parse(date)), SelectionItemDetailComponent.SELECTION_DATE_OPTIONS) : null
     const title = formatMessage({
-      id: showDatasets ?
-        'order-cart.module.basket.items.group.selection.detail.title.with.dataset' :
-        'order-cart.module.basket.items.group.selection.detail.title.without.dataset',
+      id: showDatasets
+        ? 'order-cart.module.basket.items.group.selection.detail.title.with.dataset'
+        : 'order-cart.module.basket.items.group.selection.detail.title.without.dataset',
     }, { dataset: datasetLabel, date: dateLabel })
 
     return (
@@ -89,7 +89,7 @@ class SelectionItemDetailComponent extends React.Component {
         open={visible}
       >
         <SelectionDetailResultsTableContainer openSearchRequest={openSearchRequest} />
-      </PositionedDialog >
+      </PositionedDialog>
     )
   }
 }

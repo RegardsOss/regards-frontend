@@ -65,9 +65,8 @@ class GalleryItemComponent extends React.PureComponent {
    * @return {[AttributePresentationModel]} filtered attributes presentation models
    */
   static filterAttributesPresentationModels(presentationModels) {
-    return presentationModels.filter(model =>
-      model.key !== TableColumnBuilder.selectionColumnKey &&
-      model.key !== TableColumnBuilder.optionsColumnKey)
+    return presentationModels.filter(model => model.key !== TableColumnBuilder.selectionColumnKey
+      && model.key !== TableColumnBuilder.optionsColumnKey)
   }
 
   static getHeightFromProps = (props, columnSpan, columnGutter, gridWidth, itemProps) => {

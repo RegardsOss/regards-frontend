@@ -26,8 +26,7 @@ const ProductConfiguration = {
 }
 
 const Product = new Schema(ProductConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[ProductConfiguration.entityKey]
+  idAttribute: entity => entity.content[ProductConfiguration.entityKey]
   ,
 })
 

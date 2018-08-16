@@ -17,4 +17,3 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 export { AIP_STATES } from './AIPStatus'
-

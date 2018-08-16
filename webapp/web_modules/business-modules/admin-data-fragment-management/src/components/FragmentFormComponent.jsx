@@ -16,10 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, RenderFileFieldWithMui, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import {
+  RenderTextField, RenderFileFieldWithMui, Field, ValidationHelpers, reduxForm,
+} from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -73,9 +77,9 @@ export class FragmentFormComponent extends React.Component {
    */
   render() {
     const { pristine, submitting, invalid } = this.props
-    const title = this.props.isCreating ?
-      this.context.intl.formatMessage({ id: 'fragment.create.title' }) :
-      this.context.intl.formatMessage({ id: 'fragment.edit.title' }, { name: this.props.currentFragment.content.name })
+    const title = this.props.isCreating
+      ? this.context.intl.formatMessage({ id: 'fragment.create.title' })
+      : this.context.intl.formatMessage({ id: 'fragment.edit.title' }, { name: this.props.currentFragment.content.name })
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -133,4 +137,3 @@ export class FragmentFormComponent extends React.Component {
 export default reduxForm({
   form: 'fragment-form',
 })(FragmentFormComponent)
-

@@ -78,7 +78,10 @@ class AcquisitionProcessingChainJobsMonitoringComponent extends React.Component 
       )
     }
     return (
-      <div style={jobActivityStyle}> <FlagFinished /> {formatMessage({ id: 'acquisition-chain.jobs.monitor.product-acquisition.job.empty.label' })} </div>
+      <div style={jobActivityStyle}>
+        <FlagFinished />
+        {formatMessage({ id: 'acquisition-chain.jobs.monitor.product-acquisition.job.empty.label' })}
+      </div>
     )
   }
 
@@ -100,7 +103,10 @@ class AcquisitionProcessingChainJobsMonitoringComponent extends React.Component 
       )
     }
     return (
-      <div style={jobActivityStyle}>  <FlagFinished /> {formatMessage({ id: 'acquisition-chain.jobs.monitor.generation.job.empty.label' })} </div>
+      <div style={jobActivityStyle}>
+        <FlagFinished />
+        {formatMessage({ id: 'acquisition-chain.jobs.monitor.generation.job.empty.label' })}
+      </div>
     )
   }
 
@@ -122,7 +128,10 @@ class AcquisitionProcessingChainJobsMonitoringComponent extends React.Component 
       )
     }
     return (
-      <div style={jobActivityStyle}> <FlagFinished /> {formatMessage({ id: 'acquisition-chain.jobs.monitor.submission.job.empty.label' })} </div>
+      <div style={jobActivityStyle}>
+        <FlagFinished />
+        {formatMessage({ id: 'acquisition-chain.jobs.monitor.submission.job.empty.label' })}
+      </div>
     )
   }
 

@@ -107,9 +107,8 @@ class BoardItemComponent extends React.Component {
     ))
 
     // Create list of all need endpoints for all board actions
-    const actionsHateoasRequiredEndpoints = reduce(item.actions, (acc, action) =>
-      action.hateoasDependencies && action.hateoasDependencies.length ?
-        [...acc, action.hateoasDependencies] : acc, [])
+    const actionsHateoasRequiredEndpoints = reduce(item.actions, (acc, action) => action.hateoasDependencies && action.hateoasDependencies.length
+      ? [...acc, action.hateoasDependencies] : acc, [])
 
     return (
       <BaseBoardItemComponentWithResourceDisplayControl

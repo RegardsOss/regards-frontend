@@ -34,6 +34,7 @@ export class URLPicture extends React.Component {
     URLCommonPicture,
     URLSVGPicture,
   ]
+
   /**
    * @param {class} PictureRender picture render to test (all render defined static property SUPPORTED_MIME_TYPES)
    * @param {string} mimeType MIME type (optional, returns false when not provided)

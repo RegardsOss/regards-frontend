@@ -85,8 +85,8 @@ class MainMenuComponent extends React.Component {
     return (
       <div style={rootStyle}>
         {
-          displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.USER ||
-            displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW ? [
+          displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.USER
+            || displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW ? [
               /* navigation component in user and preview modes mode (separator after) */
               <NavigationMenuContainer
                 key="navigation.container"
@@ -132,15 +132,15 @@ class MainMenuComponent extends React.Component {
           {/* About project if any (display should be in container) */}
           <ProjectAboutPageLinkContainer projectAboutPage={projectAboutPage} appName={appName} project={project} />
           {/* UI Options: theme  */}
-          <ShowableAtRender show={displayThemeSelector} >
+          <ShowableAtRender show={displayThemeSelector}>
             <SelectThemeContainer />
           </ShowableAtRender>
           {/* UI Options: locale  */}
-          <ShowableAtRender show={displayLocaleSelector} >
+          <ShowableAtRender show={displayLocaleSelector}>
             <SelectLocaleContainer />
           </ShowableAtRender>
         </div>
-      </div >
+      </div>
     )
   }
 }

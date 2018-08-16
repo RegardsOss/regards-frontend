@@ -44,15 +44,15 @@ class DeleteSuperficiallyOrderComponent extends React.Component {
         disabled={!canDelete}
         onClick={onDelete}
         title={formatMessage({
-          id: isCompleteDelete ?
-            'order.list.option.cell.delete.completely.order.tooltip' :
-            'order.list.option.cell.delete.superficially.order.tooltip',
+          id: isCompleteDelete
+            ? 'order.list.option.cell.delete.completely.order.tooltip'
+            : 'order.list.option.cell.delete.superficially.order.tooltip',
         })}
       >
         {
-          isCompleteDelete ?
-            <DeleteCompletelyIcon /> :
-            <DeleteSuperficiallyIcon />
+          isCompleteDelete
+            ? <DeleteCompletelyIcon />
+            : <DeleteSuperficiallyIcon />
         }
       </IconButton>
     )

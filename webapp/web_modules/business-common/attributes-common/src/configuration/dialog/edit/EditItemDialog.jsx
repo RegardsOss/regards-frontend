@@ -83,9 +83,9 @@ export class EditItemDialog extends React.Component {
         bodyStyle={editDialog.dialogBodyStyle}
         title={
           formatMessage({
-            id: get(editionData, 'isNewItem', false) ?
-              'attribute.configuration.new.item.title' :
-              'attribute.configuration.edit.item.title',
+            id: get(editionData, 'isNewItem', false)
+              ? 'attribute.configuration.new.item.title'
+              : 'attribute.configuration.edit.item.title',
           })
         }
         open={!!editionData}
@@ -99,7 +99,7 @@ export class EditItemDialog extends React.Component {
           onCancel={onCancel}
           onConfirm={this.onConfirm}
         />
-      </PositionedDialog >
+      </PositionedDialog>
     )
   }
 }
