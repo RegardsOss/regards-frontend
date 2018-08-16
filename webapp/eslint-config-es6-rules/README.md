@@ -86,8 +86,9 @@ Special configuration for plugin:react rules :
   | require-extension         | `Disabled`    |    |
   | require-default-props     | `Disabled`    |    |
   | prefer-stateless-function | `Disabled`    |    |
+  | react/destructuring-assignment| `Disabled`|    |
   | react/display-name        | `Disabled`    |  Only detect sipaly names of components during debug  |
-  
+
 #### plugin:react-perf
 
 To see all javascript rules set by plugin:react-perf : https://github.com/cvazac/eslint-plugin-react-perf

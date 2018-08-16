@@ -50,4 +50,3 @@ const rootRouter = {
   },
 }
 export default rootRouter
-
