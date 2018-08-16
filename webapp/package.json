@@ -201,7 +201,7 @@
     "babel-runtime": "~6.26.0",
     "chai": "~4.1.2",
     "deep-freeze": "0.0.1",
-    "enzyme": "^3.4.2",
+    "enzyme": "3.4.1",
     "enzyme-adapter-react-16": "^1.2.0",
     "esdoc": "^1.1.0",
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
