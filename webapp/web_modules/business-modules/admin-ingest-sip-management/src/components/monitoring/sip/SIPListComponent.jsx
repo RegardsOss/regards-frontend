@@ -213,8 +213,8 @@ class SIPListComponent extends React.Component {
 
     const columns = [
       // id column
-      new TableColumnBuilder('column.sipId').titleHeaderCell().propertyRenderCell('content.sipId')
-        .label(intl.formatMessage({ id: 'sips.list.table.headers.sip-id' }))
+      new TableColumnBuilder('column.providerId').titleHeaderCell().propertyRenderCell('content.providerId')
+        .label(intl.formatMessage({ id: 'sips.list.table.headers.providerId' }))
         .build(),
       new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.sip.ipType')
         .label(intl.formatMessage({ id: 'sips.list.table.headers.type' }))

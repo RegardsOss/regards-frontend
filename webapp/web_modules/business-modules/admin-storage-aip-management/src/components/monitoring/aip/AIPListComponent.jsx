@@ -341,6 +341,9 @@ class AIPListComponent extends React.Component {
       new TableColumnBuilder()
         .selectionColumn(true, aipSelectors, tableActions, tableSelectors)
         .build(),
+      new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.providerId')
+        .label(intl.formatMessage({ id: 'aips.list.table.headers.providerId' }))
+        .build(),
       new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.ipType')
         .label(intl.formatMessage({ id: 'aips.list.table.headers.type' }))
         .build(),

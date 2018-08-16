@@ -34,7 +34,7 @@ const messages = Object.assign({
   'sips.list.filters.status.done': 'Complété',
   'sips.list.filters.date.label': 'Depuis',
   'sips.list.filters.my-sips.label': 'Uniquement mes SIPs',
-  'sips.list.table.headers.sip-id': 'SIP ID',
+  'sips.list.table.headers.providerId': 'Identifiant producteur',
   'sips.list.table.headers.type': 'Type',
   'sips.list.table.headers.state': 'Statut',
   'sips.list.table.headers.date': 'Modifié le',

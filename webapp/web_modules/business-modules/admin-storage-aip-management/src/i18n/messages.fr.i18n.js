@@ -24,6 +24,7 @@ const messages = Object.assign({
   'aips.list.filters.from.label': 'Depuis',
   'aips.list.filters.to.label': 'Jusqu\'à',
   'aips.list.filters.tag.label': 'Tags',
+  'aips.list.table.headers.providerId': 'Identifiant producteur',
   'aips.list.table.headers.type': 'Type',
   'aips.list.table.headers.state': 'Statut',
   'aips.list.table.headers.lastUpdate': 'Modifié le',

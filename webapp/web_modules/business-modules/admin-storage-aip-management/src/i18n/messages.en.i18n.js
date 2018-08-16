@@ -25,6 +25,7 @@ const messages = Object.assign({
   'aips.list.filters.to.label': 'To',
   'aips.list.filters.tag.label': 'Tags',
   'aips.list.table.headers.type': 'Type',
+  'aips.list.table.headers.providerId': 'Provider id',
   'aips.list.table.headers.state': 'State',
   'aips.list.table.headers.lastUpdate': 'Last updated',
   'aips.list.table.headers.nbFiles': 'Number of files',
