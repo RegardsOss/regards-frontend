@@ -36,7 +36,7 @@ const messages = Object.assign({
   'sips.list.filters.status.done': 'Done',
   'sips.list.filters.date.label': 'Since',
   'sips.list.filters.my-sips.label': 'Only my SIPs',
-  'sips.list.table.headers.sip-id': 'Provider ID',
+  'sips.list.table.headers.providerId': 'Provider ID',
   'sips.list.table.headers.type': 'Type',
   'sips.list.table.headers.state': 'State',
   'sips.list.table.headers.date': 'Last update',
