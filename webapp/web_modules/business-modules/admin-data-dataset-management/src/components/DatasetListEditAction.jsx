@@ -49,6 +49,7 @@ class DatasetListEditAction extends React.Component {
         hateoasKey={HateoasKeys.UPDATE}
         onClick={() => handleEdit(dataset.content.id)}
         title={this.context.intl.formatMessage({ id: 'dataset.list.tooltip.edit' })}
+        className={`selenium-edit-${this.props.entity.content.feature.label}`}
       >
         <Edit hoverColor={hoverColor} />
       </HateoasIconAction>
