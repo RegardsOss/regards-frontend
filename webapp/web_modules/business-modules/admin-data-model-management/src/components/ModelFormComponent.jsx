@@ -17,13 +17,16 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import trim from 'lodash/trim'
-import {
-  Card, CardActions, CardTitle, CardText,
-} from 'material-ui/Card'
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import {
-  RenderTextField, RenderFileFieldWithMui, Field, RenderSelectField, reduxForm, ValidationHelpers,
+  RenderTextField,
+  RenderFileFieldWithMui,
+  Field,
+  RenderSelectField,
+  reduxForm,
+  ValidationHelpers,
 } from '@regardsoss/form-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
 import MenuItem from 'material-ui/MenuItem'
@@ -53,23 +56,6 @@ export class ModelFormComponent extends React.Component {
     ...i18nContextType,
   }
 
-
-  /**
-   * Validates name field
-   * @return validation error
-   */
-  validateName = this.getFieldOrImportValidator([
-    ValidationHelpers.required,
-    ValidationHelpers.validAlphaNumericUnderscore,
-    ValidationHelpers.lengthMoreThan(3),
-  ])
-
-  /**
-   * Validates type field
-   * @return validation error
-   */
-  validateType = this.getFieldOrImportValidator([ValidationHelpers.required])
-
   componentDidMount() {
     this.handleInitialize()
   }
@@ -97,6 +83,22 @@ export class ModelFormComponent extends React.Component {
     }
     return error
   }
+
+  /**
+   * Validates name field
+   * @return validation error
+   */
+  validateName = this.getFieldOrImportValidator([
+    ValidationHelpers.required,
+    ValidationHelpers.validAlphaNumericUnderscore,
+    ValidationHelpers.lengthMoreThan(3),
+  ])
+
+  /**
+   * Validates type field
+   * @return validation error
+   */
+  validateType = this.getFieldOrImportValidator([ValidationHelpers.required])
 
   /**
    * Handles component initialization
