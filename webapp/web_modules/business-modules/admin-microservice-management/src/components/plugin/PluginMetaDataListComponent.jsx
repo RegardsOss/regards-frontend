@@ -79,7 +79,7 @@ export default class PluginMetaDataListComponent extends React.Component {
   }
 
   static defaultProps = {
-    enableConfiguration: true,
+    enableConfiguration: false,
   }
 
   constructor(props, context) {
