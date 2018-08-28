@@ -42,7 +42,7 @@ const items = (projectName, intl) => [
       {
         path: `/admin/${projectName}/dataaccess/searchengines/create`,
         icon: <AddIcon />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
+        tooltipMsg: intl.formatMessage({ id: 'dataaccess.board.action.add.tooltip' }),
         hateoasDependencies: servicesManagementDependencies.addDependencies,
       },
     ],
@@ -61,7 +61,7 @@ const items = (projectName, intl) => [
       {
         path: `/admin/${projectName}/dataaccess/services/create`,
         icon: <AddIcon />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
+        tooltipMsg: intl.formatMessage({ id: 'dataaccess.board.action.add.tooltip' }),
         hateoasDependencies: servicesManagementDependencies.addDependencies,
       },
     ],
