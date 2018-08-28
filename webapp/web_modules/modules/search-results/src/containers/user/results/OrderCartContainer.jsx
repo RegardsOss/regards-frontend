@@ -251,8 +251,8 @@ export class OrderCartContainer extends React.Component {
    */
   onAddDatasetToBasket = (datasetEntity) => {
     const { initialSearchQuery, dispatchAddToCart } = this.props
-    const dataobjectQuery = new OpenSearchQuery(initialSearchQuery)
-    dispatchAddToCart([], dataobjectQuery.toQueryString(), datasetEntity.content.id)
+    const dataobjectQuery = initialSearchQuery ? new OpenSearchQuery(initialSearchQuery).toQueryString() : null
+    dispatchAddToCart([], dataobjectQuery, datasetEntity.content.id)
   }
 
   /**
