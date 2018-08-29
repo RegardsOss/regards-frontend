@@ -88,7 +88,7 @@ class OrderBasketActions {
   addToBasket(ipIds = [], selectAllOpenSearchRequest = null, datasetID = null) {
     let searchParameters = {}
     if (selectAllOpenSearchRequest) {
-      searchParameters = { q: selectAllOpenSearchRequest }
+      searchParameters = { q: [selectAllOpenSearchRequest] }
     }
     return this.selectionDelegate.sendSignal(RequestVerbEnum.POST, {
       datasetUrn: datasetID,

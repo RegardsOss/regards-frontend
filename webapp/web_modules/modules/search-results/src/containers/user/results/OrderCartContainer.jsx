@@ -242,7 +242,9 @@ export class OrderCartContainer extends React.Component {
     const ids = values(toggledElements).map(element => get(element, 'content.id'))
     // Should we dispatch an include or an exclude from request selection?
     const openSearchQuery = selectionMode === TableSelectionModes.excludeSelected ? currentQuery : null
-    dispatchAddToCart(ids, openSearchQuery)
+    // As query is provided in POST body request we have to decode it before send
+    const escapedQuery = openSearchQuery ? decodeURIComponent(openSearchQuery) : undefined
+    dispatchAddToCart(ids, escapedQuery)
   }
 
   /**
@@ -252,7 +254,9 @@ export class OrderCartContainer extends React.Component {
   onAddDatasetToBasket = (datasetEntity) => {
     const { initialSearchQuery, dispatchAddToCart } = this.props
     const dataobjectQuery = initialSearchQuery ? new OpenSearchQuery(initialSearchQuery).toQueryString() : null
-    dispatchAddToCart([], dataobjectQuery, datasetEntity.content.id)
+    // As query is provided in POST body request we have to decode it before send
+    const escapedQuery = dataobjectQuery ? decodeURIComponent(dataobjectQuery) : undefined
+    dispatchAddToCart([], decodeURIComponent(escapedQuery), datasetEntity.content.id)
   }
 
   /**
@@ -268,7 +272,7 @@ export class OrderCartContainer extends React.Component {
     if (isAuthenticated && viewObjectType !== DamDomain.ENTITY_TYPES_ENUM.DOCUMENT) {
       // B - There is / are active Order cart module(s)
       const hasOrderCartModule = find((modules || {}), module => (get(module, 'content.type', '') === modulesManager.AllDynamicModuleTypes.ORDER_CART
-          && get(module, 'content.active', false)))
+        && get(module, 'content.active', false)))
       if (hasOrderCartModule) {
         // C - Finally, user must have rights to manage the basket
         return allMatchHateoasDisplayLogic(OrderCartContainer.BASKET_DEPENDENCIES, availableDependencies)
