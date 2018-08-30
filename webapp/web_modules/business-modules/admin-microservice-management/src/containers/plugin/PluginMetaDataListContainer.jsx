@@ -140,7 +140,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchClearPluginCache: microserviceName => dispatch(clearPluginCacheActions.clearCache(microserviceName)),
-  fetchPluginTypeList: microserviceName => dispatch(pluginTypeActions.fetchEntityList({ microserviceName })),
+  fetchPluginTypeList: microserviceName => dispatch(pluginTypeActions.fetchEntityList({ microserviceName }, { available: true })),
   fetchPluginMetaDataList: microserviceName => dispatch(pluginMetaDataActions.fetchEntityList({ microserviceName })),
 })
 
