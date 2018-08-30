@@ -17,11 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
+import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import {
-  Card, CardTitle, CardText, CardActions,
-} from 'material-ui/Card'
-import {
-  Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
 } from 'material-ui/Table'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
@@ -30,11 +33,19 @@ import Settings from 'material-ui/svg-icons/action/settings-input-component'
 import Delete from 'material-ui/svg-icons/action/delete'
 import ShowGroupUsersIcon from 'material-ui/svg-icons/action/open-in-new'
 import { FormattedMessage } from 'react-intl'
-import { HateoasKeys, withHateoasDisplayControl, withResourceDisplayControl } from '@regardsoss/display-control'
+import {
+  HateoasKeys,
+  withHateoasDisplayControl,
+  withResourceDisplayControl,
+} from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
-  CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, ActionsMenuCell,
+  CardActionsComponent,
+  ConfirmDialogComponent,
+  ConfirmDialogComponentTypes,
+  ShowableAtRender,
+  ActionsMenuCell,
 } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -43,7 +54,7 @@ import { accessGroupActions } from '../clients/AccessGroupClient'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
 const ResourceIconAction = withResourceDisplayControl(IconButton)
-const actionsBreakpoints = [360, 510, 900, 900]
+const actionsBreakpoints = [360, 510, 900, 1000, 1000]
 
 /**
  * React component to list accessgroups.
