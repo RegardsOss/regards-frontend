@@ -105,7 +105,11 @@ class PluginFormUtils {
         if (parameterMetadata.unconfigurable) {
           return ''
         }
-        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.defaultValue) : undefined
+        let { defaultValue } = parameterMetadata
+        if (!isNil(defaultValue) && parameterMetadata.type === 'java.lang.Boolean') {
+          defaultValue = defaultValue === 'true'
+        }
+        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, defaultValue) : undefined
       }
       case 'COLLECTION':
         if (parameterMetadata.unconfigurable) {
