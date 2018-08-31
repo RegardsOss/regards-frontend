@@ -256,7 +256,7 @@ export class OrderCartContainer extends React.Component {
     const dataobjectQuery = initialSearchQuery ? new OpenSearchQuery(initialSearchQuery).toQueryString() : null
     // As query is provided in POST body request we have to decode it before send
     const escapedQuery = dataobjectQuery ? decodeURIComponent(dataobjectQuery) : undefined
-    dispatchAddToCart([], decodeURIComponent(escapedQuery), datasetEntity.content.id)
+    dispatchAddToCart([], escapedQuery, datasetEntity.content.id)
   }
 
   /**

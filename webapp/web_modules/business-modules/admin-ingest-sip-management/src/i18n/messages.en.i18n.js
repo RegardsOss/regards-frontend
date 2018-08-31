@@ -49,6 +49,7 @@ const messages = Object.assign({
   'sips.list.sip-details.title': 'SIP details',
   'sips.list.sip-history.title': 'SIP History',
   'sips.list.empty.title': 'No entities found',
+  'sips.list.table.tooltip.go-to-aip-management': 'Go to aip storage monitoring to see errors.',
   'sips.stepper.list': 'View SIPs',
   'sips.stepper.session': 'Select session',
 

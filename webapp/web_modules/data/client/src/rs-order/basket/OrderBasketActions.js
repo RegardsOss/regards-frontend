@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNull from 'lodash/isNull'
 import { BasicSignalActions, RequestVerbEnum } from '@regardsoss/store-utils'
 import { CatalogDomain } from '@regardsoss/domain'
 
@@ -87,7 +88,7 @@ class OrderBasketActions {
    */
   addToBasket(ipIds = [], selectAllOpenSearchRequest = null, datasetID = null) {
     let searchParameters = {}
-    if (selectAllOpenSearchRequest) {
+    if (!isNull(selectAllOpenSearchRequest)) {
       searchParameters = { q: [selectAllOpenSearchRequest] }
     }
     return this.selectionDelegate.sendSignal(RequestVerbEnum.POST, {

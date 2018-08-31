@@ -114,6 +114,11 @@ export class SIPListContainer extends React.Component {
     fetchPage(0, SIPListContainer.PAGE_SIZE * (curentPage + 1), currentFilters)
   }
 
+  goToSessionAIPsMonitoring = (session) => {
+    const { params: { project } } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/storage/aip/${session}/list`)
+  }
+
   handleGoBack = (level) => {
     const { params: { project, session, sip } } = this.props
     const encodedSessionName = encodeURIComponent(session)
@@ -186,6 +191,7 @@ export class SIPListContainer extends React.Component {
         onDeleteBySipId={deleteSIPBySipId}
         fetchPage={fetchPage}
         goToSipHistory={this.goToSipHistory}
+        goToSessionAIPsMonitoring={this.goToSessionAIPsMonitoring}
       />
     )
   }
