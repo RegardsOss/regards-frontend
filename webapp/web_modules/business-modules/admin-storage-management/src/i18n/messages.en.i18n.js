@@ -62,7 +62,7 @@ const messages = Object.assign({
   'storage.allocation-strategy.plugins.list.header.active.label': 'Enable',
   'storage.allocation-strategy.plugins.list.empty.title': 'No strategy defined',
   'storage.allocation-strategy.plugins.list.edit.button': 'Edit',
-  'storage.allocation-strategy.list.add.button': 'Add new stategy',
+  'storage.allocation-strategy.list.add.button': 'Add new strategy',
   'storage.allocation-strategy.plugins.list.confirm.delete.title': 'Delete strategy {name} ?',
   'storage.allocation-strategy.plugins.list.active.on.button': 'Enable strategy',
   'storage.allocation-strategy.plugins.list.active.off.button': 'Disable strategy',
