@@ -40,6 +40,7 @@ import SIPDetailTableAction from './SIPDetailTableAction'
 import SIPConfirmDeleteDialog from './SIPConfirmDeleteDialog'
 import SIPListFiltersComponent from './SIPListFiltersComponent'
 import SIPDeletionErrorDialog from './SIPDeletionErrorDialog'
+import SIPListStateRenderer from './SIPListStateRenderer'
 import { sipActions, sipSelectors } from '../../../clients/SIPClient'
 import messages from '../../../i18n'
 import styles from '../../../styles'
@@ -63,6 +64,7 @@ class SIPListComponent extends React.Component {
     onDeleteByIpId: PropTypes.func.isRequired,
     onDeleteBySipId: PropTypes.func.isRequired,
     goToSipHistory: PropTypes.func.isRequired,
+    goToSessionAIPsMonitoring: PropTypes.func.isRequired,
     initialFilters: PropTypes.objectOf(PropTypes.string),
     contextFilters: PropTypes.objectOf(PropTypes.string),
   }
@@ -200,7 +202,7 @@ class SIPListComponent extends React.Component {
     const { intl, muiTheme } = this.context
     const { sip } = this.props
     const {
-      pageSize, resultsCount, initialFilters, chains, entitiesLoading,
+      pageSize, resultsCount, initialFilters, chains, entitiesLoading, goToSessionAIPsMonitoring, session,
     } = this.props
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
@@ -219,7 +221,14 @@ class SIPListComponent extends React.Component {
       new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.sip.ipType')
         .label(intl.formatMessage({ id: 'sips.list.table.headers.type' }))
         .build(),
-      new TableColumnBuilder('column.state').titleHeaderCell().propertyRenderCell('content.state')
+      new TableColumnBuilder('column.state').titleHeaderCell()
+        .rowCellDefinition({
+          Constructor: SIPListStateRenderer,
+          props: {
+            goToSessionAIPsMonitoring,
+            session,
+          },
+        })
         .label(intl.formatMessage({ id: 'sips.list.table.headers.state' }))
         .build(),
       new TableColumnBuilder('column.active').titleHeaderCell()
