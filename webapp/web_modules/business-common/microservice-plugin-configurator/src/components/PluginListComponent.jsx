@@ -178,6 +178,7 @@ export class PluginListComponent extends React.Component {
           onChange={this.handleSelect}
           style={PluginListComponent.menuStyles}
           disabled={this.props.disabled}
+          className="selenium-selectPlugin"
         >
           <MenuItem value="__default__" primaryText={this.props.selectLabel || 'none'} />
           {map(this.props.pluginList, this.renderItem)}
