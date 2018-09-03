@@ -21,6 +21,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 import ChangePasswordForm from '../components/ChangePasswordFormComponent'
 import ResetPasswordActions from '../model/operation/ResetPasswordActions'
 import ResetPasswordSelectors from '../model/operation/ResetPasswordSelectors'
+import ChangePasswordActions from '../model/operation/ChangePasswordActions'
+import ChangePasswordSelectors from '../model/operation/ChangePasswordSelectors'
 import { accountPasswordActions, accountPasswordSelectors } from '../clients/AccountPasswordClient'
 
 
@@ -32,25 +34,35 @@ export class ChangePasswordFormContainer extends React.Component {
     // user email
     mail: PropTypes.string.isRequired,
     // token to finish reset password
-    token: PropTypes.string.isRequired,
+    token: PropTypes.string,
     passwordRules: PropTypes.string.isRequired, // fetched password rules description
     // done callback
     onDone: PropTypes.func.isRequired,
     // token expired callback
-    onTokenExpired: PropTypes.func.isRequired,
+    onTokenExpired: PropTypes.func,
+    onCancel: PropTypes.func,
+    errorMessage: PropTypes.string,
 
     // from map state to props
     isFetching: PropTypes.bool,
+    changingPassword: PropTypes.bool,
     // used only in next props
     // eslint-disable-next-line
     hasError: PropTypes.bool,
+    changePasswordError: PropTypes.bool,
     // from map dispatch to props
-    fetchRequestAction: PropTypes.func,
+    fetchChangePasswordAction: PropTypes.func.isRequired,
+    fetchRequestAction: PropTypes.func.isRequired,
     fetchPasswordRules: PropTypes.func.isRequired,
     fetchPasswordValidity: PropTypes.func.isRequired,
   }
 
   static contextTypes = { ...i18nContextType }
+
+  state = {
+    newPassword: null,
+    errorMessage: null,
+  }
 
   componentDidMount = () => {
     const { fetchPasswordRules } = this.props
@@ -59,29 +71,61 @@ export class ChangePasswordFormContainer extends React.Component {
 
   componentWillReceiveProps = (nextProps) => {
     // Detect last fetch finished
-    const { isFetching, onDone, onTokenExpired } = this.props
+    const {
+      isFetching, onDone, onTokenExpired, token, mail, changingPassword,
+    } = this.props
+    const { newPassword } = this.state
     if (isFetching && !nextProps.isFetching) {
       // redirection: error pane or OK pane?
-      if (nextProps.hasError) {
+      if (token && nextProps.hasError) {
         onTokenExpired()
       } else {
-        onDone()
+        onDone({ username: mail, password: newPassword })
+      }
+    }
+
+    if (changingPassword && !nextProps.changingPassword) {
+      if (!nextProps.changePasswordError) {
+        onDone({ username: mail, password: newPassword })
       }
     }
   }
 
-  onSubmit = ({ newPassword }) => {
-    const { mail, token, fetchRequestAction } = this.props
+  onSubmit = ({ newPassword, oldPassword }) => {
+    const {
+      mail, token, fetchRequestAction, fetchChangePasswordAction,
+    } = this.props
+    this.setState({
+      newPassword,
+    })
+    const { intl } = this.context
+    if (oldPassword && !token) {
+      const task = fetchChangePasswordAction(mail, oldPassword, newPassword)
+      task.then((actionResults) => {
+        if (actionResults.error) {
+          this.setState({
+            errorMessage: intl.formatMessage({ id: 'reset.password.update.error' }),
+          })
+        }
+      })
+      return task
+    }
     return fetchRequestAction(token, mail, newPassword)
   }
 
   render() {
-    const { passwordRules, fetchPasswordValidity } = this.props
+    const {
+      passwordRules, fetchPasswordValidity, token, onCancel,
+    } = this.props
+    const { errorMessage } = this.state
     return (
       <ChangePasswordForm
+        displayOldPasswordField={!token}
         passwordRules={passwordRules}
         fetchPasswordValidity={fetchPasswordValidity}
         onChangePassword={this.onSubmit}
+        onCancel={onCancel}
+        errorMessage={errorMessage || this.props.errorMessage}
       />
     )
   }
@@ -89,15 +133,19 @@ export class ChangePasswordFormContainer extends React.Component {
 
 const mapStatesToProps = (state) => {
   const error = ResetPasswordSelectors.getError(state)
+  const changePwdError = ChangePasswordSelectors.getError(state)
   return {
     isFetching: ResetPasswordSelectors.isFetching(state),
     hasError: error && error.hasError,
     passwordRules: accountPasswordSelectors.getRules(state),
+    changingPassword: ChangePasswordSelectors.isFetching(state),
+    changePasswordError: changePwdError && changePwdError.hasError,
   }
 }
 
 
 const mapDispatchToProps = dispatch => ({
+  fetchChangePasswordAction: (mail, oldPassword, newPassword) => dispatch(ChangePasswordActions.sendChangePassword(mail, oldPassword, newPassword)),
   fetchRequestAction: (token, mail, newPassword) => dispatch(ResetPasswordActions.sendFinishResetPassword(token, mail, newPassword)),
   fetchPasswordValidity: newPassword => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
   fetchPasswordRules: () => dispatch(accountPasswordActions.fetchPasswordRules()),

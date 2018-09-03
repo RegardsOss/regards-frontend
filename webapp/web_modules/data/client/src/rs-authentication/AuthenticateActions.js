@@ -31,6 +31,7 @@ export default class AuthenticateActions extends BasicSignalActions {
       namespace,
       bypassErrorMiddleware: true,
     })
+    this.CLEAR_AUTH_ERROR = `${namespace}/CLEAR_AUTH_ERROR`
     this.LOCK_SESSION = `${namespace}/LOCK_SESSION`
     this.AUTHENTICATION_CHANGED = `${namespace}/AUTHENTICATION_CHANGED`
   }
@@ -56,6 +57,12 @@ export default class AuthenticateActions extends BasicSignalActions {
 
   logout() {
     return this.flush()
+  }
+
+  clearErrors() {
+    return {
+      type: this.CLEAR_AUTH_ERROR,
+    }
   }
 
   /**

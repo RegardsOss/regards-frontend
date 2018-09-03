@@ -36,9 +36,12 @@ describe('[AUTHENTICATION] Testing ChangePasswordFormContainer', () => {
       mail: 'tiki@tokyo.jp',
       token: '1',
       passwordRules: '',
+      fetchRequestAction: () => { },
+      fetchChangePasswordAction: () => { },
       fetchPasswordRules: () => { },
       fetchPasswordValidity: () => { },
       onDone: () => { },
+      onCancel: () => { },
       onTokenExpired: () => { },
     }
     // very small tests for component rendering

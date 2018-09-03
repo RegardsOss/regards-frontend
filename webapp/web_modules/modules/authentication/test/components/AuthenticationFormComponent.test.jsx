@@ -38,6 +38,7 @@ describe('[AUTHENTICATION] Testing AuthenticationFormComponent', () => {
     const props = {
       title: 'A title',
       onLogin: () => { },
+      clearErrors: () => { },
       errorMessage: undefined,
       showAskProjectAccess: true,
       onGotoResetPassword: () => { },

@@ -88,6 +88,15 @@ class AuthenticateReducers extends BasicSignalReducers {
           // use new action result authentication state
           result: { ...(state.result), ...action.result },
         }
+      case this.basicSignalActionInstance.CLEAR_AUTH_ERROR:
+        return {
+          // recover previous state
+          ...state,
+          error: {
+            ...error,
+            loginError: null,
+          },
+        }
       default:
         // not in this reducer
         return parentState

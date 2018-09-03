@@ -28,6 +28,7 @@ const messages = {
   'authentication.error.ACCOUNT_UNKNOWN': 'Unknown user login and / or password',
   'authentication.error.ACCOUNT_PENDING': 'Your REGARDS account is not ready yet. You will receive a notification by email when it changes',
   'authentication.error.ACCOUNT_INACTIVE': 'Your account is inactive. Contact system administrator',
+  'authentication.error.ACCOUNT_INACTIVE_PASSWORD': 'Your password has expired please renew your password',
   'authentication.error.ACCOUNT_LOCKED': 'Your account is locked. To unlock it, click "Account locked?"',
   'authentication.error.USER_UNKNOWN': 'You do not have access to the project. To ask access, click "New user?", with option "I already have a REGARDS user account"',
   'authentication.error.USER_WAITING_ACCESS': 'Your project access has not yet been validated. You will be notified by email on change',
@@ -121,10 +122,15 @@ const messages = {
 
   // password update form (after receiving reset mail)
   'reset.password.update.request.title': 'Reset password',
+  'change.password.update.request.title': 'Change your password',
   'reset.password.update.request.message': 'Please provide the new password to complete operation. {passwordRules}',
+  'change.password.update.request.message': 'Please provide old and new password. {passwordRules}',
+  'change.password.update.old.password': 'Current password',
   'reset.password.update.new.password': 'New password',
   'reset.password.update.confirm.password': 'Confirm password',
   'reset.password.update.send': 'Send',
+  'reset.password.update.error': 'Error changing password. Please check password informations provided.',
+  'reset.password.update.cancel': 'Cancel',
 
   // finish unlock account loading pane
   'finish.unlock.account.title': 'Unlocking account',

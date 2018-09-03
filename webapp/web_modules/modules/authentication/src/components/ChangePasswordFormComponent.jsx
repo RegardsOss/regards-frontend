@@ -27,15 +27,19 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   RenderTextField, Field, ErrorTypes, reduxForm, ValidationHelpers,
 } from '@regardsoss/form-utils'
+import { FormErrorMessage } from '@regardsoss/components'
 
 /**
  * Reset password request form component
  */
 export class ChangePasswordFormComponent extends React.Component {
   static propTypes = {
+    displayOldPasswordField: PropTypes.bool.isRequired,
     passwordRules: PropTypes.string.isRequired, // fetched password rules description
     // calls update password action or shows token expired message
     onChangePassword: PropTypes.func.isRequired,
+    onCancel: PropTypes.func,
+    errorMessage: PropTypes.string,
     // eslint-disable-next-line react/no-unused-prop-types
     fetchPasswordValidity: PropTypes.func.isRequired,
     // from reduxForm
@@ -53,9 +57,13 @@ export class ChangePasswordFormComponent extends React.Component {
    */
   render() {
     const {
-      passwordRules, onChangePassword, pristine, submitting, invalid, handleSubmit,
+      passwordRules, onChangePassword, pristine, submitting, invalid, handleSubmit, displayOldPasswordField, errorMessage,
+      onCancel,
     } = this.props
     const { moduleTheme, intl: { formatMessage } } = this.context
+
+    const titleId = displayOldPasswordField ? 'change.password.update.request.title' : 'reset.password.update.request.title'
+    const subTitleId = displayOldPasswordField ? 'change.password.update.request.message' : 'reset.password.update.request.message'
 
     return (
       <div style={moduleTheme.layout}>
@@ -64,10 +72,21 @@ export class ChangePasswordFormComponent extends React.Component {
         >
           <Card>
             <CardTitle
-              title={formatMessage({ id: 'reset.password.update.request.title' })}
-              subtitle={formatMessage({ id: 'reset.password.update.request.message' }, { passwordRules })}
+              title={formatMessage({ id: titleId })}
+              subtitle={formatMessage({ id: subTitleId }, { passwordRules })}
             />
             <CardText>
+              <FormErrorMessage>{errorMessage}</FormErrorMessage>
+              {displayOldPasswordField ? (
+                <Field
+                  name="oldPassword"
+                  fullWidth
+                  component={RenderTextField}
+                  type="password"
+                  label={formatMessage({ id: 'change.password.update.old.password' })}
+                  validate={ValidationHelpers.required}
+                  normalize={trim}
+                />) : null}
               <Field
                 name="newPassword"
                 fullWidth
@@ -94,6 +113,11 @@ export class ChangePasswordFormComponent extends React.Component {
                 primary
                 type="submit"
               />
+              {onCancel
+                ? <RaisedButton
+                  label={formatMessage({ id: 'reset.password.update.cancel' })}
+                  onClick={onCancel}
+                /> : null}
             </CardActions>
           </Card>
         </form>

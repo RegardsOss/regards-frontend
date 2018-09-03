@@ -29,6 +29,7 @@ const messages = Object.assign({
   'account.list.table.status.label.ACTIVE': 'Actif',
   'account.list.table.status.label.LOCKED': 'Bloqué',
   'account.list.table.status.label.INACTIVE': 'Désactivé',
+  'account.list.table.status.label.INACTIVE_PASSWORD': 'Mot de passe expiré',
   'account.list.table.action': 'Actions',
   'account.list.subtitle': 'Liste des comptes tous projets confondus',
   'account.list.table.no.content.title': 'Rien à afficher',
