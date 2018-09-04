@@ -22,8 +22,8 @@ import { UIPluginInfoContent } from './UIPluginInfoContent'
  * @author Sébastien Binda
  */
 export const UIPluginInstanceContent = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  plugin: PropTypes.func.isRequired,
+  name: PropTypes.string,
+  plugin: PropTypes.func,
   styles: PropTypes.shape({
     styles: PropTypes.func,
   }),
@@ -32,4 +32,6 @@ export const UIPluginInstanceContent = PropTypes.shape({
     en: PropTypes.object,
   }),
   info: UIPluginInfoContent,
+  error: PropTypes.bool,
+  initialized: PropTypes.bool,
 })

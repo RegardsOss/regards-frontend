@@ -87,7 +87,8 @@ describe('[PLUGINS] Testing Plugins load', () => {
       }}
       displayPlugin
       locale="fr"
-      loadPlugin={() => { }}
+      doLoadPlugin={() => { }}
+      doInitPlugin={() => { }}
     />)
 
     expect(wrapper.find(PluginTest)).to.have.length(0)
@@ -102,6 +103,8 @@ describe('[PLUGINS] Testing Plugins load', () => {
         parameter: 'value',
       }}
       displayPlugin
+      doLoadPlugin={() => { }}
+      doInitPlugin={() => { }}
       loadedPlugin={{
         name: 'testPlugin',
         plugin: PluginTest,
@@ -121,6 +124,8 @@ describe('[PLUGINS] Testing Plugins load', () => {
           type: 'CRITERIA',
           conf: {},
         },
+        initialized: true,
+        loadError: false,
       }}
       locale="fr"
     />)
@@ -139,6 +144,8 @@ describe('[PLUGINS] Testing Plugins load', () => {
           parameter: 'value',
         }}
         displayPlugin={false}
+        doLoadPlugin={() => { }}
+        doInitPlugin={() => { }}
         loadedPlugin={{
           name: 'testPlugin',
           plugin: PluginTest,
@@ -156,6 +163,8 @@ describe('[PLUGINS] Testing Plugins load', () => {
             type: 'CRITERIA',
             conf: {},
           },
+          initialized: true,
+          loadError: false,
         }}
         locale="fr"
       >

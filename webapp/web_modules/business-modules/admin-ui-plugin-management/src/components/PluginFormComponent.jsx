@@ -120,19 +120,21 @@ class PluginFormComponent extends React.Component {
    * @param plugin loaded plugin
    */
   handlePluginValid = (plugin) => {
-    // Fix static plugin definition values from the plugin info
-    this.props.change('name', plugin.info.name)
-    this.props.change('type', plugin.info.type)
+    if (plugin && plugin.info) {
+      // Fix static plugin definition values from the plugin info
+      this.props.change('name', plugin.info.name)
+      this.props.change('type', plugin.info.type)
 
-    if (plugin.info.conf && plugin.info.conf.applicationModes) {
-      this.props.change('applicationModes', plugin.info.conf.applicationModes)
+      if (plugin.info.conf && plugin.info.conf.applicationModes) {
+        this.props.change('applicationModes', plugin.info.conf.applicationModes)
+      }
+      if (plugin.info.conf && plugin.info.conf.entityTypes) {
+        this.props.change('entityTypes', plugin.info.conf.entityTypes)
+      }
+      this.setState({
+        pluginIsValid: true,
+      })
     }
-    if (plugin.info.conf && plugin.info.conf.entityTypes) {
-      this.props.change('entityTypes', plugin.info.conf.entityTypes)
-    }
-    this.setState({
-      pluginIsValid: true,
-    })
   }
 
   /**
@@ -162,7 +164,6 @@ class PluginFormComponent extends React.Component {
               pluginInstanceId={path}
               pluginPath={path}
               displayPlugin={false}
-              onErrorCallback={this.handlePluginInvalid}
               checkPluginExistence
             >
               <PluginDefinitionComponent

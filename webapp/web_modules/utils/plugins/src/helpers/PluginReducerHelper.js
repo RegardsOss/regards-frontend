@@ -28,7 +28,7 @@ import { getReducerRegistry, configureReducers } from '@regardsoss/store'
  * Initializes plugin reducers
  * @param {*} plugin plugin instance as defined in UIPluginInstanceContent
  */
-function initializePluginReducer(plugin, pluginInstanceId) {
+function initializePluginReducer(plugin, pluginInstanceId, successCallBack) {
   // install plugin instance reducer for plugin name and instance ID using exported
   // build plugin reducer on plugin name and instance ID to ensure each plugin has its own Redux store path
   // (therefore, plugins export a reducer builder function)
@@ -42,6 +42,10 @@ function initializePluginReducer(plugin, pluginInstanceId) {
     if (!getReducerRegistry().isRegistered(loadedPluginReducer)) {
       getReducerRegistry().register(loadedPluginReducer)
     }
+  }
+
+  if (successCallBack) {
+    successCallBack()
   }
 }
 

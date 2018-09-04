@@ -16,11 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { PLUGIN_LOADED } from './LoadPluginActions'
+import isNil from 'lodash/isNil'
+import {
+  PLUGIN_LOADED, CHECK_PLUGIN, PLUGIN_INIT, PLUGIN_ERROR,
+} from './LoadPluginActions'
 
 const mergePluginInfo = (state, {
-  type, sourcePath, plugin, reducer, name, messages, styles, info, ...otherProps
+  type, sourcePath, plugin, reducer, name, messages, styles, info, loadError, errorCause, ...otherProps
 }) => {
+  if (isNil(sourcePath)) {
+    return state
+  }
   const newState = Object.assign({}, state)
   newState.items[sourcePath] = {
     plugin,
@@ -29,6 +35,8 @@ const mergePluginInfo = (state, {
     messages,
     styles,
     info,
+    loadError,
+    errorCause,
     ...otherProps,
   }
   return newState
@@ -44,10 +52,29 @@ const mergePluginInfo = (state, {
 export default (state = {
   items: {},
 }, action) => {
+  const plugin = state.items[action.sourcePath]
   switch (action.type) {
     case PLUGIN_LOADED:
       // The given plugin as been successfully initialized
       return mergePluginInfo(state, action)
+    case CHECK_PLUGIN:
+      if (plugin) {
+        return mergePluginInfo(state, plugin)
+      }
+      return mergePluginInfo(state, { sourcePath: action.sourcePath, loadError: true, errorCause: 'Your file is not a valid plugin.' })
+    case PLUGIN_INIT:
+      if (plugin) {
+        plugin.initialized = true
+        return mergePluginInfo(state, plugin)
+      }
+      return state
+    case PLUGIN_ERROR:
+      if (plugin) {
+        plugin.loadError = true
+        plugin.errorCause = action.cause
+        return mergePluginInfo(state, plugin)
+      }
+      return mergePluginInfo(state, { sourcePath: action.sourcePath, loadError: true, errorCause: action.cause })
     default:
       return state
   }

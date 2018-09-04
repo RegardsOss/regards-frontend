@@ -62,7 +62,6 @@ export class AuthenticationFormContainer extends React.Component {
   }
 
   onLoginRequest = ({ username, password }) => {
-    console.error('Password changed !')
     const { project, dispatchLoginRequest } = this.props
     this.setState({
       userMail: username,
