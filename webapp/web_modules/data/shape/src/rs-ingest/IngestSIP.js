@@ -37,7 +37,7 @@ export const Session = PropTypes.shape({
 export const IngestSIPContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   sipId: PropTypes.string.isRequired,
-  ipId: PropTypes.string.isRequired,
+  providerId: PropTypes.string.isRequired,
   owner: PropTypes.string,
   version: PropTypes.number,
   state: PropTypes.string,

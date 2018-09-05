@@ -53,8 +53,8 @@ export class SIPListContainer extends React.Component {
    */
   static mapDispatchToProps = dispatch => ({
     fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
-    deleteSIPByIpId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(sip.ipId)),
-    deleteSIPBySipId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(undefined, {}, { sipId: sip.sipId })),
+    deleteSIPBySipId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(sip.sipId)),
+    deleteSIPByProviderId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(undefined, {}, { sipId: sip.providerId })),
     fetchPage: (pageIndex, pageSize, requestParams) => dispatch(sipActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
   })
 
@@ -72,8 +72,8 @@ export class SIPListContainer extends React.Component {
     }),
     // from mapDistpathToProps
     fetchProcessingChains: PropTypes.func.isRequired,
-    deleteSIPByIpId: PropTypes.func.isRequired,
     deleteSIPBySipId: PropTypes.func.isRequired,
+    deleteSIPByProviderId: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     // from mapStateToProps
     entitiesLoading: PropTypes.bool.isRequired,
@@ -171,7 +171,7 @@ export class SIPListContainer extends React.Component {
 
   render() {
     const {
-      meta, fetchPage, deleteSIPByIpId, deleteSIPBySipId, params: { session, sip }, entitiesLoading,
+      meta, fetchPage, deleteSIPBySipId, deleteSIPByProviderId, params: { session, sip }, entitiesLoading,
     } = this.props
     const { urlFilters, contextFilters } = this.state
     return (
@@ -187,8 +187,8 @@ export class SIPListContainer extends React.Component {
         handleFilter={this.handleFilter}
         onBack={this.handleGoBack}
         onRefresh={this.onRefresh}
-        onDeleteByIpId={deleteSIPByIpId}
-        onDeleteBySipId={deleteSIPBySipId}
+        onDeleteByIpId={deleteSIPBySipId}
+        onDeleteBySipId={deleteSIPByProviderId}
         fetchPage={fetchPage}
         goToSipHistory={this.goToSipHistory}
         goToSessionAIPsMonitoring={this.goToSessionAIPsMonitoring}
