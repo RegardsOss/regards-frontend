@@ -89,6 +89,7 @@ const messages = Object.assign({
   'aips.files.subtitle': 'Liste les fichiers associés à l\'AIP courrant',
   'aips.files.actions.back': 'Back',
   'aips.files.table.tooltip.show-stacktrace': 'Afficher la stacktrace',
+  'aips.files.table.tooltip.show-error-files': 'Afficher les fichiers en erreur',
 
   'aip.remove-tag.title': 'Suppression d\'une liste de tag',
   'aip.remove-tag.available': 'Cliquez sur un des tags suivant pour l\'ajouter à la liste des tags à supprimer :',

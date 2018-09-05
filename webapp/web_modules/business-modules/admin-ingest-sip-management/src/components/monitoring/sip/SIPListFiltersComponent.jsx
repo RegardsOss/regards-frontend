@@ -94,7 +94,7 @@ class SIPListFiltersComponent extends React.Component {
 
   handleFilter = () => {
     const {
-      processing, from, state, sipId,
+      processing, from, state, providerId,
     } = this.state.filters
     const newFilters = {}
     if (processing) {
@@ -106,9 +106,9 @@ class SIPListFiltersComponent extends React.Component {
     if (state) {
       newFilters.state = state
     }
-    if (sipId) {
+    if (providerId) {
       // Add '%' caracter at starts and ends of the string to search for matching pattern and not strict value.
-      newFilters.sipId = `%${sipId}%`
+      newFilters.providerId = `%${providerId}%`
     }
     this.props.applyFilters(newFilters)
   }
@@ -142,11 +142,11 @@ class SIPListFiltersComponent extends React.Component {
     }
   }
 
-  changeSipIdFilter = (event, newValue) => {
+  changeProviderIdFilter = (event, newValue) => {
     this.setState({
       filters: {
         ...this.state.filters,
-        sipId: newValue,
+        providerId: newValue,
       },
     })
   }
@@ -170,9 +170,9 @@ class SIPListFiltersComponent extends React.Component {
               {map(chains, chain => <MenuItem key={chain.content.name} value={chain.content.name} primaryText={chain.content.name} />)}
             </SelectField>
             <TextField
-              value={get(this.state, 'filters.sipId', '')}
-              onChange={this.changeSipIdFilter}
-              hintText={intl.formatMessage({ id: 'sips.list.filters.sipid.label' })}
+              value={get(this.state, 'filters.providerId', '')}
+              onChange={this.changeProviderIdFilter}
+              hintText={intl.formatMessage({ id: 'sips.list.filters.providerId.label' })}
               style={filter.fieldStyle}
             />
           </TableHeaderOptionGroup>
@@ -221,7 +221,7 @@ class SIPListFiltersComponent extends React.Component {
               !get(this.state, 'filters.from')
               && !get(this.state, 'filters.state')
               && !get(this.state, 'filters.processing')
-              && !get(this.state, 'filters.sipId')
+              && !get(this.state, 'filters.providerId')
             }
             onClick={this.handleClearFilters}
           />

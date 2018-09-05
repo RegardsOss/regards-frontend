@@ -46,6 +46,7 @@ import styles from '../../../styles'
 import AIPListNbFilesColumnRenderer from './AIPListNbFilesColumnRenderer'
 import AIPRemoveTagDialog from './AIPRemoveTagDialog'
 import AIPAddTagDialog from './AIPAddTagDialog'
+import AIPListStateRenderer from './AIPListStateRenderer'
 
 /**
  * AIP list
@@ -347,7 +348,13 @@ class AIPListComponent extends React.Component {
       new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.ipType')
         .label(intl.formatMessage({ id: 'aips.list.table.headers.type' }))
         .build(),
-      new TableColumnBuilder('column.state').titleHeaderCell().propertyRenderCell('content.state')
+      new TableColumnBuilder('column.state').titleHeaderCell()
+        .rowCellDefinition({
+          Constructor: AIPListStateRenderer,
+          props: {
+            goToAipFiles: this.goToAipFiles,
+          },
+        })
         .label(intl.formatMessage({ id: 'aips.list.table.headers.state' }))
         .build(),
       new TableColumnBuilder('column.lastUpdate').titleHeaderCell()

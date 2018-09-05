@@ -29,7 +29,7 @@ import messages from '../../../i18n'
 class SIPDeletionErrorDialog extends React.Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
-    sipId: PropTypes.string, // provided only when there are errors
+    providerId: PropTypes.string, // provided only when there are errors
     errors: PropTypes.arrayOf(PropTypes.string).isRequired,
   }
 
@@ -55,11 +55,11 @@ class SIPDeletionErrorDialog extends React.Component {
   }
 
   render() {
-    const { errors, sipId } = this.props
+    const { errors, providerId } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <Dialog
-        title={formatMessage({ id: 'sip.delete.error.title' }, { id: sipId })}
+        title={formatMessage({ id: 'sip.delete.error.title' }, { id: providerId })}
         actions={this.renderActions()}
         modal={false}
         open={errors.length > 0}

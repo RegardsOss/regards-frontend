@@ -26,7 +26,7 @@ const messages = Object.assign({
   'sips.list.filters.chain.label': 'Processing chain',
   'aips.list.remove-tag.button': 'Remove tag',
   'aips.list.add-tag.button': 'Add tag',
-  'sips.list.filters.sipid.label': 'SIP Identifier',
+  'sips.list.filters.providerId.label': 'Provider Identifier',
   'sips.list.filters.chain.all': 'All chains',
   'sips.list.filters.status.label': 'Status',
   'sips.list.filters.status.all': 'All statuses',
@@ -54,7 +54,7 @@ const messages = Object.assign({
   'sips.stepper.session': 'Select session',
 
   'sip.confirm.delete.title': 'Data deletion (SIP ID : {id})',
-  'sip.confirm.delete.message': 'Do you want to delete only the selected data or all the data with the same SIP ID ?',
+  'sip.confirm.delete.message': 'Do you want to delete only the selected data or all the data with the same provider identifier ?',
   'sip.confirm.delete.sips': 'Delete all',
   'sip.confirm.delete.sip': 'Delete only selected one',
   'sip.cancel.delete': 'Cancel',

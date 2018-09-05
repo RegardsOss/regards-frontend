@@ -54,7 +54,7 @@ export class SIPListContainer extends React.Component {
   static mapDispatchToProps = dispatch => ({
     fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
     deleteSIPBySipId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(sip.sipId)),
-    deleteSIPByProviderId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(undefined, {}, { sipId: sip.providerId })),
+    deleteSIPByProviderId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(undefined, {}, { providerId: sip.providerId })),
     fetchPage: (pageIndex, pageSize, requestParams) => dispatch(sipActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
   })
 
@@ -147,7 +147,7 @@ export class SIPListContainer extends React.Component {
     const { params: { session, sip } } = props
     const contextFilters = {}
     if (sip) {
-      contextFilters.sipId = sip
+      contextFilters.providerId = sip
     } else if (session) {
       contextFilters.sessionId = session
     }
@@ -161,11 +161,11 @@ export class SIPListContainer extends React.Component {
     }
   }
 
-  goToSipHistory = (sipId) => {
+  goToSipHistory = (providerId) => {
     const { params: { project, session } } = this.props
     const encodedSessionName = encodeURIComponent(session)
-    const encodedSipId = encodeURIComponent(sipId)
-    const url = `/admin/${project}/data/acquisition/sip/${encodedSessionName}/${encodedSipId}/history`
+    const encodedProviderId = encodeURIComponent(providerId)
+    const url = `/admin/${project}/data/acquisition/sip/${encodedSessionName}/${encodedProviderId}/history`
     browserHistory.push(url)
   }
 
@@ -187,8 +187,8 @@ export class SIPListContainer extends React.Component {
         handleFilter={this.handleFilter}
         onBack={this.handleGoBack}
         onRefresh={this.onRefresh}
-        onDeleteByIpId={deleteSIPBySipId}
-        onDeleteBySipId={deleteSIPByProviderId}
+        onDeleteBySipId={deleteSIPBySipId}
+        onDeleteByProviderId={deleteSIPByProviderId}
         fetchPage={fetchPage}
         goToSipHistory={this.goToSipHistory}
         goToSessionAIPsMonitoring={this.goToSessionAIPsMonitoring}

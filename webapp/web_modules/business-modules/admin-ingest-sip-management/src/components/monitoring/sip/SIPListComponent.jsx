@@ -53,7 +53,7 @@ import styles from '../../../styles'
 class SIPListComponent extends React.Component {
   static propTypes = {
     session: PropTypes.string.isRequired,
-    sip: PropTypes.string, // Not mandatory. If a SIP is set (sipId) then display only SIPs with the same sipId
+    sip: PropTypes.string, // Not mandatory. If a SIP is set (providerId) then display only SIPs with the same providerId
     pageSize: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
     onBack: PropTypes.func.isRequired,
@@ -61,8 +61,8 @@ class SIPListComponent extends React.Component {
     entitiesLoading: PropTypes.bool.isRequired,
     fetchPage: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
-    onDeleteByIpId: PropTypes.func.isRequired,
     onDeleteBySipId: PropTypes.func.isRequired,
+    onDeleteByProviderId: PropTypes.func.isRequired,
     goToSipHistory: PropTypes.func.isRequired,
     goToSessionAIPsMonitoring: PropTypes.func.isRequired,
     initialFilters: PropTypes.objectOf(PropTypes.string),
@@ -112,31 +112,31 @@ class SIPListComponent extends React.Component {
   }
 
   onConfirmDeleteSIP = () => {
-    this.onConfirmDelete(this.props.onDeleteByIpId)
+    this.onConfirmDelete(this.props.onDeleteBySipId)
   }
 
   onConfirmDeleteSIPs = () => {
-    this.onConfirmDelete(this.props.onDeleteBySipId)
+    this.onConfirmDelete(this.props.onDeleteByProviderId)
   }
 
   onConfirmDelete = (deleteAction) => {
     this.closeDeleteDialog()
     const { sipToDelete, appliedFilters } = this.state
     if (sipToDelete) {
-      const sipId = get(this.state, 'sipToDelete.content.sipId', '')
+      const providerId = get(this.state, 'sipToDelete.content.providerId', '')
       const { intl: { formatMessage } } = this.context
       deleteAction(sipToDelete.content).then((actionResult) => {
         if (actionResult.error) {
           const errors = []
           errors.push({
-            sipId,
-            reason: formatMessage({ id: 'sip.delete.error.title' }, { id: sipId }),
+            providerId,
+            reason: formatMessage({ id: 'sip.delete.error.title' }, { id: providerId }),
           })
-          this.displayDeletionErrors(sipId, errors)
+          this.displayDeletionErrors(providerId, errors)
         } else {
           // Display error dialogs if errors are raised by the service.
           // A 200 OK response is sent by the backend. So we check errors into the response payload.
-          this.displayDeletionErrors(sipId, get(actionResult, 'payload', []))
+          this.displayDeletionErrors(providerId, get(actionResult, 'payload', []))
           // Refresh view
           this.props.onRefresh(appliedFilters)
         }
@@ -169,15 +169,15 @@ class SIPListComponent extends React.Component {
     })
   }
 
-  displayDeletionErrors = (sipId, rejectedSips) => {
+  displayDeletionErrors = (providerId, rejectedSips) => {
     this.setState({
-      deletionErrorsId: sipId,
-      deletionErrors: map(rejectedSips, rejectedSip => `${rejectedSip.sipId} : ${rejectedSip.reason}`),
+      deletionErrorsId: providerId,
+      deletionErrors: map(rejectedSips, rejectedSip => `${rejectedSip.providerId} : ${rejectedSip.reason}`),
     })
   }
 
   goToSipHistory = (entity, index) => {
-    this.props.goToSipHistory(entity.content.sipId)
+    this.props.goToSipHistory(entity.content.providerId)
   }
 
 
@@ -188,7 +188,7 @@ class SIPListComponent extends React.Component {
     if (sipToDelete) {
       return (
         <SIPConfirmDeleteDialog
-          sipId={sipToDelete.content.sipId}
+          providerId={sipToDelete.content.providerId}
           onDeleteSip={this.onConfirmDeleteSIP}
           onDeleteSips={this.onConfirmDeleteSIPs}
           onClose={this.closeDeleteDialog}
@@ -358,7 +358,7 @@ class SIPListComponent extends React.Component {
         {this.renderSIPDetail()}
         {this.renderDeleteConfirmDialog()}
         <SIPDeletionErrorDialog
-          sipId={this.state.deletionErrorsId}
+          providerId={this.state.deletionErrorsId}
           errors={this.state.deletionErrors}
           onClose={this.onCloseDeletionErrorDialog}
         />
