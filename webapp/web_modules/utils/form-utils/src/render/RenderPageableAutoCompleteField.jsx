@@ -68,6 +68,7 @@ class RenderPageableAutoCompleteField extends React.Component {
       value: PropTypes.string.isRequired,
     }),
     entitiesFilterProperty: PropTypes.string.isRequired,
+    entitiesPath: PropTypes.string,
     validate: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.func), PropTypes.func]),
     // From redux field
     input: PropTypes.shape({
@@ -137,13 +138,14 @@ class RenderPageableAutoCompleteField extends React.Component {
   render() {
     const { intl, intl: { formatMessage } } = this.context
     const {
-      input, meta, fullWidth, floatingLabelText, hintText, validate, entitiesConfig, onSelect,
+      input, meta, fullWidth, floatingLabelText, hintText, validate, entitiesConfig, onSelect, entitiesPath,
     } = this.props
     const { isLoading, searchText } = this.state
-    const dsContents = map(this.state.entities, d => d.content)
+    const dsContents = map(this.state.entities, d => entitiesPath ? d.content[entitiesPath] : d.content)
     const loadingDatasource = [formatMessage({ id: 'render.pageableAutoCompleteField.loading' })]
     const ds = isLoading ? loadingDatasource : dsContents
     const dsConfig = isLoading ? undefined : entitiesConfig
+    console.error('ds', ds, dsConfig)
     return (
       <RenderAutoCompleteField
         input={input}

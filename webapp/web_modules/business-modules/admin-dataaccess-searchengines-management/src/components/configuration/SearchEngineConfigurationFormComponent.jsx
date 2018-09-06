@@ -89,7 +89,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
 
 
   onSubmit = (values) => {
-    const searchConf = Object.assign(values, { datasetUrn: get(values, 'dataset.ipId', null), dataset: null })
+    const searchConf = Object.assign(values, { datasetUrn: get(values, 'dataset.id', null), dataset: null })
     let task
     if (this.props.mode === 'edit') {
       task = this.props.onUpdate(searchConf, searchConf.id)
@@ -185,6 +185,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
                 entityActions={datasetActions}
                 entitiesPayloadKey={DatasetConfiguration.normalizrKey}
                 entitiesConfig={datasetAutoCompletConfig}
+                entitiesPath="feature"
                 format={dataset => dataset ? dataset.label : ''}
               />
             </SubSectionCard>
