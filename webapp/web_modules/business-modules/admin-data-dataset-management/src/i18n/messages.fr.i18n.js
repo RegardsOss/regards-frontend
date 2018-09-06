@@ -73,7 +73,7 @@ const messages = Object.assign({
   'dataset.form.action.next': 'Suivant',
   'dataset.form.action.cancel': 'Annuler',
   'dataset.form.model': 'Modèles de jeu de données (*)',
-  'dataset.form.providerId': 'Identfiant producteur (*)',
+  'dataset.form.providerId': 'Identifiant producteur (*)',
   'dataset.form.label': 'Libellé (*)',
   'dataset.form.geometry': 'Géometrie',
   'dataset.form.descriptionUrl': 'URL de la page décrivant le jeu de données',
