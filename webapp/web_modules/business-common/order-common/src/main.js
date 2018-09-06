@@ -16,22 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { ORDER_DISPLAY_MODES } from './model/OrderDisplayModes'
-import { OrdersNavigationActions } from './model/OrdersNavigationActions'
-import { getOrdersNavigationReducer } from './model/OrdersNavigationReducer'
-import { OrdersNavigationSelectors, getOrdersNavigationSelectors } from './model/OrdersNavigationSelectors'
-import OrderDisplayContainer from './containers/OrderDisplayContainer'
-import OrdersNavigationContainer from './containers/OrdersNavigationContainer'
-
-module.exports = {
-  // model and actions
-  ORDER_DISPLAY_MODES,
-  OrdersNavigationActions,
-  OrdersNavigationSelectors,
-  getOrdersNavigationReducer,
-  getOrdersNavigationSelectors,
-
-  // graphic containers
-  OrderDisplayContainer,
-  OrdersNavigationContainer,
-}
+// model and actions
+export { ORDER_DISPLAY_MODES } from './model/OrderDisplayModes'
+export { OrdersNavigationActions } from './model/OrdersNavigationActions'
+export { getOrdersNavigationReducer } from './model/OrdersNavigationReducer'
+export { OrdersNavigationSelectors, getOrdersNavigationSelectors } from './model/OrdersNavigationSelectors'
+// graphic containers
+export { default as OrderDisplayContainer } from './containers/OrderDisplayContainer'
+export { default as OrdersNavigationContainer } from './containers/OrdersNavigationContainer'

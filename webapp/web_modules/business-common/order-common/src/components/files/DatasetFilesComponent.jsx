@@ -72,7 +72,7 @@ class DatasetFilesComponent extends React.Component {
    */
   static getFileName(file) {
     // try using the name, default to URI if undefined
-    return get(file, 'content.name', get(file, 'content.uri'))
+    return get(file, 'content.filename', get(file, 'content.uri'))
   }
 
   /**
@@ -101,7 +101,7 @@ class DatasetFilesComponent extends React.Component {
       // 2 - size column
       new TableColumnBuilder(SIZE_KEY).titleHeaderCell().visible(get(columnsVisibility, SIZE_KEY, true))
         .label(formatMessage({ id: 'files.list.column.size' }))
-        .propertyRenderCell('content.size', StorageCapacityRender)
+        .propertyRenderCell('content.filesize', StorageCapacityRender)
         .build(),
       // 3 - MIME type column
       new TableColumnBuilder(TYPE_KEY).titleHeaderCell().visible(get(columnsVisibility, TYPE_KEY, true))
