@@ -268,9 +268,11 @@ class NotificationListComponent extends React.Component {
             </div>
             <CardText style={dialog.details.message.style}>
               <FormattedMessage id="user.menu.notification.details.message" />
-:
+              :
               <br />
-              {this.state.openedNotification.message}
+              <pre>
+                {this.state.openedNotification.message}
+              </pre>
             </CardText>
           </div>
         </div>
