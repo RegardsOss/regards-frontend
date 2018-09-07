@@ -89,9 +89,9 @@ export class CollectionFormContainer extends React.Component {
     return `/admin/${project}/data/collections/collection/list`
   }
 
-  redirectToLinksPage = (collectionId) => {
+  redirectToFilesPage = (collectionId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/collections/collection/${collectionId}/links`
+    const url = `/admin/${project}/data/collections/collection/${collectionId}/files`
     browserHistory.push(url)
   }
 
@@ -109,7 +109,7 @@ export class CollectionFormContainer extends React.Component {
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          this.redirectToLinksPage(this.props.params.collectionId)
+          this.redirectToFilesPage(this.props.params.collectionId)
         }
       })
   }
@@ -149,7 +149,7 @@ export class CollectionFormContainer extends React.Component {
         if (!actionResult.error) {
           // We extract the collection id from the action
           const collectionId = actionResult.payload.result
-          this.redirectToLinksPage(collectionId)
+          this.redirectToFilesPage(collectionId)
         }
       })
   }
