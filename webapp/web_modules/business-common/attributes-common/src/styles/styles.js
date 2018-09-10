@@ -25,7 +25,8 @@ export default theme => ({
   thumbnailCell: {
     display: 'block',
     cursor: 'pointer',
-    width: '100%',
+    maxWidth: '100%',
+    maxHeight: '100%',
     padding: theme.components.infiniteTable.thumbnailPadding,
   },
   noThumbnailIcon: {
