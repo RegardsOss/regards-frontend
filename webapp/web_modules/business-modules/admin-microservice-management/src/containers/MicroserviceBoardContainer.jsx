@@ -26,7 +26,7 @@ import MicroserviceBoardComponent from '../components/MicroserviceBoardComponent
 import MaintenanceModeActions from '../model/MaintenanceModeActions'
 import MaintenanceModeSelectors from '../model/MaintenanceModeSelectors'
 import SetMaintenanceModeActions, { MAINTENANCES_ACTIONS } from '../model/SetMaintenanceModeActions'
-import MicroserviceInfoClient from '../clients/MicroserviceInfoClient'
+import { microserviceInfoActions } from '../clients/MicroserviceInfoClient'
 import { MicroserviceConfBackupStatusActions, MicroserviceConfBackupStatusSelector } from '../clients/MicroserviceConfBackupStatusClient'
 import messages from '../i18n'
 
@@ -115,7 +115,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  checkMicroserviceStatus: microserviceName => dispatch(MicroserviceInfoClient.microserviceInfoActions.check(microserviceName)),
+  checkMicroserviceStatus: microserviceName => dispatch(microserviceInfoActions.check(microserviceName)),
   fetchMaintenance: microservice => dispatch(MaintenanceModeActions(microservice).sendSignal('GET')),
   fetchBackupConfStatus: microserviceName => dispatch(MicroserviceConfBackupStatusActions(microserviceName).check(microserviceName)),
   setMaintenance: (microservice, action) => dispatch(SetMaintenanceModeActions(microservice).sendSignal('PUT', null, {

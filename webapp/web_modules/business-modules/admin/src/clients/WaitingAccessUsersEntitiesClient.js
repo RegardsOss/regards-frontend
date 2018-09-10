@@ -18,12 +18,6 @@
  **/
 import { AdminClient } from '@regardsoss/client'
 
-const waitingAccessUsersEntitiesActions = new AdminClient.WaitingAccessUsersEntitiesActions()
-const waitingAccessUsersEntitiesReducer = AdminClient.getWaitingAccessUsersEntitiesReducer()
-const waitingAccessUsersEntitiesSelectors = AdminClient.getWaitingAccessUsersEntitiesSelectors()
-
-module.exports = {
-  waitingAccessUsersEntitiesActions,
-  waitingAccessUsersEntitiesReducer,
-  waitingAccessUsersEntitiesSelectors,
-}
+export const waitingAccessUsersEntitiesActions = new AdminClient.WaitingAccessUsersEntitiesActions()
+export const waitingAccessUsersEntitiesReducer = AdminClient.getWaitingAccessUsersEntitiesReducer()
+export const waitingAccessUsersEntitiesSelectors = AdminClient.getWaitingAccessUsersEntitiesSelectors()

@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import accessRightManagementReducer from './reducer'
-import accessRightManagementRouter from './router'
-import accessRightDependencies from './dependencies'
-
-module.exports = {
-  accessRightManagementReducer,
-  accessRightManagementRouter,
-  accessRightDependencies,
-}
+export { default as accessRightManagementReducer } from './reducer'
+export { default as accessRightManagementRouter } from './router'
+export { default as accessRightDependencies } from './dependencies'

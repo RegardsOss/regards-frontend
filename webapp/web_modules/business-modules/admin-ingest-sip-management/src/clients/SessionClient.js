@@ -26,12 +26,6 @@ import { IngestClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'sip', 'session']
 const REDUX_ACTION_NAMESPACE = 'admin-ingest-sip-management/sessions'
 
-const sessionActions = new IngestClient.SessionActions(REDUX_ACTION_NAMESPACE)
-const sessionReducer = IngestClient.getSessionReducer(REDUX_ACTION_NAMESPACE)
-const sessionSelectors = IngestClient.getSessionSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  sessionActions,
-  sessionReducer,
-  sessionSelectors,
-}
+export const sessionActions = new IngestClient.SessionActions(REDUX_ACTION_NAMESPACE)
+export const sessionReducer = IngestClient.getSessionReducer(REDUX_ACTION_NAMESPACE)
+export const sessionSelectors = IngestClient.getSessionSelectors(ENTITIES_STORE_PATH)

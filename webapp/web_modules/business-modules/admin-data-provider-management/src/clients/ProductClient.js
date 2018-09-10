@@ -25,12 +25,6 @@ import { DataProviderClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'product']
 const REDUX_ACTION_NAMESPACE = 'admin-data-provider-management/products'
 
-const ProductActions = new DataProviderClient.ProductActions(REDUX_ACTION_NAMESPACE)
-const ProductReducer = DataProviderClient.getProductReducer(REDUX_ACTION_NAMESPACE)
-const ProductSelectors = DataProviderClient.getProductSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  ProductActions,
-  ProductReducer,
-  ProductSelectors,
-}
+export const ProductActions = new DataProviderClient.ProductActions(REDUX_ACTION_NAMESPACE)
+export const ProductReducer = DataProviderClient.getProductReducer(REDUX_ACTION_NAMESPACE)
+export const ProductSelectors = DataProviderClient.getProductSelectors(ENTITIES_STORE_PATH)

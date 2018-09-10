@@ -25,8 +25,4 @@ import { AuthenticationClient } from '@regardsoss/client'
  */
 const ENTITIES_STORE_PATH = ['common', 'authentication']
 
-const authenticationSelectors = AuthenticationClient.AuthenticateSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  authenticationSelectors,
-}
+export const authenticationSelectors = AuthenticationClient.AuthenticateSelectors(ENTITIES_STORE_PATH)

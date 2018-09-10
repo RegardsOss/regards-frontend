@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-module.exports = {
+export default {
   entities: [
     'fr.cnes.regards.framework.plugins.ISamplePlugin',
     'fr.cnes.regards.framework.plugins.IComplexInterfacePlugin',

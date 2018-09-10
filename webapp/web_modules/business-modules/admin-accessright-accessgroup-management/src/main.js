@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import accessGroupManagementReducer from './reducer'
-import accessGroupManagementRouter from './router'
-import accessGroupDependencies from './dependencies'
-
-module.exports = {
-  accessGroupManagementReducer,
-  accessGroupManagementRouter,
-  accessGroupDependencies,
-}
+export { default as accessGroupManagementReducer } from './reducer'
+export { default as accessGroupManagementRouter } from './router'
+export { default as accessGroupDependencies } from './dependencies'

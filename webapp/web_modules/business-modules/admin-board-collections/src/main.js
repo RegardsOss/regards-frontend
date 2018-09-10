@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import collectionsRouter from './router'
-import collectionsReducers from './reducer'
-import collectionsDependencies from './dependencies'
-
-module.exports = {
-  collectionsReducers,
-  collectionsRouter,
-  collectionsDependencies,
-}
+export { default as collectionsRouter } from './router'
+export { default as collectionsReducers } from './reducer'
+export { default as collectionsDependencies } from './dependencies'

@@ -16,10 +16,5 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import projectManagementReducer from './reducer'
-import projectManagementRouter from './router'
-
-module.exports = {
-  projectManagementReducer,
-  projectManagementRouter,
-}
+export { default as projectManagementReducer } from './reducer'
+export { default as projectManagementRouter } from './router'

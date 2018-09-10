@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import attributeModelDataManagementReducer from './reducer'
-import attributeModelDataManagementRouter from './router'
-import attributeModelDependencies from './dependencies'
-
-
-module.exports = {
-  attributeModelDataManagementReducer,
-  attributeModelDataManagementRouter,
-  attributeModelDependencies,
-}
+export { default as attributeModelDataManagementReducer } from './reducer'
+export { default as attributeModelDataManagementRouter } from './router'
+export { default as attributeModelDependencies } from './dependencies'

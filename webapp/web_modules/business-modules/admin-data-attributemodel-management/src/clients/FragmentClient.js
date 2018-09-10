@@ -26,13 +26,6 @@ import { DataManagementClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'models', 'attribute-model-management', 'fragment']
 const REDUX_ACTION_NAMESPACE = 'admin-data-attributemodel-management/fragment'
 
-const fragmentReducer = DataManagementClient.FragmentReducer(REDUX_ACTION_NAMESPACE)
-const fragmentActions = new DataManagementClient.FragmentActions(REDUX_ACTION_NAMESPACE)
-const fragmentSelectors = DataManagementClient.FragmentSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  fragmentReducer,
-  fragmentActions,
-  fragmentSelectors,
-}
+export const fragmentReducer = DataManagementClient.FragmentReducer(REDUX_ACTION_NAMESPACE)
+export const fragmentActions = new DataManagementClient.FragmentActions(REDUX_ACTION_NAMESPACE)
+export const fragmentSelectors = DataManagementClient.FragmentSelectors(ENTITIES_STORE_PATH)

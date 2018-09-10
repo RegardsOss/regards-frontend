@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import roleManagementReducer from './reducer'
-import roleManagementRouter from './router'
-import roleDependencies from './dependencies'
-
-module.exports = {
-  roleManagementReducer,
-  roleManagementRouter,
-  roleDependencies,
-}
+export { default as roleManagementReducer } from './reducer'
+export { default as roleManagementRouter } from './router'
+export { default as roleDependencies } from './dependencies'

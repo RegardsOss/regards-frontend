@@ -26,15 +26,7 @@ import { CommonClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'storage', 'security-delegation']
 const REDUX_ACTION_NAMESPACE = 'admin-storage/security-delegation'
 
-const securityDelegationReducer = CommonClient.getPluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
-const securityDelegationActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_NAMESPACE)
-const securityDelegationByPluginIdActions = new CommonClient.PluginConfigurationByPluginIdActions(REDUX_ACTION_NAMESPACE)
-const securityDelegationSelectors = CommonClient.getPluginConfigurationSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  securityDelegationReducer,
-  securityDelegationActions,
-  securityDelegationByPluginIdActions,
-  securityDelegationSelectors,
-}
+export const securityDelegationReducer = CommonClient.getPluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
+export const securityDelegationActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_NAMESPACE)
+export const securityDelegationByPluginIdActions = new CommonClient.PluginConfigurationByPluginIdActions(REDUX_ACTION_NAMESPACE)
+export const securityDelegationSelectors = CommonClient.getPluginConfigurationSelectors(ENTITIES_STORE_PATH)

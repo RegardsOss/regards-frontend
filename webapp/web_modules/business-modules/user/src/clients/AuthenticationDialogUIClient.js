@@ -25,12 +25,6 @@ import { UIClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['user', 'authenticationDialog']
 const REDUX_ACTION_NAMESPACE = 'user-authentication-dialog'
 
-const authenticationDialogReducer = UIClient.getAuthenticationDialogReducer(REDUX_ACTION_NAMESPACE)
-const authenticationDialogActions = new UIClient.AuthenticationDialogActions(REDUX_ACTION_NAMESPACE)
-const authenticationDialogSelectors = UIClient.getAuthenticationDialogSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  authenticationDialogReducer,
-  authenticationDialogActions,
-  authenticationDialogSelectors,
-}
+export const authenticationDialogReducer = UIClient.getAuthenticationDialogReducer(REDUX_ACTION_NAMESPACE)
+export const authenticationDialogActions = new UIClient.AuthenticationDialogActions(REDUX_ACTION_NAMESPACE)
+export const authenticationDialogSelectors = UIClient.getAuthenticationDialogSelectors(ENTITIES_STORE_PATH)

@@ -40,8 +40,7 @@ const settingsDependencies = [
   accountSettingsActions.getDependency(RequestVerbEnum.GET),
   accountSettingsActions.getDependency(RequestVerbEnum.PUT),
 ]
-
-module.exports = {
+export default {
   createDepencencies,
   listDependencies,
   settingsDependencies,

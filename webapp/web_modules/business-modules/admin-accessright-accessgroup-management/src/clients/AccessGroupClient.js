@@ -26,13 +26,6 @@ import { DataManagementClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'dataaccess', 'access-group-management', 'access-group']
 const REDUX_ACTION_NAMESPACE = 'admin-accessright-accessgroup-management'
 
-const accessGroupReducer = DataManagementClient.getAccessGroupReducer(REDUX_ACTION_NAMESPACE)
-const accessGroupActions = new DataManagementClient.AccessGroupActions(REDUX_ACTION_NAMESPACE)
-const accessGroupSelectors = DataManagementClient.getAccessGroupSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  accessGroupReducer,
-  accessGroupActions,
-  accessGroupSelectors,
-}
+export const accessGroupReducer = DataManagementClient.getAccessGroupReducer(REDUX_ACTION_NAMESPACE)
+export const accessGroupActions = new DataManagementClient.AccessGroupActions(REDUX_ACTION_NAMESPACE)
+export const accessGroupSelectors = DataManagementClient.getAccessGroupSelectors(ENTITIES_STORE_PATH)

@@ -26,15 +26,7 @@ import { CommonClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'storage', 'allocation-strategy']
 const REDUX_ACTION_NAMESPACE = 'admin-storage/allocation-strategy'
 
-const allocationStrategyReducer = CommonClient.getPluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
-const allocationStrategyActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_NAMESPACE)
-const allocationStrategyByPluginIdActions = new CommonClient.PluginConfigurationByPluginIdActions(REDUX_ACTION_NAMESPACE)
-const allocationStrategySelectors = CommonClient.getPluginConfigurationSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  allocationStrategyReducer,
-  allocationStrategyActions,
-  allocationStrategyByPluginIdActions,
-  allocationStrategySelectors,
-}
+export const allocationStrategyReducer = CommonClient.getPluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
+export const allocationStrategyActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_NAMESPACE)
+export const allocationStrategyByPluginIdActions = new CommonClient.PluginConfigurationByPluginIdActions(REDUX_ACTION_NAMESPACE)
+export const allocationStrategySelectors = CommonClient.getPluginConfigurationSelectors(ENTITIES_STORE_PATH)

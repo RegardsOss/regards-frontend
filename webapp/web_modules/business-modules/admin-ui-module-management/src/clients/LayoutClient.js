@@ -26,12 +26,6 @@ import { AccessProjectClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'ui', 'module', 'layouts']
 const REDUX_ACTION_NAMESPACE = 'admin-ui-module-management/layouts'
 
-const layoutReducers = AccessProjectClient.LayoutReducers(REDUX_ACTION_NAMESPACE)
-const layoutActions = new AccessProjectClient.LayoutActions(REDUX_ACTION_NAMESPACE)
-const layoutSelectors = AccessProjectClient.LayoutSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  layoutReducers,
-  layoutActions,
-  layoutSelectors,
-}
+export const layoutReducers = AccessProjectClient.LayoutReducers(REDUX_ACTION_NAMESPACE)
+export const layoutActions = new AccessProjectClient.LayoutActions(REDUX_ACTION_NAMESPACE)
+export const layoutSelectors = AccessProjectClient.LayoutSelectors(ENTITIES_STORE_PATH)

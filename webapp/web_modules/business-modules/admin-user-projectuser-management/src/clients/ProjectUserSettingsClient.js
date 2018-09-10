@@ -19,12 +19,6 @@
 import { AdminClient } from '@regardsoss/client'
 
 const namespace = 'admin-user-projectuser-management/project-user-settings'
-const projectUserSettingsActions = new AdminClient.ProjectUserSettingsActions(namespace)
-const projectUserSettingsReducer = AdminClient.getProjectUserSettingsReducer(namespace)
-const projectUserSettingsSelectors = AdminClient.getProjectUserSettingsSelectors(['admin', 'user-management', 'project-user-management', 'settings'])
-
-module.exports = {
-  projectUserSettingsActions,
-  projectUserSettingsReducer,
-  projectUserSettingsSelectors,
-}
+export const projectUserSettingsActions = new AdminClient.ProjectUserSettingsActions(namespace)
+export const projectUserSettingsReducer = AdminClient.getProjectUserSettingsReducer(namespace)
+export const projectUserSettingsSelectors = AdminClient.getProjectUserSettingsSelectors(['admin', 'user-management', 'project-user-management', 'settings'])

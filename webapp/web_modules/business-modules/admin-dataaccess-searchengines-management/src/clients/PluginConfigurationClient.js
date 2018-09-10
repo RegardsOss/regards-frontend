@@ -26,13 +26,6 @@ import { CommonClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'dataaccess', 'searchengines', 'pluginConfiguration']
 const REDUX_ACTION_NAMESPACE = 'admin-dataaccess/searchengines-pluginConfiguration'
 
-const pluginConfigurationReducer = CommonClient.getPluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
-const pluginConfigurationActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_NAMESPACE)
-const pluginConfigurationSelectors = CommonClient.getPluginConfigurationSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  pluginConfigurationReducer,
-  pluginConfigurationActions,
-  pluginConfigurationSelectors,
-}
+export const pluginConfigurationReducer = CommonClient.getPluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
+export const pluginConfigurationActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_NAMESPACE)
+export const pluginConfigurationSelectors = CommonClient.getPluginConfigurationSelectors(ENTITIES_STORE_PATH)

@@ -16,15 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import serviceUIRouter from './router'
-import serviceUIReducer from './reducer'
-import serviceUIDependencies from './dependencies'
 /**
  * Module main file to expose public interface
  * @author Sébastien binda
  */
-module.exports = {
-  serviceUIRouter,
-  serviceUIReducer,
-  serviceUIDependencies,
-}
+export { default as serviceUIRouter } from './router'
+export { default as serviceUIReducer } from './reducer'
+export { default as serviceUIDependencies } from './dependencies'

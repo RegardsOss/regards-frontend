@@ -28,7 +28,7 @@ export const listOrderRoute = {
   },
 }
 
-module.exports = {
+export default {
   childRoutes: [
     listOrderRoute,
   ],

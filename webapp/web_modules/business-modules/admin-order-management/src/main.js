@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import orderReducer from './reducer'
-import orderRouter from './router'
-import orderDependencies from './dependencies'
-
-module.exports = {
-  orderReducer,
-  orderRouter,
-  orderDependencies,
-}
+export { default as orderReducer } from './reducer'
+export { default as orderRouter } from './router'
+export { default as orderDependencies } from './dependencies'

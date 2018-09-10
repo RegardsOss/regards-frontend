@@ -26,12 +26,6 @@ import { AccessInstanceClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'ui', 'module', 'layouts-instance']
 const REDUX_ACTION_NAMESPACE = 'admin-ui-module-management/layouts-instance'
 
-const layoutInstanceReducers = AccessInstanceClient.LayoutReducers(REDUX_ACTION_NAMESPACE)
-const layoutInstanceActions = new AccessInstanceClient.LayoutActions(REDUX_ACTION_NAMESPACE)
-const layoutInstanceSelectors = AccessInstanceClient.LayoutSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  layoutInstanceReducers,
-  layoutInstanceActions,
-  layoutInstanceSelectors,
-}
+export const layoutInstanceReducers = AccessInstanceClient.LayoutReducers(REDUX_ACTION_NAMESPACE)
+export const layoutInstanceActions = new AccessInstanceClient.LayoutActions(REDUX_ACTION_NAMESPACE)
+export const layoutInstanceSelectors = AccessInstanceClient.LayoutSelectors(ENTITIES_STORE_PATH)

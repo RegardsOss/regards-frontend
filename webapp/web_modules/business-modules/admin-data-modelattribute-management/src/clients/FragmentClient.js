@@ -25,9 +25,4 @@ import { DataManagementClient } from '@regardsoss/client'
  */
 const ENTITIES_STORE_PATH = ['not', 'used']
 
-const fragmentSelectors = DataManagementClient.FragmentSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  fragmentSelectors,
-}
+export const fragmentSelectors = DataManagementClient.FragmentSelectors(ENTITIES_STORE_PATH)

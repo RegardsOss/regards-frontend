@@ -36,7 +36,8 @@ const listDependencies = [
 const addDependencies = [
   pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, STATIC_CONF.MSERVICES.DAM),
 ]
-module.exports = {
-  listDependencies,
+
+export default {
   addDependencies,
+  listDependencies,
 }

@@ -26,13 +26,6 @@ import { CommonClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'dataaccess', 'searchengines', 'pluginMetadata']
 const REDUX_ACTION_NAMESPACE = 'admin-dataaccess/searchengines-pluginMetaData'
 
-const pluginMetaDataReducer = CommonClient.getPluginMetaDataReducer(REDUX_ACTION_NAMESPACE)
-const pluginMetaDataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_NAMESPACE)
-const pluginMetaDataSelectors = CommonClient.getPluginMetaDataSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  pluginMetaDataReducer,
-  pluginMetaDataActions,
-  pluginMetaDataSelectors,
-}
+export const pluginMetaDataReducer = CommonClient.getPluginMetaDataReducer(REDUX_ACTION_NAMESPACE)
+export const pluginMetaDataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_NAMESPACE)
+export const pluginMetaDataSelectors = CommonClient.getPluginMetaDataSelectors(ENTITIES_STORE_PATH)

@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import fragmentDataManagementReducer from './reducer'
-import fragmentDataManagementRouter from './router'
-import fragmentDependencies from './dependencies'
-
-module.exports = {
-  fragmentDataManagementReducer,
-  fragmentDataManagementRouter,
-  fragmentDependencies,
-}
+export { default as fragmentDataManagementReducer } from './reducer'
+export { default as fragmentDataManagementRouter } from './router'
+export { default as fragmentDependencies } from './dependencies'

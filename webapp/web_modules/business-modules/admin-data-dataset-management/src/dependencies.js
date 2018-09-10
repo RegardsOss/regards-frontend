@@ -31,7 +31,7 @@ const addDependencies = [
   datasetActions.getDependency(RequestVerbEnum.POST),
 ]
 
-module.exports = {
-  listDependencies,
+export default {
   addDependencies,
+  listDependencies,
 }

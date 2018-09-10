@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import acquisitionRouter from './router'
-import acquisitionReducers from './reducer'
-import acquisitionDependencies from './dependencies'
-
-module.exports = {
-  acquisitionReducers,
-  acquisitionRouter,
-  acquisitionDependencies,
-}
+export { default as acquisitionRouter } from './router'
+export { default as acquisitionReducers } from './reducer'
+export { default as acquisitionDependencies } from './dependencies'

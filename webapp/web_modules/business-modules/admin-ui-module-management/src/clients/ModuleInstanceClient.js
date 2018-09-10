@@ -27,12 +27,6 @@ const ENTITIES_STORE_PATH = ['admin', 'ui', 'module', 'modules-instance']
 const REDUX_ACTION_NAMESPACE = 'admin-ui-module-management-new/modules-instance'
 
 
-const moduleInstanceReducers = AccessInstanceClient.ModuleReducers(REDUX_ACTION_NAMESPACE)
-const moduleInstanceActions = new AccessInstanceClient.ModuleActions(REDUX_ACTION_NAMESPACE)
-const moduleInstanceSelectors = AccessInstanceClient.ModuleSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  moduleInstanceReducers,
-  moduleInstanceActions,
-  moduleInstanceSelectors,
-}
+export const moduleInstanceReducers = AccessInstanceClient.ModuleReducers(REDUX_ACTION_NAMESPACE)
+export const moduleInstanceActions = new AccessInstanceClient.ModuleActions(REDUX_ACTION_NAMESPACE)
+export const moduleInstanceSelectors = AccessInstanceClient.ModuleSelectors(ENTITIES_STORE_PATH)
