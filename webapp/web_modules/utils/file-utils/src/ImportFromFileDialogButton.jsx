@@ -33,12 +33,16 @@ class ImportFromFileDialogButton extends React.Component {
     title: PropTypes.string,
     onImport: PropTypes.func.isRequired,
     onImportSucceed: PropTypes.func.isRequired,
+    // when true, close the modal even if there is some error
+    ignoreErrors: PropTypes.bool,
     style: PropTypes.objectOf(PropTypes.string),
     // from reduxForm
     handleSubmit: PropTypes.func,
   }
 
-  static defaultProps = {}
+  static defaultProps = {
+    ignoreErrors: false,
+  }
 
   static contextTypes = {
     ...i18nContextType,
@@ -73,7 +77,11 @@ class ImportFromFileDialogButton extends React.Component {
         if (!result.error) {
           this.handleClose()
           this.props.onImportSucceed()
+        } else if (this.props.ignoreErrors) {
+          // do not display an error inside the popup, just quit it
+          this.handleClose()
         } else {
+          // display a default error message inside the popup
           this.setState({
             error: true,
           })
