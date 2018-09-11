@@ -133,14 +133,26 @@ export class RenderPluginField extends React.PureComponent {
    * @param {*} selectedPluginMetaData : selected pluginMetaData
    */
   handleSelectPluginMetaData = (selectedPluginMetaData, isInitialization) => {
-    const { input, defaultPluginConfLabel } = this.props
-    this.setState({ selectedPluginMetaData })
-    if (!isInitialization) {
-      if (selectedPluginMetaData) {
-        input.onChange(RenderPluginField.getPluginDefaultConf(selectedPluginMetaData, defaultPluginConfLabel))
-      } else {
-        input.onChange(null)
-      }
+    if (isInitialization) {
+      this.setState({
+        selectedPluginMetaData,
+      })
+    } else {
+      const { input, defaultPluginConfLabel } = this.props
+      // Remove the subform first
+      this.setState({
+        selectedPluginMetaData: null,
+      }, () => {
+        // Now save the value
+        this.setState({
+          selectedPluginMetaData,
+        })
+        if (selectedPluginMetaData) {
+          input.onChange(RenderPluginField.getPluginDefaultConf(selectedPluginMetaData, defaultPluginConfLabel))
+        } else {
+          input.onChange(null)
+        }
+      })
     }
   }
 
