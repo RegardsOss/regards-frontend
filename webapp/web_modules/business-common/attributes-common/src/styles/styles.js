@@ -47,10 +47,12 @@ export default theme => ({
         flexGrow: 1,
         flexShrink: 1,
       },
+      scrollableAreaStyle: {
+        flexGrow: 1,
+        flexShrink: 1,
+      },
       multipleSelector: {
         rootStyle: {
-          flexGrow: 1,
-          flexShrink: 1,
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'stretch',
@@ -79,10 +81,6 @@ export default theme => ({
           flexDirection: 'column',
           alignItems: 'stretch',
         },
-      },
-      spaceConsumerStyle: {
-        flexGrow: 1,
-        flexShrink: 1,
       },
       actionsStyle: {
         display: 'flex',

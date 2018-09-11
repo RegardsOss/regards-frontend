@@ -28,6 +28,7 @@ import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/display-control'
+import { ScrollArea } from '@regardsoss/adapters'
 import {
   RenderTextField, RenderSelectField, Field, FieldArray, reduxForm, ValidationHelpers, ErrorTypes,
 } from '@regardsoss/form-utils'
@@ -219,88 +220,90 @@ export class EditItemForm extends React.Component {
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit)} style={editDialog.formStyle}>
-        { /** 1 - Attribute selector: when groups are allowed use attributes in a field array form property,
-              use singleAttribute formValue otherwise  */
-          allowAttributesRegroupements ? (
-            <FieldArray // multiple elements field
-              name="attributes"
-              component={MultipleAttributesFieldRender}
-              allowMultiselection={allowAttributesRegroupements}
-              attributeModels={attributeModels}
-              validate={this.validateMultipleAttributesField}
-              label={formatMessage({ id: 'attribute.configuration.multiple.attribute.field' })}
-            />) : (
-              <Field // single element field
-                key="field"
-                name="singleAttribute.name"
-                component={SingleAttributeFieldRender}
-                attributeModels={attributeModels}
-                format={this.formatSingleAttributeValue}
-                validate={this.validateSingleAttributeNameField}
-                label={formatMessage({ id: 'attribute.configuration.single.attribute.field' })}
-                fullWidth
-              />)
-        }
-        {/* 2 position in columns list */}
-        <Field
-          name="order"
-          component={RenderSelectField}
-          label={formatMessage({ id: 'attribute.configuration.index.field' })}
-          fullWidth
+        {/* All fields, in scroll area */}
+        <ScrollArea
+          //height="100%"
+          vertical
+          style={editDialog.scrollableAreaStyle}
         >
-          {[ // First position option
-            <MenuItem
-              key="first"
-              value={0}
-              primaryText={formatMessage({ id: 'attribute.configuration.index.first' })}
-            />, // After other attribute elements option
-            ...attributesList.map((attribute, index) => index === editedElementIndex
-              ? null : ( // do not propose self position =)
-                <MenuItem
+          { /** 1 - Attribute selector: when groups are allowed use attributes in a field array form property,
+              use singleAttribute formValue otherwise  */
+            allowAttributesRegroupements ? (
+              <FieldArray // multiple elements field
+                name="attributes"
+                component={MultipleAttributesFieldRender}
+                allowMultiselection={allowAttributesRegroupements}
+                attributeModels={attributeModels}
+                validate={this.validateMultipleAttributesField}
+                label={formatMessage({ id: 'attribute.configuration.multiple.attribute.field' })}
+              />) : (
+                <Field // single element field
+                  key="field"
+                  name="singleAttribute.name"
+                  component={SingleAttributeFieldRender}
+                  attributeModels={attributeModels}
+                  format={this.formatSingleAttributeValue}
+                  validate={this.validateSingleAttributeNameField}
+                  label={formatMessage({ id: 'attribute.configuration.single.attribute.field' })}
+                  fullWidth
+                />)
+          }
+          {/* 2 position in columns list */}
+          <Field
+            name="order"
+            component={RenderSelectField}
+            label={formatMessage({ id: 'attribute.configuration.index.field' })}
+            fullWidth
+          >
+            {[ // First position option
+              <MenuItem
+                key="first"
+                value={0}
+                primaryText={formatMessage({ id: 'attribute.configuration.index.first' })}
+              />, // After other attribute elements option
+              ...attributesList.map((attribute, index) => index === editedElementIndex
+                ? null : ( // do not propose self position =)
+                  <MenuItem
                     // eslint-disable-next-line react/no-array-index-key
-                  key={index} // index is ok as list cannot change before unmount
-                  value={// value is final position in table (remove this element index if it was before current attribute)
+                    key={index} // index is ok as list cannot change before unmount
+                    value={// value is final position in table (remove this element index if it was before current attribute)
                       editedElementIndex < index ? index : index + 1
                     }
-                  primaryText={formatMessage({ id: 'attribute.configuration.index.after.element' },
-                    {
-                      label: allowLabel
-                        ? attribute.label[locale]
-                      // when label is not edited, use first attribute as label (the groups should normally be forbidden)
-                        : EditItemForm.getAttributeLabel(attribute.attributes[0].name, attributeModels),
-                      // after element position, in a table range from 1 to N
-                      index: editedElementIndex < index ? index + 1 : index + 2,
-                    })}
-                />)),
-          ]}
-        </Field>
-        {/* 3 labels */}
-        <ShowableAtRender show={allowLabel}>
-          <Field
-            name="label.en"
-            label={formatMessage({ id: 'attribute.configuration.label.en.field' })}
-            fullWidth
-            component={RenderTextField}
-            type="text"
-            validate={ValidationHelpers.required}
-          />
-        </ShowableAtRender>
-        <ShowableAtRender show={allowLabel}>
-          <Field
-            name="label.fr"
-            label={formatMessage({ id: 'attribute.configuration.label.fr.field' })}
-            fullWidth
-            component={RenderTextField}
-            type="text"
-            validate={ValidationHelpers.required}
-          />
-        </ShowableAtRender>
-        {/* 4. Space consumer when regroupements are forbidden (otherwise, the table uses vertical space) */
-          allowAttributesRegroupements ? null : (
-            <div key="space.consumer" style={editDialog.spaceConsumerStyle} />
-          )
-        }
-        {/* 5. form actions */}
+                    primaryText={formatMessage({ id: 'attribute.configuration.index.after.element' },
+                      {
+                        label: allowLabel
+                          ? attribute.label[locale]
+                          // when label is not edited, use first attribute as label (the groups should normally be forbidden)
+                          : EditItemForm.getAttributeLabel(attribute.attributes[0].name, attributeModels),
+                        // after element position, in a table range from 1 to N
+                        index: editedElementIndex < index ? index + 1 : index + 2,
+                      })}
+                  />)),
+            ]}
+          </Field>
+          {/* 3 labels */}
+          <ShowableAtRender show={allowLabel}>
+            <Field
+              name="label.en"
+              label={formatMessage({ id: 'attribute.configuration.label.en.field' })}
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              validate={ValidationHelpers.required}
+            />
+          </ShowableAtRender>
+          <ShowableAtRender show={allowLabel}>
+            <Field
+              name="label.fr"
+              label={formatMessage({ id: 'attribute.configuration.label.fr.field' })}
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              validate={ValidationHelpers.required}
+            />
+          </ShowableAtRender>
+        </ScrollArea>
+        {/* 4. form actions, outside scroll area */}
         <div style={editDialog.actionsStyle}>
           <FlatButton
             label={formatMessage({ id: 'attribute.configuration.cancel.edition' })}

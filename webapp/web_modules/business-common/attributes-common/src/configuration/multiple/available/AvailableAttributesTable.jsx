@@ -149,6 +149,8 @@ class AvailableAttributesTable extends React.Component {
         </TableHeaderLine>
         {/* 2 - Table render */}
         <InfiniteTableContainer
+          minRowCount={5}
+          maxRowCount={5}
           columns={this.buildColumns()}
           entities={attributeModels}
           emptyComponent={AvailableAttributesTable.EMPTY_COMPONENT}
