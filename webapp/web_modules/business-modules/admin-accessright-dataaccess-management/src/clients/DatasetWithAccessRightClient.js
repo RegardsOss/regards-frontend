@@ -26,13 +26,6 @@ import { DataManagementClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'dataaccess', 'access-rights-management', 'access-rights-datasets']
 const REDUX_ACTION_NAMESPACE = 'admin-accessright-management/dataset-access-right'
 
-const datasetWithAccessRightReducer = DataManagementClient.getDatasetWithAccessRightReducer(REDUX_ACTION_NAMESPACE)
-const datasetWithAccessRightActions = new DataManagementClient.DatasetWithAccessRightActions(REDUX_ACTION_NAMESPACE)
-const datasetWithAccessRightSelectors = DataManagementClient.getDatasetWithAccessRightSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  datasetWithAccessRightReducer,
-  datasetWithAccessRightActions,
-  datasetWithAccessRightSelectors,
-}
+export const datasetWithAccessRightReducer = DataManagementClient.getDatasetWithAccessRightReducer(REDUX_ACTION_NAMESPACE)
+export const datasetWithAccessRightActions = new DataManagementClient.DatasetWithAccessRightActions(REDUX_ACTION_NAMESPACE)
+export const datasetWithAccessRightSelectors = DataManagementClient.getDatasetWithAccessRightSelectors(ENTITIES_STORE_PATH)

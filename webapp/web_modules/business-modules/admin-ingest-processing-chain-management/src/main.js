@@ -16,16 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import processingChainManagementRouter from './router'
-import processingChainManagementReducer from './reducer'
-import processingChainDependencies from './dependencies'
-
 /**
  * Index file for ingest processing chain management module
  * @author Sébastien Binda
  */
-module.exports = {
-  processingChainManagementReducer,
-  processingChainManagementRouter,
-  processingChainDependencies,
-}
+export { default as processingChainManagementRouter } from './router'
+export { default as processingChainManagementReducer } from './reducer'
+export { default as processingChainDependencies } from './dependencies'

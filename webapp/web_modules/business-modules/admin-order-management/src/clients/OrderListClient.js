@@ -19,12 +19,6 @@
 import { OrderClient } from '@regardsoss/client'
 
 const namespace = 'admin-order-management/order-list'
-const orderListActions = new OrderClient.OrderListActions(namespace, true)
-const orderListReducer = OrderClient.getOrderListReducer(namespace, true)
-const orderListSelectors = OrderClient.getOrderListSelectors(['admin', 'user-management', 'order-management', 'orders'])
-
-module.exports = {
-  orderListActions,
-  orderListReducer,
-  orderListSelectors,
-}
+export const orderListActions = new OrderClient.OrderListActions(namespace, true)
+export const orderListReducer = OrderClient.getOrderListReducer(namespace, true)
+export const orderListSelectors = OrderClient.getOrderListSelectors(['admin', 'user-management', 'order-management', 'orders'])

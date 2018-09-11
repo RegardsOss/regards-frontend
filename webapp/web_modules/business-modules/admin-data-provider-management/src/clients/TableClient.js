@@ -34,20 +34,18 @@ const PRODUCT_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'product']
 const ACQUISITION_FILE_NAMESPACE = 'data-provider-management/acquisition-file-table'
 const ACQUISITION_FILE_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'acquisitionFile']
 
-module.exports = {
-  tableActions: new TableActions(ACQUISITION_PROCESSING_CHAIN_NAMESPACE),
-  tableReducer: getTableReducer(ACQUISITION_PROCESSING_CHAIN_NAMESPACE),
-  tableSelectors: getTableSelectors(ACQUISITION_PROCESSING_CHAIN_STORE_PATH),
+export const tableActions = new TableActions(ACQUISITION_PROCESSING_CHAIN_NAMESPACE)
+export const tableReducer = getTableReducer(ACQUISITION_PROCESSING_CHAIN_NAMESPACE)
+export const tableSelectors = getTableSelectors(ACQUISITION_PROCESSING_CHAIN_STORE_PATH)
 
-  tableMonitorActions: new TableActions(ACQUISITION_PROCESSING_CHAIN_MONITOR_NAMESPACE),
-  tableMonitorReducer: getTableReducer(ACQUISITION_PROCESSING_CHAIN_MONITOR_NAMESPACE),
-  tableMonitorSelectors: getTableSelectors(ACQUISITION_PROCESSING_CHAIN_MONITOR_STORE_PATH),
+export const tableMonitorActions = new TableActions(ACQUISITION_PROCESSING_CHAIN_MONITOR_NAMESPACE)
+export const tableMonitorReducer = getTableReducer(ACQUISITION_PROCESSING_CHAIN_MONITOR_NAMESPACE)
+export const tableMonitorSelectors = getTableSelectors(ACQUISITION_PROCESSING_CHAIN_MONITOR_STORE_PATH)
 
-  tableProductActions: new TableActions(PRODUCT_NAMESPACE),
-  tableProductReducer: getTableReducer(PRODUCT_NAMESPACE),
-  tableProductSelectors: getTableSelectors(PRODUCT_STORE_PATH),
+export const tableProductActions = new TableActions(PRODUCT_NAMESPACE)
+export const tableProductReducer = getTableReducer(PRODUCT_NAMESPACE)
+export const tableProductSelectors = getTableSelectors(PRODUCT_STORE_PATH)
 
-  tableAcquisitionFileActions: new TableActions(ACQUISITION_FILE_NAMESPACE),
-  tableAcquisitionFileReducer: getTableReducer(ACQUISITION_FILE_NAMESPACE),
-  tableAcquisitionFileSelectors: getTableSelectors(ACQUISITION_FILE_STORE_PATH),
-}
+export const tableAcquisitionFileActions = new TableActions(ACQUISITION_FILE_NAMESPACE)
+export const tableAcquisitionFileReducer = getTableReducer(ACQUISITION_FILE_NAMESPACE)
+export const tableAcquisitionFileSelectors = getTableSelectors(ACQUISITION_FILE_STORE_PATH)

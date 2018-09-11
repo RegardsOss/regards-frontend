@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import sipManagementRouter from './router'
-import sipManagementReducer from './reducer'
-import sipDependencies from './dependencies'
-
-module.exports = {
-  sipManagementReducer,
-  sipManagementRouter,
-  sipDependencies,
-}
+export { default as sipManagementRouter } from './router'
+export { default as sipManagementReducer } from './reducer'
+export { default as sipDependencies } from './dependencies'

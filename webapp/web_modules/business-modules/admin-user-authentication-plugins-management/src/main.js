@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import authenticationPluginManagementReducer from './reducer'
-import authenticationPluginManagementRouter from './router'
-import authenticationPluginManagementDependencies from './dependencies'
-
-
-module.exports = {
-  authenticationPluginManagementReducer,
-  authenticationPluginManagementRouter,
-  authenticationPluginManagementDependencies,
-}
+export { default as authenticationPluginManagementReducer } from './reducer'
+export { default as authenticationPluginManagementRouter } from './router'
+export { default as authenticationPluginManagementDependencies } from './dependencies'

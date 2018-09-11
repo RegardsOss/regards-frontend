@@ -40,7 +40,7 @@ const settingsDependencies = [
   projectUserSettingsActions.getDependency(RequestVerbEnum.PUT),
 ]
 
-module.exports = {
+export default {
   listDependencies,
   addDependencies,
   settingsDependencies,

@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import layoutUIRouter from './router'
-import layoutUIReducer from './model/LayoutReducer'
-import layoutUIDependencies from './dependencies'
-
-module.exports = {
-  layoutUIRouter,
-  layoutUIReducer,
-  layoutUIDependencies,
-}
+export { default as layoutUIRouter } from './router'
+export { default as layoutUIReducer } from './model/LayoutReducer'
+export { default as layoutUIDependencies } from './dependencies'

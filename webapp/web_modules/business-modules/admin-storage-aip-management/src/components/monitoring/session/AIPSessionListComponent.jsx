@@ -153,8 +153,8 @@ class AIPSessionListComponent extends React.Component {
             <div style={session.error.rowColumnStyle}>
               <div style={session.error.textStyle}>
                 {props.entity.content.errorAipsCount}
-                  /
-                {props.entity.content.aipsCount}
+                /
+                {props.entity.content.aipsCount - props.entity.content.deletedAipsCount}
               </div>
               <ShowableAtRender
                 style={session.error.iconContainerStyle}

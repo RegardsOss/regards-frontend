@@ -23,6 +23,7 @@ export default class MicroserviceConfBackupActions extends BasicSignalActions {
   constructor(namespace) {
     super({
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microserviceName}/microservice/configuration`,
+      bypassErrorMiddleware: true,
       namespace,
     })
   }

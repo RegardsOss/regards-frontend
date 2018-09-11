@@ -18,7 +18,7 @@
  **/
 import { DamDomain } from '@regardsoss/domain'
 
-module.exports = {
+export default {
   providerId: {
     content: {
       mode: '',

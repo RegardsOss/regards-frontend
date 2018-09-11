@@ -16,10 +16,5 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import modelAttributeDataManagementReducer from './reducer'
-import modelAttributeDataManagementRouter from './router'
-
-module.exports = {
-  modelAttributeDataManagementReducer,
-  modelAttributeDataManagementRouter,
-}
+export { default as modelAttributeDataManagementReducer } from './reducer'
+export { default as modelAttributeDataManagementRouter } from './router'

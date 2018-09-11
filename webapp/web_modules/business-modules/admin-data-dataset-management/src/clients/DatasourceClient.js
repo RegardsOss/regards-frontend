@@ -26,13 +26,6 @@ import { DataManagementClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'collections', 'dataset', 'datasource']
 const REDUX_ACTION_NAMESPACE = 'admin-data-dataset-management/datasource'
 
-const datasourceReducer = DataManagementClient.DatasourceReducer(REDUX_ACTION_NAMESPACE)
-const datasourceActions = new DataManagementClient.DatasourceActions(REDUX_ACTION_NAMESPACE)
-const datasourceSelectors = DataManagementClient.DatasourceSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  datasourceReducer,
-  datasourceActions,
-  datasourceSelectors,
-}
+export const datasourceReducer = DataManagementClient.DatasourceReducer(REDUX_ACTION_NAMESPACE)
+export const datasourceActions = new DataManagementClient.DatasourceActions(REDUX_ACTION_NAMESPACE)
+export const datasourceSelectors = DataManagementClient.DatasourceSelectors(ENTITIES_STORE_PATH)

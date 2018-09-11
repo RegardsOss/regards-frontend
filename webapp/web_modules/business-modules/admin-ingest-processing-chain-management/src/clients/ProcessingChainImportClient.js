@@ -25,8 +25,4 @@ import { IngestClient } from '@regardsoss/client'
  */
 const REDUX_ACTION_NAMESPACE = 'admin-ingest-processing-chain-management/import'
 
-const processingChainImportActions = new IngestClient.ProcessingChainImportActions(REDUX_ACTION_NAMESPACE)
-
-module.exports = {
-  processingChainImportActions,
-}
+export const processingChainImportActions = new IngestClient.ProcessingChainImportActions(REDUX_ACTION_NAMESPACE)

@@ -26,10 +26,5 @@ import { ProcessingChainConfiguration } from '@regardsoss/api'
  */
 const REDUX_ACTION_NAMESPACE = 'admin-data-prodiver-management/ingest-processing-chains'
 
-const ingestProcessingChainActions = new IngestClient.ProcessingChainActions(REDUX_ACTION_NAMESPACE)
-const ingestProcessingChainEntitiesKey = ProcessingChainConfiguration.normalizrKey
-
-module.exports = {
-  ingestProcessingChainActions,
-  ingestProcessingChainEntitiesKey,
-}
+export const ingestProcessingChainActions = new IngestClient.ProcessingChainActions(REDUX_ACTION_NAMESPACE)
+export const ingestProcessingChainEntitiesKey = ProcessingChainConfiguration.normalizrKey

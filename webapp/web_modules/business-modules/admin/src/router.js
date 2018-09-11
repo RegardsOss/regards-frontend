@@ -166,7 +166,7 @@ export const dataAccessRouter = {
 /**
  * Main Routes for administration application
  */
-module.exports = {
+export default {
   path: 'admin',
   childRoutes: [
     projectRouter,

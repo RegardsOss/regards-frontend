@@ -16,15 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import storageManagementReducer from './reducer'
-import storageManagementRouter from './router'
-import storageManagementDependencies from './dependencies'
-
 /**
  * @author Sébastien Binda
  */
-module.exports = {
-  storageManagementReducer,
-  storageManagementRouter,
-  storageManagementDependencies,
-}
+export { default as storageManagementReducer } from './reducer'
+export { default as storageManagementRouter } from './router'
+export { default as storageManagementDependencies } from './dependencies'

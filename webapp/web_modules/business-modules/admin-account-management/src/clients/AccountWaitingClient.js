@@ -19,12 +19,6 @@
 import { AdminInstanceClient } from '@regardsoss/client'
 
 // build default client
-const accountWaitingActions = new AdminInstanceClient.AccountWaitingActions()
-const accountWaitingReducer = AdminInstanceClient.getAccountWaitingReducer()
-const accountWaitingSelectors = AdminInstanceClient.getAccountWaitingSelectors()
-
-module.exports = {
-  accountWaitingActions,
-  accountWaitingReducer,
-  accountWaitingSelectors,
-}
+export const accountWaitingActions = new AdminInstanceClient.AccountWaitingActions()
+export const accountWaitingReducer = AdminInstanceClient.getAccountWaitingReducer()
+export const accountWaitingSelectors = AdminInstanceClient.getAccountWaitingSelectors()

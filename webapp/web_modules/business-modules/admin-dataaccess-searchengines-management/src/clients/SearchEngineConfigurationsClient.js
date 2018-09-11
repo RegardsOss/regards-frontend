@@ -26,13 +26,6 @@ import { CatalogClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'dataaccess', 'searchengines', 'configurations']
 const REDUX_ACTION_NAMESPACE = 'admin-dataaccess/searchengines'
 
-const searchEngineConfigurationsReducer = CatalogClient.getSearchEngineConfigurationsReducer(REDUX_ACTION_NAMESPACE)
-const searchEngineConfigurationsActions = new CatalogClient.SearchEngineConfigurationsActions(REDUX_ACTION_NAMESPACE)
-const searchEngineConfigurationsSelectors = CatalogClient.getSearchEngineConfigurationsSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  searchEngineConfigurationsActions,
-  searchEngineConfigurationsReducer,
-  searchEngineConfigurationsSelectors,
-}
+export const searchEngineConfigurationsReducer = CatalogClient.getSearchEngineConfigurationsReducer(REDUX_ACTION_NAMESPACE)
+export const searchEngineConfigurationsActions = new CatalogClient.SearchEngineConfigurationsActions(REDUX_ACTION_NAMESPACE)
+export const searchEngineConfigurationsSelectors = CatalogClient.getSearchEngineConfigurationsSelectors(ENTITIES_STORE_PATH)

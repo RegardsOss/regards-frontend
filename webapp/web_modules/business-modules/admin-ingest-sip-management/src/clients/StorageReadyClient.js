@@ -25,8 +25,4 @@ import { CommonClient } from '@regardsoss/client'
  */
 const REDUX_ACTION_NAMESPACE = 'admin-ingest-sip-management/storage-ready'
 
-const storageReadyActions = new CommonClient.MicroserviceReadyActions(REDUX_ACTION_NAMESPACE)
-
-module.exports = {
-  storageReadyActions,
-}
+export const storageReadyActions = new CommonClient.MicroserviceReadyActions(REDUX_ACTION_NAMESPACE)

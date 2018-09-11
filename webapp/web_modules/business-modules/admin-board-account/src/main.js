@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import accountsRouter from './router'
-import accountsReducer from './reducer'
-import accountsDependencies from './dependencies'
-
-module.exports = {
-  accountsReducer,
-  accountsRouter,
-  accountsDependencies,
-}
+export { default as accountsRouter } from './router'
+export { default as accountsReducer } from './reducer'
+export { default as accountsDependencies } from './dependencies'

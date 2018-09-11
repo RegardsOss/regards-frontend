@@ -25,9 +25,4 @@ import { CommonClient } from '@regardsoss/client'
  */
 const REDUX_ACTION_NAMESPACE = 'microservice-conf-backup'
 
-const microserviceConfBackupActions = new CommonClient.MicroserviceConfBackupActions(REDUX_ACTION_NAMESPACE)
-
-
-module.exports = {
-  microserviceConfBackupActions,
-}
+export const microserviceConfBackupActions = new CommonClient.MicroserviceConfBackupActions(REDUX_ACTION_NAMESPACE)

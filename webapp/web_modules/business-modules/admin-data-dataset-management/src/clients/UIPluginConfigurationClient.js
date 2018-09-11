@@ -27,13 +27,6 @@ const ENTITIES_STORE_PATH = ['admin', 'collections', 'dataset', 'ui-plugin-confi
 const REDUX_ACTION_NAMESPACE = 'admin-ui-service-management/ui-plugin-configuration'
 const isRequestingByUIPlugin = false
 
-const uiPluginConfigurationReducer = AccessProjectClient.UIPluginConfigurationReducers(REDUX_ACTION_NAMESPACE)
-const uiPluginConfigurationActions = new AccessProjectClient.UIPluginConfigurationActions(REDUX_ACTION_NAMESPACE, isRequestingByUIPlugin)
-const uiPluginConfigurationSelectors = AccessProjectClient.UIPluginConfigurationSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  uiPluginConfigurationReducer,
-  uiPluginConfigurationActions,
-  uiPluginConfigurationSelectors,
-}
+export const uiPluginConfigurationReducer = AccessProjectClient.UIPluginConfigurationReducers(REDUX_ACTION_NAMESPACE)
+export const uiPluginConfigurationActions = new AccessProjectClient.UIPluginConfigurationActions(REDUX_ACTION_NAMESPACE, isRequestingByUIPlugin)
+export const uiPluginConfigurationSelectors = AccessProjectClient.UIPluginConfigurationSelectors(ENTITIES_STORE_PATH)

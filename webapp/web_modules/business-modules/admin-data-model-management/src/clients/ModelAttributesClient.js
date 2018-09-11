@@ -25,8 +25,4 @@ import { DataManagementClient } from '@regardsoss/client'
  */
 const REDUX_ACTION_NAMESPACE = 'admin-data-model-management'
 
-const modelAttributesActions = new DataManagementClient.ModelAttributesActions(REDUX_ACTION_NAMESPACE)
-
-module.exports = {
-  modelAttributesActions,
-}
+export const modelAttributesActions = new DataManagementClient.ModelAttributesActions(REDUX_ACTION_NAMESPACE)

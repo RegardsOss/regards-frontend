@@ -39,7 +39,7 @@ const addDependencies = [
   aipActions.getDependency(RequestVerbEnum.POST),
 ]
 
-module.exports = {
+export default {
   listDependencies,
   addDependencies,
 }

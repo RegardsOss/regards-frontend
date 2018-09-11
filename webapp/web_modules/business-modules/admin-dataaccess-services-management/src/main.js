@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import servicesManagementReducer from './reducer'
-import servicesManagementRouter from './router'
-import servicesManagementDependencies from './dependencies'
-
-
-module.exports = {
-  servicesManagementReducer,
-  servicesManagementRouter,
-  servicesManagementDependencies,
-}
+export { default as servicesManagementReducer } from './reducer'
+export { default as servicesManagementRouter } from './router'
+export { default as servicesManagementDependencies } from './dependencies'

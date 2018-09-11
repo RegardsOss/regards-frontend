@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import collectionDataManagementReducer from './reducer'
-import collectionDataManagementRouter from './router'
-import collectionDependencies from './dependencies'
-
-module.exports = {
-  collectionDataManagementReducer,
-  collectionDataManagementRouter,
-  collectionDependencies,
-}
+export { default as collectionDataManagementReducer } from './reducer'
+export { default as collectionDataManagementRouter } from './router'
+export { default as collectionDependencies } from './dependencies'

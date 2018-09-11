@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import searchEnginesReducer from './reducer'
-import searchEnginesRouter from './router'
-import searchEnginesDependencies from './dependencies'
-
-
-module.exports = {
-  searchEnginesReducer,
-  searchEnginesRouter,
-  searchEnginesDependencies,
-}
+export { default as searchEnginesReducer } from './reducer'
+export { default as searchEnginesRouter } from './router'
+export { default as searchEnginesDependencies } from './dependencies'

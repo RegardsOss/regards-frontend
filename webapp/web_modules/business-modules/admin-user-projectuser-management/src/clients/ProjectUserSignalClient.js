@@ -19,12 +19,6 @@
 import { AdminClient } from '@regardsoss/client'
 
 const namespace = 'admin-user-projectuser-management/waiting-accounts-signals'
-const projectUserSignalActions = new AdminClient.ProjectUserSignalActions(namespace)
-const projectUserSignalReducer = AdminClient.getProjectUserSignalReducer(namespace)
-const projectUserSignalSelectors = AdminClient.getProjectUserSignalSelectors(['admin', 'user-management', 'project-user-management', 'projectUserSignals'])
-
-module.exports = {
-  projectUserSignalActions,
-  projectUserSignalReducer,
-  projectUserSignalSelectors,
-}
+export const projectUserSignalActions = new AdminClient.ProjectUserSignalActions(namespace)
+export const projectUserSignalReducer = AdminClient.getProjectUserSignalReducer(namespace)
+export const projectUserSignalSelectors = AdminClient.getProjectUserSignalSelectors(['admin', 'user-management', 'project-user-management', 'projectUserSignals'])

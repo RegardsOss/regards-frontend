@@ -16,15 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import dataProviderManagementRouter from './router'
-import dataProviderManagementReducer from './reducer'
-import dataProviderDependencies from './dependencies'
-
 /**
   * @author Sébastien Binda
   */
-module.exports = {
-  dataProviderManagementReducer,
-  dataProviderManagementRouter,
-  dataProviderDependencies,
-}
+export { default as dataProviderManagementRouter } from './router'
+export { default as dataProviderManagementReducer } from './reducer'
+export { default as dataProviderDependencies } from './dependencies'

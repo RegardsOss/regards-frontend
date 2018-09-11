@@ -37,8 +37,8 @@ const addDependencies = [
   datasourceActions.getDependency(RequestVerbEnum.POST),
 ]
 
-module.exports = {
-  listDependencies,
+export default {
   addDependencies,
+  listDependencies,
   crawlerDependencies,
 }

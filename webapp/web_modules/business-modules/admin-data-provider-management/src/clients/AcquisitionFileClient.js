@@ -25,12 +25,6 @@ import { DataProviderClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'acquisitionFile']
 const REDUX_ACTION_NAMESPACE = 'admin-data-provider-management/acquisition-files'
 
-const AcquisitionFileActions = new DataProviderClient.AcquisitionFileActions(REDUX_ACTION_NAMESPACE)
-const AcquisitionFileReducer = DataProviderClient.getAcquisitionFileReducer(REDUX_ACTION_NAMESPACE)
-const AcquisitionFileSelectors = DataProviderClient.getAcquisitionFileSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  AcquisitionFileActions,
-  AcquisitionFileReducer,
-  AcquisitionFileSelectors,
-}
+export const AcquisitionFileActions = new DataProviderClient.AcquisitionFileActions(REDUX_ACTION_NAMESPACE)
+export const AcquisitionFileReducer = DataProviderClient.getAcquisitionFileReducer(REDUX_ACTION_NAMESPACE)
+export const AcquisitionFileSelectors = DataProviderClient.getAcquisitionFileSelectors(ENTITIES_STORE_PATH)

@@ -31,7 +31,7 @@ const addDependencies = [
   connectionActions.getDependency(RequestVerbEnum.POST),
 ]
 
-module.exports = {
-  listDependencies,
+export default {
   addDependencies,
+  listDependencies,
 }

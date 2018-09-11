@@ -26,12 +26,6 @@ import { DataManagementClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'collections', 'dataset', 'collection']
 const REDUX_ACTION_NAMESPACE = 'admin-data-dataset-management/collection'
 
-const collectionReducer = DataManagementClient.CollectionReducer(REDUX_ACTION_NAMESPACE)
-const collectionActions = new DataManagementClient.CollectionActions(REDUX_ACTION_NAMESPACE)
-const collectionSelectors = DataManagementClient.CollectionSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  collectionReducer,
-  collectionActions,
-  collectionSelectors,
-}
+export const collectionReducer = DataManagementClient.CollectionReducer(REDUX_ACTION_NAMESPACE)
+export const collectionActions = new DataManagementClient.CollectionActions(REDUX_ACTION_NAMESPACE)
+export const collectionSelectors = DataManagementClient.CollectionSelectors(ENTITIES_STORE_PATH)

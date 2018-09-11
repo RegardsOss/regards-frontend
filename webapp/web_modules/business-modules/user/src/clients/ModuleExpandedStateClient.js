@@ -19,8 +19,4 @@
 import { UIClient } from '@regardsoss/client'
 
 // work with default instances
-const moduleExpandedStateReducer = UIClient.getModuleExpandedStateReducer()
-
-module.exports = {
-  moduleExpandedStateReducer,
-}
+export const moduleExpandedStateReducer = UIClient.getModuleExpandedStateReducer()

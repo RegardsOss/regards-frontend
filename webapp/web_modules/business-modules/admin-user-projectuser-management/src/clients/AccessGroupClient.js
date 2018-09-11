@@ -19,12 +19,6 @@
 import { DataManagementClient } from '@regardsoss/client'
 
 const namespace = 'admin-user-projectuser-management/access-group'
-const accessGroupActions = new DataManagementClient.AccessGroupActions(namespace)
-const accessGroupReducer = DataManagementClient.getAccessGroupReducer(namespace)
-const accessGroupSelectors = DataManagementClient.getAccessGroupSelectors(['admin', 'user-management', 'project-user-management', 'accessGroup'])
-
-module.exports = {
-  accessGroupActions,
-  accessGroupReducer,
-  accessGroupSelectors,
-}
+export const accessGroupActions = new DataManagementClient.AccessGroupActions(namespace)
+export const accessGroupReducer = DataManagementClient.getAccessGroupReducer(namespace)
+export const accessGroupSelectors = DataManagementClient.getAccessGroupSelectors(['admin', 'user-management', 'project-user-management', 'accessGroup'])

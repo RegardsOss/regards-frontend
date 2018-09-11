@@ -36,8 +36,7 @@ const boardAddRequiredDependencies = [
 const boardListRequiredDependencies = [
   ThemeActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
-
-module.exports = {
+export default {
   boardAddRequiredDependencies,
   boardListRequiredDependencies,
 }

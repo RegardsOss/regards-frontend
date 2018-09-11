@@ -29,9 +29,3 @@ const REDUX_ACTION_NAMESPACE = 'admin-user-projectuser-management/accountPasswor
 export const accountPasswordActions = new AdminClient.AccountPasswordActions(REDUX_ACTION_NAMESPACE)
 export const accountPasswordReducer = AdminClient.getAccountPasswordReducer(REDUX_ACTION_NAMESPACE)
 export const accountPasswordSelectors = AdminClient.getAccountPasswordSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  accountPasswordActions,
-  accountPasswordReducer,
-  accountPasswordSelectors,
-}

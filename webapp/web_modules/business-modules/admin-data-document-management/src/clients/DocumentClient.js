@@ -26,13 +26,6 @@ import { DataManagementClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'document', 'document']
 const REDUX_ACTION_NAMESPACE = 'admin-data-document-management/document'
 
-const documentReducer = DataManagementClient.getDocumentReducer(REDUX_ACTION_NAMESPACE)
-const documentActions = new DataManagementClient.DocumentActions(REDUX_ACTION_NAMESPACE)
-const documentSelectors = DataManagementClient.getDocumentSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  documentReducer,
-  documentActions,
-  documentSelectors,
-}
+export const documentReducer = DataManagementClient.getDocumentReducer(REDUX_ACTION_NAMESPACE)
+export const documentActions = new DataManagementClient.DocumentActions(REDUX_ACTION_NAMESPACE)
+export const documentSelectors = DataManagementClient.getDocumentSelectors(ENTITIES_STORE_PATH)

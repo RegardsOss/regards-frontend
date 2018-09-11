@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import microserviceManagementReducer from './reducer'
-import microserviceManagementRouter from './router'
-import microserviceDependencies from './dependencies'
-
-module.exports = {
-  microserviceManagementReducer,
-  microserviceManagementRouter,
-  microserviceDependencies,
-}
+export { default as microserviceManagementReducer } from './reducer'
+export { default as microserviceManagementRouter } from './router'
+export { default as microserviceDependencies } from './dependencies'

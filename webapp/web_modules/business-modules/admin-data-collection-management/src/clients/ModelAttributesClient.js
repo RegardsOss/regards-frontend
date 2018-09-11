@@ -27,12 +27,6 @@ const ENTITIES_STORE_PATH = ['admin', 'collections', 'collection', 'model-attrib
 const REDUX_ACTION_NAMESPACE = 'admin-data-modelattribute-management/model-attribute'
 
 
-const modelAttributesReducer = DataManagementClient.ModelAttributesReducer(REDUX_ACTION_NAMESPACE)
-const modelAttributesActions = new DataManagementClient.ModelAttributesActions(REDUX_ACTION_NAMESPACE)
-const modelAttributesSelectors = DataManagementClient.ModelAttributesSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  modelAttributesReducer,
-  modelAttributesActions,
-  modelAttributesSelectors,
-}
+export const modelAttributesReducer = DataManagementClient.ModelAttributesReducer(REDUX_ACTION_NAMESPACE)
+export const modelAttributesActions = new DataManagementClient.ModelAttributesActions(REDUX_ACTION_NAMESPACE)
+export const modelAttributesSelectors = DataManagementClient.ModelAttributesSelectors(ENTITIES_STORE_PATH)

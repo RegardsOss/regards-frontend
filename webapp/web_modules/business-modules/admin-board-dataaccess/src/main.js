@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import dataAccessRouter from './router'
-import dataAccessReducers from './reducer'
-import dataAccessDependencies from './dependencies'
-
-module.exports = {
-  dataAccessReducers,
-  dataAccessRouter,
-  dataAccessDependencies,
-}
+export { default as dataAccessRouter } from './router'
+export { default as dataAccessReducers } from './reducer'
+export { default as dataAccessDependencies } from './dependencies'

@@ -37,18 +37,19 @@ export {
   EditDependencies,
   AddDependencies,
 }
+//TODO WTF IS THIS FILE
 
 /**
  * Mandatory Dependencies to display module in user interface
  * @type {Array}
  */
-const user = []
+export const user = []
 
 /**
  * Mandatory Dependencies to display module in admin interface
  * @type {Array}
  */
-const admin = [
+export const admin = [
   attributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
   attributeModelActions.getDependency(RequestVerbEnum.GET),
   attributeModelActions.getDependency(RequestVerbEnum.PUT),
@@ -56,7 +57,8 @@ const admin = [
   attributeModelActions.getDependency(RequestVerbEnum.DELETE),
 ]
 
-module.exports = {
+
+export default {
   user,
   admin,
 }
