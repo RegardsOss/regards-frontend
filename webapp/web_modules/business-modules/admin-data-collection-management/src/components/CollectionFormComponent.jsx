@@ -125,6 +125,7 @@ export class CollectionFormComponent extends React.Component {
     const {
       isCreating, isDuplicating,
     } = this.state
+    const { muiTheme } = this.context
     const title = this.getTitle()
     return (
       <form
@@ -133,10 +134,16 @@ export class CollectionFormComponent extends React.Component {
         <Card>
           <CardTitle
             title={title}
-            subtitle={this.context.intl.formatMessage({ id: 'collection.form.subtitle' })}
+            subtitle={// subtitle: show warning when duplicating
+              this.context.intl.formatMessage({
+                id: isDuplicating ? 'collection.form.duplicate.warning.subtitle' : 'collection.form.subtitle',
+              })}
+            subtitleColor={// warning color when duplicating
+              isDuplicating ? muiTheme.palette.accent1Color : null
+            }
           />
           <CollectionStepperComponent
-            currentCollectionId={!isCreating && !isDuplicating && currentCollection.content.id}
+            currentCollectionId={!isCreating && !isDuplicating ? currentCollection.content.id : null} // available only in edition
             stepIndex={0}
             isEditing={!isCreating && !isDuplicating}
             projectName={projectName}

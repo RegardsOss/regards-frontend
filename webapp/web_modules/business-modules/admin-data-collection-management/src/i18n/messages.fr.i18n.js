@@ -46,6 +46,7 @@ const messages = Object.assign({
   'collection.form.table.type': 'Type',
   'collection.form.table.input': 'Valeur de l\'attribut',
   'collection.form.subtitle': 'Gestion des attributs d\'une collection',
+  'collection.form.duplicate.warning.subtitle': 'Gestion des attributs d\'une collection. Attention: les fichiers de la collection d\'origine ne seront pas copiés.',
   'collection.edit.title': 'Edition de la collection {name}',
   'collection.create.title': 'Création d\'une collection',
   'collection.duplicate.title': 'Dupliquer la collection {name}',
