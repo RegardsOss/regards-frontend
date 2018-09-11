@@ -59,22 +59,6 @@ export class ModelFormComponent extends React.Component {
   }
 
 
-  /**
-   * Validates name field
-   * @return validation error
-   */
-  validateName = this.getFieldOrImportValidator([
-    ValidationHelpers.required,
-    ValidationHelpers.validAlphaNumericUnderscore,
-    ValidationHelpers.lengthMoreThan(3),
-  ])
-
-  /**
-   * Validates type field
-   * @return validation error
-   */
-  validateType = this.getFieldOrImportValidator([ValidationHelpers.required])
-
   componentDidMount() {
     this.handleInitialize()
   }
@@ -102,6 +86,23 @@ export class ModelFormComponent extends React.Component {
     }
     return error
   }
+
+  /**
+   * Validates name field
+   * @return validation error
+   */
+  // eslint-disable-next-line react/sort-comp
+  validateName = this.getFieldOrImportValidator([
+    ValidationHelpers.required,
+    ValidationHelpers.validAlphaNumericUnderscore,
+    ValidationHelpers.lengthMoreThan(3),
+  ])
+
+  /**
+   * Validates type field
+   * @return validation error
+   */
+  validateType = this.getFieldOrImportValidator([ValidationHelpers.required])
 
   /**
    * Handles component initialization
