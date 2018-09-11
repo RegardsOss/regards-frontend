@@ -44,6 +44,7 @@ const messages = Object.assign({
   'model.edit.title': 'Editer le modèle {name}',
   'model.create.title': 'Ajouter un modèle',
   'model.duplicate.title': 'Dupliquer le modèle {name}',
+  'model.duplicate.warning': 'Attention, les plugins de calcul associés aux attributs du modèle d\'origine ne seront pas reportés',
   'model.form.name': 'Nom',
   'model.form.description': 'Description',
   'model.form.type': 'Type',
