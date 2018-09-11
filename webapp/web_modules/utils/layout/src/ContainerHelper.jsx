@@ -24,7 +24,7 @@ import find from 'lodash/find'
 import concat from 'lodash/concat'
 import cloneDeep from 'lodash/cloneDeep'
 import flattenDeep from 'lodash/flattenDeep'
-import ContainerTypes from './default/ContainerTypes'
+import { ALL_CONTAINERS } from './default/ContainerTypes'
 
 /**
  * Recursion function for "getAllContainersInLayout" method defined next
@@ -53,8 +53,8 @@ class ContainerHelper {
    * @return [*] String with all classes name separated with ' '
    */
   static getContainerClassNames(pContainer) {
-    if (ContainerTypes[pContainer.type]) {
-      return union([], ContainerTypes[pContainer.type].classes, pContainer.classes)
+    if (ALL_CONTAINERS[pContainer.type]) {
+      return union([], ALL_CONTAINERS[pContainer.type].classes, pContainer.classes)
     }
 
     if (pContainer.classes) {
@@ -69,8 +69,8 @@ class ContainerHelper {
    * @return [*] list of styles names
    */
   static getContainerStyles(pContainer) {
-    if (ContainerTypes[pContainer.type]) {
-      return merge({}, ContainerTypes[pContainer.type].styles, pContainer.styles)
+    if (ALL_CONTAINERS[pContainer.type]) {
+      return merge({}, ALL_CONTAINERS[pContainer.type].styles, pContainer.styles)
     }
 
     if (pContainer.styles) {

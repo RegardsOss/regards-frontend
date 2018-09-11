@@ -23,7 +23,7 @@
 export { default as Container } from './components/Container'
 export { default as ContainerShape } from './model/ContainerShape'
 export { default as ContainerHelper } from './ContainerHelper'
-export { default as ContainerTypes } from './default/ContainerTypes'
+export { ALL_CONTAINERS, STATIC_CONTAINERS } from './default/ContainerTypes'
 export { default as DefaultLayout } from './default/DefaultLayout'
 export { default as ApplicationLayout } from './components/ApplicationLayout'
 export { default as LayoutConfigurationComponent } from './components/LayoutConfigurationComponent'
