@@ -22,8 +22,8 @@ import filter from 'lodash/filter'
 import { browserHistory } from 'react-router'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
-import TableClient from '../clients/TableClient'
-import AccessRightClient from '../clients/AccessRightClient'
+import { tableSelectors } from '../clients/TableClient'
+import { accessRightActions } from '../clients/AccessRightClient'
 import { datasetWithAccessRightActions, datasetWithAccessRightSelectors } from '../clients/DatasetWithAccessRightClient'
 import AccessRightListComponent from '../components/AccessRightListComponent'
 
@@ -147,14 +147,14 @@ export class AccessRightListContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   meta: datasetWithAccessRightSelectors.getMetaData(state),
-  selectedDatasetsWithAccessright: TableClient.tableSelectors.getToggledElementsAsList(state),
+  selectedDatasetsWithAccessright: tableSelectors.getToggledElementsAsList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchDatasetWithAccessRightPage: (pageIndex, pageSize, pathParams, queryParams) => dispatch(datasetWithAccessRightActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
-  updateAccessRight: (id, entity) => dispatch(AccessRightClient.accessRightActions.updateEntity(id, entity)),
-  createAccessRight: entity => dispatch(AccessRightClient.accessRightActions.createEntity(entity)),
-  deleteAccessRight: id => dispatch(AccessRightClient.accessRightActions.deleteEntity(id)),
+  updateAccessRight: (id, entity) => dispatch(accessRightActions.updateEntity(id, entity)),
+  createAccessRight: entity => dispatch(accessRightActions.createEntity(entity)),
+  deleteAccessRight: id => dispatch(accessRightActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccessRightListContainer)
