@@ -87,8 +87,6 @@ class PageableListContainer extends React.Component {
     style: {},
   }
 
-  debouncedHandleFetch = debounce(this.handleFetch, 300)
-
   constructor(props) {
     super(props)
     this.state = {
@@ -181,6 +179,9 @@ class PageableListContainer extends React.Component {
     const pageNumber = index ? index / this.props.nbEntityByPage : 0
     this.props.fetchEntities(pageNumber, this.props.nbEntityByPage, {}, { ...idQueryParam, ...this.props.queryParams })
   }
+
+  // eslint-disable-next-line react/sort-comp
+  debouncedHandleFetch = debounce(this.handleFetch, 300)
 
   /**
    * Handle the action of loading new entities after a scroll
