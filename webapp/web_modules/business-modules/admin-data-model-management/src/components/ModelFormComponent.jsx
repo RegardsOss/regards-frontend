@@ -122,6 +122,7 @@ export class ModelFormComponent extends React.Component {
     const {
       pristine, submitting, isCreating, isEditing, invalid,
     } = this.props
+    const { muiTheme, intl: { formatMessage } } = this.context
     const title = this.getTitle()
     return (
       <form
@@ -130,6 +131,12 @@ export class ModelFormComponent extends React.Component {
         <Card>
           <CardTitle
             title={title}
+            subtitle={// show duplicate waring when duplicating
+              !isCreating && !isEditing
+                ? formatMessage({ id: 'model.duplicate.warning' })
+                : null
+            }
+            subtitleColor={muiTheme.palette.accent1Color}
           />
           <CardText>
             <Field
@@ -137,7 +144,7 @@ export class ModelFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({ id: 'model.form.name' })}
+              label={formatMessage({ id: 'model.form.name' })}
               validate={this.validateName}
               disabled={isEditing}
               normalize={trim}
@@ -147,20 +154,20 @@ export class ModelFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({ id: 'model.form.description' })}
+              label={formatMessage({ id: 'model.form.description' })}
             />
             <Field
               name="type"
               fullWidth
               component={RenderSelectField}
-              label={this.context.intl.formatMessage({ id: 'model.form.type' })}
+              label={formatMessage({ id: 'model.form.type' })}
               validate={this.validateType}
               disabled={!isCreating}
             >
-              <MenuItem value="COLLECTION" primaryText={this.context.intl.formatMessage({ id: 'model.type.collection' })} />
-              <MenuItem value="DATA" primaryText={this.context.intl.formatMessage({ id: 'model.type.data' })} />
-              <MenuItem value="DATASET" primaryText={this.context.intl.formatMessage({ id: 'model.type.dataset' })} />
-              <MenuItem value="DOCUMENT" primaryText={this.context.intl.formatMessage({ id: 'model.type.document' })} />
+              <MenuItem value="COLLECTION" primaryText={formatMessage({ id: 'model.type.collection' })} />
+              <MenuItem value="DATA" primaryText={formatMessage({ id: 'model.type.data' })} />
+              <MenuItem value="DATASET" primaryText={formatMessage({ id: 'model.type.dataset' })} />
+              <MenuItem value="DOCUMENT" primaryText={formatMessage({ id: 'model.type.document' })} />
             </Field>
             <ShowableAtRender show={isCreating}>
               <hr />
@@ -175,10 +182,10 @@ export class ModelFormComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={this.context.intl.formatMessage({ id: 'model.form.action.submit' })}
+              mainButtonLabel={formatMessage({ id: 'model.form.action.submit' })}
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting || invalid}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'model.form.action.cancel' })}
+              secondaryButtonLabel={formatMessage({ id: 'model.form.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>
