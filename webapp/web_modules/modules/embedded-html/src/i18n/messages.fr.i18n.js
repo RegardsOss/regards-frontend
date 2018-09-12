@@ -25,7 +25,7 @@ import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
  */
 const messages = {
   'admin.css.height.label': 'Propriété CSS Height',
-  'admin.css.width.label': 'PRopriété CSS Width',
+  'admin.css.width.label': 'Propriété CSS Width',
   'admin.html.url': "Url d'accès au fichier html",
   ...Locales.fr,
   ...MetadataLocales.fr,

@@ -61,7 +61,7 @@ const messages = Object.assign({
 
   'document.form.action.next': 'Sauvegarder',
   'document.form.action.cancel': 'Annuler',
-  'document.form.providerId': 'Identifiant de soumission (*)',
+  'document.form.providerId': 'Identifiant producteur (*)',
   'document.form.model': 'Modèles de document (*)',
   'document.form.label': 'Libellé (*)',
   'document.form.geometry': 'Géometrie',
