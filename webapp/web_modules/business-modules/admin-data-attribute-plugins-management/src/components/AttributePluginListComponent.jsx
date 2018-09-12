@@ -90,7 +90,7 @@ export class AttributePluginListComponent extends React.Component {
       return (
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
-          title={this.context.intl.formatMessage({ id: 'model.attribute.calculation.plugins.list.confirm.delete.title' }, { name })}
+          title={this.context.intl.formatMessage({ id: 'model.attribute.calculation.plugins.list.confirm.title' }, { name })}
           onConfirm={this.onConfirmDelete}
           onClose={this.closeDeleteDialog}
         />

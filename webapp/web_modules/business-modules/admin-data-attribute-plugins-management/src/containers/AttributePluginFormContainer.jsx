@@ -24,6 +24,7 @@ import { pluginConfigurationActions, pluginConfigurationByPluginIdActions, plugi
 import AttributePluginFormComponent from '../components/AttributePluginFormComponent'
 
 const MICROSERVICE = STATIC_CONF.MSERVICES.DAM
+
 /**
 * Container to handle create/edit/duplicate form of a attribute calculation plugin
 * @author Sébastien Binda
@@ -50,8 +51,8 @@ export class AttributePluginFormContainer extends React.Component {
   static mapDispatchToProps(dispatch, ownProps) {
     return {
       fetch: entityId => dispatch(pluginConfigurationActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
-      create: entity => dispatch(pluginConfigurationActions.createEntity(entity, { microserviceName: MICROSERVICE })),
-      update: (entityId, entity) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(entityId, entity, { microserviceName: MICROSERVICE, pluginId: entity.pluginId })),
+      create: (entity, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.createEntity(entity, { microserviceName, pluginId })),
+      update: (entity, microserviceName, pluginId, pluginConfId) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(pluginConfId, entity, { microserviceName, pluginId })),
     }
   }
 
@@ -79,9 +80,7 @@ export class AttributePluginFormContainer extends React.Component {
 
   componentWillMount() {
     const { params: { pluginId }, fetch } = this.props
-    console.error('props', this.props)
     if (pluginId) {
-      console.error(`fetching ${pluginId} for ${MICROSERVICE}`)
       fetch(pluginId).then(() => this.setState({ isLoading: false }))
     }
   }

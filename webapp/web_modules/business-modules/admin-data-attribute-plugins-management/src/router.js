@@ -41,7 +41,7 @@ export const createAttributePluginRoute = {
 }
 
 export const editAttributePluginRoute = {
-  path: ':pluginId/edit',
+  path: ':pluginId/:mode',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const AttributePluginFormContainer = require('./containers/AttributePluginFormContainer')

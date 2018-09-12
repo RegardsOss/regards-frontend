@@ -32,7 +32,7 @@ const messages = Object.assign({
   'model.attribute.calculation.plugins.list.duplicate.button': 'Duplicate configuration',
   'model.attribute.calculation.plugins.list.active.on.button': 'Enable calculation',
   'model.attribute.calculation.plugins.list.active.off.button': 'Desable storage',
-  'model.attribute.calculation.plugins.list.confirm.title': 'Delete calculation {name} ?',
+  'model.attribute.calculation.plugins.list.confirm.title': 'Delete plugin {name} ?',
   'model.attribute.calculation.plugins.list.back.button': 'Back',
   'model.attribute.calculation.plugins.list.empty.title': 'No calculation plugin available',
   'model.attribute.calculation.plugins.list.add.button': 'Create a new calculation plugin',
