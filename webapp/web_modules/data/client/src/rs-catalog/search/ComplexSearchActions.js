@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { BasicPageableActions, BasicListActions } from '@regardsoss/store-utils'
-import Schemas from '@regardsoss/api'
+import { ENTITY, ENTITY_ARRAY } from '@regardsoss/api'
 
 const { CALL_API } = require('redux-api-middleware')
 
@@ -37,8 +37,8 @@ export default class ComplexSearchActions extends BasicPageableActions {
       namespace,
       entityEndpoint: endpoint,
       schemaTypes: {
-        ENTITY: Schemas.ENTITY,
-        ENTITY_ARRAY: Schemas.ENTITY_ARRAY,
+        ENTITY,
+        ENTITY_ARRAY,
       },
     })
   }
