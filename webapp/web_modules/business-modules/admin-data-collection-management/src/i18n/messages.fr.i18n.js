@@ -76,6 +76,12 @@ const messages = Object.assign({
   'collection.form.files.action.next': 'Suite',
   'collection.form.files.subtitle': 'Ajouter un ou plusieurs fichier(s) de description à la collection pour expliquer son contenu. Trois formats de fichier sont supportés : HTML, PDF et Markdown.',
   'collection.form.files.title': 'Gestion des fichiers associés à la collection',
+
+  'collection.form.links.tag.remove.button': 'Supprimer',
+  'collection.form.links.tag.add.button': 'Ajouter',
+  'collection.form.links.tag.add': 'Nouveau mot clé',
+  'collection.form.links.tag.subtitle': 'Associer à des mots clés',
+  'collection.form.links.collection.none': 'Aucune collection liée',
 }, Locales.fr)
 
 export default messages

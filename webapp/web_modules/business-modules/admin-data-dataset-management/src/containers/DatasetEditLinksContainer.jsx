@@ -136,11 +136,11 @@ export class DatasetEditLinksContainer extends React.Component {
   handleDelete = (tag, usingUpdate) => {
     if (usingUpdate) {
       const { currentDataset: { content }, updateDataset } = this.props
-      const newDocumentContent = {
+      const newDatasetContent = {
         ...content,
         tags: content.tags.filter(existingTag => existingTag !== tag),
       }
-      updateDataset(content.id, newDocumentContent)
+      updateDataset(content.id, newDatasetContent)
     } else {
       Promise.resolve(this.props.removeTagFromDataset(this.props.currentDataset.content.id, [tag]))
         .then((actionResult) => {
