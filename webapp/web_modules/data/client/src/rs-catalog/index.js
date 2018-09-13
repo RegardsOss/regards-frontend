@@ -24,6 +24,10 @@ export { default as LinkPluginDatasetActions } from './linkPluginDataset/LinkPlu
 export { default as getLinkPluginDatasetReducer } from './linkPluginDataset/LinkPluginDatasetReducer'
 export { default as getLinkPluginDatasetSelectors } from './linkPluginDataset/LinkPluginDatasetSelectors'
 
+export { default as ComplexSearchActions } from './search/ComplexSearchActions'
+export { default as getComplexSearchReducer } from './search/ComplexSearchReducer'
+export { default as getComplexSearchSelectors } from './search/ComplexSearchSelectors'
+
 export { default as SearchCollectionsActions } from './search/SearchCollectionsActions'
 export { default as SearchDataobjectsActions } from './search/SearchDataobjectsActions'
 export { default as SearchDatasetsFromDataObjectsActions } from './search/SearchDatasetsFromDataObjectsActions'

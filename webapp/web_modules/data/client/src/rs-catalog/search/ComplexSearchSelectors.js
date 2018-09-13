@@ -16,10 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export {
-  BasketSelelectionRequest, BasketDatedItemsSelection, BasketDatasetSelection, Basket,
-} from './Basket'
-export {
-  DatasetTask, Order, OrderWithContent, OrderList,
-} from './Order'
-export { OrderFile, OrderFileWithContent, OrderFilesList } from './OrderFile'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
+
+/**
+ * Function to get redux store selectors for complex search actions results
+*/
+export default storePath => new BasicPageableSelectors(storePath)

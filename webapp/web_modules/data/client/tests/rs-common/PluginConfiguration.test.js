@@ -25,7 +25,7 @@ import PluginConfigurationNetworkDump from './PluginConfiguration.dump'
 
 const backendServerResultList = PluginConfigurationNetworkDump
 const options = {
-  urlParams: { microserviceName: 'rs-dam' },
+  pathParams: { microserviceName: 'rs-dam' },
 }
 
 

@@ -22,7 +22,7 @@ import PluginMetaDataNetworkDump from './dump/PluginMetaDataNetworkDump'
 
 const backendServerResultList = PluginMetaDataNetworkDump
 const options = {
-  urlParams: { microserviceName: 'rs-dam' },
+  pathParams: { microserviceName: 'rs-dam' },
 }
 
 const entityTester = new ReduxEntityTester(pluginMetaDataActions, pluginMetaDataReducer, pluginMetaDataSelectors, PropTypes.objectOf(PropTypes.object).isRequired, backendServerResultList, options)

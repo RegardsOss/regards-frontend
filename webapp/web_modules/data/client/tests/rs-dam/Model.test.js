@@ -29,7 +29,7 @@ const modelSelectors = ModelSelectors(['test', 'modules'])
 const backendServerResultList = ModelDump
 
 const options = {
-  urlParams: { type: 'COLLECTION' },
+  pathParams: { type: 'COLLECTION' },
 }
 
 const entityTester = new ReduxEntityTester(modelActions, modelReducer, modelSelectors, DataManagementShapes.ModelList.isRequired, backendServerResultList, options)

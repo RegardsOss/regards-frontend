@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
+import { OrderShapes } from '@regardsoss/shape'
 import { moduleDialogActions } from '../../../model/ModuleDialogActions'
 import { moduleDialogSelectors } from '../../../model/ModuleDialogSelectors'
 import SelectionItemDetailComponent from '../../../components/user/detail/SelectionItemDetailComponent'
@@ -59,7 +60,7 @@ export class SelectionItemDetailContainer extends React.Component {
       visible: PropTypes.bool.isRequired,
       date: PropTypes.string,
       datasetLabel: PropTypes.string,
-      openSearchRequest: PropTypes.string,
+      selectionRequest: OrderShapes.BasketSelelectionRequest,
     }).isRequired,
     // from mapDispatchToProps
     dispatchHideDetail: PropTypes.func.isRequired,
@@ -69,7 +70,7 @@ export class SelectionItemDetailContainer extends React.Component {
     const {
       showDatasets,
       detail: {
-        visible, datasetLabel, date, openSearchRequest,
+        visible, datasetLabel, date, selectionRequest,
       }, dispatchHideDetail,
     } = this.props
     return (
@@ -78,7 +79,7 @@ export class SelectionItemDetailContainer extends React.Component {
         visible={visible}
         datasetLabel={datasetLabel}
         date={date}
-        openSearchRequest={openSearchRequest}
+        selectionRequest={selectionRequest}
         onClose={dispatchHideDetail}
       />
     )

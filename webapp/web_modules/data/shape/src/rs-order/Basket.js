@@ -23,13 +23,23 @@
  * @author Raphaël Mechali
  */
 
+/** Expresses a request for a dated selection */
+export const BasketSelelectionRequest = PropTypes.shape({
+  engineType: PropTypes.string.isRequired,
+  datasetUrn: PropTypes.string, // optional dataset restriction
+  entityIdsToInclude: PropTypes.arrayOf(PropTypes.string),
+  entityIdsToExclude: PropTypes.arrayOf(PropTypes.string),
+  searchParameters: PropTypes.object,
+  selectionDate: PropTypes.string.isRequired,
+})
+
 /** A dated selection item shape */
 export const BasketDatedItemsSelection = PropTypes.shape({
-  objectsCount: PropTypes.number.isRequired,
-  filesCount: PropTypes.number.isRequired,
-  filesSize: PropTypes.number.isRequired,
   date: PropTypes.string.isRequired, // should be an UTC date
-  openSearchRequest: PropTypes.string,
+  filesCount: PropTypes.number.isRequired,
+  objectsCount: PropTypes.number.isRequired,
+  filesSize: PropTypes.number.isRequired,
+  selectionRequest: BasketSelelectionRequest.isRequired,
 })
 
 

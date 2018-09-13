@@ -29,7 +29,7 @@ class ModuleDialogReducer {
       visible: false,
       datasetLabel: null,
       date: null,
-      openSearchRequest: null,
+      selectionRequest: null,
     },
   }
 
@@ -46,11 +46,11 @@ class ModuleDialogReducer {
       case this.actions.SHOW_DETAIL:
         return {
           detail: {
-            visible: true, datasetLabel: action.datasetLabel, date: action.date, openSearchRequest: action.openSearchRequest,
+            visible: true, datasetLabel: action.datasetLabel, date: action.date, selectionRequest: action.selectionRequest,
           },
         }
       case this.actions.HIDE_DETAIL:
-        return { detail: { ...state.detail, visible: false } }
+        return ModuleDialogReducer.DEFAULT_STATE
       default:
         return state
     }

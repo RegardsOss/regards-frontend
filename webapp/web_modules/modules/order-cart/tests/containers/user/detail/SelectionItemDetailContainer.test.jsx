@@ -22,6 +22,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import SelectionItemDetailComponent from '../../../../src/components/user/detail/SelectionItemDetailComponent'
 import { SelectionItemDetailContainer } from '../../../../src/containers/user/detail/SelectionItemDetailContainer'
 import styles from '../../../../src/styles/styles'
+import { mockBasket1 } from '../../../BasketMocks'
 
 const context = buildTestContext(styles)
 
@@ -43,7 +44,7 @@ describe('[Order Cart] Testing SelectionItemDetailContainer', () => {
         visible: false,
         date: undefined,
         datasetLabel: undefined,
-        openSearchRequest: undefined,
+        selectionRequest: undefined,
       },
       dispatchHideDetail: () => { },
     }
@@ -62,7 +63,7 @@ describe('[Order Cart] Testing SelectionItemDetailContainer', () => {
         visible: true,
         date: '2017-09-08T15:59:57.664Z',
         datasetLabel: 'test-ds-label',
-        openSearchRequest: 'testrequest',
+        selectionRequest: mockBasket1.datasetSelections[0].itemsSelections[0].selectionRequest,
       },
       dispatchHideDetail: () => { },
     }
@@ -81,7 +82,7 @@ describe('[Order Cart] Testing SelectionItemDetailContainer', () => {
         visible: false,
         date: '2017-09-08T15:59:57.664Z',
         datasetLabel: 'test-ds-label',
-        openSearchRequest: 'testrequest',
+        selectionRequest: mockBasket1.datasetSelections[0].itemsSelections[0].selectionRequest,
       },
       dispatchHideDetail: () => { },
     }

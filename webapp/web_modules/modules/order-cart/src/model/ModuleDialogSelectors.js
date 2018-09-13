@@ -30,7 +30,7 @@ class ModuleDialogSelectors extends BasicSelector {
   /**
    * Returns detail dialog state
    * @param {*} state redux store state
-   * @return {{visible: boolean , datasetLabel: string, date: string , openSearchRequest: string}} detail state from store
+   * @return {{visible: boolean , datasetLabel: string, date: string , selectionRequest: *}} detail state from store
    */
   getDetail(state) {
     return this.uncombineStore(state).detail

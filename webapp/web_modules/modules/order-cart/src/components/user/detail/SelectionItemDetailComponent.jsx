@@ -17,9 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FlatButton from 'material-ui/FlatButton'
-import { PositionedDialog } from '@regardsoss/components'
+import { OrderShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { PositionedDialog } from '@regardsoss/components'
 import SelectionDetailResultsTableContainer from '../../../containers/user/detail/SelectionDetailResultsTableContainer'
 
 
@@ -33,7 +34,7 @@ class SelectionItemDetailComponent extends React.Component {
     visible: PropTypes.bool.isRequired,
     datasetLabel: PropTypes.string,
     date: PropTypes.string,
-    openSearchRequest: PropTypes.string,
+    selectionRequest: OrderShapes.BasketSelelectionRequest,
     onClose: PropTypes.func.isRequired,
   }
 
@@ -58,7 +59,7 @@ class SelectionItemDetailComponent extends React.Component {
 
   render() {
     const {
-      showDatasets, visible, date, datasetLabel, openSearchRequest, onClose,
+      showDatasets, visible, date, datasetLabel, selectionRequest, onClose,
     } = this.props
     const { intl: { formatDate, formatMessage } } = this.context
     const { moduleTheme: { user: { content: { detail } } } } = this.context
@@ -88,7 +89,7 @@ class SelectionItemDetailComponent extends React.Component {
         actions={actions}
         open={visible}
       >
-        <SelectionDetailResultsTableContainer openSearchRequest={openSearchRequest} />
+        <SelectionDetailResultsTableContainer selectionRequest={selectionRequest} />
       </PositionedDialog>
     )
   }

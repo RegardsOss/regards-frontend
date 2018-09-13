@@ -32,7 +32,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
     pageActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     // request parameters
-    pathParams: PropTypes.objectOf(PropTypes.string).isRequired,
+    requestParams: PropTypes.objectOf(PropTypes.any).isRequired,
     // results information
     resultsCount: PropTypes.number.isRequired,
     isFetching: PropTypes.bool.isRequired,
@@ -80,7 +80,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
 
   render() {
     const {
-      pageActions, pageSelectors, pathParams, resultsCount, isFetching,
+      pageActions, pageSelectors, requestParams, resultsCount, isFetching,
     } = this.props
     return (
       <TableLayout>
@@ -89,7 +89,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
           pageActions={pageActions}
           pageSelectors={pageSelectors}
           columns={this.renderColumns()}
-          pathParams={pathParams}
+          requestParams={requestParams}
           emptyComponent={SelectionDetailResultsTableComponent.NO_DATA_COMPONENT}
         />
       </TableLayout>

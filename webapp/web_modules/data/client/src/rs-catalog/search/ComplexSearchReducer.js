@@ -1,3 +1,4 @@
+
 /**
  * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -16,10 +17,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export {
-  BasketSelelectionRequest, BasketDatedItemsSelection, BasketDatasetSelection, Basket,
-} from './Basket'
-export {
-  DatasetTask, Order, OrderWithContent, OrderList,
-} from './Order'
-export { OrderFile, OrderFileWithContent, OrderFilesList } from './OrderFile'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { EntityConfiguration } from '@regardsoss/api'
+import ComplexSearchEntitiesActions from './ComplexSearchActions'
+
+/**
+ * Redux store reducer for complex search actions.
+ * Note: corresponding actions mimics, for getting list, the behavior of pageable actions.
+ * Therefore this reducer can be a simple pageable reducer.
+ * @author Raphaël Mechali
+ */
+class ComplexSearchReducer extends BasicPageableReducers {
+  constructor(namespace) {
+    super(EntityConfiguration, new ComplexSearchEntitiesActions(namespace))
+  }
+}
+
+export default (namespace) => {
+  const instance = new ComplexSearchReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

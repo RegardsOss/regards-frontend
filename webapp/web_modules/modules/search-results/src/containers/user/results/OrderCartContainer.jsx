@@ -25,7 +25,6 @@ import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessProjectClient, OrderClient } from '@regardsoss/client'
-import { OpenSearchQuery } from '@regardsoss/domain/catalog'
 import { EntityIdTester } from '@regardsoss/domain/common'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
@@ -85,10 +84,10 @@ export class OrderCartContainer extends React.Component {
       /**
        * Dispatches add to cart action (sends add to cart command to server), showing then hiding feedback
        * @param ids entities ID (URN) list to add to cart, when request is null, or to exclude from add request when it isn't
-       * @param selectAllOpenSearchRequest request to retrieve elements to add, when not null
+       * @param restrictionRequest request to retrieve elements to add, when not null
        * @return {Promise} add to cart promise
        */
-      dispatchAddToCart: (ids = [], selectAllOpenSearchRequest = null, datasetUrn = null) => dispatch(defaultBasketActions.addToBasket(ids, selectAllOpenSearchRequest, datasetUrn)),
+      dispatchAddToCart: (includedIds, excludedIds, restrictionRequest, datasetUrn) => dispatch(defaultBasketActions.addToBasket(includedIds, excludedIds, restrictionRequest, datasetUrn)),
     }
   }
 
@@ -218,10 +217,11 @@ export class OrderCartContainer extends React.Component {
   */
   onAddDataObjectToBasket = (dataobjectEntity) => {
     const { dispatchAddToCart } = this.props
+    // ID of the single object to push in basket
     const ids = [get(dataobjectEntity, 'content.id')]
-    // On quicklook table display mode, the Add button has a different behavior than in Table or List mode
     if (this.props.tableViewMode === TableDisplayModeEnum.QUICKLOOK) {
-      // Add linked dataobject of the added dataobject to the basket too
+      // Quicklook view specific behavior:
+      // Also add IDs of linked dataobject to push in basket
       const tags = get(dataobjectEntity, 'content.tags')
       forEach(tags, (tag) => {
         if (EntityIdTester.isDataURN(tag)) {
@@ -237,14 +237,13 @@ export class OrderCartContainer extends React.Component {
    */
   onAddDataObjectsSelectionToBasket = () => {
     const {
-      openSearchQuery: currentQuery, selectionMode, toggledElements, dispatchAddToCart,
+      openSearchQuery, selectionMode, toggledElements, dispatchAddToCart,
     } = this.props
     const ids = values(toggledElements).map(element => get(element, 'content.id'))
-    // Should we dispatch an include or an exclude from request selection?
-    const openSearchQuery = selectionMode === TableSelectionModes.excludeSelected ? currentQuery : null
-    // As query is provided in POST body request we have to decode it before send
-    const escapedQuery = openSearchQuery ? decodeURIComponent(openSearchQuery) : undefined
-    dispatchAddToCart(ids, escapedQuery)
+    const [includeIds, excludedIds, query] = selectionMode === TableSelectionModes.includeSelected
+      ? [ids, null, null] // inclusive selection: clear query and excluded elements to get the backend understanding it is an inclusive push
+      : [null, ids, decodeURIComponent(openSearchQuery)] // exclusive selection: provide query and elements to exclude
+    dispatchAddToCart(includeIds, excludedIds, query)
   }
 
   /**
@@ -253,10 +252,9 @@ export class OrderCartContainer extends React.Component {
    */
   onAddDatasetToBasket = (datasetEntity) => {
     const { initialSearchQuery, dispatchAddToCart } = this.props
-    const dataobjectQuery = initialSearchQuery ? new OpenSearchQuery(initialSearchQuery).toQueryString() : null
-    // As query is provided in POST body request we have to decode it before send
-    const escapedQuery = dataobjectQuery ? decodeURIComponent(dataobjectQuery) : undefined
-    dispatchAddToCart([], escapedQuery, datasetEntity.content.id)
+    // Provide initial query, if any, decoded as it is used in body
+    const restrictionQuery = initialSearchQuery ? decodeURIComponent(initialSearchQuery) : undefined
+    dispatchAddToCart(null, null, restrictionQuery, datasetEntity.content.id)
   }
 
   /**

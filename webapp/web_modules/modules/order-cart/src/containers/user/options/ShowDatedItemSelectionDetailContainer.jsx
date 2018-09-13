@@ -18,6 +18,7 @@
  **/
 import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
+import { OrderShapes } from '@regardsoss/shape'
 import { withI18n } from '@regardsoss/i18n'
 import messages from '../../../i18n'
 import ShowDatedItemSelectionDetailComponent from '../../../components/user/options/ShowDatedItemSelectionDetailComponent'
@@ -34,9 +35,9 @@ export class ShowDatedItemSelectionDetailContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of actions ready to be dispatched in the redux store
    */
-  static mapDispatchToProps(dispatch, { datasetLabel, date, openSearchRequest }) {
+  static mapDispatchToProps(dispatch, { datasetLabel, date, selectionRequest }) {
     return {
-      dispatchShowDetail: () => dispatch(moduleDialogActions.showDetail(datasetLabel, date, openSearchRequest)),
+      dispatchShowDetail: () => dispatch(moduleDialogActions.showDetail(datasetLabel, date, selectionRequest)),
     }
   }
 
@@ -47,7 +48,7 @@ export class ShowDatedItemSelectionDetailContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     date: PropTypes.string.isRequired, // used only in mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
-    openSearchRequest: PropTypes.string, // used only in mapDispatchToProps
+    selectionRequest: OrderShapes.BasketSelelectionRequest.isRequired, // used only in mapDispatchToProps
     // from mapDispatchToProps
     dispatchShowDetail: PropTypes.func.isRequired,
   }

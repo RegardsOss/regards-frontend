@@ -25,7 +25,7 @@ import PluginMetaDataDump from './PluginMetaData.dump'
 
 const backendServerResultList = PluginMetaDataDump
 const options = {
-  urlParams: { microserviceName: 'rs-dam' },
+  pathParams: { microserviceName: 'rs-dam' },
 }
 
 

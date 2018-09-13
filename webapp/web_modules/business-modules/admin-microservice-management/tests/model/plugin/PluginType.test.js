@@ -23,7 +23,7 @@ import PluginTypeNetworkDump from './dump/PluginTypeNetworkDump'
 
 const backendServerResultList = PluginTypeNetworkDump
 const options = {
-  urlParams: { microserviceName: 'rs-dam' },
+  pathParams: { microserviceName: 'rs-dam' },
 }
 
 const entityTester = new ReduxEntityTester(pluginTypeActions, pluginTypeReducer, pluginTypeSelectors, PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired, backendServerResultList, options)

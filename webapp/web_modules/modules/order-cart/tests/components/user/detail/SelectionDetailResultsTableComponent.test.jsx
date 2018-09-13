@@ -22,7 +22,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { PageableInfiniteTableContainer } from '@regardsoss/components'
-import { searchDataobjectsActions, searchDataobjectsSelectors } from '../../../../src/client/SearchDataobjectsClient'
+import { searchDataobjectsActions, searchDataobjectsSelectors } from '../../../../src/client/ComplexSearchClient'
 import SelectionDetailResultsTableComponent from '../../../../src/components/user/detail/SelectionDetailResultsTableComponent'
 import styles from '../../../../src/styles/styles'
 
@@ -43,7 +43,7 @@ describe('[Order Cart] Testing SelectionDetailResultsTableComponent', () => {
     const props = {
       pageActions: searchDataobjectsActions,
       pageSelectors: searchDataobjectsSelectors,
-      pathParams: { q: 'mamie=nova' },
+      requestParams: { idk: 'idk' },
       resultsCount: 22,
       isFetching: true,
       availableHeight: 55,

@@ -39,15 +39,15 @@ class ModuleDialogActions {
   /**
    * @param {string} datasetLabel selection parent dataset
    * @param {string} date corresponding selection date (as model string)
-   * @param {string} openSearchRequest corresponding selection Open Search request
+   * @param {string} selectionRequest corresponding selection request
    * @return action to dispatch to show detail dialog
    */
-  showDetail(datasetLabel, date, openSearchRequest) {
+  showDetail(datasetLabel, date, selectionRequest) {
     return {
       type: this.SHOW_DETAIL,
       datasetLabel,
       date,
-      openSearchRequest,
+      selectionRequest,
     }
   }
 

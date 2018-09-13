@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { createOrderReducer } from './client/CreateOrderClient'
-import { searchDataobjectsReducer } from './client/SearchDataobjectsClient'
+import { searchDataobjectsReducer } from './client/ComplexSearchClient'
 import { moduleDialogReducer } from './model/ModuleDialogReducer'
 
 /**

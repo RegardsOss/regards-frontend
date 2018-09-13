@@ -172,13 +172,13 @@ export class OrderCartTableComponent extends React.Component {
    * @return TreeTableRow for the dated selection item
    */
   buildDatedSelectionRow = (datasetSelectionId, datasetLabel, {
-    date, objectsCount, filesSize, openSearchRequest,
+    date, objectsCount, filesSize, selectionRequest,
   }) => new TreeTableRow(`dated.item.selection.${datasetSelectionId}-${date}`, [date, {
     // cannot know the effective objects count here, but total is OK as we do not want to show the warning one those cells
     effectiveObjectsCount: objectsCount,
     totalObjectsCount: objectsCount,
   }, OrderCartTableComponent.getStorageCapacity(filesSize), { // scale the size to the level its the more readable
-    datasetLabel, date, openSearchRequest,
+    datasetLabel, date, selectionRequest,
   }, { // keep label, date and request for detail option
     datasetSelectionId, itemsSelectionDate: date,
   }, // keep parent id and date for delete option
@@ -246,7 +246,7 @@ export class OrderCartTableComponent extends React.Component {
           : <ShowDatedItemSelectionDetailContainer
             datasetLabel={cellValue.datasetLabel}
             date={cellValue.date}
-            openSearchRequest={cellValue.openSearchRequest}
+            selectionRequest={cellValue.selectionRequest}
             disabled={isFetching}
           />
       // delete option
@@ -286,28 +286,28 @@ export class OrderCartTableComponent extends React.Component {
         />
         <Measure bounds onMeasure={this.onComponentResized}>
           { /* 2 - Show basket added objects sets (stretch to avoid height) */
-        (({ bind }) => (
-          <div style={spaceConsumer} {...bind('measureDiv')}>
-            <ScrollArea
-              style={scrollAreaStyle}
-              contentStyle={scrollContentArea}
-              vertical
-            >
-              <TreeTableComponent
-                model={basket}
-                buildTreeTableRows={this.buildTableRows}
-                buildCellComponent={this.buildTableCell}
-                columns={OrderCartTableComponent.COLUMNS_DEFINITION.map(({ key, labelKey, isOption }) => (
-                  <TableHeaderColumn
-                    key={key}
-                    style={isOption ? table.optionColumn.style : undefined}
-                  >
-                    {labelKey ? formatMessage({ id: labelKey }) : null}
-                  </TableHeaderColumn>))}
-              />
-            </ScrollArea>
-          </div>
-        ))}
+            (({ bind }) => (
+              <div style={spaceConsumer} {...bind('measureDiv')}>
+                <ScrollArea
+                  style={scrollAreaStyle}
+                  contentStyle={scrollContentArea}
+                  vertical
+                >
+                  <TreeTableComponent
+                    model={basket}
+                    buildTreeTableRows={this.buildTableRows}
+                    buildCellComponent={this.buildTableCell}
+                    columns={OrderCartTableComponent.COLUMNS_DEFINITION.map(({ key, labelKey, isOption }) => (
+                      <TableHeaderColumn
+                        key={key}
+                        style={isOption ? table.optionColumn.style : undefined}
+                      >
+                        {labelKey ? formatMessage({ id: labelKey }) : null}
+                      </TableHeaderColumn>))}
+                  />
+                </ScrollArea>
+              </div>
+            ))}
         </Measure>
       </TableLayout>
     )
