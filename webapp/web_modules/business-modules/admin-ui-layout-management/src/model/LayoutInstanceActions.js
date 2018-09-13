@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Schemas from '@regardsoss/api'
+import { LAYOUT, LAYOUT_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
@@ -30,8 +30,8 @@ class LayoutInstanceActions extends BasicListActions {
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ACCESS_INSTANCE}/layouts`,
       entityPathVariable: 'applicationId',
       schemaTypes: {
-        ENTITY: Schemas.LAYOUT,
-        ENTITY_ARRAY: Schemas.LAYOUT_ARRAY,
+        ENTITY: LAYOUT,
+        ENTITY_ARRAY: LAYOUT_ARRAY,
       },
     })
   }

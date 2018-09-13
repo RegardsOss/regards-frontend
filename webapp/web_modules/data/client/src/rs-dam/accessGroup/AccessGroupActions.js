@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Schemas from '@regardsoss/api'
+import { ACCESS_GROUP, ACCESS_GROUP_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
@@ -28,8 +28,8 @@ export default class AccessGroupActions extends BasicPageableActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/accessgroups`,
       schemaTypes: {
-        ENTITY: Schemas.ACCESS_GROUP,
-        ENTITY_ARRAY: Schemas.ACCESS_GROUP_ARRAY,
+        ENTITY: ACCESS_GROUP,
+        ENTITY_ARRAY: ACCESS_GROUP_ARRAY,
       },
     })
   }

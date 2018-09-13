@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { PROCESSING_CHAIN, PROCESSING_CHAIN_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
@@ -33,8 +33,8 @@ export default class ProcessingChainActions extends BasicPageableActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/processingchains`,
       schemaTypes: {
-        ENTITY: Schemas.PROCESSING_CHAIN,
-        ENTITY_ARRAY: Schemas.PROCESSING_CHAIN_ARRAY,
+        ENTITY: PROCESSING_CHAIN,
+        ENTITY_ARRAY: PROCESSING_CHAIN_ARRAY,
       },
     })
   }

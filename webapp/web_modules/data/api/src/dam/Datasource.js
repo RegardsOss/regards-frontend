@@ -18,19 +18,13 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const DatasourceConfiguration = {
+export const DatasourceConfiguration = {
   entityKey: 'id',
   normalizrKey: 'datasource',
 }
 
-const datasource = new Schema(DatasourceConfiguration.normalizrKey, {
+export const DATASOURCE = new Schema(DatasourceConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[DatasourceConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  DATASOURCE: datasource,
-  DATASOURCE_ARRAY: arrayOf(datasource),
-  DatasourceConfiguration,
-}
+export const DATASOURCE_ARRAY = arrayOf(DATASOURCE)

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Schemas from '@regardsoss/api'
+import { FRAGMENT, FRAGMENT_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
@@ -40,8 +40,8 @@ export default class FragmentActions extends BasicListActions {
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/fragments`,
       entityPathVariable: 'pFragmentId',
       schemaTypes: {
-        ENTITY: Schemas.FRAGMENT,
-        ENTITY_ARRAY: Schemas.FRAGMENT_ARRAY,
+        ENTITY: FRAGMENT,
+        ENTITY_ARRAY: FRAGMENT_ARRAY,
       },
     })
   }

@@ -22,10 +22,9 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import ThemeFormComponent from '../../src/components/ThemeFormComponent'
 import ThemeFormContainer from '../../src/containers/ThemeFormContainer'
-import styles from '../../src/styles/styles'
 
 
-const context = buildTestContext(styles)
+const context = buildTestContext()
 
 /**
 * Test ThemeFormContainer

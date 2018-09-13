@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { AdminDomain } from '@regardsoss/domain'
 import URL from '../rs-common/URL'
+
 
 export const ProjectContent = PropTypes.shape({
   id: PropTypes.number,
@@ -28,6 +30,8 @@ export const ProjectContent = PropTypes.shape({
   isPublic: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   host: PropTypes.string,
+  crs: PropTypes.oneOf(AdminDomain.PROJECT_CRS),
+  isPoleToBeManaged: PropTypes.bool,
 })
 
 export const Project = PropTypes.shape({

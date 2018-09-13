@@ -20,19 +20,13 @@
 
 import { Schema, arrayOf } from 'normalizr'
 
-const AttributeModelRestrictionConfiguration = {
+export const AttributeModelRestrictionConfiguration = {
   entityKey: 'id',
   normalizrKey: 'attributemodelrestriction',
 }
 
-const attributeModel = new Schema(AttributeModelRestrictionConfiguration.normalizrKey, {
+export const ATTRIBUTE_MODEL_RESTRICTION = new Schema(AttributeModelRestrictionConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[AttributeModelRestrictionConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  ATTRIBUTE_MODEL_RESTRICTION: attributeModel,
-  ATTRIBUTE_MODEL_RESTRICTION_ARRAY: arrayOf(attributeModel),
-  AttributeModelRestrictionConfiguration,
-}
+export const ATTRIBUTE_MODEL_RESTRICTION_ARRAY = arrayOf(ATTRIBUTE_MODEL_RESTRICTION)

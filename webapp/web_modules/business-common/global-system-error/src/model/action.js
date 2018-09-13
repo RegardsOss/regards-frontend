@@ -46,7 +46,7 @@ export const throwError = (message, meta, payload) => ({
   payload,
 })
 
-module.exports = {
+export default {
   RECEIVE_ERROR,
   CLOSE_ERROR_DIALOG,
   closeErrorDialog,

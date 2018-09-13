@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { ATTRIBUTE_MODEL, ATTRIBUTE_MODEL_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
@@ -33,8 +33,8 @@ export default class AttributeModelActions extends BasicListActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/attributes`,
       schemaTypes: {
-        ENTITY: Schemas.ATTRIBUTE_MODEL,
-        ENTITY_ARRAY: Schemas.ATTRIBUTE_MODEL_ARRAY,
+        ENTITY: ATTRIBUTE_MODEL,
+        ENTITY_ARRAY: ATTRIBUTE_MODEL_ARRAY,
       },
     })
   }

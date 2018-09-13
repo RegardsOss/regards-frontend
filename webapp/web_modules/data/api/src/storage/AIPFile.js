@@ -21,18 +21,12 @@ import { Schema, arrayOf } from 'normalizr'
 /**
  * AIP file management for normalizr
  */
-const AIPFileConfiguration = {
+export const AIPFileConfiguration = {
   entityKey: 'checksum',
   normalizrKey: 'aip-file',
 }
 
-const aipFileSchema = new Schema(AIPFileConfiguration.normalizrKey, {
+export const AIP_FILE = new Schema(AIPFileConfiguration.normalizrKey, {
   idAttribute: model => model.content[AIPFileConfiguration.entityKey],
 })
-
-// Schemas for API responses.
-module.exports = {
-  AIP_FILE: aipFileSchema,
-  AIP_FILE_ARRAY: arrayOf(aipFileSchema),
-  AIPFileConfiguration,
-}
+export const AIP_FILE_ARRAY = arrayOf(AIP_FILE)

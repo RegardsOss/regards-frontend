@@ -19,7 +19,7 @@
 
 
 import { BasicPageableActions } from '@regardsoss/store-utils'
-import Schemas from '@regardsoss/api'
+import { PRODUCT, PRODUCT_ARRAY } from '@regardsoss/api'
 
 /**
  * Actions to get products list
@@ -36,8 +36,8 @@ class ProductActions extends BasicPageableActions {
       entityPathVariable: 'productId',
       namespace,
       schemaTypes: {
-        ENTITY: Schemas.PRODUCT,
-        ENTITY_ARRAY: Schemas.PRODUCT_ARRAY,
+        ENTITY: PRODUCT,
+        ENTITY_ARRAY: PRODUCT_ARRAY,
       },
     })
   }

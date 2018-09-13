@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,18 +15,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { AuthenticationClient } from '@regardsoss/client'
+ **/
+import values from 'lodash/values'
 
-/**
- * Current user login information client.
- *
- * @author Léo Mieulet
- */
-const ENTITIES_STORE_PATH = ['common', 'authentication']
-
-const authenticationSelectors = AuthenticationClient.AuthenticateSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  authenticationSelectors,
+export const PROJECT_CRS_ENUM = {
+  WGS_84: 'WGS_84',
+  MARS_49900: 'MARS_49900',
+  ASTRO: 'ASTRO',
 }
+
+export const PROJECT_CRS = values(PROJECT_CRS_ENUM)

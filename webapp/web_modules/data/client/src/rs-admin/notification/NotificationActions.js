@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { NOTIFICATION, NOTIFICATION_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
@@ -41,8 +41,8 @@ export default class NotificationActions extends BasicListActions {
         instance ? STATIC_CONF.IMSERVICES.ADMIN_INSTANCE : STATIC_CONF.MSERVICES.ADMIN
       }/notifications`,
       schemaTypes: {
-        ENTITY: Schemas.NOTIFICATION,
-        ENTITY_ARRAY: Schemas.NOTIFICATION_ARRAY,
+        ENTITY: NOTIFICATION,
+        ENTITY_ARRAY: NOTIFICATION_ARRAY,
       },
     })
   }

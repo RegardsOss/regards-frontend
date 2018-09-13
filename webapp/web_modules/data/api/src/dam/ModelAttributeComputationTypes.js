@@ -18,19 +18,13 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const ModelAttributeComputationTypesConfiguration = {
+export const ModelAttributeComputationTypesConfiguration = {
   entityKey: 'attrType',
   normalizrKey: 'modelattributecomputationtypes',
 }
 
-const modelAttributeComputationTypes = new Schema(ModelAttributeComputationTypesConfiguration.normalizrKey, {
+export const MODEL_ATTRIBUTE_COMPUTATION_TYPES = new Schema(ModelAttributeComputationTypesConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[ModelAttributeComputationTypesConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  MODEL_ATTRIBUTE_COMPUTATION_TYPES: modelAttributeComputationTypes,
-  MODEL_ATTRIBUTE_COMPUTATION_TYPES_ARRAY: arrayOf(modelAttributeComputationTypes),
-  ModelAttributeComputationTypesConfiguration,
-}
+export const MODEL_ATTRIBUTE_COMPUTATION_TYPES_ARRAY = arrayOf(MODEL_ATTRIBUTE_COMPUTATION_TYPES)

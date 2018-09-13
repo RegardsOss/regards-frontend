@@ -21,10 +21,9 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ThemeFormContainer from '../../src/containers/ThemeFormContainer'
 import { ThemeFormAdapter } from '../../src/containers/ThemeFormAdapter'
-import styles from '../../src/styles/styles'
 
 
-const context = buildTestContext(styles)
+const context = buildTestContext()
 
 /**
 * Test ThemeFormAdapter

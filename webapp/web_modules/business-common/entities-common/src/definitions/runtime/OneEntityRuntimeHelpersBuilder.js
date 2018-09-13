@@ -24,7 +24,7 @@ import { CatalogClient } from '@regardsoss/client'
  * One entity runtime helper builder: provide helpers for service plugin developers convenience
  * @author Raphaël Mechali
  */
-class OneEntityRuntimeHelpersBuilder {
+export class OneEntityRuntimeHelpersBuilder {
   /** Instance index counter */
   static INSTANCE_INDEX = 0
 
@@ -79,8 +79,4 @@ class OneEntityRuntimeHelpersBuilder {
     // 2 - apply reducer treatment on entity content
     return applier(initialValue, entityContent, 0) // will be the value in next then
   })
-}
-
-module.exports = {
-  OneEntityRuntimeHelpersBuilder,
 }

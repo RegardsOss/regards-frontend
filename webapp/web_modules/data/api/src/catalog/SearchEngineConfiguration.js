@@ -20,21 +20,15 @@
 
 import { Schema, arrayOf } from 'normalizr'
 
-const SearchEngineConfiguration = {
+export const SearchEngineConfiguration = {
   entityKey: 'id',
   normalizrKey: 'searchEngine',
 }
 
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
-const entitySchema = new Schema(SearchEngineConfiguration.normalizrKey, {
+export const SEARCH_ENGINE = new Schema(SearchEngineConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[SearchEngineConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  SEARCH_ENGINE: entitySchema,
-  SEARCH_ENGINE_ARRAY: arrayOf(entitySchema),
-  SearchEngineConfiguration,
-}
+export const SEARCH_ENGINE_ARRAY = arrayOf(SEARCH_ENGINE)

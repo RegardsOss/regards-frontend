@@ -20,19 +20,13 @@
 
 import { Schema, arrayOf } from 'normalizr'
 
-const ProductConfiguration = {
+export const ProductConfiguration = {
   entityKey: 'id',
   normalizrKey: 'product',
 }
 
-const Product = new Schema(ProductConfiguration.normalizrKey, {
+export const PRODUCT = new Schema(ProductConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[ProductConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  PRODUCT: Product,
-  PRODUCT_ARRAY: arrayOf(Product),
-  ProductConfiguration,
-}
+export const PRODUCT_ARRAY = arrayOf(PRODUCT)

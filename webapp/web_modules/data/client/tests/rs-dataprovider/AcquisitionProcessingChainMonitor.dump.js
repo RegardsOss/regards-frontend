@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-module.exports = {
+export default {
   metadata: {
     size: 100, totalElements: 2, totalPages: 1, number: 0,
   },

@@ -22,9 +22,8 @@ import { assert } from 'chai'
 import { TableRow, TableBody } from 'material-ui/Table'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import ThemeListComponent from '../../src/components/ThemeListComponent'
-import styles from '../../src/styles'
 
-const context = buildTestContext(styles)
+const context = buildTestContext()
 
 /**
  * Test ThemeListComponent

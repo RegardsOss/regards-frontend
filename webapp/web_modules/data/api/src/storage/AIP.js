@@ -21,18 +21,12 @@ import { Schema, arrayOf } from 'normalizr'
 /**
  * AIP management for normalizr
  */
-const AIPConfiguration = {
+export const AIPConfiguration = {
   entityKey: 'id',
   normalizrKey: 'aips',
 }
 
-const aipSchemaSchema = new Schema(AIPConfiguration.normalizrKey, {
+export const AIP = new Schema(AIPConfiguration.normalizrKey, {
   idAttribute: model => model.content[AIPConfiguration.entityKey],
 })
-
-// Schemas for API responses.
-module.exports = {
-  AIP: aipSchemaSchema,
-  AIP_ARRAY: arrayOf(aipSchemaSchema),
-  AIPConfiguration,
-}
+export const AIP_ARRAY = arrayOf(AIP)

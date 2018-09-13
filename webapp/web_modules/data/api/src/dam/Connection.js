@@ -18,19 +18,13 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const ConnectionConfiguration = {
+export const ConnectionConfiguration = {
   entityKey: 'id',
   normalizrKey: 'connection',
 }
 
-const connection = new Schema(ConnectionConfiguration.normalizrKey, {
+export const CONNECTION = new Schema(ConnectionConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[ConnectionConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  CONNECTION: connection,
-  CONNECTION_ARRAY: arrayOf(connection),
-  ConnectionConfiguration,
-}
+export const CONNECTION_ARRAY = arrayOf(CONNECTION)

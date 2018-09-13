@@ -221,15 +221,15 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
       : formatMessage({ id: 'dataaccess.searchengines.form.create.subtitle' })
 
     return (
-      <Card>
-        <CardTitle
-          title={title}
-          subtitle={subtitle}
-        />
-        <CardText>
-          <form
-            onSubmit={handleSubmit(this.onSubmit)}
-          >
+      <form
+        onSubmit={handleSubmit(this.onSubmit)}
+      >
+        <Card>
+          <CardTitle
+            title={title}
+            subtitle={subtitle}
+          />
+          <CardText>
             <Field
               key="label"
               name="label"
@@ -253,18 +253,18 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
               currentPluginConfiguration={get(this.props.searchEngineConfiguration, 'configuration', undefined)}
             />
             {this.renderNewPluginConf()}
-            <CardActions>
-              <CardActionsComponent
-                mainButtonLabel={this.context.intl.formatMessage({ id: 'search-engines.form.action.save' })}
-                mainButtonType="submit"
-                isMainButtonDisabled={submitting || invalid}
-                secondaryButtonLabel={this.context.intl.formatMessage({ id: 'search-engines.form.action.cancel' })}
-                secondaryButtonClick={onBack}
-              />
-            </CardActions>
-          </form>
-        </CardText>
-      </Card>
+          </CardText>
+          <CardActions>
+            <CardActionsComponent
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'search-engines.form.action.save' })}
+              mainButtonType="submit"
+              isMainButtonDisabled={submitting || invalid}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'search-engines.form.action.cancel' })}
+              secondaryButtonClick={onBack}
+            />
+          </CardActions>
+        </Card>
+      </form>
     )
   }
 }

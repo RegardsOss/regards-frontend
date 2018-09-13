@@ -16,29 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import DescriptionProviderContainer from './containers/description/DescriptionProviderContainer'
-import { buildDescriptionModuleConsumerID } from './definitions/description/DescriptionConsumerID'
+// Description
+export { default as DescriptionProviderContainer } from './containers/description/DescriptionProviderContainer'
+export { buildDescriptionModuleConsumerID } from './definitions/description/DescriptionConsumerID'
 
-import ServiceContainer from './containers/services/ServiceContainer'
-import { PluginServiceRunModel } from './definitions/PluginServiceRunModel'
-import ServiceTargetDefinitions from './definitions/ServiceTarget'
+// Services
+export { default as ServiceContainer } from './containers/services/ServiceContainer'
+export { PluginServiceRunModel } from './definitions/PluginServiceRunModel'
+export { default as target } from './definitions/ServiceTarget'
 
-import BooleanParameterField from './components/services/parameters/BooleanParameterField'
-import ChoiceParameterField from './components/services/parameters/ChoiceParameterField'
-import DateParameterField from './components/services/parameters/DateParameterField'
-import TextParameterField from './components/services/parameters/TextParameterField'
-
-module.exports = {
-  // Description
-  DescriptionProviderContainer,
-  buildDescriptionModuleConsumerID,
-  // Services
-  ServiceContainer,
-  PluginServiceRunModel,
-  target: ServiceTargetDefinitions,
-
-  BooleanParameterField,
-  ChoiceParameterField,
-  DateParameterField,
-  TextParameterField,
-}
+export { default as BooleanParameterField } from './components/services/parameters/BooleanParameterField'
+export { default as ChoiceParameterField } from './components/services/parameters/ChoiceParameterField'
+export { default as DateParameterField } from './components/services/parameters/DateParameterField'
+export { default as TextParameterField } from './components/services/parameters/TextParameterField'

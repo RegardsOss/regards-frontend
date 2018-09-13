@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { ENDPOINT, ENDPOINT_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
@@ -43,8 +43,8 @@ export default class EndpointActions extends BasicPageableActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/resources`,
       schemaTypes: {
-        ENTITY: Schemas.ENDPOINT,
-        ENTITY_ARRAY: Schemas.ENDPOINT_ARRAY,
+        ENTITY: ENDPOINT,
+        ENTITY_ARRAY: ENDPOINT_ARRAY,
       },
     })
   }

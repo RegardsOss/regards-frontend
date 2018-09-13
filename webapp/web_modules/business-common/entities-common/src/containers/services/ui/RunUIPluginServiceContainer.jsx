@@ -24,7 +24,9 @@ import { UIPluginConfConfiguration } from '@regardsoss/api'
 import { i18nContextType } from '@regardsoss/i18n'
 import { loadPlugin } from '@regardsoss/plugins'
 import { ServiceTargetShape } from '../../../model/ServiceTargetShape'
-import UIPluginServiceHelper from '../../../definitions/UIPluginServiceHelper'
+import {
+  resolveParameters, packRuntimeTarget, packRuntimeConfiguration,
+} from '../../../definitions/UIPluginServiceHelper'
 import PluginDisplayerContainer from './PluginDisplayerContainer'
 import RunServiceDialogConnectedComponent, { RunServiceDialogComponent } from '../../../components/services/RunServiceDialogComponent'
 import PreviousButton from '../../../components/services/PreviousButton'
@@ -118,7 +120,7 @@ export class RunUIPluginServiceContainer extends React.Component {
   onLoadPluginDone = ({ pluginInstance, pluginConfiguration }) => {
     try {
       // attempt to resolve the parameters
-      const resolvedParameters = UIPluginServiceHelper.resolveParameters(pluginConfiguration, pluginInstance)
+      const resolvedParameters = resolveParameters(pluginConfiguration, pluginInstance)
       // initialization is now complete
       this.onInitializationDone(pluginInstance, pluginConfiguration, resolvedParameters)
     } catch (e) {
@@ -159,9 +161,9 @@ export class RunUIPluginServiceContainer extends React.Component {
   onConfigurationDone = (userParametersValues = {}) => {
     const { target } = this.props
     // 1 - prepare plugin runtime target
-    const runtimeTarget = UIPluginServiceHelper.packRuntimeTarget(target)
+    const runtimeTarget = packRuntimeTarget(target)
     // 2 - prepare plugin runtime configuration, using plugin data from this directly, see onInitializationDone
-    const configuration = UIPluginServiceHelper.packRuntimeConfiguration(this.pluginConfiguration, this.pluginInstance, userParametersValues)
+    const configuration = packRuntimeConfiguration(this.pluginConfiguration, this.pluginInstance, userParametersValues)
     const pluginConf = { runtimeTarget, configuration }
     // 3 - enter running state (keep user values to be able reloading the plugin)
     this.setState({

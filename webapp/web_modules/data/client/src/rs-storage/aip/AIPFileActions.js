@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { AIP_FILE, AIP_FILE_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
@@ -29,8 +29,8 @@ class AIPFileActions extends BasicListActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/data-file/aip/{id}`,
       schemaTypes: {
-        ENTITY: Schemas.AIP_FILE,
-        ENTITY_ARRAY: Schemas.AIP_FILE_ARRAY,
+        ENTITY: AIP_FILE,
+        ENTITY_ARRAY: AIP_FILE_ARRAY,
       },
     })
   }

@@ -18,7 +18,7 @@
  **/
 import { assert } from 'chai'
 import { normalize } from 'normalizr'
-import Schemas from '../../src/main'
+import { PROJECT_ARRAY } from '../../src/main'
 
 describe('[API NORMALIZR] Testing schemas', () => {
   it('should handle project list', () => {
@@ -51,7 +51,7 @@ describe('[API NORMALIZR] Testing schemas', () => {
       },
       result: ['project1'],
     }
-    const result = normalize(response, Schemas.PROJECT_ARRAY)
+    const result = normalize(response, PROJECT_ARRAY)
 
     assert.deepEqual(result, expectedResult)
   })

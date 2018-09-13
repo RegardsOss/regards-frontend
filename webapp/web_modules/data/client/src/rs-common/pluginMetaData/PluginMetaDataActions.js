@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import replace from 'lodash/replace'
-import Schemas from '@regardsoss/api'
+import { PLUGIN_META_DATA, PLUGIN_META_DATA_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
@@ -35,8 +35,8 @@ export default class PluginMetaDataActions extends BasicListActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microserviceName}/plugins`,
       schemaTypes: {
-        ENTITY: Schemas.PLUGIN_META_DATA,
-        ENTITY_ARRAY: Schemas.PLUGIN_META_DATA_ARRAY,
+        ENTITY: PLUGIN_META_DATA,
+        ENTITY_ARRAY: PLUGIN_META_DATA_ARRAY,
       },
     })
   }

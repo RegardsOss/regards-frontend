@@ -19,6 +19,6 @@
 
 import styles from './styles'
 
-module.exports = {
+export default {
   styles,
 }

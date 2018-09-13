@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { DOCUMENT, DOCUMENT_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import has from 'lodash/has'
 import isString from 'lodash/isString'
@@ -37,8 +37,8 @@ export default class DocumentActions extends BasicPageableActions {
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/documents`,
       entityPathVariable: 'document_id',
       schemaTypes: {
-        ENTITY: Schemas.DOCUMENT,
-        ENTITY_ARRAY: Schemas.DOCUMENT_ARRAY,
+        ENTITY: DOCUMENT,
+        ENTITY_ARRAY: DOCUMENT_ARRAY,
       },
     })
   }

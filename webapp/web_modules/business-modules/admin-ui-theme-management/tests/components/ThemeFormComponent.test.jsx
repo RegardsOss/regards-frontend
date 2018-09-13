@@ -22,9 +22,8 @@ import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/te
 import { Field } from '@regardsoss/form-utils'
 import { ThemeEditor } from '@regardsoss/vendors'
 import { ThemeFormComponent } from '../../src/components/ThemeFormComponent'
-import styles from '../../src/styles/styles'
 
-const context = buildTestContext(styles)
+const context = buildTestContext()
 
 /**
 * Test ThemeFormComponent

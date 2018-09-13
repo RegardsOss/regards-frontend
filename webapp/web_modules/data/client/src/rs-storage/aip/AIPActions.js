@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { AIP, AIP_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
@@ -33,8 +33,8 @@ export default class AIPActions extends BasicPageableActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/aips`,
       schemaTypes: {
-        ENTITY: Schemas.AIP,
-        ENTITY_ARRAY: Schemas.AIP_ARRAY,
+        ENTITY: AIP,
+        ENTITY_ARRAY: AIP_ARRAY,
       },
     })
   }

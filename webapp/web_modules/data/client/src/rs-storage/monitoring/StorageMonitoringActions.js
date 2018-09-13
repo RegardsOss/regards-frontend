@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { STORAGE_MONITORING, STORAGE_MONITORING_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
@@ -29,8 +29,8 @@ class StorageMonitoringActions extends BasicListActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/monitoring`,
       schemaTypes: {
-        ENTITY: Schemas.STORAGE_MONITORING,
-        ENTITY_ARRAY: Schemas.STORAGE_MONITORING_ARRAY,
+        ENTITY: STORAGE_MONITORING,
+        ENTITY_ARRAY: STORAGE_MONITORING_ARRAY,
       },
     })
   }

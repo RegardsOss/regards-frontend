@@ -27,6 +27,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { DamDomain, CommonDomain } from '@regardsoss/domain'
 import { List, ListItem, makeSelectable } from 'material-ui/List'
 import Badge from 'material-ui/Badge'
+import Paper from 'material-ui/Paper'
 import {
   Field, FieldArray, RenderFileFieldWithMui, RenderArrayObjectField, reduxForm,
 } from '@regardsoss/form-utils'
@@ -77,6 +78,12 @@ export class EntitiesFilesFormComponent extends React.Component {
     alignItems: 'center',
     justifyContent: 'space-around',
     marginTop: '20px',
+  }
+
+  static paperStyle = {
+    padding: '5px',
+    paddingBottom: '10px',
+    marginBottom: '20px',
   }
 
   constructor(props) {
@@ -251,24 +258,26 @@ export class EntitiesFilesFormComponent extends React.Component {
       <form
         onSubmit={this.props.handleSubmit(this.onSubmit)}
       >
-        <Subheader><FormattedMessage id="entities-files.form.upload.files.subtitle" /></Subheader>
-        {times(this.state.nbInputs, i => this.renderFileInput(i))}
-        <Subheader><FormattedMessage id="entities-files.form.upload.refs.subtitle" /></Subheader>
-        <FieldArray
-          name="refs"
-          component={RenderArrayObjectField}
-          elementLabel={this.context.intl.formatMessage({ id: 'entities-files.form.reference' })}
-          fieldComponent={EntitiesFilesRefFieldArray}
-          fieldProps={this.getFilesRefProps()}
-          canBeEmpty
-          listHeight="450px"
-        />
-        <CardActionsComponent
-          mainButtonLabel={this.context.intl.formatMessage({ id: 'entities-files.form.upload.action.send' })}
-          mainButtonType="submit"
-          secondaryButtonLabel={this.context.intl.formatMessage({ id: 'entities-files.form.upload.action.cancel' })}
-          secondaryButtonClick={this.handleCloseForm}
-        />
+        <Paper style={EntitiesFilesFormComponent.paperStyle} zDepth={3}>
+          <Subheader><FormattedMessage id="entities-files.form.upload.files.subtitle" /></Subheader>
+          {times(this.state.nbInputs, i => this.renderFileInput(i))}
+          <Subheader><FormattedMessage id="entities-files.form.upload.refs.subtitle" /></Subheader>
+          <FieldArray
+            name="refs"
+            component={RenderArrayObjectField}
+            elementLabel={this.context.intl.formatMessage({ id: 'entities-files.form.reference' })}
+            fieldComponent={EntitiesFilesRefFieldArray}
+            fieldProps={this.getFilesRefProps()}
+            canBeEmpty
+            listHeight="450px"
+          />
+          <CardActionsComponent
+            mainButtonLabel={this.context.intl.formatMessage({ id: 'entities-files.form.upload.action.send' })}
+            mainButtonType="submit"
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'entities-files.form.upload.action.cancel' })}
+            secondaryButtonClick={this.handleCloseForm}
+          />
+        </Paper>
       </form>
     )
   }

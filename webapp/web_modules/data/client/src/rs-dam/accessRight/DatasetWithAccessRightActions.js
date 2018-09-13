@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { DATASET_WITH_ACCESS_RIGHT, DATASET_WITH_ACCESS_RIGHT_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
@@ -33,8 +33,8 @@ export default class DatasetWithAccessRightActions extends BasicPageableActions 
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/datasets/access-rights/group/{accessGroupName}`,
       schemaTypes: {
-        ENTITY: Schemas.DATASET_WITH_ACCESS_RIGHT,
-        ENTITY_ARRAY: Schemas.DATASET_WITH_ACCESS_RIGHT_ARRAY,
+        ENTITY: DATASET_WITH_ACCESS_RIGHT,
+        ENTITY_ARRAY: DATASET_WITH_ACCESS_RIGHT_ARRAY,
       },
     })
   }

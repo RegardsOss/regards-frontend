@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { AIP_SESSION, AIP_SESSION_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
@@ -33,8 +33,8 @@ export default class SessionActions extends BasicPageableActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/sessions`,
       schemaTypes: {
-        ENTITY: Schemas.AIP_SESSION,
-        ENTITY_ARRAY: Schemas.AIP_SESSION_ARRAY,
+        ENTITY: AIP_SESSION,
+        ENTITY_ARRAY: AIP_SESSION_ARRAY,
       },
     })
   }

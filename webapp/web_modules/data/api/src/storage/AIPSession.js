@@ -21,18 +21,12 @@ import { Schema, arrayOf } from 'normalizr'
 /**
  * AIP management for normalizr
  */
-const AIPSessionConfiguration = {
+export const AIPSessionConfiguration = {
   entityKey: 'id',
   normalizrKey: 'aip-sessions',
 }
 
-const aipSessionSchemaSchema = new Schema(AIPSessionConfiguration.normalizrKey, {
+export const AIP_SESSION = new Schema(AIPSessionConfiguration.normalizrKey, {
   idAttribute: model => model.content[AIPSessionConfiguration.entityKey],
 })
-
-// Schemas for API responses.
-module.exports = {
-  AIP_SESSION: aipSessionSchemaSchema,
-  AIP_SESSION_ARRAY: arrayOf(aipSessionSchemaSchema),
-  AIPSessionConfiguration,
-}
+export const AIP_SESSION_ARRAY = arrayOf(AIP_SESSION)

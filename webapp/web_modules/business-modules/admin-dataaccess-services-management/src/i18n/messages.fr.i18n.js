@@ -26,7 +26,7 @@ const messages = Object.assign({
   'dataaccess.services.list.subtitle': 'Cette section vous permet de configurer services applicables aux données du catalogueue.',
   'dataaccess.services.list.header.id.label': 'Identifiant',
   'dataaccess.services.list.header.name.label': 'Libellé',
-  'dataaccess.services.list.header.type.label': 'Tyoe de service',
+  'dataaccess.services.list.header.type.label': 'Type de service',
   'dataaccess.services.list.header.active.label': 'Activer',
   'dataaccess.services.list.edit.button': 'Editer la configuration',
   'dataaccess.services.list.duplicate.button': 'Dupliquer la configuration',

@@ -28,7 +28,7 @@ import { EntityConfiguration } from '@regardsoss/api'
  * Query runtime helper builder: provide helpers for service plugin developers convenience
  * @author Raphaël Mechali
  */
-class QueryRuntimeHelpersBuilder {
+export class QueryRuntimeHelpersBuilder {
   /** Instance index counter */
   static INSTANCE_INDEX = 0
 
@@ -142,8 +142,4 @@ class QueryRuntimeHelpersBuilder {
       handleQueryPage(initialValue, 0, 0)
     })
   }
-}
-
-module.exports = {
-  QueryRuntimeHelpersBuilder,
 }
