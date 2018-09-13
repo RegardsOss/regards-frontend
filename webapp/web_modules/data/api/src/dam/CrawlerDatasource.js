@@ -18,19 +18,13 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const CrawlerDatasourceConfiguration = {
+export const CrawlerDatasourceConfiguration = {
   entityKey: 'id',
   normalizrKey: 'crawlerDatasource',
 }
 
-const crawlerDatasource = new Schema(CrawlerDatasourceConfiguration.normalizrKey, {
+export const CRAWLER_DATASOURCE = new Schema(CrawlerDatasourceConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[CrawlerDatasourceConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  CRAWLER_DATASOURCE: crawlerDatasource,
-  CRAWLER_DATASOURCE_ARRAY: arrayOf(crawlerDatasource),
-  CrawlerDatasourceConfiguration,
-}
+export const CRAWLER_DATASOURCE_ARRAY = arrayOf(CRAWLER_DATASOURCE)

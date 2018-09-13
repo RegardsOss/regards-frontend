@@ -20,19 +20,13 @@
 
 import { Schema, arrayOf } from 'normalizr'
 
-const AcquisitionProcessingChainConfiguration = {
+export const AcquisitionProcessingChainConfiguration = {
   entityKey: 'id',
   normalizrKey: 'AcquisitionProcessingChain',
 }
 
-const AcquisitionProcessingChain = new Schema(AcquisitionProcessingChainConfiguration.normalizrKey, {
+export const ACQUISITION_PROCESSING_CHAIN = new Schema(AcquisitionProcessingChainConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[AcquisitionProcessingChainConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  ACQUISITION_PROCESSING_CHAIN: AcquisitionProcessingChain,
-  ACQUISITION_PROCESSING_CHAIN_ARRAY: arrayOf(AcquisitionProcessingChain),
-  AcquisitionProcessingChainConfiguration,
-}
+export const ACQUISITION_PROCESSING_CHAIN_ARRAY = arrayOf(ACQUISITION_PROCESSING_CHAIN)

@@ -18,7 +18,7 @@
  */
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import * as metadatav1 from '../../src/definitions/metadatav1'
+import metadatav1 from '../../src/definitions/metadatav1'
 
 
 // metadata model as returned by server

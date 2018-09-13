@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { ROLE, ROLE_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
@@ -39,8 +39,8 @@ export default class ResourceRolesActions extends BasicListActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/roles/resources/{resourceId}`,
       schemaTypes: {
-        ENTITY: Schemas.ROLE,
-        ENTITY_ARRAY: Schemas.ROLE_ARRAY,
+        ENTITY: ROLE,
+        ENTITY_ARRAY: ROLE_ARRAY,
       },
     })
   }

@@ -59,7 +59,7 @@ const typeToRenderMap = {
  * @param {string} type type if known (returns default render otherwise)
  * @return render component for attribute
  */
-function getTypeRender(type) {
+export function getTypeRender(type) {
   return typeToRenderMap[type] || DEFAULT_RENDER
 }
 
@@ -68,7 +68,7 @@ function getTypeRender(type) {
  * @param {*} path property path
  * @param {*} type property type, from TYPES_ENUM, optional
  */
-function buildRenderDelegate(path, type, unit) {
+export function buildRenderDelegate(path, type, unit) {
   return {
     path,
     RenderConstructor: type ? getTypeRender(type) : undefined,
@@ -76,15 +76,9 @@ function buildRenderDelegate(path, type, unit) {
   }
 }
 
-function buildThumbnailRenderDelegate(path) {
+export function buildThumbnailRenderDelegate(path) {
   return {
     path,
     RenderConstructor: ThumbnailAttributeRender,
   }
-}
-
-module.exports = {
-  buildRenderDelegate,
-  buildThumbnailRenderDelegate,
-  getTypeRender,
 }

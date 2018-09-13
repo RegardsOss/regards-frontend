@@ -18,21 +18,15 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const ProjectConfiguration = {
+export const ProjectConfiguration = {
   entityKey: 'name',
   normalizrKey: 'projects',
 }
 
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
-const projectSchema = new Schema(ProjectConfiguration.normalizrKey, {
+export const PROJECT = new Schema(ProjectConfiguration.normalizrKey, {
   idAttribute: project => project.content[ProjectConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  PROJECT: projectSchema,
-  PROJECT_ARRAY: arrayOf(projectSchema),
-  ProjectConfiguration,
-}
+export const PROJECT_ARRAY = arrayOf(PROJECT)

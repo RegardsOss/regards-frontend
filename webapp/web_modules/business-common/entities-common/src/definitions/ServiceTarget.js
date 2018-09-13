@@ -30,7 +30,7 @@ import { RuntimeTargetTypes } from '@regardsoss/domain/access'
  * @param {*} id entity ID (URN)
  * @return One element target
  */
-function buildOneElementTarget(id) {
+export function buildOneElementTarget(id) {
   return {
     type: RuntimeTargetTypes.ONE,
     entity: id,
@@ -43,7 +43,7 @@ function buildOneElementTarget(id) {
  * @param {*} ids entities ID (URN) array
  * @return many elements target
  */
-function buildManyElementsTarget(ids) {
+export function buildManyElementsTarget(ids) {
   return {
     type: RuntimeTargetTypes.MANY,
     entities: ids,
@@ -59,7 +59,7 @@ function buildManyElementsTarget(ids) {
  * @param excludedIDs exlcuded entities ID (URN) array
  * @return query target
  */
-function buildQueryTarget(q, entityType, entitiesCount, excludedIDs) {
+export function buildQueryTarget(q, entityType, entitiesCount, excludedIDs) {
   return {
     type: RuntimeTargetTypes.QUERY,
     q,
@@ -69,7 +69,7 @@ function buildQueryTarget(q, entityType, entitiesCount, excludedIDs) {
   }
 }
 
-module.exports = {
+export default {
   buildOneElementTarget,
   buildManyElementsTarget,
   buildQueryTarget,

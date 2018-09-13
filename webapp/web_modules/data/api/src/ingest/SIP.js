@@ -19,18 +19,12 @@
 
 import { Schema, arrayOf } from 'normalizr'
 
-const SIPConfiguration = {
+export const SIPConfiguration = {
   entityKey: 'id',
   normalizrKey: 'sip',
 }
 
-const sip = new Schema(SIPConfiguration.normalizrKey, {
+export const SIP = new Schema(SIPConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[SIPConfiguration.entityKey],
 })
-
-// Schemas for API responses.
-module.exports = {
-  SIP: sip,
-  SIP_ARRAY: arrayOf(sip),
-  SIPConfiguration,
-}
+export const SIP_ARRAY = arrayOf(SIP)

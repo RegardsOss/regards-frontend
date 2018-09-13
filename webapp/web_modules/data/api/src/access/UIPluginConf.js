@@ -18,14 +18,14 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const UIPluginConfConfiguration = {
+export const UIPluginConfConfiguration = {
   entityKey: 'id',
   normalizrKey: 'ui-plugin-configuration',
 }
 
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
-const UIPluginConfSchema = new Schema(UIPluginConfConfiguration.normalizrKey, {
+export const UI_PLUGIN_CONFIGURATION = new Schema(UIPluginConfConfiguration.normalizrKey, {
   idAttribute: plugin => plugin.content[UIPluginConfConfiguration.entityKey],
   assignEntity(output, key, value, input) {
     if (value && value.conf) {
@@ -38,10 +38,4 @@ const UIPluginConfSchema = new Schema(UIPluginConfConfiguration.normalizrKey, {
     }
   },
 })
-
-// Schemas for API responses.
-module.exports = {
-  UI_PLUGIN_CONFIGURATION: UIPluginConfSchema,
-  UI_PLUGIN_CONFIGURATION_ARRAY: arrayOf(UIPluginConfSchema),
-  UIPluginConfConfiguration,
-}
+export const UI_PLUGIN_CONFIGURATION_ARRAY = arrayOf(UI_PLUGIN_CONFIGURATION)

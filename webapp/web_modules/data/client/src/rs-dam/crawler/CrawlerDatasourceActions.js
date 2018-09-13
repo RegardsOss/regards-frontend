@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Schemas from '@regardsoss/api'
+import { CRAWLER_DATASOURCE, CRAWLER_DATASOURCE_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
@@ -30,8 +30,8 @@ export default class CrawlerDatasourceActions extends BasicListActions {
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/crawler/datasourceIngestions`,
       entityPathVariable: 'crawlerId',
       schemaTypes: {
-        ENTITY: Schemas.CRAWLER_DATASOURCE,
-        ENTITY_ARRAY: Schemas.CRAWLER_DATASOURCE_ARRAY,
+        ENTITY: CRAWLER_DATASOURCE,
+        ENTITY_ARRAY: CRAWLER_DATASOURCE_ARRAY,
       },
     })
   }

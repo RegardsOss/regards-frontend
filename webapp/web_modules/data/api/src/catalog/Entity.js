@@ -18,21 +18,15 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const EntityConfiguration = {
+export const EntityConfiguration = {
   entityKey: 'id',
   normalizrKey: 'entities',
 }
 
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
-const entitySchema = new Schema(EntityConfiguration.normalizrKey, {
+export const ENTITY = new Schema(EntityConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[EntityConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  ENTITY: entitySchema,
-  ENTITY_ARRAY: arrayOf(entitySchema),
-  EntityConfiguration,
-}
+export const ENTITY_ARRAY = arrayOf(ENTITY)

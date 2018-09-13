@@ -19,7 +19,7 @@
 
 
 import { BasicPageableActions } from '@regardsoss/store-utils'
-import Schemas from '@regardsoss/api'
+import { ACQUISITION_FILE, ACQUISITION_FILE_ARRAY } from '@regardsoss/api'
 
 /**
  * Actions to get AcquisitionFiles list
@@ -35,8 +35,8 @@ class AcquisitionFileActions extends BasicPageableActions {
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DATA_PROVIDER}/acquisition-files`,
       namespace,
       schemaTypes: {
-        ENTITY: Schemas.ACQUISITION_FILE,
-        ENTITY_ARRAY: Schemas.ACQUISITION_FILE_ARRAY,
+        ENTITY: ACQUISITION_FILE,
+        ENTITY_ARRAY: ACQUISITION_FILE_ARRAY,
       },
     })
   }

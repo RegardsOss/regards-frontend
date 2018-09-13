@@ -19,18 +19,12 @@
 
 import { Schema, arrayOf } from 'normalizr'
 
-const SessionConfiguration = {
+export const SessionConfiguration = {
   entityKey: 'id',
   normalizrKey: 'sip',
 }
 
-const session = new Schema(SessionConfiguration.normalizrKey, {
+export const SESSION = new Schema(SessionConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[SessionConfiguration.entityKey],
 })
-
-// Schemas for API responses.
-module.exports = {
-  SESSION: session,
-  SESSION_ARRAY: arrayOf(session),
-  SessionConfiguration,
-}
+export const SESSION_ARRAY = arrayOf(SESSION)

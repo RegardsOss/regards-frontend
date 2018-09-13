@@ -25,8 +25,4 @@ import { CommonClient } from '@regardsoss/client'
  */
 const REDUX_ACTION_NAMESPACE = 'common/pluginMetadata'
 
-const pluginMetadataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_NAMESPACE)
-
-module.exports = {
-  pluginMetadataActions,
-}
+export const pluginMetadataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_NAMESPACE)

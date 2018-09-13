@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Schemas from '@regardsoss/api'
+import { ACCOUNT, ACCOUNT_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
@@ -29,8 +29,8 @@ class AccountActions extends BasicPageableActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/accounts`,
       schemaTypes: {
-        ENTITY: Schemas.ACCOUNT,
-        ENTITY_ARRAY: Schemas.ACCOUNT_ARRAY,
+        ENTITY: ACCOUNT,
+        ENTITY_ARRAY: ACCOUNT_ARRAY,
       },
     })
   }

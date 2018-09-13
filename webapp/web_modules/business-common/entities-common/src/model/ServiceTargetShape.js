@@ -44,13 +44,8 @@ const QUERY_ELEMENTS_TARGET = PropTypes.shape({
   excludedIDs: PropTypes.arrayOf(PropTypes.string).isRequired, // excluded entities list
 })
 
-const ServiceTargetShape = PropTypes.oneOfType([
+export const ServiceTargetShape = PropTypes.oneOfType([
   ONE_ELEMENT_TARGET,
   MANY_ELEMENTS_TARGET,
   QUERY_ELEMENTS_TARGET,
 ])
-
-
-module.exports = {
-  ServiceTargetShape,
-}

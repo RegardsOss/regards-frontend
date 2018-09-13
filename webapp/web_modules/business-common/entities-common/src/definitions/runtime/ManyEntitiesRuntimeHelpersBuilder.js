@@ -24,7 +24,7 @@ import { CatalogClient } from '@regardsoss/client'
  * Many entities runtime helper builder: provide helpers for service plugin developers convenience
  * @author Raphaël Mechali
  */
-class ManyEntitiesRuntimeHelpersBuilder {
+export class ManyEntitiesRuntimeHelpersBuilder {
   /** Instance index counter */
   static INSTANCE_INDEX = 0
 
@@ -81,8 +81,4 @@ class ManyEntitiesRuntimeHelpersBuilder {
       // 2 - reduce that entity and jump to next
       return applier(accumulator, entityContent, index)
     }, initialValue))
-}
-
-module.exports = {
-  ManyEntitiesRuntimeHelpersBuilder,
 }

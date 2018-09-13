@@ -16,15 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ProjectHandler from './containers/ProjectHandler'
-import projectClient from './clients/ProjectClient'
-
 /**
  * Module to handle current project of the interface. Fetch the project and put the information in the store.
  * To use this module just add <ProjectHandler projectName={} /> into your application DOM.
  *
  */
-module.exports = {
-  ProjectHandler,
-  projectClient,
-}
+export { default as ProjectHandler } from './containers/ProjectHandler'
+export { default as projectClient } from './clients/ProjectClient'

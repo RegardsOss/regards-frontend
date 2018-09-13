@@ -20,21 +20,15 @@
 
 import { Schema, arrayOf } from 'normalizr'
 
-const LinkUIPluginDatasetConfiguration = {
+export const LinkUIPluginDatasetConfiguration = {
   entityKey: 'datasetId',
   normalizrKey: 'linkuiplugindataset',
 }
 
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
-const entitySchema = new Schema(LinkUIPluginDatasetConfiguration.normalizrKey, {
+export const LINK_UI_PLUGIN_DATASET = new Schema(LinkUIPluginDatasetConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[LinkUIPluginDatasetConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  LINK_UI_PLUGIN_DATASET: entitySchema,
-  LINK_UI_PLUGIN_DATASET_ARRAY: arrayOf(entitySchema),
-  LinkUIPluginDatasetConfiguration,
-}
+export const LINK_UI_PLUGIN_DATASET_ARRAY = arrayOf(LINK_UI_PLUGIN_DATASET)

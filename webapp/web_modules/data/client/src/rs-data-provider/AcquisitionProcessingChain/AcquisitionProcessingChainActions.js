@@ -19,7 +19,7 @@
 
 
 import { BasicPageableActions } from '@regardsoss/store-utils'
-import Schemas from '@regardsoss/api'
+import { ACQUISITION_PROCESSING_CHAIN, ACQUISITION_PROCESSING_CHAIN_ARRAY } from '@regardsoss/api'
 
 /**
  * Actions to get generation chain list
@@ -36,8 +36,8 @@ class AcquisitionProcessingChainActions extends BasicPageableActions {
       entityPathVariable: 'chainId',
       namespace,
       schemaTypes: {
-        ENTITY: Schemas.ACQUISITION_PROCESSING_CHAIN,
-        ENTITY_ARRAY: Schemas.ACQUISITION_PROCESSING_CHAIN_ARRAY,
+        ENTITY: ACQUISITION_PROCESSING_CHAIN,
+        ENTITY_ARRAY: ACQUISITION_PROCESSING_CHAIN_ARRAY,
       },
     })
   }

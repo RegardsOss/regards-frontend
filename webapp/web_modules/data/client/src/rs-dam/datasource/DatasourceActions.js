@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Schemas from '@regardsoss/api'
+import { DATASOURCE, DATASOURCE_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 export default class DatasourceActions extends BasicListActions {
@@ -26,8 +26,8 @@ export default class DatasourceActions extends BasicListActions {
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/datasources`,
       entityPathVariable: 'pPluginConfId',
       schemaTypes: {
-        ENTITY: Schemas.DATASOURCE,
-        ENTITY_ARRAY: Schemas.DATASOURCE_ARRAY,
+        ENTITY: DATASOURCE,
+        ENTITY_ARRAY: DATASOURCE_ARRAY,
       },
     })
   }

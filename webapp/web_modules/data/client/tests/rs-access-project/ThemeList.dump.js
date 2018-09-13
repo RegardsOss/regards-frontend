@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-module.exports = {
+export default {
   metadata: {
     size: 100,
     totalElements: 6,

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Schemas from '@regardsoss/api'
+import { DATASET, DATASET_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import has from 'lodash/has'
 import isString from 'lodash/isString'
@@ -28,8 +28,8 @@ export default class DatasetActions extends BasicPageableActions {
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/datasets`,
       entityPathVariable: 'dataset_id',
       schemaTypes: {
-        ENTITY: Schemas.DATASET,
-        ENTITY_ARRAY: Schemas.DATASET_ARRAY,
+        ENTITY: DATASET,
+        ENTITY_ARRAY: DATASET_ARRAY,
       },
     })
   }

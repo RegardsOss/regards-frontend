@@ -19,19 +19,13 @@
 
 import { Schema, arrayOf } from 'normalizr'
 
-const OrderConfiguration = {
+export const OrderConfiguration = {
   entityKey: 'id',
   normalizrKey: 'orders',
 }
 
-const order = new Schema(OrderConfiguration.normalizrKey, {
+export const ORDER = new Schema(OrderConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[OrderConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  ORDER: order,
-  ORDER_ARRAY: arrayOf(order),
-  OrderConfiguration,
-}
+export const ORDER_ARRAY = arrayOf(ORDER)

@@ -16,18 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import metadataV1 from './definitions/metadatav1'
-import { MetadataList } from './model/Metadata'
-import MetadataField from './components/MetadataField'
-import messagesFR from './i18n/messages.fr.i18n'
-import messagesEN from './i18n/messages.en.i18n'
-
-module.exports = {
-  Locales: {
-    fr: messagesFR,
-    en: messagesEN,
-  },
-  MetadataList,
-  MetadataField,
-  ...metadataV1,
-}
+export {
+  editorTypes,
+  editors,
+  getMetadataArray,
+  packMetadataField,
+} from './definitions/metadatav1'
+export { MetadataList } from './model/Metadata'
+export { default as MetadataField } from './components/MetadataField'
+export { default as Locales } from './i18n'

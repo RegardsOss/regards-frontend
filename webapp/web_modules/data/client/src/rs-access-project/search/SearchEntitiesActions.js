@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { BasicFacetsPageableActions } from '@regardsoss/store-utils'
-import Schemas from '@regardsoss/api'
+import { ENTITY, ENTITY_ARRAY } from '@regardsoss/api'
 
 /**
  * Direct research entities actions
@@ -33,8 +33,8 @@ export default class CatalogSearchEntitiesActions extends BasicFacetsPageableAct
       namespace,
       entityEndpoint: endpoint,
       schemaTypes: {
-        ENTITY: Schemas.ENTITY,
-        ENTITY_ARRAY: Schemas.ENTITY_ARRAY,
+        ENTITY,
+        ENTITY_ARRAY,
       },
     })
   }

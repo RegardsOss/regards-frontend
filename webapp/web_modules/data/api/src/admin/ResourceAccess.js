@@ -18,19 +18,13 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const ResourceAccessConfiguration = {
+export const ResourceAccessConfiguration = {
   entityKey: 'id',
   normalizrKey: 'resourceaccess',
 }
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
-const resourceAccessSchema = new Schema(ResourceAccessConfiguration.normalizrKey, {
+export const RESOURCE_ACCESS = new Schema(ResourceAccessConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[ResourceAccessConfiguration.entityKey],
 })
-
-// Schemas for API responses.
-module.exports = {
-  RESOURCE_ACCESS: resourceAccessSchema,
-  RESOURCE_ACCESS_ARRAY: arrayOf(resourceAccessSchema),
-  ResourceAccessConfiguration,
-}
+export const RESOURCE_ACCESS_ARRAY = arrayOf(RESOURCE_ACCESS)

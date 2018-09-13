@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { AIP_STATUS, AIP_STATUS_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
@@ -29,8 +29,8 @@ class AIPStatusConfiguration extends BasicPageableActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/aip-status`,
       schemaTypes: {
-        ENTITY: Schemas.AIP_STATUS,
-        ENTITY_ARRAY: Schemas.AIP_STATUS_ARRAY,
+        ENTITY: AIP_STATUS,
+        ENTITY_ARRAY: AIP_STATUS_ARRAY,
       },
     })
   }

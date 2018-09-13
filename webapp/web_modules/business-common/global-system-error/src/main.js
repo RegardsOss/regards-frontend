@@ -16,17 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ApplicationErrorContainer from './containers/ApplicationErrorContainer'
-import ApplicationErrorAction from './model/action'
-import ApplicationErrorReducer from './model/reducer'
-
-
 /**
  * global-system-error module allow to manage errors for an application.
  * @author Sébastien binda
  */
-export {
-  ApplicationErrorContainer,
-  ApplicationErrorAction,
-  ApplicationErrorReducer,
-}
+export { default as ApplicationErrorContainer } from './containers/ApplicationErrorContainer'
+export { default as ApplicationErrorAction } from './model/action'
+export { default as ApplicationErrorReducer } from './model/reducer'

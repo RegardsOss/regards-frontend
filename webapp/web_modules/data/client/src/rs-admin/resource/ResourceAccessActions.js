@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Schemas from '@regardsoss/api'
+import { RESOURCE_ACCESS, RESOURCE_ACCESS_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
@@ -39,8 +39,8 @@ export default class ResourceAccessActions extends BasicListActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/resources/microservices/{microservicename}/controllers/{controllername}`,
       schemaTypes: {
-        ENTITY: Schemas.RESOURCE_ACCESS,
-        ENTITY_ARRAY: Schemas.RESOURCE_ACCESS_ARRAY,
+        ENTITY: RESOURCE_ACCESS,
+        ENTITY_ARRAY: RESOURCE_ACCESS_ARRAY,
       },
     })
   }

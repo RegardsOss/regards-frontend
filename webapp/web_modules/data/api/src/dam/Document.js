@@ -19,12 +19,12 @@
 import { Schema, arrayOf } from 'normalizr'
 import has from 'lodash/has'
 
-const DocumentConfiguration = {
+export const DocumentConfiguration = {
   entityKey: 'id',
   normalizrKey: 'document',
 }
 
-const document = new Schema(DocumentConfiguration.normalizrKey, {
+export const DOCUMENT = new Schema(DocumentConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[DocumentConfiguration.entityKey],
   assignEntity(output, key, value, input) {
     if (has(value, 'feature.geometry')) {
@@ -37,10 +37,4 @@ const document = new Schema(DocumentConfiguration.normalizrKey, {
     }
   },
 })
-
-// Schemas for API responses.
-module.exports = {
-  DOCUMENT: document,
-  DOCUMENT_ARRAY: arrayOf(document),
-  DocumentConfiguration,
-}
+export const DOCUMENT_ARRAY = arrayOf(DOCUMENT)

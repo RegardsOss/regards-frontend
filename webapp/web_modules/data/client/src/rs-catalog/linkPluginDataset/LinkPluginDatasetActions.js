@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Schemas from '@regardsoss/api'
+import { LINK_PLUGIN_DATASET, LINK_PLUGIN_DATASET_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 export default class LinkPluginDatasetActions extends BasicListActions {
@@ -25,8 +25,8 @@ export default class LinkPluginDatasetActions extends BasicListActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/linkplugindataset`,
       schemaTypes: {
-        ENTITY: Schemas.LINK_PLUGIN_DATASET,
-        ENTITY_ARRAY: Schemas.LINK_PLUGIN_DATASET_ARRAY,
+        ENTITY: LINK_PLUGIN_DATASET,
+        ENTITY_ARRAY: LINK_PLUGIN_DATASET_ARRAY,
       },
     })
   }

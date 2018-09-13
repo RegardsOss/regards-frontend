@@ -21,7 +21,7 @@
  * Parameter model for edition. It provides helper to use instead of the constructor
  * @author Raphaël Mechali
  */
-class Parameter {
+export class Parameter {
   static EditorTypes = {
     // Boolean editor
     CHECKBOX: 'CHECKBOX',
@@ -100,8 +100,4 @@ class Parameter {
     this.label = label || name
     this.description = description
   }
-}
-
-module.exports = {
-  Parameter,
 }

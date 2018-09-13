@@ -19,7 +19,7 @@
 
 
 import { BasicPageableActions } from '@regardsoss/store-utils'
-import Schemas from '@regardsoss/api'
+import { ACQUISITION_PROCESSING_CHAIN_MONITOR, ACQUISITION_PROCESSING_CHAIN_MONITOR_ARRAY } from '@regardsoss/api'
 
 /**
  * Actions to get generation chain list
@@ -35,8 +35,8 @@ class AcquisitionProcessingChainMonitorActions extends BasicPageableActions {
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DATA_PROVIDER}/chain-monitoring`,
       namespace,
       schemaTypes: {
-        ENTITY: Schemas.ACQUISITION_PROCESSING_CHAIN_MONITOR,
-        ENTITY_ARRAY: Schemas.ACQUISITION_PROCESSING_CHAIN_MONITOR_ARRAY,
+        ENTITY: ACQUISITION_PROCESSING_CHAIN_MONITOR,
+        ENTITY_ARRAY: ACQUISITION_PROCESSING_CHAIN_MONITOR_ARRAY,
       },
     })
   }

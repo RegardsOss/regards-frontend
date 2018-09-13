@@ -20,18 +20,12 @@
 
 import { Schema, arrayOf } from 'normalizr'
 
-const AttributeModelConfiguration = {
+export const AttributeModelConfiguration = {
   entityKey: 'id',
   normalizrKey: 'attributemodel',
 }
 
-const attributeModel = new Schema(AttributeModelConfiguration.normalizrKey, {
+export const ATTRIBUTE_MODEL = new Schema(AttributeModelConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[AttributeModelConfiguration.entityKey],
 })
-
-// Schemas for API responses.
-module.exports = {
-  ATTRIBUTE_MODEL: attributeModel,
-  ATTRIBUTE_MODEL_ARRAY: arrayOf(attributeModel),
-  AttributeModelConfiguration,
-}
+export const ATTRIBUTE_MODEL_ARRAY = arrayOf(ATTRIBUTE_MODEL)

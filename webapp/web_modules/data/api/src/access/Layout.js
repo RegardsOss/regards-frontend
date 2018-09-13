@@ -18,14 +18,14 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const LayoutConfiguration = {
+export const LayoutConfiguration = {
   entityKey: 'applicationId',
   normalizrKey: 'layout',
 }
 
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
-const layoutSchema = new Schema(LayoutConfiguration.normalizrKey, {
+export const LAYOUT = new Schema(LayoutConfiguration.normalizrKey, {
   idAttribute: layout => layout.content[LayoutConfiguration.entityKey],
   assignEntity(output, key, value, input) {
     if (value && value.layout) {
@@ -39,9 +39,4 @@ const layoutSchema = new Schema(LayoutConfiguration.normalizrKey, {
   },
 })
 
-// Schemas for API responses.
-module.exports = {
-  LAYOUT: layoutSchema,
-  LAYOUT_ARRAY: arrayOf(layoutSchema),
-  LayoutConfiguration,
-}
+export const LAYOUT_ARRAY = arrayOf(LAYOUT)
