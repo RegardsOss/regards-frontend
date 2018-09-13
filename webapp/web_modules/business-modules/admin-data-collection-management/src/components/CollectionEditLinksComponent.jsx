@@ -28,10 +28,11 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import TextField from 'material-ui/TextField'
 import Search from 'material-ui/svg-icons/action/search'
 import Subheader from 'material-ui/Subheader'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import Divider from 'material-ui/Divider'
 import CollectionStepperComponent from './CollectionStepperComponent'
 
 /**
@@ -41,6 +42,7 @@ export class CollectionEditLinksComponent extends React.Component {
   static propTypes = {
     linkedCollections: DataManagementShapes.CollectionArray,
     remainingCollections: DataManagementShapes.CollectionArray,
+    collectionStringTags: PropTypes.arrayOf(PropTypes.string),
     handleAdd: PropTypes.func.isRequired,
     handleDelete: PropTypes.func.isRequired,
     handleSearch: PropTypes.func.isRequired,
@@ -55,10 +57,26 @@ export class CollectionEditLinksComponent extends React.Component {
     ...i18nContextType,
   }
 
+  state = {
+    tagField: '',
+  }
+
+  handleCreateTag = () => {
+    this.setState({
+      tagField: '',
+    })
+    this.props.handleAdd(this.state.tagField, true)
+  }
+
+  handleCreateTagChange = (event, tagField) => {
+    this.setState({
+      tagField,
+    })
+  }
 
   render() {
     const {
-      linkedCollections, remainingCollections, handleAdd, handleDelete, handleSearch, doneUrl, backUrl, projectName, collectionId,
+      linkedCollections, collectionStringTags, remainingCollections, handleAdd, handleDelete, handleSearch, doneUrl, backUrl, projectName, collectionId,
     } = this.props
     return (
       <Card>
@@ -100,7 +118,7 @@ export class CollectionEditLinksComponent extends React.Component {
                     key={id}
                     primaryText={collection.content.feature.label}
                     rightIconButton={
-                      <IconButton onClick={() => handleAdd(collection.content.feature.id)}>
+                      <IconButton onClick={() => handleAdd(collection.content.feature.id, false)}>
                         <Add />
                       </IconButton>
                     }
@@ -111,13 +129,61 @@ export class CollectionEditLinksComponent extends React.Component {
             </div>
             <div className="col-sm-48 col-sm-offset-4 ">
               <List>
-                <Subheader><FormattedMessage id="collection.form.links.collection.subtitle" /></Subheader>
+                <div><FormattedMessage id="collection.form.links.collection.subtitle" /></div>
+                <br />
+                <Divider />
                 {map(linkedCollections, (collection, id) => (
                   <ListItem
                     key={id}
                     primaryText={collection.content.feature.label}
                     rightIconButton={
-                      <IconButton onClick={() => handleDelete(collection.content.feature.id)}>
+                      <IconButton onClick={() => handleDelete(collection.content.feature.id, false)}>
+                        <Clear />
+                      </IconButton>
+                    }
+                    disabled
+                  />
+                ))}
+                <ShowableAtRender show={linkedCollections.length === 0}>
+                  <ListItem
+                    primaryText={this.context.intl.formatMessage({ id: 'collection.form.links.collection.none' })}
+                    disabled
+                  />
+                </ShowableAtRender>
+                <div><FormattedMessage id="collection.form.links.tag.subtitle" /></div>
+                <br />
+                <Divider />
+                <ListItem
+                  primaryText={
+                    <TextField
+                      hintText={this.context.intl.formatMessage({ id: 'collection.form.links.tag.add' })}
+                      onChange={this.handleCreateTagChange}
+                      value={this.state.tagField}
+                      fullWidth
+                    />
+                  }
+                  rightIconButton={
+                    <div>
+                      <br />
+                      <IconButton
+                        onClick={this.handleCreateTag}
+                        tooltip={this.context.intl.formatMessage({ id: 'collection.form.links.tag.add.button' })}
+                      >
+                        <Add />
+                      </IconButton>
+                    </div>
+                  }
+                  disabled
+                />
+                {map(collectionStringTags, (tag, id) => (
+                  <ListItem
+                    key={`tag-${id}`}
+                    primaryText={tag}
+                    rightIconButton={
+                      <IconButton
+                        onClick={() => handleDelete(tag, true)}
+                        tooltip={this.context.intl.formatMessage({ id: 'collection.form.links.tag.remove.button' })}
+                      >
                         <Clear />
                       </IconButton>
                     }

@@ -22,6 +22,8 @@ import { I18nProvider } from '@regardsoss/i18n'
 import partition from 'lodash/partition'
 import some from 'lodash/some'
 import filter from 'lodash/filter'
+import find from 'lodash/find'
+import map from 'lodash/map'
 import startsWith from 'lodash/startsWith'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
@@ -46,6 +48,7 @@ export class CollectionEditLinksContainer extends React.Component {
     removeTagFromCollection: PropTypes.func.isRequired,
     addTagToCollection: PropTypes.func.isRequired,
     fetchCollection: PropTypes.func.isRequired,
+    updateCollection: PropTypes.func.isRequired,
     fetchCollectionList: PropTypes.func.isRequired,
   }
 
@@ -68,18 +71,35 @@ export class CollectionEditLinksContainer extends React.Component {
     return `/admin/${project}/data/collections/collection/${collectionId}/edit`
   }
 
-  getComponent = collectionLinkedToCurrentCollection => (
-    <CollectionEditLinksComponent
-      linkedCollections={collectionLinkedToCurrentCollection[0]}
-      remainingCollections={collectionLinkedToCurrentCollection[1]}
-      handleAdd={this.handleAdd}
-      handleDelete={this.handleDelete}
-      handleSearch={this.handleSearch}
-      backUrl={this.getBackUrl()}
-      doneUrl={this.getDoneUrl()}
-      projectName={this.props.params.project}
-      collectionId={this.props.params.collectionId}
-    />)
+  partitionCollectionLinkedTags = (currentCollection) => {
+    const linkedTags = partition(currentCollection.content.tags, tag => tag.match(/URN:.*:COLLECTION.*/))
+    return linkedTags
+  }
+
+  getCollectionLinked = (collectionIpIdList, collectionList) => map(collectionIpIdList, collectionIpId => find(collectionList, collection => collection.content.ipId === collectionIpId))
+
+
+  getComponent = () => {
+    const { currentCollection, collectionList } = this.props
+    const collectionLinkedToCurrentCollection = this.getRemainingCollection(currentCollection, collectionList)
+    const collectionTags = this.partitionCollectionLinkedTags(currentCollection)
+    const collectionStringTags = collectionTags[1]
+    const linkedCollection = this.getCollectionLinked(collectionTags[0], collectionList)
+    return (
+      <CollectionEditLinksComponent
+        linkedCollections={linkedCollection}
+        remainingCollections={collectionLinkedToCurrentCollection[1]}
+        collectionStringTags={collectionStringTags}
+        handleAdd={this.handleAdd}
+        handleDelete={this.handleDelete}
+        handleSearch={this.handleSearch}
+        backUrl={this.getBackUrl()}
+        doneUrl={this.getDoneUrl()}
+        projectName={this.props.params.project}
+        collectionId={this.props.params.collectionId}
+      />
+    )
+  }
 
   getDoneUrl = () => {
     const { params: { project } } = this.props
@@ -107,15 +127,37 @@ export class CollectionEditLinksContainer extends React.Component {
    * When the user add a new tag
    * @param tag
    */
-  handleAdd = tag => Promise.resolve(this.props.addTagToCollection(this.props.currentCollection.content.id, [tag]))
-    .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
+  handleAdd = (tag, usingUpdate) => {
+    if (usingUpdate) {
+      const { currentCollection: { content }, updateCollection } = this.props
+      const newCollectionContent = {
+        ...content,
+        tags: [...content.tags, tag],
+      }
+      updateCollection(content.id, newCollectionContent)
+    } else {
+      Promise.resolve(this.props.addTagToCollection(this.props.currentCollection.content.id, [tag]))
+        .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
+    }
+  }
 
   /**
    * When the user remove a tag
    * @param tag
    */
-  handleDelete = tag => Promise.resolve(this.props.removeTagFromCollection(this.props.currentCollection.content.id, [tag]))
-    .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
+  handleDelete = (tag, usingUpdate) => {
+    if (usingUpdate) {
+      const { currentCollection: { content }, updateCollection } = this.props
+      const newCollectionContent = {
+        ...content,
+        tags: content.tags.filter(existingTag => existingTag !== tag),
+      }
+      updateCollection(content.id, newCollectionContent)
+    } else {
+      Promise.resolve(this.props.removeTagFromCollection(this.props.currentCollection.content.id, [tag]))
+        .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
+    }
+  }
 
   handleSearch = (event, collectionName) => {
     this.setState({
@@ -124,15 +166,13 @@ export class CollectionEditLinksContainer extends React.Component {
   }
 
   render() {
-    const { currentCollection, collectionList } = this.props
     const { isLoading } = this.state
-    const collectionLinkedToCurrentCollection = this.getRemainingCollection(currentCollection, collectionList)
     return (
       <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
-          {this.getComponent(collectionLinkedToCurrentCollection)}
+          {this.getComponent}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
@@ -147,6 +187,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchCollectionList: () => dispatch(collectionActions.fetchPagedEntityList(0)),
   fetchCollection: id => dispatch(collectionActions.fetchEntity(id)),
+  updateCollection: (id, collection) => dispatch(collectionActions.updateEntity(id, collection)),
   addTagToCollection: (collectionId, tags) => dispatch(collectionLinkActions.sendSignal('PUT', tags, { collection_id: collectionId, operation: 'associate' })),
   removeTagFromCollection: (collectionId, tags) => dispatch(collectionLinkActions.sendSignal('PUT', tags, { collection_id: collectionId, operation: 'dissociate' })),
 })

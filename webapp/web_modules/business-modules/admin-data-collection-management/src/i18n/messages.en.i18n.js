@@ -76,6 +76,12 @@ const messages = Object.assign({
   'collection.form.files.action.next': 'Next',
   'collection.form.files.subtitle': 'Add one or more description file(s) to the dataset to explain its content. Three file formats are allowed : HTML, PDF and Markdown.',
   'collection.form.files.title': 'Manage files associated with the dataset',
+
+  'collection.form.links.tag.remove.button': 'Remove',
+  'collection.form.links.tag.add.button': 'Add',
+  'collection.form.links.tag.add': 'New tag',
+  'collection.form.links.tag.subtitle': 'Associate with tags',
+  'collection.form.links.collection.none': 'No collection linked',
 }, Locales.en)
 
 export default messages

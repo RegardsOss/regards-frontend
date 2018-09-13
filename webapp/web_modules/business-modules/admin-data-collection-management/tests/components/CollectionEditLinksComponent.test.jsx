@@ -53,7 +53,7 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionEditLinksComponen
       ],
     }
     const enzymeWrapper = shallow(<CollectionEditLinksComponent {...props} />, { context })
-    expect(enzymeWrapper.find(ListItem)).to.have.length(4)
+    expect(enzymeWrapper.find(ListItem)).to.have.length(6)
     expect(enzymeWrapper.find(CollectionStepperComponent)).to.have.length(1)
   })
 })

@@ -46,6 +46,7 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionEditLinksContaine
       removeTagFromCollection: () => { },
       addTagToCollection: () => { },
       fetchCollection: () => { },
+      updateCollection: () => { },
       fetchCollectionList: () => new Promise(() => { }),
     }
     const enzymeWrapper = shallow(<CollectionEditLinksContainer {...props} />, { context })
