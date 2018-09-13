@@ -26,7 +26,7 @@ const messages = Object.assign({
   'model.attribute.calculation.plugins.list.subtitle': 'Cette section vous permet de configurer les différents plugins de calculs des attributs utilisés par le stystème lors de l\'ajout de données.',
   'model.attribute.calculation.plugins.list.header.id.label': 'Identifiant',
   'model.attribute.calculation.plugins.list.header.name.label': 'Libellé',
-  'model.attribute.calculation.plugins.list.header.type.label': 'Tyoe de calcul',
+  'model.attribute.calculation.plugins.list.header.type.label': 'Type de calcul',
   'model.attribute.calculation.plugins.list.header.active.label': 'Activer',
   'model.attribute.calculation.plugins.list.edit.button': 'Editer la configuration',
   'model.attribute.calculation.plugins.list.duplicate.button': 'Dupliquer la configuration',

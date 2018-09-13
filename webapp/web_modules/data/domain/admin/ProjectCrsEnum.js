@@ -16,26 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AdminDomain } from '@regardsoss/domain'
-import URL from '../rs-common/URL'
+import values from 'lodash/values'
 
+export const PROJECT_CRS_ENUM = {
+  WGS_84: 'WGS_84',
+  MARS_49900: 'MARS_49900',
+  ASTRO: 'ASTRO',
+}
 
-export const ProjectContent = PropTypes.shape({
-  id: PropTypes.number,
-  label: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  icon: URL,
-  licenseLink: URL,
-  isDeleted: PropTypes.bool.isRequired,
-  isPublic: PropTypes.bool.isRequired,
-  name: PropTypes.string.isRequired,
-  host: PropTypes.string,
-  crs: PropTypes.oneOf(AdminDomain.PROJECT_CRS),
-  isPoleToBeManaged: PropTypes.bool,
-})
-
-export const Project = PropTypes.shape({
-  content: ProjectContent,
-})
-
-export const ProjectList = PropTypes.objectOf(Project)
+export const PROJECT_CRS = values(PROJECT_CRS_ENUM)
