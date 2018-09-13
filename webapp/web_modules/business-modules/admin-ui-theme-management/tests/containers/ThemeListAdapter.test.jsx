@@ -21,10 +21,9 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ThemeListContainer from '../../src/containers/ThemeListContainer'
 import { ThemeListAdapter } from '../../src/containers/ThemeListAdapter'
-import styles from '../../src/styles/styles'
 
 
-const context = buildTestContext(styles)
+const context = buildTestContext()
 
 /**
 * Test ThemeListAdapter
