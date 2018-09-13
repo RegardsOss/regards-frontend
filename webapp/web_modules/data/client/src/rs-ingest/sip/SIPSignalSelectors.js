@@ -16,19 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { sipReducer } from './clients/SIPClient'
-import { sipSignalReducer } from './clients/SIPSignalClient'
-import { sipImportReducer } from './clients/SIPImportClient'
-import { sessionReducer } from './clients/SessionClient'
-import { processingChainReducer } from './clients/ProcessingChainClient'
+import { BasicSignalsSelectors } from '@regardsoss/store-utils'
 
-const sipManagementReducer = combineReducers({
-  sip: sipReducer,
-  sipImport: sipImportReducer,
-  sipSignal: sipSignalReducer,
-  session: sessionReducer,
-  chain: processingChainReducer,
-})
-
-export default sipManagementReducer
+/**
+ * Store selector to receive SIP Actions.
+ * @author Sébastien Binda
+ */
+export default storePath => new BasicSignalsSelectors(storePath)

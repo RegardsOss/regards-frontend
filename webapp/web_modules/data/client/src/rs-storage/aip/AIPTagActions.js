@@ -26,6 +26,8 @@ export default class AIPTagActions extends BasicSignalsActions {
   /** Root endpoints for order state actions */
   static ROOT_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/aips`
 
+  static STORE_RETRY_ACTIONS = 'storeRetryEndpoint'
+
   static ADD_TAG_ACTIONS = 'addTagEndpoint'
 
   static REMOVE_TAG_ACTIONS = 'removeTagEndpoint'
@@ -50,7 +52,18 @@ export default class AIPTagActions extends BasicSignalsActions {
         entityEndpoint: `${AIPTagActions.ROOT_ENDPOINT}/tags/search`,
         namespace: `${namespace}/resume`,
       },
+      [AIPTagActions.STORE_RETRY_ACTIONS]: {
+        entityEndpoint: `${AIPTagActions.ROOT_ENDPOINT}/{aip_id}/retry`,
+        namespace: `${namespace}/resume`,
+      },
     })
+  }
+
+  /**
+   * Build an action that adds some tags to a set of aips
+   */
+  storeRetry(aipId) {
+    return this.getSubAction(AIPTagActions.STORE_RETRY_ACTIONS).sendSignal('POST', null, { aip_id: aipId })
   }
 
   /**

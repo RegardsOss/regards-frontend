@@ -24,6 +24,7 @@ import { IngestShapes } from '@regardsoss/shape'
 import SIPListComponent from '../components/monitoring/sip/SIPListComponent'
 import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
 import { sipActions, sipSelectors } from '../clients/SIPClient'
+import { sipSignalActions } from '../clients/SIPSignalClient'
 
 /**
  * Displays the list of SIPs
@@ -56,6 +57,7 @@ export class SIPListContainer extends React.Component {
     deleteSIPBySipId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(sip.sipId)),
     deleteSIPByProviderId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(undefined, {}, { providerId: sip.providerId })),
     fetchPage: (pageIndex, pageSize, requestParams) => dispatch(sipActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
+    retrySip: sip => dispatch(sipSignalActions.retry(sip.sipId)),
   })
 
   static propTypes = {
@@ -75,6 +77,7 @@ export class SIPListContainer extends React.Component {
     deleteSIPBySipId: PropTypes.func.isRequired,
     deleteSIPByProviderId: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
+    retrySip: PropTypes.func.isRequired,
     // from mapStateToProps
     entitiesLoading: PropTypes.bool.isRequired,
     chains: IngestShapes.IngestProcessingChainList.isRequired,
@@ -172,6 +175,7 @@ export class SIPListContainer extends React.Component {
   render() {
     const {
       meta, fetchPage, deleteSIPBySipId, deleteSIPByProviderId, params: { session, sip }, entitiesLoading,
+      retrySip,
     } = this.props
     const { urlFilters, contextFilters } = this.state
     return (
@@ -189,6 +193,7 @@ export class SIPListContainer extends React.Component {
         onRefresh={this.onRefresh}
         onDeleteBySipId={deleteSIPBySipId}
         onDeleteByProviderId={deleteSIPByProviderId}
+        onRetry={retrySip}
         fetchPage={fetchPage}
         goToSipHistory={this.goToSipHistory}
         goToSessionAIPsMonitoring={this.goToSessionAIPsMonitoring}

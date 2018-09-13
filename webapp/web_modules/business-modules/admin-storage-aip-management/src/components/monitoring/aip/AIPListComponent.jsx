@@ -47,6 +47,7 @@ import AIPListNbFilesColumnRenderer from './AIPListNbFilesColumnRenderer'
 import AIPRemoveTagDialog from './AIPRemoveTagDialog'
 import AIPAddTagDialog from './AIPAddTagDialog'
 import AIPListStateRenderer from './AIPListStateRenderer'
+import AIPStoreRetryActionRenderer from './AIPStoreRetryActionRenderer'
 
 /**
  * AIP list
@@ -70,6 +71,7 @@ class AIPListComponent extends React.Component {
     fetchPage: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
     onDeleteByIpId: PropTypes.func.isRequired,
+    onRetry: PropTypes.func.isRequired,
     goToAipFiles: PropTypes.func.isRequired,
     fetchCommonTags: PropTypes.func.isRequired,
     addTags: PropTypes.func.isRequired,
@@ -327,6 +329,7 @@ class AIPListComponent extends React.Component {
     const { intl, muiTheme } = this.context
     const {
       pageSize, resultsCount, entitiesLoading, isEmptySelection, sessionTags, searchingSessionTags,
+      onRetry,
     } = this.props
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
@@ -369,6 +372,9 @@ class AIPListComponent extends React.Component {
         .label(intl.formatMessage({ id: 'aips.list.table.headers.nbFiles' }))
         .build(),
       new TableColumnBuilder().optionsColumn([{
+        OptionConstructor: AIPStoreRetryActionRenderer,
+        optionProps: { onRetry },
+      }, {
         OptionConstructor: AIPDetailTableActionRenderer,
         optionProps: { onViewDetail: this.onViewAIPDetail },
       }, {

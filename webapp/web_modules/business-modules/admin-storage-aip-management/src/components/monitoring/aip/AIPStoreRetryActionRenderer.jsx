@@ -16,60 +16,54 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { IngestShapes } from '@regardsoss/shape'
-import { IngestDomain } from '@regardsoss/domain'
-import Report from 'material-ui/svg-icons/content/report'
+import isNil from 'lodash/isNil'
+import find from 'lodash/find'
+import Redo from 'material-ui/svg-icons/content/redo'
 import IconButton from 'material-ui/IconButton'
+import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+
 /**
- *
+* Action button to retry storage for AIP in error state
  * @author Sébastien Binda
 */
-class SIPListStateRenderer extends React.Component {
+class AIPStoreRetryActionRenderer extends React.Component {
   static propTypes = {
-    // from table cell API
-    entity: IngestShapes.IngestSIP,
-    goToSessionAIPsMonitoring: PropTypes.func.isRequired,
-    session: PropTypes.string,
+    entity: PropTypes.shape({
+      content: IngestShapes.IngestProcessingChain,
+      links: PropTypes.array,
+    }),
+    onRetry: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
   }
 
-  static lineWrapper = {
-    display: 'flex',
-    alignItems: 'center',
-  }
-
   static iconStyle = { height: 23, width: 23 }
 
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
+  handleClick = () => {
+    this.props.onRetry(this.props.entity.content)
+  }
+
   render() {
     const { intl: { formatMessage } } = this.context
-    const { entity, session } = this.props
-    const status = entity.content.state
-    // display an icon if the status can contains a stacktrace
-    let icon = null
-    if (status === IngestDomain.SIPStateEnum.STORE_ERROR) {
-      icon = (
-        <IconButton
-          title={formatMessage({ id: 'sips.list.table.tooltip.go-to-aip-management' })}
-          iconStyle={SIPListStateRenderer.iconStyle}
-          style={SIPListStateRenderer.buttonStyle}
-          onClick={() => this.props.goToSessionAIPsMonitoring(session)}
-        >
-          <Report />
-        </IconButton>
-      )
+    const { entity: { links } } = this.props
+    if (isNil(find(links, { rel: 'retry' }))) {
+      return null
     }
     return (
-      <div style={SIPListStateRenderer.lineWrapper}>
-        {status}
-        {icon}
-      </div>
+      <IconButton
+        title={formatMessage({ id: 'aips.list.aip-retry.title' })}
+        iconStyle={AIPStoreRetryActionRenderer.iconStyle}
+        style={AIPStoreRetryActionRenderer.buttonStyle}
+        onClick={this.handleClick}
+      >
+        <Redo />
+      </IconButton>
     )
   }
 }
-export default SIPListStateRenderer
+export default AIPStoreRetryActionRenderer

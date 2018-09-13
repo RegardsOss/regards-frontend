@@ -41,6 +41,7 @@ import SIPConfirmDeleteDialog from './SIPConfirmDeleteDialog'
 import SIPListFiltersComponent from './SIPListFiltersComponent'
 import SIPDeletionErrorDialog from './SIPDeletionErrorDialog'
 import SIPListStateRenderer from './SIPListStateRenderer'
+import SIPRetryActionRenderer from './SIPRetryActionRenderer'
 import { sipActions, sipSelectors } from '../../../clients/SIPClient'
 import messages from '../../../i18n'
 import styles from '../../../styles'
@@ -63,6 +64,7 @@ class SIPListComponent extends React.Component {
     onRefresh: PropTypes.func.isRequired,
     onDeleteBySipId: PropTypes.func.isRequired,
     onDeleteByProviderId: PropTypes.func.isRequired,
+    onRetry: PropTypes.func.isRequired,
     goToSipHistory: PropTypes.func.isRequired,
     goToSessionAIPsMonitoring: PropTypes.func.isRequired,
     initialFilters: PropTypes.objectOf(PropTypes.string),
@@ -203,6 +205,7 @@ class SIPListComponent extends React.Component {
     const { sip } = this.props
     const {
       pageSize, resultsCount, initialFilters, chains, entitiesLoading, goToSessionAIPsMonitoring, session,
+      onRetry,
     } = this.props
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
@@ -251,6 +254,9 @@ class SIPListComponent extends React.Component {
           queryPageSize: 20,
         },
       }] : [{ // sip list options
+        OptionConstructor: SIPRetryActionRenderer,
+        optionProps: { onRetry },
+      }, {
         OptionConstructor: TableSimpleActionOption,
         optionProps: {
           onAction: this.goToSipHistory,

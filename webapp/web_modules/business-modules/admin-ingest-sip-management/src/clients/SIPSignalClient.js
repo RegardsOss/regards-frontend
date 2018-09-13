@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,20 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { combineReducers } from 'redux'
-import { sipReducer } from './clients/SIPClient'
-import { sipSignalReducer } from './clients/SIPSignalClient'
-import { sipImportReducer } from './clients/SIPImportClient'
-import { sessionReducer } from './clients/SessionClient'
-import { processingChainReducer } from './clients/ProcessingChainClient'
+ */
+import { IngestClient } from '@regardsoss/client'
 
-const sipManagementReducer = combineReducers({
-  sip: sipReducer,
-  sipImport: sipImportReducer,
-  sipSignal: sipSignalReducer,
-  session: sessionReducer,
-  chain: processingChainReducer,
-})
+/**
+ * AIP Tags client.
+ *
+ * @author Léo Mieulet
+ */
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'sip', 'sipSignal']
+const REDUX_ACTION_NAMESPACE = 'admin-ingest-sip-management/sips/signals'
 
-export default sipManagementReducer
+export const sipSignalActions = new IngestClient.SIPSignalActions(REDUX_ACTION_NAMESPACE)
+export const sipSignalReducer = IngestClient.getSipSignalReducer(REDUX_ACTION_NAMESPACE)
+export const sipSignalSelectors = IngestClient.getSipSignalSelectors(ENTITIES_STORE_PATH)

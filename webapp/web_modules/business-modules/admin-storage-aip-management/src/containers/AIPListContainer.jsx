@@ -58,6 +58,7 @@ export class AIPListContainer extends React.Component {
    */
   static mapDispatchToProps = dispatch => ({
     deleteAIPByIpId: aip => dispatch(aipActions.deleteEntityWithPayloadResponse(aip.id)),
+    onRetry: aip => dispatch(aipTagActions.storeRetry(aip.id)),
     fetchPage: (pageIndex, pageSize, requestParams) => dispatch(aipActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
     fetchCommonTags: requestParams => dispatch(aipTagActions.fetchCommonTags(requestParams)),
     removeTags: body => dispatch(aipTagActions.removeTags(body)),
@@ -81,6 +82,7 @@ export class AIPListContainer extends React.Component {
     fetchCommonTags: PropTypes.func.isRequired,
     addTags: PropTypes.func.isRequired,
     removeTags: PropTypes.func.isRequired,
+    onRetry: PropTypes.func.isRequired,
     // from mapStateToProps
     entitiesLoading: PropTypes.bool.isRequired,
     isEmptySelection: PropTypes.bool.isRequired,
@@ -215,6 +217,7 @@ export class AIPListContainer extends React.Component {
   render() {
     const {
       meta, fetchPage, deleteAIPByIpId, params: { session }, entitiesLoading, isEmptySelection,
+      onRetry,
     } = this.props
     const {
       urlFilters, contextFilters, tags, searchingTags, searchingSessionTags, sessionTags,
@@ -241,6 +244,7 @@ export class AIPListContainer extends React.Component {
         fetchCommonTags={this.fetchCommonTags}
         addTags={this.addTags}
         removeTags={this.removeTags}
+        onRetry={onRetry}
       />
     )
   }

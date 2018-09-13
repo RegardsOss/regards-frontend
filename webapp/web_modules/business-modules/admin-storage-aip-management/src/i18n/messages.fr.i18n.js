@@ -33,6 +33,7 @@ const messages = Object.assign({
   'aips.list.table.headers.nbFiles': 'Nombre de fichier',
   'aips.list.aip-details.title': 'Détails du AIP',
   'aips.list.aip-history.title': 'Historique du AIP',
+  'aips.list.aip-retry.title': 'Relancer le stockage de l\'AIP',
   'aips.list.empty.title': 'Aucune donnée trouvée',
   'aips.list.snackbar.job-remove-tag': 'Un job de suppression de tag a été lancé',
   'aips.list.snackbar.job-remove-tag-failed': 'Le job de suppression de tag n\'a pas pu être lancé',

@@ -16,19 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { sipReducer } from './clients/SIPClient'
-import { sipSignalReducer } from './clients/SIPSignalClient'
-import { sipImportReducer } from './clients/SIPImportClient'
-import { sessionReducer } from './clients/SessionClient'
-import { processingChainReducer } from './clients/ProcessingChainClient'
-
-const sipManagementReducer = combineReducers({
-  sip: sipReducer,
-  sipImport: sipImportReducer,
-  sipSignal: sipSignalReducer,
-  session: sessionReducer,
-  chain: processingChainReducer,
-})
-
-export default sipManagementReducer
+import { BasicSignalsReducers } from '@regardsoss/store-utils'
+import SIPSignalActions from './SIPSignalActions'
+/**
+ * Redux Reducer for SIP actions
+ * @author Sébastien Binda
+ */
+export default function getSipSignalReducer(namespace) {
+  const instance = new BasicSignalsReducers(new SIPSignalActions(namespace))
+  return (state, action) => instance.reduce(state, action)
+}
