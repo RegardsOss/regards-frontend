@@ -32,7 +32,10 @@ class ParameterPresentation extends React.Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
     description: PropTypes.string,
-    children: PropTypes.func,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
   }
 
   static defaultProps = {}
