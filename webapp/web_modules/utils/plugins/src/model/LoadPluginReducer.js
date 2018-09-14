@@ -18,7 +18,7 @@
  **/
 import isNil from 'lodash/isNil'
 import {
-  PLUGIN_LOADED, CHECK_PLUGIN, PLUGIN_INIT, PLUGIN_ERROR,
+  PLUGIN_LOADED, CHECK_PLUGIN, PLUGIN_ERROR,
 } from './LoadPluginActions'
 
 const mergePluginInfo = (state, {
@@ -62,12 +62,6 @@ export default (state = {
         return mergePluginInfo(state, plugin)
       }
       return mergePluginInfo(state, { sourcePath: action.sourcePath, loadError: true, errorCause: 'Your file is not a valid plugin.' })
-    case PLUGIN_INIT:
-      if (plugin) {
-        plugin.initialized = true
-        return mergePluginInfo(state, plugin)
-      }
-      return state
     case PLUGIN_ERROR:
       if (plugin) {
         plugin.loadError = true

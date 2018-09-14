@@ -127,9 +127,7 @@ export class EnumeratedCriteriaContainer extends PluginCriterionContainer {
    * @param state current state
    * @returns {string} query for current state
    */
-  getPluginSearchQuery = state =>
-    // return query only when there is a value
-    state[SEARCH_FIELD_ID] ? `${this.getAttributeName(SEARCH_FIELD_ID)}:"${state[SEARCH_FIELD_ID]}"` : ''
+  getPluginSearchQuery = state => state[SEARCH_FIELD_ID] ? `${this.getAttributeName(SEARCH_FIELD_ID)}:"${state[SEARCH_FIELD_ID]}"` : '' // return query only when there is a value
 
   /**
    * Parses, in open search query for this plugin attribute, the value set

@@ -23,8 +23,11 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { ErrorCardComponent } from '@regardsoss/components'
-import { loadPlugin, initLoadedPlugin } from '../model/LoadPluginActions'
-import LoadPluginSelector from '../model/LoadPluginSelector'
+import pluginReducerHelper from '../helpers/PluginReducerHelper'
+import { loadPlugin } from '../model/LoadPluginActions'
+import loadPluginSelector from '../model/LoadPluginSelector'
+import initializePluginActions from '../model/InitializePluginActions'
+import initializePluginSelectors from '../model/InitializePluginSelectors'
 
 /**
  * This component allows to load a given plugin and display it.
@@ -42,7 +45,39 @@ import LoadPluginSelector from '../model/LoadPluginSelector'
  * @author Léo Mieulet
  *
  */
-class PluginLoader extends React.Component {
+export class PluginLoader extends React.Component {
+  /**
+ * Redux: map state to props function
+ * @param {*} state: current redux state
+ * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+ * @return {*} list of component properties extracted from redux state
+ */
+  static mapStateToProps(state, { pluginPath, pluginInstanceId }) {
+    return {
+      loadedPlugin: loadPluginSelector.getById(state, pluginPath),
+      isInitialized: initializePluginSelectors.isInitialized(state, pluginInstanceId),
+    }
+  }
+
+  /**
+ * Redux: map dispatch to props function
+ * @param {*} dispatch: redux dispatch function
+ * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+ * @return {*} list of component properties extracted from redux state
+ */
+  static mapDispatchToProps(dispatch, { pluginPath, pluginInstanceId }) {
+    return {
+      doLoadPlugin: errorCallback => loadPlugin(pluginPath, errorCallback, dispatch),
+      doInitPlugin: (loadedPlugin) => {
+        // 1 - Let helper initialize the plugin (especially plugin redux store space)
+        pluginReducerHelper.initializePluginReducer(loadedPlugin, pluginInstanceId, () => {
+          // 2 - after initialize, mark initialization complete
+          dispatch(initializePluginActions.markInitialized(pluginInstanceId))
+        })
+      },
+    }
+  }
+
   /**
    * pluginInstanceId: An unique identifier of the plugin to provide, in  case you're loading multiple plugins on the same page
    * pluginConf : Props to add to the plugin rendered,
@@ -61,8 +96,10 @@ class PluginLoader extends React.Component {
     children: PropTypes.element,
     // eslint-disable-next-line react/no-unused-prop-types
     onErrorCallback: PropTypes.func,
-    // Set by mapstatetoprops
+    // From mapStateToProps
+    isInitialized: PropTypes.bool, // is instance intialized
     loadedPlugin: AccessShapes.UIPluginInstanceContent,
+    // From mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
     doLoadPlugin: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -87,18 +124,28 @@ class PluginLoader extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      loadedPlugin, pluginPath, pluginInstanceId,
+      loadedPlugin, pluginPath, isInitialized,
       doLoadPlugin, onErrorCallback, doInitPlugin,
     } = newProps
-    if ((!loadedPlugin || loadedPlugin.loadError) && oldProps.pluginPath !== newProps.pluginPath) {
+    if (!loadedPlugin && oldProps.pluginPath !== pluginPath) {
       // Step 1: Load new plugin
-      doLoadPlugin(pluginPath, this.errorCallback)
-    } else if (loadedPlugin && !loadedPlugin.loadError && !loadedPlugin.initialized) {
-      // Step 2: when plugin is loadeded but not yet initilized, perform initialization and mark it done
-      doInitPlugin(loadedPlugin, pluginPath, pluginInstanceId) // install reducer
+      doLoadPlugin(this.errorCallback)
+    } else if (loadedPlugin && loadedPlugin !== oldProps.loadedPlugin) {
+      // Detected: new plugin loaded
+      if (loadedPlugin.loadError) {
+        // 2.a: plugin finished loading in error: notify user
+        if (onErrorCallback) {
+          onErrorCallback()
+        }
+      } else if (!isInitialized) {
+        // loaded plugin has not yet been initialized, initialize it
+        doInitPlugin(loadedPlugin) // install reducer
+      }
     } else if (loadedPlugin && loadedPlugin.loadError && onErrorCallback) {
       // Error after load run error callback if any
-      if (onErrorCallback) onErrorCallback()
+      if (onErrorCallback) {
+        onErrorCallback()
+      }
     }
   }
 
@@ -107,8 +154,8 @@ class PluginLoader extends React.Component {
   }
 
   renderPlugin() {
-    const { loadedPlugin } = this.props
-    if (loadedPlugin && loadedPlugin.initialized && !loadedPlugin.loadError) {
+    const { loadedPlugin, isInitialized } = this.props
+    if (loadedPlugin && isInitialized) {
       let element = null
       if (this.props.displayPlugin) {
         element = React.createElement(this.props.loadedPlugin.plugin, {
@@ -155,18 +202,7 @@ class PluginLoader extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  loadedPlugin: LoadPluginSelector.getById(state, ownProps.pluginPath),
-})
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  doLoadPlugin: (sourcePath, errorCallback) => loadPlugin(sourcePath, errorCallback, dispatch),
-  doInitPlugin: (loadedPlugin, sourcePath, pluginInstanceId) => initLoadedPlugin(loadedPlugin, sourcePath, pluginInstanceId, dispatch),
-})
-
-// Export for tests
-const UnconnectedPluginLoader = PluginLoader
-export { UnconnectedPluginLoader }
 // Default export
-const connectedPluginLoader = connect(mapStateToProps, mapDispatchToProps)(PluginLoader)
-export default connectedPluginLoader
+export default connect(
+  PluginLoader.mapStateToProps,
+  PluginLoader.mapDispatchToProps)(PluginLoader)

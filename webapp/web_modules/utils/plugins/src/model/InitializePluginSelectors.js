@@ -16,20 +16,35 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-/**
- * Combine all reducers for this aa to a single root reducer.
- */
-import { combineReducers } from 'redux'
-import { uiPluginDefinitionReducers } from './clients/UIPluginDefinitionClient'
-import LoadPluginReducer from './model/LoadPluginReducer'
-import initializePluginReducer from './model/InitializePluginReducer'
+import { BasicSelector } from '@regardsoss/store-utils'
 
 /**
- * Plugin utils reducers
- * @author Sébastien Binda
+ * Initialize plugin selectors
  */
-export default combineReducers({
-  loadedPlugins: LoadPluginReducer,
-  plugins: uiPluginDefinitionReducers,
-  initializedPlugins: initializePluginReducer,
-})
+class InitializePluginSelectors extends BasicSelector {
+  /**
+   * Constructor
+   */
+  constructor() {
+    super(['common', 'plugins', 'initializedPlugins'])
+  }
+
+  /**
+   * @param {*} store redux store
+   * @return {*} reducer state
+   */
+  getState(store) {
+    return this.uncombineStore(store)
+  }
+
+  /**
+   * Is plugin initialized?
+   * @param {*} pluginInstanceId plugin instance ID
+   * @return {boolean} true when initialized, false or undefined otherwise
+   */
+  isInitialized(store, pluginInstanceId) {
+    return this.getState(store)[pluginInstanceId]
+  }
+}
+
+export default new InitializePluginSelectors()

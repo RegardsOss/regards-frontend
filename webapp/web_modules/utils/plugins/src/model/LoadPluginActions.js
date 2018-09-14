@@ -19,7 +19,7 @@
 import root from 'window-or-global'
 import get from 'lodash/get'
 import isUndefined from 'lodash/isUndefined'
-import pluginReducerHelper from '../helpers/PluginReducerHelper'
+
 // Load scriptjs library. This lib is used to asynchronously load new external javascript files.
 let scriptjs
 if (!isUndefined(root.document) && !isUndefined(root.document.getElementsByTagName)) {
@@ -33,7 +33,6 @@ if (!isUndefined(root.document) && !isUndefined(root.document.getElementsByTagNa
  */
 export const PLUGIN_LOADED = 'LOAD_PLUGINS/PLUGIN_LOADED'
 export const CHECK_PLUGIN = 'LOAD_PLUGINS/CHECK_LOADED'
-export const PLUGIN_INIT = 'LOAD_PLUGINS/PLUGIN_INIT'
 export const PLUGIN_ERROR = 'LOAD_PLUGINS/PLUGIN_ERROR'
 
 export const savePluginLoaded = ({
@@ -51,11 +50,6 @@ export const savePluginLoaded = ({
 
 export const checkPluginLoaded = sourcePath => ({
   type: CHECK_PLUGIN,
-  sourcePath,
-})
-
-export const togglePluginInit = sourcePath => ({
-  type: PLUGIN_INIT,
   sourcePath,
 })
 
@@ -108,10 +102,4 @@ export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
       onErrorCallback(fullSourcePlugin)
     }
   }
-}
-
-export const initLoadedPlugin = (loadedPlugin, sourcePath, pluginInstanceId, dispatchAction) => {
-  pluginReducerHelper.initializePluginReducer(loadedPlugin, pluginInstanceId, () => {
-    dispatchAction(togglePluginInit(sourcePath))
-  }) // install reducer
 }
