@@ -53,7 +53,7 @@ const messages = Object.assign({
 
   'document.form.files.title': 'Gestion des fichiers du document {name}',
   'document.form.files.subtitle': 'Vous pouvez ajouter de nouveaux fichiers à votre document, ou supprimer ceux déjà présent',
-  'document.form.files.action.next': 'Suite',
+  'document.form.files.action.next': 'Suivant',
   'document.form.files.action.cancel': 'Annuler',
   'document.form.files.docFiles.subtitle': 'Liste des fichiers associés',
   'document.form.files.addFile.subtitle': 'Ajouter des fichiers',

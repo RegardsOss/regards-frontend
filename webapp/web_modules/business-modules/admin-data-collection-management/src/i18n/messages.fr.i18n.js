@@ -73,7 +73,7 @@ const messages = Object.assign({
   'collection.no.collection.subtitle': 'Créez votre première collection',
 
   'collection.form.files.action.cancel': 'Retour',
-  'collection.form.files.action.next': 'Suite',
+  'collection.form.files.action.next': 'Suivant',
   'collection.form.files.subtitle': 'Ajouter un ou plusieurs fichier(s) de description à la collection pour expliquer son contenu. Trois formats de fichier sont supportés : HTML, PDF et Markdown.',
   'collection.form.files.title': 'Gestion des fichiers associés à la collection',
 

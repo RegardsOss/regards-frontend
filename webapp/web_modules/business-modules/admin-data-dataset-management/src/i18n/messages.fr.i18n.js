@@ -42,13 +42,13 @@ const messages = Object.assign({
   'dataset.form.links.remainingcollection.subtitle': 'Collections disponibles',
   'dataset.form.links.remainingcollection.search': 'Filtrer les collections sur leur nom',
   'dataset.form.links.remainingcollection.add.button': 'Lier la collection',
-  'dataset.form.links.action.next': 'Suite',
+  'dataset.form.links.action.next': 'Suivant',
   'dataset.form.links.action.cancel': 'Retour',
 
   'dataset.form.plugin.title': 'Gestion des plugins appliqués au jeu de données',
   'dataset.form.plugin.subtitle': 'Réalisez des traitements sur le jeu de données en activant ces plugins',
   'dataset.form.plugin.services': 'Activation de services',
-  'dataset.form.plugin.action.next': 'Suite',
+  'dataset.form.plugin.action.next': 'Suivant',
   'dataset.form.plugin.action.cancel': 'Retour',
 
   'dataset.form.uiservices.title': 'Gestion des services de l\'interface utilisateur',
@@ -59,7 +59,7 @@ const messages = Object.assign({
   'dataset.form.uiservices.latestVersion': 'latest',
 
   'dataset.form.files.action.cancel': 'Retour',
-  'dataset.form.files.action.next': 'Suite',
+  'dataset.form.files.action.next': 'Suivant',
   'dataset.form.files.subtitle': 'Ajouter un ou plusieurs fichier(s) de description au jeu de données pour expliquer son contenu. Trois formats de fichier sont supportés : HTML, PDF et Markdown.',
   'dataset.form.files.title': 'Gestion des fichiers associés au jeu de données',
 

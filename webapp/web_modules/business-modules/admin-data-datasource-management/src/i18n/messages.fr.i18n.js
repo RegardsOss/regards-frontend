@@ -51,7 +51,7 @@ const messages = Object.assign({
   'datasource.form.create.title': 'Création d\'une source de données',
   'datasource.form.create.subtitle': 'Veuillez sélectionner la connexion à partir de laquelle vous souhaitez créer la source de données',
   'datasource.form.create.action.cancel': 'Annuler',
-  'datasource.form.create.action.next': 'Suite',
+  'datasource.form.create.action.next': 'Suivant',
   'datasource.form.create.action.connection': 'Créer une connexion',
   'datasource.form.create.datasource': 'Liste des connexions actives',
 
