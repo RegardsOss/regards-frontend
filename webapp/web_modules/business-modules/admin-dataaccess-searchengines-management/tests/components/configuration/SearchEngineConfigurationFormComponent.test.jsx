@@ -100,7 +100,7 @@ describe('[ADMIN SEARCH ENGINES] Testing SearchEngineConfigurationFormComponent'
     assert.lengthOf(pluginPicker, 1, 'The component should display two radio buttons')
     assert.equal(pluginPicker.at(0).prop('pluginMetaDataList'), props.pluginMetaDataList, 'Invalid prop for PluginConfigurationPickerComponent')
     assert.equal(pluginPicker.at(0).prop('pluginConfigurationList'), props.pluginConfigurationList, 'Invalid prop for PluginConfigurationPickerComponent')
-    assert.equal(pluginPicker.at(0).prop('currentPluginConfiguration'), props.currentPluginConfiguration, 'Invalid prop for PluginConfigurationPickerComponent')
+    assert.equal(pluginPicker.at(0).prop('currentPluginConfiguration'), props.searchEngineConfiguration.content.configuration, 'Invalid prop for PluginConfigurationPickerComponent')
 
     assert.lengthOf(enzymeWrapper.find(Field).find({ name: 'configuration' }), 0, 'The component should not isplay plugin configuration field by default')
   })
