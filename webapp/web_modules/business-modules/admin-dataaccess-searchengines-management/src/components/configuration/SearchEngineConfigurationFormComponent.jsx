@@ -79,10 +79,18 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
   }
 
   componentWillMount = () => {
-    if (this.props.searchEngineConfiguration) {
-      this.props.initialize(this.props.searchEngineConfiguration.content)
-      if (this.props.searchEngineConfiguration.content.dataset) {
-        this.setState({ datasetSelector: 'selected' })
+    const { searchEngineConfiguration, initialize, pluginMetaDataList } = this.props
+    if (searchEngineConfiguration) {
+      initialize(searchEngineConfiguration.content)
+      let pluginMeta = null
+      const { configuration } = searchEngineConfiguration.content
+      if (configuration && pluginMetaDataList && pluginMetaDataList[configuration.pluginId]) {
+        pluginMeta = pluginMetaDataList[configuration.pluginId].content
+      }
+      if (searchEngineConfiguration.content.dataset) {
+        this.setState({ pluginToConfigure: pluginMeta, datasetSelector: 'selected' })
+      } else {
+        this.setState({ pluginToConfigure: pluginMeta })
       }
     }
   }
@@ -94,7 +102,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
     if (this.props.mode === 'edit') {
       task = this.props.onUpdate(searchConf, searchConf.id)
     } else {
-      task = this.props.onCreate(values)
+      task = this.props.onCreate(searchConf)
     }
     task.then((actionResults) => {
       if (!actionResults.error) {
@@ -111,16 +119,20 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
     this.props.change('configuration', PluginFormUtils.initNewConfiguration(pluginMetadata))
   }
 
+  /**
+   * Set selectedConf to null to remove the current associated configuration.
+   */
   onChangeSelectedConf = (selectedConfId, selectedConf) => {
     this.setState({
-      pluginToConfigure: null,
+      pluginToConfigure: selectedConf && this.props.pluginMetaDataList[selectedConf.pluginId]
+        ? this.props.pluginMetaDataList[selectedConf.pluginId].content : null,
     })
     return this.props.change('configuration', selectedConf || null)
   }
 
   onChangeDatasetSelector = (event, value) => this.setState({ datasetSelector: value })
 
-  renderNewPluginConf = () => {
+  renderPluginConf = () => {
     if (this.state.pluginToConfigure) {
       const { intl: { formatMessage } } = this.context
       return (
@@ -219,7 +231,6 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
     const subtitle = mode === 'edit'
       ? formatMessage({ id: 'dataaccess.searchengines.form.edit.subtitle' })
       : formatMessage({ id: 'dataaccess.searchengines.form.create.subtitle' })
-
     return (
       <form
         onSubmit={handleSubmit(this.onSubmit)}
@@ -250,9 +261,9 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
               onChange={this.onChangeSelectedConf}
               pluginMetaDataList={pluginMetaDataList}
               pluginConfigurationList={pluginConfigurationList}
-              currentPluginConfiguration={get(this.props.searchEngineConfiguration, 'configuration', undefined)}
+              currentPluginConfiguration={get(this.props.searchEngineConfiguration, 'content.configuration', undefined)}
             />
-            {this.renderNewPluginConf()}
+            {this.renderPluginConf()}
           </CardText>
           <CardActions>
             <CardActionsComponent
