@@ -32,7 +32,7 @@ import {
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import SIPStatusEnum from './SIPStatusEnum'
+import { IngestDomain } from '@regardsoss/domain'
 
 /**
 * Component to display filters on SIPListComponent
@@ -187,7 +187,7 @@ class SIPListFiltersComponent extends React.Component {
               onChange={this.changeStateFilter}
             >
               <MenuItem value={null} primaryText="" />
-              {map(SIPStatusEnum, status => (<MenuItem
+              {map(IngestDomain.SIPStateEnum, status => (<MenuItem
                 key={status}
                 value={status}
                 primaryText={intl.formatMessage({

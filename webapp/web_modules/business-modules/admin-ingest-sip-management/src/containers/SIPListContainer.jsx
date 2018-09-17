@@ -122,6 +122,11 @@ export class SIPListContainer extends React.Component {
     browserHistory.push(`/admin/${project}/data/acquisition/storage/aip/${session}/list`)
   }
 
+  goToDataSourcesMonitoring = () => {
+    const { params: { project } } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/datasource/monitor`)
+  }
+
   handleGoBack = (level) => {
     const { params: { project, session, sip } } = this.props
     const encodedSessionName = encodeURIComponent(session)
@@ -197,6 +202,7 @@ export class SIPListContainer extends React.Component {
         fetchPage={fetchPage}
         goToSipHistory={this.goToSipHistory}
         goToSessionAIPsMonitoring={this.goToSessionAIPsMonitoring}
+        goToDataSourcesMonitoring={this.goToDataSourcesMonitoring}
       />
     )
   }

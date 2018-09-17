@@ -67,6 +67,7 @@ class SIPListComponent extends React.Component {
     onRetry: PropTypes.func.isRequired,
     goToSipHistory: PropTypes.func.isRequired,
     goToSessionAIPsMonitoring: PropTypes.func.isRequired,
+    goToDataSourcesMonitoring: PropTypes.func.isRequired,
     initialFilters: PropTypes.objectOf(PropTypes.string),
     contextFilters: PropTypes.objectOf(PropTypes.string),
   }
@@ -205,7 +206,7 @@ class SIPListComponent extends React.Component {
     const { sip } = this.props
     const {
       pageSize, resultsCount, initialFilters, chains, entitiesLoading, goToSessionAIPsMonitoring, session,
-      onRetry,
+      onRetry, goToDataSourcesMonitoring,
     } = this.props
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
@@ -229,6 +230,7 @@ class SIPListComponent extends React.Component {
           Constructor: SIPListStateRenderer,
           props: {
             goToSessionAIPsMonitoring,
+            goToDataSourcesMonitoring,
             session,
           },
         })

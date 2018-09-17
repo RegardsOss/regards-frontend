@@ -30,6 +30,7 @@ class SIPListStateRenderer extends React.Component {
     // from table cell API
     entity: IngestShapes.IngestSIP,
     goToSessionAIPsMonitoring: PropTypes.func.isRequired,
+    goToDataSourcesMonitoring: PropTypes.func.isRequired,
     session: PropTypes.string,
   }
 
@@ -63,7 +64,19 @@ class SIPListStateRenderer extends React.Component {
           <Report />
         </IconButton>
       )
+    } else if (status === IngestDomain.SIPStateEnum.INDEX_ERROR) {
+      icon = (
+        <IconButton
+          title={formatMessage({ id: 'sips.list.table.tooltip.go-to-datasources-management' })}
+          iconStyle={SIPListStateRenderer.iconStyle}
+          style={SIPListStateRenderer.buttonStyle}
+          onClick={() => this.props.goToDataSourcesMonitoring()}
+        >
+          <Report />
+        </IconButton>
+      )
     }
+
     return (
       <div style={SIPListStateRenderer.lineWrapper}>
         {status}

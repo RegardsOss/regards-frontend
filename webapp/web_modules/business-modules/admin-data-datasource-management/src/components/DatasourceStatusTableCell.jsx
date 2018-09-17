@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { DataManagementShapes } from '@regardsoss/shape'
+import { DamDomain } from '@regardsoss/domain'
 import get from 'lodash/get'
 import Report from 'material-ui/svg-icons/content/report'
 import Info from 'material-ui/svg-icons/action/info'
@@ -54,7 +55,7 @@ class DatasourceStatusTableCell extends React.Component {
     const status = get(entity, 'content.status', null)
     // display an icon if the status can contains a stacktrace
     let icon = null
-    if (status === 'ERROR') {
+    if (status === DamDomain.DataSourcesStatusEnum.ERROR || DamDomain.DataSourcesStatusEnum.FINISHED_WITH_WARNINGS) {
       icon = (
         <IconButton
           title={formatMessage({ id: 'crawler.list.show.stacktrace.tooltip' })}
@@ -65,7 +66,7 @@ class DatasourceStatusTableCell extends React.Component {
           <Report />
         </IconButton>
       )
-    } else if (status === 'STARTED') {
+    } else if (status === DamDomain.DataSourcesStatusEnum.STARTED) {
       icon = (
         <IconButton
           title={formatMessage({ id: 'crawler.list.show.stacktrace.tooltip' })}

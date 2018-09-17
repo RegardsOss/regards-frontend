@@ -50,6 +50,7 @@ const messages = Object.assign({
   'sips.list.sip-history.title': 'Historique du SIP',
   'sips.list.empty.title': 'Aucune donnée trouvée',
   'sips.list.table.tooltip.go-to-aip-management': 'Aller au suivi du stockage des AIPs pour visualiser l\'erreur.',
+  'sips.list.table.tooltip.go-to-datasources-management': 'Aller au suivi des aspirations',
   'sip.list.retry.action': 'Relancer l\'ingestion du SIP',
   'sips.stepper.list': 'Afficher SIPs',
   'sips.stepper.session': 'Selectionner session',
@@ -120,6 +121,7 @@ const messages = Object.assign({
   STORED: 'STORED',
   STORE_ERROR: 'STORE_ERROR',
   INDEXED: 'INDEXED',
+  INDEX_ERROR: 'INDEX_ERROR',
   INCOMPLETE: 'INCOMPLETE',
 }, Locales.fr)
 

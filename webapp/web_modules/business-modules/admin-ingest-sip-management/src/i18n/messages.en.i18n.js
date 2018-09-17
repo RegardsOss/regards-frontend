@@ -50,6 +50,7 @@ const messages = Object.assign({
   'sips.list.sip-history.title': 'SIP History',
   'sips.list.empty.title': 'No entities found',
   'sips.list.table.tooltip.go-to-aip-management': 'Go to aip storage monitoring to see errors.',
+  'sips.list.table.tooltip.go-to-datasources-management': 'Go to datasources monitoring',
   'sip.list.retry.action': 'Retry sip ingest',
   'sips.stepper.list': 'View SIPs',
   'sips.stepper.session': 'Select session',
@@ -120,6 +121,7 @@ const messages = Object.assign({
   STORED: 'STORED',
   STORE_ERROR: 'STORE_ERROR',
   INDEXED: 'INDEXED',
+  INDEX_ERROR: 'INDEX_ERROR',
   INCOMPLETE: 'INCOMPLETE',
 }, Locales.en)
 

@@ -16,23 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 
 /**
+ * Possible states for Datasources (DAM Crawler)
  * @author Sébastien Binda
  */
-const sipStatus = {
-  CREATED: 'CREATED',
-  DELETED: 'DELETED',
-  REJECTED: 'REJECTED',
-  QUEUED: 'QUEUED',
-  VALID: 'VALID',
-  INVALID: 'INVALID',
-  AIP_GEN_ERROR: 'AIP_GEN_ERROR',
-  AIP_CREATED: 'AIP_CREATED',
-  STORED: 'STORED',
-  STORE_ERROR: 'STORE_ERROR',
-  INDEXED: 'INDEXED',
-  INCOMPLETE: 'INCOMPLETE',
+export const DataSourcesStatusEnum = {
+  NEW: 'NEW',
+  STARTED: 'STARTED',
+  FINISHED: 'FINISHED',
+  QUEFINISHED_WITH_WARNINGSUED: 'FINISHED_WITH_WARNINGS',
+  ERROR: 'ERROR',
+  INACTIVE: 'INACTIVE',
 }
-
-export default sipStatus
+export const DataSourcesStatusValues = values(DataSourcesStatusEnum)
