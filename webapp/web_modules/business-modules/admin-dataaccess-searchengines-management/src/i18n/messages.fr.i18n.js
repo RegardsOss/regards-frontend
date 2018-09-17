@@ -66,6 +66,8 @@ const messages = Object.assign({
   'search-engines.form.action.save': 'Créer',
   'search-engines.form.action.cancel': 'Annuler',
 
+  'plugin.configuration.form.description.more': 'Voir la description détaillée du protocol',
+
 }, Locales.fr)
 
 export default messages

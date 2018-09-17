@@ -25,6 +25,14 @@ const storageManagementStyles = theme => ({
     position: 'relative',
     paddingBottom: 20,
   },
+  markdownDialog: {
+    moreInfoButtonStyle: {
+      color: '#03A9F4',
+      fontSize: '0.9em',
+      textDecoration: 'none',
+      marginLeft: 10,
+    },
+  },
 })
 
 export default storageManagementStyles

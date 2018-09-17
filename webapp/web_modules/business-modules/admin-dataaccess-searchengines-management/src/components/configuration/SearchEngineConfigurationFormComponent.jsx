@@ -19,6 +19,7 @@
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import MoodIcon from 'material-ui/svg-icons/social/mood'
+import { FormattedMessage } from 'react-intl'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import {
   Card, CardActions, CardText, CardTitle,
@@ -33,7 +34,7 @@ import {
 import {
   CardActionsComponent, PluginConfigurationPickerComponent, SubSectionCard, NoContentComponent,
 } from '@regardsoss/components'
-import { RenderPluginConfField, PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
+import { RenderPluginConfField, PluginFormUtils, PluginDescriptionDialog } from '@regardsoss/microservice-plugin-configurator'
 import { DataManagementClient } from '@regardsoss/client'
 import { DatasetConfiguration } from '@regardsoss/api'
 import messages from '../../i18n'
@@ -74,6 +75,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
   }
 
   state = {
+    descriptionOpen: false,
     pluginToConfigure: null,
     datasetSelector: 'all',
   }
@@ -132,6 +134,44 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
 
   onChangeDatasetSelector = (event, value) => this.setState({ datasetSelector: value })
 
+  handleCloseDescriptionDialog = () => this.setState({ descriptionOpen: false })
+
+  handleOpenDescriptionDialog = () => this.setState({ descriptionOpen: true })
+
+  renderDescription = () => {
+    const {
+      moduleTheme: { markdownDialog },
+    } = this.context
+
+    let button
+    // Find plugin
+    const plugin = this.state.pluginToConfigure
+    if (get(plugin, 'markdown')) {
+      button = (
+        <a
+          style={markdownDialog.moreInfoButtonStyle}
+          onClick={this.handleOpenDescriptionDialog}
+          href="#"
+        >
+          <FormattedMessage id="plugin.configuration.form.description.more" />
+        </a>
+      )
+    }
+    if (plugin != null) {
+      return (
+        <div>
+          {button}
+          <PluginDescriptionDialog
+            opened={this.state.descriptionOpen}
+            onClose={this.handleCloseDescriptionDialog}
+            pluginMetaData={plugin}
+          />
+        </div>
+      )
+    }
+    return null
+  }
+
   renderPluginConf = () => {
     if (this.state.pluginToConfigure) {
       const { intl: { formatMessage } } = this.context
@@ -142,14 +182,17 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
             { engine: this.state.pluginToConfigure.pluginId })}
           arrowMarginLeft={30}
         >
-          <Field
-            name="configuration"
-            component={RenderPluginConfField}
-            microserviceName="rs-dam"
-            pluginMetaData={this.state.pluginToConfigure}
-            simpleGlobalParameterConf
-            hideDynamicParameterConf
-          />
+          <div>
+            {this.renderDescription()}
+            <Field
+              name="configuration"
+              component={RenderPluginConfField}
+              microserviceName="rs-dam"
+              pluginMetaData={this.state.pluginToConfigure}
+              simpleGlobalParameterConf
+              hideDynamicParameterConf
+            />
+          </div>
         </SubSectionCard>
       )
     }
