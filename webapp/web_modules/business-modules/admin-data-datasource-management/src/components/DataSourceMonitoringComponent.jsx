@@ -31,6 +31,7 @@ import {
 } from '@regardsoss/components'
 import messages from '../i18n'
 import DatasourceStatusTableCell from './DatasourceStatusTableCell'
+import DatasourceCountTableCell from './DatasourceCountTableCell'
 import DataSourceMonitoringDeleteAction from './DataSourceMonitoringDeleteAction'
 
 /**
@@ -159,7 +160,9 @@ class DataSourceMonitoringComponent extends React.Component {
       })
         .label(intl.formatMessage({ id: 'crawler.list.status.column.header' }))
         .build(),
-      new TableColumnBuilder('savedObjectsCount').titleHeaderCell().propertyRenderCell('content.savedObjectsCount')
+      new TableColumnBuilder('savedObjectsCount').titleHeaderCell().rowCellDefinition({
+        Constructor: DatasourceCountTableCell,
+      })
         .label(intl.formatMessage({ id: 'crawler.list.savedObjectsCount.column.header' }))
         .build(),
       // Next planed ingest date
