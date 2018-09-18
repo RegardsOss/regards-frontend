@@ -28,7 +28,16 @@ const messages = Object.assign({
   'dataset.list.table.model': 'Modèle',
   'dataset.list.tooltip.edit': 'Éditer',
   'dataset.list.tooltip.delete': 'Supprimer',
+  'dataset.list.tooltip.info.button': 'Details',
+  'dataset.list.tooltip.copy.button': 'Copier la référence dans le presse papier',
   'dataset.list.delete.title': 'Supprimer le jeu de données {name} ?',
+
+  'dataset.info.urn.label': 'Référence unique (ipId) : ',
+  'dataset.info.creationdate.label': 'Date de création : ',
+  'dataset.info.datamodel.label': 'Model de données : ',
+  'dataset.info.model.label': 'Model de jeux : ',
+  'dataset.info.close': 'Fermer',
+  'dataset.info.title': 'Informations sur le jeu de données {name}',
 
   'dataset.form.links.subtitle': 'Les jeux de données sont liés à des collections et à des mots clés afin de simplifier la recherche',
   'dataset.form.links.title': 'Edition des liens du jeu de données',

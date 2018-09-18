@@ -65,6 +65,8 @@ const messages = Object.assign({
   'collection.list.action.edit': 'Edit',
   'collection.list.action.duplicate': 'Duplicate',
   'collection.list.action.delete': 'Delete',
+  'collection.list.tooltip.info.button': 'Details',
+  'collection.list.tooltip.copy.button': 'Copy reference to clipboard',
   'collection.table.filter.collection.label': 'Collection',
   'collection.table.filter.clear.button': 'Clear',
   'collection.table.filter.button': 'Apply',
@@ -82,6 +84,12 @@ const messages = Object.assign({
   'collection.form.links.tag.add': 'New tag',
   'collection.form.links.tag.subtitle': 'Associate with tags',
   'collection.form.links.collection.none': 'No collection linked',
+
+  'collection.info.urn.label': 'Unique reference (ipId) : ',
+  'collection.info.creationdate.label': 'Creation date : ',
+  'collection.info.model.label': 'Collection model : ',
+  'collection.info.close': 'Close',
+  'collection.info.title': 'Information about collection {name}',
 }, Locales.en)
 
 export default messages

@@ -65,6 +65,8 @@ const messages = Object.assign({
   'collection.list.action.edit': 'Editer',
   'collection.list.action.duplicate': 'Dupliquer',
   'collection.list.action.delete': 'Supprimer',
+  'collection.list.tooltip.info.button': 'Details',
+  'collection.list.tooltip.copy.button': 'Copier la référence dans le presse papier',
   'collection.table.filter.collection.label': 'Collection',
   'collection.table.filter.clear.button': 'Effacer',
   'collection.table.filter.button': 'Appliquer',
@@ -82,6 +84,12 @@ const messages = Object.assign({
   'collection.form.links.tag.add': 'Nouveau mot clé',
   'collection.form.links.tag.subtitle': 'Associer à des mots clés',
   'collection.form.links.collection.none': 'Aucune collection liée',
+
+  'collection.info.urn.label': 'Référence unique (ipId) : ',
+  'collection.info.creationdate.label': 'Date de création : ',
+  'collection.info.model.label': 'Model de collection : ',
+  'collection.info.close': 'Fermer',
+  'collection.info.title': 'Informations sur la collection {name}',
 }, Locales.fr)
 
 export default messages

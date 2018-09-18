@@ -28,7 +28,16 @@ const messages = Object.assign({
   'dataset.list.table.model': 'Model',
   'dataset.list.tooltip.edit': 'Edit',
   'dataset.list.tooltip.delete': 'Delete',
+  'dataset.list.tooltip.info.button': 'Details',
+  'dataset.list.tooltip.copy.button': 'Copy reference to clipboard',
   'dataset.list.delete.title': 'Delete the dataset {name} ?',
+
+  'dataset.info.urn.label': 'Unique reference (ipId) : ',
+  'dataset.info.creationdate.label': 'Creation date : ',
+  'dataset.info.datamodel.label': 'Data model : ',
+  'dataset.info.model.label': 'Dataset model : ',
+  'dataset.info.close': 'Close',
+  'dataset.info.title': 'Information about dataset {name}',
 
   'dataset.form.links.subtitle': 'Dataset are linked to collections and tags in order to simplify the research',
   'dataset.form.links.title': 'Edit dataset links',

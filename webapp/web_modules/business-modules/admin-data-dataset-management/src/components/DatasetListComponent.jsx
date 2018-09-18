@@ -45,8 +45,11 @@ import { datasetActions, datasetSelectors } from '../clients/DatasetClient'
 import { tableActions } from '../clients/TableClient'
 import DatasetListEditAction from './DatasetListEditAction'
 import DatasetListDeleteAction from './DatasetListDeleteAction'
+import DatasetListInfoAction from './DatasetListInfoAction'
 import DatasetListFiltersComponent from './DatasetListFiltersComponent'
 import { DatasetListContainer } from '../containers/DatasetListContainer'
+import EntityInfoDialog from './EntityInfoDialog'
+import CopyToClipBoardAction from './CopyToClipBoardAction'
 
 const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButton)
 
@@ -73,6 +76,7 @@ export class DatasetListComponent extends React.Component {
   state = {
     deleteDialogOpened: false,
     entityToDelete: null,
+    entityForInfos: null,
   }
 
   closeDeleteDialog = () => {
@@ -86,6 +90,14 @@ export class DatasetListComponent extends React.Component {
     this.setState({
       deleteDialogOpened: true,
       entityToDelete: entity,
+    })
+  }
+
+  onCloseInfoDialog = () => this.showInformation(null)
+
+  showInformation = (entity) => {
+    this.setState({
+      entityForInfos: entity,
     })
   }
 
@@ -144,6 +156,12 @@ export class DatasetListComponent extends React.Component {
         .build(),
       // 3 - options
       new TableColumnBuilder().optionsColumn([{
+        OptionConstructor: DatasetListInfoAction,
+        optionProps: { onClick: this.showInformation, hoverColor: style.hoverButtonEdit },
+      }, {
+        OptionConstructor: CopyToClipBoardAction,
+        optionProps: { hoverColor: style.hoverButtonEdit },
+      }, {
         OptionConstructor: DatasetListEditAction,
         optionProps: { handleEdit, hoverColor: style.hoverButtonEdit },
       },
@@ -188,6 +206,10 @@ export class DatasetListComponent extends React.Component {
               pageSize={DatasetListContainer.PAGE_SIZE}
               columns={columns}
               emptyComponent={emptyComponent}
+            />
+            <EntityInfoDialog
+              entity={this.state.entityForInfos}
+              onClose={this.onCloseInfoDialog}
             />
           </TableLayout>
         </CardText>

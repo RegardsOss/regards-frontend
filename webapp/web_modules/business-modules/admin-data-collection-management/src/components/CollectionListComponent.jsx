@@ -48,6 +48,9 @@ import CollectionListDuplicateAction from './CollectionListDuplicateAction'
 import CollectionListDeleteAction from './CollectionListDeleteAction'
 import CollectionListFiltersComponent from './CollectionListFiltersComponent'
 import { CollectionListContainer } from '../containers/CollectionListContainer'
+import EntityInfoDialog from './EntityInfoDialog'
+import CollectionListInfoAction from './CollectionListInfoAction'
+import CopyToClipBoardAction from './CopyToClipBoardAction'
 
 const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButton)
 
@@ -75,6 +78,7 @@ export class CollectionListComponent extends React.Component {
   state = {
     deleteDialogOpened: false,
     entityToDelete: null,
+    entityForInfos: null,
   }
 
   closeDeleteDialog = () => {
@@ -88,6 +92,14 @@ export class CollectionListComponent extends React.Component {
     this.setState({
       deleteDialogOpened: true,
       entityToDelete: entity,
+    })
+  }
+
+  onCloseInfoDialog = () => this.showInformation(null)
+
+  showInformation = (entity) => {
+    this.setState({
+      entityForInfos: entity,
     })
   }
 
@@ -150,7 +162,13 @@ export class CollectionListComponent extends React.Component {
         .label(intl.formatMessage({ id: 'collection.list.table.model' }))
         .build(),
       // 3 - options
-      new TableColumnBuilder().optionsColumn([{ // edit
+      new TableColumnBuilder().optionsColumn([{
+        OptionConstructor: CollectionListInfoAction,
+        optionProps: { onClick: this.showInformation, hoverColor: style.hoverButtonEdit },
+      }, {
+        OptionConstructor: CopyToClipBoardAction,
+        optionProps: { hoverColor: style.hoverButtonEdit },
+      }, { // edit
         OptionConstructor: CollectionListEditAction,
         optionProps: { handleEdit, hoverColor: style.hoverButtonEdit },
       }, { // duplicate
@@ -199,6 +217,10 @@ export class CollectionListComponent extends React.Component {
               pageSize={CollectionListContainer.PAGE_SIZE}
               columns={columns}
               emptyComponent={emptyComponent}
+            />
+            <EntityInfoDialog
+              entity={this.state.entityForInfos}
+              onClose={this.onCloseInfoDialog}
             />
           </TableLayout>
         </CardText>
