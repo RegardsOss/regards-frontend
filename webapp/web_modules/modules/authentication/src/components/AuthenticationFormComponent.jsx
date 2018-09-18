@@ -34,7 +34,6 @@ import {
 } from '@regardsoss/form-utils'
 
 const mailFieldId = 'username'
-const requiredEmailValidator = [ValidationHelpers.required, ValidationHelpers.email]
 
 /**
  * React components for login form
@@ -117,7 +116,7 @@ export class AuthenticationFormComponent extends React.Component {
                 component={RenderTextField}
                 type="text"
                 label={this.context.intl.formatMessage({ id: 'authentication.username' })}
-                validate={requiredEmailValidator}
+                validate={ValidationHelpers.required}
                 normalize={trim}
               />
               <Field
