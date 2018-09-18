@@ -116,6 +116,10 @@ export class AuthenticationFormComponent extends React.Component {
                 component={RenderTextField}
                 type="text"
                 label={this.context.intl.formatMessage({ id: 'authentication.username' })}
+                /**
+                 * NOTE : User login is not necesserally an email.
+                 * In case of authentication plugins like LDAP.
+                */
                 validate={ValidationHelpers.required}
                 normalize={trim}
               />
