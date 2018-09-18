@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import DetailIcon from 'material-ui/svg-icons/file/attachment'
+import ClipboardArrowLeft from 'mdi-material-ui/ClipboardArrowLeft'
 import IconButton from 'material-ui/IconButton'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -52,7 +52,7 @@ export class CopyToClipBoardAction extends React.Component {
         <CopyToClipboard
           text={entity.content.ipId}
         >
-          <DetailIcon hoverColor={hoverColor} />
+          <ClipboardArrowLeft hoverColor={hoverColor} />
         </CopyToClipboard>
       </IconButton>
     )

@@ -42,6 +42,7 @@ describe('[ADMIN CATALOG SERVICES] Testing ServiceListComponent', () => {
       onBack: () => { },
       onAddNewConf: () => { },
       onEdit: () => { },
+      onDuplicate: () => { },
       onDelete: () => { },
       onActivateToggle: () => { },
       onRefresh: () => { },

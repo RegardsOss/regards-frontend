@@ -80,6 +80,11 @@ export class AttributePluginListContainer extends React.Component {
     browserHistory.push(`/admin/${project}/data/models/calculationplugins/${pluginConfToEdit.id}/edit`)
   }
 
+  onDuplicate = (pluginConfToDuplicate) => {
+    const { params: { project } } = this.props
+    browserHistory.push(`/admin/${project}/data/models/calculationplugins/${pluginConfToDuplicate.id}/copy`)
+  }
+
   onActivateToggle = (entity) => {
     this.props.update(Object.assign({}, entity, {
       active: !entity.active,
