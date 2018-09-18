@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import DenyIcon from 'material-ui/svg-icons/content/remove-circle'
+import DenyIcon from 'mdi-material-ui/AccountRemove'
 import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasKeys } from '@regardsoss/display-control'
