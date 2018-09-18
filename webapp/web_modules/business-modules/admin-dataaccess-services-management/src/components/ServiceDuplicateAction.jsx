@@ -16,47 +16,43 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ClipboardArrowLeft from 'mdi-material-ui/ClipboardArrowLeft'
+import Copy from 'material-ui/svg-icons/content/content-copy'
 import IconButton from 'material-ui/IconButton'
-import { DataManagementShapes } from '@regardsoss/shape'
+import { CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 /**
-* Copy URN of given dataset into clipboard.
+* Duplicate table action for services plugins
 * @author Sébastien Binda
 */
-export class CopyToClipBoardAction extends React.Component {
+class ServiceDuplicateAction extends React.Component {
   static propTypes = {
-    hoverColor: PropTypes.string,
-    entity: DataManagementShapes.Dataset,
+    entity: CommonShapes.PluginConfiguration,
+    onDuplicate: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
   }
 
+  static iconStyle = { height: 23, width: 23 }
+
+  static buttonStyle = { padding: 0, height: 30, width: 30 }
+
   render() {
     const { intl: { formatMessage } } = this.context
-    const {
-      entity, entity: { content }, hoverColor,
-    } = this.props
-
+    const { entity: { content } } = this.props
     return (
       <IconButton
         className={`selenium-edit-${content.id}`}
-        title={formatMessage({ id: 'dataset.list.tooltip.copy.button' })}
-        iconStyle={CopyToClipBoardAction.iconStyle}
-        style={CopyToClipBoardAction.buttonStyle}
+        title={formatMessage({ id: 'dataaccess.services.list.duplicate.button' })}
+        iconStyle={ServiceDuplicateAction.iconStyle}
+        style={ServiceDuplicateAction.buttonStyle}
+        onClick={() => this.props.onDuplicate(content)}
       >
-        <CopyToClipboard
-          text={entity.content.ipId}
-        >
-          <ClipboardArrowLeft hoverColor={hoverColor} />
-        </CopyToClipboard>
+        <Copy />
       </IconButton>
     )
   }
 }
-
-export default CopyToClipBoardAction
+export default ServiceDuplicateAction

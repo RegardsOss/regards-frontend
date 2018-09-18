@@ -29,6 +29,7 @@ import { CommonShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import ServiceEditAction from './ServiceEditAction'
 import ServiceActivationAction from './ServiceActivationAction'
+import ServiceDuplicateAction from './ServiceDuplicateAction'
 import { pluginConfigurationByPluginIdActions } from '../clients/PluginConfigurationClient'
 import messages from '../i18n'
 import styles from '../styles'
@@ -46,6 +47,7 @@ export class ServiceListComponent extends React.Component {
     onBack: PropTypes.func.isRequired,
     onAddNewConf: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
+    onDuplicate: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onActivateToggle: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
@@ -102,6 +104,7 @@ export class ServiceListComponent extends React.Component {
   render() {
     const {
       entities, isLoading, onEdit, onActivateToggle, onRefresh, onAddNewConf, onBack,
+      onDuplicate,
     } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
 
@@ -123,6 +126,9 @@ export class ServiceListComponent extends React.Component {
       new TableColumnBuilder().optionsColumn([{
         OptionConstructor: ServiceEditAction,
         optionProps: { onEdit },
+      }, {
+        OptionConstructor: ServiceDuplicateAction,
+        optionProps: { onDuplicate },
       }, {
         OptionConstructor: TableDeleteOption,
         optionProps: {

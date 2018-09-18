@@ -80,6 +80,11 @@ export class ServiceListContainer extends React.Component {
     browserHistory.push(`/admin/${project}/dataaccess/services/${pluginConfToEdit.id}/edit`)
   }
 
+  onDuplicate = (pluginConfToEdit) => {
+    const { params: { project } } = this.props
+    browserHistory.push(`/admin/${project}/dataaccess/services/${pluginConfToEdit.id}/copy`)
+  }
+
   onActivateToggle = (entity) => {
     this.props.update(Object.assign({}, entity, {
       active: !entity.active,

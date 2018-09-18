@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
-import { Card, CardText, CardTitle, CardActions } from 'material-ui/Card'
+import {
+  Card, CardText, CardTitle, CardActions,
+} from 'material-ui/Card'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import {
@@ -29,6 +31,7 @@ import { CommonShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import AttributePluginEditAction from './AttributePluginEditAction'
 import AttributePluginActivationAction from './AttributePluginActivationAction'
+import AttributePluginListDuplicateAction from './AttributePluginListDuplicateAction'
 import { pluginConfigurationByPluginIdActions } from '../clients/PluginConfigurationClient'
 import messages from '../i18n'
 import styles from '../styles'
@@ -46,6 +49,7 @@ export class AttributePluginListComponent extends React.Component {
     onBack: PropTypes.func.isRequired,
     onAddNewConf: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
+    onDuplicate: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onActivateToggle: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
@@ -102,6 +106,7 @@ export class AttributePluginListComponent extends React.Component {
   render() {
     const {
       entities, isLoading, onEdit, onActivateToggle, onRefresh, onAddNewConf, onBack,
+      onDuplicate,
     } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
 
@@ -123,6 +128,9 @@ export class AttributePluginListComponent extends React.Component {
       new TableColumnBuilder().optionsColumn([{
         OptionConstructor: AttributePluginEditAction,
         optionProps: { onEdit },
+      }, {
+        OptionConstructor: AttributePluginListDuplicateAction,
+        optionProps: { onDuplicate },
       }, {
         OptionConstructor: TableDeleteOption,
         optionProps: {
