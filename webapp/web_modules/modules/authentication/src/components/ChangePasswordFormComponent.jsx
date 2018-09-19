@@ -146,11 +146,11 @@ function asyncValidate({ newPassword }, dispatch, props) {
   const { fetchPasswordValidity } = props
   return fetchPasswordValidity(newPassword).then((result) => {
     const validity = get(result, 'payload.validity', false)
-    const errors = {}
     if (!validity) { // invalid password
-      errors.newPassword = ErrorTypes.INVALID_PASSWORD
+      // Redux form api
+      // eslint-disable-next-line no-throw-literal
+      throw { newPassword: ErrorTypes.INVALID_PASSWORD }
     }
-    return errors
   })
 }
 
