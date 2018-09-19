@@ -21,10 +21,8 @@
  * Fake blob for test (unknown class in NodeJS context)
  * @author Raphaël Mechali
  */
-class TestBlob {
+export class TestBlob {
   constructor(text) {
     this.text = text
   }
 }
-
-module.exports = { TestBlob }

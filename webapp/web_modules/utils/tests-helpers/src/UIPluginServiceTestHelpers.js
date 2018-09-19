@@ -51,7 +51,7 @@ function buildQueryTarget(query = 'test=true', count = 5, type = RuntimeTargetTy
   return packRuntimeTarget(ServiceTarget.buildQueryTarget(query, type, count, excludedIpIDs))
 }
 
-module.exports = {
+export default {
   buildConfiguration,
   buildOneElementTarget,
   buildManyElementsTarget,

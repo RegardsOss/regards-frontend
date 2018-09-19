@@ -110,7 +110,7 @@ function getAvailableVisibleModuleTypes(dependenciesFilter = trueFunction) {
     }, []))
 }
 
-module.exports = {
+export default {
   VisibleModuleTypes,
   HiddenModuleTypes,
   AllDynamicModuleTypes,

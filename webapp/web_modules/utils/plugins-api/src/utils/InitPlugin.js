@@ -38,7 +38,7 @@ const EMPTY_REDUCERS_BUILDER = () => ({})
  * @param {*} getReducer (optional) plugin reducers builder on pluginInstanceId like (pluginInstanceId:string) => {key:reducer,...}
  * @param {en: {*}, fr: {*}}} messages (optional) plugin internationalized messages
  */
-const initPlugin = (pluginClass, pluginInfo, getReducer, messages, styles) => {
+export const initPlugin = (pluginClass, pluginInfo, getReducer, messages, styles) => {
   const event = new CustomEvent('plugin', {
     detail: {
       sourcePath: document.currentScript.src,
@@ -51,5 +51,3 @@ const initPlugin = (pluginClass, pluginInfo, getReducer, messages, styles) => {
   })
   document.dispatchEvent(event)
 }
-
-module.exports = { initPlugin }

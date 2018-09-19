@@ -112,7 +112,7 @@ export const validRequiredNumber = value => !isNil(value) && value !== '' && !is
 export const matchRegex = regex => value => isString(value) && (value.search(regex) !== -1) ? undefined : ErrorTypes.invalidRegex(regex)
 
 export const isInNumericRange = (lowerBound, upperBound, minExcluded, maxExcluded) => value => !isNaN(lowerBound) && !isNaN(upperBound) && ((maxExcluded && value < upperBound) || (!maxExcluded && value <= upperBound))
-    && ((minExcluded && value > lowerBound) || (!minExcluded && value >= lowerBound)) ? undefined : ErrorTypes.invalidNumericRange(lowerBound, upperBound)
+  && ((minExcluded && value > lowerBound) || (!minExcluded && value >= lowerBound)) ? undefined : ErrorTypes.invalidNumericRange(lowerBound, upperBound)
 
 /**
  * Wrap the {@link isValidAlphaNumericUnderscore} logic into a Redux-Form-style validator.
@@ -258,7 +258,7 @@ const javaFloatValidator = parsableNumberValidator(parseFloat, ErrorTypes.INVALI
 /** Character validator */
 const characterValidator = value => value && value.length && value.length !== 1 ? ErrorTypes.INVALID_CHARACTER : undefined
 
-module.exports = {
+export default {
   isValidEmail,
   isValidUrl,
   isValidAlphaNumericUnderscore,

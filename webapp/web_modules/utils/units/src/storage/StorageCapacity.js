@@ -24,7 +24,7 @@ import { StorageUnitScale } from './StorageUnit'
  * A storage capacity (like 8Mo, 36 Gio...)
  * @author Raphaël Mechali
  */
-class StorageCapacity {
+export class StorageCapacity {
   /**
    * Constructor
    * @param {number} value
@@ -132,8 +132,4 @@ class StorageCapacity {
     return unit && !Number.isNaN(value) ? new StorageCapacity(value, unit) : null
   }
 }
-
-module.exports = {
-  StorageCapacity,
-  StorageCapacityShape: PropTypes.instanceOf(StorageCapacity),
-}
+export const StorageCapacityShape = PropTypes.instanceOf(StorageCapacity)

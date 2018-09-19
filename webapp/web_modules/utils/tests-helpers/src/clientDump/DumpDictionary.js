@@ -163,7 +163,7 @@ import {
  *      a client dump and everything required to normalize that dump
  * @author Léo Mieulet
  */
-module.exports = {
+export default {
   StorageClient: {
     PrioritizedDataStorage: {
       isPageable: false,

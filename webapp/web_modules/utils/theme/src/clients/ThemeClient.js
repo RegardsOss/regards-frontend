@@ -26,12 +26,6 @@ import { AccessProjectClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['common', 'theme', 'list']
 const REDUX_ACTION_NAMESPACE = 'common/themes'
 
-const themeReducers = AccessProjectClient.ThemeReducers(REDUX_ACTION_NAMESPACE)
-const themeActions = new AccessProjectClient.ThemeActions(REDUX_ACTION_NAMESPACE)
-const themeSelectors = AccessProjectClient.ThemeSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  themeReducers,
-  themeActions,
-  themeSelectors,
-}
+export const themeReducers = AccessProjectClient.ThemeReducers(REDUX_ACTION_NAMESPACE)
+export const themeActions = new AccessProjectClient.ThemeActions(REDUX_ACTION_NAMESPACE)
+export const themeSelectors = AccessProjectClient.ThemeSelectors(ENTITIES_STORE_PATH)

@@ -49,6 +49,6 @@ function initializePluginReducer(plugin, pluginInstanceId, successCallBack) {
   }
 }
 
-module.exports = {
+export default {
   initializePluginReducer,
 }

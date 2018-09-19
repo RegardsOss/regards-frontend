@@ -21,7 +21,7 @@
  * Additional mui theme properties for regards.
  * @author Sébastien Binda.
  */
-module.exports = baseTheme => ({
+export default baseTheme => ({
   palette: {
     background: '',
     backgroundImage: '',

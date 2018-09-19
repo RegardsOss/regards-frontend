@@ -49,7 +49,7 @@ const BYTE = new StorageUnit('B', 8)
 /**
  * Possible unit scales
  */
-class StorageUnitScale {
+export class StorageUnitScale {
   /**
    * constructor
    * @param id scale ID, as used for internationalization
@@ -140,9 +140,5 @@ StorageUnitScale.bytesSIPrefixScale = new StorageUnitScale('bytes.si.prefix', BY
 ])
 // all units, ordered by less specific to more specific
 StorageUnitScale.all = [StorageUnitScale.bitsScale, StorageUnitScale.bytesScale, StorageUnitScale.bitsSIPrefixScale, StorageUnitScale.bytesSIPrefixScale]
-
-module.exports = {
-  StorageUnitScale,
-  StorageUnits: { BIT, BYTE },
-  StorageUnitScaleShape: PropTypes.instanceOf(StorageUnitScale),
-}
+export const StorageUnits = { BIT, BYTE }
+export const StorageUnitScaleShape = PropTypes.instanceOf(StorageUnitScale)

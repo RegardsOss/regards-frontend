@@ -162,7 +162,7 @@ function convertToRange(value, operator) {
   }
 }
 
-module.exports = {
+export default {
   convertToRange,
   isValidNumber,
   getNumberAttributeQueryPart,

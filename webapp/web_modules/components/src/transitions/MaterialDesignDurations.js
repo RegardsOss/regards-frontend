@@ -34,7 +34,7 @@ import map from 'lodash/map'
  *
  * Transitions that exceed 400ms may feel too slow.
  */
-const mobileDurations = {
+export const mobileDurations = {
   enter: 0.225,
   leave: 0.195,
   extra: 0.375,
@@ -44,13 +44,13 @@ const mobileDurations = {
  * Durations on tablet should be about 30% longer than on mobile.
  * For example, a 300ms mobile duration would increase to 390ms on tablet.
  */
-const tabletDurations = map(mobileDurations, value => 1.3 * value)
+export const tabletDurations = map(mobileDurations, value => 1.3 * value)
 
 /**
  * Durations on wearables should be about 30% shorter than those on mobile.
  * For example, a 300ms mobile duration would be 210ms on wearables.
  */
-const weareableDurations = map(mobileDurations, value => 0.7 * value)
+export const weareableDurations = map(mobileDurations, value => 0.7 * value)
 
 /**
  * Desktop animations should be faster and simpler than their mobile counterparts.
@@ -59,16 +59,8 @@ const weareableDurations = map(mobileDurations, value => 0.7 * value)
  * Complex web transitions often result in dropped frames (unless they are built for GPU acceleration).
  * Shorter durations will make these less noticeable because the animation completes faster.
  */
-const desktopDurations = {
+export const desktopDurations = {
   enter: 0.175,
   leave: 0.175,
   extra: 0.200,
 }
-
-module.exports = {
-  mobileDurations, tabletDurations, weareableDurations, desktopDurations,
-}
-export { mobileDurations }
-export { tabletDurations }
-export { weareableDurations }
-export { desktopDurations }

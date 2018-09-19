@@ -18,4 +18,4 @@
  **/
 import { ThemeBuilder } from '@regardsoss/theme'
 
-module.exports = ThemeBuilder.getPrimaryTheme({})
+export default ThemeBuilder.getPrimaryTheme({})

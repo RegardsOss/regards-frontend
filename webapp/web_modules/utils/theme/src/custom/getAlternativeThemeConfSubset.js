@@ -9,7 +9,7 @@ import alternativeThemeStub from './alternativeThemeStub'
  * @param {*Object} baseTheme a working theme
  * @returns the subset configurable on the admin form
  */
-module.exports = (baseTheme) => {
+export default (baseTheme) => {
   const result = {}
   forEach(baseTheme, (subProperty, key) => {
     if (isObject(subProperty) && has(alternativeThemeStub, key)) {

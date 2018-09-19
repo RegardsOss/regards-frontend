@@ -31,7 +31,8 @@ const authenticationActions = new AuthenticationClient.AuthenticateActions(REDUX
 const authenticationSelectors = AuthenticationClient.AuthenticateSelectors(ENTITIES_STORE_PATH)
 
 const { SPECIFIC_ENDPOINT_MARKER } = AuthenticationClient
-module.exports = {
+
+export default {
   authenticationReducers,
   authenticationActions,
   authenticationSelectors,

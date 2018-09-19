@@ -21,8 +21,6 @@
  * Module exports
  * @author Raphaël Mechali
  */
-import storage from './storage'
+import * as stor from './storage'
 
-module.exports = {
-  storage,
-}
+export const storage = stor

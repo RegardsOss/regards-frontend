@@ -22,7 +22,7 @@
  *
  * @author Sébastien Binda
  */
-module.exports = {
+export default {
   SELF: 'self',
   UPDATE: 'update',
   CREATE: 'create',

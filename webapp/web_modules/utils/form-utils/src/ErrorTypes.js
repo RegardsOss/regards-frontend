@@ -20,7 +20,7 @@
 /**
  * Redux form common error types
  */
-module.exports = {
+export default {
   REQUIRED: 'invalid.required',
   ARRAY_REQUIRED: 'invalid.array.required',
   EMAIL: 'invalid.email',

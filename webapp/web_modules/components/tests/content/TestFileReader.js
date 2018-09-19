@@ -21,7 +21,7 @@
  * Fake file reader for test (unknown class in NodeJS context)
  * @author Raphaël Mechali
  */
-class TestFileReader {
+export class TestFileReader {
   constructor() {
     this.listeners = {}
   }
@@ -33,5 +33,3 @@ class TestFileReader {
     this.listeners.loadend.forEach(listener => listener())
   }
 }
-
-module.exports = { TestFileReader }
