@@ -43,7 +43,17 @@ import moduleStyles from '../styles/styles'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 import AttributeModelUnitFieldComponent from './AttributeModelUnitFieldComponent'
 
-const nameFieldValidators = [ValidationHelpers.required, ValidationHelpers.validAlphaNumericUnderscore, ValidationHelpers.lengthMoreThan(3), ValidationHelpers.lengthLessThan(32)]
+
+const ATT_MODEL_NAME_MIN_SIZE = 1
+
+const ATT_MODEL_NAME_MAX_SIZE = 32
+
+const nameFieldValidators = [
+  ValidationHelpers.required,
+  ValidationHelpers.validAlphaNumericUnderscore,
+  ValidationHelpers.lengthMoreThan(ATT_MODEL_NAME_MIN_SIZE),
+  ValidationHelpers.lengthLessThan(ATT_MODEL_NAME_MAX_SIZE),
+]
 
 const labelFieldValidators = [ValidationHelpers.required, ValidationHelpers.lengthLessThan(20)]
 
