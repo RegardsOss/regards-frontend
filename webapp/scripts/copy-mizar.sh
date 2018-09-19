@@ -26,7 +26,7 @@ rm -rf ./dist/dev/MizarWidget/
 rm -rf ./dist/prod/MizarWidget/
 
 cp -R node_modules/MizarWidget/ dist/prod/
-cp -R node_modules/Mizar/ dist/prod/MizarWidget/external/
+cp -R node_modules/mizar/* dist/prod/MizarWidget/external/Mizar
 cp -R node_modules/jquery/ dist/prod/MizarWidget/node_modules/
 cp -R node_modules/jquery-datetimepicker/ dist/prod/MizarWidget/node_modules/
 cp -R node_modules/jquery-mousewheel/ dist/prod/MizarWidget/node_modules/
