@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import {
   Card, CardActions, CardText, CardTitle,
 } from 'material-ui/Card'
@@ -26,6 +27,7 @@ import {
 } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
+import SIPSubmissionInfos from './SIPSubmissionInfos'
 
 /**
  * Component to start an ingest process
@@ -37,6 +39,8 @@ export class SIPSubmissionFormComponent extends React.Component {
     isLoading: PropTypes.bool.isRequired,
     onBack: PropTypes.func.isRequired,
     isError: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    storageSpecifications: PropTypes.any,
     // from reduxForm
     handleSubmit: PropTypes.func,
   }
@@ -49,7 +53,7 @@ export class SIPSubmissionFormComponent extends React.Component {
   render() {
     const { intl } = this.context
     const {
-      isLoading, handleSubmit, submitSips, isError, onBack,
+      isLoading, handleSubmit, submitSips, isError, onBack, storageSpecifications,
     } = this.props
     return (
       <form onSubmit={handleSubmit(submitSips)}>
@@ -72,6 +76,12 @@ export class SIPSubmissionFormComponent extends React.Component {
                 label={intl.formatMessage({ id: 'sips.submit.select.file.button' })}
                 changeLabel={intl.formatMessage({ id: 'sips.submit.change.file.button' })}
                 accept=".json"
+              />
+              <br />
+              <br />
+              <SIPSubmissionInfos
+                allocationStrategy={get(storageSpecifications, 'allocationStrategy', null)}
+                storages={get(storageSpecifications, 'dataStorages', null)}
               />
             </CardText>
             <CardActions>

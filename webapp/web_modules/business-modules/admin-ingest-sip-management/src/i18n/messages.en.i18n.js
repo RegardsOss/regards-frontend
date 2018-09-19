@@ -100,6 +100,7 @@ const messages = Object.assign({
   'sips.submit.submit.button': 'Submit',
 
   'sips.submission-summary.title': 'Data submission summary',
+  'sips.submission-summary.details': 'Your datas will be allocate through the {allocationStrategy} strategy to the datastorages : {storages}',
   'sips.submission-summary.subtitle': 'This summary allows you know accepted entities by the system. If yours data are accepted, so they will be handled for storage soon.',
   'sips.submission-summary.back.button': 'Ok',
 

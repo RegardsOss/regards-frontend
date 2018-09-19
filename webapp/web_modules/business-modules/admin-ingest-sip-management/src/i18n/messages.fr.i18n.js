@@ -100,6 +100,7 @@ const messages = Object.assign({
   'sips.submit.submit.button': 'Soumettre',
 
   'sips.submission-summary.title': 'Compte-rendu de soumission de vos données',
+  'sips.submission-summary.details': 'Vos données seront réparties grâce à la strategie {allocationStrategy} vers les espaces de stockage : {storages}',
   'sips.submission-summary.subtitle': 'Ce compte-rendu affiche l\'état de prise en compte de vos données par le système. Si vos données sont acceptées alors elles seront prises en compte prochainement pour être stockées',
   'sips.submission-summary.back.button': 'Retour',
 
