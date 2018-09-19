@@ -22,7 +22,6 @@ import {
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import IconButton from 'material-ui/IconButton'
 import Error from 'material-ui/svg-icons/alert/error'
-import Arrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import {
   Breadcrumb, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
@@ -32,6 +31,8 @@ import {
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import SIPSessionListFiltersComponent from './SIPSessionListFiltersComponent'
+import SIPSessionRetryActionRenderer from './SIPSessionRetryActionRenderer'
+import SIPSessionDetailAction from './SIPSessionDetailAction'
 import { sessionActions, sessionSelectors } from '../../../clients/SessionClient'
 import messages from '../../../i18n'
 import styles from '../../../styles'
@@ -51,6 +52,7 @@ class SIPSessionListComponent extends React.Component {
     onRefresh: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
+    retrySession: PropTypes.func.isRequired,
     initialFilters: PropTypes.objectOf(PropTypes.string),
   }
 
@@ -120,7 +122,7 @@ class SIPSessionListComponent extends React.Component {
 
   renderTable = () => {
     const {
-      pageSize, resultsCount, initialFilters, entitiesLoading,
+      pageSize, resultsCount, initialFilters, entitiesLoading, retrySession,
     } = this.props
     const { intl, muiTheme, moduleTheme: { session } } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -151,8 +153,6 @@ class SIPSessionListComponent extends React.Component {
             <div style={session.error.rowColumnStyle}>
               <div style={session.error.textStyle}>
                 {props.entity.content.errorSipsCount}
-                /
-                {props.entity.content.sipsCount - props.entity.content.deletedSipsCount}
               </div>
               <ShowableAtRender
                 style={session.error.iconContainerStyle}
@@ -176,6 +176,9 @@ class SIPSessionListComponent extends React.Component {
         .label(intl.formatMessage({ id: 'sips.session.table.headers.date' }))
         .build(),
       new TableColumnBuilder().optionsColumn([{
+        OptionConstructor: SIPSessionRetryActionRenderer,
+        optionProps: { onRetry: retrySession },
+      }, {
         OptionConstructor: TableDeleteOption,
         optionProps: {
           fetchPage: this.props.fetchPage,
@@ -183,17 +186,10 @@ class SIPSessionListComponent extends React.Component {
           queryPageSize: 20,
         },
       }, {
-        OptionConstructor: props => (
-          <IconButton
-            title={intl.formatMessage({
-              id: 'sips.session.table.actions.list',
-            })}
-            onClick={() => this.props.handleOpen(props.entity.content.id)}
-          >
-            <Arrow />
-          </IconButton>
-        ),
-      }]).build(),
+        OptionConstructor: SIPSessionDetailAction,
+        optionProps: { onClick: this.props.handleOpen },
+      },
+      ]).build(),
     ]
 
     return (

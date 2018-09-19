@@ -22,6 +22,7 @@ import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import SIPSessionListComponent from '../components/monitoring/session/SIPSessionListComponent'
 import { sessionActions, sessionSelectors } from '../clients/SessionClient'
+import { sipSignalActions } from '../clients/SIPSignalClient'
 
 /**
 * Displays the selection of session in order to list SIPs
@@ -49,6 +50,7 @@ export class SIPSessionListContainer extends React.Component {
    */
   static mapDispatchToProps = dispatch => ({
     deleteSession: session => dispatch(sessionActions.deleteEntity(session.id)),
+    retrySession: session => dispatch(sipSignalActions.retrySession(session.id)),
     fetchPage: (pageIndex, pageSize, queryParams) => dispatch(sessionActions.fetchPagedEntityList(pageIndex, pageSize, {}, queryParams)),
   })
 
@@ -64,6 +66,7 @@ export class SIPSessionListContainer extends React.Component {
     }),
     entitiesLoading: PropTypes.bool.isRequired,
     deleteSession: PropTypes.func.isRequired,
+    retrySession: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
   }
 
@@ -111,7 +114,7 @@ export class SIPSessionListContainer extends React.Component {
 
   render() {
     const {
-      meta, deleteSession, fetchPage, entitiesLoading,
+      meta, deleteSession, fetchPage, entitiesLoading, retrySession,
     } = this.props
     const { initialFilters } = this.state
     return (
@@ -123,6 +126,7 @@ export class SIPSessionListContainer extends React.Component {
         onRefresh={this.onRefresh}
         entitiesLoading={entitiesLoading}
         deleteSession={deleteSession}
+        retrySession={retrySession}
         fetchPage={fetchPage}
         initialFilters={initialFilters}
       />

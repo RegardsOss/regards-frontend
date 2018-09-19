@@ -24,9 +24,11 @@ import { BasicSignalsActions } from '@regardsoss/store-utils'
  */
 export default class SIPSignalActions extends BasicSignalsActions {
   /** Root endpoints for order state actions */
-  static ROOT_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/sips`
+  static ROOT_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}`
 
   static RETRY_ACTIONS = 'retryEndpoint'
+
+  static RETRY_SESSION_ACTIONS = 'retryAllEndpoint'
 
   /**
    * Construtor
@@ -35,7 +37,11 @@ export default class SIPSignalActions extends BasicSignalsActions {
   constructor(namespace) {
     super({
       [SIPSignalActions.RETRY_ACTIONS]: {
-        entityEndpoint: `${SIPSignalActions.ROOT_ENDPOINT}/{sipId}/retry`,
+        entityEndpoint: `${SIPSignalActions.ROOT_ENDPOINT}/sips/{sipId}/retry`,
+        namespace: `${namespace}/resume`,
+      },
+      [SIPSignalActions.RETRY_SESSION_ACTIONS]: {
+        entityEndpoint: `${SIPSignalActions.ROOT_ENDPOINT}/sessions/{id}/retry`,
         namespace: `${namespace}/resume`,
       },
     })
@@ -46,5 +52,12 @@ export default class SIPSignalActions extends BasicSignalsActions {
    */
   retry(sipId) {
     return this.getSubAction(SIPSignalActions.RETRY_ACTIONS).sendSignal('POST', null, { sipId })
+  }
+
+  /**
+   * Build an action that adds some tags to a set of sips
+   */
+  retrySession(sessionId) {
+    return this.getSubAction(SIPSignalActions.RETRY_SESSION_ACTIONS).sendSignal('PUT', null, { id: sessionId })
   }
 }
