@@ -70,4 +70,3 @@ STATIC_CONF = {
     edge: '16.0',
   },
 }
-
