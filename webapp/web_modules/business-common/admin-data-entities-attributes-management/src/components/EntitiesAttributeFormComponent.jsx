@@ -61,7 +61,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
     super(props)
     const { modelAttribute } = props
     this.state = {
-      restrictions: this.getComplexRestriction(modelAttribute),
+      restrictions: this.getRestrictions(modelAttribute),
     }
   }
 
