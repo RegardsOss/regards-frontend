@@ -87,7 +87,8 @@ export class AIPListContainer extends React.Component {
     entitiesLoading: PropTypes.bool.isRequired,
     isEmptySelection: PropTypes.bool.isRequired,
     selectionMode: PropTypes.string,
-    elementsSelected: PropTypes.objet,
+    // eslint-disable-next-line react/forbid-prop-types
+    elementsSelected: PropTypes.any,
     areAllSelected: PropTypes.bool.isRequired,
   }
 
@@ -173,6 +174,9 @@ export class AIPListContainer extends React.Component {
     }
     if (has(currentFilters, 'state')) {
       bodyParams.state = currentFilters.state
+    }
+    if (has(currentFilters, 'providerId')) {
+      bodyParams.providerId = currentFilters.providerId
     }
     if (has(currentFilters, 'from')) {
       bodyParams.from = currentFilters.from

@@ -19,6 +19,7 @@
 import get from 'lodash/get'
 import map from 'lodash/map'
 import values from 'lodash/values'
+import TextField from 'material-ui/TextField'
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
@@ -98,7 +99,7 @@ class AIPListFiltersComponent extends React.Component {
 
   handleFilter = () => {
     const {
-      from, to, state, aipId, tags,
+      from, to, state, aipId, tags, providerId,
     } = this.state.filters
     const newFilters = {}
     if (from) {
@@ -109,6 +110,9 @@ class AIPListFiltersComponent extends React.Component {
     }
     if (state) {
       newFilters.state = state
+    }
+    if (providerId) {
+      newFilters.providerId = providerId
     }
     if (tags) {
       newFilters.tags = tags
@@ -147,6 +151,16 @@ class AIPListFiltersComponent extends React.Component {
     })
   }
 
+  changeProviderIdFilter = (event, newValue) => {
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        providerId: newValue,
+      },
+    })
+  }
+
+
   changeTagsFilter = (event, key, newValue) => {
     if (newValue !== null && newValue.length > 0) {
       this.setState({
@@ -183,6 +197,12 @@ class AIPListFiltersComponent extends React.Component {
                 })}
               />))}
             </SelectField>
+            <TextField
+              value={get(this.state, 'filters.providerId', '')}
+              onChange={this.changeProviderIdFilter}
+              hintText={intl.formatMessage({ id: 'aips.list.filters.providerId.label' })}
+              style={filter.fieldStyle}
+            />
           </TableHeaderOptionGroup>
 
           {!searchingSessionTags ? (
@@ -259,6 +279,7 @@ class AIPListFiltersComponent extends React.Component {
               && !get(this.state, 'filters.state')
               && !get(this.state, 'filters.tags')
               && !get(this.state, 'filters.aipId')
+              && !get(this.state, 'filters.providerId')
             }
             onClick={this.handleClearFilters}
           />
