@@ -134,6 +134,14 @@ export class AIPListContainer extends React.Component {
     fetchPage(0, AIPListContainer.PAGE_SIZE * (curentPage + 1), currentFilters)
   }
 
+  onRetryAip = (aip, filters) => {
+    Promise.resolve(this.props.onRetry(aip)).then((results) => {
+      if (!results.error) {
+        this.onRefresh(filters)
+      }
+    })
+  }
+
   handleGoBack = (level) => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/acquisition/storage/aip/session`
@@ -217,7 +225,6 @@ export class AIPListContainer extends React.Component {
   render() {
     const {
       meta, fetchPage, deleteAIPByIpId, params: { session }, entitiesLoading, isEmptySelection,
-      onRetry,
     } = this.props
     const {
       urlFilters, contextFilters, tags, searchingTags, searchingSessionTags, sessionTags,
@@ -244,7 +251,7 @@ export class AIPListContainer extends React.Component {
         fetchCommonTags={this.fetchCommonTags}
         addTags={this.addTags}
         removeTags={this.removeTags}
-        onRetry={onRetry}
+        onRetry={this.onRetryAip}
       />
     )
   }

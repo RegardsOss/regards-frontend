@@ -112,9 +112,17 @@ export class SIPSessionListContainer extends React.Component {
     }
   }
 
+  onRetrySession = (session, filters) => {
+    Promise.resolve(this.props.retrySession(session)).then((results) => {
+      if (!results.error) {
+        this.onRefresh(filters)
+      }
+    })
+  }
+
   render() {
     const {
-      meta, deleteSession, fetchPage, entitiesLoading, retrySession,
+      meta, deleteSession, fetchPage, entitiesLoading,
     } = this.props
     const { initialFilters } = this.state
     return (
@@ -126,7 +134,7 @@ export class SIPSessionListContainer extends React.Component {
         onRefresh={this.onRefresh}
         entitiesLoading={entitiesLoading}
         deleteSession={deleteSession}
-        retrySession={retrySession}
+        retrySession={this.onRetrySession}
         fetchPage={fetchPage}
         initialFilters={initialFilters}
       />

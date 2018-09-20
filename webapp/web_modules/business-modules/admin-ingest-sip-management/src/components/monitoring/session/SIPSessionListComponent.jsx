@@ -101,6 +101,8 @@ class SIPSessionListComponent extends React.Component {
 
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
 
+  handleRetry = session => this.props.retrySession(session, this.state.appliedFilters)
+
   closeDeleteDialog = () => {
     this.setState({
       sessionToDelete: null,
@@ -122,7 +124,7 @@ class SIPSessionListComponent extends React.Component {
 
   renderTable = () => {
     const {
-      pageSize, resultsCount, initialFilters, entitiesLoading, retrySession,
+      pageSize, resultsCount, initialFilters, entitiesLoading,
     } = this.props
     const { intl, muiTheme, moduleTheme: { session } } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -177,7 +179,7 @@ class SIPSessionListComponent extends React.Component {
         .build(),
       new TableColumnBuilder().optionsColumn([{
         OptionConstructor: SIPSessionRetryActionRenderer,
-        optionProps: { onRetry: retrySession },
+        optionProps: { onRetry: this.handleRetry },
       }, {
         OptionConstructor: TableDeleteOption,
         optionProps: {

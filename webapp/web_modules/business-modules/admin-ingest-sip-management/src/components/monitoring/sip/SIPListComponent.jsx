@@ -186,6 +186,8 @@ class SIPListComponent extends React.Component {
 
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
 
+  handleRetry = sip => this.props.onRetry(sip, this.state.appliedFilters)
+
   renderDeleteConfirmDialog = () => {
     const { sipToDelete } = this.state
     if (sipToDelete) {
@@ -206,7 +208,7 @@ class SIPListComponent extends React.Component {
     const { sip } = this.props
     const {
       pageSize, resultsCount, initialFilters, chains, entitiesLoading, goToSessionAIPsMonitoring, session,
-      onRetry, goToDataSourcesMonitoring,
+      goToDataSourcesMonitoring,
     } = this.props
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
@@ -257,7 +259,7 @@ class SIPListComponent extends React.Component {
         },
       }] : [{ // sip list options
         OptionConstructor: SIPRetryActionRenderer,
-        optionProps: { onRetry },
+        optionProps: { onRetry: this.handleRetry },
       }, {
         OptionConstructor: TableSimpleActionOption,
         optionProps: {

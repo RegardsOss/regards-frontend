@@ -117,6 +117,14 @@ export class SIPListContainer extends React.Component {
     fetchPage(0, SIPListContainer.PAGE_SIZE * (curentPage + 1), currentFilters)
   }
 
+  onRetrySip = (sip, filters) => {
+    Promise.resolve(this.props.retrySip(sip)).then((results) => {
+      if (!results.error) {
+        this.onRefresh(filters)
+      }
+    })
+  }
+
   goToSessionAIPsMonitoring = (session) => {
     const { params: { project } } = this.props
     browserHistory.push(`/admin/${project}/data/acquisition/storage/aip/${session}/list`)
@@ -179,8 +187,8 @@ export class SIPListContainer extends React.Component {
 
   render() {
     const {
-      meta, fetchPage, deleteSIPBySipId, deleteSIPByProviderId, params: { session, sip }, entitiesLoading,
-      retrySip,
+      meta, fetchPage, deleteSIPBySipId, deleteSIPByProviderId,
+      params: { session, sip }, entitiesLoading,
     } = this.props
     const { urlFilters, contextFilters } = this.state
     return (
@@ -198,7 +206,7 @@ export class SIPListContainer extends React.Component {
         onRefresh={this.onRefresh}
         onDeleteBySipId={deleteSIPBySipId}
         onDeleteByProviderId={deleteSIPByProviderId}
-        onRetry={retrySip}
+        onRetry={this.onRetrySip}
         fetchPage={fetchPage}
         goToSipHistory={this.goToSipHistory}
         goToSessionAIPsMonitoring={this.goToSessionAIPsMonitoring}

@@ -276,6 +276,8 @@ class AIPListComponent extends React.Component {
     })
   }
 
+  handleRetry = aip => this.props.onRetry(aip, this.state.appliedFilters)
+
   renderDeleteConfirmDialog = () => {
     const { aipToDelete } = this.state
     if (aipToDelete) {
@@ -329,7 +331,6 @@ class AIPListComponent extends React.Component {
     const { intl, muiTheme } = this.context
     const {
       pageSize, resultsCount, entitiesLoading, isEmptySelection, sessionTags, searchingSessionTags,
-      onRetry,
     } = this.props
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
@@ -373,7 +374,7 @@ class AIPListComponent extends React.Component {
         .build(),
       new TableColumnBuilder().optionsColumn([{
         OptionConstructor: AIPStoreRetryActionRenderer,
-        optionProps: { onRetry },
+        optionProps: { onRetry: this.handleRetry },
       }, {
         OptionConstructor: AIPDetailTableActionRenderer,
         optionProps: { onViewDetail: this.onViewAIPDetail },
