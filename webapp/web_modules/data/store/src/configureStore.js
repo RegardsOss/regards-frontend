@@ -22,7 +22,6 @@ import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import root from 'window-or-global'
 import headersMiddleware from './headersMiddleware'
-import formatURLMiddleware from './formatURLMiddleware'
 import preloadedState from './preloadedState'
 import configureReducers from './configureReducers'
 import getReducerRegistry from './ReducerRegistry'
@@ -39,7 +38,6 @@ function configureStore(rootReducer) {
   let middlewares = [
     thunk, // lets us dispatch() functions
     SessionLockedMiddleware, // Check if session is locked before forwarding actions
-    formatURLMiddleware, // inject URL formatting middleware
     headersMiddleware, // inject headers in all request actions, for authorization, content type and custom headers handling
     apiMiddleware, // middleware for calling an REST API
     errorMiddleware,

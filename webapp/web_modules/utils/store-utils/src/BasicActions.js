@@ -118,9 +118,9 @@ class BasicActions {
         // remove null / undefined / empty strings
         if (!isNil(param) && (!isString(param) || !!param)) {
           if (endpoint.includes('?')) {
-            endpoint = `${endpoint}&${key}=${param}`
+            endpoint = `${endpoint}&${key}=${encodeURIComponent(param)}`
           } else {
-            endpoint = `${endpoint}?${key}=${param}`
+            endpoint = `${endpoint}?${key}=${encodeURIComponent(param)}`
           }
         }
       })
