@@ -52,7 +52,7 @@ class SIPRetryActionRenderer extends React.Component {
     const { intl: { formatMessage } } = this.context
     const { entity: { links } } = this.props
     if (isNil(find(links, { rel: 'retry' }))) {
-      // return null
+      return null
     }
     return (
       <IconButton
