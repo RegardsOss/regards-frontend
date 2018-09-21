@@ -134,7 +134,7 @@ export class AllocationStrategyFormComponent extends React.Component {
           : (
             <CardActions>
               <CardActionsComponent
-                mainButtonLabel={formatMessage({ id: 'storage.plugins.allocation.list.back.button' })}
+                mainButtonLabel={formatMessage({ id: 'storage.plugins.allocation.form.back.button' })}
                 mainButtonUrl={backUrl}
               />
             </CardActions>
