@@ -21,6 +21,7 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import partition from 'lodash/partition'
 import map from 'lodash/map'
+import isEmpty from 'lodash/isEmpty'
 import some from 'lodash/some'
 import find from 'lodash/find'
 import filter from 'lodash/filter'
@@ -127,10 +128,12 @@ export class DocumentEditLinksContainer extends React.Component {
    * @param tag
    */
   handleAdd = (tag) => {
-    Promise.resolve(this.props.addTagToDocument(this.props.currentDocument.content.id, [tag]))
-      .then((actionResult) => {
-        this.props.fetchDocument(this.props.params.documentId)
-      })
+    if (!isEmpty(tag)) {
+      Promise.resolve(this.props.addTagToDocument(this.props.currentDocument.content.id, [tag]))
+        .then((actionResult) => {
+          this.props.fetchDocument(this.props.params.documentId)
+        })
+    }
   }
 
   /**

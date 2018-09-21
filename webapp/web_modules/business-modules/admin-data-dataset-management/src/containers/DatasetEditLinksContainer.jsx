@@ -23,6 +23,7 @@ import some from 'lodash/some'
 import map from 'lodash/map'
 import find from 'lodash/find'
 import filter from 'lodash/filter'
+import isEmpty from 'lodash/isEmpty'
 import startsWith from 'lodash/startsWith'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -113,10 +114,12 @@ export class DatasetEditLinksContainer extends React.Component {
    * @param tag
    */
   handleAdd = (tag) => {
-    Promise.resolve(this.props.addTagToDataset(this.props.currentDataset.content.id, [tag]))
-      .then((actionResult) => {
-        this.props.fetchDataset(this.props.params.datasetId)
-      })
+    if (!isEmpty(tag)) {
+      Promise.resolve(this.props.addTagToDataset(this.props.currentDataset.content.id, [tag]))
+        .then((actionResult) => {
+          this.props.fetchDataset(this.props.params.datasetId)
+        })
+    }
   }
 
   /**

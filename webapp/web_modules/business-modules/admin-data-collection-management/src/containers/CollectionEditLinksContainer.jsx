@@ -23,6 +23,7 @@ import partition from 'lodash/partition'
 import some from 'lodash/some'
 import filter from 'lodash/filter'
 import find from 'lodash/find'
+import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import startsWith from 'lodash/startsWith'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -127,8 +128,10 @@ export class CollectionEditLinksContainer extends React.Component {
    * @param tag
    */
   handleAdd = (tag) => {
-    Promise.resolve(this.props.addTagToCollection(this.props.currentCollection.content.id, [tag]))
-      .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
+    if (!isEmpty(tag)) {
+      Promise.resolve(this.props.addTagToCollection(this.props.currentCollection.content.id, [tag]))
+        .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
+    }
   }
 
   /**
