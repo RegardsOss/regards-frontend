@@ -65,7 +65,7 @@ export class CollectionEditLinksComponent extends React.Component {
     this.setState({
       tagField: '',
     })
-    this.props.handleAdd(this.state.tagField, true)
+    this.props.handleAdd(this.state.tagField)
   }
 
   handleCreateTagChange = (event, tagField) => {
@@ -118,7 +118,7 @@ export class CollectionEditLinksComponent extends React.Component {
                     key={id}
                     primaryText={collection.content.feature.label}
                     rightIconButton={
-                      <IconButton onClick={() => handleAdd(collection.content.feature.id, false)}>
+                      <IconButton onClick={() => handleAdd(collection.content.feature.id)}>
                         <Add />
                       </IconButton>
                     }
@@ -137,7 +137,7 @@ export class CollectionEditLinksComponent extends React.Component {
                     key={id}
                     primaryText={collection.content.feature.label}
                     rightIconButton={
-                      <IconButton onClick={() => handleDelete(collection.content.feature.id, false)}>
+                      <IconButton onClick={() => handleDelete(collection.content.feature.id)}>
                         <Clear />
                       </IconButton>
                     }
@@ -181,7 +181,7 @@ export class CollectionEditLinksComponent extends React.Component {
                     primaryText={tag}
                     rightIconButton={
                       <IconButton
-                        onClick={() => handleDelete(tag, true)}
+                        onClick={() => handleDelete(tag)}
                         tooltip={this.context.intl.formatMessage({ id: 'collection.form.links.tag.remove.button' })}
                       >
                         <Clear />

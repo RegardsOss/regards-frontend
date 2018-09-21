@@ -64,7 +64,7 @@ export class DocumentEditLinksComponent extends React.Component {
     this.setState({
       tagField: '',
     })
-    this.props.handleAdd(this.state.tagField, true)
+    this.props.handleAdd(this.state.tagField)
   }
 
   handleCreateTagChange = (event, tagField) => {
@@ -118,7 +118,7 @@ export class DocumentEditLinksComponent extends React.Component {
                     primaryText={collection.content.feature.label}
                     rightIconButton={
                       <IconButton
-                        onClick={() => handleAdd(collection.content.feature.id, false)}
+                        onClick={() => handleAdd(collection.content.feature.id)}
                         tooltip={this.context.intl.formatMessage({ id: 'document.form.links.remainingcollection.add.button' })}
                       >
                         <Add />
@@ -140,7 +140,7 @@ export class DocumentEditLinksComponent extends React.Component {
                     primaryText={collection.content.feature.label}
                     rightIconButton={
                       <IconButton
-                        onClick={() => handleDelete(collection.content.feature.id, false)}
+                        onClick={() => handleDelete(collection.content.feature.id)}
                         tooltip={this.context.intl.formatMessage({ id: 'document.form.links.collection.remove.button' })}
                       >
                         <Clear />
@@ -186,7 +186,7 @@ export class DocumentEditLinksComponent extends React.Component {
                     primaryText={tag}
                     rightIconButton={
                       <IconButton
-                        onClick={() => handleDelete(tag, true)}
+                        onClick={() => handleDelete(tag)}
                         tooltip={this.context.intl.formatMessage({ id: 'document.form.links.tag.remove.button' })}
                       >
                         <Clear />

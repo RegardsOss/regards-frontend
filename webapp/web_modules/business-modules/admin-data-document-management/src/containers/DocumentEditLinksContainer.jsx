@@ -50,7 +50,6 @@ export class DocumentEditLinksContainer extends React.Component {
     addTagToDocument: PropTypes.func,
     fetchDocument: PropTypes.func,
     fetchCollectionList: PropTypes.func,
-    updateDocument: PropTypes.func,
   }
 
   state = {
@@ -126,42 +125,23 @@ export class DocumentEditLinksContainer extends React.Component {
   /**
    * When the user add a new tag
    * @param tag
-   * @param usingUpdate
    */
-  handleAdd = (tag, usingUpdate) => {
-    if (usingUpdate) {
-      const { currentDocument: { content }, updateDocument } = this.props
-      const newDocumentContent = {
-        ...content,
-        tags: [...content.tags, tag],
-      }
-      updateDocument(content.id, newDocumentContent)
-    } else {
-      Promise.resolve(this.props.addTagToDocument(this.props.currentDocument.content.id, [tag]))
-        .then((actionResult) => {
-          this.props.fetchDocument(this.props.params.documentId)
-        })
-    }
+  handleAdd = (tag) => {
+    Promise.resolve(this.props.addTagToDocument(this.props.currentDocument.content.id, [tag]))
+      .then((actionResult) => {
+        this.props.fetchDocument(this.props.params.documentId)
+      })
   }
 
   /**
    * When the user remove a tag
    * @param tag
    */
-  handleDelete = (tag, usingUpdate) => {
-    if (usingUpdate) {
-      const { currentDocument: { content }, updateDocument } = this.props
-      const newDocumentContent = {
-        ...content,
-        tags: content.tags.filter(existingTag => existingTag !== tag),
-      }
-      updateDocument(content.id, newDocumentContent)
-    } else {
-      Promise.resolve(this.props.removeTagFromDocument(this.props.currentDocument.content.id, [tag]))
-        .then((actionResult) => {
-          this.props.fetchDocument(this.props.params.documentId)
-        })
-    }
+  handleDelete = (tag) => {
+    Promise.resolve(this.props.removeTagFromDocument(this.props.currentDocument.content.id, [tag]))
+      .then((actionResult) => {
+        this.props.fetchDocument(this.props.params.documentId)
+      })
   }
 
   handleSearch = (event, collectionName) => {
@@ -192,7 +172,6 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchCollectionList: () => dispatch(collectionActions.fetchPagedEntityList(0)),
   fetchDocument: id => dispatch(documentActions.fetchEntity(id)),
-  updateDocument: (id, doc) => dispatch(documentActions.updateEntity(id, doc)),
   addTagToDocument: (documentId, tags) => dispatch(documentLinkActions.sendSignal('PUT', tags, { document_id: documentId, operation: 'associate' })),
   removeTagFromDocument: (documentId, tags) => dispatch(documentLinkActions.sendSignal('PUT', tags, { document_id: documentId, operation: 'dissociate' })),
 })

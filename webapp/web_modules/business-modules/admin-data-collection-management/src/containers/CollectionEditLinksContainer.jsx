@@ -48,7 +48,6 @@ export class CollectionEditLinksContainer extends React.Component {
     removeTagFromCollection: PropTypes.func.isRequired,
     addTagToCollection: PropTypes.func.isRequired,
     fetchCollection: PropTypes.func.isRequired,
-    updateCollection: PropTypes.func.isRequired,
     fetchCollectionList: PropTypes.func.isRequired,
   }
 
@@ -127,36 +126,18 @@ export class CollectionEditLinksContainer extends React.Component {
    * When the user add a new tag
    * @param tag
    */
-  handleAdd = (tag, usingUpdate) => {
-    if (usingUpdate) {
-      const { currentCollection: { content }, updateCollection } = this.props
-      const newCollectionContent = {
-        ...content,
-        tags: [...content.tags, tag],
-      }
-      updateCollection(content.id, newCollectionContent)
-    } else {
-      Promise.resolve(this.props.addTagToCollection(this.props.currentCollection.content.id, [tag]))
-        .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
-    }
+  handleAdd = (tag) => {
+    Promise.resolve(this.props.addTagToCollection(this.props.currentCollection.content.id, [tag]))
+      .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
   }
 
   /**
    * When the user remove a tag
    * @param tag
    */
-  handleDelete = (tag, usingUpdate) => {
-    if (usingUpdate) {
-      const { currentCollection: { content }, updateCollection } = this.props
-      const newCollectionContent = {
-        ...content,
-        tags: content.tags.filter(existingTag => existingTag !== tag),
-      }
-      updateCollection(content.id, newCollectionContent)
-    } else {
-      Promise.resolve(this.props.removeTagFromCollection(this.props.currentCollection.content.id, [tag]))
-        .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
-    }
+  handleDelete = (tag) => {
+    Promise.resolve(this.props.removeTagFromCollection(this.props.currentCollection.content.id, [tag]))
+      .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
   }
 
   handleSearch = (event, collectionName) => {
@@ -187,7 +168,6 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchCollectionList: () => dispatch(collectionActions.fetchPagedEntityList(0)),
   fetchCollection: id => dispatch(collectionActions.fetchEntity(id)),
-  updateCollection: (id, collection) => dispatch(collectionActions.updateEntity(id, collection)),
   addTagToCollection: (collectionId, tags) => dispatch(collectionLinkActions.sendSignal('PUT', tags, { collection_id: collectionId, operation: 'associate' })),
   removeTagFromCollection: (collectionId, tags) => dispatch(collectionLinkActions.sendSignal('PUT', tags, { collection_id: collectionId, operation: 'dissociate' })),
 })

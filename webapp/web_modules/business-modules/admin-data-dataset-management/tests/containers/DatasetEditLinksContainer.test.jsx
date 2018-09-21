@@ -45,11 +45,10 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditLinksContainer', () => {
       collectionList: DumpProvider.get('DataManagementClient', 'Collection'),
 
       // from mapDispatchToProps
-      removeTagFromDataset: () => {},
-      addTagToDataset: () => {},
-      fetchDataset: () => {},
-      fetchCollectionList: () => {},
-      updateDataset: () => {},
+      removeTagFromDataset: () => { },
+      addTagToDataset: () => { },
+      fetchDataset: () => { },
+      fetchCollectionList: () => { },
     }
     const enzymeWrapper = shallow(<DatasetEditLinksContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)

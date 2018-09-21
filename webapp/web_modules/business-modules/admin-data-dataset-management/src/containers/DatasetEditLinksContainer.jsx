@@ -50,7 +50,6 @@ export class DatasetEditLinksContainer extends React.Component {
     addTagToDataset: PropTypes.func,
     fetchDataset: PropTypes.func,
     fetchCollectionList: PropTypes.func,
-    updateDataset: PropTypes.func,
   }
 
   state = {
@@ -113,40 +112,22 @@ export class DatasetEditLinksContainer extends React.Component {
    * When the user add a new tag
    * @param tag
    */
-  handleAdd = (tag, usingUpdate) => {
-    if (usingUpdate) {
-      const { currentDataset: { content }, updateDataset } = this.props
-      const newDatasetContent = {
-        ...content,
-        tags: [...content.tags, tag],
-      }
-      updateDataset(content.id, newDatasetContent)
-    } else {
-      Promise.resolve(this.props.addTagToDataset(this.props.currentDataset.content.id, [tag]))
-        .then((actionResult) => {
-          this.props.fetchDataset(this.props.params.datasetId)
-        })
-    }
+  handleAdd = (tag) => {
+    Promise.resolve(this.props.addTagToDataset(this.props.currentDataset.content.id, [tag]))
+      .then((actionResult) => {
+        this.props.fetchDataset(this.props.params.datasetId)
+      })
   }
 
   /**
    * When the user remove a tag
    * @param tag
    */
-  handleDelete = (tag, usingUpdate) => {
-    if (usingUpdate) {
-      const { currentDataset: { content }, updateDataset } = this.props
-      const newDatasetContent = {
-        ...content,
-        tags: content.tags.filter(existingTag => existingTag !== tag),
-      }
-      updateDataset(content.id, newDatasetContent)
-    } else {
-      Promise.resolve(this.props.removeTagFromDataset(this.props.currentDataset.content.id, [tag]))
-        .then((actionResult) => {
-          this.props.fetchDataset(this.props.params.datasetId)
-        })
-    }
+  handleDelete = (tag) => {
+    Promise.resolve(this.props.removeTagFromDataset(this.props.currentDataset.content.id, [tag]))
+      .then((actionResult) => {
+        this.props.fetchDataset(this.props.params.datasetId)
+      })
   }
 
   renderSubComponent = () => {
@@ -192,7 +173,6 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchCollectionList: () => dispatch(collectionActions.fetchPagedEntityList(0)),
   fetchDataset: id => dispatch(datasetActions.fetchEntity(id)),
-  updateDataset: (id, dataset) => dispatch(datasetActions.updateEntity(id, dataset)),
   addTagToDataset: (datasetId, tags) => dispatch(datasetLinkActions.sendSignal('PUT', tags, { dataset_id: datasetId, operation: 'associate' })),
   removeTagFromDataset: (datasetId, tags) => dispatch(datasetLinkActions.sendSignal('PUT', tags, { dataset_id: datasetId, operation: 'dissociate' })),
 })
