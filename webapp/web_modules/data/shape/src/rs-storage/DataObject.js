@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 export const DataObjectContent = PropTypes.shape({
-  algorithm: PropTypes.number.isRequired,
+  algorithm: PropTypes.string.isRequired,
   checksum: PropTypes.string.isRequired,
   dataType: PropTypes.string.isRequired,
   failureCauses: PropTypes.arrayOf(PropTypes.string).isRequired,
