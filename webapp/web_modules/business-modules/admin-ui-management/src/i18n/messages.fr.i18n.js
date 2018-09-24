@@ -28,7 +28,7 @@ const messages = Object.assign({
   'project.layout.description': 'L\'agencement permet de définir les sections dans lesquelles vous pouvez positioner les modules',
   'project.layout.tooltip': 'Agencement',
 
-  'portal.module.title': 'Modules d\'interface',
+  'portal.module.title': 'Modules du portail',
   'project.module.title': 'Modules',
   'project.module.description': 'Configuration des modules de l\'interface utilisateur.',
 
@@ -39,7 +39,7 @@ const messages = Object.assign({
   'project.plugin.description': 'Les plugins utilisés sur l\'interface projet. Il existe deux types de plugin: les plugins critères, qui sont des champs de formulaire, et les plugins services, pour apporter des fonctionnalités supplémentaires sur les données du catalogue',
 
   'portal.theme.title': 'Thèmes du portail',
-  'project.theme.title': 'Configuration des thèmes',
+  'project.theme.title': 'Thèmes',
   'project.theme.description': 'Personnalisez l`apparence de REGARDS',
 
   'action.list.tooltip': 'Liste',
