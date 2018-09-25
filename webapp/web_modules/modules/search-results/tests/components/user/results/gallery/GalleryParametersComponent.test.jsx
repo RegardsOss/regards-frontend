@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert, expect } from 'chai'
+import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import GalleryParametersComponent from '../../../../../src/components/user/results/gallery/GalleryParametersComponent'
 import styles from '../../../../../src/styles/styles'
@@ -39,6 +40,7 @@ describe('[Search Results] Testing GalleryParametersComponent', () => {
     const props = {
       entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DataobjectEntity'),
       presentationModels: [],
+      locale: UIDomain.LOCALES_ENUM.en,
     }
     const enzymeWrapper = shallow(<GalleryParametersComponent {...props} />, { context })
     expect(enzymeWrapper.find('div')).to.have.length(3)

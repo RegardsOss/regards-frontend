@@ -21,7 +21,7 @@ import { assert, expect } from 'chai'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { CommonDomain } from '@regardsoss/domain'
 import GalleryItemComponent from '../../../../../src/components/user/results/gallery/GalleryItemComponent'
-import GalleryParametersComponent from '../../../../../src/components/user/results/gallery/GalleryParametersComponent'
+import GalleryParametersContainer from '../../../../../src/containers/user/results/gallery/GalleryParametersContainer'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -80,6 +80,6 @@ describe('[Search Results] Testing GalleryItemComponent', () => {
       onShowDescription: () => { },
     }
     const enzymeWrapper = shallow(<GalleryItemComponent name {...props} />, { context })
-    expect(enzymeWrapper.find(GalleryParametersComponent)).to.have.length(1)
+    expect(enzymeWrapper.find(GalleryParametersContainer)).to.have.length(1)
   })
 })

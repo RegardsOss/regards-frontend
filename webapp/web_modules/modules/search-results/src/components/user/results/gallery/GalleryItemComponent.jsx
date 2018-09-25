@@ -29,7 +29,7 @@ import { ShowableAtRender } from '@regardsoss/display-control'
 import { TableColumnBuilder } from '@regardsoss/components'
 import { ColumnPresentationModelArray } from '../../../../models/table/TableColumnModel'
 import ListViewEntityCellComponent from '../cells/ListViewEntityCellComponent'
-import GalleryParametersComponent from './GalleryParametersComponent'
+import GalleryParametersContainer from '../../../../containers/user/results/gallery/GalleryParametersContainer'
 
 class GalleryItemComponent extends React.PureComponent {
   static propTypes = {
@@ -208,7 +208,7 @@ class GalleryItemComponent extends React.PureComponent {
         key="desc"
       >
         <CardText style={descriptionContainer}>
-          <GalleryParametersComponent
+          <GalleryParametersContainer
             presentationModels={attributesPresentationModels}
             entity={entity}
           />
