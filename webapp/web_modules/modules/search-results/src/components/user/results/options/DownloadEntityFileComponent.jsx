@@ -147,7 +147,7 @@ class DownloadEntityFileComponent extends React.Component {
                   style={DownloadEntityFileComponent.resetLinkStyle}
                 >
                   <MenuItem
-                    primaryText={file.name}
+                    primaryText={file.filename}
                   />
                 </a>
               ))
