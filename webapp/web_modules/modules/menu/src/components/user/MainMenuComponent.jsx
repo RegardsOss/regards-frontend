@@ -130,7 +130,12 @@ class MainMenuComponent extends React.Component {
           {/* Contact project team */}
           <ContactComponent contacts={contacts} />
           {/* About project if any (display should be in container) */}
-          <ProjectAboutPageLinkContainer projectAboutPage={projectAboutPage} appName={appName} project={project} />
+          <ProjectAboutPageLinkContainer
+            projectAboutPage={projectAboutPage}
+            appName={appName}
+            project={project}
+            displayMode={displayMode}
+          />
           {/* UI Options: theme  */}
           <ShowableAtRender show={displayThemeSelector}>
             <SelectThemeContainer />
