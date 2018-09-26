@@ -26,37 +26,6 @@ import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-const getNotifications = (unread, read) => {
-  const makeNotif = (status, id) => ({
-    date: '2018-01-03T14:05:13.419Z',
-    id,
-    message: 'message',
-    projectUserRecipients: [],
-    roleRecipients: [
-      {
-        id: 4,
-        name: 'PROJECT_ADMIN',
-        authorizedAddresses: [],
-        isDefault: false,
-        isNative: true,
-      },
-    ],
-    sender: 'microservice',
-    status,
-    type: 'INFO',
-    title: 'Title',
-  })
-  const notifications = {}
-  let id = 0
-  const array = [...Array(unread).fill('UNREAD'), ...Array(read).fill('READ')]
-
-  array.forEach((status) => {
-    notifications[id] = makeNotif(status, id)
-    id += 1
-  })
-  return notifications
-}
-
 /**
  * Test NotificationListContainer
  * @author Maxime Bouveron
@@ -73,8 +42,25 @@ describe('[Menu] Testing NotificationListContainer', () => {
     const props = {
       notifications: {},
       isAuthenticated: false,
-      fetchNotifications: () => { },
+      fetchLastNotification: () => { },
       sendReadNotification: () => { },
+      markAllNotificationRead: () => { },
+      fetchNotification: () => { },
+      fetchLastReadNotification: () => { },
+
+      project: 'project1',
+
+      // from mapStateToProps
+      lastNotification: {},
+      lastReadNotification: {},
+      nbNotification: 14,
+      nbReadNotification: 42,
+      notificationMetadata: {
+        number: 3,
+        size: 3,
+        totalElements: 3,
+        totalPages: 3,
+      },
     }
     const enzymeWrapper = shallow(<NotificationListContainer {...props} />, { context })
     let showableWrapper = enzymeWrapper.find(ShowableAtRender)
@@ -98,16 +84,6 @@ describe('[Menu] Testing NotificationListContainer', () => {
     )
 
     componentWrapper = enzymeWrapper.find(NotificationListComponent)
-    assert.deepEqual(
-      componentWrapper.props().unreadNotifications,
-      [],
-      'Container should provide unread notifications array',
-    )
-    assert.deepEqual(
-      componentWrapper.props().readNotifications,
-      [],
-      'Container should provide read notifications array',
-    )
     assert.equal(
       componentWrapper.props().readAllNotifications,
       enzymeWrapper.instance().readAllNotifications,
@@ -122,75 +98,6 @@ describe('[Menu] Testing NotificationListContainer', () => {
       componentWrapper.props().registerNotify,
       enzymeWrapper.instance().registerNotify,
       'Container should provide register notify method',
-    )
-  })
-
-  it('should filter notifications', () => {
-    const props = {
-      notifications: {},
-      isAuthenticated: true,
-      fetchNotifications: () => { },
-      sendReadNotification: () => { },
-    }
-    const enzymeWrapper = shallow(<NotificationListContainer {...props} />, { context })
-
-    const testFilter = (unread, read) => {
-      enzymeWrapper.setProps({
-        notifications: getNotifications(unread, read),
-      })
-
-      assert.lengthOf(
-        enzymeWrapper.instance().unreadNotifications,
-        unread,
-        `Container should find ${unread} unread notifications`,
-      )
-      assert.lengthOf(
-        enzymeWrapper.instance().readNotifications,
-        read,
-        `Container should find ${read} read notifications`,
-      )
-    }
-
-    testFilter(2, 2)
-    testFilter(0, 4)
-    testFilter(4, 0)
-    testFilter(0, 0)
-  })
-
-  it('should find new notifications', () => {
-    const props = {
-      notifications: {},
-      isAuthenticated: true,
-      fetchNotifications: () => { },
-      sendReadNotification: () => { },
-    }
-    const enzymeWrapper = shallow(<NotificationListContainer {...props} />, {
-      context,
-    })
-
-    // register a notify method which simply increment a variable
-    enzymeWrapper.instance().registerNotify((notification) => {
-      enzymeWrapper.instance().newNotifCount = enzymeWrapper.instance().newNotifCount
-        ? (enzymeWrapper.instance().newNotifCount += 1)
-        : 1
-    })
-
-    assert.isUndefined(
-      enzymeWrapper.instance().newNotifCount,
-      "Container shouln't find any new notification",
-    )
-
-    enzymeWrapper.setProps({
-      notifications: getNotifications(1, 0),
-    })
-
-    // add 4 because the first one will be equal to the one already in props
-    enzymeWrapper.instance().componentWillReceiveProps({ notifications: getNotifications(4, 1) })
-
-    assert.equal(
-      enzymeWrapper.instance().newNotifCount,
-      3,
-      'Container should find 3 new notifications',
     )
   })
 })

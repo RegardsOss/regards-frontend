@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import { NOTIFICATION, NOTIFICATION_ARRAY } from '@regardsoss/api'
-import { BasicListActions } from '@regardsoss/store-utils'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
  * Redux actions to handle projects entities from backend server.
@@ -33,7 +33,7 @@ import { BasicListActions } from '@regardsoss/store-utils'
  *
  * @author Maxime Bouveron
  */
-export default class NotificationActions extends BasicListActions {
+export default class NotificationActions extends BasicPageableActions {
   constructor(namespace, instance = false) {
     super({
       namespace,

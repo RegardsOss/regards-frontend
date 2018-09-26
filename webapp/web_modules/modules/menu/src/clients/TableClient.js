@@ -15,7 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { BasicSignalsSelectors } from '@regardsoss/store-utils'
+ **/
+import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
 
-export default storePath => new BasicSignalsSelectors(storePath)
+const NAMESPACE = ' module-menu/notif-table'
+const STORE_PATH = ['modules.menu', 'table']
+
+export const tableActions = new TableActions(NAMESPACE)
+export const tableReducer = getTableReducer(NAMESPACE)
+export const tableSelectors = getTableSelectors(STORE_PATH)

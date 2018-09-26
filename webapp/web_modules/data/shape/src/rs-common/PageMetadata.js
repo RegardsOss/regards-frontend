@@ -15,7 +15,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { BasicSignalsSelectors } from '@regardsoss/store-utils'
+ **/
 
-export default storePath => new BasicSignalsSelectors(storePath)
+const PageMetadata = PropTypes.shape({
+  number: PropTypes.number,
+  size: PropTypes.number,
+  totalElements: PropTypes.number,
+  totalPages: PropTypes.number,
+})
+
+export default PageMetadata

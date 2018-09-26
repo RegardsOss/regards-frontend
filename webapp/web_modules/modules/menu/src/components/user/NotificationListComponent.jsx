@@ -19,6 +19,8 @@
 import IconButton from 'material-ui/IconButton'
 import Chip from 'material-ui/Chip'
 import NotificationNone from 'material-ui/svg-icons/social/notifications-none'
+import More from 'material-ui/svg-icons/navigation/chevron-right'
+import Less from 'material-ui/svg-icons/navigation/expand-more'
 import Notification from 'material-ui/svg-icons/social/notifications'
 import Info from 'mdi-material-ui/InformationVariant'
 import Skull from 'mdi-material-ui/Skull'
@@ -28,29 +30,42 @@ import Error from 'material-ui/svg-icons/alert/error'
 import Avatar from 'material-ui/Avatar'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { ShowableAtRender, PositionedDialog } from '@regardsoss/components'
-import { List, ListItem } from 'material-ui/List'
+import {
+  PageableInfiniteTableContainer, ShowableAtRender, PositionedDialog, TableColumnBuilder,
+  TableLayout,
+} from '@regardsoss/components'
+import { List } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
-import Divider from 'material-ui/Divider/Divider'
-import map from 'lodash/map'
 import truncate from 'lodash/truncate'
 import { FormattedMessage, FormattedDate } from 'react-intl'
 import NotificationSystem from 'react-notification-system'
 import { AdminShapes } from '@regardsoss/shape'
 import FlatButton from 'material-ui/FlatButton'
 import { CardHeader, CardText, CardActions } from 'material-ui/Card'
+import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
+import NotificationItemComponent from './notification/NotificationItemComponent'
+import { tableActions } from '../../clients/TableClient'
 
+const MODE = {
+  DISPLAY_UNREAD: 'DISPLAY_UNREAD',
+  DISPLAY_READ: 'DISPLAY_READ',
+}
 /**
  * Notification List Component
  * @author Maxime Bouveron
+ * @author Léo Mieulet
  */
 class NotificationListComponent extends React.Component {
   static propTypes = {
-    readNotifications: AdminShapes.NotificationArray,
-    unreadNotifications: AdminShapes.NotificationArray,
     registerNotify: PropTypes.func,
     readNotification: PropTypes.func,
     readAllNotifications: PropTypes.func,
+    notificationActions: PropTypes.instanceOf(BasicPageableActions).isRequired, // BasicPageableActions to retrieve entities from server
+    notificationSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // BasicPageableActions to retrieve entities from server
+    nbNotification: PropTypes.number,
+    lastNotification: AdminShapes.Notification,
+    nbReadNotification: PropTypes.number,
+    lastReadNotification: AdminShapes.Notification,
   }
 
   static contextTypes = {
@@ -60,10 +75,31 @@ class NotificationListComponent extends React.Component {
 
   static MAX_ELEMENTS_COUNT = 9999
 
-  state = {}
+  static PAGE_SIZE = 40
+
+  state = {
+    openedNotification: null,
+    mode: MODE.DISPLAY_UNREAD,
+  }
 
   componentDidMount() {
     this.props.registerNotify(this.notify)
+  }
+
+  getRequestParams = (mode) => {
+    const queryParams = {
+      sort: 'id,desc',
+    }
+    if (mode === MODE.DISPLAY_UNREAD) {
+      return {
+        ...queryParams,
+        state: 'UNREAD',
+      }
+    }
+    return {
+      ...queryParams,
+      state: 'READ',
+    }
   }
 
   /**
@@ -84,8 +120,6 @@ class NotificationListComponent extends React.Component {
           year={isSameYear ? undefined : '2-digit'}
           month="short"
           day="numeric"
-          hour="2-digit"
-          minute="2-digit"
         />
       )
   }
@@ -131,19 +165,28 @@ class NotificationListComponent extends React.Component {
 
   handleOpen = (notification) => {
     this.notificationSystem.clearNotifications()
-    if (this.state.openedNotification) {
-      if (notification.id !== this.state.openedNotification.id) {
-        this.props.readNotification(this.state.openedNotification)
-      }
+    if (this.state.openedNotification && notification.id !== this.state.openedNotification.id && notification.status === 'UNREAD') {
+      this.props.readNotification(this.state.openedNotification)
     }
     this.setState({
       openedNotification: notification,
     })
   }
 
+  handleSwitchMode = (mode) => {
+    if (mode !== this.state.mode) {
+      this.setState({
+        mode,
+        openedNotification: mode === MODE.DISPLAY_READ ? this.props.lastReadNotification.content : this.props.lastNotification.content,
+      })
+    }
+  }
+
   handleClose = () => {
     this.props.readNotification(this.state.openedNotification)
-    this.setState({ openedNotification: undefined })
+    this.setState({
+      openedNotification: null,
+    })
   }
 
   /**
@@ -166,70 +209,63 @@ class NotificationListComponent extends React.Component {
     }
   }
 
+  handleReadAllNotifications = () => {
+    this.props.readAllNotifications()
+      .then(() => {
+        this.handleSwitchMode(MODE.DISPLAY_READ)
+      })
+  }
+
   /**
    * Renders a notification list
-   * @param notifications Array containing the notifications to show
-   * @param unread Is the array containing unread notifications ?
+   * @param mode display mode
    */
-  renderNotificationList = (notifications, unread = false) => {
+  renderNotificationList = (mode) => {
     const { moduleTheme: { notifications: notificationStyle } } = this.context
-    const itemStyle = (item) => {
-      let style = {}
-      if (!unread) {
-        style = {
-          ...style,
-          ...notificationStyle.list.item.style,
-        }
-      }
-      if (item.id === this.state.openedNotification.id) {
-        style = {
-          ...style,
-          ...notificationStyle.list.selectedItem.style,
-        }
-      }
-      return style
-    }
-    return notifications.length > 0 ? (
-      <List>
-        <Subheader style={notificationStyle.list.subHeader.style}>
-          <FormattedMessage id={`user.menu.notification.${unread ? 'unread.' : ''}title`} />
-          <ShowableAtRender show={unread}>
-            <IconButton
-              onClick={() => this.props.readAllNotifications(notifications)}
+    const column = [
+      new TableColumnBuilder('label-notif').rowCellDefinition({
+        Constructor: NotificationItemComponent,
+        props: {
+          currentActiveEntity: this.state.openedNotification,
+          handleOpenNotif: this.handleOpen,
+          refetchData: this.refetchData,
+        },
+      }).build(),
+    ]
+    return [
+      <List key={`title-${mode}`}>
+        <Subheader
+          style={notificationStyle.list.subHeader.style}
+          onClick={() => { this.handleSwitchMode(mode) }}
+        >
+          <div style={notificationStyle.list.subHeader.titleWrapper}>
+            {mode === this.state.mode ? <Less /> : <More />}
+            <FormattedMessage id={`user.menu.notification.${mode === MODE.DISPLAY_UNREAD ? 'unread.' : ''}title`} />
+          </div>
+          {mode === MODE.DISPLAY_UNREAD
+            ? <IconButton
+              onClick={() => this.handleReadAllNotifications()}
               title="Clear all"
             >
               <ClearAll />
             </IconButton>
-          </ShowableAtRender>
+            : null}
         </Subheader>
-        {map(notifications, notif => [
-          <ListItem
-            onClick={() => this.handleOpen(notif)}
-            style={itemStyle(notif)}
-            key={`notification-${notif.id}`}
-            leftAvatar={this.renderAvatar(notif.type)}
-            primaryText={
-              <div style={notificationStyle.list.item.primaryText}>
-                <div
-                  title={notif.title}
-                  style={notificationStyle.list.item.titleStyle}
-                >
-                  {notif.title}
-                </div>
-                <div style={notificationStyle.list.item.dateStyle}>
-                  {this.getFormattedDate(notif.date)}
-                </div>
-              </div>
-            }
-          />,
-          <Divider
-            inset
-            style={notificationStyle.list.divider.style}
-            key={`divider-${notif.id}`}
-          />,
-        ])}
-      </List>
-    ) : null
+      </List>,
+      mode === this.state.mode ? <TableLayout key="table">
+        <PageableInfiniteTableContainer
+          name="notif-management-table"
+          pageActions={this.props.notificationActions}
+          pageSelectors={this.props.notificationSelectors}
+          tableActions={tableActions}
+          queryPageSize={NotificationListComponent.PAGE_SIZE}
+          displayColumnsHeader={false}
+          columns={column}
+          lineHeight={72}
+          requestParams={this.getRequestParams(mode)}
+        />
+      </TableLayout> : null,
+    ]
   }
 
   /**
@@ -244,13 +280,13 @@ class NotificationListComponent extends React.Component {
         open={!!this.state.openedNotification}
         onRequestClose={this.handleClose}
         bodyStyle={dialog.style}
-        dialogHeightPercent={60}
+        dialogHeightPercent={75}
         dialogWidthPercent={78}
       >
         <div style={dialog.wrapper.style}>
           <div style={dialog.list.style} className="col-xs-35 col-lg-25">
-            {this.renderNotificationList(this.props.unreadNotifications, true)}
-            {this.renderNotificationList(this.props.readNotifications)}
+            {this.renderNotificationList(MODE.DISPLAY_UNREAD)}
+            {this.renderNotificationList(MODE.DISPLAY_READ)}
           </div>
           <div className="col-xs-65 col-lg-75" style={dialog.details.container.style}>
             <div style={dialog.details.header.style}>
@@ -295,9 +331,9 @@ class NotificationListComponent extends React.Component {
       intl: { formatMessage },
       moduleTheme: { notifications: notificationStyle, overlay },
     } = this.context
-
-    const unreadCount = this.props.unreadNotifications.length
-    const readCount = this.props.readNotifications.length
+    const { nbNotification, nbReadNotification } = this.props
+    const unreadCount = nbNotification
+    const readCount = nbReadNotification
 
     // compute label for current count
     const elementsCountLabel = unreadCount < NotificationListComponent.MAX_ELEMENTS_COUNT
@@ -317,11 +353,8 @@ class NotificationListComponent extends React.Component {
           )}
           style={notificationStyle.iconButton.style}
           iconStyle={notificationStyle.iconButton.iconStyle}
-          disabled={!unreadCount && !readCount}
-          onClick={() => this.handleOpen(
-            unreadCount > 0 ? this.props.unreadNotifications[0] : this.props.readNotifications[0],
-          )
-          }
+          disabled={unreadCount === 0 && readCount === 0}
+          onClick={() => this.handleOpen(this.props.lastNotification.content)}
         >
           {/*Create a free position chip over the icon */}
           <div>
@@ -336,8 +369,8 @@ class NotificationListComponent extends React.Component {
             {unreadCount ? (
               <Notification style={notificationStyle.icon.style} />
             ) : (
-              <NotificationNone style={notificationStyle.icon.style} />
-            )}
+                <NotificationNone style={notificationStyle.icon.style} />
+              )}
           </div>
         </IconButton>
         {this.renderNotificationDialog()}

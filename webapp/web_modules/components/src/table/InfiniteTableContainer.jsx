@@ -80,9 +80,9 @@ class InfiniteTableContainer extends React.Component {
 
     // [Optional] server request end path parameters (sends undefined if not provided)
     // eslint-disable-next-line
-    requestParams: PropTypes.object, // used in onPropertiesUpdate, uknown shape, depends on consumer
+    requestParams: PropTypes.object, // used in onPropertiesUpdate, unkown shape, depends on consumer
     // eslint-disable-next-line
-    pathParams: PropTypes.object, // used in onPropertiesUpdate, uknown shape, depends on consumer
+    pathParams: PropTypes.object, // used in onPropertiesUpdate, unkown shape, depends on consumer
 
     // INNER TABLE API (will be provided by adequate parents)
 

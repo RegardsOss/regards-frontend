@@ -17,19 +17,23 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import filter from 'lodash/filter'
-import forEach from 'lodash/forEach'
-import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
-import { AdminShapes } from '@regardsoss/shape'
+import keys from 'lodash/keys'
+import { AdminShapes, CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { ShowableAtRender } from '@regardsoss/display-control'
 import NotificationListComponent from '../../components/user/NotificationListComponent'
 import {
-  notificationActions,
+  notificationPollerActions,
+  notificationPollerInstanceActions,
   notificationInstanceActions,
+  notificationActions,
+  notificationPollerSelectors,
   notificationSelectors,
+  notificationReadPollerActions,
+  notificationReadPollerInstanceActions,
+  notificationReadPollerSelectors,
 } from '../../clients/NotificationClient'
 import {
   readNotificationActions,
@@ -44,21 +48,40 @@ export class NotificationListContainer extends React.Component {
   static mapStateToProps(state) {
     return {
       isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
-      notifications: notificationSelectors.getList(state),
+      lastNotification: notificationPollerSelectors.getList(state),
+      nbNotification: notificationPollerSelectors.getResultsCount(state),
+      lastReadNotification: notificationReadPollerSelectors.getList(state),
+      nbReadNotification: notificationReadPollerSelectors.getResultsCount(state),
+      notificationMetadata: notificationSelectors.getMetaData(state),
     }
   }
 
   static mapDispatchToProps(dispatch) {
     return {
-      fetchNotifications: (instance = false) => dispatch(
+      fetchLastNotification: (instance = false) => dispatch(
         instance
-          ? notificationInstanceActions.fetchEntityList()
-          : notificationActions.fetchEntityList(),
+          ? notificationPollerInstanceActions.fetchPagedEntityList(0, 1, {}, { sort: 'id,desc', state: 'UNREAD' })
+          : notificationPollerActions.fetchPagedEntityList(0, 1, {}, { sort: 'id,desc', state: 'UNREAD' }),
+      ),
+      fetchLastReadNotification: (instance = false) => dispatch(
+        instance
+          ? notificationReadPollerInstanceActions.fetchPagedEntityList(0, 1, {}, { sort: 'id,desc', state: 'READ' })
+          : notificationReadPollerActions.fetchPagedEntityList(0, 1, {}, { sort: 'id,desc', state: 'READ' }),
+      ),
+      fetchNotification: (isInstance, pageNumber, fetchPageSize, requestParam) => dispatch(
+        isInstance
+          ? notificationInstanceActions.fetchPagedEntityList(0, fetchPageSize, {}, requestParam)
+          : notificationActions.fetchPagedEntityList(pageNumber, fetchPageSize, {}, requestParam),
       ),
       sendReadNotification: (notificationId, instance = false) => dispatch(
         instance
           ? readNotificationInstanceActions.readNotification(notificationId)
           : readNotificationActions.readNotification(notificationId),
+      ),
+      markAllNotificationRead: (instance = false) => dispatch(
+        instance
+          ? readNotificationInstanceActions.markAllNotificationRead()
+          : readNotificationActions.markAllNotificationRead(),
       ),
     }
   }
@@ -66,43 +89,38 @@ export class NotificationListContainer extends React.Component {
   static propTypes = {
     project: PropTypes.string,
     // from mapStateToProps
-    notifications: AdminShapes.NotificationList,
+    lastNotification: AdminShapes.NotificationList, // THIS IS A LIST WITH ONE ITEM INSIDE
+    lastReadNotification: AdminShapes.NotificationList, // THIS IS A LIST WITH ONE ITEM INSIDE
     isAuthenticated: PropTypes.bool,
+    nbNotification: PropTypes.number,
+    nbReadNotification: PropTypes.number,
+    notificationMetadata: CommonShapes.PageMetadata,
     // from mapDispatchToProps
-    fetchNotifications: PropTypes.func.isRequired,
+    fetchLastNotification: PropTypes.func.isRequired,
     sendReadNotification: PropTypes.func.isRequired,
+    markAllNotificationRead: PropTypes.func.isRequired,
+    fetchNotification: PropTypes.func.isRequired,
+    fetchLastReadNotification: PropTypes.func.isRequired,
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      isInstance: props.project === 'instance',
+    }
   }
 
   componentWillMount = () => {
     this.startTimer()
-    this.newNotifications = []
-    this.unreadNotifications = []
-    this.readNotifications = []
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (!isEqual(this.props.notifications, nextProps.notifications)) {
-      const sortNotificationByDate = (a, b) => new Date(b.date) - new Date(a.date)
+    if (!isEqual(this.props.lastNotification, nextProps.lastNotification) && !!this.notify) {
+      // Open a popup if there is a new notif
+      const lastNotif = nextProps.lastNotification[keys(nextProps.lastNotification)[0]]
 
-      this.unreadNotifications = filter(
-        nextProps.notifications,
-        notif => notif.status === 'UNREAD',
-      ).sort(sortNotificationByDate)
-
-      this.readNotifications = filter(
-        nextProps.notifications,
-        notif => notif.status === 'READ',
-      ).sort(sortNotificationByDate)
-
-      if (Object.keys(this.props.notifications).length > 0 && !!this.notify) {
-        forEach(nextProps.notifications, (notif) => {
-          if (
-            !find(this.props.notifications, o => o.id === notif.id)
-            && notif.status === 'UNREAD'
-          ) {
-            this.notify(notif)
-          }
-        })
+      if (lastNotif && lastNotif.content.status === 'UNREAD') {
+        this.notify(lastNotif.content)
       }
     }
   }
@@ -111,11 +129,32 @@ export class NotificationListContainer extends React.Component {
     this.stopTimer()
   }
 
+  refreshEverything = () => {
+    const { fetchNotification, notificationMetadata } = this.props
+    // compute page size to refresh all current entities in the table
+    const lastPage = (notificationMetadata && notificationMetadata.number) || 0
+    const totalElementsFetched = NotificationListComponent.PAGE_SIZE * (lastPage + 1)
+    const requestParams = {
+      sort: 'id,desc',
+      state: 'UNREAD',
+    }
+    return fetchNotification(this.state.isInstance, 0, totalElementsFetched, requestParams)
+  }
+
+  getLastNotification = () => (
+    this.props.lastNotification[keys(this.props.lastNotification)[0]]
+  )
+
+  getLastReadNotification = () => (
+    this.props.lastReadNotification[keys(this.props.lastReadNotification)[0]]
+  )
+
   startTimer = () => {
     const { isAuthenticated, project } = this.props
     if (isAuthenticated) {
       // A - refresh list only if authenticated
-      this.props.fetchNotifications(!project || project === 'instance')
+      this.props.fetchLastNotification(!project || this.state.isInstance)
+      this.props.fetchLastReadNotification(!project || this.state.isInstance)
     }
     // B - restart timer
     this.refreshTimer = setTimeout(() => this.startTimer(), STATIC_CONF.POLLING_TIMER_NOTIFICATIONS)
@@ -125,18 +164,13 @@ export class NotificationListContainer extends React.Component {
     clearTimeout(this.refreshTimer)
   }
 
-  readAllNotifications = (unreadNotifications) => {
-    unreadNotifications.forEach((notif) => {
-      this.readNotification(notif)
-    })
-  }
+  readAllNotifications = () => this.props.markAllNotificationRead(this.state.isInstance)
 
   readNotification = (notification) => {
-    if (notification.status === 'UNREAD') {
-      this.props
-        .sendReadNotification(notification.id, this.props.project === 'instance')
-        .then(() => this.props.fetchNotifications(this.props.project === 'instance'))
-    }
+    this.props.sendReadNotification(notification.id, this.state.isInstance)
+      .then(() => {
+        this.refreshEverything()
+      })
   }
 
   registerNotify = (notify) => {
@@ -144,19 +178,25 @@ export class NotificationListContainer extends React.Component {
   }
 
   render() {
+    const { isInstance } = this.state
     return (
       <ShowableAtRender show={this.props.isAuthenticated}>
         <NotificationListComponent
-          unreadNotifications={this.unreadNotifications}
-          readNotifications={this.readNotifications}
           readAllNotifications={this.readAllNotifications}
           readNotification={this.readNotification}
           registerNotify={this.registerNotify}
+          notificationActions={isInstance ? notificationInstanceActions : notificationActions}
+          notificationSelectors={notificationSelectors}
+          nbNotification={this.props.nbNotification}
+          lastNotification={this.getLastNotification()}
+          nbReadNotification={this.props.nbReadNotification}
+          lastReadNotification={this.getLastReadNotification()}
         />
       </ShowableAtRender>
     )
   }
 }
+
 export default connect(
   NotificationListContainer.mapStateToProps,
   NotificationListContainer.mapDispatchToProps,

@@ -43,10 +43,12 @@ export default class AIPTagActions extends BasicSignalsActions {
       [AIPTagActions.ADD_TAG_ACTIONS]: {
         entityEndpoint: `${AIPTagActions.ROOT_ENDPOINT}/tags`,
         namespace: `${namespace}/resume`,
+        bypassErrorMiddleware: true,
       },
       [AIPTagActions.REMOVE_TAG_ACTIONS]: {
         entityEndpoint: `${AIPTagActions.ROOT_ENDPOINT}/tags/delete`,
         namespace: `${namespace}/resume`,
+        bypassErrorMiddleware: true,
       },
       [AIPTagActions.SEARCH_TAG_ACTIONS]: {
         entityEndpoint: `${AIPTagActions.ROOT_ENDPOINT}/tags/search`,

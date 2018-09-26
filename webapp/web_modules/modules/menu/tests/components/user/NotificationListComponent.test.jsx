@@ -21,41 +21,37 @@ import { assert } from 'chai'
 import IconButton from 'material-ui/IconButton'
 import Chip from 'material-ui/Chip'
 import Dialog from 'material-ui/Dialog/Dialog'
-import { ListItem, List } from 'material-ui/List'
+import { List } from 'material-ui/List'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { ShowableAtRender, PositionedDialog } from '@regardsoss/components'
+import { ShowableAtRender, PositionedDialog, PageableInfiniteTableContainer } from '@regardsoss/components'
+import { AdminClient } from '@regardsoss/client'
 import NotificationListComponent from '../../../src/components/user/NotificationListComponent'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
+const namespacePoller = 'menu/notification'
+const notificationPollerActions = new AdminClient.NotificationActions(namespacePoller)
+const notificationPollerSelectors = AdminClient.getNotificationSelectors(['modules.menu', 'notificationPoller'])
 
-const generateNotifications = (status, number, id = 0) => {
-  let idToUse = id
-  const notifications = []
-  for (let i = 0; i < number; i += 1) {
-    notifications.push({
-      date: '2018-01-03T14:05:13.419Z',
-      idToUse,
-      message: 'message',
-      projectUserRecipients: [],
-      roleRecipients: [
-        {
-          id: 4,
-          name: 'PROJECT_ADMIN',
-          authorizedAddresses: [],
-          isDefault: false,
-          isNative: true,
-        },
-      ],
-      sender: 'microservice',
-      status,
-      type: 'INFO',
-      title: 'Title',
-    })
-    idToUse += 1
-  }
-  return notifications
-}
+const generateNotification = (status, id) => ({
+  date: '2018-01-03T14:05:13.419Z',
+  id,
+  message: 'message',
+  projectUserRecipients: [],
+  roleRecipients: [
+    {
+      id: 4,
+      name: 'PROJECT_ADMIN',
+      authorizedAddresses: [],
+      isDefault: false,
+      isNative: true,
+    },
+  ],
+  sender: 'microservice',
+  status,
+  type: 'INFO',
+  title: 'Title',
+})
 
 /**
  * Test NotificationListComponent
@@ -71,11 +67,16 @@ describe('[Menu] Testing NotificationListComponent', () => {
 
   it('should render correctly without notifications', () => {
     const props = {
-      readNotifications: [],
-      unreadNotifications: [],
       registerNotify: () => { },
       readNotification: () => { },
       readAllNotifications: () => { },
+
+      notificationActions: notificationPollerActions,
+      notificationSelectors: notificationPollerSelectors,
+      nbNotification: 0,
+      lastNotification: generateNotification('UNREAD', 2),
+      nbReadNotification: 0,
+      lastReadNotification: null,
     }
     const enzymeWrapper = shallow(<NotificationListComponent {...props} />, { context })
 
@@ -101,11 +102,16 @@ describe('[Menu] Testing NotificationListComponent', () => {
 
   it('should render correctly without unread notifications', () => {
     const props = {
-      readNotifications: generateNotifications('READ', 2),
-      unreadNotifications: [],
       registerNotify: () => { },
       readNotification: () => { },
       readAllNotifications: () => { },
+
+      notificationActions: notificationPollerActions,
+      notificationSelectors: notificationPollerSelectors,
+      nbNotification: 3,
+      lastNotification: null,
+      nbReadNotification: 5,
+      lastReadNotification: generateNotification('UNREAD', 2),
     }
     const enzymeWrapper = shallow(<NotificationListComponent {...props} />, { context })
 
@@ -116,12 +122,8 @@ describe('[Menu] Testing NotificationListComponent', () => {
       1,
       'There should be a showing / hide controller for the notification count component',
     )
-    assert.isFalse(
-      showableWrapper.props().show,
-      'It should be hidding the count when there is 0 new notifications',
-    )
 
-    enzymeWrapper.setState({ openedNotification: props.readNotifications[0] })
+    enzymeWrapper.setState({ openedNotification: props.lastReadNotification })
 
     // check that dialog is opened
     const dialogWrapper = enzymeWrapper.find(PositionedDialog)
@@ -129,20 +131,25 @@ describe('[Menu] Testing NotificationListComponent', () => {
 
     // check that unread list is hidden
     const listWrapper = enzymeWrapper.find(List)
-    assert.lengthOf(listWrapper, 1, 'There should be only one notification list')
+    assert.lengthOf(listWrapper, 2, 'There should be only one notification list')
 
     // check that read list shows 2 notifications
-    const listItemWrapper = enzymeWrapper.find(ListItem)
-    assert.lengthOf(listItemWrapper, 2, 'There should be two notifications in notifications list')
+    const infiniteTableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)
+    assert.lengthOf(infiniteTableWrapper, 1, 'There should be one infinite table')
   })
 
   it('should render correctly with notifications', () => {
     const props = {
-      readNotifications: generateNotifications('READ', 2),
-      unreadNotifications: generateNotifications('UNREAD', 2, 2),
       registerNotify: () => { },
       readNotification: () => { },
       readAllNotifications: () => { },
+
+      notificationActions: notificationPollerActions,
+      notificationSelectors: notificationPollerSelectors,
+      nbNotification: 2,
+      lastNotification: null,
+      nbReadNotification: 5,
+      lastReadNotification: generateNotification('UNREAD', 2),
     }
     const enzymeWrapper = shallow(<NotificationListComponent {...props} />, { context })
 
@@ -163,7 +170,7 @@ describe('[Menu] Testing NotificationListComponent', () => {
     assert.lengthOf(chipWrapper, 1, 'There should be a chip to show objectsCount')
     assert.include(chipWrapper.debug(), 2, 'The chip text should read 2')
 
-    enzymeWrapper.setState({ openedNotification: props.unreadNotifications[0] })
+    enzymeWrapper.setState({ openedNotification: props.lastReadNotification })
 
     // check that dialog is opened
     const dialogWrapper = enzymeWrapper.find(PositionedDialog)
@@ -174,7 +181,7 @@ describe('[Menu] Testing NotificationListComponent', () => {
     assert.lengthOf(listWrapper, 2, 'There should be both notification lists')
 
     // check that read list shows 2 notifications
-    const listItemWrapper = enzymeWrapper.find(ListItem)
-    assert.lengthOf(listItemWrapper, 4, 'There should be four notifications in notifications list')
+    const infiniteTableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)
+    assert.lengthOf(infiniteTableWrapper, 1, 'There should be one infinite table')
   })
 })

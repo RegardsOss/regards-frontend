@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicListSelectors } from '@regardsoss/store-utils'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 /**
  * Store selector to access projects entities.
@@ -29,4 +29,4 @@ import { BasicListSelectors } from '@regardsoss/store-utils'
  *
  * @author Maxime Bouveron
  */
-export default storePath => new BasicListSelectors(storePath)
+export default storePath => new BasicPageableSelectors(storePath)

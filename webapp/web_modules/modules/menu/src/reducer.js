@@ -19,13 +19,16 @@
 import { borrowRoleReducer } from './clients/BorrowRoleClient'
 import { borrowableRolesReducer } from './clients/BorrowableRolesClient'
 import { myUserReducer } from './clients/MyUserClient'
-import { notificationReducer, notificationInstanceReducer } from './clients/NotificationClient'
+import {
+  notificationReducer, notificationInstanceReducer, notificationReadPollerReducer, notificationReadPollerInstanceReducer, notificationPollerReducer, notificationPollerInstanceReducer,
+} from './clients/NotificationClient'
 import { readNotificationReducer, readNotificationInstanceReducer } from './clients/ReadNotificationClient'
 import { notificationSettingsReducer } from './clients/NotificationSettingsClient'
 import { adminLayoutReducer } from './clients/LayoutListClient'
 import { adminModuleReducer } from './clients/ModulesListClient'
 import { roleReducer } from './clients/RoleClient'
 import profileDialogReducer from './model/ProfileDialogReducer'
+import { tableReducer } from './clients/TableClient'
 
 module.exports = {
   // admin reducers
@@ -36,11 +39,18 @@ module.exports = {
   borrowRole: borrowRoleReducer,
   borrowableRoles: borrowableRolesReducer,
   myUser: myUserReducer,
+
   notification: notificationReducer,
-  readNotification: readNotificationReducer,
   notificationInstance: notificationInstanceReducer,
+  notificationPoller: notificationPollerReducer,
+  notificationPollerInstance: notificationPollerInstanceReducer,
+  notificationReadPoller: notificationReadPollerReducer,
+  notificationReadPollerInstance: notificationReadPollerInstanceReducer,
+
+  readNotification: readNotificationReducer,
   readNotificationInstance: readNotificationInstanceReducer,
   // local actions / reducers
   profileDialog: profileDialogReducer,
   notificationSettings: notificationSettingsReducer,
+  table: tableReducer,
 }

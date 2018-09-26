@@ -205,9 +205,19 @@ const menuStyles = theme => ({
       },
     },
     list: {
-      item: {
+      readItem: {
         style: {
           opacity: 0.5,
+        },
+      },
+      item: {
+        style: {
+          marginLeft: '0',
+          padding: '25px 16px 20px 72px',
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          backgroundColor: '#303030',
         },
         primaryText: {
           display: 'flex',
@@ -233,6 +243,10 @@ const menuStyles = theme => ({
         style: {
           display: 'flex',
           justifyContent: 'space-between',
+        },
+        titleWrapper: {
+          display: 'flex',
+          alignItems: 'center',
         },
       },
       icons: {
@@ -263,7 +277,9 @@ const menuStyles = theme => ({
       },
       list: {
         style: {
-          overflowY: 'scroll',
+          display: 'flex',
+          flexDirection: 'column',
+          marginBottom: '66px',
         },
       },
       details: {
