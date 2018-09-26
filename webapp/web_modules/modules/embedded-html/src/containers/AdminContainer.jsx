@@ -89,8 +89,8 @@ class AdminContainer extends React.Component {
     // 1 - compute preview properties
     const urlByLocale = get(adminForm, `form.${this.CONF_URLS}`)
     const moduleConfiguration = {
-      cssHeight: get(adminForm, `form.${this.CONF_HEIGHT}`, 100),
-      cssWidth: get(adminForm, `form.${this.CONF_WIDTH}`, '100%'),
+      cssHeight: get(adminForm, `form.${this.CONF_HEIGHT}`),
+      cssWidth: get(adminForm, `form.${this.CONF_WIDTH}`),
       urlByLocale,
     }
     // 2 - compute preview warning / explanation message

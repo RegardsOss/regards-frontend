@@ -61,10 +61,17 @@ export class ModuleContainer extends React.Component {
     ...i18nContextType,
   }
 
+  /** Default CSS property for width, when not user provided */
+  static DEFAULT_CSS_WIDTH = '100%'
+
+  /** Default CSS property for height, when not user provided */
+  static DEFAULT_CSS_HEIGHT = '100px'
+
+
   render() {
     const renderStyles = {
-      width: this.props.moduleConf.cssWidth || '100%',
-      height: this.props.moduleConf.cssHeight || 100,
+      width: this.props.moduleConf.cssWidth || ModuleContainer.DEFAULT_CSS_WIDTH,
+      height: this.props.moduleConf.cssHeight || ModuleContainer.DEFAULT_CSS_HEIGHT,
     }
     const { moduleConf: { urlByLocale = {} }, locale } = this.props
     // URL: current locale URL if available. If not available, first available locale URL.
