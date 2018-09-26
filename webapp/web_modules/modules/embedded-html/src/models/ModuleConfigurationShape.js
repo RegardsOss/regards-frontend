@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 
 /**
  * Module configuration shape
@@ -24,7 +25,10 @@
 const ModuleConfigurationShape = PropTypes.shape({
   cssHeight: PropTypes.string,
   cssWidth: PropTypes.string,
-  htmlUrl: PropTypes.string,
+  urlByLocale: PropTypes.shape({
+    [UIDomain.LOCALES_ENUM.en]: PropTypes.string,
+    [UIDomain.LOCALES_ENUM.fr]: PropTypes.string,
+  }),
 })
 
 export default ModuleConfigurationShape

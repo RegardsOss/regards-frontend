@@ -17,18 +17,25 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
-import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 
 /**
  * i18n messages French language
  * @author Sébastien Binda
  */
 const messages = {
-  'admin.css.height.label': 'Propriété CSS Height',
-  'admin.css.width.label': 'Propriété CSS Width',
-  'admin.html.url': "Url d'accès au fichier html",
+  'embedded.html.styles.group.title': 'Présentation',
+  'embedded.html.admin.css.height.label': 'Propriété CSS Height',
+  'embedded.html.admin.css.width.label': 'Propriété CSS Width',
+  'embedded.html.content.group.title': 'Contenu par langue',
+  'embedded.html.admin.html.url.en': 'Url d\'accès au fichier HTML en anglais',
+  'embedded.html.admin.html.url.fr': 'Url d\'accès au fichier HTML en français',
+  'embedded.html.admin.html.no.url.error': 'Il doit au moins y avoir une URL définie',
+  'embedded.html.content.preview.title': 'Prévisualisation',
+  'embedded.html.content.preview.locale.selector': 'Langue de la prévisualisation',
+  'embedded.html.content.preview.locale.en': 'Anglais',
+  'embedded.html.content.preview.locale.fr': 'Français',
+  'embedded.html.content.preview.no.page': 'Il n\'y a aucune URL définie',
   ...Locales.fr,
-  ...MetadataLocales.fr,
 }
 
 export default messages
