@@ -107,10 +107,12 @@ class Table extends React.Component {
     const oldState = this.state || {}
     const newState = oldState ? { ...oldState } : {}
 
-    // compute columns with width, BUT AVOID updating it when entities change (do update only
-    // when the scroll is visible and wasnt before)
-    const wasShowingScroll = (oldProps.entities || []).length > (oldProps.maxRowCount || 0)
-    const willShowScroll = (newProps.entities || []).length > newProps.maxRowCount
+    // Re layout columns when available width changed, to avoid changing user set columns width. Width changed when:
+    // A - Table width changed
+    // B - scroll bar will be shown or hidden (due to scroll bar width)
+    // C - columns changed (layout probably needs an update)
+    const wasShowingScroll = get(oldProps, 'entities.length', 0) > Math.floor(oldProps.height / oldProps.lineHeight)
+    const willShowScroll = get(newProps, 'entities.length', 0) > Math.floor(newProps.height / newProps.lineHeight)
 
     // update columns when: scroll state changed, width changed or columns list changed
     if (wasShowingScroll !== willShowScroll || oldProps.width !== newProps.width
