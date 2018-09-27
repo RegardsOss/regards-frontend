@@ -28,7 +28,7 @@ const messages = Object.assign({
   'document.list.action.edit': 'Editer',
   'document.list.action.duplicate': 'Dupliquer',
   'document.list.action.delete': 'Supprimer',
-
+  'dataset.list.tooltip.copy.button': 'Copier la référence dans le presse papier',
   'document.list.table.label': 'Label',
   'document.list.table.model': 'Modèle',
 

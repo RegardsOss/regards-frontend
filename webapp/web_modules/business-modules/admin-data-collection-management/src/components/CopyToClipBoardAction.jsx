@@ -43,18 +43,18 @@ export class CopyToClipBoardAction extends React.Component {
     } = this.props
 
     return (
-      <IconButton
-        className={`selenium-edit-${content.id}`}
-        title={formatMessage({ id: 'collection.list.tooltip.copy.button' })}
-        iconStyle={CopyToClipBoardAction.iconStyle}
-        style={CopyToClipBoardAction.buttonStyle}
+      <CopyToClipboard
+        text={entity.content.ipId}
       >
-        <CopyToClipboard
-          text={entity.content.ipId}
+        <IconButton
+          className={`selenium-edit-${content.id}`}
+          title={formatMessage({ id: 'collection.list.tooltip.copy.button' })}
+          iconStyle={CopyToClipBoardAction.iconStyle}
+          style={CopyToClipBoardAction.buttonStyle}
         >
           <ClipboardArrowLeft hoverColor={hoverColor} />
-        </CopyToClipboard>
-      </IconButton>
+        </IconButton>
+      </CopyToClipboard>
     )
   }
 }
