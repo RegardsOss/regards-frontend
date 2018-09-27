@@ -91,6 +91,14 @@ const messages = Object.assign({
   'sips.session.apply.filters.button': 'Apply filters',
   'sips.session.delete.confirm.title': 'Delete session {id}?',
 
+  'sips.session.retry.title': 'Re run session {id} ?',
+  'sips.session.retry.generation.message': 'You can re-run the current session by re-submiting SIPS.',
+  'sips.session.retry.submission.message': 'You can re-run the current session by re-generating AIPS.',
+  'sips.session.retry.message': 'You can re-run this session by running a new submission for all SIPS or by running a new generation of all AIPS.',
+  'sips.session.retry.cancel': 'Cancel',
+  'sips.session.retry.submission.button': 'Re-run SIPS submission',
+  'sips.session.retry.generation.button': 'Re-run AIPS generation',
+
   'sips.submit.title': 'Data submission',
   'sips.submit.subtitle': 'This section allows you to run a data submission thought a local file (geoson format) containing entities to submit',
   'sips.submit.error.message': 'An error occured during submission of your data. Please check the format of your provided entities.',

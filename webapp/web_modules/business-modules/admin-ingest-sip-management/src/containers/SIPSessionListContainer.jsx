@@ -50,7 +50,8 @@ export class SIPSessionListContainer extends React.Component {
    */
   static mapDispatchToProps = dispatch => ({
     deleteSession: session => dispatch(sessionActions.deleteEntity(session.id)),
-    retrySession: session => dispatch(sipSignalActions.retrySession(session.id)),
+    retrySessionSubmission: session => dispatch(sipSignalActions.retrySessionSubmission(session.id)),
+    retrySessionGeneration: session => dispatch(sipSignalActions.retrySessionGeneration(session.id)),
     fetchPage: (pageIndex, pageSize, queryParams) => dispatch(sessionActions.fetchPagedEntityList(pageIndex, pageSize, {}, queryParams)),
   })
 
@@ -66,7 +67,8 @@ export class SIPSessionListContainer extends React.Component {
     }),
     entitiesLoading: PropTypes.bool.isRequired,
     deleteSession: PropTypes.func.isRequired,
-    retrySession: PropTypes.func.isRequired,
+    retrySessionSubmission: PropTypes.func.isRequired,
+    retrySessionGeneration: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
   }
 
@@ -112,8 +114,16 @@ export class SIPSessionListContainer extends React.Component {
     }
   }
 
-  onRetrySession = (session, filters) => {
-    Promise.resolve(this.props.retrySession(session)).then((results) => {
+  onRetrySessionSubmission = (session, filters) => {
+    Promise.resolve(this.props.retrySessionSubmission(session)).then((results) => {
+      if (!results.error) {
+        this.onRefresh(filters)
+      }
+    })
+  }
+
+  onRetrySessionGeneration = (session, filters) => {
+    Promise.resolve(this.props.retrySessionGeneration(session)).then((results) => {
       if (!results.error) {
         this.onRefresh(filters)
       }
@@ -134,7 +144,8 @@ export class SIPSessionListContainer extends React.Component {
         onRefresh={this.onRefresh}
         entitiesLoading={entitiesLoading}
         deleteSession={deleteSession}
-        retrySession={this.onRetrySession}
+        retrySessionSubmission={this.onRetrySessionSubmission}
+        retrySessionGeneration={this.onRetrySessionGeneration}
         fetchPage={fetchPage}
         initialFilters={initialFilters}
       />

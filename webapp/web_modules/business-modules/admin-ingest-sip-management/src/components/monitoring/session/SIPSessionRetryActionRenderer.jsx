@@ -42,13 +42,13 @@ class SIPSessionRetryActionRenderer extends React.Component {
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
   handleClick = () => {
-    this.props.onRetry(this.props.entity.content)
+    this.props.onRetry(this.props.entity)
   }
 
   render() {
     const { intl: { formatMessage } } = this.context
     const { entity: { links } } = this.props
-    if (isNil(find(links, { rel: 'retry' }))) {
+    if (isNil(find(links, { rel: 'retrySubmission' })) && isNil(find(links, { rel: 'retryGeneration' }))) {
       return null
     }
     return (
