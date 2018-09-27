@@ -41,7 +41,6 @@ describe('[Search Results] Testing ModuleContainer', () => {
       appName: 'any',
       project: 'any',
       type: 'any',
-      fetchAllModelsAttributes: () => { },
       attributeModels: {},
       moduleConf: {
         enableFacettes: true,
@@ -70,7 +69,6 @@ describe('[Search Results] Testing ModuleContainer', () => {
       appName: 'any',
       project: 'any',
       type: 'any',
-      fetchAllModelsAttributes: () => { },
       attributeModels: {},
       moduleConf: {
         enableFacettes: true,

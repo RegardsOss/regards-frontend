@@ -16,24 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DataManagementClient } from '@regardsoss/client'
+import { CatalogClient } from '@regardsoss/client'
 
-export const REDUCER_PATH = 'attributes'
-
-/**
- * Server AttributeModel entities client.
- * @author Sébastien Binda
- */
-const ENTITIES_STORE_PATH = ['modules.search-form', REDUCER_PATH]
-const REDUX_ACTION_NAMESPACE = 'search-form/attributes'
-
-export const AttributeModelActions = new DataManagementClient.AttributeModelActions(REDUX_ACTION_NAMESPACE)
-export const AttributeModelReducer = DataManagementClient.AttributeModelReducer(REDUX_ACTION_NAMESPACE)
-export const AttributeModelSelectors = DataManagementClient.AttributeModelSelectors(ENTITIES_STORE_PATH)
+const namespace = 'search-form/attributes-bounds'
+const attributesBoundsActions = new CatalogClient.AttributesBoundsActions(namespace)
+const attributesBoundsReducer = CatalogClient.getAttributesBoundsReducer(namespace)
+const attributesBoundsSelectors = CatalogClient.getAttributesBoundsSelectors(['modules.search-form', 'attributesBounds'])
 
 module.exports = {
-  REDUCER_PATH,
-  AttributeModelActions,
-  AttributeModelReducer,
-  AttributeModelSelectors,
+  attributesBoundsActions,
+  attributesBoundsReducer,
+  attributesBoundsSelectors,
 }

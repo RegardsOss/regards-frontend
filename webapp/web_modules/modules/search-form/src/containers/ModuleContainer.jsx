@@ -25,7 +25,7 @@ import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { connect } from '@regardsoss/redux'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import { UIClient } from '@regardsoss/client'
+import { UIClient, DataManagementClient } from '@regardsoss/client'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { LoadingComponent, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -33,12 +33,14 @@ import { themeContextType } from '@regardsoss/theme'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import DatasetSelectionTypes from '../domain/DatasetSelectionTypes'
-import AttributeModelClient from '../clients/AttributeModelClient'
 import ModuleConfiguration from '../shapes/ModuleConfiguration'
 import FormComponent from '../components/user/FormComponent'
 
 /** Module pane state actions default instance */
 const moduleExpandedStateActions = new UIClient.ModuleExpandedStateActions()
+
+/** Attributes default selector */
+const attributeModelSelectors = DataManagementClient.AttributeModelSelectors()
 
 /**
  * Main container to display module form.
@@ -53,10 +55,8 @@ class ModuleContainer extends React.Component {
     // Set by mapStateToProps
     authentication: AuthenticateShape,
     attributeModels: DataManagementShapes.AttributeModelList,
-    attributesLoading: PropTypes.bool,
     attributeModelsError: PropTypes.bool,
     // Set by mapDispatchToProps
-    fetchAllModelsAttributes: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchExpandResults: PropTypes.func.isRequired,
     dispatchCollapseForm: PropTypes.func.isRequired,
@@ -126,13 +126,6 @@ class ModuleContainer extends React.Component {
         if (event.action === 'POP') this.handleURLChange() // Change URL is back or forward button is used
       })
     }
-  }
-
-  /**
-   * Lifecycle method: component did mount. Used here to fetch server model attributes
-   */
-  componentDidMount() {
-    this.props.fetchAllModelsAttributes()
   }
 
   /**
@@ -366,7 +359,6 @@ class ModuleContainer extends React.Component {
       const criterionWithAttributes = this.getCriterionWithAttributeModels()
       return (
         <LoadableContentDisplayDecorator
-          isLoading={this.props.attributesLoading}
           isContentError={this.props.attributeModelsError}
         >
           <FormComponent
@@ -439,9 +431,8 @@ class ModuleContainer extends React.Component {
 
 const mapStateToProps = state => ({
   authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
-  attributeModels: AttributeModelClient.AttributeModelSelectors.getList(state),
-  attributesLoading: AttributeModelClient.AttributeModelSelectors.isFetching(state),
-  attributeModelsError: AttributeModelClient.AttributeModelSelectors.hasError(state),
+  attributeModels: attributeModelSelectors.getList(state),
+  attributeModelsError: attributeModelSelectors.hasError(state),
 })
 
 const mapDispatchToProps = (dispatch, { id, conf }) => {
@@ -449,7 +440,6 @@ const mapDispatchToProps = (dispatch, { id, conf }) => {
   const searchFormPaneKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(modulesManager.AllDynamicModuleTypes.SEARCH_FORM, id)
   const searchResultsPaneKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS, id)
   return {
-    fetchAllModelsAttributes: () => dispatch(AttributeModelClient.AttributeModelActions.fetchEntityList()),
     dispatchCollapseForm: () => dispatch(moduleExpandedStateActions.setMinimized(searchFormPaneKey)),
     dispatchExpandResults: () => dispatch(moduleExpandedStateActions.setNormal(searchResultsPaneKey)),
     dispatchInitializeWithOpenedResults: () => {

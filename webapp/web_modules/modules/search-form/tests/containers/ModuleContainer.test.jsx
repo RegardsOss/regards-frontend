@@ -94,7 +94,6 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
         },
       },
       attributeModelsFetching: true,
-      fetchAllModelsAttributes: () => { },
       dispatchCollapseForm: () => { },
       dispatchExpandResults: () => { },
       dispatchInitializeWithOpenedResults: () => { },

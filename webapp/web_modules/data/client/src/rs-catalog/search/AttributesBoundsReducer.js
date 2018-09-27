@@ -16,13 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { uiPluginDefinitionActions } from './clients/UIPluginDefinitionClient'
+import { BasicListReducers } from '@regardsoss/store-utils'
+import { AttributeBoundsConfiguration } from '@regardsoss/api'
+import AttributesBoundsActions from './AttributesBoundsActions'
 
 /**
- * User module dependencies, not exported but used internally to let the module show dependencies / authentication messages
+ * Reducer for attributes bounds actions
  * @author Raphaël Mechali
  */
-export const dependencies = [
-  uiPluginDefinitionActions.getDependency(RequestVerbEnum.GET_LIST),
-]
+class AttributesBoundsReducer extends BasicListReducers {
+  /**
+   * Constructor
+   * @param {string} namespace actions namespace
+   */
+  constructor(namespace) {
+    super(AttributeBoundsConfiguration, new AttributesBoundsActions(namespace))
+  }
+}
+
+/**
+ * Reduce function builder
+ * @param {string} namespace actions namespace
+ */
+export default function getAttributesBoundsReducer(namespace) {
+  const reducer = new AttributesBoundsReducer(namespace)
+  return (state, action) => reducer.reduce(state, action)
+}

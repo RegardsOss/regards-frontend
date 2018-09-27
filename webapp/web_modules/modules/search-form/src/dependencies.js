@@ -20,7 +20,8 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { datasetActions } from './clients/DatasetClient'
 import { modelActions } from './clients/ModelClient'
 import { uiPluginDefinitionActions } from './clients/UIPluginDefinitionClient'
-import AttributeModelClient from './clients/AttributeModelClient'
+import { dataObjectAttributesActions } from './clients/DataObjectAttributesClient'
+import { dataSetAttributesActions } from './clients/DataSetAttributesClient'
 
 /**
  * Dependencies needed to display user page of the module
@@ -34,8 +35,9 @@ const user = [
  * @type {[*]}
  */
 const admin = [
-  AttributeModelClient.AttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
   uiPluginDefinitionActions.getDependency(RequestVerbEnum.GET_LIST),
+  dataObjectAttributesActions.getDependency(RequestVerbEnum.GET_LIST),
+  dataSetAttributesActions.getDependency(RequestVerbEnum.GET_LIST),
   datasetActions.getDependency(RequestVerbEnum.GET_LIST),
   modelActions.getDependency(RequestVerbEnum.GET_LIST),
 ]

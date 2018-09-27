@@ -26,8 +26,6 @@ import GraphContextReducers, { REDUCER_PATH as GRAPH_CONTEXT_PATH } from './mode
 // User : fetch level content
 import GraphLevelCollectionReducers, { REDUCER_PATH as GRAPH_LEVEL_COLLECTION_PATH } from './model/graph/GraphLevelCollectionReducers'
 import GraphLevelDatasetReducers, { REDUCER_PATH as GRAPH_LEVEL_DATASET_PATH } from './model/graph/GraphLevelDatasetReducers'
-// User: fetch attributes for model id
-import modelAttributeClient from './clients/ModelAttributeClient'
 
 
 module.exports = {
@@ -38,5 +36,4 @@ module.exports = {
   [GRAPH_CONTEXT_PATH]: GraphContextReducers,
   [GRAPH_LEVEL_COLLECTION_PATH]: GraphLevelCollectionReducers,
   [GRAPH_LEVEL_DATASET_PATH]: GraphLevelDatasetReducers,
-  [modelAttributeClient.REDUCER_PATH]: modelAttributeClient.ModelAttributesReducer,
 }

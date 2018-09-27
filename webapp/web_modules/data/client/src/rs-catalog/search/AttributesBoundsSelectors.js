@@ -16,21 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DataManagementClient } from '@regardsoss/client'
-
+import { BasicListSelectors } from '@regardsoss/store-utils'
 
 /**
- * Server AttributeModel entities client.
+ * Selectors instance builder
+ * @param {[string]} storePath redux store path
  */
-const ENTITIES_STORE_PATH = ['modules.search-results', 'attributes']
-const REDUX_ACTION_NAMESPACE = 'search-results/attributes'
-
-const AttributeModelActions = new DataManagementClient.AttributeModelActions(REDUX_ACTION_NAMESPACE)
-const AttributeModelReducer = DataManagementClient.AttributeModelReducer(REDUX_ACTION_NAMESPACE)
-const AttributeModelSelectors = DataManagementClient.AttributeModelSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  AttributeModelActions,
-  AttributeModelReducer,
-  AttributeModelSelectors,
+export default function getAttributesBoundsSelectors(storePath) {
+  return new BasicListSelectors(storePath)
 }

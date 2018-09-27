@@ -20,8 +20,11 @@
  * Combine all reducers for this aa to a single root reducer.
  */
 import { combineReducers } from 'redux'
-import { AccessProjectClient, OrderClient, UIClient } from '@regardsoss/client'
+import { OrderClient, UIClient } from '@regardsoss/client'
+import { attributeModelReducer } from './clients/AttributeModelClient'
 import { authenticationDialogReducer } from './clients/AuthenticationDialogUIClient'
+import { layoutReducer } from './clients/LayoutClient'
+import { moduleReducer } from './clients/ModuleClient'
 import { moduleExpandedStateReducer } from './clients/ModuleExpandedStateClient'
 
 /**
@@ -29,8 +32,9 @@ import { moduleExpandedStateReducer } from './clients/ModuleExpandedStateClient'
  * @author Sébastien binda
  */
 export default combineReducers({
-  layout: AccessProjectClient.LayoutReducers(), // install default layout client reducer
-  'layout.modules': AccessProjectClient.ModuleReducers(), // install default layout modules client reducer
+  attributes: attributeModelReducer,
+  layout: layoutReducer,
+  'layout.modules': moduleReducer,
   'order-basket': OrderClient.getOrderBasketReducer(), // install default order basket reducer reducer
   authenticationDialog: authenticationDialogReducer,
   modulesPanesStates: moduleExpandedStateReducer,

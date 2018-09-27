@@ -16,20 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DataManagementClient } from '@regardsoss/client'
+import { AccessProjectClient } from '@regardsoss/client'
 
-/**
- * Server ModelAttribute entities client, fetches model to attribute model iation, given the model id (in path paramaters)
- */
-const ENTITIES_STORE_PATH = ['modules.search-results', 'model-attributes']
-const REDUX_ACTION_NAMESPACE = 'search-results/model-attributes'
-
-const ModelAttributesActions = new DataManagementClient.ModelAttributesActions(REDUX_ACTION_NAMESPACE)
-const ModelAttributesReducer = DataManagementClient.ModelAttributesReducer(REDUX_ACTION_NAMESPACE)
-const ModelAttributesSelectors = DataManagementClient.ModelAttributesSelectors(ENTITIES_STORE_PATH)
+// get default instances (default values are configured for user app)
+const moduleActions = new AccessProjectClient.ModuleActions()
+const moduleReducer = AccessProjectClient.ModuleReducers()
+const moduleSelectors = AccessProjectClient.ModuleSelectors()
 
 module.exports = {
-  ModelAttributesActions,
-  ModelAttributesReducer,
-  ModelAttributesSelectors,
+  moduleActions,
+  moduleReducer,
+  moduleSelectors,
 }

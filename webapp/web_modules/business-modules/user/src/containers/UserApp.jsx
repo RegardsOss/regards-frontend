@@ -22,7 +22,6 @@ import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import { UIDomain } from '@regardsoss/domain'
 import { connect } from '@regardsoss/redux'
-import { AccessProjectClient } from '@regardsoss/client'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { ThemeProvider } from '@regardsoss/theme'
 import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
@@ -32,15 +31,10 @@ import { BrowserCheckerDialog } from '@regardsoss/components'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
 import { ProjectHandler } from '@regardsoss/project-handler'
 import { AuthenticationParametersActions, AuthenticationClient } from '@regardsoss/authentication-utils'
+import { attributeModelActions, attributeModelSelectors } from '../clients/AttributeModelClient'
+import { layoutActions, layoutSelectors } from '../clients/LayoutClient'
+import { moduleActions, moduleSelectors } from '../clients/ModuleClient'
 import AuthenticationContainer from './AuthenticationContainer'
-
-// get default layout client actions and reducers instances
-const layoutActions = new AccessProjectClient.LayoutActions()
-const layoutSelectors = AccessProjectClient.LayoutSelectors()
-
-// get default modules client actions and reducers instances
-const modulesActions = new AccessProjectClient.ModuleActions()
-const modulesSelectors = AccessProjectClient.ModuleSelectors()
 
 /**
  * Provides the theme to sub containers
@@ -56,8 +50,7 @@ export class UserApp extends React.Component {
       project: PropTypes.string,
     }),
     // Set by mapStateToProps
-    layoutIsFetching: PropTypes.bool,
-    modulesIsFetching: PropTypes.bool,
+    dataFetching: PropTypes.bool.isRequired,
     layout: AccessShapes.Layout,
     modules: AccessShapes.ModuleList,
     currentRole: PropTypes.string.isRequired,
@@ -65,9 +58,10 @@ export class UserApp extends React.Component {
     isAuthenticated: PropTypes.bool,
     // Set by mapDispatchToProps
     initializeApplication: PropTypes.func.isRequired,
-    fetchLayout: PropTypes.func,
-    fetchModules: PropTypes.func,
-    fetchEndpoints: PropTypes.func,
+    fetchLayout: PropTypes.func.isRequired,
+    fetchModules: PropTypes.func.isRequired,
+    fetchEndpoints: PropTypes.func.isRequired,
+    fetchAttributes: PropTypes.func.isRequired,
   }
 
   static applicationStyle = {
@@ -80,12 +74,21 @@ export class UserApp extends React.Component {
   componentWillMount() {
     // before any request: provide the project name
     // init with project parameter if available, or fallback on INSTANCE default
-    const { project } = this.props.params
-    this.props.initializeApplication(project)
+    const {
+      params: { project }, initializeApplication,
+      fetchLayout, fetchModules, fetchAttributes,
+    } = this.props
 
-    this.props.fetchLayout()
-    this.props.fetchModules()
+    // Redux store space init for user app
+    initializeApplication(project)
+
+    // fetch endpoints (used to clear locally stored auth data on failure)
     this.fetchEndpoints()
+
+    // Initialize mandatory shared data
+    fetchLayout()
+    fetchModules()
+    fetchAttributes()
   }
 
   /**
@@ -159,11 +162,11 @@ export class UserApp extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const { params: { project } } = this.props
+    const { dataFetching, params: { project } } = this.props
     return (
       <ThemeProvider>
         <LoadableContentDisplayDecorator
-          isLoading={this.props.layoutIsFetching || this.props.modulesIsFetching}
+          isLoading={dataFetching}
           isContentError={!this.props.layout}
         >
           <AuthenticationContainer scope={project}>
@@ -189,9 +192,8 @@ const mapStateToProps = (state, ownProps) => {
   const authenticationResult = AuthenticationClient.authenticationSelectors.getResult(state)
   return {
     layout: layoutSelectors.getById(state, 'user'),
-    modules: modulesSelectors.getList(state),
-    layoutIsFetching: layoutSelectors.isFetching(state),
-    modulesIsFetching: modulesSelectors.isFetching(state),
+    modules: moduleSelectors.getList(state),
+    dataFetching: layoutSelectors.isFetching(state) || moduleSelectors.isFetching(state) || attributeModelSelectors.isFetching(state),
     currentRole: (authenticationResult && authenticationResult.role) || '',
     isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
   }
@@ -200,8 +202,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => ({
   initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
   fetchLayout: () => dispatch(layoutActions.fetchEntity('user')),
-  fetchModules: () => dispatch(modulesActions.fetchPagedEntityList(0, 100, { applicationId: 'user' })),
+  fetchModules: () => dispatch(moduleActions.fetchPagedEntityList(0, 100, { applicationId: 'user' })),
   fetchEndpoints: () => dispatch(CommonEndpointClient.endpointActions.fetchPagedEntityList(0, 10000)),
+  fetchAttributes: () => dispatch(attributeModelActions.fetchEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserApp)
