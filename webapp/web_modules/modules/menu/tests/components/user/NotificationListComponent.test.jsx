@@ -77,6 +77,7 @@ describe('[Menu] Testing NotificationListComponent', () => {
       lastNotification: generateNotification('UNREAD', 2),
       nbReadNotification: 0,
       lastReadNotification: null,
+      isInstance: false,
     }
     const enzymeWrapper = shallow(<NotificationListComponent {...props} />, { context })
 
@@ -112,6 +113,7 @@ describe('[Menu] Testing NotificationListComponent', () => {
       lastNotification: null,
       nbReadNotification: 5,
       lastReadNotification: generateNotification('UNREAD', 2),
+      isInstance: false,
     }
     const enzymeWrapper = shallow(<NotificationListComponent {...props} />, { context })
 
@@ -150,6 +152,7 @@ describe('[Menu] Testing NotificationListComponent', () => {
       lastNotification: null,
       nbReadNotification: 5,
       lastReadNotification: generateNotification('UNREAD', 2),
+      isInstance: false,
     }
     const enzymeWrapper = shallow(<NotificationListComponent {...props} />, { context })
 

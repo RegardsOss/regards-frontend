@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import IconButton from 'material-ui/IconButton'
 import Chip from 'material-ui/Chip'
 import NotificationNone from 'material-ui/svg-icons/social/notifications-none'
@@ -66,6 +67,7 @@ class NotificationListComponent extends React.Component {
     lastNotification: AdminShapes.Notification,
     nbReadNotification: PropTypes.number,
     lastReadNotification: AdminShapes.Notification,
+    isInstance: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -173,12 +175,31 @@ class NotificationListComponent extends React.Component {
     })
   }
 
+  handleOpenModal = () => {
+    const { lastNotification, lastReadNotification } = this.props
+    this.notificationSystem.clearNotifications()
+    if (lastNotification) {
+      this.setState({
+        openedNotification: lastNotification.content,
+        mode: MODE.DISPLAY_UNREAD,
+      })
+    } else {
+      this.setState({
+        openedNotification: lastReadNotification.content,
+        mode: MODE.DISPLAY_READ,
+      })
+    }
+  }
   handleSwitchMode = (mode) => {
     if (mode !== this.state.mode) {
-      this.setState({
+      const newState = {
         mode,
-        openedNotification: mode === MODE.DISPLAY_READ ? this.props.lastReadNotification.content : this.props.lastNotification.content,
-      })
+      }
+      const notif = mode === MODE.DISPLAY_READ ? get(this.props.lastReadNotification, 'content') : get(this.props.lastNotification, 'content')
+      if (notif) {
+        newState.notif = notif
+      }
+      this.setState(newState)
     }
   }
 
@@ -216,6 +237,7 @@ class NotificationListComponent extends React.Component {
       })
   }
 
+
   /**
    * Renders a notification list
    * @param mode display mode
@@ -244,7 +266,7 @@ class NotificationListComponent extends React.Component {
           </div>
           {mode === MODE.DISPLAY_UNREAD
             ? <IconButton
-              onClick={() => this.handleReadAllNotifications()}
+              onClick={this.handleReadAllNotifications}
               title="Clear all"
             >
               <ClearAll />
@@ -331,7 +353,7 @@ class NotificationListComponent extends React.Component {
       intl: { formatMessage },
       moduleTheme: { notifications: notificationStyle, overlay },
     } = this.context
-    const { nbNotification, nbReadNotification } = this.props
+    const { nbNotification, nbReadNotification, isInstance } = this.props
     const unreadCount = nbNotification
     const readCount = nbReadNotification
 
@@ -347,14 +369,16 @@ class NotificationListComponent extends React.Component {
     return (
       <div>
         <IconButton
-          title={formatMessage(
-            { id: 'user.menu.notification.elements.count.tooltip' },
-            { elementsCount: unreadCount },
-          )}
+          title={isInstance ? formatMessage({ id: 'user.menu.notification.no-notification-for-instance' }) : 
+            formatMessage(
+              { id: 'user.menu.notification.elements.count.tooltip' },
+              { elementsCount: unreadCount },
+            )
+          }
           style={notificationStyle.iconButton.style}
           iconStyle={notificationStyle.iconButton.iconStyle}
           disabled={unreadCount === 0 && readCount === 0}
-          onClick={() => this.handleOpen(this.props.lastNotification.content)}
+          onClick={this.handleOpenModal}
         >
           {/*Create a free position chip over the icon */}
           <div>
@@ -369,8 +393,8 @@ class NotificationListComponent extends React.Component {
             {unreadCount ? (
               <Notification style={notificationStyle.icon.style} />
             ) : (
-                <NotificationNone style={notificationStyle.icon.style} />
-              )}
+              <NotificationNone style={notificationStyle.icon.style} />
+            )}
           </div>
         </IconButton>
         {this.renderNotificationDialog()}

@@ -129,6 +129,7 @@ const messages = {
     one {Vous avez une nouvelle notification}
     other {Vous avez {elementsCount} nouvelles notifications}
   }`,
+  'user.menu.notification.no-notification-for-instance': 'L\'utilisateur instance ne reçoit pas de notification',
   'user.menu.notification.title': 'Notifications lues',
   'user.menu.notification.unread.title': 'Notifications non lues',
   'user.menu.notification.empty': 'Pas de nouvelles notifications',

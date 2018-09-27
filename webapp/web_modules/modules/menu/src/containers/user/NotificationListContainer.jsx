@@ -106,7 +106,7 @@ export class NotificationListContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isInstance: props.project === 'instance',
+      isInstance: !props.project,
     }
   }
 
@@ -150,11 +150,11 @@ export class NotificationListContainer extends React.Component {
   )
 
   startTimer = () => {
-    const { isAuthenticated, project } = this.props
+    const { isAuthenticated } = this.props
     if (isAuthenticated) {
       // A - refresh list only if authenticated
-      this.props.fetchLastNotification(!project || this.state.isInstance)
-      this.props.fetchLastReadNotification(!project || this.state.isInstance)
+      this.props.fetchLastNotification(this.state.isInstance)
+      this.props.fetchLastReadNotification(this.state.isInstance)
     }
     // B - restart timer
     this.refreshTimer = setTimeout(() => this.startTimer(), STATIC_CONF.POLLING_TIMER_NOTIFICATIONS)
@@ -191,6 +191,7 @@ export class NotificationListContainer extends React.Component {
           lastNotification={this.getLastNotification()}
           nbReadNotification={this.props.nbReadNotification}
           lastReadNotification={this.getLastReadNotification()}
+          isInstance={this.state.isInstance}
         />
       </ShowableAtRender>
     )
