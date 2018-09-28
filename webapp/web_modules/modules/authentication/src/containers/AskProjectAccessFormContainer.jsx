@@ -21,9 +21,9 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { getMetadataArray } from '@regardsoss/user-metadata-common'
 import AskProjectAccessFormComponent, { mailFieldId, useExistingAccountFieldId } from '../components/AskProjectAccessFormComponent'
 import { accountPasswordActions, accountPasswordSelectors } from '../clients/AccountPasswordClient'
-import CreateAccountActions from '../model/creation/CreateAccountActions'
+import { sendCreateAccount } from '../model/creation/CreateAccountActions'
 import CreateAccountSelectors from '../model/creation/CreateAccountSelectors'
-import CreateUserActions from '../model/creation/CreateUserActions'
+import { sendCreateUser } from '../model/creation/CreateUserActions'
 import CreateUserSelectors from '../model/creation/CreateUserSelectors'
 
 const requestTypes = {
@@ -161,8 +161,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchNewUser: (mail, metadata) => dispatch(CreateUserActions.sendCreateUser(mail, metadata)),
-  fetchNewAccount: (mail, firstName, lastName, password, metadata) => dispatch(CreateAccountActions.sendCreateAccount(mail, firstName, lastName, password, metadata)),
+  fetchNewUser: (mail, metadata) => dispatch(sendCreateUser(mail, metadata)),
+  fetchNewAccount: (mail, firstName, lastName, password, metadata) => dispatch(sendCreateAccount(mail, firstName, lastName, password, metadata)),
   fetchPasswordValidity: newPassword => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
   fetchPasswordRules: () => dispatch(accountPasswordActions.fetchPasswordRules()),
 })

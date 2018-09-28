@@ -19,9 +19,9 @@
 import { connect } from '@regardsoss/redux'
 import values from 'lodash/values'
 import { i18nContextType } from '@regardsoss/i18n'
-import ResetPasswordActions from '../model/operation/ResetPasswordActions'
+import { sendAskResetPassword } from '../model/operation/ResetPasswordActions'
 import ResetPasswordSelectors from '../model/operation/ResetPasswordSelectors'
-import UnlockAccountActions from '../model/operation/UnlockAccountActions'
+import { sendAskUnlockAccount } from '../model/operation/UnlockAccountActions'
 import UnlockAccountSelectors from '../model/operation/UnlockAccountSelectors'
 import AccountRequestFormComponent, { requestFormIds, mailFieldId } from '../components/AccountRequestFormComponent'
 
@@ -116,12 +116,12 @@ const buildMapDispatchToProps = fetchMethod => dispatch => ({
 const AskResetPasswordForm = props => <AccountRequestFormContainer requestFormId={requestFormIds.resetPasswordRequest} {...props} />
 export const AskResetPasswordFormContainer = connect(
   buildMapStateToProps(ResetPasswordSelectors),
-  buildMapDispatchToProps(ResetPasswordActions.sendAskResetPassword),
+  buildMapDispatchToProps(sendAskResetPassword),
 )(AskResetPasswordForm)
 
 /** Export connected ask unlock account form container */
 const AskUnlockAccountForm = props => <AccountRequestFormContainer requestFormId={requestFormIds.unlockAccountRequest} {...props} />
 export const AskUnlockAccountFormContainer = connect(
   buildMapStateToProps(UnlockAccountSelectors),
-  buildMapDispatchToProps(UnlockAccountActions.sendAskUnlockAccount),
+  buildMapDispatchToProps(sendAskUnlockAccount),
 )(AskUnlockAccountForm)

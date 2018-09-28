@@ -19,7 +19,7 @@
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { LoadingPaneComponent } from '@regardsoss/components'
-import UnlockAccountActions from '../model/operation/UnlockAccountActions'
+import { sendFinishAccountUnlocking } from '../model/operation/UnlockAccountActions'
 import UnlockAccountSelectors from '../model/operation/UnlockAccountSelectors'
 
 /**
@@ -88,7 +88,7 @@ const mapStatesToProps = (state) => {
 
 
 const mapDispatchToProps = dispatch => ({
-  fetchRequestAction: (token, mail) => dispatch(UnlockAccountActions.sendFinishAccountUnlocking(token, mail)),
+  fetchRequestAction: (token, mail) => dispatch(sendFinishAccountUnlocking(token, mail)),
 })
 
 export default connect(mapStatesToProps, mapDispatchToProps)(FinishAccountUnlockingContainer)
