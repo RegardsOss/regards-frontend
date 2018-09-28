@@ -16,15 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import OrderListClient from './client/OrderListClient'
-import OrderFilesClient from './client/OrderFilesClient'
-import OrdersNavigationClient from './client/OrdersNavigationClient'
+import { orderListReducer } from './client/OrderListClient'
+import { orderFilesReducer } from './client/OrderFilesClient'
+import { ordersNavigationReducer } from './client/OrdersNavigationClient'
 
 /**
  * Module reducer (configures there combined path at module level)
  */
-module.exports = {
-  orderList: OrderListClient.orderListReducer,
-  orderFiles: OrderFilesClient.orderFilesReducer,
-  navigation: OrdersNavigationClient.ordersNavigationReducer,
+export default {
+  orderList: orderListReducer,
+  orderFiles: orderFilesReducer,
+  navigation: ordersNavigationReducer,
 }

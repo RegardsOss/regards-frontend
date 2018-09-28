@@ -21,8 +21,8 @@
 import '../default-icon.svg'
 
 export { default as moduleContainer } from './containers/user/UserContainer'
-export { default as adminContainer} from './containers/admin/AdminContainer'
-export { default as  styles} from './styles/styles'
-export { default as  reducer }from './reducer'
-export { default as  dependencies }from './dependencies'
-export { default as  messages} from './i18n'
+export { default as adminContainer } from './containers/admin/AdminContainer'
+export { default as styles } from './styles/styles'
+export { default as reducer } from './reducer'
+export { default as dependencies } from './dependencies'
+export { default as messages } from './i18n'

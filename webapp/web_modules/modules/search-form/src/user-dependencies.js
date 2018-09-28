@@ -18,7 +18,7 @@
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { uiPluginDefinitionActions } from './clients/UIPluginDefinitionClient'
-import AttributeModelClient from './clients/AttributeModelClient'
+import { AttributeModelActions } from './clients/AttributeModelClient'
 
 
 /**
@@ -26,6 +26,6 @@ import AttributeModelClient from './clients/AttributeModelClient'
  * @author Raphaël Mechali
  */
 export const dependencies = [
-  AttributeModelClient.AttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
+  AttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
   uiPluginDefinitionActions.getDependency(RequestVerbEnum.GET_LIST),
 ]

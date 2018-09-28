@@ -18,7 +18,9 @@
  **/
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import Module from '../src/main'
+import {
+  adminContainer, moduleContainer, styles, messages,
+} from '../src/main'
 
 /**
  * Tests for menu module interfaces
@@ -29,9 +31,9 @@ describe('[Map] Testing module interface', () => {
   after(testSuiteHelpers.after)
 
   it('Should supply valid module interface', () => {
-    assert.isDefined(Module.adminContainer, 'Module should define a main container for administration page')
-    assert.isDefined(Module.moduleContainer, 'Module should define a main container')
-    assert.isDefined(Module.styles, 'Module should define a styles file')
-    assert.isDefined(Module.messages, 'Form module should define his internationalization messages')
+    assert.isDefined(adminContainer, 'Module should define a main container for administration page')
+    assert.isDefined(moduleContainer, 'Module should define a main container')
+    assert.isDefined(styles, 'Module should define a styles file')
+    assert.isDefined(messages, 'Form module should define his internationalization messages')
   })
 })

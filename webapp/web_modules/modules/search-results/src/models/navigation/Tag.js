@@ -23,7 +23,7 @@ import { isURNTag, TagTypes } from '@regardsoss/domain/catalog'
 /**
  * A stackable search tag, displayed in top breadcrumb, with its type, label and key data
  */
-class Tag {
+export class Tag {
   /** Tag values separator in local URL parameter */
   static TAG_VALUES_SEPARATOR = ','
 
@@ -114,8 +114,4 @@ class Tag {
   equal(otherTag) {
     return this.type === otherTag.type && this.searchKey === otherTag.searchKey
   }
-}
-
-module.exports = {
-  Tag,
 }

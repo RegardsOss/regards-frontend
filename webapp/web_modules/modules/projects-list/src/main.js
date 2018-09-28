@@ -16,19 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import reducer from './reducer'
-import moduleContainer from './containers/ModuleContainer'
-import styles from './styles/styles'
-import dependencies from './dependencies'
-import messages from './i18n'
-
 // ensure the default module icon is present in bundle
 import '../default-icon.svg'
 
-module.exports = {
-  reducer,
-  moduleContainer,
-  styles,
-  messages,
-  dependencies,
-}
+export { default as reducer } from './reducer'
+export { default as moduleContainer } from './containers/ModuleContainer'
+export { default as styles } from './styles/styles'
+export { default as dependencies } from './dependencies'
+export { default as messages } from './i18n'

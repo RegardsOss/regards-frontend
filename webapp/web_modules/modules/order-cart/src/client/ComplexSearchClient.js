@@ -19,12 +19,6 @@
 import { CatalogClient } from '@regardsoss/client'
 
 const namespace = 'order-cart/detail-entities'
-const searchDataobjectsActions = new CatalogClient.ComplexSearchActions(namespace)
-const searchDataobjectsReducer = CatalogClient.getComplexSearchReducer(namespace)
-const searchDataobjectsSelectors = CatalogClient.getComplexSearchSelectors(['modules.order-cart', 'searchDataobjects'])
-
-module.exports = {
-  searchDataobjectsActions,
-  searchDataobjectsReducer,
-  searchDataobjectsSelectors,
-}
+export const searchDataobjectsActions = new CatalogClient.ComplexSearchActions(namespace)
+export const searchDataobjectsReducer = CatalogClient.getComplexSearchReducer(namespace)
+export const searchDataobjectsSelectors = CatalogClient.getComplexSearchSelectors(['modules.order-cart', 'searchDataobjects'])

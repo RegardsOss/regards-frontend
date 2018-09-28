@@ -34,7 +34,7 @@ const admin = [
   ...resultsDependencies.admin,
 ]
 
-module.exports = {
+export default {
   user,
   admin,
 }

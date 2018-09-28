@@ -28,4 +28,3 @@ import getDescriptionLevelSelectors from '../model/DescriptionLevelSelectors'
 export const descriptionLevelsActions = new DescriptionLevelActions()
 export const descriptionLevelsReducer = getDescriptionLevelReducer()
 export const descriptionLevelsSelectors = getDescriptionLevelSelectors()
-

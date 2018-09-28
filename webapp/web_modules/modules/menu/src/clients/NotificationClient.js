@@ -29,41 +29,21 @@ const namespaceReadPoller = 'menu/notification-read'
 const namespaceResearch = 'menu/notification-research'
 
 // Used to fetch is there is a new notification
-const notificationPollerActions = new AdminClient.NotificationActions(namespacePoller)
-const notificationPollerReducer = AdminClient.getNotificationReducer(namespacePoller)
-const notificationPollerInstanceActions = new AdminClient.NotificationActions(namespacePoller, true)
-const notificationPollerInstanceReducer = AdminClient.getNotificationReducer(namespacePoller, true)
-const notificationPollerSelectors = AdminClient.getNotificationSelectors(['modules.menu', 'notificationPoller'])
+export const notificationPollerActions = new AdminClient.NotificationActions(namespacePoller)
+export const notificationPollerReducer = AdminClient.getNotificationReducer(namespacePoller)
+export const notificationPollerInstanceActions = new AdminClient.NotificationActions(namespacePoller, true)
+export const notificationPollerInstanceReducer = AdminClient.getNotificationReducer(namespacePoller, true)
+export const notificationPollerSelectors = AdminClient.getNotificationSelectors(['modules.menu', 'notificationPoller'])
 
-const notificationReadPollerActions = new AdminClient.NotificationActions(namespaceReadPoller)
-const notificationReadPollerReducer = AdminClient.getNotificationReducer(namespaceReadPoller)
-const notificationReadPollerInstanceActions = new AdminClient.NotificationActions(namespaceReadPoller, true)
-const notificationReadPollerInstanceReducer = AdminClient.getNotificationReducer(namespaceReadPoller, true)
-const notificationReadPollerSelectors = AdminClient.getNotificationSelectors(['modules.menu', 'notificationReadPoller'])
+export const notificationReadPollerActions = new AdminClient.NotificationActions(namespaceReadPoller)
+export const notificationReadPollerReducer = AdminClient.getNotificationReducer(namespaceReadPoller)
+export const notificationReadPollerInstanceActions = new AdminClient.NotificationActions(namespaceReadPoller, true)
+export const notificationReadPollerInstanceReducer = AdminClient.getNotificationReducer(namespaceReadPoller, true)
+export const notificationReadPollerSelectors = AdminClient.getNotificationSelectors(['modules.menu', 'notificationReadPoller'])
 
 // Used to fetch notification inside the HMI
-const notificationActions = new AdminClient.NotificationActions(namespaceResearch)
-const notificationReducer = AdminClient.getNotificationReducer(namespaceResearch)
-const notificationInstanceActions = new AdminClient.NotificationActions(namespaceResearch, true)
-const notificationInstanceReducer = AdminClient.getNotificationReducer(namespaceResearch, true)
-const notificationSelectors = AdminClient.getNotificationSelectors(['modules.menu', 'notification'])
-
-module.exports = {
-  notificationPollerActions,
-  notificationPollerReducer,
-  notificationPollerInstanceActions,
-  notificationPollerInstanceReducer,
-  notificationPollerSelectors,
-
-  notificationReadPollerActions,
-  notificationReadPollerReducer,
-  notificationReadPollerInstanceActions,
-  notificationReadPollerInstanceReducer,
-  notificationReadPollerSelectors,
-
-  notificationActions,
-  notificationReducer,
-  notificationInstanceActions,
-  notificationInstanceReducer,
-  notificationSelectors,
-}
+export const notificationActions = new AdminClient.NotificationActions(namespaceResearch)
+export const notificationReducer = AdminClient.getNotificationReducer(namespaceResearch)
+export const notificationInstanceActions = new AdminClient.NotificationActions(namespaceResearch, true)
+export const notificationInstanceReducer = AdminClient.getNotificationReducer(namespaceResearch, true)
+export const notificationSelectors = AdminClient.getNotificationSelectors(['modules.menu', 'notification'])

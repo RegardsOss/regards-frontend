@@ -26,7 +26,7 @@ import { AccessShapes } from '@regardsoss/shape'
 import { BasicFacetsPageableActions, BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
 import { UIFacetArray, SelectedFacetArray } from '../../../models/facets/FacetShape'
-import TableClient from '../../../clients/TableClient'
+import { tableActions, tableSelectors } from '../../../clients/TableClient'
 import { ColumnPresentationModelArray } from '../../../models/table/TableColumnModel'
 import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/navigation/TableDisplayModeEnum'
 import DisplayModuleConf from '../../../models/DisplayModuleConf'
@@ -163,7 +163,7 @@ class SearchResultsComponent extends React.Component {
         case TableColumnBuilder.selectionColumnKey:
           return new TableColumnBuilder().label(formatMessage({ id: 'results.selection.column.label' }))
             .visible(model.visible)
-            .selectionColumn(true, searchSelectors, TableClient.tableActions, TableClient.tableSelectors)
+            .selectionColumn(true, searchSelectors, tableActions, tableSelectors)
             .build()
         // options column
         case TableColumnBuilder.optionsColumnKey:
@@ -344,7 +344,7 @@ class SearchResultsComponent extends React.Component {
               // infinite table configuration
               pageActions={searchActions}
               pageSelectors={searchSelectors}
-              tableActions={TableClient.tableActions}
+              tableActions={tableActions}
 
               displayColumnsHeader={displayColumnsHeader}
               lineHeight={lineHeight}

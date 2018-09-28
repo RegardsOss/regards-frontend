@@ -30,10 +30,3 @@ const REDUX_ACTION_NAMESPACE = 'search-form/attributes'
 export const AttributeModelActions = new DataManagementClient.AttributeModelActions(REDUX_ACTION_NAMESPACE)
 export const AttributeModelReducer = DataManagementClient.AttributeModelReducer(REDUX_ACTION_NAMESPACE)
 export const AttributeModelSelectors = DataManagementClient.AttributeModelSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  REDUCER_PATH,
-  AttributeModelActions,
-  AttributeModelReducer,
-  AttributeModelSelectors,
-}

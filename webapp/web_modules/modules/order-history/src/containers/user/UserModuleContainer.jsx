@@ -19,9 +19,9 @@
 import { AccessShapes } from '@regardsoss/shape'
 import { UIDomain } from '@regardsoss/domain'
 import OrderHistoryComponent from '../../components/user/OrderHistoryComponent'
-import orderListClient from '../../client/OrderListClient'
-import orderFilesClient from '../../client/OrderFilesClient'
-import OrdersNavigationClient from '../../client/OrdersNavigationClient'
+import { orderListActions, orderListSelectors } from '../../client/OrderListClient'
+import { orderFilesActions, orderFilesSelectors } from '../../client/OrderFilesClient'
+import { ordersNavigationActions, ordersNavigationSelectors } from '../../client/OrdersNavigationClient'
 
 /**
  * User module container
@@ -36,12 +36,12 @@ export class UserModuleContainer extends React.Component {
   render() {
     return (
       <OrderHistoryComponent
-        ordersActions={orderListClient.orderListActions}
-        ordersSelectors={orderListClient.orderListSelectors}
-        orderFilesActions={orderFilesClient.orderFilesActions}
-        orderFilesSelectors={orderFilesClient.orderFilesSelectors}
-        navigationActions={OrdersNavigationClient.ordersNavigationActions}
-        navigationSelectors={OrdersNavigationClient.ordersNavigationSelectors}
+        ordersActions={orderListActions}
+        ordersSelectors={orderListSelectors}
+        orderFilesActions={orderFilesActions}
+        orderFilesSelectors={orderFilesSelectors}
+        navigationActions={ordersNavigationActions}
+        navigationSelectors={ordersNavigationSelectors}
         defaultIconURL={UIDomain.getModuleDefaultIconURL(this.props.type)}
         {...this.props}
       />
