@@ -21,4 +21,4 @@ import AccountOperationActions from './AccountOperationActions'
 
 export const ChangePasswordActions = new AccountOperationActions('changePassword', AuthenticationRouteParameters.mailAuthenticationAction.values.changePassword)
 
-export const sendChangePassword = (mail, oldPassword, newPassword) => ChangePasswordActions.sendChangePasswordRequest(mail, oldPassword, newPassword),
+export const sendChangePassword = (mail, oldPassword, newPassword) => ChangePasswordActions.sendChangePasswordRequest(mail, oldPassword, newPassword)
