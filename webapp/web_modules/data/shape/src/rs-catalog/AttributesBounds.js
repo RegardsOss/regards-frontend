@@ -17,13 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export { Entity, EntityList, entityFiles } from './Entity/Entity'
-export {
-  BooleanFacet, BooleanFacetValue, DateRangeFacet, DateRangeFacetValue,
-  NumberRangeFacet, NumberRangeFacetValue, StringFacet, StringFacetValue, Facet, FacetArray,
-} from './Facets'
-export { default as Tag } from './Entity/Tag'
+/**
+ * Describes attributes bounds as they are tranferred by the server
+ * @author Raphaël Mechali
+ */
 
-export { AttributeBoundsContent, AttributeBounds, AttributeBoundsMap } from './AttributesBounds'
-export { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'
-export { SearchEngineConfigurationContent, SearchEngineConfiguration, SearchEngineConfigurationList } from './SearchEngineConfiguration'
+export const AttributeBoundsContent = PropTypes.shape({
+  propertyName: PropTypes.string.isRequired,
+  lowerBound: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  upperBound: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+})
+
+export const AttributeBounds = PropTypes.shape({
+  content: AttributeBoundsContent.isRequired,
+})
+
+export const AttributeBoundsMap = PropTypes.objectOf(AttributeBounds)

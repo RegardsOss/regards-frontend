@@ -21,7 +21,7 @@ import { modelReducer } from './clients/ModelClient'
 import { uiPluginDefinitionReducers } from './clients/UIPluginDefinitionClient'
 import { dataObjectAttributesReducer } from './clients/DataObjectAttributesClient'
 import { dataSetAttributesReducer } from './clients/DataSetAttributesClient'
-import { attributesBoundsSelectors } from './clients/AttributesBoundsClient'
+import { attributesBoundsReducer } from './clients/AttributesBoundsClient'
 
 /**
  * Reducers for searc-form module
@@ -34,7 +34,7 @@ const formReducers = {
   datasets: datasetReducer,
   models: modelReducer,
   criterion: uiPluginDefinitionReducers,
-  attributesBounds: attributesBoundsSelectors,
+  attributesBounds: attributesBoundsReducer,
 }
 
 export default formReducers

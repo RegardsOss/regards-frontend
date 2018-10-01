@@ -19,7 +19,7 @@
 export { AccessGroup, AccessGroupContent, AccessGroupList } from './AccessGroup'
 export { AccessRight, AccessRightContent, AccessRightList } from './AccessRight'
 export {
-  AttributeModelContent, AttributeModel, AttributeModelList, AttributeModelArray,
+  attributeModelFields, AttributeModelContent, AttributeModel, AttributeModelList, AttributeModelArray,
 } from './AttributeModel'
 export { Collection, CollectionList, CollectionArray } from './Collection'
 export { Connection, ConnectionList } from './Connection'

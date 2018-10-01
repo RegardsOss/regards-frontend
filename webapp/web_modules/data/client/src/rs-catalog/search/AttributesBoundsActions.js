@@ -34,8 +34,8 @@ export default class AttributesBoundsActions extends BasicListActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/engines/{engineType}/dataobjects/search/properties/bounds`,
       schemaTypes: {
-        ATTRIBUTE_BOUNDS,
-        ATTRIBUTE_BOUNDS_ARRAY,
+        ENTITY: ATTRIBUTE_BOUNDS,
+        ENTITY_ARRAY: ATTRIBUTE_BOUNDS_ARRAY,
       },
     })
   }

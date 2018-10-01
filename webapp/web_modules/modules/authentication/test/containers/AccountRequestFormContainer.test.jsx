@@ -23,7 +23,6 @@ import AccountRequestFormComponent, { requestFormIds } from '../../src/component
 import { AccountRequestFormContainer } from '../../src/containers/AccountRequestFormContainer'
 
 describe('[AUTHENTICATION] Testing AccountRequestFormContainer', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

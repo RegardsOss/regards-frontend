@@ -21,7 +21,7 @@ import isEqual from 'lodash/isEqual'
 import merge from 'lodash/merge'
 import reduce from 'lodash/reduce'
 import React from 'react'
-import { DataManagementShapes } from '@regardsoss/shape'
+import { AttributeModelWithBounds } from '../shapes/AttributeModelWithBounds'
 
 /**
  * Abstract class to extend in order to create a criterion plugin.
@@ -51,7 +51,7 @@ class PluginCriterionContainer extends React.Component {
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: PropTypes.objectOf(DataManagementShapes.AttributeModelContent),
+    attributes: PropTypes.objectOf(AttributeModelWithBounds),
     /**
      * Function to get initial plugin state saved by the next props savePluginState
      */

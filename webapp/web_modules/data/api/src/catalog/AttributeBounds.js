@@ -24,14 +24,13 @@ import { Schema, arrayOf } from 'normalizr'
  */
 
 export const AttributeBoundsConfiguration = {
-  entityKey: 'property',
+  entityKey: 'propertyName',
   normalizrKey: 'attributesBounds',
 }
 
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 export const ATTRIBUTE_BOUNDS = new Schema(AttributeBoundsConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[AttributeBoundsConfiguration.entityKey]
-  ,
+  idAttribute: entity => entity.content[AttributeBoundsConfiguration.entityKey],
 })
 export const ATTRIBUTE_BOUNDS_ARRAY = arrayOf(ATTRIBUTE_BOUNDS)
