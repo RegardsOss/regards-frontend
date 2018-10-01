@@ -16,17 +16,4 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-// URL
-export { relativeURLRegexp, validURLRegexp } from './URLRegex'
-export { validURIRegexp } from './URIRegex'
-// Plugin
-export { PluginParameterTypes, PluginParamType, JavaPrimitiveTypes } from './PluginParamType'
-export { default as PluginConfParamsUtils } from './PluginConfParamsUtils'
-
-export { default as EntityIdTester } from './EntityIdTester'
-// Data types
-export { DataTypes, DataTypesEnum } from './DataTypes'
-export { default as URLAuthInjector } from './URLAuthInjector'
-export { EnumNumericalComparator, EnumNumericalComparators } from './EnumNumericalComparator'
-export { default as durationParser } from './DurationParser'
-export { default as MimeTypes } from './MimeTypes'
+export const validURIRegexp = /^[a-z0-9][a-z0-9-]{0,31}:[a-z0-9()+,\-.:=@;$_!*'%/?#]+$/i

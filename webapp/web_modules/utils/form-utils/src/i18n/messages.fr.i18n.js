@@ -21,6 +21,7 @@ const messages = {
   'invalid.array.required': 'Il doit y avoir au moins un élément dans la liste',
   'invalid.email': 'Adresse e-mail invalide',
   'invalid.url': 'Url invalide',
+  'invalid.uri': 'URI invalide',
   'invalid.only_alphanumeric': 'Utilisez les caractères alphanumériques et "_"',
   'invalid.only_numeric': 'Utilisez les caractères numériques',
   'invalid.ip': 'IP invalide',
