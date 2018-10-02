@@ -204,7 +204,7 @@ const mapDispatchToProps = dispatch => ({
   fetchLayout: () => dispatch(layoutActions.fetchEntity('user')),
   fetchModules: () => dispatch(moduleActions.fetchPagedEntityList(0, 100, { applicationId: 'user' })),
   fetchEndpoints: () => dispatch(CommonEndpointClient.endpointActions.fetchPagedEntityList(0, 10000)),
-  fetchAttributes: () => dispatch(attributeModelActions.fetchEntityList()),
+  fetchAttributes: () => dispatch(attributeModelActions.fetchEntityList(null, { noLink: true })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserApp)

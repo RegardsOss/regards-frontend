@@ -163,6 +163,14 @@ class PluginCriterionContainer extends React.Component {
 
   getAttributeLabel = configuredAttributeName => get(this.props, `attributes["${configuredAttributeName}"].label`, get(this.props, `attributes["${configuredAttributeName}"].name`, 'Undefined attribute'))
 
+  /**
+   * Returns current bounds information for attributes. Note: bounds information are describing the bounds state (exists / loading / error) as
+   * well as the found bounds values (lowerBound / upperBound) when the attribute bounds exists
+   * @param {string} configuredAttributeName attribute name from plugin-info.json
+   * @return {*} bounds information, see AttributeModelWithBounds
+   */
+  getAttributeBoundsInformation = configuredAttributeName => get(this.props, `attributes["${configuredAttributeName}"].boundsInformations`)
+
   setState(state) {
     super.setState(state, this.onPluginChangeValue)
   }
