@@ -20,6 +20,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { crawlerDatasourceActions, crawlerDatasourceSelectors } from '../clients/CrawlerDatasourceClient'
+import { scheduleCrawlerDatasourceActions } from '../clients/ScheduleCrawlerDatasourceClient'
 import DataSourceMonitoringComponent from '../components/DataSourceMonitoringComponent'
 
 /**
@@ -49,6 +50,7 @@ export class DataSourceMonitoringContainer extends React.Component {
     return {
       fetchCrawlerDatasources: () => dispatch(crawlerDatasourceActions.fetchEntityList()),
       deleteCrawlerDatasource: crawlerId => dispatch(crawlerDatasourceActions.deleteEntity(crawlerId)),
+      scheduleCrawlerDatasource: crawlerId => dispatch(scheduleCrawlerDatasourceActions.scheduleDatasourceIngestion(crawlerId)),
     }
   }
 
@@ -62,6 +64,7 @@ export class DataSourceMonitoringContainer extends React.Component {
     // from mapDispatchToProps
     fetchCrawlerDatasources: PropTypes.func.isRequired,
     deleteCrawlerDatasource: PropTypes.func.isRequired,
+    scheduleCrawlerDatasource: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -71,6 +74,12 @@ export class DataSourceMonitoringContainer extends React.Component {
   onDelete = (crawlerId) => {
     this.props.deleteCrawlerDatasource(crawlerId).then((actionResults) => {
       this.props.fetchCrawlerDatasources()
+    })
+  }
+
+  onSchedule = (crawlerId) => {
+    return this.props.scheduleCrawlerDatasource(crawlerId).then((actionResults) => {
+      return this.props.fetchCrawlerDatasources()
     })
   }
 
@@ -88,6 +97,7 @@ export class DataSourceMonitoringContainer extends React.Component {
         onBack={this.onBack}
         onRefresh={this.props.fetchCrawlerDatasources}
         onDelete={this.onDelete}
+        onSchedule={this.onSchedule}
       />
     )
   }

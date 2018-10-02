@@ -22,6 +22,7 @@ import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
+import Snackbar from 'material-ui/Snackbar'
 import { themeContextType } from '@regardsoss/theme'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
@@ -32,7 +33,7 @@ import {
 import messages from '../i18n'
 import DatasourceStatusTableCell from './DatasourceStatusTableCell'
 import DatasourceCountTableCell from './DatasourceCountTableCell'
-import DataSourceMonitoringDeleteAction from './DataSourceMonitoringDeleteAction'
+import DataSourceMonitoringOptionAction from './DataSourceMonitoringOptionAction'
 
 /**
 * DataSourceMonitoringComponent
@@ -44,6 +45,7 @@ class DataSourceMonitoringComponent extends React.Component {
     onBack: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
+    onSchedule: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -55,9 +57,13 @@ class DataSourceMonitoringComponent extends React.Component {
     whiteSpace: 'pre-wrap',
   }
 
+  static SNACKBAR_DURATION = 5000
+
   state = {
     showModal: false,
     crawlerToDelete: null,
+    showSnackbar: false,
+    snackbarMessage: null,
   }
 
   onDelete = (crawler) => {
@@ -71,6 +77,35 @@ class DataSourceMonitoringComponent extends React.Component {
     if (this.state.crawlerToDelete) {
       this.props.onDelete(this.state.crawlerToDelete.id)
     }
+  }
+
+
+  handleSnackbarClose = () => {
+    this.setState({
+      showSnackbar: false,
+      snackbarMessage: '',
+    })
+  }
+
+  renderSnackbar = () => this.state.showSnackbar ? (
+    <Snackbar
+      open
+      message={this.state.snackbarMessage}
+      autoHideDuration={DataSourceMonitoringComponent.SNACKBAR_DURATION}
+      onRequestClose={this.handleSnackbarClose}
+    />
+  ) : null
+
+  onSchedule = (crawlerId) => {
+    const { intl } = this.context
+
+    this.props.onSchedule(crawlerId)
+      .then(() => {
+        this.setState({
+          showSnackbar: true,
+          snackbarMessage: intl.formatMessage({ id: 'crawler.list.scheduled' }),
+        })
+      })
   }
 
   getDialogActions = () => [
@@ -170,8 +205,8 @@ class DataSourceMonitoringComponent extends React.Component {
         .label(intl.formatMessage({ id: 'crawler.list.nextPlannedIngestDate.column.header' }))
         .build(),
       new TableColumnBuilder().optionsColumn([{
-        OptionConstructor: DataSourceMonitoringDeleteAction,
-        optionProps: { onDelete: this.onDelete },
+        OptionConstructor: DataSourceMonitoringOptionAction,
+        optionProps: { onDelete: this.onDelete, onSchedule: this.onSchedule },
       }]).build(),
     ]
 
@@ -182,6 +217,7 @@ class DataSourceMonitoringComponent extends React.Component {
         />
         {this.renderStacktraceDialog()}
         {this.renderDeleteConfirmDialog()}
+        {this.renderSnackbar()}
         <CardText>
           <TableLayout>
             <TableHeaderLine>

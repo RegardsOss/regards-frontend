@@ -80,6 +80,11 @@ export { default as CrawlerDatasourceActions } from './crawler/CrawlerDatasource
 export { default as CrawlerDatasourceReducer } from './crawler/CrawlerDatasourceReducer'
 export { default as CrawlerDatasourceSelectors } from './crawler/CrawlerDatasourceSelectors'
 
+
+export { default as ScheduleCrawlerDatasourceActions } from './crawler/ScheduleCrawlerDatasourceActions'
+export { default as ScheduleCrawlerDatasourceReducer } from './crawler/ScheduleCrawlerDatasourceReducer'
+export { default as ScheduleCrawlerDatasourceSelectors } from './crawler/ScheduleCrawlerDatasourceSelectors'
+
 export { default as DatasourceSelectors } from './datasource/DatasourceSelectors'
 export { default as DatasourceActions } from './datasource/DatasourceActions'
 export { default as DatasourceReducer } from './datasource/DatasourceReducer'

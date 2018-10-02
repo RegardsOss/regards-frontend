@@ -32,6 +32,8 @@ const messages = Object.assign({
   'crawler.list.stacktrace.title': 'Stacktrace',
   'crawler.list.stacktrace.action.close': 'Close',
   'crawler.list.delete.action': 'Delete',
+  'crawler.list.schedule.action': 'Schedule an ingestion',
+  'crawler.list.scheduled': 'The ingestion date has been updated',
   'crawler.delete.confirm.title': 'Are you sure to delete crawler {crawler} ?',
 
   'datasource.list.action.add': 'Add',
