@@ -89,17 +89,12 @@ class NotificationListComponent extends React.Component {
   }
 
   getRequestParams = (mode) => {
-    const queryParams = {
-      sort: 'id,desc',
-    }
     if (mode === MODE.DISPLAY_UNREAD) {
       return {
-        ...queryParams,
         state: 'UNREAD',
       }
     }
     return {
-      ...queryParams,
       state: 'READ',
     }
   }

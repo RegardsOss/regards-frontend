@@ -60,13 +60,13 @@ export class NotificationListContainer extends React.Component {
     return {
       fetchLastNotification: (instance = false) => dispatch(
         instance
-          ? notificationPollerInstanceActions.fetchPagedEntityList(0, 1, {}, { sort: 'id,desc', state: 'UNREAD' })
-          : notificationPollerActions.fetchPagedEntityList(0, 1, {}, { sort: 'id,desc', state: 'UNREAD' }),
+          ? notificationPollerInstanceActions.fetchPagedEntityList(0, 1, {}, { state: 'UNREAD' })
+          : notificationPollerActions.fetchPagedEntityList(0, 1, {}, { state: 'UNREAD' }),
       ),
       fetchLastReadNotification: (instance = false) => dispatch(
         instance
-          ? notificationReadPollerInstanceActions.fetchPagedEntityList(0, 1, {}, { sort: 'id,desc', state: 'READ' })
-          : notificationReadPollerActions.fetchPagedEntityList(0, 1, {}, { sort: 'id,desc', state: 'READ' }),
+          ? notificationReadPollerInstanceActions.fetchPagedEntityList(0, 1, {}, { state: 'READ' })
+          : notificationReadPollerActions.fetchPagedEntityList(0, 1, {}, { state: 'READ' }),
       ),
       fetchNotification: (isInstance, pageNumber, fetchPageSize, requestParam) => dispatch(
         isInstance
@@ -135,7 +135,6 @@ export class NotificationListContainer extends React.Component {
     const lastPage = (notificationMetadata && notificationMetadata.number) || 0
     const totalElementsFetched = NotificationListComponent.PAGE_SIZE * (lastPage + 1)
     const requestParams = {
-      sort: 'id,desc',
       state: 'UNREAD',
     }
     return fetchNotification(this.state.isInstance, 0, totalElementsFetched, requestParams)
