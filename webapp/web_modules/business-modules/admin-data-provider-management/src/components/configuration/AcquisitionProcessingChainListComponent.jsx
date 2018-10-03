@@ -130,6 +130,9 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
       new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.label')
         .label(formatMessage({ id: 'acquisition-chain.list.table.label' }))
         .build(),
+      new TableColumnBuilder('column.session').titleHeaderCell().propertyRenderCell('content.session')
+        .label(formatMessage({ id: 'acquisition-chain.list.table.session' }))
+        .build(),
       new TableColumnBuilder('column.mode').titleHeaderCell().propertyRenderCell('content.mode')
         .label(formatMessage({ id: 'acquisition-chain.list.table.mode' }))
         .build(),

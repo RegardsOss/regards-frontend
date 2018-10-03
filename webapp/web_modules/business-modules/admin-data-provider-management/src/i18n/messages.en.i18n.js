@@ -30,6 +30,7 @@ const messages = Object.assign({
   // 1.2 table headers
   'acquisition-chain.list.table.label': 'Name',
   'acquisition-chain.list.table.mode': 'Activation mode',
+  'acquisition-chain.list.table.session': 'Session',
 
   // 1.3 actions
   'acquisition-chain.list.addnew.button': 'Add new',
