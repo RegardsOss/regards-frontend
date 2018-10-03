@@ -16,12 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { i18nContextType } from '@regardsoss/i18n'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import merge from 'lodash/merge'
 import reduce from 'lodash/reduce'
 import React from 'react'
 import { AttributeModelWithBounds } from '../shapes/AttributeModelWithBounds'
+import { BOUND_TYPE, formatHintText } from '../utils/BoundsMessagesHelper'
 
 /**
  * Abstract class to extend in order to create a criterion plugin.
@@ -30,7 +32,9 @@ import { AttributeModelWithBounds } from '../shapes/AttributeModelWithBounds'
  * to save the plugin state.
  *
  * The function getPluginSearchQuery must be override to allow search form to get the plugin open search query.
- *  *
+ *
+ * Note: if plugin uses getFieldHint method, make sure intl is provided in component context (more information are available in method comment)
+ *
  * @author Sébastien Binda
  */
 class PluginCriterionContainer extends React.Component {
@@ -78,6 +82,13 @@ class PluginCriterionContainer extends React.Component {
     registerClear: PropTypes.func,
 
   }
+
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  /** Reports enumeration from helper so that plugin implementation does not have to import it separately */
+  static BOUND_TYPE = BOUND_TYPE
 
   componentWillMount() {
     const defaultState = this.props.getDefaultState(this.props.pluginInstanceId)
@@ -170,6 +181,21 @@ class PluginCriterionContainer extends React.Component {
    * @return {*} bounds information, see AttributeModelWithBounds
    */
   getAttributeBoundsInformation = configuredAttributeName => get(this.props, `attributes["${configuredAttributeName}"].boundsInformations`)
+
+  /**
+   * Returns field hint text, according with corresponding attribute type and bounds information (if any) AND with field role:
+   * - A field that controls search range lower bound should use LOWER_BOUND type
+   * - A field that controls search range upper bound should use UPPER_BOUND type
+   * - A field that can control both should user ANY_BOUND type
+   * That method is also intended to be used with "non-boundable" attributes (hint text will only show the attribute type as hint text)
+   * @param {string} configuredAttributeName attribute name from plugin-info.json
+   * @param {string} boundType field bound type (see comment above)
+   * @param
+   */
+  getFieldHintText = (configuredAttributeName, boundType) => {
+    const { intl } = this.context
+    return formatHintText(intl, this.props.attributes[configuredAttributeName], boundType)
+  }
 
   setState(state) {
     super.setState(state, this.onPluginChangeValue)

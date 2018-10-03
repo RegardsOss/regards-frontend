@@ -1,0 +1,223 @@
+/**
+ * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+import isNaN from 'lodash/isNaN'
+import isNil from 'lodash/isNil'
+import { DamDomain } from '@regardsoss/domain'
+import { storage } from '@regardsoss/units'
+
+/**
+ * Helper to format bounds messages according with attribute type and bounds state
+ * Note: It may be used to format any attribute, even those without bound
+ * @author Raphaël Mechali
+ */
+
+/** Bound type */
+export const BOUND_TYPE = {
+  // Values should be above this bound
+  LOWER_BOUND: 'LOWER_BOUND',
+  // Values should be below this bound
+  UPPER_BOUND: 'UPPER_BOUND',
+  // This bound may be any of the ones above
+  ANY_BOUND: 'ANY_BOUND',
+}
+
+/** Explicit unitless attribute constant */
+const UNITLESS = 'unitless'
+
+/**
+ * Format state from bounds: returns a value when bounds are unexisting, in error, loading or loaded empty for current bound type
+ * Note: bounds messages are included by the root criteria container
+ * @param {*} intl intl context (holds format* methods from intl context)
+ * @param {*} attribute an AttributeModelWithBounds
+ * @param {string} typeText attribute type text
+ * @return {string} message to show if bounds are in a specific state
+ */
+export function formatBoundsStateHint(intl, attribute, typeText) {
+  const { boundsInformation } = attribute
+  const { formatMessage } = intl
+  if (!boundsInformation.exists) {
+    return formatMessage({ id: 'criterion.attribute.bounds.not.existing' }, { typeText })
+  }
+  if (boundsInformation.loading) {
+    return formatMessage({ id: 'criterion.attribute.bounds.loading' }, { typeText })
+  }
+  if (boundsInformation.error) {
+    return formatMessage({ id: 'criterion.attribute.bounds.error' }, { typeText })
+  }
+  if (isNil(boundsInformation.lowerBound) && isNil(boundsInformation.upperBound)) {
+    return formatMessage({ id: 'criterion.attribute.bounds.none' }, { typeText })
+  }
+  return null
+}
+
+/**
+ * Formats a number bound value
+ * Pre: value is not null nor empty
+ * @param {*} intl intl context (holds format* methods from intl context)
+ * @param {*} attribute an AttributeModelWithBounds
+ * @param {string|number} value bound value
+ * @return {string} bound value text
+ * @throws Error when formatting failed
+ */
+export function formatNumberBound(intl, attribute, value) {
+  const { formatMessage, formatNumber } = intl
+  const { unit } = attribute
+  if (!unit || unit === UNITLESS) {
+    // no unit, render the number as text
+    return formatNumber(value)
+  }
+  // unit: is it a scalable unit?
+  const storageUnit = storage.StorageUnitScale.getMatchingUnit(unit)
+  if (storageUnit) { // yes: return it scaled
+    const valueWithUnit = new storage.StorageCapacity(value, storageUnit).scaleAndConvert(storageUnit.scale)
+    return storage.formatStorageCapacity(formatMessage, formatNumber, valueWithUnit)
+  }
+  // no: simply append it in intl message
+  return formatMessage({ id: 'criterion.attribute.bounds.value.with.unit' }, { value: formatNumber(value), unit })
+}
+
+/**
+ * Formats a date bound value
+ * Pre: value is not null nor empty
+ * @param {*} intl intl context (holds format* methods from intl context)
+ * @param {*} attribute an AttributeModelWithBounds
+ * @param {string|number} value bound value
+ * @return {string} bound value text
+ * @throws Error when date parsing failed
+ */
+export function formatDateBound(intl, attribute, value) {
+  const { formatMessage, formatDate, formatTime } = intl
+  // parse date and format it using intl
+  const dateWrapper = new Date(value)
+  if (!isNaN(dateWrapper.getDate())) {
+    return formatMessage({ id: 'criterion.attribute.bounds.value.date' }, {
+      date: formatDate(dateWrapper),
+      time: formatTime(dateWrapper),
+    })
+  }
+  throw new Error(`Attribute ${attribute.name} value cannot be parsed as a date: ${value}`)
+}
+
+/**
+ * Formats a bound value
+ * Pre: value is not null nor empty
+ * @param {*} intl intl context (holds format* methods from intl context)
+ * @param {*} attribute an AttributeModelWithBounds
+ * @param {string|number} value bound value
+ * @return {string} bound value text
+ * @throws Error when formatting failed
+ */
+export function formatBoundValue(intl, attribute, value) {
+  switch (attribute.type) {
+    case DamDomain.MODEL_ATTR_TYPES.DOUBLE:
+    case DamDomain.MODEL_ATTR_TYPES.INTEGER:
+    case DamDomain.MODEL_ATTR_TYPES.LONG:
+      return formatNumberBound(intl, attribute, value)
+    case DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601:
+      return formatDateBound(intl, attribute, value)
+    default:
+      throw new Error(`Attribute ${attribute.name} should have no bound as its type is ${attribute.type}`)
+  }
+}
+
+/**
+ * Formats lower bound attribute field hint text
+ * Pre: bounds exists and are loaded without error. At least one bound value is defined
+ * @param {*} intl intl context (holds format* methods from intl context)
+ * @param {*} attribute an AttributeModelWithBounds
+ * @param {string} typeText attribute type text
+ * @return {string} formatted bound hint text
+ */
+export function formatLowerBoundHintText(intl, attribute, typeText) {
+  const { formatMessage } = intl
+  const { boundsInformation: { lowerBound } } = attribute
+  if (isNil(lowerBound)) {
+    return formatMessage({ id: 'criterion.attribute.bounds.lower.bound.none' }, { typeText })
+  }
+  return formatMessage({ id: 'criterion.attribute.bounds.lower.bound.value' }, { typeText, lowerBoundText: formatBoundValue(intl, attribute, lowerBound) })
+}
+
+/**
+ * Formats lower bound attribute field hint text
+ * Pre: bounds exists and are loaded without error. At least one bound value is defined
+ * @param {*} intl intl context (holds format* methods from intl context)
+ * @param {*} attribute an AttributeModelWithBounds
+ * @param {string} typeText attribute type text
+ * @return {string} formatted bound hint text
+ */
+export function formatUpperBoundHintText(intl, attribute, typeText) {
+  const { formatMessage } = intl
+  const { boundsInformation: { upperBound } } = attribute
+  if (isNil(upperBound)) {
+    return formatMessage({ id: 'criterion.attribute.bounds.upper.bound.none' }, { typeText })
+  }
+  return formatMessage({ id: 'criterion.attribute.bounds.upper.bound.value' }, { typeText, upperBoundText: formatBoundValue(intl, attribute, upperBound) })
+}
+
+/**
+ * Formats lower bound attribute field hint text
+ * Pre: bounds exists and are loaded without error. At least one bound value is defined
+ * @param {*} intl intl context (holds format* methods from intl context)
+ * @param {*} attribute an AttributeModelWithBounds
+ * @param {string} typeText attribute type text
+ * @return {string} formatted bound hint text
+ */
+export function formatAnyBoundHintText(intl, attribute, typeText) {
+  const { formatMessage } = intl
+  const { boundsInformation: { lowerBound, upperBound } } = attribute
+  const rangeMin = isNil(lowerBound)
+    // infinity
+    ? formatMessage({ id: 'criterion.attribute.bounds.range.min.infinity.bound' })
+    // bound available
+    : formatMessage({ id: 'criterion.attribute.bounds.range.inclusive.min.bound' }, { lowerBoundText: formatBoundValue(intl, attribute, lowerBound) })
+  const rangeMax = isNil(upperBound)
+    // infinity
+    ? formatMessage({ id: 'criterion.attribute.bounds.range.max.infinity.bound' })
+    // bound available
+    : formatMessage({ id: 'criterion.attribute.bounds.range.inclusive.max.bound' }, { upperBoundText: formatBoundValue(intl, attribute, upperBound) })
+  return formatMessage({ id: 'criterion.attribute.bounds.range.values' }, { typeText, rangeMin, rangeMax })
+}
+
+/**
+ * Main API to format the hint text
+ * @param {*} intl intl context holding format* functions
+ * @param {*} attribute an AttributeModelWithBounds
+ * @param {string} boundType one of BOUND_TYPE values, according with current attribute use case
+ * @return {string} text to show as criterion field hint
+ */
+export function formatHintText(intl, attribute, boundType = BOUND_TYPE.ANY_BOUND) {
+  const typeText = intl.formatMessage({ id: `criterion.attribute.hint.type.${attribute.type}` })
+  // 1 - Are attribute bounds in a common state?
+  const stateHintText = formatBoundsStateHint(intl, attribute, typeText, boundType)
+  if (stateHintText) {
+    // yes: return it as text
+    return stateHintText
+  }
+  // 2 - Format bounds according with bound type
+  switch (boundType) {
+    case BOUND_TYPE.LOWER_BOUND:
+      return formatLowerBoundHintText(intl, attribute, typeText)
+    case BOUND_TYPE.UPPER_BOUND:
+      return formatUpperBoundHintText(intl, attribute, typeText)
+    case BOUND_TYPE.ANY_BOUND:
+      return formatAnyBoundHintText(intl, attribute, typeText)
+    default:
+      throw new Error(`Unknown bound type ${boundType}`)
+  }
+}
