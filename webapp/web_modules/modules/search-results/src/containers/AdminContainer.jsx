@@ -98,9 +98,9 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAllDataAttributes: () => dispatch(DataAttributeModelActions.fetchEntityList({ pModelType: 'DATA' })),
-  fetchAllDatasetModelsAttributes: () => dispatch(DatasetAttributeModelActions.fetchEntityList({ pModelType: 'DATASET' })),
-  fetchAllDocumentModelsAttributes: () => dispatch(DocumentAttributeModelActions.fetchEntityList({ pModelType: 'DOCUMENT' })),
+  fetchAllDataAttributes: () => dispatch(DataAttributeModelActions.fetchEntityList({ modelType: 'DATA' })),
+  fetchAllDatasetModelsAttributes: () => dispatch(DatasetAttributeModelActions.fetchEntityList({ modelType: 'DATASET' })),
+  fetchAllDocumentModelsAttributes: () => dispatch(DocumentAttributeModelActions.fetchEntityList({ modelType: 'DOCUMENT' })),
 })
 
 const UnconnectedAdminContainer = AdminContainer

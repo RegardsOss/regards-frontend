@@ -55,10 +55,10 @@ export class AdminContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      fetchAllCollectionAttributes: () => dispatch(collectionAttributeModelActions.fetchEntityList({ pModelType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION })),
-      fetchAllDataAttributes: () => dispatch(dataAttributeModelActions.fetchEntityList({ pModelType: DamDomain.ENTITY_TYPES_ENUM.DATA })),
-      fetchAllDatasetModelsAttributes: () => dispatch(datasetAttributeModelActions.fetchEntityList({ pModelType: DamDomain.ENTITY_TYPES_ENUM.DATASET })),
-      fetchAllDocumentModelsAttributes: () => dispatch(documentAttributeModelActions.fetchEntityList({ pModelType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT })),
+      fetchAllCollectionAttributes: () => dispatch(collectionAttributeModelActions.fetchEntityList({ modelType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION })),
+      fetchAllDataAttributes: () => dispatch(dataAttributeModelActions.fetchEntityList({ modelType: DamDomain.ENTITY_TYPES_ENUM.DATA })),
+      fetchAllDatasetModelsAttributes: () => dispatch(datasetAttributeModelActions.fetchEntityList({ modelType: DamDomain.ENTITY_TYPES_ENUM.DATASET })),
+      fetchAllDocumentModelsAttributes: () => dispatch(documentAttributeModelActions.fetchEntityList({ modelType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT })),
     }
   }
 

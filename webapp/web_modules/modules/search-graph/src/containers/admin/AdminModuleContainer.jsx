@@ -83,7 +83,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchCollectionModels: () => dispatch(CollectionModelActions.fetchEntityList()),
-  fetchSelectableAttributes: () => dispatch(AttributeModelActions.fetchEntityList({ pModelType: 'DATASET' })),
+  fetchSelectableAttributes: () => dispatch(AttributeModelActions.fetchEntityList({ modelType: 'DATASET' })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminModuleContainer)

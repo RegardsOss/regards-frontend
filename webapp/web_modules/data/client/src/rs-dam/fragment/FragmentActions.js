@@ -38,7 +38,7 @@ export default class FragmentActions extends BasicListActions {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/fragments`,
-      entityPathVariable: 'pFragmentId',
+      entityPathVariable: 'fragmentId',
       schemaTypes: {
         ENTITY: FRAGMENT,
         ENTITY_ARRAY: FRAGMENT_ARRAY,
