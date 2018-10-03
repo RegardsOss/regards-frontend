@@ -77,11 +77,7 @@ export class DataSourceMonitoringContainer extends React.Component {
     })
   }
 
-  onSchedule = (crawlerId) => {
-    return this.props.scheduleCrawlerDatasource(crawlerId).then((actionResults) => {
-      return this.props.fetchCrawlerDatasources()
-    })
-  }
+  onSchedule = crawlerId => this.props.scheduleCrawlerDatasource(crawlerId).then(actionResults => this.props.fetchCrawlerDatasources())
 
   onBack = () => {
     const { params: { project } } = this.props

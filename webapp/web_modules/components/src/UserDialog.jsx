@@ -27,17 +27,17 @@ import UserForm from './UserForm'
  *
  * You can also close this dialog by clicking outside the dialog, or with the 'Esc' key.
  */
-function UserDialog(props) {
+function UserDialog(props, context) {
   const actions = [
     <FlatButton
       key="projects.cancel.button"
-      label={this.context.intl.formatMessage({ id: 'projects.cancel.button' })}
+      label={context.intl.formatMessage({ id: 'projects.cancel.button' })}
       primary
       onClick={props.onClose}
     />,
     <FlatButton
       key="projects.submit.button"
-      label={this.context.intl.formatMessage({ id: 'projects.submit.button' })}
+      label={context.intl.formatMessage({ id: 'projects.submit.button' })}
       primary
       keyboardFocused
       onClick={props.onSave}
