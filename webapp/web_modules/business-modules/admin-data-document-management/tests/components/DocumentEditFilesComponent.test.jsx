@@ -16,16 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-//import { shallow } from 'enzyme'
-import { assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-// import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
-// import { ListItem } from 'material-ui/List'
-// import { Field } from '@regardsoss/form-utils'
+import { shallow } from 'enzyme'
+import { expect, assert } from 'chai'
+import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
+import { EntitiesFilesFormContainer } from '@regardsoss/admin-data-entities-attributes-management'
+import { Field } from '@regardsoss/form-utils'
 import { DocumentEditFilesComponent } from '../../src/components/DocumentEditFilesComponent'
-//import DocumentStepperContainer from '../../src/containers/DocumentStepperContainer'
+import DocumentStepperContainer from '../../src/containers/DocumentStepperContainer'
 
-//const context = buildTestContext()
+const context = buildTestContext()
 
 describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentEditLinksComponent', () => {
   before(testSuiteHelpers.before)
@@ -35,24 +34,16 @@ describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentEditLinksComponent', 
     assert.isDefined(DocumentEditFilesComponent)
   })
 
-  // TODO Leo ==> seems the dump is now wrong
-  // it('Render properly', () => {
-  //   const props = {
-  //     document: DumpProvider.getFirstEntity('DataManagementClient', 'Document'),
-  //     accessToken: 'abcdef',
-  //     handleDeleteDocFile: () => { },
-  //     onSubmit: () => { },
-  //     backUrl: '#',
-  //     removeOneFieldOfTheForm: () => { },
-
-  //     // from reduxForm
-  //     submitting: false,
-  //     invalid: false,
-  //     handleSubmit: () => { },
-  //   }
-  //   const enzymeWrapper = shallow(<DocumentEditFilesComponent {...props} />, { context })
-  //   expect(enzymeWrapper.find(ListItem)).to.have.length(2)
-  //   expect(enzymeWrapper.find(DocumentStepperContainer)).to.have.length(1)
-  //   expect(enzymeWrapper.find(Field)).to.have.length(1)
-  // })
+  it('Render properly', () => {
+    const props = {
+      document: DumpProvider.getFirstEntity('DataManagementClient', 'Document'),
+      linksUrl: 'abcdef',
+      backUrl: '#',
+      handleRefreshEntity: () => { },
+      handleUpdateEntity: () => { },
+    }
+    const enzymeWrapper = shallow(<DocumentEditFilesComponent {...props} />, { context })
+    expect(enzymeWrapper.find(EntitiesFilesFormContainer)).to.have.length(1)
+    expect(enzymeWrapper.find(DocumentStepperContainer)).to.have.length(1)
+  })
 })
