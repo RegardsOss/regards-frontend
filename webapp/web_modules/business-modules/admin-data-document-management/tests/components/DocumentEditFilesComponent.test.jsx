@@ -20,7 +20,6 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
 import { EntitiesFilesFormContainer } from '@regardsoss/admin-data-entities-attributes-management'
-import { Field } from '@regardsoss/form-utils'
 import { DocumentEditFilesComponent } from '../../src/components/DocumentEditFilesComponent'
 import DocumentStepperContainer from '../../src/containers/DocumentStepperContainer'
 

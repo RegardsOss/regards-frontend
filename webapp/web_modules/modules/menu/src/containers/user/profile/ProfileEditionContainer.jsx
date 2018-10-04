@@ -101,9 +101,9 @@ export class ProfileEditionContainer extends React.Component {
    * @param user : myUser values
    */
   updateMetadata = user => this.setState({
-      userMetadata: getMetadataArray(user),
-      isLoading: false,
-    })
+    userMetadata: getMetadataArray(user),
+    isLoading: false,
+  })
 
   render() {
     const { visible, hideDialog } = this.props
