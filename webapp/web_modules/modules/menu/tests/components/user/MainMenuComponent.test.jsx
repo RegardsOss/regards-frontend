@@ -25,7 +25,6 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import NavigationMenuContainer from '../../../src/containers/user/navigation/NavigationMenuContainer'
 import AuthenticationContainer from '../../../src/containers/user/authentication/AuthenticationContainer'
 import CartSelectorContainer from '../../../src/containers/user/CartSelectorContainer'
-import NotificationListContainer from '../../../src/containers/user/NotificationListContainer'
 import ProjectAboutPageLinkContainer from '../../../src/containers/user/ProjectAboutPageLinkContainer'
 import MainMenuComponent from '../../../src/components/user/MainMenuComponent'
 import ContactComponent from '../../../src/components/user/ContactComponent'
@@ -90,10 +89,6 @@ describe('[Menu] Testing MainMenuComponent', () => {
       isInstance: props.isInstance,
     }, 'Authentication container properties should be correctly reported')
 
-    const notificationListContainer = enzymeWrapper.find(NotificationListContainer)
-    assert.lengthOf(notificationListContainer, 1, 'NotificationListContainer should be added')
-    assert.equal(notificationListContainer.props().project, props.project, 'NotificationListContainer should have right project prop')
-
     const cartSelectorContainer = enzymeWrapper.find(CartSelectorContainer)
     assert.lengthOf(cartSelectorContainer, 1, 'CartSelectorContainer should be added')
     assert.equal(cartSelectorContainer.props().project, props.project, 'CartSelectorContainer should have right project prop')
@@ -156,9 +151,6 @@ describe('[Menu] Testing MainMenuComponent', () => {
       isInstance: props.isInstance,
     }, 'Authentication container properties should be correctly reported')
 
-    const notificationListContainer = enzymeWrapper.find(NotificationListContainer)
-    assert.lengthOf(notificationListContainer, 1, 'NotificationListContainer should be added')
-    assert.equal(notificationListContainer.props().project, props.project, 'NotificationListContainer should have right project prop')
 
     const cartSelectorContainer = enzymeWrapper.find(CartSelectorContainer)
     assert.lengthOf(cartSelectorContainer, 1, 'CartSelectorContainer should be added')
@@ -214,9 +206,6 @@ describe('[Menu] Testing MainMenuComponent', () => {
       isInstance: props.isInstance,
     }, 'Authentication container properties should be correctly reported')
 
-    const notificationListContainer = enzymeWrapper.find(NotificationListContainer)
-    assert.lengthOf(notificationListContainer, 1, 'NotificationListContainer should be added')
-    assert.equal(notificationListContainer.props().project, props.project, 'NotificationListContainer should have right project prop')
 
     const cartSelectorContainer = enzymeWrapper.find(CartSelectorContainer)
     assert.lengthOf(cartSelectorContainer, 1, 'CartSelectorContainer should be added')
@@ -272,10 +261,6 @@ describe('[Menu] Testing MainMenuComponent', () => {
       borrowableRoles: props.borrowableRoles,
       isInstance: props.isInstance,
     }, 'Authentication container properties should be correctly reported')
-
-    const notificationListContainer = enzymeWrapper.find(NotificationListContainer)
-    assert.lengthOf(notificationListContainer, 1, 'NotificationListContainer should be added')
-    assert.equal(notificationListContainer.props().project, props.project, 'NotificationListContainer should have right project prop')
 
     const cartSelectorContainer = enzymeWrapper.find(CartSelectorContainer)
     assert.lengthOf(cartSelectorContainer, 1, 'CartSelectorContainer should be added')
