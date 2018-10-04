@@ -33,7 +33,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import DatasetSelectionTypes from '../domain/DatasetSelectionTypes'
-import AttributeModelClient from '../clients/AttributeModelClient'
+import { AttributeModelSelectors, AttributeModelActions } from '../clients/AttributeModelClient'
 import ModuleConfiguration from '../shapes/ModuleConfiguration'
 import FormComponent from '../components/user/FormComponent'
 
@@ -439,9 +439,9 @@ class ModuleContainer extends React.Component {
 
 const mapStateToProps = state => ({
   authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
-  attributeModels: AttributeModelClient.AttributeModelSelectors.getList(state),
-  attributesLoading: AttributeModelClient.AttributeModelSelectors.isFetching(state),
-  attributeModelsError: AttributeModelClient.AttributeModelSelectors.hasError(state),
+  attributeModels: AttributeModelSelectors.getList(state),
+  attributesLoading: AttributeModelSelectors.isFetching(state),
+  attributeModelsError: AttributeModelSelectors.hasError(state),
 })
 
 const mapDispatchToProps = (dispatch, { id, conf }) => {
@@ -449,7 +449,7 @@ const mapDispatchToProps = (dispatch, { id, conf }) => {
   const searchFormPaneKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(modulesManager.AllDynamicModuleTypes.SEARCH_FORM, id)
   const searchResultsPaneKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS, id)
   return {
-    fetchAllModelsAttributes: () => dispatch(AttributeModelClient.AttributeModelActions.fetchEntityList()),
+    fetchAllModelsAttributes: () => dispatch(AttributeModelActions.fetchEntityList()),
     dispatchCollapseForm: () => dispatch(moduleExpandedStateActions.setMinimized(searchFormPaneKey)),
     dispatchExpandResults: () => dispatch(moduleExpandedStateActions.setNormal(searchResultsPaneKey)),
     dispatchInitializeWithOpenedResults: () => {
