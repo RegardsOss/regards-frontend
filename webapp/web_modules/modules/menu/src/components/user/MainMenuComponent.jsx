@@ -23,6 +23,7 @@ import { SelectThemeContainer } from '@regardsoss/theme-ui'
 import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes, AdminShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/components'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
 import AuthenticationContainer from '../../containers/user/authentication/AuthenticationContainer'
 import NotificationListContainer from '../../containers/user/NotificationListContainer'
@@ -33,6 +34,7 @@ import AppTitleComponent from './title/AppTitleComponent'
 import ContactComponent from './ContactComponent'
 import MenuSeparator from './MenuSeparator'
 
+const NotificationListContainerWithResource = withResourceDisplayControl(NotificationListContainer)
 /**
 * Main menu module component
 * @author Raphaël Mechali
@@ -121,7 +123,10 @@ class MainMenuComponent extends React.Component {
           </ShowableAtRender>
           {/* Notifications */}
           <ShowableAtRender show={displayNotificationsSelector}>
-            <NotificationListContainer project={project} />
+            <NotificationListContainerWithResource
+              resourceDependencies={NotificationListContainer.requiredDependencies}
+              project={project}
+            />
           </ShowableAtRender>
           {/* User cart stateful link */}
           <ShowableAtRender show={!!displayCartSelector}>

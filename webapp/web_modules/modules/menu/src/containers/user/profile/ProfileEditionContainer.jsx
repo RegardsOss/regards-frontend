@@ -58,19 +58,26 @@ export class ProfileEditionContainer extends React.Component {
 
   state = {
     userMetadata: null,
-  }
-
-  componentWillMount = () => {
-    // as this component mounts only when user is logged, it doesn't need to fetch when authentication data changes
-    this.props.fetchMyUser()
-    this.props.fetchNotificationSettings()
-    this.updateMetadata(this.props.myUser)
+    isLoading: true,
   }
 
   componentWillReceiveProps = (nextProps) => {
     // back from user fetching?
     if (this.props.myUser !== nextProps.myUser) {
       this.updateMetadata(nextProps.myUser)
+    }
+    if (this.props.visible !== nextProps.visible) {
+      if (nextProps.visible) {
+        // Load data
+        this.props.fetchMyUser()
+        this.props.fetchNotificationSettings()
+      } else {
+        // reset to initial state
+        this.setState({
+          isLoading: true,
+          userMetadata: null,
+        })
+      }
     }
   }
 
@@ -93,14 +100,17 @@ export class ProfileEditionContainer extends React.Component {
    * but when user is known, retrieves the current metadata values
    * @param user : myUser values
    */
-  updateMetadata = user => this.setState({ userMetadata: getMetadataArray(user) })
+  updateMetadata = user => this.setState({
+      userMetadata: getMetadataArray(user),
+      isLoading: false,
+    })
 
   render() {
     const { visible, hideDialog } = this.props
-    const { userMetadata } = this.state
+    const { userMetadata, isLoading } = this.state
 
     // here we unmount the inner component when not visible, so that fields get resetted when dialog is closed
-    if (!visible) {
+    if (!visible || isLoading) {
       return null
     }
     return (

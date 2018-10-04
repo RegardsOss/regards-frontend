@@ -23,6 +23,7 @@ import { AdminShapes, CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { ShowableAtRender } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import NotificationListComponent from '../../components/user/NotificationListComponent'
 import {
   notificationPollerActions,
@@ -45,6 +46,10 @@ import {
  * @author Maxime Bouveron
  */
 export class NotificationListContainer extends React.Component {
+  static requiredDependencies = [
+    notificationPollerActions.getDependency(RequestVerbEnum.GET_LIST),
+  ]
+
   static mapStateToProps(state) {
     return {
       isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
