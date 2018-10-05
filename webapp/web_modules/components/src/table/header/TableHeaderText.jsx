@@ -27,6 +27,7 @@ class TableHeaderText extends React.Component {
     // text to show
     text: PropTypes.string.isRequired,
     error: PropTypes.bool,
+    className: PropTypes.string,
   }
 
   static defaultProps = {
@@ -38,14 +39,12 @@ class TableHeaderText extends React.Component {
   }
 
   render() {
-    const { text, error } = this.props
+    const { text, error, className } = this.props
     const { moduleTheme: { header } } = this.context
     const style = error ? header.contentBox.errorTextStyle : header.contentBox.textStyle
     return (
-      <div style={style}>
-        {
-          text
-        }
+      <div style={style} className={className}>
+        {text}
       </div>
     )
   }

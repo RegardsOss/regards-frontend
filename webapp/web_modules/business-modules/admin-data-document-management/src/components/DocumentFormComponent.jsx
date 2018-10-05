@@ -217,6 +217,9 @@ function validate(values) {
   } else {
     errors.label = ErrorTypes.REQUIRED
   }
+  if (!values.provideId) {
+    errors.provideId = ErrorTypes.REQUIRED
+  }
   if (!values.model) {
     errors.model = ErrorTypes.REQUIRED
   }
