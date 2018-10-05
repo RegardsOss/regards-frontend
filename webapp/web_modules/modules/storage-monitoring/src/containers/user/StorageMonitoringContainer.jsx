@@ -19,7 +19,7 @@
 import { connect } from '@regardsoss/redux'
 import { StorageShapes } from '@regardsoss/shape'
 import { storage } from '@regardsoss/units'
-import StorageMonitoringClient from '../../clients/StorageMonitoringClient'
+import { storageMonitoringActions, storageMonitoringSelectors } from '../../clients/StorageMonitoringClient'
 import StorageMonitoringComponent from '../../components/user/StorageMonitoringComponent'
 
 /**
@@ -65,13 +65,13 @@ export class StorageMonitoringContainer extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  storagePlugins: StorageMonitoringClient.storageMonitoringSelectors.getList(state),
-  isFetching: StorageMonitoringClient.storageMonitoringSelectors.isFetching(state),
-  hasError: StorageMonitoringClient.storageMonitoringSelectors.getError(state).hasError,
+  storagePlugins: storageMonitoringSelectors.getList(state),
+  isFetching: storageMonitoringSelectors.isFetching(state),
+  hasError: storageMonitoringSelectors.getError(state).hasError,
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchStoragePlugins: () => dispatch(StorageMonitoringClient.storageMonitoringActions.fetchEntityList()),
+  fetchStoragePlugins: () => dispatch(storageMonitoringActions.fetchEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(StorageMonitoringContainer)
