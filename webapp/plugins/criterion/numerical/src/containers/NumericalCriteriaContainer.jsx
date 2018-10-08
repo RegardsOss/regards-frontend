@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import TextField from 'material-ui/TextField'
-import { EnumNumericalComparator } from '@regardsoss/domain/common'
+import { DamDomain, CommonDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { NumericalComparator } from '@regardsoss/components'
@@ -29,11 +29,17 @@ import { PluginCriterionContainer, numberRangeHelper } from '@regardsoss/plugins
  * @author Xavier-Alexandre Brochard
  */
 export class NumericalCriteriaContainer extends PluginCriterionContainer {
-  /** Available comparisong operators */
-  static AVAILABLE_COMPARISON_OPERATORS = [
-    EnumNumericalComparator.EQ,
-    EnumNumericalComparator.GE,
-    EnumNumericalComparator.LE,
+  /** Available comparison operators for integer numbers */
+  static AVAILABLE_INT_COMPARATORS = [
+    CommonDomain.EnumNumericalComparator.EQ,
+    CommonDomain.EnumNumericalComparator.GE,
+    CommonDomain.EnumNumericalComparator.LE,
+  ]
+
+  /** Available comparison operators for floatting numbers */
+  static AVAILABLE_FLOAT_COMPARATORS = [
+    CommonDomain.EnumNumericalComparator.GE,
+    CommonDomain.EnumNumericalComparator.LE,
   ]
 
   static contextTypes = {
@@ -43,16 +49,43 @@ export class NumericalCriteriaContainer extends PluginCriterionContainer {
     ...i18nContextType,
   }
 
-  /** Default component state */
-  static DEFAULT_STATE = {
-    searchField: {
-      value: '',
-      operator: EnumNumericalComparator.EQ,
-    },
+  /**
+   * Lifecycle method: component will mount. Used to initialized the state
+   */
+  componentWillMount() {
+    this.setState(this.getDefaultState())
   }
 
-  /** Initial component state */
-  state = NumericalCriteriaContainer.DEFAULT_STATE
+  /**
+   * @return {[{string}]} computed available comparators
+   * @throws {Error} when attribute type is invalid (or attribute is not available)
+   */
+  getAvailableComparators = () => {
+    const { type } = this.props.attributes.searchField
+    switch (type) {
+      case DamDomain.MODEL_ATTR_TYPES.INTEGER:
+      case DamDomain.MODEL_ATTR_TYPES.LONG:
+        return NumericalCriteriaContainer.AVAILABLE_INT_COMPARATORS
+      case DamDomain.MODEL_ATTR_TYPES.DOUBLE:
+        return NumericalCriteriaContainer.AVAILABLE_FLOAT_COMPARATORS
+      default:
+        throw new Error(`Invalid attribute type for configured searchField ${type}`)
+    }
+  }
+
+  /**
+   * @return {*} Component default state for current attribute
+   */
+  getDefaultState = () => {
+    const availableComparators = this.getAvailableComparators()
+    this.setState({
+      availableComparators,
+      searchField: {
+        value: '',
+        operator: availableComparators[0],
+      },
+    })
+  }
 
   /**
    * @param state this current state
@@ -75,19 +108,19 @@ export class NumericalCriteriaContainer extends PluginCriterionContainer {
     if (!foundRange.isFullyInifiniteRange()) {
       if (foundRange.isSingleValueRange()) {
         // strict equality tested ([N, N])
-        return { value: foundRange.lowerBound, operator: EnumNumericalComparator.EQ }
+        return { value: foundRange.lowerBound, operator: CommonDomain.EnumNumericalComparator.EQ }
       }
       if (!foundRange.isInfiniteLowerBound()) {
         // greater than value range ([N, +inf])
-        return { value: foundRange.lowerBound, operator: EnumNumericalComparator.GE }
+        return { value: foundRange.lowerBound, operator: CommonDomain.EnumNumericalComparator.GE }
       }
       if (foundRange.isInfiniteLowerBound()) {
         // greater than value range [-inf, N]
-        return { value: foundRange.upperBound, operator: EnumNumericalComparator.LE }
+        return { value: foundRange.upperBound, operator: CommonDomain.EnumNumericalComparator.LE }
       }
     }
     // not parsable
-    return { value: null, operator: EnumNumericalComparator.EQ }
+    return { value: null, operator: CommonDomain.EnumNumericalComparator.EQ }
   }
 
   /**
@@ -122,14 +155,12 @@ export class NumericalCriteriaContainer extends PluginCriterionContainer {
   /**
    * Clear the entered value
    */
-  handleClear = () => {
-    this.setState(NumericalCriteriaContainer.DEFAULT_STATE)
-  }
+  handleClear = () => this.setState(this.getDefaultState())
 
   render() {
     const { moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle } } = this.context
     const attributeLabel = this.getAttributeLabel('searchField')
-    const { searchField: { value, operator } } = this.state
+    const { searchField: { value, operator }, availableComparators } = this.state
     return (
       <div style={rootStyle}>
         <span style={labelSpanStyle}>
@@ -138,7 +169,7 @@ export class NumericalCriteriaContainer extends PluginCriterionContainer {
         <NumericalComparator
           value={operator}
           onChange={this.handleChangeComparator}
-          comparators={NumericalCriteriaContainer.AVAILABLE_COMPARISON_OPERATORS}
+          comparators={availableComparators}
           // disable if there is no value for this attribute in context
           disabled={this.hasNoValue('searchField')}
         />

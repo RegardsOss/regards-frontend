@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { EnumNumericalComparator } from '@regardsoss/domain/common'
+import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { PluginCriterionContainer, numberRangeHelper, BOUND_TYPE } from '@regardsoss/plugins-api'
@@ -27,12 +27,18 @@ import NumericalCriteriaComponent from '../components/NumericalCriteriaComponent
  *
  * @author Xavier-Alexandre Brochard
  */
-export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContainer {
-  /** Available comparison operators */
-  static AVAILABLE_COMPARISON_OPERATORS = [
-    EnumNumericalComparator.EQ,
-    EnumNumericalComparator.LE,
-    EnumNumericalComparator.GE,
+export class MultipleAttributesContainer extends PluginCriterionContainer {
+  /** Available comparison operators for integer numbers */
+  static AVAILABLE_INT_COMPARATORS = [
+    CommonDomain.EnumNumericalComparator.EQ,
+    CommonDomain.EnumNumericalComparator.GE,
+    CommonDomain.EnumNumericalComparator.LE,
+  ]
+
+  /** Available comparison operators for floatting numbers */
+  static AVAILABLE_FLOAT_COMPARATORS = [
+    CommonDomain.EnumNumericalComparator.GE,
+    CommonDomain.EnumNumericalComparator.LE,
   ]
 
   static propTypes = {
@@ -47,25 +53,53 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContaine
     ...i18nContextType,
   }
 
-  /** Default component state */
-  static DEFAULT_STATE = {
-    firstField: {
-      value: null,
-      operator: EnumNumericalComparator.GE,
-    },
-    secondField: {
-      value: null,
-      operator: EnumNumericalComparator.LE,
-    },
+  /**
+   * Lifecycle method: component will mount. Used to initialized the state
+   */
+  componentWillMount() {
+    this.setState(this.getDefaultState())
   }
 
-  /** Initial state */
-  state = TwoNumericalCriteriaSimpleComponent.DEFAULT_STATE
+  /**
+   * @param {string} fieldName configured field name
+   * @return {[{string}]} computed available comparators
+   * @throws {Error} when attribute type is invalid (or attribute is not available)
+   */
+  getAvailableComparators = (fieldName) => {
+    const { type } = this.props.attributes[fieldName]
+    switch (type) {
+      case DamDomain.MODEL_ATTR_TYPES.INTEGER:
+      case DamDomain.MODEL_ATTR_TYPES.LONG:
+        return MultipleAttributesContainer.AVAILABLE_INT_COMPARATORS
+      case DamDomain.MODEL_ATTR_TYPES.DOUBLE:
+        return MultipleAttributesContainer.AVAILABLE_FLOAT_COMPARATORS
+      default:
+        throw new Error(`Invalid attribute type for configured searchField ${type}`)
+    }
+  }
+
+  /**
+   * @return {*} Component default state for current attribute
+   */
+  getDefaultState = () => {
+    this.setState({
+      firstFieldComparators: this.getAvailableComparators('firstField'),
+      secondFieldComparators: this.getAvailableComparators('secondField'),
+      firstField: {
+        value: null,
+        operator: CommonDomain.EnumNumericalComparator.GE, // always available
+      },
+      secondField: {
+        value: null,
+        operator: CommonDomain.EnumNumericalComparator.LE, // always available
+      },
+    })
+  }
 
   /**
    * Callback: user changed value 1 number and / or operator
    * @param {number} value as parsed by NumericalCriteriaComponent
-   * @param {string} operator operator, one of AVAILABLE_COMPARISON_OPERATORS (from EnumNumericalComparator)
+   * @param {string} operator operator, one of EnumNumericalComparator values
    */
   onChangeValue1 = (value, operator) => {
     this.setState({
@@ -76,7 +110,7 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContaine
   /**
    * Callback: user changed value 2 number and / or operator
    * @param {number} value as parsed by NumericalCriteriaComponent
-   * @param {string} operator operator, one of AVAILABLE_COMPARISON_OPERATORS (from EnumNumericalComparator)
+   * @param {string} operator operator, one of EnumNumericalComparator values
    */
   onChangeValue2 = (value, operator) => {
     this.setState({
@@ -110,15 +144,15 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContaine
     if (!foundRange.isFullyInifiniteRange()) {
       if (foundRange.isSingleValueRange()) {
         // strict equality tested ([N, N])
-        return { value: foundRange.lowerBound, operator: EnumNumericalComparator.EQ }
+        return { value: foundRange.lowerBound, operator: CommonDomain.EnumNumericalComparator.EQ }
       }
       if (!foundRange.isInfiniteLowerBound()) {
         // greater than value range ([N, +inf])
-        return { value: foundRange.lowerBound, operator: EnumNumericalComparator.GE }
+        return { value: foundRange.lowerBound, operator: CommonDomain.EnumNumericalComparator.GE }
       }
       if (foundRange.isInfiniteLowerBound()) {
         // greater than value range [-inf, N]
-        return { value: foundRange.upperBound, operator: EnumNumericalComparator.LE }
+        return { value: foundRange.upperBound, operator: CommonDomain.EnumNumericalComparator.LE }
       }
     }
     // not parsable (attempt keeping current operator)
@@ -128,24 +162,22 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContaine
   /**
    * Clear the entered value
    */
-  handleClear = () => {
-    this.setState(TwoNumericalCriteriaSimpleComponent.DEFAULT_STATE)
-  }
+  handleClear = () => this.setState(this.getDefaultState())
 
 
   render() {
-    const { firstField, secondField } = this.state
+    const {
+      firstField, secondField, firstFieldComparators, secondFieldComparators,
+    } = this.state
     const { moduleTheme: { rootStyle, lineStyle } } = this.context
     return (
       <div style={rootStyle}>
-        <div
-          style={lineStyle}
-        >
+        <div style={lineStyle}>
           <NumericalCriteriaComponent
             label={this.getAttributeLabel('firstField')}
             value={firstField.value}
             comparator={firstField.operator}
-            availableComparators={TwoNumericalCriteriaSimpleComponent.AVAILABLE_COMPARISON_OPERATORS}
+            availableComparators={firstFieldComparators}
             onChange={this.onChangeValue1}
             hintText={this.getFieldHintText('firstField', BOUND_TYPE.LOWER_BOUND)}
             tooltip={this.getFieldTooltip('firstField')}
@@ -155,7 +187,7 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContaine
             label={this.getAttributeLabel('secondField')}
             value={secondField.value}
             comparator={secondField.operator}
-            availableComparators={TwoNumericalCriteriaSimpleComponent.AVAILABLE_COMPARISON_OPERATORS}
+            availableComparators={secondFieldComparators}
             onChange={this.onChangeValue2}
             hintText={this.getFieldHintText('secondField', BOUND_TYPE.UPPER_BOUND)}
             tooltip={this.getFieldTooltip('secondField')}
@@ -167,4 +199,4 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContaine
   }
 }
 
-export default TwoNumericalCriteriaSimpleComponent
+export default MultipleAttributesContainer

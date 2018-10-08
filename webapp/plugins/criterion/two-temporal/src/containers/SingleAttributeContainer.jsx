@@ -28,7 +28,7 @@ import TemporalCriteriaComponent from '../components/TemporalCriteriaComponent'
  *
  * @author Xavier-Alexandre Brochard
  */
-export class TwoTemporalCriteriaComposedComponent extends PluginCriterionContainer {
+export class SingleAttributeContainer extends PluginCriterionContainer {
   static propTypes = {
     // parent props
     ...PluginCriterionContainer.propTypes,
@@ -136,4 +136,4 @@ export class TwoTemporalCriteriaComposedComponent extends PluginCriterionContain
   }
 }
 
-export default TwoTemporalCriteriaComposedComponent
+export default SingleAttributeContainer
