@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { initPlugin } from '@regardsoss/plugins-api'
-import StringCriteria from './components/StringCriteriaComponent'
+import StringCriteriaContainer from './containers/StringCriteriaContainer'
 import messages from './i18n'
 import styles from './styles'
 import pluginInfo from './plugin-info.json'
 
-initPlugin(StringCriteria, pluginInfo, null, messages, styles)
+initPlugin(StringCriteriaContainer, pluginInfo, null, messages, styles)

@@ -24,8 +24,8 @@
 
 export const AttributeBoundsContent = PropTypes.shape({
   propertyName: PropTypes.string.isRequired,
-  lowerBound: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-  upperBound: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  lowerBound: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  upperBound: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 })
 
 export const AttributeBounds = PropTypes.shape({

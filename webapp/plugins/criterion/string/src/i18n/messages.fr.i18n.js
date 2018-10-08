@@ -22,8 +22,7 @@
  * @type {*}
  */
 const messages = {
-  'criterion.search.field.label': 'Champ de recherche ...',
-  'criterion.search.field.word.checkbox.label': 'Mot entier',
+  'criterion.search.field.word.checkbox.title': 'Rechercher un mot entier',
 }
 
 export default messages

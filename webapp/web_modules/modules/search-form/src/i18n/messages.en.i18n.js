@@ -23,6 +23,7 @@ import { Locales } from '@regardsoss/form-utils'
  * @author Sébastien binda
  */
 const messages = {
+  // common form messages
   ...Locales.en,
 
   // Administration messages

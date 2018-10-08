@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
 import { EnumNumericalComparator } from '@regardsoss/domain/common'
 import { themeContextType } from '@regardsoss/theme'
@@ -29,18 +28,13 @@ import { PluginCriterionContainer, numberRangeHelper } from '@regardsoss/plugins
  *
  * @author Xavier-Alexandre Brochard
  */
-export class NumericalCriteriaComponent extends PluginCriterionContainer {
+export class NumericalCriteriaContainer extends PluginCriterionContainer {
   /** Available comparisong operators */
   static AVAILABLE_COMPARISON_OPERATORS = [
     EnumNumericalComparator.EQ,
     EnumNumericalComparator.GE,
     EnumNumericalComparator.LE,
   ]
-
-  static propTypes = {
-    // parent props
-    ...PluginCriterionContainer.propTypes,
-  }
 
   static contextTypes = {
     // enable plugin theme access through this.context
@@ -58,7 +52,7 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
   }
 
   /** Initial component state */
-  state = NumericalCriteriaComponent.DEFAULT_STATE
+  state = NumericalCriteriaContainer.DEFAULT_STATE
 
   /**
    * @param state this current state
@@ -129,7 +123,7 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
    * Clear the entered value
    */
   handleClear = () => {
-    this.setState(NumericalCriteriaComponent.DEFAULT_STATE)
+    this.setState(NumericalCriteriaContainer.DEFAULT_STATE)
   }
 
   render() {
@@ -137,26 +131,32 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
     const attributeLabel = this.getAttributeLabel('searchField')
     const { searchField: { value, operator } } = this.state
     return (
-      <div style={rootStyle} >
-        <span style={labelSpanStyle} >
+      <div style={rootStyle}>
+        <span style={labelSpanStyle}>
           {attributeLabel}
         </span>
         <NumericalComparator
           value={operator}
           onChange={this.handleChangeComparator}
-          comparators={NumericalCriteriaComponent.AVAILABLE_COMPARISON_OPERATORS}
+          comparators={NumericalCriteriaContainer.AVAILABLE_COMPARISON_OPERATORS}
+          // disable if there is no value for this attribute in context
+          disabled={this.hasNoValue('searchField')}
         />
         <TextField
           id="search"
           type="number"
-          floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
+          // Use common hint formatter to get type and bounds if any
+          floatingLabelText={this.getFieldHintText('searchField', PluginCriterionContainer.BOUND_TYPE.ANY_BOUND)}
+          title={this.getFieldTooltip('searchField')}
           value={this.format(value)}
           onChange={this.handleChangeValue}
           style={textFieldStyle}
+          // disable if there is no value for this attribute in context
+          disabled={this.hasNoValue('searchField')}
         />
       </div>
     )
   }
 }
 
-export default NumericalCriteriaComponent
+export default NumericalCriteriaContainer

@@ -20,6 +20,7 @@ import isNaN from 'lodash/isNaN'
 import isNil from 'lodash/isNil'
 import { DamDomain } from '@regardsoss/domain'
 import { storage } from '@regardsoss/units'
+import { isNumber } from 'util'
 
 /**
  * Helper to format bounds messages according with attribute type and bounds state
@@ -35,33 +36,41 @@ export const BOUND_TYPE = {
   UPPER_BOUND: 'UPPER_BOUND',
   // This bound may be any of the ones above
   ANY_BOUND: 'ANY_BOUND',
+  // This bound should not display range hints
+  NONE: 'NONE',
 }
 
 /** Explicit unitless attribute constant */
 const UNITLESS = 'unitless'
 
 /**
+ * Returns text for attribute type
+ */
+export function getTypeText(intl, attribute) {
+  return intl.formatMessage({ id: `criterion.attribute.hint.type.${attribute.type}` })
+}
+
+/**
  * Format state from bounds: returns a value when bounds are unexisting, in error, loading or loaded empty for current bound type
  * Note: bounds messages are included by the root criteria container
  * @param {*} intl intl context (holds format* methods from intl context)
  * @param {*} attribute an AttributeModelWithBounds
- * @param {string} typeText attribute type text
  * @return {string} message to show if bounds are in a specific state
  */
-export function formatBoundsStateHint(intl, attribute, typeText) {
+export function formatBoundsStateHint(intl, attribute) {
   const { boundsInformation } = attribute
   const { formatMessage } = intl
   if (!boundsInformation.exists) {
-    return formatMessage({ id: 'criterion.attribute.bounds.not.existing' }, { typeText })
+    return formatMessage({ id: 'criterion.attribute.bounds.not.existing' }, { typeText: getTypeText(intl, attribute) })
   }
   if (boundsInformation.loading) {
-    return formatMessage({ id: 'criterion.attribute.bounds.loading' }, { typeText })
+    return formatMessage({ id: 'criterion.attribute.bounds.loading' }, { typeText: getTypeText(intl, attribute) })
   }
   if (boundsInformation.error) {
-    return formatMessage({ id: 'criterion.attribute.bounds.error' }, { typeText })
+    return formatMessage({ id: 'criterion.attribute.bounds.error' }, { typeText: getTypeText(intl, attribute) })
   }
   if (isNil(boundsInformation.lowerBound) && isNil(boundsInformation.upperBound)) {
-    return formatMessage({ id: 'criterion.attribute.bounds.none' }, { typeText })
+    return formatMessage({ id: 'criterion.attribute.bounds.none' }, { typeText: getTypeText(intl, attribute) })
   }
   return null
 }
@@ -78,9 +87,12 @@ export function formatBoundsStateHint(intl, attribute, typeText) {
 export function formatNumberBound(intl, attribute, value) {
   const { formatMessage, formatNumber } = intl
   const { unit } = attribute
+  if (!isNumber(value)) {
+    throw new Error(`Attribute ${attribute.name} value is not a number`)
+  }
   if (!unit || unit === UNITLESS) {
-    // no unit, render the number as text
-    return formatNumber(value)
+    // no unit, render the number as text using JS auto formatting
+    return value
   }
   // unit: is it a scalable unit?
   const storageUnit = storage.StorageUnitScale.getMatchingUnit(unit)
@@ -89,7 +101,7 @@ export function formatNumberBound(intl, attribute, value) {
     return storage.formatStorageCapacity(formatMessage, formatNumber, valueWithUnit)
   }
   // no: simply append it in intl message
-  return formatMessage({ id: 'criterion.attribute.bounds.value.with.unit' }, { value: formatNumber(value), unit })
+  return formatMessage({ id: 'criterion.attribute.bounds.value.with.unit' }, { value, unit })
 }
 
 /**
@@ -113,6 +125,7 @@ export function formatDateBound(intl, attribute, value) {
   }
   throw new Error(`Attribute ${attribute.name} value cannot be parsed as a date: ${value}`)
 }
+
 
 /**
  * Formats a bound value
@@ -141,16 +154,17 @@ export function formatBoundValue(intl, attribute, value) {
  * Pre: bounds exists and are loaded without error. At least one bound value is defined
  * @param {*} intl intl context (holds format* methods from intl context)
  * @param {*} attribute an AttributeModelWithBounds
- * @param {string} typeText attribute type text
  * @return {string} formatted bound hint text
  */
-export function formatLowerBoundHintText(intl, attribute, typeText) {
+export function formatLowerBoundHintText(intl, attribute) {
   const { formatMessage } = intl
   const { boundsInformation: { lowerBound } } = attribute
   if (isNil(lowerBound)) {
-    return formatMessage({ id: 'criterion.attribute.bounds.lower.bound.none' }, { typeText })
+    return formatMessage({ id: 'criterion.attribute.bounds.lower.bound.none' }, { typeText: getTypeText(intl, attribute) })
   }
-  return formatMessage({ id: 'criterion.attribute.bounds.lower.bound.value' }, { typeText, lowerBoundText: formatBoundValue(intl, attribute, lowerBound) })
+  return formatMessage({ id: 'criterion.attribute.bounds.lower.bound.value' }, {
+    lowerBoundText: formatBoundValue(intl, attribute, lowerBound),
+  })
 }
 
 /**
@@ -158,16 +172,17 @@ export function formatLowerBoundHintText(intl, attribute, typeText) {
  * Pre: bounds exists and are loaded without error. At least one bound value is defined
  * @param {*} intl intl context (holds format* methods from intl context)
  * @param {*} attribute an AttributeModelWithBounds
- * @param {string} typeText attribute type text
  * @return {string} formatted bound hint text
  */
-export function formatUpperBoundHintText(intl, attribute, typeText) {
+export function formatUpperBoundHintText(intl, attribute) {
   const { formatMessage } = intl
   const { boundsInformation: { upperBound } } = attribute
   if (isNil(upperBound)) {
-    return formatMessage({ id: 'criterion.attribute.bounds.upper.bound.none' }, { typeText })
+    return formatMessage({ id: 'criterion.attribute.bounds.upper.bound.none' }, { typeText: getTypeText(intl, attribute) })
   }
-  return formatMessage({ id: 'criterion.attribute.bounds.upper.bound.value' }, { typeText, upperBoundText: formatBoundValue(intl, attribute, upperBound) })
+  return formatMessage({ id: 'criterion.attribute.bounds.upper.bound.value' }, {
+    upperBoundText: formatBoundValue(intl, attribute, upperBound),
+  })
 }
 
 /**
@@ -175,10 +190,9 @@ export function formatUpperBoundHintText(intl, attribute, typeText) {
  * Pre: bounds exists and are loaded without error. At least one bound value is defined
  * @param {*} intl intl context (holds format* methods from intl context)
  * @param {*} attribute an AttributeModelWithBounds
- * @param {string} typeText attribute type text
  * @return {string} formatted bound hint text
  */
-export function formatAnyBoundHintText(intl, attribute, typeText) {
+export function formatAnyBoundHintText(intl, attribute) {
   const { formatMessage } = intl
   const { boundsInformation: { lowerBound, upperBound } } = attribute
   const rangeMin = isNil(lowerBound)
@@ -191,7 +205,7 @@ export function formatAnyBoundHintText(intl, attribute, typeText) {
     ? formatMessage({ id: 'criterion.attribute.bounds.range.max.infinity.bound' })
     // bound available
     : formatMessage({ id: 'criterion.attribute.bounds.range.inclusive.max.bound' }, { upperBoundText: formatBoundValue(intl, attribute, upperBound) })
-  return formatMessage({ id: 'criterion.attribute.bounds.range.values' }, { typeText, rangeMin, rangeMax })
+  return formatMessage({ id: 'criterion.attribute.bounds.range.values' }, { rangeMin, rangeMax })
 }
 
 /**
@@ -202,22 +216,61 @@ export function formatAnyBoundHintText(intl, attribute, typeText) {
  * @return {string} text to show as criterion field hint
  */
 export function formatHintText(intl, attribute, boundType = BOUND_TYPE.ANY_BOUND) {
-  const typeText = intl.formatMessage({ id: `criterion.attribute.hint.type.${attribute.type}` })
-  // 1 - Are attribute bounds in a common state?
-  const stateHintText = formatBoundsStateHint(intl, attribute, typeText, boundType)
+  if (!intl || !intl.formatMessage) {
+    throw new Error('Intl context is invalid. Check plugin context type (it must hold i18n context)')
+  }
+
+  // 1 - No bound: prevent any stateful label display
+  if (boundType === BOUND_TYPE.NONE) {
+    // Do not show loading and such for that bound type
+    return intl.formatMessage({ id: 'criterion.attribute.bounds.upper.bound.none' }, { typeText: getTypeText(intl, attribute) })
+  }
+
+  // 2 - Are attribute bounds in a common state?
+  const stateHintText = formatBoundsStateHint(intl, attribute, boundType)
   if (stateHintText) {
     // yes: return it as text
     return stateHintText
   }
-  // 2 - Format bounds according with bound type
+  // 3 - Format bounds according with bound type
   switch (boundType) {
     case BOUND_TYPE.LOWER_BOUND:
-      return formatLowerBoundHintText(intl, attribute, typeText)
+      return formatLowerBoundHintText(intl, attribute)
     case BOUND_TYPE.UPPER_BOUND:
-      return formatUpperBoundHintText(intl, attribute, typeText)
+      return formatUpperBoundHintText(intl, attribute)
     case BOUND_TYPE.ANY_BOUND:
-      return formatAnyBoundHintText(intl, attribute, typeText)
+      return formatAnyBoundHintText(intl, attribute)
+    case BOUND_TYPE.NONE:
+      return intl.formatMessage({ id: 'criterion.attribute.bounds.upper.bound.none' }, { typeText: getTypeText(intl, attribute) })
     default:
       throw new Error(`Unknown bound type ${boundType}`)
   }
+}
+
+/**
+ * Formats tooltip with all available values, according with the following cases:
+ * A - The attribute is not valuable (not number nor date): Just the attribute type
+ * B - The attribute is valuable and has one bound or more: [Type] in [b1,b2]...
+ * C - The attribute is valuable but has no bound: [Type], not available for current results
+ * @param {*} intl intl context holding format functions
+ * @param {*} attribute an AttributeModelWithBounds
+ * @return {string} text to show as criterion field tooltip
+ */
+export function formatTooltip(intl, attribute) {
+  // A -
+  const { formatMessage } = intl
+  const typeText = getTypeText(intl, attribute)
+  const { boundsInformation } = attribute
+  if (!boundsInformation.exists || boundsInformation.loading || boundsInformation.error) {
+    return formatMessage({ id: 'criterion.attribute.tooltip.no.bound' }, { typeText })
+  }
+
+  // B - not it a specific case: if there is any bound, format the range then the full message
+  if (attribute.boundsInformation.lowerBound || attribute.boundsInformation.upperBound) {
+    const range = formatAnyBoundHintText(intl, attribute)
+    return formatMessage({ id: 'criterion.attribute.tooltip.valueable.with.bounds' }, { typeText, range })
+  }
+
+  // C -
+  return formatMessage({ id: 'criterion.attribute.tooltip.valueable.without.bound' }, { typeText })
 }

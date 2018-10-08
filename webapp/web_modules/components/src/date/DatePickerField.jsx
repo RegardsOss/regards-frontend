@@ -49,6 +49,8 @@ export default class DatePickerField extends React.Component {
     ),
     locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     fullWidth: PropTypes.bool,
+    disabled: PropTypes.bool,
+    tooltip: PropTypes.string,
   }
 
   static defaultProps = {
@@ -287,7 +289,9 @@ export default class DatePickerField extends React.Component {
    * @return {[React.Component]} built components array
    */
   renderTimePicker() {
-    const { fullWidth, timeHintText } = this.props
+    const {
+      fullWidth, timeHintText, disabled, tooltip,
+    } = this.props
 
     return [
       // 1 - hidden time picker (just for it to show the dialog)
@@ -298,7 +302,6 @@ export default class DatePickerField extends React.Component {
           value={this.props.value}
           errorText=""
           container="inline"
-          disabled={false}
           onChange={this.handleChangeTimePicker}
           fullWidth
           format="24hr"
@@ -318,12 +321,16 @@ export default class DatePickerField extends React.Component {
         hintText={timeHintText}
         onChange={this.handleDatetimeInputChange}
         onBlur={event => this.handleDatetimeInputBlur(event.currentTarget.value)}
+        disabled={disabled}
+        title={tooltip}
       />,
       // 3 - Show dialog button
       <IconButton
         key="time.selector.button"
         style={DatePickerField.iconStyle}
         onClick={() => this.datetimePicker.focus()}
+        disabled={disabled}
+        title={tooltip}
       >
         <TimeIcon />
       </IconButton>]
@@ -334,7 +341,9 @@ export default class DatePickerField extends React.Component {
    * @return {[React.Component]} built components array
    */
   renderDate() {
-    const { fullWidth, dateHintText } = this.props
+    const {
+      fullWidth, dateHintText, disabled, tooltip,
+    } = this.props
     return [
       // 1 - hidden date picker (just for it to show the dialog)
       <div key="hidden.date.field" style={DatePickerField.datePickerContainerStyle}>
@@ -343,7 +352,6 @@ export default class DatePickerField extends React.Component {
           floatingLabelText=""
           value={this.props.value}
           errorText=""
-          disabled={false}
           formatDate={date => format(date, DatePickerField.DATE_FORMAT_US)}
           autoOk={this.props.autoOk}
           okLabel={this.props.okLabel}
@@ -364,12 +372,16 @@ export default class DatePickerField extends React.Component {
         hintText={dateHintText}
         onChange={this.handleDateInputChange}
         onBlur={event => this.handleDateInputBlur(event.currentTarget.value)}
+        disabled={disabled}
+        title={tooltip}
       />,
       // 3 - Show dialog button
       <IconButton
         key="date.selector.button"
         style={DatePickerField.iconStyle}
         onClick={() => this.datePicker.focus()}
+        disabled={disabled}
+        title={tooltip}
       >
         <ActionDateRange />
       </IconButton>]

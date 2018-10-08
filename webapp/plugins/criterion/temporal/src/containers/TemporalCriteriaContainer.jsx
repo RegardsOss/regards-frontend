@@ -33,7 +33,7 @@ import { DatePickerField, NumericalComparator } from '@regardsoss/components'
  *
  *  @author Xavier-Alexandre Brochard
  */
-export class TemporalCriteriaComponent extends PluginCriterionContainer {
+export class TemporalCriteriaContainer extends PluginCriterionContainer {
   static propTypes = {
     // parent props
     ...PluginCriterionContainer.propTypes,
@@ -120,6 +120,7 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
           onChange={this.handleChangeComparator}
           value={comparator}
           comparators={availableComparators}
+          disabled={this.hasNoValue('searchField')} // disable when no value for attribute in current context
         />
         <DatePickerField
           value={searchField}
@@ -130,6 +131,8 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
           timeHintText={intl.formatMessage({ id: 'criterion.time.field.label' })}
           okLabel={intl.formatMessage({ id: 'criterion.picker.ok.label' })}
           cancelLabel={intl.formatMessage({ id: 'criterion.picker.cancel.label' })}
+          disabled={this.hasNoValue('searchField')} // disable when no value in current context
+          tooltip={this.getFieldTooltip('searchField')} // format tooltip using parent method
           displayTime
         />
       </div>
@@ -137,4 +140,4 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
   }
 }
 
-export default TemporalCriteriaComponent
+export default TemporalCriteriaContainer

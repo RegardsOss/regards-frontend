@@ -20,9 +20,9 @@ import replace from 'lodash/replace'
 import split from 'lodash/split'
 import map from 'lodash/map'
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
+import IconButton from 'material-ui/IconButton'
+import FullwordIcon from 'mdi-material-ui/Contain'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -33,7 +33,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  * @author Sébastien Binda
  * @author Xavier-Alexandre Brochard
  */
-export class StringCriteriaComponent extends PluginCriterionContainer {
+export class StringCriteriaContainer extends PluginCriterionContainer {
   static propTypes = {
     // parent props
     ...PluginCriterionContainer.propTypes,
@@ -52,7 +52,10 @@ export class StringCriteriaComponent extends PluginCriterionContainer {
     checked: false,
   }
 
-  onCheck = () => {
+  /**
+   * User callback: full word option was checked / unchecked
+   */
+  onCheckFullWord = () => {
     this.setState({ checked: !this.state.checked })
   }
 
@@ -96,35 +99,38 @@ export class StringCriteriaComponent extends PluginCriterionContainer {
   handleClear = () => this.handleChange(undefined, '')
 
   render() {
-    const attributeLabel = this.getAttributeLabel('searchField')
     const {
+      intl: { formatMessage },
       moduleTheme: {
-        rootStyle, labelSpanStyle, checkboxStyle, textFieldStyle,
+        rootStyle, labelSpanStyle, textFieldStyle,
+        uncheckIconStyle, checkedIconStyle,
       },
     } = this.context
 
     return (
-      <div style={rootStyle} >
-        <span style={labelSpanStyle} >
-          {attributeLabel}
+      <div style={rootStyle}>
+        <span style={labelSpanStyle}>
+          {this.getAttributeLabel('searchField')}
         </span>
         <TextField
           id="search"
-          floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
+          // Genererate type label as floating text
+          floatingLabelText={this.getFieldHintText('searchField', PluginCriterionContainer.BOUND_TYPE.NONE)}
+          title={this.getFieldTooltip('searchField')}
           value={this.state.searchField}
           onChange={this.handleChange}
           style={textFieldStyle}
         />
-        <Checkbox
-          label={<FormattedMessage id="criterion.search.field.word.checkbox.label" />}
-          labelPosition="right"
-          checked={this.state.checked}
-          onCheck={this.onCheck}
-          style={checkboxStyle}
-        />
+        <IconButton
+          iconStyle={this.state.checked ? checkedIconStyle : uncheckIconStyle}
+          title={formatMessage({ id: 'criterion.search.field.word.checkbox.title' })}
+          onClick={this.onCheckFullWord}
+        >
+          <FullwordIcon />
+        </IconButton>
       </div>
     )
   }
 }
 
-export default StringCriteriaComponent
+export default StringCriteriaContainer

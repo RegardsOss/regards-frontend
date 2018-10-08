@@ -16,48 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import flow from 'lodash/flow'
-import uniq from 'lodash/uniq'
-import fpmap from 'lodash/fp/map'
-import { DataManagementShapes } from '@regardsoss/shape'
+import values from 'lodash/values'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
-import TwoNumericalCriteriaSimpleComponent from './TwoNumericalCriteriaSimpleComponent'
-import TwoNumericalCriteriaComposedComponent from './TwoNumericalCriteriaComposedComponent'
+import MultipleAttributesContainer from '../containers/MultipleAttributesContainer'
+import SingleAttributeContainer from '../containers/SingleAttributeContainer'
 
 /**
- * Search form criteria plugin allowing the user to configure the numerical value of two different attributes with comparators.
- *
- * Below is an example of the simple layout for two different attributes :
- * attribute1 < value1 and attribute2 != value2
+ * Main plugin component: it does nothing but redirection to adequate container: SingleAttributeContainer when configuration
+ * holds a single attribute, MultipleAttributesContainer otherwise (therefore it is a component)
  *
  * @author Xavier-Alexandre Brochard
  */
 export class TwoNumericalCriteriaComponent extends React.Component {
   static propTypes = {
-    // container props (propagated to children)
     ...PluginCriterionContainer.propTypes,
-    /**
-     * List of attributes associated to the plugin.
-     * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
-     * Value of each keys are the attribute id (retrieved from the server) associated
-     */
-    attributes: DataManagementShapes.AttributeModelList,
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      // Switch to composed mode if only one attribute passed
-      isComposed: flow(fpmap('name'), uniq)(props.attributes).length === 1,
-    }
   }
 
   render() {
-    const { isComposed } = this.state
-
-    return isComposed ?
-      <TwoNumericalCriteriaComposedComponent {...this.props} /> :
-      <TwoNumericalCriteriaSimpleComponent {...this.props} />
+    // gather different attributes list values(this.props.attributes)
+    const allKeys = values(this.props.attributes).reduce(
+      (acc, attribute) => acc.includes(attribute.jsonPath) ? acc : [...acc, attribute.jsonPath], [])
+    return allKeys.length <= 1
+      ? <SingleAttributeContainer {...this.props} />
+      : <MultipleAttributesContainer {...this.props} />
   }
 }
 

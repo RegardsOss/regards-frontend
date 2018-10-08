@@ -36,8 +36,11 @@ const pluginStyles = theme => ({
     width: 180,
     margin: '0px 10px',
   },
-  checkboxStyle: {
-    width: 150,
+  uncheckIconStyle: {
+    color: theme.palette.textColor,
+  },
+  checkedIconStyle: {
+    color: theme.palette.accent1Color,
   },
 })
 

@@ -18,11 +18,26 @@
  **/
 
 /**
- * i18n messages French language
- * @type {*}
+ * Some example Redux actions builder class
+ * @author Raphaël Mechali
  */
-const messages = {
-  'criterion.search.field.label': 'Nombre ...',
-}
+export default class ExampleActions {
+  /**
+   * Constructor
+   * @param {string} namespace actions namespace used to make sure ONLY ONE REDUCER will handle this action
+   */
+  constructor(namespace) {
+    this.DO_SOMETHING = `${namespace}/DO_SOMETHING`
+  }
 
-export default messages
+  /**
+   * @param {string} something some parameter for action (for example needs)
+   * @return {*} redux action to dispatch
+   */
+  doSomething(something) {
+    return {
+      type: this.DO_SOMETHING,
+      todo: something,
+    }
+  }
+}

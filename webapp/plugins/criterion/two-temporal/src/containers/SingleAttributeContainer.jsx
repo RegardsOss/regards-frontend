@@ -21,14 +21,10 @@ import Arrow from 'material-ui/svg-icons/navigation/arrow-forward'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import TemporalCriteriaComponent from './TemporalCriteriaComponent'
+import TemporalCriteriaComponent from '../components/TemporalCriteriaComponent'
 
 /**
- * Component allowing the user to configure the temporal value of a single attribute with two date comparators (before, after, ...).
- * For example, it will display:
- *   [attributeName] : 23/02/2017 08:00 → 23/02/2017 12:00
- *
- * The plugin's output is the execution of the passed {@code onChange} prop.
+ * Main container for criterion when working on a single attribute: value from X to Y
  *
  * @author Xavier-Alexandre Brochard
  */
@@ -100,6 +96,7 @@ export class TwoTemporalCriteriaComposedComponent extends PluginCriterionContain
   render() {
     const { firstField, secondField } = this.state
     const {
+      intl: { formatMessage },
       moduleTheme: {
         rootStyle, lineStyle, labelSpanStyle, lineGroupStyle,
       },
@@ -108,11 +105,16 @@ export class TwoTemporalCriteriaComposedComponent extends PluginCriterionContain
     return (
       <div style={rootStyle}>
         <div style={lineStyle}>
-          <span style={labelSpanStyle}>{this.getAttributeLabel('firstField')} :</span>
+          <span style={labelSpanStyle}>
+            {formatMessage({ id: 'single.attributes.label' }, { label: this.getAttributeLabel('firstField') })}
+          </span>
           <div style={lineGroupStyle}>
             <TemporalCriteriaComponent
               label={this.getAttributeLabel('firstField')}
               value={firstField}
+              hintDate={this.getAttributeBoundsInformation('firstField').lowerBound}
+              tooltip={this.getFieldTooltip('firstField')}
+              disabled={this.hasNoValue('firstField')}
               onChange={this.changeValue1}
               hideAttributeName
             />
@@ -120,6 +122,9 @@ export class TwoTemporalCriteriaComposedComponent extends PluginCriterionContain
             <TemporalCriteriaComponent
               label={this.getAttributeLabel('secondField')}
               value={secondField}
+              hintDate={this.getAttributeBoundsInformation('firstField').upperBound}
+              tooltip={this.getFieldTooltip('firstField')}
+              disabled={this.hasNoValue('firstField')}
               onChange={this.changeValue2}
               hideAttributeName
               isStopDate

@@ -1,5 +1,5 @@
 {
-  "name": "example-plugin",
+  "name": "example-criterion",
   "version": "2.0.0-SNAPSHOT",
   "description": "REGARDS frontend criteria plugin for string attributes",
   "private": true,

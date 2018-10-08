@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
 import { i18nContextType } from '@regardsoss/i18n'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
@@ -23,7 +24,7 @@ import merge from 'lodash/merge'
 import reduce from 'lodash/reduce'
 import React from 'react'
 import { AttributeModelWithBounds } from '../shapes/AttributeModelWithBounds'
-import { BOUND_TYPE, formatHintText } from '../utils/BoundsMessagesHelper'
+import { BOUND_TYPE, formatHintText, formatTooltip } from '../utils/BoundsMessagesHelper'
 
 /**
  * Abstract class to extend in order to create a criterion plugin.
@@ -180,25 +181,50 @@ class PluginCriterionContainer extends React.Component {
    * @param {string} configuredAttributeName attribute name from plugin-info.json
    * @return {*} bounds information, see AttributeModelWithBounds
    */
-  getAttributeBoundsInformation = configuredAttributeName => get(this.props, `attributes["${configuredAttributeName}"].boundsInformations`)
+  getAttributeBoundsInformation = configuredAttributeName => get(this.props, `attributes.${configuredAttributeName}.boundsInformation`, {})
 
   /**
    * Returns field hint text, according with corresponding attribute type and bounds information (if any) AND with field role:
    * - A field that controls search range lower bound should use LOWER_BOUND type
    * - A field that controls search range upper bound should use UPPER_BOUND type
-   * - A field that can control both should user ANY_BOUND type
+   * - A field that can control both should use ANY_BOUND type
+   * - A field that should not / can not show detailed hint text should use NONE (only the type will be returned)
    * That method is also intended to be used with "non-boundable" attributes (hint text will only show the attribute type as hint text)
    * @param {string} configuredAttributeName attribute name from plugin-info.json
    * @param {string} boundType field bound type (see comment above)
-   * @param
+   * @return {string} usable text as field hint
    */
   getFieldHintText = (configuredAttributeName, boundType) => {
     const { intl } = this.context
     return formatHintText(intl, this.props.attributes[configuredAttributeName], boundType)
   }
 
+  /**
+   * Returns field tooltip (see BoundsMessagesHelper#formatTooltip for more information)
+   * @param {string} configuredAttributeName attribute name from plugin-info.json
+   * @return {string} usable text as tooltip
+   */
+  getFieldTooltip = (configuredAttributeName) => {
+    const { intl } = this.context
+    return formatTooltip(intl, this.props.attributes[configuredAttributeName])
+  }
+
   setState(state) {
     super.setState(state, this.onPluginChangeValue)
+  }
+
+  /**
+   * Computes if a BOUNDABLE parameter has no value (DATE / DOUBLE / LONG / INTEGER attributes): if no bound could be resolved for it, then it
+   * has no value in current seach context
+   * @param {string} configuredAttributeName attribute name from plugin-info.json
+   * @return {Boolean} true when attribute IS BOUNDABLE and has no value. False if it is not boundable, has values, is loading or
+   * finished loading values in error
+   */
+  hasNoValue = (configuredAttributeName) => {
+    const {
+      exists, loading, error, lowerBound, upperBound,
+    } = this.getAttributeBoundsInformation(configuredAttributeName)
+    return exists && !loading && !error && isNil(lowerBound) && isNil(upperBound)
   }
 
   handleClear = () => {

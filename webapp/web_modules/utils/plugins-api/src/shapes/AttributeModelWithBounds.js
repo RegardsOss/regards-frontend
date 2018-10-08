@@ -34,7 +34,7 @@ const BoundsInformation = PropTypes.shape({
   upperBound: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 })
 
-export const AttributeModelWithBounds = {
+export const AttributeModelWithBounds = PropTypes.shape({
   ...DataManagementShapes.attributeModelFields,
   boundsInformation: BoundsInformation.isRequired,
-}
+})

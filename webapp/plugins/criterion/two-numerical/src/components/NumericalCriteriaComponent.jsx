@@ -18,7 +18,6 @@
  **/
 import values from 'lodash/values'
 import TextField from 'material-ui/TextField'
-import { FormattedMessage } from 'react-intl'
 import { EnumNumericalComparator } from '@regardsoss/domain/common'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -57,10 +56,9 @@ export class NumericalCriteriaComponent extends React.Component {
      */
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     /**
-     * If true, the attribute name, comparator and and field will be rendered in reversed order
-     * Default to false.
+     * Hint text to show
      */
-    reversed: PropTypes.bool,
+    hintText: PropTypes.string.isRequired,
     /**
      * If true, the attribute name will not be rendered.
      * Default to false.
@@ -71,10 +69,13 @@ export class NumericalCriteriaComponent extends React.Component {
      * Default to false.
      */
     hideComparator: PropTypes.bool,
+    /** Optional field toltip */
+    tooltip: PropTypes.string,
+    /** Is selector disabled? */
+    disabled: PropTypes.bool,
   }
 
   static defaultProps = {
-    reversed: false,
     hideAttributeName: false,
     hideComparator: false,
     value: undefined,
@@ -125,50 +126,45 @@ export class NumericalCriteriaComponent extends React.Component {
 
   render() {
     const {
-      label, comparator, value, reversed, hideAttributeName, hideComparator, availableComparators,
+      label, comparator, value, hintText, disabled, tooltip,
+      hideAttributeName, hideComparator, availableComparators,
     } = this.props
     const { moduleTheme: { labelSpanStyle, textFieldStyle, lineStyle } } = this.context
-
-    // Store the content in an array because we need to maybe reverse to order
-    const content = []
-    if (!hideAttributeName) {
-      content.push(
-        <span
-          key="label"
-          style={labelSpanStyle}
-        >
-          {label}
-        </span>)
-    }
-    if (!hideComparator) {
-      content.push(
-        <NumericalComparator
-          key="comparator"
-          value={comparator}
-          onChange={this.handleChangeComparator}
-          comparators={availableComparators}
-        />,
-      )
-    }
-    content.push(
-      <TextField
-        id="search"
-        key="field"
-        type="number"
-        floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
-        value={this.format(value)}
-        onChange={this.handleChangeValue}
-        style={textFieldStyle}
-      />,
-    )
-
-    if (reversed) content.reverse()
 
     return (
       <div
         style={lineStyle}
       >
-        {content}
+        { // Show attribute name if not hidden
+        hideAttributeName ? null
+          : <span
+            key="label"
+            style={labelSpanStyle}
+          >
+            {label}
+          </span>
+      }
+        { // Show comparator if not hidden
+        hideComparator ? null
+          : <NumericalComparator
+            key="comparator"
+            value={comparator}
+            onChange={this.handleChangeComparator}
+            comparators={availableComparators}
+            disabled={disabled}
+          />
+      }
+        <TextField
+          id="search"
+          key="field"
+          type="number"
+          floatingLabelText={hintText}
+          value={this.format(value)}
+          style={textFieldStyle}
+          disabled={disabled}
+          title={tooltip}
+          onChange={this.handleChangeValue}
+        />
       </div>
     )
   }

@@ -1,5 +1,5 @@
 {
-  "name": "string-criteria",
+  "name": "example-criterion",
   "description": "Criteria widget to search for a given string into a model attribute",
   "version": "1.0.0",
   "author": "Binda sebastien",

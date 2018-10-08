@@ -19,15 +19,11 @@
 import { EnumNumericalComparator } from '@regardsoss/domain/common'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PluginCriterionContainer, numberRangeHelper } from '@regardsoss/plugins-api'
-import NumericalCriteriaComponent from './NumericalCriteriaComponent'
+import { PluginCriterionContainer, numberRangeHelper, BOUND_TYPE } from '@regardsoss/plugins-api'
+import NumericalCriteriaComponent from '../components/NumericalCriteriaComponent'
 
 /**
- * Component allowing the user to configure the numerical value of two different attributes with a mathematical comparator (=, >, <=, ...).
- * For example, it will display:
- *   [attributeName1] < 1400    et    [attributeName2] !=  15
- *
- * The plugin's output is the execution of the passed {@code onChange} prop.
+ * Main container for criterion when working on a different attributes: value1 from / to X and value2 from / to Y
  *
  * @author Xavier-Alexandre Brochard
  */
@@ -149,15 +145,21 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContaine
             label={this.getAttributeLabel('firstField')}
             value={firstField.value}
             comparator={firstField.operator}
-            onChange={this.onChangeValue1}
             availableComparators={TwoNumericalCriteriaSimpleComponent.AVAILABLE_COMPARISON_OPERATORS}
+            onChange={this.onChangeValue1}
+            hintText={this.getFieldHintText('firstField', BOUND_TYPE.LOWER_BOUND)}
+            tooltip={this.getFieldTooltip('firstField')}
+            disabled={this.hasNoValue('firstField')}
           />
           <NumericalCriteriaComponent
             label={this.getAttributeLabel('secondField')}
             value={secondField.value}
             comparator={secondField.operator}
-            onChange={this.onChangeValue2}
             availableComparators={TwoNumericalCriteriaSimpleComponent.AVAILABLE_COMPARISON_OPERATORS}
+            onChange={this.onChangeValue2}
+            hintText={this.getFieldHintText('secondField', BOUND_TYPE.UPPER_BOUND)}
+            tooltip={this.getFieldTooltip('secondField')}
+            disabled={this.hasNoValue('secondField')}
           />
         </div>
       </div>

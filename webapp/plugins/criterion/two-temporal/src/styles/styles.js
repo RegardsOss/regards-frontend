@@ -39,10 +39,6 @@ const pluginStyles = theme => ({
   labelSpanStyle: {
     margin: '0px 10px',
   },
-  datePickerStyle: {
-    top: -13,
-    margin: '0px 10px',
-  },
   comparatorButtonStyle: {
     height: theme.button.iconButtonSize,
     width: theme.button.iconButtonSize,
@@ -50,6 +46,19 @@ const pluginStyles = theme => ({
   },
   comparatorMenuStyle: {
     display: 'none',
+  },
+  datePickerContainerStyle: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
+  datePickerLabelStyle: {
+    margin: '0px 10px',
+  },
+  datePickerSelectorStyle: {
+    top: -13,
+    margin: '0px 10px',
   },
   comparatorMenuItemStyle: {
     display: 'flex',

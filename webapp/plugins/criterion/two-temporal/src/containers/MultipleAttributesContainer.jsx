@@ -24,16 +24,14 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
-import TemporalCriteriaComponent from './TemporalCriteriaComponent'
+import TemporalCriteriaComponent from '../components/TemporalCriteriaComponent'
 
 /**
- * Component allowing the user to configure the temporal value of two different attributes.
- * For example, it will display:
- *   [attributeName1] / [attributeName2] : 23/02/2017 08:00 → 23/02/2017 12:00
+ * Main container for criterion when working on a different attributes: value1 from / to X and value2 from / to Y
  *
  * @author Xavier-Alexandre Brochard
  */
-export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer {
+export class MultipleAttributesContainer extends PluginCriterionContainer {
   static propTypes = {
     // parent props
     ...PluginCriterionContainer.propTypes,
@@ -172,6 +170,7 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
   render() {
     const { firstField, secondField } = this.state
     const {
+      intl: { formatMessage },
       moduleTheme: {
         rootStyle, lineStyle, labelSpanStyle, lineGroupStyle,
       },
@@ -181,13 +180,21 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
       <div style={rootStyle}>
         <div style={lineStyle}>
           <span style={labelSpanStyle}>
-            {this.getAttributeLabel('firstField')} / {this.getAttributeLabel('secondField')} :
+            {
+              formatMessage({ id: 'multiple.attributes.label' }, {
+                label1: this.getAttributeLabel('firstField'),
+                label2: this.getAttributeLabel('secondField'),
+              })
+            }
           </span>
           <div style={lineGroupStyle}>
             <TemporalCriteriaComponent
               label={this.getAttributeLabel('firstField')}
               value={firstField}
               onChange={this.changeValue1}
+              hintDate={this.getAttributeBoundsInformation('firstField').lowerBound}
+              tooltip={this.getFieldTooltip('firstField')}
+              disabled={this.hasNoValue('firstField')}
               hideAttributeName
             />
             <Arrow />
@@ -195,6 +202,9 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
               label={this.getAttributeLabel('secondField')}
               value={secondField}
               onChange={this.changeValue2}
+              hintDate={this.getAttributeBoundsInformation('secondField').upperBound}
+              tooltip={this.getFieldTooltip('secondField')}
+              disabled={this.hasNoValue('secondField')}
               hideAttributeName
               isStopDate
             />
@@ -205,4 +215,4 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
   }
 }
 
-export default TwoTemporalCriteriaSimpleComponent
+export default MultipleAttributesContainer

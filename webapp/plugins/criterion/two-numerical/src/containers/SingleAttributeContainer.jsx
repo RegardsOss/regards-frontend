@@ -20,24 +20,15 @@ import { FormattedMessage } from 'react-intl'
 import { EnumNumericalComparator } from '@regardsoss/domain/common'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PluginCriterionContainer, numberRangeHelper } from '@regardsoss/plugins-api'
-import NumericalCriteriaComponent from './NumericalCriteriaComponent'
+import { PluginCriterionContainer, numberRangeHelper, BOUND_TYPE } from '@regardsoss/plugins-api'
+import NumericalCriteriaComponent from '../components/NumericalCriteriaComponent'
 
 /**
- * Component allowing the user to configure the numerical value of a single attribute with two mathematical comparators (=, >, <=, ...).
- * For example, it will display:
- *   1400 < [attributeName] < 15
- *
- * The plugin's output is the execution of the passed {@code onChange} prop.
+ * Main container for criterion when working on a single attribute: value from X to Y
  *
  * @author Xavier-Alexandre Brochard
  */
-export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContainer {
-  static propTypes = {
-    // parent props
-    ...PluginCriterionContainer.propTypes,
-  }
-
+export class SingleAttributeContainer extends PluginCriterionContainer {
   static contextTypes = {
     // enable plugin theme access through this.context
     ...themeContextType,
@@ -52,7 +43,7 @@ export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContai
   }
 
   /** Initial state */
-  state = TwoNumericalCriteriaComposedComponent.DEFAULT_STATE
+  state = SingleAttributeContainer.DEFAULT_STATE
 
   /**
    * Callback: user changed value 1
@@ -102,7 +93,7 @@ export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContai
    * Clear the entered values
    */
   handleClear = () => {
-    this.setState(TwoNumericalCriteriaComposedComponent.DEFAULT_STATE)
+    this.setState(SingleAttributeContainer.DEFAULT_STATE)
   }
 
   render() {
@@ -129,9 +120,11 @@ export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContai
               value={firstField}
               comparator={EnumNumericalComparator.LE}
               onChange={this.onChangeValue1}
+              hintText={this.getFieldHintText('firstField', BOUND_TYPE.LOWER_BOUND)}
+              tooltip={this.getFieldTooltip('firstField')}
+              disabled={this.hasNoValue('firstField')}
               hideAttributeName
               hideComparator
-              reversed
             />
             <span style={{ marginRight: 10 }}>
               <FormattedMessage id="criterion.aggregator.and" />
@@ -141,6 +134,9 @@ export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContai
               value={secondField}
               comparator={EnumNumericalComparator.GE}
               onChange={this.onChangeValue2}
+              hintText={this.getFieldHintText('firstField', BOUND_TYPE.UPPER_BOUND)}
+              tooltip={this.getFieldTooltip('firstField')}
+              disabled={this.hasNoValue('firstField')}
               hideAttributeName
               hideComparator
             />
@@ -151,4 +147,4 @@ export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContai
   }
 }
 
-export default TwoNumericalCriteriaComposedComponent
+export default SingleAttributeContainer

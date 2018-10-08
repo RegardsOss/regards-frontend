@@ -26,7 +26,7 @@ export const Criterion = PropTypes.shape({
   active: PropTypes.bool.isRequired,
   // conf.attributes holds, by plugin attribute name, the attribute ID OR key (for standard attributes)
   conf: PropTypes.shape({
-    attributes: PropTypes.objectOf(PropTypes.string).isRequired,
+    attributes: PropTypes.objectOf(PropTypes.string),
   }).isRequired,
 })
 

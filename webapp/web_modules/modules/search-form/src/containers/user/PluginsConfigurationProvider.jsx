@@ -167,7 +167,7 @@ export class PluginsConfigurationProvider extends React.Component {
       ...plugin,
       conf: {
         ...plugin.conf,
-        attributes: reduce(plugin.conf.attributes, (acc, attribute, key) => ({
+        attributes: reduce(plugin.conf.attributes || {}, (acc, attribute, key) => ({
           ...acc,
           [key]: addBoundsState(attribute),
         }), {}),

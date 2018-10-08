@@ -16,25 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
-import { connect } from 'react-redux'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 
-export class ExampleCriteriaComponent extends PluginCriterionContainer {
+class FullTextCriteriaContainer extends PluginCriterionContainer {
   static propTypes = {
     // parent props
     ...PluginCriterionContainer.propTypes,
-    // From mapStateToProps
-    test: PropTypes.bool,
-    // From mapDispatchToProps
-    /**
-     * Just for checking that  we can dispatch an action from the plugin
-     */
-    testDispatch: PropTypes.func,
   }
 
   static contextTypes = {
@@ -51,19 +42,8 @@ export class ExampleCriteriaComponent extends PluginCriterionContainer {
     }
   }
 
-  componentDidMount() {
-    this.props.testDispatch()
-  }
-
   changeValue = (value) => {
-    this.props.onChange({
-      attribute: this.props.attributes.searchField,
-      comparator: 'EQ',
-      value,
-    }, this.props.pluginInstanceId)
-    this.setState({
-      value,
-    })
+    this.setState({ value })
   }
 
   getPluginSearchQuery = (state) => {
@@ -74,19 +54,16 @@ export class ExampleCriteriaComponent extends PluginCriterionContainer {
     return openSearchQuery
   }
 
-  handleClear = () => {
-    this.changeValue('')
-  }
+  /**
+   * Clear the entered value
+   */
+  handleClear = () => this.changeValue('')
 
   render() {
-    const attributeLabel = this.props.attributes.searchField.name ? this.props.attributes.searchField.name : null
-    const { moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle } } = this.context
+    const { moduleTheme: { rootStyle, textFieldStyle } } = this.context
 
     return (
       <div style={rootStyle}>
-        <span style={labelSpanStyle} >
-          {attributeLabel}
-        </span>
         <TextField
           id="search"
           floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
@@ -100,11 +77,5 @@ export class ExampleCriteriaComponent extends PluginCriterionContainer {
     )
   }
 }
-const mapStateToProps = state => ({
-  test: state['plugins.string-criteria'].pluginTest.pluginTest,
-})
-const mapDispatchToProps = dispatch => ({
-  testDispatch: () => dispatch({ type: 'plugin/TEST' }),
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExampleCriteriaComponent)
+export default FullTextCriteriaContainer

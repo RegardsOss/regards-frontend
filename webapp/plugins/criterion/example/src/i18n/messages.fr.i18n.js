@@ -22,7 +22,10 @@
  * @type {*}
  */
 const messages = {
-  'criterion.search.field.label': 'Champ de recherche ...',
+  'example.criterion.no.todo': 'Je n\'ai rien à faire',
+  'example.criterion.current.todo': 'Il faut que je {todo}',
+  'example.criterion.todo.nap': 'fasse une sieste',
+  'example.criterion.todo.shopping': 'fasse des courses!',
 }
 
 export default messages
