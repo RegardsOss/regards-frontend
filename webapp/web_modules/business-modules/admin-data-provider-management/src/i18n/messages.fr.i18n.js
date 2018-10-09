@@ -56,6 +56,8 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.title': 'Général',
   'acquisition-chain.form.general.section.label': 'Libellé (*)',
   'acquisition-chain.form.general.section.active': 'Activer la chaîne d\'acquisition',
+  'acquisition-chain.form.general.generationRetryEnabled': 'Autoriser la re-génération des SIP associés à des produits en erreur.',
+  'acquisition-chain.form.general.submissionRetryEnabled': 'Autoriser la re-soumission des SIP associés à des produits en erreur.',
   'acquisition-chain.form.general.section.periodicity': 'Période d\'activation (secondes)',
   'acquisition-chain.form.general.section.session': 'Nom de session d\'ingestion',
   'acquisition-chain.form.general.section.mode': 'Mode',
