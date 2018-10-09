@@ -330,6 +330,7 @@ class ModuleContainer extends React.Component {
       return (
         <PluginsConfigurationProvider
           criteria={moduleConf.criterion}
+          preview={moduleConf.preview}
           initialQuery={initialQuery}
           authentication={authentication}
         >

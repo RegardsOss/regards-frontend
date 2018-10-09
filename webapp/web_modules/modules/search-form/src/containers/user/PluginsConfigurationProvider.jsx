@@ -26,11 +26,15 @@ import { DataManagementClient } from '@regardsoss/client'
 import { DataManagementShapes, CatalogShapes } from '@regardsoss/shape'
 import { AuthenticateShape } from '@regardsoss/authentication-utils'
 import { HOCUtils } from '@regardsoss/display-control'
+import { dataObjectAttributesSelectors } from '../../clients/DataObjectAttributesClient'
 import { attributesBoundsActions, attributesBoundsSelectors } from '../../clients/AttributesBoundsClient'
 import { CriteriaArray } from '../../shapes/ModuleConfiguration'
 
-/** Attributes default selector */
-const attributeModelSelectors = DataManagementClient.AttributeModelSelectors()
+/** Attribute models selectors when in user app (attributes are fetcher by user app root) */
+const userAMSelectors = DataManagementClient.AttributeModelSelectors()
+
+/**  Attributes models selectors when in admin app (attributes are fetch by main edition container AdminContainer) */
+const previewAMSelectors = dataObjectAttributesSelectors
 
 /**
  * Plugins configuration provider: it resolves plugin configuration with attribute models and fetches
@@ -46,9 +50,9 @@ export class PluginsConfigurationProvider extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state) {
+  static mapStateToProps(state, { preview }) {
     return {
-      attributeModels: attributeModelSelectors.getList(state),
+      attributeModels: (preview ? previewAMSelectors : userAMSelectors).getList(state),
       attributesBounds: attributesBoundsSelectors.getList(state),
       boundsFetchingError: attributesBoundsSelectors.hasError(state),
     }
@@ -69,6 +73,8 @@ export class PluginsConfigurationProvider extends React.Component {
 
   static propTypes = {
     // from parent container
+    // eslint-disable-next-line react/no-unused-prop-types
+    preview: PropTypes.bool, // is module in preview? used in onPropertiesUpdated and in mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     criteria: CriteriaArray, // used in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
@@ -193,6 +199,22 @@ export class PluginsConfigurationProvider extends React.Component {
   }
 
   /**
+   * Specific bounds for preview mode: plugins show only the type in preview
+   * @param {*} attributeModel attribute model
+   * @return {*} attribute model with bounds information
+   */
+  static withPreviewBoundInfo(attributeModel) {
+    return {
+      ...attributeModel,
+      boundsInformation: {
+        exists: false,
+        loading: false,
+        error: false,
+      },
+    }
+  }
+
+  /**
    * Adds to an attribute, if it should, fetched information
    * @param {*} attributesBounds fetched attribute bounds (see propTypes)
    * @param {*} attributeModel attribute model with bounds information
@@ -263,6 +285,7 @@ export class PluginsConfigurationProvider extends React.Component {
      const {
        initialQuery, authentication, attributeModels, criteria, children,
        boundsFetchingError, attributesBounds, dispatchFetchBounds, dispatchClearBounds,
+       preview,
      } = newProps
      const nextState = { ...this.state }
      if (!isEqual(initialQuery, oldProps.initialQuery)
@@ -271,10 +294,12 @@ export class PluginsConfigurationProvider extends React.Component {
      || !isEqual(criteria, oldProps.criteria)) {
        // 1 - Context or attributes changed:
        // 1.a - resolve and rebuild criteria configuration with attribute models (holding bounds state)
-       nextState.plugins = PluginsConfigurationProvider.resolveCriteriaAttributes(attributeModels, criteria, PluginsConfigurationProvider.withLoadingBoundInfo)
-       // 1.b - compute attributes that have bounds. Start fetching if there is any
+       nextState.plugins = PluginsConfigurationProvider.resolveCriteriaAttributes(attributeModels, criteria,
+         preview ? PluginsConfigurationProvider.withPreviewBoundInfo : PluginsConfigurationProvider.withLoadingBoundInfo)
+       // 1.b - compute attributes that have bounds. Start fetching if there is any.
+       // Note that withPreviewBoundInfo returned no attribute to fetch.
        const attributesToFetch = PluginsConfigurationProvider.getAttributesToFetchIn(nextState.plugins)
-       if (attributesToFetch.length) {
+       if (attributesToFetch.length) { // do not clear / fetch bounds when none was resolved or module is in preview
          dispatchClearBounds() // clear currently stored data
          dispatchFetchBounds(attributesToFetch, initialQuery)
        }
