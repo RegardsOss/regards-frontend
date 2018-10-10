@@ -40,9 +40,6 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing AccountsSettingsContainer', () => {
   })
   it('should render correctly with edition data', () => {
     const props = {
-      params: {
-        project: 'any',
-      },
       settings: {
         content: {
           id: 1,
@@ -50,11 +47,13 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing AccountsSettingsContainer', () => {
         },
       },
       hasError: false,
-      isFetching: false,
-      fetchSettings: () => { },
+      fetchSettings: () => new Promise(() => { }),
       updateSettings: () => { },
     }
     const enzymeWrapper = shallow(<AccountsSettingsContainer {...props} />, { context })
+    enzymeWrapper.setState({
+      isLoading: false,
+    })
     const wrapperInstance = enzymeWrapper.instance()
     // check i18n
     const i18nProviderWrapper = enzymeWrapper.find(I18nProvider)
@@ -78,9 +77,6 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing AccountsSettingsContainer', () => {
   })
   it('should render correctly loading', () => {
     const props = {
-      params: {
-        project: 'any',
-      },
       settings: {
         content: {
           id: 1,
@@ -88,8 +84,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing AccountsSettingsContainer', () => {
         },
       },
       hasError: false,
-      isFetching: true,
-      fetchSettings: () => { },
+      fetchSettings: () => new Promise(() => { }),
       updateSettings: () => { },
     }
     const enzymeWrapper = shallow(<AccountsSettingsContainer {...props} />, { context })
@@ -104,15 +99,14 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing AccountsSettingsContainer', () => {
   })
   it('should render correctly empty (no data)', () => {
     const props = {
-      params: {
-        project: 'any',
-      },
       hasError: false,
-      isFetching: false,
-      fetchSettings: () => { },
+      fetchSettings: () => new Promise(() => { }),
       updateSettings: () => { },
     }
     const enzymeWrapper = shallow(<AccountsSettingsContainer {...props} />, { context })
+    enzymeWrapper.setState({
+      isLoading: false,
+    })
     // check loader wrapper
     const loaderWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.lengthOf(loaderWrapper, 1, 'There should be a loader wrapper')
@@ -124,9 +118,6 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing AccountsSettingsContainer', () => {
   })
   it('should render correctly in error', () => {
     const props = {
-      params: {
-        project: 'any',
-      },
       settings: {
         content: {
           id: 1,
@@ -134,11 +125,13 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing AccountsSettingsContainer', () => {
         },
       },
       hasError: true,
-      isFetching: false,
-      fetchSettings: () => { },
+      fetchSettings: () => new Promise(() => { }),
       updateSettings: () => { },
     }
     const enzymeWrapper = shallow(<AccountsSettingsContainer {...props} />, { context })
+    enzymeWrapper.setState({
+      isLoading: false,
+    })
     // check loader wrapper
     const loaderWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.lengthOf(loaderWrapper, 1, 'There should be a loader wrapper')
