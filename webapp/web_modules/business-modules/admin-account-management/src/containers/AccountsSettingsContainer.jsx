@@ -41,7 +41,6 @@ export class AccountsSettingsContainer extends React.Component {
     return {
       settings: accountSettingsSelectors.getResult(state),
       hasError: accountSettingsSelectors.hasError(state),
-      isFetching: accountSettingsSelectors.isFetching(state),
     }
   }
 
@@ -62,10 +61,13 @@ export class AccountsSettingsContainer extends React.Component {
     // from mapStateToProps
     settings: AdminInstanceShapes.AccountSettingsWithContent,
     hasError: PropTypes.bool.isRequired,
-    isFetching: PropTypes.bool.isRequired,
     // from mapDispatchToProps
     fetchSettings: PropTypes.func.isRequired,
     updateSettings: PropTypes.func.isRequired,
+  }
+
+  state = {
+    isLoading: true,
   }
 
   /**
@@ -74,6 +76,11 @@ export class AccountsSettingsContainer extends React.Component {
   componentDidMount() {
     const { fetchSettings } = this.props
     fetchSettings()
+      .then(() => {
+        this.setState({
+          isLoading: false,
+        })
+      })
   }
 
   /**
@@ -101,11 +108,12 @@ export class AccountsSettingsContainer extends React.Component {
   }
 
   render() {
-    const { isFetching, hasError, settings } = this.props
+    const { isLoading } = this.state
+    const { hasError, settings } = this.props
     return (
       <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
-          isLoading={isFetching}
+          isLoading={isLoading}
           isContentError={hasError}
           isEmpty={!settings}
         >
