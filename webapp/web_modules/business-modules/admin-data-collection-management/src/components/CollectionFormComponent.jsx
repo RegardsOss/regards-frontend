@@ -156,6 +156,7 @@ export class CollectionFormComponent extends React.Component {
               type="text"
               label={this.context.intl.formatMessage({ id: 'collection.form.providerId' })}
               disabled={!this.state.isCreating && !this.state.isDuplicating}
+              validate={ValidationHelpers.required}
             />
             <Field
               name="label"

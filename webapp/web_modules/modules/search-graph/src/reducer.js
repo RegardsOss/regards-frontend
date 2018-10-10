@@ -20,7 +20,7 @@
 // Admin : available collection models
 import CollectionModelReducers, { REDUCER_PATH as COLLECTION_MODEL_PATH } from './model/CollectionModelReducers'
 // Admin: available attributes
-import attributeModelClient from './clients/AttributeModelClient'
+import { REDUCER_PATH as attributeModelClientReducerPath, AttributeModelReducer } from './clients/AttributeModelClient'
 // User: graph dialog context (selection, collapse, ... all user actions and corresponding state )
 import GraphContextReducers, { REDUCER_PATH as GRAPH_CONTEXT_PATH } from './model/graph/GraphContextReducers'
 // User : fetch level content
@@ -28,10 +28,10 @@ import GraphLevelCollectionReducers, { REDUCER_PATH as GRAPH_LEVEL_COLLECTION_PA
 import GraphLevelDatasetReducers, { REDUCER_PATH as GRAPH_LEVEL_DATASET_PATH } from './model/graph/GraphLevelDatasetReducers'
 
 
-module.exports = {
+export default {
   // Admin
   [COLLECTION_MODEL_PATH]: CollectionModelReducers,
-  [attributeModelClient.REDUCER_PATH]: attributeModelClient.AttributeModelReducer,
+  [attributeModelClientReducerPath]: AttributeModelReducer,
   // User
   [GRAPH_CONTEXT_PATH]: GraphContextReducers,
   [GRAPH_LEVEL_COLLECTION_PATH]: GraphLevelCollectionReducers,

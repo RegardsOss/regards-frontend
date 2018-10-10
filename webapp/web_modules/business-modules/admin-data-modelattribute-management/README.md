@@ -14,7 +14,6 @@ This module display REGARDS models management panels.
   |   ├── i18n            : Messages and labels internationalization  
   |   ├── menu            : React component to display panels  
   |   ├── styles          : Panels styles (inline css objects)  
-  |   ├── dependencies.js : Needed resources to display panels  
   |   ├── main.js         : Module exported index  
   |   ├── reducer.js      : Redux reducers  
   |   └── router.js       : React-router configuration  

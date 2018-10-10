@@ -18,9 +18,11 @@
  **/
 import find from 'lodash/find'
 import Delete from 'material-ui/svg-icons/action/delete'
+import Schedule from 'material-ui/svg-icons/action/schedule'
 import IconButton from 'material-ui/IconButton'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import { DamDomain } from '@regardsoss/domain'
 
 /**
 * Delete table action for datasourceIngestions
@@ -33,6 +35,7 @@ class DataSourceMonitoringDeleteAction extends React.Component {
       links: PropTypes.array,
     }),
     onDelete: PropTypes.func.isRequired,
+    onSchedule: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -48,11 +51,28 @@ class DataSourceMonitoringDeleteAction extends React.Component {
     return !!find(links, l => l.rel === 'delete')
   }
 
+  isSchedulable = () => {
+    const { content } = this.props.entity
+    return content.status !== DamDomain.DataSourcesStatusEnum.STARTED
+  }
+
   render() {
     const { intl: { formatMessage } } = this.context
     const crawlerDatasource = this.props.entity.content
-    return (
+    return [
       <IconButton
+        key="schedule-button"
+        className={`selenium-schedule-${crawlerDatasource.id}`}
+        title={formatMessage({ id: 'crawler.list.schedule.action' })}
+        iconStyle={DataSourceMonitoringDeleteAction.iconStyle}
+        style={DataSourceMonitoringDeleteAction.buttonStyle}
+        onClick={() => this.props.onSchedule(crawlerDatasource.id)}
+        disabled={!this.isSchedulable()}
+      >
+        <Schedule />
+      </IconButton>,
+      <IconButton
+        key="delete-button"
         className={`selenium-edit-${crawlerDatasource.id}`}
         title={formatMessage({ id: 'crawler.list.delete.action' })}
         iconStyle={DataSourceMonitoringDeleteAction.iconStyle}
@@ -61,8 +81,8 @@ class DataSourceMonitoringDeleteAction extends React.Component {
         disabled={!this.isDeletable()}
       >
         <Delete />
-      </IconButton>
-    )
+      </IconButton>,
+    ]
   }
 }
 export default DataSourceMonitoringDeleteAction

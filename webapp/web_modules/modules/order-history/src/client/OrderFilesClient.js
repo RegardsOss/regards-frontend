@@ -19,12 +19,6 @@
 import { OrderClient } from '@regardsoss/client'
 
 const namespace = 'order-history/order-files'
-const orderFilesActions = new OrderClient.OrderDatasetFilesActions(namespace)
-const orderFilesReducer = OrderClient.getOrderDatasetFilesReducer(namespace)
-const orderFilesSelectors = OrderClient.getOrderDatasetFilesSelectors(['modules.order-history', 'orderFiles'])
-
-module.exports = {
-  orderFilesActions,
-  orderFilesReducer,
-  orderFilesSelectors,
-}
+export const orderFilesActions = new OrderClient.OrderDatasetFilesActions(namespace)
+export const orderFilesReducer = OrderClient.getOrderDatasetFilesReducer(namespace)
+export const orderFilesSelectors = OrderClient.getOrderDatasetFilesSelectors(['modules.order-history', 'orderFiles'])

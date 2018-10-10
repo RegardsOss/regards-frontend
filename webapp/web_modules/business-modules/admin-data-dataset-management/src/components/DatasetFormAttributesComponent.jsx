@@ -148,6 +148,7 @@ export class DatasetFormAttributesComponent extends React.Component {
               type="text"
               label={this.context.intl.formatMessage({ id: 'dataset.form.providerId' })}
               disabled={this.state.isEditing}
+              validate={ValidationHelpers.required}
             />
             <Field
               name="label"

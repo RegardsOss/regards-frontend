@@ -18,18 +18,15 @@
  **/
 import AccountCreationActions from './AccountCreationActions'
 
-const CreateUserActions = new AccountCreationActions('createUser')
+/**
+ * Actions to create a project user (requires an existing REGARDS account).
+ * @type {createUserActions}
+ */
+export const CreateUserActions = new AccountCreationActions('createUser')
 
-module.exports = {
-  /**
-   * Actions to create a project user (requires an existing REGARDS account).
-   * @type {createUserActions}
-   */
-  CreateUserActions,
-  /**
-   * Sends create account request (project is hold by the token)
-   * @param email account mail
-   * @param metadata array of user metadata
-   */
-  sendCreateUser: (email, metadata) => CreateUserActions.sendCreateRequest({ email, metadata }),
-}
+/**
+ * Sends create account request (project is hold by the token)
+ * @param email account mail
+ * @param metadata array of user metadata
+ */
+export const sendCreateUser = (email, metadata) => CreateUserActions.sendCreateRequest({ email, metadata })

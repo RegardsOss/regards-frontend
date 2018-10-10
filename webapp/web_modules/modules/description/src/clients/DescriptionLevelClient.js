@@ -25,12 +25,6 @@ import getDescriptionLevelSelectors from '../model/DescriptionLevelSelectors'
  * @author Raphaël Mechali
  */
 
-const descriptionLevelsActions = new DescriptionLevelActions()
-const descriptionLevelsReducer = getDescriptionLevelReducer()
-const descriptionLevelsSelectors = getDescriptionLevelSelectors()
-
-module.exports = {
-  descriptionLevelsActions,
-  descriptionLevelsReducer,
-  descriptionLevelsSelectors,
-}
+export const descriptionLevelsActions = new DescriptionLevelActions()
+export const descriptionLevelsReducer = getDescriptionLevelReducer()
+export const descriptionLevelsSelectors = getDescriptionLevelSelectors()

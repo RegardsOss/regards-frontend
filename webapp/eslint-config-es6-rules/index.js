@@ -61,6 +61,7 @@ const allRules = {
   'import/prefer-default-export': 0,
   // To remove when module.exports will disappear
   'import/named': 0,
+  'import/no-commonjs': [2, { allowRequire: true }],
 
   // React rules configuration
   'react/jsx-uses-react': 2,

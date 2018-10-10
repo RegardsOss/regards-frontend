@@ -24,12 +24,6 @@ import { AccessProjectClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['modules.search-results', 'pluginServices']
 const REDUX_ACTION_NAMESPACE = 'search-results/plugin-services'
 
-const pluginServiceActions = new AccessProjectClient.PluginServiceActions(REDUX_ACTION_NAMESPACE)
-const pluginServiceReducer = AccessProjectClient.getPluginServiceReducer(REDUX_ACTION_NAMESPACE)
-const pluginServiceSelectors = AccessProjectClient.getPluginServiceSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  pluginServiceActions,
-  pluginServiceReducer,
-  pluginServiceSelectors,
-}
+export const pluginServiceActions = new AccessProjectClient.PluginServiceActions(REDUX_ACTION_NAMESPACE)
+export const pluginServiceReducer = AccessProjectClient.getPluginServiceReducer(REDUX_ACTION_NAMESPACE)
+export const pluginServiceSelectors = AccessProjectClient.getPluginServiceSelectors(ENTITIES_STORE_PATH)

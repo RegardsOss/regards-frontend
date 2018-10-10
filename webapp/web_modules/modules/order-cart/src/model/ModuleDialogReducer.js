@@ -71,7 +71,4 @@ function getReducer(namespace) {
 /**
  * Exports reduction function buider
  */
-module.exports = {
-  // default instance
-  moduleDialogReducer: getReducer(),
-}
+export const moduleDialogReducer = getReducer()

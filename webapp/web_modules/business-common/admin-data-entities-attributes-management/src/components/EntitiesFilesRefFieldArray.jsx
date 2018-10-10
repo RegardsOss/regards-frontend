@@ -18,7 +18,9 @@
  **/
 import map from 'lodash/map'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { RenderTextField, RenderSelectField, Field } from '@regardsoss/form-utils'
+import {
+  RenderTextField, RenderSelectField, Field, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import MenuItem from 'material-ui/MenuItem'
 import messages from '../i18n'
@@ -49,6 +51,7 @@ export class EntitiesFilesRefFieldArray extends React.Component {
           component={RenderTextField}
           type="text"
           label={formatMessage({ id: 'entities-files.form.uri' })}
+          validate={ValidationHelpers.uri}
         />
         <Field
           name={`${name}.mimeType`}

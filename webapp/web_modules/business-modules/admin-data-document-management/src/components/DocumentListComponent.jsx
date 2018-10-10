@@ -38,7 +38,7 @@ import { tableActions } from '../clients/TableClient'
 import { documentActions, documentSelectors } from '../clients/DocumentClient'
 import EditDocumentTableAction from './EditDocumentTableAction'
 import DeleteDocumentTableAction from './DeleteDocumentTableAction'
-
+import CopyToClipBoardAction from './CopyToClipBoardAction'
 /**
  * Component to list Document
  *
@@ -123,6 +123,11 @@ class DocumentListComponent extends React.Component {
     const { createUrl, backUrl, handleEdit } = this.props
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
+    const style = {
+      hoverButtonEdit: muiTheme.palette.primary1Color,
+      hoverButtonDelete: muiTheme.palette.accent1Color,
+    }
+
     // Table columns to display
     const columns = [
       // 1 - label column
@@ -139,6 +144,9 @@ class DocumentListComponent extends React.Component {
         optionProps: {
           onEdit: handleEdit,
         },
+      }, {
+        OptionConstructor: CopyToClipBoardAction,
+        optionProps: { hoverColor: style.hoverButtonEdit },
       }, {
         OptionConstructor: DeleteDocumentTableAction, // custom cell
         optionProps: {

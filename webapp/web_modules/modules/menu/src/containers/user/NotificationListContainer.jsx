@@ -23,6 +23,7 @@ import { AdminShapes, CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { ShowableAtRender } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import NotificationListComponent from '../../components/user/NotificationListComponent'
 import {
   notificationPollerActions,
@@ -45,6 +46,10 @@ import {
  * @author Maxime Bouveron
  */
 export class NotificationListContainer extends React.Component {
+  static requiredDependencies = [
+    notificationPollerActions.getDependency(RequestVerbEnum.GET_LIST),
+  ]
+
   static mapStateToProps(state) {
     return {
       isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
@@ -60,13 +65,13 @@ export class NotificationListContainer extends React.Component {
     return {
       fetchLastNotification: (instance = false) => dispatch(
         instance
-          ? notificationPollerInstanceActions.fetchPagedEntityList(0, 1, {}, { sort: 'id,desc', state: 'UNREAD' })
-          : notificationPollerActions.fetchPagedEntityList(0, 1, {}, { sort: 'id,desc', state: 'UNREAD' }),
+          ? notificationPollerInstanceActions.fetchPagedEntityList(0, 1, {}, { state: 'UNREAD' })
+          : notificationPollerActions.fetchPagedEntityList(0, 1, {}, { state: 'UNREAD' }),
       ),
       fetchLastReadNotification: (instance = false) => dispatch(
         instance
-          ? notificationReadPollerInstanceActions.fetchPagedEntityList(0, 1, {}, { sort: 'id,desc', state: 'READ' })
-          : notificationReadPollerActions.fetchPagedEntityList(0, 1, {}, { sort: 'id,desc', state: 'READ' }),
+          ? notificationReadPollerInstanceActions.fetchPagedEntityList(0, 1, {}, { state: 'READ' })
+          : notificationReadPollerActions.fetchPagedEntityList(0, 1, {}, { state: 'READ' }),
       ),
       fetchNotification: (isInstance, pageNumber, fetchPageSize, requestParam) => dispatch(
         isInstance
@@ -135,7 +140,6 @@ export class NotificationListContainer extends React.Component {
     const lastPage = (notificationMetadata && notificationMetadata.number) || 0
     const totalElementsFetched = NotificationListComponent.PAGE_SIZE * (lastPage + 1)
     const requestParams = {
-      sort: 'id,desc',
       state: 'UNREAD',
     }
     return fetchNotification(this.state.isInstance, 0, totalElementsFetched, requestParams)

@@ -32,7 +32,7 @@ const DATETIME_OPTIONS = {
 /**
  * Show the list of users for the current project
  */
-function NewsItemComponent(props) {
+function NewsItemComponent(props, context) {
   const styleText = {
     textOverflow: 'ellipsis',
     overflow: 'hidden',
@@ -47,7 +47,7 @@ function NewsItemComponent(props) {
 
   }
   const { news } = props
-  const { intl: { formatDate } } = this.context
+  const { intl: { formatDate } } = context
   const pubDate = formatDate(news.pubDate, DATETIME_OPTIONS)
   return (
     <Card>
@@ -58,7 +58,7 @@ function NewsItemComponent(props) {
       />
       <CardText>
         <div style={styleText}>
-          { news.description }
+          {news.description}
         </div>
       </CardText>
       <CardActions>

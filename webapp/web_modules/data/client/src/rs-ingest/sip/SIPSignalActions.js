@@ -28,7 +28,9 @@ export default class SIPSignalActions extends BasicSignalsActions {
 
   static RETRY_ACTIONS = 'retryEndpoint'
 
-  static RETRY_SESSION_ACTIONS = 'retryAllEndpoint'
+  static RETRY_SESSION_SUBMISSION_ACTIONS = 'retryAllSubmissionEndpoint'
+
+  static RETRY_SESSION_GENERATION_ACTIONS = 'retryAllGenerationEndpoint'
 
   /**
    * Construtor
@@ -40,8 +42,12 @@ export default class SIPSignalActions extends BasicSignalsActions {
         entityEndpoint: `${SIPSignalActions.ROOT_ENDPOINT}/sips/{sipId}/retry`,
         namespace: `${namespace}/resume`,
       },
-      [SIPSignalActions.RETRY_SESSION_ACTIONS]: {
-        entityEndpoint: `${SIPSignalActions.ROOT_ENDPOINT}/sessions/{id}/retry`,
+      [SIPSignalActions.RETRY_SESSION_SUBMISSION_ACTIONS]: {
+        entityEndpoint: `${SIPSignalActions.ROOT_ENDPOINT}/sessions/{id}/retry/submission`,
+        namespace: `${namespace}/resume`,
+      },
+      [SIPSignalActions.RETRY_SESSION_GENERATION_ACTIONS]: {
+        entityEndpoint: `${SIPSignalActions.ROOT_ENDPOINT}/sessions/{id}/retry/generation`,
         namespace: `${namespace}/resume`,
       },
     })
@@ -57,7 +63,14 @@ export default class SIPSignalActions extends BasicSignalsActions {
   /**
    * Build an action that adds some tags to a set of sips
    */
-  retrySession(sessionId) {
-    return this.getSubAction(SIPSignalActions.RETRY_SESSION_ACTIONS).sendSignal('PUT', null, { id: sessionId })
+  retrySessionSubmission(sessionId) {
+    return this.getSubAction(SIPSignalActions.RETRY_SESSION_SUBMISSION_ACTIONS).sendSignal('PUT', null, { id: sessionId })
+  }
+
+  /**
+   * Build an action that adds some tags to a set of sips
+   */
+  retrySessionGeneration(sessionId) {
+    return this.getSubAction(SIPSignalActions.RETRY_SESSION_GENERATION_ACTIONS).sendSignal('PUT', null, { id: sessionId })
   }
 }

@@ -16,25 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import moduleContainer from './containers/ModuleContainer'
-import adminContainer from './containers/AdminContainer'
-import styles from './styles/styles'
-import reducer from './reducer'
-import dependencies from './dependencies'
-import messages from './i18n'
-
 // ensure the default module icon is present in bundle
 import '../default-icon.svg'
+
 
 /**
  * Module main file to expose public interface
  * @author Sébastien binda
  */
-module.exports = {
-  moduleContainer,
-  adminContainer,
-  styles,
-  reducer,
-  messages,
-  dependencies,
-}
+export { default as moduleContainer } from './containers/ModuleContainer'
+export { default as adminContainer } from './containers/AdminContainer'
+export { default as styles } from './styles/styles'
+export { default as reducer } from './reducer'
+export { default as dependencies } from './dependencies'
+export { default as messages } from './i18n'

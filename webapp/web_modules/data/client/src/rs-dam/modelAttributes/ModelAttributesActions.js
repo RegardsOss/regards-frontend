@@ -27,7 +27,7 @@ export default class ModelAttributesActions extends BasicListActions {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/{modelName}/attributes`,
-      entityPathVariable: 'pAttributeId',
+      entityPathVariable: 'attributeId',
       schemaTypes: {
         ENTITY: MODEL_ATTRIBUTE,
         ENTITY_ARRAY: MODEL_ATTRIBUTE_ARRAY,

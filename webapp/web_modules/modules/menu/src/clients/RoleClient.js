@@ -23,12 +23,6 @@ import { AdminClient } from '@regardsoss/client'
  * @author Raphaël Mechali
  */
 const namespace = 'ADMIN/MENU/ROLE'
-const roleActions = new AdminClient.RoleActions(namespace)
-const roleReducer = AdminClient.getRoleReducer(namespace)
-const roleSelectors = AdminClient.getRoleSelectors(['modules.menu', 'role'])
-
-module.exports = {
-  roleActions,
-  roleReducer,
-  roleSelectors,
-}
+export const roleActions = new AdminClient.RoleActions(namespace)
+export const roleReducer = AdminClient.getRoleReducer(namespace)
+export const roleSelectors = AdminClient.getRoleSelectors(['modules.menu', 'role'])

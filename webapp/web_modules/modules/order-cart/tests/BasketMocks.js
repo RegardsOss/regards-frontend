@@ -27,7 +27,7 @@
  * - 3 selections in first dataset
  * - 1 selection in second dataset
  */
-const mockBasket1 = {
+export const mockBasket1 = {
   id: 0,
   email: 'test@mail.com',
   datasetSelections: [
@@ -115,7 +115,7 @@ const mockBasket1 = {
  * - 1 selections in first dataset
  * - 2 selection in second dataset
  */
-const mockBasket2 = {
+export const mockBasket2 = {
   id: 0,
   email: 'test@mail.com',
   datasetSelections: [
@@ -188,14 +188,8 @@ const mockBasket2 = {
 /**
  * Empty basket
  */
-const emptyBasket = {
+export const emptyBasket = {
   id: 0,
   email: 'test@mail.com',
   datasetSelections: [],
-}
-
-module.exports = {
-  mockBasket1,
-  mockBasket2,
-  emptyBasket,
 }

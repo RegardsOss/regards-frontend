@@ -32,6 +32,8 @@ const messages = Object.assign({
   'crawler.list.stacktrace.title': 'Stacktrace',
   'crawler.list.stacktrace.action.close': 'Fermer',
   'crawler.list.delete.action': 'Supprimer',
+  'crawler.list.schedule.action': 'Programmer une ingestion',
+  'crawler.list.scheduled': 'La date de prochaine ingestion a été mise à jour',
   'crawler.delete.confirm.title': 'Etes vous sûr de vouloir supprimer l\'indexation {crawler} ?',
 
   'datasource.list.action.add': 'Ajouter',

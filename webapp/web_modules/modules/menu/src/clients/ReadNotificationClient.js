@@ -18,19 +18,11 @@
  **/
 import { AdminClient } from '@regardsoss/client'
 
-const readNotificationActions = new AdminClient.ReadNotificationActions()
-const readNotificationReducer = AdminClient.getReadNotificationReducer()
-const readNotificationInstanceActions = new AdminClient.ReadNotificationActions(true)
-const readNotificationInstanceReducer = AdminClient.getReadNotificationReducer(true)
-const readNotificationSelectors = AdminClient.getReadNotificationSelectors([
+export const readNotificationActions = new AdminClient.ReadNotificationActions()
+export const readNotificationReducer = AdminClient.getReadNotificationReducer()
+export const readNotificationInstanceActions = new AdminClient.ReadNotificationActions(true)
+export const readNotificationInstanceReducer = AdminClient.getReadNotificationReducer(true)
+export const readNotificationSelectors = AdminClient.getReadNotificationSelectors([
   'modules.menu',
   'readNotification',
 ])
-
-module.exports = {
-  readNotificationActions,
-  readNotificationReducer,
-  readNotificationInstanceActions,
-  readNotificationInstanceReducer,
-  readNotificationSelectors,
-}

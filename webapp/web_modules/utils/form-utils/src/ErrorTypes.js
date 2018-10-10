@@ -31,6 +31,7 @@ export default {
   DIFFERENT_PASSWORDS: 'different.password',
   INVALID_PASSWORD: 'invalid.password',
   INVALID_URL: 'invalid.url',
+  INVALID_URI: 'invalid.uri',
   TYPE_STRING: 'type.string',
   LOWER_THAN_MIN: 'invalid.number.lower.than.min',
   GREATER_THAN_MAX: 'invalid.number.greater.than.max',

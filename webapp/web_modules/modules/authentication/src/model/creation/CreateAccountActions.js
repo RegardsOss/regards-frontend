@@ -18,27 +18,24 @@
  **/
 import AccountCreationActions from './AccountCreationActions'
 
-const CreateAccountActions = new AccountCreationActions('createAccount')
+/**
+ * Actions to create a REGARDS account (linked with the global instance)
+ * @type {CreateAccountActions}
+ */
+export const CreateAccountActions = new AccountCreationActions('createAccount')
 
-module.exports = {
-  /**
-   * Actions to create a REGARDS account (linked with the global instance)
-   * @type {CreateAccountActions}
-   */
-  CreateAccountActions,
-  /**
-   * Sends create account request
-   * @param email account mail
-   * @param firstName first name
-   * @param lastName last name
-   * @param password password
-   * @param metadata array of user metadata
-   */
-  sendCreateAccount: (email, firstName, lastName, password, metadata) => CreateAccountActions.sendCreateRequest({
-    email,
-    firstName,
-    lastName,
-    password,
-    metadata,
-  }),
-}
+/**
+ * Sends create account request
+ * @param email account mail
+ * @param firstName first name
+ * @param lastName last name
+ * @param password password
+ * @param metadata array of user metadata
+ */
+export const sendCreateAccount = (email, firstName, lastName, password, metadata) => CreateAccountActions.sendCreateRequest({
+  email,
+  firstName,
+  lastName,
+  password,
+  metadata,
+})

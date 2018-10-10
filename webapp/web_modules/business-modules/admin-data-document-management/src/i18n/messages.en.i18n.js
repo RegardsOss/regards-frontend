@@ -28,7 +28,7 @@ const messages = Object.assign({
   'document.list.action.edit': 'Edit',
   'document.list.action.duplicate': 'Duplicate',
   'document.list.action.delete': 'Delete',
-
+  'document.list.tooltip.copy.button': 'Copy reference to clipboard',
   'document.list.table.label': 'Label',
   'document.list.table.model': 'Model',
 

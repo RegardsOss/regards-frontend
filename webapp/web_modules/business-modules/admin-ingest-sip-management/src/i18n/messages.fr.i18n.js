@@ -68,7 +68,7 @@ const messages = Object.assign({
 
   'sips.session.title': 'Sessions',
   'sips.session.sips.title': 'Session {session}',
-  'sips.session.subtitle': 'Visualisation des sessions d\'acquisitions. Une session est un regroupement de paquets d\'information de données (SIP).',
+  'sips.session.subtitle': 'Visualisation des sessions d\'acquisition. Une session est un regroupement de paquets d\'information de données (SIP).',
   'sips.session.filter.name': 'Nom de la session : ',
   'sips.session.filter.name.label': 'Nom',
   'sips.session.filter.date': 'Plage temporelle : ',
@@ -90,6 +90,14 @@ const messages = Object.assign({
   'sips.session.clear.filters.button': 'Vider les filtres',
   'sips.session.apply.filters.button': 'Appliquer les filtres',
   'sips.session.delete.confirm.title': 'Supprimer la session {id} ?',
+
+  'sips.session.retry.title': 'Relancer la session {id} ?',
+  'sips.session.retry.generation.message': 'Vous pouvez redémarrer le traitement des sips de cette session en générant à nouveau les AIPS de la session.',
+  'sips.session.retry.submission.message': 'Vous pouvez redémarrer le traitement des sips de cette session en soumettant à nouveau les SIPS de la session.',
+  'sips.session.retry.message': 'Vous pouvez redémarrer le traitement des sips de cette session soit en soumettant à nouveau les sips, soit en relancant la génération des AIPs.',
+  'sips.session.retry.cancel': 'Annuler',
+  'sips.session.retry.submission.button': 'Relancer la soumission des SIPS',
+  'sips.session.retry.generation.button': 'Relancer la génération des AIPS',
 
   'sips.submit.title': 'Soumission de données',
   'sips.submit.subtitle': 'Vous pouvez ici lancer une ingestion de données au travers d\'un fichier au format GeoJSON contenant le ou les entités',

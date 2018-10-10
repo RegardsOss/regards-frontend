@@ -19,7 +19,7 @@
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import ChangePasswordForm from '../components/ChangePasswordFormComponent'
-import ResetPasswordActions from '../model/operation/ResetPasswordActions'
+import { sendFinishResetPassword } from '../model/operation/ResetPasswordActions'
 import ResetPasswordSelectors from '../model/operation/ResetPasswordSelectors'
 import ChangePasswordActions from '../model/operation/ChangePasswordActions'
 import ChangePasswordSelectors from '../model/operation/ChangePasswordSelectors'
@@ -146,7 +146,7 @@ const mapStatesToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   fetchChangePasswordAction: (mail, oldPassword, newPassword) => dispatch(ChangePasswordActions.sendChangePassword(mail, oldPassword, newPassword)),
-  fetchRequestAction: (token, mail, newPassword) => dispatch(ResetPasswordActions.sendFinishResetPassword(token, mail, newPassword)),
+  fetchRequestAction: (token, mail, newPassword) => dispatch(sendFinishResetPassword(token, mail, newPassword)),
   fetchPasswordValidity: newPassword => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
   fetchPasswordRules: () => dispatch(accountPasswordActions.fetchPasswordRules()),
 })

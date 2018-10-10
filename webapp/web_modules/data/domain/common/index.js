@@ -18,6 +18,7 @@
  **/
 // URL
 export { relativeURLRegexp, validURLRegexp } from './URLRegex'
+export { validURIRegexp } from './URIRegex'
 // Plugin
 export { PluginParameterTypes, PluginParamType, JavaPrimitiveTypes } from './PluginParamType'
 export { default as PluginConfParamsUtils } from './PluginConfParamsUtils'

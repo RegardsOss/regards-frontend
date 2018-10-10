@@ -19,9 +19,6 @@
 import { AuthenticationRouteParameters } from '@regardsoss/authentication-utils'
 import AccountOperationActions from './AccountOperationActions'
 
-const ChangePasswordActions = new AccountOperationActions('changePassword', AuthenticationRouteParameters.mailAuthenticationAction.values.changePassword)
+export const ChangePasswordActions = new AccountOperationActions('changePassword', AuthenticationRouteParameters.mailAuthenticationAction.values.changePassword)
 
-module.exports = {
-  ChangePasswordActions,
-  sendChangePassword: (mail, oldPassword, newPassword) => ChangePasswordActions.sendChangePasswordRequest(mail, oldPassword, newPassword),
-}
+export const sendChangePassword = (mail, oldPassword, newPassword) => ChangePasswordActions.sendChangePasswordRequest(mail, oldPassword, newPassword)

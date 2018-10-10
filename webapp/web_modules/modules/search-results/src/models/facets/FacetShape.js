@@ -26,7 +26,7 @@ import { CatalogShapes } from '@regardsoss/shape'
 /**
  * Facet with configured label and optional unit
  */
-const UIFacet = PropTypes.shape({
+export const UIFacet = PropTypes.shape({
   // labels dictionnary (where languages like 'en', 'fr'... are the keys)
   label: PropTypes.objectOf(PropTypes.string).isRequired,
   unit: PropTypes.string,
@@ -34,12 +34,12 @@ const UIFacet = PropTypes.shape({
 })
 
 /** Array of UI facets */
-const UIFacetArray = PropTypes.arrayOf(UIFacet)
+export const UIFacetArray = PropTypes.arrayOf(UIFacet)
 
 /**
  * A selected date boolean facet
  */
-const SelectedBooleanFacet = PropTypes.shape({
+export const SelectedBooleanFacet = PropTypes.shape({
   label: PropTypes.objectOf(PropTypes.string).isRequired,
   model: CatalogShapes.BooleanFacet.isRequired,
   value: CatalogShapes.BooleanFacetValue.isRequired,
@@ -48,7 +48,7 @@ const SelectedBooleanFacet = PropTypes.shape({
 /**
  * A selected date range facet
  */
-const SelectedDateRangeFacet = PropTypes.shape({
+export const SelectedDateRangeFacet = PropTypes.shape({
   label: PropTypes.objectOf(PropTypes.string).isRequired,
   model: CatalogShapes.DateRangeFacet.isRequired,
   value: CatalogShapes.DateRangeFacetValue.isRequired,
@@ -57,7 +57,7 @@ const SelectedDateRangeFacet = PropTypes.shape({
 /**
  * A selected number facet
  */
-const SelectedNumberRangeFacet = PropTypes.shape({
+export const SelectedNumberRangeFacet = PropTypes.shape({
   label: PropTypes.objectOf(PropTypes.string).isRequired,
   unit: PropTypes.string,
   model: CatalogShapes.NumberRangeFacet.isRequired,
@@ -67,25 +67,14 @@ const SelectedNumberRangeFacet = PropTypes.shape({
 /**
  * A selected string boolean facet
  */
-const SelectedStringFacet = PropTypes.shape({
+export const SelectedStringFacet = PropTypes.shape({
   label: PropTypes.objectOf(PropTypes.string).isRequired,
   model: CatalogShapes.StringFacet.isRequired,
   value: CatalogShapes.StringFacetValue.isRequired,
 })
 
 /** describes unpecific selected facet notion, summarizes both the facet and the selected value in facet */
-const SelectedFacet = PropTypes.oneOfType([SelectedBooleanFacet, SelectedDateRangeFacet, SelectedNumberRangeFacet, SelectedStringFacet])
+export const SelectedFacet = PropTypes.oneOfType([SelectedBooleanFacet, SelectedDateRangeFacet, SelectedNumberRangeFacet, SelectedStringFacet])
 
 /** A selected facet array */
-const SelectedFacetArray = PropTypes.arrayOf(SelectedFacet)
-
-module.exports = {
-  SelectedBooleanFacet,
-  SelectedDateRangeFacet,
-  SelectedNumberRangeFacet,
-  SelectedStringFacet,
-  SelectedFacet,
-  SelectedFacetArray,
-  UIFacet,
-  UIFacetArray,
-}
+export const SelectedFacetArray = PropTypes.arrayOf(SelectedFacet)

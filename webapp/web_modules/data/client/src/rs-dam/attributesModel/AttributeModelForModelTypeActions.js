@@ -31,7 +31,7 @@ export default class AttributeModelForModelActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/attributes/modeltype/{pModelType}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/attributes/modeltype/{modelType}`,
       schemaTypes: {
         ENTITY: ATTRIBUTE_MODEL,
         ENTITY_ARRAY: ATTRIBUTE_MODEL_ARRAY,

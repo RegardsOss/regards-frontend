@@ -30,7 +30,7 @@ import { roleReducer } from './clients/RoleClient'
 import profileDialogReducer from './model/ProfileDialogReducer'
 import { tableReducer } from './clients/TableClient'
 
-module.exports = {
+export default {
   // admin reducers
   adminLayout: adminLayoutReducer,
   adminModule: adminModuleReducer,

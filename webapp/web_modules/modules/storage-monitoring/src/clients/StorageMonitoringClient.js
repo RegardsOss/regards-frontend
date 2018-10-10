@@ -19,12 +19,6 @@
 import { StorageClient } from '@regardsoss/client'
 
 const namespace = 'storage-plugins-module/informations'
-const storageMonitoringActions = new StorageClient.StorageMonitoringActions(namespace)
-const storageMonitoringReducer = StorageClient.getStorageMonitoringReducer(namespace)
-const storageMonitoringSelectors = StorageClient.getStorageMonitoringSelectors(['modules.storage-monitoring', 'storagePlugins'])
-
-module.exports = {
-  storageMonitoringActions,
-  storageMonitoringReducer,
-  storageMonitoringSelectors,
-}
+export const storageMonitoringActions = new StorageClient.StorageMonitoringActions(namespace)
+export const storageMonitoringReducer = StorageClient.getStorageMonitoringReducer(namespace)
+export const storageMonitoringSelectors = StorageClient.getStorageMonitoringSelectors(['modules.storage-monitoring', 'storagePlugins'])

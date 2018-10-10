@@ -23,7 +23,7 @@ import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import { TableSelectionModes, TableSelectAllOption } from '@regardsoss/components'
-import TableClient from '../../../../clients/TableClient'
+import { tableSelectors, tableActions } from '../../../../clients/TableClient'
 
 /**
  * Container for table select all component (used by list to select all elements)
@@ -34,13 +34,13 @@ export class TableSelectAllContainer extends React.Component {
     // results metadata
     pageMetadata: pageSelectors.getMetaData(state),
     // selection
-    toggledElements: TableClient.tableSelectors.getToggledElements(state),
-    selectionMode: TableClient.tableSelectors.getSelectionMode(state),
+    toggledElements: tableSelectors.getToggledElements(state),
+    selectionMode: tableSelectors.getSelectionMode(state),
   })
 
   static mapDispatchToProps = dispatch => ({
-    dispatchSelectAll: () => dispatch(TableClient.tableActions.selectAll()),
-    dispatchUnselectAll: () => dispatch(TableClient.tableActions.unselectAll()),
+    dispatchSelectAll: () => dispatch(tableActions.selectAll()),
+    dispatchUnselectAll: () => dispatch(tableActions.unselectAll()),
   })
 
   static propTypes = {

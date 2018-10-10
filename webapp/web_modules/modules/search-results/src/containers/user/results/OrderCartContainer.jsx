@@ -33,7 +33,7 @@ import { modulesManager } from '@regardsoss/modules'
 import { TableSelectionModes } from '@regardsoss/components'
 import { allMatchHateoasDisplayLogic, HOCUtils } from '@regardsoss/display-control'
 import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/navigation/TableDisplayModeEnum'
-import TableClient from '../../../clients/TableClient'
+import { tableSelectors } from '../../../clients/TableClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 
 // get default modules client actions and reducers instances - we will use it to verify if a basket exists AND if it is in a dynamic container
@@ -67,9 +67,9 @@ export class OrderCartContainer extends React.Component {
       modules: modulesSelectors.getList(state),
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
       // seletion and research related
-      toggledElements: TableClient.tableSelectors.getToggledElements(state),
-      selectionMode: TableClient.tableSelectors.getSelectionMode(state),
-      emptySelection: TableClient.tableSelectors.isEmptySelection(state, searchSelectors),
+      toggledElements: tableSelectors.getToggledElements(state),
+      selectionMode: tableSelectors.getSelectionMode(state),
+      emptySelection: tableSelectors.isEmptySelection(state, searchSelectors),
     }
   }
 

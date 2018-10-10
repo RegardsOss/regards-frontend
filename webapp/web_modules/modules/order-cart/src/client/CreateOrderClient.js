@@ -19,12 +19,6 @@
 import { OrderClient } from '@regardsoss/client'
 
 const namespace = 'namespace'
-const createOrderActions = new OrderClient.CreateOrderActions(namespace)
-const createOrderReducer = OrderClient.getCreateOrderReducer(namespace)
-const createOrderSelectors = OrderClient.getCreateOrderSelectors(['modules.order-cart', 'createOrder'])
-
-module.exports = {
-  createOrderActions,
-  createOrderReducer,
-  createOrderSelectors,
-}
+export const createOrderActions = new OrderClient.CreateOrderActions(namespace)
+export const createOrderReducer = OrderClient.getCreateOrderReducer(namespace)
+export const createOrderSelectors = OrderClient.getCreateOrderSelectors(['modules.order-cart', 'createOrder'])

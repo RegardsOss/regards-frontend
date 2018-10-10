@@ -36,8 +36,5 @@ class ModuleDialogSelectors extends BasicSelector {
     return this.uncombineStore(state).detail
   }
 }
-
-module.exports = {
-  // default instance
-  moduleDialogSelectors: new ModuleDialogSelectors(),
-}
+// default instance
+export const moduleDialogSelectors = new ModuleDialogSelectors()

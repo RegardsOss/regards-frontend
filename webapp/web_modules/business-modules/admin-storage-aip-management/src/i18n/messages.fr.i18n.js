@@ -32,7 +32,7 @@ const messages = Object.assign({
   'aips.list.table.headers.state': 'Statut',
   'aips.list.table.headers.lastUpdate': 'Modifié le',
   'aips.list.table.headers.nbFiles': 'Nombre de fichier',
-  'aips.list.aip-details.title': 'Détails du AIP',
+  'aips.list.aip-details.title': 'Détails de l\'AIP',
   'aips.list.aip-history.title': 'Historique du AIP',
   'aips.list.aip-retry.title': 'Relancer le stockage de l\'AIP',
   'aips.list.empty.title': 'Aucune donnée trouvée',

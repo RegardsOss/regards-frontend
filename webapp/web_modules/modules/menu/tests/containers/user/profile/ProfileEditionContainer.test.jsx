@@ -43,6 +43,11 @@ describe('[Menu] Testing ProfileEditionContainer', () => {
       updateNotificationSettings: () => { },
     }
     const enzymeWrapper = shallow(<ProfileEditionContainer {...props} />, { context })
+    // child should be unmounted when not visible
+    enzymeWrapper.setState({
+      isLoading: false,
+      userMetadata: [],
+    })
     assert.lengthOf(enzymeWrapper.find(ProfileEditionDialogComponent), 1, 'The corresponding component should be rendered')
 
     // child should be unmounted when not visible

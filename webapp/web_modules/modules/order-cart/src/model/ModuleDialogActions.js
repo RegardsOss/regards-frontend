@@ -21,7 +21,7 @@
  * Actions to dispatch dialog related operations
  * @author Raphaël Mechali
  */
-class ModuleDialogActions {
+export class ModuleDialogActions {
   /**
    * Default namespace
    */
@@ -55,8 +55,4 @@ class ModuleDialogActions {
     return { type: this.HIDE_DETAIL }
   }
 }
-
-module.exports = {
-  ModuleDialogActions,
-  moduleDialogActions: new ModuleDialogActions(),
-}
+export const moduleDialogActions = new ModuleDialogActions()

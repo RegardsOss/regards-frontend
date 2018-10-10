@@ -16,9 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
+import find from 'lodash/find'
 import {
   Card, CardTitle, CardActions, CardMedia,
 } from 'material-ui/Card'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import IconButton from 'material-ui/IconButton'
 import Error from 'material-ui/svg-icons/alert/error'
@@ -52,7 +56,8 @@ class SIPSessionListComponent extends React.Component {
     onRefresh: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
-    retrySession: PropTypes.func.isRequired,
+    retrySessionSubmission: PropTypes.func.isRequired,
+    retrySessionGeneration: PropTypes.func.isRequired,
     initialFilters: PropTypes.objectOf(PropTypes.string),
   }
 
@@ -68,6 +73,7 @@ class SIPSessionListComponent extends React.Component {
   state = {
     appliedFilters: {},
     sessionToDelete: null,
+    sessionToRetry: null,
   }
 
   onConfirmDelete = () => {
@@ -80,6 +86,12 @@ class SIPSessionListComponent extends React.Component {
   onDelete = (sessionToDelete) => {
     this.setState({
       sessionToDelete,
+    })
+  }
+
+  onRetry = (sessionToRetry) => {
+    this.setState({
+      sessionToRetry,
     })
   }
 
@@ -101,11 +113,19 @@ class SIPSessionListComponent extends React.Component {
 
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
 
-  handleRetry = session => this.props.retrySession(session, this.state.appliedFilters)
+  handleRetrySubmission = () => this.props.retrySessionSubmission(this.state.sessionToRetry.content, this.state.appliedFilters)
+
+  handleRetryGeneration = () => this.props.retrySessionGeneration(this.state.sessionToRetry.content, this.state.appliedFilters)
 
   closeDeleteDialog = () => {
     this.setState({
       sessionToDelete: null,
+    })
+  }
+
+  closeRetryDialog = () => {
+    this.setState({
+      sessionToRetry: null,
     })
   }
 
@@ -179,7 +199,9 @@ class SIPSessionListComponent extends React.Component {
         .build(),
       new TableColumnBuilder().optionsColumn([{
         OptionConstructor: SIPSessionRetryActionRenderer,
-        optionProps: { onRetry: this.handleRetry },
+        optionProps: {
+          onRetry: this.onRetry,
+        },
       }, {
         OptionConstructor: TableDeleteOption,
         optionProps: {
@@ -233,6 +255,64 @@ class SIPSessionListComponent extends React.Component {
     return null
   }
 
+  renderRetryDialog = () => {
+    if (this.state.sessionToRetry) {
+      let submission = false
+      let generation = false
+      const actions = []
+
+      if (!isNil(find(this.state.sessionToRetry.i18nContextTypelinks, { rel: 'retrySubmission' }))) {
+        actions.push(
+          <FlatButton
+            key="retrySubmission"
+            label={this.context.intl.formatMessage({ id: 'sips.session.retry.submission.button' })}
+            onClick={() => this.handleRetrySubmission()}
+          />,
+        )
+        submission = true
+      }
+
+      if (!isNil(find(this.state.sessionToRetry.i18nContextTypelinks, { rel: 'retryGeneration' }))) {
+        actions.push(
+          <FlatButton
+            key="retryGeneration"
+            label={this.context.intl.formatMessage({ id: 'sips.session.retry.generation.button' })}
+            onClick={() => this.handleRetryGeneration()}
+          />,
+        )
+        generation = true
+      }
+      let message = this.context.intl.formatMessage({ id: 'sips.session.retry.message' })
+      if (!generation) {
+        message = this.context.intl.formatMessage({ id: 'sips.session.retry.submission.message' })
+      }
+      if (!submission) {
+        this.context.intl.formatMessage({ id: 'sips.session.retry.submission.message' })
+      }
+
+      actions.push(
+        <FlatButton
+          key="cancel"
+          label={this.context.intl.formatMessage({ id: 'sips.session.retry.cancel' })}
+          primary
+          keyboardFocused
+          onClick={this.closeRetryDialog}
+        />,
+      )
+      return (
+        <Dialog
+          title={this.context.intl.formatMessage({ id: 'sips.session.retry.title' }, { id: this.state.sessionToRetry.content.id })}
+          actions={actions}
+          modal={false}
+          open
+        >
+          {message}
+        </Dialog>
+      )
+    }
+    return null
+  }
+
   render() {
     const { intl } = this.context
     return (
@@ -249,6 +329,7 @@ class SIPSessionListComponent extends React.Component {
           />
         </CardActions>
         {this.renderDeleteConfirmDialog()}
+        {this.renderRetryDialog()}
       </Card>
     )
   }

@@ -32,7 +32,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { HOCUtils } from '@regardsoss/display-control'
 import { pluginServiceActions, pluginServiceSelectors } from '../../../clients/PluginServiceClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
-import TableClient from '../../../clients/TableClient'
+import { tableSelectors } from '../../../clients/TableClient'
 import { Tag } from '../../../models/navigation/Tag'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
 import runPluginServiceActions from '../../../models/services/RunPluginServiceActions'
@@ -129,9 +129,9 @@ export class PluginServicesContainer extends React.Component {
     // context related
     selectedDatasetTag: Tag.getSearchedDatasetTag(navigationContextSelectors.getLevels(state)),
     // seletion related
-    selectionMode: TableClient.tableSelectors.getSelectionMode(state),
-    toggledElements: TableClient.tableSelectors.getToggledElements(state),
-    emptySelection: TableClient.tableSelectors.isEmptySelection(state, searchSelectors),
+    selectionMode: tableSelectors.getSelectionMode(state),
+    toggledElements: tableSelectors.getToggledElements(state),
+    emptySelection: tableSelectors.isEmptySelection(state, searchSelectors),
     pageMetadata: searchSelectors.getMetaData(state),
     // fetched service related
     contextSelectionServices: pluginServiceSelectors.getResult(state),

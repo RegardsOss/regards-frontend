@@ -89,17 +89,12 @@ class NotificationListComponent extends React.Component {
   }
 
   getRequestParams = (mode) => {
-    const queryParams = {
-      sort: 'id,desc',
-    }
     if (mode === MODE.DISPLAY_UNREAD) {
       return {
-        ...queryParams,
         state: 'UNREAD',
       }
     }
     return {
-      ...queryParams,
       state: 'READ',
     }
   }
@@ -190,6 +185,7 @@ class NotificationListComponent extends React.Component {
       })
     }
   }
+
   handleSwitchMode = (mode) => {
     if (mode !== this.state.mode) {
       const newState = {
@@ -369,8 +365,8 @@ class NotificationListComponent extends React.Component {
     return (
       <div>
         <IconButton
-          title={isInstance ? formatMessage({ id: 'user.menu.notification.no-notification-for-instance' }) : 
-            formatMessage(
+          title={isInstance ? formatMessage({ id: 'user.menu.notification.no-notification-for-instance' })
+            : formatMessage(
               { id: 'user.menu.notification.elements.count.tooltip' },
               { elementsCount: unreadCount },
             )

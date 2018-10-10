@@ -49,9 +49,10 @@ describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentEditLinksComponent', 
       remainingCollections: [
         secondEntity, thirdEntity,
       ],
+      documentStringTags: ['hey'],
     }
     const enzymeWrapper = shallow(<DocumentEditLinksComponent {...props} />, { context })
-    expect(enzymeWrapper.find(ListItem)).to.have.length(6)
+    expect(enzymeWrapper.find(ListItem)).to.have.length(7)
     expect(enzymeWrapper.find(DocumentStepperContainer)).to.have.length(1)
   })
 })

@@ -27,7 +27,7 @@ export default class ModelAttributesFragmentActions extends BasicListActions {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/{modelName}/attributes/fragments`,
-      entityPathVariable: 'pFragmentId',
+      entityPathVariable: 'fragmentId',
       schemaTypes: {
         ENTITY: MODEL_ATTRIBUTE,
         ENTITY_ARRAY: MODEL_ATTRIBUTE_ARRAY,

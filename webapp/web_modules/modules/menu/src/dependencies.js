@@ -43,7 +43,7 @@ const admin = [
   roleActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
-module.exports = {
+export default {
   user,
   admin,
 }

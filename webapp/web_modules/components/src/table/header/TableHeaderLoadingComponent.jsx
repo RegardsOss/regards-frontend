@@ -131,6 +131,7 @@ class TableHeaderLoadingComponent extends React.Component {
           />
           <TableHeaderText
             text={formatMessage({ id: 'table.loading.message' })}
+            className="selenium-infiniteTableLoading"
           />
         </TableHeaderContentBox>) : (children || null) // return children when loading is hidden
     )

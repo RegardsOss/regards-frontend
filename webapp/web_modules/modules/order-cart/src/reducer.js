@@ -23,7 +23,7 @@ import { moduleDialogReducer } from './model/ModuleDialogReducer'
 /**
  * Module reducer (configures there combined path at module level)
  */
-module.exports = {
+export default {
   createOrder: createOrderReducer,
   dialog: moduleDialogReducer,
   searchDataobjects: searchDataobjectsReducer,

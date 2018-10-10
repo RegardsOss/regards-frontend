@@ -66,7 +66,7 @@ class DatasourceStatusTableCell extends React.Component {
           <Report />
         </IconButton>
       )
-    } else if (status === DamDomain.DataSourcesStatusEnum.STARTED) {
+    } else if (status === DamDomain.DataSourcesStatusEnum.STARTED || status === DamDomain.DataSourcesStatusEnum.FINISHED) {
       icon = (
         <IconButton
           title={formatMessage({ id: 'crawler.list.show.stacktrace.tooltip' })}
