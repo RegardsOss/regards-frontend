@@ -125,12 +125,10 @@ export class NumericalCriteriaComponent extends React.Component {
       label, comparator, value, hintText, disabled, tooltip,
       hideAttributeName, hideComparator, availableComparators,
     } = this.props
-    const { moduleTheme: { labelSpanStyle, textFieldStyle, lineStyle } } = this.context
+    const { moduleTheme: { labelSpanStyle, textFieldStyle } } = this.context
 
     return (
-      <div
-        style={lineStyle}
-      >
+      <React.Fragment>
         { // Show attribute name if not hidden
         hideAttributeName || !label ? null
           : <span
@@ -161,7 +159,7 @@ export class NumericalCriteriaComponent extends React.Component {
           title={tooltip}
           onChange={this.handleChangeValue}
         />
-      </div>
+      </React.Fragment>
     )
   }
 }

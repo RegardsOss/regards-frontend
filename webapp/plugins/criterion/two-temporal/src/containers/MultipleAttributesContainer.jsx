@@ -171,41 +171,35 @@ export class MultipleAttributesContainer extends PluginCriterionContainer {
     const { firstField, secondField } = this.state
     const {
       intl: { formatMessage },
-      moduleTheme: {
-        rootStyle, lineStyle, labelSpanStyle, lineGroupStyle,
-      },
+      moduleTheme: { rootStyle, labelSpanStyle },
     } = this.context
 
     return (
       <div style={rootStyle}>
-        <div style={lineStyle}>
-          <span style={labelSpanStyle}>
-            {
-              formatMessage({ id: 'multiple.attributes.label' }, {
-                label1: this.getAttributeLabel('firstField'),
-                label2: this.getAttributeLabel('secondField'),
-              })
-            }
-          </span>
-          <div style={lineGroupStyle}>
-            <TemporalCriteriaComponent
-              value={firstField}
-              onChange={this.changeValue1}
-              hintDate={this.getAttributeBoundsInformation('firstField').lowerBound}
-              tooltip={this.getFieldTooltip('firstField')}
-              disabled={this.hasNoValue('firstField')}
-            />
-            <Arrow />
-            <TemporalCriteriaComponent
-              value={secondField}
-              onChange={this.changeValue2}
-              hintDate={this.getAttributeBoundsInformation('secondField').upperBound}
-              tooltip={this.getFieldTooltip('secondField')}
-              disabled={this.hasNoValue('secondField')}
-              isStopDate
-            />
-          </div>
-        </div>
+        <span style={labelSpanStyle}>
+          {
+            formatMessage({ id: 'multiple.attributes.label' }, {
+              label1: this.getAttributeLabel('firstField'),
+              label2: this.getAttributeLabel('secondField'),
+            })
+          }
+        </span>
+        <TemporalCriteriaComponent
+          value={firstField}
+          onChange={this.changeValue1}
+          hintDate={this.getAttributeBoundsInformation('firstField').lowerBound}
+          tooltip={this.getFieldTooltip('firstField')}
+          disabled={this.hasNoValue('firstField')}
+        />
+        <Arrow />
+        <TemporalCriteriaComponent
+          value={secondField}
+          onChange={this.changeValue2}
+          hintDate={this.getAttributeBoundsInformation('secondField').upperBound}
+          tooltip={this.getFieldTooltip('secondField')}
+          disabled={this.hasNoValue('secondField')}
+          isStopDate
+        />
       </div>
     )
   }

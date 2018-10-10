@@ -167,31 +167,29 @@ export class MultipleAttributesContainer extends PluginCriterionContainer {
     const {
       firstField, secondField, firstFieldComparators, secondFieldComparators,
     } = this.state
-    const { moduleTheme: { rootStyle, lineStyle } } = this.context
+    const { moduleTheme: { rootStyle } } = this.context
     return (
       <div style={rootStyle}>
-        <div style={lineStyle}>
-          <NumericalCriteriaComponent
-            label={this.getAttributeLabel('firstField')}
-            value={firstField.value}
-            comparator={firstField.operator}
-            availableComparators={firstFieldComparators}
-            onChange={this.onChangeValue1}
-            hintText={this.getFieldHintText('firstField', BOUND_TYPE.LOWER_BOUND)}
-            tooltip={this.getFieldTooltip('firstField')}
-            disabled={this.hasNoValue('firstField')}
-          />
-          <NumericalCriteriaComponent
-            label={this.getAttributeLabel('secondField')}
-            value={secondField.value}
-            comparator={secondField.operator}
-            availableComparators={secondFieldComparators}
-            onChange={this.onChangeValue2}
-            hintText={this.getFieldHintText('secondField', BOUND_TYPE.UPPER_BOUND)}
-            tooltip={this.getFieldTooltip('secondField')}
-            disabled={this.hasNoValue('secondField')}
-          />
-        </div>
+        <NumericalCriteriaComponent
+          label={this.getAttributeLabel('firstField')}
+          value={firstField.value}
+          comparator={firstField.operator}
+          availableComparators={firstFieldComparators}
+          onChange={this.onChangeValue1}
+          hintText={this.getFieldHintText('firstField', BOUND_TYPE.LOWER_BOUND)}
+          tooltip={this.getFieldTooltip('firstField')}
+          disabled={this.hasNoValue('firstField')}
+        />
+        <NumericalCriteriaComponent
+          label={this.getAttributeLabel('secondField')}
+          value={secondField.value}
+          comparator={secondField.operator}
+          availableComparators={secondFieldComparators}
+          onChange={this.onChangeValue2}
+          hintText={this.getFieldHintText('secondField', BOUND_TYPE.UPPER_BOUND)}
+          tooltip={this.getFieldTooltip('secondField')}
+          disabled={this.hasNoValue('secondField')}
+        />
       </div>
     )
   }

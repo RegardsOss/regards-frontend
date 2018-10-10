@@ -176,4 +176,7 @@ export default baseTheme => ({
       circleIconSize: 12,
     },
   },
+  criterion: {
+    minHeight: 72,
+  },
 })

@@ -99,47 +99,41 @@ export class SingleAttributeContainer extends PluginCriterionContainer {
   render() {
     const { firstField, secondField } = this.state
     const {
-      moduleTheme: {
-        rootStyle, lineStyle, labelSpanStyle, lineGroupStyle,
-      },
+      moduleTheme: { rootStyle, labelSpanStyle },
       intl: { formatMessage },
     } = this.context
 
     return (
       <div style={rootStyle}>
-        <div style={lineStyle}>
-          <span style={labelSpanStyle}>
-            {formatMessage(
-              { id: 'criterion.aggregator.between' },
-              { label: this.getAttributeLabel('firstField') },
-            )}
-          </span>
-          <div style={lineGroupStyle}>
-            <NumericalCriteriaComponent
-              value={firstField}
-              comparator={EnumNumericalComparator.LE}
-              onChange={this.onChangeValue1}
-              hintText={this.getFieldHintText('firstField', BOUND_TYPE.LOWER_BOUND)}
-              tooltip={this.getFieldTooltip('firstField')}
-              disabled={this.hasNoValue('firstField')}
-              hideAttributeName
-              hideComparator
-            />
-            <span style={{ marginRight: 10 }}>
-              <FormattedMessage id="criterion.aggregator.and" />
-            </span>
-            <NumericalCriteriaComponent
-              value={secondField}
-              comparator={EnumNumericalComparator.GE}
-              onChange={this.onChangeValue2}
-              hintText={this.getFieldHintText('firstField', BOUND_TYPE.UPPER_BOUND)}
-              tooltip={this.getFieldTooltip('firstField')}
-              disabled={this.hasNoValue('firstField')}
-              hideAttributeName
-              hideComparator
-            />
-          </div>
-        </div>
+        <span style={labelSpanStyle}>
+          {formatMessage(
+            { id: 'criterion.aggregator.between' },
+            { label: this.getAttributeLabel('firstField') },
+          )}
+        </span>
+        <NumericalCriteriaComponent
+          value={firstField}
+          comparator={EnumNumericalComparator.LE}
+          onChange={this.onChangeValue1}
+          hintText={this.getFieldHintText('firstField', BOUND_TYPE.LOWER_BOUND)}
+          tooltip={this.getFieldTooltip('firstField')}
+          disabled={this.hasNoValue('firstField')}
+          hideAttributeName
+          hideComparator
+        />
+        <span style={{ marginRight: 10 }}>
+          <FormattedMessage id="criterion.aggregator.and" />
+        </span>
+        <NumericalCriteriaComponent
+          value={secondField}
+          comparator={EnumNumericalComparator.GE}
+          onChange={this.onChangeValue2}
+          hintText={this.getFieldHintText('firstField', BOUND_TYPE.UPPER_BOUND)}
+          tooltip={this.getFieldTooltip('firstField')}
+          disabled={this.hasNoValue('firstField')}
+          hideAttributeName
+          hideComparator
+        />
       </div>
     )
   }

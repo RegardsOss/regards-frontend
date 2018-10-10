@@ -97,36 +97,30 @@ export class SingleAttributeContainer extends PluginCriterionContainer {
     const { firstField, secondField } = this.state
     const {
       intl: { formatMessage },
-      moduleTheme: {
-        rootStyle, lineStyle, labelSpanStyle, lineGroupStyle,
-      },
+      moduleTheme: { rootStyle, labelSpanStyle },
     } = this.context
 
     return (
       <div style={rootStyle}>
-        <div style={lineStyle}>
-          <span style={labelSpanStyle}>
-            {formatMessage({ id: 'single.attributes.label' }, { label: this.getAttributeLabel('firstField') })}
-          </span>
-          <div style={lineGroupStyle}>
-            <TemporalCriteriaComponent
-              value={firstField}
-              hintDate={this.getAttributeBoundsInformation('firstField').lowerBound}
-              tooltip={this.getFieldTooltip('firstField')}
-              disabled={this.hasNoValue('firstField')}
-              onChange={this.changeValue1}
-            />
-            <Arrow />
-            <TemporalCriteriaComponent
-              value={secondField}
-              hintDate={this.getAttributeBoundsInformation('firstField').upperBound}
-              tooltip={this.getFieldTooltip('firstField')}
-              disabled={this.hasNoValue('firstField')}
-              onChange={this.changeValue2}
-              isStopDate
-            />
-          </div>
-        </div>
+        <span style={labelSpanStyle}>
+          {formatMessage({ id: 'single.attributes.label' }, { label: this.getAttributeLabel('firstField') })}
+        </span>
+        <TemporalCriteriaComponent
+          value={firstField}
+          hintDate={this.getAttributeBoundsInformation('firstField').lowerBound}
+          tooltip={this.getFieldTooltip('firstField')}
+          disabled={this.hasNoValue('firstField')}
+          onChange={this.changeValue1}
+        />
+        <Arrow />
+        <TemporalCriteriaComponent
+          value={secondField}
+          hintDate={this.getAttributeBoundsInformation('firstField').upperBound}
+          tooltip={this.getFieldTooltip('firstField')}
+          disabled={this.hasNoValue('firstField')}
+          onChange={this.changeValue2}
+          isStopDate
+        />
       </div>
     )
   }

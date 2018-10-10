@@ -25,16 +25,8 @@
 const pluginStyles = theme => ({
   rootStyle: {
     display: 'flex',
-  },
-  lineStyle: {
-    display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    flexWrap: 'wrap',
-  },
-  lineGroupStyle: {
-    display: 'flex',
-    alignItems: 'center',
     flexWrap: 'wrap',
   },
   labelSpanStyle: {
@@ -44,6 +36,7 @@ const pluginStyles = theme => ({
     top: -13,
     maxWidth: 180,
     margin: '0px 10px',
+    minHeight: theme.criterion.minHeight,
   },
   comparatorButtonStyle: {
     height: theme.button.iconButtonSize,
