@@ -22,7 +22,7 @@ import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 
-class FullTextCriteriaContainer extends PluginCriterionContainer {
+export class FullTextCriteriaContainer extends PluginCriterionContainer {
   static propTypes = {
     // parent props
     ...PluginCriterionContainer.propTypes,

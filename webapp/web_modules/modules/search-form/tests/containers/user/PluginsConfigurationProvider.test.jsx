@@ -208,7 +208,7 @@ describe('[SEARCH FORM] Testing PluginsConfigurationProvider', () => {
     const props2 = { ...props, attributeModels: criteriaServerAttributes }
     enzymeWrapper.setProps(props2)
     assert.equal(spiedClearCount, 1, '2 - Clear should have been called')
-    assert.equal(spiedClearCount, 1, '2 - Fetch should have been called')
+    assert.equal(spiedFetchCount, 1, '2 - Fetch should have been called')
     assert.lengthOf(spiedAttributesToFetch, 2, '2 - 2 boundable attributes should have been retrieved')
     assert.include(spiedAttributesToFetch, 'xxx.long.parameter', '2 - The Long parameter attribute should have been retrieved')
     assert.include(spiedAttributesToFetch, 'yyy.date.parameter', '2 - The Date parameter attribute should have been retrieved')
@@ -293,5 +293,25 @@ describe('[SEARCH FORM] Testing PluginsConfigurationProvider', () => {
       loading: false,
       error: false,
     }, '2 - Error should not be reported in "unboundable" attributes')
+  })
+  it('should render correctly and fetch no attribute when in preview', () => {
+    let spiedFetchCount = 0
+    const props = {
+      criteria,
+      initialQuery: 'abcdefg',
+      authentication: null,
+      attributeModels: criteriaServerAttributes,
+      attributesBounds: {},
+      boundsFetchingError: false,
+      preview: true,
+      dispatchClearBounds: () => {},
+      dispatchFetchBounds: () => {
+        spiedFetchCount += 1
+      },
+    }
+    // 1 - Configurations should be initially resolved
+    const enzymeWrapper = shallow(<PluginsConfigurationProvider {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.state().plugins, 2, '1 - 2 plugins should be initialy resolved')
+    assert.equal(spiedFetchCount, 0, 'Attributes should not be fetched in preview mode')
   })
 })

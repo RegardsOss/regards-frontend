@@ -39,13 +39,9 @@ export class NumericalCriteriaComponent extends React.Component {
      * comparator:<ComparatorEnumType>
      */
     onChange: PropTypes.func.isRequired,
-    /**
-     * Label of the field
-     */
-    label: PropTypes.string.isRequired,
-    /**
-     * Init with a specific comparator set.
-     */
+    /** Label of the field  (optionnal)*/
+    label: PropTypes.string,
+    /** Init with a specific comparator set. */
     comparator: PropTypes.oneOf(values(EnumNumericalComparator)),
     /**
      * Array of available comparators
@@ -136,7 +132,7 @@ export class NumericalCriteriaComponent extends React.Component {
         style={lineStyle}
       >
         { // Show attribute name if not hidden
-        hideAttributeName ? null
+        hideAttributeName || !label ? null
           : <span
             key="label"
             style={labelSpanStyle}

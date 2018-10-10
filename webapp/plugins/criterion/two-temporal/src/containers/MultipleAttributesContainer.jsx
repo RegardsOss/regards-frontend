@@ -189,23 +189,19 @@ export class MultipleAttributesContainer extends PluginCriterionContainer {
           </span>
           <div style={lineGroupStyle}>
             <TemporalCriteriaComponent
-              label={this.getAttributeLabel('firstField')}
               value={firstField}
               onChange={this.changeValue1}
               hintDate={this.getAttributeBoundsInformation('firstField').lowerBound}
               tooltip={this.getFieldTooltip('firstField')}
               disabled={this.hasNoValue('firstField')}
-              hideAttributeName
             />
             <Arrow />
             <TemporalCriteriaComponent
-              label={this.getAttributeLabel('secondField')}
               value={secondField}
               onChange={this.changeValue2}
               hintDate={this.getAttributeBoundsInformation('secondField').upperBound}
               tooltip={this.getFieldTooltip('secondField')}
               disabled={this.hasNoValue('secondField')}
-              hideAttributeName
               isStopDate
             />
           </div>

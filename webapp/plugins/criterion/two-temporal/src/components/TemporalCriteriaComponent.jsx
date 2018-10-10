@@ -39,19 +39,8 @@ export class TemporalCriteriaComponent extends React.Component {
      * value: The value of the field as a Date
      */
     onChange: PropTypes.func,
-    /**
-     * Label of the field displayed
-     */
-    label: PropTypes.string.isRequired,
-    /**
-     * Default value
-     */
+    /** Current value */
     value: PropTypes.instanceOf(Date),
-    /**
-     * If true, the attribute name will not be rendered.
-     * Default to false.
-     */
-    hideAttributeName: PropTypes.bool,
     /**
      * If true, hours will be auto-completed with the maximum value
      * Default to false
@@ -66,7 +55,6 @@ export class TemporalCriteriaComponent extends React.Component {
   }
 
   static defaultProps = {
-    hideAttributeName: false,
     isStopDate: false,
   }
 
@@ -111,8 +99,8 @@ export class TemporalCriteriaComponent extends React.Component {
 
   render() {
     const {
-      label, value, hintDate, tooltip,
-      disabled, hideAttributeName, isStopDate,
+      value, hintDate, tooltip,
+      disabled, isStopDate,
     } = this.props
     const {
       intl: {
@@ -122,12 +110,7 @@ export class TemporalCriteriaComponent extends React.Component {
 
     return (
       <div style={moduleTheme.datePickerContainerStyle}>
-        { // show atribute name if not hidden
-          hideAttributeName ? null
-            : <span key="label" style={moduleTheme.datePickerLabelStyle}>{label}</span>
-        }
         <DatePickerField
-          key={label}
           value={value}
           onChange={this.handleChangeDate}
           style={moduleTheme.datePickerSelectorStyle}

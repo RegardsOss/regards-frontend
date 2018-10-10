@@ -19,10 +19,11 @@
 import values from 'lodash/values'
 import { assert } from 'chai'
 import { DamDomain } from '@regardsoss/domain'
+import { criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import {
   getTypeText, formatNumberBound, formatDateBound, formatBoundValue, formatBoundsStateHint,
   formatAnyBoundHintText, formatLowerBoundHintText, formatUpperBoundHintText,
-  formatHintText, BOUND_TYPE,
+  formatHintText, formatTooltip, BOUND_TYPE,
 } from '../../src/utils/BoundsMessagesHelper'
 
 
@@ -70,28 +71,6 @@ function makeIntlStub() {
   }
 }
 
-/**
- * @return minimal attribute stub for tests
- */
-function makeAttributeStub(type, unit, boundsInformation) {
-  return ({
-    name: 'test', type, unit, boundsInformation,
-  })
-}
-
-/**
- * @return built bounds information
- */
-function makeBoundsInformationStub(exists, loading, error, lowerBound, upperBound) {
-  return {
-    exists,
-    loading,
-    error,
-    lowerBound,
-    upperBound,
-  }
-}
-
 /** Types that can have bounds */
 const typesWithBounds = [
   DamDomain.MODEL_ATTR_TYPES.DOUBLE,
@@ -128,37 +107,38 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     assert.isDefined(formatUpperBoundHintText, 'formatUpperBoundHintText should be exported')
     assert.isDefined(formatAnyBoundHintText, 'formatAnyBoundHintText should be exported')
     assert.isDefined(formatHintText, 'formatHintText should be exported')
+    assert.isDefined(formatTooltip, 'formatTooltip should be exported')
     assert.isDefined(BOUND_TYPE, 'BOUND_TYPE should be exported')
   })
   it('should format type text', () => {
     const intlStub = makeIntlStub()
-    assert.equal(getTypeText(intlStub, makeAttributeStub('my.type')), 'criterion.attribute.hint.type.my.type', 'key should be correctly computed')
+    assert.equal(getTypeText(intlStub, criterionTestSuiteHelpers.getAttributeStub('my.type')), 'criterion.attribute.hint.type.my.type', 'key should be correctly computed')
     assert.equal(intlStub.results.formatMessage.count, 1, 'Type should be internationalized')
   })
   it('should format correctly a number bound value', () => {
     const intlStub = makeIntlStub()
     // 1 - Without unit
     // a - zero
-    const result1a = formatNumberBound(intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER), 0)
+    const result1a = formatNumberBound(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER), 0)
     assert.equal(result1a, 0, '1a - Result should be correctly formatted')
     // b - small number
-    const result1b = formatNumberBound(intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER), 15)
+    const result1b = formatNumberBound(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER), 15)
     assert.equal(result1b, 15, '1b - Result should be correctly formatted')
     // c - big number
-    const result1c = formatNumberBound(intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG), 456789123456000000000)
+    const result1c = formatNumberBound(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG), 456789123456000000000)
     assert.equal(result1c, 456789123456000000000, '1c - Result should be correctly formatted')
     // d - negative floating number
-    const result1d = formatNumberBound(intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE), -45.25)
+    const result1d = formatNumberBound(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE), -45.25)
     assert.equal(result1d, -45.25, '1d - Result should be correctly formatted')
 
     // 2 - With unit
     // a - any unit
-    const result2a = formatNumberBound(intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, 'dB'), 15)
+    const result2a = formatNumberBound(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, 'dB'), 15)
     assert.equal(result2a, 'criterion.attribute.bounds.value.with.unit', '2a - Result should be correctly formatted')
     assert.equal(intlStub.results.formatMessage.count, 1, '2a - formatMessage should have been called 1 times')
     assert.deepInclude(intlStub.results.formatMessage.parameters, { value: 15, unit: 'dB' }, '2a - formatMessage should have been called with right parameters')
     // b - storage unit
-    const result2b = formatNumberBound(intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, 'o'), 15500000)
+    const result2b = formatNumberBound(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, 'o'), 15500000)
     assert.equal(result2b, 'storage.capacity.monitoring.capacity', '2b - Result should be correctly formatted')
     assert.equal(intlStub.results.formatNumber.count, 1, '2b - formatNumber should have been called 1 time for storage value')
     assert.include(intlStub.results.formatNumber.number, 15.5, '2b - formatNumber should have been called for 15.5')
@@ -166,14 +146,14 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     assert.deepInclude(intlStub.results.formatMessage.parameters, { valueLabel: '15.5', unitLabel: 'storage.capacity.monitoring.unit.MB' }, '2b - formatMessage should have been called with right parameters')
 
     // 3 - Error
-    assert.throws(formatNumberBound.bind(null, intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE), 'any'))
-    assert.throws(formatNumberBound.bind(null, intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE), null))
-    assert.throws(formatNumberBound.bind(null, intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE), undefined))
+    assert.throws(formatNumberBound.bind(null, intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE), 'any'))
+    assert.throws(formatNumberBound.bind(null, intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE), null))
+    assert.throws(formatNumberBound.bind(null, intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE), undefined))
   })
   it('should format correctly a date bound value', () => {
     // 1 - Valid date
     const intlStub = makeIntlStub()
-    const result1 = formatDateBound(intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601), '2018-09-27T13:15:42.726Z')
+    const result1 = formatDateBound(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601), '2018-09-27T13:15:42.726Z')
     assert.equal(result1, 'criterion.attribute.bounds.value.date', '1 - Internationalized date should be returned')
     assert.equal(intlStub.results.formatDate.count, 1, '1 - formatDate should have been called 1 time')
     assert.deepInclude(intlStub.results.formatDate.date, new Date('2018-09-27T13:15:42.726Z'), '1 - formatDate should have been called with parsed date')
@@ -181,29 +161,29 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     assert.deepInclude(intlStub.results.formatTime.date, new Date('2018-09-27T13:15:42.726Z'), '1 - formatTime should have been called with parsed date')
 
     // Invalid date: expected exception
-    assert.throws(formatDateBound.bind(null, intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601), 'invalid'))
+    assert.throws(formatDateBound.bind(null, intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601), 'invalid'))
   })
   it('should format correctly a bound value', () => {
     // 1 - Valid attributes (detailed tests above)
     const intlStub = makeIntlStub()
-    assert.equal(formatBoundValue(intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER), 0),
+    assert.equal(formatBoundValue(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER), 0),
       '0', '"0" should be returned by the number bound value formatter')
-    assert.equal(formatBoundValue(intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER), 15),
+    assert.equal(formatBoundValue(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER), 15),
       '15', '"15" should be returned by the number bound value formatter')
-    assert.equal(formatBoundValue(intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG), 456789123456),
+    assert.equal(formatBoundValue(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG), 456789123456),
       '456789123456', '"456789123456" should be returned by the number bound value formatter')
-    assert.equal(formatBoundValue(intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE), -45.25),
+    assert.equal(formatBoundValue(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE), -45.25),
       '-45.25', '"-45.25" should be returned by the number bound value formatter')
-    assert.equal(formatBoundValue(intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, 'dB'), 15),
+    assert.equal(formatBoundValue(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, 'dB'), 15),
       'criterion.attribute.bounds.value.with.unit', '"criterion.attribute.bounds.value.with.unit" should be returned by the number bound value formatter')
-    assert.equal(formatBoundValue(intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, 'o'), 15500000),
+    assert.equal(formatBoundValue(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, 'o'), 15500000),
       'storage.capacity.monitoring.capacity', '"storage.capacity.monitoring.capacity" should be returned by the number bound value formatter')
-    assert.equal(formatBoundValue(intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601), '2018-09-27T13:15:42.726Z'),
+    assert.equal(formatBoundValue(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601), '2018-09-27T13:15:42.726Z'),
       'criterion.attribute.bounds.value.date', '"criterion.attribute.bounds.value.date" should be returned by the date bound value formatter')
     // 2 - Invalid values or attribute types
-    assert.throws(formatBoundValue.bind(null, intlStub, makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601), 'anything'))
+    assert.throws(formatBoundValue.bind(null, intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601), 'anything'))
     typesWithoutBounds.forEach((type) => {
-      const typedAttr = makeAttributeStub(type)
+      const typedAttr = criterionTestSuiteHelpers.getAttributeStub(type)
       testValues.forEach((value) => {
         assert.throws(formatBoundValue.bind(null, intlStub, typedAttr, value))
       })
@@ -213,7 +193,7 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     // 1 - Number
     // a - simple
     const intlStub1a = makeIntlStub()
-    const attrStub1a = makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG, null, {
+    const attrStub1a = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG, null, {
       lowerBound: -564678,
     })
     const result1a = formatLowerBoundHintText(intlStub1a, attrStub1a)
@@ -222,7 +202,7 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
 
     // b - with simple unit
     const intlStub1b = makeIntlStub()
-    const attrStub1b = makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG, 'km', {
+    const attrStub1b = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG, 'km', {
       lowerBound: -0.25,
     })
     const result1b = formatLowerBoundHintText(intlStub1b, attrStub1b)
@@ -232,7 +212,7 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
 
     // c - with storage unit
     const intlStub1c = makeIntlStub()
-    const attrStub1c = makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG, 'o', {
+    const attrStub1c = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG, 'o', {
       lowerBound: 0,
     })
     const result1c = formatLowerBoundHintText(intlStub1c, attrStub1c)
@@ -244,7 +224,7 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     // 2 - Date
     // a - valid
     const intlStub2a = makeIntlStub()
-    const attrStub2a = makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, {
+    const attrStub2a = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, {
       lowerBound: '2018-09-27T13:15:42.726Z',
     })
     const result2a = formatLowerBoundHintText(intlStub2a, attrStub2a)
@@ -256,7 +236,7 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
 
     // b - invalid
     const intlStub2b = makeIntlStub()
-    const attrStub2b = makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, {
+    const attrStub2b = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, {
       lowerBound: 'somethinginvalid',
     })
     assert.throws(formatLowerBoundHintText.bind(null, intlStub2b, attrStub2b))
@@ -264,7 +244,7 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     // 3 - Without value
     // a - number
     const intlStub3a = makeIntlStub()
-    const attrStub3a = makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG, null, {
+    const attrStub3a = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG, null, {
       lowerBound: null,
     })
     const result3a = formatLowerBoundHintText(intlStub3a, attrStub3a)
@@ -273,7 +253,7 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     assert.deepInclude(intlStub3a.results.formatMessage.parameters, { typeText: 'criterion.attribute.hint.type.LONG' }, '3a - Message should include the right bounds information')
     // date
     const intlStub3b = makeIntlStub()
-    const attrStub3b = makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, {
+    const attrStub3b = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, {
       lowerBound: null,
     })
     const result3b = formatLowerBoundHintText(intlStub3b, attrStub3b)
@@ -284,7 +264,7 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
   it('should format correctly an upper bound field', () => {
     // 1 - Number
     const intlStub1 = makeIntlStub()
-    const attrStub1 = makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG, 'km', {
+    const attrStub1 = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG, 'km', {
       upperBound: -0.25,
     })
     const result1 = formatUpperBoundHintText(intlStub1, attrStub1)
@@ -294,7 +274,7 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
 
     // 2 - Valid date
     const intlStub2 = makeIntlStub()
-    const attrStub2 = makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, {
+    const attrStub2 = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, {
       upperBound: '2018-09-27T13:15:42.726Z',
     })
     const result2 = formatUpperBoundHintText(intlStub2, attrStub2)
@@ -306,7 +286,7 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
 
     // 3 - Without value
     const intlStub3 = makeIntlStub()
-    const attrStub3 = makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG, null, {
+    const attrStub3 = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG, null, {
       upperBound: null,
     })
     const result3 = formatUpperBoundHintText(intlStub3, attrStub3)
@@ -317,7 +297,7 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
   it('should format correctly an any bound field', () => {
     // 1 - Number range [a;b]
     const intlStub1 = makeIntlStub()
-    const attrStub1 = makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, 'o', {
+    const attrStub1 = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, 'o', {
       lowerBound: -0.10,
       upperBound: 0.25,
     })
@@ -330,7 +310,7 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     }, '1 - Message should include the right bounds information')
     // 2 - Date range [a;+inf[
     const intlStub2 = makeIntlStub()
-    const attrStub2 = makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, {
+    const attrStub2 = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, {
       lowerBound: '2018-09-27T13:15:42.726Z',
       upperBound: null,
     })
@@ -347,7 +327,7 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     }, '2 - Message should include the right bounds information')
     // 2 - Number range ]-inf;a]
     const intlStub3 = makeIntlStub()
-    const attrStub3 = makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, 'km', {
+    const attrStub3 = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, 'km', {
       lowerBound: null,
       upperBound: 0,
     })
@@ -363,35 +343,35 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     values(DamDomain.MODEL_ATTR_TYPES).forEach((type) => {
       // 1 - bounds not exisiting
       const intlStub1 = makeIntlStub()
-      const result1 = formatBoundsStateHint(intlStub1, makeAttributeStub(type, null, makeBoundsInformationStub(false)))
+      const result1 = formatBoundsStateHint(intlStub1, criterionTestSuiteHelpers.getAttributeStub(type, null, criterionTestSuiteHelpers.getBoundsInformationStub(false)))
       assert.equal(result1, 'criterion.attribute.bounds.not.existing', `[${type}] 1 - Non existing bounds should be correctly internationalized`)
       assert.equal(intlStub1.results.formatMessage.count, 2, `[${type}] 1 - Format message should have been called to format state and type`)
       assert.deepInclude(intlStub1.results.formatMessage.parameters, { typeText: `criterion.attribute.hint.type.${type}` }, `[${type}] 1 - Type should have been provided as parameter`)
       // 2 - bounds loading
       const intlStub2 = makeIntlStub()
-      const result2 = formatBoundsStateHint(intlStub2, makeAttributeStub(type, null, makeBoundsInformationStub(true, true)))
+      const result2 = formatBoundsStateHint(intlStub2, criterionTestSuiteHelpers.getAttributeStub(type, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, true)))
       assert.equal(result2, 'criterion.attribute.bounds.loading', `[${type}] 2 - Loading bounds should be correctly internationalized`)
       assert.equal(intlStub2.results.formatMessage.count, 2, `[${type}] 2 - Format message should have been called to format state and type`)
       assert.deepInclude(intlStub2.results.formatMessage.parameters, { typeText: `criterion.attribute.hint.type.${type}` }, `[${type}] 2 - Type should have been provided as parameter`)
       // 3 - bounds in error
       const intlStub3 = makeIntlStub()
-      const result3 = formatBoundsStateHint(intlStub3, makeAttributeStub(type, null, makeBoundsInformationStub(true, false, true)))
+      const result3 = formatBoundsStateHint(intlStub3, criterionTestSuiteHelpers.getAttributeStub(type, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, true)))
       assert.equal(result3, 'criterion.attribute.bounds.error', `[${type}] 3 - Bounds in error should be correctly internationalized`)
       assert.equal(intlStub3.results.formatMessage.count, 2, `[${type}] 3 - Format message should have been called to format state and type`)
       assert.deepInclude(intlStub3.results.formatMessage.parameters, { typeText: `criterion.attribute.hint.type.${type}` }, `[${type}] 3 - Type should have been provided as parameter`)
       // 4 - no bound
       const intlStub4 = makeIntlStub()
-      const result4 = formatBoundsStateHint(intlStub4, makeAttributeStub(type, null, makeBoundsInformationStub(true, false, false)))
+      const result4 = formatBoundsStateHint(intlStub4, criterionTestSuiteHelpers.getAttributeStub(type, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false)))
       assert.equal(result4, 'criterion.attribute.bounds.none', `[${type}] 4 - Missing bounds should be correctly internationalized`)
       assert.equal(intlStub4.results.formatMessage.count, 2, `[${type}] 4 - Format message should have been called to format state and type`)
       assert.deepInclude(intlStub4.results.formatMessage.parameters, { typeText: `criterion.attribute.hint.type.${type}` }, `[${type}] 4 - Type should have been provided as parameter`)
       // 5 - Any other case should not be handled as it is not the role of that method
       const intlStub5 = makeIntlStub()
       assert.isNotOk(
-        formatBoundsStateHint(intlStub5, makeAttributeStub(type, null, makeBoundsInformationStub(true, false, false, 5, null)), 'TYPE.5'),
+        formatBoundsStateHint(intlStub5, criterionTestSuiteHelpers.getAttributeStub(type, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, 5, null)), 'TYPE.5'),
         `[${type}] 5a - Method should not handle that attribute as it has a lower bound`)
       assert.isNotOk(
-        formatBoundsStateHint(intlStub5, makeAttributeStub(type, null, makeBoundsInformationStub(true, false, false, null, '2018-09-27T13:15:42.726Z')), 'TYPE.5'),
+        formatBoundsStateHint(intlStub5, criterionTestSuiteHelpers.getAttributeStub(type, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, null, '2018-09-27T13:15:42.726Z')), 'TYPE.5'),
         `[${type}] 5b - Method should not handle that attribute as it has an upper bound`)
     })
   })
@@ -399,20 +379,25 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     // 1 - Test types that cannot have bounds
     typesWithoutBounds.forEach((t) => {
       const intlStub = makeIntlStub()
-      const formatted = formatHintText(intlStub, makeAttributeStub(t, null, makeBoundsInformationStub(false, false, false)))
+      const formatted = formatHintText(intlStub, criterionTestSuiteHelpers.getAttributeStub(t, null,
+        criterionTestSuiteHelpers.getBoundsInformationStub(false, false, false)))
       assert.equal(formatted, 'criterion.attribute.bounds.not.existing', `[${t}] Bounds not existing should be correctly internalized`)
     })
     // 2 - Types that can have bounds, without bound
     typesWithBounds.forEach((t) => {
       const intlStub = makeIntlStub()
-      assert.equal(formatHintText(intlStub, makeAttributeStub(t, null, makeBoundsInformationStub(false))),
-        'criterion.attribute.bounds.not.existing', `[${t}] Bounds not existing should be correctly internationalized`)
-      assert.equal(formatHintText(intlStub, makeAttributeStub(t, null, makeBoundsInformationStub(true, true))),
-        'criterion.attribute.bounds.loading', `[${t}] Bounds loading should be correctly internationalized`)
-      assert.equal(formatHintText(intlStub, makeAttributeStub(t, null, makeBoundsInformationStub(true, false, true))),
-        'criterion.attribute.bounds.error', `[${t}] Bounds in error should be correctly internationalized`)
-      assert.equal(formatHintText(intlStub, makeAttributeStub(t, null, makeBoundsInformationStub(true, false, false))),
-        'criterion.attribute.bounds.none', `[${t}] No bound value should be correctly internationalized`)
+      assert.equal(formatHintText(intlStub, criterionTestSuiteHelpers.getAttributeStub(t, null,
+        criterionTestSuiteHelpers.getBoundsInformationStub(false))),
+      'criterion.attribute.bounds.not.existing', `[${t}] Bounds not existing should be correctly internationalized`)
+      assert.equal(formatHintText(intlStub, criterionTestSuiteHelpers.getAttributeStub(t, null,
+        criterionTestSuiteHelpers.getBoundsInformationStub(true, true))),
+      'criterion.attribute.bounds.loading', `[${t}] Bounds loading should be correctly internationalized`)
+      assert.equal(formatHintText(intlStub, criterionTestSuiteHelpers.getAttributeStub(t, null,
+        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, true))),
+      'criterion.attribute.bounds.error', `[${t}] Bounds in error should be correctly internationalized`)
+      assert.equal(formatHintText(intlStub, criterionTestSuiteHelpers.getAttributeStub(t, null,
+        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false))),
+      'criterion.attribute.bounds.none', `[${t}] No bound value should be correctly internationalized`)
     })
     // 3 - Numeric types
     const numericTypes = [DamDomain.MODEL_ATTR_TYPES.DOUBLE, DamDomain.MODEL_ATTR_TYPES.INTEGER, DamDomain.MODEL_ATTR_TYPES.LONG]
@@ -427,7 +412,8 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
       validNumberTestBounds.forEach(({
         testCase, lowerBound, upperBound, hasLower, hasUpper,
       }) => {
-        const attrStub = makeAttributeStub(t, null, makeBoundsInformationStub(true, false, false, lowerBound, upperBound))
+        const attrStub = criterionTestSuiteHelpers.getAttributeStub(t, null,
+          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, lowerBound, upperBound))
         // 1 - Test when lower only
         const expectedLower = hasLower ? 'criterion.attribute.bounds.lower.bound.value' : 'criterion.attribute.bounds.lower.bound.none'
         assert.equal(formatHintText(makeIntlStub(), attrStub, BOUND_TYPE.LOWER_BOUND),
@@ -453,7 +439,8 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     validDateTestBounds.forEach(({
       testCase, lowerBound, upperBound, hasLower, hasUpper,
     }) => {
-      const attrStub = makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, makeBoundsInformationStub(true, false, false, lowerBound, upperBound))
+      const attrStub = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null,
+        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, lowerBound, upperBound))
       // 1 - Test when lower only
       const expectedLower = hasLower ? 'criterion.attribute.bounds.lower.bound.value' : 'criterion.attribute.bounds.lower.bound.none'
       assert.equal(formatHintText(makeIntlStub(), attrStub, BOUND_TYPE.LOWER_BOUND),
@@ -468,28 +455,71 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     })
     // 5 - Test with valid bounds but NONE bound type
     // 5a - partial number range
-    const attrStub5a = makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, makeBoundsInformationStub(true, false, false, 25))
+    const attrStub5a = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null,
+      criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, 25))
     assert.equal(formatHintText(makeIntlStub(), attrStub5a, BOUND_TYPE.NONE),
       'criterion.attribute.bounds.upper.bound.none', '5a - NO_BOUND should always return the corresponding text')
 
     // 5b - full date range
-    const attrStub5b = makeAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, makeBoundsInformationStub(true, false, false, '2017-09-27T13:15:42.726Z', '2018-09-27T13:15:42.726Z'))
+    const attrStub5b = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null,
+      criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '2017-09-27T13:15:42.726Z', '2018-09-27T13:15:42.726Z'))
     assert.equal(formatHintText(makeIntlStub(), attrStub5b, BOUND_TYPE.NONE),
       'criterion.attribute.bounds.upper.bound.none', '5b - NO_BOUND should always return the corresponding text')
 
     // 6 - stateful attributes
     assert.equal(
-      formatHintText(makeIntlStub(), makeAttributeStub('*', null, makeBoundsInformationStub(false, false, false)), BOUND_TYPE.NONE),
+      formatHintText(makeIntlStub(), criterionTestSuiteHelpers.getAttributeStub('*', null,
+        criterionTestSuiteHelpers.getBoundsInformationStub(false, false, false)), BOUND_TYPE.NONE),
       'criterion.attribute.bounds.upper.bound.none', '6a - NO_BOUND should always return the corresponding text')
     assert.equal(
-      formatHintText(makeIntlStub(), makeAttributeStub('*', null, makeBoundsInformationStub(true, true, false)), BOUND_TYPE.NONE),
+      formatHintText(makeIntlStub(), criterionTestSuiteHelpers.getAttributeStub('*', null,
+        criterionTestSuiteHelpers.getBoundsInformationStub(true, true, false)), BOUND_TYPE.NONE),
       'criterion.attribute.bounds.upper.bound.none', '6b - NO_BOUND should always return the corresponding text')
     assert.equal(
-      formatHintText(makeIntlStub(), makeAttributeStub('*', null, makeBoundsInformationStub(true, false, true)), BOUND_TYPE.NONE),
+      formatHintText(makeIntlStub(), criterionTestSuiteHelpers.getAttributeStub('*', null,
+        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, true)), BOUND_TYPE.NONE),
       'criterion.attribute.bounds.upper.bound.none', '6c - NO_BOUND should always return the corresponding text')
 
     // 6 - check error is thrown when no intl is provided
     assert.throws(formatHintText.bind(null, null, attrStub5b, BOUND_TYPE.NONE))
     assert.throws(formatHintText.bind(null, {}, attrStub5b, BOUND_TYPE.NONE))
+  })
+  it('should format correctly a field tooltip', () => {
+    // 1 - any attribute when bounds do not exist, are fetching or in error
+    values(DamDomain.MODEL_ATTR_TYPES).forEach((type) => {
+      // 1.a - not exisiting
+      assert.equal(formatTooltip(makeIntlStub(), criterionTestSuiteHelpers.getAttributeStub(type, null,
+        criterionTestSuiteHelpers.getBoundsInformationStub(false))),
+      'criterion.attribute.tooltip.no.bound', `1.a - [${type}] Should be formatted as not boundable`)
+      // 1.b - loading
+      assert.equal(formatTooltip(makeIntlStub(), criterionTestSuiteHelpers.getAttributeStub(type, null,
+        criterionTestSuiteHelpers.getBoundsInformationStub(true, true))),
+      'criterion.attribute.tooltip.no.bound', `1.b - [${type}] Should be formatted as not boundable`)
+      // 1.c - in error
+      assert.equal(formatTooltip(makeIntlStub(), criterionTestSuiteHelpers.getAttributeStub(type, null,
+        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, true))),
+      'criterion.attribute.tooltip.no.bound', `1.c - [${type}] Should be formatted as not boundable`)
+    })
+    // 2 - Boundable attribute with bounds
+    const testCases = [
+      { type: DamDomain.MODEL_ATTR_TYPES.DOUBLE, lower: -1, upper: 5423.21 },
+      { type: DamDomain.MODEL_ATTR_TYPES.INTEGER, upper: 0 },
+      { type: DamDomain.MODEL_ATTR_TYPES.LONG, lower: 50000000000000 },
+      { type: DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, lower: '2017-09-27T13:15:42.726Z', upper: '2018-09-27T13:15:42.726Z' },
+      { type: DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, upper: '2018-09-27T13:15:42.726Z' },
+      { type: DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, lower: '2017-09-27T13:15:42.726Z' },
+    ]
+    testCases.forEach(({ type, lower, upper }, index) => {
+      const attr = criterionTestSuiteHelpers.getAttributeStub(type, null,
+        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, lower, upper))
+      assert.equal(formatTooltip(makeIntlStub(), attr), 'criterion.attribute.tooltip.valueable.with.bounds',
+        `2 - (${index + 1}) should be formatted with bounds in tooltip`)
+    })
+    // 3 - Boundable without bounds
+    typesWithBounds.forEach((type) => {
+      assert.equal(formatTooltip(makeIntlStub(), criterionTestSuiteHelpers.getAttributeStub(type, null,
+        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false))),
+      'criterion.attribute.tooltip.valueable.without.bound', `3 - [${type}] should be formatted as no bound value`)
+    })
   })
 })

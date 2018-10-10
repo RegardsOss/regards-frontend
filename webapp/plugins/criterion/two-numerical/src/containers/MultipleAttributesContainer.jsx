@@ -81,20 +81,18 @@ export class MultipleAttributesContainer extends PluginCriterionContainer {
   /**
    * @return {*} Component default state for current attribute
    */
-  getDefaultState = () => {
-    this.setState({
-      firstFieldComparators: this.getAvailableComparators('firstField'),
-      secondFieldComparators: this.getAvailableComparators('secondField'),
-      firstField: {
-        value: null,
-        operator: CommonDomain.EnumNumericalComparator.GE, // always available
-      },
-      secondField: {
-        value: null,
-        operator: CommonDomain.EnumNumericalComparator.LE, // always available
-      },
-    })
-  }
+  getDefaultState = () => ({
+    firstFieldComparators: this.getAvailableComparators('firstField'),
+    secondFieldComparators: this.getAvailableComparators('secondField'),
+    firstField: {
+      value: null,
+      operator: CommonDomain.EnumNumericalComparator.GE, // always available
+    },
+    secondField: {
+      value: null,
+      operator: CommonDomain.EnumNumericalComparator.LE, // always available
+    },
+  })
 
   /**
    * Callback: user changed value 1 number and / or operator

@@ -59,10 +59,10 @@ module.exports = function (projectContextPath, mode) {
         },
         {
           test: /\.css$/,
-          use: [
+          use: mode !== 'test' ? [
             MiniCssExtractPlugin.loader,
             'css-loader',
-          ],
+          ] : ['css-loader'],
         },
         {
           test: /\.jpg$/,

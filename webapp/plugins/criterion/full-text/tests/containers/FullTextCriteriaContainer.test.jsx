@@ -16,46 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
 import TextField from 'material-ui/TextField'
+import { shallow } from 'enzyme'
+import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DamDomain } from '@regardsoss/domain'
-import { ExampleCriteriaComponent } from '../../src/components/ExampleCriteriaComponent'
-import styles from '../../src/styles/styles'
+import { FullTextCriteriaContainer } from '../../src/containers/FullTextCriteriaContainer'
+import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test case for {@link ExampleCriteriaComponent}
- *
- * @author Xavier-Alexandre Brochard
+ * Test FullTextCriteriaContainer
+ * @author Raphaël Mechali
  */
-describe('[PLUGIN STRING CRITERIA] Testing the example criteria component', () => {
+describe('[Full text criterion] Testing FullTextCriteriaContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
+
   it('should exists', () => {
-    assert.isDefined(ExampleCriteriaComponent)
-    assert.isDefined(TextField)
+    assert.isDefined(FullTextCriteriaContainer)
   })
-  it('should render self and sub components', () => {
+  it('should render correctly', () => {
     const props = {
       // parent callbacks (required)
       pluginInstanceId: 'any',
+      currentTodo: null,
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
-      testDispatch: () => { },
       registerClear: () => { },
-      attributes: {
-        searchField: {
-          name: 'searchField',
-          description: 'Attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.STRING,
-        },
-      },
+      attributes: {},
     }
-    const enzymeWrapper = shallow(<ExampleCriteriaComponent {...props} />, { context })
-    expect(enzymeWrapper.find(TextField)).to.have.length(1)
+    const enzymeWrapper = shallow(<FullTextCriteriaContainer {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(TextField), 1, 'There should be search field')
   })
 })

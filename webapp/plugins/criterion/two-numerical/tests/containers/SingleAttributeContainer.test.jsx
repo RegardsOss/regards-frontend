@@ -17,28 +17,28 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DamDomain } from '@regardsoss/domain'
-import TwoNumericalCriteriaComposedComponent from '../../src/components/TwoNumericalCriteriaComposedComponent'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
+import { CommonDomain, DamDomain } from '@regardsoss/domain'
+import SingleAttributeContainer from '../../src/containers/SingleAttributeContainer'
 import NumericalCriteriaComponent from '../../src/components/NumericalCriteriaComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test case for {@link TwoNumericalCriteriaComposedComponent}
+ * Test case for {@link SingleAttributeContainer}
  *
  * @author Xavier-Alexandre Brochard
  */
-describe('[PLUGIN TWO NUMERICAL CRITERIA COMPOSED] Testing the two numerical criteria composed component', () => {
+describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing SingleAttributeContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
   it('should exists', () => {
-    assert.isDefined(TwoNumericalCriteriaComposedComponent)
+    assert.isDefined(SingleAttributeContainer)
     assert.isDefined(NumericalCriteriaComponent)
   })
-  it('should render self and subcomponents', () => {
+  it('should render self and subcomponents with attribute bounds', () => {
     const props = {
       // parent callbacks (required)
       pluginInstanceId: 'any',
@@ -48,22 +48,53 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA COMPOSED] Testing the two numerical cri
       registerClear: () => { },
       attributes: {
         firstField: {
+          ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, null,
+            criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -25.3, 455555555543435421321354.2)),
           name: 'myAttribute',
           jsonPath: 'somewhere.over.the.rainbow',
-          description: 'First attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }
-    const enzymeWrapper = shallow(<TwoNumericalCriteriaComposedComponent {...props} />, { context })
-    const children = enzymeWrapper.find(NumericalCriteriaComponent)
-    expect(children).to.have.length(2)
-    const first = children.at(0)
-    const second = children.at(1)
-    expect(first.props().reversed).to.equal(true)
-    expect(first.props().hideAttributeName).to.equal(true)
-    expect(second.props().reversed).to.equal(false)
-    expect(second.props().hideAttributeName).to.equal(true)
+    const enzymeWrapper = shallow(<SingleAttributeContainer {...props} />, { context })
+    const fields = enzymeWrapper.find(NumericalCriteriaComponent)
+    assert.lengthOf(fields, 2, 'There should be 2 fields')
+    fields.forEach((field, index) => {
+      testSuiteHelpers.assertWrapperProperties(field, {
+        comparator: index === 0 ? CommonDomain.EnumNumericalComparator.LE : CommonDomain.EnumNumericalComparator.GE,
+        disabled: false,
+      }, `Properties should be correctly set in field ${index + 1}`)
+      assert.isOk(field.props().hintText, `Field ${index + 1} should have and hint text`)
+      assert.isOk(field.props().tooltip, `Field ${index + 1} should have a tooltip`)
+    })
+  })
+  it('should render self and subcomponents without attribute bound', () => {
+    const props = {
+      // parent callbacks (required)
+      pluginInstanceId: 'any',
+      onChange: () => { },
+      getDefaultState: () => { },
+      savePluginState: () => { },
+      registerClear: () => { },
+      attributes: {
+        firstField: {
+          ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, null,
+            criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false)),
+          name: 'myAttribute',
+          jsonPath: 'somewhere.over.the.rainbow',
+        },
+      },
+    }
+    const enzymeWrapper = shallow(<SingleAttributeContainer {...props} />, { context })
+    const fields = enzymeWrapper.find(NumericalCriteriaComponent)
+    assert.lengthOf(fields, 2, 'There should be 2 fields')
+    fields.forEach((field, index) => {
+      testSuiteHelpers.assertWrapperProperties(field, {
+        comparator: index === 0 ? CommonDomain.EnumNumericalComparator.LE : CommonDomain.EnumNumericalComparator.GE,
+        disabled: true,
+      }, `Properties should be correctly set in field ${index + 1} and field should be disabled`)
+      assert.isOk(field.props().hintText, `Field ${index + 1} should have and hint text`)
+      assert.isOk(field.props().tooltip, `Field ${index + 1} should have a tooltip`)
+    })
   })
   it('should parse correctly state from URL', () => {
     // 1 - Buiild component to get instance
@@ -74,15 +105,10 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA COMPOSED] Testing the two numerical cri
       savePluginState: () => { },
       registerClear: () => { },
       attributes: {
-        firstField: {
-          name: 'myAttribute',
-          jsonPath: 'somewhere.over.the.rainbow',
-          description: 'First attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
-        },
+        firstField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE),
       },
     }
-    const enzymeWrapper = shallow(<TwoNumericalCriteriaComposedComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<SingleAttributeContainer {...props} />, { context })
     const wrapperInstance = enzymeWrapper.instance()
     // 2 - test parsing on instance
     // 2.1 - = on negative number: first and second fields show worth parsed value (this is a boundary case)
@@ -129,14 +155,12 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA COMPOSED] Testing the two numerical cri
       registerClear: () => { },
       attributes: {
         firstField: {
-          name: 'myAttribute',
+          ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE),
           jsonPath: 'somewhere.over.the.rainbow',
-          description: 'First attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }
-    const enzymeWrapper = shallow(<TwoNumericalCriteriaComposedComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<SingleAttributeContainer {...props} />, { context })
     const wrapperInstance = enzymeWrapper.instance()
     // 2 - test URL computing on instance
     // 2.1 - full range
@@ -157,10 +181,8 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA COMPOSED] Testing the two numerical cri
       ...props,
       attributes: {
         firstField: {
-          name: 'myAttribute',
-          // remove json path
-          description: 'First attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
+          ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE),
+          jsonPath: undefined,
         },
       },
     })

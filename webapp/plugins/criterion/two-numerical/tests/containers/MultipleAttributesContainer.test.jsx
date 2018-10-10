@@ -17,29 +17,29 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
+import { assert } from 'chai'
 import { EnumNumericalComparator } from '@regardsoss/domain/common'
 import { DamDomain } from '@regardsoss/domain'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import TwoNumericalCriteriaSimpleComponent from '../../src/components/TwoNumericalCriteriaSimpleComponent'
+import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
+import MultipleAttributesContainer from '../../src/containers/MultipleAttributesContainer'
 import NumericalCriteriaComponent from '../../src/components/NumericalCriteriaComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test case for {@link TwoNumericalCriteriaSimpleComponent}
+ * Test case for {@link MultipleAttributesContainer}
  *
  * @author Xavier-Alexandre Brochard
  */
-describe('[PLUGIN TWO NUMERICAL CRITERIA SIMPLE] Testing the two numerical criteria simple component', () => {
+describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing MultipleAttributesContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
   it('should exists', () => {
-    assert.isDefined(TwoNumericalCriteriaSimpleComponent)
+    assert.isDefined(MultipleAttributesContainer)
     assert.isDefined(NumericalCriteriaComponent)
   })
-  it('should render self and subcomponents', () => {
+  it('should render self and subcomponents with attribute bounds', () => {
     const props = {
       pluginInstanceId: 'any',
       onChange: () => { },
@@ -47,22 +47,39 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA SIMPLE] Testing the two numerical crite
       savePluginState: () => { },
       registerClear: () => { },
       attributes: {
+        // This attributes has bounds in context
         firstField: {
+          ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, 'dB',
+            criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, null, 25.5)),
           name: 'firstField',
           jsonPath: 'pipapa.padapo',
-          description: 'First attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
+        // This attributes has no bound in context
         secondField: {
+          ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
+            criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false)),
           name: 'secondField',
           jsonPath: 'papapa.padapo',
-          description: 'Second attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }
-    const enzymeWrapper = shallow(<TwoNumericalCriteriaSimpleComponent {...props} />, { context })
-    expect(enzymeWrapper.find(NumericalCriteriaComponent)).to.have.length(2)
+    const enzymeWrapper = shallow(<MultipleAttributesContainer {...props} />, { context })
+    const criteriaComponents = enzymeWrapper.find(NumericalCriteriaComponent)
+    assert.lengthOf(criteriaComponents, 2, 'There should be one component to edit each attribute')
+
+    const firstCriterion = criteriaComponents.at(0)
+    assert.isFalse(firstCriterion.props().disabled, 'First criterion component should be enabled')
+    assert.deepEqual(firstCriterion.props().availableComparators, MultipleAttributesContainer.AVAILABLE_FLOAT_COMPARATORS,
+      'First criterion component comparators should be restricted to float comparators')
+    assert.isOk(firstCriterion.props().hintText, 'First criterion should have an hintText')
+    assert.isOk(firstCriterion.props().tooltip, 'First criterion should have a tooltip')
+
+    const secondCriterion = criteriaComponents.at(1)
+    assert.isTrue(secondCriterion.props().disabled, 'Second criterion component should be disabled')
+    assert.deepEqual(secondCriterion.props().availableComparators, MultipleAttributesContainer.AVAILABLE_INT_COMPARATORS,
+      'Second criterion component comparators should have all available comparators')
+    assert.isOk(secondCriterion.props().hintText, 'Second criterion should have an hintText')
+    assert.isOk(secondCriterion.props().tooltip, 'Second criterion should have a tooltip')
   })
   it('should parse correctly state from URL', () => {
     // 1 - Buiild component to get instance
@@ -74,20 +91,18 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA SIMPLE] Testing the two numerical crite
       registerClear: () => { },
       attributes: {
         firstField: {
+          ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER),
           name: 'firstField',
           jsonPath: 'pipapa.padapo',
-          description: 'First attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
         secondField: {
+          ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER),
           name: 'secondField',
           jsonPath: 'papapa.padapo',
-          description: 'Second attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }
-    const enzymeWrapper = shallow(<TwoNumericalCriteriaSimpleComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<MultipleAttributesContainer {...props} />, { context })
     const wrapperInstance = enzymeWrapper.instance()
     // 2 - test parsing on instance with test cases list to avoid some boiler plate. Note that each test will be run for each field
     const parsingTests = [
@@ -103,7 +118,7 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA SIMPLE] Testing the two numerical crite
     parsingTests.forEach(({ text, expected, testCaseMsg }) => {
       fieldNames.forEach((fieldName) => {
         const parsed = wrapperInstance.parseOpenSearchQuery(fieldName, text)
-        const actualExpected = expected || TwoNumericalCriteriaSimpleComponent.DEFAULT_STATE[fieldName]
+        const actualExpected = expected || wrapperInstance.getDefaultState()[fieldName]
         assert.deepEqual(parsed, actualExpected, `${testCaseMsg} for field ${fieldName}`)
       })
     })
@@ -118,20 +133,18 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA SIMPLE] Testing the two numerical crite
       registerClear: () => { },
       attributes: {
         firstField: {
+          ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER),
           name: 'firstField',
           jsonPath: 'pipapa.padapo',
-          description: 'First attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
         secondField: {
+          ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER),
           name: 'secondField',
           jsonPath: 'papapa.padapo',
-          description: 'Second attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }
-    const enzymeWrapper = shallow(<TwoNumericalCriteriaSimpleComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<MultipleAttributesContainer {...props} />, { context })
     const wrapperInstance = enzymeWrapper.instance()
     // 2 - test URL computing on instance (using test list to avoid some boiler plate)
     const urlComputingTests = [

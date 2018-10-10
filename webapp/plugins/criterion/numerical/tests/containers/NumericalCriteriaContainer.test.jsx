@@ -17,13 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
+import { assert } from 'chai'
 import TextField from 'material-ui/TextField'
 import { EnumNumericalComparator } from '@regardsoss/domain/common'
 import { DamDomain } from '@regardsoss/domain'
 import { NumericalComparator } from '@regardsoss/components'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import NumericalCriteriaComponent from '../../src/components/NumericalCriteriaComponent'
+import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
+import NumericalCriteriaContainer from '../../src/containers/NumericalCriteriaContainer'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -33,14 +33,14 @@ const context = buildTestContext(styles)
  *
  * @author Xavier-Alexandre Brochard
  */
-describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component', () => {
+describe('[PLUGIN NUMERICAL CRITERIA] Testing the NumericalCriteriaContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
   it('should exists', () => {
-    assert.isDefined(NumericalCriteriaComponent)
+    assert.isDefined(NumericalCriteriaContainer)
     assert.isDefined(TextField)
   })
-  it('should render self and subcomponents', () => {
+  it('should render self and subcomponents with bound data', () => {
     const props = {
       pluginInstanceId: 'any',
       onChange: () => { },
@@ -48,16 +48,47 @@ describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component',
       savePluginState: () => { },
       registerClear: () => { },
       attributes: {
-        searchField: {
-          name: 'searchField',
-          description: 'Attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
-        },
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
+          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1, 36)),
       },
     }
-    const enzymeWrapper = shallow(<NumericalCriteriaComponent {...props} />, { context })
-    expect(enzymeWrapper.find(NumericalComparator)).to.have.length(1)
-    expect(enzymeWrapper.find(TextField)).to.have.length(1)
+    const enzymeWrapper = shallow(<NumericalCriteriaContainer {...props} />, { context })
+    const comparator = enzymeWrapper.find(NumericalComparator)
+    assert.lengthOf(comparator, 1, 'There should be the comparator')
+    assert.isFalse(comparator.props().disabled, 'Comparator should be enabled as there are bounds')
+    assert.deepEqual(comparator.props().comparators, NumericalCriteriaContainer.AVAILABLE_INT_COMPARATORS,
+      'All integer comparators should be available')
+
+    const textField = enzymeWrapper.find(TextField)
+    assert.lengthOf(textField, 1, 'There should be the comparator')
+    assert.isFalse(textField.props().disabled, 'Textfield should be enabled as there are bounds')
+    assert.isOk(textField.props().floatingLabelText, 'Container should set floating text')
+    assert.isOk(textField.props().title, 'Container should set tooltip')
+  })
+  it('should render self and subcomponents without bound data', () => {
+    const props = {
+      pluginInstanceId: 'any',
+      onChange: () => { },
+      getDefaultState: () => { },
+      savePluginState: () => { },
+      registerClear: () => { },
+      attributes: {
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, null,
+          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false)),
+      },
+    }
+    const enzymeWrapper = shallow(<NumericalCriteriaContainer {...props} />, { context })
+    const comparator = enzymeWrapper.find(NumericalComparator)
+    assert.lengthOf(comparator, 1, 'There should be the comparator')
+    assert.isTrue(comparator.props().disabled, 'Comparator should be disabled as there is no bound')
+    assert.deepEqual(comparator.props().comparators, NumericalCriteriaContainer.AVAILABLE_FLOAT_COMPARATORS,
+      'Comparators should be restricted to float comparators')
+
+    const textField = enzymeWrapper.find(TextField)
+    assert.lengthOf(textField, 1, 'There should be the comparator')
+    assert.isTrue(textField.props().disabled, 'Textfield should be disabled as there is no bound')
+    assert.isOk(textField.props().floatingLabelText, 'Container should set floating text')
+    assert.isOk(textField.props().title, 'Container should set tooltip')
   })
   it('should parse correctly state from URL', () => {
     // 1 - Buiild component to get instance
@@ -68,14 +99,11 @@ describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component',
       savePluginState: () => { },
       registerClear: () => { },
       attributes: {
-        searchField: {
-          name: 'myAttribute',
-          description: 'Attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
-        },
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, null,
+          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1.5, -0.5)),
       },
     }
-    const enzymeWrapper = shallow(<NumericalCriteriaComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<NumericalCriteriaContainer {...props} />, { context })
     const wrapperInstance = enzymeWrapper.instance()
     // 2 - test parsing on instance
     // 2.1 - = on negative number
@@ -104,14 +132,14 @@ describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component',
       registerClear: () => { },
       attributes: {
         searchField: {
-          name: 'myAttribute',
+          ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, null,
+            criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1.5, -0.5)),
+          // change json path for query test
           jsonPath: 'xptdr.myAttribute',
-          description: 'Attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
         },
       },
     }
-    const enzymeWrapper = shallow(<NumericalCriteriaComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<NumericalCriteriaContainer {...props} />, { context })
     const wrapperInstance = enzymeWrapper.instance()
     // 2 - test URL computing on instance
     // 2.1 - = on negative number
@@ -134,9 +162,10 @@ describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component',
       ...props,
       attributes: {
         searchField: {
-          name: 'myAttribute',
-          description: 'Attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
+          ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
+            criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1.5, -0.5)),
+          // change json path for query test
+          jsonPath: undefined,
         },
       },
     })

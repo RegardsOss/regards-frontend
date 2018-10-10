@@ -266,7 +266,7 @@ export function formatTooltip(intl, attribute) {
   }
 
   // B - not it a specific case: if there is any bound, format the range then the full message
-  if (attribute.boundsInformation.lowerBound || attribute.boundsInformation.upperBound) {
+  if (!isNil(attribute.boundsInformation.lowerBound) || !isNil(attribute.boundsInformation.upperBound)) {
     const range = formatAnyBoundHintText(intl, attribute)
     return formatMessage({ id: 'criterion.attribute.tooltip.valueable.with.bounds' }, { typeText, range })
   }

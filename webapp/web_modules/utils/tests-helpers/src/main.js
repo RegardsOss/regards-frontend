@@ -16,11 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
+
 export { default as defaultFluxStandardError } from './DefaultFluxStandardError'
 export { default as IntlStub } from './IntlStub'
 export { default as muiThemeStub } from './MuiThemeStub'
 export { default as buildTestContext } from './TestContextStub'
 export { default as testSuiteHelpers } from './TestSuiteHelpers'
+export { default as criterionTestSuiteHelpers } from './CriterionTestSuiteHelpers'
 export { default as uiPluginServiceTestHelpers } from './UIPluginServiceTestHelpers'
 export { default as ReduxEntityTester } from './store/ReduxEntityTester'
 export { default as ReduxFormTestHelper } from './ReduxFormTestHelper'

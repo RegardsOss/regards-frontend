@@ -18,7 +18,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
+import { DamDomain } from '@regardsoss/domain'
 import EnumeratedCriteriaComponent from '../../src/components/EnumeratedCriteriaComponent'
 import { EnumeratedCriteriaContainer } from '../../src/containers/EnumeratedCriteriaContainer'
 import styles from '../../src/styles/styles'
@@ -48,7 +49,8 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriteriaContainer', () 
           label: 'label',
           name: 'Label',
           jsonPath: 'label',
-          type: 'STRING',
+          type: DamDomain.MODEL_ATTR_TYPES.STRING,
+          boundsInformation: criterionTestSuiteHelpers.getBoundsInformationStub(),
         },
       },
       isFetching: false,
@@ -68,6 +70,8 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriteriaContainer', () 
       onUpdateTextFilter: enzymeWrapper.instance().onUpdateTextFilter, // callbacks
       onFilterSelected: enzymeWrapper.instance().onFilterSelected, // callbacks
     }, 'Component properties should be correctly reported')
+    assert.isOk(componentWrapper.props().hintText, 'Parent component should have built an hint text')
+    assert.isOk(componentWrapper.props().tooltip, 'Parent component should have built a tooltip text')
   })
   it('should render correctly with initial value', () => {
     const props = {
@@ -82,7 +86,8 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriteriaContainer', () 
           label: 'label',
           name: 'Label',
           jsonPath: 'label',
-          type: 'STRING',
+          type: DamDomain.MODEL_ATTR_TYPES.STRING,
+          boundsInformation: criterionTestSuiteHelpers.getBoundsInformationStub(),
         },
       },
       isFetching: false,
@@ -117,7 +122,8 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriteriaContainer', () 
           label: 'label',
           name: 'Label',
           jsonPath: 'label',
-          type: 'STRING',
+          type: DamDomain.MODEL_ATTR_TYPES.STRING,
+          boundsInformation: criterionTestSuiteHelpers.getBoundsInformationStub(),
         },
       },
       isFetching: false,
@@ -151,7 +157,8 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriteriaContainer', () 
           label: 'label',
           name: 'Label',
           jsonPath: 'label',
-          type: 'STRING',
+          type: DamDomain.MODEL_ATTR_TYPES.STRING,
+          boundsInformation: criterionTestSuiteHelpers.getBoundsInformationStub(),
         },
       },
       isFetching: false,

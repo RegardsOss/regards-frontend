@@ -53,9 +53,6 @@ const pluginStyles = theme => ({
     justifyContent: 'center',
     flexWrap: 'wrap',
   },
-  datePickerLabelStyle: {
-    margin: '0px 10px',
-  },
   datePickerSelectorStyle: {
     top: -13,
     margin: '0px 10px',

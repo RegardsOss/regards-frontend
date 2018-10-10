@@ -19,42 +19,40 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import TextField from 'material-ui/TextField'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DamDomain } from '@regardsoss/domain'
-import { StringCriteriaComponent } from '../../src/components/StringCriteriaComponent'
+import { ExampleCriteriaContainer } from '../../src/containers/ExampleCriteriaContainer'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test case for {@link StringCriteriaComponent}
+ * Test case for {@link ExampleCriteriaContainer}
  *
  * @author Xavier-Alexandre Brochard
  */
-describe('[PLUGIN STRING CRITERIA] Testing the string criteria component', () => {
+describe('[PLUGIN EXAMPLE CRITERIA] Testing ExampleCriteriaContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
   it('should exists', () => {
-    assert.isDefined(StringCriteriaComponent)
+    assert.isDefined(ExampleCriteriaContainer)
     assert.isDefined(TextField)
   })
   it('should render self and sub components', () => {
     const props = {
       // parent callbacks (required)
       pluginInstanceId: 'any',
+      currentTodo: null,
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
       registerClear: () => { },
+      setTodo: () => {},
       attributes: {
-        searchField: {
-          name: 'searchField',
-          description: 'Attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.STRING,
-        },
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
       },
     }
-    const enzymeWrapper = shallow(<StringCriteriaComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<ExampleCriteriaContainer {...props} />, { context })
     expect(enzymeWrapper.find(TextField)).to.have.length(1)
   })
 })

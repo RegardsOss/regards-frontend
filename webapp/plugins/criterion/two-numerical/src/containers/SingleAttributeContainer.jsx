@@ -116,7 +116,6 @@ export class SingleAttributeContainer extends PluginCriterionContainer {
           </span>
           <div style={lineGroupStyle}>
             <NumericalCriteriaComponent
-              label={this.getAttributeLabel('firstField')}
               value={firstField}
               comparator={EnumNumericalComparator.LE}
               onChange={this.onChangeValue1}
@@ -130,7 +129,6 @@ export class SingleAttributeContainer extends PluginCriterionContainer {
               <FormattedMessage id="criterion.aggregator.and" />
             </span>
             <NumericalCriteriaComponent
-              label={this.getAttributeLabel('secondField')}
               value={secondField}
               comparator={EnumNumericalComparator.GE}
               onChange={this.onChangeValue2}
