@@ -18,6 +18,7 @@
  **/
 import find from 'lodash/find'
 import get from 'lodash/get'
+import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import isString from 'lodash/isString'
 
@@ -148,7 +149,7 @@ const findModelFromAttributeFullyQualifiedName = (attributeFullyQualifiedName, a
   * Finds an attribute value from the full qualified path
   * @param entity entity source, structrures {content: ..., links: ... an so on}
   * @param fullQualifiedPath String|Array full qualified path array or name (obtained from getAttributeAccessPath | getAttributeFullyQualifiedName)
-  * @return found value or null
+  * @return found value or null / undefined
   */
 function getEntityAttributeValue(entity, fullQualifiedPath) {
   // 1 - check and prepare attributes
@@ -165,8 +166,8 @@ function getEntityAttributeValue(entity, fullQualifiedPath) {
   }
   // 2 - recursive resolution (break when path length === 1)
   const resolveAttribute = (currentSource, [pathElement, ...remainingPath]) => {
-    const subsource = currentSource[pathElement] || null
-    return remainingPath.length && subsource
+    const subsource = currentSource[pathElement]
+    return remainingPath.length && !isNil(subsource)
       ? resolveAttribute(subsource, remainingPath) // next level
       : subsource // finished path or no such attribute
   }
