@@ -105,9 +105,10 @@ export class RenderAutoCompleteField extends React.Component {
           }}
           searchText={input.value ? input.value : searchText || ''}
           onUpdateInput={(pSearchText, pDatasource, params) => {
-            if (enableOnlyDatasourceValues && !RenderAutoCompleteField.valueIsInDataSource(pSearchText, pDatasource, dataSourceConfig)) {
+            const isValueMatching = RenderAutoCompleteField.valueIsInDataSource(pSearchText, pDatasource, dataSourceConfig)
+            if (enableOnlyDatasourceValues && !isValueMatching) {
               input.onChange(null)
-            } else if (!enableOnlyDatasourceValues) {
+            } else if (!enableOnlyDatasourceValues || isValueMatching) {
               input.onChange(pSearchText)
             }
             if (onUpdateInput) {
