@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/microservice-plugin-configurator",
-  "version": "3.0.0"
+  "version": "3.0.0",
   "private": true,
   "sideEffects": false,
   "description": "Common tool to configure a REGARDS backend microservice plugin",

@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/admin-board-collections",
-  "version": "3.0.0"
+  "version": "3.0.0",
   "private": true,
   "sideEffects": false,
   "description": "",
