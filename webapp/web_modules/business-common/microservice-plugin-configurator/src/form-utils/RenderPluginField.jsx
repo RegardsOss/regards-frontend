@@ -158,8 +158,12 @@ export class RenderPluginField extends React.PureComponent {
 
   render() {
     const { moduleTheme: { renderer: { fullWidthStyle } } } = this.context
+    const { input: { name } } = this.props
     return (
-      <div style={fullWidthStyle}>
+      <div
+        style={fullWidthStyle}
+        name={name}
+      >
         {this.getPluginSelector()}
         {this.getPluginConfigurator()}
       </div>

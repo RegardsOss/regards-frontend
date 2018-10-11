@@ -119,6 +119,7 @@ export class RenderAutoCompleteField extends React.Component {
           dataSourceConfig={dataSourceConfig}
           openOnFocus={openOnFocus}
           filter={filter}
+          name={input.name}
         />
       </div>
     )

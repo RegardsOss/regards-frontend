@@ -208,7 +208,10 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
             <HelpMessageComponent message={infoMessage} />
             <br />
             <Tabs>
-              <Tab label={formatMessage({ id: 'acquisition-chain.form.general.section.title' })}>
+              <Tab
+                label={formatMessage({ id: 'acquisition-chain.form.general.section.title' })}
+                className="selenium-generalTab"
+              >
                 <Field
                   name="label"
                   fullWidth
@@ -281,7 +284,10 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   validate={required}
                 />
               </Tab>
-              <Tab label={formatMessage({ id: 'acquisition-chain.form.fileInfos.section' })}>
+              <Tab
+                label={formatMessage({ id: 'acquisition-chain.form.fileInfos.section' })}
+                className="selenium-filesTab"
+              >
                 <FieldArray
                   name="fileInfos"
                   component={RenderArrayObjectField}
@@ -292,7 +298,10 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   validate={required}
                 />
               </Tab>
-              <Tab label={formatMessage({ id: 'acquisition-chain.form.plugins.section' })}>
+              <Tab
+                label={formatMessage({ id: 'acquisition-chain.form.plugins.section' })}
+                className="selenium-pluginsTab"
+              >
                 <AcquisitionProcessingChainFormPluginsComponent
                   chain={chain}
                 />
