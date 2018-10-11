@@ -17,29 +17,29 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DatePickerField, NumericalComparator } from '@regardsoss/components'
+import { assert } from 'chai'
 import { DamDomain } from '@regardsoss/domain'
-import TemporalCriteriaComponent from '../../src/components/TemporalCriteriaComponent'
+import { DatePickerField, NumericalComparator } from '@regardsoss/components'
+import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
+import TemporalCriteriaContainer from '../../src/containers/TemporalCriteriaContainer'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test case for {@link TemporalCriteriaComponent}
+ * Test case for {@link TemporalCriteriaContainer}
  *
  * @author Xavier-Alexandre Brochard
  */
-describe('[PLUGIN TEMPORAL CRITERIA] Testing the temporal criteria component', () => {
+describe('[PLUGIN TEMPORAL CRITERIA] Testing TemporalCriteriaContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
   it('should exists', () => {
-    assert.isDefined(TemporalCriteriaComponent)
+    assert.isDefined(TemporalCriteriaContainer)
     assert.isDefined(NumericalComparator)
     assert.isDefined(DatePickerField)
   })
-  it('should render self and subcomponents', () => {
+  it('should render self with attribute bounds', () => {
     const props = {
       // parent callbacks (required)
       pluginInstanceId: 'any',
@@ -48,15 +48,39 @@ describe('[PLUGIN TEMPORAL CRITERIA] Testing the temporal criteria component', (
       savePluginState: () => { },
       registerClear: () => { },
       attributes: {
-        searchField: {
-          name: 'searchField',
-          description: 'Attribute to search',
-          type: DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601,
-        },
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null,
+          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '2017-09-27T13:15:42.726Z', '2018-09-27T13:15:42.726Z')),
       },
     }
-    const enzymeWrapper = shallow(<TemporalCriteriaComponent {...props} />, { context })
-    expect(enzymeWrapper.find(NumericalComparator)).to.have.length(1)
-    expect(enzymeWrapper.find(DatePickerField)).to.have.length(1)
+    const enzymeWrapper = shallow(<TemporalCriteriaContainer {...props} />, { context })
+    const comparator = enzymeWrapper.find(NumericalComparator)
+    assert.isFalse(comparator.props().disabled, 'Comparator should be enabled as there are bounds')
+    assert.lengthOf(comparator, 1, 'There should be the comparator')
+    const datePicker = enzymeWrapper.find(DatePickerField)
+    assert.lengthOf(datePicker, 1, 'There should be the date picker')
+    assert.isFalse(datePicker.props().disabled, 'Date picker should be enabled as there are bounds')
+    assert.isOk(datePicker.props().tooltip, 'Date picker should have a tooltip (displays bounds)')
+  })
+  it('should render self without attribute bounds', () => {
+    const props = {
+      // parent callbacks (required)
+      pluginInstanceId: 'any',
+      onChange: () => { },
+      getDefaultState: () => { },
+      savePluginState: () => { },
+      registerClear: () => { },
+      attributes: {
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null,
+          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false)),
+      },
+    }
+    const enzymeWrapper = shallow(<TemporalCriteriaContainer {...props} />, { context })
+    const comparator = enzymeWrapper.find(NumericalComparator)
+    assert.isTrue(comparator.props().disabled, 'Comparator should be disabled as there is no bound')
+    assert.lengthOf(comparator, 1, 'There should be the comparator')
+    const datePicker = enzymeWrapper.find(DatePickerField)
+    assert.lengthOf(datePicker, 1, 'There should be the date picker')
+    assert.isTrue(datePicker.props().disabled, 'Date picker should be disabled as there is no bound')
+    assert.isOk(datePicker.props().tooltip, 'Date picker should have a tooltip')
   })
 })

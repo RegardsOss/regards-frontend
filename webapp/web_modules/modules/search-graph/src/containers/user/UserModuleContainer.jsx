@@ -23,7 +23,7 @@ import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import { UIClient } from '@regardsoss/client'
+import { UIClient, DataManagementClient } from '@regardsoss/client'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { modulesManager } from '@regardsoss/modules'
@@ -32,7 +32,6 @@ import { getTypeRender } from '@regardsoss/attributes-common'
 import { withValueRenderContext } from '@regardsoss/components'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 import { SelectionPath } from '../../model/graph/SelectionShape'
-import { AttributeModelActions, AttributeModelSelectors } from '../../clients/AttributeModelClient'
 import graphContextActions from '../../model/graph/GraphContextActions'
 import fetchGraphCollectionsActions from '../../model/graph/FetchGraphCollectionsActions'
 import fetchGraphDatasetsActions from '../../model/graph/FetchGraphDatasetsActions'
@@ -43,7 +42,10 @@ import getLevelPartitionKey from '../../model/graph/PartitionsConstants'
 import NavigableSearchResultsContainer from './NavigableSearchResultsContainer'
 import SearchGraph from '../../components/user/SearchGraph'
 
+// default pane state selectors
 const moduleExpandedStateSelectors = UIClient.getModuleExpandedStateSelectors()
+// default attribute model selectors
+const attributeModelSelectors = DataManagementClient.AttributeModelSelectors()
 
 /**
  * Module container for user interface
@@ -54,14 +56,13 @@ export class UserModuleContainer extends React.Component {
     return {
       presentationState: moduleExpandedStateSelectors.getPresentationState(state, searchGraphPaneKey),
       selectionPath: graphContextSelectors.getSelectionPath(state),
-      attributeModels: AttributeModelSelectors.getList(state),
+      attributeModels: attributeModelSelectors.getList(state),
       // authentication, to refresh content on login / logout
       authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
     }
   }
 
   static mapDispatchToProps = dispatch => ({
-    fetchAttributeModels: () => dispatch(AttributeModelActions.fetchEntityList({ modelType: ENTITY_TYPES_ENUM.DATASET })),
     fetchCollections: (levelIndex, parentEntityId, levelModelName) => dispatch(fetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentEntityId, levelModelName)),
     fetchDatasets: (levelIndex, parentPath) => dispatch(fetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentPath)),
     dispatchClearLevelSelection: levelIndex => dispatch(graphContextActions.selectEntity(levelIndex, null)),
@@ -86,7 +87,6 @@ export class UserModuleContainer extends React.Component {
     attributeModels: DataManagementShapes.AttributeModelList,
     authentication: AuthenticateShape,
     // from map dispatch to props
-    fetchAttributeModels: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     fetchCollections: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -103,12 +103,6 @@ export class UserModuleContainer extends React.Component {
 
   componentWillMount = () => {
     this.onPropertiesChanged(undefined, this.props)
-  }
-
-  componentDidMount = () => {
-    // Fetch attribute models in order to resolve dataset attributes for the graph
-    const { fetchAttributeModels } = this.props
-    fetchAttributeModels()
   }
 
   componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)

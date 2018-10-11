@@ -23,6 +23,7 @@ import { Locales } from '@regardsoss/form-utils'
  * @author Sébastien binda
  */
 const messages = {
+  // common form messages
   ...Locales.fr,
 
   // Administration messages
@@ -34,7 +35,6 @@ const messages = {
   'form.criterions.tab.label': 'Critères',
   'form.criterion.tab.title': 'Configurez les critères de recherche de votre formulaire. Chaque critère peut être placé dans une section spécifique de votre agencement.',
   'form.preview.tab.label': 'Prévisualisation',
-  'form.preview.tab.title': 'Visualisez votre formulaire de recherche tel qu\'il sera visisible dans l\'interface utilisateur.',
   // Configuration tab
   'form.configuration.tab.title': 'Configurer les paramètres principaux du formulaire de recherche',
   'form.configuration.result.type.datasets': 'Afficher les jeux de données résultats de la recherche',

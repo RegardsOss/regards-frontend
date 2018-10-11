@@ -18,6 +18,21 @@
  **/
 import { AccessShapes } from '@regardsoss/shape'
 import DatasetsConfShape from './DatasetsConfShape'
+
+/** A criterion configuration  */
+export const Criterion = PropTypes.shape({
+  pluginId: PropTypes.number.isRequired,
+  container: PropTypes.string.isRequired,
+  active: PropTypes.bool.isRequired,
+  // conf.attributes holds, by plugin attribute name, the attribute ID OR key (for standard attributes)
+  conf: PropTypes.shape({
+    attributes: PropTypes.objectOf(PropTypes.string),
+  }).isRequired,
+})
+
+/** Criteria configuration array */
+export const CriteriaArray = PropTypes.arrayOf(Criterion)
+
 /**
  * Form entity description
  * @author Sébastien binda
@@ -29,15 +44,7 @@ const ModuleConfiguration = PropTypes.shape({
     // Search form Layout configuration
     layout: AccessShapes.ContainerContent,
     // Search form criterion configuration
-    criterion: PropTypes.arrayOf(PropTypes.shape({
-      pluginId: PropTypes.number.isRequired,
-      container: PropTypes.string.isRequired,
-      active: PropTypes.bool.isRequired,
-      // conf.attributes holds, by plugin attribute name, the attribute ID OR key (for standard attributes)
-      conf: PropTypes.shape({
-        attributes: PropTypes.objectOf(PropTypes.string).isRequired,
-      }).isRequired,
-    })),
+    criterion: CriteriaArray,
     // Does search form render for preview or for full use
     preview: PropTypes.bool,
 

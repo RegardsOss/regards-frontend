@@ -3,6 +3,7 @@ const merge = require('webpack-merge')
 const nodeExternals = require('webpack-node-externals')
 const getCommonConfig = require('./webpack.common.config')
 
+
 module.exports = function (projectContextPath) {
   const config = getCommonConfig(projectContextPath, 'test')
 
@@ -43,5 +44,6 @@ module.exports = function (projectContextPath) {
       devtoolModuleFilenameTemplate: '[absolute-resource-path]',
       devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]',
     },
+    mode: 'development',
   })
 }

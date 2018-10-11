@@ -156,6 +156,8 @@ export class EnumeratedCriteriaContainer extends PluginCriterionContainer {
       <EnumeratedCriteriaComponent
         attributeLabel={attributeLabel}
         text={attributeEditionValue}
+        hintText={this.getFieldHintText(SEARCH_FIELD_ID, PluginCriterionContainer.BOUND_TYPE.NONE)} // show expected attribute type
+        tooltip={this.getFieldTooltip(SEARCH_FIELD_ID)}
         availablePropertyValues={availablePropertyValues}
         isInError={isInError}
         isFetching={isFetching}

@@ -27,6 +27,7 @@ const pluginStyles = theme => ({
     display: 'flex',
     alignItems: 'center',
     flexWrap: 'wrap',
+    minHeight: theme.criterion.minHeight,
   },
   labelSpanStyle: {
     margin: '0px 10px',
@@ -36,8 +37,11 @@ const pluginStyles = theme => ({
     width: 180,
     margin: '0px 10px',
   },
-  checkboxStyle: {
-    width: 150,
+  uncheckIconStyle: {
+    color: theme.palette.textColor,
+  },
+  checkedIconStyle: {
+    color: theme.palette.accent1Color,
   },
 })
 

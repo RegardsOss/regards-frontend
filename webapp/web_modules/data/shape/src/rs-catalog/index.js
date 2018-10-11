@@ -24,5 +24,6 @@ export {
 } from './Facets'
 export { default as Tag } from './Entity/Tag'
 
+export { AttributeBoundsContent, AttributeBounds, AttributeBoundsMap } from './AttributesBounds'
 export { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'
 export { SearchEngineConfigurationContent, SearchEngineConfiguration, SearchEngineConfigurationList } from './SearchEngineConfiguration'

@@ -18,14 +18,11 @@
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { uiPluginDefinitionActions } from './clients/UIPluginDefinitionClient'
-import { AttributeModelActions } from './clients/AttributeModelClient'
-
 
 /**
  * User module dependencies, not exported but used internally to let the module show dependencies / authentication messages
  * @author Raphaël Mechali
  */
 export const dependencies = [
-  AttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
   uiPluginDefinitionActions.getDependency(RequestVerbEnum.GET_LIST),
 ]

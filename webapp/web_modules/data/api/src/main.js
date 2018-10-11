@@ -71,6 +71,7 @@ export { AIPFileConfiguration, AIP_FILE_ARRAY, AIP_FILE } from './storage/AIPFil
 export { RESOURCE_ACCESS, RESOURCE_ACCESS_ARRAY, ResourceAccessConfiguration } from './admin/ResourceAccess'
 export { ENDPOINT, ENDPOINT_ARRAY, EndpointConfiguration } from './admin/Endpoint'
 // Catalog
+export { ATTRIBUTE_BOUNDS, ATTRIBUTE_BOUNDS_ARRAY, AttributeBoundsConfiguration } from './catalog/AttributeBounds'
 export { ENTITY_ARRAY, ENTITY, EntityConfiguration } from './catalog/Entity'
 export { LINK_PLUGIN_DATASET_ARRAY, LINK_PLUGIN_DATASET, LinkPluginDatasetConfiguration } from './catalog/LinkPluginDataset'
 export { SearchEngineConfiguration, SEARCH_ENGINE, SEARCH_ENGINE_ARRAY } from './catalog/SearchEngineConfiguration'

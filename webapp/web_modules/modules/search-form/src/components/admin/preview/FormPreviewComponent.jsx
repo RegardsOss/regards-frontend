@@ -21,7 +21,6 @@ import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
 import { CardText } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Title } from '@regardsoss/components'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { AccessShapes } from '@regardsoss/shape'
 
@@ -51,10 +50,6 @@ class FormPreviewComponent extends React.Component {
       }
       return (
         <CardText>
-          <Title
-            level={3}
-            label={this.context.intl.formatMessage({ id: 'form.preview.tab.title' })}
-          />
           <LazyModuleComponent
             module={previewModule}
             project={this.props.project}

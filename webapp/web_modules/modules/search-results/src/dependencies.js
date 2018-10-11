@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { AttributeModelActions } from './clients/AttributeModelClient'
+import { DataAttributeModelActions } from './clients/DataobjectAttributeModelClient'
+import { DatasetAttributeModelActions } from './clients/DatasetAttributeModelClient'
+import { DocumentAttributeModelActions } from './clients/DocumentAttributeModelClient'
 
 /**
  * Dependencies needed to display user page of the module
@@ -32,7 +34,9 @@ const user = [
  * @type {[*]}
  */
 const admin = [
-  AttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
+  DataAttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
+  DatasetAttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
+  DocumentAttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 export default {

@@ -18,21 +18,35 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
+import { DataManagementClient } from '@regardsoss/client'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
-import { LoadingComponent } from '@regardsoss/display-control'
 import { modulesHelper } from '@regardsoss/modules-api'
-import { AttributeModelActions, AttributeModelSelectors } from '../clients/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import URLManagementContainer from './user/URLManagementContainer'
 import ModuleComponent from '../components/user/ModuleComponent'
 import { TableDisplayModeEnum } from '../models/navigation/TableDisplayModeEnum'
 import { DISPLAY_MODE_ENUM } from '../definitions/DisplayModeEnum'
 
+// default attribute model selectors
+const attributeModelSelectors = DataManagementClient.AttributeModelSelectors()
+
 /**
  * Main container to display module form.
  * @author Sébastien binda
  */
 export class ModuleContainer extends React.Component {
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      attributeModels: attributeModelSelectors.getList(state),
+    }
+  }
+
   static propTypes = {
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
@@ -41,18 +55,7 @@ export class ModuleContainer extends React.Component {
 
     // Set by mapStateToProps
     attributeModels: DataManagementShapes.AttributeModelList,
-    // Set by mapDispatchToProps
-    fetchAllModelsAttributes: PropTypes.func,
   }
-
-  state = {
-    attributesFetching: true,
-  }
-
-  /**
-   * Lifecycle method: component did mount. Used here to fetch attribute models
-   */
-  componentDidMount = () => Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => this.setState({ attributesFetching: false }))
 
   /**
    * Computes the view objects type to display
@@ -75,42 +78,29 @@ export class ModuleContainer extends React.Component {
 
   render() {
     const { moduleConf, attributeModels } = this.props
-    const { attributesFetching } = this.state
     const initialViewObjectType = this.getInitialViewObjectType(moduleConf.displayMode)
     const initialTableDisplayMode = moduleConf.initialViewMode || TableDisplayModeEnum.LIST
     // compute if this component is externally driven: is there parent module parameters?
     const isExternallyDriven = !!(moduleConf.searchQuery || (moduleConf.initialContextTags && moduleConf.initialContextTags.length))
-    if (!attributesFetching) {
-      return (
-        /* URL management container: blocks view while it is not initialized to avoid useless requests (no view) */
-        <URLManagementContainer
-          initialViewObjectType={initialViewObjectType}
-          initialTableDisplayMode={initialTableDisplayMode}
-          initialContextTags={this.props.moduleConf.initialContextTags}
-          isExternallyDriven={isExternallyDriven}
-        >
-          { /* View : module (report all module properties) */}
-          <ModuleComponent
-            attributeModels={attributeModels}
-            {...modulesHelper.getReportedUserModuleProps(this.props)}
-          />
-        </URLManagementContainer>
-      )
-    }
     return (
-      <LoadingComponent />
+    /* URL management container: blocks view while it is not initialized to avoid useless requests (no view) */
+      <URLManagementContainer
+        initialViewObjectType={initialViewObjectType}
+        initialTableDisplayMode={initialTableDisplayMode}
+        initialContextTags={this.props.moduleConf.initialContextTags}
+        isExternallyDriven={isExternallyDriven}
+      >
+        { /* View : module (report all module properties) */}
+        <ModuleComponent
+          attributeModels={attributeModels}
+          {...modulesHelper.getReportedUserModuleProps(this.props)}
+        />
+      </URLManagementContainer>
     )
   }
 }
-const mapStateToProps = state => ({
-  attributeModels: AttributeModelSelectors.getList(state),
-})
-
-const mapDispatchToProps = dispatch => ({
-  fetchAllModelsAttributes: () => dispatch(AttributeModelActions.fetchEntityList()),
-})
 
 const UnconnectedModuleContainer = ModuleContainer
 export { UnconnectedModuleContainer }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModuleContainer)
+export default connect(ModuleContainer.mapStateToProps)(ModuleContainer)

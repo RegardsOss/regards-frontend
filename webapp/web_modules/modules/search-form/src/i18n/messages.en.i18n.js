@@ -23,6 +23,7 @@ import { Locales } from '@regardsoss/form-utils'
  * @author Sébastien binda
  */
 const messages = {
+  // common form messages
   ...Locales.en,
 
   // Administration messages
@@ -34,7 +35,6 @@ const messages = {
   'form.criterions.tab.label': 'Criterions',
   'form.criterion.tab.title': 'Configure all the criterion of your form. Each criteria can be inserted into a specific section of your designed layout.',
   'form.preview.tab.label': 'Preview',
-  'form.preview.tab.title': 'Preview of your form as it will be displayed in user interface.',
   // Configuration tab
   'form.configuration.tab.title': 'Configure main parameters for current search form module',
   'form.configuration.result.type.datasets': 'Display results grouped by datasets',

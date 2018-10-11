@@ -24,17 +24,17 @@ import { browserHistory } from 'react-router'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { connect } from '@regardsoss/redux'
-import { DamDomain, UIDomain } from '@regardsoss/domain'
+import { UIDomain } from '@regardsoss/domain'
 import { UIClient } from '@regardsoss/client'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
-import { LoadingComponent, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { LoadingComponent } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import DatasetSelectionTypes from '../domain/DatasetSelectionTypes'
-import { AttributeModelSelectors, AttributeModelActions } from '../clients/AttributeModelClient'
 import ModuleConfiguration from '../shapes/ModuleConfiguration'
+import PluginsConfigurationProvider from './user/PluginsConfigurationProvider'
 import FormComponent from '../components/user/FormComponent'
 
 /** Module pane state actions default instance */
@@ -53,10 +53,7 @@ class ModuleContainer extends React.Component {
     // Set by mapStateToProps
     authentication: AuthenticateShape,
     attributeModels: DataManagementShapes.AttributeModelList,
-    attributesLoading: PropTypes.bool,
-    attributeModelsError: PropTypes.bool,
     // Set by mapDispatchToProps
-    fetchAllModelsAttributes: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchExpandResults: PropTypes.func.isRequired,
     dispatchCollapseForm: PropTypes.func.isRequired,
@@ -126,13 +123,6 @@ class ModuleContainer extends React.Component {
         if (event.action === 'POP') this.handleURLChange() // Change URL is back or forward button is used
       })
     }
-  }
-
-  /**
-   * Lifecycle method: component did mount. Used here to fetch server model attributes
-   */
-  componentDidMount() {
-    this.props.fetchAllModelsAttributes()
   }
 
   /**
@@ -217,34 +207,6 @@ class ModuleContainer extends React.Component {
     return query
   }
 
-  /**
-   * Add the attributeModels properties to the criterion conf
-   * @returns {*}
-   */
-  getCriterionWithAttributeModels = () => (this.props.moduleConf.criterion || [])
-    .reduce((acc, criteria) => {
-      const { attributeModels } = this.props
-      const { active, conf, ...otherProps } = criteria
-      if (active) {
-        const attributes = get(conf, 'attributes', {})
-        // resolve criterion attributes, filter the attributes that have not yet been retrieved
-        const resolvedAttributes = reduce(attributes, (resolved, attributePath, localKey) => ({
-          ...resolved,
-          // search in both server and standard attributes, provide attribute content only (not encapsulated)
-          [localKey]: get(DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attributePath, attributeModels), 'content'),
-        }), {})
-        return [
-          ...acc, {
-            active,
-            conf: { // replace attributes by resolved attributes content
-              attributes: resolvedAttributes,
-            },
-            ...otherProps,
-          },
-        ]
-      }
-      return acc
-    }, [])
 
   getInitialValues = () => {
     const parameters = this.state.searchQuery.match(/[^ ]*:["([][^")\]]*[")\]]|[^ ]*/g)
@@ -356,27 +318,29 @@ class ModuleContainer extends React.Component {
   }
 
   renderForm() {
-    if (this.props.moduleConf.layout) {
+    const { moduleConf, authentication } = this.props
+    if (moduleConf.layout) {
+      const initialQuery = this.getInitialQuery()
       const pluginsProps = {
         onChange: this.onCriteriaChange,
         initialValues: this.getInitialValues(),
-        initialQuery: this.getInitialQuery(),
+        initialQuery,
         registerClear: this.registerClear,
       }
-      const criterionWithAttributes = this.getCriterionWithAttributeModels()
       return (
-        <LoadableContentDisplayDecorator
-          isLoading={this.props.attributesLoading}
-          isContentError={this.props.attributeModelsError}
+        <PluginsConfigurationProvider
+          criteria={moduleConf.criterion}
+          preview={moduleConf.preview}
+          initialQuery={initialQuery}
+          authentication={authentication}
         >
           <FormComponent
-            plugins={criterionWithAttributes}
             pluginsProps={pluginsProps}
             handleSearch={this.handleSearch}
             handleClearAll={this.handleClearAll}
             {...modulesHelper.getReportedUserModuleProps(this.props)}
           />
-        </LoadableContentDisplayDecorator>
+        </PluginsConfigurationProvider>
       )
     }
     return <LoadingComponent />
@@ -439,9 +403,6 @@ class ModuleContainer extends React.Component {
 
 const mapStateToProps = state => ({
   authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
-  attributeModels: AttributeModelSelectors.getList(state),
-  attributesLoading: AttributeModelSelectors.isFetching(state),
-  attributeModelsError: AttributeModelSelectors.hasError(state),
 })
 
 const mapDispatchToProps = (dispatch, { id, conf }) => {
@@ -449,7 +410,6 @@ const mapDispatchToProps = (dispatch, { id, conf }) => {
   const searchFormPaneKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(modulesManager.AllDynamicModuleTypes.SEARCH_FORM, id)
   const searchResultsPaneKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS, id)
   return {
-    fetchAllModelsAttributes: () => dispatch(AttributeModelActions.fetchEntityList()),
     dispatchCollapseForm: () => dispatch(moduleExpandedStateActions.setMinimized(searchFormPaneKey)),
     dispatchExpandResults: () => dispatch(moduleExpandedStateActions.setNormal(searchResultsPaneKey)),
     dispatchInitializeWithOpenedResults: () => {

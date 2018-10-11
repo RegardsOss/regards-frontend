@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
+import commonMessages from '../i18n'
+
 
 /**
  * Shares tools to init a regards plugin in the application.
  * @author Sebastien Binda
  */
-
-/** Empty messages */
-const EMPTY_MESSAGES = { en: {}, fr: {} }
 
 /** Empty styles */
 const EMPTY_STYLES = { styles: () => ({}) }
@@ -45,8 +45,12 @@ export const initPlugin = (pluginClass, pluginInfo, getReducer, messages, styles
       plugin: pluginClass,
       info: pluginInfo,
       getReducer: getReducer || EMPTY_REDUCERS_BUILDER,
-      messages: messages || EMPTY_MESSAGES,
       styles: styles || EMPTY_STYLES,
+      // append common messages in plugin messages
+      messages: {
+        en: { ...get(messages, 'en', {}), ...commonMessages.en },
+        fr: { ...get(messages, 'fr', {}), ...commonMessages.fr },
+      },
     },
   })
   document.dispatchEvent(event)

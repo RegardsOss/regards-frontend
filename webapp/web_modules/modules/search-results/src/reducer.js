@@ -18,12 +18,10 @@
  **/
 import navigationContextReducer from './models/navigation/NavigationContextReducer'
 import { reducer as SearchCatalogReducer } from './clients/SearchEntitiesClient'
-import { AttributeModelReducer } from './clients/AttributeModelClient'
 import { DatasetAttributeModelReducer } from './clients/DatasetAttributeModelClient'
 import { DocumentAttributeModelReducer } from './clients/DocumentAttributeModelClient'
 import { DataAttributeModelReducer } from './clients/DataobjectAttributeModelClient'
 import { tableReducer } from './clients/TableClient'
-import { ModelAttributesReducer } from './clients/ModelAttributeClient'
 import { pluginServiceReducer } from './clients/PluginServiceClient'
 import runPluginServiceReducer from './models/services/RunPluginServiceReducer'
 
@@ -32,7 +30,6 @@ import runPluginServiceReducer from './models/services/RunPluginServiceReducer'
  * @author Sébastien binda
  */
 const searchResultsReducers = {
-  attributes: AttributeModelReducer,
   'datasets-attributes': DatasetAttributeModelReducer,
   'documents-attributes': DocumentAttributeModelReducer,
   'dataobjects-attributes': DataAttributeModelReducer,
@@ -40,7 +37,6 @@ const searchResultsReducers = {
   resultsTable: tableReducer,
   // context
   navigationContext: navigationContextReducer,
-  'model-attributes': ModelAttributesReducer,
   // services
   runPluginService: runPluginServiceReducer,
   pluginServices: pluginServiceReducer,

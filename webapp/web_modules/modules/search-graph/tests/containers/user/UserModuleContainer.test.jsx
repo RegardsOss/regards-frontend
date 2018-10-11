@@ -45,7 +45,6 @@ describe('[Search Graph] Testing UserModuleContainer', () => {
       attributeModels: {},
       moduleCollapsed: false,
       authentication: null,
-      fetchAttributeModels: () => { },
       fetchCollections: () => { },
       fetchDatasets: () => { },
       dispatchClearLevelSelection: () => { },

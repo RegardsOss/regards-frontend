@@ -22,7 +22,6 @@
  * @type {*}
  */
 const messages = {
-  'criterion.search.field.label': 'Number ...',
   'criterion.aggregator.text': 'and',
 
   'criterion.aggregator.between': '{label} between',

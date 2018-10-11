@@ -18,7 +18,6 @@
  **/
 import React from 'react'
 import { MenuItem } from 'material-ui/IconMenu'
-import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { AutoCompleteTextField } from '@regardsoss/components'
 
@@ -27,6 +26,8 @@ import { AutoCompleteTextField } from '@regardsoss/components'
  */
 export class EnumeratedCriteriaComponent extends React.Component {
   static propTypes = {
+    hintText: PropTypes.string.isRequired,
+    tooltip: PropTypes.string.isRequired,
     // attribute lable
     attributeLabel: PropTypes.string.isRequired,
     // current field text
@@ -46,7 +47,6 @@ export class EnumeratedCriteriaComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
-    ...i18nContextType,
   }
 
 
@@ -83,19 +83,21 @@ export class EnumeratedCriteriaComponent extends React.Component {
     const {
       attributeLabel, text, isInError, isFetching,
       onUpdateTextFilter, onFilterSelected,
+      hintText, tooltip,
     } = this.props
     const { currentHints } = this.state
-    const { intl: { formatMessage }, moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle } } = this.context
+    const { moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle } } = this.context
 
     return (
-      <div style={rootStyle} >
+      <div style={rootStyle}>
         {/* attribute label */}
-        <span style={labelSpanStyle} >
+        <span style={labelSpanStyle}>
           {attributeLabel}
         </span>
         {/* Autocomplete text field */}
         <AutoCompleteTextField
-          hintText={formatMessage({ id: 'criterion.search.field.label' })}
+          title={tooltip}
+          hintText={hintText}
           currentHintText={text}
           currentHints={currentHints}
           isFetching={isFetching}

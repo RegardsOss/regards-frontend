@@ -36,4 +36,3 @@ export default function getReducer(pluginInstanceId) {
     filteredValues: getDOPropertiesValuesClient(pluginInstanceId).reducer,
   }
 }
-

@@ -24,4 +24,6 @@
 export { default as PluginsClientsMap } from './client/PluginsClientsMap'
 export { default as PluginCriterionContainer } from './containers/PluginCriterionContainer'
 export { default as numberRangeHelper } from './utils/NumberRangeHelper'
+export { AttributeModelWithBounds } from './shapes/AttributeModelWithBounds'
+export { BOUND_TYPE, formatHintText } from './utils/BoundsMessagesHelper'
 export { initPlugin } from './utils/InitPlugin'

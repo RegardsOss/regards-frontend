@@ -39,35 +39,22 @@ export class TemporalCriteriaComponent extends React.Component {
      * value: The value of the field as a Date
      */
     onChange: PropTypes.func,
-    /**
-     * Label of the field displayed
-     */
-    label: PropTypes.string.isRequired,
-    /**
-     * Default value
-     */
+    /** Current value */
     value: PropTypes.instanceOf(Date),
-    /**
-     * If true, the attribute name, comparator and and field will be rendered in reversed order
-     * Default to false.
-     */
-    reversed: PropTypes.bool,
-    /**
-     * If true, the attribute name will not be rendered.
-     * Default to false.
-     */
-    hideAttributeName: PropTypes.bool,
     /**
      * If true, hours will be auto-completed with the maximum value
      * Default to false
      */
     isStopDate: PropTypes.bool,
+    /** Optional: tooltip */
+    tooltip: PropTypes.string,
+    /** Optional hint date */
+    hintDate: PropTypes.string,
+    /** Optional: disabled state */
+    disabled: PropTypes.bool,
   }
 
   static defaultProps = {
-    reversed: false,
-    hideAttributeName: false,
-    value: undefined,
     isStopDate: false,
   }
 
@@ -77,10 +64,6 @@ export class TemporalCriteriaComponent extends React.Component {
     ...themeContextType,
     // enable i18n access trhough this.context
     ...i18nContextType,
-  }
-
-  static textStyle = {
-    margin: '0px 10px',
   }
 
   /**
@@ -116,43 +99,31 @@ export class TemporalCriteriaComponent extends React.Component {
 
   render() {
     const {
-      label, value, reversed, hideAttributeName, isStopDate,
+      value, hintDate, tooltip,
+      disabled, isStopDate,
     } = this.props
-    const { intl, moduleTheme } = this.context
-
-    // Store the content in an array because we need to maybe reverse to order
-    const content = []
-    if (!hideAttributeName) {
-      content.push(<span key="label" style={TemporalCriteriaComponent.textStyle}>{label}</span>)
-    }
-    content.push([
-      <DatePickerField
-        key={label}
-        value={value}
-        onChange={this.handleChangeDate}
-        style={moduleTheme.datePickerStyle}
-        locale={intl.locale}
-        dateHintText={intl.formatMessage({ id: 'criterion.date.field.label' })}
-        timeHintText={intl.formatMessage({ id: 'criterion.time.field.label' })}
-        okLabel={intl.formatMessage({ id: 'criterion.date.picker.ok' })}
-        cancelLabel={intl.formatMessage({ id: 'criterion.date.picker.cancel' })}
-        defaultTime={isStopDate ? '23:59:59' : '00:00:00'}
-        displayTime
-      />,
-    ])
-
-    if (reversed) content.reverse()
+    const {
+      intl: {
+        formatMessage, formatTime, formatDate, locale,
+      }, moduleTheme,
+    } = this.context
 
     return (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-        }}
-      >
-        {content}
+      <div style={moduleTheme.datePickerContainerStyle}>
+        <DatePickerField
+          value={value}
+          onChange={this.handleChangeDate}
+          style={moduleTheme.datePickerSelectorStyle}
+          locale={locale}
+          dateHintText={hintDate ? formatDate(hintDate) : formatMessage({ id: 'criterion.date.field.label' })}
+          timeHintText={hintDate ? formatTime(hintDate) : formatMessage({ id: 'criterion.time.field.label' })}
+          tooltip={tooltip}
+          okLabel={formatMessage({ id: 'criterion.date.picker.ok' })}
+          cancelLabel={formatMessage({ id: 'criterion.date.picker.cancel' })}
+          defaultTime={isStopDate ? '23:59:59' : '00:00:00'}
+          disabled={disabled}
+          displayTime
+        />
       </div>
     )
   }

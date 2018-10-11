@@ -22,7 +22,10 @@
  * @type {*}
  */
 const messages = {
-  'criterion.search.field.label': 'Search field ...',
+  'example.criterion.no.todo': 'I have nothing to do',
+  'example.criterion.current.todo': 'I have to {todo}',
+  'example.criterion.todo.nap': 'take some nap',
+  'example.criterion.todo.shopping': 'do shopping!',
 }
 
 export default messages

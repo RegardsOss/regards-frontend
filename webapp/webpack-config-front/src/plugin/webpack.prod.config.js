@@ -1,8 +1,8 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const path = require('path')
-const getCommonConfig = require('./webpack.common.config')
 const StatsPlugin = require('stats-webpack-plugin')
+const getCommonConfig = require('./webpack.common.config')
 
 
 module.exports = function (projectContextPath, frontendWebappPath) {

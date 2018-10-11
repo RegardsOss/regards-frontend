@@ -20,7 +20,8 @@ import values from 'lodash/values'
 import { DamDomain } from '@regardsoss/domain'
 import { FragmentContent } from './Fragment'
 
-export const AttributeModelContent = PropTypes.shape({
+
+export const attributeModelFields = {
   id: PropTypes.number,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
@@ -38,7 +39,10 @@ export const AttributeModelContent = PropTypes.shape({
   alterable: PropTypes.bool,
   optional: PropTypes.bool,
   group: PropTypes.string,
-})
+}
+
+export const AttributeModelContent = PropTypes.shape(attributeModelFields)
+
 export const AttributeModel = PropTypes.shape({
   content: AttributeModelContent,
 })

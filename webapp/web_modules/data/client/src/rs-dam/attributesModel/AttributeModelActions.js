@@ -26,9 +26,9 @@ import { BasicListActions } from '@regardsoss/store-utils'
 export default class AttributeModelActions extends BasicListActions {
   /**
    * Construtor
-   * @param namespace
+   * @param {string} namespace actions namespace, leave empty for default client actions (user app shared data)
    */
-  constructor(namespace) {
+  constructor(namespace = 'user/models/attributes') {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/attributes`,

@@ -25,11 +25,19 @@ import AttributeModelActions from './AttributeModelActions'
  * @author Léo Mieulet
  */
 class AttributeModelReducer extends BasicListReducers {
+  /**
+   * Constructor
+   * @param {string} namespace actions namespace, leave empty for default client reducer
+   */
   constructor(namespace) {
     super(AttributeModelConfiguration, new AttributeModelActions(namespace))
   }
 }
 
+/**
+ * Builds reducer function instance
+ * @param {string} namespace actions namespace, leave empty for default client reducer
+ */
 export default (namespace) => {
   const instance = new AttributeModelReducer(namespace)
   return (state, action) => instance.reduce(state, action)
