@@ -127,6 +127,7 @@ class RenderArrayTextField extends React.Component {
         modal={false}
         open={dialogOpened}
         onRequestClose={this.closeDialog}
+        className="selenium-modalInputValue"
       >
         <TextField
           hintText={newFieldLabel || formatMessage({ id: 'render.array-field.new.value.hint' })}
