@@ -95,6 +95,10 @@ export class PluginsConfigurationProvider extends React.Component {
     dispatchFetchBounds: PropTypes.func.isRequired, // used in onPropertiesUpdated
   }
 
+  static defaultProps = {
+    criteria: [],
+  }
+
   /** Types of attributes that accept bounds */
   static BOUNDABLE_TYPES = [
     DamDomain.MODEL_ATTR_TYPES.INTEGER,
@@ -268,60 +272,60 @@ export class PluginsConfigurationProvider extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-   componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
-   /**
-    * Lifecycle method: component receive props. Used here to detect properties change and update local state
-    * @param {*} nextProps next component properties
-    */
-   componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
 
-   /**
-    * Properties change detected: update local state
-    * @param oldProps previous component properties
-    * @param newProps next component properties
-    */
-   onPropertiesUpdated = (oldProps, newProps) => {
-     const {
-       initialQuery, authentication, attributeModels, criteria, children,
-       boundsFetchingError, attributesBounds, dispatchFetchBounds, dispatchClearBounds,
-       preview,
-     } = newProps
-     const nextState = { ...this.state }
-     if (!isEqual(initialQuery, oldProps.initialQuery)
-     || !isEqual(authentication, oldProps.authentication)
-     || !isEqual(attributeModels, oldProps.attributeModels)
-     || !isEqual(criteria, oldProps.criteria)) {
-       // 1 - Context or attributes changed:
-       // 1.a - resolve and rebuild criteria configuration with attribute models (holding bounds state)
-       nextState.plugins = PluginsConfigurationProvider.resolveCriteriaAttributes(attributeModels, criteria,
-         preview ? PluginsConfigurationProvider.withPreviewBoundInfo : PluginsConfigurationProvider.withLoadingBoundInfo)
-       // 1.b - compute attributes that have bounds. Start fetching if there is any.
-       // Note that withPreviewBoundInfo returned no attribute to fetch.
-       const attributesToFetch = PluginsConfigurationProvider.getAttributesToFetchIn(nextState.plugins)
-       if (attributesToFetch.length) { // do not clear / fetch bounds when none was resolved or module is in preview
-         dispatchClearBounds() // clear currently stored data
-         dispatchFetchBounds(attributesToFetch, initialQuery)
-       }
-     } else if (!isEqual(attributesBounds, oldProps.attributesBounds) || !isEqual(boundsFetchingError, oldProps.boundsFetchingError)) {
-       // 3 - Request finished with new attribute bounds or error, update attributes
-       const updater = boundsFetchingError ? PluginsConfigurationProvider.withFetchingError
-         : PluginsConfigurationProvider.withFetchedBounds.bind(null, attributesBounds) // update with bounds, left curly
-       nextState.plugins = PluginsConfigurationProvider.updateAttributes(nextState.plugins, updater)
-     }
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      initialQuery, authentication, attributeModels, criteria, children,
+      boundsFetchingError, attributesBounds, dispatchFetchBounds, dispatchClearBounds,
+      preview,
+    } = newProps
+    const nextState = { ...this.state }
+    if (!isEqual(initialQuery, oldProps.initialQuery)
+      || !isEqual(authentication, oldProps.authentication)
+      || !isEqual(attributeModels, oldProps.attributeModels)
+      || !isEqual(criteria, oldProps.criteria)) {
+      // 1 - Context or attributes changed:
+      // 1.a - resolve and rebuild criteria configuration with attribute models (holding bounds state)
+      nextState.plugins = PluginsConfigurationProvider.resolveCriteriaAttributes(attributeModels, criteria,
+        preview ? PluginsConfigurationProvider.withPreviewBoundInfo : PluginsConfigurationProvider.withLoadingBoundInfo)
+      // 1.b - compute attributes that have bounds. Start fetching if there is any.
+      // Note that withPreviewBoundInfo returned no attribute to fetch.
+      const attributesToFetch = PluginsConfigurationProvider.getAttributesToFetchIn(nextState.plugins)
+      if (attributesToFetch.length) { // do not clear / fetch bounds when none was resolved or module is in preview
+        dispatchClearBounds() // clear currently stored data
+        dispatchFetchBounds(attributesToFetch, initialQuery)
+      }
+    } else if (!isEqual(attributesBounds, oldProps.attributesBounds) || !isEqual(boundsFetchingError, oldProps.boundsFetchingError)) {
+      // 3 - Request finished with new attribute bounds or error, update attributes
+      const updater = boundsFetchingError ? PluginsConfigurationProvider.withFetchingError
+        : PluginsConfigurationProvider.withFetchedBounds.bind(null, attributesBounds) // update with bounds, left curly
+      nextState.plugins = PluginsConfigurationProvider.updateAttributes(nextState.plugins, updater)
+    }
 
-     // update when children changed or state was recomputed (ie: plugins runtime configurations was updated)
-     if (!isEqual(nextState.plugins, this.state.plugins) || children !== oldProps.children) {
-       // update children list in next state
-       nextState.children = HOCUtils.cloneChildrenWith(children, { plugins: nextState.plugins })
-       this.setState(nextState)
-     }
-   }
+    // update when children changed or state was recomputed (ie: plugins runtime configurations was updated)
+    if (!isEqual(nextState.plugins, this.state.plugins) || children !== oldProps.children) {
+      // update children list in next state
+      nextState.children = HOCUtils.cloneChildrenWith(children, { plugins: nextState.plugins })
+      this.setState(nextState)
+    }
+  }
 
-   render() {
-     const { children } = this.state
-     return HOCUtils.renderChildren(children)
-   }
+  render() {
+    const { children } = this.state
+    return HOCUtils.renderChildren(children)
+  }
 }
 export default connect(
   PluginsConfigurationProvider.mapStateToProps,
