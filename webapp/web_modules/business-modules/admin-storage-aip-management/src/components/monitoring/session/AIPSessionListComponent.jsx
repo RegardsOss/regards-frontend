@@ -137,8 +137,8 @@ class AIPSessionListComponent extends React.Component {
       new TableColumnBuilder('column.id').titleHeaderCell().propertyRenderCell('content.id')
         .label(intl.formatMessage({ id: 'aips.session.table.headers.id' }))
         .build(),
-      new TableColumnBuilder('column.queued').titleHeaderCell().propertyRenderCell('content.queuedAipsCount')
-        .label(intl.formatMessage({ id: 'aips.session.table.headers.queued' }))
+      new TableColumnBuilder('column.files').titleHeaderCell().propertyRenderCell('content.storedDataFilesCount')
+        .label(intl.formatMessage({ id: 'aips.session.table.headers.storedDataFilesCount' }))
         .build(),
       // steps columns
       new TableColumnBuilder('column.stored').titleHeaderCell()
