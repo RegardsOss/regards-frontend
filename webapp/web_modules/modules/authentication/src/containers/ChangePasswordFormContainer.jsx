@@ -21,7 +21,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import ChangePasswordForm from '../components/ChangePasswordFormComponent'
 import { sendFinishResetPassword } from '../model/operation/ResetPasswordActions'
 import ResetPasswordSelectors from '../model/operation/ResetPasswordSelectors'
-import ChangePasswordActions from '../model/operation/ChangePasswordActions'
+import { sendChangePassword } from '../model/operation/ChangePasswordActions'
 import ChangePasswordSelectors from '../model/operation/ChangePasswordSelectors'
 import { accountPasswordActions, accountPasswordSelectors } from '../clients/AccountPasswordClient'
 
@@ -145,7 +145,7 @@ const mapStatesToProps = (state) => {
 
 
 const mapDispatchToProps = dispatch => ({
-  fetchChangePasswordAction: (mail, oldPassword, newPassword) => dispatch(ChangePasswordActions.sendChangePassword(mail, oldPassword, newPassword)),
+  fetchChangePasswordAction: (mail, oldPassword, newPassword) => dispatch(sendChangePassword(mail, oldPassword, newPassword)),
   fetchRequestAction: (token, mail, newPassword) => dispatch(sendFinishResetPassword(token, mail, newPassword)),
   fetchPasswordValidity: newPassword => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
   fetchPasswordRules: () => dispatch(accountPasswordActions.fetchPasswordRules()),
