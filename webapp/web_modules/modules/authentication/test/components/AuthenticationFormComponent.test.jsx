@@ -37,6 +37,7 @@ describe('[AUTHENTICATION] Testing AuthenticationFormComponent', () => {
   it('Render properly', () => {
     const props = {
       title: 'A title',
+      loading: false,
       onLogin: () => { },
       clearErrors: () => { },
       errorMessage: undefined,
