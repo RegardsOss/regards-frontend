@@ -92,6 +92,22 @@ class AIPSessionListComponent extends React.Component {
     return progress / total * 100
   }
 
+  getFilesProgressLabel = (entity) => {
+    const { content: { storedDataFilesCount, dataFilesCount } } = entity
+    return `${storedDataFilesCount || '-'} / ${dataFilesCount || '-'}`
+  }
+
+  getFilesProgressPercent = (entity) => {
+    const { content: { storedDataFilesCount, dataFilesCount } } = entity
+    if (!dataFilesCount) {
+      return 100
+    }
+    if (!storedDataFilesCount) {
+      return 0
+    }
+    return (storedDataFilesCount / dataFilesCount) * 100
+  }
+
   applyFilters = (filters) => {
     this.setState({ appliedFilters: filters })
   }
@@ -137,7 +153,8 @@ class AIPSessionListComponent extends React.Component {
       new TableColumnBuilder('column.id').titleHeaderCell().propertyRenderCell('content.id')
         .label(intl.formatMessage({ id: 'aips.session.table.headers.id' }))
         .build(),
-      new TableColumnBuilder('column.files').titleHeaderCell().propertyRenderCell('content.storedDataFilesCount')
+      new TableColumnBuilder('column.files').titleHeaderCell()
+        .progressRenderCell(this.getFilesProgressPercent, this.getFilesProgressLabel)
         .label(intl.formatMessage({ id: 'aips.session.table.headers.storedDataFilesCount' }))
         .build(),
       // steps columns
