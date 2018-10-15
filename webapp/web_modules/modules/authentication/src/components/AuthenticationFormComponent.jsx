@@ -22,6 +22,7 @@ import {
 } from 'material-ui/Card'
 import { formValueSelector } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
+import CircularProgress from 'material-ui/CircularProgress'
 import UnlockAccountIcon from 'material-ui/svg-icons/action/lock'
 import ResetPasswordIcon from 'material-ui/svg-icons/action/restore-page'
 import ProjectAccessIcon from 'material-ui/svg-icons/action/assignment-ind'
@@ -45,6 +46,8 @@ export class AuthenticationFormComponent extends React.Component {
     initialMail: PropTypes.string,
     // form title
     title: PropTypes.string.isRequired,
+    // login request loading
+    loading: PropTypes.bool.isRequired,
     // show create account link?
     showAskProjectAccess: PropTypes.bool.isRequired,
     // show cancel button?
@@ -81,7 +84,7 @@ export class AuthenticationFormComponent extends React.Component {
 
   render() {
     const {
-      errorMessage, currentMailValue, initialMail,
+      errorMessage, currentMailValue, initialMail, loading,
       showAskProjectAccess, showCancel, onCancelAction, handleSubmit,
       onLogin, onGotoUnlockAccount, onGotoResetPassword, onGotoCreateAccount,
     } = this.props
@@ -122,6 +125,7 @@ export class AuthenticationFormComponent extends React.Component {
                 */
                 validate={ValidationHelpers.required}
                 normalize={trim}
+                disabled={this.props.submitting || this.props.loading}
               />
               <Field
                 name="password"
@@ -131,15 +135,22 @@ export class AuthenticationFormComponent extends React.Component {
                 label={this.context.intl.formatMessage({ id: 'authentication.password' })}
                 validate={ValidationHelpers.required}
                 normalize={trim}
+                disabled={this.props.submitting || this.props.loading}
               />
             </CardText>
             <CardActions style={moduleTheme.action}>
               <RaisedButton
-                disabled={this.props.submitting || this.props.invalid}
-                label={this.context.intl.formatMessage({ id: 'authentication.button' })}
+                disabled={this.props.submitting || this.props.invalid || this.props.loading}
+                label={loading ? '' : this.context.intl.formatMessage({ id: 'authentication.button' })}
                 primary
                 type="submit"
-              />
+              >
+                {loading
+                  ? <div style={{ margin: 'auto', lineHeight: '10px', paddingTop: '3px' }}>
+                    <CircularProgress size="30" thickness="1" />
+                  </div>
+                  : null}
+              </RaisedButton>
               {cancelButtonElt}
             </CardActions>
             <div style={moduleTheme.linksBar}>

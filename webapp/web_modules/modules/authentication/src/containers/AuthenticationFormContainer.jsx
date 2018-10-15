@@ -59,13 +59,17 @@ export class AuthenticationFormContainer extends React.Component {
 
   state = {
     userMail: null,
+    loading: false,
   }
 
   onLoginRequest = ({ username, password }) => {
     const { project, dispatchLoginRequest } = this.props
     this.setState({
       userMail: username,
-    }, () => dispatchLoginRequest(username, password, project))
+      loading: true,
+    }, () => Promise.resolve(dispatchLoginRequest(username, password, project)).then((ar) => {
+      this.setState({ loading: false })
+    }))
   }
 
   onCancelChangePassword = () => {
@@ -95,6 +99,7 @@ export class AuthenticationFormContainer extends React.Component {
       <AuthenticationFormComponent
         title={title}
         onLogin={this.onLoginRequest}
+        loading={this.state.loading}
         initialMail={initialMail}
         errorMessage={loginError && intl.formatMessage({ id: `authentication.error.${loginError}` })}
         showAskProjectAccess={showAskProjectAccess}
