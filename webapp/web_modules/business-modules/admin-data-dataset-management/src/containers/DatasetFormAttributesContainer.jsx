@@ -53,6 +53,7 @@ export class DatasetFormAttributesContainer extends React.Component {
     fetchModelList: PropTypes.func,
     fetchModelAttributeList: PropTypes.func,
     fetchDatasource: PropTypes.func,
+    flushAttributes: PropTypes.func,
   }
 
   state = {
@@ -66,6 +67,8 @@ export class DatasetFormAttributesContainer extends React.Component {
     ]
     if (has(this.props.currentDataset, 'content.model.name')) {
       tasks.push(this.props.fetchModelAttributeList(this.props.currentDataset.content.model.name))
+    } else {
+      tasks.push(this.props.flushAttributes())
     }
     Promise.all(tasks)
       .then(() => {
@@ -131,6 +134,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: 'DATASET' })),
   fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+  flushAttributes: () => dispatch(modelAttributesActions.flush()),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
   fetchDatasource: id => dispatch(datasourceActions.fetchEntity(id)),
 })

@@ -198,7 +198,11 @@ export class RenderPluginConfField extends React.PureComponent {
     return (
       <div>
         {parameters.map((pluginParameterType, index) => pluginParameterType.unconfigurable ? null : (
-          <Paper key={pluginParameterType.name} style={parameterPaper}>
+          <Paper
+            key={pluginParameterType.name}
+            style={parameterPaper}
+            className="selenium-pluginConfWrapper"
+          >
             <Field
               fullWidth
               component={RenderPluginParameterField}

@@ -145,7 +145,6 @@ class RenderPageableAutoCompleteField extends React.Component {
     const loadingDatasource = [formatMessage({ id: 'render.pageableAutoCompleteField.loading' })]
     const ds = isLoading ? loadingDatasource : dsContents
     const dsConfig = isLoading ? undefined : entitiesConfig
-    console.error('ds', ds, dsConfig)
     return (
       <RenderAutoCompleteField
         input={input}

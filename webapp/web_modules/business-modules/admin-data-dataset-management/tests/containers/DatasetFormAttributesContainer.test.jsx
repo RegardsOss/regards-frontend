@@ -37,18 +37,19 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetFormAttributesContainer', ()
       currentDataset: DumpProvider.getFirstEntity('DataManagementClient', 'Dataset'),
       currentDatasourceId: DumpProvider.getFirstEntityKey('DataManagementClient', 'Datasource'),
       backUrl: '#',
-      handleSave: () => {},
+      handleSave: () => { },
       isEditing: true,
       // from mapStateToProps
       currentDatasource: DumpProvider.getFirstEntity('DataManagementClient', 'Datasource'),
       modelList: DumpProvider.get('DataManagementClient', 'Model'),
       modelAttributeList: DumpProvider.get('DataManagementClient', 'ModelAttribute'),
       // from redux-form
-      unregisterField: () => {},
+      unregisterField: () => { },
       // from mapDispatchToProps
-      fetchModelList: () => {},
-      fetchModelAttributeList: () => {},
-      fetchDatasource: () => {},
+      fetchModelList: () => { },
+      fetchModelAttributeList: () => { },
+      fetchDatasource: () => { },
+      flushAttributes: () => { },
     }
     const enzymeWrapper = shallow(<DatasetFormAttributesContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)

@@ -39,7 +39,7 @@ const messages = Object.assign({
   'collection.form.action.cancel': 'Annuler',
   'collection.form.providerId': 'Identifiant producteur (*)',
   'collection.form.model': 'Modèles de collection',
-  'collection.form.label': 'Libellé',
+  'collection.form.label': 'Libellé (*)',
   'collection.form.geometry': 'Géometrie',
   'collection.form.table.value': 'Valeur fixe',
   'collection.form.table.fragmentAndLabel': 'Fragment et Nom de l\'attribut du modèle',
