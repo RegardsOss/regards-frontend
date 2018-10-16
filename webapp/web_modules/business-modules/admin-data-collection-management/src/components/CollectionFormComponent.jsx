@@ -34,6 +34,7 @@ import CollectionStepperComponent from './CollectionStepperComponent'
 
 
 const lessThan128 = ValidationHelpers.lengthLessThan(128)
+const labelValidate = [lessThan128, ValidationHelpers.required]
 /**
  * React component to list collections.
  */
@@ -164,7 +165,7 @@ export class CollectionFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'collection.form.label' })}
-              validate={lessThan128}
+              validate={labelValidate}
             />
             <Field
               name="geometry"
