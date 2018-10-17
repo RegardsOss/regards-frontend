@@ -55,7 +55,7 @@ class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Compone
 
   goToErrorFileList = () => {
     const { project, entity: { content: { chain: { id } } } } = this.props
-    const url = `/admin/${project}/data/acquisition/dataprovider/monitoring/chains/${id}/files?state=ERROR`
+    const url = `/admin/${project}/data/acquisition/dataprovider/monitoring/chains/${id}/files?state=ERROR,INVALID`
     browserHistory.push(url)
   }
 
