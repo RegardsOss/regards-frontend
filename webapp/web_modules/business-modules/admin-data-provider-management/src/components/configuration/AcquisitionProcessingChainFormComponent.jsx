@@ -170,9 +170,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
           <li>{formatMessage({ id: 'acquisition-chain.form.informations-2' })}</li>
           <li>{formatMessage({ id: 'acquisition-chain.form.informations-3' })}</li>
           <li>{formatMessage({ id: 'acquisition-chain.form.informations-4' })}</li>
-          <li>{formatMessage({ id: 'acquisition-chain.form.informations-5' })}</li>
-          <li>{formatMessage({ id: 'acquisition-chain.form.informations-6' })}</li>
-          <li>{formatMessage({ id: 'acquisition-chain.form.informations-7' })}</li>
         </ul>
       </span>
     )

@@ -22,7 +22,7 @@ const messages = Object.assign({
   // 1. Chains list
   // 1.1 Headers
   'acquisition-chain.list.title': 'Configuration des chaînes d\'acquisition de données',
-  'acquisition-chain.list.subtitle': 'Les chaînes d\'acquisition de données correspondent à l\'enchaînement de traitements réalisés sur les nouvelles données détectées avant leur ajout dans le catalogue de données.',
+  'acquisition-chain.list.subtitle': 'Une chaîne d\'acquisition est l\'enchaînement de traitements réalisés sur les données avant leur soumission au service d\'ingestion. Une chaine d\'acquisition génère en sortie un ou plusieurs SIPs.',
   'acquisition-chain.list.info.message': 'Vous pouvez définir pour chaque étape de la chaîne un traitement un fonctionnement spécifique grâce aux plugins suivants.',
   'acquisition-chain.list.empty.title': 'Aucune chaîne définie',
   'acquisition-chain.list.delete.conditions': 'Pour pouvoir supprimer une chaîne d\'acquisition vous devez la désactiver au préalable',
@@ -44,27 +44,24 @@ const messages = Object.assign({
   'acquisition-chain.form.create.title': 'Créer une nouvelle chaîne de d\'acquisition de données',
   'acquisition-chain.form.edit.title': 'Edition de la chaine : {name}',
   'acquisition-chain.form.duplicate.title': 'Duplication de la chaîne : {name}',
-  'acquisition-chain.form.informations-1': 'Une chaîne d\'acquisition de données doit pour fonctionner être associée aux éléments ci-dessous. Remarque : Les champs marqués (*) correspondent aux champs obligatoires.',
-  'acquisition-chain.form.informations-2': '1. Une chaîne de traitement. (*)',
-  'acquisition-chain.form.informations-3': '2. Un ou plusieurs types de fichiers. Un type de fichier permet de configurer où et comment trouver les fichiers à acquérir. (*)',
-  'acquisition-chain.form.informations-4': '3. Un plugin de validation des données. (*)',
-  'acquisition-chain.form.informations-5': '4. Un plugin de génération des produits associés aux fichiers détectés. (*)',
-  'acquisition-chain.form.informations-6': '5. Un plugin de génération des méta données à partir des fichiers détectés.',
-  'acquisition-chain.form.informations-7': '6. Un plugin de post-traitement.',
+  'acquisition-chain.form.informations-1': 'Une chaîne d\'acquisition de données doit, pour fonctionner, être associée aux éléments ci-dessous. Remarque : Les champs marqués (*) correspondent aux champs obligatoires.',
+  'acquisition-chain.form.informations-2': '1. Informations générales de la chaîne.',
+  'acquisition-chain.form.informations-3': '2. Définition des fichiers constituant une donnée.',
+  'acquisition-chain.form.informations-4': '3. Définition des plugins constituant la chaine.',
 
   // 2.2 General configuration section
   'acquisition-chain.form.general.section.title': 'Général',
-  'acquisition-chain.form.general.section.label': 'Libellé (*)',
-  'acquisition-chain.form.general.section.active': 'Activer la chaîne d\'acquisition',
+  'acquisition-chain.form.general.section.label': 'Nom de la chaîne (*)',
+  'acquisition-chain.form.general.section.active': 'Chaîne active',
   'acquisition-chain.form.general.generationRetryEnabled': 'Autoriser la re-génération des SIP associés à des produits en erreur.',
   'acquisition-chain.form.general.submissionRetryEnabled': 'Autoriser la re-soumission des SIP associés à des produits en erreur.',
-  'acquisition-chain.form.general.section.periodicity': 'Période d\'activation (secondes)',
-  'acquisition-chain.form.general.section.session': 'Nom de session d\'ingestion',
+  'acquisition-chain.form.general.section.periodicity': 'Période d\'activation (secondes). Seulement pour les chaînes en mode manuel.',
+  'acquisition-chain.form.general.section.session': 'Nom de session d\'acquisition',
   'acquisition-chain.form.general.section.mode': 'Mode',
   'acquisition-chain.form.general.section.mode.AUTO': 'Automatique',
   'acquisition-chain.form.general.section.mode.MANUAL': 'Manuel',
-  'acquisition-chain.form.general.section.ingestChain.select': 'Chaîne de traitement (*)',
-  'acquisition-chain.form.general.section.ingestChain.select.hint': 'Sélectionner une chaîne de traitement ... ',
+  'acquisition-chain.form.general.section.ingestChain.select': 'Chaîne d\'ingestion (*)',
+  'acquisition-chain.form.general.section.ingestChain.select.hint': 'Sélectionner une chaîne d\'ingestion existante... ',
 
   // 2.3 Files configuration section
   'acquisition-chain.form.fileInfos.section': 'Fichiers',
@@ -73,17 +70,17 @@ const messages = Object.assign({
   'acquisition-chain.form.fileInfos.list.add.button': 'Ajouter',
   'acquisition-chain.form.fileInfos.list.delete.button': 'Supprimer',
   'acquisition-chain.form.fileInfos.list.duplicate.button': 'Dupliquer',
-  'acquisition-chain.form.fileInfo.comment': 'Description',
-  'acquisition-chain.form.fileInfo.plugin.scan.label': 'Méthode de détection des données (*)',
-  'acquisition-chain.form.fileInfo.mandatory': 'Le fichier est-il obligatoire à la construction du produit ?',
-  'acquisition-chain.form.fileInfo.mimeType': 'Mime-type',
-  'acquisition-chain.form.fileInfo.dataType': 'Type de donnée à générer',
+  'acquisition-chain.form.fileInfo.comment': 'Name',
+  'acquisition-chain.form.fileInfo.plugin.scan.label': 'Plugin de détection des données (*)',
+  'acquisition-chain.form.fileInfo.mandatory': 'Obligatoire à la construction du produit',
+  'acquisition-chain.form.fileInfo.mimeType': 'Mime-type (*)',
+  'acquisition-chain.form.fileInfo.dataType': 'Type de donnée à générer (*)',
   // 2.4 Plugins configuration section
   'acquisition-chain.form.plugins.section': 'Plugins',
   'acquisition-chain.form.plugins.select.label': 'Sélectionner un plugin ...',
-  'acquisition-chain.form.plugins.validation.label': 'Méthode de validation des données (*)',
-  'acquisition-chain.form.plugins.product.label': 'Construction du produit (*)',
-  'acquisition-chain.form.plugins.gen-sip.label': 'Génération des métadonnées (*)',
+  'acquisition-chain.form.plugins.validation.label': 'Plugin de validation des données (*)',
+  'acquisition-chain.form.plugins.product.label': 'Plugin de construction du produit (*)',
+  'acquisition-chain.form.plugins.gen-sip.label': 'Plugin de génération des métadonnées (*)',
   'acquisition-chain.form.plugins.post-processing.label': 'Post traitement',
 
   // 2.5 Actions
@@ -94,12 +91,12 @@ const messages = Object.assign({
   // 3. Monitoring
   // 3.1 Chain list
   // 3.1.1 Header
-  'acquisition-chain.monitor.list.subtitle': 'Cet écran vous permet de suivre l\'avancement des chaînes d\'acquisition de données, de consulter les erreurs de génération et d\'activer les chaînes à déclenchement manuel',
+  'acquisition-chain.monitor.list.subtitle': 'Suivi de l\'avancement des chaînes d\'acquisition de données, consultation des erreurs d\'acquisition et activation des chaînes à déclenchement manuel',
   'acquisition-chain.monitor.empty.title': 'Aucune chaine configurée',
   'acquisition-chain-monitor.breadcrumb.label': 'Chaînes d\'acquisition',
 
   // 3.1.2 Table header
-  'acquisition-chain.monitor.list.label': 'Libellé',
+  'acquisition-chain.monitor.list.label': 'Nom',
   'acquisition-chain.monitor.list.mode': 'Mode',
   'acquisition-chain.monitor.list.mode.AUTO': 'Automatique',
   'acquisition-chain.monitor.list.mode.MANUAL': 'Manuel',
