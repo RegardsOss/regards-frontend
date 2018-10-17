@@ -39,7 +39,7 @@ const messages = Object.assign({
   'collection.form.action.cancel': 'Cancel',
   'collection.form.providerId': 'Supplier identifier (*)',
   'collection.form.model': 'Collection models',
-  'collection.form.label': 'Label',
+  'collection.form.label': 'Label (*)',
   'collection.form.geometry': 'Geometry',
   'collection.form.table.value': 'Fixed value',
   'collection.form.table.fragmentAndLabel': 'Fragment and attribute name',
