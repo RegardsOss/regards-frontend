@@ -224,7 +224,7 @@ const messages = Object.assign({
   //6. Product information dialog
   'acquisition-product.informaton.dialog.title': 'Informations sur l\'acquisition du produit {label}',
   'acquisition-product.informaton.dialog.close.button': 'Fermer',
-  'acquisition-product.informaton.global.error': 'Erreur durant l`acquisition : ',
+  'acquisition-product.informaton.global.error': 'Erreur durant l\'acquisition : ',
   'acquisition-product.informaton.generation.job.title': 'Informations sur le processus de génération du produit',
   'acquisition-product.informaton.submition.job.title': 'Information sur le processus de soumission du SIP',
   'acquisition-product.informaton.dialog.job.info.percentCompleted': 'Avancement : ',
