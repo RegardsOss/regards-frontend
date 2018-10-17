@@ -23,12 +23,12 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = Object.assign({
   'storage.data-storage.plugins.list.title': 'Configuration des espaces de stockage',
-  'storage.data-storage.plugins.list.subtitle': 'Cette section vous permet de configurer les différents espaces de stockage utilisés par le stystème et de les prioriser. La priorité permet, dans le cas ou des données sont stockées sur plusieurs systèmes de stockage, de déterminer sur lequel d\'entre eux récupérer les données.',
+  'storage.data-storage.plugins.list.subtitle': 'Permet de configurer les différents espaces de stockage utilisés par le stystème et de les prioriser. La priorité permet, dans le cas où des données sont stockées sur plusieurs espaces de stockage, de déterminer sur lequel d\'entre eux récupérer les données.',
   'storage.data-storage.plugins.list.header.priority.label': 'Priorité',
   'storage.data-storage.plugins.list.header.id.label': 'Identifiant',
   'storage.data-storage.plugins.list.header.name.label': 'Libellé',
   'storage.data-storage.plugins.list.header.type.label': 'Type de stockage',
-  'storage.data-storage.plugins.list.header.active.label': 'Activer',
+  'storage.data-storage.plugins.list.header.active.label': 'Actif',
   'storage.data-storage.plugins.list.edit.button': 'Editer la configuration',
   'storage.data-storage.plugins.list.duplicate.button': 'Dupliquer la configuration',
   'storage.data-storage.plugins.list.up.priority.button': 'Augmenter la priorité de la configuration',
@@ -68,7 +68,7 @@ const messages = Object.assign({
   'storage.allocation-strategy.plugins.list.active.off.button': 'Désactiver la stratégie',
 
   'storage.plugins.allocation.form.create.title': 'Ajout d\'une nouvelle stratégie de répartition des données',
-  'storage.plugins.allocation.form.edit.title': 'Edition de la sttratégie de répartition "{name}"',
+  'storage.plugins.allocation.form.edit.title': 'Edition de la stratégie de répartition "{name}"',
   'storage.plugins.allocation.form.create.subtitle': 'Après avoir sélectionné le type de répartition désiré, veuillez renseigner les paramètres de configuration associés.',
   'storage.plugins.allocation.form.edit.subtitle': 'Veuillez renseigner les paramètres de configuration associés.',
   'storage.plugins.allocation.form.type.select.title': 'Type de répartition',
@@ -77,7 +77,7 @@ const messages = Object.assign({
   'storage.plugins.allocation.form.back.button': 'Annuler',
 
   'storage.security-delegation.plugins.list.title': 'Configuration des droits d\'accès aux fichiers archivés',
-  'storage.security-delegation.plugins.list.subtitle': 'Cette section vous permet de configurer la stratégie de droit d\'accès aux fichiers archivés par REGARDS. Ci-dessous sont listés les différents types de stratégies à votre disposition. Pour chaque type, vous pouvez lister les configurations existantes ou en ajouter une nouvelle. Attention, une seule configuration de stratégie doit être active.',
+  'storage.security-delegation.plugins.list.subtitle': 'Permet de configurer la stratégie de droit d\'accès aux fichiers archivés par REGARDS. Ci-dessous sont listés les différents types de stratégies à votre disposition. Pour chaque type, vous pouvez lister les configurations existantes ou en ajouter une nouvelle. Attention, une seule configuration de stratégie doit être active.',
   'storage.security-delegation.plugins.list.header.name.label': 'Nom',
   'storage.security-delegation.plugins.list.header.type.label': 'Type',
   'storage.security-delegation.plugins.list.header.active.label': 'Actif',

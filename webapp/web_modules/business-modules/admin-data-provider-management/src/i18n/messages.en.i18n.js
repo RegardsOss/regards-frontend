@@ -21,11 +21,11 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   // 1. Chains list
   // 1.1 Headers
-  'acquisition-chain.list.title': 'Configure generation chains',
-  'acquisition-chain.list.subtitle': 'Generation chains are used to automatically generate and add datas.',
+  'acquisition-chain.list.title': 'Configure acquisition chains',
+  'acquisition-chain.list.subtitle': 'Acquisition chains process the data to generation one or several SIPs. SIPs are submitted to the ingestion service.',
   'acquisition-chain.list.info.message': 'You can define specific plugins to handle each generation steps.',
-  'acquisition-chain.list.empty.title': 'No generation chain defined',
-  'acquisition-chain.list.delete.conditions': 'To delete a generation chain you have to desactivate it before.',
+  'acquisition-chain.list.empty.title': 'No acquisition chain defined',
+  'acquisition-chain.list.delete.conditions': 'To delete an acquisition chain you need to deactivate it before.',
 
   // 1.2 table headers
   'acquisition-chain.list.table.label': 'Name',
@@ -41,30 +41,27 @@ const messages = Object.assign({
 
   // 2 Chain creation/edition form
   // 2.1 Header section
-  'acquisition-chain.form.create.title': 'Create a new generation chain',
-  'acquisition-chain.form.edit.title': 'Edit generation chain : {name}',
+  'acquisition-chain.form.create.title': 'Create a new acquisition chain',
+  'acquisition-chain.form.edit.title': 'Edit acquisition chain : {name}',
   'acquisition-chain.form.duplicate.title': 'Duplicate generation chain : {name}',
-  'acquisition-chain.form.informations-1': 'To be operational a generation chain must be associated to the elemnts here under. Note : The properties with (*) are mandatory.',
-  'acquisition-chain.form.informations-2': '1. One Processing Chain. This chain will be used to generated archived files. (*)',
-  'acquisition-chain.form.informations-3': '2. One or many file type(s). A file type allows to configure where and how retrieve files to acquire. (*)',
-  'acquisition-chain.form.informations-4': '3. One data validation plugin. (*)',
-  'acquisition-chain.form.informations-5': '4. One product generation plugin (*)',
-  'acquisition-chain.form.informations-6': '5. One meta-data generation plugin (*).',
-  'acquisition-chain.form.informations-7': '6. One optional post treatment plugin.',
+  'acquisition-chain.form.informations-1': 'To be operational an acquisition chain must be associated to the elemnts here under. Note : The properties with (*) are mandatory.',
+  'acquisition-chain.form.informations-2': '1. General information about the chain.',
+  'acquisition-chain.form.informations-3': '2. File composing the data.',
+  'acquisition-chain.form.informations-4': '3. Chain plugins to produce the SIP(s).',
 
   // 2.2 General configuration section
   'acquisition-chain.form.general.section.title': 'General',
-  'acquisition-chain.form.general.section.label': 'Label (*)',
-  'acquisition-chain.form.general.section.active': 'Activate generation chain',
+  'acquisition-chain.form.general.section.label': 'Chain name (*)',
+  'acquisition-chain.form.general.section.active': 'Activate chain',
   'acquisition-chain.form.general.generationRetryEnabled': 'Enable SIP re-generation for products in error state.',
   'acquisition-chain.form.general.submissionRetryEnabled': 'Enable SIP re-submission for products in error state.',
   'acquisition-chain.form.general.section.periodicity': 'Activation periodicity (seconds). Only for automatic chains. ',
-  'acquisition-chain.form.general.section.session': 'Ingest session name ...',
+  'acquisition-chain.form.general.section.session': 'Acquisition session name ...',
   'acquisition-chain.form.general.section.mode': 'Mode',
   'acquisition-chain.form.general.section.mode.AUTO': 'Automatic',
   'acquisition-chain.form.general.section.mode.MANUAL': 'Manual',
   'acquisition-chain.form.general.section.ingestChain.select': 'Ingest chain (*)',
-  'acquisition-chain.form.general.section.ingestChain.select.hint': 'Select one existing ingest chain ... ',
+  'acquisition-chain.form.general.section.ingestChain.select.hint': 'Select an existing ingest chain ... ',
 
   // 2.3 Files configuration section
   'acquisition-chain.form.fileInfos.section': 'Files',
@@ -73,11 +70,11 @@ const messages = Object.assign({
   'acquisition-chain.form.fileInfos.list.add.button': 'Add',
   'acquisition-chain.form.fileInfos.list.delete.button': 'Remove',
   'acquisition-chain.form.fileInfos.list.duplicate.button': 'Duplicate',
-  'acquisition-chain.form.fileInfo.comment': 'Description',
-  'acquisition-chain.form.fileInfo.plugin.scan.label': 'How to scan for new datas (*)',
-  'acquisition-chain.form.fileInfo.mandatory': 'File is mandatory for product ?',
-  'acquisition-chain.form.fileInfo.mimeType': 'Mime-type',
-  'acquisition-chain.form.fileInfo.dataType': 'Data type',
+  'acquisition-chain.form.fileInfo.comment': 'Name',
+  'acquisition-chain.form.fileInfo.plugin.scan.label': 'Plugin to detect new data (*)',
+  'acquisition-chain.form.fileInfo.mandatory': 'Mandatory to build the product',
+  'acquisition-chain.form.fileInfo.mimeType': 'Mime-type (*)',
+  'acquisition-chain.form.fileInfo.dataType': 'Data type (*)',
   // 2.4 Plugins configuration section
   'acquisition-chain.form.plugins.section': 'Plugins',
   'acquisition-chain.form.plugins.select.label': 'Select a plugin ...',
@@ -94,12 +91,12 @@ const messages = Object.assign({
   // 3. Monitoring
   // 3.1 Chain list
   // 3.1.1 Header
-  'acquisition-chain.monitor.list.subtitle': 'This section allows you to monitor, view errors and run data acquisition chains.',
+  'acquisition-chain.monitor.list.subtitle': 'Monitor, view errors and run data acquisition chains.',
   'acquisition-chain.monitor.empty.title': 'No chain configured',
   'acquisition-chain-monitor.breadcrumb.label': 'Acquisition chains',
 
   // 3.1.2 Table header
-  'acquisition-chain.monitor.list.label': 'Label',
+  'acquisition-chain.monitor.list.label': 'Name',
   'acquisition-chain.monitor.list.mode': 'Mode',
   'acquisition-chain.monitor.list.mode.AUTO': 'Automatic',
   'acquisition-chain.monitor.list.mode.MANUAL': 'Manual',
