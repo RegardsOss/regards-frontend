@@ -22,7 +22,6 @@ import {
 } from 'material-ui/Card'
 import { formValueSelector } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
-import CircularProgress from 'material-ui/CircularProgress'
 import UnlockAccountIcon from 'material-ui/svg-icons/action/lock'
 import ResetPasswordIcon from 'material-ui/svg-icons/action/restore-page'
 import ProjectAccessIcon from 'material-ui/svg-icons/action/assignment-ind'
@@ -30,6 +29,7 @@ import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { PictureLinkComponent, FormErrorMessage } from '@regardsoss/components'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import {
   RenderTextField, Field, reduxForm, ValidationHelpers,
 } from '@regardsoss/form-utils'
@@ -139,19 +139,18 @@ export class AuthenticationFormComponent extends React.Component {
               />
             </CardText>
             <CardActions style={moduleTheme.action}>
-              <RaisedButton
-                disabled={this.props.submitting || this.props.invalid || this.props.loading}
-                label={loading ? '' : this.context.intl.formatMessage({ id: 'authentication.button' })}
-                primary
-                type="submit"
+              <LoadableContentDisplayDecorator
+                isLoading={loading}
               >
-                {loading
-                  ? <div style={{ margin: 'auto', lineHeight: '10px', paddingTop: '3px' }}>
-                    <CircularProgress size="30" thickness="1" />
-                  </div>
-                  : null}
-              </RaisedButton>
-              {cancelButtonElt}
+                <RaisedButton
+                  disabled={this.props.submitting || this.props.invalid || this.props.loading}
+                  label={this.context.intl.formatMessage({ id: 'authentication.button' })}
+                  primary
+                  type="submit"
+                />
+                {cancelButtonElt}
+              </LoadableContentDisplayDecorator>
+
             </CardActions>
             <div style={moduleTheme.linksBar}>
               <PictureLinkComponent
