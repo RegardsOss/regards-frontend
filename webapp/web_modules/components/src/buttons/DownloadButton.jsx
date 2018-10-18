@@ -71,9 +71,10 @@ class DownloadButton extends React.Component {
     return (
       <a
         ref={(input) => { this.button = input }}
-        download={downloadName || true}
+        download={downloadName || 'download'}
         href={downloadURL}
         style={DownloadButton.UNDECORATED_LINK_STYLE}
+        target="blank_"
       >
         {buttonRender}
       </a>
