@@ -85,7 +85,7 @@ class SearchResultsConfigurationComponent extends React.Component {
     quicklook: {
       tabTitleKey: 'form.attribute.quicklook.conf.selection.tab.label',
       fieldName: 'quicklook',
-      allowFacets: false,
+      allowFacets: true,
       allowSorting: true,
       allowAttributesRegroupements: false,
     },
