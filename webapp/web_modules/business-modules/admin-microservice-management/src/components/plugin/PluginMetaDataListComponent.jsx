@@ -162,11 +162,13 @@ export default class PluginMetaDataListComponent extends React.Component {
   getTile = plugin => (
     <div key={plugin.content.pluginId} className={this.styles.tile.classes}>
       <Card style={this.styles.tile.styles}>
-        <CardTitle
-          titleStyle={this.styles.tile.title}
-          title={plugin.content.pluginId}
-          subtitle={`${plugin.content.author} | ${plugin.content.version}`}
-        />
+        <span title={plugin.content.pluginId}>
+          <CardTitle
+            titleStyle={this.styles.tile.title}
+            title={plugin.content.pluginId}
+            subtitle={`${plugin.content.author} | ${plugin.content.version}`}
+          />
+        </span>
         <CardText>
           {plugin.content.description}
 
