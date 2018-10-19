@@ -50,6 +50,10 @@ class ModelAttributeComponent extends React.Component {
     DamDomain.ENTITY_TYPES_ENUM.DATASET,
   ]
 
+  static typeStyle = {
+    fontStyle: 'italic',
+  }
+
   /**
    * When the user select a plugin configuration, send the updated value to the server
    * @param value the pluginConfiguration id
@@ -109,9 +113,10 @@ class ModelAttributeComponent extends React.Component {
             <TableRowColumn>
               {modelAttribute.content.attribute.name}
               {this.showIfAttributeIsNotOptional(modelAttribute)}
-              (
-              {modelAttribute.content.attribute.type}
-              )
+              {' - '}
+              <span style={ModelAttributeComponent.typeStyle}>
+                {modelAttribute.content.attribute.type}
+              </span>
             </TableRowColumn>
             { /* show 2nd column only when the computing plugins are allowed */
               this.isComputingPluginAllowed() ? (
