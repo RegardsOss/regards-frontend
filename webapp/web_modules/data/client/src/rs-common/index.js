@@ -40,6 +40,8 @@ export { default as getPluginTypeSelectors } from './pluginTypes/PluginTypeSelec
 export { default as MicroserviceReadyActions } from './ready/MicroserviceReadyActions'
 
 export { default as MicroserviceConfBackupActions } from './confBackup/MicroserviceConfBackupActions'
+export { default as MicroserviceConfBackupReducer } from './confBackup/MicroserviceConfBackupReducer'
+export { default as MicroserviceConfBackupSelectors } from './confBackup/MicroserviceConfBackupSelectors'
 
 export { default as getMicroserviceConfBackupStatusReducer } from './confBackup/MicroserviceConfBackupStatusReducer'
 export { default as MicroserviceConfBackupStatusActions } from './confBackup/MicroserviceConfBackupStatusActions'

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,17 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { CommonClient } from '@regardsoss/client'
+ **/
+import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
-/**
- * Microservice infos client.
- *
- * @author Sébastien Binda
- */
-const REDUX_ACTION_NAMESPACE = 'microservice-conf-backup'
-const ENTITIES_STORE_PATH = ['admin', 'microservice-management', 'microserviceConfBackup']
-
-export const microserviceConfBackupActions = new CommonClient.MicroserviceConfBackupActions(REDUX_ACTION_NAMESPACE)
-export const microserviceConfBackupReducer = CommonClient.MicroserviceConfBackupReducer(REDUX_ACTION_NAMESPACE)
-export const microserviceConfBackupSelectors = CommonClient.MicroserviceConfBackupSelectors(ENTITIES_STORE_PATH)
+export default storePath => new BasicSignalSelectors(storePath)

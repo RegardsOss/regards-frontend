@@ -26,6 +26,7 @@ import MaintenanceModeReducers from './model/MaintenanceModeReducers'
 import SetMaintenanceReducers from './model/SetMaintenanceModeReducers'
 import { microserviceInfoActions } from './clients/MicroserviceInfoClient'
 import { MicroserviceConfBackupStatusReducer } from './clients/MicroserviceConfBackupStatusClient'
+import { microserviceConfBackupReducer } from './clients/MicroserviceConfBackupClient'
 
 const maintenanceReducers = {}
 const confBackupReducers = {}
@@ -41,6 +42,7 @@ const microserviceManagementReducer = combineReducers({
   pluginConfiguration: pluginConfigurationReducer,
   microserviceInfo: microserviceInfoActions,
   clearCache: clearPluginCacheReducer,
+  microserviceConfBackup: microserviceConfBackupReducer,
   ...maintenanceReducers,
   ...confBackupReducers,
 })
