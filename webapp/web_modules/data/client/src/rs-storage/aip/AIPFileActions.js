@@ -39,7 +39,6 @@ class AIPFileActions extends BasicListActions {
    * Return an action that fetch all AIP files related to provided AIP id
    */
   fetchAIPFiles(aipId) {
-    console.error('aip', aipId)
     return this.fetchEntityList({ id: aipId })
   }
 }
