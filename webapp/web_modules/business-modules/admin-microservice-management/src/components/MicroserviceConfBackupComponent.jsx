@@ -41,6 +41,7 @@ export class MicroserviceConfBackupComponent extends React.Component {
     microserviceName: PropTypes.string.isRequired,
     exportUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
+    isSendingConfiguration: PropTypes.bool.isRequired,
     handleExportFile: PropTypes.func.isRequired,
     handleBack: PropTypes.func.isRequired,
   }
@@ -158,6 +159,7 @@ export class MicroserviceConfBackupComponent extends React.Component {
                 <ImportFromFileDialogButton
                   onImport={this.handleImportFile}
                   onImportSucceed={this.props.handleBack}
+                  disableImportButton={this.props.isSendingConfiguration}
                   ignoreErrors
                   style={MicroserviceConfBackupComponent.styleButton}
                 />

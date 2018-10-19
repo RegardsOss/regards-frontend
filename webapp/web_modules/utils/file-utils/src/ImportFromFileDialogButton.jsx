@@ -33,6 +33,7 @@ class ImportFromFileDialogButton extends React.Component {
     title: PropTypes.string,
     onImport: PropTypes.func.isRequired,
     onImportSucceed: PropTypes.func.isRequired,
+    disableImportButton: PropTypes.bool,
     // when true, close the modal even if there is some error
     ignoreErrors: PropTypes.bool,
     style: PropTypes.objectOf(PropTypes.string),
@@ -42,6 +43,7 @@ class ImportFromFileDialogButton extends React.Component {
 
   static defaultProps = {
     ignoreErrors: false,
+    disableImportButton: false,
   }
 
   static contextTypes = {
@@ -93,7 +95,7 @@ class ImportFromFileDialogButton extends React.Component {
    * Display select local file dialog
    */
   renderDialog = () => {
-    const { handleSubmit, title } = this.props
+    const { handleSubmit, title, disableImportButton } = this.props
     const { intl: { formatMessage } } = this.context
 
     return (
@@ -113,6 +115,7 @@ class ImportFromFileDialogButton extends React.Component {
           <CardActionsComponent
             mainButtonLabel={formatMessage({ id: 'import.file.submit.button' })}
             mainButtonType="submit"
+            isMainButtonDisabled={disableImportButton}
             secondaryButtonLabel={formatMessage({ id: 'import.file.cancel.button' })}
             secondaryButtonClick={this.handleClose}
           />

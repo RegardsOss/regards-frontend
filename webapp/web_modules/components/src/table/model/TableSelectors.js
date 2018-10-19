@@ -43,7 +43,7 @@ export class TableSelectors extends BasicSelector {
         const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
         const selectionSize = keys(toggledElements).length
         return (selectionMode === TableSelectionModes.includeSelected && selectionSize === 0)
-          || (totalElements > 0 && selectionSize === totalElements)
+          || (selectionMode === TableSelectionModes.excludeSelected && totalElements > 0 && selectionSize === totalElements)
       })
     }
     // select or reselect
