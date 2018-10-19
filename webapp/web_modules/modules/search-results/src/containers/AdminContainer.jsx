@@ -19,6 +19,7 @@
 import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import SearchResultsConfigurationComponent from '../components/admin/SearchResultsConfigurationComponent'
 import {
   DataAttributeModelActions,
@@ -70,20 +71,26 @@ export class AdminContainer extends React.Component {
   }
 
   render() {
-    const currentFormValues = get(this.props.adminForm.form, this.props.adminForm.currentNamespace)
-    const adminConf = get(this.props.adminForm, 'conf', {})
-    if (this.props.adminForm.form && !this.state.isLoading) {
+    const { isLoading } = this.state
+    const { adminForm } = this.props
+    const currentFormValues = get(adminForm.form, this.props.adminForm.currentNamespace)
+    const adminConf = get(adminForm, 'conf', {})
+    if (this.props.adminForm.form) {
       return (
-        <SearchResultsConfigurationComponent
-          dataAttributeModels={this.props.dataAttributeModels}
-          datasetAttributeModels={this.props.datasetAttributeModels}
-          documentAttributeModels={this.props.documentAttributeModels}
-          currentFormValues={currentFormValues}
-          isCreating={this.props.adminForm.isCreating}
-          adminConf={adminConf}
-          changeField={this.props.adminForm.changeField}
-          currentNamespace={this.props.adminForm.currentNamespace}
-        />
+        <LoadableContentDisplayDecorator
+          isLoading={isLoading}
+        >
+          <SearchResultsConfigurationComponent
+            dataAttributeModels={this.props.dataAttributeModels}
+            datasetAttributeModels={this.props.datasetAttributeModels}
+            documentAttributeModels={this.props.documentAttributeModels}
+            currentFormValues={currentFormValues}
+            isCreating={this.props.adminForm.isCreating}
+            adminConf={adminConf}
+            changeField={this.props.adminForm.changeField}
+            currentNamespace={this.props.adminForm.currentNamespace}
+          />
+        </LoadableContentDisplayDecorator>
       )
     }
     return null
