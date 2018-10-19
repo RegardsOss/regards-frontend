@@ -87,7 +87,8 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
       'productPluginConf', 'generatePluginConf', 'validationPluginConf',
       'postProcessSipPluginConf',
     ])
-    duplicatedChain.fileInfos = map(chainToDuplicate.content.fileInfos, AcquisitionProcessingChainFormComponent.duplicateFileInfo)
+    duplicatedChain.fileInfos = map(chainToDuplicate.content.fileInfos,
+      AcquisitionProcessingChainFormComponent.getFileInfoForChainDuplication)
     if (chainToDuplicate.content.validationPluginConf) {
       duplicatedChain.validationPluginConf = AcquisitionProcessingChainFormComponent.duplicatePluginConf(chainToDuplicate.content.validationPluginConf)
     }
@@ -103,17 +104,22 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     return duplicatedChain
   }
 
-  static duplicateFileInfo = (fileInfo) => {
-    const duplicatedFileInfo = omit(fileInfo, ['id', 'scanPlugin'])
-    return duplicatedFileInfo
+  static getFileInfoForChainDuplication = fileInfo => omit(fileInfo, ['id', 'scanPlugin'])
+
+  static duplicateFileInfo(fileInfo) {
+    return {
+      ...AcquisitionProcessingChainFormComponent.getFileInfoForChainDuplication(fileInfo),
+      // plugin is reported when duplicating file info
+      scanPlugin: AcquisitionProcessingChainFormComponent.duplicatePluginConf(fileInfo.scanPlugin),
+    }
   }
 
-  static duplicatePluginConf = (plugin) => {
-    const duplicatedPluginConf = omit(plugin, ['id', 'label', 'parameters'])
-    duplicatedPluginConf.label = plugin.pluginId ? `${plugin.pluginId}-${Date.now()}` : Date.now()
-    const parameters = map(plugin.parameters, parameter => omit(parameter, ['id']))
-    duplicatedPluginConf.parameters = parameters || []
-    return duplicatedPluginConf
+  static duplicatePluginConf(plugin) {
+    return {
+      ...omit(plugin, ['id', 'label', 'parameters']),
+      label: plugin.pluginId ? `${plugin.pluginId}-${Date.now()}` : Date.now(),
+      parameters: map(plugin.parameters, parameter => omit(parameter, ['id'])) || [],
+    }
   }
 
   componentWillMount() {
@@ -290,6 +296,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   component={RenderArrayObjectField}
                   elementLabel={this.renderFileInfoItemLabel}
                   fieldComponent={AcquisitionFileInfoComponent}
+                  duplicationTransformation={AcquisitionProcessingChainFormComponent.duplicateFileInfo}
                   canBeEmpty={false}
                   listHeight="600px"
                   validate={required}
