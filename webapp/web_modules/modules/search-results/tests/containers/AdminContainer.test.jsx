@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import SearchResultsConfigurationComponent from '../../src/components/admin/SearchResultsConfigurationComponent'
 import { AdminContainer } from '../../src/containers/AdminContainer'
 import styles from '../../src/styles/styles'
@@ -51,11 +52,18 @@ describe('[Search Results] Testing AdminContainer', () => {
       fetchAllDocumentModelsAttributes: () => { },
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(SearchResultsConfigurationComponent), 0, 'While loading the component should not be rendered')
+    let loadableWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
+    assert.lengthOf(loadableWrapper, 1, 'There should be the loadable wrapper')
+    assert.isTrue(loadableWrapper.props().isLoading, 'The loader wrapper should be marked loading')
+    assert.lengthOf(enzymeWrapper.find(SearchResultsConfigurationComponent), 1, 'The corresponding component should be rendered')
     enzymeWrapper.instance().setState({
       isLoading: false,
     })
     enzymeWrapper.update() // wait for state update
-    assert.lengthOf(enzymeWrapper.find(SearchResultsConfigurationComponent), 1, 'After loading, the corresponding component should be rendered')
+    assert.isTrue(loadableWrapper.props().isLoading, 'The loader should be marked loading')
+    loadableWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
+    assert.lengthOf(loadableWrapper, 1, 'There should be the loadable wrapper')
+    assert.isFalse(loadableWrapper.props().isLoading, 'The loader wrapper should not be marked loading')
+    assert.lengthOf(enzymeWrapper.find(SearchResultsConfigurationComponent), 1, 'The corresponding component should be rendered')
   })
 })
