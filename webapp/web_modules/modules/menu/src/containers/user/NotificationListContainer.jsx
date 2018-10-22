@@ -17,8 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import keys from 'lodash/keys'
+import values from 'lodash/values'
 import { AdminShapes, CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
@@ -108,6 +109,11 @@ export class NotificationListContainer extends React.Component {
     fetchLastReadNotification: PropTypes.func.isRequired,
   }
 
+  static getNotif(notification) {
+    const valuesArray = notification ? values(notification) : []
+    return valuesArray.length ? valuesArray[0] : null
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -120,11 +126,15 @@ export class NotificationListContainer extends React.Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (!isEqual(this.props.lastNotification, nextProps.lastNotification) && !!this.notify) {
+    if (!!this.notify && !isEqual(this.props.lastNotification, nextProps.lastNotification)) {
       // Open a popup if there is a new notif
-      const lastNotif = nextProps.lastNotification[keys(nextProps.lastNotification)[0]]
+      const lastNotif = NotificationListContainer.getNotif(nextProps.lastNotification)
+      const previousLastNotif = NotificationListContainer.getNotif(this.props.lastNotification)
 
-      if (lastNotif && lastNotif.content.status === 'UNREAD') {
+
+      // notify only when not already read and MORE recent notification (ie: that notification popped during last pull)
+      if (lastNotif && lastNotif.content.status === 'UNREAD'
+        && new Date(get(lastNotif, 'content.date', 0)).getTime() > new Date(get(previousLastNotif, 'content.date', 0))) {
         this.notify(lastNotif.content)
       }
     }
@@ -145,13 +155,10 @@ export class NotificationListContainer extends React.Component {
     return fetchNotification(this.state.isInstance, 0, totalElementsFetched, requestParams)
   }
 
-  getLastNotification = () => (
-    this.props.lastNotification[keys(this.props.lastNotification)[0]]
-  )
+  getLastNotification = () => NotificationListContainer.getNotif(this.props.lastNotification)
 
-  getLastReadNotification = () => (
-    this.props.lastReadNotification[keys(this.props.lastReadNotification)[0]]
-  )
+
+  getLastReadNotification = () => NotificationListContainer.getNotif(this.props.lastReadNotification)
 
   startTimer = () => {
     const { isAuthenticated } = this.props
