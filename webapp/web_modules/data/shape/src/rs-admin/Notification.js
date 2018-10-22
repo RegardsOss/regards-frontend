@@ -18,7 +18,7 @@
  **/
 export const Notification = PropTypes.shape({
   id: PropTypes.number,
-  date: PropTypes.date,
+  date: PropTypes.string,
   message: PropTypes.string,
   title: PropTypes.string,
   sender: PropTypes.string,
