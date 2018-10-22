@@ -49,6 +49,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
     assert.isDefined(AccessRightListContainer)
   })
   it('should render correctly', () => {
+    const clearSelectionSpy = stub().returns({})
     const fetchAccessRightsSpy = stub().returns({})
     const createSpy = stub().returns({})
     const updateSpy = stub().returns({})
@@ -67,6 +68,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
         size: 10,
         totalElements: 100,
       },
+      clearSelection: clearSelectionSpy,
       fetchDatasetWithAccessRightPage: fetchAccessRightsSpy,
       deleteAccessRight: deleteSpy,
       updateAccessRight: updateSpy,
@@ -78,6 +80,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
   })
 
   it('Check submit a new accessRight', () => {
+    const clearSelectionSpy = stub().returns({})
     const fetchAccessRightsSpy = stub().returns({})
     const createSpy = stub().returns({})
     const updateSpy = stub().returns({})
@@ -96,6 +99,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
         size: 10,
         totalElements: 100,
       },
+      clearSelection: clearSelectionSpy,
       fetchDatasetWithAccessRightPage: fetchAccessRightsSpy,
       deleteAccessRight: deleteSpy,
       updateAccessRight: updateSpy,
@@ -126,6 +130,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
   })
 
   it('Check submit a update of an existing accessRight', () => {
+    const clearSelectionSpy = stub().returns({})
     const fetchAccessRightsSpy = stub().returns({})
     const createSpy = stub().returns({})
     const updateSpy = stub().returns({})
@@ -144,6 +149,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
         size: 10,
         totalElements: 100,
       },
+      clearSelection: clearSelectionSpy,
       fetchDatasetWithAccessRightPage: fetchAccessRightsSpy,
       deleteAccessRight: deleteSpy,
       updateAccessRight: updateSpy,
@@ -176,6 +182,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
 
 
   it('Check submit a bundle of accessRights with updates and creations', () => {
+    const clearSelectionSpy = stub().returns({})
     const fetchAccessRightsSpy = stub().returns({})
     const createSpy = stub().returns({})
     const updateSpy = stub().returns({})
@@ -194,6 +201,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
         size: 10,
         totalElements: 100,
       },
+      clearSelection: clearSelectionSpy,
       fetchDatasetWithAccessRightPage: fetchAccessRightsSpy,
       deleteAccessRight: deleteSpy,
       updateAccessRight: updateSpy,

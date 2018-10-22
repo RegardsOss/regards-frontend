@@ -28,7 +28,7 @@ const aipManagementReducer = combineReducers({
   'aip-session': aipSessionReducer,
   'aip-tag': aipTagReducer,
   'aip-file': aipFileReducer,
-  table: tableReducer,
+  'aip-table': tableReducer,
 })
 
 export default aipManagementReducer

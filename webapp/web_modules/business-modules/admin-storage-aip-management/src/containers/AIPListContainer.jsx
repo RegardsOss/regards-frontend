@@ -25,7 +25,7 @@ import { TableSelectionModes } from '@regardsoss/components'
 import { browserHistory } from 'react-router'
 import AIPListComponent from '../components/monitoring/aip/AIPListComponent'
 import { aipActions, aipSelectors } from '../clients/AIPClient'
-import { tableSelectors } from '../clients/TableClient'
+import { tableSelectors, tableActions } from '../clients/TableClient'
 import { aipTagActions } from '../clients/AIPTagClient'
 
 /**
@@ -57,6 +57,7 @@ export class AIPListContainer extends React.Component {
    * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps = dispatch => ({
+    clearSelection: () => dispatch(tableActions.unselectAll()),
     deleteAIPByIpId: aip => dispatch(aipActions.deleteEntityWithPayloadResponse(aip.id)),
     onRetry: aip => dispatch(aipTagActions.storeRetry(aip.id)),
     fetchPage: (pageIndex, pageSize, requestParams) => dispatch(aipActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
@@ -77,6 +78,7 @@ export class AIPListContainer extends React.Component {
       totalElements: PropTypes.number,
     }),
     // from mapDistpathToProps
+    clearSelection: PropTypes.func.isRequired,
     deleteAIPByIpId: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     fetchCommonTags: PropTypes.func.isRequired,
@@ -130,8 +132,9 @@ export class AIPListContainer extends React.Component {
   }
 
   onRefresh = (currentFilters) => {
-    const { meta, fetchPage } = this.props
+    const { meta, fetchPage, clearSelection } = this.props
     const curentPage = get(meta, 'number', 0)
+    clearSelection()
     fetchPage(0, AIPListContainer.PAGE_SIZE * (curentPage + 1), currentFilters)
   }
 

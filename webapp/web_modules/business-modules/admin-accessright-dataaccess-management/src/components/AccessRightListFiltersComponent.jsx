@@ -34,7 +34,7 @@ import { themeContextType } from '@regardsoss/theme'
  * Access Rights list filters
  * @author Maxime Bouveron
  */
-class CollectionListFiltersComponent extends React.Component {
+class AccessRightListFiltersComponent extends React.Component {
   static propTypes = {
     onRefresh: PropTypes.func,
   }
@@ -94,4 +94,4 @@ class CollectionListFiltersComponent extends React.Component {
     )
   }
 }
-export default CollectionListFiltersComponent
+export default AccessRightListFiltersComponent
