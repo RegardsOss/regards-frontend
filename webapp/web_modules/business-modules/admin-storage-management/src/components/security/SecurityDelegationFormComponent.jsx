@@ -18,6 +18,7 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import noop from 'lodash/noop'
 import MoodIcon from 'material-ui/svg-icons/social/mood'
 import {
   Card, CardActions, CardText, CardTitle,
@@ -134,8 +135,12 @@ export class SecurityDelegationFormComponent extends React.Component {
           : (
             <CardActions>
               <CardActionsComponent
-                mainButtonLabel={formatMessage({ id: 'storage.plugins.security.list.back.button' })}
-                mainButtonUrl={backUrl}
+                secondaryButtonLabel={formatMessage({ id: 'storage.plugins.security.form.back.button' })}
+                secondaryButtonUrl={backUrl}
+                // just to emulate what it will look like when the plugin will be selected
+                mainButtonLabel={formatMessage({ id: 'storage.plugins.security.form.add.button' })}
+                isMainButtonDisabled
+                mainButtonClick={noop}
               />
             </CardActions>
           )

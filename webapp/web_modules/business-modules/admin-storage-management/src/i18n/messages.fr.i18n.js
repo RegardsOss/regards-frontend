@@ -96,6 +96,7 @@ const messages = Object.assign({
   'storage.plugins.security.form.type.select.label': 'Sélectionnez un type ...',
   'storage.plugins.security.form.invalid.id': 'La configuration sélectionnée n\'existe plus',
   'storage.plugins.security.form.back.button': 'Annuler',
+  'storage.plugins.security.form.add.button': 'Ajouter',
 
   'storage.locations.size.title': 'Taux d\'utilisation des espaces de stockage',
   'storage.locations.configuration.title': 'Configuration des espaces de stockage',
