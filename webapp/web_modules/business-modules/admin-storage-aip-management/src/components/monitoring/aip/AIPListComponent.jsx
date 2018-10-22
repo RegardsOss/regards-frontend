@@ -410,6 +410,7 @@ class AIPListComponent extends React.Component {
             name="aip-management-session-table"
             pageActions={aipActions}
             pageSelectors={aipSelectors}
+            tableActions={tableActions}
             pageSize={pageSize}
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}

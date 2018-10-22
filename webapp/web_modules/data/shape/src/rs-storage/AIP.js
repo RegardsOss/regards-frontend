@@ -26,7 +26,7 @@ export const AIPContent = PropTypes.shape({
   id: PropTypes.string.isRequired,
   ipType: PropTypes.string,
   geometry: PropTypes.any,
-  sipId: PropTypes.string.isRequired,
+  sipId: PropTypes.string, // Not required as datasets, collections and documents are not produced by SIP sessions
   state: PropTypes.string,
   type: PropTypes.string,
   properties: PropertiesShape,
