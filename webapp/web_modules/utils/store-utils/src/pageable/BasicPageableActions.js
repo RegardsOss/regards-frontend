@@ -60,7 +60,6 @@ class BasicPageableActions extends BasicListActions {
         size: size || 2000,
       })
     }
-
     return endpoint
   }
 

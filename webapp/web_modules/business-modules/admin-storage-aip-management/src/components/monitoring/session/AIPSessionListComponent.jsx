@@ -26,7 +26,7 @@ import Arrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import {
   Breadcrumb, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
-  ShowableAtRender, PageableInfiniteTableContainer, TableDeleteOption, TableLayout,
+  ShowableAtRender, PageableInfiniteTableContainer, TableLayout,
   TableColumnBuilder, DateValueRender, NoContentComponent, TableHeaderLineLoadingAndResults,
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
@@ -35,6 +35,7 @@ import AIPSessionListFiltersComponent from './AIPSessionListFiltersComponent'
 import { aipSessionActions, aipSessionSelectors } from '../../../clients/AIPSessionClient'
 import messages from '../../../i18n'
 import styles from '../../../styles'
+import AIPSessionDeleteOption from './AIPSessionDeleteOption'
 
 /**
  * Component to display AIP sessions list with filters.
@@ -195,11 +196,10 @@ class AIPSessionListComponent extends React.Component {
         .label(intl.formatMessage({ id: 'aips.session.table.headers.date' }))
         .build(),
       new TableColumnBuilder().optionsColumn([{
-        OptionConstructor: TableDeleteOption,
+        OptionConstructor: AIPSessionDeleteOption,
         optionProps: {
-          fetchPage: this.props.fetchPage,
           onDelete: this.onDelete,
-          queryPageSize: 20,
+          disableInsteadOfHide: true,
         },
       }, {
         OptionConstructor: props => (
@@ -245,6 +245,7 @@ class AIPSessionListComponent extends React.Component {
       return (
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
+          message={this.context.intl.formatMessage({ id: 'aips.session.delete.confirm.message' })}
           title={this.context.intl.formatMessage({ id: 'aips.session.delete.confirm.title' }, { id: this.state.sessionToDelete.content.id })}
           onConfirm={this.onConfirmDelete}
           onClose={this.closeDeleteDialog}
