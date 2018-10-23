@@ -33,6 +33,8 @@ export { default as AIPSessionActions } from './aip/AIPSessionActions'
 export { default as getAIPSessionReducer } from './aip/AIPSessionReducer'
 export { default as getAIPSessionSelectors } from './aip/AIPSessionSelectors'
 
+export { default as AIPSessionClearActions } from './aip/AIPSessionClearActions'
+
 export { default as AIPFileActions } from './aip/AIPFileActions'
 export { default as getAIPFileReducer } from './aip/AIPFileReducer'
 export { default as getAIPFileSelectors } from './aip/AIPFileSelectors'

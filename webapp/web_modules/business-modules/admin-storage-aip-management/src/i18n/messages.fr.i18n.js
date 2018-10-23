@@ -72,6 +72,8 @@ const messages = Object.assign({
   'aips.session.clear.filters.button': 'Vider les filtres',
   'aips.session.apply.filters.button': 'Appliquer les filtres',
   'aips.session.delete.confirm.title': 'Supprimer les AIPs de la session {id} ?',
+  'aips.session.delete.confirm.message': 'Une fois validée, la suppression sera réalisée dans un job asynchrone. Vous pourrez suivre l\'avancement en rafraîchissant la liste des sessions.',
+  'aips.session.delete.tooltip': 'Supprimer les AIPs associés',
 
   VALID: 'VALID',
   PENDING: 'PENDING',

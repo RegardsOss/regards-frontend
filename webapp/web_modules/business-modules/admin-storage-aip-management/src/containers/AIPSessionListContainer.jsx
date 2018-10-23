@@ -22,6 +22,7 @@ import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import AIPSessionListComponent from '../components/monitoring/session/AIPSessionListComponent'
 import { aipSessionActions, aipSessionSelectors } from '../clients/AIPSessionClient'
+import { aipSessionClearActions } from '../clients/AIPSessionClearClient'
 
 /**
 * Displays the selection of session in order to list AIPs
@@ -48,7 +49,7 @@ export class AIPSessionListContainer extends React.Component {
    * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps = dispatch => ({
-    deleteAips: session => dispatch(aipSessionActions.deleteEntity(session.id)),
+    deleteAips: session => dispatch(aipSessionClearActions.deleteEntity(session.id)),
     fetchPage: (pageIndex, pageSize, queryParams) => dispatch(aipSessionActions.fetchPagedEntityList(pageIndex, pageSize, {}, queryParams)),
   })
 

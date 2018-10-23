@@ -74,7 +74,8 @@ class DownloadButton extends React.Component {
         download={downloadName || 'download'}
         href={downloadURL}
         style={DownloadButton.UNDECORATED_LINK_STYLE}
-        target="blank_"
+        target="_blank"
+        rel="noopener noreferrer"
       >
         {buttonRender}
       </a>
