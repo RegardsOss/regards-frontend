@@ -134,7 +134,6 @@ const messages = {
   'user.menu.notification.unread.title': 'New notifications',
   'user.menu.notification.empty': 'No new notifications',
   'user.menu.notification.details.sentby': 'Sent by {sender}',
-  'user.menu.notification.details.message': 'Message',
   'user.menu.notification.clearAll': 'Clear all new notifications',
   'user.menu.notification.action.close': 'Close',
 

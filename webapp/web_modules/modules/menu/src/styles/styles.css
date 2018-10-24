@@ -1,0 +1,83 @@
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+hr {
+  box-sizing: content-box; 
+  height: 0; 
+  overflow: visible;
+}
+
+
+b, strong {
+  font-weight: bolder;
+}
+
+small {
+  font-size: 80%;
+}
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+img {
+  border-style: none;
+}
+
+details {
+  display: block;
+}
+
+summary {
+  display: list-item;
+}
+
+template {
+  display: none;
+}
+
+[hidden] {
+  display: none;
+}
+
+ul, ol {
+  margin-left: 1.5em;
+}
+
+li:first-child  {
+  margin-top: 0.5em;
+}
+
+li {
+  margin-bottom: 0.5em;
+}
+
+table {
+  margin: 1em;
+}
+
+th, td {
+  padding: 0.5em;
+}
+
+
+thead {
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+

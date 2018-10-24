@@ -25,5 +25,7 @@ export { ProjectUser, ProjectUserList } from './ProjectUser'
 export { ProjectUserSettings, ProjectUserSettingsWithContent } from './ProjectUserSettings'
 export { Resource, ResourceList, ResourceArray } from './Resource'
 export { Role, RoleList, RoleArray } from './Role'
-export { Notification, NotificationList, NotificationArray } from './Notification'
+export {
+  Notification, NotificationWithinContent, NotificationList, NotificationArray,
+} from './Notification'
 export { NotificationSettings } from './NotificationSettings'

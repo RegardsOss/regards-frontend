@@ -50,7 +50,6 @@ class AIPSessionListComponent extends React.Component {
     handleOpen: PropTypes.func,
     onBack: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
-    fetchPage: PropTypes.func.isRequired,
     deleteAips: PropTypes.func.isRequired,
   }
 
