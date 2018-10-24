@@ -20,7 +20,9 @@ import map from 'lodash/map'
 import FlatButton from 'material-ui/FlatButton'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import PageView from 'material-ui/svg-icons/action/pageview'
-import { Card, CardText, CardTitle } from 'material-ui/Card'
+import {
+  Card, CardText, CardTitle, CardActions,
+} from 'material-ui/Card'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import {
@@ -190,10 +192,12 @@ export class AIPFileListComponent extends React.Component {
             />
           </TableLayout>
         </CardText>
-        <CardActionsComponent
-          mainButtonLabel={formatMessage({ id: 'aips.files.actions.back' })}
-          mainButtonClick={onBack}
-        />
+        <CardActions>
+          <CardActionsComponent
+            mainButtonLabel={formatMessage({ id: 'aips.files.actions.back' })}
+            mainButtonClick={onBack}
+          />
+        </CardActions>
       </Card>
     )
   }
