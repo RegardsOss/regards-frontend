@@ -19,12 +19,6 @@
 import { AccessProjectClient } from '@regardsoss/client'
 
 // get default instances (default values are configured for user app)
-const moduleActions = new AccessProjectClient.ModuleActions()
-const moduleReducer = AccessProjectClient.ModuleReducers()
-const moduleSelectors = AccessProjectClient.ModuleSelectors()
-
-module.exports = {
-  moduleActions,
-  moduleReducer,
-  moduleSelectors,
-}
+export const moduleActions = new AccessProjectClient.ModuleActions()
+export const moduleReducer = AccessProjectClient.ModuleReducers()
+export const moduleSelectors = AccessProjectClient.ModuleSelectors()
