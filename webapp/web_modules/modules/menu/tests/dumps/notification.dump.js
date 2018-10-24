@@ -16,22 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export const Notification = PropTypes.shape({
-  id: PropTypes.number,
-  date: PropTypes.string,
-  message: PropTypes.string,
-  mimeType: PropTypes.string,
-  title: PropTypes.string,
-  sender: PropTypes.string,
-  status: PropTypes.string,
-  type: PropTypes.string,
-  projectUserRecipients: PropTypes.array,
-  roleRecipients: PropTypes.array,
-})
 
-export const NotificationWithinContent = PropTypes.shape({
-  content: Notification.isRequired,
-})
 
-export const NotificationList = PropTypes.objectOf(Notification)
-export const NotificationArray = PropTypes.arrayOf(Notification)
+/**
+ * Provides notification dump
+ * @author Raphaël Mechali
+ */
+
+/** Some notification */
+export const aNotif = {
+  date: '2018-09-28T12:45:11.498Z',
+  id: 53,
+  message: 'Storage of StorageDataFile(0c492eff219d9acaca15bacc493c5b80) failed due to the following IOException: java.net.MalformedURLException: no protocol: /regards-input/localstorage/raph/0c4/0c492eff219d9acaca15bacc493c5b80',
+  mimeType: 'text/plain',
+  projectUserRecipients: [],
+  roleRecipients: ['PROJECT_ADMIN', 'ADMIN'],
+  sender: 'rs-storage',
+  status: 'UNREAD',
+  title: 'Storage of file 0c492eff219d9acaca15bacc493c5b80 failed',
+  type: 'INFO',
+}
+
+
+export const generateNotification = (status, id) => ({
+  ...aNotif,
+  id,
+  status,
+})

@@ -23,12 +23,7 @@ import NotificationNone from 'material-ui/svg-icons/social/notifications-none'
 import More from 'material-ui/svg-icons/navigation/chevron-right'
 import Less from 'material-ui/svg-icons/navigation/expand-more'
 import Notification from 'material-ui/svg-icons/social/notifications'
-import Info from 'mdi-material-ui/InformationVariant'
-import Skull from 'mdi-material-ui/Skull'
-import Warning from 'material-ui/svg-icons/alert/warning'
 import ClearAll from 'material-ui/svg-icons/communication/clear-all'
-import Error from 'material-ui/svg-icons/alert/error'
-import Avatar from 'material-ui/Avatar'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
@@ -37,15 +32,16 @@ import {
 } from '@regardsoss/components'
 import { List } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
-import truncate from 'lodash/truncate'
-import { FormattedMessage, FormattedDate } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import NotificationSystem from 'react-notification-system'
 import { AdminShapes } from '@regardsoss/shape'
 import FlatButton from 'material-ui/FlatButton'
-import { CardHeader, CardText, CardActions } from 'material-ui/Card'
+import { CardActions } from 'material-ui/Card'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import NotificationItemComponent from './notification/NotificationItemComponent'
-import { tableActions } from '../../clients/TableClient'
+import { tableActions } from '../../../clients/TableClient'
+import NotificationItemComponent from './NotificationItemComponent'
+import NotificationDetailComponent from './NotificationDetailComponent'
+import NotificationFloatingMessage from './NotificationFloatingMessage'
 
 const MODE = {
   DISPLAY_UNREAD: 'DISPLAY_UNREAD',
@@ -79,6 +75,23 @@ class NotificationListComponent extends React.Component {
 
   static PAGE_SIZE = 40
 
+    /** Conversion map: notiication level to floating message level */
+    static NOTIFICATION_TO_MESSAGE_LEVEL = {
+      FATAL: 'error',
+      ERROR: 'warning',
+      WARNING: 'warning',
+      INFO: 'info',
+      DEFAULT: 'info',
+    }
+
+    /** Constants to display the notification as a floating message on screen */
+    static NOTIFICATION_MESSAGE_CONSTANTS = {
+      dismissible: true,
+      autoDismiss: 5,
+      position: 'br',
+    }
+
+
   state = {
     openedNotification: null,
     mode: MODE.DISPLAY_UNREAD,
@@ -100,65 +113,15 @@ class NotificationListComponent extends React.Component {
   }
 
   /**
-   * Gives a formatted date from a notification
-   * @param notif notification
+   * Sends notification to floating messages handler
+   * @param {*} notification Notification as AdminShapes.Notification
    */
-  getFormattedDate = (nDate) => {
-    const date = new Date()
-    const notifDate = new Date(nDate)
-    const isSameYear = date.getFullYear() === notifDate.getFullYear()
-    return date.getDate() === notifDate.getDate()
-      && date.getMonth() === notifDate.getMonth()
-      && date.getFullYear() === notifDate.getFullYear() ? (
-        <FormattedDate value={nDate} hour="2-digit" minute="2-digit" />
-      ) : (
-        <FormattedDate
-          value={nDate}
-          year={isSameYear ? undefined : '2-digit'}
-          month="short"
-          day="numeric"
-        />
-      )
-  }
-
-  notify = (notif) => {
-    const {
-      moduleTheme: { notifications: { notificationSystem: notificationSystemStyle } },
-    } = this.context
-    const levels = (type) => {
-      switch (type) {
-        case 'FATAL': return 'error'
-        case 'ERROR': return 'warning'
-        case 'INFO': return 'info'
-        case 'WARNING': return 'warning'
-        default: return 'info'
-      }
-    }
-    this.notificationSystem.addNotification({
-      message: (
-        <div
-          role="presentation"
-          style={notificationSystemStyle.message.style}
-          onClick={() => this.handleOpen(notif)}
-        >
-          {this.renderAvatar(notif.type)}
-          <div>
-            <div style={notificationSystemStyle.message.titleStyle}>{notif.title}</div>
-            <div style={notificationSystemStyle.message.messageStyle}>
-              {truncate(notif.message, { length: 100 })}
-            </div>
-            <div style={notificationSystemStyle.message.dateStyle}>
-              {this.getFormattedDate(notif.date)}
-            </div>
-          </div>
-        </div>
-      ),
-      level: levels(notif.type),
-      position: 'br',
-      dismissible: false,
-      autoDismiss: 7,
-    })
-  }
+  notify = notification => this.notificationSystem.addNotification({
+    message: <NotificationFloatingMessage notification={notification} />,
+    level: NotificationListComponent.NOTIFICATION_TO_MESSAGE_LEVEL[notification.type]
+      || NotificationListComponent.NOTIFICATION_TO_MESSAGE_LEVEL.DEFAULT,
+    ...NotificationListComponent.NOTIFICATION_MESSAGE_CONSTANTS,
+  })
 
   handleOpen = (notification) => {
     this.notificationSystem.clearNotifications()
@@ -204,26 +167,6 @@ class NotificationListComponent extends React.Component {
     this.setState({
       openedNotification: null,
     })
-  }
-
-  /**
-   * Renders an avatar based on a notification's type
-   * @param type notification type
-   */
-  renderAvatar = (type) => {
-    const { moduleTheme: { notifications: { list: { icons } } } } = this.context
-    switch (type) {
-      case 'INFO':
-        return <Avatar backgroundColor={icons.infoColor} color={icons.color} icon={<Info />} />
-      case 'ERROR':
-        return <Avatar backgroundColor={icons.errorColor} color={icons.color} icon={<Error />} />
-      case 'FATAL':
-        return <Avatar backgroundColor={icons.fatalColor} color={icons.color} icon={<Skull />} />
-      case 'WARNING':
-        return <Avatar backgroundColor={icons.warningColor} color={icons.color} icon={<Warning />} />
-      default:
-        return <Avatar backgroundColor={icons.infoColor} color={icons.color} icon={<Info />} />
-    }
   }
 
   handleReadAllNotifications = () => {
@@ -307,27 +250,7 @@ class NotificationListComponent extends React.Component {
             {this.renderNotificationList(MODE.DISPLAY_READ)}
           </div>
           <div className="col-xs-65 col-lg-75" style={dialog.details.container.style}>
-            <div style={dialog.details.header.style}>
-              <CardHeader
-                title={this.state.openedNotification.title}
-                subtitle={this.context.intl.formatMessage(
-                  { id: 'user.menu.notification.details.sentby' },
-                  { sender: this.state.openedNotification.sender },
-                )}
-                avatar={this.renderAvatar(this.state.openedNotification.type)}
-              />
-              <div style={dialog.details.date.style}>
-                {this.getFormattedDate(this.state.openedNotification.date)}
-              </div>
-            </div>
-            <CardText style={dialog.details.message.style}>
-              <FormattedMessage id="user.menu.notification.details.message" />
-              :
-              <br />
-              <pre>
-                {this.state.openedNotification.message}
-              </pre>
-            </CardText>
+            <NotificationDetailComponent notification={this.state.openedNotification} />
           </div>
         </div>
         <CardActions style={dialog.details.actions.style}>

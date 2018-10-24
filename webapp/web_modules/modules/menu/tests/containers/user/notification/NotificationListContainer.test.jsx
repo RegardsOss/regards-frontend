@@ -20,9 +20,9 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ShowableAtRender } from '@regardsoss/display-control'
-import NotificationListComponent from '../../../src/components/user/NotificationListComponent'
-import { NotificationListContainer } from '../../../src/containers/user/NotificationListContainer'
-import styles from '../../../src/styles/styles'
+import NotificationListComponent from '../../../../src/components/user/notification/NotificationListComponent'
+import { NotificationListContainer } from '../../../../src/containers/user/notification/NotificationListContainer'
+import styles from '../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 

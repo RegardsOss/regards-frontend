@@ -25,7 +25,7 @@ import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { ShowableAtRender } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import NotificationListComponent from '../../components/user/NotificationListComponent'
+import NotificationListComponent from '../../../components/user/notification/NotificationListComponent'
 import {
   notificationPollerActions,
   notificationPollerInstanceActions,
@@ -36,11 +36,11 @@ import {
   notificationReadPollerActions,
   notificationReadPollerInstanceActions,
   notificationReadPollerSelectors,
-} from '../../clients/NotificationClient'
+} from '../../../clients/NotificationClient'
 import {
   readNotificationActions,
   readNotificationInstanceActions,
-} from '../../clients/ReadNotificationClient'
+} from '../../../clients/ReadNotificationClient'
 
 /**
  * Notification list container, shows the number of unread notifications.

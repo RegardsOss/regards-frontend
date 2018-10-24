@@ -204,6 +204,13 @@ const menuStyles = theme => ({
         top: theme.spacing.iconSize / 2,
       },
     },
+    levelIcon: {
+      color: '#ffffff',
+      infoColor: '#2196F3',
+      errorColor: '#FF9800',
+      fatalColor: '#f44336',
+      warningColor: '#f9a825',
+    },
     list: {
       readItem: {
         style: {
@@ -218,6 +225,11 @@ const menuStyles = theme => ({
           width: '100%',
           height: '100%',
           backgroundColor: '#303030',
+        },
+        iconStyle: {
+          position: 'absolute',
+          top: '14px',
+          left: '16px',
         },
         primaryText: {
           display: 'flex',
@@ -248,13 +260,6 @@ const menuStyles = theme => ({
           display: 'flex',
           alignItems: 'center',
         },
-      },
-      icons: {
-        color: '#ffffff',
-        infoColor: '#2196F3',
-        errorColor: '#FF9800',
-        fatalColor: '#f44336',
-        warningColor: '#f9a825',
       },
       divider: {
         style: {
@@ -299,6 +304,8 @@ const menuStyles = theme => ({
         },
         message: {
           style: {
+            flexGrow: 1,
+            flexShrink: 1,
             wordBreak: 'break-all',
             hyphens: 'auto',
             textAlign: 'justify',
@@ -323,7 +330,7 @@ const menuStyles = theme => ({
     },
     notificationSystem: {
       message: {
-        style: {
+        rootStyle: {
           paddingTop: 10,
           paddingBottom: 10,
           minHeight: 40,
@@ -331,21 +338,38 @@ const menuStyles = theme => ({
           cursor: 'pointer',
           display: 'flex',
         },
-        titleStyle: {
-          fontWeight: 'bold',
-          marginBottom: 3,
-          maxWidth: 165,
-        },
-        messageStyle: {
-          wordBreak: 'break-all',
-          hyphens: 'auto',
-          textAlign: 'justify',
+        containerStyle: {
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flexStart',
+          alignItems: 'stretch',
+          flexGrow: 1,
+          flexShrink: 1,
+          paddingLeft: 10,
+          minWidth: 0,
         },
         dateStyle: {
-          position: 'absolute',
-          top: 7,
-          right: 7,
-          fontSize: '0.8en',
+          marginTop: -9,
+          marginRight: -9,
+          alignSelf: 'flex-end',
+          fontSize: '0.8em',
+        },
+        titleStyle: {
+          marginBottom: 5,
+          fontWeight: 'bold',
+          overflow: 'hidden',
+          wordWrap: 'break-word',
+          lineHeight: '1em',
+          maxHeight: '2em',
+          textOverflow: 'ellipsis',
+        },
+        messageStyle: {
+          lineHeight: '1em',
+          maxHeight: '4em',
+          overflow: 'hidden',
+          wordWrap: 'break-word',
+          minWidth: 0,
+          textOverflow: 'ellipsis',
         },
       },
       style: {

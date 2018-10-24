@@ -25,33 +25,14 @@ import { List } from 'material-ui/List'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ShowableAtRender, PositionedDialog, PageableInfiniteTableContainer } from '@regardsoss/components'
 import { AdminClient } from '@regardsoss/client'
-import NotificationListComponent from '../../../src/components/user/NotificationListComponent'
-import styles from '../../../src/styles/styles'
+import NotificationListComponent from '../../../../src/components/user/notification/NotificationListComponent'
+import styles from '../../../../src/styles/styles'
+import { generateNotification } from '../../../dumps/notification.dump'
 
 const context = buildTestContext(styles)
 const namespacePoller = 'menu/notification'
 const notificationPollerActions = new AdminClient.NotificationActions(namespacePoller)
 const notificationPollerSelectors = AdminClient.getNotificationSelectors(['modules.menu', 'notificationPoller'])
-
-const generateNotification = (status, id) => ({
-  date: '2018-01-03T14:05:13.419Z',
-  id,
-  message: 'message',
-  projectUserRecipients: [],
-  roleRecipients: [
-    {
-      id: 4,
-      name: 'PROJECT_ADMIN',
-      authorizedAddresses: [],
-      isDefault: false,
-      isNative: true,
-    },
-  ],
-  sender: 'microservice',
-  status,
-  type: 'INFO',
-  title: 'Title',
-})
 
 /**
  * Test NotificationListComponent
