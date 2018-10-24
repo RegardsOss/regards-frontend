@@ -19,13 +19,6 @@
 import { DataManagementClient } from '@regardsoss/client'
 
 // default user app client
-const attributeModelActions = new DataManagementClient.AttributeModelActions()
-const attributeModelReducer = DataManagementClient.AttributeModelReducer()
-const attributeModelSelectors = DataManagementClient.AttributeModelSelectors()
-
-
-module.exports = {
-  attributeModelActions,
-  attributeModelReducer,
-  attributeModelSelectors,
-}
+export const attributeModelActions = new DataManagementClient.AttributeModelActions()
+export const attributeModelReducer = DataManagementClient.AttributeModelReducer()
+export const attributeModelSelectors = DataManagementClient.AttributeModelSelectors()

@@ -19,12 +19,6 @@
 import { AccessProjectClient } from '@regardsoss/client'
 
 // get default instances (default values are configured for user app)
-const layoutActions = new AccessProjectClient.LayoutActions()
-const layoutReducer = AccessProjectClient.LayoutReducers()
-const layoutSelectors = AccessProjectClient.LayoutSelectors()
-
-module.exports = {
-  layoutActions,
-  layoutReducer,
-  layoutSelectors,
-}
+export const layoutActions = new AccessProjectClient.LayoutActions()
+export const layoutReducer = AccessProjectClient.LayoutReducers()
+export const layoutSelectors = AccessProjectClient.LayoutSelectors()
