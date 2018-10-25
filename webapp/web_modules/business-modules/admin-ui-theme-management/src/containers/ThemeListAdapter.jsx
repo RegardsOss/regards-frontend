@@ -71,12 +71,6 @@ export class ThemeListAdapter extends React.Component {
   handleEdit = themeId => browserHistory.push(`${this.getRootURL()}/ui/theme/${themeId}/edit`)
 
   /**
-   * Browse to edition form
-   * @param {*} themeId theme ID
-   */
-  handleEdit = themeId => browserHistory.push(`${this.getRootURL()}/ui/theme/${themeId}/edit`)
-
-  /**
    * Browse to duplicate form
    * @param {*} themeId theme ID
    */

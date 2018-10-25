@@ -49,7 +49,7 @@ class ActionIconWithNotifications extends React.Component {
     // render styles, as not provided by a dynamic module
     let usedIconStyle = iconStyle
     let usedBadgeStyle = badgeStyle
-    if (!usedIconStyle || !usedIconStyle) {
+    if (!usedIconStyle || !usedBadgeStyle) {
       // compute theme style
       const { actionIconWithNotifications: { badgeStyles: themeBadgeStyle, iconStyles: themeIconStyle } } = styles(this.context.muiTheme)
       // used theme style when not user specified

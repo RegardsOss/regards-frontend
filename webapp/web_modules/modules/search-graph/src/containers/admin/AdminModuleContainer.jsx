@@ -78,7 +78,7 @@ const mapStateToProps = state => ({
   // fetched collection models to provide the available graph levels
   collectionModels: CollectionModelSelectors.getList(state) || {},
   selectableAttributes: AttributeModelSelectors.getList(state),
-  hasError: AttributeModelSelectors.hasError(state) || AttributeModelSelectors.hasError(state),
+  hasError: AttributeModelSelectors.hasError(state) || CollectionModelSelectors.hasError(state),
 })
 
 const mapDispatchToProps = dispatch => ({
