@@ -1,81 +1,85 @@
-h1 {
+.html-notification h1 {
   font-size: 2em;
   margin: 0.67em 0;
 }
 
-hr {
+.html-notification hr {
   box-sizing: content-box; 
   height: 0; 
   overflow: visible;
 }
 
 
-b, strong {
+.html-notification b, strong {
   font-weight: bolder;
 }
 
-small {
+.html-notification small {
   font-size: 80%;
 }
 
-sub,
-sup {
+.html-notification sub,
+.html-notification sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
   vertical-align: baseline;
 }
 
-sub {
+.html-notification sub {
   bottom: -0.25em;
 }
 
-sup {
+.html-notification sup {
   top: -0.5em;
 }
 
-img {
+.html-notification img {
   border-style: none;
 }
 
-details {
+.html-notification details {
   display: block;
 }
 
-summary {
+.html-notification summary {
   display: list-item;
 }
 
-template {
+.html-notification template {
   display: none;
 }
 
-[hidden] {
+.html-notification [hidden] {
   display: none;
 }
 
-ul, ol {
+.html-notification ul, ol {
   margin-left: 1.5em;
 }
 
-li:first-child  {
+.html-notification li:first-child  {
   margin-top: 0.5em;
 }
 
-li {
+.html-notification li {
   margin-bottom: 0.5em;
 }
 
-table {
+.html-notification li:last-child {
+  margin-bottom: 1em;
+}
+
+.html-notification table {
   margin: 1em;
 }
 
-th, td {
+.html-notification th, td {
   padding: 0.5em;
 }
 
 
-thead {
+.html-notification thead {
   text-decoration: underline;
   font-weight: 500;
 }

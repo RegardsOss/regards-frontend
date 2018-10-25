@@ -62,7 +62,7 @@ class NotificationFloatingMessage extends React.Component {
               switch (notification.mimeType) {
                 case MIME_TYPES.HTML_MIME_TYPE:
                   // eslint-disable-next-line
-                  return <div dangerouslySetInnerHTML={{ __html:notification.message}} />
+                  return <div class="html-notification" dangerouslySetInnerHTML={{ __html:notification.message}} />
                 case MIME_TYPES.TEXT:
                 default:
                   return notification.message
