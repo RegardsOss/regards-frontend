@@ -147,7 +147,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
    */
   onScrollUpdate = throttle(() => {
     const bounds = this.node.getBoundingClientRect()
-    this.checkVisibility(bounds)
+    this.checkVisibility()
     this.checkInfiniteLoad(bounds)
   }, 100)
 
@@ -253,7 +253,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
           // only if it can slide right in there ;)
           return (
             nextSpannableColumnGapTop <= thisColumnGapTop
-              && nextSpannableColumnGapTop + nextSpannableColumnGapHeight >= thisColumnGapTop + thisColumnGapHeight
+            && nextSpannableColumnGapTop + nextSpannableColumnGapHeight >= thisColumnGapTop + thisColumnGapHeight
           )
         }))
       })
