@@ -227,7 +227,7 @@ export function formatHintText(intl, attribute, boundType = BOUND_TYPE.ANY_BOUND
   }
 
   // 2 - Are attribute bounds in a common state?
-  const stateHintText = formatBoundsStateHint(intl, attribute, boundType)
+  const stateHintText = formatBoundsStateHint(intl, attribute)
   if (stateHintText) {
     // yes: return it as text
     return stateHintText
