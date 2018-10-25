@@ -19,12 +19,6 @@
 import { CatalogClient } from '@regardsoss/client'
 
 const namespace = 'search-form/attributes-bounds'
-const attributesBoundsActions = new CatalogClient.AttributesBoundsActions(namespace)
-const attributesBoundsReducer = CatalogClient.getAttributesBoundsReducer(namespace)
-const attributesBoundsSelectors = CatalogClient.getAttributesBoundsSelectors(['modules.search-form', 'attributesBounds'])
-
-module.exports = {
-  attributesBoundsActions,
-  attributesBoundsReducer,
-  attributesBoundsSelectors,
-}
+export const attributesBoundsActions = new CatalogClient.AttributesBoundsActions(namespace)
+export const attributesBoundsReducer = CatalogClient.getAttributesBoundsReducer(namespace)
+export const attributesBoundsSelectors = CatalogClient.getAttributesBoundsSelectors(['modules.search-form', 'attributesBounds'])
