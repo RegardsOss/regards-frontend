@@ -49,16 +49,8 @@ class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Compone
 
   static contextTypes = {
     ...i18nContextType,
-  }
-
-  static defaultProps = {}
-
-  static contextTypes = {
-    ...i18nContextType,
     ...themeContextType,
   }
-
-  static defaultProps = {}
 
   goToAllProductList = () => {
     const { project, entity: { content: { chain: { id } } } } = this.props
