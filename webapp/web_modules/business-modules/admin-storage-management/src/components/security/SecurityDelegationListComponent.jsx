@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
-import { Card, CardText, CardTitle } from 'material-ui/Card'
+import {
+  Card, CardText, CardTitle, CardActions,
+} from 'material-ui/Card'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import {
@@ -162,13 +164,15 @@ export class SecurityDelegationListComponent extends React.Component {
             />
           </TableLayout>
         </CardText>
-        <CardActionsComponent
-          mainButtonLabel={formatMessage({ id: 'storage.security-delegation.list.add.button' })}
-          mainButtonClick={onAddNewConf}
-          mainHateoasDependencies={SecurityDelegationListComponent.addDependencies}
-          secondaryButtonLabel={formatMessage({ id: 'storage.back.button' })}
-          secondaryButtonClick={onBack}
-        />
+        <CardActions>
+          <CardActionsComponent
+            mainButtonLabel={formatMessage({ id: 'storage.security-delegation.list.add.button' })}
+            mainButtonClick={onAddNewConf}
+            mainHateoasDependencies={SecurityDelegationListComponent.addDependencies}
+            secondaryButtonLabel={formatMessage({ id: 'storage.back.button' })}
+            secondaryButtonClick={onBack}
+          />
+        </CardActions>
       </Card>
     )
   }

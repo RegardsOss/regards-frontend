@@ -37,8 +37,8 @@ import IngestProcessingPluginTypes from './IngestProcessingPluginType'
 import messages from '../i18n'
 import styles from '../styles'
 
-const { required, validStringSize } = ValidationHelpers
-const validString50 = [required, validStringSize(1, 50)]
+const { required, validStringSize, validAlphaNumericUnderscore } = ValidationHelpers
+const validString50 = [required, validStringSize(1, 50), validAlphaNumericUnderscore]
 const validString128 = [validStringSize(0, 128)]
 
 /**
