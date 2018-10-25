@@ -24,7 +24,7 @@ const messages = Object.assign({
   'crawler.list.label.column.header': 'Libellé',
   'crawler.list.lastIngestDate.column.header': 'Date de l\'aspiration',
   'crawler.list.nextPlannedIngestDate.column.header': 'Prochaine aspiration',
-  'crawler.list.savedObjectsCount.column.header': 'Nombres d\'entités aspirées',
+  'crawler.list.savedObjectsCount.column.header': 'Entités aspirées',
   'crawler.list.status.column.header': 'Etat',
   'crawler.list.duration.column.header': 'Durée',
   'crawler.list.refresh.button': 'Rafraîchir',

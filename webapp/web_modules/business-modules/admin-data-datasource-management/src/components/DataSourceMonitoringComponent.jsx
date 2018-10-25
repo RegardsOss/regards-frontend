@@ -33,7 +33,8 @@ import {
 import messages from '../i18n'
 import DatasourceStatusTableCell from './DatasourceStatusTableCell'
 import DatasourceCountTableCell from './DatasourceCountTableCell'
-import DataSourceMonitoringOptionAction from './DataSourceMonitoringOptionAction'
+import DataSourceMonitoringDeleteOption from './DataSourceMonitoringDeleteOption'
+import DataSourceMonitoringScheduleAction from './DataSourceMonitoringScheduleAction'
 
 /**
 * DataSourceMonitoringComponent
@@ -205,8 +206,11 @@ class DataSourceMonitoringComponent extends React.Component {
         .label(intl.formatMessage({ id: 'crawler.list.nextPlannedIngestDate.column.header' }))
         .build(),
       new TableColumnBuilder().optionsColumn([{
-        OptionConstructor: DataSourceMonitoringOptionAction,
-        optionProps: { onDelete: this.onDelete, onSchedule: this.onSchedule },
+        OptionConstructor: DataSourceMonitoringScheduleAction,
+        optionProps: { onSchedule: this.onSchedule },
+      }, {
+        OptionConstructor: DataSourceMonitoringDeleteOption,
+        optionProps: { onDelete: this.onDelete },
       }]).build(),
     ]
 
