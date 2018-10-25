@@ -105,9 +105,9 @@ class PluginFormUtils {
         if (parameterMetadata.unconfigurable) {
           return ''
         }
-        let { defaultValue } = parameterMetadata
-        if (!isNil(defaultValue) && parameterMetadata.type === 'java.lang.Boolean') {
-          defaultValue = defaultValue === 'true'
+        let defaultValue = ''
+        if (parameterMetadata.type === 'java.lang.Boolean') {
+          defaultValue = parameterMetadata.defaultValue === 'true'
         }
         return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, defaultValue) : undefined
       }
