@@ -120,7 +120,7 @@ export class AutoRefreshPageableTableHOC extends React.Component {
           isFetching, pathParams, requestParams,
         } = this.props
         // A - When not already fetching, start fetching and restart timer after fetch finished
-        if (!isFetching) {
+        if (!isFetching && !this.stopRefreshing) {
           RefreshPageableTableOption.refreshTable(fetchEntities, pageSize, shouldRefetchAll,
             pageMetadata, pathParams, requestParams).then(this.onRefresh)
         } else {
