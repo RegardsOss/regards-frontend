@@ -112,9 +112,6 @@ class DatabaseConnectionTesterIconButton extends React.Component {
 
     let result = testButton
     switch (this.state.status) {
-      case EnumConnectivity.NOT_TESTED:
-        result = testButton
-        break
       case EnumConnectivity.PENDING:
         result = pendingProgress
         break
@@ -127,6 +124,7 @@ class DatabaseConnectionTesterIconButton extends React.Component {
       case EnumConnectivity.ERROR:
         result = errorButton
         break
+      case EnumConnectivity.NOT_TESTED:
       default:
         result = testButton
     }

@@ -68,13 +68,16 @@ export class ProjectConnectionsContainer extends React.Component {
     ...i18nContextType,
   }
 
-  state = {
-    // Set default mode to configureOneForAll OFF for Simple Form rendering
-    // Set default mode to configureOneForAll ON for Guided rendering
-    configureOneForAll: !(this.props.params.project_connection_id || this.props.params.microservice_name),
-    errorMessage: null,
-    projectConnectionsIsFetching: true,
-    projectIsFetching: true,
+  constructor(props) {
+    super(props)
+    this.state = {
+      // Set default mode to configureOneForAll OFF for Simple Form rendering
+      // Set default mode to configureOneForAll ON for Guided rendering
+      configureOneForAll: !(props.params.project_connection_id || props.params.microservice_name),
+      errorMessage: null,
+      projectConnectionsIsFetching: true,
+      projectIsFetching: true,
+    }
   }
 
   componentWillMount() {

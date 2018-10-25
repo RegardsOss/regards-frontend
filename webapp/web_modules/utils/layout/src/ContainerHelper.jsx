@@ -86,7 +86,7 @@ class ContainerHelper {
    */
   static getAvailableContainersInLayout(container, hideMainContainer) {
     let containers = []
-    if (container && container) {
+    if (container) {
       if (!hideMainContainer || container.type !== 'MainContainer') {
         containers.push(container)
       }
@@ -140,8 +140,7 @@ class ContainerHelper {
    */
   static removeContainerFromContainers(containerName, containers) {
     const newContainers = concat([], containers)
-    let i = 0
-    for (i = 0; i < containers.length; i += 1) {
+    for (let i = 0; i < containers.length; i += 1) {
       if (containers[i].id === containerName) {
         newContainers.splice(i, 1)
         break

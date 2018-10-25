@@ -61,13 +61,14 @@ class FormDatasetsConfigurationComponent extends React.Component {
     this.CONF_SELECTED_DATASETS = `${currentNamespace}.datasets.selectedDatasets`
     this.CONF_SELECTED_MODELS = `${currentNamespace}.datasets.selectedModels`
     this.CONF_TYPE = `${currentNamespace}.datasets.type`
+
+    this.state = {
+      type: this.props.defaultType ? this.props.defaultType : DatasetSelectionTypes.ALL_CATALOG_TYPE,
+      selectedDataset: this.props.defaultSelectedDatasets,
+      selectedDatasetModels: this.props.defaultSelectedDatasetModels,
+    }
   }
 
-  state = {
-    type: this.props.defaultType ? this.props.defaultType : DatasetSelectionTypes.ALL_CATALOG_TYPE,
-    selectedDataset: this.props.defaultSelectedDatasets,
-    selectedDatasetModels: this.props.defaultSelectedDatasetModels,
-  }
 
   onDatasetSelection = (dataset) => {
     const { changeField } = this.props

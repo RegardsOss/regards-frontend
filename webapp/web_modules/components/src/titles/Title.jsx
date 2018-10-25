@@ -35,7 +35,7 @@ class Title extends React.Component {
     const level = this.props.level ? this.props.level : 1
     const levelSize = level / 10
     const fontSize = 1 + (0.5 - levelSize)
-    let color = this.context.muiTheme.palette.textColor
+    let color
     switch (this.props.level) {
       case 0:
       case 1:
