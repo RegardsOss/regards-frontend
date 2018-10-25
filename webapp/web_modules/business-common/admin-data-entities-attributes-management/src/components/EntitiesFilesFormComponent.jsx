@@ -327,7 +327,7 @@ export class EntitiesFilesFormComponent extends React.Component {
         primaryText={file.filename}
         rightIconButton={
           <div>
-            <a href={this.getDocumentUrlWithToken(file)} target="_blank" rel="noopener noreferrer">
+            <a download="download" href={this.getDocumentUrlWithToken(file)} target="_blank" rel="noopener noreferrer">
               <Download />
             </a>
             <IconButton onClick={() => this.props.handleDeleteFile(this.state.type, file)}>
