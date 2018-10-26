@@ -48,10 +48,10 @@ const messages = Object.assign({
 
   'storage.plugins.storage.form.create.title': 'Add new storage system',
   'storage.plugins.storage.form.edit.title': 'Edit storage system "{name}"',
-  'storage.plugins.storage.form.create.subtitle': 'First you have to select a storage type. When its done, you have to configure the needed parameters.',
+  'storage.plugins.storage.form.create.subtitle': 'First you have to select a storage mode. When its done, you have to configure the needed parameters.',
   'storage.plugins.storage.form.edit.subtitle': 'Please configure the storage parameters.',
-  'storage.plugins.storage.form.type.select.title': 'Storage type',
-  'storage.plugins.storage.form.type.select.label': 'Select a type ...',
+  'storage.plugins.storage.form.type.select.title': 'Storage mode',
+  'storage.plugins.storage.form.type.select.label': 'Select a mode ...',
   'storage.plugins.storage.form.invalid.id': 'Storage configuration selected does not exists anymore.',
   'storage.plugins.storage.form.back.button': 'Cancel',
 
