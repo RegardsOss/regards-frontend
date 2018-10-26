@@ -114,21 +114,21 @@ export class SIPSessionListContainer extends React.Component {
     }
   }
 
-  onRetrySessionSubmission = (session, filters) => {
+  onRetrySessionSubmission = (session, filters) => (
     Promise.resolve(this.props.retrySessionSubmission(session)).then((results) => {
       if (!results.error) {
         this.onRefresh(filters)
       }
     })
-  }
+  )
 
-  onRetrySessionGeneration = (session, filters) => {
+  onRetrySessionGeneration = (session, filters) => (
     Promise.resolve(this.props.retrySessionGeneration(session)).then((results) => {
       if (!results.error) {
         this.onRefresh(filters)
       }
     })
-  }
+  )
 
   render() {
     const {

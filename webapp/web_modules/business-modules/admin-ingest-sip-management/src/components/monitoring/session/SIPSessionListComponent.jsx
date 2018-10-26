@@ -113,9 +113,19 @@ class SIPSessionListComponent extends React.Component {
 
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
 
-  handleRetrySubmission = () => this.props.retrySessionSubmission(this.state.sessionToRetry.content, this.state.appliedFilters)
+  handleRetrySubmission = () => {
+    this.props.retrySessionSubmission(this.state.sessionToRetry.content, this.state.appliedFilters)
+      .then(() => {
+        this.closeRetryDialog()
+      })
+  }
 
-  handleRetryGeneration = () => this.props.retrySessionGeneration(this.state.sessionToRetry.content, this.state.appliedFilters)
+  handleRetryGeneration = () => {
+    this.props.retrySessionGeneration(this.state.sessionToRetry.content, this.state.appliedFilters)
+      .then(() => {
+        this.closeRetryDialog()
+      })
+  }
 
   closeDeleteDialog = () => {
     this.setState({
@@ -259,14 +269,21 @@ class SIPSessionListComponent extends React.Component {
     if (this.state.sessionToRetry) {
       let submission = false
       let generation = false
-      const actions = []
-
+      const actions = [
+        <FlatButton
+          key="cancel"
+          label={this.context.intl.formatMessage({ id: 'sips.session.retry.cancel' })}
+          primary
+          keyboardFocused
+          onClick={this.closeRetryDialog}
+        />,
+      ]
       if (!isNil(find(this.state.sessionToRetry.links, { rel: 'retrySubmission' }))) {
         actions.push(
           <FlatButton
             key="retrySubmission"
             label={this.context.intl.formatMessage({ id: 'sips.session.retry.submission.button' })}
-            onClick={() => this.handleRetrySubmission()}
+            onClick={this.handleRetrySubmission}
           />,
         )
         submission = true
@@ -277,7 +294,7 @@ class SIPSessionListComponent extends React.Component {
           <FlatButton
             key="retryGeneration"
             label={this.context.intl.formatMessage({ id: 'sips.session.retry.generation.button' })}
-            onClick={() => this.handleRetryGeneration()}
+            onClick={this.handleRetryGeneration}
           />,
         )
         generation = true
@@ -290,15 +307,6 @@ class SIPSessionListComponent extends React.Component {
         this.context.intl.formatMessage({ id: 'sips.session.retry.submission.message' })
       }
 
-      actions.push(
-        <FlatButton
-          key="cancel"
-          label={this.context.intl.formatMessage({ id: 'sips.session.retry.cancel' })}
-          primary
-          keyboardFocused
-          onClick={this.closeRetryDialog}
-        />,
-      )
       return (
         <Dialog
           title={this.context.intl.formatMessage({ id: 'sips.session.retry.title' }, { id: this.state.sessionToRetry.content.id })}
