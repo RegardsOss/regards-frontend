@@ -261,7 +261,7 @@ class SIPSessionListComponent extends React.Component {
       let generation = false
       const actions = []
 
-      if (!isNil(find(this.state.sessionToRetry.i18nContextTypelinks, { rel: 'retrySubmission' }))) {
+      if (!isNil(find(this.state.sessionToRetry.links, { rel: 'retrySubmission' }))) {
         actions.push(
           <FlatButton
             key="retrySubmission"
@@ -272,7 +272,7 @@ class SIPSessionListComponent extends React.Component {
         submission = true
       }
 
-      if (!isNil(find(this.state.sessionToRetry.i18nContextTypelinks, { rel: 'retryGeneration' }))) {
+      if (!isNil(find(this.state.sessionToRetry.links, { rel: 'retryGeneration' }))) {
         actions.push(
           <FlatButton
             key="retryGeneration"
