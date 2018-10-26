@@ -18,11 +18,9 @@
  **/
 import find from 'lodash/find'
 import Delete from 'material-ui/svg-icons/action/delete'
-import Schedule from 'material-ui/svg-icons/action/schedule'
 import IconButton from 'material-ui/IconButton'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { DamDomain } from '@regardsoss/domain'
 
 /**
 * Delete table action for datasourceIngestions
