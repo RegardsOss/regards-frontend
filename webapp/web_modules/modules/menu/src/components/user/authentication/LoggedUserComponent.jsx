@@ -18,7 +18,7 @@
  **/
 import React from 'react'
 import map from 'lodash/map'
-import isEmpty from 'lodash/isEmpty'
+import keys from 'lodash/keys'
 import MenuItem from 'material-ui/MenuItem'
 import Divider from 'material-ui/Divider'
 import LoginIcon from 'material-ui/svg-icons/action/account-circle'
@@ -61,7 +61,7 @@ class LoggedUserComponent extends React.Component {
     const {
       name, currentRole, borrowableRoles, onBorrowRole, onLogout, showProfileEdition, onShowProfileEdition,
     } = this.props
-    const showBorrowableRoles = !isEmpty(borrowableRoles)
+    const showBorrowableRoles = keys(borrowableRoles).length > 1 // at least 2 roles, otherwise, there is only the current role
     const hasMoreOption = showProfileEdition || showBorrowableRoles
 
     const ActionExit = <ActionExitToApp />
