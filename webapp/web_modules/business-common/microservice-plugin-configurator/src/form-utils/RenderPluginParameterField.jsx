@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
 import isEqual from 'lodash/isEqual'
 import includes from 'lodash/includes'
 import { CommonShapes } from '@regardsoss/shape'
@@ -363,6 +364,10 @@ export class RenderPluginParameterField extends React.PureComponent {
 
     let label = pluginParameterType.label || pluginParameterType.name
     const validators = []
+    if (!isNil(pluginParameterType.defaultValue)) {
+      label += ` (default: ${pluginParameterType.defaultValue})`
+    }
+
     if (pluginParameterType && !pluginParameterType.optional && !pluginParameterType.defaultValue) {
       label += ' (*)'
       switch (pluginParameterType.paramType) {
