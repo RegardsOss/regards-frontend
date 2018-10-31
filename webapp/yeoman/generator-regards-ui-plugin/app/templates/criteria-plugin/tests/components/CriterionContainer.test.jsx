@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SampleCriteria } from '../../src/components/SampleCriteria'
+import { SampleCriteria } from '../../src/containers/CriterionContainer'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -29,7 +29,7 @@ const context = buildTestContext(styles)
  *
  * @author Xavier-Alexandre Brochard
  */
-describe('[<%= name %> criteria plugin] Testing SampleCriteria', () => {
+describe('[<%= name %>] Testing CriterionContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
   it('should exists', () => {

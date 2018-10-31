@@ -20,22 +20,23 @@
 /**
  * Styles for plugin
  * @param theme Material UI theme, can be used to computed dynamic style values from current theme (automatically updated)
+ * @author <%= author %>
  */
-const pluginStyles = theme => ({
-  rootStyle: {
-    display: 'flex',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-  },
-  labelSpanStyle: {
-    margin: '0px 10px',
-  },
-  textFieldStyle: {
-    top: -13,
-    width: 180,
-    margin: '0px 10px',
-  },
-  buttonStyle: {},
-})
-
-export default pluginStyles
+export default function buildCriterionStyles(theme) {
+  return {
+    rootStyle: {
+      display: 'flex',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      minHeight: theme.criterion.minHeight,
+    },
+    labelSpanStyle: {
+      margin: '0px 10px',
+    },
+    textFieldStyle: {
+      top: -18,
+      width: 180,
+      margin: '0px 10px',
+    },
+  }
+}

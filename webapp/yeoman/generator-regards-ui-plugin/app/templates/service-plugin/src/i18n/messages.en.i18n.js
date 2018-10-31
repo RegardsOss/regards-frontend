@@ -18,9 +18,9 @@
  **/
 
 /**
- * i18n messages english language
- * @type {*}
+ * i18n messages for English language
+ * @author <%= author %>
  */
-const messages = {}
-
-export default messages
+export default {
+  // TODO FR messages or delete file
+}

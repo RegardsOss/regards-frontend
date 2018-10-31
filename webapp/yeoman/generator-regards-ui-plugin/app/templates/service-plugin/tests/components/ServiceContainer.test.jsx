@@ -18,18 +18,27 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { SampleService } from '../../src/containers/SampleService'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { ServiceContainer } from '../../src/containers/ServiceContainer'
+import styles from '../../src/styles/styles'
+
+const context = buildTestContext(styles)
 
 /**
- * Test case for {@link StringCriteriaComponent}
+ * Test case for {@link ServiceContainer}
  *
- * @author Xavier-Alexandre Brochard
+ * @author <%= author %>
  */
-describe('[PLUGIN SampleService CRITERIA] Testing the service component', () => {
+describe('[<%= name %>] Testing ServiceContainer', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
   it('should exists', () => {
-    assert.isDefined(SampleService)
+    assert.isDefined(ServiceContainer)
   })
   it('should render self and sub components', () => {
-    shallow(<SampleService />)
+    const props = {
+      // component props
+    }
+    shallow(<ServiceContainer {...props} />, { context })
   })
 })

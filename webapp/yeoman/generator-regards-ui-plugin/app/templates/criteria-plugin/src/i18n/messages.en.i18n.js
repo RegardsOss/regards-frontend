@@ -18,11 +18,9 @@
  **/
 
 /**
- * i18n messages english language
- * @type {*}
+ * i18n messages for English language
+ * @author <%= author %>
  */
-const messages = {
-  'criterion.search.field.label': 'Search field ...',
+export default {
+  // TODO messages or delete file
 }
-
-export default messages
