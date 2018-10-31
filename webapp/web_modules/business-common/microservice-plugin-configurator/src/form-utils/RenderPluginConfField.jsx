@@ -65,20 +65,22 @@ export class RenderPluginConfField extends React.PureComponent {
     ...i18nContextType,
   }
 
-  // XXX : count to save the number of indexed parameters in the pluginConfiguration.
-  parameterIndex = 0
+  // Sorry ... Used to compute redux form field index for unset parameter's values
+  // All new parameter's values are set in first empty redux form slot
+  // All existing parameter's values are already set in their redux form slot by form initialization
+  numberOfParamsConfigured = 0
 
   getFormFieldName = fieldName => `${this.props.input.name}.${fieldName}`
 
-  getFormParameterName = (name, idx) => {
+  getFormParameterName = (name) => {
     const { input } = this.props
     const parameters = get(input.value, 'parameters', [])
     let index = findIndex(parameters, ['name', name])
     if (index < 0) {
       // Parameter is not in the already configured ones. Add it
-      index = this.parameterIndex
+      index = this.numberOfParamsConfigured
+      this.numberOfParamsConfigured += 1
     }
-    this.parameterIndex += 1
     return this.getFormFieldName(`parameters.${index}`)
   }
 
@@ -186,15 +188,18 @@ export class RenderPluginConfField extends React.PureComponent {
   }
 
   renderParameters = () => {
-    const { pluginMetaData, hideDynamicParameterConf, disabled } = this.props
+    const {
+      pluginMetaData, hideDynamicParameterConf, disabled, input: { value },
+    } = this.props
     const { moduleTheme: { pluginParameter: { parameterPaper } }, intl: { formatMessage } } = this.context
     const parameters = get(pluginMetaData, 'parameters', [])
-    this.parameterIndex = 0
     if (parameters.length === 0) {
       return formatMessage({
         id: 'plugin.configuration.form.no.parameters',
       })
     }
+    const configuredParameters = get(value, 'parameters', [])
+    this.numberOfParamsConfigured = configuredParameters.length
     return (
       <div>
         {parameters.map((pluginParameterType, index) => pluginParameterType.unconfigurable ? null : (
