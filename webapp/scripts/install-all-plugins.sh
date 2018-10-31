@@ -33,6 +33,10 @@ echo "------------------------------------------------"
 
 buildFolders=('criterion' 'service')
 
+# Store pid, when npm install, in this list
+pids=()
+i=0
+
 # 3 - For each plugin folder in build folders, build each folder with each build command
 for rootFolder in "${buildFolders[@]}"; do
   echo ""
@@ -59,7 +63,11 @@ for rootFolder in "${buildFolders[@]}"; do
             rm -rf "node_modules/@regardsoss"
           fi
           pwd
-          npm install --prefer-offline
+          # Run npm install async
+          npm install --prefer-offline &
+          # Save async task pid
+          pids[${i}]=$!
+          ((i+=1))
           cd ${home}
       fi
     fi
@@ -67,3 +75,7 @@ for rootFolder in "${buildFolders[@]}"; do
 done
 
 
+# wait for all pids
+for pid in ${pids[*]}; do
+    wait $pid
+done 
