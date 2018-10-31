@@ -16,13 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { dependencies as resultsDependencies } from '@regardsoss-modules/search-results'
-
+import fetchGraphCollectionsActions from './model/graph/FetchGraphCollectionsActions'
+import fetchGraphDatasetsActions from './model/graph/FetchGraphDatasetsActions'
 
 /**
  * User module dependencies, not exported but used internally to let the module show dependencies / authentication messages
  * @author Raphaël Mechali
  */
 export const dependencies = [
+  fetchGraphCollectionsActions.getDependency(RequestVerbEnum.GET_LIST),
+  fetchGraphDatasetsActions.getDependency(RequestVerbEnum.GET_LIST),
   ...resultsDependencies.user,
 ]
