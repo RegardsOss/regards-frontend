@@ -21,11 +21,12 @@ import { themeContextType } from '@regardsoss/theme'
 import { SelectLocaleContainer } from '@regardsoss/i18n-ui'
 import { SelectThemeContainer } from '@regardsoss/theme-ui'
 import { UIDomain } from '@regardsoss/domain'
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, AdminShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/components'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
-import AuthenticationMenuContainer from '../../containers/user/AuthenticationMenuContainer'
-import NotificationListContainer from '../../containers/user/NotificationListContainer'
+import AuthenticationContainer from '../../containers/user/authentication/AuthenticationContainer'
+import NotificationListContainer from '../../containers/user/notification/NotificationListContainer'
 import CartSelectorContainer from '../../containers/user/CartSelectorContainer'
 import ProjectAboutPageLinkContainer from '../../containers/user/ProjectAboutPageLinkContainer'
 import NavigationMenuContainer from '../../containers/user/navigation/NavigationMenuContainer'
@@ -33,14 +34,20 @@ import AppTitleComponent from './title/AppTitleComponent'
 import ContactComponent from './ContactComponent'
 import MenuSeparator from './MenuSeparator'
 
+const NotificationListContainerWithResource = withResourceDisplayControl(NotificationListContainer)
 /**
 * Main menu module component
 * @author Raphaël Mechali
 */
 class MainMenuComponent extends React.Component {
   static propTypes = {
-    // provided by root container
     currentModuleId: PropTypes.number,
+    authenticationName: PropTypes.string,
+    currentRole: PropTypes.string,
+    borrowableRoles: AdminShapes.RoleList.isRequired,
+    roleList: AdminShapes.RoleList.isRequired,
+    isInstance: PropTypes.bool.isRequired,
+
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
     // redefines expected configuration shape
@@ -58,6 +65,11 @@ class MainMenuComponent extends React.Component {
       appName,
       project,
       currentModuleId,
+      authenticationName,
+      currentRole,
+      borrowableRoles,
+      roleList,
+      isInstance,
       moduleConf: {
         displayMode = UIDomain.MENU_DISPLAY_MODES_ENUM.USER, // defaults to user display for standard module case
         displayAuthentication,
@@ -75,14 +87,16 @@ class MainMenuComponent extends React.Component {
     return (
       <div style={rootStyle}>
         {
-          displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.USER ||
-            displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW ? [
+          displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.USER
+            || displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW ? [
               /* navigation component in user and preview modes mode (separator after) */
               <NavigationMenuContainer
                 key="navigation.container"
                 displayMode={displayMode}
                 currentModuleId={currentModuleId}
                 project={project}
+                currentRole={currentRole}
+                roleList={roleList}
                 homeConfiguration={home}
                 navigationConfiguration={navigation}
               />,
@@ -97,10 +111,22 @@ class MainMenuComponent extends React.Component {
         {/* Right options */}
         <div style={optionsGroup}>
           {/* Authentication access, state and options */}
-          <AuthenticationMenuContainer display={displayAuthentication} appName={appName} project={project} />
+          <ShowableAtRender show={displayAuthentication}>
+            <AuthenticationContainer
+              appName={appName}
+              project={project}
+              authenticationName={authenticationName}
+              currentRole={currentRole}
+              borrowableRoles={borrowableRoles}
+              isInstance={isInstance}
+            />
+          </ShowableAtRender>
           {/* Notifications */}
           <ShowableAtRender show={displayNotificationsSelector}>
-            <NotificationListContainer project={project} />
+            <NotificationListContainerWithResource
+              resourceDependencies={NotificationListContainer.requiredDependencies}
+              project={project}
+            />
           </ShowableAtRender>
           {/* User cart stateful link */}
           <ShowableAtRender show={!!displayCartSelector}>
@@ -109,17 +135,22 @@ class MainMenuComponent extends React.Component {
           {/* Contact project team */}
           <ContactComponent contacts={contacts} />
           {/* About project if any (display should be in container) */}
-          <ProjectAboutPageLinkContainer projectAboutPage={projectAboutPage} appName={appName} project={project} />
+          <ProjectAboutPageLinkContainer
+            projectAboutPage={projectAboutPage}
+            appName={appName}
+            project={project}
+            displayMode={displayMode}
+          />
           {/* UI Options: theme  */}
-          <ShowableAtRender show={displayThemeSelector} >
+          <ShowableAtRender show={displayThemeSelector}>
             <SelectThemeContainer />
           </ShowableAtRender>
           {/* UI Options: locale  */}
-          <ShowableAtRender show={displayLocaleSelector} >
+          <ShowableAtRender show={displayLocaleSelector}>
             <SelectLocaleContainer />
           </ShowableAtRender>
         </div>
-      </div >
+      </div>
     )
   }
 }

@@ -24,11 +24,11 @@ import { AccessShapes } from '@regardsoss/shape'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 
 // Cheat, you should not do this but decorate components
-const Div = ({ children }) => <div>{children}</div>
-Div.propTypes = {
+const RenderChildren = ({ children }) => children
+RenderChildren.propTypes = {
   children: PropTypes.element,
 }
-const WithResourceDisplayControl = withResourceDisplayControl(Div)
+const WithResourcesHOC = withResourceDisplayControl(RenderChildren)
 
 /**
  * React Component to display a module.
@@ -128,7 +128,6 @@ class LazyModuleComponent extends React.Component {
 
   /**
    * Render module if loaded or a loading message if not.
-   * @returns {XML}
    */
   render() {
     const { isLoaded, module } = this.state
@@ -160,7 +159,7 @@ class LazyModuleComponent extends React.Component {
       return (
         <I18nProvider messages={moduleMessages}>
           <ModuleStyleProvider module={module}>
-            <WithResourceDisplayControl
+            <WithResourcesHOC
               resourceDependencies={moduleDependencies}
             >
               <ModuleContainer
@@ -170,7 +169,7 @@ class LazyModuleComponent extends React.Component {
                 moduleConf={this.props.module.conf}
                 {...this.props.module}
               />
-            </WithResourceDisplayControl>
+            </WithResourcesHOC>
           </ModuleStyleProvider>
         </I18nProvider>
       )

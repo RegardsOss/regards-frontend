@@ -39,50 +39,45 @@ describe('[Storage Monitoring] Testing ModuleComponent', () => {
     assert.isDefined(ModuleComponent)
   })
 
-  const commonProps = {
-    appName: 'x',
-    project: 'y',
-    type: 'any',
-  }
-
-  const testCases = [{
-    label: 'expandable and expanded',
-    props: {
-      ...commonProps,
+  it('should render correctly in user app', () => {
+    const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      userApp: true,
       scale: storage.StorageUnitScale.bitsScale,
       expandable: true,
       expanded: true,
       onUnitScaleChanged: () => { },
-    },
-  }, {
-    label: 'not expandable and collapsed',
-    props: {
-      ...commonProps,
-      scale: storage.StorageUnitScale.bytesSIPrefixScale,
-      expandable: false,
-      expanded: false,
+    }
+    const enzymeWrapper = shallow(<ModuleComponent {...props} />, { context })
+    // module display HOC
+    const moduleDisplayWrapper = enzymeWrapper.find(DynamicModulePane)
+    assert.lengthOf(moduleDisplayWrapper, 1, 'There should be a module display component')
+    testSuiteHelpers.assertWrapperProperties(moduleDisplayWrapper, {
+      expandable: props.expandable,
+      expanded: props.expanded,
+      onExpandChange: props.onExpandChange,
+    }, 'Properties and callbacks should be correctly reported to display component')
+    // sub container
+    const subcontainerWrapper = enzymeWrapper.find(StorageMonitoringContainer)
+    assert.lengthOf(subcontainerWrapper, 1, 'Sub container should be shown within module display HOC')
+    testSuiteHelpers.assertWrapperProperties(subcontainerWrapper, {
+      scale: props.scale,
+    }, 'Sub container properties should be correctly reported')
+    // scale selector: cannot be tested easily as it is nested within the display module HOC
+  })
+  it('should render correctly in admin app', () => {
+    const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      userApp: false,
+      scale: storage.StorageUnitScale.bitsScale,
+      expandable: true,
+      expanded: true,
       onUnitScaleChanged: () => { },
-    },
-  }]
-
-  testCases.forEach(({ label, props }) => {
-    it(`should render correctly when ${label}`, () => {
-      const enzymeWrapper = shallow(<ModuleComponent {...props} />, { context })
-      // module display HOC
-      const moduleDisplayWrapper = enzymeWrapper.find(DynamicModulePane)
-      assert.lengthOf(moduleDisplayWrapper, 1, 'There should be a module display component')
-      testSuiteHelpers.assertWrapperProperties(moduleDisplayWrapper, {
-        expandable: props.expandable,
-        expanded: props.expanded,
-        onExpandChange: props.onExpandChange,
-      }, 'Properties and callbacks should be correctly reported to display component')
-      // sub container
-      const subcontainerWrapper = enzymeWrapper.find(StorageMonitoringContainer)
-      assert.lengthOf(subcontainerWrapper, 1, 'Sub container should be shown within module display HOC')
-      testSuiteHelpers.assertWrapperProperties(subcontainerWrapper, {
-        scale: props.scale,
-      }, 'Sub container properties should be correctly reported')
-      // scale selector: cannot be tested easily as it is nested within the display module HOC
-    })
+    }
+    shallow(<ModuleComponent {...props} />, { context })
   })
 })

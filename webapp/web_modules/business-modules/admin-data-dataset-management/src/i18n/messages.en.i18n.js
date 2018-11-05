@@ -28,7 +28,16 @@ const messages = Object.assign({
   'dataset.list.table.model': 'Model',
   'dataset.list.tooltip.edit': 'Edit',
   'dataset.list.tooltip.delete': 'Delete',
+  'dataset.list.tooltip.info.button': 'Details',
+  'dataset.list.tooltip.copy.button': 'Copy reference to clipboard',
   'dataset.list.delete.title': 'Delete the dataset {name} ?',
+
+  'dataset.info.urn.label': 'Unique reference (ipId) : ',
+  'dataset.info.creationdate.label': 'Creation date : ',
+  'dataset.info.datamodel.label': 'Data model : ',
+  'dataset.info.model.label': 'Dataset model : ',
+  'dataset.info.close': 'Close',
+  'dataset.info.title': 'Information about dataset {name}',
 
   'dataset.form.links.subtitle': 'Dataset are linked to collections and tags in order to simplify the research',
   'dataset.form.links.title': 'Edit dataset links',
@@ -58,6 +67,11 @@ const messages = Object.assign({
   'dataset.form.uiservices.services': 'Services UI',
   'dataset.form.uiservices.latestVersion': 'latest',
 
+  'dataset.form.files.action.cancel': 'Back',
+  'dataset.form.files.action.next': 'Next',
+  'dataset.form.files.subtitle': 'Add one or more description file(s) to the dataset to explain its content. Three file formats are allowed : HTML, PDF and Markdown.',
+  'dataset.form.files.title': 'Manage files associated with the dataset',
+
 
   'dataset.form.subsetting.subtitle': 'Setup subsetting',
   'dataset.form.subsetting.attributes': 'Attribute from object model',
@@ -69,7 +83,7 @@ const messages = Object.assign({
   'dataset.form.action.next': 'Next',
   'dataset.form.action.cancel': 'Cancel',
   'dataset.form.model': 'Dataset model (*)',
-  'dataset.form.sipId': 'Supplier identifier (sipId)',
+  'dataset.form.providerId': 'Supplier identifier',
   'dataset.form.label': 'Label (*)',
   'dataset.form.geometry': 'Geometry',
   'dataset.form.descriptionUrl': 'Page URL describing the dataset',
@@ -102,6 +116,7 @@ const messages = Object.assign({
 
   'dataset.stepper.links': 'Edit links',
   'dataset.stepper.attributes': 'Attributes',
+  'dataset.stepper.files': 'Associated files',
   'dataset.stepper.subsetting': 'Subsetting',
   'dataset.stepper.plugins': 'Plugins',
   'dataset.stepper.uiServices': 'UI services',

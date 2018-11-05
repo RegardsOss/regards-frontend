@@ -30,14 +30,14 @@ import CubicBezier from './CubicBezier'
  * Elements quickly accelerate and slowly decelerate between on-screen locations.
  * It applies to growing and shrinking material, among other property changes.
  */
-const standardCurve = CubicBezier.config(0.4, 0.0, 0.2, 1)
+export const standardCurve = CubicBezier.config(0.4, 0.0, 0.2, 1)
 
 /**
  * Using the deceleration curve (also referred to as “ease out”) elements enter the screen at full velocity and slowly decelerate to a resting point.
  * During deceleration, elements may scale up either in size (to 100%) or opacity (to 100%).
  * In some cases, when elements enter the screen at 0% opacity, they may slightly shrink from a larger size upon entry.
  */
-const decelerationCurve = CubicBezier.config(0.0, 0.0, 0.2, 1)
+export const decelerationCurve = CubicBezier.config(0.0, 0.0, 0.2, 1)
 
 
 /**
@@ -46,7 +46,7 @@ const decelerationCurve = CubicBezier.config(0.0, 0.0, 0.2, 1)
  * They accelerate at the beginning of the animation and may scale down in either size (to 0%) or opacity (to 0%).
  * In some cases, when elements leave the screen at 0% opacity, they may also slightly scale up or down in size.
  */
-const accelerationCurve = CubicBezier.config(0.4, 0.0, 1, 1)
+export const accelerationCurve = CubicBezier.config(0.4, 0.0, 1, 1)
 
 /**
  * Using the sharp curve (also referred to as “ease in out”) elements quickly accelerate and decelerate.
@@ -55,12 +55,4 @@ const accelerationCurve = CubicBezier.config(0.4, 0.0, 1, 1)
  * The deceleration is faster than the standard curve since it doesn't follow an exact path to the off-screen point.
  * Elements may return from that point at any time.
  */
-const sharpCurve = CubicBezier.config(0.0, 0.0, 0.2, 1)
-
-module.exports = {
-  standardCurve, decelerationCurve, accelerationCurve, sharpCurve,
-}
-export { standardCurve }
-export { decelerationCurve }
-export { accelerationCurve }
-export { sharpCurve }
+export const sharpCurve = CubicBezier.config(0.0, 0.0, 0.2, 1)

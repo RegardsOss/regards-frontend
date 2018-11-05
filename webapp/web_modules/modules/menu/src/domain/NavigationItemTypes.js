@@ -17,6 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+/**
+ * Possible navigation item types
+ * @author Raphaël Mechali
+ */
+
 export const NAVIGATION_ITEM_TYPES_ENUM = {
   MODULE: 'MODULE',
   SECTION: 'SECTION',

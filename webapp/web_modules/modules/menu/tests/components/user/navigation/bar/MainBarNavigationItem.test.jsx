@@ -40,7 +40,6 @@ describe('[Menu] Testing MainBarNavigationItem', () => {
     const props = {
       item: fullConvertedNavigationModel[0],
       displayed: true,
-      locale: 'en',
       buildLinkURL: () => { },
       onItemResized: () => { },
     }
@@ -50,7 +49,6 @@ describe('[Menu] Testing MainBarNavigationItem', () => {
     const props = {
       item: fullConvertedNavigationModel[1],
       displayed: true,
-      locale: 'fr',
       buildLinkURL: () => { },
       onItemResized: () => { },
     }
@@ -60,7 +58,6 @@ describe('[Menu] Testing MainBarNavigationItem', () => {
     const props = {
       item: fullConvertedNavigationModel[1],
       displayed: false,
-      locale: 'en',
       buildLinkURL: () => { },
       onItemResized: () => { },
     }
@@ -71,7 +68,6 @@ describe('[Menu] Testing MainBarNavigationItem', () => {
     const props = {
       item: fullConvertedNavigationModel[1],
       displayed: true,
-      locale: 'en',
       buildLinkURL: () => { },
       onItemResized: (key, width) => {
         spiedResizeParams.key = key
@@ -88,7 +84,6 @@ describe('[Menu] Testing MainBarNavigationItem', () => {
     const props = {
       item: fullConvertedNavigationModel[1],
       displayed: false,
-      locale: 'en',
       buildLinkURL: () => { },
       onItemResized: (key, width) => {
         spiedResizeParams.key = key

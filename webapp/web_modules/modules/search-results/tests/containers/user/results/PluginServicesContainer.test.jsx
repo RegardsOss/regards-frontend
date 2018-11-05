@@ -34,7 +34,7 @@ const commonProperties = {
   viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
   openSearchQuery: '',
 
-  selectedDatasetIpId: 'URN:pipo1',
+  selectedDatasetId: 'URN:pipo1',
   toggledElements: {},
   selectionMode: TableSelectionModes.includeSelected,
   emptySelection: true,
@@ -72,17 +72,17 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
 
   it('should dispatch fetch selection services on selected dataset tag / restricted datasets if any', () => {
     const spiedFetch = {
-      datasetIpId: null,
+      datasetId: null,
       count: 0,
     }
     const props = {
       // Component properties
       ...commonProperties,
       // specifically spied values
-      selectedDatasetTag: new Tag(CatalogDomain.TagTypes.DATASET, 'myLabel', 'myIpId'),
-      restrictedDatasetsIpIds: ['ip1', 'ip2'],
-      dispatchFetchPluginServices: (datasetIpIds) => {
-        spiedFetch.datasetIpIds = datasetIpIds
+      selectedDatasetTag: new Tag(CatalogDomain.TagTypes.DATASET, 'myLabel', 'myId'),
+      restrictedDatasetsIds: ['ip1', 'ip2'],
+      dispatchFetchPluginServices: (datasetIds) => {
+        spiedFetch.datasetIds = datasetIds
         spiedFetch.count += 1
       },
     }
@@ -92,7 +92,7 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
         <TestComponent />
       </PluginServicesContainer>, { context })
     assert.equal(spiedFetch.count, 1, 'The plugin services should have been fetched one time')
-    assert.deepEqual(spiedFetch.datasetIpIds, ['myIpId'], 'The plugin services should have been fetched for current tag searchKey "myIpId"')
+    assert.deepEqual(spiedFetch.datasetIds, ['myId'], 'The plugin services should have been fetched for current tag searchKey "myId"')
 
     const withoutSelectionProps = {
       ...props,
@@ -101,18 +101,18 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
     render.setProps(withoutSelectionProps)
 
     assert.equal(spiedFetch.count, 2, 'The plugin services should have been fetched two times')
-    assert.deepEqual(spiedFetch.datasetIpIds, props.restrictedDatasetsIpIds, 'The plugin services should have been fetched for dataset restricted context')
+    assert.deepEqual(spiedFetch.datasetIds, props.restrictedDatasetsIds, 'The plugin services should have been fetched for dataset restricted context')
 
     // verify that it also works without dataset context
     const withoutDatasetContextProps = {
       ...props,
       selectedDatasetTag: null, // change selection to none
-      restrictedDatasetsIpIds: undefined, // change context to none
+      restrictedDatasetsIds: undefined, // change context to none
     }
     render.setProps(withoutDatasetContextProps)
 
     assert.equal(spiedFetch.count, 3, 'The plugin services should have been fetched three times')
-    assert.isNotOk(spiedFetch.datasetIpIds, 'The plugin services should have been fetched without specifying datasets context nor tag')
+    assert.isNotOk(spiedFetch.datasetIds, 'The plugin services should have been fetched without specifying datasets context nor tag')
   })
 
   it('should resolve available services for current selection', () => {
@@ -124,7 +124,7 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
       selectionMode: TableSelectionModes.includeSelected,
       pageMetadata: { number: 0, size: 10, totalElements: 20 },
       emptySelection: false,
-      selectedDatasetIpId: null,
+      selectedDatasetId: null,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       contextSelectionServices: [{
         content: {
@@ -146,10 +146,11 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
       toggledElements: {
         1: {
           content: {
-            id: 1,
-            ipId: 'DO-IP1',
+            id: 'DO-IP1',
             label: 'DO-IP1',
             entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+            providerId: 'provider1',
+            model: '1',
             tags: [],
             services: [{
               content: {
@@ -164,10 +165,11 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
         },
         2: {
           content: {
-            id: 2,
-            ipId: 'DO-IP2',
+            id: 'DO-IP2',
             label: 'DO-IP2',
             entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+            providerId: 'provider1',
+            model: '2',
             tags: [],
             services: [{
               content: {

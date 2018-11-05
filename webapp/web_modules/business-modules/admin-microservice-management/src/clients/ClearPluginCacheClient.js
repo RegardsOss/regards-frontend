@@ -19,12 +19,6 @@
 import { CommonClient } from '@regardsoss/client'
 
 const namespace = 'admin/microservice-management/plugings/clear-cache'
-const clearPluginCacheActions = new CommonClient.ClearPluginCacheActions(namespace)
-const clearPluginCacheReducer = CommonClient.getClearPluginCacheReducer(namespace)
-const clearPluginCacheSelectors = CommonClient.getClearPluginCacheSelectors(['admin', 'microservice-management', 'clearCache'])
-
-module.exports = {
-  clearPluginCacheActions,
-  clearPluginCacheReducer,
-  clearPluginCacheSelectors,
-}
+export const clearPluginCacheActions = new CommonClient.ClearPluginCacheActions(namespace)
+export const clearPluginCacheReducer = CommonClient.getClearPluginCacheReducer(namespace)
+export const clearPluginCacheSelectors = CommonClient.getClearPluginCacheSelectors(['admin', 'microservice-management', 'clearCache'])

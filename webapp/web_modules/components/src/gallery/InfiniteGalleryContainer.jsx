@@ -21,11 +21,13 @@ import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { Measure } from '@regardsoss/adapters'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import InfiniteGalleryComponent from './InfiniteGalleryComponent'
 import GalleryLoadingComponent from './GalleryLoadingComponent'
 
 /**
+ * Gallery display container, designed to be easily put into a flex layout
  * @author Léo Mieulet
  */
 export class InfiniteGalleryContainer extends React.Component {
@@ -50,7 +52,7 @@ export class InfiniteGalleryContainer extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps(dispatch, { pageActions, tableActions }) {
     return {
@@ -106,6 +108,9 @@ export class InfiniteGalleryContainer extends React.Component {
   /** List of properties that should not be reported to children */
   static PROPS_TO_OMIT = ['pageActions', 'pageSelectors', 'pageMetadata']
 
+  /** Root div style to span all */
+  static SPAN_ALL_STYLE = { flexGrow: 1, flexShrink: 1 }
+
   static DEFAULT_STATE = {
     entities: [],
   }
@@ -117,7 +122,11 @@ export class InfiniteGalleryContainer extends React.Component {
 
 
   /** Initialize state */
-  componentWillMount = () => this.setState(InfiniteGalleryContainer.DEFAULT_STATE)
+  componentWillMount = () => this.setState({
+    width: 0,
+    height: 0,
+    ...InfiniteGalleryContainer.DEFAULT_STATE,
+  })
 
   /** Update state from props */
   componentDidMount = () => this.onPropertiesUpdate({}, this.props)
@@ -136,9 +145,9 @@ export class InfiniteGalleryContainer extends React.Component {
     const previousState = this.state
     const nextState = this.state ? { ...this.state } : { ...InfiniteGalleryContainer.DEFAULT_STATE } // initialize to previous state or use default one
     // initialization or authentication update: fetch the first page
-    if (!isEqual(nextProps.requestParams, previousProps.requestParams) ||
-      !isEqual(nextProps.pathParams, previousProps.pathParams) ||
-      !isEqual(nextProps.authentication, previousProps.authentication)) {
+    if (!isEqual(nextProps.requestParams, previousProps.requestParams)
+      || !isEqual(nextProps.pathParams, previousProps.pathParams)
+      || !isEqual(nextProps.authentication, previousProps.authentication)) {
       // remove any previously fetched data
       nextState.entities = []
       // Remove entities in store
@@ -157,6 +166,18 @@ export class InfiniteGalleryContainer extends React.Component {
     if (!isEqual(previousState, nextState)) {
       this.setState(nextState)
     }
+  }
+
+  /**
+   * On component resized event
+   */
+  onComponentResized = ({ measureDiv: { width, height } }) => {
+    // XXX-WORKAROUND see InfiniteTableContainer for more explanation (in this case, the component will simply not resize when
+    // size is lower)
+    this.setState({
+      width,
+      height: this.state.height >= height ? height - 100 : height,
+    })
   }
 
   /**
@@ -193,36 +214,44 @@ export class InfiniteGalleryContainer extends React.Component {
 
   render() {
     // except actions / selectors, we need all properties through
-    const { entities } = this.state
+    const { entities, width, height } = this.state
     const {
       itemComponent, columnWidth, columnGutter, entitiesFetching, loadingElement, emptyComponent, itemProps,
     } = this.props
     const currentTotalEntities = this.getCurrentTotalEntities()
     return (
-      <LoadableContentDisplayDecorator
-        isLoading={!currentTotalEntities && entitiesFetching}
-        loadingComponent={loadingElement}
-        isEmpty={!currentTotalEntities}
-        emptyComponent={emptyComponent}
-      >
-        <InfiniteGalleryComponent
-          items={entities}
-          itemComponent={itemComponent}
-          itemProps={itemProps}
-          columnWidth={columnWidth}
-          columnGutter={columnGutter}
+      <Measure bounds onMeasure={this.onComponentResized}>
+        {
+          ({ bind }) => (
+            <div style={InfiniteGalleryContainer.SPAN_ALL_STYLE} {...bind('measureDiv')}>
+              <LoadableContentDisplayDecorator
+                isLoading={!currentTotalEntities && entitiesFetching}
+                loadingComponent={loadingElement}
+                isEmpty={!currentTotalEntities}
+                emptyComponent={emptyComponent}
+              >
+                <InfiniteGalleryComponent
+                  items={entities}
+                  itemComponent={itemComponent}
+                  itemProps={itemProps}
+                  columnWidth={columnWidth}
+                  columnGutter={columnGutter}
 
-          hasMore
-          isLoading={entitiesFetching}
-          loadingElement={loadingElement}
-          alignCenter
-          onInfiniteLoad={this.fetchMoreEntities}
-          getState={this.getItemState}
-          containerClassName="masonry"
-          layoutClassName="masonry-view"
-          pageClassName="masonry-page"
-        />
-      </LoadableContentDisplayDecorator>)
+                  hasMore
+                  isLoading={entitiesFetching}
+                  loadingElement={loadingElement}
+                  alignCenter
+                  onInfiniteLoad={this.fetchMoreEntities}
+                  getState={this.getItemState}
+
+                  width={width}
+                  height={height}
+                />
+              </LoadableContentDisplayDecorator>
+            </div>)
+        }
+      </Measure>
+    )
   }
 }
 

@@ -24,7 +24,7 @@ import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfigurat
  */
 
 /** A dated selection item shape */
-const IngestProcessingChainContent = PropTypes.shape({
+export const IngestProcessingChainContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   description: PropTypes.string,
@@ -35,15 +35,8 @@ const IngestProcessingChainContent = PropTypes.shape({
   postProcessingPlugin: PluginConfigurationContent,
 })
 
-const IngestProcessingChain = PropTypes.shape({
+export const IngestProcessingChain = PropTypes.shape({
   content: IngestProcessingChainContent,
 })
-const IngestProcessingChainList = PropTypes.objectOf(IngestProcessingChain)
-const IngestProcessingChainArray = PropTypes.arrayOf(IngestProcessingChain)
-
-module.exports = {
-  IngestProcessingChainList,
-  IngestProcessingChainArray,
-  IngestProcessingChainContent,
-  IngestProcessingChain,
-}
+export const IngestProcessingChainList = PropTypes.objectOf(IngestProcessingChain)
+export const IngestProcessingChainArray = PropTypes.arrayOf(IngestProcessingChain)

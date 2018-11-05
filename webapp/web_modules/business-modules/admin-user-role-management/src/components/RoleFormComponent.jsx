@@ -18,12 +18,16 @@
  **/
 import map from 'lodash/map'
 import trim from 'lodash/trim'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, Field, RenderSelectField, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import {
+  RenderTextField, Field, RenderSelectField, ValidationHelpers, reduxForm,
+} from '@regardsoss/form-utils'
 import { AdminShapes } from '@regardsoss/shape'
 
 const nameValidator = [ValidationHelpers.required, ValidationHelpers.validAlphaNumericUnderscore]
@@ -44,6 +48,7 @@ export class RoleFormComponent extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
   }
+
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
@@ -84,9 +89,9 @@ export class RoleFormComponent extends React.Component {
     const {
       pristine, submitting, invalid, roleList,
     } = this.props
-    const title = this.state.isCreating ?
-      this.context.intl.formatMessage({ id: 'role.create.title' }) :
-      this.context.intl.formatMessage({ id: 'role.edit.title' }, { name: this.props.currentRole.content.name })
+    const title = this.state.isCreating
+      ? this.context.intl.formatMessage({ id: 'role.create.title' })
+      : this.context.intl.formatMessage({ id: 'role.edit.title' }, { name: this.props.currentRole.content.name })
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -139,4 +144,3 @@ export class RoleFormComponent extends React.Component {
 export default reduxForm({
   form: 'role-form',
 })(RoleFormComponent)
-

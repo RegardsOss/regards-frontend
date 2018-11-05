@@ -26,13 +26,6 @@ import { DataManagementClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'datasource', 'connection-table-attributes']
 const REDUX_ACTION_NAMESPACE = 'admin-data-datasource-management/connection-table-attributes'
 
-const connectionTableAttributesReducer = DataManagementClient.ConnectionTableAttributesReducer(REDUX_ACTION_NAMESPACE)
-const connectionTableAttributesActions = new DataManagementClient.ConnectionTableAttributesActions(REDUX_ACTION_NAMESPACE)
-const connectionTableAttributesSelectors = DataManagementClient.ConnectionTableAttributesSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  connectionTableAttributesReducer,
-  connectionTableAttributesActions,
-  connectionTableAttributesSelectors,
-}
+export const connectionTableAttributesReducer = DataManagementClient.ConnectionTableAttributesReducer(REDUX_ACTION_NAMESPACE)
+export const connectionTableAttributesActions = new DataManagementClient.ConnectionTableAttributesActions(REDUX_ACTION_NAMESPACE)
+export const connectionTableAttributesSelectors = DataManagementClient.ConnectionTableAttributesSelectors(ENTITIES_STORE_PATH)

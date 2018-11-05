@@ -49,7 +49,6 @@ describe('[Menu] Testing NavigationLayoutComponent', () => {
         type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
         selected: false,
       }],
-      locale: 'en',
       buildLinkURL: () => { },
     }
     shallow(<NavigationLayoutComponent {...props} />, { context })
@@ -72,7 +71,6 @@ describe('[Menu] Testing NavigationLayoutComponent', () => {
         type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
         selected: false,
       }],
-      locale: 'en',
       buildLinkURL: () => { },
     }
     const enzymeWrapper = shallow(<NavigationLayoutComponent {...props} />, { context })
@@ -118,7 +116,6 @@ describe('[Menu] Testing NavigationLayoutComponent', () => {
         type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
         selected: false,
       }],
-      locale: 'en',
       buildLinkURL: () => { },
     }
     const expectedNonInitializedState = {

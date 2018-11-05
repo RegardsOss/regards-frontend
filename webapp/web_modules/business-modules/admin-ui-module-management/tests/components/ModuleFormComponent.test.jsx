@@ -81,8 +81,8 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
       },
     }
     const wrapper = shallow(
-      <UnconnectedModuleFormComponent {...props} />
-      , options,
+      <UnconnectedModuleFormComponent {...props} />,
+      options,
     )
 
     // Check form static fields
@@ -167,8 +167,8 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
       },
     }
     const wrapper = shallow(
-      <UnconnectedModuleFormComponent {...props} />
-      , options,
+      <UnconnectedModuleFormComponent {...props} />,
+      options,
     )
     wrapper.setState({
       moduleSelected: true,

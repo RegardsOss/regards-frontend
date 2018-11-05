@@ -55,37 +55,44 @@ describe('[Search Graph] Testing DatasetAttributes', () => {
     assert.lengthOf(showables, 1, 'There should be one showable controller')
     assert.isFalse(showables.at(0).props().show, 'The component should not be visible')
   })
-  it('should render properly when visible with attributes', () => {
+  it('should render properly when visible with attributes and used the right locale label', () => {
     const props = {
       visible: true,
       state: ItemLink.States.DEFAULT,
       datasetAttributes: [
         {
-          label: 'attr1',
+          label: { en: 'attr1.en', fr: 'attr1.fr' },
           render: () => <div />,
           renderKey: 'attr1',
-          renderValue: {
-            main: 'val1',
-          },
+          renderValue: 'val1',
+          renderProps: {},
         },
         {
-          label: 'attr2',
+          label: { en: 'attr2.en', fr: 'attr2.fr' },
           render: () => <div />,
           renderKey: 'attr2',
-          renderValue: {
-            main: 'val2',
+          renderValue: '2',
+          renderProps: {
+            unit: 'ko',
           },
         },
       ],
     }
-    const enzymeWrapper = shallow(<DatasetAttributes {...props} />, { context })
+    let enzymeWrapper = shallow(<DatasetAttributes {...props} />, { context })
     const showables = enzymeWrapper.find(ShowableAtRender)
     assert.lengthOf(showables, 1, 'There should be one showable controller')
     assert.isTrue(showables.at(0).props().show, 'The component should be visible')
-    // check there is one element for each attribute label. We search here text node (no type)
+    // check labels are correctly rendered with locale
+    const savedLocale = context.intl.locale
+    context.intl.locale = 'en'
     props.datasetAttributes.forEach(({ label }) => {
-      const labelTextNodes = enzymeWrapper.findWhere(node => !node.type() && node.text() === label)
-      assert.lengthOf(labelTextNodes, 1, `${label} -There should one and only one text node to show each attribute label`)
+      assert.lengthOf(enzymeWrapper.findWhere(node => !node.type() && node.text() === label.en), 1, `${label.en} - English label should be correctly rendered with en locale`)
     })
+    context.intl.locale = 'fr'
+    enzymeWrapper = shallow(<DatasetAttributes {...props} />, { context }) // re render with context
+    props.datasetAttributes.forEach(({ label }) => {
+      assert.lengthOf(enzymeWrapper.findWhere(node => !node.type() && node.text() === label.fr), 1, `${label.fr} - French label should be correctly rendered with fr locale`)
+    })
+    context.intl.locale = savedLocale
   })
 })

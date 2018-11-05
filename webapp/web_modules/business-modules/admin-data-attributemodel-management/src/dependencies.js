@@ -36,7 +36,8 @@ const listDependencies = [
 const addDependencies = [
   attributeModelActions.getDependency(RequestVerbEnum.POST),
 ]
-module.exports = {
-  listDependencies,
+
+export default {
   addDependencies,
+  listDependencies,
 }

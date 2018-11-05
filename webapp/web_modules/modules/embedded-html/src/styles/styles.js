@@ -21,20 +21,12 @@
  * Styles for menu module
  * @author Sébastien binda
  */
-const moduleStyles = theme => (
-  {
-    exampleStyle: {
-      backgroundColor: theme.palette.primary1Color,
-      margin: '20px 20px',
-      height: 50,
-      border: '2px solid Black',
-      textAlign: 'center',
-      paddingTop: '15px',
-      fontSize: '1.2em',
+const moduleStyles = theme => ({
+  admin: {
+    previewErrorMessage: {
+      color: theme.textField.errorColor,
     },
-    configuredText: {
-      color: theme.palette.secondaryTextColor,
-    },
-  })
+  },
+})
 
 export default moduleStyles

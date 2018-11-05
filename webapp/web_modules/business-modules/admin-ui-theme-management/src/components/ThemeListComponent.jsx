@@ -18,20 +18,29 @@
  **/
 import map from 'lodash/map'
 import { FormattedMessage } from 'react-intl'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
+import {
+  Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
+} from 'material-ui/Table'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import Duplicate from 'material-ui/svg-icons/content/content-copy'
 import Delete from 'material-ui/svg-icons/action/delete'
-import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
+import {
+  ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
+} from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
+import { withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType, ThemeActions } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const actionsBreakpoints = [940, 995]
+const actionsBreakpoints = [940, 995, 1065]
+
+const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * React component to list themes.
@@ -42,6 +51,7 @@ export class ThemeListComponent extends React.Component {
     themeList: AccessShapes.ThemeList,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
+    handleDuplicate: PropTypes.func.isRequired,
     createUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
   }
@@ -90,12 +100,14 @@ export class ThemeListComponent extends React.Component {
       </ShowableAtRender>
     )
   }
+
   render() {
     const {
-      themeList, handleEdit, createUrl, backUrl,
+      themeList, handleEdit, handleDuplicate, createUrl, backUrl,
     } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
+      hoverButtonDuplicate: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
     }
     return (
@@ -139,6 +151,13 @@ export class ThemeListComponent extends React.Component {
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
                       </HateoasIconAction>
+                      <ResourceIconAction
+                        title={this.context.intl.formatMessage({ id: 'theme.list.tooltip.duplicate' })}
+                        resourceDependencies={ThemeListComponent.CREATE_DEPENDENCIES}
+                        onClick={() => handleDuplicate(theme.content.id)}
+                      >
+                        <Duplicate hoverColor={style.hoverButtonDuplicate} />
+                      </ResourceIconAction>
                       <HateoasIconAction
                         entityLinks={theme.links}
                         hateoasKey={HateoasKeys.DELETE}
@@ -173,4 +192,3 @@ export class ThemeListComponent extends React.Component {
 }
 
 export default ThemeListComponent
-

@@ -48,7 +48,7 @@ const commonReducer = combineReducers({
  * Combine all reducers module to a single root reducer.
  */
 
-module.exports = {
+export default {
   portal: portalReducer,
   common: commonReducer,
   admin: adminReducer,

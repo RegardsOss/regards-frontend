@@ -71,7 +71,7 @@ class AdminContainer extends React.Component {
     if (path) {
       if (startsWith(path, 'http')) {
         return path
-      } else if (startsWith(path, '/')) {
+      } if (startsWith(path, '/')) {
         return `${root.location.protocol}//${root.location.host}${path}`
       }
       return `${root.location.protocol}//${root.location.host}/${path}`
@@ -136,8 +136,8 @@ class AdminContainer extends React.Component {
             />
           </LoadableContentDisplayDecorator>
         </div>
-        {!reload ?
-          <Paper
+        {!reload
+          ? <Paper
             style={moduleTheme.iFrameWrapper}
             zDepth={isLoading ? 0 : 3}
           >
@@ -148,7 +148,7 @@ class AdminContainer extends React.Component {
             />
           </Paper>
           : null}
-      </div >
+      </div>
     )
   }
 }

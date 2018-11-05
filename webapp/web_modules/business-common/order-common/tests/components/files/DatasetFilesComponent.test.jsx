@@ -21,7 +21,9 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { OrderClient } from '@regardsoss/client'
-import { PageableInfiniteTableContainer, AutoRefreshPageableTableHOC, TableLayout, TableColumnsVisibilityOption } from '@regardsoss/components'
+import {
+  PageableInfiniteTableContainer, AutoRefreshPageableTableHOC, TableLayout, TableColumnsVisibilityOption,
+} from '@regardsoss/components'
 import DatasetFilesComponent from '../../../src/components/files/DatasetFilesComponent'
 import DatasetFilesCountHeaderMessage from '../../../src/components/files/DatasetFilesCountHeaderMessage'
 import styles from '../../../src/styles/styles'

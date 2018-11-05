@@ -314,7 +314,10 @@ export class ExampleContainer extends React.Component {
             }
             return (
               <div style={ExampleContainer.CONTENT_STYLES}>
-                [Not internationalized] The plugin runs for {myWord}. Thank you {user || 'patient unknown person'}
+                [Not internationalized] The plugin runs for
+                {myWord}
+                . Thank you
+                {user || 'patient unknown person'}
               </div>
             )
           })()
@@ -327,7 +330,12 @@ export class ExampleContainer extends React.Component {
           { // using lodash map, we extract parameters and keys to display them. Note that react needs keys in children arrays
             map(configuration.static, (value, key) => (
               <div style={ExampleContainer.CONTENT_STYLES} key={key}>
-                <div style={{ display: 'inline' }}><em>{key}:</em></div>
+                <div style={{ display: 'inline' }}>
+                  <em>
+                    {key}
+                    :
+                  </em>
+                </div>
                 <div style={{ display: 'inline' }}>{this.renderValue(value)}</div>
               </div>))
           }
@@ -336,7 +344,12 @@ export class ExampleContainer extends React.Component {
           { // very same mapping for dynamic elements
             map(configuration.dynamic, (value, key) => (
               <div style={ExampleContainer.CONTENT_STYLES} key={key}>
-                <div style={{ display: 'inline' }}><em>{key}:</em></div>
+                <div style={{ display: 'inline' }}>
+                  <em>
+                    {key}
+                    :
+                  </em>
+                </div>
                 <div style={{ display: 'inline' }}>{this.renderValue(value)}</div>
               </div>))
           }

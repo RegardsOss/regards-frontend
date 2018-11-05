@@ -25,11 +25,5 @@ import { DataManagementClient } from '@regardsoss/client'
  */
 const REDUX_ACTION_NAMESPACE = 'admin-data-connection-management/test-connection'
 
-const connectionTestReducer = DataManagementClient.ConnectionTestReducer(REDUX_ACTION_NAMESPACE)
-const connectionTestActions = new DataManagementClient.ConnectionTestActions(REDUX_ACTION_NAMESPACE)
-
-
-module.exports = {
-  connectionTestReducer,
-  connectionTestActions,
-}
+export const connectionTestReducer = DataManagementClient.ConnectionTestReducer(REDUX_ACTION_NAMESPACE)
+export const connectionTestActions = new DataManagementClient.ConnectionTestActions(REDUX_ACTION_NAMESPACE)

@@ -16,83 +16,41 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ModuleActions from './module/ModuleActions'
-import ModuleReducers from './module/ModuleReducers'
-import ModuleSelectors from './module/ModuleSelectors'
+export { default as ModuleActions } from './module/ModuleActions'
+export { default as ModuleReducers } from './module/ModuleReducers'
+export { default as ModuleSelectors } from './module/ModuleSelectors'
 
-import LayoutActions from './layout/LayoutActions'
-import LayoutReducers from './layout/LayoutReducers'
-import LayoutSelectors from './layout/LayoutSelectors'
+export { default as LayoutActions } from './layout/LayoutActions'
+export { default as LayoutReducers } from './layout/LayoutReducers'
+export { default as LayoutSelectors } from './layout/LayoutSelectors'
 
-import PluginServiceActions from './pluginServices/PluginServiceActions'
-import getPluginServiceReducer from './pluginServices/PluginServiceReducer'
-import getPluginServiceSelectors from './pluginServices/PluginServiceSelectors'
+export { default as PluginServiceActions } from './pluginServices/PluginServiceActions'
+export { default as getPluginServiceReducer } from './pluginServices/PluginServiceReducer'
+export { default as getPluginServiceSelectors } from './pluginServices/PluginServiceSelectors'
 
-import ThemeActions from './theme/ThemeActions'
-import ThemeReducers from './theme/ThemeReducers'
-import ThemeSelectors from './theme/ThemeSelectors'
+export { default as ThemeActions } from './theme/ThemeActions'
+export { default as ThemeReducers } from './theme/ThemeReducers'
+export { default as ThemeSelectors } from './theme/ThemeSelectors'
 
-import UIPluginDefinitionActions from './uiPluginDefinition/UIPluginDefinitionActions'
-import UIPluginDefinitionReducers from './uiPluginDefinition/UIPluginDefinitionReducers'
-import UIPluginDefinitionSelectors from './uiPluginDefinition/UIPluginDefinitionSelectors'
+export { default as UIPluginDefinitionActions } from './uiPluginDefinition/UIPluginDefinitionActions'
+export { default as UIPluginDefinitionReducers } from './uiPluginDefinition/UIPluginDefinitionReducers'
+export { default as UIPluginDefinitionSelectors } from './uiPluginDefinition/UIPluginDefinitionSelectors'
 
-import UIPluginConfigurationActions from './uiPluginConfiguration/UIPluginConfigurationActions'
-import UIPluginConfigurationReducers from './uiPluginConfiguration/UIPluginConfigurationReducers'
-import UIPluginConfigurationSelectors from './uiPluginConfiguration/UIPluginConfigurationSelectors'
-
-
-import LinkUIPluginDatasetActions from './linkUIPluginDataset/LinkUIPluginDatasetActions'
-import getLinkUIPluginDatasetReducer from './linkUIPluginDataset/LinkUIPluginDatasetReducer'
-import getLinkUIPluginDatasetSelectors from './linkUIPluginDataset/LinkUIPluginDatasetSelectors'
+export { default as UIPluginConfigurationActions } from './uiPluginConfiguration/UIPluginConfigurationActions'
+export { default as UIPluginConfigurationReducers } from './uiPluginConfiguration/UIPluginConfigurationReducers'
+export { default as UIPluginConfigurationSelectors } from './uiPluginConfiguration/UIPluginConfigurationSelectors'
 
 
-import SearchCollectionsActions from './search/SearchCollectionsActions'
-import SearchDataobjectsActions from './search/SearchDataobjectsActions'
-import SearchDatasetsFromDataObjectsActions from './search/SearchDatasetsFromDataObjectsActions'
-import SearchDocumentsActions from './search/SearchDocumentsActions'
-import SearchDatasetsActions from './search/SearchDatasetsActions'
-import SearchEntitiesActions from './search/SearchEntitiesActions'
-import getSearchEntitiesReducer from './search/SearchEntitiesReducer'
-import getSearchEntitiesSelectors from './search/SearchEntitiesSelectors'
-
-module.exports = {
-
-  ModuleActions,
-  ModuleReducers,
-  ModuleSelectors,
-
-  LayoutActions,
-  LayoutReducers,
-  LayoutSelectors,
-
-  ThemeActions,
-  ThemeReducers,
-  ThemeSelectors,
-
-  PluginServiceActions,
-  getPluginServiceReducer,
-  getPluginServiceSelectors,
-
-  UIPluginDefinitionActions,
-  UIPluginDefinitionReducers,
-  UIPluginDefinitionSelectors,
-
-  UIPluginConfigurationActions,
-  UIPluginConfigurationReducers,
-  UIPluginConfigurationSelectors,
+export { default as LinkUIPluginDatasetActions } from './linkUIPluginDataset/LinkUIPluginDatasetActions'
+export { default as getLinkUIPluginDatasetReducer } from './linkUIPluginDataset/LinkUIPluginDatasetReducer'
+export { default as getLinkUIPluginDatasetSelectors } from './linkUIPluginDataset/LinkUIPluginDatasetSelectors'
 
 
-  LinkUIPluginDatasetActions,
-  getLinkUIPluginDatasetReducer,
-  getLinkUIPluginDatasetSelectors,
-
-
-  SearchCollectionsActions,
-  SearchDataobjectsActions,
-  SearchDatasetsActions,
-  SearchDatasetsFromDataObjectsActions,
-  SearchDocumentsActions,
-  SearchEntitiesActions,
-  getSearchEntitiesReducer,
-  getSearchEntitiesSelectors,
-}
+export { default as SearchCollectionsActions } from './search/SearchCollectionsActions'
+export { default as SearchDataobjectsActions } from './search/SearchDataobjectsActions'
+export { default as SearchDatasetsFromDataObjectsActions } from './search/SearchDatasetsFromDataObjectsActions'
+export { default as SearchDocumentsActions } from './search/SearchDocumentsActions'
+export { default as SearchDatasetsActions } from './search/SearchDatasetsActions'
+export { default as SearchEntitiesActions } from './search/SearchEntitiesActions'
+export { default as getSearchEntitiesReducer } from './search/SearchEntitiesReducer'
+export { default as getSearchEntitiesSelectors } from './search/SearchEntitiesSelectors'

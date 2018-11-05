@@ -17,14 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
-import { AttributeModelController } from '@regardsoss/domain/dam'
 import { TagTypes } from '@regardsoss/domain/catalog'
+import { AttributeModelController } from '@regardsoss/domain/dam'
 import { CatalogShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
 import GraphContextActions from '../../model/graph/GraphContextActions'
 import GraphContextSelectors from '../../model/graph/GraphContextSelectors'
 import DatasetItem from '../../components/user/DatasetItem'
+
 /** must be present in dataset links for it to be unlocked */
 const accesGrantedRel = 'dataobjects'
 
@@ -36,7 +37,7 @@ export class DatasetItemContainer extends React.Component {
     const levelSelection = GraphContextSelectors.getSelectionForLevel(state, levelIndex)
     // a dataset is locked when the user cannot acces a link with rel field 'dataobjects'
     const locked = !dataset.links.find(({ rel }) => rel.toLowerCase().includes(accesGrantedRel))
-    const selected = !!levelSelection && levelSelection.ipId === dataset.content.ipId
+    const selected = !!levelSelection && levelSelection.id === dataset.content.id
     return {
       attributesVisible: GraphContextSelectors.areDatasetAttributesVisible(state),
       locked,
@@ -93,7 +94,9 @@ export class DatasetItemContainer extends React.Component {
    */
   storeDatasetAttributes = ({ dataset, graphDatasetAttributes = [] }) => this.setState({
     // build dataset attributes with only useful data for component: label, render, value or null / undefined
-    datasetAttributes: graphDatasetAttributes.map(({ label, render, attributePath }) => {
+    datasetAttributes: graphDatasetAttributes.map(({
+      label, render, attributePath, unit,
+    }) => {
       const attributeValue = AttributeModelController.getEntityAttributeValue(dataset, attributePath)
       return {
         label,
@@ -102,6 +105,9 @@ export class DatasetItemContainer extends React.Component {
         renderKey: attributePath,
         // render value, prepared for renderers
         renderValue: attributeValue || null,
+        renderProps: {
+          unit,
+        },
       }
     }),
   })

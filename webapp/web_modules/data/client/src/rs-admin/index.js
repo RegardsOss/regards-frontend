@@ -16,166 +16,86 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AccountPasswordActions from './accounts/AccountPasswordActions'
-import getAccountPasswordReducer from './accounts/AccountPasswordReducer'
-import getAccountPasswordSelectors from './accounts/AccountPasswordSelectors'
+export { default as AccountPasswordActions } from './accounts/AccountPasswordActions'
+export { default as getAccountPasswordReducer } from './accounts/AccountPasswordReducer'
+export { default as getAccountPasswordSelectors } from './accounts/AccountPasswordSelectors'
 
-import ProjectActions from './project/ProjectActions'
-import ProjectSelectors from './project/ProjectSelectors'
-import ProjectReducers from './project/ProjectReducers'
+export { default as ProjectActions } from './project/ProjectActions'
+export { default as ProjectSelectors } from './project/ProjectSelectors'
+export { default as ProjectReducers } from './project/ProjectReducers'
 
-import ProjectConnectionActions from './projectConnection/ProjectConnectionActions'
-import ProjectConnectionReducers from './projectConnection/ProjectConnectionReducers'
-import ProjectConnectionSelectors from './projectConnection/ProjectConnectionSelectors'
+export { default as ProjectConnectionActions } from './projectConnection/ProjectConnectionActions'
+export { default as ProjectConnectionReducers } from './projectConnection/ProjectConnectionReducers'
+export { default as ProjectConnectionSelectors } from './projectConnection/ProjectConnectionSelectors'
 
-import ProjectConnectionTestActions from './projectConnection/ProjectConnectionTestActions'
-import ProjectConnectionTestReducers from './projectConnection/ProjectConnectionTestReducers'
-import ProjectConnectionTestSelectors from './projectConnection/ProjectConnectionTestSelectors'
+export { default as ProjectConnectionTestActions } from './projectConnection/ProjectConnectionTestActions'
+export { default as ProjectConnectionTestReducers } from './projectConnection/ProjectConnectionTestReducers'
+export { default as ProjectConnectionTestSelectors } from './projectConnection/ProjectConnectionTestSelectors'
 
-import ResourceActions from './resource/ResourceActions'
-import ResourceReducers from './resource/ResourceReducers'
-import ResourceSelectors from './resource/ResourceSelectors'
+export { default as ProjectUserSettingsActions } from './user/ProjectUserSettingsActions'
+export { default as getProjectUserSettingsReducer } from './user/ProjectUserSettingsReducer'
+export { default as getProjectUserSettingsSelectors } from './user/ProjectUserSettingsSelectors'
 
-import ControllerActions from './resource/ControllerActions'
-import ControllerReducers from './resource/ControllerReducers'
-import ControllerSelectors from './resource/ControllerSelectors'
+export { default as ResourceActions } from './resource/ResourceActions'
+export { default as ResourceReducers } from './resource/ResourceReducers'
+export { default as ResourceSelectors } from './resource/ResourceSelectors'
 
-import ResourceAccessActions from './resource/ResourceAccessActions'
-import ResourceAccessReducers from './resource/ResourceAccessReducers'
-import ResourceAccessSelectors from './resource/ResourceAccessSelectors'
+export { default as ControllerActions } from './resource/ControllerActions'
+export { default as ControllerReducers } from './resource/ControllerReducers'
+export { default as ControllerSelectors } from './resource/ControllerSelectors'
 
-import BorrowRoleActions from './role/borrow/BorrowRoleActions'
-import getBorrowRoleReducer from './role/borrow/BorrowRoleReducer'
-import getBorrowRoleSelectors from './role/borrow/BorrowRoleSelectors'
+export { default as ResourceAccessActions } from './resource/ResourceAccessActions'
+export { default as ResourceAccessReducers } from './resource/ResourceAccessReducers'
+export { default as ResourceAccessSelectors } from './resource/ResourceAccessSelectors'
 
-import BorrowableRolesActions from './role/borrowable/BorrowableRolesActions'
-import getBorrowableRolesReducer from './role/borrowable/BorrowableRolesReducer'
-import getBorrowableRolesSelectors from './role/borrowable/BorrowableRolesSelectors'
+export { default as BorrowRoleActions } from './role/borrow/BorrowRoleActions'
+export { default as getBorrowRoleReducer } from './role/borrow/BorrowRoleReducer'
+export { default as getBorrowRoleSelectors } from './role/borrow/BorrowRoleSelectors'
 
-import RoleActions from './role/RoleActions'
-import getRoleReducer from './role/RoleReducer'
-import getRoleSelectors from './role/RoleSelectors'
+export { default as BorrowableRolesActions } from './role/borrowable/BorrowableRolesActions'
+export { default as getBorrowableRolesReducer } from './role/borrowable/BorrowableRolesReducer'
+export { default as getBorrowableRolesSelectors } from './role/borrowable/BorrowableRolesSelectors'
 
-import RoleResourceActions from './role/RoleResourceActions'
-import RoleResourceReducers from './role/RoleResourceReducers'
-import RoleResourceSelectors from './role/RoleResourceSelectors'
+export { default as RoleActions } from './role/RoleActions'
+export { default as getRoleReducer } from './role/RoleReducer'
+export { default as getRoleSelectors } from './role/RoleSelectors'
 
-import ResourceRolesActions from './role/ResourceRolesActions'
-import ResourceRolesReducers from './role/ResourceRolesReducers'
-import ResourceRolesSelectors from './role/ResourceRolesSelectors'
+export { default as RoleResourceActions } from './role/RoleResourceActions'
+export { default as RoleResourceReducers } from './role/RoleResourceReducers'
+export { default as RoleResourceSelectors } from './role/RoleResourceSelectors'
 
-import MyUserActions from './user/MyUserActions'
-import getMyUserReducer from './user/MyUserReducer'
-import getMyUserSelectors from './user/MyUserSelectors'
+export { default as ResourceRolesActions } from './role/ResourceRolesActions'
+export { default as ResourceRolesReducers } from './role/ResourceRolesReducers'
+export { default as ResourceRolesSelectors } from './role/ResourceRolesSelectors'
 
-import NotificationActions from './notification/NotificationActions'
-import getNotificationReducer from './notification/NotificationReducer'
-import getNotificationSelectors from './notification/NotificationSelectors'
+export { default as MyUserActions } from './user/MyUserActions'
+export { default as getMyUserReducer } from './user/MyUserReducer'
+export { default as getMyUserSelectors } from './user/MyUserSelectors'
 
-import ReadNotificationActions from './notification/read/ReadNotificationActions'
-import getReadNotificationReducer from './notification/read/ReadNotificationReducer'
-import getReadNotificationSelectors from './notification/read/ReadNotificationSelectors'
+export { default as NotificationActions } from './notification/NotificationActions'
+export { default as getNotificationReducer } from './notification/NotificationReducer'
+export { default as getNotificationSelectors } from './notification/NotificationSelectors'
 
-import NotificationSettingsActions from './notification/settings/NotificationSettingsActions'
-import getNotificationSettingsReducer from './notification/settings/NotificationSettingsReducer'
-import getNotificationSettingsSelectors from './notification/settings/NotificationSettingsSelectors'
+export { default as ReadNotificationActions } from './notification/read/ReadNotificationActions'
+export { default as getReadNotificationReducer } from './notification/read/ReadNotificationReducer'
+export { default as getReadNotificationSelectors } from './notification/read/ReadNotificationSelectors'
 
-import ProjectUserActions from './user/ProjectUserActions'
-import getProjectUserReducer from './user/ProjectUserReducer'
-import getProjectUserSelectors from './user/ProjectUserSelectors'
+export { default as NotificationSettingsActions } from './notification/settings/NotificationSettingsActions'
+export { default as getNotificationSettingsReducer } from './notification/settings/NotificationSettingsReducer'
+export { default as getNotificationSettingsSelectors } from './notification/settings/NotificationSettingsSelectors'
 
-import WaitingAccessUsersEntitiesActions from './user/WaitingAccessUsersEntitiesActions'
-import getWaitingAccessUsersEntitiesReducer from './user/WaitingAccessUsersEntitiesReducer'
-import getWaitingAccessUsersEntitiesSelectors from './user/WaitingAccessUsersEntitiesSelectors'
+export { default as ProjectUserActions } from './user/ProjectUserActions'
+export { default as getProjectUserReducer } from './user/ProjectUserReducer'
+export { default as getProjectUserSelectors } from './user/ProjectUserSelectors'
 
-import ProjectUserSignalActions from './user/ProjectUserSignalActions'
-import getProjectUserSignalReducer from './user/ProjectUserSignalReducer'
-import getProjectUserSignalSelectors from './user/ProjectUserSignalSelectors'
+export { default as WaitingAccessUsersEntitiesActions } from './user/WaitingAccessUsersEntitiesActions'
+export { default as getWaitingAccessUsersEntitiesReducer } from './user/WaitingAccessUsersEntitiesReducer'
+export { default as getWaitingAccessUsersEntitiesSelectors } from './user/WaitingAccessUsersEntitiesSelectors'
 
-import EndpointActions from './endpoint/EndpointActions'
-import getEndpointReducers from './endpoint/EndpointReducers'
-import getEndpointSelectors from './endpoint/EndpointSelectors'
+export { default as ProjectUserSignalActions } from './user/ProjectUserSignalActions'
+export { default as getProjectUserSignalReducer } from './user/ProjectUserSignalReducer'
+export { default as getProjectUserSignalSelectors } from './user/ProjectUserSignalSelectors'
 
-module.exports = {
-
-  AccountPasswordActions,
-  getAccountPasswordReducer,
-  getAccountPasswordSelectors,
-
-  BorrowRoleActions,
-  getBorrowRoleReducer,
-  getBorrowRoleSelectors,
-
-  BorrowableRolesActions,
-  getBorrowableRolesReducer,
-  getBorrowableRolesSelectors,
-
-  EndpointActions,
-  getEndpointReducers,
-  getEndpointSelectors,
-
-  ProjectActions,
-  ProjectSelectors,
-  ProjectReducers,
-
-  ProjectConnectionActions,
-  ProjectConnectionReducers,
-  ProjectConnectionSelectors,
-
-  ProjectConnectionTestActions,
-  ProjectConnectionTestReducers,
-  ProjectConnectionTestSelectors,
-
-  ResourceActions,
-  ResourceReducers,
-  ResourceSelectors,
-
-  ControllerActions,
-  ControllerReducers,
-  ControllerSelectors,
-
-  MyUserActions,
-  getMyUserReducer,
-  getMyUserSelectors,
-
-  NotificationActions,
-  getNotificationReducer,
-  getNotificationSelectors,
-
-  ReadNotificationActions,
-  getReadNotificationReducer,
-  getReadNotificationSelectors,
-
-  NotificationSettingsActions,
-  getNotificationSettingsReducer,
-  getNotificationSettingsSelectors,
-
-  ProjectUserActions,
-  getProjectUserReducer,
-  getProjectUserSelectors,
-
-  WaitingAccessUsersEntitiesActions,
-  getWaitingAccessUsersEntitiesReducer,
-  getWaitingAccessUsersEntitiesSelectors,
-
-  ProjectUserSignalActions,
-  getProjectUserSignalReducer,
-  getProjectUserSignalSelectors,
-
-  ResourceAccessActions,
-  ResourceAccessReducers,
-  ResourceAccessSelectors,
-
-  RoleActions,
-  getRoleReducer,
-  getRoleSelectors,
-
-  RoleResourceActions,
-  RoleResourceReducers,
-  RoleResourceSelectors,
-
-  ResourceRolesActions,
-  ResourceRolesReducers,
-  ResourceRolesSelectors,
-
-}
+export { default as EndpointActions } from './endpoint/EndpointActions'
+export { default as getEndpointReducers } from './endpoint/EndpointReducers'
+export { default as getEndpointSelectors } from './endpoint/EndpointSelectors'

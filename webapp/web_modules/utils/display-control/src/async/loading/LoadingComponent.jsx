@@ -20,15 +20,17 @@
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 
 const style = { position: 'relative' }
+const wrapperStyle = {
+  height: '100%',
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}
 const Loading = () => (
   <div
-    style={{
-      height: '100%',
-      width: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}
+    className="selenium-content-loading"
+    style={wrapperStyle}
   >
     <RefreshIndicator
       left={0}

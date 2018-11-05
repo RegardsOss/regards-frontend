@@ -60,11 +60,11 @@ class ParametersConfigurationComponent extends React.Component {
       <div>
         {
           parameters.map(({
- editorType, name, required, choices, valueValidator, label, description,
-}) => {
+            editorType, name, required, choices, valueValidator, label, description,
+          }) => {
             // prepare field label
-            const fieldLabel = required ?
-              formatMessage({ id: 'entities.common.services.parameter.required' }, { label }) : label
+            const fieldLabel = required
+              ? formatMessage({ id: 'entities.common.services.parameter.required' }, { label }) : label
             switch (editorType) {
               case Parameter.EditorTypes.CHECKBOX:
                 return (

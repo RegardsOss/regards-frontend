@@ -53,13 +53,13 @@ class CartSelectorComponent extends React.Component {
     const { intl: { formatMessage }, moduleTheme: { cart, overlay } } = this.context
 
     // compute label for current count
-    const elementsCountLabel = objectsCount < CartSelectorComponent.MAX_ELEMENTS_COUNT ? objectsCount :
-      formatMessage({ id: 'user.menu.cart.max.count' }, { maxCount: CartSelectorComponent.MAX_ELEMENTS_COUNT })
+    const elementsCountLabel = objectsCount < CartSelectorComponent.MAX_ELEMENTS_COUNT ? objectsCount
+      : formatMessage({ id: 'user.menu.cart.max.count' }, { maxCount: CartSelectorComponent.MAX_ELEMENTS_COUNT })
 
     // compute tooltip for current count
-    const elementsCountTooltip = objectsCount ?
-      formatMessage({ id: 'user.menu.displaycart.elements.count.tooltip' }, { elementsCount: objectsCount }) :
-      formatMessage({ id: 'user.menu.displaycart.empty.tooltip' })
+    const elementsCountTooltip = objectsCount
+      ? formatMessage({ id: 'user.menu.displaycart.elements.count.tooltip' }, { elementsCount: objectsCount })
+      : formatMessage({ id: 'user.menu.displaycart.empty.tooltip' })
 
     // render
     return (
@@ -84,7 +84,7 @@ class CartSelectorComponent extends React.Component {
           { /* Show the icon */}
           <Cart style={cart.icon.style} />
         </div>
-      </IconButton >
+      </IconButton>
     )
   }
 }

@@ -28,6 +28,7 @@ const messages = {
   'authentication.error.ACCOUNT_UNKNOWN': 'L\'adresse e-mail et / ou le mot de passe sont inconnus',
   'authentication.error.ACCOUNT_PENDING': 'Votre compte utilisateur REGARDS n\'a pas encore été validé. Vous serez notifié par e-mail de tout changement',
   'authentication.error.ACCOUNT_INACTIVE': 'Votre compte utilisateur est désactivé, veuillez contacter l\'administrateur du sytème',
+  'authentication.error.ACCOUNT_INACTIVE_PASSWORD': 'Votre mot de passe est expiré. Veuillez le renouveler.',
   'authentication.error.ACCOUNT_LOCKED': 'Votre compte est bloqué. Pour le débloquer, cliquez sur "Compte bloqué ?"',
   'authentication.error.USER_UNKNOWN': 'Vous n\'avez pas accès à ce projet. Pour demander l\'accès, cliquez sur "Nouvel utilisateur ?", avec l\'option "J\'ai déjà accès à un autre projet"',
   'authentication.error.USER_WAITING_ACCESS': 'Votre demande d\'accès au projet est en cours de traitement. Vous recevrez un e-mail en cas de changement',
@@ -48,17 +49,17 @@ const messages = {
   // reset account password request form
   'ask.reset.password.form.message': 'Entrez votre adresse e-mail, un lien de ré-initialisation du mot de passe vous sera envoyé',
   'ask.reset.password.form.title': 'Ré-initialisation du mot de passe',
-  'ask.reset.password.form.send.failed': '{status, plural, ' +
-    '=404 {L\'adresse e-mail saisie est inconnue}' +
-    'other {Une erreur inconnue s\'est produite (#)}}',
+  'ask.reset.password.form.send.failed': '{status, plural, '
+    + '=404 {L\'adresse e-mail saisie est inconnue}'
+    + 'other {Une erreur inconnue s\'est produite (#)}}',
 
   // unlock account request form
   'ask.unlock.account.form.message': 'Entrez votre adresse e-mail pour demander le déverrouillage du compte',
   'ask.unlock.account.form.title': 'Déverrouillage du compte utilisateur',
-  'ask.unlock.account.form.send.failed': '{status, plural, ' +
-    '=403 {Le compte lié à ce mail n\'est pas bloqué}' +
-    '=404 {L\'adresse e-mail saisie est inconnue.}' +
-    'other {Une erreur inconnue s\'est produite (#)}}',
+  'ask.unlock.account.form.send.failed': '{status, plural, '
+    + '=403 {Le compte lié à ce mail n\'est pas bloqué}'
+    + '=404 {L\'adresse e-mail saisie est inconnue.}'
+    + 'other {Une erreur inconnue s\'est produite (#)}}',
 
   // ask project access form
   'ask.project.access.request.title': 'Demander un accès projet',
@@ -121,10 +122,15 @@ const messages = {
 
   // reset password update (after receiving mail)
   'reset.password.update.request.title': 'Ré-initialisation du mot de passe',
+  'change.password.update.request.title': 'Changer votre mot de passe',
   'reset.password.update.request.message': 'Entrez votre nouveau mot de passe pour finaliser la mise à jour de votre compte utilisateur. {passwordRules}',
+  'change.password.update.request.message': 'Entrez votre ancien et nouveau mot de passe. {passwordRules}',
+  'change.password.update.old.password': 'Mot de passe actuel',
   'reset.password.update.new.password': 'Nouveau mot de passe',
   'reset.password.update.confirm.password': 'Confirmation du mot de passe',
   'reset.password.update.send': 'Envoyer',
+  'reset.password.update.error': 'Impossible de changer votre mot de passe. Vérifiez les informations saisies.',
+  'reset.password.update.cancel': 'Annuler',
 
   // finish unlock account loading pane
   'finish.unlock.account.title': 'Déverrouillage du compte',

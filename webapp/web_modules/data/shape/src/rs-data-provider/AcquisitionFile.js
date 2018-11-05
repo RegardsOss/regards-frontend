@@ -16,33 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AcquisitionfileInfo from './AcquisitionFileInfo'
+import { AcquisitionFileInfoContent } from './AcquisitionFileInfo'
 /**
  * Describes a AcquisitionFile shape and related sub objects
  * @author Sébastien Binda
  */
 
 /** A dated selection item shape */
-const AcquisitionFileContent = PropTypes.shape({
+export const AcquisitionFileContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   state: PropTypes.string,
   filePath: PropTypes.string.isRequired,
   error: PropTypes.string,
   acqDate: PropTypes.string,
-  fileInfo: AcquisitionfileInfo.AcquisitionFileInfoContent,
+  fileInfo: AcquisitionFileInfoContent,
   checksum: PropTypes.string,
   checksumAlgorithm: PropTypes.string,
 })
 
-const AcquisitionFile = PropTypes.shape({
+export const AcquisitionFile = PropTypes.shape({
   content: AcquisitionFileContent,
 })
-const AcquisitionFileList = PropTypes.objectOf(AcquisitionFile)
-const AcquisitionFileArray = PropTypes.arrayOf(AcquisitionFile)
-
-module.exports = {
-  AcquisitionFileList,
-  AcquisitionFileArray,
-  AcquisitionFileContent,
-  AcquisitionFile,
-}
+export const AcquisitionFileList = PropTypes.objectOf(AcquisitionFile)
+export const AcquisitionFileArray = PropTypes.arrayOf(AcquisitionFile)

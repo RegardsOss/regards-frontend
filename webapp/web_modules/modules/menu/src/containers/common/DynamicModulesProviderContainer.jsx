@@ -36,10 +36,7 @@ export class DynamicModulesProviderContainer extends React.Component {
    * @param keepOnlyActive should keep only active modules?
    * @return [Module] filtered dynamic modules list
    */
-  static filterModules = (modules, dynamicContainerId, keepOnlyActive) =>
-    modules && filter(modules, module =>
-      // must be dynamic  && active when keepOnlyActive
-      get(module, 'content.container') === dynamicContainerId && (!keepOnlyActive || get(module, 'content.active')))
+  static filterModules = (modules, dynamicContainerId, keepOnlyActive) => modules && filter(modules, module => get(module, 'content.container') === dynamicContainerId && (!keepOnlyActive || get(module, 'content.active')))
 
   /**
    * Redux: map state to props function
@@ -91,9 +88,9 @@ export class DynamicModulesProviderContainer extends React.Component {
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
-    if (!isEqual(oldProps.modules, newProps.modules) ||
-      !isEqual(oldProps.dynamicContainerId, newProps.dynamicContainerId) ||
-      oldProps.children !== newProps.children) {
+    if (!isEqual(oldProps.modules, newProps.modules)
+      || !isEqual(oldProps.dynamicContainerId, newProps.dynamicContainerId)
+      || oldProps.children !== newProps.children) {
       const {
         modules, dynamicContainerId, keepOnlyActive, children,
       } = newProps

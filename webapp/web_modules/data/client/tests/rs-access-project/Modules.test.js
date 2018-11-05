@@ -23,7 +23,7 @@ import ModulesListDump from './ModulesList.dump'
 
 const backendServerResultList = ModulesListDump
 const options = {
-  urlParams: { applicationId: 'user' },
+  pathParams: { applicationId: 'user' },
 }
 
 const ModulesActions = new AccessProjectClient.ModuleActions('test/action')
@@ -43,4 +43,3 @@ describe('[ADMIN CLIENT] Testing client Module', () => {
     entityTester.runTests(done)
   })
 })
-

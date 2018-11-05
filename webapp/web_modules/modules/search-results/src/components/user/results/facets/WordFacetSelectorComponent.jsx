@@ -17,15 +17,16 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { i18nContextType } from '@regardsoss/i18n'
-import { StringFacet } from '../../../../models/facets/FacetShape'
+import { UIFacet } from '../../../../models/facets/FacetShape'
 import FacetSelectorComponent from './FacetSelectorComponent'
 
 /**
  * Word facet selector
+ * @author Raphaël Mechali
  */
 class WordFacetSelectorComponent extends React.Component {
   static propTypes = {
-    facet: StringFacet.isRequired,
+    facet: UIFacet.isRequired, // granted to be a string UI facet
     // applies a facet filter (key:string, label:string, searchQuery: string)
     onSelectFacet: PropTypes.func.isRequired,
   }
@@ -34,12 +35,12 @@ class WordFacetSelectorComponent extends React.Component {
     ...i18nContextType,
   }
 
-  formatFacetValueForFilter = (label, { word }) => {
-    const { intl: { formatMessage } } = this.context
-    return formatMessage({ id: 'search.facets.filter.chip.word.value' }, { label, word })
-  }
-
-  formatFacetValueForMenu = (label, { word, count }) => {
+  /**
+   * Formats facet value
+   * @param {FacetValue} facetValue as returned by the backend
+   * @return {string} value label
+   */
+  formatFacetValue = ({ word, count }) => {
     const { intl: { formatNumber, formatMessage } } = this.context
     return formatMessage({ id: 'search.facets.filter.menu.word.value' }, {
       word,
@@ -52,8 +53,7 @@ class WordFacetSelectorComponent extends React.Component {
     return (
       <FacetSelectorComponent
         facet={facet}
-        facetValueFormatterForMenu={this.formatFacetValueForMenu}
-        facetValueFormatterForFilter={this.formatFacetValueForFilter}
+        facetValueFormatter={this.formatFacetValue}
         onSelectFacet={onSelectFacet}
       />
     )

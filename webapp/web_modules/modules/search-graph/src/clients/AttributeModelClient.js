@@ -29,10 +29,3 @@ const REDUX_ACTION_NAMESPACE = 'search-graph/attributes'
 export const AttributeModelActions = new DataManagementClient.AttributeModelForModelTypeActions(REDUX_ACTION_NAMESPACE)
 export const AttributeModelReducer = DataManagementClient.AttributeModelForModelTypeReducer(REDUX_ACTION_NAMESPACE)
 export const AttributeModelSelectors = DataManagementClient.AttributeModelForModelTypeSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  REDUCER_PATH,
-  AttributeModelActions,
-  AttributeModelReducer,
-  AttributeModelSelectors,
-}

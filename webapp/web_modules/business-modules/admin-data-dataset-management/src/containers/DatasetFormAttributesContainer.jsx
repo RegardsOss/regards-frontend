@@ -30,7 +30,7 @@ import { extractParametersFromFormValues } from '@regardsoss/admin-data-entities
 import DatasetFormAttributesComponent from '../components/DatasetFormAttributesComponent'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
 import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
-import { datasourceSelectors, datasourceActions } from './../clients/DatasourceClient'
+import { datasourceSelectors, datasourceActions } from '../clients/DatasourceClient'
 import messages from '../i18n'
 
 /**
@@ -53,6 +53,7 @@ export class DatasetFormAttributesContainer extends React.Component {
     fetchModelList: PropTypes.func,
     fetchModelAttributeList: PropTypes.func,
     fetchDatasource: PropTypes.func,
+    flushAttributes: PropTypes.func,
   }
 
   state = {
@@ -66,6 +67,8 @@ export class DatasetFormAttributesContainer extends React.Component {
     ]
     if (has(this.props.currentDataset, 'content.model.name')) {
       tasks.push(this.props.fetchModelAttributeList(this.props.currentDataset.content.model.name))
+    } else {
+      tasks.push(this.props.flushAttributes())
     }
     Promise.all(tasks)
       .then(() => {
@@ -78,7 +81,7 @@ export class DatasetFormAttributesContainer extends React.Component {
   onSubmit = (values) => {
     const datasourceObjectModelName = get(PluginConfParamsUtils.findParam(this.props.currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value')
     const properties = extractParametersFromFormValues(values, this.props.modelAttributeList)
-    this.props.handleSave(values.sipId, values.label, values.geometry, values.model, properties, datasourceObjectModelName, values.descriptionFileContent, values.descriptionUrl)
+    this.props.handleSave(values.providerId, values.label, values.geometry, values.model, properties, datasourceObjectModelName)
   }
 
 
@@ -131,6 +134,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: 'DATASET' })),
   fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+  flushAttributes: () => dispatch(modelAttributesActions.flush()),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
   fetchDatasource: id => dispatch(datasourceActions.fetchEntity(id)),
 })

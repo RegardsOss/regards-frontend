@@ -83,35 +83,29 @@ describe('[Search Results] Testing OrderCartContainer', () => {
   }
 
   // combine all use cases to get component appliable properties
-  const allTestCases = flatMap(viewObjectTypeVals, viewObjectType =>
-    flatMap(modulesVals, modules =>
-      flatMap(isAuthenticatedVals, isAuthenticated =>
-        flatMap(availableDependenciesVals, availableDependencies =>
-          flatMap(emptySelectionVals, emptySelection => ({
-            // rendering props combinated
-            ...commonProps,
-            viewObjectType,
-            modules,
-            isAuthenticated,
-            availableDependencies,
-            // complete empty selection state (aprroximated for tests)
-            emptySelection,
-          }))))))
+  const allTestCases = flatMap(viewObjectTypeVals, viewObjectType => flatMap(modulesVals, modules => flatMap(isAuthenticatedVals, isAuthenticated => flatMap(availableDependenciesVals, availableDependencies => flatMap(emptySelectionVals, emptySelection => ({
+    // rendering props combinated
+    ...commonProps,
+    viewObjectType,
+    modules,
+    isAuthenticated,
+    availableDependencies,
+    // complete empty selection state (aprroximated for tests)
+    emptySelection,
+  }))))))
 
   // for test to expect if there should be the callbacks with a given properties set
-  const hasAddElementCallback = ({ modules, isAuthenticated, availableDependencies }) =>
-    isAuthenticated && // use must be authenticated to access the cart functionality
-    modules === modulesVals[1] && // there must be cart module
-    availableDependencies === availableDependenciesVals[1] // user must have all required dependencies
+  const hasAddElementCallback = ({ modules, isAuthenticated, availableDependencies }) => isAuthenticated // use must be authenticated to access the cart functionality
+    && modules === modulesVals[1] // there must be cart module
+    && availableDependencies === availableDependenciesVals[1] // user must have all required dependencies
   // note: selection showing dataobjects are ignored for add element
   const hasAddSelectionCallback = ({
     viewObjectType, modules, isAuthenticated, availableDependencies, emptySelection,
-  }) =>
-    isAuthenticated && // use must be authenticated to access the cart functionality
-    modules === modulesVals[1] && // there must be cart module
-    availableDependencies === availableDependenciesVals[1] && // user must have all required dependencies
-    !emptySelection && // selection must not be empty
-    viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA // there must be no selection callback when showing datasets (cannot add datasets groups)
+  }) => isAuthenticated // use must be authenticated to access the cart functionality
+    && modules === modulesVals[1] // there must be cart module
+    && availableDependencies === availableDependenciesVals[1] // user must have all required dependencies
+    && !emptySelection // selection must not be empty
+    && viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA // there must be no selection callback when showing datasets (cannot add datasets groups)
 
   // run the tests for each properties back
   allTestCases.forEach((testProperties) => {
@@ -125,7 +119,7 @@ describe('[Search Results] Testing OrderCartContainer', () => {
 ${expectAddSelectionCallback ? 'with add selection callback' : 'without add selection callback'} when:${propsLabel}`
     it(testLabel, () => {
       const enzymeWrapper = shallow(
-        <OrderCartContainer {...testProperties} >
+        <OrderCartContainer {...testProperties}>
           <TestComponent />
         </OrderCartContainer>, { context })
       const componentWrapper = enzymeWrapper.find(TestComponent)

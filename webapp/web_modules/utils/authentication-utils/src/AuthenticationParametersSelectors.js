@@ -18,7 +18,7 @@
  **/
 import { BasicSelector } from '@regardsoss/store-utils'
 import { PATH } from './AuthenticationParametersReducers'
-import { INSTANCE } from './AuthenticationParametersActions'
+import AuthenticationParametersActions from './AuthenticationParametersActions'
 
 class AuthenticateParametersSelectors extends BasicSelector {
   constructor() {
@@ -34,9 +34,8 @@ class AuthenticateParametersSelectors extends BasicSelector {
    * @param {*} state redux state
    */
   isInstance(state) {
-    return this.getProject(state) === INSTANCE
+    return this.getProject(state) === AuthenticationParametersActions.INSTANCE
   }
 }
 
 export default new AuthenticateParametersSelectors()
-

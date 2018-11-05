@@ -41,9 +41,6 @@ class TableHeaderLineLoadingAndResults extends React.Component {
     children: null,
   }
 
-  static LOADING_COMPONENT = <TableHeaderLoadingComponent />
-
-
   render() {
     const { children = null, isFetching, resultsCount } = this.props
     return (
@@ -52,12 +49,13 @@ class TableHeaderLineLoadingAndResults extends React.Component {
         <TableHeaderContentBox>
           <ResultsCountMessage count={resultsCount} isFetching={isFetching} />
         </TableHeaderContentBox>
-        { // loading or custom childrens groups
-          isFetching ? TableHeaderLineLoadingAndResults.LOADING_COMPONENT : children
-        }
+        { /* loading or custom childrens groups */}
+        <TableHeaderLoadingComponent loading={isFetching}>
+          {children}
+        </TableHeaderLoadingComponent>
         {/* On right: placeholder */}
         <div />
-      </TableHeaderLine >
+      </TableHeaderLine>
     )
   }
 }

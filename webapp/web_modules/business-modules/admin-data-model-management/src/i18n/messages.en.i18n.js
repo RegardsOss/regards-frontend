@@ -33,6 +33,8 @@ const messages = Object.assign({
   'model.list.action.duplicate': 'Duplicate',
   'model.list.action.delete': 'Delete',
   'model.list.delete.title': 'Delete model {name} ?',
+  'model.list.table.no.content.title': 'Nothing to show',
+  'model.list.no.content.message': 'No data model have been created for this project',
 
   'model.type.dataset': 'Dataset',
   'model.type.data': 'Data',
@@ -42,6 +44,7 @@ const messages = Object.assign({
   'model.edit.title': 'Edit the model {name}',
   'model.create.title': 'Create a new model',
   'model.duplicate.title': 'Duplicate the model {name}',
+  'model.duplicate.warning': 'Warning, computing plugins associated with original model attributes will not be copied',
   'model.form.name': 'Name',
   'model.form.description': 'Description',
   'model.form.type': 'Type',

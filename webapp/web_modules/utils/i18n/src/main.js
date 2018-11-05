@@ -16,23 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import I18nProvider from './containers/I18nProvider'
-import { setLocale } from './model/I18nActions'
-import i18nReducers from './model/I18nReducers'
-import i18nSelectors from './model/I18nSelectors'
-import i18nContextType from './contextType'
-import dateTimeFormat from './dateTimeFormat'
-import withI18n from './withI18n'
 /**
  * Main interface for i18n utils
  * @author Sébastien Binda
  */
-export {
-  dateTimeFormat,
-  I18nProvider,
-  setLocale,
-  i18nReducers,
-  i18nSelectors,
-  i18nContextType,
-  withI18n,
-}
+export { default as I18nProvider } from './containers/I18nProvider'
+export { setLocale } from './model/I18nActions'
+export { default as i18nReducers } from './model/I18nReducers'
+export { default as i18nSelectors } from './model/I18nSelectors'
+export { default as i18nContextType } from './contextType'
+export { default as dateTimeFormat } from './dateTimeFormat'
+export { default as withI18n } from './withI18n'

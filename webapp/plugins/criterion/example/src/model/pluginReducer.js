@@ -16,20 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const PLUGIN_TEST = 'plugin/TEST'
+import buildExampleClient from '../clients/example/ExampleClientBuilder'
 
-function reducer(state = {
-  pluginTest: false,
-  message: 'Loading plugin.',
-}, action) {
-  switch (action.type) {
-    case PLUGIN_TEST:
-      return { ...state, pluginTest: true }
-    default:
-      return state
+/**
+ * Plugin reducer builder function. Note: plugins reducer must be builder functions using pluginInstanceId as paramter and producing
+ * an object like:
+ * {
+ *   reducerFieldKey: reducerFunction,
+ *   ...
+ * }
+ * That meachnism ensures each plugin owns it separated redux store space
+ * @param {string} pluginInstanceId plugin instance ID, must be used to generate unique namespaces and store paths
+ * @return {*} reducers configuration for plugin instance
+ * @author Raphaël Mechali
+ */
+export default function getReducer(pluginInstanceId) {
+  return {
+    todoClient: buildExampleClient(pluginInstanceId).reducer,
   }
-}
-
-module.exports = {
-  pluginTest: reducer,
 }

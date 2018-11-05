@@ -19,15 +19,17 @@
 import compose from 'lodash/fp/compose'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import isNil from 'lodash/isNil'
 import { Card } from 'material-ui/Card'
 import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
 import { UIDomain } from '@regardsoss/domain'
+import { UIClient } from '@regardsoss/client'
 import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { HOCUtils, ShowableAtRender } from '@regardsoss/display-control'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
-import { i18nContextType, i18nSelectors, withI18n } from '@regardsoss/i18n'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType, SwitchThemeDecorator } from '@regardsoss/theme'
 import { moduleExpandedStateActions, moduleExpandedStateSelectors } from './clients/ModuleExpandedStateClient'
 import NoContentMessageInfo from '../cards/NoContentMessageInfo'
@@ -42,15 +44,12 @@ import CardMediaWithCustomBG from './CardMediaWithCustomBG'
 const userAppName = 'user'
 
 /**
- * Presents a dynamic module.
- * - It appends its own context to parent context
- * - It binds authentication and endpoints to check if it should show not authentified / not enough right messages
- * - It is intended to display dynamic modules user container. It can adapt to both user and admin interface (ie: user container
+ * This module is intended to display dynamic modules user container. It can adapt to both user and admin interface (ie: user container
  * here is the 'view' part of the dynamic modules - legacy name)
- * - It resolves module title, icon, expandable and expanded state from module configuration (module fields)
- *
- * Expand / collapse state is controlled using redux client ModuleExpandedState and is therefore shared with
- * potential external controllers
+ * - It appends its own context to parent context (i18n and styles)
+ * - It binds authentication and endpoints to check if it should show not authentified / not enough right messages
+ * - It resolves module title, icon and presentation state from module configuration (module fields)
+ * - It initializes the module presentation state in redux if not already done, using ModuleExpandedState client
  *
  * It uses moduleConf field for title, icon, expandable and expanded state
  *
@@ -65,16 +64,16 @@ export class DynamicModulePane extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state, { type, appName }) {
+  static mapStateToProps(state, { type, id }) {
+    const presentationKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(type, id)
+    const presentationState = moduleExpandedStateSelectors.getPresentationState(state, presentationKey)
     return {
-      // in admin apps, use default props (the action/reducer/selectors are only for user app modules)
-      expandable: appName === userAppName ? moduleExpandedStateSelectors.isExpandable(state, type) : undefined,
-      expanded: appName === userAppName ? moduleExpandedStateSelectors.isExpanded(state, type) : undefined,
-      fetching: CommonEndpointClient.endpointSelectors.isFetching(state) ||
-        AuthenticationClient.authenticationSelectors.isFetching(state),
+      expandable: moduleExpandedStateSelectors.isExpandable(state, presentationKey),
+      presentationState,
+      storedPresentationState: presentationState, // raw presentation state from redux
+      fetching: CommonEndpointClient.endpointSelectors.isFetching(state) || AuthenticationClient.authenticationSelectors.isFetching(state),
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
       isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
-      locale: i18nSelectors.getLocale(state),
     }
   }
 
@@ -83,25 +82,24 @@ export class DynamicModulePane extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
-  static mapDispatchToProps(dispatch, { type, appName }) {
+  static mapDispatchToProps(dispatch, { type, id }) {
+    const presentationKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(type, id)
     // use store when in user app, ignore event in admin apps (not expandable when in admin app)
     return {
-      dispatchSetInitialState: (expandable, expanded) =>
-        appName === userAppName &&
-        dispatch(moduleExpandedStateActions.initialize(type, expandable, expanded)),
-      dispatchSetExpanded: expanded =>
-        (appName === userAppName &&
-          dispatch(moduleExpandedStateActions.setExpanded(type, expanded))),
+      dispatchSetInitialState: (expandable, expanded) => dispatch(moduleExpandedStateActions.initialize(presentationKey, expandable, expanded)),
+      dispatchSetMinimized: () => dispatch(moduleExpandedStateActions.setMinimized(presentationKey)),
+      dispatchSetNormal: () => dispatch(moduleExpandedStateActions.setNormal(presentationKey)),
+      dispatchSetMaximized: () => dispatch(moduleExpandedStateActions.setMaximized(presentationKey)),
     }
   }
-
 
   static propTypes = {
     // A - Module configuration related
     ...AccessShapes.runtimeDispayModuleFields,
     // B - Control and graphics related
+    mainModule: PropTypes.bool, // set to false to get a non growing dynamic module pane
     // optional module subtitle
     subtitle: PropTypes.string,
     // module title bar options
@@ -123,17 +121,20 @@ export class DynamicModulePane extends React.Component {
     titleComponent: PropTypes.node,
     // from map state to props
     expandable: PropTypes.bool,
-    expanded: PropTypes.bool,
+    presentationState: PropTypes.oneOf(UIDomain.PRESENTATION_STATE),
+    // raw presentation state from store, without default value, that is used to determine initialization state
+    storedPresentationState: PropTypes.oneOf(UIDomain.PRESENTATION_STATE),
     // eslint-disable-next-line react/no-unused-prop-types
     fetching: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
     availableDependencies: PropTypes.arrayOf(PropTypes.string), // async use
     // eslint-disable-next-line react/no-unused-prop-types
     isAuthenticated: PropTypes.bool.isRequired, // async use
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // from map dispatch to props
     dispatchSetInitialState: PropTypes.func.isRequired,
-    dispatchSetExpanded: PropTypes.func.isRequired,
+    dispatchSetMinimized: PropTypes.func.isRequired,
+    dispatchSetNormal: PropTypes.func.isRequired,
+    dispatchSetMaximized: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -144,7 +145,8 @@ export class DynamicModulePane extends React.Component {
     // map state to props
     availableDependencies: [],
     expandable: false, // default for admin or when not initialized
-    expanded: true, // default for admin or when not initialized
+    presentationState: UIDomain.PRESENTATION_STATE_ENUM.NORMAL, // default for admin or when not initialized
+    mainModule: true, // convenient default for auto driven modules
   }
 
   static contextTypes = {
@@ -158,22 +160,25 @@ export class DynamicModulePane extends React.Component {
     // any valid key is ok here
     noDataTitleKey: 'dynamic.module.not.authenticated.title',
     noDataMessageKey: 'dynamic.module.not.authenticated.message',
-    // children list
-    children: null,
   }
 
   /**
    * Lifecycle method, used here to recompute authentication and dependencies state
    */
   componentWillMount = () => {
-    // initialize redux store with this configuration
-    const primaryPaneMode = get(this.props, 'moduleConf.primaryPane', UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE)
-    const expandable = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.ALWAYS_EXPANDED
-    const expanded = primaryPaneMode !== UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE
-    this.props.dispatchSetInitialState(expandable, expanded)
+    const { storedPresentationState } = this.props
+    // initialize redux store with this configuration, when layout options should be shown AND not yet initializd (keeps state while
+    // user change pages)
+    if (this.showLayoutOptions() && isNil(storedPresentationState)) {
+      const primaryPaneMode = get(this.props, 'moduleConf.primaryPane', UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE)
+      const expansible = UIDomain.isModulePaneExpansible(primaryPaneMode)
+      const expanded = UIDomain.isModulePaneExpanded(primaryPaneMode)
+      this.props.dispatchSetInitialState(expansible, expanded)
+    }
     // let properties changed update this state
     this.onPropertiesChanged({}, this.props)
   }
+
 
   /**
    * Lifecycle method, used here to recompute authentication and dependencies state
@@ -181,6 +186,11 @@ export class DynamicModulePane extends React.Component {
    */
   componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
 
+  /**
+   * On properties changed: used to detect changes in incoming component properties
+   * @param {*} oldProps old component properties
+   * @param {*} newProps new component properties
+   */
   onPropertiesChanged = (oldProps, newProps) => {
     const oldState = this.state
     let newState
@@ -218,61 +228,94 @@ export class DynamicModulePane extends React.Component {
       }
     }
 
-    if (!isEqual(oldState, newState) || oldProps.children !== newProps.children) {
+    if (!isEqual(oldState, newState)) {
       this.setState(newState)
     }
   }
 
-  onExpandChange = () => {
-    const { expandable, expanded, dispatchSetExpanded } = this.props
-    if (expandable) {
-      // toggle expanded state
-      dispatchSetExpanded(!expanded)
+  /**
+   * @return applying module style for current presentation state
+   */
+  getModuleStyle = () => {
+    const { presentationState, mainModule } = this.props
+    const { maximizedStyle, growingStyle, defaultStyle } = this.context.moduleTheme.module
+    if (presentationState === UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED) {
+      return maximizedStyle // maximized
     }
+    if (mainModule) {
+      return growingStyle // growing vertically
+    }
+    return defaultStyle // default
   }
+
+  /**
+   * @return true if layout options should be shown
+   */
+  showLayoutOptions = () => this.props.appName === userAppName
 
   render() {
     const {
-      locale, description, page, subtitle, options, onKeyPress,
-      type, titleComponent, expandable, expanded, children,
+      description, page, subtitle, options, onKeyPress,
+      type, titleComponent, expandable, presentationState, children,
+      dispatchSetMinimized, dispatchSetNormal, dispatchSetMaximized,
     } = this.props
     const {
       noData, loading, noDataTitleKey, noDataMessageKey,
     } = this.state
-    const { intl: { formatMessage } } = this.context
-
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        module: {
+          cardRootContainerStyle,
+          content: {
+            moduleMediaRootStyle, moduleMediaStyle, moduleContentStyle,
+          },
+        },
+      },
+    } = this.context
     return (
-      <Card expanded>
+      <Card
+        style={this.getModuleStyle()}
+        containerStyle={cardRootContainerStyle}
+        expanded
+      >
         <ModuleTitle
           type={type}
-          locale={locale}
           description={description}
           page={page}
           titleComponent={titleComponent}
           subtitle={subtitle}
           options={options}
           expandable={expandable}
-          expanded={expanded}
-          onExpandChange={this.onExpandChange}
+          presentationState={presentationState}
+          onSetMinimized={dispatchSetMinimized}
+          onSetNormalState={dispatchSetNormal}
+          onSetMaximized={dispatchSetMaximized}
+          showLayoutOptions={this.showLayoutOptions()}
         />
         <SwitchThemeDecorator
           useMainTheme={false}
         >
-          <ShowableAtRender show={expanded}>
-            <CardMediaWithCustomBG onKeyPress={onKeyPress}>
-              {/* prevent children to show when missing rights */}
+          <ShowableAtRender show={presentationState !== UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED}>
+            <CardMediaWithCustomBG
+              style={moduleMediaRootStyle}
+              mediaStyle={moduleMediaStyle}
+              onKeyPress={onKeyPress}
+            >
+              {/* prevent children to show when missing rights  */}
               <NoContentMessageInfo
                 noContent={noData || loading}
                 title={formatMessage({ id: noDataTitleKey })}
                 message={formatMessage({ id: noDataMessageKey })}
                 Icon={loading ? UserInformationLoadingIcon : NotLoggedIcon}
               >
-                {HOCUtils.renderChildren(children)}
+                <div style={moduleContentStyle}>
+                  {HOCUtils.renderChildren(children)}
+                </div>
               </NoContentMessageInfo>
             </CardMediaWithCustomBG>
           </ShowableAtRender>
         </SwitchThemeDecorator>
-      </Card >
+      </Card>
     )
   }
 }

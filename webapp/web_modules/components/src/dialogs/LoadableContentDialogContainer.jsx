@@ -42,6 +42,7 @@ export class LoadableContentDialogContainer extends React.Component {
   }
 
   static VISIBLE_STYLES = { display: 'flex', flexGrow: 1, flexShrink: 1 }
+
   static HIDDEN_STYLES = { display: 'none', flexGrow: 0, flexShrink: 0 }
 
   render() {
@@ -62,7 +63,7 @@ export class LoadableContentDialogContainer extends React.Component {
             HOCUtils.renderChildren(children)
           }
         </div>
-      </PositionedDialog >
+      </PositionedDialog>
     )
   }
 }

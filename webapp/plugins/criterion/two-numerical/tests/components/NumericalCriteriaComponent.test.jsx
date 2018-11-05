@@ -41,13 +41,15 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing NumericalCriteriaComponent', (
   it('should render correctly', () => {
     const props = {
       onChange: () => { },
-      label: 'any',
+      label: 'label',
+      hintText: 'hintText',
+      tooltip: 'tooltip',
       comparator: EnumNumericalComparator.GE,
       availableComparators: [EnumNumericalComparator.EQ, EnumNumericalComparator.LE, EnumNumericalComparator.GE],
       value: 25,
-      reversed: false,
       hideAttributeName: false,
       hideComparator: false,
+      disabled: false,
     }
     const enzymeWrapper = shallow(<NumericalCriteriaComponent {...props} />, { context })
 
@@ -58,6 +60,7 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing NumericalCriteriaComponent', (
       value: props.comparator,
       onChange: enzymeWrapper.instance().handleChangeComparator,
       comparators: props.availableComparators,
+      disabled: props.disabled,
     }, 'Properties should be correctly reported to numerical component')
 
     // test text field render
@@ -66,6 +69,9 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing NumericalCriteriaComponent', (
     testSuiteHelpers.assertWrapperProperties(textField, {
       type: 'number',
       value: 25,
+      floatingLabelText: props.hintText,
+      title: props.tooltip,
+      disabled: props.disabled,
       onChange: enzymeWrapper.instance().handleChangeValue,
     }, 'Properties should be correctly reported to text field')
   })

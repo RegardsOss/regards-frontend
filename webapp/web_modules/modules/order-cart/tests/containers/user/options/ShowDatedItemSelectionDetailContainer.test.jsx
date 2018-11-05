@@ -22,6 +22,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ShowDatedItemSelectionDetailComponent from '../../../../src/components/user/options/ShowDatedItemSelectionDetailComponent'
 import { ShowDatedItemSelectionDetailContainer } from '../../../../src/containers/user/options/ShowDatedItemSelectionDetailContainer'
 import styles from '../../../../src/styles/styles'
+import { mockBasket1 } from '../../../BasketMocks'
 
 const context = buildTestContext(styles)
 
@@ -41,7 +42,7 @@ describe('[Order Cart] Testing ShowDatedItemSelectionDetailContainer', () => {
       disabled: false,
       datasetLabel: 'test-label',
       date: '2017-09-08T15:59:57.664Z',
-      openSearchRequest: 'testRequest',
+      selectionRequest: mockBasket1.datasetSelections[0].itemsSelections[0].selectionRequest,
       dispatchShowDetail: () => { },
     }
     const enzymeWrapper = shallow(<ShowDatedItemSelectionDetailContainer {...props} />, { context })

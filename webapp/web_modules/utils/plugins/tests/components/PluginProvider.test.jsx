@@ -24,7 +24,7 @@ import { spy } from 'sinon'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import PluginTest from './PluginTest'
-import PluginLoader, { UnconnectedPluginLoader } from '../../src/containers/PluginLoader'
+import PluginLoader, { PluginLoader as UnconnectedPluginLoader } from '../../src/containers/PluginLoader'
 import { UnconnectedPluginProvider } from '../../src/containers/PluginProvider'
 
 /**
@@ -87,7 +87,8 @@ describe('[PLUGINS] Testing Plugins load', () => {
       }}
       displayPlugin
       locale="fr"
-      loadPlugin={() => { }}
+      doLoadPlugin={() => { }}
+      doInitPlugin={() => { }}
     />)
 
     expect(wrapper.find(PluginTest)).to.have.length(0)
@@ -102,6 +103,8 @@ describe('[PLUGINS] Testing Plugins load', () => {
         parameter: 'value',
       }}
       displayPlugin
+      doLoadPlugin={() => { }}
+      doInitPlugin={() => { }}
       loadedPlugin={{
         name: 'testPlugin',
         plugin: PluginTest,
@@ -121,7 +124,9 @@ describe('[PLUGINS] Testing Plugins load', () => {
           type: 'CRITERIA',
           conf: {},
         },
+        loadError: false,
       }}
+      isInitialized
       locale="fr"
     />)
 
@@ -139,6 +144,8 @@ describe('[PLUGINS] Testing Plugins load', () => {
           parameter: 'value',
         }}
         displayPlugin={false}
+        doLoadPlugin={() => { }}
+        doInitPlugin={() => { }}
         loadedPlugin={{
           name: 'testPlugin',
           plugin: PluginTest,
@@ -156,7 +163,9 @@ describe('[PLUGINS] Testing Plugins load', () => {
             type: 'CRITERIA',
             conf: {},
           },
+          loadError: false,
         }}
+        isInitialized
         locale="fr"
       >
         <div>Test</div>

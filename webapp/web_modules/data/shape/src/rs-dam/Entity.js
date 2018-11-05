@@ -16,18 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Model } from './Model'
+import { ModelContent } from './Model'
+import Feature from './Feature'
 
+export const EntityProperties = {
+  id: PropTypes.number,
+  ipId: PropTypes.string.isRequired,
+  creationDate: PropTypes.string.isRequired,
+  lastUpdate: PropTypes.string,
+  entityType: PropTypes.oneOf(['DATASET', 'COLLECTION', 'DATAOBJECT', 'DOCUMENT']).isRequired,
+  groups: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  feature: Feature.isRequired,
+  model: ModelContent.isRequired,
+}
 /**
  * Entity definition for all catalog entities like datasets, dataobjects, collections or documents.
  */
-const Entity = PropTypes.shape({
+export default PropTypes.shape({
   content: PropTypes.shape({
-    id: PropTypes.number,
-    label: PropTypes.string.isRequired,
-    entityType: PropTypes.oneOf(['DATASET', 'COLLECTION', 'DATAOBJECT', 'DOCUMENT']).isRequired,
-    model: Model.isRequired,
+    ...EntityProperties,
   }).isRequired,
 })
-
-export default Entity

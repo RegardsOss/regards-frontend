@@ -18,6 +18,7 @@
  **/
 import { combineReducers } from 'redux'
 import { sipReducer } from './clients/SIPClient'
+import { sipSignalReducer } from './clients/SIPSignalClient'
 import { sipImportReducer } from './clients/SIPImportClient'
 import { sessionReducer } from './clients/SessionClient'
 import { processingChainReducer } from './clients/ProcessingChainClient'
@@ -25,6 +26,7 @@ import { processingChainReducer } from './clients/ProcessingChainClient'
 const sipManagementReducer = combineReducers({
   sip: sipReducer,
   sipImport: sipImportReducer,
+  sipSignal: sipSignalReducer,
   session: sessionReducer,
   chain: processingChainReducer,
 })

@@ -40,4 +40,3 @@ class ValidateAccountActions extends BasicSignalActions {
 }
 
 export default new ValidateAccountActions()
-

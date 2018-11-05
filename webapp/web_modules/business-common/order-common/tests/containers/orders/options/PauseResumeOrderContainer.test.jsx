@@ -53,39 +53,38 @@ describe('[Order Common] Testing PauseResumeOrderContainer', () => {
     { status: OrderDomain.ORDER_STATUS_ENUM.PAUSED, canUpdate: true, isPaused: true },
   ]
 
-  statusAndExpected.forEach(({ status, canUpdate, isPaused }) =>
-    it(`Should render correctly in status ${status}`, () => {
-      // mock entity with state
-      const entity = {
-        content: { ...SOME_ORDERS.content[0].content, status },
-        links: SOME_ORDERS.content[0].links,
-      }
-      const props = {
-        entity,
-        pageSize: 20,
-        orderStateActions: new OrderClient.OrderStateActions('any'), // used in mapDispatchToProps
-        ordersActions: new OrderClient.OrderListActions('any'),
-        ordersSelectors: OrderClient.getOrderListSelectors(['any']),
-        onShowRequestFailedInformation: () => { },
-        onShowAsynchronousRequestInformation: () => { },
-        sendPause: () => new Promise(resolve => resolve(true)),
-        sendResume: () => new Promise(resolve => resolve(true)),
-        fetchOrders: () => { },
-      }
-      const enzymeWrapper = shallow(<PauseResumeOrderContainer {...props} />, { context })
-      const component = enzymeWrapper.find(PauseResumeOrderComponent)
-      assert.lengthOf(component, 1, 'There should be the component')
-      assert.equal(component.props().onPause, enzymeWrapper.instance().onPause, 'Pause callback should be correctly ')
-      assert.equal(component.props().onResume, enzymeWrapper.instance().onResume, 'Resume callback should be correctly set')
-      if (canUpdate) {
-        assert.isTrue(component.props().canUpdate, 'The update operation should be enabled')
-      } else {
-        assert.isFalse(component.props().canUpdate, 'The update operation should be disabled')
-      }
-      if (isPaused) {
-        assert.isTrue(component.props().isPaused, 'The component should be marked paused')
-      } else {
-        assert.isFalse(component.props().isPaused, 'The component should not be marked paused')
-      }
-    }))
+  statusAndExpected.forEach(({ status, canUpdate, isPaused }) => it(`Should render correctly in status ${status}`, () => {
+    // mock entity with state
+    const entity = {
+      content: { ...SOME_ORDERS.content[0].content, status },
+      links: SOME_ORDERS.content[0].links,
+    }
+    const props = {
+      entity,
+      pageSize: 20,
+      orderStateActions: new OrderClient.OrderStateActions('any'), // used in mapDispatchToProps
+      ordersActions: new OrderClient.OrderListActions('any'),
+      ordersSelectors: OrderClient.getOrderListSelectors(['any']),
+      onShowRequestFailedInformation: () => { },
+      onShowAsynchronousRequestInformation: () => { },
+      sendPause: () => new Promise(resolve => resolve(true)),
+      sendResume: () => new Promise(resolve => resolve(true)),
+      fetchOrders: () => { },
+    }
+    const enzymeWrapper = shallow(<PauseResumeOrderContainer {...props} />, { context })
+    const component = enzymeWrapper.find(PauseResumeOrderComponent)
+    assert.lengthOf(component, 1, 'There should be the component')
+    assert.equal(component.props().onPause, enzymeWrapper.instance().onPause, 'Pause callback should be correctly ')
+    assert.equal(component.props().onResume, enzymeWrapper.instance().onResume, 'Resume callback should be correctly set')
+    if (canUpdate) {
+      assert.isTrue(component.props().canUpdate, 'The update operation should be enabled')
+    } else {
+      assert.isFalse(component.props().canUpdate, 'The update operation should be disabled')
+    }
+    if (isPaused) {
+      assert.isTrue(component.props().isPaused, 'The component should be marked paused')
+    } else {
+      assert.isFalse(component.props().isPaused, 'The component should not be marked paused')
+    }
+  }))
 })

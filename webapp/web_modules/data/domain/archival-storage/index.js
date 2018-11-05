@@ -16,9 +16,4 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AIP_STATES } from './AIPStatus'
-
-
-module.exports = {
-  AIP_STATES,
-}
+export { AIP_STATES } from './AIPStatus'

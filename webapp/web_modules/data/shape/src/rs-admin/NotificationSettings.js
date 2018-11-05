@@ -16,11 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const NotificationSettings = PropTypes.shape({
+export const NotificationSettings = PropTypes.shape({
   id: PropTypes.number,
   days: PropTypes.number,
   hours: PropTypes.number,
   frequency: PropTypes.oneOf(['DAILY', 'WEEKLY', 'MONTHLY', 'CUSTOM']),
 })
-
-module.exports = { NotificationSettings }

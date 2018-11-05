@@ -1,6 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = function (projectContextPath, mode = 'dev') {
@@ -56,7 +56,10 @@ module.exports = function (projectContextPath, mode = 'dev') {
         },
         {
           test: /\.css$/,
-          loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }),
+          use: mode !== 'test' ? [
+            MiniCssExtractPlugin.loader,
+            'css-loader',
+          ] : ['css-loader'],
         },
         {
           test: /\.(jpg|gif|png)$/,
@@ -107,7 +110,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
         PropTypes: 'prop-types',
       }),
       // Create a single css file for the whole application instead of setting css inline in the javascript
-      new ExtractTextPlugin({ filename: 'css/styles.css', disable: false, allChunks: true }),
+      new MiniCssExtractPlugin({ filename: 'css/styles.css' }),
       // Using http://webpack.github.io/analyse/#hints
       // And npm run build:stats
       // We can start to prefetch these files before they are imported
@@ -118,8 +121,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/components/src/content/MarkdownFileContentDisplayer.jsx'),
       new webpack.PrefetchPlugin('./web_modules/modules/search-results/src/containers/AdminContainer.jsx'),
       new webpack.PrefetchPlugin('./web_modules/modules/search-results/src/containers/ModuleContainer.jsx'),
-      new webpack.PrefetchPlugin('./web_modules/business-common/entities-common/src/containers/description/EntityDescriptionContainer.jsx'),
-      new webpack.PrefetchPlugin('./web_modules/business-common/entities-common/src/components/description/properties/PropertiesTabComponent.jsx'),
       new webpack.PrefetchPlugin('./web_modules/modules/search-graph/src/containers/user/UserModuleContainer.jsx'),
       new webpack.PrefetchPlugin('./web_modules/modules/search-graph/src/components/user/SearchGraph.jsx'),
       new webpack.PrefetchPlugin('./web_modules/modules/search-graph/src/containers/user/GraphLevelDisplayerContainer.jsx'),
@@ -134,12 +135,13 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-accessright-dataaccess-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-fragment-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ui-service-management/src/main.js'),
-      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-accessright-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-modelattribute-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ui-theme-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-account-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-model-management/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-attribute-plugins-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-user-management/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-board-account/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-board-acquisition/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ingest-processing-chain-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-user-projectuser-management/src/main.js'),
@@ -157,9 +159,14 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/business-modules/user/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-connection-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ui-layout-management/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-board-dataaccess/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-dataaccess-searchengines-management/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-dataaccess-services-management/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-user-authentication-plugins-management/src/main.js'),
 
       // All modules
       new webpack.PrefetchPlugin('./web_modules/modules/authentication/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/modules/description/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/licenses/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/order-cart/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/projects-list/src/main.js'),

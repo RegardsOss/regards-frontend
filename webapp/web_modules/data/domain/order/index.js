@@ -17,12 +17,5 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { ORDER_STATUS_ENUM, ORDER_STATUS } from './OrderStatus'
-import { ORDER_FILE_STATUS_ENUM, ORDER_FILE_STATUS } from './OrderFileStatus'
-
-module.exports = {
-  ORDER_STATUS,
-  ORDER_STATUS_ENUM,
-  ORDER_FILE_STATUS_ENUM,
-  ORDER_FILE_STATUS,
-}
+export { ORDER_STATUS_ENUM, ORDER_STATUS } from './OrderStatus'
+export { ORDER_FILE_STATUS_ENUM, ORDER_FILE_STATUS } from './OrderFileStatus'

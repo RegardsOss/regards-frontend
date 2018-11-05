@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import OrderListClient from './client/OrderListClient'
+import { orderListActions } from './client/OrderListClient'
 
 
 /**
@@ -25,5 +25,5 @@ import OrderListClient from './client/OrderListClient'
  * @author Raphaël Mechali
  */
 export const dependencies = [
-  OrderListClient.orderListActions.getDependency(RequestVerbEnum.GET_LIST),
+  orderListActions.getDependency(RequestVerbEnum.GET_LIST),
 ]

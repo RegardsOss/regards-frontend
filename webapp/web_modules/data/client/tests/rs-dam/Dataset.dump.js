@@ -16,18 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-module.exports = {
+export default {
   content: [
     {
       content: {
-        label: 'sdfqsdf',
         entityType: 'DATASET',
-        score: 0,
-        attributes: {
-          Attribute_0_0: 'QSDf',
-          'Fragment 2': {
-            Attribute_4: 'qsdf',
+        id: 23,
+        ipId: 'URN:AIP:DATASET:project1:e206f4e2-8bb7-4955-b5b6-0cfdca1b3238:V1',
+        feature: {
+          label: 'sdfqsdf',
+          model: 'VALIDATION_DATASET_MODEL_1',
+          entityType: 'DATASET',
+          type: 'Feature',
+          tags: [
+            'URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1',
+            'habla espanol',
+          ],
+          attributes: {
+            Attribute_0_0: 'QSDf',
+            'Fragment 2': {
+              Attribute_4: 'qsdf',
+            },
           },
+          providerId: 'dataset1',
+          id: 'URN:AIP:DATASET:project1:e206f4e2-8bb7-4955-b5b6-0cfdca1b3238:V1',
         },
         model: {
           id: 2,
@@ -37,7 +49,7 @@ module.exports = {
           type: 'DATASET',
         },
         creationDate: '2017-06-09T13:35:53.408Z',
-        dataModel: 5,
+        dataModel: '5',
         plgConfDataSource: {
           id: 6,
           pluginId: 'postgresql-datasource-single-table',
@@ -46,7 +58,7 @@ module.exports = {
           priorityOrder: 0,
           active: true,
           pluginClassName: 'fr.cnes.regards.modules.datasources.plugins.PostgreDataSourceFromSingleTablePlugin',
-          interfaceNames: ['fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourceFromSingleTablePlugin', 'fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourcePlugin'],
+          interfaceNames: ['fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourceFromSingleTablePlugin', 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDataSourcePlugin'],
           parameters: [{
             id: 18,
             name: 'connection',
@@ -58,7 +70,7 @@ module.exports = {
               priorityOrder: 0,
               active: true,
               pluginClassName: 'fr.cnes.regards.modules.datasources.plugins.DefaultPostgreConnectionPlugin',
-              interfaceNames: ['fr.cnes.regards.modules.datasources.plugins.interfaces.IDBConnectionPlugin', 'fr.cnes.regards.modules.datasources.plugins.interfaces.IConnectionPlugin'],
+              interfaceNames: ['fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBConnectionPlugin', 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IConnectionPlugin'],
               parameters: [{
                 id: 7,
                 name: 'minPoolSize',
@@ -124,9 +136,7 @@ module.exports = {
           'URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1',
           'habla espanol',
         ],
-        ipId: 'URN:AIP:DATASET:project1:e206f4e2-8bb7-4955-b5b6-0cfdca1b3238:V1',
         subsetting: 'fqsdsdf qsdf qsf sdf sf f',
-        id: 23,
       },
       links: [],
     },

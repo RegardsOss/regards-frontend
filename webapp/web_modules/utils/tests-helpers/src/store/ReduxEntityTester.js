@@ -19,7 +19,9 @@
 import nock from 'nock'
 import { assert } from 'chai'
 import thunk from 'redux-thunk'
-import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
+import {
+  combineReducers, createStore, applyMiddleware, compose,
+} from 'redux'
 
 const { apiMiddleware } = require('redux-api-middleware')
 // Since redux-api-middleware v2, we need to add the polyfill ourself
@@ -111,11 +113,11 @@ export default class ReduxEntityTester {
       const store = this.getStore()
       if (this.entityActions.fetchPagedEntityList) {
         assert.isDefined(this.backendServerResultList.metadata, 'Your Action is Pageable but the result you provided comes from a list entrypoint')
-        return store.dispatch(this.entityActions.fetchPagedEntityList(null, null, this.options.urlParams))
+        return store.dispatch(this.entityActions.fetchPagedEntityList(null, null, this.options.pathParams))
           .then(action => this.onPostActionTest(action, store, done))
-      } else if (this.entityActions.fetchEntityList) {
+      } if (this.entityActions.fetchEntityList) {
         assert.isUndefined(this.backendServerResultList.metadata, 'Your Action is a List but the result you provided comes from a pageable entrypoint')
-        return store.dispatch(this.entityActions.fetchEntityList(this.options.urlParams))
+        return store.dispatch(this.entityActions.fetchEntityList(this.options.pathParams))
           .then(action => this.onPostActionTest(action, store, done))
       }
       return done("Action can't be tested. Is it a Basic[Array|List|Pageable]Actions that you provided ?")
@@ -133,8 +135,8 @@ export default class ReduxEntityTester {
       throw new Error("The action you've provided is undefined")
     }
     let { entityEndpoint } = this.entityActions
-    if (this.options.urlParams) {
-      entityEndpoint = this.entityActions.handleRequestPathParameters(this.entityActions.entityEndpoint, this.options.urlParams)
+    if (this.options.pathParams) {
+      entityEndpoint = this.entityActions.handleRequestPathParameters(this.entityActions.entityEndpoint, this.options.pathParams)
     }
     if (this.entityActions.fetchPagedEntityList) {
       entityEndpoint = `${entityEndpoint}?page=0&size=2000`

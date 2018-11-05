@@ -19,7 +19,9 @@
 import get from 'lodash/get'
 import { fieldInputPropTypes } from 'redux-form'
 import { CommonShapes } from '@regardsoss/shape'
-import { FieldArray, RenderArrayTextField, RenderArrayObjectField, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  FieldArray, RenderArrayTextField, RenderArrayObjectField, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { getPrimitiveJavaTypeRenderParameters } from './JavaPrimitiveTypesTool'

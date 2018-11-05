@@ -20,12 +20,6 @@ import { CommonClient } from '@regardsoss/client'
 
 const namespace = 'common/pluginTypes'
 
-const pluginTypeActions = new CommonClient.PluginTypeActions(namespace)
-const pluginTypeReducer = CommonClient.getPluginTypeReducer(namespace)
-const pluginTypeSelectors = CommonClient.getPluginTypeSelectors(['admin', 'microservice-management', 'pluginType'])
-
-module.exports = {
-  pluginTypeActions,
-  pluginTypeReducer,
-  pluginTypeSelectors,
-}
+export const pluginTypeActions = new CommonClient.PluginTypeActions(namespace)
+export const pluginTypeReducer = CommonClient.getPluginTypeReducer(namespace)
+export const pluginTypeSelectors = CommonClient.getPluginTypeSelectors(['admin', 'microservice-management', 'pluginType'])

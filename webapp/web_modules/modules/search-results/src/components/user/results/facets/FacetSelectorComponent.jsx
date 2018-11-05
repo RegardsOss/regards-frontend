@@ -22,18 +22,16 @@ import MessageIcon from 'material-ui/svg-icons/action/info-outline'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DropDownButton } from '@regardsoss/components'
-import { Facet } from '../../../../models/facets/FacetShape'
+import { UIFacet } from '../../../../models/facets/FacetShape'
 
 /**
 * Range facet selector
 */
 class FacetSelectorComponent extends React.Component {
   static propTypes = {
-    facet: Facet.isRequired,
+    facet: UIFacet.isRequired,
     // formats the facet value for menu
-    facetValueFormatterForMenu: PropTypes.func.isRequired,
-    // formats the facet value for filter display
-    facetValueFormatterForFilter: PropTypes.func.isRequired,
+    facetValueFormatter: PropTypes.func.isRequired,
     // applies a facet filter (key:string, label:string, searchQuery: string)
     onSelectFacet: PropTypes.func.isRequired,
   }
@@ -43,36 +41,42 @@ class FacetSelectorComponent extends React.Component {
     ...i18nContextType,
   }
 
-  onSelectFacet = (facetValue) => {
+  /**
+   * User callback: a facet value was selected
+   */
+  onSelectFacetValue = (facetValue) => {
     // apply filter (compute the label value for it)
-    const { onSelectFacet, facetValueFormatterForFilter, facet: { attributeName: filterKey, label } } = this.props
-    onSelectFacet(filterKey, facetValueFormatterForFilter(label || filterKey, facetValue), facetValue.openSearchQuery)
+    const { onSelectFacet, facet } = this.props
+    onSelectFacet(facet, facetValue)
   }
 
+  /**
+   * @return {string} drop down button label, using facet label
+   */
   getLabel = () => {
-    // label does not change with value
-    const { facet: { label, attributeName } } = this.props
-    return label || attributeName
+    const { facet: { label } } = this.props
+    const { intl: { locale } } = this.context
+    return label[locale]
   }
 
   render() {
-    const { facet: { label, values, others }, facetValueFormatterForMenu } = this.props
+    const { facet: { model: { values, others } }, facetValueFormatter } = this.props
     const { intl: { formatMessage } } = this.context
 
     return (
       <DropDownButton
         getLabel={this.getLabel}
-        onChange={this.onSelectFacet}
+        onChange={this.onSelectFacetValue}
       >
         { // add all facets possible choices
           values.map((facetValue) => {
-            const menuLabel = facetValueFormatterForMenu(label, facetValue)
+            const menuLabel = facetValueFormatter(facetValue)
             return (
               <MenuItem key={menuLabel} value={facetValue} primaryText={menuLabel} />
             )
           })
         }
-        { // append non exhaustive message when others count is greater than 0
+        { // append non exhaustive message when others count is defined and greater than 0
           others ? [
             <Divider key="message.separator" />,
             <MenuItem

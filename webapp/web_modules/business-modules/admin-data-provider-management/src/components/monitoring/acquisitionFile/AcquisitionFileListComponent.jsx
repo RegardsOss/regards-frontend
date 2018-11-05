@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import {
@@ -134,11 +136,12 @@ export class AcquisitionFileListComponent extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, muiTheme } = this.context
     const {
       onBackToProducts, onBackToChains, pageSize, resultsCount, entitiesLoading, initialFilters, product, chain,
     } = this.props
     const { appliedFilters } = this.state
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
       <NoContentComponent
@@ -148,17 +151,20 @@ export class AcquisitionFileListComponent extends React.Component {
     )
 
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('column.filePath',
-        formatMessage({ id: 'acquisition.file.list.filePath' }), 'content.filePath', 1),
-      TableColumnBuilder.buildSimplePropertyColumn('column.acqDate',
-        formatMessage({ id: 'acquisition.file.list.acqDate' }), 'content.acqDate', 2, true, DateValueRender),
-      TableColumnBuilder.buildSimplePropertyColumn('column.state',
-        formatMessage({ id: 'acquisition.file.list.state' }), 'content.state', 3, true, AcquisitionFileStateRender),
+      new TableColumnBuilder('column.filePath').titleHeaderCell().propertyRenderCell('content.filePath')
+        .label(formatMessage({ id: 'acquisition.file.list.filePath' }))
+        .build(),
+      new TableColumnBuilder('column.acqDate').titleHeaderCell().propertyRenderCell('content.acqDate', DateValueRender)
+        .label(formatMessage({ id: 'acquisition.file.list.acqDate' }))
+        .build(),
+      new TableColumnBuilder('column.state').titleHeaderCell().propertyRenderCell('content.state', AcquisitionFileStateRender)
+        .label(formatMessage({ id: 'acquisition.file.list.state' }))
+        .build(),
     ]
 
-    const title = product ?
-      formatMessage({ id: 'acquisition.file.list.product.selected.subtitle' }, { product: get(product, 'content.productName', '') }) :
-      formatMessage({ id: 'acquisition.file.list.subtitle' }, { chain: get(chain, 'content.label', '') })
+    const title = product
+      ? formatMessage({ id: 'acquisition.file.list.product.selected.subtitle' }, { product: get(product, 'content.productName', '') })
+      : formatMessage({ id: 'acquisition.file.list.subtitle' }, { chain: get(chain, 'content.label', '') })
     return (
       <Card>
         <CardTitle
@@ -182,8 +188,8 @@ export class AcquisitionFileListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              minRowCount={0}
-              maxRowCount={20}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               queryPageSize={pageSize}
             />
           </TableLayout>

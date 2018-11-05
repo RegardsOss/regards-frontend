@@ -16,27 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { CardActionsComponent } from '@regardsoss/components'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
+import map from 'lodash/map'
+import get from 'lodash/get'
+import has from 'lodash/has'
+import isArray from 'lodash/isArray'
+import { CardActionsComponent, ErrorDecoratorComponent } from '@regardsoss/components'
 import { reduxForm } from '@regardsoss/form-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ImportFromFileDialogButton } from '@regardsoss/file-utils'
-
 import CloudDownload from 'mdi-material-ui/CloudDownload'
 import CloudUpload from 'mdi-material-ui/CloudUpload'
 import RaisedButton from 'material-ui/RaisedButton'
 
 
 /**
- * Display edit and create ingest processing chain form
- * @author Sébastien Binda
+ * Allows to upload and download microservice configuration
  */
 export class MicroserviceConfBackupComponent extends React.Component {
   static propTypes = {
     microserviceName: PropTypes.string.isRequired,
     exportUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
+    isSendingConfiguration: PropTypes.bool.isRequired,
     handleExportFile: PropTypes.func.isRequired,
     handleBack: PropTypes.func.isRequired,
   }
@@ -52,14 +57,17 @@ export class MicroserviceConfBackupComponent extends React.Component {
     flexDirection: 'column',
     alignItems: 'center',
   }
+
   static styleIcon = {
     height: 108,
     width: 108,
     margin: '30px 0px',
   }
+
   static styleButton = {
     margin: '30px 0px',
   }
+
   static contentWrapper = {
     display: 'flex',
     alignItems: 'center',
@@ -67,6 +75,69 @@ export class MicroserviceConfBackupComponent extends React.Component {
     marginTop: '20px',
   }
 
+  state = {
+    errors: [],
+  }
+
+  handleImportFile = (values) => {
+    this.setState({
+      errors: [],
+    })
+    return this.props.handleExportFile(values)
+      .then(((result) => {
+        if (result.error) {
+          const errors = get(result, 'payload.response', [])
+          this.setState({
+            errors,
+          })
+        }
+        // The code is good (2xx), but in fact only a part of the submitted conf file has been accepted
+        if (result.meta.status === 206) {
+          const errors = get(result, 'payload', [])
+          this.setState({
+            errors,
+          })
+          return {
+            ...result,
+            error: true,
+          }
+        }
+        return result
+      }))
+  }
+
+  renderErrors = () => {
+    const { errors } = this.state
+    if (errors) {
+      return (
+        <ErrorDecoratorComponent>
+          {isArray(errors) && map(errors, error => (
+            <div key={error.moduleInformation.name}>
+              <div>
+                {this.context.intl.formatMessage({ id: 'microservice.conf-backup.error.module-conf' })}
+                {error.moduleInformation.name}
+                (V
+                {error.moduleInformation.version}
+                )
+                <br />
+                {this.context.intl.formatMessage({ id: 'microservice.conf-backup.error.only-error' })}
+                {error.onlyErrors ? this.context.intl.formatMessage({ id: 'microservice.conf-backup.error.only-error.true' }) : this.context.intl.formatMessage({ id: 'microservice.conf-backup.error.only-error.false' })}
+              </div>
+              {map(error.importErrors, (importError, i) => (
+                <div key={i}>{importError}</div>
+              ))}
+            </div>
+          ))}
+          {has(errors, 'messages') && isArray(errors.messages) && map(errors.messages, (error, i) => (
+            <div key={i}>
+              {error}
+            </div>
+          ))}
+        </ErrorDecoratorComponent>
+      )
+    }
+    return null
+  }
 
   render() {
     const { microserviceName, exportUrl } = this.props
@@ -79,14 +150,17 @@ export class MicroserviceConfBackupComponent extends React.Component {
         />
         <form>
           <CardText>
+            {this.renderErrors()}
             <div style={MicroserviceConfBackupComponent.contentWrapper}>
 
               <div style={MicroserviceConfBackupComponent.pluginWrapper}>
                 <CloudUpload style={MicroserviceConfBackupComponent.styleIcon} />
                 {this.context.intl.formatMessage({ id: 'microservice.conf-backup.import' })}
                 <ImportFromFileDialogButton
-                  onImport={this.props.handleExportFile}
+                  onImport={this.handleImportFile}
                   onImportSucceed={this.props.handleBack}
+                  disableImportButton={this.props.isSendingConfiguration}
+                  ignoreErrors
                   style={MicroserviceConfBackupComponent.styleButton}
                 />
               </div>

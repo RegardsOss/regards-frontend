@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { MIME_TYPES } from '@regardsoss/mime-types'
 import styles from './styles'
 
 /**
@@ -26,10 +27,10 @@ import styles from './styles'
 export class URLCommonPicture extends React.Component {
   /** Supported MIME types */
   static SUPPORTED_MIME_TYPES = [
-    'image/gif',
-    'image/jpeg',
-    'image/png',
-    'image/tiff',
+    MIME_TYPES.GIF_MIME_TYPE,
+    MIME_TYPES.JPEG_MIME_TYPE,
+    MIME_TYPES.PNG_MIME_TYPE,
+    MIME_TYPES.TIF_MIME_TYPE,
   ]
 
   static propTypes = {

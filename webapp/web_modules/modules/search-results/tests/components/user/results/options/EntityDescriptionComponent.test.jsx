@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { DamDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import IconButton from 'material-ui/IconButton'
 import EntityDescriptionComponent from '../../../../../src/components/user/results/options/EntityDescriptionComponent'
@@ -38,12 +39,22 @@ describe('[Search Results] Testing EntityDescriptionComponent', () => {
   })
   it('should render correctly and start action on click', () => {
     const props = {
+      entity: {
+        content: {
+          id: 'URN:test',
+          providerId: 'Provider1',
+          label: 'test',
+          entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+          model: '1',
+          tags: ['test-tag'],
+        },
+      },
       onShowDescription: () => { },
     }
     const render = shallow(<EntityDescriptionComponent {...props} />, { context })
     const innerButton = render.find(IconButton)
     assert.lengthOf(innerButton, 1, 'It should use button to render')
     assert.isOk(innerButton.props().title, 'The tooltip should be visible')
-    assert.equal(innerButton.props().onClick, props.onShowDescription, 'The button should invoke onShowDescription after on touch tap')
+    assert.equal(innerButton.props().onClick, render.instance().onShowDescription, 'The button should invoke onShowDescription after on touch tap')
   })
 })

@@ -43,7 +43,7 @@ export class AccountFormContainer extends React.Component {
     this.props.fetchAccount(this.props.params.account_id)
   }
 
-  getBackUrl = () => ('/admin/account/list')
+  getBackUrl = () => ('/admin/accounts/management/list')
 
   handleUpdate = (values) => {
     const updatedAccount = Object.assign({}, this.props.account.content, {

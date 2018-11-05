@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import trim from 'lodash/trim'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import { formValueSelector } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import UnlockAccountIcon from 'material-ui/svg-icons/action/lock'
@@ -27,10 +29,12 @@ import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { PictureLinkComponent, FormErrorMessage } from '@regardsoss/components'
-import { RenderTextField, Field, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import {
+  RenderTextField, Field, reduxForm, ValidationHelpers,
+} from '@regardsoss/form-utils'
 
 const mailFieldId = 'username'
-const requiredEmailValidator = [ValidationHelpers.required, ValidationHelpers.email]
 
 /**
  * React components for login form
@@ -42,6 +46,8 @@ export class AuthenticationFormComponent extends React.Component {
     initialMail: PropTypes.string,
     // form title
     title: PropTypes.string.isRequired,
+    // login request loading
+    loading: PropTypes.bool.isRequired,
     // show create account link?
     showAskProjectAccess: PropTypes.bool.isRequired,
     // show cancel button?
@@ -78,7 +84,7 @@ export class AuthenticationFormComponent extends React.Component {
 
   render() {
     const {
-      errorMessage, currentMailValue, initialMail,
+      errorMessage, currentMailValue, initialMail, loading,
       showAskProjectAccess, showCancel, onCancelAction, handleSubmit,
       onLogin, onGotoUnlockAccount, onGotoResetPassword, onGotoCreateAccount,
     } = this.props
@@ -113,8 +119,13 @@ export class AuthenticationFormComponent extends React.Component {
                 component={RenderTextField}
                 type="text"
                 label={this.context.intl.formatMessage({ id: 'authentication.username' })}
-                validate={requiredEmailValidator}
+                /**
+                 * NOTE : User login is not necesserally an email.
+                 * In case of authentication plugins like LDAP.
+                */
+                validate={ValidationHelpers.required}
                 normalize={trim}
+                disabled={this.props.submitting || this.props.loading}
               />
               <Field
                 name="password"
@@ -124,16 +135,22 @@ export class AuthenticationFormComponent extends React.Component {
                 label={this.context.intl.formatMessage({ id: 'authentication.password' })}
                 validate={ValidationHelpers.required}
                 normalize={trim}
+                disabled={this.props.submitting || this.props.loading}
               />
             </CardText>
             <CardActions style={moduleTheme.action}>
-              <RaisedButton
-                disabled={this.props.submitting || this.props.invalid}
-                label={this.context.intl.formatMessage({ id: 'authentication.button' })}
-                primary
-                type="submit"
-              />
-              {cancelButtonElt}
+              <LoadableContentDisplayDecorator
+                isLoading={loading}
+              >
+                <RaisedButton
+                  disabled={this.props.submitting || this.props.invalid || this.props.loading}
+                  label={this.context.intl.formatMessage({ id: 'authentication.button' })}
+                  primary
+                  type="submit"
+                />
+                {cancelButtonElt}
+              </LoadableContentDisplayDecorator>
+
             </CardActions>
             <div style={moduleTheme.linksBar}>
               <PictureLinkComponent
@@ -174,4 +191,3 @@ const selector = formValueSelector(formId)
 export default connect(state => ({
   currentMailValue: selector(state, mailFieldId),
 }))(connectedReduxForm)
-

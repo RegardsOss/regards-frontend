@@ -20,7 +20,7 @@
 /**
  * Table selection modes
  */
-module.exports = {
+export default {
   includeSelected: 'include.selected',
   excludeSelected: 'exclude.selected',
 }

@@ -51,11 +51,11 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormContainer',
       // from mapStateToProps
       currentAccessGroup: null,
       // from redux-form
-      unregisterField: () => {},
+      unregisterField: () => { },
       // from mapDispatchToProps
       fetchAccessGroup: fetchAccessGroupSpy,
-      updateAccessGroup: () => {},
-      createAccessGroup: () => {},
+      updateAccessGroup: () => { },
+      createAccessGroup: () => { },
     }
     const enzymeWrapper = shallow(<AccessGroupFormContainer {...props} />, { context, lifecycleExperimental: true })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
@@ -74,11 +74,11 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormContainer',
       // from mapStateToProps
       currentAccessGroup: undefined,
       // from redux-form
-      unregisterField: () => {},
+      unregisterField: () => { },
       // from mapDispatchToProps
       fetchAccessGroup: fetchAccessGroupSpy,
-      updateAccessGroup: () => {},
-      createAccessGroup: () => {},
+      updateAccessGroup: () => { },
+      createAccessGroup: () => { },
     }
     const enzymeWrapper = shallow(<AccessGroupFormContainer {...props} />, { context, lifecycleExperimental: true })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
@@ -98,11 +98,11 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormContainer',
       // from mapStateToProps
       currentAccessGroup: DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup'),
       // from redux-form
-      unregisterField: () => {},
+      unregisterField: () => { },
       // from mapDispatchToProps
       fetchAccessGroup: fetchAccessGroupSpy,
-      updateAccessGroup: () => {},
-      createAccessGroup: () => {},
+      updateAccessGroup: () => { },
+      createAccessGroup: () => { },
     }
     const enzymeWrapper = shallow(<AccessGroupFormContainer {...props} />, { context, lifecycleExperimental: true })
 

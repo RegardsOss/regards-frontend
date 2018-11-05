@@ -29,6 +29,7 @@ export class BoardContainer extends React.Component {
       project: PropTypes.string,
     }),
   }
+
   render() {
     const { params: { project } } = this.props
     return (

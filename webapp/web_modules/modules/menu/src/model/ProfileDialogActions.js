@@ -21,6 +21,7 @@
  */
 export class ProfileDialogActions {
   static SHOW_EDITION = 'menu/profile/show.edition'
+
   static HIDE_EDITION = 'menu/profile/hide.edition'
 
   showEdition = () => ({

@@ -24,6 +24,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DamDomain } from '@regardsoss/domain'
 import { Field } from '@regardsoss/form-utils'
 import { ModulePaneStateField } from '@regardsoss/modules-api'
+import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
 import SearchResultsConfigurationComponent from '../../../src/components/admin/SearchResultsConfigurationComponent'
 import Styles from '../../../src/styles/styles'
 
@@ -36,10 +37,10 @@ describe('[Search Results] Testing SearchResultsConfigurationComponent', () => {
   after(testSuiteHelpers.after)
   const options = { context: buildTestContext(Styles) }
 
-  it('Should render a SearchResultsConfigurationComponent to configure search results', () => {
+  it('Should render a SearchResultsConfigurationComponent to configure search results in data mode', () => {
     const selectCallback = spy()
     const props = {
-      defaultSelected: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+      defaultSelected: DamDomain.ENTITY_TYPES_ENUM.DATA,
       onSelectType: selectCallback,
       disabled: false,
 
@@ -60,7 +61,13 @@ describe('[Search Results] Testing SearchResultsConfigurationComponent', () => {
 
     // verify each configuration field is available
     const wrapperInstance = wrapper.instance()
-    const wrapperFieldsProps = keys(wrapperInstance).filter(key => key.match(/CONF_.*/))
+
+    const wrapperFieldsProps = keys(wrapperInstance).filter(key => key.match(/CONF_.*/) // math all CONF fields
+      // remove specific view fields, that cannot be found outside specific view configuration
+      && !['CONF_DATA_SECTION_LABEL_FR', 'CONF_DATA_SECTION_LABEL_EN',
+        'CONF_QUICKLOOKS_WIDTH', 'CONF_QUICKLOOKS_SPACING',
+        'CONF_DATASETS_SECTION_LABEL_FR', 'CONF_DATASETS_SECTION_LABEL_EN',
+      ].includes(key))
     const allFields = wrapper.find(Field)
     wrapperFieldsProps.forEach((fieldProperty) => {
       const fieldName = wrapperInstance[fieldProperty]
@@ -72,5 +79,11 @@ describe('[Search Results] Testing SearchResultsConfigurationComponent', () => {
     const paneField = wrapper.find(ModulePaneStateField)
     assert.lengthOf(paneField, 1, 'There should be the pane field')
     assert.equal(paneField.props().currentNamespace, props.currentNamespace, 'It should use the right namespace')
+
+    // finally check that each data view configuration array is available
+    const listFields = wrapper.find(AttributesListConfigurationComponent)
+    assert.lengthOf(listFields.findWhere(l => l.props().attributesListFieldName === 'conf.data.columns'), 1, 'There should be view columns list field')
+    assert.lengthOf(listFields.findWhere(l => l.props().attributesListFieldName === 'conf.data.facets'), 1, 'There should be view facets list field')
+    assert.lengthOf(listFields.findWhere(l => l.props().attributesListFieldName === 'conf.data.sorting'), 1, 'There should be view sorting list field')
   })
 })

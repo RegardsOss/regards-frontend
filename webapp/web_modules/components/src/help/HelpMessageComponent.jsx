@@ -23,7 +23,9 @@ export default class HelpMessageComponent extends React.Component {
   static propTypes = {
     message: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   }
+
   static styleContainer = { display: 'flex', alignItems: 'center' }
+
   static styleIcon = { width: '24px', height: '24px', marginRight: '10px' }
 
   render() {

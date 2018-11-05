@@ -16,21 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import PluginProvider from './containers/PluginProvider'
-import PluginLoader from './containers/PluginLoader'
-import { loadPlugin, savePluginLoaded } from './model/LoadPluginActions'
-import pluginReducerHelper from './helpers/PluginReducerHelper'
-import PluginReducer from './reducer'
 
 /**
  * Main interface to expose plugins utils
  * @author Sébastien Binda
  */
-export {
-  PluginReducer,
-  PluginLoader,
-  PluginProvider,
-  loadPlugin,
-  savePluginLoaded,
-  pluginReducerHelper,
-}
+export { default as PluginProvider } from './containers/PluginProvider'
+export { default as PluginLoader } from './containers/PluginLoader'
+export { loadPlugin, savePluginLoaded } from './model/LoadPluginActions'
+export { default as pluginReducerHelper } from './helpers/PluginReducerHelper'
+export { default as PluginReducer } from './reducer'

@@ -25,7 +25,9 @@ import { i18nContextType } from '@regardsoss/i18n'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
 import { FormErrorMessage } from '@regardsoss/components'
-import { RenderTextField, Field, ErrorTypes, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderTextField, Field, ErrorTypes, reduxForm, ValidationHelpers,
+} from '@regardsoss/form-utils'
 
 const { required, intNumber } = ValidationHelpers
 const requiredIntNumber = [required, intNumber]
@@ -122,9 +124,9 @@ export class ProjectConnectionFormComponent extends React.Component {
 
   renderCancelButton = () => {
     if (this.props.onCancel) {
-      const cancelLabel = this.props.isStep && !this.props.configureOneForAll ?
-        this.context.intl.formatMessage({ id: 'database.form.action.previous' }) :
-        this.context.intl.formatMessage({ id: 'database.form.action.cancel' })
+      const cancelLabel = this.props.isStep && !this.props.configureOneForAll
+        ? this.context.intl.formatMessage({ id: 'database.form.action.previous' })
+        : this.context.intl.formatMessage({ id: 'database.form.action.cancel' })
       return (<SecondaryActionButtonComponent
         label={cancelLabel}
         onClick={this.props.onCancel}
@@ -134,9 +136,9 @@ export class ProjectConnectionFormComponent extends React.Component {
   }
 
   render() {
-    const label = this.props.isStep && !this.props.configureOneForAll ?
-      this.context.intl.formatMessage({ id: 'database.form.action.next' }) :
-      this.context.intl.formatMessage({ id: 'database.form.action.save' })
+    const label = this.props.isStep && !this.props.configureOneForAll
+      ? this.context.intl.formatMessage({ id: 'database.form.action.next' })
+      : this.context.intl.formatMessage({ id: 'database.form.action.save' })
 
     const submitAction = this.props.projectConnection && !this.props.configureOneForAll ? this.updateProjectConnection : this.createProjectConnection
     return (

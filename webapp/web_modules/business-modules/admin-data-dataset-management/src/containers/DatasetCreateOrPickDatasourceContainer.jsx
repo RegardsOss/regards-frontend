@@ -21,7 +21,7 @@ import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { datasourceSelectors, datasourceActions } from './../clients/DatasourceClient'
+import { datasourceSelectors, datasourceActions } from '../clients/DatasourceClient'
 import DatasetCreateOrPickDatasourceComponent from '../components/DatasetCreateOrPickDatasourceComponent'
 import messages from '../i18n'
 
@@ -60,6 +60,7 @@ export class DatasetCreateOrPickDatasourceContainer extends React.Component {
     const { params: { project } } = this.props
     return `/admin/${project}/data/collections/dataset/list`
   }
+
   getCreateDatasourceUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/data/acquisition/datasource/create/interface`

@@ -43,6 +43,7 @@ export class PluginListComponent extends React.Component {
     disabled: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     errorText: PropTypes.string,
+    displayMoreInfoButton: PropTypes.bool,
   }
 
   static contextTypes = {
@@ -102,7 +103,9 @@ export class PluginListComponent extends React.Component {
     const infos = (
       <div>
         <div style={moduleTheme.pluginListSelector.version}>{`${plugin.content.author} | ${plugin.content.version}`}</div>
-        <div style={moduleTheme.pluginListSelector.description}> {plugin.content.description}</div>
+        <div style={moduleTheme.pluginListSelector.description}>
+          {plugin.content.description}
+        </div>
       </div>
     )
 
@@ -113,7 +116,8 @@ export class PluginListComponent extends React.Component {
           key={plugin.content.pluginId}
           value={plugin.content.pluginId}
           primaryText={plugin.content.pluginId}
-        >{infos}
+        >
+          {infos}
         </MenuItem>,
         <Divider key={`divider-${plugin.content.pluginId}`} />,
       ]
@@ -121,6 +125,7 @@ export class PluginListComponent extends React.Component {
   }
 
   renderDescription = () => {
+    const { displayMoreInfoButton } = this.props
     const {
       moduleTheme: { markdownDialog },
     } = this.context
@@ -131,7 +136,7 @@ export class PluginListComponent extends React.Component {
     }
     // Find plugin
     const plugin = find(this.props.pluginList, p => p.content.pluginId === selectedPluginId)
-    if (get(plugin, 'content.markdown')) {
+    if (get(plugin, 'content.markdown') && displayMoreInfoButton) {
       button = (
         <a
           style={markdownDialog.moreInfoButtonStyle}
@@ -142,16 +147,19 @@ export class PluginListComponent extends React.Component {
         </a>
       )
     }
-    return (
-      <div>
-        {button}
-        <PluginDescriptionDialog
-          opened={this.state.descriptionOpen}
-          onClose={this.handleCloseDescriptionDialog}
-          pluginMetaData={plugin.content}
-        />
-      </div>
-    )
+    if (plugin != null) {
+      return (
+        <div>
+          {button}
+          <PluginDescriptionDialog
+            opened={this.state.descriptionOpen}
+            onClose={this.handleCloseDescriptionDialog}
+            pluginMetaData={plugin.content}
+          />
+        </div>
+      )
+    }
+    return null
   }
 
   /**
@@ -170,6 +178,7 @@ export class PluginListComponent extends React.Component {
           onChange={this.handleSelect}
           style={PluginListComponent.menuStyles}
           disabled={this.props.disabled}
+          className="selenium-selectPlugin"
         >
           <MenuItem value="__default__" primaryText={this.props.selectLabel || 'none'} />
           {map(this.props.pluginList, this.renderItem)}

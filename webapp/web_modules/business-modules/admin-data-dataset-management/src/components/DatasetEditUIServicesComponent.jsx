@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -84,11 +86,11 @@ export class DatasetEditUIServicesComponent extends React.Component {
   handleCheck = (uiPluginConfiguration) => {
     const { linkUIPluginConfigurationActiveList } = this.state
     this.setState({
-      linkUIPluginConfigurationActiveList: this.isPluginConfigurationActivated(uiPluginConfiguration) ?
+      linkUIPluginConfigurationActiveList: this.isPluginConfigurationActivated(uiPluginConfiguration)
         // remove plugin from list
-        linkUIPluginConfigurationActiveList.filter(value => uiPluginConfiguration.content.id !== value.id) :
+        ? linkUIPluginConfigurationActiveList.filter(value => uiPluginConfiguration.content.id !== value.id)
         // add plugin in list
-        [...linkUIPluginConfigurationActiveList, { id: uiPluginConfiguration.content.id }],
+        : [...linkUIPluginConfigurationActiveList, { id: uiPluginConfiguration.content.id }],
     })
   }
 
@@ -100,15 +102,15 @@ export class DatasetEditUIServicesComponent extends React.Component {
     }
     this.props.handleSubmit(updateLinkUIPluginDataset)
   }
+
   /**
    * Return true if the dataset is associated with the UIPluginConfiguration
    * @param uiPluginConfiguration
    * @returns {*}
    */
   isPluginConfigurationActivated = uiPluginConfiguration => (
-    this.isPluginConfigurationActivatedForAllDataset(uiPluginConfiguration) ||
-    some(this.state.linkUIPluginConfigurationActiveList, entity =>
-      (entity.id === uiPluginConfiguration.content.id))
+    this.isPluginConfigurationActivatedForAllDataset(uiPluginConfiguration)
+    || some(this.state.linkUIPluginConfigurationActiveList, entity => (entity.id === uiPluginConfiguration.content.id))
   )
 
   isPluginConfigurationActivatedForAllDataset = uiPluginConfiguration => uiPluginConfiguration.content.linkedToAllEntities
@@ -122,7 +124,7 @@ export class DatasetEditUIServicesComponent extends React.Component {
           subtitle={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.subtitle' })}
         />
         <DatasetStepperContainer
-          stepIndex={4}
+          stepIndex={5}
           currentDatasetIpId={this.props.currentDatasetIpId}
           currentDatasetId={this.props.currentDatasetId}
           isEditing
@@ -161,4 +163,3 @@ export class DatasetEditUIServicesComponent extends React.Component {
 }
 
 export default DatasetEditUIServicesComponent
-

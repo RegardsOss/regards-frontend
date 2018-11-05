@@ -16,53 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Account from './schemas/Account'
-import Project from './schemas/Project'
-import ProjectConnection from './schemas/ProjectConnection'
-import ProjectUser from './schemas/ProjectUser'
-import Role from './schemas/Role'
-import Notification from './schemas/Notification'
-import Model from './schemas/Model'
-import Accesses from './schemas/Accesses'
-import AttributeModel from './dam/AttributeModel'
-import AttributeModelRestriction from './dam/AttributeModelRestriction'
-import Module from './access/Module'
-import Layout from './access/Layout'
-import LinkUIPluginDataset from './access/LinkUIPluginDataset'
-import Theme from './access/Theme'
-import Plugin from './access/Plugin'
-import UIPluginConf from './access/UIPluginConf'
-import Fragment from './dam/Fragment'
-import Dataset from './dam/Dataset'
-import DatasetWithAccessRight from './dam/DatasetWithAccessRight'
-import AccessRight from './dam/AccessRight'
-import AccessGroup from './dam/AccessGroup'
-import CrawlerDatasource from './dam/CrawlerDatasource'
-import Datasource from './dam/Datasource'
-import Document from './dam/Document'
-import Entity from './catalog/Entity'
-import ResourceAccess from './admin/ResourceAccess'
-import ModelAttribute from './dam/ModelAttribute'
-import PluginMetaData from './common/PluginMetaData'
-import AdminPluginConfiguration from './common/PluginConfiguration'
-import PluginParameter from './common/PluginParameter'
-import PrioritizedDataStorage from './storage/PrioritizedDataStorage'
-import StorageMonitoring from './storage/StorageMonitoring'
-import Collection from './dam/Collection'
-import Connection from './dam/Connection'
-import ModelAttributeComputationTypes from './dam/ModelAttributeComputationTypes'
-import AIPStatus from './storage/AIPStatus'
-import Endpoint from './admin/Endpoint'
-import LinkPluginDataset from './catalog/LinkPluginDataset'
-import ProcessingChain from './ingest/ProcessingChain'
-import Order from './order/Order'
-import OrderFile from './order/OrderFile'
-import Sip from './ingest/SIP'
-import Session from './ingest/Session'
-import AcquisitionProcessingChain from './data-provider/AcquisitionProcessingChain'
-import AcquisitionProcessingChainMonitor from './data-provider/AcquisitionProcessingChainMonitor'
-import Product from './data-provider/Product'
-import AcquisitionFile from './data-provider/AcquisitionFile'
+
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -71,72 +25,65 @@ import AcquisitionFile from './data-provider/AcquisitionFile'
 // and keep it updated as we fetch more data.
 
 // Schemas for API responses.
-module.exports = {
-  // TODO-V3 Schema !?! move to each associated microservice
-  ...Accesses,
-  ...Account,
-  ...Model,
-  ...Notification,
-  ...ProjectConnection,
-  ...Project,
-  ...ProjectUser,
-  ...Role,
 
-  // Admin
-  ...Endpoint,
-  ...ResourceAccess,
-
-  // Access
-  ...Module,
-  ...Layout,
-  ...LinkPluginDataset,
-  ...LinkUIPluginDataset,
-  ...Plugin,
-  ...Theme,
-  ...UIPluginConf,
-
-  // Storage
-  ...PrioritizedDataStorage,
-  ...StorageMonitoring,
-  ...AIPStatus,
-
-  // Catalog
-  ...Entity,
-
-  // Common
-  ...AdminPluginConfiguration,
-  ...PluginMetaData,
-  ...PluginParameter,
-
-  // DAM
-  ...AccessGroup,
-  ...AttributeModel,
-  ...AttributeModelRestriction,
-  ...AccessRight,
-  ...Connection,
-  ...Collection,
-  ...CrawlerDatasource,
-  ...Dataset,
-  ...DatasetWithAccessRight,
-  ...Datasource,
-  ...Document,
-  ...Fragment,
-  ...ModelAttributeComputationTypes,
-  ...ModelAttribute,
-
-  // Data Provider
-  ...AcquisitionProcessingChain,
-  ...AcquisitionProcessingChainMonitor,
-  ...Product,
-  ...AcquisitionFile,
-
-  // Ingest
-  ...ProcessingChain,
-  ...Sip,
-  ...Session,
-
-  // Order
-  ...Order,
-  ...OrderFile,
-
-}
+export { AccountConfiguration, ACCOUNT, ACCOUNT_ARRAY } from './schemas/Account'
+export { ProjectConfiguration, PROJECT, PROJECT_ARRAY } from './schemas/Project'
+export { ProjectConnectionConfiguration, PROJECT_CONNECTION, PROJECT_CONNECTION_ARRAY } from './schemas/ProjectConnection'
+export { PROJECT_USER_ARRAY, PROJECT_USER, ProjectUserConfiguration } from './schemas/ProjectUser'
+export { RoleConfiguration, ROLE, ROLE_ARRAY } from './schemas/Role'
+export { NOTIFICATION, NOTIFICATION_ARRAY, NotificationConfiguration } from './schemas/Notification'
+export { ModelConfiguration, MODEL, MODEL_ARRAY } from './schemas/Model'
+export { ACCESSES_ARRAY, ACCESSES, AccessesConfiguration } from './schemas/Accesses'
+export { ATTRIBUTE_MODEL_ARRAY, ATTRIBUTE_MODEL, AttributeModelConfiguration } from './dam/AttributeModel'
+export { ATTRIBUTE_MODEL_RESTRICTION_ARRAY, ATTRIBUTE_MODEL_RESTRICTION, AttributeModelRestrictionConfiguration } from './dam/AttributeModelRestriction'
+// Access
+export { MODULE, MODULE_ARRAY, ModuleConfiguration } from './access/Module'
+export { LAYOUT, LAYOUT_ARRAY, LayoutConfiguration } from './access/Layout'
+export { LINK_UI_PLUGIN_DATASET, LINK_UI_PLUGIN_DATASET_ARRAY, LinkUIPluginDatasetConfiguration } from './access/LinkUIPluginDataset'
+export { THEME, THEME_ARRAY, ThemeConfiguration } from './access/Theme'
+export { PLUGIN_ARRAY, PLUGIN, PluginConfiguration } from './access/Plugin'
+export { UI_PLUGIN_CONFIGURATION, UI_PLUGIN_CONFIGURATION_ARRAY, UIPluginConfConfiguration } from './access/UIPluginConf'
+// DAM
+export { FragmentConfiguration, FRAGMENT, FRAGMENT_ARRAY } from './dam/Fragment'
+export { DatasetConfiguration, DATASET, DATASET_ARRAY } from './dam/Dataset'
+export { DATASET_WITH_ACCESS_RIGHT, DATASET_WITH_ACCESS_RIGHT_ARRAY, DatasetWithAccessRightConfiguration } from './dam/DatasetWithAccessRight'
+export { AccessRightConfiguration, ACCESS_RIGHT, ACCESS_RIGHT_ARRAY } from './dam/AccessRight'
+export { ACCESS_GROUP, ACCESS_GROUP_ARRAY, AccessGroupConfiguration } from './dam/AccessGroup'
+export { CrawlerDatasourceConfiguration, CRAWLER_DATASOURCE, CRAWLER_DATASOURCE_ARRAY } from './dam/CrawlerDatasource'
+export { DATASOURCE, DatasourceConfiguration, DATASOURCE_ARRAY } from './dam/Datasource'
+export { DocumentConfiguration, DOCUMENT, DOCUMENT_ARRAY } from './dam/Document'
+export { ModelAttributeConfiguration, MODEL_ATTRIBUTE, MODEL_ATTRIBUTE_ARRAY } from './dam/ModelAttribute'
+export { CollectionConfiguration, COLLECTION, COLLECTION_ARRAY } from './dam/Collection'
+export { CONNECTION, CONNECTION_ARRAY, ConnectionConfiguration } from './dam/Connection'
+export { ModelAttributeComputationTypesConfiguration, MODEL_ATTRIBUTE_COMPUTATION_TYPES_ARRAY, MODEL_ATTRIBUTE_COMPUTATION_TYPES } from './dam/ModelAttributeComputationTypes'
+// Common
+export { PluginMetaDataConfiguration, PLUGIN_META_DATA, PLUGIN_META_DATA_ARRAY } from './common/PluginMetaData'
+export { AdminPluginConfigurationSchemaConfiguration, PLUGIN_CONFIGURATION, PLUGIN_CONFIGURATION_ARRAY } from './common/PluginConfiguration'
+export { PLUGIN_PARAMETER_ARRAY, PLUGIN_PARAMETER, PluginParameterConfiguration } from './common/PluginParameter'
+// Storage
+export { PRIORIZED_DATASTORAGE, PRIORIZED_DATASTORAGE_ARRAY, PrioritizedDataStorageConfiguration } from './storage/PrioritizedDataStorage'
+export { StorageMonitoringConfiguration, STORAGE_MONITORING, STORAGE_MONITORING_ARRAY } from './storage/StorageMonitoring'
+export { AIP_STATUS, AIP_STATUS_ARRAY, AIPStatusConfiguration } from './storage/AIPStatus'
+export { AIPSessionConfiguration, AIP_SESSION_ARRAY, AIP_SESSION } from './storage/AIPSession'
+export { AIPConfiguration, AIP, AIP_ARRAY } from './storage/AIP'
+export { AIPFileConfiguration, AIP_FILE_ARRAY, AIP_FILE } from './storage/AIPFile'
+// Admin
+export { RESOURCE_ACCESS, RESOURCE_ACCESS_ARRAY, ResourceAccessConfiguration } from './admin/ResourceAccess'
+export { ENDPOINT, ENDPOINT_ARRAY, EndpointConfiguration } from './admin/Endpoint'
+// Catalog
+export { ATTRIBUTE_BOUNDS, ATTRIBUTE_BOUNDS_ARRAY, AttributeBoundsConfiguration } from './catalog/AttributeBounds'
+export { ENTITY_ARRAY, ENTITY, EntityConfiguration } from './catalog/Entity'
+export { LINK_PLUGIN_DATASET_ARRAY, LINK_PLUGIN_DATASET, LinkPluginDatasetConfiguration } from './catalog/LinkPluginDataset'
+export { SearchEngineConfiguration, SEARCH_ENGINE, SEARCH_ENGINE_ARRAY } from './catalog/SearchEngineConfiguration'
+// Order
+export { ORDER, ORDER_ARRAY, OrderConfiguration } from './order/Order'
+export { ORDER_FILE, ORDER_FILE_ARRAY, OrderFileConfiguration } from './order/OrderFile'
+// Ingest
+export { PROCESSING_CHAIN, PROCESSING_CHAIN_ARRAY, ProcessingChainConfiguration } from './ingest/ProcessingChain'
+export { SIP, SIP_ARRAY, SIPConfiguration } from './ingest/SIP'
+export { SESSION, SESSION_ARRAY, SessionConfiguration } from './ingest/Session'
+// Data Provider
+export { ACQUISITION_PROCESSING_CHAIN, ACQUISITION_PROCESSING_CHAIN_ARRAY, AcquisitionProcessingChainConfiguration } from './data-provider/AcquisitionProcessingChain'
+export { ACQUISITION_PROCESSING_CHAIN_MONITOR_ARRAY, ACQUISITION_PROCESSING_CHAIN_MONITOR, AcquisitionProcessingChainMonitorConfiguration } from './data-provider/AcquisitionProcessingChainMonitor'
+export { PRODUCT_ARRAY, PRODUCT, ProductConfiguration } from './data-provider/Product'
+export { ACQUISITION_FILE_ARRAY, ACQUISITION_FILE, AcquisitionFileConfiguration } from './data-provider/AcquisitionFile'

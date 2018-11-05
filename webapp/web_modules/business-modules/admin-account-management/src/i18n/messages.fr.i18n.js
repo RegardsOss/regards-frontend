@@ -29,6 +29,7 @@ const messages = Object.assign({
   'account.list.table.status.label.ACTIVE': 'Actif',
   'account.list.table.status.label.LOCKED': 'Bloqué',
   'account.list.table.status.label.INACTIVE': 'Désactivé',
+  'account.list.table.status.label.INACTIVE_PASSWORD': 'Mot de passe expiré',
   'account.list.table.action': 'Actions',
   'account.list.subtitle': 'Liste des comptes tous projets confondus',
   'account.list.table.no.content.title': 'Rien à afficher',
@@ -45,6 +46,7 @@ const messages = Object.assign({
   'account.list.refuse.message': 'Refuser la demande ?',
   'account.list.refuse.message.detail': 'Cela va supprimer le compte {name}',
   'account.list.info.why-cant-remove-account-having-project-user': 'Vous ne pouvez pas supprimer un compte s\'il est lié à un utilisateur projet',
+  'account.list.action.cancel': 'Annuler',
 
   'account.form.input.firstName': 'Prénom',
   'account.form.input.lastName': 'Nom',
@@ -53,6 +55,15 @@ const messages = Object.assign({
   'account.form.create.title': 'Créer un compte',
   'account.form.action.save': 'Sauvegarder',
   'account.form.action.cancel': 'Annuler',
+
+  'account.settings.title': 'Paramètres des comptes',
+  'account.settings.subtitle': 'Gérer les paramètres communs aux comptes utilisateurs',
+  'account.settings.mode.field': 'Mode de validation',
+  'account.settings.mode.MANUAL': 'Manuel: chaque demande de création d\'un compte doit être validée par l\'administrateur',
+  'account.settings.mode.AUTO': 'Automatique: les demandes de création d\'un compte sont automatiquement validées',
+  'account.settings.action.confirm': 'Confirmer',
+  'account.settings.action.cancel': 'Annuler',
+
 }, Locales.fr)
 
 export default messages

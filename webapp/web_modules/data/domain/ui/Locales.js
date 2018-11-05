@@ -28,4 +28,3 @@ export const LOCALES_ENUM = {
 }
 
 export const LOCALES = values(LOCALES_ENUM)
-

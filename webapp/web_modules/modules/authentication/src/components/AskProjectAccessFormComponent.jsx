@@ -19,13 +19,17 @@
 import get from 'lodash/get'
 import trim from 'lodash/trim'
 import { formValueSelector } from 'redux-form'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { FormErrorMessage, HelpMessageComponent } from '@regardsoss/components'
-import { reduxForm, RenderTextField, RenderCheckbox, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
+import {
+  reduxForm, RenderTextField, RenderCheckbox, Field, ValidationHelpers, ErrorTypes,
+} from '@regardsoss/form-utils'
 import { ScrollArea } from '@regardsoss/adapters'
 import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
 
@@ -153,8 +157,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                 )}
                 {
                   // whatever the case: show project metadata
-                  projectMetadata.map(metadata =>
-                    <MetadataField key={metadata.key} metadata={metadata} fullWidth />)
+                  projectMetadata.map(metadata => <MetadataField key={metadata.key} metadata={metadata} fullWidth />)
                 }
                 <br />
                 <br />
@@ -231,11 +234,11 @@ function asyncValidate({ newPassword }, dispatch, props) {
   // ugly async connection should be done by the container bu we can't
   return fetchPasswordValidity(newPassword).then((result) => {
     const validity = get(result, 'payload.validity', false)
-    const errors = {}
     if (!validity) { // invalid password
-      errors.newPassword = ErrorTypes.INVALID_PASSWORD
+      // Redux form api
+      // eslint-disable-next-line no-throw-literal
+      throw { newPassword: ErrorTypes.INVALID_PASSWORD }
     }
-    return errors
   })
 }
 

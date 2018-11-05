@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { CatalogDomain } from '@regardsoss/domain'
 import SearchEntitiesActions from './SearchEntitiesActions'
 
 /**
@@ -23,7 +24,6 @@ import SearchEntitiesActions from './SearchEntitiesActions'
  */
 export default class CatalogDatasetEntityActions extends SearchEntitiesActions {
   constructor(namespace) {
-    super(namespace, `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/search/datasets?{parameters}`)
+    super(namespace, `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/engines/${CatalogDomain.LEGACY_SEARCH_ENGINE}/datasets/search?{parameters}`)
   }
 }
-

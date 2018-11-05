@@ -43,4 +43,3 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing model AccountWaiting', () => {
     entityTester.runTests(done)
   })
 })
-

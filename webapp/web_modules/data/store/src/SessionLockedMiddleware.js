@@ -30,10 +30,9 @@ const COMMON_AUTHENTICATION_NAMESPACE = 'common/authentication-manager'
  * @return {boolean} true if action is a call API action
  */
 function isAuthenticationRequest(callAPI) {
-  return get(callAPI, 'types', EMPTY_ARRAY).find(typeOrObject =>
-    isString(typeOrObject) ?
-      typeOrObject.startsWith(COMMON_AUTHENTICATION_NAMESPACE) :
-      typeOrObject.type.startsWith(COMMON_AUTHENTICATION_NAMESPACE))
+  return get(callAPI, 'types', EMPTY_ARRAY).find(typeOrObject => isString(typeOrObject)
+    ? typeOrObject.startsWith(COMMON_AUTHENTICATION_NAMESPACE)
+    : typeOrObject.type.startsWith(COMMON_AUTHENTICATION_NAMESPACE))
 }
 
 /**

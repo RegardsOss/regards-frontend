@@ -91,10 +91,10 @@ class DatabaseConnectionTesterIconButton extends React.Component {
     const switchActions = [this.handleTouchTap, this.handleTouchTap]
 
     const successButton = (
-      <OnHoverSwitchIconButton onClick={switchActions} title={formatMessage({ id: 'database.connectionTester.success.tooltip' })} >
+      <OnHoverSwitchIconButton onClick={switchActions} title={formatMessage({ id: 'database.connectionTester.success.tooltip' })}>
         <Check color={this.context.muiTheme.palette.primary1Color} />
         <PlayArrow />
-      </OnHoverSwitchIconButton >)
+      </OnHoverSwitchIconButton>)
 
     const warningButton = (
       <OnHoverSwitchIconButton onClick={switchActions} title={formatMessage({ id: 'database.connectionTester.warn.tooltip' })}>
@@ -112,9 +112,6 @@ class DatabaseConnectionTesterIconButton extends React.Component {
 
     let result = testButton
     switch (this.state.status) {
-      case EnumConnectivity.NOT_TESTED:
-        result = testButton
-        break
       case EnumConnectivity.PENDING:
         result = pendingProgress
         break
@@ -127,6 +124,7 @@ class DatabaseConnectionTesterIconButton extends React.Component {
       case EnumConnectivity.ERROR:
         result = errorButton
         break
+      case EnumConnectivity.NOT_TESTED:
       default:
         result = testButton
     }

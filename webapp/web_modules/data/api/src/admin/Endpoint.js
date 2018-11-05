@@ -18,12 +18,12 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const EndpointConfiguration = {
+export const EndpointConfiguration = {
   entityKey: 'id',
   normalizrKey: 'endpoint',
 }
 
-const schema = new Schema(EndpointConfiguration.normalizrKey, {
+export const ENDPOINT = new Schema(EndpointConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[EndpointConfiguration.entityKey],
   assignEntity: (output, key, value, input) => {
     if (key === 'content') {
@@ -32,10 +32,4 @@ const schema = new Schema(EndpointConfiguration.normalizrKey, {
     }
   },
 })
-
-// Schemas for API responses.
-module.exports = {
-  ENDPOINT: schema,
-  ENDPOINT_ARRAY: arrayOf(schema),
-  EndpointConfiguration,
-}
+export const ENDPOINT_ARRAY = arrayOf(ENDPOINT)

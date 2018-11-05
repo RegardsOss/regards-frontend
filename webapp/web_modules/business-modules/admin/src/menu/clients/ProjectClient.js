@@ -25,8 +25,4 @@ import { AdminClient } from '@regardsoss/client'
  */
 const REDUX_ACTION_NAMESPACE = 'admin-project-management/projects'
 
-const projectActions = new AdminClient.ProjectActions(REDUX_ACTION_NAMESPACE)
-
-module.exports = {
-  projectActions,
-}
+export const projectActions = new AdminClient.ProjectActions(REDUX_ACTION_NAMESPACE)

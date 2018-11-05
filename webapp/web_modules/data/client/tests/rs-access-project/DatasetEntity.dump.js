@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-module.exports = {
+export default {
   metadata: {
     size: 143,
     totalElements: 1,
@@ -26,52 +26,11 @@ module.exports = {
   content: [{
     content: {
       entityType: 'DATASET',
-      score: 0,
-      plgConfDataSource: {
-        id: 6,
-        pluginId: 'postgresql-datasource-single-table',
-        label: 'VALIDATION_DS',
-        version: '1.0-SNAPSHOT',
-        priorityOrder: 0,
-        active: true,
-        pluginClassName: 'fr.cnes.regards.modules.datasources.plugins.PostgreDataSourceFromSingleTablePlugin',
-        interfaceNames: ['fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourceFromSingleTablePlugin', 'fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourcePlugin'],
-        parameters: [],
-      },
-      dataModel: 1,
-      subsettingClause: {
-        '@type@': 'fr.cnes.regards.modules.indexer.domain.criterion.AndCriterion',
-        criterions: [{
-          '@type@': 'fr.cnes.regards.modules.indexer.domain.criterion.EmptyCriterion',
-        }, {
-          '@type@': 'fr.cnes.regards.modules.indexer.domain.criterion.LongMatchCriterion',
-          type: 'EQUALS',
-          value: 6,
-          name: 'dataSourceId',
-        }],
-      },
-      openSearchSubsettingClause: '',
-      quotations: [],
-      metadata: {
-        dataObjectsGroups: ['TheGroup'],
-      },
-      descriptionFile: {
-        type: 'text/markdown',
-      },
-      ipId: 'URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1',
+      providerId: 'dataset1',
+      id: 'URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1',
       label: 'validation_jeu_1',
-      model: {
-        id: 2,
-        name: 'VALIDATION_DATASET_MODEL_1',
-        description: 'Validation dataset model',
-        version: '1',
-        type: 'DATASET',
-      },
-      lastUpdate: '2017-09-27T14:43:38.5Z',
-      creationDate: '2017-09-19T10:05:03.374Z',
-      id: 1,
+      model: 'VALIDATION_DATASET_MODEL_1',
       tags: [],
-      groups: ['TheGroup'],
       properties: {
         name: 'validation_jeu_1',
         values_l1_sum: 2261,
@@ -79,6 +38,7 @@ module.exports = {
         start_date: '2016-05-16T15:28:00Z',
         count: 26,
       },
+      geometry: null,
       services: [],
     },
     links: [{

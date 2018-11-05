@@ -21,6 +21,7 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import partition from 'lodash/partition'
 import map from 'lodash/map'
+import isEmpty from 'lodash/isEmpty'
 import some from 'lodash/some'
 import find from 'lodash/find'
 import filter from 'lodash/filter'
@@ -50,7 +51,6 @@ export class DocumentEditLinksContainer extends React.Component {
     addTagToDocument: PropTypes.func,
     fetchDocument: PropTypes.func,
     fetchCollectionList: PropTypes.func,
-    updateDocument: PropTypes.func,
   }
 
   state = {
@@ -97,10 +97,7 @@ export class DocumentEditLinksContainer extends React.Component {
       />)
   }
 
-  getCollectionLinked = (collectionIpIdList, collectionList) =>
-    map(collectionIpIdList, collectionIpId =>
-      find(collectionList, collection =>
-        collection.content.ipId === collectionIpId))
+  getCollectionLinked = (collectionIpIdList, collectionList) => map(collectionIpIdList, collectionIpId => find(collectionList, collection => collection.content.ipId === collectionIpId))
 
   getDoneUrl = () => {
     const { params: { project } } = this.props
@@ -117,32 +114,21 @@ export class DocumentEditLinksContainer extends React.Component {
   getRemainingCollections = (currentDocument, collectionList) => {
     const { collectionName } = this.state
 
-    const collectionLinkedToCurrentDocument = partition(collectionList, collection =>
-      some(currentDocument.content.tags, tag => tag === collection.content.ipId))
-    return filter(collectionLinkedToCurrentDocument[1], collection =>
-      startsWith(collection.content.label.toLowerCase(), collectionName))
+    const collectionLinkedToCurrentDocument = partition(collectionList, collection => some(currentDocument.content.tags, tag => tag === collection.content.feature.id))
+    return filter(collectionLinkedToCurrentDocument[1], collection => startsWith(collection.content.feature.label.toLowerCase(), collectionName))
   }
 
   partitionDatasetLinkedTags = (currentDocument) => {
-    const linkedTags = partition(currentDocument.content.tags, tag =>
-      tag.match(/URN:.*:COLLECTION.*/))
+    const linkedTags = partition(currentDocument.content.tags, tag => tag.match(/URN:.*:COLLECTION.*/))
     return linkedTags
   }
 
   /**
    * When the user add a new tag
    * @param tag
-   * @param usingUpdate
    */
-  handleAdd = (tag, usingUpdate) => {
-    if (usingUpdate) {
-      const { currentDocument: { content }, updateDocument } = this.props
-      const newDocumentContent = {
-        ...content,
-        tags: [...content.tags, tag],
-      }
-      updateDocument(content.id, newDocumentContent)
-    } else {
+  handleAdd = (tag) => {
+    if (!isEmpty(tag)) {
       Promise.resolve(this.props.addTagToDocument(this.props.currentDocument.content.id, [tag]))
         .then((actionResult) => {
           this.props.fetchDocument(this.props.params.documentId)
@@ -154,21 +140,13 @@ export class DocumentEditLinksContainer extends React.Component {
    * When the user remove a tag
    * @param tag
    */
-  handleDelete = (tag, usingUpdate) => {
-    if (usingUpdate) {
-      const { currentDocument: { content }, updateDocument } = this.props
-      const newDocumentContent = {
-        ...content,
-        tags: content.tags.filter(existingTag => existingTag !== tag),
-      }
-      updateDocument(content.id, newDocumentContent)
-    } else {
-      Promise.resolve(this.props.removeTagFromDocument(this.props.currentDocument.content.id, [tag]))
-        .then((actionResult) => {
-          this.props.fetchDocument(this.props.params.documentId)
-        })
-    }
+  handleDelete = (tag) => {
+    Promise.resolve(this.props.removeTagFromDocument(this.props.currentDocument.content.id, [tag]))
+      .then((actionResult) => {
+        this.props.fetchDocument(this.props.params.documentId)
+      })
   }
+
   handleSearch = (event, collectionName) => {
     this.setState({
       collectionName: collectionName.toLowerCase(),
@@ -197,7 +175,6 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchCollectionList: () => dispatch(collectionActions.fetchPagedEntityList(0)),
   fetchDocument: id => dispatch(documentActions.fetchEntity(id)),
-  updateDocument: (id, doc) => dispatch(documentActions.updateEntity(id, doc)),
   addTagToDocument: (documentId, tags) => dispatch(documentLinkActions.sendSignal('PUT', tags, { document_id: documentId, operation: 'associate' })),
   removeTagFromDocument: (documentId, tags) => dispatch(documentLinkActions.sendSignal('PUT', tags, { document_id: documentId, operation: 'dissociate' })),
 })

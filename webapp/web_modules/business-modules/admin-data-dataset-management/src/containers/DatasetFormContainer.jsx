@@ -21,9 +21,8 @@ import cloneDeep from 'lodash/cloneDeep'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { getAbstractEntityDescription } from '@regardsoss/domain/dam'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { datasetSelectors, datasetActions } from './../clients/DatasetClient'
+import { datasetSelectors, datasetActions } from '../clients/DatasetClient'
 import DatasetFormAttributesContainer from './DatasetFormAttributesContainer'
 import DatasetFormSubsettingContainer from './DatasetFormSubsettingContainer'
 import messages from '../i18n'
@@ -60,7 +59,6 @@ export class DatasetFormContainer extends React.Component {
       isLoading: !isCreating,
       state: states.FORM_ATTRIBUTE,
       currentDataset: null,
-      descriptionFile: null,
     }
   }
 
@@ -93,23 +91,22 @@ export class DatasetFormContainer extends React.Component {
     return `/admin/${project}/data/collections/dataset/create/datasource`
   }
 
-  redirectToLink = (datasetId) => {
+  redirectToFiles = (datasetId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/collections/dataset/${datasetId}/links`
+    const url = `/admin/${project}/data/collections/dataset/${datasetId}/files`
     browserHistory.push(url)
   }
 
   /**
    * Called by saveSubsetting to save the updatedDataset
    * @param formValues
-   * @param files
    */
-  handleUpdate = (formValues, files) => {
-    Promise.resolve(this.props.updateDataset(this.props.params.datasetId, formValues, files))
+  handleUpdate = (formValues) => {
+    Promise.resolve(this.props.updateDataset(this.props.params.datasetId, formValues))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          this.redirectToLink(this.props.params.datasetId)
+          this.redirectToFiles(this.props.params.datasetId)
         }
       })
   }
@@ -117,15 +114,14 @@ export class DatasetFormContainer extends React.Component {
   /**
    * Called by saveSubsetting to save the newDataset
    * @param formValues
-   * @param files
    */
-  handleCreate = (formValues, files) => {
-    Promise.resolve(this.props.createDataset(formValues, files))
+  handleCreate = (formValues) => {
+    Promise.resolve(this.props.createDataset(formValues))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
           const datasetId = actionResult.payload.result
-          this.redirectToLink(datasetId)
+          this.redirectToFiles(datasetId)
         }
       })
   }
@@ -133,37 +129,32 @@ export class DatasetFormContainer extends React.Component {
   /**
    * Runned by DatasetFormAttributesContainer when the user saves his form
    * This does not save the entity on the server but in the state of the container
-   * @param sipId
+   * @param providerId
    * @param label
    * @param modelDatasetId
    * @param attributes
    * @param modelObjectId
    */
-  saveAttributes = (sipId, label, geometry, modelDatasetName, properties, modelObjectName, descriptionFileContent, descriptionUrl) => {
+  saveAttributes = (providerId, label, geometry, modelDatasetName, properties, modelObjectName) => {
     const { isCreating, currentDataset } = this.state
-    const descriptionFile = getAbstractEntityDescription(descriptionFileContent, descriptionUrl)
-    // Save the file in the state if there is
-    if (descriptionFileContent) {
-      this.setState({
-        descriptionFile: descriptionFileContent,
-      })
-    }
     if (isCreating) {
       const newValues = {
         content: {
-          sipId,
-          label,
-          geometry,
-          properties,
-          descriptionFile,
           model: {
             name: modelDatasetName,
           },
-          dataModel: modelObjectName,
+          feature: {
+            entityType: 'DATASET',
+            providerId,
+            label,
+            geometry,
+            properties,
+            model: modelDatasetName,
+          },
           plgConfDataSource: {
             id: parseInt(this.props.params.datasourceId, 10),
           },
-          tags: [],
+          dataModel: modelObjectName,
           entityType: 'DATASET',
         },
       }
@@ -172,11 +163,10 @@ export class DatasetFormContainer extends React.Component {
         currentDataset: newValues,
       })
     } else {
-      currentDataset.content.sipId = sipId
-      currentDataset.content.label = label
-      currentDataset.content.geometry = geometry
-      currentDataset.content.properties = properties
-      currentDataset.content.descriptionFile = descriptionFile
+      currentDataset.content.feature.providerId = providerId
+      currentDataset.content.feature.label = label
+      currentDataset.content.feature.geometry = geometry
+      currentDataset.content.feature.properties = properties
       this.setState({
         currentDataset,
         state: states.FORM_SUBSETTING,
@@ -185,22 +175,15 @@ export class DatasetFormContainer extends React.Component {
   }
 
   saveSubsetting = (subsetting) => {
-    const { currentDataset, descriptionFile } = this.state
+    const { currentDataset } = this.state
     currentDataset.content.openSearchSubsettingClause = subsetting
     this.setState({
       currentDataset,
     })
-    const apiValues = {
-      dataset: currentDataset.content,
-    }
-    const files = {}
-    if (descriptionFile) {
-      files.file = descriptionFile
-    }
     if (this.state.isEditing) {
-      this.handleUpdate(apiValues, files)
+      this.handleUpdate(currentDataset.content)
     } else {
-      this.handleCreate(apiValues, files)
+      this.handleCreate(currentDataset.content)
     }
   }
 
@@ -257,8 +240,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchDataset: id => dispatch(datasetActions.fetchEntity(id)),
-  createDataset: (values, files) => dispatch(datasetActions.createEntityUsingMultiPart(values, files)),
-  updateDataset: (id, values, files) => dispatch(datasetActions.updateEntityUsingMultiPart(id, values, files)),
+  createDataset: values => dispatch(datasetActions.createEntity(values)),
+  updateDataset: (id, values) => dispatch(datasetActions.updateEntity(id, values)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetFormContainer)

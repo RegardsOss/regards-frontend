@@ -16,20 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { themeContextType } from '@regardsoss/theme'
 
 
+const NO_PROPS = {}
+
 /**
- * A column header cell wrapper rendering for FixedTable
+ * A column header cell wrapper rendering for FixedTable. It always provides column label to children columns
  * @author Sébastien Binda
  */
 class ColumnHeaderWrapper extends React.Component {
   static propTypes = {
     isLastColumn: PropTypes.bool.isRequired,
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node,
-    ]),
+    columnKey: PropTypes.string.isRequired,
+    label: PropTypes.string,
+    headerCellDefinition: PropTypes.shape({
+      Constructor: PropTypes.func,
+      props: PropTypes.object,
+    }),
   }
 
   static contextTypes = {
@@ -38,12 +43,23 @@ class ColumnHeaderWrapper extends React.Component {
 
 
   render() {
+    const {
+      isLastColumn, label, headerCellDefinition, columnKey,
+    } = this.props
     const { header: { cellHeader, lastCellHeader } } = this.context.moduleTheme
-    const { isLastColumn, children } = this.props
     const cellStyle = isLastColumn ? lastCellHeader : cellHeader
+    const InnerHeader = get(headerCellDefinition, 'Constructor', null)
+    const innerHeaderProps = get(headerCellDefinition, 'props', NO_PROPS)
     return (
-      <div style={cellStyle} >
-        {children}
+      <div style={cellStyle}>
+        { /** Render configured header if any */
+          InnerHeader ? (
+            <InnerHeader
+              columnKey={columnKey}
+              label={label}
+              {...innerHeaderProps}
+            />) : null
+        }
       </div>
     )
   }

@@ -23,7 +23,6 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Tag } from '../../src/models/navigation/Tag'
 import { ModuleContainer } from '../../src/containers/ModuleContainer'
 import URLManagementContainer from '../../src/containers/user/URLManagementContainer'
-import FeedbackDisplayContainer from '../../src/containers/user/feedback/FeedbackDisplayContainer'
 import ModuleComponent from '../../src/components/user/ModuleComponent'
 import styles from '../../src/styles/styles'
 import { DISPLAY_MODE_ENUM } from '../../src/definitions/DisplayModeEnum'
@@ -42,7 +41,6 @@ describe('[Search Results] Testing ModuleContainer', () => {
       appName: 'any',
       project: 'any',
       type: 'any',
-      fetchAllModelsAttributes: () => { },
       attributeModels: {},
       moduleConf: {
         enableFacettes: true,
@@ -54,26 +52,16 @@ describe('[Search Results] Testing ModuleContainer', () => {
       },
     }
     const enzymeWrapper = shallow(<ModuleContainer {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(ModuleComponent), 0, 'While loading, the view should be hidden')
-    assert.lengthOf(enzymeWrapper.find(URLManagementContainer), 0, 'While loading, URL management container should not be installed')
-
-    // When loading, no components / containers
-    enzymeWrapper.instance().setState({ attributesFetching: false })
-    enzymeWrapper.update() // wait for update
-
-    assert.lengthOf(enzymeWrapper.find(ModuleComponent), 1, 'After loading, the view should be rendered')
+    assert.lengthOf(enzymeWrapper.find(ModuleComponent), 1, 'The view should be rendered')
     const urlManagementWrapper = enzymeWrapper.find(URLManagementContainer)
-    assert.lengthOf(urlManagementWrapper, 1, 'After loading, URL management container should be installed')
+    assert.lengthOf(urlManagementWrapper, 1, 'URL management container should be installed')
     assert.isFalse(urlManagementWrapper.props().isExternallyDriven, 'Module should detect standalone mode (no initial tag and no search query)')
-
-    assert.lengthOf(enzymeWrapper.find(FeedbackDisplayContainer), 1, 'The should be add to basket feedback container')
   })
   it('should render correctly when externally driven', () => {
     const props = {
       appName: 'any',
       project: 'any',
       type: 'any',
-      fetchAllModelsAttributes: () => { },
       attributeModels: {},
       moduleConf: {
         enableFacettes: true,
@@ -86,19 +74,10 @@ describe('[Search Results] Testing ModuleContainer', () => {
       },
     }
     const enzymeWrapper = shallow(<ModuleContainer {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(ModuleComponent), 0, 'While loading, the view should be hidden')
-    assert.lengthOf(enzymeWrapper.find(URLManagementContainer), 0, 'While loading, URL management container should not be installed')
-
-    // When loading, no components / containers
-    enzymeWrapper.instance().setState({ attributesFetching: false })
-    enzymeWrapper.update() // wait for update
-
-    assert.lengthOf(enzymeWrapper.find(ModuleComponent), 1, 'After loading, the view should be rendered')
+    assert.lengthOf(enzymeWrapper.find(ModuleComponent), 1, 'The view should be rendered')
     const urlManagementWrapper = enzymeWrapper.find(URLManagementContainer)
-    assert.lengthOf(urlManagementWrapper, 1, 'After loading, URL management container should be installed')
+    assert.lengthOf(urlManagementWrapper, 1, 'URL management container should be installed')
     assert.isTrue(urlManagementWrapper.props().isExternallyDriven, 'Module should detect standalone mode (no initial tag and no search query)')
     assert.equal(urlManagementWrapper.props().initialContextTags, props.moduleConf.initialContextTags, 'Initial context tags should be correctly reported to the URL management wrapper')
-
-    assert.lengthOf(enzymeWrapper.find(FeedbackDisplayContainer), 1, 'The should be add to basket feedback container')
   })
 })

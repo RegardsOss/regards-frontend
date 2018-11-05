@@ -37,7 +37,6 @@ const sipManagementStyles = theme => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        width: '80%',
       },
       iconContainerStyle: {
         width: '25%',

@@ -43,7 +43,7 @@ import { desktopDurations } from './MaterialDesignDurations'
  * The decorated component will enter the dom coming from the left and leave the dom to the left, following the
  * Material Design's "standard curve"
  */
-const standardCurveToLeft = Component => class StandardCurveToLeft extends React.Component {
+export const standardCurveToLeft = Component => class StandardCurveToLeft extends React.Component {
   componentWillEnter(callback) {
     const el = findDOMNode(this)
     TweenMax.fromTo(el, desktopDurations.enter, {
@@ -51,11 +51,11 @@ const standardCurveToLeft = Component => class StandardCurveToLeft extends React
       opacity: 0,
       ease: standardCurve,
     }, {
-      x: 0,
-      opacity: 1,
-      ease: standardCurve,
-      onComplete: callback,
-    })
+        x: 0,
+        opacity: 1,
+        ease: standardCurve,
+        onComplete: callback,
+      })
   }
 
   componentWillLeave(callback) {
@@ -65,11 +65,11 @@ const standardCurveToLeft = Component => class StandardCurveToLeft extends React
       opacity: 1,
       ease: standardCurve,
     }, {
-      x: -100,
-      opacity: 0,
-      ease: standardCurve,
-      onComplete: callback,
-    })
+        x: -100,
+        opacity: 0,
+        ease: standardCurve,
+        onComplete: callback,
+      })
   }
 
   render() {
@@ -83,7 +83,7 @@ const standardCurveToLeft = Component => class StandardCurveToLeft extends React
  * The decorated component will enter the dom coming from the right and leave the dom to the right, following the
  * Material Design's "standard curve"
  */
-const standardCurveToRight = Component => class StandardCurveToRight extends React.Component {
+export const standardCurveToRight = Component => class StandardCurveToRight extends React.Component {
   componentWillEnter(callback) {
     const el = findDOMNode(this)
     TweenMax.fromTo(el, desktopDurations.enter, {
@@ -91,11 +91,11 @@ const standardCurveToRight = Component => class StandardCurveToRight extends Rea
       opacity: 0,
       ease: standardCurve,
     }, {
-      x: 0,
-      opacity: 1,
-      ease: standardCurve,
-      onComplete: callback,
-    })
+        x: 0,
+        opacity: 1,
+        ease: standardCurve,
+        onComplete: callback,
+      })
   }
 
   componentWillLeave(callback) {
@@ -105,11 +105,11 @@ const standardCurveToRight = Component => class StandardCurveToRight extends Rea
       opacity: 1,
       ease: standardCurve,
     }, {
-      x: 100,
-      opacity: 0,
-      ease: standardCurve,
-      onComplete: callback,
-    })
+        x: 100,
+        opacity: 0,
+        ease: standardCurve,
+        onComplete: callback,
+      })
   }
 
   render() {
@@ -122,17 +122,17 @@ const standardCurveToRight = Component => class StandardCurveToRight extends Rea
 /**
  * The decorated component will enter and leave the dom by fading.
  */
-const fades = Component => class Fades extends React.Component {
+export const fades = Component => class Fades extends React.Component {
   componentWillEnter(callback) {
     const el = findDOMNode(this)
     TweenMax.fromTo(el, desktopDurations.enter, {
       opacity: 0,
       ease: standardCurve,
     }, {
-      opacity: 1,
-      ease: standardCurve,
-      onComplete: callback,
-    })
+        opacity: 1,
+        ease: standardCurve,
+        onComplete: callback,
+      })
   }
 
   componentWillLeave(callback) {
@@ -141,10 +141,10 @@ const fades = Component => class Fades extends React.Component {
       opacity: 1,
       ease: standardCurve,
     }, {
-      opacity: 0,
-      ease: standardCurve,
-      onComplete: callback,
-    })
+        opacity: 0,
+        ease: standardCurve,
+        onComplete: callback,
+      })
   }
 
   render() {
@@ -161,21 +161,6 @@ class Div extends React.Component {
     )
   }
 }
-const MakesFade = fades(Div)
-const MakesStandardCurveToRight = standardCurveToRight(Div)
-const MakesStandardCurveToLeft = standardCurveToLeft(Div)
-
-module.exports = {
-  fades,
-  standardCurveToLeft,
-  standardCurveToRight,
-  MakesFade,
-  MakesStandardCurveToLeft,
-  MakesStandardCurveToRight,
-}
-export { fades }
-export { standardCurveToLeft }
-export { standardCurveToRight }
-export { MakesFade }
-export { MakesStandardCurveToLeft }
-export { MakesStandardCurveToRight }
+export const MakesFade = fades(Div)
+export const MakesStandardCurveToRight = standardCurveToRight(Div)
+export const MakesStandardCurveToLeft = standardCurveToLeft(Div)

@@ -1,15 +1,15 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 const getCommonConfig = require('./webpack.common.config')
 
+
 module.exports = function (projectContextPath) {
   const config = getCommonConfig(projectContextPath, 'test')
-  
+
   // Ensure babel environment variable is correctly setup to test
   process.env.NODE_ENV = 'test'
-  
+
   return merge(config, {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
     externals: [
@@ -44,5 +44,6 @@ module.exports = function (projectContextPath) {
       devtoolModuleFilenameTemplate: '[absolute-resource-path]',
       devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]',
     },
+    mode: 'development',
   })
 }

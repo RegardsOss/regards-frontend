@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { SIP, SIP_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
@@ -33,8 +33,8 @@ export default class SIPActions extends BasicPageableActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/sips`,
       schemaTypes: {
-        ENTITY: Schemas.SIP,
-        ENTITY_ARRAY: Schemas.SIP_ARRAY,
+        ENTITY: SIP,
+        ENTITY_ARRAY: SIP_ARRAY,
       },
     })
   }

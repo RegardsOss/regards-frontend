@@ -92,13 +92,13 @@ const mapDispatchToProps = dispatch => ({
   fetchPluginConfigurationList: () => dispatch(pluginConfigurationActions.fetchEntityList({
     microserviceName: 'rs-dam',
   }, {
-    pluginId: 'fr.cnes.regards.modules.dataaccess.domain.accessright.ICheckDataAccess',
+    pluginType: 'fr.cnes.regards.modules.dam.domain.dataaccess.accessright.ICheckDataAccess',
   })),
   fetchAccessGroup: accessGroupName => dispatch(accessGroupActions.fetchEntity(accessGroupName)),
   fetchPluginMetaDataList: microserviceName => dispatch(pluginMetaDataActions.fetchEntityList({
     microserviceName: 'rs-dam',
   }, {
-    pluginType: 'fr.cnes.regards.modules.dataaccess.domain.accessright.ICheckDataAccess',
+    pluginType: 'fr.cnes.regards.modules.dam.domain.dataaccess.accessright.ICheckDataAccess',
   })),
 })
 

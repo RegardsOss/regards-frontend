@@ -20,32 +20,33 @@ const messages = {
   'data.board.action.list.tooltip': 'Liste',
   'data.board.action.add.tooltip': 'Ajouter',
 
-  'ingest.board.title': 'Soumission manuelle',
-  'ingest.board.description': 'Cette fonctionnalité vous permet d\'ajouter manuellement des données par soumission de paquets. Un paquet de soumission ou SIP (Submission information package) contient toutes les informations nécessaires pour à la fois décrire les données et définir comment accéder aux fichiers physiques associés',
+  'ingest.board.title': 'Ingestion (SIP)',
+  'ingest.board.description': 'Permet d\'ingérer des données qui sont déjà sous la forme de SIP. Un paquet de soumission ou SIP contient toutes les informations nécessaires pour à la fois décrire les données et définir comment accéder aux fichiers physiques associés.',
   'ingest.board.action.chain.list.tooltip': 'Configurer les chaînes d\'ingestion',
-  'ingest.board.action.monitor.tooltip': 'Visualiser les soumissions',
-  'ingest.board.action.sumition.tooltip': 'Soumettre des données',
+  'ingest.board.action.monitor.tooltip': 'Visualiser les ingestion',
+  'ingest.board.action.sumition.tooltip': 'Ingérer des SIP',
 
-  'data-provider.board.title': 'Automatisation',
-  'data-provider.board.description': 'Cette fonctionalité vous permet de configurer des processus d\'ajout automatique des nouvelles données détectées. Pour chaque donnée détectée, un paquet d\'information (SIP) est généré et ensuite fourni au système pour soumission.',
+  'data-provider.board.title': 'Acquisition de données',
+  'data-provider.board.description': 'Permet de configurer des processus d\'acquisition de nouvelles données détectées (la méthode de détection est configurable). Pour chaque donnée détectée, un paquet d\'information (SIP) est généré et ensuite fourni au système pour ingestion.',
   'data-provider.board.action.chain.list.tooltip': 'Configurer les chaînes d\'acquisition',
   'data-provider.board.action.monitoring.tooltip': 'Suivre l\'activité des chaînes d\'acquisition',
 
   'ingest.board.external.datasources.title': 'Aspiration',
-  'ingest.board.external.datasources.description': 'Cette fonctionnalité vous permet d\'aspirer des données depuis une source de données déjà existante en associant les champs de la source de données aux modèles de données.',
+  'ingest.board.external.datasources.description': 'Permet d\'aspirer des données depuis une source de données déjà existante en associant les champs de la source de données aux modèles de données.',
   'ingest.board.action.external.datasources.list.tooltip': 'Configurer les aspirations',
-  'ingest.board.action.connection.list.tooltip': 'Configurer les connexions aux sources de données',
+  'ingest.board.action.connection.list.tooltip': 'Sources de données externes',
   'ingest.board.action.datasource.monitor.tooltip': 'Suivi des aspirations de données',
 
   'data.board.document.title': 'Documents',
-  'data.board.document.description': 'Vous pouvez ici consulter/ajouter des données de type documents. Les documents sont des données consultables par prévisualisation ou par téléchargement depuis l\'interface utilisateur.',
+  'data.board.document.description': 'Consulter/ajouter des documents. Les documents sont des données consultables par prévisualisation ou par téléchargement depuis l\'interface utilisateur.',
 
   'data.board.storage.title': 'Stockage',
-  'data.board.storage.description': 'Cette section vous permet de configurer un ou plusieurs espaces de stockage des données ainsi que la stratégie de répartition que le système utilisera.',
+  'data.board.storage.description': 'Permet de configurer un ou plusieurs espaces de stockage des données ainsi que la stratégie de répartition que le système utilisera.',
   'data.board.action.storages.tooltip': 'Espaces de stockage',
   'data.board.action.allocations.tooltip': 'Stratégies de répartition',
   'data.board.action.monitoring.tooltip': 'Taux d\'occupation des espaces de stockage',
   'data.board.action.security.tooltip': 'Configurer les droits d\'accès aux fichiers archivés',
+  'data.board.action.aip-management.tooltip': 'Visualiser les AIPs',
 }
 
 export default messages

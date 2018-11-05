@@ -17,10 +17,5 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import PluginTypeEnum from './PluginTypeEnum'
-import DataStorageTypeEnum from './DataStorageTypeEnum'
-
-module.exports = {
-  ...PluginTypeEnum,
-  ...DataStorageTypeEnum,
-}
+export { PluginTypeEnum, PluginTypeEnumValues } from './PluginTypeEnum'
+export { DataStorageTypeEnum, DataStorageTypeEnumValues } from './DataStorageTypeEnum'

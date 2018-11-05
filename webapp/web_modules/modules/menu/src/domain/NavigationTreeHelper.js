@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import isEqual from 'lodash/isEqual'
-import last from 'lodash/last'
+import isEmpty from 'lodash/isEmpty'
 import { NAVIGATION_ITEM_TYPES_ENUM } from './NavigationItemTypes'
+import { VISIBILITY_MODES_ENUM } from './VisibilityModes'
 
 /**
  * Helpers for navigation tree items management
@@ -35,6 +35,8 @@ export function buildItemForModule(module) {
   return {
     type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
     id: module.content.id,
+    visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+    visibleForRole: null,
   }
 }
 
@@ -249,15 +251,13 @@ export function removeItemAt(items, [firstIndex, ...remainingPath]) {
     return items.filter((item, index) => index !== firstIndex)
   }
   // there is a parent item, search in its children
-  return items.map((item, index) =>
-    index === firstIndex ? {
-      // parent of the item to remove, get copy and remove in children
-      ...item,
-      children: removeItemAt(item.children, remainingPath),
-    } : item, // not on path, return reference
+  return items.map((item, index) => index === firstIndex ? {
+    // parent of the item to remove, get copy and remove in children
+    ...item,
+    children: removeItemAt(item.children, remainingPath),
+  } : item, // not on path, return reference
   )
 }
-
 /**
  * Inserts an item at path as parameter
  * @param {[{NavigationEditionItem}]} items navigation tree items
@@ -275,11 +275,39 @@ function insertItemAtPath(items, item, [firstIndex, ...remainingIndex]) {
     ]
   }
   // an ancestor level
-  return items.map((childItem, index) => index === firstIndex ?
-    ({ // an ancestor section
+  return items.map((childItem, index) => index === firstIndex
+    ? ({ // an ancestor section
       ...childItem,
       children: insertItemAtPath(childItem.children, item, remainingIndex),
     }) : childItem) // another tree element, not modified
+}
+
+/**
+ * Computes insertion path after removal at path
+ * @param [*] removalPath previous item position in tree
+ * @param [*] insertionPath new item position in tree, computed with item at its previous position
+ * @return {[number]} insertion path, computed with real tree path after item removal in tree
+ */
+function computeMoveAtPath([firstOldElt, ...oldPath], [firstNewElt, ...newPath]) {
+  // we should update when the old path is terminal AND before new path
+  if (isEmpty(oldPath)) {
+    if (firstOldElt < firstNewElt) {
+      // path is updated due to old element update
+      return [firstNewElt - 1, ...newPath]
+    }
+    // the path is unchanged: old element was after in current level list
+    return [firstNewElt, ...newPath]
+  }
+  if (isEmpty(newPath)) {
+    // the path is unchanged: old element was deeper in tree, not in the same list
+    return [firstNewElt]
+  }
+  if (firstOldElt === firstNewElt) {
+    // recursive case: check in sub levels if old element was before new one (or one of its parents)
+    return [firstNewElt, ...computeMoveAtPath(oldPath, newPath)]
+  }
+  // break case: old path has no influence on new one
+  return [firstNewElt, ...newPath]
 }
 
 /**
@@ -292,26 +320,17 @@ function insertItemAtPath(items, item, [firstIndex, ...remainingIndex]) {
 export function moveItemAtPath(items, item, insertAtPath) {
   // note: we need here to handle the specific case  of moving an item in same items list:
   // when item was at position 1 for instance and is moved at 3, we must consider the index 3 - 1 (as it has been remove from elements before)
-  let itemsListWithoutItem = items
-  let afterRemovalInsertionPath = insertAtPath
   const currentPath = getItemPathIn(items, item)
-  if (currentPath !== null && currentPath.length) {
-    itemsListWithoutItem = removeItemAt(items, currentPath)
-    // the item is in tree, check for specific case mentionned above
-    const isInSameChildrenList = isEqual(getParentPath(currentPath), getParentPath(insertAtPath))
-    if (isInSameChildrenList) {
-      const currentIndex = last(currentPath)
-      const nextIndex = last(insertAtPath)
-      if (nextIndex > currentIndex) {
-        afterRemovalInsertionPath = [
-          ...insertAtPath.slice(0, -1), // parent path, unchanged
-          nextIndex - 1, // adjust index as in children list
-        ]
-      }
-    }
+
+  // 1 - Perform remove if element is not new (update insertion index considering removal)
+  let finalInsertAtPath = insertAtPath
+  let updatedItems = items
+  if (currentPath) {
+    finalInsertAtPath = computeMoveAtPath(currentPath, insertAtPath)
+    updatedItems = removeItemAt(items, currentPath)
   }
-  // insert element at right position (make a copy for cases in which removal doesn't occur)
-  return insertItemAtPath(itemsListWithoutItem, item, afterRemovalInsertionPath)
+  // 2 - Perform insert on updated path and tree items
+  return insertItemAtPath(updatedItems, item, finalInsertAtPath)
 }
 
 /**

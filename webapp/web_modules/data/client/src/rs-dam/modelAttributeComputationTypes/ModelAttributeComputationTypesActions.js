@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Schemas from '@regardsoss/api'
+import { MODEL_ATTRIBUTE_COMPUTATION_TYPES, MODEL_ATTRIBUTE_COMPUTATION_TYPES_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
@@ -29,10 +29,9 @@ export default class ModelAttributeComputationTypesActions extends BasicListActi
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/assocs/computation/types`,
       schemaTypes: {
-        ENTITY: Schemas.MODEL_ATTRIBUTE_COMPUTATION_TYPES,
-        ENTITY_ARRAY: Schemas.MODEL_ATTRIBUTE_COMPUTATION_TYPES_ARRAY,
+        ENTITY: MODEL_ATTRIBUTE_COMPUTATION_TYPES,
+        ENTITY_ARRAY: MODEL_ATTRIBUTE_COMPUTATION_TYPES_ARRAY,
       },
     })
   }
 }
-

@@ -30,6 +30,7 @@ const messages = Object.assign({
   'theme.list.table.label': 'Theme name',
   'theme.list.table.actions': 'Actions',
   'theme.list.tooltip.edit': 'Edit',
+  'theme.list.tooltip.duplicate': 'Duplicate',
   'theme.list.tooltip.delete': 'Delete',
   'theme.list.action.cancel': 'Cancel',
   'theme.list.action.add': 'Add a new theme',
@@ -37,8 +38,10 @@ const messages = Object.assign({
 
   'theme.create.title': 'Create a new theme',
   'theme.edit.title': 'Edit theme {name}',
+  'theme.duplicate.title': 'Duplicate theme {name}',
   'theme.form.baseTheme': 'Theme base',
   'theme.form.name': 'Theme name',
+  'theme.form.name.not.unique.error': 'That name is already used by another theme',
   'theme.form.active': 'Active by default',
   'theme.form.action.submit': 'Save',
   'theme.form.action.cancel': 'Cancel',

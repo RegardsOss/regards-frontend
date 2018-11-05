@@ -22,6 +22,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
+import { ScrollArea } from '@regardsoss/adapters'
 import {
   Step,
   Stepper,
@@ -36,9 +37,10 @@ import { AuthenticationParametersSelectors } from '@regardsoss/authentication-ut
 const STEPS_ID = {
   ATTRIBUTES: 0,
   SUBSETTING: 1, // Can't redirect to that page since it doesn't have a URL
-  LINKS: 2,
-  PLUGINS: 3,
-  UI_SERVICES: 4,
+  FILES: 2,
+  LINKS: 3,
+  PLUGINS: 4,
+  UI_SERVICES: 5,
 }
 export class DatasetStepperContainer extends React.Component {
   static propTypes = {
@@ -48,8 +50,17 @@ export class DatasetStepperContainer extends React.Component {
     currentDatasetId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     projectName: PropTypes.string.isRequired,
   }
+
   static defaultProps = {
     isEditing: false,
+  }
+
+  static SCROLL_AREA_CONTENT_STYLE = {
+    display: 'inline-block',
+  }
+
+  static STEPPER_WRAPPER_STYLE = {
+    width: '980px',
   }
 
   static contextTypes = {
@@ -81,6 +92,16 @@ export class DatasetStepperContainer extends React.Component {
     return text
   }
 
+  getFilesStep = () => {
+    const text = (<FormattedMessage id="dataset.stepper.files" />)
+    if (!this.isDisabled(STEPS_ID.FILES) && this.props.stepIndex !== STEPS_ID.FILES) {
+      return (
+        <StepButton onClick={this.handleFilesClick}>
+          {text}
+        </StepButton>)
+    }
+    return text
+  }
 
   getLinksStep = () => {
     const text = (
@@ -116,6 +137,11 @@ export class DatasetStepperContainer extends React.Component {
     browserHistory.push(url)
   }
 
+  handleFilesClick = () => {
+    const url = `/admin/${this.props.projectName}/data/collections/dataset/${this.props.currentDatasetId}/files`
+    browserHistory.push(url)
+  }
+
   handleLinksClick = () => {
     const url = `/admin/${this.props.projectName}/data/collections/dataset/${this.props.currentDatasetId}/links`
     browserHistory.push(url)
@@ -138,46 +164,61 @@ export class DatasetStepperContainer extends React.Component {
   render() {
     const { stepIndex } = this.props
     return (
-      <div className="row">
-        <div className="col-lg-90 col-lg-offset-5 col-xs-100">
-          <Stepper activeStep={stepIndex}>
-            <Step>
-              <StepLabel
-                disabled={this.isDisabled(STEPS_ID.ATTRIBUTES)}
-              >
-                {this.getAttributesStep()}
-              </StepLabel>
-            </Step>
-            <Step>
-              <StepLabel
-                disabled={this.isDisabled(STEPS_ID.SUBSETTING)}
-              >
-                <FormattedMessage id="dataset.stepper.subsetting" />
-              </StepLabel>
-            </Step>
-            <Step>
-              <StepLabel
-                disabled={this.isDisabled(STEPS_ID.LINKS)}
-              >
-                {this.getLinksStep()}
-              </StepLabel>
-            </Step>
-            <Step>
-              <StepLabel
-                disabled={this.isDisabled(STEPS_ID.PLUGINS)}
-              >
-                {this.getPluginsStep()}
-              </StepLabel>
-            </Step>
-            <Step>
-              <StepLabel
-                disabled={this.isDisabled(STEPS_ID.UI_SERVICES)}
-              >
-                {this.getUIServicesStep()}
-              </StepLabel>
-            </Step>
-          </Stepper>
-        </div>
+      <div>
+        <ScrollArea
+          horizontal
+          contentStyle={DatasetStepperContainer.SCROLL_AREA_CONTENT_STYLE}
+          vertical={false}
+        >
+          <div
+            style={DatasetStepperContainer.STEPPER_WRAPPER_STYLE}
+          >
+            <Stepper activeStep={stepIndex}>
+              <Step>
+                <StepLabel
+                  disabled={this.isDisabled(STEPS_ID.ATTRIBUTES)}
+                >
+                  {this.getAttributesStep()}
+                </StepLabel>
+              </Step>
+              <Step>
+                <StepLabel
+                  disabled={this.isDisabled(STEPS_ID.SUBSETTING)}
+                >
+                  <FormattedMessage id="dataset.stepper.subsetting" />
+                </StepLabel>
+              </Step>
+              <Step>
+                <StepLabel
+                  disabled={this.isDisabled(STEPS_ID.FILES)}
+                >
+                  {this.getFilesStep()}
+                </StepLabel>
+              </Step>
+              <Step>
+                <StepLabel
+                  disabled={this.isDisabled(STEPS_ID.LINKS)}
+                >
+                  {this.getLinksStep()}
+                </StepLabel>
+              </Step>
+              <Step>
+                <StepLabel
+                  disabled={this.isDisabled(STEPS_ID.PLUGINS)}
+                >
+                  {this.getPluginsStep()}
+                </StepLabel>
+              </Step>
+              <Step>
+                <StepLabel
+                  disabled={this.isDisabled(STEPS_ID.UI_SERVICES)}
+                >
+                  {this.getUIServicesStep()}
+                </StepLabel>
+              </Step>
+            </Stepper>
+          </div>
+        </ScrollArea>
       </div>
     )
   }

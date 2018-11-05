@@ -18,20 +18,14 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const AccountConfiguration = {
+export const AccountConfiguration = {
   entityKey: 'id',
   normalizrKey: 'accounts',
 }
 
-const accountSchema = new Schema(AccountConfiguration.normalizrKey, {
-  idAttribute: account =>
-    account.content[AccountConfiguration.entityKey]
+export const ACCOUNT = new Schema(AccountConfiguration.normalizrKey, {
+  idAttribute: account => account.content[AccountConfiguration.entityKey]
   ,
 })
 
-// Schemas for API responses.
-module.exports = {
-  ACCOUNT: accountSchema,
-  ACCOUNT_ARRAY: arrayOf(accountSchema),
-  AccountConfiguration,
-}
+export const ACCOUNT_ARRAY = arrayOf(ACCOUNT)

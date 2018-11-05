@@ -58,7 +58,7 @@ class ModuleStyleProvider extends React.Component {
    * @type {{moduleTheme: *}}
    */
   static childContextTypes = {
-    moduleTheme: PropTypes.object.isRequired,
+    moduleTheme: themeContextType.moduleTheme,
   }
 
   /**

@@ -20,9 +20,13 @@ import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import size from 'lodash/size'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
+import {
+  Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
+} from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import EditAccountIcon from 'material-ui/svg-icons/editor/mode-edit'
 import DeleteAccountIcon from 'material-ui/svg-icons/action/delete'
@@ -33,7 +37,10 @@ import { AdminInstanceDomain } from '@regardsoss/domain'
 import { AdminInstanceShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ActionsMenuCell, NoContentComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, HelpMessageComponent } from '@regardsoss/components'
+import {
+  ActionsMenuCell, NoContentComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
+  ShowableAtRender, HelpMessageComponent, CardActionsComponent,
+} from '@regardsoss/components'
 import { LoadableContentDisplayDecorator, HateoasKeys, withHateoasDisplayControl } from '@regardsoss/display-control'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
@@ -59,6 +66,7 @@ export class AccountListComponent extends React.Component {
     onEnable: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
+    onBack: PropTypes.func.isRequired,
     initialFecthing: PropTypes.bool.isRequired,
     isFetchingActions: PropTypes.bool.isRequired,
   }
@@ -219,7 +227,8 @@ export class AccountListComponent extends React.Component {
       deleteActionHoverColor: this.context.muiTheme.palette.accent1Color,
     }
     const {
-      allAccounts, waitingAccounts, onEdit, onAccept, initialFecthing, isFetchingActions, onEnable,
+      allAccounts, waitingAccounts, initialFecthing, isFetchingActions,
+      onBack, onEdit, onAccept, onEnable,
     } = this.props
     const { intl: { formatMessage } } = this.context
     const emptyComponent = (<NoContentComponent
@@ -357,10 +366,15 @@ export class AccountListComponent extends React.Component {
             </div>
           </LoadableContentDisplayDecorator>
         </CardText>
+        <CardActions>
+          <CardActionsComponent
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'account.list.action.cancel' })}
+            secondaryButtonClick={onBack}
+          />
+        </CardActions>
       </Card>
     )
   }
 }
 
 export default AccountListComponent
-

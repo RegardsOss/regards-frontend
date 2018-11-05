@@ -22,12 +22,8 @@ import values from 'lodash/values'
  * Possible acqisition processing chain
  * @author Sébastien Binda
  */
-const AcquisitionProcessingChainModeEnum = {
+export const AcquisitionProcessingChainModeEnum = {
   AUTO: 'AUTO',
   MANUAL: 'MANUAL',
 }
-
-module.exports = {
-  AcquisitionProcessingChainModeEnum,
-  AcquisitionProcessingChainModes: values(AcquisitionProcessingChainModeEnum),
-}
+export const AcquisitionProcessingChainModes = values(AcquisitionProcessingChainModeEnum)

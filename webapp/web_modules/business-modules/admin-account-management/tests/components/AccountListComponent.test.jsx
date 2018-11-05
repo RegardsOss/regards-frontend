@@ -66,6 +66,7 @@ const initialProps = {
   onEnable: () => { },
   onEdit: () => { },
   onDelete: () => { },
+  onBack: () => { },
   initialFecthing: true,
   isFetchingActions: false,
 }

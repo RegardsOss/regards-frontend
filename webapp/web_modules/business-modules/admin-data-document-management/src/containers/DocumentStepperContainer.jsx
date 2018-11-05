@@ -46,6 +46,7 @@ export class DocumentStepperContainer extends React.Component {
     currentDocumentId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     projectName: PropTypes.string.isRequired,
   }
+
   static defaultProps = {
     isEditing: false,
   }

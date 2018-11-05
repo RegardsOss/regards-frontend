@@ -53,10 +53,10 @@ describe('[Components] Testing PositionedDialog', () => {
     const ATestComp = () => <div />
 
     const enzymeWrapper = shallow(
-      <PositionedDailogComponent {...props} >
+      <PositionedDailogComponent {...props}>
         <ATestComp />
-      </PositionedDailogComponent>
-      , { context },
+      </PositionedDailogComponent>,
+      { context },
     )
     assert.lengthOf(enzymeWrapper.find(ATestComp), 1, 'The positioned dialog should render children')
   })

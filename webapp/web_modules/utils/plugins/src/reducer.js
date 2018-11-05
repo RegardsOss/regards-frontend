@@ -22,6 +22,7 @@
 import { combineReducers } from 'redux'
 import { uiPluginDefinitionReducers } from './clients/UIPluginDefinitionClient'
 import LoadPluginReducer from './model/LoadPluginReducer'
+import initializePluginReducer from './model/InitializePluginReducer'
 
 /**
  * Plugin utils reducers
@@ -30,4 +31,5 @@ import LoadPluginReducer from './model/LoadPluginReducer'
 export default combineReducers({
   loadedPlugins: LoadPluginReducer,
   plugins: uiPluginDefinitionReducers,
+  initializedPlugins: initializePluginReducer,
 })

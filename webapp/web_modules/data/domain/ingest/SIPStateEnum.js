@@ -19,25 +19,22 @@
 import values from 'lodash/values'
 
 /**
- * Possible acqisition processing chain
+ * Possible state for SIP entities
  * @author Sébastien Binda
  */
-const SIPStateEnum = {
-  CREATED: 'CREATED',
+export const SIPStateEnum = {
   VALID: 'VALID',
-  AIP_CREATED: 'AIP_CREATED',
   QUEUED: 'QUEUED',
+  CREATED: 'CREATED',
+  DELETED: 'DELETED',
+  AIP_CREATED: 'AIP_CREATED',
   STORED: 'STORED',
   INDEXED: 'INDEXED',
+  INCOMPLETE: 'INCOMPLETE',
   REJECTED: 'REJECTED',
   INVALID: 'INVALID',
   AIP_GEN_ERROR: 'AIP_GEN_ERROR',
   STORE_ERROR: 'STORE_ERROR',
-  INCOMPLETE: 'INCOMPLETE',
-  DELETED: 'DELETED',
+  INDEX_ERROR: 'INDEX_ERROR',
 }
-
-module.exports = {
-  SIPStateEnum,
-  SIPStateValues: values(SIPStateEnum),
-}
+export const SIPStateValues = values(SIPStateEnum)

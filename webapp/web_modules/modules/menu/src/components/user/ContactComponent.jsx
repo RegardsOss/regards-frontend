@@ -40,7 +40,7 @@ class ContactComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     return (
       <ShowableAtRender show={!!contacts}>
-        <a title={formatMessage({ id: 'contactTooltip' })} href={`mailto:${contacts}`} >
+        <a title={formatMessage({ id: 'contactTooltip' })} href={`mailto:${contacts}`}>
           <IconButton>
             <MailIcon />
           </IconButton>

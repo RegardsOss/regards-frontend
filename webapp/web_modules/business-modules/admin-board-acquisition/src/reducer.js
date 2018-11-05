@@ -23,6 +23,7 @@ import { documentDataManagementReducer } from '@regardsoss/admin-data-document-m
 import { processingChainManagementReducer } from '@regardsoss/admin-ingest-processing-chain-management'
 import { sipManagementReducer } from '@regardsoss/admin-ingest-sip-management'
 import { storageManagementReducer } from '@regardsoss/admin-storage-management'
+import { aipManagementReducer } from '@regardsoss/admin-storage-aip-management'
 import { dataProviderManagementReducer } from '@regardsoss/admin-data-provider-management'
 
 const acquisitionReducers = combineReducers({
@@ -33,6 +34,7 @@ const acquisitionReducers = combineReducers({
   processingChain: processingChainManagementReducer,
   sip: sipManagementReducer,
   storage: storageManagementReducer,
+  aip: aipManagementReducer,
 })
 
 

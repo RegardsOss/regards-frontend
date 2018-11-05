@@ -21,17 +21,17 @@ import { themeContextType } from '@regardsoss/theme'
 
 const renderSlider = ({
   input, label, meta: { touched, error }, children, disabled, min, max, step, intl, ...rest
-}) => (
+}, context) => (
   <div>
-    {touched && error && (<span style={{ color: this.context.muiTheme.textField.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
+    {touched && error && (<span style={{ color: context.muiTheme.textField.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
     <Slider
       {...input}
       min={min}
       max={max}
       step={step}
       onChange={(event, value) => {
-          input.onChange(value)
-        }}
+        input.onChange(value)
+      }}
       disabled={disabled}
       {...rest}
     />

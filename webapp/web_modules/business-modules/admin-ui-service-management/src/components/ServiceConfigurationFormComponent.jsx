@@ -19,11 +19,14 @@
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import trim from 'lodash/trim'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import Subheader from 'material-ui/Subheader'
-import { reduxForm } from 'redux-form'
 import { AccessShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderCheckbox, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderTextField, RenderCheckbox, Field, ValidationHelpers, reduxForm,
+} from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -49,6 +52,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
+    pristine: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
   }
@@ -100,7 +104,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
 
   render() {
     const {
-      plugin, submitting, invalid, backUrl,
+      plugin, submitting, invalid, backUrl, pristine,
     } = this.props
     const { formatMessage } = this.context.intl
     const title = this.getTitle()
@@ -173,7 +177,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={formatMessage({ id: 'service.form.action.save' })}
               mainButtonType="submit"
-              isMainButtonDisabled={submitting || invalid}
+              isMainButtonDisabled={submitting || invalid || pristine}
               secondaryButtonLabel={formatMessage({ id: 'service.form.action.back' })}
               secondaryButtonUrl={backUrl}
             />
@@ -188,4 +192,3 @@ export class ServiceConfigurationFormComponent extends React.Component {
 export default reduxForm({
   form: 'service-form',
 })(ServiceConfigurationFormComponent)
-

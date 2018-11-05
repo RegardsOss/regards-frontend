@@ -21,10 +21,10 @@ import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { modelsRouter } from '@regardsoss/admin-board-models'
 import { userManagementRouter } from '@regardsoss/admin-user-management'
 import { projectManagementRouter } from '@regardsoss/admin-project-management'
-import { accountManagementRouter } from '@regardsoss/admin-account-management'
+import { accountsRouter } from '@regardsoss/admin-board-account'
 import { microserviceManagementRouter } from '@regardsoss/admin-microservice-management'
 import { uiManagementRouter } from '@regardsoss/admin-ui-management'
-import { accessRightManagementRouter } from '@regardsoss/admin-accessright-management'
+import { dataAccessRouter } from '@regardsoss/admin-board-dataaccess'
 import Routes from '../src/router'
 
 describe('[ADMIN MANAGEMENT] Testing admin router', () => {
@@ -35,28 +35,28 @@ describe('[ADMIN MANAGEMENT] Testing admin router', () => {
     assert.isNotNull(Routes)
     expect(Routes.childRoutes).to.have.length(11)
     expect(Routes.childRoutes[0].path).to.eq('projects')
-    expect(Routes.childRoutes[1].path).to.eq('account')
+    expect(Routes.childRoutes[1].path).to.eq('accounts')
     expect(Routes.childRoutes[2].path).to.eq('ui')
     expect(Routes.childRoutes[3].path).to.eq(':project/user')
     expect(Routes.childRoutes[4].path).to.eq(':project/ui')
     expect(Routes.childRoutes[5].path).to.eq(':project')
     expect(Routes.childRoutes[6].path).to.eq(':project/microservice')
-    expect(Routes.childRoutes[7].path).to.eq(':project/data/access-right')
-    expect(Routes.childRoutes[8].path).to.eq(':project/data/acquisition')
-    expect(Routes.childRoutes[9].path).to.eq(':project/data/collections')
-    expect(Routes.childRoutes[10].path).to.eq(':project/data/models')
+    expect(Routes.childRoutes[7].path).to.eq(':project/data/acquisition')
+    expect(Routes.childRoutes[8].path).to.eq(':project/data/collections')
+    expect(Routes.childRoutes[9].path).to.eq(':project/data/models')
+    expect(Routes.childRoutes[10].path).to.eq(':project/dataaccess')
   })
 
-  it('create should return projectManagementRouter', (done) => {
+  it('projects should return projectManagementRouter', (done) => {
     Routes.childRoutes[0].getChildRoutes(undefined, (smth, component) => {
       expect(component[0]).to.eq(projectManagementRouter)
       done()
     })
   })
 
-  it('edit should return accountManagementRouter', (done) => {
+  it('accounts should return accounts board', (done) => {
     Routes.childRoutes[1].getChildRoutes(undefined, (smth, component) => {
-      expect(component[0]).to.eq(accountManagementRouter)
+      expect(component[0]).to.eq(accountsRouter)
       done()
     })
   })
@@ -78,15 +78,15 @@ describe('[ADMIN MANAGEMENT] Testing admin router', () => {
       done()
     })
   })
-  it('create should return accessRightManagementRouter', (done) => {
-    Routes.childRoutes[7].getChildRoutes(undefined, (smth, component) => {
-      expect(component[0]).to.eq(accessRightManagementRouter)
+  it('create should return modelsRouter', (done) => {
+    Routes.childRoutes[9].getChildRoutes(undefined, (smth, component) => {
+      expect(component[0]).to.eq(modelsRouter)
       done()
     })
   })
-  it('create should return modelsRouter', (done) => {
+  it('create should return dataAccessRouter', (done) => {
     Routes.childRoutes[10].getChildRoutes(undefined, (smth, component) => {
-      expect(component[0]).to.eq(modelsRouter)
+      expect(component[0]).to.eq(dataAccessRouter)
       done()
     })
   })

@@ -34,7 +34,7 @@ const addDependencies = [
   modelAttributesActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
-module.exports = {
-  listDependencies,
+export default {
   addDependencies,
+  listDependencies,
 }

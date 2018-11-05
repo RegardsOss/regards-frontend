@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import {
   TableDeleteOption,
@@ -99,13 +101,17 @@ export class ProcessingChainListComponent extends React.Component {
 
   render() {
     const { intl, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     // Table columns to display
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('column.name', 'name', 'content.name'),
-      TableColumnBuilder.buildSimplePropertyColumn('column.description', 'description', 'content.description'),
-      TableColumnBuilder.buildOptionsColumn('', [{
+      new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.name')
+        .label(intl.formatMessage({ id: 'processing-chain.list.name.column' }))
+        .build(),
+      new TableColumnBuilder('column.description').titleHeaderCell().propertyRenderCell('content.description')
+        .label(intl.formatMessage({ id: 'processing-chain.list.description.column' }))
+        .build(),
+      new TableColumnBuilder().optionsColumn([{
         OptionConstructor: IngestProcessingChainTableExportAction,
         optionProps: { accessToken: this.props.accessToken },
       }, {
@@ -120,7 +126,7 @@ export class ProcessingChainListComponent extends React.Component {
           handleHateoas: true,
           disableInsteadOfHide: true,
         },
-      }], true, fixedColumnsWidth),
+      }]).build(),
     ]
 
     const emptyComponent = (
@@ -160,8 +166,8 @@ export class ProcessingChainListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              minRowCount={0}
-              maxRowCount={10}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               queryPageSize={this.props.queryPageSize}
             />
           </TableLayout>

@@ -26,12 +26,6 @@ import { AccessProjectClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'collections', 'dataset', 'link-ui-plugin-definition']
 const REDUX_ACTION_NAMESPACE = 'admin-data-dataset-management/link-ui-plugin-dataset'
 
-const linkUIPluginDatasetReducer = AccessProjectClient.getLinkUIPluginDatasetReducer(REDUX_ACTION_NAMESPACE)
-const linkUIPluginDatasetActions = new AccessProjectClient.LinkUIPluginDatasetActions(REDUX_ACTION_NAMESPACE)
-const linkUIPluginDatasetSelectors = AccessProjectClient.getLinkUIPluginDatasetSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  linkUIPluginDatasetReducer,
-  linkUIPluginDatasetActions,
-  linkUIPluginDatasetSelectors,
-}
+export const linkUIPluginDatasetReducer = AccessProjectClient.getLinkUIPluginDatasetReducer(REDUX_ACTION_NAMESPACE)
+export const linkUIPluginDatasetActions = new AccessProjectClient.LinkUIPluginDatasetActions(REDUX_ACTION_NAMESPACE)
+export const linkUIPluginDatasetSelectors = AccessProjectClient.getLinkUIPluginDatasetSelectors(ENTITIES_STORE_PATH)

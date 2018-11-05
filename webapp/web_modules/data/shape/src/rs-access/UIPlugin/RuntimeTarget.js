@@ -26,7 +26,7 @@ import { RuntimeTargetTypes } from '@regardsoss/domain/access'
  */
 const oneEntityTarget = PropTypes.shape({
   type: PropTypes.oneOf([RuntimeTargetTypes.ONE]).isRequired,
-  entity: PropTypes.string.isRequired, // entity IP ID
+  entity: PropTypes.string.isRequired, // entity ID (URN)
   entitiesCount: PropTypes.number.isRequired, // total count of entities
   // method to build fetch action: () => [dispatchable action object] that should resolve with an entity wrapped in { content: <entity>, links: <links> }
   getFetchAction: PropTypes.func.isRequired,
@@ -36,9 +36,9 @@ const oneEntityTarget = PropTypes.shape({
 })
 const manyEntitiesTarget = PropTypes.shape({
   type: PropTypes.oneOf([RuntimeTargetTypes.MANY]).isRequired,
-  entities: PropTypes.arrayOf(PropTypes.string).isRequired, // entities list
+  entities: PropTypes.arrayOf(PropTypes.string).isRequired, // entities ID array (URN)
   entitiesCount: PropTypes.number.isRequired, // total count of entities
-  // method to build fetch action: (entityIpId) => [dispatchable action object]
+  // method to build fetch action: (entityId) => [dispatchable action object]
   getFetchAction: PropTypes.func.isRequired,
   // method to apply a treatment on each entity (dispatchMethod: func, applier: func, initValue: *) => Promise (see comment above)
   getReducePromise: PropTypes.func.isRequired,
@@ -48,13 +48,11 @@ const queryTarget = PropTypes.shape({
   q: PropTypes.string.isRequired, // entities list
   entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
   entitiesCount: PropTypes.number.isRequired, // total count of entities
-  excludedIpIds: PropTypes.arrayOf(PropTypes.string).isRequired, // excluded IP IDs from selection
+  excludedIDs: PropTypes.arrayOf(PropTypes.string).isRequired, // excluded entities IDs (URN)
   // method to build fetch action: (pageIndex, pageSize) => [dispatchable action object]
   getFetchAction: PropTypes.func.isRequired,
   // method to apply a treatment on each entity (applier: func, initValue: (optional) *, pageSize: (optional) number) => Promise (see comment above)
   getReducePromise: PropTypes.func.isRequired,
 })
 
-const RuntimeTarget = PropTypes.oneOfType([oneEntityTarget, manyEntitiesTarget, queryTarget])
-
-module.exports = { RuntimeTarget }
+export const RuntimeTarget = PropTypes.oneOfType([oneEntityTarget, manyEntitiesTarget, queryTarget])

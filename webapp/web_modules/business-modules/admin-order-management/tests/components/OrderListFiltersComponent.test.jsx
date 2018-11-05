@@ -21,6 +21,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import IconButton from 'material-ui/IconButton'
 import { TableHeaderAutoCompleteFilter } from '@regardsoss/components'
+import { AdminDomain } from '@regardsoss/domain'
 import OrderListFiltersComponent from '../../src/components/OrderListFiltersComponent'
 import styles from '../../src/styles/styles'
 
@@ -49,11 +50,13 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
         0: {
           content: {
             email: 'test1@test.te',
+            status: AdminDomain.PROJECT_USER_STATUS_ENUM.ACCESS_GRANTED,
           },
         },
         1: {
           content: {
             email: 'test2@test.te',
+            status: AdminDomain.PROJECT_USER_STATUS_ENUM.ACCESS_GRANTED,
           },
         },
       },

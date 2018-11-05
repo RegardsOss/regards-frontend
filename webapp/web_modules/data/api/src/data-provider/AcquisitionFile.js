@@ -20,20 +20,13 @@
 
 import { Schema, arrayOf } from 'normalizr'
 
-const AcquisitionFileConfiguration = {
+export const AcquisitionFileConfiguration = {
   entityKey: 'id',
   normalizrKey: 'AcquisitionFile',
 }
 
-const AcquisitionFile = new Schema(AcquisitionFileConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[AcquisitionFileConfiguration.entityKey]
+export const ACQUISITION_FILE = new Schema(AcquisitionFileConfiguration.normalizrKey, {
+  idAttribute: entity => entity.content[AcquisitionFileConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  ACQUISITION_FILE: AcquisitionFile,
-  ACQUISITION_FILE_ARRAY: arrayOf(AcquisitionFile),
-  AcquisitionFileConfiguration,
-}
+export const ACQUISITION_FILE_ARRAY = arrayOf(ACQUISITION_FILE)

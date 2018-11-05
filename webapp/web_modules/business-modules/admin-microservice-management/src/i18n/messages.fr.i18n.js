@@ -93,8 +93,13 @@ const messages = Object.assign({
   'microservice.conf-backup.action.back': 'Retour',
   'microservice.conf-backup.export': 'Télécharger la configuration de ce microservice',
   'microservice.conf-backup.import': 'Importer une configuration de ce microservice',
+  'microservice.conf-backup.error.only-error': 'Tous les imports ont ils échoués: ',
+  'microservice.conf-backup.error.only-error.true': 'Oui',
+  'microservice.conf-backup.error.only-error.false': 'Non',
+  'microservice.conf-backup.error.module-conf': 'Erreur lors de l\'import des configurations du module ',
   'microservice-management.backup-conf.tooltip': 'Gérer les backups',
 
+  'plugin.description.more': 'Description détaillée ...',
 }, Locales.fr)
 
 export default messages

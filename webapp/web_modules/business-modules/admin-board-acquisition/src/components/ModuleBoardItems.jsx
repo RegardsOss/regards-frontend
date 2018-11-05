@@ -69,6 +69,12 @@ const items = (projectName, intl) => [
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.security.tooltip' }),
         hateoasDependencies: storageManagementDependencies.listPluginDependencies,
       },
+      {
+        path: `/admin/${projectName}/data/acquisition/storage/aip/session`,
+        icon: <PageView />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.aip-management.tooltip' }),
+        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
+      },
     ],
   },
   {

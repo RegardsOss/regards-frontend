@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccessDomain, DamDomain } from '@regardsoss/domain'
+import { DamDomain } from '@regardsoss/domain'
 import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
@@ -32,13 +32,10 @@ class SelectionDetailResultsTableComponent extends React.Component {
     pageActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     // request parameters
-    pathParams: PropTypes.objectOf(PropTypes.string).isRequired,
+    requestParams: PropTypes.objectOf(PropTypes.any).isRequired,
     // results information
     resultsCount: PropTypes.number.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    // parent provided available height, to let this component adjust table size depending on current space
-    // eslint-disable-next-line react/no-unused-prop-types
-    availableHeight: PropTypes.number.isRequired, // used in onPropertiesChanged
   }
 
   static contextTypes = {
@@ -47,52 +44,25 @@ class SelectionDetailResultsTableComponent extends React.Component {
 
   /** List of attributes presentation models (easier to use with table) */
   static DISPLAYED_ATTRIBUTES_MODELS = [
-    DamDomain.AttributeModelController.standardAttributes.thumbnail,
-    DamDomain.AttributeModelController.standardAttributes.label,
-    DamDomain.AttributeModelController.standardAttributes.ipId,
-    DamDomain.AttributeModelController.standardAttributes.creationDate,
-    DamDomain.AttributeModelController.standardAttributes.lastUpdate,
-  ].map(({
-    key, label, entityPathName, type,
-  }) =>
-    ({
-      key,
-      label,
-      attributes: [AccessDomain.AttributeConfigurationController.getStandardAttributeConf(key)],
-      enableSorting: false,
-    }))
+    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.thumbnail),
+    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.label),
+    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.id),
+    DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId),
+  ].map(attribute => ({
+    key: attribute.content.name,
+    label: { // FIXME-WAIT-DM (corresponds with another PM): this is an emulated behavior for non internationalized attributes
+      fakeLocale: attribute.content.label,
+    },
+    visible: true,
+    attributes: [attribute],
+    enableSorting: false,
+  }))
 
   /** static rendering component (it will update itself with context changes) */
   static NO_DATA_COMPONENT = <SelectionDetailNoDataComponent />
 
   /** Min page size for table */
   static MIN_TABLE_PAGE_SIZE = 5
-
-  /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
-   * Properties change detected: update local state
-   * @param oldProps previous component properties
-   * @param newProps next component properties
-   */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    // update table rows count to adjust available size
-    if (oldProps.availableHeight !== newProps.availableHeight) {
-      // compute the number of elements that should be visible at same timerow count
-      this.setState({
-        visibleRowsCount: this.computeVisibleRowsCount(newProps.availableHeight),
-      })
-    }
-  }
 
   computeVisibleRowsCount(availableHeight) {
     const { lineHeight, minHeaderRowHeight } = this.context.muiTheme.components.infiniteTable
@@ -104,26 +74,22 @@ class SelectionDetailResultsTableComponent extends React.Component {
    * Renders columns
    * @return [*] columns
    */
-  renderColumns = () => {
-    const { fixedColumnsWidth } = this.context.muiTheme.components.infiniteTable
-    return SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(model => AttributeColumnBuilder.buildAttributeColumn(model, true, null, fixedColumnsWidth))
-  }
+  renderColumns = () => SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(
+    // FIXME-WAIT-DM (corresponds with another PM): this is an emulated behavior for non internationalized attributes
+    model => AttributeColumnBuilder.buildAttributeColumn(model, null, 'fakeLocale'))
 
   render() {
     const {
-      pageActions, pageSelectors, pathParams, resultsCount, isFetching,
+      pageActions, pageSelectors, requestParams, resultsCount, isFetching,
     } = this.props
-    const { visibleRowsCount } = this.state
     return (
       <TableLayout>
         <TableHeaderLineLoadingAndResults resultsCount={resultsCount} isFetching={isFetching} />
         <PageableInfiniteTableContainer
           pageActions={pageActions}
           pageSelectors={pageSelectors}
-          minRowCount={visibleRowsCount}
-          maxRowCount={visibleRowsCount}
           columns={this.renderColumns()}
-          pathParams={pathParams}
+          requestParams={requestParams}
           emptyComponent={SelectionDetailResultsTableComponent.NO_DATA_COMPONENT}
         />
       </TableLayout>

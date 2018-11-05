@@ -57,7 +57,8 @@ class ProductInformationDialog extends React.Component {
         <div style={productInfos.jobInfos.titleStyle}>{jobLabel}</div>
         <div>
           <span style={productInfos.jobInfos.fieldLabelStyle}>{formatMessage({ id: 'acquisition-product.informaton.dialog.job.info.percentCompleted' })}</span>
-          {jobInfos.status.percentCompleted}%
+          {jobInfos.status.percentCompleted}
+          %
         </div>
         <div>
           <span style={productInfos.jobInfos.fieldLabelStyle}>{formatMessage({ id: 'acquisition-product.informaton.dialog.job.info.queuedDate' })}</span>
@@ -75,11 +76,12 @@ class ProductInformationDialog extends React.Component {
           <span style={productInfos.jobInfos.fieldLabelStyle}>{formatMessage({ id: 'acquisition-product.informaton.dialog.job.info.status' })}</span>
           {jobInfos.status.status}
         </div>
-        {jobInfos.status.stackTrace ?
-          <div>
+        {jobInfos.status.stackTrace
+          ? <div>
             <div style={productInfos.jobInfos.fieldLabelStyle}>error : </div>
             <div style={productInfos.jobInfos.stackTraceStyle}>{jobInfos.status.stackTrace}</div>
-          </div> : null}
+          </div>
+          : null}
       </div>
     )
   }
@@ -108,11 +110,12 @@ class ProductInformationDialog extends React.Component {
         dialogWidthPercent={80}
         onRequestClose={onClose}
       >
-        {product.error ?
-          <div>
+        {product.error
+          ? <div>
             <div style={jobInfos.titleStyle}>{formatMessage({ id: 'acquisition-product.informaton.global.error' })}</div>
             <div style={errorStyle}>{product.error}</div>
-          </div> : null
+          </div>
+          : null
         }
         {this.renderJobInformations(formatMessage({ id: 'acquisition-product.informaton.generation.job.title' }), product.lastSIPGenerationJobInfo)}
         {this.renderJobInformations(formatMessage({ id: 'acquisition-product.informaton.submition.job.title' }), product.lastSIPSubmissionJobInfo)}

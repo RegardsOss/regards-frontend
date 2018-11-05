@@ -16,33 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { ModelContent } from './Model'
+import { EntityProperties } from './Entity'
 
-
-const DocumentContent = PropTypes.shape({
-  id: PropTypes.number,
-  ipId: PropTypes.string,
-  creationDate: PropTypes.string,
-  lastUpdate: PropTypes.string,
-  label: PropTypes.string.isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  model: ModelContent.isRequired,
-  files: PropTypes.any,
-  properties: PropTypes.any,
-  quotations: PropTypes.any,
-  groups: PropTypes.any,
-  entityType: PropTypes.string,
+export const DocumentContent = PropTypes.shape({
+  ...EntityProperties,
 })
 
-const Document = PropTypes.shape({
+export const Document = PropTypes.shape({
   content: DocumentContent.isRequired,
 })
 
-const DocumentList = PropTypes.objectOf(Document)
-
-
-module.exports = {
-  Document,
-  DocumentContent,
-  DocumentList,
-}
+export const DocumentList = PropTypes.objectOf(Document)

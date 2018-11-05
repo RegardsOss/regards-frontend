@@ -23,7 +23,6 @@ import { accessRightActions } from './clients/AccessRightClient'
 const listAccessGroupAccessRightsDeps = [
   accessRightActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
-
-module.exports = {
+export default {
   listAccessGroupAccessRightsDeps,
 }

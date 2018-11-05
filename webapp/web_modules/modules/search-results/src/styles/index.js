@@ -18,4 +18,4 @@
  **/
 import styles from './styles'
 
-module.exports = { styles }
+export default { styles }

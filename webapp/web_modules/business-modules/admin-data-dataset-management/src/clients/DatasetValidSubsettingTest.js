@@ -27,11 +27,5 @@ import { DataManagementClient } from '@regardsoss/client'
  */
 const REDUX_ACTION_NAMESPACE = 'admin-data-dataset-management/datasetValidSubsetting'
 
-const datasetValidSubsettingTestReducer = DataManagementClient.getDatasetValidSubsettingTestReducer(REDUX_ACTION_NAMESPACE)
-const datasetValidSubsettingTestActions = new DataManagementClient.DatasetValidSubsettingTestActions(REDUX_ACTION_NAMESPACE)
-
-
-module.exports = {
-  datasetValidSubsettingTestReducer,
-  datasetValidSubsettingTestActions,
-}
+export const datasetValidSubsettingTestReducer = DataManagementClient.getDatasetValidSubsettingTestReducer(REDUX_ACTION_NAMESPACE)
+export const datasetValidSubsettingTestActions = new DataManagementClient.DatasetValidSubsettingTestActions(REDUX_ACTION_NAMESPACE)

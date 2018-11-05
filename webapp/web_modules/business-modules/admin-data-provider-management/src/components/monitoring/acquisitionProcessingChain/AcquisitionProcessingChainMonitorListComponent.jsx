@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import {
@@ -30,6 +32,7 @@ import AcquisitionProcessingChainMonitoringTableStopAction from './AcquisitionPr
 import AcquisitionProcessingChainMonitoringActivityRenderer from './AcquisitionProcessingChainMonitoringActivityRenderer'
 import AcquisitionProcessingChainMonitoringProductsRenderer from './AcquisitionProcessingChainMonitoringProductsRenderer'
 import AcquisitionProcessingChainMonitoringFilesRenderer from './AcquisitionProcessingChainMonitoringFilesRenderer'
+import AcquisitionProcessingChainMonitorModeRenderer from './AcquisitionProcessingChainMonitorModeRenderer'
 import AcquisitionProcessingChainMonitoringListFiltersComponent from './AcquisitionProcessingChainMonitoringListFiltersComponent'
 import { AcquisitionProcessingChainMonitorActions, AcquisitionProcessingChainMonitorSelectors }
   from '../../../clients/AcquisitionProcessingChainMonitorClient'
@@ -89,7 +92,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     if (this.timeout) {
       clearTimeout(this.timeout)
     }
-    this.handleRefresh().then((ActionResult) => {
+    this.handleRefresh().then(() => {
       this.timeout = setTimeout(this.autoRefresh, AcquisitionProcessingChainMonitorListComponent.AUTO_REFRESH_PERIOD)
     })
   }
@@ -152,8 +155,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
       onBack, pageSize, resultsCount, entitiesLoading, project, initialFilters,
     } = this.props
     const { appliedFilters, errorMessage } = this.state
-
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
       <NoContentComponent
@@ -163,27 +165,39 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     )
 
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('column.name', formatMessage({ id: 'acquisition-chain.monitor.list.label' }), 'content.chain.label'),
-      TableColumnBuilder.buildSimpleColumnWithCell('column.running', formatMessage({ id: 'acquisition-chain.monitor.list.running' }), {
-        Constructor: AcquisitionProcessingChainMonitoringActivityRenderer,
-      }),
-      TableColumnBuilder.buildSimpleColumnWithCell('column.products', formatMessage({ id: 'acquisition-chain.monitor.list.total-nb-products' }), {
-        Constructor: AcquisitionProcessingChainMonitoringProductsRenderer,
-        props: { project },
-      }),
-      TableColumnBuilder.buildSimpleColumnWithCell('column.files', formatMessage({ id: 'acquisition-chain.monitor.list.total-nb-files' }), {
-        Constructor: AcquisitionProcessingChainMonitoringFilesRenderer,
-        props: { project },
-      }),
-      TableColumnBuilder.buildOptionsColumn('column.files.actions', [{
+      new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.chain.label')
+        .label(formatMessage({ id: 'acquisition-chain.monitor.list.label' }))
+        .build(),
+      new TableColumnBuilder('column.mode').titleHeaderCell()
+        .propertyRenderCell('content.chain.mode', AcquisitionProcessingChainMonitorModeRenderer)
+        .label(formatMessage({ id: 'acquisition-chain.monitor.list.mode' }))
+        .build(),
+      new TableColumnBuilder('column.running').titleHeaderCell()
+        .rowCellDefinition({ Constructor: AcquisitionProcessingChainMonitoringActivityRenderer })
+        .label(formatMessage({ id: 'acquisition-chain.monitor.list.running' }))
+        .build(),
+      new TableColumnBuilder('column.products').titleHeaderCell()
+        .rowCellDefinition({
+          Constructor: AcquisitionProcessingChainMonitoringProductsRenderer,
+          props: { project },
+        })
+        .label(formatMessage({ id: 'acquisition-chain.monitor.list.total-nb-products' }))
+        .build(),
+      new TableColumnBuilder('column.files').titleHeaderCell()
+        .rowCellDefinition({
+          Constructor: AcquisitionProcessingChainMonitoringFilesRenderer,
+          props: { project },
+        })
+        .label(formatMessage({ id: 'acquisition-chain.monitor.list.total-nb-files' }))
+        .build(),
+      new TableColumnBuilder().optionsColumn([{
         OptionConstructor: AcquisitionProcessingChainMonitoringTableRunAction,
         optionProps: { onRunChain: this.runChainAction },
       },
       {
         OptionConstructor: AcquisitionProcessingChainMonitoringTableStopAction,
         optionProps: { onStopChain: this.stopChainAction },
-      },
-      ], true, fixedColumnsWidth),
+      }]).build(),
     ]
     return (
       <Card>
@@ -209,8 +223,8 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              minRowCount={0}
-              maxRowCount={20}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               queryPageSize={pageSize}
             />
           </TableLayout>

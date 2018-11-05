@@ -48,25 +48,24 @@ describe('[Order Common] Testing RequestFailedInformationComponent', () => {
     assert.isFalse(dialog.props().open, 'It should be closed')
   })
 
-  RequestFailedInformationComponent.KNOWN_ERROR_TYPES.forEach(errorType =>
-    it(`should render correctly the known error case ${errorType} `, () => {
-      const props = {
-        visible: true,
-        requestResponse: {
-          payload: {
-            response: {
-              messages: [errorType],
-            },
+  RequestFailedInformationComponent.KNOWN_ERROR_TYPES.forEach(errorType => it(`should render correctly the known error case ${errorType} `, () => {
+    const props = {
+      visible: true,
+      requestResponse: {
+        payload: {
+          response: {
+            messages: [errorType],
           },
         },
-        onClose: () => { },
-      }
-      const enzymeWrapper = shallow(<RequestFailedInformationComponent {...props} />, { context })
-      const dialog = enzymeWrapper.find(Dialog)
-      assert.lengthOf(dialog, 1, 'There should be a dialog')
-      assert.isTrue(dialog.props().open, 'It should be opened')
-      assert.include(dialog.debug(), `order.list.options.error.${errorType}`, 'Error type should be displayed as an i18n message')
-    }))
+      },
+      onClose: () => { },
+    }
+    const enzymeWrapper = shallow(<RequestFailedInformationComponent {...props} />, { context })
+    const dialog = enzymeWrapper.find(Dialog)
+    assert.lengthOf(dialog, 1, 'There should be a dialog')
+    assert.isTrue(dialog.props().open, 'It should be opened')
+    assert.include(dialog.debug(), `order.list.options.error.${errorType}`, 'Error type should be displayed as an i18n message')
+  }))
 
   it('should render correctly the unknown error case', () => {
     const props = {

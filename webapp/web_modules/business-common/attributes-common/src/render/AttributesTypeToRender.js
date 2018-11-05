@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { DamDomain } from '@regardsoss/domain'
 import {
   BooleanValueRender, DateArrayValueRender, DateRangeValueRender, DateValueRender,
   NumberValueRender, RangeValueRender, StringArrayValueRender, StringValueRender,
@@ -27,56 +28,39 @@ import ThumbnailAttributeRender from './ThumbnailAttributeRender'
  * Provides tools to render an attribute directly or in an infinite table (providing a path and an optional type)
  */
 
-/** Standard render types enum */
-const TYPES_ENUM = {
-  DEFAULT: 'DEFAULT',
-  BOOLEAN: 'BOOLEAN',
-  DATE_ISO8601: 'DATE_ISO8601',
-  DATE_INTERVAL: 'DATE_INTERVAL',
-  DATE_ARRAY: 'DATE_ARRAY',
-  DOUBLE: 'DOUBLE',
-  DOUBLE_INTERVAL: 'DOUBLE_INTERVAL',
-  INTEGER: 'INTEGER',
-  INTEGER_INTERVAL: 'INTEGER_INTERVAL',
-  LONG: 'LONG',
-  LONG_INTERVAL: 'LONG_INTERVAL',
-  STRING: 'STRING',
-  STRING_ARRAY: 'STRING_ARRAY',
-  THUMBNAIL: 'THUMBNAIL',
-  URL: 'URL',
-}
+const DEFAULT_RENDER = StringValueRender
 
 /**
  * Enum to associate attribute types to sRender renderer component.
  * @author Sébastien Binda
  */
 const typeToRenderMap = {
-  // Default render
-  [TYPES_ENUM.DEFAULT]: StringValueRender,
   // Render by type
-  [TYPES_ENUM.BOOLEAN]: BooleanValueRender,
-  [TYPES_ENUM.DATE_ISO8601]: DateValueRender,
-  [TYPES_ENUM.DATE_INTERVAL]: DateRangeValueRender,
-  [TYPES_ENUM.DATE_ARRAY]: DateArrayValueRender,
-  [TYPES_ENUM.DOUBLE]: NumberValueRender,
-  [TYPES_ENUM.DOUBLE_INTERVAL]: RangeValueRender,
-  [TYPES_ENUM.INTEGER]: NumberValueRender,
-  [TYPES_ENUM.INTEGER_INTERVAL]: RangeValueRender,
-  [TYPES_ENUM.LONG]: NumberValueRender,
-  [TYPES_ENUM.LONG_INTERVAL]: RangeValueRender,
-  [TYPES_ENUM.STRING]: StringValueRender,
-  [TYPES_ENUM.STRING_ARRAY]: StringArrayValueRender,
-  [TYPES_ENUM.THUMBNAIL]: ThumbnailAttributeRender,
-  [TYPES_ENUM.URL]: URLValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.STRING]: StringValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.INTEGER]: NumberValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.DOUBLE]: NumberValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601]: DateValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.URL]: URLValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.BOOLEAN]: BooleanValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.STRING_ARRAY]: StringArrayValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.INTEGER_ARRAY]: StringArrayValueRender, // units are not rendered now
+  [DamDomain.MODEL_ATTR_TYPES.DOUBLE_ARRAY]: StringArrayValueRender, // units are not rendered now
+  [DamDomain.MODEL_ATTR_TYPES.DATE_ARRAY]: DateArrayValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.INTEGER_INTERVAL]: RangeValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.DOUBLE_INTERVAL]: RangeValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.DATE_INTERVAL]: DateRangeValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.LONG]: NumberValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.LONG_INTERVAL]: RangeValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.LONG_ARRAY]: StringArrayValueRender, // units are not rendered now
 }
 
 /**
  * Returns render for type as parameter
- * @param
+ * @param {string} type type if known (returns default render otherwise)
  * @return render component for attribute
  */
-function getTypeRender(type = 'DEFAULT') {
-  return typeToRenderMap[type] || typeToRenderMap.DEFAULT
+export function getTypeRender(type) {
+  return typeToRenderMap[type] || DEFAULT_RENDER
 }
 
 /**
@@ -84,7 +68,7 @@ function getTypeRender(type = 'DEFAULT') {
  * @param {*} path property path
  * @param {*} type property type, from TYPES_ENUM, optional
  */
-function buildRenderDelegate(path, type, unit) {
+export function buildRenderDelegate(path, type, unit) {
   return {
     path,
     RenderConstructor: type ? getTypeRender(type) : undefined,
@@ -92,7 +76,9 @@ function buildRenderDelegate(path, type, unit) {
   }
 }
 
-module.exports = {
-  buildRenderDelegate,
-  getTypeRender,
+export function buildThumbnailRenderDelegate(path) {
+  return {
+    path,
+    RenderConstructor: ThumbnailAttributeRender,
+  }
 }

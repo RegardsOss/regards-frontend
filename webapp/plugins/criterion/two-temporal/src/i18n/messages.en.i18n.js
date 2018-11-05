@@ -22,6 +22,8 @@
  * @type {*}
  */
 const messages = {
+  'single.attributes.label': '{label}',
+  'multiple.attributes.label': '{label1} / {label2}',
   'criterion.date.field.label': 'Date',
   'criterion.date.picker.ok': 'Ok',
   'criterion.date.picker.cancel': 'Cancel',

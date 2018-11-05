@@ -25,12 +25,6 @@ import { IngestClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'sip', 'chain']
 const REDUX_ACTION_NAMESPACE = 'admin-ingest-sip-management/chains'
 
-const processingChainActions = new IngestClient.ProcessingChainActions(REDUX_ACTION_NAMESPACE)
-const processingChainReducer = IngestClient.ProcessingChainReducer(REDUX_ACTION_NAMESPACE)
-const processingChainSelectors = IngestClient.ProcessingChainSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  processingChainActions,
-  processingChainReducer,
-  processingChainSelectors,
-}
+export const processingChainActions = new IngestClient.ProcessingChainActions(REDUX_ACTION_NAMESPACE)
+export const processingChainReducer = IngestClient.ProcessingChainReducer(REDUX_ACTION_NAMESPACE)
+export const processingChainSelectors = IngestClient.ProcessingChainSelectors(ENTITIES_STORE_PATH)

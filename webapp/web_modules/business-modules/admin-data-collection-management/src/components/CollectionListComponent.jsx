@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
@@ -46,6 +48,9 @@ import CollectionListDuplicateAction from './CollectionListDuplicateAction'
 import CollectionListDeleteAction from './CollectionListDeleteAction'
 import CollectionListFiltersComponent from './CollectionListFiltersComponent'
 import { CollectionListContainer } from '../containers/CollectionListContainer'
+import EntityInfoDialog from './EntityInfoDialog'
+import CollectionListInfoAction from './CollectionListInfoAction'
+import CopyToClipBoardAction from './CopyToClipBoardAction'
 
 const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButton)
 
@@ -73,6 +78,7 @@ export class CollectionListComponent extends React.Component {
   state = {
     deleteDialogOpened: false,
     entityToDelete: null,
+    entityForInfos: null,
   }
 
   closeDeleteDialog = () => {
@@ -86,6 +92,14 @@ export class CollectionListComponent extends React.Component {
     this.setState({
       deleteDialogOpened: true,
       entityToDelete: entity,
+    })
+  }
+
+  onCloseInfoDialog = () => this.showInformation(null)
+
+  showInformation = (entity) => {
+    this.setState({
+      entityForInfos: entity,
     })
   }
 
@@ -113,11 +127,12 @@ export class CollectionListComponent extends React.Component {
     const {
       handleEdit, handleDuplicate, createUrl, backUrl, onRefresh, navigateToCreateCollection,
     } = this.props
-    const { fixedColumnsWidth } = this.context.muiTheme.components.infiniteTable
+    const { muiTheme } = this.context
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const style = {
-      hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
-      hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
-      hoverButtonDuplicate: this.context.muiTheme.palette.primary3Color,
+      hoverButtonEdit: muiTheme.palette.primary1Color,
+      hoverButtonDelete: muiTheme.palette.accent1Color,
+      hoverButtonDuplicate: muiTheme.palette.primary3Color,
     }
     const { intl } = this.context
 
@@ -139,43 +154,37 @@ export class CollectionListComponent extends React.Component {
 
     const columns = [
       // 1 - label column
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.label',
-        intl.formatMessage({ id: 'collection.list.table.label' }),
-        'content.label',
-      ),
+      new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.feature.label')
+        .label(intl.formatMessage({ id: 'collection.list.table.label' }))
+        .build(),
       // 2 - model column
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.model',
-        intl.formatMessage({ id: 'collection.list.table.model' }),
-        'content.model.name',
-      ),
-      TableColumnBuilder.buildOptionsColumn(
-        '',
-        [
-          {
-            OptionConstructor: CollectionListEditAction,
-            optionProps: { handleEdit, hoverColor: style.hoverButtonEdit },
-          },
-          {
-            OptionConstructor: CollectionListDuplicateAction,
-            optionProps: {
-              handleDuplicate,
-              hoverColor: style.hoverButtonDuplicate,
-              dependency: CollectionListComponent.DEPENDENCY,
-            },
-          },
-          {
-            OptionConstructor: CollectionListDeleteAction,
-            optionProps: {
-              openDeleteDialog: this.openDeleteDialog,
-              hoverColor: style.hoverButtonDelete,
-            },
-          },
-        ],
-        true,
-        fixedColumnsWidth,
-      ),
+      new TableColumnBuilder('column.model').titleHeaderCell().propertyRenderCell('content.feature.model')
+        .label(intl.formatMessage({ id: 'collection.list.table.model' }))
+        .build(),
+      // 3 - options
+      new TableColumnBuilder().optionsColumn([{
+        OptionConstructor: CollectionListInfoAction,
+        optionProps: { onClick: this.showInformation, hoverColor: style.hoverButtonEdit },
+      }, {
+        OptionConstructor: CopyToClipBoardAction,
+        optionProps: { hoverColor: style.hoverButtonEdit },
+      }, { // edit
+        OptionConstructor: CollectionListEditAction,
+        optionProps: { handleEdit, hoverColor: style.hoverButtonEdit },
+      }, { // duplicate
+        OptionConstructor: CollectionListDuplicateAction,
+        optionProps: {
+          handleDuplicate,
+          hoverColor: style.hoverButtonDuplicate,
+          dependency: CollectionListComponent.DEPENDENCY,
+        },
+      }, { // delete
+        OptionConstructor: CollectionListDeleteAction,
+        optionProps: {
+          openDeleteDialog: this.openDeleteDialog,
+          hoverColor: style.hoverButtonDelete,
+        },
+      }]).build(),
     ]
     return (
       <Card>
@@ -200,13 +209,18 @@ export class CollectionListComponent extends React.Component {
             </TableHeaderLine>
             <PageableInfiniteTableContainer
               name="collection-management-table"
-              minRowCount={0}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               pageActions={collectionActions}
               pageSelectors={collectionSelectors}
               tableActions={tableActions}
               pageSize={CollectionListContainer.PAGE_SIZE}
               columns={columns}
               emptyComponent={emptyComponent}
+            />
+            <EntityInfoDialog
+              entity={this.state.entityForInfos}
+              onClose={this.onCloseInfoDialog}
             />
           </TableLayout>
         </CardText>

@@ -17,27 +17,25 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
-import get from 'lodash/get'
 import FlatButton from 'material-ui/FlatButton'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
-import { CommonDomain } from '@regardsoss/domain'
-import { CatalogShapes } from '@regardsoss/shape'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { withAuthInfo } from '@regardsoss/authentication-utils'
 import { FitContentDialog } from '@regardsoss/components'
-import { URLAuthInjector } from '@regardsoss/domain/common'
+import { DamDomain } from '@regardsoss/domain'
 import messages from '../i18n'
 import styles from '../styles'
 /**
  * Component to render thumbnail attributes group
- * Note: unlike other render, this one is rendering only the first provided value
+ * note: Thumbnail render expects to receive the first thumbnail value
  *
  * @author Sébastien Binda
  */
 export class ThumbnailAttributeRender extends React.Component {
   static propTypes = {
-    value: CatalogShapes.entityFiles,
+    value: DataManagementShapes.DataFile,
     projectName: PropTypes.string,
     accessToken: PropTypes.string,
   }
@@ -89,10 +87,8 @@ export class ThumbnailAttributeRender extends React.Component {
     const { value, accessToken, projectName } = this.props
     // in resolved attributes, get the first data, if any
     const { intl: { formatMessage }, moduleTheme: { thumbnailRoot, thumbnailCell, noThumbnailIcon } } = this.context
-    let thumbnailURI = get(value, `${CommonDomain.DataTypesEnum.THUMBNAIL}[0].uri`, null)
-    if (thumbnailURI) {
-      thumbnailURI = URLAuthInjector(thumbnailURI, accessToken, projectName)
-    }
+    const thumbnailURI = value
+      ? DamDomain.DataFileController.getFileURI(value, accessToken, projectName) : null
     return (
       <div
         style={thumbnailRoot}

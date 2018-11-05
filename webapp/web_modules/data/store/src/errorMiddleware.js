@@ -24,8 +24,8 @@ function isSilentError(action) {
   // Silent errors if:
   // - it is an async form validation action (should'nt be handled, local action!)
   // - it is explicity marked to bypass error middleware
-  return action.type === ASYNC_VALIDATION_ACTION_TYPE ||
-    (action.meta && action.meta.bypassErrorMiddleware)
+  return action.type === ASYNC_VALIDATION_ACTION_TYPE
+    || (action.meta && action.meta.bypassErrorMiddleware)
 }
 
 /**
@@ -39,15 +39,19 @@ export default store => next => (action) => {
   if (action.error && !isSilentError(action) && (action.type !== '@@redux-form/SET_SUBMIT_FAILED')) {
     if (action.payload) {
       const statusText = 'Server request error'
+      const serverResponse = action.payload.response
+      const serverStatus = action.payload.status
+      const serverPath = action.meta ? action.meta.path : null
       let serverMessage = ''
-      if (action.payload.response && action.payload.response.message) {
+      if (serverResponse && serverResponse.message) {
         serverMessage = action.payload.response.message
-      } else if (action.payload.response && action.payload.response.messages) {
+      } else if (serverResponse && serverResponse.messages) {
         serverMessage = action.payload.response.messages[0]
       }
 
-      if (action.payload.response && action.payload.response.status === 404) {
-        serverMessage = `${action.payload.response.path} -> ${serverMessage}`
+      // If response status is 404 (endpoint does not exists) or 403 (access denied) display the endpoint in the error message
+      if (serverStatus === 404 || serverStatus === 403) {
+        serverMessage = serverPath ? `${serverPath} -> ${serverStatus} : ${serverMessage}` : `${serverStatus} : ${serverMessage}`
       }
       if (serverMessage && serverMessage.includes('io.jsonwebtoken.ExpiredJwtException')) {
         serverMessage = 'Session expired'

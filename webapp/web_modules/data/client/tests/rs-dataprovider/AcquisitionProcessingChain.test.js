@@ -45,4 +45,3 @@ describe('[ADMIN CLIENT] Testing client AcquisitionProcessingChain', () => {
     entityTester.runTests(done)
   })
 })
-

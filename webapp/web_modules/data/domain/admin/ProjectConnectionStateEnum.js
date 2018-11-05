@@ -16,11 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
-module.exports = {
+const ProjectConnectionStateEnum = {
   DISABLED: 'DISABLED',
   CONNECTING: 'CONNECTING',
   ERROR: 'ERROR',
   ENABLED: 'ENABLED',
   NOT_DEFINED: 'NOT_DEFINED',
 }
+export default ProjectConnectionStateEnum

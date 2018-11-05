@@ -16,55 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import OrderBasketActions from './basket/OrderBasketActions'
-import getOrderBasketReducer from './basket/OrderBasketReducer'
-import getOrderBasketSelectors from './basket/OrderBasketSelectors'
-import CreateOrderActions from './order/CreateOrderActions'
-import getCreateOrderReducer from './order/CreateOrderReducer'
-import getCreateOrderSelectors from './order/CreateOrderSelectors'
-import DownloadAllOrderFilesAction from './order/DownloadAllOrderFilesAction'
-import DownloadOrderFileActions from './order/DownloadOrderFileActions'
-import DownloadOrderMetalinkFileActions from './order/DownloadOrderMetalinkFileActions'
-import DownloadOrderSummaryCSVFileActions from './order/DownloadOrderSummaryCSVFileActions'
-import OrderDatasetFilesActions from './order/OrderDatasetFilesActions'
-import getOrderDatasetFilesReducer from './order/OrderDatasetFilesReducer'
-import getOrderDatasetFilesSelectors from './order/OrderDatasetFilesSelectors'
-import OrderListActions from './order/OrderListActions'
-import getOrderListReducer from './order/OrderListReducer'
-import getOrderListSelectors from './order/OrderListSelectors'
-import OrderStateActions from './order/OrderStateActions'
-import getOrderStateReducer from './order/OrderStateReducer'
-import getOrderStateSelectors from './order/OrderStateSelectors'
 
 /**
  * Index for all order microservice clients.
  * @author Raphaël Mechali
  */
-module.exports = {
-  // current basket content actions
-  OrderBasketActions,
-  getOrderBasketReducer,
-  getOrderBasketSelectors,
-  // transform basket into a new order actions
-  CreateOrderActions,
-  getCreateOrderReducer,
-  getCreateOrderSelectors,
-  // download file 'pseudo' actions (used to get the dependencies and the path to order files downloads)
-  DownloadAllOrderFilesAction,
-  DownloadOrderFileActions,
-  DownloadOrderMetalinkFileActions,
-  DownloadOrderSummaryCSVFileActions,
-  // get a dataset order detail (order)
-  OrderDatasetFilesActions,
-  getOrderDatasetFilesReducer,
-  getOrderDatasetFilesSelectors,
-  // get orders list (order) for current or all users
-  OrderListActions,
-  getOrderListReducer,
-  getOrderListSelectors,
-  // change order state (pause, resume, delete, delete completely)
-  OrderStateActions,
-  getOrderStateReducer,
-  getOrderStateSelectors,
+// current basket content actions
+export { default as OrderBasketActions } from './basket/OrderBasketActions'
+export { default as getOrderBasketReducer } from './basket/OrderBasketReducer'
+export { default as getOrderBasketSelectors } from './basket/OrderBasketSelectors'
 
-}
+// transform basket into a new order actions
+export { default as CreateOrderActions } from './order/CreateOrderActions'
+export { default as getCreateOrderReducer } from './order/CreateOrderReducer'
+export { default as getCreateOrderSelectors } from './order/CreateOrderSelectors'
+
+// download file 'pseudo' actions (used to get the dependencies and the path to order files downloads)
+export { default as DownloadAllOrderFilesAction } from './order/DownloadAllOrderFilesAction'
+export { default as DownloadOrderFileActions } from './order/DownloadOrderFileActions'
+export { default as DownloadOrderMetalinkFileActions } from './order/DownloadOrderMetalinkFileActions'
+export { default as DownloadOrderSummaryCSVFileActions } from './order/DownloadOrderSummaryCSVFileActions'
+
+// get a dataset order detail (order)
+export { default as OrderDatasetFilesActions } from './order/OrderDatasetFilesActions'
+export { default as getOrderDatasetFilesReducer } from './order/OrderDatasetFilesReducer'
+export { default as getOrderDatasetFilesSelectors } from './order/OrderDatasetFilesSelectors'
+
+// get orders list (order) for current or all users
+export { default as OrderListActions } from './order/OrderListActions'
+export { default as getOrderListReducer } from './order/OrderListReducer'
+export { default as getOrderListSelectors } from './order/OrderListSelectors'
+
+// change order state (pause, resume, delete, delete completely)
+export { default as OrderStateActions } from './order/OrderStateActions'
+export { default as getOrderStateReducer } from './order/OrderStateReducer'
+export { default as getOrderStateSelectors } from './order/OrderStateSelectors'

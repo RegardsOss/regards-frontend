@@ -39,6 +39,8 @@ describe('[AUTHENTICATION] Testing AuthenticationFormContainer', () => {
       // show create account link?
       showAskProjectAccess: true,
       showCancel: true,
+      dispatchLoginRequest: () => { },
+      clearErrors: () => { },
       onGotoCreateAccount: () => { },
       onGotoResetPassword: () => { },
       onGotoUnlockAccount: () => { },

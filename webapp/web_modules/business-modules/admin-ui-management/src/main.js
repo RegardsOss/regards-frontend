@@ -16,17 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import uiManagementRouter from './router'
-import uiManagementReducer from './reducer'
-import uiManagementDependencies from './dependencies'
-
 /**
  * Module main file to expose public interface
  * @author Sébastien binda
  */
 
-module.exports = {
-  uiManagementRouter,
-  uiManagementReducer,
-  uiManagementDependencies,
-}
+export { default as uiManagementRouter } from './router'
+export { default as uiManagementReducer } from './reducer'
+export { default as uiManagementDependencies } from './dependencies'

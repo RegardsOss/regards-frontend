@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { DataProviderDomain } from '@regardsoss/domain'
 import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfiguration'
 import { AcquisitionFileInfoContent } from './AcquisitionFileInfo'
 
@@ -25,11 +26,13 @@ import { AcquisitionFileInfoContent } from './AcquisitionFileInfo'
  */
 
 /** A dated selection item shape */
-const AcquisitionProcessingChainContent = PropTypes.shape({
+export const AcquisitionProcessingChainContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
   active: PropTypes.bool.isRequired,
-  mode: PropTypes.string.isRequired,
+  generationRetryEnabled: PropTypes.bool.isRequired,
+  submissionRetryEnabled: PropTypes.bool.isRequired,
+  mode: PropTypes.oneOf(DataProviderDomain.AcquisitionProcessingChainModes).isRequired,
   session: PropTypes.string,
   locked: PropTypes.bool,
   lastDateActivation: PropTypes.string,
@@ -42,15 +45,8 @@ const AcquisitionProcessingChainContent = PropTypes.shape({
   postProcessSipPluginConf: PluginConfigurationContent,
 })
 
-const AcquisitionProcessingChain = PropTypes.shape({
+export const AcquisitionProcessingChain = PropTypes.shape({
   content: AcquisitionProcessingChainContent,
 })
-const AcquisitionProcessingChainList = PropTypes.objectOf(AcquisitionProcessingChain)
-const AcquisitionProcessingChainArray = PropTypes.arrayOf(AcquisitionProcessingChain)
-
-module.exports = {
-  AcquisitionProcessingChainList,
-  AcquisitionProcessingChainArray,
-  AcquisitionProcessingChainContent,
-  AcquisitionProcessingChain,
-}
+export const AcquisitionProcessingChainList = PropTypes.objectOf(AcquisitionProcessingChain)
+export const AcquisitionProcessingChainArray = PropTypes.arrayOf(AcquisitionProcessingChain)

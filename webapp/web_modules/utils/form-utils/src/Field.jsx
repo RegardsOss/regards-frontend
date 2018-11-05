@@ -23,6 +23,7 @@ class FieldWithIntl extends React.Component {
   static contextTypes = {
     intl: intlShape,
   }
+
   render() {
     return (<Field {...this.props} intl={this.context.intl} />)
   }

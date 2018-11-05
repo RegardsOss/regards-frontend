@@ -23,8 +23,7 @@ const hasParam = (entity, parameterName) => {
   const param = find(entity.content.parameters, parameter => parameter.name === parameterName)
   return !!param
 }
-
-module.exports = {
+export default {
   findParam,
   hasParam,
 }

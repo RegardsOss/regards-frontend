@@ -44,17 +44,20 @@ const adminModulePropertiesKeys = [
   'adminForm',
 ]
 
-module.exports = {
-  /**
-   * Returns the list of properties consumed by a module user component (to be used in order to instanciated a
-   * DynamicModulePane for instance)
-   * @param {*} props parent properties
-   */
-  getReportedUserModuleProps: props => pick(props, userModulePropertiesKeys),
-  /**
-   * Returns the list of properties consumed by a module admin component (to be used in order to instanciated a
-   * DynamicModulePane for instance)
-   * @param {*} props parent properties
-   */
-  getReportedAdminModuleProps: props => pick(props, adminModulePropertiesKeys),
+/**
+ * Returns the list of properties consumed by a module user component (to be used in order to instanciated a
+ * DynamicModulePane for instance)
+ * @param {*} props parent properties
+ */
+const getReportedUserModuleProps = props => pick(props, userModulePropertiesKeys)
+/**
+ * Returns the list of properties consumed by a module admin component (to be used in order to instanciated a
+ * DynamicModulePane for instance)
+ * @param {*} props parent properties
+ */
+const getReportedAdminModuleProps = props => pick(props, adminModulePropertiesKeys)
+
+export default {
+  getReportedUserModuleProps,
+  getReportedAdminModuleProps,
 }

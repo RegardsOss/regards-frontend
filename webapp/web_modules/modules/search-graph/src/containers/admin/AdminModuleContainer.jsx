@@ -78,12 +78,12 @@ const mapStateToProps = state => ({
   // fetched collection models to provide the available graph levels
   collectionModels: CollectionModelSelectors.getList(state) || {},
   selectableAttributes: AttributeModelSelectors.getList(state),
-  hasError: AttributeModelSelectors.hasError(state) || AttributeModelSelectors.hasError(state),
+  hasError: AttributeModelSelectors.hasError(state) || CollectionModelSelectors.hasError(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchCollectionModels: () => dispatch(CollectionModelActions.fetchEntityList()),
-  fetchSelectableAttributes: () => dispatch(AttributeModelActions.fetchEntityList({ pModelType: 'DATASET' })),
+  fetchSelectableAttributes: () => dispatch(AttributeModelActions.fetchEntityList({ modelType: 'DATASET' })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminModuleContainer)

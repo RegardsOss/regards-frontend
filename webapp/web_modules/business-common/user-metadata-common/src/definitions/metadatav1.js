@@ -23,13 +23,13 @@ import countries from './countries'
  * V1 metadata list: for first version only, constant metadata for all projects.
  * All label keys are defines in modules messages, exported by this module
  */
-const editorTypes = {
+export const editorTypes = {
   text: 'text.type',
   multilineText: 'multiline.text.type',
   choice: 'choice.type',
 }
 
-const editors = {
+export const editors = {
   textEditor: {
     type: editorTypes.text,
   },
@@ -87,7 +87,7 @@ function findUserMetadata(metadataKey, user) {
  * @param user user model (optional) as returned by server ({content: {..., metadata}, links})
  * @return metadata array as defined in this model, completed with user known values
  */
-function getMetadataArray(user) {
+export function getMetadataArray(user) {
   return METADATA_ARRAY_V1.map((metadata) => {
     const correspondingServerMetadata = findUserMetadata(metadata.key, user)
     return {
@@ -104,7 +104,7 @@ function getMetadataArray(user) {
  * @param {*} formValues edition form values (optional)
  * @return a suitable value for user.content.metadata field
  */
-function packMetadataField(user, formValues = {}) {
+export function packMetadataField(user, formValues = {}) {
   return METADATA_ARRAY_V1.map(({ key }) => {
     const metadataEntity = findUserMetadata(key, user)
     return {
@@ -115,7 +115,7 @@ function packMetadataField(user, formValues = {}) {
   })
 }
 
-module.exports = {
+export default {
   editorTypes,
   editors,
   getMetadataArray,

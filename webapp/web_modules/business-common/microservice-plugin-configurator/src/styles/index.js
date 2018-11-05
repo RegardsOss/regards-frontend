@@ -21,4 +21,4 @@ import styles from './styles'
 /**
  * @author Sébastien Binda
  */
-module.exports = { styles }
+export default { styles }

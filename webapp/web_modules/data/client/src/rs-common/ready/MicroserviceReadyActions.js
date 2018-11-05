@@ -21,7 +21,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 export default class MicroserviceReadyActions extends BasicSignalActions {
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microserviceName}/ready`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microserviceName}/microservice/ready`,
       namespace,
       bypassErrorMiddleware: true,
     })

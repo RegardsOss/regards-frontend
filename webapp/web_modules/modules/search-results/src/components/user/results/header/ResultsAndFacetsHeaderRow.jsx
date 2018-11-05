@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { CatalogDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableHeaderLineLoadingAndResults, TableHeaderOptionsArea, TableHeaderOptionGroup,
   TableHeaderContentBox, TableHeaderText,
 } from '@regardsoss/components'
-
-import { FacetArray, FacetTypes } from '../../../../models/facets/FacetShape'
+import { UIFacetArray } from '../../../../models/facets/FacetShape'
+import BooleanFacetSelectorComponent from '../facets/BooleanFacetSelectorComponent'
 import DateRangeFacetSelectorComponent from '../facets/DateRangeFacetSelectorComponent'
 import NumberRangeFacetSelectorComponent from '../facets/NumberRangeFacetSelectorComponent'
 import WordFacetSelectorComponent from '../facets/WordFacetSelectorComponent'
@@ -34,11 +35,11 @@ class ResultsAndFacetsHeaderRow extends React.Component {
   static propTypes = {
     isFetching: PropTypes.bool.isRequired,
     showFacets: PropTypes.bool.isRequired,
+    // facets array
+    facets: UIFacetArray,
+    resultsCount: PropTypes.number.isRequired,
     // applies a facet filter (key:string, label:string, searchQuery: string)
     onSelectFacet: PropTypes.func.isRequired,
-    // facets array
-    facets: FacetArray,
-    resultsCount: PropTypes.number.isRequired,
   }
 
   static contextTypes = {
@@ -52,7 +53,7 @@ class ResultsAndFacetsHeaderRow extends React.Component {
     const { intl: { formatMessage } } = this.context
     return (
       // 1 - results count message and loading
-      <TableHeaderLineLoadingAndResults resultsCount={resultsCount} isFetching={isFetching} >
+      <TableHeaderLineLoadingAndResults resultsCount={resultsCount} isFetching={isFetching}>
         {
           // Render the facets component through an IIF as follow:
           (() => {
@@ -76,14 +77,16 @@ class ResultsAndFacetsHeaderRow extends React.Component {
                 <TableHeaderOptionGroup show={showFacets}>
                   {
                     facets.map((facet) => {
-                      const selectorProps = { key: facet.attributeName, facet, onSelectFacet }
-                      switch (facet.type) {
-                        case FacetTypes.String:
-                          return (<WordFacetSelectorComponent {...selectorProps} />)
-                        case FacetTypes.Number:
-                          return (<NumberRangeFacetSelectorComponent {...selectorProps} />)
-                        case FacetTypes.Date:
+                      const selectorProps = { key: facet.model.attributeName, facet, onSelectFacet }
+                      switch (facet.model.type) {
+                        case CatalogDomain.FACET_TYPES_ENUM.BOOLEAN:
+                          return (<BooleanFacetSelectorComponent {...selectorProps} />)
+                        case CatalogDomain.FACET_TYPES_ENUM.DATE:
                           return (<DateRangeFacetSelectorComponent {...selectorProps} />)
+                        case CatalogDomain.FACET_TYPES_ENUM.NUMBER:
+                          return (<NumberRangeFacetSelectorComponent {...selectorProps} />)
+                        case CatalogDomain.FACET_TYPES_ENUM.STRING:
+                          return (<WordFacetSelectorComponent {...selectorProps} />)
                         default:
                           throw new Error(`Unknown facet type ${facet.type}`)
                       }

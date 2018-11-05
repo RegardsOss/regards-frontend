@@ -24,7 +24,7 @@ import { StorageUnitScale } from './StorageUnit'
  * A storage capacity (like 8Mo, 36 Gio...)
  * @author Raphaël Mechali
  */
-class StorageCapacity {
+export class StorageCapacity {
   /**
    * Constructor
    * @param {number} value
@@ -69,7 +69,7 @@ class StorageCapacity {
   doArithmeticOperation(binaryOperator, other) {
     if (isNumber(other)) {
       return new StorageCapacity(binaryOperator(this.value, other), this.unit)
-    } else if (other instanceof StorageCapacity) {
+    } if (other instanceof StorageCapacity) {
       const converted = other.convert(this.unit)
       return new StorageCapacity(binaryOperator(this.value, converted.value), this.unit)
     }
@@ -132,8 +132,4 @@ class StorageCapacity {
     return unit && !Number.isNaN(value) ? new StorageCapacity(value, unit) : null
   }
 }
-
-module.exports = {
-  StorageCapacity,
-  StorageCapacityShape: PropTypes.instanceOf(StorageCapacity),
-}
+export const StorageCapacityShape = PropTypes.instanceOf(StorageCapacity)

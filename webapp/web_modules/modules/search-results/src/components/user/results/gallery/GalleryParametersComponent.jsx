@@ -18,6 +18,7 @@
  **/
 import map from 'lodash/map'
 import get from 'lodash/get'
+import { UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
@@ -30,7 +31,8 @@ import { getTypeRender } from '@regardsoss/attributes-common'
 class GalleryParametersComponent extends React.PureComponent {
   static propTypes = {
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
-    attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired,
+    presentationModels: AccessShapes.AttributePresentationModelArray.isRequired,
+    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
   }
 
   static contextTypes = {
@@ -40,29 +42,26 @@ class GalleryParametersComponent extends React.PureComponent {
 
   render = () => {
     const { moduleTheme } = this.context
-    const { attributePresentationModels } = this.props
+    const { locale, presentationModels } = this.props
     const {
       attributesStyles, labelCellStyle, labelColumnStyles, valueCellStyle, valueColumnStyles,
     } = moduleTheme.user.listViewStyles
 
     return (
-      <div style={attributesStyles} >
+      <div style={attributesStyles}>
         <div style={labelColumnStyles}>
 
           {
-            map(attributePresentationModels, (attributePresentationModel) => {
-              const firstAttributeDisplayed = attributePresentationModel.attributes[0].content
-              return (
-                <div style={labelCellStyle} key={firstAttributeDisplayed.name}>
-                  {firstAttributeDisplayed.label}
-                </div>)
-            })
+            map(presentationModels, attributePresentationModel => (
+              <div style={labelCellStyle} key={attributePresentationModel.key}>
+                {attributePresentationModel.label[locale]}
+              </div>))
           }
         </div>
         <div style={valueColumnStyles}>
 
           {
-            map(attributePresentationModels, (attributePresentationModel) => {
+            map(presentationModels, (attributePresentationModel) => {
               const firstAttributeDisplayed = attributePresentationModel.attributes[0].content
               const AttributeConstructor = getTypeRender(firstAttributeDisplayed.type)
               const value = get(this.props.entity, `content.${firstAttributeDisplayed.jsonPath}`)

@@ -34,6 +34,6 @@ describe('[Adapters] Testing component headless', () => {
         {
           ({ bind }) => <div {...bind('div')} />
         }
-      </MeasureAdapter >)
+      </MeasureAdapter>)
   })
 })

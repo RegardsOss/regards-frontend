@@ -18,8 +18,11 @@
  **/
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import FlatButton from 'material-ui/FlatButton'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
+import Snackbar from 'material-ui/Snackbar'
 import { themeContextType } from '@regardsoss/theme'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
@@ -29,7 +32,9 @@ import {
 } from '@regardsoss/components'
 import messages from '../i18n'
 import DatasourceStatusTableCell from './DatasourceStatusTableCell'
-import DataSourceMonitoringDeleteAction from './DataSourceMonitoringDeleteAction'
+import DatasourceCountTableCell from './DatasourceCountTableCell'
+import DataSourceMonitoringDeleteOption from './DataSourceMonitoringDeleteOption'
+import DataSourceMonitoringScheduleAction from './DataSourceMonitoringScheduleAction'
 
 /**
 * DataSourceMonitoringComponent
@@ -41,6 +46,7 @@ class DataSourceMonitoringComponent extends React.Component {
     onBack: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
+    onSchedule: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -52,9 +58,13 @@ class DataSourceMonitoringComponent extends React.Component {
     whiteSpace: 'pre-wrap',
   }
 
+  static SNACKBAR_DURATION = 5000
+
   state = {
     showModal: false,
     crawlerToDelete: null,
+    showSnackbar: false,
+    snackbarMessage: null,
   }
 
   onDelete = (crawler) => {
@@ -68,6 +78,35 @@ class DataSourceMonitoringComponent extends React.Component {
     if (this.state.crawlerToDelete) {
       this.props.onDelete(this.state.crawlerToDelete.id)
     }
+  }
+
+
+  handleSnackbarClose = () => {
+    this.setState({
+      showSnackbar: false,
+      snackbarMessage: '',
+    })
+  }
+
+  renderSnackbar = () => this.state.showSnackbar ? (
+    <Snackbar
+      open
+      message={this.state.snackbarMessage}
+      autoHideDuration={DataSourceMonitoringComponent.SNACKBAR_DURATION}
+      onRequestClose={this.handleSnackbarClose}
+    />
+  ) : null
+
+  onSchedule = (crawlerId) => {
+    const { intl } = this.context
+
+    this.props.onSchedule(crawlerId)
+      .then(() => {
+        this.setState({
+          showSnackbar: true,
+          snackbarMessage: intl.formatMessage({ id: 'crawler.list.scheduled' }),
+        })
+      })
   }
 
   getDialogActions = () => [
@@ -135,26 +174,44 @@ class DataSourceMonitoringComponent extends React.Component {
       </FitContentDialog>
     </ShowableAtRender>
   )
+
   render() {
     const { crawlerDatasources, onBack, onRefresh } = this.props
     const { intl, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     // emptyComponent
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('label', intl.formatMessage({ id: 'crawler.list.label.column.header' }), 'content.label', 0, true),
-      TableColumnBuilder.buildSimplePropertyColumn('lastIngestDate', intl.formatMessage({ id: 'crawler.list.lastIngestDate.column.header' }), 'content.lastIngestDate', 0, true, DateValueRender),
-      TableColumnBuilder.buildSimplePropertyColumn('duration', intl.formatMessage({ id: 'crawler.list.duration.column.header' }), 'content.duration', 0, true, DurationValueRender),
-      TableColumnBuilder.buildSimplePropertyColumn('savedObjectsCount', intl.formatMessage({ id: 'crawler.list.savedObjectsCount.column.header' }), 'content.savedObjectsCount', 0, true),
-      TableColumnBuilder.buildSimpleColumnWithCell('status', intl.formatMessage({ id: 'crawler.list.status.column.header' }), {
+      new TableColumnBuilder('label').titleHeaderCell().propertyRenderCell('content.label')
+        .label(intl.formatMessage({ id: 'crawler.list.label.column.header' }))
+        .build(),
+      new TableColumnBuilder('lastIngestDate').titleHeaderCell().propertyRenderCell('content.lastIngestDate', DateValueRender)
+        .label(intl.formatMessage({ id: 'crawler.list.lastIngestDate.column.header' }))
+        .build(),
+      new TableColumnBuilder('duration').titleHeaderCell().propertyRenderCell('content.duration', DurationValueRender)
+        .label(intl.formatMessage({ id: 'crawler.list.duration.column.header' }))
+        .build(),
+      new TableColumnBuilder('status').titleHeaderCell().rowCellDefinition({
         Constructor: DatasourceStatusTableCell,
         props: { onShow: this.openStacktraceDialog },
-      }, 0, true),
+      })
+        .label(intl.formatMessage({ id: 'crawler.list.status.column.header' }))
+        .build(),
+      new TableColumnBuilder('savedObjectsCount').titleHeaderCell().rowCellDefinition({
+        Constructor: DatasourceCountTableCell,
+      })
+        .label(intl.formatMessage({ id: 'crawler.list.savedObjectsCount.column.header' }))
+        .build(),
       // Next planed ingest date
-      TableColumnBuilder.buildSimplePropertyColumn('nextPlannedIngestDate', intl.formatMessage({ id: 'crawler.list.nextPlannedIngestDate.column.header' }), 'content.nextPlannedIngestDate', 0, true, DateValueRender),
-      TableColumnBuilder.buildOptionsColumn('', [{
-        OptionConstructor: DataSourceMonitoringDeleteAction,
+      new TableColumnBuilder('nextPlannedIngestDate').titleHeaderCell().propertyRenderCell('content.nextPlannedIngestDate')
+        .label(intl.formatMessage({ id: 'crawler.list.nextPlannedIngestDate.column.header' }))
+        .build(),
+      new TableColumnBuilder().optionsColumn([{
+        OptionConstructor: DataSourceMonitoringScheduleAction,
+        optionProps: { onSchedule: this.onSchedule },
+      }, {
+        OptionConstructor: DataSourceMonitoringDeleteOption,
         optionProps: { onDelete: this.onDelete },
-      }], true, fixedColumnsWidth),
+      }]).build(),
     ]
 
     return (
@@ -164,11 +221,12 @@ class DataSourceMonitoringComponent extends React.Component {
         />
         {this.renderStacktraceDialog()}
         {this.renderDeleteConfirmDialog()}
+        {this.renderSnackbar()}
         <CardText>
           <TableLayout>
             <TableHeaderLine>
               <TableHeaderOptionsArea />
-              <TableHeaderOptionsArea >
+              <TableHeaderOptionsArea>
                 <TableHeaderOptionGroup>
                   <FlatButton
                     icon={<Refresh />}
@@ -176,13 +234,13 @@ class DataSourceMonitoringComponent extends React.Component {
                     onClick={onRefresh}
                   />
                 </TableHeaderOptionGroup>
-              </TableHeaderOptionsArea >
+              </TableHeaderOptionsArea>
             </TableHeaderLine>
             <InfiniteTableContainer
               columns={columns}
               entities={crawlerDatasources}
-              minRowCount={0}
-              maxRowCount={10}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               entitiesCount={crawlerDatasources.length}
             />
           </TableLayout>

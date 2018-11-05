@@ -23,6 +23,7 @@ import { Locales } from '@regardsoss/form-utils'
  * @author Sébastien binda
  */
 const messages = {
+  // common form messages
   ...Locales.en,
 
   // Administration messages
@@ -34,7 +35,6 @@ const messages = {
   'form.criterions.tab.label': 'Criterions',
   'form.criterion.tab.title': 'Configure all the criterion of your form. Each criteria can be inserted into a specific section of your designed layout.',
   'form.preview.tab.label': 'Preview',
-  'form.preview.tab.title': 'Preview of your form as it will be displayed in user interface.',
   // Configuration tab
   'form.configuration.tab.title': 'Configure main parameters for current search form module',
   'form.configuration.result.type.datasets': 'Display results grouped by datasets',
@@ -42,8 +42,8 @@ const messages = {
   'form.configuration.result.enable.facettes.label': 'Enable facets : Results filtering with criterion depending on initial search results',
   'form.attributes.parameters.title': 'Configure attributes displayed and used for filtering from each search results of the current form',
   'form.attributes.regroupement.form.title': 'Add new attributes clustering',
-  'form.attributes.regroupement.description': 'A clustering of attributes allows you to display multiples attributes of a search result object into the same column of the results list.<br/>' +
-  ' Please enter the new clustering label (that must be unique) and select attributes to cluster.',
+  'form.attributes.regroupement.description': 'A clustering of attributes allows you to display multiples attributes of a search result object into the same column of the results list.<br/>'
+  + ' Please enter the new clustering label (that must be unique) and select attributes to cluster.',
   'form.attributes.regroupement.form.label': 'Label',
   'form.attributes.regroupement.form.save': 'Add',
   'form.attributes.regroupement.form.update': 'Update',

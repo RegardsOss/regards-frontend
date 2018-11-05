@@ -18,9 +18,13 @@
  **/
 import keys from 'lodash/keys'
 import trim from 'lodash/trim'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderCheckbox, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import {
+  RenderTextField, RenderCheckbox, Field, ValidationHelpers, reduxForm,
+} from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -148,4 +152,3 @@ export default reduxForm({
   form: 'accessgroup-form',
   validate,
 })(AccessGroupFormComponent)
-

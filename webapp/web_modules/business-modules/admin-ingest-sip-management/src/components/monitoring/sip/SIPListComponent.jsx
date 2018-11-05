@@ -19,7 +19,9 @@
 import map from 'lodash/map'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import { Card, CardTitle, CardMedia, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardMedia, CardActions,
+} from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import HistoryIcon from 'material-ui/svg-icons/action/history'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
@@ -38,6 +40,8 @@ import SIPDetailTableAction from './SIPDetailTableAction'
 import SIPConfirmDeleteDialog from './SIPConfirmDeleteDialog'
 import SIPListFiltersComponent from './SIPListFiltersComponent'
 import SIPDeletionErrorDialog from './SIPDeletionErrorDialog'
+import SIPListStateRenderer from './SIPListStateRenderer'
+import SIPRetryActionRenderer from './SIPRetryActionRenderer'
 import { sipActions, sipSelectors } from '../../../clients/SIPClient'
 import messages from '../../../i18n'
 import styles from '../../../styles'
@@ -50,7 +54,7 @@ import styles from '../../../styles'
 class SIPListComponent extends React.Component {
   static propTypes = {
     session: PropTypes.string.isRequired,
-    sip: PropTypes.string, // Not mandatory. If a SIP is set (sipId) then display only SIPs with the same sipId
+    sip: PropTypes.string, // Not mandatory. If a SIP is set (providerId) then display only SIPs with the same providerId
     pageSize: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
     onBack: PropTypes.func.isRequired,
@@ -58,9 +62,12 @@ class SIPListComponent extends React.Component {
     entitiesLoading: PropTypes.bool.isRequired,
     fetchPage: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
-    onDeleteByIpId: PropTypes.func.isRequired,
     onDeleteBySipId: PropTypes.func.isRequired,
+    onDeleteByProviderId: PropTypes.func.isRequired,
+    onRetry: PropTypes.func.isRequired,
     goToSipHistory: PropTypes.func.isRequired,
+    goToSessionAIPsMonitoring: PropTypes.func.isRequired,
+    goToDataSourcesMonitoring: PropTypes.func.isRequired,
     initialFilters: PropTypes.objectOf(PropTypes.string),
     contextFilters: PropTypes.objectOf(PropTypes.string),
   }
@@ -108,39 +115,39 @@ class SIPListComponent extends React.Component {
   }
 
   onConfirmDeleteSIP = () => {
-    this.onConfirmDelete(this.props.onDeleteByIpId)
+    this.onConfirmDelete(this.props.onDeleteBySipId)
   }
 
   onConfirmDeleteSIPs = () => {
-    this.onConfirmDelete(this.props.onDeleteBySipId)
+    this.onConfirmDelete(this.props.onDeleteByProviderId)
   }
 
   onConfirmDelete = (deleteAction) => {
     this.closeDeleteDialog()
-    const { sipToDelete } = this.state
+    const { sipToDelete, appliedFilters } = this.state
     if (sipToDelete) {
-      const sipId = get(this.state, 'sipToDelete.content.sipId', '')
+      const providerId = get(this.state, 'sipToDelete.content.providerId', '')
       const { intl: { formatMessage } } = this.context
       deleteAction(sipToDelete.content).then((actionResult) => {
         if (actionResult.error) {
           const errors = []
           errors.push({
-            sipId,
-            reason: formatMessage({ id: 'sip.delete.error.title' }, { id: sipId }),
+            providerId,
+            reason: formatMessage({ id: 'sip.delete.error.title' }, { id: providerId }),
           })
-          this.displayDeletionErrors(sipId, errors)
+          this.displayDeletionErrors(providerId, errors)
         } else {
           // Display error dialogs if errors are raised by the service.
           // A 200 OK response is sent by the backend. So we check errors into the response payload.
-          this.displayDeletionErrors(sipId, get(actionResult, 'payload', []))
-          // After, refresh the list
-          this.props.onRefresh()
+          this.displayDeletionErrors(providerId, get(actionResult, 'payload', []))
+          // Refresh view
+          this.props.onRefresh(appliedFilters)
         }
       })
     }
   }
 
-  onDelete = (sipToDelete) => {
+  onDelete = (sipToDelete) => { // note: we ignore here the table callback (refresh will be performed locally)
     this.setState({
       sipToDelete,
     })
@@ -151,44 +158,6 @@ class SIPListComponent extends React.Component {
       deletionErrors: [],
       deletionErrorsId: null,
     })
-  }
-
-  getTableOptions = (fixedColumnWidth) => {
-    if (!this.props.sip) {
-      const { intl: { formatMessage } } = this.context
-      return TableColumnBuilder.buildOptionsColumn('', [
-        {
-          OptionConstructor: TableSimpleActionOption,
-          optionProps: { onAction: this.goToSipHistory, icon: HistoryIcon, title: formatMessage({ id: 'sips.list.sip-history.title' }) },
-        },
-        {
-          OptionConstructor: SIPDetailTableAction,
-          optionProps: { onViewDetail: this.onViewSIPDetail },
-        }, {
-          OptionConstructor: TableDeleteOption,
-          optionProps: {
-            handleHateoas: true,
-            disableInsteadOfHide: true,
-            fetchPage: this.props.fetchPage,
-            onDelete: this.onDelete,
-            queryPageSize: 20,
-          },
-        }], true, fixedColumnWidth)
-    }
-    return TableColumnBuilder.buildOptionsColumn('', [
-      {
-        OptionConstructor: SIPDetailTableAction,
-        optionProps: { onViewDetail: this.onViewSIPDetail },
-      }, {
-        OptionConstructor: TableDeleteOption,
-        optionProps: {
-          handleHateoas: true,
-          disableInsteadOfHide: true,
-          fetchPage: this.props.fetchPage,
-          onDelete: this.onDelete,
-          queryPageSize: 20,
-        },
-      }], true, fixedColumnWidth)
   }
 
   applyFilters = (filters) => {
@@ -203,26 +172,28 @@ class SIPListComponent extends React.Component {
     })
   }
 
-  displayDeletionErrors = (sipId, rejectedSips) => {
+  displayDeletionErrors = (providerId, rejectedSips) => {
     this.setState({
-      deletionErrorsId: sipId,
-      deletionErrors: map(rejectedSips, rejectedSip => `${rejectedSip.sipId} : ${rejectedSip.reason}`),
+      deletionErrorsId: providerId,
+      deletionErrors: map(rejectedSips, rejectedSip => `${rejectedSip.providerId} : ${rejectedSip.reason}`),
     })
   }
 
   goToSipHistory = (entity, index) => {
-    this.props.goToSipHistory(entity.content.sipId)
+    this.props.goToSipHistory(entity.content.providerId)
   }
 
 
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
+
+  handleRetry = sip => this.props.onRetry(sip, this.state.appliedFilters)
 
   renderDeleteConfirmDialog = () => {
     const { sipToDelete } = this.state
     if (sipToDelete) {
       return (
         <SIPConfirmDeleteDialog
-          sipId={sipToDelete.content.sipId}
+          providerId={sipToDelete.content.providerId}
           onDeleteSip={this.onConfirmDeleteSIP}
           onDeleteSips={this.onConfirmDeleteSIPs}
           onClose={this.closeDeleteDialog}
@@ -234,10 +205,12 @@ class SIPListComponent extends React.Component {
 
   renderTable = () => {
     const { intl, muiTheme } = this.context
+    const { sip } = this.props
     const {
-      pageSize, resultsCount, initialFilters, chains, entitiesLoading,
+      pageSize, resultsCount, initialFilters, chains, entitiesLoading, goToSessionAIPsMonitoring, session,
+      goToDataSourcesMonitoring,
     } = this.props
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
       <NoContentComponent
@@ -248,31 +221,66 @@ class SIPListComponent extends React.Component {
 
     const columns = [
       // id column
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.sipId',
-        intl.formatMessage({ id: 'sips.list.table.headers.sip-id' }),
-        'content.sipId',
-      ),
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.type',
-        intl.formatMessage({ id: 'sips.list.table.headers.type' }),
-        'content.sip.ipType',
-      ),
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.state',
-        intl.formatMessage({ id: 'sips.list.table.headers.state' }),
-        'content.state',
-      ),
-      TableColumnBuilder.buildSimpleColumnWithCell('column.active',
-        intl.formatMessage({ id: 'sips.list.table.headers.date' }), {
-          Constructor: SIPListDateColumnRenderer,
-        }),
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.version',
-        intl.formatMessage({ id: 'sips.list.table.headers.version' }),
-        'content.version',
-      ),
-      this.getTableOptions(fixedColumnsWidth),
+      new TableColumnBuilder('column.providerId').titleHeaderCell().propertyRenderCell('content.providerId')
+        .label(intl.formatMessage({ id: 'sips.list.table.headers.providerId' }))
+        .build(),
+      new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.sip.ipType')
+        .label(intl.formatMessage({ id: 'sips.list.table.headers.type' }))
+        .build(),
+      new TableColumnBuilder('column.state').titleHeaderCell()
+        .rowCellDefinition({
+          Constructor: SIPListStateRenderer,
+          props: {
+            goToSessionAIPsMonitoring,
+            goToDataSourcesMonitoring,
+            session,
+          },
+        })
+        .label(intl.formatMessage({ id: 'sips.list.table.headers.state' }))
+        .build(),
+      new TableColumnBuilder('column.active').titleHeaderCell()
+        .rowCellDefinition({ Constructor: SIPListDateColumnRenderer })
+        .label(intl.formatMessage({ id: 'sips.list.table.headers.date' }))
+        .build(),
+      new TableColumnBuilder('column.version').titleHeaderCell().propertyRenderCell('content.version')
+        .label(intl.formatMessage({ id: 'sips.list.table.headers.version' }))
+        .build(),
+      new TableColumnBuilder().optionsColumn(sip ? [{ // sip detail options
+        OptionConstructor: SIPDetailTableAction,
+        optionProps: { onViewDetail: this.onViewSIPDetail },
+      }, {
+        OptionConstructor: TableDeleteOption,
+        optionProps: {
+          handleHateoas: true,
+          disableInsteadOfHide: true,
+          fetchPage: this.props.fetchPage,
+          onDelete: this.onDelete, // note: this will not be used (refresh is handled locally)
+          queryPageSize: 20,
+        },
+      }] : [{ // sip list options
+        OptionConstructor: SIPRetryActionRenderer,
+        optionProps: { onRetry: this.handleRetry },
+      }, {
+        OptionConstructor: TableSimpleActionOption,
+        optionProps: {
+          onAction: this.goToSipHistory,
+          icon: HistoryIcon,
+          title: intl.formatMessage({ id: 'sips.list.sip-history.title' }),
+        },
+      }, {
+        OptionConstructor: SIPDetailTableAction,
+        optionProps: { onViewDetail: this.onViewSIPDetail },
+      }, {
+        OptionConstructor: TableDeleteOption,
+        optionProps: {
+          handleHateoas: true,
+          disableInsteadOfHide: true,
+          fetchPage: this.props.fetchPage, // note: this will not be used (refresh is handled locally)
+          onDelete: this.onDelete,
+          queryPageSize: 20,
+        },
+      }])
+        .build(),
     ]
 
     return (
@@ -291,8 +299,8 @@ class SIPListComponent extends React.Component {
             pageActions={sipActions}
             pageSelectors={sipSelectors}
             pageSize={pageSize}
-            minRowCount={0}
-            maxRowCount={10}
+            minRowCount={minRowCount}
+            maxRowCount={maxRowCount}
             columns={columns}
             requestParams={this.state.appliedFilters}
             emptyComponent={emptyComponent}
@@ -360,7 +368,7 @@ class SIPListComponent extends React.Component {
         {this.renderSIPDetail()}
         {this.renderDeleteConfirmDialog()}
         <SIPDeletionErrorDialog
-          sipId={this.state.deletionErrorsId}
+          providerId={this.state.deletionErrorsId}
           errors={this.state.deletionErrors}
           onClose={this.onCloseDeletionErrorDialog}
         />

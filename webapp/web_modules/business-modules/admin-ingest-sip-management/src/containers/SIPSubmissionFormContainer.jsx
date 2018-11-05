@@ -50,7 +50,7 @@ export class SIPSubmissionFormContainer extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps = dispatch => ({
     flushSips: () => dispatch(sipImportActions.flush()),
@@ -76,22 +76,26 @@ export class SIPSubmissionFormContainer extends React.Component {
       isLoading: true,
       storageReady: false,
       serverMessage: undefined,
+      storageSpecifications: null,
     }
   }
 
   componentDidMount() {
     this.props.isStorageReady().then((actionResults) => {
-      const result = get(actionResults, 'payload.ready')
-      if (!result) {
+      const ready = get(actionResults, 'payload.ready')
+      const specifications = get(actionResults, 'payload.specifications')
+      if (!ready) {
         const reasons = get(actionResults, 'payload.reasons', [get(actionResults, 'payload.message', '')])
         this.setState({
           storageReady: false,
+          storageSpecifications: specifications,
           isLoading: false,
           serverMessage: reduce(reasons, (serverMessage, r) => `${serverMessage} ${r}`, ''),
         })
       } else {
         this.setState({
           storageReady: true,
+          storageSpecifications: specifications,
           isLoading: false,
         })
       }
@@ -158,6 +162,7 @@ export class SIPSubmissionFormContainer extends React.Component {
           isLoading={this.state.isLoading}
           submitSips={this.onSubmit}
           onBack={this.onBack}
+          storageSpecifications={this.state.storageSpecifications}
         />
       )
     }
@@ -184,7 +189,7 @@ export class SIPSubmissionFormContainer extends React.Component {
             {this.renderSIPSubmissionForm()}
           </LoadableContentDisplayDecorator>
         </ModuleStyleProvider>
-      </I18nProvider >
+      </I18nProvider>
     )
   }
 }

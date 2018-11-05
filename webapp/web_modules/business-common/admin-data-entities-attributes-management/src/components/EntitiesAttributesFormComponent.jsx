@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
+import {
+  Table, TableBody, TableHeader, TableHeaderColumn, TableRow,
+} from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'

@@ -26,13 +26,6 @@ import { AccessProjectClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'ui', 'plugin']
 const REDUX_ACTION_NAMESPACE = 'admin-ui-plugins-management/plugins'
 
-const uiPluginDefinitionReducers = AccessProjectClient.UIPluginDefinitionReducers(REDUX_ACTION_NAMESPACE)
-const uiPluginDefinitionActions = new AccessProjectClient.UIPluginDefinitionActions(REDUX_ACTION_NAMESPACE)
-const uiPluginDefinitionSelectors = AccessProjectClient.UIPluginDefinitionSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  uiPluginDefinitionReducers,
-  uiPluginDefinitionActions,
-  uiPluginDefinitionSelectors,
-}
+export const uiPluginDefinitionReducers = AccessProjectClient.UIPluginDefinitionReducers(REDUX_ACTION_NAMESPACE)
+export const uiPluginDefinitionActions = new AccessProjectClient.UIPluginDefinitionActions(REDUX_ACTION_NAMESPACE)
+export const uiPluginDefinitionSelectors = AccessProjectClient.UIPluginDefinitionSelectors(ENTITIES_STORE_PATH)

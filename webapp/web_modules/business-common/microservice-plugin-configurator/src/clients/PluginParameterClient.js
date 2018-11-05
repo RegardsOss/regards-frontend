@@ -26,10 +26,5 @@ import { CommonClient } from '@regardsoss/client'
 const REDUX_ACTION_CONF_NAMESPACE = 'common/plugin-parameter/pluginConfiguration'
 const REDUX_ACTION_META_NAMESPACE = 'common/plugin-parameter/pluginMetadata'
 
-const pluginParameterConfigurationActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_CONF_NAMESPACE)
-const pluginParameterMetaDataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_META_NAMESPACE)
-
-module.exports = {
-  pluginParameterConfigurationActions,
-  pluginParameterMetaDataActions,
-}
+export const pluginParameterConfigurationActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_CONF_NAMESPACE)
+export const pluginParameterMetaDataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_META_NAMESPACE)

@@ -24,12 +24,6 @@ import { AdminClient } from '@regardsoss/client'
  * @author Maxime Bouveron
  */
 const namespace = 'menu/notification-settings'
-const notificationSettingsActions = new AdminClient.NotificationSettingsActions(namespace)
-const notificationSettingsReducer = AdminClient.getNotificationSettingsReducer(namespace)
-const notificationSettingsSelectors = AdminClient.getNotificationSettingsSelectors(['modules.menu', 'notificationSettings'])
-
-module.exports = {
-  notificationSettingsActions,
-  notificationSettingsReducer,
-  notificationSettingsSelectors,
-}
+export const notificationSettingsActions = new AdminClient.NotificationSettingsActions(namespace)
+export const notificationSettingsReducer = AdminClient.getNotificationSettingsReducer(namespace)
+export const notificationSettingsSelectors = AdminClient.getNotificationSettingsSelectors(['modules.menu', 'notificationSettings'])

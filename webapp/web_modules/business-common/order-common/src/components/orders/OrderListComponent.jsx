@@ -133,9 +133,6 @@ class OrderListComponent extends React.Component {
   /** No data component (avoids re-rendering it) */
   static EMPTY_COMPONENT = <NoOrderComponent />
 
-  /** Loading component (avoids re-rendering it) */
-  static LOADING_COMPONENT = <TableHeaderLoadingComponent />
-
   /**
    * Sums up all properties from datasets tasks in order (must be a path to a numeric property)
    * @param {order} order order as described in OrderWithContent
@@ -183,10 +180,9 @@ class OrderListComponent extends React.Component {
       ordersActions, ordersSelectors, navigationActions, orderStateActions,
       onShowRequestFailedInformation, onShowAsynchronousRequestInformation, onShowDeleteConfirmation,
     } = this.props
-    const options = []
-    // 1 - Pause / resume order option (must have sufficient rights)
-    if (hasPauseResume) {
-      options.push({
+    return [
+      // 1 - Pause / resume order option (must have sufficient rights)
+      hasPauseResume ? {
         OptionConstructor: PauseResumeOrderContainer,
         optionProps: {
           pageSize,
@@ -196,15 +192,13 @@ class OrderListComponent extends React.Component {
           onShowRequestFailedInformation,
           onShowAsynchronousRequestInformation,
         },
-      })
-    }
-    // 2 - user only options: download zip and metalink files
-    if (displayMode === ORDER_DISPLAY_MODES.USER) {
-      options.push({ OptionConstructor: DownloadOrderMetaLinkFileContainer }, { OptionConstructor: DownloadOrderFilesAsZipContainer })
-    }
-    // 3 - delete option (superficial and complete)
-    if (hasDeleteSuperficially || hasDeleteCompletely) {
-      options.push({
+      } : null,
+      // 2 - user only option: download zip
+      displayMode === ORDER_DISPLAY_MODES.USER ? { OptionConstructor: DownloadOrderMetaLinkFileContainer } : null,
+      // 3 - user only option: metalink files
+      displayMode === ORDER_DISPLAY_MODES.USER ? { OptionConstructor: DownloadOrderFilesAsZipContainer } : null,
+      // 4 - delete option (superficial and complete)
+      hasDeleteSuperficially || hasDeleteCompletely ? {
         OptionConstructor: DeleteOrderContainer,
         optionProps: {
           hasDeleteSuperficially,
@@ -216,89 +210,85 @@ class OrderListComponent extends React.Component {
           onShowDeleteConfirmation,
           onShowRequestFailedInformation,
         },
-      })
-    }
-
-    // 4 - Detail (provided only when navigation is enabled)
-    if (navigationActions) {
-      options.push({
-        // show order detail (at last position to stay stable on multiple screens)
+      } : null,
+      // 5 - Detail (provided only when navigation is enabled)
+      navigationActions ? {
         OptionConstructor: ShowOrderDatasetsContainer,
         optionProps: { navigationActions },
-      })
-    }
-
-    return options
+      } : null,
+    ]
   }
 
   /**
-   * Builds options (removes / adds options according with display mode)
    * @return {[*]} table columns list
    */
   buildColumns = () => {
     const { columnsVisibility, displayMode } = this.props
-    const { intl: { formatMessage }, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { intl: { formatMessage } } = this.context
     return [
       // owner when in admin mode
-      displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ?
-        TableColumnBuilder.buildSimplePropertyColumn(
-          OWNER_KEY, formatMessage({ id: 'order.list.column.owner' }),
-          'content.owner', 0, get(columnsVisibility, OWNER_KEY, true),
-        ) : null,
+      displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR
+        ? new TableColumnBuilder(OWNER_KEY).titleHeaderCell().propertyRenderCell('content.owner')
+          .visible(get(columnsVisibility, OWNER_KEY, true))
+          .label(formatMessage({ id: 'order.list.column.owner' }))
+          .build() : null,
 
       // number
-      TableColumnBuilder.buildSimplePropertyColumn(
-        NUMBER_KEY, formatMessage({ id: 'order.list.column.number' }),
-        'content.id', 1, get(columnsVisibility, NUMBER_KEY, true),
-      ),
+      new TableColumnBuilder(NUMBER_KEY).titleHeaderCell().propertyRenderCell('content.id')
+        .visible(get(columnsVisibility, NUMBER_KEY, true))
+        .label(formatMessage({ id: 'order.list.column.number' }))
+        .build(),
 
       // Progress column
-      TableColumnBuilder.buildSimpleColumnWithCell(
-        PROGRESS_KEY, formatMessage({ id: 'order.list.column.progress' }),
-        TableColumnBuilder.buildProgressPercentRenderCell(OrderListComponent.getProgress), 2,
-        get(columnsVisibility, PROGRESS_KEY, true),
-      ),
+      new TableColumnBuilder(PROGRESS_KEY).titleHeaderCell().progressPercentRenderCell(OrderListComponent.getProgress)
+        .visible(get(columnsVisibility, PROGRESS_KEY, true))
+        .label(formatMessage({ id: 'order.list.column.progress' }))
+        .build(),
+
       // creation date
-      TableColumnBuilder.buildSimplePropertyColumn(
-        CREATION_DATE_KEY, formatMessage({ id: 'order.list.column.creation.date' }),
-        'content.creationDate', 3, get(columnsVisibility, CREATION_DATE_KEY, true), DateValueRender,
-      ),
+      new TableColumnBuilder(CREATION_DATE_KEY).titleHeaderCell().propertyRenderCell('content.creationDate', DateValueRender)
+        .visible(get(columnsVisibility, CREATION_DATE_KEY, true))
+        .label(formatMessage({ id: 'order.list.column.creation.date' }))
+        .build(),
+
       // expiration date
-      TableColumnBuilder.buildSimplePropertyColumn(
-        EXPIRATION_DATE_KEY, formatMessage({ id: 'order.list.column.expiration.date' }),
-        'content.expirationDate', 4, get(columnsVisibility, EXPIRATION_DATE_KEY, true), DateValueRender,
-      ),
+      new TableColumnBuilder(EXPIRATION_DATE_KEY).titleHeaderCell().propertyRenderCell('content.expirationDate', DateValueRender)
+        .visible(get(columnsVisibility, EXPIRATION_DATE_KEY, true))
+        .label(formatMessage({ id: 'order.list.column.expiration.date' }))
+        .build(),
+
       // objects count (as extracted, using getObjectCount)
-      TableColumnBuilder.buildSimpleColumnWithCell(
-        OBJECTS_COUNT_KEY, formatMessage({ id: 'order.list.column.object.count' }),
-        TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getObjectsCount }]), 5,
-        get(columnsVisibility, OBJECTS_COUNT_KEY, true),
-      ),
+      new TableColumnBuilder(OBJECTS_COUNT_KEY).titleHeaderCell().valuesRenderCell([{ getValue: OrderListComponent.getObjectsCount }])
+        .visible(get(columnsVisibility, OBJECTS_COUNT_KEY, true))
+        .label(formatMessage({ id: 'order.list.column.object.count' }))
+        .build(),
+
       // total files size  (as extracted, using getFilesSize)
-      TableColumnBuilder.buildSimpleColumnWithCell(
-        FILES_SIZE_KEY, formatMessage({ id: 'order.list.column.files.size' }),
-        TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getFilesSize, RenderConstructor: StorageCapacityRender }]),
-        6, get(columnsVisibility, FILES_SIZE_KEY, true),
-      ),
+      new TableColumnBuilder(FILES_SIZE_KEY).titleHeaderCell()
+        .valuesRenderCell([{ getValue: OrderListComponent.getFilesSize, RenderConstructor: StorageCapacityRender }])
+        .visible(get(columnsVisibility, FILES_SIZE_KEY, true))
+        .label(formatMessage({ id: 'order.list.column.files.size' }))
+        .build(),
+
       // error files count
-      TableColumnBuilder.buildSimplePropertyColumn(
-        ERRORS_COUNT_KEY, formatMessage({ id: 'order.list.column.errors.count' }),
-        'content.filesInErrorCount', 7, get(columnsVisibility, ERRORS_COUNT_KEY, true), ErrorsCountRender,
-      ),
+      new TableColumnBuilder(ERRORS_COUNT_KEY).titleHeaderCell().propertyRenderCell('content.filesInErrorCount', ErrorsCountRender)
+        .visible(get(columnsVisibility, ERRORS_COUNT_KEY, true))
+        .label(formatMessage({ id: 'order.list.column.errors.count' }))
+        .build(),
 
       // Status column
-      TableColumnBuilder.buildSimpleColumnWithCell(
-        STATUS_KEY, formatMessage({ id: 'order.list.column.status' }),
-        TableColumnBuilder.buildValuesRenderCell([{ getValue: StatusRender.getStatus, RenderConstructor: StatusRender }]),
-        8, get(columnsVisibility, STATUS_KEY, true),
-      ),
+      new TableColumnBuilder(STATUS_KEY).titleHeaderCell()
+        .valuesRenderCell([{ getValue: StatusRender.getStatus, RenderConstructor: StatusRender }])
+        .visible(get(columnsVisibility, STATUS_KEY, true))
+        .label(formatMessage({ id: 'order.list.column.status' }))
+        .build(),
 
       // Options column
-      TableColumnBuilder.buildOptionsColumn(
-        formatMessage({ id: 'order.list.column.options' }),
-        this.buildOptions(), get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true), fixedColumnsWidth,
-      ),
+      new TableColumnBuilder()
+        .label(formatMessage({ id: 'order.list.column.options' }))
+        .optionsColumn(this.buildOptions())
+        .visible(get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true))
+        .build(),
     ].filter(c => !!c) // remove null elements
   }
 
@@ -308,6 +298,7 @@ class OrderListComponent extends React.Component {
       onChangeColumnsVisibility, ordersRequestParameters, ordersActions, ordersSelectors,
     } = this.props
     const columns = this.buildColumns()
+    const { admin: { minRowCount, maxRowCount } } = this.context.muiTheme.components.infiniteTable
 
     // render headers and table
     return (
@@ -323,12 +314,11 @@ class OrderListComponent extends React.Component {
           {/* 1 - commands count */}
           <TableHeaderContentBox>
             <OrderCountHeaderMessage displayMode={displayMode} totalOrderCount={totalOrderCount} />
-          </TableHeaderContentBox >
-          {/* 2 - loading */
-            isFetching ? OrderListComponent.LOADING_COMPONENT : null
-          }
+          </TableHeaderContentBox>
+          {/* 2 - loading */}
+          <TableHeaderLoadingComponent loading={isFetching} />
           {/* 3 - table options  */}
-          <TableHeaderOptionsArea >
+          <TableHeaderOptionsArea>
             <TableHeaderOptionGroup>
               {/* downlaod summary (when admin) */
                 displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? (
@@ -341,7 +331,7 @@ class OrderListComponent extends React.Component {
                 onChangeColumnsVisibility={onChangeColumnsVisibility}
               />
             </TableHeaderOptionGroup>
-          </TableHeaderOptionsArea >
+          </TableHeaderOptionsArea>
         </TableHeaderLine>
         {/** Optional additive header lines **/}
         {HOCUtils.renderChildren(children)}
@@ -354,7 +344,8 @@ class OrderListComponent extends React.Component {
           queryPageSize={pageSize}
           columns={columns}
           emptyComponent={OrderListComponent.EMPTY_COMPONENT}
-          minRowCount={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? 0 : null}
+          minRowCount={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? minRowCount : null}
+          maxRowCount={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? maxRowCount : null}
         />
       </TableLayout>
     )

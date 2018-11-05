@@ -19,9 +19,9 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'connection.create.title': 'Create an external connection',
+  'connection.create.title': 'Add connection to external datasource',
   'connection.edit.title': 'Edit connection {name}',
-  'connection.form.subtitle': 'Connections allow the REGARDS server to connect to the datasource you wish to share',
+  'connection.form.subtitle': 'Connection to an external datasource allows the REGARDS server to connect to the datasource to crawl data from it',
   'connection.form.label': 'Connection name',
   'connection.form.version': 'Version',
   'connection.form.priorityOrder': 'Connection priority',
@@ -36,8 +36,8 @@ const messages = Object.assign({
   'connection.form.isActive': 'Connection is active',
   'connection.form.action.save': 'Save',
   'connection.form.action.cancel': 'Cancel',
-  'connection.list.title': 'External connections',
-  'connection.list.subtitle': 'Connections allow the REGARDS server to connect to the datasource you wish to share',
+  'connection.list.title': 'External databases',
+  'connection.list.subtitle': 'Connection to an external database allows the REGARDS server to connect to the datasource to crawl data from it',
   'connection.list.table.label': 'Connection name',
   'connection.list.table.isActive': 'Connection status',
   'connection.list.isActive.false': 'Disabled',

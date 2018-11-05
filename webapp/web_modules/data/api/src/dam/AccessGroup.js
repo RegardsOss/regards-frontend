@@ -20,20 +20,13 @@
 
 import { Schema, arrayOf } from 'normalizr'
 
-const AccessGroupConfiguration = {
+export const AccessGroupConfiguration = {
   entityKey: 'name',
   normalizrKey: 'accessgroup',
 }
 
-const accessGroup = new Schema(AccessGroupConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[AccessGroupConfiguration.entityKey]
+export const ACCESS_GROUP = new Schema(AccessGroupConfiguration.normalizrKey, {
+  idAttribute: entity => entity.content[AccessGroupConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  ACCESS_GROUP: accessGroup,
-  ACCESS_GROUP_ARRAY: arrayOf(accessGroup),
-  AccessGroupConfiguration,
-}
+export const ACCESS_GROUP_ARRAY = arrayOf(ACCESS_GROUP)

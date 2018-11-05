@@ -17,8 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { searchDataobjectsActions, searchDataobjectsSelectors } from '../../../client/SearchDataobjectsClient'
+import { searchDataobjectsActions, searchDataobjectsSelectors } from '../../../client/ComplexSearchClient'
 import SelectionDetailResultsTableComponent from '../../../components/user/detail/SelectionDetailResultsTableComponent'
+import { BasketSelelectionRequest } from '../../../../../../data/shape/src/rs-order'
 
 /**
 * Selection detail results container
@@ -40,11 +41,30 @@ export class SelectionDetailResultsTableContainer extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    openSearchRequest: PropTypes.string, // used in onPropertiesChanged
-    availableHeight: PropTypes.number.isRequired,
+    selectionRequest: BasketSelelectionRequest,
     // from mapStateToProps
     resultsCount: PropTypes.number.isRequired,
     isFetching: PropTypes.bool.isRequired,
+  }
+
+  /**
+   * Convert basket selection request into a search request for complex search array endpoint
+   * @param {*} selectionRequest basket selection request
+   */
+  static toComplexSearchRequests(selectionRequest) {
+    if (selectionRequest) {
+      // list with a single element, transform date field name
+      return [{
+        engineType: selectionRequest.engineType,
+        datasetUrn: selectionRequest.datasetUrn,
+        searchParameters: selectionRequest.searchParameters,
+        entityIdsToInclude: selectionRequest.entityIdsToInclude,
+        entityIdsToExclude: selectionRequest.entityIdsToExclude,
+        searchDateLimit: selectionRequest.selectionDate,
+      }]
+    }
+    // none
+    return []
   }
 
   /** React lifecycle method: component will mount. Used here to detect properties changed */
@@ -62,25 +82,26 @@ export class SelectionDetailResultsTableContainer extends React.Component {
    */
   onPropertiesChanged = (oldProperties, newProperties) => {
     // Prepare table search dataobjects request
-    if (oldProperties.openSearchRequest !== newProperties.openSearchRequest) {
-      // TODO-V3 do refactor to use request parameters instead or path params
+    if (oldProperties.selectionRequest !== newProperties.selectionRequest) {
       this.setState({
-        pathParams: { parameters: `q=${newProperties.openSearchRequest || ''}` },
+        // report the parameters that will be provided as requests parameters to ComplexSeachActions#fetchPagedEntityList
+        requestParams: {
+          requests: SelectionDetailResultsTableContainer.toComplexSearchRequests(newProperties.selectionRequest),
+        },
       })
     }
   }
 
   render() {
-    const { resultsCount, isFetching, availableHeight } = this.props
-    const { pathParams } = this.state
+    const { resultsCount, isFetching } = this.props
+    const { requestParams } = this.state
     return (
       <SelectionDetailResultsTableComponent
         pageActions={searchDataobjectsActions}
         pageSelectors={searchDataobjectsSelectors}
-        pathParams={pathParams}
+        requestParams={requestParams}
         resultsCount={resultsCount}
         isFetching={isFetching}
-        availableHeight={availableHeight}
       />
     )
   }

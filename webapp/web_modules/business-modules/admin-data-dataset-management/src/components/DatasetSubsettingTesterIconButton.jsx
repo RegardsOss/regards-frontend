@@ -141,9 +141,6 @@ class ConnectionTesterIconButton extends React.Component {
 
     let result = testButton
     switch (this.state.status) {
-      case states.NOT_TESTED:
-        result = testButton
-        break
       case states.PENDING:
         result = pendingProgress
         break
@@ -153,6 +150,7 @@ class ConnectionTesterIconButton extends React.Component {
       case states.ERROR:
         result = errorButton
         break
+      case states.NOT_TESTED:
       default:
         result = testButton
     }

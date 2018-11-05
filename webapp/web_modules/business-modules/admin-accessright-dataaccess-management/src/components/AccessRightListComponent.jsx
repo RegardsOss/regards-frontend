@@ -18,7 +18,9 @@
  **/
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import FlatButton from 'material-ui/FlatButton'
@@ -69,7 +71,7 @@ export class AccessRightListComponent extends React.Component {
     deleteAccessRight: PropTypes.func.isRequired,
     // Callback to submit AccessRight(s) configuration (updates and creation)
     submitAccessRights: PropTypes.func.isRequired,
-    selectedDatasetsWithAccessright: PropTypes.objectOf(PropTypes.object).isRequired,
+    selectedDatasetsWithAccessright: PropTypes.arrayOf(PropTypes.object).isRequired,
     // Callback to navigate to dataset creation
     navigateToCreateDataset: PropTypes.func.isRequired,
     backURL: PropTypes.string.isRequired,
@@ -265,30 +267,37 @@ export class AccessRightListComponent extends React.Component {
       accessGroup, navigateToCreateDataset, backURL,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     // Table columns to display
     const columns = [
       // 1 - selection column
-      TableColumnBuilder.buildSelectionColumn('', false, datasetWithAccessRightSelectors, tableActions, tableSelectors, true, fixedColumnsWidth),
+      new TableColumnBuilder().selectionColumn(false, datasetWithAccessRightSelectors, tableActions, tableSelectors).build(),
       // 2 - label column
-      TableColumnBuilder.buildSimplePropertyColumn('column.label', formatMessage({ id: 'accessright.table.dataset.label' }), 'content.dataset.label'),
+      new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.dataset.feature.label')
+        .label(formatMessage({ id: 'accessright.table.dataset.label' }))
+        .build(),
       // 3 - Meta access level column
-      TableColumnBuilder.buildSimpleColumnWithCell('column.meta.access.level', formatMessage({ id: 'accessright.form.meta.accessLevel' }), {
-        Constructor: AccessRightsMetadataAccessTableCustomCell, // custom cell
-      }),
+      new TableColumnBuilder('column.meta.access.level').titleHeaderCell()
+        .label(formatMessage({ id: 'accessright.form.meta.accessLevel' })).rowCellDefinition({
+          Constructor: AccessRightsMetadataAccessTableCustomCell, // custom cell
+        })
+        .build(),
       // 4 - Data access level
-      TableColumnBuilder.buildSimpleColumnWithCell('column.data.access.level', formatMessage({ id: 'accessright.form.data.accessLevel' }), {
-        Constructor: AccessRightsDataAccessTableCustomCell, // custom cell
-      }),
+      new TableColumnBuilder('column.data.access.level').titleHeaderCell()
+        .label(formatMessage({ id: 'accessright.form.data.accessLevel' }))
+        .rowCellDefinition({
+          Constructor: AccessRightsDataAccessTableCustomCell, // custom cell
+        })
+        .build(),
       // 5 - Options
-      TableColumnBuilder.buildOptionsColumn('', [{
+      new TableColumnBuilder().optionsColumn([{
         OptionConstructor: AccessRightsTableEditAction,
         optionProps: { onEdit: this.openEditDialog },
       }, {
         OptionConstructor: AccessRightsTableDeleteAction,
         optionProps: { onDelete: this.openDeleteDialog },
-      }], true, fixedColumnsWidth),
+      }]).build(),
     ]
 
     const emptyContentAction = (
@@ -327,7 +336,8 @@ export class AccessRightListComponent extends React.Component {
             {this.renderActionsLine()}
             <PageableInfiniteTableContainer
               name="access-rights-datasets-table"
-              minRowCount={0}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               pageActions={datasetWithAccessRightActions}
               pageSelectors={datasetWithAccessRightSelectors}
               tableActions={tableActions}

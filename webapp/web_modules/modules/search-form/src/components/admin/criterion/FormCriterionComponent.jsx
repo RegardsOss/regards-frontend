@@ -112,7 +112,7 @@ class FormCriterionComponent extends React.Component {
    */
   updateCriterion = (criteria) => {
     const { currentNamespace, changeField } = this.props
-    let criterion = []
+    let criterion
     if (this.state.criteriaToEdit) {
       criterion = concat([], this.props.criterion)
       criterion[this.state.criteriaToEdit.idx] = criteria

@@ -20,7 +20,6 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { CommonDomain } from '@regardsoss/domain'
 import { ThumbnailAttributeRender } from '../../src/render/ThumbnailAttributeRender'
 import styles from '../../src/styles'
 
@@ -30,7 +29,7 @@ const context = buildTestContext(styles)
  * Tests for AttributeConfigurationComponent
  * @author Sébastien binda
  */
-describe('[ATTRIBUTES COMMON] Testing ThumbnailAttributeRender', () => {
+describe('[Attributes Common] Testing ThumbnailAttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -41,25 +40,28 @@ describe('[ATTRIBUTES COMMON] Testing ThumbnailAttributeRender', () => {
   it('Should render a no data', () => {
     // undefined value
     let wrapper = shallow(<ThumbnailAttributeRender />, { context })
-    assert.lengthOf(wrapper.find(NoDataIcon), 1, 'undefined files ==>  no data icon')
+    assert.lengthOf(wrapper.find(NoDataIcon), 1, 'undefined file ==>  no data icon')
     // null value
     wrapper = shallow(<ThumbnailAttributeRender value={null} />, { context })
     assert.lengthOf(wrapper.find(NoDataIcon), 1, 'no file ==>  no data icon')
-    // No thumbnail file in files array
-    const files = {
-      [CommonDomain.DataTypesEnum.RAWDATA]: [{ uri: 'http://idk.com' }],
-    }
-    wrapper = shallow(<ThumbnailAttributeRender value={files} />, { context })
-    assert.lengthOf(wrapper.find(NoDataIcon), 1, 'no thumbnail file ==>  no data icon')
   })
 
   it('Should render the first available Thumbmail file', () => {
     // No thumbnail file in files array
-    const files = {
-      [CommonDomain.DataTypesEnum.THUMBNAIL]: [{ uri: 'http://rd1.com' }],
-      [CommonDomain.DataTypesEnum.THUMBNAIL]: [{ uri: 'http://th1.com' }, { uri: 'http://th2.com' }],
+    const file = {
+      uri: 'http://rd1.com',
+      dataType: 'THUMBNAIL',
+      reference: false, // Does the file is a external reference ? not stored by regards.
+      mimeType: 'img',
+      imageWidth: 200,
+      imageHeight: 200,
+      online: true, // Does the file is directly accessible ? If not online, file is not downloadable.
+      checksum: 'abcd',
+      digestAlgorithm: 'leo method',
+      filesize: 14555668,
+      filename: 'hello.jpg',
     }
-    const wrapper = shallow(<ThumbnailAttributeRender value={files} projectName="project" />, { context })
-    assert.lengthOf(wrapper.findWhere(n => n.props().src === 'http://th1.com?scope=project'), 1, 'There should be an image with first thubnail as source')
+    const wrapper = shallow(<ThumbnailAttributeRender value={file} projectName="project" />, { context })
+    assert.lengthOf(wrapper.findWhere(n => n.props().src === 'http://rd1.com?scope=project'), 1, 'There should be an image with thubnail URI as source, adding scope')
   })
 })

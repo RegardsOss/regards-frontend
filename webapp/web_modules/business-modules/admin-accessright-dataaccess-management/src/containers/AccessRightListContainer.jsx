@@ -22,9 +22,9 @@ import filter from 'lodash/filter'
 import { browserHistory } from 'react-router'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
-import TableClient from '../clients/TableClient'
-import AccessRightClient from '../clients/AccessRightClient'
-import DatasetWithAccessRightClient from '../clients/DatasetWithAccessRightClient'
+import { tableSelectors, tableActions } from '../clients/TableClient'
+import { accessRightActions } from '../clients/AccessRightClient'
+import { datasetWithAccessRightActions, datasetWithAccessRightSelectors } from '../clients/DatasetWithAccessRightClient'
 import AccessRightListComponent from '../components/AccessRightListComponent'
 
 export class AccessRightListContainer extends React.Component {
@@ -47,6 +47,7 @@ export class AccessRightListContainer extends React.Component {
       totalElements: PropTypes.number,
     }),
     fetchDatasetWithAccessRightPage: PropTypes.func.isRequired,
+    clearSelection: PropTypes.func.isRequired,
     deleteAccessRight: PropTypes.func.isRequired,
     updateAccessRight: PropTypes.func.isRequired,
     createAccessRight: PropTypes.func.isRequired,
@@ -110,7 +111,7 @@ export class AccessRightListContainer extends React.Component {
 
   getBackURL = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/access-right/access-group/list`
+    return `/admin/${project}/dataaccess/access-group/list`
   }
 
   navigateToCreateDataset = () => {
@@ -120,10 +121,11 @@ export class AccessRightListContainer extends React.Component {
   }
 
   refresh = (filters) => {
-    const { meta, fetchDatasetWithAccessRightPage } = this.props
+    const { meta, fetchDatasetWithAccessRightPage, clearSelection } = this.props
     const curentPage = get(meta, 'number', 0)
     const accessGroupName = get(this.props.accessGroup, 'content.name', null)
     if (accessGroupName) {
+      clearSelection() // clear selection to avoid selected elements changes
       fetchDatasetWithAccessRightPage(0, AccessRightListComponent.PAGE_SIZE * (curentPage + 1), { accessGroupName }, filters)
     }
   }
@@ -146,15 +148,16 @@ export class AccessRightListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  meta: DatasetWithAccessRightClient.datasetWithAccessRightSelectors.getMetaData(state),
-  selectedDatasetsWithAccessright: TableClient.tableSelectors.getToggledElementsAsList(state),
+  meta: datasetWithAccessRightSelectors.getMetaData(state),
+  selectedDatasetsWithAccessright: tableSelectors.getToggledElementsAsList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchDatasetWithAccessRightPage: (pageIndex, pageSize, pathParams, queryParams) => dispatch(DatasetWithAccessRightClient.datasetWithAccessRightActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
-  updateAccessRight: (id, entity) => dispatch(AccessRightClient.accessRightActions.updateEntity(id, entity)),
-  createAccessRight: entity => dispatch(AccessRightClient.accessRightActions.createEntity(entity)),
-  deleteAccessRight: id => dispatch(AccessRightClient.accessRightActions.deleteEntity(id)),
+  clearSelection: () => dispatch(tableActions.unselectAll()),
+  fetchDatasetWithAccessRightPage: (pageIndex, pageSize, pathParams, queryParams) => dispatch(datasetWithAccessRightActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
+  updateAccessRight: (id, entity) => dispatch(accessRightActions.updateEntity(id, entity)),
+  createAccessRight: entity => dispatch(accessRightActions.createEntity(entity)),
+  deleteAccessRight: id => dispatch(accessRightActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccessRightListContainer)

@@ -17,13 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import connect from './Connect'
 
 /**
  * Main interface for regards redux tools
  * @author Sébastien Binda
  */
-export { connect }
-
-export default connect
-
+export { default as connect } from './Connect'

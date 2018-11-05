@@ -19,19 +19,26 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import last from 'lodash/last'
+import map from 'lodash/map'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import MenuItem from 'material-ui/MenuItem'
 import RadioButton from 'material-ui/RadioButton'
 import { formValueSelector } from 'redux-form'
-import { AccessDomain, UIDomain } from '@regardsoss/domain'
+import { AccessDomain } from '@regardsoss/domain'
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
-import { reduxForm, RenderTextField, RenderRadio, RenderSelectField, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { AdminShapes } from '@regardsoss/shape'
+import {
+  reduxForm, RenderTextField, RenderRadio, RenderSelectField, Field, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { ModuleTitleText } from '@regardsoss/components'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../../domain/NavigationItemTypes'
 import { NavigationEditionItem, EditionSection } from '../../../../shapes/ModuleConfiguration'
-import { findAll, getItemPathIn, getParentByPath, isSection, isChildOrSelf } from '../../../../domain/NavigationTreeHelper'
+import {
+  findAll, getItemPathIn, getParentByPath, isSection, isChildOrSelf,
+} from '../../../../domain/NavigationTreeHelper'
+import { VISIBILITY_MODES, VISIBILITY_MODES_ENUM } from '../../../../domain/VisibilityModes'
 
 /** Fields ID constants (exported for tests only) */
 export const COMMON_ICON_FIELD = 'icon'
@@ -41,6 +48,9 @@ export const ICON_URL_FIELD = `${COMMON_ICON_FIELD}.url`
 export const COMMON_TITLE_FIELD = 'title'
 export const TITLE_EN_FIELD = `${COMMON_TITLE_FIELD}.en`
 export const TITLE_FR_FIELD = `${COMMON_TITLE_FIELD}.fr`
+
+export const VISIBILITY_MODE_FIELD = 'visibilityMode'
+export const VISIBLE_FOR_ROLE_FIELD = 'visibleForRole'
 
 export const PARENT_SECTION_FIELD = 'parentSection'
 export const AFTER_ELEMENT_FIELD = 'afterElement'
@@ -52,6 +62,7 @@ export const AFTER_ELEMENT_FIELD = 'afterElement'
 export class NavigationItemEditionDialog extends React.Component {
   /** Main bar value for corresponding field selector */
   static MAIN_BAR = { ITEM_ID: 'MAIN_BAR' }
+
   /** First position value value for corresponding field selector */
   static FIRST_POSITION = { ITEM_ID: 'FIRST_POSITION' }
 
@@ -80,8 +91,7 @@ export class NavigationItemEditionDialog extends React.Component {
   static getParentSectionChoices(item, navigationItems) {
     // search all sections of the current tree that are not this edited item nor part of its children
     // note: we keep the reference, otherwise selector field equal method cannot work
-    const allSelectableSections = findAll(navigationItems, currentItem =>
-      isSection(currentItem) && !isChildOrSelf(item, currentItem))
+    const allSelectableSections = findAll(navigationItems, currentItem => isSection(currentItem) && !isChildOrSelf(item, currentItem))
     return [
       NavigationItemEditionDialog.MAIN_BAR,
       ...allSelectableSections,
@@ -89,7 +99,6 @@ export class NavigationItemEditionDialog extends React.Component {
   }
 
   static propTypes = {
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     onClose: PropTypes.func.isRequired,
     // provided edition data, null / undefined when not editing
     editionData: PropTypes.shape({
@@ -100,10 +109,12 @@ export class NavigationItemEditionDialog extends React.Component {
       // NOTE: module items here MUST HOLD TITLE AND DESCRIPTION (required for i18n in this view)
       navigationItems: PropTypes.arrayOf(NavigationEditionItem).isRequired,
     }),
+    roleList: AdminShapes.RoleList.isRequired,
     // from redux selector, in current form values
     selectedIconType: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES),
     // eslint-disable-next-line react/no-unused-prop-types
     selectedParentSection: PropTypes.oneOfType([EditionSection, PropTypes.oneOf([NavigationItemEditionDialog.MAIN_BAR])]), // used in onPropertiesUpdated
+    selectedVisibilityMode: PropTypes.oneOf(VISIBILITY_MODES),
     // from redux form
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
@@ -150,7 +161,11 @@ export class NavigationItemEditionDialog extends React.Component {
       const { item, itemPath, navigationItems } = editionData
       if (!isEqual(oldProps.editionData, editionData)) {
         // 1 - initialize form values when getting an edition model
-        const initialFormValues = {}
+        const initialFormValues = {
+          [VISIBILITY_MODE_FIELD]: item.visibilityMode,
+          [VISIBLE_FOR_ROLE_FIELD]: item.visibleForRole,
+        }
+
         if (item.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
           // initialize title and icon
           initialFormValues[COMMON_ICON_FIELD] = item.icon
@@ -173,8 +188,8 @@ export class NavigationItemEditionDialog extends React.Component {
 
         // dispatch initialize
         initialize(initialFormValues)
-      } else if (!isEqual(oldProps.selectedParentSection, selectedParentSection) &&
-        oldProps.selectedParentSection) { // check that previous properties was provided to avoid initial update
+      } else if (!isEqual(oldProps.selectedParentSection, selectedParentSection)
+        && oldProps.selectedParentSection) { // check that previous properties was provided to avoid initial update
         // 1 - update possible choices in state
         const afterElementChoices = NavigationItemEditionDialog.getAfterElementChoices(item, selectedParentSection, navigationItems)
         this.setState({ afterElementChoices })
@@ -206,7 +221,17 @@ export class NavigationItemEditionDialog extends React.Component {
       const siblingPath = getItemPathIn(navigationItems, afterElement)
       insertAtPath = [...siblingPath.slice(0, -1), last(siblingPath) + 1]
     }
-    onDone(item, insertAtPath, values[COMMON_ICON_FIELD], values[COMMON_TITLE_FIELD])
+    // build new item
+    const newItem = {
+      ...item,
+      visibilityMode: values[VISIBILITY_MODE_FIELD],
+      visibleForRole: values[VISIBLE_FOR_ROLE_FIELD],
+    }
+    if (item.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
+      newItem.icon = values[COMMON_ICON_FIELD]
+      newItem.title = values[COMMON_TITLE_FIELD]
+    }
+    onDone(newItem, insertAtPath)
   }
 
   /**
@@ -223,12 +248,25 @@ export class NavigationItemEditionDialog extends React.Component {
     return undefined // no error in any other case
   }
 
+  /**
+   * Validate role field
+   * @param role selected user role
+   * @param values the reset of form values
+   * @return error intl key if any error, undefined otherwise
+   */
+  validateRoleField = (role, values) => {
+    if (values[VISIBILITY_MODE_FIELD] === VISIBILITY_MODES_ENUM.FOR_ROLE) {
+      return ValidationHelpers.required(role)
+    }
+    return undefined // no error in other cases
+  }
+
   render() {
     const {
-      onClose, editionData, locale, selectedIconType,
-      submitting, invalid, handleSubmit,
+      onClose, editionData, selectedIconType, selectedVisibilityMode,
+      roleList, submitting, invalid, handleSubmit,
     } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage, locale } } = this.context
     const { parentSectionChoices, afterElementChoices } = this.state
 
     // extract edition data if available
@@ -316,7 +354,7 @@ export class NavigationItemEditionDialog extends React.Component {
 
                 ] : null // a module model
               }
-              {/* B - move fields (for both section and module) */}
+              {/* B - move and visibility fields (for both section and module) */}
               <Field
                 name={PARENT_SECTION_FIELD}
                 component={RenderSelectField}
@@ -330,11 +368,11 @@ export class NavigationItemEditionDialog extends React.Component {
                       key={value.ITEM_ID || `${value.type}-${value.id}`}
                       value={value}
                       primaryText={
-                        value.ITEM_ID ?
+                        value.ITEM_ID
                           // the MAIN_BAR placeholder
-                          formatMessage({ id: 'menu.form.navigation.edit.item.dialog.parent.section.none' }) :
+                          ? formatMessage({ id: 'menu.form.navigation.edit.item.dialog.parent.section.none' })
                           // a section
-                          ModuleTitleText.selectTitle(value.title, null, locale)
+                          : ModuleTitleText.selectTitle(value.title, null, locale)
                       }
                     />))
                 }
@@ -346,20 +384,53 @@ export class NavigationItemEditionDialog extends React.Component {
                 fullWidth
               >
                 { /* possible positions, from state */
-                  afterElementChoices.map(value =>
-                    (<MenuItem
-                      key={value.ITEM_ID || `${value.type}-${value.id}`}
-                      value={value}
-                      primaryText={
-                        value.ITEM_ID ?
+                  afterElementChoices.map(value => (<MenuItem
+                    key={value.ITEM_ID || `${value.type}-${value.id}`}
+                    value={value}
+                    primaryText={
+                        value.ITEM_ID
                           // the FIRST_POSITION placeholder
-                          formatMessage({ id: 'menu.form.navigation.edit.item.dialog.insert.at.first.position' }) :
+                          ? formatMessage({ id: 'menu.form.navigation.edit.item.dialog.insert.at.first.position' })
                           // After a section or module WITH TITLE (see props comments)
-                          formatMessage(
+                          : formatMessage(
                             { id: 'menu.form.navigation.edit.item.dialog.insert.after' },
                             { itemTitle: ModuleTitleText.selectTitle(value.title, value.description, locale) })
                       }
+                  />))
+                }
+              </Field>
+              {/* Visibility mode */}
+              <Field
+                name={VISIBILITY_MODE_FIELD}
+                component={RenderSelectField}
+                label={formatMessage({ id: 'menu.form.navigation.edit.item.dialog.visibility.mode.field' })}
+                fullWidth
+              >
+                { /** possible visibility modes */
+                  VISIBILITY_MODES.map(value => (
+                    <MenuItem
+                      key={value}
+                      value={value}
+                      primaryText={formatMessage({ id: `menu.form.navigation.edit.item.dialog.visibility.mode.${value}` })}
                     />))
+                }
+              </Field>
+              <Field
+                name={VISIBLE_FOR_ROLE_FIELD}
+                component={RenderSelectField}
+                label={formatMessage({ id: 'menu.form.navigation.edit.item.dialog.visibility.visible.for.role.field' })}
+                disabled={selectedVisibilityMode !== VISIBILITY_MODES_ENUM.FOR_ROLE}
+                validate={this.validateRoleField}
+                fullWidth
+              >
+                { /** Possible roles */
+                  map(roleList, ({ content: { name } }) => (
+                    <MenuItem
+                      key={name}
+                      value={name}
+                      primaryText={name}
+                    />
+                  ))
                 }
               </Field>
             </div>) : null// no edition model
@@ -379,5 +450,5 @@ const selector = formValueSelector(form)
 export default connect(state => ({
   selectedIconType: selector(state, ICON_TYPE_FIELD),
   selectedParentSection: selector(state, PARENT_SECTION_FIELD),
+  selectedVisibilityMode: selector(state, VISIBILITY_MODE_FIELD),
 }))(connectedReduxForm)
-

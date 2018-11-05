@@ -26,12 +26,6 @@ import { CatalogClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'collections', 'dataset', 'link-plugin-dataset']
 const REDUX_ACTION_NAMESPACE = 'admin-data-dataset-management/link-plugin-dataset'
 
-const linkPluginDatasetReducer = CatalogClient.getLinkPluginDatasetReducer(REDUX_ACTION_NAMESPACE)
-const linkPluginDatasetActions = new CatalogClient.LinkPluginDatasetActions(REDUX_ACTION_NAMESPACE)
-const linkPluginDatasetSelectors = CatalogClient.getLinkPluginDatasetSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  linkPluginDatasetReducer,
-  linkPluginDatasetActions,
-  linkPluginDatasetSelectors,
-}
+export const linkPluginDatasetReducer = CatalogClient.getLinkPluginDatasetReducer(REDUX_ACTION_NAMESPACE)
+export const linkPluginDatasetActions = new CatalogClient.LinkPluginDatasetActions(REDUX_ACTION_NAMESPACE)
+export const linkPluginDatasetSelectors = CatalogClient.getLinkPluginDatasetSelectors(ENTITIES_STORE_PATH)

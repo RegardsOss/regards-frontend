@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { CommonDomain } from '@regardsoss/domain'
 
 /**
  * Data file related shapes
@@ -24,13 +25,17 @@
 
 /** only fields (for extending files to re-use) */
 export const dataFileFields = {
-  uri: PropTypes.string,
+  dataType: PropTypes.oneOf(CommonDomain.DataTypes),
+  reference: PropTypes.bool.isRequired, // Does the file is a external reference ? not stored by regards.
+  uri: PropTypes.string.isRequired,
+  mimeType: PropTypes.string.isRequired,
+  imageWidth: PropTypes.number,
+  imageHeight: PropTypes.number,
+  online: PropTypes.bool.isRequired, // Does the file is directly accessible ? If not online, file is not downloadable.
   checksum: PropTypes.string,
   digestAlgorithm: PropTypes.string,
-  size: PropTypes.number,
-  name: PropTypes.string,
-  online: PropTypes.bool,
-  mimeType: PropTypes.string,
+  filesize: PropTypes.number,
+  filename: PropTypes.string.isRequired,
 }
 
 /** complete object */

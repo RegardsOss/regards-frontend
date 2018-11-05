@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import { UIDomain } from '@regardsoss/domain'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
  * Resolves module title text
@@ -39,12 +39,15 @@ class ModuleTitleText extends React.Component {
     title: PropTypes.objectOf(PropTypes.string),
     // module description (used as fallback when title cannot be used)
     description: PropTypes.string,
-    // current local if any
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   render() {
-    const { title, description, locale } = this.props
+    const { title, description } = this.props
+    const { intl: { locale } } = this.context
     return ModuleTitleText.selectTitle(title, description, locale)
   }
 }

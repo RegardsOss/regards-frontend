@@ -26,7 +26,7 @@ import { ProjectContent } from './Project'
  *
  * @author Sébastien Binda
  */
-const ProjectConnection = PropTypes.shape({
+export const ProjectConnection = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
     project: ProjectContent,
@@ -40,6 +40,4 @@ const ProjectConnection = PropTypes.shape({
   }),
 })
 
-const ProjectConnectionList = PropTypes.objectOf(ProjectConnection)
-
-module.exports = { ProjectConnection, ProjectConnectionList }
+export const ProjectConnectionList = PropTypes.objectOf(ProjectConnection)

@@ -57,7 +57,7 @@ class RenderArrayObjectField extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     fieldProps: PropTypes.object, // additional props to pass to the fieldComponent
     getEmptyObject: PropTypes.func, // Function to generate a new empty object value
-    duplicationTransfromation: PropTypes.func, // Function to transform object value when dulicating an element of the list
+    duplicationTransformation: PropTypes.func, // Function to transform object value when dulicating an element of the list
     canBeEmpty: PropTypes.bool, // If false, the list is not displayed if there is no element in it
     listHeight: PropTypes.string,
     disabled: PropTypes.bool,
@@ -72,7 +72,7 @@ class RenderArrayObjectField extends React.Component {
     canBeEmpty: true,
     fieldProps: {},
     getEmptyObject: () => ({}),
-    duplicationTransfromation: object => object,
+    duplicationTransformation: object => object && { ...object },
   }
 
   static contextTypes = {
@@ -134,7 +134,7 @@ class RenderArrayObjectField extends React.Component {
    * @param {*} index : Index of the object from the fields props to duplicate
    */
   onDuplicateObject = (index) => {
-    const objectToDuplicate = this.props.duplicationTransfromation(this.props.fields.get(index))
+    const objectToDuplicate = this.props.duplicationTransformation(this.props.fields.get(index))
     this.props.fields.push(objectToDuplicate)
     this.displayObject(this.props.fields.length)
   }
@@ -261,8 +261,8 @@ class RenderArrayObjectField extends React.Component {
       <Card>
         <CardMedia>
           {label && displayLabel ? <SubHeader inset={false}>{label}</SubHeader> : null}
-          {meta.error && isString(meta.error) ?
-            <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
+          {meta.error && isString(meta.error)
+            ? <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
             : null}
           <div style={layoutStyle}>
             <div style={titleStyle} />
@@ -275,8 +275,8 @@ class RenderArrayObjectField extends React.Component {
                 >
                   {map(fields, (object, idx) => this.renderListItem(idx, fields.get(idx)))}
                 </SelectableList>
-                {!this.props.disabled ?
-                  <RaisedButton
+                {!this.props.disabled
+                  ? <RaisedButton
                     label={formatMessage({ id: 'render.array-object.add.button' })}
                     fullWidth
                     primary

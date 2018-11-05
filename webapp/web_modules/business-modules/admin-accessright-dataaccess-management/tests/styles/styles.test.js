@@ -29,4 +29,3 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing styles', () => {
     assert.isFunction(styles)
   })
 })
-

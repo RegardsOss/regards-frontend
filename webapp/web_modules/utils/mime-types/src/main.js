@@ -16,12 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import mimeTypes from './MimeTypesEnum'
 
 /**
  * Main module file to expose public interface
  * @author Sébastien Binda
  */
-module.exports = {
-  mimeTypes,
-}
+export { mimeTypesDefinitions, MIME_TYPES } from './MimeTypesEnum'
+export { contentTypeParser } from './ContentTypeParser'

@@ -31,9 +31,9 @@ import isRestrictedWithEnum from './isRestrictedWithEnum'
  */
 const retrieveEntityKeyInsideEntity = (modelAttribute) => {
   if (modelAttribute.content.attribute.fragment.name !== DEFAULT_FRAGMENT) {
-    return `content.properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`
+    return `content.feature.properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`
   }
-  return `content.properties.${modelAttribute.content.attribute.name}`
+  return `content.feature.properties.${modelAttribute.content.attribute.name}`
 }
 
 /**
@@ -81,7 +81,7 @@ const saveAttributeValueInForm = (formResult, attrValue, modelAttribute) => {
     case MODEL_ATTR_TYPES.INTEGER:
     case MODEL_ATTR_TYPES.URL:
     case MODEL_ATTR_TYPES.BOOLEAN:
-    case MODEL_ATTR_TYPES.DATE:
+    case MODEL_ATTR_TYPES.DATE_ISO8601:
       set(formResult, retrieveFieldKeyUsedOnForm(modelAttribute), attrValue)
       break
 

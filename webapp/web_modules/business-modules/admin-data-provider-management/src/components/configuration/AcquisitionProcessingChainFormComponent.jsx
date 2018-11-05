@@ -22,13 +22,14 @@ import omit from 'lodash/omit'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { reduxForm } from 'redux-form'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import { CardActionsComponent, HelpMessageComponent } from '@regardsoss/components'
 import {
-  RenderTextField, RenderPageableAutoCompleteField, RenderSelectField,
+  RenderTextField, RenderPageableAutoCompleteField, RenderSelectField, reduxForm,
   RenderArrayObjectField, RenderCheckbox, ValidationHelpers, Field, FieldArray,
 } from '@regardsoss/form-utils'
 import { DataProviderDomain } from '@regardsoss/domain'
@@ -68,6 +69,8 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
 
   static getNewIntialValues = () => ({
     active: true,
+    generationRetryEnabled: false,
+    submissionRetryEnabled: true,
     fileInfos: [{
       mandatory: true,
     }],
@@ -84,7 +87,8 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
       'productPluginConf', 'generatePluginConf', 'validationPluginConf',
       'postProcessSipPluginConf',
     ])
-    duplicatedChain.fileInfos = map(chainToDuplicate.content.fileInfos, AcquisitionProcessingChainFormComponent.duplicateFileInfo)
+    duplicatedChain.fileInfos = map(chainToDuplicate.content.fileInfos,
+      AcquisitionProcessingChainFormComponent.getFileInfoForChainDuplication)
     if (chainToDuplicate.content.validationPluginConf) {
       duplicatedChain.validationPluginConf = AcquisitionProcessingChainFormComponent.duplicatePluginConf(chainToDuplicate.content.validationPluginConf)
     }
@@ -100,17 +104,22 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     return duplicatedChain
   }
 
-  static duplicateFileInfo = (fileInfo) => {
-    const duplicatedFileInfo = omit(fileInfo, ['id', 'scanPlugin'])
-    return duplicatedFileInfo
+  static getFileInfoForChainDuplication = fileInfo => omit(fileInfo, ['id', 'scanPlugin'])
+
+  static duplicateFileInfo(fileInfo) {
+    return {
+      ...AcquisitionProcessingChainFormComponent.getFileInfoForChainDuplication(fileInfo),
+      // plugin is reported when duplicating file info
+      scanPlugin: AcquisitionProcessingChainFormComponent.duplicatePluginConf(fileInfo.scanPlugin),
+    }
   }
 
-  static duplicatePluginConf = (plugin) => {
-    const duplicatedPluginConf = omit(plugin, ['id', 'label', 'parameters'])
-    duplicatedPluginConf.label = plugin.pluginId ? `${plugin.pluginId}-${Date.now()}` : Date.now()
-    const parameters = map(plugin.parameters, parameter => omit(parameter, ['id']))
-    duplicatedPluginConf.parameters = parameters || []
-    return duplicatedPluginConf
+  static duplicatePluginConf(plugin) {
+    return {
+      ...omit(plugin, ['id', 'label', 'parameters']),
+      label: plugin.pluginId ? `${plugin.pluginId}-${Date.now()}` : Date.now(),
+      parameters: map(plugin.parameters, parameter => omit(parameter, ['id'])) || [],
+    }
   }
 
   componentWillMount() {
@@ -136,9 +145,9 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     const {
       invalid, submitting, onBack, mode,
     } = this.props
-    const label = mode === 'create' || mode === 'duplicate' ?
-      formatMessage({ id: 'acquisition-chain.form.create.button' }) :
-      formatMessage({ id: 'acquisition-chain.form.update.button' })
+    const label = mode === 'create' || mode === 'duplicate'
+      ? formatMessage({ id: 'acquisition-chain.form.create.button' })
+      : formatMessage({ id: 'acquisition-chain.form.update.button' })
     return (
       <CardActions>
         <CardActionsComponent
@@ -167,9 +176,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
           <li>{formatMessage({ id: 'acquisition-chain.form.informations-2' })}</li>
           <li>{formatMessage({ id: 'acquisition-chain.form.informations-3' })}</li>
           <li>{formatMessage({ id: 'acquisition-chain.form.informations-4' })}</li>
-          <li>{formatMessage({ id: 'acquisition-chain.form.informations-5' })}</li>
-          <li>{formatMessage({ id: 'acquisition-chain.form.informations-6' })}</li>
-          <li>{formatMessage({ id: 'acquisition-chain.form.informations-7' })}</li>
         </ul>
       </span>
     )
@@ -205,7 +211,10 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
             <HelpMessageComponent message={infoMessage} />
             <br />
             <Tabs>
-              <Tab label={formatMessage({ id: 'acquisition-chain.form.general.section.title' })} >
+              <Tab
+                label={formatMessage({ id: 'acquisition-chain.form.general.section.title' })}
+                className="selenium-generalTab"
+              >
                 <Field
                   name="label"
                   fullWidth
@@ -219,6 +228,18 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   fullWidth
                   component={RenderCheckbox}
                   label={formatMessage({ id: 'acquisition-chain.form.general.section.active' })}
+                />
+                <Field
+                  name="generationRetryEnabled"
+                  fullWidth
+                  component={RenderCheckbox}
+                  label={formatMessage({ id: 'acquisition-chain.form.general.generationRetryEnabled' })}
+                />
+                <Field
+                  name="submissionRetryEnabled"
+                  fullWidth
+                  component={RenderCheckbox}
+                  label={formatMessage({ id: 'acquisition-chain.form.general.submissionRetryEnabled' })}
                 />
                 <Field
                   key="mode"
@@ -266,20 +287,25 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   validate={required}
                 />
               </Tab>
-              <Tab label={formatMessage({ id: 'acquisition-chain.form.fileInfos.section' })} >
+              <Tab
+                label={formatMessage({ id: 'acquisition-chain.form.fileInfos.section' })}
+                className="selenium-filesTab"
+              >
                 <FieldArray
                   name="fileInfos"
                   component={RenderArrayObjectField}
                   elementLabel={this.renderFileInfoItemLabel}
                   fieldComponent={AcquisitionFileInfoComponent}
-                  getEmptyObject={this.getEmptyMetaFile}
-                  duplicationTransfromation={this.duplicateMetaFile}
+                  duplicationTransformation={AcquisitionProcessingChainFormComponent.duplicateFileInfo}
                   canBeEmpty={false}
                   listHeight="600px"
                   validate={required}
                 />
               </Tab>
-              <Tab label={formatMessage({ id: 'acquisition-chain.form.plugins.section' })} >
+              <Tab
+                label={formatMessage({ id: 'acquisition-chain.form.plugins.section' })}
+                className="selenium-pluginsTab"
+              >
                 <AcquisitionProcessingChainFormPluginsComponent
                   chain={chain}
                 />

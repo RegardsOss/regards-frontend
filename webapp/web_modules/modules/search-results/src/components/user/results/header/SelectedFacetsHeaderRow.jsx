@@ -16,13 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { CatalogDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ShowableAtRender } from '@regardsoss/display-control'
 import { TableHeaderLine, TableHeaderContentBox } from '@regardsoss/components'
-
-import { FilterListShape } from '../../../../models/facets/FilterShape'
-import SelectedFacetComponent from '../facets/SelectedFacetComponent'
+import { SelectedFacetArray } from '../../../../models/facets/FacetShape'
+import SelectedBooleanFacetComponent from '../facets/selected/SelectedBooleanFacetComponent'
+import SelectedDateRangeFacetComponent from '../facets/selected/SelectedDateRangeFacetComponent'
+import SelectedNumberRangeFacetComponent from '../facets/selected/SelectedNumberRangeFacetComponent'
+import SelectedStringFacetComponent from '../facets/selected/SelectedStringFacetComponent'
 
 /**
  * Header line for facets and results count row
@@ -30,8 +33,8 @@ import SelectedFacetComponent from '../facets/SelectedFacetComponent'
 class SelectedFacetsHeaderRow extends React.Component {
   static propTypes = {
     showingFacettes: PropTypes.bool.isRequired,
-    filters: FilterListShape,
-    onDeleteFilter: PropTypes.func.isRequired,
+    selectedFacets: SelectedFacetArray.isRequired,
+    onUnselectFacet: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -40,18 +43,27 @@ class SelectedFacetsHeaderRow extends React.Component {
   }
 
   render() {
-    const { showingFacettes, filters, onDeleteFilter } = this.props
+    const { showingFacettes, selectedFacets, onUnselectFacet } = this.props
     return (
-      <ShowableAtRender show={showingFacettes && !!filters.length}>
+      <ShowableAtRender show={showingFacettes && !!selectedFacets.length}>
         <TableHeaderLine>
           <TableHeaderContentBox>
             {
-              filters.map(filter => (
-                <SelectedFacetComponent
-                  key={filter.filterKey}
-                  filter={filter}
-                  onDeleteFilter={onDeleteFilter}
-                />))
+              selectedFacets.map((selectedFacet) => {
+                const selectorProps = { key: selectedFacet.model.attributeName, selectedFacet, onUnselectFacet }
+                switch (selectedFacet.model.type) {
+                  case CatalogDomain.FACET_TYPES_ENUM.BOOLEAN:
+                    return (<SelectedBooleanFacetComponent {...selectorProps} />)
+                  case CatalogDomain.FACET_TYPES_ENUM.DATE:
+                    return (<SelectedDateRangeFacetComponent {...selectorProps} />)
+                  case CatalogDomain.FACET_TYPES_ENUM.NUMBER:
+                    return (<SelectedNumberRangeFacetComponent {...selectorProps} />)
+                  case CatalogDomain.FACET_TYPES_ENUM.STRING:
+                    return (<SelectedStringFacetComponent {...selectorProps} />)
+                  default:
+                    throw new Error(`Unknown facet type ${selectedFacet.type}`)
+                }
+              })
             }
           </TableHeaderContentBox>
         </TableHeaderLine>

@@ -46,12 +46,11 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     displayConf: {},
 
     showingFacettes: true,
-    filters: [],
+    selectedFacets: [],
     resultsCount: 45,
     searchSelectors,
 
-    hiddenColumnKeys: [],
-    attributePresentationModels: [],
+    presentationModels: [],
     facets: [],
     searchQuery: '',
 
@@ -62,10 +61,11 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
 
     selectionServices: [],
     // control
-    onChangeColumnsVisibility: () => { },
-    onDeleteFacet: () => { },
+    onConfigureColumns: () => { },
+    onResetColumns: () => { },
     onSetEntityAsTag: () => { },
     onSelectFacet: () => { },
+    onUnselectFacet: () => { },
     onShowDatasets: () => { },
     onShowDataobjects: () => { },
     onShowListView: () => { },
@@ -79,6 +79,9 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     // from OrderCartContainer HOC
     onAddSelectionToCart: null, // callback to add selection to cart, null when disabled
     onAddElementToCart: null, // callback to add element
+
+    onShowDescription: () => { },
+    isDescAvailableFor: () => true,
 
   }
 

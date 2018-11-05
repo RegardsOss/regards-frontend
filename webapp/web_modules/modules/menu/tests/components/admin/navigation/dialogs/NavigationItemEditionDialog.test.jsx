@@ -27,12 +27,23 @@ import { getItemByPathIn, getItemPathIn, findAllSections } from '../../../../../
 import {
   NavigationItemEditionDialog, ICON_TYPE_FIELD, ICON_URL_FIELD, TITLE_EN_FIELD,
   TITLE_FR_FIELD, PARENT_SECTION_FIELD, AFTER_ELEMENT_FIELD,
-  COMMON_ICON_FIELD, COMMON_TITLE_FIELD,
+  COMMON_ICON_FIELD, COMMON_TITLE_FIELD, VISIBILITY_MODE_FIELD, VISIBLE_FOR_ROLE_FIELD,
 } from '../../../../../src/components/admin/navigation/dialogs/NavigationItemEditionDialog'
+import { VISIBILITY_MODES_ENUM } from '../../../../../src/domain/VisibilityModes'
 import styles from '../../../../../src/styles'
 import { aNavigationConfiguration } from '../../../../dumps/configuration.dump'
 
 const context = buildTestContext(styles)
+
+/** A role list dump */
+const roleList = {
+  1: {
+    content: { name: 'R1' },
+  },
+  2: {
+    content: { name: 'R2' },
+  },
+}
 
 /**
  * Test NavigationItemEditionDialog
@@ -47,7 +58,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
   })
   it('should render correctly when not editing', () => {
     const props = {
-      locale: 'en',
+      roleList,
       onClose: () => { },
       editionData: null, // not editing
       handleSubmit: () => { },
@@ -66,7 +77,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
   })
   it('should render correctly when editing a module', () => {
     const props = {
-      locale: 'en',
+      roleList,
       onClose: () => { },
       editionData: {
         onDone: () => { },
@@ -74,6 +85,8 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
         item: {
           id: 1,
           type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+          visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+          visibleForRole: null,
         },
         itemPath: getItemPathIn(aNavigationConfiguration, { id: 1, type: NAVIGATION_ITEM_TYPES_ENUM.MODULE }),
         navigationItems: aNavigationConfiguration,
@@ -102,12 +115,14 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     // check common section / module fields are added
     assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === PARENT_SECTION_FIELD), 1, 'There should be the parent section field to move module')
     assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === AFTER_ELEMENT_FIELD), 1, 'There should be the after element field to move module')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === VISIBILITY_MODE_FIELD), 1, 'The should be the visibility mode field')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === VISIBLE_FOR_ROLE_FIELD), 1, 'There should be visibility role field')
     // note: those fields are tested after
   })
 
   it('should render correctly when editing a section', () => {
     const props = {
-      locale: 'fr',
+      roleList,
       onClose: () => { },
       editionData: {
         onDone: () => { },
@@ -115,6 +130,8 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
         item: {
           id: 99,
           type: NAVIGATION_ITEM_TYPES_ENUM.SECTION,
+          visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+          visibleForRole: null,
           icon: {
             type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT,
           },
@@ -150,7 +167,13 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     // check common section / module fields are added
     assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === PARENT_SECTION_FIELD), 1, 'There should be the parent section field to move module')
     assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === AFTER_ELEMENT_FIELD), 1, 'There should be the after element field to move module')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === VISIBILITY_MODE_FIELD), 1, 'The should be the visibility mode field')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === VISIBLE_FOR_ROLE_FIELD), 1, 'There should be visibility role field')
     // note: those fields are tested after
+
+    // there should be an option for each role
+    assert.lengthOf(enzymeWrapper.find(MenuItem).findWhere(n => n.props().value === 'R1'), 1, 'R1 role option should be available')
+    assert.lengthOf(enzymeWrapper.find(MenuItem).findWhere(n => n.props().value === 'R2'), 1, 'R2 role option should be available')
   })
 
 
@@ -158,19 +181,26 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
   const mainBarAndallSections = [NavigationItemEditionDialog.MAIN_BAR, ...findAllSections(aNavigationConfiguration)]
   const testCases = [{
     label: 'a new module',
-    item: { id: 777, type: NAVIGATION_ITEM_TYPES_ENUM.MODULE },
+    item: {
+      id: 777,
+      type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+      visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+      visibleForRole: null,
+    },
     itemPath: [aNavigationConfiguration.length], // by default, new items will be set at end of the main bar
     expectedParent: NavigationItemEditionDialog.MAIN_BAR,
     expectedPossibleParents: mainBarAndallSections, // MAIN_BAR and all sections could be the parent
     // it should be after the last model itel
     expectedSibling: aNavigationConfiguration[aNavigationConfiguration.length - 1],
     // it can have as previous sibling: any root item of the navigation model, first position is forbidden on main bar (it is home position)
-    expectedPossibleSibiling: aNavigationConfiguration,
+    expectedPossibleSibling: aNavigationConfiguration,
   }, {
     label: 'a new section',
     item: {
       id: 777,
       type: NAVIGATION_ITEM_TYPES_ENUM.SECTION,
+      visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+      visibleForRole: null,
       icon: { type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT },
       title: { en: 'new.section.en', fr: 'new.section.fr' },
       children: [],
@@ -183,7 +213,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     // it should be after the last model item
     expectedSibling: aNavigationConfiguration[aNavigationConfiguration.length - 1],
     // it can have as previous sibling: any root item of the navigation model, first position is forbidden on main bar (it is home position)
-    expectedPossibleSibiling: aNavigationConfiguration,
+    expectedPossibleSibling: aNavigationConfiguration,
   }, {
     label: 'an existing module in root (not first one, forbidden)',
     item: aNavigationConfiguration[2],
@@ -194,7 +224,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     // it should be after the previous item...
     expectedSibling: aNavigationConfiguration[1],
     // it can have as previous sibling: any root item of the navigation model, BUT NOT first position nor itself (cannot be after itself...)
-    expectedPossibleSibiling: [...aNavigationConfiguration.slice(0, 2), ...aNavigationConfiguration.slice(3)],
+    expectedPossibleSibling: [...aNavigationConfiguration.slice(0, 2), ...aNavigationConfiguration.slice(3)],
   }, {
     label: 'an existing section in root (last one)',
     item: aNavigationConfiguration[3],
@@ -205,7 +235,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     // it should be after the previous item...
     expectedSibling: aNavigationConfiguration[2],
     // it can have as previous sibling: any root item of the navigation model, BUT NOT first position nor itself (cannot be after itself...)
-    expectedPossibleSibiling: aNavigationConfiguration.slice(0, 3),
+    expectedPossibleSibling: aNavigationConfiguration.slice(0, 3),
   }, {
     label: 'an existing module in section [1,2], at end',
     item: aNavigationConfiguration[1].children[2].children[1],
@@ -216,7 +246,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     // it should be after the previous item
     expectedSibling: aNavigationConfiguration[1].children[2].children[0],
     // it can have as previous sibling: any child of the parent section AND FIRST_POSTION, but not itself
-    expectedPossibleSibiling: [NavigationItemEditionDialog.FIRST_POSITION, aNavigationConfiguration[1].children[2].children[0]],
+    expectedPossibleSibling: [NavigationItemEditionDialog.FIRST_POSITION, aNavigationConfiguration[1].children[2].children[0]],
   }, {
     label: 'an existing module in section [1], at start',
     item: aNavigationConfiguration[1].children[0],
@@ -227,7 +257,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     // it should be at first position
     expectedSibling: NavigationItemEditionDialog.FIRST_POSITION,
     // it can have as previous sibling: any child of the parent section AND FIRST_POSTION, but not itself
-    expectedPossibleSibiling: [NavigationItemEditionDialog.FIRST_POSITION, ...aNavigationConfiguration[1].children.slice(1)],
+    expectedPossibleSibling: [NavigationItemEditionDialog.FIRST_POSITION, ...aNavigationConfiguration[1].children.slice(1)],
   }, {
     label: 'an existing section in section [1], at end',
     item: aNavigationConfiguration[1].children[2],
@@ -237,7 +267,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     expectedPossibleParents: [NavigationItemEditionDialog.MAIN_BAR, aNavigationConfiguration[1], aNavigationConfiguration[3]],
     expectedSibling: aNavigationConfiguration[1].children[1],
     // it can have as previous sibling: any child of the parent section AND FIRST_POSTION, but not itself
-    expectedPossibleSibiling: [NavigationItemEditionDialog.FIRST_POSITION, ...aNavigationConfiguration[1].children.slice(0, 2)],
+    expectedPossibleSibling: [NavigationItemEditionDialog.FIRST_POSITION, ...aNavigationConfiguration[1].children.slice(0, 2)],
   }, {
     label: 'an existing section in root (to check children sections are excluded as parent)',
     item: aNavigationConfiguration[1],
@@ -246,7 +276,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     // Parents should not contain this section and its children section
     expectedPossibleParents: [NavigationItemEditionDialog.MAIN_BAR, aNavigationConfiguration[3]],
     expectedSibling: aNavigationConfiguration[0],
-    expectedPossibleSibiling: [aNavigationConfiguration[0], ...aNavigationConfiguration.slice(2)],
+    expectedPossibleSibling: [aNavigationConfiguration[0], ...aNavigationConfiguration.slice(2)],
   }]
 
   testCases.forEach(({
@@ -256,11 +286,11 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     expectedParent,
     expectedPossibleParents,
     expectedSibling,
-    expectedPossibleSibiling,
+    expectedPossibleSibling,
   }) => it(`Should resolve correctly values, parent and siblings when editing ${label}`, () => {
     let spiedInitValues = {}
     const props = {
-      locale: 'fr',
+      roleList,
       onClose: () => { },
       editionData: {
         onDone: () => { },
@@ -293,10 +323,10 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     const afterElementField = enzymeWrapper.findWhere(n => n.props().name === AFTER_ELEMENT_FIELD)
     assert.lengthOf(afterElementField, 1, 'There should be the after element field')
     const afterElementOptions = afterElementField.find(MenuItem)
-    assert.lengthOf(afterElementOptions, expectedPossibleSibiling.length, 'There should be the same after element options count')
+    assert.lengthOf(afterElementOptions, expectedPossibleSibling.length, 'There should be the same after element options count')
     afterElementOptions.forEach((optionWrapper, index) => {
       const optionValue = optionWrapper.props().value
-      assert.deepEqual(optionValue, expectedPossibleSibiling[index], 'Possible sibling should be correctly computed')
+      assert.deepEqual(optionValue, expectedPossibleSibling[index], 'Possible sibling should be correctly computed')
     })
 
     // 3 - check initial sections values
@@ -310,7 +340,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
   it('Should update sibling correctly when changing parent', () => {
     const spiedChangeValue = {}
     const props = {
-      locale: 'fr',
+      roleList,
       onClose: () => { },
       editionData: {
         onDone: () => { },
@@ -381,42 +411,56 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
   }]
   confirmTestCases.forEach(({
     label, itemPath, newAfterItemIndex, newParentPath, expectedInsertAtPath,
-  }) =>
-    it(`Should resolve correctly new insert path when ${label}`, () => {
-      const spiedDoneValues = {}
-      const props = {
-        locale: 'fr',
-        onClose: () => { },
-        editionData: {
-          onDone: (item, insertAtPath) => {
-            spiedDoneValues.item = item
-            spiedDoneValues.insertAtPath = insertAtPath
-          },
-          dialogTitleKey: 'some.title.key',
-          item: getItemByPathIn(aNavigationConfiguration, itemPath),
-          itemPath,
-          navigationItems: aNavigationConfiguration,
+  }) => it(`Should resolve correctly new insert path when ${label}`, () => {
+    const spiedDoneValues = {}
+    const props = {
+      roleList,
+      onClose: () => { },
+      editionData: {
+        onDone: (item, insertAtPath) => {
+          spiedDoneValues.item = item
+          spiedDoneValues.insertAtPath = insertAtPath
         },
-        selectedParentSection: NavigationItemEditionDialog.MAIN_BAR, // this is intial form value (before initial update)
-        handleSubmit: f => f,
-        initialize: () => { },
-        change: () => { },
-      }
-      const enzymeWrapper = shallow(<NavigationItemEditionDialog {...props} />, { context })
-      const instance = enzymeWrapper.instance()
-      // simulate onConfirm and get results in spiedDoneValues
-      const simulatedNewParent = newParentPath.length ?
-        getItemByPathIn(aNavigationConfiguration, newParentPath) :
-        NavigationItemEditionDialog.MAIN_BAR
-      const consideredChildren = simulatedNewParent === NavigationItemEditionDialog.MAIN_BAR ?
-        aNavigationConfiguration : simulatedNewParent.children
-      const simulatedNewAfterItem = newAfterItemIndex >= 0 ? consideredChildren[newAfterItemIndex] : NavigationItemEditionDialog.FIRST_POSITION
-      instance.onConfirm({
-        [PARENT_SECTION_FIELD]: simulatedNewParent,
-        [AFTER_ELEMENT_FIELD]: simulatedNewAfterItem,
-      })
-      // check receive values
-      assert.equal(spiedDoneValues.item, getItemByPathIn(aNavigationConfiguration, itemPath))
-      assert.deepEqual(spiedDoneValues.insertAtPath, expectedInsertAtPath)
-    }))
+        dialogTitleKey: 'some.title.key',
+        item: getItemByPathIn(aNavigationConfiguration, itemPath),
+        itemPath,
+        navigationItems: aNavigationConfiguration,
+      },
+      selectedParentSection: NavigationItemEditionDialog.MAIN_BAR, // this is intial form value (before initial update)
+      handleSubmit: f => f,
+      initialize: () => { },
+      change: () => { },
+    }
+    const enzymeWrapper = shallow(<NavigationItemEditionDialog {...props} />, { context })
+    const instance = enzymeWrapper.instance()
+    // simulate onConfirm and get results in spiedDoneValues
+    const simulatedNewParent = newParentPath.length
+      ? getItemByPathIn(aNavigationConfiguration, newParentPath)
+      : NavigationItemEditionDialog.MAIN_BAR
+    const consideredChildren = simulatedNewParent === NavigationItemEditionDialog.MAIN_BAR
+      ? aNavigationConfiguration : simulatedNewParent.children
+    const simulatedNewAfterItem = newAfterItemIndex >= 0 ? consideredChildren[newAfterItemIndex] : NavigationItemEditionDialog.FIRST_POSITION
+    instance.onConfirm({
+      [PARENT_SECTION_FIELD]: simulatedNewParent,
+      [AFTER_ELEMENT_FIELD]: simulatedNewAfterItem,
+      [COMMON_ICON_FIELD]: { type: 'potatoe-icon', url: 'many-potatoes.jpg' },
+      [COMMON_TITLE_FIELD]: { en: 'title-en', fr: 'title-fr' },
+      [VISIBILITY_MODE_FIELD]: 'WHEN-I-WANT',
+      [VISIBLE_FOR_ROLE_FIELD]: 'Teletobies',
+    })
+    // check receive values
+    const initialModel = getItemByPathIn(aNavigationConfiguration, itemPath)
+    const expectedModel = {
+      ...initialModel,
+      visibilityMode: 'WHEN-I-WANT',
+      visibleForRole: 'Teletobies',
+    }
+    if (initialModel.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
+      // title and icon should be set in item for sections
+      expectedModel.icon = { type: 'potatoe-icon', url: 'many-potatoes.jpg' }
+      expectedModel.title = { en: 'title-en', fr: 'title-fr' }
+    }
+    assert.deepEqual(spiedDoneValues.item, expectedModel, 'Edited item should be correctly reported')
+    assert.deepEqual(spiedDoneValues.insertAtPath, expectedInsertAtPath)
+  }))
 })

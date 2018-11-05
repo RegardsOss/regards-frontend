@@ -40,10 +40,10 @@ describe('[Search Results] Testing SearchRelatedEntitiesComponent', () => {
     const props = {
       entity: {
         content: {
-          id: 1,
-          ipId: 'coucou',
-          sipId: '1',
+          id: 'coucou',
+          providerId: '1',
           label: 'O.D.I.L',
+          model: '1',
           entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
           files: {},
           geometry: null,

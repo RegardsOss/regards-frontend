@@ -44,4 +44,3 @@ const getPluginTypeReducer = (namespace) => {
 }
 
 export default getPluginTypeReducer
-

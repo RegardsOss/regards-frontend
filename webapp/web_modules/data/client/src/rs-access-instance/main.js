@@ -16,31 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ModuleActions from './module/ModuleActions'
-import ModuleReducers from './module/ModuleReducers'
-import ModuleSelectors from './module/ModuleSelectors'
+export { default as ModuleActions } from './module/ModuleActions'
+export { default as ModuleReducers } from './module/ModuleReducers'
+export { default as ModuleSelectors } from './module/ModuleSelectors'
 
-import LayoutActions from './layout/LayoutActions'
-import LayoutReducers from './layout/LayoutReducers'
-import LayoutSelectors from './layout/LayoutSelectors'
+export { default as LayoutActions } from './layout/LayoutActions'
+export { default as LayoutReducers } from './layout/LayoutReducers'
+export { default as LayoutSelectors } from './layout/LayoutSelectors'
 
-import ThemeActions from './theme/ThemeActions'
-import ThemeReducers from './theme/ThemeReducers'
-import ThemeSelectors from './theme/ThemeSelectors'
-
-
-module.exports = {
-
-  ModuleActions,
-  ModuleReducers,
-  ModuleSelectors,
-
-  LayoutActions,
-  LayoutReducers,
-  LayoutSelectors,
-
-  ThemeActions,
-  ThemeReducers,
-  ThemeSelectors,
-
-}
+export { default as ThemeActions } from './theme/ThemeActions'
+export { default as ThemeReducers } from './theme/ThemeReducers'
+export { default as ThemeSelectors } from './theme/ThemeSelectors'

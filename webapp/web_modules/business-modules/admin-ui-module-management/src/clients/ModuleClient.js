@@ -26,12 +26,6 @@ import { AccessProjectClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'ui', 'module', 'modules']
 const REDUX_ACTION_NAMESPACE = 'admin-ui-module-management-new/modules'
 
-const moduleReducers = AccessProjectClient.ModuleReducers(REDUX_ACTION_NAMESPACE)
-const moduleActions = new AccessProjectClient.ModuleActions(REDUX_ACTION_NAMESPACE)
-const moduleSelectors = AccessProjectClient.ModuleSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  moduleReducers,
-  moduleActions,
-  moduleSelectors,
-}
+export const moduleReducers = AccessProjectClient.ModuleReducers(REDUX_ACTION_NAMESPACE)
+export const moduleActions = new AccessProjectClient.ModuleActions(REDUX_ACTION_NAMESPACE)
+export const moduleSelectors = AccessProjectClient.ModuleSelectors(ENTITIES_STORE_PATH)

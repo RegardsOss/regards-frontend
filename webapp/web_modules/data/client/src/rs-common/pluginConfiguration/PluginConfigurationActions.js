@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import replace from 'lodash/replace'
-import Schemas from '@regardsoss/api'
+import { PLUGIN_CONFIGURATION, PLUGIN_CONFIGURATION_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 export default class PluginConfigurationActions extends BasicListActions {
@@ -26,8 +26,8 @@ export default class PluginConfigurationActions extends BasicListActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microserviceName}/plugins/configs`,
       schemaTypes: {
-        ENTITY: Schemas.PLUGIN_CONFIGURATION,
-        ENTITY_ARRAY: Schemas.PLUGIN_CONFIGURATION_ARRAY,
+        ENTITY: PLUGIN_CONFIGURATION,
+        ENTITY_ARRAY: PLUGIN_CONFIGURATION_ARRAY,
       },
     })
   }

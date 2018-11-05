@@ -19,8 +19,15 @@
 import ProjectUserActions from './ProjectUserActions'
 
 export default class WaitingAccessUsersEntitiesActions extends ProjectUserActions {
+  /**
+   * Constructor
+   * @param {string} namespace namespace (leave empty to get default admin client)
+   */
+  constructor(namespace = 'admin/waiting-access-users') {
+    super(namespace)
+  }
+
   fetchWaitingUsersEntityList(index, size) {
     return this.fetchPagedEntityList(index, size, null, { status: 'WAITING_ACCESS' })
   }
 }
-

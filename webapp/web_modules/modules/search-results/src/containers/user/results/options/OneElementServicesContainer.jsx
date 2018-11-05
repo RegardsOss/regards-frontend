@@ -34,7 +34,7 @@ export class OneElementServicesContainer extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps(dispatch) {
     return {
@@ -78,9 +78,8 @@ export class OneElementServicesContainer extends React.Component {
         services: get(newProps.entity, 'content.services', [])
           // keep only services that have one element application mode and
           // entity type as target
-          .filter(({ content: { applicationModes, entityTypes } }) =>
-            applicationModes.includes(AccessDomain.applicationModes.ONE) &&
-            entityTypes.includes(entityType)),
+          .filter(({ content: { applicationModes, entityTypes } }) => applicationModes.includes(AccessDomain.applicationModes.ONE)
+            && entityTypes.includes(entityType)),
       })
     }
   }
@@ -93,7 +92,7 @@ export class OneElementServicesContainer extends React.Component {
     const { entity, dispatchRunService } = this.props
     dispatchRunService(new PluginServiceRunModel(
       service,
-      target.buildOneElementTarget(entity.content.ipId),
+      target.buildOneElementTarget(entity.content.id),
     ))
   }
 

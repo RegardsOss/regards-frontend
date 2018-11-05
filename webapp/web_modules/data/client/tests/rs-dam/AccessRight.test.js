@@ -47,4 +47,3 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing model AccessRight', () => {
     entityTester.runTests(done)
   })
 })
-

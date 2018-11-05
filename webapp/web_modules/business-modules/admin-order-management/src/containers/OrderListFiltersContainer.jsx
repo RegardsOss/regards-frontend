@@ -31,7 +31,7 @@ const allFiltersDependencies = [
 // a default page size
 const PAGE_SIZE = 50
 // throttle delay for users list request
-const THROTTLE_DELAY_MS = 300
+const THROTTLE_DELAY_MS = 500
 // Sub components with added rights
 export const OrderListFiltersComponentWithRights = withResourceDisplayControl(OrderListFiltersComponent)
 
@@ -57,7 +57,7 @@ export class OrderListFiltersContainer extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps(dispatch) {
     return {
@@ -65,7 +65,7 @@ export class OrderListFiltersContainer extends React.Component {
       dispatchGetUsers:
         throttle(
           partialEmail => dispatch(projectUserActions.fetchPagedEntityList(0, PAGE_SIZE, null, { partialEmail })),
-          THROTTLE_DELAY_MS, { leading: true }),
+          THROTTLE_DELAY_MS, { leading: false }),
     }
   }
 
@@ -94,6 +94,7 @@ export class OrderListFiltersContainer extends React.Component {
     // B - dipatch get users list for text (it will provide the new matching users list)
     this.props.dispatchGetUsers(newText)
   }
+
   /**
    * Callback: the user selected a user mail or typed in some text
    * @param userEmail: user email or input text

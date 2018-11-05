@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { List, ListItem } from 'material-ui/List'
 import { FormattedMessage } from 'react-intl'
 import map from 'lodash/map'
@@ -62,7 +64,7 @@ export class DocumentEditLinksComponent extends React.Component {
     this.setState({
       tagField: '',
     })
-    this.props.handleAdd(this.state.tagField, true)
+    this.props.handleAdd(this.state.tagField)
   }
 
   handleCreateTagChange = (event, tagField) => {
@@ -112,11 +114,11 @@ export class DocumentEditLinksComponent extends React.Component {
                 />
                 {map(remainingCollections, (collection, id) => (
                   <ListItem
-                    key={collection.content.ipId}
-                    primaryText={collection.content.label}
+                    key={collection.content.feature.id}
+                    primaryText={collection.content.feature.label}
                     rightIconButton={
                       <IconButton
-                        onClick={() => handleAdd(collection.content.ipId, false)}
+                        onClick={() => handleAdd(collection.content.feature.id)}
                         tooltip={this.context.intl.formatMessage({ id: 'document.form.links.remainingcollection.add.button' })}
                       >
                         <Add />
@@ -134,11 +136,11 @@ export class DocumentEditLinksComponent extends React.Component {
                 <Divider />
                 {map(linkedCollections, (collection, id) => (
                   <ListItem
-                    key={collection.content.ipId}
-                    primaryText={collection.content.label}
+                    key={collection.content.feature.id}
+                    primaryText={collection.content.feature.label}
                     rightIconButton={
                       <IconButton
-                        onClick={() => handleDelete(collection.content.ipId, false)}
+                        onClick={() => handleDelete(collection.content.feature.id)}
                         tooltip={this.context.intl.formatMessage({ id: 'document.form.links.collection.remove.button' })}
                       >
                         <Clear />
@@ -184,7 +186,7 @@ export class DocumentEditLinksComponent extends React.Component {
                     primaryText={tag}
                     rightIconButton={
                       <IconButton
-                        onClick={() => handleDelete(tag, true)}
+                        onClick={() => handleDelete(tag)}
                         tooltip={this.context.intl.formatMessage({ id: 'document.form.links.tag.remove.button' })}
                       >
                         <Clear />
@@ -216,4 +218,3 @@ export class DocumentEditLinksComponent extends React.Component {
 }
 
 export default DocumentEditLinksComponent
-

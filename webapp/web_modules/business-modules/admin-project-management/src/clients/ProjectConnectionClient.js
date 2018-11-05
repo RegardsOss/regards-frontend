@@ -27,12 +27,6 @@ import { AdminClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'project-management', 'projectConnections']
 const REDUX_ACTION_NAMESPACE = 'admin-project-management/projectConnections'
 
-const projectConnectionReducers = AdminClient.ProjectConnectionReducers(REDUX_ACTION_NAMESPACE)
-const projectConnectionActions = new AdminClient.ProjectConnectionActions(REDUX_ACTION_NAMESPACE)
-const projectConnectionSelectors = AdminClient.ProjectConnectionSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  projectConnectionReducers,
-  projectConnectionActions,
-  projectConnectionSelectors,
-}
+export const projectConnectionReducers = AdminClient.ProjectConnectionReducers(REDUX_ACTION_NAMESPACE)
+export const projectConnectionActions = new AdminClient.ProjectConnectionActions(REDUX_ACTION_NAMESPACE)
+export const projectConnectionSelectors = AdminClient.ProjectConnectionSelectors(ENTITIES_STORE_PATH)

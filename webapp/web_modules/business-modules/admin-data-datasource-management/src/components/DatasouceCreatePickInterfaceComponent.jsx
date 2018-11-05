@@ -18,7 +18,9 @@
 * You should have received a copy of the GNU General Public License
 * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { Link } from 'react-router'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -48,14 +50,17 @@ export class DatasouceCreatePickInterfaceComponent extends React.Component {
     flexDirection: 'column',
     alignItems: 'center',
   }
+
   static styleIcon = {
     height: 108,
     width: 108,
     margin: '30px 0px',
   }
+
   static styleButton = {
     margin: '30px 0px',
   }
+
   static contentWrapper = {
     display: 'flex',
     alignItems: 'center',
@@ -113,4 +118,3 @@ export class DatasouceCreatePickInterfaceComponent extends React.Component {
 }
 
 export default DatasouceCreatePickInterfaceComponent
-

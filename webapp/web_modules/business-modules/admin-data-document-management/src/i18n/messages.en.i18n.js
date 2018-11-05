@@ -28,9 +28,8 @@ const messages = Object.assign({
   'document.list.action.edit': 'Edit',
   'document.list.action.duplicate': 'Duplicate',
   'document.list.action.delete': 'Delete',
-
+  'document.list.tooltip.copy.button': 'Copy reference to clipboard',
   'document.list.table.label': 'Label',
-  'document.list.table.actions': 'Actions',
   'document.list.table.model': 'Model',
 
   'document.no.document.title': 'No document',
@@ -62,8 +61,9 @@ const messages = Object.assign({
 
   'document.form.action.next': 'Save',
   'document.form.action.cancel': 'Cancel',
-  'document.form.model': 'Document models',
-  'document.form.label': 'Label',
+  'document.form.providerId': 'Provider ID (*)',
+  'document.form.model': 'Document models (*)',
+  'document.form.label': 'Label (*)',
   'document.form.geometry': 'Geometry',
   'document.form.table.value': 'Fixed value',
   'document.form.table.fragmentAndLabel': 'Fragment and attribute name',

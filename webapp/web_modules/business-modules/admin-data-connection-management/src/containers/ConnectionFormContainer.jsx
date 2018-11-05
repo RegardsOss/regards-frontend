@@ -154,7 +154,7 @@ const mapDispatchToProps = dispatch => ({
   fetchPluginMetaDataList: () => dispatch(pluginMetaDataActions.fetchEntityList({
     microserviceName: 'rs-dam',
   }, {
-    pluginType: 'fr.cnes.regards.modules.datasources.domain.plugins.IDBConnectionPlugin',
+    pluginType: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBConnectionPlugin',
   })),
 })
 

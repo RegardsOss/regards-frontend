@@ -18,6 +18,6 @@
  **/
 import ProjectsReducer from './model/ProjectsReducer'
 
-module.exports = {
+export default {
   projects: ProjectsReducer,
 }

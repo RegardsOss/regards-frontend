@@ -28,6 +28,9 @@ import { orderListActions } from './clients/OrderListClient'
  * @author Raphaël Mechali
  */
 
-module.exports = {
-  listDependencies: [orderListActions.getDependency(RequestVerbEnum.GET_LIST)],
+const listDependencies = [orderListActions.getDependency(RequestVerbEnum.GET_LIST)]
+
+
+export default {
+  listDependencies,
 }

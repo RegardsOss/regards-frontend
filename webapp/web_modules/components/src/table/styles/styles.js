@@ -69,12 +69,23 @@ export default (theme) => {
         },
       },
     },
+    containerStyle: {
+      flexGrow: 1,
+      flexShrink: 1,
+    },
+    tableHolderStyle: {
+      flexGrow: 1,
+      flexShrink: 1,
+    },
     header: {
       rootStyle: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'stretch',
+        flexGrow: 1,
+        flexShrink: 1,
+        minHeight: 0,
       },
       dividerStyle: {
         width: '100%',
@@ -84,8 +95,8 @@ export default (theme) => {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'stretch',
-        flexGrow: 1,
-        flexShrink: 1,
+        flexGrow: 0,
+        flexShrink: 0,
         minHeight: theme.components.infiniteTable.minHeaderRowHeight,
         borderBottom: headerBottomBorder,
       },
@@ -149,8 +160,21 @@ export default (theme) => {
           margin: '0 10px',
           color: theme.palette.textColor,
         },
+        errorTextStyle: {
+          margin: '0 10px',
+          color: theme.formsExtensions.validation.errorColor,
+        },
       },
       autocomplete: {
+        textStyle: {
+          height: theme.components.infiniteTable.minHeaderRowHeight - 2,
+        },
+      },
+      checkbox: {
+        whiteSpace: 'nowrap',
+        width: 'auto',
+      },
+      textfield: {
         textStyle: {
           height: theme.components.infiniteTable.minHeaderRowHeight - 2,
         },
@@ -273,6 +297,12 @@ export default (theme) => {
       styles: {
         height: '45vh',
       },
+    },
+    noDataMessage: {
+      margin: '10px 10px',
+      height: theme.components.infiniteTable.lineHeight,
+      color: theme.palette.disabledColor,
+      verticalAlign: 'middle',
     },
   })
 }

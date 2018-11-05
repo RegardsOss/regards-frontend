@@ -23,7 +23,9 @@ import ClearFilter from 'material-ui/svg-icons/content/backspace'
 import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { TableHeaderAutoCompleteFilter, TableHeaderLine, TableHeaderContentBox, TableHeaderText } from '@regardsoss/components'
+import {
+  TableHeaderAutoCompleteFilter, TableHeaderLine, TableHeaderContentBox, TableHeaderText,
+} from '@regardsoss/components'
 
 /**
 * Order list filters component

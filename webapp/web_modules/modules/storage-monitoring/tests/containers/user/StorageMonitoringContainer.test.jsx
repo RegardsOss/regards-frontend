@@ -33,6 +33,7 @@ describe('[Storage Monitoring] Testing StorageMonitoringContainer', () => {
     assert.isDefined(StorageMonitoringContainer)
   })
   const props = {
+    userApp: true,
     scale: storage.StorageUnitScale.bytesScale,
     isFetching: false, // from mapStateToProps
     hasError: false,
@@ -47,6 +48,17 @@ describe('[Storage Monitoring] Testing StorageMonitoringContainer', () => {
     expect(mainComponent).to.have.length(1)
     assert.isFalse(mainComponent.props().isFetching, 'The component should not be fetching')
     assert.isFalse(mainComponent.props().hasError, 'The component should show no error')
+    assert.isTrue(mainComponent.props().userApp, 'The component should be marked in user app')
+  })
+
+  it('should render self and component sub component in admin app', () => {
+    const localProps = { ...props, userApp: false }
+    const enzymeWrapper = shallow(<StorageMonitoringContainer {...localProps} />)
+    const mainComponent = enzymeWrapper.find(StorageMonitoringComponent)
+    expect(mainComponent).to.have.length(1)
+    assert.isFalse(mainComponent.props().isFetching, 'The component should not be fetching')
+    assert.isFalse(mainComponent.props().hasError, 'The component should show no error')
+    assert.isFalse(mainComponent.props().userApp, 'The component should be marked in admin app')
   })
 
   it('should show loading when loading', () => {

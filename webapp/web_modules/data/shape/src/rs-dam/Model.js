@@ -17,21 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-const ModelContent = PropTypes.shape({
+export const ModelContent = PropTypes.shape({
   id: PropTypes.number,
   type: PropTypes.string,
   description: PropTypes.string,
   name: PropTypes.string,
 })
 
-const Model = PropTypes.shape({
+export const Model = PropTypes.shape({
   content: ModelContent.isRequired,
 })
 
-const ModelList = PropTypes.objectOf(Model)
-
-module.exports = {
-  ModelContent,
-  Model,
-  ModelList,
-}
+export const ModelList = PropTypes.objectOf(Model)

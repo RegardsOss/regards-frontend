@@ -22,6 +22,7 @@ import Routes from '../src/router'
 import CollectionFormContainer from '../src/containers/CollectionFormContainer'
 import CollectionListContainer from '../src/containers/CollectionListContainer'
 import CollectionEditLinksContainer from '../src/containers/CollectionEditLinksContainer'
+import CollectionEditFilesContainer from '../src/containers/CollectionEditFilesContainer'
 
 describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing router', () => {
   before(testSuiteHelpers.before)
@@ -29,11 +30,12 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing router', () => {
 
   it('should return the correct value', () => {
     assert.isDefined(Routes)
-    expect(Routes.childRoutes).to.have.length(4)
+    expect(Routes.childRoutes).to.have.length(5)
     expect(Routes.childRoutes[0].path).to.eq('list')
     expect(Routes.childRoutes[1].path).to.eq('create')
     expect(Routes.childRoutes[2].path).to.eq(':collectionId/links')
-    expect(Routes.childRoutes[3].path).to.eq(':collectionId/:mode')
+    expect(Routes.childRoutes[3].path).to.eq(':collectionId/files')
+    expect(Routes.childRoutes[4].path).to.eq(':collectionId/:mode')
   })
   it('list should return CollectionListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -53,8 +55,14 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing router', () => {
       done()
     })
   })
-  it('create should return CollectionFormContainer', (done) => {
+  it('edit links should return CollectionEditFilesContainer', (done) => {
     Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(CollectionEditFilesContainer)
+      done()
+    })
+  })
+  it('create should return CollectionFormContainer', (done) => {
+    Routes.childRoutes[4].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(CollectionFormContainer)
       done()
     })

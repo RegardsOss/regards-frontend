@@ -23,13 +23,13 @@ import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import messages from '../../../i18n'
 
 /**
-* Component to siplay a dialog containing errors during SIP deletion.
+* Component to display a dialog containing errors during SIP deletion.
 * @author Sébastien Binda
 */
 class SIPDeletionErrorDialog extends React.Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
-    sipId: PropTypes.string.isRequired,
+    providerId: PropTypes.string, // provided only when there are errors
     errors: PropTypes.arrayOf(PropTypes.string).isRequired,
   }
 
@@ -55,17 +55,21 @@ class SIPDeletionErrorDialog extends React.Component {
   }
 
   render() {
-    const { errors, sipId } = this.props
+    const { errors, providerId } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <Dialog
-        title={formatMessage({ id: 'sip.delete.error.title' }, { id: sipId })}
+        title={formatMessage({ id: 'sip.delete.error.title' }, { id: providerId })}
         actions={this.renderActions()}
         modal={false}
         open={errors.length > 0}
       >
         <ul>
-          {map(errors, error => <li>{error}<br /></li>)}
+          {map(errors, error => <li>
+            {error}
+            <br />
+          </li>,
+          )}
         </ul>
       </Dialog>
 

@@ -22,15 +22,13 @@ import { PluginParameterTypes, JavaPrimitiveTypes } from '@regardsoss/domain/com
 import { convertParameter, resolveParametersWithTypes } from '../../src/definitions/CatalogPluginServiceHelper'
 import { Parameter } from '../../src/definitions/parameters/Parameter'
 
-const getConfigParameter = (name, dynamicsValues, defaultValue = undefined, dynamic = true) =>
-  ({
-    name, dynamicsValues, value: defaultValue, dynamic,
-  })
+const getConfigParameter = (name, dynamicsValues, defaultValue = undefined, dynamic = true) => ({
+  name, dynamicsValues, value: defaultValue, dynamic,
+})
 
-const getMetaDataParameter = (name, type, defaultValue, paramType = PluginParameterTypes.PRIMITIVE, optional = false) =>
-  ({
-    name: 'common.field', type, paramType, defaultValue, optional,
-  })
+const getMetaDataParameter = (name, type, defaultValue, paramType = PluginParameterTypes.PRIMITIVE, optional = false) => ({
+  name: 'common.field', type, paramType, defaultValue, optional,
+})
 
 /**
 * Test  CatalogPluginServiceHelper
@@ -59,20 +57,19 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
   ]
   basicTypesTests.map(({
     type, correspondingFieldType, validator, name = 'common.field',
-  }) =>
-    it(`should convert correctly a Java primitive "${type}" parameter`, () => {
-      const configParam = getConfigParameter(name)
-      const metaParam = getMetaDataParameter(name, type)
-      const resolved = convertParameter(configParam, metaParam)
-      assert.isNotNull(resolved, 'the parameter should be converted')
-      assert.equal(resolved.name, name, 'The parameter name should be correctly reported')
-      assert.equal(resolved.editorType, correspondingFieldType, 'The parameter editor type is erroneous')
-      if (validator) {
-        assert.isNotNull(resolved.valueValidator, 'There should be a validator')
-      } else {
-        assert.isNull(resolved.valueValidator, 'There should be no validator')
-      }
-    }))
+  }) => it(`should convert correctly a Java primitive "${type}" parameter`, () => {
+    const configParam = getConfigParameter(name)
+    const metaParam = getMetaDataParameter(name, type)
+    const resolved = convertParameter(configParam, metaParam)
+    assert.isNotNull(resolved, 'the parameter should be converted')
+    assert.equal(resolved.name, name, 'The parameter name should be correctly reported')
+    assert.equal(resolved.editorType, correspondingFieldType, 'The parameter editor type is erroneous')
+    if (validator) {
+      assert.isNotNull(resolved.valueValidator, 'There should be a validator')
+    } else {
+      assert.isNull(resolved.valueValidator, 'There should be no validator')
+    }
+  }))
 
 
   const choiceTests = [
@@ -80,16 +77,15 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
     { type: JavaPrimitiveTypes.DOUBLE, dynamicsValues: [1.5, 3.2] },
     { type: JavaPrimitiveTypes.STRING, dynamicsValues: ['aaa', 'zzz'] },
   ]
-  choiceTests.map(({ type, dynamicsValues, validator }) =>
-    it(`should convert any type (here ${type}) into a choice when dynamic values are provided`, () => {
-      const configParam = getConfigParameter('common.field', dynamicsValues)
-      const metaParam = getMetaDataParameter('common.field', type)
-      const resolved = convertParameter(configParam, metaParam)
-      assert.isNotNull(resolved, 'the parameter should be converted')
-      assert.equal(resolved.name, 'common.field', 'The parameter name should be correctly reported')
-      assert.equal(resolved.editorType, Parameter.EditorTypes.CHOICE, 'The parameter editor type is erroneous')
-      assert.equal(resolved.defaultValue, dynamicsValues[0], 'Default value, when it s not specified by the administrator nor the plugin developper, should be first choice')
-    }))
+  choiceTests.map(({ type, dynamicsValues, validator }) => it(`should convert any type (here ${type}) into a choice when dynamic values are provided`, () => {
+    const configParam = getConfigParameter('common.field', dynamicsValues)
+    const metaParam = getMetaDataParameter('common.field', type)
+    const resolved = convertParameter(configParam, metaParam)
+    assert.isNotNull(resolved, 'the parameter should be converted')
+    assert.equal(resolved.name, 'common.field', 'The parameter name should be correctly reported')
+    assert.equal(resolved.editorType, Parameter.EditorTypes.CHOICE, 'The parameter editor type is erroneous')
+    assert.equal(resolved.defaultValue, dynamicsValues[0], 'Default value, when it s not specified by the administrator nor the plugin developper, should be first choice')
+  }))
 
   it('Should select initial values respecting priority: admin value if specified, plugin developper value if specified, default type value if specified', () => {
     const initValueTest = [

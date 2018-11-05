@@ -16,14 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import { CardActionsComponent, HelpMessageComponent, ShowableAtRender } from '@regardsoss/components'
 import map from 'lodash/map'
 import keys from 'lodash/keys'
 import size from 'lodash/size'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
+import {
+  Table, TableBody, TableRow, TableRowColumn,
+} from 'material-ui/Table'
 import { DataManagementShapes } from '@regardsoss/shape'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'

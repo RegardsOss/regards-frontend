@@ -20,7 +20,9 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { StorageShapes } from '@regardsoss/shape'
 import { StorageDomain } from '@regardsoss/domain'
-import { getActions, getSelectors, prioritizedDataStorageDownActions, prioritizedDataStorageUpActions } from '../clients/PrioritizedDataStorageClient'
+import {
+  getActions, getSelectors, prioritizedDataStorageDownActions, prioritizedDataStorageUpActions,
+} from '../clients/PrioritizedDataStorageClient'
 import PrioritizedDataStorageListComponent from '../components/PrioritizedDataStorageListComponent'
 
 /**
@@ -45,7 +47,7 @@ export class PrioritizedDataStorageListContainer extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps(dispatch, props) {
     return {

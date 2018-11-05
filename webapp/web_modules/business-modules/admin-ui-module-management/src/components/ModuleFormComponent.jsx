@@ -20,7 +20,9 @@ import find from 'lodash/find'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import merge from 'lodash/merge'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import RadioButton from 'material-ui/RadioButton'
 import { formValueSelector } from 'redux-form'
@@ -29,7 +31,9 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { connect } from '@regardsoss/redux'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, RenderSelectField, Field, RenderCheckbox, RenderRadio, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import {
+  RenderTextField, RenderSelectField, Field, RenderCheckbox, RenderRadio, ValidationHelpers, reduxForm,
+} from '@regardsoss/form-utils'
 import { AccessShapes } from '@regardsoss/shape'
 import DynamicModuleFormComponent from './DynamicModuleFormComponent'
 import Styles from '../styles/styles'
@@ -202,7 +206,7 @@ class ModuleFormComponent extends React.Component {
    * Renders page configuration part, when module is dynamic
    */
   renderModulePageConfiguration = () => (
-    <div >
+    <div>
       {/* is default page? */}
       <Field
         name="page.home"

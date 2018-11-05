@@ -28,9 +28,8 @@ const messages = Object.assign({
   'document.list.action.edit': 'Editer',
   'document.list.action.duplicate': 'Dupliquer',
   'document.list.action.delete': 'Supprimer',
-
+  'document.list.tooltip.copy.button': 'Copier la référence dans le presse papier',
   'document.list.table.label': 'Label',
-  'document.list.table.actions': 'Actions',
   'document.list.table.model': 'Modèle',
 
   'document.no.document.title': 'Aucun document',
@@ -54,7 +53,7 @@ const messages = Object.assign({
 
   'document.form.files.title': 'Gestion des fichiers du document {name}',
   'document.form.files.subtitle': 'Vous pouvez ajouter de nouveaux fichiers à votre document, ou supprimer ceux déjà présent',
-  'document.form.files.action.next': 'Suite',
+  'document.form.files.action.next': 'Suivant',
   'document.form.files.action.cancel': 'Annuler',
   'document.form.files.docFiles.subtitle': 'Liste des fichiers associés',
   'document.form.files.addFile.subtitle': 'Ajouter des fichiers',
@@ -62,8 +61,9 @@ const messages = Object.assign({
 
   'document.form.action.next': 'Sauvegarder',
   'document.form.action.cancel': 'Annuler',
-  'document.form.model': 'Modèles de document',
-  'document.form.label': 'Libellé',
+  'document.form.providerId': 'Identifiant producteur (*)',
+  'document.form.model': 'Modèles de document (*)',
+  'document.form.label': 'Libellé (*)',
   'document.form.geometry': 'Géometrie',
   'document.form.table.value': 'Valeur fixe',
   'document.form.table.fragmentAndLabel': 'Fragment et Nom de l\'attribut du modèle',
@@ -82,4 +82,3 @@ const messages = Object.assign({
 }, Locales.fr)
 
 export default messages
-

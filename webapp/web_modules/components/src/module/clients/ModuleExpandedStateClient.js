@@ -22,10 +22,5 @@ import { UIClient } from '@regardsoss/client'
  * Default application instance
  */
 
-const moduleExpandedStateActions = new UIClient.ModuleExpandedStateActions()
-const moduleExpandedStateSelectors = UIClient.getModuleExpandedStateSelectors()
-
-module.exports = {
-  moduleExpandedStateActions,
-  moduleExpandedStateSelectors,
-}
+export const moduleExpandedStateActions = new UIClient.ModuleExpandedStateActions()
+export const moduleExpandedStateSelectors = UIClient.getModuleExpandedStateSelectors()

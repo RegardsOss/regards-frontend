@@ -19,7 +19,7 @@
 import { DamDomain } from '@regardsoss/domain'
 
 export const SelectedElement = PropTypes.shape({
-  ipId: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   entityType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
   label: PropTypes.string.isRequired,
 })

@@ -30,4 +30,3 @@ export default (namespace) => {
   const instance = new DocumentLinkReducer(namespace)
   return (state, action) => instance.reduce(state, action)
 }
-

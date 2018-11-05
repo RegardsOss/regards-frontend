@@ -28,4 +28,3 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  * application store.
  */
 export default storePath => new BasicPageableSelectors(storePath)
-

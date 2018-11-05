@@ -22,7 +22,7 @@ import { UI_PLUGIN_INFO_TYPES } from '@regardsoss/domain/access'
  * IHM Plugin entity definition
  * @author Sébastien Binda
  */
-const UIPluginDefinitionContent = PropTypes.shape({
+export const UIPluginDefinitionContent = PropTypes.shape({
   id: PropTypes.number,
   name: PropTypes.string,
   type: PropTypes.oneOf(UI_PLUGIN_INFO_TYPES),
@@ -32,14 +32,8 @@ const UIPluginDefinitionContent = PropTypes.shape({
   entityTypes: PropTypes.arrayOf(PropTypes.string),
 })
 
-const UIPluginDefinition = PropTypes.shape({
+export const UIPluginDefinition = PropTypes.shape({
   content: UIPluginDefinitionContent.isRequired,
 })
 
-const UIPluginDefinitionList = PropTypes.objectOf(UIPluginDefinition)
-
-module.exports = {
-  UIPluginDefinitionContent,
-  UIPluginDefinition,
-  UIPluginDefinitionList,
-}
+export const UIPluginDefinitionList = PropTypes.objectOf(UIPluginDefinition)

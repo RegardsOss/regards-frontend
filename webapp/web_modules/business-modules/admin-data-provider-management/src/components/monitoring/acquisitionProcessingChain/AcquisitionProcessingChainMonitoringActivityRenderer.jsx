@@ -79,12 +79,14 @@ class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Compone
         </div>
       )
     }
-    const label = chain.lastActivationDate ?
-      formatMessage({ id: 'acquisition-chain.monitor.list.activity.not.running.date' },
+    const label = chain.lastActivationDate
+      ? formatMessage({ id: 'acquisition-chain.monitor.list.activity.not.running.date' },
         { date: formatDate(chain.lastActivationDate, AcquisitionProcessingChainMonitoringActivityRenderer.DATETIME_OPTIONS) },
       ) : formatMessage({ id: 'acquisition-chain.monitor.list.activity.not.running' })
     return (
-      <div> {label} </div>
+      <div>
+        {label}
+      </div>
     )
   }
 }

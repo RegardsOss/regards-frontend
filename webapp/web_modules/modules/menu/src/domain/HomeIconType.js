@@ -18,6 +18,11 @@
  **/
 import values from 'lodash/values'
 
+/**
+ * Possible home icon types
+ * @author Raphaël Mechali
+ */
+
 export const HOME_ICON_TYPES_ENUM = {
   NONE: 'NONE',
   DEFAULT_HOME_ICON: 'DEFAULT_HOME_ICON',

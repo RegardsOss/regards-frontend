@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { FormattedMessage } from 'react-intl'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
@@ -43,8 +45,11 @@ import { datasetActions, datasetSelectors } from '../clients/DatasetClient'
 import { tableActions } from '../clients/TableClient'
 import DatasetListEditAction from './DatasetListEditAction'
 import DatasetListDeleteAction from './DatasetListDeleteAction'
+import DatasetListInfoAction from './DatasetListInfoAction'
 import DatasetListFiltersComponent from './DatasetListFiltersComponent'
 import { DatasetListContainer } from '../containers/DatasetListContainer'
+import EntityInfoDialog from './EntityInfoDialog'
+import CopyToClipBoardAction from './CopyToClipBoardAction'
 
 const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButton)
 
@@ -71,6 +76,7 @@ export class DatasetListComponent extends React.Component {
   state = {
     deleteDialogOpened: false,
     entityToDelete: null,
+    entityForInfos: null,
   }
 
   closeDeleteDialog = () => {
@@ -84,6 +90,14 @@ export class DatasetListComponent extends React.Component {
     this.setState({
       deleteDialogOpened: true,
       entityToDelete: entity,
+    })
+  }
+
+  onCloseInfoDialog = () => this.showInformation(null)
+
+  showInformation = (entity) => {
+    this.setState({
+      entityForInfos: entity,
     })
   }
 
@@ -108,11 +122,11 @@ export class DatasetListComponent extends React.Component {
     const {
       handleEdit, createUrl, backUrl, onRefresh, navigateToCreateDataset,
     } = this.props
-    const { intl: { formatMessage } } = this.context
-    const { fixedColumnsWidth } = this.context.muiTheme.components.infiniteTable
+    const { intl: { formatMessage }, muiTheme } = this.context
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const style = {
-      hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
-      hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
+      hoverButtonEdit: muiTheme.palette.primary1Color,
+      hoverButtonDelete: muiTheme.palette.accent1Color,
     }
 
     const emptyContentAction = (
@@ -133,35 +147,32 @@ export class DatasetListComponent extends React.Component {
 
     const columns = [
       // 1 - label column
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.label',
-        formatMessage({ id: 'dataset.list.table.label' }),
-        'content.label',
-      ),
+      new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.feature.label')
+        .label(formatMessage({ id: 'dataset.list.table.label' }))
+        .build(),
       // 2 - model column
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.model',
-        formatMessage({ id: 'dataset.list.table.model' }),
-        'content.model.name',
-      ),
-      TableColumnBuilder.buildOptionsColumn(
-        '',
-        [
-          {
-            OptionConstructor: DatasetListEditAction,
-            optionProps: { handleEdit, hoverColor: style.hoverButtonEdit },
-          },
-          {
-            OptionConstructor: DatasetListDeleteAction,
-            optionProps: {
-              openDeleteDialog: this.openDeleteDialog,
-              hoverColor: style.hoverButtonDelete,
-            },
-          },
-        ],
-        true,
-        fixedColumnsWidth,
-      ),
+      new TableColumnBuilder('column.model').titleHeaderCell().propertyRenderCell('content.feature.model')
+        .label(formatMessage({ id: 'dataset.list.table.model' }))
+        .build(),
+      // 3 - options
+      new TableColumnBuilder().optionsColumn([{
+        OptionConstructor: DatasetListInfoAction,
+        optionProps: { onClick: this.showInformation, hoverColor: style.hoverButtonEdit },
+      }, {
+        OptionConstructor: CopyToClipBoardAction,
+        optionProps: { hoverColor: style.hoverButtonEdit },
+      }, {
+        OptionConstructor: DatasetListEditAction,
+        optionProps: { handleEdit, hoverColor: style.hoverButtonEdit },
+      },
+      {
+        OptionConstructor: DatasetListDeleteAction,
+        optionProps: {
+          openDeleteDialog: this.openDeleteDialog,
+          hoverColor: style.hoverButtonDelete,
+        },
+      },
+      ]).build(),
     ]
 
     return (
@@ -187,13 +198,18 @@ export class DatasetListComponent extends React.Component {
             </TableHeaderLine>
             <PageableInfiniteTableContainer
               name="dataset-management-table"
-              minRowCount={0}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               pageActions={datasetActions}
               pageSelectors={datasetSelectors}
               tableActions={tableActions}
               pageSize={DatasetListContainer.PAGE_SIZE}
               columns={columns}
               emptyComponent={emptyComponent}
+            />
+            <EntityInfoDialog
+              entity={this.state.entityForInfos}
+              onClose={this.onCloseInfoDialog}
             />
           </TableLayout>
         </CardText>

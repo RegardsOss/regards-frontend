@@ -24,7 +24,7 @@ import { AccessShapes } from '@regardsoss/shape'
 import DatasetEditUIServicesComponent from '../components/DatasetEditUIServicesComponent'
 import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
 import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
-import { linkUIPluginDatasetActions, linkUIPluginDatasetSelectors } from './../clients/LinkUIPluginDatasetClient'
+import { linkUIPluginDatasetActions, linkUIPluginDatasetSelectors } from '../clients/LinkUIPluginDatasetClient'
 import messages from '../i18n'
 
 export class DatasetEditUIServicesContainer extends React.Component {
@@ -77,10 +77,9 @@ export class DatasetEditUIServicesContainer extends React.Component {
       this.props.fetchLinkUIPluginDataset(this.props.params.datasetIpId),
     ]
     Promise.all(tasks)
-      .then(() =>
-        this.setState({
-          isLoading: false,
-        }))
+      .then(() => this.setState({
+        isLoading: false,
+      }))
   }
 
   getBackUrl = () => {

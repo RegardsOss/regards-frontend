@@ -35,6 +35,8 @@ class ProjectAboutPageLinkComponent extends React.Component {
     project: PropTypes.string,
     // project about page
     projectAboutPage: CommonShapes.URL,
+    // When true, do not show the about page on click (used in PREVIEW mode)
+    hidePage: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -43,7 +45,9 @@ class ProjectAboutPageLinkComponent extends React.Component {
   }
 
   render() {
-    const { appName, project, projectAboutPage } = this.props
+    const {
+      appName, project, projectAboutPage, hidePage,
+    } = this.props
     const { intl: { formatMessage } } = this.context
 
     // prepare button that will trigger about page displaying
@@ -52,6 +56,12 @@ class ProjectAboutPageLinkComponent extends React.Component {
         <AboutIcon />
       </IconButton>)
 
+    if (hidePage) {
+      // show only the button
+      return buttonComponent
+    }
+
+    // full about page view: let the module customize button to trigger the show about page event
     const searchFacetsModule = {
       type: modulesManager.AllDynamicModuleTypes.PROJECT_ABOUT_PAGE,
       active: true,

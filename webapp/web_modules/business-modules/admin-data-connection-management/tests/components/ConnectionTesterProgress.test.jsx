@@ -35,4 +35,3 @@ describe('[ADMIN DATA CONNECTION MANAGEMENT] Testing ConnectionTesterProgress', 
     expect(enzymeWrapper.find(CircularProgress)).to.have.length(1)
   })
 })
-

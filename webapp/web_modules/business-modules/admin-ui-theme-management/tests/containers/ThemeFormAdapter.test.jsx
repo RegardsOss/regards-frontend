@@ -21,10 +21,9 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ThemeFormContainer from '../../src/containers/ThemeFormContainer'
 import { ThemeFormAdapter } from '../../src/containers/ThemeFormAdapter'
-import styles from '../../src/styles/styles'
 
 
-const context = buildTestContext(styles)
+const context = buildTestContext()
 
 /**
 * Test ThemeFormAdapter
@@ -39,7 +38,6 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeFormAdapter', () => {
     assert.isDefined(ThemeFormAdapter)
   })
   it('should render correctly', () => {
-    const fetchThemeInstance = () => { }
     const props = {
       // from router
       params: {
@@ -53,7 +51,7 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeFormAdapter', () => {
 
       // Set by mapDispatchToProps
       fetchTheme: () => { },
-      fetchThemeInstance,
+      fetchThemeInstance: () => { },
       updateTheme: () => { },
       updateInstanceTheme: () => { },
       createTheme: () => { },
@@ -63,6 +61,6 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeFormAdapter', () => {
     const formContainerWrapper = enzymeWrapper.find(ThemeFormContainer)
     assert.lengthOf(formContainerWrapper, 1, 'Should find the form container')
 
-    assert.deepEqual(formContainerWrapper.prop('fetchTheme'), fetchThemeInstance)
+    assert.deepEqual(formContainerWrapper.prop('fetchTheme'), props.fetchThemeInstance)
   })
 })

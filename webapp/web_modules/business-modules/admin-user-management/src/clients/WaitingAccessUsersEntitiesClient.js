@@ -18,9 +18,5 @@
  **/
 import { AdminClient } from '@regardsoss/client'
 
-// this client only consumes project admin waiting user access (no fetch nor reducing)
-const waitingAccessUsersEntitiesSelectors = AdminClient.getWaitingAccessUsersEntitiesSelectors(['admin', 'notifications-waiting-users'])
-
-module.exports = {
-  waitingAccessUsersEntitiesSelectors,
-}
+// default client selectors, only consumes project admin waiting user access (no fetch nor reducing, it is performed in admin module)
+export const waitingAccessUsersEntitiesSelectors = AdminClient.getWaitingAccessUsersEntitiesSelectors()

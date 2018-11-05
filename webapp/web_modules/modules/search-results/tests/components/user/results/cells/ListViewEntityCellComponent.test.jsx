@@ -38,11 +38,11 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
     const props = {
       entity: {
         content: {
-          id: 1,
-          ipId: 'coucou',
-          sipId: '1',
+          id: 'coucou',
+          providerId: '1',
           label: 'O.D.I.L',
           entityType: ENTITY_TYPES_ENUM.DATASET,
+          model: '1',
           files: {},
           geometry: null,
           properties: {},
@@ -71,9 +71,11 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
       }],
       servicesEnabled: true,
       entitySelected: true,
+      isDescAvailableFor: () => true,
       onSelectEntity: () => { },
       onSearchEntity: () => { },
       onAddToCart: () => { },
+      onShowDescription: () => { },
     }
     shallow(<ListViewEntityCellComponent {...props} />, { context })
   })

@@ -22,8 +22,8 @@ import { accountPasswordReducer } from './clients/AccountPasswordClient'
 import { projectUserReducer } from './clients/ProjectUserClient'
 import { roleReducer } from './clients/RoleClient'
 import { userGroupReducer } from './clients/UserGroupClient'
-import { waitingAccessUsersEntitiesReducer } from './clients/WaitingAccessUsersEntitiesClient'
-import { ProjectUserSignalReducer } from './clients/ProjectUserSignalClient'
+import { projectUserSignalReducer } from './clients/ProjectUserSignalClient'
+import { projectUserSettingsReducer } from './clients/ProjectUserSettingsClient'
 
 const projectUserManagementReducer = combineReducers({
   accessGroup: accessGroupReducer,
@@ -31,8 +31,8 @@ const projectUserManagementReducer = combineReducers({
   projectUser: projectUserReducer,
   role: roleReducer,
   userGroup: userGroupReducer,
-  waitingAccessUsersEntities: waitingAccessUsersEntitiesReducer,
-  projectUserSignals: ProjectUserSignalReducer,
+  projectUserSignals: projectUserSignalReducer,
+  settings: projectUserSettingsReducer,
 })
 
 export default projectUserManagementReducer

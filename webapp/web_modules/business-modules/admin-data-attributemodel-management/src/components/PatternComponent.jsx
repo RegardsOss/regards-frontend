@@ -75,4 +75,3 @@ export function initializePatternForm(initialValues, currentAttrModel) {
 }
 
 export default PatternComponent
-

@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { BasicSignalActions, RequestVerbEnum } from '@regardsoss/store-utils'
+import { CatalogDomain } from '@regardsoss/domain'
 
 /**
  * Order basket (cart) action, to control logged user basket content. To implement that behavior, this class uses a composition to
@@ -77,14 +78,25 @@ class OrderBasketActions {
   }
 
   /**
-   * Returns action to add IP IDs or Open search request results (excluding IP IDs) in basket
-   * @param {[string]} ipIds elements IP IDs, to either include (if there is no request) or exclude (when specifying request)
-   * @param {string} selectAllOpenSearchRequest open search request that provides all elements to include, or null / undefined if
-   * elements to include are in the IP IDs list
+   * Returns action to add entities ID or Open search request results (excluding entities IDs) in basket
+   * @param {[string]} entityIdsToInclude ids of entities to include in requests results
+   * @param {[string]} entityIdsToExclude ids of entities to exclude in requests results
+   * @param {string} restrictionRequest The restriction open search request. When provided, it will be first computed,
+   * then excluded IDs will be removed and included ones added to request results. When not provided, it will behave
+   * like it returned no result (entityIdsToInclude should then be provided)
+   * @param {string} datasetUrn dataset ID to specify search on a specific dataset
    * @return {type:string, ...} redux action (redux API middleware compatible) to add elements or request to the basket
    */
-  addToBasket(ipIds = [], selectAllOpenSearchRequest = null) {
-    return this.selectionDelegate.sendSignal(RequestVerbEnum.POST, { ipIds, selectAllOpenSearchRequest })
+  addToBasket(entityIdsToInclude = null, entityIdsToExclude = null, restrictionRequest = null, datasetUrn = null) {
+    return this.selectionDelegate.sendSignal(RequestVerbEnum.POST, {
+      // set engine type
+      engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
+      datasetUrn,
+      entityIdsToInclude,
+      entityIdsToExclude,
+      // add search query (q is a queries list) when it is defined, do not provide it otherwise
+      searchParameters: restrictionRequest ? { q: [restrictionRequest] } : {},
+    })
   }
 
   /**
@@ -110,7 +122,7 @@ class OrderBasketActions {
   removeItemsSelectionFromBasket(datasetSelectionId, itemsSelectionDate) {
     return this.datasetItemDelegate.sendSignal(RequestVerbEnum.DELETE, null, {
       datasetSelectionId,
-      itemsSelectionDate: encodeURIComponent(itemsSelectionDate),
+      itemsSelectionDate,
     })
   }
 

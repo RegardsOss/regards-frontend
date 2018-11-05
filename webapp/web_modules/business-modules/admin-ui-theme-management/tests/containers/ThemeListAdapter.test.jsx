@@ -21,10 +21,9 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ThemeListContainer from '../../src/containers/ThemeListContainer'
 import { ThemeListAdapter } from '../../src/containers/ThemeListAdapter'
-import styles from '../../src/styles/styles'
 
 
-const context = buildTestContext(styles)
+const context = buildTestContext()
 
 /**
 * Test ThemeListAdapter
@@ -39,7 +38,6 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeListAdapter', () => {
     assert.isDefined(ThemeListAdapter)
   })
   it('should render correctly', () => {
-    const fetchThemeInstanceList = () => { }
     const props = {
       // from router
       params: {
@@ -52,7 +50,7 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeListAdapter', () => {
 
       // Set by mapDispatchToProps
       fetchThemeList: () => { },
-      fetchThemeInstanceList,
+      fetchThemeInstanceList: () => { },
       deleteTheme: () => { },
       deleteInstanceTheme: () => { },
     }
@@ -60,6 +58,6 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeListAdapter', () => {
     const listContainerWrapper = enzymeWrapper.find(ThemeListContainer)
     assert.lengthOf(listContainerWrapper, 1, 'Should find the list container')
 
-    assert.deepEqual(listContainerWrapper.prop('fetchThemeList'), fetchThemeInstanceList)
+    assert.deepEqual(listContainerWrapper.prop('fetchThemeList'), props.fetchThemeInstanceList)
   })
 })

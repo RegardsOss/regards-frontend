@@ -223,4 +223,3 @@ export default class AuthenticationStatesContainer extends React.Component {
     }
   }
 }
-

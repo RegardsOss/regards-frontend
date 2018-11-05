@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { COLLECTION, COLLECTION_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import has from 'lodash/has'
 import isString from 'lodash/isString'
@@ -37,8 +37,8 @@ export default class CollectionActions extends BasicPageableActions {
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/collections`,
       entityPathVariable: 'collection_id',
       schemaTypes: {
-        ENTITY: Schemas.COLLECTION,
-        ENTITY_ARRAY: Schemas.COLLECTION_ARRAY,
+        ENTITY: COLLECTION,
+        ENTITY_ARRAY: COLLECTION_ARRAY,
       },
     })
   }
@@ -46,36 +46,34 @@ export default class CollectionActions extends BasicPageableActions {
   /**
    * Serialize the geometry attribute before create / update collection
    * @param objectValues
-   * @param files
    * @param pathParams
    * @param queryParams
    */
-  createEntityUsingMultiPart(objectValues, files, pathParams, queryParams) {
+  createEntity(objectValues, pathParams, queryParams) {
     const objectValuesWithGeometryAsJson = {
       ...objectValues,
     }
-    if (has(objectValues, 'collection.geometry')) {
-      objectValuesWithGeometryAsJson.collection.geometry = CollectionActions.transformStringToJSon(objectValues.collection.geometry)
+    if (has(objectValues, 'feature.geometry')) {
+      objectValuesWithGeometryAsJson.feature.geometry = CollectionActions.transformStringToJSon(objectValues.feature.geometry)
     }
-    return super.createEntityUsingMultiPart(objectValuesWithGeometryAsJson, files, pathParams, queryParams)
+    return super.createEntity(objectValuesWithGeometryAsJson, pathParams, queryParams)
   }
 
   /**
    * Serialize the geometry attribute before create / update collection
    * @param keyValue
    * @param objectValues
-   * @param files
    * @param pathParams
    * @param queryParams
    */
-  updateEntityUsingMultiPart(keyValue, objectValues, files, pathParams, queryParams) {
+  updateEntity(keyValue, objectValues, pathParams, queryParams) {
     const objectValuesWithGeometryAsJson = {
       ...objectValues,
     }
-    if (has(objectValuesWithGeometryAsJson, 'collection.geometry')) {
-      objectValuesWithGeometryAsJson.collection.geometry = CollectionActions.transformStringToJSon(objectValues.collection.geometry)
+    if (has(objectValuesWithGeometryAsJson, 'feature.geometry')) {
+      objectValuesWithGeometryAsJson.feature.geometry = CollectionActions.transformStringToJSon(objectValues.feature.geometry)
     }
-    return super.updateEntityUsingMultiPart(keyValue, objectValuesWithGeometryAsJson, files, pathParams, queryParams)
+    return super.updateEntity(keyValue, objectValuesWithGeometryAsJson, pathParams, queryParams)
   }
 
   static transformStringToJSon(valueAsString) {

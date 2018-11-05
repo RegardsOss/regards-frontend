@@ -33,6 +33,7 @@ class ReducerRegistry {
   isRegistered(newReducers) {
     return find(keys(newReducers), (key, idx) => this.reducers[key] !== undefined)
   }
+
   register(newReducers) {
     const reducersToAdd = {}
     forEach(keys(newReducers), (key, idx) => {
@@ -51,9 +52,11 @@ class ReducerRegistry {
       console.warn('No new reducers to initialize')
     }
   }
+
   getReducers() {
     return { ...this.reducers }
   }
+
   setChangeListener(listener) {
     if (this.emitChange != null) {
       throw new Error('Can only set the listener for a ReducerRegistry once.')

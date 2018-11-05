@@ -18,8 +18,9 @@
  **/
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
-import has from 'lodash/has'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
 import { themeContextType } from '@regardsoss/theme'
@@ -27,7 +28,9 @@ import { connect } from '@regardsoss/redux'
 import { CardActionsComponent, FormErrorMessage } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
-import { RenderTextField, Field, ErrorTypes, reduxForm, validUrl } from '@regardsoss/form-utils'
+import {
+  RenderTextField, Field, ErrorTypes, reduxForm,
+} from '@regardsoss/form-utils'
 import { formValueSelector } from 'redux-form'
 import { PluginLoader } from '@regardsoss/plugins'
 import PluginDefinitionComponent from './PluginDefinitionComponent'
@@ -36,7 +39,7 @@ import PluginDefinitionComponent from './PluginDefinitionComponent'
  * React component to display and configure a given layout
  * @author Sébastien Binda
  */
-class pluginFormComponent extends React.Component {
+class PluginFormComponent extends React.Component {
   static propTypes = {
     plugin: AccessShapes.UIPluginDefinition,
     onSubmit: PropTypes.func.isRequired,
@@ -57,36 +60,56 @@ class pluginFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      path: null,
-      creation: isNil(this.props.plugin),
-      plugin: this.props.plugin ? this.props.plugin : {},
+  /**
+   * Validates the plugin path field
+   * @param {*} path current path
+   * @return {string} error i18, key if any error, undefined otherwise
+   */
+  static validatePluginField(path) {
+    if (!path) {
+      return ErrorTypes.REQUIRED
     }
+    if (!path.endsWith('.js')) {
+      return 'plugin.form.invalid.source.path'
+    }
+    return undefined // no error
   }
 
+  /**
+   * React lifecycle method componentWillMount. Used here to initialize form state and values
+   */
+  componentWillMount() {
+    const { plugin, initialize } = this.props
+    // initialize state
+    this.setState({
+      path: get(plugin, 'content.pluginPath', null),
+      creation: isNil(plugin),
+    })
+    // initialize form values
+    initialize(get(plugin, 'content', {}))
+  }
+
+  /**
+   * React lifecycle method componentDidMount. Used here to load icons and plugin when in edition mode
+   */
   componentDidMount() {
-    this.handleInitialize()
-    if (has(this.props.plugin, 'content.sourcePath')) {
-      this.searchPlugin(this.props.plugin.content.sourcePath)
+    const { plugin } = this.props
+    if (plugin) {
+      this.searchPlugin(get(plugin, 'content.sourcePath'))
+      this.loadIcon(get(plugin, 'content.iconUrl'))
     }
-    this.loadIcon(get(this.props.plugin, 'content.iconUrl', null))
   }
 
-  handleInitialize = () => {
-    this.props.initialize({ ...this.state.plugin.content })
-  }
-
-  searchPlugin = (path) => {
-    if (this.props.pathField && this.props.pathField !== '') {
+  /**
+   * Method to start loading a plugin through entered path
+   * @param {string} pluginPath plugin path, to use while the corresponding field is not set
+   */
+  searchPlugin = (pluginPath) => {
+    const { pathField } = this.props
+    const pathToLoad = pathField || pluginPath // initially, pluginPath field is not set
+    if (pathToLoad) {
       this.setState({
-        path: this.props.pathField,
-        pluginIsValid: false,
-      })
-    } else if (path) {
-      this.setState({
-        path,
+        path: pathToLoad,
         pluginIsValid: false,
       })
     }
@@ -97,57 +120,54 @@ class pluginFormComponent extends React.Component {
    * @param plugin loaded plugin
    */
   handlePluginValid = (plugin) => {
-    // Fix static plugin definition values from the plugin info
-    this.props.change('name', plugin.info.name)
-    this.props.change('type', plugin.info.type)
+    if (plugin && plugin.info) {
+      // Fix static plugin definition values from the plugin info
+      this.props.change('name', plugin.info.name)
+      this.props.change('type', plugin.info.type)
 
-    if (plugin.info.conf && plugin.info.conf.applicationModes) {
-      this.props.change('applicationModes', plugin.info.conf.applicationModes)
+      if (plugin.info.conf && plugin.info.conf.applicationModes) {
+        this.props.change('applicationModes', plugin.info.conf.applicationModes)
+      }
+      if (plugin.info.conf && plugin.info.conf.entityTypes) {
+        this.props.change('entityTypes', plugin.info.conf.entityTypes)
+      }
+      this.setState({
+        pluginIsValid: true,
+      })
     }
-    if (plugin.info.conf && plugin.info.conf.entityTypes) {
-      this.props.change('entityTypes', plugin.info.conf.entityTypes)
-    }
-    this.setState({
-      pluginIsValid: true,
-    })
   }
 
   /**
-   * Callback: Plugin could not be loaded
+   * Loads icon by its path in form values
+   * @param {string} iconPath icon path, to use while the corresponding field is not set
    */
-  handlePluginInvalid = () => {
-    // FIXME-V3 this is not called because scriptJS does not provide the unknwon URL error callback
-    this.setState({
-      pluginIsValid: false,
-    })
-  }
-
-  loadIcon = (path) => {
+  loadIcon = (iconPath) => {
     const { iconField } = this.props
-    if (iconField) {
+    const pathToLoad = iconField || iconPath // initially, iconField path is not set
+    if (pathToLoad) {
       this.setState({
-        loadedIcon: iconField,
-      })
-    } else if (path) {
-      this.setState({
-        loadedIcon: path,
+        loadedIcon: pathToLoad,
       })
     }
   }
 
+  /**
+   * Renders the plugin if available
+   */
   renderPlugin = () => {
-    if (this.state.path) {
+    const { path } = this.state
+    if (path) { // when plugin is not yet loaded or invalid, let plugin loader show it
       return (
         <Card>
           <CardText>
             <PluginLoader
-              pluginInstanceId={this.state.path}
-              pluginPath={this.state.path}
+              pluginInstanceId={path}
+              pluginPath={path}
               displayPlugin={false}
-              onErrorCallback={this.handlePluginInvalid}
+              checkPluginExistence
             >
               <PluginDefinitionComponent
-                key={this.state.path}
+                key={path}
                 handlePluginValid={this.handlePluginValid}
               />
             </PluginLoader>
@@ -155,6 +175,7 @@ class pluginFormComponent extends React.Component {
         </Card>
       )
     }
+    // plugin loading failed
     return null
   }
 
@@ -175,7 +196,7 @@ class pluginFormComponent extends React.Component {
     const { loadedIcon } = this.state
     if (loadedIcon) {
       return <img src={loadedIcon} alt="" width="75" height="75" />
-    } else if (get(plugin, 'content.iconUrl', null)) {
+    } if (get(plugin, 'content.iconUrl', null)) {
       return <img src={plugin.content.iconUrl} alt="" width="75" height="75" />
     }
     return null
@@ -187,7 +208,7 @@ class pluginFormComponent extends React.Component {
     if (this.state.creation) {
       title = this.context.intl.formatMessage({ id: 'plugin.form.title.create' })
     } else {
-      title = this.context.intl.formatMessage({ id: 'plugin.form.title.update' }, { name: this.state.plugin.content.name })
+      title = this.context.intl.formatMessage({ id: 'plugin.form.title.update' }, { name: this.props.plugin.content.name })
     }
 
     return (
@@ -219,12 +240,12 @@ class pluginFormComponent extends React.Component {
                   fullWidth
                   type="text"
                   label={this.context.intl.formatMessage({ id: 'plugin.form.sourcesPath' })}
-                  validate={validUrl}
+                  validate={PluginFormComponent.validatePluginField}
                 />
                 <IconButton
                   tooltip="Search plugin"
                   onClick={this.searchPlugin}
-                  disabled={!this.props.pathField || this.props.pathField === ''}
+                  disabled={!!PluginFormComponent.validatePluginField(this.props.pathField)} // disabled when there are error
                 >
                   <SearchIcon />
                 </IconButton>
@@ -271,32 +292,15 @@ class pluginFormComponent extends React.Component {
   }
 }
 
-const validate = (values) => {
-  const errors = {}
-  if (values.name === '') {
-    errors.name = ErrorTypes.REQUIRED
-  }
-  if (values.type === '') {
-    errors.type = ErrorTypes.REQUIRED
-  }
-  if (values.sourcePath === '') {
-    errors.sourcePath = ErrorTypes.REQUIRED
-  } else if (values.sourcePath && !values.sourcePath.endsWith('.js')) {
-    errors.sourcePath = ErrorTypes.INVALID_URL
-  }
-  return errors
-}
-
-const UnconnectedPluginFormComponent = pluginFormComponent
+const UnconnectedPluginFormComponent = PluginFormComponent
 export { UnconnectedPluginFormComponent }
 const selector = formValueSelector('edit-plugin-form')
 const mapStateToProps = state => ({
   pathField: selector(state, 'sourcePath'),
   iconField: selector(state, 'iconUrl'),
 })
-const ConnectedComponent = connect(mapStateToProps)(pluginFormComponent)
+const ConnectedComponent = connect(mapStateToProps)(PluginFormComponent)
 
 export default reduxForm({
   form: 'edit-plugin-form',
-  validate,
 })(ConnectedComponent)

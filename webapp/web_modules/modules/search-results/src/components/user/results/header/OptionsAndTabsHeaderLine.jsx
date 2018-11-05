@@ -29,9 +29,9 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 import {
-  ShowableAtRender, TableColumnConfiguration, TableHeaderLine,
-  TableHeaderOptionsArea, TableHeaderOptionGroup, TableColumnsVisibilityOption,
+  ShowableAtRender, TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
 } from '@regardsoss/components'
+import { ColumnPresentationModelArray } from '../../../../models/table/TableColumnModel'
 import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../../models/navigation/TableDisplayModeEnum'
 import TableSelectAllContainer from '../../../../containers/user/results/options/TableSelectAllContainer'
 import ListSortingContainer from '../../../../containers/user/results/options/ListSortingContainer'
@@ -39,6 +39,7 @@ import SelectionServiceComponent from '../options/SelectionServiceComponent'
 import AddSelectionToCartComponent from '../options/AddSelectionToCartComponent'
 import ResultFilterOnlyQuicklookComponent from '../options/ResultFilterOnlyQuicklookComponent'
 import { DISPLAY_MODE_VALUES, DISPLAY_MODE_ENUM } from '../../../../definitions/DisplayModeEnum'
+import EditColumnsSettingsComponent from '../options/EditColumnsSettingsComponent'
 
 /**
 * Options and tabs header line for search results table
@@ -47,12 +48,11 @@ import { DISPLAY_MODE_VALUES, DISPLAY_MODE_ENUM } from '../../../../definitions/
 class OptionsAndTabsHeaderLine extends React.Component {
   static propTypes = {
     // state
-    attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired,
+    presentationModels: ColumnPresentationModelArray.isRequired,
     displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES).isRequired,
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
     tableViewMode: PropTypes.oneOf(TableDisplayModeValues), // current mode
     searchSelectors: PropTypes.instanceOf(BasicFacetsPageableSelectors).isRequired,
-    tableColumns: PropTypes.arrayOf(TableColumnConfiguration).isRequired,
 
     // facet state
     displayFacettesButton: PropTypes.bool.isRequired,
@@ -71,7 +71,8 @@ class OptionsAndTabsHeaderLine extends React.Component {
 
     // callbacks
     onAddSelectionToCart: PropTypes.func, // optional, not available when null or undefined
-    onChangeColumnsVisibility: PropTypes.func.isRequired,
+    onConfigureColumns: PropTypes.func.isRequired,
+    onResetColumns: PropTypes.func.isRequired,
     onShowDataobjects: PropTypes.func.isRequired,
     onShowDatasets: PropTypes.func.isRequired,
     onShowQuicklookView: PropTypes.func.isRequired,
@@ -109,11 +110,11 @@ class OptionsAndTabsHeaderLine extends React.Component {
   render() {
     const { intl: { formatMessage }, moduleTheme: { user: { viewModeButton } } } = this.context
     const {
-      attributePresentationModels, displayMode, searchSelectors, tableColumns,
-      displayFacettesButton, showingFacettes, enableQuicklooks, selectionServices, onAddSelectionToCart,
-      onChangeColumnsVisibility, onShowListView, onShowTableView, onShowDatasets, onShowQuicklookView, displayOnlyQuicklook,
-      onShowDataobjects, onSortByAttribute, onStartSelectionService, onToggleShowFacettes, onToggleDisplayOnlyQuicklook,
-      datasetsSectionLabel, dataSectionLabel,
+      presentationModels, displayMode, searchSelectors, displayFacettesButton, showingFacettes,
+      enableQuicklooks, selectionServices, onAddSelectionToCart, onConfigureColumns, onResetColumns,
+      onShowListView, onShowTableView, onShowDatasets, onShowQuicklookView, displayOnlyQuicklook,
+      onShowDataobjects, onSortByAttribute, onStartSelectionService, onToggleShowFacettes,
+      onToggleDisplayOnlyQuicklook, datasetsSectionLabel, dataSectionLabel,
     } = this.props
 
     return (
@@ -165,7 +166,10 @@ class OptionsAndTabsHeaderLine extends React.Component {
           </TableHeaderOptionGroup>
           {/* 1.b.3 List or quicklook option - select all and sort options */}
           <TableHeaderOptionGroup show={!this.isInTableView() && this.isDisplayingDataobjects()}>
-            <ListSortingContainer onSortByAttribute={onSortByAttribute} attributePresentationModels={attributePresentationModels} />
+            <ListSortingContainer
+              onSortByAttribute={onSortByAttribute}
+              presentationModels={presentationModels}
+            />
             <ShowableAtRender show={this.isInListView()}>
               <TableSelectAllContainer pageSelectors={searchSelectors} />
             </ShowableAtRender>
@@ -176,11 +180,12 @@ class OptionsAndTabsHeaderLine extends React.Component {
               />
             </ShowableAtRender>
           </TableHeaderOptionGroup>
-          {/* 1.b.4 - Show / hide table columns */}
+          {/* 1.b.4 - Configure table columns */}
           <TableHeaderOptionGroup show={this.isInTableView()}>
-            <TableColumnsVisibilityOption
-              columns={tableColumns}
-              onChangeColumnsVisibility={onChangeColumnsVisibility}
+            <EditColumnsSettingsComponent
+              onConfigureColumns={onConfigureColumns}
+              onResetColumns={onResetColumns}
+              presentationModels={presentationModels}
             />
           </TableHeaderOptionGroup>
           {/* 1.b.5 - Switch view mode (list / table)*/}

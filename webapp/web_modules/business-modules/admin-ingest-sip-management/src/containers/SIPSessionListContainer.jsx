@@ -22,6 +22,7 @@ import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import SIPSessionListComponent from '../components/monitoring/session/SIPSessionListComponent'
 import { sessionActions, sessionSelectors } from '../clients/SessionClient'
+import { sipSignalActions } from '../clients/SIPSignalClient'
 
 /**
 * Displays the selection of session in order to list SIPs
@@ -45,12 +46,13 @@ export class SIPSessionListContainer extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps = dispatch => ({
     deleteSession: session => dispatch(sessionActions.deleteEntity(session.id)),
-    fetchPage: (pageIndex, pageSize, queryParams) =>
-      dispatch(sessionActions.fetchPagedEntityList(pageIndex, pageSize, {}, queryParams)),
+    retrySessionSubmission: session => dispatch(sipSignalActions.retrySessionSubmission(session.id)),
+    retrySessionGeneration: session => dispatch(sipSignalActions.retrySessionGeneration(session.id)),
+    fetchPage: (pageIndex, pageSize, queryParams) => dispatch(sessionActions.fetchPagedEntityList(pageIndex, pageSize, {}, queryParams)),
   })
 
   static propTypes = {
@@ -65,6 +67,8 @@ export class SIPSessionListContainer extends React.Component {
     }),
     entitiesLoading: PropTypes.bool.isRequired,
     deleteSession: PropTypes.func.isRequired,
+    retrySessionSubmission: PropTypes.func.isRequired,
+    retrySessionGeneration: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
   }
 
@@ -98,7 +102,8 @@ export class SIPSessionListContainer extends React.Component {
 
   handleOpen = (session, isError = false) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/sip/${session}/list${isError ? '?state=STORE_ERROR,AIP_GEN_ERROR' : ''}`
+    const encodedSessionName = encodeURIComponent(session)
+    const url = `/admin/${project}/data/acquisition/sip/${encodedSessionName}/list${isError ? '?state=STORE_ERROR,AIP_GEN_ERROR' : ''}`
     browserHistory.push(url)
   }
 
@@ -108,6 +113,22 @@ export class SIPSessionListContainer extends React.Component {
       this.setState({ initialFilters: query })
     }
   }
+
+  onRetrySessionSubmission = (session, filters) => (
+    Promise.resolve(this.props.retrySessionSubmission(session)).then((results) => {
+      if (!results.error) {
+        this.onRefresh(filters)
+      }
+    })
+  )
+
+  onRetrySessionGeneration = (session, filters) => (
+    Promise.resolve(this.props.retrySessionGeneration(session)).then((results) => {
+      if (!results.error) {
+        this.onRefresh(filters)
+      }
+    })
+  )
 
   render() {
     const {
@@ -123,6 +144,8 @@ export class SIPSessionListContainer extends React.Component {
         onRefresh={this.onRefresh}
         entitiesLoading={entitiesLoading}
         deleteSession={deleteSession}
+        retrySessionSubmission={this.onRetrySessionSubmission}
+        retrySessionGeneration={this.onRetrySessionGeneration}
         fetchPage={fetchPage}
         initialFilters={initialFilters}
       />

@@ -32,6 +32,8 @@ class ListSortingComponent extends React.Component {
   static propTypes = {
     // model currently used for sorting, null / undefined if none
     sortingModel: AccessShapes.AttributePresentationModel,
+    // default sorting model, if any, null /undefined if none
+    defaultSortingModel: AccessShapes.AttributePresentationModel,
     // all models available
     sortableModels: AccessShapes.AttributePresentationModelArray.isRequired,
     onSortBy: PropTypes.func.isRequired,
@@ -48,35 +50,45 @@ class ListSortingComponent extends React.Component {
    * @return {string} label to use for button
    */
   getLabel = (model) => {
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage, locale } } = this.context
     const prefix = formatMessage({ id: 'list.sort.prefix.label' })
-    return `${prefix} ${model ? model.label : formatMessage({ id: 'list.sort.none.label' })}`
+    return `${prefix} ${model ? model.label[locale] : formatMessage({ id: 'list.sort.none.label' })}`
   }
 
   render() {
-    const { intl: { formatMessage } } = this.context
-    const { sortingModel, sortableModels, onSortBy } = this.props
+    const { intl: { formatMessage, locale } } = this.context
+    const {
+      sortingModel, defaultSortingModel, sortableModels, onSortBy,
+    } = this.props
     return (
       <DropDownButton
         onChange={onSortBy}
         getLabel={this.getLabel}
-        value={sortingModel || null}
+        // value is the selected sorting model, or the default on (if any) or NULL
+        value={sortingModel || defaultSortingModel || null}
       >
-        {/* No sort item */}
-        <MenuItem
-          key="no.sort"
-          checked={!sortingModel}
-          primaryText={formatMessage({ id: 'list.sort.none.label' })}
-          insetChildren
-          value={null}
-        />
+        {/* No sort item, when there is no default sorting model*/
+          defaultSortingModel ? null : (
+            <MenuItem
+              key="no.sort"
+              checked={!sortingModel}
+              primaryText={formatMessage({ id: 'list.sort.none.label' })}
+              insetChildren
+              value={null}
+            />)
+        }
         { /* Map all available items for sorting */
           sortableModels.map((model, key) => (
             <MenuItem
               key={model.key}
-              checked={sortingModel && sortingModel.key === model.key}
+              checked={
+                // check if it is the current sorting model, selected by user
+                (sortingModel && sortingModel.key === model.key)
+                // OR if it is the default and there is no user sorting
+                || (!sortingModel && defaultSortingModel && defaultSortingModel.key === model.key)
+              }
               value={model}
-              primaryText={model.label}
+              primaryText={model.label[locale]}
               insetChildren
             />))
         }

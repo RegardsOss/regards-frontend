@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicListReducers } from '@regardsoss/store-utils'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { NotificationConfiguration } from '@regardsoss/api'
 import NotificationActions from './NotificationActions'
 
@@ -29,7 +29,7 @@ import NotificationActions from './NotificationActions'
  *
  * @author Maxime Bouveron
  */
-class NotificationReducer extends BasicListReducers {
+class NotificationReducer extends BasicPageableReducers {
   constructor(namespace, instance) {
     super(NotificationConfiguration, new NotificationActions(namespace, instance))
   }

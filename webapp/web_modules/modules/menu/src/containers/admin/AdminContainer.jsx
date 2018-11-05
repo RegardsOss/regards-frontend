@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { UIDomain } from '@regardsoss/domain'
-import { AccessShapes } from '@regardsoss/shape'
+import isEmpty from 'lodash/isEmpty'
+import { AccessShapes, AdminShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
-import { i18nSelectors } from '@regardsoss/i18n'
 import { adminModuleActions, adminModuleSelectors } from '../../clients/ModulesListClient'
 import { adminLayoutActions, adminLayoutSelectors } from '../../clients/LayoutListClient'
+import { roleActions, roleSelectors } from '../../clients/RoleClient'
 import DynamicModulesProviderContainer from '../common/DynamicModulesProviderContainer'
 import ModuleFormComponent from '../../components/admin/ModuleFormComponent'
 
@@ -38,7 +38,7 @@ export class AdminContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
-      locale: i18nSelectors.getLocale(state),
+      roleList: roleSelectors.getList(state),
     }
   }
 
@@ -46,22 +46,22 @@ export class AdminContainer extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps(dispatch, { appName }) {
     const userAppId = 'user'
     return {
       fetchLayout: () => dispatch(adminLayoutActions.fetchEntity(userAppId)),
       fetchModules: () => dispatch(adminModuleActions.fetchPagedEntityList(0, null, { applicationId: userAppId }, { sort: 'id,ASC' })),
+      fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
     }
   }
 
   static propTypes = {
     project: PropTypes.string,
+    roleList: AdminShapes.RoleList,
     // default module properties
     ...AccessShapes.runtimeConfigurationModuleFields,
-    // from map state to props
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // from map dispatch to props
     fetchLayout: PropTypes.func.isRequired,
     fetchModules: PropTypes.func.isRequired,
@@ -71,16 +71,22 @@ export class AdminContainer extends React.Component {
    * Lifecycle method component did mount. Used here to fetch layout and modules data (not fetched in common redux store by admin application)
    */
   componentDidMount = () => {
+    const { fetchLayout, fetchModules, fetchRoleList } = this.props
     // fetch initial data as admin app doesn't fetch the layout and modules data in common store parts
-    const { fetchLayout, fetchModules } = this.props
     fetchLayout()
     fetchModules()
+    // fetch role list for form edition
+    fetchRoleList()
   }
 
   render() {
     const {
-      appName, project, adminForm, locale,
+      appName, project, adminForm, roleList,
     } = this.props
+    if (isEmpty(roleList)) {
+      // prevent displayed before roles were fetched
+      return null
+    }
     return (
       <DynamicModulesProviderContainer
         moduleSelectors={adminModuleSelectors}
@@ -91,7 +97,7 @@ export class AdminContainer extends React.Component {
           appName={appName}
           project={project}
           adminForm={adminForm}
-          locale={locale}
+          roleList={roleList}
         />
       </DynamicModulesProviderContainer>)
   }
@@ -100,4 +106,3 @@ export class AdminContainer extends React.Component {
 export default connect(
   AdminContainer.mapStateToProps,
   AdminContainer.mapDispatchToProps)(AdminContainer)
-

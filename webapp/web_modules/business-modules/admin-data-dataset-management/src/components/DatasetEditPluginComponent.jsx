@@ -20,7 +20,9 @@ import map from 'lodash/map'
 import filter from 'lodash/filter'
 import cloneDeep from 'lodash/cloneDeep'
 import some from 'lodash/some'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { CatalogShapes, CommonShapes } from '@regardsoss/shape'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
@@ -66,11 +68,11 @@ export class DatasetEditPluginComponent extends React.Component {
     const currentLinkPluginDataset = {
       content: {
         ...previousContent,
-        services: isInputChecked ?
+        services: isInputChecked
           // add service
-          [...previousContent.services, pluginConfiguration.content] :
+          ? [...previousContent.services, pluginConfiguration.content]
           // remove service
-          previousContent.services.filter(service => service.id !== pluginConfiguration.content.id),
+          : previousContent.services.filter(service => service.id !== pluginConfiguration.content.id),
       },
     }
     this.setState({ currentLinkPluginDataset })
@@ -87,8 +89,7 @@ export class DatasetEditPluginComponent extends React.Component {
   }
 
   renderItemMetaData = (pluginMetaData, pluginConfigurationList) => {
-    const pluginConfigurationAssociated = filter(pluginConfigurationList, pluginConfiguration =>
-      pluginConfiguration.content.pluginClassName === pluginMetaData.content.pluginClassName)
+    const pluginConfigurationAssociated = filter(pluginConfigurationList, pluginConfiguration => pluginConfiguration.content.pluginClassName === pluginMetaData.content.pluginClassName)
     return (
       <ShowableAtRender
         show={pluginConfigurationAssociated.length > 0}
@@ -137,7 +138,7 @@ export class DatasetEditPluginComponent extends React.Component {
           subtitle={this.context.intl.formatHTMLMessage({ id: 'dataset.form.plugin.subtitle' })}
         />
         <DatasetStepperContainer
-          stepIndex={3}
+          stepIndex={4}
           currentDatasetIpId={this.props.currentDatasetIpId}
           currentDatasetId={this.props.currentDatasetId}
           isEditing
@@ -169,4 +170,3 @@ export class DatasetEditPluginComponent extends React.Component {
 }
 
 export default DatasetEditPluginComponent
-

@@ -115,8 +115,7 @@ export class DatasetListContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({})
 
 const mapDispatchToProps = dispatch => ({
-  fetchDatasetList: (pageIndex, pageSize, requestParams, queryParams) =>
-    dispatch(datasetActions.fetchPagedEntityList(pageIndex, pageSize, requestParams, queryParams)),
+  fetchDatasetList: (pageIndex, pageSize, requestParams, queryParams) => dispatch(datasetActions.fetchPagedEntityList(pageIndex, pageSize, requestParams, queryParams)),
   deleteDataset: id => dispatch(datasetActions.deleteEntity(id)),
 })
 

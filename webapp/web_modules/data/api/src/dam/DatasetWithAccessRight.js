@@ -20,20 +20,13 @@
 
 import { Schema, arrayOf } from 'normalizr'
 
-const DatasetWithAccessRightConfiguration = {
+export const DatasetWithAccessRightConfiguration = {
   entityKey: 'datasetIpId',
   normalizrKey: 'dataset-with-accessright',
 }
 
-const datasetWithAccessRight = new Schema(DatasetWithAccessRightConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[DatasetWithAccessRightConfiguration.entityKey]
+export const DATASET_WITH_ACCESS_RIGHT = new Schema(DatasetWithAccessRightConfiguration.normalizrKey, {
+  idAttribute: entity => entity.content[DatasetWithAccessRightConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  DATASET_WITH_ACCESS_RIGHT: datasetWithAccessRight,
-  DATASET_WITH_ACCESS_RIGHT_ARRAY: arrayOf(datasetWithAccessRight),
-  DatasetWithAccessRightConfiguration,
-}
+export const DATASET_WITH_ACCESS_RIGHT_ARRAY = arrayOf(DATASET_WITH_ACCESS_RIGHT)

@@ -25,7 +25,7 @@ import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfigurat
  */
 
 /** A dated selection item shape */
-const AcquisitionFileInfoContent = PropTypes.shape({
+export const AcquisitionFileInfoContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   mandatory: PropTypes.bool.isRequired,
   scanPlugin: PluginConfigurationContent.isRequired,
@@ -35,15 +35,8 @@ const AcquisitionFileInfoContent = PropTypes.shape({
   comment: PropTypes.string,
 })
 
-const AcquisitionFileInfo = PropTypes.shape({
+export const AcquisitionFileInfo = PropTypes.shape({
   content: AcquisitionFileInfoContent,
 })
-const AcquisitionFileInfoList = PropTypes.objectOf(AcquisitionFileInfo)
-const AcquisitionFileInfoArray = PropTypes.arrayOf(AcquisitionFileInfo)
-
-module.exports = {
-  AcquisitionFileInfoList,
-  AcquisitionFileInfoArray,
-  AcquisitionFileInfoContent,
-  AcquisitionFileInfo,
-}
+export const AcquisitionFileInfoList = PropTypes.objectOf(AcquisitionFileInfo)
+export const AcquisitionFileInfoArray = PropTypes.arrayOf(AcquisitionFileInfo)

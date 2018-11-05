@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
 import { Breadcrumb, ModuleTitleText, ModuleIcon } from '@regardsoss/components'
 import { Tag } from '../../../models/navigation/Tag'
 
@@ -32,7 +32,6 @@ class NavigationComponent extends React.Component {
   static ROOT_PLACEHOLDER = {}
 
   static propTypes = {
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // module description
     description: PropTypes.string,
     // module page definition
@@ -45,13 +44,18 @@ class NavigationComponent extends React.Component {
     onLevelSelected: PropTypes.func.isRequired, // on level selected in breadcrumb: (level, index) => void
   }
 
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
   /**
    * @param {*} levelTag level tag (or null) repects Tag shape
    * @param {number} index level
    * @return {string} level label
    **/
   getLevelLabel = (levelTag, index) => {
-    const { locale, description, page } = this.props
+    const { description, page } = this.props
+    const { intl: { locale } } = this.context
     if (index === 0) {
       // Root element (we don't care here if it is a root placeholder or an initial context tag)
       // Select title in the same way than any other module, fallback on level tag if description / page undefined

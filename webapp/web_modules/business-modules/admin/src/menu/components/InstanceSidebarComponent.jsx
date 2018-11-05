@@ -69,7 +69,7 @@ class InstanceSidebarComponent extends React.Component {
         />
         <SidebarElement
           key="1"
-          to="/admin/account/list"
+          to="/admin/accounts/board"
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.accounts' })}
           leftIcon={<SupervisorAccount />}

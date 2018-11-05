@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const StorageMonitoringContent = PropTypes.shape({
+export const StorageMonitoringContent = PropTypes.shape({
   confId: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
@@ -24,16 +24,9 @@ const StorageMonitoringContent = PropTypes.shape({
   usedSize: PropTypes.string,
 }).isRequired
 
-const StorageMonitoring = PropTypes.shape({
+export const StorageMonitoring = PropTypes.shape({
   content: StorageMonitoringContent,
 })
 
-const StorageMonitoringList = PropTypes.objectOf(StorageMonitoring)
-const StorageMonitoringArray = PropTypes.arrayOf(StorageMonitoring)
-
-module.exports = {
-  StorageMonitoring,
-  StorageMonitoringContent,
-  StorageMonitoringList,
-  StorageMonitoringArray,
-}
+export const StorageMonitoringList = PropTypes.objectOf(StorageMonitoring)
+export const StorageMonitoringArray = PropTypes.arrayOf(StorageMonitoring)

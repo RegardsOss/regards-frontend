@@ -27,27 +27,27 @@ import { RuntimeTargetTypes } from '@regardsoss/domain/access'
 
 /**
  * Builds a "one element" target
- * @param {*} ipId entity IP ID
+ * @param {*} id entity ID (URN)
  * @return One element target
  */
-function buildOneElementTarget(ipId) {
+export function buildOneElementTarget(id) {
   return {
     type: RuntimeTargetTypes.ONE,
-    entity: ipId,
+    entity: id,
     entitiesCount: 1,
   }
 }
 
 /**
  * Builds a "many elements" target
- * @param {*} ipIdArray elements IP ID array
+ * @param {*} ids entities ID (URN) array
  * @return many elements target
  */
-function buildManyElementsTarget(ipIdArray) {
+export function buildManyElementsTarget(ids) {
   return {
     type: RuntimeTargetTypes.MANY,
-    entities: ipIdArray,
-    entitiesCount: ipIdArray.length,
+    entities: ids,
+    entitiesCount: ids.length,
   }
 }
 
@@ -56,22 +56,21 @@ function buildManyElementsTarget(ipIdArray) {
  * @param {*} q open search query
  * @param entityType type of entities to retrieve with query
  * @param entitiesCount query entities count (total, ignore the unselected elements count here)
- * @param ipIdArray manually unselected elements
+ * @param excludedIDs exlcuded entities ID (URN) array
  * @return query target
  */
-function buildQueryTarget(q, entityType, entitiesCount, ipIdArray) {
+export function buildQueryTarget(q, entityType, entitiesCount, excludedIDs) {
   return {
     type: RuntimeTargetTypes.QUERY,
     q,
     entityType,
-    entitiesCount: entitiesCount - ipIdArray.length,
-    excludedIpIds: ipIdArray,
+    entitiesCount: entitiesCount - excludedIDs.length,
+    excludedIDs,
   }
 }
 
-module.exports = {
+export default {
   buildOneElementTarget,
   buildManyElementsTarget,
   buildQueryTarget,
 }
-

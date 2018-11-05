@@ -50,7 +50,7 @@ export class CheckBoxCell extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps(dispatch, { rowIndex, tableActions }) {
     return {
@@ -97,15 +97,15 @@ export class CheckBoxCell extends React.Component {
    */
   isSelectedRow = () => {
     const { rowIndex, selectionMode, toggledElements } = this.props
-    return (selectionMode === TableSelectionModes.includeSelected && !!toggledElements[rowIndex]) ||
-      (selectionMode === TableSelectionModes.excludeSelected && !toggledElements[rowIndex])
+    return (selectionMode === TableSelectionModes.includeSelected && !!toggledElements[rowIndex])
+      || (selectionMode === TableSelectionModes.excludeSelected && !toggledElements[rowIndex])
   }
 
   render() {
     const { intl: { formatMessage }, moduleTheme: { checkButton: { styles, checkedIcon, uncheckedIcon } } } = this.context
-    const [tooltipKey, iconStyle, Icon] = this.isSelectedRow() ?
-      ['table.unselect.row.tooltip', checkedIcon, Checked] :
-      ['table.select.row.tooltip', uncheckedIcon, Unchecked]
+    const [tooltipKey, iconStyle, Icon] = this.isSelectedRow()
+      ? ['table.unselect.row.tooltip', checkedIcon, Checked]
+      : ['table.select.row.tooltip', uncheckedIcon, Unchecked]
 
     return (
       <IconButton
@@ -123,4 +123,3 @@ export default connect(
   CheckBoxCell.mapStateToProps,
   CheckBoxCell.mapDispatchToProps,
 )(CheckBoxCell)
-

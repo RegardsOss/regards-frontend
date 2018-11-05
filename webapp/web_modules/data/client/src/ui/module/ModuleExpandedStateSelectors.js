@@ -25,35 +25,35 @@ import { BasicSelector } from '@regardsoss/store-utils'
  */
 export class ModuleExpandedStateSelectors extends BasicSelector {
   /**
-   * Returns state for given module stype
+   * Returns state for given component stype
    * @param {*} state redux state
    * @param {string} moduleType module type or any identifier for component instance
-   * @return {expandable: boolean, expanded: boolean} current state if any, undefined otherwise
+   * @return {expandable: boolean, state: string} full state for component if any, undefined otherwise
    */
-  getExpandState(state, moduleType) {
+  getFullState(state, moduleType) {
     return this.uncombineStore(state)[moduleType]
   }
 
   /**
-   * Returns expandable state for given module stype
+   * Returns expandable state for given component type
    * @param {*} state redux state
    * @param {string} moduleType module type or any identifier for component instance
    * @return {boolean} is expandable? Undefined when uknown
    */
   isExpandable(state, moduleType) {
-    const moduleState = this.getExpandState(state, moduleType)
+    const moduleState = this.getFullState(state, moduleType)
     return moduleState && moduleState.expandable
   }
 
   /**
-    * Returns expandable state for given module stype
-    * @param {*} state redux state
-    * @param {string} moduleType module type or any identifier for component instance
-    * @return {boolean} is expandable? Undefined when uknown
-    */
-  isExpanded(state, moduleType) {
-    const moduleState = this.getExpandState(state, moduleType)
-    return moduleState && moduleState.expanded
+   * Returns presentation state (subpart of full state) for given component type
+   * @param {*} state redux state
+   * @param {string} moduleType module type or any identifier for component instance
+   * @return {string} component presentation state as an UIDomain.PRESENTATION_STATE_ENUM value, or undefined if unknown
+   */
+  getPresentationState(state, moduleType) {
+    const moduleState = this.getFullState(state, moduleType)
+    return moduleState && moduleState.state
   }
 }
 
@@ -62,6 +62,6 @@ export class ModuleExpandedStateSelectors extends BasicSelector {
  * @param  {[string]} store path: reducer store path (default provided)
  * @return {ModuleExpandedStateSelectors} feedback selectors instance
  */
-export function getModuleExpandedStateSelectors(storePath = ['user', 'modulesPanesStates']) {
+export default function getModuleExpandedStateSelectors(storePath = ['user', 'modulesPanesStates']) {
   return new ModuleExpandedStateSelectors(storePath)
 }

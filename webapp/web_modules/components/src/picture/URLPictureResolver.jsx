@@ -18,6 +18,7 @@
  **/
 import { DownloadFileActions } from '@regardsoss/store-utils'
 import { connect } from '@regardsoss/redux'
+import { contentTypeParser } from '@regardsoss/mime-types'
 import URLPicture from './URLPicture'
 import LoadingPicturePlaceholder from './LoadingPicturePlaceholder'
 
@@ -46,7 +47,7 @@ export class URLPictureResolver extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps(dispatch) {
     return {
@@ -126,18 +127,16 @@ export class URLPictureResolver extends React.Component {
       })
       dispatchDownload(url).then(({ payload, error }) => {
         // 2 - after file was downloaded
+        let resolvedMIMEType = null
         if (!error) {
-          // 2.a - download successful
+          // 2.a - download successful: resolve MIME type and store it in cache
           const blob = payload.content
-          const resolvedMIMEType = blob.type
-          // store resolved picture in cache
-          URLPictureResolver.PICTURES_CACHE[url] = resolvedMIMEType
-          // update state
-          this.setState({ loading: false, resolvedMIMEType, subComponentProperties })
-        } else {
-          // 2.b - just mark not loading
-          this.setState({ loading: false, subComponentProperties })
+          const rawContentType = blob.type
+          const mimeTypeModel = contentTypeParser.getMIMEType(rawContentType)
+          resolvedMIMEType = mimeTypeModel ? mimeTypeModel.mime : null
         }
+        // 2.b - mark not loading, store resolved MIME type if any
+        this.setState({ loading: false, resolvedMIMEType, subComponentProperties })
       })
     }
   }

@@ -44,7 +44,7 @@ class ErrorCardComponent extends React.Component {
         }}
       >
         <Card style={cardStyle}>
-          <CardText >
+          <CardText>
             <div
               style={{
                 display: 'flex',

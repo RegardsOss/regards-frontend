@@ -24,7 +24,7 @@ import { CatalogClient } from '@regardsoss/client'
  * Many entities runtime helper builder: provide helpers for service plugin developers convenience
  * @author Raphaël Mechali
  */
-class ManyEntitiesRuntimeHelpersBuilder {
+export class ManyEntitiesRuntimeHelpersBuilder {
   /** Instance index counter */
   static INSTANCE_INDEX = 0
 
@@ -49,10 +49,10 @@ class ManyEntitiesRuntimeHelpersBuilder {
   /**
    * get fetch action implementation
    * @param {BasicSignalActions} actions actions - partially applied, never seen by user
-   * @param {string} ipId entity IP ID, user provided
+   * @param {string} id entity id (URN)
    * @return {*} [dispatchable action]
    */
-  getFetchAction = (actions, ipId) => actions.getEntity(ipId)
+  getFetchAction = (actions, id) => actions.getEntity(id)
 
   /**
    * Builds 'getReducePromise' method closure
@@ -65,25 +65,20 @@ class ManyEntitiesRuntimeHelpersBuilder {
   /**
    * Returns a promise to apply a reducer on each entity
    * @param {BasicSignalActions} actions actions - partially applied, never seen by user
-   * @param {Array<string>}ipIds entities IP ID array - partially applied, never seen by user
+   * @param {Array<string>}ids entities URN array - partially applied, never seen by user
    * @param {function} dispatchMethod redux dispatch method, strictly required to run fetch
    * @param {*} applier treatment to apply, like (accumulator, entity content, index) => *
    * @param {*} initialValue optional initial value (will be provided as first acculmulator in applier)
    */
-  getReducePromise = (actions, ipIds, dispatchMethod, applier, initialValue) =>
-    Promise.all(ipIds.map(ipId => dispatchMethod(actions.getEntity(ipId))))
-      .then(results => results.reduce((accumulator, { payload, error = false }, index) => {
-        // reduce promise results (will be next then value) or throw error (will enter catch)
-        const entityContent = get(payload, 'content')
-        // 1 - Error while fetching
-        if (error || !entityContent) {
-          throw new Error(`One entity could not be retrieved: ${payload.message || 'unknow error'}`)
-        }
-        // 2 - reduce that entity and jump to next
-        return applier(accumulator, entityContent, index)
-      }, initialValue))
-}
-
-module.exports = {
-  ManyEntitiesRuntimeHelpersBuilder,
+  getReducePromise = (actions, ids, dispatchMethod, applier, initialValue) => Promise.all(ids.map(id => dispatchMethod(actions.getEntity(id))))
+    .then(results => results.reduce((accumulator, { payload, error = false }, index) => {
+      // reduce promise results (will be next then value) or throw error (will enter catch)
+      const entityContent = get(payload, 'content')
+      // 1 - Error while fetching
+      if (error || !entityContent) {
+        throw new Error(`One entity could not be retrieved: ${payload.message || 'unknow error'}`)
+      }
+      // 2 - reduce that entity and jump to next
+      return applier(accumulator, entityContent, index)
+    }, initialValue))
 }

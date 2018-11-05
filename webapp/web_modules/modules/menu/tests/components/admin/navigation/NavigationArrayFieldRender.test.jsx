@@ -31,6 +31,15 @@ import { allDefaultConfigDumpModules, modulesWithNewAndDeleted } from '../../../
 
 const context = buildTestContext(styles)
 
+/** A simple role list dump */
+const roleList = {
+  1: {
+    content: {
+      name: 'ROLE1',
+    },
+  },
+}
+
 /**
  * Asserts that navigation items for dialog are correctly packed: they have title and correspond to initial navigation items
  * @param {*} modelItems initial navigation items
@@ -68,10 +77,10 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
   })
   it('should render correctly, hide the tree while not valid and update when receiving modules list', () => {
     const props = {
-      locale: 'en',
       dynamicModules: [],
       homeConfiguration: anHomeConfiguration,
       navigationItems: aNavigationConfiguration,
+      roleList,
       changeNavigationFieldValue: () => { },
     }
     const wrapper = shallow(<NavigationArrayFieldRender {...props} />, { context })
@@ -87,10 +96,10 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
   it('should resolve correctly the initial model, adding missing modules and removing deleted modules', () => {
     let spiedChangeFieldValue = null
     const props = {
-      locale: 'en',
       dynamicModules: [],
       homeConfiguration: anHomeConfiguration,
       navigationItems: aNavigationConfiguration,
+      roleList,
       changeNavigationFieldValue: (newFieldValue) => { spiedChangeFieldValue = newFieldValue },
     }
     const wrapper = shallow(<NavigationArrayFieldRender {...props} />, { context })
@@ -112,20 +121,19 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
     assert.equal(treeProps.homeConfiguration, props.homeConfiguration, 'It should report correctly the "homeConfiguration" property')
     assert.equal(treeProps.navigationItems, props.navigationItems, 'It should report correctly the "navigationItems" property')
     assert.equal(treeProps.dynamicModules, allDefaultConfigDumpModules, 'It should report correctly the "dynamicModules" property')
-    assert.equal(treeProps.locale, props.locale, 'It should report correctly the "locale" property')
     assert.equal(treeProps.onEdit, wrapperInstance.onEditItem, 'It should report correctly the "onEdit" property')
     assert.equal(treeProps.onCreateSection, wrapperInstance.onCreateSection, 'It should report correctly the "onCreateSection" property')
     assert.equal(treeProps.onDeleteSection, wrapperInstance.onDeleteSection, 'It should report correctly the "onDeleteSection" property')
     // check the tree was correctly resolved (note: dumps and modules list are matching: there should be no difference with default model)
     assert.deepEqual(spiedChangeFieldValue, aNavigationConfiguration, 'it should resolve default model correctly')
   })
-  it('should resolve match correctly the initial model with current modules definitions', () => {
+  it('should resolve correctly the initial model with current modules definitions', () => {
     let spiedChangeFieldValue = null
     const props = {
-      locale: 'en',
       dynamicModules: modulesWithNewAndDeleted,
       homeConfiguration: anHomeConfiguration,
       navigationItems: aNavigationConfiguration,
+      roleList,
       changeNavigationFieldValue: (newFieldValue) => { spiedChangeFieldValue = newFieldValue },
     }
     const wrapper = shallow(<NavigationArrayFieldRender {...props} />, { context })
@@ -152,10 +160,10 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
 
   it('should handle correctly create section', () => {
     const props = {
-      locale: 'en',
       dynamicModules: allDefaultConfigDumpModules,
       homeConfiguration: anHomeConfiguration,
       navigationItems: aNavigationConfiguration,
+      roleList,
       changeNavigationFieldValue: () => { },
     }
     const wrapper = shallow(<NavigationArrayFieldRender {...props} />, { context })
@@ -167,6 +175,7 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
     assert.isOk(editionData, 'edition data should be defined after creating section')
     const dialog = wrapper.find(NavigationItemEditionDialog)
     assert.lengthOf(dialog, 1, 'The dialog should be added in children')
+    assert.equal(dialog.props().roleList, props.roleList, 'The dialog role list should be provided from be added in children')
     assert.deepEqual(dialog.props().editionData, editionData, 'The dialog edition data should be reported')
     assert.equal(editionData.onDone, wrapperInstance.onEditDone, 'onDone callback should be correctly reported')
     assert.equal(editionData.dialogTitleKey, 'menu.form.navigation.create.section.dialog.title', 'dialogTitleKey should correctly reported')
@@ -179,6 +188,7 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
     assert.isOk(editionData.item.title, 'New item title field should be correctly initialized')
     assert.isOk(editionData.item.title.en, 'New item EN title should be correctly initialized')
     assert.isOk(editionData.item.title.en, 'New item FR title should be correctly initialized')
+    assert.isOk(editionData.item.visibilityMode, 'New item visibility mode should be correctly initialized')
     assert.deepEqual(editionData.itemPath, [aNavigationConfiguration.length], 'New items should be initialized at end of the main bar')
     // navigation items are identical to conf but add the title (as dialog doesn't receive dynamic modules)
     compareTreesAndCheckTitle(aNavigationConfiguration, editionData.navigationItems)
@@ -187,10 +197,10 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
   })
   it('should handle correctly edit section', () => {
     const props = {
-      locale: 'en',
       dynamicModules: allDefaultConfigDumpModules,
       homeConfiguration: anHomeConfiguration,
       navigationItems: aNavigationConfiguration,
+      roleList,
       changeNavigationFieldValue: () => { },
     }
     const wrapper = shallow(<NavigationArrayFieldRender {...props} />, { context })
@@ -215,10 +225,10 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
   })
   it('should handle correctly edit module', () => {
     const props = {
-      locale: 'en',
       dynamicModules: allDefaultConfigDumpModules,
       homeConfiguration: anHomeConfiguration,
       navigationItems: aNavigationConfiguration,
+      roleList,
       changeNavigationFieldValue: () => { },
     }
     const wrapper = shallow(<NavigationArrayFieldRender {...props} />, { context })
@@ -244,10 +254,10 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
   it('should update correctly after editing', () => {
     let spiedChangeFieldValue = null
     const props = {
-      locale: 'en',
       dynamicModules: allDefaultConfigDumpModules,
       homeConfiguration: anHomeConfiguration,
       navigationItems: aNavigationConfiguration,
+      roleList,
       changeNavigationFieldValue: (value) => { spiedChangeFieldValue = value },
     }
     const wrapper = shallow(<NavigationArrayFieldRender {...props} />, { context })
@@ -256,7 +266,14 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
     const initItemPath = [1, 2]
     const insertAtPath = [3, 0]
     const editedItem = getItemByPathIn(aNavigationConfiguration, initItemPath)
-    wrapperInstance.onEditDone(editedItem, insertAtPath, { url: 'test-url', type: 'potatoes' }, { en: 'edited-en', fr: 'edited-fr' })
+    wrapperInstance.onEditDone({
+      ...editedItem,
+      icon: { url: 'test-url', type: 'potatoes' },
+      title: { en: 'edited-en', fr: 'edited-fr' },
+      visibilityMode: 'CustomVisibility',
+      visibleForRole: 'customRole',
+    }, insertAtPath)
+
     // check what was published as new field value
     assert.isOk(spiedChangeFieldValue, 'Change field should have been called')
     // chec the section is now at path [4,0] in field value
@@ -266,6 +283,8 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
     const afterEditionItem = getItemByPathIn(spiedChangeFieldValue, newItemPath)
     assert.deepEqual(afterEditionItem.title, { en: 'edited-en', fr: 'edited-fr' }, 'Title should be correctly reported in new item')
     assert.deepEqual(afterEditionItem.icon, { url: 'test-url', type: 'potatoes' }, 'Icon should be correctly reported in new item')
+    assert.equal(afterEditionItem.visibilityMode, 'CustomVisibility', 'Visibility should be reported correctly in new item')
+    assert.equal(afterEditionItem.visibleForRole, 'customRole', 'Visible for role should be reported correctly in new item')
     // note: we do not test here all possible tree changes, that must be tested in NavigationTreeHelper
   })
 })

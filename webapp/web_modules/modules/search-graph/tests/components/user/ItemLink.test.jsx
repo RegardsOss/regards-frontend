@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import FlatButton from 'material-ui/FlatButton'
 import Toggle from 'material-ui/Toggle'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import ItemLink from '../../../src/components/user/ItemLink'
 import styles from '../../../src/styles/styles'
 
@@ -38,15 +38,16 @@ describe('[Search Graph] Testing ItemLink', () => {
       locked: true,
       selected: true,
       onSelect: () => { },
-      text: 'any',
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DataobjectEntity'),
       Icon: Toggle,
       additiveLineComponent: <FlatButton label="hello again" />,
+      displayState: ItemLink.States.DEFAULT,
       onStateChange: () => { },
       onMouseOver: () => { },
       onMouseOut: () => { },
       onLinkClicked: () => { },
-      onDescriptionClicked: () => { },
-      displayState: ItemLink.States.DEFAULT,
+      isDescAvailableFor: () => true,
+      onShowDescription: () => { },
     }
     const enzymeWrapper = shallow(<ItemLink {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(FlatButton), 1, 'The additive line component (a flat button here) should be rendered')
@@ -57,14 +58,15 @@ describe('[Search Graph] Testing ItemLink', () => {
       locked: true,
       selected: true,
       onSelect: () => { },
-      text: 'any',
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DataobjectEntity'),
       Icon: Toggle,
       additiveLineComponent: <FlatButton label="hello again" />,
       onStateChange: () => { },
       onMouseOver: () => { },
       onMouseOut: () => { },
       onLinkClicked: () => { },
-      onDescriptionClicked: () => { },
+      isDescAvailableFor: () => true,
+      onShowDescription: () => { },
     }
     shallow(<ItemLink displayState={ItemLink.States.DEFAULT} {...props} />, { context })
     shallow(<ItemLink displayState={ItemLink.States.HOVER} {...props} />, { context })

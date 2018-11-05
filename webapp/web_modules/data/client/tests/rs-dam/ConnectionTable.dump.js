@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-module.exports = {
+export default {
   t_test_plugin_data_source: {
     name: 't_test_plugin_data_source',
     schema: 'public',

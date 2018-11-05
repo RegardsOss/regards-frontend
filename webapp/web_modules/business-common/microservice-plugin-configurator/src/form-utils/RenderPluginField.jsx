@@ -19,6 +19,7 @@
 import isString from 'lodash/isString'
 import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import { Field, RenderHelper } from '@regardsoss/form-utils'
+import { SubSectionCard } from '@regardsoss/components'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import PluginListContainer from '../containers/PluginListContainer'
@@ -111,15 +112,17 @@ export class RenderPluginField extends React.PureComponent {
 
     if (this.state.selectedPluginMetaData) {
       return (
-        <Field
-          name={input.name}
-          component={RenderPluginConfField}
-          microserviceName={microserviceName}
-          pluginMetaData={this.state.selectedPluginMetaData}
-          newPluginConfLabel={defaultPluginConfLabel}
-          hideGlobalParameterConf={hideGlobalParameterConf}
-          hideDynamicParameterConf={hideDynamicParameterConf}
-        />
+        <SubSectionCard>
+          <Field
+            name={input.name}
+            component={RenderPluginConfField}
+            microserviceName={microserviceName}
+            pluginMetaData={this.state.selectedPluginMetaData}
+            newPluginConfLabel={defaultPluginConfLabel}
+            hideGlobalParameterConf={hideGlobalParameterConf}
+            hideDynamicParameterConf={hideDynamicParameterConf}
+          />
+        </SubSectionCard>
       )
     }
     return null
@@ -130,21 +133,37 @@ export class RenderPluginField extends React.PureComponent {
    * @param {*} selectedPluginMetaData : selected pluginMetaData
    */
   handleSelectPluginMetaData = (selectedPluginMetaData, isInitialization) => {
-    const { input, defaultPluginConfLabel } = this.props
-    this.setState({ selectedPluginMetaData })
-    if (!isInitialization) {
-      if (selectedPluginMetaData) {
-        input.onChange(RenderPluginField.getPluginDefaultConf(selectedPluginMetaData, defaultPluginConfLabel))
-      } else {
-        input.onChange(null)
-      }
+    if (isInitialization) {
+      this.setState({
+        selectedPluginMetaData,
+      })
+    } else {
+      const { input, defaultPluginConfLabel } = this.props
+      // Remove the subform first
+      this.setState({
+        selectedPluginMetaData: null,
+      }, () => {
+        // Now save the value
+        this.setState({
+          selectedPluginMetaData,
+        })
+        if (selectedPluginMetaData) {
+          input.onChange(RenderPluginField.getPluginDefaultConf(selectedPluginMetaData, defaultPluginConfLabel))
+        } else {
+          input.onChange(null)
+        }
+      })
     }
   }
 
   render() {
     const { moduleTheme: { renderer: { fullWidthStyle } } } = this.context
+    const { input: { name } } = this.props
     return (
-      <div style={fullWidthStyle}>
+      <div
+        style={fullWidthStyle}
+        name={name}
+      >
         {this.getPluginSelector()}
         {this.getPluginConfigurator()}
       </div>

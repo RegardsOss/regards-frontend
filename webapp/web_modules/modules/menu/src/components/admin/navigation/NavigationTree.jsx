@@ -23,7 +23,9 @@ import { AccessDomain, UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { TreeTableComponent, TreeTableRow, ModuleIcon, ModuleTitleText } from '@regardsoss/components'
+import {
+  TreeTableComponent, TreeTableRow, ModuleIcon, ModuleTitleText,
+} from '@regardsoss/components'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../domain/NavigationItemTypes'
 import { HOME_ICON_TYPES_ENUM } from '../../../domain/HomeIconType'
 import { HomeConfigurationShape, NavigationEditionItem } from '../../../shapes/ModuleConfiguration'
@@ -32,10 +34,11 @@ import EditOption from './options/EditOption'
 import DeleteOption from './options/DeleteSectionOption'
 import defaultHomeIconURL from '../../../img/home.svg'
 import defaultSectionIconURL from '../../../img/section.svg'
+import { VISIBILITY_MODES_ENUM } from '../../../domain/VisibilityModes'
 
-/** Possible items status */
-const ITEM_STATUS_ENUM = {
-  VISIBLE: 'VISIBLE',
+/** Possible items warnings */
+const ITEM_WARNINGS_ENUM = {
+  NONE: 'NONE',
   DISABLED_MODULE: 'DISABLED_MODULE',
   EMPTY_SECTION: 'EMPTY_SECTION',
 }
@@ -49,7 +52,6 @@ class NavigationTree extends React.Component {
     homeConfiguration: HomeConfigurationShape,
     dynamicModules: AccessShapes.ModuleArray,
     navigationItems: PropTypes.arrayOf(NavigationEditionItem).isRequired,
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // on create section callback: () => {}
     onCreateSection: PropTypes.func.isRequired,
     // on edit callback: (id, itemType) => {}
@@ -67,9 +69,10 @@ class NavigationTree extends React.Component {
   static COLUMNS_INDEX = {
     ICON_AND_TITLE: 0,
     TYPE: 1,
-    STATUS: 2,
-    EDIT_OPTION: 3,
-    DELETE_OPTION: 4,
+    VISIBILITY: 2,
+    WARNINGS: 3,
+    EDIT_OPTION: 4,
+    DELETE_OPTION: 5,
   }
 
   /**
@@ -79,12 +82,14 @@ class NavigationTree extends React.Component {
   buildColumns = () => {
     const { intl: { formatMessage }, moduleTheme: { admin: { navigation: { table: { optionColumnStyle } } } } } = this.context
     return [
-      // 2 - Title fr column
+      // 1 - Title fr column
       <TableHeaderColumn key="icon">{formatMessage({ id: 'menu.form.navigation.table.column.title.label' })}</TableHeaderColumn>,
-      // 3 - Type column (module type / column)
+      // 2 - Type column (module type / column)
       <TableHeaderColumn key="type">{formatMessage({ id: 'menu.form.navigation.table.column.type.label' })}</TableHeaderColumn>,
-      // 4 - Status column
-      <TableHeaderColumn key="icon">{formatMessage({ id: 'menu.form.navigation.table.column.status.label' })}</TableHeaderColumn>,
+      // 3 - Visibility mode column
+      <TableHeaderColumn key="visibilty">{formatMessage({ id: 'menu.form.navigation.table.column.visibility.label' })}</TableHeaderColumn>,
+      // 4 - Warning column
+      <TableHeaderColumn key="warnings">{formatMessage({ id: 'menu.form.navigation.table.column.warnings.label' })}</TableHeaderColumn>,
       // 5 - Edit option column
       <TableHeaderColumn key="edit.option" style={optionColumnStyle} />,
       // 6 - Delete option column
@@ -98,29 +103,28 @@ class NavigationTree extends React.Component {
    * @param {[NavigationEditionItem]} navigationEditionItems navigation items (initially redux form fields)
    * @return {[TreeTableRow]} built rows
    */
-  buildTreeTableRows = navigationItems =>
-    navigationItems.map((item) => {
-      switch (item.type) {
-        case NAVIGATION_ITEM_TYPES_ENUM.MODULE:
-          return this.buildModuleTreeTableRow(item)
-        case NAVIGATION_ITEM_TYPES_ENUM.SECTION:
-          return this.buildSectionTreeTableRow(item)
-        default:
-          throw new Error(`Unknown field type ${item.type} in field ${JSON.stringify(item)}`)
-      }
-    })
+  buildTreeTableRows = navigationItems => navigationItems.map((item) => {
+    switch (item.type) {
+      case NAVIGATION_ITEM_TYPES_ENUM.MODULE:
+        return this.buildModuleTreeTableRow(item)
+      case NAVIGATION_ITEM_TYPES_ENUM.SECTION:
+        return this.buildSectionTreeTableRow(item)
+      default:
+        throw new Error(`Unknown field type ${item.type} in field ${JSON.stringify(item)}`)
+    }
+  }).filter(row => !!row) // delete here the elements that could not be retrieved (temporary state)
 
   /**
    * Builds a module tree table row
    * @param {EditionModule} moduleItem module item
    * @return {TreeTableRow} built row
    */
-  buildModuleTreeTableRow = ({ id }) => {
+  buildModuleTreeTableRow = ({ id, visibilityMode, visibleForRole }) => {
     const { dynamicModules, homeConfiguration } = this.props
     // 1 - retrieve corresponding module
     const moduleModel = dynamicModules.find(({ content: { id: moduleId } }) => moduleId === id)
-    if (!moduleModel) { // that should never happen!
-      throw new Error(`Module not found for id ${id}`)
+    if (!moduleModel) { // happens only while parent field is changing value
+      return null
     }
 
     // 2 - resolve icon (taking home fields in account)
@@ -167,7 +171,8 @@ class NavigationTree extends React.Component {
     return new TreeTableRow(`module.${id}`, [
       { iconCellValue, titleCellValue },
       { type: NAVIGATION_ITEM_TYPES_ENUM.MODULE, moduleType: get(moduleModel, 'content.type') }, // Type (with module type as parameter)
-      get(moduleModel, 'content.active') ? ITEM_STATUS_ENUM.VISIBLE_ITEM : ITEM_STATUS_ENUM.DISABLED_MODULE,
+      { visibilityMode, visibleForRole },
+      get(moduleModel, 'content.active') ? ITEM_WARNINGS_ENUM.NONE : ITEM_WARNINGS_ENUM.DISABLED_MODULE,
       { type: NAVIGATION_ITEM_TYPES_ENUM.MODULE, id, canEdit: !isHome },
       {}, // delete options parameters: none for modules
     ])
@@ -179,14 +184,17 @@ class NavigationTree extends React.Component {
    * @return {TreeTableRow} built row with sub rows
    */
   buildSectionTreeTableRow = ({
-    id, title, icon, children,
+    id, title, icon,
+    visibilityMode, visibleForRole,
+    children,
   }) => new TreeTableRow(`section.${id}`, [
     {
       iconCellValue: { defaultIconURL: defaultSectionIconURL, iconDisplayMode: icon.type, customIconURL: icon.url },
       titleCellValue: { title },
     },
     { type: NAVIGATION_ITEM_TYPES_ENUM.SECTION, parameter: null },
-    this.hasActiveChild(children) ? ITEM_STATUS_ENUM.VISIBLE : ITEM_STATUS_ENUM.EMPTY_SECTION,
+    { visibilityMode, visibleForRole },
+    this.hasActiveChild(children) ? ITEM_WARNINGS_ENUM.NONE : ITEM_WARNINGS_ENUM.EMPTY_SECTION,
     { type: NAVIGATION_ITEM_TYPES_ENUM.SECTION, id, canEdit: true }, // edit options parameters
     { id }, // delete options parameters
   ], this.buildTreeTableRows(children), true) // build sub rows recursively
@@ -224,41 +232,52 @@ class NavigationTree extends React.Component {
       intl: { formatMessage }, moduleTheme: {
         admin: {
           navigation: {
-            table: { iconStyle, optionColumnStyle, warningStatusCell },
+            table: { iconStyle, optionColumnStyle, warningCell },
           },
         },
       },
     } = this.context
-    const { locale, onEdit, onDeleteSection } = this.props
+    const { onEdit, onDeleteSection } = this.props
     let cellContent = null
     let cellStyle
     switch (column) {
       case NavigationTree.COLUMNS_INDEX.TYPE:
-        cellContent = value.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION ?
-          formatMessage({ id: 'menu.form.navigation.table.column.type.section.message' }) :
-          formatMessage({ id: 'menu.form.navigation.table.column.type.module.message' }, { moduleType: value.moduleType })
+        cellContent = value.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION
+          ? formatMessage({ id: 'menu.form.navigation.table.column.type.section.message' })
+          : formatMessage({ id: 'menu.form.navigation.table.column.type.module.message' }, { moduleType: value.moduleType })
         break
       case NavigationTree.COLUMNS_INDEX.ICON_AND_TITLE:
         // show both icon and title
         cellContent = (
           <div>
             <ModuleIcon style={iconStyle} {...value.iconCellValue} />
-            <ModuleTitleText locale={locale} {...value.titleCellValue} />
+            <ModuleTitleText {...value.titleCellValue} />
           </div>)
         break
-      case NavigationTree.COLUMNS_INDEX.STATUS:
-        switch (value) {
-          case ITEM_STATUS_ENUM.DISABLED_MODULE:
-            cellContent = formatMessage({ id: 'menu.form.navigation.table.column.status.disabled.message' })
-            cellStyle = warningStatusCell
+      case NavigationTree.COLUMNS_INDEX.VISIBILITY:
+        switch (value.visibilityMode) {
+          case VISIBILITY_MODES_ENUM.ALWAYS:
+            cellContent = formatMessage({ id: 'menu.form.navigation.table.column.visibility.always.message' })
             break
-          case ITEM_STATUS_ENUM.EMPTY_SECTION:
-            cellContent = formatMessage({ id: 'menu.form.navigation.table.column.status.empty.section.message' })
-            cellStyle = warningStatusCell
+          case VISIBILITY_MODES_ENUM.NEVER:
+            cellContent = formatMessage({ id: 'menu.form.navigation.table.column.visibility.never.message' })
             break
           default:
-          case ITEM_STATUS_ENUM.VISIBLE:
-            cellContent = formatMessage({ id: 'menu.form.navigation.table.column.status.visible.message' })
+            cellContent = formatMessage({ id: 'menu.form.navigation.table.column.visibility.for.profile.message' }, { role: value.visibleForRole })
+        }
+        break
+      case NavigationTree.COLUMNS_INDEX.WARNINGS:
+        switch (value) {
+          case ITEM_WARNINGS_ENUM.DISABLED_MODULE:
+            cellContent = formatMessage({ id: 'menu.form.navigation.table.column.warnings.disabled.message' })
+            cellStyle = warningCell
+            break
+          case ITEM_WARNINGS_ENUM.EMPTY_SECTION:
+            cellContent = formatMessage({ id: 'menu.form.navigation.table.column.warnings.empty.section.message' })
+            cellStyle = warningCell
+            break
+          default:
+            cellContent = formatMessage({ id: 'menu.form.navigation.table.column.warnings.none.message' })
         }
         break
       case NavigationTree.COLUMNS_INDEX.EDIT_OPTION:
@@ -270,10 +289,10 @@ class NavigationTree extends React.Component {
         cellStyle = optionColumnStyle
         break
       default:
-        throw new Error('Unknown column index', column)
+        throw new Error(`Unknown column index ${column}`)
     }
     return (
-      <TableRowColumn style={cellStyle} key={`cell-${column}`} >
+      <TableRowColumn style={cellStyle} key={`cell-${column}`}>
         {cellContent}
       </TableRowColumn>)
   }

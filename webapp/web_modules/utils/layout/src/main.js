@@ -16,23 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Container from './components/Container'
-import ContainerShape from './model/ContainerShape'
-import ContainerHelper from './ContainerHelper'
-import ContainerTypes from './default/ContainerTypes'
-import DefaultLayout from './default/DefaultLayout'
-import ApplicationLayout from './components/ApplicationLayout'
-import LayoutConfigurationComponent from './components/LayoutConfigurationComponent'
 
 /**
  * Main interface to expose Layout utils
  */
-module.exports = {
-  Container,
-  ContainerShape,
-  ContainerTypes,
-  ContainerHelper,
-  ApplicationLayout,
-  LayoutConfigurationComponent,
-  DefaultLayout,
-}
+export { default as Container } from './components/Container'
+export { default as ContainerShape } from './model/ContainerShape'
+export { default as ContainerHelper } from './ContainerHelper'
+export { ALL_CONTAINERS, STATIC_CONTAINERS } from './default/ContainerTypes'
+export { default as DefaultLayout } from './default/DefaultLayout'
+export { default as ApplicationLayout } from './components/ApplicationLayout'
+export { default as LayoutConfigurationComponent } from './components/LayoutConfigurationComponent'

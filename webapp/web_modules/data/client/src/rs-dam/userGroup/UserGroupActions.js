@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Schemas from '@regardsoss/api'
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
 export default class UserGroupActions extends BasicSignalActions {
@@ -24,11 +23,6 @@ export default class UserGroupActions extends BasicSignalActions {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/accessgroups/{name}/{email}`,
-      schemaTypes: {
-        ENTITY: Schemas.ACCESS_GROUP,
-        ENTITY_ARRAY: Schemas.ACCESS_GROUP_ARRAY,
-      },
     })
   }
 }
-

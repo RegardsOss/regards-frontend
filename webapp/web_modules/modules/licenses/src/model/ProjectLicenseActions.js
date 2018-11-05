@@ -29,6 +29,7 @@ export class ProjectLicenseActions extends BasicSignalActions {
       namespace: 'licenses/information',
     })
   }
+
   /**
    * Fetch project license information
    */
@@ -46,4 +47,3 @@ export class ProjectLicenseActions extends BasicSignalActions {
 
 // export instance
 export default new ProjectLicenseActions()
-

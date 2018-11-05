@@ -23,7 +23,7 @@ import { AuthenticationParametersSelectors } from '@regardsoss/authentication-ut
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { connect } from '@regardsoss/redux'
 import ShowableAtRender from '../ShowableAtRender'
-import allMatchHateoasDisplayLogic from './../logics/allMatchHateoasDisplayLogic'
+import allMatchHateoasDisplayLogic from '../logics/allMatchHateoasDisplayLogic'
 import getDisplayName from '../getDisplayName'
 
 /**
@@ -65,6 +65,7 @@ const withResourceDisplayControl = (DecoratedComponent) => {
       const {
         displayLogic, resourceDependencies, availableDependencies, isInstance, hideDisabled, ...otherProps
       } = this.props
+
       const requiredDependencies = isString(resourceDependencies) ? [resourceDependencies] : resourceDependencies
       const isDisplayed = requiredDependencies.length === 0 || displayLogic(requiredDependencies, availableDependencies) || isInstance
       // we provide a disabled to be used by subcomponent - if you provide too the prop we respect it

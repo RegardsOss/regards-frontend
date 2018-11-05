@@ -33,11 +33,10 @@ export class PluginListContainer extends React.Component {
   * Redux: map dispatch to props function
   * @param {*} dispatch: redux dispatch function
   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-  * @return {*} list of component properties extracted from redux state
+  * @return {*} list of actions ready to be dispatched in the redux store
   */
   static mapDispatchToProps = dispatch => ({
-    fetchPlugins: (microserviceName, pluginType) =>
-      dispatch(pluginMetadataActions.fetchEntityList({ microserviceName }, { pluginType })),
+    fetchPlugins: (microserviceName, pluginType) => dispatch(pluginMetadataActions.fetchEntityList({ microserviceName }, { pluginType })),
   })
 
   static propTypes = {
@@ -49,6 +48,7 @@ export class PluginListContainer extends React.Component {
     handleSelect: PropTypes.func.isRequired,
     errorText: PropTypes.string,
     disabled: PropTypes.bool,
+    displayMoreInfoButton: PropTypes.bool,
     // Set by connect
     fetchPlugins: PropTypes.func.isRequired,
   }
@@ -81,7 +81,9 @@ export class PluginListContainer extends React.Component {
       })
       if (this.props.selectedPluginId) {
         const plugin = find(pluginList, p => p.content.pluginId === this.props.selectedPluginId)
-        this.props.handleSelect(plugin.content, true)
+        if (plugin) {
+          this.props.handleSelect(plugin.content, true)
+        }
       }
     } else {
       this.setState({
@@ -106,6 +108,7 @@ export class PluginListContainer extends React.Component {
           defaultSelectedPluginId={this.props.selectedPluginId}
           disabled={this.props.disabled}
           errorText={this.props.errorText}
+          displayMoreInfoButton={this.props.displayMoreInfoButton}
         />
       </LoadableContentDisplayDecorator>
     )

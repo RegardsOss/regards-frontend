@@ -21,7 +21,7 @@ import values from 'lodash/values'
 /**
  * @author Sébastien Binda
  */
-const PluginTypeEnum = {
+export const PluginTypeEnum = {
   STORAGE: 'fr.cnes.regards.modules.storage.domain.plugin.IDataStorage',
   ONLINE_STORAGE: 'fr.cnes.regards.modules.storage.domain.plugin.IOnlineDataStorage',
   NEARLINE_STORAGE: 'fr.cnes.regards.modules.storage.domain.plugin.INearlineDataStorage',
@@ -29,9 +29,4 @@ const PluginTypeEnum = {
   ALLOCATION_STRATEGY: 'fr.cnes.regards.modules.storage.domain.plugin.IAllocationStrategy',
 }
 
-const PluginTypeEnumValues = values(PluginTypeEnum)
-
-module.exports = {
-  PluginTypeEnum,
-  PluginTypeEnumValues,
-}
+export const PluginTypeEnumValues = values(PluginTypeEnum)

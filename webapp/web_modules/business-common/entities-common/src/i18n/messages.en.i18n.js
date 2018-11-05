@@ -23,33 +23,6 @@ import { Locales } from '@regardsoss/form-utils'
  * @author Raphaël Mechali
  */
 const messages = {
-  // description
-  'description.breadcrumb.root': 'Description: {entityLabel}',
-  'entities.common.properties.tabs': 'Properties',
-  'entities.common.description.tabs': 'Description',
-  'entities.common.files.tabs': 'Files',
-  'entities.common.quicklook.tabs': 'Quicklook',
-  'entities.common.file.subheader': 'Click on a file to download it',
-  'entities.common.close.button': 'Close',
-  'entities.common.properties.attributes': 'Attributes',
-  'entities.common.properties.loading.attributes': 'Loading attributes information',
-  'entities.common.properties.no.attribute': 'This entity has no attribute',
-  'entities.common.properties.tags.entities': 'Related tags',
-  'entities.common.properties.documents.entities': 'Related documents',
-  'entities.common.properties.document.entities': 'Related documents',
-  'entities.common.properties.loading.tags': 'Loading tags information',
-  'entities.common.properties.loading.document': 'Loading documents information',
-  'entities.common.properties.no.tag': 'This entity has no tag',
-  'entities.common.properties.no.document': 'This entity has no document',
-  'entities.common.properties.tag.search.tooltip': 'Search for entities with that tag',
-  'entities.common.properties.tag.show.description.tooltip': 'Show entity detail',
-
-  'entities.common.description.loading': 'Loading description information',
-  'entities.common.description.no.value.title': 'No description',
-  'entities.common.description.no.value.message': 'This entity has no description',
-  'entities.common.document.files.no.value.title': 'No files',
-  'entities.common.document.files.no.value.message': 'This document has no files',
-
   // services
   'entities.common.services.error.title': 'Service error',
   'entities.common.services.notice.title': 'Service done',

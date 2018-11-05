@@ -52,6 +52,7 @@ export class RenderFileFieldWithMui extends React.Component {
   }
 
   static iconStyles = { width: '70px', height: '70px' }
+
   static propStyles = { margin: '5px' }
 
   adaptFileEventToValue = delegate => e => delegate(e.target.files[0])
@@ -80,10 +81,19 @@ export class RenderFileFieldWithMui extends React.Component {
       <div style={{ display: 'flex', flexDirection: 'row', alignContent: 'stretch' }}>
         <File style={RenderFileFieldWithMui.iconStyles} />
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-          <div style={RenderFileFieldWithMui.propStyles}>{intl.formatMessage({ id: 'renderer.fileField.file.name' })} : {file.name}</div>
-          <div style={RenderFileFieldWithMui.propStyles}>{intl.formatMessage({ id: 'renderer.fileField.file.type' })} : {file.type}</div>
           <div style={RenderFileFieldWithMui.propStyles}>
-            {intl.formatMessage({ id: 'renderer.fileField.file.size' })} :
+            {intl.formatMessage({ id: 'renderer.fileField.file.name' })}
+            {' : '}
+            {file.name}
+          </div>
+          <div style={RenderFileFieldWithMui.propStyles}>
+            {intl.formatMessage({ id: 'renderer.fileField.file.type' })}
+            {' : '}
+            {file.type}
+          </div>
+          <div style={RenderFileFieldWithMui.propStyles}>
+            {intl.formatMessage({ id: 'renderer.fileField.file.size' })}
+            {' : '}
             {this.transformSize(file.size)}
           </div>
         </div>
@@ -114,7 +124,7 @@ export class RenderFileFieldWithMui extends React.Component {
             style={{ display: 'none' }}
           />
         </RaisedButton>
-      </div >
+      </div>
     )
   }
 }
@@ -123,4 +133,3 @@ export default compose(
   withI18n(messages),
   withModuleStyle(styles),
 )(RenderFileFieldWithMui)
-

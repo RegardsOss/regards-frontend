@@ -16,86 +16,65 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DateTextBoundPropType, NumericTextBoundPropType } from './TextBoundPropType'
+import { CatalogShapes } from '@regardsoss/shape'
 
-const FacetTypes = {
-  String: 'STRING',
-  Date: 'DATE',
-  Number: 'NUMERIC',
-}
+/**
+ * Describes runtime resolved facets (parts recovered from backend and parts added at runtime resolution and use)
+ * @author Raphaël Mechali
+ */
 
-/** Attributes common to all facet values shapes */
-const commonFacetValuesAttributesPropTypes = {
-  // Count of elements in facet value
-  count: PropTypes.number.isRequired,
-  // Open search filter to append to research when selecting that facet value
-  openSearchQuery: PropTypes.string.isRequired,
-}
-
-/**  value for date range facets */
-const DateRangeFacetValue = PropTypes.shape({
-  lowerBound: DateTextBoundPropType,
-  upperBound: DateTextBoundPropType,
-  ...commonFacetValuesAttributesPropTypes,
+/**
+ * Facet with configured label and optional unit
+ */
+export const UIFacet = PropTypes.shape({
+  // labels dictionnary (where languages like 'en', 'fr'... are the keys)
+  label: PropTypes.objectOf(PropTypes.string).isRequired,
+  unit: PropTypes.string,
+  model: CatalogShapes.Facet.isRequired,
 })
 
-/** A value for number range facets */
-const NumberRangeFacetValue = PropTypes.shape({
-  lowerBound: NumericTextBoundPropType,
-  upperBound: NumericTextBoundPropType,
-  ...commonFacetValuesAttributesPropTypes,
+/** Array of UI facets */
+export const UIFacetArray = PropTypes.arrayOf(UIFacet)
+
+/**
+ * A selected date boolean facet
+ */
+export const SelectedBooleanFacet = PropTypes.shape({
+  label: PropTypes.objectOf(PropTypes.string).isRequired,
+  model: CatalogShapes.BooleanFacet.isRequired,
+  value: CatalogShapes.BooleanFacetValue.isRequired,
 })
 
-/** A value for string facets (no range, word cound) */
-const StringFacetValue = PropTypes.shape({
-  word: PropTypes.string.isRequired,
-  ...commonFacetValuesAttributesPropTypes,
+/**
+ * A selected date range facet
+ */
+export const SelectedDateRangeFacet = PropTypes.shape({
+  label: PropTypes.objectOf(PropTypes.string).isRequired,
+  model: CatalogShapes.DateRangeFacet.isRequired,
+  value: CatalogShapes.DateRangeFacetValue.isRequired,
 })
 
-const commonFacetAttributesPropTypes = {
-  // corresponding model attribute name
-  attributeName: PropTypes.string.isRequired,
-  // facet label, added when locally resolved
-  label: PropTypes.string,
-  // elements that are not covered by the facet
-  others: PropTypes.number.isRequired,
-}
-
-/** A date range facet */
-const DateRangeFacet = PropTypes.shape({
-  ...commonFacetAttributesPropTypes,
-  type: PropTypes.oneOf([FacetTypes.Date]).isRequired,
-  values: PropTypes.arrayOf(DateRangeFacetValue).isRequired,
+/**
+ * A selected number facet
+ */
+export const SelectedNumberRangeFacet = PropTypes.shape({
+  label: PropTypes.objectOf(PropTypes.string).isRequired,
+  unit: PropTypes.string,
+  model: CatalogShapes.NumberRangeFacet.isRequired,
+  value: CatalogShapes.NumberRangeFacetValue.isRequired,
 })
 
-/** A Number range facet */
-const NumberRangeFacet = PropTypes.shape({
-  ...commonFacetAttributesPropTypes,
-  type: PropTypes.oneOf([FacetTypes.Number]).isRequired,
-  values: PropTypes.arrayOf(NumberRangeFacetValue),
+/**
+ * A selected string boolean facet
+ */
+export const SelectedStringFacet = PropTypes.shape({
+  label: PropTypes.objectOf(PropTypes.string).isRequired,
+  model: CatalogShapes.StringFacet.isRequired,
+  value: CatalogShapes.StringFacetValue.isRequired,
 })
 
-/** A string facet */
-const StringFacet = PropTypes.shape({
-  ...commonFacetAttributesPropTypes,
-  type: PropTypes.oneOf([FacetTypes.String]).isRequired,
-  values: PropTypes.arrayOf(StringFacetValue),
-})
+/** describes unpecific selected facet notion, summarizes both the facet and the selected value in facet */
+export const SelectedFacet = PropTypes.oneOfType([SelectedBooleanFacet, SelectedDateRangeFacet, SelectedNumberRangeFacet, SelectedStringFacet])
 
-/** describes unpecific facet notion */
-const Facet = PropTypes.oneOfType([DateRangeFacet, NumberRangeFacet, StringFacet])
-
-/** A facet array */
-const FacetArray = PropTypes.arrayOf(Facet)
-
-module.exports = {
-  DateRangeFacetValue,
-  DateRangeFacet,
-  Facet,
-  FacetArray,
-  FacetTypes,
-  NumberRangeFacet,
-  NumberRangeFacetValue,
-  StringFacet,
-  StringFacetValue,
-}
+/** A selected facet array */
+export const SelectedFacetArray = PropTypes.arrayOf(SelectedFacet)

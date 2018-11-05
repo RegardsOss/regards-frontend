@@ -30,6 +30,14 @@ import { aModuleCompleteConfiguration } from '../../dumps/configuration.dump'
 
 const context = buildTestContext(styles)
 
+const roleList = {
+  1: {
+    content: {
+      name: 'IDK',
+    },
+  },
+}
+
 /**
  * Test ModuleFormComponent
  * @author Raphaël Mechali
@@ -45,7 +53,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     const props = {
       appName: 'any',
       project: 'any',
-      locale: 'fr',
+      roleList,
       adminForm: {
         changeField: () => { },
         currentNamespace: 'conf',
@@ -70,7 +78,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     const props = {
       appName: 'any',
       project: 'any',
-      locale: 'fr',
+      roleList,
       adminForm: {
         changeField: () => { },
         currentNamespace: 'conf',
@@ -116,7 +124,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     const props = {
       appName: 'any',
       project: 'any',
-      locale: 'en',
+      roleList,
       dynamicModule: [],
       adminForm: {
         changeField: () => { },
@@ -133,7 +141,6 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     testSuiteHelpers.assertWrapperProperties(navigationField, {
       name: enzymeWrapper.instance().CONF_NAVIGATION,
       component: NavigationArrayFieldRender,
-      locale: props.locale,
       dynamicModules: props.dynamicModules,
       homeConfiguration: props.adminForm.form.conf.home,
       navigationItems: props.adminForm.form.conf.navigation,

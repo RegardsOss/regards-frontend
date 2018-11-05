@@ -17,39 +17,18 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfiguration'
-import { ModelContent } from './Model'
+import { EntityProperties } from './Entity'
 
-const DatasetContent = PropTypes.shape({
-  id: PropTypes.number,
-  ipId: PropTypes.string,
-  creationDate: PropTypes.string,
-  lastUpdate: PropTypes.string,
-  label: PropTypes.string.isRequired,
+export const DatasetContent = PropTypes.shape({
+  ...EntityProperties,
   subsetting: PropTypes.string,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  model: ModelContent.isRequired,
-  dataModel: PropTypes.number.isRequired,
+  // The feature model of features that will contains this dataset
+  dataModel: PropTypes.string.isRequired,
   plgConfDataSource: PluginConfigurationContent,
-  descriptionFile: PropTypes.shape({
-    url: PropTypes.string,
-    type: PropTypes.string,
-  }),
-  properties: PropTypes.any,
-  quotations: PropTypes.any,
-  groups: PropTypes.any,
-  score: PropTypes.number,
-  entityType: PropTypes.string,
 })
 
-const Dataset = PropTypes.shape({
+export const Dataset = PropTypes.shape({
   content: DatasetContent.isRequired,
 })
 
-const DatasetList = PropTypes.objectOf(Dataset)
-
-
-module.exports = {
-  Dataset,
-  DatasetContent,
-  DatasetList,
-}
+export const DatasetList = PropTypes.objectOf(Dataset)

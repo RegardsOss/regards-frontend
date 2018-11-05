@@ -23,7 +23,7 @@ import { isURNTag, TagTypes } from '@regardsoss/domain/catalog'
 /**
  * A stackable search tag, displayed in top breadcrumb, with its type, label and key data
  */
-class Tag {
+export class Tag {
   /** Tag values separator in local URL parameter */
   static TAG_VALUES_SEPARATOR = ','
 
@@ -52,16 +52,16 @@ class Tag {
    * @param {*} tagValue tag value
    */
   static getTagPromise(dispatchSearchEntity, tagValue) {
-    return isURNTag(tagValue) ?
+    return isURNTag(tagValue)
       // 1 - An entity tag: resolve through fetching
-      dispatchSearchEntity(tagValue).then(({ payload }) => {
-        const { entityType, ipId, label } = get(payload, 'content', {})
-        if (payload.error || !ipId) {
+      ? dispatchSearchEntity(tagValue).then(({ payload }) => {
+        const { entityType, id, label } = get(payload, 'content', {})
+        if (payload.error || !id) {
           throw new Error('Fetching entity failed')
         }
-        return new Tag(entityType, label, ipId)
-      }) : // 2 - a word tag: return immediately resolved promise
-      new Promise((resolve, reject) => {
+        return new Tag(entityType, label, id)
+      }) // 2 - a word tag: return immediately resolved promise
+      : new Promise((resolve, reject) => {
         resolve(new Tag(TagTypes.WORD, tagValue, tagValue))
       })
   }
@@ -78,7 +78,7 @@ class Tag {
         return new Tag(type, data, data)
       default:
         // data is an entity
-        return new Tag(type, data.content.label, data.content.ipId)
+        return new Tag(type, data.content.label, data.content.id)
     }
   }
 
@@ -114,8 +114,4 @@ class Tag {
   equal(otherTag) {
     return this.type === otherTag.type && this.searchKey === otherTag.searchKey
   }
-}
-
-module.exports = {
-  Tag,
 }

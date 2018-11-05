@@ -16,17 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import formatStorageCapacity from './formatStorageCapacity'
-import FormattedStorageCapacity from './FormattedStorageCapacity'
-import messages from './i18n'
-import StorageCapacity from './StorageCapacity'
-import StorageUnit from './StorageUnit'
-
-module.exports = {
-  formatStorageCapacity,
-  FormattedStorageCapacity,
-  ...StorageCapacity,
-  ...StorageUnit,
-  messages,
-}
-
+export { default as formatStorageCapacity } from './formatStorageCapacity'
+export { default as FormattedStorageCapacity } from './FormattedStorageCapacity'
+export { default as messages } from './i18n'
+export { StorageCapacityShape, StorageCapacity } from './StorageCapacity'
+export { StorageUnitScale, StorageUnits, StorageUnitScaleShape } from './StorageUnit'

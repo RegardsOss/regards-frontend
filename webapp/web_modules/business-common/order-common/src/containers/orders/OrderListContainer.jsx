@@ -181,26 +181,26 @@ export class OrderListContainer extends React.Component {
       currentFailureResponse, asynchRequestInformation, deleteConfirmation,
     } = this.state
     return (
-      <div>
-        {/* request fail information component, on demand */}
+      <React.Fragment>
+        { /* request fail information component, on demand */ }
         <RequestFailedInformationComponent
           visible={!!currentFailureResponse}
           requestResponse={currentFailureResponse}
           onClose={this.onHideRequestFailedInformation}
         />
-        {/* asynchronous request information component, on demand */}
+        { /* asynchronous request information component, on demand */ }
         <AsynchronousRequestInformationComponent
           visible={asynchRequestInformation}
           onClose={this.onHideAsynchronousRequestInformation}
         />
-        {/* delete confirmation component, on demand */}
+        { /* delete confirmation component, on demand */ }
         <DeleteOrderConfirmationComponent
           visible={!!deleteConfirmation}
           isCompleteDelete={get(deleteConfirmation, 'completeDelete', false)}
           onClose={this.onHideDeleteConfirmation}
           onDelete={get(deleteConfirmation, 'onDelete', noop)}
         />
-        {/* Order list component */}
+        { /* Order list component */}
         <OrderListComponent
           displayMode={displayMode}
           pageSize={OrderListContainer.PAGE_SIZE}
@@ -222,8 +222,7 @@ export class OrderListContainer extends React.Component {
         >
           {HOCUtils.renderChildren(children)}
         </OrderListComponent>
-      </div>
-    )
+      </React.Fragment>)
   }
 }
 

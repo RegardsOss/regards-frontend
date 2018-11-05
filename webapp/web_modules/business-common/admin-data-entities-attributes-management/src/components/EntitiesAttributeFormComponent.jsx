@@ -61,7 +61,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
     super(props)
     const { modelAttribute } = props
     this.state = {
-      restrictions: this.getComplexRestriction(modelAttribute),
+      restrictions: this.getRestrictions(modelAttribute),
     }
   }
 
@@ -82,7 +82,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
         return this.getFieldTextField(modelAttribute, 'url')
       case MODEL_ATTR_TYPES.BOOLEAN:
         return this.getFieldCheckbox(modelAttribute)
-      case MODEL_ATTR_TYPES.DATE:
+      case MODEL_ATTR_TYPES.DATE_ISO8601:
         return this.getFieldDateTime(modelAttribute)
       case MODEL_ATTR_TYPES.STRING_ARRAY:
         if (isRestrictedWithEnum(modelAttribute)) {
@@ -134,6 +134,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       disabled={this.isDisabled()}
     />
   )
+
   getFieldSelect = modelAttribute => (
     <Field
       className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
@@ -269,7 +270,8 @@ export class EntitiesAttributeFormComponent extends React.Component {
           title={modelAttribute.content.attribute.description}
         >
           {modelAttribute.content.attribute.label}
-          {this.showStarIfInputRequired(modelAttribute.content.attribute)}<br />
+          {this.showStarIfInputRequired(modelAttribute.content.attribute)}
+          <br />
           {getFullQualifiedAttributeName(modelAttribute.content.attribute)}
         </TableRowColumn>
         <TableRowColumn

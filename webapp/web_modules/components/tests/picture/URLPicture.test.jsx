@@ -69,8 +69,7 @@ describe('[Components] Testing URLPicture', () => {
   })
 
 
-  const testCaseByMimeType = flatMap(URLPicture.PICTURES_RENDER, Render =>
-    Render.SUPPORTED_MIME_TYPES)
+  const testCaseByMimeType = flatMap(URLPicture.PICTURES_RENDER, Render => Render.SUPPORTED_MIME_TYPES)
 
   testCaseByMimeType.forEach((mimeType) => {
     it(`It support ${mimeType} render`, () => {
@@ -83,4 +82,3 @@ describe('[Components] Testing URLPicture', () => {
     })
   })
 })
-

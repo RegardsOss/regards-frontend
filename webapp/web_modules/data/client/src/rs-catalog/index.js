@@ -16,45 +16,35 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import EnumeratedDOPropertyValuesActions from './search/EnumeratedDOPropertyValuesActions'
-import getEnumeratedDOPropertyValuesReducer from './search/EnumeratedDOPropertyValuesReducer'
-import getEnumeratedDOPropertyValuesSelectors from './search/EnumeratedDOPropertyValuesSelectors'
 
+export { default as LinkPluginDatasetActions } from './linkPluginDataset/LinkPluginDatasetActions'
+export { default as getLinkPluginDatasetReducer } from './linkPluginDataset/LinkPluginDatasetReducer'
+export { default as getLinkPluginDatasetSelectors } from './linkPluginDataset/LinkPluginDatasetSelectors'
 
-import LinkPluginDatasetActions from './linkPluginDataset/LinkPluginDatasetActions'
-import getLinkPluginDatasetReducer from './linkPluginDataset/LinkPluginDatasetReducer'
-import getLinkPluginDatasetSelectors from './linkPluginDataset/LinkPluginDatasetSelectors'
+export { default as AttributesBoundsActions } from './search/AttributesBoundsActions'
+export { default as getAttributesBoundsReducer } from './search/AttributesBoundsReducer'
+export { default as getAttributesBoundsSelectors } from './search/AttributesBoundsSelectors'
 
-import SearchCollectionsActions from './search/SearchCollectionsActions'
-import SearchDataobjectsActions from './search/SearchDataobjectsActions'
-import SearchDatasetsFromDataObjectsActions from './search/SearchDatasetsFromDataObjectsActions'
-import SearchDocumentsActions from './search/SearchDocumentsActions'
-import SearchDatasetsActions from './search/SearchDatasetsActions'
-import SearchEntitiesActions from './search/SearchEntitiesActions'
-import getSearchEntitiesReducer from './search/SearchEntitiesReducer'
-import getSearchEntitiesSelectors from './search/SearchEntitiesSelectors'
-import SearchEntityActions from './search/SearchEntityActions'
+export { default as ComplexSearchActions } from './search/ComplexSearchActions'
+export { default as getComplexSearchReducer } from './search/ComplexSearchReducer'
+export { default as getComplexSearchSelectors } from './search/ComplexSearchSelectors'
 
-import CatalogPluginServiceResultActions from './services/CatalogPluginServiceResultActions'
+export { default as EnumeratedDOPropertyValuesActions } from './search/EnumeratedDOPropertyValuesActions'
+export { default as getEnumeratedDOPropertyValuesReducer } from './search/EnumeratedDOPropertyValuesReducer'
+export { default as getEnumeratedDOPropertyValuesSelectors } from './search/EnumeratedDOPropertyValuesSelectors'
 
-module.exports = {
-  EnumeratedDOPropertyValuesActions,
-  getEnumeratedDOPropertyValuesReducer,
-  getEnumeratedDOPropertyValuesSelectors,
+export { default as SearchCollectionsActions } from './search/SearchCollectionsActions'
+export { default as SearchDataobjectsActions } from './search/SearchDataobjectsActions'
+export { default as SearchDatasetsFromDataObjectsActions } from './search/SearchDatasetsFromDataObjectsActions'
+export { default as SearchDocumentsActions } from './search/SearchDocumentsActions'
+export { default as SearchDatasetsActions } from './search/SearchDatasetsActions'
+export { default as SearchEntitiesActions } from './search/SearchEntitiesActions'
+export { default as getSearchEntitiesReducer } from './search/SearchEntitiesReducer'
+export { default as getSearchEntitiesSelectors } from './search/SearchEntitiesSelectors'
+export { default as SearchEntityActions } from './search/SearchEntityActions'
 
-  LinkPluginDatasetActions,
-  getLinkPluginDatasetReducer,
-  getLinkPluginDatasetSelectors,
+export { default as CatalogPluginServiceResultActions } from './services/CatalogPluginServiceResultActions'
 
-  SearchCollectionsActions,
-  SearchDataobjectsActions,
-  SearchDatasetsActions,
-  SearchDatasetsFromDataObjectsActions,
-  SearchDocumentsActions,
-  SearchEntitiesActions,
-  getSearchEntitiesReducer,
-  getSearchEntitiesSelectors,
-
-  SearchEntityActions,
-  CatalogPluginServiceResultActions,
-}
+export { default as SearchEngineConfigurationsActions } from './search-engines/SearchEngineConfigurationsActions'
+export { default as getSearchEngineConfigurationsReducer } from './search-engines/SearchEngineConfigurationsReducer'
+export { default as getSearchEngineConfigurationsSelectors } from './search-engines/SearchEngineConfigurationsSelectors'

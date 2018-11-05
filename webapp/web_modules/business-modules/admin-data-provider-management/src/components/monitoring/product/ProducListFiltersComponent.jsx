@@ -27,7 +27,9 @@ import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
 import TextField from 'material-ui/TextField/TextField'
-import { TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField } from '@regardsoss/components'
+import {
+  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField,
+} from '@regardsoss/components'
 import { DataProviderDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -191,12 +193,12 @@ class ProductListFiltersComponent extends React.Component {
             label={this.context.intl.formatMessage({ id: 'acquisition.product.list.filters.clear.button' })}
             icon={<Close />}
             disabled={
-              !get(this.state, 'filters.state') &&
-              !get(this.state, 'filters.sipState') &&
-              !get(this.state, 'filters.productName') &&
-              !get(this.state, 'filters.session') &&
-              !get(this.state, 'filters.from') &&
-              !get(this.state, 'filters.nosession')
+              !get(this.state, 'filters.state')
+              && !get(this.state, 'filters.sipState')
+              && !get(this.state, 'filters.productName')
+              && !get(this.state, 'filters.session')
+              && !get(this.state, 'filters.from')
+              && !get(this.state, 'filters.nosession')
             }
             onClick={this.handleClearFilters}
           />
@@ -236,15 +238,15 @@ class ProductListFiltersComponent extends React.Component {
               value={get(this.state, 'filters.state', undefined)}
               onChange={this.changeStateFilter}
             >
-              {map(DataProviderDomain.ProductStateValues, state =>
-                (<MenuItem
-                  value={state}
-                  insetChildren
-                  checked={stateValues && stateValues.includes(state)}
-                  primaryText={formatMessage({
-                    id: `acquisition.product.list.filters.state.${state}`,
-                  })}
-                />),
+              {map(DataProviderDomain.ProductStateValues, state => (<MenuItem
+                key={state}
+                value={state}
+                insetChildren
+                checked={stateValues && stateValues.includes(state)}
+                primaryText={formatMessage({
+                  id: `acquisition.product.list.filters.state.${state}`,
+                })}
+              />),
               )}
             </SelectField>
             <TextField
@@ -272,15 +274,14 @@ class ProductListFiltersComponent extends React.Component {
               value={get(this.state, 'filters.sipState', undefined)}
               onChange={this.changeSIPStateFilter}
             >
-              {map(DataProviderDomain.ProductSIPStateEnumValues, sipState =>
-                (<MenuItem
-                  value={sipState}
-                  insetChildren
-                  checked={sipStateValues && sipStateValues.includes(sipState)}
-                  primaryText={formatMessage({
-                    id: `acquisition.product.list.filters.sipState.${sipState}`,
-                  })}
-                />),
+              {map(DataProviderDomain.ProductSIPStateEnumValues, sipState => (<MenuItem
+                value={sipState}
+                insetChildren
+                checked={sipStateValues && sipStateValues.includes(sipState)}
+                primaryText={formatMessage({
+                  id: `acquisition.product.list.filters.sipState.${sipState}`,
+                })}
+              />),
               )}
             </SelectField>
             <TextField

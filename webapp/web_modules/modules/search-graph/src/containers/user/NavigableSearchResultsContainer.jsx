@@ -17,14 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
+import { UIClient } from '@regardsoss/client'
 import { TagTypes } from '@regardsoss/domain/catalog'
 import { AccessShapes, CatalogShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
-import { moduleExpandedStateActions } from '../../clients/ModuleExpandedStateClient'
 import graphContextSelectors from '../../model/graph/GraphContextSelectors'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
+
+/** Module pane state actions default instance */
+const moduleExpandedStateActions = new UIClient.ModuleExpandedStateActions()
 
 /**
 * Navigable search results container: connect results to current search tag in graph (dataset or tag)
@@ -46,12 +49,14 @@ export class NavigableSearchResultsContainer extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
-  static mapDispatchToProps(dispatch) {
+  static mapDispatchToProps(dispatch, { id }) {
+    const searchGraphPaneKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(modulesManager.AllDynamicModuleTypes.SEARCH_GRAPH, id)
+    const searchResultsPaneKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS, id)
     return {
-      dispatchExpandResults: () => dispatch(moduleExpandedStateActions.expand(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS)),
-      dispatchCollapseGraph: () => dispatch(moduleExpandedStateActions.collapse(modulesManager.AllDynamicModuleTypes.SEARCH_GRAPH)),
+      dispatchExpandResults: () => dispatch(moduleExpandedStateActions.setNormal(searchResultsPaneKey)),
+      dispatchCollapseGraph: () => dispatch(moduleExpandedStateActions.setMinimized(searchGraphPaneKey)),
     }
   }
 
@@ -82,7 +87,7 @@ export class NavigableSearchResultsContainer extends React.Component {
     return [{
       type: tag.type,
       label: tag.type === TagTypes.WORD ? tag.data : tag.data.content.label,
-      searchKey: tag.type === TagTypes.WORD ? tag.data : tag.data.content.ipId,
+      searchKey: tag.type === TagTypes.WORD ? tag.data : tag.data.content.id,
     }]
   }
 
@@ -116,6 +121,7 @@ export class NavigableSearchResultsContainer extends React.Component {
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
       active: true,
       applicationId: appName,
+      id: newProps.id,
       // should force opening the results module (on tag selection)
       conf: {
         ...moduleConf.searchResult, // results re use a part of this module configuration
@@ -144,14 +150,14 @@ export class NavigableSearchResultsContainer extends React.Component {
       description: resultsConfiguration.conf.initialContextTags.length ? null : formatMessage({ id: 'search.graph.results.title.without.tag' }),
     }
     return (
-      <div>
+      <React.Fragment>
         <HorizontalAreasSeparator />
         <LazyModuleComponent
           project={project}
           appName={appName}
           module={configurationWithI18N}
         />
-      </div>
+      </React.Fragment>
     )
   }
 }

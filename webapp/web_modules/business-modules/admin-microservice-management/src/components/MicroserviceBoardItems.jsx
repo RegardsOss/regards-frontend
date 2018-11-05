@@ -48,9 +48,9 @@ const items = (project, microservices, isMicroserviceActive, isMicroserviceBacku
   const computedStyles = styles(theme)
   return map(microservices, (microservice) => {
     const maintenanceOn = !isMicroserviceActive(microservice)
-    const confirmMessage = maintenanceOn ?
-      intl.formatMessage({ id: 'microservice-management.maintenance.switch.mode.on.confirm' }, { name: microservice }) :
-      intl.formatMessage({ id: 'microservice-management.maintenance.switch.mode.off.confirm' }, { name: microservice })
+    const confirmMessage = maintenanceOn
+      ? intl.formatMessage({ id: 'microservice-management.maintenance.switch.mode.on.confirm' }, { name: microservice })
+      : intl.formatMessage({ id: 'microservice-management.maintenance.switch.mode.off.confirm' }, { name: microservice })
     const actions = [{
       path: `/admin/${project}/microservice/${microservice}/plugin/list`,
       icon: <ExtensionIcon />,
@@ -62,9 +62,9 @@ const items = (project, microservices, isMicroserviceActive, isMicroserviceBacku
     {
       icon: getMaintenanceIcon(!maintenanceOn, computedStyles),
       tooltipMsg: intl.formatMessage({
-        id: maintenanceOn ?
-          'microservice-management.maintenance.tooltip.off' :
-          'microservice-management.maintenance.tooltip.on',
+        id: maintenanceOn
+          ? 'microservice-management.maintenance.tooltip.off'
+          : 'microservice-management.maintenance.tooltip.on',
       }),
       confirmMessage,
       touchTapAction: () => {
@@ -98,4 +98,3 @@ const items = (project, microservices, isMicroserviceActive, isMicroserviceBacku
 }
 
 export default items
-

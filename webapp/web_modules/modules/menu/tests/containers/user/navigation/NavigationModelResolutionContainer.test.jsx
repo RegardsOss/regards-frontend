@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { AccessDomain } from '@regardsoss/domain'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { modulesManager } from '@regardsoss/modules'
@@ -25,6 +26,7 @@ import { NavigationModelResolutionContainer } from '../../../../src/containers/u
 import styles from '../../../../src/styles'
 import { aNavigationConfiguration, anHomeConfiguration } from '../../../dumps/configuration.dump'
 import { allDefaultConfigDumpModules, modulesWithNewAndDeleted } from '../../../dumps/modules.dump'
+import { VISIBILITY_MODES_ENUM } from '../../../../src/domain/VisibilityModes'
 
 const context = buildTestContext(styles)
 
@@ -41,6 +43,7 @@ describe('[Menu] Testing NavigationModelResolutionContainer', () => {
   })
   it('should render correctly, resolving items for children and selection at mounting and on properties changed', () => {
     const props = {
+      roleList: { 1: { content: { name: 'R1' } } },
       currentModuleId: 5, // home module ID
       homeConfiguration: anHomeConfiguration, // used only in onPropertiesUpdated
       navigationConfiguration: aNavigationConfiguration,
@@ -52,7 +55,7 @@ describe('[Menu] Testing NavigationModelResolutionContainer', () => {
     const initialState = enzymeWrapper.state()
     assert.isOk(initialState, 'The component should have a state at initialization')
     assert.lengthOf(initialState.navigationElements, aNavigationConfiguration.length - 1,
-      'It should have resolved initially the navigation elements from configuration (removing the final empty section)')
+      'It should have resolved initially the navigation elements from configuration (removing the final empty section but keeping all items as they are ALWAYS visible)')
     assert.isTrue(initialState.navigationElements[0].selected, 'It should also resolve initially the selected item (when possible)')
     assert.isFalse(initialState.navigationElements[1].selected, 'And not select all elements by the way...')
 
@@ -93,6 +96,7 @@ describe('[Menu] Testing NavigationModelResolutionContainer', () => {
 
     const props = {
       currentModuleId: 5, // home module ID
+      roleList: { 1: { content: { name: 'R1' } } },
       homeConfiguration: anHomeConfiguration, // used only in onPropertiesUpdated
       navigationConfiguration: aNavigationConfiguration,
       dynamicModules: targetModules,
@@ -153,5 +157,166 @@ describe('[Menu] Testing NavigationModelResolutionContainer', () => {
       type: modulesManager.VisibleModuleTypes.SEARCH_FORM,
     }, 'R2 Module definition should be reported')
     assert.deepEqual(r3.title, targetModules[targetModules.length - 1].content.page.title, 'Standard module configuration should be retrieved from dynamic module')
+  })
+  it('should hide modules and section based on user role and provided configuration', () => {
+    // rigths management:
+    // INSTANCE_ADMIN | PROJECT_ADMIN | R2 -> R1 -> PUBLIC
+    // we create here a custom configuration where
+    // M1 module is PUBLIC (always visible for everyone)
+    // M2 module is R1
+    // S1 section is R1
+    // S1.M3 module is R2
+    // S1.M4 module is never visible (should always be removed)
+    // S1.M5 module is visible for a non existing role: only project admin and instance admin should see it
+    const configWithRoles = [
+      { // M1: Home module
+        id: 1,
+        type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+        visibilityMode: VISIBILITY_MODES_ENUM.FOR_ROLE,
+        visibleForRole: 'PUBLIC',
+      },
+      { // M2
+        id: 2,
+        type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+        visibilityMode: VISIBILITY_MODES_ENUM.FOR_ROLE,
+        visibleForRole: 'R1',
+      },
+      { // S1
+        id: 0,
+        type: NAVIGATION_ITEM_TYPES_ENUM.SECTION,
+        visibilityMode: VISIBILITY_MODES_ENUM.FOR_ROLE,
+        visibleForRole: 'R1',
+        icon: {
+          type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM,
+          url: './cocorico.svg',
+        },
+        title: {
+          en: 'aSection',
+          fr: 'uneSection',
+        },
+        children: [{ // S1.M3
+          id: 3,
+          type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+          visibilityMode: VISIBILITY_MODES_ENUM.FOR_ROLE,
+          visibleForRole: 'R2',
+        }, { // S1.M4
+          id: 4,
+          type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+          visibilityMode: VISIBILITY_MODES_ENUM.NEVER,
+        }],
+      },
+      { // M5
+        id: 5,
+        type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+        visibilityMode: VISIBILITY_MODES_ENUM.FOR_ROLE,
+        visibleForRole: 'NON_EXISTING',
+      },
+    ]
+
+    // provide role linked list
+    const roleList = {
+      PUBLIC: {
+        content: {
+          name: 'PUBLIC',
+        },
+      },
+      PROJECT_ADMIN: {
+        content: {
+          name: 'PROJECT_ADMIN',
+        },
+      },
+    }
+    roleList.R1 = {
+      content: {
+        name: 'R1',
+        parentRole: roleList.PUBLIC.content,
+      },
+    }
+    roleList.R2 = {
+      content: {
+        name: 'R2',
+        parentRole: roleList.R1.content,
+      },
+    }
+    // provide dynamic modules (only IDs are changed here)
+    const dynamicModules = [1, 2, 3, 4, 5].map(id => ({
+      content: {
+        id,
+        active: true,
+        type: 'IDK',
+        container: 'dyn1',
+        description: `description-${id}`,
+        page: {
+          iconType: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.NONE,
+          title: { en: `title-${id}-en`, fr: `title-${id}-fr` },
+          home: id === 1,
+        },
+        conf: {},
+      },
+    }))
+
+    const props = {
+      currentModuleId: 1,
+      roleList,
+      homeConfiguration: anHomeConfiguration,
+      navigationConfiguration: configWithRoles,
+      dynamicModules,
+    }
+    // 1 - test for non logged user: should have only PUBLIC elements
+    const enzymeWrapper = shallow(<NavigationModelResolutionContainer {...props} />)
+    let { navigationElements } = enzymeWrapper.state()
+    assert.lengthOf(navigationElements, 1, '[NOT LOGGED] Only first module should be allowed for non logged user')
+    assert.equal(navigationElements[0].type, NAVIGATION_ITEM_TYPES_ENUM.MODULE, '[NOT LOGGED] First element should be of type module')
+    assert.equal(navigationElements[0].module.id, 1, '[NOT LOGGED] First element should be the module M1')
+
+    // 2 - test for non logged user: should have only PUBLIC elements
+    enzymeWrapper.setProps({ ...props, currentRole: 'PUBLIC' })
+    navigationElements = enzymeWrapper.state().navigationElements
+    assert.lengthOf(navigationElements, 1, '[PUBLIC] Only first module should be allowed for non logged user')
+    assert.equal(navigationElements[0].type, NAVIGATION_ITEM_TYPES_ENUM.MODULE, '[PUBLIC] First element should be of type module')
+    assert.equal(navigationElements[0].module.id, 1, '[PUBLIC] First element should be the module M1')
+
+    // 3 - test for logged user with role R1: M1 and M2 should be visible, but S1 should be hidden as it has no visible module
+    enzymeWrapper.setProps({ ...props, currentRole: 'R1' })
+    navigationElements = enzymeWrapper.state().navigationElements
+    assert.lengthOf(navigationElements, 2, '[R1] M1 and M2 shoud be allowed ')
+    assert.equal(navigationElements[0].type, NAVIGATION_ITEM_TYPES_ENUM.MODULE, '[R1] [0] Expected module type')
+    assert.equal(navigationElements[0].module.id, 1, '[R1] [0] Expected M1 ID')
+    assert.equal(navigationElements[1].type, NAVIGATION_ITEM_TYPES_ENUM.MODULE, '[R1] [1] Expected module type')
+    assert.equal(navigationElements[1].module.id, 2, '[R1] [1] Expected M2 ID')
+
+    // 4 - test for logged user with role R2: M1, M2, S1 and S1.M3 should be visible
+    enzymeWrapper.setProps({ ...props, currentRole: 'R2' })
+    navigationElements = enzymeWrapper.state().navigationElements
+    assert.lengthOf(navigationElements, 3, '[R2] M1, M2 and S1 shoud be allowed ')
+    assert.equal(navigationElements[0].type, NAVIGATION_ITEM_TYPES_ENUM.MODULE, '[R2] [0] Expected module type')
+    assert.equal(navigationElements[0].module.id, 1, '[R2] [0] Expected M1 ID')
+    assert.equal(navigationElements[1].type, NAVIGATION_ITEM_TYPES_ENUM.MODULE, '[R2] [1] Expected module type')
+    assert.equal(navigationElements[1].module.id, 2, '[R2] [1] Expected M2 ID')
+    let navigationSection = navigationElements[2]
+    assert.equal(navigationSection.type, NAVIGATION_ITEM_TYPES_ENUM.SECTION, '[R2] [2] Expected section type')
+    assert.lengthOf(navigationSection.children, 1, '[R2] [2] section should have one module')
+    assert.equal(navigationSection.children[0].type, NAVIGATION_ITEM_TYPES_ENUM.MODULE, '[R2] [2][0] Expected module type')
+    assert.equal(navigationSection.children[0].module.id, 3, '[R2] [2][0] Expected M3 ID')
+
+    // 5 - test for logged user with role PROJECT_ADMIN: all modules but M4 visible (VISIBILITY mode NEVER cannot be overpassed by rights)
+    enzymeWrapper.setProps({ ...props, currentRole: 'PROJECT_ADMIN' })
+    navigationElements = enzymeWrapper.state().navigationElements
+    assert.lengthOf(navigationElements, 4, '[PROJECT_ADMIN] all root items should be visible ')
+    navigationSection = navigationElements[2]
+    assert.equal(navigationSection.type, NAVIGATION_ITEM_TYPES_ENUM.SECTION, '[PROJECT_ADMIN] [2] Expected section type')
+    assert.lengthOf(navigationSection.children, 1, '[PROJECT_ADMIN] [2] section should have one module')
+    assert.equal(navigationSection.children[0].type, NAVIGATION_ITEM_TYPES_ENUM.MODULE, '[PROJECT_ADMIN] [2][0] Expected module type')
+    assert.equal(navigationSection.children[0].module.id, 3, '[PROJECT_ADMIN] [2][0] Expected M3 ID')
+
+    // 6 - test for logged user with role INSTANCE_ADMIN
+    enzymeWrapper.setProps({ ...props, currentRole: 'INSTANCE_ADMIN' })
+    navigationElements = enzymeWrapper.state().navigationElements
+    assert.lengthOf(navigationElements, 4, '[INSTANCE_ADMIN] all root items should be visible ')
+    navigationSection = navigationElements[2]
+    assert.equal(navigationSection.type, NAVIGATION_ITEM_TYPES_ENUM.SECTION, '[INSTANCE_ADMIN] [2] Expected section type')
+    assert.lengthOf(navigationSection.children, 1, '[INSTANCE_ADMIN] [2] section should have one module')
+    assert.equal(navigationSection.children[0].type, NAVIGATION_ITEM_TYPES_ENUM.MODULE, '[INSTANCE_ADMIN] [2][0] Expected module type')
+    assert.equal(navigationSection.children[0].module.id, 3, '[INSTANCE_ADMIN] [2][0] Expected M3 ID')
   })
 })

@@ -29,4 +29,3 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing styles', () => {
     assert.isFunction(styles)
   })
 })
-

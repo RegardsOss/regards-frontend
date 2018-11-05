@@ -19,7 +19,9 @@
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
-import { ThemeActions, ThemeInstanceActions, ThemeSelectors, getCurrentTheme } from '@regardsoss/theme'
+import {
+  ThemeActions, ThemeInstanceActions, ThemeSelectors, getCurrentTheme,
+} from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
 import ThemeListContainer from './ThemeListContainer'
 
@@ -39,10 +41,10 @@ export class ThemeListAdapter extends React.Component {
     themeList: AccessShapes.ThemeList,
 
     // Set by mapDispatchToProps
-    fetchThemeList: PropTypes.func,
-    fetchThemeInstanceList: PropTypes.func,
-    deleteTheme: PropTypes.func,
-    deleteInstanceTheme: PropTypes.func,
+    fetchThemeList: PropTypes.func.isRequired,
+    fetchThemeInstanceList: PropTypes.func.isRequired,
+    deleteTheme: PropTypes.func.isRequired,
+    deleteInstanceTheme: PropTypes.func.isRequired,
   }
 
   getCreateUrl = () => {
@@ -53,24 +55,26 @@ export class ThemeListAdapter extends React.Component {
     return `/admin/${project}/ui/theme/create`
   }
 
-  getBackUrl = () => {
-    if (this.props.isInstance) {
-      return '/admin/ui/board'
-    }
-    const { params: { project } } = this.props
-    return `/admin/${project}/ui/board`
+  /** @return {string} specific project URL or instance admin URL if on instance */
+  getRootURL = () => {
+    const { isInstance, params } = this.props
+    return isInstance ? '/admin' : `/admin/${params.project}`
   }
 
-  handleEdit = (themeId) => {
-    if (this.props.isInstance) {
-      const url = `/admin/ui/theme/${themeId}/edit`
-      browserHistory.push(url)
-      return
-    }
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/ui/theme/${themeId}/edit`
-    browserHistory.push(url)
-  }
+  /** @return {string} back URL */
+  getBackUrl = () => `${this.getRootURL()}/ui/board`
+
+  /**
+   * Browse to edition form
+   * @param {*} themeId theme ID
+   */
+  handleEdit = themeId => browserHistory.push(`${this.getRootURL()}/ui/theme/${themeId}/edit`)
+
+  /**
+   * Browse to duplicate form
+   * @param {*} themeId theme ID
+   */
+  handleDuplicate = themeId => browserHistory.push(`${this.getRootURL()}/ui/theme/${themeId}/duplicate`)
 
 
   render() {
@@ -83,6 +87,7 @@ export class ThemeListAdapter extends React.Component {
         backUrl={this.getBackUrl()}
         createUrl={this.getCreateUrl()}
         handleEdit={this.handleEdit}
+        handleDuplicate={this.handleDuplicate}
         deleteTheme={deleteTheme}
         fetchThemeList={fetchThemeList}
       />

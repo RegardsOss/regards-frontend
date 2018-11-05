@@ -51,8 +51,8 @@ class DateRangeValueRender extends React.Component {
     const { multilineDisplay } = this.props
     const { intl, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
 
-    const textValue = getFormattedRange(intl, getFormattedDate(intl, value.lowerBound), getFormattedDate(intl, value.upperBound)) ||
-      intl.formatMessage({ id: 'value.render.no.value.label' })
+    const textValue = getFormattedRange(intl, getFormattedDate(intl, value.lowerBound), getFormattedDate(intl, value.upperBound))
+      || intl.formatMessage({ id: 'value.render.no.value.label' })
     return (
       <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue}>
         {textValue}
@@ -61,4 +61,3 @@ class DateRangeValueRender extends React.Component {
 }
 
 export default DateRangeValueRender
-

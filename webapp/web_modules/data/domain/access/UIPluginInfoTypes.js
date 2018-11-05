@@ -18,20 +18,15 @@
  **/
 import values from 'lodash/values'
 
-const UI_PLUGIN_INFO_TYPES_ENUM = {
-  CRITERIA: 'CRITERIA',
-  SERVICE: 'SERVICE',
-}
-
-const UI_PLUGIN_INFO_TYPES = values(UI_PLUGIN_INFO_TYPES_ENUM)
-
 /**
  * Available UIPlugin types
  *
  * @author Sébastien Binda
  */
 
-module.exports = {
-  UI_PLUGIN_INFO_TYPES_ENUM,
-  UI_PLUGIN_INFO_TYPES,
+export const UI_PLUGIN_INFO_TYPES_ENUM = {
+  CRITERIA: 'CRITERIA',
+  SERVICE: 'SERVICE',
 }
+
+export const UI_PLUGIN_INFO_TYPES = values(UI_PLUGIN_INFO_TYPES_ENUM)

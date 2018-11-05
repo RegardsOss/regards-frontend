@@ -29,6 +29,7 @@ export class NotifyLicenseUpdatedActions extends BasicSignalActions {
       namespace: 'licenses/reset',
     })
   }
+
   /**
    * Send license updated notification accepted licenses
    * @param project project
@@ -40,4 +41,3 @@ export class NotifyLicenseUpdatedActions extends BasicSignalActions {
 
 // export instance
 export default new NotifyLicenseUpdatedActions()
-

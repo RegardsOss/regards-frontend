@@ -19,6 +19,7 @@
 import { Link } from 'react-router'
 import FlatButton from 'material-ui/FlatButton/FlatButton'
 import { UIDomain } from '@regardsoss/domain'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ModuleIcon, ModuleTitleText } from '@regardsoss/components'
 import { ModuleNavigationItem } from '../../../../shapes/Navigation'
@@ -30,17 +31,18 @@ import { ModuleNavigationItem } from '../../../../shapes/Navigation'
 class MainBarModuleLink extends React.Component {
   static propTypes = {
     item: ModuleNavigationItem.isRequired,
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     buildLinkURL: PropTypes.func.isRequired,
   }
 
+
   static contextTypes = {
+    ...i18nContextType,
     ...themeContextType,
   }
 
   render() {
     const {
-      locale, buildLinkURL, item: {
+      buildLinkURL, item: {
         iconType,
         customIconURL,
         selected,
@@ -48,9 +50,9 @@ class MainBarModuleLink extends React.Component {
         module,
       },
     } = this.props
-    const { moduleTheme: { user: { navigationItem } } } = this.context
+    const { intl: { locale }, moduleTheme: { user: { navigationItem } } } = this.context
     return (
-      <Link to={buildLinkURL(module)} >
+      <Link to={buildLinkURL(module)}>
         <FlatButton
           label={ModuleTitleText.selectTitle(title, module.description, locale)}
           secondary={selected}

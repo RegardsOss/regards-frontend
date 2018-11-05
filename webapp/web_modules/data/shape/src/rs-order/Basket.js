@@ -23,18 +23,28 @@
  * @author Raphaël Mechali
  */
 
+/** Expresses a request for a dated selection */
+export const BasketSelelectionRequest = PropTypes.shape({
+  engineType: PropTypes.string.isRequired,
+  datasetUrn: PropTypes.string, // optional dataset restriction
+  entityIdsToInclude: PropTypes.arrayOf(PropTypes.string),
+  entityIdsToExclude: PropTypes.arrayOf(PropTypes.string),
+  searchParameters: PropTypes.object,
+  selectionDate: PropTypes.string.isRequired,
+})
+
 /** A dated selection item shape */
-const BasketDatedItemsSelection = PropTypes.shape({
-  objectsCount: PropTypes.number.isRequired,
-  filesCount: PropTypes.number.isRequired,
-  filesSize: PropTypes.number.isRequired,
+export const BasketDatedItemsSelection = PropTypes.shape({
   date: PropTypes.string.isRequired, // should be an UTC date
-  openSearchRequest: PropTypes.string,
+  filesCount: PropTypes.number.isRequired,
+  objectsCount: PropTypes.number.isRequired,
+  filesSize: PropTypes.number.isRequired,
+  selectionRequest: BasketSelelectionRequest.isRequired,
 })
 
 
 /** A dataset selection shape, containing dated selection items */
-const BasketDatasetSelection = PropTypes.shape({
+export const BasketDatasetSelection = PropTypes.shape({
   id: PropTypes.number.isRequired,
   datasetIpid: PropTypes.string.isRequired,
   datasetLabel: PropTypes.string.isRequired,
@@ -45,13 +55,7 @@ const BasketDatasetSelection = PropTypes.shape({
 })
 
 /** The basket shape */
-const Basket = PropTypes.shape({
+export const Basket = PropTypes.shape({
   id: PropTypes.number.isRequired,
   datasetSelections: PropTypes.arrayOf(BasketDatasetSelection),
 })
-
-module.exports = {
-  BasketDatedItemsSelection,
-  BasketDatasetSelection,
-  Basket,
-}

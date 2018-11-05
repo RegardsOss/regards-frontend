@@ -19,7 +19,10 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { Field } from '@regardsoss/form-utils'
+import { modulesManager } from '@regardsoss/modules'
 import AdminContainer from '../../src/containers/AdminContainer'
+import { ModuleContainer } from '../../src/containers/ModuleContainer'
 import styles from '../../src/styles/styles'
 
 /**
@@ -36,7 +39,7 @@ describe('[Embedded-html] Testing AdminContainer', () => {
   it('should exists', () => {
     assert.isDefined(AdminContainer)
   })
-  it('should render properly', () => {
+  it('should render correctly', () => {
     const props = {
       appName: 'x',
       project: 'y',
@@ -50,6 +53,30 @@ describe('[Embedded-html] Testing AdminContainer', () => {
       },
       moduleConf: {},
     }
-    shallow(<AdminContainer {...props} />, { context })
+    const wrapper = shallow(<AdminContainer {...props} />, { context })
+    const wrapperInstance = wrapper.instance()
+    // 1 - check each field is available
+    const allFields = wrapper.find(Field)
+    const searchFields = ['CONF_HEIGHT', 'CONF_WIDTH', 'CONF_EN_URL', 'CONF_FR_URL']
+    searchFields.forEach((field) => {
+      const fieldName = wrapperInstance[field]
+      assert.lengthOf(allFields.findWhere(n => n.props().name === fieldName), 1,
+        `There should be the field ${fieldName} (property ${field})`)
+    })
+
+    // 2 - check there is the preview container
+    const previewContainer = wrapper.find(ModuleContainer)
+    assert.lengthOf(previewContainer, 1, 'There should be user container, disconnected, as preview displayer')
+    testSuiteHelpers.assertWrapperProperties(previewContainer, {
+      appName: props.appName,
+      project: props.project,
+      type: modulesManager.AllDynamicModuleTypes.EMBEDDED_HMTL,
+      moduleConf: {
+        cssHeight: undefined,
+        cssWidth: undefined,
+        urlByLocale: undefined,
+      },
+      locale: wrapper.state().previewLocale,
+    }, 'Container properties should be correctly computed')
   })
 })

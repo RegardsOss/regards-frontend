@@ -25,11 +25,5 @@ import { DataManagementClient } from '@regardsoss/client'
  */
 const REDUX_ACTION_NAMESPACE = 'admin-data-document-management/document-link'
 
-const documentLinkReducer = DataManagementClient.getDocumentLinkReducer(REDUX_ACTION_NAMESPACE)
-const documentLinkActions = new DataManagementClient.DocumentLinkActions(REDUX_ACTION_NAMESPACE)
-
-
-module.exports = {
-  documentLinkReducer,
-  documentLinkActions,
-}
+export const documentLinkReducer = DataManagementClient.getDocumentLinkReducer(REDUX_ACTION_NAMESPACE)
+export const documentLinkActions = new DataManagementClient.DocumentLinkActions(REDUX_ACTION_NAMESPACE)

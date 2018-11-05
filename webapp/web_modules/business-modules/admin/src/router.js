@@ -54,11 +54,11 @@ export const projectRouter = {
  * @type {{path: string, getChildRoutes: ((nextState, cb))}}
  */
 export const accountRouter = {
-  path: 'account',
+  path: 'accounts',
   getChildRoutes(nextState, cb) {
     require.ensure([], (require) => {
-      const adminAccountManagement = require('@regardsoss/admin-account-management')
-      cb(null, [adminAccountManagement.accountManagementRouter])
+      const adminAccountManagement = require('@regardsoss/admin-board-account')
+      cb(null, [adminAccountManagement.accountsRouter])
     })
   },
 }
@@ -106,22 +106,6 @@ export const adminMicroserviceManagementRouter = {
   },
 }
 
-
-/**
- * Main route to manage Access rights between Dataset and AccessGroup
- *
- * @type {{path: string, getChildRoutes: ((nextState, cb))}}
- */
-export const adminAccessRightManagementRouter = {
-  path: ':project/data/access-right',
-  getChildRoutes(nextState, cb) {
-    require.ensure([], (require) => {
-      const adminAccessRightManagement = require('@regardsoss/admin-accessright-management')
-      cb(null, [adminAccessRightManagement.accessRightManagementRouter])
-    })
-  },
-}
-
 /**
  * @type {{path: string, getChildRoutes: ((nextState, cb))}}
  */
@@ -165,11 +149,24 @@ export const collectionsRouter = {
   },
 }
 
+/**
+ * @type {{path: string, getChildRoutes: ((nextState, cb))}}
+ */
+export const dataAccessRouter = {
+  path: ':project/dataaccess',
+  getChildRoutes(nextState, cb) {
+    require.ensure([], (require) => {
+      const board = require('@regardsoss/admin-board-dataaccess')
+      cb(null, [board.dataAccessRouter])
+    })
+  },
+}
+
 
 /**
  * Main Routes for administration application
  */
-module.exports = {
+export default {
   path: 'admin',
   childRoutes: [
     projectRouter,
@@ -179,10 +176,10 @@ module.exports = {
     projectAdminUiConfigurationRouter,
     projectAdminRouter,
     adminMicroserviceManagementRouter,
-    adminAccessRightManagementRouter,
     acquisitionRouter,
     collectionsRouter,
     modelsRouter,
+    dataAccessRouter,
   ],
   getComponent(nextState, cb) {
     require.ensure([], (require) => {

@@ -16,24 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { accountActions } from './clients/AccountClient'
+import { accountSettingsActions } from './clients/AccountSettingsClient'
 
 /**
  * Module hateoas depencies
  * @author Sébastien binda
  */
-/**
- * Mandatory Dependencies to display module in user interface
- * @type {Array}
- */
-const user = []
 
-/**
-  * Mandatory Dependencies to display module in admin interface
-* @type {Array}
-*/
-const admin = []
+/** Create account dependencies */
+const createDepencencies = [
+  accountActions.getDependency(RequestVerbEnum.PUT),
+]
 
-module.exports = {
-  user,
-  admin,
+/** list account dependencies */
+const listDependencies = [
+  accountActions.getDependency(RequestVerbEnum.GET_LIST),
+]
+
+/** Accounts settings dependencies */
+const settingsDependencies = [
+  accountSettingsActions.getDependency(RequestVerbEnum.GET),
+  accountSettingsActions.getDependency(RequestVerbEnum.PUT),
+]
+export default {
+  createDepencencies,
+  listDependencies,
+  settingsDependencies,
 }

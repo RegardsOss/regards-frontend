@@ -16,17 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import reduce from 'lodash/reduce'
 
 /**
  * Default available types of container for layout configuration
  * @author Sébastien Binda
  */
-module.exports = {
+export const ALL_CONTAINERS = {
   /**
    * Default application main container.
    */
   MainContainer: {
     inUserApp: false,
+    dynamicOnly: false,
     classes: [],
     styles: {
       backgroundColor: 'transparent',
@@ -41,6 +43,7 @@ module.exports = {
   },
   FormMainContainer: {
     inUserApp: false,
+    dynamicOnly: false,
     classes: [],
     styles: {
       backgroundColor: 'transparent',
@@ -57,6 +60,7 @@ module.exports = {
    */
   RowContainer: {
     inUserApp: true,
+    dynamicOnly: false,
     i18nKey: 'container.type.row.container',
     classes: ['row'],
     styles: {
@@ -67,20 +71,25 @@ module.exports = {
   },
   ContentRowContainer: {
     inUserApp: true,
+    dynamicOnly: true, // should not be provided to form layout and such
     i18nKey: 'container.type.content.row.container',
     classes: ['row'],
     styles: {
       margin: 0,
       flexShrink: 1,
       flexGrow: 1,
+      display: 'flex',
+      alignItems: 'stretch',
+      flexDirection: 'column',
     },
   },
   /**
    * Column container to display full width responsive column
    */
   ColumnContainer100PercentWidth: {
-    i18nKey: 'container.type.content.column.100.percent.container',
     inUserApp: true,
+    dynamicOnly: false,
+    i18nKey: 'container.type.content.column.100.percent.container',
     classes: ['col-sm-98', 'col-sm-offset-1'],
     styles: {
       marginBottom: '1px',
@@ -90,8 +99,9 @@ module.exports = {
  * Column container to display a large responsive column.
  */
   ColumnContainer75PercentWidth: {
-    i18nKey: 'container.type.content.column.75.percent.container',
     inUserApp: true,
+    dynamicOnly: false,
+    i18nKey: 'container.type.content.column.75.percent.container',
     classes: ['col-sm-75'],
     styles: {
       margin: '1px',
@@ -102,6 +112,7 @@ module.exports = {
    */
   ColumnContainer50PercentWidth: {
     inUserApp: true,
+    dynamicOnly: false,
     i18nKey: 'container.type.content.column.50.percent.container',
     classes: ['col-sm-48'],
     styles: {
@@ -112,11 +123,18 @@ module.exports = {
    * Column container to display a small responsive column.
    */
   ColumnContainer25PercentWidth: {
-    i18nKey: 'container.type.content.column.25.percent.container',
     inUserApp: true,
+    dynamicOnly: false,
+    i18nKey: 'container.type.content.column.25.percent.container',
     classes: ['col-sm-23'],
     styles: {
       margin: '1px',
     },
   },
 }
+
+/** Store filter map of static containers */
+export const STATIC_CONTAINERS = reduce(ALL_CONTAINERS, (acc, value, key) => value.dynamicOnly ? acc : {
+  ...acc,
+  [key]: value,
+}, {})

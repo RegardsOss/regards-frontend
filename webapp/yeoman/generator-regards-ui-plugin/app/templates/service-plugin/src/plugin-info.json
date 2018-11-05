@@ -23,7 +23,7 @@
     ],
     "static": {
       "static1": {
-        "type": "foo",
+        "type": "string",
         "required": false
       }
     },

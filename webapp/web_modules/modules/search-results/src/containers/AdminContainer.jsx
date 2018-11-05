@@ -19,6 +19,7 @@
 import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import SearchResultsConfigurationComponent from '../components/admin/SearchResultsConfigurationComponent'
 import {
   DataAttributeModelActions,
@@ -66,26 +67,30 @@ export class AdminContainer extends React.Component {
       this.props.fetchAllDataAttributes(),
     ]
     Promise.all(tasks)
-      .then(() =>
-        this.setState({ isLoading: false }))
+      .then(() => this.setState({ isLoading: false }))
   }
 
   render() {
-    const currentFormValues = get(this.props.adminForm.form, this.props.adminForm.currentNamespace)
-    const adminConf = get(this.props.adminForm, 'conf', {})
-    if (this.props.adminForm.form && !this.state.isLoading) {
+    const { isLoading } = this.state
+    const { adminForm } = this.props
+    const currentFormValues = get(adminForm.form, this.props.adminForm.currentNamespace)
+    const adminConf = get(adminForm, 'conf', {})
+    if (this.props.adminForm.form) {
       return (
-        <SearchResultsConfigurationComponent
-          dataAttributeModels={this.props.dataAttributeModels}
-          datasetAttributeModels={this.props.datasetAttributeModels}
-          documentAttributeModels={this.props.documentAttributeModels}
-          currentFormValues={currentFormValues}
-          initialFormValues={this.props.moduleConf}
-          isCreating={this.props.adminForm.isCreating}
-          adminConf={adminConf}
-          changeField={this.props.adminForm.changeField}
-          currentNamespace={this.props.adminForm.currentNamespace}
-        />
+        <LoadableContentDisplayDecorator
+          isLoading={isLoading}
+        >
+          <SearchResultsConfigurationComponent
+            dataAttributeModels={this.props.dataAttributeModels}
+            datasetAttributeModels={this.props.datasetAttributeModels}
+            documentAttributeModels={this.props.documentAttributeModels}
+            currentFormValues={currentFormValues}
+            isCreating={this.props.adminForm.isCreating}
+            adminConf={adminConf}
+            changeField={this.props.adminForm.changeField}
+            currentNamespace={this.props.adminForm.currentNamespace}
+          />
+        </LoadableContentDisplayDecorator>
       )
     }
     return null
@@ -100,13 +105,12 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAllDataAttributes: () => dispatch(DataAttributeModelActions.fetchEntityList({ pModelType: 'DATA' })),
-  fetchAllDatasetModelsAttributes: () => dispatch(DatasetAttributeModelActions.fetchEntityList({ pModelType: 'DATASET' })),
-  fetchAllDocumentModelsAttributes: () => dispatch(DocumentAttributeModelActions.fetchEntityList({ pModelType: 'DOCUMENT' })),
+  fetchAllDataAttributes: () => dispatch(DataAttributeModelActions.fetchEntityList({ modelType: 'DATA' })),
+  fetchAllDatasetModelsAttributes: () => dispatch(DatasetAttributeModelActions.fetchEntityList({ modelType: 'DATASET' })),
+  fetchAllDocumentModelsAttributes: () => dispatch(DocumentAttributeModelActions.fetchEntityList({ modelType: 'DOCUMENT' })),
 })
 
 const UnconnectedAdminContainer = AdminContainer
 export { UnconnectedAdminContainer }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminContainer)
-

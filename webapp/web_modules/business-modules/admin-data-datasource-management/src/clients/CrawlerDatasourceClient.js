@@ -26,13 +26,6 @@ import { DataManagementClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'datasource', 'crawler']
 const REDUX_ACTION_NAMESPACE = 'admin-data-datasource-management/datasource-crawler'
 
-const crawlerDatasourceReducer = DataManagementClient.CrawlerDatasourceReducer(REDUX_ACTION_NAMESPACE)
-const crawlerDatasourceActions = new DataManagementClient.CrawlerDatasourceActions(REDUX_ACTION_NAMESPACE)
-const crawlerDatasourceSelectors = DataManagementClient.CrawlerDatasourceSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  crawlerDatasourceReducer,
-  crawlerDatasourceActions,
-  crawlerDatasourceSelectors,
-}
+export const crawlerDatasourceReducer = DataManagementClient.CrawlerDatasourceReducer(REDUX_ACTION_NAMESPACE)
+export const crawlerDatasourceActions = new DataManagementClient.CrawlerDatasourceActions(REDUX_ACTION_NAMESPACE)
+export const crawlerDatasourceSelectors = DataManagementClient.CrawlerDatasourceSelectors(ENTITIES_STORE_PATH)

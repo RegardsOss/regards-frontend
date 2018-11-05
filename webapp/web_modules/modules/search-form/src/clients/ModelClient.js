@@ -26,13 +26,6 @@ import { DataManagementClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['modules.search-form', 'models']
 const REDUX_ACTION_NAMESPACE = 'form/datasets/models'
 
-const modelReducer = DataManagementClient.ModelReducer(REDUX_ACTION_NAMESPACE)
-const modelActions = new DataManagementClient.ModelActions(REDUX_ACTION_NAMESPACE)
-const modelSelectors = DataManagementClient.ModelSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  modelReducer,
-  modelActions,
-  modelSelectors,
-}
+export const modelReducer = DataManagementClient.ModelReducer(REDUX_ACTION_NAMESPACE)
+export const modelActions = new DataManagementClient.ModelActions(REDUX_ACTION_NAMESPACE)
+export const modelSelectors = DataManagementClient.ModelSelectors(ENTITIES_STORE_PATH)

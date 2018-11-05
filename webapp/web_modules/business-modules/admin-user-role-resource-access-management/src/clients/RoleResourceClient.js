@@ -26,12 +26,6 @@ import { AdminClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'user-management', 'role-resource-access-management', 'role-resources']
 const REDUX_ACTION_NAMESPACE = 'admin-user-role-resource-access-management/role-resources'
 
-const roleResourceActions = new AdminClient.RoleResourceActions(REDUX_ACTION_NAMESPACE)
-const roleResourceReducers = AdminClient.RoleResourceReducers(REDUX_ACTION_NAMESPACE)
-const roleResourceSelectors = AdminClient.RoleResourceSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  roleResourceActions,
-  roleResourceReducers,
-  roleResourceSelectors,
-}
+export const roleResourceActions = new AdminClient.RoleResourceActions(REDUX_ACTION_NAMESPACE)
+export const roleResourceReducers = AdminClient.RoleResourceReducers(REDUX_ACTION_NAMESPACE)
+export const roleResourceSelectors = AdminClient.RoleResourceSelectors(ENTITIES_STORE_PATH)

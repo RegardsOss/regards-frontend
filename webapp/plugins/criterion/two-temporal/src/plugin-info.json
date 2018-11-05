@@ -13,12 +13,12 @@
       {
         "name": "firstField",
         "description": "First attribute to search",
-        "type": "temporal"
+        "attributeType": ["DATE_ISO8601"]
       },
       {
         "name": "secondField",
         "description": "Second attribute to search",
-        "type": "temporal"
+        "attributeType": ["DATE_ISO8601"]
       }
     ]
   }

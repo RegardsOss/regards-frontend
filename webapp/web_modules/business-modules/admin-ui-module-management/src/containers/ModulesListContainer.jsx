@@ -74,6 +74,7 @@ class ModulesListContainer extends React.Component {
       browserHistory.push(url)
     }
   }
+
   handleCreateModule = () => {
     if (this.props.isInstance) {
       const url = `/admin/ui/module/${this.props.params.applicationId}/create`
@@ -110,17 +111,16 @@ class ModulesListContainer extends React.Component {
         <LoadableContentDisplayDecorator
           isLoading={this.state.isLoading}
         >
-          {() =>
-            (<ModuleListComponent
-              modules={this.props.modules}
-              onCreate={this.handleCreateModule}
-              onEdit={this.handleEditModule}
-              onDuplicate={this.handleDuplicateModule}
-              onDelete={this.handleDeleteModule}
-              onActivation={this.handleModuleActivation}
-              backUrl={this.getBackUrl()}
-              handleUpdate={this.props.updateModule}
-            />)
+          {() => (<ModuleListComponent
+            modules={this.props.modules}
+            onCreate={this.handleCreateModule}
+            onEdit={this.handleEditModule}
+            onDuplicate={this.handleDuplicateModule}
+            onDelete={this.handleDeleteModule}
+            onActivation={this.handleModuleActivation}
+            backUrl={this.getBackUrl()}
+            handleUpdate={this.props.updateModule}
+          />)
           }
         </LoadableContentDisplayDecorator>
       </I18nProvider>

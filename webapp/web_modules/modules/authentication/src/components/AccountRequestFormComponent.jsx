@@ -19,14 +19,18 @@
 import values from 'lodash/values'
 import trim from 'lodash/trim'
 import { FormattedMessage } from 'react-intl'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import { formValueSelector } from 'redux-form'
 import { connect } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { FormErrorMessage } from '@regardsoss/components'
-import { Field, RenderTextField, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import {
+  Field, RenderTextField, ValidationHelpers, reduxForm,
+} from '@regardsoss/form-utils'
 
 const emailValidator = [ValidationHelpers.required, ValidationHelpers.email]
 

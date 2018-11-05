@@ -32,7 +32,12 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionStepperComponent'
   const context = buildTestContext()
 
   it('Render properly', () => {
-    const props = {}
+    const props = {
+      stepIndex: 0,
+      isEditing: true,
+      currentCollectionId: '52',
+      projectName: 'project',
+    }
     const enzymeWrapper = shallow(<CollectionStepperComponent {...props} />, { context })
     expect(enzymeWrapper.find(Stepper)).to.have.length(1)
   })

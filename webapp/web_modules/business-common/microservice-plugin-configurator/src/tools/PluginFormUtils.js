@@ -35,6 +35,17 @@ class PluginFormUtils {
    */
   static DOT_CHAR_REPLACEMENT = '_____'
 
+  static initNewConfiguration(pluginMetaData) {
+    return {
+      active: true,
+      pluginId: pluginMetaData.pluginId,
+      pluginClassName: pluginMetaData.pluginClassName,
+      version: pluginMetaData.version,
+      priorityOrder: 1,
+      parameters: [],
+    }
+  }
+
   /**
    * Format keys of a PluginParameter type MAP to remove dot caracters
    * @param {*} parameterConf
@@ -94,7 +105,11 @@ class PluginFormUtils {
         if (parameterMetadata.unconfigurable) {
           return ''
         }
-        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.defaultValue) : undefined
+        let defaultValue = ''
+        if (parameterMetadata.type === 'java.lang.Boolean') {
+          defaultValue = parameterMetadata.defaultValue === 'true'
+        }
+        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, defaultValue) : undefined
       }
       case 'COLLECTION':
         if (parameterMetadata.unconfigurable) {
@@ -151,7 +166,12 @@ class PluginFormUtils {
       const formatedParamterConf = cloneDeep(parameterConf)
       formatedParamterConf.value = PluginFormUtils.formatParameterConf(parameterConf.value, parameterMetaData, forInit)
       return formatedParamterConf
-    } else if (forInit) {
+    } if (parameterConf && !isNil(parameterConf.pluginConfiguration)) {
+      // Handle plugin values
+      const formatedParamterConf = cloneDeep(parameterConf)
+      formatedParamterConf.value = parameterConf.pluginConfiguration.id
+      return formatedParamterConf
+    } if (forInit) {
       // For initialization, we need to create all parameters in configuration
       return PluginFormUtils.createNewParameterConf(parameterMetaData)
     }
@@ -191,6 +211,7 @@ class PluginFormUtils {
   static formatPluginConfForReduxFormInit(pluginConfiguration, pluginMetaData) {
     return PluginFormUtils.formatPluginConf(pluginConfiguration, pluginMetaData, true)
   }
+
   /**
    * Format a PluginConfiguration before Redux form submit
    * @param {*} pluginConfiguration

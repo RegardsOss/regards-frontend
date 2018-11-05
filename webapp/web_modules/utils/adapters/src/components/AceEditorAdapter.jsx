@@ -18,7 +18,7 @@
  **/
 import reduce from 'lodash/reduce'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import styles from '../styles'
+import { styles } from '../styles'
 
 const HeadlessAdapter = props => <div>{reduce(props, (acc, value, key) => `${acc}<br />${key}: ${value}`, '')}</div>
 

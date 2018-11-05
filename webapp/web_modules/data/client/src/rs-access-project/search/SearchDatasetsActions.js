@@ -26,4 +26,3 @@ export default class CatalogDatasetEntityActions extends SearchEntitiesActions {
     super(namespace, `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/datasets/search?{parameters}`)
   }
 }
-

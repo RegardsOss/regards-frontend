@@ -18,21 +18,23 @@
  **/
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
-import { i18nContextType } from '@regardsoss/i18n'
 import { Tabs, Tab } from 'material-ui/Tabs'
+import { DamDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { FieldArray } from '@regardsoss/form-utils'
 import { ModulePaneStateField } from '@regardsoss/modules-api'
 import { Title } from '@regardsoss/components'
-import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
+import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
-import SelectedLevelFormRender from './SelectedLevelFormRender'
+import SelectedLevelFormRender from './levels/SelectedLevelFormRender'
 import SearchResultForm from './SearchResultForm'
 
 /**
-* Module form component for admin instance
-*/
+ * Module form component for admin instance
+ * @author Raphaël Mechali
+ */
 class ModuleForm extends React.Component {
   static propTypes = {
     project: PropTypes.string,
@@ -62,6 +64,7 @@ class ModuleForm extends React.Component {
     this.DATASET_ATTRIBUTES_FIELD_NAME = `${props.adminForm.currentNamespace}.graphDatasetAttributes`
   }
 
+  /** Validate selected levels in form */
   validateSelectedLevels = selectedLevels => isEmpty(selectedLevels) ? 'search.graph.levels.selection.none.selected.error' : null
 
   render() {
@@ -69,13 +72,10 @@ class ModuleForm extends React.Component {
       collectionModels, appName, project, adminForm, selectableAttributes,
     } = this.props
     const { intl: { formatMessage } } = this.context
-    const { currentNamespace } = adminForm
-    const formConf = get(adminForm.form, currentNamespace)
-    const currentAttributesConfiguration = formConf && formConf.graphDatasetAttributes ? formConf.graphDatasetAttributes : []
     return (
       <Tabs>
         <Tab label={formatMessage({ id: 'search.graph.configuration.tab' })}>
-          <ModulePaneStateField currentNamespace={currentNamespace} />
+          <ModulePaneStateField currentNamespace={adminForm.currentNamespace} />
           <Title
             level={3}
             label={formatMessage({ id: 'search.graph.configuration.levels.message' })}
@@ -90,13 +90,16 @@ class ModuleForm extends React.Component {
             level={3}
             label={formatMessage({ id: 'search.graph.configuration.attributes.message' })}
           />
-          <MainAttributesConfigurationComponent
-            allowFacettes={false}
-            allowAttributesRegroupements={false}
-            attributesFieldName={this.DATASET_ATTRIBUTES_FIELD_NAME}
-            attributesConf={currentAttributesConfiguration}
+          <AttributesListConfigurationComponent
             selectableAttributes={selectableAttributes}
+            attributesList={get(adminForm.form, this.DATASET_ATTRIBUTES_FIELD_NAME)}
+            attributesListFieldName={this.DATASET_ATTRIBUTES_FIELD_NAME}
             changeField={adminForm.changeField}
+            hintMessageKey="search.graph.configuration.dataset.attributes.hint"
+            attributesConf={get()}
+            allowAttributesRegroupements={false}
+            attributesFilter={DamDomain.AttributeModelController.isSearchableAttribute}
+            allowLabel
           />
         </Tab>
         <Tab label={formatMessage({ id: 'search.graph.results.tab' })}>

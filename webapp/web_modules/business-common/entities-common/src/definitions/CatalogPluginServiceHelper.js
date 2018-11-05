@@ -52,7 +52,7 @@ const validatorByJavaType = {
  * @param metadataParameter corresponding metadata parameter
  * @return Parameter converted
  */
-function convertParameter({
+export function convertParameter({
   name, value: adminValue, dynamicsValues,
 }, {
   type, paramType, defaultValue: devValue, optional, label, description,
@@ -90,7 +90,7 @@ function convertParameter({
  * @param pluginMetadata plugin metadata following PluginMetaData shape
  * @return {Array<Parameter>} resolved array or empty array. Note: it removes non dynamic parameters
  */
-function resolveParametersWithTypes(pluginConfiguration, metadata) {
+export function resolveParametersWithTypes(pluginConfiguration, metadata) {
   return (pluginConfiguration.content.parameters || [])
     .filter(({ dynamic }) => !!dynamic)
     .map((configParam) => {
@@ -109,25 +109,17 @@ function resolveParametersWithTypes(pluginConfiguration, metadata) {
  * @param {ServiceTarget} target target as provided by plugin run model
  * @return usable target parameters
  */
-function packTargetParameters(target) {
+export function packTargetParameters(target) {
   switch (target.type) {
     case RuntimeTargetTypes.ONE:
       return { entityId: target.entity }
     case RuntimeTargetTypes.MANY:
       return { entitiesId: target.entities }
-    case RuntimeTargetTypes.QUERY:
-    {
-      const q = new OpenSearchQuery(target.q, [OpenSearchQuery.buildIpIdParameter(target.excludedIpIds, true)]).toQueryString()
+    case RuntimeTargetTypes.QUERY: {
+      const q = new OpenSearchQuery(target.q, [OpenSearchQuery.buildIDParameter(target.excludedIDs, true)]).toQueryString()
       return { q, entityType: target.entityType }
     }
     default:
       throw new Error('Invalid target') // development error only
   }
-}
-
-
-module.exports = {
-  convertParameter, // exported at least for tests
-  packTargetParameters,
-  resolveParametersWithTypes,
 }

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
 import isEqual from 'lodash/isEqual'
 import includes from 'lodash/includes'
 import { CommonShapes } from '@regardsoss/shape'
@@ -31,7 +32,9 @@ import { ScrollArea } from '@regardsoss/adapters'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { MarkdownFileContentDisplayer } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { Field, FieldArray, RenderArrayTextField, RenderRadio, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  Field, FieldArray, RenderArrayTextField, RenderRadio, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { RenderPluginField } from './RenderPluginPluginParameterField'
 import { RenderObjectParameterField } from './RenderObjectParameterField'
 import { RenderCollectionParameterField } from './RenderCollectionParameterField'
@@ -115,7 +118,7 @@ export class RenderPluginParameterField extends React.PureComponent {
           <RadioButton value={false} label={formatMessage({ id: 'plugin.parameter.static.field' })} labelStyle={dynamicParameter.toggle.labelStyle} />
           <RadioButton value label={formatMessage({ id: 'plugin.parameter.dynamic.field' })} labelStyle={dynamicParameter.toggle.labelStyle} />
         </Field>
-      </div >
+      </div>
     )
   }
 
@@ -145,7 +148,11 @@ export class RenderPluginParameterField extends React.PureComponent {
       const devaultValueLabel = defaultValue ? formatMessage({ id: 'plugin.parameter.default.value.label' }, { defaultValue }) : null
       header = (
         <div style={headerStyle}>
-          <SubHeader key="label">{label} {devaultValueLabel}</SubHeader>
+          <SubHeader key="label">
+            {label}
+            {' '}
+            {devaultValueLabel}
+          </SubHeader>
           {(description || markdown) && <IconButton key="desc-info-button" onClick={this.handleOpenDescription}><HelpCircle /></IconButton>}
           {(description || markdown) && this.renderDescriptionDialog()}
         </div>
@@ -193,7 +200,7 @@ export class RenderPluginParameterField extends React.PureComponent {
           {...fieldParams}
         />
       )
-    } else if (dynamic && !displayDynamicValues) {
+    } if (dynamic && !displayDynamicValues) {
       return null
     }
     const fieldName = complexParameter ? `${name}.value` : name
@@ -216,7 +223,7 @@ export class RenderPluginParameterField extends React.PureComponent {
     } = this.props
     const primitiveParameters = getPrimitiveJavaTypeRenderParameters(pluginParameterType.type)
     const parameters = {
-      type: primitiveParameters.type,
+      type: pluginParameterType.sensitive ? 'password' : primitiveParameters.type,
       normalize: primitiveParameters.type === 'number' ? val => val ? parseInt(val, 10) : '' : null,
       format: primitiveParameters.type === 'number' ? val => val ? parseInt(val, 10) : '' : null,
       floatingLabelText: this.props.hideDynamicParameterConf ? label : null,
@@ -357,6 +364,10 @@ export class RenderPluginParameterField extends React.PureComponent {
 
     let label = pluginParameterType.label || pluginParameterType.name
     const validators = []
+    if (!isNil(pluginParameterType.defaultValue)) {
+      label += ` (default: ${pluginParameterType.defaultValue})`
+    }
+
     if (pluginParameterType && !pluginParameterType.optional && !pluginParameterType.defaultValue) {
       label += ' (*)'
       switch (pluginParameterType.paramType) {

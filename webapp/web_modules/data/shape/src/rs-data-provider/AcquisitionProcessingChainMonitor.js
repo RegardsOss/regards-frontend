@@ -24,7 +24,7 @@ import { AcquisitionProcessingChainContent } from './AcquisitionProcessingChain'
  */
 
 /** A dated selection item shape */
-const AcquisitionProcessingChainMonitorContent = PropTypes.shape({
+export const AcquisitionProcessingChainMonitorContent = PropTypes.shape({
   chain: AcquisitionProcessingChainContent.isRequired,
   nbFileErrors: PropTypes.number.isRequired,
   nbFiles: PropTypes.number.isRequired,
@@ -37,15 +37,8 @@ const AcquisitionProcessingChainMonitorContent = PropTypes.shape({
   nbSIPSubmissionJobs: PropTypes.number.isRequired,
 })
 
-const AcquisitionProcessingChainMonitor = PropTypes.shape({
+export const AcquisitionProcessingChainMonitor = PropTypes.shape({
   content: AcquisitionProcessingChainMonitorContent,
 })
-const AcquisitionProcessingChainMonitorList = PropTypes.objectOf(AcquisitionProcessingChainMonitor)
-const AcquisitionProcessingChainMonitorArray = PropTypes.arrayOf(AcquisitionProcessingChainMonitor)
-
-module.exports = {
-  AcquisitionProcessingChainMonitorList,
-  AcquisitionProcessingChainMonitorArray,
-  AcquisitionProcessingChainMonitorContent,
-  AcquisitionProcessingChainMonitor,
-}
+export const AcquisitionProcessingChainMonitorList = PropTypes.objectOf(AcquisitionProcessingChainMonitor)
+export const AcquisitionProcessingChainMonitorArray = PropTypes.arrayOf(AcquisitionProcessingChainMonitor)

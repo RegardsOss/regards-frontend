@@ -31,4 +31,3 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
 export default function getAccountSelectors(storePath) {
   return new BasicPageableSelectors(storePath)
 }
-

@@ -28,7 +28,16 @@ const messages = Object.assign({
   'dataset.list.table.model': 'Modèle',
   'dataset.list.tooltip.edit': 'Éditer',
   'dataset.list.tooltip.delete': 'Supprimer',
+  'dataset.list.tooltip.info.button': 'Details',
+  'dataset.list.tooltip.copy.button': 'Copier la référence dans le presse papier',
   'dataset.list.delete.title': 'Supprimer le jeu de données {name} ?',
+
+  'dataset.info.urn.label': 'Référence unique (ipId) : ',
+  'dataset.info.creationdate.label': 'Date de création : ',
+  'dataset.info.datamodel.label': 'Model de données : ',
+  'dataset.info.model.label': 'Model de jeux : ',
+  'dataset.info.close': 'Fermer',
+  'dataset.info.title': 'Informations sur le jeu de données {name}',
 
   'dataset.form.links.subtitle': 'Les jeux de données sont liés à des collections et à des mots clés afin de simplifier la recherche',
   'dataset.form.links.title': 'Edition des liens du jeu de données',
@@ -42,13 +51,13 @@ const messages = Object.assign({
   'dataset.form.links.remainingcollection.subtitle': 'Collections disponibles',
   'dataset.form.links.remainingcollection.search': 'Filtrer les collections sur leur nom',
   'dataset.form.links.remainingcollection.add.button': 'Lier la collection',
-  'dataset.form.links.action.next': 'Suite',
+  'dataset.form.links.action.next': 'Suivant',
   'dataset.form.links.action.cancel': 'Retour',
 
   'dataset.form.plugin.title': 'Gestion des plugins appliqués au jeu de données',
   'dataset.form.plugin.subtitle': 'Réalisez des traitements sur le jeu de données en activant ces plugins',
   'dataset.form.plugin.services': 'Activation de services',
-  'dataset.form.plugin.action.next': 'Suite',
+  'dataset.form.plugin.action.next': 'Suivant',
   'dataset.form.plugin.action.cancel': 'Retour',
 
   'dataset.form.uiservices.title': 'Gestion des services de l\'interface utilisateur',
@@ -58,6 +67,10 @@ const messages = Object.assign({
   'dataset.form.uiservices.services': 'Services IHMs',
   'dataset.form.uiservices.latestVersion': 'latest',
 
+  'dataset.form.files.action.cancel': 'Retour',
+  'dataset.form.files.action.next': 'Suivant',
+  'dataset.form.files.subtitle': 'Ajouter un ou plusieurs fichier(s) de description au jeu de données pour expliquer son contenu. Trois formats de fichier sont supportés : HTML, PDF et Markdown.',
+  'dataset.form.files.title': 'Gestion des fichiers associés au jeu de données',
 
   'dataset.form.subsetting.subtitle': 'Mise en place du subsetting',
   'dataset.form.subsetting.attributes': 'Attributs du modèle d\'objet',
@@ -69,7 +82,7 @@ const messages = Object.assign({
   'dataset.form.action.next': 'Suivant',
   'dataset.form.action.cancel': 'Annuler',
   'dataset.form.model': 'Modèles de jeu de données (*)',
-  'dataset.form.sipId': 'Identfiant producteur (sipId)',
+  'dataset.form.providerId': 'Identifiant producteur (*)',
   'dataset.form.label': 'Libellé (*)',
   'dataset.form.geometry': 'Géometrie',
   'dataset.form.descriptionUrl': 'URL de la page décrivant le jeu de données',
@@ -102,6 +115,7 @@ const messages = Object.assign({
 
   'dataset.stepper.links': 'Édition des liens',
   'dataset.stepper.attributes': 'Saisie des attributs',
+  'dataset.stepper.files': 'Fichiers associés',
   'dataset.stepper.subsetting': 'Filtrage',
   'dataset.stepper.plugins': 'Plugins',
   'dataset.stepper.uiServices': 'Services IHM',
@@ -109,4 +123,3 @@ const messages = Object.assign({
 }, Locales.fr)
 
 export default messages
-

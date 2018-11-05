@@ -16,14 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const relativeURLRegexp =
-  /^([./]*[-a-z\d%_.~+]*)+([;&a-z\d%_.~+=-]*)(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i
+export const relativeURLRegexp = /^([./]*[-a-z\d%_.~+]*)+([;&a-z\d%_.~+=-]*)(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i
 
 
-const validURLRegexp =
-  /^(https?:\/\/)?[a-z\d-_]+(\.[a-z\d-_]+)*(:\d+)?(\/[-a-z\d%_.:~+ ]*)*(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i
-
-module.exports = {
-  relativeURLRegexp,
-  validURLRegexp,
-}
+export const validURLRegexp = /^(https?:\/\/)?[a-z\d-_]+(\.[a-z\d-_]+)*(:\d+)?(\/[-a-z\d%_.:~+ ]*)*(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i

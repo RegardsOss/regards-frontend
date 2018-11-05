@@ -18,16 +18,14 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const ModuleConfiguration = {
+export const ModuleConfiguration = {
   entityKey: 'id',
   normalizrKey: 'modules',
 }
 
-
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
-const moduleSchema = new Schema(ModuleConfiguration.normalizrKey, {
-  idAttribute: module =>
-    module.content[ModuleConfiguration.entityKey],
+export const MODULE = new Schema(ModuleConfiguration.normalizrKey, {
+  idAttribute: module => module.content[ModuleConfiguration.entityKey],
   assignEntity(output, key, value, input) {
     if (value) {
       if (value.conf) {
@@ -55,10 +53,4 @@ const moduleSchema = new Schema(ModuleConfiguration.normalizrKey, {
     }
   },
 })
-
-// Schemas for API responses.
-module.exports = {
-  MODULE: moduleSchema,
-  MODULE_ARRAY: arrayOf(moduleSchema),
-  ModuleConfiguration,
-}
+export const MODULE_ARRAY = arrayOf(MODULE)

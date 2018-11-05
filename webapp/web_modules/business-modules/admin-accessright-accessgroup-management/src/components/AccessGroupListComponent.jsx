@@ -17,18 +17,38 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import Settings from 'material-ui/svg-icons/action/settings-input-component'
 import Delete from 'material-ui/svg-icons/action/delete'
+import ShowGroupUsersIcon from 'material-ui/svg-icons/action/open-in-new'
 import { FormattedMessage } from 'react-intl'
-import { HateoasKeys, withHateoasDisplayControl, withResourceDisplayControl } from '@regardsoss/display-control'
+import {
+  HateoasKeys,
+  withHateoasDisplayControl,
+  withResourceDisplayControl,
+} from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, ActionsMenuCell } from '@regardsoss/components'
+import {
+  CardActionsComponent,
+  ConfirmDialogComponent,
+  ConfirmDialogComponentTypes,
+  ShowableAtRender,
+  ActionsMenuCell,
+} from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { accessRightDependencies } from '@regardsoss/admin-accessright-dataaccess-management'
@@ -36,7 +56,7 @@ import { accessGroupActions } from '../clients/AccessGroupClient'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
 const ResourceIconAction = withResourceDisplayControl(IconButton)
-const actionsBreakpoints = [360, 510, 900, 900]
+const actionsBreakpoints = [360, 510, 900, 1000, 1000]
 
 /**
  * React component to list accessgroups.
@@ -44,6 +64,7 @@ const actionsBreakpoints = [360, 510, 900, 900]
 export class AccessGroupListComponent extends React.Component {
   static propTypes = {
     accessGroupList: DataManagementShapes.AccessGroupList,
+    handleShowGroupUsers: PropTypes.func.isRequired,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
     handleEditAccessRights: PropTypes.func.isRequired,
@@ -100,7 +121,7 @@ export class AccessGroupListComponent extends React.Component {
 
   render() {
     const {
-      accessGroupList, handleEdit, handleEditAccessRights, handleDuplicate, createUrl, backUrl,
+      accessGroupList, handleShowGroupUsers, handleEdit, handleEditAccessRights, handleDuplicate, createUrl, backUrl,
     } = this.props
     const { intl } = this.context
     const style = {
@@ -142,6 +163,12 @@ export class AccessGroupListComponent extends React.Component {
                   <TableRowColumn>{accessGroup.content.users.length}</TableRowColumn>
                   <TableRowColumn>
                     <ActionsMenuCell breakpoints={actionsBreakpoints}>
+                      <IconButton
+                        title={intl.formatMessage({ id: 'group.list.table.actions.show.group.users' })}
+                        onClick={() => handleShowGroupUsers(accessGroup.content.name)}
+                      >
+                        <ShowGroupUsersIcon hoverColor={style.hoverButtonEdit} />
+                      </IconButton>
                       <HateoasIconAction
                         title={intl.formatMessage({ id: 'group.list.table.actions.edit' })}
                         entityLinks={accessGroup.links}
@@ -200,4 +227,3 @@ export class AccessGroupListComponent extends React.Component {
 }
 
 export default AccessGroupListComponent
-

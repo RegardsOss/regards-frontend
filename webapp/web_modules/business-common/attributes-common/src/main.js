@@ -16,16 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AttributeColumnBuilder from './columns/AttributeColumnBuilder'
-import MainAttributesConfigurationComponent from './configuration/MainAttributesConfigurationComponent'
-import { buildRenderDelegate, getTypeRender } from './render/AttributesTypeToRender'
+export { default as AttributeColumnBuilder } from './columns/AttributeColumnBuilder'
 
-module.exports = {
-  // configuration component
-  MainAttributesConfigurationComponent,
-  // render get method for given type
-  buildRenderDelegate,
-  getTypeRender,
+// configuration component for lists and columns of attributes
+export { default as AttributesListConfigurationComponent } from './configuration/AttributesListConfigurationComponent'
 
-  AttributeColumnBuilder,
-}
+// render get method for given type
+export { buildRenderDelegate, getTypeRender } from './render/AttributesTypeToRender'

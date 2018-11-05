@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { SIPSUBMITTED, SIPSUBMITTED_ARRAY } from '@regardsoss/api'
 import { BasicArrayActions } from '@regardsoss/store-utils'
 
 /**
@@ -34,8 +34,8 @@ export default class SIPImportActions extends BasicArrayActions {
       bypassErrorMiddleware: true,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/sips/import`,
       schemaTypes: {
-        ENTITY: Schemas.SIPSUBMITTED,
-        ENTITY_ARRAY: Schemas.SIPSUBMITTED_ARRAY,
+        ENTITY: SIPSUBMITTED,
+        ENTITY_ARRAY: SIPSUBMITTED_ARRAY,
       },
     })
   }

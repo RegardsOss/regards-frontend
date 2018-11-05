@@ -32,4 +32,3 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing reducer', () => {
     assert.isDefined(Reducer)
   })
 })
-

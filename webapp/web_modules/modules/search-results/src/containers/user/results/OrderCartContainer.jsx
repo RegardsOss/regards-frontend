@@ -25,8 +25,7 @@ import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessProjectClient, OrderClient } from '@regardsoss/client'
-import { OpenSearchQuery } from '@regardsoss/domain/catalog'
-import { EntityIpIdTester } from '@regardsoss/domain/common'
+import { EntityIdTester } from '@regardsoss/domain/common'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { AccessShapes } from '@regardsoss/shape'
@@ -34,7 +33,7 @@ import { modulesManager } from '@regardsoss/modules'
 import { TableSelectionModes } from '@regardsoss/components'
 import { allMatchHateoasDisplayLogic, HOCUtils } from '@regardsoss/display-control'
 import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/navigation/TableDisplayModeEnum'
-import TableClient from '../../../clients/TableClient'
+import { tableSelectors } from '../../../clients/TableClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 
 // get default modules client actions and reducers instances - we will use it to verify if a basket exists AND if it is in a dynamic container
@@ -68,9 +67,9 @@ export class OrderCartContainer extends React.Component {
       modules: modulesSelectors.getList(state),
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
       // seletion and research related
-      toggledElements: TableClient.tableSelectors.getToggledElements(state),
-      selectionMode: TableClient.tableSelectors.getSelectionMode(state),
-      emptySelection: TableClient.tableSelectors.isEmptySelection(state, searchSelectors),
+      toggledElements: tableSelectors.getToggledElements(state),
+      selectionMode: tableSelectors.getSelectionMode(state),
+      emptySelection: tableSelectors.isEmptySelection(state, searchSelectors),
     }
   }
 
@@ -78,18 +77,17 @@ export class OrderCartContainer extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps(dispatch) {
     return {
       /**
        * Dispatches add to cart action (sends add to cart command to server), showing then hiding feedback
-       * @param ipIds IP ID list to add to cart, when request is null, or to exclude from add request when it isn't
-       * @param selectAllOpenSearchRequest request to retrieve elements to add, when not null
+       * @param ids entities ID (URN) list to add to cart, when request is null, or to exclude from add request when it isn't
+       * @param restrictionRequest request to retrieve elements to add, when not null
        * @return {Promise} add to cart promise
        */
-      dispatchAddToCart: (ipIds = [], selectAllOpenSearchRequest = null) =>
-        dispatch(defaultBasketActions.addToBasket(ipIds, selectAllOpenSearchRequest)),
+      dispatchAddToCart: (includedIds, excludedIds, restrictionRequest, datasetUrn) => dispatch(defaultBasketActions.addToBasket(includedIds, excludedIds, restrictionRequest, datasetUrn)),
     }
   }
 
@@ -171,17 +169,17 @@ export class OrderCartContainer extends React.Component {
     // note that it may throw an exception to inform the administor that the module configuration is wrong
     const oldState = this.state || {}
     const newState = { ...(oldState || OrderCartContainer.DEFAULT_STATE) }
-    if (!isEqual(oldProps.isAuthenticated, newProps.isAuthenticated) ||
-      !isEqual(oldProps.modules, newProps.modules) ||
-      !isEqual(oldProps.toggledElements, newProps.toggledElements) ||
-      !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
+    if (!isEqual(oldProps.isAuthenticated, newProps.isAuthenticated)
+      || !isEqual(oldProps.modules, newProps.modules)
+      || !isEqual(oldProps.toggledElements, newProps.toggledElements)
+      || !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
       // recompute if basket should be displayed
       newState.basketAvailaible = this.isBasketAvailable(newProps)
     }
     // update callbacks when basket available state changes or view object type changes
-    if (oldProps.viewObjectType !== newProps.viewObjectType ||
-      oldProps.emptySelection !== newProps.emptySelection ||
-      oldState.basketAvailaible !== newState.basketAvailaible) {
+    if (oldProps.viewObjectType !== newProps.viewObjectType
+      || oldProps.emptySelection !== newProps.emptySelection
+      || oldState.basketAvailaible !== newState.basketAvailaible) {
       if (newState.basketAvailaible) {
         // set up the right callbacks for current state
         if (newProps.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
@@ -200,9 +198,9 @@ export class OrderCartContainer extends React.Component {
     }
 
     // when callbacks or children changed, re render children
-    if (HOCUtils.shouldCloneChildren(oldProps, newProps, OrderCartContainer.NON_REPORTED_PROPS) ||
-      !isEqual(oldState.onAddElementToBasket, newState.onAddElementToBasket) ||
-      !isEqual(oldState.onAddSelectionToBasket, newState.onAddSelectionToBasket)) {
+    if (HOCUtils.shouldCloneChildren(oldProps, newProps, OrderCartContainer.NON_REPORTED_PROPS)
+      || !isEqual(oldState.onAddElementToBasket, newState.onAddElementToBasket)
+      || !isEqual(oldState.onAddSelectionToBasket, newState.onAddSelectionToBasket)) {
       // pre render children (attempt to enhance render performances)
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
         ...omit(newProps, OrderCartContainer.NON_REPORTED_PROPS), // this will report injected service data
@@ -219,18 +217,19 @@ export class OrderCartContainer extends React.Component {
   */
   onAddDataObjectToBasket = (dataobjectEntity) => {
     const { dispatchAddToCart } = this.props
-    const ipIds = [get(dataobjectEntity, 'content.ipId')]
-    // On quicklook table display mode, the Add button has a different behavior than in Table or List mode
+    // ID of the single object to push in basket
+    const ids = [get(dataobjectEntity, 'content.id')]
     if (this.props.tableViewMode === TableDisplayModeEnum.QUICKLOOK) {
-      // Add linked dataobject of the added dataobject to the basket too
+      // Quicklook view specific behavior:
+      // Also add IDs of linked dataobject to push in basket
       const tags = get(dataobjectEntity, 'content.tags')
       forEach(tags, (tag) => {
-        if (EntityIpIdTester.isIpIdAData(tag)) {
-          ipIds.push(tag)
+        if (EntityIdTester.isDataURN(tag)) {
+          ids.push(tag)
         }
       })
     }
-    dispatchAddToCart(ipIds)
+    dispatchAddToCart(ids)
   }
 
   /**
@@ -238,12 +237,13 @@ export class OrderCartContainer extends React.Component {
    */
   onAddDataObjectsSelectionToBasket = () => {
     const {
-      openSearchQuery: currentQuery, selectionMode, toggledElements, dispatchAddToCart,
+      openSearchQuery, selectionMode, toggledElements, dispatchAddToCart,
     } = this.props
-    const ipIds = values(toggledElements).map(element => get(element, 'content.ipId'))
-    // Should we dispatch an include or an exclude from request selection?
-    const openSearchQuery = selectionMode === TableSelectionModes.excludeSelected ? currentQuery : null
-    dispatchAddToCart(ipIds, openSearchQuery)
+    const ids = values(toggledElements).map(element => get(element, 'content.id'))
+    const [includeIds, excludedIds, query] = selectionMode === TableSelectionModes.includeSelected
+      ? [ids, null, null] // inclusive selection: clear query and excluded elements to get the backend understanding it is an inclusive push
+      : [null, ids, decodeURIComponent(openSearchQuery)] // exclusive selection: provide query and elements to exclude
+    dispatchAddToCart(includeIds, excludedIds, query)
   }
 
   /**
@@ -252,8 +252,9 @@ export class OrderCartContainer extends React.Component {
    */
   onAddDatasetToBasket = (datasetEntity) => {
     const { initialSearchQuery, dispatchAddToCart } = this.props
-    const dataobjectQuery = new OpenSearchQuery(initialSearchQuery, [OpenSearchQuery.buildTagParameter(datasetEntity.content.ipId)])
-    dispatchAddToCart([], dataobjectQuery.toQueryString())
+    // Provide initial query, if any, decoded as it is used in body
+    const restrictionQuery = initialSearchQuery ? decodeURIComponent(initialSearchQuery) : undefined
+    dispatchAddToCart(null, null, restrictionQuery, datasetEntity.content.id)
   }
 
   /**
@@ -268,9 +269,8 @@ export class OrderCartContainer extends React.Component {
     // A - User is logged in - and not displaying documents
     if (isAuthenticated && viewObjectType !== DamDomain.ENTITY_TYPES_ENUM.DOCUMENT) {
       // B - There is / are active Order cart module(s)
-      const hasOrderCartModule = find((modules || {}), module =>
-        (get(module, 'content.type', '') === modulesManager.AllDynamicModuleTypes.ORDER_CART &&
-          get(module, 'content.active', false)))
+      const hasOrderCartModule = find((modules || {}), module => (get(module, 'content.type', '') === modulesManager.AllDynamicModuleTypes.ORDER_CART
+        && get(module, 'content.active', false)))
       if (hasOrderCartModule) {
         // C - Finally, user must have rights to manage the basket
         return allMatchHateoasDisplayLogic(OrderCartContainer.BASKET_DEPENDENCIES, availableDependencies)

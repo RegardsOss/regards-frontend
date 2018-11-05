@@ -16,9 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
+import { DamDomain } from '@regardsoss/domain'
 import { FragmentContent } from './Fragment'
 
-const AttributeModelContent = PropTypes.shape({
+
+export const attributeModelFields = {
   id: PropTypes.number,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
@@ -26,7 +29,7 @@ const AttributeModelContent = PropTypes.shape({
   jsonPath: PropTypes.string,
   description: PropTypes.string,
   defaultValue: PropTypes.string,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(values(DamDomain.MODEL_ATTR_TYPES)).isRequired,
   unit: PropTypes.string,
   precision: PropTypes.number,
   arraysize: PropTypes.number,
@@ -36,17 +39,13 @@ const AttributeModelContent = PropTypes.shape({
   alterable: PropTypes.bool,
   optional: PropTypes.bool,
   group: PropTypes.string,
-})
-const AttributeModel = PropTypes.shape({
+}
+
+export const AttributeModelContent = PropTypes.shape(attributeModelFields)
+
+export const AttributeModel = PropTypes.shape({
   content: AttributeModelContent,
 })
-const AttributeModelList = PropTypes.objectOf(AttributeModel)
+export const AttributeModelList = PropTypes.objectOf(AttributeModel)
 
-const AttributeModelArray = PropTypes.arrayOf(AttributeModel)
-
-module.exports = {
-  AttributeModelContent,
-  AttributeModel,
-  AttributeModelList,
-  AttributeModelArray,
-}
+export const AttributeModelArray = PropTypes.arrayOf(AttributeModel)

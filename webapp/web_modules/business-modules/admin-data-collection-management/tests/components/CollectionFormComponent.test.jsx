@@ -35,20 +35,21 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionFormComponent', (
   it('Render properly', () => {
     const props = {
       currentCollection: DumpProvider.getFirstEntity('DataManagementClient', 'Collection'),
-      onSubmit: () => {},
+      onSubmit: () => { },
       backUrl: '#',
+      projectName: 'project',
       modelList: DumpProvider.get('DataManagementClient', 'Model'),
       modelAttributeList: DumpProvider.get('DataManagementClient', 'ModelAttribute'),
       isDuplicating: false,
-      handleUpdateModel: () => {},
+      handleUpdateModel: () => { },
       // from reduxForm
       submitting: false,
       invalid: false,
-      handleSubmit: () => {},
-      initialize: () => {},
+      handleSubmit: () => { },
+      initialize: () => { },
     }
     const enzymeWrapper = shallow(<CollectionFormComponent {...props} />, { context })
-    expect(enzymeWrapper.find(Field)).to.have.length(5)
+    expect(enzymeWrapper.find(Field)).to.have.length(4)
     expect(enzymeWrapper.find(MenuItem)).to.have.length(1)
     expect(enzymeWrapper.find(CollectionStepperComponent)).to.have.length(1)
   })

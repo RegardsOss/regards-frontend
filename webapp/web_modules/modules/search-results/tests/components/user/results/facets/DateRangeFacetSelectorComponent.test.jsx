@@ -20,14 +20,12 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import DateRangeFacetSelectorComponent from '../../../../../src/components/user/results/facets/DateRangeFacetSelectorComponent'
-import FacetSelectorComponent from '../../../../../src/components/user/results/facets//FacetSelectorComponent'
+import FacetSelectorComponent from '../../../../../src/components/user/results/facets/FacetSelectorComponent'
 
 import styles from '../../../../../src/styles/styles'
-import facetsNetworkDump from '../../../../dumps/results.dump'
+import resultsDump from '../../../../dumps/results.dump'
 
-const aFacetModel = facetsNetworkDump.facets[1]
-
-describe('[SEARCH FACETS] Testing DateRangeFacetSelectorComponent', () => {
+describe('[Search Results] Testing DateRangeFacetSelectorComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -38,11 +36,20 @@ describe('[SEARCH FACETS] Testing DateRangeFacetSelectorComponent', () => {
 
   it('should render properly', () => {
     const props = {
-      facet: aFacetModel,
+      facet: {
+        label: { en: 'EN1', fr: 'FR1' },
+        model: resultsDump.facets[1],
+      },
       onSelectFacet: () => { },
     }
     const enzymeWrapper = shallow(<DateRangeFacetSelectorComponent {...props} />, { context })
-    // We assert here that the rendering is correctly delegated to FacetSelectorComponent
-    assert.equal(enzymeWrapper.find(FacetSelectorComponent).length, 1, 'Rendering should be delegated to RangeFacetSelectorComponent')
+    const wrapperInstance = enzymeWrapper.instance()
+    const innerSelector = enzymeWrapper.find(FacetSelectorComponent)
+    assert.lengthOf(innerSelector, 1)
+    testSuiteHelpers.assertWrapperProperties(innerSelector, {
+      facet: props.facet,
+      facetValueFormatter: wrapperInstance.formatFacetValue,
+      onSelectFacet: props.onSelectFacet,
+    })
   })
 })

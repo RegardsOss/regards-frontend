@@ -60,5 +60,8 @@ export default class AccountOperationActions extends BasicSignalActions {
       ...otherBodyParameters,
     }, { accountEmail })
   }
-}
 
+  sendChangePasswordRequest(accountEmail, oldPassword, newPassword) {
+    return this.sendSignal('PUT', { oldPassword, newPassword }, { accountEmail })
+  }
+}

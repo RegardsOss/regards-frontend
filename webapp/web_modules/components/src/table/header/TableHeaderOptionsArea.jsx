@@ -24,7 +24,7 @@ import TableHeaderOptionsSeparator from './TableHeaderOptionsSeparator'
 
 /**
  * Table header options area, to be used with tied options, as it allows separating groups (its children) from each other.
- * It is intended to receive TableHeaderOptionsGroup as child (other types will also work though)
+ * It is intended to receive TableHeaderOptionGroup as child (other types will also work though)
  * @author Raphaël Mechali
  */
 class TableHeaderOptionsArea extends React.Component {
@@ -62,19 +62,19 @@ class TableHeaderOptionsArea extends React.Component {
       presentedChildren = flatMap(
         children.filter(child => child && get(child, 'props.show', true)),
         // 2 - for each remaining child, add a separator if not the last one
-        (visibleChild, index, array) => index < array.length - 1 ?
-          [visibleChild, <SeparatorConstructor key={`separator.${index}`} />] : [visibleChild],
+        (visibleChild, index, array) => index < array.length - 1
+          ? [visibleChild, <SeparatorConstructor key={`separator.${index}`} />] : [visibleChild],
       )
     }
 
     const reducibleStyle = alignLeft ? reducibleLeftAreaStyle : reducibleRightAreaStyle
 
     return (
-      <div style={reducible ? reducibleStyle : fixedAreaStyle} >
+      <div style={reducible ? reducibleStyle : fixedAreaStyle}>
         {
           presentedChildren
         }
-      </div >
+      </div>
     )
   }
 }

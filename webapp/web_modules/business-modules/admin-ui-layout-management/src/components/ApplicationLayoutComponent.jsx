@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
@@ -89,7 +91,7 @@ class ApplicationLayoutComponent extends React.Component {
             title={this.context.intl.formatMessage({ id: 'layout.title' })}
             subtitle={this.context.intl.formatMessage({ id: 'layout.subtitle' })}
           />
-          <CardText style={style} >
+          <CardText style={style}>
             <LayoutConfigurationComponent
               layout={this.state.currentLayout}
               onChange={this.changeLayout}

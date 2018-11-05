@@ -13,7 +13,7 @@
       {
         "name": "searchField",
         "description": "Attribute to search",
-        "type": "temporal"
+        "attributeType": ["DATE_ISO8601"]
       }
     ]
   }

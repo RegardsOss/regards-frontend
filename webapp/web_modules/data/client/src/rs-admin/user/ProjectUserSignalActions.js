@@ -24,7 +24,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 export default class ProjectUserSignalActions extends BasicSignalActions {
   constructor() {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/accesses/{userId}/{updateOperation}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/accesses/{access_id}/{updateOperation}`,
       namespace: 'admin-user-projectuser-management/project-user-signals',
     })
   }
@@ -32,28 +32,37 @@ export default class ProjectUserSignalActions extends BasicSignalActions {
   sendAccept(userId) {
     return this.sendSignal('PUT', null, {
       updateOperation: 'accept',
-      userId,
+      access_id: userId,
     })
   }
 
   sendDeny(userId) {
     return this.sendSignal('PUT', null, {
       updateOperation: 'deny',
-      userId,
+      access_id: userId,
     })
   }
 
   sendActive(userId) {
     return this.sendSignal('PUT', null, {
       updateOperation: 'active',
-      userId,
+      access_id: userId,
     })
   }
 
   sendInactive(userId) {
     return this.sendSignal('PUT', null, {
       updateOperation: 'inactive',
-      userId,
+      access_id: userId,
     })
+  }
+
+  /**
+   * @return {string} dependency to perform update operation (required because those actions are indeed adressing multiple operations
+   * using a path variable)
+   */
+  getAcceptDependency() {
+    const withPathVariable = this.getDependency('PUT')
+    return withPathVariable.replace('{updateOperation}', 'accept')
   }
 }

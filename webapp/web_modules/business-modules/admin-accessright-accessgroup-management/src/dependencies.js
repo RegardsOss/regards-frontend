@@ -31,7 +31,7 @@ const addDependencies = [
   accessGroupActions.getDependency(RequestVerbEnum.POST),
 ]
 
-module.exports = {
+export default {
   listDependencies,
   addDependencies,
 }

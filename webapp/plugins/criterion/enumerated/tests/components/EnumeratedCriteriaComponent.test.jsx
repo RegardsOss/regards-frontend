@@ -43,6 +43,8 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriteriaComponent', () 
       availablePropertyValues: [],
       isInError: false,
       isFetching: false,
+      hintText: 'hintText',
+      tooltip: 'tooltip',
       onUpdateTextFilter: () => { },
       onFilterSelected: () => { },
     }
@@ -53,8 +55,9 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriteriaComponent', () 
     const subComponentWrapper = enzymeWrapper.find(AutoCompleteTextField)
     assert.lengthOf(subComponentWrapper, 1, 'The autocomplete field should be shown')
     testSuiteHelpers.assertWrapperProperties(subComponentWrapper, {
-      hintText: 'criterion.search.field.label', // field hint
+      hintText: 'hintText', // field hint
       currentHintText: 'idk', // field text
+      title: 'tooltip',
       isFetching: false,
       isInError: false,
       onUpdateInput: props.onUpdateTextFilter,
@@ -68,6 +71,8 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriteriaComponent', () 
       availablePropertyValues: [],
       isInError: false,
       isFetching: true,
+      hintText: 'hintText',
+      tooltip: 'tooltip',
       onUpdateTextFilter: () => { },
       onFilterSelected: () => { },
     }
@@ -85,6 +90,8 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriteriaComponent', () 
       availablePropertyValues: [],
       isInError: true,
       isFetching: false,
+      hintText: 'hintText',
+      tooltip: 'tooltip',
       onUpdateTextFilter: () => { },
       onFilterSelected: () => { },
     }
@@ -115,6 +122,8 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriteriaComponent', () 
       availablePropertyValues: ['a'],
       isInError: true,
       isFetching: false,
+      hintText: 'hintText',
+      tooltip: 'tooltip',
       onUpdateTextFilter: () => { },
       onFilterSelected: () => { },
     }

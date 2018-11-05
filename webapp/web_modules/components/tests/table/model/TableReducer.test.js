@@ -81,4 +81,3 @@ describe('[Component] Test table reducer', () => {
     }, 'reducer should add the element to toggled dictionnary')
   })
 })
-

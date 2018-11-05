@@ -21,8 +21,6 @@ import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/co
 const NAMESPACE = ' admin-data-collection-management/collections-table'
 const STORE_PATH = ['admin', 'data', 'collection-management', 'collection-table']
 
-module.exports = {
-  tableActions: new TableActions(NAMESPACE),
-  tableReducer: getTableReducer(NAMESPACE),
-  tableSelectors: getTableSelectors(STORE_PATH),
-}
+export const tableActions = new TableActions(NAMESPACE)
+export const tableReducer = getTableReducer(NAMESPACE)
+export const tableSelectors = getTableSelectors(STORE_PATH)

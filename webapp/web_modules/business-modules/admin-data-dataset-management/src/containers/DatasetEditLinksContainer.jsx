@@ -23,10 +23,11 @@ import some from 'lodash/some'
 import map from 'lodash/map'
 import find from 'lodash/find'
 import filter from 'lodash/filter'
+import isEmpty from 'lodash/isEmpty'
 import startsWith from 'lodash/startsWith'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { datasetSelectors, datasetActions } from './../clients/DatasetClient'
+import { datasetSelectors, datasetActions } from '../clients/DatasetClient'
 import DatasetEditLinksComponent from '../components/DatasetEditLinksComponent'
 import { datasetLinkActions } from '../clients/DatasetLinkClient'
 import { collectionSelectors, collectionActions } from '../clients/CollectionClient'
@@ -50,7 +51,6 @@ export class DatasetEditLinksContainer extends React.Component {
     addTagToDataset: PropTypes.func,
     fetchDataset: PropTypes.func,
     fetchCollectionList: PropTypes.func,
-    updateDataset: PropTypes.func,
   }
 
   state = {
@@ -71,13 +71,13 @@ export class DatasetEditLinksContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project, datasetId } } = this.props
-    return `/admin/${project}/data/collections/dataset/${datasetId}/edit`
+    return `/admin/${project}/data/collections/dataset/${datasetId}/files`
   }
 
   getDoneUrl = () => {
     const { params: { project, datasetId } } = this.props
     const { currentDataset } = this.props
-    return `/admin/${project}/data/collections/dataset/${datasetId}/${currentDataset.content.ipId}/plugins`
+    return `/admin/${project}/data/collections/dataset/${datasetId}/${currentDataset.content.feature.id}/plugins`
   }
 
 
@@ -90,22 +90,15 @@ export class DatasetEditLinksContainer extends React.Component {
    */
   getRemainingCollection = (currentDataset, collectionList) => {
     const { collectionName } = this.state
-    const collectionLinkedToCurrentCollection = partition(collectionList, collection =>
-      some(currentDataset.content.tags, tag =>
-        tag === collection.content.ipId))
-    return filter(collectionLinkedToCurrentCollection[1], remainingCollection =>
-      startsWith(remainingCollection.content.label.toLowerCase(), collectionName))
+    const collectionLinkedToCurrentCollection = partition(collectionList, collection => some(currentDataset.content.tags, tag => tag === collection.content.feature.id))
+    return filter(collectionLinkedToCurrentCollection[1], remainingCollection => startsWith(remainingCollection.content.feature.label.toLowerCase(), collectionName))
   }
 
 
-  getCollectionLinked = (collectionIpIdList, collectionList) =>
-    map(collectionIpIdList, collectionIpId =>
-      find(collectionList, collection =>
-        collection.content.ipId === collectionIpId))
+  getCollectionLinked = (collectionIpIdList, collectionList) => map(collectionIpIdList, collectionIpId => find(collectionList, collection => collection.content.ipId === collectionIpId))
 
   partitionDatasetLinkedTags = (currentDataset) => {
-    const linkedTags = partition(currentDataset.content.tags, tag =>
-      tag.match(/URN:.*:COLLECTION.*/))
+    const linkedTags = partition(currentDataset.content.tags, tag => tag.match(/URN:.*:COLLECTION.*/))
     return linkedTags
   }
 
@@ -120,15 +113,8 @@ export class DatasetEditLinksContainer extends React.Component {
    * When the user add a new tag
    * @param tag
    */
-  handleAdd = (tag, usingUpdate) => {
-    if (usingUpdate) {
-      const { currentDataset: { content }, updateDataset } = this.props
-      const newDatasetContent = {
-        ...content,
-        tags: [...content.tags, tag],
-      }
-      updateDataset(content.id, newDatasetContent)
-    } else {
+  handleAdd = (tag) => {
+    if (!isEmpty(tag)) {
       Promise.resolve(this.props.addTagToDataset(this.props.currentDataset.content.id, [tag]))
         .then((actionResult) => {
           this.props.fetchDataset(this.props.params.datasetId)
@@ -140,20 +126,11 @@ export class DatasetEditLinksContainer extends React.Component {
    * When the user remove a tag
    * @param tag
    */
-  handleDelete = (tag, usingUpdate) => {
-    if (usingUpdate) {
-      const { currentDataset: { content }, updateDataset } = this.props
-      const newDocumentContent = {
-        ...content,
-        tags: content.tags.filter(existingTag => existingTag !== tag),
-      }
-      updateDataset(content.id, newDocumentContent)
-    } else {
-      Promise.resolve(this.props.removeTagFromDataset(this.props.currentDataset.content.id, [tag]))
-        .then((actionResult) => {
-          this.props.fetchDataset(this.props.params.datasetId)
-        })
-    }
+  handleDelete = (tag) => {
+    Promise.resolve(this.props.removeTagFromDataset(this.props.currentDataset.content.id, [tag]))
+      .then((actionResult) => {
+        this.props.fetchDataset(this.props.params.datasetId)
+      })
   }
 
   renderSubComponent = () => {
@@ -199,7 +176,6 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchCollectionList: () => dispatch(collectionActions.fetchPagedEntityList(0)),
   fetchDataset: id => dispatch(datasetActions.fetchEntity(id)),
-  updateDataset: (id, dataset) => dispatch(datasetActions.updateEntityUsingMultiPart(id, { dataset })),
   addTagToDataset: (datasetId, tags) => dispatch(datasetLinkActions.sendSignal('PUT', tags, { dataset_id: datasetId, operation: 'associate' })),
   removeTagFromDataset: (datasetId, tags) => dispatch(datasetLinkActions.sendSignal('PUT', tags, { dataset_id: datasetId, operation: 'dissociate' })),
 })

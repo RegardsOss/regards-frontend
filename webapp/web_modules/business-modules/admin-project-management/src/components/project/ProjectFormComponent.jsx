@@ -17,13 +17,20 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import trim from 'lodash/trim'
+import map from 'lodash/map'
 import root from 'window-or-global'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, Field, RenderCheckbox, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import {
+  RenderTextField, Field, RenderCheckbox, ValidationHelpers, reduxForm, RenderSelectField,
+} from '@regardsoss/form-utils'
+import { AdminDomain } from '@regardsoss/domain'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import MenuItem from 'material-ui/MenuItem'
 
 const {
   string, url, validStringSize, required, validAlphaNumericUnderscore,
@@ -51,6 +58,7 @@ export class ProjectFormComponent extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
   }
+
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
@@ -79,12 +87,16 @@ export class ProjectFormComponent extends React.Component {
         host: currentProject.content.host,
         label: currentProject.content.label,
         name: currentProject.content.name,
+        crs: currentProject.content.crs,
+        isPoleToBeManaged: currentProject.content.isPoleToBeManaged,
       })
     } else {
       const currentURL = `${root.location.protocol}//${root.location.host}`
       this.props.initialize({
         isPublic: false,
         host: currentURL,
+        isPoleToBeManaged: false,
+        crs: AdminDomain.PROJECT_CRS_ENUM.WGS_84,
       })
     }
   }
@@ -93,9 +105,9 @@ export class ProjectFormComponent extends React.Component {
     const {
       currentProject, pristine, submitting, invalid,
     } = this.props
-    const title = this.state.isCreating ?
-      this.context.intl.formatMessage({ id: 'project.create.title' }) :
-      this.context.intl.formatMessage({ id: 'project.edit.title' }, { name: currentProject.content.name })
+    const title = this.state.isCreating
+      ? this.context.intl.formatMessage({ id: 'project.create.title' })
+      : this.context.intl.formatMessage({ id: 'project.edit.title' }, { name: currentProject.content.name })
     const hostFieldStyle = { marginBottom: 15 }
 
     return (
@@ -176,6 +188,31 @@ export class ProjectFormComponent extends React.Component {
               component={RenderCheckbox}
               label={this.context.intl.formatMessage({ id: 'project.form.isAccessible' })}
             />
+            <Field
+              className="selenium-pick-crs"
+              name="crs"
+              fullWidth
+              component={RenderSelectField}
+              label={this.context.intl.formatMessage({ id: 'project.form.crs' })}
+            >
+              {map(AdminDomain.PROJECT_CRS_ENUM, (value, key) => {
+                const label = `project.form.crs.${value}`
+                return (
+                  <MenuItem
+                    className={`selenium-pick-crs-${value}`}
+                    value={value}
+                    key={key}
+                    primaryText={this.context.intl.formatMessage({ id: label })}
+                  />
+                )
+              })}
+            </Field>
+            <Field
+              name="isPoleToBeManaged"
+              className="selenium-isPoleToBeManagedCheckbox"
+              component={RenderCheckbox}
+              label={this.context.intl.formatMessage({ id: 'project.form.isPoleToBeManaged' })}
+            />
           </CardText>
           <CardActions>
             <CardActionsComponent
@@ -195,4 +232,3 @@ export class ProjectFormComponent extends React.Component {
 export default reduxForm({
   form: 'project-form',
 })(ProjectFormComponent)
-

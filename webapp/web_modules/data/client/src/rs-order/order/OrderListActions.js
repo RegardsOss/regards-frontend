@@ -19,7 +19,7 @@
 
 
 import { BasicPageableActions } from '@regardsoss/store-utils'
-import Schemas from '@regardsoss/api'
+import { ORDER, ORDER_ARRAY } from '@regardsoss/api'
 
 /**
  * Actions to get order list with advancement for all or one user
@@ -42,8 +42,8 @@ class OrderListActions extends BasicPageableActions {
       entityEndpoint: isAllUser ? OrderListActions.ALL_USERS_ORDERS_ENDPOINT : OrderListActions.MY_USER_ORDERS_ENDPOINT,
       namespace,
       schemaTypes: {
-        ENTITY: Schemas.ORDER,
-        ENTITY_ARRAY: Schemas.ORDER_ARRAY,
+        ENTITY: ORDER,
+        ENTITY_ARRAY: ORDER_ARRAY,
       },
     })
   }

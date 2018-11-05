@@ -1,4 +1,4 @@
-FROM node:9
+FROM node:10
 
 ARG TUXUID=987
 ARG TUXGID=982
@@ -23,3 +23,5 @@ USER tux
  && npm config set registry "https://172.26.46.158:8443/repository/NPM-proxy/" \
     # Package lock auto prune the repo https://github.com/npm/npm/issues/16853#issuecomment-371665774
  && npm config set package-lock false
+ENV https_proxy "http://proxy2.si.c-s.fr:3128"
+ENV no_proxy "172.26.46.158"

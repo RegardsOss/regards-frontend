@@ -19,12 +19,6 @@
 import { OrdersNavigationActions, getOrdersNavigationReducer, getOrdersNavigationSelectors } from '@regardsoss/order-common'
 
 const namespace = 'order-history'
-const ordersNavigationActions = new OrdersNavigationActions(namespace)
-const ordersNavigationReducer = getOrdersNavigationReducer(namespace)
-const ordersNavigationSelectors = getOrdersNavigationSelectors(['modules.order-history', 'navigation'])
-
-module.exports = {
-  ordersNavigationActions,
-  ordersNavigationReducer,
-  ordersNavigationSelectors,
-}
+export const ordersNavigationActions = new OrdersNavigationActions(namespace)
+export const ordersNavigationReducer = getOrdersNavigationReducer(namespace)
+export const ordersNavigationSelectors = getOrdersNavigationSelectors(['modules.order-history', 'navigation'])

@@ -58,7 +58,7 @@ class ListHeaderComponent extends React.Component {
         <ToolbarGroup firstChild>
           <ToolbarTitle text={this.props.title} style={style.title} />
         </ToolbarGroup>
-        <ToolbarGroup >
+        <ToolbarGroup>
           <FontIcon className="muidocs-icon-custom-sort" />
           <IconMenu
             iconButtonElement={

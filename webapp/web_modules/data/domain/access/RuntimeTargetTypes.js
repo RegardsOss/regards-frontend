@@ -21,15 +21,11 @@
  * Possible runtime target types
  * @author Raphaël Mechali
  */
-const RuntimeTargetTypes = {
+export const RuntimeTargetTypes = {
   /** One single target element type */
   ONE: 'ONE',
   /** Many target elements type (for MANY application mode) */
   MANY: 'MANY',
   /** Query target type (for MANY application mode) */
   QUERY: 'QUERY',
-}
-
-module.exports = {
-  RuntimeTargetTypes,
 }

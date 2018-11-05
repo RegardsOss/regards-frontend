@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import { CommonShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/components'
 import ProjectAboutPageLinkComponent from '../../components/user/ProjectAboutPageLinkComponent'
@@ -32,16 +33,21 @@ export class ProjectAboutPageLinkContainer extends React.Component {
     project: PropTypes.string,
     // about page URL (if not provided, hide this component)
     projectAboutPage: CommonShapes.URL,
+    // display mode, to hide page window when in preview mode
+    displayMode: PropTypes.oneOf(UIDomain.MENU_DISPLAY_MODES).isRequired,
   }
 
   render() {
-    const { projectAboutPage, appName, project } = this.props
+    const {
+      projectAboutPage, appName, project, displayMode,
+    } = this.props
     return (
-      <ShowableAtRender show={!!projectAboutPage} >
+      <ShowableAtRender show={!!projectAboutPage}>
         <ProjectAboutPageLinkComponent
           appName={appName}
           project={project}
           projectAboutPage={projectAboutPage}
+          hidePage={displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW}
         />
       </ShowableAtRender>
     )

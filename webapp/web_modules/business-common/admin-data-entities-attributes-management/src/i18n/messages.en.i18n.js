@@ -27,6 +27,33 @@ const messages = Object.assign({
   'entities-attributes.form.table.stringarray.action.remove': 'Remove the value',
   'entities-attributes.form.table.stringarray.action.add': 'Add a new value',
 
+  'entities-files.form.DESCRIPTION.title': 'Description',
+  'entities-files.form.DESCRIPTION.subtitle': 'Files describing the entité',
+  'entities-files.form.THUMBNAIL.title': 'Thumbnail',
+  'entities-files.form.THUMBNAIL.subtitle': 'The entity thumbnail',
+  'entities-files.form.DOCUMENT.title': 'Documents',
+  'entities-files.form.DOCUMENT.subtitle': 'Entity documents',
+  'entities-files.form.nbFile.tooltip': `{nbFile} file{nbFile, plural, 
+    =0 {} 
+    one {} 
+    other {s}
+  }`,
+  'entities-files.form.no-file.title': 'No file linked',
+  'entities-files.form.no-file.message': 'This entity doesn\'t have any file linked',
+  'entities-files.form.file.subtitle': 'File associated',
+  'entities-files.form.action.add-file': 'Add files',
+  'entities-files.form.upload.files.subtitle': 'Upload these files:',
+  'entities-files.form.upload.refs.subtitle': 'Create link to external files: ',
+  'entities-files.form.upload.action.send': 'Send',
+  'entities-files.form.upload.action.cancel': 'Cancel',
+
+  'entities-files.form.reference': 'Reference file n°',
+  'entities-files.form.uri': 'Public URI of the file (*)',
+  'entities-files.form.mimeType': 'Media type (*)',
+  'entities-files.form.filename': 'Name to display for this file (*)',
+  'entities-files.form.imageWidth': 'Image width',
+  'entities-files.form.imageHeight': 'Image height',
+
 }, Locales.en)
 
 export default messages

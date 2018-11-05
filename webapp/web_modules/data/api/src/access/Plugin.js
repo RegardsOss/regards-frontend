@@ -18,22 +18,15 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const PluginConfiguration = {
+export const PluginConfiguration = {
   entityKey: 'id',
   normalizrKey: 'plugins',
 }
 
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
-const pluginSchema = new Schema(PluginConfiguration.normalizrKey, {
-  idAttribute: plugin =>
-    plugin.content[PluginConfiguration.entityKey]
+export const PLUGIN = new Schema(PluginConfiguration.normalizrKey, {
+  idAttribute: plugin => plugin.content[PluginConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  PLUGIN: pluginSchema,
-  PLUGIN_ARRAY: arrayOf(pluginSchema),
-  PluginConfiguration,
-}
+export const PLUGIN_ARRAY = arrayOf(PLUGIN)

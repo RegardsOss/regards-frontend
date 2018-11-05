@@ -16,14 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const Collection = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-  }).isRequired,
+import { EntityProperties } from './Entity'
+
+export const CollectionContent = PropTypes.shape({
+  ...EntityProperties,
 })
 
-const CollectionList = PropTypes.objectOf(Collection)
-const CollectionArray = PropTypes.arrayOf(Collection)
+export const Collection = PropTypes.shape({
+  content: CollectionContent.isRequired,
+})
 
-module.exports = { Collection, CollectionList, CollectionArray }
+export const CollectionList = PropTypes.objectOf(Collection)
+export const CollectionArray = PropTypes.arrayOf(Collection)

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { PRIORIZED_DATASTORAGE, PRIORIZED_DATASTORAGE_ARRAY } from '@regardsoss/api'
 import { BasicSignalActions, RequestVerbEnum } from '@regardsoss/store-utils'
 
 /**
@@ -29,14 +29,13 @@ class PrioritizedDataStorageDownActions extends BasicSignalActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/{id}/down`,
       schemaTypes: {
-        ENTITY: Schemas.PRIORIZED_DATASTORAGE,
-        ENTITY_ARRAY: Schemas.PRIORIZED_DATASTORAGE_ARRAY,
+        ENTITY: PRIORIZED_DATASTORAGE,
+        ENTITY_ARRAY: PRIORIZED_DATASTORAGE_ARRAY,
       },
     })
   }
 
-  downPriority = (prioritizedDataStorageId, prioritizedDataStorage) =>
-    this.sendSignal(RequestVerbEnum.PUT, prioritizedDataStorage, { id: prioritizedDataStorageId }, {})
+  downPriority = (prioritizedDataStorageId, prioritizedDataStorage) => this.sendSignal(RequestVerbEnum.PUT, prioritizedDataStorage, { id: prioritizedDataStorageId }, {})
 }
 
 export default PrioritizedDataStorageDownActions

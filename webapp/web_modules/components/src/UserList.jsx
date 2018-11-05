@@ -68,13 +68,12 @@ function UserList(props) {
   )
 
   // Build the list
-  const items = map(props.items, (item, key) =>
-    (<ListItem
-      key={key}
-      disabled
-      rightIconButton={props.menuElements ? rightIconMenu : null}
-      primaryText={item.name}
-    />))
+  const items = map(props.items, (item, key) => (<ListItem
+    key={key}
+    disabled
+    rightIconButton={props.menuElements ? rightIconMenu : null}
+    primaryText={item.name}
+  />))
 
   return (
     <List>

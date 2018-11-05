@@ -41,7 +41,7 @@ import { QueryRuntimeHelpersBuilder } from './runtime/QueryRuntimeHelpersBuilder
  * @param adminValue admin set value for dynamic parameter, if any
  * @param parameter parameter model from plugin instance plugin-info conf
  */
-function resolveParameter(parameterKey, value, { label, type = UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, required = false }) {
+export function resolveParameter(parameterKey, value, { label, type = UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, required = false }) {
   switch (type) {
     case UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.BOOL:
       return Parameter.buildBooleanEditor(parameterKey, value, required, label)
@@ -66,7 +66,7 @@ function resolveParameter(parameterKey, value, { label, type = UI_PLUGIN_CONF_PA
  * @param uiPluginInstance corresponding UI plugin instance with shape UIPluginInstanceContent
  * @return {Array<Parameter>} resolved array or empty array. Note: it removes non dynamic parameters
  */
-function resolveParameters(uiPluginConf, pluginInstance) {
+export function resolveParameters(uiPluginConf, pluginInstance) {
   const dynamicParameters = get(pluginInstance, 'info.conf.dynamic', {})
   const adminDynamicConfiguration = get(uiPluginConf, 'content.conf.dynamic', {})
   // for each parameter defined in plugin info dynamic configuration, create corresponding parameter model
@@ -103,7 +103,7 @@ function buildServiceRuntimeHelpers(serviceTarget) {
  * @param serviceTarget service target as ServiceTarget shape
  * @return runtimeTarget as RuntimeTarget shape (shape expected by the plugin service at execution)
  */
-function packRuntimeTarget(serviceTarget) {
+export function packRuntimeTarget(serviceTarget) {
   return {
     ...serviceTarget,
     ...buildServiceRuntimeHelpers(serviceTarget),
@@ -152,7 +152,7 @@ function ensureTypes(valuesMap, correspondingInfo) {
  * @param {*} configuredDynamicValues corresponding UI plugin instance with shape UIPluginInstanceContent
  * @return {Array<Parameter>} resolved array or empty array. Note: it removes non dynamic parameters
  */
-function packRuntimeConfiguration(uiPluginConf, pluginInstance, configuredDynamicValues) {
+export function packRuntimeConfiguration(uiPluginConf, pluginInstance, configuredDynamicValues) {
   // we use here only the static configuration from admin conf, other parameters have been
   // overriden, either by the user or the values initialization (see resolveParameters)
   const adminStaticConfiguration = get(uiPluginConf, 'content.conf.static', {})
@@ -161,11 +161,3 @@ function packRuntimeConfiguration(uiPluginConf, pluginInstance, configuredDynami
     dynamic: ensureTypes(configuredDynamicValues, get(pluginInstance, 'info.conf.dynamic', {})),
   }
 }
-
-module.exports = {
-  resolveParameter,
-  resolveParameters,
-  packRuntimeTarget,
-  packRuntimeConfiguration,
-}
-

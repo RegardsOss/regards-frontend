@@ -18,13 +18,12 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
 import { ThemeEditor } from '@regardsoss/vendors'
 import { ThemeFormComponent } from '../../src/components/ThemeFormComponent'
-import styles from '../../src/styles/styles'
 
-const context = buildTestContext(styles)
+const context = buildTestContext()
 
 /**
 * Test ThemeFormComponent
@@ -42,15 +41,39 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeFormComponent', () => {
       currentTheme: null,
       backUrl: '#',
       isCreating: true,
+      isEditing: false,
+      isDuplicating: false,
       onSubmit: () => { },
       // from reduxForm
       submitting: false,
-      pristine: false,
+      invalid: false,
       handleSubmit: () => { },
       initialize: () => { },
     }
     const enzymeWrapper = shallow(<ThemeFormComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(Field), 2, 'should contains fields')
     assert.lengthOf(enzymeWrapper.find(ThemeEditor), 1, 'should contains the theme editor')
+  })
+  it('should validate correctly the unique theme name', () => {
+    const props = {
+      currentTheme: null,
+      themeList: DumpProvider.get('AccessProjectClient', 'Themes'),
+      backUrl: '#',
+      isCreating: true,
+      isEditing: false,
+      isDuplicating: false,
+      onSubmit: () => { },
+      // from reduxForm
+      submitting: false,
+      invalid: false,
+      handleSubmit: () => { },
+      initialize: () => { },
+    }
+    const enzymeWrapper = shallow(<ThemeFormComponent {...props} />, { context })
+
+
+    const instance = enzymeWrapper.instance()
+    assert.isUndefined(instance.validateUniqueName('a.unique.name'), 'No error should be raised for a unique name')
+    assert.isDefined(instance.validateUniqueName('Light'), 'An error should be raised for a name already used (from dump)')
   })
 })

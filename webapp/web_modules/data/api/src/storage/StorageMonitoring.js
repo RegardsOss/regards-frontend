@@ -22,20 +22,13 @@ import { Schema, arrayOf } from 'normalizr'
 /**
  * Storage monitoring management for normalizer
  */
-const StorageMonitoringConfiguration = {
+export const StorageMonitoringConfiguration = {
   entityKey: 'confId',
   normalizrKey: 'storage-monitoring',
 }
 
-const storageMonitoringSchema = new Schema(StorageMonitoringConfiguration.normalizrKey, {
-  idAttribute: model =>
-    model.content[StorageMonitoringConfiguration.entityKey]
+export const STORAGE_MONITORING = new Schema(StorageMonitoringConfiguration.normalizrKey, {
+  idAttribute: model => model.content[StorageMonitoringConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  STORAGE_MONITORING: storageMonitoringSchema,
-  STORAGE_MONITORING_ARRAY: arrayOf(storageMonitoringSchema),
-  StorageMonitoringConfiguration,
-}
+export const STORAGE_MONITORING_ARRAY = arrayOf(STORAGE_MONITORING)

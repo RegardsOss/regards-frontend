@@ -17,34 +17,52 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-module.exports = {
+export default {
   content: [
     {
       content: {
         entityType: 'DOCUMENT',
-        documents: [{
-          uri: 'http://localhost/documents/5320/files/62779b161b80fcc2d7df2577346d6b48',
-          checksum: '62779b161b80fcc2d7df2577346d6b48',
-          digestAlgorithm: 'MD5',
-          size: 15,
-          mimeType: {
-            type: 'text',
-            subtype: 'plain',
-            parameters: {},
+        feature: {
+          id: 'URN:AIP:DOCUMENT:PROJECT:d3c87a0f-9edb-4a34-84b5-41c69abf41a3:V1',
+          label: 'label',
+          entityType: 'DOCUMENT',
+          model: 'modelName2',
+          properties: {},
+          providerId: 'hello you',
+          tags: [],
+          type: 'Feature',
+          files: {
+            DOCUMENT: [{
+              dataType: 'DOCUMENT',
+              reference: false,
+              filename: 'document1',
+              online: true,
+              uri: 'http://localhost/documents/5320/files/62779b161b80fcc2d7df2577346d6b48',
+              checksum: '62779b161b80fcc2d7df2577346d6b48',
+              digestAlgorithm: 'MD5',
+              filesize: 15,
+              mimeType: {
+                type: 'text',
+                subtype: 'plain',
+                parameters: {},
+              },
+            }, {
+              dataType: 'DOCUMENT',
+              reference: false,
+              filename: 'document2',
+              online: true,
+              uri: 'http://localhost/documents/5320/files/de7b451b9f8097bd9e127babe4c52a80',
+              checksum: 'de7b451b9f8097bd9e127babe4c52a80',
+              digestAlgorithm: 'MD5',
+              filesize: 8618,
+              mimeType: {
+                type: 'application',
+                subtype: 'pdf',
+                parameters: {},
+              },
+            }],
           },
-        }, {
-          uri: 'http://localhost/documents/5320/files/de7b451b9f8097bd9e127babe4c52a80',
-          checksum: 'de7b451b9f8097bd9e127babe4c52a80',
-          digestAlgorithm: 'MD5',
-          size: 8618,
-          mimeType: {
-            type: 'application',
-            subtype: 'pdf',
-            parameters: {},
-          },
-        }],
-        ipId: 'URN:AIP:DOCUMENT:PROJECT:d3c87a0f-9edb-4a34-84b5-41c69abf41a3:V1',
-        label: 'label',
+        },
         model: {
           id: 6160,
           name: 'modelName2',
@@ -54,10 +72,9 @@ module.exports = {
         lastUpdate: '2017-09-19T15:57:15.335Z',
         creationDate: '2017-09-19T15:57:15.201Z',
         id: 5320,
-        sipId: 'SipId2',
+        ipId: 'URN:AIP:DOCUMENT:PROJECT:d3c87a0f-9edb-4a34-84b5-41c69abf41a3:V1',
         tags: [],
         groups: [],
-        properties: {},
       },
       links: [{
         rel: 'self',

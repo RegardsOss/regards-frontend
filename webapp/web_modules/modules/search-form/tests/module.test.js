@@ -18,7 +18,9 @@
  **/
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import Module from '../src/main'
+import {
+  adminContainer, moduleContainer, reducer, styles, messages, dependencies,
+} from '../src/main'
 
 /**
  * Tests for search-form module interfaces
@@ -29,13 +31,13 @@ describe('[FORM MODULE] Testing module interface', () => {
   after(testSuiteHelpers.after)
 
   it('Should supply valid module interface', () => {
-    assert.isDefined(Module.adminContainer, 'Form module should define a main container for administration page')
-    assert.isDefined(Module.moduleContainer, 'Form module should define a main container')
-    assert.isDefined(Module.styles, 'Form module should define a styles file')
-    assert.isDefined(Module.reducer, 'Form module should define his reducers')
-    assert.isDefined(Module.messages, 'Form module should define his internationalization messages dictionnary')
-    assert.isDefined(Module.dependencies, 'Form module should define his dependencies')
-    assert.isDefined(Module.dependencies.user, 'Form module should define his user dependencies')
-    assert.isDefined(Module.dependencies.admin, 'Form module should define his admin dependencies')
+    assert.isDefined(adminContainer, 'Form module should define a main container for administration page')
+    assert.isDefined(moduleContainer, 'Form module should define a main container')
+    assert.isDefined(styles, 'Form module should define a styles file')
+    assert.isDefined(reducer, 'Form module should define his reducers')
+    assert.isDefined(messages, 'Form module should define his internationalization messages dictionnary')
+    assert.isDefined(dependencies, 'Form module should define his dependencies')
+    assert.isDefined(dependencies.user, 'Form module should define his user dependencies')
+    assert.isDefined(dependencies.admin, 'Form module should define his admin dependencies')
   })
 })

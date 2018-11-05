@@ -81,15 +81,18 @@ describe('[Menu] Testing MainBarDropMenuButton', () => {
       label: 'any',
       icon: null,
       items: aSection.children,
-      locale: 'fr',
       buildLinkURL: () => 'built-test-url',
     }
+    // asserted locale for items : FR
+    const savedLocale = context.intl.locale
+    context.intl.locale = 'fr'
     const enzymeWrapper = shallow(<MainBarDropMenuButton {...props} />, { context })
     const dropDownButton = enzymeWrapper.find(DropDownButton)
     assert.lengthOf(dropDownButton, 1, 'There should be the drop down button')
     assert.isFalse(dropDownButton.props().secondary, 'It should not be marked selected as selected module is not in this section')
     //recursive check: builds children of sub sections
     checkSubItems(props.items, dropDownButton.find(MenuItem))
+    context.intl.locale = savedLocale
   })
   it('should render correctly selected', () => {
     const newModelWithSelection = changeSelectedModule(3, fullConvertedNavigationModel) // we choose here a module in section
@@ -99,14 +102,16 @@ describe('[Menu] Testing MainBarDropMenuButton', () => {
       label: 'any',
       icon: null,
       items: aSection.children,
-      locale: 'fr',
       buildLinkURL: () => 'built-test-url',
     }
+    const savedLocale = context.intl.locale
+    context.intl.locale = 'fr'
     const enzymeWrapper = shallow(<MainBarDropMenuButton {...props} />, { context })
     const dropDownButton = enzymeWrapper.find(DropDownButton)
     assert.lengthOf(dropDownButton, 1, 'There should be the drop down button')
     assert.isTrue(dropDownButton.props().secondary, 'It should be marked selected as selected module is in this section')
     //recursive check: builds children of sub sections
     checkSubItems(props.items, dropDownButton.find(MenuItem))
+    context.intl.locale = savedLocale
   })
 })

@@ -44,4 +44,3 @@ class FragmentSelectors extends BasicListSelectors {
   }
 }
 export default storePath => new FragmentSelectors(storePath)
-

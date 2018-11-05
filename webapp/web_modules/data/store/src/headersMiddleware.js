@@ -28,9 +28,7 @@ const { CALL_API } = require('redux-api-middleware')
  * @param state
  * @returns {*}
  */
-const sessionIsLocked = state =>
-  // If the action is a callAPI and the session of current authenticated user is locked do not send request to server.
-  get(state, 'common.authentication.sessionLocked', false)
+const sessionIsLocked = state => get(state, 'common.authentication.sessionLocked', false)
 
 /**
  * Returns Authorization header value, or null if no authorization possible
@@ -42,7 +40,7 @@ const getAuthorization = (state, callAPI) => {
   if ((!AuthenticationClient.authenticationSelectors.isAuthenticated(state) || sessionIsLocked(state)) && callAPI.endpoint.includes(AuthenticationClient.SPECIFIC_ENDPOINT_MARKER)) {
     // for authentication only => provide client secret
     return `Basic ${btoa('client:secret')}`
-  } else if (AuthenticationClient.authenticationSelectors.isAuthenticated(state) && !sessionIsLocked(state)) {
+  } if (AuthenticationClient.authenticationSelectors.isAuthenticated(state) && !sessionIsLocked(state)) {
     // provide known token
     const accessToken = AuthenticationClient.authenticationSelectors.getAccessToken(state)
     return `Bearer ${accessToken}`
@@ -83,15 +81,13 @@ const headersMiddleware = () => next => (action) => {
   const callAPI = action[CALL_API]
   if (callAPI) {
     const specificHeaders = callAPI.headers || {}
-    callAPI.headers = callStore =>
-      // merge the specified headers with automatically added ones
-      ({
-        // lower preference: locally added headers
-        ...getDefaultTypesHeaders(callAPI),
-        ...getAuthorizationHeaders(callStore, callAPI),
-        // higher preference: action specific headers
-        ...specificHeaders,
-      })
+    callAPI.headers = callStore => ({
+      // lower preference: locally added headers
+      ...getDefaultTypesHeaders(callAPI),
+      ...getAuthorizationHeaders(callStore, callAPI),
+      // higher preference: action specific headers
+      ...specificHeaders,
+    })
   }
   return next(action)
 }

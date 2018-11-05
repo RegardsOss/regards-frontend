@@ -35,6 +35,7 @@ class DoubleLabelToggle extends React.Component {
   static contextTypes = {
     ...themeContextType,
   }
+
   render() {
     const { rightLabel, leftLabel, ...rest } = this.props
     const { moduleTheme: { doubleLabelToggleStyles } } = this.context

@@ -46,9 +46,11 @@ export class ModuleContainer extends React.Component {
   onUnitScaleChanged = newScale => this.setState({ currentScale: newScale })
 
   render() {
+    const { appName } = this.props
     const { currentScale } = this.state
     return (
       <ModuleComponent
+        userApp={appName === 'user'}
         scale={currentScale}
         onUnitScaleChanged={this.onUnitScaleChanged}
         {...this.props}

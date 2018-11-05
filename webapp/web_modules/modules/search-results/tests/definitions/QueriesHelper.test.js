@@ -32,15 +32,24 @@ describe('[Search Results] Testing QueriesHelper', () => {
   it('Should display correctly the url search with open search query', () => {
     const openSearchQuery = QueriesHelper.getOpenSearchQuery(
       'meta:false', // root query
-      [{ openSearchQuery: 'anyBlblblbl' }], // facettes selected
-      [QueriesHelper.getDatasetIpIdParameter('mimi-c-mati')],
+      [{ value: { openSearchQuery: 'anyBlblblbl' } }], // selected facets
+      [QueriesHelper.getDatasetIdParameter('mimi-c-mati')],
     ) // other parameters
     assert.equal(openSearchQuery.toQueryString(), 'meta:false AND anyBlblblbl AND tags:"mimi-c-mati"', 'Open search query should be correctly generated')
 
-    const urlQuery = QueriesHelper.getURLQuery(openSearchQuery.toQueryString(), [{ attributePath: 'taille', type: TableSortOrders.ASCENDING_ORDER }], 'jeveuxlesfacettes=oui')
+    const urlQuery = QueriesHelper.getURLQuery(
+      openSearchQuery.toQueryString(), // open search query
+      [{ // sorting array
+        attributePath: 'taille',
+        type: TableSortOrders.ASCENDING_ORDER,
+      }], [{ // requested facets
+        attributes: [{ name: 'attr1' }],
+      }, {
+        attributes: [{ name: 'attr2' }],
+      }], 'jeveuxlesquicklooks=oui')
     assert.equal(
       urlQuery.toQueryString(),
-      'q=(meta:false AND anyBlblblbl AND tags:"mimi-c-mati")&sort=taille,ASC&jeveuxlesfacettes=oui',
+      'q=(meta:false AND anyBlblblbl AND tags:"mimi-c-mati")&sort=taille,ASC&facets=attr1,attr2&jeveuxlesquicklooks=oui',
       'The URL query be correctly genereted',
     )
   })
@@ -49,8 +58,8 @@ describe('[Search Results] Testing QueriesHelper', () => {
     const openSearchQuery = QueriesHelper.getOpenSearchQuery('')
     assert.equal(openSearchQuery.toQueryString(), '', 'Open search query should be empty')
 
-    const urlQuery = QueriesHelper.getURLQuery(openSearchQuery.toQueryString(), [{ attributePath: 'taille', type: TableSortOrders.DESCENDING_ORDER }], 'jeveuxlesfacettes=oui')
+    const urlQuery = QueriesHelper.getURLQuery(openSearchQuery.toQueryString(),
+      [{ attributePath: 'taille', type: TableSortOrders.DESCENDING_ORDER }], [], 'jeveuxlesfacettes=oui')
     assert.equal(urlQuery.toQueryString(), 'sort=taille,DESC&jeveuxlesfacettes=oui', 'The URL query should be correctly generated without q param')
   })
 })
-

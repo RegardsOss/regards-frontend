@@ -17,13 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import forEach from 'lodash/forEach'
-import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { Card, CardText, CardTitle, CardActions } from 'material-ui/Card'
+import {
+  Card, CardText, CardTitle, CardActions,
+} from 'material-ui/Card'
 import { CommonShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CardActionsComponent } from '@regardsoss/components'
+import { reduxForm, Field } from '@regardsoss/form-utils'
 import messages from '../i18n'
 import styles from '../styles'
 import PluginFormUtils from '../tools/PluginFormUtils'
@@ -115,8 +117,7 @@ export class PluginFormComponent extends React.Component {
       priorityOrder: 1,
       parameters: [],
     }
-    const initValues =
-      PluginFormUtils.formatPluginConfForReduxFormInit(pluginConf, pluginMetaData, true)
+    const initValues = PluginFormUtils.formatPluginConfForReduxFormInit(pluginConf, pluginMetaData)
 
     if (pluginConfiguration && !isEditing) {
       // In copy mode remove id of the duplicated pluginConfiguration
@@ -154,9 +155,9 @@ export class PluginFormComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     return (
       <CardActionsComponent
-        mainButtonLabel={isEditing ?
-          formatMessage({ id: 'plugin.configuration.form.action.submit.save' }) :
-          formatMessage({ id: 'plugin.configuration.form.action.submit.add' })}
+        mainButtonLabel={isEditing
+          ? formatMessage({ id: 'plugin.configuration.form.action.submit.save' })
+          : formatMessage({ id: 'plugin.configuration.form.action.submit.add' })}
         mainButtonType="submit"
         isMainButtonDisabled={submitting || invalid}
         secondaryButtonLabel={formatMessage({ id: 'plugin.configuration.form.action.cancel' })}
@@ -185,22 +186,23 @@ export class PluginFormComponent extends React.Component {
 
     let finalTitle = title
     if (!title) {
-      finalTitle = isEditing ?
-        formatMessage({ id: 'plugin.configuration.form.edit.title' }, { name: pluginConfiguration.label }) :
-        formatMessage({ id: 'plugin.configuration.form.create.title' })
+      finalTitle = isEditing
+        ? formatMessage({ id: 'plugin.configuration.form.edit.title' }, { name: pluginConfiguration.label })
+        : formatMessage({ id: 'plugin.configuration.form.create.title' })
     }
 
     const descriptionText = (
       <div>
         {pluginMetaData.description}
-        {pluginMetaData.markdown &&
-          <a
+        {pluginMetaData.markdown
+          && <a
             style={markdownDialog.moreInfoButtonStyle}
             onClick={this.handleOpenDescriptionDialog}
             href="#"
           >
             <FormattedMessage id="plugin.configuration.form.description.more" />
-          </a>}
+          </a>
+        }
       </div>
     )
 
@@ -208,8 +210,8 @@ export class PluginFormComponent extends React.Component {
       <form
         onSubmit={handleSubmit(this.onSubmit)}
       >
-        {cardStyle ?
-          (
+        {cardStyle
+          ? (
             <Card>
               <CardTitle
                 title={finalTitle}
@@ -223,8 +225,8 @@ export class PluginFormComponent extends React.Component {
                 {this.renderActions()}
               </CardActions>
             </Card>
-          ) :
-          (
+          )
+          : (
             <div>
               {descriptionText}
               {this.renderField()}
@@ -244,4 +246,3 @@ export class PluginFormComponent extends React.Component {
 export default reduxForm({
   form: 'plugin-configuration-form',
 })(withModuleStyle(styles)(withI18n(messages)(PluginFormComponent)))
-

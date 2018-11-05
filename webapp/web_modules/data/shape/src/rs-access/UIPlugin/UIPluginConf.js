@@ -23,7 +23,7 @@ import { UIPluginDefinitionContent } from './UIPluginDefinition'
  * @author Sébastien Binda
  * @author Léo Mieulet
  */
-const UIPluginConfContent = PropTypes.shape({
+export const UIPluginConfContent = PropTypes.shape({
   id: PropTypes.number,
   active: PropTypes.bool,
   label: PropTypes.string,
@@ -37,15 +37,8 @@ const UIPluginConfContent = PropTypes.shape({
   pluginDefinition: UIPluginDefinitionContent.isRequired,
 })
 
-const UIPluginConf = PropTypes.shape({
+export const UIPluginConf = PropTypes.shape({
   content: UIPluginConfContent,
 })
-const UIPluginConfList = PropTypes.objectOf(UIPluginConf)
-const UIPluginConfArray = PropTypes.arrayOf(UIPluginConf)
-
-module.exports = {
-  UIPluginConfContent,
-  UIPluginConf,
-  UIPluginConfList,
-  UIPluginConfArray,
-}
+export const UIPluginConfList = PropTypes.objectOf(UIPluginConf)
+export const UIPluginConfArray = PropTypes.arrayOf(UIPluginConf)

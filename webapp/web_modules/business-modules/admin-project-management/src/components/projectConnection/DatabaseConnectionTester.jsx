@@ -122,13 +122,12 @@ class DatabaseConnectionTester extends React.Component {
     const switchPrimary = [true, false]
     const switchActions = [this.handleTouchTap, this.handleTouchTap]
 
-    const successButton =
-      (<OnHoverSwitchFlatButton
-        label={switchLabels}
-        icon={switchIcons}
-        primary={switchPrimary}
-        onClick={switchActions}
-      />)
+    const successButton = (<OnHoverSwitchFlatButton
+      label={switchLabels}
+      icon={switchIcons}
+      primary={switchPrimary}
+      onClick={switchActions}
+    />)
 
     const switchWarnLabels = [
       this.context.intl.formatMessage({ id: 'database.connectionTester.warning' }),
@@ -136,13 +135,12 @@ class DatabaseConnectionTester extends React.Component {
     ]
     const switchWarnIcons = [<Warning key="warn" color={styles.palette.warningColor} />, <PlayArrow key="play" />]
     const switchWarnStyles = [{ color: styles.palette.warningColor }, null]
-    const warningButton =
-      (<OnHoverSwitchFlatButton
-        label={switchWarnLabels}
-        icon={switchWarnIcons}
-        labelStyle={switchWarnStyles}
-        onClick={switchActions}
-      />)
+    const warningButton = (<OnHoverSwitchFlatButton
+      label={switchWarnLabels}
+      icon={switchWarnIcons}
+      labelStyle={switchWarnStyles}
+      onClick={switchActions}
+    />)
 
     const switchErrorLabels = [
       this.context.intl.formatMessage({ id: 'database.connectionTester.notConnected' }),
@@ -150,13 +148,12 @@ class DatabaseConnectionTester extends React.Component {
     ]
     const switchErrorIcons = [<Error key="error" />, <PlayArrow key="play" />]
 
-    const errorButton =
-      (<OnHoverSwitchFlatButton
-        label={switchErrorLabels}
-        icon={switchErrorIcons}
-        secondary={switchPrimary}
-        onClick={switchActions}
-      />)
+    const errorButton = (<OnHoverSwitchFlatButton
+      label={switchErrorLabels}
+      icon={switchErrorIcons}
+      secondary={switchPrimary}
+      onClick={switchActions}
+    />)
 
     const pendingProgress = <ConnectionTesterProgress value={this.state.completed} />
 
@@ -175,9 +172,6 @@ class DatabaseConnectionTester extends React.Component {
 
     let result = testButton
     switch (this.state.status) {
-      case EnumConnectivity.NOT_TESTED:
-        result = testButton
-        break
       case EnumConnectivity.PENDING:
         result = pendingProgress
         break
@@ -190,6 +184,7 @@ class DatabaseConnectionTester extends React.Component {
       case EnumConnectivity.ERROR:
         result = errorButton
         break
+      case EnumConnectivity.NOT_TESTED:
       default:
         result = testButton
     }

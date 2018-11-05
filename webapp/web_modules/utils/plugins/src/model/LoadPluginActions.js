@@ -19,6 +19,7 @@
 import root from 'window-or-global'
 import get from 'lodash/get'
 import isUndefined from 'lodash/isUndefined'
+
 // Load scriptjs library. This lib is used to asynchronously load new external javascript files.
 let scriptjs
 if (!isUndefined(root.document) && !isUndefined(root.document.getElementsByTagName)) {
@@ -31,6 +32,8 @@ if (!isUndefined(root.document) && !isUndefined(root.document.getElementsByTagNa
  * @author Sébastien Binda
  */
 export const PLUGIN_LOADED = 'LOAD_PLUGINS/PLUGIN_LOADED'
+export const CHECK_PLUGIN = 'LOAD_PLUGINS/CHECK_LOADED'
+export const PLUGIN_ERROR = 'LOAD_PLUGINS/PLUGIN_ERROR'
 
 export const savePluginLoaded = ({
   sourcePath, info, plugin, reducer, messages, ...otherProps
@@ -43,6 +46,17 @@ export const savePluginLoaded = ({
   info,
   sourcePath: sourcePathFromDb,
   ...otherProps,
+})
+
+export const checkPluginLoaded = sourcePath => ({
+  type: CHECK_PLUGIN,
+  sourcePath,
+})
+
+export const pluginError = (sourcePath, cause) => ({
+  type: PLUGIN_ERROR,
+  sourcePath,
+  cause,
 })
 
 
@@ -72,12 +86,17 @@ export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
     })
     root.document.addEventListener('error', (e, url) => {
       if (get(e, 'srcElement.src', null) === sourcePathPluginWithDateTag) {
+        dispatchAction(pluginError(sourcePath, 'Error loading file. Check if your plugin file exists and is readable.'))
         onErrorCallback(fullSourcePlugin)
       }
     }, true)
 
     try {
-      scriptjs(sourcePathPluginWithDateTag, sourcePath)
+      // Load file. Then when file is ready, run checkPluginLoaded. This method only check that the plugin is well instanciated.
+      // Each valid plugin loaded should run the plugin event that is catch here before.
+      // Then the plugin is set asd loaded in the state. If when the file is ready, the plugin is not set as loaded in the state
+      // that  means that the loaded file does not fired the plugin event and is not a valid plugin.
+      scriptjs(sourcePathPluginWithDateTag, sourcePath, () => dispatchAction(checkPluginLoaded(sourcePath)))
     } catch (e) {
       console.error('Error getting plugin', e)
       onErrorCallback(fullSourcePlugin)

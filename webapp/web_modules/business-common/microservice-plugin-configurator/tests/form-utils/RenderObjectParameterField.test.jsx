@@ -21,7 +21,9 @@ import filter from 'lodash/filter'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { Field } from '@regardsoss/form-utils'
-import { buildTestContext, testSuiteHelpers, ReduxFormTestHelper, DumpProvider } from '@regardsoss/tests-helpers'
+import {
+  buildTestContext, testSuiteHelpers, ReduxFormTestHelper, DumpProvider,
+} from '@regardsoss/tests-helpers'
 import { RenderObjectParameterField } from '../../src/form-utils/RenderObjectParameterField'
 import { RenderPluginParameterField } from '../../src/form-utils/RenderPluginParameterField'
 import styles from '../../src/styles/styles'

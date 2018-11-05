@@ -59,6 +59,9 @@ const allRules = {
   'import/no-named-as-default': 0,
   'import/no-named-as-default-member': 0,
   'import/prefer-default-export': 0,
+  // To remove when module.exports will disappear
+  'import/named': 0,
+  'import/no-commonjs': [2, { allowRequire: true }],
 
   // React rules configuration
   'react/jsx-uses-react': 2,
@@ -69,6 +72,11 @@ const allRules = {
   'react/require-default-props': 0,
   'react/prefer-stateless-function': 0,
   'react/display-name': 0,
+  'react/jsx-no-undef': [2, { allowGlobals: true }],
+  'react/destructuring-assignment': 0,
+  'react/jsx-wrap-multilines': 0,
+  'react/no-access-state-in-setstate': 0,
+  'react/jsx-closing-tag-location': 0,
 
   // Lodash rules configuration
   'lodash/import-scope': [2, 'method'],

@@ -20,7 +20,9 @@ import get from 'lodash/get'
 import { OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { storage } from '@regardsoss/units'
-import { TableHeaderLine, TableHeaderContentBox, TableHeaderText } from '@regardsoss/components'
+import {
+  TableHeaderLine, TableHeaderContentBox, TableHeaderText, TableHeaderLoadingComponent,
+} from '@regardsoss/components'
 import DuplicatedObjectsMessageComponents from './options/DuplicatedObjectsMessageComponents'
 
 /**
@@ -55,6 +57,8 @@ class OrderCartContentSummary extends React.Component {
     onShowDuplicatedMessage: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     basket: OrderShapes.Basket, // used in onPropertiesUpdated
+    // is currently fetching?
+    isFetching: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -91,8 +95,7 @@ class OrderCartContentSummary extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     // no need to test here the basket value, as it is the single non constant property of this component,
     // we can assert here it is the one that changed (or this is initialization time)
-    const { totalObjectsCount, effectiveObjectsCount, totalSize } =
-      OrderCartContentSummary.computeBasketSummaryData(newProps.basket)
+    const { totalObjectsCount, effectiveObjectsCount, totalSize } = OrderCartContentSummary.computeBasketSummaryData(newProps.basket)
     const { intl: { formatMessage, formatNumber } } = this.context
     const totalSizeCapacity = new storage.StorageCapacity(totalSize, storage.StorageUnits.BYTE).scaleAndConvert(storage.StorageUnitScale.bytesScale)
     this.setState({
@@ -104,7 +107,7 @@ class OrderCartContentSummary extends React.Component {
   }
 
   render() {
-    const { onShowDuplicatedMessage } = this.props
+    const { onShowDuplicatedMessage, isFetching } = this.props
     const {
       objectCountMessageParameters,
       totalObjectsCount,
@@ -134,6 +137,9 @@ class OrderCartContentSummary extends React.Component {
           }
           <br />
         </TableHeaderContentBox>
+        { /* show loading feedback */}
+        <TableHeaderLoadingComponent loading={isFetching} />
+
         <TableHeaderContentBox>
           <TableHeaderText text={formatMessage({ id: 'order-cart.module.objects.count.size.message' }, sizeMessageParameters)} />
         </TableHeaderContentBox>

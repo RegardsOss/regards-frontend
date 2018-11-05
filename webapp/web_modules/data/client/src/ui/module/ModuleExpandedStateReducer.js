@@ -16,7 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { ModuleExpandedStateActions } from './ModuleExpandedStateActions'
+import { UIDomain } from '@regardsoss/domain'
+import ModuleExpandedStateActions from './ModuleExpandedStateActions'
 
 /**
  * Module expanded state reducer
@@ -46,24 +47,23 @@ export class ModuleExpandedStateReducer {
           ...state,
           [action.moduleType]: {
             expandable: action.expandable,
-            expanded: action.expanded,
+            state: action.state,
           },
         }
-      case this.actions.SET_EXPANDED_STATE: {
+      case this.actions.SET_STATE: {
         const currentState = state[action.moduleType]
-        // refuse switching the current state when unknown or not expandable/collapsible
-        if (currentState && currentState.expandable) {
-          return {
-            ...state,
-            [action.moduleType]: {
-              expandable: currentState.expandable,
-              expanded: action.expanded,
-            },
-          }
+        // compute next state : collapse a pane only when it can be collapsed (set to normal state otherwise)
+        const nextPaneState = action.state === UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED && !currentState.expandable
+          ? UIDomain.PRESENTATION_STATE_ENUM.NORMAL
+          : action.state
+
+        return {
+          ...state,
+          [action.moduleType]: {
+            expandable: currentState.expandable,
+            state: nextPaneState,
+          },
         }
-        // ignore such event, the module was probably not mounted yet
-        // as there was some long loading operation
-        return state
       }
       default:
         return state
@@ -76,7 +76,7 @@ export class ModuleExpandedStateReducer {
  * @param {string} namespace actions namespace
  * @return {ModuleExpandedStateReducer} reducer instance
  */
-export function getModuleExpandedStateReducer(namespace) {
+export default function getModuleExpandedStateReducer(namespace) {
   const reducerInstance = new ModuleExpandedStateReducer(namespace)
   return (state, action) => reducerInstance.reduce(state, action)
 }

@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { PageableListContainer, ListContainer } from '@regardsoss/components'
 import Styles from '../../../../src/styles/styles'
-import { DATASET_MODEL_TYPE, DATASET_TYPE, ALL_CATALOG_TYPE } from '../../../../src/domain/DatasetSelectionTypes'
+import DatasetSelectionTypes from '../../../../src/domain/DatasetSelectionTypes'
 import DatasetModelLineComponent from '../../../../src/components/admin/datasets/DatasetModelLineComponent'
 import DatasetLineComponent from '../../../../src/components/admin/datasets/DatasetLineComponent'
 import FormDatasetsConfigurationComponent from '../../../../src/components/admin/datasets/FormDatasetsConfigurationComponent'
@@ -39,7 +39,7 @@ describe('[SEARCH FORM] Testing FormDatasetsConfigurationComponent', () => {
   it('Should render a FormDatasetsConfigurationComponent to configure datasets', () => {
     const props = {
       changeField: () => { },
-      defaultType: DATASET_TYPE,
+      defaultType: DatasetSelectionTypes.DATASET_TYPE,
       defaultSelectedDatasets: [],
       defaultSelectedDatasetModels: [],
       disableChangeDatasets: false,
@@ -55,7 +55,7 @@ describe('[SEARCH FORM] Testing FormDatasetsConfigurationComponent', () => {
   it('Should render a FormDatasetsConfigurationComponent to configure models', () => {
     const props = {
       changeField: () => { },
-      defaultType: DATASET_MODEL_TYPE,
+      defaultType: DatasetSelectionTypes.DATASET_MODEL_TYPE,
       defaultSelectedDatasets: [],
       defaultSelectedDatasetModels: [],
       disableChangeDatasets: false,
@@ -71,7 +71,7 @@ describe('[SEARCH FORM] Testing FormDatasetsConfigurationComponent', () => {
   it('Should render a FormDatasetsConfigurationComponent for all datasets', () => {
     const props = {
       changeField: () => { },
-      defaultType: ALL_CATALOG_TYPE,
+      defaultType: DatasetSelectionTypes.ALL_CATALOG_TYPE,
       defaultSelectedDatasets: [],
       defaultSelectedDatasetModels: [],
       disableChangeDatasets: false,

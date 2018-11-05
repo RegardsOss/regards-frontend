@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardText } from 'material-ui/Card'
 import Delete from 'material-ui/svg-icons/action/delete'
@@ -30,9 +29,10 @@ import Subheader from 'material-ui/Subheader'
 import Toggle from 'material-ui/Toggle'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { reduxForm } from '@regardsoss/form-utils'
 import { CommonShapes } from '@regardsoss/shape'
 import { withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
-import { RenderPluginConfField } from '@regardsoss/microservice-plugin-configurator'
+import { RenderPluginConfField, PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { pluginConfigurationByPluginIdActions } from '../../clients/PluginConfigurationClient'
 import PluginView from './PluginView'
 import styles from '../../styles'
@@ -83,17 +83,19 @@ export class PluginConfigurationComponent extends React.Component {
       microserviceName, pluginConfiguration, pluginMetaData, onActiveToggle, onCopyClick, onDeleteClick, onEditClick, onDownwardClick, onUpwardClick,
     } = this.props
     const { moduleTheme } = this.context
-
+    const metaData = get(pluginMetaData, 'content', {})
+    // Like the real form, we need to transform the current pluginConf into an object lightly different
+    const initValues = PluginFormUtils.formatPluginConfForReduxFormInit(pluginConfiguration.content, metaData)
     const ConfForm = reduxForm({
       form: `view-plugin-conf-${pluginConfiguration.content.id}`,
-      initialValues: { pluginConfiguration: pluginConfiguration.content },
+      initialValues: { pluginConfiguration: initValues },
     })(PluginView)
 
     // Simulate a redux form to use the same component RenderPluginConfField to display a non editable form of plugin configuration.
     const conf = (
       <ConfForm
         microserviceName={microserviceName}
-        pluginMetaData={get(pluginMetaData, 'content', {})}
+        pluginMetaData={metaData}
         name="pluginConfiguration"
         component={RenderPluginConfField}
       />)
@@ -108,14 +110,23 @@ export class PluginConfigurationComponent extends React.Component {
           <div style={moduleTheme.pluginConfiguration.lineWrapper}>
             <div>
               <span>{pluginConfiguration.content.label}</span>
-              <span style={moduleTheme.pluginConfiguration.version}>Version {pluginConfiguration.content.version}</span>
+              <span style={moduleTheme.pluginConfiguration.version}>
+Version
+                {pluginConfiguration.content.version}
+              </span>
               <span> -</span>
-              <span style={moduleTheme.pluginConfiguration.version}>ID {pluginConfiguration.content.id}</span>
+              <span style={moduleTheme.pluginConfiguration.version}>
+ID
+                {pluginConfiguration.content.id}
+              </span>
             </div>
             <div style={moduleTheme.pluginConfiguration.buttonsGroupWrapper}>
-              <span style={moduleTheme.pluginConfiguration.version}><FormattedMessage
-                id="microservice-management.plugin.configuration.priorityOrder"
-              /> {pluginConfiguration.content.priorityOrder}
+              <span style={moduleTheme.pluginConfiguration.version}>
+                <FormattedMessage
+                  id="microservice-management.plugin.configuration.priorityOrder"
+                />
+                {' '}
+                {pluginConfiguration.content.priorityOrder}
               </span>
               <HateoasIconAction
                 entityLinks={pluginConfiguration.links}

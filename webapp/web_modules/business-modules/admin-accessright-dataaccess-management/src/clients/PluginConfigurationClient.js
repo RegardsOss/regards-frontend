@@ -23,16 +23,9 @@ import { CommonClient } from '@regardsoss/client'
  *
  * @author Sébastien Binda
  */
-const ENTITIES_STORE_PATH = ['admin', 'access-right-management', 'access-rights-management', 'pluginConfiguration']
+const ENTITIES_STORE_PATH = ['admin', 'dataaccess', 'access-rights-management', 'pluginConfiguration']
 const REDUX_ACTION_NAMESPACE = 'admin-accessright-management/pluginConfiguration'
 
-const pluginConfigurationReducer = CommonClient.getPluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
-const pluginConfigurationActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_NAMESPACE)
-const pluginConfigurationSelectors = CommonClient.getPluginConfigurationSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  pluginConfigurationReducer,
-  pluginConfigurationActions,
-  pluginConfigurationSelectors,
-}
+export const pluginConfigurationReducer = CommonClient.getPluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
+export const pluginConfigurationActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_NAMESPACE)
+export const pluginConfigurationSelectors = CommonClient.getPluginConfigurationSelectors(ENTITIES_STORE_PATH)

@@ -20,7 +20,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { IngestShapes } from '@regardsoss/shape'
 import { withI18n } from '@regardsoss/i18n'
-import SIPImportClient from '../clients/SIPImportClient'
+import { sipImportSelectors } from '../clients/SIPImportClient'
 import SIPsubmissionSummaryComponent from '../components/submission/SIPSubmissionSummaryComponent'
 import messages from '../i18n'
 
@@ -37,7 +37,7 @@ export class SIPSubmissionSummaryContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
-      submitedSips: SIPImportClient.sipImportSelectors.getArray(state),
+      submitedSips: sipImportSelectors.getArray(state),
     }
   }
 
@@ -45,7 +45,7 @@ export class SIPSubmissionSummaryContainer extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps(dispatch) {
     return {}

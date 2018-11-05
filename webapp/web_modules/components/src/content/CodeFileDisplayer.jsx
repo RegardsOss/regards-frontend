@@ -20,6 +20,7 @@ import keys from 'lodash/keys'
 import root from 'window-or-global'
 import { AceEditorAdapter } from '@regardsoss/adapters'
 import { themeContextType } from '@regardsoss/theme'
+import { MIME_TYPES } from '@regardsoss/mime-types'
 
 /**
 * Displays code files.
@@ -31,10 +32,10 @@ class CodeFileDisplayer extends React.Component {
    * Maps MIME type to editor mode
    */
   static MIMETypeToMode = {
-    'text/css': 'css',
-    'application/js': 'javascript',
-    'application/json': 'json',
-    'application/xml': 'xml',
+    [MIME_TYPES.CSS_MIME_TYPE]: 'css',
+    [MIME_TYPES.JAVASCRIPT_MIME_TYPE]: 'javascript',
+    [MIME_TYPES.JSON_MIME_TYPE]: 'json',
+    [MIME_TYPES.XML_MIME_TYPE]: 'xml',
   }
 
   static getSupportedMIMETypes() {

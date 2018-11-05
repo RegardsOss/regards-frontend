@@ -27,7 +27,32 @@ const messages = Object.assign({
   'entities-attributes.form.table.stringarray.action.remove': 'Supprimer la valeur',
   'entities-attributes.form.table.stringarray.action.add': 'Ajouter une valeur',
 
+  'entities-files.form.DESCRIPTION.title': 'Description',
+  'entities-files.form.DESCRIPTION.subtitle': 'Fichiers décrivant l\'entité',
+  'entities-files.form.THUMBNAIL.title': 'Vignette',
+  'entities-files.form.THUMBNAIL.subtitle': 'La vignette de l\'entité',
+  'entities-files.form.DOCUMENT.title': 'Documents',
+  'entities-files.form.DOCUMENT.subtitle': 'Les différents documents',
+  'entities-files.form.nbFile.tooltip': `{nbFile} fichier{nbFile, plural, 
+    =0 {} 
+    one {} 
+    other {s}
+  }`,
+  'entities-files.form.no-file.title': 'Aucun fichier lié',
+  'entities-files.form.no-file.message': 'Cette entité ne dispose pas de fichier associé',
+  'entities-files.form.file.subtitle': 'Liste des fichiers associés',
+  'entities-files.form.action.add-file': 'Ajouter des fichiers',
+  'entities-files.form.upload.files.subtitle': 'Téléverser les fichiers suivant :',
+  'entities-files.form.upload.refs.subtitle': 'Associer à des fichiers externes : ',
+  'entities-files.form.upload.action.send': 'Envoyer',
+  'entities-files.form.upload.action.cancel': 'Annuler',
+
+  'entities-files.form.reference': 'Fichier référence n°',
+  'entities-files.form.uri': 'URI publique du fichier (*)',
+  'entities-files.form.mimeType': 'Type de media (*)',
+  'entities-files.form.filename': 'Nom à afficher pour ce fichier (*)',
+  'entities-files.form.imageWidth': 'Largeur de l\'image',
+  'entities-files.form.imageHeight': 'Hauteur de l\'image',
 }, Locales.fr)
 
 export default messages
-

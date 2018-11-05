@@ -75,7 +75,7 @@ class ProjectAboutPageContainer extends React.Component {
     if (path) {
       if (startsWith(path, 'http') || startsWith(path, 'wwww')) {
         return path
-      } else if (startsWith(path, '/')) {
+      } if (startsWith(path, '/')) {
         return `http://${root.location.host}${path}`
       }
       return `http://${root.location.host}/${path}`
@@ -125,9 +125,9 @@ class ProjectAboutPageContainer extends React.Component {
     } = this.context
 
     // render: is there a button provided or should we used module default one?
-    const runtimeButton = buttonComponent ?
+    const runtimeButton = buttonComponent
       // use provided button with added callback
-      React.cloneElement(buttonComponent, { onClick: this.forceOpen }) : ( // create default button
+      ? React.cloneElement(buttonComponent, { onClick: this.forceOpen }) : ( // create default button
         <FloatingActionButton
           style={button}
           mini
@@ -149,9 +149,8 @@ class ProjectAboutPageContainer extends React.Component {
           onRequestClose={this.onClose}
           actions={this.renderActionButtons()}
         />
-      </div >
+      </div>
     )
   }
 }
 export default ProjectAboutPageContainer
-

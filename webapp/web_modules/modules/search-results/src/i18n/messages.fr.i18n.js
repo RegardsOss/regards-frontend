@@ -17,12 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
+import { storage } from '@regardsoss/units'
 
 /**
  * i18n messages French language
  * @author Sébastien binda
  */
-const messages = Object.assign({
+const messages = {
+  // form messages
+  ...Locales.fr,
+  // units messages
+  ...storage.messages.fr,
 
   // Administration messages
 
@@ -51,8 +56,8 @@ const messages = Object.assign({
   'form.configuration.result.show.quicklook.initially': 'Imagettes',
   'form.attributes.configuration.section.title': 'Colonnes et attibuts du tableau',
   'form.attributes.regroupement.form.title': 'Ajout d\'un nouveau regroupement',
-  'form.attributes.regroupement.description': 'Un regroupement d\'attributs permet de regrouper l\'affichage de plusieurs attributs d\'un même objet résultat d\'une recherche dans une seule colonne du tableau des résultats de recherche.<br/>' +
-    ' Veuillez saisir le label de la colonne voulue (ce label doit être unique) puis sélectionner les attributs à regrouper.',
+  'form.attributes.regroupement.description': 'Un regroupement d\'attributs permet de regrouper l\'affichage de plusieurs attributs d\'un même objet résultat d\'une recherche dans une seule colonne du tableau des résultats de recherche.<br/>'
+    + ' Veuillez saisir le label de la colonne voulue (ce label doit être unique) puis sélectionner les attributs à regrouper.',
   'form.attributes.regroupement.form.label': 'Label',
   'form.attributes.regroupement.form.save': 'Ajouter',
   'form.attributes.regroupement.form.update': 'Mise à jour',
@@ -63,20 +68,41 @@ const messages = Object.assign({
   'form.attributes.facetable.label': 'Activer le filtrage sur cet attribut',
   'form.attributes.order': 'Ordre d\'affichage',
   'form.attributes.initialSort.label': 'Trier les résultats sur cet attribut',
-  'form.attributes.regroupement.section.title': 'Configurer les regroupements d\'attributs',
-  'form.attributes.section.title': 'Configurer les attributs dynamiques',
   'form.attributes.section.clear.filters.tooltip': 'Effacer le filtre courant',
-  'form.attributes.standard.section.title': 'Configuration des attributs communs (attributs créés par défaut sur tous les objets de données)',
   'form.attributes.filter.label': 'Filtrer les attributs ...',
   'form.attributes.regroupement.remove': 'Supprimer',
   'form.attributes.regroupement.edit': 'Editer',
   'form.attributes.delete.confirm.title': 'Supprimer le regroupement {name} ?',
   'form.attributes.regroupement.form.title.update': 'Mise à jour du regroupement : {name}',
-  'form.attribute.conf.selection.tab.label': 'Attributs des données',
-  'form.attribute.dataset.conf.selection.tab.label': 'Attributs des jeux',
-  'form.attribute.quicklook.conf.selection.tab.label': 'Attributs des imagettes',
+  'form.attribute.conf.selection.tab.label': 'Présentation des données',
+  'form.attribute.dataset.conf.selection.tab.label': 'Présentation des jeux',
+  'form.attribute.quicklook.conf.selection.tab.label': 'Présentation des imagettes',
+  'form.attribute.conf.columns': 'Colonnes de résultats affichées',
+  'form.attribute.conf.no.column': 'Ajouter ici les colonnes à afficher dans la vue des résultats',
+  'form.attribute.conf.facets': 'Filtres des résultats',
+  'form.attribute.conf.no.facet': 'Ajouter ici les filtres de résultats qui seront proposés',
+  'form.attribute.conf.sorting': 'Tri initial des résultats',
+  'form.attribute.conf.no.sorting': 'Ajouter ici les attributs à utiliser pour ordonner le résultat initial, par ordre d\'importance',
 
   // User messages
+  'search.results.configure.columns.option': 'Colonnes',
+  'search.results.configure.columns.summary.text': '{columnsCount} colonnes disponibles pour ce tableau',
+  'search.results.configure.columns.toggle.all.visible': 'Tout Afficher',
+  'search.results.configure.columns.toggle.all.hidden': 'Tout cacher',
+  'search.results.configure.columns.dialog.reset': 'Réinitialiser',
+  'search.results.configure.columns.dialog.reset.tooltip': 'Réinitialiser les colonnes à leur état initial',
+  'search.results.configure.columns.dialog.confirm': 'Confirmer',
+  'search.results.configure.columns.dialog.cancel': 'Annuler',
+  'search.results.configure.columns.visible.column': 'Visible',
+  'search.results.configure.columns.visible.title': 'Cette colonne est visible',
+  'search.results.configure.columns.hidden.title': 'Cette colonne est cachée',
+  'search.results.configure.columns.label.column': 'Libellé',
+  'search.results.configure.columns.attribute.column': 'Attributs',
+  'search.results.configure.columns.attribute.label.separator': ', ',
+  'search.results.configure.columns.attribute.not.available': '-',
+  'search.results.configure.columns.move.tooltip': 'Déplacer cette colonne',
+  'search.results.configure.columns.move.column.at.first.position': 'En premier',
+  'search.results.configure.columns.move.column.after': 'Après {columnLabel}',
   'navigation.dataobjects.label': 'Données',
   'navigation.datasets.label': 'Jeux de données',
   'navigation.documents.label': 'Documents',
@@ -87,8 +113,7 @@ const messages = Object.assign({
   'view.type.list.button.label': 'Afficher les résultats en liste',
   'view.type.quicklook.button.label': 'Afficher les résultats en image',
   'download.tooltip': 'Télécharger',
-  'no.download.tooltip': 'Aucun fichier',
-  'download.unsufficient.user.rights.tooltip': 'Droits insuffisants',
+  'no.download.tooltip': 'Aucun fichier ou droits utilisateur insuffisant',
   'download.no.online.file.tooltip': 'Tous les fichiers sont hors ligne',
   'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Détail',
@@ -108,6 +133,10 @@ const messages = Object.assign({
 
   'search.facets.no.facet.found': 'Pas de facette pour le résultat courant',
   'search.facets.filter.menu.others.message': 'Les choix disponibles ne sont pas exhaustifs',
+  'search.facets.filter.boolean.value.true': 'vrai',
+  'search.facets.filter.boolean.value.false': 'faux',
+  'search.facets.filter.menu.boolean.value': '{valueLabel} ({count})',
+  'search.facets.filter.chip.boolean.value': '{label}: {valueLabel}',
   'search.facets.filter.menu.date.before': 'Avant le {date} ({count})',
   'search.facets.filter.menu.date.after': 'Après le {date} ({count})',
   'search.facets.filter.menu.date.range': 'Entre le {minDate} et le {maxDate} ({count})',
@@ -126,6 +155,6 @@ const messages = Object.assign({
   'search.facets.filter.chip.number.value': '{label} = {value}',
   'search.facets.filter.menu.word.value': '{word} ({count})',
   'search.facets.filter.chip.word.value': '{label} = {word}',
-}, Locales.fr)
+}
 
 export default messages

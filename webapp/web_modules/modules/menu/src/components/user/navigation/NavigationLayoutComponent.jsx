@@ -19,7 +19,6 @@
 import isEqual from 'lodash/isEqual'
 import isNumber from 'lodash/isNumber'
 import throttle from 'lodash/throttle'
-import { UIDomain } from '@regardsoss/domain'
 import { Measure } from '@regardsoss/adapters'
 import { themeContextType } from '@regardsoss/theme'
 import { NavigationItem } from '../../../shapes/Navigation'
@@ -41,7 +40,6 @@ class NavigationLayoutComponent extends React.Component {
 
   static propTypes = {
     navigationElements: PropTypes.arrayOf(NavigationItem),
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     buildLinkURL: PropTypes.func.isRequired,
   }
 
@@ -126,7 +124,7 @@ class NavigationLayoutComponent extends React.Component {
    * @param {width: number} dimensions
    */
   onComponentResized = ({ measureDiv: { width } }) => {
-    // WORKAROUND: see OBSERVED_FIRST_WIDTH_ERROR comment
+    // XXX-WORKAROUND: see OBSERVED_FIRST_WIDTH_ERROR comment
     this.layoutWidth = Math.max(0, Math.floor(width) - NavigationLayoutComponent.OBSERVED_FIRST_WIDTH_ERROR)
     // update, bypassing throttle
     this.onLayoutUpdateImpl(this.props.navigationElements)
@@ -139,9 +137,8 @@ class NavigationLayoutComponent extends React.Component {
   onLayoutUpdateImpl = (navigationElements) => {
     // 0 - check if initialized (if not, show all)
     let nextState = NavigationLayoutComponent.NON_INITIALIZE_STATE
-    const isInitialized = isNumber(this.layoutWidth) && isNumber(this.moreButtonWidth) &&
-      navigationElements.reduce((acc, navigationElement) =>
-        acc && isNumber(this.barItemsWidths[navigationElement.key]), true)
+    const isInitialized = isNumber(this.layoutWidth) && isNumber(this.moreButtonWidth)
+      && navigationElements.reduce((acc, navigationElement) => acc && isNumber(this.barItemsWidths[navigationElement.key]), true)
     if (isInitialized) {
       // 1 - consume this width to show more possible elements
       let shownBarItemsCount = 0
@@ -197,7 +194,7 @@ class NavigationLayoutComponent extends React.Component {
 
 
   render() {
-    const { navigationElements, locale, buildLinkURL } = this.props
+    const { navigationElements, buildLinkURL } = this.props
     const { shownBarItemsCount, moreButtonItems, forceMoreButton } = this.state
     const { moduleTheme: { user: { navigationGroup } } } = this.context
     return (
@@ -211,7 +208,6 @@ class NavigationLayoutComponent extends React.Component {
                     key={navigationElement.key}
                     item={navigationElement}
                     displayed={index < shownBarItemsCount}
-                    locale={locale}
                     buildLinkURL={buildLinkURL}
                     onItemResized={this.onBarItemResized}
                   />
@@ -221,7 +217,6 @@ class NavigationLayoutComponent extends React.Component {
               <MainBarMoreNavigationButton
                 displayed={forceMoreButton || moreButtonItems.length > 0}
                 items={moreButtonItems}
-                locale={locale}
                 buildLinkURL={buildLinkURL}
                 onResized={this.onMoreButtonResized}
               />

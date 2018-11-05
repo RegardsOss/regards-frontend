@@ -18,13 +18,13 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const ThemeConfiguration = {
+export const ThemeConfiguration = {
   entityKey: 'id',
   normalizrKey: 'theme',
 }
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
-const themeSchema = new Schema(ThemeConfiguration.normalizrKey, {
+export const THEME = new Schema(ThemeConfiguration.normalizrKey, {
   idAttribute: theme => theme.content[ThemeConfiguration.entityKey],
   assignEntity(output, key, value, input) {
     if (value && value.configuration) {
@@ -38,10 +38,4 @@ const themeSchema = new Schema(ThemeConfiguration.normalizrKey, {
     }
   },
 })
-
-// Schemas for API responses.
-module.exports = {
-  THEME: themeSchema,
-  THEME_ARRAY: arrayOf(themeSchema),
-  ThemeConfiguration,
-}
+export const THEME_ARRAY = arrayOf(THEME)

@@ -34,8 +34,8 @@ const getNewSelectionPath = (previousSelectionPath, { levelIndex, entity }) => {
   const newSelectionPath = previousSelectionPath.slice(0, levelIndex)
   // if selected entity is not null, ie not a selection reset on level, then consider it in selection path
   if (entity) {
-    const { ipId, entityType, label } = entity.content
-    newSelectionPath.push({ ipId, entityType, label })
+    const { id, entityType, label } = entity.content
+    newSelectionPath.push({ id, entityType, label })
   }
   return newSelectionPath
 }
@@ -43,7 +43,6 @@ const getNewSelectionPath = (previousSelectionPath, { levelIndex, entity }) => {
 export const DEFAULT_STATE = {
   selectionPath: [],
   datasetsAttributesVisible: false,
-  moduleCollapsed: false,
   searchTag: null,
 }
 
@@ -54,11 +53,8 @@ const reduce = (state = DEFAULT_STATE, action) => {
       return { ...state, searchTag: null, selectionPath: getNewSelectionPath(state.selectionPath, action) }
     case graphContextActions.SET_DATASET_ATTRIBUTES_VISIBLE:
       return { ...state, datasetsAttributesVisible: action.visible }
-    case graphContextActions.SET_MODULE_COLLAPSED:
-      return { ...state, moduleCollapsed: action.collapsed }
     case graphContextActions.SET_SEARCH_TAG:
-      // set the search tag and collapse the module
-      return { ...state, moduleCollapsed: true, searchTag: action.searchTag }
+      return { ...state, searchTag: action.searchTag }
     default:
       return state
   }

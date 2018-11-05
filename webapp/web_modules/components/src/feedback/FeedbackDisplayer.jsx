@@ -166,14 +166,14 @@ export class FeedbackDisplayer extends React.Component {
         bodyStyle={bodyStyle}
         paperProps={paperProps}
       >
-        <div style={layoutStyle} >
+        <div style={layoutStyle}>
           { // feedback icon when feedback should be shown (worth null otherwise)
             currentFeedbackIcon
           }
           { // show loading when feedback is display, hide it in DONE transition
-            showLoading ?
-              <CircularProgress size={progress.size} thickness={progress.thickness} style={progress.style} /> :
-              null
+            showLoading
+              ? <CircularProgress size={progress.size} thickness={progress.thickness} style={progress.style} />
+              : null
           }
         </div>
       </Dialog>

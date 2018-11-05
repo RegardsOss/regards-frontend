@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import connectionDataManagementReducer from './reducer'
-import connectionDataManagementRouter from './router'
-import connectionDependencies from './dependencies'
-
-module.exports = {
-  connectionDataManagementReducer,
-  connectionDataManagementRouter,
-  connectionDependencies,
-}
+export { default as connectionDataManagementReducer } from './reducer'
+export { default as connectionDataManagementRouter } from './router'
+export { default as connectionDependencies } from './dependencies'

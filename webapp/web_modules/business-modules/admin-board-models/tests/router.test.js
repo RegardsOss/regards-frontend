@@ -22,6 +22,7 @@ import { attributeModelDataManagementRouter } from '@regardsoss/admin-data-attri
 import { fragmentDataManagementRouter } from '@regardsoss/admin-data-fragment-management'
 import { modelDataManagementRouter } from '@regardsoss/admin-data-model-management'
 import { modelAttributeDataManagementRouter } from '@regardsoss/admin-data-modelattribute-management'
+import { attributePluginDataManagementRouter } from '@regardsoss/admin-data-attribute-plugins-management'
 import Routes from '../src/router'
 import ModuleContainer from '../src/components/ModuleContainer'
 
@@ -31,12 +32,13 @@ describe('[ADMIN DATA MANAGEMENT] Testing data board router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(5)
+    expect(Routes.childRoutes).to.have.length(6)
     expect(Routes.childRoutes[0].path).to.eq('board')
     expect(Routes.childRoutes[1].path).to.eq('model')
     expect(Routes.childRoutes[2].path).to.eq('model-attribute')
     expect(Routes.childRoutes[3].path).to.eq('attribute/model')
     expect(Routes.childRoutes[4].path).to.eq('fragment')
+    expect(Routes.childRoutes[5].path).to.eq('calculationplugins')
   })
 
 
@@ -68,6 +70,12 @@ describe('[ADMIN DATA MANAGEMENT] Testing data board router', () => {
   it('should return fragmentDataManagementRouter', (done) => {
     Routes.childRoutes[4].getChildRoutes(undefined, (smth, component) => {
       expect(component[0]).to.eq(fragmentDataManagementRouter)
+      done()
+    })
+  })
+  it('should return attributePluginDataManagementRouter', (done) => {
+    Routes.childRoutes[5].getChildRoutes(undefined, (smth, component) => {
+      expect(component[0]).to.eq(attributePluginDataManagementRouter)
       done()
     })
   })

@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import datasourceDataManagementReducer from './reducer'
-import datasourceDataManagementRouter from './router'
-import datasourceDependencies from './dependencies'
-
-module.exports = {
-  datasourceDataManagementReducer,
-  datasourceDataManagementRouter,
-  datasourceDependencies,
-}
+export { default as datasourceDataManagementReducer } from './reducer'
+export { default as datasourceDataManagementRouter } from './router'
+export { default as datasourceDependencies } from './dependencies'

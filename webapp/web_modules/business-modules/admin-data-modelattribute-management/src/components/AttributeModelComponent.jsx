@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { DataManagementShapes } from '@regardsoss/shape'
-import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
+import {
+  Table, TableBody, TableRow, TableRowColumn,
+} from 'material-ui/Table'
 
 class AttributeModelComponent extends React.Component {
   static propTypes = {
@@ -42,7 +44,10 @@ class AttributeModelComponent extends React.Component {
           preScanRows={false}
         >
           <TableRow>
-            <TableRowColumn>{attribute.content.name}{this.showIfAttributeIsNotOptional(attribute)}</TableRowColumn>
+            <TableRowColumn>
+              {attribute.content.name}
+              {this.showIfAttributeIsNotOptional(attribute)}
+            </TableRowColumn>
             <TableRowColumn>{attribute.content.type}</TableRowColumn>
           </TableRow>
         </TableBody>

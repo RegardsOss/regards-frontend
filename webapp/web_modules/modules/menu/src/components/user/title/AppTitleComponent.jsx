@@ -41,9 +41,9 @@ class AppTitleComponent extends React.Component {
     return (
       <div style={title}>
         {
-          displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN_INSTANCE ?
-            formatMessage({ id: 'menu.admin.instance.title' }) :
-            formatMessage({ id: 'menu.admin.project.title' }, { project })
+          displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN_INSTANCE
+            ? formatMessage({ id: 'menu.admin.instance.title' })
+            : formatMessage({ id: 'menu.admin.project.title' }, { project })
         }
       </div>
     )

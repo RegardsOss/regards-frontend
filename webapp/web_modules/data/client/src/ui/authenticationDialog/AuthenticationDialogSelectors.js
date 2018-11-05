@@ -38,6 +38,6 @@ export class AuthenticationDialogSelectors extends BasicSelector {
  * @param  {[string]} store path: reducer store path
  * @return {AuthenticationDialogSelectors} AuthenticationDialogSelectors instance
  */
-export function getAuthenticationDialogSelectors(storePath) {
+export default function getAuthenticationDialogSelectors(storePath) {
   return new AuthenticationDialogSelectors(storePath)
 }

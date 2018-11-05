@@ -16,13 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-module.exports = {
+export default {
   content: [
     {
       content: {
         id: 1,
         label: 'Test première chaîne acquisition',
         active: true,
+        generationRetryEnabled: true,
+        submissionRetryEnabled: true,
         mode: 'MANUAL',
         session: 'session-test',
         locked: false,
@@ -97,6 +99,8 @@ module.exports = {
         id: 2,
         label: 'tototo',
         active: false,
+        generationRetryEnabled: true,
+        submissionRetryEnabled: true,
         mode: 'AUTO',
         locked: false,
         lastActivationDate: '2018-02-20T09:32:10.722Z',

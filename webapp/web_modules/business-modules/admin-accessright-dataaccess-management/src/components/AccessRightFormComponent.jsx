@@ -19,9 +19,13 @@
 import map from 'lodash/map'
 import get from 'lodash/get'
 import { CardActions, CardText } from 'material-ui/Card'
-import { ShowableAtRender, CardActionsComponent, PluginConfigurationPickerComponent, FormErrorMessage } from '@regardsoss/components'
+import {
+  ShowableAtRender, CardActionsComponent, PluginConfigurationPickerComponent, FormErrorMessage,
+} from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, Field, RenderSelectField, reduxForm } from '@regardsoss/form-utils'
+import {
+  RenderTextField, Field, RenderSelectField, reduxForm,
+} from '@regardsoss/form-utils'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -62,8 +66,8 @@ export class AccessRightFormComponent extends React.Component {
     this.state = {
       isDisplayAdvancedForm: false,
       isDisplayPluginConf: false,
-      selectMetaDataAccessLevel: props.currentAccessRight && props.currentAccessRight.accessLevel ?
-        props.currentAccessRight.accessLevel : AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS,
+      selectMetaDataAccessLevel: props.currentAccessRight && props.currentAccessRight.accessLevel
+        ? props.currentAccessRight.accessLevel : AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS,
     }
   }
 
@@ -156,12 +160,12 @@ export class AccessRightFormComponent extends React.Component {
   renderShowAdvancedButton = () => {
     const computedStyles = styles(this.context.muiTheme)
     const { isDisplayAdvancedForm } = this.state
-    const labelToggleAdvanced = isDisplayAdvancedForm ?
-      <FormattedMessage id="accessright.form.action.advanced.hide" /> :
-      <FormattedMessage id="accessright.form.action.advanced.show" />
-    const iconToggleAdvanced = isDisplayAdvancedForm ?
-      <KeyboardArrowUp /> :
-      <KeyboardArrowDown />
+    const labelToggleAdvanced = isDisplayAdvancedForm
+      ? <FormattedMessage id="accessright.form.action.advanced.hide" />
+      : <FormattedMessage id="accessright.form.action.advanced.show" />
+    const iconToggleAdvanced = isDisplayAdvancedForm
+      ? <KeyboardArrowUp />
+      : <KeyboardArrowDown />
     return (
       <div
         className={computedStyles.action.classes}
@@ -232,7 +236,8 @@ export class AccessRightFormComponent extends React.Component {
     return (
       <ShowableAtRender show={isDisplayAdvancedForm}>
         <hr />
-        <FormattedMessage id="accessright.form.quality" /><br />
+        <FormattedMessage id="accessright.form.quality" />
+        <br />
         <div className="row">
           <div className="col-sm-48">
             <Field

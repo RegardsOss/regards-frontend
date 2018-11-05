@@ -26,7 +26,7 @@ import messages from '../../../i18n'
  */
 class SIPConfirmDeleteDialog extends React.Component {
   static propTypes = {
-    sipId: PropTypes.string.isRequired,
+    providerId: PropTypes.string.isRequired,
     onDeleteSip: PropTypes.func.isRequired,
     onDeleteSips: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -68,11 +68,11 @@ class SIPConfirmDeleteDialog extends React.Component {
   }
 
   render() {
-    const { sipId } = this.props
+    const { providerId } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <Dialog
-        title={formatMessage({ id: 'sip.confirm.delete.title' }, { id: sipId })}
+        title={formatMessage({ id: 'sip.confirm.delete.title' }, { id: providerId })}
         actions={this.renderActions()}
         modal={false}
         open

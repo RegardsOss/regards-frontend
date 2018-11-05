@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const CrawlerDatasourceContent = PropTypes.shape({
+export const CrawlerDatasourceContent = PropTypes.shape({
   id: PropTypes.number,
   label: PropTypes.string,
   savedObjectsCount: PropTypes.number,
@@ -25,17 +25,10 @@ const CrawlerDatasourceContent = PropTypes.shape({
   statusDate: PropTypes.string,
 })
 
-const CrawlerDatasource = PropTypes.shape({
+export const CrawlerDatasource = PropTypes.shape({
   content: CrawlerDatasourceContent.isRequired,
 })
 
-const CrawlerDatasourceList = PropTypes.objectOf(CrawlerDatasource)
+export const CrawlerDatasourceList = PropTypes.objectOf(CrawlerDatasource)
 
-const CrawlerDatasourceArray = PropTypes.arrayOf(CrawlerDatasource)
-
-module.exports = {
-  CrawlerDatasource,
-  CrawlerDatasourceContent,
-  CrawlerDatasourceList,
-  CrawlerDatasourceArray,
-}
+export const CrawlerDatasourceArray = PropTypes.arrayOf(CrawlerDatasource)

@@ -17,11 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import concat from 'lodash/concat'
+import values from 'lodash/values'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
-import { RenderSelectField, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderSelectField, Field, ValidationHelpers, StringComparison,
+} from '@regardsoss/form-utils'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
@@ -42,29 +44,29 @@ class CriteriaConfigurationComponent extends React.Component {
     ...i18nContextType,
   }
 
-  renderDynamicModelAttributes = () => map(this.props.selectableAttributes, selectableAttribute => (
-    <MenuItem
-      key={selectableAttribute.content.id}
-      value={selectableAttribute.content.id}
-      primaryText={DamDomain.AttributeModelController.getAttributeModelFullLabel(selectableAttribute)}
-    />
-  ))
-
-  renderStandardAttributes = () => map(DamDomain.AttributeModelController.searchableStandardAttributes, standardAttribute => (
-    <MenuItem
-      key={standardAttribute.id}
-      value={standardAttribute.key}
-      primaryText={standardAttribute.label}
-    />))
-
   /**
    * Display a configurable attribute
    * @param attribute
    * @returns {XML}
    */
   renderCriteriaAttributeConf = (criteriaAttribute) => {
-    let selectableAttributes = this.renderStandardAttributes() || []
-    selectableAttributes = concat(selectableAttributes, (this.renderDynamicModelAttributes() || []))
+    // filter attributes mathing expected criterion shape (transform lists into {id, key (value), label, type} to
+    // be used no matter the parameter type)
+    const { selectableAttributes } = this.props
+    const allowedAttributesTypes = criteriaAttribute.attributeType || []
+
+    const allAttributes = [
+      // 1 - add all searchable standard attributes and server attributes
+      ...DamDomain.AttributeModelController.standardAttributesAsModel.filter(
+        DamDomain.AttributeModelController.isSearchableAttribute),
+      ...values(selectableAttributes),
+    ].filter(
+      // 2 - filter attributes on expected type
+      ({ content: { type } }) => allowedAttributesTypes.includes(type),
+    ).sort( // 3 - sort attributes alphabetically
+      (a1, a2) => StringComparison.compare(
+        DamDomain.AttributeModelController.getAttributeModelFullLabel(a1),
+        DamDomain.AttributeModelController.getAttributeModelFullLabel(a2)))
 
     return (
       <div key={criteriaAttribute.name}>
@@ -78,7 +80,14 @@ class CriteriaConfigurationComponent extends React.Component {
           validate={ValidationHelpers.required}
           label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.attribute.label' })}
         >
-          {selectableAttributes}
+          { // map each parameter available
+            allAttributes.map(attribute => (
+              <MenuItem
+                key={attribute.content.id}
+                value={attribute.content.jsonPath}
+                primaryText={DamDomain.AttributeModelController.getAttributeModelFullLabel(attribute)}
+              />))
+          }
         </Field>
       </div>
     )

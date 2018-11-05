@@ -25,7 +25,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
 import { extractParametersFromFormValues } from '@regardsoss/admin-data-entities-attributes-management'
-import { getAbstractEntityDescription, ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
 import CollectionFormComponent from '../components/CollectionFormComponent'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
@@ -89,36 +89,27 @@ export class CollectionFormContainer extends React.Component {
     return `/admin/${project}/data/collections/collection/list`
   }
 
-  redirectToLinksPage = (collectionId) => {
+  redirectToFilesPage = (collectionId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/collections/collection/${collectionId}/links`
+    const url = `/admin/${project}/data/collections/collection/${collectionId}/files`
     browserHistory.push(url)
   }
 
   handleUpdate = (values) => {
     const properties = extractParametersFromFormValues(values, this.props.modelAttributeList)
-    const descriptionFile = getAbstractEntityDescription(values.descriptionFileContent, values.descriptionUrl)
     const updatedCollection = Object.assign({}, this.props.currentCollection.content, {
-      label: values.label,
-      geometry: values.geometry,
-      properties,
+      feature: {
+        ...this.props.currentCollection.content.feature,
+        label: values.label,
+        geometry: values.geometry,
+        properties,
+      },
     })
-    // Update the descriptionFile object if the user changed that value
-    if (descriptionFile) {
-      updatedCollection.descriptionFile = descriptionFile
-    }
-    const files = {}
-    if (values.descriptionFileContent) {
-      files.file = values.descriptionFileContent
-    }
-    const apiValues = {
-      collection: updatedCollection,
-    }
-    Promise.resolve(this.props.updateCollection(this.props.currentCollection.content.id, apiValues, files))
+    Promise.resolve(this.props.updateCollection(this.props.currentCollection.content.id, updatedCollection))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          this.redirectToLinksPage(this.props.params.collectionId)
+          this.redirectToFilesPage(this.props.params.collectionId)
         }
       })
   }
@@ -138,29 +129,27 @@ export class CollectionFormContainer extends React.Component {
     if (this.state.isDuplicating) {
       defaultValues.tags = this.props.currentCollection.content.tags
     }
-    const descriptionFile = getAbstractEntityDescription(values.descriptionFileContent, values.descriptionUrl)
-    const files = {}
-    // Send the file if there is
-    if (values.descriptionFileContent) {
-      files.file = values.descriptionFileContent
-    }
-    const apiValues = {
-      collection: Object.assign({}, defaultValues, {
+    const apiValues = Object.assign({}, defaultValues, {
+      feature: {
+        providerId: values.providerId,
+        entityType: ENTITY_TYPES_ENUM.COLLECTION,
+        model: values.model,
+        properties,
         label: values.label,
         geometry: values.geometry,
-        descriptionFile,
-        model,
-        properties,
-        entityType: ENTITY_TYPES_ENUM.COLLECTION,
-      }),
-    }
-    Promise.resolve(this.props.createCollection(apiValues, files))
+      },
+      // descriptionFile,
+      model,
+      entityType: ENTITY_TYPES_ENUM.COLLECTION,
+    })
+
+    Promise.resolve(this.props.createCollection(apiValues))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
           // We extract the collection id from the action
           const collectionId = actionResult.payload.result
-          this.redirectToLinksPage(collectionId)
+          this.redirectToFilesPage(collectionId)
         }
       })
   }
@@ -197,6 +186,7 @@ export class CollectionFormContainer extends React.Component {
             onSubmit={isEditing ? this.handleUpdate : this.handleCreate}
             handleUpdateModel={this.handleUpdateModel}
             backUrl={this.getBackUrl()}
+            projectName={this.props.params.project}
           />)
           }
         </LoadableContentDisplayDecorator>
@@ -216,8 +206,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchCollection: id => dispatch(collectionActions.fetchEntity(id)),
-  createCollection: (values, files) => dispatch(collectionActions.createEntityUsingMultiPart(values, files)),
-  updateCollection: (id, values, files) => dispatch(collectionActions.updateEntityUsingMultiPart(id, values, files)),
+  createCollection: values => dispatch(collectionActions.createEntity(values)),
+  updateCollection: (id, values) => dispatch(collectionActions.updateEntity(id, values)),
   fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: ENTITY_TYPES_ENUM.COLLECTION })),
   fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),

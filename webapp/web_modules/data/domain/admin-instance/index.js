@@ -17,10 +17,5 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { ACCOUNT_STATUS, ACCOUNT_STATUS_ENUM } from './AccountStateEnum'
-
-
-module.exports = {
-  ACCOUNT_STATUS,
-  ACCOUNT_STATUS_ENUM,
-}
+export { ACCOUNT_SETTINGS_MODE, ACCOUNT_SETTINGS_MODE_ENUM } from './AccountSettingsMode'
+export { ACCOUNT_STATUS, ACCOUNT_STATUS_ENUM } from './AccountStateEnum'

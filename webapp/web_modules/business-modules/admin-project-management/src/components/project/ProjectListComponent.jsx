@@ -18,16 +18,23 @@
  */
 import map from 'lodash/map'
 import noop from 'lodash/noop'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
+import {
+  Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
+} from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Settings from 'material-ui/svg-icons/action/settings-input-component'
 import Open from 'material-ui/svg-icons/action/open-in-new'
 import Delete from 'material-ui/svg-icons/action/delete'
 import ResetLicences from 'material-ui/svg-icons/action/assignment-late'
-import { ActionsMenuCell, CardActionsComponent, ShowableAtRender, ConfirmDialogComponent } from '@regardsoss/components'
+import {
+  ActionsMenuCell, CardActionsComponent, ShowableAtRender, ConfirmDialogComponent,
+} from '@regardsoss/components'
+import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
@@ -35,6 +42,7 @@ import moduleStyle from '../../styles/styles'
 
 const styles = moduleStyle()
 const actionsBreakpoints = [904, 995, 1065, 1270, 1270]
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
  * React components to list project.
@@ -59,6 +67,12 @@ export class ProjectListComponent extends React.Component {
 
   state = {
     currentDialog: null,
+  }
+
+  breakPoints = {
+    license: 1270,
+    database: 1065,
+    everything: 1000,
   }
 
   onLicenseUpdate = (projectName) => {
@@ -103,12 +117,6 @@ export class ProjectListComponent extends React.Component {
     this.setState({
       currentDialog: dialogState,
     })
-  }
-
-  breakPoints = {
-    license: 1270,
-    database: 1065,
-    everything: 1000,
   }
 
   cancelDialog = () => {
@@ -199,43 +207,63 @@ export class ProjectListComponent extends React.Component {
                     <ActionsMenuCell
                       breakpoints={actionsBreakpoints}
                     >
-                      <IconButton
+                      <HateoasIconAction
+                        entityLinks={project.links}
+                        hateoasKey={HateoasKeys.UPDATE}
+                        disableInsteadOfHide
+                        alwaysDisplayforInstanceUser={false}
                         title={intl.formatMessage({ id: 'project.list.action.openbutton' })}
                         onClick={() => handleOpen(project.content.name)}
                         className="selenium-openbutton"
                       >
                         <Open hoverColor={style.hoverButtonView} />
-                      </IconButton>
-                      <IconButton
+                      </HateoasIconAction>
+                      <HateoasIconAction
+                        entityLinks={project.links}
+                        hateoasKey={HateoasKeys.UPDATE}
+                        disableInsteadOfHide
+                        alwaysDisplayforInstanceUser={false}
                         title={intl.formatMessage({ id: 'project.list.action.editbutton' })}
                         onClick={() => handleEdit(project.content.name)}
                         className="selenium-editbutton"
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
-                      </IconButton>
-                      <IconButton
+                      </HateoasIconAction>
+                      <HateoasIconAction
+                        entityLinks={project.links}
+                        hateoasKey={HateoasKeys.UPDATE}
+                        disableInsteadOfHide
+                        alwaysDisplayforInstanceUser={false}
                         title={intl.formatMessage({ id: 'project.list.action.edit.connections.button' })}
                         onClick={() => handleConfigureConnections(project.content.name)}
                         className="selenium-editconnections"
                       >
                         <Settings hoverColor={style.hoverButtonEdit} />
-                      </IconButton>
+                      </HateoasIconAction>
 
-                      <IconButton
+                      <HateoasIconAction
+                        entityLinks={project.links}
+                        hateoasKey={HateoasKeys.UPDATE}
+                        disableInsteadOfHide
+                        alwaysDisplayforInstanceUser={false}
                         title={intl.formatMessage({ id: 'project.list.action.licenseUpdateButton' })}
                         onClick={() => this.onLicenseUpdate(project.content.name)}
                         disabled={!!project.content.license}
                         className="selenium-licenseUpdateButton"
                       >
                         <ResetLicences hoverColor={style.hoverButtonLicenseUpdate} />
-                      </IconButton>
-                      <IconButton
+                      </HateoasIconAction>
+                      <HateoasIconAction
+                        entityLinks={project.links}
+                        hateoasKey={HateoasKeys.DELETE}
+                        disableInsteadOfHide
+                        alwaysDisplayforInstanceUser={false}
                         title={intl.formatMessage({ id: 'project.list.action.deletebutton' })}
                         onClick={() => this.onDelete(project.content.name)}
                         className="selenium-deletebutton"
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />
-                      </IconButton>
+                      </HateoasIconAction>
                     </ActionsMenuCell>
                   </TableRowColumn>
                 </TableRow>
@@ -260,4 +288,3 @@ export class ProjectListComponent extends React.Component {
 }
 
 export default ProjectListComponent
-

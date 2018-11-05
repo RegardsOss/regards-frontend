@@ -22,6 +22,7 @@ import FlatButton from 'material-ui/FlatButton'
 import MenuItem from 'material-ui/MenuItem'
 import NextMenuIcon from 'material-ui/svg-icons/navigation-arrow-drop-right'
 import { UIDomain } from '@regardsoss/domain'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DropDownButton, ModuleIcon, ModuleTitleText } from '@regardsoss/components'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../../domain/NavigationItemTypes'
@@ -40,13 +41,13 @@ class MainBarDropMenuButton extends React.Component {
     icon: PropTypes.node,
     // required items, list size must be greater than 0 (should be filtered otherwise)
     items: PropTypes.arrayOf(NavigationItem).isRequired,
-    // current locale if any
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // link URL builder
     buildLinkURL: PropTypes.func.isRequired,
   }
 
+
   static contextTypes = {
+    ...i18nContextType,
     ...themeContextType,
   }
 
@@ -58,7 +59,6 @@ class MainBarDropMenuButton extends React.Component {
   /**
    * Renders a menu item, no matter if it is a section or a module
    * @param {*} item item (respects NavigationItem shape)
-   * @param {string} locale locale if any
    * @param {function} buildLinkURL link URL builder
    * @return rendered item and sub items
    */
@@ -71,8 +71,8 @@ class MainBarDropMenuButton extends React.Component {
     title,
     module,
     children,
-  }, locale, buildLinkURL) => {
-    const { user: { selectedNavigationMenuItem } } = this.context.moduleTheme
+  }, buildLinkURL) => {
+    const { intl: { locale }, moduleTheme: { user: { selectedNavigationMenuItem } } } = this.context
     return (
       <MenuItem
         key={key}
@@ -81,15 +81,15 @@ class MainBarDropMenuButton extends React.Component {
           <ModuleIcon
             iconDisplayMode={iconType}
             defaultIconURL={
-              type === NAVIGATION_ITEM_TYPES_ENUM.SECTION ? // provide default icon for section too
-                defaultSectionIconURL :
-                UIDomain.getModuleDefaultIconURL(module.type)}
+              type === NAVIGATION_ITEM_TYPES_ENUM.SECTION // provide default icon for section too
+                ? defaultSectionIconURL
+                : UIDomain.getModuleDefaultIconURL(module.type)}
             customIconURL={customIconURL}
             color={selected ? selectedNavigationMenuItem.color : null}
           />
         }
         primaryText={ModuleTitleText.selectTitle(title, get(module, 'description', ''), locale)}
-        menuItems={children ? children.map(subItem => this.renderMenuItem(subItem, locale, buildLinkURL)) : null}
+        menuItems={children ? children.map(subItem => this.renderMenuItem(subItem, buildLinkURL)) : null}
         rightIcon={children ? <NextMenuIcon /> : null}
         style={selected ? selectedNavigationMenuItem : null}
       />)
@@ -97,7 +97,7 @@ class MainBarDropMenuButton extends React.Component {
 
   render() {
     const {
-      icon, items, locale, buildLinkURL,
+      icon, items, buildLinkURL,
     } = this.props
     const { moduleTheme: { user: { navigationItem } } } = this.context
     return (
@@ -112,7 +112,7 @@ class MainBarDropMenuButton extends React.Component {
       >
 
         {/* Render menu items */
-          items.map(item => this.renderMenuItem(item, locale, buildLinkURL))
+          items.map(item => this.renderMenuItem(item, buildLinkURL))
         }
       </DropDownButton>
     )

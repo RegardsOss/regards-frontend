@@ -23,4 +23,3 @@ import { BasicListSelectors } from '@regardsoss/store-utils'
  */
 const getPluginMetaDataSelectors = storePath => new BasicListSelectors(storePath)
 export default getPluginMetaDataSelectors
-

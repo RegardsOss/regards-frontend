@@ -16,8 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import keys from 'lodash/keys'
-import { CommonShapes } from '@regardsoss/shape'
+import { MIME_TYPES } from '@regardsoss/mime-types'
 
 /**
  * Shows content of any accepted browser type within an iFrame (required for PDF/ HTML, ...), contained in a dialog
@@ -27,14 +26,15 @@ class IFrameURLContentDisplayer extends React.Component {
   /**
    * Maps MIME type to editor mode
    */
-  static MIMETypes = {
-    'application/pdf': 'application/pdf',
-    'application/xhtml+xml': 'application/xhtml+xml',
-    'text/html': 'text/html',
-  }
+  static MIMETypes = [
+    MIME_TYPES.TEXT,
+    MIME_TYPES.HTML_MIME_TYPE,
+    MIME_TYPES.PDF_MIME_TYPE,
+    MIME_TYPES.XHTML_MIME_TYPE,
+  ]
 
   static propTypes = {
-    contentURL: CommonShapes.URL.isRequired,
+    contentURL: PropTypes.string.isRequired,
     onContentLoaded: PropTypes.func, // callback, called when IFrame content was loaded
     onContentError: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
@@ -49,18 +49,18 @@ class IFrameURLContentDisplayer extends React.Component {
   }
 
   static getSupportedMIMETypes() {
-    return keys(IFrameURLContentDisplayer.MIMETypes)
+    return IFrameURLContentDisplayer.MIMETypes
   }
 
   static isSupportedType(mimeType) {
-    return !!IFrameURLContentDisplayer.MIMETypes[mimeType]
+    return IFrameURLContentDisplayer.MIMETypes.includes(mimeType)
   }
 
   render() {
     const { contentURL, onContentLoaded, onContentError } = this.props
     const styles = this.props.style ? this.props.style : IFrameURLContentDisplayer.DEFAULT_STYLES
     return (
-      <div style={IFrameURLContentDisplayer.LAYOUT_STYLE} >
+      <div style={IFrameURLContentDisplayer.LAYOUT_STYLE}>
         <iframe
           title="content-displayer"
           style={styles}

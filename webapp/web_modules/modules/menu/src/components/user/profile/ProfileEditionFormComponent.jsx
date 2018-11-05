@@ -88,14 +88,13 @@ export class ProfileEditionFormComponent extends React.Component {
             >
               {
                 // show only metadata that are meaningful after registration
-                userMetadata.map(metadata =>
-                  metadata.onlyAtRegistration ?
-                    null :
-                    <MetadataField
-                      key={metadata.key}
-                      metadata={metadata}
-                      fullWidth
-                    />)
+                userMetadata.map(metadata => metadata.onlyAtRegistration
+                  ? null
+                  : <MetadataField
+                    key={metadata.key}
+                    metadata={metadata}
+                    fullWidth
+                  />)
               }
             </ScrollArea>
           </CardText>
@@ -108,7 +107,7 @@ export class ProfileEditionFormComponent extends React.Component {
             />
           </CardActions>
         </form>
-      </div >
+      </div>
     )
   }
 }

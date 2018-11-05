@@ -17,29 +17,24 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Schema, arrayOf } from 'normalizr'
+import has from 'lodash/has'
 
-const DocumentConfiguration = {
+export const DocumentConfiguration = {
   entityKey: 'id',
   normalizrKey: 'document',
 }
 
-const document = new Schema(DocumentConfiguration.normalizrKey, {
+export const DOCUMENT = new Schema(DocumentConfiguration.normalizrKey, {
   idAttribute: entity => entity.content[DocumentConfiguration.entityKey],
   assignEntity(output, key, value, input) {
-    if (value && value.geometry) {
+    if (has(value, 'feature.geometry')) {
       try {
         // eslint-disable-next-line no-param-reassign
-        output.content.geometry = JSON.stringify(value.geometry)
+        output.content.feature.geometry = JSON.stringify(value.feature.geometry)
       } catch (e) {
         console.error(`Invalid attribute geometry for document ${value.id}`, e)
       }
     }
   },
 })
-
-// Schemas for API responses.
-module.exports = {
-  DOCUMENT: document,
-  DOCUMENT_ARRAY: arrayOf(document),
-  DocumentConfiguration,
-}
+export const DOCUMENT_ARRAY = arrayOf(DOCUMENT)

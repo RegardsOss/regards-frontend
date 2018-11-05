@@ -52,7 +52,7 @@ class FormLayout extends React.Component {
     } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
     return (
-      <div >
+      <React.Fragment>
         <Container
           appName="user"
           container={layout}
@@ -77,7 +77,7 @@ class FormLayout extends React.Component {
             onClick={onSearch}
           />
         </div>
-      </div>
+      </React.Fragment>
     )
   }
 }

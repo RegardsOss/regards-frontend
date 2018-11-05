@@ -59,7 +59,7 @@ export class SIPSubmissionComponent extends React.Component {
           </ul>
         </CardText>
       )
-    } else if (!sip.state) {
+    } if (!sip.state) {
       return (
         <ul>
           {map(sip, message => <li>{message}</li>)}

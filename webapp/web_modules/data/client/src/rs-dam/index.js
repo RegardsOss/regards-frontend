@@ -16,245 +16,130 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import AccessRightActions from './accessRight/AccessRightActions'
-import getAccessRightReducer from './accessRight/AccessRightReducer'
-import getAccessRightSelectors from './accessRight/AccessRightSelectors'
 
-import AccessGroupActions from './accessGroup/AccessGroupActions'
-import getAccessGroupReducer from './accessGroup/AccessGroupReducer'
-import getAccessGroupSelectors from './accessGroup/AccessGroupSelectors'
-
-import AttributeModelActions from './attributesModel/AttributeModelActions'
-import AttributeModelReducer from './attributesModel/AttributeModelReducer'
-import AttributeModelSelectors from './attributesModel/AttributeModelSelectors'
-
-import AttributeModelForModelTypeActions from './attributesModel/AttributeModelForModelTypeActions'
-import AttributeModelForModelTypeReducer from './attributesModel/AttributeModelForModelTypeReducer'
-import AttributeModelForModelTypeSelectors from './attributesModel/AttributeModelForModelTypeSelectors'
-
-import DownloadDescriptionDefinitions from './description/DownloadDescriptionDefinitions'
-import DownloadEntityDescriptionActions from './description/DownloadEntityDescriptionActions'
-import DownloadEntityDescriptionReducer from './description/DownloadEntityDescriptionReducer'
-import DownloadEntityDescriptionSelectors from './description/DownloadEntityDescriptionSelectors'
-
-import ModelAttributesActions from './modelAttributes/ModelAttributesActions'
-import ModelAttributesReducer from './modelAttributes/ModelAttributesReducer'
-import ModelAttributesSelectors from './modelAttributes/ModelAttributesSelectors'
-
-import ModelAttributeComputationTypesActions from './modelAttributeComputationTypes/ModelAttributeComputationTypesActions'
-import getModelAttributeComputationTypesReducer from './modelAttributeComputationTypes/ModelAttributeComputationTypesReducer'
-import getModelAttributeComputationTypesSelectors from './modelAttributeComputationTypes/ModelAttributeComputationTypesSelectors'
-
-import FragmentActions from './fragment/FragmentActions'
-import FragmentReducer from './fragment/FragmentReducer'
-import FragmentSelectors from './fragment/FragmentSelectors'
-
-import AttributeModelRestrictionSelectors from './attributesModelRestriction/AttributeModelRestrictionSelectors'
-import AttributeModelRestrictionActions from './attributesModelRestriction/AttributeModelRestrictionActions'
-import AttributeModelRestrictionReducer from './attributesModelRestriction/AttributeModelRestrictionReducer'
-
-import AttributeModelTypeSelectors from './attributesModelType/AttributeModelTypeSelectors'
-import AttributeModelTypeActions from './attributesModelType/AttributeModelTypeActions'
-import AttributeModelTypeReducer from './attributesModelType/AttributeModelTypeReducer'
-
-import ModelSelectors from './model/ModelSelectors'
-import ModelActions from './model/ModelActions'
-import ModelReducer from './model/ModelReducer'
-
-import ModelAttributesFragmentActions from './modelAttributesFragment/ModelAttributesFragmentActions'
-import ModelAttributesFragmentReducer from './modelAttributesFragment/ModelAttributesFragmentReducer'
-
-import CollectionSelectors from './collection/CollectionSelectors'
-import CollectionActions from './collection/CollectionActions'
-import CollectionReducer from './collection/CollectionReducer'
-
-
-import ConnectionSelectors from './connection/ConnectionSelectors'
-import ConnectionActions from './connection/ConnectionActions'
-import ConnectionReducer from './connection/ConnectionReducer'
-
-
-import CrawlerDatasourceActions from './crawler/CrawlerDatasourceActions'
-import CrawlerDatasourceReducer from './crawler/CrawlerDatasourceReducer'
-import CrawlerDatasourceSelectors from './crawler/CrawlerDatasourceSelectors'
-
-import DatasourceSelectors from './datasource/DatasourceSelectors'
-import DatasourceActions from './datasource/DatasourceActions'
-import DatasourceReducer from './datasource/DatasourceReducer'
-
-import DatasetActions from './dataset/DatasetActions'
-import DatasetReducer from './dataset/DatasetReducer'
-import DatasetSelectors from './dataset/DatasetSelectors'
-
-import DatasetWithAccessRightActions from './accessRight/DatasetWithAccessRightActions'
-import getDatasetWithAccessRightReducer from './accessRight/DatasetWithAccessRightReducer'
-import getDatasetWithAccessRightSelectors from './accessRight/DatasetWithAccessRightSelectors'
-
-import DocumentActions from './document/DocumentActions'
-import getDocumentReducer from './document/DocumentReducer'
-import getDocumentSelectors from './document/DocumentSelectors'
-
-
-import DocumentFileActions from './documentFile/DocumentFileActions'
-import getDocumentFileReducer from './documentFile/DocumentFileReducer'
-
-import DocumentLinkActions from './documentLink/DocumentLinkActions'
-import getDocumentLinkReducer from './documentLink/DocumentLinkReducer'
-
-import DatasetDataAttributesActions from './dataset/DatasetDataAttributesActions'
-import DatasetDataAttributesReducer from './dataset/DatasetDataAttributesReducer'
-import DatasetDataAttributesSelectors from './dataset/DatasetDataAttributesSelectors'
-
-import DatasetAttributesActions from './dataset/DatasetAttributesActions'
-import DatasetAttributesReducer from './dataset/DatasetAttributesReducer'
-import DatasetAttributesSelectors from './dataset/DatasetAttributesSelectors'
-
-import DatasetValidSubsettingTestActions from './datasetValidSubsettingTest/DatasetValidSubsettingTestActions'
-import getDatasetValidSubsettingTestReducer from './datasetValidSubsettingTest/DatasetValidSubsettingTestReducer'
-
-import DatasetLinkActions from './datasetLink/DatasetLinkActions'
-import DatasetLinkReducer from './datasetLink/DatasetLinkReducer'
-
-import ConnectionTableSelectors from './connectionTable/ConnectionTableSelectors'
-import ConnectionTableActions from './connectionTable/ConnectionTableActions'
-import ConnectionTableReducer from './connectionTable/ConnectionTableReducer'
-
-
-import ConnectionTestActions from './connectionTest/ConnectionTestActions'
-import ConnectionTestReducer from './connectionTest/ConnectionTestReducer'
-
-
-import ConnectionTableAttributesSelectors from './connectionTableAttributes/ConnectionTableAttributesSelectors'
-import ConnectionTableAttributesActions from './connectionTableAttributes/ConnectionTableAttributesActions'
-import ConnectionTableAttributesReducer from './connectionTableAttributes/ConnectionTableAttributesReducer'
-
-
-import CollectionLinkActions from './collectionLink/CollectionLinkActions'
-import CollectionLinkReducer from './collectionLink/CollectionLinkReducer'
-
-import UserGroupActions from './userGroup/UserGroupActions'
-import getUserGroupReducer from './userGroup/UserGroupReducer'
-import getUserGroupSelectors from './userGroup/UserGroupSelectors'
 
 /**
  * Index for all datamanagement microservice clients.
  *
  * @author Sébastien Binda
  */
-module.exports = {
-  AccessRightActions,
-  getAccessRightReducer,
-  getAccessRightSelectors,
+export { default as AccessRightActions } from './accessRight/AccessRightActions'
+export { default as getAccessRightReducer } from './accessRight/AccessRightReducer'
+export { default as getAccessRightSelectors } from './accessRight/AccessRightSelectors'
 
-  AccessGroupActions,
-  getAccessGroupReducer,
-  getAccessGroupSelectors,
+export { default as AccessGroupActions } from './accessGroup/AccessGroupActions'
+export { default as getAccessGroupReducer } from './accessGroup/AccessGroupReducer'
+export { default as getAccessGroupSelectors } from './accessGroup/AccessGroupSelectors'
 
-  AttributeModelActions,
-  AttributeModelReducer,
-  AttributeModelSelectors,
+export { default as AttributeModelActions } from './attributesModel/AttributeModelActions'
+export { default as AttributeModelReducer } from './attributesModel/AttributeModelReducer'
+export { default as AttributeModelSelectors } from './attributesModel/AttributeModelSelectors'
 
-  AttributeModelForModelTypeActions,
-  AttributeModelForModelTypeReducer,
-  AttributeModelForModelTypeSelectors,
+export { default as AttributeModelForModelTypeActions } from './attributesModel/AttributeModelForModelTypeActions'
+export { default as AttributeModelForModelTypeReducer } from './attributesModel/AttributeModelForModelTypeReducer'
+export { default as AttributeModelForModelTypeSelectors } from './attributesModel/AttributeModelForModelTypeSelectors'
 
-  AttributeModelRestrictionSelectors,
-  AttributeModelRestrictionActions,
-  AttributeModelRestrictionReducer,
+export { default as ModelAttributesActions } from './modelAttributes/ModelAttributesActions'
+export { default as ModelAttributesReducer } from './modelAttributes/ModelAttributesReducer'
+export { default as ModelAttributesSelectors } from './modelAttributes/ModelAttributesSelectors'
 
-  AttributeModelTypeSelectors,
-  AttributeModelTypeActions,
-  AttributeModelTypeReducer,
+export { default as ModelAttributeComputationTypesActions } from './modelAttributeComputationTypes/ModelAttributeComputationTypesActions'
+export { default as getModelAttributeComputationTypesReducer } from './modelAttributeComputationTypes/ModelAttributeComputationTypesReducer'
+export { default as getModelAttributeComputationTypesSelectors } from './modelAttributeComputationTypes/ModelAttributeComputationTypesSelectors'
 
-  CollectionSelectors,
-  CollectionActions,
-  CollectionReducer,
+export { default as FragmentActions } from './fragment/FragmentActions'
+export { default as FragmentReducer } from './fragment/FragmentReducer'
+export { default as FragmentSelectors } from './fragment/FragmentSelectors'
 
-  ConnectionSelectors,
-  ConnectionActions,
-  ConnectionReducer,
+export { default as AttributeModelRestrictionSelectors } from './attributesModelRestriction/AttributeModelRestrictionSelectors'
+export { default as AttributeModelRestrictionActions } from './attributesModelRestriction/AttributeModelRestrictionActions'
+export { default as AttributeModelRestrictionReducer } from './attributesModelRestriction/AttributeModelRestrictionReducer'
 
-  CrawlerDatasourceSelectors,
-  CrawlerDatasourceActions,
-  CrawlerDatasourceReducer,
+export { default as AttributeModelTypeSelectors } from './attributesModelType/AttributeModelTypeSelectors'
+export { default as AttributeModelTypeActions } from './attributesModelType/AttributeModelTypeActions'
+export { default as AttributeModelTypeReducer } from './attributesModelType/AttributeModelTypeReducer'
 
-  DatasourceSelectors,
-  DatasourceActions,
-  DatasourceReducer,
+export { default as ModelSelectors } from './model/ModelSelectors'
+export { default as ModelActions } from './model/ModelActions'
+export { default as ModelReducer } from './model/ModelReducer'
 
-  DatasetActions,
-  DatasetReducer,
-  DatasetSelectors,
+export { default as ModelAttributesFragmentActions } from './modelAttributesFragment/ModelAttributesFragmentActions'
+export { default as ModelAttributesFragmentReducer } from './modelAttributesFragment/ModelAttributesFragmentReducer'
 
-  DatasetWithAccessRightActions,
-  getDatasetWithAccessRightReducer,
-  getDatasetWithAccessRightSelectors,
-
-  DocumentActions,
-  getDocumentReducer,
-  getDocumentSelectors,
-
-  DocumentFileActions,
-  getDocumentFileReducer,
-
-  DocumentLinkActions,
-  getDocumentLinkReducer,
+export { default as CollectionSelectors } from './collection/CollectionSelectors'
+export { default as CollectionActions } from './collection/CollectionActions'
+export { default as CollectionReducer } from './collection/CollectionReducer'
 
 
-  DatasetValidSubsettingTestActions,
-  getDatasetValidSubsettingTestReducer,
+export { default as ConnectionSelectors } from './connection/ConnectionSelectors'
+export { default as ConnectionActions } from './connection/ConnectionActions'
+export { default as ConnectionReducer } from './connection/ConnectionReducer'
 
-  DatasetDataAttributesActions,
-  DatasetDataAttributesReducer,
-  DatasetDataAttributesSelectors,
 
-  DatasetAttributesActions,
-  DatasetAttributesReducer,
-  DatasetAttributesSelectors,
+export { default as CrawlerDatasourceActions } from './crawler/CrawlerDatasourceActions'
+export { default as CrawlerDatasourceReducer } from './crawler/CrawlerDatasourceReducer'
+export { default as CrawlerDatasourceSelectors } from './crawler/CrawlerDatasourceSelectors'
 
-  DatasetLinkActions,
-  DatasetLinkReducer,
 
-  ConnectionTestActions,
-  ConnectionTestReducer,
+export { default as ScheduleCrawlerDatasourceActions } from './crawler/ScheduleCrawlerDatasourceActions'
+export { default as ScheduleCrawlerDatasourceReducer } from './crawler/ScheduleCrawlerDatasourceReducer'
+export { default as ScheduleCrawlerDatasourceSelectors } from './crawler/ScheduleCrawlerDatasourceSelectors'
 
-  ConnectionTableReducer,
-  ConnectionTableActions,
-  ConnectionTableSelectors,
+export { default as DatasourceSelectors } from './datasource/DatasourceSelectors'
+export { default as DatasourceActions } from './datasource/DatasourceActions'
+export { default as DatasourceReducer } from './datasource/DatasourceReducer'
 
-  ConnectionTableAttributesReducer,
-  ConnectionTableAttributesActions,
-  ConnectionTableAttributesSelectors,
+export { default as DatasetActions } from './dataset/DatasetActions'
+export { default as DatasetReducer } from './dataset/DatasetReducer'
+export { default as DatasetSelectors } from './dataset/DatasetSelectors'
 
-  CollectionLinkActions,
-  CollectionLinkReducer,
+export { default as DatasetWithAccessRightActions } from './accessRight/DatasetWithAccessRightActions'
+export { default as getDatasetWithAccessRightReducer } from './accessRight/DatasetWithAccessRightReducer'
+export { default as getDatasetWithAccessRightSelectors } from './accessRight/DatasetWithAccessRightSelectors'
 
-  DownloadDescriptionDefinitions,
-  DownloadEntityDescriptionActions,
-  DownloadEntityDescriptionReducer,
-  DownloadEntityDescriptionSelectors,
+export { default as DocumentActions } from './document/DocumentActions'
+export { default as getDocumentReducer } from './document/DocumentReducer'
+export { default as getDocumentSelectors } from './document/DocumentSelectors'
 
-  FragmentActions,
-  FragmentReducer,
-  FragmentSelectors,
+export { default as DocumentLinkActions } from './documentLink/DocumentLinkActions'
+export { default as getDocumentLinkReducer } from './documentLink/DocumentLinkReducer'
 
-  ModelSelectors,
-  ModelActions,
-  ModelReducer,
+export { default as DatasetDataAttributesActions } from './dataset/DatasetDataAttributesActions'
+export { default as DatasetDataAttributesReducer } from './dataset/DatasetDataAttributesReducer'
+export { default as DatasetDataAttributesSelectors } from './dataset/DatasetDataAttributesSelectors'
 
-  ModelAttributesActions,
-  ModelAttributesReducer,
-  ModelAttributesSelectors,
+export { default as DatasetAttributesActions } from './dataset/DatasetAttributesActions'
+export { default as DatasetAttributesReducer } from './dataset/DatasetAttributesReducer'
+export { default as DatasetAttributesSelectors } from './dataset/DatasetAttributesSelectors'
 
-  ModelAttributeComputationTypesActions,
-  getModelAttributeComputationTypesReducer,
-  getModelAttributeComputationTypesSelectors,
+export { default as DatasetValidSubsettingTestActions } from './datasetValidSubsettingTest/DatasetValidSubsettingTestActions'
+export { default as getDatasetValidSubsettingTestReducer } from './datasetValidSubsettingTest/DatasetValidSubsettingTestReducer'
 
-  ModelAttributesFragmentActions,
-  ModelAttributesFragmentReducer,
+export { default as DatasetLinkActions } from './datasetLink/DatasetLinkActions'
+export { default as DatasetLinkReducer } from './datasetLink/DatasetLinkReducer'
 
-  UserGroupActions,
-  getUserGroupReducer,
-  getUserGroupSelectors,
+export { default as ConnectionTableSelectors } from './connectionTable/ConnectionTableSelectors'
+export { default as ConnectionTableActions } from './connectionTable/ConnectionTableActions'
+export { default as ConnectionTableReducer } from './connectionTable/ConnectionTableReducer'
 
-}
+
+export { default as ConnectionTestActions } from './connectionTest/ConnectionTestActions'
+export { default as ConnectionTestReducer } from './connectionTest/ConnectionTestReducer'
+
+
+export { default as ConnectionTableAttributesSelectors } from './connectionTableAttributes/ConnectionTableAttributesSelectors'
+export { default as ConnectionTableAttributesActions } from './connectionTableAttributes/ConnectionTableAttributesActions'
+export { default as ConnectionTableAttributesReducer } from './connectionTableAttributes/ConnectionTableAttributesReducer'
+
+
+export { default as CollectionLinkActions } from './collectionLink/CollectionLinkActions'
+export { default as CollectionLinkReducer } from './collectionLink/CollectionLinkReducer'
+
+export { default as UserGroupActions } from './userGroup/UserGroupActions'
+export { default as getUserGroupReducer } from './userGroup/UserGroupReducer'
+export { default as getUserGroupSelectors } from './userGroup/UserGroupSelectors'
+
+
+export { default as EntityAttachmentActions } from './entityAttachment/EntityAttachmentActions'
+export { default as getEntityAttachmentReducer } from './entityAttachment/EntityAttachmentReducer'
+export { default as getEntityAttachmentSelectors } from './entityAttachment/EntityAttachmentSelectors'

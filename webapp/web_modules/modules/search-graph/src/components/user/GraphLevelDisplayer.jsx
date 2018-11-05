@@ -21,7 +21,6 @@ import values from 'lodash/values'
 import { CatalogShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
-import { ScrollArea } from '@regardsoss/adapters'
 import { StringComparison } from '@regardsoss/form-utils'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
 import DatasetItemContainer from '../../containers/user/DatasetItemContainer'
@@ -65,10 +64,9 @@ class GraphLevelDispayer extends React.Component {
     const { user } = this.context.moduleTheme
     // note: is loading and has error are strictly exclusive (cannot be true at same time)
     const hasContent = size(collections) + size(datasets) > 0
-    const scrollStyles = { height: user.scrolling.height }
     return (
       <ShowableAtRender show={isShowable}>
-        <div style={user.level.styles} >
+        <div style={user.level.styles}>
           <ShowableAtRender show={isLoading}>
             <GraphLevelLoadingDisplayer />
           </ShowableAtRender>
@@ -78,34 +76,26 @@ class GraphLevelDispayer extends React.Component {
           <ShowableAtRender show={!isLoading && !hasError && !hasContent}>
             <GraphLevelMessageDisplayer messageKey="search.graph.level.no.model" />
           </ShowableAtRender>
-          <ShowableAtRender show={!hasError && !isLoading && hasContent}>
-            <ScrollArea
-              horizontal={false}
-              vertical
-              style={scrollStyles}
-            >
-              {
-                values(collections).sort(GraphLevelDispayer.compareEntities).map(collection =>
-                  (<CollectionItemContainer
-                    key={collection.content.ipId}
-                    collection={collection}
-                    levelIndex={levelIndex}
-                    isLastLevel={isLastLevel}
-                  />))
-              }
-              {
-                values(datasets).sort(GraphLevelDispayer.compareEntities).map(dataset =>
-                  (<DatasetItemContainer
-                    graphDatasetAttributes={graphDatasetAttributes}
-                    key={dataset.content.ipId}
-                    dataset={dataset}
-                    levelIndex={levelIndex}
-                  />))
-              }
-            </ScrollArea>
+          <ShowableAtRender show={!isLoading && !hasError && hasContent}>
+            { // collections
+              values(collections).sort(GraphLevelDispayer.compareEntities).map(collection => (<CollectionItemContainer
+                key={collection.content.id}
+                collection={collection}
+                levelIndex={levelIndex}
+                isLastLevel={isLastLevel}
+              />))
+            }
+            { // datasets
+              values(datasets).sort(GraphLevelDispayer.compareEntities).map(dataset => (<DatasetItemContainer
+                graphDatasetAttributes={graphDatasetAttributes}
+                key={dataset.content.id}
+                dataset={dataset}
+                levelIndex={levelIndex}
+              />))
+            }
           </ShowableAtRender>
         </div>
-      </ShowableAtRender >
+      </ShowableAtRender>
     )
   }
 }

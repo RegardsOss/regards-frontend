@@ -20,7 +20,7 @@ import { AIP_STATES } from '@regardsoss/domain/archival-storage'
 import { ENTITY_TYPES } from '@regardsoss/domain/dam'
 
 /** Shape of an AIP status as defined in JSON provided by the back */
-const AIPStatusContent = PropTypes.shape({
+export const AIPStatusContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   ipId: PropTypes.string.isRequired,
   sipId: PropTypes.string.isRequired,
@@ -31,14 +31,8 @@ const AIPStatusContent = PropTypes.shape({
 })
 
 /** Normalizr shape for one AIP status */
-const AIPStatus = PropTypes.shape({
+export const AIPStatus = PropTypes.shape({
   content: AIPStatusContent,
 })
 
-const AIPStatusList = PropTypes.objectOf(AIPStatus)
-
-module.exports = {
-  AIPStatusContent,
-  AIPStatus,
-  AIPStatusList,
-}
+export const AIPStatusList = PropTypes.objectOf(AIPStatus)

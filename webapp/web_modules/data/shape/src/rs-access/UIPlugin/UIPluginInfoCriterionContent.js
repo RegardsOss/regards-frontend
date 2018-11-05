@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
+import { DamDomain } from '@regardsoss/domain'
 
 /**
  * Specific configuration for an UI criterion plugin information (shapes expected plugin-info "conf" field)
@@ -24,7 +26,8 @@ const UICriterionInstanceConfContent = PropTypes.shape({
   attributes: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
-    type: PropTypes.oneOf(['string', 'numerical', 'temporal']),
+    attributeType: PropTypes.arrayOf(
+      PropTypes.oneOf(values(DamDomain.MODEL_ATTR_TYPES))).isRequired,
   })),
 })
 

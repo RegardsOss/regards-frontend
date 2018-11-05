@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import { CatalogDomain } from '@regardsoss/domain'
 import { BasicArrayActions } from '@regardsoss/store-utils'
 
 /**
@@ -30,18 +31,16 @@ export default class EnumeratedDOPropertyValuesActions extends BasicArrayActions
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/search/dataobjects/properties/{name}/values`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/engines/${CatalogDomain.LEGACY_SEARCH_ENGINE}/dataobjects/search/properties/{propertyName}/values`,
     })
   }
 
   /**
    * Returns the action to dispatch in order to fetch
-   * @param {string} name property name
+   * @param {string} propertyName property name
    * @param {string} partialText values list filter as text
    * @param {number} maxCount max expected results ccount
    * @param {string} q contextual openSearch query
    */
-  fetchValues = (name, partialText, maxCount, q) =>
-    this.fetchEntityList({ name }, { partialText, maxCount, q })
+  fetchValues = (propertyName, partialText, maxCount, q) => this.fetchEntityList({ propertyName }, { partialText, maxCount, q })
 }
-

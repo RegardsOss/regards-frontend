@@ -26,13 +26,6 @@ import { DataManagementClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'models', 'attribute-model-management', 'attribute-model']
 const REDUX_ACTION_NAMESPACE = 'admin-data-attributemodel-management'
 
-const attributeModelReducer = DataManagementClient.AttributeModelReducer(REDUX_ACTION_NAMESPACE)
-const attributeModelActions = new DataManagementClient.AttributeModelActions(REDUX_ACTION_NAMESPACE)
-const attributeModelSelectors = DataManagementClient.AttributeModelSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  attributeModelReducer,
-  attributeModelActions,
-  attributeModelSelectors,
-}
+export const attributeModelReducer = DataManagementClient.AttributeModelReducer(REDUX_ACTION_NAMESPACE)
+export const attributeModelActions = new DataManagementClient.AttributeModelActions(REDUX_ACTION_NAMESPACE)
+export const attributeModelSelectors = DataManagementClient.AttributeModelSelectors(ENTITIES_STORE_PATH)

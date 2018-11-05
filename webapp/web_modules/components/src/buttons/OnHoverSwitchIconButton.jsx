@@ -61,7 +61,7 @@ class OnHoverSwitchIconButton extends React.Component {
         >
           {children[this.state.usedPropIndex]}
         </IconButton>
-      </span >
+      </span>
     )
   }
 }

@@ -27,7 +27,7 @@
  * - 3 selections in first dataset
  * - 1 selection in second dataset
  */
-const mockBasket1 = {
+export const mockBasket1 = {
   id: 0,
   email: 'test@mail.com',
   datasetSelections: [
@@ -45,14 +45,28 @@ const mockBasket1 = {
         filesCount: 0,
         filesSize: 1440,
         date: '2017-09-08T15:59:57.664Z',
-        openSearchRequest: '"tag:fake-tag-index0"',
+        selectionRequest: {
+          engineType: 'bing',
+          datasetUrn: null,
+          entityIdsToInclude: ['URN:DATA:COUCOU1'],
+          entityIdsToExclude: null,
+          searchParameters: {},
+          selectionDate: '2017-09-08T15:59:57.664Z',
+        },
       }, {
         id: 1,
         objectsCount: 1,
         filesCount: 0,
         filesSize: 1440,
         date: '2017-09-08T16:00:37.467Z',
-        openSearchRequest: '"tag:fake-tag-index17"',
+        selectionRequest: {
+          engineType: 'bing',
+          datasetUrn: null,
+          entityIdsToInclude: ['URN:DATA:COUCOU2'],
+          entityIdsToExclude: null,
+          searchParameters: {},
+          selectionDate: '2017-09-08T16:00:37.467Z',
+        },
       },
       {
         id: 2,
@@ -60,7 +74,16 @@ const mockBasket1 = {
         filesCount: 0,
         filesSize: 1440,
         date: '2017-09-08T16:00:37.545Z',
-        openSearchRequest: '"tag:fake-tag-index18"',
+        selectionRequest: {
+          engineType: 'yahoo',
+          datasetUrn: null,
+          entityIdsToInclude: null,
+          entityIdsToExclude: null,
+          searchParameters: {
+            q: '"tag:fake-tag-index18"',
+          },
+          selectionDate: '2017-09-08T16:00:37.545Z',
+        },
       }],
     }, {
       id: 1,
@@ -76,7 +99,14 @@ const mockBasket1 = {
         filesCount: 306,
         filesSize: 5048,
         date: '2017-09-08T16:00:02.625Z',
-        openSearchRequest: '"tag:fake-tag-index0"',
+        selectionRequest: {
+          engineType: 'qwoment',
+          datasetUrn: 'TEST-DATASET:URN:2',
+          entityIdsToInclude: null,
+          entityIdsToExclude: null,
+          searchParameters: {},
+          selectionDate: '2017-09-08T16:00:02.625Z',
+        },
       }],
     }],
 }
@@ -85,7 +115,7 @@ const mockBasket1 = {
  * - 1 selections in first dataset
  * - 2 selection in second dataset
  */
-const mockBasket2 = {
+export const mockBasket2 = {
   id: 0,
   email: 'test@mail.com',
   datasetSelections: [
@@ -103,7 +133,16 @@ const mockBasket2 = {
         filesCount: 0,
         filesSize: 1440,
         date: '2017-09-08T15:59:57.664Z',
-        openSearchRequest: '"tag:fake-tag-index0"',
+        selectionRequest: {
+          engineType: 'quanard',
+          datasetUrn: null,
+          entityIdsToInclude: null,
+          entityIdsToExclude: null,
+          searchParameters: {
+            q: '"tag:fake-tag-index0"',
+          },
+          selectionDate: '2017-09-08T15:59:57.664Z',
+        },
       }],
     }, {
       id: 1,
@@ -119,28 +158,38 @@ const mockBasket2 = {
         filesCount: 306,
         filesSize: 5048,
         date: '2017-09-08T16:00:02.625Z',
-        openSearchRequest: '"tag:fake-tag-index0"',
+        selectionRequest: {
+          engineType: 'quanard',
+          datasetUrn: null,
+          entityIdsToInclude: null,
+          entityIdsToExclude: ['URN:DATA:COUCOU2'],
+          searchParameters: {
+            q: '"tag:fake-tag-index1"',
+          },
+          selectionDate: '2017-09-08T16:00:02.625Z',
+        },
       }, {
         id: 2,
         objectsCount: 3,
         filesCount: 0,
         filesSize: 1440,
         date: '2017-09-08T16:00:37.545Z',
-        openSearchRequest: '"tag:fake-tag-index18"',
+        selectionRequest: {
+          engineType: 'quanard',
+          datasetUrn: null,
+          entityIdsToInclude: ['URN:DATA:COUCOU1', 'URN:DATA:COUCOU2', 'URN:DATA:COUCOU3'],
+          entityIdsToExclude: null,
+          searchParameters: {},
+          selectionDate: '2017-09-08T16:00:37.545Z',
+        },
       }],
     }],
 }
 /**
  * Empty basket
  */
-const emptyBasket = {
+export const emptyBasket = {
   id: 0,
   email: 'test@mail.com',
   datasetSelections: [],
-}
-
-module.exports = {
-  mockBasket1,
-  mockBasket2,
-  emptyBasket,
 }

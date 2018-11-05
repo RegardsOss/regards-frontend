@@ -48,4 +48,3 @@ describe('[ADMIN CLIENT] Testing client Fragment', () => {
     entityTester.runTests(done)
   })
 })
-

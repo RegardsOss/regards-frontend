@@ -25,12 +25,6 @@ import { DataProviderClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'chainMonitor']
 const REDUX_ACTION_NAMESPACE = 'admin-data-provider-management/chains-monitoring'
 
-const AcquisitionProcessingChainMonitorActions = new DataProviderClient.AcquisitionProcessingChainMonitorActions(REDUX_ACTION_NAMESPACE)
-const AcquisitionProcessingChainMonitorReducer = DataProviderClient.getAcquisitionProcessingChainMonitorReducer(REDUX_ACTION_NAMESPACE)
-const AcquisitionProcessingChainMonitorSelectors = DataProviderClient.getAcquisitionProcessingChainMonitorSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  AcquisitionProcessingChainMonitorActions,
-  AcquisitionProcessingChainMonitorReducer,
-  AcquisitionProcessingChainMonitorSelectors,
-}
+export const AcquisitionProcessingChainMonitorActions = new DataProviderClient.AcquisitionProcessingChainMonitorActions(REDUX_ACTION_NAMESPACE)
+export const AcquisitionProcessingChainMonitorReducer = DataProviderClient.getAcquisitionProcessingChainMonitorReducer(REDUX_ACTION_NAMESPACE)
+export const AcquisitionProcessingChainMonitorSelectors = DataProviderClient.getAcquisitionProcessingChainMonitorSelectors(ENTITIES_STORE_PATH)

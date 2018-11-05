@@ -37,7 +37,7 @@ const addDependencies = [
 ]
 
 
-module.exports = {
-  listDependencies,
+export default {
   addDependencies,
+  listDependencies,
 }

@@ -18,19 +18,12 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const RoleConfiguration = {
+export const RoleConfiguration = {
   entityKey: 'name',
   normalizrKey: 'roles',
 }
 
-const roleSchema = new Schema(RoleConfiguration.normalizrKey, {
+export const ROLE = new Schema(RoleConfiguration.normalizrKey, {
   idAttribute: role => role.content[RoleConfiguration.entityKey],
 })
-
-
-// Schemas for API responses.
-module.exports = {
-  ROLE: roleSchema,
-  ROLE_ARRAY: arrayOf(roleSchema),
-  RoleConfiguration,
-}
+export const ROLE_ARRAY = arrayOf(ROLE)

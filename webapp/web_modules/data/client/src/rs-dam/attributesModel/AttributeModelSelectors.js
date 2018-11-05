@@ -43,5 +43,10 @@ class AttributeModelSelectors extends BasicListSelectors {
   }
 }
 
-export default storePath => new AttributeModelSelectors(storePath)
-
+/**
+ * Selectors builder
+ * @param {string} storePath redux store path, leave empty to get default selectors instance (user app)
+ */
+export default function getAttributeMolSelectors(storePath = ['user', 'attributes']) {
+  return new AttributeModelSelectors(storePath)
+}

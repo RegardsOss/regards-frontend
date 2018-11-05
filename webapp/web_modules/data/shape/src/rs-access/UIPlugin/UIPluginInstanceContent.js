@@ -21,9 +21,9 @@ import { UIPluginInfoContent } from './UIPluginInfoContent'
  * IHM Plugin entity definition
  * @author Sébastien Binda
  */
-const UIPluginInstanceContent = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  plugin: PropTypes.func.isRequired,
+export const UIPluginInstanceContent = PropTypes.shape({
+  name: PropTypes.string,
+  plugin: PropTypes.func,
   styles: PropTypes.shape({
     styles: PropTypes.func,
   }),
@@ -32,8 +32,6 @@ const UIPluginInstanceContent = PropTypes.shape({
     en: PropTypes.object,
   }),
   info: UIPluginInfoContent,
+  error: PropTypes.bool,
+  initialized: PropTypes.bool,
 })
-
-module.exports = {
-  UIPluginInstanceContent,
-}

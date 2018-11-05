@@ -19,7 +19,7 @@
 import { storage } from '@regardsoss/units'
 import { StoragePluginContainer } from '../../src/containers/user/StoragePluginContainer'
 
-const dump = {
+export const dump = {
   1: {
     content: {
       confId: 1,
@@ -41,7 +41,7 @@ const dump = {
 
 // some plugins sampes, as they are parsed an converted by corresponding container
 
-const convertedParsablePlugin = {
+export const convertedParsablePlugin = {
   confId: 1,
   label: 'Quantic drive ZqO+',
   description: 'Ultimate storage technology',
@@ -53,22 +53,15 @@ const convertedParsablePlugin = {
 }
 
 
-const convertedPartiallyParsablePlugin = {
+export const convertedPartiallyParsablePlugin = {
   confId: 2,
   label: 'Quantic potatoes of the death',
   description: 'Really cool, ain\'t it?',
   totalSize: StoragePluginContainer.parseAndConvert('50MB', storage.StorageUnitScale.bytesScale),
 }
 
-const convertedNonParsablePlugin = {
+export const convertedNonParsablePlugin = {
   confId: 5555555,
   label: 'Boring plugin',
   description: 'Really cool, ain\'t it?',
-}
-
-module.exports = {
-  dump,
-  convertedParsablePlugin,
-  convertedPartiallyParsablePlugin,
-  convertedNonParsablePlugin,
 }

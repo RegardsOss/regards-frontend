@@ -48,35 +48,45 @@ export class AccessGroupListContainer extends React.Component {
 
   getCreateUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/access-right/access-group/create`
+    return `/admin/${project}/dataaccess/access-group/create`
   }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/access-right/board`
+    return `/admin/${project}/dataaccess/board`
+  }
+
+  /**
+   * User callback: request to show group content
+   */
+  handleShowGroupUsers = (accessgroupName) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/user/project-user/list?group=${accessgroupName}&onlyWaiting=false`
+    browserHistory.push(url)
   }
 
   handleDuplicate = (accessgroupName) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/access-right/access-group/${accessgroupName}/duplicate`
+    const url = `/admin/${project}/dataaccess/access-group/${accessgroupName}/duplicate`
     browserHistory.push(url)
   }
 
   handleEdit = (accessgroupName) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/access-right/access-group/${accessgroupName}/edit`
+    const url = `/admin/${project}/dataaccess/access-group/${accessgroupName}/edit`
     browserHistory.push(url)
   }
 
   handleEditAccessRights = (accessgroupName) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/access-right/access-rights/${accessgroupName}`
+    const url = `/admin/${project}/dataaccess/access-rights/${accessgroupName}`
     browserHistory.push(url)
   }
 
   handleDelete = (accessgroupName) => {
     this.props.deleteAccessGroup(accessgroupName)
   }
+
 
   render() {
     const { accessGroupList, isFetching } = this.props
@@ -87,6 +97,7 @@ export class AccessGroupListContainer extends React.Component {
         >
           <AccessGroupListComponent
             accessGroupList={accessGroupList}
+            handleShowGroupUsers={this.handleShowGroupUsers}
             handleDuplicate={this.handleDuplicate}
             handleDelete={this.handleDelete}
             handleEdit={this.handleEdit}

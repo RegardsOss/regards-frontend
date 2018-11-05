@@ -22,7 +22,7 @@ import { UIPluginConf } from './UIPluginConf'
  * Container entity
  * @author Sébastien Binda
  */
-const LinkUIPluginDataset = PropTypes.shape({
+export const LinkUIPluginDataset = PropTypes.shape({
   content: PropTypes.shape({
     linkId: PropTypes.number,
     datasetId: PropTypes.string,
@@ -30,9 +30,4 @@ const LinkUIPluginDataset = PropTypes.shape({
   }).isRequired,
 })
 
-const LinkUIPluginDatasetList = PropTypes.objectOf(LinkUIPluginDataset)
-
-module.exports = {
-  LinkUIPluginDataset,
-  LinkUIPluginDatasetList,
-}
+export const LinkUIPluginDatasetList = PropTypes.objectOf(LinkUIPluginDataset)

@@ -17,13 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import EnumConnectivity from './EnumConnectivity'
-import EnumJavaPrimitiveType from './EnumJavaPrimitiveType'
-import ProjectConnectionStateEnum from './ProjectConnectionStateEnum'
-
-
-module.exports = {
-  EnumConnectivity,
-  EnumJavaPrimitiveType,
-  ProjectConnectionStateEnum,
-}
+export { default as EnumConnectivity } from './EnumConnectivity'
+export { default as EnumJavaPrimitiveType } from './EnumJavaPrimitiveType'
+export { default as ProjectConnectionStateEnum } from './ProjectConnectionStateEnum'
+export { PROJECT_USER_SETTINGS_MODE, PROJECT_USER_SETTINGS_MODE_ENUM } from './ProjectUserSettingsMode'
+export { PROJECT_USER_STATUS, PROJECT_USER_STATUS_ENUM } from './ProjectUserStatus'
+export { PROJECT_CRS, PROJECT_CRS_ENUM } from './ProjectCrsEnum'

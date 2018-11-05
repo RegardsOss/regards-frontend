@@ -18,7 +18,7 @@
  **/
 import PluginParameterContent from '../rs-common/Plugin/PluginParameter'
 
-const Datasource = PropTypes.shape({
+export const Datasource = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
     pluginClassName: PropTypes.string,
@@ -30,7 +30,4 @@ const Datasource = PropTypes.shape({
   }),
 })
 
-const DatasourceList = PropTypes.objectOf(Datasource)
-
-
-module.exports = { Datasource, DatasourceList }
+export const DatasourceList = PropTypes.objectOf(Datasource)

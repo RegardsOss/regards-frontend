@@ -18,8 +18,11 @@
  */
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AuthenticationClient, AuthenticationErrorShape, AuthenticationRouteParameters, AuthenticationRouteHelper } from '@regardsoss/authentication-utils'
+import {
+  AuthenticationClient, AuthenticationErrorShape, AuthenticationRouteParameters, AuthenticationRouteHelper,
+} from '@regardsoss/authentication-utils'
 import AuthenticationFormComponent from '../components/AuthenticationFormComponent'
+import ChangePasswordFormContainer from './ChangePasswordFormContainer'
 
 /**
  * Authentication form container
@@ -45,7 +48,8 @@ export class AuthenticationFormContainer extends React.Component {
     // from map state to props
     loginError: AuthenticationErrorShape,
     // from map dispatch to props
-    dispatchLoginRequest: PropTypes.func,
+    dispatchLoginRequest: PropTypes.func.isRequired,
+    clearErrors: PropTypes.func.isRequired,
   }
 
   /** I18N injection */
@@ -53,26 +57,54 @@ export class AuthenticationFormContainer extends React.Component {
     ...i18nContextType,
   }
 
+  state = {
+    userMail: null,
+    loading: false,
+  }
+
   onLoginRequest = ({ username, password }) => {
     const { project, dispatchLoginRequest } = this.props
-    dispatchLoginRequest(username, password, project)
+    this.setState({
+      userMail: username,
+      loading: true,
+    }, () => Promise.resolve(dispatchLoginRequest(username, password, project)).then((ar) => {
+      this.setState({ loading: false })
+    }))
+  }
+
+  onCancelChangePassword = () => {
+    this.props.clearErrors()
+    if (this.props.onCancelAction) {
+      this.props.onCancelAction()
+    }
   }
 
   render() {
     const {
-      initialMail, title, showAskProjectAccess, showCancel, onCancelAction,
+      initialMail, title, showAskProjectAccess, showCancel,
       loginError, onGotoCreateAccount, onGotoResetPassword, onGotoUnlockAccount,
     } = this.props
     const { intl } = this.context
+    if (loginError === 'ACCOUNT_INACTIVE_PASSWORD') {
+      return (
+        <ChangePasswordFormContainer
+          mail={this.state.userMail}
+          onDone={this.onLoginRequest}
+          errorMessage={intl.formatMessage({ id: `authentication.error.${loginError}` })}
+          onCancel={this.onCancelChangePassword}
+        />
+      )
+    }
     return (
       <AuthenticationFormComponent
         title={title}
         onLogin={this.onLoginRequest}
+        loading={this.state.loading}
         initialMail={initialMail}
         errorMessage={loginError && intl.formatMessage({ id: `authentication.error.${loginError}` })}
         showAskProjectAccess={showAskProjectAccess}
         showCancel={showCancel}
-        onCancelAction={onCancelAction}
+        onCancelAction={this.onCancelChangePassword}
         onGotoCreateAccount={onGotoCreateAccount}
         onGotoResetPassword={onGotoResetPassword}
         onGotoUnlockAccount={onGotoUnlockAccount}
@@ -82,8 +114,8 @@ export class AuthenticationFormContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  loginError: AuthenticationClient.authenticationSelectors.getError(state) &&
-    AuthenticationClient.authenticationSelectors.getError(state).loginError,
+  loginError: AuthenticationClient.authenticationSelectors.getError(state)
+    && AuthenticationClient.authenticationSelectors.getError(state).loginError,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -94,6 +126,7 @@ const mapDispatchToProps = dispatch => ({
     AuthenticationRouteHelper.getOriginUrlWithoutQueryParams(),
     AuthenticationRouteHelper.getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.verifyEmail),
   )),
+  clearErrors: () => dispatch(AuthenticationClient.authenticationActions.clearErrors()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthenticationFormContainer)

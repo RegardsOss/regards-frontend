@@ -16,14 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import themeUIRouter from './router'
-import themeUIDependencies from './dependencies'
-
 /**
  * Module main file to expose public interface
  * @author Sébastien binda
  */
-module.exports = {
-  themeUIRouter,
-  themeUIDependencies,
-}
+export { default as themeUIRouter } from './router'
+export { default as themeUIDependencies } from './dependencies'

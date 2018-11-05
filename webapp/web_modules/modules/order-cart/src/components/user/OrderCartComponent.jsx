@@ -25,8 +25,8 @@ import { AccessShapes, OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DynamicModulePane, NoContentMessageInfo } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { dependencies } from '../../user-dependencies'
+import SelectionItemDetailContainer from '../../containers/user/detail/SelectionItemDetailContainer'
 import OrderComponent from './options/OrderComponent'
 import ClearCartComponent from './options/ClearCartComponent'
 import OrderCartTableComponent from './OrderCartTableComponent'
@@ -63,14 +63,12 @@ class OrderCartComponent extends React.Component {
   /**
    * Callback: show duplicated message
    */
-  onShowDuplicatedMessage = (totalObjectsCount, effectiveObjectsCount) =>
-    this.setState({ totalObjectsCount, effectiveObjectsCount, showMessage: true })
+  onShowDuplicatedMessage = (totalObjectsCount, effectiveObjectsCount) => this.setState({ totalObjectsCount, effectiveObjectsCount, showMessage: true })
 
   /**
    * Callback: show duplicated message
    */
-  onHideDuplicatedMessage = () =>
-    this.setState({ totalObjectsCount: 0, effectiveObjectsCount: 0, showMessage: false })
+  onHideDuplicatedMessage = () => this.setState({ totalObjectsCount: 0, effectiveObjectsCount: 0, showMessage: false })
 
   /**
    * Renders module options
@@ -91,7 +89,7 @@ class OrderCartComponent extends React.Component {
       ...moduleProperties
     } = this.props
     const { totalObjectsCount, effectiveObjectsCount, showMessage } = this.state
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { user: { root } } } = this.context
 
     const emptyBasket = isEmpty(basket) || isEmpty(basket.datasetSelections)
 
@@ -102,33 +100,30 @@ class OrderCartComponent extends React.Component {
     const NoContentIconConstructor = !isAuthenticated ? NotLoggedIcon : CartIcon
 
     return (
-      <div>
+      <div style={root}>
         <DynamicModulePane
           options={this.renderOptions(onClearCart, onOrder, isFetching, isNoContent)}
           requiresAuthentication
           requiredDependencies={dependencies}
           {...moduleProperties}
         >
-          {/* 2.a - Empty basket display */}
+          {/* 1.a - Empty basket display */}
           <NoContentMessageInfo
             noContent={isNoContent}
             title={formatMessage({ id: noContentTitleKey })}
             message={formatMessage({ id: noContentMesageKey })}
             Icon={NoContentIconConstructor}
           >
-            {/* 2.b - content  */}
+            {/* 1.b - content  */}
             <OrderCartTableComponent
-              disableOptions={isFetching}
+              isFetching={isFetching}
               basket={basket}
               showDatasets={showDatasets}
               onShowDuplicatedMessage={this.onShowDuplicatedMessage}
             />
-            {/* 2.c - loading (content is not inside, as we need the table to not be
-              unmounted. Indeed the table uses previous props to restore the rows expanded state  */}
-            <LoadableContentDisplayDecorator isLoading={isFetching} />
           </NoContentMessageInfo>
         </DynamicModulePane>
-        { /* 3 - Add dialog component for size informations messages (avoid creating dialogs in table) */}
+        { /* 2 - Add dialog component for size informations messages (avoid creating dialogs in table) */}
         <Dialog
           open={showMessage}
           title={formatMessage({ id: 'order-cart.module.duplicate.objects.message.title' })}
@@ -148,6 +143,8 @@ class OrderCartComponent extends React.Component {
             })
           }
         </Dialog>
+        {/* 2 - Add detail dialog */}
+        <SelectionItemDetailContainer showDatasets={showDatasets} />
       </div>
     )
   }

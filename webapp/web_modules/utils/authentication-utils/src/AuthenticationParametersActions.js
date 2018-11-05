@@ -22,7 +22,7 @@ const INSTANCE = 'instance'
 /**
  * Actions used to collect required parameters for authentication at application startup
  */
-module.exports = {
+export default {
   // single action ID
   APPLICATION_STARTED,
   // application instance name
@@ -35,4 +35,3 @@ module.exports = {
     }
   },
 }
-

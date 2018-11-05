@@ -42,4 +42,6 @@ const buildStyles = (theme) => {
   }
 }
 
-export default buildStyles
+export default {
+  styles: buildStyles,
+}

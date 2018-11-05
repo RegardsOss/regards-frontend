@@ -18,9 +18,9 @@
  **/
 import { ModelContent } from './Model'
 import { AttributeModelContent } from './AttributeModel'
-import { PluginConfigurationContent } from './../rs-common/Plugin/PluginConfiguration'
+import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfiguration'
 
-const ModelAttribute = PropTypes.shape({
+export const ModelAttribute = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
     mode: PropTypes.string,
@@ -30,9 +30,4 @@ const ModelAttribute = PropTypes.shape({
   }),
 })
 
-const ModelAttributeList = PropTypes.objectOf(ModelAttribute)
-
-module.exports = {
-  ModelAttribute,
-  ModelAttributeList,
-}
+export const ModelAttributeList = PropTypes.objectOf(ModelAttribute)

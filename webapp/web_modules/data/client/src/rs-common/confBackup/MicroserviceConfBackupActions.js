@@ -23,12 +23,12 @@ export default class MicroserviceConfBackupActions extends BasicSignalActions {
   constructor(namespace) {
     super({
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microserviceName}/microservice/configuration`,
+      bypassErrorMiddleware: true,
       namespace,
     })
   }
 
   sendBackupConf(microserviceName, file) {
-    console.error('WAT', this.sendEntityUsingMultiPart('POST', {}, file, { microserviceName }, {}))
     return this.sendEntityUsingMultiPart('POST', {}, file, { microserviceName }, {})
   }
 

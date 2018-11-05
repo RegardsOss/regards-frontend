@@ -22,9 +22,9 @@ import { CatalogShapes, CommonShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasetEditPluginComponent from '../components/DatasetEditPluginComponent'
-import { linkPluginDatasetActions, linkPluginDatasetSelectors } from './../clients/LinkPluginDatasetClient'
-import { pluginConfigurationActions, pluginConfigurationSelectors } from './../clients/PluginConfigurationClient'
-import { pluginMetaDataActions, pluginMetaDataSelectors } from './../clients/PluginMetaDataClient'
+import { linkPluginDatasetActions, linkPluginDatasetSelectors } from '../clients/LinkPluginDatasetClient'
+import { pluginConfigurationActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
+import { pluginMetaDataActions, pluginMetaDataSelectors } from '../clients/PluginMetaDataClient'
 import messages from '../i18n'
 
 export class DatasetEditPluginContainer extends React.Component {

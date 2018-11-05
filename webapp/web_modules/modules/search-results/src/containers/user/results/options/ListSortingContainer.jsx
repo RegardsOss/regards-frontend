@@ -17,10 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
-import { AccessShapes } from '@regardsoss/shape'
 import { TableSortOrders } from '@regardsoss/components'
-import { StringComparison } from '@regardsoss/form-utils'
 import ListSortingComponent from '../../../../components/user/results/options/ListSortingComponent'
+import { ColumnPresentationModelArray } from '../../../../models/table/TableColumnModel'
 
 /**
  * Table sort filter options container (sort by in lists)
@@ -29,7 +28,7 @@ import ListSortingComponent from '../../../../components/user/results/options/Li
 export class ListSortingContainer extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired, // presentation model, used in onPropertiesChanged
+    presentationModels: ColumnPresentationModelArray.isRequired, // presentation model, used in onPropertiesChanged
     onSortByAttribute: PropTypes.func.isRequired, // sort changed callback
   }
 
@@ -54,12 +53,12 @@ export class ListSortingContainer extends React.Component {
     const oldState = this.state
     const newState = {}
     if (!isEqual(oldProps, newProps)) {
-      // 1 - Filter to keep only models enabling sorting, then sort them alpĥabetically
-      newState.sortableModels = newProps.attributePresentationModels
-        .filter(model => model.enableSorting)
-        .sort((m1, m2) => StringComparison.compare(m1.label, m2.label))
+      // 1 - Filter to keep only attribute models enabling sorting; keep the configured user order (note: table columns will be filtered by 'enableSorting)
+      newState.sortableModels = newProps.presentationModels.filter(model => model.enableSorting)
       // 2 - Find in those the currently selected model
       newState.sortingModel = newState.sortableModels.find(model => model.sortOrder && model.sortOrder !== TableSortOrders.NO_SORT)
+      // 3 - Check if default sorting is in attributes
+      newState.defaultSortingModel = newState.sortableModels.find(model => model.defaultSorting)
     }
 
     // update when there is a real difference (avoid columns visibility and such updates)
@@ -74,16 +73,25 @@ export class ListSortingContainer extends React.Component {
    */
   onSortBy = (attributePresentationModel) => {
     const { onSortByAttribute } = this.props
-    // sort the selected model ascending (that will clear other sorting columns, see SearchResultsContainer#onSortByAttribute)
-    // If no model: just clear current sorting
-    onSortByAttribute(attributePresentationModel ? attributePresentationModel.key : null, TableSortOrders.ASCENDING_ORDER)
+    if (attributePresentationModel) {
+      // enabling sorting on one model
+      onSortByAttribute(attributePresentationModel.key, TableSortOrders.ASCENDING_ORDER)
+    } else {
+      // disabling sort order on current sorting attribute, if any
+      const { sortingModel } = this.state
+      if (sortingModel) {
+        onSortByAttribute(sortingModel.key, TableSortOrders.NO_SORT)
+      }
+      // else: nothing to do, already no sort
+    }
   }
 
   render() {
-    const { sortableModels, sortingModel } = this.state
+    const { sortableModels, sortingModel, defaultSortingModel } = this.state
     return (
       <ListSortingComponent
         sortingModel={sortingModel}
+        defaultSortingModel={defaultSortingModel}
         sortableModels={sortableModels}
         onSortBy={this.onSortBy}
       />

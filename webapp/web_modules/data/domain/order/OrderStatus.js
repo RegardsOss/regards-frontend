@@ -42,4 +42,3 @@ export const ORDER_STATUS_ENUM = {
  * Order status as list
  */
 export const ORDER_STATUS = values(ORDER_STATUS_ENUM)
-

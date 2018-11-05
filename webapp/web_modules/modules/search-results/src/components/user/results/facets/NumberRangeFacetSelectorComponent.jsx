@@ -16,17 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
 import { i18nContextType } from '@regardsoss/i18n'
-import { NumberRangeFacet } from '../../../../models/facets/FacetShape'
+import { storage } from '@regardsoss/units'
+import { UIFacet } from '../../../../models/facets/FacetShape'
 import FacetSelectorComponent from './FacetSelectorComponent'
 
+/** Const for no unit */
+const NO_UNIT = 'unitless'
+
 /**
-* Range facet selector
-*/
+ * Number facet selector
+ * @author Raphaël Mechali
+ */
 class NumberRangeFacetSelectorComponent extends React.Component {
   static propTypes = {
-    // eslint-disable-next-line
-    facet: NumberRangeFacet.isRequired, // seriously eslint sux on PropTypes...
+    facet: UIFacet.isRequired, // granted to be a number range UI facet
     // applies a facet filter (key:string, label:string, searchQuery: string)
     onSelectFacet: PropTypes.func.isRequired,
   }
@@ -36,51 +41,50 @@ class NumberRangeFacetSelectorComponent extends React.Component {
   }
 
   /**
-   * Formats facet value to display it in menu
+   * Formats a value
+   * @return {string} formatted value
    */
-  formatFacetValueForMenu = (label, facet) => {
-    const { intl: { formatMessage } } = this.context
-    return this.formatFacetValue(
-      facet,
-      (value, count) => formatMessage({ id: 'search.facets.filter.menu.number.greater' }, { value, count }),
-      (value, count) => formatMessage({ id: 'search.facets.filter.menu.number.lower' }, { value, count }),
-      (minValue, maxValue, count) => {
-        if (minValue !== maxValue) {
-          return formatMessage({ id: 'search.facets.filter.menu.number.range' }, { minValue, maxValue, count })
-        }
-        return formatMessage({ id: 'search.facets.filter.menu.number.value' }, { value: minValue, count })
-      },
-    )
-  }
-
-  formatFacetValueForFilter = (label, facet) => {
-    const { intl: { formatMessage } } = this.context
-    return this.formatFacetValue(
-      facet,
-      value => formatMessage({ id: 'search.facets.filter.chip.number.greater' }, { label, value }),
-      value => formatMessage({ id: 'search.facets.filter.chip.number.lower' }, { label, value }),
-      (minValue, maxValue) => {
-        if (minValue !== maxValue) {
-          return formatMessage({ id: 'search.facets.filter.chip.number.range' }, { label, minValue, maxValue })
-        }
-        return formatMessage({ id: 'search.facets.filter.chip.number.value' }, { label, value: minValue })
-      },
-    )
-  }
-
-
-  formatFacetValue = ({ lowerBound, upperBound, count }, lowerBoundFormatter, upperBoundFormatter, rangeFormatter) => {
-    if (!upperBound) {
-      if (lowerBound) {
-        return lowerBoundFormatter(lowerBound, count)
+  formatValue = (value) => {
+    const { facet: { unit } } = this.props
+    const { intl: { formatMessage, formatNumber } } = this.context
+    // has both a value and a unit?
+    if (unit && unit !== NO_UNIT && !isNil(value)) {
+      // this value has a unit: show value and unit
+      const storageUnit = storage.StorageUnitScale.getMatchingUnit(unit)
+      if (storageUnit) { // storage unit: scale and showyes
+        const valueWithUnit = new storage.StorageCapacity(value, storageUnit).scaleAndConvert(storageUnit.scale)
+        return storage.formatStorageCapacity(formatMessage, formatNumber, valueWithUnit)
       }
-      // infinite range...
-      return ''
+      // unhandled unit type: show directly
+      return `${value}${unit}`
     }
-    if (!lowerBound) {
-      return upperBoundFormatter(upperBound, count)
+    // no: return value (undefined if it is, number otherwise)
+    return value
+  }
+
+
+  /**
+   * Formats facet value
+   * @param {FacetValue} facetValue as returned by the backend
+   * @return {string} value label
+   */
+  formatFacetValue = ({ lowerBound, upperBound, count }) => {
+    const { intl: { formatMessage } } = this.context
+    const minValue = this.formatValue(lowerBound)
+    const maxValue = this.formatValue(upperBound)
+    if (!maxValue) {
+      if (minValue) {
+        return formatMessage({ id: 'search.facets.filter.menu.number.greater' }, { value: minValue, count })
+      }
+      return '' // infinite range...
     }
-    return rangeFormatter(lowerBound, upperBound, count)
+    if (!minValue) {
+      return formatMessage({ id: 'search.facets.filter.menu.number.lower' }, { value: maxValue, count })
+    }
+    if (minValue === maxValue) {
+      return formatMessage({ id: 'search.facets.filter.menu.number.value' }, { value: minValue, count })
+    }
+    return formatMessage({ id: 'search.facets.filter.menu.number.range' }, { minValue, maxValue, count })
   }
 
   render() {
@@ -88,8 +92,7 @@ class NumberRangeFacetSelectorComponent extends React.Component {
     return (
       <FacetSelectorComponent
         facet={facet}
-        facetValueFormatterForMenu={this.formatFacetValueForMenu}
-        facetValueFormatterForFilter={this.formatFacetValueForFilter}
+        facetValueFormatter={this.formatFacetValue}
         onSelectFacet={onSelectFacet}
       />
     )

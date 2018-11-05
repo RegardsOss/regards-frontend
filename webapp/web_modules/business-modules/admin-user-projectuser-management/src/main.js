@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import projectUserManagementRouter from './router'
-import projectUserManagementReducer from './reducer'
-import projectUserDependencies from './dependencies'
-
-module.exports = {
-  projectUserManagementReducer,
-  projectUserManagementRouter,
-  projectUserDependencies,
-}
+export { default as projectUserManagementRouter } from './router'
+export { default as projectUserManagementReducer } from './reducer'
+export { default as projectUserDependencies } from './dependencies'

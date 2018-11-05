@@ -18,7 +18,9 @@
  **/
 import includes from 'lodash/includes'
 import map from 'lodash/map'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 
 import {
   RenderTextField,
@@ -41,7 +43,17 @@ import moduleStyles from '../styles/styles'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 import AttributeModelUnitFieldComponent from './AttributeModelUnitFieldComponent'
 
-const nameFieldValidators = [ValidationHelpers.required, ValidationHelpers.validAlphaNumericUnderscore, ValidationHelpers.lengthMoreThan(3), ValidationHelpers.lengthLessThan(32)]
+
+const ATT_MODEL_NAME_MIN_SIZE = 1
+
+const ATT_MODEL_NAME_MAX_SIZE = 32
+
+const nameFieldValidators = [
+  ValidationHelpers.required,
+  ValidationHelpers.validAlphaNumericUnderscore,
+  ValidationHelpers.lengthMoreThan(ATT_MODEL_NAME_MIN_SIZE),
+  ValidationHelpers.lengthLessThan(ATT_MODEL_NAME_MAX_SIZE),
+]
 
 const labelFieldValidators = [ValidationHelpers.required, ValidationHelpers.lengthLessThan(20)]
 
@@ -74,14 +86,11 @@ export class AttributeModelFormComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static isTypeHavingUnit = type =>
-    includes(['INTEGER', 'DOUBLE', 'INTEGER_ARRAY', 'DOUBLE_ARRAY', 'INTEGER_INTERVAL', 'DOUBLE_INTERVAL', 'LONG', 'LONG_INTERVAL', 'LONG_ARRAY'], type)
+  static isTypeHavingUnit = type => includes(['INTEGER', 'DOUBLE', 'INTEGER_ARRAY', 'DOUBLE_ARRAY', 'INTEGER_INTERVAL', 'DOUBLE_INTERVAL', 'LONG', 'LONG_INTERVAL', 'LONG_ARRAY'], type)
 
-  static isTypeImprecise = type =>
-    includes(['DOUBLE', 'DOUBLE_ARRAY', 'DOUBLE_INTERVAL'], type)
+  static isTypeImprecise = type => includes(['DOUBLE', 'DOUBLE_ARRAY', 'DOUBLE_INTERVAL'], type)
 
-  static isTypeArray = type =>
-    includes(['INTEGER_ARRAY', 'DOUBLE_ARRAY', 'LONG_ARRAY', 'DATE_ARRAY', 'STRING_ARRAY'], type)
+  static isTypeArray = type => includes(['INTEGER_ARRAY', 'DOUBLE_ARRAY', 'LONG_ARRAY', 'DATE_ARRAY', 'STRING_ARRAY'], type)
 
   constructor(props) {
     super(props)
@@ -260,8 +269,8 @@ export class AttributeModelFormComponent extends React.Component {
       attrModelTypeList, attrModelRestrictionList, fragmentList, pristine, submitting, invalid,
     } = this.props
     const styles = moduleStyles(this.context.muiTheme)
-    const title = this.state.isCreating ? this.context.intl.formatMessage({ id: 'attrmodel.create.title' }) :
-      this.context.intl.formatMessage({ id: 'attrmodel.edit.title' }, { name: this.props.currentAttrModel.content.name })
+    const title = this.state.isCreating ? this.context.intl.formatMessage({ id: 'attrmodel.create.title' })
+      : this.context.intl.formatMessage({ id: 'attrmodel.edit.title' }, { name: this.props.currentAttrModel.content.name })
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <Card>
@@ -412,4 +421,3 @@ export default reduxForm({
   form: 'attribute-model-form',
   validate,
 })(AttributeModelFormComponent)
-

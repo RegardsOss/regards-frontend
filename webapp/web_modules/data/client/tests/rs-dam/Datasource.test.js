@@ -43,4 +43,3 @@ describe('[ADMIN CLIENT] Testing model Datasource', () => {
     entityTester.runTests(done)
   })
 })
-

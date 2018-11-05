@@ -22,20 +22,13 @@ import { Schema, arrayOf } from 'normalizr'
 /**
  * Storage plugin management for normalizer
  */
-const PrioritizedDataStorageConfiguration = {
+export const PrioritizedDataStorageConfiguration = {
   entityKey: 'id',
   normalizrKey: 'prioritized-datastorage-conf',
 }
 
-const prioritizedDataStorageSchema = new Schema(PrioritizedDataStorageConfiguration.normalizrKey, {
-  idAttribute: model =>
-    model.content[PrioritizedDataStorageConfiguration.entityKey]
+export const PRIORIZED_DATASTORAGE = new Schema(PrioritizedDataStorageConfiguration.normalizrKey, {
+  idAttribute: model => model.content[PrioritizedDataStorageConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  PRIORIZED_DATASTORAGE: prioritizedDataStorageSchema,
-  PRIORIZED_DATASTORAGE_ARRAY: arrayOf(prioritizedDataStorageSchema),
-  PrioritizedDataStorageConfiguration,
-}
+export const PRIORIZED_DATASTORAGE_ARRAY = arrayOf(PRIORIZED_DATASTORAGE)

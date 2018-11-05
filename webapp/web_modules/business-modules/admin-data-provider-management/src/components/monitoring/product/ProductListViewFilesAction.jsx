@@ -27,10 +27,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 */
 class ProductListViewFilesAction extends React.Component {
   static propTypes = {
-    entity: PropTypes.shape({
-      content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
-      links: PropTypes.array,
-    }),
+    entity: DataProviderShapes.Product.isRequired,
     onClick: PropTypes.func.isRequired,
   }
 
@@ -39,6 +36,7 @@ class ProductListViewFilesAction extends React.Component {
   }
 
   static iconStyle = { height: 23, width: 23 }
+
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
   render() {

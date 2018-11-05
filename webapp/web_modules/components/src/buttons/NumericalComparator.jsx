@@ -36,6 +36,7 @@ export class NumericalComparator extends React.Component {
      */
     onChange: PropTypes.func.isRequired,
     value: PropTypes.oneOf(EnumNumericalComparators),
+    disabled: PropTypes.bool,
     comparators: PropTypes.arrayOf(PropTypes.oneOf(EnumNumericalComparators)),
   }
 
@@ -72,13 +73,14 @@ export class NumericalComparator extends React.Component {
   render() {
     const { moduleTheme: { comparatorButtonStyle, comparatorMenuItemStyle } } = this.context
     const labelStyle = { fontSize: '2em' }
+    const { disabled } = this.props
     const button = (
       <FlatButton
         label={<FormattedMessage id={`numerical.comparator.${this.props.value}`} />}
         onClick={this.props.comparators ? this.handleOpenMenu : () => {}}
         style={comparatorButtonStyle}
         labelStyle={labelStyle}
-        disabled={!this.props.comparators}
+        disabled={disabled || !this.props.comparators}
       />
     )
     return this.props.comparators && this.props.comparators.length > 1 ? (

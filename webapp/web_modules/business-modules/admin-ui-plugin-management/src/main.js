@@ -16,15 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import pluginUIRouter from './router'
-import pluginUIReducer from './reducer'
-import pluginUIDependencies from './dependencies'
 /**
  * Module main file to expose public interface
  * @author Sébastien Binda
  */
-module.exports = {
-  pluginUIRouter,
-  pluginUIReducer,
-  pluginUIDependencies,
-}
+export { default as pluginUIRouter } from './router'
+export { default as pluginUIReducer } from './reducer'
+export { default as pluginUIDependencies } from './dependencies'

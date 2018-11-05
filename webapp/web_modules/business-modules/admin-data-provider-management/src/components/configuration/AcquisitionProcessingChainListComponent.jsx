@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import {
   TableDeleteOption,
@@ -115,7 +117,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
     const {
       onBack, onDuplicate, onEdit, fetchPage, queryPageSize, onCreate,
     } = this.props
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
       <NoContentComponent
@@ -125,9 +127,16 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
     )
 
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('column.name', formatMessage({ id: 'acquisition-chain.list.table.label' }), 'content.label'),
-      TableColumnBuilder.buildSimplePropertyColumn('column.mode', formatMessage({ id: 'acquisition-chain.list.table.mode' }), 'content.mode'),
-      TableColumnBuilder.buildOptionsColumn('', [{
+      new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.label')
+        .label(formatMessage({ id: 'acquisition-chain.list.table.label' }))
+        .build(),
+      new TableColumnBuilder('column.session').titleHeaderCell().propertyRenderCell('content.session')
+        .label(formatMessage({ id: 'acquisition-chain.list.table.session' }))
+        .build(),
+      new TableColumnBuilder('column.mode').titleHeaderCell().propertyRenderCell('content.mode')
+        .label(formatMessage({ id: 'acquisition-chain.list.table.mode' }))
+        .build(),
+      new TableColumnBuilder().optionsColumn([{
         OptionConstructor: AcquisitionProcessingChainTableEditAction,
         optionProps: { onEdit },
       }, {
@@ -142,7 +151,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
           queryPageSize,
           handleHateoas: true,
         },
-      }], true, fixedColumnsWidth),
+      }]).build(),
     ]
 
     return (
@@ -164,8 +173,8 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              minRowCount={0}
-              maxRowCount={10}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
               queryPageSize={queryPageSize}
             />
           </TableLayout>

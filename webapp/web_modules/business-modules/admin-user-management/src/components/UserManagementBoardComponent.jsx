@@ -44,4 +44,3 @@ class UserManagementBoardComponent extends React.Component {
 
 
 export default UserManagementBoardComponent
-

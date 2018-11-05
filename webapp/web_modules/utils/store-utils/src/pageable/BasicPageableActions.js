@@ -60,7 +60,6 @@ class BasicPageableActions extends BasicListActions {
         size: size || 2000,
       })
     }
-
     return endpoint
   }
 
@@ -71,7 +70,7 @@ class BasicPageableActions extends BasicListActions {
    * @param size pagination param : number of elements for the asked page
    * @param pathParams [optional] path parameters to replace in endpoint uri
    * @param queryParams [optional] query path parameters to add to the end of the endpoint uri
-   * @returns {{}}
+   * @returns {*} redux action to dispatch
    */
   fetchPagedEntityList(pageNumber, size, pathParams, queryParams) {
     // Compute the endpoint URI

@@ -26,13 +26,6 @@ import { DataManagementClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'models', 'attribute-model-management', 'attribute-model-restriction']
 const REDUX_ACTION_NAMESPACE = 'admin-data-attributemodel-management/restrictions'
 
-const attributeModelRestrictionReducer = DataManagementClient.AttributeModelRestrictionReducer(REDUX_ACTION_NAMESPACE)
-const attributeModelRestrictionActions = new DataManagementClient.AttributeModelRestrictionActions(REDUX_ACTION_NAMESPACE)
-const attributeModelRestrictionSelectors = DataManagementClient.AttributeModelRestrictionSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  attributeModelRestrictionReducer,
-  attributeModelRestrictionActions,
-  attributeModelRestrictionSelectors,
-}
+export const attributeModelRestrictionReducer = DataManagementClient.AttributeModelRestrictionReducer(REDUX_ACTION_NAMESPACE)
+export const attributeModelRestrictionActions = new DataManagementClient.AttributeModelRestrictionActions(REDUX_ACTION_NAMESPACE)
+export const attributeModelRestrictionSelectors = DataManagementClient.AttributeModelRestrictionSelectors(ENTITIES_STORE_PATH)

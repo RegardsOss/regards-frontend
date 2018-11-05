@@ -48,7 +48,7 @@ const getMetaFieldProps = (error, invalid) => ({
   visited: true,
 })
 
-module.exports = {
+export default {
   getInputFieldProps,
   getMetaFieldProps,
 }

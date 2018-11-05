@@ -25,31 +25,22 @@
 const pluginStyles = theme => ({
   rootStyle: {
     display: 'flex',
-  },
-  lineStyle: {
-    display: 'flex',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-  },
-  lineGroupStyle: {
-    display: 'flex',
     alignItems: 'center',
     flexWrap: 'wrap',
   },
   labelSpanStyle: {
     margin: '0px 10px',
   },
-  datePickerStyle: {
+  datePickerContainerStyle: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    minHeight: theme.criterion.minHeight,
+  },
+  datePickerSelectorStyle: {
     top: -13,
     margin: '0px 10px',
-  },
-  comparatorButtonStyle: {
-    height: theme.button.iconButtonSize,
-    width: theme.button.iconButtonSize,
-    minWidth: 'initial',
-  },
-  comparatorMenuStyle: {
-    display: 'none',
   },
   comparatorMenuItemStyle: {
     display: 'flex',

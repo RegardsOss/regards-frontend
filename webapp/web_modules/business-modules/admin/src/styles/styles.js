@@ -33,7 +33,7 @@ const styles = (theme) => {
     // eslint-disable-next-line prefer-destructuring
     background = theme.palette.background
   } else {
-    background = theme && theme.palette.backgroundImage ? `url('${theme.palette.backgroundImage}') no-repeat fixed center center` : background
+    background = theme && theme.palette.backgroundImage ? `url('${theme.palette.backgroundImage}') no-repeat center center` : background
   }
   return {
     drawer: {
@@ -79,7 +79,6 @@ const styles = (theme) => {
           styles: {
             background,
             backgroundSize: 'cover',
-            backgroundAttachment: 'fixed',
             minHeight: '100vh',
             position: 'absolute',
             width: '100%',

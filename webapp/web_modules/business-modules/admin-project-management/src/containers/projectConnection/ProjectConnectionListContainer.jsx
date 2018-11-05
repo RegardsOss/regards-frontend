@@ -161,14 +161,11 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchProject: projectName => dispatch(projectActions.fetchEntity(projectName)),
-  fetchProjectConnections: projectName =>
-    dispatch(projectConnectionActions.fetchPagedEntityList(0, 0, {
-      projectName,
-    })),
-  fetchProjectConnection: (projectName, connectionId) =>
-    dispatch(projectConnectionActions.fetchSilentEntity(connectionId, { projectName })),
-  testProjectConnection: (microservice, projectName) =>
-    dispatch(projectConnectionTestActions.test(microservice, projectName)),
+  fetchProjectConnections: projectName => dispatch(projectConnectionActions.fetchPagedEntityList(0, 0, {
+    projectName,
+  })),
+  fetchProjectConnection: (projectName, connectionId) => dispatch(projectConnectionActions.fetchSilentEntity(connectionId, { projectName })),
+  testProjectConnection: (microservice, projectName) => dispatch(projectConnectionTestActions.test(microservice, projectName)),
   updateProjectConnection: (id, projectConnection) => dispatch(projectConnectionActions.updateEntity(id, projectConnection, {
     projectName: projectConnection.project.name,
   })),

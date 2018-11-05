@@ -23,16 +23,9 @@ import { DataManagementClient } from '@regardsoss/client'
  *
  * @author Sébastien Binda
  */
-const ENTITIES_STORE_PATH = ['admin', 'access-right-management', 'access-rights-management', 'access-right']
+const ENTITIES_STORE_PATH = ['admin', 'dataaccess', 'access-rights-management', 'access-right']
 const REDUX_ACTION_NAMESPACE = 'admin-accessright-management/access-right'
 
-const accessRightReducer = DataManagementClient.getAccessRightReducer(REDUX_ACTION_NAMESPACE)
-const accessRightActions = new DataManagementClient.AccessRightActions(REDUX_ACTION_NAMESPACE)
-const accessRightSelectors = DataManagementClient.getAccessRightSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  accessRightReducer,
-  accessRightActions,
-  accessRightSelectors,
-}
+export const accessRightReducer = DataManagementClient.getAccessRightReducer(REDUX_ACTION_NAMESPACE)
+export const accessRightActions = new DataManagementClient.AccessRightActions(REDUX_ACTION_NAMESPACE)
+export const accessRightSelectors = DataManagementClient.getAccessRightSelectors(ENTITIES_STORE_PATH)

@@ -19,9 +19,11 @@
 import { Dialog } from 'material-ui'
 import RaisedButton from 'material-ui/RaisedButton/RaisedButton'
 import { MarkdownFileContentDisplayer } from '@regardsoss/components'
-import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
+import styles from '../styles'
+import messages from '../i18n'
 
 /**
 * Dialog to display markdown description of a plugin.
@@ -81,4 +83,4 @@ class PluginDescriptionDialog extends React.Component {
     )
   }
 }
-export default PluginDescriptionDialog
+export default withModuleStyle(styles)(withI18n(messages)(PluginDescriptionDialog))

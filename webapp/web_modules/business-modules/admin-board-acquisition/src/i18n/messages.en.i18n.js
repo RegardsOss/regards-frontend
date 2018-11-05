@@ -20,32 +20,33 @@ const messages = {
   'data.board.action.list.tooltip': 'List',
   'data.board.action.add.tooltip': 'Add',
 
-  'ingest.board.title': 'Manual submission',
-  'ingest.board.description': 'This feature allows you to manually add datas throught information package submission. A Submission Information Package (SIP) contains all information needed to describe the datas and also physically locate datas.',
-  'ingest.board.action.chain.list.tooltip': 'Configure processing chains',
-  'ingest.board.action.monitor.tooltip': 'Monitor submissions',
-  'ingest.board.action.sumition.tooltip': 'Submit datas',
+  'ingest.board.title': 'Ingestion (SIP)',
+  'ingest.board.description': 'Ingest data already in SIP (Submission Information Package) format. A SIP contains all information needed to describe the data and also physically locate data files.',
+  'ingest.board.action.chain.list.tooltip': 'Configure ingestion chains',
+  'ingest.board.action.monitor.tooltip': 'Monitor ingestion',
+  'ingest.board.action.sumition.tooltip': 'Submit SIP',
 
-  'data-provider.board.title': 'Automation',
-  'data-provider.board.description': 'This feature allows you to configure an automatic process to add new detected datas. These processes generate Submission Information Package (SIP) to be provided to the system for submission.',
+  'data-provider.board.title': 'Data acquisition',
+  'data-provider.board.description': 'Configure data acquisition chainsallowing to acquire new detected data (detection method is configurable). These processes generate Submission Information Package (SIP) to be provided to the system for ingestion.',
   'data-provider.board.action.chain.list.tooltip': 'Configure processing chains',
   'data-provider.board.action.monitoring.tooltip': 'Monitor processing chains activity',
 
   'ingest.board.external.datasources.title': 'Crawling',
   'ingest.board.external.datasources.description': 'This feature allows you to configure data crawling process. A data crawling process is the addition of adding datas throught external data sources.',
   'ingest.board.action.external.datasources.list.tooltip': 'Map data sources to internal models',
-  'ingest.board.action.connection.list.tooltip': 'Configure connections to datasources',
+  'ingest.board.action.connection.list.tooltip': 'External datasources',
   'ingest.board.action.datasource.monitor.tooltip': 'Monitor data crawling',
 
   'data.board.document.title': 'Documents',
-  'data.board.document.description': 'Documents contain files',
+  'data.board.document.description': 'Visualize/add documents. Documents are directly accessible to be visualized or downloaded from the user interfaces.',
 
   'data.board.storage.title': 'Storage',
-  'data.board.storage.description': 'This section allows you to configure one or multiples data storage locations and also the strategy to define wich location system will use.',
+  'data.board.storage.description': 'Configure one or multiples data storage locations and also the strategy to define wich location system will use.',
   'data.board.action.storages.tooltip': 'Configure locations',
   'data.board.action.allocations.tooltip': 'Configure strategies',
   'data.board.action.monitoring.tooltip': 'Monitor data storages occupation',
   'data.board.action.security.tooltip': 'Configure archived files access rights',
+  'data.board.action.aip-management.tooltip': 'Monitor AIPs',
 }
 
 export default messages

@@ -19,7 +19,9 @@
 import Archive from 'mdi-material-ui/Archive'
 import CallSplit from 'mdi-material-ui/CallSplit'
 import RaisedButton from 'material-ui/RaisedButton'
-import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
+import {
+  Card, CardActions, CardText, CardTitle,
+} from 'material-ui/Card'
 import {
   CardActionsComponent,
   ErrorCardComponent,
@@ -86,7 +88,7 @@ class SIPSubmissionNotReadyComponent extends React.Component {
           <div style={SIPSubmissionNotReadyComponent.flexStyles}>
             <div>{intl.formatMessage({ id: 'sips.submission.not.ready.information.message' })}</div>
             {this.renderServerMessage()}
-            <div style={SIPSubmissionNotReadyComponent.buttonStyles} >
+            <div style={SIPSubmissionNotReadyComponent.buttonStyles}>
               <RaisedButton
                 label={intl.formatMessage({ id: 'sips.submission.not.ready.config.allocations.link.button' })}
                 primary

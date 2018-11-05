@@ -29,4 +29,3 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ItemTypes', () => {
     assert.isObject(ItemTypes)
   })
 })
-

@@ -23,6 +23,7 @@ class FieldArrayWithIntl extends React.Component {
   static contextTypes = {
     intl: intlShape,
   }
+
   render() {
     return (<FieldArray {...this.props} intl={this.context.intl} />)
   }

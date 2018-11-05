@@ -17,13 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import ContainerContent from './ContainerContent'
+import { ContainerContent } from './ContainerContent'
 
 /**
  * Layout shape entity
  * @author Sébastien Binda
  */
-const LayoutContent = PropTypes.shape({
+export const LayoutContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   applicationId: PropTypes.string.isRequired,
   layout: ContainerContent.isRequired,
@@ -33,15 +33,9 @@ const LayoutContent = PropTypes.shape({
  * Layout shape entity
  * @author Sébastien Binda
  */
-const Layout = PropTypes.shape({
+export const Layout = PropTypes.shape({
   content: LayoutContent,
 })
 
 
-const LayoutList = PropTypes.objectOf(Layout)
-
-module.exports = {
-  LayoutContent,
-  Layout,
-  LayoutList,
-}
+export const LayoutList = PropTypes.objectOf(Layout)

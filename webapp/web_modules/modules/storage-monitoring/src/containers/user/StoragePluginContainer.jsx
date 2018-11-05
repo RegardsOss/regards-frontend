@@ -29,6 +29,7 @@ import styles from '../../styles'
 */
 export class StoragePluginContainer extends React.Component {
   static propTypes = {
+    userApp: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     scale: storage.StorageUnitScaleShape.isRequired, // used only in onPropertiesChanged
     // eslint-disable-next-line react/no-unused-prop-types
@@ -97,9 +98,13 @@ export class StoragePluginContainer extends React.Component {
     let unusedPercent = null
 
     if (totalSize && usedSize) {
-      unusedSize = totalSize.subtract(usedSize)
       usedPercent = StoragePluginContainer.computePercents(totalSize, usedSize)
-      unusedPercent = StoragePluginContainer.TOTAL_PERCENT - usedPercent
+      // compute unused size, knowing the server lets used size grow ABOVE 100% (forbid negative values)
+      unusedSize = totalSize.subtract(usedSize)
+      if (unusedSize.value < 0) {
+        unusedSize.value = 0
+      }
+      unusedPercent = Math.max(StoragePluginContainer.TOTAL_PERCENT - usedPercent, 0)
     }
     this.setState({
       parsedStoragePlugin: {
@@ -116,9 +121,10 @@ export class StoragePluginContainer extends React.Component {
   }
 
   render() {
+    const { userApp } = this.props
     const { parsedStoragePlugin } = this.state
     return (
-      <StoragePluginComponent storagePlugin={parsedStoragePlugin} />
+      <StoragePluginComponent userApp={userApp} storagePlugin={parsedStoragePlugin} />
     )
   }
 }

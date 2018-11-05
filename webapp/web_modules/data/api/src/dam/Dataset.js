@@ -18,16 +18,15 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const DatasetConfiguration = {
+export const DatasetConfiguration = {
   entityKey: 'id',
   normalizrKey: 'datasets',
 }
 
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
-const datasetSchema = new Schema(DatasetConfiguration.normalizrKey, {
-  idAttribute: dataset =>
-    dataset.content[DatasetConfiguration.entityKey],
+export const DATASET = new Schema(DatasetConfiguration.normalizrKey, {
+  idAttribute: dataset => dataset.content[DatasetConfiguration.entityKey],
   assignEntity(output, key, value, input) {
     if (value && value.geometry) {
       try {
@@ -39,10 +38,4 @@ const datasetSchema = new Schema(DatasetConfiguration.normalizrKey, {
     }
   },
 })
-
-// Schemas for API responses.
-module.exports = {
-  DATASET: datasetSchema,
-  DATASET_ARRAY: arrayOf(datasetSchema),
-  DatasetConfiguration,
-}
+export const DATASET_ARRAY = arrayOf(DATASET)

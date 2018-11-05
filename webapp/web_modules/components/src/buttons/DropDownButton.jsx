@@ -21,6 +21,9 @@ import Popover from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import DrowDownIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
 
+/** No value label stub function (drop down button is not neccessarily used with values) */
+const noLabelStubFunction = () => {}
+
 /**
  * Drop down button (used where drop down menu is not adequate). You can add some other properties to this component,
  * it will pass them through to the button instance
@@ -29,7 +32,7 @@ import DrowDownIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
 class DropDownButton extends React.Component {
   static propTypes = {
     ButtonConstructor: PropTypes.func,
-    getLabel: PropTypes.func.isRequired, // Generates label: (current value (optional)) => string
+    getLabel: PropTypes.func, // Generates label: (current value (optional)) => string
     children: PropTypes.arrayOf(PropTypes.node), // Expected children: menu items
     onChange: PropTypes.func, // on change listener
     disabled: PropTypes.bool,
@@ -48,6 +51,7 @@ class DropDownButton extends React.Component {
     disabled: false,
     hasSubMenus: false,
     menuProps: {},
+    getLabel: noLabelStubFunction,
   }
 
   componentWillMount = () => {

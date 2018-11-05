@@ -39,8 +39,7 @@ export class DeleteDatasetSelectionContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, { datasetSelectionId }) {
     return {
-      dispatchDelete: () =>
-        dispatch(orderBasketActions.removeDatasetSelectionFromBasket(datasetSelectionId)),
+      dispatchDelete: () => dispatch(orderBasketActions.removeDatasetSelectionFromBasket(datasetSelectionId)),
     }
   }
 
@@ -64,4 +63,3 @@ export default compose(
   connect(null, DeleteDatasetSelectionContainer.mapDispatchToProps),
   withI18n(messages),
 )(DeleteDatasetSelectionContainer)
-

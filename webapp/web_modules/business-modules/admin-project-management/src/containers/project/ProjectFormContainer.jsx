@@ -56,6 +56,7 @@ export class ProjectFormContainer extends React.Component {
       this.props.fetchProject(this.props.params.project_name)
     }
   }
+
   getBackUrl = () => ('/admin/projects/list')
 
   getProjectConnectionsUrl = project => (`/admin/projects/${project}/connections/guided`)
@@ -80,6 +81,7 @@ export class ProjectFormContainer extends React.Component {
       backUrl={this.getBackUrl()}
     />)
   }
+
   handleUpdate = (values) => {
     const updatedProject = {
       ...(this.props.project.content),

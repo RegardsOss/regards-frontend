@@ -52,6 +52,18 @@ export const editCollectionLinksRoute = {
   },
 }
 
+export const editCollectionFilesRoute = {
+  path: ':collectionId/files',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const CollectionEditLinksContainer = require('./containers/CollectionEditFilesContainer')
+      cb(null, {
+        content: CollectionEditLinksContainer.default,
+      })
+    })
+  },
+}
+
 
 export const editCollectionRoute = {
   path: ':collectionId/:mode',
@@ -71,6 +83,7 @@ const collectionDataManagementRouter = {
     listCollectionRoute,
     createCollectionRoute,
     editCollectionLinksRoute,
+    editCollectionFilesRoute,
     editCollectionRoute,
   ],
 }

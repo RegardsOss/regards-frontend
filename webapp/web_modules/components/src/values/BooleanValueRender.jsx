@@ -53,7 +53,7 @@ class BooleanValueRender extends React.Component {
       textValue = value || formatMessage({ id: 'value.render.no.value.label' })
     }
     return (
-      <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue} >
+      <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue}>
         {textValue}
       </div>)
   }

@@ -25,8 +25,6 @@ import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/co
 const NAMESPACE = 'admin-ingest-management/processing-chain-table'
 const STORE_PATH = ['admin', 'acquisition', 'processingChain', 'processing-chain-table']
 
-module.exports = {
-  tableActions: new TableActions(NAMESPACE),
-  tableReducer: getTableReducer(NAMESPACE),
-  tableSelectors: getTableSelectors(STORE_PATH),
-}
+export const tableActions = new TableActions(NAMESPACE)
+export const tableReducer = getTableReducer(NAMESPACE)
+export const tableSelectors = getTableSelectors(STORE_PATH)

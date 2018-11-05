@@ -1,0 +1,87 @@
+.html-notification h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+.html-notification hr {
+  box-sizing: content-box; 
+  height: 0; 
+  overflow: visible;
+}
+
+
+.html-notification b, strong {
+  font-weight: bolder;
+}
+
+.html-notification small {
+  font-size: 80%;
+}
+
+.html-notification sub,
+.html-notification sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+.html-notification sub {
+  bottom: -0.25em;
+}
+
+.html-notification sup {
+  top: -0.5em;
+}
+
+.html-notification img {
+  border-style: none;
+}
+
+.html-notification details {
+  display: block;
+}
+
+.html-notification summary {
+  display: list-item;
+}
+
+.html-notification template {
+  display: none;
+}
+
+.html-notification [hidden] {
+  display: none;
+}
+
+.html-notification ul, ol {
+  margin-left: 1.5em;
+}
+
+.html-notification li:first-child  {
+  margin-top: 0.5em;
+}
+
+.html-notification li {
+  margin-bottom: 0.5em;
+}
+
+.html-notification li:last-child {
+  margin-bottom: 1em;
+}
+
+.html-notification table {
+  margin: 1em;
+}
+
+.html-notification th, td {
+  padding: 0.5em;
+}
+
+
+.html-notification thead {
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+

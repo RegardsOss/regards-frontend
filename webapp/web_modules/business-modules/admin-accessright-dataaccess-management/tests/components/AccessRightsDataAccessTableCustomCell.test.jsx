@@ -47,7 +47,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
     const props = {
       entity: {
         content: {
-          datasetIpId: dataset.content.ipId,
+          datasetIpId: dataset.content.feature.id,
           dataset: dataset.content,
           accessRight: accessRight.content,
         },
@@ -69,7 +69,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
     const props = {
       entity: {
         content: {
-          datasetIpId: dataset.content.ipId,
+          datasetIpId: dataset.content.feature.id,
           dataset: dataset.content,
           accessRight: accessRight.content,
         },
@@ -91,7 +91,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
     const props = {
       entity: {
         content: {
-          datasetIpId: dataset.content.ipId,
+          datasetIpId: dataset.content.feature.id,
           dataset: dataset.content,
           accessRight: accessRight.content,
         },

@@ -17,14 +17,22 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AccessDomain, UIDomain } from '@regardsoss/domain'
-import { CommonShapes } from '@regardsoss/shape'
+import { AdminShapes, CommonShapes } from '@regardsoss/shape'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../domain/NavigationItemTypes'
+import { VISIBILITY_MODES } from '../domain/VisibilityModes'
 import { HOME_ICON_TYPES } from '../domain/HomeIconType'
+
+/** Fields that are common to module and section items */
+const commonItemsFields = {
+  id: PropTypes.number.isRequired, // external module id
+  visibilityMode: PropTypes.oneOf(VISIBILITY_MODES).isRequired,
+  visibleForRole: PropTypes.string, // provided only when mode is FOR_ROLE
+}
 
 
 /** A module as edited in module form */
 const EditionModule = PropTypes.shape({
-  id: PropTypes.number.isRequired, // external module id
+  ...commonItemsFields,
   type: PropTypes.oneOf([NAVIGATION_ITEM_TYPES_ENUM.MODULE]).isRequired,
 })
 
@@ -33,7 +41,7 @@ const EditionModule = PropTypes.shape({
  * we assert section items have children!
  */
 const basicEditionSectionFields = {
-  id: PropTypes.number.isRequired, // local section id
+  ...commonItemsFields,
   type: PropTypes.oneOf([NAVIGATION_ITEM_TYPES_ENUM.SECTION]).isRequired,
   icon: PropTypes.shape({
     type: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES).isRequired,
@@ -75,4 +83,6 @@ export const ModuleConfiguration = PropTypes.shape({
   projectAboutPage: CommonShapes.URL,
   home: HomeConfigurationShape,
   navigation: PropTypes.arrayOf(NavigationEditionItem),
+  previewRole: PropTypes.string,
+  roleList: AdminShapes.RoleList, // pre-fetched available role list for preview mode
 })

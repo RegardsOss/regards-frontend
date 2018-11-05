@@ -50,7 +50,7 @@ class CheckboxColumnHeaderCell extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps(dispatch, { tableActions }) {
     return {
@@ -95,20 +95,21 @@ class CheckboxColumnHeaderCell extends React.Component {
     const { intl: { formatMessage }, moduleTheme: { checkButton: { styles, checkedIcon, uncheckedIcon } } } = this.context
     const { displaySelectAll, allSelected } = this.props
 
-    const [tooltipKey, iconStyle, Icon] = allSelected ?
-      ['table.deselect.all.tooltip', checkedIcon, Checked] :
-      ['table.select.all.tooltip', uncheckedIcon, Unchecked]
+    const [tooltipKey, iconStyle, Icon] = allSelected
+      ? ['table.deselect.all.tooltip', checkedIcon, Checked]
+      : ['table.select.all.tooltip', uncheckedIcon, Unchecked]
 
     return (
-      displaySelectAll ?
-        <IconButton
+      displaySelectAll
+        ? <IconButton
           style={styles}
           title={formatMessage({ id: tooltipKey })}
           iconStyle={iconStyle}
           onClick={this.onToggleSelectAll}
         >
           <Icon />
-        </IconButton> : null
+        </IconButton>
+        : null
     )
   }
 }

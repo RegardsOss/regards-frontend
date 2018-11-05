@@ -17,44 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { ConnectivityCheck, ConnectivityCheckList } from './ConnectivityCheck'
-import { MetadataContent, MetadataContentArray } from './Metadata'
-import { ProjectContent, Project, ProjectList } from './Project'
-import { ProjectConnection, ProjectConnectionList } from './ProjectConnection'
-import { ProjectUser, ProjectUserList } from './ProjectUser'
-import { Resource, ResourceList, ResourceArray } from './Resource'
-import { Role, RoleList, RoleArray } from './Role'
-import { Notification, NotificationList, NotificationArray } from './Notification'
-import { NotificationSettings } from './NotificationSettings'
-
-module.exports = {
-  ConnectivityCheck,
-  ConnectivityCheckList,
-
-  MetadataContent,
-  MetadataContentArray,
-
-  ProjectContent,
-  Project,
-  ProjectList,
-
-  ProjectConnection,
-  ProjectConnectionList,
-
-  ProjectUser,
-  ProjectUserList,
-
-  Resource,
-  ResourceList,
-  ResourceArray,
-
-  Role,
-  RoleList,
-  RoleArray,
-
-  Notification,
-  NotificationList,
-  NotificationArray,
-
-  NotificationSettings,
-}
+export { ConnectivityCheck, ConnectivityCheckList } from './ConnectivityCheck'
+export { MetadataContent, MetadataContentArray } from './Metadata'
+export { ProjectContent, Project, ProjectList } from './Project'
+export { ProjectConnection, ProjectConnectionList } from './ProjectConnection'
+export { ProjectUser, ProjectUserList } from './ProjectUser'
+export { ProjectUserSettings, ProjectUserSettingsWithContent } from './ProjectUserSettings'
+export { Resource, ResourceList, ResourceArray } from './Resource'
+export { Role, RoleList, RoleArray } from './Role'
+export {
+  Notification, NotificationWithinContent, NotificationList, NotificationArray,
+} from './Notification'
+export { NotificationSettings } from './NotificationSettings'

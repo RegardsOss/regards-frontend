@@ -26,7 +26,7 @@ const pluginStyles = theme => ({
     display: 'flex',
     alignItems: 'center',
     flexWrap: 'wrap',
-    height: 72,
+    minHeight: theme.criterion.minHeight,
   },
   labelSpanStyle: {
     margin: '0px 10px',

@@ -47,7 +47,8 @@ class GalleryLoadingComponent extends React.Component {
           size={header.loading.size}
           thickness={header.loading.thickness}
           color={header.loading.color}
-        />{formatMessage({ id: 'table.loading.message' })}
+        />
+        {formatMessage({ id: 'table.loading.message' })}
       </div>
     )
   }

@@ -16,11 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import configureStore from './configureStore'
-import preloadedState from './preloadedState'
-import getReducerRegistry from './ReducerRegistry'
-import configureReducers from './configureReducers'
-
-module.exports = {
-  configureStore, configureReducers, preloadedState, getReducerRegistry,
-}
+export { default as configureStore } from './configureStore'
+export { default as preloadedState } from './preloadedState'
+export { default as getReducerRegistry } from './ReducerRegistry'
+export { default as configureReducers } from './configureReducers'

@@ -23,24 +23,44 @@
  */
 const styles = theme => ({
   configuration: {
-    formContainer: {
-      class: 'container-fluid',
-    },
-    formRow: {
-      class: 'row',
-    },
-    formGroup: {
-      defaultClass: 'col-xs-95 col-md-45',
-      fullWidthClass: 'col-xs-100',
-      defaultStyle: {
-        marginBottom: 10,
-        marginRight: 20,
+    viewTabsContainer: {
+      style: {
+        paddingTop: 20,
       },
     },
   },
   user: {
+    rootModuleContainer: {
+      flexGrow: 1,
+      flexShrink: 1,
+      display: 'flex',
+      flexDirection: 'column',
+    },
     viewModeButton: {
       minWidth: theme.button.iconButtonSize,
+    },
+    columnsDialog: {
+      widthPercent: 70,
+      heightPercent: 80,
+      actionsContainer: {
+        display: 'flex',
+      },
+      actionsSeparator: {
+        flexGrow: 1,
+        flexShrink: 1,
+      },
+      visibleColumnCell: {
+        color: theme.palette.textColor,
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      },
+      hiddenColumnCell: {
+        color: theme.palette.disabledColor,
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      },
     },
     filters: {
       style: {

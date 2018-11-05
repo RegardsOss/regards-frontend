@@ -41,4 +41,3 @@ export const OrderFileWithContent = PropTypes.shape({
 
 /** As reduced in pages  */
 export const OrderFilesList = PropTypes.objectOf(OrderFileWithContent)
-

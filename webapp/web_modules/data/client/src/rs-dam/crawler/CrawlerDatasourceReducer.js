@@ -34,4 +34,3 @@ export default (namespace) => {
   const instance = new CrawlerDatasourceReducer(namespace)
   return (state, action) => instance.reduce(state, action)
 }
-

@@ -32,16 +32,18 @@ export class RefreshPageableTableOption extends React.Component {
    * @param {*} shouldRefetchAll should refetch all table elements?
    * @param {*} pageMetadata page metadata
    * @param {*} fetchEntities fetch entities method
+   * @param {*} pathParams path parameters if any
+   * @param {*} requestParams request parameters if any
    * @return {Promise} dispatched promise
    */
-  static refreshTable(pageSize, shouldRefetchAll, pageMetadata, fetchEntities) {
+  static refreshTable(fetchEntities, pageSize, shouldRefetchAll, pageMetadata, pathParams = null, requestParams = null) {
     let fetchPageSize = pageSize
     if (shouldRefetchAll) {
       // compute page size to refresh all current entities in the table
       const lastPage = (pageMetadata && pageMetadata.number) || 0
       fetchPageSize = pageSize * (lastPage + 1)
     }
-    return fetchEntities(0, fetchPageSize)
+    return fetchEntities(0, fetchPageSize, pathParams, requestParams)
   }
 
   /**
@@ -61,11 +63,11 @@ export class RefreshPageableTableOption extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
-  static mapDispatchToProps(dispatch, { pageableTableActions, pathParams, requestParams }) {
+  static mapDispatchToProps(dispatch, { pageableTableActions }) {
     return {
-      fetchEntities: (pageIndex, pageSize) => dispatch(pageableTableActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, requestParams)),
+      fetchEntities: (pageIndex, pageSize, pathParams, requestParams) => dispatch(pageableTableActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, requestParams)),
     }
   }
 
@@ -74,9 +76,9 @@ export class RefreshPageableTableOption extends React.Component {
     shouldRefetchAll: PropTypes.bool,
     // page size, uses default page size when not provided
     pageSize: PropTypes.number,
-    // eslint-disable-next-line
+    // eslint-disable-next-line react/forbid-prop-types
     pathParams: PropTypes.object, // used in mapDispatchToProps, used as a map by fetch method
-    // eslint-disable-next-line
+    // eslint-disable-next-line react/forbid-prop-types
     requestParams: PropTypes.object, // used in mapDispatchToProps, used as a map by fetch method
     // eslint-disable-next-line react/no-unused-prop-types
     pageableTableActions: PropTypes.instanceOf(BasicPageableActions).isRequired, // used in map state to props
@@ -103,9 +105,10 @@ export class RefreshPageableTableOption extends React.Component {
  */
   onRefresh = () => {
     const {
-      pageSize, shouldRefetchAll, pageMetadata, fetchEntities,
+      pageSize, shouldRefetchAll, pageMetadata, fetchEntities, pathParams, requestParams,
     } = this.props
-    RefreshPageableTableOption.refreshTable(pageSize, shouldRefetchAll, pageMetadata, fetchEntities)
+    RefreshPageableTableOption.refreshTable(fetchEntities, pageSize, shouldRefetchAll,
+      pageMetadata, pathParams, requestParams)
   }
 
   render() {

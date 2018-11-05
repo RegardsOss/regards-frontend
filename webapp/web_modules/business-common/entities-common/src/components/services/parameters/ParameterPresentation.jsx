@@ -32,7 +32,10 @@ class ParameterPresentation extends React.Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
     description: PropTypes.string,
-    children: PropTypes.func,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
   }
 
   static defaultProps = {}
@@ -83,13 +86,14 @@ class ParameterPresentation extends React.Component {
     return (
       <div style={moduleTheme.pluginServiceDialog.parameterPresentation}>
         {children}
-        {description ?
-          <IconButton
+        {description
+          ? <IconButton
             style={moduleTheme.pluginServiceDialog.parameterDescriptionIcon}
             onClick={this.handleOpenDescription}
           >
             <HelpCircle />
-          </IconButton> : null}
+          </IconButton>
+          : null}
         {description ? this.renderDescriptionDialog() : null}
       </div>
     )

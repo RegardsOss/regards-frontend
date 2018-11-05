@@ -16,82 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccessGroup, AccessGroupContent, AccessGroupList } from './AccessGroup'
-import { AccessRight, AccessRightContent, AccessRightList } from './AccessRight'
-import { AttributeModelContent, AttributeModel, AttributeModelList, AttributeModelArray } from './AttributeModel'
-import { Collection, CollectionList, CollectionArray } from './Collection'
-import { Connection, ConnectionList } from './Connection'
-import { Dataset, DatasetContent, DatasetList } from './Dataset'
-import { DatasetWithAccessRight, DatasetWithAccessRightContent, DatasetWithAccessRightList } from './DatasetWithAccessRight'
-import { Datasource, DatasourceList } from './Datasource'
-import { DataFile } from './DataFile'
-import Entity from './Entity'
-import { FragmentContent, Fragment, FragmentList } from './Fragment'
-import { Model, ModelList } from './Model'
-import { ModelAttribute, ModelAttributeList } from './ModelAttribute'
-import { StandardAttributeModelContent, StandardAttributeModel } from './StandardAttributeModel'
-import { ModelAttributeComputationTypes, ModelAttributeComputationTypesList } from './ModelAttributeComputationTypes'
-import { Document, DocumentContent, DocumentList } from './Document'
-import { CrawlerDatasource, CrawlerDatasourceContent, CrawlerDatasourceList, CrawlerDatasourceArray } from './CrawlerDatasource'
+export { AccessGroup, AccessGroupContent, AccessGroupList } from './AccessGroup'
+export { AccessRight, AccessRightContent, AccessRightList } from './AccessRight'
+export {
+  attributeModelFields, AttributeModelContent, AttributeModel, AttributeModelList, AttributeModelArray,
+} from './AttributeModel'
+export { Collection, CollectionList, CollectionArray } from './Collection'
+export { Connection, ConnectionList } from './Connection'
+export { Dataset, DatasetContent, DatasetList } from './Dataset'
+export { DatasetWithAccessRight, DatasetWithAccessRightContent, DatasetWithAccessRightList } from './DatasetWithAccessRight'
+export { Datasource, DatasourceList } from './Datasource'
+export { DataFile } from './DataFile'
+export { default as Entity } from './Entity'
 
-module.exports = {
-  AccessGroup,
-  AccessGroupContent,
-  AccessGroupList,
-
-  AccessRight,
-  AccessRightContent,
-  AccessRightList,
-
-  AttributeModel,
-  AttributeModelContent,
-  AttributeModelList,
-  AttributeModelArray,
-
-  Collection,
-  CollectionList,
-  CollectionArray,
-
-  Connection,
-  ConnectionList,
-
-  DataFile,
-
-  Dataset,
-  DatasetContent,
-  DatasetList,
-
-  DatasetWithAccessRight,
-  DatasetWithAccessRightContent,
-  DatasetWithAccessRightList,
-
-  Document,
-  DocumentContent,
-  DocumentList,
-
-  CrawlerDatasource,
-  CrawlerDatasourceContent,
-  CrawlerDatasourceList,
-  CrawlerDatasourceArray,
-
-  Datasource,
-  DatasourceList,
-
-  Entity,
-
-  FragmentContent,
-  Fragment,
-  FragmentList,
-
-  Model,
-  ModelList,
-
-  ModelAttribute,
-  ModelAttributeList,
-
-  ModelAttributeComputationTypes,
-  ModelAttributeComputationTypesList,
-
-  StandardAttributeModelContent,
-  StandardAttributeModel,
-}
+export { FragmentContent, Fragment, FragmentList } from './Fragment'
+export { Model, ModelList } from './Model'
+export { ModelAttribute, ModelAttributeList } from './ModelAttribute'
+export { StandardAttributeModelContent, StandardAttributeModel } from './StandardAttributeModel'
+export { ModelAttributeComputationTypes, ModelAttributeComputationTypesList } from './ModelAttributeComputationTypes'
+export { Document, DocumentContent, DocumentList } from './Document'
+export {
+  CrawlerDatasource, CrawlerDatasourceContent, CrawlerDatasourceList, CrawlerDatasourceArray,
+} from './CrawlerDatasource'

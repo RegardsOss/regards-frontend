@@ -16,17 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const Connection = PropTypes.shape({
+export const Connection = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
     label: PropTypes.string,
   }).isRequired,
 })
 
-const ConnectionList = PropTypes.objectOf(Connection)
-
-
-module.exports = {
-  Connection,
-  ConnectionList,
-}
+export const ConnectionList = PropTypes.objectOf(Connection)

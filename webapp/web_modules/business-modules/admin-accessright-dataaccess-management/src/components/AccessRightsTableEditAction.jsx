@@ -39,6 +39,7 @@ class AccessRightsTableEditAction extends React.Component {
   }
 
   static iconStyle = { height: 23, width: 23 }
+
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
   onEdit = () => {
@@ -51,7 +52,7 @@ class AccessRightsTableEditAction extends React.Component {
     const { intl: { formatMessage } } = this.context
     return (
       <IconButton
-        className={`selenium-edit-${this.props.entity.content.label}`}
+        className={`selenium-edit-${this.props.entity.content.dataset.feature.label}`}
         title={formatMessage({ id: 'accessright.edit.tooltip' })}
         iconStyle={AccessRightsTableEditAction.iconStyle}
         style={AccessRightsTableEditAction.buttonStyle}

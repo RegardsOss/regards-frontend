@@ -53,30 +53,29 @@ describe('[Order Common] Testing DownloadOrderMetaLinkFileContainer', () => {
     [OrderDomain.ORDER_STATUS_ENUM.DELETED]: false,
     [OrderDomain.ORDER_STATUS_ENUM.REMOVED]: false,
   }
-  forEach(statusTestCases, (canDownload, status) =>
-    it(`should render correctly in state ${status}, ${canDownload ? 'enabling' : 'disabling'} download option`, () => {
-      const mockedOrder = {
-        content: {
-          ...SOME_ORDERS.content[0].content,
-          status,
-        },
-        links: [],
-      }
-      const props = {
-        entity: mockedOrder,
-        authentication: SOME_AUTHENTICATION,
-      }
-      const enzymeWrapper = shallow(<DownloadOrderMetaLinkFileContainer {...props} />, { context })
-      const component = enzymeWrapper.find(DownloadOrderMetaLinkFileComponent)
-      assert.lengthOf(component, 1, 'There should be the component')
-      if (canDownload) {
-        assert.isTrue(component.props().canDownload, 'download should be available')
-      } else {
-        assert.isFalse(component.props().canDownload, 'download should not be available')
-      }
-      const componentURL = component.props().downloadMetalinkURL
-      const testActions = new OrderClient.DownloadOrderMetalinkFileActions()
-      assert.equal(componentURL, testActions.getFileDownloadLink(mockedOrder.content.id, SOME_AUTHENTICATION.result.access_token), 'URL should be correctly generated ')
-      assert.include(componentURL, SOME_AUTHENTICATION.result.access_token, 'Token should be specified in URL')
-    }))
+  forEach(statusTestCases, (canDownload, status) => it(`should render correctly in state ${status}, ${canDownload ? 'enabling' : 'disabling'} download option`, () => {
+    const mockedOrder = {
+      content: {
+        ...SOME_ORDERS.content[0].content,
+        status,
+      },
+      links: [],
+    }
+    const props = {
+      entity: mockedOrder,
+      authentication: SOME_AUTHENTICATION,
+    }
+    const enzymeWrapper = shallow(<DownloadOrderMetaLinkFileContainer {...props} />, { context })
+    const component = enzymeWrapper.find(DownloadOrderMetaLinkFileComponent)
+    assert.lengthOf(component, 1, 'There should be the component')
+    if (canDownload) {
+      assert.isTrue(component.props().canDownload, 'download should be available')
+    } else {
+      assert.isFalse(component.props().canDownload, 'download should not be available')
+    }
+    const componentURL = component.props().downloadMetalinkURL
+    const testActions = new OrderClient.DownloadOrderMetalinkFileActions()
+    assert.equal(componentURL, testActions.getFileDownloadLink(mockedOrder.content.id, SOME_AUTHENTICATION.result.access_token), 'URL should be correctly generated ')
+    assert.include(componentURL, SOME_AUTHENTICATION.result.access_token, 'Token should be specified in URL')
+  }))
 })

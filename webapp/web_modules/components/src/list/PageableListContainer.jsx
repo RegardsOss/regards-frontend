@@ -180,6 +180,9 @@ class PageableListContainer extends React.Component {
     this.props.fetchEntities(pageNumber, this.props.nbEntityByPage, {}, { ...idQueryParam, ...this.props.queryParams })
   }
 
+  // eslint-disable-next-line react/sort-comp
+  debouncedHandleFetch = debounce(this.handleFetch, 300)
+
   /**
    * Handle the action of loading new entities after a scroll
    */
@@ -190,7 +193,6 @@ class PageableListContainer extends React.Component {
     }
   }
 
-  debouncedHandleFetch = debounce(this.handleFetch, 300)
 
   render() {
     const { searchValue } = this.state
@@ -224,7 +226,7 @@ class PageableListContainer extends React.Component {
         >
           {map(this.state.loadedEntities, (entity) => {
             const selected = some(
-this.props.selectedEntities,
+              this.props.selectedEntities,
               selectedEntity => selectedEntity[this.props.entityIdentifier] === entity.content[this.props.entityIdentifier],
             )
             return (

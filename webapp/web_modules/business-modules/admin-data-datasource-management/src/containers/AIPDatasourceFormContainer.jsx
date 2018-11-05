@@ -31,7 +31,7 @@ import AIPDatasourceFormComponent from '../components/AIPDatasourceFormComponent
 import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
 import messages from '../i18n'
-import { datasourceSelectors, datasourceActions } from './../clients/DatasourceClient'
+import { datasourceSelectors, datasourceActions } from '../clients/DatasourceClient'
 
 const { findParam } = PluginConfParamsUtils
 
@@ -250,9 +250,9 @@ export class AIPDatasourceFormContainer extends React.Component {
     if (isCreating) {
       const datasource = {
         label: values.label,
-        pluginClassName: 'fr.cnes.regards.modules.datasources.plugins.AipDataSourcePlugin',
+        pluginClassName: 'fr.cnes.regards.modules.dam.plugins.datasources.AipDataSourcePlugin',
         pluginId: 'aip-storage-datasource',
-        interfaceNames: ['fr.cnes.regards.modules.datasources.domain.plugins.IDBDataSourcePlugin'],
+        interfaceNames: ['fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourcePlugin'],
         parameters,
       }
       this.handleCreate(datasource)

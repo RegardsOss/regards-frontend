@@ -18,7 +18,7 @@
  **/
 import { AdminInstanceDomain } from '@regardsoss/domain'
 
-const Account = PropTypes.shape({
+export const Account = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
     lastName: PropTypes.string,
@@ -28,7 +28,4 @@ const Account = PropTypes.shape({
   }),
 })
 
-const AccountList = PropTypes.objectOf(Account)
-
-
-module.exports = { Account, AccountList }
+export const AccountList = PropTypes.objectOf(Account)

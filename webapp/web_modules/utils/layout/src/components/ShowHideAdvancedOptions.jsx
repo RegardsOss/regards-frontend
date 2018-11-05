@@ -25,12 +25,12 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Xavier-Alexaandre Brochard
  */
 const ShowHideAdvancedOptions = ({ advanced = false, onClick = () => {} }, { muiTheme, intl: { formatMessage } }) => {
-  const iconToggleAdvanced = advanced ?
-    <KeyboardArrowUp color={muiTheme.palette.primary1Color} /> :
-    <KeyboardArrowDown color={muiTheme.palette.primary1Color} />
-  const messageAdvanced = advanced ?
-    formatMessage({ id: 'container.form.advanced.mode.hide' }) :
-    formatMessage({ id: 'container.form.advanced.mode.show' })
+  const iconToggleAdvanced = advanced
+    ? <KeyboardArrowUp color={muiTheme.palette.primary1Color} />
+    : <KeyboardArrowDown color={muiTheme.palette.primary1Color} />
+  const messageAdvanced = advanced
+    ? formatMessage({ id: 'container.form.advanced.mode.hide' })
+    : formatMessage({ id: 'container.form.advanced.mode.show' })
 
   return (
     <span

@@ -17,21 +17,23 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
+import { DamDomain } from '@regardsoss/domain'
 import TwoTemporalCriteriaComponent from '../../src/components/TwoTemporalCriteriaComponent'
-import TwoTemporalCriteriaSimpleComponent from '../../src/components/TwoTemporalCriteriaSimpleComponent'
-import TwoTemporalCriteriaComposedComponent from '../../src/components/TwoTemporalCriteriaComposedComponent'
+import MultipleAttributesContainer from '../../src/containers/MultipleAttributesContainer'
+import SingleAttributeContainer from '../../src/containers/SingleAttributeContainer'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
+
 
 /**
  * Test case for {@link TwoTemporalCriteriaComponent}
  *
  * @author Xavier-Alexandre Brochard
  */
-describe('[PLUGIN TWO TEMPORAL CRITERIA] Testing the two temporal criteria component', () => {
+describe('[PLUGIN TWO TEMPORAL CRITERIA] Testing TwoTemporalCriteriaComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
   it('should exists', () => {
@@ -44,23 +46,23 @@ describe('[PLUGIN TWO TEMPORAL CRITERIA] Testing the two temporal criteria compo
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
-      registerClear: () => {},
+      registerClear: () => { },
       attributes: {
         firstField: {
+          ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601),
           name: 'firstAttribute',
-          description: 'First attribute to search',
-          type: 'numerical',
+          jsonPath: 'x.attr1',
         },
         secondField: {
+          ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601),
           name: 'secondAttribute',
-          description: 'Second attribute to search',
-          type: 'temporal',
+          jsonPath: 'x.attr2',
         },
       },
     }
     const enzymeWrapper = shallow(<TwoTemporalCriteriaComponent {...props} />, { context })
-    expect(enzymeWrapper.find(TwoTemporalCriteriaSimpleComponent)).to.have.length(1)
-    expect(enzymeWrapper.find(TwoTemporalCriteriaComposedComponent)).to.have.length(0)
+    assert.lengthOf(enzymeWrapper.find(MultipleAttributesContainer), 1)
+    assert.lengthOf(enzymeWrapper.find(SingleAttributeContainer), 0)
   })
   it('should render the composed component when just a single attribute', () => {
     const props = {
@@ -70,15 +72,12 @@ describe('[PLUGIN TWO TEMPORAL CRITERIA] Testing the two temporal criteria compo
       getDefaultState: () => { },
       savePluginState: () => { },
       attributes: {
-        firstAttribute: {
-          name: 'attribute',
-          description: 'First attribute to search',
-          type: 'temporal',
-        },
+        firstAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601),
+        secondAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601),
       },
     }
     const enzymeWrapper = shallow(<TwoTemporalCriteriaComponent {...props} />, { context })
-    expect(enzymeWrapper.find(TwoTemporalCriteriaSimpleComponent)).to.have.length(0)
-    expect(enzymeWrapper.find(TwoTemporalCriteriaComposedComponent)).to.have.length(1)
+    assert.lengthOf(enzymeWrapper.find(MultipleAttributesContainer), 0)
+    assert.lengthOf(enzymeWrapper.find(SingleAttributeContainer), 1)
   })
 })

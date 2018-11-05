@@ -17,12 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { accountWaitingActions } from '@regardsoss/admin-account-management'
+import { AdminInstanceClient } from '@regardsoss/client'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { connect } from '@regardsoss/redux'
 import { waitingAccessUsersEntitiesActions } from '../clients/WaitingAccessUsersEntitiesClient'
+
 
 /** Notifications fetchers for project admin interface */
 const projectNotificationsFetchers = [
@@ -37,6 +38,7 @@ const projectNotificationsDependencies = [
 ]
 
 /** Notifications fetchers for instance admin interface */
+const accountWaitingActions = new AdminInstanceClient.AccountWaitingActions() // default client actions
 const instanceNotificationsFetchers = [
   // fetch account waiting instance administrator validation
   () => accountWaitingActions.fetchWaitingAccountsEntityList(),
@@ -103,9 +105,9 @@ const mapStateTopProps = (state, { isOnInstanceDashboard }) => ({
 })
 
 const mapDispatchToProps = (dispatch, { isOnInstanceDashboard }) => {
-  const [fetchMethods, dependencies] = isOnInstanceDashboard ?
-    [instanceNotificationsFetchers, instanceNotificationsDependencies] :
-    [projectNotificationsFetchers, projectNotificationsDependencies]
+  const [fetchMethods, dependencies] = isOnInstanceDashboard
+    ? [instanceNotificationsFetchers, instanceNotificationsDependencies]
+    : [projectNotificationsFetchers, projectNotificationsDependencies]
   return {
     fetchMethods: fetchMethods.map(method => () => dispatch(method())),
     dependencies,

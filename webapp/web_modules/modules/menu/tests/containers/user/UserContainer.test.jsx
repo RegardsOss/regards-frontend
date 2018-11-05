@@ -18,54 +18,145 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import UserContainer from '../../../src/containers/user/UserContainer'
+import { UserContainer } from '../../../src/containers/user/UserContainer'
+import MainMenuComponent from '../../../src/components/user/MainMenuComponent'
 import styles from '../../../src/styles/styles'
-
-const router = require('react-router')
 
 const context = buildTestContext(styles)
 
+const commonProps = {
+  project: 'any',
+  appName: 'any',
+  type: 'any',
+  userRole: 'bindedRole',
+  borrowableRoles: {
+    1: {
+      content: {
+        id: 1,
+        name: 'ROLE1',
+        parentRole: {
+          name: 'PARENT OF ROLE 1',
+          id: 2,
+        },
+      },
+    },
+  },
+  moduleConf: {
+    title: 'any',
+    contacts: 'any@any.fr',
+    displayAuthentication: true,
+    displayCartSelector: true,
+    displayNotificationsSelector: true,
+    displayLocaleSelector: true,
+    displayThemeSelector: true,
+    projectAboutPage: 'www.any.com',
+    previewRole: 'providedRole',
+    roleList: {
+      3: {
+        content: {
+          id: 3,
+          name: 'ROLE3',
+          parentRole: {
+            name: 'PARENT OF ROLE 3',
+            id: 4,
+          },
+        },
+      },
+    },
+  },
+  fetchBorrowableRoles: () => { },
+  flushBorrowableRoles: () => { },
+}
+
 describe('[Menu] Testing UserContainer', () => {
-  before(() => {
-    // mocking router browser history
-    router.browserHistory = {
-      getCurrentLocation: () => ({ query: {}, pathname: 'hello/world' }),
-    }
-    testSuiteHelpers.before()
-  })
-  after(() => {
-    delete router.browserHistory
-    testSuiteHelpers.after()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
   it('should exists', () => {
     assert.isDefined(UserContainer)
   })
-  it('should render correctly with complete conf', () => {
+  it('should render correctly with complete conf in ADMIN_INSTANCE mode', () => {
     const props = {
-      project: 'any',
-      appName: 'any',
-      type: 'any',
+      ...commonProps,
+      isInstance: true,
       moduleConf: {
-        title: 'any',
-        contacts: 'any@any.fr',
-        displayAuthentication: true,
-        displayCartSelector: true,
-        displayNotificationsSelector: true,
-        displayLocaleSelector: true,
-        displayThemeSelector: true,
-        projectAboutPage: 'www.any.com',
+        ...commonProps.moduleConf,
+        displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN_INSTANCE,
       },
     }
-    shallow(<UserContainer {...props} />, { context })
+    const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
+    const mainComponent = enzymeWrapper.find(MainMenuComponent)
+    assert.lengthOf(mainComponent, 1)
+    // Check: properties are correctly reported, borrowable role list comes from binded borrowable roles and user role too
+    testSuiteHelpers.assertWrapperProperties(mainComponent, {
+      moduleConf: props.moduleConf,
+      currentRole: props.userRole,
+      roleList: props.borrowableRoles, // should come from fetched borrowable roles
+      borrowableRoles: props.borrowableRoles,
+    })
   })
-  it('should render correctly with no conf', () => {
+  it('should render correctly with complete conf in ADMIN_PROJECT mode', () => {
     const props = {
-      project: 'any',
-      appName: 'any',
-      type: 'any',
+      ...commonProps,
+      isInstance: false,
+      moduleConf: {
+        ...commonProps.moduleConf,
+        displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN_PROJECT,
+      },
     }
-    shallow(<UserContainer {...props} />, { context })
+    const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
+    const mainComponent = enzymeWrapper.find(MainMenuComponent)
+    assert.lengthOf(mainComponent, 1)
+    // Check: properties are correctly reported, borrowable role list comes from binded borrowable roles and user role too
+    testSuiteHelpers.assertWrapperProperties(mainComponent, {
+      moduleConf: props.moduleConf,
+      currentRole: props.userRole,
+      roleList: props.borrowableRoles, // should come from fetched borrowable roles
+      borrowableRoles: props.borrowableRoles,
+    })
+  })
+  it('should render correctly with complete conf in USER mode', () => {
+    const props = {
+      ...commonProps,
+      isInstance: false,
+      currentModuleId: 555,
+      moduleConf: {
+        ...commonProps.moduleConf,
+        displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.USER,
+      },
+    }
+    const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
+    const mainComponent = enzymeWrapper.find(MainMenuComponent)
+    assert.lengthOf(mainComponent, 1)
+    // Check: properties are correctly reported, borrowable role list comes from binded borrowable roles and user role too
+    testSuiteHelpers.assertWrapperProperties(mainComponent, {
+      moduleConf: props.moduleConf,
+      currentRole: props.userRole,
+      roleList: props.borrowableRoles, // should come from fetched borrowable roles
+      borrowableRoles: props.borrowableRoles,
+      currentModuleId: 555,
+    })
+  })
+  it('should render correctly with complete conf in PREVIEW mode', () => {
+    const props = {
+      ...commonProps,
+      isInstance: false,
+      moduleConf: {
+        ...commonProps.moduleConf,
+        displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW,
+      },
+    }
+    const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
+    const mainComponent = enzymeWrapper.find(MainMenuComponent)
+    assert.lengthOf(mainComponent, 1)
+    // Check: properties are correctly reported, borrowable role list comes from binded borrowable roles and user role too
+    testSuiteHelpers.assertWrapperProperties(mainComponent, {
+      moduleConf: props.moduleConf,
+      currentRole: props.moduleConf.previewRole, // should come from preview configuration
+      roleList: props.moduleConf.roleList, // should come from preview configuration
+      borrowableRoles: props.borrowableRoles,
+    })
   })
 })

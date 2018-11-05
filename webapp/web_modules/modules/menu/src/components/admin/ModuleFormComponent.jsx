@@ -19,11 +19,12 @@
 import get from 'lodash/get'
 import RadioButton from 'material-ui/RadioButton'
 import Subheader from 'material-ui/Subheader'
-import { UIDomain } from '@regardsoss/domain'
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { RenderTextField, RenderCheckbox, RenderRadio, Field, FieldArray, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderTextField, RenderCheckbox, RenderRadio, Field, FieldArray, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { HOME_ICON_TYPES_ENUM } from '../../domain/HomeIconType'
 import NavigationArrayFieldRender from './navigation/NavigationArrayFieldRender'
 import MenuPreviewComponent from './MenuPreviewComponent'
@@ -38,8 +39,7 @@ class ModuleFormComponent extends React.Component {
     project: PropTypes.string,
     adminForm: AccessShapes.moduleAdminForm,
     dynamicModules: AccessShapes.ModuleArray,
-    // locale (for modules titles display)
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
+    roleList: AdminShapes.RoleList.isRequired,
   }
 
   static contextTypes = {
@@ -48,6 +48,7 @@ class ModuleFormComponent extends React.Component {
   }
 
   static validateOptionalEmail = value => value && ValidationHelpers.email(value)
+
   static validateOptionalUrl = value => value && ValidationHelpers.url(value)
 
   constructor(props) {
@@ -106,7 +107,7 @@ class ModuleFormComponent extends React.Component {
 
   render() {
     const {
-      appName, project, adminForm, dynamicModules, locale,
+      appName, project, adminForm, dynamicModules, roleList,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { admin: { subheaderStyle, firstSubheaderStyle, radioButtonGroupLabelStyle } } } = this.context
     return (
@@ -223,18 +224,19 @@ class ModuleFormComponent extends React.Component {
         <FieldArray
           name={this.CONF_NAVIGATION}
           component={NavigationArrayFieldRender}
-          locale={locale}
           dynamicModules={dynamicModules}
+          roleList={roleList}
           homeConfiguration={get(adminForm, `form.${this.HOME_CONFIGURATION_ROOT}`)}
           navigationItems={get(adminForm, `form.${this.CONF_NAVIGATION}`, [])}
           changeNavigationFieldValue={this.changeNavigationFieldValue}
         />
-        <Subheader style={subheaderStyle} >
+        <Subheader style={subheaderStyle}>
           {formatMessage({ id: 'user.menu.form.preview.title' })}
         </Subheader>
         <MenuPreviewComponent
           appName={appName}
           project={project}
+          roleList={roleList}
           moduleConfiguration={get(adminForm, `form.${adminForm.currentNamespace}`)}
         />
       </div>

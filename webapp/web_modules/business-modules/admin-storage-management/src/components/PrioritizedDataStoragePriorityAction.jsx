@@ -39,6 +39,7 @@ class PrioritizedDataStoragePriorityAction extends React.Component {
   }
 
   static iconStyle = { height: 23, width: 23 }
+
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
   isActionable = () => {
@@ -53,9 +54,9 @@ class PrioritizedDataStoragePriorityAction extends React.Component {
     const { intl: { formatMessage } } = this.context
     const { entity: { content } } = this.props
 
-    const title = this.props.onUp ?
-      formatMessage({ id: 'storage.data-storage.plugins.list.up.priority.button' }) :
-      formatMessage({ id: 'storage.data-storage.plugins.list.down.priority.button' })
+    const title = this.props.onUp
+      ? formatMessage({ id: 'storage.data-storage.plugins.list.up.priority.button' })
+      : formatMessage({ id: 'storage.data-storage.plugins.list.down.priority.button' })
     return (
       <IconButton
         className={`selenium-edit-${content.id}`}

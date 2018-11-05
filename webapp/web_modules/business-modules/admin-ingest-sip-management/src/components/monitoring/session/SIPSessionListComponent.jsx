@@ -16,11 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardTitle, CardActions, CardMedia } from 'material-ui/Card'
+import isNil from 'lodash/isNil'
+import find from 'lodash/find'
+import {
+  Card, CardTitle, CardActions, CardMedia,
+} from 'material-ui/Card'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import IconButton from 'material-ui/IconButton'
 import Error from 'material-ui/svg-icons/alert/error'
-import Arrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import {
   Breadcrumb, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
@@ -30,6 +35,8 @@ import {
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import SIPSessionListFiltersComponent from './SIPSessionListFiltersComponent'
+import SIPSessionRetryActionRenderer from './SIPSessionRetryActionRenderer'
+import SIPSessionDetailAction from './SIPSessionDetailAction'
 import { sessionActions, sessionSelectors } from '../../../clients/SessionClient'
 import messages from '../../../i18n'
 import styles from '../../../styles'
@@ -49,6 +56,8 @@ class SIPSessionListComponent extends React.Component {
     onRefresh: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
+    retrySessionSubmission: PropTypes.func.isRequired,
+    retrySessionGeneration: PropTypes.func.isRequired,
     initialFilters: PropTypes.objectOf(PropTypes.string),
   }
 
@@ -64,6 +73,7 @@ class SIPSessionListComponent extends React.Component {
   state = {
     appliedFilters: {},
     sessionToDelete: null,
+    sessionToRetry: null,
   }
 
   onConfirmDelete = () => {
@@ -79,15 +89,21 @@ class SIPSessionListComponent extends React.Component {
     })
   }
 
+  onRetry = (sessionToRetry) => {
+    this.setState({
+      sessionToRetry,
+    })
+  }
+
   getProgressLabel = step => (entity) => {
     const progress = entity.content[`${step}SipsCount`]
-    const total = entity.content.sipsCount
+    const total = entity.content.sipsCount - entity.content.deletedSipsCount
     return `${progress} / ${total}`
   }
 
   getProgressPercent = step => (entity) => {
     const progress = entity.content[`${step}SipsCount`]
-    const total = entity.content.sipsCount
+    const total = entity.content.sipsCount - entity.content.deletedSipsCount
     return progress / total * 100
   }
 
@@ -97,9 +113,29 @@ class SIPSessionListComponent extends React.Component {
 
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
 
+  handleRetrySubmission = () => {
+    this.props.retrySessionSubmission(this.state.sessionToRetry.content, this.state.appliedFilters)
+      .then(() => {
+        this.closeRetryDialog()
+      })
+  }
+
+  handleRetryGeneration = () => {
+    this.props.retrySessionGeneration(this.state.sessionToRetry.content, this.state.appliedFilters)
+      .then(() => {
+        this.closeRetryDialog()
+      })
+  }
+
   closeDeleteDialog = () => {
     this.setState({
       sessionToDelete: null,
+    })
+  }
+
+  closeRetryDialog = () => {
+    this.setState({
+      sessionToRetry: null,
     })
   }
 
@@ -121,7 +157,7 @@ class SIPSessionListComponent extends React.Component {
       pageSize, resultsCount, initialFilters, entitiesLoading,
     } = this.props
     const { intl, muiTheme, moduleTheme: { session } } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const { appliedFilters } = this.state
 
     const emptyComponent = (
@@ -133,25 +169,22 @@ class SIPSessionListComponent extends React.Component {
 
     const columns = [
       // id column
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.id',
-        intl.formatMessage({ id: 'sips.session.table.headers.id' }),
-        'content.id',
-      ),
-      ...['generated', 'stored', 'indexed'].map(step =>
-        TableColumnBuilder.buildSimpleColumnWithCell(
-          `column.${step}`,
-          intl.formatMessage({ id: `sips.session.table.headers.${step}` }),
-          TableColumnBuilder.buildProgressRenderCell(this.getProgressPercent(step), this.getProgressLabel(step)),
-        )),
-      TableColumnBuilder.buildSimpleColumnWithCell(
-        'column.errors',
-        intl.formatMessage({ id: 'sips.session.table.headers.errors' }),
-        {
+      new TableColumnBuilder('column.id').titleHeaderCell().propertyRenderCell('content.id')
+        .label(intl.formatMessage({ id: 'sips.session.table.headers.id' }))
+        .build(),
+      // steps columns
+      ...['generated', 'stored', 'indexed'].map(step => new TableColumnBuilder(`column.${step}`).titleHeaderCell()
+        .progressRenderCell(this.getProgressPercent(step), this.getProgressLabel(step))
+        .label(intl.formatMessage({ id: `sips.session.table.headers.${step}` }))
+        .build()),
+      // errors columns
+      new TableColumnBuilder('column.errors').titleHeaderCell()
+        .label(intl.formatMessage({ id: 'sips.session.table.headers.errors' }))
+        .rowCellDefinition({
           Constructor: props => (
             <div style={session.error.rowColumnStyle}>
               <div style={session.error.textStyle}>
-                {props.entity.content.errorSipsCount} / {props.entity.content.sipsCount}
+                {props.entity.content.errorSipsCount}
               </div>
               <ShowableAtRender
                 style={session.error.iconContainerStyle}
@@ -169,44 +202,28 @@ class SIPSessionListComponent extends React.Component {
               </ShowableAtRender>
             </div>
           ),
+        })
+        .build(),
+      new TableColumnBuilder('column.date').titleHeaderCell().propertyRenderCell('content.lastActivationDate', DateValueRender)
+        .label(intl.formatMessage({ id: 'sips.session.table.headers.date' }))
+        .build(),
+      new TableColumnBuilder().optionsColumn([{
+        OptionConstructor: SIPSessionRetryActionRenderer,
+        optionProps: {
+          onRetry: this.onRetry,
         },
-      ),
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.date',
-        intl.formatMessage({ id: 'sips.session.table.headers.date' }),
-        'content.lastActivationDate',
-        undefined,
-        undefined,
-        DateValueRender,
-      ),
-      TableColumnBuilder.buildOptionsColumn(
-        'options',
-        [
-          {
-            OptionConstructor: TableDeleteOption,
-            optionProps: {
-              fetchPage: this.props.fetchPage,
-              onDelete: this.onDelete,
-              queryPageSize: 20,
-            },
-          },
-          {
-            OptionConstructor: props => (
-              <IconButton
-                title={intl.formatMessage({
-                  id: 'sips.session.table.actions.list',
-                })}
-                onClick={() => this.props.handleOpen(props.entity.content.id)}
-              >
-                <Arrow />
-              </IconButton>
-            ),
-            optionProps: {},
-          },
-        ],
-        true,
-        fixedColumnsWidth,
-      ),
+      }, {
+        OptionConstructor: TableDeleteOption,
+        optionProps: {
+          fetchPage: this.props.fetchPage,
+          onDelete: this.onDelete,
+          queryPageSize: 20,
+        },
+      }, {
+        OptionConstructor: SIPSessionDetailAction,
+        optionProps: { onClick: this.props.handleOpen },
+      },
+      ]).build(),
     ]
 
     return (
@@ -223,8 +240,8 @@ class SIPSessionListComponent extends React.Component {
             pageActions={sessionActions}
             pageSelectors={sessionSelectors}
             pageSize={pageSize}
-            minRowCount={0}
-            maxRowCount={10}
+            minRowCount={minRowCount}
+            maxRowCount={maxRowCount}
             columns={columns}
             requestParams={appliedFilters}
             emptyComponent={emptyComponent}
@@ -248,6 +265,62 @@ class SIPSessionListComponent extends React.Component {
     return null
   }
 
+  renderRetryDialog = () => {
+    if (this.state.sessionToRetry) {
+      let submission = false
+      let generation = false
+      const actions = [
+        <FlatButton
+          key="cancel"
+          label={this.context.intl.formatMessage({ id: 'sips.session.retry.cancel' })}
+          primary
+          keyboardFocused
+          onClick={this.closeRetryDialog}
+        />,
+      ]
+      if (!isNil(find(this.state.sessionToRetry.links, { rel: 'retrySubmission' }))) {
+        actions.push(
+          <FlatButton
+            key="retrySubmission"
+            label={this.context.intl.formatMessage({ id: 'sips.session.retry.submission.button' })}
+            onClick={this.handleRetrySubmission}
+          />,
+        )
+        submission = true
+      }
+
+      if (!isNil(find(this.state.sessionToRetry.links, { rel: 'retryGeneration' }))) {
+        actions.push(
+          <FlatButton
+            key="retryGeneration"
+            label={this.context.intl.formatMessage({ id: 'sips.session.retry.generation.button' })}
+            onClick={this.handleRetryGeneration}
+          />,
+        )
+        generation = true
+      }
+      let message = this.context.intl.formatMessage({ id: 'sips.session.retry.message' })
+      if (!generation) {
+        message = this.context.intl.formatMessage({ id: 'sips.session.retry.submission.message' })
+      }
+      if (!submission) {
+        this.context.intl.formatMessage({ id: 'sips.session.retry.submission.message' })
+      }
+
+      return (
+        <Dialog
+          title={this.context.intl.formatMessage({ id: 'sips.session.retry.title' }, { id: this.state.sessionToRetry.content.id })}
+          actions={actions}
+          modal={false}
+          open
+        >
+          {message}
+        </Dialog>
+      )
+    }
+    return null
+  }
+
   render() {
     const { intl } = this.context
     return (
@@ -264,6 +337,7 @@ class SIPSessionListComponent extends React.Component {
           />
         </CardActions>
         {this.renderDeleteConfirmDialog()}
+        {this.renderRetryDialog()}
       </Card>
     )
   }

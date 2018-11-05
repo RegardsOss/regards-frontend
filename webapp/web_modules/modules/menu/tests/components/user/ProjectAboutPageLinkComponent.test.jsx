@@ -18,7 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import IconButton from 'material-ui/IconButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import ProjectAboutPageLinkComponent from '../../../src/components/user/ProjectAboutPageLinkComponent'
 import styles from '../../../src/styles/styles'
 
@@ -35,12 +37,37 @@ describe('[Menu] Testing ProjectAboutPageLinkComponent', () => {
   it('should exists', () => {
     assert.isDefined(ProjectAboutPageLinkComponent)
   })
-  it('should render correctly', () => {
+  it('should render correctly in default mode', () => {
     const props = {
       appName: 'hello-app',
       project: 'hello-world',
       projectAboutPage: 'gg.com',
+      hidePage: false,
     }
-    shallow(<ProjectAboutPageLinkComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<ProjectAboutPageLinkComponent {...props} />, { context })
+    const moduleWrapper = enzymeWrapper.find(LazyModuleComponent)
+    assert.lengthOf(moduleWrapper, 1, 'The module should be rendered')
+    const moduleProps = moduleWrapper.props()
+    assert.equal(moduleProps.project, props.project, 'Project should be correctly reported')
+    assert.equal(moduleProps.appName, props.appName, 'appName should be correctly reported')
+    assert.isOk(moduleProps.module, 'There should be module field')
+    assert.equal(moduleProps.module.type, modulesManager.AllDynamicModuleTypes.PROJECT_ABOUT_PAGE, 'Module type should be correctly set')
+    assert.equal(moduleProps.module.applicationId, props.appName, 'Application ID should be correctly set')
+    assert.isTrue(moduleProps.module.active, 'Module should be active')
+    assert.isOk(moduleProps.module.conf, 'There should be module configuration')
+    assert.equal(moduleProps.module.conf.htmlPath, props.projectAboutPage, 'page URL should be correctly set')
+    assert.isOk(moduleProps.module.conf.buttonComponent, 'The button should be locally built')
+  })
+  it('should render correctly hiding page (preview mode)', () => {
+    const props = {
+      appName: 'hello-app',
+      project: 'hello-world',
+      projectAboutPage: 'gg.com',
+      hidePage: true,
+    }
+    const enzymeWrapper = shallow(<ProjectAboutPageLinkComponent {...props} />, { context })
+    const moduleWrapper = enzymeWrapper.find(LazyModuleComponent)
+    assert.lengthOf(moduleWrapper, 0, 'The module should not be used when hiding page')
+    assert.lengthOf(enzymeWrapper.find(IconButton), 1, 'The button should be directly rendered')
   })
 })

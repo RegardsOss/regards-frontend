@@ -25,7 +25,9 @@ import fpfilter from 'lodash/fp/filter'
 import last from 'lodash/fp/last'
 import { Link } from 'react-router'
 import AppBar from 'material-ui/AppBar'
-import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
+import {
+  Card, CardActions, CardText, CardTitle,
+} from 'material-ui/Card'
 import Checkbox from 'material-ui/Checkbox'
 import Drawer from 'material-ui/Drawer'
 import AddCircle from 'material-ui/svg-icons/content/add-circle'
@@ -43,6 +45,7 @@ import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
+import { PluginDescriptionDialog } from '@regardsoss/microservice-plugin-configurator'
 import moduleStyles from '../../styles/styles'
 import { pluginConfigurationActions, pluginConfigurationByPluginIdActions } from '../../clients/PluginConfigurationClient'
 
@@ -67,11 +70,16 @@ export default class PluginMetaDataListComponent extends React.Component {
     getAddURL: PropTypes.func.isRequired,
     getBackURL: PropTypes.func.isRequired,
     onClearPluginCache: PropTypes.func.isRequired,
+    enableConfiguration: PropTypes.bool,
   }
 
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
+  }
+
+  static defaultProps = {
+    enableConfiguration: false,
   }
 
   constructor(props, context) {
@@ -80,8 +88,32 @@ export default class PluginMetaDataListComponent extends React.Component {
     this.state = {
       filterOpen: false,
       displayedTypes: props.pluginTypes.sort(),
+      pluginDesc: null,
     }
   }
+
+  getActions = plugin => this.props.enableConfiguration ? (
+    <CardActions style={this.styles.tile.actionsStyles}>
+      <ResourceLink
+        resourceDependencies={pluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, this.props.microserviceName)}
+        title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.list.configurations' })}
+        to={this.props.getProjectConfigurationListURL(plugin.content.pluginId)}
+      >
+        <IconButton>
+          <IconList />
+        </IconButton>
+      </ResourceLink>
+      <ResourceLink
+        resourceDependencies={pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, this.props.microserviceName)}
+        title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.list.add' })}
+        to={this.props.getAddURL(plugin.content.pluginId)}
+      >
+        <IconButton>
+          <AddCircle />
+        </IconButton>
+      </ResourceLink>
+    </CardActions>
+  ) : null
 
   /**
    * Builds the array of {@link ListItem}.
@@ -130,37 +162,47 @@ export default class PluginMetaDataListComponent extends React.Component {
   getTile = plugin => (
     <div key={plugin.content.pluginId} className={this.styles.tile.classes}>
       <Card style={this.styles.tile.styles}>
-        <CardTitle
-          titleStyle={this.styles.tile.title}
-          title={plugin.content.pluginId}
-          subtitle={`${plugin.content.author} | ${plugin.content.version}`}
-        />
+        <span title={plugin.content.pluginId}>
+          <CardTitle
+            titleStyle={this.styles.tile.title}
+            title={plugin.content.pluginId}
+            subtitle={`${plugin.content.author} | ${plugin.content.version}`}
+          />
+        </span>
         <CardText>
           {plugin.content.description}
+
+          {plugin.content.markdown
+            ? <div>
+              <br />
+              <a
+                style={this.styles.moreInfoLink}
+                onClick={() => this.handleOpenDescriptionDialog(plugin.content)}
+                href="#"
+              >
+                {this.context.intl.formatMessage({ id: 'plugin.description.more' })}
+              </a>
+            </div>
+            : null
+          }
+
         </CardText>
-        <CardActions style={this.styles.tile.actionsStyles}>
-          <ResourceLink
-            resourceDependencies={pluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, this.props.microserviceName)}
-            title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.list.configurations' })}
-            to={this.props.getProjectConfigurationListURL(plugin.content.pluginId)}
-          >
-            <IconButton>
-              <IconList />
-            </IconButton>
-          </ResourceLink>
-          <ResourceLink
-            resourceDependencies={pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, this.props.microserviceName)}
-            title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.list.add' })}
-            to={this.props.getAddURL(plugin.content.pluginId)}
-          >
-            <IconButton>
-              <AddCircle />
-            </IconButton>
-          </ResourceLink>
-        </CardActions>
+        {this.getActions(plugin)}
       </Card>
     </div>
   )
+
+  handleOpenDescriptionDialog = (plugin) => {
+    this.setState({
+      pluginDesc: plugin,
+    })
+  }
+
+  handleCloseDescriptionDialog = () => {
+    this.setState({
+      pluginDesc: null,
+    })
+  }
 
 
   /**
@@ -233,6 +275,12 @@ export default class PluginMetaDataListComponent extends React.Component {
             {this.getFilterListItems()}
           </List>
         </Drawer>
+        {this.state.pluginDesc
+          ? <PluginDescriptionDialog
+            opened
+            pluginMetaData={this.state.pluginDesc}
+            onClose={this.handleCloseDescriptionDialog}
+          /> : null}
       </Paper>
     )
   }

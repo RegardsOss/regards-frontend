@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { PROJECT_CONNECTION, PROJECT_CONNECTION_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
@@ -44,8 +44,8 @@ export default class ProjectConnectionActions extends BasicPageableActions {
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/projects/{projectName}/connections`,
       entityPathVariable: 'connectionId',
       schemaTypes: {
-        ENTITY: Schemas.PROJECT_CONNECTION,
-        ENTITY_ARRAY: Schemas.PROJECT_CONNECTION_ARRAY,
+        ENTITY: PROJECT_CONNECTION,
+        ENTITY_ARRAY: PROJECT_CONNECTION_ARRAY,
       },
     })
   }

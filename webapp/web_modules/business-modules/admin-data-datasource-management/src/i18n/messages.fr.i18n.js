@@ -24,7 +24,7 @@ const messages = Object.assign({
   'crawler.list.label.column.header': 'Libellé',
   'crawler.list.lastIngestDate.column.header': 'Date de l\'aspiration',
   'crawler.list.nextPlannedIngestDate.column.header': 'Prochaine aspiration',
-  'crawler.list.savedObjectsCount.column.header': 'Nombres d\'entités aspirées',
+  'crawler.list.savedObjectsCount.column.header': 'Entités aspirées',
   'crawler.list.status.column.header': 'Etat',
   'crawler.list.duration.column.header': 'Durée',
   'crawler.list.refresh.button': 'Rafraîchir',
@@ -32,6 +32,8 @@ const messages = Object.assign({
   'crawler.list.stacktrace.title': 'Stacktrace',
   'crawler.list.stacktrace.action.close': 'Fermer',
   'crawler.list.delete.action': 'Supprimer',
+  'crawler.list.schedule.action': 'Programmer une ingestion',
+  'crawler.list.scheduled': 'La date de prochaine ingestion a été mise à jour',
   'crawler.delete.confirm.title': 'Etes vous sûr de vouloir supprimer l\'indexation {crawler} ?',
 
   'datasource.list.action.add': 'Ajouter',
@@ -51,7 +53,7 @@ const messages = Object.assign({
   'datasource.form.create.title': 'Création d\'une source de données',
   'datasource.form.create.subtitle': 'Veuillez sélectionner la connexion à partir de laquelle vous souhaitez créer la source de données',
   'datasource.form.create.action.cancel': 'Annuler',
-  'datasource.form.create.action.next': 'Suite',
+  'datasource.form.create.action.next': 'Suivant',
   'datasource.form.create.action.connection': 'Créer une connexion',
   'datasource.form.create.datasource': 'Liste des connexions actives',
 
@@ -130,4 +132,3 @@ const messages = Object.assign({
 }, Locales.fr)
 
 export default messages
-

@@ -42,12 +42,13 @@ describe('[Menu] Testing MainBarModuleLink', () => {
     let spiedModuleParameter = null
     const props = {
       item: fullConvertedNavigationModel[0],
-      locale: 'en',
       buildLinkURL: (module) => {
         spiedModuleParameter = module
         return 'built-test-URL'
       },
     }
+    const savedLocale = context.intl.locale
+    context.intl.locale = 'en'
     const enzymeWrapper = shallow(<MainBarModuleLink {...props} />, { context })
     // 1 - check link
     const linkWrapper = enzymeWrapper.find(Link)
@@ -60,17 +61,20 @@ describe('[Menu] Testing MainBarModuleLink', () => {
     assert.isTrue(buttonWrapper.props().secondary, 'The module should be marked selected')
     assert.isOk(buttonWrapper.props().icon, 'The module icon should be configured')
     assert.equal(buttonWrapper.props().label, props.item.title.en, 'The selected module title should be module EN title')
+
+    context.intl.locale = savedLocale
   })
   it('should render correctly a non selected module (FR locale)', () => {
     let spiedModuleParameter = null
     const props = {
       item: fullConvertedNavigationModel[1].children[0],
-      locale: 'fr',
       buildLinkURL: (module) => {
         spiedModuleParameter = module
         return 'built-test-URL'
       },
     }
+    const savedLocale = context.intl.locale
+    context.intl.locale = 'fr'
     const enzymeWrapper = shallow(<MainBarModuleLink {...props} />, { context })
     // 1 - check link
     const linkWrapper = enzymeWrapper.find(Link)
@@ -83,5 +87,7 @@ describe('[Menu] Testing MainBarModuleLink', () => {
     assert.isFalse(buttonWrapper.props().secondary, 'The module should not be marked selected')
     assert.isOk(buttonWrapper.props().icon, 'The module icon should be configured')
     assert.equal(buttonWrapper.props().label, props.item.title.fr, 'The selected module title should be module FR title')
+
+    context.intl.locale = savedLocale
   })
 })

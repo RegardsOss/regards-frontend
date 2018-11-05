@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const ConnectivityCheck = PropTypes.shape({
+export const ConnectivityCheck = PropTypes.shape({
   content: PropTypes.shape({
     projectConnectionId: PropTypes.number,
     connectivity: PropTypes.symbol,
@@ -24,9 +24,4 @@ const ConnectivityCheck = PropTypes.shape({
     lastCheck: PropTypes.string,
   }),
 })
-const ConnectivityCheckList = PropTypes.objectOf(ConnectivityCheck)
-
-module.exports = {
-  ConnectivityCheck,
-  ConnectivityCheckList,
-}
+export const ConnectivityCheckList = PropTypes.objectOf(ConnectivityCheck)

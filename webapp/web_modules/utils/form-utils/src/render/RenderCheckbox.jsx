@@ -89,10 +89,10 @@ export default class RenderCheckbox extends React.Component {
           checked={checked}
           onCheck={this.onChange}
           disabled={disabled}
+          name={input.name}
         />
         {(alwaysShowError || touched) && error && (<span style={{ color: muiTheme.textField.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
       </div>
     )
   }
 }
-

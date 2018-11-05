@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { PLUGIN, PLUGIN_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
@@ -44,8 +44,8 @@ export default class UIPluginDefinitionActions extends BasicPageableActions {
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/uiplugins/definition`,
       entityPathVariable: 'pluginId',
       schemaTypes: {
-        ENTITY: Schemas.PLUGIN,
-        ENTITY_ARRAY: Schemas.PLUGIN_ARRAY,
+        ENTITY: PLUGIN,
+        ENTITY_ARRAY: PLUGIN_ARRAY,
       },
     })
   }

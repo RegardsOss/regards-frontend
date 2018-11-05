@@ -1,0 +1,13 @@
+{
+  "name": "@regardsoss/admin-board-account",
+  "version": "3.0.0",
+  "private": true,
+  "sideEffects": false,
+  "description": "",
+  "main": "src/main.js",
+  "author": "CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
+  "license": "GPL-3.0"
+}

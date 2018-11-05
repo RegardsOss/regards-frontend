@@ -22,10 +22,9 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import ThemeListComponent from '../../src/components/ThemeListComponent'
 import ThemeListContainer from '../../src/containers/ThemeListContainer'
-import styles from '../../src/styles/styles'
 
 
-const context = buildTestContext(styles)
+const context = buildTestContext()
 
 /**
 * Test ThemeListContainer
@@ -46,6 +45,7 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeListContainer', () => {
       backUrl,
       createUrl: backUrl,
       handleEdit: testSuiteHelpers.getSuccessDispatchStub(),
+      handleDuplicate: testSuiteHelpers.getSuccessDispatchStub(),
       fetchThemeList: testSuiteHelpers.getSuccessDispatchStub(),
       deleteTheme: testSuiteHelpers.getSuccessDispatchStub(),
     }

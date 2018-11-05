@@ -132,8 +132,8 @@ export class ConnectionViewerComponent extends React.Component {
   render() {
     const { tableList, displayTableAsSelected } = this.props
     const { tableOpen } = this.state
-    const subtitle = displayTableAsSelected ? 'datasource.form.mapping.connectionViewerFromTable.subtitle' :
-      'datasource.form.mapping.connectionViewerCustom.subtitle'
+    const subtitle = displayTableAsSelected ? 'datasource.form.mapping.connectionViewerFromTable.subtitle'
+      : 'datasource.form.mapping.connectionViewerCustom.subtitle'
     const style = {
       maxHeight: '600px',
       overflowY: 'scroll',

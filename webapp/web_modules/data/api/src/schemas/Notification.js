@@ -18,19 +18,13 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const NotificationConfiguration = {
+export const NotificationConfiguration = {
   entityKey: 'id',
   normalizrKey: 'notification',
 }
 
-const NotificationSchema = new Schema(NotificationConfiguration.normalizrKey, {
-  idAttribute: notification => notification[NotificationConfiguration.entityKey],
+export const NOTIFICATION = new Schema(NotificationConfiguration.normalizrKey, {
+  idAttribute: notification => notification.content[NotificationConfiguration.entityKey],
 })
 
-
-// Schemas for API responses.
-module.exports = {
-  NOTIFICATION: NotificationSchema,
-  NOTIFICATION_ARRAY: arrayOf(NotificationSchema),
-  NotificationConfiguration,
-}
+export const NOTIFICATION_ARRAY = arrayOf(NOTIFICATION)

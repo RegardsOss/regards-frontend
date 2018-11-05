@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 const commonAttributeForGraph = {
-  // attribute label
-  label: PropTypes.string.isRequired,
+  // attribute labels dictionnary by language
+  label: PropTypes.objectOf(PropTypes.string).isRequired,
   // the render component, see attributes-common/render (expects a list of attribute values)
   render: PropTypes.func.isRequired,
 }
@@ -28,6 +28,8 @@ export const DatasetAttributeForGraph = PropTypes.shape({
   ...commonAttributeForGraph,
   // access path to attribute value in entity
   attributePath: PropTypes.string.isRequired,
+  // attribute unit if any ("unitless" constant may also be found here)
+  unit: PropTypes.string,
 })
 
 // array of dataset attributes definitions for graph
@@ -39,7 +41,8 @@ export const DatasetAttributesArrayForGraph = PropTypes.arrayOf(DatasetAttribute
 export const ResolvedDatasetAttribute = PropTypes.shape({
   ...commonAttributeForGraph,
   renderKey: PropTypes.string.isRequired, // render key (for render optimizations)
-  renderValue: PropTypes.object, // the attribute value on an object, prepared for to be rendered, null or undefined allowed
+  renderValue: PropTypes.any, // the attribute value on an object, prepared for to be rendered, null or undefined allowed
+  renderProps: PropTypes.object.isRequired, // properties for render (like unit)
 })
 
 /**

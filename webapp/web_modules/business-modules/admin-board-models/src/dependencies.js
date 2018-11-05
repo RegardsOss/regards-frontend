@@ -19,6 +19,7 @@
 import { fragmentDependencies } from '@regardsoss/admin-data-fragment-management'
 import { modelDependencies } from '@regardsoss/admin-data-model-management'
 import { attributeModelDependencies } from '@regardsoss/admin-data-attributemodel-management'
+import { attributePluginDependencies } from '@regardsoss/admin-data-attribute-plugins-management'
 
 /**
  * Mandatory Dependencies to display module in project menu
@@ -31,4 +32,6 @@ export default [
   ...fragmentDependencies.addDependencies,
   ...attributeModelDependencies.listDependencies,
   ...attributeModelDependencies.addDependencies,
+  ...attributePluginDependencies.addDependencies,
+  ...attributePluginDependencies.listDependencies,
 ]

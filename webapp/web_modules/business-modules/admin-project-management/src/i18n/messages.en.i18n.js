@@ -55,6 +55,11 @@ const messages = Object.assign({
   'project.form.icon': 'HTTP link to the icon',
   'project.form.license': 'HTTP link to the project license description file',
   'project.form.host': 'REGARDS gateway public address *',
+  'project.form.crs': 'Define Geometries Coordinate reference system',
+  'project.form.crs.WGS_84': 'Earth - WGS_84',
+  'project.form.crs.MARS_49900': 'Mars - MARS_49900',
+  'project.form.crs.ASTRO': 'Celestial vault',
+  'project.form.isPoleToBeManaged': 'Do you need to handle pole cap polygon geometry type. If enabled all polygons must follow geojson RFC 7946 (in particular right hand rule for exterior ring)',
   'project.form.action.cancel': 'Cancel',
   'project.form.action.submit': 'Save',
 

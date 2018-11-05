@@ -26,4 +26,3 @@ const IAIPDatasourceParamsEnum = {
 }
 
 export default IAIPDatasourceParamsEnum
-

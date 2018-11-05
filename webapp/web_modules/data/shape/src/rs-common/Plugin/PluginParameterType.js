@@ -28,6 +28,7 @@ const PluginParameterType = PropTypes.shape({
   parameterizedSubTypes: PropTypes.arrayOf(PropTypes.string),
   optional: PropTypes.bool,
   unconfigurable: PropTypes.bool,
+  sensitive: PropTypes.bool,
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
 })
 

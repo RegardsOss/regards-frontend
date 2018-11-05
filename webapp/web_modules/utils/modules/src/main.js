@@ -16,14 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import LazyModuleComponent from './components/LazyModuleComponent'
-import modulesManager from './ModulesManager'
-
 /**
  * Main module file to expose public interface
  * @author Sébastien Binda
  */
-module.exports = {
-  LazyModuleComponent,
-  modulesManager,
-}
+export { default as LazyModuleComponent } from './components/LazyModuleComponent'
+export { default as modulesManager } from './ModulesManager'

@@ -49,61 +49,59 @@ describe('[Entities Common] Testing PluginDisplayerContainer', () => {
     testMessage: 'should render plugin component with QUERY target and dynamic properties',
     localTarget: buildQueryTarget('a=a&b=b', ENTITY_TYPES_ENUM.DATA, 15, []),
   }]
-  testCases.forEach(({ testMessage, localTarget }) =>
-    it(testMessage, () => {
-      const FakePluginComponent = () => <div />
-      // check that plugin is correctly rendered
-      const props = {
-        pluginInstance: {
+  testCases.forEach(({ testMessage, localTarget }) => it(testMessage, () => {
+    const FakePluginComponent = () => <div />
+    // check that plugin is correctly rendered
+    const props = {
+      pluginInstance: {
+        name: 'fake.plugin',
+        plugin: FakePluginComponent,
+        getReducer: () => ({}),
+        messages: {
+          fr: {},
+          en: {},
+        },
+        styles: {
+          styles: () => { },
+        },
+        info: {
           name: 'fake.plugin',
-          plugin: FakePluginComponent,
-          getReducer: () => ({}),
-          messages: {
-            fr: {},
-            en: {},
-          },
-          styles: {
-            styles: () => { },
-          },
-          info: {
-            name: 'fake.plugin',
-            description: 'A fake plugin',
-            version: '0.0.0-alpha',
-            author: 'Testatator',
-            company: 'C. S.',
-            email: 'testatator@c-s.fr',
-            license: 'Mu du GNU',
-            url: 'fake-plugin@facebook.plo',
-            type: 'SERVICE',
-            // Specific configuration properties for the given plugin
-            conf: {
-              target: [applicationModes.ONE, applicationModes.MANY],
-              static: {},
-              // dynamic plugin parameters (ie configuration when using, at runtime)
-              dynamic: {},
-            },
+          description: 'A fake plugin',
+          version: '0.0.0-alpha',
+          author: 'Testatator',
+          company: 'C. S.',
+          email: 'testatator@c-s.fr',
+          license: 'Mu du GNU',
+          url: 'fake-plugin@facebook.plo',
+          type: 'SERVICE',
+          // Specific configuration properties for the given plugin
+          conf: {
+            target: [applicationModes.ONE, applicationModes.MANY],
+            static: {},
+            // dynamic plugin parameters (ie configuration when using, at runtime)
+            dynamic: {},
           },
         },
-        pluginConf: {
-          runtimeTarget: packRuntimeTarget(localTarget),
-          configuration: {
-            static: {
-              a: 1,
-              b: true,
-              c: 'hello',
-            },
-            dynamic: {
-              d: new Date(),
-              e: 5.6,
-            },
+      },
+      pluginConf: {
+        runtimeTarget: packRuntimeTarget(localTarget),
+        configuration: {
+          static: {
+            a: 1,
+            b: true,
+            c: 'hello',
+          },
+          dynamic: {
+            d: new Date(),
+            e: 5.6,
           },
         },
-        locale: 'en',
-      }
-      const enzymeWrapper = shallow(<PluginDisplayerContainer {...props} />, { context })
-      const renderedComponent = enzymeWrapper.find(FakePluginComponent)
-      assert.lengthOf(renderedComponent, 1, 'There should be the plugin rendering component')
-      assert.deepEqual(renderedComponent.props().configuration, props.pluginConf.configuration, 'configuration should be reported correctly')
-      assert.deepEqual(renderedComponent.props().runtimeTarget, props.pluginConf.runtimeTarget, 'target should be reported correctly')
-    }))
+      },
+    }
+    const enzymeWrapper = shallow(<PluginDisplayerContainer {...props} />, { context })
+    const renderedComponent = enzymeWrapper.find(FakePluginComponent)
+    assert.lengthOf(renderedComponent, 1, 'There should be the plugin rendering component')
+    assert.deepEqual(renderedComponent.props().configuration, props.pluginConf.configuration, 'configuration should be reported correctly')
+    assert.deepEqual(renderedComponent.props().runtimeTarget, props.pluginConf.runtimeTarget, 'target should be reported correctly')
+  }))
 })

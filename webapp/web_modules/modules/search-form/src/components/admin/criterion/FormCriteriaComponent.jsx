@@ -20,7 +20,9 @@ import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
-import { RenderSelectField, Field, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderSelectField, Field, reduxForm, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { ContainerHelper } from '@regardsoss/layout'
@@ -126,8 +128,7 @@ class FormCriteriaComponent extends React.Component {
    */
   renderCriterionTypesList = () => {
     if (!this.props.criterionFetching && this.props.availableCriterion) {
-      return map(this.props.availableCriterion, (criterion, idx) =>
-        <MenuItem key={idx} value={criterion.content.id} primaryText={criterion.content.name} />)
+      return map(this.props.availableCriterion, (criterion, idx) => <MenuItem key={idx} value={criterion.content.id} primaryText={criterion.content.name} />)
     }
     return []
   }
@@ -229,4 +230,3 @@ export { UnconnectedFormCriteriaComponent }
 export default reduxForm({
   form: 'edit-module-criteria-form',
 })(FormCriteriaComponent)
-

@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import {
+  Card, CardTitle, CardText, CardActions,
+} from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
@@ -97,16 +99,21 @@ export default class DatasourceListComponent extends React.Component {
       datasourceList, onToggleState, handleEdit, createUrl, backUrl, refreshDatasourceList,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
-    const { fixedColumnsWidth } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     // Table columns to display
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('column.name', formatMessage({ id: 'datasource.list.table.label' }), 'content.label'),
-      TableColumnBuilder.buildSimpleColumnWithCell('column.active', formatMessage({ id: 'datasource.list.table.active' }), {
-        Constructor: DatasourceListActivationAction, // custom cell
-        props: { onToggle: onToggleState },
-      }),
-      TableColumnBuilder.buildOptionsColumn('options', [{
+      new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.label')
+        .label(formatMessage({ id: 'datasource.list.table.label' }))
+        .build(),
+      new TableColumnBuilder('column.active').titleHeaderCell()
+        .rowCellDefinition({
+          Constructor: DatasourceListActivationAction,
+          props: { onToggle: onToggleState },
+        })
+        .label(formatMessage({ id: 'datasource.list.table.active' }))
+        .build(),
+      new TableColumnBuilder().optionsColumn([{
         OptionConstructor: DatasourceListEditAction,
         optionProps: { handleEdit },
       },
@@ -119,8 +126,7 @@ export default class DatasourceListComponent extends React.Component {
           disableInsteadOfHide: true,
           queryPageSize: 20,
         },
-      },
-      ], true, fixedColumnsWidth),
+      }]).build(),
     ]
 
     const emptyComponent = (
@@ -145,8 +151,8 @@ export default class DatasourceListComponent extends React.Component {
               entities={datasourceList}
               emptyComponent={emptyComponent}
               entitiesCount={datasourceList.length}
-              minRowCount={0}
-              maxRowCount={30}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
             />
           </TableLayout>
         </CardText>

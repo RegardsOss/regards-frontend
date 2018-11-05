@@ -21,7 +21,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { URLAuthInjector } from '@regardsoss/domain/common'
 import { browserHistory } from 'react-router'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
-import { microserviceConfBackupActions } from '../clients/MicroserviceConfBackupClient'
+import { microserviceConfBackupActions, microserviceConfBackupSelectors } from '../clients/MicroserviceConfBackupClient'
 import MicroserviceConfBackupComponent from '../components/MicroserviceConfBackupComponent'
 import messages from '../i18n'
 
@@ -36,6 +36,7 @@ export class MicroserviceConfBackupContainer extends React.Component {
       microserviceName: PropTypes.string,
     }),
     // from mapStateToProps
+    isSendingConfiguration: PropTypes.bool,
     accessToken: PropTypes.string,
     // from mapDispatchToProps
     uploadConfiguration: PropTypes.func,
@@ -43,6 +44,7 @@ export class MicroserviceConfBackupContainer extends React.Component {
 
   static mapStateToProps = state => ({
     accessToken: AuthenticationClient.authenticationSelectors.getAccessToken(state),
+    isSendingConfiguration: microserviceConfBackupSelectors.isFetching(state),
   })
 
   static mapDispatchToProps = (dispatch, ownProps) => ({
@@ -73,6 +75,7 @@ export class MicroserviceConfBackupContainer extends React.Component {
           microserviceName={this.props.params.microserviceName}
           handleBack={this.redirectToBack}
           handleExportFile={this.props.uploadConfiguration}
+          isSendingConfiguration={this.props.isSendingConfiguration}
         />
       </I18nProvider>
     )
@@ -80,4 +83,3 @@ export class MicroserviceConfBackupContainer extends React.Component {
 }
 
 export default connect(MicroserviceConfBackupContainer.mapStateToProps, MicroserviceConfBackupContainer.mapDispatchToProps)(MicroserviceConfBackupContainer)
-

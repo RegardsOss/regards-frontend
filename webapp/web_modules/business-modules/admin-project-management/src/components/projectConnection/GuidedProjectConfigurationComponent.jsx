@@ -22,7 +22,9 @@ import keys from 'lodash/keys'
 import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import { FormattedMessage } from 'react-intl'
-import { Step, Stepper, StepButton, StepContent } from 'material-ui/Stepper'
+import {
+  Step, Stepper, StepButton, StepContent,
+} from 'material-ui/Stepper'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Check from 'material-ui/svg-icons/navigation/check'
 import Error from 'material-ui/svg-icons/alert/error'
@@ -104,7 +106,7 @@ class GuidedProjectConfigurationComponent extends React.Component {
     }
 
     return (
-      <StepButton {...stepButtonProps} >
+      <StepButton {...stepButtonProps}>
         <FormattedMessage
           id="database.form.edit.title"
           values={titleLabelValues}

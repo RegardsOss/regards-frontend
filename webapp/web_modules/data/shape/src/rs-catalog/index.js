@@ -17,18 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { Entity, EntityList, entityFiles } from './Entity/Entity'
-import Tag from './Entity/Tag'
+export { Entity, EntityList, entityFiles } from './Entity/Entity'
+export {
+  BooleanFacet, BooleanFacetValue, DateRangeFacet, DateRangeFacetValue,
+  NumberRangeFacet, NumberRangeFacetValue, StringFacet, StringFacetValue, Facet, FacetArray,
+} from './Facets'
+export { default as Tag } from './Entity/Tag'
 
-import { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'
-
-
-module.exports = {
-  entityFiles,
-  Entity,
-  EntityList,
-  Tag,
-
-  LinkPluginDataset,
-  LinkPluginDatasetList,
-}
+export { AttributeBoundsContent, AttributeBounds, AttributeBoundsMap } from './AttributesBounds'
+export { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'
+export { SearchEngineConfigurationContent, SearchEngineConfiguration, SearchEngineConfigurationList } from './SearchEngineConfiguration'

@@ -36,16 +36,15 @@ describe('[Order Common] Testing OrderFileStatusRender', () => {
   it('should exists', () => {
     assert.isDefined(OrderFileStatusRender)
   })
-  OrderDomain.ORDER_FILE_STATUS.forEach(status =>
-    it(`should render correctly with status ${status}`, () => {
-      const props = {
-        value: status,
-      }
-      const enzymeWrapper = shallow(<OrderFileStatusRender {...props} />, { context })
-      const asText = enzymeWrapper.debug()
-      assert.isTrue(asText.includes(`files.list.cell.status.${status}.text`), 'The text key should contain status as it is not unknown')
-      assert.isTrue(asText.includes(`files.list.cell.status.${status}.tooltip`), 'The title key should contain status as it is not unknown')
-    }))
+  OrderDomain.ORDER_FILE_STATUS.forEach(status => it(`should render correctly with status ${status}`, () => {
+    const props = {
+      value: status,
+    }
+    const enzymeWrapper = shallow(<OrderFileStatusRender {...props} />, { context })
+    const asText = enzymeWrapper.debug()
+    assert.isTrue(asText.includes(`files.list.cell.status.${status}.text`), 'The text key should contain status as it is not unknown')
+    assert.isTrue(asText.includes(`files.list.cell.status.${status}.tooltip`), 'The title key should contain status as it is not unknown')
+  }))
 
   it('should render correctly in unknwon state', () => {
     const props = {

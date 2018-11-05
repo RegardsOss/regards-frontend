@@ -23,6 +23,41 @@ import { DISPLAY_MODE_VALUES } from '../definitions/DisplayModeEnum'
 import { TableDisplayModeValues } from './navigation/TableDisplayModeEnum'
 import DisplayModuleConf from './DisplayModuleConf'
 
+
+/**
+ * Data view configuration
+ */
+export const DataViewShape = PropTypes.shape({
+  columns: AccessShapes.AttributeListConfigurationModel,
+  facets: AccessShapes.AttributeListConfigurationModel,
+  sorting: AccessShapes.AttributeListConfigurationModel,
+})
+
+/**
+ * Quicklook view configuration
+ */
+export const QuicklookViewShape = PropTypes.shape({
+  columns: AccessShapes.AttributeListConfigurationModel,
+  facets: AccessShapes.AttributeListConfigurationModel,
+  sorting: AccessShapes.AttributeListConfigurationModel,
+})
+
+/**
+ * Dataset view configuration
+ */
+export const DatasetViewShape = PropTypes.shape({
+  columns: AccessShapes.AttributeListConfigurationModel,
+})
+
+/**
+ * Document view configuration
+ */
+export const DocumentViewShape = PropTypes.shape({
+  columns: AccessShapes.AttributeListConfigurationModel,
+  facets: AccessShapes.AttributeListConfigurationModel,
+  sorting: AccessShapes.AttributeListConfigurationModel,
+})
+
 /**
  * Form entity description
  * @author Sébastien binda
@@ -33,17 +68,9 @@ const ModuleConfiguration = PropTypes.shape({
    *   Those parameters are provided by admin when editing module   *
    ******************************************************************/
 
-  // Search form attributes configuration
-  attributes: AccessShapes.AttributeConfigurationArray,
-  // Search form attributes regroupements configuration
-  attributesRegroupements: AccessShapes.AttributesGroupConfigurationArray,
-  // Search results dataset attributes configuration
-  datasetAttributes: AccessShapes.AttributeConfigurationArray,
-  // Search results documents attributes configuration
-  documentAttributes: AccessShapes.AttributeConfigurationArray,
-  // Quicklook attributes
-  attributesQuicklook: AccessShapes.AttributeConfigurationArray,
-  // Special configuration given if the module is not load as a independent module
+  // globally applying configuration
+
+  // Special configuration given if the module is not loaded as an independent module
   selectableAttributes: DataManagementShapes.AttributeModelList,
 
   // Display mode
@@ -64,6 +91,12 @@ const ModuleConfiguration = PropTypes.shape({
   dataSectionLabelFr: PropTypes.string,
   dataSectionLabelEn: PropTypes.string,
 
+  // Search results views configuration
+  data: DataViewShape,
+  quicklook: QuicklookViewShape,
+  dataset: DatasetViewShape,
+  document: DocumentViewShape,
+
   /******************************************************************
    *                     RUNTIME CONFIGURATION                      *
    *       Those parameters are provided by driving module          *
@@ -79,7 +112,7 @@ const ModuleConfiguration = PropTypes.shape({
   // Initial search query
   searchQuery: PropTypes.string,
   // Restricted dataset context as IP ID array
-  restrictedDatasetsIpIds: PropTypes.arrayOf(PropTypes.string),
+  restrictedDatasetsIds: PropTypes.arrayOf(PropTypes.string),
 
 })
 

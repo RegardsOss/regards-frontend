@@ -18,12 +18,16 @@
  **/
 import trim from 'lodash/trim'
 import get from 'lodash/get'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import Avatar from 'material-ui/Avatar'
 import { formValueSelector } from 'redux-form'
 import { connect } from '@regardsoss/redux'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, Field, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderTextField, Field, reduxForm, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -33,8 +37,8 @@ import IngestProcessingPluginTypes from './IngestProcessingPluginType'
 import messages from '../i18n'
 import styles from '../styles'
 
-const { required, validStringSize } = ValidationHelpers
-const validString50 = [required, validStringSize(1, 50)]
+const { required, validStringSize, validAlphaNumericUnderscore } = ValidationHelpers
+const validString50 = [required, validStringSize(1, 50), validAlphaNumericUnderscore]
 const validString128 = [validStringSize(0, 128)]
 
 /**
@@ -80,7 +84,8 @@ export class IngestProcessingChainFormComponent extends React.Component {
           style={avatarStyles}
           color={palette.textColor}
           backgroundColor={palette.primary1Color}
-        > {index}
+        >
+          {index}
         </Avatar>
         <Field
           name={fieldNamePrefix}
@@ -117,11 +122,11 @@ export class IngestProcessingChainFormComponent extends React.Component {
 
     return (
       <Card>
-        {this.state.isCreating ?
-          <CardTitle
+        {this.state.isCreating
+          ? <CardTitle
             title={formatMessage({ id: 'processing-chain.form.create.title' })}
-          /> :
-          <CardTitle
+          />
+          : <CardTitle
             title={formatMessage({ id: 'processing-chain.form.edit.title' }, { name: processingChain.name })}
           />
         }
@@ -196,9 +201,9 @@ export class IngestProcessingChainFormComponent extends React.Component {
           <CardActions>
             <CardActionsComponent
               mainButtonLabel={
-                this.state.isCreating ?
-                  formatMessage({ id: 'processing-chain.form.create.action.create' }) :
-                  formatMessage({ id: 'processing-chain.form.edit.action.save' })
+                this.state.isCreating
+                  ? formatMessage({ id: 'processing-chain.form.create.action.create' })
+                  : formatMessage({ id: 'processing-chain.form.edit.action.save' })
               }
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
@@ -230,4 +235,3 @@ const connectedReduxForm = reduxForm({
 })(ConnectedComponent)
 
 export default withI18n(messages)(withModuleStyle(styles)(connectedReduxForm))
-

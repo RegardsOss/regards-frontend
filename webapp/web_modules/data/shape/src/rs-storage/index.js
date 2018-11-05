@@ -16,12 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AIPStatus from './AIPStatus'
-import StorageMonitoring from './StorageMonitoring'
-import PrioritizedDataStorage from './PrioritizedDataStorage'
+export { AIPStatusContent, AIPStatus, AIPStatusList } from './AIPStatus'
 
-module.exports = {
-  ...AIPStatus,
-  ...StorageMonitoring,
-  ...PrioritizedDataStorage,
+export { AIPSession } from './AIPSession'
+export {
+  AIP, AIPContent, AIPList, AIPArray,
+} from './AIP'
+export {
+  StorageMonitoring, StorageMonitoringContent, StorageMonitoringList, StorageMonitoringArray,
+} from './StorageMonitoring'
+export {
+  PrioritizedDataStorage, PrioritizedDataStorageContent, PrioritizedDataStorageList, PrioritizedDataStorageArray,
 }
+  from './PrioritizedDataStorage'
+export {
+  DataObject, DataObjectContent, DataObjectList, DataObjectArray,
+} from './DataObject'

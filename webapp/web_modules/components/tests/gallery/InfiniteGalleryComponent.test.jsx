@@ -26,7 +26,9 @@ const context = buildTestContext()
 
 class FakeItem extends React.PureComponent {
   static getColumnSpanFromProps = (props, getState) => 1
+
   static getHeightFromProps = (getState, props, columnSpan, columnGutter, gridWidth, itemProps) => 2
+
   render() {
     return (<div />)
   }
@@ -56,6 +58,8 @@ describe('[COMPONENTS] Testing InfiniteGalleryComponent', () => {
       itemProps: {
         someIdea: 42,
       },
+      width: 500,
+      height: 500,
       onInfiniteLoad: () => {
       },
     }

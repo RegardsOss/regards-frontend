@@ -16,11 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import CommonEndpointClient from './clients/CommonEndpointClient'
 
 /**
  * Module main file to expose public interface
  */
-module.exports = {
-  CommonEndpointClient,
-}
+export { default as CommonEndpointClient } from './clients/CommonEndpointClient'

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import has from 'lodash/has'
 import values from 'lodash/values'
 import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
@@ -52,11 +53,10 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
   * Redux: map dispatch to props function
   * @param {*} dispatch: redux dispatch function
   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-  * @return {*} list of component properties extracted from redux state
+  * @return {*} list of actions ready to be dispatched in the redux store
   */
   static mapDispatchToProps = dispatch => ({
-    fetchPluginConfigurationList: (pluginType, microserviceName) =>
-      dispatch(pluginParameterConfigurationActions.fetchEntityList({ microserviceName }, { pluginType })),
+    fetchPluginConfigurationList: (pluginType, microserviceName) => dispatch(pluginParameterConfigurationActions.fetchEntityList({ microserviceName }, { pluginType })),
     fetchPluginMetadataList: (microserviceName, pluginType) => dispatch(pluginParameterMetaDataActions.fetchEntityList({ microserviceName }, { pluginType })),
   })
 
@@ -87,16 +87,17 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
       openMenu: false,
       pluginMetaDataList: [],
       pluginConfigurationList: [],
+      selectedPluginConfiguration: null,
     }
   }
 
   componentDidMount() {
     const {
-      pluginParameterType, fetchPluginConfigurationList, fetchPluginMetadataList, microserviceName, disabled,
+      pluginParameterType, fetchPluginConfigurationList, fetchPluginMetadataList, microserviceName,
     } = this.props
     const pluginId = this.props.input.value
 
-    if (pluginParameterType.type && !disabled) {
+    if (pluginParameterType.type) {
       // 1. Retrieve pluginMetadatas for the microservice.
       fetchPluginMetadataList(microserviceName, pluginParameterType.type).then((actionResults) => {
         this.setState({
@@ -153,7 +154,20 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
     input.onChange(value ? value.toString() : null)
   }
 
-  renderDisabled = () => (<span>{this.props.input.value}</span>)
+  renderDisabled = () => {
+    if (has(this.state.selectedPluginConfiguration, 'content.label')) {
+      // Display the plugin conf name
+      return (<span>
+        {this.state.selectedPluginConfiguration.content.label}
+        {' '}
+        - ID
+        {' '}
+        {this.state.selectedPluginConfiguration.content.id}
+      </span>)
+    }
+    // No plugin value
+    return null
+  }
 
   renderEnabled = () => {
     const {
@@ -186,13 +200,12 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
               rightIcon={<ArrowDropRight />}
               disabled={pluginConfigurationListIsEmpty}
               menuItems={
-                map(pluginConfigurationListForThisPluginMetaData, pc =>
-                  (<MenuItem
-                    key={pc.content.id}
-                    primaryText={this.buildMenuItemPrimaryText(pc.content.label, pc.content.version)}
-                    onClick={() => this.handleChange(pc.content.id)}
-                    checked={pc.content.id === this.state.value}
-                  />))
+                map(pluginConfigurationListForThisPluginMetaData, pc => (<MenuItem
+                  key={pc.content.id}
+                  primaryText={this.buildMenuItemPrimaryText(pc.content.label, pc.content.version)}
+                  onClick={() => this.handleChange(pc.content.id)}
+                  checked={pc.content.id === this.state.value}
+                />))
               }
             />
           )

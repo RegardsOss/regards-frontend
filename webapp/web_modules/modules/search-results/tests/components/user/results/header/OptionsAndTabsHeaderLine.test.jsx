@@ -45,13 +45,17 @@ describe('[Search Results] Testing OptionsAndTabsHeaderLine', () => {
   it('should render correctly', () => {
     const props = {
       // state
-      attributePresentationModels: [{
+      presentationModels: [{
         key: 'some.model',
-        label: 'Some model',
+        label: {
+          en: 'a model',
+          fr: 'un model',
+        },
+        visible: true,
         attributes: [],
         enableSorting: true,
         sortOrder: TableSortOrders.NO_SORT,
-        order: 0,
+        defaultSorting: false,
       }],
       displayMode: DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA, // current view object type
@@ -72,7 +76,8 @@ describe('[Search Results] Testing OptionsAndTabsHeaderLine', () => {
       displayOnlyQuicklook: false,
       selectionServices: [],
       onAddSelectionToCart: null,
-      onChangeColumnsVisibility: () => { },
+      onConfigureColumns: () => { },
+      onResetColumns: () => { },
       onShowDataobjects: () => { },
       onShowDatasets: () => { },
       onShowListView: () => { },

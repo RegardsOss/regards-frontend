@@ -19,7 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { Field } from '@regardsoss/form-utils'
-import { buildTestContext, testSuiteHelpers, ReduxFormTestHelper, DumpProvider } from '@regardsoss/tests-helpers'
+import {
+  buildTestContext, testSuiteHelpers, ReduxFormTestHelper, DumpProvider,
+} from '@regardsoss/tests-helpers'
 import { RenderPluginConfField } from '../../src/form-utils/RenderPluginConfField'
 import styles from '../../src/styles/styles'
 

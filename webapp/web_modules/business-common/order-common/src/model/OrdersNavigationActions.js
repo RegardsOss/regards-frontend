@@ -40,6 +40,7 @@ export class OrdersNavigationActions {
   selectOrder(order) {
     return { type: this.SELECT_ORDER, order }
   }
+
   /**
    * Returns action to dispatch to select a dataset task
    * @param {DatasetTask} dataset dataset task

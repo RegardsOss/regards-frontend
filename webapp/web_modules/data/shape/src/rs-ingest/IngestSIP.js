@@ -16,44 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import PropertiesShape from '../rs-common/IP'
 
 /**
  * Describes a SIP shape and related sub objects
  * @author Maxime Bouveron
  */
 
-const DataObjectShape = PropTypes.shape({
-  regardsDataType: PropTypes.string,
-  url: PropTypes.string,
-  algorithm: PropTypes.string,
-  checksum: PropTypes.string,
-})
-
-const PdiShape = PropTypes.shape({
-  contextInformation: PropTypes.object,
-  referenceInformation: PropTypes.object,
-  provenanceInformation: PropTypes.object,
-  fixityInformation: PropTypes.object,
-  accessRightInformation: PropTypes.object,
-})
-
-const ContentInformation = PropTypes.shape({
-  representationInformation: PropTypes.shape({
-    syntax: PropTypes.shape({
-      mimeType: PropTypes.string,
-      name: PropTypes.string,
-    }),
-  }),
-  dataObject: DataObjectShape,
-})
-
-const PropertiesShape = PropTypes.shape({
-  contentInformations: PropTypes.arrayOf(ContentInformation),
-  pdi: PdiShape,
-  descriptiveInformation: PropTypes.object,
-})
-
-const Session = PropTypes.shape({
+export const Session = PropTypes.shape({
   id: PropTypes.string.isRequired,
   lastActivationDate: PropTypes.string,
   sipsCount: PropTypes.number,
@@ -61,12 +31,13 @@ const Session = PropTypes.shape({
   storedSipsCount: PropTypes.number,
   generatedSipsCount: PropTypes.number,
   errorSipsCount: PropTypes.number,
+  deletedSipsCount: PropTypes.number,
 })
 
-const IngestSIPContent = PropTypes.shape({
+export const IngestSIPContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   sipId: PropTypes.string.isRequired,
-  ipId: PropTypes.string.isRequired,
+  providerId: PropTypes.string.isRequired,
   owner: PropTypes.string,
   version: PropTypes.number,
   state: PropTypes.string,
@@ -83,15 +54,8 @@ const IngestSIPContent = PropTypes.shape({
   session: Session,
 })
 
-const IngestSIP = PropTypes.shape({
+export const IngestSIP = PropTypes.shape({
   content: IngestSIPContent,
 })
-const IngestSIPList = PropTypes.objectOf(IngestSIP)
-const IngestSIPArray = PropTypes.arrayOf(IngestSIP)
-
-module.exports = {
-  IngestSIP,
-  IngestSIPContent,
-  IngestSIPList,
-  IngestSIPArray,
-}
+export const IngestSIPList = PropTypes.objectOf(IngestSIP)
+export const IngestSIPArray = PropTypes.arrayOf(IngestSIP)

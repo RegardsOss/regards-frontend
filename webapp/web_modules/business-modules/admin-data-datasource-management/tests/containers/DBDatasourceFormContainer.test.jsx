@@ -55,4 +55,3 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceFormContainer',
     assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')
   })
 })
-

@@ -29,4 +29,3 @@ class ModelAttributesSelectors extends BasicListSelectors {
 }
 
 export default storePathArray => new ModelAttributesSelectors(storePathArray)
-

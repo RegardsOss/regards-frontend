@@ -34,8 +34,9 @@ const formStyles = theme => ({
   },
   user: {
     buttonsContainer: {
+      flexGrow: 1,
       display: 'flex',
-      alignItems: 'center',
+      alignItems: 'flex-end',
       flexDirection: 'row',
       justifyContent: 'center',
     },

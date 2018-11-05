@@ -16,15 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
-import AceEditorAdapter from './components/AceEditorAdapter'
-import ChartAdapter from './components/ChartAdapter'
-import Measure from './components/MeasureAdapter'
-import ScrollArea from './components/ScrollAreaAdapter'
-
-module.exports = {
-  AceEditorAdapter,
-  ChartAdapter,
-  Measure,
-  ScrollArea,
-}
-
+export { default as AceEditorAdapter } from './components/AceEditorAdapter'
+export { default as ChartAdapter } from './components/ChartAdapter'
+export { default as Measure } from './components/MeasureAdapter'
+export { default as ScrollArea } from './components/ScrollAreaAdapter'

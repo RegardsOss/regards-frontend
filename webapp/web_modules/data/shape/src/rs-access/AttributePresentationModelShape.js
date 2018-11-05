@@ -24,11 +24,16 @@ import { AttributeModel } from '../rs-dam/AttributeModel'
  * data, betwen the SearchResultsContainer and the corresponding component)
  * @author Raphaël Mechali
  */
-const AttributePresentationModel = PropTypes.shape({
+export const AttributePresentationModel = PropTypes.shape({
   // The key used to refer to this model
   key: PropTypes.string.isRequired,
-  // Label
-  label: PropTypes.string.isRequired,
+  // internationalized label for presentation
+  label: PropTypes.shape({
+    en: PropTypes.string.isRequired,
+    fr: PropTypes.string.isRequired,
+  }),
+  // visible: should this column be currently displayed?
+  visible: PropTypes.bool.isRequired,
   // list (maybe a single element) of attributes to show in this column
   attributes: PropTypes.arrayOf(AttributeModel).isRequired,
   // enable sorting on column?
@@ -37,13 +42,8 @@ const AttributePresentationModel = PropTypes.shape({
   sortOrder: PropTypes.string,
   // Optional sort index when in multi sorting
   sortIndex: PropTypes.number,
-  // optional order in presentation from configuration
-  order: PropTypes.number,
+  // Is this presentation model attribute used for default results sorting?
+  defaultSorting: PropTypes.bool.isRequired,
 })
 
-const AttributePresentationModelArray = PropTypes.arrayOf(AttributePresentationModel)
-
-module.exports = {
-  AttributePresentationModel,
-  AttributePresentationModelArray,
-}
+export const AttributePresentationModelArray = PropTypes.arrayOf(AttributePresentationModel)

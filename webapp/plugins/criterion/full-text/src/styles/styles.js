@@ -27,6 +27,7 @@ const pluginStyles = theme => ({
     display: 'flex',
     alignItems: 'center',
     flexWrap: 'nowrap',
+    minHeight: theme.criterion.minHeight,
   },
   textFieldStyle: {
     top: -13,

@@ -37,7 +37,7 @@ const addPluginDependencies = [
 
 const monitoringDependencies = storageDependencies
 
-module.exports = {
+export default {
   listPluginDependencies,
   addPluginDependencies,
   monitoringDependencies,

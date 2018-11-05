@@ -16,28 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import reduce from 'lodash/reduce'
-import join from 'lodash/join'
 import { connect } from '@regardsoss/redux'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
+import { DataManagementClient } from '@regardsoss/client'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
-import { LoadingComponent } from '@regardsoss/display-control'
 import { modulesHelper } from '@regardsoss/modules-api'
-import { AttributeModelActions, AttributeModelSelectors } from '../clients/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import URLManagementContainer from './user/URLManagementContainer'
-import DescriptionContainer from './user/DescriptionContainer'
-import FeedbackDisplayContainer from './user/feedback/FeedbackDisplayContainer'
 import ModuleComponent from '../components/user/ModuleComponent'
 import { TableDisplayModeEnum } from '../models/navigation/TableDisplayModeEnum'
 import { DISPLAY_MODE_ENUM } from '../definitions/DisplayModeEnum'
 
+// default attribute model selectors
+const attributeModelSelectors = DataManagementClient.AttributeModelSelectors()
 
 /**
  * Main container to display module form.
  * @author Sébastien binda
  */
 export class ModuleContainer extends React.Component {
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      attributeModels: attributeModelSelectors.getList(state),
+    }
+  }
+
   static propTypes = {
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
@@ -46,30 +55,13 @@ export class ModuleContainer extends React.Component {
 
     // Set by mapStateToProps
     attributeModels: DataManagementShapes.AttributeModelList,
-    // Set by mapDispatchToProps
-    fetchAllModelsAttributes: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-
-    // Calculate needed facettes from given props.
-    const { moduleConf: { attributes, displayMode, documentAttributes } } = props
-    // We retrieve attrs facettables depending of the display mode
-    const facettesAttrsToCheck = displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT ? documentAttributes : attributes
-
-    // Calculate facettes
-    const facettes = reduce(facettesAttrsToCheck, (result, value, key) =>
-      value.facetable ? [...result, value.attributeFullQualifiedName] : result, [])
-
-    this.state = {
-      attributesFetching: true,
-      facettesQuery: facettes && facettes.length > 0 ? `facets=${join(facettes, ',')}` : null,
-    }
-  }
-
-  componentDidMount = () => Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => this.setState({ attributesFetching: false }))
-
+  /**
+   * Computes the view objects type to display
+   * @param {string} displayMode display mode from configuration
+   * @return {string} view objects type
+   */
   getInitialViewObjectType = (displayMode) => {
     switch (displayMode) {
       case DISPLAY_MODE_ENUM.DISPLAY_DATA:
@@ -85,51 +77,30 @@ export class ModuleContainer extends React.Component {
   }
 
   render() {
-    const { attributeModels, moduleConf } = this.props
-    const { attributesFetching, facettesQuery } = this.state
+    const { moduleConf, attributeModels } = this.props
     const initialViewObjectType = this.getInitialViewObjectType(moduleConf.displayMode)
     const initialTableDisplayMode = moduleConf.initialViewMode || TableDisplayModeEnum.LIST
     // compute if this component is externally driven: is there parent module parameters?
     const isExternallyDriven = !!(moduleConf.searchQuery || (moduleConf.initialContextTags && moduleConf.initialContextTags.length))
-
-    if (!attributesFetching) {
-      return (
-        <div>
-          {/* Feedback handling for long actions in module */}
-          <FeedbackDisplayContainer />
-          { /* Description handling */}
-          <DescriptionContainer />
-          { /* URL management container: blocks view while it is not initialized to avoid useless requests (no view) */}
-          <URLManagementContainer
-            initialViewObjectType={initialViewObjectType}
-            initialTableDisplayMode={initialTableDisplayMode}
-            initialContextTags={this.props.moduleConf.initialContextTags}
-            isExternallyDriven={isExternallyDriven}
-          >
-            { /* View : module (report all module properties) */}
-            <ModuleComponent
-              facettesQuery={facettesQuery}
-              attributeModels={attributeModels}
-              {...modulesHelper.getReportedUserModuleProps(this.props)}
-            />
-          </URLManagementContainer>
-        </div>
-      )
-    }
     return (
-      <LoadingComponent />
+    /* URL management container: blocks view while it is not initialized to avoid useless requests (no view) */
+      <URLManagementContainer
+        initialViewObjectType={initialViewObjectType}
+        initialTableDisplayMode={initialTableDisplayMode}
+        initialContextTags={this.props.moduleConf.initialContextTags}
+        isExternallyDriven={isExternallyDriven}
+      >
+        { /* View : module (report all module properties) */}
+        <ModuleComponent
+          attributeModels={attributeModels}
+          {...modulesHelper.getReportedUserModuleProps(this.props)}
+        />
+      </URLManagementContainer>
     )
   }
 }
-const mapStateToProps = state => ({
-  attributeModels: AttributeModelSelectors.getList(state),
-})
-
-const mapDispatchToProps = dispatch => ({
-  fetchAllModelsAttributes: () => dispatch(AttributeModelActions.fetchEntityList()),
-})
 
 const UnconnectedModuleContainer = ModuleContainer
 export { UnconnectedModuleContainer }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModuleContainer)
+export default connect(ModuleContainer.mapStateToProps)(ModuleContainer)

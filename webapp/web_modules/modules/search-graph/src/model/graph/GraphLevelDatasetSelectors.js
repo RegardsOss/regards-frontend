@@ -43,7 +43,7 @@ export default instance
 /**
  * Builds a predicate on a dataset, which returns true if it tags at least one collection in the given list
  *
- * @param {Object} collections An object of collections mapped by their ipId
+ * @param {Object} collections An object of collections mapped by their ID
  * @returns {Function} Returns the built predicate
  * @author Xavier-Alexandre Brochard
  */

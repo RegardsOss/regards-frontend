@@ -52,11 +52,11 @@ const messages = Object.assign({
 
   'attrmodel.form.unit.description.dialog.title': 'Attribute parameter unit',
   'attrmodel.form.unit.description.dialog.content':
-    'This parameter allows to define the unit of the parameter.<br/> Storage units are handle for better render in user interface. So, please use the standard IEEE 1541 specification.<br />' +
-    'You can use : <ul>' +
-    '<li> - bytes, byte, B, kB, mB, gB, tB, pB, eB</li>' +
-    '<li> - bit, bits, b, kb, mb, gb, tb, pb, eb</li>' +
-    '</ul>',
+    'This parameter allows to define the unit of the parameter.<br/> Storage units are handle for better render in user interface. So, please use the standard IEEE 1541 specification.<br />'
+    + 'You can use : <ul>'
+    + '<li> - bytes, byte, B, kB, mB, gB, tB, pB, eB</li>'
+    + '<li> - bit, bits, b, kb, mb, gb, tb, pb, eb</li>'
+    + '</ul>',
   'attrmodel.form.unit.description.dialog.close': 'Close',
 
 

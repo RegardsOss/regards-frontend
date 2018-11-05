@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import Schemas from '@regardsoss/api'
+import { PRIORIZED_DATASTORAGE, PRIORIZED_DATASTORAGE_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
@@ -35,8 +35,8 @@ class PrioritizedDataStorageActions extends BasicListActions {
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages`,
       entityPathVariable: 'id',
       schemaTypes: {
-        ENTITY: Schemas.PRIORIZED_DATASTORAGE,
-        ENTITY_ARRAY: Schemas.PRIORIZED_DATASTORAGE_ARRAY,
+        ENTITY: PRIORIZED_DATASTORAGE,
+        ENTITY_ARRAY: PRIORIZED_DATASTORAGE_ARRAY,
       },
     })
   }

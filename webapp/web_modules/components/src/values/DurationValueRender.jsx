@@ -66,11 +66,11 @@ class DurationValueRender extends React.Component {
       case DurationValueRender.UNITS.HOURS:
         return durationInfo[DurationValueRender.UNITS.YEARS] === 0 && durationInfo[DurationValueRender.UNITS.MONTHS] === 0
       case DurationValueRender.UNITS.MINUTES:
-        return durationInfo[DurationValueRender.UNITS.YEARS] === 0 && durationInfo[DurationValueRender.UNITS.MONTHS] === 0 &&
-          durationInfo[DurationValueRender.UNITS.DAYS] === 0
+        return durationInfo[DurationValueRender.UNITS.YEARS] === 0 && durationInfo[DurationValueRender.UNITS.MONTHS] === 0
+          && durationInfo[DurationValueRender.UNITS.DAYS] === 0
       case DurationValueRender.UNITS.SECONDS:
-        return durationInfo[DurationValueRender.UNITS.YEARS] === 0 && durationInfo[DurationValueRender.UNITS.MONTHS] === 0 &&
-          durationInfo[DurationValueRender.UNITS.DAYS] === 0 && durationInfo[DurationValueRender.UNITS.HOURS] === 0
+        return durationInfo[DurationValueRender.UNITS.YEARS] === 0 && durationInfo[DurationValueRender.UNITS.MONTHS] === 0
+          && durationInfo[DurationValueRender.UNITS.DAYS] === 0 && durationInfo[DurationValueRender.UNITS.HOURS] === 0
       default:
         throw new Error('Unknow units')
     }

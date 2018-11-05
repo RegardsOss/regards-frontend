@@ -18,12 +18,14 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { spy } from 'sinon'
+import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import Styles from '../../src/styles/styles'
 import { UnconnectedModuleContainer } from '../../src/containers/ModuleContainer'
 import FormComponent from '../../src/components/user/FormComponent'
-import { DATASET_TYPE } from '../../src/domain/DatasetSelectionTypes'
+import PluginsConfigurationProvider from '../../src/containers/user/PluginsConfigurationProvider'
+
+import Styles from '../../src/styles/styles'
+import { conf1 } from '../dump/configuration.dump'
 
 /**
  * Tests for ModuleContainer
@@ -34,109 +36,37 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
   after(testSuiteHelpers.after)
 
   const context = buildTestContext(Styles)
-  it('Should fetch the model attributes before rendering the criterion plugins', () => {
-    const fetchAttributeCallback = spy()
-
-    const criterion = [
-      {
-        id: 1,
-        label: 'string-criterion',
-        active: true,
-        pluginId: 1,
-        container: 'content',
-        conf: {
-          attributes: {
-            testAttr: 0,
-            testAttr2: 1,
-            testAttr3: 'ipId',
-          },
-        },
-      },
-      {
-        id: 2,
-        label: 'test-criterion',
-        active: true,
-        pluginId: 2,
-        container: 'content',
-        conf: {
-          attributes: {
-            testAttr2: 1,
-            testAttr3: 2,
-          },
-        },
-      },
-    ]
-
+  it('render and resolve correctly the plugins attributes', () => {
     const props = {
       project: 'test',
       appName: 'test',
       type: 'any',
       description: 'Test',
-      moduleConf: {
-        enableFacettes: false,
-        layout: {
-          id: 'main',
-          type: 'type',
-        },
-        criterion,
-        datasets: {
-          entityType: DATASET_TYPE,
-          selectedDatasets: [],
-          selectedModels: [],
-        },
-      },
-      attributeModels: {},
-      attributeModelsFetching: true,
-      fetchAttribute: fetchAttributeCallback,
+      moduleConf: conf1,
       dispatchCollapseForm: () => { },
       dispatchExpandResults: () => { },
+      dispatchInitializeWithOpenedResults: () => { },
     }
     const wrapper = shallow(<UnconnectedModuleContainer
       {...props}
     />, { context })
 
-    // Only 3 attributes to fetch, ids : 0,1 and 2. The attribute with id=ipId is a standard attribute and can not be load
-    assert.equal(fetchAttributeCallback.callCount, 3, 'There should be 3 attributes to fetch')
-    assert.isTrue(fetchAttributeCallback.calledWith(0), 'The attribute with id 0 should be fetched')
-    assert.isTrue(fetchAttributeCallback.calledWith(1), 'The attribute with id 1 should be fetched')
-    assert.isTrue(fetchAttributeCallback.calledWith(2), 'The attribute with id 2 should be fetched')
-
     // Check parameters passed to FormComponent
     const formComponent = wrapper.find(FormComponent)
-    assert.isTrue(formComponent.length === 1, 'There should be one FormComponent rendered')
-    const expectedPlugins =
-      [
-        {
-          id: 1,
-          label: 'string-criterion',
-          active: true,
-          pluginId: 1,
-          container: 'content',
-          conf: {
-            attributes: { // not resolved in attributes pool
-              testAttr: undefined,
-              testAttr2: undefined,
-              testAttr3: { // from standard attributes pool
-                jsonPath: 'ipId', name: 'ipId', label: 'Internal ID', type: 'STRING',
-              },
-            },
-          },
-        },
-        {
-          id: 2,
-          label: 'test-criterion',
-          active: true,
-          pluginId: 2,
-          container: 'content',
-          conf: {
-            attributes: { // not resolved in attributes pool
-              testAttr2: undefined,
-              testAttr3: undefined,
-            },
-          },
-        },
-      ]
+    assert.lengthOf(formComponent, 1, 'There should be one FormComponent rendered')
 
-    assert.deepEqual(formComponent.prop('plugins'), expectedPlugins, 'Invalid plugins passed to FormComponent')
+    // Check parameters passed to PluginsConfiguration provider
+    const pluginConfProvider = wrapper.find(PluginsConfigurationProvider)
+    assert.lengthOf(pluginConfProvider, 1, 'There should be the plugin configuration provider')
+    testSuiteHelpers.assertWrapperProperties(pluginConfProvider, {
+      criteria: props.moduleConf.criterion,
+      initialQuery: wrapper.instance().getInitialQuery(),
+      authentication: props.authentication,
+    }, 'PluginsConfigurationProvider properties should be correctly provided ')
+
+    // Check results are rendered
+    const resultsModule = wrapper.find(LazyModuleComponent)
+    assert.lengthOf(resultsModule, 1, 'There should be the results module')
+    assert.equal(resultsModule.props().module.type, modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS, 'Its type should be correctly set up')
   })
 })

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNumber from 'lodash/isNumber'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ChartAdapter } from '@regardsoss/adapters'
@@ -49,11 +50,11 @@ class StoragePluginChartComponent extends React.Component {
     let data
     let colors
     const { moduleTheme: { user: { pluginCard: { media: { chart: { curves } } } } } } = this.context
-    if (usedPercent && unusedPercent) {
+    if (isNumber(usedPercent) && isNumber(unusedPercent)) {
       // unused size computation, as percents
       data = [usedPercent, unusedPercent]
       colors = [curves.usedSizeColor, curves.unusedSizeColor]
-    } else if (totalSize) {
+    } else if (isNumber(totalSize)) {
       data = [totalSize.value]
       colors = [curves.unusedSizeColor]
     } else {
@@ -80,7 +81,7 @@ class StoragePluginChartComponent extends React.Component {
     const chartData = this.buildPieData(storagePlugin.totalSize, storagePlugin.usedPercent, storagePlugin.unusedPercent)
 
     return (
-      <div style={chart.root} >
+      <div style={chart.root}>
         <ChartAdapter
           ChartComponent="Pie"
           data={chartData}

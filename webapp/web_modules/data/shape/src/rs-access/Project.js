@@ -21,7 +21,7 @@
  * Project Entity definition
  * @author Sébastien Binda
  */
-const Project = PropTypes.shape({
+export const Project = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
@@ -32,8 +32,6 @@ const Project = PropTypes.shape({
   }),
 })
 
-const ProjectList = PropTypes.objectOf(Project)
+export const ProjectList = PropTypes.objectOf(Project)
 
-const ProjectArray = PropTypes.arrayOf(Project)
-
-module.exports = { Project, ProjectList, ProjectArray }
+export const ProjectArray = PropTypes.arrayOf(Project)

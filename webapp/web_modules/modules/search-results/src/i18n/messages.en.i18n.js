@@ -17,12 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
+import { storage } from '@regardsoss/units'
 
 /**
  * i18n messages English language
  * @author Sébastien binda
  */
-const messages = Object.assign({
+const messages = {
+  // form messages
+  ...Locales.en,
+  // units messages
+  ...storage.messages.en,
 
   // Administration messages
 
@@ -51,8 +56,8 @@ const messages = Object.assign({
   'form.configuration.result.show.quicklook.initially': 'Quicklooks',
   'form.attributes.configuration.section.title': 'Displayed table columns and attributes',
   'form.attributes.regroupement.form.title': 'Add new attributes clustering',
-  'form.attributes.regroupement.description': 'A clustering of attributes allows you to display multiples attributes of a search result object into the same column of the results list.<br/>' +
-    ' Please enter the new clustering label (that must be unique) and select attributes to cluster.',
+  'form.attributes.regroupement.description': 'A clustering of attributes allows you to display multiples attributes of a search result object into the same column of the results list.<br/>'
+    + ' Please enter the new clustering label (that must be unique) and select attributes to cluster.',
   'form.attributes.regroupement.form.label': 'Label',
   'form.attributes.regroupement.form.save': 'Add',
   'form.attributes.regroupement.form.update': 'Update',
@@ -63,20 +68,41 @@ const messages = Object.assign({
   'form.attributes.facetable.label': 'Enable filter',
   'form.attributes.order': 'Display order',
   'form.attributes.initialSort.label': 'Sort results on this attribute',
-  'form.attributes.regroupement.section.title': 'Configure attributes clustering to display after every search result',
-  'form.attributes.section.title': 'Configure attributes from dynamic models retrieved from each search result',
   'form.attributes.section.clear.filters.tooltip': 'Clear current filter',
-  'form.attributes.standard.section.title': 'Configure default models attributes. Default models attributes are attributes that are associated to each model without configuration',
   'form.attributes.filter.label': 'Search for attribute label ... ',
   'form.attributes.regroupement.remove': 'Remove',
   'form.attributes.regroupement.edit': 'Edit',
   'form.attributes.delete.confirm.title': 'Remove the attributes clustering {name}?',
   'form.attributes.regroupement.form.title.update': 'Update clustering : {name}',
-  'form.attribute.conf.selection.tab.label': 'Data attributes configuration',
-  'form.attribute.dataset.conf.selection.tab.label': 'Datasets attributes configuration',
-  'form.attribute.quicklook.conf.selection.tab.label': 'Quicklook attributes configuration',
+  'form.attribute.conf.selection.tab.label': 'Data display',
+  'form.attribute.dataset.conf.selection.tab.label': 'Datasets display',
+  'form.attribute.quicklook.conf.selection.tab.label': 'Quicklooks display',
+  'form.attribute.conf.columns': 'Displayed results columns',
+  'form.attribute.conf.no.column': 'Add here table columns to show in results',
+  'form.attribute.conf.facets': 'Results filters',
+  'form.attribute.conf.no.facet': 'Add here filters that will be available on results',
+  'form.attribute.conf.sorting': 'Initial results sorting attributes',
+  'form.attribute.conf.no.sorting': 'Add here attributes that will be used to sort inital results, from greater to lower significance',
 
   // User messages
+  'search.results.configure.columns.option': 'Columns',
+  'search.results.configure.columns.summary.text': '{columnsCount} columns are available for table display',
+  'search.results.configure.columns.toggle.all.visible': 'Display all',
+  'search.results.configure.columns.toggle.all.hidden': 'Hide all',
+  'search.results.configure.columns.dialog.reset': 'Reset',
+  'search.results.configure.columns.dialog.reset.tooltip': 'Reset columns to their initial configuration',
+  'search.results.configure.columns.dialog.confirm': 'Confirm',
+  'search.results.configure.columns.dialog.cancel': 'Cancel',
+  'search.results.configure.columns.visible.column': 'Visible',
+  'search.results.configure.columns.visible.title': 'That column is visible',
+  'search.results.configure.columns.hidden.title': 'That column is hidden',
+  'search.results.configure.columns.label.column': 'Label',
+  'search.results.configure.columns.attribute.column': 'Attributes',
+  'search.results.configure.columns.attribute.label.separator': ', ',
+  'search.results.configure.columns.attribute.not.available': '-',
+  'search.results.configure.columns.move.tooltip': 'Move that column',
+  'search.results.configure.columns.move.column.at.first.position': 'First',
+  'search.results.configure.columns.move.column.after': 'After {columnLabel}',
   'navigation.dataobjects.label': 'Dataobjects',
   'navigation.datasets.label': 'Datasets',
   'navigation.documents.label': 'Documents',
@@ -87,8 +113,7 @@ const messages = Object.assign({
   'view.type.list.button.label': 'Display results with list mode',
   'view.type.quicklook.button.label': 'Display results with pictures mode',
   'download.tooltip': 'Download',
-  'no.download.tooltip': 'No file',
-  'download.unsufficient.user.rights.tooltip': 'Access denied',
+  'no.download.tooltip': 'No file or unsufficient user rights',
   'download.no.online.file.tooltip': 'All files are offline',
   'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Details',
@@ -108,6 +133,10 @@ const messages = Object.assign({
 
   'search.facets.no.facet.found': 'No facet for current result',
   'search.facets.filter.menu.others.message': 'Available choices are not exhaustive',
+  'search.facets.filter.boolean.value.true': 'true',
+  'search.facets.filter.boolean.value.false': 'false',
+  'search.facets.filter.menu.boolean.value': '{valueLabel} ({count})',
+  'search.facets.filter.chip.boolean.value': '{label}: {valueLabel}',
   'search.facets.filter.menu.date.before': 'Before {date} ({count})',
   'search.facets.filter.menu.date.after': 'After {date} ({count})',
   'search.facets.filter.menu.date.range': 'From {minDate} to {maxDate} ({count})',
@@ -126,6 +155,6 @@ const messages = Object.assign({
   'search.facets.filter.chip.number.value': '{label} = {value}',
   'search.facets.filter.menu.word.value': '{word} ({count})',
   'search.facets.filter.chip.word.value': '{label} = {word}',
-}, Locales.en)
+}
 
 export default messages

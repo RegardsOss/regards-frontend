@@ -16,22 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const ThemeContent = PropTypes.shape({
+export const ThemeContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   active: PropTypes.bool,
   configuration: PropTypes.object,
 })
 
-const Theme = PropTypes.shape({
+export const Theme = PropTypes.shape({
   content: ThemeContent,
   links: PropTypes.array,
 })
 
-const ThemeList = PropTypes.objectOf(Theme)
-
-module.exports = {
-  ThemeContent,
-  Theme,
-  ThemeList,
-}
+export const ThemeList = PropTypes.objectOf(Theme)

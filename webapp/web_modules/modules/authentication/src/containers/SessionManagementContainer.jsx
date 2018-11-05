@@ -180,8 +180,8 @@ export class SessionManagementContainer extends React.Component {
         open={showLoginWindow || sessionLocked}
       >
         {
-          sessionLocked ?
-            <SessionLockedFormComponent
+          sessionLocked
+            ? <SessionLockedFormComponent
               hasUnlockingError={hasUnlockingError}
               onUnlock={this.unlockSession}
             /> : children

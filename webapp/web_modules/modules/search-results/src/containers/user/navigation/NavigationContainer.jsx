@@ -19,7 +19,6 @@
 import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
-import { i18nSelectors } from '@regardsoss/i18n'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
 import { Tag } from '../../../models/navigation/Tag'
 import NavigationContextActions from '../../../models/navigation/NavigationContextActions'
@@ -30,7 +29,6 @@ import NavigationComponent from '../../../components/user/navigation/NavigationC
 */
 export class NavigationContainer extends React.Component {
   static mapStateToProps = state => ({
-    locale: i18nSelectors.getLocale(state),
     initialLevels: navigationContextSelectors.getInitialLevels(state),
     levels: navigationContextSelectors.getLevels(state),
   })
@@ -49,7 +47,6 @@ export class NavigationContainer extends React.Component {
     // module type (avoid redefining it)
     type: PropTypes.string.isRequired,
     // from mapStateToProps
-    locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     initialLevels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired, // used only in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
@@ -102,12 +99,11 @@ export class NavigationContainer extends React.Component {
 
   render() {
     const {
-      locale, description, page, type,
+      description, page, type,
     } = this.props
     const { navigationLevels } = this.state
     return (
       <NavigationComponent
-        locale={locale}
         description={description}
         page={page}
         defaultIconURL={UIDomain.getModuleDefaultIconURL(type)}

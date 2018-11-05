@@ -23,7 +23,7 @@ import { RenderTextField, RenderCheckbox } from '@regardsoss/form-utils'
  * @author Sébastien Binda
  * @param {*} type
  */
-const getPrimitiveJavaTypeRenderParameters = (type) => {
+export const getPrimitiveJavaTypeRenderParameters = (type) => {
   switch (type) {
     case 'java.lang.String':
       return {
@@ -55,8 +55,4 @@ const getPrimitiveJavaTypeRenderParameters = (type) => {
     default:
       return null
   }
-}
-
-module.exports = {
-  getPrimitiveJavaTypeRenderParameters,
 }

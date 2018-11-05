@@ -16,12 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const PluginDynamicValue = PropTypes.shape({
+export const PluginDynamicValue = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number.isRequired,
     value: PropTypes.string.isRequired,
   }),
 })
-const PluginDynamicValueList = PropTypes.objectOf(PluginDynamicValue)
-
-module.exports = { PluginDynamicValue, PluginDynamicValueList }
+export const PluginDynamicValueList = PropTypes.objectOf(PluginDynamicValue)

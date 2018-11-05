@@ -19,9 +19,9 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'connection.create.title': 'Création d\'une connexion',
+  'connection.create.title': 'Ajout d\'une connexion à une source de données externe',
   'connection.edit.title': 'Editer la connexion {name}',
-  'connection.form.subtitle': 'Les connexions permettent au serveur REGARDS de se connecter à la source de vos données que vous souhaitez partager',
+  'connection.form.subtitle': 'Une connexion à une source externe permet au serveur REGARDS de se connecter à la source de données pour les aspirer',
   'connection.form.label': 'Nom de la connexion',
   'connection.form.version': 'Version',
   'connection.form.priorityOrder': 'Priorité de la connexion',
@@ -36,8 +36,8 @@ const messages = Object.assign({
   'connection.form.isActive': 'Connexion active',
   'connection.form.action.save': 'Sauvegarder',
   'connection.form.action.cancel': 'Annuler',
-  'connection.list.title': 'Connexions externes',
-  'connection.list.subtitle': 'Les connexions permettent au serveur REGARDS de se connecter à la source de vos données que vous souhaitez partager',
+  'connection.list.title': 'Connexions aux bases de données externes',
+  'connection.list.subtitle': 'Une connexion à une base externe permet au serveur REGARDS de se connecter à la source de données pour les aspirer',
   'connection.list.table.label': 'Nom de la connexion',
   'connection.list.table.isActive': 'Statut de la connexion',
   'connection.list.isActive.false': 'Désactivée',
@@ -57,4 +57,3 @@ const messages = Object.assign({
 }, Locales.fr)
 
 export default messages
-

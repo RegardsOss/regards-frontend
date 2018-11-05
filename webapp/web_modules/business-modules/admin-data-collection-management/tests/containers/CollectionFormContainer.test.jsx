@@ -73,4 +73,3 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionFormContainer', (
     assert.isFalse(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be false')
   })
 })
-

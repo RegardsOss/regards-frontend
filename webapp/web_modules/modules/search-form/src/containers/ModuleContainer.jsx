@@ -16,35 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import flatten from 'lodash/flatten'
-import flow from 'lodash/flow'
-import forEach from 'lodash/forEach'
-import fpfilter from 'lodash/fp/filter'
-import fpmap from 'lodash/fp/map'
 import get from 'lodash/get'
-import isEqual from 'lodash/isEqual'
-import isInteger from 'lodash/isInteger'
 import keys from 'lodash/keys'
 import merge from 'lodash/merge'
 import reduce from 'lodash/reduce'
-import uniq from 'lodash/fp/uniq'
-import values from 'lodash/values'
-import unionBy from 'lodash/unionBy'
 import { browserHistory } from 'react-router'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { connect } from '@regardsoss/redux'
-import { AccessDomain } from '@regardsoss/domain'
+import { UIDomain } from '@regardsoss/domain'
+import { UIClient } from '@regardsoss/client'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
-import { LoadingComponent, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { LoadingComponent } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
+import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import DatasetSelectionTypes from '../domain/DatasetSelectionTypes'
-import AttributeModelClient from '../clients/AttributeModelClient'
-import { moduleExpandedStateActions } from '../clients/ModuleExpandedStateClient'
 import ModuleConfiguration from '../shapes/ModuleConfiguration'
+import PluginsConfigurationProvider from './user/PluginsConfigurationProvider'
 import FormComponent from '../components/user/FormComponent'
+
+/** Module pane state actions default instance */
+const moduleExpandedStateActions = new UIClient.ModuleExpandedStateActions()
 
 /**
  * Main container to display module form.
@@ -56,14 +50,14 @@ class ModuleContainer extends React.Component {
     ...AccessShapes.runtimeDispayModuleFields,
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
-    // Set by mapDispatchToProps
-    fetchAttribute: PropTypes.func,
-    // eslint-disable-next-line react/no-unused-prop-types
+    // Set by mapStateToProps
+    authentication: AuthenticateShape,
     attributeModels: DataManagementShapes.AttributeModelList,
-    attributesLoading: PropTypes.bool,
-    attributeModelsError: PropTypes.bool,
+    // Set by mapDispatchToProps
+    // eslint-disable-next-line react/no-unused-prop-types
     dispatchExpandResults: PropTypes.func.isRequired,
     dispatchCollapseForm: PropTypes.func.isRequired,
+    dispatchInitializeWithOpenedResults: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -71,8 +65,13 @@ class ModuleContainer extends React.Component {
     ...i18nContextType,
   }
 
+  /** Key in local storage */
+  static FORM_STORAGE_KEY = 'seach-form'
+
   static DATASET_MODEL_IDS_PARAM = 'datasetModelIds'
+
   static TAGS_PARAM = 'tags'
+
   /** Property keys to be reported onto the DynamicModulePane component */
   static MODULE_PROPS = keys(AccessShapes.runtimeDispayModuleFields)
 
@@ -85,18 +84,34 @@ class ModuleContainer extends React.Component {
     }
   }
 
+  /**
+   * Lifecycle method: component will mount. In search form, it attempts to restore from URL the form values. If none were found, it
+   * searches then in local storage some data associated with this, for current user in current module. Finally, if none was
+   * found either, it initializes with the default query
+   */
   componentWillMount() {
-    this.loadCriterionAttributeModels(this.props)
-
+    const {
+      appName, project, id, dispatchInitializeWithOpenedResults,
+    } = this.props
+    // build default query
+    let q
     // Read query parameters form current URL
     const query = browserHistory ? browserHistory.getCurrentLocation().query : null
-
-    let q = this.getInitialQuery()
-
+    // Is there a query in browser?
     if (query && query.q) {
+      // yes: user pasted some search from another REGARDS (higher priority), initialize with results visible
       ({ q } = query)
+      dispatchInitializeWithOpenedResults()
+    } else {
+      const initialUserData = UIDomain.LocalStorageUserData.getUserData(appName, project, this.getUser(), id, ModuleContainer.FORM_STORAGE_KEY)
+      if (initialUserData) {
+        q = initialUserData // default values from local storage
+        const browserPath = browserHistory.getCurrentLocation().pathname
+        browserHistory.replace({ pathname: browserPath, query: { q } })
+      } else {
+        q = this.getInitialQuery() // no default values
+      }
     }
-
     q = q && q.length > 0 ? q : this.createSearchQueryFromCriterion()
 
     this.setState({
@@ -110,14 +125,11 @@ class ModuleContainer extends React.Component {
     }
   }
 
+  /**
+   * Lifecycle method: component will receive new properties. Used here to check URL changes and update search fields
+   * @param {*} nextProps next properties
+   */
   componentWillReceiveProps(nextProps) {
-    /**
-     * If criterion props changed, so load missing attributeModels
-     */
-    if (!isEqual(this.props.moduleConf.criterion, nextProps.moduleConf.criterion)) {
-      this.loadCriterionAttributeModels(nextProps)
-    }
-
     this.handleURLChange()
   }
 
@@ -134,6 +146,9 @@ class ModuleContainer extends React.Component {
     this.criterionValues[pluginId] = criteria
   }
 
+  /** @return {string} current user if any */
+  getUser = () => get(this.props, 'authentication.sub')
+
   /**
    * Get the default query for this form at initialization
    */
@@ -148,7 +163,7 @@ class ModuleContainer extends React.Component {
         (result, dataset) => {
           if (result && dataset !== undefined) {
             return `${result} OR "${dataset}"`
-          } else if (dataset !== undefined) {
+          } if (dataset !== undefined) {
             return `"${dataset}"`
           }
           return result
@@ -164,7 +179,7 @@ class ModuleContainer extends React.Component {
         (result, modelId) => {
           if (result && modelId !== undefined) {
             return `${result} OR ${modelId}`
-          } else if (modelId !== undefined) {
+          } if (modelId !== undefined) {
             return `${modelId}`
           }
           return result
@@ -192,37 +207,6 @@ class ModuleContainer extends React.Component {
     return query
   }
 
-  /**
-   * Add the attributeModels properties to the criterion conf
-   * @returns {*}
-   */
-  getCriterionWithAttributeModels = () => (this.props.moduleConf.criterion || [])
-    .reduce((acc, criteria) => {
-      const { active, conf, ...otherProps } = criteria
-      if (active) {
-        const attributes = get(conf, 'attributes', {})
-        // resolve criterion attributes, filter the attributes that have not yet been retrieved
-        const resolvedAttributes = reduce(attributes, (resolved, attributeId, localKey) => {
-          // server attributes are resolved on ID and standard ones on key
-          const resolvedAttribute = get(this.props, `attributeModels.${attributeId}.content`) ||
-            get(AccessDomain.AttributeConfigurationController.getStandardAttributeConf(attributeId), 'content')
-          return {
-            ...resolved,
-            [localKey]: resolvedAttribute,
-          }
-        }, {})
-        return [
-          ...acc, {
-            active,
-            conf: { // replace attributes by resolved attributes content
-              attributes: resolvedAttributes,
-            },
-            ...otherProps,
-          },
-        ]
-      }
-      return acc
-    }, [])
 
   getInitialValues = () => {
     const parameters = this.state.searchQuery.match(/[^ ]*:["([][^")\]]*[")\]]|[^ ]*/g)
@@ -264,8 +248,14 @@ class ModuleContainer extends React.Component {
   }
 
   handleClearAll = () => {
+    const { appName, project, id } = this.props
+    // 1 - clear each plugin
     this.clearFunctions.forEach(func => func())
-    browserHistory.push({ pathname: browserHistory.getCurrentLocation().pathname })
+    // 2 - clear browser URL
+    browserHistory.replace({ pathname: browserHistory.getCurrentLocation().pathname })
+    // 3 - update local storage
+    UIDomain.LocalStorageUserData.clearUserDataUserData(appName, project, this.getUser(), id, ModuleContainer.FORM_STORAGE_KEY)
+    // 4 - update local state
     this.setState({
       searchQuery: this.getInitialQuery(),
     })
@@ -276,16 +266,23 @@ class ModuleContainer extends React.Component {
    * Run form search with the stored criteria values in the state.criterion
    */
   handleSearch = () => {
-    const { dispatchCollapseForm, dispatchExpandResults } = this.props
+    const {
+      appName, project, id, dispatchCollapseForm, dispatchExpandResults,
+    } = this.props
+    // 0 - build the query
     const query = this.createSearchQueryFromCriterion()
+    // 1 - save query in user data
+    UIDomain.LocalStorageUserData.saveUserData(appName, project, this.getUser(), id, ModuleContainer.FORM_STORAGE_KEY, query)
+    // 2 - Update state
     this.setState({
       searchQuery: query,
     })
     this.criterionValues = {}
+    // 3 - update browser URL
     const browserPath = browserHistory.getCurrentLocation().pathname
     const browserQuery = merge({}, browserHistory.getCurrentLocation().query || {}, { q: query })
     browserHistory.push({ pathname: browserPath, query: browserQuery })
-    // make sure search results are opened and close form
+    // 4 - make sure search results are opened and close form
     dispatchExpandResults()
     dispatchCollapseForm()
   }
@@ -299,7 +296,7 @@ class ModuleContainer extends React.Component {
       (result, criteria) => {
         if (result && criteria && criteria.length > 0) {
           return `${result} AND ${criteria}`
-        } else if (criteria) {
+        } if (criteria) {
           return criteria
         }
         return result
@@ -313,60 +310,37 @@ class ModuleContainer extends React.Component {
         return `${query} AND ${initialQuery}`
       }
       return `${query}`
-    } else if (initialQuery.length > 0) {
+    } if (initialQuery.length > 0) {
       return initialQuery
     }
 
     return ''
   }
 
-  /**
-   * Search attributeModels associated to criterion
-   * @param {*} props considered component properties
-   */
-  loadCriterionAttributeModels = (props) => {
-    const { moduleConf, fetchAttribute } = props
-    // Get unique list of criterion attributeModels id to load
-    const pluginsAttributesToLoad = flow(
-      fpmap(criteria => criteria.conf && criteria.conf.attributes),
-      fpmap(attribute => values(attribute)),
-      flatten,
-      fpfilter(isInteger),
-      uniq,
-    )(moduleConf.criterion)
-
-    const attributesToLoad = flow(fpmap(attribute => values(attribute.id)), flatten, uniq)(
-      moduleConf.attributes,
-    )
-
-    // Fetch each form server
-    forEach(unionBy(pluginsAttributesToLoad, attributesToLoad), attribute =>
-      fetchAttribute(attribute),
-    )
-  }
-
   renderForm() {
-    if (this.props.moduleConf.layout) {
+    const { moduleConf, authentication } = this.props
+    if (moduleConf.layout) {
+      const initialQuery = this.getInitialQuery()
       const pluginsProps = {
         onChange: this.onCriteriaChange,
         initialValues: this.getInitialValues(),
-        initialQuery: this.getInitialQuery(),
+        initialQuery,
         registerClear: this.registerClear,
       }
-      const criterionWithAttributes = this.getCriterionWithAttributeModels()
       return (
-        <LoadableContentDisplayDecorator
-          isLoading={this.props.attributesLoading}
-          isContentError={this.props.attributeModelsError}
+        <PluginsConfigurationProvider
+          criteria={moduleConf.criterion}
+          preview={moduleConf.preview}
+          initialQuery={initialQuery}
+          authentication={authentication}
         >
           <FormComponent
-            plugins={criterionWithAttributes}
             pluginsProps={pluginsProps}
             handleSearch={this.handleSearch}
             handleClearAll={this.handleClearAll}
             {...modulesHelper.getReportedUserModuleProps(this.props)}
           />
-        </LoadableContentDisplayDecorator>
+        </PluginsConfigurationProvider>
       )
     }
     return <LoadingComponent />
@@ -374,8 +348,8 @@ class ModuleContainer extends React.Component {
 
   renderResults() {
     const {
-      project,
-      appName, moduleConf: { datasets, preview, searchResult },
+      project, appName, id,
+      moduleConf: { datasets, preview, searchResult },
     } = this.props
 
     if (preview) {
@@ -386,12 +360,12 @@ class ModuleContainer extends React.Component {
     const { searchQuery } = this.state
 
     // resolve datasets context from this form configuration
-    let restrictedDatasetsIpIds = null
+    let restrictedDatasetsIds = null
     if (datasets.type === DatasetSelectionTypes.DATASET_TYPE) {
-      restrictedDatasetsIpIds = datasets.selectedDatasets
+      restrictedDatasetsIds = datasets.selectedDatasets
     }
-
     const module = {
+      id,
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
       active: true,
       applicationId: this.props.appName,
@@ -399,12 +373,12 @@ class ModuleContainer extends React.Component {
       conf: {
         ...searchResult,
         searchQuery,
-        restrictedDatasetsIpIds,
+        restrictedDatasetsIds,
       },
     }
 
     return (
-      <div>
+      <React.Fragment>
         {/* Separare sub module */}
         <HorizontalAreasSeparator />
         {/* Render sub module */}
@@ -413,31 +387,40 @@ class ModuleContainer extends React.Component {
           appName={appName}
           module={module}
         />
-      </div>
+      </React.Fragment>
     )
   }
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         {this.renderForm()}
         {this.renderResults()}
-      </div>
+      </React.Fragment>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  attributeModels: AttributeModelClient.AttributeModelSelectors.getList(state),
-  attributesLoading: AttributeModelClient.AttributeModelSelectors.isFetching(state),
-  attributeModelsError: AttributeModelClient.AttributeModelSelectors.hasError(state),
+  authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchAttribute: attributeId => dispatch(AttributeModelClient.AttributeModelActions.fetchEntity(attributeId)),
-  dispatchCollapseForm: () => dispatch(moduleExpandedStateActions.collapse(modulesManager.AllDynamicModuleTypes.SEARCH_FORM)),
-  dispatchExpandResults: () => dispatch(moduleExpandedStateActions.expand(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS)),
-})
+const mapDispatchToProps = (dispatch, { id, conf }) => {
+  // build keys for module sub panes (both share the module id)
+  const searchFormPaneKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(modulesManager.AllDynamicModuleTypes.SEARCH_FORM, id)
+  const searchResultsPaneKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS, id)
+  return {
+    dispatchCollapseForm: () => dispatch(moduleExpandedStateActions.setMinimized(searchFormPaneKey)),
+    dispatchExpandResults: () => dispatch(moduleExpandedStateActions.setNormal(searchResultsPaneKey)),
+    dispatchInitializeWithOpenedResults: () => {
+      // 1 - compute expansible state from conf
+      const searchFormExpansible = UIDomain.isModulePaneExpansible(get(conf, 'primaryPane')) // true by default
+      const searchResultsExpansible = UIDomain.isModulePaneExpansible(get(conf, 'searchResults.primaryPane')) // true by default
+      dispatch(moduleExpandedStateActions.initialize(searchFormPaneKey, searchFormExpansible, !searchFormExpansible))
+      dispatch(moduleExpandedStateActions.initialize(searchResultsPaneKey, searchResultsExpansible, true))
+    },
+  }
+}
 
 const UnconnectedModuleContainer = ModuleContainer
 export { UnconnectedModuleContainer }

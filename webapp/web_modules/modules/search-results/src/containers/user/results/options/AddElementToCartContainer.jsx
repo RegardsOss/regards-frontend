@@ -16,15 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import omit from 'lodash/omit'
-import { DamDomain } from '@regardsoss/domain'
+import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import AddElementToCartComponent from '../../../../components/user/results/options/AddElementToCartComponent'
 
 /**
-* Add element to cart option container
-* @author Raphaël Mechali
-*/
+ * Add element to cart option container
+ * @author Raphaël Mechali
+ */
 export class AddElementToCartContainer extends React.Component {
   static propTypes = {
     // from table cell API, mentionned here only to be excluded from children properties
@@ -43,6 +44,14 @@ export class AddElementToCartContainer extends React.Component {
     'onAddToCart',
   ]
 
+  /** Orderable data files types */
+  static ORDERABLE_FILES_TYPES = [
+    CommonDomain.DataTypesEnum.QUICKLOOK_HD,
+    CommonDomain.DataTypesEnum.QUICKLOOK_MD,
+    CommonDomain.DataTypesEnum.QUICKLOOK_SD,
+    CommonDomain.DataTypesEnum.RAWDATA,
+  ]
+
   onAddToCart = () => {
     const { entity, onAddToCart } = this.props
     if (this.canAddToCart()) {
@@ -55,12 +64,20 @@ export class AddElementToCartContainer extends React.Component {
    * @return {boolean} true when add to cart is possible for entity
    */
   canAddToCart() {
-    const { entity: { content: { entityType, containsPhysicalData, downloadable } } } = this.props
+    const {
+      entity: {
+        content: {
+          entityType,
+          files,
+        },
+      },
+    } = this.props
     // add to cart is allowed when:
     // the object is a dataset (A)
-    // Or : the object is a data object and containsPhysicalData (B)
-    return entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET || // (A)
-      (entityType === DamDomain.ENTITY_TYPES_ENUM.DATA && containsPhysicalData && downloadable) // (B)
+    // Or : the object is a data object and it contains ar least one orderable file (any quicklook or any raw data)
+    return entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET // (A)
+      || (entityType === DamDomain.ENTITY_TYPES_ENUM.DATA
+        && AddElementToCartContainer.ORDERABLE_FILES_TYPES.some(fileType => get(files, `${fileType}.length`, 0) > 0))// (B)
   }
 
   render() {

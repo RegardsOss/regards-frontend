@@ -23,6 +23,7 @@ import { OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { storage } from '@regardsoss/units'
+import { Measure, ScrollArea } from '@regardsoss/adapters'
 import { TreeTableComponent, TreeTableRow, TableLayout } from '@regardsoss/components'
 import DeleteDatasetSelectionContainer from '../../containers/user/options/DeleteDatasetSelectionContainer'
 import DeleteDatedItemSelectionContainer from '../../containers/user/options/DeleteDatedItemSelectionContainer'
@@ -39,7 +40,7 @@ export class OrderCartTableComponent extends React.Component {
   static propTypes = {
     showDatasets: PropTypes.bool.isRequired,
     basket: OrderShapes.Basket,
-    disableOptions: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
     onShowDuplicatedMessage: PropTypes.func.isRequired,
   }
 
@@ -108,21 +109,42 @@ export class OrderCartTableComponent extends React.Component {
   static AUTO_EXPANDED_DS_SELECTIONS_COUNT = 5
 
   /**
- * Builds table rows for basket as parameter (model to tree model converter)
- * @param {*} basket current basket model (optional) as described in Basket shape
- * @return [TreeTableRow] root tree table rows
- */
+   * Initial state
+   */
+  state = {
+    scrollAreaStyle: {
+      height: 0,
+    },
+  }
+
+  /**
+   * Component resized event
+   */
+  onComponentResized = ({ measureDiv: { height } }) => {
+    const previousHeight = this.state.scrollAreaStyle.height
+    this.setState({
+      // XXX-WORKAROUND see InfiniteTableContainer for more explanation (in this case, the component will simply not resize when
+      // size is lower)
+      scrollAreaStyle: {
+        height: height <= previousHeight ? height - 100 : height,
+      },
+    })
+  }
+
+  /**
+   * Builds table rows for basket as parameter (model to tree model converter)
+   * @param {*} basket current basket model (optional) as described in Basket shape
+   * @return [TreeTableRow] root tree table rows
+   */
   buildTableRows = (basket = { datasetSelections: [] }) => {
     // When showing datasets, map datasets to rows, otherwise, map directly selection items into root rows
     const { showDatasets } = this.props
     if (showDatasets) {
       // datasets as root rows
-      return basket.datasetSelections.map(selection =>
-        this.buildDatasetSelectionRow(selection, basket.datasetSelections.length <= OrderCartTableComponent.AUTO_EXPANDED_DS_SELECTIONS_COUNT))
+      return basket.datasetSelections.map(selection => this.buildDatasetSelectionRow(selection, basket.datasetSelections.length <= OrderCartTableComponent.AUTO_EXPANDED_DS_SELECTIONS_COUNT))
     }
     // selections as root rows, datasets hidden
-    return flatMap(basket.datasetSelections, ({ id, datasetLabel, itemsSelections }) =>
-      itemsSelections.map(itemSelection => this.buildDatedSelectionRow(id, datasetLabel, itemSelection)))
+    return flatMap(basket.datasetSelections, ({ id, datasetLabel, itemsSelections }) => itemsSelections.map(itemSelection => this.buildDatedSelectionRow(id, datasetLabel, itemSelection)))
   }
 
 
@@ -133,17 +155,16 @@ export class OrderCartTableComponent extends React.Component {
    */
   buildDatasetSelectionRow = ({
     id, datasetLabel, objectsCount, filesSize, itemsSelections = [],
-  }, rowExpanded) =>
-    new TreeTableRow(
-      `dataset.selection.${id}`, [datasetLabel, {
-        effectiveObjectsCount: objectsCount,
-        totalObjectsCount: OrderCartTableComponent.getTotalSelectionsObjectsCount(itemsSelections),
-      }, OrderCartTableComponent.getStorageCapacity(filesSize),
-      null, { // keep dataset selection id
-        datasetSelectionId: id,
-      }], itemsSelections.map(datedSelectionItem => this.buildDatedSelectionRow(id, datasetLabel, datedSelectionItem)), // sub rows
-      rowExpanded,
-    )
+  }, rowExpanded) => new TreeTableRow(
+    `dataset.selection.${id}`, [datasetLabel, {
+      effectiveObjectsCount: objectsCount,
+      totalObjectsCount: OrderCartTableComponent.getTotalSelectionsObjectsCount(itemsSelections),
+    }, OrderCartTableComponent.getStorageCapacity(filesSize),
+    null, { // keep dataset selection id
+      datasetSelectionId: id,
+    }], itemsSelections.map(datedSelectionItem => this.buildDatedSelectionRow(id, datasetLabel, datedSelectionItem)), // sub rows
+    rowExpanded,
+  )
 
   /**
    * Builds a dated selection item row
@@ -151,19 +172,17 @@ export class OrderCartTableComponent extends React.Component {
    * @return TreeTableRow for the dated selection item
    */
   buildDatedSelectionRow = (datasetSelectionId, datasetLabel, {
-    date, objectsCount, filesSize, openSearchRequest,
-  }) =>
-    // row cell values (no sub row)
-    new TreeTableRow(`dated.item.selection.${datasetSelectionId}-${date}`, [date, {
-      // cannot know the effective objects count here, but total is OK as we do not want to show the warning one those cells
-      effectiveObjectsCount: objectsCount,
-      totalObjectsCount: objectsCount,
-    }, OrderCartTableComponent.getStorageCapacity(filesSize), { // scale the size to the level its the more readable
-      datasetLabel, date, openSearchRequest,
-    }, { // keep label, date and request for detail option
-      datasetSelectionId, itemsSelectionDate: date,
-    }, // keep parent id and date for delete option
-    ])
+    date, objectsCount, filesSize, selectionRequest,
+  }) => new TreeTableRow(`dated.item.selection.${datasetSelectionId}-${date}`, [date, {
+    // cannot know the effective objects count here, but total is OK as we do not want to show the warning one those cells
+    effectiveObjectsCount: objectsCount,
+    totalObjectsCount: objectsCount,
+  }, OrderCartTableComponent.getStorageCapacity(filesSize), { // scale the size to the level its the more readable
+    datasetLabel, date, selectionRequest,
+  }, { // keep label, date and request for detail option
+    datasetSelectionId, itemsSelectionDate: date,
+  }, // keep parent id and date for delete option
+  ])
 
   /**
    * Builds table cell for cell value as parameter (see methods above to build row cell values)
@@ -179,8 +198,8 @@ export class OrderCartTableComponent extends React.Component {
       <TableRowColumn
         key={`cell-${columnIndex}`}
         style={
-          columnID === OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL || // specify options columns styles
-            columnID === OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE ? table.optionColumn.style : undefined
+          columnID === OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL // specify options columns styles
+            || columnID === OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE ? table.optionColumn.style : undefined
         }
       >
         {
@@ -194,7 +213,7 @@ export class OrderCartTableComponent extends React.Component {
    */
   buildTableCellContent = (cellValue, level, columnID) => {
     const { intl: { formatDate } } = this.context
-    const { showDatasets, disableOptions, onShowDuplicatedMessage } = this.props
+    const { showDatasets, isFetching, onShowDuplicatedMessage } = this.props
 
     // is it a dataset cell or a dated item selection cell?
 
@@ -204,11 +223,11 @@ export class OrderCartTableComponent extends React.Component {
     switch (columnID) {
       // ID column
       case OrderCartTableComponent.ColumnKeys.ID:
-        return isDatasetCell ?
+        return isDatasetCell
           // dataset: no change (use label)
-          cellValue :
+          ? cellValue
           // selection: format date
-          `${formatDate(new Date(Date.parse(cellValue)), OrderCartTableComponent.SELECTION_DATE_OPTIONS)}`
+          : `${formatDate(new Date(Date.parse(cellValue)), OrderCartTableComponent.SELECTION_DATE_OPTIONS)}`
       // files size: cell value is a storage capacity (or undefined), render it internationalized
       case OrderCartTableComponent.ColumnKeys.OBJECTS_COUNT:
         return (
@@ -220,30 +239,30 @@ export class OrderCartTableComponent extends React.Component {
         return <storage.FormattedStorageCapacity capacity={cellValue} />
       // detail option
       case OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL:
-        return isDatasetCell ?
+        return isDatasetCell
           // dataset: no detail
-          null :
+          ? null
           // selection: detail option, cell value is open search request
-          <ShowDatedItemSelectionDetailContainer
+          : <ShowDatedItemSelectionDetailContainer
             datasetLabel={cellValue.datasetLabel}
             date={cellValue.date}
-            openSearchRequest={cellValue.openSearchRequest}
-            disabled={disableOptions}
+            selectionRequest={cellValue.selectionRequest}
+            disabled={isFetching}
           />
       // delete option
       case OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE: {
         // extract option parameters from cell value
         const { datasetSelectionId, itemsSelectionDate } = cellValue
-        return isDatasetCell ?
+        return isDatasetCell
           // dataset: delete dataset
-          <DeleteDatasetSelectionContainer
+          ? <DeleteDatasetSelectionContainer
             datasetSelectionId={datasetSelectionId}
-            disabled={disableOptions}
-          /> :
-          <DeleteDatedItemSelectionContainer
+            disabled={isFetching}
+          />
+          : <DeleteDatedItemSelectionContainer
             datasetSelectionId={datasetSelectionId}
             itemsSelectionDate={itemsSelectionDate}
-            disabled={disableOptions}
+            disabled={isFetching}
           /> // selection: delete selection
       }
       // Other columns: unchanged
@@ -253,24 +272,43 @@ export class OrderCartTableComponent extends React.Component {
   }
 
   render() {
-    const { basket, onShowDuplicatedMessage } = this.props
-    const { intl: { formatMessage }, moduleTheme: { user: { content: { table } } } } = this.context
+    const { basket, onShowDuplicatedMessage, isFetching } = this.props
+    const { scrollAreaStyle } = this.state
+    const { intl: { formatMessage }, moduleTheme: { user: { content: { table, scrollContentArea, spaceConsumer } } } } = this.context
+
     return (
       <TableLayout>
         { /* 1 - Show basket content summary */}
-        <OrderCartContentSummaryComponent basket={basket} onShowDuplicatedMessage={onShowDuplicatedMessage} />
-        { /* 2 - Show basket added objects sets */}
-        <TreeTableComponent
-          model={basket}
-          buildTreeTableRows={this.buildTableRows}
-          buildCellComponent={this.buildTableCell}
-          columns={OrderCartTableComponent.COLUMNS_DEFINITION.map(({ key, labelKey, isOption }) => (
-            <TableHeaderColumn
-              key={key}
-              style={isOption ? table.optionColumn.style : undefined} // set up custom option columns style
-            >{labelKey ? formatMessage({ id: labelKey }) : null}
-            </TableHeaderColumn>))}
+        <OrderCartContentSummaryComponent
+          isFetching={isFetching}
+          basket={basket}
+          onShowDuplicatedMessage={onShowDuplicatedMessage}
         />
+        <Measure bounds onMeasure={this.onComponentResized}>
+          { /* 2 - Show basket added objects sets (stretch to avoid height) */
+            (({ bind }) => (
+              <div style={spaceConsumer} {...bind('measureDiv')}>
+                <ScrollArea
+                  style={scrollAreaStyle}
+                  contentStyle={scrollContentArea}
+                  vertical
+                >
+                  <TreeTableComponent
+                    model={basket}
+                    buildTreeTableRows={this.buildTableRows}
+                    buildCellComponent={this.buildTableCell}
+                    columns={OrderCartTableComponent.COLUMNS_DEFINITION.map(({ key, labelKey, isOption }) => (
+                      <TableHeaderColumn
+                        key={key}
+                        style={isOption ? table.optionColumn.style : undefined}
+                      >
+                        {labelKey ? formatMessage({ id: labelKey }) : null}
+                      </TableHeaderColumn>))}
+                  />
+                </ScrollArea>
+              </div>
+            ))}
+        </Measure>
       </TableLayout>
     )
   }

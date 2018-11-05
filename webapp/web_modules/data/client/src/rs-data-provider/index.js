@@ -16,47 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import AcquisitionProcessingChainActions from './AcquisitionProcessingChain/AcquisitionProcessingChainActions'
-import getAcquisitionProcessingChainReducer from './AcquisitionProcessingChain/AcquisitionProcessingChainReducer'
-import getAcquisitionProcessingChainSelectors from './AcquisitionProcessingChain/AcquisitionProcessingChainSelectors'
-
-import RunAcquisitionProcessingChainActions from './AcquisitionProcessingChain/RunAcquisitionProcessingChainActions'
-import StopAcquisitionProcessingChainActions from './AcquisitionProcessingChain/StopAcquisitionProcessingChainActions'
-
-import AcquisitionProcessingChainMonitorActions from './AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorActions'
-import getAcquisitionProcessingChainMonitorReducer from './AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorReducer'
-import getAcquisitionProcessingChainMonitorSelectors from './AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorSelectors'
-
-import ProductActions from './Product/ProductActions'
-import getProductReducer from './Product/ProductReducer'
-import getProductSelectors from './Product/ProductSelectors'
-
-import AcquisitionFileActions from './AcquisitionFile/AcquisitionFileActions'
-import getAcquisitionFileReducer from './AcquisitionFile/AcquisitionFileReducer'
-import getAcquisitionFileSelectors from './AcquisitionFile/AcquisitionFileSelectors'
 
 /**
  * Index for all data provider microservice clients.
  * @author Sébastien Binda
  */
-module.exports = {
-  AcquisitionProcessingChainActions,
-  getAcquisitionProcessingChainReducer,
-  getAcquisitionProcessingChainSelectors,
+export { default as AcquisitionProcessingChainActions } from './AcquisitionProcessingChain/AcquisitionProcessingChainActions'
+export { default as getAcquisitionProcessingChainReducer } from './AcquisitionProcessingChain/AcquisitionProcessingChainReducer'
+export { default as getAcquisitionProcessingChainSelectors } from './AcquisitionProcessingChain/AcquisitionProcessingChainSelectors'
 
-  RunAcquisitionProcessingChainActions,
-  StopAcquisitionProcessingChainActions,
+export { default as RunAcquisitionProcessingChainActions } from './AcquisitionProcessingChain/RunAcquisitionProcessingChainActions'
+export { default as StopAcquisitionProcessingChainActions } from './AcquisitionProcessingChain/StopAcquisitionProcessingChainActions'
 
-  AcquisitionProcessingChainMonitorActions,
-  getAcquisitionProcessingChainMonitorReducer,
-  getAcquisitionProcessingChainMonitorSelectors,
+export { default as AcquisitionProcessingChainMonitorActions } from './AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorActions'
+export { default as getAcquisitionProcessingChainMonitorReducer } from './AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorReducer'
+export { default as getAcquisitionProcessingChainMonitorSelectors } from './AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorSelectors'
 
-  ProductActions,
-  getProductReducer,
-  getProductSelectors,
+export { default as ProductActions } from './Product/ProductActions'
+export { default as getProductReducer } from './Product/ProductReducer'
+export { default as getProductSelectors } from './Product/ProductSelectors'
 
-  AcquisitionFileActions,
-  getAcquisitionFileReducer,
-  getAcquisitionFileSelectors,
-
-}
+export { default as AcquisitionFileActions } from './AcquisitionFile/AcquisitionFileActions'
+export { default as getAcquisitionFileReducer } from './AcquisitionFile/AcquisitionFileReducer'
+export { default as getAcquisitionFileSelectors } from './AcquisitionFile/AcquisitionFileSelectors'

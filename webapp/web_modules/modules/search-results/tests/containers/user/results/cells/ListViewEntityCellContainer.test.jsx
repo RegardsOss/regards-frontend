@@ -59,11 +59,11 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
       rowIndex: 1,
       entity: {
         content: {
-          id: 1,
-          ipId: 'coucou',
-          sipId: '1',
+          id: 'coucou',
+          providerId: '1',
           label: 'O.D.I.L',
           entityType: ENTITY_TYPES_ENUM.DATASET,
+          model: '1',
           files: {},
           geometry: null,
           properties: {},
@@ -80,8 +80,10 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
       gridAttributesRenderData: packGridAttributesRenderData(someModels),
       selectionEnabled: true,
       servicesEnabled: true,
+      isDescAvailableFor: () => true,
       onSearchEntity: () => { },
       onAddToCart: () => { },
+      onShowDescription: () => { },
 
       // from map state to props
       toggledElements: {},

@@ -45,7 +45,7 @@ class RenderPageableAutoCompleteField extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps(dispatch, ownProps) {
     return {
@@ -68,6 +68,7 @@ class RenderPageableAutoCompleteField extends React.Component {
       value: PropTypes.string.isRequired,
     }),
     entitiesFilterProperty: PropTypes.string.isRequired,
+    entitiesPath: PropTypes.string,
     validate: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.func), PropTypes.func]),
     // From redux field
     input: PropTypes.shape({
@@ -137,10 +138,10 @@ class RenderPageableAutoCompleteField extends React.Component {
   render() {
     const { intl, intl: { formatMessage } } = this.context
     const {
-      input, meta, fullWidth, floatingLabelText, hintText, validate, entitiesConfig, onSelect,
+      input, meta, fullWidth, floatingLabelText, hintText, validate, entitiesConfig, onSelect, entitiesPath,
     } = this.props
     const { isLoading, searchText } = this.state
-    const dsContents = map(this.state.entities, d => d.content)
+    const dsContents = map(this.state.entities, d => entitiesPath ? d.content[entitiesPath] : d.content)
     const loadingDatasource = [formatMessage({ id: 'render.pageableAutoCompleteField.loading' })]
     const ds = isLoading ? loadingDatasource : dsContents
     const dsConfig = isLoading ? undefined : entitiesConfig

@@ -21,8 +21,6 @@ import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/co
 const NAMESPACE = ' admin-data-dataset-management/datasets-table'
 const STORE_PATH = ['admin', 'data', 'dataset-management', 'datasets-table']
 
-module.exports = {
-  tableActions: new TableActions(NAMESPACE),
-  tableReducer: getTableReducer(NAMESPACE),
-  tableSelectors: getTableSelectors(STORE_PATH),
-}
+export const tableActions = new TableActions(NAMESPACE)
+export const tableReducer = getTableReducer(NAMESPACE)
+export const tableSelectors = getTableSelectors(STORE_PATH)

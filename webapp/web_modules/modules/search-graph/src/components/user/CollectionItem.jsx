@@ -62,7 +62,7 @@ class CollectionItem extends React.Component {
     const { arrowStyles } = this.state
     const { moduleTheme: { user: { collectionItem } } } = this.context
     return (
-      <div style={collectionItem.styles} >
+      <div style={collectionItem.styles}>
         <ItemLinkContainer
           entity={collection}
           Icon={CollectionIcon}

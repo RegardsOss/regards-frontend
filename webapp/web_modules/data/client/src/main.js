@@ -16,20 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import AccessInstanceClient from './rs-access-instance/main'
-import AccessProjectClient from './rs-access-project/main'
-import AdminClient from './rs-admin'
-import AdminInstanceClient from './rs-admin-instance'
-import AuthenticationClient from './rs-authentication'
-import CatalogClient from './rs-catalog'
-import CommonClient from './rs-common'
-import DataManagementClient from './rs-dam'
-import DataProviderClient from './rs-data-provider'
-import IngestClient from './rs-ingest'
-import OrderClient from './rs-order'
-import StorageClient from './rs-storage'
-import UIClient from './ui'
-
 
 /**
  * Module Client exports all the common REST API Client to request informations from REGARDS backend server.
@@ -43,19 +29,31 @@ import UIClient from './ui'
  * From the other modules of this application ou should only use Actions and Selectors.
  *
  */
-module.exports = {
-  AccessInstanceClient,
-  AccessProjectClient,
-  AuthenticationClient,
-  AdminClient,
-  AdminInstanceClient,
-  CatalogClient,
-  CommonClient,
-  DataManagementClient,
-  DataProviderClient,
-  IngestClient,
-  OrderClient,
-  StorageClient,
-  UIClient,
-}
+import * as AccessInstanceCl from './rs-access-instance/main'
+import * as AccessProjectCl from './rs-access-project/main'
+import * as AdminCl from './rs-admin'
+import * as AdminInstanceCl from './rs-admin-instance'
+import * as AuthenticationCl from './rs-authentication'
+import * as CatalogCl from './rs-catalog'
+import * as CommonCl from './rs-common'
+import * as DataManagementCl from './rs-dam'
+import * as DataProviderCl from './rs-data-provider'
+import * as IngestCl from './rs-ingest'
+import * as OrderCl from './rs-order'
+import * as StorageCl from './rs-storage'
+import * as UICl from './ui'
 
+
+export const AccessInstanceClient = AccessInstanceCl
+export const AccessProjectClient = AccessProjectCl
+export const AdminClient = AdminCl
+export const AdminInstanceClient = AdminInstanceCl
+export const AuthenticationClient = AuthenticationCl
+export const CatalogClient = CatalogCl
+export const CommonClient = CommonCl
+export const DataManagementClient = DataManagementCl
+export const DataProviderClient = DataProviderCl
+export const IngestClient = IngestCl
+export const OrderClient = OrderCl
+export const StorageClient = StorageCl
+export const UIClient = UICl

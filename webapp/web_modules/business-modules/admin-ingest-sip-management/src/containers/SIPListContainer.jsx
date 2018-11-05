@@ -24,6 +24,7 @@ import { IngestShapes } from '@regardsoss/shape'
 import SIPListComponent from '../components/monitoring/sip/SIPListComponent'
 import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
 import { sipActions, sipSelectors } from '../clients/SIPClient'
+import { sipSignalActions } from '../clients/SIPSignalClient'
 
 /**
  * Displays the list of SIPs
@@ -49,13 +50,14 @@ export class SIPListContainer extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps = dispatch => ({
     fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
-    deleteSIPByIpId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(sip.ipId)),
-    deleteSIPBySipId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(undefined, {}, { sipId: sip.sipId })),
+    deleteSIPBySipId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(sip.sipId)),
+    deleteSIPByProviderId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(undefined, {}, { providerId: sip.providerId })),
     fetchPage: (pageIndex, pageSize, requestParams) => dispatch(sipActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
+    retrySip: sip => dispatch(sipSignalActions.retry(sip.sipId)),
   })
 
   static propTypes = {
@@ -72,9 +74,10 @@ export class SIPListContainer extends React.Component {
     }),
     // from mapDistpathToProps
     fetchProcessingChains: PropTypes.func.isRequired,
-    deleteSIPByIpId: PropTypes.func.isRequired,
     deleteSIPBySipId: PropTypes.func.isRequired,
+    deleteSIPByProviderId: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
+    retrySip: PropTypes.func.isRequired,
     // from mapStateToProps
     entitiesLoading: PropTypes.bool.isRequired,
     chains: IngestShapes.IngestProcessingChainList.isRequired,
@@ -114,8 +117,27 @@ export class SIPListContainer extends React.Component {
     fetchPage(0, SIPListContainer.PAGE_SIZE * (curentPage + 1), currentFilters)
   }
 
+  onRetrySip = (sip, filters) => {
+    Promise.resolve(this.props.retrySip(sip)).then((results) => {
+      if (!results.error) {
+        this.onRefresh(filters)
+      }
+    })
+  }
+
+  goToSessionAIPsMonitoring = (session) => {
+    const { params: { project } } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/storage/aip/${session}/list`)
+  }
+
+  goToDataSourcesMonitoring = () => {
+    const { params: { project } } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/datasource/monitor`)
+  }
+
   handleGoBack = (level) => {
     const { params: { project, session, sip } } = this.props
+    const encodedSessionName = encodeURIComponent(session)
     let url
     switch (level) {
       case 0:
@@ -124,11 +146,11 @@ export class SIPListContainer extends React.Component {
         break
       case 1:
         // Go back to sips of the given session
-        url = `/admin/${project}/data/acquisition/sip/${session}/list`
+        url = `/admin/${project}/data/acquisition/sip/${encodedSessionName}/list`
         break
       default:
         if (sip) {
-          url = `/admin/${project}/data/acquisition/sip/${session}/list`
+          url = `/admin/${project}/data/acquisition/sip/${encodedSessionName}/list`
         } else {
           url = `/admin/${project}/data/acquisition/sip/session`
         }
@@ -141,7 +163,7 @@ export class SIPListContainer extends React.Component {
     const { params: { session, sip } } = props
     const contextFilters = {}
     if (sip) {
-      contextFilters.sipId = sip
+      contextFilters.providerId = sip
     } else if (session) {
       contextFilters.sessionId = session
     }
@@ -155,15 +177,18 @@ export class SIPListContainer extends React.Component {
     }
   }
 
-  goToSipHistory = (sipId) => {
+  goToSipHistory = (providerId) => {
     const { params: { project, session } } = this.props
-    const url = `/admin/${project}/data/acquisition/sip/${session}/${sipId}/history`
+    const encodedSessionName = encodeURIComponent(session)
+    const encodedProviderId = encodeURIComponent(providerId)
+    const url = `/admin/${project}/data/acquisition/sip/${encodedSessionName}/${encodedProviderId}/history`
     browserHistory.push(url)
   }
 
   render() {
     const {
-      meta, fetchPage, deleteSIPByIpId, deleteSIPBySipId, params: { session, sip }, entitiesLoading,
+      meta, fetchPage, deleteSIPBySipId, deleteSIPByProviderId,
+      params: { session, sip }, entitiesLoading,
     } = this.props
     const { urlFilters, contextFilters } = this.state
     return (
@@ -179,10 +204,13 @@ export class SIPListContainer extends React.Component {
         handleFilter={this.handleFilter}
         onBack={this.handleGoBack}
         onRefresh={this.onRefresh}
-        onDeleteByIpId={deleteSIPByIpId}
         onDeleteBySipId={deleteSIPBySipId}
+        onDeleteByProviderId={deleteSIPByProviderId}
+        onRetry={this.onRetrySip}
         fetchPage={fetchPage}
         goToSipHistory={this.goToSipHistory}
+        goToSessionAIPsMonitoring={this.goToSessionAIPsMonitoring}
+        goToDataSourcesMonitoring={this.goToDataSourcesMonitoring}
       />
     )
   }

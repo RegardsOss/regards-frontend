@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
@@ -46,8 +47,8 @@ class StringArrayValueRender extends React.Component {
     const { multilineDisplay } = this.props
     const { intl, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
     const noValueText = intl.formatMessage({ id: 'value.render.no.value.label' })
-    const textValue = value.map(text => text || noValueText).join(intl.formatMessage({ id: 'value.render.array.values.separator' })) ||
-      noValueText
+    const textValue = value.map(text => isNil(text) ? noValueText : text).join(intl.formatMessage({ id: 'value.render.array.values.separator' }))
+      || noValueText
     return (
       <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue}>
         {textValue}

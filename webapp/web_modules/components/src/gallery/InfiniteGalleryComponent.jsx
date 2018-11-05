@@ -16,12 +16,11 @@
  *    D) New items will layout if the previous layout parameters still apply
  *  - Infinite Scroll
  *
- *
  */
-/* eslint-disable */
+import get from 'lodash/get'
 import isNaN from 'lodash/isNaN'
 import throttle from 'lodash/throttle'
-import root from 'window-or-global'
+import { ScrollArea } from '@regardsoss/adapters'
 import { ShowableAtRender } from '@regardsoss/display-control'
 
 const noPage = { stop: 0 }
@@ -32,6 +31,13 @@ const classNamePropType = PropTypes.oneOfType([
   PropTypes.array,
 ]).isRequired
 
+/**
+ * Modified from @link https://github.com/colepatrickturner/react-components:
+ * - The component expects a width and a height to fit (instead of using window viewport)
+ * - threshold is a ratio (]0-1[) expressed on full component scrollable height: when user scroll to scrollable height ratio,
+ * the component starts fetching.
+ * @author Leo Mieulet
+ */
 export default class InfiniteGalleryComponent extends React.PureComponent {
   static propTypes = {
     alignCenter: PropTypes.bool,
@@ -54,10 +60,12 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       PropTypes.func,
     ]),
     onInfiniteLoad: PropTypes.func.isRequired,
+    // current content height ratio: when over, the component triggers next page download (ranges in ]0; 1[])
     threshold: PropTypes.number,
-    // eslint-disable-next-line react/forbid-prop-types
-    scrollAnchor: PropTypes.object,
-    scrollOffset: PropTypes.number,
+
+    // component current dimensions
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
@@ -65,18 +73,25 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     containerClassName: 'masonry collection-group',
     layoutClassName: 'masonry-view',
     pageClassName: 'masonry-page',
-    scrollAnchor: root,
-    threshold: root.innerHeight * 2,
+    threshold: 0.75,
   }
 
-  static isPageVisible({ start, stop, top, viewableHeight }) {
+  /**
+   * Is page visible?
+   * @param {*} start page start (pixels)
+   * @param {*} stop page stop (pixels)
+   * @param {*} top current scrollTop
+   * @param {*} viewableHeight current view height
+   * @param {boolean} true if page is visible
+   */
+  static isPageVisible(start, stop, top, viewableHeight) {
     const extraThreshold = viewableHeight
     // trigger area = viewable area with buffer areas
     if (
-      (start >= top - extraThreshold && stop <= top + viewableHeight + extraThreshold) || // If page starts and stops within the trigger area
-      (start <= top + extraThreshold && stop >= top - extraThreshold) || // If page starts before and runs within trigger area
-      (start >= top - extraThreshold && start <= top + viewableHeight + extraThreshold) || // If page starts within the trigger area
-      (stop > top - extraThreshold && stop <= top + viewableHeight + extraThreshold) // If the page stops within the trigger area
+      (start >= top - extraThreshold && stop <= top + viewableHeight + extraThreshold) // If page starts and stops within the trigger area
+      || (start <= top + extraThreshold && stop >= top - extraThreshold) // If page starts before and runs within trigger area
+      || (start >= top - extraThreshold && start <= top + viewableHeight + extraThreshold) // If page starts within the trigger area
+      || (stop > top - extraThreshold && stop <= top + viewableHeight + extraThreshold) // If the page stops within the trigger area
     ) {
       return true
     }
@@ -92,74 +107,62 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
 
   state = { averageHeight: 400, pages: [] }
 
+  /** Component will mount: used here to initialize inner layout variables */
+  componentWillMount() {
+    this.scrollTop = 0
+  }
+
+  /**
+   * Lifecycle method component did mount. Used here to layout the component initially
+   */
   componentDidMount() {
     this.layout(this.props)
     this.onScroll()
-    if (root.document) {
-      root.document.addEventListener('scroll', this.onScroll)
-      root.addEventListener('resize', this.onResize)
-    }
   }
 
+  /**
+   * Lifecycle method component will receive props. Used here to layout the component when its size changes
+   */
   componentWillReceiveProps(nextProps) {
-    if (nextProps.items.length !== this.props.items.length) {
+    if (nextProps.items.length !== this.props.items.length
+      || nextProps.width !== this.props.width
+      || nextProps.height !== this.props.height) {
       this.layout(nextProps)
     }
   }
 
-  componentWillUnmount() {
-    if (root.document) {
-      root.document.removeEventListener('scroll', this.onScroll)
-      root.removeEventListener('resize', this.onResize)
-    }
-  }
-
-
-  onResize = throttle(() => {
-    this.layout(this.props, true)
-  }, 150, { trailing: true })
-
-
-  onScroll = throttle(() => {
+  /** On user scroll detected (or initialization)
+   * @param scrollEvent scroll event
+   */
+  onScroll = (scrollEvent) => {
     if (!this.node) {
       return
     }
+    this.scrollTop = get(scrollEvent, 'topPosition', 0)
+    this.onScrollUpdate()
+  }
 
+  /**
+   * On scroll update: performs bounds visibility check and starts loading data if required
+   */
+  onScrollUpdate = throttle(() => {
     const bounds = this.node.getBoundingClientRect()
-
-    this.checkVisibility(bounds)
+    this.checkVisibility()
     this.checkInfiniteLoad(bounds)
-  }, 100, { leading: true, trailing: true })
+  }, 100)
 
-  onReference = (node) => { this.node = node };
+  /**
+   * Stores content node reference
+   */
+  onReference = (node) => { this.node = node }
 
+  /**
+   * @param {*} column  column index
+   * @param {*} viewableStart viewable start X
+   * @return left position for column
+   */
   getLeftPositionForColumn(column, viewableStart) {
     return viewableStart + (column * (this.props.columnWidth + this.props.columnGutter))
-  }
-
-  getScrollTop() {
-    if (this.props.scrollAnchor === root) {
-      return root.pageYOffset
-    }
-
-    return this.props.scrollAnchor.scrollTop
-  }
-
-  getScrollOffset() {
-    if (this.props.scrollAnchor === root) {
-      return this.node.offsetTop
-    }
-
-    return this.props.scrollOffset
-  }
-
-
-  getViewableHeight() {
-    if (this.props.scrollAnchor === root) {
-      return root.innerHeight
-    }
-
-    return this.props.scrollAnchor.offsetHeight
   }
 
   findPositionForItem = (previousItems, columnSpan, maxColumns, columnHeights, itemHeight, viewableStart) => {
@@ -180,19 +183,16 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     // Find columns to span that will create the shortest gap
     const columnGaps = columnHeights
       .slice(0, maxColumns - columnSpan + 1) // only measure columns it can span
-      .reduce((gapReduction, thisColumnHeight, column) => {
+      .map((thisColumnHeight, column) => {
         if (thisColumnHeight < columnHeights[column + 1]) {
           // If this item clips the next column, overextend
-          gapReduction[column] = columnHeights[column + 1]
-        } else {
-          // Determine how much of a gap will be created if we start in this column
-          const columnsToMeasure = columnHeights
-            .slice(column, column + columnSpan)
-
-          gapReduction[column] = Math.max(...columnsToMeasure) - Math.min(...columnsToMeasure)
+          return columnHeights[column + 1]
         }
-        return gapReduction
-      }, [])
+        // Determine how much of a gap will be created if we start in this column
+        const columnsToMeasure = columnHeights
+          .slice(column, column + columnSpan)
+        return Math.max(...columnsToMeasure) - Math.min(...columnsToMeasure)
+      })
 
     const column = columnGaps.indexOf(columnGaps.slice(0).sort(sortAscending)[0])
     const maxSpannedHeight = Math.max(...columnHeights.slice(column, column + columnSpan))
@@ -216,8 +216,6 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
 
         if (gap) {
           const left = Math.round(this.getLeftPositionForColumn(column, viewableStart))
-
-          //console.log("filled by single gap", gapColumns);
           return {
             left,
             top: gap[0],
@@ -235,7 +233,8 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     // only measure columns it can span
     const fillableColumnGaps = gapColumns
       .slice(0, maxColumns - columnSpan + 1)
-      .reduce((workingColumns, thisColumnGaps, columnIndex) => {
+      .map((workingColumns, thisColumnGaps, columnIndex) => {
+        // eslint-disable-next-line no-param-reassign
         workingColumns[columnIndex] = thisColumnGaps.filter(g => g[1] >= height)
         return workingColumns
       }, new Array(gapColumns.length).fill([]))
@@ -248,17 +247,15 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
 
         // Where the item can't span next columns
         const nextColumns = fillableColumnGaps.slice(index + 1)
-        return nextColumns.every(nextSpannableColumn =>
-          // By looking for a gap it can fit into
-          nextSpannableColumn.find((nextSpannableColumnGap) => {
-            const [nextSpannableColumnGapTop, nextSpannableColumnGapHeight] = nextSpannableColumnGap
+        return nextColumns.every(nextSpannableColumn => nextSpannableColumn.find((nextSpannableColumnGap) => {
+          const [nextSpannableColumnGapTop, nextSpannableColumnGapHeight] = nextSpannableColumnGap
 
-            // only if it can slide right in there ;)
-            return (
-              nextSpannableColumnGapTop <= thisColumnGapTop &&
-              nextSpannableColumnGapTop + nextSpannableColumnGapHeight >= thisColumnGapTop + thisColumnGapHeight
-            )
-          }))
+          // only if it can slide right in there ;)
+          return (
+            nextSpannableColumnGapTop <= thisColumnGapTop
+            && nextSpannableColumnGapTop + nextSpannableColumnGapHeight >= thisColumnGapTop + thisColumnGapHeight
+          )
+        }))
       })
 
       return acc
@@ -269,8 +266,6 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       if (spannableColumnGaps[column].length) {
         const gap = spannableColumnGaps[column][0]
         const left = Math.round(this.getLeftPositionForColumn(column, viewableStart))
-
-        //console.log("filled by spannable gap");
         return {
           left,
           top: gap[0],
@@ -284,15 +279,10 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
   }
 
   /**
-   * Returns true if there is a scrollbar in the displayed page
-   * @source https://stackoverflow.com/a/46092676/2294168
+   * Layout item pages
+   * @param {*} props properties to consider
+   * @param {boolean} rearrange should force re-layouting
    */
-  hasScrollBar = () => {
-    const { body } = root.document
-    // eslint-disable-next-line
-    return !!(body.scrollTop || (++body.scrollTop && body.scrollTop--))
-  }
-
   layout(props, rearrange = false) {
     if (!this.node) {
       return
@@ -311,8 +301,8 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
 
     // Decide a starter position for centering
     // Use the node width if there is a scrollbar, otherwise subtract LARGE_SCROLLBAR_WIDTH
-    const viewableWidth = this.hasScrollBar() ? this.node.offsetWidth : this.node.offsetWidth - InfiniteGalleryComponent.LARGE_SCROLLBAR_WIDTH
-    const viewableHeight = this.getViewableHeight()
+    const viewableWidth = this.props.width
+    const viewableHeight = this.props.height
 
     const maxColumns = Math.floor(viewableWidth / (columnWidth + columnGutter))
     const spannableWidth = (maxColumns * columnWidth) + (columnGutter * (maxColumns - 1))
@@ -320,14 +310,13 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
 
     // Setup bounds and limiters for deciding how to stage items in a page
     const itemsPerPage = maxColumns * Math.ceil(viewableHeight / this.state.averageHeight)
-    const top = Math.max(0, this.getScrollTop() + this.getScrollOffset())
 
     // Here we decide if we layout the entire grid or just new items
     const shouldRearrange = (
-      rearrange ||
-      !this.state.lastWorkingPage ||
-      this.state.lastWorkingIndex === null ||
-      maxColumns !== this.state.maxColumns
+      rearrange
+      || !this.state.lastWorkingPage
+      || this.state.lastWorkingIndex === null
+      || maxColumns !== this.state.maxColumns
     )
 
     // Setup our boundaries for layout
@@ -418,10 +407,10 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
             const [gapTop, gapHeight] = gap
             if (
               // If we filled the gap
-              (item.top <= gapTop && item.top + item.height >= gapTop) ||
-              (item.top >= gapTop && item.top <= gapTop + gapHeight) ||
+              (item.top <= gapTop && item.top + item.height >= gapTop)
+              || (item.top >= gapTop && item.top <= gapTop + gapHeight)
               // or if the gap is above our fill zone
-              gapTop < minPreviousSlicedItemTop
+              || gapTop < minPreviousSlicedItemTop
             ) {
               return false
             }
@@ -458,7 +447,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
         ...page,
         start,
         stop,
-        visible: InfiniteGalleryComponent.isPageVisible({ start, stop, top, viewableHeight }),
+        visible: InfiniteGalleryComponent.isPageVisible(start, stop, this.scrollTop, viewableHeight),
       }
     })
 
@@ -481,14 +470,15 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     })
   }
 
+  /**
+   * Checks The visible pages list
+   * @param {*} bounds component bounds
+   */
   checkVisibility() {
-    const viewableHeight = this.getViewableHeight()
-    const top = Math.max(0, this.getScrollTop() - this.getScrollOffset())
-
     let isChanged = false
-
     const pages = this.state.pages.map((page) => {
-      const visible = InfiniteGalleryComponent.isPageVisible({ start: page.start, stop: page.stop, top, viewableHeight })
+      const visible = InfiniteGalleryComponent.isPageVisible(
+        page.start, page.stop, this.scrollTop, this.props.height)
 
       isChanged = isChanged || page.visible !== visible
 
@@ -504,12 +494,13 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
   }
 
 
+  /**
+   * Checks if the infinite loading should be started
+   * @param {*} bounds component bounds
+   */
   checkInfiniteLoad(bounds) {
-    if (this.props.scrollAnchor === root) {
-      if (bounds.top + bounds.height < root.innerHeight + this.props.threshold) {
-        this.props.onInfiniteLoad()
-      }
-    } else if (this.props.threshold > this.props.scrollAnchor.scrollHeight - this.getScrollTop()) {
+    const contentHeight = this.node.getBoundingClientRect().height
+    if (this.scrollTop >= contentHeight * this.props.threshold) {
       this.props.onInfiniteLoad()
     }
   }
@@ -532,20 +523,20 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       >
         {page.items.map(({
           props, left, top, width, height, columnSpan,
-        }, itemIndex) =>
-          (
-            <Item
-              key={`page-${index}-item-${itemIndex}`}
-              columnSpan={columnSpan}
-              left={left}
-              top={top}
-              width={width}
-              entity={props}
-              columnGutter={columnGutter}
-              gridWidth={columnWidth}
-              {...this.props.itemProps}
-            />
-          ))}
+        }, itemIndex) => (
+          <Item
+              // eslint-disable-next-line react/no-array-index-key
+            key={`page-${index}-item-${itemIndex}`}
+            columnSpan={columnSpan}
+            left={left}
+            top={top}
+            width={width}
+            entity={props}
+            columnGutter={columnGutter}
+            gridWidth={columnWidth}
+            {...this.props.itemProps}
+          />
+        ))}
       </div>
     )
   }
@@ -557,6 +548,8 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       hasMore,
       loadingElement,
       isLoading,
+      width,
+      height,
     } = this.props
 
     const {
@@ -564,23 +557,28 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       layoutStyle,
     } = this.state
 
+    const scrollAreaSize = { width, height }
     return (
-      <div
-        ref={this.onReference}
-        className={containerClassName}
+      <ScrollArea
+        onScroll={this.onScroll}
+        style={scrollAreaSize}
+        vertical
       >
         <div
-          className={layoutClassName}
-          style={layoutStyle}
+          ref={this.onReference}
+          className={containerClassName}
         >
-          {pages.map(this.renderPage)}
+          <div
+            className={layoutClassName}
+            style={layoutStyle}
+          >
+            {pages.map(this.renderPage)}
+          </div>
+          <ShowableAtRender show={hasMore && isLoading}>
+            {loadingElement}
+          </ShowableAtRender>
         </div>
-        <ShowableAtRender show={hasMore && isLoading}>
-          {loadingElement}
-        </ShowableAtRender>
-      </div>
+      </ScrollArea>
     )
   }
 }
-
-/* eslint-enable */

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Schemas from '@regardsoss/api'
+import { MODEL, MODEL_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
@@ -28,8 +28,8 @@ class CollectionModelActions extends BasicListActions {
       namespace: 'search-graph/collection-model',
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models?type=COLLECTION`,
       schemaTypes: {
-        ENTITY: Schemas.MODEL,
-        ENTITY_ARRAY: Schemas.MODEL_ARRAY,
+        ENTITY: MODEL,
+        ENTITY_ARRAY: MODEL_ARRAY,
       },
     })
   }

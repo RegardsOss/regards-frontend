@@ -56,10 +56,10 @@ class SelectLocaleComponent extends React.Component {
     const iconStyle = { width: iconSize, height: iconSize }
 
     return (
-      <div title={formatMessage({ id: 'language.selector.tooltip' })} >
+      <div title={formatMessage({ id: 'language.selector.tooltip' })}>
         <IconMenu
           iconButtonElement={
-            <IconButton iconStyle={iconStyle} >
+            <IconButton iconStyle={iconStyle}>
               <img src={localeIcon} alt={formatMessage({ id: `language.selector.option.${currentLocale}` })} />
             </IconButton>}
 

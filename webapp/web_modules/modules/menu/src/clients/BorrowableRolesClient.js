@@ -19,12 +19,6 @@
 import { AdminClient } from '@regardsoss/client'
 
 const namespace = 'menu/borrowable-roles'
-const borrowableRolesActions = new AdminClient.BorrowableRolesActions(namespace)
-const borrowableRolesReducer = AdminClient.getBorrowableRolesReducer(namespace)
-const borrowableRolesSelectors = AdminClient.getBorrowableRolesSelectors(['modules.menu', 'borrowableRoles'])
-
-module.exports = {
-  borrowableRolesActions,
-  borrowableRolesReducer,
-  borrowableRolesSelectors,
-}
+export const borrowableRolesActions = new AdminClient.BorrowableRolesActions(namespace)
+export const borrowableRolesReducer = AdminClient.getBorrowableRolesReducer(namespace)
+export const borrowableRolesSelectors = AdminClient.getBorrowableRolesSelectors(['modules.menu', 'borrowableRoles'])

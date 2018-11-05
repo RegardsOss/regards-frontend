@@ -22,6 +22,8 @@ import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-
 import { RefreshPageableTableOption } from './RefreshPageableTableOption'
 import { DEFAULT_PAGE_SIZE } from '../InfiniteTableContainer'
 
+export const DEFAULT_REFRESH_TIME = 5000
+
 /**
  * Auto refresh table content HOC. It has no graphics render. It fetches like following:
  * Wait for fetch to be performed (initial one is done by table container) then start timer on refreshTimeMS then
@@ -47,7 +49,7 @@ export class AutoRefreshPageableTableHOC extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps(dispatch, { pageableTableActions, pathParams, requestParams }) {
     return {
@@ -86,48 +88,48 @@ export class AutoRefreshPageableTableHOC extends React.Component {
   static defaultProps = {
     shouldRefetchAll: true,
     pageSize: DEFAULT_PAGE_SIZE,
-    refreshTimeMS: 2500,
+    refreshTimeMS: DEFAULT_REFRESH_TIME,
   }
 
   /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   * Lifecycle method: component did mount. Used here to start refresh loop
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  componentDidMount() {
+    this.stopRefreshing = false
+    this.onRefresh()
+  }
 
   /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
-   * Lifecycle method: component will unmount. Used here to clear any running timer
-   */
+     * Lifecycle method: component will unmount. Used here to stop refresh loop
+     */
   componentWillUnmount() {
-    if (this.timerID) {
-      root.clearTimeout(this.timerID)
-    }
-  }
-
-  /**
-   * Properties change detected: update local state
-   * @param oldProps previous component properties
-   * @param newProps next component properties
-   */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    if (oldProps.isFetching && !newProps.isFetching) {
-      this.timerID = root.setTimeout(this.onRefresh, newProps.refreshTimeMS)
-    }
+    this.stopRefreshing = true // simple marker to avoid sending next refresh
   }
 
   /**
    * Refreshes table
    */
   onRefresh = () => {
-    const {
-      pageSize, shouldRefetchAll, pageMetadata, fetchEntities,
-    } = this.props
-    RefreshPageableTableOption.refreshTable(pageSize, shouldRefetchAll, pageMetadata, fetchEntities)
+    if (!this.stopRefreshing) {
+      const { refreshTimeMS } = this.props
+      // 1 - start timer
+      root.setTimeout(() => {
+        // On timer end, evalute this properties, then...
+        const {
+          pageSize, shouldRefetchAll, pageMetadata, fetchEntities,
+          isFetching, pathParams, requestParams,
+        } = this.props
+        // A - When not already fetching, start fetching and restart timer after fetch finished
+        if (!isFetching && !this.stopRefreshing) {
+          RefreshPageableTableOption.refreshTable(fetchEntities, pageSize, shouldRefetchAll,
+            pageMetadata, pathParams, requestParams).then(this.onRefresh)
+        } else {
+          // B - when already fetching, ignore event and just restart timer
+          this.onRefresh()
+        }
+      }, refreshTimeMS)
+    }
+    // else: this component should simply dye as it was unmounted, do not restart timers
   }
 
   render() {

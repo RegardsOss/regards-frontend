@@ -52,9 +52,9 @@ class StatusRender extends React.Component {
    */
   static getStatus(order) {
     // return waiting status when waitingForUser is true, return backend status otherwise
-    return get(order, 'content.waitingForUser', false) ?
-      ORDER_USER_STATUS.WAITING_USER_DOWNLOAD :
-      get(order, 'content.status', ORDER_USER_STATUS.UNKNOWN)
+    return get(order, 'content.waitingForUser', false)
+      ? ORDER_USER_STATUS.WAITING_USER_DOWNLOAD
+      : get(order, 'content.status', ORDER_USER_STATUS.UNKNOWN)
   }
 
   render() {

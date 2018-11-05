@@ -16,24 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
-import defaultFluxStandardError from './DefaultFluxStandardError'
-import IntlStub from './IntlStub'
-import muiThemeStub from './MuiThemeStub'
-import buildTestContext from './TestContextStub'
-import testSuiteHelpers from './TestSuiteHelpers'
-import uiPluginServiceTestHelpers from './UIPluginServiceTestHelpers'
-import ReduxEntityTester from './store/ReduxEntityTester'
-import ReduxFormTestHelper from './ReduxFormTestHelper'
-import DumpProvider from './clientDump/DumpProvider'
 
-module.exports = {
-  defaultFluxStandardError,
-  IntlStub,
-  muiThemeStub,
-  ReduxEntityTester,
-  ReduxFormTestHelper,
-  DumpProvider,
-  buildTestContext,
-  testSuiteHelpers,
-  uiPluginServiceTestHelpers,
-}
+export { default as defaultFluxStandardError } from './DefaultFluxStandardError'
+export { default as IntlStub } from './IntlStub'
+export { default as muiThemeStub } from './MuiThemeStub'
+export { default as buildTestContext } from './TestContextStub'
+export { default as testSuiteHelpers } from './TestSuiteHelpers'
+export { default as criterionTestSuiteHelpers } from './CriterionTestSuiteHelpers'
+export { default as uiPluginServiceTestHelpers } from './UIPluginServiceTestHelpers'
+export { default as ReduxEntityTester } from './store/ReduxEntityTester'
+export { default as ReduxFormTestHelper } from './ReduxFormTestHelper'
+export { default as DumpProvider } from './clientDump/DumpProvider'

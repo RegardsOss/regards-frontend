@@ -52,7 +52,8 @@ class AcquisitionProcessingChainFormPluginsComponent extends React.PureComponent
           style={avatarStyles}
           color={palette.textColor}
           backgroundColor={palette.primary1Color}
-        > {index}
+        >
+          {index}
         </Avatar>
         <Field
           name={fieldNamePrefix}

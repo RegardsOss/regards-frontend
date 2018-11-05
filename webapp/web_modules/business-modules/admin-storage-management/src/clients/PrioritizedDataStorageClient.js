@@ -37,18 +37,18 @@ const {
   PrioritizedDataStorageActions, getPrioritizedDataStorageReducer, getPrioritizedDataStorageSelectors,
   PrioritizedDataStorageDownActions, PrioritizedDataStorageUpActions,
 } = StorageClient
-const onlinePrioritizedDataStorageReducer = getPrioritizedDataStorageReducer(ONLINE_REDUX_ACTION_NAMESPACE)
-const onlinePrioritizedDataStorageActions = new PrioritizedDataStorageActions(ONLINE_REDUX_ACTION_NAMESPACE)
-const onlinePrioritizedDataStorageSelectors = getPrioritizedDataStorageSelectors(ONLINE_ENTITIES_STORE_PATH)
+export const onlinePrioritizedDataStorageReducer = getPrioritizedDataStorageReducer(ONLINE_REDUX_ACTION_NAMESPACE)
+export const onlinePrioritizedDataStorageActions = new PrioritizedDataStorageActions(ONLINE_REDUX_ACTION_NAMESPACE)
+export const onlinePrioritizedDataStorageSelectors = getPrioritizedDataStorageSelectors(ONLINE_ENTITIES_STORE_PATH)
 
-const nearlinePrioritizedDataStorageReducer = getPrioritizedDataStorageReducer(NEARLINE_REDUX_ACTION_NAMESPACE)
-const nearlinePrioritizedDataStorageActions = new PrioritizedDataStorageActions(NEARLINE_REDUX_ACTION_NAMESPACE)
-const nearlinePrioritizedDataStorageSelectors = getPrioritizedDataStorageSelectors(NEARLINE_ENTITIES_STORE_PATH)
+export const nearlinePrioritizedDataStorageReducer = getPrioritizedDataStorageReducer(NEARLINE_REDUX_ACTION_NAMESPACE)
+export const nearlinePrioritizedDataStorageActions = new PrioritizedDataStorageActions(NEARLINE_REDUX_ACTION_NAMESPACE)
+export const nearlinePrioritizedDataStorageSelectors = getPrioritizedDataStorageSelectors(NEARLINE_ENTITIES_STORE_PATH)
 
-const prioritizedDataStorageUpActions = new PrioritizedDataStorageUpActions(UP_NAMESPACE)
-const prioritizedDataStorageDownActions = new PrioritizedDataStorageDownActions(DOWN_NAMESPACE)
+export const prioritizedDataStorageUpActions = new PrioritizedDataStorageUpActions(UP_NAMESPACE)
+export const prioritizedDataStorageDownActions = new PrioritizedDataStorageDownActions(DOWN_NAMESPACE)
 
-const getSelectors = (type) => {
+export const getSelectors = (type) => {
   switch (type) {
     case StorageDomain.DataStorageTypeEnum.ONLINE:
       return onlinePrioritizedDataStorageSelectors
@@ -59,7 +59,7 @@ const getSelectors = (type) => {
   }
 }
 
-const getActions = (type) => {
+export const getActions = (type) => {
   switch (type) {
     case StorageDomain.DataStorageTypeEnum.ONLINE:
       return onlinePrioritizedDataStorageActions
@@ -68,21 +68,4 @@ const getActions = (type) => {
     default:
       return null
   }
-}
-
-module.exports = {
-  onlinePrioritizedDataStorageActions,
-  onlinePrioritizedDataStorageReducer,
-  onlinePrioritizedDataStorageSelectors,
-
-  nearlinePrioritizedDataStorageActions,
-  nearlinePrioritizedDataStorageReducer,
-  nearlinePrioritizedDataStorageSelectors,
-
-  prioritizedDataStorageUpActions,
-  prioritizedDataStorageDownActions,
-
-  getSelectors,
-  getActions,
-
 }

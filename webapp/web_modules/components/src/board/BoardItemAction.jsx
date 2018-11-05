@@ -35,6 +35,7 @@ class BoardItemAction extends React.Component {
       this.props.action.initialize()
     }
   }
+
   render() {
     const { action, openConfirmDialog } = this.props
     if (action.customRender) {

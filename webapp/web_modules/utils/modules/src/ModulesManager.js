@@ -30,8 +30,10 @@ import values from 'lodash/values'
  * Dynamic module types that can be instantiated by the administrator
  */
 const VisibleModuleTypes = {
+  DESCRIPTION: 'description',
   EMBEDDED_HMTL: 'embedded-html',
   LICENSE: 'licenses',
+  MAP: 'map',
   MENU: 'menu',
   ORDER_CART: 'order-cart',
   ORDER_HISTORY: 'order-history',
@@ -108,7 +110,7 @@ function getAvailableVisibleModuleTypes(dependenciesFilter = trueFunction) {
     }, []))
 }
 
-module.exports = {
+export default {
   VisibleModuleTypes,
   HiddenModuleTypes,
   AllDynamicModuleTypes,
@@ -116,4 +118,3 @@ module.exports = {
   loadModule,
   getAvailableVisibleModuleTypes,
 }
-

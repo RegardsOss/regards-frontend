@@ -51,7 +51,7 @@ function getDispatchStub(returnValue = { error: false, payload: {} }, sideEffect
 /**
  * Test suite helpers : initialize test suite and clears after run. Provides tools for tests
  */
-module.exports = {
+export default {
   /**
    * Initialize before tests
    */

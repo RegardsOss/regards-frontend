@@ -18,15 +18,11 @@
  **/
 import navigationContextReducer from './models/navigation/NavigationContextReducer'
 import { reducer as SearchCatalogReducer } from './clients/SearchEntitiesClient'
-import { AttributeModelReducer } from './clients/AttributeModelClient'
 import { DatasetAttributeModelReducer } from './clients/DatasetAttributeModelClient'
 import { DocumentAttributeModelReducer } from './clients/DocumentAttributeModelClient'
 import { DataAttributeModelReducer } from './clients/DataobjectAttributeModelClient'
 import { tableReducer } from './clients/TableClient'
-import DownloadDescriptionClient, { DATASET_REDUCER_PATH, COLLECTION_REDUCER_PATH } from './clients/DownloadDescriptionClient'
-import { descriptionLevelReducer } from './clients/DescriptionLevelClient'
-import modelAttributeClient from './clients/ModelAttributeClient'
-import pluginServiceClient from './clients/PluginServiceClient'
+import { pluginServiceReducer } from './clients/PluginServiceClient'
 import runPluginServiceReducer from './models/services/RunPluginServiceReducer'
 
 /**
@@ -34,7 +30,6 @@ import runPluginServiceReducer from './models/services/RunPluginServiceReducer'
  * @author Sébastien binda
  */
 const searchResultsReducers = {
-  attributes: AttributeModelReducer,
   'datasets-attributes': DatasetAttributeModelReducer,
   'documents-attributes': DocumentAttributeModelReducer,
   'dataobjects-attributes': DataAttributeModelReducer,
@@ -42,14 +37,9 @@ const searchResultsReducers = {
   resultsTable: tableReducer,
   // context
   navigationContext: navigationContextReducer,
-  // description
-  descriptionLevel: descriptionLevelReducer,
-  [DATASET_REDUCER_PATH]: DownloadDescriptionClient.reduceDownloadDatasetDescription,
-  [COLLECTION_REDUCER_PATH]: DownloadDescriptionClient.reduceDownloadCollectionDescription,
-  'model-attributes': modelAttributeClient.ModelAttributesReducer,
   // services
   runPluginService: runPluginServiceReducer,
-  pluginServices: pluginServiceClient.pluginServiceReducer,
+  pluginServices: pluginServiceReducer,
 }
 
 export default searchResultsReducers

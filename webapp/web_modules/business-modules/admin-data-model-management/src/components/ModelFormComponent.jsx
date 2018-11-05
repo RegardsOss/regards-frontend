@@ -17,10 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import trim from 'lodash/trim'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import {
+  Card, CardActions, CardTitle, CardText,
+} from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, RenderFileFieldWithMui, Field, RenderSelectField, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderTextField,
+  RenderFileFieldWithMui,
+  Field,
+  RenderSelectField,
+  reduxForm,
+  ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
 import MenuItem from 'material-ui/MenuItem'
 import { themeContextType } from '@regardsoss/theme'
@@ -70,19 +79,19 @@ export class ModelFormComponent extends React.Component {
    * @param {[function]} validators validators for field
    * @return {function} validator
    */
-  getFieldOrImportValidator = validators =>
-    function fieldValidator(value, values) {
-      let error
-      if (!values.file) {
-        error = validators.reduce((acc, validator) => acc || validator(value, values), undefined)
-      }
-      return error
+  getFieldOrImportValidator = validators => function fieldValidator(value, values) {
+    let error
+    if (!values.file) {
+      error = validators.reduce((acc, validator) => acc || validator(value, values), undefined)
     }
+    return error
+  }
 
   /**
    * Validates name field
    * @return validation error
    */
+  // eslint-disable-next-line react/sort-comp
   validateName = this.getFieldOrImportValidator([
     ValidationHelpers.required,
     ValidationHelpers.validAlphaNumericUnderscore,
@@ -113,6 +122,7 @@ export class ModelFormComponent extends React.Component {
     const {
       pristine, submitting, isCreating, isEditing, invalid,
     } = this.props
+    const { muiTheme, intl: { formatMessage } } = this.context
     const title = this.getTitle()
     return (
       <form
@@ -121,6 +131,12 @@ export class ModelFormComponent extends React.Component {
         <Card>
           <CardTitle
             title={title}
+            subtitle={// show duplicate waring when duplicating
+              !isCreating && !isEditing
+                ? formatMessage({ id: 'model.duplicate.warning' })
+                : null
+            }
+            subtitleColor={muiTheme.palette.accent1Color}
           />
           <CardText>
             <Field
@@ -128,7 +144,7 @@ export class ModelFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({ id: 'model.form.name' })}
+              label={formatMessage({ id: 'model.form.name' })}
               validate={this.validateName}
               disabled={isEditing}
               normalize={trim}
@@ -138,20 +154,20 @@ export class ModelFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({ id: 'model.form.description' })}
+              label={formatMessage({ id: 'model.form.description' })}
             />
             <Field
               name="type"
               fullWidth
               component={RenderSelectField}
-              label={this.context.intl.formatMessage({ id: 'model.form.type' })}
+              label={formatMessage({ id: 'model.form.type' })}
               validate={this.validateType}
               disabled={!isCreating}
             >
-              <MenuItem value="COLLECTION" primaryText={this.context.intl.formatMessage({ id: 'model.type.collection' })} />
-              <MenuItem value="DATA" primaryText={this.context.intl.formatMessage({ id: 'model.type.data' })} />
-              <MenuItem value="DATASET" primaryText={this.context.intl.formatMessage({ id: 'model.type.dataset' })} />
-              <MenuItem value="DOCUMENT" primaryText={this.context.intl.formatMessage({ id: 'model.type.document' })} />
+              <MenuItem value="COLLECTION" primaryText={formatMessage({ id: 'model.type.collection' })} />
+              <MenuItem value="DATA" primaryText={formatMessage({ id: 'model.type.data' })} />
+              <MenuItem value="DATASET" primaryText={formatMessage({ id: 'model.type.dataset' })} />
+              <MenuItem value="DOCUMENT" primaryText={formatMessage({ id: 'model.type.document' })} />
             </Field>
             <ShowableAtRender show={isCreating}>
               <hr />
@@ -166,10 +182,10 @@ export class ModelFormComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={this.context.intl.formatMessage({ id: 'model.form.action.submit' })}
+              mainButtonLabel={formatMessage({ id: 'model.form.action.submit' })}
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting || invalid}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'model.form.action.cancel' })}
+              secondaryButtonLabel={formatMessage({ id: 'model.form.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>
@@ -182,4 +198,3 @@ export class ModelFormComponent extends React.Component {
 export default reduxForm({
   form: 'model-form',
 })(ModelFormComponent)
-

@@ -21,9 +21,10 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { FieldArray } from '@regardsoss/form-utils'
 import { ModulePaneStateField } from '@regardsoss/modules-api'
+import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
 import ModuleForm from '../../../src/components/admin/ModuleForm'
 import SearchResultForm from '../../../src/components/admin/SearchResultForm'
-import SelectedLevelFormRender from '../../../src/components/admin/SelectedLevelFormRender'
+import SelectedLevelFormRender from '../../../src/components/admin/levels/SelectedLevelFormRender'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -63,7 +64,14 @@ describe('[Search Graph] Testing ModuleForm', () => {
     const field = enzymeWrapper.find(FieldArray)
     assert.equal(field.length, 1, 'There should be a field for levels')
     assert.equal(field.at(0).props().component, SelectedLevelFormRender, 'The render used should be the specific levels render')
-    // 3 - verify search result form is added
+    // 3 - check dataset attributes list configuration field
+    const listConfigurationField = enzymeWrapper.find(AttributesListConfigurationComponent)
+    assert.lengthOf(listConfigurationField, 1, 'There should be attributes list configuration field')
+    assert.equal(listConfigurationField.props().attributesListFieldName, enzymeWrapper.instance().DATASET_ATTRIBUTES_FIELD_NAME,
+      'It should be configurated to point out the right configuration field')
+    assert.isFalse(listConfigurationField.props().allowAttributesRegroupements, 'It should forbid groups configuration')
+    assert.isTrue(listConfigurationField.props().allowLabel, 'It should allow label configuration')
+    // 4 - verify search result form is added
     assert.equal(enzymeWrapper.find(SearchResultForm).length, 1, 'The search result configuration form should be used to configure search results')
   })
 })

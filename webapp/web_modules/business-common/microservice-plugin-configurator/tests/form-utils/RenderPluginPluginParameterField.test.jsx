@@ -22,7 +22,9 @@ import { assert } from 'chai'
 import RaisedButton from 'material-ui/RaisedButton'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
-import { buildTestContext, testSuiteHelpers, DumpProvider, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
+import {
+  buildTestContext, testSuiteHelpers, DumpProvider, ReduxFormTestHelper,
+} from '@regardsoss/tests-helpers'
 import { RenderPluginPluginParameterField } from '../../src/form-utils/RenderPluginPluginParameterField'
 import styles from '../../src/styles/styles'
 

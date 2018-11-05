@@ -24,7 +24,7 @@ import UIPluginInfoCriterionContent from './UIPluginInfoCriterionContent'
  * Plugin information supplied by the plugin himself
  * @author Sébastien Binda
  */
-const UIPluginInfoContent = PropTypes.shape({
+export const UIPluginInfoContent = PropTypes.shape({
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   version: PropTypes.string.isRequired,
@@ -37,8 +37,3 @@ const UIPluginInfoContent = PropTypes.shape({
   // Specific configuration properties for the given plugin
   conf: PropTypes.oneOfType([UIPluginInfoServiceContent, UIPluginInfoCriterionContent]).isRequired,
 })
-
-
-module.exports = {
-  UIPluginInfoContent,
-}

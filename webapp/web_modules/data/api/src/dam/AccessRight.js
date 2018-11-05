@@ -20,20 +20,13 @@
 
 import { Schema, arrayOf } from 'normalizr'
 
-const AccessRightConfiguration = {
+export const AccessRightConfiguration = {
   entityKey: 'id',
   normalizrKey: 'accessright',
 }
 
-const accessRight = new Schema(AccessRightConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[AccessRightConfiguration.entityKey]
+export const ACCESS_RIGHT = new Schema(AccessRightConfiguration.normalizrKey, {
+  idAttribute: entity => entity.content[AccessRightConfiguration.entityKey]
   ,
 })
-
-// Schemas for API responses.
-module.exports = {
-  ACCESS_RIGHT: accessRight,
-  ACCESS_RIGHT_ARRAY: arrayOf(accessRight),
-  AccessRightConfiguration,
-}
+export const ACCESS_RIGHT_ARRAY = arrayOf(ACCESS_RIGHT)

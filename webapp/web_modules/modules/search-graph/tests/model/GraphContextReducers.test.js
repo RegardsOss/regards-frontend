@@ -22,7 +22,7 @@ import graphContextActions from '../../src/model/graph/GraphContextActions'
 import reduce, { DEFAULT_STATE } from '../../src/model/graph/GraphContextReducers'
 
 
-describe('[Search Graph] Test graph context reducer', () => {
+describe('[Search Graph] Test GraphContextReducers', () => {
   it('should return the initial state', () => {
     assert.deepEqual(reduce(undefined, {}), DEFAULT_STATE, 'Reducer should return an empty initial state')
   })
@@ -37,24 +37,24 @@ describe('[Search Graph] Test graph context reducer', () => {
     // Test : valid selection level 1
     let currentState = DEFAULT_STATE
     let reduced = reduce(currentState, graphContextActions.selectEntity(0, {
-      content: { ipId: 'ip1', label: 'label', entityType: 'COLLECTION' },
+      content: { id: 'ip1', label: 'label', entityType: 'COLLECTION' },
     }))
     let nextState = {
       ...currentState,
-      selectionPath: [{ ipId: 'ip1', label: 'label', entityType: 'COLLECTION' }],
+      selectionPath: [{ id: 'ip1', label: 'label', entityType: 'COLLECTION' }],
     }
     assert.deepEqual(reduced, nextState, 'First level selection should be correctly reduced')
     currentState = reduced
 
     // Test : valid selection level 2
     reduced = reduce(currentState, graphContextActions.selectEntity(1, {
-      content: { ipId: 'ip2', label: 'label', entityType: 'COLLECTION' },
+      content: { id: 'ip2', label: 'label', entityType: 'COLLECTION' },
     }))
     nextState = {
       ...currentState,
       selectionPath: [
-        { ipId: 'ip1', label: 'label', entityType: 'COLLECTION' },
-        { ipId: 'ip2', label: 'label', entityType: 'COLLECTION' },
+        { id: 'ip1', label: 'label', entityType: 'COLLECTION' },
+        { id: 'ip2', label: 'label', entityType: 'COLLECTION' },
       ],
     }
     assert.deepEqual(reduced, nextState, 'Second level selection should be correctly reduced')
@@ -62,14 +62,14 @@ describe('[Search Graph] Test graph context reducer', () => {
 
     // Tests : valid selection level 3
     reduced = reduce(currentState, graphContextActions.selectEntity(2, {
-      content: { ipId: 'ip3', label: 'label', entityType: 'COLLECTION' },
+      content: { id: 'ip3', label: 'label', entityType: 'COLLECTION' },
     }))
     nextState = {
       ...currentState,
       selectionPath: [
-        { ipId: 'ip1', label: 'label', entityType: 'COLLECTION' },
-        { ipId: 'ip2', label: 'label', entityType: 'COLLECTION' },
-        { ipId: 'ip3', label: 'label', entityType: 'COLLECTION' },
+        { id: 'ip1', label: 'label', entityType: 'COLLECTION' },
+        { id: 'ip2', label: 'label', entityType: 'COLLECTION' },
+        { id: 'ip3', label: 'label', entityType: 'COLLECTION' },
       ],
     }
     assert.deepEqual(reduced, nextState, 'Third level selection should be correctly reduced')
@@ -77,7 +77,7 @@ describe('[Search Graph] Test graph context reducer', () => {
 
     // Test : 'jumping over' levels should be forbidden: Attempting a level 5 selection
     assert.throws(() => reduce(currentState, graphContextActions.selectEntity(4, {
-      content: { ipId: 'ip4', label: 'label', entityType: 'COLLECTION' },
+      content: { id: 'ip4', label: 'label', entityType: 'COLLECTION' },
     })))
 
     // Test: reset level 2 selection (selection must now contain only level 1)
@@ -85,7 +85,7 @@ describe('[Search Graph] Test graph context reducer', () => {
     nextState = {
       ...currentState,
       selectionPath: [
-        { ipId: 'ip1', label: 'label', entityType: 'COLLECTION' },
+        { id: 'ip1', label: 'label', entityType: 'COLLECTION' },
       ],
     }
     assert.deepEqual(reduced, nextState, 'Reset selection at level 2 should result in a selection path with only level 1 ')
@@ -99,22 +99,6 @@ describe('[Search Graph] Test graph context reducer', () => {
     }
     assert.deepEqual(reduced, nextState, 'Reset selection at level 1 should result in an empty selection path')
     currentState = reduced
-  })
-
-  it('Should reduce module collapsed state changing', () => {
-    let currentState = DEFAULT_STATE
-    let reduced = reduce(currentState, graphContextActions.setModuleCollapsed(true))
-    assert.deepEqual(reduced, {
-      ...currentState,
-      moduleCollapsed: true,
-    }, 'Set module collapsed should be correctly reduced')
-
-    currentState = reduced
-    reduced = reduce(currentState, graphContextActions.setModuleCollapsed(false))
-    assert.deepEqual(reduced, {
-      ...currentState,
-      moduleCollapsed: false,
-    }, 'Set module uncollapsed should be correctly reduced')
   })
 
   it('Should reduce dataset attributes visible state changing', () => {
@@ -142,7 +126,6 @@ describe('[Search Graph] Test graph context reducer', () => {
         type: TagTypes.WORD,
         data: 'w',
       },
-      moduleCollapsed: true,
-    }, 'Set search tag should be correctly reduced and module should be collapsed')
+    }, 'Set search tag should be correctly reduced')
   })
 })

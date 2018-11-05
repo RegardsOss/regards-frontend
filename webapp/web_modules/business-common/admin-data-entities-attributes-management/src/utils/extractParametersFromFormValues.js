@@ -64,7 +64,7 @@ const getAttributeValue = (attrValue, modelAttribute) => {
     case MODEL_ATTR_TYPES.STRING:
     case MODEL_ATTR_TYPES.URL:
     case MODEL_ATTR_TYPES.BOOLEAN:
-    case MODEL_ATTR_TYPES.DATE:
+    case MODEL_ATTR_TYPES.DATE_ISO8601:
       return attrValue
     case MODEL_ATTR_TYPES.INTEGER:
       return parseInt(attrValue, 10)
@@ -106,8 +106,7 @@ const extractParametersFromFormValues = (formValues, modelAttributeList) => {
   const result = {}
   forEach(formValues.properties, (fragmentValues, fragmentName) => {
     forEach(fragmentValues, (attrValue, attrName) => {
-      const modelAttr = find(modelAttributeList, modelAttribute =>
-        modelAttribute.content.attribute.name === attrName && modelAttribute.content.attribute.fragment.name === fragmentName)
+      const modelAttr = find(modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attrName && modelAttribute.content.attribute.fragment.name === fragmentName)
       const { fragment } = modelAttr.content.attribute
       // Retrieve the value, depending of the modelAttr
       const attrValueSentToBack = getAttributeValue(attrValue, modelAttr)
