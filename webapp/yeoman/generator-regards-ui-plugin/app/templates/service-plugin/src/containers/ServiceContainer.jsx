@@ -51,7 +51,7 @@ export class ServiceContainer extends React.Component {
   }
 
   static propTypes = {
-    pluginInstanceId: React.PropTypes.string.isRequired,
+    pluginInstanceId: PropTypes.string.isRequired,
     runtimeTarget: AccessShapes.RuntimeTarget.isRequired,
     configuration: AccessShapes.RuntimeConfiguration.isRequired,
     // From mapDispatchToProps
