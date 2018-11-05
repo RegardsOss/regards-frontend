@@ -202,7 +202,7 @@ class DataSourceMonitoringComponent extends React.Component {
         .label(intl.formatMessage({ id: 'crawler.list.savedObjectsCount.column.header' }))
         .build(),
       // Next planed ingest date
-      new TableColumnBuilder('nextPlannedIngestDate').titleHeaderCell().propertyRenderCell('content.nextPlannedIngestDate')
+      new TableColumnBuilder('nextPlannedIngestDate').titleHeaderCell().propertyRenderCell('content.nextPlannedIngestDate', DateValueRender)
         .label(intl.formatMessage({ id: 'crawler.list.nextPlannedIngestDate.column.header' }))
         .build(),
       new TableColumnBuilder().optionsColumn([{
