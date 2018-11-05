@@ -28,6 +28,7 @@ export const DataSourcesStatusEnum = {
   FINISHED: 'FINISHED',
   FINISHED_WITH_WARNINGS: 'FINISHED_WITH_WARNINGS',
   ERROR: 'ERROR',
+  NOT_FINISHED: 'NOT_FINISHED',
   INACTIVE: 'INACTIVE',
 }
 export const DataSourcesStatusValues = values(DataSourcesStatusEnum)
