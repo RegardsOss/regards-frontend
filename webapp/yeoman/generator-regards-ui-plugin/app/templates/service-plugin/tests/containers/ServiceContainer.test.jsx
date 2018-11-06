@@ -37,6 +37,7 @@ describe('[<%= name %>] Testing ServiceContainer', () => {
   })
   it('should render self and sub components', () => {
     const props = {
+      pluginInstanceId: 'any',
       // component props
     }
     shallow(<ServiceContainer {...props} />, { context })
