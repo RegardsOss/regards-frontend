@@ -1,0 +1,43 @@
+{
+  "name": "first-service",
+  "description": "My first service",
+  "version": "1.0.0",
+  "author": "Its me",
+  "company": "Nintendo?",
+  "email": "itsme@mario.com",
+  "url": "marioooooo.com",
+  "license": "Nintendo the license",
+  "type": "SERVICE",
+  "conf": {
+    "applicationModes": [
+      "ONE",
+      "MANY"
+    ],
+    "entityTypes": [
+      "DATA"
+    ],
+    "static": {
+      "headerMessage": {
+        "type": "string",
+        "required": false
+      }
+    },
+    "dynamic": {
+      "separator": {
+        "label": "Sepator",
+        "type": "string",
+        "required": true
+      },
+      "endWithDot": {
+        "label": "End with dot",
+        "type": "bool",
+        "required": false
+      },
+      "fieldPath": {
+        "label": "Field path",
+        "type": "string",
+        "required": true
+      }
+    }
+  }
+}
