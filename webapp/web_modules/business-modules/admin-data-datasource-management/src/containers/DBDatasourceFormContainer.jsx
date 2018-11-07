@@ -190,14 +190,10 @@ export class DBDatasourceFormContainer extends React.Component {
             {
               name: IDBDatasourceParamsEnum.REFRESH_RATE,
               value: parseInt(values.refreshRate, 10),
-              dynamic: false,
-              dynamicsValues: [],
             },
             {
               name: IDBDatasourceParamsEnum.TAGS,
               value: values.tags,
-              dynamic: false,
-              dynamicsValues: [],
             },
           ],
         },
@@ -215,15 +211,11 @@ export class DBDatasourceFormContainer extends React.Component {
       parametersWithNewRefreshRate.push({
         name: IDBDatasourceParamsEnum.REFRESH_RATE,
         value: parseInt(values.refreshRate, 10),
-        dynamic: false,
-        dynamicsValues: [],
       })
       // Add tags list
       parametersWithNewRefreshRate.push({
         name: IDBDatasourceParamsEnum.TAGS,
         value: values.tags,
-        dynamic: false,
-        dynamicsValues: [],
       })
       this.setState({
         currentDatasource: {
