@@ -27,7 +27,7 @@ import { connect } from 'react-redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import {
-  withModuleStyle, themeContextType, getCurrentTheme, setCurrentTheme, ThemeSelectors, defaultTheme,
+  withModuleStyle, themeContextType, getCurrentTheme, setCurrentTheme, ThemeSelectors,
 } from '@regardsoss/theme'
 import messages from '../i18n'
 import styles from '../styles'
@@ -42,10 +42,6 @@ export class SelectThemeContainer extends React.Component {
     currentTheme: AccessShapes.Theme,
     themeList: AccessShapes.ThemeList,
     onChange: PropTypes.func,
-  }
-
-  static defaultProps = {
-    currentTheme: defaultTheme,
   }
 
   static contextTypes = {

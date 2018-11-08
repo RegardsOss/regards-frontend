@@ -31,7 +31,7 @@ import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
 import AcquisitionFileListFiltersComponent from './AcquisitionFileListFiltersComponent'
 import AcquisitionFileStateRender from './AcquisitionFileStateRender'
-import { TableAcquisitionFileActions } from '../../../clients/TableClient'
+import { tableAcquisitionFileActions } from '../../../clients/TableClient'
 import { AcquisitionFileActions, AcquisitionFileSelectors } from '../../../clients/AcquisitionFileClient'
 import messages from '../../../i18n'
 import styles from '../../../styles'
@@ -183,7 +183,7 @@ export class AcquisitionFileListComponent extends React.Component {
               name="file-table"
               pageActions={AcquisitionFileActions}
               pageSelectors={AcquisitionFileSelectors}
-              tableActions={TableAcquisitionFileActions}
+              tableActions={tableAcquisitionFileActions}
               requestParams={appliedFilters}
               columns={columns}
               emptyComponent={emptyComponent}

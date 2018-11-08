@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AdminDomain } from '@regardsoss/domain'
-import { MetadataArray } from './Metadata'
+import { MetadataContentArray } from './Metadata'
 
 export const ProjectUser = PropTypes.shape({
   content: PropTypes.shape({
@@ -30,7 +30,7 @@ export const ProjectUser = PropTypes.shape({
     lastConnection: PropTypes.date,
     status: PropTypes.oneOf(AdminDomain.PROJECT_USER_STATUS).isRequired,
     lastUpdate: PropTypes.date,
-    metadata: MetadataArray,
+    metadata: MetadataContentArray,
   }),
 })
 export const ProjectUserList = PropTypes.objectOf(ProjectUser)

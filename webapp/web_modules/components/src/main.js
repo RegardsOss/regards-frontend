@@ -73,7 +73,7 @@ export { default as PictureLinkComponent } from './links/PictureLinkComponent'
 export { default as LinkComponent } from './links/LinkComponent'
 export { default as AnchorComponent } from './links/AnchorComponent'
 
-export { default as AutoCompleteTextField, throttleAutocompleteFetch } from './list/AutoCompleteTextField'
+export { default as AutoCompleteTextField } from './list/AutoCompleteTextField'
 export { default as ChipList } from './list/ChipList'
 export { default as ListContainer } from './list/ListContainer'
 export { default as PageableListContainer } from './list/PageableListContainer'
