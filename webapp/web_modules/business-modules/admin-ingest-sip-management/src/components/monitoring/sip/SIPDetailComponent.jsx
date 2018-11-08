@@ -58,8 +58,6 @@ class SIPDetailComponent extends React.Component {
             showLineNumbers
             readOnly
             highlightActiveLine
-            enableBasicAutocompletion
-            enableLiveAutocompletion
             wrapEnabled
           />
         </CardMedia>

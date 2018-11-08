@@ -93,7 +93,6 @@ class RenderJsonCodeEditorField extends React.Component {
           setOptions={jsonFieldStyles.editorProps}
           style={jsonFieldStyles.fieldStyle}
           onChange={this.onAceChange}
-
           showPrintMargin={false}
           showGutter
           highlightActiveLine

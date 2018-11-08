@@ -58,8 +58,6 @@ class AIPDetailComponent extends React.Component {
             showLineNumbers
             readOnly
             highlightActiveLine
-            enableBasicAutocompletion
-            enableLiveAutocompletion
             wrapEnabled
           />
         </CardMedia>
