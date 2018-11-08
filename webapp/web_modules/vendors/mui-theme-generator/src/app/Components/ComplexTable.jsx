@@ -1,7 +1,8 @@
-import React from 'react';
-import { Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
-import TextField from 'material-ui/TextField';
-import Toggle from 'material-ui/Toggle';
+import React from 'react'
+import {
+  Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn
+} from 'material-ui/Table'
+import Toggle from 'material-ui/Toggle'
 
 const styles = {
   toggle: {
@@ -11,7 +12,7 @@ const styles = {
     marginLeft: 'auto',
     borderSpacing: 0
   }
-};
+}
 
 const tableData = [
   {
@@ -44,22 +45,21 @@ const tableData = [
     name: 'Adam Moore',
     status: 'Employed',
   },
-];
+]
 
 export default class ComplexTable extends React.Component {
-
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       stripedRows: false
-    };
+    }
   }
 
   handleToggle = (event, toggled) => {
     this.setState({
       [event.target.name]: toggled,
-    });
+    })
   };
 
   render() {
@@ -76,15 +76,15 @@ export default class ComplexTable extends React.Component {
 
         <Table
           height="300px"
-          fixedHeader={true}
+          fixedHeader
           fixedFooter={false}
-          selectable={true}
-          multiSelectable={true}
+          selectable
+          multiSelectable
         >
           <TableHeader
-            displaySelectAll={true}
-            adjustForCheckbox={true}
-            enableSelectAll={true}
+            displaySelectAll
+            adjustForCheckbox
+            enableSelectAll
           >
             <TableRow>
               <TableHeaderColumn colSpan="3" tooltip="Super Header" style={{ textAlign: 'center' }}>
@@ -98,9 +98,9 @@ export default class ComplexTable extends React.Component {
             </TableRow>
           </TableHeader>
           <TableBody
-            displayRowCheckbox={true}
+            displayRowCheckbox
             deselectOnClickaway={false}
-            showRowHover={true}
+            showRowHover
             stripedRows={this.state.stripedRows}
           >
             {tableData.map((row, index) => (
@@ -113,6 +113,6 @@ export default class ComplexTable extends React.Component {
           </TableBody>
         </Table>
       </div>
-    );
+    )
   }
 }
