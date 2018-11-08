@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { DamDomain } from '@regardsoss/domain'
-import { DATASET_TYPE } from '../../src/domain/DatasetSelectionTypes'
+import DatasetSelectionTypes from '../../src/domain/DatasetSelectionTypes'
 
 /**
  * Holds module configurations dump
@@ -118,7 +118,7 @@ export const conf1 = {
   },
   criterion: criteria,
   datasets: {
-    entityType: DATASET_TYPE,
+    entityType: DatasetSelectionTypes.DATASET_TYPE,
     selectedDatasets: [],
     selectedModels: [],
   },

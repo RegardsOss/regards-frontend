@@ -22,7 +22,7 @@ import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
 import { RadioButton } from 'material-ui/RadioButton'
-import { DATASET_MODEL_TYPE } from '../../../../src/domain/DatasetSelectionTypes'
+import DatasetSelectionTypes from '../../../../src/domain/DatasetSelectionTypes'
 import Styles from '../../../../src/styles/styles'
 import FormDatasetsTypeSelection from '../../../../src/components/admin/datasets/FormDatasetsTypeSelection'
 
@@ -40,7 +40,7 @@ describe('[SEARCH FORM] Testing FormDatasetsTypeSelection', () => {
     const selectCallback = spy()
     const props = {
       currentNamespace: 'conf',
-      defaultSelected: DATASET_MODEL_TYPE,
+      defaultSelected: DatasetSelectionTypes.DATASET_MODEL_TYPE,
       onSelectType: selectCallback,
       disabled: false,
     }
