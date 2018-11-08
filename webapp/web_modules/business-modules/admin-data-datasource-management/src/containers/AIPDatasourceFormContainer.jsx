@@ -223,20 +223,14 @@ export class AIPDatasourceFormContainer extends React.Component {
       {
         name: IAIPDatasourceParamsEnum.REFRESH_RATE,
         value: parseInt(values.refreshRate, 10),
-        dynamic: false,
-        dynamicsValues: [],
       },
       {
         name: IAIPDatasourceParamsEnum.TAGS,
         value: values.tags,
-        dynamic: false,
-        dynamicsValues: [],
       },
       {
         name: IAIPDatasourceParamsEnum.SUBSETTING_TAGS,
         value: values.subsettingTags,
-        dynamic: false,
-        dynamicsValues: [],
       },
     ]
     if (!isEmpty(values.attributeFileSize)) {
