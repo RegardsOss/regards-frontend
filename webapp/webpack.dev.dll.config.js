@@ -35,7 +35,6 @@ const conf = webpackConfigurator
     entry: {
       core: [
         'chart.js',
-        'gsap',
         'immutable',
         'isomorphic-fetch',
         'lodash',
