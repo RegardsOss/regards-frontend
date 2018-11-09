@@ -137,7 +137,7 @@
     "@regardsoss/user": "file:web_modules/business-modules/user",
     "@regardsoss/user-metadata-common": "file:web_modules/business-common/user-metadata-common",
     "@regardsoss/vendors": "file:web_modules/vendors",
-    "mizar": "https://github.com/MizarWeb/Mizar/archive/be82b0c9a42768569d5230efa4287beed65dffa1.tar.gz",
+    "mizar": "https://github.com/MizarWeb/Mizar/archive/3e171342e8619b9bebe6159b8b28e7888cb223ed.tar.gz",
     "MizarWidget": "https://github.com/MizarWeb/MizarWidget/archive/92324ac3172bdb1faf6c1ef2367ffb64f8060496.tar.gz",
     "chart.js": "^2.7.3",
     "date-fns": "^1.29.0",
