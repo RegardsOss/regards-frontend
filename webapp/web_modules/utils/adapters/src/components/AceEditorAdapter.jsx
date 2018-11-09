@@ -79,6 +79,10 @@ export class AceEditorAdapter extends React.Component {
     onChange: PropTypes.func,
   }
 
+  static editorProps = {
+    $blockScrolling: Infinity,
+  }
+
   constructor(props) {
     super(props)
     this.state = { RenderComponent: AceEditorAdapter.LOADED_COMPONENT }
@@ -100,7 +104,7 @@ export class AceEditorAdapter extends React.Component {
       return null // loading
     }
     return (
-      <RenderComponent mode={mode} theme={muiTheme.components.editorACE.theme} {...otherEditorProps} />
+      <RenderComponent mode={mode} theme={muiTheme.components.editorACE.theme} editorProps={AceEditorAdapter.editorProps} {...otherEditorProps} />
     )
   }
 }
