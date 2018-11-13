@@ -92,16 +92,16 @@ export class AIPDatasourceFormContainer extends React.Component {
 
   componentDidMount() {
     const { isEditing } = this.state
+    this.props.flushModelAttribute()
     const tasks = [
       this.props.fetchModelList(),
-      this.props.flushModelAttribute(),
     ]
     if (isEditing) {
       tasks.push(this.props.fetchDatasource(this.props.params.datasourceId))
       Promise.all(tasks)
         .then((actionResult) => {
-          if (!actionResult[2].error) {
-            const currentEditingDatasource = actionResult[2].payload.entities.datasource[actionResult[2].payload.result]
+          if (!actionResult[1].error) {
+            const currentEditingDatasource = actionResult[1].payload.entities.datasource[actionResult[1].payload.result]
             const modelName = get(findParam(currentEditingDatasource, IAIPDatasourceParamsEnum.MODEL), 'value')
             this.props.fetchModelAttributeList(modelName)
               .then(() => {

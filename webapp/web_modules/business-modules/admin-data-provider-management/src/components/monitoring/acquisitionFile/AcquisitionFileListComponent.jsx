@@ -101,7 +101,7 @@ export class AcquisitionFileListComponent extends React.Component {
     if (this.timeout) {
       clearTimeout(this.timeout)
     }
-    this.handleRefresh().then((ActionResult) => {
+    this.handleRefresh().then((actionResult) => {
       this.timeout = setTimeout(this.autoRefresh, AcquisitionFileListComponent.AUTO_REFRESH_PERIOD)
     })
   }

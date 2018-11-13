@@ -76,7 +76,7 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
     nock.cleanAll()
   })
   describe('GET / calls', () => {
-    it('should leverage a request action on fetch request', (done) => {
+    it('should leverage a request action on fetch request', () => {
       nock(PROJECTS_API)
         .get('')
         .reply(500, 'Oops')
@@ -84,10 +84,9 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
 
       const expectedAction = {
         type: projectListActions.ENTITY_LIST_REQUEST,
-        payload: undefined,
-        meta: undefined,
       }
-      handleDispatch(projectListActions.fetchEntityList(), expectedAction, store, done)
+      store.dispatch(projectListActions.fetchEntityList())
+      expect(store.getActions()).to.deep.contain(expectedAction)
     })
 
     it('should leverage a failure action on fetch failure', (done) => {
@@ -100,7 +99,7 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
     })
   })
   describe('POST / calls', () => {
-    it('should leverage a request action on create request', (done) => {
+    it('should leverage a request action on create request', () => {
       nock(PROJECTS_API)
         .post('')
         .reply(500, 'Oops')
@@ -108,10 +107,9 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
 
       const expectedAction = {
         type: projectListActions.CREATE_ENTITY_REQUEST,
-        payload: undefined,
-        meta: undefined,
       }
-      handleDispatch(projectListActions.createEntity({ some: 'value' }), expectedAction, store, done)
+      store.dispatch(projectListActions.createEntity({ some: 'value' }))
+      expect(store.getActions()).to.deep.contain(expectedAction)
     })
 
     it('should leverage a failure action on create failure', (done) => {
@@ -124,7 +122,7 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
     })
   })
   describe('DELETE /{id} calls', () => {
-    it('should leverage a request action on delete request', (done) => {
+    it('should leverage a request action on delete request', () => {
       const id = 'project1'
       nock(`${PROJECTS_API}/${id}`)
         .delete('')
@@ -133,11 +131,9 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
 
       const expectedAction = {
         type: projectListActions.DELETE_ENTITY_REQUEST,
-        payload: undefined,
-        meta: undefined,
       }
-
-      handleDispatch(projectListActions.deleteEntity(id), expectedAction, store, done)
+      store.dispatch(projectListActions.deleteEntity(id))
+      expect(store.getActions()).to.deep.contain(expectedAction)
     })
 
     it('should leverage a failure action on delete failure', (done) => {

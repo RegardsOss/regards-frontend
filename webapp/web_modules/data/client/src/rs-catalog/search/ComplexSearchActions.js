@@ -19,7 +19,7 @@
 import { BasicPageableActions, BasicListActions } from '@regardsoss/store-utils'
 import { ENTITY, ENTITY_ARRAY } from '@regardsoss/api'
 
-const { CALL_API } = require('redux-api-middleware')
+const { RSAA } = require('redux-api-middleware')
 
 /**
  * Complex search entities actions
@@ -70,7 +70,7 @@ export default class ComplexSearchActions extends BasicPageableActions {
     // the following code is partially copied from BasicPageableActions (class API does not allow
     // removing pageSize and page number nor setting the request mode and body)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         // MIMIC a common list request (to be able using the BasicPageableReducer)
         types: [
           this.ENTITY_LIST_REQUEST,

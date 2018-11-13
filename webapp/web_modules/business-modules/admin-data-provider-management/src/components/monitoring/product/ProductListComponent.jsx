@@ -108,7 +108,7 @@ export class ProductListComponent extends React.Component {
     if (this.timeout) {
       clearTimeout(this.timeout)
     }
-    this.handleRefresh().then((ActionResult) => {
+    this.handleRefresh().then((actionResult) => {
       this.timeout = setTimeout(this.autoRefresh, ProductListComponent.AUTO_REFRESH_PERIOD)
     })
   }

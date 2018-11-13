@@ -22,7 +22,7 @@
 import isEmpty from 'lodash/isEmpty'
 import BasicActions from '../BasicActions'
 
-const { CALL_API, getJSON } = require('redux-api-middleware')
+const { RSAA, getJSON } = require('redux-api-middleware')
 /**
  *  Provide actions for calling any url of the backend
  *  @Return dispatcheable redux actions
@@ -54,7 +54,7 @@ class BasicSignalActions extends BasicActions {
       body = JSON.stringify(bodyParam)
     }
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.SIGNAL_REQUEST,
           this.buildSuccessAction(
@@ -86,7 +86,7 @@ class BasicSignalActions extends BasicActions {
     endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
     const formData = BasicActions.createFormDataWithFilesMap(objectValues, files)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.SIGNAL_REQUEST,
           this.buildSuccessAction(
@@ -117,7 +117,7 @@ class BasicSignalActions extends BasicActions {
     endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
     const formData = BasicActions.createFormDataWithFilesList(objectValues, files, fileKey)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.SIGNAL_REQUEST,
           this.buildSuccessAction(
