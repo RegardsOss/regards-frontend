@@ -19,7 +19,7 @@
 export const MetadataContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   key: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
 })
 
 export const MetadataContentArray = PropTypes.arrayOf(MetadataContent)
