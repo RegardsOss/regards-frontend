@@ -176,7 +176,8 @@ export class URLManagementContainer extends React.Component {
     //convert configuration tags into tags models (provide class methods)
     const initialTagsAsClass = (initialContextTags || []).map(tag => new Tag(tag.type, tag.label, tag.searchKey))
     // dispatch redux action
-    return initialize(viewObjectType, tableDisplayMode, initialTagsAsClass, tags).then(() => this.setInitialized(true))
+    initialize(viewObjectType, tableDisplayMode, initialTagsAsClass, tags)
+    return this.setInitialized(true)
   }
 
 

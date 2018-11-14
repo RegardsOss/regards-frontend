@@ -21,7 +21,7 @@ import { AuthenticationClient, AuthenticationParametersSelectors } from '@regard
 import isString from 'lodash/isString'
 // Redux middleware provides a third-party extension point
 // between dispatching an action, and the moment it reaches the reducer
-const { CALL_API } = require('redux-api-middleware')
+const { RSAA } = require('redux-api-middleware')
 
 /**
  * Check if the session is locked.
@@ -76,9 +76,9 @@ const getDefaultTypesHeaders = (callAPI) => {
 }
 
 // Intercept actions
-// If the action is formated as [CALL_API]: {...}, inject the headers
+// If the action is formated as [RSAA]: {...}, inject the headers
 const headersMiddleware = () => next => (action) => {
-  const callAPI = action[CALL_API]
+  const callAPI = action[RSAA]
   if (callAPI) {
     const specificHeaders = callAPI.headers || {}
     callAPI.headers = callStore => ({
