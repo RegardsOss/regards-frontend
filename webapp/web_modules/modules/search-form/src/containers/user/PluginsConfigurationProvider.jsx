@@ -67,7 +67,7 @@ export class PluginsConfigurationProvider extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       dispatchClearBounds: () => dispatch(attributesBoundsActions.flush()),
-      dispatchFetchBounds: (attributesPath, initialQuery) => dispatch(attributesBoundsActions.fetchAttributesBounds(attributesPath, initialQuery)),
+      dispatchFetchBounds: (attributesPath, contextQuery) => dispatch(attributesBoundsActions.fetchAttributesBounds(attributesPath, contextQuery)),
     }
   }
 
@@ -78,7 +78,7 @@ export class PluginsConfigurationProvider extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     criteria: CriteriaArray, // used in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
-    initialQuery: PropTypes.string, // used in onPropertiesUpdated
+    contextQuery: PropTypes.string, // used in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
     authentication: AuthenticateShape, // used in onPropertiesUpdated
     // from mapStateToProps
@@ -287,12 +287,12 @@ export class PluginsConfigurationProvider extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      initialQuery, authentication, attributeModels, criteria, children,
+      contextQuery, authentication, attributeModels, criteria, children,
       boundsFetchingError, attributesBounds, dispatchFetchBounds, dispatchClearBounds,
       preview,
     } = newProps
     const nextState = { ...this.state }
-    if (!isEqual(initialQuery, oldProps.initialQuery)
+    if (!isEqual(contextQuery, oldProps.contextQuery)
       || !isEqual(authentication, oldProps.authentication)
       || !isEqual(attributeModels, oldProps.attributeModels)
       || !isEqual(criteria, oldProps.criteria)) {
@@ -305,7 +305,7 @@ export class PluginsConfigurationProvider extends React.Component {
       const attributesToFetch = PluginsConfigurationProvider.getAttributesToFetchIn(nextState.plugins)
       if (attributesToFetch.length) { // do not clear / fetch bounds when none was resolved or module is in preview
         dispatchClearBounds() // clear currently stored data
-        dispatchFetchBounds(attributesToFetch, initialQuery)
+        dispatchFetchBounds(attributesToFetch, contextQuery)
       }
     } else if (!isEqual(attributesBounds, oldProps.attributesBounds) || !isEqual(boundsFetchingError, oldProps.boundsFetchingError)) {
       // 3 - Request finished with new attribute bounds or error, update attributes

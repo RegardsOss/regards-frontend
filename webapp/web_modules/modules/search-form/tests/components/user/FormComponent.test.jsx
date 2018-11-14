@@ -58,8 +58,8 @@ describe('[FORM MODULE] Testing FormComponent', () => {
         id: 'main',
         type: 'type',
       },
-      handleSearch: () => { },
-      handleClearAll: () => { },
+      onSearch: () => { },
+      onClearAll: () => { },
     }
 
     const enzymeWrapper = shallow(<FormComponent {...props} />, options)

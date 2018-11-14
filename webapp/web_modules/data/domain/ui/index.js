@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 export { default as LocalStorageUser } from './LocalStorageUser'
-export { default as LocalStorageUserData } from './LocalStorageUserData'
+export { default as LocalStorageData } from './LocalStorageData'
 export { LOCALES_ENUM, LOCALES } from './Locales'
 export { MENU_DISPLAY_MODES, MENU_DISPLAY_MODES_ENUM } from './MenuDisplayModes'
 export {

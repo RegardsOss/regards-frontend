@@ -24,13 +24,21 @@ import OpenSearchQueryParameter from './OpenSearchQueryParameter'
  * Open search query model (q parameter content)
  */
 export default class OpenSearchQuery extends Query {
+  /** Parameters separator */
   static PARAMETERS_SEPARATOR = ' AND '
 
+  /** Open search query parameter name: Entity tags */
   static TAGS_PARAM_NAME = 'tags'
 
+  /** Open search query parameter name: Entity model */
   static MODEL_PARAM_NAME = 'model'
 
+  /** Open search query parameter name: Entity ID */
   static ID_PARAM_NAME = 'id'
+
+  /** Open search query parameter name: Entity parent dataset model Ids */
+  static DATASET_MODEL_IDS_PARAM = 'datasetModelIds'
+
 
   /**
    * Builds a tag parameter

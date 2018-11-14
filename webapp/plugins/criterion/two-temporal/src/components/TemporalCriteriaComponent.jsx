@@ -19,6 +19,7 @@
 import { DatePickerField } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { AttributeModelWithBounds, formatTooltip } from '@regardsoss/plugins-api'
 
 /**
  * Search form criteria plugin allowing the user to configure the temporal value of the passed attribute with a comparator.
@@ -33,31 +34,12 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 export class TemporalCriteriaComponent extends React.Component {
   static propTypes = {
-    /**
-     * Callback to change the current criteria values in form
-     * Parameters :
-     * value: The value of the field as a Date
-     */
-    onChange: PropTypes.func,
-    /** Current value */
-    value: PropTypes.instanceOf(Date),
-    /**
-     * If true, hours will be auto-completed with the maximum value
-     * Default to false
-     */
-    isStopDate: PropTypes.bool,
-    /** Optional: tooltip */
-    tooltip: PropTypes.string,
-    /** Optional hint date */
-    hintDate: PropTypes.string,
-    /** Optional: disabled state */
-    disabled: PropTypes.bool,
+    searchAttribute: AttributeModelWithBounds.isRequired, // attribute
+    value: PropTypes.instanceOf(Date), // selected date
+    hintDate: PropTypes.instanceOf(Date), // bound hint
+    isStopDate: PropTypes.bool.isRequired, // is it range stop date (allows for 23:59:59 auto selection instead of 00:00:00)
+    onDateChanged: PropTypes.func.isRequired, // on date selected callback, like (date:Date, operator:string) => ()
   }
-
-  static defaultProps = {
-    isStopDate: false,
-  }
-
 
   static contextTypes = {
     // enable plugin theme access through this.context
@@ -66,62 +48,35 @@ export class TemporalCriteriaComponent extends React.Component {
     ...i18nContextType,
   }
 
-  /**
-   * Callback function that is fired when the date value changes.
-   *
-   * @param {Object} event Change event targetting the text field.
-   * @param {Date} newValue The new value of the date field.
-   */
-  handleChangeDate = (newValue) => {
-    const {
-      onChange,
-    } = this.props
+  /** Default time to set up when a start date is selected */
+  static DEFAULT_START_TIME = '00:00:00'
 
-    onChange(newValue)
-  }
-
-  /**
-   * Callback function that is fired when the date comparator changes.
-   *
-   * @param {String} comparator
-   */
-  handleChangeComparator = (comparator) => {
-    const { onChange, value } = this.props
-    onChange(value, comparator)
-  }
-
-  /**
-   * Extract the seconds value to inject in the field input
-   *
-   * @param {Date} date
-   */
-  formatSeconds = date => date ? date.getSeconds() : ''
+  /** Default time to set up when a stop date is selected */
+  static DEFAULT_STOP_TIME = '23:59:59'
 
   render() {
     const {
-      value, hintDate, tooltip,
-      disabled, isStopDate,
+      searchAttribute, value, hintDate,
+      isStopDate, onDateChanged,
     } = this.props
-    const {
-      intl: {
-        formatMessage, formatTime, formatDate, locale,
-      }, moduleTheme,
-    } = this.context
-
+    const { intl, moduleTheme } = this.context
+    // compute no value state with attribute bounds
+    const { lowerBound, upperBound } = searchAttribute.boundsInformation
+    const hasNoValue = !lowerBound && !upperBound
     return (
       <div style={moduleTheme.datePickerContainerStyle}>
         <DatePickerField
           value={value}
-          onChange={this.handleChangeDate}
+          onChange={onDateChanged}
           style={moduleTheme.datePickerSelectorStyle}
-          locale={locale}
-          dateHintText={hintDate ? formatDate(hintDate) : formatMessage({ id: 'criterion.date.field.label' })}
-          timeHintText={hintDate ? formatTime(hintDate) : formatMessage({ id: 'criterion.time.field.label' })}
-          tooltip={tooltip}
-          okLabel={formatMessage({ id: 'criterion.date.picker.ok' })}
-          cancelLabel={formatMessage({ id: 'criterion.date.picker.cancel' })}
-          defaultTime={isStopDate ? '23:59:59' : '00:00:00'}
-          disabled={disabled}
+          locale={intl.locale}
+          dateHintText={hintDate ? intl.formatDate(hintDate) : intl.formatMessage({ id: 'criterion.date.field.label' })}
+          timeHintText={hintDate ? intl.formatTime(hintDate) : intl.formatMessage({ id: 'criterion.time.field.label' })}
+          tooltip={formatTooltip(intl, searchAttribute)}
+          okLabel={intl.formatMessage({ id: 'criterion.date.picker.ok' })}
+          cancelLabel={intl.formatMessage({ id: 'criterion.date.picker.cancel' })}
+          defaultTime={isStopDate ? TemporalCriteriaComponent.DEFAULT_STOP_TIME : TemporalCriteriaComponent.DEFAULT_START_TIME}
+          disabled={hasNoValue} // disable field if attribute has no value
           displayTime
         />
       </div>
