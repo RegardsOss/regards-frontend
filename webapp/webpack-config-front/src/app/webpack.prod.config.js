@@ -20,6 +20,7 @@ module.exports = function (projectContextPath) {
       // Webpack chunks files namesc
       chunkFilename: '[id]-[chunkhash].chunck.js',
       publicPath: '/',
+      libraryTarget: 'umd',
     },
     module: {
       noParse: [
@@ -67,6 +68,7 @@ module.exports = function (projectContextPath) {
         // eslint-disable-next-line import/no-dynamic-require
         manifest: require(`${projectContextPath}/dist/prod/core-manifest.json`),
         context: projectContextPath,
+        sourceType: 'umd',
       }),
       // Use our DLL (containing all our cross-usable modules)
       new webpack.DllReferencePlugin({
@@ -76,6 +78,7 @@ module.exports = function (projectContextPath) {
         // eslint-disable-next-line import/no-dynamic-require
         manifest: require(`${projectContextPath}/dist/prod/coreoss-manifest.json`),
         context: projectContextPath,
+        sourceType: 'umd',
       }),
       new StatsPlugin(`../../reports/prod-${Date.now()}-profile.json`, {
         chunkModules: true,

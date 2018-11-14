@@ -27,6 +27,7 @@ module.exports = function (projectContextPath) {
         // eslint-disable-next-line import/no-dynamic-require
         manifest: require(`${projectContextPath}/../../../dist/dev/core-manifest.json`),
         context: projectContextPath,
+        sourceType: 'umd',
       }),
       // Use the DLL for all RegardsOss dependencies
       new webpack.DllReferencePlugin({
@@ -37,6 +38,7 @@ module.exports = function (projectContextPath) {
         // eslint-disable-next-line import/no-dynamic-require
         manifest: require(`${projectContextPath}/../../../dist/dev/core-manifest.json`),
         context: path.join(projectContextPath, '/../../../'),
+        sourceType: 'umd',
       }),
       new StatsPlugin(`../dev-plugins-${Date.now()}-profile.json`, {
         chunkModules: true,
