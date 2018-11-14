@@ -44,7 +44,7 @@ describe('[COMMON] Testing i18n actions', () => {
 
     const expectedActions = [setLocaleAction]
 
-    store.dispatch(setLocale('fr'))
-    expect(store.getActions()).to.eql(expectedActions)
+    return store.dispatch(setLocale('fr'))
+      .then(() => expect(store.getActions()).to.eql(expectedActions))
   }).timeout(20000)
 })

@@ -53,6 +53,7 @@ export class SIPSubmissionFormContainer extends React.Component {
    * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps = dispatch => ({
+    flushSips: () => dispatch(sipImportActions.flush()),
     submitSips: file => dispatch(sipImportActions.createEntityUsingMultiPart({}, { file })),
     isStorageReady: () => dispatch(storageReadyActions.sendSignal('GET', null, { microserviceName: 'rs-storage' })),
   })
@@ -64,6 +65,7 @@ export class SIPSubmissionFormContainer extends React.Component {
     }).isRequired,
     // from mapDispatchToProps
     submitSips: PropTypes.func.isRequired,
+    flushSips: PropTypes.func.isRequired,
     isStorageReady: PropTypes.func.isRequired,
   }
 
@@ -134,7 +136,7 @@ export class SIPSubmissionFormContainer extends React.Component {
     this.setState({
       isLoading: true,
     })
-    this.props.submitSips(values.sips)
+    this.props.flushSips().then(() => this.props.submitSips(values.sips)
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error || actionResult.meta.status === 422) {
@@ -149,7 +151,7 @@ export class SIPSubmissionFormContainer extends React.Component {
             isLoading: false,
           })
         }
-      })
+      }))
   }
 
   renderSIPSubmissionForm = () => {

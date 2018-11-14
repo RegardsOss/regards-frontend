@@ -44,10 +44,6 @@ module.exports = function (projectContextPath) {
         API_URL: JSON.stringify('/api/v1/'),
         STATIC_CONF: JSON.stringify(STATIC_CONF),
       }),
-      // Define the fetch as a global var
-      new webpack.ProvidePlugin({
-        fetch: 'isomorphic-fetch',
-      }),
     ],
     // enable sourcemaps support
     output: {

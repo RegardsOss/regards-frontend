@@ -51,7 +51,7 @@ export class ChangePasswordFormContainer extends React.Component {
     hasError: PropTypes.bool,
     changePasswordError: PropTypes.bool,
     // from map dispatch to props
-    sendChangePassword: PropTypes.func.isRequired,
+    fetchChangePasswordAction: PropTypes.func.isRequired,
     fetchRequestAction: PropTypes.func.isRequired,
     fetchPasswordRules: PropTypes.func.isRequired,
     fetchPasswordValidity: PropTypes.func.isRequired,
@@ -93,14 +93,14 @@ export class ChangePasswordFormContainer extends React.Component {
 
   onSubmit = ({ newPassword, oldPassword }) => {
     const {
-      mail, token, fetchRequestAction,
+      mail, token, fetchRequestAction, fetchChangePasswordAction,
     } = this.props
     this.setState({
       newPassword,
     })
     const { intl } = this.context
     if (oldPassword && !token) {
-      const task = this.props.sendChangePassword(mail, oldPassword, newPassword)
+      const task = fetchChangePasswordAction(mail, oldPassword, newPassword)
       task.then((actionResults) => {
         if (actionResults.error) {
           this.setState({
@@ -145,7 +145,7 @@ const mapStatesToProps = (state) => {
 
 
 const mapDispatchToProps = dispatch => ({
-  sendChangePassword: (mail, oldPassword, newPassword) => dispatch(sendChangePassword(mail, oldPassword, newPassword)),
+  fetchChangePasswordAction: (mail, oldPassword, newPassword) => dispatch(sendChangePassword(mail, oldPassword, newPassword)),
   fetchRequestAction: (token, mail, newPassword) => dispatch(sendFinishResetPassword(token, mail, newPassword)),
   fetchPasswordValidity: newPassword => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
   fetchPasswordRules: () => dispatch(accountPasswordActions.fetchPasswordRules()),

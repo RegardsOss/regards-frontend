@@ -68,7 +68,7 @@ export class DatasetFormAttributesContainer extends React.Component {
     if (has(this.props.currentDataset, 'content.model.name')) {
       tasks.push(this.props.fetchModelAttributeList(this.props.currentDataset.content.model.name))
     } else {
-      this.props.flushAttributes()
+      tasks.push(this.props.flushAttributes())
     }
     Promise.all(tasks)
       .then(() => {

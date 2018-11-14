@@ -61,9 +61,10 @@ export class SessionManagementContainer extends React.Component {
    */
   componentWillMount() {
     root.window.addEventListener('focus', this.onWindowFocused, false)
-    this.updateAuthenticationFromLocalStorage()
-    this.setState({
-      initialized: true,
+    Promise.all(this.updateAuthenticationFromLocalStorage()).then(() => {
+      this.setState({
+        initialized: true,
+      })
     })
   }
 

@@ -116,8 +116,11 @@ export class AuthenticationContainer extends React.Component {
   }
 
   onLogout = () => {
-    this.props.onLogout()
-    this.goToHomePage()
+    Promise.resolve(this.props.onLogout()).then((actionResult) => {
+      if (!actionResult.error) {
+        this.goToHomePage()
+      }
+    })
   }
 
   /** Callback to show authentication dialog */

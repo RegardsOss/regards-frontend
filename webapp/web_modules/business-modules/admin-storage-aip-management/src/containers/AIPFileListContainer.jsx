@@ -67,12 +67,13 @@ export class AIPFileListContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.props.flush()
-    this.props.fetchAIPFiles(this.props.params.aipId)
+    this.props.flush().then(() => {
+      this.props.fetchAIPFiles(this.props.params.aipId)
+    })
   }
 
   onBack = (level) => {
-    const { params: { project, session, aipId } } = this.props
+    const { params: { project, session, aip } } = this.props
     const encodedSessionName = encodeURIComponent(session)
     let url
     switch (level) {
@@ -85,7 +86,7 @@ export class AIPFileListContainer extends React.Component {
         url = `/admin/${project}/data/acquisition/storage/aip/${encodedSessionName}/list`
         break
       default:
-        if (aipId) {
+        if (aip) {
           url = `/admin/${project}/data/acquisition/storage/aip/${encodedSessionName}/list`
         } else {
           url = `/admin/${project}/data/acquisition/storage/aip/session`

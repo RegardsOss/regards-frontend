@@ -37,7 +37,7 @@ describe('[AUTHENTICATION] Testing ChangePasswordFormContainer', () => {
       token: '1',
       passwordRules: '',
       fetchRequestAction: () => { },
-      sendChangePassword: () => { },
+      fetchChangePasswordAction: () => { },
       fetchPasswordRules: () => { },
       fetchPasswordValidity: () => { },
       onDone: () => { },
