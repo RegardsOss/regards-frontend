@@ -14,7 +14,6 @@ module.exports = function (projectContextPath) {
   return merge(config, {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
     externals: [nodeExternals({
-
       whitelist: [
         // this WILL include `*regardsoss*` in the bundle
         /regardsoss/,
