@@ -1,6 +1,8 @@
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const StatsPlugin = require('stats-webpack-plugin')
+const path = require('path')
+const alias = require('../utils/alias')
 
 module.exports = function (projectContextPath) {
   // Ensure babel environment variable is correctly setup to development - will be rewrite if production is called
@@ -14,6 +16,7 @@ module.exports = function (projectContextPath) {
       modules: [
         'node_modules',
       ],
+      alias: alias(projectContextPath),
     },
     devtool: 'source-map',
     output: {
