@@ -26,7 +26,6 @@ module.exports = function (projectContextPath) {
       library: '[name]',
       // Webpack main bundle file name
       publicPath: '/',
-      libraryTarget: 'umd',
     },
     module: {
       rules: [
