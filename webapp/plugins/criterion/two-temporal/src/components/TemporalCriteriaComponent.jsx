@@ -36,7 +36,7 @@ export class TemporalCriteriaComponent extends React.Component {
   static propTypes = {
     searchAttribute: AttributeModelWithBounds.isRequired, // attribute
     value: PropTypes.instanceOf(Date), // selected date
-    hintDate: PropTypes.instanceOf(Date), // bound hint
+    hintDate: PropTypes.string, // bound hint
     isStopDate: PropTypes.bool.isRequired, // is it range stop date (allows for 23:59:59 auto selection instead of 00:00:00)
     onDateChanged: PropTypes.func.isRequired, // on date selected callback, like (date:Date, operator:string) => ()
   }

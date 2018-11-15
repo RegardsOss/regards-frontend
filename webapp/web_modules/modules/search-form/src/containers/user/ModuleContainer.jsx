@@ -109,7 +109,6 @@ export class ModuleContainer extends React.Component {
       default:
         // No restriction on datasets
     }
-
     return new CatalogDomain.OpenSearchQuery(null, restrictionParameters).toQueryString()
   }
 

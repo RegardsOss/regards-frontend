@@ -118,8 +118,114 @@ export const conf1 = {
   },
   criterion: criteria,
   datasets: {
-    entityType: DatasetSelectionTypes.DATASET_TYPE,
-    selectedDatasets: [],
+    type: DatasetSelectionTypes.DATASET_TYPE,
+    selectedDatasets: ['URN:DATASET:EXAMPLE1'],
     selectedModels: [],
+  },
+  // search results dump conf (from a real example)
+  searchResult: {
+    primaryPane: 'COLLAPSED_EXPANDABLE',
+    facettesInitiallySelected: true,
+    enableFacettes: true,
+    enableQuicklooks: false,
+    enableDownload: false,
+    initialViewMode: 'list',
+    displayMode: 'data_dataset',
+    displayConf: {
+      quicklookColumnWidth: 400,
+      quicklookColumnSpacing: 20,
+    },
+    data: {
+      columns: [
+        {
+          attributes: [
+            {
+              name: 'label',
+            },
+          ],
+          label: {
+            en: 'Label',
+            fr: 'Libellé',
+          },
+        },
+        {
+          attributes: [
+            {
+              name: 'properties.date',
+            },
+          ],
+          label: {
+            en: 'Date UTC',
+            fr: 'Date UTC',
+          },
+        },
+      ],
+      facets: [
+        {
+          attributes: [
+            {
+              name: 'properties.date',
+            },
+          ],
+          label: {
+            en: 'Date UTC',
+            fr: 'Date UTC',
+          },
+        },
+      ],
+      sorting: [
+        {
+          attributes: [
+            {
+              name: 'properties.date',
+            },
+          ],
+        },
+        {
+          attributes: [
+            {
+              name: 'label',
+            },
+          ],
+        },
+      ],
+    },
+    dataset: {
+      columns: [
+        {
+          attributes: [
+            {
+              name: 'label',
+            },
+          ],
+          label: {
+            en: 'Label',
+            fr: 'Libellé',
+          },
+        },
+        {
+          attributes: [
+            {
+              name: 'id',
+            },
+          ],
+          label: {
+            en: 'Internal ID',
+            fr: 'ID interne',
+          },
+        },
+        {
+          attributes: [
+            {
+              name: 'properties.name',
+            },
+          ],
+          label: {
+            en: 'Name',
+            fr: 'Nom',
+          },
+        },
+      ],
+    },
   },
 }

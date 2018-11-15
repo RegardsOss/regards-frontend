@@ -51,12 +51,7 @@ describe('[FORM MODULE] Testing FormComponent', () => {
       },
       plugins: DUMP,
       pluginsProps: {
-        onChange: () => { },
-      },
-
-      layout: {
-        id: 'main',
-        type: 'type',
+        initialQuery: 'any',
       },
       onSearch: () => { },
       onClearAll: () => { },

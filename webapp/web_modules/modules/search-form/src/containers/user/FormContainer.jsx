@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import root from 'window-or-global'
 import { browserHistory } from 'react-router'
 import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
@@ -72,7 +73,7 @@ export class FormContainer extends React.Component {
    */
   static serializePluginsState(pluginsState) {
     // stringify that light
-    return btoa(JSON.stringify(pluginsState))
+    return root.btoa(JSON.stringify(pluginsState))
   }
 
   /**
@@ -81,7 +82,7 @@ export class FormContainer extends React.Component {
    * @return {*} deserialized state
    */
   static deserializePluginState(serializedState) {
-    return JSON.parse(atob(serializedState))
+    return JSON.parse(root.atob(serializedState))
   }
 
   /**
@@ -145,12 +146,12 @@ export class FormContainer extends React.Component {
     const serializedState = FormContainer.serializePluginsState(pluginsState)
 
     // Update browser URL so it can be shared with other users
-    const browserPath = browserHistory.getCurrentLocation().pathname
-    const browserQuery = {
-      ...(browserHistory.getCurrentLocation().query || {}),
+    const { pathname, query = {} } = browserHistory.getCurrentLocation()
+    const nextQuery = {
+      ...query,
       [FormContainer.PLUGINS_STATE_PARAMETER]: serializedState,
     }
-    browserHistory.replace({ pathname: browserPath, query: browserQuery })
+    browserHistory.replace({ pathname, query: nextQuery })
 
     // Update local storage update (so user can retrieve form content when browsing through menu)
     UIDomain.LocalStorageData.saveData(appName, project, id, FormContainer.FORM_STORAGE_KEY, serializedState)
@@ -183,18 +184,13 @@ export class FormContainer extends React.Component {
   }
 
   render() {
-    const {
-      moduleConf, contextQuery, authentication,
-    } = this.props
-    const pluginsProps = {
-      initialQuery: contextQuery,
-    }
+    const { moduleConf, contextQuery } = this.props
+    const pluginsProps = { initialQuery: contextQuery }
     return (
       <PluginsConfigurationProvider
         criteria={moduleConf.criterion}
         preview={moduleConf.preview}
         contextQuery={contextQuery}
-        authentication={authentication}
       >
         <FormComponent
           pluginsProps={pluginsProps}

@@ -147,8 +147,8 @@ export class TwoTemporalCriteriaContainer extends React.Component {
       <DateRangeSelectorComponent
         attribute1={firstField}
         attribute2={secondField}
-        value1={value1} // provide value as date to components below
-        value2={value2} // provide value as date to components below
+        value1={value1 && new Date(value1)} // provide value as date to components below
+        value2={value2 && new Date(value2)} // provide value as date to components below
         onDate1Changed={this.onDate1Changed}
         onDate2Changed={this.onDate2Changed}
       />

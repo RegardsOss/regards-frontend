@@ -80,6 +80,7 @@ export class PluginsConfigurationProvider extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     contextQuery: PropTypes.string, // used in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
+    // TODO it is no longer provided
     authentication: AuthenticateShape, // used in onPropertiesUpdated
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
