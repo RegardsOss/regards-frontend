@@ -26,11 +26,20 @@ import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
+/** Mock attribute for tests */
+const mockAttribute = {
+  label: 'label',
+  name: 'Label',
+  jsonPath: 'label',
+  type: DamDomain.MODEL_ATTR_TYPES.STRING,
+  boundsInformation: criterionTestSuiteHelpers.getBoundsInformationStub(),
+}
+
 /**
  * Test case for {@link EnumeratedCriterionContainer}
  * @author Raphaël Mechali
  */
-describe('[enumerated criteria plugin] Testing EnumeratedCriterionContainer', () => {
+describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
   it('should exists', () => {
@@ -40,21 +49,13 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriterionContainer', ()
     const props = {
       // parent callbacks (required)
       pluginInstanceId: 'any',
-      onChange: () => { },
-      getDefaultState: () => { },
-      savePluginState: () => { },
-      registerClear: () => { },
       attributes: {
-        searchField: {
-          label: 'label',
-          name: 'Label',
-          jsonPath: 'label',
-          type: DamDomain.MODEL_ATTR_TYPES.STRING,
-          boundsInformation: criterionTestSuiteHelpers.getBoundsInformationStub(),
-        },
+        searchField: mockAttribute,
       },
       isFetching: false,
       availablePropertyValues: ['a', 'b', 'c'],
+      state: EnumeratedCriterionContainer.DEFAULT_STATE,
+      publishState: () => {},
       dispatchGetPropertyValues: () => { },
     }
     const enzymeWrapper = shallow(<EnumeratedCriterionContainer {...props} />, { context })
@@ -62,40 +63,30 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriterionContainer', ()
     const componentWrapper = enzymeWrapper.find(EnumeratedCriterionComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      attributeLabel: 'label', // from attribute
+      searchAttribute: props.attributes.searchField,
       text: '', // no initial value
       availablePropertyValues: ['a', 'b', 'c'], // from available values
-      isInError: false, // initial state
+      inError: false, // initial state
       isFetching: false, // from props
       onUpdateTextFilter: enzymeWrapper.instance().onUpdateTextFilter, // callbacks
       onFilterSelected: enzymeWrapper.instance().onFilterSelected, // callbacks
     }, 'Component properties should be correctly reported')
-    assert.isOk(componentWrapper.props().hintText, 'Parent component should have built an hint text')
-    assert.isOk(componentWrapper.props().tooltip, 'Parent component should have built a tooltip text')
   })
   it('should render correctly with initial value', () => {
     const props = {
       // parent callbacks (required)
       pluginInstanceId: 'any',
-      onChange: () => { },
-      getDefaultState: () => { },
-      savePluginState: () => { },
-      registerClear: () => { },
       attributes: {
-        searchField: {
-          label: 'label',
-          name: 'Label',
-          jsonPath: 'label',
-          type: DamDomain.MODEL_ATTR_TYPES.STRING,
-          boundsInformation: criterionTestSuiteHelpers.getBoundsInformationStub(),
-        },
+        searchField: mockAttribute,
       },
       isFetching: false,
       availablePropertyValues: ['testValue'],
-      dispatchGetPropertyValues: () => { },
-      initialValues: {
-        label: 'testValue',
+      state: {
+        searchText: 'testValue',
+        inError: false,
       },
+      publishState: () => {},
+      dispatchGetPropertyValues: () => { },
     }
     const enzymeWrapper = shallow(<EnumeratedCriterionContainer {...props} />, { context })
     // verify sub component is correctly instantiated
@@ -103,86 +94,90 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriterionContainer', ()
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     assert.equal(componentWrapper.props().text, 'testValue', 'initial value should be correctly reported')
   })
-  it('should update list when user changed the text, taking in account initialQuery and attribute name', () => {
+  it('should update list and state when user changed the text', () => {
     const spiedDispatchData = {
       name: null,
       filterText: null,
-      q: null,
+      count: 0,
+    }
+    const spiedPublishData = {
+      nextState: null,
+      query: null,
       count: 0,
     }
     const props = {
       // parent callbacks (required)
       pluginInstanceId: 'any',
-      onChange: () => { },
-      getDefaultState: () => { },
-      savePluginState: () => { },
-      registerClear: () => { },
       attributes: {
-        searchField: {
-          label: 'label',
-          name: 'Label',
-          jsonPath: 'label',
-          type: DamDomain.MODEL_ATTR_TYPES.STRING,
-          boundsInformation: criterionTestSuiteHelpers.getBoundsInformationStub(),
-        },
+        searchField: mockAttribute,
       },
       isFetching: false,
       availablePropertyValues: [],
-      initialQuery: 'this is a test query',
-      dispatchGetPropertyValues: (name, filterText, q) => {
+      state: EnumeratedCriterionContainer.DEFAULT_STATE,
+      publishState: (nextState, query) => {
+        spiedPublishData.nextState = nextState
+        spiedPublishData.query = query
+        spiedPublishData.count += 1
+      },
+      dispatchGetPropertyValues: (name, filterText) => {
         spiedDispatchData.name = name
         spiedDispatchData.filterText = filterText
-        spiedDispatchData.q = q
         spiedDispatchData.count += 1
       },
     }
     const enzymeWrapper = shallow(<EnumeratedCriterionContainer {...props} />, { context })
     // run event, and check spied data
     enzymeWrapper.instance().onUpdateTextFilter('test text')
+    assert.equal(spiedPublishData.count, 1, 'Data publishing should have been performed')
+    assert.deepEqual(spiedPublishData.nextState, {
+      searchText: 'test text',
+      inError: false,
+    }, 'Dispatched plugin state should be valid')
+    assert.equal(spiedPublishData.query, 'label:"test text"', 'Dispatched plugin query should be valid')
+
     assert.equal(spiedDispatchData.count, 1, 'Dispatch should have been performed')
     assert.equal(spiedDispatchData.name, 'label', 'Dispatched attribute should be valid')
     assert.equal(spiedDispatchData.filterText, 'test text', 'Dispatched filter text should be valid')
-    assert.equal(spiedDispatchData.q, 'this is a test query', 'Dispatched initial query should be valid')
   })
-  it('should update correctly its state on user item selection', () => {
+  it('should update correctly state on user item selection', () => {
+    const spiedPublishData = {
+      nextState: null,
+      query: null,
+      count: 0,
+    }
     const props = {
       // parent callbacks (required)
       pluginInstanceId: 'any',
-      onChange: () => { },
-      getDefaultState: () => { },
-      savePluginState: () => { },
-      registerClear: () => { },
       attributes: {
-        searchField: {
-          label: 'label',
-          name: 'Label',
-          jsonPath: 'label',
-          type: DamDomain.MODEL_ATTR_TYPES.STRING,
-          boundsInformation: criterionTestSuiteHelpers.getBoundsInformationStub(),
-        },
+        searchField: mockAttribute,
       },
       isFetching: false,
       availablePropertyValues: [],
+      state: EnumeratedCriterionContainer.DEFAULT_STATE,
       dispatchGetPropertyValues: () => { },
+      publishState: (nextState, query) => {
+        spiedPublishData.nextState = nextState
+        spiedPublishData.query = query
+        spiedPublishData.count += 1
+      },
     }
     const enzymeWrapper = shallow(<EnumeratedCriterionContainer {...props} />, { context })
     // 1 - test an item outside the list (should show error)
     enzymeWrapper.instance().onFilterSelected('test1', false)
-    // wait for state update
-    enzymeWrapper.update()
-    // check state
-    assert.deepEqual(enzymeWrapper.state(), {
-      searchField: 'test1', // text should be updated
-      isInError: true, // the component should be marked in error
-    })
+    assert.equal(spiedPublishData.count, 1, '1 - Data publishing should have been performed')
+    assert.deepEqual(spiedPublishData.nextState, {
+      searchText: 'test1',
+      inError: true,
+    }, '1 - Dispatched plugin state should match data')
+    assert.equal(spiedPublishData.query, 'label:"test1"', '1 - Dispatched plugin query should match data')
+
     // 2 - test an item inside the list (should not show error)
     enzymeWrapper.instance().onFilterSelected('test2', true)
-    // wait for state update
-    enzymeWrapper.update()
-    // check state
-    assert.deepEqual(enzymeWrapper.state(), {
-      searchField: 'test2', // text should be updated
-      isInError: false, // the component should not  be marked in error
-    })
+    assert.equal(spiedPublishData.count, 2, '2 - Data publishing should have been performed')
+    assert.deepEqual(spiedPublishData.nextState, {
+      searchText: 'test2',
+      inError: false,
+    }, '2 - Dispatched plugin state should match data')
+    assert.equal(spiedPublishData.query, 'label:"test2"', '2 - Dispatched plugin query should match data')
   })
 })

@@ -16,11 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import TextField from 'material-ui/TextField'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { FullTextCriterionContainer } from '../../src/containers/FullTextCriterionContainer'
+import FullTextCriterionComponent from '../../src/components/FullTextCriterionComponent'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -40,14 +40,55 @@ describe('[Full text criterion] Testing FullTextCriteriaContainer', () => {
     const props = {
       // parent callbacks (required)
       pluginInstanceId: 'any',
-      currentTodo: null,
-      onChange: () => { },
-      getDefaultState: () => { },
-      savePluginState: () => { },
-      registerClear: () => { },
-      attributes: {},
+      state: {
+        searchText: 'Some research...',
+      },
+      publishState: () => {},
     }
     const enzymeWrapper = shallow(<FullTextCriterionContainer {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(TextField), 1, 'There should be search field')
+    const componentWrapper = enzymeWrapper.find(FullTextCriterionComponent)
+    assert.lengthOf(componentWrapper, 1, 'There should be the component')
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      searchText: props.state.searchText,
+      onTextInput: enzymeWrapper.instance().onTextInput,
+    }, 'State and callback should be correctly provided to component')
+  })
+  it('should publish state on text input', () => {
+    const spiedPublishData = {
+      count: 0,
+      state: null,
+      query: null,
+    }
+    const props = {
+      // parent callbacks (required)
+      pluginInstanceId: 'any',
+      state: {
+        searchText: '',
+      },
+      publishState: (state, query) => {
+        spiedPublishData.count += 1
+        spiedPublishData.state = state
+        spiedPublishData.query = query
+      },
+    }
+    const enzymeWrapper = shallow(<FullTextCriterionContainer {...props} />, { context })
+    // check publish state was not initially called
+    assert.equal(spiedPublishData.count, 0, 'State should not be initially published')
+
+    // 1 - call text input once
+    enzymeWrapper.instance().onTextInput(null, '   To  ')
+    assert.equal(spiedPublishData.count, 1, '1 - Publish data should have been called 1 time')
+    assert.deepEqual(spiedPublishData.state, {
+      searchText: '   To  ',
+    }, '1 - State should match with text')
+    assert.equal(spiedPublishData.query, '"To"', '1 - Query should match with text, triming white spaces')
+
+    // 1 - call text input twice
+    enzymeWrapper.instance().onTextInput(null, '   Toto  ')
+    assert.equal(spiedPublishData.count, 2, '2 - Publish data should have been called 2 times')
+    assert.deepEqual(spiedPublishData.state, {
+      searchText: '   Toto  ',
+    }, '2 - State should match with text')
+    assert.equal(spiedPublishData.query, '"Toto"', '2 - Query should match with text, triming white spaces')
   })
 })

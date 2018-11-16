@@ -19,7 +19,7 @@
 import { CommonDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { AttributeModelWithBounds, BOUND_TYPE } from '@regardsoss/plugins-api'
-import NumericalCriteriaComponent from './NumericalCriteriaComponent'
+import NumericalCriterionComponent from './NumericalCriterionComponent'
 
 /**
  * Multiple attributes display component
@@ -54,7 +54,7 @@ class MultipleAttributesComponent extends React.Component {
     const { moduleTheme: { rootStyle } } = this.context
     return (
       <div style={rootStyle}>
-        <NumericalCriteriaComponent
+        <NumericalCriterionComponent
           searchAttribute={attribute1}
           fieldBoundType={BOUND_TYPE.ANY_BOUND}
           value={value1}
@@ -64,7 +64,7 @@ class MultipleAttributesComponent extends React.Component {
           showAttributeLabel
           showComparator
         />
-        <NumericalCriteriaComponent
+        <NumericalCriterionComponent
           searchAttribute={attribute2}
           fieldBoundType={BOUND_TYPE.ANY_BOUND}
           value={value2}

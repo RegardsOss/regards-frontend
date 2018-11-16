@@ -33,7 +33,7 @@ import {
  *
  * @author Xavier-Alexandre Brochard
  */
-export class NumericalCriteriaComponent extends React.Component {
+export class NumericalCriterionComponent extends React.Component {
   static propTypes = {
     searchAttribute: AttributeModelWithBounds.isRequired,
     fieldBoundType: PropTypes.oneOf(values(BOUND_TYPE)).isRequired,
@@ -86,7 +86,7 @@ export class NumericalCriteriaComponent extends React.Component {
    */
   onTextInput = (event, newText) => {
     const { onChange, comparator } = this.props
-    onChange(NumericalCriteriaComponent.toValue(newText), comparator)
+    onChange(NumericalCriterionComponent.toValue(newText), comparator)
   }
 
   /**
@@ -134,7 +134,7 @@ export class NumericalCriteriaComponent extends React.Component {
           type="number"
           floatingLabelText={formatHintText(intl, searchAttribute, fieldBoundType)}
           title={formatTooltip(intl, searchAttribute)}
-          value={NumericalCriteriaComponent.toText(value)}
+          value={NumericalCriterionComponent.toText(value)}
           style={textFieldStyle}
           onChange={this.onTextInput}
           disabled={hasNovalue} // disable if there is no value for this attribute
@@ -144,4 +144,4 @@ export class NumericalCriteriaComponent extends React.Component {
   }
 }
 
-export default NumericalCriteriaComponent
+export default NumericalCriterionComponent

@@ -20,13 +20,13 @@ import Arrow from 'material-ui/svg-icons/navigation/arrow-forward'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { AttributeModelWithBounds } from '@regardsoss/plugins-api'
-import TemporalCriteriaComponent from './TemporalCriteriaComponent'
+import TemporalCriterionComponent from './TemporalCriterionComponent'
 
 /**
- * Component to display a date range over a single or multiple attributes
+ * Main plugin display component
  * @author Raphaël Mechali
  */
-class DateRangeSelectorComponent extends React.Component {
+class TwoTemporalCriteriaComponent extends React.Component {
   static propTypes = {
     attribute1: AttributeModelWithBounds.isRequired,
     attribute2: AttributeModelWithBounds.isRequired, // provide here the same reference than attribute 1 if same attribute
@@ -62,7 +62,7 @@ class DateRangeSelectorComponent extends React.Component {
             })
         }
         </span>
-        <TemporalCriteriaComponent
+        <TemporalCriterionComponent
           searchAttribute={attribute1}
           value={value1}
           hintDate={attribute1.boundsInformation.lowerBound}
@@ -70,7 +70,7 @@ class DateRangeSelectorComponent extends React.Component {
           isStopDate={false}
         />
         <Arrow />
-        <TemporalCriteriaComponent
+        <TemporalCriterionComponent
           searchAttribute={attribute2}
           value={value2}
           hintDate={attribute2.boundsInformation.upperBound}
@@ -81,4 +81,4 @@ class DateRangeSelectorComponent extends React.Component {
     )
   }
 }
-export default DateRangeSelectorComponent
+export default TwoTemporalCriteriaComponent

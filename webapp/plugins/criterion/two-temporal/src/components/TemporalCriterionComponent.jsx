@@ -22,17 +22,10 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { AttributeModelWithBounds, formatTooltip } from '@regardsoss/plugins-api'
 
 /**
- * Search form criteria plugin allowing the user to configure the temporal value of the passed attribute with a comparator.
- *
- * The following terminology for dates is used in this file:
- *
- * 2017-02-10   14:28      59
- * ----------  ------    -------
- *    date      time    seconds
- *
+ * Temporal attribute value selector
  *  @author Xavier-Alexandre Brochard
  */
-export class TemporalCriteriaComponent extends React.Component {
+export class TemporalCriterionComponent extends React.Component {
   static propTypes = {
     searchAttribute: AttributeModelWithBounds.isRequired, // attribute
     value: PropTypes.instanceOf(Date), // selected date
@@ -75,7 +68,7 @@ export class TemporalCriteriaComponent extends React.Component {
           tooltip={formatTooltip(intl, searchAttribute)}
           okLabel={intl.formatMessage({ id: 'criterion.date.picker.ok' })}
           cancelLabel={intl.formatMessage({ id: 'criterion.date.picker.cancel' })}
-          defaultTime={isStopDate ? TemporalCriteriaComponent.DEFAULT_STOP_TIME : TemporalCriteriaComponent.DEFAULT_START_TIME}
+          defaultTime={isStopDate ? TemporalCriterionComponent.DEFAULT_STOP_TIME : TemporalCriterionComponent.DEFAULT_START_TIME}
           disabled={hasNoValue} // disable field if attribute has no value
           displayTime
         />
@@ -84,4 +77,4 @@ export class TemporalCriteriaComponent extends React.Component {
   }
 }
 
-export default TemporalCriteriaComponent
+export default TemporalCriterionComponent

@@ -134,7 +134,7 @@ export class EnumeratedCriterionContainer extends React.Component {
     } = this.props
     const nextState = {
       ...state,
-      searchText: state.searchText,
+      searchText,
     }
     // A - update redux state and query
     publishState(nextState, EnumeratedCriterionContainer.convertStateToQuery(nextState, searchField))

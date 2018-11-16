@@ -18,7 +18,7 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { AttributeModelWithBounds, pluginStateActions, pluginStateSelectors } from '@regardsoss/plugins-api'
-import DateRangeSelectorComponent from '../components/DateRangeSelectorComponent'
+import TwoTemporalCriteriaComponent from '../components/TwoTemporalCriteriaComponent'
 
 /**
  * Main plugin container: it handles both single attribute and multiple attributes behavior (as date ranges always behaves the same, except for
@@ -84,7 +84,7 @@ export class TwoTemporalCriteriaContainer extends React.Component {
    * @return {string} corresponding query or null if it should not be available for that range
    */
   static convertRangeToQuery(value1, value2, attribute) {
-    return value1 || value2 ? `${attribute.jsonPath}:[${value1 || '*'} TO ${value2 || '*'}]` : null
+    return attribute.jsonPath && (value1 || value2) ? `${attribute.jsonPath}:[${value1 || '*'} TO ${value2 || '*'}]` : null
   }
 
   /**
@@ -144,7 +144,7 @@ export class TwoTemporalCriteriaContainer extends React.Component {
   render() {
     const { state: { value1, value2 }, attributes: { firstField, secondField } } = this.props
     return (
-      <DateRangeSelectorComponent
+      <TwoTemporalCriteriaComponent
         attribute1={firstField}
         attribute2={secondField}
         value1={value1 && new Date(value1)} // provide value as date to components below

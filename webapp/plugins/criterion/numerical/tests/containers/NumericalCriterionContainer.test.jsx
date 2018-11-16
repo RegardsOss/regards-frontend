@@ -19,12 +19,11 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import TextField from 'material-ui/TextField'
-import { EnumNumericalComparator } from '@regardsoss/domain/common'
-import { DamDomain } from '@regardsoss/domain'
-import { NumericalComparator } from '@regardsoss/components'
+import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
-import NumericalCriterionContainer from '../../src/containers/NumericalCriterionContainer'
+import { NumericalCriterionContainer } from '../../src/containers/NumericalCriterionContainer'
 import styles from '../../src/styles/styles'
+import NumericalCriterionComponent from '../../src/components/NumericalCriterionComponent'
 
 const context = buildTestContext(styles)
 
@@ -33,143 +32,161 @@ const context = buildTestContext(styles)
  *
  * @author Xavier-Alexandre Brochard
  */
-describe('[PLUGIN NUMERICAL CRITERIA] Testing the NumericalCriterionContainer', () => {
+describe('[Numerical criterion] Testing the NumericalCriterionContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(NumericalCriterionContainer)
     assert.isDefined(TextField)
   })
-  it('should render self and subcomponents with bound data', () => {
+  it('should render correctly with integer type criterion', () => {
     const props = {
       pluginInstanceId: 'any',
-      onChange: () => { },
-      getDefaultState: () => { },
-      savePluginState: () => { },
-      registerClear: () => { },
       attributes: {
-        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG, null,
           criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1, 36)),
       },
+      state: NumericalCriterionContainer.DEFAULT_INTEGER_TYPE_STATE,
+      publishState: () => {},
     }
     const enzymeWrapper = shallow(<NumericalCriterionContainer {...props} />, { context })
-    const comparator = enzymeWrapper.find(NumericalComparator)
-    assert.lengthOf(comparator, 1, 'There should be the comparator')
-    assert.isFalse(comparator.props().disabled, 'Comparator should be enabled as there are bounds')
-    assert.deepEqual(comparator.props().comparators, NumericalCriterionContainer.AVAILABLE_INT_COMPARATORS,
-      'All integer comparators should be available')
+    let component = enzymeWrapper.find(NumericalCriterionComponent)
+    assert.lengthOf(component, 1, 'There should be the component')
+    testSuiteHelpers.assertWrapperProperties(component, {
+      searchAttribute: props.attributes.searchField,
+      value: null,
+      operator: CommonDomain.EnumNumericalComparator.EQ,
+      availableComparators: NumericalCriterionContainer.AVAILABLE_INT_COMPARATORS,
+      onTextInput: enzymeWrapper.instance().onTextInput,
+      onOperatorSelected: enzymeWrapper.instance().onOperatorSelected,
+    }, '1 - Component properties should be correctly set')
 
-    const textField = enzymeWrapper.find(TextField)
-    assert.lengthOf(textField, 1, 'There should be the comparator')
-    assert.isFalse(textField.props().disabled, 'Textfield should be enabled as there are bounds')
-    assert.isOk(textField.props().floatingLabelText, 'Container should set floating text')
-    assert.isOk(textField.props().title, 'Container should set tooltip')
-  })
-  it('should render self and subcomponents without bound data', () => {
-    const props = {
-      pluginInstanceId: 'any',
-      onChange: () => { },
-      getDefaultState: () => { },
-      savePluginState: () => { },
-      registerClear: () => { },
-      attributes: {
-        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, null,
-          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false)),
-      },
-    }
-    const enzymeWrapper = shallow(<NumericalCriterionContainer {...props} />, { context })
-    const comparator = enzymeWrapper.find(NumericalComparator)
-    assert.lengthOf(comparator, 1, 'There should be the comparator')
-    assert.isTrue(comparator.props().disabled, 'Comparator should be disabled as there is no bound')
-    assert.deepEqual(comparator.props().comparators, NumericalCriterionContainer.AVAILABLE_FLOAT_COMPARATORS,
-      'Comparators should be restricted to float comparators')
-
-    const textField = enzymeWrapper.find(TextField)
-    assert.lengthOf(textField, 1, 'There should be the comparator')
-    assert.isTrue(textField.props().disabled, 'Textfield should be disabled as there is no bound')
-    assert.isOk(textField.props().floatingLabelText, 'Container should set floating text')
-    assert.isOk(textField.props().title, 'Container should set tooltip')
-  })
-  it('should parse correctly state from URL', () => {
-    // 1 - Buiild component to get instance
-    const props = {
-      pluginInstanceId: 'any',
-      onChange: () => { },
-      getDefaultState: () => { },
-      savePluginState: () => { },
-      registerClear: () => { },
-      attributes: {
-        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, null,
-          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1.5, -0.5)),
-      },
-    }
-    const enzymeWrapper = shallow(<NumericalCriterionContainer {...props} />, { context })
-    const wrapperInstance = enzymeWrapper.instance()
-    // 2 - test parsing on instance
-    // 2.1 - = on negative number
-    assert.deepEqual(wrapperInstance.parseOpenSearchQuery('myAttribute', '\\-5.4'),
-      { value: -5.4, operator: EnumNumericalComparator.EQ }, '\\-5.4 should be correctly parsed')
-    // 2.2 - = on positive number
-    assert.deepEqual(wrapperInstance.parseOpenSearchQuery('myAttribute', '85'),
-      { value: 85, operator: EnumNumericalComparator.EQ }, '85 should be correctly parsed')
-    // 2.3 - >= on positive number
-    assert.deepEqual(wrapperInstance.parseOpenSearchQuery('myAttribute', '[85 TO *]'),
-      { value: 85, operator: EnumNumericalComparator.GE }, '[85 TO *] should be correctly parsed')
-    // 2.4 - <= on negative number
-    assert.deepEqual(wrapperInstance.parseOpenSearchQuery('myAttribute', '[* TO \\-0.536]'),
-      { value: -0.536, operator: EnumNumericalComparator.LE }, '[* TO \\-0.536] should be correctly parsed')
-    // 2.5 - not parsable
-    assert.deepEqual(wrapperInstance.parseOpenSearchQuery('myAttribute', 'PIE'),
-      { value: null, operator: EnumNumericalComparator.EQ }, 'Not parsable: should return default state')
-  })
-  it('should export correctly state to open search URL', () => {
-    // 1 - Build component to get instance
-    const props = {
-      pluginInstanceId: 'any',
-      onChange: () => { },
-      getDefaultState: () => { },
-      savePluginState: () => { },
-      registerClear: () => { },
-      attributes: {
-        searchField: {
-          ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, null,
-            criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1.5, -0.5)),
-          // change json path for query test
-          jsonPath: 'xptdr.myAttribute',
-        },
-      },
-    }
-    const enzymeWrapper = shallow(<NumericalCriterionContainer {...props} />, { context })
-    const wrapperInstance = enzymeWrapper.instance()
-    // 2 - test URL computing on instance
-    // 2.1 - = on negative number
-    assert.deepEqual(wrapperInstance.getPluginSearchQuery({ searchField: { value: -0.41, operator: EnumNumericalComparator.EQ } }),
-      'xptdr.myAttribute:\\-0.41', 'Attribute EQ -0.41 should be correctly exported')
-    // 2.2 - = on positive number
-    assert.deepEqual(wrapperInstance.getPluginSearchQuery({ searchField: { value: 56, operator: EnumNumericalComparator.EQ } }),
-      'xptdr.myAttribute:56', 'Attribute EQ 56 should be correctly exported')
-    // 2.3 - >= on positive number
-    assert.deepEqual(wrapperInstance.getPluginSearchQuery({ searchField: { value: 0.3333, operator: EnumNumericalComparator.GE } }),
-      'xptdr.myAttribute:[0.3333 TO *]', 'Attribute GE 0.3333 should be correctly exported')
-    // 2.4 - <= on negative number
-    assert.deepEqual(wrapperInstance.getPluginSearchQuery({ searchField: { value: -25, operator: EnumNumericalComparator.LE } }),
-      'xptdr.myAttribute:[* TO \\-25]', '\\Attribute LE -25 should be correctly exported')
-    // 2.5 - not exportable (no value)
-    assert.deepEqual(wrapperInstance.getPluginSearchQuery({ searchField: { value: null, operator: EnumNumericalComparator.EQ } }),
-      '', 'No query should be exported without value')
-    // 2.5 - not exportable (no attribute path)
+    // 2 - After state updates
     enzymeWrapper.setProps({
       ...props,
-      attributes: {
-        searchField: {
-          ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
-            criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1.5, -0.5)),
-          // change json path for query test
-          jsonPath: undefined,
-        },
+      state: {
+        value: 25,
+        operator: CommonDomain.EnumNumericalComparator.LE,
       },
     })
-    assert.deepEqual(wrapperInstance.getPluginSearchQuery({ searchField: { value: -0.41, operator: EnumNumericalComparator.EQ } }),
-      '', 'No query should be exported without attribute')
+    component = enzymeWrapper.find(NumericalCriterionComponent)
+    testSuiteHelpers.assertWrapperProperties(component, {
+      searchAttribute: props.attributes.searchField,
+      value: 25,
+      operator: CommonDomain.EnumNumericalComparator.LE,
+      availableComparators: NumericalCriterionContainer.AVAILABLE_INT_COMPARATORS,
+      onTextInput: enzymeWrapper.instance().onTextInput,
+      onOperatorSelected: enzymeWrapper.instance().onOperatorSelected,
+    }, '2 - Component properties should be correctly set')
+  })
+  it('should render correctly with float type criterion', () => {
+    const props = {
+      pluginInstanceId: 'any',
+      attributes: {
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, null,
+          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, 0, 777.777)),
+      },
+      state: NumericalCriterionContainer.DEFAULT_FLOATING_TYPE_STATE,
+      publishState: () => {},
+    }
+    const enzymeWrapper = shallow(<NumericalCriterionContainer {...props} />, { context })
+    let component = enzymeWrapper.find(NumericalCriterionComponent)
+    assert.lengthOf(component, 1, 'There should be the component')
+    testSuiteHelpers.assertWrapperProperties(component, {
+      searchAttribute: props.attributes.searchField,
+      value: null,
+      operator: CommonDomain.EnumNumericalComparator.GE,
+      availableComparators: NumericalCriterionContainer.AVAILABLE_FLOAT_COMPARATORS,
+      onTextInput: enzymeWrapper.instance().onTextInput,
+      onOperatorSelected: enzymeWrapper.instance().onOperatorSelected,
+    }, '1 - Component properties should be correctly set')
+
+    // 2 - After state updates
+    enzymeWrapper.setProps({
+      ...props,
+      state: {
+        value: 95.5,
+        operator: CommonDomain.EnumNumericalComparator.LE,
+      },
+    })
+    component = enzymeWrapper.find(NumericalCriterionComponent)
+    testSuiteHelpers.assertWrapperProperties(component, {
+      searchAttribute: props.attributes.searchField,
+      value: 95.5,
+      operator: CommonDomain.EnumNumericalComparator.LE,
+      availableComparators: NumericalCriterionContainer.AVAILABLE_FLOAT_COMPARATORS,
+      onTextInput: enzymeWrapper.instance().onTextInput,
+      onOperatorSelected: enzymeWrapper.instance().onOperatorSelected,
+    }, '2 - Component properties should be correctly set')
+  })
+  it('should publish state when value or operator changes', () => {
+    const spiedPublishStateData = {
+      state: null,
+      query: null,
+    }
+    const props = {
+      pluginInstanceId: 'any',
+      attributes: {
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
+          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -100, 100)),
+      },
+      state: NumericalCriterionContainer.DEFAULT_INTEGER_TYPE_STATE,
+      publishState: (state, query) => {
+        spiedPublishStateData.state = state
+        spiedPublishStateData.query = query
+      },
+    }
+    const enzymeWrapper = shallow(<NumericalCriterionContainer {...props} />, { context })
+    enzymeWrapper.instance().onTextInput(null, '42')
+    assert.deepEqual(spiedPublishStateData.state, {
+      value: 42,
+      operator: CommonDomain.EnumNumericalComparator.EQ,
+    }, 'Value should have been updated')
+    assert.equal(spiedPublishStateData.query, 'test:42', 'Query should match updated value')
+
+    // mimic the map state to props behavior (unavailable in tests)
+    enzymeWrapper.setProps({
+      ...props,
+      state: {
+        value: 42,
+        operator: CommonDomain.EnumNumericalComparator.EQ,
+      },
+    })
+
+    enzymeWrapper.instance().onOperatorSelected(CommonDomain.EnumNumericalComparator.LE)
+    assert.deepEqual(spiedPublishStateData.state, {
+      value: 42,
+      operator: CommonDomain.EnumNumericalComparator.LE,
+    }, 'Operator should have been updated')
+    assert.equal(spiedPublishStateData.query, 'test:[* TO 42]', 'Query should match updated operator')
+  })
+  it('should export correctly state to open search URL', () => {
+    // 2 - test URL computing on instance
+    const testAttribute = {
+      ...criterionTestSuiteHelpers.getAttributeStub(),
+      jsonPath: 'xptdr.myAttribute',
+    }
+    // 2.1 - = on negative number
+    assert.equal(NumericalCriterionContainer.convertToQuery({ value: -0.41, operator: CommonDomain.EnumNumericalComparator.EQ }, testAttribute),
+      'xptdr.myAttribute:\\-0.41', 'Attribute EQ -0.41 should be correctly exported')
+    // 2.2 - = on positive number
+    assert.equal(NumericalCriterionContainer.convertToQuery({ value: 56, operator: CommonDomain.EnumNumericalComparator.EQ }, testAttribute),
+      'xptdr.myAttribute:56', 'Attribute EQ 56 should be correctly exported')
+    // 2.3 - >= on positive number
+    assert.equal(NumericalCriterionContainer.convertToQuery({ value: 0.3333, operator: CommonDomain.EnumNumericalComparator.GE }, testAttribute),
+      'xptdr.myAttribute:[0.3333 TO *]', 'Attribute GE 0.3333 should be correctly exported')
+    // 2.4 - <= on negative number
+    assert.equal(NumericalCriterionContainer.convertToQuery({ value: -25, operator: CommonDomain.EnumNumericalComparator.LE }, testAttribute),
+      'xptdr.myAttribute:[* TO \\-25]', '\\Attribute LE -25 should be correctly exported')
+    // 2.5 - not exportable (no value)
+    assert.isNotOk(NumericalCriterionContainer.convertToQuery({ value: null, operator: CommonDomain.EnumNumericalComparator.EQ }, testAttribute),
+      'No query should be exported without value')
+    // 2.5 - not exportable (no attribute path)
+    const notExportableAttribute = {
+      ...criterionTestSuiteHelpers.getAttributeStub(),
+      jsonPath: null,
+    }
+    assert.isNotOk(NumericalCriterionContainer.convertToQuery({ value: -0.41, operator: CommonDomain.EnumNumericalComparator.EQ }, notExportableAttribute),
+      'No query should be exported without attribute')
   })
 })

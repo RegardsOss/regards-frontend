@@ -87,8 +87,8 @@ export class StringCriterionContainer extends React.Component {
    * @return {string} corresponding search query
    */
   static convertToQuery({ searchText, searchFullWords }, attribute) {
-    const trimedText = searchText.trim()
-    if (!trimedText) {
+    const trimedText = (searchText || '').trim()
+    if (!trimedText || !attribute.jsonPath) {
       return null // No query in current state
     }
     let parameterValue = null

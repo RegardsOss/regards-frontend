@@ -37,7 +37,7 @@ export class EnumeratedCriterionComponent extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     availablePropertyValues: PropTypes.arrayOf(PropTypes.string), // only used in onPropertiesUpdated
     // is currently in error (optional, defaults to false)
-    isInError: PropTypes.bool,
+    inError: PropTypes.bool,
     // is currently fetching values hints (optional, defaults to false)
     isFetching: PropTypes.bool,
     // callback: user typed some new text
@@ -83,7 +83,7 @@ export class EnumeratedCriterionComponent extends React.Component {
 
   render() {
     const {
-      searchAttribute, text, isInError, isFetching,
+      searchAttribute, text, inError, isFetching,
       onUpdateTextFilter, onFilterSelected,
     } = this.props
     const { currentHints } = this.state
@@ -101,7 +101,7 @@ export class EnumeratedCriterionComponent extends React.Component {
           currentHintText={text}
           currentHints={currentHints}
           isFetching={isFetching}
-          isInError={isInError}
+          inError={inError}
           onUpdateInput={onUpdateTextFilter}
           onFilterSelected={onFilterSelected}
           textFieldStyle={textFieldStyle}

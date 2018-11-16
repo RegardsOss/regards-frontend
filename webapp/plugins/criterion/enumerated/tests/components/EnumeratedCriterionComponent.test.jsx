@@ -18,18 +18,28 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { DamDomain } from '@regardsoss/domain'
 import { AutoCompleteTextField } from '@regardsoss/components'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import EnumeratedCriterionComponent from '../../src/components/EnumeratedCriterionComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
+/** Mock attribute for tests */
+const mockAttribute = {
+  label: 'label',
+  name: 'Label',
+  jsonPath: 'label',
+  type: DamDomain.MODEL_ATTR_TYPES.STRING,
+  boundsInformation: criterionTestSuiteHelpers.getBoundsInformationStub(),
+}
+
 /**
  * Test EnumeratedCriterionComponent
  * @author Raphaël Mechali
  */
-describe('[enumerated criteria plugin] Testing EnumeratedCriterionComponent', () => {
+describe('[Enumerated criterion] Testing EnumeratedCriterionComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -38,41 +48,35 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriterionComponent', ()
   })
   it('should render correctly in nominal case', () => {
     const props = {
-      attributeLabel: 'A label',
+      searchAttribute: mockAttribute,
       text: 'idk',
+      inError: false,
       availablePropertyValues: [],
-      isInError: false,
       isFetching: false,
-      hintText: 'hintText',
-      tooltip: 'tooltip',
       onUpdateTextFilter: () => { },
       onFilterSelected: () => { },
     }
     const enzymeWrapper = shallow(<EnumeratedCriterionComponent {...props} />, { context })
     // 1 - check label is displayed
-    assert.isTrue(enzymeWrapper.debug().includes('A label'), 'The label should be shown')
+    assert.isTrue(enzymeWrapper.debug().includes('label'), 'attribute label should be shown')
     // 2 - check autocomplete field is correctly configured
     const subComponentWrapper = enzymeWrapper.find(AutoCompleteTextField)
     assert.lengthOf(subComponentWrapper, 1, 'The autocomplete field should be shown')
     testSuiteHelpers.assertWrapperProperties(subComponentWrapper, {
-      hintText: 'hintText', // field hint
-      currentHintText: 'idk', // field text
-      title: 'tooltip',
+      currentHintText: 'idk', // field text being entered by the user
       isFetching: false,
-      isInError: false,
+      inError: false,
       onUpdateInput: props.onUpdateTextFilter,
       onFilterSelected: props.onFilterSelected,
     }, 'Properties should be correctly reported')
   })
   it('should render correctly fetching', () => {
     const props = {
-      attributeLabel: 'A label',
+      searchAttribute: mockAttribute,
       text: 'idk',
+      inError: false,
       availablePropertyValues: [],
-      isInError: false,
       isFetching: true,
-      hintText: 'hintText',
-      tooltip: 'tooltip',
       onUpdateTextFilter: () => { },
       onFilterSelected: () => { },
     }
@@ -81,17 +85,15 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriterionComponent', ()
     const subComponentWrapper = enzymeWrapper.find(AutoCompleteTextField)
     assert.lengthOf(subComponentWrapper, 1, 'The autocomplete field should be shown')
     assert.isTrue(subComponentWrapper.props().isFetching, 'The component should be marked fetching')
-    assert.isFalse(subComponentWrapper.props().isInError, 'The component should not be marked in error')
+    assert.isFalse(subComponentWrapper.props().inError, 'The component should not be marked in error')
   })
   it('should render correctly in error', () => {
     const props = {
-      attributeLabel: 'A label',
+      searchAttribute: mockAttribute,
       text: 'idk',
+      inError: true,
       availablePropertyValues: [],
-      isInError: true,
       isFetching: false,
-      hintText: 'hintText',
-      tooltip: 'tooltip',
       onUpdateTextFilter: () => { },
       onFilterSelected: () => { },
     }
@@ -100,7 +102,7 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriterionComponent', ()
     const subComponentWrapper = enzymeWrapper.find(AutoCompleteTextField)
     assert.lengthOf(subComponentWrapper, 1, 'The autocomplete field should be shown')
     assert.isFalse(subComponentWrapper.props().isFetching, 'The component should not be marked fetching')
-    assert.isTrue(subComponentWrapper.props().isInError, 'The component should be marked in error')
+    assert.isTrue(subComponentWrapper.props().inError, 'The component should be marked in error')
   })
   it('should convert hints list when receiving new available values', () => {
     // function to check hints list
@@ -117,13 +119,11 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriterionComponent', ()
 
     // 1 - check initial conversion
     const props = {
-      attributeLabel: 'A label',
+      searchAttribute: mockAttribute,
       text: 'idk',
+      inError: true,
       availablePropertyValues: ['a'],
-      isInError: true,
       isFetching: false,
-      hintText: 'hintText',
-      tooltip: 'tooltip',
       onUpdateTextFilter: () => { },
       onFilterSelected: () => { },
     }

@@ -86,7 +86,7 @@ export class TemporalCriterionContainer extends React.Component {
    * @return {string} corresponding search query or null if none
    */
   static convertToQuery({ value, operator }, attribute) {
-    if (!value || !operator) {
+    if (!value || !operator || !attribute.jsonPath) {
       return null // no query
     }
     let rangeAsQuery = ''
