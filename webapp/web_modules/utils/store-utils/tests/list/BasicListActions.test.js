@@ -38,22 +38,7 @@ const projectListActions = new BasicListActions({
     ENTITY_ARRAY: PROJECT_ARRAY,
   },
 })
-function handleDispatch(action, expectedAction, store, done) {
-  return store.dispatch(action)
-    .then(() => {
-      try {
-        expect(store.getActions()).to.deep.contain(expectedAction)
-        return done()
-      } catch (e) {
-        console.info('store.getActions() is')
-        console.info(JSON.stringify(store.getActions()))
-        console.info('expectedAction is')
-        console.info(JSON.stringify(expectedAction))
-        console.info('error is ', e)
-        return done(e)
-      }
-    })
-}
+
 function handleDispatchError(action, store, done) {
   return store.dispatch(action)
     .then(() => {
