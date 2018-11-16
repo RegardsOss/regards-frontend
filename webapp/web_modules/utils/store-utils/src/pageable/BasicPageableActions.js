@@ -18,7 +18,7 @@
  **/
 import BasicListActions from '../list/BasicListActions'
 
-const { CALL_API } = require('redux-api-middleware')
+const { RSAA } = require('redux-api-middleware')
 /**
  *  Provide actions for a specific type of entity pageable list
  *
@@ -76,7 +76,7 @@ class BasicPageableActions extends BasicListActions {
     // Compute the endpoint URI
     const endpoint = this.getRequestEndpoint(pageNumber, size, pathParams, queryParams)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.ENTITY_LIST_REQUEST,
           this.buildSuccessAction(

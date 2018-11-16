@@ -1,9 +1,9 @@
 // Webpack configuration file
-const getCommonConfig = require('./webpack.common.config')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const path = require('path')
 const StatsPlugin = require('stats-webpack-plugin')
+const getCommonConfig = require('./webpack.common.config')
 
 module.exports = function (projectContextPath) {
   let config = getCommonConfig(projectContextPath, 'prod')
@@ -20,6 +20,7 @@ module.exports = function (projectContextPath) {
       // Webpack chunks files namesc
       chunkFilename: '[id]-[chunkhash].chunck.js',
       publicPath: '/',
+      libraryTarget: 'umd',
     },
     module: {
       noParse: [

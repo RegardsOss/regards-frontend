@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const alias = require('../utils/alias')
 
 module.exports = function (projectContextPath, mode = 'dev') {
   return {
@@ -28,6 +29,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
         'web_modules',
         'node_modules',
       ],
+      alias: alias(projectContextPath),
     },
     module: {
       rules: [
