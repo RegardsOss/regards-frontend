@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { UIPluginDefinitionContent } from './UIPluginDefinition'
+import { AttributeModel, attributeModelFields } from '../../rs-dam'
 
 /**
  * UI Plugin configuration for layout display
@@ -27,13 +28,23 @@ export const UIPluginConfContent = PropTypes.shape({
   id: PropTypes.number,
   active: PropTypes.bool,
   label: PropTypes.string,
-  // conf as saved by the corresponding administration form: see admin-ui-service-management/src/containers/ServiceConfigurationFormContainer
-  conf: PropTypes.shape({
-    // must be filled by the admin (empty if no parameter)
-    static: PropTypes.object.isRequired,
-    // can be, optionally, filled by the admin (empty if no parameter)
-    dynamic: PropTypes.object.isRequired,
-  }),
+  pluginInstanceId: PropTypes.string, // unique plugin ID in module, only for list-able plugins like criteria
+  // conf as saved by the corresponding administration form:
+  // see admin-ui-service-management/src/containers/ServiceConfigurationFormContainer
+  // and search-form/src/containers/admin/AdminContainer
+  conf: PropTypes.oneOf([
+    // A service configuration
+    PropTypes.shape({
+      // must be filled by the admin (empty if no parameter)
+      static: PropTypes.object.isRequired,
+      // can be, optionally, filled by the admin (empty if no parameter)
+      dynamic: PropTypes.object.isRequired,
+    }),
+    // A criterion field configuration
+    PropTypes.shape({
+      attributes: PropTypes.object.isRequired,
+    }),
+  ]),
   pluginDefinition: UIPluginDefinitionContent.isRequired,
 })
 

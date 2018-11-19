@@ -130,25 +130,21 @@ class Container extends React.Component {
    * @returns {Array}
    */
   renderPlugins = () => {
-    if (this.props.configurationMode) {
-      return []
+    const { configurationMode, plugins, container } = this.props
+    if (configurationMode || !plugins) {
+      return null
     }
-    if (this.props.plugins) {
-      return flow(
-        fpfilter(plugin => plugin.container === this.props.container.id),
-        fpmap.convert({ cap: false })((plugin, key) => (
-          <PluginProvider
-            key={`${this.props.container.id}#${key}`}
-            pluginInstanceId={`${this.props.container.id}#${key}`}
-            pluginId={plugin.pluginId}
-            pluginConf={plugin.conf}
-            pluginProps={this.props.pluginProps}
-            displayPlugin
-          />
-        )),
-      )(this.props.plugins)
-    }
-    return []
+    return plugins.filter(plugin => plugin.container === container.id)
+      .map(plugin => (
+        <PluginProvider
+          key={plugin.pluginInstanceId}
+          pluginInstanceId={plugin.pluginInstanceId}
+          pluginId={plugin.pluginId}
+          pluginConf={plugin.conf}
+          pluginProps={this.props.pluginProps}
+          displayPlugin
+        />
+      ))
   }
 
   /**
