@@ -32,7 +32,7 @@ export const UIPluginConfContent = PropTypes.shape({
   // conf as saved by the corresponding administration form:
   // see admin-ui-service-management/src/containers/ServiceConfigurationFormContainer
   // and search-form/src/containers/admin/AdminContainer
-  conf: PropTypes.oneOf([
+  conf: PropTypes.oneOfType([
     // A service configuration
     PropTypes.shape({
       // must be filled by the admin (empty if no parameter)

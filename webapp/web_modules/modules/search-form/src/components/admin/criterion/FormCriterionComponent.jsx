@@ -119,9 +119,10 @@ class FormCriterionComponent extends React.Component {
 
     let criteriaList
     if (this.state.criteriaToEdit) {
+      // edited criterion: replace at index in cloned list
       criteriaList = [...this.props.criterion]
       criteriaList[this.state.criteriaToEdit.idx] = critWithUniqueId
-    } else {
+    } else { // new criterion: at list end
       criteriaList = [...(this.props.criterion || []), critWithUniqueId]
     }
     changeField(`${currentNamespace}.criterion`, criteriaList)

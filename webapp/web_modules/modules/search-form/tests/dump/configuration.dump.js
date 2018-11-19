@@ -58,6 +58,7 @@ export const criteria = [
     label: 'enumerated-criteria',
     active: true,
     pluginId: 1,
+    pluginInstanceId: '1',
     container: 'content',
     conf: {
       attributes: {
@@ -71,6 +72,7 @@ export const criteria = [
     label: 'string-criterion',
     active: true,
     pluginId: 2,
+    pluginInstanceId: '2',
     container: 'content',
     conf: {
       attributes: {
@@ -86,6 +88,7 @@ export const criteria = [
     active: true,
     pluginId: 3,
     container: 'content',
+    pluginInstanceId: '3',
     conf: {
       attributes: {
         testAttr1: 'xxx.long.parameter',
@@ -100,6 +103,7 @@ export const criteria = [
     active: true,
     pluginId: 4,
     container: 'content',
+    pluginInstanceId: '4',
     conf: {
       attributes: {
         testAttr1: 'xxx.long.parameter',
