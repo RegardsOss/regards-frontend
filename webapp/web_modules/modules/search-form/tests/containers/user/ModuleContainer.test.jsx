@@ -46,21 +46,6 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
       type: 'any',
       description: 'Test',
       moduleConf: conf1,
-      pluginsState: {
-        p1: {
-          state: {
-            something: true,
-          },
-          query: 'something1',
-        },
-        p2: {
-          state: {
-            somethingElse: 'abcde',
-            more: 6,
-          },
-          query: 'something2',
-        },
-      },
       dispatchCollapseForm: () => { },
       dispatchExpandResults: () => { },
       dispatchInitializeWithOpenedResults: () => { },
@@ -78,7 +63,6 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
     assert.lengthOf(formContainer, 1, 'There should be the form container')
     testSuiteHelpers.assertWrapperProperties(formContainer, {
       contextQuery: enzymeWrapper.state().contextQuery,
-      pluginsState: props.pluginsState,
       onSearch: enzymeWrapper.instance().onSearch,
       // Other reported properties to instantiate a dynamic module pane
       ...modulesHelper.getReportedUserModuleProps(props),
@@ -99,7 +83,21 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
     }, 'Results container request should be correctly provided')
 
     // simulate a search call and check the request now holds initial request + plugins queries
-    enzymeWrapper.instance().onSearch()
+    enzymeWrapper.instance().onSearch({
+      p1: {
+        state: {
+          something: true,
+        },
+        query: 'something1',
+      },
+      p2: {
+        state: {
+          somethingElse: 'abcde',
+          more: 6,
+        },
+        query: 'something2',
+      },
+    })
     enzymeWrapper.update()
     assert.deepEqual(enzymeWrapper.state(), {
       contextQuery: 'tags:"URN%3ADATASET%3AEXAMPLE1"',
