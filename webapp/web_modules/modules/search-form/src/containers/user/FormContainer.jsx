@@ -22,7 +22,7 @@ import { browserHistory } from 'react-router'
 import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
-import { AllCriteriaData, pluginStateActions } from '@regardsoss/plugins'
+import { AllCriteriaData, pluginStateActions, pluginStateSelectors } from '@regardsoss/plugins'
 import { modulesHelper } from '@regardsoss/modules-api'
 import PluginsConfigurationProvider from './PluginsConfigurationProvider'
 import FormComponent from '../../components/user/FormComponent'
@@ -36,6 +36,18 @@ import FormComponent from '../../components/user/FormComponent'
  * @author Raphaël Mechali
  */
 export class FormContainer extends React.Component {
+  /**
+    * Redux: map state to props function
+    * @param {*} state: current redux state
+    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+    * @return {*} list of component properties extracted from redux state
+    */
+  static mapStateToProps(state) {
+    return {
+      pluginsState: pluginStateSelectors.getAllCriteriaData(state),
+    }
+  }
+
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
@@ -53,8 +65,9 @@ export class FormContainer extends React.Component {
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
     contextQuery: PropTypes.string.isRequired,
-    pluginsState: AllCriteriaData.isRequired,
     onSearch: PropTypes.func.isRequired,
+    // from mapStateToProps
+    pluginsState: AllCriteriaData.isRequired,
     // from mapDispatchToProps
     dispatchClearAll: PropTypes.func.isRequired,
     publishAllStates: PropTypes.func.isRequired,
@@ -107,25 +120,24 @@ export class FormContainer extends React.Component {
     // A.2. If initial state is local storage, restore it but don't trigger a research
     // A.3. Else: no initial state
     let initialPluginsState = {}
-    let searchWhenInitialized = false
+    let searchImmediately = false
     const psFromURL = get(browserHistory.getCurrentLocation(), `query.${FormContainer.PLUGINS_STATE_PARAMETER}`, null)
     const psFromLocalStorage = UIDomain.LocalStorageData.getData(appName, project, id, FormContainer.FORM_STORAGE_KEY)
 
     if (psFromURL) { // Case 1. Restore from URL
-      searchWhenInitialized = true
+      searchImmediately = true
       initialPluginsState = FormContainer.deserializePluginState(psFromURL)
     } else if (psFromLocalStorage) { // case 2.
-      searchWhenInitialized = true
+      searchImmediately = true
       initialPluginsState = FormContainer.deserializePluginState(psFromLocalStorage)
     } // else: empty initial state (3)
 
-    // B. Dispatch plugins state and query initialization
-    publishAllStates(initialPluginsState).then(() => {
-      if (searchWhenInitialized) {
-        // C - Restore research when URL has content
-        onSearch(true)
-      }
-    })
+    // B. Dispatch Redux plugins state initialization
+    publishAllStates(initialPluginsState)
+    // C - Search immediately when a previous research could be restored
+    if (searchImmediately) {
+      onSearch(initialPluginsState, true)
+    }
   }
 
   /**
@@ -157,7 +169,7 @@ export class FormContainer extends React.Component {
     UIDomain.LocalStorageData.saveData(appName, project, id, FormContainer.FORM_STORAGE_KEY, serializedState)
 
     // let parent handle objects research
-    onSearch()
+    onSearch(pluginsState)
   }
 
   /** Clear all callback: clears URL, local state and redux shared plugins state */
@@ -202,4 +214,4 @@ export class FormContainer extends React.Component {
     )
   }
 }
-export default connect(null, FormContainer.mapDispatchToProps)(FormContainer)
+export default connect(FormContainer.mapStateToProps, FormContainer.mapDispatchToProps)(FormContainer)

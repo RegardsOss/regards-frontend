@@ -24,7 +24,6 @@ import { UIClient } from '@regardsoss/client'
 import { AccessShapes } from '@regardsoss/shape'
 import { modulesManager } from '@regardsoss/modules'
 import { modulesHelper } from '@regardsoss/modules-api'
-import { pluginStateSelectors, AllCriteriaData } from '@regardsoss/plugins'
 import DatasetSelectionTypes from '../../domain/DatasetSelectionTypes'
 import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 import FormContainer from './FormContainer'
@@ -39,23 +38,11 @@ const moduleExpandedStateActions = new UIClient.ModuleExpandedStateActions()
  */
 export class ModuleContainer extends React.Component {
   /**
- * Redux: map state to props function
- * @param {*} state: current redux state
- * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
-  static mapStateToProps(state) {
-    return {
-      pluginsState: pluginStateSelectors.getAllCriteriaData(state),
-    }
-  }
-
-  /**
- * Redux: map dispatch to props function
- * @param {*} dispatch: redux dispatch function
- * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
   static mapDispatchToProps(dispatch, { id, conf }) {
     // build keys for module sub panes (both share the module id)
     const searchFormPaneKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(modulesManager.AllDynamicModuleTypes.SEARCH_FORM, id)
@@ -78,8 +65,6 @@ export class ModuleContainer extends React.Component {
     ...AccessShapes.runtimeDispayModuleFields,
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
-    // Set by mapStateToProps
-    pluginsState: AllCriteriaData.isRequired,
     // Set by mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchExpandResults: PropTypes.func.isRequired,
@@ -135,12 +120,13 @@ export class ModuleContainer extends React.Component {
 
   /**
    * On search callback: performs query update and shows results
+   * @param {*} pluginsState map of plugins key with state
    * @param {boolean} isInitialization is initialization automatic research? (used to initialize the presentation panes states as they may not be
    * mounted yet)
    */
-  onSearch = (isInitialization = false) => {
+  onSearch = (pluginsState, isInitialization = false) => {
     const {
-      pluginsState, dispatchCollapseForm, dispatchExpandResults, dispatchInitializeWithOpenedResults,
+      dispatchCollapseForm, dispatchExpandResults, dispatchInitializeWithOpenedResults,
     } = this.props
     const { contextQuery } = this.state
     // 1 - Build query from plugins state and current query and set it in state
@@ -185,4 +171,4 @@ export class ModuleContainer extends React.Component {
   }
 }
 
-export default connect(ModuleContainer.mapStateToProps, ModuleContainer.mapDispatchToProps)(ModuleContainer)
+export default connect(null, ModuleContainer.mapDispatchToProps)(ModuleContainer)
