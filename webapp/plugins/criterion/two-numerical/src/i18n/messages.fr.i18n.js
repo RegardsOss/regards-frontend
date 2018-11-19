@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { storage } from '@regardsoss/units'
 
 /**
  * i18n messages French language
@@ -26,6 +27,8 @@ const messages = {
 
   'criterion.aggregator.between': '{label} entre',
   'criterion.aggregator.and': 'et',
+
+  ...storage.messages.fr, // required to format numbers with units
 }
 
 export default messages

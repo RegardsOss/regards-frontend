@@ -101,7 +101,7 @@ export class EnumeratedCriterionComponent extends React.Component {
           currentHintText={text}
           currentHints={currentHints}
           isFetching={isFetching}
-          inError={inError}
+          isInError={inError}
           onUpdateInput={onUpdateTextFilter}
           onFilterSelected={onFilterSelected}
           textFieldStyle={textFieldStyle}
