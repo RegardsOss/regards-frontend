@@ -27,7 +27,6 @@ import {
 import forEach from 'lodash/forEach'
 import get from 'lodash/get'
 import reduce from 'lodash/reduce'
-import concat from 'lodash/concat'
 import filter from 'lodash/filter'
 import { CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'

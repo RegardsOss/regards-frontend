@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { UIPluginDefinitionContent } from './UIPluginDefinition'
-import { AttributeModel, attributeModelFields } from '../../rs-dam'
 
 /**
  * UI Plugin configuration for layout display
