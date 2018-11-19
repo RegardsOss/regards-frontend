@@ -24,7 +24,7 @@ import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
 import { DataManagementClient } from '@regardsoss/client'
 import { DataManagementShapes, CatalogShapes } from '@regardsoss/shape'
-import { AuthenticateShape } from '@regardsoss/authentication-utils'
+import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import { HOCUtils } from '@regardsoss/display-control'
 import { dataObjectAttributesSelectors } from '../../clients/DataObjectAttributesClient'
 import { attributesBoundsActions, attributesBoundsSelectors } from '../../clients/AttributesBoundsClient'
@@ -52,6 +52,7 @@ export class PluginsConfigurationProvider extends React.Component {
    */
   static mapStateToProps(state, { preview }) {
     return {
+      authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
       attributeModels: (preview ? previewAMSelectors : userAMSelectors).getList(state),
       attributesBounds: attributesBoundsSelectors.getList(state),
       boundsFetchingError: attributesBoundsSelectors.hasError(state),
@@ -80,8 +81,7 @@ export class PluginsConfigurationProvider extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     contextQuery: PropTypes.string, // used in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
-    // TODO it is no longer provided
-    authentication: AuthenticateShape, // used in onPropertiesUpdated
+    authentication: AuthenticateShape, // used in onPropertiesUpdated, ONLY TO UPDATE THE CONTEXT, that depends on accessible objects list
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     attributeModels: DataManagementShapes.AttributeModelList, // used in onPropertiesUpdated
