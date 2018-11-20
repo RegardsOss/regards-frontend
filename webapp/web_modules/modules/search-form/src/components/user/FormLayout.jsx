@@ -33,9 +33,7 @@ class FormLayout extends React.Component {
     layout: AccessShapes.ContainerContent.isRequired,
     plugins: AccessShapes.UIPluginConfArray,
     pluginsProps: PropTypes.shape({
-      onChange: PropTypes.func.isRequired,
-      getDefaultState: PropTypes.func.isRequired,
-      savePluginState: PropTypes.func.isRequired,
+      initialQuery: PropTypes.string.isRequired,
     }),
     onSearch: PropTypes.func.isRequired,
     onClearAll: PropTypes.func.isRequired,

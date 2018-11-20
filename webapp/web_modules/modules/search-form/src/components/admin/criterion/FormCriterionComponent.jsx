@@ -27,7 +27,6 @@ import {
 import forEach from 'lodash/forEach'
 import get from 'lodash/get'
 import reduce from 'lodash/reduce'
-import concat from 'lodash/concat'
 import filter from 'lodash/filter'
 import { CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
@@ -108,18 +107,24 @@ class FormCriterionComponent extends React.Component {
   /**
    * Update redux-form conf property for criterion.
    *
-   * @param criteria
+   * @param criterion criterion to add or update
    */
-  updateCriterion = (criteria) => {
+  updateCriterion = (criterion) => {
     const { currentNamespace, changeField } = this.props
-    let criterion
-    if (this.state.criteriaToEdit) {
-      criterion = concat([], this.props.criterion)
-      criterion[this.state.criteriaToEdit.idx] = criteria
-    } else {
-      criterion = this.props.criterion ? concat(this.props.criterion, criteria) : [criteria]
+    const critWithUniqueId = {
+      pluginInstanceId: `${Date.now()}`, // use timestamp as Unique ID
+      ...criterion,
     }
-    changeField(`${currentNamespace}.criterion`, criterion)
+
+    let criteriaList
+    if (this.state.criteriaToEdit) {
+      // edited criterion: replace at index in cloned list
+      criteriaList = [...this.props.criterion]
+      criteriaList[this.state.criteriaToEdit.idx] = critWithUniqueId
+    } else { // new criterion: at list end
+      criteriaList = [...(this.props.criterion || []), critWithUniqueId]
+    }
+    changeField(`${currentNamespace}.criterion`, criteriaList)
     this.closeCriteriaView()
   }
 

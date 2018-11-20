@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { initPlugin } from '@regardsoss/plugins-api'
-import TemporalCriteriaContainer from './containers/TemporalCriteriaContainer'
+import TemporalCriterionContainer from './containers/TemporalCriterionContainer'
 import messages from './i18n'
 import styles from './styles'
 import pluginInfo from './plugin-info.json'
 
-initPlugin(TemporalCriteriaContainer, pluginInfo, null, messages, styles)
+initPlugin(TemporalCriterionContainer, pluginInfo, null, messages, styles)

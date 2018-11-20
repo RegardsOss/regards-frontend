@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { initPlugin } from '@regardsoss/plugins-api'
-import FullTextCriteriaContainer from './containers/FullTextCriteriaContainer'
+import FullTextCriterionContainer from './containers/FullTextCriterionContainer'
 import messages from './i18n'
 import styles from './styles'
 import pluginInfo from './plugin-info.json'
 
-initPlugin(FullTextCriteriaContainer, pluginInfo, null, messages, styles)
+initPlugin(FullTextCriterionContainer, pluginInfo, null, messages, styles)

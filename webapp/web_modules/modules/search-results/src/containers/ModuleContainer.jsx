@@ -100,7 +100,4 @@ export class ModuleContainer extends React.Component {
   }
 }
 
-const UnconnectedModuleContainer = ModuleContainer
-export { UnconnectedModuleContainer }
-
 export default connect(ModuleContainer.mapStateToProps)(ModuleContainer)

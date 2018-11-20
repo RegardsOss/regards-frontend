@@ -17,10 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { initPlugin } from '@regardsoss/plugins-api'
-import TwoTemporalCriteriaComponent from './components/TwoTemporalCriteriaComponent'
+import TwoTemporalCriteriaContainer from './containers/TwoTemporalCriteriaContainer'
 import messages from './i18n'
 import styles from './styles'
 import pluginInfo from './plugin-info.json'
 
 
-initPlugin(TwoTemporalCriteriaComponent, pluginInfo, null, messages, styles)
+initPlugin(TwoTemporalCriteriaContainer, pluginInfo, null, messages, styles)

@@ -23,7 +23,6 @@ import flow from 'lodash/flow'
 import IconButton from 'material-ui/IconButton'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
-import Paper from 'material-ui/Paper'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import Bookmark from 'material-ui/svg-icons/action/bookmark'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
@@ -131,34 +130,21 @@ class Container extends React.Component {
    * @returns {Array}
    */
   renderPlugins = () => {
-    if (this.props.configurationMode) {
-      return []
+    const { configurationMode, plugins, container } = this.props
+    if (configurationMode || !plugins) {
+      return null
     }
-    if (this.props.plugins) {
-      const stylePaper = {
-        // display: 'flex',
-        // justifyContent: 'space-between',
-        width: '100%',
-      }
-      return flow(
-        fpfilter(plugin => plugin.container === this.props.container.id),
-        fpmap.convert({ cap: false })((plugin, key) => (
-          <Paper
-            key={`${this.props.container.id}-${plugin.pluginId}-${key}`}
-            style={stylePaper}
-          >
-            <PluginProvider
-              key={`${this.props.container.id}-${plugin.pluginId}-${key}`}
-              pluginInstanceId={`${this.props.container.id}-${plugin.pluginId}-${key}`}
-              pluginId={plugin.pluginId}
-              pluginConf={plugin.conf}
-              pluginProps={this.props.pluginProps}
-              displayPlugin
-            />
-          </Paper>)),
-      )(this.props.plugins)
-    }
-    return []
+    return plugins.filter(plugin => plugin.container === container.id)
+      .map(plugin => (
+        <PluginProvider
+          key={plugin.pluginInstanceId}
+          pluginInstanceId={plugin.pluginInstanceId}
+          pluginId={plugin.pluginId}
+          pluginConf={plugin.conf}
+          pluginProps={this.props.pluginProps}
+          displayPlugin
+        />
+      ))
   }
 
   /**

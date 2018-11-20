@@ -16,8 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
-import { PluginCriterionContainer } from '@regardsoss/plugins-api'
+import { AttributeModelWithBounds } from '@regardsoss/plugins-api'
 import MultipleAttributesContainer from '../containers/MultipleAttributesContainer'
 import SingleAttributeContainer from '../containers/SingleAttributeContainer'
 
@@ -29,16 +28,19 @@ import SingleAttributeContainer from '../containers/SingleAttributeContainer'
  */
 export class TwoNumericalCriteriaComponent extends React.Component {
   static propTypes = {
-    ...PluginCriterionContainer.propTypes,
+    pluginInstanceId: PropTypes.string.isRequired,
+    /** Configuration attributes, by attributes logical name (see plugin-info.json) */
+    attributes: PropTypes.shape({
+      firstField: AttributeModelWithBounds.isRequired,
+      secondField: AttributeModelWithBounds.isRequired,
+    }).isRequired,
   }
 
   render() {
-    // gather different attributes list values(this.props.attributes)
-    const allKeys = values(this.props.attributes).reduce(
-      (acc, attribute) => acc.includes(attribute.jsonPath) ? acc : [...acc, attribute.jsonPath], [])
-    return allKeys.length <= 1
-      ? <SingleAttributeContainer {...this.props} />
-      : <MultipleAttributesContainer {...this.props} />
+    const { pluginInstanceId, attributes: { firstField, secondField } } = this.props
+    return firstField.jsonPath === secondField.jsonPath // same attribute?
+      ? <SingleAttributeContainer pluginInstanceId={pluginInstanceId} searchField={firstField} />
+      : <MultipleAttributesContainer pluginInstanceId={pluginInstanceId} firstField={firstField} secondField={secondField} />
   }
 }
 

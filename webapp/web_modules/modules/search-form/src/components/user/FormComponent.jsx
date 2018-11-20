@@ -36,19 +36,15 @@ class FormComponent extends React.Component {
     moduleConf: ModuleConfiguration.isRequired,
     plugins: AccessShapes.UIPluginConfArray,
     pluginsProps: PropTypes.shape({
-      onChange: PropTypes.func.isRequired,
+      initialQuery: PropTypes.string.isRequired,
     }),
-    handleSearch: PropTypes.func.isRequired,
+    onSearch: PropTypes.func.isRequired,
+    onClearAll: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
-  }
-
-  constructor(props) {
-    super(props)
-    this.pluginStates = {}
   }
 
   onKeyPress = (e) => {
@@ -58,40 +54,10 @@ class FormComponent extends React.Component {
     }
   }
 
-  /**
-   * Function passed to plugins to give them back theire previous state in order to initialize them
-   * with their previous values.
-   *
-   * @param pluginId
-   * @returns {{}}
-   */
-  getPluginDefaultState = pluginId => this.pluginStates[pluginId] ? this.pluginStates[pluginId] : {}
-
-  /**
-   * Function passed to plugins to save their state. So they can retrieve it later
-   * @param pluginId
-   * @param state
-   */
-  savePluginState = (pluginId, state) => {
-    this.pluginStates[pluginId] = state
-  }
-
   render() {
     const {
-      plugins, pluginsProps: initialPluginProps, moduleConf, handleSearch, ...moduleProperties
+      plugins, pluginsProps, moduleConf, onClearAll, onSearch, ...moduleProperties
     } = this.props
-
-    const pluginsProps = {
-      ...initialPluginProps,
-      getDefaultState: this.getPluginDefaultState,
-      savePluginState: this.savePluginState,
-    }
-
-    // Workround - Container type changed between version 1 and version 1.1. So, to avoid changing every configuration saved, we force container type with the new value.
-    const retroCompatibleLayout = {
-      ...moduleConf.layout,
-      type: 'FormMainContainer',
-    }
 
     return (
       <DynamicModulePane
@@ -102,11 +68,11 @@ class FormComponent extends React.Component {
         mainModule={false}
       >
         <FormLayout
-          layout={retroCompatibleLayout}
+          layout={moduleConf.layout}
           plugins={plugins}
           pluginsProps={pluginsProps}
-          onSearch={handleSearch}
-          onClearAll={this.props.handleClearAll}
+          onSearch={onSearch}
+          onClearAll={onClearAll}
         />
       </DynamicModulePane>)
   }
