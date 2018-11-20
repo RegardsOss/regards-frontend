@@ -65,7 +65,7 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionComponent', () => {
     testSuiteHelpers.assertWrapperProperties(subComponentWrapper, {
       currentHintText: 'idk', // field text being entered by the user
       isFetching: false,
-      inError: false,
+      isInError: false,
       onUpdateInput: props.onUpdateTextFilter,
       onFilterSelected: props.onFilterSelected,
     }, 'Properties should be correctly reported')
@@ -85,7 +85,7 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionComponent', () => {
     const subComponentWrapper = enzymeWrapper.find(AutoCompleteTextField)
     assert.lengthOf(subComponentWrapper, 1, 'The autocomplete field should be shown')
     assert.isTrue(subComponentWrapper.props().isFetching, 'The component should be marked fetching')
-    assert.isFalse(subComponentWrapper.props().inError, 'The component should not be marked in error')
+    assert.isFalse(subComponentWrapper.props().isInError, 'The component should not be marked in error')
   })
   it('should render correctly in error', () => {
     const props = {
@@ -102,7 +102,7 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionComponent', () => {
     const subComponentWrapper = enzymeWrapper.find(AutoCompleteTextField)
     assert.lengthOf(subComponentWrapper, 1, 'The autocomplete field should be shown')
     assert.isFalse(subComponentWrapper.props().isFetching, 'The component should not be marked fetching')
-    assert.isTrue(subComponentWrapper.props().inError, 'The component should be marked in error')
+    assert.isTrue(subComponentWrapper.props().isInError, 'The component should be marked in error')
   })
   it('should convert hints list when receiving new available values', () => {
     // function to check hints list
