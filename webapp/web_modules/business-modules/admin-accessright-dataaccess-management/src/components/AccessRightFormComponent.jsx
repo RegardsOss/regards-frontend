@@ -17,16 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import get from 'lodash/get'
 import { CardActions, CardText } from 'material-ui/Card'
 import {
-  ShowableAtRender, CardActionsComponent, PluginConfigurationPickerComponent, FormErrorMessage,
+  ShowableAtRender, CardActionsComponent, FormErrorMessage,
 } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import {
   RenderTextField, Field, RenderSelectField, reduxForm,
 } from '@regardsoss/form-utils'
-import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
+import { DamDomain } from '@regardsoss/domain'
+import { DataManagementShapes } from '@regardsoss/shape'
+import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import MenuItem from 'material-ui/MenuItem'
@@ -51,14 +52,11 @@ export class AccessRightFormComponent extends React.Component {
     onCancel: PropTypes.func.isRequired,
     errorMessage: PropTypes.string,
     currentAccessRight: DataManagementShapes.AccessRightContent,
-    pluginConfigurationList: CommonShapes.PluginConfigurationList,
-    pluginMetaDataList: CommonShapes.PluginMetaDataList,
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
-    change: PropTypes.func,
   }
 
   constructor(props) {
@@ -66,6 +64,7 @@ export class AccessRightFormComponent extends React.Component {
     this.state = {
       isDisplayAdvancedForm: false,
       isDisplayPluginConf: false,
+      isDisplayDOAccessPluginConf: false,
       selectMetaDataAccessLevel: props.currentAccessRight && props.currentAccessRight.accessLevel
         ? props.currentAccessRight.accessLevel : AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS,
     }
@@ -74,12 +73,6 @@ export class AccessRightFormComponent extends React.Component {
   componentDidMount() {
     this.handleInitialize()
   }
-
-  /**
-   * When the user select a plugin configuration, save that value into the form
-   * @param value the pluginConfiguration id
-   */
-  onPluginConfigurationChange = value => this.props.change('pluginConfiguration', value)
 
   handleInitialize = () => {
     const { currentAccessRight } = this.props
@@ -93,14 +86,16 @@ export class AccessRightFormComponent extends React.Component {
         },
         access: currentAccessRight.accessLevel,
         dataAccess: currentAccessRight.dataAccessRight.dataAccessLevel,
+        dataAccessPlugin: currentAccessRight.dataAccessRight.pluginConfiguration,
       }
-      // Show the plugin configuration picker when there is a value
-      if (currentAccessRight.dataAccessRight.pluginConfiguration) {
+      const isCustomMetaAccess = (currentAccessRight.accessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.CUSTOM_ACCESS)
+      const isCustomAccess = (currentAccessRight.dataAccessRight.dataAccessLevel === AccessRightsEnum.DATA_ACCESS_ENUM.CUSTOM_ACCESS)
+
+      if (isCustomMetaAccess || isCustomAccess) {
         this.setState({
-          isDisplayPluginConf: true,
+          isDisplayPluginConf: isCustomAccess,
+          isDisplayDOAccessPluginConf: isCustomMetaAccess,
         })
-        // Save the value in the form
-        defaultValues.pluginConfiguration = currentAccessRight.dataAccessRight.pluginConfiguration
       }
     } else {
       defaultValues = {
@@ -138,14 +133,8 @@ export class AccessRightFormComponent extends React.Component {
    * @param input
    */
   handleChangeDataAccess = (event, index, value, input) => {
-    const { isDisplayPluginConf } = this.state
-    const isCustomAccess = (value === 'CUSTOM_ACCESS')
-    // Also reset inside the redux form if you switch from plugin to no plugin
-    if (isDisplayPluginConf && !isCustomAccess) {
-      this.onPluginConfigurationChange(null)
-    }
     this.setState({
-      isDisplayPluginConf: isCustomAccess,
+      isDisplayPluginConf: (value === AccessRightsEnum.DATA_ACCESS_ENUM.CUSTOM_ACCESS),
     })
     input.onChange(value)
   }
@@ -153,6 +142,7 @@ export class AccessRightFormComponent extends React.Component {
   handleChangeMetaDataAccess = (event, index, value, input) => {
     this.setState({
       selectMetaDataAccessLevel: value,
+      isDisplayDOAccessPluginConf: (value === AccessRightsEnum.METADATA_ACCESS_ENUM.CUSTOM_ACCESS),
     })
     input.onChange(value)
   }
@@ -181,7 +171,9 @@ export class AccessRightFormComponent extends React.Component {
   }
 
   renderDataAccessLevel = () => {
-    if (this.state.selectMetaDataAccessLevel !== AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS) {
+    // Data access level is configurable only if metadata level is available for datas
+    if (this.state.selectMetaDataAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS
+      || this.state.selectMetaDataAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_ACCESS) {
       return null
     }
     return (
@@ -280,10 +272,8 @@ export class AccessRightFormComponent extends React.Component {
   }
 
   render() {
-    const {
-      submitting, invalid, pluginMetaDataList, pluginConfigurationList,
-    } = this.props
-    const { isDisplayPluginConf } = this.state
+    const { submitting, invalid } = this.props
+    const { isDisplayPluginConf, isDisplayDOAccessPluginConf } = this.state
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <div>
@@ -292,15 +282,33 @@ export class AccessRightFormComponent extends React.Component {
               {this.props.errorMessage}
             </FormErrorMessage>
             {this.renderMetaDataAccessLevel()}
+            <ShowableAtRender show={isDisplayDOAccessPluginConf}>
+              <Field
+                name="dataAccessPlugin"
+                component={RenderPluginField}
+                title={this.context.intl.formatMessage({ id: 'accessright.form.dataAccessPlugin.title' })}
+                selectLabel={this.context.intl.formatMessage({ id: 'accessright.form.dataAccessPlugin.select.label' })}
+                pluginType={DamDomain.PluginTypeEnum.DATA_OBJECT_ACCESS_FILTER}
+                defaultPluginConfLabel="plop"
+                microserviceName={STATIC_CONF.MSERVICES.DAM}
+                hideDynamicParameterConf
+                hideGlobalParameterConf
+              />
+            </ShowableAtRender>
             {this.renderDataAccessLevel()}
             <ShowableAtRender show={isDisplayPluginConf}>
               <br />
               <br />
-              <PluginConfigurationPickerComponent
-                onChange={this.onPluginConfigurationChange}
-                pluginMetaDataList={pluginMetaDataList}
-                pluginConfigurationList={pluginConfigurationList}
-                currentPluginConfiguration={get(this.props.currentAccessRight, 'dataAccessRight.pluginConfiguration', undefined)}
+              <Field
+                name="dataAccessPlugin"
+                component={RenderPluginField}
+                title={this.context.intl.formatMessage({ id: 'accessright.form.checkDataAccessPlugin.title' })}
+                selectLabel={this.context.intl.formatMessage({ id: 'accessright.form.checkDataAccessPlugin.select.label' })}
+                pluginType={DamDomain.PluginTypeEnum.CHECK_DATA_ACCESS}
+                defaultPluginConfLabel="plop"
+                microserviceName={STATIC_CONF.MSERVICES.DAM}
+                hideDynamicParameterConf
+                hideGlobalParameterConf
               />
             </ShowableAtRender>
             {/**this.renderQualityFilter()*/}

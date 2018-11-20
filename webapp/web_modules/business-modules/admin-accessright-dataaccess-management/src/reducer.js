@@ -19,15 +19,11 @@
 import { combineReducers } from 'redux'
 import { datasetWithAccessRightReducer } from './clients/DatasetWithAccessRightClient'
 import { accessGroupReducer } from './clients/AccessGroupClient'
-import { pluginConfigurationReducer } from './clients/PluginConfigurationClient'
-import { pluginMetaDataReducer } from './clients/PluginMetadataClient'
 import { tableReducer } from './clients/TableClient'
 
 const accessRightManagementReducer = combineReducers({
   'access-rights-datasets': datasetWithAccessRightReducer,
   'access-group': accessGroupReducer,
-  pluginConfiguration: pluginConfigurationReducer,
-  pluginMetadata: pluginMetaDataReducer,
   'access-right-datasets-table': tableReducer,
 })
 
