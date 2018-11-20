@@ -56,7 +56,7 @@ export class AccessRightListContainer extends React.Component {
       dataAccessLevel: formValues.dataAccess,
     }
     if (formValues) {
-      dataAccessRight.pluginConfiguration = formValues.dataAccessPlugin
+      dataAccessRight.pluginConfiguration = formValues.checkAccessPlugin
     }
     const qualityFilter = {
       maxScore: formValues.quality.max,

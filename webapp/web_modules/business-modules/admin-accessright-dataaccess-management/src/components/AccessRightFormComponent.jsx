@@ -86,7 +86,8 @@ export class AccessRightFormComponent extends React.Component {
         },
         access: currentAccessRight.accessLevel,
         dataAccess: currentAccessRight.dataAccessRight.dataAccessLevel,
-        dataAccessPlugin: currentAccessRight.dataAccessRight.pluginConfiguration,
+        dataAccessPlugin: currentAccessRight.dataAccessPlugin,
+        checkAccessPlugin: currentAccessRight.dataAccessRight.pluginConfiguration,
       }
       const isCustomMetaAccess = (currentAccessRight.accessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.CUSTOM_ACCESS)
       const isCustomAccess = (currentAccessRight.dataAccessRight.dataAccessLevel === AccessRightsEnum.DATA_ACCESS_ENUM.CUSTOM_ACCESS)
@@ -300,7 +301,7 @@ export class AccessRightFormComponent extends React.Component {
               <br />
               <br />
               <Field
-                name="dataAccessPlugin"
+                name="checkAccessPlugin"
                 component={RenderPluginField}
                 title={this.context.intl.formatMessage({ id: 'accessright.form.checkDataAccessPlugin.title' })}
                 selectLabel={this.context.intl.formatMessage({ id: 'accessright.form.checkDataAccessPlugin.select.label' })}
