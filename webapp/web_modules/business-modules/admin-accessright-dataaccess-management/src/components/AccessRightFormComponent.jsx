@@ -290,7 +290,7 @@ export class AccessRightFormComponent extends React.Component {
                 title={this.context.intl.formatMessage({ id: 'accessright.form.dataAccessPlugin.title' })}
                 selectLabel={this.context.intl.formatMessage({ id: 'accessright.form.dataAccessPlugin.select.label' })}
                 pluginType={DamDomain.PluginTypeEnum.DATA_OBJECT_ACCESS_FILTER}
-                defaultPluginConfLabel="plop"
+                defaultPluginConfLabel={`dataAccessPlugin-${Date.now()}`}
                 microserviceName={STATIC_CONF.MSERVICES.DAM}
                 hideDynamicParameterConf
                 hideGlobalParameterConf
@@ -306,7 +306,7 @@ export class AccessRightFormComponent extends React.Component {
                 title={this.context.intl.formatMessage({ id: 'accessright.form.checkDataAccessPlugin.title' })}
                 selectLabel={this.context.intl.formatMessage({ id: 'accessright.form.checkDataAccessPlugin.select.label' })}
                 pluginType={DamDomain.PluginTypeEnum.CHECK_DATA_ACCESS}
-                defaultPluginConfLabel="plop"
+                defaultPluginConfLabel={`checkAccessPlugin-${Date.now()}`}
                 microserviceName={STATIC_CONF.MSERVICES.DAM}
                 hideDynamicParameterConf
                 hideGlobalParameterConf
