@@ -38,8 +38,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightFormComponent', () 
       onSubmit: () => { },
       onCancel: () => { },
       currentAccessRight: DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight').content,
-      pluginConfigurationList: {},
-      pluginMetaDataList: {},
       // from reduxForm
       submitting: false,
       invalid: false,
@@ -48,7 +46,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightFormComponent', () 
       change: () => { },
     }
     const enzymeWrapper = shallow(<AccessRightFormComponent {...props} />, { context, lifecycleExperimental: true })
-    expect(enzymeWrapper.find(Field)).to.have.length(2)
+    expect(enzymeWrapper.find(Field)).to.have.length(4)
   })
 
   it('Render properly without data access rights if meta is NO_ACCESS', () => {
@@ -58,8 +56,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightFormComponent', () 
       onSubmit: () => { },
       onCancel: () => { },
       currentAccessRight: accessRight,
-      pluginConfigurationList: {},
-      pluginMetaDataList: {},
       // from reduxForm
       submitting: false,
       invalid: false,
@@ -69,7 +65,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightFormComponent', () 
     }
     const enzymeWrapper = shallow(<AccessRightFormComponent {...props} />, { context, lifecycleExperimental: true })
     const formFields = enzymeWrapper.find(Field)
-    const expectedFieldNumber = 1
+    const expectedFieldNumber = 3
     // Only 4 fields, in this case, the DATA_ACCESS is hidden
     assert.equal(formFields.length, expectedFieldNumber, 'The DATA_ACCESS field should not be rendered if the METADATA_ACCESS is not FULL_ACCESS')
   })
@@ -81,8 +77,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightFormComponent', () 
       onSubmit: () => { },
       onCancel: () => { },
       currentAccessRight: accessRight,
-      pluginConfigurationList: {},
-      pluginMetaDataList: {},
       // from reduxForm
       submitting: false,
       invalid: false,
@@ -92,8 +86,8 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightFormComponent', () 
     }
     const enzymeWrapper = shallow(<AccessRightFormComponent {...props} />, { context, lifecycleExperimental: true })
     const formFields = enzymeWrapper.find(Field)
-    const expectedFieldNumber = 1
-    // Only 4 fields, in this case, the DATA_ACCESS is hidden
+    const expectedFieldNumber = 3
+    // Only 3 fields, in this case, the DATA_ACCESS is hidden
     assert.equal(formFields.length, expectedFieldNumber, 'The DATA_ACCESS field should not be rendered if the METADATA_ACCESS is not FULL_ACCESS')
   })
 })

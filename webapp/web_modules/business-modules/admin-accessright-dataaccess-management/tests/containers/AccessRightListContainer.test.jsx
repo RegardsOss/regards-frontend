@@ -61,8 +61,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
       },
       accessGroup: testAccessGroup,
       selectedDatasetsWithAccessright: [],
-      pluginConfigurationList: {},
-      pluginMetaDataList: {},
       meta: {
         number: 1,
         size: 10,
@@ -92,8 +90,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
       },
       accessGroup: testAccessGroup,
       selectedDatasetsWithAccessright: [],
-      pluginConfigurationList: {},
-      pluginMetaDataList: {},
       meta: {
         number: 1,
         size: 10,
@@ -142,8 +138,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
       },
       accessGroup: testAccessGroup,
       selectedDatasetsWithAccessright: [],
-      pluginConfigurationList: {},
-      pluginMetaDataList: {},
       meta: {
         number: 1,
         size: 10,
@@ -194,8 +188,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
       },
       accessGroup: testAccessGroup,
       selectedDatasetsWithAccessright: [],
-      pluginConfigurationList: {},
-      pluginMetaDataList: {},
       meta: {
         number: 1,
         size: 10,
