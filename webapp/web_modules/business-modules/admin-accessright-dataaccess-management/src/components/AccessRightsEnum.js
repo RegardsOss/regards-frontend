@@ -18,15 +18,22 @@
  **/
 
 const METADATA_ACCESS_ENUM = {
+  // Access allowed to dataset and all dataobjects in it
   DATASET_AND_OBJECT_ACCESS: 'FULL_ACCESS',
+  // Access allowed to datastet but not to dataobjects in it
   DATASET_ACCESS: 'RESTRICTED_ACCESS',
+  // Access allowed to dataset and custom for dataobjects. Cutsom means that access are calculated by a plugin
   CUSTOM_ACCESS: 'CUSTOM_ACCESS',
+  // No access allowed to dataset neather dataobjets
   NO_ACCESS: 'NO_ACCESS',
 }
 
 const DATA_ACCESS_ENUM = {
+  // Access allowed to files of dataobjects
   AUTHORIZED: 'INHERITED_ACCESS',
+  // Access denied to files of dataobjets
   REFUSED: 'NO_ACCESS',
+  // Custom access to files of dataobjects. Cusstom means that the access is defined by a plugin at runtime
   AUTHORIZED_BY_PLUGIN: 'CUSTOM_ACCESS',
 }
 
