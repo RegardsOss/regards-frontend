@@ -32,7 +32,7 @@ const context = buildTestContext(styles)
  *
  * @author Xavier-Alexandre Brochard
  */
-describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing TwoNumericalCriteriaComponent', () => {
+describe('[Two numerical criteria] Testing TwoNumericalCriteriaComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
   it('should exists', () => {
@@ -42,10 +42,6 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing TwoNumericalCriteriaComponent'
     const props = {
       // parent callbacks (required)
       pluginInstanceId: 'any',
-      onChange: () => { },
-      getDefaultState: () => { },
-      savePluginState: () => { },
-      registerClear: () => { },
       attributes: {
         // 2 attributes with different name and path (different attributes)
         firstField: {
@@ -68,9 +64,6 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing TwoNumericalCriteriaComponent'
     const props = {
       // parent callbacks (required)
       pluginInstanceId: 'any',
-      onChange: () => { },
-      getDefaultState: () => { },
-      savePluginState: () => { },
       attributes: {
         // 2 attributes with same name and path (same attribute)
         firstField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER),

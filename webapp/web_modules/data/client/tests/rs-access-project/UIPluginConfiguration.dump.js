@@ -27,6 +27,7 @@ export default {
       content: {
         id: 1,
         active: true,
+        pluginInstanceId: '1',
         pluginDefinition: {
           id: 2,
         },

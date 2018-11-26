@@ -56,12 +56,6 @@ pipeline {
                             -v ${WORKSPACE}/webapp:/app_to_build \
                             rs_node ./build_plugin.sh criterion/enumerated'
                     },
-                    plugin_criterion_example: {
-                        sh 'docker run \
-                            --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./build_plugin.sh criterion/example'
-                    },
                     plugin_criterion_full_text: {
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \

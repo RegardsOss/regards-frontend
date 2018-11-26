@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { DamDomain } from '@regardsoss/domain'
-import { DATASET_TYPE } from '../../src/domain/DatasetSelectionTypes'
+import DatasetSelectionTypes from '../../src/domain/DatasetSelectionTypes'
 
 /**
  * Holds module configurations dump
@@ -58,6 +58,7 @@ export const criteria = [
     label: 'enumerated-criteria',
     active: true,
     pluginId: 1,
+    pluginInstanceId: '1',
     container: 'content',
     conf: {
       attributes: {
@@ -71,6 +72,7 @@ export const criteria = [
     label: 'string-criterion',
     active: true,
     pluginId: 2,
+    pluginInstanceId: '2',
     container: 'content',
     conf: {
       attributes: {
@@ -86,6 +88,7 @@ export const criteria = [
     active: true,
     pluginId: 3,
     container: 'content',
+    pluginInstanceId: '3',
     conf: {
       attributes: {
         testAttr1: 'xxx.long.parameter',
@@ -100,6 +103,7 @@ export const criteria = [
     active: true,
     pluginId: 4,
     container: 'content',
+    pluginInstanceId: '4',
     conf: {
       attributes: {
         testAttr1: 'xxx.long.parameter',
@@ -118,8 +122,114 @@ export const conf1 = {
   },
   criterion: criteria,
   datasets: {
-    entityType: DATASET_TYPE,
-    selectedDatasets: [],
+    type: DatasetSelectionTypes.DATASET_TYPE,
+    selectedDatasets: ['URN:DATASET:EXAMPLE1'],
     selectedModels: [],
+  },
+  // search results dump conf (from a real example)
+  searchResult: {
+    primaryPane: 'COLLAPSED_EXPANDABLE',
+    facettesInitiallySelected: true,
+    enableFacettes: true,
+    enableQuicklooks: false,
+    enableDownload: false,
+    initialViewMode: 'list',
+    displayMode: 'data_dataset',
+    displayConf: {
+      quicklookColumnWidth: 400,
+      quicklookColumnSpacing: 20,
+    },
+    data: {
+      columns: [
+        {
+          attributes: [
+            {
+              name: 'label',
+            },
+          ],
+          label: {
+            en: 'Label',
+            fr: 'Libellé',
+          },
+        },
+        {
+          attributes: [
+            {
+              name: 'properties.date',
+            },
+          ],
+          label: {
+            en: 'Date UTC',
+            fr: 'Date UTC',
+          },
+        },
+      ],
+      facets: [
+        {
+          attributes: [
+            {
+              name: 'properties.date',
+            },
+          ],
+          label: {
+            en: 'Date UTC',
+            fr: 'Date UTC',
+          },
+        },
+      ],
+      sorting: [
+        {
+          attributes: [
+            {
+              name: 'properties.date',
+            },
+          ],
+        },
+        {
+          attributes: [
+            {
+              name: 'label',
+            },
+          ],
+        },
+      ],
+    },
+    dataset: {
+      columns: [
+        {
+          attributes: [
+            {
+              name: 'label',
+            },
+          ],
+          label: {
+            en: 'Label',
+            fr: 'Libellé',
+          },
+        },
+        {
+          attributes: [
+            {
+              name: 'id',
+            },
+          ],
+          label: {
+            en: 'Internal ID',
+            fr: 'ID interne',
+          },
+        },
+        {
+          attributes: [
+            {
+              name: 'properties.name',
+            },
+          ],
+          label: {
+            en: 'Name',
+            fr: 'Nom',
+          },
+        },
+      ],
+    },
   },
 }

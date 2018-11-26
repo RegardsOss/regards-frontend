@@ -57,9 +57,14 @@ export default class OpenSearchQueryParameter extends QueryParameter {
   static computeParameterValue(value = '') {
     if (isArray(value)) {
       const paramValue = value.map(OpenSearchQueryParameter.escape).join(OpenSearchQueryParameter.CHOICE_SEPARATOR)
-      return value.length > 1
-        ? `(${paramValue})` // make sure choice values are enclose in parenthesis
-        : paramValue
+      switch (value.length) {
+        case 0:
+          return '' // no value
+        case 1:
+          return paramValue // no choice
+        default: // values count > 1, open search choices must be in parenthesis
+          return `(${paramValue})`
+      }
     }
     return OpenSearchQueryParameter.escape(value)
   }

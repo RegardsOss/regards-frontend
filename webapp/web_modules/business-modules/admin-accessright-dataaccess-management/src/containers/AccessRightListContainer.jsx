@@ -20,7 +20,7 @@ import get from 'lodash/get'
 import map from 'lodash/map'
 import filter from 'lodash/filter'
 import { browserHistory } from 'react-router'
-import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { tableSelectors, tableActions } from '../clients/TableClient'
 import { accessRightActions } from '../clients/AccessRightClient'
@@ -37,10 +37,6 @@ export class AccessRightListContainer extends React.Component {
     accessGroup: DataManagementShapes.AccessGroup.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     selectedDatasetsWithAccessright: PropTypes.arrayOf(DataManagementShapes.DatasetWithAccessRight).isRequired,
-    // Availables plugin configuration for custom access rights delegated to plugins
-    pluginConfigurationList: CommonShapes.PluginConfigurationList.isRequired,
-    // Availables plugin definitions for custom access rights delegated to plugins
-    pluginMetaDataList: CommonShapes.PluginMetaDataList.isRequired,
     meta: PropTypes.shape({ // use only in onPropertiesUpdate
       number: PropTypes.number,
       size: PropTypes.number,
@@ -60,7 +56,7 @@ export class AccessRightListContainer extends React.Component {
       dataAccessLevel: formValues.dataAccess,
     }
     if (formValues) {
-      dataAccessRight.pluginConfiguration = formValues.pluginConfiguration
+      dataAccessRight.pluginConfiguration = formValues.checkAccessPlugin
     }
     const qualityFilter = {
       maxScore: formValues.quality.max,
@@ -71,6 +67,7 @@ export class AccessRightListContainer extends React.Component {
       id: get(datasetWithAR, 'content.accessRight.id', null),
       qualityFilter,
       dataAccessRight,
+      dataAccessPlugin: formValues.dataAccessPlugin,
       accessGroup: accessGroup.content,
       accessLevel: formValues.access,
       dataset: {
@@ -134,8 +131,6 @@ export class AccessRightListContainer extends React.Component {
     return (
       <AccessRightListComponent
         accessGroup={this.props.accessGroup.content}
-        pluginConfigurationList={this.props.pluginConfigurationList}
-        pluginMetaDataList={this.props.pluginMetaDataList}
         deleteAccessRight={this.onDelete}
         submitAccessRights={this.onSubmit}
         navigateToCreateDataset={this.navigateToCreateDataset}

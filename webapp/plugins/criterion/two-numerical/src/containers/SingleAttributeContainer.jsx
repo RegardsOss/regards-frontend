@@ -16,127 +16,111 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { FormattedMessage } from 'react-intl'
-import { EnumNumericalComparator } from '@regardsoss/domain/common'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
-import { PluginCriterionContainer, numberRangeHelper, BOUND_TYPE } from '@regardsoss/plugins-api'
-import NumericalCriteriaComponent from '../components/NumericalCriteriaComponent'
+import { connect } from '@regardsoss/redux'
+import {
+  AttributeModelWithBounds, pluginStateActions, pluginStateSelectors, numberRangeHelper,
+} from '@regardsoss/plugins-api'
+import SingleAttributeComponent from '../components/SingleAttributeComponent'
 
 /**
- * Main container for criterion when working on a single attribute: value from X to Y
+ * Main container for criterion when working on a single attribute: value from value1 to value2
  *
  * @author Xavier-Alexandre Brochard
  */
-export class SingleAttributeContainer extends PluginCriterionContainer {
-  static contextTypes = {
-    // enable plugin theme access through this.context
-    ...themeContextType,
-    // enable i18n access trhough this.context
-    ...i18nContextType,
-  }
-
+export class SingleAttributeContainer extends React.Component {
   /** Default component state */
   static DEFAULT_STATE = {
-    firstField: undefined,
-    secondField: undefined,
+    value1: undefined, // first range value
+    value2: undefined, // second range value
   }
 
-  /** Initial state */
-  state = SingleAttributeContainer.DEFAULT_STATE
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, { pluginInstanceId }) {
+    return {
+      // current state from redux store
+      state: pluginStateSelectors.getCriterionState(state, pluginInstanceId) || SingleAttributeContainer.DEFAULT_STATE,
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
+    return {
+      publishState: (state, query) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, query)),
+    }
+  }
+
+  static propTypes = {
+    /** Plugin identifier */
+    // eslint-disable-next-line react/no-unused-prop-types
+    pluginInstanceId: PropTypes.string.isRequired, // used in mapStateToProps and mapDispatchToProps
+    /** Configured field attribute */
+    searchField: AttributeModelWithBounds.isRequired,
+    // From mapStateToProps...
+    state: PropTypes.shape({ // specifying here the state this criterion shares with parent search form
+      value1: PropTypes.number,
+      value2: PropTypes.number,
+    }).isRequired,
+    // From mapDispatchToProps...
+    publishState: PropTypes.func.isRequired,
+  }
+
+  /**
+   * Converts current state into query
+   * @param {{value1: number, value2: number}} plugin state values
+   * @param {*} attribute criterion attribute
+   * @return {string} corresponding search query
+   */
+  static convertToQuery({ value1, value2 }, attribute) {
+    return numberRangeHelper.getNumberAttributeQueryPart(attribute.jsonPath, new numberRangeHelper.NumberRange(value1, value2))
+  }
+
 
   /**
    * Callback: user changed value 1
    * @param {number} value as parsed by NumericalCriteriaComponent
    */
-  onChangeValue1 = (value) => {
-    this.setState({
-      firstField: value,
-    })
+  onChangeValue1 = (value1) => {
+    const { state, publishState, searchField } = this.props
+    const newState = { ...state, value1 }
+    publishState(newState, SingleAttributeContainer.convertToQuery(newState, searchField))
   }
 
   /**
    * Callback: user changed value 2
    * @param {number} value as parsed by NumericalCriteriaComponent
    */
-  onChangeValue2 = (value) => {
-    this.setState({
-      secondField: value,
-    })
-  }
-
-  /**
-   * @param state this current state
-   * @return open search query corresponding to current state
-   */
-  parseOpenSearchQuery = (parameterName, openSearchQuery) => {
-    const range = numberRangeHelper.parseRange(openSearchQuery)
-    // first field is lower bound, second field is upper bound. The value is set when bound is not infinity
-    if (parameterName === 'firstField') {
-      if (!range.isInfiniteLowerBound()) {
-        return range.lowerBound
-      }
-    } else if (!range.isInfiniteUpperBound()) {
-      return range.upperBound
-    }
-
-    return null
-  }
-
-  getPluginSearchQuery = (state) => {
-    const { firstField, secondField } = state
-    return numberRangeHelper.getNumberAttributeQueryPart(this.getAttributeName('firstField'),
-      new numberRangeHelper.NumberRange(firstField, secondField))
-  }
-
-  /**
-   * Clear the entered values
-   */
-  handleClear = () => {
-    this.setState(SingleAttributeContainer.DEFAULT_STATE)
+  onChangeValue2 = (value2) => {
+    const { state, publishState, searchField } = this.props
+    const newState = { ...state, value2 }
+    publishState(newState, SingleAttributeContainer.convertToQuery(newState, searchField))
   }
 
   render() {
-    const { firstField, secondField } = this.state
-    const {
-      moduleTheme: { rootStyle, labelSpanStyle },
-      intl: { formatMessage },
-    } = this.context
+    const { state: { value1, value2 }, searchField } = this.props
+
 
     return (
-      <div style={rootStyle}>
-        <span style={labelSpanStyle}>
-          {formatMessage(
-            { id: 'criterion.aggregator.between' },
-            { label: this.getAttributeLabel('firstField') },
-          )}
-        </span>
-        <NumericalCriteriaComponent
-          value={firstField}
-          comparator={EnumNumericalComparator.LE}
-          onChange={this.onChangeValue1}
-          hintText={this.getFieldHintText('firstField', BOUND_TYPE.LOWER_BOUND)}
-          tooltip={this.getFieldTooltip('firstField')}
-          disabled={this.hasNoValue('firstField')}
-          hideAttributeName
-          hideComparator
-        />
-        <span style={{ marginRight: 10 }}>
-          <FormattedMessage id="criterion.aggregator.and" />
-        </span>
-        <NumericalCriteriaComponent
-          value={secondField}
-          comparator={EnumNumericalComparator.GE}
-          onChange={this.onChangeValue2}
-          hintText={this.getFieldHintText('firstField', BOUND_TYPE.UPPER_BOUND)}
-          tooltip={this.getFieldTooltip('firstField')}
-          disabled={this.hasNoValue('firstField')}
-          hideAttributeName
-          hideComparator
-        />
-      </div>
+      <SingleAttributeComponent
+        searchAttribute={searchField}
+        value1={value1}
+        value2={value2}
+        onChangeValue1={this.onChangeValue1}
+        onChangeValue2={this.onChangeValue2}
+      />
     )
   }
 }
 
-export default SingleAttributeContainer
+export default connect(
+  SingleAttributeContainer.mapStateToProps,
+  SingleAttributeContainer.mapDispatchToProps)(SingleAttributeContainer)

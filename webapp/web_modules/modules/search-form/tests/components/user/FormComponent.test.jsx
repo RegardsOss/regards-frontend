@@ -51,15 +51,10 @@ describe('[FORM MODULE] Testing FormComponent', () => {
       },
       plugins: DUMP,
       pluginsProps: {
-        onChange: () => { },
+        initialQuery: 'any',
       },
-
-      layout: {
-        id: 'main',
-        type: 'type',
-      },
-      handleSearch: () => { },
-      handleClearAll: () => { },
+      onSearch: () => { },
+      onClearAll: () => { },
     }
 
     const enzymeWrapper = shallow(<FormComponent {...props} />, options)

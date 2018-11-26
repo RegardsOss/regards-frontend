@@ -19,6 +19,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const alias = require('../utils/alias')
 
 module.exports = function (projectContextPath, mode) {
   return {
@@ -48,6 +49,7 @@ module.exports = function (projectContextPath, mode) {
         'web_modules',
         'node_modules',
       ],
+      alias: alias(path.join(projectContextPath, '../../..')),
     },
     module: {
       rules: [
@@ -56,6 +58,12 @@ module.exports = function (projectContextPath, mode) {
           test: /\.jsx?$/,
           exclude: [/node_modules/, /json/],
           loader: 'babel-loader',
+          options: {
+            // @Since babel 7, we can specify where is located the babel config file
+            // Here it walks upward from the "root" directory, looking for a directory containing a babel.config.js file.
+            // https://babeljs.io/docs/en/options#rootmode
+            rootMode: 'upward',
+          },
         },
         {
           test: /\.css$/,

@@ -17,12 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import AccessRightListContainer from './AccessRightListContainer'
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
-import { pluginConfigurationActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
-import { pluginMetaDataActions, pluginMetaDataSelectors } from '../clients/PluginMetadataClient'
 
 export class AccessGroupAccessRightsContainer extends React.Component {
   static propTypes = {
@@ -32,12 +30,8 @@ export class AccessGroupAccessRightsContainer extends React.Component {
     }).isRequired,
     // from mapStateToProps
     accessGroup: DataManagementShapes.AccessGroup,
-    pluginConfigurationList: CommonShapes.PluginConfigurationList,
-    pluginMetaDataList: CommonShapes.PluginMetaDataList,
     // from mapDispatchToProps
     fetchAccessGroup: PropTypes.func,
-    fetchPluginConfigurationList: PropTypes.func,
-    fetchPluginMetaDataList: PropTypes.func,
   }
 
   constructor(props) {
@@ -49,9 +43,7 @@ export class AccessGroupAccessRightsContainer extends React.Component {
 
   componentDidMount() {
     Promise.all([
-      this.props.fetchAccessGroup(this.props.params.accessgroup),
-      this.props.fetchPluginMetaDataList(),
-      this.props.fetchPluginConfigurationList()])
+      this.props.fetchAccessGroup(this.props.params.accessgroup)])
       .then(() => {
         this.setState({
           loading: false,
@@ -60,9 +52,7 @@ export class AccessGroupAccessRightsContainer extends React.Component {
   }
 
   render() {
-    const {
-      params, accessGroup, pluginConfigurationList, pluginMetaDataList,
-    } = this.props
+    const { params, accessGroup } = this.props
     const { loading } = this.state
     return (
       <LoadableContentDisplayDecorator
@@ -73,8 +63,6 @@ export class AccessGroupAccessRightsContainer extends React.Component {
           <AccessRightListContainer
             params={params}
             accessGroup={accessGroup}
-            pluginConfigurationList={pluginConfigurationList}
-            pluginMetaDataList={pluginMetaDataList}
           />
         )}
       </LoadableContentDisplayDecorator>
@@ -84,22 +72,10 @@ export class AccessGroupAccessRightsContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   accessGroup: accessGroupSelectors.getById(state, ownProps.params.accessgroup),
-  pluginConfigurationList: pluginConfigurationSelectors.getList(state),
-  pluginMetaDataList: pluginMetaDataSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPluginConfigurationList: () => dispatch(pluginConfigurationActions.fetchEntityList({
-    microserviceName: 'rs-dam',
-  }, {
-    pluginType: 'fr.cnes.regards.modules.dam.domain.dataaccess.accessright.ICheckDataAccess',
-  })),
   fetchAccessGroup: accessGroupName => dispatch(accessGroupActions.fetchEntity(accessGroupName)),
-  fetchPluginMetaDataList: microserviceName => dispatch(pluginMetaDataActions.fetchEntityList({
-    microserviceName: 'rs-dam',
-  }, {
-    pluginType: 'fr.cnes.regards.modules.dam.domain.dataaccess.accessright.ICheckDataAccess',
-  })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccessGroupAccessRightsContainer)

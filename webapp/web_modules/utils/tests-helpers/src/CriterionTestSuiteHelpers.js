@@ -33,6 +33,7 @@ export default {
    */
   getAttributeStub(type, unit = null, boundsInformation = { exists: false, loading: false, error: false }) {
     return {
+      label: 'test',
       name: 'test',
       jsonPath: 'test',
       type,

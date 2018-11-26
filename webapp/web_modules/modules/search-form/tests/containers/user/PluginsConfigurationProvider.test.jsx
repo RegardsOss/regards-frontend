@@ -181,10 +181,10 @@ describe('[SEARCH FORM] Testing PluginsConfigurationProvider', () => {
     let spiedClearCount = 0
     let spiedFetchCount = 0
     let spiedAttributesToFetch = null
-    let spiedInitialQuery = null
+    let spiedContextQuery = null
     const props = {
       criteria,
-      initialQuery: 'abcdefg',
+      contextQuery: 'abcdefg',
       authentication: null,
       attributeModels: {},
       attributesBounds: {},
@@ -192,10 +192,10 @@ describe('[SEARCH FORM] Testing PluginsConfigurationProvider', () => {
       dispatchClearBounds: () => {
         spiedClearCount += 1
       },
-      dispatchFetchBounds: (attributesToFetch, initialQuery) => {
+      dispatchFetchBounds: (attributesToFetch, contextQuery) => {
         spiedFetchCount += 1
         spiedAttributesToFetch = attributesToFetch
-        spiedInitialQuery = initialQuery
+        spiedContextQuery = contextQuery
       },
     }
     // 1 - call without models: no configuration should be resolved
@@ -212,7 +212,7 @@ describe('[SEARCH FORM] Testing PluginsConfigurationProvider', () => {
     assert.lengthOf(spiedAttributesToFetch, 2, '2 - 2 boundable attributes should have been retrieved')
     assert.include(spiedAttributesToFetch, 'xxx.long.parameter', '2 - The Long parameter attribute should have been retrieved')
     assert.include(spiedAttributesToFetch, 'yyy.date.parameter', '2 - The Date parameter attribute should have been retrieved')
-    assert.equal(spiedInitialQuery, props.initialQuery, 'Initial query should be correctly set in bounds fetching context')
+    assert.equal(spiedContextQuery, props.contextQuery, 'Initial query should be correctly set in bounds fetching context')
     // check configurations content
     const resolvedConfigurations = enzymeWrapper.state().plugins
     assert.lengthOf(resolvedConfigurations, 2, '2 - 2 plugins should be resolved')
@@ -262,7 +262,7 @@ describe('[SEARCH FORM] Testing PluginsConfigurationProvider', () => {
   it('should render correctly and update on error received', () => {
     const props = {
       criteria,
-      initialQuery: 'abcdefg',
+      contextQuery: 'abcdefg',
       authentication: null,
       attributeModels: criteriaServerAttributes,
       attributesBounds: {},
@@ -298,7 +298,7 @@ describe('[SEARCH FORM] Testing PluginsConfigurationProvider', () => {
     let spiedFetchCount = 0
     const props = {
       criteria,
-      initialQuery: 'abcdefg',
+      contextQuery: 'abcdefg',
       authentication: null,
       attributeModels: criteriaServerAttributes,
       attributesBounds: {},

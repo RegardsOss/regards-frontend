@@ -67,8 +67,8 @@ export class URLSVGPicture extends React.Component {
     return (
       <div style={rootStyle}>
         <ReactSVG
-          path={url}
-          style={renderStyle}
+          src={url}
+          svgStyle={renderStyle}
         />
       </div>
     )

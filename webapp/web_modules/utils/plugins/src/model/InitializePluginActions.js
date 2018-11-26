@@ -24,7 +24,7 @@
 export class InitializePluginActions {
   static MARK_INITIALIZED = 'INITIALIZE_PLUGINS/MARK_INITIALIZED'
 
-  static MARK_UNLOADED = 'INITIALIZE_PLUGInS/MARK_UNLOADED'
+  static MARK_UNLOADED = 'INITIALIZE_PLUGINS/MARK_UNLOADED'
 
   /**
    * Marks a plugin initialized

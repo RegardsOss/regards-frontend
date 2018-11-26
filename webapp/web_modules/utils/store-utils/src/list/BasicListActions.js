@@ -19,7 +19,7 @@
 import { normalize } from 'normalizr'
 import BasicActions from '../BasicActions'
 
-const { CALL_API, getJSON } = require('redux-api-middleware')
+const { RSAA, getJSON } = require('redux-api-middleware')
 
 /**
  *  Provide actions for a specific type of entity list
@@ -73,7 +73,7 @@ class BasicListActions extends BasicActions {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.ENTITY_LIST_REQUEST,
           this.buildSuccessAction(
@@ -109,7 +109,7 @@ class BasicListActions extends BasicActions {
     endpoint = `${endpoint}/${keyValue}`
     endpoint = this.handleRequestQueryParams(endpoint, queryParams)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.ENTITY_REQUEST,
           this.buildSuccessAction(
@@ -136,7 +136,7 @@ class BasicListActions extends BasicActions {
     endpoint = `${endpoint}/${keyValue}`
     endpoint = this.handleRequestQueryParams(endpoint, queryParams)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.ENTITY_REQUEST_SILENT,
           this.buildSuccessAction(
@@ -155,7 +155,7 @@ class BasicListActions extends BasicActions {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.CREATE_ENTITY_REQUEST,
           this.buildSuccessAction(
@@ -182,7 +182,7 @@ class BasicListActions extends BasicActions {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.CREATE_ENTITIES_REQUEST,
           this.buildSuccessAction(
@@ -215,7 +215,7 @@ class BasicListActions extends BasicActions {
     endpointRequest = this.handleRequestQueryParams(endpointRequest, queryParams)
 
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.UPDATE_ENTITY_REQUEST,
           this.buildSuccessAction(
@@ -238,7 +238,7 @@ class BasicListActions extends BasicActions {
     }
     endpoint = this.handleRequestQueryParams(endpoint, queryParams)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.DELETE_ENTITY_REQUEST,
           this.buildSuccessAction(this.DELETE_ENTITY_SUCCESS, keyValue),
@@ -257,7 +257,7 @@ class BasicListActions extends BasicActions {
     }
     endpoint = this.handleRequestQueryParams(endpoint, queryParams)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.DELETE_ENTITY_REQUEST,
           this.buildSuccessAction(
@@ -287,7 +287,7 @@ class BasicListActions extends BasicActions {
     endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
     const formData = BasicActions.createFormDataWithFilesMap(objectValues, files)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.CREATE_ENTITY_REQUEST,
           this.buildSuccessAction(
@@ -320,7 +320,7 @@ class BasicListActions extends BasicActions {
     endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
     const formData = BasicActions.createFormDataWithFilesMap(objectValues, files)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.UPDATE_ENTITY_REQUEST,
           this.buildSuccessAction(
@@ -353,7 +353,7 @@ class BasicListActions extends BasicActions {
     endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
     const formData = BasicActions.createFormDataWithFilesList(objectValues, files, fileKey)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.CREATE_ENTITY_REQUEST,
           {

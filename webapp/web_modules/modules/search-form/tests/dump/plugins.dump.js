@@ -26,6 +26,7 @@ export const DUMP = [{
   id: 1,
   active: true,
   label: 'a plugin criterion instance',
+  pluginInstanceId: '1',
   conf: {
     static: {},
     dynamic: {},

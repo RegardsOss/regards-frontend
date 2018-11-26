@@ -18,7 +18,7 @@
  **/
 import BasicActions from '../BasicActions'
 
-const { CALL_API, getJSON } = require('redux-api-middleware')
+const { RSAA, getJSON } = require('redux-api-middleware')
 /**
  *  Provide actions to retrieve an array of value
  *
@@ -41,7 +41,7 @@ class BasicArrayActions extends BasicActions {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.ENTITY_LIST_REQUEST,
           this.buildSuccessAction(this.ENTITY_LIST_SUCCESS, (action, state, res) => getJSON(res)),
@@ -68,7 +68,7 @@ class BasicArrayActions extends BasicActions {
     endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
     const formData = BasicActions.createFormDataWithFilesMap(objectValues, files)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.CREATE_ENTITIES_REQUEST,
           this.buildSuccessAction(this.CREATE_ENTITIES_SUCCESS, (action, state, res) => getJSON(res)),

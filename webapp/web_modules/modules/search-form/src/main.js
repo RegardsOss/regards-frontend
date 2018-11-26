@@ -23,8 +23,8 @@ import '../default-icon.svg'
  * Module main file to expose public interface
  * @author Sébastien binda
  */
-export { default as moduleContainer } from './containers/ModuleContainer'
-export { default as adminContainer } from './containers/AdminContainer'
+export { default as moduleContainer } from './containers/user/ModuleContainer'
+export { default as adminContainer } from './containers/admin/AdminContainer'
 export { default as styles } from './styles/styles'
 export { default as reducer } from './reducer'
 export { default as dependencies } from './dependencies'

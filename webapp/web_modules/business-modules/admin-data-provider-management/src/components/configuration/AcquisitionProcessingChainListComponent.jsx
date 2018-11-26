@@ -39,7 +39,7 @@ import AcquisitionProcessingChainTableEditAction from './AcquisitionProcessingCh
 import AcquisitionProcessingChainTableDuplicateAction from './AcquisitionProcessingChainTableDuplicateAction'
 import styles from '../../styles'
 import messages from '../../i18n'
-import { addDependencies } from '../../dependencies'
+import dependencies from '../../dependencies'
 /**
 * AcquisitionProcessingChainListComponent
 * @author Sébastien Binda
@@ -182,7 +182,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonClick={onCreate}
-            mainHateoasDependencies={addDependencies}
+            mainHateoasDependencies={dependencies.addDependencies}
             mainButtonLabel={formatMessage({ id: 'acquisition-chain.list.addnew.button' })}
             secondaryButtonLabel={formatMessage({ id: 'acquisition-chain.list.back.button' })}
             secondaryButtonClick={onBack}

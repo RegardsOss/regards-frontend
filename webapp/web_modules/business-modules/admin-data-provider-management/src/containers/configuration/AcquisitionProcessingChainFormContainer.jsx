@@ -120,7 +120,6 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
       action = this.props.create(values)
     }
     action.then((actionResults) => {
-      console.error('result', actionResults)
       if (!actionResults.error) {
         this.onBack()
       }

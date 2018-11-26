@@ -2,7 +2,9 @@
   "name": "@regardsoss/components",
   "version": "0.0.1",
   "private": true,
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css"
+  ],
   "description": "",
   "main": "src/main.js",
   "author": "CNES (https://cnes.fr)",

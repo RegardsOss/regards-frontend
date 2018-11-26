@@ -1,6 +1,6 @@
 import {
   TableLayout, InfiniteTableContainer, TableColumnBuilder,
-  NoContentComponent, TableHeaderLineLoadingAndResults,
+  TableHeaderLineLoadingAndResults,
 } from '@regardsoss/components'
 import Dollar from 'material-ui/svg-icons/editor/monetization-on'
 import IconButton from 'material-ui/IconButton'
@@ -25,8 +25,6 @@ const getColumns = () => ([
     OptionConstructor: EditButtonComponent,
   }]).build(),
 ])
-
-
 
 
 const sampleEntities = [
@@ -60,7 +58,7 @@ const InfiniteTable = (props,
         maxRowCount={maxRowCount}
       />
     </TableLayout>
-  )
+)
 InfiniteTable.contextTypes = {
   ...themeContextType,
 }

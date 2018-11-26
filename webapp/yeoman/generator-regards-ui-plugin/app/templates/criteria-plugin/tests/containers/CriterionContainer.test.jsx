@@ -18,8 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SampleCriteria } from '../../src/containers/CriterionContainer'
+import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
+import { CriterionContainer } from '../../src/containers/CriterionContainer'
+import CriterionComponent from '../../src/components/CriterionComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -27,21 +28,21 @@ const context = buildTestContext(styles)
 /**
  * Test case for {@link SampleCriteria}
  *
- * @author Xavier-Alexandre Brochard
+ * @author <%= author %>
  */
 describe('[<%= name %>] Testing CriterionContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
   it('should exists', () => {
-    assert.isDefined(SampleCriteria)
+    assert.isDefined(CriterionContainer)
   })
   it('should render self and sub components', () => {
     const props = {
       // parent callbacks (required)
       pluginInstanceId: 'any',
-      onChange: () => { },
-      getDefaultState: () => { },
-      savePluginState: () => { },
+      state: {
+        searchText: 'some research',
+      },
       attributes: {
         searchField: {
           name: 'searchField',
@@ -50,6 +51,18 @@ describe('[<%= name %>] Testing CriterionContainer', () => {
         },
       },
     }
-    shallow(<SampleCriteria {...props} />, { context })
+    const enzymeWrapper = shallow(<CriterionContainer {...props} />, { context })
+    const component = enzymeWrapper.find(CriterionComponent)
+    assert.lengthOf(component, 1, 'There should be the component')
+    testSuiteHelpers.assertWrapperProperties(component, {
+      searchAttribute: props.attributes.searchField,
+      searchText: props.state.searchText, // Make sure text field will update with state changes
+      onTextInput: enzymeWrapper.instance().onTextInput, // Callback is correctly set
+    }, 'Component properties should be correctly set')
+  })
+  it('should convert correctly to open search queries', () => {
+    const attribute = { ...criterionTestSuiteHelpers.getAttributeStub(), jsonPath: 'x.y.z' }
+    assert.equal(CriterionContainer.convertToQuery({ searchText: ' aaa  ' }, attribute), 'x.y.z="aaa"', 'Query should be correctly converted, triming white spaces')
+    assert.isNotOk(CriterionContainer.convertToQuery({ searchText: '' }, attribute), 'No query should be converted when there is no research')
   })
 })
