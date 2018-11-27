@@ -88,7 +88,7 @@ module.exports = class extends Generator {
     const pluginDirectory = this.answers.type === 'CRITERIA' ? 'criteria-plugin' : 'service-plugin'
     this.fs.copyTpl(
       this.templatePath(pluginDirectory),
-      this.destinationPath(`${this.answers.name}-regards-ui-plugin`),
+      this.destinationPath(this.answers.name || 'example-plugin'),
       this.answers)
   }
 }
