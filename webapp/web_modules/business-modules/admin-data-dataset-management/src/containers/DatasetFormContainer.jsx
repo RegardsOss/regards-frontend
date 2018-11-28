@@ -155,7 +155,7 @@ export class DatasetFormContainer extends React.Component {
             id: parseInt(this.props.params.datasourceId, 10),
           },
           dataModel: modelObjectName,
-          entityType: 'DATASET',
+          type: 'DATASET',
         },
       }
       this.setState({
