@@ -88,14 +88,14 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
     enzymeWrapper.instance().onSearch({
       p1: {
         state: { something: true },
-        queryParameters: {
+        requestParameters: {
           q: 'something1',
           sort: 'A',
         },
       },
       p2: {
         state: { somethingElse: 'abcde', more: 6 },
-        queryParameters: {
+        requestParameters: {
           q: 'something2',
           sort: 'B',
           geometry: 'circle',
@@ -103,7 +103,7 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
       },
       p3: {
         state: { ok: true },
-        queryParameters: {
+        requestParameters: {
           geometry: 'cube',
         },
       },
@@ -141,13 +141,13 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
     enzymeWrapper.instance().onSearch({
       p1: {
         state: { something: true },
-        queryParameters: {
+        requestParameters: {
           q: null,
         },
       },
       p2: {
         state: { somethingElse: 'abcde', more: 6 },
-        queryParameters: {},
+        requestParameters: {},
       },
     })
 

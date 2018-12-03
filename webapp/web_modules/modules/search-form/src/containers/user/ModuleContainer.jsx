@@ -98,16 +98,17 @@ export class ModuleContainer extends React.Component {
   }
 
   /**
-   * Builds the fulle search query for context query and plugins state as parameter
+   * Gather all request parameters from plugins (merge q parts together)
    * @param {*} contextQuery context query, based on module configuration
    * @param {*} pluginsState plugins state as key: {state, query: string}
+   * @return {*} parameters list (may contain q, geometry, ...)
    */
-  static buildQueryParameters(contextQuery, pluginsState) {
+  static buildRequestParameters(contextQuery, pluginsState) {
     // 1 - Build map of open search query parameters:
     // A - store q parameters values as an array of Static query parameters
     // B - Store only first value for other parameters (backend can handle only one parameter value)
     const parametersDictionnary = reduce(pluginsState,
-      (accQueryParameters, { queryParameters: pluginParameters = {} }) => reduce(pluginParameters, (localAcc, value, key) => ({
+      (accQueryParameters, { requestParameters: pluginParameters = {} }) => reduce(pluginParameters, (localAcc, value, key) => ({
         ...localAcc,
         [key]: key === 'q'
           ? [...localAcc[key], new CatalogDomain.StaticQueryParameter(value)] // 1.A
@@ -131,7 +132,7 @@ export class ModuleContainer extends React.Component {
     const contextQuery = ModuleContainer.buildRestrictiveQuery(get(this.props.moduleConf, 'datasets', {}))
     this.setState({
       contextQuery, // stable as module properties cannot change without unmounting the component
-      currentSearchParameters: ModuleContainer.buildQueryParameters(contextQuery, {}),
+      currentSearchParameters: ModuleContainer.buildRequestParameters(contextQuery, {}),
     })
   }
 
@@ -147,7 +148,7 @@ export class ModuleContainer extends React.Component {
     } = this.props
     const { contextQuery } = this.state
     // 1 - Build query from plugins state and current query and set it in state
-    const currentSearchParameters = ModuleContainer.buildQueryParameters(contextQuery, pluginsState)
+    const currentSearchParameters = ModuleContainer.buildRequestParameters(contextQuery, pluginsState)
     this.setState({ currentSearchParameters })
     // 2 - Swap form hidden and results opened
     if (isInitialization) {

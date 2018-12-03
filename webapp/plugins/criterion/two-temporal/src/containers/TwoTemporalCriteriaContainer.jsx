@@ -54,7 +54,7 @@ export class TwoTemporalCriteriaContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, { pluginInstanceId }) {
     return {
-      publishState: (state, query) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, query)),
+      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
     }
   }
 
@@ -126,7 +126,7 @@ export class TwoTemporalCriteriaContainer extends React.Component {
     const newQuery = firstField.jsonPath === secondField.jsonPath // single attribute?
       ? TwoTemporalCriteriaContainer.convertToSingleAttributeQuery(newState, firstField) // yes: single attribute query
       : TwoTemporalCriteriaContainer.convertToMultipleAttributesQuery(newState, firstField, secondField) // no: multiple attributes query
-    publishState(newState, newQuery)
+    publishState(newState, { q: newQuery })
   }
 
   /**

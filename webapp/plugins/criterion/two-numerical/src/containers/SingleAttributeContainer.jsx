@@ -55,7 +55,7 @@ export class SingleAttributeContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, { pluginInstanceId }) {
     return {
-      publishState: (state, query) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, query)),
+      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
     }
   }
 
@@ -75,13 +75,14 @@ export class SingleAttributeContainer extends React.Component {
   }
 
   /**
-   * Converts current state into query
-   * @param {{value1: number, value2: number}} plugin state values
+   * Converts state as parameter into OpenSearch request parameters
+   * @param {{value1: number, value2: number}} plugin state
    * @param {*} attribute criterion attribute
-   * @return {string} corresponding search query
+   * @return {*} corresponding OpenSearch request parameters
    */
-  static convertToQuery({ value1, value2 }, attribute) {
-    return numberRangeHelper.getNumberAttributeQueryPart(attribute.jsonPath, new numberRangeHelper.NumberRange(value1, value2))
+  static convertToRequestParameters({ value1, value2 }, attribute) {
+    // Using common toolbox to build range query
+    return { q: numberRangeHelper.getNumberAttributeQueryPart(attribute.jsonPath, new numberRangeHelper.NumberRange(value1, value2)) }
   }
 
 
@@ -92,7 +93,7 @@ export class SingleAttributeContainer extends React.Component {
   onChangeValue1 = (value1) => {
     const { state, publishState, searchField } = this.props
     const newState = { ...state, value1 }
-    publishState(newState, SingleAttributeContainer.convertToQuery(newState, searchField))
+    publishState(newState, SingleAttributeContainer.convertToRequestParameters(newState, searchField))
   }
 
   /**
@@ -102,7 +103,7 @@ export class SingleAttributeContainer extends React.Component {
   onChangeValue2 = (value2) => {
     const { state, publishState, searchField } = this.props
     const newState = { ...state, value2 }
-    publishState(newState, SingleAttributeContainer.convertToQuery(newState, searchField))
+    publishState(newState, SingleAttributeContainer.convertToRequestParameters(newState, searchField))
   }
 
   render() {

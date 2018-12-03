@@ -43,7 +43,7 @@ describe('[Two numerical criteria] Testing SingleAttributeContainer', () => {
     const spiedPublishStateData = {
       count: 0,
       state: null,
-      query: null,
+      requestParameters: null,
     }
     const props = {
       // parent callbacks (required)
@@ -58,10 +58,10 @@ describe('[Two numerical criteria] Testing SingleAttributeContainer', () => {
         value1: -3.5,
         value2: 18,
       },
-      publishState: (state, query) => {
+      publishState: (state, requestParameters) => {
         spiedPublishStateData.count += 1
         spiedPublishStateData.state = state
-        spiedPublishStateData.query = query
+        spiedPublishStateData.requestParameters = requestParameters
       },
     }
     const enzymeWrapper = shallow(<SingleAttributeContainer {...props} />, { context })
@@ -81,7 +81,7 @@ describe('[Two numerical criteria] Testing SingleAttributeContainer', () => {
       value1: -77.15,
       value2: 18,
     }, 'OnChangeValue1: next state should be correctly computed from the props state')
-    assert.isDefined(spiedPublishStateData.query, 'OnChangeValue1: query should have been built')
+    assert.isDefined(spiedPublishStateData.requestParameters, 'OnChangeValue1: query should have been built')
     // check updating value2 publihes state and query (query conversion is not tested here)
     enzymeWrapper.instance().onChangeValue2(777.777)
     assert.equal(spiedPublishStateData.count, 2, 'onChangeValue2: Publish data should have been called 2 times')
@@ -89,9 +89,9 @@ describe('[Two numerical criteria] Testing SingleAttributeContainer', () => {
       value1: -3.5,
       value2: 777.777,
     }, 'OnChangeValue2: next state should be correctly computed from the props state')
-    assert.isDefined(spiedPublishStateData.query, 'onChangeValue2: query should have been built')
+    assert.isDefined(spiedPublishStateData.requestParameters, 'onChangeValue2: query should have been built')
   })
-  it('should export correctly state to open search URL', () => {
+  it('should export correctly state to open search query', () => {
     // 1 - Build component to get instance
     const attribute = {
       ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE),
@@ -99,19 +99,19 @@ describe('[Two numerical criteria] Testing SingleAttributeContainer', () => {
     }
     // 2 - test URL computing on instance
     // 2.1 - full range
-    assert.equal(SingleAttributeContainer.convertToQuery({ value1: -0.569, value2: 0.32 }, attribute),
-      'somewhere.over.the.rainbow:[\\-0.569 TO 0.32]', 'Full range should be correctly exported')
+    assert.deepEqual(SingleAttributeContainer.convertToRequestParameters({ value1: -0.569, value2: 0.32 }, attribute),
+      { q: 'somewhere.over.the.rainbow:[\\-0.569 TO 0.32]' }, 'Full range should be correctly exported')
     // 2.2 - lower bound range
-    assert.equal(SingleAttributeContainer.convertToQuery({ value1: 1.5 }, attribute),
-      'somewhere.over.the.rainbow:[1.5 TO *]', 'Lower bound range should be correctly exported')
+    assert.deepEqual(SingleAttributeContainer.convertToRequestParameters({ value1: 1.5 }, attribute),
+      { q: 'somewhere.over.the.rainbow:[1.5 TO *]' }, 'Lower bound range should be correctly exported')
     // 2.3 - upper bound range
-    assert.equal(SingleAttributeContainer.convertToQuery({ value2: -2.3 }, attribute),
-      'somewhere.over.the.rainbow:[* TO \\-2.3]', 'Upper bound range should be correctly exported')
+    assert.deepEqual(SingleAttributeContainer.convertToRequestParameters({ value2: -2.3 }, attribute),
+      { q: 'somewhere.over.the.rainbow:[* TO \\-2.3]' }, 'Upper bound range should be correctly exported')
     // 2.4 -not exportable (no value)
-    assert.isNotOk(SingleAttributeContainer.convertToQuery({}, attribute),
-      'Range should not be exported when there is no value (full infinite range)')
+    assert.isNotOk(SingleAttributeContainer.convertToRequestParameters({}, attribute).q,
+      'Range query should not be exported when there is no value (full infinite range)')
     // 2.4 -not exportable (no attribute path)
-    assert.isNotOk(SingleAttributeContainer.convertToQuery({ value1: -0.569, value2: 0.32 }, { ...attribute, jsonPath: null }),
-      'Range should not be exported when there is attribute path')
+    assert.isNotOk(SingleAttributeContainer.convertToRequestParameters({ value1: -0.569, value2: 0.32 }, { ...attribute, jsonPath: null }).q,
+      'Range query should not be exported when there is attribute path')
   })
 })

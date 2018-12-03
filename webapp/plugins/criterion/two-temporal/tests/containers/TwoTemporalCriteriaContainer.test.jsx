@@ -42,7 +42,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     const spiedPublishStateData = {
       count: 0,
       state: null,
-      query: null,
+      requestParameters: null,
     }
     const props = {
       // parent callbacks (required)
@@ -63,10 +63,10 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
         value1: '2017-09-27T13:15:42.726Z',
         value2: null,
       },
-      publishState: (state, query) => {
+      publishState: (state, requestParameters) => {
         spiedPublishStateData.count += 1
         spiedPublishStateData.state = state
-        spiedPublishStateData.query = query
+        spiedPublishStateData.requestParameters = requestParameters
       },
     }
     const enzymeWrapper = shallow(<TwoTemporalCriteriaContainer {...props} />, { context })
@@ -88,11 +88,11 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
       value2: '2017-09-28T13:15:42.726Z',
     }
     assert.deepEqual(spiedPublishStateData.state, expectedState, 'onDate2Changed: new state should be correctly computed from previous state (props) and new value')
-    assert.equal(spiedPublishStateData.query,
-      TwoTemporalCriteriaContainer.convertToMultipleAttributesQuery(expectedState, props.attributes.firstField, props.attributes.secondField),
+    assert.deepEqual(spiedPublishStateData.requestParameters,
+      { q: TwoTemporalCriteriaContainer.convertToMultipleAttributesQuery(expectedState, props.attributes.firstField, props.attributes.secondField) },
       'The query should be converted for multiple attributes')
-    assert.notEqual(spiedPublishStateData.query,
-      TwoTemporalCriteriaContainer.convertToSingleAttributeQuery(expectedState, props.attributes.firstField),
+    assert.notDeepEqual(spiedPublishStateData.requestParameters,
+      { q: TwoTemporalCriteriaContainer.convertToSingleAttributeQuery(expectedState, props.attributes.firstField) },
       'The query should not be converted for single attribute')
 
     // Update date 1 and check state is published
@@ -112,7 +112,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     const spiedPublishStateData = {
       count: 0,
       state: null,
-      query: null,
+      requestParameters: null,
     }
     const props = {
       // parent callbacks (required)
@@ -125,10 +125,10 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
         value1: '2017-09-27T13:15:42.726Z',
         value2: null,
       },
-      publishState: (state, query) => {
+      publishState: (state, requestParameters) => {
         spiedPublishStateData.count += 1
         spiedPublishStateData.state = state
-        spiedPublishStateData.query = query
+        spiedPublishStateData.requestParameters = requestParameters
       },
     }
     const enzymeWrapper = shallow(<TwoTemporalCriteriaContainer {...props} />, { context })
@@ -150,11 +150,11 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
       value2: '2017-09-28T13:15:42.726Z',
     }
     assert.deepEqual(spiedPublishStateData.state, expectedState, 'onDate2Changed: new state should be correctly computed from previous state (props) and new value')
-    assert.equal(spiedPublishStateData.query,
-      TwoTemporalCriteriaContainer.convertToSingleAttributeQuery(expectedState, attribute),
+    assert.deepEqual(spiedPublishStateData.requestParameters,
+      { q: TwoTemporalCriteriaContainer.convertToSingleAttributeQuery(expectedState, attribute) },
       'The query should be converted for single attributes')
-    assert.notEqual(spiedPublishStateData.query,
-      TwoTemporalCriteriaContainer.convertToMultipleAttributesQuery(expectedState, props.attributes.firstField, props.attributes.secondField),
+    assert.notDeepEqual(spiedPublishStateData.requestParameters,
+      { q: TwoTemporalCriteriaContainer.convertToMultipleAttributesQuery(expectedState, props.attributes.firstField, props.attributes.secondField) },
       'The query should not be converted for multiple attributes')
 
     // Update date 1 and check state is published

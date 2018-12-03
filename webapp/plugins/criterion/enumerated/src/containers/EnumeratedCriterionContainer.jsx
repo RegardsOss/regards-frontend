@@ -77,7 +77,7 @@ export class EnumeratedCriterionContainer extends React.Component {
   static mapDispatchToProps(dispatch, { pluginInstanceId, initialQuery }) {
     const enumeratedValuesActions = EnumeratedCriterionContainer.CLIENTS_MAP.getClient(buildClient, pluginInstanceId).actions
     return {
-      publishState: (state, query) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, query)),
+      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
       // dispatches a request to get property values
       dispatchGetPropertyValues:
         // Note: we throttle here the emitted network requests to avoid dispatching for each key user pressed
@@ -110,17 +110,14 @@ export class EnumeratedCriterionContainer extends React.Component {
   }
 
   /**
-   * Converts current state into search query
-   * @param {{searchText: string}}
+   * Converts state as parameter into OpenSearch request parameters
+   * @param {{searchText: string}} state
    * @param {*} attribute criterion attribute
-   * @return {string} corresponding search query
+   * @return {*} corresponding OpenSearch request parameters
    */
-  static convertStateToQuery({ searchText = '' }, attribute) {
+  static convertToRequestParameters({ searchText = '' }, attribute) {
     const trimedText = searchText.trim()
-    if (!trimedText) {
-      return null // No query in current state
-    }
-    return `${attribute.jsonPath}:"${trimedText}"`
+    return { q: trimedText ? `${attribute.jsonPath}:"${trimedText}"` : null }
   }
 
   /**
@@ -137,7 +134,7 @@ export class EnumeratedCriterionContainer extends React.Component {
       searchText,
     }
     // A - update redux state and query
-    publishState(nextState, EnumeratedCriterionContainer.convertStateToQuery(nextState, searchField))
+    publishState(nextState, EnumeratedCriterionContainer.convertToRequestParameters(nextState, searchField))
     // B - dipatch get values for that filter text
     dispatchGetPropertyValues(searchField.jsonPath, searchText)
   }
@@ -153,7 +150,7 @@ export class EnumeratedCriterionContainer extends React.Component {
       attributes: { searchField },
     } = this.props
     const nextState = { searchText: text, inError: !isInList }
-    publishState(nextState, EnumeratedCriterionContainer.convertStateToQuery(nextState, searchField))
+    publishState(nextState, EnumeratedCriterionContainer.convertToRequestParameters(nextState, searchField))
   }
 
   /**

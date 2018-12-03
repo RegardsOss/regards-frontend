@@ -82,7 +82,7 @@ export class SearchResultsContainer extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    searchQueryParameters: PropTypes.objectOf(PropTypes.any), // initial search query parameters, as provided by module controller, if any
+    searchParameters: PropTypes.objectOf(PropTypes.any), // initial search query parameters, as provided by module controller, if any
     enableFacettes: PropTypes.bool.isRequired, // are facettes enabled
     facettesInitiallySelected: PropTypes.bool,
     enableDownload: PropTypes.bool.isRequired, // is download enable directly from the table
@@ -127,7 +127,7 @@ export class SearchResultsContainer extends React.Component {
   }
 
   static defaultProps = {
-    searchQueryParameters: {}, // providing an empty object when non
+    searchParameters: {}, // providing an empty object when non
   }
 
   /**
@@ -415,7 +415,7 @@ export class SearchResultsContainer extends React.Component {
   buildSearchState = (properties, {
     showingFacettes, selectedFacets, presentationModels, displayOnlyQuicklook,
   }) => {
-    const { viewObjectType, searchQueryParameters: { q: qQuery, ...osParameters }, levels } = properties
+    const { viewObjectType, searchParameters: { q: qQuery, ...osParameters }, levels } = properties
     const viewConfiguration = SearchResultsContainer.getViewConfiguration(properties)
 
     // 1 - Select actions to use and keep parameters for Q query and for OpenSearch query.

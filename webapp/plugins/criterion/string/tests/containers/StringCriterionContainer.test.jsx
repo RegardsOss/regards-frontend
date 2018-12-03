@@ -41,7 +41,7 @@ describe('[String criterion] Testing StringCriterionContainer', () => {
     const spiedPublishStateData = {
       count: 0,
       state: null,
-      query: null,
+      requestParameters: null,
     }
     const props = {
       // parent callbacks (required)
@@ -53,10 +53,10 @@ describe('[String criterion] Testing StringCriterionContainer', () => {
         searchText: 'xxx',
         searchFullWords: true,
       },
-      publishState: (state, query) => {
+      publishState: (state, requestParameters) => {
         spiedPublishStateData.count += 1
         spiedPublishStateData.state = state
-        spiedPublishStateData.query = query
+        spiedPublishStateData.requestParameters = requestParameters
       },
     }
     const enzymeWrapper = shallow(<StringCriterionContainer {...props} />, { context })
@@ -76,7 +76,7 @@ describe('[String criterion] Testing StringCriterionContainer', () => {
       searchText: 'abc',
       searchFullWords: true,
     }, 'Update text: state should be computed with new value and previous state from props')
-    assert.isDefined(spiedPublishStateData.query, 'Update text: query should be computed')
+    assert.isDefined(spiedPublishStateData.requestParameters, 'Update text: requestParameters should be computed')
     // check state is published when full word is toggled (query is not tested here)
     enzymeWrapper.instance().onCheckFullWord()
     assert.equal(spiedPublishStateData.count, 2, 'Toggle full word: publish state should have been called 2 times')
@@ -84,7 +84,7 @@ describe('[String criterion] Testing StringCriterionContainer', () => {
       searchText: 'xxx',
       searchFullWords: false,
     }, 'Toggle full word: state should be computed with new value and previous state from props')
-    assert.isDefined(spiedPublishStateData.query, 'Toggle full word: query should be computed')
+    assert.isDefined(spiedPublishStateData.requestParameters, 'Toggle full word: query should be computed')
   })
   it('should convert correctly into a query', () => {
     const attribute = {
@@ -92,28 +92,28 @@ describe('[String criterion] Testing StringCriterionContainer', () => {
       jsonPath: 'attr.path.x1',
     }
     // 1 - Full word query
-    assert.equal(StringCriterionContainer.convertToQuery({ searchText: 'FULL_word', searchFullWords: true }, attribute),
-      'attr.path.x1:"FULL_word"')
+    assert.deepEqual(StringCriterionContainer.convertToRequestParameters({ searchText: 'FULL_word', searchFullWords: true }, attribute),
+      { q: 'attr.path.x1:"FULL_word"' })
     // 2 - Simple word part query
-    assert.equal(StringCriterionContainer.convertToQuery({ searchText: 'WORD_part', searchFullWords: false }, attribute),
-      'attr.path.x1:(*WORD_part*)')
+    assert.deepEqual(StringCriterionContainer.convertToRequestParameters({ searchText: 'WORD_part', searchFullWords: false }, attribute),
+      { q: 'attr.path.x1:(*WORD_part*)' })
     // 3 - Many words parts query
-    assert.equal(StringCriterionContainer.convertToQuery({ searchText: 'Part1 part2 PART3', searchFullWords: false }, attribute),
-      'attr.path.x1:(*Part1* AND *part2* AND *PART3*)')
+    assert.deepEqual(StringCriterionContainer.convertToRequestParameters({ searchText: 'Part1 part2 PART3', searchFullWords: false }, attribute),
+      { q: 'attr.path.x1:(*Part1* AND *part2* AND *PART3*)' })
 
     // 4 - No query - (No value, full word)
-    assert.isNotOk(StringCriterionContainer.convertToQuery({ searchText: null, searchFullWords: true }, attribute), '4- null should not be converted into a query')
-    assert.isNotOk(StringCriterionContainer.convertToQuery({ searchText: '', searchFullWords: true }, attribute), '4- "" should not be converted into a query')
-    assert.isNotOk(StringCriterionContainer.convertToQuery({ searchFullWords: true }, attribute), '4- undefined should not be converted into a query')
+    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: null, searchFullWords: true }, attribute).q, '4- null should not be converted into a query')
+    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: '', searchFullWords: true }, attribute).q, '4- "" should not be converted into a query')
+    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchFullWords: true }, attribute).q, '4- undefined should not be converted into a query')
     // 5 - No value (No value, word parts)
-    assert.isNotOk(StringCriterionContainer.convertToQuery({ searchText: null, searchFullWords: false }, attribute), '5- null should not be converted into a query')
-    assert.isNotOk(StringCriterionContainer.convertToQuery({ searchText: '', searchFullWords: false }, attribute), '5- "" should not be converted into a query')
-    assert.isNotOk(StringCriterionContainer.convertToQuery({ searchFullWords: false }, attribute), '5- undefined should not be converted into a query')
+    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: null, searchFullWords: false }, attribute).q, '5- null should not be converted into a query')
+    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: '', searchFullWords: false }, attribute).q, '5- "" should not be converted into a query')
+    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchFullWords: false }, attribute).q, '5- undefined should not be converted into a query')
     // 6 - No query (No attribute json path)
     const nonConvertable = { ...attribute, jsonPath: null }
-    assert.isNotOk(StringCriterionContainer.convertToQuery({ searchText: 'FULL_word', searchFullWords: true }, nonConvertable),
+    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: 'FULL_word', searchFullWords: true }, nonConvertable).q,
       '6 attribute with no JSON path should not be converted into a query (full word)"')
-    assert.isNotOk(StringCriterionContainer.convertToQuery({ searchText: 'WORD_part', searchFullWords: false }, nonConvertable),
+    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: 'WORD_part', searchFullWords: false }, nonConvertable).q,
       '6 attribute with no JSON path should not be converted into a query (word parts)"')
   })
 })

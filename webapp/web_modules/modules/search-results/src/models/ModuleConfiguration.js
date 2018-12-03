@@ -110,7 +110,7 @@ const ModuleConfiguration = PropTypes.shape({
   })),
 
   // Contextual search parameters (when externally driven)
-  searchQueryParameters: PropTypes.string,
+  searchParameters: PropTypes.objectOf(PropTypes.any),
   // Restricted dataset context as IP ID array
   restrictedDatasetsIds: PropTypes.arrayOf(PropTypes.string),
 

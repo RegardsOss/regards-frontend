@@ -49,12 +49,12 @@ export class PluginStateReducer {
         }
       }
       case this.actions.PUBLISH_STATE: {
-        const { pluginInstanceId, state: criterionState, queryParameters } = action
+        const { pluginInstanceId, state: criterionState, requestParameters } = action
         return {
           ...state,
           [pluginInstanceId]: {
             state: criterionState,
-            queryParameters,
+            requestParameters,
           },
         }
       }

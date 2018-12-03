@@ -30,13 +30,13 @@ describe('[PLUGINS] Testing PluginStateActions', () => {
   it('should return publish all states action', () => {
     const actions = new PluginStateActions('TEST')
     assert.deepEqual(actions.publishAllStates({
-      p1: { state: { a: 'a', b: 'b' }, queryParameters: { q: 'query1' } },
-      p2: { state: { c: 'c', d: 'd' }, queryParameters: { q: 'query2' } },
+      p1: { state: { a: 'a', b: 'b' }, requestParameters: { q: 'query1' } },
+      p2: { state: { c: 'c', d: 'd' }, requestParameters: { q: 'query2' } },
     }), {
       type: actions.PUBLISH_ALL_STATES,
       pluginsStates: {
-        p1: { state: { a: 'a', b: 'b' }, queryParameters: { q: 'query1' } },
-        p2: { state: { c: 'c', d: 'd' }, queryParameters: { q: 'query2' } },
+        p1: { state: { a: 'a', b: 'b' }, requestParameters: { q: 'query1' } },
+        p2: { state: { c: 'c', d: 'd' }, requestParameters: { q: 'query2' } },
       },
     })
   })
@@ -46,7 +46,7 @@ describe('[PLUGINS] Testing PluginStateActions', () => {
       type: actions.PUBLISH_STATE,
       pluginInstanceId: 'IDX',
       state: { a: 'a', b: 'b' },
-      queryParameters: { q: 'idkawsyc' },
+      requestParameters: { q: 'idkawsyc' },
     })
   })
   it('should return clearAll action', () => {
