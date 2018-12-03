@@ -19,12 +19,13 @@
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
-import { DamDomain } from '@regardsoss/domain'
+import { DamDomain, CatalogDomain } from '@regardsoss/domain'
 import { OpenSearchQuery } from '@regardsoss/domain/catalog'
 import { DataManagementShapes, CatalogShapes } from '@regardsoss/shape'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-utils'
 import { DescriptionProviderContainer } from '@regardsoss/entities-common'
+import { TableSortOrders } from '@regardsoss/components'
 import { Tag } from '../../../models/navigation/Tag'
 import {
   searchDataobjectsActions,
@@ -36,9 +37,8 @@ import {
 import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/navigation/TableDisplayModeEnum'
 import navigationContextActions from '../../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
-import QueriesHelper from '../../../definitions/QueriesHelper'
 import {
-  buildAttributesPresentationModels, changeSortOrder, getSortingOn, getInitialSorting,
+  buildAttributesPresentationModels, changeSortOrder, getSortingOn,
 } from '../../../definitions/AttributesPresentationHelper'
 import PluginServicesContainer from './PluginServicesContainer'
 import OrderCartContainer from './OrderCartContainer'
@@ -82,7 +82,7 @@ export class SearchResultsContainer extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    searchQuery: PropTypes.string, // initial search query, as provided by module configuration
+    searchQueryParameters: PropTypes.objectOf(PropTypes.any), // initial search query parameters, as provided by module controller, if any
     enableFacettes: PropTypes.bool.isRequired, // are facettes enabled
     facettesInitiallySelected: PropTypes.bool,
     enableDownload: PropTypes.bool.isRequired, // is download enable directly from the table
@@ -124,6 +124,10 @@ export class SearchResultsContainer extends React.Component {
     dispatchChangeTableDisplayMode: PropTypes.func.isRequired,
     dispatchSetEntityAsTag: PropTypes.func.isRequired,
     dispatchAddSearchTag: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    searchQueryParameters: {}, // providing an empty object when non
   }
 
   /**
@@ -228,6 +232,16 @@ export class SearchResultsContainer extends React.Component {
     return selectedFacets.filter(({ model }) => model.attributeName !== removeAttrName)
   }
 
+  /** Quicklook feature to check existence */
+  static QUICKLOOK_JSON_PATH = 'feature.files.QUICKLOOK_SD'
+
+  /** Maps table sorting to open search request sort values */
+  static MAP_TO_SORTING_VALUE = {
+    [TableSortOrders.ASCENDING_ORDER]: 'ASC',
+    [TableSortOrders.DESCENDING_ORDER]: 'DESC',
+  }
+
+
   /**
    * Default component state (describes all possible state elements)
    */
@@ -239,13 +253,12 @@ export class SearchResultsContainer extends React.Component {
     // Current sorting attributes array like {attributePath: String, type: (optional) one of 'ASC' / 'DESC'}
     selectedFacets: [],
     facets: [],
-    // runtime qearch query, generated from all query elements known
-    fullSearchQuery: null,
     // request actioner depends on entities to search
     searchActions: null,
     // is currently displaying only data with quicklook
     displayOnlyQuicklook: false,
   }
+
 
   /**
    * Constructor, used here to initialize some specific state properties from configuration
@@ -397,66 +410,84 @@ export class SearchResultsContainer extends React.Component {
    * Builds opensearch query from properties and state as parameter
    * @param properties : properties to consider when building query
    * @param state : state to consider when building query
-   * @return { openSearchQuery, fullSearchQuery, searchActions }: new search state
+   * @return { requestParameters, searchActions }: new search state
    */
   buildSearchState = (properties, {
     showingFacettes, selectedFacets, presentationModels, displayOnlyQuicklook,
-  },
-  ) => {
-    const { viewObjectType, searchQuery, levels } = properties
+  }) => {
+    const { viewObjectType, searchQueryParameters: { q: qQuery, ...osParameters }, levels } = properties
     const viewConfiguration = SearchResultsContainer.getViewConfiguration(properties)
-    // 1 - compute facets to request and apply (only when they are enabled or working with documents - always enabled)
-    const facetsCurrentlyEnabled = (showingFacettes || viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DOCUMENT)
-      && viewConfiguration.facets && viewConfiguration.facets.length
-    const requestedFacets = facetsCurrentlyEnabled ? viewConfiguration.facets : []
-    const appliedFacetValues = facetsCurrentlyEnabled ? selectedFacets : []
 
-    // 2 - compute sorting to apply
-    const sortingOn = getSortingOn(presentationModels)
-    const requestedSortingAttributes = sortingOn.length ? sortingOn : getInitialSorting(viewConfiguration.sorting)
-
-    // 3 - compute request to perform on backend
+    // 1 - Select actions to use and keep parameters for Q query and for OpenSearch query.
     let searchActions
-    let initialSearchQuery
-    let quicklookQuery = ''
-    const datasetTag = Tag.getSearchedDatasetTag(levels)
+    // 1.a - initialize current dataset tag, if any, and added Q parameters with level tags as QueryParameter array
+    const { qAP: osQParameters = [], dT: datasetTag } = levels.reduce(({ qAP, dT }, levelTag) => ({
+      qAP: levelTag.isDataset() ? qAP : [...qAP, OpenSearchQuery.buildTagParameter(levelTag.searchKey)], // keep that common tag as Q parameter
+      dT: levelTag.isDataset() ? levelTag : dT, // keep found dataset
+    }), {})
+    // 1.b - clone external query parameters (to modify it locally)
+    const osRequestParameters = { ...osParameters }
 
-    // extract search parameters from level tags (every parameter except the datasets, that may be used specifically into the datasets search)
-    const parameters = levels.reduce((acc, levelTag) => levelTag.isDataset()
-      ? acc : [...acc, OpenSearchQuery.buildTagParameter(levelTag.searchKey)], [])
-    if (viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
-      // 1 - Data object search : use data object actions, search query, dataset as a Tag on dataobjects
-      // and quicklooks filter if enabled
-      initialSearchQuery = searchQuery
-      searchActions = searchDataobjectsActions
-      parameters.push(OpenSearchQuery.buildTagParameter(datasetTag ? datasetTag.searchKey : ''))
-      // check user is currently showing only quicklook pictures
-      if (displayOnlyQuicklook) {
-        quicklookQuery = 'exists=feature.files.QUICKLOOK_SD'
-      }
-    } else if (viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATASET) {
-      // 2 - Showing datasets: use specific dataset actions to cut down fetch time when possible
-      const datasetLevel = Tag.getSearchedDatasetTag(levels)
-      if (datasetLevel || parameters.length || !searchQuery) {
-        // not restricted or requestable directly onto the datasets
-        searchActions = searchDatasetsActions // FIXME-V3 this will induce a problem because we don't know if we speak about DO or DS tag!!
-      } else {
-        // restricted, requires to check the dataobjects in order to gather corresponding datasets
-        initialSearchQuery = searchQuery
-        searchActions = searchDatasetsFromDataObjectsActions
-      }
-      parameters.push(OpenSearchQuery.buildIDParameter(datasetLevel ? datasetLevel.searchKey : ''))
-    } else {
-      // 3 - Showing documents
-      searchActions = searchDocumentsActions
+    // 2 - Select actions by context, add q and open search parts according with context
+    switch (viewObjectType) {
+      //  2.a - Showing documents, use document actions
+      case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT:
+        searchActions = searchDocumentsActions
+        break
+        // 2.b - Showing datasets: use specific dataset actions to cut down fetch time when possible
+      case DamDomain.ENTITY_TYPES_ENUM.DATASET:
+        // 2.b.1 - no data restriction, through q, use generic (faster) actions with dataset ID in q query
+        if (!qQuery && isEmpty(osParameters)) {
+          searchActions = searchDatasetsActions
+          osQParameters.push(OpenSearchQuery.buildIDParameter(datasetTag ? datasetTag.searchKey : ''))
+        } else {
+          // 2.b.2 - restriction on data objects: use resolver from dataobjects and thus add dataset as a tag constraint in q query
+          searchActions = searchDatasetsFromDataObjectsActions
+          osQParameters.push(OpenSearchQuery.buildTagParameter(datasetTag ? datasetTag.searchKey : ''))
+        }
+        break
+
+      case DamDomain.ENTITY_TYPES_ENUM.DATA: // Showing data, use data actions, use data actions and dataset as a tag constraint in q query
+      default: // (default at initialization only)
+        searchActions = searchDataobjectsActions
+        osQParameters.push(OpenSearchQuery.buildTagParameter(datasetTag ? datasetTag.searchKey : ''))
+        // Add open search constraint on object containing quicklooks if required
+        if (displayOnlyQuicklook) {
+          // push parameters in an array of value to take in account possible external parameter for EXISST
+          osRequestParameters[CatalogDomain.URLSearchQuery.EXISTS_PARAMETER_NAME] = osRequestParameters[CatalogDomain.URLSearchQuery.EXISTS_PARAMETER_NAME]
+            ? [osRequestParameters[CatalogDomain.URLSearchQuery.EXISTS_PARAMETER_NAME], SearchResultsContainer.QUICKLOOK_JSON_PATH]
+            : [SearchResultsContainer.QUICKLOOK_JSON_PATH]
+        }
     }
-    const openSearchQuery = QueriesHelper.getOpenSearchQuery(initialSearchQuery, appliedFacetValues, parameters).toQueryString()
-    const fullSearchQuery = QueriesHelper.getURLQuery(openSearchQuery, requestedSortingAttributes, requestedFacets, quicklookQuery).toQueryString()
+
+    // Should facets apply?
+    const facetsCurrentlyEnabled = (showingFacettes || viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DOCUMENT)
+    && viewConfiguration.facets && viewConfiguration.facets.length
+
+    // 3 - Build Q query parameter: considering optionnal qQuery value, externally provided, as initial query
+    const openSearchQuery = new CatalogDomain.OpenSearchQuery(qQuery, [ // initial query
+      // Applying facet values
+      ...(facetsCurrentlyEnabled ? selectedFacets : [])
+        .map(({ value: { openSearchQuery: valueQuery } }) => new CatalogDomain.StaticQueryParameter(valueQuery)),
+      // other gathered parameters for q
+      ...osQParameters,
+    ]).toQueryString()
 
     return {
       searchActions,
-      openSearchQuery,
-      fullSearchQuery,
+      requestParameters: {
+        // open search query (q param)
+        [CatalogDomain.URLSearchQuery.QUERY_PARAMETER_NAME]: openSearchQuery ? `(${openSearchQuery})` : '',
+        // Facets server should compute (with values), from configuration, when enabled
+        [CatalogDomain.URLSearchQuery.FACETTES_PARAMETER_NAME]: facetsCurrentlyEnabled
+          ? viewConfiguration.facets.reduce((acc, { attributes }) => [...acc, attributes[0].name], []).join(',')
+          : null,
+        // Sorting parameter: attribute and sorting type (ACS / DESC)
+        [CatalogDomain.URLSearchQuery.SORT_PARAMETER_NAME]: getSortingOn(presentationModels, viewConfiguration.sorting)
+          .map(sorting => `${sorting.attributePath},${SearchResultsComponent.MAP_TO_SORTING_VALUE[sorting.type]}`),
+        // External control parameters
+        ...osRequestParameters,
+      },
     }
   }
 
@@ -490,13 +521,12 @@ export class SearchResultsContainer extends React.Component {
     const {
       displayMode, enableFacettes, isFetching, resultsCount, viewObjectType, tableDisplayMode,
       enableDownload, enableQuicklooks, datasetsSectionLabel, dataSectionLabel,
-      searchQuery: initialSearchQuery, restrictedDatasetsIds, displayConf, accessToken,
-      projectName, dispatchSetEntityAsTag,
+      restrictedDatasetsIds, displayConf, accessToken, projectName, dispatchSetEntityAsTag,
     } = this.props
 
     const {
       presentationModels, searchActions, showingFacettes,
-      facets, selectedFacets, openSearchQuery, fullSearchQuery, displayOnlyQuicklook,
+      facets, selectedFacets, requestParameters, displayOnlyQuicklook,
     } = this.state
     const tableViewMode = tableDisplayMode || TableDisplayModeEnum.LIST
 
@@ -508,13 +538,12 @@ export class SearchResultsContainer extends React.Component {
           <PluginServicesContainer
             viewObjectType={viewObjectType}
             restrictedDatasetsIds={restrictedDatasetsIds}
-            openSearchQuery={openSearchQuery}
+            requestParameters={requestParameters}
           >
             {/* enable the order cart link functionnality */}
             <OrderCartContainer
               viewObjectType={viewObjectType}
-              initialSearchQuery={initialSearchQuery}
-              openSearchQuery={openSearchQuery}
+              requestParameters={requestParameters}
               tableViewMode={tableViewMode}
             >
               {/** Render a default search results component with common properties (sub elements will clone it with added properties)*/}
@@ -542,7 +571,7 @@ export class SearchResultsContainer extends React.Component {
                 facets={facets}
                 selectedFacets={selectedFacets}
 
-                searchQuery={fullSearchQuery}
+                requestParameters={requestParameters}
 
                 presentationModels={presentationModels}
                 accessToken={accessToken}

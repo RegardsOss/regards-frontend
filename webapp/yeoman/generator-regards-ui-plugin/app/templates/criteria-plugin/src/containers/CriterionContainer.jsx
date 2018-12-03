@@ -113,7 +113,7 @@ export class CriterionContainer extends React.Component {
   }
 
   render() {
-    const { state: { searchText }, attributes: { searchField } } = this.context
+    const { state: { searchText }, attributes: { searchField } } = this.props
     return (
       <CriterionComponent
         searchAttribute={searchField}

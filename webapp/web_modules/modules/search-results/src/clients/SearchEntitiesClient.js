@@ -30,6 +30,5 @@ export const searchDataobjectsActions = new AccessProjectClient.SearchDataobject
 export const searchDatasetsFromDataObjectsActions = new AccessProjectClient.SearchDatasetsFromDataObjectsActions(REDUX_ACTION_NAMESPACE)
 export const searchDatasetsActions = new AccessProjectClient.SearchDatasetsActions(REDUX_ACTION_NAMESPACE)
 export const searchDocumentsActions = new AccessProjectClient.SearchDocumentsActions(REDUX_ACTION_NAMESPACE)
-export const searchEntitiesActions = new AccessProjectClient.SearchEntitiesActions(REDUX_ACTION_NAMESPACE)
 export const reducer = AccessProjectClient.getSearchEntitiesReducer(REDUX_ACTION_NAMESPACE)
 export const selectors = AccessProjectClient.getSearchEntitiesSelectors(ENTITIES_STORE_PATH)

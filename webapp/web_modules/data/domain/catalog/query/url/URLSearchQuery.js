@@ -34,6 +34,8 @@ export default class URLSearchQuery extends Query {
   /** Facets parameter name */
   static FACETTES_PARAMETER_NAME = 'facets'
 
+  /** Existence check parameter */
+  static EXISTS_PARAMETER_NAME = 'exists'
 
   constructor(rootQuery, parameters) {
     super(rootQuery, parameters, URLSearchQuery.PARAMETERS_SEPARATOR)

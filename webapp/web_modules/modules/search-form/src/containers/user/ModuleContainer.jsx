@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import map from 'lodash/map'
+import reduce from 'lodash/reduce'
 import { connect } from '@regardsoss/redux'
 import { UIDomain, CatalogDomain } from '@regardsoss/domain'
 import { UIClient } from '@regardsoss/client'
@@ -102,9 +102,26 @@ export class ModuleContainer extends React.Component {
    * @param {*} contextQuery context query, based on module configuration
    * @param {*} pluginsState plugins state as key: {state, query: string}
    */
-  static buildFullQuery(contextQuery, pluginsState) {
-    return new CatalogDomain.OpenSearchQuery(contextQuery,
-      map(pluginsState, ({ query }) => new CatalogDomain.StaticQueryParameter(query))).toQueryString()
+  static buildQueryParameters(contextQuery, pluginsState) {
+    // 1 - Build map of open search query parameters:
+    // A - store q parameters values as an array of Static query parameters
+    // B - Store only first value for other parameters (backend can handle only one parameter value)
+    const parametersDictionnary = reduce(pluginsState,
+      (accQueryParameters, { queryParameters: pluginParameters = {} }) => reduce(pluginParameters, (localAcc, value, key) => ({
+        ...localAcc,
+        [key]: key === 'q'
+          ? [...localAcc[key], new CatalogDomain.StaticQueryParameter(value)] // 1.A
+          : localAcc[key] || value, // other parameters: use first value, or that value if first found
+      }), accQueryParameters),
+      { q: [] })
+
+    // 2 - Return as parameters map
+    const { q: qParts = [], ...otherParameters } = parametersDictionnary
+    return {
+      // q: append context and each query parts
+      q: new CatalogDomain.OpenSearchQuery(contextQuery, qParts).toQueryString(),
+      ...otherParameters,
+    }
   }
 
   /**
@@ -114,7 +131,7 @@ export class ModuleContainer extends React.Component {
     const contextQuery = ModuleContainer.buildRestrictiveQuery(get(this.props.moduleConf, 'datasets', {}))
     this.setState({
       contextQuery, // stable as module properties cannot change without unmounting the component
-      currentSearchQuery: contextQuery,
+      currentSearchParameters: ModuleContainer.buildQueryParameters(contextQuery, {}),
     })
   }
 
@@ -130,8 +147,8 @@ export class ModuleContainer extends React.Component {
     } = this.props
     const { contextQuery } = this.state
     // 1 - Build query from plugins state and current query and set it in state
-    const currentSearchQuery = ModuleContainer.buildFullQuery(contextQuery, pluginsState)
-    this.setState({ currentSearchQuery })
+    const currentSearchParameters = ModuleContainer.buildQueryParameters(contextQuery, pluginsState)
+    this.setState({ currentSearchParameters })
     // 2 - Swap form hidden and results opened
     if (isInitialization) {
       dispatchInitializeWithOpenedResults()
@@ -146,7 +163,7 @@ export class ModuleContainer extends React.Component {
       project, appName, id, pluginsState,
       moduleConf: { datasets, preview, searchResult },
     } = this.props
-    const { contextQuery, currentSearchQuery } = this.state
+    const { contextQuery, currentSearchParameters } = this.state
     return (
       <React.Fragment>
         {/* 1. Form */}
@@ -163,7 +180,7 @@ export class ModuleContainer extends React.Component {
           appName={appName}
           project={project}
           searchResultsConfiguration={searchResult}
-          searchQuery={currentSearchQuery}
+          searchParameters={currentSearchParameters}
           restrictedDatasetsIds={datasets.type === DatasetSelectionTypes.DATASET_TYPE ? datasets.selectedDatasets : null}
         />
       </React.Fragment>

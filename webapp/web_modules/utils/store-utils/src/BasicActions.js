@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isArray from 'lodash/isArray'
 import isNil from 'lodash/isNil'
 import isObject from 'lodash/isObject'
 import isString from 'lodash/isString'
@@ -114,14 +115,19 @@ class BasicActions {
       endpoint = trimEnd(endpoint, '?')
     }
     if (queryParams) {
-      forEach(queryParams, (param, key) => {
-        // remove null / undefined / empty strings
-        if (!isNil(param) && (!isString(param) || !!param)) {
-          if (endpoint.includes('?')) {
-            endpoint = `${endpoint}&${key}=${encodeURIComponent(param)}`
-          } else {
-            endpoint = `${endpoint}?${key}=${encodeURIComponent(param)}`
-          }
+      forEach(queryParams, (parameter, key) => {
+        // handle array parameters : key:[a, b] => key=a&key=b
+        const paramValues = isArray(parameter) ? parameter : [parameter]
+        // for each parameter value:
+        const appendParametersText = paramValues
+          // filter null / undefined and empty strings values
+          .filter(value => !isNil(value) && (!isString(parameter) || !!parameter))
+          // map to key=value[i] then join on '&'
+          .map(value => `${key}=${encodeURIComponent(value)}`).join('&')
+        if (appendParametersText) {
+          // The value is OK, append to current query
+          const parameterSeparator = endpoint.includes('?') ? '&' : '?'
+          endpoint = `${endpoint}${parameterSeparator}${appendParametersText}`
         }
       })
     }

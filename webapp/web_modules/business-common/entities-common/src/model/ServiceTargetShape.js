@@ -38,7 +38,7 @@ const MANY_ELEMENTS_TARGET = PropTypes.shape({
 
 const QUERY_ELEMENTS_TARGET = PropTypes.shape({
   type: PropTypes.oneOf([RuntimeTargetTypes.QUERY]), // enumerated type
-  q: PropTypes.string.isRequired, // query
+  requestParameters: PropTypes.objectOf(PropTypes.any), // open search request parameters
   entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
   entitiesCount: PropTypes.number.isRequired,
   excludedIDs: PropTypes.arrayOf(PropTypes.string).isRequired, // excluded entities list

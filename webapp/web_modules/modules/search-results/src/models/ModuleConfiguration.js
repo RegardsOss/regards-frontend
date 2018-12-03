@@ -109,8 +109,8 @@ const ModuleConfiguration = PropTypes.shape({
     searchKey: PropTypes.string.isRequired,
   })),
 
-  // Initial search query
-  searchQuery: PropTypes.string,
+  // Contextual search parameters (when externally driven)
+  searchQueryParameters: PropTypes.string,
   // Restricted dataset context as IP ID array
   restrictedDatasetsIds: PropTypes.arrayOf(PropTypes.string),
 

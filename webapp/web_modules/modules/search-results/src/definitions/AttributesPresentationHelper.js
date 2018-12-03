@@ -167,23 +167,6 @@ export function changeSortOrder(presentationModels, key, newSortOrder, removeOth
 }
 
 /**
- * Builds ordered sorting on array from attributes presentation model
- * @return {[{*}]} presentationModel  presentation models as built by this helper
- * @return {[{attributePath: string, type: string}]} ordered array (from first to last sorting attribute) where:
- * - attributePath is full qualified attribute path
- * - type is sort order type, TableSortOrders enum
- */
-export function getSortingOn(presentationModels) {
-  return presentationModels
-    // 1 - clear non sorting columns
-    .filter(({ sortOrder }) => sortOrder !== TableSortOrders.NO_SORT)
-    // 2 - sort on order priority as user set it (ascending)
-    .sort((model1, model2) => model1.sortIndex - model2.sortIndex)
-    // 3 - convert into {attributePath, type} array
-    .map(({ attributes, sortOrder }) => ({ attributePath: attributes[0].content.jsonPath, type: sortOrder }))
-}
-
-/**
  * Builds equivalent sorting parameters as getSortingOn but works on initialSorting configuration
  * @param {[{*}]} initialSorting configured initial sorting
  * @return {[{attributePath: string, type: string}]} ordered array (from first to last sorting attribute) where:
@@ -195,4 +178,23 @@ export function getInitialSorting(initialSorting = []) {
     attributePath: attributes[0].name, // by configuration (see form), only one attribute is allowed for sorting
     type: TableSortOrders.ASCENDING_ORDER,
   }))
+}
+
+/**
+ * Builds ordered sorting on array from attributes presentation model or returns initial sorting if none
+ * @return {[{*}]} presentationModel  presentation models as built by this helper
+ * @param {[{*}]} initialSorting configured initial sorting
+ * @return {[{attributePath: string, type: string}]} ordered array (from first to last sorting attribute) where:
+ * - attributePath is full qualified attribute path
+ * - type is sort order type, TableSortOrders enum
+ */
+export function getSortingOn(presentationModels, initialSorting = []) {
+  const presentationSorting = presentationModels
+    // 1 - clear non sorting columns
+    .filter(({ sortOrder }) => sortOrder !== TableSortOrders.NO_SORT)
+    // 2 - sort on order priority as user set it (ascending)
+    .sort((model1, model2) => model1.sortIndex - model2.sortIndex)
+    // 3 - convert into {attributePath, type} array
+    .map(({ attributes, sortOrder }) => ({ attributePath: attributes[0].content.jsonPath, type: sortOrder }))
+  return presentationSorting.length ? presentationSorting : getInitialSorting(initialSorting)
 }

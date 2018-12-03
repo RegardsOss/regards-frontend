@@ -45,7 +45,7 @@ const manyEntitiesTarget = PropTypes.shape({
 })
 const queryTarget = PropTypes.shape({
   type: PropTypes.oneOf([RuntimeTargetTypes.QUERY]).isRequired,
-  q: PropTypes.string.isRequired, // entities list
+  requestParameters: PropTypes.objectOf(PropTypes.any), // OpenSearch request parameters, may include q (query)
   entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
   entitiesCount: PropTypes.number.isRequired, // total count of entities
   excludedIDs: PropTypes.arrayOf(PropTypes.string).isRequired, // excluded entities IDs (URN)

@@ -39,7 +39,7 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
   it('should exist', () => {
     assert.isDefined(ModuleContainer)
   })
-  it('should display form and results, computing initial query and updating query on search', () => {
+  it('should display form and results, computing initial query and updating query parameters on search', () => {
     const props = {
       project: 'test',
       appName: 'test',
@@ -55,7 +55,9 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
     // Check contextQuery and current query initialization
     assert.deepEqual(enzymeWrapper.state(), {
       contextQuery: 'tags:"URN%3ADATASET%3AEXAMPLE1"',
-      currentSearchQuery: 'tags:"URN%3ADATASET%3AEXAMPLE1"',
+      currentSearchParameters: {
+        q: 'tags:"URN%3ADATASET%3AEXAMPLE1"',
+      },
     }, 'Queries state should be correctly initialized')
 
     // Check form container is correctly rendered
@@ -78,36 +80,84 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
       project: props.project,
       preview: props.moduleConf.preview,
       searchResultsConfiguration: props.moduleConf.searchResult,
-      searchQuery: enzymeWrapper.state().currentSearchQuery,
+      searchParameters: enzymeWrapper.state().currentSearchParameters,
       restrictedDatasetsIds: props.moduleConf.datasets.selectedDatasets,
     }, 'Results container request should be correctly provided')
 
-    // simulate a search call and check the request now holds initial request + plugins queries
+    // simulate a search call and check the request now holds initial request + plugins query parameters
     enzymeWrapper.instance().onSearch({
       p1: {
-        state: {
-          something: true,
+        state: { something: true },
+        queryParameters: {
+          q: 'something1',
+          sort: 'A',
         },
-        query: 'something1',
       },
       p2: {
-        state: {
-          somethingElse: 'abcde',
-          more: 6,
+        state: { somethingElse: 'abcde', more: 6 },
+        queryParameters: {
+          q: 'something2',
+          sort: 'B',
+          geometry: 'circle',
         },
-        query: 'something2',
+      },
+      p3: {
+        state: { ok: true },
+        queryParameters: {
+          geometry: 'cube',
+        },
       },
     })
     enzymeWrapper.update()
     assert.deepEqual(enzymeWrapper.state(), {
       contextQuery: 'tags:"URN%3ADATASET%3AEXAMPLE1"',
-      currentSearchQuery: 'tags:"URN%3ADATASET%3AEXAMPLE1" AND something1 AND something2',
+      currentSearchParameters: {
+        q: 'tags:"URN%3ADATASET%3AEXAMPLE1" AND something1 AND something2',
+        sort: 'A',
+        geometry: 'circle',
+      },
     }, 'Queries state should be correctly initialized')
     // check each container was correctly updated
     formContainer = enzymeWrapper.find(FormContainer)
     assert.equal(formContainer.props().contextQuery, enzymeWrapper.state().contextQuery, 'Form container should still use initial context query')
     resultsContainer = enzymeWrapper.find(ResultsContainer)
     assert.equal(resultsContainer.props().searchQuery, enzymeWrapper.state().currentSearchQuery, 'Results container should now use current search query')
+  })
+  it('should compute correctly parameters without context and any plugin query parameter', () => {
+    const props = {
+      project: 'test',
+      appName: 'test',
+      type: 'any',
+      description: 'Test',
+      moduleConf: {
+        ...conf1,
+        datasets: {},
+      },
+      dispatchCollapseForm: () => { },
+      dispatchExpandResults: () => { },
+      dispatchInitializeWithOpenedResults: () => { },
+    }
+    const enzymeWrapper = shallow(<ModuleContainer {...props} />, { context })
+    enzymeWrapper.instance().onSearch({
+      p1: {
+        state: { something: true },
+        queryParameters: {
+          q: null,
+        },
+      },
+      p2: {
+        state: { somethingElse: 'abcde', more: 6 },
+        queryParameters: {},
+      },
+    })
+
+    // Check contextQuery and current query initialization
+    assert.deepEqual(enzymeWrapper.state(), {
+      contextQuery: '',
+      currentSearchParameters: {
+        q: '',
+      },
+    }, 'Queries state should be correctly initialized')
   })
   it('Convert correctly initial query from moduleConf.datasets', () => {
     // 1 - All catalog: no query

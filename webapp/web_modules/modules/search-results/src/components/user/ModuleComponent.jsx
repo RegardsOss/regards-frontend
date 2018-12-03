@@ -38,9 +38,6 @@ class ModuleComponent extends React.Component {
     moduleConf: ModuleConfiguration.isRequired,
     // resolved attribute models containing standard attributes
     attributeModels: DataManagementShapes.AttributeModelList,
-
-    // request configuration
-    searchQuery: PropTypes.string,
   }
 
   static contextTypes = {
@@ -64,7 +61,7 @@ class ModuleComponent extends React.Component {
       facettesInitiallySelected,
       enableQuicklooks,
       restrictedDatasetsIds,
-      searchQuery,
+      searchQueryParameters,
       displayMode,
       displayConf,
       datasetsSectionLabelFr,
@@ -106,7 +103,7 @@ class ModuleComponent extends React.Component {
             displayMode={displayMode}
             displayConf={displayConf}
             restrictedDatasetsIds={restrictedDatasetsIds}
-            searchQuery={searchQuery}
+            searchQueryParameters={searchQueryParameters}
             datasetsSectionLabel={datasetsSectionLabel}
             dataSectionLabel={dataSectionLabel}
             attributeModels={attributeModels}

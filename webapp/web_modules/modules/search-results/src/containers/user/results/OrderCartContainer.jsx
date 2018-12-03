@@ -84,18 +84,16 @@ export class OrderCartContainer extends React.Component {
       /**
        * Dispatches add to cart action (sends add to cart command to server), showing then hiding feedback
        * @param ids entities ID (URN) list to add to cart, when request is null, or to exclude from add request when it isn't
-       * @param restrictionRequest request to retrieve elements to add, when not null
+       * @param requestParameters Open search request parameters
        * @return {Promise} add to cart promise
        */
-      dispatchAddToCart: (includedIds, excludedIds, restrictionRequest, datasetUrn) => dispatch(defaultBasketActions.addToBasket(includedIds, excludedIds, restrictionRequest, datasetUrn)),
+      dispatchAddToCart: (includedIds, excludedIds, requestParameters, datasetUrn) => dispatch(defaultBasketActions.addToBasket(includedIds, excludedIds, requestParameters, datasetUrn)),
     }
   }
 
   static propTypes = {
-    // initial open search query value (used when computing dataset's dataobjects add query)
-    initialSearchQuery: PropTypes.string,
     // current open search query value (used when computing selection add query)
-    openSearchQuery: PropTypes.string.isRequired,
+    requestParameters: PropTypes.objectOf(PropTypes.any), // current open search request parameters
     // this property is used by this container and sub components (used only in onPropertiesChanged)
     // eslint-disable-next-line react/no-unused-prop-types
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
@@ -122,13 +120,11 @@ export class OrderCartContainer extends React.Component {
     // from map dispatch to props
     dispatchAddToCart: PropTypes.func.isRequired,
     // ... child component properties
-
   }
 
   /** Keys of properties that should not be reported to this children */
   static NON_REPORTED_PROPS = [
-    'initialSearchQuery',
-    'openSearchQuery',
+    'requestParameters',
     'viewObjectType',
     'children',
     'tableViewMode',
@@ -237,24 +233,26 @@ export class OrderCartContainer extends React.Component {
    */
   onAddDataObjectsSelectionToBasket = () => {
     const {
-      openSearchQuery, selectionMode, toggledElements, dispatchAddToCart,
+      requestParameters, selectionMode, toggledElements, dispatchAddToCart,
     } = this.props
     const ids = values(toggledElements).map(element => get(element, 'content.id'))
-    const [includeIds, excludedIds, query] = selectionMode === TableSelectionModes.includeSelected
-      ? [ids, null, null] // inclusive selection: clear query and excluded elements to get the backend understanding it is an inclusive push
-      : [null, ids, decodeURIComponent(openSearchQuery)] // exclusive selection: provide query and elements to exclude
-    dispatchAddToCart(includeIds, excludedIds, query)
+    if (selectionMode === TableSelectionModes.includeSelected) {
+      // inclusive selection: provide only included elements from selection (parameters useless)
+      dispatchAddToCart(ids)
+    } else {
+      // exclusive selection: provide request parameters and elements to exclude from selection
+      dispatchAddToCart(null, ids, requestParameters)
+    }
   }
 
   /**
-   * User adds a dataset to basket (ie: every dataset dataobjects)
+   * User adds a dataset to basket (ie: every dataset dataobjects currently retrieved)
    * @param datasetEntity dataset entity
    */
   onAddDatasetToBasket = (datasetEntity) => {
-    const { initialSearchQuery, dispatchAddToCart } = this.props
-    // Provide initial query, if any, decoded as it is used in body
-    const restrictionQuery = initialSearchQuery ? decodeURIComponent(initialSearchQuery) : undefined
-    dispatchAddToCart(null, null, restrictionQuery, datasetEntity.content.id)
+    const { requestParameters, dispatchAddToCart } = this.props
+    // Provide current parameters as restriction on dataset
+    dispatchAddToCart(null, null, requestParameters, datasetEntity.content.id)
   }
 
   /**

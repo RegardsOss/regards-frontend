@@ -34,7 +34,7 @@ export default class PluginStateActions {
 
   /**
    * Returns action to dispatch to publish all plugins state at once. Note: it replaces all currently defined plugins states
-   * @param {*} pluginsStates plugins states (object like { pluginsInstanceId: {state, query}, ...})
+   * @param {*} pluginsStates plugins states (object like { pluginsInstanceId: {state, queryParameters}, ...})
    * @return {*} redux action to dispatch
    */
   publishAllStates(pluginsStates) {
@@ -48,15 +48,16 @@ export default class PluginStateActions {
    * Publish new state and query for given criterion plugin
    * @param {string} pluginInstanceId criterion plugin instance ID
    * @param {*} state new state
-   * @param {string} query query
+   * @param {*} queryParameters query parameters to be used for searching data. Note that q parameter will be merged
+   * with AND separator, while other parameters will be append multiple times
    * @return {*} redux action to dispatch
    */
-  publishState(pluginInstanceId, state, query) {
+  publishState(pluginInstanceId, state, queryParameters) {
     return {
       type: this.PUBLISH_STATE,
       pluginInstanceId,
       state,
-      query,
+      queryParameters,
     }
   }
 

@@ -152,7 +152,7 @@ export class PluginServicesContainer extends React.Component {
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // currently displayed entities type
     // eslint-disable-next-line react/no-unused-prop-types
     restrictedDatasetsIds: PropTypes.arrayOf(PropTypes.string),
-    openSearchQuery: PropTypes.string.isRequired,
+    requestParameters: PropTypes.objectOf(PropTypes.any), // current open search request parameters
     // components children, where this container will inject services related properties
     // eslint-disable-next-line react/no-unused-prop-types
     children: PropTypes.oneOfType([
@@ -194,7 +194,7 @@ export class PluginServicesContainer extends React.Component {
   static NON_REPORTED_PROPS = [
     'viewObjectType',
     'restrictedDatasetsIds',
-    'openSearchQuery',
+    'requestParameters',
     'children',
     'selectedDatasetTag',
     'toggledElements',
@@ -279,14 +279,14 @@ export class PluginServicesContainer extends React.Component {
    */
   onStartSelectionService = ({ content: service }) => {
     const {
-      dispatchRunService, selectionMode, toggledElements, openSearchQuery, viewObjectType, pageMetadata,
+      dispatchRunService, selectionMode, toggledElements, requestParameters, viewObjectType, pageMetadata,
     } = this.props
     // pack ip ID array
     const idArray = map(toggledElements, elt => elt.content.id)
     // pack query
     const serviceTarget = selectionMode === TableSelectionModes.includeSelected
       ? target.buildManyElementsTarget(idArray)
-      : target.buildQueryTarget(openSearchQuery, viewObjectType, pageMetadata.totalElements, idArray)
+      : target.buildQueryTarget(requestParameters, viewObjectType, pageMetadata.totalElements, idArray)
     // note : only service content is dipatched (see top methods conversion)
     dispatchRunService(new PluginServiceRunModel(service, serviceTarget))
   }

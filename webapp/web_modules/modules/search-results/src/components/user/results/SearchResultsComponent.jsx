@@ -86,7 +86,7 @@ class SearchResultsComponent extends React.Component {
     displayOnlyQuicklook: PropTypes.bool.isRequired,
 
     // request control
-    searchQuery: PropTypes.string.isRequired,
+    requestParameters: PropTypes.objectOf(PropTypes.any), // request parameters
 
     accessToken: PropTypes.string,
     projectName: PropTypes.string.isRequired,
@@ -249,7 +249,7 @@ class SearchResultsComponent extends React.Component {
 
     const {
       allowingFacettes, presentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
-      viewObjectType, tableViewMode, showingFacettes, facets, selectedFacets, searchQuery, selectionServices, enableQuicklooks,
+      viewObjectType, tableViewMode, showingFacettes, facets, selectedFacets, requestParameters, selectionServices, enableQuicklooks,
       displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook, enableDownload, accessToken, projectName, datasetsSectionLabel,
       dataSectionLabel, isDescAvailableFor,
       onConfigureColumns, onResetColumns, onSelectFacet, onUnselectFacet, onShowDatasets, onShowDataobjects,
@@ -271,8 +271,6 @@ class SearchResultsComponent extends React.Component {
       displayColumnsHeader = false
     }
 
-    // TODO-V3 do refactor to use request parameters instead or path params
-    const pathParams = { parameters: searchQuery }
     const showFacets = showingFacettes && allowingFacettes && (this.isDisplayingDataobjects() || this.isDisplayingDocuments())
     const itemProps = {
       presentationModels,
@@ -334,7 +332,7 @@ class SearchResultsComponent extends React.Component {
             pageSelectors={searchSelectors}
             columnWidth={displayConf.quicklookColumnWidth}
             columnGutter={displayConf.quicklookColumnSpacing}
-            pathParams={pathParams}
+            requestParams={requestParameters}
             queryPageSize={QUICKLOOK_PAGE_SIZE}
             emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
             itemProps={itemProps}
@@ -350,7 +348,7 @@ class SearchResultsComponent extends React.Component {
               lineHeight={lineHeight}
               columns={columns}
               queryPageSize={RESULTS_PAGE_SIZE}
-              pathParams={pathParams}
+              requestParams={requestParameters}
               emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
             />)
         }

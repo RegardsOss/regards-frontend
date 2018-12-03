@@ -52,7 +52,7 @@ export class ResultsContainer extends React.Component {
     // eslint-disable-next-line
     searchResultsConfiguration: PropTypes.object, // used in onPropertiesUpdated, cannot shape it better due to module exports system
     // eslint-disable-next-line react/no-unused-prop-types
-    searchQuery: PropTypes.string.isRequired, // used in onPropertiesUpdated
+    searchParameters: PropTypes.objectOf(PropTypes.any), // used in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
     restrictedDatasetsIds: PropTypes.arrayOf(PropTypes.string), // used in onPropertiesUpdated
     // from mapStateToProps
@@ -86,7 +86,7 @@ export class ResultsContainer extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      id, appName, searchResultsConfiguration, searchQuery, restrictedDatasetsIds,
+      id, appName, searchResultsConfiguration, searchParameters, restrictedDatasetsIds,
     } = newProps
     const { intl: { formatMessage } } = this.context
     const nextState = {
@@ -100,7 +100,7 @@ export class ResultsContainer extends React.Component {
         conf: {
           ...searchResultsConfiguration,
           // current results query
-          searchQuery,
+          searchParameters,
           // provide dataset context if any
           restrictedDatasetsIds,
         },

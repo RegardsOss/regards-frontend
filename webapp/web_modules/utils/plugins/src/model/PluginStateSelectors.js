@@ -39,7 +39,7 @@ export class PluginStateSelectors extends BasicSelector {
   /**
    * @param {*} store redux store
    * @param {string} pluginInstanceId plugin instance Id key
-   * @return {{state:{*}, query: {string}}} found plugin instance ID state or null
+   * @return {{state:{*}, queryParameters: {*}}} found plugin instance ID state or null
    */
   getCriterionData(store, pluginInstanceId) {
     return get(this.getAllCriteriaData(store), pluginInstanceId, null)
@@ -59,7 +59,7 @@ export class PluginStateSelectors extends BasicSelector {
    * @param {string} pluginInstanceId plugin instance Id key
    * @return {strin} criterion query
    */
-  getCriterionQuery(store, pluginInstanceId) {
+  getCriterionQueryParameters(store, pluginInstanceId) {
     return get(this.getCriterionData(store, pluginInstanceId), PluginStateSelectors.QUERY_FIELD, null)
   }
 }

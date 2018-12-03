@@ -25,7 +25,7 @@
 /** A criterion state and query */
 export const CriterionData = PropTypes.shape({
   state: PropTypes.any,
-  query: PropTypes.string,
+  queryParameters: PropTypes.objectOf(PropTypes.string),
 })
 
 /** Map of all criteria states and queries */
