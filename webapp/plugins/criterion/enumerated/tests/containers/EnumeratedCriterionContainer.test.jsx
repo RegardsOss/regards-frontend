@@ -102,7 +102,7 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
     }
     const spiedPublishData = {
       nextState: null,
-      query: null,
+      requestParameters: null,
       count: 0,
     }
     const props = {
@@ -114,9 +114,9 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
       isFetching: false,
       availablePropertyValues: [],
       state: EnumeratedCriterionContainer.DEFAULT_STATE,
-      publishState: (nextState, query) => {
+      publishState: (nextState, requestParameters) => {
         spiedPublishData.nextState = nextState
-        spiedPublishData.query = query
+        spiedPublishData.requestParameters = requestParameters
         spiedPublishData.count += 1
       },
       dispatchGetPropertyValues: (name, filterText) => {
@@ -133,7 +133,7 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
       searchText: 'test text',
       inError: false,
     }, 'Dispatched plugin state should be valid')
-    assert.equal(spiedPublishData.query, 'label:"test text"', 'Dispatched plugin query should be valid')
+    assert.deepEqual(spiedPublishData.requestParameters, { q: 'label:"test text"' }, 'Dispatched plugin requestParameters should be valid')
 
     assert.equal(spiedDispatchData.count, 1, 'Dispatch should have been performed')
     assert.equal(spiedDispatchData.name, 'label', 'Dispatched attribute should be valid')
@@ -142,7 +142,7 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
   it('should update correctly state on user item selection', () => {
     const spiedPublishData = {
       nextState: null,
-      query: null,
+      requestParameters: null,
       count: 0,
     }
     const props = {
@@ -155,9 +155,9 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
       availablePropertyValues: [],
       state: EnumeratedCriterionContainer.DEFAULT_STATE,
       dispatchGetPropertyValues: () => { },
-      publishState: (nextState, query) => {
+      publishState: (nextState, requestParameters) => {
         spiedPublishData.nextState = nextState
-        spiedPublishData.query = query
+        spiedPublishData.requestParameters = requestParameters
         spiedPublishData.count += 1
       },
     }
@@ -169,7 +169,7 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
       searchText: 'test1',
       inError: true,
     }, '1 - Dispatched plugin state should match data')
-    assert.equal(spiedPublishData.query, 'label:"test1"', '1 - Dispatched plugin query should match data')
+    assert.deepEqual(spiedPublishData.requestParameters, { q: 'label:"test1"' }, '1 - Dispatched plugin requestParameters should match data')
 
     // 2 - test an item inside the list (should not show error)
     enzymeWrapper.instance().onFilterSelected('test2', true)
@@ -178,6 +178,6 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
       searchText: 'test2',
       inError: false,
     }, '2 - Dispatched plugin state should match data')
-    assert.equal(spiedPublishData.query, 'label:"test2"', '2 - Dispatched plugin query should match data')
+    assert.deepEqual(spiedPublishData.requestParameters, { q: 'label:"test2"' }, '2 - Dispatched plugin requestParameters should match data')
   })
 })

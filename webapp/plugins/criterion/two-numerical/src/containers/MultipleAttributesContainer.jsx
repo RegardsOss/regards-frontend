@@ -58,7 +58,7 @@ export class MultipleAttributesContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, { pluginInstanceId }) {
     return {
-      publishState: (state, query) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, query)),
+      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
     }
   }
 
@@ -113,25 +113,28 @@ export class MultipleAttributesContainer extends React.Component {
   }
 
   /**
-   * Converts current state into query
-   * @param {{value1: number, comparator1: string, value2: number, comparator2: string}} plugin state values
+   * Converts state as parameter into OpenSearch request parameters
+   * @param {{value1: number, comparator1: string, value2: number, comparator2: string}} plugin state
    * @param {*} firstAttribute first criterion attribute
    * @param {*} secondAttribute second criterion attribute
-   * @return {string} corresponding search query (or null when no query is available for current state)
+   * @return {*} corresponding OpenSearch request parameters
    */
-  static convertToQuery({
+  static convertToRequestParameters({
     value1, comparator1, value2, comparator2,
   }, firstAttribute, secondAttribute) {
-    return [
-      // first attribute
-      numberRangeHelper.getNumberAttributeQueryPart(firstAttribute.jsonPath,
-        numberRangeHelper.convertToRange(value1, comparator1)),
-      // second attribute
-      numberRangeHelper.getNumberAttributeQueryPart(secondAttribute.jsonPath,
-        numberRangeHelper.convertToRange(value2, comparator2)),
-    ]
-      .filter(query => !!query)// clear empty queries
-      .join(' AND ') || null // Join all parts with open search instruction, return null if string is empty
+    // Using common toolbox to build range query
+    return {
+      q: [
+        // first attribute
+        numberRangeHelper.getNumberAttributeQueryPart(firstAttribute.jsonPath,
+          numberRangeHelper.convertToRange(value1, comparator1)),
+        // second attribute
+        numberRangeHelper.getNumberAttributeQueryPart(secondAttribute.jsonPath,
+          numberRangeHelper.convertToRange(value2, comparator2)),
+      ]
+        .filter(query => !!query)// clear empty queries
+        .join(' AND ') || null, // Join all parts with open search instruction, return null if string is empty
+    }
   }
 
 
@@ -145,7 +148,7 @@ export class MultipleAttributesContainer extends React.Component {
       state, publishState, firstField, secondField,
     } = this.props
     const newState = { ...state, value1, comparator1 }
-    publishState(newState, MultipleAttributesContainer.convertToQuery(newState, firstField, secondField))
+    publishState(newState, MultipleAttributesContainer.convertToRequestParameters(newState, firstField, secondField))
   }
 
   /**
@@ -158,7 +161,7 @@ export class MultipleAttributesContainer extends React.Component {
       state, publishState, firstField, secondField,
     } = this.props
     const newState = { ...state, value2, comparator2 }
-    publishState(newState, MultipleAttributesContainer.convertToQuery(newState, firstField, secondField))
+    publishState(newState, MultipleAttributesContainer.convertToRequestParameters(newState, firstField, secondField))
   }
 
   render() {

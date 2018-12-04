@@ -81,13 +81,11 @@ class OrderBasketActions {
    * Returns action to add entities ID or Open search request results (excluding entities IDs) in basket
    * @param {[string]} entityIdsToInclude ids of entities to include in requests results
    * @param {[string]} entityIdsToExclude ids of entities to exclude in requests results
-   * @param {string} restrictionRequest The restriction open search request. When provided, it will be first computed,
-   * then excluded IDs will be removed and included ones added to request results. When not provided, it will behave
-   * like it returned no result (entityIdsToInclude should then be provided)
+   * @param {string} searchParameters open search parameters, restricting current result (works with entities to exclude)
    * @param {string} datasetUrn dataset ID to specify search on a specific dataset
    * @return {type:string, ...} redux action (redux API middleware compatible) to add elements or request to the basket
    */
-  addToBasket(entityIdsToInclude = null, entityIdsToExclude = null, restrictionRequest = null, datasetUrn = null) {
+  addToBasket(entityIdsToInclude = null, entityIdsToExclude = null, searchParameters = {}, datasetUrn = null) {
     return this.selectionDelegate.sendSignal(RequestVerbEnum.POST, {
       // set engine type
       engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
@@ -95,7 +93,11 @@ class OrderBasketActions {
       entityIdsToInclude,
       entityIdsToExclude,
       // add search query (q is a queries list) when it is defined, do not provide it otherwise
-      searchParameters: restrictionRequest ? { q: [restrictionRequest] } : {},
+      searchParameters: {
+        ...searchParameters,
+        // provide OpenSearchQuery as an array of queries, when not in inclusive mode
+        q: entityIdsToInclude && entityIdsToInclude.length ? null : [searchParameters.q || ''],
+      },
     })
   }
 

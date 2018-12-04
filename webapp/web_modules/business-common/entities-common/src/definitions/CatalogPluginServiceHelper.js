@@ -115,10 +115,12 @@ export function packTargetParameters(target) {
       return { entityId: target.entity }
     case RuntimeTargetTypes.MANY:
       return { entitiesId: target.entities }
-    case RuntimeTargetTypes.QUERY: {
-      const q = new OpenSearchQuery(target.q, [OpenSearchQuery.buildIDParameter(target.excludedIDs, true)]).toQueryString()
-      return { q, entityType: target.entityType }
-    }
+    case RuntimeTargetTypes.QUERY:
+      return {
+        entityType: target.entityType,
+        q: new OpenSearchQuery(target.requestParameters.q,
+          [OpenSearchQuery.buildIDParameter(target.excludedIDs, true)]).toQueryString(),
+      }
     default:
       throw new Error('Invalid target') // development error only
   }

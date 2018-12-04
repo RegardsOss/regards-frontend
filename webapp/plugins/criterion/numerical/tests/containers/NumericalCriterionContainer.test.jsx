@@ -122,7 +122,7 @@ describe('[Numerical criterion] Testing the NumericalCriterionContainer', () => 
   it('should publish state when value or operator changes', () => {
     const spiedPublishStateData = {
       state: null,
-      query: null,
+      requestParameters: null,
     }
     const props = {
       pluginInstanceId: 'any',
@@ -131,9 +131,9 @@ describe('[Numerical criterion] Testing the NumericalCriterionContainer', () => 
           criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -100, 100)),
       },
       state: NumericalCriterionContainer.DEFAULT_INTEGER_TYPE_STATE,
-      publishState: (state, query) => {
+      publishState: (state, requestParameters) => {
         spiedPublishStateData.state = state
-        spiedPublishStateData.query = query
+        spiedPublishStateData.requestParameters = requestParameters
       },
     }
     const enzymeWrapper = shallow(<NumericalCriterionContainer {...props} />, { context })
@@ -142,7 +142,7 @@ describe('[Numerical criterion] Testing the NumericalCriterionContainer', () => 
       value: 42,
       operator: CommonDomain.EnumNumericalComparator.EQ,
     }, 'Value should have been updated')
-    assert.equal(spiedPublishStateData.query, 'test:42', 'Query should match updated value')
+    assert.deepEqual(spiedPublishStateData.requestParameters, { q: 'test:42' }, 'Query should match updated value')
 
     // mimic the map state to props behavior (unavailable in tests)
     enzymeWrapper.setProps({
@@ -158,7 +158,7 @@ describe('[Numerical criterion] Testing the NumericalCriterionContainer', () => 
       value: 42,
       operator: CommonDomain.EnumNumericalComparator.LE,
     }, 'Operator should have been updated')
-    assert.equal(spiedPublishStateData.query, 'test:[* TO 42]', 'Query should match updated operator')
+    assert.deepEqual(spiedPublishStateData.requestParameters, { q: 'test:[* TO 42]' }, 'Query should match updated operator')
   })
   it('should export correctly state to open search URL', () => {
     // 2 - test URL computing on instance
@@ -167,26 +167,26 @@ describe('[Numerical criterion] Testing the NumericalCriterionContainer', () => 
       jsonPath: 'xptdr.myAttribute',
     }
     // 2.1 - = on negative number
-    assert.equal(NumericalCriterionContainer.convertToQuery({ value: -0.41, operator: CommonDomain.EnumNumericalComparator.EQ }, testAttribute),
-      'xptdr.myAttribute:\\-0.41', 'Attribute EQ -0.41 should be correctly exported')
+    assert.deepEqual(NumericalCriterionContainer.convertToRequestParameters({ value: -0.41, operator: CommonDomain.EnumNumericalComparator.EQ }, testAttribute),
+      { q: 'xptdr.myAttribute:\\-0.41' }, 'Attribute EQ -0.41 should be correctly exported')
     // 2.2 - = on positive number
-    assert.equal(NumericalCriterionContainer.convertToQuery({ value: 56, operator: CommonDomain.EnumNumericalComparator.EQ }, testAttribute),
-      'xptdr.myAttribute:56', 'Attribute EQ 56 should be correctly exported')
+    assert.deepEqual(NumericalCriterionContainer.convertToRequestParameters({ value: 56, operator: CommonDomain.EnumNumericalComparator.EQ }, testAttribute),
+      { q: 'xptdr.myAttribute:56' }, 'Attribute EQ 56 should be correctly exported')
     // 2.3 - >= on positive number
-    assert.equal(NumericalCriterionContainer.convertToQuery({ value: 0.3333, operator: CommonDomain.EnumNumericalComparator.GE }, testAttribute),
-      'xptdr.myAttribute:[0.3333 TO *]', 'Attribute GE 0.3333 should be correctly exported')
+    assert.deepEqual(NumericalCriterionContainer.convertToRequestParameters({ value: 0.3333, operator: CommonDomain.EnumNumericalComparator.GE }, testAttribute),
+      { q: 'xptdr.myAttribute:[0.3333 TO *]' }, 'Attribute GE 0.3333 should be correctly exported')
     // 2.4 - <= on negative number
-    assert.equal(NumericalCriterionContainer.convertToQuery({ value: -25, operator: CommonDomain.EnumNumericalComparator.LE }, testAttribute),
-      'xptdr.myAttribute:[* TO \\-25]', '\\Attribute LE -25 should be correctly exported')
+    assert.deepEqual(NumericalCriterionContainer.convertToRequestParameters({ value: -25, operator: CommonDomain.EnumNumericalComparator.LE }, testAttribute),
+      { q: 'xptdr.myAttribute:[* TO \\-25]' }, '\\Attribute LE -25 should be correctly exported')
     // 2.5 - not exportable (no value)
-    assert.isNotOk(NumericalCriterionContainer.convertToQuery({ value: null, operator: CommonDomain.EnumNumericalComparator.EQ }, testAttribute),
+    assert.isNotOk(NumericalCriterionContainer.convertToRequestParameters({ value: null, operator: CommonDomain.EnumNumericalComparator.EQ }, testAttribute).q,
       'No query should be exported without value')
     // 2.5 - not exportable (no attribute path)
     const notExportableAttribute = {
       ...criterionTestSuiteHelpers.getAttributeStub(),
       jsonPath: null,
     }
-    assert.isNotOk(NumericalCriterionContainer.convertToQuery({ value: -0.41, operator: CommonDomain.EnumNumericalComparator.EQ }, notExportableAttribute),
+    assert.isNotOk(NumericalCriterionContainer.convertToRequestParameters({ value: -0.41, operator: CommonDomain.EnumNumericalComparator.EQ }, notExportableAttribute).q,
       'No query should be exported without attribute')
   })
 })

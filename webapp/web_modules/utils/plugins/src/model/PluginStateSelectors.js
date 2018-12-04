@@ -24,7 +24,7 @@ import { BasicSelector } from '@regardsoss/store-utils'
  * @author Raphaël Mechali
  */
 export class PluginStateSelectors extends BasicSelector {
-  static QUERY_FIELD = 'query'
+  static REQUEST_PARAMETERS_FIELD = 'requestParameters'
 
   static STATE_FIELD = 'state'
 
@@ -39,7 +39,7 @@ export class PluginStateSelectors extends BasicSelector {
   /**
    * @param {*} store redux store
    * @param {string} pluginInstanceId plugin instance Id key
-   * @return {{state:{*}, query: {string}}} found plugin instance ID state or null
+   * @return {{state:{*}, requestParameters: {*}}} found plugin instance ID state or null
    */
   getCriterionData(store, pluginInstanceId) {
     return get(this.getAllCriteriaData(store), pluginInstanceId, null)
@@ -57,10 +57,10 @@ export class PluginStateSelectors extends BasicSelector {
   /**
    * @param {*} store redux store
    * @param {string} pluginInstanceId plugin instance Id key
-   * @return {strin} criterion query
+   * @return {*} request parameters
    */
-  getCriterionQuery(store, pluginInstanceId) {
-    return get(this.getCriterionData(store, pluginInstanceId), PluginStateSelectors.QUERY_FIELD, null)
+  getCriterionRequestParameters(store, pluginInstanceId) {
+    return get(this.getCriterionData(store, pluginInstanceId), PluginStateSelectors.REQUEST_PARAMETERS_FIELD, null)
   }
 }
 

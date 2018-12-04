@@ -59,7 +59,7 @@ export class StringCriterionContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, { pluginInstanceId }) {
     return {
-      publishState: (state, query) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, query)),
+      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
     }
   }
 
@@ -81,31 +81,31 @@ export class StringCriterionContainer extends React.Component {
   }
 
   /**
-   * Converts current state into query
-   * @param {{searchText: string, searchFullWords: bool}}
+   * Converts state as parameter into OpenSearch request parameters
+   * @param {{searchText: string, searchFullWords: bool}} state
    * @param {*} attribute criterion attribute
-   * @return {string} corresponding search query
+   * @return {*} corresponding OpenSearch request parameters
    */
-  static convertToQuery({ searchText, searchFullWords }, attribute) {
+  static convertToRequestParameters({ searchText, searchFullWords }, attribute) {
+    let q = null
     const trimedText = (searchText || '').trim()
-    if (!trimedText || !attribute.jsonPath) {
-      return null // No query in current state
-    }
-    let parameterValue = null
-    if (searchFullWords) {
-      // searching for attributes values strictly equal to text
-      parameterValue = `"${trimedText}"`
-    } else {
-      // searching for all parts of text (separated by a blank char) to be included in attributes values
-      const values = trimedText.split(' ') || []
-      // clear empty values (2 blank chars for instance)
-      const meaningfulValues = values.filter(value => !!value)
-      // join values as Open search parameters
-      parameterValue = `(${meaningfulValues.map(value => `*${value}*`).join(' AND ')})`
-    }
-    return `${attribute.jsonPath}:${parameterValue}`
+    if (trimedText && attribute.jsonPath) {
+      let parameterValue = null
+      if (searchFullWords) {
+        // searching for attributes values strictly equal to text
+        parameterValue = `"${trimedText}"`
+      } else {
+        // searching for all parts of text (separated by a blank char) to be included in attributes values
+        const values = trimedText.split(' ') || []
+        // clear empty values (2 blank chars for instance)
+        const meaningfulValues = values.filter(value => !!value)
+        // join values as Open search parameters
+        parameterValue = `(${meaningfulValues.map(value => `*${value}*`).join(' AND ')})`
+      }
+      q = `${attribute.jsonPath}:${parameterValue}`
+    } // else: no query
+    return { q }
   }
-
 
   /**
    * User callback: full word option was checked / unchecked
@@ -117,7 +117,7 @@ export class StringCriterionContainer extends React.Component {
       searchFullWords: !state.searchFullWords, // check / uncheck
     }
     // update criterion state and query
-    publishState(nextState, StringCriterionContainer.convertToQuery(nextState, searchField))
+    publishState(nextState, StringCriterionContainer.convertToRequestParameters(nextState, searchField))
   }
 
   /**
@@ -130,7 +130,7 @@ export class StringCriterionContainer extends React.Component {
       searchText: value,
     }
     // update criterion state and query
-    publishState(nextState, StringCriterionContainer.convertToQuery(nextState, searchField))
+    publishState(nextState, StringCriterionContainer.convertToRequestParameters(nextState, searchField))
   }
 
   render() {

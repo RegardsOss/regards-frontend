@@ -58,7 +58,7 @@ export class TemporalCriterionContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, { pluginInstanceId }) {
     return {
-      publishState: (state, query) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, query)),
+      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
     }
   }
 
@@ -80,27 +80,28 @@ export class TemporalCriterionContainer extends React.Component {
   }
 
   /**
-   * Converts current state into query
-   * @param {{value: string, operator: string}} state plugin state values
+   * Converts state as parameter into OpenSearch request parameters
+   * @param {{ value: string, operator: string }} state
    * @param {*} attribute criterion attribute
-   * @return {string} corresponding search query or null if none
+   * @return {*} corresponding OpenSearch request parameters
    */
-  static convertToQuery({ value, operator }, attribute) {
-    if (!value || !operator || !attribute.jsonPath) {
-      return null // no query
-    }
-    let rangeAsQuery = ''
-    switch (operator) {
-      case CommonDomain.EnumNumericalComparator.LE:
-        rangeAsQuery = `[* TO ${value}]`
-        break
-      case CommonDomain.EnumNumericalComparator.GE:
-        rangeAsQuery = `[${value} TO *]`
-        break
-      default:
-        throw new Error(`Invalid comparator type ${operator}`)
-    }
-    return `${attribute.jsonPath}:${rangeAsQuery}`
+  static convertToRequestParameters({ value, operator }, attribute) {
+    let q = null
+    if (value && operator && attribute.jsonPath) {
+      let rangeAsQuery = ''
+      switch (operator) {
+        case CommonDomain.EnumNumericalComparator.LE:
+          rangeAsQuery = `[* TO ${value}]`
+          break
+        case CommonDomain.EnumNumericalComparator.GE:
+          rangeAsQuery = `[${value} TO *]`
+          break
+        default:
+          throw new Error(`Invalid comparator type ${operator}`)
+      }
+      q = `${attribute.jsonPath}:${rangeAsQuery}`
+    } // else: no query
+    return { q }
   }
 
 
@@ -112,7 +113,7 @@ export class TemporalCriterionContainer extends React.Component {
     // update state value and publish new state with query
     const { state, publishState, attributes: { searchField } } = this.props
     const newState = { ...state, value: date ? date.toISOString() : null }
-    publishState(newState, TemporalCriterionContainer.convertToQuery(newState, searchField))
+    publishState(newState, TemporalCriterionContainer.convertToRequestParameters(newState, searchField))
   }
 
   /**
@@ -124,7 +125,7 @@ export class TemporalCriterionContainer extends React.Component {
     // update state operator and publish new state with query
     const { state, publishState, attributes: { searchField } } = this.props
     const newState = { ...state, operator }
-    publishState(newState, TemporalCriterionContainer.convertToQuery(newState, searchField))
+    publishState(newState, TemporalCriterionContainer.convertToRequestParameters(newState, searchField))
   }
 
   render() {

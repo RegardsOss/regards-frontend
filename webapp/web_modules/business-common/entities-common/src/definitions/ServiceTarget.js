@@ -53,16 +53,16 @@ export function buildManyElementsTarget(ids) {
 
 /**
  * Builds "query" target
- * @param {*} q open search query
+ * @param {*} requestParameters OpenSearch request parameters
  * @param entityType type of entities to retrieve with query
  * @param entitiesCount query entities count (total, ignore the unselected elements count here)
  * @param excludedIDs exlcuded entities ID (URN) array
  * @return query target
  */
-export function buildQueryTarget(q, entityType, entitiesCount, excludedIDs) {
+export function buildQueryTarget(requestParameters, entityType, entitiesCount, excludedIDs) {
   return {
     type: RuntimeTargetTypes.QUERY,
-    q,
+    requestParameters,
     entityType,
     entitiesCount: entitiesCount - excludedIDs.length,
     excludedIDs,

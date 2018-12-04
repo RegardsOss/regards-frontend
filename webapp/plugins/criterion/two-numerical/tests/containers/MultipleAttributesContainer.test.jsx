@@ -44,7 +44,7 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
     const spiedPublishStateData = {
       count: 0,
       state: null,
-      query: null,
+      requestParameters: null,
     }
     const props = {
       pluginInstanceId: 'any',
@@ -68,10 +68,10 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
         value2: null,
         comparator2: CommonDomain.EnumNumericalComparator.LE,
       },
-      publishState: (state, query) => {
+      publishState: (state, requestParameters) => {
         spiedPublishStateData.count += 1
         spiedPublishStateData.state = state
-        spiedPublishStateData.query = query
+        spiedPublishStateData.requestParameters = requestParameters
       },
     }
     const enzymeWrapper = shallow(<MultipleAttributesContainer {...props} />, { context })
@@ -99,7 +99,7 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
       value2: null,
       comparator2: CommonDomain.EnumNumericalComparator.LE,
     }, 'OnChangeValue1: next state should be correctly computed from the props state')
-    assert.isDefined(spiedPublishStateData.query, 'OnChangeValue1: query should have been built')
+    assert.isDefined(spiedPublishStateData.requestParameters, 'OnChangeValue1: query should have been built')
     // check updating value2 publihes state and query (query conversion is not tested here)
     enzymeWrapper.instance().onChangeValue2(-55, CommonDomain.EnumNumericalComparator.GE)
     assert.equal(spiedPublishStateData.count, 2, 'onChangeValue2: Publish data should have been called 2 times')
@@ -109,7 +109,7 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
       value2: -55,
       comparator2: CommonDomain.EnumNumericalComparator.GE,
     }, 'OnChangeValue2: next state should be correctly computed from the props state')
-    assert.isDefined(spiedPublishStateData.query, 'onChangeValue2: query should have been built')
+    assert.isDefined(spiedPublishStateData.requestParameters, 'onChangeValue2: query should have been built')
   })
   it('should export correctly state to open search URL', () => {
     const firstAttribute = {
@@ -132,7 +132,7 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
           comparator2: EnumNumericalComparator.LE,
         },
         testCaseMsg: '1) Component should compute rigth URL for full range',
-        expectedURL: 'pipapa.padapo:[\\-3.14 TO *] AND papapa.padapo:[* TO 0.125]',
+        expectedQuery: 'pipapa.padapo:[\\-3.14 TO *] AND papapa.padapo:[* TO 0.125]',
       }, {
         state: {
           value1: -0.1,
@@ -141,7 +141,7 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
           comparator2: EnumNumericalComparator.EQ,
         },
         testCaseMsg: '2) Component should compute right URL when range has only first field entered',
-        expectedURL: 'pipapa.padapo:\\-0.1',
+        expectedQuery: 'pipapa.padapo:\\-0.1',
       }, {
         state: {
           value1: null,
@@ -150,7 +150,7 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
           comparator2: EnumNumericalComparator.GE,
         },
         testCaseMsg: '3) Component should compute right URL when range has only second field entered',
-        expectedURL: 'papapa.padapo:[\\-0.125 TO *]',
+        expectedQuery: 'papapa.padapo:[\\-0.125 TO *]',
       }, {
         state: {
           value1: null,
@@ -159,13 +159,13 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
           comparator2: EnumNumericalComparator.GE,
         },
         testCaseMsg: '4) Component should return no URL when user entered no value',
-        expectedURL: null,
+        expectedQuery: null,
       }]
     urlComputingTests.forEach(({
-      state, testCaseMsg, expectedURL,
+      state, testCaseMsg, expectedQuery,
     }) => {
-      const builtURL = MultipleAttributesContainer.convertToQuery(state, firstAttribute, secondAttribute)
-      assert.equal(builtURL, expectedURL, testCaseMsg)
+      const builtParameters = MultipleAttributesContainer.convertToRequestParameters(state, firstAttribute, secondAttribute)
+      assert.deepEqual(builtParameters, { q: expectedQuery }, testCaseMsg)
     })
   })
 })

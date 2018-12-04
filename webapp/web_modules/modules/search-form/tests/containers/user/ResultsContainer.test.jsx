@@ -43,7 +43,10 @@ describe('[SEARCH FORM] Testing ResultsContainer', () => {
       appName: 'anyApp',
       project: 'anyProject',
       searchResultsConfiguration: conf1.searchResult,
-      searchQuery: 'anyQuery',
+      searchParameters: {
+        q: 'anyQuery',
+        sort: 'anySort',
+      },
       restrictedDatasetsIds: conf1.datasets.selectedDatasets,
       locale: 'en',
       preview: false,
@@ -60,7 +63,7 @@ describe('[SEARCH FORM] Testing ResultsContainer', () => {
         description: 'results.module.title',
         conf: {
           ...props.searchResultsConfiguration,
-          searchQuery: props.searchQuery,
+          searchParameters: props.searchParameters,
           restrictedDatasetsIds: props.restrictedDatasetsIds,
         },
       },
@@ -82,7 +85,10 @@ describe('[SEARCH FORM] Testing ResultsContainer', () => {
       appName: 'anyApp',
       project: 'anyProject',
       searchResultsConfiguration: conf1.searchResult,
-      searchQuery: 'anyQuery',
+      searchParameters: {
+        q: 'anyQuery',
+        sort: 'anySort',
+      },
       restrictedDatasetsIds: conf1.datasets.selectedDatasets,
       locale: 'en',
       preview: true,

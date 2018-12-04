@@ -43,42 +43,42 @@ describe('[PLUGINS] Testing PluginStateReducer', () => {
   })
   it('should reduce correctly publishAllStates action', () => {
     let nextState = testReducer(undefined, testActions.publishAllStates({
-      p1: { state: { a: 'a', b: 'b' }, query: 'query1' },
-      p2: { state: { c: 'c', d: 'd' }, query: 'query2' },
+      p1: { state: { a: 'a', b: 'b' }, requestParameters: { q: 'query1' } },
+      p2: { state: { c: 'c', d: 'd' }, requestParameters: { q: 'query2' } },
     }))
     assert.deepEqual(nextState, {
-      p1: { state: { a: 'a', b: 'b' }, query: 'query1' },
-      p2: { state: { c: 'c', d: 'd' }, query: 'query2' },
+      p1: { state: { a: 'a', b: 'b' }, requestParameters: { q: 'query1' } },
+      p2: { state: { c: 'c', d: 'd' }, requestParameters: { q: 'query2' } },
     })
     const currentState = nextState
     nextState = testReducer(currentState, testActions.publishAllStates({
-      p3: { state: { a: 'a', b: 'b' }, query: 'query1' },
-      p4: { state: { c: 'c', d: 'd' }, query: 'query2' },
+      p3: { state: { a: 'a', b: 'b' }, requestParameters: { q: 'query1' } },
+      p4: { state: { c: 'c', d: 'd' }, requestParameters: { q: 'query2' } },
     }))
     assert.deepEqual(nextState, {
       // expected p1 / p2 to be removed
-      p3: { state: { a: 'a', b: 'b' }, query: 'query1' },
-      p4: { state: { c: 'c', d: 'd' }, query: 'query2' },
+      p3: { state: { a: 'a', b: 'b' }, requestParameters: { q: 'query1' } },
+      p4: { state: { c: 'c', d: 'd' }, requestParameters: { q: 'query2' } },
     })
   })
   it('should reduce correctly publishState action', () => {
-    let nextState = testReducer(undefined, testActions.publishState('inst1', { a: 'a', b: 'b' }, 'queryInst1'))
+    let nextState = testReducer(undefined, testActions.publishState('inst1', { a: 'a', b: 'b' }, { q: 'queryInst1' }))
     assert.deepEqual(nextState, {
       inst1: {
         state: { a: 'a', b: 'b' },
-        query: 'queryInst1',
+        requestParameters: { q: 'queryInst1' },
       },
     })
     const currentState = nextState
-    nextState = testReducer(currentState, testActions.publishState('inst2', { c: 8 }, 'queryInst2'))
+    nextState = testReducer(currentState, testActions.publishState('inst2', { c: 8 }, { q: 'queryInst2' }))
     assert.deepEqual(nextState, {
       inst1: {
         state: { a: 'a', b: 'b' },
-        query: 'queryInst1',
+        requestParameters: { q: 'queryInst1' },
       },
       inst2: {
         state: { c: 8 },
-        query: 'queryInst2',
+        requestParameters: { q: 'queryInst2' },
       },
     })
   })
@@ -86,11 +86,11 @@ describe('[PLUGINS] Testing PluginStateReducer', () => {
     const actual = testReducer({
       inst1: {
         state: { a: 'a', b: 'b' },
-        query: 'queryInst1',
+        requestParameters: { q: 'queryInst1' },
       },
       inst2: {
         state: { c: 8 },
-        query: 'queryInst2',
+        requestParameters: { q: 'queryInst2' },
       },
     }, testActions.clearAllStates())
     assert.deepEqual(actual, {}, 'Clear all should remove all plugins state')

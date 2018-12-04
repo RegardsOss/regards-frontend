@@ -437,7 +437,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     const props3 = {
       ...commonProps,
       dispatchFetchPluginResult: spyFetch,
-      target: buildQueryTarget('model.age=22', DamDomain.ENTITY_TYPES_ENUM.DATA, 22, []),
+      target: buildQueryTarget({ q: 'model.age=22' }, DamDomain.ENTITY_TYPES_ENUM.DATA, 22, []),
     }
     enzymeWrapper.setProps(props3)
     // simulate the configuration loading done event WITH the configuration

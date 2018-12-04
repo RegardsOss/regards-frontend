@@ -55,7 +55,7 @@ export class URLManagementContainer extends React.Component {
   })
 
   static propTypes = {
-    // Is this component externally driven? (when it is, it will ignore a part of the URL)
+    // Is this component externally driven? (when it is, it will ignore query in URL to initialize from module configuration)
     isExternallyDriven: PropTypes.bool.isRequired,
     // context initial view mode
     initialViewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,

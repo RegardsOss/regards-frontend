@@ -87,17 +87,19 @@ export class CriterionContainer extends React.Component {
   }
 
   /**
-   * Converts current state into query
+   * Converts state as parameter into OpenSearch request parameters
    * @param {{searchText: string}} state
    * @param {*} attribute criterion attribute
-   * @return {string} corresponding search query
+   * @return {*} corresponding OpenSearch request parameters
    */
-  static convertToQuery({ searchText }, attribute) {
+  static convertToRequestParameters({ searchText }, attribute) {
+    let q = null
     const trimedText = (searchText || '').trim()
-    if (!trimedText || !attribute.jsonPath) {
-      return null // No query
+    if (trimedText && attribute.jsonPath) {
+      q = `${attribute.jsonPath}:"${trimedText}"` // query: attribute strictly equals text in this template
     }
-    return `${attribute.jsonPath}:"${trimedText}"` // query: attribute strictly equals text
+    // OpenSearch parameters: only q for this template
+    return { q }
   }
 
   /**
@@ -109,11 +111,11 @@ export class CriterionContainer extends React.Component {
       searchText: value,
     }
     // update criterion state and query
-    publishState(nextState, CriterionContainer.convertToQuery(nextState, searchField))
+    publishState(nextState, CriterionContainer.convertToRequestParameters(nextState, searchField))
   }
 
   render() {
-    const { state: { searchText }, attributes: { searchField } } = this.context
+    const { state: { searchText }, attributes: { searchField } } = this.props
     return (
       <CriterionComponent
         searchAttribute={searchField}

@@ -82,7 +82,7 @@ export class NumericalCriterionContainer extends React.Component {
     return {
       // current state from redux store
       state: pluginStateSelectors.getCriterionState(state, pluginInstanceId)
-      || NumericalCriterionContainer.selectForType(searchField.type, NumericalCriterionContainer.DEFAULT_INTEGER_TYPE_STATE, NumericalCriterionContainer.DEFAULT_INTEGER_TYPE_STATE),
+      || NumericalCriterionContainer.selectForType(searchField.type, NumericalCriterionContainer.DEFAULT_INTEGER_TYPE_STATE, NumericalCriterionContainer.DEFAULT_FLOATING_TYPE_STATE),
     }
   }
 
@@ -94,7 +94,7 @@ export class NumericalCriterionContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, { pluginInstanceId }) {
     return {
-      publishState: (state, query) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, query)),
+      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
     }
   }
 
@@ -116,14 +116,14 @@ export class NumericalCriterionContainer extends React.Component {
   }
 
   /**
-   * Converts current state into query
-   * @param {{value: number, operator: string}} plugin state values
+   * Converts state as parameter into OpenSearch request parameters
+   * @param {{value: number, operator: string}} plugin state
    * @param {*} attribute criterion attribute
-   * @return {string} corresponding search query
+   * @return {*} corresponding OpenSearch request parameters
    */
-  static convertToQuery({ value, operator }, attribute) {
+  static convertToRequestParameters({ value, operator }, attribute) {
     // Using common toolbox to build range query
-    return numberRangeHelper.getNumberAttributeQueryPart(attribute.jsonPath, numberRangeHelper.convertToRange(value, operator))
+    return { q: numberRangeHelper.getNumberAttributeQueryPart(attribute.jsonPath, numberRangeHelper.convertToRange(value, operator)) }
   }
 
   /**
@@ -136,7 +136,7 @@ export class NumericalCriterionContainer extends React.Component {
     // update state value and publish new state with query
     const { state, publishState, attributes: { searchField } } = this.props
     const nextState = { ...state, value: parseFloat(newValue) }
-    publishState(nextState, NumericalCriterionContainer.convertToQuery(nextState, searchField))
+    publishState(nextState, NumericalCriterionContainer.convertToRequestParameters(nextState, searchField))
   }
 
   /**
@@ -147,7 +147,7 @@ export class NumericalCriterionContainer extends React.Component {
     // update state opetarator and publish new state with query
     const { state, publishState, attributes: { searchField } } = this.props
     const nextState = { ...state, operator }
-    publishState(nextState, NumericalCriterionContainer.convertToQuery(nextState, searchField))
+    publishState(nextState, NumericalCriterionContainer.convertToRequestParameters(nextState, searchField))
   }
 
   render() {

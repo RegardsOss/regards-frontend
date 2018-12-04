@@ -67,7 +67,7 @@ describe('[Search Results] Testing ModuleContainer', () => {
         enableFacettes: true,
         enableDownload: true,
         displayMode: DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT,
-        searchQuery: '',
+        searchParameters: { q: 'abc' },
         attributes: [],
         attributesRegroupements: [],
         initialContextTags: [new Tag(CatalogDomain.TagTypes.WORD, 'papa\'s skyline', 'papa\'s skyline')],

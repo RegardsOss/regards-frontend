@@ -44,7 +44,7 @@ describe('[Temporal criterion] Testing TemporalCriterionContainer', () => {
     const spiedPublishStateData = {
       count: 0,
       state: null,
-      query: null,
+      requestParameters: null,
     }
     const props = {
       // parent callbacks (required)
@@ -57,10 +57,10 @@ describe('[Temporal criterion] Testing TemporalCriterionContainer', () => {
         value: '2017-09-27T13:15:42.726Z',
         operator: CommonDomain.EnumNumericalComparator.GE,
       },
-      publishState: (state, query) => {
+      publishState: (state, requestParameters) => {
         spiedPublishStateData.count += 1
         spiedPublishStateData.state = state
-        spiedPublishStateData.query = query
+        spiedPublishStateData.requestParameters = requestParameters
       },
     }
     const enzymeWrapper = shallow(<TemporalCriterionContainer {...props} />, { context })
@@ -82,7 +82,7 @@ describe('[Temporal criterion] Testing TemporalCriterionContainer', () => {
       value: '2019-01-01T01:12:42.726Z',
       operator: CommonDomain.EnumNumericalComparator.GE,
     }, 'onDateChanged: new state should be correctly computed from props and new value')
-    assert.isDefined(spiedPublishStateData.query, 'onDateChanged: Query should have been computed (tested later)')
+    assert.isDefined(spiedPublishStateData.requestParameters, 'onDateChanged: Query should have been computed (tested later)')
 
     enzymeWrapper.instance().onOperatorSelected(CommonDomain.EnumNumericalComparator.LE)
     assert.equal(spiedPublishStateData.count, 2, 'onOperatorSelected: publish should have been called')
@@ -90,7 +90,7 @@ describe('[Temporal criterion] Testing TemporalCriterionContainer', () => {
       value: '2017-09-27T13:15:42.726Z',
       operator: CommonDomain.EnumNumericalComparator.LE,
     }, 'onOperatorSelected: new state should be correctly computed from props and new value')
-    assert.isDefined(spiedPublishStateData.query, 'onOperatorSelected: Query should have been computed (tested later)')
+    assert.isDefined(spiedPublishStateData.requestParameters, 'onOperatorSelected: Query should have been computed (tested later)')
   })
   it('should convert correctly state into query', () => {
     const attribute = {
@@ -98,30 +98,30 @@ describe('[Temporal criterion] Testing TemporalCriterionContainer', () => {
       jsonPath: 'my.fragment.date1',
     }
     // 1 - <=
-    assert.equal(TemporalCriterionContainer.convertToQuery(
+    assert.deepEqual(TemporalCriterionContainer.convertToRequestParameters(
       { value: '2017-09-27T13:15:42.726Z', operator: CommonDomain.EnumNumericalComparator.LE }, attribute),
-    'my.fragment.date1:[* TO 2017-09-27T13:15:42.726Z]', '1 - should generate right query')
+    { q: 'my.fragment.date1:[* TO 2017-09-27T13:15:42.726Z]' }, '1 - should generate right query')
 
     // 2 - >=
-    assert.equal(TemporalCriterionContainer.convertToQuery(
+    assert.deepEqual(TemporalCriterionContainer.convertToRequestParameters(
       { value: '2019-01-01T01:12:42.726Z', operator: CommonDomain.EnumNumericalComparator.GE }, attribute),
-    'my.fragment.date1:[2019-01-01T01:12:42.726Z TO *]', '2 - should generate right query')
+    { q: 'my.fragment.date1:[2019-01-01T01:12:42.726Z TO *]' }, '2 - should generate right query')
 
     // 3 - No date
-    assert.isNotOk(TemporalCriterionContainer.convertToQuery({ value: null, operator: CommonDomain.EnumNumericalComparator.GE }, attribute),
+    assert.isNotOk(TemporalCriterionContainer.convertToRequestParameters({ value: null, operator: CommonDomain.EnumNumericalComparator.GE }, attribute).q,
       '3.1 - should generate no query for null date')
-    assert.isNotOk(TemporalCriterionContainer.convertToQuery({ operator: CommonDomain.EnumNumericalComparator.GE }, attribute),
+    assert.isNotOk(TemporalCriterionContainer.convertToRequestParameters({ operator: CommonDomain.EnumNumericalComparator.GE }, attribute).q,
       '3.2 - should generate no query for undefined date')
 
     // 4 - No operator
-    assert.isNotOk(TemporalCriterionContainer.convertToQuery({ value: '2017-09-27T13:15:42.726Z]', operator: null }, attribute),
+    assert.isNotOk(TemporalCriterionContainer.convertToRequestParameters({ value: '2017-09-27T13:15:42.726Z]', operator: null }, attribute).q,
       '3.1 - should generate no query for null operator')
-    assert.isNotOk(TemporalCriterionContainer.convertToQuery({ value: '2017-09-27T13:15:42.726Z]' }, attribute),
+    assert.isNotOk(TemporalCriterionContainer.convertToRequestParameters({ value: '2017-09-27T13:15:42.726Z]' }, attribute).q,
       '3.2 - should generate no query for undefined operator')
     // 5 - No json path in attribute
     const attribute2 = { ...attribute, jsonPath: null }
-    assert.isNotOk(TemporalCriterionContainer.convertToQuery(
-      { value: '2019-01-01T01:12:42.726Z', operator: CommonDomain.EnumNumericalComparator.GE }, attribute2),
-    '5 - should generate no query for undefined jsonPath')
+    assert.isNotOk(TemporalCriterionContainer.convertToRequestParameters(
+      { value: '2019-01-01T01:12:42.726Z', operator: CommonDomain.EnumNumericalComparator.GE }, attribute2).q,
+    '5 - should generate no query for missing jsonPath')
   })
 })

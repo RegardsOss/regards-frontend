@@ -52,7 +52,7 @@ export class FullTextCriterionContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, { pluginInstanceId }) {
     return {
-      publishState: (state, query) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, query)),
+      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
     }
   }
 
@@ -70,13 +70,13 @@ export class FullTextCriterionContainer extends React.Component {
   }
 
   /**
-   * Converts user input search text into open search query
-   * @param {string} searchText searchText
-   * @return {string} OpenSearch query for input search text (none if no text)
+   * Converts state as parameter into OpenSearch request parameters
+   * @param {{searchText: string}} state
+   * @return {*} corresponding OpenSearch request parameters
    */
-  static toQuery(searchText) {
+  static convertToRequestParameters({ searchText = '' }) {
     const trimedText = searchText.trim()
-    return trimedText ? `"${trimedText}"` : null
+    return { q: trimedText ? `"${trimedText}"` : null }
   }
 
   /**
@@ -86,7 +86,8 @@ export class FullTextCriterionContainer extends React.Component {
    */
   onTextInput = (event, searchText = '') => {
     const { publishState } = this.props
-    publishState({ searchText }, FullTextCriterionContainer.toQuery(searchText))
+    const nextState = { searchText }
+    publishState(nextState, FullTextCriterionContainer.convertToRequestParameters(nextState))
   }
 
   render() {

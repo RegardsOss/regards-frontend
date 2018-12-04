@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEmpty from 'lodash/isEmpty'
+import isNil from 'lodash/isNil'
 import { connect } from '@regardsoss/redux'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { DataManagementClient } from '@regardsoss/client'
@@ -81,7 +83,8 @@ export class ModuleContainer extends React.Component {
     const initialViewObjectType = this.getInitialViewObjectType(moduleConf.displayMode)
     const initialTableDisplayMode = moduleConf.initialViewMode || TableDisplayModeEnum.LIST
     // compute if this component is externally driven: is there parent module parameters?
-    const isExternallyDriven = !!(moduleConf.searchQuery || (moduleConf.initialContextTags && moduleConf.initialContextTags.length))
+    const isExternallyDriven = (!isNil(moduleConf.searchParameters) && !isEmpty(moduleConf.searchParameters))
+    || (!!moduleConf.initialContextTags && moduleConf.initialContextTags.length > 0)
     return (
     /* URL management container: blocks view while it is not initialized to avoid useless requests (no view) */
       <URLManagementContainer

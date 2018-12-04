@@ -62,7 +62,7 @@ describe('[<%= name %>] Testing CriterionContainer', () => {
   })
   it('should convert correctly to open search queries', () => {
     const attribute = { ...criterionTestSuiteHelpers.getAttributeStub(), jsonPath: 'x.y.z' }
-    assert.equal(CriterionContainer.convertToQuery({ searchText: ' aaa  ' }, attribute), 'x.y.z="aaa"', 'Query should be correctly converted, triming white spaces')
-    assert.isNotOk(CriterionContainer.convertToQuery({ searchText: '' }, attribute), 'No query should be converted when there is no research')
+    assert.equal(CriterionContainer.convertToQuery({ searchText: ' aaa  ' }, attribute), { q: 'x.y.z="aaa"' }, 'Query should be correctly converted, triming white spaces')
+    assert.isNotOk(CriterionContainer.convertToQuery({ searchText: '' }, attribute).q, 'No query should be converted when there is no research')
   })
 })

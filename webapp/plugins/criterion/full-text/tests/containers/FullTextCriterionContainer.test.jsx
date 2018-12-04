@@ -57,7 +57,7 @@ describe('[Full text criterion] Testing FullTextCriteriaContainer', () => {
     const spiedPublishData = {
       count: 0,
       state: null,
-      query: null,
+      requestParameters: null,
     }
     const props = {
       // parent callbacks (required)
@@ -65,10 +65,10 @@ describe('[Full text criterion] Testing FullTextCriteriaContainer', () => {
       state: {
         searchText: '',
       },
-      publishState: (state, query) => {
+      publishState: (state, requestParameters) => {
         spiedPublishData.count += 1
         spiedPublishData.state = state
-        spiedPublishData.query = query
+        spiedPublishData.requestParameters = requestParameters
       },
     }
     const enzymeWrapper = shallow(<FullTextCriterionContainer {...props} />, { context })
@@ -81,7 +81,7 @@ describe('[Full text criterion] Testing FullTextCriteriaContainer', () => {
     assert.deepEqual(spiedPublishData.state, {
       searchText: '   To  ',
     }, '1 - State should match with text')
-    assert.equal(spiedPublishData.query, '"To"', '1 - Query should match with text, triming white spaces')
+    assert.deepEqual(spiedPublishData.requestParameters, { q: '"To"' }, '1 - Query should match with text, triming white spaces')
 
     // 1 - call text input twice
     enzymeWrapper.instance().onTextInput(null, '   Toto  ')
@@ -89,6 +89,6 @@ describe('[Full text criterion] Testing FullTextCriteriaContainer', () => {
     assert.deepEqual(spiedPublishData.state, {
       searchText: '   Toto  ',
     }, '2 - State should match with text')
-    assert.equal(spiedPublishData.query, '"Toto"', '2 - Query should match with text, triming white spaces')
+    assert.deepEqual(spiedPublishData.requestParameters, { q: '"Toto"' }, '2 - Query should match with text, triming white spaces')
   })
 })
