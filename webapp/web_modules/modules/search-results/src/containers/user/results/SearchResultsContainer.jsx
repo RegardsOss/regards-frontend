@@ -484,7 +484,7 @@ export class SearchResultsContainer extends React.Component {
           : null,
         // Sorting parameter: attribute and sorting type (ACS / DESC)
         [CatalogDomain.URLSearchQuery.SORT_PARAMETER_NAME]: getSortingOn(presentationModels, viewConfiguration.sorting)
-          .map(sorting => `${sorting.attributePath},${SearchResultsComponent.MAP_TO_SORTING_VALUE[sorting.type]}`),
+          .map(sorting => `${sorting.attributePath},${SearchResultsContainer.MAP_TO_SORTING_VALUE[sorting.type]}`),
         // External control parameters
         ...osRequestParameters,
       },
