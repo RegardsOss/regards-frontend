@@ -32,7 +32,7 @@ const TestComponent = () => <div />
 
 const commonProperties = {
   viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-  openSearchQuery: '',
+  requestParameters: {},
 
   selectedDatasetId: 'URN:pipo1',
   toggledElements: {},

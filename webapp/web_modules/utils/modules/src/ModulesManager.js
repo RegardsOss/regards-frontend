@@ -50,7 +50,7 @@ const VisibleModuleTypes = {
  */
 const HiddenModuleTypes = {
   AUTHENTICATION: 'authentication',
-  NEWS: 'news', // TODO-V3 visible
+  NEWS: 'news', // XXX visible in later versions
 }
 
 /** All dynamic module types (mainly for REGARDS programmers use) */

@@ -40,7 +40,7 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
   })
   it('should render properly', () => {
     const props = {
-      searchQuery: 'spacy=abit',
+      searchParameters: { q: 'spacy=abit' },
       enableFacettes: true,
       enableQuicklooks: false,
       facettesInitiallySelected: false,

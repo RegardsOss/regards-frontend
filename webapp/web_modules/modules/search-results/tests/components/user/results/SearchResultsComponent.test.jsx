@@ -52,7 +52,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
 
     presentationModels: [],
     facets: [],
-    searchQuery: '',
+    requestParameters: { q: 'anyQuery' },
 
     projectName: 'project1',
     accessToken: 'abcdef....',

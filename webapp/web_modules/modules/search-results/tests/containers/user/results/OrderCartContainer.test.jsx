@@ -75,7 +75,7 @@ describe('[Search Results] Testing OrderCartContainer', () => {
   const emptySelectionVals = [true, false]
 
   const commonProps = { // properties not used in dynamic computations
-    openSearchQuery: '',
+    requestParameters: {},
     selectionMode: TableSelectionModes.excludeSelected,
     toggledElements: {},
     dispatchAddToCart: () => { },
