@@ -84,7 +84,6 @@ const messages = {
   'form.criterion.criteria.select.container.label': 'Sélectionner un conteneur',
   'form.criterion.criteria.submit.button.label': 'Ajouter',
   'form.criterion.criteria.cancel.button.label': 'Annuler',
-  'form.criterion.criteria.select.attribute.label': 'Sélectionner un attribut ...',
 
   // User display component
   'form.search.button.label': 'Rechercher',

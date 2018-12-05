@@ -18,8 +18,8 @@
  **/
 import map from 'lodash/map'
 import values from 'lodash/values'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
+import { Divider } from 'material-ui'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   RenderSelectField, Field, ValidationHelpers, StringComparison,
@@ -70,15 +70,12 @@ class CriteriaConfigurationComponent extends React.Component {
 
     return (
       <div key={criteriaAttribute.name}>
-        <span style={this.context.moduleTheme.criteria.label}>
-          {criteriaAttribute.description}
-        </span>
         <Field
           name={`conf.attributes.${criteriaAttribute.name}`}
           fullWidth
           component={RenderSelectField}
           validate={ValidationHelpers.required}
-          label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.attribute.label' })}
+          label={criteriaAttribute.description}
         >
           { // map each parameter available
             allAttributes.map(attribute => (
@@ -98,15 +95,15 @@ class CriteriaConfigurationComponent extends React.Component {
    * @returns {XML}
    */
   render() {
+    const { criteria: criteriaStyle } = this.context.moduleTheme
     return (
-      <Card>
-        <CardTitle
-          title={this.props.plugin.info.description}
-        />
-        <CardText>
-          {map(this.props.plugin.info.conf.attributes, attribute => this.renderCriteriaAttributeConf(attribute))}
-        </CardText>
-      </Card>)
+      <>
+        <Divider style={criteriaStyle.divider} />
+        <div style={criteriaStyle.title}>{`${this.props.plugin.info.name} configuration`}</div>
+        <div style={criteriaStyle.subtitle}>{this.props.plugin.info.description}</div>
+        {map(this.props.plugin.info.conf.attributes, attribute => this.renderCriteriaAttributeConf(attribute))}
+      </>
+    )
   }
 }
 
