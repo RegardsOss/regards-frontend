@@ -79,7 +79,9 @@ const getDefaultTypesHeaders = (callAPI) => {
 // If the action is formated as [RSAA]: {...}, inject the headers
 const headersMiddleware = () => next => (action) => {
   const callAPI = action[RSAA]
-  if (callAPI) {
+  const apiEndpoint = get(callAPI, 'endpoint', '')
+  // add regards headers for specific regards requests only
+  if (callAPI && apiEndpoint.startsWith(`${GATEWAY_HOSTNAME}/${API_URL}/`)) {
     const specificHeaders = callAPI.headers || {}
     callAPI.headers = callStore => ({
       // lower preference: locally added headers
