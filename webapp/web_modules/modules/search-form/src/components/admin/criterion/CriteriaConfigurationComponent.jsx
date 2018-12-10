@@ -19,7 +19,6 @@
 import map from 'lodash/map'
 import values from 'lodash/values'
 import MenuItem from 'material-ui/MenuItem'
-import { Divider } from 'material-ui'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   RenderSelectField, Field, ValidationHelpers, StringComparison,
@@ -98,7 +97,6 @@ class CriteriaConfigurationComponent extends React.Component {
     const { criteria: criteriaStyle } = this.context.moduleTheme
     return (
       <>
-        <Divider style={criteriaStyle.divider} />
         <div style={criteriaStyle.title}>{`${this.props.plugin.info.name} configuration`}</div>
         <div style={criteriaStyle.subtitle}>{this.props.plugin.info.description}</div>
         {map(this.props.plugin.info.conf.attributes, attribute => this.renderCriteriaAttributeConf(attribute))}

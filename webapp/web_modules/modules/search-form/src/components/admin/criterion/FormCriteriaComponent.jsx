@@ -27,6 +27,7 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { ContainerHelper } from '@regardsoss/layout'
 import { PluginProvider } from '@regardsoss/plugins'
+import { themeContextType } from '@regardsoss/theme'
 import CriteriaConfigurationComponent from './CriteriaConfigurationComponent'
 
 /**
@@ -59,6 +60,7 @@ class FormCriteriaComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   /**
@@ -182,6 +184,7 @@ class FormCriteriaComponent extends React.Component {
    */
   render() {
     const { pristine, submitting, invalid } = this.props
+    const { criteria: criteriaStyle } = this.context.moduleTheme
 
     const required = [ValidationHelpers.required]
 
@@ -189,28 +192,36 @@ class FormCriteriaComponent extends React.Component {
       <form
         onSubmit={this.props.handleSubmit(this.props.saveCriteria)}
       >
-        <Field
-          name="pluginId"
-          fullWidth
-          component={RenderSelectField}
-          onSelect={this.selectCriteria}
-          label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.criteria.label' })}
-          validate={required}
-        >
-          {this.renderCriterionTypesList()}
-        </Field>
-        <Field
-          name="container"
-          fullWidth
-          component={RenderSelectField}
-          label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.container.label' })}
-          validate={required}
-        >
-          {this.renderContainersList()}
-        </Field>
-
-        {this.renderCriteriaConfiguration()}
-
+        <div style={criteriaStyle.wrapper}>
+          <div style={criteriaStyle.mainConfiguration}>
+            <div style={criteriaStyle.title}>
+              {this.context.intl.formatMessage({ id: `form.criterion.criteria.${this.props.criteria ? 'existing' : 'new'}.title` })}
+            </div>
+            <div style={criteriaStyle.subtitle}>{ this.context.intl.formatMessage({ id: 'form.criterion.criteria.subtitle' }) }</div>
+            <Field
+              name="pluginId"
+              fullWidth
+              component={RenderSelectField}
+              onSelect={this.selectCriteria}
+              label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.criteria.label' })}
+              validate={required}
+            >
+              {this.renderCriterionTypesList()}
+            </Field>
+            <Field
+              name="container"
+              fullWidth
+              component={RenderSelectField}
+              label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.container.label' })}
+              validate={required}
+            >
+              {this.renderContainersList()}
+            </Field>
+          </div>
+          <div style={criteriaStyle.criteriaConfiguration}>
+            {this.renderCriteriaConfiguration()}
+          </div>
+        </div>
         <CardActionsComponent
           mainButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.criteria.submit.button.label' })}
           mainButtonType="submit"

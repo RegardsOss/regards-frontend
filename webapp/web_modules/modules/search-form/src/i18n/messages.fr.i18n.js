@@ -80,6 +80,8 @@ const messages = {
   'form.criterion.new.button.label': 'Ajouter un critère',
   'form.criterion.reset.button.label': 'Réinitialiser',
   'form.criterion.criteria.new.title': 'Ajouter un critère',
+  'form.criterion.criteria.existing.title': 'Modifier un critère',
+  'form.criterion.criteria.subtitle': 'Configuration générale du critère',
   'form.criterion.criteria.select.criteria.label': 'Sélectionner un critère ...',
   'form.criterion.criteria.select.container.label': 'Sélectionner un conteneur',
   'form.criterion.criteria.submit.button.label': 'Ajouter',

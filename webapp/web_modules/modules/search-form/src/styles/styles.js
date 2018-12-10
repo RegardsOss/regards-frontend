@@ -28,11 +28,17 @@ const formStyles = theme => ({
     },
   },
   criteria: {
-    divider: {
-      marginTop: 20,
-      marginBottom: 20,
-      marginLeft: -24,
-      marginRight: -24,
+    wrapper: {
+      display: 'flex',
+      justifyContent: 'space-between',
+    },
+    mainConfiguration: {
+      width: '50%',
+      marginRight: '10px',
+    },
+    criteriaConfiguration: {
+      width: '50%',
+      marginLeft: '10px',
     },
     title: {
       fontSize: '1.1em',
@@ -41,6 +47,7 @@ const formStyles = theme => ({
     },
     subtitle: {
       fontSize: '0.8em',
+      height: '30px',
     },
   },
   user: {

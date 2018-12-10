@@ -195,7 +195,6 @@ class FormCriterionComponent extends React.Component {
   }
 
   render() {
-    const dialogTitle = this.context.intl.formatMessage({ id: 'form.criterion.criteria.new.title' })
     return (
       <CardText>
         <Title
@@ -226,7 +225,6 @@ class FormCriterionComponent extends React.Component {
           secondaryButtonClick={this.resetCriterion}
         />
         <Dialog
-          title={dialogTitle}
           autoScrollBodyContent
           open={this.state.criteriaViewOpened}
         >
