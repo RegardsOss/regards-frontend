@@ -382,7 +382,7 @@ function asyncValidate({ password }, dispatch, props) {
     if (!validity) { // invalid password
       // Redux form api
       // eslint-disable-next-line no-throw-literal
-      throw { newPassword: ErrorTypes.INVALID_PASSWORD }
+      throw { password: ErrorTypes.INVALID_PASSWORD }
     }
   })
 }
