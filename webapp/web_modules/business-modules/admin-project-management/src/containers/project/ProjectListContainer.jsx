@@ -20,7 +20,6 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { AdminShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
-import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import NotifyLicenseUpdatedActions from '../../model/NotifyLicenseUpdatedActions'
 import { projectActions, projectSelectors } from '../../clients/ProjectClient'
 import ProjectListComponent from '../../components/project/ProjectListComponent'
@@ -40,7 +39,6 @@ export class ProjectListContainer extends React.Component {
     fetchProjectList: PropTypes.func,
     deleteProject: PropTypes.func,
     updateLicense: PropTypes.func,
-    onLogout: PropTypes.func,
   }
 
   componentWillMount() {
@@ -70,9 +68,8 @@ export class ProjectListContainer extends React.Component {
   }
 
   handleOpen = (projectName) => {
-    this.props.onLogout()
     const url = `/admin/${projectName}`
-    browserHistory.push(url)
+    window.open(url, '_blank')
   }
 
   handleUpdateLicense = (projectName) => {
@@ -104,7 +101,6 @@ const mapDispatchToProps = dispatch => ({
   fetchProjectList: () => dispatch(projectActions.fetchPagedEntityList(0, 100)),
   deleteProject: projectName => dispatch(projectActions.deleteEntity(projectName)),
   updateLicense: projectName => dispatch(NotifyLicenseUpdatedActions.sendLicenseUpdatedNotification(projectName)),
-  onLogout: () => dispatch(AuthenticationClient.authenticationActions.logout()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectListContainer)

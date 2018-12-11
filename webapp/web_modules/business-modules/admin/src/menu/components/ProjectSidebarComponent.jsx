@@ -30,7 +30,6 @@ import MenuItem from 'material-ui/MenuItem'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { browserHistory } from 'react-router'
 import { uiManagementDependencies } from '@regardsoss/admin-ui-management'
 import { userDependencies } from '@regardsoss/admin-user-management'
 import { modelsDependencies } from '@regardsoss/admin-board-models'
@@ -64,13 +63,11 @@ class ProjectSidebarComponent extends React.Component {
   static propTypes = {
     projectName: PropTypes.string.isRequired,
     currentPath: PropTypes.string,
-    onLogout: PropTypes.func.isRequired,
     isInstance: PropTypes.bool,
   }
 
   handleRedirectToInstanceAdminDashboard = () => {
-    this.props.onLogout()
-    browserHistory.push('/admin/')
+    window.open(/admin/, '_blank')
   }
 
   render() {
