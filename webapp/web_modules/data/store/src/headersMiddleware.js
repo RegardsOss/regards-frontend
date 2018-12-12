@@ -81,7 +81,7 @@ const headersMiddleware = () => next => (action) => {
   const callAPI = action[RSAA]
   const apiEndpoint = get(callAPI, 'endpoint', '')
   // add regards headers for specific regards requests only
-  if (callAPI && apiEndpoint.startsWith(`${GATEWAY_HOSTNAME}/${API_URL}/`)) {
+  if (callAPI && apiEndpoint.startsWith(`${GATEWAY_HOSTNAME}`)) {
     const specificHeaders = callAPI.headers || {}
     callAPI.headers = callStore => ({
       // lower preference: locally added headers
