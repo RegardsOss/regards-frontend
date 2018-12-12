@@ -16,12 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import Settings from 'mdi-material-ui/Settings'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import NoContentComponent from './NoContentComponent'
+import messages from './i18n'
 
-const messages = {
-  'image.file.not.displayed': 'L\'image ne peut pas être affichée',
-  'file.displayer.no.preview.message': 'Aucune prévisualisation disponible',
-  'criterion.displayer.no.config.title': 'Aucun critère',
-  'criterion.displayer.no.config.message': 'Sélectionnez un critère pour le configurer',
+/**
+* No criterion selected for configuration
+* @author Sébastien Binda
+*/
+class NoCriterionDisplayer extends React.Component {
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  render() {
+    return (
+      <NoContentComponent
+        title={this.context.intl.formatMessage({ id: 'criterion.displayer.no.config.title' })}
+        message={this.context.intl.formatMessage({ id: 'criterion.displayer.no.config.message' })}
+        Icon={Settings}
+      />
+    )
+  }
 }
 
-export default messages
+export default withI18n(messages)(NoCriterionDisplayer)

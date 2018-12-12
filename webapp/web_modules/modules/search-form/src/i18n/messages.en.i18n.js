@@ -85,6 +85,7 @@ const messages = {
   'form.criterion.criteria.select.criteria.label': 'Select a criterion ...',
   'form.criterion.criteria.select.container.label': 'Select a container ...',
   'form.criterion.criteria.submit.button.label': 'Create',
+  'form.criterion.criteria.edit.button.label': 'Update',
   'form.criterion.criteria.cancel.button.label': 'Cancel',
 
   // User display component

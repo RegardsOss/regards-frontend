@@ -85,6 +85,7 @@ const messages = {
   'form.criterion.criteria.select.criteria.label': 'Sélectionner un critère ...',
   'form.criterion.criteria.select.container.label': 'Sélectionner un conteneur',
   'form.criterion.criteria.submit.button.label': 'Ajouter',
+  'form.criterion.criteria.edit.button.label': 'Éditer',
   'form.criterion.criteria.cancel.button.label': 'Annuler',
 
   // User display component

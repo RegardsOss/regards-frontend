@@ -23,7 +23,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import {
   RenderSelectField, Field, reduxForm, ValidationHelpers,
 } from '@regardsoss/form-utils'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, NoCriterionDisplayer } from '@regardsoss/components'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { ContainerHelper } from '@regardsoss/layout'
 import { PluginProvider } from '@regardsoss/plugins'
@@ -175,7 +175,7 @@ class FormCriteriaComponent extends React.Component {
         </PluginProvider>
       )
     }
-    return null
+    return <NoCriterionDisplayer />
   }
 
   /**
@@ -223,7 +223,7 @@ class FormCriteriaComponent extends React.Component {
           </div>
         </div>
         <CardActionsComponent
-          mainButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.criteria.submit.button.label' })}
+          mainButtonLabel={this.context.intl.formatMessage({ id: `form.criterion.criteria.${this.props.criteria ? 'edit' : 'submit'}.button.label` })}
           mainButtonType="submit"
           isMainButtonDisabled={pristine || submitting || invalid || this.state.pluginLoadError}
           secondaryButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.criteria.cancel.button.label' })}
