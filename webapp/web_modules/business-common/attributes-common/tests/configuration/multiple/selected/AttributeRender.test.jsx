@@ -18,9 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { StringValueRender } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AttributeRender from '../../../../src/configuration/multiple/selected/AttributeRender'
+import AttributeLabelRender from '../../../../src/render/AttributeRender'
 import styles from '../../../../src/styles'
 import { attributeModelsArray } from '../../../dumps/AttributeModels.dump'
 
@@ -30,7 +30,7 @@ const context = buildTestContext(styles)
  * Test AttributeRender
  * @author Raphaël Mechali
  */
-describe('[Attributes Common] Testing multiple.selected.AttributeRender', () => {
+describe('[Attributes Common] Testing AttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -39,12 +39,12 @@ describe('[Attributes Common] Testing multiple.selected.AttributeRender', () => 
   })
   it('should render correctly with an existing attribute', () => {
     const props = {
-      entity: { name: 'properties.attr2' },
+      entity: { name: 'properties.default.attr2' },
       attributeModels: attributeModelsArray,
     }
     const enzymeWrapper = shallow(<AttributeRender {...props} />, { context })
-    const render = enzymeWrapper.find(StringValueRender)
+    const render = enzymeWrapper.find(AttributeLabelRender)
     assert.lengthOf(render, 1)
-    assert.equal(render.props().value, 'attr2', 'Attribute label should be correctly resolved (no fragment here)')
+    assert.deepEqual(render.props().entity, attributeModelsArray[1], 'Attribute label should be correctly resolved')
   })
 })

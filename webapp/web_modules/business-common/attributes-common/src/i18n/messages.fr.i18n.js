@@ -26,6 +26,8 @@ const messages = {
   ...Locales.fr, // form messages
   'attribute.thumbnail.alt': 'Aucune vignette',
   'attribute.thumbnail.action.close': 'Fermer',
+  'attribute.render.label': '{label} ({path})',
+  'attribute.render.path.join.string': '.',
   // Attributes configuration
   'attributes.configuration.header.count': `{count, plural, 
     =0 {Aucun élément défini}
@@ -34,7 +36,7 @@ const messages = {
   }`,
   'attributes.configuration.add.item.label': 'Ajouter',
   'attributes.configuration.type.column': 'Type',
-  'attributes.configuration.label.simple.column': 'Label',
+  'attributes.configuration.label.simple.column': 'Libellé',
   'attributes.configuration.label.english.column': 'Libellé anglais',
   'attributes.configuration.label.french.column': 'Libellé français',
   'attributes.configuration.attributes.column': 'Attribut(s)',

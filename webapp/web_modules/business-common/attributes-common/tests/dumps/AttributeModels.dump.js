@@ -32,27 +32,35 @@ export const attributeModelsDictionnary = {
     content: {
       id: 1,
       name: 'attr1',
-      label: 'attr1',
-      jsonPath: 'properties.attr1',
+      label: 'Attr1',
+      jsonPath: 'properties.f1.attr1',
       description: 'attribute 1',
       type: DamDomain.MODEL_ATTR_TYPES.STRING,
+      fragment: {
+        id: 1,
+        name: 'f1',
+      },
     },
   },
   2: {
     content: {
       id: 2,
       name: 'attr2',
-      label: 'attr2',
-      jsonPath: 'properties.attr2',
+      label: 'Attr2',
+      jsonPath: 'properties.default.attr2',
       description: 'attribute 2',
       type: DamDomain.MODEL_ATTR_TYPES.INTEGER,
+      fragment: {
+        id: 2,
+        name: 'default',
+      },
     },
   },
   3: {
     content: {
       id: 3,
       name: 'attr3',
-      label: 'attr3',
+      label: 'Attr3',
       jsonPath: 'properties.attr3',
       description: 'attribute 3',
       type: DamDomain.MODEL_ATTR_TYPES.DOUBLE_ARRAY,
@@ -62,10 +70,14 @@ export const attributeModelsDictionnary = {
     content: {
       id: 4,
       name: 'attr4',
-      label: 'attr4',
-      jsonPath: 'properties.attr4',
+      label: 'Attr4',
+      jsonPath: 'properties.f4.sf4.attr4',
       description: 'attribute 4',
       type: DamDomain.MODEL_ATTR_TYPES.DATE_INTERVAL,
+      fragment: {
+        id: 4,
+        name: 'f4.sf4',
+      },
     },
   },
 }

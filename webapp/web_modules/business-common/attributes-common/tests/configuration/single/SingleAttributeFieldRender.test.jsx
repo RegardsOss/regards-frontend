@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { AutoCompleteTextField } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import SingleAttributeFieldRender from '../../../src/configuration/single/SingleAttributeFieldRender'
+import { SingleAttributeFieldRender } from '../../../src/configuration/single/SingleAttributeFieldRender'
 import styles from '../../../src/styles'
 import { attributeModelsArray, attributeModelsDictionnary } from '../../dumps/AttributeModels.dump'
 
@@ -50,7 +50,15 @@ describe('[Attributes Common] Testing SingleAttributeFieldRender', () => {
       },
       label: 'MEMEMEME',
     }
-    const enzymeWrapper = shallow(<SingleAttributeFieldRender {...props} />, { context })
+    // create custom context to return attribute label when formatting message ID attribute.render.label
+    const customContext = {
+      ...context,
+      intl: {
+        ...context.intl,
+        formatMessage: ({ id }, values) => id === 'attribute.render.label' ? values.label : context.intl.formatMessage({ id }, values),
+      },
+    }
+    const enzymeWrapper = shallow(<SingleAttributeFieldRender {...props} />, { context: customContext })
     const autocompleteField = enzymeWrapper.find(AutoCompleteTextField)
     assert.lengthOf(autocompleteField, 1, 'There should be the autocomplete field')
     assert.isTrue(autocompleteField.props().isInError, 'Error state should be correctly reported')
