@@ -23,3 +23,7 @@ export { default as AttributesListConfigurationComponent } from './configuration
 
 // render get method for given type
 export { buildRenderDelegate, getTypeRender } from './render/AttributesTypeToRender'
+
+export { default as AttributeModelRender } from './render/AttributeRender'
+
+export { default as messages } from './i18n'

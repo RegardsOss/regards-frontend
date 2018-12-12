@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
+import { messages as attributesMessages } from '@regardsoss/attributes-common'
 
 /**
  * i18n messages French language
@@ -25,6 +26,9 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = {
   // common form messages
   ...Locales.fr,
+
+  // attributes model i18n
+  ...attributesMessages.fr,
 
   // Administration messages
 

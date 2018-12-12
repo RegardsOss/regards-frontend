@@ -26,16 +26,18 @@ import {
 } from 'material-ui/Table'
 import forEach from 'lodash/forEach'
 import get from 'lodash/get'
-import reduce from 'lodash/reduce'
+import map from 'lodash/map'
 import filter from 'lodash/filter'
 import { CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
+import { DamDomain } from '@regardsoss/domain'
 import { CardActionsComponent, Title } from '@regardsoss/components'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import { AttributeModelRender } from '@regardsoss/attributes-common'
 import FormCriteriaComponent from './FormCriteriaComponent'
 
 /**
@@ -69,20 +71,12 @@ class FormCriterionComponent extends React.Component {
   }
 
   getCriteriaAttributes = (criteria) => {
-    const attributes = get(criteria, 'conf.attributes')
-    if (!attributes) {
-      return ''
-    }
-    return reduce(attributes, (result, attribute) => {
-      if (this.props.selectableAttributes && this.props.selectableAttributes[attribute]) {
-        const attrLabel = get(this.props.selectableAttributes[attribute], 'content.label', null) || attribute
-        if (result !== '') {
-          return `${result} - ${attrLabel}`
-        }
-        return attrLabel
-      }
-      return attribute
-    }, '')
+    const attributes = get(criteria, 'conf.attributes', {})
+
+    return map(attributes, (attributePath) => {
+      const attribute = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attributePath, this.props.selectableAttributes)
+      return attribute && AttributeModelRender.getRenderLabel(attribute, this.context.intl)
+    }).join(' - ')
   }
 
   /**
