@@ -46,6 +46,7 @@ export default theme => ({
         alignItems: 'stretch',
         flexGrow: 1,
         flexShrink: 1,
+        minHeight: 0, // mandatory to get scroll area working on firefox (Thor #183319)
       },
       scrollableAreaStyle: {
         flexGrow: 1,

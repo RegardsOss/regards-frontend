@@ -25,7 +25,7 @@ import {
   InfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLine, TableNoDataMessage,
   TableHeaderContentBox, TableHeaderText, TableHeaderTextField, TableHeaderOptionGroup,
 } from '@regardsoss/components'
-import AttributeRender from './AttributeRender'
+import AttributeRender from '../../../render/AttributeRender'
 import AddOption from './AddOption'
 
 /**

@@ -39,12 +39,12 @@ describe('[Attributes Common] Testing AttributesRender', () => {
   })
   it('should render correctly with server and standard attributes', () => {
     const props = {
-      entity: { attributes: [{ name: 'properties.attr2' }, { name: 'label' }] },
+      entity: { attributes: [{ name: 'properties.default.attr2' }, { name: 'label' }] },
       attributeModels: attributeModelsArray,
     }
     const enzymeWrapper = shallow(<AttributesRender {...props} />, { context })
     const arrayRender = enzymeWrapper.find(StringArrayValueRender)
     assert.lengthOf(arrayRender, 1, 'There should be delegate array render')
-    assert.deepEqual(arrayRender.props().value, ['attr2', 'Label'], 'Attributes labels should be resolved and provided to delegate render')
+    assert.deepEqual(arrayRender.props().value, ['attribute.render.label', 'attribute.render.label'], 'Attributes labels should be internationalized')
   })
 })

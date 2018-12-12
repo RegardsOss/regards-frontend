@@ -20,9 +20,9 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { StringValueRender } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import AttributeRender from '../../../../src/configuration/multiple/available/AttributeRender'
-import styles from '../../../../src/styles'
-import { attributeModelsDictionnary } from '../../../dumps/AttributeModels.dump'
+import AttributeRender from '../../src/render/AttributeRender'
+import styles from '../../src/styles'
+import { attributeModelsDictionnary } from '../dumps/AttributeModels.dump'
 
 const context = buildTestContext(styles)
 
@@ -30,7 +30,7 @@ const context = buildTestContext(styles)
  * Test AttributeRender
  * @author Raphaël Mechali
  */
-describe('[Attributes Common] Testing multiple.available.AttributeRender', () => {
+describe('[Attributes Common] Testing AttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -44,6 +44,23 @@ describe('[Attributes Common] Testing multiple.available.AttributeRender', () =>
     const enzymeWrapper = shallow(<AttributeRender {...props} />, { context })
     const renderWrapper = enzymeWrapper.find(StringValueRender)
     assert.lengthOf(renderWrapper, 1)
-    assert.equal(renderWrapper.props().value, attributeModelsDictionnary[2].content.label, 'Label value should be correctly reported (no fragment in that case)')
+    assert.equal(renderWrapper.props().value, 'attribute.render.label', 'Label value should be internationalized)')
+  })
+  it('should compute correctly label', () => {
+    const testIntl = {
+      formatMessage: ({ id }, values = {}) => id === 'attribute.render.path.join.string' ? '.' : `${values.label}/${values.path}`,
+    }
+    // Custom attributes
+    assert.equal(AttributeRender.getRenderLabel(attributeModelsDictionnary[1], testIntl),
+      'Attr1/f1.attr1', 'Simple fragment should be correctly formatted')
+    assert.equal(AttributeRender.getRenderLabel(attributeModelsDictionnary[2], testIntl),
+      'Attr2/attr2', 'Default fragment should not be displayed')
+    assert.equal(AttributeRender.getRenderLabel(attributeModelsDictionnary[3], testIntl),
+      'Attr3/attr3', 'No fragment should not be displayed')
+    assert.equal(AttributeRender.getRenderLabel(attributeModelsDictionnary[4], testIntl),
+      'Attr4/f4.sf4.attr4', 'Compose fragment should be correclty displayed')
+    // Outside content field
+    assert.equal(AttributeRender.getRenderLabel(attributeModelsDictionnary[1].content, testIntl),
+      'Attr1/f1.attr1', 'Simple fragment should be correctly formatted')
   })
 })

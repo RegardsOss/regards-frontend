@@ -39,7 +39,6 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
       // from mapDispatchToProps
       fetchProjectList: () => { },
       deleteProject: () => { },
-      onLogout: () => { },
       updateLicense: () => { },
     }
 

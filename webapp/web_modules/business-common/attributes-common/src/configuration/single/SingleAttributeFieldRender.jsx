@@ -17,10 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import omit from 'lodash/omit'
-import { DamDomain } from '@regardsoss/domain'
+import { connect } from '@regardsoss/redux'
+import { UIDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { i18nContextType } from '@regardsoss/i18n'
+import { i18nContextType, i18nSelectors } from '@regardsoss/i18n'
 import { AutoCompleteTextField } from '@regardsoss/components'
+import AttributeRender from '../../render/AttributeRender'
 
 /**
  * Single attribute selection field render: it edits a simple string, showing to user the attribute label. But it publishes,
@@ -28,7 +30,19 @@ import { AutoCompleteTextField } from '@regardsoss/components'
  *
  * @author Raphaël Mechali
  */
-class SingleAttributeFieldRender extends React.Component {
+export class SingleAttributeFieldRender extends React.Component {
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      locale: i18nSelectors.getLocale(state), // bind locale to get componentWillReceiveProps called and thus update filtering
+    }
+  }
+
   static propTypes = {
     attributeModels: DataManagementShapes.AttributeModelArray.isRequired,
     input: PropTypes.shape({
@@ -40,6 +54,12 @@ class SingleAttributeFieldRender extends React.Component {
       error: PropTypes.string,
     }),
     label: PropTypes.string.isRequired,
+    // From mapStateToProps
+    locale: PropTypes.string,
+  }
+
+  static defaultProps = {
+    locale: UIDomain.LOCALES_ENUM.en,
   }
 
   static contextTypes = {
@@ -52,10 +72,10 @@ class SingleAttributeFieldRender extends React.Component {
    * @param {*} attributeModels attribute models
    * @return [{*}] auto complete field items for current text
    */
-  static filterAndConvertAttributes(filterText = '', attributeModels) {
+  static filterAndConvertAttributes(filterText = '', attributeModels, intl) {
     return attributeModels.reduce((acc, attribute) => {
-      // to be more usable here, we accept searching in the middle of labels, case insensitive
-      const attributeLabel = DamDomain.AttributeModelController.getAttributeModelFullLabel(attribute)
+      // to be more usable here, accept text in the anywhere in labels, case insensitive
+      const attributeLabel = AttributeRender.getRenderLabel(attribute, intl)
       if (attributeLabel.toLowerCase().includes(filterText.toLowerCase())) {
         return [...acc, { // prepare autocompletion field item:
           id: attribute.content.jsonPath,
@@ -73,6 +93,8 @@ class SingleAttributeFieldRender extends React.Component {
     'input',
     'meta',
     'label',
+    'locale',
+    'dispatch',
   ]
 
   /**
@@ -97,7 +119,7 @@ class SingleAttributeFieldRender extends React.Component {
     const newInputValue = newProps.input.value
     newState.inputValue = newProps.input.value
     newState.filteredAttributes = SingleAttributeFieldRender.filterAndConvertAttributes(
-      newInputValue, newProps.attributeModels)
+      newInputValue, newProps.attributeModels, this.context.intl)
     // compute sub component properties
     newState.fieldProperties = omit(newProps, SingleAttributeFieldRender.NON_REPORTED_PROPERTIES)
     this.setState(newState)
@@ -111,7 +133,7 @@ class SingleAttributeFieldRender extends React.Component {
     this.setState({
       inputValue: text,
       filteredAttributes: SingleAttributeFieldRender.filterAndConvertAttributes(
-        text, this.props.attributeModels),
+        text, this.props.attributeModels, this.context.intl),
     })
   }
 
@@ -142,4 +164,5 @@ class SingleAttributeFieldRender extends React.Component {
     )
   }
 }
-export default SingleAttributeFieldRender
+
+export default connect(SingleAttributeFieldRender.mapStateToProps)(SingleAttributeFieldRender)
