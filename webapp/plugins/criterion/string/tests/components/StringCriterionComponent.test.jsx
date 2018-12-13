@@ -43,6 +43,7 @@ describe('[String criterion] Testing StringCriterionComponent', () => {
       searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
       searchText: 'xxx',
       searchFullWords: false,
+      allowFullword: true,
       onTextInput: () => {},
       onCheckFullWord: () => {},
     }
@@ -65,6 +66,7 @@ describe('[String criterion] Testing StringCriterionComponent', () => {
       searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
       searchText: '',
       searchFullWords: true,
+      allowFullword: true,
       onTextInput: () => {},
       onCheckFullWord: () => {},
     }
@@ -81,5 +83,18 @@ describe('[String criterion] Testing StringCriterionComponent', () => {
       iconStyle: context.moduleTheme.checkedIconStyle, // verifying that way the full word toggle is on
       onClick: props.onCheckFullWord,
     }, 'Full word toggle properties should be correctly set, it should be selected')
+  })
+  it('should hide full word toggle when not allowed', () => {
+    const props = {
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
+      searchText: '',
+      searchFullWords: true,
+      allowFullword: false,
+      onTextInput: () => {},
+      onCheckFullWord: () => {},
+    }
+    const enzymeWrapper = shallow(<StringCriterionComponent {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(TextField), 1, 'There should be the text field')
+    assert.lengthOf(enzymeWrapper.find(IconButton), 0, 'There should not be the full word toggle')
   })
 })

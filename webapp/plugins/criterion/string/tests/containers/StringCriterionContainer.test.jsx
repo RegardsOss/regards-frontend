@@ -68,6 +68,7 @@ describe('[String criterion] Testing StringCriterionContainer', () => {
       searchFullWords: props.state.searchFullWords,
       onTextInput: enzymeWrapper.instance().onTextInput,
       onCheckFullWord: enzymeWrapper.instance().onCheckFullWord,
+      allowFullword: true,
     }, 'Component properties should be correctly reported')
     // check state is published when text value is updated (query is not tested here)
     enzymeWrapper.instance().onTextInput(null, 'abc')
@@ -85,6 +86,31 @@ describe('[String criterion] Testing StringCriterionContainer', () => {
       searchFullWords: false,
     }, 'Toggle full word: state should be computed with new value and previous state from props')
     assert.isDefined(spiedPublishStateData.requestParameters, 'Toggle full word: query should be computed')
+  })
+  it('should forbid fullword search on STRING_ARRAY attributes', () => {
+    const props = {
+      // parent callbacks (required)
+      pluginInstanceId: 'any',
+      attributes: {
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING_ARRAY),
+      },
+      state: {
+        searchText: 'xxx',
+        searchFullWords: true,
+      },
+      publishState: () => {},
+    }
+    const enzymeWrapper = shallow(<StringCriterionContainer {...props} />, { context })
+    const component = enzymeWrapper.find(StringCriterionComponent)
+    assert.lengthOf(component, 1, 'There should be the component')
+    testSuiteHelpers.assertWrapperProperties(component, {
+      searchAttribute: props.attributes.searchField,
+      searchText: props.state.searchText,
+      searchFullWords: props.state.searchFullWords,
+      onTextInput: enzymeWrapper.instance().onTextInput,
+      onCheckFullWord: enzymeWrapper.instance().onCheckFullWord,
+      allowFullword: false,
+    }, 'Component properties should be correctly reported')
   })
   it('should convert correctly into a query', () => {
     const attribute = {

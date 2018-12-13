@@ -37,11 +37,11 @@ import FormComponent from '../../components/user/FormComponent'
  */
 export class FormContainer extends React.Component {
   /**
-    * Redux: map state to props function
-    * @param {*} state: current redux state
-    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-    * @return {*} list of component properties extracted from redux state
-    */
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
   static mapStateToProps(state) {
     return {
       pluginsState: pluginStateSelectors.getAllCriteriaData(state),

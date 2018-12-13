@@ -13,7 +13,7 @@
       {
         "name": "searchField",
         "description": "Attribute to search",
-        "attributeType": ["STRING"]
+        "attributeType": ["STRING", "STRING_ARRAY"]
       }
     ]
   }

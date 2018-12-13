@@ -41,6 +41,8 @@ static propTypes = {
   onTextInput: PropTypes.func.isRequired,
   // Callback: user toggled full words search state. () => ()
   onCheckFullWord: PropTypes.func.isRequired,
+  // Is fullword search allowed?
+  allowFullword: PropTypes.bool.isRequired,
 }
 
 static contextTypes = {
@@ -50,7 +52,8 @@ static contextTypes = {
 
 render() {
   const {
-    searchText, searchFullWords, searchAttribute, onTextInput, onCheckFullWord,
+    searchText, searchFullWords, searchAttribute, allowFullword,
+    onTextInput, onCheckFullWord,
   } = this.props
   const {
     intl,
@@ -73,13 +76,16 @@ render() {
         onChange={onTextInput}
         style={textFieldStyle}
       />
-      <IconButton
-        iconStyle={searchFullWords ? checkedIconStyle : uncheckIconStyle}
-        title={intl.formatMessage({ id: 'criterion.search.field.word.checkbox.title' })}
-        onClick={onCheckFullWord}
-      >
-        <FullwordIcon />
-      </IconButton>
+      { // Full word search toggle, when available
+        allowFullword ? (
+          <IconButton
+            iconStyle={searchFullWords ? checkedIconStyle : uncheckIconStyle}
+            title={intl.formatMessage({ id: 'criterion.search.field.word.checkbox.title' })}
+            onClick={onCheckFullWord}
+          >
+            <FullwordIcon />
+          </IconButton>) : null
+      }
     </div>
   )
 }

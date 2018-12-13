@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { DamDomain } from '@regardsoss/domain'
 import { connect } from '@regardsoss/redux'
 import {
   AttributeModelWithBounds, pluginStateActions, pluginStateSelectors,
@@ -29,6 +30,9 @@ import StringCriterionComponent from '../components/StringCriterionComponent'
  * @author Xavier-Alexandre Brochard
  */
 export class StringCriterionContainer extends React.Component {
+  /** Attribute model types for which full word option is available */
+  static FULL_WORD_AVAILABLE_TYPES = [DamDomain.MODEL_ATTR_TYPES.STRING]
+
   /**
    * Specifying the default state expected by this component (see propTypes for types)
    */
@@ -142,6 +146,7 @@ export class StringCriterionContainer extends React.Component {
         searchFullWords={searchFullWords}
         onTextInput={this.onTextInput}
         onCheckFullWord={this.onCheckFullWord}
+        allowFullword={StringCriterionContainer.FULL_WORD_AVAILABLE_TYPES.includes(searchField.type)}
       />)
   }
 }
