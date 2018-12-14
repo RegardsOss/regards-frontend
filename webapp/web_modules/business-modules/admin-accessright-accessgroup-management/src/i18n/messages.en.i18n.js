@@ -27,6 +27,7 @@ const messages = Object.assign({
   'group.list.action.cancel': 'Cancel',
   'group.list.action.add': 'Create',
   'group.list.delete.message': 'Remove access group {name}?',
+  'group.list.table.all.users': 'All users',
   'group.list.table.actions.show.group.users': 'Show group users',
   'group.list.table.actions.edit': 'Edit',
   'group.list.table.actions.accessrights': 'Access rights',

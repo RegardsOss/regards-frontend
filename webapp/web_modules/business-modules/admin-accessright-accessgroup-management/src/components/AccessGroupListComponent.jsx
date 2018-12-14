@@ -160,7 +160,13 @@ export class AccessGroupListComponent extends React.Component {
               {map(accessGroupList, (accessGroup, i) => (
                 <TableRow className={`selenium-group-${accessGroup.content.name}`} key={i}>
                   <TableRowColumn>{accessGroup.content.name}</TableRowColumn>
-                  <TableRowColumn>{accessGroup.content.users.length}</TableRowColumn>
+                  <TableRowColumn>
+                    { // Show number of users or ALL for public groups
+                    accessGroup.content.isPublic
+                      ? intl.formatMessage({ id: 'group.list.table.all.users' })
+                      : accessGroup.content.users.length
+                    }
+                  </TableRowColumn>
                   <TableRowColumn>
                     <ActionsMenuCell breakpoints={actionsBreakpoints}>
                       <IconButton
