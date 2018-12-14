@@ -73,13 +73,13 @@ export class NavigationItemEditionDialog extends React.Component {
    * @param {[NavigationEditionItem]} navigationItems root items
    * @return {[NavigationEditionItem|NavigationItemEditionDialog.FIRST_POSITION]} after field choices
    */
-  static getAfterElementChoices(editedItem, parentSection, navigationItems) {
+  static getAfterElementChoices(editedItem, parentSection, navigationItems, hasHome) {
     // remove any editedItem here
     const hasParentSection = parentSection && parentSection !== NavigationItemEditionDialog.MAIN_BAR
     const sameLevelItems = (hasParentSection ? parentSection.children : navigationItems)
       .filter(child => child.id !== editedItem.id || child.type !== editedItem.type)
-    // possible positions: sibling and first position, except on root level (where home is always first)
-    return hasParentSection ? [NavigationItemEditionDialog.FIRST_POSITION, ...sameLevelItems] : sameLevelItems
+    // possible positions: sibling and first position, except on root level (cannot be before home item if there is home item)
+    return hasParentSection || !hasHome ? [NavigationItemEditionDialog.FIRST_POSITION, ...sameLevelItems] : sameLevelItems
   }
 
   /**
@@ -108,6 +108,8 @@ export class NavigationItemEditionDialog extends React.Component {
       itemPath: PropTypes.arrayOf(PropTypes.number).isRequired,
       // NOTE: module items here MUST HOLD TITLE AND DESCRIPTION (required for i18n in this view)
       navigationItems: PropTypes.arrayOf(NavigationEditionItem).isRequired,
+      // is there currently a home?
+      hasHome: PropTypes.bool.isRequired,
     }),
     roleList: AdminShapes.RoleList.isRequired,
     // from redux selector, in current form values
@@ -158,7 +160,9 @@ export class NavigationItemEditionDialog extends React.Component {
     } = newProps
     // 0 - ignore properties change when this component edition data is not set up (no need to handle those events)
     if (editionData) {
-      const { item, itemPath, navigationItems } = editionData
+      const {
+        item, itemPath, navigationItems, hasHome,
+      } = editionData
       if (!isEqual(oldProps.editionData, editionData)) {
         // 1 - initialize form values when getting an edition model
         const initialFormValues = {
@@ -174,10 +178,10 @@ export class NavigationItemEditionDialog extends React.Component {
         // initialize parent section and index
         const parentSection = getParentByPath(navigationItems, itemPath)
         initialFormValues[PARENT_SECTION_FIELD] = parentSection || NavigationItemEditionDialog.MAIN_BAR
-        const afterElementChoices = NavigationItemEditionDialog.getAfterElementChoices(item, parentSection, navigationItems)
+        const afterElementChoices = NavigationItemEditionDialog.getAfterElementChoices(item, parentSection, navigationItems, hasHome)
         // retrieve corresponding choice: in 'normal' level, it is last path index, but in main bar
-        // it is index - 1 (since index 0 is not available)
-        const indexInLevel = parentSection ? last(itemPath) : last(itemPath) - 1
+        // it is index - 1 when there is home
+        const indexInLevel = parentSection || !hasHome ? last(itemPath) : last(itemPath) - 1
         initialFormValues[AFTER_ELEMENT_FIELD] = afterElementChoices[indexInLevel]
 
         // set available positions in this state
@@ -191,7 +195,7 @@ export class NavigationItemEditionDialog extends React.Component {
       } else if (!isEqual(oldProps.selectedParentSection, selectedParentSection)
         && oldProps.selectedParentSection) { // check that previous properties was provided to avoid initial update
         // 1 - update possible choices in state
-        const afterElementChoices = NavigationItemEditionDialog.getAfterElementChoices(item, selectedParentSection, navigationItems)
+        const afterElementChoices = NavigationItemEditionDialog.getAfterElementChoices(item, selectedParentSection, navigationItems, hasHome)
         this.setState({ afterElementChoices })
         // 2 - change field value to move this element at end
         change(AFTER_ELEMENT_FIELD, last(afterElementChoices))
@@ -205,17 +209,20 @@ export class NavigationItemEditionDialog extends React.Component {
    * @param {*} values form values, provided by redux handleSubmit method
    */
   onConfirm = (values) => {
-    const { editionData: { item, navigationItems, onDone } } = this.props
+    const {
+      editionData: {
+        item, navigationItems, onDone,
+      },
+    } = this.props
     // provide an after element path (more convenient for calling component as it points out both the parent and the previous sibling)
     let insertAtPath
     const afterElement = values[AFTER_ELEMENT_FIELD]
     const parentSection = values[PARENT_SECTION_FIELD]
     if (afterElement === NavigationItemEditionDialog.FIRST_POSITION) {
-      if (parentSection && parentSection !== NavigationItemEditionDialog.MAIN_BAR) {
-        // first position in section (we don't have the sibling path here to help)
-        insertAtPath = [...getItemPathIn(navigationItems, parentSection), 0]
-      }
-      // first position in main bar: not possible (option is forbidden as home must be first)
+      // first position in section or main bar (we don't have the sibling path here to help)
+      const parentSectionPath = !parentSection || parentSection === NavigationItemEditionDialog.MAIN_BAR
+        ? [] : getItemPathIn(navigationItems, parentSection)
+      insertAtPath = [...parentSectionPath, 0]
     } else {
       // just after its selected sibling
       const siblingPath = getItemPathIn(navigationItems, afterElement)

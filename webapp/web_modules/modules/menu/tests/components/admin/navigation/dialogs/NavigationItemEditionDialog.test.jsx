@@ -90,6 +90,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
         },
         itemPath: getItemPathIn(aNavigationConfiguration, { id: 1, type: NAVIGATION_ITEM_TYPES_ENUM.MODULE }),
         navigationItems: aNavigationConfiguration,
+        hasHome: true,
       },
       handleSubmit: f => f,
       initialize: () => { },
@@ -143,6 +144,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
         },
         itemPath: [], // a new item, by default in main bar
         navigationItems: aNavigationConfiguration,
+        hasHome: true,
       },
       handleSubmit: f => f,
       initialize: () => { },
@@ -188,6 +190,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
       visibleForRole: null,
     },
     itemPath: [aNavigationConfiguration.length], // by default, new items will be set at end of the main bar
+    hasHome: true,
     expectedParent: NavigationItemEditionDialog.MAIN_BAR,
     expectedPossibleParents: mainBarAndallSections, // MAIN_BAR and all sections could be the parent
     // it should be after the last model itel
@@ -207,6 +210,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     },
     // by default, new items will be set at end of the main bar
     itemPath: [aNavigationConfiguration.length],
+    hasHome: true,
     expectedParent: NavigationItemEditionDialog.MAIN_BAR,
     // MAIN_BAR and all OTHER sections could be the parent
     expectedPossibleParents: mainBarAndallSections,
@@ -218,6 +222,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     label: 'an existing module in root (not first one, forbidden)',
     item: aNavigationConfiguration[2],
     itemPath: [2],
+    hasHome: true,
     // MAIN_BAR and all sections could be the parent
     expectedParent: NavigationItemEditionDialog.MAIN_BAR,
     expectedPossibleParents: mainBarAndallSections,
@@ -226,9 +231,22 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     // it can have as previous sibling: any root item of the navigation model, BUT NOT first position nor itself (cannot be after itself...)
     expectedPossibleSibling: [...aNavigationConfiguration.slice(0, 2), ...aNavigationConfiguration.slice(3)],
   }, {
+    label: 'an existing module in root (first position allowed as there is not home)',
+    item: aNavigationConfiguration[2],
+    itemPath: [2],
+    hasHome: false,
+    // MAIN_BAR and all sections could be the parent
+    expectedParent: NavigationItemEditionDialog.MAIN_BAR,
+    expectedPossibleParents: mainBarAndallSections,
+    // it should be after the previous item...
+    expectedSibling: aNavigationConfiguration[1],
+    // it can have as previous sibling: any root item of the navigation model and first position  BUT NOT itself
+    expectedPossibleSibling: [NavigationItemEditionDialog.FIRST_POSITION, ...aNavigationConfiguration.slice(0, 2), ...aNavigationConfiguration.slice(3)],
+  }, {
     label: 'an existing section in root (last one)',
     item: aNavigationConfiguration[3],
     itemPath: [3],
+    hasHome: true,
     expectedParent: NavigationItemEditionDialog.MAIN_BAR,
     // MAIN_BAR and all sections BUT THAT ONE could be the parent
     expectedPossibleParents: mainBarAndallSections.filter(item => item.id !== 2),
@@ -240,6 +258,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     label: 'an existing module in section [1,2], at end',
     item: aNavigationConfiguration[1].children[2].children[1],
     itemPath: [1, 2, 1],
+    hasHome: true,
     expectedParent: aNavigationConfiguration[1].children[2],
     // MAIN_BAR and all sections could be the parent
     expectedPossibleParents: mainBarAndallSections,
@@ -251,6 +270,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     label: 'an existing module in section [1], at start',
     item: aNavigationConfiguration[1].children[0],
     itemPath: [1, 0],
+    hasHome: true,
     expectedParent: aNavigationConfiguration[1],
     // MAIN_BAR and all sections could be the parent
     expectedPossibleParents: mainBarAndallSections,
@@ -262,6 +282,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     label: 'an existing section in section [1], at end',
     item: aNavigationConfiguration[1].children[2],
     itemPath: [1, 2],
+    hasHome: true,
     expectedParent: aNavigationConfiguration[1],
     // MAIN_BAR and all sections except itself
     expectedPossibleParents: [NavigationItemEditionDialog.MAIN_BAR, aNavigationConfiguration[1], aNavigationConfiguration[3]],
@@ -272,6 +293,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     label: 'an existing section in root (to check children sections are excluded as parent)',
     item: aNavigationConfiguration[1],
     itemPath: [1],
+    hasHome: true,
     expectedParent: NavigationItemEditionDialog.MAIN_BAR,
     // Parents should not contain this section and its children section
     expectedPossibleParents: [NavigationItemEditionDialog.MAIN_BAR, aNavigationConfiguration[3]],
@@ -283,6 +305,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     label,
     item,
     itemPath,
+    hasHome,
     expectedParent,
     expectedPossibleParents,
     expectedSibling,
@@ -298,6 +321,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
         item,
         itemPath,
         navigationItems: aNavigationConfiguration,
+        hasHome,
       },
       handleSubmit: f => f,
       initialize: (initValues) => { spiedInitValues = initValues },
@@ -349,6 +373,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
         item: aNavigationConfiguration[2],
         itemPath: [2],
         navigationItems: aNavigationConfiguration,
+        hasHome: true,
       },
       selectedParentSection: NavigationItemEditionDialog.MAIN_BAR, // this is intial form value (before initial update)
       handleSubmit: f => f,
@@ -373,44 +398,58 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
   })
 
   const confirmTestCases = [{
-    label: 'moving an item to root (position 1)',
+    label: 'moving an item to root start, with home (position 1)',
     itemPath: [1, 1],
-    newAfterItemIndex: 0, // cannot be before home here
+    newAfterItemIndex: 0, // cannot be before home here (hasHome:true)
     newParentPath: [],
     expectedInsertAtPath: [1],
+    hasHome: true,
+  }, {
+    label: 'moving an item to root start, without home (position 0)',
+    itemPath: [1, 1],
+    newAfterItemIndex: -1, // before home (hasHome:false)
+    newParentPath: [],
+    expectedInsertAtPath: [0],
+    hasHome: false,
   }, {
     label: 'moving an item to root (at end)',
     itemPath: [1, 2, 1],
     newAfterItemIndex: aNavigationConfiguration.length - 1,
     newParentPath: [],
     expectedInsertAtPath: [aNavigationConfiguration.length],
+    hasHome: true,
   }, {
     label: 'test moving an item into another section (at start)',
     itemPath: [1, 0],
     newAfterItemIndex: -1, // first position is now before the current first module
     newParentPath: [1, 2],
     expectedInsertAtPath: [1, 2, 0],
+    hasHome: true,
   }, {
     label: 'test moving an item into another section (at end)',
     itemPath: [1, 2, 0],
     newAfterItemIndex: 2,
     newParentPath: [1],
     expectedInsertAtPath: [1, 3],
+    hasHome: true,
   }, {
     label: 'swaping an item in the same section (before to after)',
     itemPath: [1, 1],
     newAfterItemIndex: 2,
     newParentPath: [1],
     expectedInsertAtPath: [1, 3],
+    hasHome: true,
   }, {
     label: 'swaping an item in the same section (after to before)',
     itemPath: [1, 2],
     newAfterItemIndex: 0,
     newParentPath: [1],
     expectedInsertAtPath: [1, 1],
+    hasHome: true,
   }]
   confirmTestCases.forEach(({
-    label, itemPath, newAfterItemIndex, newParentPath, expectedInsertAtPath,
+    label, itemPath, newAfterItemIndex,
+    newParentPath, expectedInsertAtPath, hasHome,
   }) => it(`Should resolve correctly new insert path when ${label}`, () => {
     const spiedDoneValues = {}
     const props = {
@@ -425,6 +464,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
         item: getItemByPathIn(aNavigationConfiguration, itemPath),
         itemPath,
         navigationItems: aNavigationConfiguration,
+        hasHome,
       },
       selectedParentSection: NavigationItemEditionDialog.MAIN_BAR, // this is intial form value (before initial update)
       handleSubmit: f => f,
