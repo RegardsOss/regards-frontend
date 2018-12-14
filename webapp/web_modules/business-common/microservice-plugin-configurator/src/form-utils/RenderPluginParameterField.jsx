@@ -39,7 +39,7 @@ import { RenderPluginField } from './RenderPluginPluginParameterField'
 import { RenderObjectParameterField } from './RenderObjectParameterField'
 import { RenderCollectionParameterField } from './RenderCollectionParameterField'
 import { RenderMapParameterField } from './RenderMapParameterField'
-import { getPrimitiveJavaTypeRenderParameters } from './JavaPrimitiveTypesTool'
+import { getPrimitiveJavaTypeRenderParameters, getPrimitiveJavaTypeValidators as getPrimitiveJavaTypeValidator } from './JavaPrimitiveTypesTool'
 import PluginFormUtils from '../tools/PluginFormUtils'
 import styles from '../styles'
 import messages from '../i18n'
@@ -72,6 +72,36 @@ export class RenderPluginParameterField extends React.PureComponent {
 
   static wrapperPreserveWhitespace = {
     whiteSpace: 'pre-wrap',
+  }
+
+  static getFieldValidators(pluginParameterType) {
+    const validators = []
+    // 1 - By type validator
+    if (pluginParameterType.paramType === 'PRIMITIVE') {
+      const typeValidator = getPrimitiveJavaTypeValidator(pluginParameterType.type)
+      if (typeValidator) {
+        validators.push(typeValidator)
+      }
+    }
+    // 2 - Required value validator
+    const isRequired = !pluginParameterType.optional && !pluginParameterType.defaultValue
+    if (isRequired) {
+      switch (pluginParameterType.paramType) {
+        case 'PRIMITIVE':
+        case 'PLUGIN':
+        case 'OBJECT':
+          validators.push(ValidationHelpers.required)
+          break
+        case 'COLLECTION':
+          validators.push(ValidationHelpers.arrayRequired)
+          break
+        case 'MAP':
+          validators.push(ValidationHelpers.mapRequired)
+          break
+        default: // No validator
+      }
+    }
+    return validators
   }
 
   state = {
@@ -359,34 +389,19 @@ export class RenderPluginParameterField extends React.PureComponent {
     )
   }
 
+
   render() {
     const { pluginParameterType } = this.props
-
     let label = pluginParameterType.label || pluginParameterType.name
-    const validators = []
     if (!isNil(pluginParameterType.defaultValue)) {
       label += ` (default: ${pluginParameterType.defaultValue})`
     }
 
     if (pluginParameterType && !pluginParameterType.optional && !pluginParameterType.defaultValue) {
       label += ' (*)'
-      switch (pluginParameterType.paramType) {
-        case 'PRIMITIVE':
-        case 'PLUGIN':
-        case 'OBJECT':
-          validators.push(ValidationHelpers.required)
-          break
-        case 'COLLECTION':
-          validators.push(ValidationHelpers.arrayRequired)
-          break
-        case 'MAP':
-          validators.push(ValidationHelpers.mapRequired)
-          break
-        default:
-          break
-      }
     }
 
+    const validators = RenderPluginParameterField.getFieldValidators(pluginParameterType)
     switch (pluginParameterType.paramType) {
       case 'PRIMITIVE':
         return this.renderPrimitiveParameter(label, validators)
