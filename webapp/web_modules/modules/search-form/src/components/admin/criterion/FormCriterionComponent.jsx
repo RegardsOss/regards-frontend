@@ -113,10 +113,20 @@ class FormCriterionComponent extends React.Component {
     let criteriaList
     if (this.state.criteriaToEdit) {
       // edited criterion: replace at index in cloned list
-      criteriaList = [...this.props.criterion]
-      criteriaList[this.state.criteriaToEdit.idx] = critWithUniqueId
+
+      const criteriaListWithoutEdited = [...this.props.criterion]
+        .filter((item, index) => index !== this.props.criterion.indexOf(this.state.criteriaToEdit.criteria))
+      criteriaList = [
+        ...criteriaListWithoutEdited.slice(0, criterion.position),
+        critWithUniqueId,
+        ...criteriaListWithoutEdited.slice(criterion.position),
+      ]
     } else { // new criterion: at list end
-      criteriaList = [...(this.props.criterion || []), critWithUniqueId]
+      criteriaList = [
+        ...(this.props.criterion ? this.props.criterion.slice(0, criterion.position) : []),
+        critWithUniqueId,
+        ...(this.props.criterion ? this.props.criterion.slice(criterion.position) : []),
+      ]
     }
     changeField(`${currentNamespace}.criterion`, criteriaList)
     this.closeCriteriaView()
@@ -226,6 +236,8 @@ class FormCriterionComponent extends React.Component {
             cancel={this.closeCriteriaView}
             saveCriteria={this.updateCriterion}
             criteria={this.state.criteriaToEdit ? this.state.criteriaToEdit.criteria : null}
+            criterion={this.props.criterion}
+            selectedIndex={this.state.criteriaToEdit ? this.props.criterion.indexOf(this.state.criteriaToEdit.criteria) : undefined}
             layout={this.props.layout}
             selectableAttributes={this.props.selectableAttributes}
             availableCriterion={this.props.availableCriterion}

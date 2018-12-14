@@ -36,6 +36,9 @@ import CriteriaConfigurationComponent from './CriteriaConfigurationComponent'
  */
 class FormCriteriaComponent extends React.Component {
   static propTypes = {
+    selectedIndex: PropTypes.number,
+    // Current form criterion list
+    criterion: AccessShapes.UIPluginConfArray,
     // Criteria to edit or null to create a new one.
     criteria: AccessShapes.UIPluginConf,
     // Callback to submit the current criteria
@@ -183,7 +186,9 @@ class FormCriteriaComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const { pristine, submitting, invalid } = this.props
+    const {
+      pristine, submitting, invalid, criterion, selectedIndex,
+    } = this.props
     const { criteria: criteriaStyle } = this.context.moduleTheme
 
     const required = [ValidationHelpers.required]
@@ -216,6 +221,32 @@ class FormCriteriaComponent extends React.Component {
               validate={required}
             >
               {this.renderContainersList()}
+            </Field>
+            <Field
+              // name={AFTER_ELEMENT_FIELD}
+              name="position"
+              component={RenderSelectField}
+              label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.position.label' })}
+              // label="Position"
+              fullWidth
+            >
+              {[ // First position option
+                <MenuItem
+                  key="first"
+                  value={0}
+                  primaryText={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.position.first' })}
+                />, // After other attribute elements option
+                ...criterion.map((attribute, index) => index === selectedIndex
+                  ? null : ( // do not propose self position =)
+                    <MenuItem
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={index} // index is ok as list cannot change before unmount
+                      value={// value is final position in table (remove this element index if it was before current attribute)
+                        selectedIndex < index ? index : index + 1
+                      }
+                      primaryText={`${selectedIndex < index ? index + 1 : index + 2} - ${this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.position.after' })} ${this.props.availableCriterion[attribute.pluginId].content.name}`}
+                    />)),
+              ]}
             </Field>
           </div>
           <div style={criteriaStyle.criteriaConfiguration}>
