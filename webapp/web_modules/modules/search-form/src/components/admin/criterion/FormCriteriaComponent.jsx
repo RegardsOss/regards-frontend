@@ -74,6 +74,7 @@ class FormCriteriaComponent extends React.Component {
     super(props)
     this.state = {
       selectedCriteria: props.criteria ? props.criteria.pluginId : null,
+      selectedIndex: props.criteria ? props.criterion.indexOf(this.props.criteria) : props.criterion.length,
     }
   }
 
@@ -102,12 +103,16 @@ class FormCriteriaComponent extends React.Component {
    * Initialize redux-form fields
    */
   handleInitialize = () => {
-    let initializationValues = { label: 'criteria', active: true, conf: {} }
+    let initializationValues = {
+      label: 'criteria',
+      active: true,
+      conf: {},
+      position: this.state.selectedIndex,
+    }
     if (this.props.criteria) {
       initializationValues = {
         ...initializationValues,
         ...this.props.criteria,
-        position: this.props.criterion.indexOf(this.props.criteria),
       }
     }
     this.props.initialize(initializationValues)
@@ -189,8 +194,8 @@ class FormCriteriaComponent extends React.Component {
       )
     }
     return <NoContentComponent
-      title={formatMessage({ id: 'criterion.displayer.no.config.title' })}
-      message={formatMessage({ id: 'criterion.displayer.no.config.message' })}
+      title={formatMessage({ id: 'form.criterion.criteria.no.config.title' })}
+      message={formatMessage({ id: 'form.criterion.criteria.no.config.message' })}
       Icon={Settings}
     />
   }
@@ -205,8 +210,8 @@ class FormCriteriaComponent extends React.Component {
     } = this.props
     const { criteria: criteriaStyle } = this.context.moduleTheme
     const { intl: { formatMessage } } = this.context
+    const { selectedIndex } = this.state
 
-    const selectedIndex = criterion.indexOf(criteria)
     const required = [ValidationHelpers.required]
 
     return (
