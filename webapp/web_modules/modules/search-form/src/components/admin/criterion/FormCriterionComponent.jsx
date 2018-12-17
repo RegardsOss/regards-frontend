@@ -103,31 +103,26 @@ class FormCriterionComponent extends React.Component {
    *
    * @param criterion criterion to add or update
    */
-  updateCriterion = (criterion) => {
-    const { currentNamespace, changeField } = this.props
+  updateCriterion = (criterion, position) => {
+    const { currentNamespace, changeField, criterion: criteria = [] } = this.props
     const critWithUniqueId = {
       pluginInstanceId: `${Date.now()}`, // use timestamp as Unique ID
       ...criterion,
     }
 
-    let criteriaList
+    let criteriaListWithoutEdited = [...criteria]
     if (this.state.criteriaToEdit) {
       // edited criterion: replace at index in cloned list
-
-      const criteriaListWithoutEdited = [...this.props.criterion]
-        .filter((item, index) => index !== this.props.criterion.indexOf(this.state.criteriaToEdit.criteria))
-      criteriaList = [
-        ...criteriaListWithoutEdited.slice(0, criterion.position),
-        critWithUniqueId,
-        ...criteriaListWithoutEdited.slice(criterion.position),
-      ]
-    } else { // new criterion: at list end
-      criteriaList = [
-        ...(this.props.criterion ? this.props.criterion.slice(0, criterion.position) : []),
-        critWithUniqueId,
-        ...(this.props.criterion ? this.props.criterion.slice(criterion.position) : []),
-      ]
+      criteriaListWithoutEdited = criteriaListWithoutEdited
+        .filter((item, index) => index !== criteria.indexOf(this.state.criteriaToEdit.criteria))
     }
+
+    const criteriaList = [
+      ...criteriaListWithoutEdited.slice(0, position),
+      critWithUniqueId,
+      ...criteriaListWithoutEdited.slice(position),
+    ]
+
     changeField(`${currentNamespace}.criterion`, criteriaList)
     this.closeCriteriaView()
   }
@@ -237,7 +232,6 @@ class FormCriterionComponent extends React.Component {
             saveCriteria={this.updateCriterion}
             criteria={this.state.criteriaToEdit ? this.state.criteriaToEdit.criteria : null}
             criterion={this.props.criterion}
-            selectedIndex={this.state.criteriaToEdit ? this.props.criterion.indexOf(this.state.criteriaToEdit.criteria) : undefined}
             layout={this.props.layout}
             selectableAttributes={this.props.selectableAttributes}
             availableCriterion={this.props.availableCriterion}

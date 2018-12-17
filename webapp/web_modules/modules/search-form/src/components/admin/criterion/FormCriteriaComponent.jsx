@@ -36,7 +36,6 @@ import CriteriaConfigurationComponent from './CriteriaConfigurationComponent'
  */
 class FormCriteriaComponent extends React.Component {
   static propTypes = {
-    selectedIndex: PropTypes.number,
     // Current form criterion list
     criterion: AccessShapes.UIPluginConfArray,
     // Criteria to edit or null to create a new one.
@@ -104,12 +103,20 @@ class FormCriteriaComponent extends React.Component {
   handleInitialize = () => {
     let initializationValues = { label: 'criteria', active: true, conf: {} }
     if (this.props.criteria) {
-      initializationValues = { ...initializationValues, ...this.props.criteria }
+      initializationValues = {
+        ...initializationValues,
+        ...this.props.criteria,
+        position: this.props.criterion.indexOf(this.props.criteria),
+      }
     }
     this.props.initialize(initializationValues)
   }
 
   pluginLoadError = () => this.setState({ pluginLoadError: true })
+
+  onSubmit = ({ position, ...criterion }) => {
+    this.props.saveCriteria(criterion, position)
+  }
 
   /**
    * Callback used when a criteria plugin is selected
@@ -187,28 +194,30 @@ class FormCriteriaComponent extends React.Component {
    */
   render() {
     const {
-      pristine, submitting, invalid, criterion, selectedIndex,
+      pristine, submitting, invalid, criterion, criteria, handleSubmit,
     } = this.props
     const { criteria: criteriaStyle } = this.context.moduleTheme
+    const { intl: { formatMessage } } = this.context
 
+    const selectedIndex = criterion.indexOf(criteria)
     const required = [ValidationHelpers.required]
 
     return (
       <form
-        onSubmit={this.props.handleSubmit(this.props.saveCriteria)}
+        onSubmit={handleSubmit(this.onSubmit)}
       >
         <div style={criteriaStyle.wrapper}>
           <div style={criteriaStyle.mainConfiguration}>
             <div style={criteriaStyle.title}>
-              {this.context.intl.formatMessage({ id: `form.criterion.criteria.${this.props.criteria ? 'existing' : 'new'}.title` })}
+              {formatMessage({ id: `form.criterion.criteria.${criteria ? 'existing' : 'new'}.title` })}
             </div>
-            <div style={criteriaStyle.subtitle}>{ this.context.intl.formatMessage({ id: 'form.criterion.criteria.subtitle' }) }</div>
+            <div style={criteriaStyle.subtitle}>{ formatMessage({ id: 'form.criterion.criteria.subtitle' }) }</div>
             <Field
               name="pluginId"
               fullWidth
               component={RenderSelectField}
               onSelect={this.selectCriteria}
-              label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.criteria.label' })}
+              label={formatMessage({ id: 'form.criterion.criteria.select.criteria.label' })}
               validate={required}
             >
               {this.renderCriterionTypesList()}
@@ -217,24 +226,22 @@ class FormCriteriaComponent extends React.Component {
               name="container"
               fullWidth
               component={RenderSelectField}
-              label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.container.label' })}
+              label={formatMessage({ id: 'form.criterion.criteria.select.container.label' })}
               validate={required}
             >
               {this.renderContainersList()}
             </Field>
             <Field
-              // name={AFTER_ELEMENT_FIELD}
               name="position"
               component={RenderSelectField}
-              label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.position.label' })}
-              // label="Position"
+              label={formatMessage({ id: 'form.criterion.criteria.select.position.label' })}
               fullWidth
             >
               {[ // First position option
                 <MenuItem
                   key="first"
                   value={0}
-                  primaryText={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.position.first' })}
+                  primaryText={formatMessage({ id: 'form.criterion.criteria.select.position.first' })}
                 />, // After other attribute elements option
                 ...criterion.map((attribute, index) => index === selectedIndex
                   ? null : ( // do not propose self position =)
@@ -244,7 +251,8 @@ class FormCriteriaComponent extends React.Component {
                       value={// value is final position in table (remove this element index if it was before current attribute)
                         selectedIndex < index ? index : index + 1
                       }
-                      primaryText={`${selectedIndex < index ? index + 1 : index + 2} - ${this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.position.after' })} ${this.props.availableCriterion[attribute.pluginId].content.name}`}
+                      selected={selectedIndex === index}
+                      primaryText={`${selectedIndex < index ? index + 1 : index + 2} - ${formatMessage({ id: 'form.criterion.criteria.select.position.after' })} ${this.props.availableCriterion[attribute.pluginId].content.name}`}
                     />)),
               ]}
             </Field>
@@ -254,10 +262,10 @@ class FormCriteriaComponent extends React.Component {
           </div>
         </div>
         <CardActionsComponent
-          mainButtonLabel={this.context.intl.formatMessage({ id: `form.criterion.criteria.${this.props.criteria ? 'edit' : 'submit'}.button.label` })}
+          mainButtonLabel={formatMessage({ id: `form.criterion.criteria.${criteria ? 'edit' : 'submit'}.button.label` })}
           mainButtonType="submit"
           isMainButtonDisabled={pristine || submitting || invalid || this.state.pluginLoadError}
-          secondaryButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.criteria.cancel.button.label' })}
+          secondaryButtonLabel={formatMessage({ id: 'form.criterion.criteria.cancel.button.label' })}
           secondaryButtonClick={this.onCancel}
         />
       </form>
