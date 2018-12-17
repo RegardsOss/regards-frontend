@@ -17,13 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNil from 'lodash/isNil'
+import Settings from 'mdi-material-ui/Settings'
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   RenderSelectField, Field, reduxForm, ValidationHelpers,
 } from '@regardsoss/form-utils'
-import { CardActionsComponent, NoCriterionDisplayer } from '@regardsoss/components'
+import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { ContainerHelper } from '@regardsoss/layout'
 import { PluginProvider } from '@regardsoss/plugins'
@@ -170,6 +171,8 @@ class FormCriteriaComponent extends React.Component {
    * @returns {*}
    */
   renderCriteriaConfiguration = () => {
+    const { intl: { formatMessage } } = this.context
+
     if (!isNil(this.state.selectedCriteria) && !this.props.criterionFetching) {
       return (
         <PluginProvider
@@ -185,7 +188,11 @@ class FormCriteriaComponent extends React.Component {
         </PluginProvider>
       )
     }
-    return <NoCriterionDisplayer />
+    return <NoContentComponent
+      title={formatMessage({ id: 'criterion.displayer.no.config.title' })}
+      message={formatMessage({ id: 'criterion.displayer.no.config.message' })}
+      Icon={Settings}
+    />
   }
 
   /**

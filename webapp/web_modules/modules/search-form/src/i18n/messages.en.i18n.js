@@ -94,6 +94,8 @@ const messages = {
   'form.criterion.criteria.submit.button.label': 'Create',
   'form.criterion.criteria.edit.button.label': 'Update',
   'form.criterion.criteria.cancel.button.label': 'Cancel',
+  'form.criterion.criteria.no.config.title': 'No criterion',
+  'form.criterion.criteria.no.config.message': 'Select a criterion to configure it',
 
   // User display component
   'form.search.button.label': 'Search',

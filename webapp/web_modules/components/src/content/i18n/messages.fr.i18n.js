@@ -20,8 +20,6 @@
 const messages = {
   'image.file.not.displayed': 'L\'image ne peut pas être affichée',
   'file.displayer.no.preview.message': 'Aucune prévisualisation disponible',
-  'criterion.displayer.no.config.title': 'Aucun critère',
-  'criterion.displayer.no.config.message': 'Sélectionnez un critère pour le configurer',
 }
 
 export default messages

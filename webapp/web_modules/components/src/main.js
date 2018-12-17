@@ -50,7 +50,6 @@ export { default as CodeFileDisplayer } from './content/CodeFileDisplayer'
 export { default as IFrameURLContentDisplayer } from './content/IFrameURLContentDisplayer'
 export { default as MarkdownFileContentDisplayer } from './content/MarkdownFileContentDisplayer'
 export { default as NoContentComponent } from './content/NoContentComponent'
-export { default as NoCriterionDisplayer } from './content/NoCriterionDisplayer'
 export { default as SubSectionCard } from './content/SubSectionCard'
 
 export { default as BrowserCheckerDialog } from './dialogs/BrowserCheckerDialog'
