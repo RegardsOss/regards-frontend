@@ -20,8 +20,9 @@ export { AIPStatusContent, AIPStatus, AIPStatusList } from './AIPStatus'
 
 export { AIPSession } from './AIPSession'
 export {
-  AIP, AIPContent, AIPList, AIPArray,
+  AIPContentWithStorages, AIPWithStorages, AIPWithStoragesArray, AIPWithStoragesList,
 } from './AIP'
+export { AIPDeletionError, AIPDeletionErrorsArray } from './AIPDeletionError'
 export {
   StorageMonitoring, StorageMonitoringContent, StorageMonitoringList, StorageMonitoringArray,
 } from './StorageMonitoring'

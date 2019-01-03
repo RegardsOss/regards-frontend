@@ -96,11 +96,11 @@ export class TableSelectors extends BasicSelector {
 
   /**
    * @param state redux store
-   * @return currently toggled elements
+   * @return {[*]} currently toggled elements as array
    */
-  getToggledElementsAsList(state) {
-    return values(this.uncombineStore(state).toggledElements)
-  }
+  getToggledElementsAsList = createSelector(
+    [localState => this.getToggledElements(localState)],
+    toggledElements => values(toggledElements))
 }
 
 export default storePath => new TableSelectors(storePath)

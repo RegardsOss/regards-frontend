@@ -28,7 +28,6 @@ import AutoCompleteTextField from '../../list/AutoCompleteTextField'
 class TableHeaderAutoCompleteFilter extends React.Component {
   static propTypes = {
     // API is reported from delegate AutoCompleteTextField
-    ...AutoCompleteTextField.propTypes,
   }
 
   static contextTypes = {

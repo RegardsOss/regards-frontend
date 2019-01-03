@@ -28,7 +28,21 @@ class AIPReducer extends BasicPageableReducers {
     super(AIPConfiguration, new AIPActions(namespace))
   }
 
- AIPReducer
+  reduce(state, action) {
+    if (this.isCancelled(state, action)) {
+      return state
+    }
+    const newState = super.reduce(state, action)
+    switch (action.type) {
+      case this.basicListActionInstance.ENTITY_LIST_SUCCESS:
+        return {
+          ...newState,
+          dataStorages: action.payload.dataStorages, // add data storage info
+        }
+      default:
+        return newState
+    }
+  }
 }
 
 export default (namespace) => {

@@ -75,6 +75,17 @@ const aipManagementStyles = theme => ({
       alignItems: 'center',
     },
   },
+  aips: {
+    selectStorageDialog: {
+      title: {
+        fontSize: theme.dialog.titleFontSize,
+      },
+      subtitle: {
+        fontSize: theme.dialog.bodyFontSize,
+        lineHeight: 1,
+      },
+    },
+  },
 })
 
 export default aipManagementStyles

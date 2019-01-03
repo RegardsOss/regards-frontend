@@ -19,10 +19,10 @@
 /**
  * @author Léo Mieulet
  */
+import { RSAA, getJSON } from 'redux-api-middleware'
 import isEmpty from 'lodash/isEmpty'
 import BasicActions from '../BasicActions'
 
-const { RSAA, getJSON } = require('redux-api-middleware')
 /**
  *  Provide actions for calling any url of the backend
  *  @Return dispatcheable redux actions

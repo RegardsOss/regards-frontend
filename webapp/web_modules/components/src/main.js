@@ -111,6 +111,7 @@ export { default as TableHeaderContentBox } from './table/header/TableHeaderCont
 export { default as TableHeaderLine } from './table/header/TableHeaderLine'
 export { default as TableHeaderLineLoadingAndResults } from './table/header/TableHeaderLineLoadingAndResults'
 export { default as TableHeaderLoadingComponent } from './table/header/TableHeaderLoadingComponent'
+export { default as TableHeaderResultsCountMessage } from './table/header/TableHeaderResultsCountMessage'
 export { default as TableHeaderOptionsArea } from './table/header/TableHeaderOptionsArea'
 export { default as TableHeaderOptionGroup } from './table/header/TableHeaderOptionGroup'
 export { default as TableHeaderOptionsSeparator } from './table/header/TableHeaderOptionsSeparator'

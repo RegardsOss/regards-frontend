@@ -18,7 +18,7 @@
  **/
 import TableHeaderLine from './TableHeaderLine'
 import TableHeaderContentBox from './TableHeaderContentBox'
-import ResultsCountMessage from './ResultsCountMessage'
+import TableHeaderResultsCountMessage from './TableHeaderResultsCountMessage'
 import TableHeaderLoadingComponent from './TableHeaderLoadingComponent'
 
 /**
@@ -47,7 +47,7 @@ class TableHeaderLineLoadingAndResults extends React.Component {
       <TableHeaderLine>
         {/* results count group */}
         <TableHeaderContentBox>
-          <ResultsCountMessage count={resultsCount} isFetching={isFetching} />
+          <TableHeaderResultsCountMessage count={resultsCount} isFetching={isFetching} />
         </TableHeaderContentBox>
         { /* loading or custom childrens groups */}
         <TableHeaderLoadingComponent loading={isFetching}>

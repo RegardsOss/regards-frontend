@@ -26,13 +26,32 @@ import BasicListSelectors from '../list/BasicListSelectors'
  *  Provide an high level class to interact with entity stored in a pageable list
  */
 class BasicPageableSelectors extends BasicListSelectors {
+  /**
+   * Returns metadata for last page request
+   * @param {*} state state
+   * @return {{size: number, totalElements: number, totalPages: number, number: number}} page metadata
+   */
   getMetaData(state) {
     return this.uncombineStore(state).metadata
   }
 
+  /**
+   * Returns total results count for last page request
+   * @param {*} state redux store state
+   * @return {number} total results count
+   */
   getResultsCount(state) {
     const metaData = this.getMetaData(state)
     return metaData ? metaData.totalElements : 0
+  }
+
+  /**
+   * Returns links for last page request
+   * @param {*} state state
+   * @return {[{rel: string, href: string}]} links
+   */
+  getLinks(state) {
+    return this.uncombineStore(state).links
   }
 }
 

@@ -22,6 +22,8 @@ import { aipSessionReducer } from './clients/AIPSessionClient'
 import { aipTagReducer } from './clients/AIPTagClient'
 import { tableReducer } from './clients/TableClient'
 import { aipFileReducer } from './clients/AIPFileClient'
+import { deleteAIPsOnSomeStoragesClientReducer } from './clients/DeleteAIPOnSomeStoragesClient'
+import { deleteAIPsOnAllStoragesClientReducer } from './clients/DeleteAIPOnAllStoragesClient'
 
 const aipManagementReducer = combineReducers({
   aip: aipReducer,
@@ -29,6 +31,8 @@ const aipManagementReducer = combineReducers({
   'aip-tag': aipTagReducer,
   'aip-file': aipFileReducer,
   'aip-table': tableReducer,
+  'delete-aip-on-some-storages': deleteAIPsOnSomeStoragesClientReducer,
+  'delete-aip-on-all-storages': deleteAIPsOnAllStoragesClientReducer,
 })
 
 export default aipManagementReducer

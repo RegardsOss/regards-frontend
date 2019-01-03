@@ -45,8 +45,6 @@ export const DEFAULT_PAGE_SIZE = 20
  */
 class InfiniteTableContainer extends React.Component {
   /**
-   * PageActions : BasicPageableActions of the entities to manage
-   * PageSelector : BasicPageableSelectors of the entities to manage
    * pageSize : Optional, number of visible entity into the table. Default 20.
    */
   static propTypes = {
