@@ -16,46 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import { BasicSignalReducers } from '@regardsoss/store-utils'
 import DeleteAIPsOnAllStoragesActions from './DeleteAIPsOnAllStoragesActions'
-
-/**
- * Reducer for delete AIP on all storages actions. It works like the basic signal reducer but stores any
- * AIP in error on action success
- * @author Raphaël Mechali
- */
-class DeleteAIPsOnAllStoragesReducer extends BasicSignalReducers {
-  /**
-   * Constructor
-   * @param {string} namespace actions namespace
-   */
-  constructor(namespace) {
-    super(new DeleteAIPsOnAllStoragesActions(namespace))
-  }
-
-  /**
-   * Reduce function: builds next state
-   * @param {*} state state
-   * @param {*} action action
-   */
-  reduce(state = this.defaultState, action) {
-    if (this.isCancelled(state, action)) {
-      return state
-    }
-    const newState = super.reduce(state, action)
-    switch (action.type) {
-      case this.basicSignalActionInstance.SIGNAL_SUCCESS:
-        // store last AIP errors if any
-        return {
-          ...newState,
-          lastAIPInError: get(action, 'payload', []), // AIP in error are action payload (expected string array)
-        }
-      default:
-        return newState
-    }
-  }
-}
 
 /**
  * Builds reduce function for DeleteAIPsOnAllStoragesActions
@@ -64,6 +26,6 @@ class DeleteAIPsOnAllStoragesReducer extends BasicSignalReducers {
  * @author Raphaël Mechali
  */
 export default function getDeleteAIPsOnAllStoragesReducer(namespace) {
-  const instance = new DeleteAIPsOnAllStoragesReducer(namespace)
+  const instance = new BasicSignalReducers(new DeleteAIPsOnAllStoragesActions(namespace))
   return (state, action) => instance.reduce(state, action)
 }

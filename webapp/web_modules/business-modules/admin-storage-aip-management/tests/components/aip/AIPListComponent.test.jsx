@@ -45,8 +45,7 @@ describe('[ADMIN STORAGE AIP MANAGEMENT] Testing AIPListComponent', () => {
       searchingTags: false,
       sessionTags: ['sTag1', 'sTag2'],
       searchingSessionTags: false,
-      initialFilters: {},
-      currentFilters: {},
+      currentFilters: { any: 'ok' },
 
       dataStorages: [],
       session: 's02',

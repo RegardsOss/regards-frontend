@@ -21,7 +21,6 @@ import { assert } from 'chai'
 import { TableSelectionModes } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AIPListComponent from '../../../src/components/aip/AIPListComponent'
-import AIPDeletionErrorDialog from '../../../src/components/aip/dialogs/AIPDeletionErrorDialog'
 import { AIPListContainer } from '../../../src/containers/aip/AIPListContainer'
 import styles from '../../../src/styles'
 import { storage1, storage2 } from '../../dumps/DataStorages.dump'
@@ -51,7 +50,7 @@ describe('[ADMIN STORAGE AIP MANAGEMENT] Testing AIPListContainer', () => {
   it('should exists', () => {
     assert.isDefined(AIPListContainer)
   })
-  it('should render correctly and show last AIP errors dialog on need', () => {
+  it('should render correctly', () => {
     const props = {
       params: {
         project: 'any',
@@ -75,8 +74,6 @@ describe('[ADMIN STORAGE AIP MANAGEMENT] Testing AIPListContainer', () => {
       isEmptySelection: false,
       selectionMode: TableSelectionModes.excludeSelected,
 
-      lastAIPInErrorOAS: [],
-      lastAIPInErrorOSS: [],
       elementsSelected: [],
       areAllSelected: true,
     }
@@ -94,7 +91,6 @@ describe('[ADMIN STORAGE AIP MANAGEMENT] Testing AIPListContainer', () => {
       searchingTags: state.searchingTags,
       sessionTags: state.sessionTags,
       searchingSessionTags: state.searchingSessionTags,
-      initialFilters: state.urlFilters,
       currentFilters: state.currentFilters,
       dataStorages: props.dataStorages,
       session: props.params.session,
@@ -107,42 +103,5 @@ describe('[ADMIN STORAGE AIP MANAGEMENT] Testing AIPListContainer', () => {
       addTags: wrapperInstance.addTags,
       removeTags: wrapperInstance.removeTags,
     }, 'Component should define the expected properties and callbacks')
-
-    let errorDialog = enzymeWrapper.find(AIPDeletionErrorDialog)
-    assert.lengthOf(errorDialog, 1, 'There should be error dialog')
-    assert.isFalse(errorDialog.props().show, 'It should be hidden')
-    assert.equal(errorDialog.props().onClose, wrapperInstance.onCloseDeletionErrors, 'Close callback should be correctly set')
-    // Pop a deletion error on all storages
-    const lastAIPInErrorOAS = [
-      { aipId: 'someAIP', reason: 'Just because' },
-      { aipId: 'someAIP2', reason: 'Just because 2' },
-    ]
-    enzymeWrapper.setProps({
-      ...props,
-      lastAIPInErrorOAS,
-    })
-    errorDialog = enzymeWrapper.find(AIPDeletionErrorDialog)
-    assert.isTrue(errorDialog.props().show, 'It should be visible for error on all storages')
-    assert.deepEqual(errorDialog.props().errors, lastAIPInErrorOAS, 'Right errors set should be provided (1)')
-    // Simulate closing error message
-    errorDialog.props().onClose()
-    errorDialog = enzymeWrapper.find(AIPDeletionErrorDialog)
-    assert.isFalse(errorDialog.props().show, 'Error dialog should have been closed (1)')
-    // Pop a deletion error on some storages
-    const lastAIPInErrorOSS = [
-      { aipId: 'someAIP', reason: 'Just because' },
-      { aipId: 'someAIP2', reason: 'Just because 2' },
-    ]
-    enzymeWrapper.setProps({
-      ...props,
-      lastAIPInErrorOSS,
-    })
-    errorDialog = enzymeWrapper.find(AIPDeletionErrorDialog)
-    assert.isTrue(errorDialog.props().show, 'It should be visible for error on some storages')
-    assert.deepEqual(errorDialog.props().errors, lastAIPInErrorOSS, 'Right errors set should be provided (2)')
-    // Simulate closing error message
-    errorDialog.props().onClose()
-    errorDialog = enzymeWrapper.find(AIPDeletionErrorDialog)
-    assert.isFalse(errorDialog.props().show, 'Error dialog should have been closed (2)')
   })
 })

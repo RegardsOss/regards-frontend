@@ -30,11 +30,8 @@ import { TableSelectionModes } from '@regardsoss/components'
 import { browserHistory } from 'react-router'
 import { aipSelectors, aipActions } from '../../clients/AIPClient'
 import { tableSelectors, tableActions } from '../../clients/TableClient'
-import { deleteAIPsOnAllStoragesClientSelectors } from '../../clients/DeleteAIPOnAllStoragesClient'
-import { deleteAIPsOnSomeStoragesClientSelectors } from '../../clients/DeleteAIPOnSomeStoragesClient'
 import { aipTagActions } from '../../clients/AIPTagClient'
 import AIPListComponent from '../../components/aip/AIPListComponent'
-import AIPDeletionErrorDialog from '../../components/aip/dialogs/AIPDeletionErrorDialog'
 import messages from '../../i18n'
 import styles from '../../styles'
 
@@ -58,8 +55,6 @@ export class AIPListContainer extends React.Component {
       selectionMode: tableSelectors.getSelectionMode(state),
       elementsSelected: tableSelectors.getToggledElements(state),
       areAllSelected: tableSelectors.areAllSelected(state, aipSelectors),
-      lastAIPInErrorOAS: deleteAIPsOnAllStoragesClientSelectors.getLastAIPInError(state),
-      lastAIPInErrorOSS: deleteAIPsOnSomeStoragesClientSelectors.getLastAIPInError(state),
     }
   }
 
@@ -102,10 +97,6 @@ export class AIPListContainer extends React.Component {
     entitiesLoading: PropTypes.bool.isRequired,
     isEmptySelection: PropTypes.bool.isRequired,
     selectionMode: PropTypes.string,
-    // eslint-disable-next-line react/no-unused-prop-types
-    lastAIPInErrorOAS: StorageShapes.AIPDeletionErrorsArray.isRequired, // AIPs in error from last delete on all storages operation
-    // eslint-disable-next-line react/no-unused-prop-types
-    lastAIPInErrorOSS: StorageShapes.AIPDeletionErrorsArray.isRequired, // AIPs in error from last delete on some storages operation
     // eslint-disable-next-line react/forbid-prop-types
     elementsSelected: PropTypes.any,
     areAllSelected: PropTypes.bool.isRequired,
@@ -121,7 +112,6 @@ export class AIPListContainer extends React.Component {
 
   state = {
     contextFilters: {},
-    urlFilters: {},
     currentFilters: {},
     // Store tags for delete dialog
     tags: [],
@@ -129,9 +119,6 @@ export class AIPListContainer extends React.Component {
     // Store all tags related to current session
     sessionTags: [],
     searchingSessionTags: true,
-    // Show delete operation errors
-    showDeletionErrors: false,
-    lastAIPInError: [],
   }
 
   /**
@@ -158,16 +145,9 @@ export class AIPListContainer extends React.Component {
   * @param newProps next component properties
   */
   onPropertiesUpdated = (oldProps, newProps) => {
-    const { lastAIPInErrorOAS, lastAIPInErrorOSS, params = {} } = newProps
+    const { params = {} } = newProps
     const newState = { ...this.state }
 
-    // handle filters from URL (only at initialization)
-    if (isEmpty(oldProps)) {
-      const { query } = browserHistory.getCurrentLocation()
-      if (!isEmpty(query)) {
-        newState.urlFilters = query
-      }
-    }
     // handle fitlers from parameters
     if (!isEqual(params.session, get(oldProps, 'params.session')) && params.session) {
       newState.contextFilters = {
@@ -177,13 +157,17 @@ export class AIPListContainer extends React.Component {
         ...newState.contextFilters,
       }
     }
-    // handle showing error dialog on delete operation end (detect it when properties change)
-    if (!isEqual(lastAIPInErrorOAS, oldProps.lastAIPInErrorOAS) && lastAIPInErrorOAS.length) {
-      newState.showDeletionErrors = true
-      newState.lastAIPInError = lastAIPInErrorOAS
-    } else if (!isEqual(lastAIPInErrorOSS, oldProps.lastAIPInErrorOSS) && lastAIPInErrorOSS.length) {
-      newState.showDeletionErrors = true
-      newState.lastAIPInError = lastAIPInErrorOSS
+
+    // Intialization case: restore filters from URL, if any
+    if (isEmpty(oldProps)) {
+      const { query } = browserHistory.getCurrentLocation()
+      // restore possible query parameters
+      if (!isEmpty(query)) {
+        newState.currentFilters = {
+          ...newState.currentFilters,
+          state: query.state,
+        }
+      }
     }
 
     // Update state on changes
@@ -222,11 +206,6 @@ export class AIPListContainer extends React.Component {
         this.onRefresh()
       }
     })
-  }
-
-  /** User callback: hide errors */
-  onCloseDeletionErrors = () => {
-    this.setState({ showDeletionErrors: false })
   }
 
   /** User callback: back operation (through breadcrumb) */
@@ -310,47 +289,38 @@ export class AIPListContainer extends React.Component {
       meta, params: { session }, entitiesLoading, isEmptySelection, dataStorages,
     } = this.props
     const {
-      urlFilters, tags, searchingTags, searchingSessionTags, sessionTags,
-      currentFilters, showDeletionErrors, lastAIPInError,
+      tags, searchingTags, searchingSessionTags, sessionTags,
+      currentFilters,
     } = this.state
     return (
-      <React.Fragment>
-        <AIPListComponent
-          // Page data
-          pageSize={AIPListContainer.PAGE_SIZE}
-          resultsCount={meta.totalElements}
-          entitiesLoading={entitiesLoading}
-          // selection management
-          isEmptySelection={isEmptySelection}
-          // Tags management
-          tags={tags}
-          searchingTags={searchingTags}
-          sessionTags={sessionTags}
-          searchingSessionTags={searchingSessionTags}
-          // Filters management
-          initialFilters={urlFilters}
-          currentFilters={currentFilters}
-          // contextual data
-          dataStorages={dataStorages}
-          session={session}
+      <AIPListComponent
+        // Page data
+        pageSize={AIPListContainer.PAGE_SIZE}
+        resultsCount={meta.totalElements}
+        entitiesLoading={entitiesLoading}
+        // selection management
+        isEmptySelection={isEmptySelection}
+        // Tags management
+        tags={tags}
+        searchingTags={searchingTags}
+        sessionTags={sessionTags}
+        searchingSessionTags={searchingSessionTags}
+        // Filters management
+        currentFilters={currentFilters}
+        // contextual data
+        dataStorages={dataStorages}
+        session={session}
 
-          // callbacks
-          onGoBack={this.onGoBack}
-          onRefresh={this.onRefresh}
-          onRetryAIPStorage={this.onRetryAIPStorage}
-          onApplyFilters={this.onApplyFilters}
-          goToAipFiles={this.goToAipFiles}
-          fetchCommonTags={this.fetchCommonTags}
-          addTags={this.addTags}
-          removeTags={this.removeTags}
-        />
-        {/* Dialog: last delete operation error */}
-        <AIPDeletionErrorDialog
-          show={showDeletionErrors}
-          errors={lastAIPInError}
-          onClose={this.onCloseDeletionErrors}
-        />
-      </React.Fragment>
+        // callbacks
+        onGoBack={this.onGoBack}
+        onRefresh={this.onRefresh}
+        onRetryAIPStorage={this.onRetryAIPStorage}
+        onApplyFilters={this.onApplyFilters}
+        goToAipFiles={this.goToAipFiles}
+        fetchCommonTags={this.fetchCommonTags}
+        addTags={this.addTags}
+        removeTags={this.removeTags}
+      />
     )
   }
 }

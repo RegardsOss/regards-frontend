@@ -53,7 +53,6 @@ export default class DeleteAIPsOnAllStoragesActions extends BasicSignalActions {
    * @return {*} redux action to dispatch
    */
   deleteAIPsByQuery(contextFilters, excludedAIPs) {
-    console.error('>>>', contextFilters, excludedAIPs)
     return super.sendSignal('POST', {
       ...contextFilters,
       aipIdsExcluded: excludedAIPs.map(({ content: { aip: { id } } }) => id),

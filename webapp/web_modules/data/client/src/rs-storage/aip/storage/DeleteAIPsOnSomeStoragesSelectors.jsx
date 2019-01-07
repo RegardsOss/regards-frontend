@@ -19,28 +19,11 @@
 import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
 /**
- * Delete AIP on some storages client selectors
- * @author Raphaël Mechali
- */
-class DeleteAIPsOnSomeStoragesSelectors extends BasicSignalSelectors {
-  /** NO AIP in error (store reference) */
-  static NO_AIP_IN_ERROR = []
-
-  /**
-   * @param {*} state redux state
-   * @return {[{aipId: string, reason: string}]} AIP in errors during last operation array, or empty array
-   */
-  getLastAIPInError(state) {
-    return this.uncombineStore(state).lastAIPInError || DeleteAIPsOnSomeStoragesSelectors.NO_AIP_IN_ERROR
-  }
-}
-
-/**
  * Export selectors builder on store path for DeleteAIPOnSome redux client
  * @param [{string}} storePath redux store path to access reduced data
  * @return {*} selectors instance
  * @author Raphaël Mechali
  */
 export default function getDeleteAIPsOnSomeStoragesSelectors(storePath) {
-  return new DeleteAIPsOnSomeStoragesSelectors(storePath)
+  return new BasicSignalSelectors(storePath)
 }

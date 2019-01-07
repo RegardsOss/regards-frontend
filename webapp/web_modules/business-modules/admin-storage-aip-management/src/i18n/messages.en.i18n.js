@@ -62,10 +62,6 @@ const messages = Object.assign({
 
   'aip.details.button.close': 'Close',
 
-  'aip.delete.error.dialog.close': 'Close',
-  'aip.delete.error.title': 'Error during delete operation',
-  'aip.delete.error.format.reason': '{aipId}: {reason}',
-
   'aips.session.title': 'Sessions',
   'aips.session.aips.title': 'Session {session}',
   'aips.session.subtitle': 'Select the session associated to the AIPs you want to view.',

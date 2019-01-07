@@ -71,8 +71,7 @@ class AIPListComponent extends React.Component {
     sessionTags: PropTypes.arrayOf(PropTypes.string),
     searchingSessionTags: PropTypes.bool.isRequired,
     // Filter management
-    initialFilters: PropTypes.objectOf(PropTypes.string),
-    currentFilters: PropTypes.objectOf(PropTypes.string),
+    currentFilters: PropTypes.objectOf(PropTypes.any),
     // contextual data
     dataStorages: PropTypes.arrayOf(StorageShapes.PrioritizedDataStorageContent),
     session: PropTypes.string.isRequired,
@@ -407,7 +406,7 @@ class AIPListComponent extends React.Component {
         <TableLayout>
           <AIPListFiltersComponent
             key="session-aips"
-            initialFilters={this.props.initialFilters}
+            currentFilters={currentFilters}
             onApplyFilters={onApplyFilters}
             isEmptySelection={isEmptySelection}
             openAddTagModal={this.onOpenAddTagDialog}

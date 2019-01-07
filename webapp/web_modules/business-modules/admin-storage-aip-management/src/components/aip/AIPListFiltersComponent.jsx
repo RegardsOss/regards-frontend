@@ -44,7 +44,7 @@ import {
 class AIPListFiltersComponent extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    initialFilters: PropTypes.objectOf(PropTypes.string), // used only in onPropertiesUpdated
+    currentFilters: PropTypes.objectOf(PropTypes.any), // used only in onPropertiesUpdated
     isEmptySelection: PropTypes.bool.isRequired,
     sessionTags: PropTypes.arrayOf(PropTypes.string),
     searchingSessionTags: PropTypes.bool.isRequired,
@@ -72,15 +72,6 @@ class AIPListFiltersComponent extends React.Component {
   componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
-   * Lifecycle method: component did mount. Used here to force first fetching when mounted with filtered values
-   */
-  componentDidMount() {
-    if (values(this.state.filters).length > 0) {
-      this.onApplyFilters()
-    }
-  }
-
-  /**
   * Lifecycle method: component receive props. Used here to detect properties change and update local state
   * @param {*} nextProps next component properties
   */
@@ -92,16 +83,12 @@ class AIPListFiltersComponent extends React.Component {
   * @param newProps next component properties
   */
   onPropertiesUpdated = (oldProps, newProps) => {
-    const { initialFilters, dataStorages } = newProps
+    const { currentFilters, dataStorages } = newProps
     const newState = { ...this.state }
-    // 1 - Update filters when initial filters are received (initialization)
-    if (!isEqual(oldProps.initialFilters, initialFilters) && initialFilters) {
-      /*
-       TODO check if initialFilters can be anything but empty. If they can, initialize correctly the data storages.
-       Otherwise, remove all that URL thing management
-      */
-      // TODO: if we keep that code, pay attention to dates, as it cannot work with applyFilters! Same problem with tags
-      newState.filters = { ...initialFilters }
+    // 1 - When parent current filters are updated (and different of this filters), update edition model
+    // Note: that mechanism allows specifically to restore initial filters or filters externally changed
+    if (!isEqual(this.state.filters, currentFilters)) {
+      newState.filters = { ...currentFilters }
     }
     // 2 - Prepare ordered datastorages pool for selection
     if (!isEqual(oldProps.dataStorages, dataStorages)) {

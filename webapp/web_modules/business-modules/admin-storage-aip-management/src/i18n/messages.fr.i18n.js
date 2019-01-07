@@ -62,10 +62,6 @@ const messages = Object.assign({
 
   'aip.details.button.close': 'Fermer',
 
-  'aip.delete.error.dialog.close': 'Fermer',
-  'aip.delete.error.title': 'Erreur durant l\'opération de suppression',
-  'aip.delete.error.format.reason': '{aipId}: {reason}',
-
   'aips.session.title': 'Sessions',
   'aips.session.aips.title': 'Session {session}',
   'aips.session.subtitle': 'Visualisation des objets stockés par session d\'acquisition.',

@@ -37,38 +37,19 @@ describe('[ADMIN STORAGE AIP MANAGEMENT] Testing AIPListFiltersComponent', () =>
     assert.isDefined(AIPListFiltersComponent)
   })
   it('should render correctly and initialize search filters', () => {
-    const spiedApplyFilter = {
-      count: 0,
-      filters: null,
-    }
     const props = {
-      initialFilters: {
-        providerId: 'xxx',
-        aipId: 'yyy',
-        // TODO add here dates, tags and storages when it works...
+      currentFilters: {
+        state: 'VALID',
       },
       isEmptySelection: false,
       sessionTags: ['s01', 's02'],
       searchingSessionTags: false,
       dataStorages: [storage2, storage1],
 
-      onApplyFilters: (filters) => {
-        spiedApplyFilter.count += 1
-        spiedApplyFilter.filters = filters
-      },
+      onApplyFilters: (filters) => {},
       openAddTagModal: () => {},
       openRemoveTagModal: () => {},
     }
     shallow(<AIPListFiltersComponent {...props} />, { context })
-
-    // Check the state was initially applied
-    assert.deepEqual(spiedApplyFilter, {
-      count: 1,
-      filters: {
-        providerId: 'xxx',
-        aipId: '%yyy%', // added automatically, means 'includes'
-      },
-    }, 'Apply filters should have been invoked once with reight parameters')
-    // Nota: that component exports an array, which is hardly compatible with enzyme for more complex tests
   })
 })
