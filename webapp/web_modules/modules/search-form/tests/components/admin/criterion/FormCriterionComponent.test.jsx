@@ -25,8 +25,7 @@ import {
   TableRow,
 } from 'material-ui/Table'
 import Dialog from 'material-ui/Dialog'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
+import IconButton from 'material-ui/IconButton'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { CardActionsComponent, CardActionsView } from '@regardsoss/components'
 import Styles from '../../../../src/styles/styles'
@@ -83,8 +82,7 @@ describe('[SEARCH FORM] Testing FormCriterionComponent', () => {
     assert.equal(formcriteria.prop('criteria'), null, 'The form criteria should not have a criteria param')
     assert.equal(formcriteria.prop('layout'), props.layout, 'The layout configuration passed to the formcriteria component should the one from the props.')
   })
-  // eslint-disable-next-line mocha/no-skipped-tests
-  xit('Should render a formCriterionComponent with defined criterion list', () => {
+  it('Should render a formCriterionComponent with defined criterion list', () => {
     const changeFieldCallback = spy()
     const props = {
       changeField: changeFieldCallback,
@@ -125,9 +123,10 @@ describe('[SEARCH FORM] Testing FormCriterionComponent', () => {
     assert.equal(buttonsCard.length, 1, 'There should a card containing buttons cancel and add')
     assert.equal(editDialog.prop('open'), false, 'The edit criterion dialog should not be opened')
 
-
-    const editButton = tableRows.first().find(Edit).parent()
-    const deleteButton = tableRows.first().find(Delete).parent()
+    const firstRowActions = tableRows.first().find(IconButton)
+    assert.lengthOf(firstRowActions, 2, 'There must be edit and delete actions on each row')
+    const editButton = firstRowActions.at(0)
+    const deleteButton = firstRowActions.at(1)
 
     // Simulate edit on a given criteria
     editButton.simulate('click')

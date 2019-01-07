@@ -333,9 +333,6 @@ export class AIPListContainer extends React.Component {
           // contextual data
           dataStorages={dataStorages}
           session={session}
-          // AIP deletion errors dialog management
-          showDeletionErrors={showDeletionErrors}
-          lastAIPInError={lastAIPInError}
 
           // callbacks
           onGoBack={this.onGoBack}
