@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
 import values from 'lodash/values'
 import TextField from 'material-ui/TextField'
@@ -28,8 +29,10 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
 import { StorageDomain } from '@regardsoss/domain'
+import { StorageShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { StringComparison } from '@regardsoss/form-utils'
 import {
   TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField,
 } from '@regardsoss/components'
@@ -40,10 +43,13 @@ import {
 */
 class AIPListFiltersComponent extends React.Component {
   static propTypes = {
-    initialFilters: PropTypes.objectOf(PropTypes.string),
+    // eslint-disable-next-line react/no-unused-prop-types
+    initialFilters: PropTypes.objectOf(PropTypes.string), // used only in onPropertiesUpdated
     isEmptySelection: PropTypes.bool.isRequired,
     sessionTags: PropTypes.arrayOf(PropTypes.string),
     searchingSessionTags: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    dataStorages: PropTypes.arrayOf(StorageShapes.PrioritizedDataStorageContent), // used only in onPropertiesUpdated
 
     onApplyFilters: PropTypes.func.isRequired,
     openAddTagModal: PropTypes.func.isRequired,
@@ -57,20 +63,55 @@ class AIPListFiltersComponent extends React.Component {
 
   state = {
     filters: {},
+    orderedDataStorages: [],
   }
 
-  componentWillMount() {
-    const { initialFilters } = this.props
-    if (initialFilters) {
-      this.setState({
-        filters: { ...initialFilters },
-      })
-    }
-  }
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
+  /**
+   * Lifecycle method: component did mount. Used here to force first fetching when mounted with filtered values
+   */
   componentDidMount() {
     if (values(this.state.filters).length > 0) {
       this.onApplyFilters()
+    }
+  }
+
+  /**
+  * Lifecycle method: component receive props. Used here to detect properties change and update local state
+  * @param {*} nextProps next component properties
+  */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+  * Properties change detected: update local state
+  * @param oldProps previous component properties
+  * @param newProps next component properties
+  */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const { initialFilters, dataStorages } = newProps
+    const newState = { ...this.state }
+    // 1 - Update filters when initial filters are received (initialization)
+    if (!isEqual(oldProps.initialFilters, initialFilters) && initialFilters) {
+      /*
+       TODO check if initialFilters can be anything but empty. If they can, initialize correctly the data storages.
+       Otherwise, remove all that URL thing management
+      */
+      // TODO: if we keep that code, pay attention to dates, as it cannot work with applyFilters! Same problem with tags
+      newState.filters = { ...initialFilters }
+    }
+    // 2 - Prepare ordered datastorages pool for selection
+    if (!isEqual(oldProps.dataStorages, dataStorages)) {
+      newState.selectableDataStorages = [...dataStorages].sort((str1, str2) => StringComparison.compare(
+        str1.dataStorageConfiguration.label, str2.dataStorageConfiguration.label))
+    }
+
+    // Apply computed diff
+    if (!isEqual(this.state, newState)) {
+      this.setState(newState)
     }
   }
 
@@ -108,6 +149,7 @@ class AIPListFiltersComponent extends React.Component {
       // Add '%' caracter at starts and ends of the string to search for matching pattern and not strict value.
       newFilters.aipId = `%${aipId}%`
     }
+    // TODO: convert storages into server expected data. Pay attention to initial date values!!!!
     this.props.onApplyFilters(newFilters)
   }
 
@@ -160,73 +202,109 @@ class AIPListFiltersComponent extends React.Component {
   }
 
 
+  /**
+   * On or many storages were selected, update filters state
+   * @param {*} event
+   * @param {string} key
+   * @param {*} newValue selected storages
+   */
+  onStorageSelected = (event, key, newValue) => {
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        dataStorages: newValue,
+      },
+    })
+  }
+
+  /**
+   * @return {*} Rendered filters as React components
+   */
   renderFilters = () => {
-    const { intl, moduleTheme: { filter } } = this.context
     const { searchingSessionTags, sessionTags } = this.props
+    const { intl: { formatMessage, locale }, moduleTheme: { filter } } = this.context
+    const { selectableDataStorages } = this.state // get ordered data storages list
     return (
       <TableHeaderLine key="filtersLine">
         <TableHeaderOptionsArea key="filtersArea" reducible alignLeft>
           <TableHeaderOptionGroup key="second">
+            { /* AIP data storage (as multiple choices) */ }
             <SelectField
               style={filter.fieldStyle}
-              hintText={intl.formatMessage({
-                id: 'aips.list.filters.status.label',
+              hintText={formatMessage({
+                id: 'aips.list.filters.data.storage.label',
               })}
-              value={get(this.state, 'filters.state', undefined)}
+              value={get(this.state, 'filters.dataStorages', [])}
+              onChange={this.onStorageSelected}
+              multiple
+            >
+              {selectableDataStorages.map(storage => (<MenuItem
+                key={storage.id}
+                value={storage}
+                primaryText={storage.dataStorageConfiguration.label}
+              />))}
+            </SelectField>
+            { /* AIP status (as single choice) */ }
+            <SelectField
+              style={filter.fieldStyle}
+              hintText={formatMessage({ id: 'aips.list.filters.status.label' })}
+              value={get(this.state, 'filters.state', null)}
               onChange={this.changeStateFilter}
             >
               <MenuItem value={null} primaryText="" />
               {StorageDomain.AIP_STATUS.map(status => (<MenuItem
                 key={status}
                 value={status}
-                primaryText={intl.formatMessage({
+                primaryText={formatMessage({
                   id: status,
                 })}
               />))}
             </SelectField>
+            { /* AIP provider ID (input field) */ }
             <TextField
               value={get(this.state, 'filters.providerId', '')}
               onChange={this.changeProviderIdFilter}
-              hintText={intl.formatMessage({ id: 'aips.list.filters.providerId.label' })}
+              hintText={formatMessage({ id: 'aips.list.filters.providerId.label' })}
               style={filter.fieldStyle}
             />
           </TableHeaderOptionGroup>
 
-          {!searchingSessionTags ? (
-            <TableHeaderOptionGroup key="tags">
-              <SelectField
-                style={filter.fieldStyle}
-                hintText={intl.formatMessage({
-                  id: 'aips.list.filters.tag.label',
-                })}
-                value={get(this.state, 'filters.tags', undefined)}
-                onChange={this.changeTagsFilter}
-                multiple
-              >
-                <MenuItem value={null} primaryText="" />
-                {map(sessionTags, tag => (<MenuItem
-                  key={tag}
-                  value={tag}
-                  primaryText={tag}
-                />))}
-              </SelectField>
-            </TableHeaderOptionGroup>
-          ) : null}
+          { /* AIP status (as multiple choices) */
+            !searchingSessionTags ? (
+              <TableHeaderOptionGroup key="tags">
+                <SelectField
+                  style={filter.fieldStyle}
+                  hintText={formatMessage({
+                    id: 'aips.list.filters.tag.label',
+                  })}
+                  value={get(this.state, 'filters.tags', [])}
+                  onChange={this.changeTagsFilter}
+                  multiple
+                >
+                  {map(sessionTags, tag => (<MenuItem
+                    key={tag}
+                    value={tag}
+                    primaryText={tag}
+                  />))}
+                </SelectField>
+              </TableHeaderOptionGroup>
+            ) : null}
+          { /* AIP Dates selectors */ }
           <TableHeaderOptionGroup>
             <DatePickerField
               value={get(this.state, 'filters.from', undefined)}
-              dateHintText={intl.formatMessage({
+              dateHintText={formatMessage({
                 id: 'aips.list.filters.from.label',
               })}
               onChange={this.changeFrom}
-              locale={intl.locale}
+              locale={locale}
             />
             <DatePickerField
               value={this.state.filters.to}
               defaultTime="23:59:59"
-              dateHintText={intl.formatMessage({ id: 'aips.list.filters.to.label' })}
+              dateHintText={formatMessage({ id: 'aips.list.filters.to.label' })}
               onChange={this.changeTo}
-              locale={intl.locale}
+              locale={locale}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
@@ -267,6 +345,7 @@ class AIPListFiltersComponent extends React.Component {
               && !get(this.state, 'filters.tags')
               && !get(this.state, 'filters.aipId')
               && !get(this.state, 'filters.providerId')
+              && !get(this.state, 'filters.dataStorages', []).length
             }
             onClick={this.handleClearFilters}
           />

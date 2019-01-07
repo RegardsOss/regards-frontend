@@ -20,7 +20,7 @@ import isNil from 'lodash/isNil'
 import find from 'lodash/find'
 import Redo from 'material-ui/svg-icons/content/redo'
 import IconButton from 'material-ui/IconButton'
-import { IngestShapes } from '@regardsoss/shape'
+import { StorageShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
@@ -29,10 +29,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 */
 class AIPStoreRetryOption extends React.Component {
   static propTypes = {
-    entity: PropTypes.shape({
-      content: IngestShapes.IngestProcessingChain,
-      links: PropTypes.array,
-    }),
+    entity: StorageShapes.AIPWithStorages.isRequired,
     onRetry: PropTypes.func.isRequired,
   }
 
@@ -40,7 +37,7 @@ class AIPStoreRetryOption extends React.Component {
     ...i18nContextType,
   }
 
-  handleClick = () => {
+  onClick = () => {
     this.props.onRetry(this.props.entity.content)
   }
 
@@ -51,7 +48,7 @@ class AIPStoreRetryOption extends React.Component {
       <IconButton
         disabled={isNil(find(links, { rel: 'retry' }))}
         title={formatMessage({ id: 'aips.list.aip-retry.title' })}
-        onClick={this.handleClick}
+        onClick={this.onClick}
       >
         <Redo />
       </IconButton>

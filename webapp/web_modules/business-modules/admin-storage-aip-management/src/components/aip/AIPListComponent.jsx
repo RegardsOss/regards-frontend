@@ -38,8 +38,8 @@ import AIPListFiltersComponent from './AIPListFiltersComponent'
 import { aipSelectors } from '../../clients/AIPClient'
 import { tableSelectors, tableActions } from '../../clients/TableClient'
 import InfiniteAIPTableContainer from '../../containers/aip/InfiniteAIPTableContainer'
-import DeleteAIPOnAllStoragesDialogContainer from '../../containers/aip/dialog/DeleteAIPOnAllStoragesDialogContainer'
-import DeleteAIPOnSomeStoragesDialogContainer from '../../containers/aip/dialog/DeleteAIPOnSomeStoragesDialogContainer'
+import DeleteAIPOnAllStoragesDialogContainer from '../../containers/aip/dialogs/DeleteAIPOnAllStoragesDialogContainer'
+import DeleteAIPOnSomeStoragesDialogContainer from '../../containers/aip/dialogs/DeleteAIPOnSomeStoragesDialogContainer'
 import DeleteSelectedAIPsOnAllStoragesOptionContainer from '../../containers/aip/options/DeleteSelectedAIPsOnAllStoragesOptionContainer'
 import DeleteSelectedAIPsOnSomeStoragesOptionContainer from '../../containers/aip/options/DeleteSelectedAIPsOnSomeStoragesOptionContainer'
 import AIPRemoveTagDialog from './dialogs/AIPRemoveTagDialog'
@@ -414,6 +414,7 @@ class AIPListComponent extends React.Component {
             openRemoveTagModal={this.onOpenRemoveTagDialog}
             sessionTags={sessionTags}
             searchingSessionTags={searchingSessionTags}
+            dataStorages={dataStorages}
           />
           {/* Results count, loading, selection and refresh actions */}
           <TableHeaderLine>

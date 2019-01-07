@@ -33,8 +33,6 @@ class AIPDetailComponent extends React.Component {
     onClose: PropTypes.func.isRequired,
   }
 
-  static defaultProps = {}
-
   static contextTypes = {
     // enable plugin theme access through this.context
     ...themeContextType,

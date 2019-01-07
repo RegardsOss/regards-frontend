@@ -24,11 +24,11 @@ import concat from 'lodash/concat'
 import Dialog from 'material-ui/Dialog'
 import Subheader from 'material-ui/Subheader'
 import FlatButton from 'material-ui/FlatButton'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { i18nContextType } from '@regardsoss/i18n'
 import Chip from 'material-ui/Chip'
 import Divider from 'material-ui/Divider'
 import CircularProgress from 'material-ui/CircularProgress'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
 /**

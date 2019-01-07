@@ -20,6 +20,7 @@ import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
   'aips.list.subtitle': 'List of AIPs for selected session',
+  'aips.list.filters.data.storage.label': 'Stored on',
   'aips.list.filters.status.label': 'Status',
   'aips.list.filters.providerId.label': 'Provider id',
   'aips.list.filters.from.label': 'From',

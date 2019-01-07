@@ -18,7 +18,7 @@
  **/
 import Code from 'material-ui/svg-icons/action/code'
 import IconButton from 'material-ui/IconButton'
-import { IngestShapes } from '@regardsoss/shape'
+import { StorageShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
@@ -27,10 +27,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 */
 class AIPDetailOption extends React.Component {
   static propTypes = {
-    entity: PropTypes.shape({
-      content: IngestShapes.IngestProcessingChain,
-      links: PropTypes.array,
-    }),
+    entity: StorageShapes.AIPWithStorages.isRequired,
     onViewDetail: PropTypes.func.isRequired,
   }
 
@@ -38,7 +35,10 @@ class AIPDetailOption extends React.Component {
     ...i18nContextType,
   }
 
-  handleClick = () => {
+  /**
+   * User callback: button was clicked
+   */
+  onClick = () => {
     this.props.onViewDetail(this.props.entity.content)
   }
 
@@ -47,7 +47,7 @@ class AIPDetailOption extends React.Component {
     return (
       <IconButton
         title={formatMessage({ id: 'aips.list.aip-details.title' })}
-        onClick={this.handleClick}
+        onClick={this.onClick}
       >
         <Code />
       </IconButton>

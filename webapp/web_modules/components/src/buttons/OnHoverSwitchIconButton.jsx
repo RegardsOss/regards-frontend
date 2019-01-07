@@ -27,7 +27,10 @@ import IconButton from 'material-ui/IconButton'
  */
 class OnHoverSwitchIconButton extends React.Component {
   static propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
     onClick: PropTypes.arrayOf(PropTypes.func),
     label: PropTypes.arrayOf(PropTypes.string),
     // This component also accepts all properties of IconButton

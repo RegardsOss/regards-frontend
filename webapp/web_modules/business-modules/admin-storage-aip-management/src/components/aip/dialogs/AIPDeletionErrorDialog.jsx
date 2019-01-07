@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -63,18 +62,12 @@ class AIPDeletionErrorDialog extends React.Component {
         open={show}
       >
         <ul>
-          { // Present errors as bullets
+          { // Present each error as a bullet
             errors.map(({ aipId, reason }) => (
               <li key={aipId}>
                 { formatMessage({ id: 'aip.delete.error.format.reason' }, { aipId, reason }) }
               </li>))
-
           }
-          {map(errors, (error, i) => <li key={i}>
-            {error}
-            <br />
-          </li>,
-          )}
         </ul>
       </Dialog>
 

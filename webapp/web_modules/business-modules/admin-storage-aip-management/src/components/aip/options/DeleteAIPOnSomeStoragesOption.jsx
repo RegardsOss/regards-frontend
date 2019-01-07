@@ -24,7 +24,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { withHateoasDisplayControl } from '@regardsoss/display-control'
 import { TableSelectionModes } from '@regardsoss/components'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
+/** HATEOAS-able button, exported for tests */
+export const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
  * Table option to delete AIP files on every local storage
@@ -33,7 +34,7 @@ const HateoasIconAction = withHateoasDisplayControl(IconButton)
 class DeleteAIPOnSomeStoragesOption extends React.Component {
   static propTypes = {
     // Entity. Note: when used in options column, this is provided by the table cell API
-    entity: StorageShapes.AIPWithStorages,
+    entity: StorageShapes.AIPWithStorages.isRequired,
     // callback: on delete (selectionMode, [AIPs]) => ()
     onDelete: PropTypes.func.isRequired,
   }
@@ -50,7 +51,6 @@ class DeleteAIPOnSomeStoragesOption extends React.Component {
    */
   onClick = () => {
     const { entity, onDelete } = this.props
-    onDelete(entity)
     onDelete(TableSelectionModes.includeSelected, [entity])
   }
 

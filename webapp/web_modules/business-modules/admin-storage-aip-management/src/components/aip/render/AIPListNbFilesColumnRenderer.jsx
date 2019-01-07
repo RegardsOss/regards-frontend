@@ -27,7 +27,7 @@ import { themeContextType } from '@regardsoss/theme'
 */
 class AIPListNbFilesColumnRenderer extends React.Component {
   static propTypes = {
-    value: StorageShapes.AIPContentWithStorages,
+    value: StorageShapes.AIPContentWithStorages.isRequired,
     handleClick: PropTypes.func,
   }
 
@@ -35,14 +35,14 @@ class AIPListNbFilesColumnRenderer extends React.Component {
     ...themeContextType,
   }
 
-  handleClick = () => {
+  onClick = () => {
     this.props.handleClick(this.props.value)
   }
 
   render() {
     const { moduleTheme: { dataFileLinkStyle } } = this.context
     return (
-      <span onClick={this.handleClick} style={dataFileLinkStyle}>
+      <span onClick={this.onClick} style={dataFileLinkStyle}>
         {size(get(this.props.value, 'aip.properties.contentInformations', []))}
       </span>
     )

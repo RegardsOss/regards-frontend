@@ -28,7 +28,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 class AIPListStateRenderer extends React.Component {
   static propTypes = {
     // from table cell API
-    entity: StorageShapes.AIPWithStorages,
+    entity: StorageShapes.AIPWithStorages.isRequired,
     goToAipFiles: PropTypes.func.isRequired,
   }
 
@@ -45,6 +45,12 @@ class AIPListStateRenderer extends React.Component {
 
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
+  /** User callback: button was clicked */
+  onClick = () => {
+    const { entity, goToAipFiles } = this.props
+    goToAipFiles(entity.content)
+  }
+
   render() {
     const { intl: { formatMessage } } = this.context
     const { entity: { content } } = this.props
@@ -58,7 +64,7 @@ class AIPListStateRenderer extends React.Component {
               title={formatMessage({ id: 'aips.files.table.tooltip.show-error-files' })}
               iconStyle={AIPListStateRenderer.iconStyle}
               style={AIPListStateRenderer.buttonStyle}
-              onClick={() => this.props.goToAipFiles(content)}
+              onClick={this.onClick}
             >
               <Report />
             </IconButton>

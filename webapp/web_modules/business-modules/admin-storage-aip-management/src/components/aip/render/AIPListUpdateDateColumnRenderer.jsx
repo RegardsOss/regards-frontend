@@ -25,7 +25,7 @@ import { DateValueRender } from '@regardsoss/components'
  */
 class AIPListUpdateDateColumnRenderer extends React.Component {
   static propTypes = {
-    entity: StorageShapes.AIPWithStorages,
+    entity: StorageShapes.AIPWithStorages.isRequired,
   }
 
   render() {
