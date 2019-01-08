@@ -19,7 +19,6 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
-import values from 'lodash/values'
 import TextField from 'material-ui/TextField'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
@@ -61,6 +60,42 @@ class AIPListFiltersComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   * Converts filters to state
+   * @param {*} filters request filters
+   * @return {*} state converted from request filters
+   */
+  static convertFiltersToState({
+    state, providerId, tags, storedOn, from, to,
+  }) {
+    return {
+      state,
+      providerId,
+      tags,
+      storedOn,
+      from: from && new Date(from), // convert string to date (or returns undefined)
+      to: to && new Date(to), // convert string to date (or returns undefined)
+    }
+  }
+
+  /**
+     * Converts state to filters
+     * @param {*} state AIPListComponent state
+     * @return {*} request filters converted from state
+     */
+  static convertStateToFilters({
+    from, to, state, tags, providerId, storedOn,
+  }) {
+    return {
+      state,
+      providerId,
+      tags,
+      storedOn,
+      from: from && from.toISOString(), // convert date to string
+      to: to && to.toISOString(), // convert date to string
+    }
+  }
+
   state = {
     filters: {},
     orderedDataStorages: [],
@@ -72,29 +107,31 @@ class AIPListFiltersComponent extends React.Component {
   componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
-  * Lifecycle method: component receive props. Used here to detect properties change and update local state
-  * @param {*} nextProps next component properties
-  */
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
   componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
 
+
   /**
-  * Properties change detected: update local state
-  * @param oldProps previous component properties
-  * @param newProps next component properties
-  */
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
   onPropertiesUpdated = (oldProps, newProps) => {
     const { currentFilters, dataStorages } = newProps
     const newState = { ...this.state }
     // 1 - When parent current filters are updated (and different of this filters), update edition model
     // Note: that mechanism allows specifically to restore initial filters or filters externally changed
-    if (!isEqual(this.state.filters, currentFilters)) {
-      newState.filters = { ...currentFilters }
+    if (!isEqual(oldProps.currentFilters, currentFilters)) {
+      newState.filters = AIPListFiltersComponent.convertFiltersToState(currentFilters)
     }
     // 2 - Prepare ordered datastorages pool for selection
     if (!isEqual(oldProps.dataStorages, dataStorages)) {
       newState.selectableDataStorages = [...dataStorages].sort((str1, str2) => StringComparison.compare(
         str1.dataStorageConfiguration.label, str2.dataStorageConfiguration.label))
     }
+
 
     // Apply computed diff
     if (!isEqual(this.state, newState)) {
@@ -105,40 +142,12 @@ class AIPListFiltersComponent extends React.Component {
   /**
    * Clear all filters
    */
-  handleClearFilters = () => {
-    this.setState({ filters: {} }, this.onApplyFilters)
-  }
+  handleClearFilters = () => this.props.onApplyFilters({})
 
   /**
    * Applies current filters
    */
-  onApplyFilters = () => {
-    const {
-      from, to, state, aipId, tags, providerId,
-    } = this.state.filters
-    const newFilters = {}
-    if (from) {
-      newFilters.from = from.toISOString()
-    }
-    if (to) {
-      newFilters.to = to.toISOString()
-    }
-    if (state) {
-      newFilters.state = state
-    }
-    if (providerId) {
-      newFilters.providerId = providerId
-    }
-    if (tags) {
-      newFilters.tags = tags
-    }
-    if (aipId) {
-      // Add '%' caracter at starts and ends of the string to search for matching pattern and not strict value.
-      newFilters.aipId = `%${aipId}%`
-    }
-    // TODO: convert storages into server expected data. Pay attention to initial date values!!!!
-    this.props.onApplyFilters(newFilters)
-  }
+  onApplyFilters = () => this.props.onApplyFilters(AIPListFiltersComponent.convertStateToFilters(this.state.filters))
 
   changeFrom = (newValue) => {
     this.setState({
@@ -199,7 +208,7 @@ class AIPListFiltersComponent extends React.Component {
     this.setState({
       filters: {
         ...this.state.filters,
-        dataStorages: newValue,
+        storedOn: newValue,
       },
     })
   }
@@ -221,13 +230,13 @@ class AIPListFiltersComponent extends React.Component {
               hintText={formatMessage({
                 id: 'aips.list.filters.data.storage.label',
               })}
-              value={get(this.state, 'filters.dataStorages', [])}
+              value={get(this.state, 'filters.storedOn', [])}
               onChange={this.onStorageSelected}
               multiple
             >
               {selectableDataStorages.map(storage => (<MenuItem
                 key={storage.id}
-                value={storage}
+                value={storage.id}
                 primaryText={storage.dataStorageConfiguration.label}
               />))}
             </SelectField>
@@ -330,7 +339,6 @@ class AIPListFiltersComponent extends React.Component {
               !get(this.state, 'filters.from')
               && !get(this.state, 'filters.state')
               && !get(this.state, 'filters.tags')
-              && !get(this.state, 'filters.aipId')
               && !get(this.state, 'filters.providerId')
               && !get(this.state, 'filters.dataStorages', []).length
             }

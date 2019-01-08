@@ -36,7 +36,7 @@ describe('[ADMIN STORAGE AIP MANAGEMENT] Testing AIPListFiltersComponent', () =>
   it('should exists', () => {
     assert.isDefined(AIPListFiltersComponent)
   })
-  it('should render correctly and initialize search filters', () => {
+  it('should render correctly', () => {
     const props = {
       currentFilters: {
         state: 'VALID',

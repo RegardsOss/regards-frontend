@@ -64,7 +64,7 @@ export class InfiniteAIPTableContainer extends React.Component {
     columns: PropTypes.arrayOf(TableColumnConfiguration).isRequired,
     emptyComponent: PropTypes.element,
     // Context
-    currentFilters: PropTypes.objectOf(PropTypes.string).isRequired, // used only in mapDispatchToProps#fetchEntities
+    currentFilters: PropTypes.objectOf(PropTypes.any).isRequired, // used only in mapDispatchToProps#fetchEntities
     // from mapStateToProps
     entities: PropTypes.arrayOf(PropTypes.object),
     entitiesFetching: PropTypes.bool,
