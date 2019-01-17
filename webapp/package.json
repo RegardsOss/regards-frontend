@@ -150,7 +150,7 @@
     "lodash": "^4.17.11",
     "material-ui": "^0.20.2",
     "mdi-material-ui": "^4.2.0",
-    "mizar": "https://github.com/MizarWeb/Mizar/archive/0b02aed94e249401b6df9fe680a91237b309de54.tar.gz",
+    "mizar": "https://github.com/MizarWeb/Mizar/archive/79a1aaf2134f97a4c75de35c40238c602cba0df3.tar.gz",
     "normalizr": "^2.3.1",
     "react": "^16.6.3",
     "react-ace": "^6.2.0",
