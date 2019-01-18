@@ -20,7 +20,7 @@ export default {
   content: [
     {
       content: {
-        type: 'COLLECTION',
+        entityType: 'COLLECTION',
         lastUpdate: '2017-01-30T11:16:23.919',
         creationDate: '2017-01-30T11:16:23.919',
         id: 1,
@@ -50,7 +50,7 @@ export default {
     },
     {
       content: {
-        type: 'COLLECTION',
+        entityType: 'COLLECTION',
         lastUpdate: '2017-01-30T11:16:23.919',
         creationDate: '2017-01-30T11:16:23.919',
         id: 4,
@@ -80,7 +80,7 @@ export default {
     },
     {
       content: {
-        type: 'COLLECTION',
+        entityType: 'COLLECTION',
         lastUpdate: '2017-01-30T11:16:23.919',
         creationDate: '2017-01-30T11:16:23.919',
         id: 2,
@@ -110,7 +110,7 @@ export default {
     },
     {
       content: {
-        type: 'COLLECTION',
+        entityType: 'COLLECTION',
         lastUpdate: '2017-01-30T11:16:23.919',
         creationDate: '2017-01-30T11:16:23.919',
         id: 3,

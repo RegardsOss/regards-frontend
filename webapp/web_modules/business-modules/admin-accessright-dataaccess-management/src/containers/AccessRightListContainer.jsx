@@ -72,7 +72,7 @@ export class AccessRightListContainer extends React.Component {
       accessLevel: formValues.access,
       dataset: {
         id: get(datasetWithAR, 'content.dataset.id', null),
-        type: get(datasetWithAR, 'content.dataset.type', null),
+        entityType: get(datasetWithAR, 'content.dataset.entityType', null),
       },
     }))
     const requests = []

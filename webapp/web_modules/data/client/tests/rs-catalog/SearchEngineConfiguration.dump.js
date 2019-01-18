@@ -154,7 +154,7 @@ export default {
         },
         datasetUrn: 'URN:AIP:DATASET:project1:27de606c-a6cd-411f-a5ba-bd1b2f29c965:V1',
         dataset: {
-          type: 'DATASET',
+          entityType: 'DATASET',
           id: 1,
           ipId: 'URN:AIP:DATASET:project1:27de606c-a6cd-411f-a5ba-bd1b2f29c965:V1',
           model: {
