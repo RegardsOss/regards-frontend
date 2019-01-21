@@ -147,7 +147,7 @@ export class CollectionFormContainer extends React.Component {
       },
       // descriptionFile,
       model,
-      type: ENTITY_TYPES_ENUM.COLLECTION,
+      entityType: ENTITY_TYPES_ENUM.COLLECTION,
     })
 
     Promise.resolve(this.props.createCollection(apiValues))

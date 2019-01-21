@@ -145,7 +145,7 @@ export class DocumentFormContainer extends React.Component {
       defaultValues.tags = this.props.currentDocument.content.tags
     }
     const newDocument = Object.assign({}, defaultValues, {
-      type: ENTITY_TYPES_ENUM.DOCUMENT,
+      entityType: ENTITY_TYPES_ENUM.DOCUMENT,
       model,
       feature: {
         label: values.label,
