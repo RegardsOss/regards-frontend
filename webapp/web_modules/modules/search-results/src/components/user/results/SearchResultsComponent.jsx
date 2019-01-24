@@ -25,6 +25,7 @@ import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { BasicFacetsPageableActions, BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
+import { MizarContainer } from '@regardsoss/mizar-adapter'
 import { UIFacetArray, SelectedFacetArray } from '../../../models/facets/FacetShape'
 import { tableActions, tableSelectors } from '../../../clients/TableClient'
 import { ColumnPresentationModelArray } from '../../../models/table/TableColumnModel'
@@ -104,6 +105,7 @@ class SearchResultsComponent extends React.Component {
     onShowDataobjects: PropTypes.func.isRequired,
     onShowListView: PropTypes.func.isRequired,
     onShowTableView: PropTypes.func.isRequired,
+    onShowMapView: PropTypes.func.isRequired,
     onShowQuicklookView: PropTypes.func.isRequired,
     onSortByAttribute: PropTypes.func.isRequired,
     onToggleShowFacettes: PropTypes.func.isRequired,
@@ -241,6 +243,50 @@ class SearchResultsComponent extends React.Component {
   /** @return {boolean} true if currently in table view */
   isInQuicklookView = () => this.props.tableViewMode === TableDisplayModeEnum.QUICKLOOK
 
+  /** @return {boolean} true if currently in map view */
+  isInMapView = () => this.props.tableViewMode === TableDisplayModeEnum.MAP
+
+  renderView = (viewObjectType, searchActions, searchSelectors, displayConf,
+    displayColumnsHeader, requestParameters, itemProps, lineHeight, columns) => {
+    if (this.isInQuicklookView()) {
+      return <InfiniteGalleryContainer
+        itemComponent={GalleryItemComponent}
+        pageActions={searchActions}
+        pageSelectors={searchSelectors}
+        columnWidth={displayConf.quicklookColumnWidth}
+        columnGutter={displayConf.quicklookColumnSpacing}
+        requestParams={requestParameters}
+        queryPageSize={QUICKLOOK_PAGE_SIZE}
+        emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
+        itemProps={itemProps}
+      />
+    }
+
+    if (this.isInMapView()) {
+      return <MizarContainer
+        pageActions={searchActions}
+        pageSelectors={searchSelectors}
+        requestParams={requestParameters}
+        queryPageSize={500}
+      />
+    }
+
+    return <PageableInfiniteTableContainer
+      key={viewObjectType} // unmount the table when change entity type (using key trick)
+    // infinite table configuration
+      pageActions={searchActions}
+      pageSelectors={searchSelectors}
+      tableActions={tableActions}
+
+      displayColumnsHeader={displayColumnsHeader}
+      lineHeight={lineHeight}
+      columns={columns}
+      queryPageSize={RESULTS_PAGE_SIZE}
+      requestParams={requestParameters}
+      emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
+    />
+  }
+
   render() {
     const { muiTheme } = this.context
     const tableTheme = muiTheme.components.infiniteTable
@@ -254,7 +300,7 @@ class SearchResultsComponent extends React.Component {
       dataSectionLabel, isDescAvailableFor,
       onConfigureColumns, onResetColumns, onSelectFacet, onUnselectFacet, onShowDatasets, onShowDataobjects,
       onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes, onStartSelectionService,
-      onAddSelectionToCart, onShowQuicklookView, onAddElementToCart, onShowDescription,
+      onAddSelectionToCart, onShowQuicklookView, onShowMapView, onAddElementToCart, onShowDescription,
     } = this.props
 
     let columns
@@ -305,6 +351,7 @@ class SearchResultsComponent extends React.Component {
           onShowDatasets={onShowDatasets}
           onShowListView={onShowListView}
           onShowTableView={onShowTableView}
+          onShowMapView={onShowMapView}
           onShowQuicklookView={onShowQuicklookView}
           onSortByAttribute={onSortByAttribute}
           onStartSelectionService={onStartSelectionService}
@@ -325,33 +372,8 @@ class SearchResultsComponent extends React.Component {
           selectedFacets={selectedFacets}
           onUnselectFacet={onUnselectFacet}
         />
-        {this.isInQuicklookView() ? (
-          <InfiniteGalleryContainer
-            itemComponent={GalleryItemComponent}
-            pageActions={searchActions}
-            pageSelectors={searchSelectors}
-            columnWidth={displayConf.quicklookColumnWidth}
-            columnGutter={displayConf.quicklookColumnSpacing}
-            requestParams={requestParameters}
-            queryPageSize={QUICKLOOK_PAGE_SIZE}
-            emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
-            itemProps={itemProps}
-          />) : (
-            <PageableInfiniteTableContainer
-              key={viewObjectType} // unmount the table when change entity type (using key trick)
-              // infinite table configuration
-              pageActions={searchActions}
-              pageSelectors={searchSelectors}
-              tableActions={tableActions}
-
-              displayColumnsHeader={displayColumnsHeader}
-              lineHeight={lineHeight}
-              columns={columns}
-              queryPageSize={RESULTS_PAGE_SIZE}
-              requestParams={requestParameters}
-              emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
-            />)
-        }
+        {this.renderView(viewObjectType, searchActions, searchSelectors, displayConf,
+          displayColumnsHeader, requestParameters, itemProps, lineHeight, columns)}
       </TableLayout>)
   }
 }

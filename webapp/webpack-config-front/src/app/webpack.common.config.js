@@ -38,7 +38,22 @@ module.exports = function (projectContextPath, mode = 'dev') {
           test: /\.jsx?$/,
           // Exclude the DLL folder build from the transpilation
           // and staticConfiguration this file is just copied not interpreted
-          exclude: [/node_modules/, /dist/, /staticConfiguration(\.dev)?\.js$/],
+          exclude: [
+            /node_modules/,
+            /dist/,
+            /staticConfiguration(\.dev)?\.js$/,
+            /\/mizar\//,
+            /\/rconfig.js$/,
+            /\/node_modules\/requirejs\//,
+            /\/node_modules\/path\//,
+            /\/node_modules\/underscore\//,
+            /\/node_modules\/jquery\//,
+            /\/node_modules\/jquery-ui-dist\//,
+            /\/node_modules\/string\//,
+            /\/node_modules\/file-saver\//,
+            /\/node_modules\/jszip\//,
+            /\/node_modules\/xmltojson\//,
+          ],
           use: [
             'thread-loader',
             // used to cache the results of the loader.
@@ -46,6 +61,45 @@ module.exports = function (projectContextPath, mode = 'dev') {
             // the cache is different depending of the value of NODE_ENV
             'babel-loader?cacheDirectory',
           ],
+        },
+        // Special for Mizar
+        {
+          test: /\/mizar\//,
+          loader: 'file-loader',
+          options: {
+            regExp: /\/mizar\/(.+)$/,
+            name: '[1]',
+            outputPath: 'mizar/',
+          },
+        },
+        {
+          test: [
+            /\/node_modules\/requirejs\//,
+            /\/node_modules\/path\//,
+            /\/node_modules\/underscore\//,
+            /\/node_modules\/jquery\//,
+            /\/node_modules\/jquery-ui-dist\//,
+            /\/node_modules\/string\//,
+            /\/node_modules\/file-saver\//,
+            /\/node_modules\/jszip\//,
+            /\/node_modules\/xmltojson\//,
+            /\/node_modules\/wms-capabilities\//,
+            /\/node_modules\/moment\//,
+          ],
+          loader: 'file-loader',
+          options: {
+            regExp: /\/node_modules\/(.+)$/,
+            name: '[1]',
+            outputPath: 'mizar/node_modules/',
+          },
+        },
+        {
+          test: /\/rconfig.js$/,
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'mizar/src/',
+          },
         },
         { // @regardsoss-modules icon handler
           test: /default-icon\.svg$/,

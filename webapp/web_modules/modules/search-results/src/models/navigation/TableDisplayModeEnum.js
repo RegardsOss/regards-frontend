@@ -25,6 +25,7 @@ export const TableDisplayModeEnum = {
   TABLE: 'table',
   LIST: 'list',
   QUICKLOOK: 'quicklook',
+  MAP: 'map',
 }
 
 export const TableDisplayModeValues = values(TableDisplayModeEnum)

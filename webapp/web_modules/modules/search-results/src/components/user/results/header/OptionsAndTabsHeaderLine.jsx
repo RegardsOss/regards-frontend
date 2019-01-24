@@ -19,6 +19,7 @@
 import ListViewIcon from 'mdi-material-ui/ViewSequential'
 import TableViewIcon from 'mdi-material-ui/TableLarge'
 import ImageAlbum from 'mdi-material-ui/ImageAlbum'
+import MapViewIcon from 'mdi-material-ui/Navigation'
 import ShowFacetsSearchIcon from 'material-ui/svg-icons/action/find-in-page'
 import DatasetLibraryIcon from 'material-ui/svg-icons/image/collections-bookmark'
 import DataLibraryIcon from 'material-ui/svg-icons/av/library-books'
@@ -76,6 +77,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
     onShowDataobjects: PropTypes.func.isRequired,
     onShowDatasets: PropTypes.func.isRequired,
     onShowQuicklookView: PropTypes.func.isRequired,
+    onShowMapView: PropTypes.func.isRequired,
     onShowListView: PropTypes.func.isRequired,
     onShowTableView: PropTypes.func.isRequired,
     onSortByAttribute: PropTypes.func.isRequired,
@@ -107,12 +109,15 @@ class OptionsAndTabsHeaderLine extends React.Component {
   /** @return {boolean} true if currently in table view */
   isInQuicklookView = () => this.props.tableViewMode === TableDisplayModeEnum.QUICKLOOK
 
+  /** @return {boolean} true if currently in table view */
+  isInMapView = () => this.props.tableViewMode === TableDisplayModeEnum.MAP
+
   render() {
     const { intl: { formatMessage }, moduleTheme: { user: { viewModeButton } } } = this.context
     const {
       presentationModels, displayMode, searchSelectors, displayFacettesButton, showingFacettes,
       enableQuicklooks, selectionServices, onAddSelectionToCart, onConfigureColumns, onResetColumns,
-      onShowListView, onShowTableView, onShowDatasets, onShowQuicklookView, displayOnlyQuicklook,
+      onShowListView, onShowTableView, onShowMapView, onShowDatasets, onShowQuicklookView, displayOnlyQuicklook,
       onShowDataobjects, onSortByAttribute, onStartSelectionService, onToggleShowFacettes,
       onToggleDisplayOnlyQuicklook, datasetsSectionLabel, dataSectionLabel,
     } = this.props
@@ -205,6 +210,14 @@ class OptionsAndTabsHeaderLine extends React.Component {
               secondary={this.isInTableView()}
               style={viewModeButton}
               title={formatMessage({ id: 'view.type.table.button.label' })}
+            />
+            <FlatButton
+              key="view.type.map"
+              onClick={onShowMapView}
+              icon={<MapViewIcon />}
+              secondary={this.isInMapView()}
+              style={viewModeButton}
+              title={formatMessage({ id: 'view.type.map.button.label' })}
             />
             <ShowableAtRender show={enableQuicklooks && this.isDisplayingDataobjects()}>
               <FlatButton

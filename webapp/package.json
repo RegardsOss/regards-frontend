@@ -137,6 +137,7 @@
     "@regardsoss/user": "file:web_modules/business-modules/user",
     "@regardsoss/user-metadata-common": "file:web_modules/business-common/user-metadata-common",
     "@regardsoss/vendors": "file:web_modules/vendors",
+    "@regardsoss/mizar-adapter": "file:web_modules/utils/mizar-adapter",
     "MizarWidget": "https://github.com/MizarWeb/MizarWidget/archive/3e171342e8619b9bebe6159b8b28e7888cb223ed.tar.gz",
     "bignumber.js": "^8.0.1",
     "chart.js": "^2.7.3",
@@ -180,7 +181,9 @@
     "redux-thunk": "~2.3.0",
     "reselect": "^4.0.0",
     "scriptjs": "~2.5.9",
-    "window-or-global": "^1.0.1"
+    "window-or-global": "^1.0.1",
+    "plotly.js": "^1.36.0",
+    "react-plotly.js": "^2.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.5",

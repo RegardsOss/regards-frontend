@@ -111,6 +111,7 @@ const messages = {
   'list.sort.none.label': 'Aucun',
   'view.type.table.button.label': 'Afficher les résultats dans un tableau',
   'view.type.list.button.label': 'Afficher les résultats en liste',
+  'view.type.map.button.label': 'Afficher les résultats sur une carte',
   'view.type.quicklook.button.label': 'Afficher les résultats en image',
   'download.tooltip': 'Télécharger',
   'no.download.tooltip': 'Aucun fichier ou droits utilisateur insuffisant',

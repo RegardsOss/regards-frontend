@@ -328,6 +328,9 @@ export class SearchResultsContainer extends React.Component {
   /**  On show results as table view action  */
   onShowTableView = () => this.props.dispatchChangeTableDisplayMode(TableDisplayModeEnum.TABLE)
 
+  /**  On show results as map view action  */
+  onShowMapView = () => this.props.dispatchChangeTableDisplayMode(TableDisplayModeEnum.MAP)
+
   /**  On show results as quicklook view action  */
   onShowQuicklookView = () => {
     this.props.dispatchChangeTableDisplayMode(TableDisplayModeEnum.QUICKLOOK)
@@ -586,6 +589,7 @@ export class SearchResultsContainer extends React.Component {
                 onShowDataobjects={this.onShowDataobjects}
                 onShowListView={this.onShowListView}
                 onShowTableView={this.onShowTableView}
+                onShowMapView={this.onShowMapView}
                 onShowQuicklookView={this.onShowQuicklookView}
                 onSortByAttribute={this.onSortByAttribute}
                 onToggleShowFacettes={this.onToggleShowFacettes}

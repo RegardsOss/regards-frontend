@@ -111,6 +111,7 @@ const messages = {
   'list.sort.none.label': 'None',
   'view.type.table.button.label': 'Display results with table mode',
   'view.type.list.button.label': 'Display results with list mode',
+  'view.type.map.button.label': 'Display results with map mode',
   'view.type.quicklook.button.label': 'Display results with pictures mode',
   'download.tooltip': 'Download',
   'no.download.tooltip': 'No file or unsufficient user rights',
