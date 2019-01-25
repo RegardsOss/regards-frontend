@@ -31,7 +31,8 @@ class DownloadButton extends React.Component {
     tooltip: PropTypes.string,
     disabled: PropTypes.bool,
     downloadURL: PropTypes.string.isRequired,
-    downloadName: PropTypes.string, // TODO check how to improve file name with it for both firefox and chrome
+    // TODO-V4 check how to improve file name with it for both firefox and chrome, or delete property in invokers
+    downloadName: PropTypes.string,
     // ... other button properties, provided at runtime to the button
   }
 
