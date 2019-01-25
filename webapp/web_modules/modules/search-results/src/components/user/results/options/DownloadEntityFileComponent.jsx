@@ -122,12 +122,10 @@ class DownloadEntityFileComponent extends React.Component {
         // show direct file link
         return (
           <a
-            download="download"
             href={DamDomain.DataFileController.getFileURI(downloadableFiles[0], accessToken, projectName)}
             style={style}
             title={formatMessage({ id: 'download.tooltip' })}
             target="_blank"
-            rel="noopener noreferrer"
           >
             <DownloadIcon />
           </a>
@@ -143,12 +141,10 @@ class DownloadEntityFileComponent extends React.Component {
             { /* Map all files  */
               downloadableFiles.map((file, key) => (
                 <a
-                  download="download"
                   key={file.uri}
                   href={DamDomain.DataFileController.getFileURI(file, accessToken, projectName)}
                   style={DownloadEntityFileComponent.resetLinkStyle}
                   target="_blank"
-                  rel="noopener noreferrer"
                 >
                   <MenuItem
                     primaryText={file.filename}

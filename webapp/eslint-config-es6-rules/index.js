@@ -77,6 +77,9 @@ const allRules = {
   'react/jsx-wrap-multilines': 0,
   'react/no-access-state-in-setstate': 0,
   'react/jsx-closing-tag-location': 0,
+  // This is not a security issue in REGARDS, as objects URL are stored database. Therefore, rendered files should be checked
+  // as storage level (client network)
+  'react/jsx-no-target-blank': 0,
 
   // Lodash rules configuration
   'lodash/import-scope': [2, 'method'],
