@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
+import { messages as attributesMessages } from '@regardsoss/attributes-common'
 
 /**
  * i18n messages French language
@@ -25,6 +26,9 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = {
   // common form messages
   ...Locales.fr,
+
+  // attributes model i18n
+  ...attributesMessages.fr,
 
   // Administration messages
 
@@ -80,11 +84,18 @@ const messages = {
   'form.criterion.new.button.label': 'Ajouter un critère',
   'form.criterion.reset.button.label': 'Réinitialiser',
   'form.criterion.criteria.new.title': 'Ajouter un critère',
+  'form.criterion.criteria.existing.title': 'Modifier un critère',
+  'form.criterion.criteria.subtitle': 'Configuration générale du critère',
   'form.criterion.criteria.select.criteria.label': 'Sélectionner un critère ...',
   'form.criterion.criteria.select.container.label': 'Sélectionner un conteneur',
+  'form.criterion.criteria.select.position.label': 'Position',
+  'form.criterion.criteria.select.position.first': '1 - En premier',
+  'form.criterion.criteria.select.position.after': 'Après',
   'form.criterion.criteria.submit.button.label': 'Ajouter',
+  'form.criterion.criteria.edit.button.label': 'Éditer',
   'form.criterion.criteria.cancel.button.label': 'Annuler',
-  'form.criterion.criteria.select.attribute.label': 'Sélectionner un attribut ...',
+  'form.criterion.criteria.no.config.title': 'Aucun critère',
+  'form.criterion.criteria.no.config.message': 'Sélectionnez un critère pour le configurer',
 
   // User display component
   'form.search.button.label': 'Rechercher',
