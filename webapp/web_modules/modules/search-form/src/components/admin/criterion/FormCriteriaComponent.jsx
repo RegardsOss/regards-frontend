@@ -61,6 +61,10 @@ class FormCriteriaComponent extends React.Component {
     change: PropTypes.func.isRequired,
   }
 
+  static defaultProps = {
+    criterion: [],
+  }
+
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
