@@ -115,9 +115,9 @@ const messages = Object.assign({
   'datasource.form.create.pick-interface.title': 'Choisir le mode d\'aspiration',
   'datasource.form.create.pick-interface.subtitle': 'Veuillez sélectionner le type d\'aspiration que vous souhaitez créer, selon où ils sont stockés.',
   'datasource.form.create.pick-interface.description.aip': 'Ce mode permet d\'aspirer des AIPs au format GeoJSON',
-  'datasource.form.create.pick-interface.action.aip': 'Aspirer des AIPs',
   'datasource.form.create.pick-interface.description.db': 'Ce mode permet d\'aspirer une source de données externe',
-  'datasource.form.create.pick-interface.action.db': 'Aspirer une source de données',
+  'datasource.form.create.pick-interface.description.opensearch': "Ce mode permet d'aspirer une source OpenSearch",
+  'datasource.form.create.pick-interface.action.select': 'Sélectionner',
   'datasource.form.create.pick-interface.action.cancel': 'Annuler',
   'aip.datasource.create.title': 'Creation d\'une source de données de AIPs',
   'aip.datasource.form.subtitle': 'Cet écran vous permet de configurer la facon dont les AIPs stockés par le microservice de stockage vont être indexés dans le catalogue. Pour ce faire, vous devez indiquer où dans l\'AIP trouver les informations du modèle de données à indéxer',
@@ -129,6 +129,10 @@ const messages = Object.assign({
   'aip.datasource.form.table.input': 'Valeur',
   'aip.datasource.form.table.lowerBound': 'Borne inférieure',
   'aip.datasource.form.table.upperBound': 'Borne supérieure',
+
+  'opensearch.crawler.stepper.crawler': "Configuration de l'aspiration OpenSearch",
+  'opensearch.crawler.stepper.query': 'Configuration de la requête OpenSearch',
+  'opensearch.crawler.stepper.results': 'Configuration des résultats OpenSearch',
 }, Locales.fr)
 
 export default messages

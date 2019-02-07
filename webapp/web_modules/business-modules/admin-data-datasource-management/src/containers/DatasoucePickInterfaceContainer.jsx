@@ -46,12 +46,18 @@ export class DatasoucePickInterfaceContainer extends React.Component {
     return `/admin/${project}/data/acquisition/datasource/aip/create`
   }
 
+  getCreateOSCrawlerUrl = () => {
+    const { params: { project } } = this.props
+    return `/admin/${project}/data/acquisition/datasource/opensearch/create/crawler`
+  }
+
   render() {
     return (
       <I18nProvider messages={messages}>
         <DatasouceCreatePickInterfaceComponent
           createDBDasourceUrl={this.getCreateDBDatasourceUrl()}
           createAIPDasourceUrl={this.getCreateAIPDatasourceUrl()}
+          createOpenSearchCrawlerUrl={this.getCreateOSCrawlerUrl()}
           backUrl={this.getBackUrl()}
         />
       </I18nProvider>

@@ -115,9 +115,9 @@ const messages = Object.assign({
   'datasource.form.create.pick-interface.title': 'Datasource creation',
   'datasource.form.create.pick-interface.subtitle': 'Please select the type of crawler you want to create.',
   'datasource.form.create.pick-interface.description.aip': 'AIP crawlers allow to crawl GeoJSON SIPs',
-  'datasource.form.create.pick-interface.action.aip': 'SIPs crawler',
   'datasource.form.create.pick-interface.description.db': 'This mode allows you to crawl data from an external data source',
-  'datasource.form.create.pick-interface.action.db': 'Crawl databases',
+  'datasource.form.create.pick-interface.description.opensearch': 'Crawls data from an OpenSearch Web Source',
+  'datasource.form.create.pick-interface.action.select': 'Select',
   'datasource.form.create.pick-interface.action.cancel': 'Cancel',
   'aip.datasource.create.title': 'SIPs datasource creation',
   'aip.datasource.form.subtitle': 'This form allows you to configure AIPs crawling from storage microservice. To do so, you have to map each attribute of your data model to the key of associated value in the AIPs.',
@@ -129,6 +129,10 @@ const messages = Object.assign({
   'aip.datasource.form.table.input': 'Value',
   'aip.datasource.form.table.lowerBound': 'Lower bound',
   'aip.datasource.form.table.upperBound': 'Upper bound',
+
+  'opensearch.crawler.stepper.crawler': 'OpenSearch crawler configuration',
+  'opensearch.crawler.stepper.query': 'OpenSearch query configuration',
+  'opensearch.crawler.stepper.results': 'OpenSearch results configuration',
 }, Locales.en)
 
 export default messages

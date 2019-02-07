@@ -25,6 +25,9 @@ import DBDatasourceCreateOrPickConnectionContainer from '../src/containers/DBDat
 import DataSourceMonitoringContainer from '../src/containers/DataSourceMonitoringContainer'
 import DatasoucePickInterfaceContainer from '../src/containers/DatasoucePickInterfaceContainer'
 import AIPDatasourceFormContainer from '../src/containers/AIPDatasourceFormContainer'
+import OSCrawlerConfigurationContainer from '../src/containers/OSCrawlerConfigurationContainer'
+import OSQueryConfigurationContainer from '../src/containers/OSQueryConfigurationContainer'
+import OSResultsConfigurationContainer from '../src/containers/OSResultsConfigurationContainer'
 
 describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
   before(testSuiteHelpers.before)
@@ -32,7 +35,7 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
 
   it('should return the correct value', () => {
     assert.isDefined(Routes)
-    expect(Routes.childRoutes).to.have.length(8)
+    expect(Routes.childRoutes).to.have.length(11)
     expect(Routes.childRoutes[0].path).to.eq('list')
     expect(Routes.childRoutes[1].path).to.eq('create/interface')
     expect(Routes.childRoutes[2].path).to.eq('db/create/connection')
@@ -41,6 +44,9 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
     expect(Routes.childRoutes[5].path).to.eq('monitor')
     expect(Routes.childRoutes[6].path).to.eq('aip/:datasourceId/edit')
     expect(Routes.childRoutes[7].path).to.eq('aip/create')
+    expect(Routes.childRoutes[8].path).to.eq('opensearch/create/crawler')
+    expect(Routes.childRoutes[9].path).to.eq('opensearch/create/query')
+    expect(Routes.childRoutes[10].path).to.eq('opensearch/create/results')
   })
   it('list should return DatasourceListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -87,6 +93,24 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
   it('create should return AIPDatasourceFormContainer', (done) => {
     Routes.childRoutes[7].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(AIPDatasourceFormContainer)
+      done()
+    })
+  })
+  it('create should return OSCrawlerConfigurationContainer', (done) => {
+    Routes.childRoutes[8].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(OSCrawlerConfigurationContainer)
+      done()
+    })
+  })
+  it('create should return OSQueryConfigurationContainer', (done) => {
+    Routes.childRoutes[9].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(OSQueryConfigurationContainer)
+      done()
+    })
+  })
+  it('create should return OSResultsConfigurationContainer', (done) => {
+    Routes.childRoutes[10].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(OSResultsConfigurationContainer)
       done()
     })
   })

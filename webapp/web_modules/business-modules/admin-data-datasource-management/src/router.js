@@ -100,6 +100,42 @@ export const createAIPDatasourceRoute = {
   },
 }
 
+export const createOSDatasourceCrawlerRoute = {
+  path: 'opensearch/create/crawler',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const OSCrawlerConfigurationContainer = require('./containers/OSCrawlerConfigurationContainer')
+      cb(null, {
+        content: OSCrawlerConfigurationContainer.default,
+      })
+    })
+  },
+}
+
+export const createOSDatasourceQueryRoute = {
+  path: 'opensearch/create/query',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const OSQueryConfigurationContainer = require('./containers/OSQueryConfigurationContainer')
+      cb(null, {
+        content: OSQueryConfigurationContainer.default,
+      })
+    })
+  },
+}
+
+export const createOSDatasourceResultsRoute = {
+  path: 'opensearch/create/results',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const OSResultsConfigurationContainer = require('./containers/OSResultsConfigurationContainer')
+      cb(null, {
+        content: OSResultsConfigurationContainer.default,
+      })
+    })
+  },
+}
+
 export const monitorDatasourcesRoute = {
   path: 'monitor',
   getComponents(nextState, cb) {
@@ -123,6 +159,9 @@ const datasourceDataManagementRouter = {
     monitorDatasourcesRoute,
     editAIPDatasourceRoute,
     createAIPDatasourceRoute,
+    createOSDatasourceCrawlerRoute,
+    createOSDatasourceQueryRoute,
+    createOSDatasourceResultsRoute,
   ],
 }
 
