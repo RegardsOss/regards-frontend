@@ -16,9 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with SCO. If not, see <http://www.gnu.org/licenses/>.
  **/
+
 import RaisedButton from 'material-ui/RaisedButton'
 import Checkbox from 'material-ui/Checkbox'
 import isEqual from 'lodash/isEqual'
+import { Measure } from '@regardsoss/adapters'
 import './MizarLoader'
 import './rconfig'
 import './Mizar.css'
@@ -26,12 +28,6 @@ import './Mizar.css'
  * Mizar Adapter
  */
 export default class MizarAdapter extends React.Component {
-  static canvaStyle = {
-    border: 'none',
-    margin: 0,
-    padding: 0,
-  }
-
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     entities: PropTypes.any,
@@ -42,6 +38,8 @@ export default class MizarAdapter extends React.Component {
     layerId: null,
     drawMode: false,
     vectorLayer: null,
+    measuredHeight: 1,
+    measuredWidth: 1,
   }
 
   /**
@@ -96,6 +94,17 @@ export default class MizarAdapter extends React.Component {
     }
   }
 
+  handleMouseUp = (event) => {
+    console.error('MousuUP !', event.layerX, event.layerY)
+    const pickPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.layerX, event.layerY)
+    const pickingManager = this.mizar.getServiceByName(this.Mizar.SERVICE.PickingManager)
+    pickingManager.clearSelection()
+    const newSelection = pickingManager.computePickSelection(pickPoint)
+    const select = pickingManager.setSelection(newSelection)
+    pickingManager.focusSelection(select)
+    console.log(select)
+  }
+
   /**
    * Called when the Mizar library is loaded
    * Run mizar and save the instance
@@ -120,6 +129,8 @@ export default class MizarAdapter extends React.Component {
     this.mizar.getActivatedContext().subscribe(this.Mizar.EVENT_MSG.LAYER_ADDED, () => {
       console.error('Loadded ok')
     })
+
+    this.mizar.getActivatedContext().getRenderContext().canvas.addEventListener('mouseup', this.handleMouseUp)
 
     // Add a WMS layer as background
     this.mizar.addLayer({
@@ -153,13 +164,25 @@ export default class MizarAdapter extends React.Component {
     const layer = this.mizar && this.state.layerId ? this.mizar.getLayerByID(this.state.layerId) : null
     if (layer) {
       layer.removeAllFeatures()
+      console.error('Adding ', lprops.entities)
       layer.addFeatureCollection(lprops.entities)
     }
   }
 
+  /**
+   * Called when component is resized, to force the inner table implementation at same width
+   */
+  onComponentResized = ({ measureDiv: { height, width } }) => {
+    console.error('Measure height', height)
+    this.setState({
+      measuredHeight: height,
+      measuredWidth: width,
+    })
+  }
+
   applyFilter = () => {
     const coord = this.feature.geometry.coordinates
-    console.error(coord,coord[0])
+    console.error(coord, coord[0])
     const wkt = `POLYGON((${coord[0][0][0]} ${coord[0][0][1]},${coord[0][1][0]} ${coord[0][1][1]},${coord[0][2][0]} ${coord[0][2][1]},${coord[0][0][0]} ${coord[0][0][1]}))`
     this.props.applyGeoParameter(wkt)
   }
@@ -210,29 +233,75 @@ export default class MizarAdapter extends React.Component {
     }
   }
 
+  renderButton =() => (
+    <div>
+      <Checkbox
+        label="Draw mode"
+        checked={this.state.drawMode}
+        onCheck={this.switchDrawMode}
+      />
+      <RaisedButton
+        label="Apply filter"
+        onClick={this.applyFilter}
+      />
+    </div>
+  )
 
   render() {
-    return (
-      <div>
-        <Checkbox
-          label="Draw mode"
-          checked={this.state.drawMode}
-          onCheck={this.switchDrawMode}
-        />
-        <RaisedButton
-          label="Apply filter"
-          onClick={this.applyFilter}
-        />
-        <canvas
-          key="canvas"
-          id="MizarCanvas"
-          style={MizarAdapter.canvaStyle}
-          onMouseUp={this.onMouseUp}
-          onMouseDown={this.onMouseDown}
-          onMouseMove={this.onMouseMove}
+    const canvaStyle = {
+      border: 'none',
+      width: '100%',
+      height: '100%',
+      minWidth: 0,
+      minHeight: 0,
+      margin: 0,
+      padding: 0,
+    }
 
-        />
+    return (
+
+      <div
+        style={{
+          display: 'flex', flexGrow: 1, flexShrink: 1, flexDirection: 'row', alignItems: 'stretch',
+        }}
+      >
+        <div style={{
+          flexGrow: 3,
+          flexShrink: 3,
+          flexBasis: 0,
+          minHeight: 0,
+          minWidth: 0,
+          margin: 'auto',
+        }}
+        >
+
+          <canvas
+            key="canvas"
+            id="MizarCanvas"
+            style={canvaStyle}
+            onMouseUp={this.onMouseUp}
+            onMouseDown={this.onMouseDown}
+            onMouseMove={this.onMouseMove}
+          />
+
+        </div>
+        <div style={{
+          flexGrow: 1,
+          flexShrink: 1,
+          flexBasis: 0,
+          minHeight: 0,
+          minWidth: 0,
+        }}
+        >
+          <table>
+            <td>
+              <tr>Plop</tr>
+              <tr>Plop</tr>
+            </td>
+          </table>
+        </div>
       </div>
+
     )
   }
 }
