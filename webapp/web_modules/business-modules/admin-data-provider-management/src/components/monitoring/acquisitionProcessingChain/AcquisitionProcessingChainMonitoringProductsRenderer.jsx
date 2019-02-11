@@ -25,13 +25,11 @@ import { DataProviderDomain } from '@regardsoss/domain'
 const PRODUCT_RUNNING_SIP_STATES = [
   DataProviderDomain.ProductSIPStateEnum.NOT_SCHEDULED,
   DataProviderDomain.ProductSIPStateEnum.SCHEDULED,
-  DataProviderDomain.ProductSIPStateEnum.GENERATED,
   DataProviderDomain.ProductSIPStateEnum.SUBMISSION_SCHEDULED,
 ]
 
 const PRODUCT_ERROR_SIP_STATES = [
   DataProviderDomain.ProductSIPStateEnum.GENERATION_ERROR,
-  DataProviderDomain.ProductSIPStateEnum.SUBMISSION_ERROR,
 ]
 
 /**
