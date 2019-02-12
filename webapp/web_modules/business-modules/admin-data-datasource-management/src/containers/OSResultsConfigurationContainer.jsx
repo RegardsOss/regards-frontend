@@ -17,6 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
+import { I18nProvider } from '@regardsoss/i18n'
+import messages from '../i18n'
+import OSResultsConfigurationComponent from '../components/OSResultsConfigurationComponent'
 
 /**
 *Comment Here
@@ -44,13 +47,17 @@ export class OSResultsConfigurationContainer extends React.Component {
   }
 
 static propTypes = {
+  backUrl: PropTypes.string.isRequired,
 // from mapStateToProps
 // from mapDispatchToProps
 }
 
 render() {
+  const { backUrl } = this.props
   return (
-    <div>Results</div>
+    <I18nProvider messages={messages}>
+      <OSResultsConfigurationComponent backUrl={backUrl} />
+    </I18nProvider>
   )
 }
 }

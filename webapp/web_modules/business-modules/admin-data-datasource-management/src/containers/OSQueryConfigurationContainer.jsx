@@ -17,6 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
+import { I18nProvider } from '@regardsoss/i18n'
+import messages from '../i18n'
+import OSQueryConfigurationComponent from '../components/OSQueryConfigurationComponent'
 
 /**
 *Comment Here
@@ -44,13 +47,18 @@ export class OSQueryConfigurationContainer extends React.Component {
   }
 
 static propTypes = {
+  backUrl: PropTypes.string.isRequired,
+  nextUrl: PropTypes.string.isRequired,
 // from mapStateToProps
 // from mapDispatchToProps
 }
 
 render() {
+  const { backUrl, nextUrl } = this.props
   return (
-    <div>Query</div>
+    <I18nProvider messages={messages}>
+      <OSQueryConfigurationComponent backUrl={backUrl} nextUrl={nextUrl} />
+    </I18nProvider>
   )
 }
 }

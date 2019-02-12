@@ -17,6 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
+import { I18nProvider } from '@regardsoss/i18n'
+import { browserHistory } from 'react-router'
+import messages from '../i18n'
+import OSCrawlerConfigurationComponent from '../components/OSCrawlerConfigurationComponent'
 
 /**
 *Comment Here
@@ -44,13 +48,25 @@ export class OSCrawlerConfigurationContainer extends React.Component {
   }
 
 static propTypes = {
-// from mapStateToProps
-// from mapDispatchToProps
+  backUrl: PropTypes.string.isRequired,
+  nextUrl: PropTypes.string.isRequired,
+  // from mapStateToProps
+  // from mapDispatchToProps
+}
+
+onSubmit = (fields) => {
+  console.log('Name', fields.name)
+  console.log('Refresh rate', fields.refreshRate)
+  console.log('Descriptor', fields.descriptor)
+  browserHistory.push(this.props.nextUrl)
 }
 
 render() {
+  const { backUrl } = this.props
   return (
-    <div>Crawler</div>
+    <I18nProvider messages={messages}>
+      <OSCrawlerConfigurationComponent backUrl={backUrl} onSubmit={this.onSubmit} />
+    </I18nProvider>
   )
 }
 }

@@ -53,6 +53,7 @@ const messages = Object.assign({
   'datasource.form.create.title': 'Create a new datasource',
   'datasource.form.create.subtitle': 'Select which connection you want to use for this datasource',
   'datasource.form.create.action.cancel': 'Cancel',
+  'datasource.form.create.action.previous': 'Previous',
   'datasource.form.create.action.next': 'Next',
   'datasource.form.create.action.connection': 'Create a connection',
   'datasource.form.create.datasource': 'List actives connections',
@@ -130,9 +131,9 @@ const messages = Object.assign({
   'aip.datasource.form.table.lowerBound': 'Lower bound',
   'aip.datasource.form.table.upperBound': 'Upper bound',
 
-  'opensearch.crawler.stepper.crawler': 'OpenSearch crawler configuration',
-  'opensearch.crawler.stepper.query': 'OpenSearch query configuration',
-  'opensearch.crawler.stepper.results': 'OpenSearch results configuration',
+  'opensearch.crawler.stepper.crawler': 'Crawler configuration',
+  'opensearch.crawler.stepper.query': 'Query configuration',
+  'opensearch.crawler.stepper.results': 'Results configuration',
 }, Locales.en)
 
 export default messages

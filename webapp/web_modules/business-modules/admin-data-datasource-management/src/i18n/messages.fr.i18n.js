@@ -53,6 +53,7 @@ const messages = Object.assign({
   'datasource.form.create.title': 'Création d\'une source de données',
   'datasource.form.create.subtitle': 'Veuillez sélectionner la connexion à partir de laquelle vous souhaitez créer la source de données',
   'datasource.form.create.action.cancel': 'Annuler',
+  'datasource.form.create.action.previous': 'Précédent',
   'datasource.form.create.action.next': 'Suivant',
   'datasource.form.create.action.connection': 'Créer une connexion',
   'datasource.form.create.datasource': 'Liste des connexions actives',
@@ -130,9 +131,9 @@ const messages = Object.assign({
   'aip.datasource.form.table.lowerBound': 'Borne inférieure',
   'aip.datasource.form.table.upperBound': 'Borne supérieure',
 
-  'opensearch.crawler.stepper.crawler': "Configuration de l'aspiration OpenSearch",
-  'opensearch.crawler.stepper.query': 'Configuration de la requête OpenSearch',
-  'opensearch.crawler.stepper.results': 'Configuration des résultats OpenSearch',
+  'opensearch.crawler.stepper.crawler': "Configuration de l'aspiration",
+  'opensearch.crawler.stepper.query': 'Configuration de la requête',
+  'opensearch.crawler.stepper.results': 'Configuration des résultats',
 }, Locales.fr)
 
 export default messages

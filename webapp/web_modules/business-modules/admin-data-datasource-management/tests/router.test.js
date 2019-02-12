@@ -25,9 +25,7 @@ import DBDatasourceCreateOrPickConnectionContainer from '../src/containers/DBDat
 import DataSourceMonitoringContainer from '../src/containers/DataSourceMonitoringContainer'
 import DatasoucePickInterfaceContainer from '../src/containers/DatasoucePickInterfaceContainer'
 import AIPDatasourceFormContainer from '../src/containers/AIPDatasourceFormContainer'
-import OSCrawlerConfigurationContainer from '../src/containers/OSCrawlerConfigurationContainer'
-import OSQueryConfigurationContainer from '../src/containers/OSQueryConfigurationContainer'
-import OSResultsConfigurationContainer from '../src/containers/OSResultsConfigurationContainer'
+import OSConfigurationFormContainer from '../src/containers/OSConfigurationFormContainer'
 
 describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
   before(testSuiteHelpers.before)
@@ -98,19 +96,19 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
   })
   it('create should return OSCrawlerConfigurationContainer', (done) => {
     Routes.childRoutes[8].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(OSCrawlerConfigurationContainer)
+      expect(component.content).to.eq(OSConfigurationFormContainer)
       done()
     })
   })
   it('create should return OSQueryConfigurationContainer', (done) => {
     Routes.childRoutes[9].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(OSQueryConfigurationContainer)
+      expect(component.content).to.eq(OSConfigurationFormContainer)
       done()
     })
   })
   it('create should return OSResultsConfigurationContainer', (done) => {
     Routes.childRoutes[10].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(OSResultsConfigurationContainer)
+      expect(component.content).to.eq(OSConfigurationFormContainer)
       done()
     })
   })

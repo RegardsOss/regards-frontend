@@ -104,9 +104,9 @@ export const createOSDatasourceCrawlerRoute = {
   path: 'opensearch/create/crawler',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const OSCrawlerConfigurationContainer = require('./containers/OSCrawlerConfigurationContainer')
+      const OSConfigurationFormContainer = require('./containers/OSConfigurationFormContainer')
       cb(null, {
-        content: OSCrawlerConfigurationContainer.default,
+        content: OSConfigurationFormContainer.default,
       })
     })
   },
@@ -116,9 +116,9 @@ export const createOSDatasourceQueryRoute = {
   path: 'opensearch/create/query',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const OSQueryConfigurationContainer = require('./containers/OSQueryConfigurationContainer')
+      const OSConfigurationFormContainer = require('./containers/OSConfigurationFormContainer')
       cb(null, {
-        content: OSQueryConfigurationContainer.default,
+        content: OSConfigurationFormContainer.default,
       })
     })
   },
@@ -128,9 +128,9 @@ export const createOSDatasourceResultsRoute = {
   path: 'opensearch/create/results',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const OSResultsConfigurationContainer = require('./containers/OSResultsConfigurationContainer')
+      const OSConfigurationFormContainer = require('./containers/OSConfigurationFormContainer')
       cb(null, {
-        content: OSResultsConfigurationContainer.default,
+        content: OSConfigurationFormContainer.default,
       })
     })
   },
