@@ -135,8 +135,13 @@ export default class MizarAdapter extends React.Component {
     // Add a WMS layer as background
     this.mizar.addLayer({
       type: Mizar.LAYER.WMS,
+      // type : Mizar.LAYER.OMS
       name: 'Blue Marble',
       baseUrl: 'http://80.158.6.138/mapserv?map=WMS_BLUEMARBLE',
+      // Esri world map
+      // baseUrl: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/',
+      // Open street map
+      // baseUrl: 'https://c.tile.openstreetmap.org/',
       background: true,
     })
 
