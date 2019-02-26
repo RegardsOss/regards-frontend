@@ -23,8 +23,17 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Field, RenderTextField, reduxForm } from '@regardsoss/form-utils'
+import {
+  Field, RenderTextField, reduxForm, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import OpenSearchStepperComponent from './OpenSearchStepperComponent'
+
+const {
+  string, number, required, url,
+} = ValidationHelpers
+const requiredStringValidator = [string, required]
+const requiredNumberValidator = [number, required]
+const requiredUrlValidator = [url, required]
 
 /**
   * Comment Here
@@ -33,11 +42,17 @@ import OpenSearchStepperComponent from './OpenSearchStepperComponent'
 export class OSCrawlerConfigurationComponent extends React.Component {
   static propTypes = {
     backUrl: PropTypes.string,
-    onSubmit: PropTypes.func,
+    onSubmit: PropTypes.func.isRequired,
+    initialValues: PropTypes.shape({
+      name: PropTypes.string,
+      refresh: PropTypes.string,
+      descriptor: PropTypes.string,
+    }),
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
-    handleSubmit: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func,
+    initialize: PropTypes.func,
   }
 
   static defaultProps = {}
@@ -45,6 +60,17 @@ export class OSCrawlerConfigurationComponent extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
+  }
+
+  componentDidMount() {
+    this.handleInitialize()
+  }
+
+  handleInitialize = () => {
+    const { initialValues } = this.props
+
+    this.props.initialize(initialValues)
+    this.props.initialize(initialValues)
   }
 
   handleSubmit = (fields) => {
@@ -70,7 +96,7 @@ export class OSCrawlerConfigurationComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label="Crawler name"
-            //   validate={labelValidators}
+              validate={requiredStringValidator}
             />
             <Field
               name="refreshRate"
@@ -78,7 +104,7 @@ export class OSCrawlerConfigurationComponent extends React.Component {
               component={RenderTextField}
               type="number"
               label="Refresh rate"
-            //   validate={labelValidators}
+              validate={requiredNumberValidator}
             />
             <Field
               name="descriptor"
@@ -86,7 +112,7 @@ export class OSCrawlerConfigurationComponent extends React.Component {
               component={RenderTextField}
               type="url"
               label="OpenSearch descriptor URL"
-            //   validate={labelValidators}
+              validate={requiredUrlValidator}
             />
           </CardText>
           <CardActions>
@@ -108,5 +134,5 @@ export class OSCrawlerConfigurationComponent extends React.Component {
   }
 }
 export default reduxForm({
-  form: 'opensearch-form',
+  form: 'opensearch-crawler-form',
 })(OSCrawlerConfigurationComponent)

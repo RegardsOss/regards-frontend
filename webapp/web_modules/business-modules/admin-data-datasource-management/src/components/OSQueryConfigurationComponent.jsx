@@ -1,4 +1,3 @@
-
 /**
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -17,51 +16,312 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CardActions, CardTitle, Card } from 'material-ui'
+import {
+  CardActions,
+  CardTitle,
+  Card,
+  CardText,
+  MenuItem,
+} from 'material-ui'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
+import {
+  reduxForm, RenderSelectField, Field, FieldArray, RenderTextField,
+} from '@regardsoss/form-utils'
+import { themeContextType } from '@regardsoss/theme'
 import OpenSearchStepperComponent from './OpenSearchStepperComponent'
+import AddFilterDialogComponent from './AddFilterDialogComponent'
 
 /**
  * Comment Here
  * @author Maxime Bouveron
  */
-class OSQueryConfigurationComponent extends React.Component {
-static propTypes = {
-  backUrl: PropTypes.string,
-  nextUrl: PropTypes.string,
-}
 
-static defaultProps = {}
+export class OSQueryConfigurationComponent extends React.Component {
+  static propTypes = {
+    backUrl: PropTypes.string,
+    onSubmit: PropTypes.func.isRequired,
+    // from reduxForm
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func,
+    initialize: PropTypes.func,
+  }
+
+  static defaultProps = {}
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
+  componentDidMount() {
+    this.handleInitialize()
+  }
+
+  handleInitialize = () => {
+    const { initialValues } = this.props
+
+    this.props.initialize(initialValues)
+  }
+
+  handleSubmit = (fields) => {
+    this.props.onSubmit(fields)
+  }
 
   render() {
-    return (<Card>
-      <CardTitle
-        title="Create the query"
-        subtitle="Query stuff"
-      />
-      <OpenSearchStepperComponent stepIndex={1} />
-      <CardActions>
-        <CardActionsComponent
-          mainButtonUrl={this.props.nextUrl}
-        // isMainButtonDisabled={this.props.submitting || this.props.invalid}
-          mainButtonLabel={
-            <FormattedMessage
-              id="datasource.form.create.action.next"
+    return (
+      <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+        <Card>
+          <CardTitle title="Create the query" subtitle="Query stuff" />
+          <OpenSearchStepperComponent stepIndex={1} />
+          <CardText>
+            Select feature last update parameter
+            <br />
+            <Field
+              name="lastUpdate"
+              component={RenderSelectField}
+              type="text"
+              label="Parameter"
+              // validate={requiredStringValidator}
+            >
+              <MenuItem value="lol" primaryText="Lol" />
+              <MenuItem value="Mdr" primaryText="Mdr" />
+              <MenuItem value="Ptdr" primaryText="Ptdr" />
+              <MenuItem value="Xptdr" primaryText="Xptdr" />
+              <MenuItem value="LMFAO" primaryText="LMFAO" />
+            </Field>
+            <br />
+            Enter the number of total elements
+            <br />
+            <Field
+              name="nbElements"
+              component={RenderTextField}
+              type="number"
+              label="Number of elements"
+              // validate={requiredNumberValidator}
             />
-              }
-          secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.create.action.previous' })}
-          secondaryButtonUrl={this.props.backUrl}
-        />
-      </CardActions>
-    </Card>
+            <br />
+            <br />
+            <br />
+            <FieldArray name="filters" component={AddFilterDialogComponent} filters={filters} />
+          </CardText>
+          <CardActions>
+            <CardActionsComponent
+              mainButtonType="submit"
+              isMainButtonDisabled={this.props.submitting || this.props.invalid}
+              mainButtonLabel={<FormattedMessage id="datasource.form.create.action.next" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({
+                id: 'datasource.form.create.action.previous',
+              })}
+              secondaryButtonUrl={this.props.backUrl}
+            />
+          </CardActions>
+        </Card>
+      </form>
     )
   }
 }
-export default OSQueryConfigurationComponent
+export default reduxForm({
+  form: 'opensearch-query-form',
+})(OSQueryConfigurationComponent)
+
+const filters = [
+  {
+    label: 'geometry',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'resolution',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+  },
+  {
+    label: 'orbitNumber',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'platform',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+  },
+  {
+    label: 'processingLevel',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+  },
+  {
+    label: 'geometry',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'resolution',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'orbitNumber',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'platform',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'processingLevel',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+  },
+  {
+    label: 'geometry',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'resolution',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'orbitNumber',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'platform',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'processingLevel',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'geometry',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'resolution',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'orbitNumber',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'platform',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'processingLevel',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'geometry',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'resolution',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'orbitNumber',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'platform',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+  {
+    label: 'processingLevel',
+    description:
+      'Region of interest defined in well known text standard (WKT) with coordinated in decimal degrees (EPSG:4326)',
+    bounds: 23,
+    pattern: 'jesaispasquoi',
+    possibleValues: ['combobox', 'pascombobox', 'encoreunautretruc'],
+  },
+]

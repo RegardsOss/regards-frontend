@@ -17,22 +17,22 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import { CardActionsComponent } from '@regardsoss/components'
-import { Field } from '@regardsoss/form-utils'
+import { Field, FieldArray } from '@regardsoss/form-utils'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { assert } from 'chai'
 import { shallow } from 'enzyme'
 import Card from 'material-ui/Card'
 import OpenSearchStepperComponent from '../../src/components/OpenSearchStepperComponent'
-import { OSCrawlerConfigurationComponent } from '../../src/components/OSCrawlerConfigurationComponent'
+import { OSQueryConfigurationComponent } from '../../src/components/OSQueryConfigurationComponent'
 
 const context = buildTestContext()
 
-describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSCrawlerConfigurationComponent', () => {
+describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSQueryConfigurationComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exist', () => {
-    assert.isDefined(OSCrawlerConfigurationComponent)
+    assert.isDefined(OSQueryConfigurationComponent)
   })
   it('Render properly', () => {
     const props = {
@@ -41,15 +41,16 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSCrawlerConfigurationCompo
       onSubmit: () => {},
     }
 
-    const wrapper = shallow(<OSCrawlerConfigurationComponent {...props} />, { context })
+    const wrapper = shallow(<OSQueryConfigurationComponent {...props} />, { context })
     const stepper = wrapper.find(OpenSearchStepperComponent)
 
     assert.equal(wrapper.find(Card).length, 1, 'Should render a Material-UI Card')
 
     assert.equal(stepper.length, 1, 'Should render a stepper')
-    assert.equal(stepper.prop('stepIndex'), 0, 'The stepper should be at the right index')
+    assert.equal(stepper.prop('stepIndex'), 1, 'The stepper should be at the right index')
 
-    assert.equal(wrapper.find(Field).length, 3, 'Should render 3 fields')
+    assert.equal(wrapper.find(Field).length, 2, 'Should render three fields')
+    assert.equal(wrapper.find(FieldArray).length, 1, 'Should render the add filter dialog component')
     assert.equal(wrapper.find(CardActionsComponent).length, 1, 'Should render a group of buttons')
   })
 })

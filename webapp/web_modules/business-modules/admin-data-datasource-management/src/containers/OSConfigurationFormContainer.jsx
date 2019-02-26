@@ -38,24 +38,30 @@ export class OSConfigurationFormContainer extends React.Component {
     }),
   }
 
+
   /**
- * Redux: map state to props function
- * @param {*} state: current redux state
- * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
   static mapStateToProps(state) {
     return {}
   }
 
   /**
-* Redux: map dispatch to props function
-* @param {*} dispatch: redux dispatch function
-* @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-* @return {*} list of component properties extracted from redux state
-*/
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
   static mapDispatchToProps(dispatch) {
     return {}
+  }
+
+  state = {
+    crawler: {},
+    query: {},
   }
 
   forms = {
@@ -78,18 +84,42 @@ export class OSConfigurationFormContainer extends React.Component {
     },
   }
 
+  onCrawlerSubmit = (fields) => {
+    this.setState({
+      crawler: fields,
+    })
+  }
+
+  onQuerySubmit = (fields) => {
+    // TODO: omit non used parameters
+    this.setState({
+      query: fields,
+    })
+  }
+
   renderSubContainer = () => {
     const { path } = this.props.route
     const { crawler, query, results } = this.forms
     switch (path) {
       case this.forms.crawler.path:
-        return <OSCrawlerConfigurationContainer backUrl={crawler.backUrl()} nextUrl={crawler.nextUrl()} />
-      case query.path:
-        return <OSQueryConfigurationContainer backUrl={query.backUrl()} nextUrl={query.nextUrl()} />
-      case results.path:
-        return <OSResultsConfigurationContainer backUrl={results.backUrl()} />
       default:
-        return <OSCrawlerConfigurationContainer backUrl={crawler.backUrl()} nextUrl={crawler.nextUrl()} />
+        return <OSCrawlerConfigurationContainer
+          backUrl={crawler.backUrl()}
+          nextUrl={crawler.nextUrl()}
+          onSubmit={this.onCrawlerSubmit}
+          initialValues={this.state.crawler}
+        />
+      case query.path:
+        return <OSQueryConfigurationContainer
+          backUrl={query.backUrl()}
+          nextUrl={query.nextUrl()}
+          onSubmit={this.onQuerySubmit}
+          initialValues={this.state.query}
+        />
+      case results.path:
+        return <OSResultsConfigurationContainer
+          backUrl={results.backUrl()}
+        />
     }
   }
 

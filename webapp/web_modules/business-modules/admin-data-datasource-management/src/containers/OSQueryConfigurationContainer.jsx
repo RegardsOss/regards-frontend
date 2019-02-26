@@ -22,46 +22,55 @@ import messages from '../i18n'
 import OSQueryConfigurationComponent from '../components/OSQueryConfigurationComponent'
 
 /**
-*Comment Here
-* @author Maxime Bouveron
-*/
+ *Comment Here
+ * @author Maxime Bouveron
+ */
 export class OSQueryConfigurationContainer extends React.Component {
   /**
- * Redux: map state to props function
- * @param {*} state: current redux state
- * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
   static mapStateToProps(state) {
     return {}
   }
 
   /**
- * Redux: map dispatch to props function
- * @param {*} dispatch: redux dispatch function
- * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
   static mapDispatchToProps(dispatch) {
     return {}
   }
 
-static propTypes = {
-  backUrl: PropTypes.string.isRequired,
-  nextUrl: PropTypes.string.isRequired,
-// from mapStateToProps
-// from mapDispatchToProps
-}
+  static propTypes = {
+    backUrl: PropTypes.string.isRequired,
+    nextUrl: PropTypes.string.isRequired,
+    onSubmit: PropTypes.func.isRequierd,
+    // from mapStateToProps
+    // from mapDispatchToProps
+  }
 
-render() {
-  const { backUrl, nextUrl } = this.props
-  return (
-    <I18nProvider messages={messages}>
-      <OSQueryConfigurationComponent backUrl={backUrl} nextUrl={nextUrl} />
-    </I18nProvider>
-  )
-}
+  render() {
+    const {
+      backUrl, nextUrl, onSubmit, initialValues,
+    } = this.props
+    return (
+      <I18nProvider messages={messages}>
+        <OSQueryConfigurationComponent
+          backUrl={backUrl}
+          nextUrl={nextUrl}
+          onSubmit={onSubmit}
+          initialValues={initialValues}
+        />
+      </I18nProvider>
+    )
+  }
 }
 export default connect(
   OSQueryConfigurationContainer.mapStateToProps,
-  OSQueryConfigurationContainer.mapDispatchToProps)(OSQueryConfigurationContainer)
+  OSQueryConfigurationContainer.mapDispatchToProps,
+)(OSQueryConfigurationContainer)

@@ -50,14 +50,19 @@ export class OSCrawlerConfigurationContainer extends React.Component {
 static propTypes = {
   backUrl: PropTypes.string.isRequired,
   nextUrl: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.shape({
+    name: PropTypes.string,
+    refresh: PropTypes.string,
+    descriptor: PropTypes.string,
+  }),
   // from mapStateToProps
   // from mapDispatchToProps
 }
 
 onSubmit = (fields) => {
-  console.log('Name', fields.name)
-  console.log('Refresh rate', fields.refreshRate)
-  console.log('Descriptor', fields.descriptor)
+  // TODO do the promise thingy
+  this.props.onSubmit(fields)
   browserHistory.push(this.props.nextUrl)
 }
 
@@ -65,11 +70,16 @@ render() {
   const { backUrl } = this.props
   return (
     <I18nProvider messages={messages}>
-      <OSCrawlerConfigurationComponent backUrl={backUrl} onSubmit={this.onSubmit} />
+      <OSCrawlerConfigurationComponent
+        backUrl={backUrl}
+        onSubmit={this.onSubmit}
+        initialValues={this.props.initialValues}
+      />
     </I18nProvider>
   )
 }
 }
+
 export default connect(
   OSCrawlerConfigurationContainer.mapStateToProps,
   OSCrawlerConfigurationContainer.mapDispatchToProps)(OSCrawlerConfigurationContainer)
