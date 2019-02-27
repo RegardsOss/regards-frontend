@@ -33,6 +33,10 @@ module.exports = function (projectContextPath, mode = 'dev') {
     },
     module: {
       rules: [
+        mode === 'test' || mode === 'coverage' ? {
+          test: /MizarLoader/,
+          loader: 'file-loader',
+        } : {},
         // Transpile ES6 Javascript into ES5 with babel loader
         {
           test: /\.jsx?$/,

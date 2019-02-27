@@ -19,4 +19,3 @@
 
 export { default as MizarAdapter } from './adapters/MizarAdapter'
 export { default as MizarContainer } from './adapters/MizarContainer'
-export { default as Plot } from './plotly'
