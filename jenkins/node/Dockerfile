@@ -24,4 +24,4 @@ USER tux
     # Package lock auto prune the repo https://github.com/npm/npm/issues/16853#issuecomment-371665774
  && npm config set package-lock false
 ENV https_proxy "http://proxy2.si.c-s.fr:3128"
-ENV no_proxy "172.26.46.158"
+ENV no_proxy "172.26.46.158,172.26.47.129"

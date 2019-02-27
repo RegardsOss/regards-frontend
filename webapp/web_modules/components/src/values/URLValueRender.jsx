@@ -42,7 +42,6 @@ class URLValueRender extends React.Component {
     return value ? (
       <LinkComponent
         target="_blank"
-        rel="noopener noreferrer"
         link={value}
       />) : null
   }

@@ -45,7 +45,7 @@ class PluginDefinitionComponent extends React.Component {
   renderUrlAddress = () => {
     if (this.props.plugin.info.url) {
       return (
-        <a href={this.props.plugin.info.url} target="_blank" rel="noopener noreferrer">
+        <a href={this.props.plugin.info.url} target="_blank">
           <RaisedButton
             primary
             label={this.context.intl.formatMessage({ id: 'plugin.description.url' })}

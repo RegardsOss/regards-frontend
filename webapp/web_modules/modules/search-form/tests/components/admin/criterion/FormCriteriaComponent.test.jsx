@@ -25,6 +25,7 @@ import { Field } from '@regardsoss/form-utils'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { DefaultLayout } from '@regardsoss/layout'
 import { PluginProvider } from '@regardsoss/plugins'
+import { NoContentComponent } from '@regardsoss/components'
 import Styles from '../../../../src/styles/styles'
 import CriteriaConfigurationComponent from '../../../../src/components/admin/criterion/CriteriaConfigurationComponent'
 import { UnconnectedFormCriteriaComponent } from '../../../../src/components/admin/criterion/FormCriteriaComponent'
@@ -62,6 +63,7 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
     const onChangeField = spy()
 
     const props = {
+      criterion: [],
       criteria: null,
       saveCriteria: saveCriteriaCallback,
       cancel: cancelCallback,
@@ -77,8 +79,8 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
     const wrapper = shallow(<UnconnectedFormCriteriaComponent {...props} />, { context })
 
     // // Check for Card
-    // const card = wrapper.find(form)
-    // assert.lengthOf(card, 1, 'The Card should be rendered')
+    const card = wrapper.find('form')
+    assert.lengthOf(card, 1, 'The Card should be rendered')
 
     // Check for plugin selection field
     const pluginIdField = wrapper.find(Field).find({ name: 'pluginId' })
@@ -91,11 +93,21 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
     assert.lengthOf(containerElements, 1, 'There should be 1 selectable container')
     assert.equal(containerElements.first().prop('value'), containerName, `The selectable container from defaultFormLayout should be ${containerName}`)
 
+    // Check for position selection field
+    const positionField = wrapper.find(Field).find({ name: 'position' })
+    assert(positionField.length === 1, 'The position field should be rendered')
+
+    // Check for form
+    const form = wrapper.find('form')
+    assert.equal(form.length, 1, 'The form should exist')
+
     // Check for specific criteria configuration
     let criteriaConf = wrapper.find(CriteriaConfigurationComponent)
+    const noCriteriaConf = wrapper.find(NoContentComponent)
     assert(criteriaConf.length === 0, 'The CriteriaConfigurationComponent should not be rendered as no plugin as been selected yet')
+    assert(noCriteriaConf.length === 1, 'There should be a NoContentComponent as no plugin as been selected yet')
 
-    // Simulate selection of a criteria of id 0
+    // Simulate selection of a criterion of id 0
     assert.isFalse(onChangeSelectorValue.called, 'The redux change value method should not be called yet')
     const event = null
     const index = 0
@@ -103,36 +115,43 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
     const reduxInput = {
       onChange: onChangeSelectorValue,
     }
+
     pluginIdField.simulate('select', event, index, pluginId, reduxInput)
+
     criteriaConf = wrapper.find(CriteriaConfigurationComponent)
     const pluginProvider = wrapper.find(PluginProvider)
     assert(pluginProvider.length === 1, 'The plugin provider should be rendered as a plugin is selected')
+
     assert.equal(pluginProvider.prop('pluginId'), 0, 'The pluginProvider should be initialize with selected plugin id = 0')
     assert.equal(pluginProvider.prop('displayPlugin'), false, 'The pluginProvider should be initialize without plugin display')
+
     assert(criteriaConf.length === 1, 'The CriteriaConfigurationComponent should be rendered as a plugin as been selected')
     assert(onChangeField.calledOnce, 'The redux change field value method should be called')
     assert(onChangeSelectorValue.calledOnce, 'The redux change selector value method should be called')
   })
 
-  it('Should render a edit criteria form', () => {
+  it('Should render an edit criteria form', () => {
     const saveCriteriaCallback = spy()
     const cancelCallback = spy()
     const reduxFormInitialize = spy()
     const handleSubmitCallback = spy()
 
-    const props = {
-      criteria: {
-        id: 0,
-        active: true,
-        label: 'criteria de test',
-        pluginId: 0,
-        container: containerName,
-        conf: {
-          attributes: {
-            searchField: 0,
-          },
+    const criteria = {
+      id: 0,
+      active: true,
+      label: 'criteria de test',
+      pluginId: 0,
+      container: containerName,
+      conf: {
+        attributes: {
+          searchField: 0,
         },
       },
+    }
+
+    const props = {
+      criterion: [criteria],
+      criteria,
       saveCriteria: saveCriteriaCallback,
       cancel: cancelCallback,
       layout: testLayout,
@@ -146,10 +165,6 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
 
     const wrapper = shallow(<UnconnectedFormCriteriaComponent {...props} />, { context })
 
-    // Check for Card
-    // const card = wrapper.find(Card)
-    // assert(card.length === 1, 'The Card should be rendered')
-
     // Check for plugin selection field
     const pluginIdField = wrapper.find(Field).find({ name: 'pluginId' })
     assert(pluginIdField.length === 1, 'The pluginId field should be rendered')
@@ -157,13 +172,24 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
     // Check for container selection field
     const containerField = wrapper.find(Field).find({ name: 'container' })
     assert(containerField.length === 1, 'The container field should be rendered')
+
+    // Check for position selection field
+    const positionField = wrapper.find(Field).find({ name: 'position' })
+    assert(positionField.length === 1, 'The position field should be rendered')
+
+    // Check for form
+    const form = wrapper.find('form')
+    assert.equal(form.length, 1, 'The form should exist')
+
     const containerElements = containerField.find(MenuItem)
     assert.lengthOf(containerElements, 1, 'There should be 1 selectable container')
     assert.equal(containerElements.first().prop('value'), containerName, `The selectable container from defaultFormLayout should be ${containerName}`)
 
     // Check for specific criteria configuration
     const criteriaConf = wrapper.find(CriteriaConfigurationComponent)
+    const noCriteriaConf = wrapper.find(NoContentComponent)
     assert(criteriaConf.length === 1, 'The CriteriaConfigurationComponent should be rendered')
+    assert(noCriteriaConf.length === 0, "There shouldn't be a NoContentComponent as a plugin is selected")
 
     // Check redux form initialization
     assert(reduxFormInitialize.called, 'The redux form initialize method should be called')

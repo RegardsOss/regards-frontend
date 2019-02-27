@@ -28,8 +28,26 @@ const formStyles = theme => ({
     },
   },
   criteria: {
-    label: {
-      marginRight: 20,
+    wrapper: {
+      display: 'flex',
+      justifyContent: 'space-between',
+    },
+    mainConfiguration: {
+      width: '50%',
+      marginRight: '10px',
+    },
+    criteriaConfiguration: {
+      width: '50%',
+      marginLeft: '10px',
+    },
+    title: {
+      fontSize: '1.1em',
+      color: theme.palette.textColor,
+      marginBottom: 10,
+    },
+    subtitle: {
+      fontSize: '0.8em',
+      height: '30px',
     },
   },
   user: {

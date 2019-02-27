@@ -25,7 +25,7 @@ import {
   TableRow,
 } from 'material-ui/Table'
 import Dialog from 'material-ui/Dialog'
-import IconButton from 'material-ui/IconButton'
+import IconButton from 'material-ui/IconButton/IconButton'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { CardActionsComponent, CardActionsView } from '@regardsoss/components'
 import Styles from '../../../../src/styles/styles'
@@ -113,7 +113,7 @@ describe('[SEARCH FORM] Testing FormCriterionComponent', () => {
     const wrapper = shallow(<FormCriterionComponent {...props} />, { context })
 
     const tableList = wrapper.find(Table)
-    let tableRows = wrapper.find(TableBody).find(TableRow)
+    const tableRows = wrapper.find(TableBody).find(TableRow)
     let editDialog = wrapper.find(Dialog)
     const buttonsCard = wrapper.find(CardActionsComponent)
 
@@ -123,10 +123,8 @@ describe('[SEARCH FORM] Testing FormCriterionComponent', () => {
     assert.equal(buttonsCard.length, 1, 'There should a card containing buttons cancel and add')
     assert.equal(editDialog.prop('open'), false, 'The edit criterion dialog should not be opened')
 
-    const firstRowActions = tableRows.first().find(IconButton)
-    assert.lengthOf(firstRowActions, 2, 'There must be edit and delete actions on each row')
-    const editButton = firstRowActions.at(0)
-    const deleteButton = firstRowActions.at(1)
+    const editButton = tableRows.first().find(IconButton).first()
+    const deleteButton = tableRows.first().find(IconButton).at(1)
 
     // Simulate edit on a given criteria
     editButton.simulate('click')
@@ -136,17 +134,65 @@ describe('[SEARCH FORM] Testing FormCriterionComponent', () => {
     const formcriteria = editDialog.find(FormCriteriaComponent)
     assert.equal(formcriteria.length, 1, 'There should be a form to create a new criteria')
     assert.equal(formcriteria.prop('criteria'), props.criterion[0], 'The form criteria should have a criteria param')
-    assert.equal(formcriteria.prop('layout'), props.layout, 'The layout configuration passed to the formcriteria component should the one from the props.')
+    assert.equal(formcriteria.prop('layout'), props.layout, 'The layout configuration passed to the formcriteria component should be the one from the props.')
 
     // Simulate delete on a given criteria
     assert(changeFieldCallback.notCalled, 'The change callback should not been called here')
     deleteButton.simulate('click')
     wrapper.update()
-    tableRows = wrapper.find(TableBody).find(TableRow)
     assert(changeFieldCallback.calledOnce, 'The change callback should have been called here')
     assert(changeFieldCallback.calledWith(
       'conf.criterion',
       [props.criterion[1]],
     ), 'The delete callback is not valid')
+  })
+
+  it('Should reorder existing criterion', () => {
+    const props = {
+      currentNamespace: '',
+      changeField: spy(),
+      criterion: [{ pluginId: 1 }, { pluginId: 2 }, { pluginId: 3 }],
+      availableCriterion: { 1: { content: { name: 'name' } } },
+    }
+    const wrapper = shallow(<FormCriterionComponent {...props} />, { context })
+
+    const testReposition = (position) => {
+      wrapper.setState(() => ({ criteriaToEdit: { criteria: props.criterion.find(e => e.pluginId === 1) } }))
+      wrapper.instance().updateCriterion({ pluginId: 1 }, position)
+      assert.equal(props.changeField.lastCall.lastArg.findIndex(e => e.pluginId === 1), position, `The criterion should be at position ${position}`)
+    }
+
+    // Beginning
+    testReposition(0)
+    // Middle
+    testReposition(1)
+    // End
+    testReposition(2)
+  })
+
+
+  it('Should reorder new criterion', () => {
+    const props = {
+      currentNamespace: '',
+      changeField: spy(),
+      criterion: [{ pluginId: 1 }, { pluginId: 2 }, { pluginId: 3 }],
+      availableCriterion: { 1: { content: { name: 'name' } } },
+    }
+    const newCriterion = { pluginId: 4 }
+    const wrapper = shallow(<FormCriterionComponent {...props} />, { context })
+
+    const testReposition = (position) => {
+      wrapper.instance().updateCriterion(newCriterion, position)
+      assert.equal(props.changeField.lastCall.lastArg.findIndex(e => e.pluginId === 4), position, `The criterion should be at position ${position}`)
+    }
+
+    // Beginning
+    testReposition(0)
+    // Middle
+    testReposition(1)
+    // Middle
+    testReposition(2)
+    // End
+    testReposition(3)
   })
 })
