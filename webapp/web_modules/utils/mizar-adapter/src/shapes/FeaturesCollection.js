@@ -16,17 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { CatalogShapes } from '@regardsoss/shape'
 
-export {
-  entityFields, Entity, EntityList, entityFiles,
-} from './Entity/Entity'
-export { default as EntityGeoProperties } from './Entity/EntityGeoProperties'
-export {
-  BooleanFacet, BooleanFacetValue, DateRangeFacet, DateRangeFacetValue,
-  NumberRangeFacet, NumberRangeFacetValue, StringFacet, StringFacetValue, Facet, FacetArray,
-} from './Facets'
-export { default as Tag } from './Entity/Tag'
+/**
+ * GEOJson features collection as expected by Mizar
+ * Note: it is rewritten here only to make sure geometry is provided
+ * @author Raphaël Mechali
+ */
 
-export { AttributeBoundsContent, AttributeBounds, AttributeBoundsMap } from './AttributesBounds'
-export { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'
-export { SearchEngineConfigurationContent, SearchEngineConfiguration, SearchEngineConfigurationList } from './SearchEngineConfiguration'
+/** A feature with geometry */
+export const GeoJsonFeature = PropTypes.shape({
+  ...CatalogShapes.entityFields,
+  geometry: CatalogShapes.EntityGeoProperties.isRequired,
+})
+
+/** A GeoJson features collection with mandatory geometry */
+export const GeoJsonFeaturesCollection = PropTypes.shape({
+  features: PropTypes.arrayOf(GeoJsonFeature).isRequired,
+  type: PropTypes.oneOf(['FeatureCollection']).isRequired,
+})

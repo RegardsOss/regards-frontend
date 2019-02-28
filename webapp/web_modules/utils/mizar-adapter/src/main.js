@@ -17,5 +17,4 @@
  * along with SCO. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export { default as MizarAdapter } from './adapters/MizarAdapter'
-export { default as MizarContainer } from './adapters/MizarContainer'
+export { default as MizarContainer } from './MizarContainer'

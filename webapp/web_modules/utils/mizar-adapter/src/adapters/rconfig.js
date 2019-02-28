@@ -47,7 +47,7 @@ require.config({
   onBuildWrite(name, path, contents) {
     return contents
       .replace(/define\s*\([^{]*?{/, '')
-      .replace(/\s*return\s+[^\}]+(\}\);[^\w\}]*)$/, '')
+      .replace(/\s*return\s+[^}]+(\}\);[^\w}]*)$/, '') // TODO test!
       .replace(/\}\);[^}\w]*$/, '')
   },
   paths: {
@@ -70,7 +70,8 @@ require.config({
     'underscore-min': {
       exports: '_',
       init() {
-        return _.noConflict()
+        // eslint-disable-next-line no-undef
+        return _.noConflict() // TODO
       },
     },
     jquery: {

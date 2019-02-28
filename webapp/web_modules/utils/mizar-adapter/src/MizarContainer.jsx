@@ -1,12 +1,14 @@
 import get from 'lodash/get'
+import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import cloneDeep from 'lodash/cloneDeep'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import MizarAdapter from './MizarAdapter'
+import { CatalogShapes } from '@regardsoss/shape'
+import MizarAdapter from './adapters/MizarAdapter'
 
-export class SearchResultsContainer extends React.Component {
+export class MizarContainer extends React.Component {
   static mapStateToProps(state, { pageSelectors }) {
     return {
       // results entities
@@ -44,7 +46,7 @@ export class SearchResultsContainer extends React.Component {
     // already provided by this component, just fill in the other ones =)
 
     // eslint-disable-next-line react/no-unused-prop-types
-    entities: PropTypes.arrayOf(PropTypes.object),
+    entities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     entitiesFetching: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -60,22 +62,61 @@ export class SearchResultsContainer extends React.Component {
     fetchEntities: PropTypes.func.isRequired,
   }
 
+  /**
+   * Builds GeoJson features collections from regards catalog entities as parameter
+   * @param {*} entities
+   */
+  static buildGeoJSONFeatureCollection(entities = []) {
+    return {
+      // REGARDS entities are features withing content field. Filter entities without geometry
+      features: map(entities, entity => entity.content).filter(e => !isNil(e.geometry)),
+      type: 'FeatureCollection',
+    }
+  }
+
+  /** Initial state */
+  state = {
+    featuresCollection: MizarContainer.buildGeoJSONFeatureCollection(),
+  }
+
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
   componentDidMount() {
     this.fetchEntityPage(this.props)
   }
 
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdate(this.props, nextProps)
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
-   * Updates state and runs fetches required on properties change
+  * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+  */
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
    */
-  onPropertiesUpdate = (previousProps, nextProps) => {
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const { requestParams, entities } = newProps
     // initialization or authentication update: fetch the first page
-    if (!isEqual(nextProps.requestParams, previousProps.requestParams)) {
-      console.error('update !',previousProps,nextProps)
+    if (!isEqual(newProps.requestParams, requestParams)) {
       this.props.flushEntities()
       // Fetch new ones
-      this.fetchEntityPage(nextProps)
+      this.fetchEntityPage(newProps)
+      // TODO that should clear the local buffer if we keep it separated of the quicklook displayer!
+    }
+    if (!isEqual(oldProps.entities, entities)) {
+      // Update feture collection expect by MizarAdapter
+      // TODO should  we append here? so that component below can always clear... to design!
+      this.setState({ featuresCollection: MizarContainer.buildGeoJSONFeatureCollection(entities) })
     }
   }
 
@@ -88,7 +129,6 @@ export class SearchResultsContainer extends React.Component {
   fetchEntityPage = ({
     pathParams, requestParams, queryPageSize,
   }, pageNumber = 0) => {
-    console.error('fetch ....')
     this.props.fetchEntities(pageNumber, queryPageSize, pathParams, requestParams)
   }
 
@@ -100,31 +140,25 @@ export class SearchResultsContainer extends React.Component {
     }
   }
 
-  applyGeoParameter = (geometry) => {
-    console.error('Apply geo param')
-    this.props.flushEntities()
+  onApplyGeoParameter = (geometry) => {
+    this.props.flushEntities() // TODO: not when it will be a common parameter
     // Fetch new ones
     const props = cloneDeep(this.props)
     props.requestParams.g = geometry
     this.fetchEntityPage(props)
-    console.error('Apply geo param done')
   }
 
-  getFeatures = () => ({
-    type: 'FeatureCollection',
-    features: map(this.props.entities, entity => entity.content),
-  })
-
   render() {
+    const { featuresCollection } = this.state
     return (
       <MizarAdapter
-        entities={this.getFeatures()}
-        applyGeoParameter={this.applyGeoParameter}
+        featuresCollection={featuresCollection}
+        applyGeoParameter={this.onApplyGeoParameter} // TODO should not be in Mizar!
       />)
   }
 }
 
 export default connect(
-  SearchResultsContainer.mapStateToProps,
-  SearchResultsContainer.mapDispatchToProps,
-)(SearchResultsContainer)
+  MizarContainer.mapStateToProps,
+  MizarContainer.mapDispatchToProps,
+)(MizarContainer)

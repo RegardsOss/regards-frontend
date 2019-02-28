@@ -20,6 +20,7 @@
 import RaisedButton from 'material-ui/RaisedButton'
 import Checkbox from 'material-ui/Checkbox'
 import isEqual from 'lodash/isEqual'
+import { GeoJsonFeaturesCollection } from '../shapes/FeaturesCollection'
 import './MizarLoader'
 import './rconfig'
 import './Mizar.css'
@@ -29,7 +30,7 @@ import './Mizar.css'
 export default class MizarAdapter extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
-    entities: PropTypes.any,
+    featuresCollection: GeoJsonFeaturesCollection.isRequired,
     applyGeoParameter: PropTypes.func.isRequired,
   }
 
@@ -37,8 +38,6 @@ export default class MizarAdapter extends React.Component {
     layerId: null,
     drawMode: false,
     vectorLayer: null,
-    measuredHeight: 1,
-    measuredWidth: 1,
   }
 
   /**
@@ -56,22 +55,18 @@ export default class MizarAdapter extends React.Component {
     },
   }
 
-  componentWillMount() {
-  }
-
   componentDidMount = () => {
     window.requirejs(['Mizar'], this.lightLoadMizar)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!isEqual(this.props.entities, nextProps.entities)) {
-      console.error('new entities')
-      this.addFeatures(nextProps)
+    const { featuresCollection } = nextProps
+    if (!isEqual(this.props.featuresCollection, featuresCollection)) {
+      this.addFeatures(featuresCollection)
     }
   }
 
   setInitialized = (layerId, callback) => {
-    console.error(`Layer ${layerId} iniatilized`)
     this.setState({ layerId }, callback)
   }
 
@@ -94,14 +89,12 @@ export default class MizarAdapter extends React.Component {
   }
 
   handleMouseUp = (event) => {
-    console.error('MousuUP !', event.layerX, event.layerY)
     const pickPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.layerX, event.layerY)
     const pickingManager = this.mizar.getServiceByName(this.Mizar.SERVICE.PickingManager)
     pickingManager.clearSelection()
     const newSelection = pickingManager.computePickSelection(pickPoint)
     const select = pickingManager.setSelection(newSelection)
     pickingManager.focusSelection(select)
-    console.log(select)
   }
 
   /**
@@ -126,7 +119,7 @@ export default class MizarAdapter extends React.Component {
     })
 
     this.mizar.getActivatedContext().subscribe(this.Mizar.EVENT_MSG.LAYER_ADDED, () => {
-      console.error('Loadded ok')
+      // TODO this is ???
     })
 
     this.mizar.getActivatedContext().getRenderContext().canvas.addEventListener('mouseup', this.handleMouseUp)
@@ -150,7 +143,7 @@ export default class MizarAdapter extends React.Component {
       visible: true,
       background: false,
     }, (layerId) => {
-      this.setInitialized(layerId, () => this.addFeatures())
+      this.setInitialized(layerId, () => this.addFeatures(this.props.featuresCollection))
     })
 
     const vectorLayer = this.mizar.LayerFactory.create({
@@ -163,25 +156,13 @@ export default class MizarAdapter extends React.Component {
     this.setState({ vectorLayer })
   }
 
-  addFeatures = (props) => {
-    const lprops = props || this.props
+  addFeatures = (featuresCollection) => {
     const layer = this.mizar && this.state.layerId ? this.mizar.getLayerByID(this.state.layerId) : null
     if (layer) {
+      // TODO make sure it works correctly for workflow
       layer.removeAllFeatures()
-      console.error('Adding ', lprops.entities)
-      layer.addFeatureCollection(lprops.entities)
+      layer.addFeatureCollection(featuresCollection)
     }
-  }
-
-  /**
-   * Called when component is resized, to force the inner table implementation at same width
-   */
-  onComponentResized = ({ measureDiv: { height, width } }) => {
-    console.error('Measure height', height)
-    this.setState({
-      measuredHeight: height,
-      measuredWidth: width,
-    })
   }
 
   applyFilter = () => {
@@ -197,7 +178,7 @@ export default class MizarAdapter extends React.Component {
     const minY = Math.min(pt1[1], pt2[1])
     const maxY = Math.max(pt1[1], pt2[1])
 
-    this.feature.bbox = [minX, minY, maxX, maxY],
+    this.feature.bbox = [minX, minY, maxX, maxY]
     this.feature.geometry.coordinates = [[[minX, minY],
       [maxX, minY],
       [maxX, maxY],
@@ -213,7 +194,6 @@ export default class MizarAdapter extends React.Component {
   // Called when left mouse button is pressed : start drawing the rectangle
   onMouseDown = (event) => {
     if (this.state.drawMode && event.button === 0) {
-      console.error(event.clientX, event.clientY)
       this.startPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY)
       this.drawRectangle(this.startPoint, this.startPoint)
       this.started = true
@@ -237,22 +217,9 @@ export default class MizarAdapter extends React.Component {
     }
   }
 
-  renderButton =() => (
-    <div>
-      <Checkbox
-        label="Draw mode"
-        checked={this.state.drawMode}
-        onCheck={this.switchDrawMode}
-      />
-      <RaisedButton
-        label="Apply filter"
-        onClick={this.applyFilter}
-      />
-    </div>
-  )
 
   render() {
-    const canvaStyle = {
+    const canvaStyle = { // TODO: all styles and i18n
       border: 'none',
       width: '100%',
       height: '100%',
@@ -261,14 +228,31 @@ export default class MizarAdapter extends React.Component {
       margin: 0,
       padding: 0,
     }
-
+    // TODO: draw mode sucks badly!
     return (
 
       <div
         style={{
-          display: 'flex', flexGrow: 1, flexShrink: 1, flexDirection: 'row', alignItems: 'stretch',
+          display: 'flex', flexGrow: 1, flexShrink: 1, flexDirection: 'column', alignItems: 'stretch',
         }}
       >
+        <div style={{
+          flexGrow: '0',
+          display: 'flex',
+          justifyContent: 'end',
+          alignItems: 'center',
+        }}
+        >
+          <Checkbox
+            label="Draw mode"
+            checked={this.state.drawMode}
+            onCheck={this.switchDrawMode}
+          />
+          <RaisedButton
+            label="Apply filter"
+            onClick={this.applyFilter}
+          />
+        </div>
         <div style={{
           flexGrow: 3,
           flexShrink: 3,
