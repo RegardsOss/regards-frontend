@@ -60,6 +60,7 @@ export class SearchResultsContainer extends React.Component {
   static mapStateToProps = state => ({
     accessToken: AuthenticationClient.authenticationSelectors.getAccessToken(state),
     projectName: AuthenticationParametersSelectors.getProject(state),
+    loadedResultsCount: searchSelectors.getLoadedResultCount(state),
     resultsCount: searchSelectors.getResultsCount(state),
     isFetching: searchSelectors.isFetching(state),
     facets: searchSelectors.getFacets(state),
@@ -113,6 +114,7 @@ export class SearchResultsContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     facets: CatalogShapes.FacetArray, // facets as provided by the backend
     isFetching: PropTypes.bool.isRequired,
+    loadedResultsCount: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
     tableDisplayMode: PropTypes.oneOf(TableDisplayModeValues).isRequired, // Display mode
@@ -522,9 +524,10 @@ export class SearchResultsContainer extends React.Component {
 
   render() {
     const {
-      displayMode, enableFacettes, isFetching, resultsCount, viewObjectType, tableDisplayMode,
-      enableDownload, enableQuicklooks, datasetsSectionLabel, dataSectionLabel,
-      restrictedDatasetsIds, displayConf, accessToken, projectName, dispatchSetEntityAsTag,
+      displayMode, enableFacettes, isFetching, loadedResultsCount, resultsCount,
+      viewObjectType, tableDisplayMode, enableDownload, enableQuicklooks,
+      datasetsSectionLabel, dataSectionLabel, restrictedDatasetsIds, displayConf,
+      accessToken, projectName, dispatchSetEntityAsTag,
     } = this.props
 
     const {
@@ -560,6 +563,7 @@ export class SearchResultsContainer extends React.Component {
                 datasetsSectionLabel={datasetsSectionLabel}
                 dataSectionLabel={dataSectionLabel}
 
+                loadedResultsCount={loadedResultsCount}
                 resultsCount={resultsCount}
                 isFetching={isFetching}
                 searchActions={searchActions}

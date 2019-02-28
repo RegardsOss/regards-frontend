@@ -87,6 +87,7 @@ describe('[Search Results] Testing OptionsAndTabsHeaderLine', () => {
       onStartSelectionService: () => { },
       onToggleShowFacettes: () => { },
       onToggleDisplayOnlyQuicklook: () => { },
+      onShowMapView: () => { },
     }
     shallow(<OptionsAndTabsHeaderLine {...props} />, { context })
   })

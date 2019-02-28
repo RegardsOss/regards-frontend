@@ -31,7 +31,6 @@ import {
   ConfirmDialogComponentTypes,
   HelpMessageComponent,
 } from '@regardsoss/components'
-import { MizarAdapter } from '@regardsoss/mizar-adapter'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { tableActions } from '../../clients/TableClient'
@@ -165,7 +164,6 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
           <HelpMessageComponent
             message={formatMessage({ id: 'acquisition-chain.list.delete.conditions' })}
           />
-          <MizarAdapter />
           <TableLayout>
             <PageableInfiniteTableContainer
               name="acquisition-chain-table"

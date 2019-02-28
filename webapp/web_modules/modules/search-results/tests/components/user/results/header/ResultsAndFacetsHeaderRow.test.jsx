@@ -45,6 +45,7 @@ describe('[Search Results] Testing ResultsAndFacetsHeaderRow', () => {
       isFetching: true,
       showFacets: true,
       facets: [],
+      loadedResultsCount: 22,
       resultsCount: 22,
       onSelectFacet: () => { },
     }
@@ -67,6 +68,7 @@ describe('[Search Results] Testing ResultsAndFacetsHeaderRow', () => {
         label: { en: 'EN3', fr: 'FR3' },
         model: resultsDump.facets[3],
       }],
+      loadedResultsCount: 22,
       resultsCount: 22,
       onSelectFacet: () => { },
     }

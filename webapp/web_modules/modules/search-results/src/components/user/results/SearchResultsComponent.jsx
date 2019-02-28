@@ -66,6 +66,7 @@ class SearchResultsComponent extends React.Component {
     dataSectionLabel: PropTypes.string,
 
     // results related
+    loadedResultsCount: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
     isFetching: PropTypes.bool.isRequired,
     searchActions: PropTypes.instanceOf(BasicFacetsPageableActions).isRequired,
@@ -273,7 +274,7 @@ class SearchResultsComponent extends React.Component {
 
     return <PageableInfiniteTableContainer
       key={viewObjectType} // unmount the table when change entity type (using key trick)
-    // infinite table configuration
+      // infinite table configuration
       pageActions={searchActions}
       pageSelectors={searchSelectors}
       tableActions={tableActions}
@@ -294,7 +295,7 @@ class SearchResultsComponent extends React.Component {
 
 
     const {
-      allowingFacettes, presentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
+      allowingFacettes, presentationModels, displayMode, loadedResultsCount, resultsCount, isFetching, searchActions, searchSelectors,
       viewObjectType, tableViewMode, showingFacettes, facets, selectedFacets, requestParameters, selectionServices, enableQuicklooks,
       displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook, enableDownload, accessToken, projectName, datasetsSectionLabel,
       dataSectionLabel, isDescAvailableFor,
@@ -361,6 +362,7 @@ class SearchResultsComponent extends React.Component {
         {/* Second header row: results, loading, and optionally facets */}
         <ResultsAndFacetsHeaderRow
           showFacets={showFacets}
+          loadedResultsCount={loadedResultsCount}
           resultsCount={resultsCount}
           facets={facets}
           onSelectFacet={onSelectFacet}

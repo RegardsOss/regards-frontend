@@ -37,6 +37,7 @@ class ResultsAndFacetsHeaderRow extends React.Component {
     showFacets: PropTypes.bool.isRequired,
     // facets array
     facets: UIFacetArray,
+    loadedResultsCount: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
     // applies a facet filter (key:string, label:string, searchQuery: string)
     onSelectFacet: PropTypes.func.isRequired,
@@ -48,12 +49,13 @@ class ResultsAndFacetsHeaderRow extends React.Component {
 
   render() {
     const {
-      showFacets, facets, onSelectFacet, resultsCount, isFetching,
+      showFacets, facets, onSelectFacet,
+      loadedResultsCount, resultsCount, isFetching,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       // 1 - results count message and loading
-      <TableHeaderLineLoadingAndResults resultsCount={resultsCount} isFetching={isFetching}>
+      <TableHeaderLineLoadingAndResults loadedResultsCount={loadedResultsCount} resultsCount={resultsCount} isFetching={isFetching}>
         {
           // Render the facets component through an IIF as follow:
           (() => {

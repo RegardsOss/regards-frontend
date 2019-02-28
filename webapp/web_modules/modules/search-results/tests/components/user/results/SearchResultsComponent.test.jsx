@@ -47,6 +47,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
 
     showingFacettes: true,
     selectedFacets: [],
+    loadedResultsCount: 20,
     resultsCount: 45,
     searchSelectors,
 
@@ -74,6 +75,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     onSortByAttribute: () => { },
     onToggleShowFacettes: () => { },
     onToggleDisplayOnlyQuicklook: () => { },
+    onShowMapView: () => { },
     // from PluginServicesContainer HOC
     onStartSelectionService: null,
     // from OrderCartContainer HOC

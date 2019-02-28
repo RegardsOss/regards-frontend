@@ -52,6 +52,7 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
       attributeModels: {},
       facets: [],
       isFetching: false,
+      loadedResultsCount: 20,
       resultsCount: 22,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       tableDisplayMode: TableDisplayModeEnum.LIST,

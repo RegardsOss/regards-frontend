@@ -20,7 +20,6 @@
 import RaisedButton from 'material-ui/RaisedButton'
 import Checkbox from 'material-ui/Checkbox'
 import isEqual from 'lodash/isEqual'
-import { Measure } from '@regardsoss/adapters'
 import './MizarLoader'
 import './rconfig'
 import './Mizar.css'
@@ -290,23 +289,7 @@ export default class MizarAdapter extends React.Component {
           />
 
         </div>
-        <div style={{
-          flexGrow: 1,
-          flexShrink: 1,
-          flexBasis: 0,
-          minHeight: 0,
-          minWidth: 0,
-        }}
-        >
-          <table>
-            <td>
-              <tr>Plop</tr>
-              <tr>Plop</tr>
-            </td>
-          </table>
-        </div>
       </div>
-
     )
   }
 }
