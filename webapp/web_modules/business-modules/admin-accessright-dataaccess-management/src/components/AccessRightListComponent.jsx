@@ -67,11 +67,14 @@ export class AccessRightListComponent extends React.Component {
     deleteAccessRight: PropTypes.func.isRequired,
     // Callback to submit AccessRight(s) configuration (updates and creation)
     submitAccessRights: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    filters: PropTypes.object,
     selectedDatasetsWithAccessright: PropTypes.arrayOf(PropTypes.object).isRequired,
     // Callback to navigate to dataset creation
     navigateToCreateDataset: PropTypes.func.isRequired,
     backURL: PropTypes.string.isRequired,
     onRefresh: PropTypes.func.isRequired,
+    onFilter: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -248,7 +251,7 @@ export class AccessRightListComponent extends React.Component {
             <FlatButton
               label={this.context.intl.formatMessage({ id: 'accessright.table.refresh.button' })}
               icon={<Refresh />}
-              onClick={() => this.props.onRefresh()}
+              onClick={this.props.onRefresh}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
@@ -258,7 +261,7 @@ export class AccessRightListComponent extends React.Component {
 
   render() {
     const {
-      accessGroup, navigateToCreateDataset, backURL,
+      accessGroup, navigateToCreateDataset, backURL, filters,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -325,7 +328,7 @@ export class AccessRightListComponent extends React.Component {
           {this.renderDeleteConfirmDialog()}
           <TableLayout>
             <AccessRightListFiltersComponent
-              onRefresh={this.props.onRefresh}
+              onFilter={this.props.onFilter}
             />
             {this.renderActionsLine()}
             <PageableInfiniteTableContainer
@@ -338,6 +341,7 @@ export class AccessRightListComponent extends React.Component {
               pageSize={AccessRightListComponent.PAGE_SIZE}
               columns={columns}
               pathParams={pathParams}
+              requestParams={filters}
               emptyComponent={emptyComponent}
               displayColumnsHeader
             />
