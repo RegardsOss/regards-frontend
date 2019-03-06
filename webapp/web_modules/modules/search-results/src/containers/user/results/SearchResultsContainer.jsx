@@ -421,7 +421,7 @@ export class SearchResultsContainer extends React.Component {
     // 1 - Select actions to use and keep parameters for Q query and for OpenSearch query.
     let searchActions
     // 1.a - initialize current dataset tag, if any, and added Q parameters with level tags as QueryParameter array
-    const { qAP: osQParameters = [], dT: datasetTag } = levels.reduce(({ qAP, dT }, levelTag) => ({
+    const { qAP: osQParameters = [], dT: datasetTag } = levels.reduce(({ qAP = [], dT }, levelTag) => ({
       qAP: levelTag.isDataset() ? qAP : [...qAP, OpenSearchQuery.buildTagParameter(levelTag.searchKey)], // keep that common tag as Q parameter
       dT: levelTag.isDataset() ? levelTag : dT, // keep found dataset
     }), {})
