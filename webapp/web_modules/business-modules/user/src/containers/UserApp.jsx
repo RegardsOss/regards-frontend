@@ -202,7 +202,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => ({
   initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
   fetchLayout: () => dispatch(layoutActions.fetchEntity('user')),
-  fetchModules: () => dispatch(moduleActions.fetchPagedEntityList(0, 100, { applicationId: 'user' })),
+  fetchModules: () => dispatch(moduleActions.fetchPagedEntityList(0, 1000, { applicationId: 'user' })),
   fetchEndpoints: () => dispatch(CommonEndpointClient.endpointActions.fetchPagedEntityList(0, 10000)),
   fetchAttributes: () => dispatch(attributeModelActions.fetchEntityList(null, { noLink: true })),
 })
