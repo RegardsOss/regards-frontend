@@ -3,7 +3,10 @@
   "description": "Hello world !",
   "version": "1.0.0",
   "author": "Mieulet Léo",
-  "company": "CS-SI",
+  "company": "CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
   "email": "leo.mieulet@c-s.fr",
   "url": "http://www.cnes.fr",
   "license": "GPL-3.0",
