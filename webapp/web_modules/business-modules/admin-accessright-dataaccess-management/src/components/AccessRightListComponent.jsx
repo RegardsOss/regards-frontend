@@ -248,7 +248,7 @@ export class AccessRightListComponent extends React.Component {
             <FlatButton
               label={this.context.intl.formatMessage({ id: 'accessright.table.refresh.button' })}
               icon={<Refresh />}
-              onClick={this.props.onRefresh}
+              onClick={() => this.props.onRefresh()}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
