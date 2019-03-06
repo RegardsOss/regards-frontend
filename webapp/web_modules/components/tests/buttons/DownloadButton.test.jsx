@@ -50,7 +50,6 @@ describe('[Components] Testing DownloadButton', () => {
     assert.isNotOk(iconButtonWrapper.props().disabled, 'Button should not be disabled')
     const link = enzymeWrapper.find('a')
     assert.lengthOf(link, 1, 'There should be an HTML link')
-    assert.isOk(link.props().download, 'it should be marked downloadable')
     assert.equal(link.props().href, props.downloadURL, 'it should have right URL')
   })
   it('should render correctly disabled ', () => {
