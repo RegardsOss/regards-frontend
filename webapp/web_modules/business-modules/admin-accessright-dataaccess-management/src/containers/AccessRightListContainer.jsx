@@ -119,11 +119,11 @@ export class AccessRightListContainer extends React.Component {
 
   refresh = (filters) => {
     const { meta, fetchDatasetWithAccessRightPage, clearSelection } = this.props
-    const curentPage = get(meta, 'number', 0)
+    const pageSize = get(meta, 'size', 0)
     const accessGroupName = get(this.props.accessGroup, 'content.name', null)
     if (accessGroupName) {
       clearSelection() // clear selection to avoid selected elements changes
-      fetchDatasetWithAccessRightPage(0, AccessRightListComponent.PAGE_SIZE * (curentPage + 1), { accessGroupName }, filters)
+      fetchDatasetWithAccessRightPage(0, pageSize, { accessGroupName }, filters)
     }
   }
 
