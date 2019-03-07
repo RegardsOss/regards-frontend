@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import root from 'window-or-global'
+import { browserHistory } from 'react-router'
 import { UIDomain } from '@regardsoss/domain'
 import { SET_LOCALE } from './I18nActions'
 
@@ -45,7 +46,8 @@ export function parseLanguageLocaleIn(l = '') {
   return UIDomain.LOCALES.includes(simpleLocale) ? simpleLocale : UIDomain.LOCALES_ENUM.en
 }
 
-const DEFAULT_STATE = { locale: parseLanguageLocaleIn(navigatorLocale) }
+const { query } = browserHistory ? browserHistory.getCurrentLocation() : {query: {}}
+const DEFAULT_STATE = query['_local'] ? { locale: query['_local'] } : { locale: parseLanguageLocaleIn(navigatorLocale) }
 
 export default (state = DEFAULT_STATE, action) => {
   switch (action.type) {
