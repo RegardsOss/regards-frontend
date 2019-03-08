@@ -1,3 +1,4 @@
+import omit from 'lodash/omit'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
@@ -19,7 +20,9 @@ import {
 } from 'material-ui'
 import { CardActionsComponent } from '@regardsoss/components'
 import { ActionDelete } from 'material-ui/svg-icons'
-import { RenderSelectField, RenderTextField, Field } from '../../../../utils/form-utils/src/main'
+import {
+  RenderSelectField, RenderTextField, Field, ValidationHelpers,
+} from '../../../../utils/form-utils/src/main'
 
 /**
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
@@ -71,7 +74,7 @@ class AddFilterDialogComponent extends React.Component {
 
   handleAddFilter = (filter) => {
     this.toggleDialog()
-    this.props.fields.push(filter)
+    this.props.fields.push(omit(filter, 'value'))
   }
 
   handleFilter = (e) => {
@@ -91,19 +94,49 @@ class AddFilterDialogComponent extends React.Component {
     const innerDivStyle = {
       innerDivStyle: { fontSize: '0.95em', paddingTop: 7, paddingBottom: 7 },
     }
-    return this.props.filters
-      .filter(filter => this.props.fields.getAll() ? !this.props.fields.getAll().includes(filter) : true)
-      .filter(filter => filter.label.toLowerCase().includes(this.state.filter))
+    return this.props.filters.parameter
+      .filter(filter => this.props.fields.getAll()
+        ? !this.props.fields.getAll().find(field => field.name === filter.name)
+        : true,
+      ) // TODO ouch
+      .filter(filter => filter.name.toLowerCase().includes(this.state.filter))
       .map((filter, index) => (
         <ListItem
           {...innerDivStyle}
-          style={this.state.currentFilter === filter && selected}
-          key={filter.label}
+          style={this.state.currentFilter === filter ? selected : null}
+          key={filter.name}
           onClick={() => this.handleSelectFilter(filter)}
         >
-          {filter.label}
+          {filter.name}
         </ListItem>
       ))
+  }
+
+  renderParameterAttribute = (name, key) => this.state.currentFilter[key] && (
+  <div style={{ marginBottom: 5 }}>
+    <strong>{`${name} : `}</strong>
+    <span>{this.state.currentFilter[key]}</span>
+  </div>
+  )
+
+  getOptions = (filter) => {
+    if (filter.options) return filter.options
+    if (filter.option) return filter.option
+    return false
+  }
+
+  getValidation = (filter) => {
+    const {
+      number, required, lessThan, moreThan,
+    } = ValidationHelpers
+
+    const validation = [required]
+
+    if (filter.maxInclusive || filter.minInclusive) if (filter.maxInclusive) validation.push(number)
+    if (filter.maxInclusive) validation.push(lessThan(parseInt(filter.maxInclusive, 10)))
+    if (filter.minInclusive) validation.push(moreThan(parseInt(filter.minInclusive, 10)))
+
+    return validation
   }
 
   renderDialog = () => (
@@ -130,27 +163,22 @@ class AddFilterDialogComponent extends React.Component {
         <div className="col-xs-65 col-lg-70">
           {this.state.currentFilter && (
             <>
-              <CardTitle>{this.state.currentFilter.label}</CardTitle>
+              <CardTitle>{this.state.currentFilter.name}</CardTitle>
               <CardText>
-                <strong>Label:</strong>
-                {this.state.currentFilter.label}
-                <br />
-                <strong>Description:</strong>
-                {this.state.currentFilter.description}
-                <br />
-                <strong>Bounds:</strong>
-                {this.state.currentFilter.bounds}
-                <br />
-                <strong>Pattern:</strong>
-                {this.state.currentFilter.pattern}
-                <br />
-                <strong>Possible values:</strong>
-                {this.state.currentFilter.possibleValues && (
-                  <ul>
-                    {this.state.currentFilter.possibleValues.map(value => (
-                      <li key={value}>{value}</li>
-                    ))}
-                  </ul>
+                {this.renderParameterAttribute('Name', 'name')}
+                {this.renderParameterAttribute('Title', 'title')}
+                {this.renderParameterAttribute('Max Inclusive', 'maxInclusive')}
+                {this.renderParameterAttribute('Min Inclusive', 'minInclusive')}
+                {this.renderParameterAttribute('Pattern', 'pattern')}
+                {this.getOptions(this.state.currentFilter) && (
+                  <>
+                    <strong>Possible values:</strong>
+                    <ul>
+                      {this.getOptions(this.state.currentFilter).map(option => (
+                        <li key={option.value}>{option.value}</li>
+                      ))}
+                    </ul>
+                  </>
                 )}
                 <br />
               </CardText>
@@ -177,40 +205,51 @@ class AddFilterDialogComponent extends React.Component {
           <RaisedButton label="Add" onClick={this.toggleDialog} />
           {this.renderDialog()}
         </div>
-        <Table>
-          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-            <TableRow>
-              <TableHeaderColumn>Name</TableHeaderColumn>
-              <TableHeaderColumn>Description</TableHeaderColumn>
-              <TableHeaderColumn>Value</TableHeaderColumn>
-              <TableHeaderColumn>Actions</TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody displayRowCheckbox={false}>
-            {this.props.fields.map((filter, index) => (
-              <TableRow key={filter.label}>
-                <TableRowColumn>{this.props.fields.get(index).label}</TableRowColumn>
-                <TableRowColumn>{this.props.fields.get(index).description}</TableRowColumn>
-                <TableRowColumn>
-                  {this.props.fields.get(index).possibleValues ? (
-                    <Field name={`${filter}.value`} component={RenderSelectField} label="Value">
-                      {this.props.fields.get(index).possibleValues.map(value => (
-                        <MenuItem key={value} value={value} primaryText={value} />
-                      ))}
-                    </Field>
-                  ) : (
-                    <Field name={`${filter}.value`} component={RenderTextField} label="Value" />
-                  )}
-                </TableRowColumn>
-                <TableRowColumn>
-                  <IconButton onClick={() => this.props.fields.remove(index)}>
-                    <ActionDelete />
-                  </IconButton>
-                </TableRowColumn>
+        {this.props.fields.length > 0 && (
+          <Table>
+            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+              <TableRow>
+                <TableHeaderColumn>Name</TableHeaderColumn>
+                <TableHeaderColumn>Description</TableHeaderColumn>
+                <TableHeaderColumn>Value</TableHeaderColumn>
+                <TableHeaderColumn>Actions</TableHeaderColumn>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody displayRowCheckbox={false}>
+              {this.props.fields.map((filter, index) => (
+                <TableRow key={filter.name}>
+                  <TableRowColumn>{this.props.fields.get(index).name}</TableRowColumn>
+                  <TableRowColumn>{this.props.fields.get(index).title}</TableRowColumn>
+                  <TableRowColumn>
+                    {this.getOptions(this.props.fields.get(index)) ? (
+                      <Field name={`${filter}.value`} component={RenderSelectField} label="Value">
+                        {this.getOptions(this.props.fields.get(index)).map(option => (
+                          <MenuItem
+                            key={option.value}
+                            value={option.value}
+                            primaryText={option.value}
+                          />
+                        ))}
+                      </Field>
+                    ) : (
+                      <Field
+                        name={`${filter}.value`}
+                        component={RenderTextField}
+                        label="Value"
+                        // validate={this.getValidation(this.props.fields.get(index))} TODO : Doesn't really work
+                      />
+                    )}
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    <IconButton onClick={() => this.props.fields.remove(index)}>
+                      <ActionDelete />
+                    </IconButton>
+                  </TableRowColumn>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </>
     )
   }

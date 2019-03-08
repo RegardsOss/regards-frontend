@@ -19,10 +19,17 @@
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { I18nProvider } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
+import { browserHistory } from 'react-router'
 import messages from '../i18n'
-import { OSCrawlerConfigurationContainer } from './OSCrawlerConfigurationContainer'
-import { OSQueryConfigurationContainer } from './OSQueryConfigurationContainer'
-import { OSResultsConfigurationContainer } from './OSResultsConfigurationContainer'
+import OSCrawlerConfigurationContainer from './OSCrawlerConfigurationContainer'
+import OSQueryConfigurationContainer from './OSQueryConfigurationContainer'
+import OSResultsConfigurationContainer from './OSResultsConfigurationContainer'
+
+const STATE = {
+  CRAWLER: 'CRAWLER',
+  QUERY: 'QUERY',
+  RESULTS: 'RESULTS',
+}
 
 /**
  * Show the datasource form
@@ -37,7 +44,6 @@ export class OSConfigurationFormContainer extends React.Component {
       path: PropTypes.string,
     }),
   }
-
 
   /**
    * Redux: map state to props function
@@ -64,71 +70,130 @@ export class OSConfigurationFormContainer extends React.Component {
     query: {},
   }
 
-  forms = {
-    crawler: {
-      path: 'opensearch/create/crawler',
-      fullPath: () => `/admin/${this.props.params.project}/data/acquisition/datasource/${this.forms.crawler.path}`,
-      backUrl: () => `/admin/${this.props.params.project}/data/acquisition/datasource/create/interface`,
-      nextUrl: () => this.forms.query.fullPath(),
-    },
-    query: {
-      path: 'opensearch/create/query',
-      fullPath: () => `/admin/${this.props.params.project}/data/acquisition/datasource/${this.forms.query.path}`,
-      backUrl: () => this.forms.crawler.fullPath(),
-      nextUrl: () => this.forms.results.fullPath(),
-    },
-    results: {
-      path: 'opensearch/create/results',
-      fullPath: () => `/admin/${this.props.params.project}/data/acquisition/datasource/${this.forms.results.path}`,
-      backUrl: () => this.forms.query.fullPath(),
-    },
-  }
-
   onCrawlerSubmit = (fields) => {
     this.setState({
       crawler: fields,
+      formState: STATE.QUERY,
     })
   }
 
   onQuerySubmit = (fields) => {
-    // TODO: omit non used parameters
     this.setState({
       query: fields,
+      formState: STATE.RESULTS,
     })
   }
 
-  renderSubContainer = () => {
-    const { path } = this.props.route
-    const { crawler, query, results } = this.forms
-    switch (path) {
-      case this.forms.crawler.path:
+  onResultsSubmit = (fields) => {
+    this.setState(
+      {
+        results: fields,
+      },
+      () => {
+        console.log('Crawler:', this.state.crawler)
+        console.log('Query:', this.state.query)
+        console.log('Results:', this.state.results)
+      },
+    )
+  }
+
+  createConfPlugin = () => {
+    const { crawler, query, results } = this.state
+    const conf = {
+      pluginId: 'webservice-datasource',
+      label: crawler.name,
+      verson: '1.0-SNAPSHOT',
+      priorityOrder: 0,
+      active: true,
+      interfaceNames: ['fr.cnes.regards.modules.dam.domain.datasources.plugins.IDataSourcePlugin'],
+      pluginClassName: 'fr.cnes.regards.modules.dam.plugins.datasources.webservice.WebserviceDatasourcePlugin',
+      parameters: [
+        {
+          name: 'webserviceConfiguration',
+          value: {
+            webserviceURL: crawler.descriptor,
+            queryParams: query.filters.map(filter => ({
+              [filter.label]: filter.value,
+            })),
+            pageSizeParam: query.pageSize,
+            pageIndexParam: 'from descriptor',
+            lastUpdateParam: query.lastUpdate,
+            startPageIndex: 'from descriptor',
+            pageSize: 'from form',
+          },
+          type: 'fr.cnes.regards.modules.dam.plugins.datasources.webservice.configuration.WebserviceConfiguration',
+        }, {
+          name: 'conversionConfiguation',
+          value: {
+            modelName: results.modelName,
+            totalResultsFields: '',
+            pageSizeField: '',
+            attributeToJsonField: {
+              label: results.propertiesLabel,
+            },
+            thumbnailURLPath: results.thumbnailURLPath,
+            rawDataURLPath: results.rawDataURLPath,
+            quicklookURLPath: results.quicklookURLPath,
+          },
+        },
+      ],
+    }
+
+    return conf
+  }
+
+  handleBack = () => {
+    switch (this.state.formState) {
+      case STATE.CRAWLER:
       default:
-        return <OSCrawlerConfigurationContainer
-          backUrl={crawler.backUrl()}
-          nextUrl={crawler.nextUrl()}
-          onSubmit={this.onCrawlerSubmit}
-          initialValues={this.state.crawler}
-        />
-      case query.path:
-        return <OSQueryConfigurationContainer
-          backUrl={query.backUrl()}
-          nextUrl={query.nextUrl()}
-          onSubmit={this.onQuerySubmit}
-          initialValues={this.state.query}
-        />
-      case results.path:
-        return <OSResultsConfigurationContainer
-          backUrl={results.backUrl()}
-        />
+        browserHistory.push(`/admin/${this.props.params.project}/data/acquisition/datasource/create/interface`)
+        break
+      case STATE.QUERY:
+        this.setState({ formState: STATE.CRAWLER })
+        break
+      case STATE.RESULTS:
+        this.setState({ formState: STATE.QUERY })
+        break
+    }
+  }
+
+  renderSubContainer = () => {
+    const { project } = this.props.params
+    const { formState } = this.state
+
+    switch (formState) {
+      case STATE.CRAWLER:
+      default:
+        return (
+          <OSCrawlerConfigurationContainer
+            onBack={this.handleBack}
+            onSubmit={this.onCrawlerSubmit}
+            project={project}
+            initialValues={this.state.crawler}
+          />
+        )
+      case STATE.QUERY:
+        return (
+          <OSQueryConfigurationContainer
+            onBack={this.handleBack}
+            onSubmit={this.onQuerySubmit}
+            initialValues={this.state.query}
+          />
+        )
+      case STATE.RESULTS:
+        return (
+          <OSResultsConfigurationContainer
+            onBack={this.handleBack}
+            onSubmit={this.onResultsSubmit}
+          />
+        )
     }
   }
 
   render() {
     return (
       <I18nProvider messages={messages}>
-        <LoadableContentDisplayDecorator
-          isLoading={false}
-        >
+        <LoadableContentDisplayDecorator isLoading={false}>
           {this.renderSubContainer()}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
@@ -138,4 +203,5 @@ export class OSConfigurationFormContainer extends React.Component {
 
 export default connect(
   OSConfigurationFormContainer.mapStateToProps,
-  OSConfigurationFormContainer.mapDispatchToProps)(OSConfigurationFormContainer)
+  OSConfigurationFormContainer.mapDispatchToProps,
+)(OSConfigurationFormContainer)

@@ -47,16 +47,18 @@ export class OSResultsConfigurationContainer extends React.Component {
   }
 
 static propTypes = {
-  backUrl: PropTypes.string.isRequired,
+  onBack: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.obj,
 // from mapStateToProps
 // from mapDispatchToProps
 }
 
 render() {
-  const { backUrl } = this.props
+  const { onBack, onSubmit } = this.props
   return (
     <I18nProvider messages={messages}>
-      <OSResultsConfigurationComponent backUrl={backUrl} />
+      <OSResultsConfigurationComponent onSubmit={onSubmit} onBack={onBack} />
     </I18nProvider>
   )
 }

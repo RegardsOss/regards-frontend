@@ -19,67 +19,90 @@
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import messages from '../i18n'
 import OSCrawlerConfigurationComponent from '../components/OSCrawlerConfigurationComponent'
+import {
+  descriptorActions,
+} from '../clients/OpensearchDescriptorClient'
 
 /**
-*Comment Here
-* @author Maxime Bouveron
-*/
+ *Comment Here
+ * @author Maxime Bouveron
+ */
 export class OSCrawlerConfigurationContainer extends React.Component {
   /**
- * Redux: map state to props function
- * @param {*} state: current redux state
- * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
   static mapStateToProps(state) {
-    return {}
+    return {
+      // descriptor(scope, url) {
+      //   return descriptorSelectors().getResult(state)
+      // },
+    }
   }
 
   /**
- * Redux: map dispatch to props function
- * @param {*} dispatch: redux dispatch function
- * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
-  static mapDispatchToProps(dispatch) {
-    return {}
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+
+   state = {
+     isLoading: false,
+   }
+
+  static propTypes = {
+    onBack: PropTypes.func.isRequired,
+    project: PropTypes.string.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    initialValues: PropTypes.shape({
+      name: PropTypes.string,
+      refresh: PropTypes.string,
+      descriptor: PropTypes.string,
+    }),
+    // from mapStateToProps
+    // from mapDispatchToProps
+    getDescriptor: PropTypes.func.isRequired,
   }
 
-static propTypes = {
-  backUrl: PropTypes.string.isRequired,
-  nextUrl: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  initialValues: PropTypes.shape({
-    name: PropTypes.string,
-    refresh: PropTypes.string,
-    descriptor: PropTypes.string,
-  }),
-  // from mapStateToProps
-  // from mapDispatchToProps
+  onSubmit = (fields) => {
+    this.setState({
+      isLoading: true,
+    })
+    this.props.getDescriptor(this.props.project, fields.descriptor)
+      .then((descriptor) => {
+        this.props.onSubmit(fields)
+      })
+  }
+
+  render() {
+    const { onBack } = this.props
+    return (
+      <I18nProvider messages={messages}>
+        <LoadableContentDisplayDecorator
+          isLoading={this.state.isLoading}
+        >
+          <OSCrawlerConfigurationComponent
+            onBack={onBack}
+            onSubmit={this.onSubmit}
+            initialValues={this.props.initialValues}
+          />
+        </LoadableContentDisplayDecorator>
+      </I18nProvider>
+    )
+  }
 }
 
-onSubmit = (fields) => {
-  // TODO do the promise thingy
-  this.props.onSubmit(fields)
-  browserHistory.push(this.props.nextUrl)
-}
-
-render() {
-  const { backUrl } = this.props
-  return (
-    <I18nProvider messages={messages}>
-      <OSCrawlerConfigurationComponent
-        backUrl={backUrl}
-        onSubmit={this.onSubmit}
-        initialValues={this.props.initialValues}
-      />
-    </I18nProvider>
-  )
-}
-}
+const mapDispatchToProps = dispatch => ({
+  getDescriptor: (scope, url) => dispatch(descriptorActions.getDescriptor(scope, url)),
+})
 
 export default connect(
-  OSCrawlerConfigurationContainer.mapStateToProps,
-  OSCrawlerConfigurationContainer.mapDispatchToProps)(OSCrawlerConfigurationContainer)
+  null,
+  mapDispatchToProps,
+)(OSCrawlerConfigurationContainer)

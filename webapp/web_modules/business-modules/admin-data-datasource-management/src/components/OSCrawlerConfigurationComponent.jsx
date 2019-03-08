@@ -41,7 +41,7 @@ const requiredUrlValidator = [url, required]
   */
 export class OSCrawlerConfigurationComponent extends React.Component {
   static propTypes = {
-    backUrl: PropTypes.string,
+    onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     initialValues: PropTypes.shape({
       name: PropTypes.string,
@@ -125,7 +125,7 @@ export class OSCrawlerConfigurationComponent extends React.Component {
                 />
               }
               secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.create.action.previous' })}
-              secondaryButtonUrl={this.props.backUrl}
+              secondaryButtonClick={this.props.onBack}
             />
           </CardActions>
         </Card>

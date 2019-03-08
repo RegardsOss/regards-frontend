@@ -18,8 +18,12 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
+import { browserHistory } from 'react-router'
 import messages from '../i18n'
 import OSQueryConfigurationComponent from '../components/OSQueryConfigurationComponent'
+import {
+  descriptorSelectors,
+} from '../clients/OpensearchDescriptorClient'
 
 /**
  *Comment Here
@@ -33,7 +37,9 @@ export class OSQueryConfigurationContainer extends React.Component {
    * @return {*} list of component properties extracted from redux state
    */
   static mapStateToProps(state) {
-    return {}
+    return {
+      descriptor: descriptorSelectors.getResult(state),
+    }
   }
 
   /**
@@ -47,24 +53,27 @@ export class OSQueryConfigurationContainer extends React.Component {
   }
 
   static propTypes = {
-    backUrl: PropTypes.string.isRequired,
-    nextUrl: PropTypes.string.isRequired,
+    onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequierd,
     // from mapStateToProps
     // from mapDispatchToProps
   }
 
+  onSubmit = (fields) => {
+    this.props.onSubmit(fields)
+  }
+
   render() {
     const {
-      backUrl, nextUrl, onSubmit, initialValues,
+      onBack, initialValues,
     } = this.props
     return (
       <I18nProvider messages={messages}>
         <OSQueryConfigurationComponent
-          backUrl={backUrl}
-          nextUrl={nextUrl}
-          onSubmit={onSubmit}
+          onBack={onBack}
+          onSubmit={this.onSubmit}
           initialValues={initialValues}
+          filters={this.props.descriptor.url.find(e => e.type === 'application/json')}
         />
       </I18nProvider>
     )
