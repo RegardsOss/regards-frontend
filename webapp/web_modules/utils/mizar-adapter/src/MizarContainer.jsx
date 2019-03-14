@@ -1,8 +1,6 @@
-import get from 'lodash/get'
+
 import isNil from 'lodash/isNil'
 import map from 'lodash/map'
-import cloneDeep from 'lodash/cloneDeep'
-import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import { CatalogShapes } from '@regardsoss/shape'
@@ -13,8 +11,6 @@ export class MizarContainer extends React.Component {
     return {
       // results entities
       entities: pageSelectors.getOrderedList(state),
-      pageMetadata: pageSelectors.getMetaData(state),
-      entitiesFetching: pageSelectors.isFetching(state),
     }
   }
 
@@ -32,6 +28,8 @@ export class MizarContainer extends React.Component {
   }
 
   static propTypes = {
+    backgroundLayerUrl: PropTypes.string.isRequired,
+    backgroundLayerType: PropTypes.string.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     queryPageSize: PropTypes.number,
     // eslint-disable-next-line react/no-unused-prop-types,react/forbid-prop-types
@@ -42,19 +40,9 @@ export class MizarContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // BasicPageableSelectors to retrieve entities from store
 
-    // see InfiniteTableContainer for the other properties required (note that the fetch / flush method are
-    // already provided by this component, just fill in the other ones =)
-
     // eslint-disable-next-line react/no-unused-prop-types
     entities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    entitiesFetching: PropTypes.bool,
-    // eslint-disable-next-line react/no-unused-prop-types
-    pageMetadata: PropTypes.shape({ // use only in onPropertiesUpdate
-      number: PropTypes.number,
-      size: PropTypes.number,
-      totalElements: PropTypes.number,
-    }),
+
     // from map dispatch to props
     // eslint-disable-next-line react/no-unused-prop-types
     flushEntities: PropTypes.func.isRequired,
@@ -63,7 +51,8 @@ export class MizarContainer extends React.Component {
   }
 
   /**
-   * Builds GeoJson features collections from regards catalog entities as parameter
+   * Builds GeoJson features collections from regards catalog entities as parameter.
+   * Removes entities with null geometry
    * @param {*} entities
    */
   static buildGeoJSONFeatureCollection(entities = []) {
@@ -79,47 +68,11 @@ export class MizarContainer extends React.Component {
     featuresCollection: MizarContainer.buildGeoJSONFeatureCollection(),
   }
 
-  /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
   componentDidMount() {
-    this.fetchEntityPage(this.props)
+    this.fetchEntityPage(this.props).then(() => {
+      this.setState({ featuresCollection: MizarContainer.buildGeoJSONFeatureCollection(this.props.entities) })
+    })
   }
-
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
-  * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-  */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-   * Properties change detected: update local state
-   * @param oldProps previous component properties
-   * @param newProps next component properties
-   */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    const { requestParams, entities } = newProps
-    // initialization or authentication update: fetch the first page
-    if (!isEqual(newProps.requestParams, requestParams)) {
-      this.props.flushEntities()
-      // Fetch new ones
-      this.fetchEntityPage(newProps)
-      // TODO that should clear the local buffer if we keep it separated of the quicklook displayer!
-    }
-    if (!isEqual(oldProps.entities, entities)) {
-      // Update feture collection expect by MizarAdapter
-      // TODO should  we append here? so that component below can always clear... to design!
-      this.setState({ featuresCollection: MizarContainer.buildGeoJSONFeatureCollection(entities) })
-    }
-  }
-
 
   /**
    * Fetches an entity page (prevents fetching multiple times the same entity)
@@ -128,32 +81,27 @@ export class MizarContainer extends React.Component {
    */
   fetchEntityPage = ({
     pathParams, requestParams, queryPageSize,
-  }, pageNumber = 0) => {
-    this.props.fetchEntities(pageNumber, queryPageSize, pathParams, requestParams)
-  }
+  }, pageNumber = 0) => this.props.fetchEntities(pageNumber, queryPageSize, pathParams, requestParams)
 
-  fetchMoreEntities = () => {
-    // Is table incomplete? (prevent fetching when already in progress)
-    if (this.hasMoreEntities() && !this.props.entitiesFetching) {
-      const nextPage = get(this.props.pageMetadata, 'number', 0) + 1
-      this.fetchEntityPage(this.props, nextPage)
-    }
-  }
-
-  onApplyGeoParameter = (geometry) => {
-    this.props.flushEntities() // TODO: not when it will be a common parameter
-    // Fetch new ones
-    const props = cloneDeep(this.props)
-    props.requestParams.g = geometry
-    this.fetchEntityPage(props)
+  onApplyGeoParameter = (feature) => {
+    // 1. Flush existing entities from store
+    this.props.flushEntities()
+    // 2. Create geometry search criterion
+    const coord = feature.geometry.coordinates
+    const wkt = `POLYGON((${coord[0][0][0]} ${coord[0][0][1]},${coord[0][1][0]} ${coord[0][1][1]},${coord[0][2][0]} ${coord[0][2][1]},${coord[0][0][0]} ${coord[0][0][1]}))`
+    // 3. Add the geometry criterion to the common search context
+    // TODO
   }
 
   render() {
     const { featuresCollection } = this.state
+    const { backgroundLayerUrl, backgroundLayerType } = this.props
     return (
       <MizarAdapter
+        backgroundLayerUrl={backgroundLayerUrl}
+        backgroundLayerType={backgroundLayerType}
         featuresCollection={featuresCollection}
-        applyGeoParameter={this.onApplyGeoParameter} // TODO should not be in Mizar!
+        drawMode={false}
       />)
   }
 }

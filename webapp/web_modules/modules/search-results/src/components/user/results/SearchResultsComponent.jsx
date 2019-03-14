@@ -265,6 +265,8 @@ class SearchResultsComponent extends React.Component {
 
     if (this.isInMapView()) {
       return <MizarContainer
+        backgroundLayerUrl="http://80.158.6.138/mapserv?map=WMS_BLUEMARBLE"
+        backgroundLayerType="WMS"
         pageActions={searchActions}
         pageSelectors={searchSelectors}
         requestParams={requestParameters}
