@@ -23,17 +23,12 @@
  */
 export default theme => ({
   mizarDiv: {
-    display: 'flex',
-    backgroundColor: 'Yellow',
+    minWidth: 0,
+    minHeight: 0,
     flexGrow: 1,
     flexShrink: 1,
     flexBasis: 0,
+    display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-around',
-    minWidth: 0,
-    minHeight: 0,
-  },
-  mizarCanvas: {
-    backgroundColor: 'Red',
   },
 })

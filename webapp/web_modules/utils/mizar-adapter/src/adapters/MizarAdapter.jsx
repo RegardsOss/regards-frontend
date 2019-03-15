@@ -16,9 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SCO. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import { Measure } from '@regardsoss/adapters'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import { GeoJsonFeaturesCollection } from '../shapes/FeaturesCollection'
 import './MizarLoader'
@@ -30,16 +28,20 @@ import styles from '../styles'
  */
 export class MizarAdapter extends React.Component {
   static propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
     backgroundLayerUrl: PropTypes.string.isRequired,
     backgroundLayerType: PropTypes.string.isRequired,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
     drawMode: PropTypes.bool.isRequired,
+    onFeatureDrawn: PropTypes.func,
+    maxWidth: PropTypes.number,
   }
 
   static contextTypes = {
     ...themeContextType,
   }
+
+  // XXX : Workaround
+  clientYOffset = 90
 
   state = {
     layerId: null,
@@ -78,18 +80,29 @@ export class MizarAdapter extends React.Component {
 
     // Handle draw mode changes
     if (this.props.drawMode !== drawMode) {
-      if (drawMode) {
-        this.mizar.getActivatedContext().getNavigation().start()
-      } else {
-        this.mizar.getActivatedContext().getNavigation().stop()
-        this.feature = {
-          id: '0',
-          type: 'Feature',
-          geometry: {
-            type: 'Polygon',
-            coordinates: [],
-          },
-        }
+      this.toggleDrawMode(drawMode)
+    }
+  }
+
+  componentWillUnmount =() => {
+    if (this.mizar) {
+      const pickingManager = this.mizar.getServiceByName(this.Mizar.SERVICE.PickingManager)
+      pickingManager.clearSelection()
+    }
+  }
+
+  toggleDrawMode = (drawMode) => {
+    if (drawMode) {
+      this.mizar.getActivatedContext().getNavigation().stop()
+    } else {
+      this.mizar.getActivatedContext().getNavigation().start()
+      this.feature = {
+        id: '0',
+        type: 'Feature',
+        geometry: {
+          type: 'Polygon',
+          coordinates: [],
+        },
       }
     }
   }
@@ -155,6 +168,7 @@ export class MizarAdapter extends React.Component {
       name: 'datas',
       visible: true,
       background: false,
+      color: 'Orange',
     }, (layerId) => {
       this.setInitialized(layerId, () => this.addFeatures(this.props.featuresCollection))
     })
@@ -162,11 +176,14 @@ export class MizarAdapter extends React.Component {
     const vectorLayer = this.mizar.LayerFactory.create({
       type: Mizar.LAYER.Vector,
       visible: true,
+      color: 'Red',
     })
 
     this.mizar.getActivatedContext().addDraw(vectorLayer)
 
-    this.setState({ vectorLayer })
+    this.setState({ vectorLayer }, () => {
+      this.toggleDrawMode(this.props.drawMode)
+    })
   }
 
   addFeatures = (featuresCollection) => {
@@ -194,22 +211,27 @@ export class MizarAdapter extends React.Component {
 
     this.state.vectorLayer.removeFeature(this.feature)
     this.state.vectorLayer.addFeature(this.feature)
+    if (this.props.onFeatureDrawn) {
+      this.props.onFeatureDrawn(this.feature)
+    }
   }
 
 
   // Called when left mouse button is pressed : start drawing the rectangle
   onMouseDown = (event) => {
     if (this.props.drawMode && event.button === 0) {
-      this.startPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY)
-      this.drawRectangle(this.startPoint, this.startPoint)
-      this.started = true
+      this.startPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY - this.clientYOffset)
+      if (this.startPoint) {
+        this.drawRectangle(this.startPoint, this.startPoint)
+        this.started = true
+      }
     }
   }
 
   // Called when mouse is moved  : update the rectangle
   onMouseMove = (event) => {
     if (this.started && event.button === 0) {
-      const endPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY)
+      const endPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY - this.clientYOffset)
       this.drawRectangle(this.startPoint, endPoint)
     }
   }
@@ -217,74 +239,24 @@ export class MizarAdapter extends React.Component {
   // Called when left mouse button is release  : end drawing the rectangle
   onMouseUp = (event) => {
     if (this.started && event.button === 0) {
-      const endPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY)
+      const endPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY - this.clientYOffset)
       this.drawRectangle(this.startPoint, endPoint)
       this.started = false
     }
   }
 
-  onSizeChanged = ({ measureDiv: { width, height } }) => {
-    let availableWidth = Math.round(width)
-    const availableHeight = Math.round(height)
-    if (availableWidth > (availableHeight * 1.7)) {
-      availableWidth = availableHeight * 1.7
-    }
-    console.error('width=', width)
-    console.error('height=', height)
-
-    console.error('availableWidth=', availableWidth)
-    console.error('availableHeight=', availableHeight)
-    this.updateDisplayAreaStyle(availableWidth, availableHeight)
-  }
-
-  /**
-   *
-   *
-   * <canvas
-                  key="canvas"
-                  id="MizarCanvas"
-                  style={plop}
-                  onMouseUp={this.onMouseUp}
-                  onMouseDown={this.onMouseDown}
-                  pnMouseMode={this.onMouseMove}
-                />
-   */
-
-  /**
-   * Updates display area style
-   */
-  updateDisplayAreaStyle = (width, height) => {
-    if (width !== get(this.state, 'displayAreaStyle.width')
-      || height !== get(this.state, 'displayAreaStyle.height')) {
-      this.setState({ displayAreaStyle: { width, height } })
-    }
-  }
-
   render() {
     const { moduleTheme } = this.context
-    const { displayAreaStyle } = this.state
-    const plop = {
-      ...displayAreaStyle,
-      ...moduleTheme.mizarCanvas,
-    }
     return (
-      <Measure bounds onMeasure={this.onSizeChanged}>
-        {
-        ({ bind }) => (
-          <div id="measuredDiv" style={moduleTheme.mizarDiv} {...bind('measureDiv')}>
-            { // content producing method
-              (() => <canvas
-                key="canvas"
-                id="MizarCanvas"
-                style={plop}
-                onMouseUp={this.onMouseUp}
-                onMouseDown={this.onMouseDown}
-                pnMouseMode={this.onMouseMove}
-              />)()
-          }
-          </div>)
-    }
-      </Measure>)
+      <div style={moduleTheme.mizarDiv} width={this.props.maxWidth}>
+        <canvas
+          key="canvas"
+          id="MizarCanvas"
+          onMouseUp={this.onMouseUp}
+          onMouseDown={this.onMouseDown}
+          onMouseMove={this.onMouseMove}
+        />
+      </div>)
   }
 }
 

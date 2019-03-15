@@ -2,11 +2,12 @@
 import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import { connect } from '@regardsoss/redux'
+import { Measure } from '@regardsoss/adapters'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import { CatalogShapes } from '@regardsoss/shape'
 import MizarAdapter from './adapters/MizarAdapter'
 
-export class MizarContainer extends React.Component {
+export class GeoViewContainer extends React.Component {
   static mapStateToProps(state, { pageSelectors }) {
     return {
       // results entities
@@ -50,6 +51,10 @@ export class MizarContainer extends React.Component {
     fetchEntities: PropTypes.func.isRequired,
   }
 
+  static state={
+    width: null,
+  }
+
   /**
    * Builds GeoJson features collections from regards catalog entities as parameter.
    * Removes entities with null geometry
@@ -65,12 +70,12 @@ export class MizarContainer extends React.Component {
 
   /** Initial state */
   state = {
-    featuresCollection: MizarContainer.buildGeoJSONFeatureCollection(),
+    featuresCollection: GeoViewContainer.buildGeoJSONFeatureCollection(),
   }
 
   componentDidMount() {
     this.fetchEntityPage(this.props).then(() => {
-      this.setState({ featuresCollection: MizarContainer.buildGeoJSONFeatureCollection(this.props.entities) })
+      this.setState({ featuresCollection: GeoViewContainer.buildGeoJSONFeatureCollection(this.props.entities) })
     })
   }
 
@@ -93,20 +98,82 @@ export class MizarContainer extends React.Component {
     // TODO
   }
 
+  /**
+   * On component resized event
+   */
+  onComponentResized = ({ measureDiv: { width } }) => {
+    console.error('width calcul', width, width * 0.7)
+    this.setState({
+      width,
+    })
+  }
+
   render() {
     const { featuresCollection } = this.state
     const { backgroundLayerUrl, backgroundLayerType } = this.props
+    const divStyles = {
+      display: 'flex',
+      minWidth: 0,
+      minHeight: 0,
+      flexDirection: 'row',
+      flexGrow: 1,
+      flexBasis: 0,
+    }
     return (
-      <MizarAdapter
-        backgroundLayerUrl={backgroundLayerUrl}
-        backgroundLayerType={backgroundLayerType}
-        featuresCollection={featuresCollection}
-        drawMode={false}
-      />)
+      <Measure bounds onMeasure={this.onComponentResized}>
+        {
+          ({ bind }) => (
+            <div style={divStyles} {...bind('measureDiv')}>
+              <MizarAdapter
+                key={`mizar-${this.state.width}`}
+                backgroundLayerUrl={backgroundLayerUrl}
+                backgroundLayerType={backgroundLayerType}
+                featuresCollection={featuresCollection}
+                onFeatureDrawn={this.onApplyGeoParameter}
+                drawMode
+                maxWidth={this.state.width ? this.state.width * 0.7 : undefined}
+              />
+            </div>)
+    }
+      </Measure>
+      // <div style={divStyles}>
+      //   <div style={{
+      //     position: 'relative',
+      //   }}
+      //   >
+      //     <div style={{
+      //       position: 'absolute',
+      //       top: 0,
+      //       left: 0,
+      //       width: '100%',
+      //       height: '100%',
+      //       alignContent: 'center',
+      //       display: 'flex',
+      //       alignItems: 'flex-start',
+      //       justifyContent: 'center',
+      //       flexDirection: 'column',
+      //       //background: 'themizar'
+      //     }}
+      //     >
+      //       <MizarAdapter
+      //         backgroundLayerUrl={backgroundLayerUrl}
+      //         backgroundLayerType={backgroundLayerType}
+      //         featuresCollection={featuresCollection}
+      //         onFeatureDrawn={this.onApplyGeoParameter}
+      //         drawMode
+      //       />
+      //     </div>
+      //   </div>
+      //   <div style={{
+      //     minWidth: 200, background: 'red', flexShrink: 0, flexGrow: 0,
+      //   }}
+      //   />
+      // </div>
+    )
   }
 }
 
 export default connect(
-  MizarContainer.mapStateToProps,
-  MizarContainer.mapDispatchToProps,
-)(MizarContainer)
+  GeoViewContainer.mapStateToProps,
+  GeoViewContainer.mapDispatchToProps,
+)(GeoViewContainer)

@@ -25,7 +25,7 @@ import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { BasicFacetsPageableActions, BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
-import { MizarContainer } from '@regardsoss/mizar-adapter'
+import { GeoViewContainer } from '@regardsoss/mizar-adapter'
 import { UIFacetArray, SelectedFacetArray } from '../../../models/facets/FacetShape'
 import { tableActions, tableSelectors } from '../../../clients/TableClient'
 import { ColumnPresentationModelArray } from '../../../models/table/TableColumnModel'
@@ -264,7 +264,7 @@ class SearchResultsComponent extends React.Component {
     }
 
     if (this.isInMapView()) {
-      return <MizarContainer
+      return <GeoViewContainer
         backgroundLayerUrl="http://80.158.6.138/mapserv?map=WMS_BLUEMARBLE"
         backgroundLayerType="WMS"
         pageActions={searchActions}
