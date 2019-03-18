@@ -9,6 +9,7 @@ import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-
 import { CatalogShapes } from '@regardsoss/shape'
 import styles from './styles'
 import MizarAdapter from './adapters/MizarAdapter'
+import './resizer.css'
 
 
 export class GeoViewContainer extends React.Component {
@@ -72,12 +73,16 @@ export class GeoViewContainer extends React.Component {
     }
   }
 
+  static MIZAR_MIN_WIDTH=400
+
+  static MIZAR_DEFAULT_SIZE_PROPORTION=0.7
+
 
   /** Initial state */
   state = {
     featuresCollection: GeoViewContainer.buildGeoJSONFeatureCollection(),
-    position: 500,
-    width: 500,
+    position: null,
+    width: null,
   }
 
   componentDidMount() {
@@ -107,9 +112,18 @@ export class GeoViewContainer extends React.Component {
 
   onComponentResized = ({ measureDiv: { width } }) => {
     const previousWidth = this.state.width
+    const coeff = previousWidth ? width / previousWidth : 1
+    const newPosition = this.state.position ? this.state.position * coeff : width * GeoViewContainer.MIZAR_DEFAULT_SIZE_PROPORTION
+    console.error('Resized !')
+    console.error('previous width=', previousWidth)
+    console.error('new width=', width)
+    console.error('coeff', coeff)
+    console.error('previous position=', this.state.position)
+    console.error('new position=', newPosition)
+
     this.setState({
       width,
-      position: previousWidth ? this.state.position * (previousWidth / this.state.width) : this.state.position,
+      position: newPosition,
     })
   }
 
@@ -123,20 +137,23 @@ export class GeoViewContainer extends React.Component {
     const { featuresCollection, position } = this.state
     const { backgroundLayerUrl, backgroundLayerType } = this.props
     const { moduleTheme } = this.context
+    const defaultSize = position || (this.state.width ? this.state.width * GeoViewContainer.MIZAR_DEFAULT_SIZE_PROPORTION : GeoViewContainer.MIZAR_MIN_WIDTH)
 
     return (
       <Measure bounds onMeasure={this.onComponentResized}>
         {({ bind }) => (
           <div style={moduleTheme.geoLayout} {...bind('measureDiv')}>
             <SplitPane
+              key={`resizer-${defaultSize}`}
               split="vertical"
-              minSize={50}
+              minSize={GeoViewContainer.MIZAR_MIN_WIDTH}
               onDragFinished={this.resize}
-              defaultSize={500}
+              defaultSize={defaultSize}
+              resizerStyle={moduleTheme.resizer}
             >
-              <div id="left" style={moduleTheme.mizarWrapper} width={position}>
+              <div id="left" style={moduleTheme.mizarWrapper} width={position || defaultSize}>
                 <MizarAdapter
-                  key={`mizar-${this.state.width}-${this.state.position}`}
+                  key={`mizar-${defaultSize}-${this.state.position}`}
                   backgroundLayerUrl={backgroundLayerUrl}
                   backgroundLayerType={backgroundLayerType}
                   featuresCollection={featuresCollection}

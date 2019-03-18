@@ -40,4 +40,9 @@ export default theme => ({
     width: '100%',
     height: '100%',
   },
+  resizer: {
+    backgroundColor: theme.palette.accent1Color,
+    width: '5px',
+    cursor: 'col-resize',
+  },
 })
