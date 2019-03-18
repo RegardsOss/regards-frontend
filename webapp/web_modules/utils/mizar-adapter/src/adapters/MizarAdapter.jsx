@@ -31,6 +31,7 @@ export default class MizarAdapter extends React.Component {
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
     drawMode: PropTypes.bool.isRequired,
     onFeatureDrawn: PropTypes.func,
+    featuresColor: PropTypes.string,
   }
 
   // XXX : Workaround
@@ -164,15 +165,16 @@ export default class MizarAdapter extends React.Component {
       name: 'datas',
       visible: true,
       background: false,
-      color: 'Orange',
+      color: this.props.featuresColor || 'Orange',
     }, (layerId) => {
       this.setInitialized(layerId, () => this.addFeatures(this.props.featuresCollection))
     })
 
+    console.error('Colors', this.props.selectedColor, this.props.featuresColor)
+
     const vectorLayer = this.mizar.LayerFactory.create({
       type: Mizar.LAYER.Vector,
       visible: true,
-      color: 'Red',
     })
 
     this.mizar.getActivatedContext().addDraw(vectorLayer)

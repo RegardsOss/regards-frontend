@@ -109,7 +109,7 @@ export class InfiniteGalleryContainer extends React.Component {
   static PROPS_TO_OMIT = ['pageActions', 'pageSelectors', 'pageMetadata']
 
   /** Root div style to span all */
-  static SPAN_ALL_STYLE = { flexGrow: 1, flexShrink: 1 }
+  static SPAN_ALL_STYLE = { flexGrow: 1, flexShrink: 1, height: '100%' }
 
   static DEFAULT_STATE = {
     entities: [],

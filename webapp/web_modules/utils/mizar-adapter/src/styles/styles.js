@@ -27,14 +27,12 @@ export default theme => ({
     position: 'relative',
   },
   mizarWrapper: {
-    backgroundColor: 'Green',
     top: '-60px',
     height: 'auto',
     flex: '1 1 0%',
     width: '100%',
   },
   quicklookViewLayout: {
-    backgroundColor: 'Red',
     minWidth: '50px',
     alignSelf: 'stretch',
     width: '100%',

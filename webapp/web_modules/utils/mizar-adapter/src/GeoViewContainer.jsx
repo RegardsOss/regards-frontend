@@ -1,4 +1,5 @@
 
+import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import SplitPane from 'react-split-pane'
@@ -6,10 +7,12 @@ import { connect } from '@regardsoss/redux'
 import { Measure } from '@regardsoss/adapters'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
+import { InfiniteGalleryContainer } from '@regardsoss/components'
 import { CatalogShapes } from '@regardsoss/shape'
 import styles from './styles'
 import MizarAdapter from './adapters/MizarAdapter'
 import './resizer.css'
+import ItemComponent from './ItemComponent'
 
 
 export class GeoViewContainer extends React.Component {
@@ -49,6 +52,9 @@ export class GeoViewContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     entities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
 
+    accessToken: PropTypes.string,
+    projectName: PropTypes.string,
+
     // from map dispatch to props
     // eslint-disable-next-line react/no-unused-prop-types
     flushEntities: PropTypes.func.isRequired,
@@ -80,15 +86,17 @@ export class GeoViewContainer extends React.Component {
 
   /** Initial state */
   state = {
-    featuresCollection: GeoViewContainer.buildGeoJSONFeatureCollection(),
+    features: [],
     position: null,
     width: null,
   }
 
-  componentDidMount() {
-    this.fetchEntityPage(this.props).then(() => {
-      this.setState({ featuresCollection: GeoViewContainer.buildGeoJSONFeatureCollection(this.props.entities) })
-    })
+  componentWillReceiveProps = (newProps) => {
+    if (!isEqual(this.props.entities, newProps.entities)) {
+      this.setState({
+        features: this.state.features.concat(newProps.entities),
+      })
+    }
   }
 
   /**
@@ -114,30 +122,36 @@ export class GeoViewContainer extends React.Component {
     const previousWidth = this.state.width
     const coeff = previousWidth ? width / previousWidth : 1
     const newPosition = this.state.position ? this.state.position * coeff : width * GeoViewContainer.MIZAR_DEFAULT_SIZE_PROPORTION
-    console.error('Resized !')
-    console.error('previous width=', previousWidth)
-    console.error('new width=', width)
-    console.error('coeff', coeff)
-    console.error('previous position=', this.state.position)
-    console.error('new position=', newPosition)
 
     this.setState({
       width,
       position: newPosition,
+      features: [],
     })
   }
 
   resize = (event) => {
     this.setState({
       position: event,
+      features: [],
     })
   }
 
   render() {
-    const { featuresCollection, position } = this.state
-    const { backgroundLayerUrl, backgroundLayerType } = this.props
-    const { moduleTheme } = this.context
+    const { position, features } = this.state
+    const {
+      backgroundLayerUrl, backgroundLayerType, accessToken,
+      projectName, queryPageSize, pageActions, pageSelectors, requestParams,
+    } = this.props
+    const { moduleTheme, muiTheme } = this.context
     const defaultSize = position || (this.state.width ? this.state.width * GeoViewContainer.MIZAR_DEFAULT_SIZE_PROPORTION : GeoViewContainer.MIZAR_MIN_WIDTH)
+
+    const itemProps = {
+      accessToken,
+      projectName,
+    }
+
+    console.error('muiTheme', muiTheme)
 
     return (
       <Measure bounds onMeasure={this.onComponentResized}>
@@ -156,12 +170,24 @@ export class GeoViewContainer extends React.Component {
                   key={`mizar-${defaultSize}-${this.state.position}`}
                   backgroundLayerUrl={backgroundLayerUrl}
                   backgroundLayerType={backgroundLayerType}
-                  featuresCollection={featuresCollection}
+                  featuresCollection={GeoViewContainer.buildGeoJSONFeatureCollection(features)}
                   onFeatureDrawn={this.onApplyGeoParameter}
-                  drawMode
+                  drawMode={false}
+                  featuresColor={muiTheme.palette.accent1Color}
                 />
               </div>
-              <div id="right" style={moduleTheme.quicklookViewLayout} />
+              <div id="right" style={moduleTheme.quicklookViewLayout}>
+                <InfiniteGalleryContainer
+                  itemComponent={ItemComponent}
+                  pageActions={pageActions}
+                  pageSelectors={pageSelectors}
+                  columnWidth={150}
+                  columnGutter={10}
+                  requestParams={requestParams}
+                  queryPageSize={queryPageSize}
+                  itemProps={itemProps}
+                />
+              </div>
             </SplitPane>
           </div>
         )}
@@ -173,4 +199,4 @@ export class GeoViewContainer extends React.Component {
 export default connect(
   GeoViewContainer.mapStateToProps,
   GeoViewContainer.mapDispatchToProps,
-)(withModuleStyle(styles)(GeoViewContainer))
+)(withModuleStyle(styles, true)(GeoViewContainer))
