@@ -1,6 +1,7 @@
 
 import isNil from 'lodash/isNil'
 import map from 'lodash/map'
+import SplitPane from 'react-split-pane'
 import { connect } from '@regardsoss/redux'
 import { Measure } from '@regardsoss/adapters'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
@@ -71,10 +72,12 @@ export class GeoViewContainer extends React.Component {
     }
   }
 
+
   /** Initial state */
   state = {
     featuresCollection: GeoViewContainer.buildGeoJSONFeatureCollection(),
-    width: 100,
+    position: 500,
+    width: 500,
   }
 
   componentDidMount() {
@@ -102,20 +105,17 @@ export class GeoViewContainer extends React.Component {
     // TODO
   }
 
-  /**
-   * On component resized event
-   */
   onComponentResized = ({ measureDiv: { width } }) => {
+    const previousWidth = this.state.width
     this.setState({
-      position: width - 200,
+      width,
+      position: previousWidth ? this.state.position * (previousWidth / this.state.width) : this.state.position,
     })
   }
 
-  onMouseMouve = (event) => {
-    console.error('OYE SAPAPAYA !!', event, event.clientX)
-    // Get X value
+  resize = (event) => {
     this.setState({
-      position: event.clientX,
+      position: event,
     })
   }
 
@@ -127,23 +127,16 @@ export class GeoViewContainer extends React.Component {
     return (
       <Measure bounds onMeasure={this.onComponentResized}>
         {({ bind }) => (
-          <div style={moduleTheme.geoViewLayout} {...bind('measureDiv')}>
-            <div style={{
-              position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0,
-            }}
+          <div style={moduleTheme.geoLayout} {...bind('measureDiv')}>
+            <SplitPane
+              split="vertical"
+              minSize={50}
+              onDragFinished={this.resize}
+              defaultSize={500}
             >
-              <div style={{
-                borderRight: '5px solid blue',
-                marginTop: '80px',
-                width: this.state.position,
-                height: '100%',
-              }}
-              />
-            </div>
-            <div style={moduleTheme.mizarViewLayout}>
-              <div style={moduleTheme.mizarWrapper} width={this.state.position ? position : '100%'}>
+              <div id="left" style={moduleTheme.mizarWrapper} width={position}>
                 <MizarAdapter
-                  key={`mizar-${this.state.position}`}
+                  key={`mizar-${this.state.width}-${this.state.position}`}
                   backgroundLayerUrl={backgroundLayerUrl}
                   backgroundLayerType={backgroundLayerType}
                   featuresCollection={featuresCollection}
@@ -151,8 +144,8 @@ export class GeoViewContainer extends React.Component {
                   drawMode
                 />
               </div>
-            </div>
-            <div style={moduleTheme.quicklookViewLayout} />
+              <div id="right" style={moduleTheme.quicklookViewLayout} />
+            </SplitPane>
           </div>
         )}
       </Measure>

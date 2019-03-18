@@ -22,39 +22,22 @@
  * @author Sébastien Binda
  */
 export default theme => ({
-  geoViewLayout: {
-    display: 'flex',
-    minWidth: 0,
-    minHeight: 0,
-    flexDirection: 'row',
-    flexGrow: 1,
-    flexBasis: 0,
+  geoLayout: {
+    flex: '1 1 0%',
+    position: 'relative',
   },
   mizarWrapper: {
-    minWidth: 0,
-    minHeight: 0,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
-    display: 'flex',
-    alignItems: 'center',
-  },
-  mizarViewLayout: {
-    display: 'flex',
-    flex: '0 0',
-    flexDirection: 'row',
+    backgroundColor: 'Green',
+    top: '-60px',
+    height: 'auto',
+    flex: '1 1 0%',
+    width: '100%',
   },
   quicklookViewLayout: {
-    minWidth: 200,
-    flexGrow: 1,
-    flexShrink: 1,
     backgroundColor: 'Red',
+    minWidth: '50px',
     alignSelf: 'stretch',
-  },
-  reglette: {
-    minWidth: 5,
-    flexGrow: 0,
-    flexShrink: 0,
-    backgroundColor: 'Green',
+    width: '100%',
+    height: '100%',
   },
 })

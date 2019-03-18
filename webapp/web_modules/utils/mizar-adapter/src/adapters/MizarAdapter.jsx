@@ -31,11 +31,10 @@ export default class MizarAdapter extends React.Component {
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
     drawMode: PropTypes.bool.isRequired,
     onFeatureDrawn: PropTypes.func,
-    width: PropTypes.number,
   }
 
   // XXX : Workaround
-  clientYOffset = 90
+  clientYOffset = 120
 
   state = {
     layerId: null,
