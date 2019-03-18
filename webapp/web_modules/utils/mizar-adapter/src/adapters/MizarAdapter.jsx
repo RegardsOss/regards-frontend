@@ -17,27 +17,21 @@
  * along with SCO. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
-import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import { GeoJsonFeaturesCollection } from '../shapes/FeaturesCollection'
 import './MizarLoader'
 import './rconfig'
 import './Mizar.css'
-import styles from '../styles'
 /**
  * Mizar Adapter
  */
-export class MizarAdapter extends React.Component {
+export default class MizarAdapter extends React.Component {
   static propTypes = {
     backgroundLayerUrl: PropTypes.string.isRequired,
     backgroundLayerType: PropTypes.string.isRequired,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
     drawMode: PropTypes.bool.isRequired,
     onFeatureDrawn: PropTypes.func,
-    maxWidth: PropTypes.number,
-  }
-
-  static contextTypes = {
-    ...themeContextType,
+    width: PropTypes.number,
   }
 
   // XXX : Workaround
@@ -88,6 +82,9 @@ export class MizarAdapter extends React.Component {
     if (this.mizar) {
       const pickingManager = this.mizar.getServiceByName(this.Mizar.SERVICE.PickingManager)
       pickingManager.clearSelection()
+
+      this.mizar = null
+      this.Mizar = null
     }
   }
 
@@ -246,18 +243,13 @@ export class MizarAdapter extends React.Component {
   }
 
   render() {
-    const { moduleTheme } = this.context
     return (
-      <div style={moduleTheme.mizarDiv} width={this.props.maxWidth}>
-        <canvas
-          key="canvas"
-          id="MizarCanvas"
-          onMouseUp={this.onMouseUp}
-          onMouseDown={this.onMouseDown}
-          onMouseMove={this.onMouseMove}
-        />
-      </div>)
+      <canvas
+        key="canvas"
+        id="MizarCanvas"
+        onMouseUp={this.onMouseUp}
+        onMouseDown={this.onMouseDown}
+        onMouseMove={this.onMouseMove}
+      />)
   }
 }
-
-export default withModuleStyle(styles)(MizarAdapter)

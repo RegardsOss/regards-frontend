@@ -3,9 +3,12 @@ import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import { connect } from '@regardsoss/redux'
 import { Measure } from '@regardsoss/adapters'
+import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import { CatalogShapes } from '@regardsoss/shape'
+import styles from './styles'
 import MizarAdapter from './adapters/MizarAdapter'
+
 
 export class GeoViewContainer extends React.Component {
   static mapStateToProps(state, { pageSelectors }) {
@@ -51,8 +54,8 @@ export class GeoViewContainer extends React.Component {
     fetchEntities: PropTypes.func.isRequired,
   }
 
-  static state={
-    width: null,
+  static contextTypes = {
+    ...themeContextType,
   }
 
   /**
@@ -71,6 +74,7 @@ export class GeoViewContainer extends React.Component {
   /** Initial state */
   state = {
     featuresCollection: GeoViewContainer.buildGeoJSONFeatureCollection(),
+    width: 100,
   }
 
   componentDidMount() {
@@ -102,73 +106,56 @@ export class GeoViewContainer extends React.Component {
    * On component resized event
    */
   onComponentResized = ({ measureDiv: { width } }) => {
-    console.error('width calcul', width, width * 0.7)
     this.setState({
-      width,
+      position: width - 200,
+    })
+  }
+
+  onMouseMouve = (event) => {
+    console.error('OYE SAPAPAYA !!', event, event.clientX)
+    // Get X value
+    this.setState({
+      position: event.clientX,
     })
   }
 
   render() {
-    const { featuresCollection } = this.state
+    const { featuresCollection, position } = this.state
     const { backgroundLayerUrl, backgroundLayerType } = this.props
-    const divStyles = {
-      display: 'flex',
-      minWidth: 0,
-      minHeight: 0,
-      flexDirection: 'row',
-      flexGrow: 1,
-      flexBasis: 0,
-    }
+    const { moduleTheme } = this.context
+
     return (
       <Measure bounds onMeasure={this.onComponentResized}>
-        {
-          ({ bind }) => (
-            <div style={divStyles} {...bind('measureDiv')}>
-              <MizarAdapter
-                key={`mizar-${this.state.width}`}
-                backgroundLayerUrl={backgroundLayerUrl}
-                backgroundLayerType={backgroundLayerType}
-                featuresCollection={featuresCollection}
-                onFeatureDrawn={this.onApplyGeoParameter}
-                drawMode
-                maxWidth={this.state.width ? this.state.width * 0.7 : undefined}
+        {({ bind }) => (
+          <div style={moduleTheme.geoViewLayout} {...bind('measureDiv')}>
+            <div style={{
+              position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0,
+            }}
+            >
+              <div style={{
+                borderRight: '5px solid blue',
+                marginTop: '80px',
+                width: this.state.position,
+                height: '100%',
+              }}
               />
-            </div>)
-    }
+            </div>
+            <div style={moduleTheme.mizarViewLayout}>
+              <div style={moduleTheme.mizarWrapper} width={this.state.position ? position : '100%'}>
+                <MizarAdapter
+                  key={`mizar-${this.state.position}`}
+                  backgroundLayerUrl={backgroundLayerUrl}
+                  backgroundLayerType={backgroundLayerType}
+                  featuresCollection={featuresCollection}
+                  onFeatureDrawn={this.onApplyGeoParameter}
+                  drawMode
+                />
+              </div>
+            </div>
+            <div style={moduleTheme.quicklookViewLayout} />
+          </div>
+        )}
       </Measure>
-      // <div style={divStyles}>
-      //   <div style={{
-      //     position: 'relative',
-      //   }}
-      //   >
-      //     <div style={{
-      //       position: 'absolute',
-      //       top: 0,
-      //       left: 0,
-      //       width: '100%',
-      //       height: '100%',
-      //       alignContent: 'center',
-      //       display: 'flex',
-      //       alignItems: 'flex-start',
-      //       justifyContent: 'center',
-      //       flexDirection: 'column',
-      //       //background: 'themizar'
-      //     }}
-      //     >
-      //       <MizarAdapter
-      //         backgroundLayerUrl={backgroundLayerUrl}
-      //         backgroundLayerType={backgroundLayerType}
-      //         featuresCollection={featuresCollection}
-      //         onFeatureDrawn={this.onApplyGeoParameter}
-      //         drawMode
-      //       />
-      //     </div>
-      //   </div>
-      //   <div style={{
-      //     minWidth: 200, background: 'red', flexShrink: 0, flexGrow: 0,
-      //   }}
-      //   />
-      // </div>
     )
   }
 }
@@ -176,4 +163,4 @@ export class GeoViewContainer extends React.Component {
 export default connect(
   GeoViewContainer.mapStateToProps,
   GeoViewContainer.mapDispatchToProps,
-)(GeoViewContainer)
+)(withModuleStyle(styles)(GeoViewContainer))
