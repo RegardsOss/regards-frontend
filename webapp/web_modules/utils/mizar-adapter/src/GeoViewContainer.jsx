@@ -151,8 +151,6 @@ export class GeoViewContainer extends React.Component {
       projectName,
     }
 
-    console.error('muiTheme', muiTheme)
-
     return (
       <Measure bounds onMeasure={this.onComponentResized}>
         {({ bind }) => (

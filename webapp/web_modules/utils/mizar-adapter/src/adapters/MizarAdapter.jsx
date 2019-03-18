@@ -170,8 +170,6 @@ export default class MizarAdapter extends React.Component {
       this.setInitialized(layerId, () => this.addFeatures(this.props.featuresCollection))
     })
 
-    console.error('Colors', this.props.selectedColor, this.props.featuresColor)
-
     const vectorLayer = this.mizar.LayerFactory.create({
       type: Mizar.LAYER.Vector,
       visible: true,
