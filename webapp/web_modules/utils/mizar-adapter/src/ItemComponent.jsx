@@ -77,7 +77,6 @@ class ItemComponent extends React.PureComponent {
         display: 'flex',
       },
       imageContainer: {
-        cursor: 'zoom-in',
       },
     }
   }

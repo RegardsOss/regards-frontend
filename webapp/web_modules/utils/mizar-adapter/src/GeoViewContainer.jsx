@@ -22,6 +22,7 @@ import map from 'lodash/map'
 import RaisedButton from 'material-ui/RaisedButton'
 import EditLocation from 'material-ui/svg-icons/maps/edit-location'
 import Delete from 'material-ui/svg-icons/action/delete'
+import Lock from 'material-ui/svg-icons/action/lock'
 import Search from 'material-ui/svg-icons/action/search'
 import SplitPane from 'react-split-pane'
 import { connect } from '@regardsoss/redux'
@@ -63,28 +64,20 @@ export class GeoViewContainer extends React.Component {
   }
 
   static propTypes = {
-    backgroundLayerUrl: PropTypes.string.isRequired,
-    backgroundLayerType: PropTypes.string.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
+    backgroundLayerUrl: PropTypes.string.isRequired, // URL Layer to dislay Mizar background
+    backgroundLayerType: PropTypes.string.isRequired, // Layer type for Mizar 
     queryPageSize: PropTypes.number,
+    accessToken: PropTypes.string, // Needed to access quicklooks
+    projectName: PropTypes.string, // Needed to access quicklooks if no auth token
     // eslint-disable-next-line react/no-unused-prop-types,react/forbid-prop-types
     requestParams: PropTypes.any,
-
-    // eslint-disable-next-line react/no-unused-prop-types
     pageActions: PropTypes.instanceOf(BasicPageableActions).isRequired, // BasicPageableActions to retrieve entities from server
-    // eslint-disable-next-line react/no-unused-prop-types
     pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // BasicPageableSelectors to retrieve entities from store
 
-    // eslint-disable-next-line react/no-unused-prop-types
+    // from map state to props
     entities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
-
-    accessToken: PropTypes.string,
-    projectName: PropTypes.string,
-
     // from map dispatch to props
-    // eslint-disable-next-line react/no-unused-prop-types
     flushEntities: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
     fetchEntities: PropTypes.func.isRequired,
   }
 
@@ -180,7 +173,7 @@ export class GeoViewContainer extends React.Component {
   onFeatureClear = () => this.setState({ featureDrawn: null })
 
   onFeaturesSelected = (features) => {
-    console.error('Selected features', features)
+    // TODO
   }
 
   resize = (position) => {
@@ -235,7 +228,9 @@ export class GeoViewContainer extends React.Component {
               resizerStyle={moduleTheme.resizer}
             >
               <div id="left" style={moduleTheme.mizarWrapper} width={position || defaultSize} height={height}>
+                {drawMode ? <Lock style={moduleTheme.lockIcon} /> : null}
                 <MizarAdapter
+                  key="mizarAdapter"
                   backgroundLayerUrl={backgroundLayerUrl}
                   backgroundLayerType={backgroundLayerType}
                   featuresCollection={GeoViewContainer.buildGeoJSONFeatureCollection(features)}

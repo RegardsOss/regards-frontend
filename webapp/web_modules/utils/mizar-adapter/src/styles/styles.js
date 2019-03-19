@@ -65,4 +65,10 @@ export default theme => ({
     top: 45,
     right: 20,
   },
+  lockIcon: {
+    position: 'absolute',
+    top: 5,
+    left: 5,
+    color: 'Red',
+  },
 })

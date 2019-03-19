@@ -56,8 +56,8 @@ export default class MizarAdapter extends React.Component {
   static MIZAR_Y_OFFSET = 180
 
   state = {
-    layerId: null,
-    vectorLayer: null,
+    featuresLayerId: null,
+    drawLayer: null,
     mouseClickCoord: null,
   }
 
@@ -79,7 +79,7 @@ export default class MizarAdapter extends React.Component {
   componentWillReceiveProps(nextProps) {
     // Add new geo features to display layer
     const { featuresCollection, drawMode } = nextProps
-    const { vectorLayer } = this.state
+    const { drawLayer } = this.state
     if (!isEqual(this.props.featuresCollection, featuresCollection)) {
       this.addFeatures(featuresCollection)
     }
@@ -89,22 +89,15 @@ export default class MizarAdapter extends React.Component {
       this.toggleDrawMode(drawMode)
     }
 
-    if (vectorLayer && this.props.featureDrawn && !nextProps.featureDrawn) {
-      vectorLayer.removeAllFeatures()
+    if (drawLayer && this.props.featureDrawn && !nextProps.featureDrawn) {
+      drawLayer.removeAllFeatures()
       this.feature = MizarAdapter.defaultFeature
     }
   }
 
   componentWillUnmount =() => {
     if (this.mizar) {
-      const pickingManager = this.mizar.getServiceByName(this.Mizar.SERVICE.PickingManager)
-      pickingManager.clearSelection()
-
-      this.mizar.getActivatedContext().getRenderContext().canvas.removeEventListener('mouseup', this.handleMouseUp)
-      this.mizar.getActivatedContext().getRenderContext().canvas.removeEventListener('mousedown', this.handleMouseDown)
-
-      this.mizar = null
-      this.Mizar = null
+      this.mizar.destroy()
     }
   }
 
@@ -117,8 +110,8 @@ export default class MizarAdapter extends React.Component {
     }
   }
 
-  setInitialized = (layerId, callback) => {
-    this.setState({ layerId }, callback)
+  setInitialized = (featuresLayerId, callback) => {
+    this.setState({ featuresLayerId }, callback)
   }
 
   handleMouseDown = (event) => {
@@ -186,37 +179,51 @@ export default class MizarAdapter extends React.Component {
       visible: true,
       background: false,
       color: featuresColor || 'Orange',
-    }, (layerId) => {
-      this.setInitialized(layerId, () => this.addFeatures(featuresCollection))
+    }, (featuresLayerId) => {
+      this.setInitialized(featuresLayerId, () => this.addFeatures(featuresCollection))
     })
 
-    const vectorLayer = this.mizar.LayerFactory.create({
+    const drawLayer = this.mizar.LayerFactory.create({
       type: Mizar.LAYER.Vector,
       visible: true,
       color: drawColor || 'Yellow',
     })
 
-    this.mizar.getActivatedContext().addDraw(vectorLayer)
+    this.mizar.getActivatedContext().addDraw(drawLayer)
 
-    this.setState({ vectorLayer }, () => {
+    this.setState({ drawLayer }, () => {
       this.toggleDrawMode(drawMode)
     })
   }
 
+  /**
+  * Add given features to the feature layer of current instance of Mizar 
+  * @param featuresCollection
+   */
   addFeatures = (featuresCollection) => {
-    const { layerId } = this.state
-    const layer = this.mizar && layerId ? this.mizar.getLayerByID(layerId) : null
+    const { featuresLayerId } = this.state
+    const layer = this.mizar && featuresLayerId ? this.mizar.getLayerByID(featuresLayerId) : null
     if (layer) {
       layer.removeAllFeatures()
       layer.addFeatureCollection(featuresCollection)
     }
   }
 
+  /**
+   * Draw a rectangle with the bounding box describe with the two points pt1 and pt2
+   * @param pt1 first point of the rectangle to draw
+   * @param pt2 second point of the rectangle to draw
+   */
   drawRectangle =(pt1, pt2) => {
     const minX = Math.min(pt1[0], pt2[0])
     const maxX = Math.max(pt1[0], pt2[0])
     const minY = Math.min(pt1[1], pt2[1])
     const maxY = Math.max(pt1[1], pt2[1])
+
+    // If point1 === point2 no rectangle drawn.
+    if (minX === maxX && minY === maxY) {
+      return
+    }
 
     this.feature.bbox = [minX, minY, maxX, maxY]
     this.feature.geometry.coordinates = [[[minX, minY],
@@ -226,8 +233,8 @@ export default class MizarAdapter extends React.Component {
       [minX, minY],
     ]]
 
-    this.state.vectorLayer.removeFeature(this.feature)
-    this.state.vectorLayer.addFeature(this.feature)
+    this.state.drawLayer.removeFeature(this.feature)
+    this.state.drawLayer.addFeature(this.feature)
     if (this.props.onFeatureDrawn) {
       this.props.onFeatureDrawn(this.feature)
     }
@@ -237,7 +244,9 @@ export default class MizarAdapter extends React.Component {
   // Called when left mouse button is pressed : start drawing the rectangle
   onMouseDown = (event) => {
     if (this.props.drawMode && event.button === 0) {
-      this.startPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY - MizarAdapter.MIZAR_Y_OFFSET)
+      const ptX = event.nativeEvent.offsetX
+      const ptY = event.nativeEvent.offsetY
+      this.startPoint = this.mizar.getActivatedContext().getLonLatFromPixel(ptX, ptY)
       if (this.startPoint) {
         this.drawRectangle(this.startPoint, this.startPoint)
         this.started = true
@@ -248,7 +257,9 @@ export default class MizarAdapter extends React.Component {
   // Called when mouse is moved  : update the rectangle
   onMouseMove = (event) => {
     if (this.started && event.button === 0) {
-      const endPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY - MizarAdapter.MIZAR_Y_OFFSET)
+      const ptX = event.nativeEvent.offsetX
+      const ptY = event.nativeEvent.offsetY
+      const endPoint = this.mizar.getActivatedContext().getLonLatFromPixel(ptX, ptY)
       this.drawRectangle(this.startPoint, endPoint)
     }
   }
@@ -256,7 +267,9 @@ export default class MizarAdapter extends React.Component {
   // Called when left mouse button is release  : end drawing the rectangle
   onMouseUp = (event) => {
     if (this.started && event.button === 0) {
-      const endPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY - MizarAdapter.MIZAR_Y_OFFSET)
+      const ptX = event.nativeEvent.offsetX
+      const ptY = event.nativeEvent.offsetY
+      const endPoint = this.mizar.getActivatedContext().getLonLatFromPixel(ptX, ptY)
       this.drawRectangle(this.startPoint, endPoint)
       this.started = false
     }
