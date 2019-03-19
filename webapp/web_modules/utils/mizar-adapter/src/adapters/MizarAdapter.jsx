@@ -26,16 +26,34 @@ import './Mizar.css'
  */
 export default class MizarAdapter extends React.Component {
   static propTypes = {
+    crsContext: PropTypes.string,
     backgroundLayerUrl: PropTypes.string.isRequired,
     backgroundLayerType: PropTypes.string.isRequired,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
     drawMode: PropTypes.bool.isRequired,
+    featureDrawn: PropTypes.bool,
     onFeatureDrawn: PropTypes.func,
+    onFeaturesSelected: PropTypes.func,
     featuresColor: PropTypes.string,
+    drawColor: PropTypes.string,
+  }
+
+  static defaultProps = {
+    crsContext: 'CRS:84',
+    featureDrawn: false,
+  }
+
+  static defaultFeature = {
+    id: '0',
+    type: 'Feature',
+    geometry: {
+      type: 'Polygon',
+      coordinates: [],
+    },
   }
 
   // XXX : Workaround
-  clientYOffset = 120
+  static MIZAR_Y_OFFSET = 180
 
   state = {
     layerId: null,
@@ -52,14 +70,7 @@ export default class MizarAdapter extends React.Component {
   /**
    * Initialized draw mode feature
    */
-  feature = {
-    id: '0',
-    type: 'Feature',
-    geometry: {
-      type: 'Polygon',
-      coordinates: [],
-    },
-  }
+  feature = MizarAdapter.defaultFeature
 
   componentDidMount = () => {
     window.requirejs(['Mizar'], this.lightLoadMizar)
@@ -68,6 +79,7 @@ export default class MizarAdapter extends React.Component {
   componentWillReceiveProps(nextProps) {
     // Add new geo features to display layer
     const { featuresCollection, drawMode } = nextProps
+    const { vectorLayer } = this.state
     if (!isEqual(this.props.featuresCollection, featuresCollection)) {
       this.addFeatures(featuresCollection)
     }
@@ -76,12 +88,20 @@ export default class MizarAdapter extends React.Component {
     if (this.props.drawMode !== drawMode) {
       this.toggleDrawMode(drawMode)
     }
+
+    if (vectorLayer && this.props.featureDrawn && !nextProps.featureDrawn) {
+      vectorLayer.removeAllFeatures()
+      this.feature = MizarAdapter.defaultFeature
+    }
   }
 
   componentWillUnmount =() => {
     if (this.mizar) {
       const pickingManager = this.mizar.getServiceByName(this.Mizar.SERVICE.PickingManager)
       pickingManager.clearSelection()
+
+      this.mizar.getActivatedContext().getRenderContext().canvas.removeEventListener('mouseup', this.handleMouseUp)
+      this.mizar.getActivatedContext().getRenderContext().canvas.removeEventListener('mousedown', this.handleMouseDown)
 
       this.mizar = null
       this.Mizar = null
@@ -93,14 +113,7 @@ export default class MizarAdapter extends React.Component {
       this.mizar.getActivatedContext().getNavigation().stop()
     } else {
       this.mizar.getActivatedContext().getNavigation().start()
-      this.feature = {
-        id: '0',
-        type: 'Feature',
-        geometry: {
-          type: 'Polygon',
-          coordinates: [],
-        },
-      }
+      this.feature = MizarAdapter.defaultFeature
     }
   }
 
@@ -125,6 +138,9 @@ export default class MizarAdapter extends React.Component {
       const newSelection = pickingManager.computePickSelection(pickPoint)
       const select = pickingManager.setSelection(newSelection)
       pickingManager.focusSelection(select)
+      if (this.props.onFeaturesSelected) {
+        this.props.onFeaturesSelected(select)
+      }
     }
   }
 
@@ -134,6 +150,10 @@ export default class MizarAdapter extends React.Component {
    */
   lightLoadMizar = (Mizar) => {
     this.Mizar = Mizar
+    const {
+      crsContext, backgroundLayerUrl, backgroundLayerType,
+      featuresColor, featuresCollection, drawColor, drawMode,
+    } = this.props
     const mizarDiv = document.getElementById('MizarCanvas')
 
     // Create Mizar
@@ -144,7 +164,7 @@ export default class MizarAdapter extends React.Component {
       planetContext: {
         // the CRS of the Earth
         coordinateSystem: {
-          geoideName: Mizar.CRS.WGS84,
+          geoideName: crsContext,
         },
       },
     })
@@ -155,8 +175,8 @@ export default class MizarAdapter extends React.Component {
     // Add a WMS layer as background
     this.mizar.addLayer({
       name: 'Background layer',
-      baseUrl: this.props.backgroundLayerUrl,
-      type: this.props.backgroundLayerType,
+      baseUrl: backgroundLayerUrl,
+      type: backgroundLayerType,
       background: true,
     })
 
@@ -165,27 +185,28 @@ export default class MizarAdapter extends React.Component {
       name: 'datas',
       visible: true,
       background: false,
-      color: this.props.featuresColor || 'Orange',
+      color: featuresColor || 'Orange',
     }, (layerId) => {
-      this.setInitialized(layerId, () => this.addFeatures(this.props.featuresCollection))
+      this.setInitialized(layerId, () => this.addFeatures(featuresCollection))
     })
 
     const vectorLayer = this.mizar.LayerFactory.create({
       type: Mizar.LAYER.Vector,
       visible: true,
+      color: drawColor || 'Yellow',
     })
 
     this.mizar.getActivatedContext().addDraw(vectorLayer)
 
     this.setState({ vectorLayer }, () => {
-      this.toggleDrawMode(this.props.drawMode)
+      this.toggleDrawMode(drawMode)
     })
   }
 
   addFeatures = (featuresCollection) => {
-    const layer = this.mizar && this.state.layerId ? this.mizar.getLayerByID(this.state.layerId) : null
+    const { layerId } = this.state
+    const layer = this.mizar && layerId ? this.mizar.getLayerByID(layerId) : null
     if (layer) {
-      // TODO make sure it works correctly for workflow
       layer.removeAllFeatures()
       layer.addFeatureCollection(featuresCollection)
     }
@@ -216,7 +237,7 @@ export default class MizarAdapter extends React.Component {
   // Called when left mouse button is pressed : start drawing the rectangle
   onMouseDown = (event) => {
     if (this.props.drawMode && event.button === 0) {
-      this.startPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY - this.clientYOffset)
+      this.startPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY - MizarAdapter.MIZAR_Y_OFFSET)
       if (this.startPoint) {
         this.drawRectangle(this.startPoint, this.startPoint)
         this.started = true
@@ -227,7 +248,7 @@ export default class MizarAdapter extends React.Component {
   // Called when mouse is moved  : update the rectangle
   onMouseMove = (event) => {
     if (this.started && event.button === 0) {
-      const endPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY - this.clientYOffset)
+      const endPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY - MizarAdapter.MIZAR_Y_OFFSET)
       this.drawRectangle(this.startPoint, endPoint)
     }
   }
@@ -235,7 +256,7 @@ export default class MizarAdapter extends React.Component {
   // Called when left mouse button is release  : end drawing the rectangle
   onMouseUp = (event) => {
     if (this.started && event.button === 0) {
-      const endPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY - this.clientYOffset)
+      const endPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY - MizarAdapter.MIZAR_Y_OFFSET)
       this.drawRectangle(this.startPoint, endPoint)
       this.started = false
     }

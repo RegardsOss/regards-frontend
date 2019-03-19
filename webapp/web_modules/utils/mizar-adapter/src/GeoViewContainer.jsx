@@ -2,18 +2,23 @@
 import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
 import map from 'lodash/map'
+import RaisedButton from 'material-ui/RaisedButton'
+import EditLocation from 'material-ui/svg-icons/maps/edit-location'
+import Delete from 'material-ui/svg-icons/action/delete'
+import Search from 'material-ui/svg-icons/action/search'
 import SplitPane from 'react-split-pane'
 import { connect } from '@regardsoss/redux'
 import { Measure } from '@regardsoss/adapters'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
+import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import { InfiniteGalleryContainer } from '@regardsoss/components'
 import { CatalogShapes } from '@regardsoss/shape'
 import styles from './styles'
+import messages from './i18n'
 import MizarAdapter from './adapters/MizarAdapter'
 import './resizer.css'
 import ItemComponent from './ItemComponent'
-
 
 export class GeoViewContainer extends React.Component {
   static mapStateToProps(state, { pageSelectors }) {
@@ -64,6 +69,7 @@ export class GeoViewContainer extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   /**
@@ -83,12 +89,17 @@ export class GeoViewContainer extends React.Component {
 
   static MIZAR_DEFAULT_SIZE_PROPORTION=0.7
 
+  static QUICKLOOK_MIN_WIDTH = 175
+
 
   /** Initial state */
   state = {
     features: [],
     position: null,
     width: null,
+    height: null,
+    featureDrawn: null,
+    drawMode: false,
   }
 
   componentWillReceiveProps = (newProps) => {
@@ -108,45 +119,84 @@ export class GeoViewContainer extends React.Component {
     pathParams, requestParams, queryPageSize,
   }, pageNumber = 0) => this.props.fetchEntities(pageNumber, queryPageSize, pathParams, requestParams)
 
-  onApplyGeoParameter = (feature) => {
-    // 1. Flush existing entities from store
+  flushEntities = () => {
     this.props.flushEntities()
-    // 2. Create geometry search criterion
-    const coord = feature.geometry.coordinates
-    const wkt = `POLYGON((${coord[0][0][0]} ${coord[0][0][1]},${coord[0][1][0]} ${coord[0][1][1]},${coord[0][2][0]} ${coord[0][2][1]},${coord[0][0][0]} ${coord[0][0][1]}))`
-    // 3. Add the geometry criterion to the common search context
-    // TODO
+    this.setState({ features: [] })
   }
 
-  onComponentResized = ({ measureDiv: { width } }) => {
+  onApplyGeoParameter = () => {
+    const { featureDrawn } = this.state
+    if (featureDrawn) {
+      // 1. Flush existing entities from store
+      // this.flushEntities()
+      // 2. Create geometry search criterion
+      // const coord = featureDrawn.geometry.coordinates
+      // const wkt = `POLYGON((${coord[0][0][0]} ${coord[0][0][1]},${coord[0][1][0]} ${coord[0][1][1]},${coord[0][2][0]} ${coord[0][2][1]},${coord[0][0][0]} ${coord[0][0][1]}))`
+      // 3. Add the geometry criterion to the common search context
+      // TODO
+    }
+  }
+
+  onComponentResized = ({ measureDiv: { width, height } }) => {
     const previousWidth = this.state.width
     const coeff = previousWidth ? width / previousWidth : 1
-    const newPosition = this.state.position ? this.state.position * coeff : width * GeoViewContainer.MIZAR_DEFAULT_SIZE_PROPORTION
+    let newPosition = this.state.position ? this.state.position * coeff : width * GeoViewContainer.MIZAR_DEFAULT_SIZE_PROPORTION
+
+    if (width - newPosition < GeoViewContainer.QUICKLOOK_MIN_WIDTH) {
+      newPosition = width - GeoViewContainer.QUICKLOOK_MIN_WIDTH
+    }
 
     this.setState({
       width,
+      height,
       position: newPosition,
       features: [],
     })
   }
 
-  resize = (event) => {
+  onFeatureDrawn = featureDrawn => this.setState({ featureDrawn })
+
+  onFeatureClear = () => this.setState({ featureDrawn: null })
+
+  onFeaturesSelected = (features) => {
+    console.error('Selected features', features)
+  }
+
+  resize = (position) => {
+    // Handle case of minimum width for right part of the layout (quicklooks)
+    let newPosition = position
+    if (this.state.width - newPosition < GeoViewContainer.QUICKLOOK_MIN_WIDTH) {
+      newPosition = this.state.width - GeoViewContainer.QUICKLOOK_MIN_WIDTH
+      // Force new render by changing the position value in state. If not, the SplitPane is not redraw and the split zone is not updated
+      if (newPosition === this.state.position) {
+        newPosition -= 1
+      }
+    }
+
     this.setState({
-      position: event,
+      position: newPosition,
       features: [],
     })
   }
 
+  toggleDrawMode = () => {
+    this.setState({ drawMode: !this.state.drawMode })
+  }
+
   render() {
-    const { position, features } = this.state
+    const {
+      position, features, drawMode, featureDrawn, height, width,
+    } = this.state
     const {
       backgroundLayerUrl, backgroundLayerType, accessToken,
       projectName, queryPageSize, pageActions, pageSelectors, requestParams,
     } = this.props
     const { moduleTheme, muiTheme } = this.context
-    const defaultSize = position || (this.state.width ? this.state.width * GeoViewContainer.MIZAR_DEFAULT_SIZE_PROPORTION : GeoViewContainer.MIZAR_MIN_WIDTH)
+    const { intl: { formatMessage } } = this.context
+    const defaultSize = position || (width ? width * GeoViewContainer.MIZAR_DEFAULT_SIZE_PROPORTION : GeoViewContainer.MIZAR_MIN_WIDTH)
 
     const itemProps = {
+      height: 150,
       accessToken,
       projectName,
     }
@@ -163,28 +213,63 @@ export class GeoViewContainer extends React.Component {
               defaultSize={defaultSize}
               resizerStyle={moduleTheme.resizer}
             >
-              <div id="left" style={moduleTheme.mizarWrapper} width={position || defaultSize}>
+              <div id="left" style={moduleTheme.mizarWrapper} width={position || defaultSize} height={height}>
                 <MizarAdapter
-                  key={`mizar-${defaultSize}-${this.state.position}`}
                   backgroundLayerUrl={backgroundLayerUrl}
                   backgroundLayerType={backgroundLayerType}
                   featuresCollection={GeoViewContainer.buildGeoJSONFeatureCollection(features)}
-                  onFeatureDrawn={this.onApplyGeoParameter}
-                  drawMode={false}
+                  onFeatureDrawn={this.onFeatureDrawn}
+                  onFeatureClear={this.onFeatureClear}
+                  featureDrawn={!!featureDrawn}
+                  drawMode={drawMode}
+                  onFeaturesSelected={this.onFeaturesSelected}
                   featuresColor={muiTheme.palette.accent1Color}
+                  drawColor={muiTheme.palette.accent2Color}
                 />
+                {featureDrawn ? [
+                  <RaisedButton
+                    key="delete"
+                    label={formatMessage({ id: 'clear.button.label' })}
+                    labelPosition="before"
+                    icon={<Delete />}
+                    style={moduleTheme.clearButton}
+                    onClick={this.onFeatureClear}
+                  />,
+                  <RaisedButton
+                    key="apply"
+                    label={formatMessage({ id: 'apply.geo.filter.button.label' })}
+                    labelPosition="before"
+                    icon={<Search />}
+                    primary
+                    style={moduleTheme.applyGeoButton}
+                    onClick={this.onApplyGeoParameter}
+                  />] : null}
               </div>
               <div id="right" style={moduleTheme.quicklookViewLayout}>
-                <InfiniteGalleryContainer
-                  itemComponent={ItemComponent}
-                  pageActions={pageActions}
-                  pageSelectors={pageSelectors}
-                  columnWidth={150}
-                  columnGutter={10}
-                  requestParams={requestParams}
-                  queryPageSize={queryPageSize}
-                  itemProps={itemProps}
-                />
+                <div style={moduleTheme.quiclooks}>
+                  <InfiniteGalleryContainer
+                    key="map-quicklooks"
+                    itemComponent={ItemComponent}
+                    pageActions={pageActions}
+                    pageSelectors={pageSelectors}
+                    columnWidth={150}
+                    columnGutter={10}
+                    requestParams={requestParams}
+                    queryPageSize={queryPageSize}
+                    itemProps={itemProps}
+                  />
+                </div>
+                <div style={moduleTheme.drawButtonZone}>
+                  <RaisedButton
+                    label={formatMessage({ id: 'draw.mode.button.label' })}
+                    labelPosition="before"
+                    fullWidth
+                    primary={this.state.drawMode}
+                    icon={<EditLocation />}
+                    style={moduleTheme.drawButton}
+                    onClick={this.toggleDrawMode}
+                  />
+                </div>
               </div>
             </SplitPane>
           </div>
@@ -197,4 +282,4 @@ export class GeoViewContainer extends React.Component {
 export default connect(
   GeoViewContainer.mapStateToProps,
   GeoViewContainer.mapDispatchToProps,
-)(withModuleStyle(styles, true)(GeoViewContainer))
+)(withModuleStyle(styles, true)(withI18n(messages, true)(GeoViewContainer)))

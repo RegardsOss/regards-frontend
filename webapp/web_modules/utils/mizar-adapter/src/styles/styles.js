@@ -1,3 +1,4 @@
+
 /**
  * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -27,7 +28,6 @@ export default theme => ({
     position: 'relative',
   },
   mizarWrapper: {
-    top: '-60px',
     height: 'auto',
     flex: '1 1 0%',
     width: '100%',
@@ -37,10 +37,32 @@ export default theme => ({
     alignSelf: 'stretch',
     width: '100%',
     height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  quiclooks: {
+    flexGrow: 1,
+    marginTop: 12,
+    marginRight: 2,
+  },
+  drawButtonZone: {
+  },
+  drawButton: {
+    padding: 6,
   },
   resizer: {
     backgroundColor: theme.palette.accent1Color,
     width: '5px',
     cursor: 'col-resize',
+  },
+  clearButton: {
+    position: 'absolute',
+    top: 5,
+    right: 20,
+  },
+  applyGeoButton: {
+    position: 'absolute',
+    top: 45,
+    right: 20,
   },
 })

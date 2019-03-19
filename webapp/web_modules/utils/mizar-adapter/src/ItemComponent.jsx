@@ -31,6 +31,7 @@ class ItemComponent extends React.PureComponent {
     top: PropTypes.number,
     left: PropTypes.number,
     width: PropTypes.number,
+    height: PropTypes.number,
     gridWidth: PropTypes.number,
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
     // auth info
@@ -45,7 +46,7 @@ class ItemComponent extends React.PureComponent {
 
   static getColumnSpanFromProps = props => 1
 
-  static getHeightFromProps = (props, columnSpan, columnGutter, gridWidth, itemProps) => 150
+  static getHeightFromProps = (props, columnSpan, columnGutter, gridWidth, itemProps) => itemProps.height
 
   constructor(props) {
     super(props)
@@ -66,6 +67,7 @@ class ItemComponent extends React.PureComponent {
       },
       imageStyle: {
         maxWidth: '100%',
+        maxHeight: this.props.height,
       },
       imageAndOptionsContainer: {
         display: 'flex',

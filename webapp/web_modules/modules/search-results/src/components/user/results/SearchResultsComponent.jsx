@@ -270,7 +270,7 @@ class SearchResultsComponent extends React.Component {
         pageActions={searchActions}
         pageSelectors={searchSelectors}
         requestParams={requestParameters}
-        queryPageSize={20}
+        queryPageSize={100}
         accessToken={this.props.accessToken}
         projectName={this.props.projectName}
       />
