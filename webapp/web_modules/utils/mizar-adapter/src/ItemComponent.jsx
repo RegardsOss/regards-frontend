@@ -26,6 +26,10 @@ import { URLAuthInjector } from '@regardsoss/domain/common'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
 
+/**
+ * Item component to display a quicklook in geo view.
+ * @author Sebastien Binda
+ */
 class ItemComponent extends React.PureComponent {
   static propTypes = {
     top: PropTypes.number,
