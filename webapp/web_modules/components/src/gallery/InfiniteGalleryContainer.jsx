@@ -176,7 +176,7 @@ export class InfiniteGalleryContainer extends React.Component {
     // size is lower)
     this.setState({
       width,
-      height: this.state.height >= height ? height - 100 : height,
+      height: this.state.height >= height ? height - 1 : height,
     })
   }
 
