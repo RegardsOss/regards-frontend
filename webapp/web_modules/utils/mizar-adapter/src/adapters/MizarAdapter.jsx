@@ -197,7 +197,7 @@ export default class MizarAdapter extends React.Component {
   }
 
   /**
-  * Add given features to the feature layer of current instance of Mizar 
+  * Add given features to the feature layer of current instance of Mizar
   * @param featuresCollection
    */
   addFeatures = (featuresCollection) => {

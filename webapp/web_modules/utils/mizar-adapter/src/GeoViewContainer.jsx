@@ -65,7 +65,7 @@ export class GeoViewContainer extends React.Component {
 
   static propTypes = {
     backgroundLayerUrl: PropTypes.string.isRequired, // URL Layer to dislay Mizar background
-    backgroundLayerType: PropTypes.string.isRequired, // Layer type for Mizar 
+    backgroundLayerType: PropTypes.string.isRequired, // Layer type for Mizar
     queryPageSize: PropTypes.number,
     accessToken: PropTypes.string, // Needed to access quicklooks
     projectName: PropTypes.string, // Needed to access quicklooks if no auth token
