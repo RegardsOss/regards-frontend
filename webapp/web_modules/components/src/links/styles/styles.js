@@ -41,21 +41,33 @@ const styles = theme => ({
       height: theme.module.common.titleIconSize,
     },
     element: {
-      style: {
-        minWidth: 0,
-        flexGrow: 0,
-        flexShrink: 1,
-        display: 'flex',
-        alignItems: 'center',
-        cursor: 'pointer',
+      navigable: {
+        style: {
+          minWidth: 0,
+          flexGrow: 0,
+          flexShrink: 1,
+          display: 'flex',
+          alignItems: 'center',
+          cursor: 'pointer',
+        },
       },
-      lastStyle: {
-        minWidth: 0,
-        flexGrow: 0,
-        flexShrink: 0,
-        display: 'flex',
-        alignItems: 'center',
-        cursor: 'pointer',
+      nonNavigable: {
+        style: {
+          minWidth: 0,
+          flexGrow: 0,
+          flexShrink: 1,
+          display: 'flex',
+          alignItems: 'center',
+          cursor: 'default',
+        },
+        lastStyle: {
+          minWidth: 0,
+          flexGrow: 0,
+          flexShrink: 0,
+          display: 'flex',
+          alignItems: 'center',
+          cursor: 'default',
+        },
       },
       selectedLabelStyle: {
         color: theme.flatButton.secondaryTextColor,

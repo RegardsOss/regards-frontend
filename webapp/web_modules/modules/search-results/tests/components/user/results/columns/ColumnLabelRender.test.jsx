@@ -18,9 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { DamDomain } from '@regardsoss/domain'
+import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableColumnBuilder, TableSortOrders } from '@regardsoss/components'
+import { TableColumnBuilder } from '@regardsoss/components'
 import ColumnLabelRender from '../../../../../src/components/user/results/columns/ColumnLabelRender'
 import styles from '../../../../../src/styles'
 
@@ -43,7 +43,7 @@ describe('[Search Results] Testing ColumnLabelRender', () => {
         key: TableColumnBuilder.selectionColumnKey,
         visible: true,
         enableSorting: false,
-        sortOrder: TableSortOrders.NO_SORT,
+        sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
       },
     }
     const enzymeWrapper = shallow(<ColumnLabelRender {...props} />, { context })
@@ -55,7 +55,7 @@ describe('[Search Results] Testing ColumnLabelRender', () => {
         key: TableColumnBuilder.optionsColumnKey,
         visible: false,
         enableSorting: false,
-        sortOrder: TableSortOrders.NO_SORT,
+        sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
       },
     }
     const enzymeWrapper = shallow(<ColumnLabelRender {...props} />, { context })
@@ -77,9 +77,8 @@ describe('[Search Results] Testing ColumnLabelRender', () => {
             DamDomain.AttributeModelController.standardAttributesKeys.id),
         ],
         enableSorting: false,
-        sortOrder: TableSortOrders.NO_SORT,
+        sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
         sortIndex: null,
-        defaultSorting: false,
       },
     }
     const savedLocale = context.intl.locale

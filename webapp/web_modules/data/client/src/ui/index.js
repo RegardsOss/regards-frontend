@@ -29,3 +29,6 @@ export { default as getModuleExpandedStateSelectors, ModuleExpandedStateSelector
 export { default as SelectedDynamicModuleActions } from './module/SelectedDynamicModuleActions'
 export { default as getSelectedDynamicModuleReducer } from './module/SelectedDynamicModuleReducer'
 export { default as getSelectedDynamicModuleSelectors, SelectedDynamicModuleSelectors } from './module/SelectedDynamicModuleSelectors'
+export { default as ResultsContextActions } from './results/ResultsContextActions'
+export { default as getResultsContextReducer } from './results/ResultsContextReducer'
+export { default as getResultsContextSelectors, ResultsContextSelectors } from './results/ResultsContextSelectors'

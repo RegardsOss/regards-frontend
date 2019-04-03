@@ -19,10 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DamDomain } from '@regardsoss/domain'
-import { TableSortOrders } from '@regardsoss/components'
+import { CommonDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { selectors as searchSelectors } from '../../../../../src/clients/SearchEntitiesClient'
-import { TableDisplayModeEnum } from '../../../../../src/models/navigation/TableDisplayModeEnum'
 import OptionsAndTabsHeaderLine from '../../../../../src/components/user/results/header/OptionsAndTabsHeaderLine'
 import styles from '../../../../../src/styles/styles'
 import { DISPLAY_MODE_ENUM } from '../../../../../src/definitions/DisplayModeEnum'
@@ -54,12 +52,11 @@ describe('[Search Results] Testing OptionsAndTabsHeaderLine', () => {
         visible: true,
         attributes: [],
         enableSorting: true,
-        sortOrder: TableSortOrders.NO_SORT,
-        defaultSorting: false,
+        sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
       }],
       displayMode: DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA, // current view object type
-      tableViewMode: TableDisplayModeEnum.LIST, // current mode
+      tableViewMode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST, // current mode
       searchSelectors,
       tableColumns: [{
         key: 'some.model',

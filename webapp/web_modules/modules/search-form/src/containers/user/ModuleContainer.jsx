@@ -104,6 +104,7 @@ export class ModuleContainer extends React.Component {
    * @return {*} parameters list (may contain q, geometry, ...)
    */
   static buildRequestParameters(contextQuery, pluginsState) {
+    // TODO: a part of that is now performed by CatalogQuery! use it before refactor ends
     // 1 - Build map of open search query parameters:
     // A - store q parameters values as an array of Static query parameters
     // B - Store only first value for other parameters (backend can handle only one parameter value)
@@ -131,7 +132,7 @@ export class ModuleContainer extends React.Component {
   componentWillMount = () => {
     const contextQuery = ModuleContainer.buildRestrictiveQuery(get(this.props.moduleConf, 'datasets', {}))
     this.setState({
-      contextQuery, // stable as module properties cannot change without unmounting the component
+      contextQuery,
       currentSearchParameters: ModuleContainer.buildRequestParameters(contextQuery, {}),
     })
   }
@@ -150,7 +151,8 @@ export class ModuleContainer extends React.Component {
     // 1 - Build query from plugins state and current query and set it in state
     const currentSearchParameters = ModuleContainer.buildRequestParameters(contextQuery, pluginsState)
     this.setState({ currentSearchParameters })
-    // 2 - Swap form hidden and results opened
+    // 2 -
+    // 3 - Swap form hidden and results opened
     if (isInitialization) {
       dispatchInitializeWithOpenedResults()
     } else {

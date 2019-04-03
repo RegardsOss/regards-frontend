@@ -39,8 +39,8 @@ describe('[Search Results] Testing NavigationContainer', () => {
     const props = {
       displayDatasets: true,
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
-      initialLevels: [new Tag(CatalogDomain.TagTypes.WORD, 'x', 'x')],
-      levels: [new Tag(CatalogDomain.TagTypes.WORD, 'x', 'x')], // initial levels are repeated in levels
+      initialLevels: [new Tag(CatalogDomain.TAG_TYPES_ENUM.WORD, 'x', 'x')],
+      levels: [new Tag(CatalogDomain.TAG_TYPES_ENUM.WORD, 'x', 'x')], // initial levels are repeated in levels
       gotoLevel: () => { },
     }
     const enzymeWrapper = shallow(<NavigationContainer {...props} />, { context })
@@ -80,8 +80,8 @@ describe('[Search Results] Testing NavigationContainer', () => {
     const props = {
       displayDatasets: true,
       type: 'any',
-      initialLevels: [new Tag(CatalogDomain.TagTypes.WORD, 'x', 'x')],
-      levels: [new Tag(CatalogDomain.TagTypes.WORD, 'x', 'x'), new Tag(CatalogDomain.TagTypes.WORD, 'y', 'y')],
+      initialLevels: [new Tag(CatalogDomain.TAG_TYPES_ENUM.WORD, 'x', 'x')],
+      levels: [new Tag(CatalogDomain.TAG_TYPES_ENUM.WORD, 'x', 'x'), new Tag(CatalogDomain.TAG_TYPES_ENUM.WORD, 'y', 'y')],
       gotoLevel: () => { },
     }
     const enzymeWrapper = shallow(<NavigationContainer {...props} />, { context })
@@ -100,7 +100,7 @@ describe('[Search Results] Testing NavigationContainer', () => {
       displayDatasets: true,
       type: 'any',
       initialLevels: [],
-      levels: [new Tag(CatalogDomain.TagTypes.WORD, 'x', 'x'), new Tag(CatalogDomain.TagTypes.WORD, 'y', 'y')],
+      levels: [new Tag(CatalogDomain.TAG_TYPES_ENUM.WORD, 'x', 'x'), new Tag(CatalogDomain.TAG_TYPES_ENUM.WORD, 'y', 'y')],
       gotoLevel: () => { },
     }
     const enzymeWrapper = shallow(<NavigationContainer {...props} />, { context })

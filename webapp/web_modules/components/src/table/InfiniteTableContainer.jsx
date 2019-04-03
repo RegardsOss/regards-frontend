@@ -20,6 +20,7 @@ import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { Measure } from '@regardsoss/adapters'
 import { connect } from '@regardsoss/redux'
+import { CommonShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -77,10 +78,8 @@ class InfiniteTableContainer extends React.Component {
     entitiesCount: PropTypes.number,
 
     // [Optional] server request end path parameters (sends undefined if not provided)
-    // eslint-disable-next-line
-    requestParams: PropTypes.object, // used in onPropertiesUpdate, unkown shape, depends on consumer
-    // eslint-disable-next-line
-    pathParams: PropTypes.object, // used in onPropertiesUpdate, unkown shape, depends on consumer
+    pathParams: CommonShapes.RequestParameters,
+    requestParams: CommonShapes.RequestParameters,
 
     // INNER TABLE API (will be provided by adequate parents)
 

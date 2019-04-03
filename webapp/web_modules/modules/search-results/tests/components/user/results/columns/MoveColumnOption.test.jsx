@@ -19,8 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import MenuItem from 'material-ui/MenuItem'
-import { DamDomain } from '@regardsoss/domain'
-import { TableColumnBuilder, TableSortOrders, DropDownButton } from '@regardsoss/components'
+import { CommonDomain, DamDomain } from '@regardsoss/domain'
+import { TableColumnBuilder, DropDownButton } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MoveColumnOption from '../../../../../src/components/user/results/columns/MoveColumnOption'
 import styles from '../../../../../src/styles'
@@ -31,7 +31,7 @@ const allModels = [{ // 1- selection
   key: TableColumnBuilder.selectionColumnKey,
   visible: true,
   enableSorting: false,
-  sortOrder: TableSortOrders.NO_SORT,
+  sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
 
 }, { // 2 - an attribute model
   key: 'anything.else.key',
@@ -47,14 +47,13 @@ const allModels = [{ // 1- selection
       DamDomain.AttributeModelController.standardAttributesKeys.id),
   ],
   enableSorting: false,
-  sortOrder: TableSortOrders.NO_SORT,
+  sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
   sortIndex: null,
-  defaultSorting: false,
 }, { // 3 - options column
   key: TableColumnBuilder.optionsColumnKey,
   visible: false,
   enableSorting: false,
-  sortOrder: TableSortOrders.NO_SORT,
+  sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
 },
 ]
 

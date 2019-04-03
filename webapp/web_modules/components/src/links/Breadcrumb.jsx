@@ -29,15 +29,24 @@ import styles from './styles'
  * @author Raphaël Mechali
  */
 export class Breadcrumb extends React.Component {
+  /** Default label generator (more like a stub, not adviced in final versions!) */
+  static DEFAULT_LABEL_GENERATOR = (elt, index) => `level ${index + 1}`
+
+  /** Default navigation predicate implementation: always returns true  */
+  static DEFAULT_NAVIGATION_ALLOWED_PREDICTATE = (elt, index) => true
+
   static propTypes = {
     /** list of breadcrumb elements */
-    // eslint-disable-next-line
-    elements: PropTypes.array,
+    elements: PropTypes.arrayOf(PropTypes.any).isRequired,
     /** Element label generator: (element, index) => void */
-    // eslint-disable-next-line react/no-unused-prop-types
-    labelGenerator: PropTypes.func.isRequired,
+    labelGenerator: PropTypes.func,
+    /**
+     * Predicate providing the navigation allowed state by element: (element, index) => boolean.
+     * Note: last breadcrumb element is necessarily not navigable, so the predicate can return true
+     * based on business navigation only!
+     */
+    navigationAllowedPredicate: PropTypes.func,
     /** On breadcrumb element action callback: (element, index) => void */
-    // eslint-disable-next-line react/no-unused-prop-types
     onAction: PropTypes.func.isRequired,
     /** Root icon (optional, replaced by default if not provided) */
     rootIcon: PropTypes.node,
@@ -45,23 +54,12 @@ export class Breadcrumb extends React.Component {
 
   static defaultProps = {
     rootIcon: <DefaultRootIcon />,
+    labelGenerator: Breadcrumb.DEFAULT_LABEL_GENERATOR,
+    navigationAllowedPredicate: Breadcrumb.DEFAULT_NAVIGATION_ALLOWED_PREDICTATE,
   }
 
   static contextTypes = {
     ...themeContextType,
-  }
-
-  componentWillMount = () => this.onPropertiesChanged(this.props)
-
-  componentWillReceiveProps = nextProps => this.onPropertiesChanged(nextProps)
-
-  onPropertiesChanged = ({
-    elements, labelGenerator, onAction,
-  }) => {
-    // recompute the dynamic list of elements to show
-    this.setState({
-      elements: (elements || []).map(this.packElementModel.bind(this, labelGenerator, onAction)),
-    })
   }
 
   /**
@@ -74,27 +72,36 @@ export class Breadcrumb extends React.Component {
   })
 
   render() {
-    const { elements } = this.state
-    const { rootIcon } = this.props
+    const {
+      elements, rootIcon, labelGenerator, navigationAllowedPredicate, onAction,
+    } = this.props
     const { moduleTheme: { breadcrumb: { style, iconStyle } } } = this.context
     return (
       <div style={style}>
         {
           // for each element, generate array of separator from previous (if not first) and clickable element.
-          flatMap(elements, ({ label, onAction }, index) => [
-            // add separator when not the first element
-            index ? <NextLevelIcon key={`${label}.separator`} style={iconStyle} /> : null,
-            // add element itself
-            <BreadcrumbElement
-              isFirst={!index}
-              isLast={index === elements.length - 1}
-              key={label}
-              label={label}
-              onAction={onAction}
-              rootIcon={rootIcon}
-            />,
+          flatMap(elements,
+            (element, index) => {
+              const elementLabel = labelGenerator(element, index)
+              const navigationAllowed = navigationAllowedPredicate(element, index)
+              return [
+                // add separator when not the first element
+                index ? <NextLevelIcon key={`${elementLabel}.separator`} style={iconStyle} /> : null,
+                // add element itself
+                <BreadcrumbElement
+                  key={elementLabel}
+                  element={element}
+                  index={index}
+                  label={elementLabel}
+                  navigationAllowed={navigationAllowed}
+                  rootIcon={rootIcon}
+                  isFirst={!index}
+                  isLast={index === elements.length - 1}
+                  onAction={onAction}
+                />,
 
-          ])
+              ]
+            })
         }
       </div>
     )

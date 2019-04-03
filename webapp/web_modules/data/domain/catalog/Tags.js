@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
 
 /** URN tag pattern */
@@ -32,7 +33,9 @@ export function isURNTag(tag) {
 /**
  * Locally defined tag types: a simple word or any entity type
  */
-export const TagTypes = {
+export const TAG_TYPES_ENUM = {
   WORD: 'tag.word',
   ...ENTITY_TYPES_ENUM,
 }
+
+export const TAG_TYPES = values(TAG_TYPES_ENUM)

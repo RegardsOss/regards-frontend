@@ -18,8 +18,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { DamDomain } from '@regardsoss/domain'
-import { PositionedDialog, TableColumnBuilder, TableSortOrders } from '@regardsoss/components'
+import { CommonDomain, DamDomain } from '@regardsoss/domain'
+import { PositionedDialog, TableColumnBuilder } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ColumnsSettingsComponent from '../../../../../src/components/user/results/columns/ColumnsSettingsComponent'
 import styles from '../../../../../src/styles'
@@ -69,7 +69,7 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
       key: TableColumnBuilder.selectionColumnKey,
       visible: true,
       enableSorting: false,
-      sortOrder: TableSortOrders.NO_SORT,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
     }, {
       key: 'c1',
       label: {
@@ -80,9 +80,8 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
       attributes: [DamDomain.AttributeModelController.getStandardAttributeModel(
         DamDomain.AttributeModelController.standardAttributesKeys.label)],
       enableSorting: true,
-      sortOrder: TableSortOrders.ASCENDING_ORDER,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER,
       sortIndex: 0,
-      defaultSorting: true,
     }, {
       key: 'c2',
       label: {
@@ -93,9 +92,8 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
       attributes: [DamDomain.AttributeModelController.getStandardAttributeModel(
         DamDomain.AttributeModelController.standardAttributesKeys.id)],
       enableSorting: true,
-      sortOrder: TableSortOrders.DESCENDING_ORDER,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER,
       sortIndex: 1,
-      defaultSorting: false,
     }, {
       key: 'c3',
       label: {
@@ -106,14 +104,13 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
       attributes: [DamDomain.AttributeModelController.getStandardAttributeModel(
         DamDomain.AttributeModelController.standardAttributesKeys.id)],
       enableSorting: true,
-      sortOrder: TableSortOrders.NO_SORT,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
       sortIndex: 1,
-      defaultSorting: false,
     }, { // options column
       key: TableColumnBuilder.optionsColumnKey,
       visible: false,
       enableSorting: false,
-      sortOrder: TableSortOrders.NO_SORT,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
     }]
 
     let spiedOnDonePM = null
@@ -194,7 +191,7 @@ describe('[Search Results] Testing ColumnsSettingsComponent', () => {
     }, {
       // sort should be removed on label as it is no longer visible
       ...nextPresentationModels[1],
-      sortOrder: TableSortOrders.NO_SORT,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
       sortIndex: null,
     }, {
       // c2 should now be first sorting column

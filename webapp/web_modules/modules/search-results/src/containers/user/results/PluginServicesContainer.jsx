@@ -19,7 +19,6 @@
 import filter from 'lodash/filter'
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
-import omit from 'lodash/omit'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { TableSelectionModes } from '@regardsoss/components'
@@ -27,14 +26,12 @@ import { CatalogClient } from '@regardsoss/client'
 import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { ServiceContainer, PluginServiceRunModel, target } from '@regardsoss/entities-common'
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, CommonShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { HOCUtils } from '@regardsoss/display-control'
 import { pluginServiceActions, pluginServiceSelectors } from '../../../clients/PluginServiceClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 import { tableSelectors } from '../../../clients/TableClient'
-import { Tag } from '../../../models/navigation/Tag'
-import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
 import runPluginServiceActions from '../../../models/services/RunPluginServiceActions'
 import runPluginServiceSelectors from '../../../models/services/RunPluginServiceSelectors'
 
@@ -49,9 +46,6 @@ const catalogServiceDependency = tempActions.getDependency(RequestVerbEnum.POST)
  *   * selectionServices: list of services available for the current selection
  *   * onStartSelectionService: Handler to run when user started a service with current selection  (serviceWrapper) => ()
  *
- * It renders clones below element(s) and injects the resolved services with callbacks as following:
- * - selectionServices: resolved services
- * - onStartSelectionService: resolved callback
  * @author Raphaël Mechali
  */
 export class PluginServicesContainer extends React.Component {
@@ -86,14 +80,14 @@ export class PluginServicesContainer extends React.Component {
   static getSelectionServices = ({
     selectionMode, toggledElements, pageMetadata, emptySelection,
     contextSelectionServices, viewObjectType, availableDependencies = [],
-    selectedDatasetTag, restrictedDatasetsIds,
+    restrictedDatasetsIds,
   }) => {
     let selectionServices = []
 
 
     if (!emptySelection) {
       // 1 - Compute if there is a context
-      const hasDastasetContext = selectedDatasetTag || restrictedDatasetsIds
+      const hasDastasetContext = restrictedDatasetsIds && !!restrictedDatasetsIds.length
       // 2 - recover context services
       if (contextSelectionServices) {
         // filter service for current context (only selection services, working with current objects type),
@@ -124,10 +118,7 @@ export class PluginServicesContainer extends React.Component {
     return selectionServices
   }
 
-
   static mapStateToProps = (state, props) => ({
-    // context related
-    selectedDatasetTag: Tag.getSearchedDatasetTag(navigationContextSelectors.getLevels(state)),
     // seletion related
     selectionMode: tableSelectors.getSelectionMode(state),
     toggledElements: tableSelectors.getToggledElements(state),
@@ -151,8 +142,8 @@ export class PluginServicesContainer extends React.Component {
     // context related
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // currently displayed entities type
     // eslint-disable-next-line react/no-unused-prop-types
-    restrictedDatasetsIds: PropTypes.arrayOf(PropTypes.string),
-    requestParameters: PropTypes.objectOf(PropTypes.any), // current open search request parameters
+    restrictedDatasetsIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    requestParameters: CommonShapes.RequestParameters.isRequired, // current open search request parameters
     // components children, where this container will inject services related properties
     // eslint-disable-next-line react/no-unused-prop-types
     children: PropTypes.oneOfType([
@@ -161,9 +152,6 @@ export class PluginServicesContainer extends React.Component {
     ]),
 
     // from mapStateToProps
-    // context related
-    // eslint-disable-next-line react/no-unused-prop-types
-    selectedDatasetTag: PropTypes.instanceOf(Tag), // selected dataset ip id
     // selection related
     toggledElements: PropTypes.objectOf(AccessShapes.EntityWithServices).isRequired,
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)),
@@ -181,33 +169,18 @@ export class PluginServicesContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     availableDependencies: PropTypes.arrayOf(PropTypes.string), // The full list of dependencies
 
+    // From parent HOC
+    // eslint-disable-next-line react/no-unused-prop-types
+    onShowDescription: PropTypes.func, // used only in onPropertiesChanged
+    // eslint-disable-next-line react/no-unused-prop-types
+    isDescAvailableFor: PropTypes.func, // used only in onPropertiesChanged
+
     // from mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchFetchPluginServices: PropTypes.func.isRequired,
     dispatchRunService: PropTypes.func.isRequired,
     dispatchCloseService: PropTypes.func.isRequired,
-
-    // ...sub component properties
   }
-
-  /** Keys of properties that should not be reported to this children */
-  static NON_REPORTED_PROPS = [
-    'viewObjectType',
-    'restrictedDatasetsIds',
-    'requestParameters',
-    'children',
-    'selectedDatasetTag',
-    'toggledElements',
-    'selectionMode',
-    'emptySelection',
-    'pageMetadata',
-    'serviceRunModel',
-    'contextSelectionServices',
-    'availableDependencies',
-    'dispatchFetchPluginServices',
-    'dispatchRunService',
-    'dispatchCloseService',
-  ]
 
   static DEFAULT_STATE = {
     children: [], // pre rendered children
@@ -233,18 +206,14 @@ export class PluginServicesContainer extends React.Component {
    */
   onPropertiesChanged = (newProps, oldProps = {}) => {
     const oldState = this.state || {}
-    const newState = oldState ? { ...oldState } : PluginServicesContainer.DEFAULT_STATE
+    const newState = { ...(this.state || PluginServicesContainer.DEFAULT_STATE) }
 
     // A - dataset tag or context changed, component was mounted or user rights changed, update global services
-    if (oldProps.selectedDatasetTag !== newProps.selectedDatasetTag
-      || oldProps.restrictedDatasetsIds !== newProps.restrictedDatasetsIds
+    if (oldProps.restrictedDatasetsIds !== newProps.restrictedDatasetsIds
       || !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
       // 1 - compute the list of dataset IDs to provide
       let datasetIds = null
-      if (newProps.selectedDatasetTag) {
-        // restricted to the last selected dataset tag
-        datasetIds = [newProps.selectedDatasetTag.searchKey]
-      } else if (newProps.restrictedDatasetsIds && newProps.restrictedDatasetsIds.length) {
+      if (newProps.restrictedDatasetsIds && newProps.restrictedDatasetsIds.length) {
         // restricted to some dataset by configuration
         datasetIds = newProps.restrictedDatasetsIds
       }
@@ -260,11 +229,15 @@ export class PluginServicesContainer extends React.Component {
     }
 
     // when children changed or selection services changed, recompute children
-    if (!isEqual(oldState.selectionServices, newState.selectionServices)
-      || HOCUtils.shouldCloneChildren(oldProps, newProps, PluginServicesContainer.NON_REPORTED_PROPS)) {
-      // pre render children (attempts to enhance render performances)
+    if (oldProps.children !== newProps.children
+     || !isEqual(oldProps.isDescAvailableFor, newProps.isDescAvailableFor)
+     || !isEqual(oldProps.onShowDescription, newProps.onShowDescription)
+     || !isEqual(oldState.selectionServices, newState.selectionServices)) {
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
-        ...omit(newProps, PluginServicesContainer.NON_REPORTED_PROPS),
+        // From description HOC
+        isDescAvailableFor: newProps.isDescAvailableFor,
+        onShowDescription: newProps.onShowDescription,
+        // This HOC properties
         selectionServices: newState.selectionServices,
         onStartSelectionService: this.onStartSelectionService,
       })

@@ -20,9 +20,9 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import CheckedIcon from 'material-ui/svg-icons/toggle/check-box'
 import UncheckedIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
-import { DamDomain } from '@regardsoss/domain'
+import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableColumnBuilder, TableSortOrders } from '@regardsoss/components'
+import { TableColumnBuilder } from '@regardsoss/components'
 import ColumnVisibleRender from '../../../../../src/components/user/results/columns/ColumnVisibleRender'
 import styles from '../../../../../src/styles'
 
@@ -45,7 +45,7 @@ describe('[Search Results] Testing ColumnVisibleRender', () => {
         key: TableColumnBuilder.selectionColumnKey,
         visible: true,
         enableSorting: false,
-        sortOrder: TableSortOrders.NO_SORT,
+        sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
       },
       onChangeVisibility: () => { },
     }
@@ -59,7 +59,7 @@ describe('[Search Results] Testing ColumnVisibleRender', () => {
         key: TableColumnBuilder.optionsColumnKey,
         visible: false,
         enableSorting: false,
-        sortOrder: TableSortOrders.NO_SORT,
+        sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
       },
       onChangeVisibility: () => { },
     }
@@ -83,9 +83,8 @@ describe('[Search Results] Testing ColumnVisibleRender', () => {
             DamDomain.AttributeModelController.standardAttributesKeys.id),
         ],
         enableSorting: false,
-        sortOrder: TableSortOrders.NO_SORT,
+        sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
         sortIndex: null,
-        defaultSorting: false,
       },
       onChangeVisibility: () => { },
     }

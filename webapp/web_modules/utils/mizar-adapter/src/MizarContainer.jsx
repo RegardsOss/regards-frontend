@@ -5,7 +5,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import { CatalogShapes } from '@regardsoss/shape'
+import { CatalogShapes, CommonShapes } from '@regardsoss/shape'
 import MizarAdapter from './adapters/MizarAdapter'
 
 export class MizarContainer extends React.Component {
@@ -35,7 +35,7 @@ export class MizarContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     queryPageSize: PropTypes.number,
     // eslint-disable-next-line react/no-unused-prop-types,react/forbid-prop-types
-    requestParams: PropTypes.any,
+    requestParams: CommonShapes.RequestParameters,
 
     // eslint-disable-next-line react/no-unused-prop-types
     pageActions: PropTypes.instanceOf(BasicPageableActions).isRequired, // BasicPageableActions to retrieve entities from server

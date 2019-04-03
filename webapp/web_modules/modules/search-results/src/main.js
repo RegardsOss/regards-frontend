@@ -25,7 +25,7 @@ import '../default-icon.svg'
  * @author Sébastien binda
  */
 export { default as moduleContainer } from './containers/ModuleContainer'
-export { default as adminContainer } from './containers/AdminContainer'
+// export { default as adminContainer } from './containers/AdminContainer' TODO: enable back!
 export { default as styles } from './styles/styles'
 export { default as reducer } from './reducer'
 export { default as dependencies } from './dependencies'

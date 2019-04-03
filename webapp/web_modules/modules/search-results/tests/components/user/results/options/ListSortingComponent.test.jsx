@@ -28,6 +28,7 @@ const context = buildTestContext(styles)
 
 const models = [
   {
+    // TODO no more default sorting
     key: '1', label: { en: 'enL1', fr: 'frL1' }, attributes: [], visible: true, enableSorting: true, sortOrder: '', defaultSorting: false,
   },
   {

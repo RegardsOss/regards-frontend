@@ -23,4 +23,4 @@ import { getPluginStateSelectors } from '../model/PluginStateSelectors'
 const namespace = 'PLUGINS/STATE'
 export const pluginStateActions = new PluginStateActions(namespace)
 export const pluginStateReducer = getPluginStateReducer(namespace)
-export const pluginStateSelectors = getPluginStateSelectors(['common', 'plugins', 'state'])
+export const pluginStateSelectors = getPluginStateSelectors(['common', 'plugins', 'searchCriteria'])

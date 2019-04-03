@@ -33,7 +33,7 @@ import {
   DocumentAttributeModelActions,
   DocumentAttributeModelSelectors,
 } from '../clients/DocumentAttributeModelClient'
-import ModuleConfiguration from '../models/ModuleConfiguration'
+import ModuleConfiguration from '../shapes/ModuleConfiguration'
 
 /**
  * Main container to display administration view of the module form.

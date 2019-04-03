@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { assert } from 'chai'
-import { TagTypes } from '@regardsoss/domain/catalog'
+import { TAG_TYPES_ENUM } from '@regardsoss/domain/catalog'
 import { Tag } from '../../../src/models/navigation/Tag'
 import navigationContextActions from '../../../src/models/navigation/NavigationContextActions'
 import reduce, { DEFAULT_STATE } from '../../../src/models/navigation/NavigationContextReducer'
@@ -43,7 +43,7 @@ describe('[Search Results] Test navigation context selectors', () => {
     let fakeStore = buildMockStore()
     assert.deepEqual(navigationContextSelectors.getLevels(fakeStore), DEFAULT_STATE.levels, 'Should return default levels')
 
-    const tag = new Tag(TagTypes.WORD, 'Alibaba', 'Alibaba')
+    const tag = new Tag(TAG_TYPES_ENUM.WORD, 'Alibaba', 'Alibaba')
     fakeStore = mockReduce(fakeStore, navigationContextActions.addSearchTag(tag))
     assert.deepEqual(navigationContextSelectors.getLevels(fakeStore), [tag])
   })
@@ -51,8 +51,8 @@ describe('[Search Results] Test navigation context selectors', () => {
     let fakeStore = buildMockStore()
     assert.deepEqual(navigationContextSelectors.getLevels(fakeStore), DEFAULT_STATE.initialLevels, 'Should return default initial levels levels')
     const someInitialTags = [
-      new Tag(TagTypes.COLLECTION, 'ma collec', 'URN:col1'),
-      new Tag(TagTypes.DOCUMENT, 'mon doc', 'URN:doc1'),
+      new Tag(TAG_TYPES_ENUM.COLLECTION, 'ma collec', 'URN:col1'),
+      new Tag(TAG_TYPES_ENUM.DOCUMENT, 'mon doc', 'URN:doc1'),
     ]
     fakeStore = mockReduce(fakeStore, navigationContextActions.initialize('any', 'any', someInitialTags))
     assert.deepEqual(navigationContextSelectors.getInitialLevels(fakeStore), someInitialTags)

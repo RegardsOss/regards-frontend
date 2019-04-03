@@ -17,11 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
-import { TagTypes } from '@regardsoss/domain/catalog'
+import { CatalogDomain } from '@regardsoss/domain'
 import { Entity } from './Entity'
 
 /** Tag shape, as considered by the UI */
 export default PropTypes.shape({
-  type: PropTypes.oneOf(values(TagTypes)).isRequired,
+  type: PropTypes.oneOf(CatalogDomain.TAG_TYPES).isRequired,
   data: PropTypes.oneOfType([PropTypes.string, Entity]).isRequired,
 })

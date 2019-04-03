@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { CommonShapes } from '@regardsoss/shape'
 
 /**
  * Defines criterion state related shapes
@@ -25,7 +26,7 @@
 /** A criterion state and query */
 export const CriterionData = PropTypes.shape({
   state: PropTypes.any,
-  requestParameters: PropTypes.objectOf(PropTypes.string),
+  requestParameters: CommonShapes.RequestParameters,
 })
 
 /** Map of all criteria states and queries */

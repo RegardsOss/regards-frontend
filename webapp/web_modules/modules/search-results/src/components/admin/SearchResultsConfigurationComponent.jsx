@@ -30,10 +30,8 @@ import {
 } from '@regardsoss/form-utils'
 import { ShowableAtRender } from '@regardsoss/display-control'
 import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
-import ModuleConfiguration from '../../models/ModuleConfiguration'
-import AdminModuleConf from '../../models/AdminModuleConf'
-import { DISPLAY_MODE_ENUM } from '../../definitions/DisplayModeEnum'
-import { TableDisplayModeEnum } from '../../models/navigation/TableDisplayModeEnum'
+import ModuleConfiguration from '../../shapes/ModuleConfiguration'
+import AdminModuleConf from '../../shapes/AdminModuleConf'
 
 const parseIntNormalizer = value => parseInt(value, 10)
 
@@ -124,6 +122,8 @@ class SearchResultsConfigurationComponent extends React.Component {
     this.CONF_DATA_SECTION_LABEL_EN = `${props.currentNamespace}.dataSectionLabelEn`
   }
 
+  // TODO: this doesnt work anymore, see later to get it back up! (DISPLAY_DATA_DATASET has been cleared!)
+
   componentDidMount() {
     const {
       isCreating, changeField, adminConf, currentNamespace,
@@ -155,8 +155,8 @@ class SearchResultsConfigurationComponent extends React.Component {
     if (value === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT || value === DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET) {
       // if the selected view mode is quicklook, reset it
       const initialViewMode = get(currentFormValues, 'initialViewMode')
-      if (initialViewMode === TableDisplayModeEnum.QUICKLOOK) {
-        changeField(this.CONF_INITIAL_VIEW_MODE, TableDisplayModeEnum.LIST)
+      if (initialViewMode === UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK) {
+        changeField(this.CONF_INITIAL_VIEW_MODE, UIDomain.RESULTS_VIEW_MODES_ENUM.LIST)
       }
     }
   }
@@ -178,8 +178,8 @@ class SearchResultsConfigurationComponent extends React.Component {
     const { changeField, currentFormValues } = this.props
     const initialViewMode = get(currentFormValues, 'initialViewMode')
     // change initial view mode when user disables quicklooks but quicklooks are selected as default
-    if (!enabled && initialViewMode === TableDisplayModeEnum.QUICKLOOK) {
-      changeField(this.CONF_INITIAL_VIEW_MODE, TableDisplayModeEnum.LIST)
+    if (!enabled && initialViewMode === UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK) {
+      changeField(this.CONF_INITIAL_VIEW_MODE, UIDomain.RESULTS_VIEW_MODES_ENUM.LIST)
     }
   }
 
@@ -518,19 +518,19 @@ class SearchResultsConfigurationComponent extends React.Component {
             <Field
               name={this.CONF_INITIAL_VIEW_MODE}
               component={RenderRadio}
-              defaultSelected={TableDisplayModeEnum.LIST}
+              defaultSelected={UIDomain.RESULTS_VIEW_MODES_ENUM.LIST}
             >
               <RadioButton
                 label={formatMessage({ id: 'form.configuration.result.show.list.initially' })}
-                value={TableDisplayModeEnum.LIST}
+                value={UIDomain.RESULTS_VIEW_MODES_ENUM.LIST}
               />
               <RadioButton
                 label={formatMessage({ id: 'form.configuration.result.show.table.initially' })}
-                value={TableDisplayModeEnum.TABLE}
+                value={UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE}
               />
               <RadioButton
                 label={formatMessage({ id: 'form.configuration.result.show.quicklook.initially' })}
-                value={TableDisplayModeEnum.QUICKLOOK}
+                value={UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK}
                 disabled={displayMode !== DISPLAY_MODE_ENUM.DISPLAY_DATA}
               />
             </Field>

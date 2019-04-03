@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { assert } from 'chai'
-import { DamDomain } from '@regardsoss/domain'
-import { TableSortOrders, TableColumnBuilder } from '@regardsoss/components'
+import { CommonDomain, DamDomain } from '@regardsoss/domain'
+import { TableColumnBuilder } from '@regardsoss/components'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import {
   buildAttributesPresentationModels, buildColumnPlaceholder, buildPresentationModel,
@@ -87,7 +87,7 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('Should convert correctly a simple attribute configuration on server attribute, as default sorting', () => {
+  it('Should convert correctly a simple attribute configuration on server attribute, as initially sorted', () => {
     const converted = buildPresentationModel(
       attributes, convertableSimpleServerAttributeConf, [{ attributes: [{ name: 'my.attr.2' }] }], true, 8)
     assert.isDefined(converted)
@@ -96,10 +96,9 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
       label: convertableSimpleServerAttributeConf.label,
       attributes: [attributes[2]],
       enableSorting: true,
-      sortOrder: TableSortOrders.NO_SORT,
-      sortIndex: null,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER,
+      sortIndex: 0,
       visible: true,
-      defaultSorting: true,
     }, 'Attribute should be correctly converted')
   })
   it('Should convert correctly a simple attribute configuration on standard attribute (not default sorting)', () => {
@@ -111,10 +110,9 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
       label: convertableSimpleServerAttributeConf.label,
       attributes: [DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId)],
       enableSorting: false,
-      sortOrder: TableSortOrders.NO_SORT,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
       sortIndex: null,
       visible: true,
-      defaultSorting: false,
     }, 'Attribute should be correctly converted')
   })
   it('Should reject converting a simple attribute configuration where attribute cannot be retrieved', () => {
@@ -129,10 +127,9 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
       label: fullyConvertableRegroupmentConf.label,
       attributes: [attributes[2], attributes[1], DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId)],
       enableSorting: false, // cannot sort on groups
-      sortOrder: TableSortOrders.NO_SORT,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
       sortIndex: null,
       visible: true,
-      defaultSorting: false,
     }, 'Group should be correctly converted, respecting label and attributes order')
   })
   it('Should convert correctly an attributes regroupment configuration, filtering models not found', () => {
@@ -143,10 +140,9 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
       label: partiallyConvertableRegroupementConf.label,
       attributes: [attributes[2]],
       enableSorting: false,
-      sortOrder: TableSortOrders.NO_SORT,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
       sortIndex: null,
       visible: true,
-      defaultSorting: false,
     }, 'Group should be correctly converted, filtering missing attributes')
   })
   it('Should reject converting an attributes regroupment where no attribute can be retrieved', () => {
@@ -159,7 +155,7 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
       key: 'IDK',
       visible: true,
       enableSorting: false,
-      sortOrder: TableSortOrders.NO_SORT,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
     })
   })
   it('Should correctly convert presentation models, filtering elements that are using only non resolved attributes and adding table columns', () => {
@@ -177,41 +173,41 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
       key: TableColumnBuilder.selectionColumnKey,
       visible: true,
       enableSorting: false,
-      sortOrder: TableSortOrders.NO_SORT,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
     }, 'There should be the selection column at position 0')
     assert.deepEqual(convertedModels[5], {
       key: TableColumnBuilder.optionsColumnKey,
       visible: true,
       enableSorting: false,
-      sortOrder: TableSortOrders.NO_SORT,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
     }, 'There should be the options column at last position')
   })
   it('Should add correctly sorting on presentation model when in multi sorting ', () => {
     // 1 - empty list
     let currentModels = [
-      { key: 'PM1', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
-      { key: 'PM2', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
-      { key: 'PM3', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
+      { key: 'PM1', sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT, sortIndex: null },
+      { key: 'PM2', sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT, sortIndex: null },
+      { key: 'PM3', sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT, sortIndex: null },
     ]
-    let newModels = changeSortOrder(currentModels, 'PM2', TableSortOrders.DESCENDING_ORDER, false)
+    let newModels = changeSortOrder(currentModels, 'PM2', CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER, false)
     assert.deepEqual(newModels[0], currentModels[0], '1- PM1 should be unchanged')
     assert.deepEqual(newModels[1], {
       key: 'PM2',
-      sortOrder: TableSortOrders.DESCENDING_ORDER,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER,
       sortIndex: 0,
     }, '1- PM2 should be updated computed for new sorting')
     assert.deepEqual(newModels[2], currentModels[2], '1- PM3 should be unchanged')
 
     // 2 - non empty list, should insert at end
     currentModels = [
-      { key: 'PM1', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
-      { key: 'PM2', sortOrder: TableSortOrders.ASCENDING_ORDER, sortIndex: 0 },
-      { key: 'PM3', sortOrder: TableSortOrders.DESCENDING_ORDER, sortIndex: 1 },
+      { key: 'PM1', sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT, sortIndex: null },
+      { key: 'PM2', sortOrder: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER, sortIndex: 0 },
+      { key: 'PM3', sortOrder: CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER, sortIndex: 1 },
     ]
-    newModels = changeSortOrder(currentModels, 'PM1', TableSortOrders.ASCENDING_ORDER, false)
+    newModels = changeSortOrder(currentModels, 'PM1', CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER, false)
     assert.deepEqual(newModels[0], {
       key: 'PM1',
-      sortOrder: TableSortOrders.ASCENDING_ORDER,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER,
       sortIndex: 2,
     }, '2- PM1 should be correctly computed for new sorting')
     assert.deepEqual(newModels[1], currentModels[1], '2- PM2 should be unchanged')
@@ -219,15 +215,15 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
   })
   it('Should switch correctly sort type on presentation model when in multi sorting ', () => {
     const currentModels = [
-      { key: 'PM1', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
-      { key: 'PM2', sortOrder: TableSortOrders.ASCENDING_ORDER, sortIndex: 0 },
-      { key: 'PM3', sortOrder: TableSortOrders.DESCENDING_ORDER, sortIndex: 1 },
+      { key: 'PM1', sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT, sortIndex: null },
+      { key: 'PM2', sortOrder: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER, sortIndex: 0 },
+      { key: 'PM3', sortOrder: CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER, sortIndex: 1 },
     ]
-    const newModels = changeSortOrder(currentModels, 'PM2', TableSortOrders.DESCENDING_ORDER, false)
+    const newModels = changeSortOrder(currentModels, 'PM2', CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER, false)
     assert.deepEqual(newModels[0], currentModels[0], 'PM1 should be unchanged')
     assert.deepEqual(newModels[1], {
       key: 'PM2',
-      sortOrder: TableSortOrders.DESCENDING_ORDER,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER,
       sortIndex: 0,
     }, 'PM2 should be correctly computed for new sorting')
     assert.deepEqual(newModels[2], currentModels[2], 'PM3 should be unchanged')
@@ -235,106 +231,106 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
   it('Should add/switch correctly sorting on presentation model when in mono sorting', () => {
     // 1 - empty list
     let currentModels = [
-      { key: 'PM1', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
-      { key: 'PM2', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
-      { key: 'PM3', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
+      { key: 'PM1', sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT, sortIndex: null },
+      { key: 'PM2', sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT, sortIndex: null },
+      { key: 'PM3', sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT, sortIndex: null },
     ]
-    let newModels = changeSortOrder(currentModels, 'PM2', TableSortOrders.DESCENDING_ORDER, true)
+    let newModels = changeSortOrder(currentModels, 'PM2', CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER, true)
     assert.deepEqual(newModels[0], currentModels[0], '1- PM1 should be unchanged')
     assert.deepEqual(newModels[1], {
       key: 'PM2',
-      sortOrder: TableSortOrders.DESCENDING_ORDER,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER,
       sortIndex: 0,
     }, '1- PM2 should be updated computed for new sorting')
     assert.deepEqual(newModels[2], currentModels[2], '1- PM3 should be unchanged')
 
     // 2 - non empty list, should clear any other sorting at end
     currentModels = [
-      { key: 'PM1', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
-      { key: 'PM2', sortOrder: TableSortOrders.ASCENDING_ORDER, sortIndex: 0 },
-      { key: 'PM3', sortOrder: TableSortOrders.DESCENDING_ORDER, sortIndex: 1 },
+      { key: 'PM1', sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT, sortIndex: null },
+      { key: 'PM2', sortOrder: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER, sortIndex: 0 },
+      { key: 'PM3', sortOrder: CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER, sortIndex: 1 },
     ]
-    newModels = changeSortOrder(currentModels, 'PM1', TableSortOrders.ASCENDING_ORDER, true)
+    newModels = changeSortOrder(currentModels, 'PM1', CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER, true)
     assert.deepEqual(newModels[0], {
       key: 'PM1',
-      sortOrder: TableSortOrders.ASCENDING_ORDER,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER,
       sortIndex: 0,
     }, '2- PM1 should be correctly computed for new sorting')
     assert.deepEqual(newModels[1], {
       key: 'PM2',
-      sortOrder: TableSortOrders.NO_SORT,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
       sortIndex: null,
     }, '2- PM2 sorting should have been removed')
     assert.deepEqual(newModels[2], {
       key: 'PM3',
-      sortOrder: TableSortOrders.NO_SORT,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
       sortIndex: null,
     }, '2- PM3 sorting should have been removed')
   })
   it('Should delete correctly sort type on presentation model (not related with mono or multi sorting) ', () => {
     // 1 - on single element list
     let currentModels = [
-      { key: 'PM1', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
-      { key: 'PM2', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
-      { key: 'PM3', sortOrder: TableSortOrders.DESCENDING_ORDER, sortIndex: 0 },
+      { key: 'PM1', sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT, sortIndex: null },
+      { key: 'PM2', sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT, sortIndex: null },
+      { key: 'PM3', sortOrder: CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER, sortIndex: 0 },
     ]
-    let newModels = changeSortOrder(currentModels, 'PM3', TableSortOrders.NO_SORT, false)
+    let newModels = changeSortOrder(currentModels, 'PM3', CommonDomain.SORT_ORDERS_ENUM.NO_SORT, false)
     assert.deepEqual(newModels[0], currentModels[0], '1- PM1 should be unchanged')
     assert.deepEqual(newModels[1], currentModels[1], '1- PM2 should be unchanged')
     assert.deepEqual(newModels[2], {
       key: 'PM3',
-      sortOrder: TableSortOrders.NO_SORT,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
       sortIndex: null,
     }, '1- PM3 should be correctly computed for new sorting')
 
     // 2 - on many elements list, shifting next elements
     currentModels = [
-      { key: 'PM1', sortOrder: TableSortOrders.ASCENDING_ORDER, sortIndex: 2 },
-      { key: 'PM2', sortOrder: TableSortOrders.ASCENDING_ORDER, sortIndex: 1 },
-      { key: 'PM3', sortOrder: TableSortOrders.DESCENDING_ORDER, sortIndex: 0 },
+      { key: 'PM1', sortOrder: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER, sortIndex: 2 },
+      { key: 'PM2', sortOrder: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER, sortIndex: 1 },
+      { key: 'PM3', sortOrder: CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER, sortIndex: 0 },
     ]
-    newModels = changeSortOrder(currentModels, 'PM2', TableSortOrders.NO_SORT, false)
+    newModels = changeSortOrder(currentModels, 'PM2', CommonDomain.SORT_ORDERS_ENUM.NO_SORT, false)
     assert.deepEqual(newModels[0], {
       key: 'PM1',
-      sortOrder: TableSortOrders.ASCENDING_ORDER,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER,
       sortIndex: 1,
     }, '2- PM1 sort index should have been shifted down')
     assert.deepEqual(newModels[1], {
       key: 'PM2',
-      sortOrder: TableSortOrders.NO_SORT,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
       sortIndex: null,
     }, '2- PM2 sorting should have been removed')
     assert.deepEqual(newModels[2], currentModels[2], '2- PM3 should be unchanged')
   })
   it('Should generate correctly sorting order for query, using presentation models order', () => {
     assert.lengthOf(getSortingOn([
-      { key: 'a1', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
-      { key: 'a2', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
-      { key: 'a3', sortOrder: TableSortOrders.NO_SORT, sortIndex: null },
+      { key: 'a1', sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT, sortIndex: null },
+      { key: 'a2', sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT, sortIndex: null },
+      { key: 'a3', sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT, sortIndex: null },
     ]), 0, 'Sorting path should be correctly generated without sorting')
 
     assert.deepEqual(getSortingOn([
       {
         key: 'a1',
-        sortOrder: TableSortOrders.NO_SORT,
+        sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
         sortIndex: null,
         attributes: [{ content: { jsonPath: 'a.1' } }],
       },
       {
         key: 'a2',
-        sortOrder: TableSortOrders.ASCENDING_ORDER,
+        sortOrder: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER,
         sortIndex: 1,
         attributes: [{ content: { jsonPath: 'b.2' } }],
       },
       {
         key: 'a3',
-        sortOrder: TableSortOrders.DESCENDING_ORDER,
+        sortOrder: CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER,
         sortIndex: 0,
         attributes: [{ content: { jsonPath: 'c.3' } }],
       },
     ]), [
-      { attributePath: 'c.3', type: TableSortOrders.DESCENDING_ORDER },
-      { attributePath: 'b.2', type: TableSortOrders.ASCENDING_ORDER },
+      { attributePath: 'c.3', type: CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER },
+      { attributePath: 'b.2', type: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER },
     ], 'Sorting path should be correctly generated with sorting')
   })
   it('Should generate correctly initial sorting from configuration', () => {
@@ -345,10 +341,10 @@ describe('[Search Results] Testing AttributesPresentationHelper', () => {
       attributes: [{ name: 'attr.3' }],
     }]), [{
       attributePath: 'attr.2',
-      type: TableSortOrders.ASCENDING_ORDER,
+      type: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER,
     }, {
       attributePath: 'attr.3',
-      type: TableSortOrders.ASCENDING_ORDER,
+      type: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER,
     }], 'Initial sorting should be correctly converted')
   })
 })

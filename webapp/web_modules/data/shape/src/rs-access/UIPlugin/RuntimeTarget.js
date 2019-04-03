@@ -18,7 +18,7 @@
  **/
 import { ENTITY_TYPES } from '@regardsoss/domain/dam'
 import { RuntimeTargetTypes } from '@regardsoss/domain/access'
-
+import { RequestParameters } from '../../rs-common/RequestParameters'
 
 /**
  * Shapes that describe the application target provided to an UI plugin RUNTIME instance.
@@ -45,7 +45,7 @@ const manyEntitiesTarget = PropTypes.shape({
 })
 const queryTarget = PropTypes.shape({
   type: PropTypes.oneOf([RuntimeTargetTypes.QUERY]).isRequired,
-  requestParameters: PropTypes.objectOf(PropTypes.any), // OpenSearch request parameters, may include q (query)
+  requestParameters: RequestParameters, // OpenSearch request parameters, may include q (query)
   entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
   entitiesCount: PropTypes.number.isRequired, // total count of entities
   excludedIDs: PropTypes.arrayOf(PropTypes.string).isRequired, // excluded entities IDs (URN)

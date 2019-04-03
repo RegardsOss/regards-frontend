@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { DamDomain } from '@regardsoss/domain'
+import { CommonShapes } from '@regardsoss/shape'
 import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
@@ -32,7 +33,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
     pageActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     // request parameters
-    requestParams: PropTypes.objectOf(PropTypes.any).isRequired,
+    requestParams: CommonShapes.RequestParameters,
     // results information
     resultsCount: PropTypes.number.isRequired,
     isFetching: PropTypes.bool.isRequired,

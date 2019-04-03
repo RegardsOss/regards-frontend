@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
-
+// TODO in domain
 /**
  * Feedback types, to be shown over the results on specific operations
  * @author Raphaël Mechali

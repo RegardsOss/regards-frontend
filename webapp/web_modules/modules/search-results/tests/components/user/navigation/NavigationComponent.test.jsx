@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Breadcrumb } from '@regardsoss/components'
-import { TagTypes } from '@regardsoss/domain/catalog'
+import { TAG_TYPES_ENUM } from '@regardsoss/domain/catalog'
 import { Tag } from '../../../../src/models/navigation/Tag'
 import NavigationComponent from '../../../../src/components/user/navigation/NavigationComponent'
 import styles from '../../../../src/styles/styles'
@@ -36,8 +36,8 @@ describe('[Search Results] Testing NavigationComponent', () => {
   })
   it('should render correctly when externally driven (no description nor page)', () => {
     const levels = [
-      new Tag(TagTypes.DATASET, 'a dataset', 'URN:TEST'),
-      new Tag(TagTypes.DATASET, 'styles:patatoes', 'styles:patatoes'),
+      new Tag(TAG_TYPES_ENUM.DATASET, 'a dataset', 'URN:TEST'),
+      new Tag(TAG_TYPES_ENUM.DATASET, 'styles:patatoes', 'styles:patatoes'),
     ]
     const props = {
       navigationLevels: levels,
@@ -52,8 +52,8 @@ describe('[Search Results] Testing NavigationComponent', () => {
   })
   it('should render correctly when in modules is in standalone mode (description or page)', () => {
     const levels = [
-      new Tag(TagTypes.DATASET, 'a dataset', 'URN:TEST'),
-      new Tag(TagTypes.DATASET, 'styles:patatoes', 'styles:patatoes'),
+      new Tag(TAG_TYPES_ENUM.DATASET, 'a dataset', 'URN:TEST'),
+      new Tag(TAG_TYPES_ENUM.DATASET, 'styles:patatoes', 'styles:patatoes'),
     ]
     const props = {
       description: 'aaa',

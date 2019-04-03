@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TagTypes } from '@regardsoss/domain/catalog'
+import { TAG_TYPES_ENUM } from '@regardsoss/domain/catalog'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { modulesManager, LazyModuleComponent } from '@regardsoss/modules'
 import { NavigableSearchResultsContainer } from '../../../src/containers/user/NavigableSearchResultsContainer'
@@ -66,7 +66,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
       type: 'any',
       moduleConf: {},
       searchTag: {
-        type: TagTypes.WORD,
+        type: TAG_TYPES_ENUM.WORD,
         data: 'unemobilette',
       },
       dispatchExpandResults: () => { spiedExpandResultsCount += 1 },
@@ -91,14 +91,14 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
     let { conf } = module
     assert.lengthOf(conf.initialContextTags, 1, 'The tag should be reported to search results tag')
     assert.deepEqual(conf.initialContextTags[0], {
-      type: TagTypes.WORD,
+      type: TAG_TYPES_ENUM.WORD,
       label: 'unemobilette',
       searchKey: 'unemobilette',
     }, 'The right tag should be provided')
 
     render.setProps({
       searchTag: {
-        type: TagTypes.DATASET,
+        type: TAG_TYPES_ENUM.DATASET,
         data: {
           content: {
             id: 'URN:dataset1',
@@ -128,7 +128,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
     conf = module.conf
     assert.lengthOf(conf.initialContextTags, 1, 'The tag should be reported to search results tag')
     assert.deepEqual(conf.initialContextTags[0], {
-      type: TagTypes.DATASET,
+      type: TAG_TYPES_ENUM.DATASET,
       label: 'dslabel',
       searchKey: 'URN:dataset1',
     }, 'The right tag should be provided')

@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { assert } from 'chai'
-import { TagTypes } from '@regardsoss/domain/catalog'
+import { TAG_TYPES_ENUM } from '@regardsoss/domain/catalog'
 import graphContextActions from '../../src/model/graph/GraphContextActions'
 import reduce, { DEFAULT_STATE } from '../../src/model/graph/GraphContextReducers'
 
@@ -119,11 +119,11 @@ describe('[Search Graph] Test GraphContextReducers', () => {
 
   it('Should reduce search tag', () => {
     const currentState = DEFAULT_STATE
-    const reduced = reduce(currentState, graphContextActions.setSearchTag({ type: TagTypes.WORD, data: 'w' }))
+    const reduced = reduce(currentState, graphContextActions.setSearchTag({ type: TAG_TYPES_ENUM.WORD, data: 'w' }))
     assert.deepEqual(reduced, {
       ...currentState,
       searchTag: {
-        type: TagTypes.WORD,
+        type: TAG_TYPES_ENUM.WORD,
         data: 'w',
       },
     }, 'Set search tag should be correctly reduced')

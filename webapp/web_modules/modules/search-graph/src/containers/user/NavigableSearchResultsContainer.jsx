@@ -18,7 +18,7 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { UIClient } from '@regardsoss/client'
-import { TagTypes } from '@regardsoss/domain/catalog'
+import { TAG_TYPES_ENUM } from '@regardsoss/domain/catalog'
 import { AccessShapes, CatalogShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
@@ -86,8 +86,8 @@ export class NavigableSearchResultsContainer extends React.Component {
     }
     return [{
       type: tag.type,
-      label: tag.type === TagTypes.WORD ? tag.data : tag.data.content.label,
-      searchKey: tag.type === TagTypes.WORD ? tag.data : tag.data.content.id,
+      label: tag.type === TAG_TYPES_ENUM.WORD ? tag.data : tag.data.content.label,
+      searchKey: tag.type === TAG_TYPES_ENUM.WORD ? tag.data : tag.data.content.id,
     }]
   }
 

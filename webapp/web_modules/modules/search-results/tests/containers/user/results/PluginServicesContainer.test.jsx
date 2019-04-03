@@ -79,7 +79,7 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
       // Component properties
       ...commonProperties,
       // specifically spied values
-      selectedDatasetTag: new Tag(CatalogDomain.TagTypes.DATASET, 'myLabel', 'myId'),
+      selectedDatasetTag: new Tag(CatalogDomain.TAG_TYPES_ENUM.DATASET, 'myLabel', 'myId'),
       restrictedDatasetsIds: ['ip1', 'ip2'],
       dispatchFetchPluginServices: (datasetIds) => {
         spiedFetch.datasetIds = datasetIds

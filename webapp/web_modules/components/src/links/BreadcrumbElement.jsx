@@ -24,10 +24,14 @@ import { HOCUtils } from '@regardsoss/display-control'
 */
 class BreadcrumbElement extends React.Component {
   static propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
+    element: PropTypes.any.isRequired,
+    index: PropTypes.number.isRequired,
     isFirst: PropTypes.bool,
     isLast: PropTypes.bool,
-    onAction: PropTypes.func.isRequired, // callback () => void
+    onAction: PropTypes.func.isRequired, // callback (element, index) => void
     label: PropTypes.string.isRequired,
+    navigationAllowed: PropTypes.bool.isRequired,
     rootIcon: PropTypes.node,
   }
 
@@ -39,30 +43,41 @@ class BreadcrumbElement extends React.Component {
    * On user click callback
    */
   onClick = () => {
-    const { isLast, onAction } = this.props
-    // block onAction for selected element (no need to re-select)
-    if (!isLast) {
-      onAction()
+    const {
+      isLast, navigationAllowed, element, index, onAction,
+    } = this.props
+    // block onAction for last element and non navigable elements (already disabled)
+    if (!isLast && navigationAllowed) {
+      onAction(element, index)
     }
   }
 
   render() {
     const {
-      isFirst, isLast, label, rootIcon,
+      isFirst, isLast, label, rootIcon, navigationAllowed,
     } = this.props
     const {
       iconStyle,
       element: {
-        style, lastStyle, selectedLabelStyle, defaultLabelStyle,
+        navigable, nonNavigable, selectedLabelStyle, defaultLabelStyle,
       },
     } = this.context.moduleTheme.breadcrumb
     // is element selected? (last item, when it is not the first)
     const isSelected = isLast && !isFirst
     // show root icon for first item (don't show item icon otherwise)
     const icon = isFirst ? HOCUtils.cloneChildrenWith(rootIcon, { style: iconStyle }) : null
+    // compute root div style (to not show cursor when navigation is not allowed)
+    let rootDivStyle = null
+    if (isSelected) {
+      rootDivStyle = nonNavigable.lastStyle
+    } else if (!isLast && navigationAllowed) {
+      rootDivStyle = navigable.style
+    } else {
+      rootDivStyle = nonNavigable.style
+    }
     return (
       <div
-        style={isSelected ? lastStyle : style}
+        style={rootDivStyle}
         onClick={this.onClick}
         title={label}
       >

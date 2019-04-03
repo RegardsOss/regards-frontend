@@ -20,10 +20,9 @@ import flatMap from 'lodash/flatMap'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DamDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { modulesManager } from '@regardsoss/modules'
 import { TableSelectionModes } from '@regardsoss/components'
-import { TableDisplayModeEnum } from '../../../../src/models/navigation/TableDisplayModeEnum'
 import { OrderCartContainer } from '../../../../src/containers/user/results/OrderCartContainer'
 
 const context = buildTestContext()
@@ -79,7 +78,7 @@ describe('[Search Results] Testing OrderCartContainer', () => {
     selectionMode: TableSelectionModes.excludeSelected,
     toggledElements: {},
     dispatchAddToCart: () => { },
-    tableViewMode: TableDisplayModeEnum.LIST,
+    tableViewMode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
   }
 
   // combine all use cases to get component appliable properties

@@ -70,7 +70,7 @@ describe('[Search Results] Testing ModuleContainer', () => {
         searchParameters: { q: 'abc' },
         attributes: [],
         attributesRegroupements: [],
-        initialContextTags: [new Tag(CatalogDomain.TagTypes.WORD, 'papa\'s skyline', 'papa\'s skyline')],
+        initialContextTags: [new Tag(CatalogDomain.TAG_TYPES_ENUM.WORD, 'papa\'s skyline', 'papa\'s skyline')],
       },
     }
     const enzymeWrapper = shallow(<ModuleContainer {...props} />, { context })

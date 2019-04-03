@@ -1,0 +1,73 @@
+/**
+ * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+import { CatalogDomain } from '@regardsoss/domain'
+import { UIShapes } from '@regardsoss/shape'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+import { ShowableAtRender } from '@regardsoss/display-control'
+import { TableHeaderLine, TableHeaderContentBox } from '@regardsoss/components'
+import SelectedBooleanFacetComponent from './facets/selected/SelectedBooleanFacetComponent'
+import SelectedDateRangeFacetComponent from './facets/selected/SelectedDateRangeFacetComponent'
+import SelectedNumberRangeFacetComponent from './facets/selected/SelectedNumberRangeFacetComponent'
+import SelectedStringFacetComponent from './facets/selected/SelectedStringFacetComponent'
+
+/**
+ * Header line for facets and results count row
+ */
+class SelectedFacetsHeaderRowComponent extends React.Component {
+  static propTypes = {
+    selectedFacetValues: PropTypes.arrayOf(UIShapes.SelectedFacetCriterion).isRequired,
+    onUnselectFacetValue: PropTypes.func.isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+    ...themeContextType,
+  }
+
+  render() {
+    const { selectedFacetValues, onUnselectFacetValue } = this.props
+    return (
+      <ShowableAtRender show={selectedFacetValues.length > 0}>
+        <TableHeaderLine>
+          <TableHeaderContentBox>
+            {
+              selectedFacetValues.map((selectedFacetValue) => {
+                const selectorProps = { key: selectedFacetValue.attribute.content.jsonPath, selectedFacetValue, onUnselectFacetValue }
+                switch (selectedFacetValue.facetType) {
+                  case CatalogDomain.FACET_TYPES_ENUM.BOOLEAN:
+                    return (<SelectedBooleanFacetComponent {...selectorProps} />)
+                  case CatalogDomain.FACET_TYPES_ENUM.DATE:
+                    return (<SelectedDateRangeFacetComponent {...selectorProps} />)
+                  case CatalogDomain.FACET_TYPES_ENUM.NUMBER:
+                    return (<SelectedNumberRangeFacetComponent {...selectorProps} />)
+                  case CatalogDomain.FACET_TYPES_ENUM.STRING:
+                    return (<SelectedStringFacetComponent {...selectorProps} />)
+                  default:
+                    throw new Error(`Unknown facet type ${selectedFacetValue.facetType}`)
+                }
+              })
+            }
+          </TableHeaderContentBox>
+        </TableHeaderLine>
+      </ShowableAtRender>
+    )
+  }
+}
+export default SelectedFacetsHeaderRowComponent

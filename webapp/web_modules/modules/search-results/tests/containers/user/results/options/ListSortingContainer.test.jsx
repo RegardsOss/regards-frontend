@@ -18,8 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { CommonDomain } from '@regardsoss/domain'
+import { TableColumnBuilder } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableSortOrders, TableColumnBuilder } from '@regardsoss/components'
 import ListSortingComponent from '../../../../../src/components/user/results/options/ListSortingComponent'
 import { ListSortingContainer } from '../../../../../src/containers/user/results/options/ListSortingContainer'
 import styles from '../../../../../src/styles/styles'
@@ -28,6 +29,7 @@ const context = buildTestContext(styles)
 
 const models = [
   {
+    // TODO no more default sorting
     key: '0', label: { en: 'L3', fr: 'L3' }, visible: true, attributes: [], enableSorting: true, sortOrder: '', defaultSorting: true,
   },
   {
@@ -40,7 +42,7 @@ const models = [
     key: '3', label: { en: 'L4', fr: 'L4' }, visible: true, attributes: [], enableSorting: true, sortOrder: '', defaultSorting: false,
   },
   { // Table options column
-    key: TableColumnBuilder.optionsColumnKey, visible: true, enableSorting: false, sortOrder: TableSortOrders.NO_SORT,
+    key: TableColumnBuilder.optionsColumnKey, visible: true, enableSorting: false, sortOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
   },
 ]
 
@@ -87,7 +89,7 @@ describe('[Search Results] Testing ListSortingContainer', () => {
     const modelsWithSortingOn3 = [...models]
     modelsWithSortingOn3[3] = {
       ...models[3],
-      sortOrder: TableSortOrders.ASCENDING_ORDER,
+      sortOrder: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER,
     }
     const props = {
       presentationModels: modelsWithSortingOn3,
@@ -116,18 +118,18 @@ describe('[Search Results] Testing ListSortingContainer', () => {
     // 2 - add sorting on a model
     const sortingAttribute = props.presentationModels[1]
     enzymeWrapper.instance().onSortBy(sortingAttribute)
-    assert.deepEqual(sortSpy, { key: sortingAttribute.key, order: TableSortOrders.ASCENDING_ORDER }, 'Sort callback should be called to set new attribute as sorting element')
+    assert.deepEqual(sortSpy, { key: sortingAttribute.key, order: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER }, 'Sort callback should be called to set new attribute as sorting element')
     // 3 - change props to clear an existing sorting
     const modelsWithSortingOn3 = [
       ...models.slice(0, -1), {
         ...models[3],
-        sortOrder: TableSortOrders.ASCENDING_ORDER,
+        sortOrder: CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER,
       }]
     enzymeWrapper.setProps({
       ...props,
       presentationModels: modelsWithSortingOn3,
     })
     enzymeWrapper.instance().onSortBy(null)
-    assert.deepEqual(sortSpy, { key: models[3].key, order: TableSortOrders.NO_SORT }, 'Sort callback should be called to remove order on attribute')
+    assert.deepEqual(sortSpy, { key: models[3].key, order: CommonDomain.SORT_ORDERS_ENUM.NO_SORT }, 'Sort callback should be called to remove order on attribute')
   })
 })

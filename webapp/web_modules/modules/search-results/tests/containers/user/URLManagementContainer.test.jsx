@@ -19,10 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CatalogDomain, DamDomain } from '@regardsoss/domain'
+import { CatalogDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { Tag } from '../../../src/models/navigation/Tag'
 import { URLManagementContainer } from '../../../src/containers/user/URLManagementContainer'
-import { TableDisplayModeEnum } from '../../../src/models/navigation/TableDisplayModeEnum'
 
 const context = buildTestContext()
 
@@ -70,10 +69,10 @@ describe('[Search Results] Testing URLManagementContainer', () => {
     const props = {
       isExternallyDriven: false,
       initialViewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      initialTableDisplayMode: TableDisplayModeEnum.LIST,
+      initialResultsViewMode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       displayDatasets: true,
-      tableDisplayMode: TableDisplayModeEnum.LIST,
+      resultsViewMode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
       initialContextTags: [],
       levels: [], // not initialized here, no need
       initialize: testSuiteHelpers.getSuccessDispatchStub({}),
@@ -104,13 +103,13 @@ describe('[Search Results] Testing URLManagementContainer', () => {
       isExternallyDriven: true,
       initialContextLabel: 'any',
       initialViewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      initialTableDisplayMode: TableDisplayModeEnum.LIST,
+      initialResultsViewMode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       displayDatasets: true,
-      tableDisplayMode: TableDisplayModeEnum.LIST,
+      resultsViewMode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
       initialContextTags: [
-        { type: CatalogDomain.TagTypes.WORD, label: 'b1', searchKey: 'c1' },
-        { type: CatalogDomain.TagTypes.WORD, label: 'b2', searchKey: 'c2' }],
+        { type: CatalogDomain.TAG_TYPES_ENUM.WORD, label: 'b1', searchKey: 'c1' },
+        { type: CatalogDomain.TAG_TYPES_ENUM.WORD, label: 'b2', searchKey: 'c2' }],
       levels: [], // not initialized here, no need
       initialize: testSuiteHelpers.getSuccessDispatchStub({}),
       dispatchFetchEntity: testSuiteHelpers.getSuccessDispatchStub({}),
@@ -138,10 +137,10 @@ describe('[Search Results] Testing URLManagementContainer', () => {
       isExternallyDriven: false,
       initialContextLabel: 'any',
       initialViewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      initialTableDisplayMode: TableDisplayModeEnum.LIST,
+      initialResultsViewMode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       displayDatasets: true,
-      tableDisplayMode: TableDisplayModeEnum.LIST,
+      resultsViewMode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
       levels: [], // not initialized here, no need
       initialize: testSuiteHelpers.getSuccessDispatchStub({}),
       dispatchFetchEntity: testSuiteHelpers.getSuccessDispatchStub({}),
@@ -155,9 +154,9 @@ describe('[Search Results] Testing URLManagementContainer', () => {
     enzymeWrapper.setProps({
       ...props,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-      tableDisplayMode: TableDisplayModeEnum.TABLE,
+      resultsViewMode: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
       levels: [
-        new Tag(CatalogDomain.TagTypes.WORD, 'chocolate', 'chocolate'),
+        new Tag(CatalogDomain.TAG_TYPES_ENUM.WORD, 'chocolate', 'chocolate'),
         // remove the dataset level
       ],
     })
@@ -165,7 +164,7 @@ describe('[Search Results] Testing URLManagementContainer', () => {
     assert.isTrue(spiedHistoryReplace.called, 'URL should be update on navigation context changes')
     assert.equal(spiedHistoryReplace.pathname, 'hello/world', 'The URL path should not change')
     assert.equal(spiedHistoryReplace.query[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER], DamDomain.ENTITY_TYPES_ENUM.DATASET, 'The object view type should be updated (from properties)')
-    assert.equal(spiedHistoryReplace.query[URLManagementContainer.ModuleURLParameters.TABLE_DISPLAY_MODE_PARAMETER], TableDisplayModeEnum.TABLE, 'The view mode should be updated (from properties)')
+    assert.equal(spiedHistoryReplace.query[URLManagementContainer.ModuleURLParameters.TABLE_DISPLAY_MODE_PARAMETER], UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE, 'The view mode should be updated (from properties)')
     assert.equal(spiedHistoryReplace.query[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER], 'chocolate', 'The new tag should should be updated (from properties)')
   })
 })

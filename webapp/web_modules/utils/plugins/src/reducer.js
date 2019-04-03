@@ -33,5 +33,5 @@ export default combineReducers({
   loadedPlugins: LoadPluginReducer,
   plugins: uiPluginDefinitionReducers,
   initializedPlugins: initializePluginReducer,
-  state: pluginStateReducer,
+  searchCriteria: pluginStateReducer,
 })

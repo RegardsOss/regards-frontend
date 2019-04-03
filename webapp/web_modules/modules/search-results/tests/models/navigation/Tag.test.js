@@ -17,14 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { assert } from 'chai'
-import { TagTypes } from '@regardsoss/domain/catalog'
+import { TAG_TYPES_ENUM } from '@regardsoss/domain/catalog'
 import { Tag } from '../../../src/models/navigation/Tag'
 
 
 const tags = [
-  new Tag(TagTypes.COLLECTION, 'a collection', 'URN:COLLECTION:1'),
-  new Tag(TagTypes.DATASET, 'a dataset', 'URN:DATASET:1'),
-  new Tag(TagTypes.WORD, 'a word', 'a word'),
+  new Tag(TAG_TYPES_ENUM.COLLECTION, 'a collection', 'URN:COLLECTION:1'),
+  new Tag(TAG_TYPES_ENUM.DATASET, 'a dataset', 'URN:DATASET:1'),
+  new Tag(TAG_TYPES_ENUM.WORD, 'a word', 'a word'),
 ]
 
 const paramValue = 'URN:COLLECTION:1,URN:DATASET:1,a word'

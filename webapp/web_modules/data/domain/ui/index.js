@@ -24,4 +24,6 @@ export {
   MODULE_PANE_DISPLAY_MODES_ENUM, MODULE_PANE_DISPLAY_MODES, isModulePaneExpanded, isModulePaneExpansible,
 } from './ModulePaneDisplayModes'
 export { PRESENTATION_STATE_ENUM, PRESENTATION_STATE } from './ModulePresentationState'
+export { default as ResultsContextConstants } from './ResultsContextConstants'
+export { RESULTS_VIEW_MODES_ENUM, RESULTS_VIEW_MODES } from './ResultsViewModeEnum'
 export { getAdminURL, getModuleURL, getModuleDefaultIconURL } from './URLHelper'

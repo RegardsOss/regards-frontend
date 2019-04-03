@@ -96,12 +96,8 @@ const styles = theme => ({
           padding: '8px 8px',
           color: theme.palette.textColor,
         },
-        optionsBarHorizontalStyles: {
+        optionsBarStyles: {
           display: 'flex',
-        },
-        optionsBarVerticalStyles: {
-          display: 'flex',
-          flexDirection: 'column',
         },
         option: {
           buttonStyles: {
@@ -159,8 +155,37 @@ const styles = theme => ({
         padding: '5px 0px 10px 10px',
       },
     },
-    galleryViewStyles: {
-      descriptionContainer: {
+    quicklookViewStyles: {
+      imageStyle: {
+        maxWidth: '100%',
+      },
+      imageAndOptionsContainer: {
+        display: 'flex',
+      },
+      quicklookContainerStyle: {
+        cursor: 'zoom-in',
+      },
+      iconStyle: {
+        width: '50%',
+        height: '50%',
+        margin: 'auto',
+      },
+      optionsBarStyles: {
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      option: {
+        buttonStyles: {
+          width: 32,
+          height: 32,
+          padding: 4,
+        },
+        iconStyles: {
+          width: 24,
+          height: 24,
+        },
+      },
+      attributesContainer: {
         padding: '0 5px',
       },
     },

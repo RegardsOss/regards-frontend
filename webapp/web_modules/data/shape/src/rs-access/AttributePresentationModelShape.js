@@ -25,25 +25,14 @@ import { AttributeModel } from '../rs-dam/AttributeModel'
  * @author Raphaël Mechali
  */
 export const AttributePresentationModel = PropTypes.shape({
-  // The key used to refer to this model
-  key: PropTypes.string.isRequired,
-  // internationalized label for presentation
-  label: PropTypes.shape({
-    en: PropTypes.string.isRequired,
-    fr: PropTypes.string.isRequired,
-  }),
-  // visible: should this column be currently displayed?
-  visible: PropTypes.bool.isRequired,
-  // list (maybe a single element) of attributes to show in this column
-  attributes: PropTypes.arrayOf(AttributeModel).isRequired,
-  // enable sorting on column?
-  enableSorting: PropTypes.bool.isRequired,
+  
   // Is that attribute currently used for sorting? Note: string value, to allow any custom type of sorting
   sortOrder: PropTypes.string,
   // Optional sort index when in multi sorting
   sortIndex: PropTypes.number,
-  // Is this presentation model attribute used for default results sorting?
-  defaultSorting: PropTypes.bool.isRequired,
 })
+
+// TODO: delete me, I am no longer used!
+
 
 export const AttributePresentationModelArray = PropTypes.arrayOf(AttributePresentationModel)

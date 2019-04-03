@@ -19,13 +19,12 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DamDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { DescriptionProviderContainer } from '@regardsoss/entities-common'
 import { SearchResultsContainer } from '../../../../src/containers/user/results/SearchResultsContainer'
 import PluginServicesContainer from '../../../../src/containers/user/results/PluginServicesContainer'
 import OrderCartContainer from '../../../../src/containers/user/results/OrderCartContainer'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
-import { TableDisplayModeEnum } from '../../../../src/models/navigation/TableDisplayModeEnum'
 import styles from '../../../../src/styles/styles'
 import { DISPLAY_MODE_VALUES } from '../../../../src/definitions/DisplayModeEnum'
 
@@ -55,14 +54,14 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
       loadedResultsCount: 20,
       resultsCount: 22,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      tableDisplayMode: TableDisplayModeEnum.LIST,
+      resultsViewMode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
       levels: [],
       enableDownload: true,
       displayMode: DISPLAY_MODE_VALUES.DISPLAY_DATA_DATASET,
       projectName: 'project1',
       accessToken: 'abcdef....',
       dispatchChangeViewObjectType: () => { },
-      dispatchChangeTableDisplayMode: () => { },
+      dispatchChangeResultsViewMode: () => { },
       dispatchSetEntityAsTag: () => { },
       dispatchAddSearchTag: () => { },
 

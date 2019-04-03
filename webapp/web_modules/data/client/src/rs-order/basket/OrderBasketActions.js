@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isArray from 'lodash/isArray'
+import reduce from 'lodash/reduce'
 import { BasicSignalActions, RequestVerbEnum } from '@regardsoss/store-utils'
 import { CatalogDomain } from '@regardsoss/domain'
 
@@ -81,23 +83,52 @@ class OrderBasketActions {
    * Returns action to add entities ID or Open search request results (excluding entities IDs) in basket
    * @param {[string]} entityIdsToInclude ids of entities to include in requests results
    * @param {[string]} entityIdsToExclude ids of entities to exclude in requests results
-   * @param {string} searchParameters open search parameters, restricting current result (works with entities to exclude)
+   * @param {{*}} uiSearchParameters UI open search parameters, respects RequestParameters shape.
    * @param {string} datasetUrn dataset ID to specify search on a specific dataset
    * @return {type:string, ...} redux action (redux API middleware compatible) to add elements or request to the basket
    */
-  addToBasket(entityIdsToInclude = null, entityIdsToExclude = null, searchParameters = {}, datasetUrn = null) {
+  addToBasket(entityIdsToInclude = null, entityIdsToExclude = null, uiSearchParameters = {}, datasetUrn = null) {
+    // Prepare parameter applying to selection
+    let searchParameters = null
+    if (entityIdsToInclude && entityIdsToInclude.length) {
+      searchParameters = {
+        q: null,
+      }
+    } else {
+      searchParameters = {
+        ...reduce(uiSearchParameters, ((acc, value, key) => {
+          // keep parameters only when they are filtering results (avoid reporting sort, facets requests,... that are time consuming
+          // and do not change the results set)
+          if (CatalogDomain.CatalogSearchQueryHelper.RESULTS_FILTERING_PARAMETERS.includes(key)) {
+            // that parameter must be kept. If it has mustiple values,  keep only first one
+            let parameterValue = null
+            if (isArray(value)) {
+              if (value.length >= 1) {
+                parameterValue = value[0]
+              } // else : do not add that parameter in request as is empty
+            } else {
+              parameterValue = value
+            }
+            if (parameterValue) {
+              return {
+                ...acc,
+                [key]: parameterValue,
+              }
+            }
+          }
+          return acc
+        }, {})),
+        q: [uiSearchParameters.q || ''], // q is expected to be an array ('' indicates that query matches ALL, when user filtered nothing)
+      }
+    }
+
     return this.selectionDelegate.sendSignal(RequestVerbEnum.POST, {
       // set engine type
       engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
       datasetUrn,
       entityIdsToInclude,
       entityIdsToExclude,
-      // add search query (q is a queries list) when it is defined, do not provide it otherwise
-      searchParameters: {
-        ...searchParameters,
-        // provide OpenSearchQuery as an array of queries, when not in inclusive mode
-        q: entityIdsToInclude && entityIdsToInclude.length ? null : [searchParameters.q || ''],
-      },
+      searchParameters,
     })
   }
 

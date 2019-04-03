@@ -17,11 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { assert } from 'chai'
-import { TagTypes } from '@regardsoss/domain/catalog'
+import { UIDomain } from '@regardsoss/domain'
+import { TAG_TYPES_ENUM } from '@regardsoss/domain/catalog'
 import { Tag } from '../../../src/models/navigation/Tag'
 import navigationContextActions from '../../../src/models/navigation/NavigationContextActions'
 import reduce, { DEFAULT_STATE } from '../../../src/models/navigation/NavigationContextReducer'
-import { TableDisplayModeEnum } from '../../../src/models/navigation/TableDisplayModeEnum'
 
 
 describe('[Search Results] Test navigation context reducer', () => {
@@ -38,10 +38,10 @@ describe('[Search Results] Test navigation context reducer', () => {
   it('should reduce initialization navigation context and levels', () => {
     // 1 - without any optional information
     let currentState = DEFAULT_STATE
-    let reduced = reduce(currentState, navigationContextActions.initialize('aType', TableDisplayModeEnum.LIST))
+    let reduced = reduce(currentState, navigationContextActions.initialize('aType', UIDomain.RESULTS_VIEW_MODES_ENUM.LIST))
     let expected = {
       viewObjectType: 'aType',
-      displayMode: TableDisplayModeEnum.LIST,
+      displayMode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
       initialLevels: [],
       levels: [],
     }
@@ -50,14 +50,14 @@ describe('[Search Results] Test navigation context reducer', () => {
     // 2 - with option informations and a previous context (to verify it is context independent)
     currentState = expected
     const initialTags = [
-      new Tag(TagTypes.DATASET, 'label1', 'URN:ip1'),
-      new Tag(TagTypes.WORD, 'fries', 'fries'),
+      new Tag(TAG_TYPES_ENUM.DATASET, 'label1', 'URN:ip1'),
+      new Tag(TAG_TYPES_ENUM.WORD, 'fries', 'fries'),
     ]
-    const tag = new Tag(TagTypes.WORD, 'one more tag', 'on more tag')
-    reduced = reduce(currentState, navigationContextActions.initialize('anotherType', TableDisplayModeEnum.LIST, initialTags, [tag]))
+    const tag = new Tag(TAG_TYPES_ENUM.WORD, 'one more tag', 'on more tag')
+    reduced = reduce(currentState, navigationContextActions.initialize('anotherType', UIDomain.RESULTS_VIEW_MODES_ENUM.LIST, initialTags, [tag]))
     expected = {
       viewObjectType: 'anotherType',
-      displayMode: TableDisplayModeEnum.LIST,
+      displayMode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
       initialLevels: initialTags,
       levels: [...initialTags, tag],
     }
@@ -80,7 +80,7 @@ describe('[Search Results] Test navigation context reducer', () => {
     let currentState = {
       ...DEFAULT_STATE,
     }
-    const tag1 = new Tag(TagTypes.DATASET, 'label1', 'URN:ip1')
+    const tag1 = new Tag(TAG_TYPES_ENUM.DATASET, 'label1', 'URN:ip1')
     let reduced = reduce(currentState, navigationContextActions.addSearchTag(tag1))
     let expected = {
       ...DEFAULT_STATE,
@@ -89,7 +89,7 @@ describe('[Search Results] Test navigation context reducer', () => {
     assert.deepEqual(reduced, expected, 'Change search tags should be correctly reduced in default navigation context')
 
     // also verify a search tag replaces the current search tag and following context
-    const tag2 = new Tag(TagTypes.WORD, 'fries', 'fries')
+    const tag2 = new Tag(TAG_TYPES_ENUM.WORD, 'fries', 'fries')
     currentState = reduced
     reduced = reduce(currentState, navigationContextActions.addSearchTag(tag2))
     expected = {
@@ -105,8 +105,8 @@ describe('[Search Results] Test navigation context reducer', () => {
       ...DEFAULT_STATE,
       levels: [],
     }
-    const tag1 = new Tag(TagTypes.DATASET, 'a label1', 'URN:DS1')
-    let reduced = reduce(currentState, navigationContextActions.addSearchTag(new Tag(TagTypes.DATASET, 'a label1', 'URN:DS1')))
+    const tag1 = new Tag(TAG_TYPES_ENUM.DATASET, 'a label1', 'URN:DS1')
+    let reduced = reduce(currentState, navigationContextActions.addSearchTag(new Tag(TAG_TYPES_ENUM.DATASET, 'a label1', 'URN:DS1')))
     let expected = {
       ...DEFAULT_STATE,
       levels: [tag1],
@@ -114,7 +114,7 @@ describe('[Search Results] Test navigation context reducer', () => {
     assert.deepEqual(reduced, expected, 'Change dataset should be correctly reduced in default navigation context')
 
     currentState = reduced
-    reduced = reduce(currentState, navigationContextActions.addSearchTag(new Tag(TagTypes.DATASET, 'another label1', 'URN:DS1')))
+    reduced = reduce(currentState, navigationContextActions.addSearchTag(new Tag(TAG_TYPES_ENUM.DATASET, 'another label1', 'URN:DS1')))
     expected = {
       ...DEFAULT_STATE,
       levels: [tag1], // the second tag should be ignored as only the label differs
@@ -123,7 +123,7 @@ describe('[Search Results] Test navigation context reducer', () => {
 
     // verify another tag can still be added
     currentState = reduced
-    const tag2 = new Tag(TagTypes.DATASET, 'a label1', 'URN:DS2') // a different URN means a different object
+    const tag2 = new Tag(TAG_TYPES_ENUM.DATASET, 'a label1', 'URN:DS2') // a different URN means a different object
     reduced = reduce(currentState, navigationContextActions.addSearchTag(tag2))
     expected = {
       ...DEFAULT_STATE,
@@ -144,8 +144,8 @@ describe('[Search Results] Test navigation context reducer', () => {
       levels: [],
     }
     assert.deepEqual(reduced, expected, 'Goto last index should keep the state unchanged (1)')
-    const t1 = new Tag(TagTypes.DATASET, 'label1', 'URN:ip1')
-    const t2 = new Tag(TagTypes.WORD, 'fries', 'fries')
+    const t1 = new Tag(TAG_TYPES_ENUM.DATASET, 'label1', 'URN:ip1')
+    const t2 = new Tag(TAG_TYPES_ENUM.WORD, 'fries', 'fries')
     currentState = {
       ...DEFAULT_STATE,
       levels: [t1, t2],
@@ -179,8 +179,8 @@ describe('[Search Results] Test navigation context reducer', () => {
       ...DEFAULT_STATE,
     }
     const initialTags = [
-      new Tag(TagTypes.DATASET, 'label1', 'URN:ip1'),
-      new Tag(TagTypes.WORD, 'fries', 'fries'),
+      new Tag(TAG_TYPES_ENUM.DATASET, 'label1', 'URN:ip1'),
+      new Tag(TAG_TYPES_ENUM.WORD, 'fries', 'fries'),
     ]
     let reduced = reduce(currentState, navigationContextActions.initialize('a', 'b', initialTags))
     let expected = {
@@ -192,13 +192,13 @@ describe('[Search Results] Test navigation context reducer', () => {
     assert.deepEqual(reduced, expected, 'Initialization should be performed correctly')
     // 1 - test adding an already known tag from initial tags
     currentState = reduced
-    reduced = reduce(currentState, navigationContextActions.addSearchTag(new Tag(TagTypes.DATASET, 'label1', 'URN:ip1')))
+    reduced = reduce(currentState, navigationContextActions.addSearchTag(new Tag(TAG_TYPES_ENUM.DATASET, 'label1', 'URN:ip1')))
     expected = currentState
     assert.deepEqual(reduced, expected, 'Adding a known initial tag should be rejected')
 
     // 2 - Add some levels that can be added and verify we can remove them BUT NOT the initial context tags
-    const userAddedTag1 = new Tag(TagTypes.COLLECTION, 'col1', 'URN:COL:ip1')
-    const userAddedTag2 = new Tag(TagTypes.COLLECTION, 'col2', 'URN:COL:ip2')
+    const userAddedTag1 = new Tag(TAG_TYPES_ENUM.COLLECTION, 'col1', 'URN:COL:ip1')
+    const userAddedTag2 = new Tag(TAG_TYPES_ENUM.COLLECTION, 'col2', 'URN:COL:ip2')
     reduced = reduce(
       reduce(currentState, navigationContextActions.addSearchTag(userAddedTag1)),
       navigationContextActions.addSearchTag(userAddedTag2))

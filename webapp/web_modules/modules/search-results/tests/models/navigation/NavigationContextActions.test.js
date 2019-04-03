@@ -19,7 +19,7 @@
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { assert } from 'chai'
-import { TagTypes } from '@regardsoss/domain/catalog'
+import { TAG_TYPES_ENUM } from '@regardsoss/domain/catalog'
 import { Tag } from '../../../src/models/navigation/Tag'
 import navigationContextActions from '../../../src/models/navigation/NavigationContextActions'
 
@@ -36,7 +36,7 @@ function dispatchAndCheck(action, expectedAction, store) {
 
 describe('[Search Results] Test navigation context actions', () => {
   it('It should dispatch state initialization (from URL)', () => {
-    const tags = [new Tag(TagTypes.WORD, 'fries', 'fries')]
+    const tags = [new Tag(TAG_TYPES_ENUM.WORD, 'fries', 'fries')]
     const expectedAction = {
       type: navigationContextActions.INITIALIZE,
       viewObjectType: 'any1',
@@ -47,7 +47,7 @@ describe('[Search Results] Test navigation context actions', () => {
     dispatchAndCheck(navigationContextActions.initialize('any1', 'any2', [], tags), expectedAction, buildMockStore({}))
   })
   it('It should dispatch state initialization (externally driven)', () => {
-    const initialTags = [new Tag(TagTypes.WORD, 'fries', 'fries')]
+    const initialTags = [new Tag(TAG_TYPES_ENUM.WORD, 'fries', 'fries')]
     const expectedAction = {
       type: navigationContextActions.INITIALIZE,
       viewObjectType: 'any1',
@@ -59,7 +59,7 @@ describe('[Search Results] Test navigation context actions', () => {
   })
 
   it('It should dispatch search tag add', () => {
-    const tag = new Tag(TagTypes.DATASET, 'The fries dataset', 'URN:ip1')
+    const tag = new Tag(TAG_TYPES_ENUM.DATASET, 'The fries dataset', 'URN:ip1')
     const expectedAction = {
       type: navigationContextActions.ADD_SEARCH_TAG,
       tag,
