@@ -3,7 +3,10 @@
   "description": "Criteria test",
   "version": "1.0.0",
   "author": "Binda sebastien",
-  "company": "CS-SI",
+  "company": "CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
   "type": "CRITERIA",
   "conf": {
     "attributes": [

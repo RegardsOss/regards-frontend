@@ -50,6 +50,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
       backURL: '#test',
       setFilters: () => { },
       onRefresh: () => { },
+      onFilter: () => { },
     }
 
     const enzymeWrapper = shallow(<AccessRightListComponent {...props} />, { context, lifecycleExperimental: true })
