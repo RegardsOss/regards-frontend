@@ -23,8 +23,7 @@ import { resultsContextActions } from '../../../../../clients/ResultsContextClie
 import ToggleOnlyQuicklookComponent from '../../../../../components/user/results/header/options/ToggleOnlyQuicklookComponent'
 
 /**
- * Container to toggle on/off filtering ot elements with quicklook only. It should be mounted only in modes that allow (and enforce)
- * the corresponding criterion (MAP / QUICKLOOK)
+ * Container to toggle on/off filtering ot elements with quicklook only.
  *
  * @author Raphaël Mechali
  */
@@ -60,20 +59,10 @@ export class ToggleOnlyQuicklookContainer extends React.Component {
    * User callback: toggle filters on / off
    */
   onQuicklookOnlyToggled = () => {
-    const { resultsContext: { type, typeState }, moduleId, updateResultsContext } = this.props
-    const currentTypeState = typeState[type]
+    const { moduleId, updateResultsContext } = this.props
     const stateDiff = {
-      typeState: {
-        [type]: {
-          modeState: {
-            [currentTypeState.mode]: {
-              criteria: {
-                // toggle on off the filter by adding it or removing it in list
-                quicklookFiltering: this.isFilteringOnlyQuicklook() ? [] : [ToggleOnlyQuicklookContainer.ONLY_QUICKLOOK_CRITERION],
-              },
-            },
-          },
-        },
+      criteria: {
+        quicklookFiltering: this.isFilteringOnlyQuicklook() ? [] : [ToggleOnlyQuicklookContainer.ONLY_QUICKLOOK_CRITERION],
       },
     }
     updateResultsContext(moduleId, stateDiff)
@@ -83,9 +72,8 @@ export class ToggleOnlyQuicklookContainer extends React.Component {
    * @return {boolean} true if currently filtering only quicklooks
    */
   isFilteringOnlyQuicklook = () => {
-    const { resultsContext: { type, typeState } } = this.props
-    const currentTypeState = typeState[type]
-    return currentTypeState.modeState[currentTypeState.mode].criteria.quicklookFiltering.includes(ToggleOnlyQuicklookContainer.ONLY_QUICKLOOK_CRITERION)
+    const { resultsContext: { criteria: { quicklookFiltering } } } = this.props
+    return quicklookFiltering.includes(ToggleOnlyQuicklookContainer.ONLY_QUICKLOOK_CRITERION)
   }
 
   render() {

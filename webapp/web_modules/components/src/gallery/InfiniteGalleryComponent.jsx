@@ -80,7 +80,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
    * Is page visible?
    * @param {*} start page start (pixels)
    * @param {*} stop page stop (pixels)
-   * @param {*} top current scrollTop
+   * @param {*} top current scrollBottom
    * @param {*} viewableHeight current view height
    * @param {boolean} true if page is visible
    */
@@ -109,7 +109,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
 
   /** Component will mount: used here to initialize inner layout variables */
   componentWillMount() {
-    this.scrollTop = 0
+    this.scrollBottom = 0
   }
 
   /**
@@ -138,7 +138,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     if (!this.node) {
       return
     }
-    this.scrollTop = get(scrollEvent, 'topPosition', 0)
+    this.scrollBottom = get(scrollEvent, 'topPosition', 0) + get(scrollEvent, 'containerHeight', 0)
     this.onScrollUpdate()
   }
 
@@ -447,7 +447,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
         ...page,
         start,
         stop,
-        visible: InfiniteGalleryComponent.isPageVisible(start, stop, this.scrollTop, viewableHeight),
+        visible: InfiniteGalleryComponent.isPageVisible(start, stop, this.scrollBottom, viewableHeight),
       }
     })
 
@@ -478,7 +478,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     let isChanged = false
     const pages = this.state.pages.map((page) => {
       const visible = InfiniteGalleryComponent.isPageVisible(
-        page.start, page.stop, this.scrollTop, this.props.height)
+        page.start, page.stop, this.scrollBottom, this.props.height)
 
       isChanged = isChanged || page.visible !== visible
 
@@ -499,8 +499,14 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
    * @param {*} bounds component bounds
    */
   checkInfiniteLoad(bounds) {
+    const { items } = this.props
+    if (!items || !items.length) {
+      // Initialization case, just ignore bounds check
+      return
+    }
     const contentHeight = this.node.getBoundingClientRect().height
-    if (this.scrollTop >= contentHeight * this.props.threshold) {
+    // Update when content height > 0 (initialization of graphics constraints not respected)
+    if (!!contentHeight && this.scrollBottom >= contentHeight * this.props.threshold) {
       this.props.onInfiniteLoad()
     }
   }

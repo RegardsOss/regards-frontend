@@ -158,6 +158,11 @@ const messages = {
   'search.facets.filter.chip.number.value': '{facetLabel} = {value}',
   'search.facets.filter.menu.word.value': '{word} ({count})',
   'search.facets.filter.chip.word.value': '{facetLabel} = {word}',
+  'search.filter.geometry.label': 'Area',
+  'search.filter.entities.selection.label': 'Entities ({count})',
+
+  'results.map.tools.tooltip.for.PICK_ON_CLICK': 'Pick entities',
+  'results.map.tools.tooltip.for.DRAW_RECTANGLE': 'Draw search area',
 }
 
 export default messages

@@ -29,7 +29,7 @@ import { PresentationHelper } from '../../../../definitions/PresentationHelper'
  * Container for search results list component. Converts current model into list render data to enhance render performances
  * @author Raphaël Mechali
  */
-export class SearchResultsListContainer extends React.Component {
+export class ListViewContainer extends React.Component {
   static propTypes = {
     resultsContext: UIShapes.ResultsContext.isRequired,
     requestParameters: CommonShapes.RequestParameters.isRequired,
@@ -64,7 +64,7 @@ export class SearchResultsListContainer extends React.Component {
    */
   static buildThumbnailRenderData(presentationModels) {
     const model = presentationModels.find(
-      m => SearchResultsListContainer.isAttribute(m, DamDomain.AttributeModelController.standardAttributesKeys.thumbnail))
+      m => ListViewContainer.isAttribute(m, DamDomain.AttributeModelController.standardAttributesKeys.thumbnail))
     return model ? {
       key: model.key,
       renderers: AttributeColumnBuilder.buildThumbnailDelegates(model.attributes[0]),
@@ -79,7 +79,7 @@ export class SearchResultsListContainer extends React.Component {
   static buildGridAttributesRenderData(presentationModels) {
     // 1 - keep attributes in configured order, but extract thumbnail attribute, to be displayed separately
     return presentationModels.filter(
-      model => !SearchResultsListContainer.isAttribute(model, DamDomain.AttributeModelController.standardAttributesKeys.thumbnail))
+      model => !ListViewContainer.isAttribute(model, DamDomain.AttributeModelController.standardAttributesKeys.thumbnail))
       // 2 - pack attribute for render
       .map(model => ({
         key: model.key,
@@ -119,13 +119,13 @@ export class SearchResultsListContainer extends React.Component {
 
     // when view type changed, check if selection should be allowed
     if (!isEqual(newType, oldType)) {
-      newState.enableSelection = PresentationHelper.SELECTION_ALLOWED_TYPES.includes(newType)
+      newState.enableSelection = UIDomain.ResultsContextConstants.allowSelection(newType, UIDomain.RESULTS_VIEW_MODES_ENUM.LIST)
     }
 
     // when presentation models changed, remerge into pre-built presentation models (pre-computed to avoid consuming render time)
     if (!isEqual(newPresentationModels, oldPresentationModels)) {
-      newState.thumbnailRenderData = SearchResultsListContainer.buildThumbnailRenderData(newPresentationModels)
-      newState.gridAttributesRenderData = SearchResultsListContainer.buildGridAttributesRenderData(newPresentationModels)
+      newState.thumbnailRenderData = ListViewContainer.buildThumbnailRenderData(newPresentationModels)
+      newState.gridAttributesRenderData = ListViewContainer.buildGridAttributesRenderData(newPresentationModels)
     }
 
     // update on state changed
@@ -171,4 +171,4 @@ export class SearchResultsListContainer extends React.Component {
     )
   }
 }
-export default SearchResultsListContainer
+export default ListViewContainer

@@ -22,7 +22,7 @@ import MessageIcon from 'material-ui/svg-icons/action/info-outline'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DropDownButton } from '@regardsoss/components'
-import { UIFacet } from '../../../../../../shapes/facets/FacetShape'
+import { UIFacet } from '../../../../../shapes/facets/FacetShape'
 
 /**
  * Facet selector abstraction (to be used as delegate by all facet type selectors)

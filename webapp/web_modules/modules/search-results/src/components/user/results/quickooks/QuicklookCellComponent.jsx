@@ -34,7 +34,7 @@ import EntityDescriptionComponent from '../common/options/EntityDescriptionCompo
 import AddElementToCartContainer from '../../../../containers/user/results/common/options/AddElementToCartContainer'
 import DownloadEntityFileComponent from '../common/options/DownloadEntityFileComponent'
 
-const specificCellPropertiesFields = {
+export const specificCellPropertiesFields = {
   presentationModels: PropTypes.arrayOf(UIShapes.AttributePresentationModel).isRequired,
   // Services management
   enableServices: PropTypes.bool.isRequired,
@@ -47,6 +47,13 @@ const specificCellPropertiesFields = {
   projectName: PropTypes.string.isRequired,
   // Basket management
   onAddElementToCart: PropTypes.func, // used in onPropertiesUpdated
+  // Embed in map control
+  embedInMap: PropTypes.bool,
+  mapThumbnailHeight: PropTypes.number,
+  // Pure component restrictions: provide locale as context
+  locale: PropTypes.string.isRequired,
+  // Note: current theme should also be provided to ensure redraw is done on theme change, but it is not
+  // consumed by this component
 }
 
 
@@ -70,6 +77,7 @@ class QuicklookCellComponent extends React.PureComponent {
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
     // specific cell properties
     ...specificCellPropertiesFields,
+    // locale and theme should be added, also this component do not use them, to force re-render on context change
   }
 
   static contextTypes = {
@@ -93,10 +101,26 @@ class QuicklookCellComponent extends React.PureComponent {
     const hasIssueWithImage = !has(props, 'content.files.QUICKLOOK_SD[0].imageWidth') || !has(props, 'content.files.QUICKLOOK_SD[0].imageHeight')
 
     if (hasImage && !hasIssueWithImage) {
-      const height = props.content.files.QUICKLOOK_SD[0].imageHeight
-      const width = props.content.files.QUICKLOOK_SD[0].imageWidth
-      return Math.ceil(((gridWidth / width) * height) + footerHeight)
+      // A - There is a valid picture
+      let imageHeight
+      if (itemProps.embedInMap) {
+        // A.1 - in map mode, use thumbnail height directly
+        imageHeight = itemProps.mapThumbnailHeight
+      } else {
+        // A.2 - in default mode, compute height to preserve picture ratiuo
+        const height = props.content.files.QUICKLOOK_SD[0].imageHeight
+        const width = props.content.files.QUICKLOOK_SD[0].imageWidth
+        imageHeight = Math.ceil((gridWidth / width) * height)
+      }
+
+      return imageHeight + footerHeight
     }
+    // B - No picture
+    if (itemProps.embedInMap) {
+      // B.1 - On map
+      return itemProps.mapThumbnailHeight
+    }
+    // B - 2 in quicklooks: simply consume space for icons
     return (gridWidth * 7 / 10) + footerHeight + 15
   }
 
@@ -170,11 +194,21 @@ class QuicklookCellComponent extends React.PureComponent {
       entity, presentationModels, enableServices,
       enableDownload, accessToken, projectName,
       descriptionAvailable, onAddElementToCart,
+      embedInMap, locale,
     } = this.props
+    const {
+      quicklookViewStyles,
+      mapViewStyles: { quicklookImage },
+
+    } = this.context.moduleTheme.user
+
     const {
       imageStyle, imageAndOptionsContainer, quicklookContainerStyle,
       attributesContainer, optionsBarStyles, option,
-    } = this.context.moduleTheme.user.quicklookViewStyles
+    } = quicklookViewStyles
+    // select the actual image style
+    const actualImageStyle = embedInMap ? quicklookImage : imageStyle
+
     const hasImage = has(entity, 'content.files.QUICKLOOK_SD[0]')
     const hasIssueWithImage = !has(entity, 'content.files.QUICKLOOK_SD[0].imageWidth') || !has(entity, 'content.files.QUICKLOOK_SD[0].imageHeight')
     return (
@@ -185,26 +219,25 @@ class QuicklookCellComponent extends React.PureComponent {
           style={imageAndOptionsContainer}
         >
           { /** 1.a Render image or icon to replace it */
-            <CardMedia>
+            <div style={hasImage ? quicklookContainerStyle : null}>
               { /** IIFE to handle multiple possibilities */
                 (() => {
                   if (!hasImage) {
-                    return <div><ImageOff style={iconStyle} /></div>
+                    return <ImageOff style={iconStyle} />
                   } if (hasIssueWithImage) {
-                    return <div><ImageBroken style={iconStyle} /></div>
+                    return <ImageBroken style={iconStyle} />
                   }
                   return (
-                    <div style={quicklookContainerStyle}>
-                      <img
-                        src={URLAuthInjector(entity.content.files.QUICKLOOK_SD[0].uri, accessToken, projectName)}
-                        alt=""
-                        style={imageStyle}
-                        onClick={descriptionAvailable ? this.onShowDescription : null}
-                      />
-                    </div>)
+                    <img
+                      src={URLAuthInjector(entity.content.files.QUICKLOOK_SD[0].uri, accessToken, projectName)}
+                      alt=""
+                      style={actualImageStyle}
+                      onClick={descriptionAvailable ? this.onShowDescription : null}
+                    />
+                  )
                 })()
               }
-            </CardMedia>
+            </div>
           }
           { /** 1.b Render options bar on right */ }
           <div style={optionsBarStyles}>
@@ -255,6 +288,7 @@ class QuicklookCellComponent extends React.PureComponent {
             <QuicklookCellAttributesComponent
               presentationModels={presentationModels}
               entity={entity}
+              locale={locale}
             />
           </CardText>
         </ShowableAtRender>

@@ -209,7 +209,7 @@ export class PluginServicesContainer extends React.Component {
     const newState = { ...(this.state || PluginServicesContainer.DEFAULT_STATE) }
 
     // A - dataset tag or context changed, component was mounted or user rights changed, update global services
-    if (oldProps.restrictedDatasetsIds !== newProps.restrictedDatasetsIds
+    if (!isEqual(oldProps.restrictedDatasetsIds, newProps.restrictedDatasetsIds)
       || !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
       // 1 - compute the list of dataset IDs to provide
       let datasetIds = null

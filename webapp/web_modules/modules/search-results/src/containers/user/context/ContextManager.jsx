@@ -280,11 +280,10 @@ export class ContextManager extends React.Component {
   }
 
   render() {
-    const { children, resultsContext } = this.props
+    const { children } = this.props
     const { initialized } = this.state
     // render only when initialized to block sub element requests
     if (initialized) {
-      console.error('I will render with', resultsContext) // TODO delete!
       return HOCUtils.renderChildren(children)
     }
     return null

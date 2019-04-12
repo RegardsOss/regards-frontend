@@ -43,12 +43,15 @@ export const QuicklookGraphicsConfiguration = PropTypes.shape({
 /** Quicklook view */
 export const QuicklookViewConfiguration = PropTypes.shape({
   ...commonViewFields,
-  graphicsConfiguration: QuicklookGraphicsConfiguration,
 })
 
 /** Map view */
 export const MapViewConfiguration = PropTypes.shape({
   ...commonViewFields,
+  backgroundLayer: PropTypes.shape({ // mandatory but cannot be granted when starting new module edition
+    url: PropTypes.string,
+    type: PropTypes.string, // TODO from enum
+  }),
   // TODO other map parameters (later in PM)
 })
 

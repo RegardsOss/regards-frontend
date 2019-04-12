@@ -36,7 +36,7 @@ const commonCriterionFields = {
 }
 
 /** An external query search criterion, as emitted by search form for instance */
-const BasicCriterion = PropTypes.shape({
+export const BasicCriterion = PropTypes.shape({
   ...commonCriterionFields,
 })
 
@@ -103,6 +103,16 @@ export const TagCriterion = PropTypes.shape({
 
 /** A geometry criterion */
 export const GeometryCriterion = PropTypes.shape({
+  // area points (as coordinates array)
+  point1: PropTypes.arrayOf(PropTypes.number).isRequired,
+  point2: PropTypes.arrayOf(PropTypes.number).isRequired,
+  // request
+  ...commonCriterionFields,
+})
+
+/** An entities selection criterion */
+export const EntitiesSelectionCriterion = PropTypes.shape({
+  entitiesCount: PropTypes.number.isRequired,
   ...commonCriterionFields,
 })
 
@@ -170,7 +180,6 @@ export const FunctionalPresentationModel = PropTypes.shape({
 export const commonViewStateFields = {
   enabled: PropTypes.bool.isRequired,
   enableSelection: PropTypes.bool.isRequired,
-  criteria: getCriteriaWithFieldsValidator(), // Free fields allowed for external controllers
 }
 
 /**
@@ -197,16 +206,6 @@ const TableViewModeState = {
 const QuicklookViewModeState = PropTypes.shape({
   ...commonViewStateFields,
   presentationModels: PropTypes.arrayOf(AttributePresentationModel).isRequired,
-  // quicklooks graphics configuration
-  graphicsConfiguration: PropTypes.shape({
-    quicklookColumnWidth: PropTypes.number,
-    quicklookColumnGutter: PropTypes.number,
-  }),
-  // Override criteria to force quicklook specific filter presence
-  criteria: getCriteriaWithFieldsValidator(
-    PropTypes.shape({
-      quicklookFiltering: PropTypes.arrayOf(BasicCriterion).isRequired,
-    }).isRequired),
 })
 
 /**
@@ -215,11 +214,12 @@ const QuicklookViewModeState = PropTypes.shape({
 const MapViewModeState = PropTypes.shape({
   ...commonViewStateFields,
   presentationModels: PropTypes.arrayOf(AttributePresentationModel).isRequired,
-  // TODO: add specific map fields
-  // Override criteria to force quicklook specific filter presence
-  criteria: getCriteriaWithFieldsValidator(PropTypes.shape({
-    quicklookFiltering: PropTypes.arrayOf(BasicCriterion).isRequired,
-  }).isRequired),
+  backgroundLayer: PropTypes.shape({ // Background presentation
+    url: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(UIDomain.MIZAR_LAYER_TYPES).isRequired,
+  }).isRequired,
+  selectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired, // current selection mode
+  splitPosition: PropTypes.number, // current split position
 })
 
 
@@ -277,8 +277,14 @@ export const ResultsContext = PropTypes.shape({
   criteria: getCriteriaWithFieldsValidator(PropTypes.shape({
     contextTags: PropTypes.arrayOf(TagCriterion).isRequired, // parent controller tags (user cannot remove them)
     tags: PropTypes.arrayOf(TagCriterion).isRequired, // user added tags
-    appliedFacets: PropTypes.arrayOf(SelectedFacetCriterion).isRequired, // List of selected facets, filtering results
+    // filtering elements with quicklooks (trick here, that list should only contain one element)
+    quicklookFiltering: PropTypes.arrayOf(BasicCriterion).isRequired,
+    // List of selected facets, filtering results
+    appliedFacets: PropTypes.arrayOf(SelectedFacetCriterion).isRequired,
+    // Selected filtering geometry criteria
     geometry: PropTypes.arrayOf(GeometryCriterion).isRequired,
+    // Selected entities set criteria
+    entitiesSelection: PropTypes.arrayOf(EntitiesSelectionCriterion).isRequired,
   }).isRequired, false),
   // view state for each entity type
   typeState: PropTypes.shape({

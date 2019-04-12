@@ -28,7 +28,7 @@ import ListCellComponent, { ListThumbnailRenderData, ListAttributeRenderData } f
  * Container to display the list cell component (provides selection state related management)
  * @author Raphaël Mechali
  */
-export class ListViewEntityCellContainer extends React.Component {
+export class ListCellContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -142,4 +142,4 @@ export class ListViewEntityCellContainer extends React.Component {
   }
 }
 
-export default connect(ListViewEntityCellContainer.mapStateToProps, ListViewEntityCellContainer.mapDispatchToProps)(ListViewEntityCellContainer)
+export default connect(ListCellContainer.mapStateToProps, ListCellContainer.mapDispatchToProps)(ListCellContainer)

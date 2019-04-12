@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { i18nContextType } from '@regardsoss/i18n'
-import { UIFacet } from '../../../../../../shapes/facets/FacetShape'
+import { UIFacet } from '../../../../../shapes/facets/FacetShape'
 import FacetSelectorComponent from './FacetSelectorComponent'
 
 const DATETIME_OPTIONS = {

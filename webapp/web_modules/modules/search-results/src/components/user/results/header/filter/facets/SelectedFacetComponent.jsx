@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Chip from 'material-ui/Chip'
+import Filter from 'mdi-material-ui/Filter'
 import { UIShapes } from '@regardsoss/shape'
-import { themeContextType } from '@regardsoss/theme'
+import ApplyingCriterionComponent from '../ApplyingCriterionComponent'
 
 /**
-* Displays a selected facet with delete option (== filter)
-*/
+ * Displays a selected facet with delete option (== filter)
+ * @author Raphaël Mechali
+ */
 class SelectedFacetComponent extends React.Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
@@ -31,27 +32,18 @@ class SelectedFacetComponent extends React.Component {
     onUnselectFacetValue: PropTypes.func.isRequired,
   }
 
-  static contextTypes = {
-    ...themeContextType,
-  }
-
-  /**
-   * User callback: user unselected this facet value
-   */
-  onUnselectFacetValue = () => {
-    const { onUnselectFacetValue, selectedFacetValue } = this.props
-    onUnselectFacetValue(selectedFacetValue)
-  }
+  /** Icon for selected facet value criterion */
+  static ICON = <Filter />
 
   render() {
-    const { label } = this.props
-    const { moduleTheme: { user: { filters } } } = this.context
+    const { label, selectedFacetValue, onUnselectFacetValue } = this.props
     return (
-      <Chip style={filters.style} onRequestDelete={this.onUnselectFacetValue}>
-        {
-          label
-        }
-      </Chip>
+      <ApplyingCriterionComponent
+        label={label}
+        selectedCriterion={selectedFacetValue}
+        onUnselectCriterion={onUnselectFacetValue}
+        filterIcon={SelectedFacetComponent.ICON}
+      />
     )
   }
 }

@@ -17,19 +17,39 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
+import { connect } from '@regardsoss/redux'
 import { UIDomain } from '@regardsoss/domain'
-import { CommonShapes, UIShapes } from '@regardsoss/shape'
+import { CommonShapes, UIShapes, AccessShapes } from '@regardsoss/shape'
 import { BasicPageableActions } from '@regardsoss/store-utils'
+import { i18nSelectors } from '@regardsoss/i18n'
+import { getCurrentTheme } from '@regardsoss/theme'
 import QuicklooksViewComponent from '../../../../components/user/results/quickooks/QuicklooksViewComponent'
 
 /**
  * Container for quicklooks view component. It adapts current results context and properties to bundle cell
- * properties object outside render time
+ * properties object outside render time. It also binds locale and theme to make sure cells will re-render, as
+ * they are PureComponent (not listening to context)
  * @author Raphaël Mechali
  */
 export class QuicklooksViewContainer extends React.Component {
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      // bind current theme and locale onto the quicklook cell to ensure it redraws on change (pure component workaround)
+      currentTheme: getCurrentTheme(state),
+      locale: i18nSelectors.getLocale(state),
+    }
+  }
+
+
   static propTypes = {
-    resultsContext: UIShapes.ResultsContext.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    resultsContext: UIShapes.ResultsContext.isRequired, // used in onPropertiesUpdated
     requestParameters: CommonShapes.RequestParameters.isRequired,
     searchActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     // Description management
@@ -45,6 +65,21 @@ export class QuicklooksViewContainer extends React.Component {
     // Basket management
     // eslint-disable-next-line react/no-unused-prop-types
     onAddElementToCart: PropTypes.func, // used in onPropertiesUpdated
+    // Used to embed quicklooks as map side view
+    embedInMap: PropTypes.bool,
+    // eslint-disable-next-line react/no-unused-prop-types
+    mapThumbnailHeight: PropTypes.number, // used in onPropertiesUpdated
+
+    // From map state to props
+    // eslint-disable-next-line react/no-unused-prop-types
+    currentTheme: AccessShapes.Theme.isRequired, // used in onPropertiesUpdated
+    // eslint-disable-next-line react/no-unused-prop-types
+    locale: PropTypes.string.isRequired, // used in onPropertiesUpdated
+  }
+
+  static defaultProps = {
+    embedInMap: false,
+    mapThumbnailHeight: null,
   }
 
   /**
@@ -68,6 +103,8 @@ export class QuicklooksViewContainer extends React.Component {
     const {
       resultsContext, descriptionAvailable, onShowDescription,
       accessToken, projectName, onAddElementToCart,
+      embedInMap, mapThumbnailHeight,
+      currentTheme, locale,
     } = newProps
     const {
       currentTypeState: { enableDownload, enableServices },
@@ -87,6 +124,10 @@ export class QuicklooksViewContainer extends React.Component {
       || !isEqual(oldEnableServices, enableServices)
       || !isEqual(oldProps.accessToken, accessToken)
       || !isEqual(oldProps.projectName, projectName)
+      || !isEqual(oldProps.embedInMap, embedInMap)
+      || !isEqual(oldProps.mapThumbnailHeight, mapThumbnailHeight)
+      || !isEqual(oldProps.currentTheme, currentTheme)
+      || !isEqual(oldProps.locale, locale)
     ) {
       this.setState({
         cellProperties: {
@@ -98,26 +139,29 @@ export class QuicklooksViewContainer extends React.Component {
           enableDownload,
           accessToken,
           projectName,
+          embedInMap,
+          mapThumbnailHeight,
+          // Quicklooks cells are be pure components so they require the theme and locale to redraw
+          currentTheme,
+          locale,
         },
       })
     }
   }
 
   render() {
-    const { resultsContext, requestParameters, searchActions } = this.props
+    const { requestParameters, searchActions, embedInMap } = this.props
     const { cellProperties } = this.state
-    // recover the configuration (necessarily available in current mode, which must respect QuicklookViewModeState shape)
-    const { currentModeState: { graphicsConfiguration } } = UIDomain.ResultsContextConstants.getViewData(resultsContext)
 
     return (
       <QuicklooksViewComponent
         requestParameters={requestParameters}
         searchActions={searchActions}
-        columnWidth={graphicsConfiguration.quicklookColumnWidth}
-        columnGutter={graphicsConfiguration.quicklookColumnGutter}
         cellProperties={cellProperties}
+        embedInMap={embedInMap}
       />
     )
   }
 }
-export default QuicklooksViewContainer
+
+export default connect(QuicklooksViewContainer.mapStateToProps)(QuicklooksViewContainer)

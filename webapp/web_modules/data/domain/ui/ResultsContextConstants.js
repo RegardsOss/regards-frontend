@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
+import { MAP_SELECTION_MODES_ENUM } from './MapSelectionModeEnum'
+import { MIZAR_LAYER_TYPES_ENUM } from './mizar-api/MizarLayerTypes'
 import { RESULTS_VIEW_MODES_ENUM } from './ResultsViewModeEnum'
 
 /**
@@ -33,7 +35,19 @@ const DISABLED_VIEW_MODE_STATE = {
   enabled: false,
   enableSelection: false,
   presentationModels: [],
-  criteria: {},
+}
+
+/** To be used as default for map state mode */
+const DISABLED_MAP_VIEW_MODE_STATE = {
+  enabled: false,
+  enableSelection: false,
+  presentationModels: [],
+  backgroundLayer: {
+    url: '',
+    type: MIZAR_LAYER_TYPES_ENUM.OSM,
+  },
+  selectionMode: MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
+  splitPosition: null,
 }
 
 /** To be used as default */
@@ -52,7 +66,7 @@ const DISABLED_TYPE_STATE = {
     [RESULTS_VIEW_MODES_ENUM.LIST]: DISABLED_VIEW_MODE_STATE,
     [RESULTS_VIEW_MODES_ENUM.TABLE]: DISABLED_VIEW_MODE_STATE,
     [RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: DISABLED_VIEW_MODE_STATE,
-    [RESULTS_VIEW_MODES_ENUM.MAP]: DISABLED_VIEW_MODE_STATE,
+    [RESULTS_VIEW_MODES_ENUM.MAP]: DISABLED_MAP_VIEW_MODE_STATE,
   },
 }
 
@@ -73,12 +87,41 @@ function getViewData(resultsContext = {}) {
   }
 }
 
+/** Types for which sorting is allowed */
+const SORTING_ALLOWED_TYPES = [ENTITY_TYPES_ENUM.DATA, ENTITY_TYPES_ENUM.DOCUMENT]
+
+/**
+ * Is sorting allowed for entity type as parameter (ie can entity be used to filter results?)
+ * @param {string} type entity type, from ENTITY_TYPES_ENUM
+ * @return {boolean} true when allowed, false otherwise
+ */
+function allowSorting(type) {
+  return SORTING_ALLOWED_TYPES.includes(type)
+}
+
+/** Types for which selection is allowed */
+const SELECTION_ALLOWING_TYPES = [ENTITY_TYPES_ENUM.DATA]
+
+/** Modes for which selection is allowed */
+const SELECTION_ALLOWING_MODES = [RESULTS_VIEW_MODES_ENUM.TABLE, RESULTS_VIEW_MODES_ENUM.LIST]
+
+/**
+ * Is selection allowed for entity type and view mode as parameter (ie can entity be used to filter results?)
+ * @param {string} type entity type, from ENTITY_TYPES_ENUM
+ * @param {string} mode view results mode, from RESULTS_VIEW_MODES_ENUM
+ * @return {boolean} true when allowed, false otherwise
+ */
+function allowSelection(type, mode) {
+  return SELECTION_ALLOWING_TYPES.includes(type) && SELECTION_ALLOWING_MODES.includes(mode)
+}
+
 /** Types for which services are allowed */
 const SERVICES_ALLOWING_TYPES = [ENTITY_TYPES_ENUM.DATA]
 
 /**
  * Are services allowed for entity type as parameter
- * @param {*} type entity type
+ * @param {string} type entity type, from ENTITY_TYPES_ENUM
+ * @return {boolean} true when allowed, false otherwise
  */
 function allowServices(type) {
   return SERVICES_ALLOWING_TYPES.includes(type)
@@ -90,7 +133,8 @@ const NAVIGATE_TO_ALLOWING_TYPES = [ENTITY_TYPES_ENUM.DATASET]
 
 /**
  * Is navigate to allowed for entity type as parameter (ie can entity be used to filter results?)
- * @param {*} type entity type
+ * @param {string} type entity type, from ENTITY_TYPES_ENUM
+ * @return {boolean} true when allowed, false otherwise
  */
 function allowNavigateTo(type) {
   return NAVIGATE_TO_ALLOWING_TYPES.includes(type)
@@ -118,8 +162,11 @@ function getNavigateToViewType(type) {
 export default {
   DEFAULT_VIEW_MODE,
   DISABLED_VIEW_MODE_STATE,
+  DISABLED_MAP_VIEW_MODE_STATE,
   DISABLED_TYPE_STATE,
   getViewData,
+  allowSorting,
+  allowSelection,
   allowServices,
   allowNavigateTo,
   getNavigateToViewType,

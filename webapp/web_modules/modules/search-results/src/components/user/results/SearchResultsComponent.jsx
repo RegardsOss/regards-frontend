@@ -22,10 +22,11 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
 import { TableLayout } from '@regardsoss/components'
 import OptionsHeaderRowComponent from './header/OptionsHeaderRowComponent'
 import ResultFacetsHeaderRowContainer from '../../../containers/user/results/header/ResultFacetsHeaderRowContainer'
-import SelectedFacetsHeaderRowContainer from '../../../containers/user/results/header/SelectedFacetsHeaderRowContainer'
+import ApplyingCriteriaHeaderRowContainer from '../../../containers/user/results/header/ApplyingCriteriaHeaderRowContainer'
 import TableViewContainer from '../../../containers/user/results/table/TableViewContainer'
 import ListViewContainer from '../../../containers/user/results/list/ListViewContainer'
 import QuicklooksViewContainer from '../../../containers/user/results/quickooks/QuicklooksViewContainer'
+import MapViewContainer from '../../../containers/user/results/map/MapViewContainer'
 
 /**
  * Search results root component: it shows table layout with headers and render an inner container according with current
@@ -79,7 +80,7 @@ class SearchResultsComponent extends React.Component {
           resultsContext={resultsContext}
         />
         {/* Third header row (only with facets enabled):  */}
-        <SelectedFacetsHeaderRowContainer
+        <ApplyingCriteriaHeaderRowContainer
           moduleId={moduleId}
           resultsContext={resultsContext}
         />
@@ -129,8 +130,18 @@ class SearchResultsComponent extends React.Component {
                     onAddElementToCart={onAddElementToCart}
                   />)
               case UIDomain.RESULTS_VIEW_MODES_ENUM.MAP:
-                // TODO impl
-                return <div>I am the map</div>
+                return (
+                  <MapViewContainer
+                    moduleId={moduleId}
+                    resultsContext={resultsContext}
+                    requestParameters={requestParameters}
+                    searchActions={searchActions}
+                    descriptionAvailable={!!onShowDescription && isDescAvailableFor(resultsContext.type)}
+                    onShowDescription={onShowDescription}
+                    accessToken={accessToken}
+                    projectName={projectName}
+                    onAddElementToCart={onAddElementToCart}
+                  />)
               default:
                 throw new Error(`Unknown view mode: ${mode}`)
             }

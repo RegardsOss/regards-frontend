@@ -16,35 +16,39 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import FlatButton from 'material-ui/FlatButton'
+import GeometryIcon from 'mdi-material-ui/Select'
+import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import FiltersIcon from 'mdi-material-ui/Filter'
+import ApplyingCriterionComponent from './ApplyingCriterionComponent'
 
 /**
- * Option to enable filters (hides when user cannot access filters functionnality, performed by parent container)
+ * Shows an applying geometry filter
  * @author Raphaël Mechali
  */
-class ToggleFiltersComponent extends React.Component {
+class GeometryCriterionComponent extends React.Component {
   static propTypes = {
-    filtersEnabled: PropTypes.bool.isRequired,
-    onFiltersToggled: PropTypes.func.isRequired,
+    geometryCriterion: UIShapes.GeometryCriterion.isRequired,
+    onUnselectGeometry: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
   }
 
+  /** Icon for selected geometry criterion */
+  static ICON = <GeometryIcon />
+
   render() {
+    const { geometryCriterion, onUnselectGeometry } = this.props
     const { intl: { formatMessage } } = this.context
-    const { onFiltersToggled, filtersEnabled } = this.props
     return (
-      <FlatButton
-        label={formatMessage({ id: 'search.results.toggle.filters' })}
-        onClick={onFiltersToggled}
-        icon={<FiltersIcon />}
-        secondary={filtersEnabled}
+      <ApplyingCriterionComponent
+        label={formatMessage({ id: 'search.filter.geometry.label' })}
+        selectedCriterion={geometryCriterion}
+        onUnselectCriterion={onUnselectGeometry}
+        filterIcon={GeometryCriterionComponent.ICON}
       />
     )
   }
 }
-export default ToggleFiltersComponent
+export default GeometryCriterionComponent

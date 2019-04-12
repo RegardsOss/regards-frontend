@@ -16,23 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CatalogShapes } from '@regardsoss/shape'
+import values from 'lodash/values'
 
 /**
- * GEOJson features collection as expected by Mizar
- * Note: it is rewritten here only to make sure geometry is provided
+ * Mizar layer types, from mizar:Utils/Constants.js
  * @author Raphaël Mechali
  */
 
-/** A feature with geometry */
-export const GeoJsonFeature = PropTypes.shape({
-  type: PropTypes.string.isRequired,
-  geometry: CatalogShapes.EntityGeoProperties.isRequired,
-  bbox: PropTypes.arrayOf(PropTypes.number),
-})
+export const MIZAR_LAYER_TYPES_ENUM = {
+  AsynchroneWMS: 'AsynchroneWMS',
+  WMS: 'WMS',
+  WMTS: 'WMTS',
+  WMSElevation: 'WMSElevation',
+  WCSElevation: 'WCSElevation',
+  GeoJSON: 'GeoJSON',
+  Vector: 'Vector',
+  Atmosphere: 'Atmosphere',
+  Bing: 'Bing',
+  GroundOverlay: 'GroundOverlay',
+  OSM: 'OSM',
+  TileWireframe: 'TileWireframe',
+  HipsGrid: 'HipsGrid',
+  CoordinateGrid: 'CoordinateGrid',
+  HipsFits: 'HipsFits',
+  Hips: 'Hips',
+  HipsCat: 'HipsCat',
+  Moc: 'Moc',
+  OpenSearch: 'OpenSearch',
+}
 
-/** A GeoJson features collection with mandatory geometry */
-export const GeoJsonFeaturesCollection = PropTypes.shape({
-  features: PropTypes.arrayOf(GeoJsonFeature).isRequired,
-  type: PropTypes.oneOf(['FeatureCollection']).isRequired,
-})
+export const MIZAR_LAYER_TYPES = values(MIZAR_LAYER_TYPES_ENUM)

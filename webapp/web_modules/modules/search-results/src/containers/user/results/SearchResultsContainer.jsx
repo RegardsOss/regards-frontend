@@ -125,14 +125,11 @@ export class SearchResultsContainer extends React.Component {
     const newState = { ...this.state }
 
     // 1 - Gather all applying criteria and store them in state (to know when request parameters should be recomputed)
-    const {
-      type, currentTypeState, currentModeState,
-    } = UIDomain.ResultsContextConstants.getViewData(resultsContext)
+    const { type, currentTypeState } = UIDomain.ResultsContextConstants.getViewData(resultsContext)
 
     newState.applyingCriteria = [
       ...SearchResultsContainer.getCriteriaMapAsArray(resultsContext.criteria),
       ...SearchResultsContainer.getCriteriaMapAsArray(currentTypeState.criteria),
-      ...SearchResultsContainer.getCriteriaMapAsArray(currentModeState.criteria),
     ]
 
     // 2 - Recompute request parameters based on criteria  (dataset restrictions, request parameters, sorting ... )

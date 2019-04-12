@@ -63,6 +63,7 @@ const styles = theme => ({
       },
     },
     filters: {
+      iconColor: theme.palette.accent1Color,
       style: {
         margin: '0 5px',
       },
@@ -120,7 +121,7 @@ const styles = theme => ({
         alignItems: 'stretch',
       },
       labelColumnStyles: {
-        margin: '10px 0 5px 20px',
+        margin: '10px 0 5px 0',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -164,6 +165,7 @@ const styles = theme => ({
       },
       quicklookContainerStyle: {
         cursor: 'zoom-in',
+        flexGrow: 1,
       },
       iconStyle: {
         width: '50%',
@@ -186,7 +188,47 @@ const styles = theme => ({
         },
       },
       attributesContainer: {
-        padding: '0 5px',
+        padding: 0,
+      },
+    },
+    mapViewStyles: {
+      geoLayout: {
+        flex: '1 1 0%',
+        position: 'relative',
+        background: theme.module.searchResults.map.background,
+      },
+      mizarWrapper: {
+        height: 'auto',
+        flex: '1 1 0%',
+        width: '100%',
+      },
+      quicklookViewLayout: {
+        background: theme.palette.canvasColor,
+        alignSelf: 'stretch',
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: theme.module.searchResults.map.quicklooks.padding,
+      },
+      quicklookImage: {
+        maxWidth: '100%',
+        height: theme.module.searchResults.map.quicklooks.thumbnailHeight,
+      },
+      toolsBox: {
+        // overlay position
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        // mimics table header styles
+        backgroundColor: theme.palette.canvasColor,
+        borderRight: `1px solid ${theme.tableRow.borderColor}`,
+      },
+      iconToolButton: {
+        minWidth: theme.button.iconButtonSize,
+      },
+      resizer: {
+        ...theme.module.searchResults.map.resizerSeparator,
       },
     },
   },

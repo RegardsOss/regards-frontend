@@ -16,23 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CatalogShapes } from '@regardsoss/shape'
-
+import values from 'lodash/values'
 /**
- * GEOJson features collection as expected by Mizar
- * Note: it is rewritten here only to make sure geometry is provided
+ * Possible selection modes on map
  * @author Raphaël Mechali
  */
+export const MAP_SELECTION_MODES_ENUM = {
+  PICK_ON_CLICK: 'PICK_ON_CLICK',
+  DRAW_RECTANGLE: 'DRAW_RECTANGLE',
+}
 
-/** A feature with geometry */
-export const GeoJsonFeature = PropTypes.shape({
-  type: PropTypes.string.isRequired,
-  geometry: CatalogShapes.EntityGeoProperties.isRequired,
-  bbox: PropTypes.arrayOf(PropTypes.number),
-})
-
-/** A GeoJson features collection with mandatory geometry */
-export const GeoJsonFeaturesCollection = PropTypes.shape({
-  features: PropTypes.arrayOf(GeoJsonFeature).isRequired,
-  type: PropTypes.oneOf(['FeatureCollection']).isRequired,
-})
+export const MAP_SELECTION_MODES = values(MAP_SELECTION_MODES_ENUM)

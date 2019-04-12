@@ -16,35 +16,39 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import FlatButton from 'material-ui/FlatButton'
+import EntitiesSelectionIcon from 'mdi-material-ui/MapMarkerRadius'
+import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import FiltersIcon from 'mdi-material-ui/Filter'
+import ApplyingCriterionComponent from './ApplyingCriterionComponent'
 
 /**
- * Option to enable filters (hides when user cannot access filters functionnality, performed by parent container)
+ * Shows an applying entities selection filter
  * @author Raphaël Mechali
  */
-class ToggleFiltersComponent extends React.Component {
+class EntitiesSelectionCriterionComponent extends React.Component {
   static propTypes = {
-    filtersEnabled: PropTypes.bool.isRequired,
-    onFiltersToggled: PropTypes.func.isRequired,
+    entitiesSelectionCriterion: UIShapes.EntitiesSelectionCriterion.isRequired,
+    onUnselectEntitiesSelection: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
   }
 
+  /** Icon for selected geometry criterion */
+  static ICON = <EntitiesSelectionIcon />
+
   render() {
+    const { entitiesSelectionCriterion, onUnselectEntitiesSelection } = this.props
     const { intl: { formatMessage } } = this.context
-    const { onFiltersToggled, filtersEnabled } = this.props
     return (
-      <FlatButton
-        label={formatMessage({ id: 'search.results.toggle.filters' })}
-        onClick={onFiltersToggled}
-        icon={<FiltersIcon />}
-        secondary={filtersEnabled}
+      <ApplyingCriterionComponent
+        label={formatMessage({ id: 'search.filter.entities.selection.label' }, { count: entitiesSelectionCriterion.entitiesCount })}
+        selectedCriterion={entitiesSelectionCriterion}
+        onUnselectCriterion={onUnselectEntitiesSelection}
+        filterIcon={EntitiesSelectionCriterionComponent.ICON}
       />
     )
   }
 }
-export default ToggleFiltersComponent
+export default EntitiesSelectionCriterionComponent

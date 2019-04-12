@@ -17,30 +17,21 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FlatButton from 'material-ui/FlatButton'
-import ListViewIcon from 'mdi-material-ui/ViewSequential'
-import TableViewIcon from 'mdi-material-ui/TableLarge'
-import QuicklookViewIcon from 'mdi-material-ui/ImageAlbum'
-import MapViewIcon from 'material-ui/svg-icons/maps/map'
+import PickOnClickSelectionMode from 'mdi-material-ui/MapMarkerRadius'
+import DrawRectangleSelectionMode from 'mdi-material-ui/Select'
 import { UIDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
- * Component to display a type tab
+ * Option to chose a selection mode
  * @author Raphaël Mechali
  */
-class ModeSelectorComponent extends React.Component {
+class MapSelectionModeOption extends React.Component {
   static propTypes = {
-    mode: PropTypes.oneOf(UIDomain.RESULTS_VIEW_MODES).isRequired,
     selected: PropTypes.bool.isRequired,
-    onModeSelected: PropTypes.func.isRequired,
-  }
-
-  static ICON_CONSTRUCTOR_BY_MODE = {
-    [UIDomain.RESULTS_VIEW_MODES_ENUM.LIST]: ListViewIcon,
-    [UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE]: TableViewIcon,
-    [UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: QuicklookViewIcon,
-    [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: MapViewIcon,
+    selectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired, // current selection mode
+    onSetSelectionMode: PropTypes.func.isRequired, // (mode) => ()
   }
 
   static contextTypes = {
@@ -48,20 +39,33 @@ class ModeSelectorComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static ICON_CONSTRUCTOR_BY_MODE = {
+    [UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK]: PickOnClickSelectionMode,
+    [UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE]: DrawRectangleSelectionMode,
+  }
+
+  /**
+   * Callback: user clicked on this selector, call parent callback to set corresponding mode
+   */
+  onClicked = () => {
+    const { selectionMode, onSetSelectionMode } = this.props
+    onSetSelectionMode(selectionMode)
+  }
+
   render() {
-    const { mode, selected, onModeSelected } = this.props
-    const { intl: { formatMessage }, moduleTheme: { user: { viewModeButton } } } = this.context
-    const IconConstructor = ModeSelectorComponent.ICON_CONSTRUCTOR_BY_MODE[mode]
+    const { selected, selectionMode } = this.props
+    const { moduleTheme: { user: { mapViewStyles } }, intl: { formatMessage } } = this.context
+    const IconConstructor = MapSelectionModeOption.ICON_CONSTRUCTOR_BY_MODE[selectionMode]
     return (
       <FlatButton
         // label from configuration when provided, default otherwise
-        onClick={onModeSelected}
+        onClick={this.onClicked}
         icon={<IconConstructor />}
         secondary={selected}
-        style={viewModeButton}
-        title={formatMessage({ id: `view.type.selector.tooltip.for.${mode}` })}
+        style={mapViewStyles.iconToolButton}
+        title={formatMessage({ id: `results.map.tools.tooltip.for.${selectionMode}` })}
       />
     )
   }
 }
-export default ModeSelectorComponent
+export default MapSelectionModeOption

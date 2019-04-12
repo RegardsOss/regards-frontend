@@ -18,13 +18,14 @@
  **/
 import { CommonShapes } from '@regardsoss/shape'
 import { BasicPageableActions } from '@regardsoss/store-utils'
+import { themeContextType } from '@regardsoss/theme'
 import { InfiniteGalleryContainer } from '@regardsoss/components'
 import { selectors as searchSelectors } from '../../../../clients/SearchEntitiesClient'
 import EmptyTableComponent from '../common/EmptyTableComponent'
 import QuicklookCellComponent, { SpecificCellProperties } from './QuicklookCellComponent'
 
 /** Page size for quicklooks */
-const QUICKLOOK_PAGE_SIZE = 60
+const QUICKLOOK_PAGE_SIZE = 100
 
 /**
  * Component displaying search results as quicklook list
@@ -34,14 +35,12 @@ class QuicklooksViewComponent extends React.Component {
   static propTypes = {
     requestParameters: CommonShapes.RequestParameters.isRequired,
     searchActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
-    columnWidth: PropTypes.number,
-    columnGutter: PropTypes.number,
     cellProperties: SpecificCellProperties.isRequired,
+    embedInMap: PropTypes.bool.isRequired,
   }
 
-  static defaultProps = {
-    columnWidth: 400,
-    columnGutter: 20,
+  static contextTypes = {
+    ...themeContextType,
   }
 
   /** Stores reference on the static empty component */
@@ -49,17 +48,20 @@ class QuicklooksViewComponent extends React.Component {
 
   render() {
     const {
-      requestParameters, searchActions,
-      columnWidth, columnGutter,
-      cellProperties,
+      requestParameters, searchActions, cellProperties, embedInMap,
     } = this.props
+    // Recover column with and gap from theme: map specific theme if embedded in map, quicklooks otherwise
+    const searchResultsTheme = this.context.muiTheme.module.searchResults
+    const { columnWidth, columnGap } = embedInMap
+      ? searchResultsTheme.map.quicklooks
+      : searchResultsTheme.quicklooks
     return (
       <InfiniteGalleryContainer
         itemComponent={QuicklookCellComponent}
         pageActions={searchActions}
         pageSelectors={searchSelectors}
         columnWidth={columnWidth}
-        columnGutter={columnGutter}
+        columnGutter={columnGap}
         requestParams={requestParameters}
         queryPageSize={QUICKLOOK_PAGE_SIZE}
         emptyComponent={QuicklooksViewComponent.EMPTY_COMPONENT}

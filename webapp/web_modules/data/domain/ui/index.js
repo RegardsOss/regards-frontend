@@ -19,7 +19,9 @@
 export { default as LocalStorageUser } from './LocalStorageUser'
 export { default as LocalStorageData } from './LocalStorageData'
 export { LOCALES_ENUM, LOCALES } from './Locales'
+export { MAP_SELECTION_MODES, MAP_SELECTION_MODES_ENUM } from './MapSelectionModeEnum'
 export { MENU_DISPLAY_MODES, MENU_DISPLAY_MODES_ENUM } from './MenuDisplayModes'
+export { MIZAR_LAYER_TYPES_ENUM, MIZAR_LAYER_TYPES } from './mizar-api/MizarLayerTypes'
 export {
   MODULE_PANE_DISPLAY_MODES_ENUM, MODULE_PANE_DISPLAY_MODES, isModulePaneExpanded, isModulePaneExpansible,
 } from './ModulePaneDisplayModes'

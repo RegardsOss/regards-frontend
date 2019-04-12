@@ -16,264 +16,368 @@
  * You should have received a copy of the GNU General Public License
  * along with SCO. If not, see <http://www.gnu.org/licenses/>.
  **/
-
-import RaisedButton from 'material-ui/RaisedButton'
-import Checkbox from 'material-ui/Checkbox'
 import isEqual from 'lodash/isEqual'
-import { GeoJsonFeaturesCollection } from '../shapes/FeaturesCollection'
+import { GeoJsonFeaturesCollection, GeoJsonFeature } from '../shapes/FeaturesCollection'
 import './MizarLoader'
 import './rconfig'
 import './Mizar.css'
 /**
  * Mizar Adapter
+ * Nota: it provides pick selection and draw selection gestures but caller should handle related updates and feedback
  */
 export default class MizarAdapter extends React.Component {
   static propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
+    crsContext: PropTypes.string,
+    backgroundLayerUrl: PropTypes.string.isRequired,
+    backgroundLayerType: PropTypes.string.isRequired,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
-    applyGeoParameter: PropTypes.func.isRequired,
-  }
-
-  state = {
-    layerId: null,
-    drawMode: false,
-    vectorLayer: null,
+    featuresColor: PropTypes.string,
+    // selection management: when drawing selection is true, user draws a rectangle
+    // during that gestion, onDrawingSelectionUpdated will be called for the component parent to update feedback through drawnAreas
+    // at end, onDrawingSelectionDone will be called
+    drawingSelection: PropTypes.bool.isRequired,
+    onDrawingSelectionUpdated: PropTypes.func, // (initPoint, currentPoint) => ()
+    onDrawingSelectionDone: PropTypes.func, // (initPoint, finalPoint) => ()
+    drawColor: PropTypes.string,
+    // Currently shownig areas (may be used for selection feedback, currently applying areas, ...)
+    drawnAreas: PropTypes.arrayOf(GeoJsonFeature),
+    // should notify parent on pick selection
+    onFeaturesSelected: PropTypes.func,
   }
 
   /**
-   * Mizar current instance
+   * Transforsm points into a box with {min/max}{X/Y} fields and empty information field
+   * @param {[number]} point1 first point as coordinates array
+   * @param {[number]} point2 second point as coordinates array
+   * @return {{empty: boolean, minX: number, maxX: number,minY: number, maxY: number}} transformed box, never null, with all fields provided
    */
-  // eslint-disable-next-line react/sort-comp
-  mizar = null
-
-  feature = {
-    id: '0',
-    type: 'Feature',
-    geometry: {
-      type: 'Polygon',
-      coordinates: [],
-    },
-  }
-
-  componentDidMount = () => {
-    window.requirejs(['Mizar'], this.lightLoadMizar)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { featuresCollection } = nextProps
-    if (!isEqual(this.props.featuresCollection, featuresCollection)) {
-      this.addFeatures(featuresCollection)
+  static toBoxCoordinates(point1, point2) {
+    if (point1 && point2) {
+      const [p1X, p1Y] = point1
+      const [p2X, p2Y] = point2
+      const minX = Math.min(p1X, p2X)
+      const maxX = Math.max(p1X, p2X)
+      const minY = Math.min(p1Y, p2Y)
+      const maxY = Math.max(p1Y, p2Y)
+      return {
+        minX,
+        maxX,
+        minY,
+        maxY,
+        empty: minX === maxX || minY === maxY,
+      }
+    }
+    return {
+      empty: true,
+      minX: 0,
+      maxX: 0,
+      minY: 0,
+      maxY: 0,
     }
   }
 
-  setInitialized = (layerId, callback) => {
-    this.setState({ layerId }, callback)
-  }
-
-  switchDrawMode = () => {
-    if (this.state.drawMode) {
-      this.mizar.getActivatedContext().getNavigation().start()
-      this.setState({ drawMode: !this.state.drawMode })
-    } else {
-      this.mizar.getActivatedContext().getNavigation().stop()
-      this.feature = {
+  /**
+   * Builds a feature from id and points as parameter
+   * @param {string} id
+   * @param {*} point1 first point as resolved by Mizar (array)
+   * @param {*} point2 second point as resolved by Mizar (array)
+   * @retun {*} Geo feature (matching GeoJsonFeature)
+   */
+  static toAreaFeature(featureId, point1, point2) {
+    const {
+      minX, maxX, minY, maxY, empty,
+    } = MizarAdapter.toBoxCoordinates(point1, point2)
+    if (!empty) {
+      // area is not empty
+      return {
         id: '0',
         type: 'Feature',
         geometry: {
           type: 'Polygon',
-          coordinates: [],
+          bbox: [minX, minY, maxX, maxY],
+          coordinates: [[[minX, minY],
+            [maxX, minY],
+            [maxX, maxY],
+            [minX, maxY],
+            [minX, minY],
+          ]],
         },
       }
-      this.setState({ drawMode: !this.state.drawMode })
+    }
+    return null
+  }
+
+  static defaultProps = {
+    crsContext: 'CRS:84',
+    drawnAreas: [],
+    featuresColor: 'Orange',
+    drawColor: 'Yellow',
+  }
+
+  /** Mizar library */
+  static MIZAR_LIBRARY = null
+
+  // XXX : Workaround
+  static MIZAR_Y_OFFSET = 180
+
+  /** Transient instance information: keeps mizar layers and data in this as their lifecycle is correlated */
+  mizar = {
+    instance: null, // mizar instance
+    featuresLayer: null, // features collection layer
+    drawLayer: null, // areas draw layer
+  }
+
+  /** Currently drawn selection initial point (lat / lon) */
+  currentDrawingInitPoint = null
+
+
+  /**
+   * Lifecycle method: component did mount. Used here to load and initialize the mizar component
+   */
+  componentDidMount = () => {
+    if (MizarAdapter.MIZAR_LIBRARY) {
+      // invoke on loaded directly as library was already loaded
+      this.onMizarLibraryLoaded(MizarAdapter.MIZAR_LIBRARY)
+    } else {
+      // load library then invoke on loaded
+      window.requirejs(['Mizar'], this.onMizarLibraryLoaded)
     }
   }
 
-  handleMouseUp = (event) => {
-    const pickPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.layerX, event.layerY)
-    const pickingManager = this.mizar.getServiceByName(this.Mizar.SERVICE.PickingManager)
-    pickingManager.clearSelection()
-    const newSelection = pickingManager.computePickSelection(pickPoint)
-    const select = pickingManager.setSelection(newSelection)
-    pickingManager.focusSelection(select)
+  /**
+   * Lifecycle method: component will receive props. Used here to report changes onto the mizar component (main wrapper job)
+   * @param {*} nextProps next properties
+   */
+  componentWillReceiveProps(nextProps) {
+    // Add new geo features to display layer
+    const { featuresCollection, drawingSelection, drawnAreas } = nextProps
+    if (!isEqual(this.props.featuresCollection, featuresCollection)) {
+      this.onFeaturesCollectionUpdated(featuresCollection)
+    }
+    // remove old areas and add new ones
+    if (!isEqual(this.props.drawnAreas, drawnAreas)) {
+      this.onAreasUpdated(this.props.drawnAreas, drawnAreas)
+    }
+    // Handle draw mode changes
+    if (this.props.drawingSelection !== drawingSelection) {
+      this.onToggleDrawSelectionMode(drawingSelection)
+    }
+
+    // TODO: handle drawColor and featuresColor change to update it with theme --> ask JC
+  }
+
+  /**
+   * Lifecycle method: component will unmount. Used here to free loaded mizar component.
+   */
+  componentWillUnmount =() => {
+    this.unmounted = true
+    if (this.mizar.instance) {
+      this.mizar.instance.destroy()
+    }
   }
 
   /**
    * Called when the Mizar library is loaded
-   * Run mizar and save the instance
+   * Configures and saves mizar instance
+   * @param {*} Mizar loaded library (expected Mizar class)
    */
-  lightLoadMizar = (Mizar) => {
-    this.Mizar = Mizar
+  onMizarLibraryLoaded = (Mizar) => {
+    // A - keep static reference to access library faster next times
+    MizarAdapter.MIZAR_LIBRARY = Mizar
+    if (this.unmounted) {
+      return
+    }
+    // 1 - Create Mizar
+    const {
+      crsContext, backgroundLayerUrl, backgroundLayerType,
+      featuresColor, drawColor, drawingSelection,
+    } = this.props
     const mizarDiv = document.getElementById('MizarCanvas')
 
-    // Create Mizar
-    this.mizar = new Mizar({
+    this.mizar.instance = new Mizar({
       // the canvas ID where Mizar is inserted
       canvas: mizarDiv,
       // define a planet context
       planetContext: {
         // the CRS of the Earth
         coordinateSystem: {
-          geoideName: Mizar.CRS.WGS84,
+          geoideName: crsContext,
         },
       },
     })
 
-    this.mizar.getActivatedContext().subscribe(this.Mizar.EVENT_MSG.LAYER_ADDED, () => {
-      // TODO this is ???
-    })
+    // 2 - Register layer relative mouse listeners
+    this.mizar.instance.getActivatedContext().getRenderContext().canvas.addEventListener('mouseup', this.onLayerRelativeMouseUp)
+    this.mizar.instance.getActivatedContext().getRenderContext().canvas.addEventListener('mousedown', this.onLayerRelativeMouseDown)
 
-    this.mizar.getActivatedContext().getRenderContext().canvas.addEventListener('mouseup', this.handleMouseUp)
-
-    // Add a WMS layer as background
-    this.mizar.addLayer({
-      type: Mizar.LAYER.WMS,
-      // type : Mizar.LAYER.OMS
-      name: 'Blue Marble',
-      baseUrl: 'http://80.158.6.138/mapserv?map=WMS_BLUEMARBLE',
-      // Esri world map
-      // baseUrl: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/',
-      // Open street map
-      // baseUrl: 'https://c.tile.openstreetmap.org/',
+    // 3 - Set up background layer
+    this.mizar.instance.addLayer({
+      name: 'Background layer',
+      baseUrl: backgroundLayerUrl,
+      type: backgroundLayerType,
       background: true,
     })
 
-    this.mizar.addLayer({
+    // 4 - Set up features collection layer and store its reference
+    this.mizar.instance.addLayer({
       type: Mizar.LAYER.GeoJSON,
       name: 'datas',
       visible: true,
       background: false,
-    }, (layerId) => {
-      this.setInitialized(layerId, () => this.addFeatures(this.props.featuresCollection))
+      color: featuresColor,
+    }, (featuresLayerId) => {
+      // store features layer
+      this.mizar.featuresLayer = this.mizar.instance.getLayerByID(featuresLayerId)
+      // make sure showing current features (using latest props value)
+      this.onFeaturesCollectionUpdated(this.props.featuresCollection)
     })
 
-    const vectorLayer = this.mizar.LayerFactory.create({
+    // 5 - Set up areas draw layer
+    this.mizar.drawLayer = this.mizar.instance.LayerFactory.create({
       type: Mizar.LAYER.Vector,
       visible: true,
+      background: false,
+      color: drawColor,
     })
+    this.mizar.instance.getActivatedContext().addDraw(this.mizar.drawLayer)
+    // Initialize layer
+    this.onAreasUpdated([], this.props.drawnAreas)
 
-    this.mizar.getActivatedContext().addDraw(vectorLayer)
-
-    this.setState({ vectorLayer })
+    //  6- nitialize draw selection from property
+    this.onToggleDrawSelectionMode(drawingSelection)
   }
 
-  addFeatures = (featuresCollection) => {
-    const layer = this.mizar && this.state.layerId ? this.mizar.getLayerByID(this.state.layerId) : null
-    if (layer) {
-      // TODO make sure it works correctly for workflow
-      layer.removeAllFeatures()
-      layer.addFeatureCollection(featuresCollection)
+  /**
+   * Features collection was updated
+   * @param {*} newFeaturesCollection, matching GeoJsonFeaturesCollection shape
+   */
+  onFeaturesCollectionUpdated = (newFeaturesCollection) => {
+    if (!this.unmounted) {
+      if (this.mizar.featuresLayer) {
+        // delete if any old value
+        this.mizar.featuresLayer.removeAllFeatures()
+        // add if any new value
+        if (newFeaturesCollection) {
+          this.mizar.featuresLayer.addFeatureCollection(newFeaturesCollection)
+        }
+      } else {
+        // push that operation later
+        this.delayedAddFeatures = newFeaturesCollection
+      }
     }
   }
 
-  applyFilter = () => {
-    const coord = this.feature.geometry.coordinates
-    console.error(coord, coord[0])
-    const wkt = `POLYGON((${coord[0][0][0]} ${coord[0][0][1]},${coord[0][1][0]} ${coord[0][1][1]},${coord[0][2][0]} ${coord[0][2][1]},${coord[0][0][0]} ${coord[0][0][1]}))`
-    this.props.applyGeoParameter(wkt)
+  /**
+   * Areas where updated, propagate change to mizar
+   * @param {[*]} oldDrawnAreas old list of areas (array of GeoJsonFeature)
+   * @param {[*]} drawnAreas new list of areas (array of GeoJsonFeature)
+   */
+  onAreasUpdated = (oldDrawnAreas = [], drawnAreas = []) => {
+    if (this.mizar.drawLayer && !this.unmounted) {
+      oldDrawnAreas.forEach(f => this.mizar.drawLayer.removeFeature(f))
+      drawnAreas.forEach(f => this.mizar.drawLayer.addFeature(f))
+    }
   }
 
-  drawRectangle =(pt1, pt2) => {
-    const minX = Math.min(pt1[0], pt2[0])
-    const maxX = Math.max(pt1[0], pt2[0])
-    const minY = Math.min(pt1[1], pt2[1])
-    const maxY = Math.max(pt1[1], pt2[1])
-
-    this.feature.bbox = [minX, minY, maxX, maxY]
-    this.feature.geometry.coordinates = [[[minX, minY],
-      [maxX, minY],
-      [maxX, maxY],
-      [minX, maxY],
-      [minX, minY],
-    ]]
-
-    this.state.vectorLayer.removeFeature(this.feature)
-    this.state.vectorLayer.addFeature(this.feature)
+  /**
+   * Drawing selection mode was toggled on/off
+   * @param {bool} drawingSelection true when drawing selection, false otherwise
+   */
+  onToggleDrawSelectionMode = (drawingSelection) => {
+    if (this.mizar.drawLayer && !this.unmounted) {
+      // reinitialize gesture transient state
+      this.currentDrawingSelectionInitPoint = null
+      if (drawingSelection) {
+        // started drawing selection: stop navigation to avoid map rotation / drag
+        this.mizar.instance.getActivatedContext().getNavigation().stop()
+      } else {
+        // stop drawing selection: restart navigation
+        this.mizar.instance.getActivatedContext().getNavigation().start()
+      }
+    }
   }
 
+  /**
+   * On canvas mouse down: handle feature pickup in relative canvas coordinates (event is provided related to layer)
+   * @param {*} event layer relative event
+   */
+  onLayerRelativeMouseDown = (event) => {
+    // save init point to check later that user is not dragging
+    this.mouseDownEvent = event
+  }
 
-  // Called when left mouse button is pressed : start drawing the rectangle
+  /**
+   * On layer relative mouse up: handle feature pickup (event is provided related to layer)
+   * @param {*} event layer relative event
+   */
+  onLayerRelativeMouseUp = (event) => {
+    // check user is not dragging
+    if (this.mouseDownEvent.layerX === event.layerX && this.mouseDownEvent.layerY === event.layerY) {
+      const pickPoint = this.mizar.instance.getActivatedContext().getLonLatFromPixel(event.layerX, event.layerY)
+      // compute selection
+      const pickingManager = this.mizar.instance.getServiceByName(MizarAdapter.MIZAR_LIBRARY.SERVICE.PickingManager)
+      const newSelection = pickingManager.computePickSelection(pickPoint)
+      // notify API user if callback was provided
+      if (this.props.onFeaturesSelected) {
+        this.props.onFeaturesSelected(newSelection)
+      }
+    }
+  }
+
+  /**
+   * On canvas mouse down: handle start drawing a rectangle selection if enabled
+   * @param {*} event mouse event
+   */
   onMouseDown = (event) => {
-    if (this.state.drawMode && event.button === 0) {
-      this.startPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY)
-      this.drawRectangle(this.startPoint, this.startPoint)
-      this.started = true
+    const { drawingSelection } = this.props
+    if (drawingSelection && event.button === 0) {
+      const { nativeEvent: { offsetX, offsetY } } = event
+      this.currentDrawingInitPoint = this.mizar.instance.getActivatedContext().getLonLatFromPixel(offsetX, offsetY)
     }
   }
 
-  // Called when mouse is moved  : update the rectangle
+  /**
+   * On canvas mouse move: handle update drawing selection if started
+   * @param {*} event mouse event
+   */
   onMouseMove = (event) => {
-    if (this.started && event.button === 0) {
-      const endPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY)
-      this.drawRectangle(this.startPoint, endPoint)
+    const { onDrawingSelectionUpdated } = this.props
+    if (this.currentDrawingInitPoint) {
+      // update selection rectangle and show it
+      const { nativeEvent: { offsetX, offsetY } } = event
+      const endPoint = this.mizar.instance.getActivatedContext().getLonLatFromPixel(offsetX, offsetY)
+      if (onDrawingSelectionUpdated) {
+        onDrawingSelectionUpdated(this.currentDrawingInitPoint, endPoint)
+      }
     }
   }
 
-  // Called when left mouse button is release  : end drawing the rectangle
+  /**
+   * On canvas mouse up: handle complete drawing selection if started
+   * @param {*} event mouse event
+   */
   onMouseUp = (event) => {
-    if (this.started && event.button === 0) {
-      const endPoint = this.mizar.getActivatedContext().getLonLatFromPixel(event.clientX, event.clientY)
-      this.drawRectangle(this.startPoint, endPoint)
-      this.started = false
+    const { onDrawingSelectionDone } = this.props
+    if (this.currentDrawingInitPoint) {
+      // update selection rectangle, hide it and notify parent
+      const { nativeEvent: { offsetX, offsetY } } = event
+      const endPoint = this.mizar.instance.getActivatedContext().getLonLatFromPixel(offsetX, offsetY)
+      if (onDrawingSelectionDone) {
+        onDrawingSelectionDone(this.currentDrawingInitPoint, endPoint)
+      }
+      // clear finished gesture
+      this.currentDrawingInitPoint = null
     }
   }
-
 
   render() {
-    const canvaStyle = { // TODO: all styles and i18n
-      border: 'none',
-      width: '100%',
-      height: '100%',
-      minWidth: 0,
-      minHeight: 0,
-      margin: 0,
-      padding: 0,
-    }
-    // TODO: draw mode sucks badly!
     return (
-
-      <div
-        style={{
-          display: 'flex', flexGrow: 1, flexShrink: 1, flexDirection: 'column', alignItems: 'stretch',
-        }}
-      >
-        <div style={{
-          flexGrow: '0',
-          display: 'flex',
-          justifyContent: 'end',
-          alignItems: 'center',
-        }}
-        >
-          <Checkbox
-            label="Draw mode"
-            checked={this.state.drawMode}
-            onCheck={this.switchDrawMode}
-          />
-          <RaisedButton
-            label="Apply filter"
-            onClick={this.applyFilter}
-          />
-        </div>
-        <div style={{
-          flexGrow: 3,
-          flexShrink: 3,
-          flexBasis: 0,
-          minHeight: 0,
-          minWidth: 0,
-          margin: 'auto',
-        }}
-        >
-
-          <canvas
-            key="canvas"
-            id="MizarCanvas"
-            style={canvaStyle}
-            onMouseUp={this.onMouseUp}
-            onMouseDown={this.onMouseDown}
-            onMouseMove={this.onMouseMove}
-          />
-
-        </div>
-      </div>
-    )
+      <canvas
+        key="canvas"
+        id="MizarCanvas"
+        onMouseUp={this.onMouseUp}
+        onMouseDown={this.onMouseDown}
+        onMouseMove={this.onMouseMove}
+      />)
   }
 }

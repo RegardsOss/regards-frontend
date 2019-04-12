@@ -44,37 +44,33 @@ export class ContextInitializationHelper {
    */
   static buildDefaultModeState(modeConfiguration, type, mode, attributeModels) {
     if (modeConfiguration.enabled) {
+      // compute selection allowed statuses:
       const modeState = {
         enabled: true,
+        enableSelection: UIDomain.ResultsContextConstants.allowSelection(type, mode),
         presentationModels: PresentationHelper.buildPresentationModels(attributeModels, modeConfiguration.attributes, type, mode),
-        criteria: {
-        },
       }
-      // compute sort and selection allowed statuses:
-      modeState.enableSelection = PresentationHelper.SORTING_ALLOWED_TYPES.includes(type)
       // specifities for by view types
       switch (mode) {
         case UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE:
           // store initial presentation model states
           modeState.initialPresentationModels = modeState.presentationModels
           break
-        case UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK:
-        // report quicklooks graphics configuration
-          modeState.graphicsConfiguration = modeConfiguration.graphicsConfiguration
-          // Only data with quicklook attribute should be filtered initially
-          modeState.criteria.quicklookFiltering = [ToggleOnlyQuicklookContainer.ONLY_QUICKLOOK_CRITERION]
-          break
         case UIDomain.RESULTS_VIEW_MODES_ENUM.MAP:
-          // report map configuration values
-          // TODO
-          // Only data with quicklook attribute should be filtered initially
-          modeState.criteria.quicklookFiltering = [ToggleOnlyQuicklookContainer.ONLY_QUICKLOOK_CRITERION]
+          // report map configuration and initial values
+          modeState.backgroundLayer = modeConfiguration.backgroundLayer
+          modeState.selectionMode = UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK
+          modeState.splitPosition = null
           break
-        default: // nothing to do for other modes
+        // nothing to do for other modes
+        case UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK:
+        default:
       }
       return modeState
     }
-    return UIDomain.ResultsContextConstants.DISABLED_VIEW_MODE_STATE
+    return mode === UIDomain.RESULTS_VIEW_MODES_ENUM.MAP
+      ? UIDomain.ResultsContextConstants.DISABLED_MAP_VIEW_MODE_STATE // specific mode with mandatory properties for map
+      : UIDomain.ResultsContextConstants.DISABLED_VIEW_MODE_STATE
   }
 
   /**
@@ -143,7 +139,7 @@ export class ContextInitializationHelper {
         enabled: true,
         enableDownload: !!typeConfiguration.enableDownload,
         enableServices: UIDomain.ResultsContextConstants.allowServices(type),
-        enableSorting: PresentationHelper.SORTING_ALLOWED_TYPES.includes(type),
+        enableSorting: UIDomain.ResultsContextConstants.allowSorting(type),
         enableSearchEntity: UIDomain.ResultsContextConstants.allowNavigateTo(type),
         initialSorting,
         isInInitialSorting: true,
@@ -179,8 +175,10 @@ export class ContextInitializationHelper {
       criteria: {
         contextTags: [],
         tags: [],
+        quicklookFiltering: [],
         appliedFacets: [],
         geometry: [],
+        entitiesSelection: [],
       },
       typeState: DamDomain.ENTITY_TYPES.reduce((acc, type) => ({
         ...acc,

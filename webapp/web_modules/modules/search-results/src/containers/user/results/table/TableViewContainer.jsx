@@ -29,7 +29,7 @@ import TableViewComponent from '../../../../components/user/results/table/TableV
  * Container for search results table component: it translates current model into usable models for columns
  * @author Raphaël Mechali
  */
-export class SearchResultsTableContainer extends React.Component {
+export class TableViewContainer extends React.Component {
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
@@ -126,7 +126,7 @@ export class SearchResultsTableContainer extends React.Component {
     // when different, rebuild table presentation models
     if (!isEqual(oldAppliedSorting, newAppliedSorting) || !isEqual(oldPresentationModels, newPresentationModels)) {
       this.setState({
-        columnPresentationModels: SearchResultsTableContainer.convertToColumnPresentationModels(
+        columnPresentationModels: TableViewContainer.convertToColumnPresentationModels(
           newPresentationModels, newAppliedSorting, currentTypeState.isInInitialSorting),
       })
     }
@@ -227,5 +227,5 @@ export class SearchResultsTableContainer extends React.Component {
   }
 }
 export default connect(
-  SearchResultsTableContainer.mapStateToProps,
-  SearchResultsTableContainer.mapDispatchToProps)(SearchResultsTableContainer)
+  TableViewContainer.mapStateToProps,
+  TableViewContainer.mapDispatchToProps)(TableViewContainer)

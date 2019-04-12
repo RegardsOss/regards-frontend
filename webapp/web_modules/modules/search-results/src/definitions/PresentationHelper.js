@@ -16,27 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CommonDomain, DamDomain } from '@regardsoss/domain'
+import { CommonDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { TableColumnBuilder } from '@regardsoss/components'
-import { RESULTS_VIEW_MODES_ENUM } from '@regardsoss/domain/ui'
 
 /**
- * Helper class to convert entity types and attributes to presentation states (attribute and table column models,)
-
+ * Helper class to convert entity attributes into presentation models and add required decoration models
  * @author Raphaël Mechali
  */
 export class PresentationHelper {
-  /** Types for which sorting is allowed */
-  static SORTING_ALLOWED_TYPES = [DamDomain.ENTITY_TYPES_ENUM.DATA, DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]
-
-  /** Types for which selection is allowed */
-  static SELECTION_ALLOWED_TYPES = [DamDomain.ENTITY_TYPES_ENUM.DATA]
-
   /** Modes for which options presentation model should be added separately, as custom presentation models */
-  static MODES_USING_OPTIONS_PM = [RESULTS_VIEW_MODES_ENUM.TABLE]
+  static MODES_USING_OPTIONS_PM = [UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE]
 
   /** Modes for which selection presentation model should be added separately, as custom presentation models */
-  static MODES_USING_SELECTION_PM = [RESULTS_VIEW_MODES_ENUM.TABLE]
+  static MODES_USING_SELECTION_PM = [UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE]
 
   /**
    * List of attributes the server cannot sort on
@@ -88,9 +80,9 @@ export class PresentationHelper {
    * @return {[*]} list of presentation models for configured attributes in corresponding view type and mode
    */
   static buildPresentationModels(attributeModels, configuredAttributes = [], viewType, viewMode) {
-    const allowingSort = PresentationHelper.SORTING_ALLOWED_TYPES.includes(viewType)
+    const allowingSort = UIDomain.ResultsContextConstants.allowSorting(viewType)
     const addOptionsColumn = PresentationHelper.MODES_USING_OPTIONS_PM.includes(viewMode)
-    const addSelectionColumn = PresentationHelper.SELECTION_ALLOWED_TYPES.includes(viewType)
+    const addSelectionColumn = UIDomain.ResultsContextConstants.allowSelection(viewType, viewMode)
       && PresentationHelper.MODES_USING_SELECTION_PM.includes(viewMode)
     return [
     // 1 - selection if enabled for current

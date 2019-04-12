@@ -31,6 +31,7 @@ class QuicklookCellParametersComponent extends React.PureComponent {
   static propTypes = {
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
     presentationModels: PropTypes.arrayOf(UIShapes.AttributePresentationModel).isRequired,
+    locale: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -39,8 +40,8 @@ class QuicklookCellParametersComponent extends React.PureComponent {
   }
 
   render = () => {
-    const { moduleTheme, intl: { locale } } = this.context
-    const { presentationModels } = this.props
+    const { moduleTheme } = this.context
+    const { presentationModels, locale } = this.props
     const {
       attributesStyles, labelCellStyle, labelColumnStyles, valueCellStyle, valueColumnStyles,
     } = moduleTheme.user.listViewStyles

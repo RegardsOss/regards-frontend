@@ -19,7 +19,7 @@
 import isNil from 'lodash/isNil'
 import { i18nContextType } from '@regardsoss/i18n'
 import { storage } from '@regardsoss/units'
-import { UIFacet } from '../../../../../../shapes/facets/FacetShape'
+import { UIFacet } from '../../../../../shapes/facets/FacetShape'
 import FacetSelectorComponent from './FacetSelectorComponent'
 
 /** Const for no unit */

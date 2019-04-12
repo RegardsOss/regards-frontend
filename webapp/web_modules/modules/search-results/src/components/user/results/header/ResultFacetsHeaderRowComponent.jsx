@@ -23,10 +23,10 @@ import {
   TableHeaderContentBox, TableHeaderText,
 } from '@regardsoss/components'
 import { UIFacetArray } from '../../../../shapes/facets/FacetShape'
-import BooleanFacetSelectorComponent from './facets/selector/BooleanFacetSelectorComponent'
-import DateRangeFacetSelectorComponent from './facets/selector/DateRangeFacetSelectorComponent'
-import NumberRangeFacetSelectorComponent from './facets/selector/NumberRangeFacetSelectorComponent'
-import WordFacetSelectorComponent from './facets/selector/WordFacetSelectorComponent'
+import BooleanFacetSelectorComponent from './facets/BooleanFacetSelectorComponent'
+import DateRangeFacetSelectorComponent from './facets/DateRangeFacetSelectorComponent'
+import NumberRangeFacetSelectorComponent from './facets/NumberRangeFacetSelectorComponent'
+import WordFacetSelectorComponent from './facets/WordFacetSelectorComponent'
 
 /**
  * Result facets header row: shows results selectable facets, count and loading row
