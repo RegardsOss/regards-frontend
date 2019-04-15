@@ -567,13 +567,11 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       <ScrollArea
         onScroll={this.onScroll}
         style={scrollAreaSize}
-        contentStyle={{ minHeight: height }} // TODO see if usefull
         vertical
       >
         <div
           ref={this.onReference}
           className={containerClassName}
-          style={{ height: '100%' }} // TODO see if useful
         >
           <div
             className={layoutClassName}
