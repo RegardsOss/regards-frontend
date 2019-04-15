@@ -298,15 +298,14 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     const heightSelector = itemComponent.getHeightFromProps
     const columnSpanSelector = itemComponent.getColumnSpanFromProps
 
-
     // Decide a starter position for centering
     // Use the node width if there is a scrollbar, otherwise subtract LARGE_SCROLLBAR_WIDTH
-    const viewableWidth = this.props.width
-    const viewableHeight = this.props.height
+    const viewableWidth = props.width
+    const viewableHeight = props.height
 
     const maxColumns = Math.floor(viewableWidth / (columnWidth + columnGutter))
     const spannableWidth = (maxColumns * columnWidth) + (columnGutter * (maxColumns - 1))
-    const viewableStart = this.props.alignCenter ? (viewableWidth - spannableWidth) / 2 : 0
+    const viewableStart = props.alignCenter ? (viewableWidth - spannableWidth) / 2 : 0
 
     // Setup bounds and limiters for deciding how to stage items in a page
     const itemsPerPage = maxColumns * Math.ceil(viewableHeight / this.state.averageHeight)
@@ -380,6 +379,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
         viewableStart,
       )
 
+
       if (positionWithinGap) {
         Object.assign(item, positionWithinGap)
       } else {
@@ -389,7 +389,6 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
             previousSlicedItems.push(previousItem)
           }
         })
-
         previousSlicedItems.sort(sortTopByAscending)
 
         // Then find the smallest column
@@ -528,7 +527,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
         key={`page-${index}`}
       >
         {page.items.map(({
-          props, left, top, width, height, columnSpan,
+          props, left, top, width, columnSpan,
         }, itemIndex) => (
           <Item
               // eslint-disable-next-line react/no-array-index-key
@@ -568,11 +567,13 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       <ScrollArea
         onScroll={this.onScroll}
         style={scrollAreaSize}
+        contentStyle={{ minHeight: height }} // TODO see if usefull
         vertical
       >
         <div
           ref={this.onReference}
           className={containerClassName}
+          style={{ height: '100%' }} // TODO see if useful
         >
           <div
             className={layoutClassName}

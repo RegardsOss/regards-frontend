@@ -162,8 +162,8 @@ export default class MizarAdapter extends React.Component {
     if (this.props.drawingSelection !== drawingSelection) {
       this.onToggleDrawSelectionMode(drawingSelection)
     }
-
-    // TODO: handle drawColor and featuresColor change to update it with theme --> ask JC
+    // XXX- take in account, in later versions, color properties change ==> requires unmounting then remounting layers
+    // useless in current version as the parent split pane blocks redrawing anyways
   }
 
   /**
