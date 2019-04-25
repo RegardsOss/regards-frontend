@@ -18,7 +18,6 @@
  **/
 import has from 'lodash/has'
 import Card from 'material-ui/Card/Card'
-import CardMedia from 'material-ui/Card/CardMedia'
 import CardText from 'material-ui/Card/CardText'
 import isEqual from 'lodash/isEqual'
 import ImageOff from 'mdi-material-ui/ImageOff'
@@ -100,8 +99,8 @@ class QuicklookCellComponent extends React.PureComponent {
     const hasImage = has(props, 'content.files.QUICKLOOK_SD[0]')
     const hasIssueWithImage = !has(props, 'content.files.QUICKLOOK_SD[0].imageWidth') || !has(props, 'content.files.QUICKLOOK_SD[0].imageHeight')
 
-    if (hasImage && !hasIssueWithImage) {
-      // A - There is a valid picture
+    // A - There is a valid picture OR quicklook is embedded in map (map quicklooks have constant height)
+    if ((hasImage && !hasIssueWithImage) || itemProps.embedInMap) {
       let imageHeight
       if (itemProps.embedInMap) {
         // A.1 - in map mode, use thumbnail height directly
@@ -112,19 +111,12 @@ class QuicklookCellComponent extends React.PureComponent {
         const width = props.content.files.QUICKLOOK_SD[0].imageWidth
         imageHeight = Math.ceil((gridWidth / width) * height)
       }
-
       return imageHeight + footerHeight
     }
-    // B - No picture
-    if (itemProps.embedInMap) {
-      // B.1 - On map
-      return itemProps.mapThumbnailHeight
-    }
-    // B - 2 in quicklooks: simply consume space for icons
+    // B - No valid picture AND not display for map: simply consume space for icons
     return (gridWidth * 7 / 10) + footerHeight + 15
   }
 
-  /** Reserved with  FIXME-ASAP-workaround-quicklooks-width */
   static OPTIONS_BAR_RESERVED_WIDTH = 34
 
   /** State holds dynamic styles, to avoid building them at render time */

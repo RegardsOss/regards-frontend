@@ -50,7 +50,22 @@ export class TreeTableComponent extends React.Component {
     buildCellComponent: PropTypes.func.isRequired,
     /** table columns array (use TableHeaderColumn elements) */
     columns: PropTypes.arrayOf(PropTypes.element),
+    // Allows hiding header for specific table configurations (like simple trees)
+    hideHeader: PropTypes.bool,
+    // Stripe tree level colors (like stripe row in regular table but applied to levels)
+    stripeLevelColors: PropTypes.bool,
+    // Should show table row borders?
+    displayTableRowBorder: PropTypes.bool,
+    // Callback: on cell click. Part of material UI table API but locally wrapped to provide the corresponding row
+    // (row:TreeTableRow, cellData: *) => ()
+    onCellClick: PropTypes.func,
     // ... other Material UI table properties
+  }
+
+  static defaultProps = {
+    hideHeader: false,
+    stripeLevelColors: true,
+    displayTableRowBorder: true,
   }
 
   /** List of property keys that should not be reported to sub component */
@@ -59,11 +74,35 @@ export class TreeTableComponent extends React.Component {
     'buildTreeTableRows',
     'buildCellComponent',
     'columns',
+    'showHeader',
+    'onCellClick',
+    'stripeLevelColors',
+    'displayTableRowBorder',
   ]
 
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
+  }
+
+  /**
+   * Searches row by its index in rows list
+   * @param {*} rowIndex -
+   * @return {{found: TreeTableRow, nextIndex: number}}  found row (null if not found), next index for recursive loops
+   */
+  static getRowByIndex(rowIndex, rowsList) {
+    // A - flatten the tree rows, depth first, as it is displayed
+    function flattenRows(rows) {
+      return rows.reduce((acc, row) => [
+        ...acc,
+        row,
+        // consider children only when row is expanded
+        ...(row.expanded ? flattenRows(row.subRows) : []),
+      ], [])
+    }
+    const flattenTreeRows = flattenRows(rowsList)
+    // B - return matching element in flatten rows array
+    return flattenTreeRows[rowIndex]
   }
 
   static ROOT_ROW_KEY = 'inner.model.root.row'
@@ -108,6 +147,30 @@ export class TreeTableComponent extends React.Component {
   }
 
   /**
+   * On cell click callback local wrapper: it provides corresponding cell data and ignores last column clicks when the row is collapsible
+   * @param {number} rowIndex clicked row index
+   * @param {number} cellIndex clicked cell index
+   */
+  onCellClick = (rowIndex, cellIndex) => {
+    const { onCellClick, columns } = this.props
+    const { tableRootRow } = this.state
+    // find in table the corresponding row (recursive)
+    const clickedRow = TreeTableComponent.getRowByIndex(rowIndex, tableRootRow.subRows)
+    // 2 - if the cell index is after last column:
+    // 2.A- ignore event on collapsible rows
+    // 2.B- provide cell index - 1 for others
+    let consideredCellIndex = cellIndex
+    if (cellIndex === columns.length) {
+      if (clickedRow.subRows.length) {
+        return // 2.A
+      }
+      // 2.B
+      consideredCellIndex = cellIndex - 1
+    }
+    onCellClick(clickedRow, clickedRow.rowCells[consideredCellIndex])
+  }
+
+  /**
    * Renders a row cell
    * @param {*} rowCell row cell value
    * @param {number} columnIndex column index
@@ -147,6 +210,7 @@ export class TreeTableComponent extends React.Component {
         oddLevelRowStyle, evenLevelRowStyle, expandCell, firstCell,
       },
     } = this.context
+    const { stripeLevelColors, displayTableRowBorder } = this.props
     const depthLevel = parentIndexChain.length
     const uniqueKeyChain = [...parentIndexChain, indexInLevel]
 
@@ -156,7 +220,8 @@ export class TreeTableComponent extends React.Component {
       <TableRow
         key={row.key}
         onDoubleClick={() => this.onToggleExpanded(row)}
-        style={depthLevel % 2 === 0 ? evenLevelRowStyle : oddLevelRowStyle}
+        style={stripeLevelColors && depthLevel % 2 === 1 ? oddLevelRowStyle : evenLevelRowStyle}
+        displayBorder={displayTableRowBorder}
       >
         { // render all cell values
           row.rowCells.map((rowCell, columnIndex) => this.renderCell(rowCell, columnIndex, depthLevel, leftIndentation))
@@ -177,26 +242,34 @@ export class TreeTableComponent extends React.Component {
   }
 
   render() {
-    const { columns } = this.props
+    const { onCellClick, columns, hideHeader } = this.props
     const { moduleTheme: { expandCell } } = this.context
     // report to table any property that is not specific to this component
     const tableProperties = omit(this.props, TreeTableComponent.NON_REPORTED_PROPS)
     const { tableRootRow } = this.state
 
     return (
-      <Table selectable={false} {...tableProperties}>
-        {/* Table header with user columns */}
-        <TableHeader
-          displaySelectAll={false}
-          adjustForCheckbox={false}
-          enableSelectAll={false}
-        >
-          <TableRow>
-            {columns}
-            {/* Insert last column for collapse / expand option */}
-            <TableHeaderColumn key="inner.table.options" style={expandCell.style} />
-          </TableRow>
-        </TableHeader>
+      <Table
+        selectable={false}
+        onCellClick={onCellClick ? this.onCellClick : null} // do not provide when parent did not require it
+        {...tableProperties}
+      >
+        {/* Table header with user columns, when not hidden */
+          hideHeader
+            ? null
+            : (
+              <TableHeader
+                displaySelectAll={false}
+                adjustForCheckbox={false}
+                enableSelectAll={false}
+              >
+                <TableRow>
+                  {columns}
+                  {/* Insert last column for collapse / expand option */}
+                  <TableHeaderColumn key="inner.table.options" style={expandCell.style} />
+                </TableRow>
+              </TableHeader>)
+        }
         {/* Table body, hacked into a recursive rendered tree */}
         <TableBody
           displayRowCheckbox={false}

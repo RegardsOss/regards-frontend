@@ -1,3 +1,4 @@
+
 /**
  * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -17,16 +18,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
-// TODO in domain
+
 /**
- * Feedback types, to be shown over the results on specific operations
+ * Holds constants defining the sections pages in form
  * @author Raphaël Mechali
  */
 
-/** As enumeration */
-export const FEEDBACK_TYPES_ENUM = {
-  ADD_TO_BASKET: 'ADD_TO_BASKET',
+export const FORM_PAGES_ENUM = {
+  MAIN: 'MAIN', // main configuration page
+  FILTERS: 'FILTERS', // filters attributes configuration page
+  SORTING: 'SORTING', // sorting attributes configuration page
+  LIST_AND_TABLE: 'LIST_AND_TABLE', // list and table columns configuration page
+  QUICKLOOKS: 'QUICKLOOKS', // quicklook attributes configuration page
+  MAP: 'MAP', // map configuration page
 }
 
-/** As values list */
-export const FEEDBACK_TYPES_LIST = values(FEEDBACK_TYPES_ENUM)
+export const FORM_PAGES = values(FORM_PAGES_ENUM)

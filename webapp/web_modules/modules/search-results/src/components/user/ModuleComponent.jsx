@@ -51,7 +51,6 @@ class ModuleComponent extends React.Component {
       page,
       moduleConf,
     } = this.props
-
     const { moduleTheme: { user: { rootModuleContainer } } } = this.context
     return (
       <div style={rootModuleContainer}>

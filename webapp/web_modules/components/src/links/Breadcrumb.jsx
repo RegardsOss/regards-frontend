@@ -86,10 +86,10 @@ export class Breadcrumb extends React.Component {
               const navigationAllowed = navigationAllowedPredicate(element, index)
               return [
                 // add separator when not the first element
-                index ? <NextLevelIcon key={`${elementLabel}.separator`} style={iconStyle} /> : null,
+                index ? <NextLevelIcon key={`${index}:${elementLabel}.separator`} style={iconStyle} /> : null,
                 // add element itself
                 <BreadcrumbElement
-                  key={elementLabel}
+                  key={`${index}:${elementLabel}.element`}
                   element={element}
                   index={index}
                   label={elementLabel}
@@ -98,9 +98,7 @@ export class Breadcrumb extends React.Component {
                   isFirst={!index}
                   isLast={index === elements.length - 1}
                   onAction={onAction}
-                />,
-
-              ]
+                />]
             })
         }
       </div>

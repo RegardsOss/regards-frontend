@@ -73,7 +73,7 @@ const messages = {
   'form.datasets.select.dataset.list.title': 'Jeux de données associés',
   'form.datasets.select.dataset.models.list.title': 'Modèles de jeu de données associés',
   // Layout tab
-  'form.layout.tab.title': 'Configuration de l\'agencement des critères de recherche du formulaire',
+  'form.layout.tab.title': 'Agencement des critères',
   'form.layout.tab.reset': 'Réinitialiser',
   'layout.invalid.error': 'Agencement invalide',
   // Criterion tab

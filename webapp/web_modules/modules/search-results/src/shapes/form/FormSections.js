@@ -16,31 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { i18nContextType } from '@regardsoss/i18n'
-import { TableHeaderText } from '@regardsoss/components'
+import { FORM_SECTIONS } from '../../domain/form/FormSectionsEnum'
+import { FORM_PAGES } from '../../domain/form/FormPagesEnum'
 
 /**
- * Shows header message
+ * Defines sections and pages shapes for form browing
  * @author Raphaël Mechali
  */
-class AttributesListHeaderMessage extends React.Component {
-  static propTypes = {
-    count: PropTypes.number.isRequired,
-  }
 
-  static contextTypes = {
-    ...i18nContextType,
-  }
+/** A form page */
+export const FormPage = PropTypes.shape({
+  type: PropTypes.oneOf(FORM_PAGES).isRequired,
+  selected: PropTypes.bool.isRequired, // is this page selected in navigation tree?
+})
 
-  /** Message */
-  render() {
-    const { count } = this.props
-    const { intl: { formatMessage } } = this.context
-    return (
-      <TableHeaderText
-        text={formatMessage({ id: 'attributes.configuration.header.count' }, { count })}
-      />
-    )
-  }
-}
-export default AttributesListHeaderMessage
+/** A section with form pages */
+export const FormSection = PropTypes.shape({
+  type: PropTypes.oneOf(FORM_SECTIONS).isRequired,
+  pages: PropTypes.arrayOf(FormPage).isRequired,
+})

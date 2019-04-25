@@ -19,7 +19,6 @@
 import { UIDomain } from '@regardsoss/domain'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
-import { RESULTS_VIEW_MODES_ENUM } from '@regardsoss/domain/ui'
 
 /**
  * Fields that are commmon to all views (table / list / quicklooks / map)
@@ -34,12 +33,6 @@ export const TableViewConfiguration = PropTypes.shape({
   ...commonViewFields,
 })
 
-/** Graphics configuration for quicklook */
-export const QuicklookGraphicsConfiguration = PropTypes.shape({
-  quicklookColumnWidth: PropTypes.number,
-  quicklookColumnGutter: PropTypes.number,
-})
-
 /** Quicklook view */
 export const QuicklookViewConfiguration = PropTypes.shape({
   ...commonViewFields,
@@ -50,9 +43,8 @@ export const MapViewConfiguration = PropTypes.shape({
   ...commonViewFields,
   backgroundLayer: PropTypes.shape({ // mandatory but cannot be granted when starting new module edition
     url: PropTypes.string,
-    type: PropTypes.string, // TODO from enum
+    type: PropTypes.oneOf(UIDomain.MIZAR_LAYER_TYPES).isRequired,
   }),
-  // TODO other map parameters (later in PM)
 })
 
 /** Facets sub configuration */
@@ -74,9 +66,9 @@ const commonViewsGroupFields = {
   initialMode: PropTypes.oneOf(UIDomain.RESULTS_VIEW_MODES),
   // views belows (all views are not necessarily enabled, according with group entities type)
   views: PropTypes.shape({
-    [RESULTS_VIEW_MODES_ENUM.TABLE]: TableViewConfiguration,
-    [RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: QuicklookViewConfiguration,
-    [RESULTS_VIEW_MODES_ENUM.MAP]: MapViewConfiguration,
+    [UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE]: TableViewConfiguration,
+    [UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: QuicklookViewConfiguration,
+    [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: MapViewConfiguration,
   }),
 }
 

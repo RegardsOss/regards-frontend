@@ -63,7 +63,6 @@ class SearchResultsComponent extends React.Component {
       selectionServices, onStartSelectionService,
       accessToken, projectName,
     } = this.props
-    // TODO it may be a good idea here to render all available type and modes by disabling them when not selected (thus we'd keep scrolling)
     return (
       <TableLayout>
         {/* First header row : switch view type and mode, other view options */}

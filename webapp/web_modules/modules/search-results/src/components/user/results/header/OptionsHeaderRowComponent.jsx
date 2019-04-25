@@ -92,21 +92,24 @@ class OptionsHeaderRowComponent extends React.Component {
     } = UIDomain.ResultsContextConstants.getViewData(resultsContext)
 
 
+    const showTabs = reduce(resultsContext.typeState, (count, state) => state.enabled ? count + 1 : count, 0) > 1
     return (
       <TableHeaderLine key="table.options">
-        {/* 1. Type selection tabs, on left, when many type can be selected */}
-        <TableHeaderOptionGroup show={reduce(resultsContext.typeState, (count, state) => state.enabled ? count + 1 : count, 0) > 1}>
-          {
-            OptionsHeaderRowComponent.TYPE_DISPLAY_ORDER.map(currentType => resultsContext.typeState[currentType].enabled
-              ? <TypeTabContainer
-                key={`tab.selector.${currentType}`}
-                moduleId={moduleId}
-                resultsContext={resultsContext}
-                type={currentType}
-              />
-              : null)
-          }
-        </TableHeaderOptionGroup>
+        {/* 1. Type selection tabs, on left, when many type can be selected, place holder otherwise */
+        showTabs ? (
+          <TableHeaderOptionGroup show>
+            {
+              OptionsHeaderRowComponent.TYPE_DISPLAY_ORDER.map(currentType => resultsContext.typeState[currentType].enabled
+                ? <TypeTabContainer
+                  key={`tab.selector.${currentType}`}
+                  moduleId={moduleId}
+                  resultsContext={resultsContext}
+                  type={currentType}
+                />
+                : null)
+            }
+          </TableHeaderOptionGroup>) : <div /> // placeholder
+        }
         { /* 2. Mode selection and options, on right */}
         <TableHeaderOptionsArea reducible>
           {/* 2.A Selection related options (services and add to basket) */}

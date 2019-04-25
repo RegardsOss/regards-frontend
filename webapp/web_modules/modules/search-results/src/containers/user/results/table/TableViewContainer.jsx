@@ -72,8 +72,8 @@ export class TableViewContainer extends React.Component {
     return presentationModels.map((model) => {
       let sortOrder = CommonDomain.SORT_ORDERS_ENUM.NO_SORT
       let sortIndex = null
-      // provide sort order and index only when sorting is enabled AND not in initial sorting state (that is not displayed)
-      if (!isInInitialSorting && model.enableSorting) {
+      // provide sort order and index only when sorting is enabled
+      if (model.enableSorting) {
         // pre: this model is necessary an AttributePresentationModel and can only have one attribute
         // search for corresponding sorting criterion
         const correspondingCritIndex = sortingCriteria.findIndex(({ attribute }) => isEqual(attribute, model.attributes[0]))
@@ -82,16 +82,13 @@ export class TableViewContainer extends React.Component {
           sortIndex = correspondingCritIndex
         }
       }
-      // TODO: peut etre virer les sorting non initiaux qui ne sont pas retrouves dans la liste des pres models!
       return {
         ...model, // report all fields as they are common with column model for table
         // add sorting information
         sortOrder,
         sortIndex,
       }
-    },
-
-    )
+    })
   }
 
   /**
@@ -127,7 +124,7 @@ export class TableViewContainer extends React.Component {
     if (!isEqual(oldAppliedSorting, newAppliedSorting) || !isEqual(oldPresentationModels, newPresentationModels)) {
       this.setState({
         columnPresentationModels: TableViewContainer.convertToColumnPresentationModels(
-          newPresentationModels, newAppliedSorting, currentTypeState.isInInitialSorting),
+          newPresentationModels, newAppliedSorting),
       })
     }
   }
@@ -150,7 +147,9 @@ export class TableViewContainer extends React.Component {
     } = UIDomain.ResultsContextConstants.getViewData(resultsContext)
     const updatedSortingModel = presentationModels.find(({ key }) => key === presentationModelKey)
     const sortingAttribute = updatedSortingModel.attributes[0]
-    const indexInCurrentSorting = isInInitialSorting ? -1 : sorting.findIndex(({ attribute }) => isEqual(attribute, sortingAttribute))
+
+
+    const indexInCurrentSorting = sorting.findIndex(({ attribute }) => isEqual(attribute, sortingAttribute))
 
     // B - Compute next sorting criterion array.
     let nextSorting
@@ -158,18 +157,23 @@ export class TableViewContainer extends React.Component {
       case CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER:
       case CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER:
         // add or swap order in sorting list
-        if (indexInCurrentSorting >= 0) { // swap
-          nextSorting = sorting.map((sortingElt, index) => index !== indexInCurrentSorting
-            ? sortingElt // previously existing element, keep it
-            : CriterionBuilder.buildSortCriterion(sortingAttribute, newSortOrder), // updated element, change it
-          )
-        } else { // add new sorting criterion at end (consider empty array if in initial sorting state)
+        if (indexInCurrentSorting >= 0) {
+          // 1. Sorting Criterion already exists
+          nextSorting = isInInitialSorting
+            // A - when exiting initial sorting, we remove all other elements and keep only the new sorting element
+            ? [CriterionBuilder.buildSortCriterion(sortingAttribute, newSortOrder)]
+            // B - Default case: change only updated criterion in existing list
+            : sorting.map((sortingElt, index) => index !== indexInCurrentSorting
+              ? sortingElt
+              : CriterionBuilder.buildSortCriterion(sortingAttribute, newSortOrder))
+        } else {
+          // 2 - Sorting criterion has just been added
           nextSorting = [...(isInInitialSorting ? [] : sorting), CriterionBuilder.buildSortCriterion(sortingAttribute, newSortOrder)]
         }
         break
       case CommonDomain.SORT_ORDERS_ENUM.NO_SORT:
         // remove from sorting list
-        nextSorting = sorting.filter((s, index) => index !== indexInCurrentSorting)
+        nextSorting = isInInitialSorting ? [] : sorting.filter((s, index) => index !== indexInCurrentSorting)
         break
       default:
         throw new Error(`Unsupported sort type: ${newSortOrder}`)

@@ -62,13 +62,4 @@ export default class ResultsContextActions {
       stateDiff,
     }
   }
-
-  /**
-   * Sets tags in results context for module ID as parameter
-   * @param {number} moduleId -
-   * @param {[{*}]} tags new tags array, should never be null
-   */
-  setTags(moduleId, tags = []) {
-    return this.updateResultsContext(moduleId, { criteria: { tags } })
-  }
 }

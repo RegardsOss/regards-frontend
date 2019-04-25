@@ -18,10 +18,10 @@
  **/
 import get from 'lodash/get'
 import FlatButton from 'material-ui/FlatButton'
-import CollectionLibraryIcon from 'material-ui/svg-icons/device/storage'
-import DatasetLibraryIcon from 'material-ui/svg-icons/image/collections-bookmark'
-import DataLibraryIcon from 'material-ui/svg-icons/av/library-books'
-import DocumentLibraryIcon from 'material-ui/svg-icons/image/filter'
+import CollectionsIcon from 'material-ui/svg-icons/device/storage'
+import DatasetsIcon from 'material-ui/svg-icons/image/collections-bookmark'
+import DataIcon from 'material-ui/svg-icons/av/library-books'
+import DocumentsIcon from 'mdi-material-ui/ImageMultiple'
 import { DamDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -38,10 +38,10 @@ class TypeTabComponent extends React.Component {
   }
 
   static ICON_CONSTRUCTOR_BY_TYPE = {
-    [DamDomain.ENTITY_TYPES_ENUM.COLLECTION]: CollectionLibraryIcon,
-    [DamDomain.ENTITY_TYPES_ENUM.DATASET]: DatasetLibraryIcon,
-    [DamDomain.ENTITY_TYPES_ENUM.DATA]: DataLibraryIcon,
-    [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]: DocumentLibraryIcon,
+    [DamDomain.ENTITY_TYPES_ENUM.COLLECTION]: CollectionsIcon,
+    [DamDomain.ENTITY_TYPES_ENUM.DATASET]: DatasetsIcon,
+    [DamDomain.ENTITY_TYPES_ENUM.DATA]: DataIcon,
+    [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]: DocumentsIcon,
   }
 
 

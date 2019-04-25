@@ -18,6 +18,7 @@
  *
  */
 import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 import isNaN from 'lodash/isNaN'
 import throttle from 'lodash/throttle'
 import { ScrollArea } from '@regardsoss/adapters'
@@ -124,7 +125,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
    * Lifecycle method component will receive props. Used here to layout the component when its size changes
    */
   componentWillReceiveProps(nextProps) {
-    if (nextProps.items.length !== this.props.items.length
+    if (!isEqual(nextProps.items, this.props.items)
       || nextProps.width !== this.props.width
       || nextProps.height !== this.props.height) {
       this.layout(nextProps)

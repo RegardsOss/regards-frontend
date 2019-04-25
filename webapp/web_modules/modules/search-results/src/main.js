@@ -19,13 +19,12 @@
 // ensure the default module icon is present in bundle
 import '../default-icon.svg'
 
-
 /**
  * Module main file to expose public interface
  * @author Sébastien binda
  */
 export { default as moduleContainer } from './containers/ModuleContainer'
-// export { default as adminContainer } from './containers/AdminContainer' TODO: enable back!
+export { default as adminContainer } from './containers/AdminContainer'
 export { default as styles } from './styles/styles'
 export { default as reducer } from './reducer'
 export { default as dependencies } from './dependencies'

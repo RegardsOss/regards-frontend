@@ -249,8 +249,6 @@ export class ContextManager extends React.Component {
       moduleId, updateResultsContext,
     } = this.props
 
-    // TODO: think about merging with pre-existing state, while making sure the configuration will be taken in account!
-
     // A - Compute default state from configuration
     const defaultState = ContextInitializationHelper.buildDefaultResultsContext(configuration, attributeModels)
 
@@ -271,8 +269,9 @@ export class ContextManager extends React.Component {
     // B.2 - Restore found tags in default state
     defaultState.criteria.tags = resolvedTags
 
-    // B.3 - Make sure any parent context tags are not be removed
-    defaultState.criteria.contextTags = get(resultsContext, 'criteria.contextTags', [])
+    // B.3 - Make sure any parent tags array is kept
+    defaultState.criteria.contextTags = get(resultsContext, 'criteria.contextTags', defaultState.criteria.contextTags)
+    defaultState.criteria.otherFilters = get(resultsContext, 'criteria.otherFilters', defaultState.criteria.otherFilters)
 
     // C - update state
     updateResultsContext(moduleId, defaultState)

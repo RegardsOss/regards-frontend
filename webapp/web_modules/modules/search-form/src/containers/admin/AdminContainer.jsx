@@ -151,9 +151,6 @@ class AdminContainer extends React.Component {
         },
         criterion: this.props.moduleConf.criterion ? this.props.moduleConf.criterion : [],
         layout: this.props.moduleConf.layout,
-        searchResult: {
-          displayMode: get(this.props.moduleConf, `${this.CONF_SEARCH_RESULT}.displayMode`, 'data_dataset'),
-        },
       },
       selectableDataObjectsAttributes: this.props.selectableDataObjectsAttributes,
       selectableDataSetsAttributes: this.props.selectableDataSetsAttributes,

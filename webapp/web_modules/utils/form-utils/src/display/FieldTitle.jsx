@@ -16,19 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DataManagementShapes } from '@regardsoss/shape'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
- * Search results admin conf (adminForm.conf)
- * Used by other modules that depends on search-results
- * @author Léo Mieulet
+ * Field title
+ * @author Raphaël Mechali
  */
-const AdminModuleConf = PropTypes.shape({
-  // Data and datasets restricted attributes: when provided, use those instead of featching available ones
-  selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
-  selectableDataSetsAttributes: DataManagementShapes.AttributeModelList,
-  // Forbid documents displaying in module
-  documentsForbidden: PropTypes.bool,
-})
+class FieldTitle extends React.Component {
+  static propTypes = {
+    label: PropTypes.string,
+  }
 
-export default AdminModuleConf
+  static contextTypes = {
+    ...themeContextType,
+  }
+
+  render() {
+    const { label } = this.props
+    const { moduleTheme: { fieldsGroup: { titleStyle } } } = this.context
+    if (label) {
+      return (
+        <div style={titleStyle}>{label}</div>
+      )
+    }
+    return null
+  }
+}
+export default FieldTitle

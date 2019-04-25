@@ -16,19 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DataManagementShapes } from '@regardsoss/shape'
+import { DamDomain } from '@regardsoss/domain'
+import { FORM_PAGES_ENUM } from './FormPagesEnum'
 
 /**
- * Search results admin conf (adminForm.conf)
- * Used by other modules that depends on search-results
- * @author Léo Mieulet
+ * Defines available form pages for each entity type (as entity type is used as section)
+ * @author Raphaël Mechali
  */
-const AdminModuleConf = PropTypes.shape({
-  // Data and datasets restricted attributes: when provided, use those instead of featching available ones
-  selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
-  selectableDataSetsAttributes: DataManagementShapes.AttributeModelList,
-  // Forbid documents displaying in module
-  documentsForbidden: PropTypes.bool,
-})
-
-export default AdminModuleConf
+export const PAGES_BY_TYPE = {
+  [DamDomain.ENTITY_TYPES_ENUM.DATA]: [
+    FORM_PAGES_ENUM.MAIN, FORM_PAGES_ENUM.FILTERS, FORM_PAGES_ENUM.SORTING,
+    FORM_PAGES_ENUM.LIST_AND_TABLE, FORM_PAGES_ENUM.QUICKLOOKS, FORM_PAGES_ENUM.MAP,
+  ],
+  [DamDomain.ENTITY_TYPES_ENUM.DATASET]: [FORM_PAGES_ENUM.MAIN, FORM_PAGES_ENUM.LIST_AND_TABLE],
+  [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]: [
+    FORM_PAGES_ENUM.MAIN, FORM_PAGES_ENUM.FILTERS, FORM_PAGES_ENUM.SORTING,
+    FORM_PAGES_ENUM.LIST_AND_TABLE,
+  ],
+}

@@ -20,7 +20,6 @@ import get from 'lodash/get'
 import { CatalogDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { PresentationHelper } from './PresentationHelper'
 import { CriterionBuilder } from './CriterionBuilder'
-import { ToggleOnlyQuicklookContainer } from '../containers/user/results/header/options/ToggleOnlyQuicklookContainer'
 
 /**
  * Helper to create initial results context from module configuration
@@ -174,6 +173,7 @@ export class ContextInitializationHelper {
       type: null, // set just after
       criteria: {
         contextTags: [],
+        otherFilters: [],
         tags: [],
         quicklookFiltering: [],
         appliedFacets: [],

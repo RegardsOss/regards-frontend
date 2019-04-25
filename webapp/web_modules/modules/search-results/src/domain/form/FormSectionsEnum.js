@@ -1,3 +1,4 @@
+
 /**
  * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -16,19 +17,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DataManagementShapes } from '@regardsoss/shape'
+import values from 'lodash/values'
+import { DamDomain } from '@regardsoss/domain'
 
 /**
- * Search results admin conf (adminForm.conf)
- * Used by other modules that depends on search-results
- * @author Léo Mieulet
+ * Holds constants defining the sections in form
+ * @author Raphaël Mechali
  */
-const AdminModuleConf = PropTypes.shape({
-  // Data and datasets restricted attributes: when provided, use those instead of featching available ones
-  selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
-  selectableDataSetsAttributes: DataManagementShapes.AttributeModelList,
-  // Forbid documents displaying in module
-  documentsForbidden: PropTypes.bool,
-})
 
-export default AdminModuleConf
+export const FORM_SECTIONS_ENUM = {
+  MAIN: 'MAIN', // main section
+  [DamDomain.ENTITY_TYPES_ENUM.DATA]: DamDomain.ENTITY_TYPES_ENUM.DATA,
+  [DamDomain.ENTITY_TYPES_ENUM.DATASET]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+  [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
+}
+
+export const FORM_SECTIONS = values(FORM_SECTIONS_ENUM)

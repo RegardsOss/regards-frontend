@@ -275,16 +275,15 @@ export const ResultsContext = PropTypes.shape({
   type: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
   // criteria applying to the whole results view (free fields allowed for external controllers)
   criteria: getCriteriaWithFieldsValidator(PropTypes.shape({
-    contextTags: PropTypes.arrayOf(TagCriterion).isRequired, // parent controller tags (user cannot remove them)
+    // Parent control criteria
+    contextTags: PropTypes.arrayOf(TagCriterion).isRequired, // Tags from context
+    otherFilters: PropTypes.arrayOf(BasicCriterion).isRequired, // Other restrictions
+    // locally handled filters
     tags: PropTypes.arrayOf(TagCriterion).isRequired, // user added tags
-    // filtering elements with quicklooks (trick here, that list should only contain one element)
-    quicklookFiltering: PropTypes.arrayOf(BasicCriterion).isRequired,
-    // List of selected facets, filtering results
-    appliedFacets: PropTypes.arrayOf(SelectedFacetCriterion).isRequired,
-    // Selected filtering geometry criteria
-    geometry: PropTypes.arrayOf(GeometryCriterion).isRequired,
-    // Selected entities set criteria
-    entitiesSelection: PropTypes.arrayOf(EntitiesSelectionCriterion).isRequired,
+    quicklookFiltering: PropTypes.arrayOf(BasicCriterion).isRequired, // filtering elements with quicklooks
+    appliedFacets: PropTypes.arrayOf(SelectedFacetCriterion).isRequired, // List of selected facets
+    geometry: PropTypes.arrayOf(GeometryCriterion).isRequired, // Selected filtering geometry criteria
+    entitiesSelection: PropTypes.arrayOf(EntitiesSelectionCriterion).isRequired, // Selected entities set criteria
   }).isRequired, false),
   // view state for each entity type
   typeState: PropTypes.shape({

@@ -49,7 +49,7 @@ export class NavigationContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, { moduleId }) {
     return {
-      setTags: tags => dispatch(resultsContextActions.setTags(moduleId, tags)),
+      updateResultsContext: stateDiff => dispatch(resultsContextActions.updateResultsContext(moduleId, stateDiff)),
     }
   }
 
@@ -70,7 +70,7 @@ export class NavigationContainer extends React.Component {
     // tags (usually set by user within this module)
     tags: UIShapes.TagsArray.isRequired,
     // from mapDispatchToProps
-    setTags: PropTypes.func.isRequired,
+    updateResultsContext: PropTypes.func.isRequired,
   }
 
   /**
@@ -110,12 +110,13 @@ export class NavigationContainer extends React.Component {
 
     // Update levels list (always, as tags and context tags are the only mutable properties in component)
     const navigationLevels = []
-    // 1. Add root level if it was provided in configuration (there is a page or a description)
-    if (NavigationContainer.hasRootTag(newProps)) {
+    // 1. Add root level if it was provided in configuration (there is a page or a description) and no context tag
+    // (Context tags replace root)
+    if (NavigationContainer.hasRootTag(newProps) && !contextTags.length) {
       navigationLevels.push({
         label: {
-          en: get(page.title, 'en', description),
-          fr: get(page.title, 'fr', description),
+          en: get(page, 'title.en', description),
+          fr: get(page, 'title.fr', description),
         },
         // navigation is allowed to root level only when there is no next context tags and there are
         // tags after (meaningless otherwise)
@@ -158,14 +159,18 @@ export class NavigationContainer extends React.Component {
    * @param {number} index level index (0 to N-1)
    */
   onLevelSelected = (level, index) => {
-    const { tags, contextTags, setTags } = this.props
+    const { tags, contextTags, updateResultsContext } = this.props
     // compute last static tag index (as tag level is expressed as a relative number to previous context / root tags),
     // as [0 ; N-1] index
     const lastContextTagIndex = (NavigationContainer.hasRootTag(this.props) ? 1 : 0) + contextTags.length - 1
     // compute last element index to NOT KEEP in tags (...if 2, elements 0, 1 are kept, if 1; element 0 is kept; if 0 itself, empty array)
     const remainingTagsCount = index - lastContextTagIndex
     const nextTags = tags.slice(0, remainingTagsCount)
-    setTags(nextTags)
+    updateResultsContext({
+      criteria: {
+        tags: nextTags,
+      },
+    })
   }
 
   render() {

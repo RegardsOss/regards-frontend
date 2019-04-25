@@ -87,6 +87,18 @@ function getViewData(resultsContext = {}) {
   }
 }
 
+/** Types for which download is allowed */
+const DOWNLOAD_ALLOWED_TYPES = [ENTITY_TYPES_ENUM.DATA, ENTITY_TYPES_ENUM.DOCUMENT]
+
+/**
+ * Is download allowed for entity type as parameter
+ * @param {string} type entity type, from ENTITY_TYPES_ENUM
+ * @return {boolean} true when allowed, false otherwise
+ */
+function allowDownload(type) {
+  return DOWNLOAD_ALLOWED_TYPES.includes(type)
+}
+
 /** Types for which sorting is allowed */
 const SORTING_ALLOWED_TYPES = [ENTITY_TYPES_ENUM.DATA, ENTITY_TYPES_ENUM.DOCUMENT]
 
@@ -165,6 +177,7 @@ export default {
   DISABLED_MAP_VIEW_MODE_STATE,
   DISABLED_TYPE_STATE,
   getViewData,
+  allowDownload,
   allowSorting,
   allowSelection,
   allowServices,

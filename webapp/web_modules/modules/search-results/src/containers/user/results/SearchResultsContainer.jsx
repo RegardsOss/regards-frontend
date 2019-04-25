@@ -97,6 +97,17 @@ export class SearchResultsContainer extends React.Component {
     updateResultsContext: PropTypes.func.isRequired,
   }
 
+  /**
+   * Compares a tag to a type and key.
+   * @param {*} tag tag to check
+   * @param {*} comparedType comparison type
+   * @param {*} comparedKey comparison search key
+   * @returns {boolean} true when tags stands for that type and key, false otherwise
+   */
+  static isSameTag(tag, comparedType, comparedKey) {
+    return tag.type === comparedType && tag.searchKey === comparedKey
+  }
+
   state = {
     restrictedDatasetsIds: [],
     requestParameters: {},
@@ -198,7 +209,7 @@ export class SearchResultsContainer extends React.Component {
    * @param {type: string, data: {string}} descriptionTag description tag, as callback from tag selection in description component
    */
   onAddSearchTagFromDescription = ({ type, data }) => {
-    const { moduleId, resultsContext, updateResultsContext } = this.props
+    const { moduleId, resultsContext: { criteria: { contextTags, tags: currentTags } }, updateResultsContext } = this.props
     // 1 - pack tag
     const newTag = { type }
     switch (type) {
@@ -212,21 +223,21 @@ export class SearchResultsContainer extends React.Component {
     }
     // in both cases, query is q=tag:xxx
     newTag.requestParameters = {
-      // TODO here, we may need to change the criteria system: the value should be built at runtime according with
-      // the type currently displayed (Tag OR Id here!). Discuss with SEB to make it homegenous!
       [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
       new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, newTag.searchKey).toQueryString(),
     }
-
     // 2 - update state by diff with the previous one. Make sure the added tag is present only once, at end (remove it from previous tags if found)
-    updateResultsContext(moduleId, {
-      criteria: {
-        tags: [
-          ...resultsContext.criteria.tags.filter(t => t.searchKey !== newTag.searchKey || t.type !== newTag.type),
-          newTag,
-        ],
-      },
-    })
+    // Nota: refuse adding a tag that already exists in context tags
+    if (!contextTags.find(t => SearchResultsContainer.isSameTag(t, newTag.type, newTag.searchKey))) {
+      updateResultsContext(moduleId, {
+        criteria: {
+          tags: [
+            ...currentTags.filter(t => !SearchResultsContainer.isSameTag(t, newTag.type, newTag.searchKey)),
+            newTag,
+          ],
+        },
+      })
+    }
   }
 
   /**
@@ -234,14 +245,17 @@ export class SearchResultsContainer extends React.Component {
    * @param {*} entity selected entity (matches EntityWithServices shape)
    */
   onSearchEntity = (entity) => {
-    const { moduleId, updateResultsContext, resultsContext: { type: currentType, criteria: { tags: currentTags } } } = this.props
+    const { moduleId, updateResultsContext, resultsContext: { type: currentType, criteria: { contextTags, tags: currentTags } } } = this.props
+    const { content: { entityType, id } } = entity
+    // Deny adding a tag that is already in context
+    const shouldUpdateTags = !contextTags.find(t => SearchResultsContainer.isSameTag(t, entityType, id))
     updateResultsContext(moduleId, {
       type: UIDomain.ResultsContextConstants.getNavigateToViewType(currentType), // swap to next view type
       criteria: {
-        tags: [ // report current tags EXCEPT the one currently added, then add this one
-          ...currentTags.filter(t => t.searchKey !== entity.content.id),
+        tags: shouldUpdateTags ? [ // report current tags EXCEPT the one currently added, then add it at end
+          ...currentTags.filter(t => SearchResultsContainer.isSameTag(t, entityType, id)),
           CriterionBuilder.buildEntityTagCriterion(entity),
-        ],
+        ] : currentTags,
       },
     })
   }

@@ -23,9 +23,63 @@
  */
 const styles = theme => ({
   configuration: {
-    viewTabsContainer: {
-      style: {
-        paddingTop: 20,
+    rootStyle: {
+      display: 'flex',
+      alignItems: 'stretch',
+      justifyContent: 'flex-start',
+    },
+    tree: {
+      container: {
+        flexGrow: 1, // 1/4 page
+        flexBasis: 0,
+        borderColor: theme.palette.borderColor,
+        borderWidth: '0 1px 0 0',
+        borderStyle: 'solid',
+      },
+      cell: {
+        root: {
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          cursor: 'pointer',
+        },
+        selected: {
+          icon: {
+            color: theme.palette.accent1Color,
+          },
+          section: {
+            color: theme.palette.accent1Color,
+            marginLeft: 10,
+            fontSize: '1.2em',
+          },
+          page: {
+            color: theme.palette.accent1Color,
+            marginLeft: 10,
+          },
+        },
+        regular: {
+          icon: {
+            color: theme.palette.textColor,
+          },
+          section: {
+            marginLeft: 10,
+            fontSize: '1.2em',
+          },
+          page: {
+            marginLeft: 10,
+          },
+        },
+      },
+    },
+    content: {
+      container: {
+        flexGrow: 3, // 3/4 page
+        flexBasis: 0,
+        marginTop: 12,
+        paddingLeft: 20,
+      },
+      tableFieldSpacer: {
+        marginTop: theme.components.infiniteTable.minHeaderRowHeight,
       },
     },
   },
