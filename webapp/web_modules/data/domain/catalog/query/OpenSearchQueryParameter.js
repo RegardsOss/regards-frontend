@@ -31,16 +31,22 @@ export default class OpenSearchQueryParameter extends QueryParameter {
   static ESCAPED_CHARS = ['\\', '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '/', ' ']
 
 
-  /** Choice separator */
-  static CHOICE_SEPARATOR = ' OR '
+  /** OR values separator */
+  static OR_SEPARATOR = ' OR '
+
+  /** AND values separator */
+  static AND_SEPARATOR = ' AND '
+
+  /** NEGATE value operator */
+  static NEGATE_OPERATOR = 'NOT '
 
   /**
    * Escape string when its value cannot be parsed
    * @see {documentation server}/microservice-catalog/search/
-   * @param value parameter value string
-   * @return escaped string or initial value if it should not be escaped
+   * @param {string} value parameter value string
+   * @return {string} escaped string or initial value if it should not be escaped
    */
-  static escape = (value) => {
+  static escape(value) {
     if (value) {
       return OpenSearchQueryParameter.ESCAPED_CHARS.some(char => value.includes(char))
         // there are special characters in some of the parameter parts
@@ -51,22 +57,44 @@ export default class OpenSearchQueryParameter extends QueryParameter {
   }
 
   /**
+   * Converts paramter value into usable query parameter value
+   * @param {string} value a parameter value, as string
+   * @param {boolean} negate should negate value?
+   * @return {string} escaped value, negated when required
+   */
+  static toQueryParameterValue(value = '', negate = false) {
+    const escapedString = OpenSearchQueryParameter.escape(value)
+    if (escapedString) {
+      return negate ? `${OpenSearchQueryParameter.NEGATE_OPERATOR}${escapedString}` : escapedString
+    }
+    return escapedString
+  }
+
+  /**
    * Compute the parameter value and serialize it, based on
    * @param {string|[string]} value parameter value as string or array of string in the case of choices
+   * @param {boolean} negate should negate value?
+   * @param negate
    */
-  static computeParameterValue(value = '') {
-    if (isArray(value)) {
-      const paramValue = value.map(OpenSearchQueryParameter.escape).join(OpenSearchQueryParameter.CHOICE_SEPARATOR)
-      switch (value.length) {
-        case 0:
-          return '' // no value
-        case 1:
-          return paramValue // no choice
-        default: // values count > 1, open search choices must be in parenthesis
-          return `(${paramValue})`
-      }
+  static computeParameterValue(value = '', negate = false) {
+    // A - Convert to array without empty values
+    const valuesArray = (isArray(value) ? value : [value]).filter(v => !!v)
+    if (!valuesArray.length) {
+      return null // no parameter value
     }
-    return OpenSearchQueryParameter.escape(value)
+
+    // B - Convert array to open search query
+    // build OR values array when not negated => a:(X OR Y)
+    // build AND values array when negated => a:(!X AND !Y)
+    const paramValue = valuesArray
+      .map(v => OpenSearchQueryParameter.toQueryParameterValue(v, negate))
+      .join(negate ? OpenSearchQueryParameter.AND_SEPARATOR : OpenSearchQueryParameter.OR_SEPARATOR)
+    if (valuesArray.length > 1 || negate) {
+      // add parenthesis for espressions like (A OR B), (NOT X), (NOT X AND NOT Y)
+      return `(${paramValue})`
+    }
+    // simple value
+    return paramValue
   }
 
   /**
@@ -84,10 +112,10 @@ export default class OpenSearchQueryParameter extends QueryParameter {
     if (!this.name) {
       return null
     }
-    const queryString = OpenSearchQueryParameter.computeParameterValue(this.value)
+    const queryString = OpenSearchQueryParameter.computeParameterValue(this.value, this.negate)
     if (!queryString) {
       return null
     }
-    return `${this.name}${this.valueSeparator}${this.negate ? `!(${queryString})` : queryString}`
+    return `${this.name}${this.valueSeparator}${queryString}`
   }
 }

@@ -114,7 +114,6 @@ export class NavigableSearchResultsContainer extends React.Component {
     // When any property used in module configuration changes, store new module configuration in state
     if (!isEqual(oldProps.id, id)
     || !isEqual(oldProps.appName, appName)
-    || !isEqual(oldProps.id, id)
     || !isEqual(oldProps.moduleConf, moduleConf)
     || !isEqual(oldProps.searchTag, searchTag)
     || !isEqual(oldProps.locale, locale)) {
@@ -122,7 +121,7 @@ export class NavigableSearchResultsContainer extends React.Component {
         // results module configuration
         resultsConfiguration: {
           applicationId: appName,
-          id: newProps.id,
+          id,
           type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
           active: true,
           // set default title (used only when there is no root tag)

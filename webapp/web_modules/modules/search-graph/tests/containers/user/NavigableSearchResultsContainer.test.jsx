@@ -19,11 +19,11 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TAG_TYPES_ENUM } from '@regardsoss/domain/catalog'
-import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
+import { CatalogDomain, DamDomain } from '@regardsoss/domain'
 import { modulesManager, LazyModuleComponent } from '@regardsoss/modules'
 import { NavigableSearchResultsContainer } from '../../../src/containers/user/NavigableSearchResultsContainer'
 import styles from '../../../src/styles/styles'
+import { configuration1 } from '../../dumps/configuration.dump'
 
 const context = buildTestContext(styles)
 
@@ -34,103 +34,109 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
   it('should exists', () => {
     assert.isDefined(NavigableSearchResultsContainer)
   })
-  it('should render properly without any search tag', () => {
+  it('should render correctly and update controlled results context', () => {
+    let spiedStateDiff = null
     const props = {
       appName: 'any',
       project: 'any',
       type: 'any',
       searchQuery: null, // search query if a dataset is selected
       // Module configuration
-      moduleConf: {},
+      moduleConf: configuration1,
       searchTag: null,
       dispatchExpandResults: () => { },
       dispatchCollapseGraph: () => { },
+      dispatchUpdateResultsContext: (stateDiff) => {
+        spiedStateDiff = stateDiff
+      },
     }
-    const render = shallow(<NavigableSearchResultsContainer {...props} />, { context, lifecycleExperimental: true })
-    const lazyModules = render.find(LazyModuleComponent)
+    const enzymeWrapper = shallow(<NavigableSearchResultsContainer {...props} />, { context, lifecycleExperimental: true })
+    const lazyModules = enzymeWrapper.find(LazyModuleComponent)
     assert.lengthOf(lazyModules, 1, 'There should be the results module')
     // Test corresponding module properties
     const lazyModuleProps = lazyModules.props()
     assert.equal(lazyModuleProps.appName, props.appName, 'App name should be correctly reported')
     assert.equal(lazyModuleProps.project, props.project, 'Project should be correctly reported')
-    assert.isOk(lazyModuleProps.module, 'There should be the lazy module configuration')
-    assert.equal(lazyModuleProps.module.description, 'search.graph.results.title.without.tag', 'As there is no tag, root description label should be provided')
-    assert.lengthOf(lazyModuleProps.module.conf.initialContextTags, 0, 'No tag should be reported')
-  })
-  it('should handle search tags changes', () => {
-    let spiedExpandResultsCount = 0
-    let spiedCollapseGraphCount = 0
-    const props = {
-      appName: 'any',
-      project: 'any',
-      type: 'any',
-      moduleConf: {},
-      searchTag: {
-        type: TAG_TYPES_ENUM.WORD,
-        data: 'unemobilette',
+    const { resultsConfiguration } = enzymeWrapper.state()
+    assert.deepEqual(resultsConfiguration, {
+      applicationId: props.appName,
+      id: props.id,
+      type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
+      active: true,
+      description: 'search.graph.results.title.without.tag',
+      conf: props.moduleConf.searchResult,
+    }, 'Module configuration should be computed in state')
+    assert.deepEqual(lazyModuleProps.module, resultsConfiguration, 'Module configuration should be reported from state')
+
+    assert.deepEqual(spiedStateDiff, {
+      criteria: {
+        contextTags: [],
+        tags: [],
       },
-      dispatchExpandResults: () => { spiedExpandResultsCount += 1 },
-      dispatchCollapseGraph: () => { spiedCollapseGraphCount += 1 },
-    }
-    const render = shallow(<NavigableSearchResultsContainer {...props} />, { context, lifecycleExperimental: true })
-    assert.equal(spiedExpandResultsCount, 1, '(1) As there is a new selected tag, results should get expanded...')
-    assert.equal(spiedCollapseGraphCount, 1, '(1) ...and graph collapsed')
-
-    let lazyModules = render.find(LazyModuleComponent)
-    assert.lengthOf(lazyModules, 1, 'There should be one lazy module for results')
-    // Test corresponding module properties
-    let lazyModuleProps = lazyModules.props()
-    assert.equal(lazyModuleProps.appName, props.appName, 'App name should be correctly reported')
-    assert.equal(lazyModuleProps.project, props.project, 'Propject should be correctly reported')
-    assert.isOk(lazyModuleProps.module, 'There should be the lazy module configuration')
-
-    let { module } = lazyModules.props()
-    assert.equal(module.type, modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS, 'The right module type should be configured')
-    assert.isNotOk(module.description, 'As there is a tag, root description label should not be provided')
-
-    let { conf } = module
-    assert.lengthOf(conf.initialContextTags, 1, 'The tag should be reported to search results tag')
-    assert.deepEqual(conf.initialContextTags[0], {
-      type: TAG_TYPES_ENUM.WORD,
-      label: 'unemobilette',
-      searchKey: 'unemobilette',
-    }, 'The right tag should be provided')
-
-    render.setProps({
+    }, 'Container should initiale controlled module (results context)')
+    // Mimic a tag change (word)
+    enzymeWrapper.setProps({
+      ...props,
       searchTag: {
-        type: TAG_TYPES_ENUM.DATASET,
+        type: CatalogDomain.TAG_TYPES_ENUM.WORD,
+        data: 'myWord',
+      },
+    })
+    assert.deepEqual(spiedStateDiff, {
+      criteria: {
+        contextTags: [{
+          type: CatalogDomain.TAG_TYPES_ENUM.WORD,
+          label: 'myWord',
+          searchKey: 'myWord',
+          requestParameters: {
+            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: `${CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME}:myWord`,
+          },
+        }],
+        tags: [],
+      },
+    }, 'Container should update controlled module results context with word tag')
+    // Mimic a tag change (entity)
+    enzymeWrapper.setProps({
+      ...props,
+      searchTag: {
+        type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
         data: {
           content: {
-            id: 'URN:dataset1',
-            providerId: 'Provider1',
-            label: 'dslabel',
-            model: 'MonLapin',
-            entityType: ENTITY_TYPES_ENUM.DATASET,
+            id: 'URN:DATASET:TEST',
+            model: 'myModel',
+            providerId: 'myProviderId',
+            label: 'myLabel',
+            entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+            files: {},
+            properties: {},
             tags: [],
           },
         },
       },
     })
-    assert.equal(spiedExpandResultsCount, 2, '(2) As there is a new selected tag, results should get expanded...')
-    assert.equal(spiedCollapseGraphCount, 2, '(2) ...and graph collapsed')
-    lazyModules = render.find(LazyModuleComponent)
-    assert.lengthOf(lazyModules, 1, 'There should be one lazy module for results')
-
-    // Test corresponding module properties
-    lazyModuleProps = lazyModules.props()
-    assert.equal(lazyModuleProps.appName, props.appName, 'App name should be correctly reported')
-    assert.equal(lazyModuleProps.project, props.project, 'Propject should be correctly reported')
-
-    module = lazyModules.props().module
-    assert.equal(module.type, modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS, 'The right module type should be configured')
-    assert.isNotOk(module.description, 'As there is a tag, root description label should not be provided')
-
-    conf = module.conf
-    assert.lengthOf(conf.initialContextTags, 1, 'The tag should be reported to search results tag')
-    assert.deepEqual(conf.initialContextTags[0], {
-      type: TAG_TYPES_ENUM.DATASET,
-      label: 'dslabel',
-      searchKey: 'URN:dataset1',
-    }, 'The right tag should be provided')
+    assert.deepEqual(spiedStateDiff, {
+      criteria: {
+        contextTags: [{
+          type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+          label: 'myLabel',
+          searchKey: 'URN:DATASET:TEST',
+          requestParameters: {
+            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: `${CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME}:"URN%3ADATASET%3ATEST"`,
+          },
+        }],
+        tags: [],
+      },
+    }, 'Container should update controlled module results context with entity tag')
+    // Mimic a tag reset
+    enzymeWrapper.setProps({
+      ...props,
+      searchTag: null,
+    })
+    assert.deepEqual(spiedStateDiff, {
+      criteria: {
+        contextTags: [],
+        tags: [],
+      },
+    }, 'Container should update controlled module results context with no tag')
   })
 })

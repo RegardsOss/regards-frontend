@@ -16,17 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { CatalogDomain } from '@regardsoss/domain'
+import { Entity } from './Entity'
 
-import { entityFields } from '../rs-catalog/entity/Entity'
-import { PluginServiceWithContentArray } from './PluginService'
-
-/**
- * Defines entity shape, as enriched by the access microservice (front-end proxy)
- * @author Raphaël Mechali
- */
-export const EntityWithServices = PropTypes.shape({
-  content: PropTypes.shape({
-    ...entityFields,
-    services: PluginServiceWithContentArray,
-  }).isRequired,
+/** Tag shape, as considered by the UI */
+export default PropTypes.shape({
+  type: PropTypes.oneOf(CatalogDomain.TAG_TYPES).isRequired,
+  data: PropTypes.oneOfType([PropTypes.string, Entity]).isRequired,
 })

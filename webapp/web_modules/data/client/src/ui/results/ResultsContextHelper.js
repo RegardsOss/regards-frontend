@@ -25,7 +25,6 @@ import keys from 'lodash/keys'
  * @author Raphaël Mechali
  */
 export class ResultsContextHelper {
-  // TODO: tests for this helper and for the client!
   /**
    * Merges deeply two objects. Second object always has precedence (it is considered as "differences" from previous state)
    * @param {*} source source object

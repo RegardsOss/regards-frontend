@@ -19,13 +19,13 @@
 
 export {
   entityFields, Entity, EntityList, entityFiles,
-} from './Entity/Entity'
-export { default as EntityGeoProperties } from './Entity/EntityGeoProperties'
+} from './entity/Entity'
+export { default as EntityGeoProperties } from './entity/EntityGeoProperties'
 export {
   BooleanFacet, BooleanFacetValue, DateRangeFacet, DateRangeFacetValue,
   NumberRangeFacet, NumberRangeFacetValue, StringFacet, StringFacetValue, Facet, FacetArray,
 } from './Facets'
-export { default as Tag } from './Entity/Tag'
+export { default as Tag } from './entity/Tag'
 
 export { AttributeBoundsContent, AttributeBounds, AttributeBoundsMap } from './AttributesBounds'
 export { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'

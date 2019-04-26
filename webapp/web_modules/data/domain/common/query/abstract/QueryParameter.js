@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isNil from 'lodash/isNil'
 
 /**
  * Common query parameter model with value and name
@@ -39,6 +38,6 @@ export default class QueryParameter {
    * @return parameter query string when parameter is valid and has a value, null otherwise
    */
   toQueryString() {
-    return isNil(this.name) || isNil(this.value) ? null : `${this.name}${this.valueSeparator}${this.value}`
+    return !this.name || !this.value ? null : `${this.name}${this.valueSeparator}${this.value}`
   }
 }

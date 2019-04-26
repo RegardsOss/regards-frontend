@@ -23,7 +23,6 @@ import { UIShapes, CommonShapes } from '@regardsoss/shape'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
 import ListViewComponent from '../../../../components/user/results/list/ListViewComponent'
-import { PresentationHelper } from '../../../../definitions/PresentationHelper'
 
 /**
  * Container for search results list component. Converts current model into list render data to enhance render performances

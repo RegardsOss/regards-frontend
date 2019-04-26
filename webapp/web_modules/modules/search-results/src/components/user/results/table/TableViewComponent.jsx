@@ -142,7 +142,7 @@ class TableViewComponent extends React.Component {
     const { lineHeight } = muiTheme.components.infiniteTable
     return (
       <PageableInfiniteTableContainer
-        key={type} // unmount the table when change entity type (using key trick) - TODO: if one compo by type, clear that trick!
+        key={type} // unmount the table when change entity type (using key trick)
         // infinite table configuration
         pageActions={searchActions}
         pageSelectors={searchSelectors}

@@ -19,6 +19,8 @@
 import StaticParameter from '../../common/query/abstract/StaticParameter'
 import OpenSearchQuery from './OpenSearchQuery'
 
+// TESTS for ME, open search query and url query (common)
+
 /**
  * Helper and constant to emit a catalog search query
  * @author Raphaël Mechali

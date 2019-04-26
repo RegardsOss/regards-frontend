@@ -47,7 +47,7 @@ require.config({
   onBuildWrite(name, path, contents) {
     return contents
       .replace(/define\s*\([^{]*?{/, '')
-      .replace(/\s*return\s+[^}]+(\}\);[^\w}]*)$/, '') // TODO test!
+      .replace(/\s*return\s+[^}]+(\}\);[^\w}]*)$/, '')
       .replace(/\}\);[^}\w]*$/, '')
   },
   paths: {
@@ -71,7 +71,7 @@ require.config({
       exports: '_',
       init() {
         // eslint-disable-next-line no-undef
-        return _.noConflict() // TODO
+        return _.noConflict()
       },
     },
     jquery: {

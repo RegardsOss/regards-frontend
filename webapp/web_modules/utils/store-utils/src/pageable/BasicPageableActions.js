@@ -93,24 +93,24 @@ class BasicPageableActions extends BasicListActions {
   }
 
   fetchPagedEntityListByPost(pageNumber, size, pathParams, bodyParams) {
-     // Compute the endpoint URI
-     const endpoint = this.getRequestEndpoint(pageNumber, size, pathParams, {})
-     return {
-       [RSAA]: {
-         types: [
-           this.ENTITY_LIST_REQUEST,
-           this.buildSuccessAction(
-             this.ENTITY_LIST_SUCCESS,
-             (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesPagePayload(json)),
-           ),
-           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
-         ],
-         endpoint,
-         headers: this.headers,
-         method: 'POST',
-         body: JSON.stringify(bodyParams),
-       },
-     }
+    // Compute the endpoint URI
+    const endpoint = this.getRequestEndpoint(pageNumber, size, pathParams, {})
+    return {
+      [RSAA]: {
+        types: [
+          this.ENTITY_LIST_REQUEST,
+          this.buildSuccessAction(
+            this.ENTITY_LIST_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesPagePayload(json)),
+          ),
+          this.buildFailureAction(this.ENTITY_LIST_FAILURE),
+        ],
+        endpoint,
+        headers: this.headers,
+        method: 'POST',
+        body: JSON.stringify(bodyParams),
+      },
+    }
   }
 
   normalizeEntitiesPagePayload(json) {

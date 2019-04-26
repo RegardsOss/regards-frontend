@@ -46,6 +46,7 @@ export default class Query {
    * @return {string} query string
    */
   toQueryString() {
-    return `${this.rootQuery || ''}${this.parameters.map(p => p.toQueryString()).filter(p => !!p).join(this.separator)}`
+    const parametersText = this.parameters.map(p => p.toQueryString()).filter(p => !!p).join(this.separator)
+    return `${this.rootQuery || ''}${this.rootQuery && parametersText ? this.separator : ''}${parametersText}`
   }
 }

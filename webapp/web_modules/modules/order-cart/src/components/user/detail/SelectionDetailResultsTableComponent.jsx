@@ -32,8 +32,8 @@ class SelectionDetailResultsTableComponent extends React.Component {
   static propTypes = {
     pageActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
-    // request parameters
-    requestParams: CommonShapes.RequestParameters,
+    // request parameters (object of any as it is a POST request)
+    requestParams: PropTypes.objectOf(PropTypes.any),
     // results information
     resultsCount: PropTypes.number.isRequired,
     isFetching: PropTypes.bool.isRequired,

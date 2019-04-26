@@ -44,13 +44,13 @@ export class ResultsContainer extends React.Component {
   }
 
   static propTypes = {
-    preview: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
     id: PropTypes.number, // used in onPropertiesUpdated
     appName: PropTypes.string.isRequired,
     project: PropTypes.string,
     // eslint-disable-next-line
     searchResultsConfiguration: PropTypes.object, // used in onPropertiesUpdated, cannot shape it better due to module exports system
+    preview: PropTypes.bool,
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     locale: PropTypes.string, // never used, only allows recalling componentWillReceiveProps when changing
