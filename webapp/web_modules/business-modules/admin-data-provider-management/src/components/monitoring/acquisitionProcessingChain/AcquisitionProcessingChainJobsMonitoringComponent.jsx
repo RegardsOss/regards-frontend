@@ -110,31 +110,6 @@ class AcquisitionProcessingChainJobsMonitoringComponent extends React.Component 
     )
   }
 
-  renderSubmissionJobsActivity = () => {
-    const { chain } = this.props
-    const { intl: { formatMessage }, moduleTheme: { monitoring: { chainJobs: { jobActivityStyle } } } } = this.context
-    if (chain && chain.nbSIPSubmissionJobs && chain.nbSIPSubmissionJobs > 0) {
-      return (
-        <div style={jobActivityStyle}>
-          <RefreshIndicator
-            size={25}
-            left={0}
-            top={0}
-            status="loading"
-            style={AcquisitionProcessingChainJobsMonitoringComponent.style.refresh}
-          />
-          {formatMessage({ id: 'acquisition-chain.jobs.monitor.submission.job.label' }, { count: this.props.chain.nbSIPSubmissionJobs })}
-        </div>
-      )
-    }
-    return (
-      <div style={jobActivityStyle}>
-        <FlagFinished />
-        {formatMessage({ id: 'acquisition-chain.jobs.monitor.submission.job.empty.label' })}
-      </div>
-    )
-  }
-
   renderDialog = () => {
     const { chain } = this.props
     const { intl: { formatMessage }, moduleTheme: { monitoring: { chainJobs: { descriptionStyle } } } } = this.context
@@ -161,8 +136,6 @@ class AcquisitionProcessingChainJobsMonitoringComponent extends React.Component 
         {this.renderProductAcquisitionJobsActivity()}
         <Divider />
         {this.renderGenerationJobsActivity()}
-        <Divider />
-        {this.renderSubmissionJobsActivity()}
         <Divider />
       </Dialog>
     )

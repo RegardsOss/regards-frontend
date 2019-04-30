@@ -62,10 +62,9 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.label': 'Chain name (*)',
   'acquisition-chain.form.general.section.active': 'Activate chain',
   'acquisition-chain.form.general.generationRetryEnabled': 'Enable SIP re-generation for products in error state.',
-  'acquisition-chain.form.general.submissionRetryEnabled': 'Enable SIP re-submission for products in error state.',
-  'acquisition-chain.form.general.section.periodicity': 'Activation periodicity (seconds). Only for automatic chains. ',
-  'acquisition-chain.form.general.section.session': 'Acquisition session name ...',
-  'acquisition-chain.form.general.section.mode': 'Mode',
+  'acquisition-chain.form.general.section.periodicity': 'Activation periodicity (seconds). Only for automatic chain. ',
+  'acquisition-chain.form.general.section.session': 'Session name (*)',
+  'acquisition-chain.form.general.section.mode': 'Mode (*)',
   'acquisition-chain.form.general.section.mode.AUTO': 'Automatic',
   'acquisition-chain.form.general.section.mode.MANUAL': 'Manual',
   'acquisition-chain.form.general.section.ingestChain.select': 'Ingest chain (*)',
@@ -149,8 +148,6 @@ const messages = Object.assign({
   'acquisition-chain.jobs.monitor.product-acquisition.job.empty.label': 'All product acquisition jobs are terminated.',
   'acquisition-chain.jobs.monitor.generation.job.label': '{count} running generation jobs.',
   'acquisition-chain.jobs.monitor.generation.job.empty.label': 'All generation jobs are terminated',
-  'acquisition-chain.jobs.monitor.submission.job.label': '{count} running submission jobs.',
-  'acquisition-chain.jobs.monitor.submission.job.empty.label': 'All submission jobs are terminated',
 
   // 4. Products list
   // 4.1 Headers

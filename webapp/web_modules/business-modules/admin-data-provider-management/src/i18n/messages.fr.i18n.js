@@ -62,10 +62,9 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.label': 'Nom de la chaîne (*)',
   'acquisition-chain.form.general.section.active': 'Chaîne active',
   'acquisition-chain.form.general.generationRetryEnabled': 'Autoriser la re-génération des SIP associés à des produits en erreur.',
-  'acquisition-chain.form.general.submissionRetryEnabled': 'Autoriser la re-soumission des SIP associés à des produits en erreur.',
-  'acquisition-chain.form.general.section.periodicity': 'Période d\'activation (secondes). Seulement pour les chaînes en mode manuel.',
-  'acquisition-chain.form.general.section.session': 'Nom de session d\'acquisition',
-  'acquisition-chain.form.general.section.mode': 'Mode',
+  'acquisition-chain.form.general.section.periodicity': 'Période d\'activation (secondes). Uniquement utile pour une chaîne automatique.',
+  'acquisition-chain.form.general.section.session': 'Session (*)',
+  'acquisition-chain.form.general.section.mode': 'Mode (*)',
   'acquisition-chain.form.general.section.mode.AUTO': 'Automatique',
   'acquisition-chain.form.general.section.mode.MANUAL': 'Manuel',
   'acquisition-chain.form.general.section.ingestChain.select': 'Chaîne d\'ingestion (*)',
@@ -144,13 +143,11 @@ const messages = Object.assign({
   // 3.2 Chain jobs
   'acquisition-chain.jobs.monitor.view.button.label': 'Détails',
   'acquisition-chain.jobs.monitor.dialog.title': 'Etat d\'activité des "Jobs" associés à la chaîne d\'acquisition {label}',
-  'acquisition-chain.jobs.monitor.dialog.information.message': 'Ci-dessous sont listés les "Jobs" en cours d\'activité pour la chaîne d\'acquisition courante.',
-  'acquisition-chain.jobs.monitor.product-acquisition.job.label': '{count} "Job(s)" d\'acquisition actif(s).',
-  'acquisition-chain.jobs.monitor.product-acquisition.job.empty.label': 'Tous les "Jobs" d\'acquisition sont terminés.',
-  'acquisition-chain.jobs.monitor.generation.job.label': '{count} "Job(s)" de génération actif(s).',
+  'acquisition-chain.jobs.monitor.dialog.information.message': 'Ci-dessous sont listés les jobs en cours d\'activité pour la chaîne d\'acquisition courante.',
+  'acquisition-chain.jobs.monitor.product-acquisition.job.label': '{count} Jobs d\'acquisition actif(s).',
+  'acquisition-chain.jobs.monitor.product-acquisition.job.empty.label': 'Tous les jobs d\'acquisition sont terminés.',
+  'acquisition-chain.jobs.monitor.generation.job.label': '{count} Jobs de génération actif(s).',
   'acquisition-chain.jobs.monitor.generation.job.empty.label': 'Tous les "Jobs" de génération sont terminés.',
-  'acquisition-chain.jobs.monitor.submission.job.label': '{count} "Job(s)" de soumission actif(s).',
-  'acquisition-chain.jobs.monitor.submission.job.empty.label': 'Tous les "Jobs" de soumission sont terminés.',
 
   // 4. Products list
   // 4.1 Headers
