@@ -42,9 +42,8 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
     expect(Routes.childRoutes[5].path).to.eq('monitor')
     expect(Routes.childRoutes[6].path).to.eq('aip/:datasourceId/edit')
     expect(Routes.childRoutes[7].path).to.eq('aip/create')
-    expect(Routes.childRoutes[8].path).to.eq('opensearch/create/crawler')
-    expect(Routes.childRoutes[9].path).to.eq('opensearch/create/query')
-    expect(Routes.childRoutes[10].path).to.eq('opensearch/create/results')
+    expect(Routes.childRoutes[8].path).to.eq('opensearch/create')
+    expect(Routes.childRoutes[8].path).to.eq('opensearch/:datasourceId/edit')
   })
   it('list should return DatasourceListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -100,14 +99,8 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
       done()
     })
   })
-  it('create should return OSQueryConfigurationContainer', (done) => {
+  it('edit should return OSCrawlerConfigurationContainer', (done) => {
     Routes.childRoutes[9].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(OSConfigurationFormContainer)
-      done()
-    })
-  })
-  it('create should return OSResultsConfigurationContainer', (done) => {
-    Routes.childRoutes[10].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(OSConfigurationFormContainer)
       done()
     })

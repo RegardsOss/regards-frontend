@@ -28,6 +28,7 @@ import messages from '../i18n'
 
 
 const INTERFACE_DS_DB = 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourcePlugin'
+const INTERFACE_DS_AIP = 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IAipDataSourcePlugin'
 
 /**
  * Show the datasource list
@@ -79,6 +80,8 @@ export class DatasourceListContainer extends React.Component {
     if (!includes(datasource.content.interfaceNames, INTERFACE_DS_DB)) {
       // Here we have an AIP DS
       url = `/admin/${project}/data/acquisition/datasource/aip/${datasourceId}/edit`
+    } else if (sdkhfgasdk) {
+      url = `/admin/${project}/data/acquisition/datasource/opensearch/${datasourceId}/edit`
     } else {
       // Here is an external DS
       url = `/admin/${project}/data/acquisition/datasource/db/${datasourceId}/edit`

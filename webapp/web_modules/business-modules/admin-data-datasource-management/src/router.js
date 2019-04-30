@@ -100,8 +100,8 @@ export const createAIPDatasourceRoute = {
   },
 }
 
-export const createOSDatasourceCrawlerRoute = {
-  path: 'opensearch/create/crawler',
+export const createOSDatasourceRoute = {
+  path: 'opensearch/create',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const OSConfigurationFormContainer = require('./containers/OSConfigurationFormContainer')
@@ -112,20 +112,8 @@ export const createOSDatasourceCrawlerRoute = {
   },
 }
 
-export const createOSDatasourceQueryRoute = {
-  path: 'opensearch/create/query',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const OSConfigurationFormContainer = require('./containers/OSConfigurationFormContainer')
-      cb(null, {
-        content: OSConfigurationFormContainer.default,
-      })
-    })
-  },
-}
-
-export const createOSDatasourceResultsRoute = {
-  path: 'opensearch/create/results',
+export const editOSDatasourceRoute = {
+  path: 'opensearch/:datasourceId/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const OSConfigurationFormContainer = require('./containers/OSConfigurationFormContainer')
@@ -159,9 +147,8 @@ const datasourceDataManagementRouter = {
     monitorDatasourcesRoute,
     editAIPDatasourceRoute,
     createAIPDatasourceRoute,
-    createOSDatasourceCrawlerRoute,
-    createOSDatasourceQueryRoute,
-    createOSDatasourceResultsRoute,
+    createOSDatasourceRoute,
+    editOSDatasourceRoute,
   ],
 }
 

@@ -48,7 +48,7 @@ export class DatasoucePickInterfaceContainer extends React.Component {
 
   getCreateOSCrawlerUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/acquisition/datasource/opensearch/create/crawler`
+    return `/admin/${project}/data/acquisition/datasource/opensearch/create`
   }
 
   render() {

@@ -20,10 +20,12 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { I18nProvider } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
+import map from 'lodash/map'
 import messages from '../i18n'
 import OSCrawlerConfigurationContainer from './OSCrawlerConfigurationContainer'
 import OSQueryConfigurationContainer from './OSQueryConfigurationContainer'
 import OSResultsConfigurationContainer from './OSResultsConfigurationContainer'
+import { datasourceSelectors, datasourceActions } from '../clients/DatasourceClient'
 
 const STATE = {
   CRAWLER: 'CRAWLER',
@@ -51,8 +53,12 @@ export class OSConfigurationFormContainer extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state) {
-    return {}
+  static mapStateToProps(state, ownProps) {
+    return {
+      currentDatasource: ownProps.params.datasourceId
+        ? datasourceSelectors.getById(state, ownProps.params.datasourceId)
+        : null,
+    }
   }
 
   /**
@@ -62,12 +68,56 @@ export class OSConfigurationFormContainer extends React.Component {
    * @return {*} list of component properties extracted from redux state
    */
   static mapDispatchToProps(dispatch) {
-    return {}
+    return {
+      createDatasource: values => dispatch(datasourceActions.createEntity(values)),
+      editDatasource: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
+      fetchDatasource: id => dispatch(datasourceActions.fetchEntity(id)),
+    }
   }
 
   state = {
-    crawler: {},
-    query: {},
+    query: {
+      filters: [],
+    },
+    isEditing: !(this.props.params.datasourceId === undefined),
+  }
+
+  componentDidMount() {
+    if (this.state.isEditing) {
+      Promise.resolve(this.props.fetchDatasource(this.props.params.datasourceId))
+    }
+  }
+
+  createInitialValues = () => {
+    if (this.props.currentDatasource) {
+      const { currentDatasource } = this.props
+      const webserviceConfiguration = currentDatasource.content.parameters.find(config => config.name === 'webserviceConfiguration')
+      const conversionConfiguration = currentDatasource.content.parameters.find(config => config.name === 'conversionConfiguration')
+      return {
+        crawler: {
+          descriptor: webserviceConfiguration.value.opensearchDescriptorURL,
+          name: currentDatasource.content.label,
+          refreshRate: currentDatasource.content.refreshRate,
+        },
+        query: {
+          filters: map(webserviceConfiguration.value.webserviceParameters, (value, key) => ({ name: key, value })),
+          lastUpdate: webserviceConfiguration.value.lastUpdateParam,
+          pageSize: webserviceConfiguration.value.pageSize,
+          totalResultsField: conversionConfiguration.value.totalResultsField,
+          pageSizeField: conversionConfiguration.value.pageSizeField,
+        },
+        results: {
+          modelName: conversionConfiguration.value.modelName,
+          propertiesLabel: '', // TODO
+          propertiesGeometry: '', // TODO
+          rawDataURLPath: conversionConfiguration.value.rawDataURLPath,
+          quicklookURLPath: conversionConfiguration.value.quicklookURLPath,
+          thumbnailURLPath: conversionConfiguration.value.thumbnailURLPath,
+          dynamic: conversionConfiguration.value.attributeToJsonField,
+        },
+      }
+    }
+    return { crawler: null, query: null, results: null }
   }
 
   onCrawlerSubmit = (fields) => {
@@ -77,24 +127,27 @@ export class OSConfigurationFormContainer extends React.Component {
     })
   }
 
-  onQuerySubmit = (fields) => {
+  onQuerySubmit = (fields, pageIndexParam, startPageIndex, pageSizeParam, webserviceURL) => {
     this.setState({
-      query: fields,
+      query: {
+        ...fields,
+        pageIndexParam,
+        startPageIndex,
+        pageSizeParam,
+        webserviceURL,
+      },
       formState: STATE.RESULTS,
     })
   }
 
   onResultsSubmit = (fields) => {
-    this.setState(
-      {
-        results: fields,
-      },
-      () => {
-        console.log('Crawler:', this.state.crawler)
-        console.log('Query:', this.state.query)
-        console.log('Results:', this.state.results)
-      },
-    )
+    this.setState({ results: fields }, this.createConfPlugin)
+  }
+
+  redirectToList = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/datasource/list`
+    browserHistory.push(url)
   }
 
   createConfPlugin = () => {
@@ -102,35 +155,40 @@ export class OSConfigurationFormContainer extends React.Component {
     const conf = {
       pluginId: 'webservice-datasource',
       label: crawler.name,
-      verson: '1.0-SNAPSHOT',
+      version: '1.0-SNAPSHOT',
       priorityOrder: 0,
+      refreshRate: +crawler.refreshRate, // TODO: Doesn't seem to exist
       active: true,
       interfaceNames: ['fr.cnes.regards.modules.dam.domain.datasources.plugins.IDataSourcePlugin'],
-      pluginClassName: 'fr.cnes.regards.modules.dam.plugins.datasources.webservice.WebserviceDatasourcePlugin',
+      pluginClassName:
+        'fr.cnes.regards.modules.dam.plugins.datasources.webservice.WebserviceDatasourcePlugin',
       parameters: [
         {
           name: 'webserviceConfiguration',
           value: {
-            webserviceURL: crawler.descriptor,
-            queryParams: query.filters.map(filter => ({
-              [filter.label]: filter.value,
-            })),
-            pageSizeParam: query.pageSize,
-            pageIndexParam: 'from descriptor',
+            webserviceURL: query.webserviceURL,
+            opensearchDescriptorURL: crawler.descriptor,
+            webserviceParameters: query.filters ? query.filters.reduce(
+              (acc, filter) => ({ ...acc, [filter.name]: filter.value }),
+              {},
+            ) : [],
+            pageSizeParam: query.pageSizeParam,
+            pageIndexParam: query.pageIndexParam,
             lastUpdateParam: query.lastUpdate,
-            startPageIndex: 'from descriptor',
-            pageSize: 'from form',
+            startPageIndex: query.startPageIndex,
+            pageSize: +query.pageSize,
           },
-          type: 'fr.cnes.regards.modules.dam.plugins.datasources.webservice.configuration.WebserviceConfiguration',
-        }, {
-          name: 'conversionConfiguation',
+          type:
+            'fr.cnes.regards.modules.dam.plugins.datasources.webservice.configuration.WebserviceConfiguration',
+        },
+        {
+          name: 'conversionConfiguration',
           value: {
             modelName: results.modelName,
-            totalResultsFields: '',
-            pageSizeField: '',
-            attributeToJsonField: {
-              label: results.propertiesLabel,
-            },
+            totalResultsField: results.totalResultsField,
+            // TODO il manque les attributs standards
+            pageSizeField: results.pageSizeField,
+            attributeToJsonField: results.dynamic,
             thumbnailURLPath: results.thumbnailURLPath,
             rawDataURLPath: results.rawDataURLPath,
             quicklookURLPath: results.quicklookURLPath,
@@ -139,6 +197,15 @@ export class OSConfigurationFormContainer extends React.Component {
       ],
     }
 
+    if (this.state.isEditing) {
+      // TODO : Ce que j'ai fait ici ne marchait pas du tout
+    } else {
+      Promise.resolve(this.props.createDatasource(conf)).then((actionResults) => {
+        if (!actionResults.error) {
+          this.redirectToList()
+        }
+      })
+    }
     return conf
   }
 
@@ -146,7 +213,9 @@ export class OSConfigurationFormContainer extends React.Component {
     switch (this.state.formState) {
       case STATE.CRAWLER:
       default:
-        browserHistory.push(`/admin/${this.props.params.project}/data/acquisition/datasource/create/interface`)
+        browserHistory.push(
+          `/admin/${this.props.params.project}/data/acquisition/datasource/create/interface`,
+        )
         break
       case STATE.QUERY:
         this.setState({ formState: STATE.CRAWLER })
@@ -166,10 +235,11 @@ export class OSConfigurationFormContainer extends React.Component {
       default:
         return (
           <OSCrawlerConfigurationContainer
+            isEditing={this.state.isEditing}
             onBack={this.handleBack}
             onSubmit={this.onCrawlerSubmit}
             project={project}
-            initialValues={this.state.crawler}
+            initialValues={this.createInitialValues().crawler}
           />
         )
       case STATE.QUERY:
@@ -177,14 +247,17 @@ export class OSConfigurationFormContainer extends React.Component {
           <OSQueryConfigurationContainer
             onBack={this.handleBack}
             onSubmit={this.onQuerySubmit}
-            initialValues={this.state.query}
+            isEditing={this.state.isEditing}
+            initialValues={this.createInitialValues().query}
           />
         )
       case STATE.RESULTS:
         return (
           <OSResultsConfigurationContainer
+            isEditing={this.state.isEditing}
             onBack={this.handleBack}
             onSubmit={this.onResultsSubmit}
+            initialValues={this.createInitialValues().results}
           />
         )
     }

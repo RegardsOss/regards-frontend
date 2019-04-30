@@ -55,6 +55,7 @@ const messages = Object.assign({
   'datasource.form.create.action.cancel': 'Cancel',
   'datasource.form.create.action.previous': 'Previous',
   'datasource.form.create.action.next': 'Next',
+  'datasource.form.create.action.finish': 'Finish',
   'datasource.form.create.action.connection': 'Create a connection',
   'datasource.form.create.datasource': 'List actives connections',
 
@@ -134,6 +135,38 @@ const messages = Object.assign({
   'opensearch.crawler.stepper.crawler': 'Crawler configuration',
   'opensearch.crawler.stepper.query': 'Query configuration',
   'opensearch.crawler.stepper.results': 'Results configuration',
+
+  'opensearch.crawler.form.crawler.title.create': 'Create a new crawler',
+  'opensearch.crawler.form.crawler.title.edit': 'Edit a crawler',
+  'opensearch.crawler.form.crawler.subtitle': 'Specify which OpenSearch ressource to crawl',
+  'opensearch.crawler.form.crawler.name': 'Crawler name',
+  'opensearch.crawler.form.crawler.refreshRate': 'Refresh rate',
+  'opensearch.crawler.form.crawler.descriptor': 'OpenSearch descriptor URL',
+
+  'opensearch.crawler.form.query.title.create': 'Create the query',
+  'opensearch.crawler.form.query.title.edit': 'Edit the query',
+  'opensearch.crawler.form.query.subtitle': 'Choose which filters will be applied to the query',
+  'opensearch.crawler.form.query.lastUpdate': 'Last update parameter',
+  'opensearch.crawler.form.query.pageSize': 'Page size parameter',
+  'opensearch.crawler.form.query.filters': 'Filters',
+  'opensearch.crawler.form.query.add': 'Add',
+  'opensearch.crawler.form.query.name': 'Name',
+  'opensearch.crawler.form.query.description': 'Description',
+  'opensearch.crawler.form.query.value': 'Value',
+  'opensearch.crawler.form.query.actions': 'Actions',
+  'opensearch.crawler.form.query.removeFilter': 'Remove filter',
+  'opensearch.crawler.form.query.testQuery': 'Test query',
+  'opensearch.crawler.form.query.filter': 'Filter...',
+  'opensearch.crawler.form.query.possibleValues': 'Possible values',
+
+  'opensearch.crawler.form.results.title': 'Map results',
+  'opensearch.crawler.form.results.subtitle': "Specify which field is associated to each model's attribute",
+  'opensearch.crawler.form.results.model': 'Regards Model',
+  'opensearch.crawler.form.results.standardAttr': 'Standard attributes',
+  'opensearch.crawler.form.results.associatedFiles': 'Associated files',
+  'opensearch.crawler.form.results.dynamicAttr': 'dynamic attributes',
+  'opensearch.crawler.form.results.totalResults': 'Total results field',
+  'opensearch.crawler.form.results.pageSize': 'Page size field',
 }, Locales.en)
 
 export default messages

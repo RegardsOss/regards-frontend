@@ -18,7 +18,6 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { browserHistory } from 'react-router'
 import messages from '../i18n'
 import OSQueryConfigurationComponent from '../components/OSQueryConfigurationComponent'
 import {
@@ -55,17 +54,26 @@ export class OSQueryConfigurationContainer extends React.Component {
   static propTypes = {
     onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequierd,
+    isEditing: PropTypes.bool,
+    initialValues: PropTypes.obj, //TODO : Shape it up
     // from mapStateToProps
+    descriptor: PropTypes.obj, // TODO: Shape it up
     // from mapDispatchToProps
   }
 
   onSubmit = (fields) => {
-    this.props.onSubmit(fields)
+    const jsonWebservice = this.props.descriptor.url.find(e => e.type === 'application/json')
+    const startPage = jsonWebservice.parameter.find(e => e.value === '{startPage}')
+    const count = jsonWebservice.parameter.find(e => e.value === '{count}')
+    const webserviceURL = jsonWebservice.template.split('?')[0]
+    const pageIndexParam = startPage.name
+    const startPageIndex = startPage.minInclusive
+    this.props.onSubmit(fields, pageIndexParam, startPageIndex, count, webserviceURL)
   }
 
   render() {
     const {
-      onBack, initialValues,
+      onBack, initialValues, isEditing, descriptor,
     } = this.props
     return (
       <I18nProvider messages={messages}>
@@ -73,7 +81,8 @@ export class OSQueryConfigurationContainer extends React.Component {
           onBack={onBack}
           onSubmit={this.onSubmit}
           initialValues={initialValues}
-          filters={this.props.descriptor.url.find(e => e.type === 'application/json')}
+          isEditing={isEditing}
+          filters={descriptor.url.find(e => e.type === 'application/json')}
         />
       </I18nProvider>
     )

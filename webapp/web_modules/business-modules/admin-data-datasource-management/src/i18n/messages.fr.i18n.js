@@ -55,6 +55,7 @@ const messages = Object.assign({
   'datasource.form.create.action.cancel': 'Annuler',
   'datasource.form.create.action.previous': 'Précédent',
   'datasource.form.create.action.next': 'Suivant',
+  'datasource.form.create.action.finish': 'Finir',
   'datasource.form.create.action.connection': 'Créer une connexion',
   'datasource.form.create.datasource': 'Liste des connexions actives',
 
@@ -134,6 +135,38 @@ const messages = Object.assign({
   'opensearch.crawler.stepper.crawler': "Configuration de l'aspiration",
   'opensearch.crawler.stepper.query': 'Configuration de la requête',
   'opensearch.crawler.stepper.results': 'Configuration des résultats',
+
+  'opensearch.crawler.form.crawler.title.create': 'Créer une nouvelle aspiration',
+  'opensearch.crawler.form.crawler.title.edit': "Modifier l'aspiration",
+  'opensearch.crawler.form.crawler.subtitle': 'Specifier la ressource OpenSearch à aspirer',
+  'opensearch.crawler.form.crawler.name': "Nom de l'aspiration",
+  'opensearch.crawler.form.crawler.refreshRate': 'Fréquence de rafraîchissement',
+  'opensearch.crawler.form.crawler.descriptor': 'Descripteur OpenSearch',
+
+  'opensearch.crawler.form.query.title.create': 'Créer la requête',
+  'opensearch.crawler.form.query.title.edit': 'Modifier la requête',
+  'opensearch.crawler.form.query.subtitle': 'Choisir les filtres à appliquer à la requête',
+  'opensearch.crawler.form.query.lastUpdate': 'Paramètre de dernière mise-à-jour',
+  'opensearch.crawler.form.query.pageSize': 'Paramètre de taille de page',
+  'opensearch.crawler.form.query.filters': 'Filtres',
+  'opensearch.crawler.form.query.add': 'Ajouter',
+  'opensearch.crawler.form.query.name': 'Nom',
+  'opensearch.crawler.form.query.description': 'Description',
+  'opensearch.crawler.form.query.value': 'Valeur',
+  'opensearch.crawler.form.query.actions': 'Actions',
+  'opensearch.crawler.form.query.removeFilter': 'Retirer filtre',
+  'opensearch.crawler.form.query.testQuery': 'Tester requête',
+  'opensearch.crawler.form.query.filter': 'Filtrer...',
+  'opensearch.crawler.form.query.possibleValues': 'Valeur possible',
+
+  'opensearch.crawler.form.results.title': 'Associer les résultats',
+  'opensearch.crawler.form.results.subtitle': 'Spécifier quel champ est associé à chacun des attributes du modèle',
+  'opensearch.crawler.form.results.model': 'Modèle regards',
+  'opensearch.crawler.form.results.standardAttr': 'Attributs standards',
+  'opensearch.crawler.form.results.associatedFiles': 'Fichiers associés',
+  'opensearch.crawler.form.results.dynamicAttr': 'Attributs dynamiques',
+  'opensearch.crawler.form.results.totalResults': 'Champ de résultat total',
+  'opensearch.crawler.form.results.pageSize': 'Champ de taille de page',
 }, Locales.fr)
 
 export default messages

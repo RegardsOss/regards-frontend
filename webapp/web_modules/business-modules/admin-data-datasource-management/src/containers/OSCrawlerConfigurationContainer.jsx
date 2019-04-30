@@ -18,7 +18,6 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { browserHistory } from 'react-router'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import messages from '../i18n'
 import OSCrawlerConfigurationComponent from '../components/OSCrawlerConfigurationComponent'
@@ -65,6 +64,7 @@ export class OSCrawlerConfigurationContainer extends React.Component {
       refresh: PropTypes.string,
       descriptor: PropTypes.string,
     }),
+    isEditing: PropTypes.bool,
     // from mapStateToProps
     // from mapDispatchToProps
     getDescriptor: PropTypes.func.isRequired,
@@ -81,7 +81,7 @@ export class OSCrawlerConfigurationContainer extends React.Component {
   }
 
   render() {
-    const { onBack } = this.props
+    const { onBack, isEditing, initialValues } = this.props
     return (
       <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
@@ -90,7 +90,8 @@ export class OSCrawlerConfigurationContainer extends React.Component {
           <OSCrawlerConfigurationComponent
             onBack={onBack}
             onSubmit={this.onSubmit}
-            initialValues={this.props.initialValues}
+            isEditing={isEditing}
+            initialValues={initialValues}
           />
         </LoadableContentDisplayDecorator>
       </I18nProvider>

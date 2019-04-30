@@ -23,6 +23,7 @@ import {
   CardText,
   MenuItem,
 } from 'material-ui'
+import map from 'lodash/map'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -36,6 +37,7 @@ import {
 import OpenSearchStepperComponent from './OpenSearchStepperComponent'
 
 const { required } = ValidationHelpers
+const requiredValidator = [required]
 
 /**
  * Comment Here
@@ -45,11 +47,14 @@ export class OSResultsConfigurationComponent extends React.Component {
   static propTypes = {
     onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    isEditing: PropTypes.bool,
+    modelList: PropTypes.obj, // TODO: Shape it up
+    modelAttributeList: PropTypes.obj, // TODO: Shape it up
+    onModelSelected: PropTypes.func.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
     handleSubmit: PropTypes.func,
-    initialize: PropTypes.func,
   }
 
   static defaultProps = {}
@@ -58,8 +63,21 @@ export class OSResultsConfigurationComponent extends React.Component {
     ...i18nContextType,
   }
 
+  constructor(props) {
+    super(props)
+    this.modelSelect = React.createRef()
+  }
+
   handleSubmit = (fields) => {
     this.props.onSubmit(fields)
+  }
+
+  handleModelChange = (event, index, value, input) => {
+    input.onChange(value)
+    // Remove any mapping already set up
+    // this.props.change('mapping', null)
+    // Fetch new attribute list
+    this.props.onModelSelected(value)
   }
 
   render() {
@@ -70,102 +88,132 @@ export class OSResultsConfigurationComponent extends React.Component {
       width: 400,
     }
 
+    const {
+      isEditing, handleSubmit, modelList, modelAttributeList, submitting, invalid, onBack,
+    } = this.props
+    const { formatMessage } = this.context.intl
     return (
-      <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+      <form onSubmit={handleSubmit(this.handleSubmit)}>
         <Card>
-          <CardTitle title="Create the results" subtitle="Results stuff" />
+          <CardTitle title={formatMessage({ id: 'opensearch.crawler.form.results.title' })} subtitle={formatMessage({ id: 'opensearch.crawler.form.results.subtitle' })} />
           <OpenSearchStepperComponent stepIndex={2} />
           <CardText>
-            <Field
-              name="modelName"
-              component={RenderSelectField}
-              type="text"
-              label="Regards Model"
-              validate={required}
-            >
-              {/* TODO: Map on models */}
-            </Field>
-            <div style={{ fontSize: '1.2em', marginTop: 20 }}>Standard attributes</div>
-            <hr align="left" width="400px" />
-            <div style={fieldStyle}>
-              <div>Label</div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
               <Field
-                name="propertiesLabel"
+                name="totalResultsField"
                 component={RenderTextField}
                 type="text"
-                label="Value"
+                label={formatMessage({ id: 'opensearch.crawler.form.results.totalResults' })}
                 validate={required}
               />
-            </div>
-            <div style={fieldStyle}>
-              <div>Geometry</div>
               <Field
-                name="propertiesGeometry"
+                name="pageSizeField"
                 component={RenderTextField}
                 type="text"
-                label="Value"
+                label={formatMessage({ id: 'opensearch.crawler.form.results.pageSize' })}
                 validate={required}
               />
-            </div>
-            <div style={{ fontSize: '1.2em', marginTop: 20 }}>Associated files</div>
-            <hr align="left" width="400px" />
-            <div style={fieldStyle}>
-              <div>RAWDATA</div>
               <Field
-                name="rawDataURLPath"
-                component={RenderTextField}
-                type="text"
-                label="Value"
-                validate={required}
-              />
+                name="modelName"
+                component={RenderSelectField}
+                label={formatMessage({ id: 'opensearch.crawler.form.results.model' })}
+                disabled={isEditing}
+                validate={ValidationHelpers.required}
+                ref={this.modelSelect}
+                onSelect={this.handleModelChange}
+              >
+                {map(modelList, (model, id) => (
+                  <MenuItem
+                    value={model.content.name}
+                    key={model.content.name}
+                    primaryText={model.content.name}
+                  />
+                ))}
+              </Field>
             </div>
-
-            <div style={fieldStyle}>
-              <div>QUICKLOOK</div>
-              <Field
-                name="quicklookURLPath"
-                component={RenderTextField}
-                type="text"
-                label="Value"
-                validate={required}
-              />
-            </div>
-
-            <div style={fieldStyle}>
-              <div>THUMBNAIL</div>
-              <Field
-                name="thumbnailURLPath"
-                component={RenderTextField}
-                type="text"
-                label="Value"
-                validate={required}
-              />
-            </div>
-            <div style={{ fontSize: '1.2em', marginTop: 20 }}>Dynamic attributes</div>
-            <hr align="left" width="400px" />
-            {[{ label: 'orbitNumber' }, { label: 'trucmuche' }, { label: 'truc' }].map(
-              attribute => (
-                <div key={attribute.label} style={fieldStyle}>
-                  <div>{attribute.label}</div>
+            {Object.entries(modelAttributeList).length > 0 && (
+              <>
+                <div style={{ fontSize: '1.2em', marginTop: 20 }}>{formatMessage({ id: 'opensearch.crawler.form.results.standardAttr' })}</div>
+                <hr align="left" width="400px" />
+                <div style={fieldStyle}>
+                  <div>Label</div>
                   <Field
+                    name="propertiesLabel"
                     component={RenderTextField}
-                    name={attribute.label}
                     type="text"
                     label="Value"
+                    validate={required}
                   />
                 </div>
-              ),
-            )}
+                <div style={fieldStyle}>
+                  <div>Geometry</div>
+                  <Field
+                    name="propertiesGeometry"
+                    component={RenderTextField}
+                    type="text"
+                    label="Value"
+                    validate={required}
+                  />
+                </div>
+                <div style={{ fontSize: '1.2em', marginTop: 20 }}>{formatMessage({ id: 'opensearch.crawler.form.results.associatedFiles' })}</div>
+                <hr align="left" width="400px" />
+                <div style={fieldStyle}>
+                  <div>RAWDATA</div>
+                  <Field
+                    name="rawDataURLPath"
+                    component={RenderTextField}
+                    type="text"
+                    label="Value"
+                    validate={required}
+                  />
+                </div>
+
+                <div style={fieldStyle}>
+                  <div>QUICKLOOK</div>
+                  <Field
+                    name="quicklookURLPath"
+                    component={RenderTextField}
+                    type="text"
+                    label="Value"
+                    validate={required}
+                  />
+                </div>
+
+                <div style={fieldStyle}>
+                  <div>THUMBNAIL</div>
+                  <Field
+                    name="thumbnailURLPath"
+                    component={RenderTextField}
+                    type="text"
+                    label="Value"
+                    validate={required}
+                  />
+                </div>
+                <div style={{ fontSize: '1.2em', marginTop: 20 }}>{formatMessage({ id: 'opensearch.crawler.form.results.dynamicAttr' })}</div>
+                <hr align="left" width="400px" />
+                {map(modelAttributeList, attribute => (
+                  <div key={attribute.content.attribute.name} style={fieldStyle}>
+                    <div>{attribute.content.attribute.name}</div>
+                    <Field
+                      component={RenderTextField}
+                      name={`dynamic.${attribute.content.attribute.jsonPath}`}
+                      type="text"
+                      label="Value"
+                      validate={attribute.content.attribute.optional ? null : requiredValidator}
+                    />
+                  </div>
+                ))}
+            </>)}
           </CardText>
           <CardActions>
             <CardActionsComponent
               mainButtonType="submit"
-              isMainButtonDisabled={this.props.submitting || this.props.invalid}
-              mainButtonLabel={<FormattedMessage id="datasource.form.create.action.next" />}
+              isMainButtonDisabled={submitting || invalid}
+              mainButtonLabel={<FormattedMessage id="datasource.form.create.action.finish" />}
               secondaryButtonLabel={this.context.intl.formatMessage({
                 id: 'datasource.form.create.action.previous',
               })}
-              secondaryButtonClick={this.props.onBack}
+              secondaryButtonClick={onBack}
             />
           </CardActions>
         </Card>

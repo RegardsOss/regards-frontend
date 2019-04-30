@@ -48,11 +48,11 @@ export class OSCrawlerConfigurationComponent extends React.Component {
       refresh: PropTypes.string,
       descriptor: PropTypes.string,
     }),
+    isEditing: PropTypes.bool,
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
     handleSubmit: PropTypes.func,
-    initialize: PropTypes.func,
   }
 
   static defaultProps = {}
@@ -62,30 +62,23 @@ export class OSCrawlerConfigurationComponent extends React.Component {
     ...i18nContextType,
   }
 
-  componentDidMount() {
-    this.handleInitialize()
-  }
-
-  handleInitialize = () => {
-    const { initialValues } = this.props
-
-    this.props.initialize(initialValues)
-    this.props.initialize(initialValues)
-  }
-
   handleSubmit = (fields) => {
     this.props.onSubmit(fields)
   }
 
   render() {
+    const {
+      handleSubmit, submitting, invalid, onBack, isEditing,
+    } = this.props
+    const { formatMessage } = this.context.intl
     return (
       <form
-        onSubmit={this.props.handleSubmit(this.handleSubmit)}
+        onSubmit={handleSubmit(this.handleSubmit)}
       >
         <Card>
           <CardTitle
-            title="Create a new crawler"
-            subtitle="Specify which OpenSource ressource to crawl"
+            title={formatMessage({ id: isEditing ? 'opensearch.crawler.form.crawler.title.edit' : 'opensearch.crawler.form.crawler.title.create' })}
+            subtitle={formatMessage({ id: 'opensearch.crawler.form.crawler.subtitle' })}
           />
 
           <OpenSearchStepperComponent stepIndex={0} />
@@ -95,7 +88,7 @@ export class OSCrawlerConfigurationComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label="Crawler name"
+              label={formatMessage({ id: 'opensearch.crawler.form.crawler.name' })}
               validate={requiredStringValidator}
             />
             <Field
@@ -103,7 +96,7 @@ export class OSCrawlerConfigurationComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="number"
-              label="Refresh rate"
+              label={formatMessage({ id: 'opensearch.crawler.form.crawler.refreshRate' })}
               validate={requiredNumberValidator}
             />
             <Field
@@ -111,21 +104,22 @@ export class OSCrawlerConfigurationComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="url"
-              label="OpenSearch descriptor URL"
+              disabled={isEditing}
+              label={formatMessage({ id: 'opensearch.crawler.form.crawler.descriptor' })}
               validate={requiredUrlValidator}
             />
           </CardText>
           <CardActions>
             <CardActionsComponent
               mainButtonType="submit"
-              isMainButtonDisabled={this.props.submitting || this.props.invalid}
+              isMainButtonDisabled={submitting || invalid}
               mainButtonLabel={
                 <FormattedMessage
                   id="datasource.form.create.action.next"
                 />
               }
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.create.action.previous' })}
-              secondaryButtonClick={this.props.onBack}
+              secondaryButtonLabel={formatMessage({ id: 'datasource.form.create.action.cancel' })}
+              secondaryButtonClick={onBack}
             />
           </CardActions>
         </Card>

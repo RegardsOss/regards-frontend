@@ -19,50 +19,88 @@
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import messages from '../i18n'
+import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
+import { modelSelectors, modelActions } from '../clients/ModelClient'
 import OSResultsConfigurationComponent from '../components/OSResultsConfigurationComponent'
 
 /**
-*Comment Here
-* @author Maxime Bouveron
-*/
+ *Comment Here
+ * @author Maxime Bouveron
+ */
 export class OSResultsConfigurationContainer extends React.Component {
   /**
- * Redux: map state to props function
- * @param {*} state: current redux state
- * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
   static mapStateToProps(state) {
-    return {}
+    return {
+      modelList: modelSelectors.getList(state),
+      modelAttributeList: modelAttributesSelectors.getList(state),
+    }
   }
 
   /**
- * Redux: map dispatch to props function
- * @param {*} dispatch: redux dispatch function
- * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
   static mapDispatchToProps(dispatch) {
-    return {}
+    return {
+      fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+      flushModelAttribute: () => dispatch(modelAttributesActions.flush()),
+      fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: 'DATA' })),
+    }
   }
 
-static propTypes = {
-  onBack: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  initialValues: PropTypes.obj,
-// from mapStateToProps
-// from mapDispatchToProps
-}
+  static propTypes = {
+    onBack: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    initialValues: PropTypes.obj, // Todo : Shape it up
+    isEditing: PropTypes.bool,
+    // from mapStateToProps
+    modelList: PropTypes.func.isRequired,
+    modelAttributeList: PropTypes.func.isRequired,
+    // from mapDispatchToProps
+    fetchModelAttributeList: PropTypes.func.isRequired,
+    flushModelAttribute: PropTypes.func.isRequired,
+    fetchModelList: PropTypes.func.isRequired,
+  }
 
-render() {
-  const { onBack, onSubmit } = this.props
-  return (
-    <I18nProvider messages={messages}>
-      <OSResultsConfigurationComponent onSubmit={onSubmit} onBack={onBack} />
-    </I18nProvider>
-  )
-}
+  componentDidMount() {
+    const promises = [this.props.fetchModelList(), this.props.flushModelAttribute()]
+    if (this.props.initialValues) {
+      promises.push(this.props.fetchModelAttributeList(this.props.initialValues.modelName))
+    }
+    Promise.all(promises)
+  }
+
+  handleModelChange = (modelName) => {
+    this.props.fetchModelAttributeList(modelName)
+  }
+
+  render() {
+    const {
+      onBack, onSubmit, modelList, isEditing, initialValues,
+    } = this.props
+    return (
+      <I18nProvider messages={messages}>
+        <OSResultsConfigurationComponent
+          onSubmit={onSubmit}
+          onBack={onBack}
+          isEditing={isEditing}
+          modelList={modelList}
+          initialValues={initialValues}
+          modelAttributeList={this.props.modelAttributeList}
+          onModelSelected={this.handleModelChange}
+        />
+      </I18nProvider>
+    )
+  }
 }
 export default connect(
   OSResultsConfigurationContainer.mapStateToProps,
-  OSResultsConfigurationContainer.mapDispatchToProps)(OSResultsConfigurationContainer)
+  OSResultsConfigurationContainer.mapDispatchToProps,
+)(OSResultsConfigurationContainer)

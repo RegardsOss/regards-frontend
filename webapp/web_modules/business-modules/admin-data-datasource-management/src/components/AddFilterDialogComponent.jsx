@@ -17,12 +17,15 @@ import {
   TableRowColumn,
   MenuItem,
   IconButton,
+  FlatButton,
 } from 'material-ui'
 import { CardActionsComponent } from '@regardsoss/components'
 import { ActionDelete } from 'material-ui/svg-icons'
+import Open from 'material-ui/svg-icons/action/open-in-new'
 import {
   RenderSelectField, RenderTextField, Field, ValidationHelpers,
-} from '../../../../utils/form-utils/src/main'
+} from '@regardsoss/form-utils'
+import { FormattedMessage } from 'react-intl'
 
 /**
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
@@ -98,7 +101,7 @@ class AddFilterDialogComponent extends React.Component {
       .filter(filter => this.props.fields.getAll()
         ? !this.props.fields.getAll().find(field => field.name === filter.name)
         : true,
-      ) // TODO ouch
+      )
       .filter(filter => filter.name.toLowerCase().includes(this.state.filter))
       .map((filter, index) => (
         <ListItem
@@ -113,10 +116,10 @@ class AddFilterDialogComponent extends React.Component {
   }
 
   renderParameterAttribute = (name, key) => this.state.currentFilter[key] && (
-  <div style={{ marginBottom: 5 }}>
-    <strong>{`${name} : `}</strong>
-    <span>{this.state.currentFilter[key]}</span>
-  </div>
+    <div style={{ marginBottom: 5 }}>
+      <strong>{`${name} : `}</strong>
+      <span>{this.state.currentFilter[key]}</span>
+    </div>
   )
 
   getOptions = (filter) => {
@@ -139,6 +142,14 @@ class AddFilterDialogComponent extends React.Component {
     return validation
   }
 
+  getOpenSearchLink = (template, fields) => {
+    let url = template.split('?')[0]
+    if (fields.getAll()) {
+      url += `?${fields.getAll().map(e => `${e.name}=${e.value}`).join('&')}`
+    }
+    return url
+  }
+
   renderDialog = () => (
     <Dialog bodyStyle={{ padding: 0 }} open={this.state.dialogOpen} modal>
       <div style={{ display: 'flex', maxHeight: 400 }}>
@@ -154,14 +165,14 @@ class AddFilterDialogComponent extends React.Component {
               <TextField
                 style={{ width: '100%' }}
                 onChange={this.handleFilter}
-                placeholder="Filter..."
+                placeholder={this.context.intl.formatMessage({ id: 'opensearch.crawler.form.query.filter' })}
               />
             </div>
             {this.renderList()}
           </List>
         </div>
         <div className="col-xs-65 col-lg-70">
-          {this.state.currentFilter && (
+          {this.state.currentFilter ? (
             <>
               <CardTitle>{this.state.currentFilter.name}</CardTitle>
               <CardText>
@@ -172,7 +183,7 @@ class AddFilterDialogComponent extends React.Component {
                 {this.renderParameterAttribute('Pattern', 'pattern')}
                 {this.getOptions(this.state.currentFilter) && (
                   <>
-                    <strong>Possible values:</strong>
+                    <FormattedMessage id="opensearch.crawler.form.query.possibleValues" />
                     <ul>
                       {this.getOptions(this.state.currentFilter).map(option => (
                         <li key={option.value}>{option.value}</li>
@@ -180,50 +191,60 @@ class AddFilterDialogComponent extends React.Component {
                     </ul>
                   </>
                 )}
-                <br />
+                <div
+                  style={{ position: 'absolute', bottom: 10, right: 10 }}
+                >
+                  <CardActionsComponent
+                    mainButtonLabel={this.context.intl.formatMessage({ id: 'opensearch.crawler.form.query.add' })}
+                    mainButtonClick={() => {
+                      this.handleAddFilter(this.state.currentFilter)
+                    }}
+                    secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.list.action.cancel' })}
+                    secondaryButtonClick={this.toggleDialog}
+                  />
+                </div>
               </CardText>
-              <CardActionsComponent
-                mainButtonLabel="Add"
-                mainButtonClick={() => {
-                  this.handleAddFilter(this.state.currentFilter)
-                }}
-                secondaryButtonLabel="Cancel"
-                secondaryButtonClick={this.toggleDialog}
-              />
             </>
-          )}
+          ) : <RaisedButton
+            label={this.context.intl.formatMessage({ id: 'datasource.list.action.cancel' })}
+            onClick={this.toggleDialog}
+            style={{ position: 'absolute', bottom: 10, right: 10 }}
+          />}
+
         </div>
       </div>
     </Dialog>
   )
 
   render() {
+    const { filters: { template }, fields } = this.props
+    const { formatMessage } = this.context.intl
     return (
       <>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span>Feature filter</span>
-          <RaisedButton label="Add" onClick={this.toggleDialog} />
+          <span><FormattedMessage id="opensearch.crawler.form.query.filters" /></span>
+          <RaisedButton label={formatMessage({ id: 'opensearch.crawler.form.query.add' })} onClick={this.toggleDialog} />
           {this.renderDialog()}
         </div>
-        {this.props.fields.length > 0 && (
+        {fields.length > 0 && (
           <Table>
             <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
               <TableRow>
-                <TableHeaderColumn>Name</TableHeaderColumn>
-                <TableHeaderColumn>Description</TableHeaderColumn>
-                <TableHeaderColumn>Value</TableHeaderColumn>
-                <TableHeaderColumn>Actions</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'opensearch.crawler.form.query.name' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'opensearch.crawler.form.query.description' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'opensearch.crawler.form.query.value' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'opensearch.crawler.form.query.actions' })}</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false}>
-              {this.props.fields.map((filter, index) => (
+              {fields.map((filter, index) => (
                 <TableRow key={filter.name}>
-                  <TableRowColumn>{this.props.fields.get(index).name}</TableRowColumn>
-                  <TableRowColumn>{this.props.fields.get(index).title}</TableRowColumn>
+                  <TableRowColumn>{fields.get(index).name}</TableRowColumn>
+                  <TableRowColumn>{fields.get(index).title}</TableRowColumn>
                   <TableRowColumn>
-                    {this.getOptions(this.props.fields.get(index)) ? (
-                      <Field name={`${filter}.value`} component={RenderSelectField} label="Value">
-                        {this.getOptions(this.props.fields.get(index)).map(option => (
+                    {this.getOptions(fields.get(index)) ? (
+                      <Field name={`${filter}.value`} component={RenderSelectField} label={formatMessage({ id: 'opensearch.crawler.form.query.value' })}>
+                        {this.getOptions(fields.get(index)).map(option => (
                           <MenuItem
                             key={option.value}
                             value={option.value}
@@ -235,13 +256,12 @@ class AddFilterDialogComponent extends React.Component {
                       <Field
                         name={`${filter}.value`}
                         component={RenderTextField}
-                        label="Value"
-                        // validate={this.getValidation(this.props.fields.get(index))} TODO : Doesn't really work
+                        label={formatMessage({ id: 'opensearch.crawler.form.query.value' })}
                       />
                     )}
                   </TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onClick={() => this.props.fields.remove(index)}>
+                    <IconButton tooltip={formatMessage({ id: 'opensearch.crawler.form.query.removeFilter' })} onClick={() => fields.remove(index)}>
                       <ActionDelete />
                     </IconButton>
                   </TableRowColumn>
@@ -250,6 +270,13 @@ class AddFilterDialogComponent extends React.Component {
             </TableBody>
           </Table>
         )}
+
+        <FlatButton
+          label={formatMessage({ id: 'opensearch.crawler.form.query.testQuery' })}
+          href={this.getOpenSearchLink(template, fields)}
+          target="_blank"
+          icon={<Open />}
+        />
       </>
     )
   }

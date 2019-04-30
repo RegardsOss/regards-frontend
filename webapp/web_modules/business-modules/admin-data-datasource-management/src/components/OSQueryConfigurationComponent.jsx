@@ -46,12 +46,12 @@ export class OSQueryConfigurationComponent extends React.Component {
   static propTypes = {
     onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    initialValues: PropTypes.obj, // TODO Precise
+    isEditing: PropTypes.bool,
+    filters: PropTypes.obj, //TODO : Shape it up
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
     handleSubmit: PropTypes.func,
-    initialize: PropTypes.func,
   }
 
   static defaultProps = {}
@@ -61,64 +61,52 @@ export class OSQueryConfigurationComponent extends React.Component {
     ...themeContextType,
   }
 
-  componentDidMount() {
-    this.handleInitialize()
-  }
-
-  handleInitialize = () => {
-    const { initialValues } = this.props
-
-    this.props.initialize(initialValues)
-  }
-
   handleSubmit = (fields) => {
     this.props.onSubmit(fields)
   }
 
   render() {
+    const {
+      handleSubmit, filters, onBack, submitting, invalid, isEditing,
+    } = this.props
+    const { formatMessage } = this.context.intl
     return (
-      <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+      <form onSubmit={handleSubmit(this.handleSubmit)}>
         <Card>
-          <CardTitle title="Create the query" subtitle="Query stuff" />
+          <CardTitle title={formatMessage({ id: isEditing ? 'opensearch.crawler.form.query.title.edit' : 'opensearch.crawler.form.query.title.create' })} subtitle={formatMessage({ id: 'opensearch.crawler.form.query.subtitle' })} />
           <OpenSearchStepperComponent stepIndex={1} />
           <CardText>
-            Select feature last update parameter
-            <br />
-            <Field
-              name="lastUpdate"
-              component={RenderSelectField}
-              type="text"
-              label="Parameter"
-              validate={required}
-            >
-              {this.props.filters.parameter.map(filter => (
-                <MenuItem key={filter.name} value={filter.name} primaryText={filter.name} />
-              ))}
-            </Field>
-            <br />
-            Enter the number of results per page
-            <br />
-            <Field
-              name="pageSize"
-              component={RenderTextField}
-              type="number"
-              label="Page size"
-              validate={requiredNumberValidator}
-            />
-            <br />
-            <br />
-            <br />
-            <FieldArray name="filters" component={AddFilterDialogComponent} filters={this.props.filters} />
+            <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 20 }}>
+              <Field
+                name="lastUpdate"
+                component={RenderSelectField}
+                type="text"
+                label={formatMessage({ id: 'opensearch.crawler.form.query.lastUpdate' })}
+                validate={required}
+              >
+                {filters.parameter.map(filter => (
+                  <MenuItem key={`${filter.name}-lastUpdate`} value={filter.name} primaryText={filter.name} />
+                ))}
+              </Field>
+              <Field
+                name="pageSize"
+                component={RenderTextField}
+                type="number"
+                label={formatMessage({ id: 'opensearch.crawler.form.query.pageSize' })}
+                validate={requiredNumberValidator}
+              />
+            </div>
+            <FieldArray name="filters" component={AddFilterDialogComponent} filters={filters} />
           </CardText>
           <CardActions>
             <CardActionsComponent
               mainButtonType="submit"
-              isMainButtonDisabled={this.props.submitting || this.props.invalid}
+              isMainButtonDisabled={submitting || invalid}
               mainButtonLabel={<FormattedMessage id="datasource.form.create.action.next" />}
-              secondaryButtonLabel={this.context.intl.formatMessage({
+              secondaryButtonLabel={formatMessage({
                 id: 'datasource.form.create.action.previous',
               })}
-              secondaryButtonClick={this.props.onBack}
+              secondaryButtonClick={onBack}
             />
           </CardActions>
         </Card>
