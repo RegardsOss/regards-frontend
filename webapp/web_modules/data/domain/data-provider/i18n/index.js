@@ -16,19 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
+import en from './messages.en.i18n'
+import fr from './messages.fr.i18n'
 
-/**
- * Possible acqisition file status
- * @author Sébastien Binda
- */
-export const AcquisitionFileStateEnum = {
-  IN_PROGRESS: 'IN_PROGRESS',
-  VALID: 'VALID',
-  INVALID: 'INVALID',
-  ACQUIRED: 'ACQUIRED',
-  SUPERSEDED: 'SUPERSEDED',
-  SUPERSEDED_AFTER_ERROR: 'SUPERSEDED_AFTER_ERROR',
-  ERROR: 'ERROR',
-}
-export const AcquisitionFileStateValues = values(AcquisitionFileStateEnum)
+
+console.error('',en,fr)
+export const enMessages = en
+export const frMessages = fr
+

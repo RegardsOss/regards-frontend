@@ -230,6 +230,7 @@ class ProductListFiltersComponent extends React.Component {
         <TableHeaderOptionsArea reducible alignLeft>
           <TableHeaderOptionGroup>
             <SelectField
+              autoWidth
               multiple
               style={filters.fieldStyle}
               hintText={formatMessage({
@@ -241,7 +242,6 @@ class ProductListFiltersComponent extends React.Component {
               {map(DataProviderDomain.ProductStateValues, state => (<MenuItem
                 key={state}
                 value={state}
-                insetChildren
                 checked={stateValues && stateValues.includes(state)}
                 primaryText={formatMessage({
                   id: `acquisition.product.list.filters.state.${state}`,
@@ -266,6 +266,7 @@ class ProductListFiltersComponent extends React.Component {
           </TableHeaderOptionGroup>
           <TableHeaderOptionGroup>
             <SelectField
+              autoWidth
               multiple
               style={filters.fieldStyle}
               hintText={formatMessage({
@@ -276,10 +277,9 @@ class ProductListFiltersComponent extends React.Component {
             >
               {map(DataProviderDomain.ProductSIPStateEnumValues, sipState => (<MenuItem
                 value={sipState}
-                insetChildren
                 checked={sipStateValues && sipStateValues.includes(sipState)}
                 primaryText={formatMessage({
-                  id: `acquisition.product.list.filters.sipState.${sipState}`,
+                  id: `sip.state.${sipState}`,
                 })}
               />),
               )}

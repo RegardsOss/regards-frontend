@@ -21,6 +21,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
 import { DataProviderDomain } from '@regardsoss/domain'
+import { IngestDomain } from '@regardsoss/domain'
 
 const PRODUCT_RUNNING_SIP_STATES = [
   DataProviderDomain.ProductSIPStateEnum.NOT_SCHEDULED,
@@ -29,6 +30,8 @@ const PRODUCT_RUNNING_SIP_STATES = [
 
 const PRODUCT_ERROR_SIP_STATES = [
   DataProviderDomain.ProductSIPStateEnum.GENERATION_ERROR,
+  DataProviderDomain.ProductSIPStateEnum.NOT_SCHEDULED_INVALID,
+  IngestDomain.SIPStateEnum.REJECTED,
 ]
 
 /**

@@ -16,19 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
 
-/**
- * Possible acqisition file status
- * @author Sébastien Binda
- */
-export const AcquisitionFileStateEnum = {
-  IN_PROGRESS: 'IN_PROGRESS',
-  VALID: 'VALID',
-  INVALID: 'INVALID',
-  ACQUIRED: 'ACQUIRED',
-  SUPERSEDED: 'SUPERSEDED',
-  SUPERSEDED_AFTER_ERROR: 'SUPERSEDED_AFTER_ERROR',
-  ERROR: 'ERROR',
+const catDataProvider = ' Acquisition - '
+const messages = {  
+  'sip.state.NOT_SCHEDULED': `${catDataProvider}On going product`,
+  'sip.state.SCHEDULED': `${catDataProvider}SIP generation scheduled`,
+  'sip.state.NOT_SCHEDULED_INVALID': `${catDataProvider}Invalid product`,
+  'sip.state.GENERATION_ERROR': `${catDataProvider}SIP generation error`,
+  'sip.state.SCHEDULED_INTERRUPTED': `${catDataProvider}Interrupted SIP generation`,
+  'sip.state.SUBMITTED': `${catDataProvider}SIP submitted`
 }
-export const AcquisitionFileStateValues = values(AcquisitionFileStateEnum)
+
+export default messages

@@ -38,7 +38,7 @@ class ProductSIPStateRender extends React.Component {
   render() {
     const { value } = this.props
     const { intl, moduleTheme: { textRenderCell } } = this.context
-    const textValue = intl.formatMessage({ id: `acquisition.product.list.filters.sipState.${value}` })
+    const textValue = intl.formatMessage({ id: `sip.state.${value}` })
     return (
       <div style={textRenderCell} title={textValue}>
         {textValue}

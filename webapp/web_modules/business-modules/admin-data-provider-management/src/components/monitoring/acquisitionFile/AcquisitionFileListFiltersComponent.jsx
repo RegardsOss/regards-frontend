@@ -185,6 +185,7 @@ class AcquisitionFileListFiltersComponent extends React.Component {
           <TableHeaderOptionGroup>
             <SelectField
               key="state"
+              autoWidth
               multiple
               style={filters.fieldStyle}
               hintText={formatMessage({
@@ -196,7 +197,6 @@ class AcquisitionFileListFiltersComponent extends React.Component {
               {map(DataProviderDomain.AcquisitionFileStateValues, state => (<MenuItem
                 key={state}
                 value={state}
-                insetChildren
                 checked={stateValues && stateValues.includes(state)}
                 primaryText={formatMessage({
                   id: `acquisition.file.list.filters.state.${state}`,

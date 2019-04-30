@@ -16,10 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { IngestDomain } from '@regardsoss/domain'
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-
+  ...IngestDomain.frMessages,
   'sips.button.filter': 'Filtrer',
   'sips.button.back': 'Retour',
   'sips.list.subtitle': 'Liste des SIPS pour la session sélectionnée',
@@ -119,20 +120,6 @@ const messages = Object.assign({
   'sips.submission.not.ready.config.storages.link.button': 'Configurer les espaces de stockage',
   'sips.submission.not.ready.config.catalog.security.link.button': 'Sécuriser l\'accès aux données',
   'sips.submission.not.ready.back.button': 'Retour',
-
-  CREATED: 'CREATED',
-  DELETED: 'DELETED',
-  REJECTED: 'REJECTED',
-  QUEUED: 'QUEUED',
-  VALID: 'VALID',
-  INVALID: 'INVALID',
-  AIP_GEN_ERROR: 'AIP_GEN_ERROR',
-  AIP_CREATED: 'AIP_CREATED',
-  STORED: 'STORED',
-  STORE_ERROR: 'STORE_ERROR',
-  INDEXED: 'INDEXED',
-  INDEX_ERROR: 'INDEX_ERROR',
-  INCOMPLETE: 'INCOMPLETE',
 }, Locales.fr)
 
 export default messages

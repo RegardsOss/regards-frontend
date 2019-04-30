@@ -16,9 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { DataProviderDomain } from '@regardsoss/domain'
+import { IngestDomain } from '@regardsoss/domain'
 import { Locales } from '@regardsoss/form-utils'
 
+const catDataProvider = ' Acquisition - '
+const catIngest = 'Ingestion - '
+const catStorage = 'Stockage - '
+
 const messages = Object.assign({
+  ...DataProviderDomain.frMessages,
+  ...IngestDomain.frMessages,
   // 1. Chains list
   // 1.1 Headers
   'acquisition-chain.list.title': 'Configuration des chaînes d\'acquisition de données',
@@ -159,27 +167,10 @@ const messages = Object.assign({
   'acquisition.product.list.filters.state': 'Etat des produits',
   'acquisition.product.list.filters.sipState': 'Etat des SIPs',
   'acquisition.product.list.filters.state.ACQUIRING': 'En cours',
-  'acquisition.product.list.filters.state.COMPLETED': 'En cours (complet)',
+  'acquisition.product.list.filters.state.COMPLETED': 'Complet',
   'acquisition.product.list.filters.state.FINISHED': 'Terminé',
+  'acquisition.product.list.filters.state.INVALID': 'Invalide',
   'acquisition.product.list.filters.state.ERROR': 'Erreur',
-  'acquisition.product.list.filters.sipState.NOT_SCHEDULED': 'En cours ... (non planifié)',
-  'acquisition.product.list.filters.sipState.SCHEDULED': 'En cours ... (planifié)',
-  'acquisition.product.list.filters.sipState.GENERATED': 'En cours ... (généré)',
-  'acquisition.product.list.filters.sipState.SUBMISSION_SCHEDULED': 'En cours ... (soumission en cours)',
-  'acquisition.product.list.filters.sipState.SUBMISSION_ERROR': 'Erreur de soumission',
-  'acquisition.product.list.filters.sipState.GENERATION_ERROR': 'Erreur de génération',
-  'acquisition.product.list.filters.sipState.CREATED': 'En cours (créé)',
-  'acquisition.product.list.filters.sipState.REJECTED': 'Refusé',
-  'acquisition.product.list.filters.sipState.QUEUED': 'En attente',
-  'acquisition.product.list.filters.sipState.VALID': 'En cours (Valide)',
-  'acquisition.product.list.filters.sipState.INVALID': 'Invalide',
-  'acquisition.product.list.filters.sipState.AIP_GEN_ERROR': 'Erreur AIP génération',
-  'acquisition.product.list.filters.sipState.AIP_CREATED': 'En cours (AIP généré)',
-  'acquisition.product.list.filters.sipState.STORED': 'Stocké',
-  'acquisition.product.list.filters.sipState.STORE_ERROR': 'Erreur de stockage',
-  'acquisition.product.list.filters.sipState.INDEXED': 'Indexé',
-  'acquisition.product.list.filters.sipState.INCOMPLETE': 'Incomplet',
-  'acquisition.product.list.filters.sipState.DELETED': 'Supprimé',
   'acquisition-product.list.filters.productName': 'Nom du produit',
   'acquisition.product.list.filters.session': 'Session d\'ingestion',
   'acquisition-chain.monitor.list.filters.no.session': 'Produits sans session',
@@ -208,9 +199,10 @@ const messages = Object.assign({
   //5.2 Filters
   'acquisition.file.list.filters.state': 'Etat',
   'acquisition.file.list.filters.state.IN_PROGRESS': 'En cours',
-  'acquisition.file.list.filters.state.VALID': 'En cours (validé)',
+  'acquisition.file.list.filters.state.VALID': 'Valide',
   'acquisition.file.list.filters.state.ACQUIRED': 'Acquis',
   'acquisition.file.list.filters.state.SUPERSEDED': 'Remplacé',
+  'acquisition.file.list.filters.state.SUPERSEDED_AFTER_ERROR': 'Remplacé après erreur',
   'acquisition.file.list.filters.state.INVALID': 'Invalide',
   'acquisition.file.list.filters.state.ERROR': 'Erreur',
   'acquisition.file.list.filters.filePath': 'Fichier',
