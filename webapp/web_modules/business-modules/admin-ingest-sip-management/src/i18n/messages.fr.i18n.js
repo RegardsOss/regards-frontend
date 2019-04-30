@@ -69,7 +69,7 @@ const messages = Object.assign({
 
   'sips.session.title': 'Sessions',
   'sips.session.sips.title': 'Session {session}',
-  'sips.session.subtitle': 'Visualisation des sessions d\'acquisition. Une session est un regroupement de paquets d\'information de données (SIP).',
+  'sips.session.subtitle': 'Visualisation des sessions d\'ingestion. Une session est un regroupement de paquets d\'information de données (SIP).',
   'sips.session.filter.name': 'Nom de la session : ',
   'sips.session.filter.name.label': 'Nom',
   'sips.session.filter.date': 'Plage temporelle : ',
