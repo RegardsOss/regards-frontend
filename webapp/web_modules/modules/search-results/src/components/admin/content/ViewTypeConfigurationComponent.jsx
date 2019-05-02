@@ -188,7 +188,7 @@ class ViewTypeConfigurationComponent extends React.Component {
           <div style={content.tableFieldSpacer}>
             <AttributesListConfigurationComponent
               selectableAttributes={availableAttributes}
-            // forbid thumbnail in map and quicklooks but allow it for all entity types (new REGARDS working mode)
+              // forbid thumbnail in map and quicklooks but allow it for all entity types (new REGARDS working mode)
               attributesFilter={ViewTypeConfigurationComponent.ATTRIBUTE_FILTER_BY_TYPE[viewType]}
               attributesList={viewFormValues.attributes}
               attributesListFieldName={`${viewNamespace}.attributes`}

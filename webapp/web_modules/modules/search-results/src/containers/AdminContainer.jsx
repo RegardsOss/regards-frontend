@@ -93,6 +93,35 @@ export class AdminContainer extends React.Component {
     return map(viewsGroups, (group, key) => ({ type: key, enabled: group.enabled }))
   }
 
+  /**
+   * Builds navigation tree from views data
+   * @param {*} newViewsData views
+   * @return {{navigationSections: [*], selectedSectionType: string, selectedPageType: string}} navigation tree with selection
+   */
+  static buildNavigationTree(newViewsData) {
+    return {
+      navigationSections: [{
+        // Main configuration page, always available (contains only main page)
+        type: FORM_SECTIONS_ENUM.MAIN,
+        pages: [{
+          type: FORM_PAGES_ENUM.MAIN,
+          selected: true,
+        }],
+      }, ...newViewsData.filter(viewsGroup => viewsGroup.enabled) // keep only enabled views groups
+        .map(viewsGroup => ({
+          type: viewsGroup.type,
+          pages: PAGES_BY_TYPE[viewsGroup.type].map(type => ({
+            type,
+            selected: false,
+          })),
+        })),
+      ],
+      // report selected elements
+      selectedSectionType: FORM_SECTIONS_ENUM.MAIN,
+      selectedPageType: FORM_PAGES_ENUM.MAIN,
+    }
+  }
+
   state = {
     isLoading: true,
     navigationSections: [],
@@ -141,29 +170,7 @@ export class AdminContainer extends React.Component {
     const oldViewsData = AdminContainer.extractViewsGroupData(oldProps)
     const newViewsData = AdminContainer.extractViewsGroupData(newProps)
     if (!isEqual(oldViewsData, newViewsData)) {
-      this.setState({
-        // rebuild navigation sections on current context
-        navigationSections: [{
-          // Main configuration page, always available (contains only main page)
-          type: FORM_SECTIONS_ENUM.MAIN,
-          pages: [{
-            type: FORM_PAGES_ENUM.MAIN,
-            selected: true, // selected initially
-          }],
-
-        }, ...newViewsData.filter(viewsGroup => viewsGroup.enabled) // keep only enabled views groups
-          .map(viewsGroup => ({
-            type: viewsGroup.type, // main type
-            pages: PAGES_BY_TYPE[viewsGroup.type].map(type => ({
-              type,
-              selected: false,
-            })),
-          })),
-        ],
-        // report selected elements
-        selectedSectionType: FORM_SECTIONS_ENUM.MAIN,
-        selectedPageType: FORM_PAGES_ENUM.MAIN,
-      })
+      this.setState(AdminContainer.buildNavigationTree(newViewsData))
     }
   }
 
