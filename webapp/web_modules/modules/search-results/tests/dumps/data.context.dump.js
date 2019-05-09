@@ -1,3 +1,5 @@
+import { ContextInitializationHelper } from '../../src/definitions/ContextInitializationHelper'
+
 /**
  * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -16,22 +18,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CatalogShapes } from '@regardsoss/shape'
+import { attributes } from './attributes.dump'
+import { configuration } from './data.configuration.dump'
 
 /**
- * GEOJson features collection as expected by Mizar
- * Note: it is rewritten here only to make sure geometry is provided
+ * Holds converted context from data configuration
  * @author Raphaël Mechali
  */
 
-/** A feature with geometry */
-export const GeoJsonFeature = PropTypes.shape({
-  geometry: CatalogShapes.EntityGeoProperties.isRequired,
-  bbox: PropTypes.arrayOf(PropTypes.number),
-})
-
-/** A GeoJson features collection with mandatory geometry */
-export const GeoJsonFeaturesCollection = PropTypes.shape({
-  features: PropTypes.arrayOf(GeoJsonFeature).isRequired,
-  type: PropTypes.oneOf(['FeatureCollection']).isRequired,
-})
+export const dataContext = ContextInitializationHelper.buildDefaultResultsContext(configuration, attributes)

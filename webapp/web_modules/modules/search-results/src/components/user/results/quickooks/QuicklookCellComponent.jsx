@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import has from 'lodash/has'
+import get from 'lodash/get'
 import Card from 'material-ui/Card/Card'
 import CardText from 'material-ui/Card/CardText'
 import isEqual from 'lodash/isEqual'
@@ -96,11 +96,11 @@ class QuicklookCellComponent extends React.PureComponent {
       footerHeight = presentationModels.length * 19
     }
     // Check if the entity has a quicklook to display
-    const hasImage = has(props, 'content.files.QUICKLOOK_SD[0]')
-    const hasIssueWithImage = !has(props, 'content.files.QUICKLOOK_SD[0].imageWidth') || !has(props, 'content.files.QUICKLOOK_SD[0].imageHeight')
+    const image = get(props, 'content.files.QUICKLOOK_SD[0]')
+    const hasIssueWithImage = get(image, 'imageWidth') || !get(image, 'imageHeight')
 
     // A - There is a valid picture OR quicklook is embedded in map (map quicklooks have constant height)
-    if ((hasImage && !hasIssueWithImage) || itemProps.embedInMap) {
+    if ((image && !hasIssueWithImage) || itemProps.embedInMap) {
       let imageHeight
       if (itemProps.embedInMap) {
         // A.1 - in map mode, use thumbnail height directly
@@ -201,8 +201,8 @@ class QuicklookCellComponent extends React.PureComponent {
     // select the actual image style
     const actualImageStyle = embedInMap ? quicklookImage : imageStyle
 
-    const hasImage = has(entity, 'content.files.QUICKLOOK_SD[0]')
-    const hasIssueWithImage = !has(entity, 'content.files.QUICKLOOK_SD[0].imageWidth') || !has(entity, 'content.files.QUICKLOOK_SD[0].imageHeight')
+    const image = get(entity, 'content.files.QUICKLOOK_SD[0]')
+    const hasIssueWithImage = !get(image, 'imageWidth') || !get(image, 'imageHeight')
     return (
       <Card style={cardStyle}>
         {/* 1. Image and options on right */}
@@ -211,10 +211,10 @@ class QuicklookCellComponent extends React.PureComponent {
           style={imageAndOptionsContainer}
         >
           { /** 1.a Render image or icon to replace it */
-            <div style={hasImage ? quicklookContainerStyle : null}>
+            <div style={image ? quicklookContainerStyle : null}>
               { /** IIFE to handle multiple possibilities */
                 (() => {
-                  if (!hasImage) {
+                  if (!image) {
                     return <ImageOff style={iconStyle} />
                   } if (hasIssueWithImage) {
                     return <ImageBroken style={iconStyle} />
@@ -243,7 +243,7 @@ class QuicklookCellComponent extends React.PureComponent {
               />
             </ShowableAtRender>
             {/* 1.b.2 services, when enabled */}
-            <ShowableAtRender show={enableServices}>
+            <ShowableAtRender show={enableServices && get(entity, 'content.services.length', 0) > 0}>
               <OneElementServicesContainer
                 entity={entity}
                 style={option.buttonStyles}

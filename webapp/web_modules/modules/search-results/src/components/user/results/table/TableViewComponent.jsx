@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { TableColumnBuilder, PageableInfiniteTableContainer } from '@regardsoss/components'
 import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import { DataManagementShapes, CommonShapes, UIShapes } from '@regardsoss/shape'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { TableColumnBuilder, PageableInfiniteTableContainer } from '@regardsoss/components'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
 import { tableSelectors, tableActions } from '../../../../clients/TableClient'
 import { selectors as searchSelectors } from '../../../../clients/SearchEntitiesClient'
@@ -48,9 +48,6 @@ const ColumnAttributePresentationModel = PropTypes.shape({
   sortingOrder: PropTypes.oneOf(CommonDomain.SORT_ORDERS),
   sortIndex: PropTypes.number,
 })
-
-const RESULTS_PAGE_SIZE = 500
-
 
 /**
  * Shows view when in table mode
@@ -86,6 +83,8 @@ class TableViewComponent extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
+
+  static RESULTS_PAGE_SIZE = 500
 
   /** Stores reference on the static empty component */
   static EMPTY_COMPONENT = <EmptyTableComponent />
@@ -151,7 +150,7 @@ class TableViewComponent extends React.Component {
         displayColumnsHeader
         lineHeight={lineHeight}
         columns={this.buildTableColumns()}
-        queryPageSize={RESULTS_PAGE_SIZE}
+        queryPageSize={TableViewComponent.RESULTS_PAGE_SIZE}
         requestParams={requestParameters}
         emptyComponent={TableViewComponent.EMPTY_COMPONENT}
       />

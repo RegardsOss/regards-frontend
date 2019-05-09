@@ -16,22 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CatalogShapes } from '@regardsoss/shape'
+import { shallow } from 'enzyme'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import EmptyTableComponent from '../../../../../src/components/user/results/common/EmptyTableComponent'
+import styles from '../../../../../src/styles'
+
+const context = buildTestContext(styles)
 
 /**
- * GEOJson features collection as expected by Mizar
- * Note: it is rewritten here only to make sure geometry is provided
+ * Test EmptyTableComponent
  * @author Raphaël Mechali
  */
+describe('[SEARCH RESULTS] Testing EmptyTableComponent', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
-/** A feature with geometry */
-export const GeoJsonFeature = PropTypes.shape({
-  geometry: CatalogShapes.EntityGeoProperties.isRequired,
-  bbox: PropTypes.arrayOf(PropTypes.number),
-})
-
-/** A GeoJson features collection with mandatory geometry */
-export const GeoJsonFeaturesCollection = PropTypes.shape({
-  features: PropTypes.arrayOf(GeoJsonFeature).isRequired,
-  type: PropTypes.oneOf(['FeatureCollection']).isRequired,
+  it('should exists', () => {
+    assert.isDefined(EmptyTableComponent)
+  })
+  it('should render correctly', () => {
+    shallow(<EmptyTableComponent />, { context })
+  })
 })

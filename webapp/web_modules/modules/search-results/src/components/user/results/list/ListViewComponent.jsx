@@ -16,18 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { TableColumnBuilder, PageableInfiniteTableContainer } from '@regardsoss/components'
 import { DamDomain } from '@regardsoss/domain'
 import { CommonShapes } from '@regardsoss/shape'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
+import { TableColumnBuilder, PageableInfiniteTableContainer } from '@regardsoss/components'
 import { tableActions } from '../../../../clients/TableClient'
 import { selectors as searchSelectors } from '../../../../clients/SearchEntitiesClient'
 import EmptyTableComponent from '../common/EmptyTableComponent'
 import ListCellContainer from '../../../../containers/user/results/list/ListCellContainer'
 import { ListAttributeRenderData, ListThumbnailRenderData } from './ListCellComponent'
-
-const RESULTS_PAGE_SIZE = 500
 
 /**
  * Shows view when in list mode
@@ -58,6 +56,8 @@ class ListViewComponent extends React.Component {
     enableSearchEntity: PropTypes.bool.isRequired,
     onSearchEntity: PropTypes.func.isRequired,
   }
+
+  static RESULTS_PAGE_SIZE = 500
 
   static contextTypes = {
     ...themeContextType,
@@ -113,7 +113,7 @@ class ListViewComponent extends React.Component {
         displayColumnsHeader={false}
         lineHeight={listLineHeight}
         columns={this.buildListColumn()}
-        queryPageSize={RESULTS_PAGE_SIZE}
+        queryPageSize={ListViewComponent.RESULTS_PAGE_SIZE}
         requestParams={requestParameters}
         emptyComponent={ListViewComponent.EMPTY_COMPONENT}
       />

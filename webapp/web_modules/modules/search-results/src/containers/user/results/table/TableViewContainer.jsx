@@ -65,10 +65,9 @@ export class TableViewContainer extends React.Component {
    * Converts models and sorting into column presentation models
    * @param {[*]} presentationModels presentation models in current type and mode. Respects UIShapes.AttributePresentationModel or UIShapes.FunctionalPresentationModel shape
    * @param {[*]} sortingCriteria currently applying sorting criteria
-   * @param {boolean} isInInitialSorting is currently in initial sorting
    * @return {[*]} converted column presentation models
    */
-  static convertToColumnPresentationModels(presentationModels, sortingCriteria, isInInitialSorting) {
+  static convertToColumnPresentationModels(presentationModels, sortingCriteria) {
     return presentationModels.map((model) => {
       let sortOrder = CommonDomain.SORT_ORDERS_ENUM.NO_SORT
       let sortIndex = null
