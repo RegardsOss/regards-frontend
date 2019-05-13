@@ -20,6 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { CatalogDomain } from '@regardsoss/domain'
 import { ModuleContainer } from '../../../src/containers/user/ModuleContainer'
 import FormContainer from '../../../src/containers/user/FormContainer'
 import styles from '../../../src/styles/styles'
@@ -39,7 +40,8 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
   it('should exist', () => {
     assert.isDefined(ModuleContainer)
   })
-  it('should display form and results, computing initial query and updating query parameters on search', () => {
+  it('should display form and results, computing initial results context and updating context search', () => {
+    let spiedStateDiff = null
     const props = {
       project: 'test',
       appName: 'test',
@@ -49,19 +51,29 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
       dispatchCollapseForm: () => { },
       dispatchExpandResults: () => { },
       dispatchInitializeWithOpenedResults: () => { },
+      dispatchUpdateSearchContext: (stateDiff) => {
+        spiedStateDiff = stateDiff
+      },
     }
     const enzymeWrapper = shallow(<ModuleContainer {...props} />, { context })
-
-    // Check contextQuery and current query initialization
+    // Check initial state holds both root query and constant restriction parameters
     assert.deepEqual(enzymeWrapper.state(), {
       contextQuery: 'tags:"URN%3ADATASET%3AEXAMPLE1"',
-      currentSearchParameters: {
-        q: 'tags:"URN%3ADATASET%3AEXAMPLE1"',
+      contextResultsCriteria: [{
+        requestParameters: {
+          [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: 'tags:"URN%3ADATASET%3AEXAMPLE1"',
+        },
+      }],
+    }, 'Initial state should contain pre-computed query and constant restriciton parameters, taking account of configured dataset')
+    // Check published intial state contains restriction parameters
+    assert.deepEqual(spiedStateDiff, {
+      criteria: {
+        otherFilters: enzymeWrapper.state().contextResultsCriteria,
       },
-    }, 'Queries state should be correctly initialized')
+    }, 'Initial results context should be initialized in same context')
 
     // Check form container is correctly rendered
-    let formContainer = enzymeWrapper.find(FormContainer)
+    const formContainer = enzymeWrapper.find(FormContainer)
     assert.lengthOf(formContainer, 1, 'There should be the form container')
     testSuiteHelpers.assertWrapperProperties(formContainer, {
       contextQuery: enzymeWrapper.state().contextQuery,
@@ -72,7 +84,7 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
 
 
     // Check results constainer is correctly rendered
-    let resultsContainer = enzymeWrapper.find(ResultsContainer)
+    const resultsContainer = enzymeWrapper.find(ResultsContainer)
     assert.lengthOf(resultsContainer, 1, 'There should be the results container')
     testSuiteHelpers.assertWrapperProperties(resultsContainer, {
       id: props.moduleConf.id,
@@ -80,11 +92,9 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
       project: props.project,
       preview: props.moduleConf.preview,
       searchResultsConfiguration: props.moduleConf.searchResult,
-      searchParameters: enzymeWrapper.state().currentSearchParameters,
-      restrictedDatasetsIds: props.moduleConf.datasets.selectedDatasets,
-    }, 'Results container request should be correctly provided')
+    }, 'Results container properties should be correctly provided')
 
-    // simulate a search call and check the request now holds initial request + plugins query parameters
+    // simulate a search call and check the controlled module filters are updated
     enzymeWrapper.instance().onSearch({
       p1: {
         state: { something: true },
@@ -108,22 +118,34 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
         },
       },
     })
-    enzymeWrapper.update()
-    assert.deepEqual(enzymeWrapper.state(), {
-      contextQuery: 'tags:"URN%3ADATASET%3AEXAMPLE1"',
-      currentSearchParameters: {
-        q: 'tags:"URN%3ADATASET%3AEXAMPLE1" AND something1 AND something2',
-        sort: 'A',
-        geometry: 'circle',
+    // check controlled module  context is updated
+    enzymeWrapper.update(spiedStateDiff, {
+      criteria: {
+        otherFilters: [{ // configuration filters
+          requestParameters: {
+            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: 'tags:"URN%3ADATASET%3AEXAMPLE1"',
+          },
+        }, { // p1 filter
+          requestParameters: {
+            q: 'something1',
+            sort: 'A',
+          },
+        }, { // p2 filter
+          requestParameters: {
+            q: 'something2',
+            sort: 'B',
+            geometry: 'circle',
+          },
+        }, { // p3 filter
+          requestParameters: {
+            geometry: 'cube',
+          },
+        }],
       },
-    }, 'Queries state should be correctly initialized')
-    // check each container was correctly updated
-    formContainer = enzymeWrapper.find(FormContainer)
-    assert.equal(formContainer.props().contextQuery, enzymeWrapper.state().contextQuery, 'Form container should still use initial context query')
-    resultsContainer = enzymeWrapper.find(ResultsContainer)
-    assert.equal(resultsContainer.props().searchQuery, enzymeWrapper.state().currentSearchQuery, 'Results container should now use current search query')
+    })
   })
   it('should compute correctly parameters without context and any plugin query parameter', () => {
+    let spiedStateDiff = null
     const props = {
       project: 'test',
       appName: 'test',
@@ -136,58 +158,92 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
       dispatchCollapseForm: () => { },
       dispatchExpandResults: () => { },
       dispatchInitializeWithOpenedResults: () => { },
+      dispatchUpdateSearchContext: (stateDiff) => {
+        spiedStateDiff = stateDiff
+      },
     }
     const enzymeWrapper = shallow(<ModuleContainer {...props} />, { context })
+    assert.deepEqual(enzymeWrapper.state(), {
+      contextQuery: '',
+      contextResultsCriteria: [],
+    }, 'Initial state should contain pre-computed query and constant restriciton parameters, taking account of configured dataset')
+    assert.isNull(spiedStateDiff, 'Results context should not have been updated as there is no context criterion')
+
     enzymeWrapper.instance().onSearch({
       p1: {
         state: { something: true },
         requestParameters: {
-          q: null,
+          q: 'ABCD',
         },
       },
       p2: {
         state: { somethingElse: 'abcde', more: 6 },
-        requestParameters: {},
+        requestParameters: {
+          a: 'b',
+          b: 'c',
+        },
       },
     })
 
-    // Check contextQuery and current query initialization
-    assert.deepEqual(enzymeWrapper.state(), {
-      contextQuery: '',
-      currentSearchParameters: {
-        q: '',
+    // Check on search statecontext update
+    assert.deepEqual(spiedStateDiff, {
+      criteria: {
+        otherFilters: [{ // p1
+          requestParameters: {
+            q: 'ABCD',
+          },
+        }, { // p2
+          requestParameters: {
+            a: 'b',
+            b: 'c',
+          },
+        }],
       },
-    }, 'Queries state should be correctly initialized')
+    }, 'On search should have updated correctly results context')
   })
   it('Convert correctly initial query from moduleConf.datasets', () => {
     // 1 - All catalog: no query
-    assert.isNotOk(ModuleContainer.buildRestrictiveQuery(
+    assert.deepEqual(ModuleContainer.buildContextQueryAndCriteria(
       { type: null, selectedDatasets: [], selectedModels: [] }),
-    '1.A - There should be no context query')
-    assert.isNotOk(ModuleContainer.buildRestrictiveQuery(
+    { query: '', resultsCriteria: [] }, '1.A - There should be no context query')
+    assert.deepEqual(ModuleContainer.buildContextQueryAndCriteria(
       { type: DatasetSelectionTypes.ALL_CATALOG_TYPE, selectedDatasets: ['URN:DATASET:1'], selectedModels: [1] }),
-    '1.B - There should be no context query')
+    { query: '', resultsCriteria: [] }, '1.B - There should be no context query')
     // 2 - Dataset type
-    assert.isNotOk(ModuleContainer.buildRestrictiveQuery(
+    assert.deepEqual(ModuleContainer.buildContextQueryAndCriteria(
       { type: DatasetSelectionTypes.DATASET_TYPE, selectedDatasets: [], selectedModels: [] }),
-    '2.A - There should be no context query (no dataset)')
-    assert.isNotOk(ModuleContainer.buildRestrictiveQuery(
+    { query: '', resultsCriteria: [] }, '2.A - There should be no context query (no dataset)')
+    assert.deepEqual(ModuleContainer.buildContextQueryAndCriteria(
       { type: DatasetSelectionTypes.DATASET_TYPE, selectedDatasets: ['', null, undefined], selectedModels: [] }),
-    '2.B - There should be no context query (no valid dataset)')
-    assert.equal(
-      ModuleContainer.buildRestrictiveQuery(
+    { query: '', resultsCriteria: [] }, '2.B - There should be no context query (no valid dataset)')
+    assert.deepEqual(
+      ModuleContainer.buildContextQueryAndCriteria(
         { type: DatasetSelectionTypes.DATASET_TYPE, selectedDatasets: ['URN:DATASET:A', null, 'URN:DATASET:B'], selectedModels: [] }),
-      'tags:("URN%3ADATASET%3AA" OR "URN%3ADATASET%3AB")', '2.C - Dataset tags query should be built')
+      {
+        query: 'tags:("URN%3ADATASET%3AA" OR "URN%3ADATASET%3AB")',
+        resultsCriteria: [{
+          requestParameters: {
+            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: 'tags:("URN%3ADATASET%3AA" OR "URN%3ADATASET%3AB")',
+          },
+        }],
+      }, '2.C - Dataset tags query should be built')
     // 3 - Dataset Model id type
-    assert.isNotOk(ModuleContainer.buildRestrictiveQuery(
+    assert.deepEqual(ModuleContainer.buildContextQueryAndCriteria(
       { type: DatasetSelectionTypes.DATASET_MODEL_TYPE, selectedDatasets: [], selectedModels: [] }),
-    '3.A - There should be no context query (no dataset)')
-    assert.isNotOk(ModuleContainer.buildRestrictiveQuery(
+    { query: '', resultsCriteria: [] }, '3.A - There should be no context query (no dataset model)')
+    assert.deepEqual(ModuleContainer.buildContextQueryAndCriteria(
       { type: DatasetSelectionTypes.DATASET_MODEL_TYPE, selectedDatasets: [], selectedModels: [null, undefined] }),
-    '3.B - There should be no context query (no valid model id)')
-    assert.equal(
-      ModuleContainer.buildRestrictiveQuery(
+    { query: '', resultsCriteria: [] }, '3.B - There should be no context query (no valid model id)')
+    assert.deepEqual(
+      ModuleContainer.buildContextQueryAndCriteria(
         { type: DatasetSelectionTypes.DATASET_MODEL_TYPE, selectedDatasets: [], selectedModels: [14, null, 38] }),
-      'datasetModelIds:(14 OR 38)', '3.C - Dataset model query should be built')
+      {
+        query: 'datasetModelIds:(14 OR 38)',
+        resultsCriteria: [{
+          requestParameters: {
+            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: 'datasetModelIds:(14 OR 38)',
+          },
+        }],
+      }, '3.C - Dataset model query should be built')
   })
 })

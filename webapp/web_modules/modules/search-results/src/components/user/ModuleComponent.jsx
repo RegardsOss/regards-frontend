@@ -16,13 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DynamicModulePane } from '@regardsoss/components'
 import { dependencies } from '../../user-dependencies'
-import ModuleConfiguration from '../../models/ModuleConfiguration'
+import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 import SearchResultsContainer from '../../containers/user/results/SearchResultsContainer'
 import FeedbackDisplayContainer from '../../containers/user/feedback/FeedbackDisplayContainer'
 import NavigationContainer from '../../containers/user/navigation/NavigationContainer'
@@ -47,35 +46,11 @@ class ModuleComponent extends React.Component {
 
   render() {
     const {
-      appName,
-      project,
-      id,
-      attributeModels,
+      id: moduleId,
       description,
       page,
       moduleConf,
     } = this.props
-    const {
-      enableDownload,
-      enableFacettes,
-      facettesInitiallySelected,
-      enableQuicklooks,
-      restrictedDatasetsIds,
-      searchParameters,
-      displayMode,
-      displayConf,
-      datasetsSectionLabelFr,
-      datasetsSectionLabelEn,
-      dataSectionLabelFr,
-      dataSectionLabelEn,
-      data,
-      quicklook,
-      dataset,
-      document,
-    } = moduleConf
-    const locale = get(this.context, 'intl.locale', 'en')
-    const datasetsSectionLabel = locale === 'fr' ? datasetsSectionLabelFr : datasetsSectionLabelEn
-    const dataSectionLabel = locale === 'fr' ? dataSectionLabelFr : dataSectionLabelEn
     const { moduleTheme: { user: { rootModuleContainer } } } = this.context
     return (
       <div style={rootModuleContainer}>
@@ -83,36 +58,18 @@ class ModuleComponent extends React.Component {
         <DynamicModulePane
           titleComponent={
             <NavigationContainer
+              moduleId={moduleId}
               type={this.props.type}
               description={description}
               page={page}
             />
           }
           requiredDependencies={dependencies}
-          id={id}
+          id={moduleId}
           moduleConf={moduleConf}
           {...this.props}
         >
-          <SearchResultsContainer
-            appName={appName}
-            project={project}
-            enableFacettes={enableFacettes}
-            facettesInitiallySelected={facettesInitiallySelected}
-            enableDownload={enableDownload}
-            enableQuicklooks={enableQuicklooks}
-            displayMode={displayMode}
-            displayConf={displayConf}
-            restrictedDatasetsIds={restrictedDatasetsIds}
-            searchParameters={searchParameters}
-            datasetsSectionLabel={datasetsSectionLabel}
-            dataSectionLabel={dataSectionLabel}
-            attributeModels={attributeModels}
-            // typed views configuration
-            data={data}
-            quicklook={quicklook}
-            dataset={dataset}
-            document={document}
-          />
+          <SearchResultsContainer moduleId={moduleId} />
         </DynamicModulePane>
         {/* Feedback handling for long actions in module */}
         <FeedbackDisplayContainer />

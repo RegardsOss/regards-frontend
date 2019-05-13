@@ -23,4 +23,4 @@ const REDUX_ACTION_NAMESPACE = 'search-results/search-entity'
 /**
  * Client to find a dataset. Reducer and selectors are undefined as they are unused
  */
-export const actions = new CatalogClient.SearchEntityActions(REDUX_ACTION_NAMESPACE)
+export const actions = new CatalogClient.SearchEntityActions(REDUX_ACTION_NAMESPACE, true)

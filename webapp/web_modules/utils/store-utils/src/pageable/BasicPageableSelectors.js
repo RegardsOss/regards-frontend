@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
-
-/**
- * @author Léo Mieulet
- */
+import isNil from 'lodash/isNil'
+import values from 'lodash/values'
+import { createSelector } from 'reselect'
 import BasicListSelectors from '../list/BasicListSelectors'
 
 /**
  *  Provide an high level class to interact with entity stored in a pageable list
+ * @author Léo Mieulet
  */
 class BasicPageableSelectors extends BasicListSelectors {
   /**
@@ -44,6 +44,16 @@ class BasicPageableSelectors extends BasicListSelectors {
     const metaData = this.getMetaData(state)
     return metaData ? metaData.totalElements : 0
   }
+
+  /**
+   * Computes and returns loaded elements count, <em>valid when pages were loaded sequentially and page size is constant</em>
+   * @param {*} state redux state
+   * @return {number} loaded elements count
+   */
+  getLoadedResultCount = createSelector([
+    state => this.getMetaData(state),
+    state => this.getList(state)],
+  (pageMetadata, currentPageItems) => (isNil(pageMetadata) ? 0 : (pageMetadata.number * pageMetadata.size)) + values(currentPageItems).length)
 
   /**
    * Returns links for last page request

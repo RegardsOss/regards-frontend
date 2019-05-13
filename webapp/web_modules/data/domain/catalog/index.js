@@ -18,12 +18,10 @@
  **/
 
 export { FACET_TYPES, FACET_TYPES_ENUM } from './FacetType'
-export { isURNTag, TagTypes } from './Tags'
+export { isURNTag, TAG_TYPES_ENUM, TAG_TYPES } from './Tags'
 export { default as GEOMETRY_TYPES } from './geo/Geometry'
 export { LEGACY_SEARCH_ENGINE } from './SearchConstants'
-export { default as StaticQueryParameter } from './query/common/StaticQueryParameter'
-export { default as OpenSearchQuery } from './query/opensearch/OpenSearchQuery'
-export { default as OpenSearchQueryParameter } from './query/opensearch/OpenSearchQueryParameter'
-export { default as URLSearchQuery } from './query/url/URLSearchQuery'
-export { default as URLSearchQueryParameter } from './query/url/URLSearchQueryParameter'
+export { default as OpenSearchQuery } from './query/OpenSearchQuery'
+export { default as OpenSearchQueryParameter } from './query/OpenSearchQueryParameter'
+export { default as CatalogSearchQueryHelper } from './query/CatalogSearchQueryHelper'
 export { PluginTypeEnum, PluginTypeEnumValues } from './PluginTypeEnum'

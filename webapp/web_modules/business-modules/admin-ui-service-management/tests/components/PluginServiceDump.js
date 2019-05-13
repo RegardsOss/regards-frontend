@@ -35,9 +35,9 @@ export default {
     description: 'Criteria widget to search for a given numerical value into a model attribute',
     version: '1.0',
     author: 'Xavier-Alexandre Brochard',
-    company: "CNES (https://cnes.fr)",
+    company: 'CNES (https://cnes.fr)',
     contributors: [
-      "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+      'CS-SI <regards@c-s.fr> (https://www.c-s.fr)',
     ],
     email: 'regards@c-s.fr',
     url: 'http://www.cnes.fr',

@@ -29,11 +29,6 @@ const messages = {
   'attribute.render.label': '{label} ({path})',
   'attribute.render.path.join.string': '.',
   // Attributes configuration
-  'attributes.configuration.header.count': `{count, plural, 
-    =0 {No item}
-    one {# item}
-    other {# items}
-  } added`,
   'attributes.configuration.add.item.label': 'Add',
   'attributes.configuration.type.column': 'Type',
   'attributes.configuration.label.simple.column': 'Label',

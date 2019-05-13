@@ -44,17 +44,13 @@ export class ResultsContainer extends React.Component {
   }
 
   static propTypes = {
-    preview: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
     id: PropTypes.number, // used in onPropertiesUpdated
     appName: PropTypes.string.isRequired,
     project: PropTypes.string,
     // eslint-disable-next-line
     searchResultsConfiguration: PropTypes.object, // used in onPropertiesUpdated, cannot shape it better due to module exports system
-    // eslint-disable-next-line react/no-unused-prop-types
-    searchParameters: PropTypes.objectOf(PropTypes.any), // used in onPropertiesUpdated
-    // eslint-disable-next-line react/no-unused-prop-types
-    restrictedDatasetsIds: PropTypes.arrayOf(PropTypes.string), // used in onPropertiesUpdated
+    preview: PropTypes.bool,
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     locale: PropTypes.string, // never used, only allows recalling componentWillReceiveProps when changing
@@ -86,7 +82,7 @@ export class ResultsContainer extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      id, appName, searchResultsConfiguration, searchParameters, restrictedDatasetsIds,
+      id, appName, searchResultsConfiguration,
     } = newProps
     const { intl: { formatMessage } } = this.context
     const nextState = {
@@ -97,13 +93,7 @@ export class ResultsContainer extends React.Component {
         applicationId: appName,
         // replaces page definition
         description: formatMessage({ id: 'results.module.title' }),
-        conf: {
-          ...searchResultsConfiguration,
-          // current results query
-          searchParameters,
-          // provide dataset context if any
-          restrictedDatasetsIds,
-        },
+        conf: searchResultsConfiguration,
       },
     }
     if (!isEqual(this.state, nextState)) {

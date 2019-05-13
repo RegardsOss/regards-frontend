@@ -56,7 +56,7 @@ function buildAttributeColumn({
   enableSorting, sortOrder, sortIndex,
 }, onSort, locale) {
   if (attributes.length < 1) {
-    throw new Error(`An attribute presentation model must have attributes! (${key}/${label})`)
+    throw new Error(`An attribute presentation model must have attributes! (${key}/${label.en})`)
   }
   // 1 - build common column elements
   const columnBuilder = new TableColumnBuilder(key).label(get(label, locale, '')).visible(visible)

@@ -128,108 +128,163 @@ export const conf1 = {
   },
   // search results dump conf (from a real example)
   searchResult: {
-    primaryPane: 'COLLAPSED_EXPANDABLE',
-    facettesInitiallySelected: true,
-    enableFacettes: true,
-    enableQuicklooks: false,
-    enableDownload: false,
-    initialViewMode: 'list',
-    displayMode: 'data_dataset',
-    displayConf: {
-      quicklookColumnWidth: 400,
-      quicklookColumnSpacing: 20,
-    },
-    data: {
-      columns: [
-        {
-          attributes: [
+    primaryPane: 'EXPANDED_COLLAPSIBLE',
+    viewsGroups: {
+      DATA: {
+        enabled: true,
+        tabTitle: {
+          en: 'DATATA',
+          fr: 'Dodonnées',
+        },
+        initialMode: 'TABLE',
+        enableDownload: true,
+        facets: {
+          enabled: true,
+          initiallyEnabled: true,
+          list: [
             {
-              name: 'label',
+              attributes: [
+                {
+                  name: 'model',
+                },
+              ],
+              label: {
+                en: 'Model',
+                fr: 'Modèle',
+              },
             },
           ],
-          label: {
-            en: 'Label',
-            fr: 'Libellé',
+        },
+        sorting: [
+          {
+            attributes: [
+              {
+                name: 'label',
+              },
+            ],
+          },
+        ],
+        views: {
+          TABLE: {
+            enabled: true,
+            attributes: [
+              {
+                attributes: [
+                  {
+                    name: 'label',
+                  },
+                ],
+                label: {
+                  en: 'Label',
+                  fr: 'Libellé',
+                },
+              },
+              {
+                attributes: [
+                  {
+                    name: 'properties.start_date',
+                  },
+                ],
+                label: {
+                  en: 'Start',
+                  fr: 'Début',
+                },
+              },
+              {
+                attributes: [
+                  {
+                    name: 'properties.end_date',
+                  },
+                ],
+                label: {
+                  en: 'End',
+                  fr: 'Fin',
+                },
+              },
+            ],
+          },
+          QUICKLOOK: {
+            enabled: true,
+            attributes: [
+              {
+                attributes: [
+                  {
+                    name: 'label',
+                  },
+                ],
+                label: {
+                  en: 'Label',
+                  fr: 'Libellé',
+                },
+              },
+            ],
+          },
+          MAP: {
+            enabled: false,
+            attributes: [],
+            backgroundLayer: {
+              url: null,
+              type: 'AsynchroneWMS',
+            },
           },
         },
-        {
-          attributes: [
-            {
-              name: 'properties.date',
-            },
-          ],
-          label: {
-            en: 'Date UTC',
-            fr: 'Date UTC',
+      },
+      DATASET: {
+        enabled: true,
+        tabTitle: {
+          en: 'Dataseset',
+          fr: 'Jeux de dodonnées',
+        },
+        initialMode: 'TABLE',
+        sorting: [],
+        views: {
+          TABLE: {
+            enabled: true,
+            attributes: [
+              {
+                attributes: [
+                  {
+                    name: 'label',
+                  },
+                ],
+                label: {
+                  en: 'Label',
+                  fr: 'Libellé',
+                },
+              },
+              {
+                attributes: [
+                  {
+                    name: 'tags',
+                  },
+                ],
+                label: {
+                  en: 'Tags',
+                  fr: 'Tags',
+                },
+              },
+            ],
           },
         },
-      ],
-      facets: [
-        {
-          attributes: [
-            {
-              name: 'properties.date',
-            },
-          ],
-          label: {
-            en: 'Date UTC',
-            fr: 'Date UTC',
+      },
+      DOCUMENT: {
+        enabled: false,
+        tabTitle: {},
+        initialMode: 'TABLE',
+        enableDownload: false,
+        facets: {
+          enabled: false,
+          initiallyEnabled: false,
+          list: [],
+        },
+        sorting: [],
+        views: {
+          TABLE: {
+            enabled: true,
+            attributes: [],
           },
         },
-      ],
-      sorting: [
-        {
-          attributes: [
-            {
-              name: 'properties.date',
-            },
-          ],
-        },
-        {
-          attributes: [
-            {
-              name: 'label',
-            },
-          ],
-        },
-      ],
-    },
-    dataset: {
-      columns: [
-        {
-          attributes: [
-            {
-              name: 'label',
-            },
-          ],
-          label: {
-            en: 'Label',
-            fr: 'Libellé',
-          },
-        },
-        {
-          attributes: [
-            {
-              name: 'id',
-            },
-          ],
-          label: {
-            en: 'Internal ID',
-            fr: 'ID interne',
-          },
-        },
-        {
-          attributes: [
-            {
-              name: 'properties.name',
-            },
-          ],
-          label: {
-            en: 'Name',
-            fr: 'Nom',
-          },
-        },
-      ],
+      },
     },
   },
 }

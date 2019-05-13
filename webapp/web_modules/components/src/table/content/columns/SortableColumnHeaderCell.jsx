@@ -17,13 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNumber from 'lodash/isNumber'
-import values from 'lodash/values'
 import IconButton from 'material-ui/IconButton'
 import SortDesc from 'material-ui/svg-icons/navigation/arrow-drop-up'
 import SortAsc from 'material-ui/svg-icons/navigation/arrow-drop-down'
 import Sort from 'material-ui/svg-icons/action/swap-vert'
 import { themeContextType } from '@regardsoss/theme'
-import { getNextSortOrder, TableSortOrders } from '../../model/TableSortOrders'
+import { CommonDomain } from '@regardsoss/domain'
 
 /**
  * Default sortable column header
@@ -35,7 +34,7 @@ class SortableColumnHeaderCell extends React.Component {
     columnKey: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     // sort order (ascending, descending, none)
-    sortingOrder: PropTypes.oneOf(values(TableSortOrders)),
+    sortingOrder: PropTypes.oneOf(CommonDomain.SORT_ORDERS),
     // sort index (used in multi sorting tables), ranging from 0 to N-1
     sortIndex: PropTypes.number,
     hideLabel: PropTypes.bool.isRequired,
@@ -44,7 +43,7 @@ class SortableColumnHeaderCell extends React.Component {
   }
 
   static defaultProps = {
-    sortingOrder: TableSortOrders.NO_SORT,
+    sortingOrder: CommonDomain.SORT_ORDERS_ENUM.NO_SORT,
   }
 
   static contextTypes = {
@@ -59,7 +58,7 @@ class SortableColumnHeaderCell extends React.Component {
       sortable, sortingOrder, columnKey, onSort,
     } = this.props
     if (sortable && sortingOrder) { // do change sort only when sortable with known sorting state
-      onSort(columnKey, getNextSortOrder(sortingOrder))
+      onSort(columnKey, CommonDomain.getNextSortOrder(sortingOrder))
     }
   }
 
@@ -87,11 +86,11 @@ class SortableColumnHeaderCell extends React.Component {
                 {/* 2 - sort icon */}
                 {(() => {
                   switch (sortingOrder) {
-                    case TableSortOrders.ASCENDING_ORDER:
+                    case CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER:
                       return <SortAsc />
-                    case TableSortOrders.DESCENDING_ORDER:
+                    case CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER:
                       return <SortDesc />
-                    case TableSortOrders.NO_SORT:
+                    case CommonDomain.SORT_ORDERS_ENUM.NO_SORT:
                       return <Sort />
                     default:
                       throw new Error(`Unknown sorting order ${sortingOrder}`)

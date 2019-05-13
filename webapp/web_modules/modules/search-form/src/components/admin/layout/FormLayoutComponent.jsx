@@ -18,11 +18,12 @@
  **/
 import merge from 'lodash/merge'
 import { i18nContextType } from '@regardsoss/i18n'
-import { CardActions, CardText } from 'material-ui/Card'
-import { CardActionsComponent, Title } from '@regardsoss/components'
+import { CardActions } from 'material-ui/Card'
+import { CardActionsComponent } from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
 import { ModulePaneStateField } from '@regardsoss/modules-api'
 import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
+import { FormPresentation, FieldsGroup } from '@regardsoss/form-utils'
 
 const searchFormDefaultLayout = merge({}, DefaultLayout('FormMainContainer'), {
   containers: [
@@ -89,18 +90,19 @@ class FormLayoutComponent extends React.Component {
     const { currentNamespace } = this.props
     return (
       <div>
-        <CardText>
+        <FormPresentation>
           <ModulePaneStateField currentNamespace={currentNamespace} />
-          <Title
-            level={3}
-            label={this.context.intl.formatMessage({ id: 'form.layout.tab.title' })}
-          />
-          <LayoutConfigurationComponent
-            layout={this.state.currentLayout}
-            hideDynamicContentOption
-            onChange={this.changeLayout}
-          />
-        </CardText>
+          <FieldsGroup
+            title={this.context.intl.formatMessage({ id: 'form.layout.tab.title' })}
+            spanFullWidth
+          >
+            <LayoutConfigurationComponent
+              layout={this.state.currentLayout}
+              hideDynamicContentOption
+              onChange={this.changeLayout}
+            />
+          </FieldsGroup>
+        </FormPresentation>
         <CardActions>
           <CardActionsComponent
             mainButtonLabel={this.context.intl.formatMessage({ id: 'form.layout.tab.reset' })}

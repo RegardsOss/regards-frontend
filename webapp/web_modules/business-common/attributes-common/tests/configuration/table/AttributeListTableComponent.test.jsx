@@ -22,7 +22,6 @@ import FlatButton from 'material-ui/FlatButton'
 import { InfiniteTableContainer, TableColumnBuilder } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AttributeListTableComponent from '../../../src/configuration/table/AttributeListTableComponent'
-import AttributesListHeaderMessage from '../../../src/configuration/table/AttributesListHeaderMessage'
 import styles from '../../../src/styles'
 import { attributeModelsArray } from '../../dumps/AttributeModels.dump'
 
@@ -58,10 +57,6 @@ describe('[Attributes Common] Testing AttributeListTableComponent', () => {
       label: 'attributes.configuration.add.item.label',
       onClick: props.onAdd,
     }, 'Add button properties should be correctly set')
-    // check header
-    const headerMessage = enzymeWrapper.find(AttributesListHeaderMessage)
-    assert.lengthOf(headerMessage, 1, 'There should be header message')
-    assert.equal(headerMessage.props().count, 1)
     // check table and columns
     const table = enzymeWrapper.find(InfiniteTableContainer)
     assert.deepEqual(table.props().entities, props.attributesList, 'Entities to display should be correctly reported')

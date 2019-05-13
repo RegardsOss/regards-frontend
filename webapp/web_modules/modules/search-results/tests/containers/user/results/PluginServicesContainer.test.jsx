@@ -18,10 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { AccessDomain, DamDomain, CatalogDomain } from '@regardsoss/domain'
+import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { TableSelectionModes } from '@regardsoss/components'
-import { Tag } from '../../../../src/models/navigation/Tag'
 import { PluginServicesContainer } from '../../../../src/containers/user/results/PluginServicesContainer'
 import styles from '../../../../src/styles/styles'
 
@@ -33,8 +32,8 @@ const TestComponent = () => <div />
 const commonProperties = {
   viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
   requestParameters: {},
+  restrictedDatasetsIds: [],
 
-  selectedDatasetId: 'URN:pipo1',
   toggledElements: {},
   selectionMode: TableSelectionModes.includeSelected,
   emptySelection: true,
@@ -49,7 +48,7 @@ const commonProperties = {
   dispatchCloseService: () => { },
 }
 
-describe('[Search Results] Testing PluginServicesContainer', () => {
+describe('[SEARCH RESULTS] Testing PluginServicesContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -70,7 +69,7 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
     assert.isDefined(subCompWrapper.props().onStartSelectionService, 'The test component should have selection service callback as property')
   })
 
-  it('should dispatch fetch selection services on selected dataset tag / restricted datasets if any', () => {
+  it('should dispatch fetch selection services on dataset restriction changes', () => {
     const spiedFetch = {
       datasetId: null,
       count: 0,
@@ -78,9 +77,8 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
     const props = {
       // Component properties
       ...commonProperties,
+      restrictedDatasetsIds: ['myId', 'ip1', 'ip2'],
       // specifically spied values
-      selectedDatasetTag: new Tag(CatalogDomain.TagTypes.DATASET, 'myLabel', 'myId'),
-      restrictedDatasetsIds: ['ip1', 'ip2'],
       dispatchFetchPluginServices: (datasetIds) => {
         spiedFetch.datasetIds = datasetIds
         spiedFetch.count += 1
@@ -92,27 +90,17 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
         <TestComponent />
       </PluginServicesContainer>, { context })
     assert.equal(spiedFetch.count, 1, 'The plugin services should have been fetched one time')
-    assert.deepEqual(spiedFetch.datasetIds, ['myId'], 'The plugin services should have been fetched for current tag searchKey "myId"')
-
-    const withoutSelectionProps = {
-      ...props,
-      selectedDatasetTag: null, // change selection to none
-    }
-    render.setProps(withoutSelectionProps)
-
-    assert.equal(spiedFetch.count, 2, 'The plugin services should have been fetched two times')
-    assert.deepEqual(spiedFetch.datasetIds, props.restrictedDatasetsIds, 'The plugin services should have been fetched for dataset restricted context')
+    assert.deepEqual(spiedFetch.datasetIds, props.restrictedDatasetsIds, 'The plugin services should have been fetched for current dataset IDs')
 
     // verify that it also works without dataset context
     const withoutDatasetContextProps = {
       ...props,
-      selectedDatasetTag: null, // change selection to none
-      restrictedDatasetsIds: undefined, // change context to none
+      restrictedDatasetsIds: [],
     }
     render.setProps(withoutDatasetContextProps)
 
-    assert.equal(spiedFetch.count, 3, 'The plugin services should have been fetched three times')
-    assert.isNotOk(spiedFetch.datasetIds, 'The plugin services should have been fetched without specifying datasets context nor tag')
+    assert.equal(spiedFetch.count, 2, 'The plugin services should have been fetched three times')
+    assert.isNotOk(spiedFetch.datasetIds, 'The plugin services should have been fetched without specifying datasets IDs')
   })
 
   it('should resolve available services for current selection', () => {
@@ -124,7 +112,6 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
       selectionMode: TableSelectionModes.includeSelected,
       pageMetadata: { number: 0, size: 10, totalElements: 20 },
       emptySelection: false,
-      selectedDatasetId: null,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       contextSelectionServices: [{
         content: {

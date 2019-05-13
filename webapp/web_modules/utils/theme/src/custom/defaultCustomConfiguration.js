@@ -163,6 +163,34 @@ export default baseTheme => ({
     searchResults: {
       listLineHeight: 160,
       listRowsByColumnCount: 4,
+      quicklooks: {
+        columnWidth: 400,
+        columnGap: 20,
+      },
+      map: {
+        background: 'black', // related with mizar background
+        mizar: {
+          minWidth: 500,
+          initialRelativeWidth: 0.7,
+          featureColor: baseTheme.palette.accent1Color,
+          drawColor: baseTheme.palette.accent2Color,
+        },
+        quicklooks: {
+          minWidth: 260,
+          thumbnailHeight: 160,
+          columnWidth: 180,
+          columnGap: 15,
+          padding: '12px 5px 5px 0',
+        },
+        resizerSeparator: {
+          backgroundColor: baseTheme.palette.canvasColor,
+          borderLeftColor: baseTheme.palette.borderColor,
+          borderLeftWidth: 1,
+          borderLeftStyle: 'solid',
+          minWidth: 14,
+          cursor: 'col-resize',
+        },
+      },
     },
     // storage plugins module
     storagePlugins: {
