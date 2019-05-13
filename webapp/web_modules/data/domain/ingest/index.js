@@ -18,3 +18,4 @@
  **/
 
 export { SIPStateEnum, SIPStateValues } from './SIPStateEnum'
+export { enMessages, frMessages } from './i18n'

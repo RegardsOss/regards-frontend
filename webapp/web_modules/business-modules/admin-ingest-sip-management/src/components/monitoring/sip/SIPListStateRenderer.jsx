@@ -21,6 +21,7 @@ import { IngestDomain } from '@regardsoss/domain'
 import Report from 'material-ui/svg-icons/content/report'
 import IconButton from 'material-ui/IconButton'
 import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 /**
  *
  * @author Sébastien Binda
@@ -36,6 +37,7 @@ class SIPListStateRenderer extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   static lineWrapper = {
@@ -51,6 +53,8 @@ class SIPListStateRenderer extends React.Component {
     const { intl: { formatMessage } } = this.context
     const { entity, session } = this.props
     const status = entity.content.state
+    const { intl, moduleTheme: { textRenderCell } } = this.context
+    const textValue = intl.formatMessage({ id: `sip.state.${status}` })
     // display an icon if the status can contains a stacktrace
     let icon = null
     if (status === IngestDomain.SIPStateEnum.STORE_ERROR) {
@@ -79,8 +83,7 @@ class SIPListStateRenderer extends React.Component {
 
     return (
       <div style={SIPListStateRenderer.lineWrapper}>
-        {status}
-        {icon}
+        {textValue}
       </div>
     )
   }

@@ -24,11 +24,12 @@ import { SIPStateEnum } from '../ingest/SIPStateEnum'
  * @author Sébastien Binda
  */
 export const ProductSIPStateEnum = {
-  ...SIPStateEnum,
   NOT_SCHEDULED: 'NOT_SCHEDULED',
+  NOT_SCHEDULED_INVALID: 'NOT_SCHEDULED_INVALID',
   SCHEDULED: 'SCHEDULED',
   SCHEDULED_INTERRUPTED: 'SCHEDULED_INTERRUPTED',
   GENERATION_ERROR: 'GENERATION_ERROR',
   SUBMITTED: 'SUBMITTED',
+  ...SIPStateEnum
 }
 export const ProductSIPStateEnumValues = values(ProductSIPStateEnum)

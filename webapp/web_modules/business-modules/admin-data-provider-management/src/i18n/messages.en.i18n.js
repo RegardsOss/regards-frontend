@@ -16,9 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { DataProviderDomain } from '@regardsoss/domain'
+import { IngestDomain } from '@regardsoss/domain'
 import { Locales } from '@regardsoss/form-utils'
 
+const catDataProvider = ' Acquisition - '
+const catIngest = 'Ingest - '
+const catStorage = 'Storage - '
+
 const messages = Object.assign({
+  ...DataProviderDomain.enMessages,
+  ...IngestDomain.enMessages,
   // 1. Chains list
   // 1.1 Headers
   'acquisition-chain.list.title': 'Configure acquisition chains',
@@ -54,10 +62,9 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.label': 'Chain name (*)',
   'acquisition-chain.form.general.section.active': 'Activate chain',
   'acquisition-chain.form.general.generationRetryEnabled': 'Enable SIP re-generation for products in error state.',
-  'acquisition-chain.form.general.submissionRetryEnabled': 'Enable SIP re-submission for products in error state.',
-  'acquisition-chain.form.general.section.periodicity': 'Activation periodicity (seconds). Only for automatic chains. ',
-  'acquisition-chain.form.general.section.session': 'Acquisition session name ...',
-  'acquisition-chain.form.general.section.mode': 'Mode',
+  'acquisition-chain.form.general.section.periodicity': 'Activation periodicity (seconds). Only for automatic chain. ',
+  'acquisition-chain.form.general.section.session': 'Session name (*)',
+  'acquisition-chain.form.general.section.mode': 'Mode (*)',
   'acquisition-chain.form.general.section.mode.AUTO': 'Automatic',
   'acquisition-chain.form.general.section.mode.MANUAL': 'Manual',
   'acquisition-chain.form.general.section.ingestChain.select': 'Ingest chain (*)',
@@ -141,8 +148,6 @@ const messages = Object.assign({
   'acquisition-chain.jobs.monitor.product-acquisition.job.empty.label': 'All product acquisition jobs are terminated.',
   'acquisition-chain.jobs.monitor.generation.job.label': '{count} running generation jobs.',
   'acquisition-chain.jobs.monitor.generation.job.empty.label': 'All generation jobs are terminated',
-  'acquisition-chain.jobs.monitor.submission.job.label': '{count} running submission jobs.',
-  'acquisition-chain.jobs.monitor.submission.job.empty.label': 'All submission jobs are terminated',
 
   // 4. Products list
   // 4.1 Headers
@@ -158,28 +163,11 @@ const messages = Object.assign({
   //4.2 Filters
   'acquisition.product.list.filters.state': 'Products state',
   'acquisition.product.list.filters.sipState': 'SIPs state',
-  'acquisition.product.list.filters.state.ACQUIRING': 'Acquiring ...',
-  'acquisition.product.list.filters.state.COMPLETED': 'Acquiring ... (Completed)',
+  'acquisition.product.list.filters.state.ACQUIRING': 'Acquiring',
+  'acquisition.product.list.filters.state.COMPLETED': 'Completed',
   'acquisition.product.list.filters.state.FINISHED': 'Finished',
+  'acquisition.product.list.filters.state.INVALID': 'Invalid',
   'acquisition.product.list.filters.state.ERROR': 'Error',
-  'acquisition.product.list.filters.sipState.NOT_SCHEDULED': 'Acquiring ... (not scheduled)',
-  'acquisition.product.list.filters.sipState.SCHEDULED': 'Acquiring ... (scheduled)',
-  'acquisition.product.list.filters.sipState.GENERATED': 'Acquiring ... (generated)',
-  'acquisition.product.list.filters.sipState.SUBMISSION_SCHEDULED': 'Acquiring ... (submitting)',
-  'acquisition.product.list.filters.sipState.SUBMISSION_ERROR': 'Submission error',
-  'acquisition.product.list.filters.sipState.GENERATION_ERROR': 'Generation error',
-  'acquisition.product.list.filters.sipState.CREATED': 'Acquiring ... (Created)',
-  'acquisition.product.list.filters.sipState.REJECTED': 'Rejected',
-  'acquisition.product.list.filters.sipState.QUEUED': 'Queued',
-  'acquisition.product.list.filters.sipState.VALID': 'Acquiring ... (Valid)',
-  'acquisition.product.list.filters.sipState.INVALID': 'Invalid',
-  'acquisition.product.list.filters.sipState.AIP_GEN_ERROR': 'AIP generation error',
-  'acquisition.product.list.filters.sipState.AIP_CREATED': 'Acquiring ... (AIP generated)',
-  'acquisition.product.list.filters.sipState.STORED': 'Stored',
-  'acquisition.product.list.filters.sipState.STORE_ERROR': 'Storage error',
-  'acquisition.product.list.filters.sipState.INDEXED': 'Indexed',
-  'acquisition.product.list.filters.sipState.INCOMPLETE': 'Incomplete',
-  'acquisition.product.list.filters.sipState.DELETED': 'Deleted',
   'acquisition-product.list.filters.productName': 'Product name',
   'acquisition.product.list.filters.session': 'Ingest session',
   'acquisition-chain.monitor.list.filters.no.session': 'Only without session',
@@ -206,11 +194,12 @@ const messages = Object.assign({
   'acquisition.file.list.state': 'State',
 
   //5.2 Filters
-  'acquisition.file.list.filters.state': 'Sstate',
-  'acquisition.file.list.filters.state.IN_PROGRESS': 'Acquiring ...',
-  'acquisition.file.list.filters.state.VALID': 'Acquiring ... (Valid)',
+  'acquisition.file.list.filters.state': 'State',
+  'acquisition.file.list.filters.state.IN_PROGRESS': 'Acquiring',
+  'acquisition.file.list.filters.state.VALID': 'Valid',
   'acquisition.file.list.filters.state.ACQUIRED': 'Acquired',
   'acquisition.file.list.filters.state.SUPERSEDED': 'Replaced',
+  'acquisition.file.list.filters.state.SUPERSEDED_AFTER_ERROR': 'Replaced after error',
   'acquisition.file.list.filters.state.INVALID': 'Invalid',
   'acquisition.file.list.filters.state.ERROR': 'Error',
   'acquisition.file.list.filters.filePath': 'File',
