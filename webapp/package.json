@@ -242,7 +242,7 @@
     "source-map-loader": "~0.2.4",
     "source-map-support": "^0.5.9",
     "webpack": "4.25.1",
-    "webpack-cli": "^3.1.2",
+    "webpack-cli": "3.1.2",
     "webpack-dev-server": "~3.1.10",
     "xunit-file": "~1.0.0"
   },
