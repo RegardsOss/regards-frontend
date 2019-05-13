@@ -19,8 +19,5 @@
 import en from './messages.en.i18n'
 import fr from './messages.fr.i18n'
 
-
-console.error('',en,fr)
 export const enMessages = en
 export const frMessages = fr
-
