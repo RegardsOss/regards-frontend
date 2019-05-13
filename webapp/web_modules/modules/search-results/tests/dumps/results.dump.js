@@ -20,16 +20,22 @@ export default {
   content: [
     {
       content: {
-        id: 0,
-        ip_id: 100,
+        id: 'URN:DATA:100',
+        model: 'anyModel',
+        providerId: 'URN:DATA:100',
         label: 'Le parain',
-        type: 'DATAOBJECT',
-        files: [
-          {
-            type: 'THUMBMAIL',
+        entityType: 'DATA',
+        files: {
+          THUMBMAIL: [{
+            reference: true,
             uri: 'https://cnes.fr/sites/default/files/drupal/201511/image/is_venus-nasa.jpg',
-          },
-        ],
+            mimeType: 'image/jpg',
+            imageWidth: 326,
+            imageHeight: 435,
+            online: true,
+            filename: 'is_venus-nasa.jpg',
+          }],
+        },
         tags: [
           'col:movie',
           'col:classic',
@@ -46,16 +52,22 @@ export default {
     },
     {
       content: {
-        id: 1,
-        ip_id: 101,
+        id: 'URN:DATA:101',
+        model: 'anyModel',
+        providerId: 'URN:DATA:101',
         label: 'Matrix',
-        type: 'DATAOBJECT',
-        files: [
-          {
-            type: 'THUMBMAIL',
+        entityType: 'DATA',
+        files: {
+          THUMBMAIL: [{
+            reference: true,
             uri: 'http://images.toucharger.com/img/graphiques/fonds_d_ecran/espace/planetes/planete.2208.jpg',
-          },
-        ],
+            mimeType: 'image/jpg',
+            imageWidth: 326,
+            imageHeight: 435,
+            online: true,
+            filename: 'planete.2208.jpg',
+          }],
+        },
         tags: [
           'col:movie',
           'col:science-fiction',
@@ -71,16 +83,23 @@ export default {
     },
     {
       content: {
-        id: 2,
-        ip_id: 102,
+
+        id: 'URN:DATA:102',
+        model: 'anyModel',
+        providerId: 'URN:DATA:102',
         label: 'La grande vadrouille',
-        type: 'DATAOBJECT',
-        files: [
-          {
-            type: 'THUMBMAIL',
+        entityType: 'DATA',
+        files: {
+          THUMBMAIL: [{
+            reference: true,
             uri: 'http://meyer10000.m.e.pic.centerblog.net/w7ei60ha.jpg',
-          },
-        ],
+            mimeType: 'image/jpg',
+            imageWidth: 326,
+            imageHeight: 435,
+            online: true,
+            filename: 'w7ei60ha.jpg',
+          }],
+        },
         tags: [
           'col:movie',
           'col:classic',
@@ -98,10 +117,11 @@ export default {
     },
     {
       content: {
-        id: 10,
-        ip_id: 110,
+        id: 'URN:DATA:110',
+        model: 'anyModel',
+        providerId: 'URN:DATA:110',
         label: 'Matrix Reloaded',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -116,10 +136,11 @@ export default {
     },
     {
       content: {
-        id: 11,
-        ip_id: 111,
+        id: 'URN:DATA:111',
+        model: 'anyModel',
+        providerId: 'URN:DATA:111',
         label: 'Matrix Revolution',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -134,10 +155,11 @@ export default {
     },
     {
       content: {
-        id: 12,
-        ip_id: 112,
+        id: 'URN:DATA:112',
+        model: 'anyModel',
+        providerId: 'URN:DATA:112',
         label: 'Burn after reading',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -152,10 +174,11 @@ export default {
     },
     {
       content: {
-        id: 13,
-        ip_id: 113,
+        id: 'URN:DATA:113',
+        model: 'anyModel',
+        providerId: 'URN:DATA:113',
         label: 'Starwars I',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -170,10 +193,11 @@ export default {
     },
     {
       content: {
-        id: 14,
-        ip_id: 114,
+        id: 'URN:DATA:114',
+        model: 'anyModel',
+        providerId: 'URN:DATA:114',
         label: 'Starwars II',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -188,10 +212,11 @@ export default {
     },
     {
       content: {
-        id: 15,
-        ip_id: 115,
+        id: 'URN:DATA:115',
+        model: 'anyModel',
+        providerId: 'URN:DATA:115',
         label: 'Starwars III',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -206,10 +231,11 @@ export default {
     },
     {
       content: {
-        id: 16,
-        ip_id: 116,
+        id: 'URN:DATA:116',
+        model: 'anyModel',
+        providerId: 'URN:DATA:116',
         label: 'Starwars IV',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -224,10 +250,11 @@ export default {
     },
     {
       content: {
-        id: 17,
-        ip_id: 117,
+        id: 'URN:DATA:117',
+        model: 'anyModel',
+        providerId: 'URN:DATA:117',
         label: 'Starwars V',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -242,10 +269,11 @@ export default {
     },
     {
       content: {
-        id: 18,
-        ip_id: 118,
+        id: 'URN:DATA:118',
+        model: 'anyModel',
+        providerId: 'URN:DATA:118',
         label: 'Starwars VI',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -260,10 +288,11 @@ export default {
     },
     {
       content: {
-        id: 19,
-        ip_id: 119,
+        id: 'URN:DATA:119',
+        model: 'anyModel',
+        providerId: 'URN:DATA:119',
         label: 'Starwars VII',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -278,10 +307,11 @@ export default {
     },
     {
       content: {
-        id: 20,
-        ip_id: 120,
+        id: 'URN:DATA:120',
+        model: 'anyModel',
+        providerId: 'URN:DATA:120',
         label: 'Le diner de con',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -296,10 +326,11 @@ export default {
     },
     {
       content: {
-        id: 21,
-        ip_id: 121,
+        id: 'URN:DATA:121',
+        model: 'anyModel',
+        providerId: 'URN:DATA:121',
         label: 'Polisse',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -314,10 +345,11 @@ export default {
     },
     {
       content: {
-        id: 22,
-        ip_id: 122,
+        id: 'URN:DATA:122',
+        model: 'anyModel',
+        providerId: 'URN:DATA:122',
         label: 'Intouchable',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -332,10 +364,11 @@ export default {
     },
     {
       content: {
-        id: 23,
-        ip_id: 123,
+        id: 'URN:DATA:123',
+        model: 'anyModel',
+        providerId: 'URN:DATA:123',
         label: 'Scarface',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -350,10 +383,11 @@ export default {
     },
     {
       content: {
-        id: 24,
-        ip_id: 124,
+        id: 'URN:DATA:124',
+        model: 'anyModel',
+        providerId: 'URN:DATA:124',
         label: 'Pulp Fiction',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -368,10 +402,11 @@ export default {
     },
     {
       content: {
-        id: 25,
-        ip_id: 125,
+        id: 'URN:DATA:125',
+        model: 'anyModel',
+        providerId: 'URN:DATA:125',
         label: 'Seven',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -386,10 +421,11 @@ export default {
     },
     {
       content: {
-        id: 26,
-        ip_id: 126,
+        id: 'URN:DATA:126',
+        model: 'anyModel',
+        providerId: 'URN:DATA:126',
         label: 'Fight Club',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -404,10 +440,11 @@ export default {
     },
     {
       content: {
-        id: 27,
-        ip_id: 127,
+        id: 'URN:DATA:127',
+        model: 'anyModel',
+        providerId: 'URN:DATA:127',
         label: 'La cité de la peur',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -422,10 +459,11 @@ export default {
     },
     {
       content: {
-        id: 28,
-        ip_id: 128,
+        id: 'URN:DATA:128',
+        model: 'anyModel',
+        providerId: 'URN:DATA:128',
         label: 'Requiem for a dream',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -440,10 +478,11 @@ export default {
     },
     {
       content: {
-        id: 29,
-        ip_id: 129,
+        id: 'URN:DATA:129',
+        model: 'anyModel',
+        providerId: 'URN:DATA:129',
         label: 'Sinister',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -458,10 +497,11 @@ export default {
     },
     {
       content: {
-        id: 30,
-        ip_id: 130,
+        id: 'URN:DATA:130',
+        model: 'anyModel',
+        providerId: 'URN:DATA:130',
         label: 'Insidious',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -476,10 +516,11 @@ export default {
     },
     {
       content: {
-        id: 31,
-        ip_id: 131,
+        id: 'URN:DATA:131',
+        model: 'anyModel',
+        providerId: 'URN:DATA:131',
         label: 'Insidious 2',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -494,10 +535,11 @@ export default {
     },
     {
       content: {
-        id: 32,
-        ip_id: 132,
+        id: 'URN:DATA:132',
+        model: 'anyModel',
+        providerId: 'URN:DATA:132',
         label: 'Insidious 3',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -512,10 +554,11 @@ export default {
     },
     {
       content: {
-        id: 40,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -530,10 +573,11 @@ export default {
     },
     {
       content: {
-        id: 40,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -548,10 +592,11 @@ export default {
     },
     {
       content: {
-        id: 40,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -566,10 +611,11 @@ export default {
     },
     {
       content: {
-        id: 41,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -584,10 +630,11 @@ export default {
     },
     {
       content: {
-        id: 42,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -602,10 +649,11 @@ export default {
     },
     {
       content: {
-        id: 43,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -620,10 +668,11 @@ export default {
     },
     {
       content: {
-        id: 44,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -638,10 +687,11 @@ export default {
     },
     {
       content: {
-        id: 45,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -656,10 +706,11 @@ export default {
     },
     {
       content: {
-        id: 46,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -674,10 +725,11 @@ export default {
     },
     {
       content: {
-        id: 47,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -692,10 +744,11 @@ export default {
     },
     {
       content: {
-        id: 48,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -710,10 +763,11 @@ export default {
     },
     {
       content: {
-        id: 49,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -728,10 +782,11 @@ export default {
     },
     {
       content: {
-        id: 50,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -746,10 +801,11 @@ export default {
     },
     {
       content: {
-        id: 51,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -764,10 +820,11 @@ export default {
     },
     {
       content: {
-        id: 52,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -782,10 +839,11 @@ export default {
     },
     {
       content: {
-        id: 53,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -800,10 +858,11 @@ export default {
     },
     {
       content: {
-        id: 54,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -818,10 +877,11 @@ export default {
     },
     {
       content: {
-        id: 55,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -836,10 +896,11 @@ export default {
     },
     {
       content: {
-        id: 56,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -854,10 +915,11 @@ export default {
     },
     {
       content: {
-        id: 57,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -872,10 +934,11 @@ export default {
     },
     {
       content: {
-        id: 58,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -890,10 +953,11 @@ export default {
     },
     {
       content: {
-        id: 59,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -908,10 +972,11 @@ export default {
     },
     {
       content: {
-        id: 60,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -926,10 +991,11 @@ export default {
     },
     {
       content: {
-        id: 61,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -944,10 +1010,11 @@ export default {
     },
     {
       content: {
-        id: 62,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -962,10 +1029,11 @@ export default {
     },
     {
       content: {
-        id: 63,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -980,10 +1048,11 @@ export default {
     },
     {
       content: {
-        id: 64,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -998,10 +1067,11 @@ export default {
     },
     {
       content: {
-        id: 65,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -1016,10 +1086,11 @@ export default {
     },
     {
       content: {
-        id: 66,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -1034,10 +1105,11 @@ export default {
     },
     {
       content: {
-        id: 67,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -1052,10 +1124,11 @@ export default {
     },
     {
       content: {
-        id: 68,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -1070,10 +1143,11 @@ export default {
     },
     {
       content: {
-        id: 69,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -1088,10 +1162,11 @@ export default {
     },
     {
       content: {
-        id: 70,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -1106,10 +1181,11 @@ export default {
     },
     {
       content: {
-        id: 71,
-        ip_id: 140,
+        id: 'URN:DATA:140',
+        model: 'anyModel',
+        providerId: 'URN:DATA:140',
         label: 'Film',
-        type: 'DATAOBJECT',
+        entityType: 'DATA',
         tags: [
           'col:movie',
           'ds:NYCLibrary',
@@ -1131,7 +1207,7 @@ export default {
   links: [],
   facets: [
     {
-      attributeName: 'default.FORMAT',
+      attributeName: 'my.attr.1',
       type: 'STRING',
       others: 50,
       values: [

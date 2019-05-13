@@ -81,6 +81,20 @@ export const dataEntity = {
     tags: ['test-tag'],
   },
 }
+export const dataEntityWithGeometry = {
+  content: {
+    ...dataEntity.content,
+    geometry: {
+      coordinates: [[
+        [-62.059650800618, 17.182800844202],
+        [-61.02747654737, 17.175349719566],
+        [-61.0376242204, 16.183364927609],
+        [-62.064491371862, 16.190362063231],
+        [-62.059650800618, 17.182800844202]]],
+      type: 'Polygon',
+    },
+  },
+}
 
 export const dataEntityWithServices = {
   content: {

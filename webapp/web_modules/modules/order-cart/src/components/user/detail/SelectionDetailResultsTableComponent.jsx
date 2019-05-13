@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { DamDomain } from '@regardsoss/domain'
-import { CommonShapes } from '@regardsoss/shape'
 import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'

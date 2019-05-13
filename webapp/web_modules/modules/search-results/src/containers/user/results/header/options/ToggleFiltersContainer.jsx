@@ -53,15 +53,16 @@ export class ToggleFiltersContainer extends React.Component {
     const { resultsContext: { type, typeState }, moduleId, updateResultsContext } = this.props
     // create minimal diff with previous state to toggle the filters on / off (requires state enabled AND request parameters)
     const facetsState = typeState[type].facets
+    const nextEnabled = !facetsState.enabled
     const stateDiff = {
       typeState: {
         [type]: {
           facets: {
-            enabled: !facetsState.enabled,
+            enabled: nextEnabled,
           },
           criteria: {
             // report requested facets in current request criteria
-            requestFacets: facetsState.list,
+            requestFacets: nextEnabled ? facetsState.list : [],
           },
         },
       },

@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
 import { CatalogDomain, UIDomain } from '@regardsoss/domain'
@@ -82,7 +83,7 @@ export class MapContainer extends React.Component {
   static buildGeoJSONFeatureCollection(entities = []) {
     return {
       // REGARDS entities are features withing content field. Filter entities without geometry
-      features: entities.filter(e => !isNil(e.geometry)),
+      features: entities.filter(e => !isNil(e.geometry) && !isEmpty(e.geometry)),
       type: 'FeatureCollection',
     }
   }

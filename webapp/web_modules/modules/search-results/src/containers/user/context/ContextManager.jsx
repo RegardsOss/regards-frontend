@@ -119,9 +119,9 @@ export class ContextManager extends React.Component {
 
     // 2 - Resolve tags from URL before computing initial context
     this.resolveURLTags(tagsArrayFromURL).then((resolvedTags) => {
-      this.initializeState(viewTypeFromURL, viewModeFromURL, tagsArrayFromURL, resolvedTags)
+      this.initializeState(viewTypeFromURL, viewModeFromURL, resolvedTags)
     }).catch((e) => {
-      this.initializeState(viewTypeFromURL, viewModeFromURL, tagsArrayFromURL)
+      this.initializeState(viewTypeFromURL, viewModeFromURL, [])
     })
   }
 
@@ -240,10 +240,9 @@ export class ContextManager extends React.Component {
    * - Finally, default values are used to fill remaining empty parameters
    * @param {string} viewTypeFromURL view type from URL
    * @param {string} viewModeFromURL view mode from URL
-   * @param {[string]} tagsArrayFromURL tags from URL, as array
    * @param {[{*}]} resolvedTags array of resolved tags as defined in ResultsContext shapes
    */
-  initializeState(viewTypeFromURL, viewModeFromURL, tagsArrayFromURL, resolvedTags = []) {
+  initializeState(viewTypeFromURL, viewModeFromURL, resolvedTags = []) {
     const {
       configuration, resultsContext, attributeModels,
       moduleId, updateResultsContext,
@@ -262,6 +261,7 @@ export class ContextManager extends React.Component {
     // B.2 - mode (same check)
     const currentTypeState = defaultState.typeState[defaultState.type]
     const urlModeState = currentTypeState.modeState[viewModeFromURL] || {}
+
     if (viewModeFromURL && urlModeState.enabled) {
       currentTypeState.mode = viewModeFromURL // update mode in current state by reference
     }
