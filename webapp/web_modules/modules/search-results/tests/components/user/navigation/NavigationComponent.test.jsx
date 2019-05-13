@@ -20,61 +20,78 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Breadcrumb } from '@regardsoss/components'
-import { TagTypes } from '@regardsoss/domain/catalog'
-import { Tag } from '../../../../src/models/navigation/Tag'
+import { AccessDomain } from '@regardsoss/domain'
 import NavigationComponent from '../../../../src/components/user/navigation/NavigationComponent'
 import styles from '../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Search Results] Testing NavigationComponent', () => {
+describe('[SEARCH RESULTS] Testing NavigationComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
     assert.isDefined(NavigationComponent)
   })
-  it('should render correctly when externally driven (no description nor page)', () => {
-    const levels = [
-      new Tag(TagTypes.DATASET, 'a dataset', 'URN:TEST'),
-      new Tag(TagTypes.DATASET, 'styles:patatoes', 'styles:patatoes'),
-    ]
+  it('should render correctly without page', () => {
     const props = {
-      navigationLevels: levels,
-      defaultIconURL: 'any',
+      page: null,
+      defaultIconURL: 'hello.png',
+      navigationLevels: [{
+        label: {
+          en: 'hello',
+          fr: 'bijour',
+        },
+        isNavigationAllowed: false,
+      }, {
+        label: {
+          en: 'bye',
+          fr: 'au rivoir',
+        },
+        isNavigationAllowed: true,
+      }],
       onLevelSelected: () => { },
     }
     const enzymeWrapper = shallow(<NavigationComponent {...props} />, { context })
     const breadcrumb = enzymeWrapper.find(Breadcrumb)
     assert.lengthOf(breadcrumb, 1, 'There should be a breadcrumb component')
     assert.deepEqual(breadcrumb.props().elements, props.navigationLevels, 'breacrumb elements should be the defined navigation levels')
-    assert.equal(enzymeWrapper.instance().getLevelLabel(levels[0], 0), 'a dataset', 'level tag should be used as root tag when there is no description')
-  })
-  it('should render correctly when in modules is in standalone mode (description or page)', () => {
-    const levels = [
-      new Tag(TagTypes.DATASET, 'a dataset', 'URN:TEST'),
-      new Tag(TagTypes.DATASET, 'styles:patatoes', 'styles:patatoes'),
-    ]
-    const props = {
-      description: 'aaa',
-      page: { title: { en: 'test-en', fr: 'test-fr' } },
-      navigationLevels: levels,
-      defaultIconURL: 'any',
-      onLevelSelected: () => { },
-    }
-    // test en render
     const savedLocale = context.intl.locale
     context.intl.locale = 'en'
-    const enzymeWrapper = shallow(<NavigationComponent {...props} />, { context })
-    const breadcrumb = enzymeWrapper.find(Breadcrumb)
-    assert.lengthOf(breadcrumb, 1, 'There should be a breadcrumb component')
-    assert.deepEqual(breadcrumb.props().elements, props.navigationLevels, 'breacrumb elements should be the defined navigation levels')
-    assert.equal(enzymeWrapper.instance().getLevelLabel(levels[0], 0), 'test-en', 'root label should come from module configuration (EN)')
-    // test fr render
+    assert.equal(enzymeWrapper.instance().getLevelLabel(props.navigationLevels[0], 0), 'hello', 'level[0] label should be correctly retrieved')
+    assert.equal(enzymeWrapper.instance().getLevelLabel(props.navigationLevels[1], 1), 'bye', 'level[1] label should be correctly retrieved')
     context.intl.locale = 'fr'
-    const enzymeWrapper2 = shallow(<NavigationComponent {...props} />, { context })
-    assert.equal(enzymeWrapper2.instance().getLevelLabel(levels[0], 0), 'test-fr', 'root label should come from module configuration (FR)')
-
+    assert.equal(enzymeWrapper.instance().getLevelLabel(props.navigationLevels[0], 0), 'bijour', 'level[0] label should be correctly retrieved')
+    assert.equal(enzymeWrapper.instance().getLevelLabel(props.navigationLevels[1], 1), 'au rivoir', 'level[1] label should be correctly retrieved')
     context.intl.locale = savedLocale
+  })
+  it('should render correctly with page', () => {
+    const props = {
+      defaultIconURL: 'hello.png',
+      page: {
+        home: PropTypes.false,
+        iconType: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM,
+        customIconURL: 'kikou.png',
+        title: {
+          en: 'Page title',
+          fr: 'Titre de la page',
+        },
+      },
+      navigationLevels: [{
+        label: {
+          en: 'hello',
+          fr: 'bijour',
+        },
+        isNavigationAllowed: false,
+      }, {
+        label: {
+          en: 'bye',
+          fr: 'au rivoir',
+        },
+        isNavigationAllowed: true,
+      }],
+      onLevelSelected: () => { },
+    }
+    shallow(<NavigationComponent {...props} />, { context })
   })
 })

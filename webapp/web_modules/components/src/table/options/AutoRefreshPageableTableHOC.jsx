@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import root from 'window-or-global'
+import { CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-utils'
 import { RefreshPageableTableOption } from './RefreshPageableTableOption'
@@ -65,10 +66,8 @@ export class AutoRefreshPageableTableHOC extends React.Component {
     refreshTimeMS: PropTypes.number, // used in onPropertiesUpdated
     // page size, uses default page size when not provided
     pageSize: PropTypes.number,
-    // eslint-disable-next-line
-    pathParams: PropTypes.object, // used in mapDispatchToProps, used as a map by fetch method
-    // eslint-disable-next-line
-    requestParams: PropTypes.object, // used in mapDispatchToProps, used as a map by fetch method
+    pathParams: CommonShapes.RequestParameters,
+    requestParams: CommonShapes.RequestParameters,
     // eslint-disable-next-line react/no-unused-prop-types
     pageableTableActions: PropTypes.instanceOf(BasicPageableActions).isRequired, // used in map state to props
     // eslint-disable-next-line react/no-unused-prop-types

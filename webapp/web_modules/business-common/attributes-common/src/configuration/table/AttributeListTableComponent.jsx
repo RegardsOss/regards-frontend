@@ -23,10 +23,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
   InfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLine,
-  TableHeaderOptionsArea, TableHeaderContentBox, TableHeaderOptionGroup,
-  TableNoDataMessage,
+  TableHeaderOptionsArea, TableHeaderOptionGroup, TableNoDataMessage,
 } from '@regardsoss/components'
-import AttributesListHeaderMessage from './AttributesListHeaderMessage'
 import AttributesRender from './AttributesRender'
 import DeleteOption from './options/DeleteOption'
 import EditOption from './options/EditOption'
@@ -113,36 +111,35 @@ class AttributeListTableComponent extends React.Component {
 
   render() {
     const { hintMessageKey, attributesList, onAdd } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { configuration: { tableContainer } } } = this.context
     return (
-      <TableLayout>
-        <TableHeaderLine>
-          {/* 1 - columns / elements count */}
-          <TableHeaderContentBox>
-            <AttributesListHeaderMessage
-              count={attributesList.length}
-            />
-          </TableHeaderContentBox>
-          {/* 2 - table options  */}
-          <TableHeaderOptionsArea>
-            <TableHeaderOptionGroup>
-              {/* Add element  */}
-              <FlatButton
-                label={formatMessage({ id: 'attributes.configuration.add.item.label' })}
-                icon={<AddItemIcon />}
-                onClick={onAdd}
-              />
-            </TableHeaderOptionGroup>
-          </TableHeaderOptionsArea>
-        </TableHeaderLine>
-        <InfiniteTableContainer
-          columns={this.buildColumns()}
-          emptyComponent={<TableNoDataMessage messageKey={hintMessageKey} />}
-          entities={attributesList}
-          minRowCount={0} // let the table grow and shrink with list elements count
-          maxRowCount={Number.MAX_SAFE_INTEGER}
-        />
-      </TableLayout>
+      <div style={tableContainer}>
+        <TableLayout>
+          <TableHeaderLine>
+            {/* 1 - left spacer (unused) */}
+            <div />
+            {/* 2 - table options  */}
+            <TableHeaderOptionsArea>
+              <TableHeaderOptionGroup>
+                {/* Add element  */}
+                <FlatButton
+                  label={formatMessage({ id: 'attributes.configuration.add.item.label' })}
+                  icon={<AddItemIcon />}
+                  onClick={onAdd}
+                />
+              </TableHeaderOptionGroup>
+            </TableHeaderOptionsArea>
+          </TableHeaderLine>
+          {/* 3. Table */}
+          <InfiniteTableContainer
+            columns={this.buildColumns()}
+            emptyComponent={<TableNoDataMessage messageKey={hintMessageKey} />}
+            entities={attributesList}
+            minRowCount={0} // let the table grow and shrink with list elements count
+            maxRowCount={Number.MAX_SAFE_INTEGER}
+          />
+        </TableLayout>
+      </div>
     )
   }
 }

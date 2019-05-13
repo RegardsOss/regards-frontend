@@ -23,9 +23,8 @@ import { DamDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { FieldArray } from '@regardsoss/form-utils'
+import { FieldArray, FormPresentation, FieldsGroup } from '@regardsoss/form-utils'
 import { ModulePaneStateField } from '@regardsoss/modules-api'
-import { Title } from '@regardsoss/components'
 import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 import SelectedLevelFormRender from './levels/SelectedLevelFormRender'
@@ -75,32 +74,35 @@ class ModuleForm extends React.Component {
     return (
       <Tabs>
         <Tab label={formatMessage({ id: 'search.graph.configuration.tab' })}>
-          <ModulePaneStateField currentNamespace={adminForm.currentNamespace} />
-          <Title
-            level={3}
-            label={formatMessage({ id: 'search.graph.configuration.levels.message' })}
-          />
-          <FieldArray
-            name={this.LEVELS_FIELD_NAME}
-            component={SelectedLevelFormRender}
-            validate={this.validateSelectedLevels}
-            collectionModels={collectionModels}
-          />
-          <Title
-            level={3}
-            label={formatMessage({ id: 'search.graph.configuration.attributes.message' })}
-          />
-          <AttributesListConfigurationComponent
-            selectableAttributes={selectableAttributes}
-            attributesList={get(adminForm.form, this.DATASET_ATTRIBUTES_FIELD_NAME)}
-            attributesListFieldName={this.DATASET_ATTRIBUTES_FIELD_NAME}
-            changeField={adminForm.changeField}
-            hintMessageKey="search.graph.configuration.dataset.attributes.hint"
-            attributesConf={get()}
-            allowAttributesRegroupements={false}
-            attributesFilter={DamDomain.AttributeModelController.isSearchableAttribute}
-            allowLabel
-          />
+          <FormPresentation>
+            <ModulePaneStateField currentNamespace={adminForm.currentNamespace} />
+            <FieldsGroup
+              title={formatMessage({ id: 'search.graph.configuration.levels.message' })}
+              spanFullWidth
+            >
+              <FieldArray
+                name={this.LEVELS_FIELD_NAME}
+                component={SelectedLevelFormRender}
+                validate={this.validateSelectedLevels}
+                collectionModels={collectionModels}
+              />
+            </FieldsGroup>
+            <FieldsGroup
+              title={formatMessage({ id: 'search.graph.configuration.attributes.message' })}
+              spanFullWidth
+            >
+              <AttributesListConfigurationComponent
+                selectableAttributes={selectableAttributes}
+                attributesList={get(adminForm.form, this.DATASET_ATTRIBUTES_FIELD_NAME)}
+                attributesListFieldName={this.DATASET_ATTRIBUTES_FIELD_NAME}
+                changeField={adminForm.changeField}
+                hintMessageKey="search.graph.configuration.dataset.attributes.hint"
+                allowAttributesRegroupements={false}
+                attributesFilter={DamDomain.AttributeModelController.isSearchableAttribute}
+                allowLabel
+              />
+            </FieldsGroup>
+          </FormPresentation>
         </Tab>
         <Tab label={formatMessage({ id: 'search.graph.results.tab' })}>
           <SearchResultForm

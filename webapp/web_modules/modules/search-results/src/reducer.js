@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import navigationContextReducer from './models/navigation/NavigationContextReducer'
 import { reducer as SearchCatalogReducer } from './clients/SearchEntitiesClient'
 import { DatasetAttributeModelReducer } from './clients/DatasetAttributeModelClient'
 import { DocumentAttributeModelReducer } from './clients/DocumentAttributeModelClient'
@@ -35,8 +34,6 @@ const searchResultsReducers = {
   'dataobjects-attributes': DataAttributeModelReducer,
   searchCatalog: SearchCatalogReducer,
   resultsTable: tableReducer,
-  // context
-  navigationContext: navigationContextReducer,
   // services
   runPluginService: runPluginServiceReducer,
   pluginServices: pluginServiceReducer,

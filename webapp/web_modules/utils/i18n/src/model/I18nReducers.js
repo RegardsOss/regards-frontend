@@ -46,8 +46,9 @@ export function parseLanguageLocaleIn(l = '') {
   return UIDomain.LOCALES.includes(simpleLocale) ? simpleLocale : UIDomain.LOCALES_ENUM.en
 }
 
-const { query } = browserHistory ? browserHistory.getCurrentLocation() : {query: {}}
-const DEFAULT_STATE = query['_local'] ? { locale: query['_local'] } : { locale: parseLanguageLocaleIn(navigatorLocale) }
+const { query } = browserHistory ? browserHistory.getCurrentLocation() : { query: {} }
+// eslint-disable-next-line no-underscore-dangle
+const DEFAULT_STATE = query._local ? { locale: query._local } : { locale: parseLanguageLocaleIn(navigatorLocale) }
 
 export default (state = DEFAULT_STATE, action) => {
   switch (action.type) {

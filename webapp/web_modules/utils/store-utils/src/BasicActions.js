@@ -109,6 +109,13 @@ class BasicActions {
     return endpoint
   }
 
+  /**
+   * Appends query parameters
+   *
+   * @param entityEndpoint endpoint entity
+   * @param {*} params parameters to replace in the endpoint entity. Allowed parameter values are string or string arrays
+   * @returns {string} endpoint
+   */
   handleRequestQueryParams = (entityEndpoint, queryParams) => {
     let endpoint = entityEndpoint
     if (endsWith(endpoint, '?')) {

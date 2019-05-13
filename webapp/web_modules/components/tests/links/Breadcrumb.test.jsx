@@ -60,12 +60,16 @@ describe('[Components] Testing Breadcrumb', () => {
     assert.isDefined(breadcrumbElement.props().onAction, 'onAction should be correctly reported')
     assert.isTrue(breadcrumbElement.props().isFirst, 'Root element should be marked first')
     assert.isTrue(breadcrumbElement.props().isLast, 'Root element should be marked last in one element list')
+    assert.equal(breadcrumbElement.props().index, 0, 'Index should be correctly reported')
+    assert.equal(breadcrumbElement.props().element, props.elements[0], 'Element should be correctly reported')
+    assert.isTrue(breadcrumbElement.props().navigationAllowed, 'Default predicate should allow navigation for all elements')
   })
 
   it('should render correctly a complete list', () => {
     const props = {
       elements: ['elementA', 'elementB', 'elementC', 'elementD'],
       labelGenerator: (elt, index) => `${elt}-${index}`, // make simple label to check generator
+      navigationAllowedPredicate: (elt, index) => index % 2 === 0, // each even element should allow navigation
       onAction: () => { },
       rootIcon: <TestIcon />,
     }
@@ -86,6 +90,16 @@ describe('[Components] Testing Breadcrumb', () => {
       // 2.4 - check list position variables
       assert.equal(element.props().isFirst, index === 0)
       assert.equal(element.props().isLast, index === props.elements.length - 1)
+      // 2.5 - check element and index
+      assert.equal(element.props().index, index, 'Index should be correctly reported')
+      assert.equal(element.props().element, props.elements[index], 'Element should be correctly reported')
+
+      // check that navigation is allowed only for even elements
+      if (index % 2 === 0) {
+        assert.isTrue(element.props().navigationAllowed, `Navigation should be allowed for element at index ${index}`)
+      } else {
+        assert.isFalse(element.props().navigationAllowed, `Navigation should be forbidden for element at index ${index}`)
+      }
     })
   })
 })

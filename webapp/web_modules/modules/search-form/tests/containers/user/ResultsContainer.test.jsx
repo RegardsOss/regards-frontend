@@ -43,10 +43,6 @@ describe('[SEARCH FORM] Testing ResultsContainer', () => {
       appName: 'anyApp',
       project: 'anyProject',
       searchResultsConfiguration: conf1.searchResult,
-      searchParameters: {
-        q: 'anyQuery',
-        sort: 'anySort',
-      },
       restrictedDatasetsIds: conf1.datasets.selectedDatasets,
       locale: 'en',
       preview: false,
@@ -61,11 +57,7 @@ describe('[SEARCH FORM] Testing ResultsContainer', () => {
         active: true,
         applicationId: props.appName,
         description: 'results.module.title',
-        conf: {
-          ...props.searchResultsConfiguration,
-          searchParameters: props.searchParameters,
-          restrictedDatasetsIds: props.restrictedDatasetsIds,
-        },
+        conf: props.searchResultsConfiguration,
       },
     }, 'Module conf be correctly computed in state from component properties')
 

@@ -123,7 +123,6 @@ export { default as TableDeleteOption } from './table/content/cells/options/Tabl
 export { default as TableSimpleActionOption } from './table/content/cells/options/TableSimpleActionOption'
 export { default as TableSelectAllOption } from './table/options/TableSelectAllOption'
 export { default as TableSelectionModes } from './table/model/TableSelectionModes'
-export { TableSortOrders } from './table/model/TableSortOrders'
 export { default as TableStyles } from './table/styles/styles'
 
 export { default as Title } from './titles/Title'

@@ -19,6 +19,7 @@
 import omit from 'lodash/omit'
 import IconButton from 'material-ui/IconButton'
 import DeleteIcon from 'material-ui/svg-icons/action/delete'
+import { CommonShapes } from '@regardsoss/shape'
 import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 
@@ -39,10 +40,8 @@ class TableDeleteOption extends React.Component {
     handleHateoas: PropTypes.bool,
     disableInsteadOfHide: PropTypes.bool,
     fetchPage: PropTypes.func.isRequired, // fetch method: (pageIndex, pageSize, pathParams, requestParams) => Promise
-    // eslint-disable-next-line react/forbid-prop-types
-    pathParams: PropTypes.object,
-    // eslint-disable-next-line react/forbid-prop-types
-    requestParams: PropTypes.object,
+    pathParams: CommonShapes.RequestParameters,
+    requestParams: CommonShapes.RequestParameters,
     onDelete: PropTypes.func.isRequired, // delete method (entity, onDone) => ()
     queryPageSize: PropTypes.number.isRequired,
   }

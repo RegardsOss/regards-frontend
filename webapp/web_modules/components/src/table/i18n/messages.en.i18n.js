@@ -21,6 +21,7 @@ const messages = {
   'table.results.no.data': 'No result',
   'table.results.one.element': '1 result',
   'table.results.count': '{count} results',
+  'table.results.count.with.loaded': '{loadedResultsCount}/{count} results',
   'table.option.refresh.label': 'Refresh',
   'table.option.refresh.tooltip': 'Update table data',
   'table.filter.columns.label': 'Columns...',

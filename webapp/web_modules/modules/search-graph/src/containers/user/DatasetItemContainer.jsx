@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
-import { TagTypes } from '@regardsoss/domain/catalog'
+import { TAG_TYPES_ENUM } from '@regardsoss/domain/catalog'
 import { AttributeModelController } from '@regardsoss/domain/dam'
 import { CatalogShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
@@ -47,7 +47,7 @@ export class DatasetItemContainer extends React.Component {
 
   static mapDispatchToProps = (dispatch, { levelIndex, dataset }) => ({
     dispatchSelected: () => dispatch(GraphContextActions.selectEntity(levelIndex, dataset)),
-    dispatchSetSearchTag: () => dispatch(GraphContextActions.setSearchTag({ type: TagTypes.DATASET, data: dataset })),
+    dispatchSetSearchTag: () => dispatch(GraphContextActions.setSearchTag({ type: TAG_TYPES_ENUM.DATASET, data: dataset })),
   })
 
   static propTypes = {
@@ -83,7 +83,7 @@ export class DatasetItemContainer extends React.Component {
     } = this.props
     if (!locked) {
       dispatchSelected()
-      dispatchSetSearchTag({ type: TagTypes.DATASET, data: dataset })
+      dispatchSetSearchTag({ type: TAG_TYPES_ENUM.DATASET, data: dataset })
     }
   }
 

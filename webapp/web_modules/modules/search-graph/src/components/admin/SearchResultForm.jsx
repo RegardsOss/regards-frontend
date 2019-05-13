@@ -51,7 +51,7 @@ class SearchResultFormComponent extends React.Component {
       currentNamespace: `${adminForm.currentNamespace}.searchResult`,
       conf: {
         displayMode: 'data',
-        preventAdminToPickDocumentView: true,
+        documentsForbidden: true,
         primaryPane: UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE,
       },
     }

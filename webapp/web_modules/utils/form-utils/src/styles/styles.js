@@ -34,12 +34,20 @@ export default function styles(theme) {
     fieldsGroup: {
       defaultClass: 'col-xs-100 col-md-48',
       fullWidthClass: 'col-xs-100',
+      titleStyle: {
+        color: theme.palette.textColor,
+        fontSize: '1.2em',
+      },
       defaultStyle: {
-        marginBottom: 10,
         marginRight: 20,
       },
+      defaultContentStyle: {
+        marginTop: 15,
+        marginBottom: 20,
+      },
       clearSpaceToChildrenStyle: {
-        marginTop: -15, // this is used to clear some of the MUI space on top of text fields
+        marginTop: -10, // this is used to clear some of the MUI space on top of text fields
+        marginBottom: 20,
       },
     },
     // json editor field
