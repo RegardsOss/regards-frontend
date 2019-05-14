@@ -23,7 +23,7 @@ const messages = {
   'sip.state.NOT_SCHEDULED_INVALID': `${catDataProvider}Produit invalide`,
   'sip.state.GENERATION_ERROR': `${catDataProvider}Erreur de génération du SIP`,
   'sip.state.SCHEDULED_INTERRUPTED': `${catDataProvider}Génération SIP interrompue`,
-  'sip.state.SUBMITTED': `${catDataProvider}SIP soumis`
+  'sip.state.SUBMITTED': `${catDataProvider}SIP soumis`,
 }
 
 export default messages

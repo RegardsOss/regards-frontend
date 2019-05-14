@@ -21,4 +21,3 @@ import fr from './messages.fr.i18n'
 
 export const enMessages = en
 export const frMessages = fr
-

@@ -16,13 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DataProviderDomain } from '@regardsoss/domain'
-import { IngestDomain } from '@regardsoss/domain'
+import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
 import { Locales } from '@regardsoss/form-utils'
-
-const catDataProvider = ' Acquisition - '
-const catIngest = 'Ingest - '
-const catStorage = 'Storage - '
 
 const messages = Object.assign({
   ...DataProviderDomain.enMessages,

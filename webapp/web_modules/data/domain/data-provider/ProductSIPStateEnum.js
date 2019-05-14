@@ -30,6 +30,6 @@ export const ProductSIPStateEnum = {
   SCHEDULED_INTERRUPTED: 'SCHEDULED_INTERRUPTED',
   GENERATION_ERROR: 'GENERATION_ERROR',
   SUBMITTED: 'SUBMITTED',
-  ...SIPStateEnum
+  ...SIPStateEnum,
 }
 export const ProductSIPStateEnumValues = values(ProductSIPStateEnum)

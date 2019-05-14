@@ -35,7 +35,7 @@ const messages = {
   'sip.state.TO_BE_DELETED': `${catStorage}A supprimer`,
   'sip.state.DELETED': `${catStorage}Supprimé`,
   'sip.state.INDEXED': 'Indexé',
-  'sip.state.INDEX_ERROR': 'Erreur indexation'
+  'sip.state.INDEX_ERROR': 'Erreur indexation',
 }
 
 export default messages

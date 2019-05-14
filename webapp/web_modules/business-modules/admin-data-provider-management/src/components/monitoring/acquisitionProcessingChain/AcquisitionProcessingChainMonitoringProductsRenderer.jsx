@@ -20,8 +20,7 @@ import { browserHistory } from 'react-router'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
-import { DataProviderDomain } from '@regardsoss/domain'
-import { IngestDomain } from '@regardsoss/domain'
+import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
 
 const PRODUCT_RUNNING_SIP_STATES = [
   DataProviderDomain.ProductSIPStateEnum.NOT_SCHEDULED,
