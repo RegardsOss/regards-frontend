@@ -18,13 +18,13 @@
  **/
 
 const catDataProvider = ' Acquisition - '
-const messages = {  
+const messages = {
   'sip.state.NOT_SCHEDULED': `${catDataProvider}On going product`,
   'sip.state.SCHEDULED': `${catDataProvider}SIP generation scheduled`,
   'sip.state.NOT_SCHEDULED_INVALID': `${catDataProvider}Invalid product`,
   'sip.state.GENERATION_ERROR': `${catDataProvider}SIP generation error`,
   'sip.state.SCHEDULED_INTERRUPTED': `${catDataProvider}Interrupted SIP generation`,
-  'sip.state.SUBMITTED': `${catDataProvider}SIP submitted`
+  'sip.state.SUBMITTED': `${catDataProvider}SIP submitted`,
 }
 
 export default messages
