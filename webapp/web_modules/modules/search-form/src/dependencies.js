@@ -36,8 +36,8 @@ const user = [
  */
 const admin = [
   uiPluginDefinitionActions.getDependency(RequestVerbEnum.GET_LIST),
-  dataObjectAttributesActions.getDependency(RequestVerbEnum.GET_LIST),
-  dataSetAttributesActions.getDependency(RequestVerbEnum.GET_LIST),
+  dataObjectAttributesActions.getDependency(RequestVerbEnum.POST),
+  dataSetAttributesActions.getDependency(RequestVerbEnum.POST),
   datasetActions.getDependency(RequestVerbEnum.GET_LIST),
   modelActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
