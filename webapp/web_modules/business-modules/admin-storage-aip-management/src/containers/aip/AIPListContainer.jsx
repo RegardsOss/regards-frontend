@@ -53,7 +53,7 @@ export class AIPListContainer extends React.Component {
       dataStorages: aipSelectors.getDataStorages(state),
       isEmptySelection: tableSelectors.isEmptySelection(state, aipSelectors),
       selectionMode: tableSelectors.getSelectionMode(state),
-      elementsSelected: tableSelectors.getToggledElements(state),
+      elementsSelected: tableSelectors.getToggledElementsAsList(state),
       areAllSelected: tableSelectors.areAllSelected(state, aipSelectors),
     }
   }
@@ -97,8 +97,7 @@ export class AIPListContainer extends React.Component {
     entitiesLoading: PropTypes.bool.isRequired,
     isEmptySelection: PropTypes.bool.isRequired,
     selectionMode: PropTypes.string,
-    // eslint-disable-next-line react/forbid-prop-types
-    elementsSelected: PropTypes.any,
+    elementsSelected: PropTypes.arrayOf(StorageShapes.AIPWithStorages),
     areAllSelected: PropTypes.bool.isRequired,
   }
 
@@ -244,9 +243,9 @@ export class AIPListContainer extends React.Component {
     }
     if (elementsSelected && !areAllSelected) {
       if (selectionMode === TableSelectionModes.includeSelected) {
-        bodyParams.aipIds = map(elementsSelected, el => el.content.id)
+        bodyParams.aipIds = map(elementsSelected, el => get(el, 'content.aip.id'))
       } else {
-        bodyParams.aipIdsExcluded = map(elementsSelected, el => el.content.id)
+        bodyParams.aipIdsExcluded = map(elementsSelected, el => get(el, 'content.aip.id'))
       }
     }
     return bodyParams
