@@ -94,7 +94,23 @@ export class TwoTemporalCriteriaContainer extends React.Component {
    * @return {string} corresponding search query or null if there should be none in current state
    */
   static convertToSingleAttributeQuery({ value1, value2 }, attribute) {
-    return TwoTemporalCriteriaContainer.convertRangeToQuery(value1, value2, attribute)
+    return TwoTemporalCriteriaContainer.convertRangeToQuery(
+      TwoTemporalCriteriaContainer.removeTimeZone(value1),
+      TwoTemporalCriteriaContainer.removeTimeZone(value2),
+      attribute)
+  }
+
+  /**
+   * DatePicker returned dates with the local timeZone of the user browser.
+   * All date search request must be UTC dates. So we need to remove timeZone from picked dates.
+   * For exemple if the user as selected the date Wed Dec 07 2016 01:00:00 GMT+0100 then we should request with Wed Dec 07 2016 01:00:00 GMT
+   * @param {string} isoDateString date to remove timezone from (string date in ISO format)
+   * @return {string} converted date string in ISO format
+   */
+  static removeTimeZone = (isoDateString) => {
+    const dateWithTZ = new Date(Date.parse(isoDateString))
+    const dateWithoutTZ = new Date(dateWithTZ.getTime() - (dateWithTZ.getTimezoneOffset() * 60000))
+    return dateWithoutTZ.toISOString()
   }
 
   /**
@@ -110,8 +126,8 @@ export class TwoTemporalCriteriaContainer extends React.Component {
     // attr2: PERIOD_END = 31/01/2010
     // PERDIOD_END >= 01/01/2010 AND PERIOD_START <= 31/01/2010
     return [
-      TwoTemporalCriteriaContainer.convertRangeToQuery(value1, null, secondAttribute),
-      TwoTemporalCriteriaContainer.convertRangeToQuery(null, value2, firstAttribute),
+      TwoTemporalCriteriaContainer.convertRangeToQuery(TwoTemporalCriteriaContainer.removeTimeZone(value1), null, secondAttribute),
+      TwoTemporalCriteriaContainer.convertRangeToQuery(null, TwoTemporalCriteriaContainer.removeTimeZone(value2), firstAttribute),
     ]
       .filter(query => !!query)// clear empty queries
       .join(' AND ') || null // Join all parts with open search instruction, return null if string is empty
