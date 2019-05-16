@@ -80,6 +80,19 @@ export class TemporalCriterionContainer extends React.Component {
   }
 
   /**
+   * DatePicker returned dates with the local timeZone of the user browser.
+   * All date search request must be UTC dates. So we need to remove timeZone from picked dates.
+   * For exemple if the user as selected the date Wed Dec 07 2016 01:00:00 GMT+0100 then we should request with Wed Dec 07 2016 01:00:00 GMT
+   * @param {string} isoDateString date to remove timezone from (string date in ISO format)
+   * @return {string} converted date string in ISO format
+   */
+  static removeTimeZone = (isoDateString) => {
+    const dateWithTZ = new Date(Date.parse(isoDateString))
+    const dateWithoutTZ = new Date(dateWithTZ.getTime() - (dateWithTZ.getTimezoneOffset() * 60000))
+    return dateWithoutTZ.toISOString()
+  }
+
+  /**
    * Converts state as parameter into OpenSearch request parameters
    * @param {{ value: string, operator: string }} state
    * @param {*} attribute criterion attribute
@@ -88,13 +101,14 @@ export class TemporalCriterionContainer extends React.Component {
   static convertToRequestParameters({ value, operator }, attribute) {
     let q = null
     if (value && operator && attribute.jsonPath) {
+      const dateWithoutTZ = TemporalCriterionContainer.removeTimeZone(value)
       let rangeAsQuery = ''
       switch (operator) {
         case CommonDomain.EnumNumericalComparator.LE:
-          rangeAsQuery = `[* TO ${value}]`
+          rangeAsQuery = `[* TO ${dateWithoutTZ}]`
           break
         case CommonDomain.EnumNumericalComparator.GE:
-          rangeAsQuery = `[${value} TO *]`
+          rangeAsQuery = `[${dateWithoutTZ} TO *]`
           break
         default:
           throw new Error(`Invalid comparator type ${operator}`)
