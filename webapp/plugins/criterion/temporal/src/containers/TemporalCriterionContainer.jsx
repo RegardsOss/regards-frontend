@@ -87,9 +87,12 @@ export class TemporalCriterionContainer extends React.Component {
    * @return {string} converted date string in ISO format
    */
   static removeTimeZone = (isoDateString) => {
-    const dateWithTZ = new Date(Date.parse(isoDateString))
-    const dateWithoutTZ = new Date(dateWithTZ.getTime() - (dateWithTZ.getTimezoneOffset() * 60000))
-    return dateWithoutTZ.toISOString()
+    if (isoDateString) {
+      const dateWithTZ = new Date(Date.parse(isoDateString))
+      const dateWithoutTZ = new Date(dateWithTZ.getTime() - (dateWithTZ.getTimezoneOffset() * 60000))
+      return dateWithoutTZ.toISOString()
+    }
+    return null
   }
 
   /**

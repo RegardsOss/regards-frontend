@@ -97,14 +97,19 @@ describe('[Temporal criterion] Testing TemporalCriterionContainer', () => {
       ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601),
       jsonPath: 'my.fragment.date1',
     }
+
+    // NOTE :
+    // Creates date in local timezone (no Z)
+    // Results should be same dates with Z for UTC
+    // This is done to simulate UTC date selected by users and not in the local timeZone
     // 1 - <=
     assert.deepEqual(TemporalCriterionContainer.convertToRequestParameters(
-      { value: '2017-09-27T13:15:42.726Z', operator: CommonDomain.EnumNumericalComparator.LE }, attribute),
+      { value: '2017-09-27T13:15:42.726', operator: CommonDomain.EnumNumericalComparator.LE }, attribute),
     { q: 'my.fragment.date1:[* TO 2017-09-27T13:15:42.726Z]' }, '1 - should generate right query')
 
     // 2 - >=
     assert.deepEqual(TemporalCriterionContainer.convertToRequestParameters(
-      { value: '2019-01-01T01:12:42.726Z', operator: CommonDomain.EnumNumericalComparator.GE }, attribute),
+      { value: '2019-01-01T01:12:42.726', operator: CommonDomain.EnumNumericalComparator.GE }, attribute),
     { q: 'my.fragment.date1:[2019-01-01T01:12:42.726Z TO *]' }, '2 - should generate right query')
 
     // 3 - No date
@@ -114,14 +119,14 @@ describe('[Temporal criterion] Testing TemporalCriterionContainer', () => {
       '3.2 - should generate no query for undefined date')
 
     // 4 - No operator
-    assert.isNotOk(TemporalCriterionContainer.convertToRequestParameters({ value: '2017-09-27T13:15:42.726Z]', operator: null }, attribute).q,
+    assert.isNotOk(TemporalCriterionContainer.convertToRequestParameters({ value: '2017-09-27T13:15:42.726]', operator: null }, attribute).q,
       '3.1 - should generate no query for null operator')
-    assert.isNotOk(TemporalCriterionContainer.convertToRequestParameters({ value: '2017-09-27T13:15:42.726Z]' }, attribute).q,
+    assert.isNotOk(TemporalCriterionContainer.convertToRequestParameters({ value: '2017-09-27T13:15:42.726]' }, attribute).q,
       '3.2 - should generate no query for undefined operator')
     // 5 - No json path in attribute
     const attribute2 = { ...attribute, jsonPath: null }
     assert.isNotOk(TemporalCriterionContainer.convertToRequestParameters(
-      { value: '2019-01-01T01:12:42.726Z', operator: CommonDomain.EnumNumericalComparator.GE }, attribute2).q,
+      { value: '2019-01-01T01:12:42.726', operator: CommonDomain.EnumNumericalComparator.GE }, attribute2).q,
     '5 - should generate no query for missing jsonPath')
   })
 })
