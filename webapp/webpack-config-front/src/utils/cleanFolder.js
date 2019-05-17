@@ -7,8 +7,7 @@ module.exports = function (oldConf, projectContextPath, pathToDelete) {
   return merge(oldConf, {
     plugins: [
       // Remove the build folder before building
-      new CleanWebpackPlugin([pathToDelete], {
-        root: projectContextPath,
+      new CleanWebpackPlugin({
         verbose: false,
         dry: false,
       }),
