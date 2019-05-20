@@ -25,6 +25,7 @@ import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
 const PRODUCT_RUNNING_SIP_STATES = [
   DataProviderDomain.ProductSIPStateEnum.NOT_SCHEDULED,
   DataProviderDomain.ProductSIPStateEnum.SCHEDULED,
+  DataProviderDomain.ProductSIPStateEnum.SCHEDULED_INTERRUPTED,
 ]
 
 const PRODUCT_ERROR_SIP_STATES = [
