@@ -42,6 +42,7 @@ export class MarkdownFileContainer extends React.Component {
    */
   static isSupportedType(file) {
     return file.contentType.toLowerCase() === MIME_TYPES.MARKDOWN_MIME_TYPE
+    return file && file.contentType && (file.contentType.toLowerCase() === MIME_TYPES.MARKDOWN_MIME_TYPE)
   }
 
   state = {
