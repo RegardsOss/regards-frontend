@@ -126,6 +126,7 @@ class DownloadEntityFileComponent extends React.Component {
             style={style}
             title={formatMessage({ id: 'download.tooltip' })}
             target="_blank"
+            download
           >
             <DownloadIcon />
           </a>
@@ -145,6 +146,7 @@ class DownloadEntityFileComponent extends React.Component {
                   href={DamDomain.DataFileController.getFileURI(file, accessToken, projectName)}
                   style={DownloadEntityFileComponent.resetLinkStyle}
                   target="_blank"
+                  download
                 >
                   <MenuItem
                     primaryText={file.filename}
