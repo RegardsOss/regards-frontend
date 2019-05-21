@@ -55,11 +55,11 @@ const messages = Object.assign({
   'project.form.icon': 'Lien HTTP vers l\'icône du projet',
   'project.form.license': 'Lien HTTP vers la description de la licence du projet',
   'project.form.host': 'Adresse publique de la passerelle de REGARDS *',
-  'project.form.crs': 'Système de référence des coordinnées géometrique (crs)',
+  'project.form.crs': 'Système de référence des coordonnées géométriques (crs)',
   'project.form.crs.WGS_84': 'Terre - WGS_84',
   'project.form.crs.MARS_49900': 'Mars - MARS_49900',
   'project.form.crs.ASTRO': 'Voute célèste',
-  'project.form.isPoleToBeManaged': 'Avez vous besoin de gérer les polygons de type pole cap. Si oui, les polygons doivent respecter la norme geojson RFC 7946 (en particulierla règle de la main droite pour les cercles extèrieurs)',
+  'project.form.isPoleToBeManaged': 'Avez-vous besoin de gérer les polygones de type calotte polaire? Si oui, les polygones doivent respecter la norme geojson RFC 7946 (en particulier, la règle de la main droite pour les cercles extérieurs)',
   'project.form.action.cancel': 'Annuler',
   'project.form.action.submit': 'Sauvegarder',
 
