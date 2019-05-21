@@ -20,7 +20,6 @@ import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
-import AcquisitionProcessingChainJobsMonitoringComponent from './AcquisitionProcessingChainJobsMonitoringComponent'
 
 /**
 * Component to render the activity indicator for ne chain into the chain monitoring list
