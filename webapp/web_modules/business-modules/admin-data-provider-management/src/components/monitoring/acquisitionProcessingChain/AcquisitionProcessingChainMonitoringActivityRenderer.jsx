@@ -66,7 +66,7 @@ class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Compone
       },
     } = this.props
     const { intl: { formatMessage, formatDate }, moduleTheme: { monitoring: { totalStyle, inProgressStyle } } } = this.context
-    if (!active) {
+    if (active) {
       return [
         <RefreshIndicator
           key="refresh"
