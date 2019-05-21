@@ -18,6 +18,7 @@
  **/
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
 import AcquisitionProcessingChainJobsMonitoringComponent from './AcquisitionProcessingChainJobsMonitoringComponent'
 
@@ -35,6 +36,7 @@ class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Compone
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   static defaultProps = {}
@@ -43,6 +45,7 @@ class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Compone
     refresh: {
       display: 'inline-block',
       position: 'relative',
+      marginRight: '15px',
     },
   }
 
@@ -62,22 +65,20 @@ class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Compone
         },
       },
     } = this.props
-    const { intl: { formatMessage, formatDate } } = this.context
-    if (active) {
-      return (
-        <div>
-          <RefreshIndicator
-            size={25}
-            left={0}
-            top={0}
-            status="loading"
-            style={AcquisitionProcessingChainMonitoringActivityRenderer.style.refresh}
-          />
-          <AcquisitionProcessingChainJobsMonitoringComponent
-            chain={this.props.entity.content}
-          />
-        </div>
-      )
+    const { intl: { formatMessage, formatDate }, moduleTheme: { monitoring: { totalStyle, inProgressStyle } } } = this.context
+    if (!active) {
+      return [
+        <RefreshIndicator
+          key="refresh"
+          size={25}
+          left={0}
+          top={0}
+          status="loading"
+          style={AcquisitionProcessingChainMonitoringActivityRenderer.style.refresh}
+        />,
+        <span key="acq" title="Acquisition jobs" style={totalStyle}>{this.props.entity.content.nbProductAcquisitionJob}</span>,
+        <span key="gen" title="AIP generation jobs" style={inProgressStyle}>{this.props.entity.content.nbSIPGenerationJobs}</span>,
+      ]
     }
     const label = chain.lastActivationDate
       ? formatMessage({ id: 'acquisition-chain.monitor.list.activity.not.running.date' },
