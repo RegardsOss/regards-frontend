@@ -29,12 +29,12 @@ import { themeContextType } from '@regardsoss/theme'
  */
 export const getFormattedDate = ({
   formatMessage, formatRelative, formatDate, formatTime,
-}, dateText) => {
+}, dateText, displayOnlyFutureDate) => {
   if (!dateText) {
     return null
   }
   const dateWrapper = new Date(dateText)
-  if (!isNaN(dateWrapper.getDate())) {
+  if (!isNaN(dateWrapper.getDate()) && (!displayOnlyFutureDate || (dateWrapper > Date.now()))) {
     return formatRelative(dateWrapper, { style: 'numeric' })
   }
   return null
@@ -51,10 +51,12 @@ class DateRelativeValueRender extends React.Component {
     value: PropTypes.string,
     // should diplay using multiple lines? (false by default)
     multilineDisplay: PropTypes.bool,
+    displayOnlyFutureDate: PropTypes.bool,
   }
 
   static defaultProps = {
     multilineDisplay: false,
+    displayOnlyFutureDate: false,
   }
 
   static contextTypes = {
@@ -71,9 +73,9 @@ class DateRelativeValueRender extends React.Component {
   }
 
   updateRelativeDate = () => {
-    const { value } = this.props
+    const { value, displayOnlyFutureDate } = this.props
     const { intl } = this.context
-    this.setState({ toDisplay: getFormattedDate(intl, value) || intl.formatMessage({ id: 'value.render.no.value.label' }) }, this.setTimeOut)
+    this.setState({ toDisplay: getFormattedDate(intl, value, displayOnlyFutureDate) || intl.formatMessage({ id: 'value.render.no.value.label' }) }, this.setTimeOut)
   }
 
   componentWillMount = () => {
