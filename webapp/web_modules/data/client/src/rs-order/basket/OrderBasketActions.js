@@ -117,7 +117,7 @@ class OrderBasketActions {
             }
           }
           return acc
-        }, {})),
+        }), {}),
         q: [uiSearchParameters.q || ''], // q is expected to be an array ('' indicates that query matches ALL, when user filtered nothing)
       }
     }
