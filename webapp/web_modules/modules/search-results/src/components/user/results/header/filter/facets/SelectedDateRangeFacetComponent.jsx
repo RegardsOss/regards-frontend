@@ -26,6 +26,7 @@ const DATETIME_OPTIONS = {
   day: 'numeric',
   hour: 'numeric',
   minute: 'numeric',
+  timeZone: 'utc',
 }
 
 /**
