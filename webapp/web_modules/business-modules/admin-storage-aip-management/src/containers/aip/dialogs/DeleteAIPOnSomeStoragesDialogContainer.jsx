@@ -61,7 +61,7 @@ export class DeleteAIPOnSomeStoragesDialogContainer extends React.Component {
   static propTypes = {
     aipSelectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
     toggleAIPs: PropTypes.arrayOf(StorageShapes.AIPWithStorages).isRequired,
-    appliedFilters: PropTypes.objectOf(PropTypes.string),
+    currentFilters: PropTypes.objectOf(PropTypes.string),
     // Parent callbacks
     onClose: PropTypes.func.isRequired, // close dialog
     onRefresh: PropTypes.func.isRequired, // refresh table content
@@ -143,7 +143,7 @@ export class DeleteAIPOnSomeStoragesDialogContainer extends React.Component {
     */
    onDelete = () => {
      const {
-       aipSelectionMode, toggleAIPs, appliedFilters,
+       aipSelectionMode, toggleAIPs, currentFilters,
        sendDeleteSelectedAIPs, sendDeleteAIPsByQuery,
        onClose, onRefresh,
      } = this.props
@@ -151,7 +151,7 @@ export class DeleteAIPOnSomeStoragesDialogContainer extends React.Component {
      // Send network signal according with AIP selection mode
      switch (aipSelectionMode) {
        case TableSelectionModes.excludeSelected:
-         sendDeleteAIPsByQuery(appliedFilters, toggleAIPs, this.getSelectedStorages()).then(onRefresh)
+         sendDeleteAIPsByQuery(currentFilters, toggleAIPs, this.getSelectedStorages()).then(onRefresh)
          break
        case TableSelectionModes.includeSelected:
          sendDeleteSelectedAIPs(toggleAIPs, this.getSelectedStorages()).then(onRefresh)
