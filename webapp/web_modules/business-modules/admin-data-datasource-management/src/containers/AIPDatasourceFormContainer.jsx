@@ -86,6 +86,7 @@ export class AIPDatasourceFormContainer extends React.Component {
     this.state = {
       isCreating,
       isEditing: !isCreating,
+      modelAttributeFetched: false,
       isLoading: true,
     }
   }
@@ -107,6 +108,7 @@ export class AIPDatasourceFormContainer extends React.Component {
               .then(() => {
                 this.setState({
                   isLoading: false,
+                  modelAttributeFetched: true,
                 })
               })
           }
@@ -135,12 +137,13 @@ export class AIPDatasourceFormContainer extends React.Component {
       currentDatasource, modelAttributeList, modelList, formValues,
     } = this.props
     const {
-      isEditing, isCreating,
+      isEditing, isCreating, modelAttributeFetched,
     } = this.state
     return (<AIPDatasourceFormComponent
       currentDatasource={currentDatasource}
       formValues={formValues}
       modelAttributeList={modelAttributeList}
+      modelAttributeFetched={modelAttributeFetched}
       modelList={modelList}
       onModelSelected={this.handleModelSelected}
       onSubmit={this.handleSave}
@@ -171,6 +174,11 @@ export class AIPDatasourceFormContainer extends React.Component {
    */
   handleModelSelected = (modelName) => {
     this.props.fetchModelAttributeList(modelName)
+    .then(() => {
+      this.setState({
+        modelAttributeFetched: true,
+      })
+    })
   }
 
 
