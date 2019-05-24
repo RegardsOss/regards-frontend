@@ -51,9 +51,9 @@ STATIC_CONF = {
   // Default driver used to create a project connection (see module admin-database-management)
   projectConnectionDriver: 'org.postgresql.Driver',
   // Intervales in ms between two polls for Waiting user
-  POLLING_TIMER_WAITING_USER: 5000,
+  POLLING_TIMER_WAITING_USER: 120000,
   // Intervales in ms between two polls for Notifications
-  POLLING_TIMER_NOTIFICATIONS: 5000,
+  POLLING_TIMER_NOTIFICATIONS: 60000,
   // Static configuration for entity description dialog
   ENTITY_DESCRIPTION: {
     TAGS: {
