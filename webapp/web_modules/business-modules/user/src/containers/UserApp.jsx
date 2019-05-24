@@ -60,6 +60,7 @@ export class UserApp extends React.Component {
     initializeApplication: PropTypes.func.isRequired,
     fetchLayout: PropTypes.func.isRequired,
     fetchModules: PropTypes.func.isRequired,
+    flushModules: PropTypes.func.isRequired,
     fetchEndpoints: PropTypes.func.isRequired,
     fetchAttributes: PropTypes.func.isRequired,
   }
@@ -127,6 +128,14 @@ export class UserApp extends React.Component {
     if (this.props.isAuthenticated !== nextProps.isAuthenticated || this.props.currentRole !== nextProps.currentRole) {
       this.fetchEndpoints()
     }
+  }
+
+  /**
+   * Clean modules state when user app is unmounting
+   */
+  componentWillUnmount() {
+    const { flushModules } = this.props
+    flushModules()
   }
 
   /**
@@ -203,6 +212,7 @@ const mapDispatchToProps = dispatch => ({
   initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
   fetchLayout: () => dispatch(layoutActions.fetchEntity('user')),
   fetchModules: () => dispatch(moduleActions.fetchPagedEntityList(0, 100, { applicationId: 'user' })),
+  flushModules: () => dispatch(moduleActions.flush(true)),
   fetchEndpoints: () => dispatch(CommonEndpointClient.endpointActions.fetchPagedEntityList(0, 10000)),
   fetchAttributes: () => dispatch(attributeModelActions.fetchEntityList(null, { noLink: true })),
 })
