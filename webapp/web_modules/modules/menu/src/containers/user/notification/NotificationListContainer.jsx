@@ -152,6 +152,7 @@ export class NotificationListContainer extends React.Component {
     const requestParams = {
       state: 'UNREAD',
     }
+    this.restartTimer()
     return fetchNotification(this.state.isInstance, 0, totalElementsFetched, requestParams)
   }
 
@@ -165,6 +166,7 @@ export class NotificationListContainer extends React.Component {
     if (isAuthenticated) {
       // A - refresh list only if authenticated
       this.props.fetchLastNotification(this.state.isInstance)
+      this.props.fetchLastReadNotification(this.state.isInstance)
     }
     // B - restart timer
     this.refreshTimer = setTimeout(() => this.startTimer(), STATIC_CONF.POLLING_TIMER_NOTIFICATIONS)
@@ -172,6 +174,11 @@ export class NotificationListContainer extends React.Component {
 
   stopTimer = () => {
     clearTimeout(this.refreshTimer)
+  }
+
+  restartTimer = () => {
+    this.stopTimer()
+    this.startTimer()
   }
 
   readAllNotifications = () => this.props.markAllNotificationRead(this.state.isInstance)
