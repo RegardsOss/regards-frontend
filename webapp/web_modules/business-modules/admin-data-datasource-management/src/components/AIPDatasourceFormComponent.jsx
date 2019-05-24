@@ -65,6 +65,7 @@ export class AIPDatasourceFormComponent extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     onModelSelected: PropTypes.func.isRequired,
+    modelAttributeFetched: PropTypes.bool.isRequired,
     isEditing: PropTypes.bool.isRequired,
     isCreating: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
@@ -200,7 +201,7 @@ export class AIPDatasourceFormComponent extends React.Component {
   render() {
     const {
       modelList, modelAttributeList,
-      submitting, invalid, backUrl, isEditing,
+      submitting, invalid, backUrl, isEditing, modelAttributeFetched,
     } = this.props
     const title = this.getTitle()
     return (
@@ -248,7 +249,7 @@ export class AIPDatasourceFormComponent extends React.Component {
             </Field>
 
             <ShowableAtRender
-              show={!isEmpty(modelAttributeList)}
+              show={modelAttributeFetched && !isEmpty(modelAttributeList)}
             >
               <Field
                 name="attributeFileSize"
@@ -283,7 +284,7 @@ export class AIPDatasourceFormComponent extends React.Component {
               fieldsListLabel={this.context.intl.formatMessage({ id: 'datasource.form.subsettingTags' })}
             />
             <ShowableAtRender
-              show={!isEmpty(modelAttributeList)}
+              show={modelAttributeFetched}
             >
               <Table
                 selectable={false}
@@ -307,29 +308,32 @@ export class AIPDatasourceFormComponent extends React.Component {
                   {this.getMappingAttributes(StaticAttributeListAIP)}
                 </TableBody>
               </Table>
-
-              <Table
-                selectable={false}
+              <ShowableAtRender
+                show={!isEmpty(modelAttributeList)}
               >
-                <TableHeader
-                  enableSelectAll={false}
-                  adjustForCheckbox={false}
-                  displaySelectAll={false}
+                <Table
+                  selectable={false}
                 >
-                  <TableRow>
-                    <TableHeaderColumn><FormattedMessage id="aip.datasource.form.table.fragmentAndLabel" /></TableHeaderColumn>
-                    <TableHeaderColumn><FormattedMessage id="aip.datasource.form.table.type" /></TableHeaderColumn>
-                    <TableHeaderColumn><FormattedMessage id="aip.datasource.form.table.value" /></TableHeaderColumn>
-                  </TableRow>
-                </TableHeader>
-                <TableBody
-                  displayRowCheckbox={false}
-                  preScanRows={false}
-                  showRowHover
-                >
-                  {this.getMappingAttributes(this.getMappableAttributes(modelAttributeList))}
-                </TableBody>
-              </Table>
+                  <TableHeader
+                    enableSelectAll={false}
+                    adjustForCheckbox={false}
+                    displaySelectAll={false}
+                  >
+                    <TableRow>
+                      <TableHeaderColumn><FormattedMessage id="aip.datasource.form.table.fragmentAndLabel" /></TableHeaderColumn>
+                      <TableHeaderColumn><FormattedMessage id="aip.datasource.form.table.type" /></TableHeaderColumn>
+                      <TableHeaderColumn><FormattedMessage id="aip.datasource.form.table.value" /></TableHeaderColumn>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody
+                    displayRowCheckbox={false}
+                    preScanRows={false}
+                    showRowHover
+                  >
+                    {this.getMappingAttributes(this.getMappableAttributes(modelAttributeList))}
+                  </TableBody>
+                </Table>
+              </ShowableAtRender>
             </ShowableAtRender>
           </CardText>
           <CardActions>
