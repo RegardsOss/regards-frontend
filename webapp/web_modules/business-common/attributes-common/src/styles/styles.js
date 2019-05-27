@@ -36,6 +36,18 @@ export default theme => ({
   },
   // attributes configuration
   configuration: {
+    tableContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      alignItems: 'stretch',
+      flexGrow: 1,
+      flexShrink: 1,
+      minHeight: 0,
+      borderWidth: '1px 0 0 0',
+      borderStyle: 'solid',
+      borderColor: theme.palette.borderColor,
+    },
     editDialog: {
       widthPercent: 80,
       heightPercent: 80,

@@ -26,5 +26,6 @@ export const ProductStateEnum = {
   ACQUIRING: 'ACQUIRING',
   COMPLETED: 'COMPLETED',
   FINISHED: 'FINISHED',
+  INVALID: 'INVALID',
 }
 export const ProductStateValues = values(ProductStateEnum)

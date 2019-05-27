@@ -16,15 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
 import { i18nContextType } from '@regardsoss/i18n'
 import TableHeaderText from './TableHeaderText'
 
 /**
-* Results count adaptative message
-* @author Raphaël Mechali
-*/
+ * Results count message.
+ *
+ * @author Raphaël Mechali
+ */
 class TableHeaderResultsCountMessage extends React.Component {
   static propTypes = {
+    loadedResultsCount: PropTypes.number, // when not provided, shows only total
     count: PropTypes.number.isRequired,
     isFetching: PropTypes.bool.isRequired,
   }
@@ -34,7 +37,7 @@ class TableHeaderResultsCountMessage extends React.Component {
   }
 
   render() {
-    const { count, isFetching } = this.props
+    const { loadedResultsCount, count, isFetching } = this.props
     const { intl: { formatMessage } } = this.context
     if (isFetching && !count) {
       // hide while fetching and result information is unknown
@@ -49,7 +52,9 @@ class TableHeaderResultsCountMessage extends React.Component {
         message = formatMessage({ id: 'table.results.one.element' })
         break
       default:
-        message = formatMessage({ id: 'table.results.count' }, { count })
+        message = formatMessage({
+          id: isNil(loadedResultsCount) ? 'table.results.count' : 'table.results.count.with.loaded',
+        }, { count, loadedResultsCount })
     }
     return <TableHeaderText text={message} />
   }

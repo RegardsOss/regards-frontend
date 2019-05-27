@@ -151,9 +151,6 @@ class AdminContainer extends React.Component {
         },
         criterion: this.props.moduleConf.criterion ? this.props.moduleConf.criterion : [],
         layout: this.props.moduleConf.layout,
-        searchResult: {
-          displayMode: get(this.props.moduleConf, `${this.CONF_SEARCH_RESULT}.displayMode`, 'data_dataset'),
-        },
       },
       selectableDataObjectsAttributes: this.props.selectableDataObjectsAttributes,
       selectableDataSetsAttributes: this.props.selectableDataSetsAttributes,
@@ -190,9 +187,9 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   // Function to retrieve all available criterion plugins
   fetchCriterion: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 100, {}, { type: 'CRITERIA' })),
-  fetchDataObjectAttributes: (modelIds, datasetIds) => dispatch(dataObjectAttributesActions.fetchPagedEntityList(0, 10000, {}, { modelIds, datasetIds })),
+  fetchDataObjectAttributes: (modelIds, datasetIds) => dispatch(dataObjectAttributesActions.fetchPagedEntityListByPost(0, 10000, {}, { modelIds, datasetIds })),
   // Function to retrieve dataset atributes
-  fetchDataSetAttributes: (modelIds, datasetIds) => dispatch(dataSetAttributesActions.fetchPagedEntityList(0, 10000, {}, { modelIds, datasetIds })),
+  fetchDataSetAttributes: (modelIds, datasetIds) => dispatch(dataSetAttributesActions.fetchPagedEntityListByPost(0, 10000, {}, { modelIds, datasetIds })),
 })
 
 const UnconnectedAdminContainer = AdminContainer

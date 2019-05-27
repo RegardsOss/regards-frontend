@@ -171,8 +171,13 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
       name: 'firstAttribute',
       jsonPath: 'x.attr1',
     }
-    const value1 = '2017-09-27T13:15:42.726Z'
-    const value2 = '2017-09-28T13:15:42.726Z'
+
+    // Creates date in local timezone (no Z)
+    const value1 = '2017-09-27T13:15:42.726'
+    const value2 = '2017-09-28T13:15:42.726'
+    // Results should be same dates with Z for UTC
+    // This is done to simulate UTC date selected by users and not in the local timeZone
+
     // 1 - Lower value only
     assert.equal(TwoTemporalCriteriaContainer.convertToSingleAttributeQuery({ value1 }, attribute),
       'x.attr1:[2017-09-27T13:15:42.726Z TO *]', '1- Lower bound query should be correctly built')
@@ -202,8 +207,12 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
       name: 'firstAttribute',
       jsonPath: 'x.attr2',
     }
-    const value1 = '2017-09-27T13:15:42.726Z'
-    const value2 = '2017-09-28T13:15:42.726Z'
+    // Creates date in local timezone (no Z)
+    const value1 = '2017-09-27T13:15:42.726'
+    const value2 = '2017-09-28T13:15:42.726'
+    // Results should be same dates with Z for UTC
+    // This is done to simulate UTC date selected by users and not in the local timeZone
+
     // 1 - Lower value only
     assert.equal(TwoTemporalCriteriaContainer.convertToMultipleAttributesQuery({ value1 }, attribute1, attribute2),
       'x.attr2:[2017-09-27T13:15:42.726Z TO *]', '1- Lower bound query should be correctly built')

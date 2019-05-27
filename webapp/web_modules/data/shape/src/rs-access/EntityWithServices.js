@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { entityFields } from '../rs-catalog/Entity/Entity'
+import { entityFields } from '../rs-catalog/entity/Entity'
 import { PluginServiceWithContentArray } from './PluginService'
 
 /**

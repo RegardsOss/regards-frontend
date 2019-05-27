@@ -20,18 +20,18 @@ import { browserHistory } from 'react-router'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
-import { DataProviderDomain } from '@regardsoss/domain'
+import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
 
 const PRODUCT_RUNNING_SIP_STATES = [
   DataProviderDomain.ProductSIPStateEnum.NOT_SCHEDULED,
   DataProviderDomain.ProductSIPStateEnum.SCHEDULED,
-  DataProviderDomain.ProductSIPStateEnum.GENERATED,
-  DataProviderDomain.ProductSIPStateEnum.SUBMISSION_SCHEDULED,
+  DataProviderDomain.ProductSIPStateEnum.SCHEDULED_INTERRUPTED,
 ]
 
 const PRODUCT_ERROR_SIP_STATES = [
   DataProviderDomain.ProductSIPStateEnum.GENERATION_ERROR,
-  DataProviderDomain.ProductSIPStateEnum.SUBMISSION_ERROR,
+  DataProviderDomain.ProductSIPStateEnum.NOT_SCHEDULED_INVALID,
+  IngestDomain.SIPStateEnum.REJECTED,
 ]
 
 /**

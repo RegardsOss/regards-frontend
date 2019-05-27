@@ -18,7 +18,7 @@
  **/
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { HOCUtils } from '@regardsoss/display-control'
-import { Title } from '@regardsoss/components'
+import FieldTitle from './FieldTitle'
 import styles from '../styles'
 
 /**
@@ -29,7 +29,7 @@ import styles from '../styles'
  */
 class FieldsGroup extends React.Component {
   static propTypes = {
-    // when title key is not provided, only the layout will render
+    // when title is not provided, only the layout will render
     title: PropTypes.string,
     spanFullWidth: PropTypes.bool,
     clearSpaceToChildren: PropTypes.bool,
@@ -55,7 +55,8 @@ class FieldsGroup extends React.Component {
     const {
       moduleTheme: {
         fieldsGroup: {
-          defaultClass, defaultStyle, fullWidthClass, clearSpaceToChildrenStyle,
+          defaultClass, defaultStyle, fullWidthClass,
+          defaultContentStyle, clearSpaceToChildrenStyle,
         },
       },
     } = this.context
@@ -64,10 +65,8 @@ class FieldsGroup extends React.Component {
         style={spanFullWidth ? null : defaultStyle}
         className={spanFullWidth ? fullWidthClass : defaultClass}
       >
-        {
-          title ? <Title level={3} label={title} /> : null
-        }
-        <div style={clearSpaceToChildren ? clearSpaceToChildrenStyle : null}>
+        <FieldTitle label={title} />
+        <div style={clearSpaceToChildren ? clearSpaceToChildrenStyle : defaultContentStyle}>
           {HOCUtils.renderChildren(children)}
         </div>
       </div>

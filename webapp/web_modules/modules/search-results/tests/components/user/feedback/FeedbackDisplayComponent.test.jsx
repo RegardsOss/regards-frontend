@@ -29,7 +29,7 @@ const context = buildTestContext(styles)
 * Test FeedbackDisplayComponent
 * @author Raphaël Mechali
 */
-describe('[Search Results] Testing FeedbackDisplayComponent', () => {
+describe('[SEARCH RESULTS] Testing FeedbackDisplayComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

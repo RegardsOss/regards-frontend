@@ -159,6 +159,7 @@ class SIPListFiltersComponent extends React.Component {
         <TableHeaderOptionsArea key="filtersArea" reducible alignLeft>
           <TableHeaderOptionGroup key="first">
             <SelectField
+              autoWidth
               style={filter.fieldStyle}
               hintText={intl.formatMessage({
                 id: 'sips.list.filters.chain.label',
@@ -178,6 +179,7 @@ class SIPListFiltersComponent extends React.Component {
           </TableHeaderOptionGroup>
           <TableHeaderOptionGroup key="second">
             <SelectField
+              autoWidth
               multiple
               style={filter.fieldStyle}
               hintText={intl.formatMessage({
@@ -191,7 +193,7 @@ class SIPListFiltersComponent extends React.Component {
                 key={status}
                 value={status}
                 primaryText={intl.formatMessage({
-                  id: status,
+                  id: `sip.state.${status}`,
                 })}
               />))}
             </SelectField>

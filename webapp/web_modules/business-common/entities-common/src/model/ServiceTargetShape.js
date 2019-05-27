@@ -18,6 +18,7 @@
  **/
 import { ENTITY_TYPES } from '@regardsoss/domain/dam'
 import { RuntimeTargetTypes } from '@regardsoss/domain/access'
+import { CommonShapes } from '@regardsoss/shape'
 
 /**
  * Service target shape definition
@@ -38,7 +39,7 @@ const MANY_ELEMENTS_TARGET = PropTypes.shape({
 
 const QUERY_ELEMENTS_TARGET = PropTypes.shape({
   type: PropTypes.oneOf([RuntimeTargetTypes.QUERY]), // enumerated type
-  requestParameters: PropTypes.objectOf(PropTypes.any), // open search request parameters
+  requestParameters: CommonShapes.RequestParameters, // open search request parameters
   entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
   entitiesCount: PropTypes.number.isRequired,
   excludedIDs: PropTypes.arrayOf(PropTypes.string).isRequired, // excluded entities list

@@ -244,9 +244,9 @@ export default class TableColumnBuilder {
 
 
   /**
-   * @param {String} sortingOrder current sort order, from TableSortOrders
+   * @param {String} sortingOrder current sort order, from SortOrdersEnum
    * @param {number} sortIndex index in current sort order (if relevant)
-   * @param {function} onSort on sort callback like (columnKey: string, newOrder: string from TableSortOrders) => ()
+   * @param {function} onSort on sort callback like (columnKey: string, newOrder: string from SortOrdersEnum) => ()
    * @param {boolean} hideLabel Should hide column label
    * @param {boolean} sortable  Should allow sorting?
    * @return {TableColumnBuilder} builder configured for sortable header cell

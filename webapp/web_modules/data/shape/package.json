@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/shape",
-  "version": "0.0.1",
+  "version": "0.4.0",
   "private": true,
   "sideEffects": false,
   "description": "REGARDS Microservices API react PropTypes",

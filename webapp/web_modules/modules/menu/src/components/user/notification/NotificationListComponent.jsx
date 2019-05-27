@@ -118,7 +118,7 @@ class NotificationListComponent extends React.Component {
    */
   notify = notification => this.notificationSystem.addNotification({
     message: <NotificationFloatingMessage notification={notification} />,
-    level: NotificationListComponent.NOTIFICATION_TO_MESSAGE_LEVEL[notification.type]
+    level: NotificationListComponent.NOTIFICATION_TO_MESSAGE_LEVEL[notification.level]
       || NotificationListComponent.NOTIFICATION_TO_MESSAGE_LEVEL.DEFAULT,
     ...NotificationListComponent.NOTIFICATION_MESSAGE_CONSTANTS,
   })

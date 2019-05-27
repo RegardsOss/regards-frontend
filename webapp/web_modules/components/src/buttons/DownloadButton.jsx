@@ -31,7 +31,7 @@ class DownloadButton extends React.Component {
     tooltip: PropTypes.string,
     disabled: PropTypes.bool,
     downloadURL: PropTypes.string.isRequired,
-    // TODO-V4 check how to improve file name with it for both firefox and chrome, or delete property in invokers
+    // TODO-V4 check that the use of download option is ok with all navigators. In some navigator, the file can be displayed instead of force download. (try with pdf)
     downloadName: PropTypes.string,
     // ... other button properties, provided at runtime to the button
   }
@@ -53,7 +53,7 @@ class DownloadButton extends React.Component {
 
   render() {
     const {
-      ButtonConstructor, ButtonIcon, label, disabled, tooltip, downloadURL, ...otherProperties
+      ButtonConstructor, ButtonIcon, label, disabled, tooltip, downloadURL, downloadName, ...otherProperties
     } = this.props
     const buttonRender = (
       <ButtonConstructor
@@ -74,7 +74,7 @@ class DownloadButton extends React.Component {
         ref={(input) => { this.button = input }}
         href={downloadURL}
         style={DownloadButton.UNDECORATED_LINK_STYLE}
-        target="_blank"
+        download={downloadName}
       >
         {buttonRender}
       </a>

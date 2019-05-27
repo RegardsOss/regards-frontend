@@ -73,7 +73,7 @@ const messages = {
   'form.datasets.select.dataset.list.title': 'Select datasets to link with search form',
   'form.datasets.select.dataset.models.list.title': 'Select dataset models to link with search form',
   // Layout tab
-  'form.layout.tab.title': 'Search form layout configuration',
+  'form.layout.tab.title': 'Criteria layout',
   'form.layout.tab.reset': 'Reset',
   'layout.invalid.error': 'Error layout',
   // Criterion tab

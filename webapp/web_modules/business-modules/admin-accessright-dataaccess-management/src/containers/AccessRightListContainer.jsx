@@ -18,6 +18,7 @@
  **/
 import get from 'lodash/get'
 import map from 'lodash/map'
+import isNil from 'lodash/isNil'
 import filter from 'lodash/filter'
 import { browserHistory } from 'react-router'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -47,6 +48,10 @@ export class AccessRightListContainer extends React.Component {
     deleteAccessRight: PropTypes.func.isRequired,
     updateAccessRight: PropTypes.func.isRequired,
     createAccessRight: PropTypes.func.isRequired,
+  }
+
+  state ={
+    filters: {},
   }
 
   onSubmit = (selectedDatasetsWithAccessright, formValues) => {
@@ -117,13 +122,19 @@ export class AccessRightListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  refresh = (filters) => {
+  refresh = () => {
     const { meta, fetchDatasetWithAccessRightPage, clearSelection } = this.props
-    const curentPage = get(meta, 'number', 0)
+    const pageSize = get(meta, 'size', 0)
     const accessGroupName = get(this.props.accessGroup, 'content.name', null)
     if (accessGroupName) {
       clearSelection() // clear selection to avoid selected elements changes
-      fetchDatasetWithAccessRightPage(0, AccessRightListComponent.PAGE_SIZE * (curentPage + 1), { accessGroupName }, filters)
+      fetchDatasetWithAccessRightPage(0, pageSize, { accessGroupName }, this.state.filters)
+    }
+  }
+
+  filter = (filters) => {
+    if (!isNil(filters)) {
+      this.setState({ filters })
     }
   }
 
@@ -137,6 +148,8 @@ export class AccessRightListContainer extends React.Component {
         backURL={this.getBackURL()}
         selectedDatasetsWithAccessright={this.props.selectedDatasetsWithAccessright}
         onRefresh={this.refresh}
+        onFilter={this.filter}
+        filters={this.state.filters}
       />
     )
   }

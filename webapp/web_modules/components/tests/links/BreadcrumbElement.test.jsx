@@ -34,6 +34,9 @@ describe('[Components] Testing BreadcrumbElement', () => {
   })
   it('should render properly root item', () => {
     const props = {
+      index: 0,
+      element: 'idk',
+      navigationAllowed: true,
       isFirst: true,
       isLast: true,
       onAction: () => { },
@@ -44,8 +47,11 @@ describe('[Components] Testing BreadcrumbElement', () => {
     assert.lengthOf(wrapper.find(TestIcon), 1, 'There should be the icon for root element')
     assert.include(wrapper.debug(), props.label, 'Element label should be rendered')
   })
-  it('should render properly any next item', () => {
+  it('should render properly last item', () => {
     const props = {
+      index: 0,
+      element: 'idk',
+      navigationAllowed: true,
       isFirst: false,
       isLast: true,
       onAction: () => { },
@@ -56,9 +62,12 @@ describe('[Components] Testing BreadcrumbElement', () => {
     assert.lengthOf(wrapper.find(TestIcon), 0, 'There should not be the icon as element is not root')
     assert.include(wrapper.debug(), props.label, 'Element label should be rendered')
   })
-  it('should call onAction when item is not selected (not last element)', () => {
+  it('should call onAction when item is navigation (not last element)', () => {
     let spiedCalls = 0
     const props = {
+      index: 0,
+      element: 'idk',
+      navigationAllowed: true,
       isFirst: false,
       isLast: false,
       onAction: () => { spiedCalls += 1 },
@@ -72,8 +81,27 @@ describe('[Components] Testing BreadcrumbElement', () => {
   it('should not call onAction when item is selected (last element)', () => {
     let spiedCalls = 0
     const props = {
+      index: 0,
+      element: 'idk',
+      navigationAllowed: true,
       isFirst: false,
       isLast: true,
+      onAction: () => { spiedCalls += 1 },
+      label: 'root',
+      rootIcon: <TestIcon />,
+    }
+    const wrapper = shallow(<BreadcrumbElement {...props} />, { context })
+    wrapper.instance().onClick()
+    assert.equal(spiedCalls, 0, 'onAction should not have been invoked')
+  })
+  it('should not call onAction when item is not navigable', () => {
+    let spiedCalls = 0
+    const props = {
+      index: 1,
+      element: 'idk',
+      navigationAllowed: false,
+      isFirst: false,
+      isLast: false,
       onAction: () => { spiedCalls += 1 },
       label: 'root',
       rootIcon: <TestIcon />,

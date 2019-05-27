@@ -1,0 +1,10 @@
+@media (max-width: 767px) {
+  #compassDiv {
+    top: 12px;
+  }
+}
+@media (min-width: 768px) {
+  #compassDiv {
+    top: 90px;
+  }
+}

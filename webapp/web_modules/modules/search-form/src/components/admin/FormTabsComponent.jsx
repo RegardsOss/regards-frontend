@@ -114,7 +114,6 @@ class FormTabsComponent extends React.Component {
             adminForm={this.props.adminForm}
             selectableDataObjectsAttributes={this.props.selectableDataObjectsAttributes}
             selectableDataSetsAttributes={this.props.selectableDataSetsAttributes}
-            initialDisplayMode={this.props.defaultConf.searchResult.displayMode}
           />
         </Tab>
       </Tabs>

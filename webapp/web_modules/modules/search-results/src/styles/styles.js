@@ -23,9 +23,63 @@
  */
 const styles = theme => ({
   configuration: {
-    viewTabsContainer: {
-      style: {
-        paddingTop: 20,
+    rootStyle: {
+      display: 'flex',
+      alignItems: 'stretch',
+      justifyContent: 'flex-start',
+    },
+    tree: {
+      container: {
+        flexGrow: 1, // 1/4 page
+        flexBasis: 0,
+        borderColor: theme.palette.borderColor,
+        borderWidth: '0 1px 0 0',
+        borderStyle: 'solid',
+      },
+      cell: {
+        root: {
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          cursor: 'pointer',
+        },
+        selected: {
+          icon: {
+            color: theme.palette.accent1Color,
+          },
+          section: {
+            color: theme.palette.accent1Color,
+            marginLeft: 10,
+            fontSize: '1.2em',
+          },
+          page: {
+            color: theme.palette.accent1Color,
+            marginLeft: 10,
+          },
+        },
+        regular: {
+          icon: {
+            color: theme.palette.textColor,
+          },
+          section: {
+            marginLeft: 10,
+            fontSize: '1.2em',
+          },
+          page: {
+            marginLeft: 10,
+          },
+        },
+      },
+    },
+    content: {
+      container: {
+        flexGrow: 3, // 3/4 page
+        flexBasis: 0,
+        marginTop: 12,
+        paddingLeft: 20,
+      },
+      tableFieldSpacer: {
+        marginTop: theme.components.infiniteTable.minHeaderRowHeight,
       },
     },
   },
@@ -63,6 +117,7 @@ const styles = theme => ({
       },
     },
     filters: {
+      iconColor: theme.palette.accent1Color,
       style: {
         margin: '0 5px',
       },
@@ -96,12 +151,8 @@ const styles = theme => ({
           padding: '8px 8px',
           color: theme.palette.textColor,
         },
-        optionsBarHorizontalStyles: {
+        optionsBarStyles: {
           display: 'flex',
-        },
-        optionsBarVerticalStyles: {
-          display: 'flex',
-          flexDirection: 'column',
         },
         option: {
           buttonStyles: {
@@ -124,7 +175,7 @@ const styles = theme => ({
         alignItems: 'stretch',
       },
       labelColumnStyles: {
-        margin: '10px 0 5px 20px',
+        margin: '10px 0 5px 0',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -159,9 +210,79 @@ const styles = theme => ({
         padding: '5px 0px 10px 10px',
       },
     },
-    galleryViewStyles: {
-      descriptionContainer: {
-        padding: '0 5px',
+    quicklookViewStyles: {
+      imageStyle: {
+        maxWidth: '100%',
+      },
+      imageAndOptionsContainer: {
+        display: 'flex',
+      },
+      quicklookContainerStyle: {
+        cursor: 'zoom-in',
+        flexGrow: 1,
+      },
+      iconStyle: {
+        width: '50%',
+        height: '50%',
+        margin: 'auto',
+      },
+      optionsBarStyles: {
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      option: {
+        buttonStyles: {
+          width: 32,
+          height: 32,
+          padding: 4,
+        },
+        iconStyles: {
+          width: 24,
+          height: 24,
+        },
+      },
+      attributesContainer: {
+        padding: 0,
+      },
+    },
+    mapViewStyles: {
+      geoLayout: {
+        flex: '1 1 0%',
+        position: 'relative',
+        background: theme.module.searchResults.map.background,
+      },
+      mizarWrapper: {
+        height: 'auto',
+        flex: '1 1 0%',
+        width: '100%',
+      },
+      quicklookViewLayout: {
+        background: theme.palette.canvasColor,
+        alignSelf: 'stretch',
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: theme.module.searchResults.map.quicklooks.padding,
+      },
+      quicklookImage: {
+        maxWidth: '100%',
+        height: theme.module.searchResults.map.quicklooks.thumbnailHeight,
+      },
+      toolsBox: {
+        // overlay position
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        // mimics table header styles
+        backgroundColor: theme.palette.canvasColor,
+        borderRight: `1px solid ${theme.tableRow.borderColor}`,
+      },
+      iconToolButton: {
+        minWidth: theme.button.iconButtonSize,
+      },
+      resizer: {
+        ...theme.module.searchResults.map.resizerSeparator,
       },
     },
   },

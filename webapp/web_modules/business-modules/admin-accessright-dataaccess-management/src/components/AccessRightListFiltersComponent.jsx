@@ -36,7 +36,7 @@ import { themeContextType } from '@regardsoss/theme'
  */
 class AccessRightListFiltersComponent extends React.Component {
   static propTypes = {
-    onRefresh: PropTypes.func,
+    onFilter: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -60,7 +60,7 @@ class AccessRightListFiltersComponent extends React.Component {
     const clearedFilters = {}
     this.setState({
       filters: clearedFilters,
-    }, () => this.props.onRefresh(this.state.filters))
+    }, () => this.props.onFilter(this.state.filters))
   }
 
   render() {
@@ -86,7 +86,7 @@ class AccessRightListFiltersComponent extends React.Component {
             <FlatButton
               label={intl.formatMessage({ id: 'accessright.table.filter.button' })}
               icon={<Filter />}
-              onClick={() => this.props.onRefresh(this.state.filters)}
+              onClick={() => this.props.onFilter(this.state.filters)}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>

@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import isNil from 'lodash/isNil'
+import isEmpty from 'lodash/isEmpty'
 import reduce from 'lodash/reduce'
 import { connect } from '@regardsoss/redux'
 import { UIDomain, CatalogDomain } from '@regardsoss/domain'
@@ -25,6 +27,7 @@ import { AccessShapes } from '@regardsoss/shape'
 import { modulesManager } from '@regardsoss/modules'
 import { modulesHelper } from '@regardsoss/modules-api'
 import DatasetSelectionTypes from '../../domain/DatasetSelectionTypes'
+import { resultsContextActions } from '../../clients/ResultsContextClient'
 import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 import FormContainer from './FormContainer'
 import ResultsContainer from './ResultsContainer'
@@ -57,6 +60,7 @@ export class ModuleContainer extends React.Component {
         dispatch(moduleExpandedStateActions.initialize(searchFormPaneKey, searchFormExpansible, !searchFormExpansible))
         dispatch(moduleExpandedStateActions.initialize(searchResultsPaneKey, searchResultsExpansible, true))
       },
+      dispatchUpdateSearchContext: newContextDiff => dispatch(resultsContextActions.updateResultsContext(id, newContextDiff)),
     }
   }
 
@@ -70,69 +74,72 @@ export class ModuleContainer extends React.Component {
     dispatchExpandResults: PropTypes.func.isRequired,
     dispatchCollapseForm: PropTypes.func.isRequired,
     dispatchInitializeWithOpenedResults: PropTypes.func.isRequired,
+    dispatchUpdateSearchContext: PropTypes.func.isRequired,
   }
 
   /**
-   * Get the default query for this form at initialization
+   * Get the default query and criterion for this form at initialization
    * @param {{type: string, selectedDatasets: [string], selectedModels: [number]}} dataset restrictions from module configuration
-   * @return {string} built restrictive dataset context query or empty string
+   * @return {{query:string, resultsCriteria:{*}} built context query and corresponding results context criteria
    */
-  static buildRestrictiveQuery({ type, selectedDatasets, selectedModels }) {
-    // 1 - convert selected datasets or models
-    const restrictionParameters = []
+  static buildContextQueryAndCriteria({ type, selectedDatasets, selectedModels }) {
+    // 1 - Build a open search parameters for context restriction
+    const parameters = []
     switch (type) {
       case DatasetSelectionTypes.DATASET_TYPE:
-        // Build include tags parameters, let the parameter join dataset IDs on 'OR'
-        restrictionParameters.push(new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
+        parameters.push(new CatalogDomain.OpenSearchQueryParameter(
+          CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
           selectedDatasets.filter(id => !!id)))
         break
       case DatasetSelectionTypes.DATASET_MODEL_TYPE:
-        // Build dataset tags parameters model, convert IDs to string and let the parameter join dataset IDs on 'OR'
-        restrictionParameters.push(new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.DATASET_MODEL_IDS_PARAM,
-          selectedModels.filter(id => !!id).map(id => `${id}`)))
+        parameters.push(new CatalogDomain.OpenSearchQueryParameter(
+          CatalogDomain.OpenSearchQuery.DATASET_MODEL_IDS_PARAM,
+          selectedModels.filter(id => !!id).map(id => `${id}`))) // number to string array
         break
-      default:
-        // No restriction on datasets
+      default: // do nothin
     }
-    return new CatalogDomain.OpenSearchQuery(null, restrictionParameters).toQueryString()
+    const query = new CatalogDomain.OpenSearchQuery(null, parameters).toQueryString()
+    return {
+      query,
+      resultsCriteria: query ? [{
+        requestParameters: {
+          [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: query,
+        },
+      }] : [],
+    }
   }
 
   /**
-   * Gather all request parameters from plugins (merge q parts together)
-   * @param {*} contextQuery context query, based on module configuration
+   * Gather all request parameters from plugins into an array of results context criteria
    * @param {*} pluginsState plugins state as key: {state, query: string}
    * @return {*} parameters list (may contain q, geometry, ...)
    */
-  static buildRequestParameters(contextQuery, pluginsState) {
-    // 1 - Build map of open search query parameters:
-    // A - store q parameters values as an array of Static query parameters
-    // B - Store only first value for other parameters (backend can handle only one parameter value)
-    const parametersDictionnary = reduce(pluginsState,
-      (accQueryParameters, { requestParameters: pluginParameters = {} }) => reduce(pluginParameters, (localAcc, value, key) => ({
-        ...localAcc,
-        [key]: key === 'q'
-          ? [...localAcc[key], new CatalogDomain.StaticQueryParameter(value)] // 1.A
-          : localAcc[key] || value, // other parameters: use first value, or that value if first found
-      }), accQueryParameters),
-      { q: [] })
-
-    // 2 - Return as parameters map
-    const { q: qParts = [], ...otherParameters } = parametersDictionnary
-    return {
-      // q: append context and each query parts
-      q: new CatalogDomain.OpenSearchQuery(contextQuery, qParts).toQueryString(),
-      ...otherParameters,
-    }
+  static buildResultsCriteria(pluginsState) {
+    return reduce(pluginsState, (acc, { requestParameters }) => isNil(requestParameters) || isEmpty(requestParameters)
+      ? acc
+      : [...acc, { requestParameters }], [])
   }
 
   /**
    * Lifecycle method: component will mount. Initialize context query and state
    */
   componentWillMount = () => {
-    const contextQuery = ModuleContainer.buildRestrictiveQuery(get(this.props.moduleConf, 'datasets', {}))
+    const { dispatchUpdateSearchContext } = this.props
+    // 1 - Prepare context query and corresponding results criteria
+    const { query, resultsCriteria } = ModuleContainer.buildContextQueryAndCriteria(get(this.props.moduleConf, 'datasets', {}))
+    // 2 - Initialize results context to set this context criteria if any (pre-filters results without searching)
+    if (resultsCriteria.length) {
+      // set this form criteria in otherFilters
+      dispatchUpdateSearchContext({
+        criteria: { otherFilters: resultsCriteria },
+      })
+    }
+
+    // ModuleContainer.buildRequestParameters(contextQuery, {}),
+    // 2 - Store context elements locally (avoids recomputing them later)
     this.setState({
-      contextQuery, // stable as module properties cannot change without unmounting the component
-      currentSearchParameters: ModuleContainer.buildRequestParameters(contextQuery, {}),
+      contextQuery: query,
+      contextResultsCriteria: resultsCriteria,
     })
   }
 
@@ -144,13 +151,20 @@ export class ModuleContainer extends React.Component {
    */
   onSearch = (pluginsState, isInitialization = false) => {
     const {
-      dispatchCollapseForm, dispatchExpandResults, dispatchInitializeWithOpenedResults,
+      dispatchCollapseForm, dispatchExpandResults,
+      dispatchInitializeWithOpenedResults, dispatchUpdateSearchContext,
     } = this.props
-    const { contextQuery } = this.state
-    // 1 - Build query from plugins state and current query and set it in state
-    const currentSearchParameters = ModuleContainer.buildRequestParameters(contextQuery, pluginsState)
-    this.setState({ currentSearchParameters })
-    // 2 - Swap form hidden and results opened
+    const { contextResultsCriteria } = this.state
+    // 1 - Publish new criteria list in otherFilters
+    dispatchUpdateSearchContext({
+      criteria: { // add both context and current criteria values
+        otherFilters: [
+          ...contextResultsCriteria,
+          ...ModuleContainer.buildResultsCriteria(pluginsState),
+        ],
+      },
+    })
+    // 2 - Expand results and collapse form, when it is possible
     if (isInitialization) {
       dispatchInitializeWithOpenedResults()
     } else {
@@ -162,9 +176,9 @@ export class ModuleContainer extends React.Component {
   render() {
     const {
       project, appName, id, pluginsState,
-      moduleConf: { datasets, preview, searchResult },
+      moduleConf: { preview, searchResult },
     } = this.props
-    const { contextQuery, currentSearchParameters } = this.state
+    const { contextQuery } = this.state
     return (
       <React.Fragment>
         {/* 1. Form */}
@@ -181,8 +195,6 @@ export class ModuleContainer extends React.Component {
           appName={appName}
           project={project}
           searchResultsConfiguration={searchResult}
-          searchParameters={currentSearchParameters}
-          restrictedDatasetsIds={datasets.type === DatasetSelectionTypes.DATASET_TYPE ? datasets.selectedDatasets : null}
         />
       </React.Fragment>
     )

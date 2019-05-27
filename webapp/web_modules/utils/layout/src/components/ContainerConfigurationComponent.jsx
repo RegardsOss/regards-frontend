@@ -79,6 +79,8 @@ class ContainerConfigurationComponent extends React.Component {
     styles: {},
   }
 
+  static SELECT_FIELD_STYLES = { marginBottom: '12px' }
+
   state = {
     advanced: false,
   }
@@ -173,6 +175,7 @@ class ContainerConfigurationComponent extends React.Component {
                 onSelect={this.selectContainerType}
                 label={formatMessage({ id: 'container.form.type' })}
                 validate={ValidationHelpers.required}
+                style={ContainerConfigurationComponent.SELECT_FIELD_STYLES}
               >
                 { /** Show option (remove container types used for root container) */
                   map(

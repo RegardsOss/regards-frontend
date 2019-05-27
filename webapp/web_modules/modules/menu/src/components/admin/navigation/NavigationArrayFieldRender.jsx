@@ -108,7 +108,7 @@ class NavigationArrayFieldRender extends React.Component {
    * @return {boolean} true if there is home, false otherwise
    */
   static hasHome(dynamicModules) {
-    return dynamicModules.some(({ content: { page = {} } }) => page.home)
+    return dynamicModules.some(({ content: { page = {} } }) => page.home) || false // do not return undefined
   }
 
   static propTypes = {
@@ -181,6 +181,7 @@ class NavigationArrayFieldRender extends React.Component {
         },
         itemPath: [navigationItems.length], // added at end by default
         navigationItems: NavigationArrayFieldRender.packItemsForDialog(homeConfiguration.title, dynamicModules, navigationItems),
+        hasHome: NavigationArrayFieldRender.hasHome(dynamicModules),
       },
     })
   }
