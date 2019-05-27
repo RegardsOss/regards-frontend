@@ -106,6 +106,9 @@ export default class DatasourceListComponent extends React.Component {
       new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.label')
         .label(formatMessage({ id: 'datasource.list.table.label' }))
         .build(),
+      new TableColumnBuilder('column.associatedDatasets').titleHeaderCell().propertyRenderCell('content.associatedDatasets')
+        .label(formatMessage({ id: 'datasource.list.table.associatedDatasets' }))
+        .build(),
       new TableColumnBuilder('column.active').titleHeaderCell()
         .rowCellDefinition({
           Constructor: DatasourceListActivationAction,
