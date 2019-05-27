@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import compact from 'lodash/compact' 
+import compact from 'lodash/compact'
 import { DamDomain } from '@regardsoss/domain'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import {
@@ -98,8 +98,8 @@ class ModelAttributeComponent extends React.Component {
     return null
   }
 
-  getAttrInfo = (attr) => (
-    compact([attr.label, attr.description]).join(" - ")
+  getAttrInfo = attr => (
+    compact([attr.label, attr.description]).join(' - ')
   )
 
   render() {
@@ -115,7 +115,7 @@ class ModelAttributeComponent extends React.Component {
           showRowHover={false}
         >
           <TableRow>
-            <TableRowColumn title={this.getAttrInfo(modelAttribute.content.attribute)}>>
+            <TableRowColumn title={this.getAttrInfo(modelAttribute.content.attribute)}>
               {modelAttribute.content.attribute.name}
               {this.showIfAttributeIsNotOptional(modelAttribute)}
               {' - '}
