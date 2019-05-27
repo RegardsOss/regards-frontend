@@ -174,11 +174,11 @@ export class AIPDatasourceFormContainer extends React.Component {
    */
   handleModelSelected = (modelName) => {
     this.props.fetchModelAttributeList(modelName)
-    .then(() => {
-      this.setState({
-        modelAttributeFetched: true,
+      .then(() => {
+        this.setState({
+          modelAttributeFetched: true,
+        })
       })
-    })
   }
 
 

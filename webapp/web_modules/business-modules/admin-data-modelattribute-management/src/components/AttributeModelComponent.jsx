@@ -20,7 +20,7 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import {
   Table, TableBody, TableRow, TableRowColumn,
 } from 'material-ui/Table'
-import compact from 'lodash/compact' 
+import compact from 'lodash/compact'
 
 class AttributeModelComponent extends React.Component {
   static propTypes = {
@@ -34,8 +34,8 @@ class AttributeModelComponent extends React.Component {
     return null
   }
 
-  getAttrInfo = (attr) => (
-    compact([attr.content.label, attr.content.description]).join(" - ")
+  getAttrInfo = attr => (
+    compact([attr.content.label, attr.content.description]).join(' - ')
   )
 
   render() {
