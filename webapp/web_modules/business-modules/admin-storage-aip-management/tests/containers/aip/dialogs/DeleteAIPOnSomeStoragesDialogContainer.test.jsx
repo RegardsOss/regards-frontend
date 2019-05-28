@@ -215,7 +215,7 @@ describe('[ADMIN STORAGE AIP MANAGEMENT] Testing DeleteAIPOnSomeStoragesDialogCo
     assert.equal(spiedDeleteSelected.count, 0, ' Delete by selection should not have been called')
     assert.equal(spiedDeleteByQuery.count, 1, ' Delete by query should should have been called')
     assert.equal(spiedDeleteByQuery.toggleAIPs, props.toggleAIPs, ' Delete by query should should have been called with exluded AIPs')
-    assert.equal(spiedDeleteByQuery.currentFilters, props.appliedFilters, ' Delete by query should should have been called with query filters')
+    assert.equal(spiedDeleteByQuery.currentFilters, props.currentFilters, ' Delete by query should should have been called with query filters')
     assert.deepEqual(spiedDeleteByQuery.dataStorages, [storage2], ' Delete by query should should have been called with selected data storages')
   })
 })
