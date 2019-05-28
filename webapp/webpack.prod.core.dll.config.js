@@ -24,10 +24,7 @@ const conf = webpackConfigurator
     mode: 'dll',
     projectContextPath: __dirname,
   })
-  .cleanFolder({
-    projectContextPath: __dirname,
-    pathToDelete: 'dist/prod',
-  })
+  .cleanFolder()
   .addProductionPlugins()
   .merge({
     output: {
