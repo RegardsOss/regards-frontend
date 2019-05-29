@@ -30,7 +30,7 @@ describe('[Domain] Testing Open search query parameter', () => {
   })
   it('Should escape values with special characters', () => {
     const queryParameter = new OpenSearchQueryParameter('myName', 'my Value:')
-    assert.equal(queryParameter.toQueryString(), 'myName:"my%20Value%3A"', 'The parameter is not correctly displayed')
+    assert.equal(queryParameter.toQueryString(), 'myName:"my Value:"', 'The parameter is not correctly displayed')
   })
   it('Should merge possible values array into an OR joined string', () => {
     const queryParameter = new OpenSearchQueryParameter('value', ['v1', 'v2'])
@@ -42,7 +42,7 @@ describe('[Domain] Testing Open search query parameter', () => {
   })
   it('Should combine negation, multiple values and special characters', () => {
     const queryParameter = new OpenSearchQueryParameter('value', ['v:v1', 'z:z1'], true)
-    assert.equal(queryParameter.toQueryString(), 'value:(NOT "v%3Av1" AND NOT "z%3Az1")', 'The parameter is not correctly displayed')
+    assert.equal(queryParameter.toQueryString(), 'value:(NOT "v:v1" AND NOT "z:z1")', 'The parameter is not correctly displayed')
   })
   it('Should hide when empty', () => {
     const emptyParameters = [

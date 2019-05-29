@@ -121,7 +121,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
           label: 'myLabel',
           searchKey: 'URN:DATASET:TEST',
           requestParameters: {
-            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: `${CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME}:"URN%3ADATASET%3ATEST"`,
+            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: `${CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME}:"URN:DATASET:TEST"`,
           },
         }],
         tags: [],

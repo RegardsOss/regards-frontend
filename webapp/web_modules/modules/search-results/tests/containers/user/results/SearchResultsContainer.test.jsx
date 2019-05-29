@@ -182,7 +182,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
     state = enzymeWrapper.state()
     assert.deepEqual(state.restrictedDatasetsIds, [datasetEntity.content.id], '(2) Dataset restrictions should be correctly computed for DATASET with query')
     assert.deepEqual(state.requestParameters, {
-      q: 'tags:"URN%3AAIP%3ADATASET%3Aproject1%3A3aeed1bc-3c14-4100-bcd1-c4f370e679a2%3AV1" AND tags:coffee AND tags:tea AND tags:"URN%3AAIP%3ADOCUMENT%3Aproject1%3A3aeed1bc-3c14-4100-bcd1-c4f370e679a2%3AV1"',
+      q: 'tags:"URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1" AND tags:coffee AND tags:tea AND tags:"URN:AIP:DOCUMENT:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1"',
     }, '(2) Request parameters should be correctly computed for DATASET with query')
     assert.deepEqual(state.searchActions, searchDatasetsFromDataObjectsActions, '(2) Search actions should be correctly computed for DATASET with query')
     // Enter data mode, add sorting, facets request, active facets, quicklook filter and one more dataset tag
@@ -233,7 +233,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
     assert.deepEqual(state.restrictedDatasetsIds, [datasetEntity.content.id, 'URN:AIP:DATASET:anotherDataset'], '(3) Dataset restrictions should be correctly computed for DATA with query')
     assert.deepEqual(state.requestParameters, {
       // tags, applying facets and quicklooks restriction
-      q: 'tags:"URN%3AAIP%3ADATASET%3Aproject1%3A3aeed1bc-3c14-4100-bcd1-c4f370e679a2%3AV1" AND tags:coffee AND tags:tea AND tags:"URN%3AAIP%3ADOCUMENT%3Aproject1%3A3aeed1bc-3c14-4100-bcd1-c4f370e679a2%3AV1" AND tags:"URN%3AAIP%3ADATASET%3AanotherDataset" AND my.attr.1=coffee',
+      q: 'tags:"URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1" AND tags:coffee AND tags:tea AND tags:"URN:AIP:DOCUMENT:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1" AND tags:"URN:AIP:DATASET:anotherDataset" AND my.attr.1=coffee',
       sort: ['my.attr.1,DESC', 'my.attr.2,ASC'], // sort
       facets: ['my.attr.1'], // requested facets
       exists: ['feature.files.QUICKLOOK_SD'], // quicklook exists filter
@@ -263,7 +263,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
     state = enzymeWrapper.state()
     assert.isEmpty(state.restrictedDatasetsIds, '(4) Dataset restrictions should be not apply for documents')
     assert.deepEqual(state.requestParameters, {
-      q: 'tags:"URN%3AAIP%3ADOCUMENT%3Aproject1%3A3aeed1bc-3c14-4100-bcd1-c4f370e679a2%3AV1" AND tags:tea',
+      q: 'tags:"URN:AIP:DOCUMENT:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1" AND tags:tea',
       facets: ['my.attr.1'], // from configuration, initially enabled
     }, '(4) Request parameters should be correctly computed for DOCUMENT with query')
     assert.deepEqual(state.searchActions, searchDocumentsActions, '(4) Search actions should be correctly computed for DOCUMENT with query')
