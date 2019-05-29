@@ -50,8 +50,7 @@ export default class OpenSearchQueryParameter extends QueryParameter {
     if (value) {
       return OpenSearchQueryParameter.ESCAPED_CHARS.some(char => value.includes(char))
         // there are special characters in some of the parameter parts
-        ? `"${encodeURIComponent(value)}"`
-        : encodeURIComponent(value) // no lucen special char
+        ? `"${value}"` : value // no lucen special char
     }
     return value // no value
   }
