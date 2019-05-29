@@ -110,7 +110,7 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.error-nb-products.tooltip': 'Products in error',
   'acquisition-chain.monitor.list.inprogress-nb-products.tooltip': 'Products in progress',
   'acquisition-chain.monitor.list.total-nb-files': 'Files',
-  'acquisition-chain.monitor.list.total-files.tooltip': 'Total numver of files',
+  'acquisition-chain.monitor.list.total-files.tooltip': 'Total number of files',
   'acquisition-chain.monitor.list.error-nb-files.tooltip': 'Files in error',
   'acquisition-chain.monitor.list.inprogress-nb-files.tooltip': 'Files in progress',
 
