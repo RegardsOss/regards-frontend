@@ -42,10 +42,6 @@ export default class SIPSignalActions extends BasicSignalsActions {
         entityEndpoint: `${SIPSignalActions.ROOT_ENDPOINT}/sips/{sipId}/retry`,
         namespace: `${namespace}/resume`,
       },
-      [SIPSignalActions.RETRY_SESSION_SUBMISSION_ACTIONS]: {
-        entityEndpoint: `${SIPSignalActions.ROOT_ENDPOINT}/sessions/{id}/retry/submission`,
-        namespace: `${namespace}/resume`,
-      },
       [SIPSignalActions.RETRY_SESSION_GENERATION_ACTIONS]: {
         entityEndpoint: `${SIPSignalActions.ROOT_ENDPOINT}/sessions/{id}/retry/generation`,
         namespace: `${namespace}/resume`,
@@ -58,13 +54,6 @@ export default class SIPSignalActions extends BasicSignalsActions {
    */
   retry(sipId) {
     return this.getSubAction(SIPSignalActions.RETRY_ACTIONS).sendSignal('POST', null, { sipId })
-  }
-
-  /**
-   * Build an action that adds some tags to a set of sips
-   */
-  retrySessionSubmission(sessionId) {
-    return this.getSubAction(SIPSignalActions.RETRY_SESSION_SUBMISSION_ACTIONS).sendSignal('PUT', null, { id: sessionId })
   }
 
   /**

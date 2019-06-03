@@ -56,7 +56,6 @@ class SIPSessionListComponent extends React.Component {
     onRefresh: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
-    retrySessionSubmission: PropTypes.func.isRequired,
     retrySessionGeneration: PropTypes.func.isRequired,
     initialFilters: PropTypes.objectOf(PropTypes.string),
   }
@@ -112,13 +111,6 @@ class SIPSessionListComponent extends React.Component {
   }
 
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
-
-  handleRetrySubmission = () => {
-    this.props.retrySessionSubmission(this.state.sessionToRetry.content, this.state.appliedFilters)
-      .then(() => {
-        this.closeRetryDialog()
-      })
-  }
 
   handleRetryGeneration = () => {
     this.props.retrySessionGeneration(this.state.sessionToRetry.content, this.state.appliedFilters)
@@ -267,7 +259,6 @@ class SIPSessionListComponent extends React.Component {
 
   renderRetryDialog = () => {
     if (this.state.sessionToRetry) {
-      let submission = false
       let generation = false
       const actions = [
         <FlatButton
@@ -278,16 +269,6 @@ class SIPSessionListComponent extends React.Component {
           onClick={this.closeRetryDialog}
         />,
       ]
-      if (!isNil(find(this.state.sessionToRetry.links, { rel: 'retrySubmission' }))) {
-        actions.push(
-          <FlatButton
-            key="retrySubmission"
-            label={this.context.intl.formatMessage({ id: 'sips.session.retry.submission.button' })}
-            onClick={this.handleRetrySubmission}
-          />,
-        )
-        submission = true
-      }
 
       if (!isNil(find(this.state.sessionToRetry.links, { rel: 'retryGeneration' }))) {
         actions.push(
@@ -302,9 +283,6 @@ class SIPSessionListComponent extends React.Component {
       let message = this.context.intl.formatMessage({ id: 'sips.session.retry.message' })
       if (!generation) {
         message = this.context.intl.formatMessage({ id: 'sips.session.retry.submission.message' })
-      }
-      if (!submission) {
-        this.context.intl.formatMessage({ id: 'sips.session.retry.submission.message' })
       }
 
       return (
