@@ -17,18 +17,25 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
 import areIntlLocalesSupported from 'intl-locales-supported'
-import IntlPolyfill from 'intl'
-import 'intl/locale-data/jsonp/fr'
 
 // eslint-disable-next-line import/no-mutable-exports
 let dateTimeFormat
+
 const localesAppSupports = [
   'fr',
 ]
-// Use the native Intl.DateTimeFormat if available, or a polyfill if not.
+
+/**
+ * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
+ */
 if (areIntlLocalesSupported(localesAppSupports)) {
   dateTimeFormat = global.Intl.DateTimeFormat
 } else {
-  dateTimeFormat = IntlPolyfill.DateTimeFormat
+  const IntlPolyfill = import('intl')
+    .then(() => {
+      dateTimeFormat = IntlPolyfill.DateTimeFormat
+      import('intl/locale-data/jsonp/fr')
+    })
 }
+
 export default dateTimeFormat
