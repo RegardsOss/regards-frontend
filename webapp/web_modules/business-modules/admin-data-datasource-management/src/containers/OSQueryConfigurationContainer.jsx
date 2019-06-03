@@ -16,16 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
+import { DataManagementShapes } from '@regardsoss/shape'
+import { withModuleStyle } from '@regardsoss/theme'
 import messages from '../i18n'
 import OSQueryConfigurationComponent from '../components/OSQueryConfigurationComponent'
-import {
-  descriptorSelectors,
-} from '../clients/OpensearchDescriptorClient'
+import { descriptorSelectors } from '../clients/OpensearchDescriptorClient'
+import styles from '../styles'
 
 /**
- *Comment Here
+ * Container for OpenSearch crawler query configuration component
  * @author Maxime Bouveron
  */
 export class OSQueryConfigurationContainer extends React.Component {
@@ -41,34 +43,25 @@ export class OSQueryConfigurationContainer extends React.Component {
     }
   }
 
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch) {
-    return {}
-  }
-
   static propTypes = {
-    onBack: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequierd,
     isEditing: PropTypes.bool,
-    initialValues: PropTypes.obj, //TODO : Shape it up
+    // initialValues: PropTypes.obj, //TODO : Shape it up
+    onBack: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     // from mapStateToProps
-    descriptor: PropTypes.obj, // TODO: Shape it up
+    descriptor: DataManagementShapes.OpenSearchDescriptor.isRequired,
     // from mapDispatchToProps
   }
 
   onSubmit = (fields) => {
-    const jsonWebservice = this.props.descriptor.url.find(e => e.type === 'application/json')
+    const { descriptor, onSubmit } = this.props
+    const jsonWebservice = descriptor.url.find(e => e.type === 'application/json')
     const startPage = jsonWebservice.parameter.find(e => e.value === '{startPage}')
     const count = jsonWebservice.parameter.find(e => e.value === '{count}')
     const webserviceURL = jsonWebservice.template.split('?')[0]
     const pageIndexParam = startPage.name
     const startPageIndex = startPage.minInclusive
-    this.props.onSubmit(fields, pageIndexParam, startPageIndex, count, webserviceURL)
+    onSubmit(fields, pageIndexParam, startPageIndex, count, webserviceURL)
   }
 
   render() {
@@ -78,17 +71,16 @@ export class OSQueryConfigurationContainer extends React.Component {
     return (
       <I18nProvider messages={messages}>
         <OSQueryConfigurationComponent
-          onBack={onBack}
-          onSubmit={this.onSubmit}
           initialValues={initialValues}
           isEditing={isEditing}
-          filters={descriptor.url.find(e => e.type === 'application/json')}
+          filters={descriptor.url.find(e => e.type === 'application/json')} // TODO use descriptor helper in onPropertiesUpdated!
+          onBack={onBack}
+          onSubmit={this.onSubmit}
         />
       </I18nProvider>
     )
   }
 }
-export default connect(
-  OSQueryConfigurationContainer.mapStateToProps,
-  OSQueryConfigurationContainer.mapDispatchToProps,
-)(OSQueryConfigurationContainer)
+export default compose(
+  connect(OSQueryConfigurationContainer.mapStateToProps),
+  withModuleStyle(styles))(OSQueryConfigurationContainer)

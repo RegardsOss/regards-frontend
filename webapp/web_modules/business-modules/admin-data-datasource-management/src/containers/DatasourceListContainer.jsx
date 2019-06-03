@@ -80,8 +80,8 @@ export class DatasourceListContainer extends React.Component {
     if (!includes(datasource.content.interfaceNames, INTERFACE_DS_DB)) {
       // Here we have an AIP DS
       url = `/admin/${project}/data/acquisition/datasource/aip/${datasourceId}/edit`
-    } else if (sdkhfgasdk) {
-      url = `/admin/${project}/data/acquisition/datasource/opensearch/${datasourceId}/edit`
+    // } else if (sdkhfgasdk) { // TODO
+    //   url = `/admin/${project}/data/acquisition/datasource/opensearch/${datasourceId}/edit`
     } else {
       // Here is an external DS
       url = `/admin/${project}/data/acquisition/datasource/db/${datasourceId}/edit`

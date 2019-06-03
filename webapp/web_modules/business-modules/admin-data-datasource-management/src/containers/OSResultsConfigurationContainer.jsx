@@ -16,15 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import compose from 'lodash/fp/compose'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
+import { withModuleStyle } from '@regardsoss/theme'
 import messages from '../i18n'
 import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
 import OSResultsConfigurationComponent from '../components/OSResultsConfigurationComponent'
+import styles from '../styles'
 
 /**
- *Comment Here
+ * Container for OpenSearch crawler results conversion configuration component
  * @author Maxime Bouveron
  */
 export class OSResultsConfigurationContainer extends React.Component {
@@ -59,10 +63,10 @@ export class OSResultsConfigurationContainer extends React.Component {
     onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     initialValues: PropTypes.obj, // Todo : Shape it up
-    isEditing: PropTypes.bool,
+    isEditing: PropTypes.bool.isRequired,
     // from mapStateToProps
-    modelList: PropTypes.func.isRequired,
-    modelAttributeList: PropTypes.func.isRequired,
+    modelList: DataManagementShapes.ModelList.isRequired,
+    modelAttributeList: DataManagementShapes.ModelAttributeList.isRequired,
     // from mapDispatchToProps
     fetchModelAttributeList: PropTypes.func.isRequired,
     flushModelAttribute: PropTypes.func.isRequired,
@@ -100,7 +104,6 @@ export class OSResultsConfigurationContainer extends React.Component {
     )
   }
 }
-export default connect(
-  OSResultsConfigurationContainer.mapStateToProps,
-  OSResultsConfigurationContainer.mapDispatchToProps,
-)(OSResultsConfigurationContainer)
+export default compose(
+  connect(OSResultsConfigurationContainer.mapStateToProps, OSResultsConfigurationContainer.mapDispatchToProps),
+  withModuleStyle(styles))(OSResultsConfigurationContainer)

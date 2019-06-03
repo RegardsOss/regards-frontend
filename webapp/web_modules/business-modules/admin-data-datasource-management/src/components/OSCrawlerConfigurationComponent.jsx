@@ -27,6 +27,7 @@ import {
   Field, RenderTextField, reduxForm, ValidationHelpers,
 } from '@regardsoss/form-utils'
 import OpenSearchStepperComponent from './OpenSearchStepperComponent'
+import { DescriptorHelper } from '../domain/DescriptorHelper'
 
 const {
   string, number, required, url,
@@ -35,36 +36,61 @@ const requiredStringValidator = [string, required]
 const requiredNumberValidator = [number, required]
 const requiredUrlValidator = [url, required]
 
+/** Main values form shape */
+export const OSCrawlerMainConfiguration = PropTypes.shape({
+  name: PropTypes.string,
+  refresh: PropTypes.number,
+  descriptor: PropTypes.string,
+})
+
 /**
-  * Comment Here
+  * Form for OpenSearch crawler main configuration
   * @author Maxime Bouveron
   */
 export class OSCrawlerConfigurationComponent extends React.Component {
   static propTypes = {
+    initialValues: OSCrawlerMainConfiguration.isRequired,
+    isEditing: PropTypes.bool.isRequired,
+    // attempts fetching descriptor. (url: string) => ()
+    // eslint-disable-next-line react/no-unused-prop-types
+    fetchDescriptor: PropTypes.func.isRequired, // used only in asyncValidate
     onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    initialValues: PropTypes.shape({
-      name: PropTypes.string,
-      refresh: PropTypes.string,
-      descriptor: PropTypes.string,
-    }),
-    isEditing: PropTypes.bool,
     // from reduxForm
-    submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
-    handleSubmit: PropTypes.func,
+    submitting: PropTypes.bool.isRequired,
+    invalid: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
-
-  static defaultProps = {}
 
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
   }
 
+  /**
+   * Parses refresh rate from text value (to int conversion)
+   * @param {string} text
+   * @return {number} parsed value (might be nan)
+   */
+  static parseRefreshRate = text => parseInt(text, 10)
+
+  /**
+   * React lifecycle method: component will mount. Used here to initialize form values from last edited values (might be empty)
+   */
+  componentWillMount() {
+    const { initialize, initialValues } = this.props
+    initialize(initialValues)
+  }
+
+  /**
+   * On user submission
+   * @param {*} fields fields as edited by user (never invalid, respects OSCrawlerConfigurationComponent.MainConfiguration)
+   */
   handleSubmit = (fields) => {
     this.props.onSubmit(fields)
   }
+
 
   render() {
     const {
@@ -96,6 +122,7 @@ export class OSCrawlerConfigurationComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="number"
+              parse={OSCrawlerConfigurationComponent.parseRefreshRate}
               label={formatMessage({ id: 'opensearch.crawler.form.crawler.refreshRate' })}
               validate={requiredNumberValidator}
             />
@@ -127,6 +154,46 @@ export class OSCrawlerConfigurationComponent extends React.Component {
     )
   }
 }
+
+/**
+ * Possible desciptor error types
+ */
+const DESCRIPTOR_ERROR_TYPES = {
+  INVALID_URL: 'invalid.url',
+  NO_JSON_RESOURCE_URL: 'no.json.resource.url',
+}
+
+/**
+ * Asynchronous validator, checks that descriptor URL is OK
+ * @param {*} values form values
+ * @param {*} dispatch dispatch method
+ * @param {*} props component properties
+ */
+function asyncValidate({ descriptor }, dispatch, props) {
+  return props.fetchDescriptor(descriptor).then(({ payload, error }) => {
+    if (error) {
+      throw new Error(DESCRIPTOR_ERROR_TYPES.INVALID_URL) // handled internally in catch
+    }
+    if (!DescriptorHelper.hasResourceURL(payload)) {
+      throw new Error(DESCRIPTOR_ERROR_TYPES.NO_JSON_RESOURCE_URL) // handled internally in catch
+    }
+    // nothing to do when valid
+  }).catch((err) => {
+    switch (err.message) {
+      case DESCRIPTOR_ERROR_TYPES.NO_JSON_RESOURCE_URL:
+        // eslint-disable-next-line no-throw-literal
+        throw { descriptor: 'opensearch.crawler.form.crawler.descriptor.no.json.url' } // redux-form expected format
+      case DESCRIPTOR_ERROR_TYPES.INVALID_URL:
+      default:
+        // eslint-disable-next-line no-throw-literal
+        throw { descriptor: 'opensearch.crawler.form.crawler.descriptor.invalid.url' } // redux-form expected format
+    }
+  })
+}
+
+
 export default reduxForm({
   form: 'opensearch-crawler-form',
+  asyncValidate,
+  asyncBlurFields: ['descriptor'],
 })(OSCrawlerConfigurationComponent)

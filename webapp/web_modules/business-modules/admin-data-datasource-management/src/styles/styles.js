@@ -15,19 +15,33 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+ */
 
-export default class OpensearchDescriptorActions extends BasicSignalActions {
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/opensearch/descriptor?scope={scope}&url={url}`,
-      bypassErrorMiddleware: true,
-    })
-  }
-
-  getDescriptor(scope, url) {
-    return this.sendSignal('GET', {}, { scope, url })
-  }
-}
+/**
+ * Module theme
+ * @author Raphaël Mechali
+ */
+export default theme => ({
+  openSearchCrawler: {
+    subHeader: {
+      paddingLeft: 0,
+    },
+    queryFilters: {
+      mainContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+      },
+      buttonsContainer: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        marginTop: 30,
+      },
+      emptyMessage: {
+        color: theme.palette.secondaryTextColor,
+        paddingLeft: 20,
+        paddingTop: 20,
+      },
+    },
+  },
+})

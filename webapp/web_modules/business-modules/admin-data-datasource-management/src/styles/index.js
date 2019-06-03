@@ -16,18 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import styles from './styles'
 
-export default class OpensearchDescriptorActions extends BasicSignalActions {
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/opensearch/descriptor?scope={scope}&url={url}`,
-      bypassErrorMiddleware: true,
-    })
-  }
-
-  getDescriptor(scope, url) {
-    return this.sendSignal('GET', {}, { scope, url })
-  }
+/**
+ * Folder index
+ * @author Raphaël Mechali
+ */
+export default {
+  styles,
 }

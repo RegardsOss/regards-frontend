@@ -16,16 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { I18nProvider } from '@regardsoss/i18n'
-import { connect } from '@regardsoss/redux'
-import { browserHistory } from 'react-router'
+import compose from 'lodash/fp/compose'
+import isNil from 'lodash/isNil'
 import map from 'lodash/map'
+import { browserHistory } from 'react-router'
+import { DataManagementShapes } from '@regardsoss/shape'
+import { I18nProvider } from '@regardsoss/i18n'
+import { withModuleStyle } from '@regardsoss/theme'
+import { connect } from '@regardsoss/redux'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import messages from '../i18n'
 import OSCrawlerConfigurationContainer from './OSCrawlerConfigurationContainer'
 import OSQueryConfigurationContainer from './OSQueryConfigurationContainer'
 import OSResultsConfigurationContainer from './OSResultsConfigurationContainer'
 import { datasourceSelectors, datasourceActions } from '../clients/DatasourceClient'
+import styles from '../styles'
+
 
 const STATE = {
   CRAWLER: 'CRAWLER',
@@ -34,17 +40,24 @@ const STATE = {
 }
 
 /**
- * Show the datasource form
+ * Main container for OpenSearch crawler configuration
  */
 export class OSConfigurationFormContainer extends React.Component {
   static propTypes = {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
+      datasourceId: PropTypes.string,
     }),
     route: PropTypes.shape({
       path: PropTypes.string,
     }),
+    // From map state to props
+    currentDatasource: DataManagementShapes.Datasource,
+    // From map dispatch to props
+    createDatasource: PropTypes.func.isRequired,
+    editDatasource: PropTypes.func.isRequired, // TODO why not used????
+    fetchDatasource: PropTypes.func.isRequired,
   }
 
   /**
@@ -53,10 +66,10 @@ export class OSConfigurationFormContainer extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state, ownProps) {
+  static mapStateToProps(state, props) {
     return {
-      currentDatasource: ownProps.params.datasourceId
-        ? datasourceSelectors.getById(state, ownProps.params.datasourceId)
+      currentDatasource: props.params.datasourceId
+        ? datasourceSelectors.getById(state, props.params.datasourceId)
         : null,
     }
   }
@@ -75,89 +88,172 @@ export class OSConfigurationFormContainer extends React.Component {
     }
   }
 
-  state = {
-    query: {
-      filters: [],
-    },
-    isEditing: !(this.props.params.datasourceId === undefined),
+  /**
+   * Computes each part of the form initial edition values from edited datasource
+   * @param {*} datasource edited datasource, never null (used only for edition data)
+   * @return {crawler: {*}, query: {*}, results: {*}} initial values for each parts of the form
+   */
+  static getInitialEditionValues(datasource) {
+    const { content: { parameters, label, refreshRate } } = datasource
+    const webserviceConfiguration = parameters.find(config => config.name === 'webserviceConfiguration')
+    const conversionConfiguration = parameters.find(config => config.name === 'conversionConfiguration')
+    return {
+      crawler: {
+        descriptor: webserviceConfiguration.value.opensearchDescriptorURL,
+        name: label,
+        refreshRate,
+      },
+      query: {
+        filters: map(webserviceConfiguration.value.webserviceParameters, (value, key) => ({ name: key, value })),
+        lastUpdate: webserviceConfiguration.value.lastUpdateParam,
+        pageSize: webserviceConfiguration.value.pageSize,
+        totalResultsField: conversionConfiguration.value.totalResultsField,
+        pageSizeField: conversionConfiguration.value.pageSizeField,
+      },
+      results: {
+        modelName: conversionConfiguration.value.modelName,
+        propertiesLabel: '', // TODO
+        propertiesGeometry: '', // TODO
+        rawDataURLPath: conversionConfiguration.value.rawDataURLPath,
+        quicklookURLPath: conversionConfiguration.value.quicklookURLPath,
+        thumbnailURLPath: conversionConfiguration.value.thumbnailURLPath,
+        dynamic: conversionConfiguration.value.attributeToJsonField,
+      },
+    }
   }
 
+  /** Initial values when in creation mode */
+  static INITIAL_CREATION_VALUES = {
+    crawler: {
+      refreshRate: 86400,
+    },
+    query: { },
+    results: { },
+  }
+
+  state = {
+    // is in edition mode?
+    isEditing: !isNil(this.props.params.datasourceId),
+    // Is ready for edition? (or does it require to retrieve the edited datasource first)
+    ready: isNil(this.props.params.datasourceId),
+    // currently edited values
+    formValues: OSConfigurationFormContainer.INITIAL_CREATION_VALUES,
+    // initially presented step
+    formState: STATE.CRAWLER,
+  }
+
+
+  /**
+   * Lifecycle method: component did mount. Used here to fetch the data source the state
+   */
   componentDidMount() {
     if (this.state.isEditing) {
       Promise.resolve(this.props.fetchDatasource(this.props.params.datasourceId))
     }
   }
 
-  createInitialValues = () => {
-    if (this.props.currentDatasource) {
-      const { currentDatasource } = this.props
-      const webserviceConfiguration = currentDatasource.content.parameters.find(config => config.name === 'webserviceConfiguration')
-      const conversionConfiguration = currentDatasource.content.parameters.find(config => config.name === 'conversionConfiguration')
-      return {
-        crawler: {
-          descriptor: webserviceConfiguration.value.opensearchDescriptorURL,
-          name: currentDatasource.content.label,
-          refreshRate: currentDatasource.content.refreshRate,
-        },
-        query: {
-          filters: map(webserviceConfiguration.value.webserviceParameters, (value, key) => ({ name: key, value })),
-          lastUpdate: webserviceConfiguration.value.lastUpdateParam,
-          pageSize: webserviceConfiguration.value.pageSize,
-          totalResultsField: conversionConfiguration.value.totalResultsField,
-          pageSizeField: conversionConfiguration.value.pageSizeField,
-        },
-        results: {
-          modelName: conversionConfiguration.value.modelName,
-          propertiesLabel: '', // TODO
-          propertiesGeometry: '', // TODO
-          rawDataURLPath: conversionConfiguration.value.rawDataURLPath,
-          quicklookURLPath: conversionConfiguration.value.quicklookURLPath,
-          thumbnailURLPath: conversionConfiguration.value.thumbnailURLPath,
-          dynamic: conversionConfiguration.value.attributeToJsonField,
-        },
-      }
+
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: Used here to update state when edition data has been fetched (useless
+   * in creation mode)
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const { params = {}, currentDatasource: oldDatasource } = this.props
+    const { currentDatasource: newDatasource } = newProps
+    if (params.datasourceId && !oldDatasource && newDatasource) {
+      // Detected: edition data has been fetch successfully, let user start editing
+      this.setState({
+        ready: true,
+        formValues: OSQueryConfigurationContainer.getInitialEditionValues(newDatasource),
+      })
     }
-    return { crawler: null, query: null, results: null }
   }
 
+  /**
+   * On crawler root configuration part submitted: update part values and set up next step presentation
+   * @param {*} fields edited form fields
+   */
   onCrawlerSubmit = (fields) => {
+    console.error('ALL THE FIELDS', fields, typeof fields.refreshRate)
+    // TODO probably some control on other parts (with previous state value)
     this.setState({
-      crawler: fields,
+      formValues: {
+        ...this.state.formValues,
+        crawler: fields,
+      },
       formState: STATE.QUERY,
     })
   }
 
+  /**
+   * On crawler query configuration part submitted: update part values and set up next step presentation
+   * @param {*} fields edited form fields
+   */
   onQuerySubmit = (fields, pageIndexParam, startPageIndex, pageSizeParam, webserviceURL) => {
+    // TODO probably some control on other parts (with previous state value)
+    // TODO demain: check les fields, ils ont pas lair reglo (ils ne sont pas mentionne dans le form)
     this.setState({
-      query: {
-        ...fields,
-        pageIndexParam,
-        startPageIndex,
-        pageSizeParam,
-        webserviceURL,
+      formValues: {
+        ...this.state.formValues,
+        query: {
+          ...fields,
+          pageIndexParam,
+          startPageIndex,
+          pageSizeParam,
+          webserviceURL,
+        },
       },
       formState: STATE.RESULTS,
     })
   }
 
+  /**
+   * On crawler results conversion configuration part submitted: update part values then attempt server update
+   * @param {*} fields edited form fields
+   */
   onResultsSubmit = (fields) => {
-    this.setState({ results: fields }, this.createConfPlugin)
+    // Note: we publish in state before to handle the error case followed by user edition
+    this.setState({
+      formValues: {
+        ...this.state.formValues,
+        results: fields,
+      },
+    }, this.publishPluginConfiguration)
   }
 
+  /**
+   * Redirect user to configurations list
+   */
   redirectToList = () => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/acquisition/datasource/list`
     browserHistory.push(url)
   }
 
-  createConfPlugin = () => {
-    const { crawler, query, results } = this.state
+  /**
+   * Publishes the plugin configuration to backend, from current state
+   */
+  publishPluginConfiguration = () => {
+    const { formValues: { crawler, query, results } } = this.state
     const conf = {
       pluginId: 'webservice-datasource',
       label: crawler.name,
       version: '1.0-SNAPSHOT',
       priorityOrder: 0,
-      refreshRate: +crawler.refreshRate, // TODO: Doesn't seem to exist
+      refreshRate: +crawler.refreshRate, // TODO: Doesn't seem to exist // TODO what '+'??????
       active: true,
       interfaceNames: ['fr.cnes.regards.modules.dam.domain.datasources.plugins.IDataSourcePlugin'],
       pluginClassName:
@@ -198,8 +294,9 @@ export class OSConfigurationFormContainer extends React.Component {
     }
 
     if (this.state.isEditing) {
-      // TODO : Ce que j'ai fait ici ne marchait pas du tout
+      // TODO : Ce que j'ai fait ici ne marchait pas du tout. RMI: verifier
     } else {
+      // TODO use edit here!!!
       Promise.resolve(this.props.createDatasource(conf)).then((actionResults) => {
         if (!actionResults.error) {
           this.redirectToList()
@@ -209,6 +306,9 @@ export class OSConfigurationFormContainer extends React.Component {
     return conf
   }
 
+  /**
+   * Redirects user on previous screen
+   */
   handleBack = () => {
     switch (this.state.formState) {
       case STATE.CRAWLER:
@@ -226,47 +326,51 @@ export class OSConfigurationFormContainer extends React.Component {
     }
   }
 
+  /**
+   * Render the current form according with step
+   * @return {React.Component} render element
+   */
   renderSubContainer = () => {
     const { project } = this.props.params
-    const { formState } = this.state
-
+    const { formValues: { crawler, query, results }, formState } = this.state
     switch (formState) {
       case STATE.CRAWLER:
       default:
         return (
           <OSCrawlerConfigurationContainer
+            project={project}
+            initialValues={crawler}
             isEditing={this.state.isEditing}
             onBack={this.handleBack}
             onSubmit={this.onCrawlerSubmit}
-            project={project}
-            initialValues={this.createInitialValues().crawler}
           />
         )
       case STATE.QUERY:
         return (
           <OSQueryConfigurationContainer
+            initialValues={query}
+            isEditing={this.state.isEditing}
             onBack={this.handleBack}
             onSubmit={this.onQuerySubmit}
-            isEditing={this.state.isEditing}
-            initialValues={this.createInitialValues().query}
           />
         )
       case STATE.RESULTS:
         return (
           <OSResultsConfigurationContainer
+            initialValues={results}
             isEditing={this.state.isEditing}
             onBack={this.handleBack}
             onSubmit={this.onResultsSubmit}
-            initialValues={this.createInitialValues().results}
           />
         )
     }
   }
 
   render() {
+    const { ready } = this.state
     return (
       <I18nProvider messages={messages}>
-        <LoadableContentDisplayDecorator isLoading={false}>
+        <LoadableContentDisplayDecorator isLoading={!ready}>
           {this.renderSubContainer()}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
@@ -274,7 +378,6 @@ export class OSConfigurationFormContainer extends React.Component {
   }
 }
 
-export default connect(
-  OSConfigurationFormContainer.mapStateToProps,
-  OSConfigurationFormContainer.mapDispatchToProps,
-)(OSConfigurationFormContainer)
+export default compose(
+  connect(OSConfigurationFormContainer.mapStateToProps, OSConfigurationFormContainer.mapDispatchToProps),
+  withModuleStyle(styles))(OSConfigurationFormContainer)

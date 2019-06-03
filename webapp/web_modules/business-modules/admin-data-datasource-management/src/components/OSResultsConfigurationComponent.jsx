@@ -34,13 +34,14 @@ import {
   RenderTextField,
   reduxForm,
 } from '@regardsoss/form-utils'
+import { DataManagementShapes } from '@regardsoss/shape'
 import OpenSearchStepperComponent from './OpenSearchStepperComponent'
 
 const { required } = ValidationHelpers
 const requiredValidator = [required]
 
 /**
- * Comment Here
+ * Form for OpenSearch crawler query results conversion configuration
  * @author Maxime Bouveron
  */
 export class OSResultsConfigurationComponent extends React.Component {
@@ -48,26 +49,32 @@ export class OSResultsConfigurationComponent extends React.Component {
     onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     isEditing: PropTypes.bool,
-    modelList: PropTypes.obj, // TODO: Shape it up
-    modelAttributeList: PropTypes.obj, // TODO: Shape it up
+    modelList: DataManagementShapes.ModelList.isRequired,
+    modelAttributeList: DataManagementShapes.ModelAttributeList.isRequired,
     onModelSelected: PropTypes.func.isRequired,
     // from reduxForm
-    submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
-    handleSubmit: PropTypes.func,
+    submitting: PropTypes.bool.isRequired,
+    invalid: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
-
-  static defaultProps = {}
 
   static contextTypes = {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.modelSelect = React.createRef()
+  /**
+   * React lifecycle method: component will mount. Used here to initialize form values from last edited values (might be empty)
+   */
+  componentWillMount() {
+    const { initialize, initialValues } = this.props
+    initialize(initialValues)
   }
 
+  /**
+   * On user submission
+   * @param {*} fields fields as edited by user (never invalid, respects OSCrawlerConfigurationComponent.MainConfiguration)
+   */
   handleSubmit = (fields) => {
     this.props.onSubmit(fields)
   }
@@ -119,7 +126,6 @@ export class OSResultsConfigurationComponent extends React.Component {
                 label={formatMessage({ id: 'opensearch.crawler.form.results.model' })}
                 disabled={isEditing}
                 validate={ValidationHelpers.required}
-                ref={this.modelSelect}
                 onSelect={this.handleModelChange}
               >
                 {map(modelList, (model, id) => (

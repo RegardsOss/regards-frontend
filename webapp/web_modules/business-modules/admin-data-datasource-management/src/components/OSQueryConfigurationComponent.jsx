@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CardActionsComponent } from '@regardsoss/components'
+import { FormattedMessage } from 'react-intl'
+import Subheader from 'material-ui/Subheader'
+import { DataManagementShapes } from '@regardsoss/shape'
 import {
   Field,
   FieldArray,
@@ -30,37 +32,57 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   Card, CardActions, CardText, CardTitle, MenuItem,
 } from 'material-ui'
-import { FormattedMessage } from 'react-intl'
-import AddFilterDialogComponent from './AddFilterDialogComponent'
+import { CardActionsComponent } from '@regardsoss/components'
+import OSQueryFiltersFieldComponent from './OSQueryFiltersFieldComponent'
 import OpenSearchStepperComponent from './OpenSearchStepperComponent'
 
 const { number, required } = ValidationHelpers
 
 const requiredNumberValidator = [number, required]
 
+/** Expected form shape */
+export const OSCrawlerQueryConfiguration = PropTypes.shape({
+  filters: PropTypes.objectOf(PropTypes.string),
+  lastUpdate: PropTypes.string,
+  pageSize: PropTypes.number,
+  totalResultsField: PropTypes.string,
+  pageSizeField: PropTypes.string,
+})
+
 /**
- * Comment Here
+ * Form for OpenSearch crawler query configuration
  * @author Maxime Bouveron
  */
 export class OSQueryConfigurationComponent extends React.Component {
   static propTypes = {
+    isEditing: PropTypes.bool.isRequired,
+    filters: DataManagementShapes.OpenSearchURLDescription.isRequired,
     onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    isEditing: PropTypes.bool,
-    filters: PropTypes.obj, //TODO : Shape it up
     // from reduxForm
-    submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
-    handleSubmit: PropTypes.func,
+    submitting: PropTypes.bool.isRequired,
+    invalid: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
-
-  static defaultProps = {}
 
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
   }
 
+  /**
+   * React lifecycle method: component will mount. Used here to initialize form values from last edited values (might be empty)
+   */
+  componentWillMount() {
+    const { initialize, initialValues } = this.props
+    initialize(initialValues)
+  }
+
+  /**
+   * On user submission
+   * @param {*} fields fields as edited by user (never invalid, respects OSCrawlerConfigurationComponent.MainConfiguration)
+   */
   handleSubmit = (fields) => {
     this.props.onSubmit(fields)
   }
@@ -69,7 +91,7 @@ export class OSQueryConfigurationComponent extends React.Component {
     const {
       handleSubmit, filters, onBack, submitting, invalid, isEditing,
     } = this.props
-    const { formatMessage } = this.context.intl
+    const { intl: { formatMessage }, moduleTheme: { openSearchCrawler } } = this.context
     return (
       <form onSubmit={handleSubmit(this.handleSubmit)}>
         <Card>
@@ -77,6 +99,10 @@ export class OSQueryConfigurationComponent extends React.Component {
           <OpenSearchStepperComponent stepIndex={1} />
           <CardText>
             <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 20 }}>
+              {/* 1. Parameters names (update and page size) */}
+              <Subheader style={openSearchCrawler.subHeader}>
+                {formatMessage({ id: 'opensearch.crawler.form.query.parameters' })}
+              </Subheader>
               <Field
                 name="lastUpdate"
                 component={RenderSelectField}
@@ -96,7 +122,11 @@ export class OSQueryConfigurationComponent extends React.Component {
                 validate={requiredNumberValidator}
               />
             </div>
-            <FieldArray name="filters" component={AddFilterDialogComponent} filters={filters} />
+            {/* 2. Query filters */}
+            <Subheader style={openSearchCrawler.subHeader}>
+              {formatMessage({ id: 'opensearch.crawler.form.query.filters' })}
+            </Subheader>
+            <FieldArray name="filters" component={OSQueryFiltersFieldComponent} filters={filters} />
           </CardText>
           <CardActions>
             <CardActionsComponent
