@@ -24,9 +24,10 @@ import {
   MenuItem,
 } from 'material-ui'
 import map from 'lodash/map'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, Title } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import {
   RenderSelectField,
   ValidationHelpers,
@@ -40,6 +41,23 @@ import OpenSearchStepperComponent from './OpenSearchStepperComponent'
 const { required } = ValidationHelpers
 const requiredValidator = [required]
 
+/** Main values form shape */
+export const OSResultsMainConfiguration = PropTypes.shape({
+  formValues: PropTypes.shape({
+    modelName: PropTypes.string,
+    totalResultsField: PropTypes.string,
+    pageSizeField: PropTypes.string,
+    propertiesLabel: PropTypes.string,
+    propertiesGeometry: PropTypes.string,
+    rawDataURLPath: PropTypes.string,
+    quicklookURLPath: PropTypes.string,
+    thumbnailURLPath: PropTypes.string,
+    dynamic: {
+      properties: PropTypes.objectOf(PropTypes.string),
+    },
+  }),
+})
+
 /**
  * Form for OpenSearch crawler query results conversion configuration
  * @author Maxime Bouveron
@@ -52,6 +70,7 @@ export class OSResultsConfigurationComponent extends React.Component {
     modelList: DataManagementShapes.ModelList.isRequired,
     modelAttributeList: DataManagementShapes.ModelAttributeList.isRequired,
     onModelSelected: PropTypes.func.isRequired,
+    initialValues: OSResultsMainConfiguration,
     // from reduxForm
     submitting: PropTypes.bool.isRequired,
     invalid: PropTypes.bool.isRequired,
@@ -61,6 +80,7 @@ export class OSResultsConfigurationComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   /**
@@ -88,27 +108,22 @@ export class OSResultsConfigurationComponent extends React.Component {
   }
 
   render() {
-    const fieldStyle = {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'baseline',
-      width: 400,
-    }
-
     const {
       isEditing, handleSubmit, modelList, modelAttributeList, submitting, invalid, onBack,
     } = this.props
-    const { formatMessage } = this.context.intl
+    const { intl: { formatMessage }, moduleTheme: { openSearchCrawler } } = this.context
+    const { title, inputContainer } = openSearchCrawler.resultsMapping
     return (
       <form onSubmit={handleSubmit(this.handleSubmit)}>
         <Card>
           <CardTitle title={formatMessage({ id: 'opensearch.crawler.form.results.title' })} subtitle={formatMessage({ id: 'opensearch.crawler.form.results.subtitle' })} />
           <OpenSearchStepperComponent stepIndex={2} />
           <CardText>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={inputContainer}>
               <Field
                 name="totalResultsField"
                 component={RenderTextField}
+                fullWidth
                 type="text"
                 label={formatMessage({ id: 'opensearch.crawler.form.results.totalResults' })}
                 validate={required}
@@ -116,6 +131,7 @@ export class OSResultsConfigurationComponent extends React.Component {
               <Field
                 name="pageSizeField"
                 component={RenderTextField}
+                fullWidth
                 type="text"
                 label={formatMessage({ id: 'opensearch.crawler.form.results.pageSize' })}
                 validate={required}
@@ -123,12 +139,13 @@ export class OSResultsConfigurationComponent extends React.Component {
               <Field
                 name="modelName"
                 component={RenderSelectField}
+                fullWidth
                 label={formatMessage({ id: 'opensearch.crawler.form.results.model' })}
                 disabled={isEditing}
                 validate={ValidationHelpers.required}
                 onSelect={this.handleModelChange}
               >
-                {map(modelList, (model, id) => (
+                {map(modelList, model => (
                   <MenuItem
                     value={model.content.name}
                     key={model.content.name}
@@ -139,75 +156,76 @@ export class OSResultsConfigurationComponent extends React.Component {
             </div>
             {Object.entries(modelAttributeList).length > 0 && (
               <>
-                <div style={{ fontSize: '1.2em', marginTop: 20 }}>{formatMessage({ id: 'opensearch.crawler.form.results.standardAttr' })}</div>
-                <hr align="left" width="400px" />
-                <div style={fieldStyle}>
-                  <div>Label</div>
-                  <Field
-                    name="propertiesLabel"
-                    component={RenderTextField}
-                    type="text"
-                    label="Value"
-                    validate={required}
+                <div style={title}>
+                  <Title
+                    level={2}
+                    label={this.context.intl.formatMessage({ id: 'opensearch.crawler.form.results.standardAttr' })}
                   />
                 </div>
-                <div style={fieldStyle}>
-                  <div>Geometry</div>
-                  <Field
-                    name="propertiesGeometry"
-                    component={RenderTextField}
-                    type="text"
-                    label="Value"
-                    validate={required}
+                <Field
+                  name="propertiesLabel"
+                  component={RenderTextField}
+                  fullWidth
+                  type="text"
+                  label={formatMessage({ id: 'opensearch.crawler.form.results.label' })}
+                  validate={required}
+                />
+                <Field
+                  name="propertiesGeometry"
+                  component={RenderTextField}
+                  fullWidth
+                  type="text"
+                  label={formatMessage({ id: 'opensearch.crawler.form.results.geometry' })}
+                  validate={required}
+                />
+                <div style={title}>
+                  <Title
+                    level={2}
+                    label={this.context.intl.formatMessage({ id: 'opensearch.crawler.form.results.associatedFiles' })}
                   />
                 </div>
-                <div style={{ fontSize: '1.2em', marginTop: 20 }}>{formatMessage({ id: 'opensearch.crawler.form.results.associatedFiles' })}</div>
-                <hr align="left" width="400px" />
-                <div style={fieldStyle}>
-                  <div>RAWDATA</div>
-                  <Field
-                    name="rawDataURLPath"
-                    component={RenderTextField}
-                    type="text"
-                    label="Value"
-                    validate={required}
-                  />
-                </div>
+                <Field
+                  name="rawDataURLPath"
+                  component={RenderTextField}
+                  fullWidth
+                  type="text"
+                  label={formatMessage({ id: 'opensearch.crawler.form.results.RAWDATA' })}
+                  validate={required}
+                />
 
-                <div style={fieldStyle}>
-                  <div>QUICKLOOK</div>
-                  <Field
-                    name="quicklookURLPath"
-                    component={RenderTextField}
-                    type="text"
-                    label="Value"
-                    validate={required}
-                  />
-                </div>
+                <Field
+                  name="quicklookURLPath"
+                  component={RenderTextField}
+                  fullWidth
+                  type="text"
+                  label={formatMessage({ id: 'opensearch.crawler.form.results.QUICKLOOK' })}
+                  validate={required}
+                />
 
-                <div style={fieldStyle}>
-                  <div>THUMBNAIL</div>
-                  <Field
-                    name="thumbnailURLPath"
-                    component={RenderTextField}
-                    type="text"
-                    label="Value"
-                    validate={required}
+                <Field
+                  name="thumbnailURLPath"
+                  component={RenderTextField}
+                  fullWidth
+                  type="text"
+                  label={formatMessage({ id: 'opensearch.crawler.form.results.THUMBNAIL' })}
+                  validate={required}
+                />
+                <div style={title}>
+                  <Title
+                    level={2}
+                    label={this.context.intl.formatMessage({ id: 'opensearch.crawler.form.results.dynamicAttr' })}
                   />
                 </div>
-                <div style={{ fontSize: '1.2em', marginTop: 20 }}>{formatMessage({ id: 'opensearch.crawler.form.results.dynamicAttr' })}</div>
-                <hr align="left" width="400px" />
                 {map(modelAttributeList, attribute => (
-                  <div key={attribute.content.attribute.name} style={fieldStyle}>
-                    <div>{attribute.content.attribute.name}</div>
-                    <Field
-                      component={RenderTextField}
-                      name={`dynamic.${attribute.content.attribute.jsonPath}`}
-                      type="text"
-                      label="Value"
-                      validate={attribute.content.attribute.optional ? null : requiredValidator}
-                    />
-                  </div>
+                  <Field
+                    component={RenderTextField}
+                    key={attribute.content.attribute.name}
+                    fullWidth
+                    name={`dynamic.${attribute.content.attribute.jsonPath}`}
+                    type="text"
+                    label={attribute.content.attribute.name}
+                    validate={attribute.content.attribute.optional ? null : requiredValidator}
+                  />
                 ))}
             </>)}
           </CardText>

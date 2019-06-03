@@ -43,5 +43,14 @@ export default theme => ({
         paddingTop: 20,
       },
     },
+    resultsMapping: {
+      inputContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      title: {
+        paddingTop: 50,
+      },
+    },
   },
 })

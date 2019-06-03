@@ -180,6 +180,12 @@ const messages = Object.assign({
   'opensearch.crawler.form.results.dynamicAttr': 'Attributs dynamiques',
   'opensearch.crawler.form.results.totalResults': 'Champ de résultat total',
   'opensearch.crawler.form.results.pageSize': 'Champ de taille de page',
+  'opensearch.crawler.form.results.label': 'Label',
+  'opensearch.crawler.form.results.geometry': 'Géometrie',
+  'opensearch.crawler.form.results.RAWDATA': 'Donnée brute',
+  'opensearch.crawler.form.results.QUICKLOOK': 'Imagette',
+  'opensearch.crawler.form.results.THUMBNAIL': 'Vignette',
+  'opensearch.crawler.form.results.value': 'Valeur',
 }, Locales.fr)
 
 export default messages
