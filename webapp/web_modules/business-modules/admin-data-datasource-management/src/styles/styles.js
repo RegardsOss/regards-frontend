@@ -39,6 +39,16 @@ export default theme => ({
         paddingLeft: 20,
         paddingTop: 20,
       },
+      filtersTable: {
+        nameColumnWidth: '10%',
+        descriptionColumnWidth: '20%',
+        valueColumnWidth: '40%',
+        actionsColumnWidth: 48,
+        fieldsStyle: {
+          marginTop: -20,
+          marginBottom: 10,
+        },
+      },
       addFilterDialog: {
         mainContainer: {
           display: 'flex',

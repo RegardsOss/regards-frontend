@@ -136,11 +136,7 @@ class OSQueryAddFilterDialogComponent extends React.Component {
    * @param {*} evt event (unused)
    * @param {*} selectedFilter selected user filter, matching DataManagementShapes.OpenSearchURLParameterDescription
    */
-  onSelectFilter = (evt, selectedFilter) => {
-    if (selectedFilter) { // Note that MUI sends select and unselect events in a row, ignore the second event!
-      this.setState({ selectedFilter })
-    }
-  }
+  onSelectFilter = (evt, selectedFilter) => this.setState({ selectedFilter })
 
   /**
    * User confirmed edition, commit parameter add
@@ -272,8 +268,6 @@ class OSQueryAddFilterDialogComponent extends React.Component {
                   <ListItem
                     key={filter.value}
                     value={filter}
-                    // innerDivStyle={OSQueryAddFilterDialogComponent.FILTER_ITEM_INNER_DIV_STYLE} TODO
-                    onClick={() => this.onSelectFilter(filter)}
                   >
                     {filter.name}
                   </ListItem>
