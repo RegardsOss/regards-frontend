@@ -26,8 +26,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 import {
   Field, RenderTextField, reduxForm, ValidationHelpers,
 } from '@regardsoss/form-utils'
-import OpenSearchStepperComponent from './OpenSearchStepperComponent'
-import { DescriptorHelper } from '../domain/DescriptorHelper'
+import OpenSearchStepperComponent from '../OpenSearchStepperComponent'
+import { DescriptorHelper } from '../../../domain/opensearch/DescriptorHelper'
 
 const {
   string, number, required, url,

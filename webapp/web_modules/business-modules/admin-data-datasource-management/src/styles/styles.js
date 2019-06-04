@@ -23,9 +23,6 @@
  */
 export default theme => ({
   openSearchCrawler: {
-    subHeader: {
-      paddingLeft: 0,
-    },
     queryFilters: {
       mainContainer: {
         display: 'flex',
@@ -41,6 +38,53 @@ export default theme => ({
         color: theme.palette.secondaryTextColor,
         paddingLeft: 20,
         paddingTop: 20,
+      },
+      addFilterDialog: {
+        mainContainer: {
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'stretch',
+          minHeight: '50vh',
+          maxHeight: '50vh',
+        },
+        listContainer: {
+          flexGrow: 1,
+          flexBasis: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'stretch',
+          overflowY: 'auto',
+          paddingRight: 20,
+        },
+        descriptionContainer: {
+          flexGrow: 2,
+          flexBasis: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          overflowY: 'auto',
+          paddingLeft: 20,
+        },
+        descriptionFieldLabel: {
+          color: theme.palette.accent1Color,
+          display: 'inline',
+        },
+        descriptionFieldValue: {
+          color: theme.palette.textColor,
+          paddingTop: 10,
+          paddingBottom: 15,
+        },
+        descriptionOptionsList: {
+          paddingTop: 10,
+          paddingLeft: 20,
+          color: theme.palette.textColor,
+        },
+        // descriptionOptionsBullet: {
+
+        // },
+        noSelectionMessage: {
+          color: theme.palette.secondaryTextColor,
+        },
       },
     },
     resultsMapping: {

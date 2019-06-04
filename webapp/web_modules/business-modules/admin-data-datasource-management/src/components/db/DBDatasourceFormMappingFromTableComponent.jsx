@@ -35,8 +35,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
 import DBDatasourceFormMappingLineComponent from './DBDatasourceFormMappingLineComponent'
-import StaticAttributeListDB from './StaticAttributeListDB'
-import states from './FormMappingStates'
+import StaticAttributeListDB from '../../domain/db/StaticAttributeListDB'
+import states from '../../domain/db/FormMappingStates'
 
 const { findParam } = PluginConfParamsUtils
 

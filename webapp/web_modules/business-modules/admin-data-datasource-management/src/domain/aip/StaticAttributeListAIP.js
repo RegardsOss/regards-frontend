@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export default {
+export default { // XXX seem like mock code. Leo Mieulet?
   label: {
     content: {
       mode: '',

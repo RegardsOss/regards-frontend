@@ -28,8 +28,8 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
 import Checkbox from 'material-ui/Checkbox'
-import states from './FormMappingStates'
-import { fragmentSelectors } from '../clients/FragmentClient'
+import states from '../../domain/db/FormMappingStates'
+import { fragmentSelectors } from '../../clients/FragmentClient'
 
 export class DBDatasourceFormMappingLineComponent extends React.Component {
   static propTypes = {

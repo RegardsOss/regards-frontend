@@ -29,11 +29,11 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
 import DBDatasourceStepperComponent from './DBDatasourceStepperComponent'
-import ConnectionViewerComponent from './ConnectionViewerComponent'
-import StaticAttributeListDB from './StaticAttributeListDB'
+import ConnectionViewerComponent from '../ConnectionViewerComponent'
+import StaticAttributeListDB from '../../domain/db/StaticAttributeListDB'
 import DBDatasourceFormMappingFromTableComponent from './DBDatasourceFormMappingFromTableComponent'
 import DBDatasourceFormMappingCustomComponent from './DBDatasourceFormMappingCustomComponent'
-import states from './FormMappingStates'
+import states from '../../domain/db/FormMappingStates'
 
 const { findParam } = PluginConfParamsUtils
 

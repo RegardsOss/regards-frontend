@@ -21,10 +21,10 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { withModuleStyle } from '@regardsoss/theme'
-import messages from '../i18n'
-import OSQueryConfigurationComponent from '../components/OSQueryConfigurationComponent'
-import { descriptorSelectors } from '../clients/OpensearchDescriptorClient'
-import styles from '../styles'
+import messages from '../../i18n'
+import OSQueryConfigurationComponent from '../../components/opensearch/query/OSQueryConfigurationComponent'
+import { descriptorSelectors } from '../../clients/OpensearchDescriptorClient'
+import styles from '../../styles'
 
 /**
  * Container for OpenSearch crawler query configuration component
@@ -68,12 +68,13 @@ export class OSQueryConfigurationContainer extends React.Component {
     const {
       onBack, initialValues, isEditing, descriptor,
     } = this.props
+    console.error('>>>>', descriptor.url.find(e => e.type === 'application/json'))
     return (
       <I18nProvider messages={messages}>
         <OSQueryConfigurationComponent
           initialValues={initialValues}
           isEditing={isEditing}
-          filters={descriptor.url.find(e => e.type === 'application/json')} // TODO use descriptor helper in onPropertiesUpdated!
+          urlDescriptor={descriptor.url.find(e => e.type === 'application/json')} // TODO use descriptor helper in onPropertiesUpdated!
           onBack={onBack}
           onSubmit={this.onSubmit}
         />

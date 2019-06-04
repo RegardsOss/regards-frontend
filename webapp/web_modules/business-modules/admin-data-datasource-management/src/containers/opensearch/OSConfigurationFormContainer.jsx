@@ -25,12 +25,12 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import { connect } from '@regardsoss/redux'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import messages from '../i18n'
+import { datasourceSelectors, datasourceActions } from '../../clients/DatasourceClient'
 import OSCrawlerConfigurationContainer from './OSCrawlerConfigurationContainer'
 import OSQueryConfigurationContainer from './OSQueryConfigurationContainer'
 import OSResultsConfigurationContainer from './OSResultsConfigurationContainer'
-import { datasourceSelectors, datasourceActions } from '../clients/DatasourceClient'
-import styles from '../styles'
+import messages from '../../i18n'
+import styles from '../../styles'
 
 
 const STATE = {
@@ -203,8 +203,7 @@ export class OSConfigurationFormContainer extends React.Component {
    * @param {*} fields edited form fields
    */
   onQuerySubmit = (fields, pageIndexParam, startPageIndex, pageSizeParam, webserviceURL) => {
-    // TODO probably some control on other parts (with previous state value)
-    // TODO demain: check les fields, ils ont pas lair reglo (ils ne sont pas mentionne dans le form)
+    // TODO Convert here: from fields with queryValue to {paramName}:{queryValue} or URL, to be checked
     this.setState({
       formValues: {
         ...this.state.formValues,

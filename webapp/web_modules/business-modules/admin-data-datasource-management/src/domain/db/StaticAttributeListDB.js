@@ -18,7 +18,7 @@
  **/
 import { DamDomain } from '@regardsoss/domain'
 
-export default {
+export default { // XXX seem like mock code. Leo Mieulet?
   providerId: {
     content: {
       mode: '',

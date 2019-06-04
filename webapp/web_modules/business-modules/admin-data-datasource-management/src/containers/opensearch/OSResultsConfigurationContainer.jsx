@@ -21,11 +21,11 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
-import messages from '../i18n'
-import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
-import { modelSelectors, modelActions } from '../clients/ModelClient'
-import OSResultsConfigurationComponent, { OSResultsMainConfiguration } from '../components/OSResultsConfigurationComponent'
-import styles from '../styles'
+import messages from '../../i18n'
+import { modelAttributesActions, modelAttributesSelectors } from '../../clients/ModelAttributesClient'
+import { modelSelectors, modelActions } from '../../clients/ModelClient'
+import OSResultsConfigurationComponent, { OSResultsMainConfiguration } from '../../components/opensearch/results/OSResultsConfigurationComponent'
+import styles from '../../styles'
 
 /**
  * Container for OpenSearch crawler results conversion configuration component

@@ -30,8 +30,8 @@ import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import DBDatasourceFormMappingLineComponent from './DBDatasourceFormMappingLineComponent'
-import StaticAttributeListDB from './StaticAttributeListDB'
-import states from './FormMappingStates'
+import StaticAttributeListDB from '../../domain/db/StaticAttributeListDB'
+import states from '../../domain/db/FormMappingStates'
 
 export class DBDatasourceFormMappingCustomComponent extends React.Component {
   static propTypes = {

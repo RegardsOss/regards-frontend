@@ -23,12 +23,12 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
-import DBDatasourceFormMappingComponent from '../components/DBDatasourceFormMappingComponent'
-import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
-import { connectionTableActions, connectionTableSelectors } from '../clients/ConnectionTableClient'
-import { connectionTableAttributesActions, connectionTableAttributesSelectors } from '../clients/ConnectionTableAttributesClient'
-import DBDatasourceFormMappingEmptyDatabaseComponent from '../components/DBDatasourceFormMappingEmptyDatabaseComponent'
-import messages from '../i18n'
+import { modelAttributesActions, modelAttributesSelectors } from '../../clients/ModelAttributesClient'
+import { connectionTableAttributesActions, connectionTableAttributesSelectors } from '../../clients/ConnectionTableAttributesClient'
+import { connectionTableActions, connectionTableSelectors } from '../../clients/ConnectionTableClient'
+import DBDatasourceFormMappingComponent from '../../components/db/DBDatasourceFormMappingComponent'
+import DBDatasourceFormMappingEmptyDatabaseComponent from '../../components/db/DBDatasourceFormMappingEmptyDatabaseComponent'
+import messages from '../../i18n'
 
 const { findParam, hasParam } = PluginConfParamsUtils
 

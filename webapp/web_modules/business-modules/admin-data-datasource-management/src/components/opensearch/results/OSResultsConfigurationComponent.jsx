@@ -36,7 +36,7 @@ import {
   reduxForm,
 } from '@regardsoss/form-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
-import OpenSearchStepperComponent from './OpenSearchStepperComponent'
+import OpenSearchStepperComponent from '../OpenSearchStepperComponent'
 
 const { required } = ValidationHelpers
 const requiredValidator = [required]

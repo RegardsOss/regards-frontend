@@ -41,14 +41,14 @@ import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
+import { ShowableAtRender } from '@regardsoss/display-control'
 import {
   getFullQualifiedAttributeName, IAIPDatasourceParamsEnum, DATASOURCE_REFRESH_RATE, MODEL_ATTR_TYPES,
 } from '@regardsoss/domain/dam'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
+import { fragmentSelectors } from '../../clients/FragmentClient'
+import StaticAttributeListAIP from '../../domain/aip/StaticAttributeListAIP'
 import AIPDatasourceAttributeLineConfigurationComponent from './AIPDatasourceAttributeLineConfigurationComponent'
-import { ShowableAtRender } from '../../../../utils/display-control/src/main'
-import StaticAttributeListAIP from './StaticAttributeListAIP'
-import { fragmentSelectors } from '../clients/FragmentClient'
 
 const { findParam } = PluginConfParamsUtils
 

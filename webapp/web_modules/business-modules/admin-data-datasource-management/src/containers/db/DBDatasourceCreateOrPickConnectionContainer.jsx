@@ -21,9 +21,9 @@ import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { connectionSelectors, connectionActions } from '../clients/ConnectionClient'
-import DBDatasourceCreateOrPickConnectionComponent from '../components/DBDatasourceCreateOrPickConnectionComponent'
-import messages from '../i18n'
+import { connectionSelectors, connectionActions } from '../../clients/ConnectionClient'
+import DBDatasourceCreateOrPickConnectionComponent from '../../components/db/DBDatasourceCreateOrPickConnectionComponent'
+import messages from '../../i18n'
 
 /**
  * Pick the datasource if existing or ask the user to create a new one

@@ -28,13 +28,13 @@ import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { datasourceSelectors, datasourceActions } from '../clients/DatasourceClient'
+import StaticAttributeListDB from '../../domain/db/StaticAttributeListDB'
+import { datasourceSelectors, datasourceActions } from '../../clients/DatasourceClient'
+import { fragmentSelectors } from '../../clients/FragmentClient'
+import { pluginMetaDataActions, pluginMetaDataSelectors } from '../../clients/PluginMetaDataClient'
 import DBDatasourceFormAttributesContainer from './DBDatasourceFormAttributesContainer'
 import DBDatasourceFormMappingContainer from './DBDatasourceFormMappingContainer'
-import { pluginMetaDataActions, pluginMetaDataSelectors } from '../clients/PluginMetaDataClient'
-import { fragmentSelectors } from '../clients/FragmentClient'
-import messages from '../i18n'
-import StaticAttributeListDB from '../components/StaticAttributeListDB'
+import messages from '../../i18n'
 
 const { findParam } = PluginConfParamsUtils
 

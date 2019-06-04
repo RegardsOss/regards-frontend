@@ -26,7 +26,7 @@ import {
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { getFullQualifiedAttributeName, MODEL_ATTR_TYPES } from '@regardsoss/domain/dam'
-import { fragmentSelectors } from '../clients/FragmentClient'
+import { fragmentSelectors } from '../../clients/FragmentClient'
 
 const requiredString = [ValidationHelpers.required]
 /**

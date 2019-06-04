@@ -27,11 +27,11 @@ import { getFormValues } from 'redux-form'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { IAIPDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
-import AIPDatasourceFormComponent from '../components/AIPDatasourceFormComponent'
-import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
-import { modelSelectors, modelActions } from '../clients/ModelClient'
-import messages from '../i18n'
-import { datasourceSelectors, datasourceActions } from '../clients/DatasourceClient'
+import AIPDatasourceFormComponent from '../../components/aip/AIPDatasourceFormComponent'
+import { modelAttributesActions, modelAttributesSelectors } from '../../clients/ModelAttributesClient'
+import { modelSelectors, modelActions } from '../../clients/ModelClient'
+import messages from '../../i18n'
+import { datasourceSelectors, datasourceActions } from '../../clients/DatasourceClient'
 
 const { findParam } = PluginConfParamsUtils
 

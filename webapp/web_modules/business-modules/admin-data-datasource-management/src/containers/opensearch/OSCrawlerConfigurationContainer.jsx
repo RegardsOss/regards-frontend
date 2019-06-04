@@ -21,10 +21,10 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import messages from '../i18n'
-import OSCrawlerConfigurationComponent, { OSCrawlerMainConfiguration } from '../components/OSCrawlerConfigurationComponent'
-import { descriptorActions } from '../clients/OpensearchDescriptorClient'
-import styles from '../styles'
+import messages from '../../i18n'
+import OSCrawlerConfigurationComponent, { OSCrawlerMainConfiguration } from '../../components/opensearch/crawler/OSCrawlerConfigurationComponent'
+import { descriptorActions } from '../../clients/OpensearchDescriptorClient'
+import styles from '../../styles'
 
 /**
  * Container for OpenSearch crawler main configuration component
