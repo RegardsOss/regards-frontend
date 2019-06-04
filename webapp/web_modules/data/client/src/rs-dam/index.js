@@ -51,6 +51,8 @@ export { default as FragmentActions } from './fragment/FragmentActions'
 export { default as FragmentReducer } from './fragment/FragmentReducer'
 export { default as FragmentSelectors } from './fragment/FragmentSelectors'
 
+export { default as IndexActions } from './index/IndexActions'
+
 export { default as AttributeModelRestrictionSelectors } from './attributesModelRestriction/AttributeModelRestrictionSelectors'
 export { default as AttributeModelRestrictionActions } from './attributesModelRestriction/AttributeModelRestrictionActions'
 export { default as AttributeModelRestrictionReducer } from './attributesModelRestriction/AttributeModelRestrictionReducer'

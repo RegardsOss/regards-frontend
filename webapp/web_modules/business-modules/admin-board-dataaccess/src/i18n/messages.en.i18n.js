@@ -29,7 +29,12 @@ const messages = {
   'accessright.board.tooltip.list': 'List',
   'accessright.board.tooltip.add': 'Add',
   'accessright.board.accessgroup.title': 'Access group',
-  'accessright.board.accessgroup.description': 'Access groups allows to limit access to data for users.',
+  'accessright.board.accessgroup.description': 'Access groups allows to limit acces to data for users.',
+
+  'accessright.board.index.title': 'Data catalog',
+  'accessright.board.index.description': 'This section allows you to manage data catalog',
+  'accessright.board.index.delete': 'Reset data catalog',
+  'accessright.board.index.delete.confirm': 'Warning : If you reset the data catalog index, then all datas will be deleted and reindexed thanks to configured data crawlers.',
 }
 
 export default messages

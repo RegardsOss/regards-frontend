@@ -23,7 +23,7 @@ import { searchEnginesRouter } from '@regardsoss/admin-dataaccess-searchengines-
 import { accessGroupManagementRouter } from '@regardsoss/admin-accessright-accessgroup-management'
 import { accessRightManagementRouter } from '@regardsoss/admin-accessright-dataaccess-management'
 import Routes from '../src/router'
-import ModuleContainer from '../src/components/ModuleContainer'
+import ModuleContainer from '../src/containers/ModuleContainer'
 
 describe('[ADMIN BOARD DATA ACCESS] Testing dataaccess board router', () => {
   before(testSuiteHelpers.before)

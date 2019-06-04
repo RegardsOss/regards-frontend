@@ -18,15 +18,18 @@
  **/
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
+import DeleteIcon from 'material-ui/svg-icons/action/delete'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { servicesManagementDependencies } from '@regardsoss/admin-dataaccess-services-management'
 import { accessGroupDependencies } from '@regardsoss/admin-accessright-accessgroup-management'
+import { indexActions } from '../clients/IndexClient'
 
 /**
  * BoardItems configuration for data access module
  * @param projectName
  * @param intl
  */
-const items = (projectName, intl) => [
+const items = (projectName, intl, onResetIndex) => [
   {
     title: intl.formatMessage({ id: 'dataaccess.board.searchengines.title' }),
     description: intl.formatMessage({ id: 'dataaccess.board.searchengines.description' }),
@@ -81,6 +84,20 @@ const items = (projectName, intl) => [
       className: 'selenium-accessgroupCreate',
       tooltipMsg: intl.formatMessage({ id: 'accessright.board.tooltip.add' }),
       hateoasDependencies: accessGroupDependencies.addDependencies,
+    }],
+  },
+  {
+    title: intl.formatMessage({ id: 'accessright.board.index.title' }),
+    description: intl.formatMessage({ id: 'accessright.board.index.description' }),
+    advanced: false,
+    actions: [{
+      icon: <DeleteIcon />,
+      tooltipMsg: intl.formatMessage({ id: 'accessright.board.index.delete' }),
+      confirmMessage: intl.formatMessage({ id: 'accessright.board.index.delete.confirm' }),
+      touchTapAction: onResetIndex,
+      hateoasDependencies: [
+        //indexActions.getSubAction(indexActions.ROOT_ENDPOINT).getDependency(RequestVerbEnum.DELETE),
+      ],
     }],
   },
 ]
