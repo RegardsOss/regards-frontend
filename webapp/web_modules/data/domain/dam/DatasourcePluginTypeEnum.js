@@ -16,23 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DATASOURCE_PLUGIN_TYPE_ENUM } from '@regardsoss/domain/dam'
-
-export class EditionHelper {
-  static getDatasourcePluginType(datasource) {
-    let type = ''
-    if (datasource.content.pluginClassName === DATASOURCE_PLUGIN_TYPE_ENUM.AIP) {
-      type = 'aip'
-    } else if (datasource.content.pluginClassName === DATASOURCE_PLUGIN_TYPE_ENUM.OPENSEARCH) {
-      type = 'opensearch'
-    } else if (datasource.content.interfaceNames.includes(DATASOURCE_PLUGIN_TYPE_ENUM.DB)) {
-      type = 'db'
-    } else {
-      throw new Error('Datasource Plugin type not recognized :', datasource.content.pluginClassName)
-    }
-
-    return type
-  }
+const IDBDatasourceParamsEnum = {
+  AIP: 'fr.cnes.regards.modules.dam.plugins.datasources.AipDataSourcePlugin',
+  OPENSEARCH: 'fr.cnes.regards.modules.dam.plugins.datasources.webservice.WebserviceDatasourcePlugin',
+  DB: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourcePlugin',
 }
 
-export default EditionHelper
+export default IDBDatasourceParamsEnum

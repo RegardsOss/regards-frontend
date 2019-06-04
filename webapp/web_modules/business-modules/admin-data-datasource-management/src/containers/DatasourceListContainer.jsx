@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import includes from 'lodash/includes'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -25,10 +24,7 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasourceActions, datasourceSelectors } from '../clients/DatasourceClient'
 import DatasourceListComponent from '../components/DatasourceListComponent'
 import messages from '../i18n'
-
-
-const INTERFACE_DS_DB = 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourcePlugin'
-const INTERFACE_DS_AIP = 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IAipDataSourcePlugin'
+import EditionHelper from '../domain/EditionHelper'
 
 /**
  * Show the datasource list
@@ -75,17 +71,10 @@ export class DatasourceListContainer extends React.Component {
   handleEdit = (datasource) => {
     const { params: { project } } = this.props
     const datasourceId = datasource.content.id
-    let url
-    // redirect to the right edition page depending of the type of interfaces the datasource plugin extends of
-    if (!includes(datasource.content.interfaceNames, INTERFACE_DS_DB)) {
-      // Here we have an AIP DS
-      url = `/admin/${project}/data/acquisition/datasource/aip/${datasourceId}/edit`
-    // } else if (sdkhfgasdk) { // TODO
-    //   url = `/admin/${project}/data/acquisition/datasource/opensearch/${datasourceId}/edit`
-    } else {
-      // Here is an external DS
-      url = `/admin/${project}/data/acquisition/datasource/db/${datasourceId}/edit`
-    }
+    const type = EditionHelper.getDatasourcePluginType(datasource)
+
+    const url = `/admin/${project}/data/acquisition/datasource/${type}/${datasourceId}/edit`
+
     browserHistory.push(url)
   }
 
