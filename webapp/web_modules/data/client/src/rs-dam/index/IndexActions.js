@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,31 +15,33 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { BoardComponent } from '@regardsoss/components'
-import { i18nContextType } from '@regardsoss/i18n'
-import dataAccessItems from './DataAccessBoardItems'
+ */
+import { BasicSignalsActions } from '@regardsoss/store-utils'
 
 /**
- * Board to display data access funcionalities.
+ * Redux actions to handle index reset.
+ *
+ * @author Sébastien Binda
  */
-class DataAccessBoardComponent extends React.Component {
-  static propTypes = {
-    project: PropTypes.string.isRequired,
-    onResetIndex: PropTypes.func.isRequired,
+export default class IndexActions extends BasicSignalsActions {
+  static ROOT_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/index`
+
+  static RESET_INDEX_ACTION = 'resetIndexAction'
+
+  /**
+   * Construtor
+   * @param namespace
+   */
+  constructor(namespace) {
+    super({
+      [IndexActions.RESET_INDEX_ACTION]: {
+        entityEndpoint: `${IndexActions.ROOT_ENDPOINT}`,
+        namespace: `${namespace}/reset`,
+      },
+    })
   }
 
-  static contextTypes = {
-    ...i18nContextType,
-  }
-
-  render() {
-    const { project } = this.props
-    const items = dataAccessItems(project, this.context.intl, this.props.onResetIndex)
-    return (
-      <BoardComponent items={items} />
-    )
+  resetIndex() {
+    return this.getSubAction(IndexActions.RESET_INDEX_ACTION).sendSignal('DELETE', null, {})
   }
 }
-
-export default DataAccessBoardComponent

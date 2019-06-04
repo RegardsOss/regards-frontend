@@ -30,6 +30,11 @@ const messages = {
   'accessright.board.tooltip.add': 'Ajouter',
   'accessright.board.accessgroup.title': 'Groupes d\'accès',
   'accessright.board.accessgroup.description': 'Les groupes d\'accès permettent de limiter l\'accès aux données du catalogue à certains utilisateurs. Ils permettent également d\'affiner le niveau d\'accès en accordant l\'accès aux métadonnées ou aux données ou aux deux.',
+
+  'accessright.board.index.title': 'Catalogue des données',
+  'accessright.board.index.description': 'Cette section vous permet de gérer le catalogue des données',
+  'accessright.board.index.delete': 'Réinitialiser le catalogue',
+  'accessright.board.index.delete.confirm': 'Attention, si vous lancez la réinisation du catalogue de données, toutes les données seront supprimées du catalogue. Ce dernier sera alors reconstruit automatiquement par les aspirations de données configurées.',
 }
 
 export default messages
