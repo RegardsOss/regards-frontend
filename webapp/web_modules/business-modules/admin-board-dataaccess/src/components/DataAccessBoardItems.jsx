@@ -96,7 +96,7 @@ const items = (projectName, intl, onResetIndex) => [
       confirmMessage: intl.formatMessage({ id: 'accessright.board.index.delete.confirm' }),
       touchTapAction: onResetIndex,
       hateoasDependencies: [
-        //indexActions.getSubAction(indexActions.ROOT_ENDPOINT).getDependency(RequestVerbEnum.DELETE),
+        indexActions.getSubAction(indexActions.RESET_INDEX_ACTION).getDependency(RequestVerbEnum.DELETE),
       ],
     }],
   },
