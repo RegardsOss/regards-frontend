@@ -18,30 +18,24 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
-import RaisedButton from 'material-ui/RaisedButton'
-import SelectField from 'material-ui/SelectField'
-import DBDatasourceCreateOrPickConnectionComponent from '../../src/components/DBDatasourceCreateOrPickConnectionComponent'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { Stepper } from 'material-ui/Stepper'
+import DBDatasourceStepperComponent from '../../../src/components/db/DBDatasourceStepperComponent'
 
 const context = buildTestContext()
 
-describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceCreateOrPickConnectionComponent', () => {
+describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceStepperComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DBDatasourceCreateOrPickConnectionComponent)
+    assert.isDefined(DBDatasourceStepperComponent)
   })
   it('Render properly', () => {
     const props = {
-      connectionList: DumpProvider.get('DataManagementClient', 'Connection'),
-      createConnectionUrl: '#',
-      backUrl: '#',
-      handleDone: () => { },
+      stepIndex: 1,
     }
-
-    const enzymeWrapper = shallow(<DBDatasourceCreateOrPickConnectionComponent {...props} />, { context })
-    expect(enzymeWrapper.find(RaisedButton)).to.have.length(1)
-    expect(enzymeWrapper.find(SelectField)).to.have.length(1)
+    const enzymeWrapper = shallow(<DBDatasourceStepperComponent {...props} />, { context })
+    expect(enzymeWrapper.find(Stepper)).to.have.length(1)
   })
 })

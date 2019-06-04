@@ -20,22 +20,22 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { Stepper } from 'material-ui/Stepper'
-import DBDatasourceStepperComponent from '../../src/components/DBDatasourceStepperComponent'
+import OpenSearchStepperComponent from '../../../src/components/opensearch/OpenSearchStepperComponent'
 
 const context = buildTestContext()
 
-describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceStepperComponent', () => {
+describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OpenSearchStepperComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('should exists', () => {
-    assert.isDefined(DBDatasourceStepperComponent)
+  it('should exist', () => {
+    assert.isDefined(OpenSearchStepperComponent)
   })
   it('Render properly', () => {
     const props = {
       stepIndex: 1,
     }
-    const enzymeWrapper = shallow(<DBDatasourceStepperComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<OpenSearchStepperComponent {...props} />, { context })
     expect(enzymeWrapper.find(Stepper)).to.have.length(1)
   })
 })

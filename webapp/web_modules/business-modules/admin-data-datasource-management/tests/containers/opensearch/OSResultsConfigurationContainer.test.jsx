@@ -16,26 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { assert } from 'chai'
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { Stepper } from 'material-ui/Stepper'
-import OpenSearchStepperComponent from '../../src/components/OpenSearchStepperComponent'
+import { OSResultsConfigurationContainer } from '../../../src/containers/opensearch/OSResultsConfigurationContainer'
 
 const context = buildTestContext()
 
-describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OpenSearchStepperComponent', () => {
+describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSResultsConfigurationContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('should exist', () => {
-    assert.isDefined(OpenSearchStepperComponent)
+  it('should exists', () => {
+    assert.isDefined(OSResultsConfigurationContainer)
   })
+
   it('Render properly', () => {
     const props = {
-      stepIndex: 1,
+      params: { project: '1' },
+      backUrl: '',
+      onSubmit: () => {},
     }
-    const enzymeWrapper = shallow(<OpenSearchStepperComponent {...props} />, { context })
-    expect(enzymeWrapper.find(Stepper)).to.have.length(1)
+
+    const wrapper = shallow(<OSResultsConfigurationContainer {...props} />, { context })
+    assert.equal(wrapper.length, 1, 'The container should be rendered')
   })
 })

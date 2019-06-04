@@ -22,8 +22,8 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { assert } from 'chai'
 import { shallow } from 'enzyme'
 import Card from 'material-ui/Card'
-import OpenSearchStepperComponent from '../../src/components/OpenSearchStepperComponent'
-import { OSCrawlerConfigurationComponent } from '../../src/components/OSCrawlerConfigurationComponent'
+import OpenSearchStepperComponent from '../../../src/components/opensearch/OpenSearchStepperComponent'
+import { OSCrawlerConfigurationComponent } from '../../../src/components/opensearch/crawler/OSCrawlerConfigurationComponent'
 
 const context = buildTestContext()
 

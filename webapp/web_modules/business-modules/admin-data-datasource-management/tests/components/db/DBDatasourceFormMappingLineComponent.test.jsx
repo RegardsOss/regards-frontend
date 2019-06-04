@@ -19,31 +19,33 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
-import DBDatasourceFormMappingCustomComponent from '../../src/components/DBDatasourceFormMappingCustomComponent'
-import DBDatasourceFormMappingLineComponent from '../../src/components/DBDatasourceFormMappingLineComponent'
+import { TableRow } from 'material-ui/Table'
+import { Field } from '@regardsoss/form-utils'
+import DBDatasourceFormMappingLineComponent from '../../../src/components/db/DBDatasourceFormMappingLineComponent'
 
 const context = buildTestContext()
 
-describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceFormMappingCustomComponent', () => {
+describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceFormMappingLineComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DBDatasourceFormMappingCustomComponent)
     assert.isDefined(DBDatasourceFormMappingLineComponent)
+    assert.isDefined(Field)
   })
   it('Render properly', () => {
     const props = {
-      modelAttributeList: DumpProvider.get('DataManagementClient', 'ModelAttribute'),
+      modelAttribute: DumpProvider.getFirstEntity('DataManagementClient', 'ModelAttribute'),
+      handleDelete: () => { },
       tableAttributeList: DumpProvider.get('DataManagementClient', 'ConnectionTableAttribute'),
       table: DumpProvider.getFirstEntity('DataManagementClient', 'ConnectionTable'),
-      currentDatasource: DumpProvider.getFirstEntity('DataManagementClient', 'Datasource'),
-      isEditing: false,
+      onlyAdvancedConfiguration: false,
+      isEditingSQL: false,
       change: () => { },
     }
 
-
-    const enzymeWrapper = shallow(<DBDatasourceFormMappingCustomComponent {...props} />, { context })
-    expect(enzymeWrapper.find(DBDatasourceFormMappingLineComponent)).to.have.length(8)
+    const enzymeWrapper = shallow(<DBDatasourceFormMappingLineComponent {...props} />, { context })
+    expect(enzymeWrapper.find(TableRow)).to.have.length(1)
+    expect(enzymeWrapper.find(Field)).to.have.length(2)
   })
 })

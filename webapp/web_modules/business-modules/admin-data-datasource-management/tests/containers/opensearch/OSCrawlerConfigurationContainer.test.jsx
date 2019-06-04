@@ -19,16 +19,16 @@
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { assert } from 'chai'
 import { shallow } from 'enzyme'
-import { OSQueryConfigurationContainer } from '../../src/containers/OSQueryConfigurationContainer'
+import { OSCrawlerConfigurationContainer } from '../../../src/containers/opensearch/OSCrawlerConfigurationContainer'
 
 const context = buildTestContext()
 
-describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSQueryConfigurationContainer', () => {
+describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSCrawlerConfigurationContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(OSQueryConfigurationContainer)
+    assert.isDefined(OSCrawlerConfigurationContainer)
   })
 
   it('Render properly', () => {
@@ -39,7 +39,7 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSQueryConfigurationContain
       onSubmit: () => {},
     }
 
-    const wrapper = shallow(<OSQueryConfigurationContainer {...props} />, { context })
+    const wrapper = shallow(<OSCrawlerConfigurationContainer {...props} />, { context })
     assert.equal(wrapper.length, 1, 'The container should be rendered')
   })
 })

@@ -19,10 +19,10 @@
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { assert } from 'chai'
 import { shallow } from 'enzyme'
-import { OSConfigurationFormContainer } from '../../src/containers/OSConfigurationFormContainer'
-import { OSCrawlerConfigurationContainer } from '../../src/containers/OSCrawlerConfigurationContainer'
-import { OSQueryConfigurationContainer } from '../../src/containers/OSQueryConfigurationContainer'
-import { OSResultsConfigurationContainer } from '../../src/containers/OSResultsConfigurationContainer'
+import { OSConfigurationFormContainer } from '../../../src/containers/opensearch/OSConfigurationFormContainer'
+import { OSCrawlerConfigurationContainer } from '../../../src/containers/opensearch/OSCrawlerConfigurationContainer'
+import { OSQueryConfigurationContainer } from '../../../src/containers/opensearch/OSQueryConfigurationContainer'
+import { OSResultsConfigurationContainer } from '../../../src/containers/opensearch/OSResultsConfigurationContainer'
 
 const context = buildTestContext()
 const PATHS = {

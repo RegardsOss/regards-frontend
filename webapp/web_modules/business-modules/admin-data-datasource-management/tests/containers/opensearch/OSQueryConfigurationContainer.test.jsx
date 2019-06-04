@@ -19,26 +19,27 @@
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { assert } from 'chai'
 import { shallow } from 'enzyme'
-import { OSResultsConfigurationContainer } from '../../src/containers/OSResultsConfigurationContainer'
+import { OSQueryConfigurationContainer } from '../../../src/containers/opensearch/OSQueryConfigurationContainer'
 
 const context = buildTestContext()
 
-describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSResultsConfigurationContainer', () => {
+describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSQueryConfigurationContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(OSResultsConfigurationContainer)
+    assert.isDefined(OSQueryConfigurationContainer)
   })
 
   it('Render properly', () => {
     const props = {
       params: { project: '1' },
       backUrl: '',
+      nextUrl: '',
       onSubmit: () => {},
     }
 
-    const wrapper = shallow(<OSResultsConfigurationContainer {...props} />, { context })
+    const wrapper = shallow(<OSQueryConfigurationContainer {...props} />, { context })
     assert.equal(wrapper.length, 1, 'The container should be rendered')
   })
 })

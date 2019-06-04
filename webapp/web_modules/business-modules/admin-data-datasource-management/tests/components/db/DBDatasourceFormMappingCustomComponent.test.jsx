@@ -19,39 +19,31 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { DBDatasourceFormContainer } from '../../src/containers/DBDatasourceFormContainer'
+import DBDatasourceFormMappingCustomComponent from '../../../src/components/db/DBDatasourceFormMappingCustomComponent'
+import DBDatasourceFormMappingLineComponent from '../../../src/components/db/DBDatasourceFormMappingLineComponent'
 
 const context = buildTestContext()
 
-describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceFormContainer', () => {
+describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceFormMappingCustomComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DBDatasourceFormContainer)
-    assert.isDefined(LoadableContentDisplayDecorator)
+    assert.isDefined(DBDatasourceFormMappingCustomComponent)
+    assert.isDefined(DBDatasourceFormMappingLineComponent)
   })
   it('Render properly', () => {
     const props = {
-      // from router
-      params: {
-        project: 'lambda',
-        datasourceId: '1',
-        connectionId: null,
-      },
-      // from mapStateToProps
+      modelAttributeList: DumpProvider.get('DataManagementClient', 'ModelAttribute'),
+      tableAttributeList: DumpProvider.get('DataManagementClient', 'ConnectionTableAttribute'),
+      table: DumpProvider.getFirstEntity('DataManagementClient', 'ConnectionTable'),
       currentDatasource: DumpProvider.getFirstEntity('DataManagementClient', 'Datasource'),
-      // from mapDispatchToProps
-      createDatasource: () => { },
-      updateDatasource: () => { },
-      fetchDatasource: () => { },
-      fetchPluginMetaDataList: () => { },
+      isEditing: false,
+      change: () => { },
     }
 
 
-    const enzymeWrapper = shallow(<DBDatasourceFormContainer {...props} />, { context })
-    expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
-    assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')
+    const enzymeWrapper = shallow(<DBDatasourceFormMappingCustomComponent {...props} />, { context })
+    expect(enzymeWrapper.find(DBDatasourceFormMappingLineComponent)).to.have.length(8)
   })
 })

@@ -20,36 +20,32 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { DBDatasourceFormMappingContainer } from '../../src/containers/DBDatasourceFormMappingContainer'
+import { DBDatasourceCreateOrPickConnectionContainer } from '../../../src/containers/db/DBDatasourceCreateOrPickConnectionContainer'
 
 const context = buildTestContext()
 
-describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceFormMappingContainer', () => {
+describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceCreateOrPickConnectionContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DBDatasourceFormMappingContainer)
+    assert.isDefined(DBDatasourceCreateOrPickConnectionContainer)
     assert.isDefined(LoadableContentDisplayDecorator)
   })
+
   it('Render properly', () => {
     const props = {
-      currentDatasource: DumpProvider.getFirstEntity('DataManagementClient', 'Datasource'),
-      isEditing: true,
-      isCreating: false,
-      handleSave: () => { },
-      handleBack: () => { },
+      // from router
+      params: {
+        project: 'someproject',
+      },
       // from mapStateToProps
-      tableList: DumpProvider.get('DataManagementClient', 'ConnectionTable'),
-      tableAttributeList: DumpProvider.get('DataManagementClient', 'ConnectionTableAttribute'),
-      modelAttributeList: DumpProvider.get('DataManagementClient', 'ModelAttribute'),
+      connectionList: DumpProvider.get('DataManagementClient', 'Connection'),
       // from mapDispatchToProps
-      fetchTableAttributes: () => { },
-      fetchTable: () => { },
-      fetchModelAttributeList: () => { },
+      fetchConnectionList: () => { },
     }
 
-    const enzymeWrapper = shallow(<DBDatasourceFormMappingContainer {...props} />, { context })
+    const enzymeWrapper = shallow(<DBDatasourceCreateOrPickConnectionContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')
   })

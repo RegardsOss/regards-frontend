@@ -18,10 +18,9 @@
  */
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { assert } from 'chai'
-import { spy, stub } from 'sinon'
 import { shallow } from 'enzyme'
 import Dialog from 'material-ui/Dialog'
-import AddFilterDialogComponent from '../../src/components/AddFilterDialogComponent'
+import OSQueryAddFilterDialogComponent from '../../../src/components/opensearch/query/OSQueryAddFilterDialogComponent'
 
 const context = buildTestContext()
 
@@ -30,7 +29,7 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing AddFilterDialogComponent', 
   after(testSuiteHelpers.after)
 
   it('should exist', () => {
-    assert.isDefined(AddFilterDialogComponent)
+    assert.isDefined(OSQueryAddFilterDialogComponent)
   })
   it('Render properly', () => {
     const props = {
@@ -42,7 +41,7 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing AddFilterDialogComponent', 
       },
     }
 
-    const wrapper = shallow(<AddFilterDialogComponent {...props} />, { context })
+    const wrapper = shallow(<OSQueryAddFilterDialogComponent {...props} />, { context })
     const dialog = wrapper.find(Dialog)
 
     assert.equal(dialog.length, 1, 'Should render a Material-UI Card')

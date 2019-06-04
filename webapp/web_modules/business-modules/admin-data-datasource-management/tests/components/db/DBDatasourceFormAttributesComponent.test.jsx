@@ -19,42 +19,34 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
-import { DBDatasourceFormMappingComponent } from '../../src/components/DBDatasourceFormMappingComponent'
-import DBDatasourceFormMappingFromTableComponent from '../../src/components/DBDatasourceFormMappingFromTableComponent'
-import DBDatasourceFormMappingCustomComponent from '../../src/components/DBDatasourceFormMappingCustomComponent'
+import { Field } from '@regardsoss/form-utils'
+import { DBDatasourceFormAttributesComponent } from '../../../src/components/db/DBDatasourceFormAttributesComponent'
 
 const context = buildTestContext()
 
-describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceFormMappingComponent', () => {
+describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceFormAttributesComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DBDatasourceFormMappingComponent)
-    assert.isDefined(DBDatasourceFormMappingFromTableComponent)
-    assert.isDefined(DBDatasourceFormMappingCustomComponent)
+    assert.isDefined(DBDatasourceFormAttributesComponent)
+    assert.isDefined(Field)
   })
   it('Render properly', () => {
     const props = {
       currentDatasource: DumpProvider.getFirstEntity('DataManagementClient', 'Datasource'),
-      isEditing: true,
-      isCreating: false,
-      handleBack: () => { },
+      currentConnection: DumpProvider.getFirstEntity('DataManagementClient', 'Connection'),
       onSubmit: () => { },
-      onTableSelected: () => { },
-      tableList: DumpProvider.get('DataManagementClient', 'ConnectionTable'),
-      modelAttributeList: DumpProvider.get('DataManagementClient', 'ModelAttribute'),
-      tableAttributeList: DumpProvider.get('DataManagementClient', 'ConnectionTableAttribute'),
+      backUrl: '#',
+      modelList: DumpProvider.get('DataManagementClient', 'Model'),
       // from reduxForm
       submitting: false,
       invalid: false,
       handleSubmit: () => { },
       initialize: () => { },
-      change: () => { },
     }
 
-    const enzymeWrapper = shallow(<DBDatasourceFormMappingComponent {...props} />, { context })
-    expect(enzymeWrapper.find(DBDatasourceFormMappingFromTableComponent)).to.have.length(1)
-    expect(enzymeWrapper.find(DBDatasourceFormMappingCustomComponent)).to.have.length(1)
+    const enzymeWrapper = shallow(<DBDatasourceFormAttributesComponent {...props} />, { context })
+    expect(enzymeWrapper.find(Field)).to.have.length(4)
   })
 })
