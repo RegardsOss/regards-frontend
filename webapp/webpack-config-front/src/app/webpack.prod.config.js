@@ -2,7 +2,6 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const path = require('path')
-const StatsPlugin = require('stats-webpack-plugin')
 const getCommonConfig = require('./webpack.common.config')
 
 module.exports = function (projectContextPath) {
@@ -77,9 +76,6 @@ module.exports = function (projectContextPath) {
         // eslint-disable-next-line import/no-dynamic-require
         manifest: require(`${projectContextPath}/dist/prod/coreoss-manifest.json`),
         context: projectContextPath,
-      }),
-      new StatsPlugin(`../../reports/prod-${Date.now()}-profile.json`, {
-        chunkModules: true,
       }),
     ],
   })
