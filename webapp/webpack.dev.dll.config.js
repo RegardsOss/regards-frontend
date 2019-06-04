@@ -66,7 +66,6 @@ const conf = webpackConfigurator
         'reselect',
         'mdi-material-ui',
         'intl',
-        'intl-locales-supported',
         'react-ace',
         'react-notification-system',
         'brace',
