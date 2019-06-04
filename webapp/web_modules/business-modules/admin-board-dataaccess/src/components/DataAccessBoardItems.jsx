@@ -22,7 +22,7 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { servicesManagementDependencies } from '@regardsoss/admin-dataaccess-services-management'
 import { accessGroupDependencies } from '@regardsoss/admin-accessright-accessgroup-management'
-import { indexActions } from '../clients/IndexClient'
+import { indexActions, RESET_INDEX_ACTION } from '../clients/IndexClient'
 
 /**
  * BoardItems configuration for data access module
@@ -96,7 +96,7 @@ const items = (projectName, intl, onResetIndex) => [
       confirmMessage: intl.formatMessage({ id: 'accessright.board.index.delete.confirm' }),
       touchTapAction: onResetIndex,
       hateoasDependencies: [
-        indexActions.getSubAction(indexActions.RESET_INDEX_ACTION).getDependency(RequestVerbEnum.DELETE),
+        indexActions.getSubAction(RESET_INDEX_ACTION).getDependency(RequestVerbEnum.DELETE),
       ],
     }],
   },

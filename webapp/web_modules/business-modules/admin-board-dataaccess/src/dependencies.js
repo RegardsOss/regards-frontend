@@ -16,9 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { servicesManagementDependencies } from '@regardsoss/admin-dataaccess-services-management'
 import { searchEnginesDependencies } from '@regardsoss/admin-dataaccess-searchengines-management'
 import { accessGroupDependencies } from '@regardsoss/admin-accessright-accessgroup-management'
+import { indexActions, RESET_INDEX_ACTION } from './clients/IndexClient'
 
 /**
  * Mandatory Dependencies to display module in project menu
@@ -31,4 +33,5 @@ export default [
   ...searchEnginesDependencies.addDependencies,
   ...accessGroupDependencies.addDependencies,
   ...accessGroupDependencies.listDependencies,
+  indexActions.getSubAction(RESET_INDEX_ACTION).getDependency(RequestVerbEnum.DELETE),
 ]

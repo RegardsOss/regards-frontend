@@ -26,3 +26,4 @@ import { DataManagementClient } from '@regardsoss/client'
 const REDUX_ACTION_NAMESPACE = 'admin-dataaccess/index'
 
 export const indexActions = new DataManagementClient.IndexActions(REDUX_ACTION_NAMESPACE)
+export const { RESET_INDEX_ACTION } = DataManagementClient.IndexActions
