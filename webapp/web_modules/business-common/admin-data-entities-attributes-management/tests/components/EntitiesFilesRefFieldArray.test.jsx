@@ -33,13 +33,24 @@ describe('[ADMIN DATA ENTITIES ATTRIBUTES MANAGEMENT] Testing EntitiesFilesRefFi
     assert.isDefined(EntitiesFilesRefFieldArray)
     assert.isDefined(Field)
   })
-  it('Render properly', () => {
+  it('Render properly for pictures', () => {
     const props = {
-      mimeTypeList: [CommonDomain.MimeTypes.html],
+      mimeTypeList: [CommonDomain.MimeTypes.jpg],
+      allowImage: true,
       name: 'refs[0]',
     }
 
     const enzymeWrapper = shallow(<EntitiesFilesRefFieldArray {...props} />, { context })
     expect(enzymeWrapper.find(Field)).to.have.length(5)
+  })
+  it('Render properly for docs', () => {
+    const props = {
+      mimeTypeList: [CommonDomain.MimeTypes.html],
+      allowImage: false,
+      name: 'refs[0]',
+    }
+
+    const enzymeWrapper = shallow(<EntitiesFilesRefFieldArray {...props} />, { context })
+    expect(enzymeWrapper.find(Field)).to.have.length(3)
   })
 })
