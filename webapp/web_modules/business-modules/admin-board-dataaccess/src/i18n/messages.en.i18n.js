@@ -35,6 +35,7 @@ const messages = {
   'accessright.board.index.description': 'This section allows you to manage data catalog',
   'accessright.board.index.delete': 'Reset data catalog',
   'accessright.board.index.delete.confirm': 'Warning : If you reset the data catalog index, then all datas will be deleted and reindexed thanks to configured data crawlers.',
+  'accessright.board.index.delete.error.message': 'Error uccured during catalog reset action.',
 }
 
 export default messages
