@@ -33,9 +33,15 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSResultsConfigurationConta
 
   it('Render properly', () => {
     const props = {
-      params: { project: '1' },
-      backUrl: '',
+      onBack: () => {},
       onSubmit: () => {},
+      isEditing: false,
+      initialValues: {},
+      modelList: {},
+      modelAttributeList: {},
+      fetchModelAttributeList: () => {},
+      flushModelAttribute: () => {},
+      fetchModelList: () => {},
     }
 
     const wrapper = shallow(<OSResultsConfigurationContainer {...props} />, { context })

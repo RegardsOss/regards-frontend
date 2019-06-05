@@ -36,9 +36,19 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSQueryConfigurationCompone
   })
   it('Render properly', () => {
     const props = {
+      isEditing: false,
+      urlDescriptor: {
+        parameter: [],
+        template: '',
+        type: '',
+        otherAttributes: {},
+      },
+      onBack: () => {},
+      onSubmit: () => {},
+      submitting: false,
+      invalid: false,
       handleSubmit: () => {},
       initialize: () => {},
-      onSubmit: () => {},
     }
 
     const wrapper = shallow(<OSQueryConfigurationComponent {...props} />, { context })

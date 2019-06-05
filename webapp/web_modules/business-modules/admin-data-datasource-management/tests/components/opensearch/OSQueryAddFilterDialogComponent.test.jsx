@@ -20,31 +20,44 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { assert } from 'chai'
 import { shallow } from 'enzyme'
 import Dialog from 'material-ui/Dialog'
+import ListItem from 'material-ui/List/ListItem'
 import OSQueryAddFilterDialogComponent from '../../../src/components/opensearch/query/OSQueryAddFilterDialogComponent'
 
-const context = buildTestContext()
+const context = buildTestContext(() => ({ openSearchCrawler: { queryFilters: { addFilterDialog: {} } } }))
 
-describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing AddFilterDialogComponent', () => {
+describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSQueryAddFilterDialogComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exist', () => {
     assert.isDefined(OSQueryAddFilterDialogComponent)
   })
-  it('Render properly', () => {
+  it('should render properly', () => {
     const props = {
-      filters: [{ label: '' }, { label: '' }],
-      fields: {
-        map: () => {},
-        getAll: () => {},
-        get: () => {},
-      },
+      availableParameters: [],
+      selectedFilters: [],
+      open: false,
+      onClose: () => {},
+      onConfirmAddFilter: () => {},
     }
 
     const wrapper = shallow(<OSQueryAddFilterDialogComponent {...props} />, { context })
     const dialog = wrapper.find(Dialog)
 
-    assert.equal(dialog.length, 1, 'Should render a Material-UI Card')
+    assert.equal(dialog.length, 1, 'Should render a Material-UI Dialog')
     assert.isFalse(dialog.props().open, "The dialog shouldn't be open")
+  })
+
+  it('should list all filters', () => {
+    const props = {
+      availableParameters: [{ value: '1' }, { value: '2' }, { value: '3' }],
+      selectedFilters: [],
+      open: true,
+      onClose: () => {},
+      onConfirmAddFilter: () => {},
+    }
+
+    const wrapper = shallow(<OSQueryAddFilterDialogComponent {...props} />, { context })
+    assert.equal(wrapper.find(ListItem).length, 3, 'There should be three filters shown in the dialog')
   })
 })

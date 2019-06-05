@@ -33,10 +33,13 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSCrawlerConfigurationConta
 
   it('Render properly', () => {
     const props = {
-      params: { project: '1' },
-      backUrl: '',
-      nextUrl: '',
+      // eslint-disable-next-line react/no-unused-prop-types
+      project: 'project1',
+      initialValues: {},
+      isEditing: false,
+      onBack: () => {},
       onSubmit: () => {},
+      fetchDescriptor: () => {},
     }
 
     const wrapper = shallow(<OSCrawlerConfigurationContainer {...props} />, { context })

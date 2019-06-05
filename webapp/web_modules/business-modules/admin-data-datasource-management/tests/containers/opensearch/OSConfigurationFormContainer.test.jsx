@@ -20,16 +20,8 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { assert } from 'chai'
 import { shallow } from 'enzyme'
 import { OSConfigurationFormContainer } from '../../../src/containers/opensearch/OSConfigurationFormContainer'
-import { OSCrawlerConfigurationContainer } from '../../../src/containers/opensearch/OSCrawlerConfigurationContainer'
-import { OSQueryConfigurationContainer } from '../../../src/containers/opensearch/OSQueryConfigurationContainer'
-import { OSResultsConfigurationContainer } from '../../../src/containers/opensearch/OSResultsConfigurationContainer'
 
 const context = buildTestContext()
-const PATHS = {
-  CRAWLER: 'opensearch/create/crawler',
-  QUERY: 'opensearch/create/query',
-  RESULTS: 'opensearch/create/results',
-}
 
 describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSConfigurationFormContainer', () => {
   before(testSuiteHelpers.before)
@@ -39,39 +31,17 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSConfigurationFormContaine
     assert.isDefined(OSConfigurationFormContainer)
   })
 
-  it('Render the crawler form', () => {
+  it('should render properly', () => {
     const props = {
-      route: { path: PATHS.CRAWLER },
-      params: { project: '1' },
+      params: {
+        project: '',
+      },
+      createDatasource: () => {},
+      editDatasource: () => {},
+      fetchDatasource: () => {},
     }
 
     const wrapper = shallow(<OSConfigurationFormContainer {...props} />, { context })
     assert.equal(wrapper.length, 1, 'The container should be rendered')
-
-    assert.equal(wrapper.find(OSCrawlerConfigurationContainer).length, 1, 'Should render OSCrawlerConfigurationContainer')
-  })
-
-  it('Render the query form', () => {
-    const props = {
-      route: { path: PATHS.QUERY },
-      params: { project: '1' },
-    }
-
-    const wrapper = shallow(<OSConfigurationFormContainer {...props} />, { context })
-    assert.equal(wrapper.length, 1, 'The container should be rendered')
-
-    assert.equal(wrapper.find(OSQueryConfigurationContainer).length, 1, 'Should render OSQueryConfigurationContainer')
-  })
-
-  it('Render the results form', () => {
-    const props = {
-      route: { path: PATHS.RESULTS },
-      params: { project: '1' },
-    }
-
-    const wrapper = shallow(<OSConfigurationFormContainer {...props} />, { context })
-    assert.equal(wrapper.length, 1, 'The container should be rendered')
-
-    assert.equal(wrapper.find(OSResultsConfigurationContainer).length, 1, 'Should render OSResultsConfigurationContainer')
   })
 })

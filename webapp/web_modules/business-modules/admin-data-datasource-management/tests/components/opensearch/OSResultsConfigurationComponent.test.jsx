@@ -23,16 +23,16 @@ import { assert } from 'chai'
 import { shallow } from 'enzyme'
 import Card from 'material-ui/Card'
 import OpenSearchStepperComponent from '../../../src/components/opensearch/OpenSearchStepperComponent'
-import { OSCrawlerConfigurationComponent } from '../../../src/components/opensearch/crawler/OSCrawlerConfigurationComponent'
+import { OSResultsConfigurationComponent } from '../../../src/components/opensearch/results/OSResultsConfigurationComponent'
 
-const context = buildTestContext()
+const context = buildTestContext(() => ({ openSearchCrawler: { resultsMapping: {} } }))
 
-describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSCrawlerConfigurationComponent', () => {
+describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSResultsConfigurationComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exist', () => {
-    assert.isDefined(OSCrawlerConfigurationComponent)
+    assert.isDefined(OSResultsConfigurationComponent)
   })
   it('Render properly', () => {
     const props = {
@@ -45,17 +45,38 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSCrawlerConfigurationCompo
       invalid: false,
       handleSubmit: () => {},
       initialize: () => {},
+      modelList: {},
+      modelAttributeList: {},
+      onModelSelected: () => {},
     }
 
-    const wrapper = shallow(<OSCrawlerConfigurationComponent {...props} />, { context })
+    const wrapper = shallow(<OSResultsConfigurationComponent {...props} />, { context })
     const stepper = wrapper.find(OpenSearchStepperComponent)
 
     assert.equal(wrapper.find(Card).length, 1, 'Should render a Material-UI Card')
 
     assert.equal(stepper.length, 1, 'Should render a stepper')
-    assert.equal(stepper.prop('stepIndex'), 0, 'The stepper should be at the right index')
+    assert.equal(stepper.prop('stepIndex'), 2, 'The stepper should be at the right index')
 
     assert.equal(wrapper.find(Field).length, 3, 'Should render 3 fields')
     assert.equal(wrapper.find(CardActionsComponent).length, 1, 'Should render a group of buttons')
+  })
+  it('should render every model attribute', () => {
+    const props = {
+      initialValues: {},
+      isEditing: false,
+      fetchDescriptor: () => {},
+      onBack: () => {},
+      onSubmit: () => {},
+      submitting: false,
+      invalid: false,
+      handleSubmit: () => {},
+      initialize: () => {},
+      modelList: {},
+      modelAttributeList: { 1: { content: { model: {}, attribute: { name: '1', type: 'STRING' }, name: '1' } } },
+      onModelSelected: () => {},
+    }
+    const wrapper = shallow(<OSResultsConfigurationComponent {...props} />, { context })
+    assert.equal(wrapper.find(Field).length, 9, 'should render all the fields')
   })
 })

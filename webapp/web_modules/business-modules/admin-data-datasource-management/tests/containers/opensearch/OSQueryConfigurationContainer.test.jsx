@@ -33,10 +33,16 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSQueryConfigurationContain
 
   it('Render properly', () => {
     const props = {
-      params: { project: '1' },
-      backUrl: '',
-      nextUrl: '',
+      isEditing: false,
+      initialValues: {},
+      onBack: () => {},
       onSubmit: () => {},
+      descriptor: {
+        shortName: '',
+        description: '',
+        url: [],
+        otherAttributes: {},
+      },
     }
 
     const wrapper = shallow(<OSQueryConfigurationContainer {...props} />, { context })
