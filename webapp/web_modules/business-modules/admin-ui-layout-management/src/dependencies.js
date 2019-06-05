@@ -28,6 +28,12 @@ const boardSeeRequiredDependencies = [
   LayoutActions.getDependency(RequestVerbEnum.GET),
 ]
 
+const boardAddRequiredDependencies = [
+  LayoutActions.getDependency(RequestVerbEnum.POST),
+  LayoutActions.getDependency(RequestVerbEnum.PUT),
+]
+
 export default {
   boardSeeRequiredDependencies,
+  boardAddRequiredDependencies,
 }
