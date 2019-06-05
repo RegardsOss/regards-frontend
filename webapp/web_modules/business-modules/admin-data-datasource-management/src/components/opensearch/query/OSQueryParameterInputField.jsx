@@ -16,8 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
+import isNaN from 'lodash/isNaN'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 
 /**
@@ -32,33 +35,201 @@ class OSQueryParameterInputField extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
-  getValidation = (filter) => {
-    // TODO nope: implement validate here!
+  /**
+   * Parses an optional string into a number or returns null
+   * @param {string} value input value (may be undefined, null or not parsable)
+   * @return {number} parsed number or null
+   */
+  static parseFloatOrNull(value) {
+    const parsed = parseFloat(value)
+    return isNaN(parsed) ? null : parsed
+  }
+
+  state = {
+    regexp: null,
+    minInclusive: null,
+    maxInclusive: null,
+    minExclusive: null,
+    maxExclusive: null,
+  }
+
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const { filterParameter } = newProps
+    if (oldProps.filterParameter !== filterParameter) {
+      // compute applying constraints
+      let regexp = null
+      if (filterParameter.pattern) {
+        try {
+          regexp = new RegExp(filterParameter.pattern)
+        } catch (e) {
+        // DO nothing, that regexp cannot be parsed
+        }
+      }
+      const minInclusive = OSQueryParameterInputField.parseFloatOrNull(filterParameter.minInclusive)
+      const maxInclusive = OSQueryParameterInputField.parseFloatOrNull(filterParameter.maxInclusive)
+      const minExclusive = OSQueryParameterInputField.parseFloatOrNull(filterParameter.minExclusive)
+      const maxExclusive = OSQueryParameterInputField.parseFloatOrNull(filterParameter.maxExclusive)
+      this.setState({
+        regexp,
+        minInclusive,
+        maxInclusive,
+        minExclusive,
+        maxExclusive,
+      })
+    }
+  }
+
+  /**
+   * @return {boolean} true when there is a pattern
+   */
+  hasPattern = () => !isNil(this.state.regexp)
+
+  /**
+   * @return {boolean} true when there is a min inclusive bound
+   */
+  hasMinInclusiveBound = () => !isNil(this.state.minInclusive)
+
+  /**
+   * @return {boolean} true when there is a max inclusive bound
+   */
+  hasMaxInclusiveBound = () => !isNil(this.state.maxInclusive)
+
+  /**
+   * @return {boolean} true when there is a min exclusive bound
+   */
+  hasMinExclusiveBound = () => !isNil(this.state.minExclusive)
+
+  /**
+   * @return {boolean} true when there is a max exclusive bound
+   */
+  hasMaxExclusiveBound = () => !isNil(this.state.maxExclusive)
+
+  /**
+   * @return {boolean} true when at least one bound current applies
+   */
+  hasBounds = () => this.hasMinInclusiveBound() || this.hasMaxInclusiveBound() || this.hasMinExclusiveBound() || this.hasMaxExclusiveBound()
+
+  /**
+   * Validates value respects expected pattern
+   * @param {string} value current field value, cannot be empty as it is mandatory
+   * @return {sting} error message key or undefined when no error
+   */
+  validateRegexp = (value) => {
+    const { regexp } = this.state
+    if (this.hasPattern() && !regexp.test(value)) {
+      return 'opensearch.crawler.form.query.input.field.pattern.error'
+    }
+    return undefined // no validation error
+  }
+
+  /**
+   * Validates value bounds if any bound is provided
+   * @param {string} value current field value
+   * @return {sting} error message key or undefined when no error
+   */
+  validateBounds = (value) => {
     const {
-      number, required, lessThan, moreThan,
-    } = ValidationHelpers
+      minInclusive, maxInclusive, minExclusive, maxExclusive,
+    } = this.state
+    if (this.hasBounds()) {
+      // There are numeric bound: the value must be a valid number
+      const parsedValue = OSQueryParameterInputField.parseFloatOrNull(value)
+      if (isNil(parsedValue)) {
+        return 'opensearch.crawler.form.query.input.field.invalid.number.error'
+      }
+      // test outside bounds if they are provided
+      if ((this.hasMinInclusiveBound() && parsedValue < minInclusive)
+      || (this.hasMaxInclusiveBound() && parsedValue > maxInclusive)
+      || (this.hasMinExclusiveBound() && parsedValue <= minExclusive)
+      || (this.hasMaxExclusiveBound() && parsedValue >= maxExclusive)) {
+        return 'opensearch.crawler.form.query.input.field.number.outside.bounds.error'
+      }
+    }
+    return undefined // no validation error
+  }
 
-    const validation = [required]
-
-    // TODO REWORK
-    if (filter.maxInclusive || filter.minInclusive) if (filter.maxInclusive) validation.push(number)
-    if (filter.maxInclusive) validation.push(lessThan(parseInt(filter.maxInclusive, 10)))
-    if (filter.minInclusive) validation.push(moreThan(parseInt(filter.minInclusive, 10)))
-
-    return validation
+  /**
+   * @return {[Function]} lazy initialized validators list
+   */
+  getValidators = () => {
+    if (isNil(this.validators)) {
+      this.validators = [
+        ValidationHelpers.required,
+        this.validateRegexp,
+        this.validateBounds,
+      ]
+    }
+    return this.validators
   }
 
   render() {
-    const { name } = this.props
-    const { intl: { formatMessage } } = this.context
+    const {
+      name,
+      filterParameter: {
+        pattern, minExclusive, maxExclusive, minInclusive, maxInclusive,
+      },
+    } = this.props
+    const {
+      intl: { formatMessage },
+      moduleTheme: { openSearchCrawler: { queryFilters: { filtersTable } } },
+    } = this.context
+
+    // compute label with pattern or bounds
+    let fieldLabel = null
+    if (this.hasBounds()) {
+      let minBound = null
+      let maxBound = null
+      if (this.hasMinExclusiveBound()) {
+        minBound = formatMessage({ id: 'opensearch.crawler.form.query.input.field.numeric.min.exclusive.bound' }, { bound: minExclusive })
+      } else if (this.hasMinInclusiveBound()) {
+        minBound = formatMessage({ id: 'opensearch.crawler.form.query.input.field.numeric.min.inclusive.bound' }, { bound: minInclusive })
+      } else {
+        minBound = formatMessage({ id: 'opensearch.crawler.form.query.input.field.numeric.min.free.bound' })
+      }
+      if (this.hasMaxExclusiveBound()) {
+        maxBound = formatMessage({ id: 'opensearch.crawler.form.query.input.field.numeric.max.exclusive.bound' }, { bound: maxExclusive })
+      } else if (this.hasMaxInclusiveBound()) {
+        maxBound = formatMessage({ id: 'opensearch.crawler.form.query.input.field.numeric.max.inclusive.bound' }, { bound: maxInclusive })
+      } else {
+        maxBound = formatMessage({ id: 'opensearch.crawler.form.query.input.field.numeric.max.free.bound' })
+      }
+      fieldLabel = formatMessage({ id: 'opensearch.crawler.form.query.input.field.numeric.value' }, { minBound, maxBound })
+    } else if (this.hasPattern()) {
+      fieldLabel = formatMessage({ id: 'opensearch.crawler.form.query.input.field.pattern.value' }, { pattern })
+    } else {
+      fieldLabel = formatMessage({ id: 'opensearch.crawler.form.query.input.field.free.value' })
+    }
+
+    console.error('This validators', this.validators)
+
     return (
       <Field
         name={name}
         component={RenderTextField}
-        label={formatMessage({ id: 'opensearch.crawler.form.query.value' })}
-        // TODO validation
+        label={fieldLabel}
+        title={fieldLabel}
+        validate={this.getValidators()}
+        style={filtersTable.fieldsStyle}
+        fullWidth
       />
     )
   }

@@ -19,7 +19,8 @@
 import MenuItem from 'material-ui/MenuItem'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { RenderSelectField, Field } from '@regardsoss/form-utils'
+import { themeContextType } from '@regardsoss/theme'
+import { RenderSelectField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import { DescriptorHelper } from '../../../domain/opensearch/DescriptorHelper'
 
 /**
@@ -34,13 +35,24 @@ class OSQueryParameterSelectField extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   render() {
     const { name, filterParameter } = this.props
-    const { intl: { formatMessage } } = this.context
+    const {
+      intl: { formatMessage },
+      moduleTheme: { openSearchCrawler: { queryFilters: { filtersTable } } },
+    } = this.context
     return (
-      <Field name={name} component={RenderSelectField} label={formatMessage({ id: 'opensearch.crawler.form.query.value' })}>
+      <Field
+        name={name}
+        component={RenderSelectField}
+        label={formatMessage({ id: 'opensearch.crawler.form.query.value' })}
+        validate={ValidationHelpers.required}
+        style={filtersTable.fieldsStyle}
+        fullWidth
+      >
         {DescriptorHelper.getParameterOptions(filterParameter).map(option => (
           <MenuItem
             key={option.value}

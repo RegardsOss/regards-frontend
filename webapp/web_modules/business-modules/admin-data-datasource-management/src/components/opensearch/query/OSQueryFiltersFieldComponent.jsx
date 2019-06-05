@@ -85,16 +85,17 @@ class OSQueryFiltersFieldComponent extends React.Component {
     })
   }
 
-  // TODO from here!
+  /**
+   * Builds OpenSearch test link for current query filters fields.
+   * @param {string} template URL from OpenSearch descriptor (something like domain:port/path?a=b&c=d)
+   * @param [{*}] fields as currently defined
+   * @return {string} built URL
+   */
   getOpenSearchLink = (templateURL, fields) => {
-    let url = templateURL.split('?')[0]
-    const allFields = fields.getAll()
-    if (allFields && allFields.length) {
-      url += `?${allFields.map(e => `${e.name}=${e.value}`).join('&')}`
-    }
-    return url
+    const baseURL = templateURL.split('?')[0]
+    const query = (fields.getAll() || []).filter(e => !!e.queryValue).map(e => `${e.name}=${e.queryValue}`).join('&')
+    return `${baseURL}?${query}`
   }
-
 
   render() {
     const { availableParameters, fields, openSearchTemplateURL } = this.props
@@ -127,32 +128,46 @@ class OSQueryFiltersFieldComponent extends React.Component {
             <Table>
               <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                 <TableRow>
-                  <TableHeaderColumn>{formatMessage({ id: 'opensearch.crawler.form.query.name' })}</TableHeaderColumn>
-                  <TableHeaderColumn>{formatMessage({ id: 'opensearch.crawler.form.query.description' })}</TableHeaderColumn>
-                  <TableHeaderColumn>{formatMessage({ id: 'opensearch.crawler.form.query.value' })}</TableHeaderColumn>
-                  <TableHeaderColumn>{formatMessage({ id: 'opensearch.crawler.form.query.actions' })}</TableHeaderColumn>
+                  <TableHeaderColumn width={queryFilters.filtersTable.nameColumnWidth}>
+                    {formatMessage({ id: 'opensearch.crawler.form.query.name' })}
+                  </TableHeaderColumn>
+                  <TableHeaderColumn width={queryFilters.filtersTable.descriptionColumnWidth}>
+                    {formatMessage({ id: 'opensearch.crawler.form.query.description' })}
+                  </TableHeaderColumn>
+                  <TableHeaderColumn width={queryFilters.filtersTable.valueColumnWidth}>
+                    {formatMessage({ id: 'opensearch.crawler.form.query.value' })}
+                  </TableHeaderColumn>
+                  <TableHeaderColumn width={queryFilters.filtersTable.actionsColumnWidth}>
+                    {formatMessage({ id: 'opensearch.crawler.form.query.actions' })}
+                  </TableHeaderColumn>
                 </TableRow>
               </TableHeader>
               <TableBody displayRowCheckbox={false}>
-                {fields.map((filter, index) => (
-                  <TableRow key={filter.value}>
-                    <TableRowColumn>{fields.get(index).name}</TableRowColumn>
-                    <TableRowColumn>{fields.get(index).title}</TableRowColumn>
-                    <TableRowColumn>
-                      {DescriptorHelper.hasParameterOptions(fields.get(index)) ? (
-                        <OSQueryParameterSelectField name={`${filter}.queryValue`} filterParameter={fields.get(index)} />
-                      ) : (
-                        <OSQueryParameterInputField name={`${filter}.queryValue`} filterParameter={fields.get(index)} />
-
-                      )}
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      <IconButton tooltip={formatMessage({ id: 'opensearch.crawler.form.query.removeFilter' })} onClick={() => fields.remove(index)}>
-                        <ActionDelete />
-                      </IconButton>
-                    </TableRowColumn>
-                  </TableRow>
-                ))}
+                {fields.map((filter, index) => {
+                  const filterParameter = fields.get(index)
+                  return (
+                    <TableRow height="120px" key={filter.value}>
+                      <TableRowColumn title={filterParameter.name} width={queryFilters.filtersTable.nameColumnWidth}>
+                        {filterParameter.name}
+                      </TableRowColumn>
+                      <TableRowColumn title={filterParameter.title} width={queryFilters.filtersTable.descriptionColumnWidth}>
+                        {filterParameter.title}
+                      </TableRowColumn>
+                      <TableRowColumn width={queryFilters.filtersTable.valueColumnWidth}>
+                        {DescriptorHelper.hasParameterOptions(filterParameter) ? (
+                          <OSQueryParameterSelectField name={`${filter}.queryValue`} filterParameter={filterParameter} />
+                        ) : (
+                          <OSQueryParameterInputField name={`${filter}.queryValue`} filterParameter={filterParameter} />
+                        )}
+                      </TableRowColumn>
+                      <TableRowColumn width={queryFilters.filtersTable.actionsColumnWidth}>
+                        <IconButton tooltip={formatMessage({ id: 'opensearch.crawler.form.query.removeFilter' })} onClick={() => fields.remove(index)}>
+                          <ActionDelete />
+                        </IconButton>
+                      </TableRowColumn>
+                    </TableRow>
+                  )
+                })}
               </TableBody>
             </Table>)
             : (<div style={queryFilters.emptyMessage}>
