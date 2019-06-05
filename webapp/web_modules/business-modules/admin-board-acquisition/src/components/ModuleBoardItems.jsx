@@ -33,6 +33,7 @@ import { processingChainDependencies } from '@regardsoss/admin-ingest-processing
 import { dataProviderDependencies } from '@regardsoss/admin-data-provider-management'
 import { sipDependencies } from '@regardsoss/admin-ingest-sip-management'
 import { storageManagementDependencies } from '@regardsoss/admin-storage-management'
+import { aipDependencies } from '@regardsoss/admin-storage-aip-management'
 
 /**
  * BoardItems configuration for ingest module
@@ -93,13 +94,19 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/acquisition/storage/storages`,
         icon: <Archive />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.tooltip' }),
-        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
+        hateoasDependencies: [
+          ...storageManagementDependencies.listPluginDependencies,
+          ...storageManagementDependencies.addPluginDependencies,
+        ],
       },
       {
         path: `/admin/${projectName}/data/acquisition/storage/allocations`,
         icon: <CallSplit />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.allocations.tooltip' }),
-        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
+        hateoasDependencies: [
+          ...storageManagementDependencies.listPluginDependencies,
+          ...storageManagementDependencies.addPluginDependencies,
+        ],
       },
       {
         path: `/admin/${projectName}/data/acquisition/storage/storages/monitoring`,
@@ -111,13 +118,16 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/acquisition/storage/security`,
         icon: <Security />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.security.tooltip' }),
-        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
+        hateoasDependencies: [
+          ...storageManagementDependencies.listPluginDependencies,
+          ...storageManagementDependencies.addPluginDependencies,
+        ],
       },
       {
         path: `/admin/${projectName}/data/acquisition/storage/aip/session`,
         icon: <PageView />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.aip-management.tooltip' }),
-        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
+        hateoasDependencies: aipDependencies.listDependencies,
       },
     ],
   },

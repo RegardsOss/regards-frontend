@@ -30,7 +30,7 @@ import { ThemeActions } from '@regardsoss/theme'
  */
 const boardAddRequiredDependencies = [
   ThemeActions.getDependency(RequestVerbEnum.POST),
-  ThemeActions.getDependency(RequestVerbEnum.GET),
+  ThemeActions.getDependency(RequestVerbEnum.PUT),
 ]
 
 const boardListRequiredDependencies = [

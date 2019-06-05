@@ -29,6 +29,11 @@ const boardListRequiredDependencies = [
   uiPluginDefinitionActions.getDependency(RequestVerbEnum.GET),
   uiPluginConfigurationActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
+const boardAddRequiredDependencies = [
+  uiPluginConfigurationActions.getDependency(RequestVerbEnum.POST),
+  uiPluginConfigurationActions.getDependency(RequestVerbEnum.PUT),
+]
 export default {
   boardListRequiredDependencies,
+  boardAddRequiredDependencies,
 }
