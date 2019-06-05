@@ -50,6 +50,7 @@ class ConfirmDialogComponent extends React.Component {
     message: PropTypes.string, // optional
     errorMessage: PropTypes.string, // optional
     onConfirm: PropTypes.func.isRequired,
+    // onClose is always called whether the popup is closed or submitted
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool,
   }
@@ -69,16 +70,21 @@ class ConfirmDialogComponent extends React.Component {
 
   handleConfirm = () => {
     const { intl: { formatMessage } } = this.context
-    this.setState({ loading: true })
-    this.props.onConfirm().then((response) => {
-      let error = null
-      if (response.error) {
-        error = this.props.errorMessage || formatMessage({ id: 'confirm.dialog.unknown.error' })
-      } else {
-        this.props.onClose()
-      }
-      this.setState({ loading: false, error })
-    })
+    const request = this.props.onConfirm()
+    if (request) {
+      this.setState({ loading: true })
+      request.then((response) => {
+        let error = null
+        if (response.error) {
+          error = this.props.errorMessage || formatMessage({ id: 'confirm.dialog.unknown.error' })
+        } else {
+          this.props.onClose()
+        }
+        this.setState({ loading: false, error })
+      })
+    } else {
+      this.props.onClose()
+    }
   }
 
   renderActions = () => {
