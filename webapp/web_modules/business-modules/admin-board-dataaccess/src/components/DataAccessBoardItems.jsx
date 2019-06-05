@@ -94,6 +94,7 @@ const items = (projectName, intl, onResetIndex) => [
       icon: <DeleteIcon />,
       tooltipMsg: intl.formatMessage({ id: 'accessright.board.index.delete' }),
       confirmMessage: intl.formatMessage({ id: 'accessright.board.index.delete.confirm' }),
+      errorMessage: intl.formatMessage({ id: 'accessright.board.index.delete.error.message' }),
       touchTapAction: onResetIndex,
       hateoasDependencies: [
         indexActions.getSubAction(RESET_INDEX_ACTION).getDependency(RequestVerbEnum.DELETE),

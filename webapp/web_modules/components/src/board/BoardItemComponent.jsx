@@ -83,6 +83,7 @@ class BoardItemComponent extends React.Component {
       <ConfirmDialogComponent
         dialogType={ConfirmDialogComponentTypes.CONFIRM}
         onConfirm={this.state.actionToConfirm ? this.state.actionToConfirm.touchTapAction : () => { }}
+        errorMessage={this.state.actionToConfirm ? this.state.actionToConfirm.errorMessage : null}
         onClose={this.closeConfirmDialog}
         title={this.state.actionToConfirm ? this.state.actionToConfirm.confirmMessage : ''}
       />
