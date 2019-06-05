@@ -176,6 +176,7 @@ export class EntitiesFilesFormComponent extends React.Component {
    */
   getFilesRefProps = () => ({
     mimeTypeList: this.getMimeTypeAuthorised(),
+    allowImage: this.state.type === DamDomain.DATATYPE_ENUM.THUMBNAIL,
   })
 
   /**
