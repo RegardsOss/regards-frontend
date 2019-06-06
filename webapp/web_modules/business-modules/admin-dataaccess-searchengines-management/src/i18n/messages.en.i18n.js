@@ -63,8 +63,9 @@ const messages = Object.assign({
   'component.plugin-parameter.action.reset': 'Remove selected search protocol',
   'component.plugin-parameter.no-plugin-available': 'No search protocol available',
   'component.plugin-parameter.new.conf.option': 'New configuration',
-  'search-engines.form.action.save': 'Create',
-  'search-engines.form.action.cancel': 'Cancel',
+  'search-engines.form.create.action': 'Create',
+  'search-engines.form.update.action': 'Update',
+  'search-engines.form.cancel.action': 'Cancel',
 
   'plugin.configuration.form.description.more': 'Display protocol advanced description',
 
