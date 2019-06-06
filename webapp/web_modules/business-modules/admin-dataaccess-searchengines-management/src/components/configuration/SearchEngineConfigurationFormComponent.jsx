@@ -282,6 +282,9 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
     const subtitle = mode === 'edit'
       ? formatMessage({ id: 'dataaccess.searchengines.form.edit.subtitle' })
       : formatMessage({ id: 'dataaccess.searchengines.form.create.subtitle' })
+    const buttonLabel = mode === 'edit'
+    ? formatMessage({ id: 'search-engines.form.update.action' })
+    : formatMessage({ id: 'search-engines.form.create.action' })
     return (
       <form
         onSubmit={handleSubmit(this.onSubmit)}
@@ -318,10 +321,10 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={this.context.intl.formatMessage({ id: 'search-engines.form.action.save' })}
+              mainButtonLabel={buttonLabel}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'search-engines.form.action.cancel' })}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'search-engines.form.cancel.action' })}
               secondaryButtonClick={onBack}
             />
           </CardActions>

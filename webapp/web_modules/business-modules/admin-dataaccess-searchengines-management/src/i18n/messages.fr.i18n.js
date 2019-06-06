@@ -63,8 +63,9 @@ const messages = Object.assign({
   'component.plugin-parameter.action.reset': 'Annuler la sélection',
   'component.plugin-parameter.no-plugin-available': 'Aucun protocole disponible',
   'component.plugin-parameter.new.conf.option': 'Nouvelle configuration',
-  'search-engines.form.action.save': 'Créer',
-  'search-engines.form.action.cancel': 'Annuler',
+  'search-engines.form.create.action': 'Créer',
+  'search-engines.form.update.action': 'Mettre à jour',
+  'search-engines.form.cancel.action': 'Annuler',
 
   'plugin.configuration.form.description.more': 'Voir la description détaillée du protocol',
 
