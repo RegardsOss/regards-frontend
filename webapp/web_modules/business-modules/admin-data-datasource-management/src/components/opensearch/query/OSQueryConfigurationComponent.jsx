@@ -18,7 +18,9 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import reduce from 'lodash/reduce'
 import { FormattedMessage } from 'react-intl'
+import { formValueSelector } from 'redux-form'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
   Field,
@@ -29,26 +31,28 @@ import {
   ValidationHelpers,
   StringComparison,
 } from '@regardsoss/form-utils'
+import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
   Card, CardActions, CardText, CardTitle, MenuItem,
 } from 'material-ui'
 import { CardActionsComponent } from '@regardsoss/components'
+import { DescriptorHelper } from '../../../domain/opensearch/DescriptorHelper'
 import OSQueryFiltersFieldComponent from './OSQueryFiltersFieldComponent'
 import OpenSearchStepperComponent from '../OpenSearchStepperComponent'
 
-const { number, required } = ValidationHelpers
-
-const requiredNumberValidator = [number, required]
-
-/** Expected form shape */
-export const OSCrawlerQueryConfiguration = PropTypes.shape({
+/** Expected shape */
+export const OSQueryConfiguration = PropTypes.shape({
+  // Optionnaly restored in edition, unused here
+  webserviceURL: PropTypes.string,
+  pageIndexParam: PropTypes.string,
+  pageSizeParam: PropTypes.string,
+  startPageIndex: PropTypes.string,
+  // Edited form values
+  lastUpdateParam: PropTypes.string,
+  pagesSize: PropTypes.string,
   filters: PropTypes.objectOf(PropTypes.string),
-  lastUpdate: PropTypes.string,
-  pageSize: PropTypes.number,
-  totalResultsField: PropTypes.string,
-  pageSizeField: PropTypes.string,
 })
 
 /**
@@ -57,16 +61,17 @@ export const OSCrawlerQueryConfiguration = PropTypes.shape({
  */
 export class OSQueryConfigurationComponent extends React.Component {
   static propTypes = {
+    initialValues: OSQueryConfiguration.isRequired,
     isEditing: PropTypes.bool.isRequired,
     urlDescriptor: DataManagementShapes.OpenSearchURLDescription.isRequired,
     onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    // TODO initial values prop type
     // from reduxForm
     submitting: PropTypes.bool.isRequired,
     invalid: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
+    selectedPageSize: PropTypes.string,
   }
 
   static contextTypes = {
@@ -75,16 +80,34 @@ export class OSQueryConfigurationComponent extends React.Component {
   }
 
   state = {
+    pageSizeParam: null,
+    minPageSize: 1,
+    maxPageSize: null,
+    pageIndexParam: null,
+    firstPageIndex: 0,
+    webserviceURL: '',
     availableParameters: [],
+    pageSizeValidators: [],
   }
 
   /**
    * React lifecycle method: component will mount. Used here to initialize form values from last edited values (might be empty)
    */
   componentWillMount() {
-    const { initialize, initialValues } = this.props
-    // TODO CONVERT FROM init values (TO RENAME) => to field values (using URL descriptor)
-    initialize(initialValues)
+    const { initialize, initialValues, urlDescriptor } = this.props
+    // convert values to initialize from provided values (keep only useful ones and convert to usable filters with model)
+    const usedInitialValues = {
+      lastUpdateParam: initialValues.lastUpdateParam,
+      startPageIndex: initialValues.startPageIndex,
+      pagesSize: initialValues.pagesSize,
+      // Restore only parameters still found
+      filters: reduce(initialValues.filters || {}, (acc, queryValue, parameterName) => {
+        const matchingParameter = urlDescriptor.parameter.find(({ name }) => name === parameterName)
+        return matchingParameter ? [...acc, { ...matchingParameter, queryValue }] : acc
+      }, []),
+    }
+    initialize(usedInitialValues)
+
     this.onPropertiesUpdated({}, this.props)
   }
 
@@ -100,9 +123,31 @@ export class OSQueryConfigurationComponent extends React.Component {
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
-    if (!isEqual(oldProps.urlDescriptor, newProps.urlDescriptor)) {
+    const { urlDescriptor } = newProps
+    if (!isEqual(oldProps.urlDescriptor, urlDescriptor)) {
+      const {
+        pageSizeParam,
+        minPageSize,
+        maxPageSize,
+        pageIndexParam,
+        firstPageIndex,
+      } = DescriptorHelper.parsePageData(urlDescriptor)
       this.setState({
-        availableParameters: get(newProps.urlDescriptor, 'parameter', []).sort((p1, p2) => StringComparison.compare(p1.name, p2.name)),
+        pageSizeParam,
+        minPageSize,
+        maxPageSize,
+        pageIndexParam,
+        firstPageIndex,
+        webserviceURL: DescriptorHelper.getWebserviceURL(urlDescriptor),
+        // Available parameters: remove page index and size as they are used by the plugin request then sort alphabetically
+        availableParameters: get(newProps.urlDescriptor, 'parameter', [])
+          .filter(p => p.name !== pageSizeParam && p.name !== pageIndexParam)
+          .sort((p1, p2) => StringComparison.compare(p1.name, p2.name)),
+        // update field validators
+        pageSizeValidators: [
+          ValidationHelpers.required,
+          ValidationHelpers.getIntegerInRangeValidator(minPageSize, maxPageSize || Number.MAX_VALUE),
+        ],
       })
     }
   }
@@ -113,15 +158,43 @@ export class OSQueryConfigurationComponent extends React.Component {
    * @param {*} fields fields as edited by user (never invalid, respects OSCrawlerConfigurationComponent.MainConfiguration)
    */
   handleSubmit = (fields) => {
-    this.props.onSubmit(fields)
+    const {
+      webserviceURL, pageSizeParam, pageIndexParam, firstPageIndex,
+    } = this.state
+    // convert to format expected by parent container and commit
+    this.props.onSubmit({
+      webserviceURL,
+      pageIndexParam,
+      pageSizeParam,
+      startPageIndex: firstPageIndex && firstPageIndex.toString(),
+      // Edited form values
+      lastUpdateParam: fields.lastUpdateParam,
+      pagesSize: fields.pagesSize,
+      filters: fields.filters.reduce((acc, { name, queryValue }) => ({
+        ...acc,
+        [name]: queryValue,
+      }), {}),
+    })
   }
 
   render() {
     const {
-      handleSubmit, urlDescriptor, onBack, submitting, invalid, isEditing,
+      handleSubmit, onBack, submitting,
+      selectedPageSize, invalid, isEditing,
     } = this.props
-    const { availableParameters } = this.state
     const { intl: { formatMessage } } = this.context
+    const {
+      pageSizeParam,
+      minPageSize,
+      maxPageSize,
+      pageIndexParam,
+      firstPageIndex, // expected as string by parent
+      webserviceURL,
+
+      availableParameters,
+      pageSizeValidators,
+    } = this.state
+
     return (
       <form onSubmit={handleSubmit(this.handleSubmit)}>
         <Card>
@@ -130,11 +203,11 @@ export class OSQueryConfigurationComponent extends React.Component {
           <CardText>
             {/* 1. Update parameter selector */}
             <Field
-              name="lastUpdate"
+              name="lastUpdateParam"
               component={RenderSelectField}
               type="text"
               label={formatMessage({ id: 'opensearch.crawler.form.query.lastUpdate' })}
-              validate={required}
+              validate={ValidationHelpers.required}
               fullWidth
             >
               {availableParameters.map(filter => (
@@ -143,11 +216,19 @@ export class OSQueryConfigurationComponent extends React.Component {
             </Field>
             {/* 2. Page size */}
             <Field
-              name="pageSize"
+              name="pagesSize"
               component={RenderTextField}
               type="number"
-              label={formatMessage({ id: 'opensearch.crawler.form.query.pageSize' })}
-              validate={requiredNumberValidator}
+              label={// Label: show allowed bounds
+                formatMessage({ id: 'opensearch.crawler.form.query.pageSize' }, {
+                  minBound: minPageSize
+                    ? formatMessage({ id: 'opensearch.crawler.form.query.input.field.numeric.min.inclusive.bound' }, { bound: minPageSize.toString() })
+                    : formatMessage({ id: 'opensearch.crawler.form.query.input.field.numeric.min.free.bound' }),
+                  maxBound: maxPageSize
+                    ? formatMessage({ id: 'opensearch.crawler.form.query.input.field.numeric.max.inclusive.bound' }, { bound: maxPageSize.toString() })
+                    : formatMessage({ id: 'opensearch.crawler.form.query.input.field.numeric.max.free.bound' }),
+                })}
+              validate={pageSizeValidators}
               fullWidth
             />
             {/* 3. Query filters */}
@@ -155,7 +236,12 @@ export class OSQueryConfigurationComponent extends React.Component {
               name="filters"
               component={OSQueryFiltersFieldComponent}
               availableParameters={availableParameters}
-              openSearchTemplateURL={urlDescriptor.template}
+              webserviceURL={webserviceURL}
+              pageSizeParam={pageSizeParam}
+              selectedPageSize={selectedPageSize}
+              pageIndexParam={pageIndexParam}
+              firstPageIndex={firstPageIndex}
+              invalid={invalid}
             />
           </CardText>
           <CardActions>
@@ -174,6 +260,16 @@ export class OSQueryConfigurationComponent extends React.Component {
     )
   }
 }
-export default reduxForm({
-  form: 'opensearch-query-form',
+
+
+// prepare redux form
+const formId = 'opensearch-query-form'
+const connectedReduxForm = reduxForm({
+  form: formId,
 })(OSQueryConfigurationComponent)
+
+// connect to select the page size value
+const selector = formValueSelector(formId)
+export default connect(state => ({
+  selectedPageSize: selector(state, 'pagesSize'),
+}))(connectedReduxForm)

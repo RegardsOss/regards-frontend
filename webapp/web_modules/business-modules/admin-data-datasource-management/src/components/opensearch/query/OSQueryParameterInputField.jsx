@@ -17,11 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNil from 'lodash/isNil'
-import isNaN from 'lodash/isNaN'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { DescriptorHelper } from '../../../domain/opensearch/DescriptorHelper'
 
 /**
  * Input field value for an OpenSearch query parameter (handles specific validation based on parameter constraints)
@@ -36,16 +36,6 @@ class OSQueryParameterInputField extends React.Component {
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
-  }
-
-  /**
-   * Parses an optional string into a number or returns null
-   * @param {string} value input value (may be undefined, null or not parsable)
-   * @return {number} parsed number or null
-   */
-  static parseFloatOrNull(value) {
-    const parsed = parseFloat(value)
-    return isNaN(parsed) ? null : parsed
   }
 
   state = {
@@ -84,10 +74,10 @@ class OSQueryParameterInputField extends React.Component {
         // DO nothing, that regexp cannot be parsed
         }
       }
-      const minInclusive = OSQueryParameterInputField.parseFloatOrNull(filterParameter.minInclusive)
-      const maxInclusive = OSQueryParameterInputField.parseFloatOrNull(filterParameter.maxInclusive)
-      const minExclusive = OSQueryParameterInputField.parseFloatOrNull(filterParameter.minExclusive)
-      const maxExclusive = OSQueryParameterInputField.parseFloatOrNull(filterParameter.maxExclusive)
+      const minInclusive = DescriptorHelper.parseFloatOrNull(filterParameter.minInclusive)
+      const maxInclusive = DescriptorHelper.parseFloatOrNull(filterParameter.maxInclusive)
+      const minExclusive = DescriptorHelper.parseFloatOrNull(filterParameter.minExclusive)
+      const maxExclusive = DescriptorHelper.parseFloatOrNull(filterParameter.maxExclusive)
       this.setState({
         regexp,
         minInclusive,
@@ -152,7 +142,7 @@ class OSQueryParameterInputField extends React.Component {
     } = this.state
     if (this.hasBounds()) {
       // There are numeric bound: the value must be a valid number
-      const parsedValue = OSQueryParameterInputField.parseFloatOrNull(value)
+      const parsedValue = DescriptorHelper.parseFloatOrNull(value)
       if (isNil(parsedValue)) {
         return 'opensearch.crawler.form.query.input.field.invalid.number.error'
       }
@@ -218,8 +208,6 @@ class OSQueryParameterInputField extends React.Component {
     } else {
       fieldLabel = formatMessage({ id: 'opensearch.crawler.form.query.input.field.free.value' })
     }
-
-    console.error('This validators', this.validators)
 
     return (
       <Field

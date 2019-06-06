@@ -16,6 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
+import reduce from 'lodash/reduce'
+import isPlainObject from 'lodash/isPlainObject'
 import {
   CardActions,
   CardTitle,
@@ -36,26 +39,21 @@ import {
   reduxForm,
 } from '@regardsoss/form-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
+import { DamDomain } from '@regardsoss/domain'
 import OpenSearchStepperComponent from '../OpenSearchStepperComponent'
 
 const { required } = ValidationHelpers
 const requiredValidator = [required]
 
 /** Main values form shape */
-export const OSResultsMainConfiguration = PropTypes.shape({
-  formValues: PropTypes.shape({
-    modelName: PropTypes.string,
-    totalResultsField: PropTypes.string,
-    pageSizeField: PropTypes.string,
-    propertiesLabel: PropTypes.string,
-    propertiesGeometry: PropTypes.string,
-    rawDataURLPath: PropTypes.string,
-    quicklookURLPath: PropTypes.string,
-    thumbnailURLPath: PropTypes.string,
-    dynamic: {
-      properties: PropTypes.objectOf(PropTypes.string),
-    },
-  }),
+export const OSResultsConfiguration = PropTypes.shape({
+  modelName: PropTypes.string,
+  attributeToJsonField: PropTypes.objectOf(PropTypes.string),
+  rawDataURLPath: PropTypes.string,
+  quicklookURLPath: PropTypes.string,
+  thumbnailURLPath: PropTypes.string,
+  totalResultsField: PropTypes.string,
+  pageSizeField: PropTypes.string,
 })
 
 /**
@@ -64,13 +62,13 @@ export const OSResultsMainConfiguration = PropTypes.shape({
  */
 export class OSResultsConfigurationComponent extends React.Component {
   static propTypes = {
-    onBack: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    initialValues: OSResultsConfiguration.isRequired,
     isEditing: PropTypes.bool,
     modelList: DataManagementShapes.ModelList.isRequired,
     modelAttributeList: DataManagementShapes.ModelAttributeList.isRequired,
     onModelSelected: PropTypes.func.isRequired,
-    initialValues: OSResultsMainConfiguration,
+    onBack: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     // from reduxForm
     submitting: PropTypes.bool.isRequired,
     invalid: PropTypes.bool.isRequired,
@@ -84,11 +82,84 @@ export class OSResultsConfigurationComponent extends React.Component {
   }
 
   /**
+   * Flattens fields by their path in object. Example: { a: { b: '1' }, c: '2 } => { 'a.b' : 1, c: '2' }
+   * @param {*} values values to flatten
+   * @param {*} parentPath parent path (null when no parent)
+   * @return {*} flatten object, with only one level, where each field is the concatenated path
+   */
+  static flattenByPath(values, parentPath = null) {
+    return reduce(values, (acc, value, key) => {
+      const keyWithPath = parentPath ? `${parentPath}.${key}` : key
+      if (isPlainObject(value)) {
+        // compound object: flatten sub elements
+        return { ...acc, ...this.flattenByPath(value, keyWithPath) }
+      }
+      // final value, add it directly
+      return { ...acc, [keyWithPath]: value }
+    }, {})
+  }
+
+  /**
+   * Flattens fields by their path in flatten object. Example: { 'a.b' : 1, c: '2' } => { a: { b: '1' }, c: '2 }
+   * @param {*} flattenValues flatten values, to 'unflatten'
+   * @param {*} parentPath parent path (null when no parent)
+   */
+  static unflattenOnPath(flattenValues) {
+    return reduce(flattenValues, (acc, value, flattenPath) => {
+      const nextAcc = { ...acc }
+      const pathItems = flattenPath.split('.')
+      // loop through path items to create / re-use each map object then push the value in last one
+      let currentParent = nextAcc
+      for (let i = 0; i < pathItems.length; i += 1) {
+        const currentPathItem = pathItems[i]
+        if (i === pathItems.length - 1) {
+          // A - last element, set field value in final parent
+          currentParent[currentPathItem] = value
+        } else {
+          // B - getting down in parents path: recover (1) or create sub map (2)
+          const nextParent = { ...(currentParent[currentPathItem] || {}) }
+          // update reference in current parent
+          currentParent[currentPathItem] = nextParent
+          // prepare for next loop
+          currentParent = nextParent
+        }
+      }
+      return nextAcc
+    }, {})
+  }
+
+  static STANDARD_ATTRIBUTES = [
+    { // label
+      model: DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.label),
+      attributeRequired: true,
+    }, { // provider id
+      model: DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId),
+      attributeRequired: true,
+    }, { // geometry
+      model: DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.geometry),
+      attributeRequired: false,
+    }, { // tags
+      model: DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.tags),
+      attributeRequired: false,
+    },
+  ]
+
+  /**
    * React lifecycle method: component will mount. Used here to initialize form values from last edited values (might be empty)
    */
   componentWillMount() {
     const { initialize, initialValues } = this.props
-    initialize(initialValues)
+    initialize({
+      ...initialValues,
+      // "unflatten" values as redux form expects them in map
+      attributeToJsonField: OSResultsConfigurationComponent.unflattenOnPath(initialValues.attributeToJsonField),
+    })
+  }
+
+  handleModelChange = (event, index, value, input) => {
+    input.onChange(value)
+    // Fetch new attribute list
+    this.props.onModelSelected(value)
   }
 
   /**
@@ -96,15 +167,25 @@ export class OSResultsConfigurationComponent extends React.Component {
    * @param {*} fields fields as edited by user (never invalid, respects OSCrawlerConfigurationComponent.MainConfiguration)
    */
   handleSubmit = (fields) => {
-    this.props.onSubmit(fields)
-  }
-
-  handleModelChange = (event, index, value, input) => {
-    input.onChange(value)
-    // Remove any mapping already set up
-    // this.props.change('mapping', null)
-    // Fetch new attribute list
-    this.props.onModelSelected(value)
+    const { modelAttributeList, onSubmit } = this.props
+    // A - flatten attributs by their path in edited object (avoid groups)
+    const flatten = OSResultsConfigurationComponent.flattenByPath(fields.attributeToJsonField)
+    // B - Clear any attribute that is related with another model selection or empty
+    const allowedAttributesPath = [
+      ...OSResultsConfigurationComponent.STANDARD_ATTRIBUTES.map(({ model: { content: { jsonPath } } }) => jsonPath),
+      ...map(modelAttributeList, ({ content: { attribute } }) => attribute.jsonPath),
+    ]
+    const attributeToJsonField = reduce(flatten, (acc, value, key) => {
+      if (!isNil(value) && allowedAttributesPath.includes(key)) {
+        return { ...acc, [key]: value }
+      }
+      return acc
+    }, {})
+    // C - commit at expected parent format
+    onSubmit({
+      ...fields,
+      attributeToJsonField,
+    })
   }
 
   render() {
@@ -116,10 +197,14 @@ export class OSResultsConfigurationComponent extends React.Component {
     return (
       <form onSubmit={handleSubmit(this.handleSubmit)}>
         <Card>
-          <CardTitle title={formatMessage({ id: 'opensearch.crawler.form.results.title' })} subtitle={formatMessage({ id: 'opensearch.crawler.form.results.subtitle' })} />
+          <CardTitle
+            title={formatMessage({ id: 'opensearch.crawler.form.results.title' })}
+            subtitle={formatMessage({ id: 'opensearch.crawler.form.results.subtitle' })}
+          />
           <OpenSearchStepperComponent stepIndex={2} />
           <CardText>
             <div style={inputContainer}>
+              {/* Results metadata and model */}
               <Field
                 name="totalResultsField"
                 component={RenderTextField}
@@ -145,89 +230,85 @@ export class OSResultsConfigurationComponent extends React.Component {
                 validate={ValidationHelpers.required}
                 onSelect={this.handleModelChange}
               >
-                {map(modelList, model => (
+                {map(modelList, ({ content: { name } }) => (
                   <MenuItem
-                    value={model.content.name}
-                    key={model.content.name}
-                    primaryText={model.content.name}
+                    value={name}
+                    key={name}
+                    primaryText={name}
                   />
                 ))}
               </Field>
             </div>
-            {Object.entries(modelAttributeList).length > 0 && (
-              <>
-                <div style={title}>
-                  <Title
-                    level={2}
-                    label={this.context.intl.formatMessage({ id: 'opensearch.crawler.form.results.standardAttr' })}
-                  />
-                </div>
-                <Field
-                  name="propertiesLabel"
-                  component={RenderTextField}
-                  fullWidth
-                  type="text"
-                  label={formatMessage({ id: 'opensearch.crawler.form.results.label' })}
-                  validate={required}
-                />
-                <Field
-                  name="propertiesGeometry"
-                  component={RenderTextField}
-                  fullWidth
-                  type="text"
-                  label={formatMessage({ id: 'opensearch.crawler.form.results.geometry' })}
-                  validate={required}
-                />
-                <div style={title}>
-                  <Title
-                    level={2}
-                    label={this.context.intl.formatMessage({ id: 'opensearch.crawler.form.results.associatedFiles' })}
-                  />
-                </div>
-                <Field
-                  name="rawDataURLPath"
-                  component={RenderTextField}
-                  fullWidth
-                  type="text"
-                  label={formatMessage({ id: 'opensearch.crawler.form.results.RAWDATA' })}
-                  validate={required}
-                />
+            {/* Standard attributes */}
+            <div style={title}>
+              <Title
+                level={2}
+                label={this.context.intl.formatMessage({ id: 'opensearch.crawler.form.results.standardAttr' })}
+              />
+            </div>
+            { OSResultsConfigurationComponent.STANDARD_ATTRIBUTES.map(({ model: { content: { jsonPath } }, attributeRequired }) => (
+              <Field
+                key={jsonPath}
+                name={`attributeToJsonField.${jsonPath}`}
+                component={RenderTextField}
+                fullWidth
+                type="text"
+                label={formatMessage({ id: `opensearch.crawler.form.results.${jsonPath}` })}
+                validate={attributeRequired ? null : requiredValidator}
+              />))
+            }
+            {/* Associated files  */}
+            <div style={title}>
+              <Title
+                level={2}
+                label={this.context.intl.formatMessage({ id: 'opensearch.crawler.form.results.associatedFiles' })}
+              />
+            </div>
+            <Field
+              name="rawDataURLPath"
+              component={RenderTextField}
+              fullWidth
+              type="text"
+              label={formatMessage({ id: 'opensearch.crawler.form.results.RAWDATA' })}
+              validate={required}
+            />
 
-                <Field
-                  name="quicklookURLPath"
-                  component={RenderTextField}
-                  fullWidth
-                  type="text"
-                  label={formatMessage({ id: 'opensearch.crawler.form.results.QUICKLOOK' })}
-                  validate={required}
-                />
+            <Field
+              name="quicklookURLPath"
+              component={RenderTextField}
+              fullWidth
+              type="text"
+              label={formatMessage({ id: 'opensearch.crawler.form.results.QUICKLOOK' })}
+              validate={required}
+            />
 
+            <Field
+              name="thumbnailURLPath"
+              component={RenderTextField}
+              fullWidth
+              type="text"
+              label={formatMessage({ id: 'opensearch.crawler.form.results.THUMBNAIL' })}
+              validate={required}
+            />
+            <div style={title}>
+              <Title
+                level={2}
+                label={this.context.intl.formatMessage({ id: 'opensearch.crawler.form.results.dynamicAttr' })}
+              />
+            </div>
+            { /** Render specific model attributes */
+              map(modelAttributeList, ({ content: { attribute } }) => (
                 <Field
-                  name="thumbnailURLPath"
+                  key={attribute.jsonPath}
                   component={RenderTextField}
                   fullWidth
+                  name={`attributeToJsonField.${attribute.jsonPath}`}
                   type="text"
-                  label={formatMessage({ id: 'opensearch.crawler.form.results.THUMBNAIL' })}
-                  validate={required}
+                  label={attribute.label}
+                  validate={attribute.optional ? null : requiredValidator}
                 />
-                <div style={title}>
-                  <Title
-                    level={2}
-                    label={this.context.intl.formatMessage({ id: 'opensearch.crawler.form.results.dynamicAttr' })}
-                  />
-                </div>
-                {map(modelAttributeList, attribute => (
-                  <Field
-                    component={RenderTextField}
-                    key={attribute.content.attribute.name}
-                    fullWidth
-                    name={`dynamic.${attribute.content.attribute.jsonPath}`}
-                    type="text"
-                    label={attribute.content.attribute.name}
-                    validate={attribute.content.attribute.optional ? null : requiredValidator}
-                  />
-                ))}
-            </>)}
+              ))
+            }
           </CardText>
           <CardActions>
             <CardActionsComponent
@@ -245,6 +326,7 @@ export class OSResultsConfigurationComponent extends React.Component {
     )
   }
 }
+
 export default reduxForm({
   form: 'opensearch-results-form',
 })(OSResultsConfigurationComponent)

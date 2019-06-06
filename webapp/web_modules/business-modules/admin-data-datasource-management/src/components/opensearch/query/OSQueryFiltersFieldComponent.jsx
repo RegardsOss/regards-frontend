@@ -25,11 +25,11 @@ import TableBody from 'material-ui/Table/TableBody'
 import TableRowColumn from 'material-ui/Table/TableRowColumn'
 import IconButton from 'material-ui/IconButton'
 import FlatButton from 'material-ui/FlatButton'
+import AddFilterIcon from 'mdi-material-ui/Filter'
+import TestRequestIcon from 'material-ui/svg-icons/action/open-in-new'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import AddFilterIcon from 'mdi-material-ui/Filter'
-import TestRequestIcon from 'material-ui/svg-icons/action/open-in-new'
 import OSQueryAddFilterDialogComponent from './OSQueryAddFilterDialogComponent'
 import { DescriptorHelper } from '../../../domain/opensearch/DescriptorHelper'
 import OSQueryParameterSelectField from './OSQueryParameterSelectField'
@@ -44,7 +44,15 @@ class OSQueryFiltersFieldComponent extends React.Component {
   static propTypes = {
     // Available parameters on OpenSearch API
     availableParameters: PropTypes.arrayOf(DataManagementShapes.OpenSearchURLParameterDescription).isRequired,
-    openSearchTemplateURL: PropTypes.string.isRequired,
+    webserviceURL: PropTypes.string.isRequired,
+    // Page size parameter name
+    pageSizeParam: PropTypes.string.isRequired,
+    // Selected page size in form (as edited)
+    selectedPageSize: PropTypes.string,
+    // Page index parameter name
+    pageIndexParam: PropTypes.string.isRequired,
+    firstPageIndex: PropTypes.number.isRequired,
+    invalid: PropTypes.bool,
     // From redux form
     fields: PropTypes.shape({
       getAll: PropTypes.func.isRequired,
@@ -87,18 +95,29 @@ class OSQueryFiltersFieldComponent extends React.Component {
 
   /**
    * Builds OpenSearch test link for current query filters fields.
-   * @param {string} template URL from OpenSearch descriptor (something like domain:port/path?a=b&c=d)
-   * @param [{*}] fields as currently defined
-   * @return {string} built URL
+   * @return {string} built URL or null when form is not in valid state
    */
-  getOpenSearchLink = (templateURL, fields) => {
-    const baseURL = templateURL.split('?')[0]
-    const query = (fields.getAll() || []).filter(e => !!e.queryValue).map(e => `${e.name}=${e.queryValue}`).join('&')
-    return `${baseURL}?${query}`
+  getOpenSearchLink = () => {
+    const {
+      invalid, webserviceURL, fields,
+      pageSizeParam, selectedPageSize,
+      pageIndexParam, firstPageIndex,
+    } = this.props
+    if (invalid) {
+      return null
+    }
+    // build parameters list from both fields and parent information
+    const queryParameters = (fields.getAll() || [])
+      .filter(e => !!e.queryValue).map(e => `${e.name}=${e.queryValue}`)
+      .concat([ // page size and page index
+        `${pageSizeParam}=${selectedPageSize}`,
+        `${pageIndexParam}=${firstPageIndex}`,
+      ])
+    return `${webserviceURL}?${queryParameters.join('&')}`
   }
 
   render() {
-    const { availableParameters, fields, openSearchTemplateURL } = this.props
+    const { availableParameters, fields, invalid } = this.props
     const { dialogOpen } = this.state
     const { intl: { formatMessage }, moduleTheme: { openSearchCrawler: { queryFilters } } } = this.context
     return (
@@ -116,11 +135,11 @@ class OSQueryFiltersFieldComponent extends React.Component {
           <FlatButton
             label={formatMessage({ id: 'opensearch.crawler.form.query.testQuery.label' })}
             title={formatMessage({ id: 'opensearch.crawler.form.query.testQuery.tooltip' })}
-            href={this.getOpenSearchLink(openSearchTemplateURL, fields)}
+            href={this.getOpenSearchLink()}
             target="_blank"
+            disabled={invalid}
             icon={<TestRequestIcon />}
           />
-
         </div>
         {/* 2. Filters list table or none */}
         { // Show selected filters if any, message otherwise
@@ -146,7 +165,7 @@ class OSQueryFiltersFieldComponent extends React.Component {
                 {fields.map((filter, index) => {
                   const filterParameter = fields.get(index)
                   return (
-                    <TableRow height="120px" key={filter.value}>
+                    <TableRow height="120px" key={filterParameter.value}>
                       <TableRowColumn title={filterParameter.name} width={queryFilters.filtersTable.nameColumnWidth}>
                         {filterParameter.name}
                       </TableRowColumn>
@@ -161,7 +180,10 @@ class OSQueryFiltersFieldComponent extends React.Component {
                         )}
                       </TableRowColumn>
                       <TableRowColumn width={queryFilters.filtersTable.actionsColumnWidth}>
-                        <IconButton tooltip={formatMessage({ id: 'opensearch.crawler.form.query.removeFilter' })} onClick={() => fields.remove(index)}>
+                        <IconButton
+                          onClick={() => fields.remove(index)}
+                          title={formatMessage({ id: 'opensearch.crawler.form.query.removeFilter' })}
+                        >
                           <ActionDelete />
                         </IconButton>
                       </TableRowColumn>

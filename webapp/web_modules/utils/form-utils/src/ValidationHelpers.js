@@ -236,13 +236,21 @@ const parsableNumberValidator = (parsingError, min, max, regexp = NUMBER_REGEXP)
   return undefined
 }
 
+/**
+ * Builds a validator
+ * @param {number} minValue min range value (optional)
+ * @param {number} maxValue max range value (optional)
+ * @return {Function} validator
+ */
+const getIntegerInRangeValidator = (minValue = Number.MIN_VALUE, maxValue = Number.MAX_VALUE) => parsableNumberValidator(
+  ErrorTypes.INVALID_INTEGER_NUMBER, new BigNumber(minValue), new BigNumber(maxValue), INTEGER_REGEXP)
+
 /** Validates a JS number */
 const number = parsableNumberValidator(ErrorTypes.NUMERIC,
   new BigNumber(Number.MIN_VALUE), new BigNumber(Number.MAX_VALUE))
 
 /** Validates a JS integer number */
-const intNumber = parsableNumberValidator(ErrorTypes.INVALID_INTEGER_NUMBER,
-  new BigNumber(Number.MIN_SAFE_INTEGER), new BigNumber(Number.MAX_SAFE_INTEGER), INTEGER_REGEXP)
+const intNumber = getIntegerInRangeValidator(Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER)
 
 /** Validates a JS integer positive number */
 const positiveIntNumber = parsableNumberValidator(ErrorTypes.INVALID_POSITIVE_INTEGER_NUMBER,
@@ -303,6 +311,7 @@ export default {
   number,
   intNumber,
   positiveIntNumber,
+  getIntegerInRangeValidator,
   url,
   uri,
   characterValidator,

@@ -24,7 +24,7 @@ import { withModuleStyle } from '@regardsoss/theme'
 import messages from '../../i18n'
 import { modelAttributesActions, modelAttributesSelectors } from '../../clients/ModelAttributesClient'
 import { modelSelectors, modelActions } from '../../clients/ModelClient'
-import OSResultsConfigurationComponent, { OSResultsMainConfiguration } from '../../components/opensearch/results/OSResultsConfigurationComponent'
+import OSResultsConfigurationComponent, { OSResultsConfiguration } from '../../components/opensearch/results/OSResultsConfigurationComponent'
 import styles from '../../styles'
 
 /**
@@ -60,10 +60,10 @@ export class OSResultsConfigurationContainer extends React.Component {
   }
 
   static propTypes = {
+    initialValues: OSResultsConfiguration.isRequired,
     onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     isEditing: PropTypes.bool.isRequired,
-    initialValues: OSResultsMainConfiguration,
     // from mapStateToProps
     modelList: DataManagementShapes.ModelList.isRequired,
     modelAttributeList: DataManagementShapes.ModelAttributeList.isRequired,

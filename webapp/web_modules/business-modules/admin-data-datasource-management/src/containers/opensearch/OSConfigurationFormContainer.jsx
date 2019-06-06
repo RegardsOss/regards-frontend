@@ -95,29 +95,33 @@ export class OSConfigurationFormContainer extends React.Component {
    */
   static getInitialEditionValues(datasource) {
     const { content: { parameters, label, refreshRate } } = datasource
-    const webserviceConfiguration = parameters.find(config => config.name === 'webserviceConfiguration')
-    const conversionConfiguration = parameters.find(config => config.name === 'conversionConfiguration')
+    const { value: webserviceValues } = parameters.find(config => config.name === 'webserviceConfiguration')
+    const { value: conversionValues } = parameters.find(config => config.name === 'conversionConfiguration')
     return {
       crawler: {
-        descriptor: webserviceConfiguration.value.opensearchDescriptorURL,
+        descriptor: webserviceValues.opensearchDescriptorURL,
         name: label,
-        refreshRate,
+        refreshRate: refreshRate && refreshRate.toString(), // undefined is OK here
       },
       query: {
-        filters: map(webserviceConfiguration.value.webserviceParameters, (value, key) => ({ name: key, value })),
-        lastUpdate: webserviceConfiguration.value.lastUpdateParam,
-        pageSize: webserviceConfiguration.value.pageSize,
-        totalResultsField: conversionConfiguration.value.totalResultsField,
-        pageSizeField: conversionConfiguration.value.pageSizeField,
+        // retrieved by the query form in descriptor (provided here for data stability)
+        webserviceURL: webserviceValues.webserviceURL,
+        pageIndexParam: webserviceValues.pageIndexParam,
+        pageSizeParam: webserviceValues.pageSizeParam,
+        startPageIndex: webserviceValues.startPageIndex && webserviceValues.startPageIndex.toString(), // undefined is OK here
+        // editable form data
+        lastUpdateParam: webserviceValues.lastUpdateParam,
+        pagesSize: webserviceValues.pagesSize && webserviceValues.pagesSize.toString(), // undefined is OK here
+        filters: map(webserviceValues.webserviceParameters, (value, key) => ({ name: key, value })) || {}, // optional
       },
       results: {
-        modelName: conversionConfiguration.value.modelName,
-        propertiesLabel: '', // TODO
-        propertiesGeometry: '', // TODO
-        rawDataURLPath: conversionConfiguration.value.rawDataURLPath,
-        quicklookURLPath: conversionConfiguration.value.quicklookURLPath,
-        thumbnailURLPath: conversionConfiguration.value.thumbnailURLPath,
-        dynamic: conversionConfiguration.value.attributeToJsonField,
+        modelName: conversionValues.modelName,
+        attributeToJsonField: conversionValues.attributeToJsonField,
+        rawDataURLPath: conversionValues.rawDataURLPath,
+        quicklookURLPath: conversionValues.quicklookURLPath,
+        thumbnailURLPath: conversionValues.thumbnailURLPath,
+        totalResultsField: conversionValues.totalResultsField,
+        pageSizeField: conversionValues.pageSizeField,
       },
     }
   }
@@ -184,15 +188,13 @@ export class OSConfigurationFormContainer extends React.Component {
 
   /**
    * On crawler root configuration part submitted: update part values and set up next step presentation
-   * @param {*} fields edited form fields
+   * @param {*} crawler new crawler values (must match expected format)
    */
-  onCrawlerSubmit = (fields) => {
-    console.error('ALL THE FIELDS', fields, typeof fields.refreshRate)
-    // TODO probably some control on other parts (with previous state value)
+  onCrawlerSubmit = (crawler) => {
     this.setState({
       formValues: {
         ...this.state.formValues,
-        crawler: fields,
+        crawler,
       },
       formState: STATE.QUERY,
     })
@@ -200,20 +202,13 @@ export class OSConfigurationFormContainer extends React.Component {
 
   /**
    * On crawler query configuration part submitted: update part values and set up next step presentation
-   * @param {*} fields edited form fields
+   * @param {*} query new query values (must match expected shape)
    */
-  onQuerySubmit = (fields, pageIndexParam, startPageIndex, pageSizeParam, webserviceURL) => {
-    // TODO Convert here: from fields with queryValue to {paramName}:{queryValue} or URL, to be checked
+  onQuerySubmit = (query) => {
     this.setState({
       formValues: {
         ...this.state.formValues,
-        query: {
-          ...fields,
-          pageIndexParam,
-          startPageIndex,
-          pageSizeParam,
-          webserviceURL,
-        },
+        query,
       },
       formState: STATE.RESULTS,
     })
@@ -221,14 +216,14 @@ export class OSConfigurationFormContainer extends React.Component {
 
   /**
    * On crawler results conversion configuration part submitted: update part values then attempt server update
-   * @param {*} fields edited form fields
+   * @param {*} results new results values (must match expected shape)
    */
-  onResultsSubmit = (fields) => {
+  onResultsSubmit = (results) => {
     // Note: we publish in state before to handle the error case followed by user edition
     this.setState({
       formValues: {
         ...this.state.formValues,
-        results: fields,
+        results,
       },
     }, this.publishPluginConfiguration)
   }
@@ -247,62 +242,66 @@ export class OSConfigurationFormContainer extends React.Component {
    */
   publishPluginConfiguration = () => {
     const { formValues: { crawler, query, results } } = this.state
-    const conf = {
-      pluginId: 'webservice-datasource',
-      label: crawler.name,
-      version: '1.0-SNAPSHOT',
-      priorityOrder: 0,
-      refreshRate: +crawler.refreshRate, // TODO: Doesn't seem to exist // TODO what '+'??????
-      active: true,
-      interfaceNames: ['fr.cnes.regards.modules.dam.domain.datasources.plugins.IDataSourcePlugin'],
-      pluginClassName:
-        'fr.cnes.regards.modules.dam.plugins.datasources.webservice.WebserviceDatasourcePlugin',
-      parameters: [
-        {
-          name: 'webserviceConfiguration',
-          value: {
-            webserviceURL: query.webserviceURL,
-            opensearchDescriptorURL: crawler.descriptor,
-            webserviceParameters: query.filters ? query.filters.reduce(
-              (acc, filter) => ({ ...acc, [filter.name]: filter.value }),
-              {},
-            ) : [],
-            pageSizeParam: query.pageSizeParam,
-            pageIndexParam: query.pageIndexParam,
-            lastUpdateParam: query.lastUpdate,
-            startPageIndex: query.startPageIndex,
-            pageSize: +query.pageSize,
-          },
-          type:
-            'fr.cnes.regards.modules.dam.plugins.datasources.webservice.configuration.WebserviceConfiguration',
-        },
-        {
-          name: 'conversionConfiguration',
-          value: {
-            modelName: results.modelName,
-            totalResultsField: results.totalResultsField,
-            // TODO il manque les attributs standards
-            pageSizeField: results.pageSizeField,
-            attributeToJsonField: results.dynamic,
-            thumbnailURLPath: results.thumbnailURLPath,
-            rawDataURLPath: results.rawDataURLPath,
-            quicklookURLPath: results.quicklookURLPath,
-          },
-        },
-      ],
-    }
+    console.error('The committed results are - crawler', crawler)
+    console.error('The committed results are - query', query)
+    console.error('The committed results are - results', results)
+    // TODO
+    // const conf = {
+    //   pluginId: 'webservice-datasource',
+    //   label: crawler.name,
+    //   version: '1.0-SNAPSHOT',
+    //   priorityOrder: 0,
+    //   refreshRate: +crawler.refreshRate, // TODO: Doesn't seem to exist // TODO what '+'??????
+    //   active: true,
+    //   interfaceNames: ['fr.cnes.regards.modules.dam.domain.datasources.plugins.IDataSourcePlugin'],
+    //   pluginClassName:
+    //     'fr.cnes.regards.modules.dam.plugins.datasources.webservice.WebserviceDatasourcePlugin',
+    //   parameters: [
+    //     {
+    //       name: 'webserviceConfiguration',
+    //       value: {
+    //         webserviceURL: query.webserviceURL,
+    //         opensearchDescriptorURL: crawler.descriptor,
+    //         webserviceParameters: query.filters ? query.filters.reduce(
+    //           (acc, filter) => ({ ...acc, [filter.name]: filter.value }),
+    //           {},
+    //         ) : [],
+    //         pageSizeParam: query.pageSizeParam, // TODO wrong
+    //         pageIndexParam: query.pageIndexParam, // TODO wrong
+    //         lastUpdateParam: query.lastUpdate,
+    //         startPageIndex: query.startPageIndex,
+    //         pagesSize: +query.pagesSize, // TODO probably wrong
+    //       },
+    //       type:
+    //         'fr.cnes.regards.modules.dam.plugins.datasources.webservice.configuration.WebserviceConfiguration',
+    //     },
+    //     {
+    //       name: 'conversionConfiguration',
+    //       value: {
+    //         modelName: results.modelName,
+    //         totalResultsField: results.totalResultsField,
+    //         // TODO il manque les attributs standards
+    //         pageSizeField: results.pageSizeField,
+    //         attributeToJsonField: results.dynamic,
+    //         thumbnailURLPath: results.thumbnailURLPath,
+    //         rawDataURLPath: results.rawDataURLPath,
+    //         quicklookURLPath: results.quicklookURLPath,
+    //       },
+    //     },
+    //   ],
+    // }
 
-    if (this.state.isEditing) {
-      // TODO : Ce que j'ai fait ici ne marchait pas du tout. RMI: verifier
-    } else {
-      // TODO use edit here!!!
-      Promise.resolve(this.props.createDatasource(conf)).then((actionResults) => {
-        if (!actionResults.error) {
-          this.redirectToList()
-        }
-      })
-    }
-    return conf
+    // if (this.state.isEditing) {
+    //   // TODO : Ce que j'ai fait ici ne marchait pas du tout. RMI: verifier
+    // } else {
+    //   // TODO use edit here!!!
+    //   Promise.resolve(this.props.createDatasource(conf)).then((actionResults) => {
+    //     if (!actionResults.error) {
+    //       this.redirectToList()
+    //     }
+    //   })
+    // }
+    // return conf
   }
 
   /**

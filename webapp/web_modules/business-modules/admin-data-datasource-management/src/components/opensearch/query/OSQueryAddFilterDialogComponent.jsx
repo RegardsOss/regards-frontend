@@ -97,6 +97,7 @@ class OSQueryAddFilterDialogComponent extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     if (!isEqual(oldProps.availableParameters, newProps.availableParameters) || !isEqual(oldProps.selectedFilters, newProps.selectedFilter)) {
+      // update filters state when available or selected filters change
       this.onFiltersUpdated(this.state.filterText, newProps.availableParameters, newProps.selectedFilters)
     }
   }
@@ -144,11 +145,13 @@ class OSQueryAddFilterDialogComponent extends React.Component {
   onConfirm = () => {
     const { selectedFilter } = this.state
     const { onConfirmAddFilter } = this.props
-    this.setState({
-      filterText: '',
-      // currently selected filter
-      selectedFilter: null,
-    }, onConfirmAddFilter(selectedFilter))
+    if (selectedFilter) {
+      // reset local state
+      this.setState({
+        filterText: '',
+        selectedFilter: null,
+      }, () => onConfirmAddFilter(selectedFilter))
+    } // else: ignore event, already closing
   }
 
   /**
@@ -156,11 +159,11 @@ class OSQueryAddFilterDialogComponent extends React.Component {
    */
   onCancel = () => {
     const { onClose } = this.props
+    // reset local state
     this.setState({
       filterText: '',
-      // currently selected filter
       selectedFilter: null,
-    }, onClose())
+    }, () => onClose())
   }
 
   /**
@@ -257,6 +260,7 @@ class OSQueryAddFilterDialogComponent extends React.Component {
               value={filterText}
               onChange={this.onFilterInput}
               placeholder={formatMessage({ id: 'opensearch.crawler.form.query.filter' })}
+              autoFocus
               fullWidth
             />
             <SelectableList

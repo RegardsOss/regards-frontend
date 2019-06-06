@@ -39,7 +39,7 @@ const requiredUrlValidator = [url, required]
 /** Main values form shape */
 export const OSCrawlerMainConfiguration = PropTypes.shape({
   name: PropTypes.string,
-  refresh: PropTypes.number,
+  refresh: PropTypes.string,
   descriptor: PropTypes.string,
 })
 
@@ -67,13 +67,6 @@ export class OSCrawlerConfigurationComponent extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
-
-  /**
-   * Parses refresh rate from text value (to int conversion)
-   * @param {string} text
-   * @return {number} parsed value (might be nan)
-   */
-  static parseRefreshRate = text => parseInt(text, 10)
 
   /**
    * React lifecycle method: component will mount. Used here to initialize form values from last edited values (might be empty)
@@ -122,7 +115,6 @@ export class OSCrawlerConfigurationComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="number"
-              parse={OSCrawlerConfigurationComponent.parseRefreshRate}
               label={formatMessage({ id: 'opensearch.crawler.form.crawler.refreshRate' })}
               validate={requiredNumberValidator}
             />
@@ -161,6 +153,8 @@ export class OSCrawlerConfigurationComponent extends React.Component {
 const DESCRIPTOR_ERROR_TYPES = {
   INVALID_URL: 'invalid.url',
   NO_JSON_RESOURCE_URL: 'no.json.resource.url',
+  NO_PAGE_INDEX_PARAMETER: 'no.page.index.parameter',
+  NO_PAGE_SIZE_PARAMETER: 'no.page.size.parameter',
 }
 
 /**
@@ -171,11 +165,23 @@ const DESCRIPTOR_ERROR_TYPES = {
  */
 function asyncValidate({ descriptor }, dispatch, props) {
   return props.fetchDescriptor(descriptor).then(({ payload, error }) => {
+    // 1 - Fetch OK?
     if (error) {
       throw new Error(DESCRIPTOR_ERROR_TYPES.INVALID_URL) // handled internally in catch
     }
-    if (!DescriptorHelper.hasResourceURL(payload)) {
+    // 2 - Has JSON consumable URL for OpenSearch?
+    const urlDescriptor = DescriptorHelper.getResourceURL(payload)
+    if (!urlDescriptor) {
       throw new Error(DESCRIPTOR_ERROR_TYPES.NO_JSON_RESOURCE_URL) // handled internally in catch
+    }
+    // 3 - Has both page size and page index parameters?
+    const pageIndexParameter = DescriptorHelper.getPageIndexParameter(urlDescriptor)
+    if (!pageIndexParameter) {
+      throw new Error(DESCRIPTOR_ERROR_TYPES.NO_PAGE_INDEX_PARAMETER)
+    }
+    const pageSizeParameter = DescriptorHelper.getPageSizeParameter(urlDescriptor)
+    if (!pageSizeParameter) {
+      throw new Error(DESCRIPTOR_ERROR_TYPES.NO_PAGE_SIZE_PARAMETER)
     }
     // nothing to do when valid
   }).catch((err) => {
@@ -184,9 +190,15 @@ function asyncValidate({ descriptor }, dispatch, props) {
         // eslint-disable-next-line no-throw-literal
         throw { descriptor: 'opensearch.crawler.form.crawler.descriptor.no.json.url' } // redux-form expected format
       case DESCRIPTOR_ERROR_TYPES.INVALID_URL:
-      default:
         // eslint-disable-next-line no-throw-literal
         throw { descriptor: 'opensearch.crawler.form.crawler.descriptor.invalid.url' } // redux-form expected format
+      case DESCRIPTOR_ERROR_TYPES.NO_PAGE_INDEX_PARAMETER:
+        // eslint-disable-next-line no-throw-literal
+        throw { descriptor: 'opensearch.crawler.form.crawler.descriptor.no.page.index.parameter' } // redux-form expected format
+      case DESCRIPTOR_ERROR_TYPES.PAGE_SIZE_PARAMETER:
+      default:
+        // eslint-disable-next-line no-throw-literal
+        throw { descriptor: 'opensearch.crawler.form.crawler.descriptor.no.page.size.parameter' } // redux-form expected format
     }
   })
 }

@@ -22,7 +22,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { withModuleStyle } from '@regardsoss/theme'
 import messages from '../../i18n'
-import OSQueryConfigurationComponent from '../../components/opensearch/query/OSQueryConfigurationComponent'
+import OSQueryConfigurationComponent, { OSQueryConfiguration } from '../../components/opensearch/query/OSQueryConfigurationComponent'
 import { descriptorSelectors } from '../../clients/OpensearchDescriptorClient'
 import styles from '../../styles'
 
@@ -44,8 +44,8 @@ export class OSQueryConfigurationContainer extends React.Component {
   }
 
   static propTypes = {
+    initialValues: OSQueryConfiguration.isRequired,
     isEditing: PropTypes.bool,
-    // initialValues: PropTypes.obj, //TODO : Shape it up
     onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     // from mapStateToProps
@@ -68,13 +68,12 @@ export class OSQueryConfigurationContainer extends React.Component {
     const {
       onBack, initialValues, isEditing, descriptor,
     } = this.props
-    console.error('>>>>', descriptor.url.find(e => e.type === 'application/json'))
     return (
       <I18nProvider messages={messages}>
         <OSQueryConfigurationComponent
           initialValues={initialValues}
           isEditing={isEditing}
-          urlDescriptor={descriptor.url.find(e => e.type === 'application/json')} // TODO use descriptor helper in onPropertiesUpdated!
+          urlDescriptor={descriptor.url.find(e => e.type === 'application/json')}
           onBack={onBack}
           onSubmit={this.onSubmit}
         />
