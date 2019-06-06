@@ -48,6 +48,7 @@ export class SearchEngineConfigurationListComponent extends React.Component {
     onDelete: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
+    fetchDataset: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     resultsCount: PropTypes.number.isRequired,
   }
@@ -122,7 +123,7 @@ export class SearchEngineConfigurationListComponent extends React.Component {
       new TableColumnBuilder('column.engine').titleHeaderCell().propertyRenderCell('content.configuration.pluginId')
         .label(formatMessage({ id: 'dataaccess.searchengines.list.header.engine' }))
         .build(),
-      new TableColumnBuilder('column.state').titleHeaderCell().propertyRenderCell('content.dataset.feature.label')
+      new TableColumnBuilder('column.state').titleHeaderCell().propertyRenderCell('content.datasetUrn')
         .label(formatMessage({ id: 'dataaccess.searchengines.list.header.dataset' }))
         .build(),
       new TableColumnBuilder().optionsColumn([{

@@ -27,6 +27,7 @@ import endsWith from 'lodash/endsWith'
 import trimEnd from 'lodash/trimEnd'
 import join from 'lodash/join'
 import takeRight from 'lodash/takeRight'
+import { getJSON } from 'redux-api-middleware'
 import RequestVerbEnum from './RequestVerbEnum'
 
 /**
@@ -70,6 +71,13 @@ class BasicActions {
       }),
     }
   }
+
+  /**
+   * Behavior: build result from fetch result
+   * @param {*} res fetch result
+   * @return result
+   */
+  buildResults = res => getJSON(res).then(json => json)
 
   /**
    * Builds a success action. Instantiates required data to handle the cancel pending events
