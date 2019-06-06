@@ -34,9 +34,6 @@ export default class DatasetActions extends BasicPageableActions {
     })
   }
 
-  // TODO Fix me : Enlever l'extract payload et corriger le endpoint
-  getByUrn = urn => (this.fetchEntity(`ipId/${urn}`, {}, {}, false))
-
   /**
    * Serialize the geometry attribute before create / update dataset
    * @param objectValues

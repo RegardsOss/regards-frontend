@@ -22,7 +22,7 @@ import { connect } from '@regardsoss/redux'
 import { CommonShapes, CatalogShapes } from '@regardsoss/shape'
 import { CatalogDomain } from '@regardsoss/domain'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { datasetActions } from '../../clients/DatasetClient'
+import { datasetByIpIdActions } from '../../clients/DatasetClient'
 import { searchEngineConfigurationsActions, searchEngineConfigurationsSelectors } from '../../clients/SearchEngineConfigurationsClient'
 import { pluginConfigurationActions, pluginConfigurationSelectors } from '../../clients/PluginConfigurationClient'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from '../../clients/PluginMetadataClient'
@@ -67,7 +67,7 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
         { microserviceName: MICROSERVICE }, {
           pluginType: CatalogDomain.PluginTypeEnum.SEARCHENGINES,
         })),
-      fetchDataset: datasetUrn => dispatch(datasetActions.getByUrn(datasetUrn)),
+      fetchDatasetByUrn: datasetUrn => dispatch(datasetByIpIdActions.fetchDatasetByUrn(datasetUrn)),
     }
   }
 
@@ -88,7 +88,7 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
     create: PropTypes.func.isRequired,
     fetchPluginMetaDataList: PropTypes.func.isRequired,
     fetchPluginConfigurationList: PropTypes.func.isRequired,
-    fetchDataset: PropTypes.func.isRequired,
+    fetchDatasetByUrn: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -110,7 +110,9 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
     Promise.all(actions)
       .then(() => {
         if (this.props.searchEngine && this.props.searchEngine.content.datasetUrn) {
-          this.props.fetchDataset(this.props.searchEngine.content.datasetUrn).then((response) => {
+          console.error(this.props.fetchDatasetByUrn)
+          console.error(this.props.searchEngine.content.datasetUrn)
+          this.props.fetchDatasetByUrn(this.props.searchEngine.content.datasetUrn).then((response) => {
             if (!response.error) {
               this.setState({
                 ...this.state,

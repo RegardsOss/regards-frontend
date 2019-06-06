@@ -16,18 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DATASET, DATASET_ARRAY } from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
-export default class SearchEngineDatasetActions extends BasicPageableActions {
+export default class DatasetByIpIdActions extends BasicSignalActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/datasets/ipId`,
-      schemaTypes: {
-        ENTITY: DATASET,
-        ENTITY_ARRAY: DATASET_ARRAY,
-      },
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/datasets/ipId/{dataset_ipId}`,
     })
   }
+
+  fetchDatasetByUrn = datasetUrn => (
+    this.sendSignal('GET', {}, { dataset_ipId: datasetUrn })
+  )
 }

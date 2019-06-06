@@ -104,7 +104,7 @@ class BasicListActions extends BasicActions {
    * @param {Object} queryParams
    * @returns {{}}
    */
-  fetchEntity(keyValue, pathParams, queryParams, extractPayload = true) {
+  fetchEntity(keyValue, pathParams, queryParams) {
     let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
     endpoint = `${endpoint}/${keyValue}`
     endpoint = this.handleRequestQueryParams(endpoint, queryParams)
@@ -114,7 +114,7 @@ class BasicListActions extends BasicActions {
           this.ENTITY_REQUEST,
           this.buildSuccessAction(
             this.ENTITY_SUCCESS,
-            (action, state, res) => extractPayload ? BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)) : this.buildResults(res),
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
           ),
           this.buildFailureAction(this.ENTITY_FAILURE),
         ],
