@@ -18,7 +18,7 @@
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { searchEngineConfigurationsActions } from './clients/SearchEngineConfigurationsClient'
-import { datasetActions } from './clients/DatasetClient'
+import { datasetByIpIdActions } from './clients/DatasetClient'
 
 /**
  * Mandatory Dependencies to display module in parent board
@@ -34,7 +34,7 @@ const listDependencies = [
  */
 const addDependencies = [
   searchEngineConfigurationsActions.getDependency(RequestVerbEnum.POST),
-  datasetActions.getDependency(RequestVerbEnum.GET),
+  datasetByIpIdActions.getDependency(RequestVerbEnum.GET),
 ]
 
 

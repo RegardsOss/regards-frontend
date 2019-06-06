@@ -20,7 +20,6 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { searchEngineConfigurationsActions, searchEngineConfigurationsSelectors } from '../../clients/SearchEngineConfigurationsClient'
 import SearchEngineConfigurationListComponent from '../../components/configuration/SearchEngineConfigurationListComponent'
-import { datasetActions } from '../../clients/DatasetClient'
 
 /**
 * Container to handle search engine configurations list
@@ -49,7 +48,6 @@ export class SearchEngineConfigurationListContainer extends React.Component {
   static mapDispatchToProps(dispatch, props) {
     return {
       fetchPage: (pageIndex, pageSize, requestParams) => dispatch(searchEngineConfigurationsActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
-      fetchDataset: datasetUrn => dispatch(datasetActions.getByUrn(datasetUrn)),
       update: conf => dispatch(searchEngineConfigurationsActions.updateEntity(conf.id, conf)),
       delete: conf => dispatch(searchEngineConfigurationsActions.deleteEntity(conf.id)),
     }
@@ -67,7 +65,6 @@ export class SearchEngineConfigurationListContainer extends React.Component {
     isLoading: PropTypes.bool.isRequired,
     // from mapDispatchToProps
     fetchPage: PropTypes.func.isRequired,
-    fetchDataset: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
   }
 
@@ -98,7 +95,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
 
   render() {
     const {
-      fetchPage, fetchDataset, isLoading, meta: { totalElements },
+      fetchPage, isLoading, meta: { totalElements },
     } = this.props
     return (
       <SearchEngineConfigurationListComponent
@@ -107,7 +104,6 @@ export class SearchEngineConfigurationListContainer extends React.Component {
         onEdit={this.onEdit}
         onDelete={this.onDelete}
         fetchPage={fetchPage}
-        fetchDataset={fetchDataset}
         isLoading={isLoading}
         resultsCount={totalElements}
       />

@@ -19,7 +19,7 @@
 /**
  * @author Léo Mieulet
  */
-import { RSAA } from 'redux-api-middleware'
+import { RSAA, getJSON } from 'redux-api-middleware'
 import isEmpty from 'lodash/isEmpty'
 import BasicActions from '../BasicActions'
 
@@ -132,7 +132,13 @@ class BasicSignalActions extends BasicActions {
       },
     }
   }
-}
 
+  /**
+   * Behavior: build result from fetch result
+   * @param {*} res fetch result
+   * @return result
+   */
+  buildResults = res => getJSON(res).then(json => json)
+}
 
 export default BasicSignalActions

@@ -48,7 +48,6 @@ export class SearchEngineConfigurationListComponent extends React.Component {
     onDelete: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
-    fetchDataset: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     resultsCount: PropTypes.number.isRequired,
   }
