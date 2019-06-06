@@ -65,6 +65,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
     change: PropTypes.func,
+    dataset: PropTypes.Object,
   }
 
   static defaultProps = {}
@@ -81,22 +82,26 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
   }
 
   componentWillMount = () => {
-    const { searchEngineConfiguration, initialize, pluginMetaDataList } = this.props
+    const {
+      searchEngineConfiguration,
+      initialize,
+      pluginMetaDataList,
+      dataset,
+    } = this.props
     if (searchEngineConfiguration) {
-      initialize(searchEngineConfiguration.content)
+      initialize({ ...searchEngineConfiguration.content, dataset: dataset ? dataset.feature : null })
       let pluginMeta = null
       const { configuration } = searchEngineConfiguration.content
       if (configuration && pluginMetaDataList && pluginMetaDataList[configuration.pluginId]) {
         pluginMeta = pluginMetaDataList[configuration.pluginId].content
       }
-      if (searchEngineConfiguration.content.dataset) {
+      if (dataset !== undefined) {
         this.setState({ pluginToConfigure: pluginMeta, datasetSelector: 'selected' })
       } else {
         this.setState({ pluginToConfigure: pluginMeta })
       }
     }
   }
-
 
   onSubmit = (values) => {
     const searchConf = Object.assign(values, { datasetUrn: get(values, 'dataset.id', null), dataset: null })
@@ -132,7 +137,10 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
     return this.props.change('configuration', selectedConf || null)
   }
 
-  onChangeDatasetSelector = (event, value) => this.setState({ datasetSelector: value })
+  onChangeDatasetSelector = (event, value) => {
+    this.setState({ datasetSelector: value })
+    this.props.change('dataset', null)
+  }
 
   handleCloseDescriptionDialog = () => this.setState({ descriptionOpen: false })
 

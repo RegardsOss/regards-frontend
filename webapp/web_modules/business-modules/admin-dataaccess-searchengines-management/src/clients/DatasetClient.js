@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,30 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { searchEngineConfigurationsActions } from './clients/SearchEngineConfigurationsClient'
-import { datasetActions } from './clients/DatasetClient'
+ */
+import { DataManagementClient } from '@regardsoss/client'
 
 /**
- * Mandatory Dependencies to display module in parent board
- * @type {Array}
+ * Dataset entities client.
+ *
+ * @author Sébastien Binda
  */
-const listDependencies = [
-  searchEngineConfigurationsActions.getDependency(RequestVerbEnum.GET_LIST),
-]
+const REDUX_ACTION_NAMESPACE = 'admin-dataaccess/searchengines/dataset'
 
-/**
- * Mandatory Dependencies to display module in parent board
- * @type {Array}
- */
-const addDependencies = [
-  searchEngineConfigurationsActions.getDependency(RequestVerbEnum.POST),
-  datasetActions.getDependency(RequestVerbEnum.GET),
-]
-
-
-export default {
-  addDependencies,
-  listDependencies,
-}
+export const datasetActions = new DataManagementClient.DatasetActions(REDUX_ACTION_NAMESPACE)

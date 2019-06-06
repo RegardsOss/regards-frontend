@@ -16,29 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { searchEngineConfigurationsActions } from './clients/SearchEngineConfigurationsClient'
-import { datasetActions } from './clients/DatasetClient'
+import { DATASET, DATASET_ARRAY } from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
-/**
- * Mandatory Dependencies to display module in parent board
- * @type {Array}
- */
-const listDependencies = [
-  searchEngineConfigurationsActions.getDependency(RequestVerbEnum.GET_LIST),
-]
-
-/**
- * Mandatory Dependencies to display module in parent board
- * @type {Array}
- */
-const addDependencies = [
-  searchEngineConfigurationsActions.getDependency(RequestVerbEnum.POST),
-  datasetActions.getDependency(RequestVerbEnum.GET),
-]
-
-
-export default {
-  addDependencies,
-  listDependencies,
+export default class SearchEngineDatasetActions extends BasicPageableActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/datasets/ipId`,
+      schemaTypes: {
+        ENTITY: DATASET,
+        ENTITY_ARRAY: DATASET_ARRAY,
+      },
+    })
+  }
 }
