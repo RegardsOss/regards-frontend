@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import has from 'lodash/has'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { CommonShapes, CatalogShapes } from '@regardsoss/shape'
@@ -109,9 +110,7 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
 
     Promise.all(actions)
       .then(() => {
-        if (this.props.searchEngine && this.props.searchEngine.content.datasetUrn) {
-          console.error(this.props.fetchDatasetByUrn)
-          console.error(this.props.searchEngine.content.datasetUrn)
+        if (has(this.props.searchEngine, 'content.datasetUrn')) {
           this.props.fetchDatasetByUrn(this.props.searchEngine.content.datasetUrn).then((response) => {
             if (!response.error) {
               this.setState({

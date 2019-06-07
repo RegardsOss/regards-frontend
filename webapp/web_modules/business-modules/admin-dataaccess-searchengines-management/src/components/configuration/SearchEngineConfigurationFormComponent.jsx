@@ -26,7 +26,7 @@ import {
 } from 'material-ui/Card'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { CatalogShapes, CommonShapes } from '@regardsoss/shape'
+import { CatalogShapes, CommonShapes, DataManagementShapes } from '@regardsoss/shape'
 import {
   reduxForm, Field, RenderTextField,
   ValidationHelpers, RenderPageableAutoCompleteField,
@@ -65,7 +65,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
     change: PropTypes.func,
-    dataset: PropTypes.Object,
+    dataset: DataManagementShapes.DatasetContent,
   }
 
   static defaultProps = {}
