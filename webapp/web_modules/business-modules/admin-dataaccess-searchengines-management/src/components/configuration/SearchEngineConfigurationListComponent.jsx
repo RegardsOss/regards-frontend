@@ -28,6 +28,8 @@ import {
   ConfirmDialogComponentTypes, CardActionsComponent,
 } from '@regardsoss/components'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { DataManagementShapes } from '@regardsoss/shape'
+import DatasetLabel from './DatasetLabel'
 import SearchEngineConfigurationEditAction from './SearchEngineConfigurationEditAction'
 import SearchEngineConfigurationInfoAction from './SearchEngineConfigurationInfoAction'
 import SearchEngineConfigurationInfoDialog from './SearchEngineConfigurationInfoDialog'
@@ -50,6 +52,7 @@ export class SearchEngineConfigurationListComponent extends React.Component {
     fetchPage: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     resultsCount: PropTypes.number.isRequired,
+    datasets: DataManagementShapes.DatasetList,
   }
 
   static defaultProps = {}
@@ -109,7 +112,7 @@ export class SearchEngineConfigurationListComponent extends React.Component {
 
   render() {
     const {
-      resultsCount, isLoading, onAddNewConf, onEdit, onBack,
+      resultsCount, isLoading, onAddNewConf, onEdit, onBack, datasets,
     } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
 
@@ -122,7 +125,7 @@ export class SearchEngineConfigurationListComponent extends React.Component {
       new TableColumnBuilder('column.engine').titleHeaderCell().propertyRenderCell('content.configuration.pluginId')
         .label(formatMessage({ id: 'dataaccess.searchengines.list.header.engine' }))
         .build(),
-      new TableColumnBuilder('column.state').titleHeaderCell().propertyRenderCell('content.datasetUrn')
+      new TableColumnBuilder('column.state').titleHeaderCell().propertyRenderCell('content.datasetUrn', DatasetLabel, { datasets })
         .label(formatMessage({ id: 'dataaccess.searchengines.list.header.dataset' }))
         .build(),
       new TableColumnBuilder().optionsColumn([{

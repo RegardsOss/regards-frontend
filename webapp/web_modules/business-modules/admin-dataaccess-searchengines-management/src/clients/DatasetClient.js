@@ -23,6 +23,9 @@ import { DataManagementClient } from '@regardsoss/client'
  *
  * @author Sébastien Binda
  */
+const REDUX_ACTION_NAMESPACE = 'admin-dataaccess/searchengines/dataset/'
 const REDUX_IP_ID_ACTION_NAMESPACE = 'admin-dataaccess/searchengines/dataset/ipId'
 
+export const datasetActionsReducer = DataManagementClient.getDatasetWithAccessRightReducer(REDUX_ACTION_NAMESPACE)
+export const datasetActions = new DataManagementClient.DatasetActions(REDUX_ACTION_NAMESPACE)
 export const datasetByIpIdActions = new DataManagementClient.DatasetByIpIdActions(REDUX_IP_ID_ACTION_NAMESPACE)
