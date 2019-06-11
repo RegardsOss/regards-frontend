@@ -197,8 +197,6 @@ const messages = Object.assign({
   'opensearch.crawler.form.results.pageSize': 'Page size field',
   'opensearch.crawler.form.results.label': 'Label',
   'opensearch.crawler.form.results.providerId': 'Provider ID',
-  'opensearch.crawler.form.results.geometry': 'Geometry',
-  'opensearch.crawler.form.results.tags': 'Tags',
   'opensearch.crawler.form.results.RAWDATA': 'Raw data',
   'opensearch.crawler.form.results.QUICKLOOK': 'Quicklook',
   'opensearch.crawler.form.results.THUMBNAIL': 'Thumbnail',

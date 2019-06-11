@@ -48,7 +48,7 @@ const requiredValidator = [required]
 /** Main values form shape */
 export const OSResultsConfiguration = PropTypes.shape({
   modelName: PropTypes.string,
-  attributeToJsonField: PropTypes.objectOf(PropTypes.string),
+  attributeToJSonField: PropTypes.objectOf(PropTypes.string),
   rawDataURLPath: PropTypes.string,
   quicklookURLPath: PropTypes.string,
   thumbnailURLPath: PropTypes.string,
@@ -135,14 +135,7 @@ export class OSResultsConfigurationComponent extends React.Component {
     }, { // provider id
       model: DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId),
       attributeRequired: true,
-    }, { // geometry
-      model: DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.geometry),
-      attributeRequired: false,
-    }, { // tags
-      model: DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.tags),
-      attributeRequired: false,
-    },
-  ]
+    }]
 
   /**
    * React lifecycle method: component will mount. Used here to initialize form values from last edited values (might be empty)
@@ -152,7 +145,7 @@ export class OSResultsConfigurationComponent extends React.Component {
     initialize({
       ...initialValues,
       // "unflatten" values as redux form expects them in map
-      attributeToJsonField: OSResultsConfigurationComponent.unflattenOnPath(initialValues.attributeToJsonField),
+      attributeToJSonField: OSResultsConfigurationComponent.unflattenOnPath(initialValues.attributeToJSonField),
     })
   }
 
@@ -169,13 +162,13 @@ export class OSResultsConfigurationComponent extends React.Component {
   handleSubmit = (fields) => {
     const { modelAttributeList, onSubmit } = this.props
     // A - flatten attributs by their path in edited object (avoid groups)
-    const flatten = OSResultsConfigurationComponent.flattenByPath(fields.attributeToJsonField)
+    const flatten = OSResultsConfigurationComponent.flattenByPath(fields.attributeToJSonField)
     // B - Clear any attribute that is related with another model selection or empty
     const allowedAttributesPath = [
       ...OSResultsConfigurationComponent.STANDARD_ATTRIBUTES.map(({ model: { content: { jsonPath } } }) => jsonPath),
       ...map(modelAttributeList, ({ content: { attribute } }) => attribute.jsonPath),
     ]
-    const attributeToJsonField = reduce(flatten, (acc, value, key) => {
+    const attributeToJSonField = reduce(flatten, (acc, value, key) => {
       if (!isNil(value) && allowedAttributesPath.includes(key)) {
         return { ...acc, [key]: value }
       }
@@ -184,7 +177,7 @@ export class OSResultsConfigurationComponent extends React.Component {
     // C - commit at expected parent format
     onSubmit({
       ...fields,
-      attributeToJsonField,
+      attributeToJSonField,
     })
   }
 
@@ -249,7 +242,7 @@ export class OSResultsConfigurationComponent extends React.Component {
             { OSResultsConfigurationComponent.STANDARD_ATTRIBUTES.map(({ model: { content: { jsonPath } }, attributeRequired }) => (
               <Field
                 key={jsonPath}
-                name={`attributeToJsonField.${jsonPath}`}
+                name={`attributeToJSonField.${jsonPath}`}
                 component={RenderTextField}
                 fullWidth
                 type="text"
@@ -302,7 +295,7 @@ export class OSResultsConfigurationComponent extends React.Component {
                   key={attribute.jsonPath}
                   component={RenderTextField}
                   fullWidth
-                  name={`attributeToJsonField.${attribute.jsonPath}`}
+                  name={`attributeToJSonField.${attribute.jsonPath}`}
                   type="text"
                   label={attribute.label}
                   validate={attribute.optional ? null : requiredValidator}

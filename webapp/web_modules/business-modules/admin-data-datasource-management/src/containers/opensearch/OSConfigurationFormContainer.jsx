@@ -18,7 +18,6 @@
  **/
 import compose from 'lodash/fp/compose'
 import isNil from 'lodash/isNil'
-import map from 'lodash/map'
 import { browserHistory } from 'react-router'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -53,10 +52,11 @@ export class OSConfigurationFormContainer extends React.Component {
       path: PropTypes.string,
     }),
     // From map state to props
-    currentDatasource: DataManagementShapes.Datasource,
+    // eslint-disable-next-line react/no-unused-prop-types
+    currentDatasource: DataManagementShapes.Datasource, // used only in on properties updated
     // From map dispatch to props
     createDatasource: PropTypes.func.isRequired,
-    editDatasource: PropTypes.func.isRequired, // TODO why not used????
+    updateDatasouce: PropTypes.func.isRequired,
     fetchDatasource: PropTypes.func.isRequired,
   }
 
@@ -83,7 +83,7 @@ export class OSConfigurationFormContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       createDatasource: values => dispatch(datasourceActions.createEntity(values)),
-      editDatasource: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
+      updateDatasouce: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
       fetchDatasource: id => dispatch(datasourceActions.fetchEntity(id)),
     }
   }
@@ -94,42 +94,68 @@ export class OSConfigurationFormContainer extends React.Component {
    * @return {crawler: {*}, query: {*}, results: {*}} initial values for each parts of the form
    */
   static getInitialEditionValues(datasource) {
-    const { content: { parameters, label, refreshRate } } = datasource
-    const { value: webserviceValues } = parameters.find(config => config.name === 'webserviceConfiguration')
+    const { content: { parameters, label } } = datasource
+    const refreshRateParameter = parameters.find(config => config.name === 'refreshRate')
+    const { value: { opensearchDescriptorURL, ...webserviceValues } } = parameters.find(config => config.name === 'webserviceConfiguration')
     const { value: conversionValues } = parameters.find(config => config.name === 'conversionConfiguration')
     return {
       crawler: {
-        descriptor: webserviceValues.opensearchDescriptorURL,
-        name: label,
-        refreshRate: refreshRate && refreshRate.toString(), // undefined is OK here
+        label,
+        opensearchDescriptorURL,
+        refreshRate: refreshRateParameter && refreshRateParameter.value ? refreshRateParameter.value.toString() : undefined, // undefined is OK here
       },
       query: {
-        // retrieved by the query form in descriptor (provided here for data stability)
-        webserviceURL: webserviceValues.webserviceURL,
-        pageIndexParam: webserviceValues.pageIndexParam,
-        pageSizeParam: webserviceValues.pageSizeParam,
+        //  webserviceURL, pageIndexParam, pageSizeParam, lastUpdateParam, webserviceParameters unchanged, remove
+        ...webserviceValues,
+        // startPageIndex and pagesSize : same field name but convert to string for form edition
         startPageIndex: webserviceValues.startPageIndex && webserviceValues.startPageIndex.toString(), // undefined is OK here
-        // editable form data
-        lastUpdateParam: webserviceValues.lastUpdateParam,
         pagesSize: webserviceValues.pagesSize && webserviceValues.pagesSize.toString(), // undefined is OK here
-        filters: map(webserviceValues.webserviceParameters, (value, key) => ({ name: key, value })) || {}, // optional
       },
-      results: {
-        modelName: conversionValues.modelName,
-        attributeToJsonField: conversionValues.attributeToJsonField,
-        rawDataURLPath: conversionValues.rawDataURLPath,
-        quicklookURLPath: conversionValues.quicklookURLPath,
-        thumbnailURLPath: conversionValues.thumbnailURLPath,
-        totalResultsField: conversionValues.totalResultsField,
-        pageSizeField: conversionValues.pageSizeField,
-      },
+      // all fields and fields values for results
+      results: conversionValues,
+    }
+  }
+
+  /**
+   * Computes resulting plugin model from edited values
+   * @param {number} id edited plugin id (leave undefined when creating)
+   * @param {{crawler, query, results}} editedValues
+   * @return {*} plugin model for edited values
+   */
+  static getPluginModelFromEdition({ crawler, query, results }, id) {
+    return {
+      id,
+      pluginId: 'webservice-datasource',
+      label: crawler.label,
+      priorityOrder: 0,
+      active: true,
+      pluginClassName: 'fr.cnes.regards.modules.dam.plugins.datasources.webservice.WebserviceDatasourcePlugin',
+      parameters: [{
+        name: 'refreshRate',
+        value: crawler.refreshRate && parseInt(crawler.refreshRate, 10),
+      }, {
+        name: 'webserviceConfiguration',
+        value: {
+          // descriptor URL from crawler edition
+          opensearchDescriptorURL: crawler.opensearchDescriptorURL,
+          // all query values but convert start page index and pages size into integer values
+          ...query,
+          startPageIndex: query.startPageIndex && parseInt(query.startPageIndex, 10),
+          pagesSize: query.pagesSize && parseInt(query.pagesSize, 10),
+        },
+        type: 'fr.cnes.regards.modules.dam.plugins.datasources.webservice.configuration.WebserviceConfiguration',
+      }, {
+        name: 'conversionConfiguration',
+        value: results, // strictly the same than converted output edition model
+        type: 'fr.cnes.regards.modules.dam.plugins.datasources.webservice.configuration.ConversionConfiguration',
+      }],
     }
   }
 
   /** Initial values when in creation mode */
   static INITIAL_CREATION_VALUES = {
     crawler: {
-      refreshRate: 86400,
+      refreshRate: '86400',
     },
     query: { },
     results: { },
@@ -152,7 +178,7 @@ export class OSConfigurationFormContainer extends React.Component {
    */
   componentDidMount() {
     if (this.state.isEditing) {
-      Promise.resolve(this.props.fetchDatasource(this.props.params.datasourceId))
+      this.props.fetchDatasource(this.props.params.datasourceId)
     }
   }
 
@@ -175,13 +201,13 @@ export class OSConfigurationFormContainer extends React.Component {
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
-    const { params = {}, currentDatasource: oldDatasource } = this.props
-    const { currentDatasource: newDatasource } = newProps
+    const { currentDatasource: oldDatasource } = oldProps
+    const { params = {}, currentDatasource: newDatasource } = newProps
     if (params.datasourceId && !oldDatasource && newDatasource) {
       // Detected: edition data has been fetch successfully, let user start editing
       this.setState({
         ready: true,
-        formValues: OSQueryConfigurationContainer.getInitialEditionValues(newDatasource),
+        formValues: OSConfigurationFormContainer.getInitialEditionValues(newDatasource),
       })
     }
   }
@@ -241,85 +267,36 @@ export class OSConfigurationFormContainer extends React.Component {
    * Publishes the plugin configuration to backend, from current state
    */
   publishPluginConfiguration = () => {
-    const { formValues: { crawler, query, results } } = this.state
-    console.error('The committed results are - crawler', crawler)
-    console.error('The committed results are - query', query)
-    console.error('The committed results are - results', results)
-    // TODO
-    // const conf = {
-    //   pluginId: 'webservice-datasource',
-    //   label: crawler.name,
-    //   version: '1.0-SNAPSHOT',
-    //   priorityOrder: 0,
-    //   refreshRate: +crawler.refreshRate, // TODO: Doesn't seem to exist // TODO what '+'??????
-    //   active: true,
-    //   interfaceNames: ['fr.cnes.regards.modules.dam.domain.datasources.plugins.IDataSourcePlugin'],
-    //   pluginClassName:
-    //     'fr.cnes.regards.modules.dam.plugins.datasources.webservice.WebserviceDatasourcePlugin',
-    //   parameters: [
-    //     {
-    //       name: 'webserviceConfiguration',
-    //       value: {
-    //         webserviceURL: query.webserviceURL,
-    //         opensearchDescriptorURL: crawler.descriptor,
-    //         webserviceParameters: query.filters ? query.filters.reduce(
-    //           (acc, filter) => ({ ...acc, [filter.name]: filter.value }),
-    //           {},
-    //         ) : [],
-    //         pageSizeParam: query.pageSizeParam, // TODO wrong
-    //         pageIndexParam: query.pageIndexParam, // TODO wrong
-    //         lastUpdateParam: query.lastUpdate,
-    //         startPageIndex: query.startPageIndex,
-    //         pagesSize: +query.pagesSize, // TODO probably wrong
-    //       },
-    //       type:
-    //         'fr.cnes.regards.modules.dam.plugins.datasources.webservice.configuration.WebserviceConfiguration',
-    //     },
-    //     {
-    //       name: 'conversionConfiguration',
-    //       value: {
-    //         modelName: results.modelName,
-    //         totalResultsField: results.totalResultsField,
-    //         // TODO il manque les attributs standards
-    //         pageSizeField: results.pageSizeField,
-    //         attributeToJsonField: results.dynamic,
-    //         thumbnailURLPath: results.thumbnailURLPath,
-    //         rawDataURLPath: results.rawDataURLPath,
-    //         quicklookURLPath: results.quicklookURLPath,
-    //       },
-    //     },
-    //   ],
-    // }
-
-    // if (this.state.isEditing) {
-    //   // TODO : Ce que j'ai fait ici ne marchait pas du tout. RMI: verifier
-    // } else {
-    //   // TODO use edit here!!!
-    //   Promise.resolve(this.props.createDatasource(conf)).then((actionResults) => {
-    //     if (!actionResults.error) {
-    //       this.redirectToList()
-    //     }
-    //   })
-    // }
-    // return conf
+    const { isEditing, formValues } = this.state
+    const { createDatasource, updateDatasouce, params } = this.props
+    const pluginConfiguration = OSConfigurationFormContainer.getPluginModelFromEdition(formValues, isEditing ? params.datasourceId : null)
+    Promise.resolve(isEditing ? updateDatasouce(params.datasourceId, pluginConfiguration) : createDatasource(pluginConfiguration))
+      .then((actionResults) => {
+        if (!actionResults.error) {
+          this.redirectToList()
+        }
+      })
   }
 
   /**
    * Redirects user on previous screen
    */
   handleBack = () => {
-    switch (this.state.formState) {
-      case STATE.CRAWLER:
-      default:
-        browserHistory.push(
-          `/admin/${this.props.params.project}/data/acquisition/datasource/create/interface`,
-        )
-        break
+    const { isEditing, formState } = this.state
+    switch (formState) {
       case STATE.QUERY:
         this.setState({ formState: STATE.CRAWLER })
         break
       case STATE.RESULTS:
         this.setState({ formState: STATE.QUERY })
+        break
+      case STATE.CRAWLER:
+      default:
+        if (isEditing) { // back to list when editing
+          this.redirectToList()
+        } else { // back to selection screen when creating
+          browserHistory.push(`/admin/${this.props.params.project}/data/acquisition/datasource/create/interface`)
+        }
         break
     }
   }

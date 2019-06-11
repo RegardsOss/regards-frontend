@@ -63,8 +63,9 @@ export class OSCrawlerConfigurationContainer extends React.Component {
    * @param {*} fields fields as edited by user (never invalid, respects OSCrawlerConfigurationComponent.MainConfiguration)
    */
   onSubmit = (fields) => {
-    // Note that the descriptor for current URL is automatically fetched by form component validation
-    this.props.onSubmit(fields)
+    const { fetchDescriptor, onSubmit } = this.props
+    // whenever user commits, make sure descriptor has been fetched (for edition case, where asyncValidation will not occur)
+    fetchDescriptor(fields.opensearchDescriptorURL).then(result => onSubmit(fields))
   }
 
   render() {

@@ -52,7 +52,7 @@ export const OSQueryConfiguration = PropTypes.shape({
   // Edited form values
   lastUpdateParam: PropTypes.string,
   pagesSize: PropTypes.string,
-  filters: PropTypes.objectOf(PropTypes.string),
+  webserviceParameters: PropTypes.objectOf(PropTypes.string),
 })
 
 /**
@@ -101,7 +101,7 @@ export class OSQueryConfigurationComponent extends React.Component {
       startPageIndex: initialValues.startPageIndex,
       pagesSize: initialValues.pagesSize,
       // Restore only parameters still found
-      filters: reduce(initialValues.filters || {}, (acc, queryValue, parameterName) => {
+      webserviceParameters: reduce(initialValues.webserviceParameters || {}, (acc, queryValue, parameterName) => {
         const matchingParameter = urlDescriptor.parameter.find(({ name }) => name === parameterName)
         return matchingParameter ? [...acc, { ...matchingParameter, queryValue }] : acc
       }, []),
@@ -170,7 +170,8 @@ export class OSQueryConfigurationComponent extends React.Component {
       // Edited form values
       lastUpdateParam: fields.lastUpdateParam,
       pagesSize: fields.pagesSize,
-      filters: fields.filters.reduce((acc, { name, queryValue }) => ({
+      // Transform edition model - Array of model with query value - into storage model - map of parameter name with query value
+      webserviceParameters: fields.webserviceParameters.reduce((acc, { name, queryValue }) => ({
         ...acc,
         [name]: queryValue,
       }), {}),
@@ -233,7 +234,7 @@ export class OSQueryConfigurationComponent extends React.Component {
             />
             {/* 3. Query filters */}
             <FieldArray
-              name="filters"
+              name="webserviceParameters"
               component={OSQueryFiltersFieldComponent}
               availableParameters={availableParameters}
               webserviceURL={webserviceURL}

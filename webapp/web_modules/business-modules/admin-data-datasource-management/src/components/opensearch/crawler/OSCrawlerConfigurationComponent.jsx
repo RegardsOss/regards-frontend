@@ -38,9 +38,9 @@ const requiredUrlValidator = [url, required]
 
 /** Main values form shape */
 export const OSCrawlerMainConfiguration = PropTypes.shape({
-  name: PropTypes.string,
-  refresh: PropTypes.string,
-  descriptor: PropTypes.string,
+  label: PropTypes.string,
+  refreshRate: PropTypes.string,
+  opensearchDescriptorURL: PropTypes.string,
 })
 
 /**
@@ -80,10 +80,7 @@ export class OSCrawlerConfigurationComponent extends React.Component {
    * On user submission
    * @param {*} fields fields as edited by user (never invalid, respects OSCrawlerConfigurationComponent.MainConfiguration)
    */
-  handleSubmit = (fields) => {
-    this.props.onSubmit(fields)
-  }
-
+  handleSubmit = fields => this.props.onSubmit(fields)
 
   render() {
     const {
@@ -103,7 +100,7 @@ export class OSCrawlerConfigurationComponent extends React.Component {
           <OpenSearchStepperComponent stepIndex={0} />
           <CardText>
             <Field
-              name="name"
+              name="label"
               fullWidth
               component={RenderTextField}
               type="text"
@@ -119,7 +116,7 @@ export class OSCrawlerConfigurationComponent extends React.Component {
               validate={requiredNumberValidator}
             />
             <Field
-              name="descriptor"
+              name="opensearchDescriptorURL"
               fullWidth
               component={RenderTextField}
               type="url"
@@ -163,8 +160,9 @@ const DESCRIPTOR_ERROR_TYPES = {
  * @param {*} dispatch dispatch method
  * @param {*} props component properties
  */
-function asyncValidate({ descriptor }, dispatch, props) {
-  return props.fetchDescriptor(descriptor).then(({ payload, error }) => {
+function asyncValidate({ opensearchDescriptorURL }, dispatch, props) {
+  const { fetchDescriptor } = props
+  return fetchDescriptor(opensearchDescriptorURL).then(({ payload, error }) => {
     // 1 - Fetch OK?
     if (error) {
       throw new Error(DESCRIPTOR_ERROR_TYPES.INVALID_URL) // handled internally in catch
@@ -188,17 +186,17 @@ function asyncValidate({ descriptor }, dispatch, props) {
     switch (err.message) {
       case DESCRIPTOR_ERROR_TYPES.NO_JSON_RESOURCE_URL:
         // eslint-disable-next-line no-throw-literal
-        throw { descriptor: 'opensearch.crawler.form.crawler.descriptor.no.json.url' } // redux-form expected format
+        throw { opensearchDescriptorURL: 'opensearch.crawler.form.crawler.descriptor.no.json.url' } // redux-form expected format
       case DESCRIPTOR_ERROR_TYPES.INVALID_URL:
         // eslint-disable-next-line no-throw-literal
-        throw { descriptor: 'opensearch.crawler.form.crawler.descriptor.invalid.url' } // redux-form expected format
+        throw { opensearchDescriptorURL: 'opensearch.crawler.form.crawler.descriptor.invalid.url' } // redux-form expected format
       case DESCRIPTOR_ERROR_TYPES.NO_PAGE_INDEX_PARAMETER:
         // eslint-disable-next-line no-throw-literal
-        throw { descriptor: 'opensearch.crawler.form.crawler.descriptor.no.page.index.parameter' } // redux-form expected format
+        throw { opensearchDescriptorURL: 'opensearch.crawler.form.crawler.descriptor.no.page.index.parameter' } // redux-form expected format
       case DESCRIPTOR_ERROR_TYPES.PAGE_SIZE_PARAMETER:
       default:
         // eslint-disable-next-line no-throw-literal
-        throw { descriptor: 'opensearch.crawler.form.crawler.descriptor.no.page.size.parameter' } // redux-form expected format
+        throw { opensearchDescriptorURL: 'opensearch.crawler.form.crawler.descriptor.no.page.size.parameter' } // redux-form expected format
     }
   })
 }
@@ -207,5 +205,5 @@ function asyncValidate({ descriptor }, dispatch, props) {
 export default reduxForm({
   form: 'opensearch-crawler-form',
   asyncValidate,
-  asyncBlurFields: ['descriptor'],
+  asyncBlurFields: ['opensearchDescriptorURL'],
 })(OSCrawlerConfigurationComponent)
