@@ -17,26 +17,41 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
-import isEmpty from 'lodash/isEmpty'
 
 class DatasetLabel extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     value: PropTypes.string,
     // eslint-disable-next-line react/forbid-prop-types
-    datasets: PropTypes.object,
+    datasetList: PropTypes.object,
   }
+
+  static DEFAULT_DATASET_NAME = '-'
 
   state = {
-    datasetLabel: '-',
+    datasetLabel: '',
   }
 
-  componentDidMount = () => {
-    const { value, datasets } = this.props
+  componentDidMount() {
+    const { value, datasetList } = this.props
+
+    this.saveLabel(value, datasetList)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { value, datasetList } = nextProps
+    this.saveLabel(value, datasetList)
+  }
+
+  saveLabel = (value, datasets) => {
     const matchedDataset = find(datasets, dts => dts.content.feature.id === value)
-    if (!isEmpty(matchedDataset)) {
-      this.setState({ datasetLabel: matchedDataset.content.feature.label })
+    let datasetLabel = value || DatasetLabel.DEFAULT_DATASET_NAME
+    if (matchedDataset) {
+      datasetLabel = matchedDataset.content.feature.label
     }
+    this.setState({
+      datasetLabel,
+    })
   }
 
   render() {

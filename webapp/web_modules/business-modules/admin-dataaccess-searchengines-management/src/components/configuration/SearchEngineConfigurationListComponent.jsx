@@ -52,7 +52,7 @@ export class SearchEngineConfigurationListComponent extends React.Component {
     fetchPage: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     resultsCount: PropTypes.number.isRequired,
-    datasets: DataManagementShapes.DatasetList,
+    datasetList: DataManagementShapes.DatasetList,
   }
 
   static defaultProps = {}
@@ -112,7 +112,7 @@ export class SearchEngineConfigurationListComponent extends React.Component {
 
   render() {
     const {
-      resultsCount, isLoading, onAddNewConf, onEdit, onBack, datasets,
+      resultsCount, isLoading, onAddNewConf, onEdit, onBack, datasetList,
     } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
 
@@ -125,7 +125,7 @@ export class SearchEngineConfigurationListComponent extends React.Component {
       new TableColumnBuilder('column.engine').titleHeaderCell().propertyRenderCell('content.configuration.pluginId')
         .label(formatMessage({ id: 'dataaccess.searchengines.list.header.engine' }))
         .build(),
-      new TableColumnBuilder('column.state').titleHeaderCell().propertyRenderCell('content.datasetUrn', DatasetLabel, { datasets })
+      new TableColumnBuilder('column.state').titleHeaderCell().propertyRenderCell('content.datasetUrn', DatasetLabel, { datasetList })
         .label(formatMessage({ id: 'dataaccess.searchengines.list.header.dataset' }))
         .build(),
       new TableColumnBuilder().optionsColumn([{

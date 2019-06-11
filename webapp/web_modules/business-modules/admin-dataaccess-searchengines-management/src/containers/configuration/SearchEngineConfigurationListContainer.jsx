@@ -49,7 +49,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
   static mapDispatchToProps(dispatch, props) {
     return {
       fetchPage: (pageIndex, pageSize, requestParams) => dispatch(searchEngineConfigurationsActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
-      fetchDatasets: () => dispatch(datasetActions.fetchPagedEntityList(0, 1000)),
+      fetchDatasetList: () => dispatch(datasetActions.fetchPagedEntityList(0, 1000)),
       update: conf => dispatch(searchEngineConfigurationsActions.updateEntity(conf.id, conf)),
       delete: conf => dispatch(searchEngineConfigurationsActions.deleteEntity(conf.id)),
     }
@@ -67,7 +67,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
     isLoading: PropTypes.bool.isRequired,
     // from mapDispatchToProps
     fetchPage: PropTypes.func.isRequired,
-    fetchDatasets: PropTypes.func.isRequired,
+    fetchDatasetList: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
   }
 
@@ -78,14 +78,13 @@ export class SearchEngineConfigurationListContainer extends React.Component {
   }
 
   state = {
-    datasets: {},
+    datasetList: {},
   }
 
   componentWillMount = () => {
-    this.props.fetchDatasets().then((response) => {
+    this.props.fetchDatasetList().then((response) => {
       this.setState({
-        ...this.state,
-        datasets: response.payload.entities.datasets,
+        datasetList: response.payload.entities.datasets,
       })
     })
   }
@@ -113,7 +112,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
     const {
       fetchPage, isLoading, meta: { totalElements },
     } = this.props
-    const { datasets } = this.state
+    const { datasetList } = this.state
     return (
       <SearchEngineConfigurationListComponent
         onBack={this.goToBoard}
@@ -121,7 +120,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
         onEdit={this.onEdit}
         onDelete={this.onDelete}
         fetchPage={fetchPage}
-        datasets={datasets}
+        datasetList={datasetList}
         isLoading={isLoading}
         resultsCount={totalElements}
       />
