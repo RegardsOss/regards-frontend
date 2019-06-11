@@ -283,8 +283,8 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
       ? formatMessage({ id: 'dataaccess.searchengines.form.edit.subtitle' })
       : formatMessage({ id: 'dataaccess.searchengines.form.create.subtitle' })
     const buttonLabel = mode === 'edit'
-    ? formatMessage({ id: 'search-engines.form.update.action' })
-    : formatMessage({ id: 'search-engines.form.create.action' })
+      ? formatMessage({ id: 'search-engines.form.update.action' })
+      : formatMessage({ id: 'search-engines.form.create.action' })
     return (
       <form
         onSubmit={handleSubmit(this.onSubmit)}
