@@ -127,7 +127,8 @@ export class SIPListContainer extends React.Component {
 
   goToSessionAIPsMonitoring = (session) => {
     const { params: { project } } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/storage/aip/${session}/list`)
+    const encodedSessionName = encodeURIComponent(session)
+    browserHistory.push(`/admin/${project}/data/acquisition/storage/aip/${encodedSessionName}/list`)
   }
 
   goToDataSourcesMonitoring = () => {
