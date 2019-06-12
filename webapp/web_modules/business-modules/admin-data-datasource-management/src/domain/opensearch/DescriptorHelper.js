@@ -150,11 +150,22 @@ export class DescriptorHelper {
   }
 
   /**
+   * Regular expression that matches non template parameters in template URL,
+   * ie parameters like a=b but not parameters like a={b}
+   */
+  static NON_TEMPLATE_PARAMETERS_EXP = /([a-z0-9-_]+=[^&}{]+)/ig
+
+  /**
    * Returns webservice URL from URL descriptor
    * @param {*} urlDescriptor OpenSearch URL descriptor (DataManagementShapes.OpenSearchURLDescription)
    * @return {string} webservice URL
    */
   static getWebserviceURL(urlDescriptor) {
-    return urlDescriptor.template.split('?')[0]
+    const [baseURL, query = ''] = urlDescriptor.template.split('?')
+    const allNonTemplateParameters = query.match(DescriptorHelper.NON_TEMPLATE_PARAMETERS_EXP)
+
+    return allNonTemplateParameters && allNonTemplateParameters.length
+      ? `${baseURL}?${allNonTemplateParameters.join('&')}`
+      : baseURL
   }
 }

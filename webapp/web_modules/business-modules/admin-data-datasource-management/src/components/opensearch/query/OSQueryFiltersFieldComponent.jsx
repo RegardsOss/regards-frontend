@@ -113,7 +113,16 @@ class OSQueryFiltersFieldComponent extends React.Component {
         `${pageSizeParam}=${selectedPageSize}`,
         `${pageIndexParam}=${firstPageIndex}`,
       ])
-    return `${webserviceURL}?${queryParameters.join('&')}`
+    // compute first parameter separator
+    let firstSeparator = '?'
+    if (webserviceURL.includes('?')) {
+      if (webserviceURL.endsWith('?')) {
+        firstSeparator = '' // no first separator when ending with ?
+      } else {
+        firstSeparator = '&' // there are already parameters before
+      }
+    }
+    return `${webserviceURL}${firstSeparator}${queryParameters.join('&')}`
   }
 
   render() {
