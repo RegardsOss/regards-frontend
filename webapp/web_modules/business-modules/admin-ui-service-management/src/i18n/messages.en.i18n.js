@@ -41,7 +41,7 @@ const messages = Object.assign({
   'service.listconf.plugin.author': 'Author: {value}',
   'service.listconf.plugin.company': 'Creator: {value}',
   'service.listconf.plugin.email': 'Email contact: {value}',
-  'service.listconf.plugin.license': 'Licence: {value}',
+  'service.listconf.plugin.license': 'License: {value}',
   'service.listconf.plugin.url': 'Url: {value}',
   'service.listconf.delete.confirm.title': 'Remove the configuration?',
 
@@ -54,7 +54,7 @@ const messages = Object.assign({
   'service.form.dynamic.configuration.title': 'Runtime parameter (pre-filled values for user)',
   'service.form.mandatory.field': '{label} (*)',
   'service.form.isActive': 'Activate this configuration',
-  'service.form.linkedToAllEntities': 'Incluse this service within every dataset',
+  'service.form.linkedToAllEntities': 'Include this service within every dataset',
   'service.form.action.save': 'Save',
   'service.form.action.back': 'Back',
 

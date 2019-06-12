@@ -31,7 +31,7 @@ const messages = Object.assign({
   'model.attribute.calculation.plugins.list.edit.button': 'Edit configuration',
   'model.attribute.calculation.plugins.list.duplicate.button': 'Duplicate configuration',
   'model.attribute.calculation.plugins.list.active.on.button': 'Enable calculation',
-  'model.attribute.calculation.plugins.list.active.off.button': 'Desable storage',
+  'model.attribute.calculation.plugins.list.active.off.button': 'Disable storage',
   'model.attribute.calculation.plugins.list.confirm.title': 'Delete plugin {name} ?',
   'model.attribute.calculation.plugins.list.back.button': 'Back',
   'model.attribute.calculation.plugins.list.empty.title': 'No calculation plugin available',
@@ -43,7 +43,7 @@ const messages = Object.assign({
   'model.attribute.calculation.plugins.form.edit.subtitle': 'Please configure the calculation plugin parameters.',
   'model.attribute.calculation.plugins.form.type.select.title': 'Calculation type',
   'model.attribute.calculation.plugins.form.type.select.label': 'Select a type ...',
-  'model.attribute.calculation.plugins.form.invalid.id': 'Calculation plugin configuration selected does not exists anymore.',
+  'model.attribute.calculation.plugins.form.invalid.id': 'Calculation plugin configuration selected does not exist anymore.',
   'model.attribute.calculation.plugins.form.back.button': 'Cancel',
 
 }, Locales.en)

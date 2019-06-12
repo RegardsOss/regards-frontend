@@ -40,8 +40,8 @@ const messages = Object.assign({
   'container.form.advanced.mode.show': 'Afficher les options avancées',
   'container.configuration.delete.section': 'Supprimer',
   'container.configuration.add.subsection': 'Ajouter une sous-section',
-  'container.configuration.edit.section': 'Editer',
-  'container.configuration.edit.dialog.title': 'Editer le conteneur',
+  'container.configuration.edit.section': 'Éditer',
+  'container.configuration.edit.dialog.title': 'Éditer le conteneur',
 
   'container.type.row.container': 'Ligne',
   'container.type.content.row.container': 'Ligne expansive',

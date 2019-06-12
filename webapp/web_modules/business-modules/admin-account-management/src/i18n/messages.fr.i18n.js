@@ -20,7 +20,7 @@ import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
   'accounts.title': 'Comptes',
-  'accounts.subtitle': 'Gérer les comptes utilisateur',
+  'accounts.subtitle': 'Gérer les comptes utilisateurs',
   'account.list.table.firstName': 'Prénom',
   'account.list.table.lastName': 'Nom',
   'account.list.table.email': 'E-mail',
@@ -33,7 +33,7 @@ const messages = Object.assign({
   'account.list.table.action': 'Actions',
   'account.list.subtitle': 'Liste des comptes tous projets confondus',
   'account.list.table.no.content.title': 'Rien à afficher',
-  'account.list.table.action.edit.tooltip': 'Editer',
+  'account.list.table.action.edit.tooltip': 'Éditer',
   'account.list.table.action.accept.tooltip': 'Accepter le compte',
   'account.list.table.action.refuse.tooltip': 'Refuser le compte',
   'account.list.table.action.enable.tooltip': 'Activer le compte',
@@ -51,7 +51,7 @@ const messages = Object.assign({
   'account.form.input.firstName': 'Prénom',
   'account.form.input.lastName': 'Nom',
   'account.form.input.email': 'E-mail',
-  'account.form.edit.title': 'Editer le compte de {firstName} {lastName}',
+  'account.form.edit.title': 'Éditer le compte de {firstName} {lastName}',
   'account.form.create.title': 'Créer un compte',
   'account.form.action.save': 'Sauvegarder',
   'account.form.action.cancel': 'Annuler',

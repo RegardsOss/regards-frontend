@@ -63,7 +63,7 @@ const messages = Object.assign({
   'project.form.action.cancel': 'Cancel',
   'project.form.action.submit': 'Save',
 
-  'invalid.only_alphanumeric': 'User alphanumeric caracters',
+  'invalid.only_alphanumeric': 'User alphanumeric characters',
 
   // Database connections
   'project.connection.list.title': 'Configure databases accesses for project {project}',

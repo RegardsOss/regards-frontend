@@ -31,7 +31,7 @@ const messages = Object.assign({
   'dataaccess.services.list.edit.button': 'Edit service',
   'dataaccess.services.list.duplicate.button': 'Duplicate service',
   'dataaccess.services.list.active.on.button': 'Enable service',
-  'dataaccess.services.list.active.off.button': 'Desable service',
+  'dataaccess.services.list.active.off.button': 'Disable service',
   'dataaccess.services.list.confirm.title': 'Delete service {name} ?',
   'dataaccess.services.list.back.button': 'Back',
   'dataaccess.services.list.empty.title': 'No service plugin available',
@@ -43,7 +43,7 @@ const messages = Object.assign({
   'dataaccess.services.form.edit.subtitle': 'Please configure the service parameters.',
   'dataaccess.services.form.type.select.title': 'Service type',
   'dataaccess.services.form.type.select.label': 'Select a type ...',
-  'dataaccess.services.form.invalid.id': 'Service plugin configuration selected does not exists anymore.',
+  'dataaccess.services.form.invalid.id': 'Service plugin configuration selected does not exist anymore.',
   'dataaccess.services.form.back.button': 'Cancel',
 
 }, Locales.en)
