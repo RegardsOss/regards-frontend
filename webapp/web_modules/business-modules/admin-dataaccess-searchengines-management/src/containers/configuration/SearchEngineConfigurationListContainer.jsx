@@ -18,9 +18,10 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { searchEngineConfigurationsActions, searchEngineConfigurationsSelectors } from '../../clients/SearchEngineConfigurationsClient'
 import SearchEngineConfigurationListComponent from '../../components/configuration/SearchEngineConfigurationListComponent'
-import { datasetActions } from '../../clients/DatasetClient'
+import { datasetActions, datasetSelectors } from '../../clients/DatasetClient'
 
 /**
 * Container to handle search engine configurations list
@@ -37,6 +38,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
     return {
       meta: searchEngineConfigurationsSelectors.getMetaData(state),
       isLoading: searchEngineConfigurationsSelectors.isFetching(state),
+      datasetList: datasetSelectors.getList(state),
     }
   }
 
@@ -65,6 +67,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
       totalElements: PropTypes.number,
     }),
     isLoading: PropTypes.bool.isRequired,
+    datasetList: DataManagementShapes.DatasetList,
     // from mapDispatchToProps
     fetchPage: PropTypes.func.isRequired,
     fetchDatasetList: PropTypes.func.isRequired,
@@ -77,16 +80,8 @@ export class SearchEngineConfigurationListContainer extends React.Component {
     },
   }
 
-  state = {
-    datasetList: {},
-  }
-
   componentWillMount = () => {
-    this.props.fetchDatasetList().then((response) => {
-      this.setState({
-        datasetList: response.payload.entities.datasets,
-      })
-    })
+    this.props.fetchDatasetList()
   }
 
   onEdit = (pluginConfToEdit) => {
@@ -110,9 +105,8 @@ export class SearchEngineConfigurationListContainer extends React.Component {
 
   render() {
     const {
-      fetchPage, isLoading, meta: { totalElements },
+      datasetList, fetchPage, isLoading, meta: { totalElements },
     } = this.props
-    const { datasetList } = this.state
     return (
       <SearchEngineConfigurationListComponent
         onBack={this.goToBoard}

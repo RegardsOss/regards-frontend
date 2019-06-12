@@ -23,9 +23,12 @@ import { DataManagementClient } from '@regardsoss/client'
  *
  * @author Sébastien Binda
  */
+const ENTITIES_STORE_PATH = ['admin', 'dataaccess', 'searchengines', 'dataset']
 const REDUX_ACTION_NAMESPACE = 'admin-dataaccess/searchengines/dataset/'
 const REDUX_IP_ID_ACTION_NAMESPACE = 'admin-dataaccess/searchengines/dataset/ipId'
 
-export const datasetActionsReducer = DataManagementClient.getDatasetWithAccessRightReducer(REDUX_ACTION_NAMESPACE)
+export const datasetReducer = DataManagementClient.DatasetReducer(REDUX_ACTION_NAMESPACE)
 export const datasetActions = new DataManagementClient.DatasetActions(REDUX_ACTION_NAMESPACE)
+export const datasetSelectors = DataManagementClient.DatasetSelectors(ENTITIES_STORE_PATH)
+// Signal not reduced
 export const datasetByIpIdActions = new DataManagementClient.DatasetByIpIdActions(REDUX_IP_ID_ACTION_NAMESPACE)
