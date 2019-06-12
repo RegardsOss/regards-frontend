@@ -38,3 +38,8 @@ export { Document, DocumentContent, DocumentList } from './Document'
 export {
   CrawlerDatasource, CrawlerDatasourceContent, CrawlerDatasourceList, CrawlerDatasourceArray,
 } from './CrawlerDatasource'
+export {
+  OpenSearchDescriptor, OpenSearchQueryDescription,
+  OpenSearchURLDescription, OpenSearchURLParameterDescription, OpenSearchURLParameterOptionDescription,
+
+} from './OpenSearchDescriptor'

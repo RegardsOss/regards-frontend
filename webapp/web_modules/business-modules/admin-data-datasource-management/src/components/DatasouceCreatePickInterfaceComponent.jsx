@@ -26,6 +26,7 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import Database from 'mdi-material-ui/Database'
+import Search from 'mdi-material-ui/CloudSearch'
 import FileImport from 'mdi-material-ui/FileImport'
 import RaisedButton from 'material-ui/RaisedButton'
 
@@ -37,6 +38,7 @@ export class DatasouceCreatePickInterfaceComponent extends React.Component {
   static propTypes = {
     createDBDasourceUrl: PropTypes.string.isRequired,
     createAIPDasourceUrl: PropTypes.string.isRequired,
+    createOpenSearchCrawlerUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
   }
 
@@ -49,6 +51,7 @@ export class DatasouceCreatePickInterfaceComponent extends React.Component {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    width: '33%',
   }
 
   static styleIcon = {
@@ -69,7 +72,9 @@ export class DatasouceCreatePickInterfaceComponent extends React.Component {
   }
 
   render() {
-    const { createDBDasourceUrl, createAIPDasourceUrl, backUrl } = this.props
+    const {
+      createDBDasourceUrl, createAIPDasourceUrl, createOpenSearchCrawlerUrl, backUrl,
+    } = this.props
     return (
       <div>
         <Card>
@@ -85,7 +90,7 @@ export class DatasouceCreatePickInterfaceComponent extends React.Component {
                 <Link to={createAIPDasourceUrl}>
 
                   <RaisedButton
-                    label={this.context.intl.formatMessage({ id: 'datasource.form.create.pick-interface.action.aip' })}
+                    label={this.context.intl.formatMessage({ id: 'datasource.form.create.pick-interface.action.select' })}
                     secondary
                     style={DatasouceCreatePickInterfaceComponent.styleButton}
                   />
@@ -97,7 +102,18 @@ export class DatasouceCreatePickInterfaceComponent extends React.Component {
                 {this.context.intl.formatMessage({ id: 'datasource.form.create.pick-interface.description.db' })}
                 <Link to={createDBDasourceUrl}>
                   <RaisedButton
-                    label={this.context.intl.formatMessage({ id: 'datasource.form.create.pick-interface.action.db' })}
+                    label={this.context.intl.formatMessage({ id: 'datasource.form.create.pick-interface.action.select' })}
+                    secondary
+                    style={DatasouceCreatePickInterfaceComponent.styleButton}
+                  />
+                </Link>
+              </div>
+              <div style={DatasouceCreatePickInterfaceComponent.pluginWrapper}>
+                <Search style={DatasouceCreatePickInterfaceComponent.styleIcon} />
+                {this.context.intl.formatMessage({ id: 'datasource.form.create.pick-interface.description.opensearch' })}
+                <Link to={createOpenSearchCrawlerUrl}>
+                  <RaisedButton
+                    label={this.context.intl.formatMessage({ id: 'datasource.form.create.pick-interface.action.select' })}
                     secondary
                     style={DatasouceCreatePickInterfaceComponent.styleButton}
                   />
