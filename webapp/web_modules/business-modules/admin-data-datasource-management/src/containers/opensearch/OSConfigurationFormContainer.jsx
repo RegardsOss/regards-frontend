@@ -32,12 +32,6 @@ import messages from '../../i18n'
 import styles from '../../styles'
 
 
-const STATE = {
-  CRAWLER: 'CRAWLER',
-  QUERY: 'QUERY',
-  RESULTS: 'RESULTS',
-}
-
 /**
  * Main container for OpenSearch crawler configuration
  */
@@ -47,9 +41,6 @@ export class OSConfigurationFormContainer extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
       datasourceId: PropTypes.string,
-    }),
-    route: PropTypes.shape({
-      path: PropTypes.string,
     }),
     // From map state to props
     // eslint-disable-next-line react/no-unused-prop-types
@@ -152,6 +143,12 @@ export class OSConfigurationFormContainer extends React.Component {
     }
   }
 
+  static STATE = {
+    CRAWLER: 'CRAWLER',
+    QUERY: 'QUERY',
+    RESULTS: 'RESULTS',
+  }
+
   /** Initial values when in creation mode */
   static INITIAL_CREATION_VALUES = {
     crawler: {
@@ -169,7 +166,7 @@ export class OSConfigurationFormContainer extends React.Component {
     // currently edited values
     formValues: OSConfigurationFormContainer.INITIAL_CREATION_VALUES,
     // initially presented step
-    formState: STATE.CRAWLER,
+    formState: OSConfigurationFormContainer.STATE.CRAWLER,
   }
 
 
@@ -222,7 +219,7 @@ export class OSConfigurationFormContainer extends React.Component {
         ...this.state.formValues,
         crawler,
       },
-      formState: STATE.QUERY,
+      formState: OSConfigurationFormContainer.STATE.QUERY,
     })
   }
 
@@ -236,7 +233,7 @@ export class OSConfigurationFormContainer extends React.Component {
         ...this.state.formValues,
         query,
       },
-      formState: STATE.RESULTS,
+      formState: OSConfigurationFormContainer.STATE.RESULTS,
     })
   }
 
@@ -284,13 +281,13 @@ export class OSConfigurationFormContainer extends React.Component {
   handleBack = () => {
     const { isEditing, formState } = this.state
     switch (formState) {
-      case STATE.QUERY:
-        this.setState({ formState: STATE.CRAWLER })
+      case OSConfigurationFormContainer.STATE.QUERY:
+        this.setState({ formState: OSConfigurationFormContainer.STATE.CRAWLER })
         break
-      case STATE.RESULTS:
-        this.setState({ formState: STATE.QUERY })
+      case OSConfigurationFormContainer.STATE.RESULTS:
+        this.setState({ formState: OSConfigurationFormContainer.STATE.QUERY })
         break
-      case STATE.CRAWLER:
+      case OSConfigurationFormContainer.STATE.CRAWLER:
       default:
         if (isEditing) { // back to list when editing
           this.redirectToList()
@@ -309,7 +306,7 @@ export class OSConfigurationFormContainer extends React.Component {
     const { project } = this.props.params
     const { formValues: { crawler, query, results }, formState } = this.state
     switch (formState) {
-      case STATE.CRAWLER:
+      case OSConfigurationFormContainer.STATE.CRAWLER:
       default:
         return (
           <OSCrawlerConfigurationContainer
@@ -320,7 +317,7 @@ export class OSConfigurationFormContainer extends React.Component {
             onSubmit={this.onCrawlerSubmit}
           />
         )
-      case STATE.QUERY:
+      case OSConfigurationFormContainer.STATE.QUERY:
         return (
           <OSQueryConfigurationContainer
             initialValues={query}
@@ -329,7 +326,7 @@ export class OSConfigurationFormContainer extends React.Component {
             onSubmit={this.onQuerySubmit}
           />
         )
-      case STATE.RESULTS:
+      case OSConfigurationFormContainer.STATE.RESULTS:
         return (
           <OSResultsConfigurationContainer
             initialValues={results}

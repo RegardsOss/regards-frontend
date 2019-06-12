@@ -44,7 +44,10 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionFileListContainer
     }
     testSuiteHelpers.before()
   })
-  after(testSuiteHelpers.after)
+  after(() => {
+    delete router.browserHistory
+    testSuiteHelpers.after()
+  })
 
   it('should exists', () => {
     assert.isDefined(AcquisitionFileListContainer)

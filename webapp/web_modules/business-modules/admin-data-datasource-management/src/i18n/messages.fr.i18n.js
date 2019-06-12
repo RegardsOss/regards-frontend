@@ -197,9 +197,9 @@ const messages = Object.assign({
   'opensearch.crawler.form.results.pageSize': 'Champ de taille de page',
   'opensearch.crawler.form.results.label': 'Libellé',
   'opensearch.crawler.form.results.providerId': 'Identifiant fournisseur',
-  'opensearch.crawler.form.results.RAWDATA': 'Donnée brute',
-  'opensearch.crawler.form.results.QUICKLOOK': 'Imagette',
-  'opensearch.crawler.form.results.THUMBNAIL': 'Vignette',
+  'opensearch.crawler.form.results.RAWDATA': 'Raw data',
+  'opensearch.crawler.form.results.QUICKLOOK': 'Quicklook',
+  'opensearch.crawler.form.results.THUMBNAIL': 'Thumbnail',
   'opensearch.crawler.form.results.value': 'Valeur',
 }, Locales.fr)
 

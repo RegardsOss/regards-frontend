@@ -20,6 +20,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { assert } from 'chai'
 import { shallow } from 'enzyme'
 import { OSResultsConfigurationContainer } from '../../../src/containers/opensearch/OSResultsConfigurationContainer'
+import OSResultsConfigurationComponent from '../../../src/components/opensearch/results/OSResultsConfigurationComponent'
 
 const context = buildTestContext()
 
@@ -45,6 +46,16 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSResultsConfigurationConta
     }
 
     const wrapper = shallow(<OSResultsConfigurationContainer {...props} />, { context })
-    assert.equal(wrapper.length, 1, 'The container should be rendered')
+    const comp = wrapper.find(OSResultsConfigurationComponent)
+    assert.lengthOf(comp, 1, 'There should be the component')
+    testSuiteHelpers.assertWrapperProperties(comp, {
+      onSubmit: props.onSubmit,
+      onBack: props.onBack,
+      isEditing: props.isEditing,
+      modelList: props.modelList,
+      initialValues: props.initialValues,
+      modelAttributeList: props.modelAttributeList,
+      onModelSelected: wrapper.instance().handleModelChange,
+    }, 'Component properties should be correctly set')
   })
 })

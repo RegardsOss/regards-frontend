@@ -21,9 +21,10 @@ import { assert } from 'chai'
 import { shallow } from 'enzyme'
 import Dialog from 'material-ui/Dialog'
 import ListItem from 'material-ui/List/ListItem'
-import OSQueryAddFilterDialogComponent from '../../../src/components/opensearch/query/OSQueryAddFilterDialogComponent'
+import OSQueryAddFilterDialogComponent from '../../../../src/components/opensearch/query/OSQueryAddFilterDialogComponent'
+import styles from '../../../../src/styles'
 
-const context = buildTestContext(() => ({ openSearchCrawler: { queryFilters: { addFilterDialog: {} } } }))
+const context = buildTestContext(styles)
 
 describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSQueryAddFilterDialogComponent', () => {
   before(testSuiteHelpers.before)

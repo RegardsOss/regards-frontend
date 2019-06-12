@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export default { // TODO move me now!
+export default {
   NONE: 'NONE',
   FROM_TABLE: 'FROM_TABLE',
   CUSTOM_FROM: 'CUSTOM_FROM',

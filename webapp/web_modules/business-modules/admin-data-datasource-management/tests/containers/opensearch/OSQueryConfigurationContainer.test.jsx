@@ -20,6 +20,8 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { assert } from 'chai'
 import { shallow } from 'enzyme'
 import { OSQueryConfigurationContainer } from '../../../src/containers/opensearch/OSQueryConfigurationContainer'
+import OSQueryConfigurationComponent from '../../../src/components/opensearch/query/OSQueryConfigurationComponent'
+import { openSearchDescriptor } from '../../dumps/opensearch-descriptor.dump'
 
 const context = buildTestContext()
 
@@ -37,15 +39,18 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSQueryConfigurationContain
       initialValues: {},
       onBack: () => {},
       onSubmit: () => {},
-      descriptor: {
-        shortName: '',
-        description: '',
-        url: [],
-        otherAttributes: {},
-      },
+      descriptor: openSearchDescriptor,
     }
 
     const wrapper = shallow(<OSQueryConfigurationContainer {...props} />, { context })
-    assert.equal(wrapper.length, 1, 'The container should be rendered')
+    const comp = wrapper.find(OSQueryConfigurationComponent)
+    assert.lengthOf(comp, 1, 'There should be the component')
+    testSuiteHelpers.assertWrapperProperties(comp, {
+      initialValues: props.initialValues,
+      isEditing: props.isEditing,
+      urlDescriptor: openSearchDescriptor.url[2],
+      onBack: props.onBack,
+      onSubmit: wrapper.instance().onSubmit,
+    }, 'Component properties should be correctly set')
   })
 })

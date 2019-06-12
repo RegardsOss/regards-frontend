@@ -87,7 +87,8 @@ export class OSResultsConfigurationContainer extends React.Component {
 
   render() {
     const {
-      onBack, onSubmit, modelList, isEditing, initialValues,
+      onBack, onSubmit, isEditing, initialValues,
+      modelAttributeList, modelList,
     } = this.props
     return (
       <I18nProvider messages={messages}>
@@ -97,7 +98,7 @@ export class OSResultsConfigurationContainer extends React.Component {
           isEditing={isEditing}
           modelList={modelList}
           initialValues={initialValues}
-          modelAttributeList={this.props.modelAttributeList}
+          modelAttributeList={modelAttributeList}
           onModelSelected={this.handleModelChange}
         />
       </I18nProvider>

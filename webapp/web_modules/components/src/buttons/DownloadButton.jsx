@@ -31,7 +31,7 @@ class DownloadButton extends React.Component {
     tooltip: PropTypes.string,
     disabled: PropTypes.bool,
     downloadURL: PropTypes.string.isRequired,
-    // TODO-V4 check that the use of download option is ok with all navigators. In some navigator, the file can be displayed instead of force download. (try with pdf)
+    // xxx-later versions check that the use of download option is ok with all navigators. In some navigator, the file can be displayed instead of force download. (try with pdf)
     downloadName: PropTypes.string,
     // ... other button properties, provided at runtime to the button
   }

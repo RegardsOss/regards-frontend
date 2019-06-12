@@ -22,10 +22,11 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { assert } from 'chai'
 import { shallow } from 'enzyme'
 import Card from 'material-ui/Card'
-import OpenSearchStepperComponent from '../../../src/components/opensearch/OpenSearchStepperComponent'
-import { OSCrawlerConfigurationComponent } from '../../../src/components/opensearch/crawler/OSCrawlerConfigurationComponent'
+import OpenSearchStepperComponent from '../../../../src/components/opensearch/OpenSearchStepperComponent'
+import { OSCrawlerConfigurationComponent } from '../../../../src/components/opensearch/crawler/OSCrawlerConfigurationComponent'
+import styles from '../../../../src/styles'
 
-const context = buildTestContext()
+const context = buildTestContext(styles)
 
 describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSCrawlerConfigurationComponent', () => {
   before(testSuiteHelpers.before)

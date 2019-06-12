@@ -57,7 +57,7 @@ class OSQueryParameterSelectField extends React.Component {
           <MenuItem
             key={option.value}
             value={option.value}
-            primaryText={option.value}
+            primaryText={option.label || option.value}
           />
         ))}
       </Field>
