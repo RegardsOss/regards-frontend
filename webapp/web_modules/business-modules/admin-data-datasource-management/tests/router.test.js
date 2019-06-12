@@ -19,12 +19,13 @@
 import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
-import DBDatasourceFormContainer from '../src/containers/DBDatasourceFormContainer'
+import DBDatasourceFormContainer from '../src/containers/db/DBDatasourceFormContainer'
 import DatasourceListContainer from '../src/containers/DatasourceListContainer'
-import DBDatasourceCreateOrPickConnectionContainer from '../src/containers/DBDatasourceCreateOrPickConnectionContainer'
+import DBDatasourceCreateOrPickConnectionContainer from '../src/containers/db/DBDatasourceCreateOrPickConnectionContainer'
 import DataSourceMonitoringContainer from '../src/containers/DataSourceMonitoringContainer'
 import DatasoucePickInterfaceContainer from '../src/containers/DatasoucePickInterfaceContainer'
-import AIPDatasourceFormContainer from '../src/containers/AIPDatasourceFormContainer'
+import AIPDatasourceFormContainer from '../src/containers/aip/AIPDatasourceFormContainer'
+import OSConfigurationFormContainer from '../src/containers/opensearch/OSConfigurationFormContainer'
 
 describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
   before(testSuiteHelpers.before)
@@ -32,7 +33,7 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
 
   it('should return the correct value', () => {
     assert.isDefined(Routes)
-    expect(Routes.childRoutes).to.have.length(8)
+    expect(Routes.childRoutes).to.have.length(10)
     expect(Routes.childRoutes[0].path).to.eq('list')
     expect(Routes.childRoutes[1].path).to.eq('create/interface')
     expect(Routes.childRoutes[2].path).to.eq('db/create/connection')
@@ -41,6 +42,8 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
     expect(Routes.childRoutes[5].path).to.eq('monitor')
     expect(Routes.childRoutes[6].path).to.eq('aip/:datasourceId/edit')
     expect(Routes.childRoutes[7].path).to.eq('aip/create')
+    expect(Routes.childRoutes[8].path).to.eq('opensearch/create')
+    expect(Routes.childRoutes[9].path).to.eq('opensearch/:datasourceId/edit')
   })
   it('list should return DatasourceListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -87,6 +90,18 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
   it('create should return AIPDatasourceFormContainer', (done) => {
     Routes.childRoutes[7].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(AIPDatasourceFormContainer)
+      done()
+    })
+  })
+  it('create should return OSCrawlerConfigurationContainer', (done) => {
+    Routes.childRoutes[8].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(OSConfigurationFormContainer)
+      done()
+    })
+  })
+  it('edit should return OSCrawlerConfigurationContainer', (done) => {
+    Routes.childRoutes[9].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(OSConfigurationFormContainer)
       done()
     })
   })

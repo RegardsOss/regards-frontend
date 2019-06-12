@@ -146,3 +146,7 @@ export { default as getUserGroupSelectors } from './userGroup/UserGroupSelectors
 export { default as EntityAttachmentActions } from './entityAttachment/EntityAttachmentActions'
 export { default as getEntityAttachmentReducer } from './entityAttachment/EntityAttachmentReducer'
 export { default as getEntityAttachmentSelectors } from './entityAttachment/EntityAttachmentSelectors'
+
+export { default as OpensearchDescriptorSelectors } from './opensearchDescriptor/OpensearchDescriptorSelectors'
+export { default as OpensearchDescriptorActions } from './opensearchDescriptor/OpensearchDescriptorActions'
+export { default as OpensearchDescriptorReducer } from './opensearchDescriptor/OpensearchDescriptorReducer'
