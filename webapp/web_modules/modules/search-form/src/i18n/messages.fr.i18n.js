@@ -61,7 +61,7 @@ const messages = {
   'form.attributes.section.title': 'Configurer les attributs',
   'form.attributes.section.clear.filters.tooltip': 'Effacer le filtre courant',
   'form.attributes.regroupement.remove': 'Supprimer',
-  'form.attributes.regroupement.edit': 'Editer',
+  'form.attributes.regroupement.edit': 'Éditer',
   'form.attributes.delete.confirm.title': 'Supprimer le regroupement {name} ?',
   'form.attributes.regroupement.form.title.update': 'Mise à jour du regroupement : {name}',
   // Datasets tab

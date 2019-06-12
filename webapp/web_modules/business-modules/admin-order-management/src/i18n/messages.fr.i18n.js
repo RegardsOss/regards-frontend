@@ -22,7 +22,7 @@ const messages = {
   'order.management.list.title': 'Commandes',
   'order.management.list.subtitle': 'Liste des commandes en cours et terminées du projet',
   'order.list.cancel.button': 'Annuler',
-  'order.list.filters.label': 'Filtrer les résulats',
+  'order.list.filters.label': 'Filtrer les résultats',
   'order.list.filter.by.email.hint': 'Utilisateur',
   'order.list.clear.filter.tooltip': 'Effacer le filtre',
 

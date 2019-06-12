@@ -31,7 +31,7 @@ const messages = Object.assign({
   'collection.form.links.title': 'Update collection links',
   'collection.form.links.action.done': 'Save',
   'collection.form.links.action.cancel': 'Back',
-  'collection.form.links.remainingcollection.search': 'Filter collections with their names',
+  'collection.form.links.remainingcollection.search': 'Filter collections with their name',
   'collection.list.table.label': 'Label',
   'collection.list.table.actions': 'Actions',
   'collection.list.table.model': 'Model',

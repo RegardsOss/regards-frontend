@@ -35,8 +35,8 @@ const messages = Object.assign({
   'dataaccess.searchengines.list.add.button': 'Save protocol',
 
   'dataaccess.searchengines.info.title': 'Access information for catalog search with < {name} > protocol',
-  'dataaccess.searchengines.info.content.all': 'This protocol allows you to search datas over the whole catalog. To do so, you can use the here-under endpoint.',
-  'dataaccess.searchengines.info.content.dataset': 'This protocol allows you to search datas from the dataset {dataset}. To do so, you can use the here-under endpoint.',
+  'dataaccess.searchengines.info.content.all': 'This protocol allows you to search data over the whole catalog. To do so, you can use the here-under endpoint.',
+  'dataaccess.searchengines.info.content.dataset': 'This protocol allows you to search data from the dataset {dataset}. To do so, you can use the here-under endpoint.',
   'dataaccess.searchengines.info.test': 'Click here to check protocol request',
   'dataaccess.searchengines.info.close': 'Close',
 
@@ -45,8 +45,8 @@ const messages = Object.assign({
   'dataaccess.searchengines.form.create.subtitle': 'A search protocol can be used for all catalog search or for a specific dataset search. After choosing an engine type, you can use an existing configuration or create a new one.',
   'dataaccess.searchengines.form.edit.subtitle': 'Please configure the search protocol parameters.',
   'dataaccess.searchengines.form.type.select.label': 'Select a protocol ...',
-  'dataaccess.searchengines.form.invalid.id': 'Search protocol configuration selected does not exists anymore.',
-  'dataaccess.searchengines.form.no.plugin.avalaible': 'No search protocol avalaible.',
+  'dataaccess.searchengines.form.invalid.id': 'Search protocol configuration selected does not exist anymore.',
+  'dataaccess.searchengines.form.no.plugin.available': 'No search protocol available.',
   'dataaccess.searchengines.form.back.button': 'Cancel',
 
   'search-engines.form.label': 'Label',
@@ -55,8 +55,8 @@ const messages = Object.assign({
   'search-engines.form.dataset.type.selected': 'Use this search protocol only for search on the selected dataset',
   'search-engines.form.dataset.section.title': 'Select dataset',
   'search-engines.form.dataset': 'Select the dataset for which this search protocol is for.',
-  'search-engines.form.dataset.hinttext': 'This field allows tou to filter dasets from all datasets availables.',
-  'search-engines.form.dataset.infos': 'The shown dataset list can be a non-exhaustive list. To find not displayed datasets, please filter the list giving the first caracters of his label.',
+  'search-engines.form.dataset.hinttext': 'This field allows you to filter datasets from all datasets available.',
+  'search-engines.form.dataset.infos': 'The shown dataset list can be a non-exhaustive list. To find not displayed datasets, please filter the list giving the first characters of his label.',
   'search-engines.form.new.plugin.section.title': 'Create new configuration for protocol {engine}',
   'component.plugin-parameter.action.choose-plugin': 'Choose a search protocol',
   'component.plugin-parameter.action.create-plugin': 'New configuration',

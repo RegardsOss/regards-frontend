@@ -33,7 +33,7 @@ const messages = Object.assign({
   'accessright.form.meta.accessLevel.NO_ACCESS': 'No access',
   'accessright.form.meta.accessLevel.RESTRICTED_ACCESS': 'Dataset access',
   'accessright.form.meta.accessLevel.FULL_ACCESS': 'Dataset and Dataobjects access',
-  'accessright.form.meta.accessLevel.CUSTOM_ACCESS': 'Full access to dataset. Partial access to dataobjects (filtered by plugin)',
+  'accessright.form.meta.accessLevel.CUSTOM_ACCESS': 'Full access to dataset. Partial access to data objects (filtered by plugin)',
   'accessright.form.data.accessLevel': 'Access level to data',
   'accessright.form.data.accessLevel.NO_ACCESS': 'Refused',
   'accessright.form.data.accessLevel.INHERITED_ACCESS': 'Authorized',
@@ -68,7 +68,7 @@ const messages = Object.assign({
   'component.plugin-parameter.action.reset': 'Deselect a plugin',
   'component.plugin-parameter.no-plugin-available': 'No plugin available',
   'accessright.edit.multiples.button.label': 'Configure access rights for selected datasets',
-  'accessright.no.dataset.title': 'No datasets',
+  'accessright.no.dataset.title': 'No dataset',
   'accessright.no.dataset.subtitle': 'Create your first dataset',
 }, Locales.en)
 

@@ -19,10 +19,10 @@
 const catDataProvider = ' Acquisition - '
 const messages = {
   'sip.state.NOT_SCHEDULED': `${catDataProvider}Produit en cours`,
-  'sip.state.SCHEDULED': `${catDataProvider}Génération SIP planifiée`,
+  'sip.state.SCHEDULED': `${catDataProvider}Génération SIP planifié`,
   'sip.state.NOT_SCHEDULED_INVALID': `${catDataProvider}Produit invalide`,
   'sip.state.GENERATION_ERROR': `${catDataProvider}Erreur de génération du SIP`,
-  'sip.state.SCHEDULED_INTERRUPTED': `${catDataProvider}Génération SIP interrompue`,
+  'sip.state.SCHEDULED_INTERRUPTED': `${catDataProvider}Génération SIP interrompu`,
   'sip.state.SUBMITTED': `${catDataProvider}SIP soumis`,
 }
 

@@ -118,7 +118,7 @@ class ProductInformationDialog extends React.Component {
           : null
         }
         {this.renderJobInformations(formatMessage({ id: 'acquisition-product.informaton.generation.job.title' }), product.lastSIPGenerationJobInfo)}
-        {this.renderJobInformations(formatMessage({ id: 'acquisition-product.informaton.submition.job.title' }), product.lastSIPSubmissionJobInfo)}
+        {this.renderJobInformations(formatMessage({ id: 'acquisition-product.informaton.submission.job.title' }), product.lastSIPSubmissionJobInfo)}
       </PositionedDialog>
     )
   }

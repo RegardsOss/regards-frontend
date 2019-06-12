@@ -35,7 +35,7 @@ const messages = {
   'invalid.positive.integer.number': 'La valeur doit être un nombre entier supérieur ou égal à 0',
   'invalid.floating.number': 'La valeur doit être un nombre flottant',
   'invalid.character': 'La valeur doit être un unique caractère',
-  'invalid.mime_type': 'MimeType invalide (un mimeType valide est composé de deux mots clefs espacés par le caractère / : application/xml).',
+  'invalid.mime_type': 'MimeType invalide (un mimeType valide est composé de deux mots-clefs séparés par le caractère / : application/xml).',
   'different.password': 'Les mots de passe doivent être identiques',
   'type.string': 'Le type devrait être String',
   'invalid.length.less.than': 'Utilisez {number} caractères ou moins',
@@ -47,7 +47,7 @@ const messages = {
   'form.datetimepicker.cancel': 'Annuler',
   'form.datetimepicker.date.label': '{label} / date',
   'form.datetimepicker.time.label': '{label} / heure',
-  'form.datetimepicker.clear': 'Reinitialiser',
+  'form.datetimepicker.clear': 'Réinitialiser',
 
   'renderer.fileField.file.name': 'Nom',
   'renderer.fileField.file.type': 'Type',
@@ -65,7 +65,7 @@ const messages = {
   'render.array-object.options.title': 'Options',
   'render.array-object.delete.button': 'Supprimer',
   'render.array-object.duplicate.button': 'Dupliquer',
-  'render.array-object.item.title': 'Element {index}',
+  'render.array-object.item.title': 'Élément {index}',
   'render.array-object.delete.confirm.title': 'Voulez-vous supprimer l\'élément {index} ?',
   'render.array-object.add.button': 'Ajouter',
   'render.array-object.cancel.button': 'Annuler',
@@ -73,7 +73,7 @@ const messages = {
   'render.map-object.add.new.dialog.title': 'Ajouter un nouvel élément au paramètre «{parameter}»',
   'render.map-object.add.new.dialog.key.label': 'Clef du nouvel élément ... ',
   'render.map-object.key.already.exists.error': 'La valeur existe déjà.',
-  'render.map-object.duplicate.key.not.exists': 'L\'élément à dupliquer n\'éxiste plus',
+  'render.map-object.duplicate.key.not.exists': 'L\'élément à dupliquer n\'existe plus',
 
 }
 

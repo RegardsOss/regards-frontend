@@ -26,8 +26,8 @@ const messages = {
   'search.graph.configuration.levels.message': 'Browsing graph levels',
   'search.graph.levels.selection.none.selected.error': 'No display level selected',
   'search.graph.levels.selection.header.message': `{count, plural, 
-    =0 {No browing level}
-    one {# browing level}
+    =0 {No browsing level}
+    one {# browsing level}
     other {# browsing levels}
   } defined`,
   'search.graph.levels.selection.no.selection.hint': 'Add here graph browsing levels',

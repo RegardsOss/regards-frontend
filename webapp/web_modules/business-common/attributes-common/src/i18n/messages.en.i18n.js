@@ -56,7 +56,7 @@ const messages = {
     other {# available attributes}
   }`,
   'attribute.configuration.selectable.attributes.filter': 'Filter',
-  'attribute.configuration.selectable.attributes.no.data': 'Aucun attribut disponible',
+  'attribute.configuration.selectable.attributes.no.data': 'No attribute available',
   'attribute.configuration.selected.attributes.header': `{count, plural, 
     =0 {No attribute}
     one {# attribute}

@@ -20,7 +20,7 @@ import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
   'plugin.configuration.form.create.title': 'Ajouter une configuration',
-  'plugin.configuration.form.edit.title': 'Editer la configuration {name}',
+  'plugin.configuration.form.edit.title': 'Éditer la configuration {name}',
   'plugin.configuration.form.pluginClassName': 'Classe du plugin (chemin complet)',
   'plugin.configuration.form.label': 'Libellé *',
   'plugin.configuration.form.version': 'Version *',
@@ -47,8 +47,8 @@ const messages = Object.assign({
   'plugin.parameter.plugin.choose': 'Choisir un plugin',
   'plugin.parameter.plugin.empty.menu.item': 'Aucun',
 
-  'plugin.parameter.map.new.key.dialog.title': 'Enter a new value for {key}',
-  'plugin.parameter.map.new.value.label': 'Value for {value}',
+  'plugin.parameter.map.new.key.dialog.title': 'Entrer une nouvelle valeur pour {key}',
+  'plugin.parameter.map.new.value.label': 'Valeur de {value}',
 
 }, Locales.fr)
 

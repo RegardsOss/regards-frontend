@@ -31,7 +31,7 @@ const messages = Object.assign({
   'user.authentication.plugins.list.edit.button': 'Edit authentication system',
   'user.authentication.plugins.list.duplicate.button': 'Duplicate authentication system',
   'user.authentication.plugins.list.active.on.button': 'Enable authentication system',
-  'user.authentication.plugins.list.active.off.button': 'Desable authentication system',
+  'user.authentication.plugins.list.active.off.button': 'Disable authentication system',
   'user.authentication.plugins.list.confirm.title': 'Delete authentication system {name} ?',
   'user.authentication.plugins.list.back.button': 'Back',
   'user.authentication.plugins.list.empty.title': 'No authentication systems available',
@@ -39,11 +39,11 @@ const messages = Object.assign({
 
   'user.authentication.plugins.form.create.title': 'Add new authentication system',
   'user.authentication.plugins.form.edit.title': 'Edit authentication system "{name}"',
-  'user.authentication.plugins.form.create.subtitle': 'First you have to select a authentication system type. When its done, you have to configure the needed parameters.',
+  'user.authentication.plugins.form.create.subtitle': 'First you have to select an authentication system type. When its done, you have to configure the needed parameters.',
   'user.authentication.plugins.form.edit.subtitle': 'Please configure the authentication system parameters.',
   'user.authentication.plugins.form.type.select.title': 'authentication system type',
   'user.authentication.plugins.form.type.select.label': 'Select a type ...',
-  'user.authentication.plugins.form.invalid.id': 'Authentication system plugin configuration selected does not exists anymore.',
+  'user.authentication.plugins.form.invalid.id': 'Authentication system plugin configuration selected does not exist anymore.',
   'user.authentication.plugins.form.back.button': 'Cancel',
 
 }, Locales.en)

@@ -20,8 +20,8 @@ const messages = {
   'invalid.required': 'Required',
   'invalid.array.required': 'There should be at least one item in this list',
   'invalid.email': 'Invalid email address',
-  'invalid.url': 'Invalid url',
-  'invalid.uri': 'URI onvalid',
+  'invalid.url': 'Invalid URL',
+  'invalid.uri': 'Invalid URI',
   'invalid.only_alphanumeric': 'Use alphanumeric characters and "_"',
   'invalid.only_numeric': 'Use numeric characters',
   'invalid.ip': 'Invalid IP',
@@ -35,7 +35,7 @@ const messages = {
   'invalid.positive.integer.number': 'The value must be an integer greater than or equal to 0',
   'invalid.floating.number': 'The value must be a float number',
   'invalid.character': 'The value must be a single character',
-  'invalid.mime_type': 'MimeType invalid (mimeType should be composed with two keywords spaced with  / catacter like application/xml).',
+  'invalid.mime_type': 'MimeType invalid (mimeType should be composed with two keywords separated by the / character like application/xml).',
   'different.password': 'Entered passwords must match',
   'type.string': 'Type should be String',
   'invalid.length.less.than': 'Use {number} characters or fewer',
@@ -73,7 +73,7 @@ const messages = {
   'render.map-object.add.new.dialog.title': 'Add new element to the map parameter «{parameter}»',
   'render.map-object.add.new.dialog.key.label': 'New element key',
   'render.map-object.key.already.exists.error': 'Selected value already exists.',
-  'render.map-object.duplicate.key.not.exists': 'Element to duplicate does not exists anymore',
+  'render.map-object.duplicate.key.not.exists': 'Element to duplicate does not exist anymore',
 }
 
 export default messages

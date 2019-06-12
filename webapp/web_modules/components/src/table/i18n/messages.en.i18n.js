@@ -30,7 +30,7 @@ const messages = {
   'table.deselect.all.label': 'All',
   'table.deselect.all.tooltip': 'Deselect all',
   'table.select.row.tooltip': 'Select',
-  'table.unselect.row.tooltip': 'Unselect',
+  'table.unselect.row.tooltip': 'Deselect',
   'table.column.visibility.filter.option': 'Columns...',
   'table.column.visibility.filter.dialog': 'Visible columns',
   'table.column.visibility.filter.cancel': 'Cancel',

@@ -24,7 +24,7 @@ const messages = {
   'numerical.comparator.GE': '≥',
   'numerical.comparator.NE': '≠',
   'components.buttons.select.all': 'Tout sélectionner',
-  'components.buttons.unselect.all': 'Tout déselectionner',
+  'components.buttons.unselect.all': 'Tout désélectionner',
 }
 
 export default messages

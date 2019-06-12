@@ -64,7 +64,7 @@ const messages = {
   // ask project access form
   'ask.project.access.request.title': 'Request project access',
   'ask.project.access.request.message': 'Enter below your personal data to request access, or provide your REGARDS account email address if you own already one.',
-  'ask.project.access.using.existing.account': 'I already have a REGARDS access to an other project',
+  'ask.project.access.using.existing.account': 'I already have a REGARDS access to another project',
   'ask.project.access.mail': 'E-mail address (*)',
   'ask.project.access.first.name': 'Firstname (*)',
   'ask.project.access.last.name': 'Lastname (*)',
@@ -91,7 +91,7 @@ const messages = {
 
   // Ask project access operation
   'ask.project.access.sent.title': 'Project access request sent',
-  'ask.project.access.sent.message': 'Your request to access project data has been sent. Its acknowledgement will be noticed to you by email',
+  'ask.project.access.sent.message': 'Your request to access project data has been sent. Its acknowledgment will be noticed to you by email',
   'ask.project.access.sent.option': 'Back',
 
   // New account operation
@@ -129,7 +129,7 @@ const messages = {
   'reset.password.update.new.password': 'New password',
   'reset.password.update.confirm.password': 'Confirm password',
   'reset.password.update.send': 'Send',
-  'reset.password.update.error': 'Error changing password. Please check password informations provided.',
+  'reset.password.update.error': 'Error changing password. Please check password information provided.',
   'reset.password.update.cancel': 'Cancel',
 
   // finish unlock account loading pane
