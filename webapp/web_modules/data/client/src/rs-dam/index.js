@@ -51,6 +51,8 @@ export { default as FragmentActions } from './fragment/FragmentActions'
 export { default as FragmentReducer } from './fragment/FragmentReducer'
 export { default as FragmentSelectors } from './fragment/FragmentSelectors'
 
+export { default as IndexActions } from './index/IndexActions'
+
 export { default as AttributeModelRestrictionSelectors } from './attributesModelRestriction/AttributeModelRestrictionSelectors'
 export { default as AttributeModelRestrictionActions } from './attributesModelRestriction/AttributeModelRestrictionActions'
 export { default as AttributeModelRestrictionReducer } from './attributesModelRestriction/AttributeModelRestrictionReducer'
@@ -111,6 +113,7 @@ export { default as DatasetDataAttributesSelectors } from './dataset/DatasetData
 export { default as DatasetAttributesActions } from './dataset/DatasetAttributesActions'
 export { default as DatasetAttributesReducer } from './dataset/DatasetAttributesReducer'
 export { default as DatasetAttributesSelectors } from './dataset/DatasetAttributesSelectors'
+export { default as DatasetByIpIdActions } from './dataset/DatasetByIpIdActions'
 
 export { default as DatasetValidSubsettingTestActions } from './datasetValidSubsettingTest/DatasetValidSubsettingTestActions'
 export { default as getDatasetValidSubsettingTestReducer } from './datasetValidSubsettingTest/DatasetValidSubsettingTestReducer'

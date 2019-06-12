@@ -19,8 +19,10 @@
 import values from 'lodash/values'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
+import LinearProgress from 'material-ui/LinearProgress'
 import { SwitchThemeDecorator } from '@regardsoss/theme'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
+import ErrorDecoratorComponent from '../ErrorDecoratorComponent'
 import messages from './i18n'
 
 /**
@@ -46,7 +48,9 @@ class ConfirmDialogComponent extends React.Component {
     dialogType: PropTypes.oneOf(values(ConfirmDialogComponentTypes)),
     title: PropTypes.string.isRequired,
     message: PropTypes.string, // optional
+    errorMessage: PropTypes.string, // optional
     onConfirm: PropTypes.func.isRequired,
+    // onClose is always called whether the popup is closed or submitted
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool,
   }
@@ -60,8 +64,27 @@ class ConfirmDialogComponent extends React.Component {
     ...i18nContextType,
   }
 
-  handleDelete = () => {
-    Promise.resolve(this.props.onConfirm()).then(this.props.onClose)
+  state = {
+    loading: false,
+  }
+
+  handleConfirm = () => {
+    const { intl: { formatMessage } } = this.context
+    const request = this.props.onConfirm()
+    if (request) {
+      this.setState({ loading: true })
+      request.then((response) => {
+        let error = null
+        if (response.error) {
+          error = this.props.errorMessage || formatMessage({ id: 'confirm.dialog.unknown.error' })
+        } else {
+          this.props.onClose()
+        }
+        this.setState({ loading: false, error })
+      })
+    } else {
+      this.props.onClose()
+    }
   }
 
   renderActions = () => {
@@ -81,7 +104,8 @@ class ConfirmDialogComponent extends React.Component {
         key={confirmMessageKey}
         className="selenium-confirmDialogButton"
         label={formatMessage({ id: confirmMessageKey })}
-        onClick={this.handleDelete}
+        onClick={this.handleConfirm}
+        disabled={this.state.loading}
       />,
     ]
   }
@@ -101,6 +125,10 @@ class ConfirmDialogComponent extends React.Component {
           open={open}
           onRequestClose={onClose}
         >
+          <ErrorDecoratorComponent>
+            {this.state.error}
+          </ErrorDecoratorComponent>
+          {this.state.loading ? <LinearProgress mode="indeterminate" /> : null}
           {message}
         </Dialog>
       </SwitchThemeDecorator>

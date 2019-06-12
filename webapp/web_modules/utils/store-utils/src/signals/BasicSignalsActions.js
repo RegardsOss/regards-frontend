@@ -24,7 +24,7 @@ import BasicSignalActions from '../signal/BasicSignalActions'
 * Allows to manage several Signals actions on the same time
 * @author Léo Mieulet
 */
-export default class BasicSignalsReducers {
+export default class BasicSignalsActions {
   /**
    * Constructor
    * @param {Object} subActions several BasicSignalActions constructor objets

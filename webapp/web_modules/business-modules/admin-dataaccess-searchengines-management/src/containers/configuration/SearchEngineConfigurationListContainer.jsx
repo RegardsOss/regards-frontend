@@ -20,6 +20,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { searchEngineConfigurationsActions, searchEngineConfigurationsSelectors } from '../../clients/SearchEngineConfigurationsClient'
 import SearchEngineConfigurationListComponent from '../../components/configuration/SearchEngineConfigurationListComponent'
+import { datasetActions } from '../../clients/DatasetClient'
 
 /**
 * Container to handle search engine configurations list
@@ -48,6 +49,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
   static mapDispatchToProps(dispatch, props) {
     return {
       fetchPage: (pageIndex, pageSize, requestParams) => dispatch(searchEngineConfigurationsActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
+      fetchDatasetList: () => dispatch(datasetActions.fetchPagedEntityList(0, 1000)),
       update: conf => dispatch(searchEngineConfigurationsActions.updateEntity(conf.id, conf)),
       delete: conf => dispatch(searchEngineConfigurationsActions.deleteEntity(conf.id)),
     }
@@ -65,6 +67,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
     isLoading: PropTypes.bool.isRequired,
     // from mapDispatchToProps
     fetchPage: PropTypes.func.isRequired,
+    fetchDatasetList: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
   }
 
@@ -72,6 +75,18 @@ export class SearchEngineConfigurationListContainer extends React.Component {
     meta: {
       totalElements: 0,
     },
+  }
+
+  state = {
+    datasetList: {},
+  }
+
+  componentWillMount = () => {
+    this.props.fetchDatasetList().then((response) => {
+      this.setState({
+        datasetList: response.payload.entities.datasets,
+      })
+    })
   }
 
   onEdit = (pluginConfToEdit) => {
@@ -97,6 +112,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
     const {
       fetchPage, isLoading, meta: { totalElements },
     } = this.props
+    const { datasetList } = this.state
     return (
       <SearchEngineConfigurationListComponent
         onBack={this.goToBoard}
@@ -104,6 +120,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
         onEdit={this.onEdit}
         onDelete={this.onDelete}
         fetchPage={fetchPage}
+        datasetList={datasetList}
         isLoading={isLoading}
         resultsCount={totalElements}
       />

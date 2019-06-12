@@ -15,27 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
-**/
-import areIntlLocalesSupported from 'intl-locales-supported'
+ **/
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
-// eslint-disable-next-line import/no-mutable-exports
-let dateTimeFormat
-
-const localesAppSupports = [
-  'fr',
-]
-
-/**
- * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
- */
-if (areIntlLocalesSupported(localesAppSupports)) {
-  dateTimeFormat = global.Intl.DateTimeFormat
-} else {
-  const IntlPolyfill = import('intl')
-    .then(() => {
-      dateTimeFormat = IntlPolyfill.DateTimeFormat
-      import('intl/locale-data/jsonp/fr')
+export default class DatasetByIpIdActions extends BasicSignalActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/datasets/ipId/{dataset_ipId}`,
     })
-}
+  }
 
-export default dateTimeFormat
+  fetchDatasetByUrn = datasetUrn => (
+    this.sendSignal('GET', {}, { dataset_ipId: datasetUrn })
+  )
+}

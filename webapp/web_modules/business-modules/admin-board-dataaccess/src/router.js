@@ -20,7 +20,7 @@ export const boardRoute = {
   path: 'board',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const moduleContainer = require('./components/ModuleContainer')
+      const moduleContainer = require('./containers/ModuleContainer')
       cb(null, {
         content: moduleContainer.default,
       })

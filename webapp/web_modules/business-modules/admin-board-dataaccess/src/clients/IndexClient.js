@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,14 +15,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { DataManagementClient } from '@regardsoss/client'
+
 /**
- * Main interface for i18n utils
+ * Index client.
+ *
  * @author Sébastien Binda
  */
-export { default as I18nProvider } from './containers/I18nProvider'
-export { setLocale } from './model/I18nActions'
-export { default as i18nReducers } from './model/I18nReducers'
-export { default as i18nSelectors } from './model/I18nSelectors'
-export { default as i18nContextType } from './contextType'
-export { default as withI18n } from './withI18n'
+const REDUX_ACTION_NAMESPACE = 'admin-dataaccess/index'
+
+export const indexActions = new DataManagementClient.IndexActions(REDUX_ACTION_NAMESPACE)
+export const { RESET_INDEX_ACTION } = DataManagementClient.IndexActions

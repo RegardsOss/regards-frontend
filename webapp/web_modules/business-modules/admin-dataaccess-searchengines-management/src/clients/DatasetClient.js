@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,33 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
-import DataAccessBoardComponent from './DataAccessBoardComponent'
-import messages from '../i18n'
+ */
+import { DataManagementClient } from '@regardsoss/client'
 
 /**
- * Main container to render for the Datamanagement module
+ * Dataset entities client.
+ *
+ * @author Sébastien Binda
  */
-class ModuleContainer extends React.Component {
-  static propTypes = {
-    params: PropTypes.shape({
-      project: PropTypes.string,
-    }),
-  }
+const REDUX_ACTION_NAMESPACE = 'admin-dataaccess/searchengines/dataset/'
+const REDUX_IP_ID_ACTION_NAMESPACE = 'admin-dataaccess/searchengines/dataset/ipId'
 
-  static contextTypes = {
-    ...i18nContextType,
-  }
-
-  render() {
-    const { project } = this.props.params
-    return (
-      <I18nProvider messages={messages}>
-        <DataAccessBoardComponent project={project} />
-      </I18nProvider>
-    )
-  }
-}
-
-export default ModuleContainer
+export const datasetActionsReducer = DataManagementClient.getDatasetWithAccessRightReducer(REDUX_ACTION_NAMESPACE)
+export const datasetActions = new DataManagementClient.DatasetActions(REDUX_ACTION_NAMESPACE)
+export const datasetByIpIdActions = new DataManagementClient.DatasetByIpIdActions(REDUX_IP_ID_ACTION_NAMESPACE)

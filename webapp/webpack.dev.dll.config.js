@@ -24,10 +24,7 @@ const conf = webpackConfigurator
     mode: 'dll',
     projectContextPath: __dirname,
   })
-  .cleanFolder({
-    projectContextPath: __dirname,
-    pathToDelete: 'dist/dev',
-  })
+  .cleanFolder()
   .merge({
     output: {
       path: `${__dirname}/dist/dev/`,
@@ -69,7 +66,6 @@ const conf = webpackConfigurator
         'reselect',
         'mdi-material-ui',
         'intl',
-        'intl-locales-supported',
         'react-ace',
         'react-notification-system',
         'brace',

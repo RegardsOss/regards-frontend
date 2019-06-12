@@ -18,17 +18,18 @@
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { aipActions } from './clients/AIPClient'
+import { aipSessionActions } from './clients/AIPSessionClient'
 /**
  * Module hateoas depencies
  * @author Léo Mieulet
  */
-
 /**
  * Mandatory Dependencies to display module in parent board
  * @type {Array}
  */
 const listDependencies = [
-  aipActions.getDependency(RequestVerbEnum.GET_LIST),
+  aipSessionActions.getDependency(RequestVerbEnum.GET_LIST),
+  aipActions.getDependency(RequestVerbEnum.POST),
 ]
 
 /**

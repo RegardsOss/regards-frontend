@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,14 +15,33 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { BasicSignalsActions } from '@regardsoss/store-utils'
+
 /**
- * Main interface for i18n utils
+ * Redux actions to handle index reset.
+ *
  * @author Sébastien Binda
  */
-export { default as I18nProvider } from './containers/I18nProvider'
-export { setLocale } from './model/I18nActions'
-export { default as i18nReducers } from './model/I18nReducers'
-export { default as i18nSelectors } from './model/I18nSelectors'
-export { default as i18nContextType } from './contextType'
-export { default as withI18n } from './withI18n'
+export default class IndexActions extends BasicSignalsActions {
+  static ROOT_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/index`
+
+  static RESET_INDEX_ACTION = 'resetIndexAction'
+
+  /**
+   * Construtor
+   * @param namespace
+   */
+  constructor(namespace) {
+    super({
+      [IndexActions.RESET_INDEX_ACTION]: {
+        entityEndpoint: `${IndexActions.ROOT_ENDPOINT}`,
+        namespace: `${namespace}/reset`,
+      },
+    })
+  }
+
+  resetIndex() {
+    return this.getSubAction(IndexActions.RESET_INDEX_ACTION).sendSignal('DELETE', null, {})
+  }
+}

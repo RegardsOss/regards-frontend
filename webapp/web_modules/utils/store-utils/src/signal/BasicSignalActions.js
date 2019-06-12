@@ -141,5 +141,4 @@ class BasicSignalActions extends BasicActions {
   buildResults = res => getJSON(res).then(json => json)
 }
 
-
 export default BasicSignalActions

@@ -26,6 +26,7 @@ import dataAccessItems from './DataAccessBoardItems'
 class DataAccessBoardComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
+    onResetIndex: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -34,7 +35,7 @@ class DataAccessBoardComponent extends React.Component {
 
   render() {
     const { project } = this.props
-    const items = dataAccessItems(project, this.context.intl)
+    const items = dataAccessItems(project, this.context.intl, this.props.onResetIndex)
     return (
       <BoardComponent items={items} />
     )

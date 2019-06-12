@@ -26,6 +26,7 @@ import { themeUIDependencies } from '@regardsoss/admin-ui-theme-management'
 import { pluginUIDependencies } from '@regardsoss/admin-ui-plugin-management'
 import { moduleUIDependencies } from '@regardsoss/admin-ui-module-management'
 import { layoutUIDependencies } from '@regardsoss/admin-ui-layout-management'
+import { serviceUIDependencies } from '@regardsoss/admin-ui-service-management'
 
 /**
  * The list of dependencies that this modules used across its childs
@@ -35,12 +36,12 @@ import { layoutUIDependencies } from '@regardsoss/admin-ui-layout-management'
 export default [
   ...themeUIDependencies.boardAddRequiredDependencies,
   ...themeUIDependencies.boardListRequiredDependencies,
-
   ...pluginUIDependencies.boardAddRequiredDependencies,
   ...pluginUIDependencies.boardListRequiredDependencies,
-
   ...moduleUIDependencies.boardAddRequiredDependencies,
   ...moduleUIDependencies.boardListRequiredDependencies,
-
+  ...layoutUIDependencies.boardAddRequiredDependencies,
   ...layoutUIDependencies.boardSeeRequiredDependencies,
+  ...serviceUIDependencies.boardListRequiredDependencies,
+  ...serviceUIDependencies.boardAddRequiredDependencies,
 ]

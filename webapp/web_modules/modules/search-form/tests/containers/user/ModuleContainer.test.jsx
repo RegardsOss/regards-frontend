@@ -58,10 +58,10 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
     const enzymeWrapper = shallow(<ModuleContainer {...props} />, { context })
     // Check initial state holds both root query and constant restriction parameters
     assert.deepEqual(enzymeWrapper.state(), {
-      contextQuery: 'tags:"URN%3ADATASET%3AEXAMPLE1"',
+      contextQuery: 'tags:"URN:DATASET:EXAMPLE1"',
       contextResultsCriteria: [{
         requestParameters: {
-          [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: 'tags:"URN%3ADATASET%3AEXAMPLE1"',
+          [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: 'tags:"URN:DATASET:EXAMPLE1"',
         },
       }],
     }, 'Initial state should contain pre-computed query and constant restriciton parameters, taking account of configured dataset')
@@ -220,10 +220,10 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
       ModuleContainer.buildContextQueryAndCriteria(
         { type: DatasetSelectionTypes.DATASET_TYPE, selectedDatasets: ['URN:DATASET:A', null, 'URN:DATASET:B'], selectedModels: [] }),
       {
-        query: 'tags:("URN%3ADATASET%3AA" OR "URN%3ADATASET%3AB")',
+        query: 'tags:("URN:DATASET:A" OR "URN:DATASET:B")',
         resultsCriteria: [{
           requestParameters: {
-            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: 'tags:("URN%3ADATASET%3AA" OR "URN%3ADATASET%3AB")',
+            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: 'tags:("URN:DATASET:A" OR "URN:DATASET:B")',
           },
         }],
       }, '2.C - Dataset tags query should be built')
