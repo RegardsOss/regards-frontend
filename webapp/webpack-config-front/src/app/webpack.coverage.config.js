@@ -15,8 +15,12 @@ module.exports = function (projectContextPath) {
   config = merge(config, {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
     externals: [nodeExternals({
-      // this WILL include `*regardsoss*` in the bundle
-      whitelist: [/regardsoss/, /react-material-color-picker/],
+      whitelist: [
+        // this WILL include `*regardsoss*` in the bundle
+        /regardsoss/,
+        // this fix the test build dkw
+        /redux-api-middleware/,
+      ],
     })], // in order to ignore all modules in node_modules folder
     // Enable sourcemaps for debugging webpack's output.
     devtool: 'source-map',
@@ -32,14 +36,6 @@ module.exports = function (projectContextPath) {
       ],
     },
     plugins: [
-      new webpack.DllReferencePlugin({
-        // The path to the manifest file which maps between
-        // modules included in a bundle and the internal IDs
-        // within that bundle
-        // eslint-disable-next-line import/no-dynamic-require
-        manifest: require(`${projectContextPath}/dist/dev/core-manifest.json`),
-        context: projectContextPath,
-      }),
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify('coverage'),
@@ -47,6 +43,10 @@ module.exports = function (projectContextPath) {
         GATEWAY_HOSTNAME: JSON.stringify('http://localhost:8000'),
         API_URL: JSON.stringify('/api/v1/'),
         STATIC_CONF: JSON.stringify(STATIC_CONF),
+      }),
+      // Define the fetch as a global var
+      new webpack.ProvidePlugin({
+        fetch: 'isomorphic-fetch',
       }),
     ],
     // enable sourcemaps support
