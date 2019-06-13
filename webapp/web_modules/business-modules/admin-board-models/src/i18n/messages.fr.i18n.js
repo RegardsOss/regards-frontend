@@ -30,7 +30,7 @@ const messages = {
   'data.board.fragment.title': 'Fragments',
 
   'data.board.calculation.plugins.title': 'Plugins de calcul des attributs',
-  'data.board.calculation.plugins.description': 'Certaines propriétés d\'un jeu de données peuvent être calculées à partir des propriétés des objets contenus. Pour ce faire, il est nécessaire d\'associer une méthode de calcul à un attribut du modèle de jeu de données concerné depuis l\'écran d\'association des attributs aux modèles de jeux de données (configuration des modeles).',
+  'data.board.calculation.plugins.description': 'Certaines propriétés d\'un jeu de données peuvent être calculées à partir des propriétés des objets contenus dans ce jeu. Pour cela, il faut créer un plugin de calcul d\'attribut puis associer ce plugin à un attribut du modèle de jeu de données concerné depuis l\'écran d\'association des attributs aux modèles de jeux de données (configuration des attributs d\'un modèle).',
 }
 
 export default messages

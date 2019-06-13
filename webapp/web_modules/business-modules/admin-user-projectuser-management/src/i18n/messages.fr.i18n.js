@@ -66,7 +66,7 @@ const messages = {
   'projectUser.edit.action.save': 'Sauvegarder',
   'projectUser.create.using.existing.account': 'L\'utilisateur a déjà un compte utilisateur REGARDS',
   'projectUser.create.title': 'Créer un utilisateur',
-  'projectUser.create.message': 'Créer un utilisateur pour le project. {passwordRules}',
+  'projectUser.create.message': 'Créer un utilisateur pour le projet. {passwordRules}',
   'projectUser.create.input.role': 'Rôle',
   'projectUser.create.input.email': 'E-mail',
   'projectUser.create.input.firstName': 'Prénom',
