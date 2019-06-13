@@ -263,7 +263,6 @@ export class OSResultsConfigurationComponent extends React.Component {
               fullWidth
               type="text"
               label={formatMessage({ id: 'opensearch.crawler.form.results.RAWDATA' })}
-              validate={required}
             />
 
             <Field
@@ -272,7 +271,6 @@ export class OSResultsConfigurationComponent extends React.Component {
               fullWidth
               type="text"
               label={formatMessage({ id: 'opensearch.crawler.form.results.QUICKLOOK' })}
-              validate={required}
             />
 
             <Field
@@ -281,7 +279,6 @@ export class OSResultsConfigurationComponent extends React.Component {
               fullWidth
               type="text"
               label={formatMessage({ id: 'opensearch.crawler.form.results.THUMBNAIL' })}
-              validate={required}
             />
             <div style={title}>
               <Title
