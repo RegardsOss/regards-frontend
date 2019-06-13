@@ -21,6 +21,7 @@ import find from 'lodash/find'
 import {
   Card, CardTitle, CardActions, CardMedia,
 } from 'material-ui/Card'
+import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
@@ -30,7 +31,9 @@ import PageView from 'material-ui/svg-icons/action/pageview'
 import {
   Breadcrumb, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
   ShowableAtRender, PageableInfiniteTableContainer, TableDeleteOption, TableLayout,
-  TableColumnBuilder, DateValueRender, NoContentComponent, TableHeaderLineLoadingAndResults,
+  TableColumnBuilder, DateValueRender, NoContentComponent, TableHeaderLine,
+  TableHeaderResultsCountMessage, TableHeaderLoadingComponent, TableHeaderOptionsArea,
+  TableHeaderOptionGroup, TableHeaderContentBox,
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -224,9 +227,23 @@ class SIPSessionListComponent extends React.Component {
           <SIPSessionListFiltersComponent
             initialFilters={initialFilters}
             applyFilters={this.applyFilters}
-            handleRefresh={this.handleRefresh}
           />
-          <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
+          {/* Loading, results and refresh button */}
+          <TableHeaderLine>
+            <TableHeaderContentBox>
+              <TableHeaderResultsCountMessage count={resultsCount} isFetching={entitiesLoading} />
+            </TableHeaderContentBox>
+            <TableHeaderLoadingComponent loading={entitiesLoading} />
+            <TableHeaderOptionsArea reducible>
+              <TableHeaderOptionGroup>
+                <FlatButton
+                  label={intl.formatMessage({ id: 'sips.session.refresh.button' })}
+                  icon={<Refresh />}
+                  onClick={this.handleRefresh}
+                />
+              </TableHeaderOptionGroup>
+            </TableHeaderOptionsArea>
+          </TableHeaderLine>
           <PageableInfiniteTableContainer
             name="sip-management-session-table"
             pageActions={sessionActions}
