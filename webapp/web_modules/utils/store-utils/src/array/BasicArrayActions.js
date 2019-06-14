@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import BasicActions from '../BasicActions'
 import { RSAA, getJSON } from 'redux-api-middleware'
+import BasicActions from '../BasicActions'
 /**
  *  Provide actions to retrieve an array of value
  *
