@@ -208,7 +208,6 @@ export class OSQueryConfigurationComponent extends React.Component {
               component={RenderSelectField}
               type="text"
               label={formatMessage({ id: 'opensearch.crawler.form.query.lastUpdate' })}
-              validate={ValidationHelpers.required}
               fullWidth
             >
               {availableParameters.map(filter => (
