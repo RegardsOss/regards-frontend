@@ -18,8 +18,7 @@
  **/
 import { normalize } from 'normalizr'
 import BasicActions from '../BasicActions'
-
-const { RSAA, getJSON } = require('redux-api-middleware')
+import { RSAA, getJSON } from 'redux-api-middleware'
 
 /**
  *  Provide actions for a specific type of entity list

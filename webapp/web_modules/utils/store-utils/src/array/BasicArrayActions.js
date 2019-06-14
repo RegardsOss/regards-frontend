@@ -17,8 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import BasicActions from '../BasicActions'
-
-const { RSAA, getJSON } = require('redux-api-middleware')
+import { RSAA, getJSON } from 'redux-api-middleware'
 /**
  *  Provide actions to retrieve an array of value
  *
