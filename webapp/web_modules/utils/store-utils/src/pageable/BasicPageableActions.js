@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import BasicListActions from '../list/BasicListActions'
 import { RSAA } from 'redux-api-middleware'
+import BasicListActions from '../list/BasicListActions'
 /**
  *  Provide actions for a specific type of entity pageable list
  *

@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { normalize } from 'normalizr'
-import BasicActions from '../BasicActions'
 import { RSAA, getJSON } from 'redux-api-middleware'
+import BasicActions from '../BasicActions'
 
 /**
  *  Provide actions for a specific type of entity list
