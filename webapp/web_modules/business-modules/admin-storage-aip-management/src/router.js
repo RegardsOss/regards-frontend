@@ -21,7 +21,7 @@ export const aipSessionRoute = {
   path: 'session',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/AIPSessionListContainer')
+      const container = require('./containers/session/AIPSessionListContainer')
       cb(null, {
         content: container.default,
       })
@@ -33,7 +33,7 @@ export const aipListRoute = {
   path: ':session/list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/AIPListContainer')
+      const container = require('./containers/aip/AIPListContainer')
       cb(null, {
         content: container.default,
       })
@@ -45,7 +45,7 @@ export const aipFileListRoute = {
   path: ':session/:aipId/file',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/AIPFileListContainer')
+      const container = require('./containers/file/AIPFileListContainer')
       cb(null, {
         content: container.default,
       })

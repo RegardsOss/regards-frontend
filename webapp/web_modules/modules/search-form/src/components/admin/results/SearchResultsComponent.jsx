@@ -39,7 +39,6 @@ class SearchResultsComponent extends React.Component {
     }),
     selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
     selectableDataSetsAttributes: DataManagementShapes.AttributeModelList,
-    initialDisplayMode: PropTypes.string,
   }
 
   render() {
@@ -62,10 +61,8 @@ class SearchResultsComponent extends React.Component {
         // limit the number of attributes visible
         selectableDataObjectsAttributes: this.props.selectableDataObjectsAttributes,
         selectableDataSetsAttributes: this.props.selectableDataSetsAttributes,
-        // set a default display mode
-        initialDisplayMode: this.props.initialDisplayMode,
         // admin should not search document results
-        preventAdminToPickDocumentView: true,
+        documentsForbidden: true,
         primaryPane: UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE,
       },
     }

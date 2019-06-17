@@ -27,7 +27,7 @@ import dependencies from './dependencies'
  * Main file of module to expose public interface
  * @author <%= author %>
  **/
-module.exports = {
+export default {
   adminContainer,
   moduleContainer,
   reducer,

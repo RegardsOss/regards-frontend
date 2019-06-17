@@ -18,7 +18,9 @@
  **/
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
 import { StringArrayValueRender } from '@regardsoss/components'
+import AttributeLabelRender from '../../render/AttributeRender'
 
 
 /**
@@ -31,14 +33,19 @@ class AttributesRender extends React.Component {
     attributeModels: DataManagementShapes.AttributeModelArray.isRequired,
   }
 
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
   render() {
     const { entity, attributeModels } = this.props
+    const { intl } = this.context
     return (
       <StringArrayValueRender
         value={entity.attributes.map( // map attribute names to attributes label to corresponding qualified label
           ({ name }) => {
             const attributeModel = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels)
-            return DamDomain.AttributeModelController.getAttributeModelFullLabel(attributeModel)
+            return AttributeLabelRender.getRenderLabel(attributeModel, intl)
           })
         }
       />)

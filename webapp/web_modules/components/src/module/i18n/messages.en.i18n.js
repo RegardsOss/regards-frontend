@@ -22,7 +22,7 @@ const messages = {
   'dynamic.module.loading.message': 'Loading user data and rights information, please wait...',
   'dynamic.module.not.authenticated.title': 'Unknown user',
   'dynamic.module.not.authenticated.message': 'Please log in to access this page',
-  'dynamic.module.unsufficient.rights.title': 'Unsufficient rights',
+  'dynamic.module.unsufficient.rights.title': 'Insufficient rights',
   'dynamic.module.unsufficient.rights.message': 'Your user account has not enough rights to access this page',
 }
 

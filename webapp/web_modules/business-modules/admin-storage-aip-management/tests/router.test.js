@@ -19,9 +19,9 @@
 import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
-import AIPSessionListContainer from '../src/containers/AIPSessionListContainer'
-import AIPListContainer from '../src/containers/AIPListContainer'
-import AIPFileListContainer from '../src/containers/AIPFileListContainer'
+import AIPSessionListContainer from '../src/containers/session/AIPSessionListContainer'
+import AIPListContainer from '../src/containers/aip/AIPListContainer'
+import AIPFileListContainer from '../src/containers/file/AIPFileListContainer'
 
 /**
  * @author Léo Mieulet

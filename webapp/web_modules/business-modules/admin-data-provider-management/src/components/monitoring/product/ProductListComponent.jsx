@@ -37,7 +37,7 @@ import ProducListFiltersComponent from './ProducListFiltersComponent'
 import ProductListViewFilesAction from './ProductListViewFilesAction'
 import ProductListViewInformationsAction from './ProductListViewInformationsAction'
 import ProductInformationsDialog from './ProductInformationsDialog'
-import { TableProductActions } from '../../../clients/TableClient'
+import { tableProductActions } from '../../../clients/TableClient'
 import { ProductActions, ProductSelectors } from '../../../clients/ProductClient'
 import messages from '../../../i18n'
 import styles from '../../../styles'
@@ -108,7 +108,7 @@ export class ProductListComponent extends React.Component {
     if (this.timeout) {
       clearTimeout(this.timeout)
     }
-    this.handleRefresh().then((ActionResult) => {
+    this.handleRefresh().then((actionResult) => {
       this.timeout = setTimeout(this.autoRefresh, ProductListComponent.AUTO_REFRESH_PERIOD)
     })
   }
@@ -209,7 +209,7 @@ export class ProductListComponent extends React.Component {
               name="acquisition-product-table"
               pageActions={ProductActions}
               pageSelectors={ProductSelectors}
-              tableActions={TableProductActions}
+              tableActions={tableProductActions}
               requestParams={appliedFilters}
               columns={columns}
               emptyComponent={emptyComponent}

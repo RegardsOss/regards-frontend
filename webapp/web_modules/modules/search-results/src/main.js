@@ -19,7 +19,6 @@
 // ensure the default module icon is present in bundle
 import '../default-icon.svg'
 
-
 /**
  * Module main file to expose public interface
  * @author Sébastien binda

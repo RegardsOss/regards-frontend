@@ -49,9 +49,7 @@ describe('[FORM MODULE] Testing FormLayout', () => {
       },
       plugins: DUMP,
       pluginsProps: {
-        onChange: () => { },
-        getDefaultState: () => { },
-        savePluginState: () => { },
+        initialQuery: 'any',
       },
       onSearch: () => { callSearchCount += 1 },
       onClearAll: () => { callClearCount += 1 },

@@ -152,6 +152,7 @@ export class NotificationListContainer extends React.Component {
     const requestParams = {
       state: 'UNREAD',
     }
+    this.restartTimer()
     return fetchNotification(this.state.isInstance, 0, totalElementsFetched, requestParams)
   }
 
@@ -175,9 +176,15 @@ export class NotificationListContainer extends React.Component {
     clearTimeout(this.refreshTimer)
   }
 
+  restartTimer = () => {
+    this.stopTimer()
+    this.startTimer()
+  }
+
   readAllNotifications = () => this.props.markAllNotificationRead(this.state.isInstance)
 
   readNotification = (notification) => {
+    this.props.fetchLastReadNotification(this.state.isInstance)
     this.props.sendReadNotification(notification.id, this.state.isInstance)
       .then(() => {
         this.refreshEverything()

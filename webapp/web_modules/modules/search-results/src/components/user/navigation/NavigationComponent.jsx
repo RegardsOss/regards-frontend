@@ -19,8 +19,7 @@
 import get from 'lodash/get'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Breadcrumb, ModuleTitleText, ModuleIcon } from '@regardsoss/components'
-import { Tag } from '../../../models/navigation/Tag'
+import { Breadcrumb, ModuleIcon } from '@regardsoss/components'
 
 /**
  * Component to display navigation bar.
@@ -28,19 +27,19 @@ import { Tag } from '../../../models/navigation/Tag'
  * @author Sébastien binda
  */
 class NavigationComponent extends React.Component {
-  /** Allowed element as root of navigation levels */
-  static ROOT_PLACEHOLDER = {}
-
   static propTypes = {
-    // module description
-    description: PropTypes.string,
     // module page definition
     page: AccessShapes.ModulePage,
     defaultIconURL: PropTypes.string.isRequired,
-    navigationLevels: PropTypes.arrayOf(PropTypes.oneOfType([
-      PropTypes.oneOf([NavigationComponent.ROOT_PLACEHOLDER]), // placeholder allowed at first position
-      PropTypes.instanceOf(Tag), // tags after
-    ])).isRequired,
+    // navigation levels currently defined (necessarily one or more elements)
+    navigationLevels: PropTypes.arrayOf(
+      PropTypes.shape({
+        label: PropTypes.shape({
+          en: PropTypes.string.isRequired,
+          fr: PropTypes.string.isRequired,
+        }).isRequired,
+        isNavigationAllowed: PropTypes.bool.isRequired,
+      })).isRequired,
     onLevelSelected: PropTypes.func.isRequired, // on level selected in breadcrumb: (level, index) => void
   }
 
@@ -54,15 +53,8 @@ class NavigationComponent extends React.Component {
    * @return {string} level label
    **/
   getLevelLabel = (levelTag, index) => {
-    const { description, page } = this.props
     const { intl: { locale } } = this.context
-    if (index === 0) {
-      // Root element (we don't care here if it is a root placeholder or an initial context tag)
-      // Select title in the same way than any other module, fallback on level tag if description / page undefined
-      return ModuleTitleText.selectTitle(page && page.title, description || levelTag.label, locale)
-    }
-    // Tag: return label
-    return levelTag.label
+    return levelTag.label[locale]
   }
 
   render() {

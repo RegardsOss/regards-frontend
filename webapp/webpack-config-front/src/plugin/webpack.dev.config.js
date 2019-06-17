@@ -12,6 +12,7 @@ module.exports = function (projectContextPath) {
   process.env.NODE_ENV = 'development'
 
   return merge(config, {
+    devtool: 'source-map',
     plugins: [
       new webpack.DefinePlugin({
         API_URL: JSON.stringify('api/v1'),

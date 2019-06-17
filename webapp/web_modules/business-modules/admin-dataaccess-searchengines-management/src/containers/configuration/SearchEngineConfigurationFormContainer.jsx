@@ -17,11 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import has from 'lodash/has'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { CommonShapes, CatalogShapes } from '@regardsoss/shape'
 import { CatalogDomain } from '@regardsoss/domain'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { datasetByIpIdActions } from '../../clients/DatasetClient'
 import { searchEngineConfigurationsActions, searchEngineConfigurationsSelectors } from '../../clients/SearchEngineConfigurationsClient'
 import { pluginConfigurationActions, pluginConfigurationSelectors } from '../../clients/PluginConfigurationClient'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from '../../clients/PluginMetadataClient'
@@ -66,6 +68,7 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
         { microserviceName: MICROSERVICE }, {
           pluginType: CatalogDomain.PluginTypeEnum.SEARCHENGINES,
         })),
+      fetchDatasetByUrn: datasetUrn => dispatch(datasetByIpIdActions.fetchDatasetByUrn(datasetUrn)),
     }
   }
 
@@ -86,6 +89,7 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
     create: PropTypes.func.isRequired,
     fetchPluginMetaDataList: PropTypes.func.isRequired,
     fetchPluginConfigurationList: PropTypes.func.isRequired,
+    fetchDatasetByUrn: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -106,9 +110,23 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
 
     Promise.all(actions)
       .then(() => {
-        this.setState({
-          isLoading: false,
-        })
+        if (has(this.props.searchEngine, 'content.datasetUrn')) {
+          this.props.fetchDatasetByUrn(this.props.searchEngine.content.datasetUrn).then((response) => {
+            if (!response.error) {
+              this.setState({
+                ...this.state,
+                selectedDataset: response.payload,
+              })
+            }
+            this.setState({
+              isLoading: false,
+            })
+          })
+        } else {
+          this.setState({
+            isLoading: false,
+          })
+        }
       })
   }
 
@@ -130,6 +148,7 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
           <SearchEngineConfigurationFormComponent
             mode={mode || 'create'}
             searchEngineConfiguration={searchEngine}
+            dataset={this.state.selectedDataset}
             onBack={this.onBack}
             onUpdate={update}
             onCreate={create}

@@ -17,15 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { DataManagementClient } from '@regardsoss/client'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { modulesHelper } from '@regardsoss/modules-api'
-import ModuleConfiguration from '../models/ModuleConfiguration'
-import URLManagementContainer from './user/URLManagementContainer'
+import ModuleConfiguration from '../shapes/ModuleConfiguration'
 import ModuleComponent from '../components/user/ModuleComponent'
-import { TableDisplayModeEnum } from '../models/navigation/TableDisplayModeEnum'
-import { DISPLAY_MODE_ENUM } from '../definitions/DisplayModeEnum'
+import ContextManager from './user/context/ContextManager'
 
 // default attribute model selectors
 const attributeModelSelectors = DataManagementClient.AttributeModelSelectors()
@@ -43,6 +40,7 @@ export class ModuleContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
+      fetchingAttributes: attributeModelSelectors.isFetching(state),
       attributeModels: attributeModelSelectors.getList(state),
     }
   }
@@ -54,53 +52,34 @@ export class ModuleContainer extends React.Component {
     moduleConf: ModuleConfiguration.isRequired,
 
     // Set by mapStateToProps
-    attributeModels: DataManagementShapes.AttributeModelList,
+    fetchingAttributes: PropTypes.bool.isRequired,
+    attributeModels: DataManagementShapes.AttributeModelList.isRequired,
   }
 
-  /**
-   * Computes the view objects type to display
-   * @param {string} displayMode display mode from configuration
-   * @return {string} view objects type
-   */
-  getInitialViewObjectType = (displayMode) => {
-    switch (displayMode) {
-      case DISPLAY_MODE_ENUM.DISPLAY_DATA:
-        return ENTITY_TYPES_ENUM.DATA
-      case DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET:
-        // when showing datasets, select dataset tab first (by default)
-        return ENTITY_TYPES_ENUM.DATASET
-      case DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT:
-        return ENTITY_TYPES_ENUM.DOCUMENT
-      default:
-        throw new Error(`Unexpected display mode : ${displayMode}`)
-    }
-  }
 
   render() {
-    const { moduleConf, attributeModels } = this.props
-    const initialViewObjectType = this.getInitialViewObjectType(moduleConf.displayMode)
-    const initialTableDisplayMode = moduleConf.initialViewMode || TableDisplayModeEnum.LIST
-    // compute if this component is externally driven: is there parent module parameters?
-    const isExternallyDriven = !!(moduleConf.searchQuery || (moduleConf.initialContextTags && moduleConf.initialContextTags.length))
+    const {
+      id: moduleId, moduleConf, fetchingAttributes, attributeModels,
+    } = this.props
+    if (fetchingAttributes) {
+      // wait for attributes to be resolved before resolving and showing module
+      return null
+    }
+
     return (
-    /* URL management container: blocks view while it is not initialized to avoid useless requests (no view) */
-      <URLManagementContainer
-        initialViewObjectType={initialViewObjectType}
-        initialTableDisplayMode={initialTableDisplayMode}
-        initialContextTags={this.props.moduleConf.initialContextTags}
-        isExternallyDriven={isExternallyDriven}
+      /* URL management container: blocks view while it is not initialized to avoid useless requests (no view) */
+      <ContextManager
+        moduleId={moduleId}
+        configuration={moduleConf}
+        attributeModels={attributeModels}
       >
         { /* View : module (report all module properties) */}
         <ModuleComponent
-          attributeModels={attributeModels}
           {...modulesHelper.getReportedUserModuleProps(this.props)}
         />
-      </URLManagementContainer>
+      </ContextManager>
     )
   }
 }
-
-const UnconnectedModuleContainer = ModuleContainer
-export { UnconnectedModuleContainer }
 
 export default connect(ModuleContainer.mapStateToProps)(ModuleContainer)

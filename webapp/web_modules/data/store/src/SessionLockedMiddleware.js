@@ -19,7 +19,7 @@
 import get from 'lodash/get'
 import isString from 'lodash/isString'
 
-const { CALL_API } = require('redux-api-middleware')
+const { RSAA } = require('redux-api-middleware')
 
 const EMPTY_ARRAY = []
 const COMMON_AUTHENTICATION_NAMESPACE = 'common/authentication-manager'
@@ -42,7 +42,7 @@ function isAuthenticationRequest(callAPI) {
  * @return {boolean} true when action is a fetch action and session is locked (blocking case)
  */
 function shouldBlockAction(action, store) {
-  const callAPI = action[CALL_API]
+  const callAPI = action[RSAA]
   // 1 - Is it a fetch action (but not authentication fetch)? (ie: is it a CALL API action but not an authentication action)
   if (!callAPI || isAuthenticationRequest(callAPI)) {
     // No: it must be handled no matter the session state
@@ -53,15 +53,14 @@ function shouldBlockAction(action, store) {
   // 2.a - is user authenticated?
   const reduxState = store.getState()
   const authentication = get(reduxState, 'common.authentication', null)
-  const authenticationDate = get(authentication, 'authenticateDate', null)
-  const expiresInSeconds = get(authentication, 'result.expires_in', null)
-  if (!authenticationDate || !expiresInSeconds) {
+  const authenticateExpirationDate = get(authentication, 'authenticateExpirationDate', null)
+  if (!authenticateExpirationDate) {
     // Not authenticated => session cannot be locked
     return false
   }
 
   // 2.b - user is authenticated => session is locked if token expired
-  return authenticationDate + (expiresInSeconds * 1000) - Date.now() <= 0
+  return authenticateExpirationDate - Date.now() <= 0
 }
 
 // Intercept actions to reject them if the current user sessions is expired (locked)

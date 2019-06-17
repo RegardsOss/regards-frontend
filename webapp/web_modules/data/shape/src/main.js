@@ -26,6 +26,7 @@ import * as DataManagementSh from './rs-dam/index'
 import * as DataProviderSh from './rs-data-provider/index'
 import * as IngestSh from './rs-ingest/index'
 import * as OrderSh from './rs-order/index'
+import * as UISh from './ui'
 
 
 export const AccessShapes = AccessSh
@@ -38,3 +39,4 @@ export const DataManagementShapes = DataManagementSh
 export const DataProviderShapes = DataProviderSh
 export const IngestShapes = IngestSh
 export const OrderShapes = OrderSh
+export const UIShapes = UISh

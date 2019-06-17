@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import React from 'react'
 import get from 'lodash/get'
 import isBoolean from 'lodash/isBoolean'
 import isDate from 'lodash/isDate'
@@ -67,7 +66,7 @@ export class ExampleContainer extends React.Component {
   static mapDispatchToProps = (dispatch, { runtimeTarget }) => ({
     // we apply partially the method getReducePromise to ignore dispatch reference at runtime
     getReducePromise: (reducer, initialValue) => runtimeTarget.getReducePromise(dispatch, reducer, initialValue),
-    // We also demonstrate here how to use the fetch action direction. However, that method should not be priviledged
+    // We also demonstrate here how to use the fetch action directly. However, that method should not be priviledged
     // as being more verbose
     fetchSelectionThroughAction: (...args) => dispatch(runtimeTarget.getFetchAction(...args)),
   })

@@ -16,9 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
+  ...DataProviderDomain.enMessages,
+  ...IngestDomain.enMessages,
   // 1. Chains list
   // 1.1 Headers
   'acquisition-chain.list.title': 'Configure acquisition chains',
@@ -44,7 +47,7 @@ const messages = Object.assign({
   'acquisition-chain.form.create.title': 'Create a new acquisition chain',
   'acquisition-chain.form.edit.title': 'Edit acquisition chain : {name}',
   'acquisition-chain.form.duplicate.title': 'Duplicate generation chain : {name}',
-  'acquisition-chain.form.informations-1': 'To be operational an acquisition chain must be associated to the elemnts here under. Note : The properties with (*) are mandatory.',
+  'acquisition-chain.form.informations-1': 'To be operational an acquisition chain must be associated to the elements here under. Note : The properties with (*) are mandatory.',
   'acquisition-chain.form.informations-2': '1. General information about the chain.',
   'acquisition-chain.form.informations-3': '2. File composing the data.',
   'acquisition-chain.form.informations-4': '3. Chain plugins to produce the SIP(s).',
@@ -54,10 +57,9 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.label': 'Chain name (*)',
   'acquisition-chain.form.general.section.active': 'Activate chain',
   'acquisition-chain.form.general.generationRetryEnabled': 'Enable SIP re-generation for products in error state.',
-  'acquisition-chain.form.general.submissionRetryEnabled': 'Enable SIP re-submission for products in error state.',
-  'acquisition-chain.form.general.section.periodicity': 'Activation periodicity (seconds). Only for automatic chains. ',
-  'acquisition-chain.form.general.section.session': 'Acquisition session name ...',
-  'acquisition-chain.form.general.section.mode': 'Mode',
+  'acquisition-chain.form.general.section.periodicity': 'Activation periodicity (seconds). Only for automatic chain. ',
+  'acquisition-chain.form.general.section.session': 'Session name (*)',
+  'acquisition-chain.form.general.section.mode': 'Mode (*)',
   'acquisition-chain.form.general.section.mode.AUTO': 'Automatic',
   'acquisition-chain.form.general.section.mode.MANUAL': 'Manual',
   'acquisition-chain.form.general.section.ingestChain.select': 'Ingest chain (*)',
@@ -81,7 +83,7 @@ const messages = Object.assign({
   'acquisition-chain.form.plugins.validation.label': 'Data validation plugin (*)',
   'acquisition-chain.form.plugins.product.label': 'Product generation plugin (*)',
   'acquisition-chain.form.plugins.gen-sip.label': 'Metadata generation plugin (*)',
-  'acquisition-chain.form.plugins.post-processing.label': 'Post treatement plugin',
+  'acquisition-chain.form.plugins.post-processing.label': 'Post treatment plugin',
 
   // 2.5 Actions
   'acquisition-chain.form.create.button': 'Create',
@@ -108,7 +110,7 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.error-nb-products.tooltip': 'Products in error',
   'acquisition-chain.monitor.list.inprogress-nb-products.tooltip': 'Products in progress',
   'acquisition-chain.monitor.list.total-nb-files': 'Files',
-  'acquisition-chain.monitor.list.total-files.tooltip': 'Total numver of files',
+  'acquisition-chain.monitor.list.total-files.tooltip': 'Total number of files',
   'acquisition-chain.monitor.list.error-nb-files.tooltip': 'Files in error',
   'acquisition-chain.monitor.list.inprogress-nb-files.tooltip': 'Files in progress',
 
@@ -141,8 +143,6 @@ const messages = Object.assign({
   'acquisition-chain.jobs.monitor.product-acquisition.job.empty.label': 'All product acquisition jobs are terminated.',
   'acquisition-chain.jobs.monitor.generation.job.label': '{count} running generation jobs.',
   'acquisition-chain.jobs.monitor.generation.job.empty.label': 'All generation jobs are terminated',
-  'acquisition-chain.jobs.monitor.submission.job.label': '{count} running submission jobs.',
-  'acquisition-chain.jobs.monitor.submission.job.empty.label': 'All submission jobs are terminated',
 
   // 4. Products list
   // 4.1 Headers
@@ -158,28 +158,11 @@ const messages = Object.assign({
   //4.2 Filters
   'acquisition.product.list.filters.state': 'Products state',
   'acquisition.product.list.filters.sipState': 'SIPs state',
-  'acquisition.product.list.filters.state.ACQUIRING': 'Acquiring ...',
-  'acquisition.product.list.filters.state.COMPLETED': 'Acquiring ... (Completed)',
+  'acquisition.product.list.filters.state.ACQUIRING': 'Acquiring',
+  'acquisition.product.list.filters.state.COMPLETED': 'Completed',
   'acquisition.product.list.filters.state.FINISHED': 'Finished',
+  'acquisition.product.list.filters.state.INVALID': 'Invalid',
   'acquisition.product.list.filters.state.ERROR': 'Error',
-  'acquisition.product.list.filters.sipState.NOT_SCHEDULED': 'Acquiring ... (not scheduled)',
-  'acquisition.product.list.filters.sipState.SCHEDULED': 'Acquiring ... (scheduled)',
-  'acquisition.product.list.filters.sipState.GENERATED': 'Acquiring ... (generated)',
-  'acquisition.product.list.filters.sipState.SUBMISSION_SCHEDULED': 'Acquiring ... (submitting)',
-  'acquisition.product.list.filters.sipState.SUBMISSION_ERROR': 'Submission error',
-  'acquisition.product.list.filters.sipState.GENERATION_ERROR': 'Generation error',
-  'acquisition.product.list.filters.sipState.CREATED': 'Acquiring ... (Created)',
-  'acquisition.product.list.filters.sipState.REJECTED': 'Rejected',
-  'acquisition.product.list.filters.sipState.QUEUED': 'Queued',
-  'acquisition.product.list.filters.sipState.VALID': 'Acquiring ... (Valid)',
-  'acquisition.product.list.filters.sipState.INVALID': 'Invalid',
-  'acquisition.product.list.filters.sipState.AIP_GEN_ERROR': 'AIP generation error',
-  'acquisition.product.list.filters.sipState.AIP_CREATED': 'Acquiring ... (AIP generated)',
-  'acquisition.product.list.filters.sipState.STORED': 'Stored',
-  'acquisition.product.list.filters.sipState.STORE_ERROR': 'Storage error',
-  'acquisition.product.list.filters.sipState.INDEXED': 'Indexed',
-  'acquisition.product.list.filters.sipState.INCOMPLETE': 'Incomplete',
-  'acquisition.product.list.filters.sipState.DELETED': 'Deleted',
   'acquisition-product.list.filters.productName': 'Product name',
   'acquisition.product.list.filters.session': 'Ingest session',
   'acquisition-chain.monitor.list.filters.no.session': 'Only without session',
@@ -187,7 +170,7 @@ const messages = Object.assign({
 
   // 4.3 actions
   'acquisition-product.list.view.files.tooltip': 'See linked files',
-  'acquisition-product.list.product.info.tooltip': 'Product acquisition informations',
+  'acquisition-product.list.product.info.tooltip': 'Product acquisition information',
   'acquisition-product.list.back.button': 'Back',
   'acquisition.product.list.filters.clear.button': 'Clear',
   'acquisition.product.list.filters.apply.button': 'Apply filters',
@@ -196,7 +179,7 @@ const messages = Object.assign({
 
   // 5. Acquisition file list
   // 5.1 Headers
-  'acquisition-file.breadcrumb.label': 'Fichiers',
+  'acquisition-file.breadcrumb.label': 'Files',
   'acquisition.file.list.subtitle': 'Acquisition chain {chain} files list',
   'acquisition.file.list.product.selected.subtitle': 'Product {product} files list',
   'acquisition.file.empty.title': 'No files found',
@@ -206,11 +189,12 @@ const messages = Object.assign({
   'acquisition.file.list.state': 'State',
 
   //5.2 Filters
-  'acquisition.file.list.filters.state': 'Sstate',
-  'acquisition.file.list.filters.state.IN_PROGRESS': 'Acquiring ...',
-  'acquisition.file.list.filters.state.VALID': 'Acquiring ... (Valid)',
+  'acquisition.file.list.filters.state': 'State',
+  'acquisition.file.list.filters.state.IN_PROGRESS': 'Acquiring',
+  'acquisition.file.list.filters.state.VALID': 'Valid',
   'acquisition.file.list.filters.state.ACQUIRED': 'Acquired',
   'acquisition.file.list.filters.state.SUPERSEDED': 'Replaced',
+  'acquisition.file.list.filters.state.SUPERSEDED_AFTER_ERROR': 'Replaced after error',
   'acquisition.file.list.filters.state.INVALID': 'Invalid',
   'acquisition.file.list.filters.state.ERROR': 'Error',
   'acquisition.file.list.filters.filePath': 'File',
@@ -226,8 +210,8 @@ const messages = Object.assign({
   'acquisition-product.informaton.dialog.close.button': 'Close',
   'acquisition-product.informaton.global.error': 'Acquisition process error : ',
   'acquisition-product.informaton.generation.job.title': 'Product generation process information',
-  'acquisition-product.informaton.submition.job.title': 'SIP Submition process information',
-  'acquisition-product.informaton.dialog.job.info.percentCompleted': 'Prgoress : ',
+  'acquisition-product.informaton.submission.job.title': 'SIP Submission process information',
+  'acquisition-product.informaton.dialog.job.info.percentCompleted': 'Progress : ',
   'acquisition-product.informaton.dialog.job.info.queuedDate': 'Creation date : ',
   'acquisition-product.informaton.dialog.job.info.startDate': 'Start date : ',
   'acquisition-product.informaton.dialog.job.info.stopDate': 'Stop date : ',

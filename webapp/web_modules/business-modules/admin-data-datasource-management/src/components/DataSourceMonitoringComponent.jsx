@@ -26,7 +26,7 @@ import Snackbar from 'material-ui/Snackbar'
 import { themeContextType } from '@regardsoss/theme'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
-  CardActionsComponent, DateValueRender, InfiniteTableContainer, TableColumnBuilder, TableLayout,
+  CardActionsComponent, DateValueRender, DateRelativeValueRender, InfiniteTableContainer, TableColumnBuilder, TableLayout,
   TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DurationValueRender, ShowableAtRender,
   FitContentDialog, ConfirmDialogComponent, ConfirmDialogComponentTypes,
 } from '@regardsoss/components'
@@ -202,7 +202,7 @@ class DataSourceMonitoringComponent extends React.Component {
         .label(intl.formatMessage({ id: 'crawler.list.savedObjectsCount.column.header' }))
         .build(),
       // Next planed ingest date
-      new TableColumnBuilder('nextPlannedIngestDate').titleHeaderCell().propertyRenderCell('content.nextPlannedIngestDate')
+      new TableColumnBuilder('nextPlannedIngestDate').titleHeaderCell().propertyRenderCell('content.nextPlannedIngestDate', DateRelativeValueRender, { displayOnlyFutureDate: true })
         .label(intl.formatMessage({ id: 'crawler.list.nextPlannedIngestDate.column.header' }))
         .build(),
       new TableColumnBuilder().optionsColumn([{

@@ -19,22 +19,36 @@
 import compose from 'lodash/fp/compose'
 import isEqual from 'lodash/isEqual'
 import values from 'lodash/values'
-import { DamDomain } from '@regardsoss/domain'
+import { connect } from '@regardsoss/redux'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { withModuleStyle } from '@regardsoss/theme'
-import { withI18n } from '@regardsoss/i18n'
+import { withI18n, i18nSelectors, i18nContextType } from '@regardsoss/i18n'
 import { StringComparison } from '@regardsoss/form-utils'
 import AttributeListTableComponent from './table/AttributeListTableComponent'
 import styles from '../styles'
 import messages from '../i18n'
 import EditItemDialog from './dialog/edit/EditItemDialog'
+import AttributeRender from '../render/AttributeRender'
 
 /**
  * Component to display and edit attributes configuration list.
- * Note: each allow property corresponds to some capacity of the elements to add in AttributeListConfigurationModel.
+ * Note: each allow* property corresponds to some capacity of the elements to add in AttributeListConfigurationModel.
  * @author Raphaël Mechali
  */
 export class AttributesListConfigurationComponent extends React.Component {
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      locale: i18nSelectors.getLocale(state), // bind locale to get componentWillReceiveProps called and thus update sorting on intl label
+    }
+  }
+
   static propTypes = {
     // Available Attributes for configuration
     // eslint-disable-next-line react/no-unused-prop-types
@@ -54,6 +68,20 @@ export class AttributesListConfigurationComponent extends React.Component {
     attributesListFieldName: PropTypes.string.isRequired,
     // Redux-form function to change current form values
     changeField: PropTypes.func.isRequired,
+    // From mapStateToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    locale: PropTypes.string, // used only in onPropertiesUpdated
+  }
+
+  static defaultProps = {
+    allowLabel: false,
+    attributesFilter: AttributesListConfigurationComponent.filterNone,
+    attributesList: [],
+    locale: UIDomain.LOCALES_ENUM.en,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   /**
@@ -61,12 +89,6 @@ export class AttributesListConfigurationComponent extends React.Component {
    */
   static filterNone() {
     return true
-  }
-
-  static defaultProps = {
-    allowLabel: false,
-    attributesFilter: AttributesListConfigurationComponent.filterNone,
-    attributesList: [],
   }
 
   /**
@@ -124,15 +146,16 @@ export class AttributesListConfigurationComponent extends React.Component {
     const oldState = this.state || {}
     const newState = { ...oldState }
     if ((!isEqual(selectableAttributes, oldProps.selectableAttributes)
-      || !isEqual(attributesFilter, oldProps.attributesFilter)) && selectableAttributes) {
+      || !isEqual(attributesFilter, oldProps.attributesFilter)
+      || !isEqual(oldProps.locale, newProps.locale)) && selectableAttributes) {
       // 1.a - prepare the list of attributes that user can select, allowing standard attributes and sorted on label
       newState.attributeModels = [
         ...DamDomain.AttributeModelController.standardAttributesAsModel, // all standard attributes
         ...values(selectableAttributes), // all server attributes
       ].filter(attributesFilter) // filter on allowed elements only
         .sort((a1, a2) => StringComparison.compare( // sort on full label
-          DamDomain.AttributeModelController.getAttributeModelFullLabel(a1),
-          DamDomain.AttributeModelController.getAttributeModelFullLabel(a2)))
+          AttributeRender.getRenderLabel(a1, this.context.intl),
+          AttributeRender.getRenderLabel(a2, this.context.intl)))
 
       // 1.b - Update current configurations when attribute models could be retrieved from server
       const updated = AttributesListConfigurationComponent.filterElementsList(attributesList, newState.attributeModels)
@@ -259,4 +282,6 @@ export class AttributesListConfigurationComponent extends React.Component {
   }
 }
 // note: we stack calling context messages to get the hint key correctly resolved in parent context
-export default compose(withI18n(messages, true), withModuleStyle(styles))(AttributesListConfigurationComponent)
+export default compose(connect(AttributesListConfigurationComponent.mapStateToProps),
+  withI18n(messages, true),
+  withModuleStyle(styles))(AttributesListConfigurationComponent)

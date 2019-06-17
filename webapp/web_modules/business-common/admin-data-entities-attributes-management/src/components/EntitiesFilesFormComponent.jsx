@@ -176,6 +176,7 @@ export class EntitiesFilesFormComponent extends React.Component {
    */
   getFilesRefProps = () => ({
     mimeTypeList: this.getMimeTypeAuthorised(),
+    allowImage: this.state.type === DamDomain.DATATYPE_ENUM.THUMBNAIL,
   })
 
   /**
@@ -327,7 +328,7 @@ export class EntitiesFilesFormComponent extends React.Component {
         primaryText={file.filename}
         rightIconButton={
           <div>
-            <a download="download" href={this.getDocumentUrlWithToken(file)} target="_blank" rel="noopener noreferrer">
+            <a href={this.getDocumentUrlWithToken(file)} target="_blank">
               <Download />
             </a>
             <IconButton onClick={() => this.props.handleDeleteFile(this.state.type, file)}>

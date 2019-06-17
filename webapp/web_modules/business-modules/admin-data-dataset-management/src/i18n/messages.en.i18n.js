@@ -112,7 +112,7 @@ const messages = Object.assign({
   'dataset.form.create.action.next': 'Next',
   'dataset.form.create.datasource': 'Datasource',
   'dataset.form.create.title': 'Create a datasource',
-  'dataset.form.create.subtitle': 'To create a dataset, select a datasource. Otherwise you can click on the button to create a new datasource',
+  'dataset.form.create.subtitle': 'To create a dataset, select a datasource. Otherwise, you can click on the button to create a new datasource',
 
   'dataset.stepper.links': 'Edit links',
   'dataset.stepper.attributes': 'Attributes',

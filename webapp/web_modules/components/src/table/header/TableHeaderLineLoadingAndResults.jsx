@@ -18,15 +18,15 @@
  **/
 import TableHeaderLine from './TableHeaderLine'
 import TableHeaderContentBox from './TableHeaderContentBox'
-import ResultsCountMessage from './ResultsCountMessage'
+import TableHeaderResultsCountMessage from './TableHeaderResultsCountMessage'
 import TableHeaderLoadingComponent from './TableHeaderLoadingComponent'
 
 /**
- * Displays results on left. Alternates children or loading display at center
- * Note: custom children will lose their i18n context and styles context in this component
+ * Displays results on left. Alternates children or loading display at center.
  */
 class TableHeaderLineLoadingAndResults extends React.Component {
   static propTypes = {
+    loadedResultsCount: PropTypes.number, // when not provided, shows only total
     resultsCount: PropTypes.number,
     isFetching: PropTypes.bool,
     children: PropTypes.oneOfType([
@@ -42,12 +42,14 @@ class TableHeaderLineLoadingAndResults extends React.Component {
   }
 
   render() {
-    const { children = null, isFetching, resultsCount } = this.props
+    const {
+      children = null, isFetching, loadedResultsCount, resultsCount,
+    } = this.props
     return (
       <TableHeaderLine>
         {/* results count group */}
         <TableHeaderContentBox>
-          <ResultsCountMessage count={resultsCount} isFetching={isFetching} />
+          <TableHeaderResultsCountMessage loadedResultsCount={loadedResultsCount} count={resultsCount} isFetching={isFetching} />
         </TableHeaderContentBox>
         { /* loading or custom childrens groups */}
         <TableHeaderLoadingComponent loading={isFetching}>

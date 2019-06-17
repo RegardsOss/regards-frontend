@@ -67,6 +67,7 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionFormContainer', (
       }),
       fetchModelList: testSuiteHelpers.getSuccessDispatchStub(),
       fetchModelAttributeList: testSuiteHelpers.getSuccessDispatchStub(),
+      clearModelAttributeList: () => {},
     }
     const enzymeWrapper = shallow(<CollectionFormContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)

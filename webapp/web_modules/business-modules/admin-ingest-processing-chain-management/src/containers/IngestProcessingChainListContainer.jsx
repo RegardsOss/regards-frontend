@@ -21,7 +21,7 @@ import { connect } from '@regardsoss/redux'
 import { withI18n } from '@regardsoss/i18n'
 import { processingChainActions } from '../clients/ProcessingChainClient'
 import { authenticationSelectors } from '../clients/AuthenticationClient'
-import ProcessingChainListComponent from '../components/IngestProcessingChainListComponent'
+import IngestProcessingChainListComponent from '../components/IngestProcessingChainListComponent'
 import messages from '../i18n'
 
 /**
@@ -65,7 +65,7 @@ export class IngestProcessingChainListContainer extends React.Component {
   }
 
   render() {
-    return (<ProcessingChainListComponent
+    return (<IngestProcessingChainListComponent
       fetchPage={this.props.fetchPage}
       onDelete={this.onDelete}
       onEdit={this.onEdit}

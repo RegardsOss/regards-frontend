@@ -20,13 +20,14 @@ import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
   'group.list.title': 'Access groups',
-  'group.list.subtitle': 'An access group allows users from this group to access datasets, partially or totaly',
+  'group.list.subtitle': 'An access group allows users from this group to access datasets, partially or totally',
   'group.list.table.name': 'Name',
   'group.list.table.nbUser': 'Number of user(s)',
   'group.list.table.actions': 'Actions',
   'group.list.action.cancel': 'Cancel',
   'group.list.action.add': 'Create',
   'group.list.delete.message': 'Remove access group {name}?',
+  'group.list.table.all.users': 'All users',
   'group.list.table.actions.show.group.users': 'Show group users',
   'group.list.table.actions.edit': 'Edit',
   'group.list.table.actions.accessrights': 'Access rights',

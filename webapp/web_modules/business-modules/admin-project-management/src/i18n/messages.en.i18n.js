@@ -59,11 +59,11 @@ const messages = Object.assign({
   'project.form.crs.WGS_84': 'Earth - WGS_84',
   'project.form.crs.MARS_49900': 'Mars - MARS_49900',
   'project.form.crs.ASTRO': 'Celestial vault',
-  'project.form.isPoleToBeManaged': 'Do you need to handle pole cap polygon geometry type. If enabled all polygons must follow geojson RFC 7946 (in particular right hand rule for exterior ring)',
+  'project.form.isPoleToBeManaged': 'Do you need to handle polar cap polygons? If enabled, all polygons must follow geojson RFC 7946 (in particular right hand rule for exterior ring)',
   'project.form.action.cancel': 'Cancel',
   'project.form.action.submit': 'Save',
 
-  'invalid.only_alphanumeric': 'User alphanumeric caracters',
+  'invalid.only_alphanumeric': 'User alphanumeric characters',
 
   // Database connections
   'project.connection.list.title': 'Configure databases accesses for project {project}',

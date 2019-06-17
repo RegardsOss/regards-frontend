@@ -22,24 +22,17 @@ import {
 } from './LoadPluginActions'
 
 const mergePluginInfo = (state, {
-  type, sourcePath, plugin, reducer, name, messages, styles, info, loadError, errorCause, ...otherProps
+  type, sourcePath, ...otherProps
 }) => {
   if (isNil(sourcePath)) {
     return state
   }
-  const newState = Object.assign({}, state)
-  newState.items[sourcePath] = {
-    plugin,
-    reducer,
-    name,
-    messages,
-    styles,
-    info,
-    loadError,
-    errorCause,
-    ...otherProps,
+  return {
+    items: {
+      ...state.items,
+      [sourcePath]: otherProps,
+    },
   }
-  return newState
 }
 
 /**

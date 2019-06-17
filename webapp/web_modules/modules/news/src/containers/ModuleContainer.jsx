@@ -28,7 +28,6 @@ class NewsListContainer extends React.Component {
   static propTypes = {
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
-    // TODO-V3 use it
     // newsList: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
   }
 

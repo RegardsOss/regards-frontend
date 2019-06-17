@@ -77,8 +77,11 @@ for rootFolder in "${buildFolders[@]}"; do
   echo "    Searching folder ${rootFolder} ...."
   echo "    -------------------------------------------"
   echo ""
-  # find all subfolders
+  # enter sub folder
   cd plugins/${rootFolder}
+  # clear previous package-lock.json
+  find . -name 'package-lock.json' -exec rm {} \;
+  # find all subfolders
   pluginsInFolder=`find . -maxdepth 1 -type d `
   # Init: place at home (npm needs to be in current run folder)
   cd ${home}

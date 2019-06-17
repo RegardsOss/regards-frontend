@@ -23,7 +23,7 @@
  * @author Sébastien Binda
  */
 const messages = {
-  'modules.common.admin.pane.expanded.field.label': 'Etat du panneau de présentation',
+  'modules.common.admin.pane.expanded.field.label': 'État du panneau de présentation',
   'modules.common.admin.pane.expanded.label': 'Ouvert initialement',
   'modules.common.admin.pane.collapsed.label': 'Fermé initialement',
   'modules.common.admin.pane.always.expanded.label': 'Toujours ouvert',

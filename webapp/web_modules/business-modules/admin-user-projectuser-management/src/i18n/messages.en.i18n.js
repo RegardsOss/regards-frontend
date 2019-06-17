@@ -59,7 +59,7 @@ const messages = {
   'projectUser.list.action.cancel': 'Cancel',
   'projectUser.list.all.action.create': 'Add',
   'projectUser.list.accept.all': 'Accept all',
-  'projectUser.list.accept.all.tooltip': 'Grant access to all new users users displayed in table',
+  'projectUser.list.accept.all.tooltip': 'Grant access to all new users displayed in table',
   'projectUser.list.delete.message': 'Remove user {name}?',
 
   'projectUser.edit.title': 'Edit the user {email}',

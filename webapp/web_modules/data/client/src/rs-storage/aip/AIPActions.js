@@ -19,6 +19,8 @@
 import { AIP, AIP_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
+const { RSAA } = require('redux-api-middleware')
+
 /**
  * Redux actions to handle AIP entities from backend server.
  * @author Léo Mieulet
@@ -31,11 +33,37 @@ export default class AIPActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/aips`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/aips/search`,
       schemaTypes: {
         ENTITY: AIP,
         ENTITY_ARRAY: AIP_ARRAY,
       },
     })
+  }
+
+  /**
+   * Fetches AIP pages as POST request
+   * @param {number} pageNumber page number
+   * @param {number} size page size
+   * @param {*} contextFilters search context fiters
+   */
+  fetchPagedEntityList(pageNumber, size, contextFilters = {}) {
+    // modify parent request to use POST and body
+    const parentRequest = super.fetchPagedEntityList(pageNumber, size)
+    parentRequest[RSAA].method = 'POST'
+    parentRequest[RSAA].body = JSON.stringify(contextFilters)
+    return parentRequest
+  }
+
+  /**
+   * Override to add the data storages field
+   * @param {*} json network payload
+   * @return {*} action result payload
+   */
+  normalizeEntitiesPagePayload(json) {
+    return {
+      ...super.normalizeEntitiesPagePayload(json),
+      dataStorages: json.dataStorages,
+    }
   }
 }

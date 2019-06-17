@@ -18,7 +18,6 @@
  **/
 import React from 'react'
 import IconButton from 'material-ui/IconButton'
-import mapValues from 'lodash/mapValues'
 
 /**
  * Decorates the material-ui's IconButton in order to handle an entirely specific behaviour on button hover.
@@ -28,8 +27,13 @@ import mapValues from 'lodash/mapValues'
  */
 class OnHoverSwitchIconButton extends React.Component {
   static propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
     onClick: PropTypes.arrayOf(PropTypes.func),
+    label: PropTypes.arrayOf(PropTypes.string),
+    // This component also accepts all properties of IconButton
   }
 
   constructor(props, context) {
@@ -65,8 +69,5 @@ class OnHoverSwitchIconButton extends React.Component {
     )
   }
 }
-
-OnHoverSwitchIconButton.propTypes = mapValues(IconButton.propTypes, propType => PropTypes.arrayOf(propType))
-OnHoverSwitchIconButton.propTypes.label = PropTypes.arrayOf(PropTypes.string)
 
 export default OnHoverSwitchIconButton

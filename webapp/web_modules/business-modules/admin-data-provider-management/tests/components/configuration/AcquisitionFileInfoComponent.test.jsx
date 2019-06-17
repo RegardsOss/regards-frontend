@@ -40,7 +40,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionFileInfoComponent'
       name: 'firstFileInfo',
     }
     shallow(<AcquisitionFileInfoComponent {...props} />, { context })
-    // TODO-V3 : Enzym do not handle react 16 feature that allow to render an Array of components.
+    // XXX-Later versions : Enzym do not handle react 16 feature that allow to render an Array of components.
     // const fields = enzymeWrapper.find(Field)
     // assert.equal(enzymeWrapper.find(fields).length, 5, 'The AcquisitionFileInfoComponent should contain 5 Field')
     // assert.isTrue(fields.find({ name: `${props.name}.comment` }).exists(), 'The comment Field is missing')

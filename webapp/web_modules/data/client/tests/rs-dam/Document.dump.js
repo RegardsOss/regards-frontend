@@ -21,7 +21,7 @@ export default {
   content: [
     {
       content: {
-        entityType: 'DOCUMENT',
+        type: 'DOCUMENT',
         feature: {
           id: 'URN:AIP:DOCUMENT:PROJECT:d3c87a0f-9edb-4a34-84b5-41c69abf41a3:V1',
           label: 'label',

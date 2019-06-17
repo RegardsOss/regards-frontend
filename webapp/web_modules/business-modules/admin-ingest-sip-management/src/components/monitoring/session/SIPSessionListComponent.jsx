@@ -21,6 +21,7 @@ import find from 'lodash/find'
 import {
   Card, CardTitle, CardActions, CardMedia,
 } from 'material-ui/Card'
+import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
@@ -30,7 +31,9 @@ import PageView from 'material-ui/svg-icons/action/pageview'
 import {
   Breadcrumb, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
   ShowableAtRender, PageableInfiniteTableContainer, TableDeleteOption, TableLayout,
-  TableColumnBuilder, DateValueRender, NoContentComponent, TableHeaderLineLoadingAndResults,
+  TableColumnBuilder, DateValueRender, NoContentComponent, TableHeaderLine,
+  TableHeaderResultsCountMessage, TableHeaderLoadingComponent, TableHeaderOptionsArea,
+  TableHeaderOptionGroup, TableHeaderContentBox,
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -56,7 +59,6 @@ class SIPSessionListComponent extends React.Component {
     onRefresh: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
-    retrySessionSubmission: PropTypes.func.isRequired,
     retrySessionGeneration: PropTypes.func.isRequired,
     initialFilters: PropTypes.objectOf(PropTypes.string),
   }
@@ -112,13 +114,6 @@ class SIPSessionListComponent extends React.Component {
   }
 
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
-
-  handleRetrySubmission = () => {
-    this.props.retrySessionSubmission(this.state.sessionToRetry.content, this.state.appliedFilters)
-      .then(() => {
-        this.closeRetryDialog()
-      })
-  }
 
   handleRetryGeneration = () => {
     this.props.retrySessionGeneration(this.state.sessionToRetry.content, this.state.appliedFilters)
@@ -232,9 +227,23 @@ class SIPSessionListComponent extends React.Component {
           <SIPSessionListFiltersComponent
             initialFilters={initialFilters}
             applyFilters={this.applyFilters}
-            handleRefresh={this.handleRefresh}
           />
-          <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
+          {/* Loading, results and refresh button */}
+          <TableHeaderLine>
+            <TableHeaderContentBox>
+              <TableHeaderResultsCountMessage count={resultsCount} isFetching={entitiesLoading} />
+            </TableHeaderContentBox>
+            <TableHeaderLoadingComponent loading={entitiesLoading} />
+            <TableHeaderOptionsArea reducible>
+              <TableHeaderOptionGroup>
+                <FlatButton
+                  label={intl.formatMessage({ id: 'sips.session.refresh.button' })}
+                  icon={<Refresh />}
+                  onClick={this.handleRefresh}
+                />
+              </TableHeaderOptionGroup>
+            </TableHeaderOptionsArea>
+          </TableHeaderLine>
           <PageableInfiniteTableContainer
             name="sip-management-session-table"
             pageActions={sessionActions}
@@ -267,7 +276,6 @@ class SIPSessionListComponent extends React.Component {
 
   renderRetryDialog = () => {
     if (this.state.sessionToRetry) {
-      let submission = false
       let generation = false
       const actions = [
         <FlatButton
@@ -278,16 +286,6 @@ class SIPSessionListComponent extends React.Component {
           onClick={this.closeRetryDialog}
         />,
       ]
-      if (!isNil(find(this.state.sessionToRetry.links, { rel: 'retrySubmission' }))) {
-        actions.push(
-          <FlatButton
-            key="retrySubmission"
-            label={this.context.intl.formatMessage({ id: 'sips.session.retry.submission.button' })}
-            onClick={this.handleRetrySubmission}
-          />,
-        )
-        submission = true
-      }
 
       if (!isNil(find(this.state.sessionToRetry.links, { rel: 'retryGeneration' }))) {
         actions.push(
@@ -302,9 +300,6 @@ class SIPSessionListComponent extends React.Component {
       let message = this.context.intl.formatMessage({ id: 'sips.session.retry.message' })
       if (!generation) {
         message = this.context.intl.formatMessage({ id: 'sips.session.retry.submission.message' })
-      }
-      if (!submission) {
-        this.context.intl.formatMessage({ id: 'sips.session.retry.submission.message' })
       }
 
       return (

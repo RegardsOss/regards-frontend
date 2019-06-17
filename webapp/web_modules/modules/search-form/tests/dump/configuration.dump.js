@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { DamDomain } from '@regardsoss/domain'
-import { DATASET_TYPE } from '../../src/domain/DatasetSelectionTypes'
+import DatasetSelectionTypes from '../../src/domain/DatasetSelectionTypes'
 
 /**
  * Holds module configurations dump
@@ -58,6 +58,7 @@ export const criteria = [
     label: 'enumerated-criteria',
     active: true,
     pluginId: 1,
+    pluginInstanceId: '1',
     container: 'content',
     conf: {
       attributes: {
@@ -71,6 +72,7 @@ export const criteria = [
     label: 'string-criterion',
     active: true,
     pluginId: 2,
+    pluginInstanceId: '2',
     container: 'content',
     conf: {
       attributes: {
@@ -86,6 +88,7 @@ export const criteria = [
     active: true,
     pluginId: 3,
     container: 'content',
+    pluginInstanceId: '3',
     conf: {
       attributes: {
         testAttr1: 'xxx.long.parameter',
@@ -100,6 +103,7 @@ export const criteria = [
     active: true,
     pluginId: 4,
     container: 'content',
+    pluginInstanceId: '4',
     conf: {
       attributes: {
         testAttr1: 'xxx.long.parameter',
@@ -118,8 +122,169 @@ export const conf1 = {
   },
   criterion: criteria,
   datasets: {
-    entityType: DATASET_TYPE,
-    selectedDatasets: [],
+    type: DatasetSelectionTypes.DATASET_TYPE,
+    selectedDatasets: ['URN:DATASET:EXAMPLE1'],
     selectedModels: [],
+  },
+  // search results dump conf (from a real example)
+  searchResult: {
+    primaryPane: 'EXPANDED_COLLAPSIBLE',
+    viewsGroups: {
+      DATA: {
+        enabled: true,
+        tabTitle: {
+          en: 'DATATA',
+          fr: 'Dodonnées',
+        },
+        initialMode: 'TABLE',
+        enableDownload: true,
+        facets: {
+          enabled: true,
+          initiallyEnabled: true,
+          list: [
+            {
+              attributes: [
+                {
+                  name: 'model',
+                },
+              ],
+              label: {
+                en: 'Model',
+                fr: 'Modèle',
+              },
+            },
+          ],
+        },
+        sorting: [
+          {
+            attributes: [
+              {
+                name: 'label',
+              },
+            ],
+          },
+        ],
+        views: {
+          TABLE: {
+            enabled: true,
+            attributes: [
+              {
+                attributes: [
+                  {
+                    name: 'label',
+                  },
+                ],
+                label: {
+                  en: 'Label',
+                  fr: 'Libellé',
+                },
+              },
+              {
+                attributes: [
+                  {
+                    name: 'properties.start_date',
+                  },
+                ],
+                label: {
+                  en: 'Start',
+                  fr: 'Début',
+                },
+              },
+              {
+                attributes: [
+                  {
+                    name: 'properties.end_date',
+                  },
+                ],
+                label: {
+                  en: 'End',
+                  fr: 'Fin',
+                },
+              },
+            ],
+          },
+          QUICKLOOK: {
+            enabled: true,
+            attributes: [
+              {
+                attributes: [
+                  {
+                    name: 'label',
+                  },
+                ],
+                label: {
+                  en: 'Label',
+                  fr: 'Libellé',
+                },
+              },
+            ],
+          },
+          MAP: {
+            enabled: false,
+            attributes: [],
+            backgroundLayer: {
+              url: null,
+              type: 'AsynchroneWMS',
+            },
+          },
+        },
+      },
+      DATASET: {
+        enabled: true,
+        tabTitle: {
+          en: 'Dataseset',
+          fr: 'Jeux de dodonnées',
+        },
+        initialMode: 'TABLE',
+        sorting: [],
+        views: {
+          TABLE: {
+            enabled: true,
+            attributes: [
+              {
+                attributes: [
+                  {
+                    name: 'label',
+                  },
+                ],
+                label: {
+                  en: 'Label',
+                  fr: 'Libellé',
+                },
+              },
+              {
+                attributes: [
+                  {
+                    name: 'tags',
+                  },
+                ],
+                label: {
+                  en: 'Tags',
+                  fr: 'Tags',
+                },
+              },
+            ],
+          },
+        },
+      },
+      DOCUMENT: {
+        enabled: false,
+        tabTitle: {},
+        initialMode: 'TABLE',
+        enableDownload: false,
+        facets: {
+          enabled: false,
+          initiallyEnabled: false,
+          list: [],
+        },
+        sorting: [],
+        views: {
+          TABLE: {
+            enabled: true,
+            attributes: [],
+          },
+        },
+      },
+    },
   },
 }

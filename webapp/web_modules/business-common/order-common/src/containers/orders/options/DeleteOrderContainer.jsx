@@ -18,7 +18,7 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { OrderDomain } from '@regardsoss/domain'
-import { OrderShapes } from '@regardsoss/shape'
+import { CommonShapes, OrderShapes } from '@regardsoss/shape'
 import { OrderClient } from '@regardsoss/client'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import DeleteOrderComponent from '../../../components/orders/options/DeleteOrderComponent'
@@ -64,8 +64,8 @@ export class DeleteOrderContainer extends React.Component {
     hasDeleteCompletely: PropTypes.bool.isRequired,
     // eslint-disable-next-line
     pathParams: PropTypes.object, // used in mapDispatchToProps
-    // eslint-disable-next-line
-    requestParams: PropTypes.object, // used in mapDispatchToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    requestParams: CommonShapes.RequestParameters, // used in mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
     orderStateActions: PropTypes.instanceOf(OrderClient.OrderStateActions).isRequired, // used in mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types

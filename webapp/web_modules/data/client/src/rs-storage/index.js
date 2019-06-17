@@ -39,6 +39,14 @@ export { default as AIPFileActions } from './aip/AIPFileActions'
 export { default as getAIPFileReducer } from './aip/AIPFileReducer'
 export { default as getAIPFileSelectors } from './aip/AIPFileSelectors'
 
+export { default as DeleteAIPsOnAllStoragesActions } from './aip/storage/DeleteAIPsOnAllStoragesActions'
+export { default as getDeleteAIPsOnAllStoragesReducer } from './aip/storage/DeleteAIPsOnAllStoragesReducer'
+export { default as getDeleteAIPsOnAllStoragesSelectors } from './aip/storage/DeleteAIPsOnAllStoragesSelectors'
+
+export { default as DeleteAIPsOnSomeStoragesActions } from './aip/storage/DeleteAIPsOnSomeStoragesActions'
+export { default as getDeleteAIPsOnSomeStoragesReducer } from './aip/storage/DeleteAIPsOnSomeStoragesReducer'
+export { default as getDeleteAIPsOnSomeStoragesSelectors } from './aip/storage/DeleteAIPsOnSomeStoragesSelectors'
+
 export { default as StorageMonitoringActions } from './monitoring/StorageMonitoringActions'
 export { default as getStorageMonitoringReducer } from './monitoring/StorageMonitoringReducer'
 export { default as getStorageMonitoringSelectors } from './monitoring/StorageMonitoringSelectors'

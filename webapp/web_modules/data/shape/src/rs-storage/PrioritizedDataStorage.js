@@ -24,10 +24,10 @@ export const PrioritizedDataStorageContent = PropTypes.shape({
   dataStorageConfiguration: PluginConfigurationContent.isRequired,
   dataStorageType: PropTypes.oneOf(StorageDomain.DataStorageTypeEnumValues).isRequired,
   priority: PropTypes.number.isRequired,
-}).isRequired
+})
 
 export const PrioritizedDataStorage = PropTypes.shape({
-  content: PrioritizedDataStorageContent,
+  content: PrioritizedDataStorageContent.isRequired,
 })
 
 export const PrioritizedDataStorageList = PropTypes.objectOf(PrioritizedDataStorage)

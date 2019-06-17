@@ -36,13 +36,10 @@ export const CHECK_PLUGIN = 'LOAD_PLUGINS/CHECK_LOADED'
 export const PLUGIN_ERROR = 'LOAD_PLUGINS/PLUGIN_ERROR'
 
 export const savePluginLoaded = ({
-  sourcePath, info, plugin, reducer, messages, ...otherProps
+  sourcePath, info, ...otherProps
 }, sourcePathFromDb) => ({
   type: PLUGIN_LOADED,
   name: info.name,
-  plugin,
-  reducer,
-  messages,
   info,
   sourcePath: sourcePathFromDb,
   ...otherProps,

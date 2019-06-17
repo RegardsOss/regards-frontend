@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import has from 'lodash/has'
 import get from 'lodash/get'
 import countries from './countries'
 
@@ -110,7 +111,7 @@ export function packMetadataField(user, formValues = {}) {
     return {
       id: metadataEntity && metadataEntity.id, // undefined when metadata does not yet exist on server side
       key,
-      value: formValues[key] || (metadataEntity && metadataEntity.value),
+      value: has(formValues, key) ? formValues[key] : (metadataEntity && metadataEntity.value),
     }
   })
 }

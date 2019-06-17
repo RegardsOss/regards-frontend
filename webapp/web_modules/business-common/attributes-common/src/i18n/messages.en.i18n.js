@@ -26,12 +26,9 @@ const messages = {
   ...Locales.en, // form messages
   'attribute.thumbnail.alt': 'No thumbnail',
   'attribute.thumbnail.action.close': 'Close',
+  'attribute.render.label': '{label} ({path})',
+  'attribute.render.path.join.string': '.',
   // Attributes configuration
-  'attributes.configuration.header.count': `{count, plural, 
-    =0 {No item}
-    one {# item}
-    other {# items}
-  } added`,
   'attributes.configuration.add.item.label': 'Add',
   'attributes.configuration.type.column': 'Type',
   'attributes.configuration.label.simple.column': 'Label',
@@ -59,7 +56,7 @@ const messages = {
     other {# available attributes}
   }`,
   'attribute.configuration.selectable.attributes.filter': 'Filter',
-  'attribute.configuration.selectable.attributes.no.data': 'Aucun attribut disponible',
+  'attribute.configuration.selectable.attributes.no.data': 'No attribute available',
   'attribute.configuration.selected.attributes.header': `{count, plural, 
     =0 {No attribute}
     one {# attribute}

@@ -25,9 +25,11 @@ import { i18nContextType } from '@regardsoss/i18n'
 */
 class DownloadResultButton extends React.Component {
   static propTypes = {
-    fileName: PropTypes.string,
     localAccessURL: PropTypes.string.isRequired, // Not URL as it may be local URL (prefixed by blob)
     forcedownload: PropTypes.bool,
+    // Name of the file to download. When not provided, the names comes from local
+    // access URL attachment header (if any) or defaults to URL
+    fileName: PropTypes.string, // Note: when not provided, the names comes from local access URL attachment header (if any)
   }
 
   static contextTypes = {

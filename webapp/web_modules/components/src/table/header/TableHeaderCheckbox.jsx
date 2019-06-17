@@ -25,7 +25,7 @@ import { themeContextType } from '@regardsoss/theme'
  */
 class TableHeaderCheckbox extends React.Component {
   static propTypes = {
-    ...Checkbox.propTypes,
+    // This component accepts all properties of Checkbox
   }
 
   static contextTypes = {

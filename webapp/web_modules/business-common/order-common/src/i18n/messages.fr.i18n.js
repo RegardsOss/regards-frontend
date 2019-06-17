@@ -81,7 +81,7 @@ const messages = {
   'order.list.option.cell.pause.order.tooltip': 'Mettre la commande en pause',
   'order.list.option.cell.resume.order.tooltip': 'Reprendre la commande',
   'order.list.option.cell.detail.title': 'Détail',
-  'order.list.options.error.title': 'Echec de la requête',
+  'order.list.options.error.title': 'Échec de la requête',
   'order.list.options.error.close.button.label': 'Fermer',
   'order.list.options.error.ORDER_MUST_BE_PAUSED_BEFORE_BEING_DELETED': 'Cette commande  ne peut pas être supprimée car elle n\'est pas en pause.',
   'order.list.options.error.ORDER_NOT_COMPLETELY_STOPPED': 'Cette commande n\'est pas complètement stoppée. Veuillez ré-essayer ultérieurement.',

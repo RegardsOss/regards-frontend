@@ -20,7 +20,7 @@ import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
   'connection.create.title': 'Ajout d\'une connexion à une source de données externe',
-  'connection.edit.title': 'Editer la connexion {name}',
+  'connection.edit.title': 'Éditer la connexion {name}',
   'connection.form.subtitle': 'Une connexion à une source externe permet au serveur REGARDS de se connecter à la source de données pour les aspirer',
   'connection.form.label': 'Nom de la connexion',
   'connection.form.version': 'Version',
@@ -46,7 +46,7 @@ const messages = Object.assign({
   'connection.list.table.actions': 'Actions',
   'connection.list.action.add': 'Ajouter',
   'connection.list.action.cancel': 'Précédent',
-  'connection.list.action.edit': 'Editer',
+  'connection.list.action.edit': 'Éditer',
   'connection.list.action.delete': 'Supprimer',
   'connection.list.delete.title': 'Supprimer la connexion {name} ?',
 

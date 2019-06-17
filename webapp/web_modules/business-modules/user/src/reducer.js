@@ -26,6 +26,7 @@ import { authenticationDialogReducer } from './clients/AuthenticationDialogUICli
 import { layoutReducer } from './clients/LayoutClient'
 import { moduleReducer } from './clients/ModuleClient'
 import { moduleExpandedStateReducer } from './clients/ModuleExpandedStateClient'
+import { resultsContextReducer } from './clients/ResultsContextClient'
 
 /**
  * Reducers for user module
@@ -38,6 +39,7 @@ export default combineReducers({
   'order-basket': OrderClient.getOrderBasketReducer(), // install default order basket reducer reducer
   authenticationDialog: authenticationDialogReducer,
   modulesPanesStates: moduleExpandedStateReducer,
+  resultsContext: resultsContextReducer,
   dialogRequests: UIClient.getDialogRequestsReducer(), // Install default dialog requests reducer
   appState: UIClient.getSelectedDynamicModuleReducer(), // install user app state reducer (contains selected module so far...)
 })

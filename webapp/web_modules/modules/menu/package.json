@@ -1,8 +1,10 @@
 {
   "name": "@regardsoss-modules/menu",
-  "version": "3.0.0",
+  "version": "0.4.0",
   "private": true,
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css"
+  ],
   "description": "",
   "main": "src/main.js",
   "author": "CNES (https://cnes.fr)",

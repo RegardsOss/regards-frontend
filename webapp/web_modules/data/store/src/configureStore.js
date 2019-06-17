@@ -59,14 +59,16 @@ function configureStore(rootReducer) {
 
 
   // Create the application store
+  /* eslint-disable no-underscore-dangle */
   const store = createStore(
     configureReducers(reducerRegistry.getReducers()),
     preloadedState,
     compose(
       applyMiddleware(...middlewares),
-      root.devToolsExtension ? root.devToolsExtension() : f => f, // Enable redux dev tools
+      root.__REDUX_DEVTOOLS_EXTENSION__ ? root.__REDUX_DEVTOOLS_EXTENSION__() : f => f, // Enable redux dev tools
     ),
   )
+  /* eslint-enable */
 
   // Reconfigure the store's reducer when the reducer registry is changed - we
   // depend on this for loading reducers via code splitting and for hot

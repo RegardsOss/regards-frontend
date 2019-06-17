@@ -24,7 +24,7 @@ export const EntityProperties = {
   ipId: PropTypes.string.isRequired,
   creationDate: PropTypes.string.isRequired,
   lastUpdate: PropTypes.string,
-  entityType: PropTypes.oneOf(['DATASET', 'COLLECTION', 'DATAOBJECT', 'DOCUMENT']).isRequired,
+  type: PropTypes.oneOf(['DATASET', 'COLLECTION', 'DATAOBJECT', 'DOCUMENT']).isRequired,
   groups: PropTypes.arrayOf(PropTypes.string).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   feature: Feature.isRequired,

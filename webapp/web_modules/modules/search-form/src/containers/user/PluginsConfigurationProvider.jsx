@@ -24,7 +24,7 @@ import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
 import { DataManagementClient } from '@regardsoss/client'
 import { DataManagementShapes, CatalogShapes } from '@regardsoss/shape'
-import { AuthenticateShape } from '@regardsoss/authentication-utils'
+import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import { HOCUtils } from '@regardsoss/display-control'
 import { dataObjectAttributesSelectors } from '../../clients/DataObjectAttributesClient'
 import { attributesBoundsActions, attributesBoundsSelectors } from '../../clients/AttributesBoundsClient'
@@ -52,6 +52,7 @@ export class PluginsConfigurationProvider extends React.Component {
    */
   static mapStateToProps(state, { preview }) {
     return {
+      authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
       attributeModels: (preview ? previewAMSelectors : userAMSelectors).getList(state),
       attributesBounds: attributesBoundsSelectors.getList(state),
       boundsFetchingError: attributesBoundsSelectors.hasError(state),
@@ -67,7 +68,7 @@ export class PluginsConfigurationProvider extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       dispatchClearBounds: () => dispatch(attributesBoundsActions.flush()),
-      dispatchFetchBounds: (attributesPath, initialQuery) => dispatch(attributesBoundsActions.fetchAttributesBounds(attributesPath, initialQuery)),
+      dispatchFetchBounds: (attributesPath, contextQuery) => dispatch(attributesBoundsActions.fetchAttributesBounds(attributesPath, contextQuery)),
     }
   }
 
@@ -78,9 +79,9 @@ export class PluginsConfigurationProvider extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     criteria: CriteriaArray, // used in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
-    initialQuery: PropTypes.string, // used in onPropertiesUpdated
+    contextQuery: PropTypes.string, // used in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
-    authentication: AuthenticateShape, // used in onPropertiesUpdated
+    authentication: AuthenticateShape, // used in onPropertiesUpdated, ONLY TO UPDATE THE CONTEXT, that depends on accessible objects list
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     attributeModels: DataManagementShapes.AttributeModelList, // used in onPropertiesUpdated
@@ -287,12 +288,12 @@ export class PluginsConfigurationProvider extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      initialQuery, authentication, attributeModels, criteria, children,
+      contextQuery, authentication, attributeModels, criteria, children,
       boundsFetchingError, attributesBounds, dispatchFetchBounds, dispatchClearBounds,
       preview,
     } = newProps
     const nextState = { ...this.state }
-    if (!isEqual(initialQuery, oldProps.initialQuery)
+    if (!isEqual(contextQuery, oldProps.contextQuery)
       || !isEqual(authentication, oldProps.authentication)
       || !isEqual(attributeModels, oldProps.attributeModels)
       || !isEqual(criteria, oldProps.criteria)) {
@@ -305,7 +306,7 @@ export class PluginsConfigurationProvider extends React.Component {
       const attributesToFetch = PluginsConfigurationProvider.getAttributesToFetchIn(nextState.plugins)
       if (attributesToFetch.length) { // do not clear / fetch bounds when none was resolved or module is in preview
         dispatchClearBounds() // clear currently stored data
-        dispatchFetchBounds(attributesToFetch, initialQuery)
+        dispatchFetchBounds(attributesToFetch, contextQuery)
       }
     } else if (!isEqual(attributesBounds, oldProps.attributesBounds) || !isEqual(boundsFetchingError, oldProps.boundsFetchingError)) {
       // 3 - Request finished with new attribute bounds or error, update attributes

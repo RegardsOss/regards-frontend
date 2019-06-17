@@ -16,10 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { IngestDomain } from '@regardsoss/domain'
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-
+  ...IngestDomain.frMessages,
   'sips.button.filter': 'Filtrer',
   'sips.button.back': 'Retour',
   'sips.list.subtitle': 'Liste des SIPS pour la session sélectionnée',
@@ -28,7 +29,7 @@ const messages = Object.assign({
   'aips.list.add-tag.button': 'Ajouter tag',
   'sips.list.filters.providerId.label': 'Identifiant fournisseur',
   'sips.list.filters.chain.all': 'Toutes les chaînes',
-  'sips.list.filters.status.label': 'Etat',
+  'sips.list.filters.status.label': 'État',
   'sips.list.filters.status.all': 'Tous les statuts',
   'sips.list.filters.status.errors': 'Erreurs',
   'sips.list.filters.status.errors.rsingest': 'Erreurs rs-ingest',
@@ -53,10 +54,10 @@ const messages = Object.assign({
   'sips.list.table.tooltip.go-to-datasources-management': 'Aller au suivi des aspirations',
   'sip.list.retry.action': 'Relancer l\'ingestion du SIP',
   'sips.stepper.list': 'Afficher SIPs',
-  'sips.stepper.session': 'Selectionner session',
+  'sips.stepper.session': 'Sélectionner session',
 
   'sip.confirm.delete.title': 'Suppression de données (identifiant producteur : {id})',
-  'sip.confirm.delete.message': 'Voulez-vous supprimer uniquement la donnée sélectionée ou toutes les données de même identifiant fournisseur ?',
+  'sip.confirm.delete.message': 'Voulez-vous supprimer uniquement la donnée sélectionnée ou toutes les données de même identifiant fournisseur ?',
   'sip.confirm.delete.sips': 'Tout supprimer',
   'sip.confirm.delete.sip': 'Supprimer',
   'sip.cancel.delete': 'Annuler',
@@ -68,7 +69,7 @@ const messages = Object.assign({
 
   'sips.session.title': 'Sessions',
   'sips.session.sips.title': 'Session {session}',
-  'sips.session.subtitle': 'Visualisation des sessions d\'acquisition. Une session est un regroupement de paquets d\'information de données (SIP).',
+  'sips.session.subtitle': 'Visualisation des sessions d\'ingestion. Une session est un regroupement de paquets d\'information de données (SIP).',
   'sips.session.filter.name': 'Nom de la session : ',
   'sips.session.filter.name.label': 'Nom',
   'sips.session.filter.date': 'Plage temporelle : ',
@@ -94,7 +95,7 @@ const messages = Object.assign({
   'sips.session.retry.title': 'Relancer la session {id} ?',
   'sips.session.retry.generation.message': 'Vous pouvez redémarrer le traitement des sips de cette session en générant à nouveau les AIPS de la session.',
   'sips.session.retry.submission.message': 'Vous pouvez redémarrer le traitement des sips de cette session en soumettant à nouveau les SIPS de la session.',
-  'sips.session.retry.message': 'Vous pouvez redémarrer le traitement des sips de cette session soit en soumettant à nouveau les sips, soit en relancant la génération des AIPs.',
+  'sips.session.retry.message': 'Vous pouvez redémarrer le traitement des sips de cette session soit en soumettant à nouveau les sips, soit en relançant la génération des AIPs.',
   'sips.session.retry.cancel': 'Annuler',
   'sips.session.retry.submission.button': 'Relancer la soumission des SIPS',
   'sips.session.retry.generation.button': 'Relancer la génération des AIPS',
@@ -108,31 +109,17 @@ const messages = Object.assign({
   'sips.submit.submit.button': 'Soumettre',
 
   'sips.submission-summary.title': 'Compte-rendu de soumission de vos données',
-  'sips.submission-summary.details': 'Vos données seront réparties grâce à la strategie {allocationStrategy} vers les espaces de stockage : {storages}',
+  'sips.submission-summary.details': 'Vos données seront réparties grâce à la stratégie {allocationStrategy} vers les espaces de stockage : {storages}',
   'sips.submission-summary.subtitle': 'Ce compte-rendu affiche l\'état de prise en compte de vos données par le système. Si vos données sont acceptées alors elles seront prises en compte prochainement pour être stockées',
   'sips.submission-summary.back.button': 'Retour',
 
   'sips.submission.not.ready.title': 'Configuration manquante pour la soumission de données',
   'sips.submission.not.ready.information.message': 'Votre configuration du système est incomplète et vous interdit de soumettre de nouvelles données. Merci de vous assurer que vous avez bien configuré votre ou vos systèmes de stockage des données. Le système nécessite au moins un espace de stockage et une stratégie de répartition pour pouvoir stocker les données soumises.',
   'sips.submission.not.ready.server.message': 'Le service de stockage indique : ',
-  'sips.submission.not.ready.config.allocations.link.button': 'Configurer la répartion',
+  'sips.submission.not.ready.config.allocations.link.button': 'Configurer la répartition',
   'sips.submission.not.ready.config.storages.link.button': 'Configurer les espaces de stockage',
   'sips.submission.not.ready.config.catalog.security.link.button': 'Sécuriser l\'accès aux données',
   'sips.submission.not.ready.back.button': 'Retour',
-
-  CREATED: 'CREATED',
-  DELETED: 'DELETED',
-  REJECTED: 'REJECTED',
-  QUEUED: 'QUEUED',
-  VALID: 'VALID',
-  INVALID: 'INVALID',
-  AIP_GEN_ERROR: 'AIP_GEN_ERROR',
-  AIP_CREATED: 'AIP_CREATED',
-  STORED: 'STORED',
-  STORE_ERROR: 'STORE_ERROR',
-  INDEXED: 'INDEXED',
-  INDEX_ERROR: 'INDEX_ERROR',
-  INCOMPLETE: 'INCOMPLETE',
 }, Locales.fr)
 
 export default messages

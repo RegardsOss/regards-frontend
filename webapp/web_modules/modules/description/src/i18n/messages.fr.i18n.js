@@ -79,7 +79,7 @@ const messages = {
   'module.description.file.media.unsuported.title': 'Type de fichier non supporté',
   'module.description.file.media.unsuported.message': 'La prévisualisation du fichier ne peut pas être affichée',
   'module.description.files.error.title': 'Erreur de chargement',
-  'module.description.files.error.message': 'Echec du téléchargement du fichier correspondant',
+  'module.description.files.error.message': 'Échec du téléchargement du fichier correspondant',
 
   // Forms i18n messages for admin
   ...Locales.fr,

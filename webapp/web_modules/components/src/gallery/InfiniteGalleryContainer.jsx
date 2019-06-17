@@ -54,9 +54,8 @@ export class InfiniteGalleryContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of actions ready to be dispatched in the redux store
    */
-  static mapDispatchToProps(dispatch, { pageActions, tableActions }) {
+  static mapDispatchToProps(dispatch, { pageActions }) {
     return {
-      flushEntities: () => dispatch(pageActions.flush()),
       fetchEntities: (pageNumber, nbEntitiesByPage, pathParam, requestParams) => dispatch(pageActions.fetchPagedEntityList(pageNumber, nbEntitiesByPage, pathParam, requestParams)),
     }
   }
@@ -79,9 +78,7 @@ export class InfiniteGalleryContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // BasicPageableSelectors to retrieve entities from store
 
-    // see InfiniteTableContainer for the other properties required (note that the fetch / flush method are
     // already provided by this component, just fill in the other ones =)
-
     // eslint-disable-next-line react/no-unused-prop-types
     entities: PropTypes.arrayOf(PropTypes.object),
     // eslint-disable-next-line react/no-unused-prop-types
@@ -97,8 +94,6 @@ export class InfiniteGalleryContainer extends React.Component {
 
     // from map dispatch to props
 
-    // eslint-disable-next-line react/no-unused-prop-types
-    flushEntities: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     fetchEntities: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -150,8 +145,6 @@ export class InfiniteGalleryContainer extends React.Component {
       || !isEqual(nextProps.authentication, previousProps.authentication)) {
       // remove any previously fetched data
       nextState.entities = []
-      // Remove entities in store
-      this.props.flushEntities()
       // Fetch new ones
       this.fetchEntityPage(nextProps)
     } else if (!isEqual(previousProps.entities, nextProps.entities) || nextState.entities.length < get(nextProps, 'entities.length', 0)) {

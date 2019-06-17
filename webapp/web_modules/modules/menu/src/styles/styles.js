@@ -207,8 +207,8 @@ const menuStyles = theme => ({
     levelIcon: {
       color: '#ffffff',
       infoColor: '#2196F3',
-      errorColor: '#FF9800',
-      fatalColor: '#f44336',
+      errorColor: '#f44336',
+      fatalColor: 'red',
       warningColor: '#f9a825',
     },
     list: {

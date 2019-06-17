@@ -18,9 +18,10 @@
  **/
 import get from 'lodash/get'
 import map from 'lodash/map'
+import isNil from 'lodash/isNil'
 import filter from 'lodash/filter'
 import { browserHistory } from 'react-router'
-import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { tableSelectors, tableActions } from '../clients/TableClient'
 import { accessRightActions } from '../clients/AccessRightClient'
@@ -37,10 +38,6 @@ export class AccessRightListContainer extends React.Component {
     accessGroup: DataManagementShapes.AccessGroup.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     selectedDatasetsWithAccessright: PropTypes.arrayOf(DataManagementShapes.DatasetWithAccessRight).isRequired,
-    // Availables plugin configuration for custom access rights delegated to plugins
-    pluginConfigurationList: CommonShapes.PluginConfigurationList.isRequired,
-    // Availables plugin definitions for custom access rights delegated to plugins
-    pluginMetaDataList: CommonShapes.PluginMetaDataList.isRequired,
     meta: PropTypes.shape({ // use only in onPropertiesUpdate
       number: PropTypes.number,
       size: PropTypes.number,
@@ -53,6 +50,10 @@ export class AccessRightListContainer extends React.Component {
     createAccessRight: PropTypes.func.isRequired,
   }
 
+  state ={
+    filters: {},
+  }
+
   onSubmit = (selectedDatasetsWithAccessright, formValues) => {
     const { accessGroup } = this.props
     // Create new access rights
@@ -60,7 +61,7 @@ export class AccessRightListContainer extends React.Component {
       dataAccessLevel: formValues.dataAccess,
     }
     if (formValues) {
-      dataAccessRight.pluginConfiguration = formValues.pluginConfiguration
+      dataAccessRight.pluginConfiguration = formValues.checkAccessPlugin
     }
     const qualityFilter = {
       maxScore: formValues.quality.max,
@@ -71,11 +72,12 @@ export class AccessRightListContainer extends React.Component {
       id: get(datasetWithAR, 'content.accessRight.id', null),
       qualityFilter,
       dataAccessRight,
+      dataAccessPlugin: formValues.dataAccessPlugin,
       accessGroup: accessGroup.content,
       accessLevel: formValues.access,
       dataset: {
         id: get(datasetWithAR, 'content.dataset.id', null),
-        entityType: get(datasetWithAR, 'content.dataset.entityType', null),
+        type: get(datasetWithAR, 'content.dataset.type', null),
       },
     }))
     const requests = []
@@ -120,13 +122,19 @@ export class AccessRightListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  refresh = (filters) => {
+  refresh = () => {
     const { meta, fetchDatasetWithAccessRightPage, clearSelection } = this.props
-    const curentPage = get(meta, 'number', 0)
+    const pageSize = get(meta, 'size', 0)
     const accessGroupName = get(this.props.accessGroup, 'content.name', null)
     if (accessGroupName) {
       clearSelection() // clear selection to avoid selected elements changes
-      fetchDatasetWithAccessRightPage(0, AccessRightListComponent.PAGE_SIZE * (curentPage + 1), { accessGroupName }, filters)
+      fetchDatasetWithAccessRightPage(0, pageSize, { accessGroupName }, this.state.filters)
+    }
+  }
+
+  filter = (filters) => {
+    if (!isNil(filters)) {
+      this.setState({ filters })
     }
   }
 
@@ -134,14 +142,14 @@ export class AccessRightListContainer extends React.Component {
     return (
       <AccessRightListComponent
         accessGroup={this.props.accessGroup.content}
-        pluginConfigurationList={this.props.pluginConfigurationList}
-        pluginMetaDataList={this.props.pluginMetaDataList}
         deleteAccessRight={this.onDelete}
         submitAccessRights={this.onSubmit}
         navigateToCreateDataset={this.navigateToCreateDataset}
         backURL={this.getBackURL()}
         selectedDatasetsWithAccessright={this.props.selectedDatasetsWithAccessright}
         onRefresh={this.refresh}
+        onFilter={this.filter}
+        filters={this.state.filters}
       />
     )
   }

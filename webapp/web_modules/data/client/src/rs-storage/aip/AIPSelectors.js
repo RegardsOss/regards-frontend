@@ -19,7 +19,21 @@
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 /**
+ * AIPs selectors (overrides basic selectors to allow access to root dataStorages field)
+ * @author Raphaël Mechali
+ */
+class AIPSelectors extends BasicPageableSelectors {
+  /**
+   * @param {*} state Redux store state
+   * @return {[*]} data storages found in current AIP request
+   */
+  getDataStorages(state) {
+    return this.uncombineStore(state).dataStorages
+  }
+}
+
+/**
  * Store selector to AIP entities.
  * @author Léo Mieulet
  */
-export default storePath => new BasicPageableSelectors(storePath)
+export default storePath => new AIPSelectors(storePath)

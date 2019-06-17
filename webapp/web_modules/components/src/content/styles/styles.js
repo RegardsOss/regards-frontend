@@ -63,13 +63,13 @@ const styles = theme => ({
       opacity: '0.2',
     },
     titleWrapper: {
-      maxWidth: '40%',
+      maxWidth: '300px',
       marginTop: '0.2em',
       color: theme.palette.textColor,
       fontSize: '1.5em',
     },
     messageWrapper: {
-      maxWidth: '40%',
+      maxWidth: '300px',
       marginTop: '0.6em',
       color: theme.palette.secondaryTextColor,
       textAlign: 'center',

@@ -50,22 +50,18 @@ export class AdminLayout extends React.Component {
     location: CommonShapes.LocationShape.isRequired,
     // from mapStateToProps
     isInstance: PropTypes.bool,
-    // from mapDispatchToProps
-    onLogout: PropTypes.func,
   }
 
   getSidebar = (isInstanceDashboard) => {
     const {
-      onLogout, params: { project }, location, isInstance,
+      params: { project }, location, isInstance,
     } = this.props
     if (isInstanceDashboard) {
       return (<InstanceSidebarComponent
         currentPath={location.pathname}
-        onLogout={onLogout}
       />)
     }
     return (<ProjectSidebarComponent
-      onLogout={onLogout}
       projectName={project}
       currentPath={location.pathname}
       isInstance={isInstance}
@@ -139,8 +135,4 @@ const mapStateToProps = state => ({
   isInstance: AuthenticationClient.authenticationSelectors.isInstanceAdmin(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  onLogout: () => dispatch(AuthenticationClient.authenticationActions.logout()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminLayout)
+export default connect(mapStateToProps)(AdminLayout)

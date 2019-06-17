@@ -18,7 +18,8 @@
  **/
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { DamDomain } from '@regardsoss/domain'
-import { StringValueRender } from '@regardsoss/components'
+import AttributeLabelRender from '../../../render/AttributeRender'
+
 
 /**
  * Renders a selected attribute as label from its full qualified name
@@ -31,12 +32,11 @@ class AttributeRender extends React.Component {
   }
 
   render() {
-    const { entity: { name }, attributeModels } = this.props
-    const attribute = DamDomain.AttributeModelController
-      .findModelFromAttributeFullyQualifiedName(name, attributeModels)
+    const { entity: { name }, attributeModels, ...remainingProps } = this.props
     return (
-      <StringValueRender
-        value={DamDomain.AttributeModelController.getAttributeModelFullLabel(attribute)}
+      <AttributeLabelRender
+        entity={DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels)}
+        {...remainingProps}
       />
     )
   }

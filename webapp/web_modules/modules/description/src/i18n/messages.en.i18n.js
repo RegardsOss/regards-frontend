@@ -60,7 +60,7 @@ const messages = {
   'module.description.close.button': 'Close',
   'module.description.properties.attributes': 'Attributes',
   'module.description.properties.loading.attributes': 'Loading attributes information',
-  'module.description.properties.no.attribute': 'No attribute to dislay',
+  'module.description.properties.no.attribute': 'No attribute to display',
   'module.description.properties.tags.entities': 'Related tags',
   'module.description.properties.documents.entities': 'Related documents',
   'module.description.properties.document.entities': 'Related documents',

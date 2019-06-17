@@ -30,7 +30,7 @@ export default class CatalogSearchEntitiesActions extends BasicFacetsPageableAct
    * @param {*} endpoint endpoint (optional, default to generic search catalog endpoint)
    */
   constructor(namespace,
-    endpoint = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/engines/${CatalogDomain.LEGACY_SEARCH_ENGINE}/entities/search?{parameters}`) {
+    endpoint = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/engines/${CatalogDomain.LEGACY_SEARCH_ENGINE}/entities/search`) {
     super({
       namespace,
       entityEndpoint: endpoint,

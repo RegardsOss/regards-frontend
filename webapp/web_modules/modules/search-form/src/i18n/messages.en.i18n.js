@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
+import { messages as attributesMessages } from '@regardsoss/attributes-common'
 
 /**
  * i18n messages English language
@@ -26,14 +27,17 @@ const messages = {
   // common form messages
   ...Locales.en,
 
+  // attributes model i18n
+  ...attributesMessages.en,
+
   // Administration messages
 
   // Tabulation labels
   'form.configuration.tab.label': 'Results',
   'form.dataset.selection.tab.label': 'Datasets',
   'form.layout.tab.label': 'Layout',
-  'form.criterions.tab.label': 'Criterions',
-  'form.criterion.tab.title': 'Configure all the criterion of your form. Each criteria can be inserted into a specific section of your designed layout.',
+  'form.criterions.tab.label': 'Criteria',
+  'form.criterion.tab.title': 'Configure all the criteria of your form. Each criterion can be inserted into a specific section of your designed layout.',
   'form.preview.tab.label': 'Preview',
   // Configuration tab
   'form.configuration.tab.title': 'Configure main parameters for current search form module',
@@ -69,7 +73,7 @@ const messages = {
   'form.datasets.select.dataset.list.title': 'Select datasets to link with search form',
   'form.datasets.select.dataset.models.list.title': 'Select dataset models to link with search form',
   // Layout tab
-  'form.layout.tab.title': 'Search form layout configuration',
+  'form.layout.tab.title': 'Criteria layout',
   'form.layout.tab.reset': 'Reset',
   'layout.invalid.error': 'Error layout',
   // Criterion tab
@@ -80,11 +84,18 @@ const messages = {
   'form.criterion.new.button.label': 'Create',
   'form.criterion.reset.button.label': 'Reset',
   'form.criterion.criteria.new.title': 'Create a criterion',
-  'form.criterion.criteria.select.criteria.label': 'Select a criteria ...',
+  'form.criterion.criteria.existing.title': 'Edit a criterion',
+  'form.criterion.criteria.subtitle': 'Main configuration for the criteria',
+  'form.criterion.criteria.select.criteria.label': 'Select a criterion ...',
   'form.criterion.criteria.select.container.label': 'Select a container ...',
+  'form.criterion.criteria.select.position.label': 'Position',
+  'form.criterion.criteria.select.position.first': '1 - First',
+  'form.criterion.criteria.select.position.after': 'After',
   'form.criterion.criteria.submit.button.label': 'Create',
+  'form.criterion.criteria.edit.button.label': 'Update',
   'form.criterion.criteria.cancel.button.label': 'Cancel',
-  'form.criterion.criteria.select.attribute.label': 'Select model attribute ...',
+  'form.criterion.criteria.no.config.title': 'No criterion',
+  'form.criterion.criteria.no.config.message': 'Select a criterion to configure it',
 
   // User display component
   'form.search.button.label': 'Search',

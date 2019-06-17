@@ -25,7 +25,7 @@ export const DataObjectContent = PropTypes.shape({
   name: PropTypes.string.isRequired,
   notYetStoredBy: PropTypes.number.isRequired,
   state: PropTypes.string.isRequired,
-  storageDirectory: PropTypes.string.isRequired,
+  storageDirectory: PropTypes.string,
   fileSize: PropTypes.number.isRequired,
 })
 export const DataObject = PropTypes.shape({

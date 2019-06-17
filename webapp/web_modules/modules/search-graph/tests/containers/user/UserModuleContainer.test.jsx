@@ -22,6 +22,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { UserModuleContainer } from '../../../src/containers/user/UserModuleContainer'
 import SearchGraph from '../../../src/components/user/SearchGraph'
 import styles from '../../../src/styles/styles'
+import { configuration1 } from '../../dumps/configuration.dump'
 
 const context = buildTestContext(styles)
 
@@ -32,13 +33,13 @@ describe('[Search Graph] Testing UserModuleContainer', () => {
   it('should exists', () => {
     assert.isDefined(UserModuleContainer)
   })
-  it('should render properly', () => {
+  it('should render correctly', () => {
     const props = {
       // supplied by LazyModuleComponent
       appName: 'any',
       project: 'any',
       type: 'any',
-      moduleConf: {}, // Module configuration
+      moduleConf: configuration1,
       // from map state to props
       selectionPath: [],
       selectedDataset: null,

@@ -18,7 +18,7 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { OrderDomain } from '@regardsoss/domain'
-import { OrderShapes } from '@regardsoss/shape'
+import { CommonShapes, OrderShapes } from '@regardsoss/shape'
 import { OrderClient } from '@regardsoss/client'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import PauseResumeOrderComponent from '../../../components/orders/options/PauseResumeOrderComponent'
@@ -60,10 +60,10 @@ export class PauseResumeOrderContainer extends React.Component {
     // from table cell API
     entity: OrderShapes.OrderWithContent.isRequired,
     pageSize: PropTypes.number.isRequired,
-    // eslint-disable-next-line
-    pathParams: PropTypes.object, // used in mapDispatchToProps
-    // eslint-disable-next-line
-    requestParams: PropTypes.object, // used in mapDispatchToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    pathParams: CommonShapes.RequestParameters, // used in mapDispatchToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    requestParams: CommonShapes.RequestParameters,
     // eslint-disable-next-line react/no-unused-prop-types
     orderStateActions: PropTypes.instanceOf(OrderClient.OrderStateActions).isRequired, // used in mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types

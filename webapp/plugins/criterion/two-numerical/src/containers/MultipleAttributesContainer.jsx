@@ -16,18 +16,72 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { connect } from '@regardsoss/redux'
 import { CommonDomain, DamDomain } from '@regardsoss/domain'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
-import { PluginCriterionContainer, numberRangeHelper, BOUND_TYPE } from '@regardsoss/plugins-api'
-import NumericalCriteriaComponent from '../components/NumericalCriteriaComponent'
+import {
+  AttributeModelWithBounds, pluginStateActions, pluginStateSelectors, numberRangeHelper,
+} from '@regardsoss/plugins-api'
+import MultipleAttributesComponent from '../components/MultipleAttributesComponent'
 
 /**
  * Main container for criterion when working on a different attributes: value1 from / to X and value2 from / to Y
  *
  * @author Xavier-Alexandre Brochard
  */
-export class MultipleAttributesContainer extends PluginCriterionContainer {
+export class MultipleAttributesContainer extends React.Component {
+  /** Default container state */
+  static DEFAULT_STATE = {
+    value1: null,
+    comparator1: CommonDomain.EnumNumericalComparator.GE,
+    value2: null,
+    comparator2: CommonDomain.EnumNumericalComparator.LE,
+  }
+
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, { pluginInstanceId }) {
+    return {
+      // current state from redux store
+      state: pluginStateSelectors.getCriterionState(state, pluginInstanceId) || MultipleAttributesContainer.DEFAULT_STATE,
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
+    return {
+      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
+    }
+  }
+
+
+  static propTypes = {
+    /** Plugin identifier */
+    // eslint-disable-next-line react/no-unused-prop-types
+    pluginInstanceId: PropTypes.string.isRequired, // used in mapStateToProps and mapDispatchToProps
+    /** First configured field attribute */
+    firstField: AttributeModelWithBounds.isRequired,
+    /** Second configured field attribute */
+    secondField: AttributeModelWithBounds.isRequired,
+    // From mapStateToProps...
+    state: PropTypes.shape({ // specifying here the state this criterion shares with parent search form
+      value1: PropTypes.number,
+      comparator1: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
+      value2: PropTypes.number,
+      comparator2: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
+    }).isRequired,
+    // From mapDispatchToProps...
+    publishState: PropTypes.func.isRequired,
+  }
+
   /** Available comparison operators for integer numbers */
   static AVAILABLE_INT_COMPARATORS = [
     CommonDomain.EnumNumericalComparator.EQ,
@@ -41,158 +95,99 @@ export class MultipleAttributesContainer extends PluginCriterionContainer {
     CommonDomain.EnumNumericalComparator.LE,
   ]
 
-  static propTypes = {
-    // parent props
-    ...PluginCriterionContainer.propTypes,
-  }
-
-  static contextTypes = {
-    // enable plugin theme access through this.context
-    ...themeContextType,
-    // enable i18n access trhough this.context
-    ...i18nContextType,
-  }
-
   /**
-   * Lifecycle method: component will mount. Used to initialized the state
-   */
-  componentWillMount() {
-    this.setState(this.getDefaultState())
-  }
-
-  /**
-   * @param {string} fieldName configured field name
+   * @param {*} attribute searched attributed
    * @return {[{string}]} computed available comparators
    * @throws {Error} when attribute type is invalid (or attribute is not available)
    */
-  getAvailableComparators = (fieldName) => {
-    const { type } = this.props.attributes[fieldName]
-    switch (type) {
+  static getAvailableComparators = (attribute) => {
+    switch (attribute.type) {
       case DamDomain.MODEL_ATTR_TYPES.INTEGER:
       case DamDomain.MODEL_ATTR_TYPES.LONG:
         return MultipleAttributesContainer.AVAILABLE_INT_COMPARATORS
       case DamDomain.MODEL_ATTR_TYPES.DOUBLE:
         return MultipleAttributesContainer.AVAILABLE_FLOAT_COMPARATORS
       default:
-        throw new Error(`Invalid attribute type for configured searchField ${type}`)
+        throw new Error(`Invalid attribute type for configured searchField ${attribute.type}`)
     }
   }
 
   /**
-   * @return {*} Component default state for current attribute
+   * Converts state as parameter into OpenSearch request parameters
+   * @param {{value1: number, comparator1: string, value2: number, comparator2: string}} plugin state
+   * @param {*} firstAttribute first criterion attribute
+   * @param {*} secondAttribute second criterion attribute
+   * @return {*} corresponding OpenSearch request parameters
    */
-  getDefaultState = () => ({
-    firstFieldComparators: this.getAvailableComparators('firstField'),
-    secondFieldComparators: this.getAvailableComparators('secondField'),
-    firstField: {
-      value: null,
-      operator: CommonDomain.EnumNumericalComparator.GE, // always available
-    },
-    secondField: {
-      value: null,
-      operator: CommonDomain.EnumNumericalComparator.LE, // always available
-    },
-  })
+  static convertToRequestParameters({
+    value1, comparator1, value2, comparator2,
+  }, firstAttribute, secondAttribute) {
+    // Using common toolbox to build range query
+    return {
+      q: [
+        // first attribute
+        numberRangeHelper.getNumberAttributeQueryPart(firstAttribute.jsonPath,
+          numberRangeHelper.convertToRange(value1, comparator1)),
+        // second attribute
+        numberRangeHelper.getNumberAttributeQueryPart(secondAttribute.jsonPath,
+          numberRangeHelper.convertToRange(value2, comparator2)),
+      ]
+        .filter(query => !!query)// clear empty queries
+        .join(' AND ') || null, // Join all parts with open search instruction, return null if string is empty
+    }
+  }
+
 
   /**
    * Callback: user changed value 1 number and / or operator
-   * @param {number} value as parsed by NumericalCriteriaComponent
-   * @param {string} operator operator, one of EnumNumericalComparator values
+   * @param {number} value1 as parsed by NumericalCriteriaComponent
+   * @param {string} comparator1 comparator, one of EnumNumericalComparator values
    */
-  onChangeValue1 = (value, operator) => {
-    this.setState({
-      firstField: { value, operator },
-    })
+  onChangeValue1 = (value1, comparator1) => {
+    const {
+      state, publishState, firstField, secondField,
+    } = this.props
+    const newState = { ...state, value1, comparator1 }
+    publishState(newState, MultipleAttributesContainer.convertToRequestParameters(newState, firstField, secondField))
   }
 
   /**
    * Callback: user changed value 2 number and / or operator
-   * @param {number} value as parsed by NumericalCriteriaComponent
-   * @param {string} operator operator, one of EnumNumericalComparator values
+   * @param {number} value2 as parsed by NumericalCriteriaComponent
+   * @param {string} comparator2 operator, one of EnumNumericalComparator values
    */
-  onChangeValue2 = (value, operator) => {
-    this.setState({
-      secondField: { value, operator },
-    })
+  onChangeValue2 = (value2, comparator2) => {
+    const {
+      state, publishState, firstField, secondField,
+    } = this.props
+    const newState = { ...state, value2, comparator2 }
+    publishState(newState, MultipleAttributesContainer.convertToRequestParameters(newState, firstField, secondField))
   }
-
-  /**
-   * @param state this current state
-   * @return open search query corresponding to current state
-   */
-  getPluginSearchQuery = (state) => {
-    const { firstField, secondField } = state
-
-    const firstQueryPart = numberRangeHelper.getNumberAttributeQueryPart(this.getAttributeName('firstField'),
-      numberRangeHelper.convertToRange(firstField.value, firstField.operator))
-
-    const secondQueryPart = numberRangeHelper.getNumberAttributeQueryPart(this.getAttributeName('secondField'),
-      numberRangeHelper.convertToRange(secondField.value, secondField.operator))
-    return `${firstQueryPart}${firstQueryPart && secondQueryPart ? ' AND ' : ''}${secondQueryPart}`
-  }
-
-  /**
-   * Parses open search query for a field value
-   * @param {string} parameterName parameter name declared by ths plugin (one of firstField/secondField)
-   * @param {string} openSearchQuery open search query, value part
-   */
-  parseOpenSearchQuery = (parameterName, openSearchQuery) => {
-    const foundRange = numberRangeHelper.parseRange(openSearchQuery)
-    // range parsed: this component accepts only ranges like [N, N], [N, +inf] or [-inf, N]
-    if (!foundRange.isFullyInifiniteRange()) {
-      if (foundRange.isSingleValueRange()) {
-        // strict equality tested ([N, N])
-        return { value: foundRange.lowerBound, operator: CommonDomain.EnumNumericalComparator.EQ }
-      }
-      if (!foundRange.isInfiniteLowerBound()) {
-        // greater than value range ([N, +inf])
-        return { value: foundRange.lowerBound, operator: CommonDomain.EnumNumericalComparator.GE }
-      }
-      if (foundRange.isInfiniteLowerBound()) {
-        // greater than value range [-inf, N]
-        return { value: foundRange.upperBound, operator: CommonDomain.EnumNumericalComparator.LE }
-      }
-    }
-    // not parsable (attempt keeping current operator)
-    return { value: null, operator: this.state[parameterName].operator }
-  }
-
-  /**
-   * Clear the entered value
-   */
-  handleClear = () => this.setState(this.getDefaultState())
-
 
   render() {
     const {
-      firstField, secondField, firstFieldComparators, secondFieldComparators,
-    } = this.state
-    const { moduleTheme: { rootStyle } } = this.context
+      firstField, secondField,
+      state: {
+        value1, comparator1, value2, comparator2,
+      },
+    } = this.props
     return (
-      <div style={rootStyle}>
-        <NumericalCriteriaComponent
-          label={this.getAttributeLabel('firstField')}
-          value={firstField.value}
-          comparator={firstField.operator}
-          availableComparators={firstFieldComparators}
-          onChange={this.onChangeValue1}
-          hintText={this.getFieldHintText('firstField', BOUND_TYPE.LOWER_BOUND)}
-          tooltip={this.getFieldTooltip('firstField')}
-          disabled={this.hasNoValue('firstField')}
-        />
-        <NumericalCriteriaComponent
-          label={this.getAttributeLabel('secondField')}
-          value={secondField.value}
-          comparator={secondField.operator}
-          availableComparators={secondFieldComparators}
-          onChange={this.onChangeValue2}
-          hintText={this.getFieldHintText('secondField', BOUND_TYPE.UPPER_BOUND)}
-          tooltip={this.getFieldTooltip('secondField')}
-          disabled={this.hasNoValue('secondField')}
-        />
-      </div>
-    )
+      <MultipleAttributesComponent
+        attribute1={firstField}
+        value1={value1}
+        comparator1={comparator1}
+        availableComparators1={MultipleAttributesContainer.getAvailableComparators(firstField)}
+        onChangeValue1={this.onChangeValue1}
+
+        attribute2={secondField}
+        value2={value2}
+        comparator2={comparator2}
+        availableComparators2={MultipleAttributesContainer.getAvailableComparators(secondField)}
+        onChangeValue2={this.onChangeValue2}
+      />)
   }
 }
 
-export default MultipleAttributesContainer
+export default connect(
+  MultipleAttributesContainer.mapStateToProps,
+  MultipleAttributesContainer.mapDispatchToProps)(MultipleAttributesContainer)

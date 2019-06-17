@@ -18,7 +18,6 @@
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { moduleActions } from './clients/ModuleClient'
-import { layoutActions } from './clients/LayoutClient'
 
 /**
  * Module dependencies descriptions
@@ -27,7 +26,6 @@ import { layoutActions } from './clients/LayoutClient'
 
 const boardAddRequiredDependencies = [
   moduleActions.getDependency(RequestVerbEnum.POST),
-  layoutActions.getDependency(RequestVerbEnum.GET),
 ]
 
 const boardListRequiredDependencies = [

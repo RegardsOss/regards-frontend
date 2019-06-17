@@ -27,7 +27,7 @@ const messages = {
   ...Locales.en,
   'order.cart.configuration.show.datasets': 'Display datasets',
   'order-cart.module.title': 'My cart',
-  'order-cart.module.not.logged.title': 'User not authentified',
+  'order-cart.module.not.logged.title': 'User not authenticated',
   'order-cart.module.not.logged.messsage': 'The cart is not available while you are not logged in application. Please log in using connection button.',
   'order-cart.module.empty.basket.title': 'Empty cart',
   'order-cart.module.empty.basket.messsage': 'Your cart does not contain any dataobject to order. You can add some using search results, graph and form pages available in navigation menu',

@@ -18,8 +18,10 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { searchEngineConfigurationsActions, searchEngineConfigurationsSelectors } from '../../clients/SearchEngineConfigurationsClient'
 import SearchEngineConfigurationListComponent from '../../components/configuration/SearchEngineConfigurationListComponent'
+import { datasetActions, datasetSelectors } from '../../clients/DatasetClient'
 
 /**
 * Container to handle search engine configurations list
@@ -36,6 +38,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
     return {
       meta: searchEngineConfigurationsSelectors.getMetaData(state),
       isLoading: searchEngineConfigurationsSelectors.isFetching(state),
+      datasetList: datasetSelectors.getList(state),
     }
   }
 
@@ -48,6 +51,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
   static mapDispatchToProps(dispatch, props) {
     return {
       fetchPage: (pageIndex, pageSize, requestParams) => dispatch(searchEngineConfigurationsActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
+      fetchDatasetList: () => dispatch(datasetActions.fetchPagedEntityList(0, 1000)),
       update: conf => dispatch(searchEngineConfigurationsActions.updateEntity(conf.id, conf)),
       delete: conf => dispatch(searchEngineConfigurationsActions.deleteEntity(conf.id)),
     }
@@ -63,8 +67,10 @@ export class SearchEngineConfigurationListContainer extends React.Component {
       totalElements: PropTypes.number,
     }),
     isLoading: PropTypes.bool.isRequired,
+    datasetList: DataManagementShapes.DatasetList,
     // from mapDispatchToProps
     fetchPage: PropTypes.func.isRequired,
+    fetchDatasetList: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
   }
 
@@ -72,6 +78,10 @@ export class SearchEngineConfigurationListContainer extends React.Component {
     meta: {
       totalElements: 0,
     },
+  }
+
+  componentWillMount = () => {
+    this.props.fetchDatasetList()
   }
 
   onEdit = (pluginConfToEdit) => {
@@ -95,7 +105,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
 
   render() {
     const {
-      fetchPage, isLoading, meta: { totalElements },
+      datasetList, fetchPage, isLoading, meta: { totalElements },
     } = this.props
     return (
       <SearchEngineConfigurationListComponent
@@ -104,6 +114,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
         onEdit={this.onEdit}
         onDelete={this.onDelete}
         fetchPage={fetchPage}
+        datasetList={datasetList}
         isLoading={isLoading}
         resultsCount={totalElements}
       />

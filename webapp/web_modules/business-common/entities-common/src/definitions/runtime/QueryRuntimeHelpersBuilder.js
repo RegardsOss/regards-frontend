@@ -60,8 +60,6 @@ export class QueryRuntimeHelpersBuilder {
     this.serviceTarget = serviceTarget
     this.actions = QueryRuntimeHelpersBuilder.getActions(serviceTarget.entityType, `plugin-service-runtime/query/instance-${QueryRuntimeHelpersBuilder.INSTANCE_INDEX}`)
     QueryRuntimeHelpersBuilder.INSTANCE_INDEX += 1
-    // Note: from actual search results module implementation, query parameters are indeed used as path parameters
-    this.queryParams = { parameters: serviceTarget.q ? `q=(${serviceTarget.q})` : '' }
   }
 
   /**
@@ -69,39 +67,39 @@ export class QueryRuntimeHelpersBuilder {
    * @return {function} buildFetchAction like (pageIndex: number, pageSize: number) => [dispatchable action]
    */
   buildGetFetchAction() {
-    return partial(this.getFetchAction, this.actions, this.queryParams)
+    return partial(this.getFetchAction, this.actions, this.serviceTarget.requestParameters)
   }
 
   /**
    * get fetch action implementation.
    * @param {BasicFacetsPageableActions} actions actions - partially applied, never seen by user
-   * @param {*} queryParams query parameters  - partially applied, never seen by user.
+   * @param {*} requestParameters OpenSearch request parameters - partially applied, never seen by user.
    * @param {number} pageIndex page index (an integer, ranging from 0 to N-1)
    * @param {number} pageSize page size (an integer, ranging from 1 to N)
    * @return {*} [dispatchable action]
    */
-  getFetchAction = (actions, queryParams, pageIndex, pageSize) => actions.fetchPagedEntityList(pageIndex, pageSize, queryParams)
+  getFetchAction = (actions, requestParameters, pageIndex, pageSize) => actions.fetchPagedEntityList(pageIndex, pageSize, null, requestParameters)
 
   /**
    * Builds 'getReducePromise' method closure
    * @return {function} function like ( {function} applier , {function} dispatchMethod, {*} initialValue ) => Promise
    */
   buildGetReducePromise() {
-    return partial(this.getReducePromise, this.actions, this.queryParams, this.serviceTarget.entitiesCount, this.serviceTarget.excludedIDs)
+    return partial(this.getReducePromise, this.actions, this.serviceTarget.requestParameters, this.serviceTarget.entitiesCount, this.serviceTarget.excludedIDs)
   }
 
   /**
    * Returns a promise to apply a reducer on each entity.
    * @param {BasicFacetsPageableActions} actions actions - partially applied, never seen by user
-   * @param {*} queryParams query parameters  - partially applied, never seen by user.
+   * @param {*} requestParameters OpenSearch request parameters - partially applied, never seen by user.
    * @param {number} elementsCount total elements count
-   * @param {Array} excludedIDs excluded entity ID (URN) from query results
+   * @param {Array} excludedIDs excluded entity ID (URN) from request results
    * @param {function} dispatchMethod redux dispatch method, strictly required to run fetch
    * @param {*} applier treatment to apply, like (accumulator, entity content, index) => *
    * @param {*} initialValue optional initial value (will be provided as first acculmulator in applier)
    * @param {number} pageSize optional page size
    */
-  getReducePromise = (actions, queryParams, elementsCount, excludedIDs, dispatchMethod, applier, initialValue, pageSize = 1000) => {
+  getReducePromise = (actions, requestParameters, elementsCount, excludedIDs, dispatchMethod, applier, initialValue, pageSize = 1000) => {
     const totalPages = Math.ceil(elementsCount / pageSize)
     // build a promise that will resolve and reduce, page by page, and terminate on last page
     return new Promise((resolve, reject) => {
@@ -111,8 +109,8 @@ export class QueryRuntimeHelpersBuilder {
        * @param {number} entityIndex this first entity index
        * @param {number} pageIndex page index
        */
-      function handleQueryPage(previousResult, entityIndex, pageIndex) {
-        dispatchMethod(actions.fetchPagedEntityList(pageIndex, pageSize, queryParams))
+      function handleResultsPage(previousResult, entityIndex, pageIndex) {
+        dispatchMethod(actions.fetchPagedEntityList(pageIndex, pageSize, null, requestParameters))
           .then(({ payload, error = false }) => {
             // reduce promise results (will be next then value) or throw error (will enter catch)
             const entities = get(payload, `entities.${EntityConfiguration.normalizrKey}`)
@@ -134,12 +132,12 @@ export class QueryRuntimeHelpersBuilder {
             if (pageIndex === totalPages - 1) { // done
               resolve(pageResult)
             } else { // not done yet, loop
-              handleQueryPage(pageResult, currentIndex + 1, pageIndex + 1)
+              handleResultsPage(pageResult, currentIndex + 1, pageIndex + 1)
             }
           }).catch(e => reject(e)) // any page error must terminate the promise
       }
       // start resolving first page
-      handleQueryPage(initialValue, 0, 0)
+      handleResultsPage(initialValue, 0, 0)
     })
   }
 }

@@ -59,11 +59,11 @@ class ActionsMenuCell extends React.Component {
     return (
       <div style={styles.actionsMenuCellWrapper}>
         {map(children, (child, index) => (
-          <MediaQuery key={index} query={`(min-width: ${breakpoints[index]}px)`}>
+          <MediaQuery key={index} minWidth={breakpoints[index]}>
             {child}
           </MediaQuery>
         ))}
-        <MediaQuery query={`(max-width: ${maxBreakpoint}px)`}>
+        <MediaQuery maxWidth={maxBreakpoint}>
           <IconMenu
             open={open}
             iconButtonElement={
@@ -84,7 +84,7 @@ class ActionsMenuCell extends React.Component {
           >
             <div style={styles.actionsMenuCellPopupWrapper}>
               {map(children, (child, index) => (
-                <MediaQuery key={index} query={`(max-width: ${breakpoints[index] - 1}px)`}>
+                <MediaQuery key={index} maxWidth={breakpoints[index] - 1}>
                   {child}
                 </MediaQuery>
               ))}

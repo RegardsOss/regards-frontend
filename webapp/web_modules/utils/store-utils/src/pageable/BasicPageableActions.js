@@ -16,9 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { RSAA } from 'redux-api-middleware'
 import BasicListActions from '../list/BasicListActions'
-
-const { CALL_API } = require('redux-api-middleware')
 /**
  *  Provide actions for a specific type of entity pageable list
  *
@@ -76,7 +75,7 @@ class BasicPageableActions extends BasicListActions {
     // Compute the endpoint URI
     const endpoint = this.getRequestEndpoint(pageNumber, size, pathParams, queryParams)
     return {
-      [CALL_API]: {
+      [RSAA]: {
         types: [
           this.ENTITY_LIST_REQUEST,
           this.buildSuccessAction(
@@ -88,6 +87,27 @@ class BasicPageableActions extends BasicListActions {
         endpoint,
         headers: this.headers,
         method: 'GET',
+      },
+    }
+  }
+
+  fetchPagedEntityListByPost(pageNumber, size, pathParams, bodyParams) {
+    // Compute the endpoint URI
+    const endpoint = this.getRequestEndpoint(pageNumber, size, pathParams, {})
+    return {
+      [RSAA]: {
+        types: [
+          this.ENTITY_LIST_REQUEST,
+          this.buildSuccessAction(
+            this.ENTITY_LIST_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesPagePayload(json)),
+          ),
+          this.buildFailureAction(this.ENTITY_LIST_FAILURE),
+        ],
+        endpoint,
+        headers: this.headers,
+        method: 'POST',
+        body: JSON.stringify(bodyParams),
       },
     }
   }

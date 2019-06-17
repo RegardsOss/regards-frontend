@@ -20,6 +20,14 @@ import isNaN from 'lodash/isNaN'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
+const DATE_OPTIONS = {
+  timeZone: 'utc',
+}
+
+const TIME_OPTIONS = {
+  timeZone: 'utc',
+}
+
 /**
  * Formats a date using intl and date text
  * @param {formatMessage: function, formatDate: function, formatTime: function} intl intl context, with formatMessage,
@@ -34,8 +42,8 @@ export const getFormattedDate = ({ formatMessage, formatDate, formatTime }, date
   const dateWrapper = new Date(dateText)
   if (!isNaN(dateWrapper.getDate())) {
     return formatMessage({ id: 'value.render.date.value' }, {
-      date: formatDate(dateWrapper),
-      time: formatTime(dateWrapper),
+      date: formatDate(dateWrapper, DATE_OPTIONS),
+      time: formatTime(dateWrapper, TIME_OPTIONS),
     })
   }
   return null

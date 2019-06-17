@@ -20,9 +20,10 @@
 /**
  * Styles for plugin
  * @param theme Material UI theme, can be used to computed dynamic style values from current theme (automatically updated)
+ * @author <%= author %>
  */
-const pluginStyles = theme => ({
-  // service styles
-})
-
-export default pluginStyles
+export default function buildServiceStyles(theme) {
+  return {
+    // TODO service styles or delete file
+  }
+}

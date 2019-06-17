@@ -15,69 +15,101 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { CatalogDomain } from '@regardsoss/domain'
+import { modulesManager } from '@regardsoss/modules'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { Tag } from '../../src/models/navigation/Tag'
-import { ModuleContainer } from '../../src/containers/ModuleContainer'
-import URLManagementContainer from '../../src/containers/user/URLManagementContainer'
+import { AccessDomain } from '@regardsoss/domain'
 import ModuleComponent from '../../src/components/user/ModuleComponent'
-import styles from '../../src/styles/styles'
-import { DISPLAY_MODE_ENUM } from '../../src/definitions/DisplayModeEnum'
+import ContextManager from '../../src/containers/user/context/ContextManager'
+import { ModuleContainer } from '../../src/containers/ModuleContainer'
+import styles from '../../src/styles'
+import { attributes } from '../dumps/attributes.dump'
+import { configuration as dataConfiguration } from '../dumps/data.configuration.dump'
+import { configuration as documentConfiguration } from '../dumps/documents.configuration.dump'
 
 const context = buildTestContext(styles)
 
-describe('[Search Results] Testing ModuleContainer', () => {
+/**
+ * Test ModuleContainer
+ * @author Raphaël Mechali
+ */
+describe('[SEARCH RESULTS] Testing ModuleContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
     assert.isDefined(ModuleContainer)
   })
-  it('should render correctly when in standalone mode', () => {
+  const testCases = [{
+    label: 'while loading',
+    moduleConf: dataConfiguration,
+    attributeModels: {},
+    fetchingAttributes: true,
+  }, {
+    label: 'with data configuration',
+    moduleConf: dataConfiguration,
+    attributeModels: attributes,
+    fetchingAttributes: false,
+  }, {
+    label: 'with documents configuration',
+    moduleConf: documentConfiguration,
+    attributeModels: attributes,
+    fetchingAttributes: false,
+  }]
+  testCases.forEach(({
+    label, moduleConf, attributeModels, fetchingAttributes,
+  }) => it(`should render correctly ${label}`, () => {
     const props = {
-      appName: 'any',
-      project: 'any',
-      type: 'any',
-      attributeModels: {},
-      moduleConf: {
-        enableFacettes: true,
-        enableDownload: true,
-        displayMode: DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT,
-        searchQuery: '',
-        attributes: [],
-        attributesRegroupements: [],
+      appName: 'app',
+      project: 'projet',
+      id: 1,
+      type: modulesManager.VisibleModuleTypes.SEARCH_RESULTS,
+      description: 'Any',
+      active: true,
+      container: 'any',
+      page: {
+        home: true,
+        iconType: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT,
+        customIconURL: null,
+        title: {
+          en: 'Results test',
+          fr: 'Test des résultats',
+        },
       },
+      moduleConf,
+      fetchingAttributes,
+      attributeModels: attributes,
     }
     const enzymeWrapper = shallow(<ModuleContainer {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(ModuleComponent), 1, 'The view should be rendered')
-    const urlManagementWrapper = enzymeWrapper.find(URLManagementContainer)
-    assert.lengthOf(urlManagementWrapper, 1, 'URL management container should be installed')
-    assert.isFalse(urlManagementWrapper.props().isExternallyDriven, 'Module should detect standalone mode (no initial tag and no search query)')
-  })
-  it('should render correctly when externally driven', () => {
-    const props = {
-      appName: 'any',
-      project: 'any',
-      type: 'any',
-      attributeModels: {},
-      moduleConf: {
-        enableFacettes: true,
-        enableDownload: true,
-        displayMode: DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT,
-        searchQuery: '',
-        attributes: [],
-        attributesRegroupements: [],
-        initialContextTags: [new Tag(CatalogDomain.TagTypes.WORD, 'papa\'s skyline', 'papa\'s skyline')],
-      },
+    if (fetchingAttributes) {
+      // A - Check there is nothing displayed when fetching
+      assert.lengthOf(enzymeWrapper.find(ContextManager), 0, 'There should not be the context manager')
+      assert.lengthOf(enzymeWrapper.find(ModuleComponent), 0, 'There should not be the module component')
+    } else {
+      // B - Check both context manager and module component are rendered with the right properties
+      const contextManager = enzymeWrapper.find(ContextManager)
+      assert.lengthOf(contextManager, 1, 'There should be the context manager')
+      testSuiteHelpers.assertWrapperProperties(contextManager, {
+        moduleId: props.id,
+        configuration: moduleConf,
+        attributeModels,
+      }, 'Context manager properties should be correctly set')
+      // search for module component in context manager children (HOC)
+      const moduleComponent = contextManager.find(ModuleComponent)
+      assert.lengthOf(moduleComponent, 1, 'There shoud be the module component')
+      testSuiteHelpers.assertWrapperProperties(moduleComponent, {
+        id: props.id,
+        appName: props.appName,
+        project: props.project,
+        type: props.type,
+        moduleConf,
+        description: props.description,
+        active: props.active,
+        container: props.container,
+        page: props.page,
+      }, 'Module component properties should be correctly set')
     }
-    const enzymeWrapper = shallow(<ModuleContainer {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(ModuleComponent), 1, 'The view should be rendered')
-    const urlManagementWrapper = enzymeWrapper.find(URLManagementContainer)
-    assert.lengthOf(urlManagementWrapper, 1, 'URL management container should be installed')
-    assert.isTrue(urlManagementWrapper.props().isExternallyDriven, 'Module should detect standalone mode (no initial tag and no search query)')
-    assert.equal(urlManagementWrapper.props().initialContextTags, props.moduleConf.initialContextTags, 'Initial context tags should be correctly reported to the URL management wrapper')
-  })
+  }))
 })

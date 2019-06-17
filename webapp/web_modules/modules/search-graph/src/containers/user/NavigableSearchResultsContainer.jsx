@@ -16,13 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEqual from 'lodash/isEqual'
+import { UIDomain, CatalogDomain } from '@regardsoss/domain'
+import { AccessShapes, CatalogShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { UIClient } from '@regardsoss/client'
-import { TagTypes } from '@regardsoss/domain/catalog'
-import { AccessShapes, CatalogShapes } from '@regardsoss/shape'
-import { i18nContextType } from '@regardsoss/i18n'
+import { i18nContextType, i18nSelectors } from '@regardsoss/i18n'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
+import { resultsContextActions } from '../../clients/ResultsContextClient'
 import graphContextSelectors from '../../model/graph/GraphContextSelectors'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 
@@ -30,8 +32,9 @@ import ModuleConfiguration from '../../model/ModuleConfiguration'
 const moduleExpandedStateActions = new UIClient.ModuleExpandedStateActions()
 
 /**
-* Navigable search results container: connect results to current search tag in graph (dataset or tag)
-*/
+ * Navigable search results container: connect results to current search tag in graph (dataset or tag)
+ * @author Raphaël Mechali
+ */
 export class NavigableSearchResultsContainer extends React.Component {
   /**
    * Redux: map state to props function
@@ -41,6 +44,7 @@ export class NavigableSearchResultsContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
+      locale: i18nSelectors.getLocale(state),
       searchTag: graphContextSelectors.getSearchTag(state),
     }
   }
@@ -57,6 +61,7 @@ export class NavigableSearchResultsContainer extends React.Component {
     return {
       dispatchExpandResults: () => dispatch(moduleExpandedStateActions.setNormal(searchResultsPaneKey)),
       dispatchCollapseGraph: () => dispatch(moduleExpandedStateActions.setMinimized(searchGraphPaneKey)),
+      dispatchUpdateResultsContext: stateDiff => dispatch(resultsContextActions.updateResultsContext(id, stateDiff)),
     }
   }
 
@@ -67,28 +72,19 @@ export class NavigableSearchResultsContainer extends React.Component {
     moduleConf: ModuleConfiguration.isRequired,
     // from mapStateToProps
     searchTag: CatalogShapes.Tag,
+    locale: PropTypes.string, // used only in onPropertiesUpdated to update the module title
     // from map dispatch to props
     dispatchExpandResults: PropTypes.func.isRequired,
     dispatchCollapseGraph: PropTypes.func.isRequired,
+    dispatchUpdateResultsContext: PropTypes.func.isRequired,
+  }
+
+  static DEFAULT_PROPS = {
+    locale: UIDomain.LOCALES_ENUM.en,
   }
 
   static contextTypes = {
     ...i18nContextType,
-  }
-
-  /**
-   * Returns initial context tags fro driven search results component
-   * @param {*} tag search graph current tag
-   */
-  static getInitialContextTags(tag) {
-    if (!tag) {
-      return []
-    }
-    return [{
-      type: tag.type,
-      label: tag.type === TagTypes.WORD ? tag.data : tag.data.content.label,
-      searchKey: tag.type === TagTypes.WORD ? tag.data : tag.data.content.id,
-    }]
   }
 
   /**
@@ -108,54 +104,78 @@ export class NavigableSearchResultsContainer extends React.Component {
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
-    const { searchTag } = oldProps
     const {
-      searchTag: newSearchTag, appName, moduleConf,
+      id, appName, moduleConf, searchTag, locale,
       dispatchExpandResults, dispatchCollapseGraph,
+      dispatchUpdateResultsContext,
     } = newProps
+    const { intl: { formatMessage } } = this.context
 
-    // compute tag related data
-    const initialContextTags = NavigableSearchResultsContainer.getInitialContextTags(newSearchTag)
-    // store new results module configuration in state
-    const resultsConfiguration = {
-      type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
-      active: true,
-      applicationId: appName,
-      id: newProps.id,
-      // should force opening the results module (on tag selection)
-      conf: {
-        ...moduleConf.searchResult, // results re use a part of this module configuration
-        // configure query dataset context if any
-        initialContextTags,
-      },
+    // When any property used in module configuration changes, store new module configuration in state
+    if (!isEqual(oldProps.id, id)
+    || !isEqual(oldProps.appName, appName)
+    || !isEqual(oldProps.moduleConf, moduleConf)
+    || !isEqual(oldProps.searchTag, searchTag)
+    || !isEqual(oldProps.locale, locale)) {
+      this.setState({
+        // results module configuration
+        resultsConfiguration: {
+          applicationId: appName,
+          id,
+          type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
+          active: true,
+          // set default title (used only when there is no root tag)
+          description: formatMessage({ id: 'search.graph.results.title.without.tag' }),
+          conf: moduleConf.searchResult,
+        },
+      }, () => {
+        // after updating state:
+        if (!isEqual(oldProps.searchTag, searchTag)) {
+          // 1 - set context tags in driven results context
+          // 1.a - build the new tag, when there is one
+          let newResultsTag = null
+          if (searchTag) {
+            const label = searchTag.type === CatalogDomain.TAG_TYPES_ENUM.WORD ? searchTag.data : searchTag.data.content.label
+            const searchKey = searchTag.type === CatalogDomain.TAG_TYPES_ENUM.WORD ? searchTag.data : searchTag.data.content.id
+            newResultsTag = {
+              type: searchTag.type,
+              label,
+              searchKey,
+              requestParameters: {
+                // restrict using q tag param
+                [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
+                  new CatalogDomain.OpenSearchQueryParameter(
+                    CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, searchKey).toQueryString(),
+              },
+            }
+          }
+          // 1.b - update context tags list (as it controlled by this container only, we replace it)
+          dispatchUpdateResultsContext({
+            criteria: {
+              contextTags: newResultsTag ? [newResultsTag] : [],
+              tags: [], // reset user tags list when changing context
+            },
+          })
+          // 2 - When tag exists (ie it was not cleared), attempt graph collapsing and results opening
+          if (searchTag) {
+            dispatchExpandResults()
+            dispatchCollapseGraph()
+          }
+        }
+      })
     }
-
-    this.setState({ resultsConfiguration }, () => {
-      // after updating state, expand results and close graph when the user selects a new tag
-      if (searchTag !== newSearchTag && newSearchTag) {
-        dispatchExpandResults()
-        dispatchCollapseGraph()
-      }
-    })
   }
 
   render() {
     const { project, appName } = this.props
     const { resultsConfiguration } = this.state
-    const { intl: { formatMessage } } = this.context
-
-    const configurationWithI18N = {
-      ...resultsConfiguration,
-      // module description: configure only when there is no initial context tag (root label should be tag otherwise)
-      description: resultsConfiguration.conf.initialContextTags.length ? null : formatMessage({ id: 'search.graph.results.title.without.tag' }),
-    }
     return (
       <React.Fragment>
         <HorizontalAreasSeparator />
         <LazyModuleComponent
           project={project}
           appName={appName}
-          module={configurationWithI18N}
+          module={resultsConfiguration}
         />
       </React.Fragment>
     )

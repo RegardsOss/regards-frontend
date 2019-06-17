@@ -21,7 +21,7 @@ import keys from 'lodash/keys'
 import MessagesFr from '../../src/i18n/messages.fr.i18n'
 import MessagesEn from '../../src/i18n/messages.en.i18n'
 
-describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing i18n', () => {
+describe('[Two numerical criteria] Testing i18n', () => {
   it('should exist', () => {
     assert.isNotNull(MessagesFr)
     assert.isNotNull(MessagesEn)

@@ -18,7 +18,6 @@
  **/
 import isNaN from 'lodash/isNaN'
 import isNumber from 'lodash/isNumber'
-import trim from 'lodash/trim'
 import { EnumNumericalComparator } from '@regardsoss/domain/common'
 
 
@@ -69,40 +68,8 @@ class NumberRange {
   }
 }
 
-/** Regular expression to match an open search number range like [(N|*) TO (N|*)], stores group 1 and 2 */
-const rangeParsingRegepx = /\[(.*)TO(.*)\]/i
-
 /** Open search number escaping character */
 const OPEN_SEARCH_NUMBER_ESCAPING = '\\'
-
-/**
- * Converts text into number
- * @param {string} openSearchNumberText number text as specified in open search
- * @return {number} parsed number value (maybe NaN)
- */
-function toNumberValue(openSearchNumberText) {
-  const trimed = trim(openSearchNumberText)
-  const numberText = trimed.startsWith(OPEN_SEARCH_NUMBER_ESCAPING)
-    ? trimed.slice(1) : trimed
-  return parseFloat(numberText)
-}
-
-/**
- * Parses the open search text as a range (where Number.POSITIVE_INFINITY and Number.NEGATIVE_INFINITY can be set). Range maybe holding a single value
- * @param {string} openSearchQueryText open search query text (wihtout parameter name) like "-29.07" or [* TO 22.06]
- * @return {NumberRange} parsed NumberRange, never null
- */
-function parseRange(openSearchQueryText = '') {
-  // is it a range?
-  const matchedRangeParameters = openSearchQueryText.match(rangeParsingRegepx)
-  if (matchedRangeParameters && matchedRangeParameters.length) {
-    // range found, parse each bound OR default it to infinity
-    return new NumberRange(toNumberValue(matchedRangeParameters[1]), toNumberValue(matchedRangeParameters[2]))
-  }
-  // otherwise: parse single number or default range to  full infinite range
-  const singleValue = toNumberValue(openSearchQueryText) // use undefined to default bound
-  return new NumberRange(singleValue, singleValue)
-}
 
 /** Marks an infinite bound in open search */
 const INFINITE_BOUND_TAG = '*'
@@ -167,5 +134,4 @@ export default {
   isValidNumber,
   getNumberAttributeQueryPart,
   NumberRange,
-  parseRange,
 }

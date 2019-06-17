@@ -43,7 +43,7 @@ class NotificationIcon extends React.Component {
     const { style, notification } = this.props
 
     const { moduleTheme: { notifications: { levelIcon } } } = this.context
-    switch (notification && notification.type) {
+    switch (notification && notification.level) {
       case 'INFO':
         return <Avatar backgroundColor={levelIcon.infoColor} color={levelIcon.color} icon={<Info />} style={style} />
       case 'ERROR':

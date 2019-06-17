@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AccessShapes } from '@regardsoss/shape'
-import Dialog from 'material-ui/Dialog'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import Container from './Container'
 import ContainerConfigurationProvider from './ContainerConfigurationProvider'
@@ -118,9 +117,6 @@ class LayoutConfigurationComponent extends React.Component {
 
 
   render() {
-    const { intl } = this.context
-    const dialogTitle = intl.formatMessage({ id: 'container.configuration.edit.dialog.title' })
-
     return (
       <div>
         <Container
@@ -131,20 +127,14 @@ class LayoutConfigurationComponent extends React.Component {
           configurationMode
           mainContainer
         />
-        <Dialog
-          title={dialogTitle}
-          modal={false}
+        <ContainerConfigurationProvider
+          key={this.state.containerToEdit ? this.state.containerToEdit.id : 'create'}
+          container={this.state.containerToEdit}
+          hideDynamicContentOption={this.props.hideDynamicContentOption}
           open={this.state.editorOpened}
-          onRequestClose={this.handleClose}
-        >
-          <ContainerConfigurationProvider
-            key={this.state.containerToEdit ? this.state.containerToEdit.id : 'create'}
-            container={this.state.containerToEdit}
-            hideDynamicContentOption={this.props.hideDynamicContentOption}
-            onCancel={this.handleClose}
-            onSubmit={this.state.containerToEdit ? this.onUpdate : this.onCreate}
-          />
-        </Dialog>
+          onCancel={this.handleClose}
+          onSubmit={this.state.containerToEdit ? this.onUpdate : this.onCreate}
+        />
       </div>
     )
   }

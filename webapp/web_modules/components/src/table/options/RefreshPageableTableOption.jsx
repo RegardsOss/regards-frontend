@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
+import { CommonShapes } from '@regardsoss/shape'
 import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-utils'
 import { DEFAULT_PAGE_SIZE } from '../InfiniteTableContainer'
 import RefreshButtonComponent from './RefreshButtonComponent'
@@ -76,10 +77,8 @@ export class RefreshPageableTableOption extends React.Component {
     shouldRefetchAll: PropTypes.bool,
     // page size, uses default page size when not provided
     pageSize: PropTypes.number,
-    // eslint-disable-next-line react/forbid-prop-types
-    pathParams: PropTypes.object, // used in mapDispatchToProps, used as a map by fetch method
-    // eslint-disable-next-line react/forbid-prop-types
-    requestParams: PropTypes.object, // used in mapDispatchToProps, used as a map by fetch method
+    pathParams: CommonShapes.RequestParameters,
+    requestParams: CommonShapes.RequestParameters,
     // eslint-disable-next-line react/no-unused-prop-types
     pageableTableActions: PropTypes.instanceOf(BasicPageableActions).isRequired, // used in map state to props
     // eslint-disable-next-line react/no-unused-prop-types

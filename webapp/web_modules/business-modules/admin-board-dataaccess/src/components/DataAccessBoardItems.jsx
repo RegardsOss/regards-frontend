@@ -18,16 +18,18 @@
  **/
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
+import DeleteIcon from 'material-ui/svg-icons/action/delete'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { servicesManagementDependencies } from '@regardsoss/admin-dataaccess-services-management'
-import { listDependencies as GroupEditDep, addDependencies as GroupAddDep } from '@regardsoss/admin-accessright-accessgroup-management/src/dependencies'
-
+import { accessGroupDependencies } from '@regardsoss/admin-accessright-accessgroup-management'
+import { indexActions, RESET_INDEX_ACTION } from '../clients/IndexClient'
 
 /**
  * BoardItems configuration for data access module
  * @param projectName
  * @param intl
  */
-const items = (projectName, intl) => [
+const items = (projectName, intl, onResetIndex) => [
   {
     title: intl.formatMessage({ id: 'dataaccess.board.searchengines.title' }),
     description: intl.formatMessage({ id: 'dataaccess.board.searchengines.description' }),
@@ -75,13 +77,28 @@ const items = (projectName, intl) => [
       icon: <ViewLinesIcon />,
       className: 'selenium-accessgroupList',
       tooltipMsg: intl.formatMessage({ id: 'accessright.board.tooltip.list' }),
-      hateoasDependencies: GroupEditDep,
+      hateoasDependencies: accessGroupDependencies.listDependencies,
     }, {
       path: `/admin/${projectName}/dataaccess/access-group/create`,
       icon: <AddIcon />,
       className: 'selenium-accessgroupCreate',
       tooltipMsg: intl.formatMessage({ id: 'accessright.board.tooltip.add' }),
-      hateoasDependencies: GroupAddDep,
+      hateoasDependencies: accessGroupDependencies.addDependencies,
+    }],
+  },
+  {
+    title: intl.formatMessage({ id: 'accessright.board.index.title' }),
+    description: intl.formatMessage({ id: 'accessright.board.index.description' }),
+    advanced: false,
+    actions: [{
+      icon: <DeleteIcon />,
+      tooltipMsg: intl.formatMessage({ id: 'accessright.board.index.delete' }),
+      confirmMessage: intl.formatMessage({ id: 'accessright.board.index.delete.confirm' }),
+      errorMessage: intl.formatMessage({ id: 'accessright.board.index.delete.error.message' }),
+      touchTapAction: onResetIndex,
+      hateoasDependencies: [
+        indexActions.getSubAction(RESET_INDEX_ACTION).getDependency(RequestVerbEnum.DELETE),
+      ],
     }],
   },
 ]

@@ -3,10 +3,13 @@
   "description": "Criteria widget to send an opensearch full-text request",
   "version": "1.0.0",
   "author": "Binda sebastien",
-  "company": "CS-SI",
-  "email": "sebastien.binda@c-s.fr",
+  "company": "CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
+  "email": "regards@c-s.fr",
   "url": "http://www.cnes.fr",
-  "license": "GPL V2",
+  "license": "GPLv3",
   "type": "CRITERIA",
   "conf": {
     "attributes": []

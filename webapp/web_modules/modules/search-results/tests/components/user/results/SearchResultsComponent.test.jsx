@@ -18,145 +18,161 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { TableLayout } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { PageableInfiniteTableContainer } from '@regardsoss/components'
-import { AccessDomain, DamDomain } from '@regardsoss/domain'
-import { searchDataobjectsActions, searchDatasetsActions, selectors as searchSelectors } from '../../../../src/clients/SearchEntitiesClient'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
+import { UIClient } from '@regardsoss/client'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
-import Styles from '../../../../src/styles/styles'
-import { TableDisplayModeEnum } from '../../../../src/models/navigation/TableDisplayModeEnum'
-import { DISPLAY_MODE_ENUM } from '../../../../src/definitions/DisplayModeEnum'
+import OptionsHeaderRowComponent from '../../../../src/components/user/results/header/OptionsHeaderRowComponent'
+import ResultFacetsHeaderRowContainer from '../../../../src/containers/user/results/header/ResultFacetsHeaderRowContainer'
+import ApplyingCriteriaHeaderRowContainer from '../../../../src/containers/user/results/header/ApplyingCriteriaHeaderRowContainer'
+import TableViewContainer from '../../../../src/containers/user/results/table/TableViewContainer'
+import ListViewContainer from '../../../../src/containers/user/results/list/ListViewContainer'
+import QuicklooksViewContainer from '../../../../src/containers/user/results/quickooks/QuicklooksViewContainer'
+import MapViewContainer from '../../../../src/containers/user/results/map/MapViewContainer'
+import styles from '../../../../src/styles'
+import { dataContext } from '../../../dumps/data.context.dump'
+import { documentsContext } from '../../../dumps/documents.context.dump'
+import { searchDataobjectsActions } from '../../../../src/clients/SearchEntitiesClient'
 
+const context = buildTestContext(styles)
 
 /**
- * Tests for SearchResultsComponent
- * @author Sébastien binda
+ * Test SearchResultsComponent
+ * @author Raphaël Mechali
  */
-describe('[Search Results] Testing SearchResultsComponent', () => {
+describe('[SEARCH RESULTS] Testing SearchResultsComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
-  const options = { context: buildTestContext(Styles) }
 
-  const commonProperties = {
-    isFetching: false,
-    allowingFacettes: true,
-    enableDownload: false,
-    enableQuicklooks: false,
-    displayMode: DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET,
-    displayConf: {},
-
-    showingFacettes: true,
-    selectedFacets: [],
-    resultsCount: 45,
-    searchSelectors,
-
-    presentationModels: [],
-    facets: [],
-    searchQuery: '',
-
-    projectName: 'project1',
-    accessToken: 'abcdef....',
-
-    displayOnlyQuicklook: false,
-
-    selectionServices: [],
-    // control
-    onConfigureColumns: () => { },
-    onResetColumns: () => { },
-    onSetEntityAsTag: () => { },
-    onSelectFacet: () => { },
-    onUnselectFacet: () => { },
-    onShowDatasets: () => { },
-    onShowDataobjects: () => { },
-    onShowListView: () => { },
-    onShowTableView: () => { },
-    onShowQuicklookView: () => { },
-    onSortByAttribute: () => { },
-    onToggleShowFacettes: () => { },
-    onToggleDisplayOnlyQuicklook: () => { },
-    // from PluginServicesContainer HOC
-    onStartSelectionService: null,
-    // from OrderCartContainer HOC
-    onAddSelectionToCart: null, // callback to add selection to cart, null when disabled
-    onAddElementToCart: null, // callback to add element
-
-    onShowDescription: () => { },
-    isDescAvailableFor: () => true,
-
-  }
-
-  // define the test cases
+  it('should exists', () => {
+    assert.isDefined(SearchResultsComponent)
+  })
+  // prepare test cases
   const testCases = [{
-    caseLabel: 'Should render correctly',
-    caseProperties: {
-      isFetching: true,
-      viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      searchActions: searchDataobjectsActions,
-      tableViewMode: TableDisplayModeEnum.LIST,
-    },
+    label: 'data and datasets',
+    resultsContext: dataContext,
+    testViews: [{
+      type: DamDomain.ENTITY_TYPES_ENUM.DATA,
+      modes: [
+        UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
+        UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
+        UIDomain.RESULTS_VIEW_MODES_ENUM.MAP,
+        UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
+      ],
+    }, {
+      type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+      modes: [
+        UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
+        UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
+      ],
+    }],
   }, {
-    caseLabel: 'Should render dataobjects in list mode',
-    caseProperties: {
-      viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      searchActions: searchDataobjectsActions,
-      tableViewMode: TableDisplayModeEnum.LIST,
-    },
-  }, {
-    caseLabel: 'Should render dataobjects in table mode',
-    caseProperties: {
-      viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      searchActions: searchDataobjectsActions,
-      tableViewMode: TableDisplayModeEnum.TABLE,
-    },
-  }, {
-    caseLabel: 'Should render datasets in list mode',
-    caseProperties: {
-      viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-      searchActions: searchDatasetsActions,
-      tableViewMode: TableDisplayModeEnum.LIST,
-    },
-  }, {
-    caseLabel: 'Should render datasets in list mode',
-    caseProperties: {
-      viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-      searchActions: searchDatasetsActions,
-      tableViewMode: TableDisplayModeEnum.TABLE,
-    },
+    label: 'documents',
+    resultsContext: documentsContext,
+    testViews: [{
+      type: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
+      modes: [
+        UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
+        UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
+      ],
+    }],
   }]
 
-  // run them
-  testCases.forEach(({ caseLabel, caseProperties }) => it(caseLabel, () => {
-    const props = { ...commonProperties, ...caseProperties }
-    const wrapper = shallow(<SearchResultsComponent {...props} />, options)
-    assert.lengthOf(wrapper.find(PageableInfiniteTableContainer), 1, 'There should be a TableContainer rendered')
-  }))
+  testCases.forEach(({ label, resultsContext, testViews }) => it(`should render correctly in ${label} context, for each possible view type and mode`,
+    () => {
+      const props = {
+        moduleId: 1,
+        resultsContext,
+        requestParameters: {},
+        searchActions: searchDataobjectsActions,
+        onShowDescription: () => {},
+        isDescAvailableFor: () => true,
+        onAddElementToCart: () => {},
+        onAddSelectionToCart: () => {},
+        selectionServices: [],
+        onStartSelectionService: () => {},
+        accessToken: 'mememe',
+        projectName: 'DaProject',
+        onSearchEntity: () => {},
+      }
+      const enzymeWrapper = shallow(<SearchResultsComponent {...props} />, { context })
+      // 1- check common components
+      assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'There should be the table layout')
+      const optionsHeaderRow = enzymeWrapper.find(OptionsHeaderRowComponent)
+      assert.lengthOf(optionsHeaderRow, 1, 'There should be options header row')
+      testSuiteHelpers.assertWrapperProperties(optionsHeaderRow, {
+        moduleId: props.moduleId,
+        resultsContext: props.resultsContext,
+        selectionServices: props.selectionServices,
+        onStartSelectionService: props.onStartSelectionService,
+        onAddSelectionToCart: props.onAddSelectionToCart,
+      }, 'Options header row properties should be correctly set')
+      const resultsFacetHeaderRow = enzymeWrapper.find(ResultFacetsHeaderRowContainer)
+      assert.lengthOf(resultsFacetHeaderRow, 1, 'There should be results facets header row')
+      testSuiteHelpers.assertWrapperProperties(resultsFacetHeaderRow, {
+        moduleId: props.moduleId,
+        resultsContext: props.resultsContext,
+      }, 'Options header row properties should be correctly set')
+      const applyingCriteriaHeaderRow = enzymeWrapper.find(ApplyingCriteriaHeaderRowContainer)
+      assert.lengthOf(resultsFacetHeaderRow, 1, 'There should be applying criteria header row')
+      testSuiteHelpers.assertWrapperProperties(applyingCriteriaHeaderRow, {
+        moduleId: props.moduleId,
+        resultsContext: props.resultsContext,
+      }, 'Options header row properties should be correctly set')
 
-  it('should render selection services, independently of view modes and types', () => {
-    const props = {
-      ...commonProperties,
-      ...testCases[1].caseProperties,
-      selectionServices: [{
-        content: {
-          configId: 0,
-          label: 'ui-service-0',
-          icon: null,
-          applicationModes: [AccessDomain.applicationModes.ONE],
-          entityTypes: [DamDomain.ENTITY_TYPES_ENUM.DATA],
-          type: AccessDomain.pluginTypes.UI,
-        },
-      }, {
-        content: {
-          configId: 0,
-          label: 'catalog-service-0',
-          icon: 'http://my-little-poney/ponatator.gif',
-          applicationModes: [AccessDomain.applicationModes.ONE],
-          entityTypes: [DamDomain.ENTITY_TYPES_ENUM.DATA],
-          type: AccessDomain.pluginTypes.CATALOG,
-        },
-      }],
-    }
-    shallow(<SearchResultsComponent {...props} />, options)
-    // note: it would be very long here to count services as their component are in table properties,
-    // and therefore not in an enzyme wrapper
-  })
+      // 2 - Change modes and check the results component is correctly displayed
+      testViews.forEach(({ type, modes }) => modes.forEach((mode) => {
+        enzymeWrapper.setProps({
+          ...props,
+          // create here a context with expected type and mode selected
+          resultsContext: UIClient.ResultsContextHelper.mergeDeep(resultsContext, {
+            type, // select type
+            typeState: {
+              [type]: { mode }, // select mode in type
+            },
+          }),
+        })
+        switch (mode) {
+          case UIDomain.RESULTS_VIEW_MODES_ENUM.LIST:
+            {
+              const listViewContainer = enzymeWrapper.find(ListViewContainer)
+              assert.lengthOf(listViewContainer, 1, 'There should be the list container')
+              assert.lengthOf(enzymeWrapper.find(TableViewContainer), 0, 'There should not be the table container')
+              assert.lengthOf(enzymeWrapper.find(QuicklooksViewContainer), 0, 'There should not be the quicklook container')
+              assert.lengthOf(enzymeWrapper.find(MapViewContainer), 0, 'There should not be the map container')
+            }
+            break
+          case UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE:
+            {
+              const tableViewContainer = enzymeWrapper.find(TableViewContainer)
+              assert.lengthOf(tableViewContainer, 1, 'There should be the table container')
+              assert.lengthOf(enzymeWrapper.find(ListViewContainer), 0, 'There should not be the list container')
+              assert.lengthOf(enzymeWrapper.find(QuicklooksViewContainer), 0, 'There should not be the quicklooks container')
+              assert.lengthOf(enzymeWrapper.find(MapViewContainer), 0, 'There should not be the map container')
+            }
+            break
+          case UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK:
+            {
+              const quicklooksViewContainer = enzymeWrapper.find(QuicklooksViewContainer)
+              assert.lengthOf(quicklooksViewContainer, 1, 'There should be the quicklooks container')
+              assert.lengthOf(enzymeWrapper.find(ListViewContainer), 0, 'There should not be the list container')
+              assert.lengthOf(enzymeWrapper.find(TableViewContainer), 0, 'There should not be the table container')
+              assert.lengthOf(enzymeWrapper.find(MapViewContainer), 0, 'There should not be the map container')
+            }
+            break
+          case UIDomain.RESULTS_VIEW_MODES_ENUM.MAP:
+            {
+              const mapViewContainer = enzymeWrapper.find(MapViewContainer)
+              assert.lengthOf(mapViewContainer, 1, 'There should be the map container')
+              assert.lengthOf(enzymeWrapper.find(ListViewContainer), 0, 'There should not be the list container')
+              assert.lengthOf(enzymeWrapper.find(TableViewContainer), 0, 'There should not be the table container')
+              assert.lengthOf(enzymeWrapper.find(QuicklooksViewContainer), 0, 'There should not be the quicklooks container')
+            }
+            break
+          default:
+            throw new Error('FAIL type!')
+        }
+      }))
+    }))
 })

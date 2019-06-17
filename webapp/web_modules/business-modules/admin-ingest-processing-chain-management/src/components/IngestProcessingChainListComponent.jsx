@@ -37,13 +37,13 @@ import { tableActions } from '../clients/TableClient'
 import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
 import IngestProcessingChainTableEditAction from './IngestProcessingChainTableEditAction'
 import IngestProcessingChainTableExportAction from './IngestProcessingChainTableExportAction'
-import { addDependencies } from '../dependencies'
+import dependencies from '../dependencies'
 
 /**
  * Displays the list of configurable IngestProcessingChains.
  * @author Sébastien Binda
  */
-export class ProcessingChainListComponent extends React.Component {
+export class IngestProcessingChainListComponent extends React.Component {
   static propTypes = {
     fetchPage: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -175,7 +175,7 @@ export class ProcessingChainListComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonClick={this.props.onCreate}
-            mainHateoasDependencies={addDependencies}
+            mainHateoasDependencies={dependencies.addDependencies}
             mainButtonLabel={intl.formatMessage({ id: 'processing-chain.addnew.button' })}
             secondaryButtonLabel={intl.formatMessage({ id: 'processing-chain.back.button' })}
             secondaryButtonClick={this.props.onBack}
@@ -187,4 +187,4 @@ export class ProcessingChainListComponent extends React.Component {
   }
 }
 
-export default ProcessingChainListComponent
+export default IngestProcessingChainListComponent

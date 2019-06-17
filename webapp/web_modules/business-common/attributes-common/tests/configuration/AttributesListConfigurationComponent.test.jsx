@@ -93,7 +93,7 @@ describe('[Attributes Common] Testing AttributesListConfigurationComponent', () 
       },
       selectableAttributes: attributeModelsDictionnary,
       attributesList: [{ // first element: one existing server attribute, one none existing
-        attributes: [{ name: 'properties.attr2' }, { name: 'unexisting attribute' }],
+        attributes: [{ name: 'properties.default.attr2' }, { name: 'unexisting attribute' }],
       }, { // second element: one existing standard attribute
         attributes: [{ name: 'label' }],
       }, { // third element: all non existing attributes
@@ -102,12 +102,12 @@ describe('[Attributes Common] Testing AttributesListConfigurationComponent', () 
     }
     const enzymeWrapper = shallow(<AttributesListConfigurationComponent {...props} />, { context })
     // A - check available attributes are both selectable and standard ones (no filter), sorted alphabetically
-    assert.deepEqual(enzymeWrapper.state().attributeModels, attributeModelsArray, 'Attributes with standard models should be correctly computed')
+    assert.includeMembers(enzymeWrapper.state().attributeModels, attributeModelsArray, 'Attributes with standard models should be correctly computed')
     // B - check selected attributes have been updated to remove the unexisting attributes
     assert.deepEqual(spiedChangeField, {
       name: props.attributesListFieldName,
       value: [{
-        attributes: [{ name: 'properties.attr2' }], // unexisting element should have been filtered
+        attributes: [{ name: 'properties.default.attr2' }], // unexisting element should have been filtered
       }, {
         attributes: [{ name: 'label' }],
       }], // third element should have been removed

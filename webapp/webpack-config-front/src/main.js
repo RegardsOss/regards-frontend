@@ -81,8 +81,8 @@ class WebpackConfig {
     return this
   }
 
-  cleanFolder({ projectContextPath = DEFAULT_UNKNOW_DIR, pathToDelete = DEFAULT_UNKNOW_PATH_TO_DELETE }) {
-    this.conf = cleanFolder(this.conf, projectContextPath, pathToDelete)
+  cleanFolder() {
+    this.conf = cleanFolder(this.conf)
     return this
   }
 

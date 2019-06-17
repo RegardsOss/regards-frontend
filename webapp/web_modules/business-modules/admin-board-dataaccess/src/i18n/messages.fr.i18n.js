@@ -17,19 +17,25 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 const messages = {
-  'dataaccess.board.action.list.tooltip': 'List',
-  'dataaccess.board.action.add.tooltip': 'Add',
+  'dataaccess.board.action.list.tooltip': 'Lister',
+  'dataaccess.board.action.add.tooltip': 'Ajouter',
 
   'dataaccess.board.services.title': 'Services',
-  'dataaccess.board.services.description': 'Services applicables aux données du catalogue projet. Ces services sont accessibles au travers de l\'IHM utilisateur du projet lors de la consultation des données ou directement via des requêtes HTTP.',
+  'dataaccess.board.services.description': 'Services applicables aux données du catalogue projet. Ces services sont accessibles au travers de l\'interface utilisateur du projet lors de la consultation des données ou directement via des requêtes HTTP.',
 
   'dataaccess.board.searchengines.title': 'Protocoles de recherche',
-  'dataaccess.board.searchengines.description': 'Configuration des protocoles de recherche de données dans le catalogue projet. Le protocole \'Legacy\' est le procole spécifique à REGARDS. Les autres protocoles peuvent être configurés pour l\'interopérabilité avec d\'autre systèmes qui voudraient interroger le catalogue de données.',
+  'dataaccess.board.searchengines.description': 'Configuration des protocoles de recherche de données dans le catalogue projet. Le protocole \'Legacy\' est le protocole spécifique à REGARDS. Les autres protocoles peuvent être configurés pour l\'interopérabilité avec d\'autre systèmes qui voudraient interroger le catalogue de données.',
 
   'accessright.board.tooltip.list': 'Liste',
   'accessright.board.tooltip.add': 'Ajouter',
   'accessright.board.accessgroup.title': 'Groupes d\'accès',
   'accessright.board.accessgroup.description': 'Les groupes d\'accès permettent de limiter l\'accès aux données du catalogue à certains utilisateurs. Ils permettent également d\'affiner le niveau d\'accès en accordant l\'accès aux métadonnées ou aux données ou aux deux.',
+
+  'accessright.board.index.title': 'Catalogue des données',
+  'accessright.board.index.description': 'Cette section vous permet de gérer le catalogue des données',
+  'accessright.board.index.delete': 'Réinitialiser le catalogue',
+  'accessright.board.index.delete.confirm': 'Attention, si vous lancez la réinitialisation du catalogue de données, toutes les données seront supprimées du catalogue. Ce dernier sera alors reconstruit automatiquement par les aspirations de données configurées.',
+  'accessright.board.index.delete.error.message': 'Une erreur est survenue durant la réinitialisation du catalogue de données.',
 }
 
 export default messages

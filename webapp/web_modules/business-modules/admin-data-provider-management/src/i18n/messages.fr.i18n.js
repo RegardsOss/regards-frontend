@@ -16,9 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
+  ...DataProviderDomain.frMessages,
+  ...IngestDomain.frMessages,
   // 1. Chains list
   // 1.1 Headers
   'acquisition-chain.list.title': 'Configuration des chaînes d\'acquisition de données',
@@ -35,14 +38,14 @@ const messages = Object.assign({
   // 1.3 actions
   'acquisition-chain.list.addnew.button': 'Ajouter',
   'acquisition-chain.list.back.button': 'Retour',
-  'acquisition-chain.list.edit.tooltip': 'Editer',
+  'acquisition-chain.list.edit.tooltip': 'Éditer',
   'acquisition-chain.list.duplicate.tooltip': 'Dupliquer',
   'acquisition-chain.list.delete.confirm.title': 'Etes-vous sûr de vouloir supprimer la chaîne d\'acquisition : {label}',
 
   // 2 Chain creation/edition form
   // 2.1 Header section
   'acquisition-chain.form.create.title': 'Créer une nouvelle chaîne de d\'acquisition de données',
-  'acquisition-chain.form.edit.title': 'Edition de la chaine : {name}',
+  'acquisition-chain.form.edit.title': 'Édition de la chaine : {name}',
   'acquisition-chain.form.duplicate.title': 'Duplication de la chaîne : {name}',
   'acquisition-chain.form.informations-1': 'Une chaîne d\'acquisition de données doit, pour fonctionner, être associée aux éléments ci-dessous. Remarque : Les champs marqués (*) correspondent aux champs obligatoires.',
   'acquisition-chain.form.informations-2': '1. Informations générales de la chaîne.',
@@ -54,10 +57,9 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.label': 'Nom de la chaîne (*)',
   'acquisition-chain.form.general.section.active': 'Chaîne active',
   'acquisition-chain.form.general.generationRetryEnabled': 'Autoriser la re-génération des SIP associés à des produits en erreur.',
-  'acquisition-chain.form.general.submissionRetryEnabled': 'Autoriser la re-soumission des SIP associés à des produits en erreur.',
-  'acquisition-chain.form.general.section.periodicity': 'Période d\'activation (secondes). Seulement pour les chaînes en mode manuel.',
-  'acquisition-chain.form.general.section.session': 'Nom de session d\'acquisition',
-  'acquisition-chain.form.general.section.mode': 'Mode',
+  'acquisition-chain.form.general.section.periodicity': 'Période d\'activation (secondes). Utile uniquement pour une chaîne automatique.',
+  'acquisition-chain.form.general.section.session': 'Session (*)',
+  'acquisition-chain.form.general.section.mode': 'Mode (*)',
   'acquisition-chain.form.general.section.mode.AUTO': 'Automatique',
   'acquisition-chain.form.general.section.mode.MANUAL': 'Manuel',
   'acquisition-chain.form.general.section.ingestChain.select': 'Chaîne d\'ingestion (*)',
@@ -136,13 +138,11 @@ const messages = Object.assign({
   // 3.2 Chain jobs
   'acquisition-chain.jobs.monitor.view.button.label': 'Détails',
   'acquisition-chain.jobs.monitor.dialog.title': 'Etat d\'activité des "Jobs" associés à la chaîne d\'acquisition {label}',
-  'acquisition-chain.jobs.monitor.dialog.information.message': 'Ci-dessous sont listés les "Jobs" en cours d\'activité pour la chaîne d\'acquisition courante.',
-  'acquisition-chain.jobs.monitor.product-acquisition.job.label': '{count} "Job(s)" d\'acquisition actif(s).',
-  'acquisition-chain.jobs.monitor.product-acquisition.job.empty.label': 'Tous les "Jobs" d\'acquisition sont terminés.',
-  'acquisition-chain.jobs.monitor.generation.job.label': '{count} "Job(s)" de génération actif(s).',
+  'acquisition-chain.jobs.monitor.dialog.information.message': 'Ci-dessous sont listés les jobs en cours d\'activité pour la chaîne d\'acquisition courante.',
+  'acquisition-chain.jobs.monitor.product-acquisition.job.label': '{count} Jobs d\'acquisition actif(s).',
+  'acquisition-chain.jobs.monitor.product-acquisition.job.empty.label': 'Tous les jobs d\'acquisition sont terminés.',
+  'acquisition-chain.jobs.monitor.generation.job.label': '{count} Jobs de génération actif(s).',
   'acquisition-chain.jobs.monitor.generation.job.empty.label': 'Tous les "Jobs" de génération sont terminés.',
-  'acquisition-chain.jobs.monitor.submission.job.label': '{count} "Job(s)" de soumission actif(s).',
-  'acquisition-chain.jobs.monitor.submission.job.empty.label': 'Tous les "Jobs" de soumission sont terminés.',
 
   // 4. Products list
   // 4.1 Headers
@@ -159,27 +159,10 @@ const messages = Object.assign({
   'acquisition.product.list.filters.state': 'Etat des produits',
   'acquisition.product.list.filters.sipState': 'Etat des SIPs',
   'acquisition.product.list.filters.state.ACQUIRING': 'En cours',
-  'acquisition.product.list.filters.state.COMPLETED': 'En cours (complet)',
+  'acquisition.product.list.filters.state.COMPLETED': 'Complet',
   'acquisition.product.list.filters.state.FINISHED': 'Terminé',
+  'acquisition.product.list.filters.state.INVALID': 'Invalide',
   'acquisition.product.list.filters.state.ERROR': 'Erreur',
-  'acquisition.product.list.filters.sipState.NOT_SCHEDULED': 'En cours ... (non planifié)',
-  'acquisition.product.list.filters.sipState.SCHEDULED': 'En cours ... (planifié)',
-  'acquisition.product.list.filters.sipState.GENERATED': 'En cours ... (généré)',
-  'acquisition.product.list.filters.sipState.SUBMISSION_SCHEDULED': 'En cours ... (soumission en cours)',
-  'acquisition.product.list.filters.sipState.SUBMISSION_ERROR': 'Erreur de soumission',
-  'acquisition.product.list.filters.sipState.GENERATION_ERROR': 'Erreur de génération',
-  'acquisition.product.list.filters.sipState.CREATED': 'En cours (créé)',
-  'acquisition.product.list.filters.sipState.REJECTED': 'Refusé',
-  'acquisition.product.list.filters.sipState.QUEUED': 'En attente',
-  'acquisition.product.list.filters.sipState.VALID': 'En cours (Valide)',
-  'acquisition.product.list.filters.sipState.INVALID': 'Invalide',
-  'acquisition.product.list.filters.sipState.AIP_GEN_ERROR': 'Erreur AIP génération',
-  'acquisition.product.list.filters.sipState.AIP_CREATED': 'En cours (AIP généré)',
-  'acquisition.product.list.filters.sipState.STORED': 'Stocké',
-  'acquisition.product.list.filters.sipState.STORE_ERROR': 'Erreur de stockage',
-  'acquisition.product.list.filters.sipState.INDEXED': 'Indexé',
-  'acquisition.product.list.filters.sipState.INCOMPLETE': 'Incomplet',
-  'acquisition.product.list.filters.sipState.DELETED': 'Supprimé',
   'acquisition-product.list.filters.productName': 'Nom du produit',
   'acquisition.product.list.filters.session': 'Session d\'ingestion',
   'acquisition-chain.monitor.list.filters.no.session': 'Produits sans session',
@@ -208,9 +191,10 @@ const messages = Object.assign({
   //5.2 Filters
   'acquisition.file.list.filters.state': 'Etat',
   'acquisition.file.list.filters.state.IN_PROGRESS': 'En cours',
-  'acquisition.file.list.filters.state.VALID': 'En cours (validé)',
+  'acquisition.file.list.filters.state.VALID': 'Valide',
   'acquisition.file.list.filters.state.ACQUIRED': 'Acquis',
   'acquisition.file.list.filters.state.SUPERSEDED': 'Remplacé',
+  'acquisition.file.list.filters.state.SUPERSEDED_AFTER_ERROR': 'Remplacé après erreur',
   'acquisition.file.list.filters.state.INVALID': 'Invalide',
   'acquisition.file.list.filters.state.ERROR': 'Erreur',
   'acquisition.file.list.filters.filePath': 'Fichier',
@@ -226,7 +210,7 @@ const messages = Object.assign({
   'acquisition-product.informaton.dialog.close.button': 'Fermer',
   'acquisition-product.informaton.global.error': 'Erreur durant l\'acquisition : ',
   'acquisition-product.informaton.generation.job.title': 'Informations sur le processus de génération du produit',
-  'acquisition-product.informaton.submition.job.title': 'Information sur le processus de soumission du SIP',
+  'acquisition-product.informaton.submission.job.title': 'Information sur le processus de soumission du SIP',
   'acquisition-product.informaton.dialog.job.info.percentCompleted': 'Avancement : ',
   'acquisition-product.informaton.dialog.job.info.queuedDate': 'Date de création : ',
   'acquisition-product.informaton.dialog.job.info.startDate': 'Date de début : ',

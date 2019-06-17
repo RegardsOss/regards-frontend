@@ -34,7 +34,7 @@ class BasicSignalReducers extends BasicReducer {
       hasError: false,
       type: '',
       message: '',
-      // TODO-V3 delete me and similar in other Basic*Actions (see http://172.26.46.158:10080/regards/regards/issues/328)
+      // XXX-Later versions delete me and similar in other Basic*Actions (see http://172.26.46.158:10080/regards/regards/issues/328)
       status: 200,
     },
   }

@@ -23,7 +23,7 @@ const messages = {
   'ingest.board.title': 'Ingestion (SIP)',
   'ingest.board.description': 'Permet d\'ingérer des données qui sont déjà sous la forme de SIP. Un paquet de soumission ou SIP contient toutes les informations nécessaires pour à la fois décrire les données et définir comment accéder aux fichiers physiques associés.',
   'ingest.board.action.chain.list.tooltip': 'Configurer les chaînes d\'ingestion',
-  'ingest.board.action.monitor.tooltip': 'Visualiser les ingestion',
+  'ingest.board.action.monitor.tooltip': 'Visualiser les ingestions',
   'ingest.board.action.sumition.tooltip': 'Ingérer des SIP',
 
   'data-provider.board.title': 'Acquisition de données',

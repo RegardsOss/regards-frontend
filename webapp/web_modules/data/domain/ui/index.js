@@ -17,11 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 export { default as LocalStorageUser } from './LocalStorageUser'
-export { default as LocalStorageUserData } from './LocalStorageUserData'
+export { default as LocalStorageData } from './LocalStorageData'
 export { LOCALES_ENUM, LOCALES } from './Locales'
+export { MAP_SELECTION_MODES, MAP_SELECTION_MODES_ENUM } from './MapSelectionModeEnum'
 export { MENU_DISPLAY_MODES, MENU_DISPLAY_MODES_ENUM } from './MenuDisplayModes'
+export { MIZAR_LAYER_TYPES_ENUM, MIZAR_LAYER_TYPES } from './mizar-api/MizarLayerTypes'
 export {
   MODULE_PANE_DISPLAY_MODES_ENUM, MODULE_PANE_DISPLAY_MODES, isModulePaneExpanded, isModulePaneExpansible,
 } from './ModulePaneDisplayModes'
 export { PRESENTATION_STATE_ENUM, PRESENTATION_STATE } from './ModulePresentationState'
+export { default as ResultsContextConstants } from './ResultsContextConstants'
+export { RESULTS_VIEW_MODES_ENUM, RESULTS_VIEW_MODES } from './ResultsViewModeEnum'
 export { getAdminURL, getModuleURL, getModuleDefaultIconURL } from './URLHelper'

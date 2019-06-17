@@ -27,6 +27,11 @@ import mapValues from 'lodash/mapValues'
  * The first value will be used as default and the second will be used on button hover.
  */
 class OnHoverSwitchFlatButton extends React.Component {
+  static propTypes = {
+    label: PropTypes.arrayOf(PropTypes.string),
+    // this components also accepts all properties of FlatButton
+  }
+
   constructor(props, context) {
     super(props, context)
     this.state = {
@@ -56,8 +61,5 @@ class OnHoverSwitchFlatButton extends React.Component {
     )
   }
 }
-
-OnHoverSwitchFlatButton.propTypes = mapValues(FlatButton.propTypes, propType => PropTypes.arrayOf(propType))
-OnHoverSwitchFlatButton.propTypes.label = PropTypes.arrayOf(PropTypes.string)
 
 export default OnHoverSwitchFlatButton

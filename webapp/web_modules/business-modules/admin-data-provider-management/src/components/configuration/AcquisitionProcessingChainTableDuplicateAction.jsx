@@ -21,7 +21,7 @@ import IconButton from 'material-ui/IconButton'
 import { IngestShapes } from '@regardsoss/shape'
 import { withResourceDisplayControl, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
-import { addDependencies } from '../../dependencies'
+import dependencies from '../../dependencies'
 
 const IconButtonWithResourceDisplayControl = withResourceDisplayControl(IconButton)
 
@@ -56,7 +56,7 @@ class AcquisitionProcessingChainTableDuplicateAction extends React.Component {
         iconStyle={AcquisitionProcessingChainTableDuplicateAction.iconStyle}
         style={AcquisitionProcessingChainTableDuplicateAction.buttonStyle}
         onClick={() => this.props.onDuplicate(chain.id)}
-        resourceDependencies={addDependencies}
+        resourceDependencies={dependencies.addDependencies}
         displayLogic={allMatchHateoasDisplayLogic}
       >
         <ContentCopy />

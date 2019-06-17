@@ -26,22 +26,19 @@ const messages = {
   ...Locales.fr, // form messages
   'attribute.thumbnail.alt': 'Aucune vignette',
   'attribute.thumbnail.action.close': 'Fermer',
+  'attribute.render.label': '{label} ({path})',
+  'attribute.render.path.join.string': '.',
   // Attributes configuration
-  'attributes.configuration.header.count': `{count, plural, 
-    =0 {Aucun élément défini}
-    one {# élément défini}
-    other {# éléments définis}
-  }`,
   'attributes.configuration.add.item.label': 'Ajouter',
   'attributes.configuration.type.column': 'Type',
-  'attributes.configuration.label.simple.column': 'Label',
+  'attributes.configuration.label.simple.column': 'Libellé',
   'attributes.configuration.label.english.column': 'Libellé anglais',
   'attributes.configuration.label.french.column': 'Libellé français',
   'attributes.configuration.attributes.column': 'Attribut(s)',
-  'attributes.configuration.edit.option.tooltip': 'Editer l\'élément',
+  'attributes.configuration.edit.option.tooltip': 'Éditer l\'élément',
   'attributes.configuration.delete.option.tooltip': 'Supprimer l\'élément',
   'attribute.configuration.new.item.title': 'Créer un élément',
-  'attribute.configuration.edit.item.title': 'Modifief un élément',
+  'attribute.configuration.edit.item.title': 'Modifier un élément',
   'attribute.configuration.cancel.edition': 'Annuler',
   'attribute.configuration.confirm.edition': 'Confirmer',
   'attribute.configuration.label.en.field': 'Libellé anglais',
@@ -59,7 +56,7 @@ const messages = {
     other {# attributs disponibles}
   }`,
   'attribute.configuration.selectable.attributes.filter': 'Filtrer',
-  'attribute.configuration.selectable.attributes.no.data': 'No available attribute',
+  'attribute.configuration.selectable.attributes.no.data': 'Aucun attribut disponible',
   'attribute.configuration.selected.attributes.header': `{count, plural, 
     =0 {Aucun attribut défini}
     one {# attribut défini}

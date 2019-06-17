@@ -25,9 +25,10 @@ import values from 'lodash/values'
 export const AcquisitionFileStateEnum = {
   IN_PROGRESS: 'IN_PROGRESS',
   VALID: 'VALID',
+  INVALID: 'INVALID',
   ACQUIRED: 'ACQUIRED',
   SUPERSEDED: 'SUPERSEDED',
-  INVALID: 'INVALID',
+  SUPERSEDED_AFTER_ERROR: 'SUPERSEDED_AFTER_ERROR',
   ERROR: 'ERROR',
 }
 export const AcquisitionFileStateValues = values(AcquisitionFileStateEnum)

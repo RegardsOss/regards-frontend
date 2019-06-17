@@ -16,19 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { LinkUIPluginDataset, LinkUIPluginDatasetList } from './UIPlugin/LinkUIPluginDataset'
-export { UIPluginInstanceContent } from './UIPlugin/UIPluginInstanceContent'
-export { UIPluginDefinitionContent, UIPluginDefinition, UIPluginDefinitionList } from './UIPlugin/UIPluginDefinition'
-export { UIPluginInfoContent } from './UIPlugin/UIPluginInfoContent'
+export { LinkUIPluginDataset, LinkUIPluginDatasetList } from './uiplugin/LinkUIPluginDataset'
+export { UIPluginInstanceContent } from './uiplugin/UIPluginInstanceContent'
+export { UIPluginDefinitionContent, UIPluginDefinition, UIPluginDefinitionList } from './uiplugin/UIPluginDefinition'
+export { UIPluginInfoContent } from './uiplugin/UIPluginInfoContent'
 export {
   UIPluginConfContent, UIPluginConf, UIPluginConfList, UIPluginConfArray,
-} from './UIPlugin/UIPluginConf'
-export { RuntimeConfiguration } from './UIPlugin/RuntimeConfiguration'
-export { RuntimeTarget } from './UIPlugin/RuntimeTarget'
+} from './uiplugin/UIPluginConf'
+export { RuntimeConfiguration } from './uiplugin/RuntimeConfiguration'
+export { RuntimeTarget } from './uiplugin/RuntimeTarget'
 
 
 export { AttributeConfigurationData, AttributeElementModel, AttributeListConfigurationModel } from './AttributeListConfigurationModel'
-export { AttributePresentationModel, AttributePresentationModelArray } from './AttributePresentationModelShape'
 
 export { ContainerContent } from './ContainerContent'
 export { Layout, LayoutContent, LayoutList } from './Layout'

@@ -102,6 +102,15 @@ class NavigationArrayFieldRender extends React.Component {
     })
   }
 
+  /**
+   * Computes if there is currently home
+   * @param {[*]} dynamicModules Dynamic modules array
+   * @return {boolean} true if there is home, false otherwise
+   */
+  static hasHome(dynamicModules) {
+    return dynamicModules.some(({ content: { page = {} } }) => page.home) || false // do not return undefined
+  }
+
   static propTypes = {
     dynamicModules: AccessShapes.ModuleArray,
     homeConfiguration: HomeConfigurationShape,
@@ -172,6 +181,7 @@ class NavigationArrayFieldRender extends React.Component {
         },
         itemPath: [navigationItems.length], // added at end by default
         navigationItems: NavigationArrayFieldRender.packItemsForDialog(homeConfiguration.title, dynamicModules, navigationItems),
+        hasHome: NavigationArrayFieldRender.hasHome(dynamicModules),
       },
     })
   }
@@ -196,6 +206,7 @@ class NavigationArrayFieldRender extends React.Component {
         item: getItemByPathIn(navigationItems, itemPath),
         itemPath,
         navigationItems: NavigationArrayFieldRender.packItemsForDialog(homeConfiguration.title, dynamicModules, navigationItems),
+        hasHome: NavigationArrayFieldRender.hasHome(dynamicModules),
       },
     })
   }

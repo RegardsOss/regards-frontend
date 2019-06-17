@@ -17,13 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
-import isFinite from 'lodash/isFinite'
 import isUndefined from 'lodash/isUndefined'
 import isNil from 'lodash/isNil'
 import isNaN from 'lodash/isNaN'
 import isString from 'lodash/isString'
 import isNumber from 'lodash/isNumber'
-import partialRight from 'lodash/partialRight'
+import BigNumber from 'bignumber.js'
 import { validURLRegexp, relativeURLRegexp, validURIRegexp } from '@regardsoss/domain/common'
 import ErrorTypes from './ErrorTypes'
 
@@ -200,38 +199,32 @@ const NUMBER_REGEXP = /^[0-9.,]*$/
 /** Regexp to match a number */
 const INTEGER_REGEXP = /^[0-9]*$/
 
-/** Parse int function bound to base 10  */
-const parseInt10 = partialRight(parseInt, 10)
-
 /**
  * Validates a parsable number
  * @param {function} parser parser like {string} => {number}
  * @param {string} parsingError parsing error
  * @param {*} value value
- * @param {number} min min accepted value
- * @param {string} max max accepted value
+ * @param {BigNumber} min min accepted value
+ * @param {BigNumber} max max accepted value
  * @return {function} value validator like {string} => {string|undefined}
  */
-const parsableNumberValidator = (parser, parsingError, min, max, regexp = NUMBER_REGEXP) => (value) => {
+const parsableNumberValidator = (parsingError, min, max, regexp = NUMBER_REGEXP) => (value) => {
   if (value) {
-    let asNumberValue = null
+    let bnValue = new BigNumber()
     // 1 - compute value to consider
-    if (isString(value)) {
-      // string input
-      asNumberValue = value.match(regexp) ? parser(value) : Number.NaN
+    if (isString(value) && value.match(regexp)) {
+      bnValue = new BigNumber(value)
     } else if (isNumber(value)) {
       // number input
-      asNumberValue = value
-    } else {
-      // non handled type
-      asNumberValue = Number.NaN
-    }
+      bnValue = new BigNumber(value)
+    } // else: non handled type
+
     // 2 - check value
-    if (!isNumber(asNumberValue) || !isFinite(asNumberValue) || isNaN(asNumberValue)) {
+    if (bnValue.isNaN() || !bnValue.isFinite()) {
       return parsingError
-    } if (asNumberValue < min) {
+    } if (bnValue.isLessThan(min)) {
       return ErrorTypes.LOWER_THAN_MIN
-    } if (asNumberValue > max) {
+    } if (bnValue.isGreaterThan(max)) {
       return ErrorTypes.GREATER_THAN_MAX
     }
   }
@@ -243,32 +236,52 @@ const parsableNumberValidator = (parser, parsingError, min, max, regexp = NUMBER
   return undefined
 }
 
+/**
+ * Builds a validator
+ * @param {number} minValue min range value (optional)
+ * @param {number} maxValue max range value (optional)
+ * @return {Function} validator
+ */
+const getIntegerInRangeValidator = (minValue = Number.MIN_VALUE, maxValue = Number.MAX_VALUE) => parsableNumberValidator(
+  ErrorTypes.INVALID_INTEGER_NUMBER, new BigNumber(minValue), new BigNumber(maxValue), INTEGER_REGEXP)
+
 /** Validates a JS number */
-const number = parsableNumberValidator(parseFloat, ErrorTypes.NUMERIC, Number.MIN_VALUE, Number.MAX_VALUE)
+const number = parsableNumberValidator(ErrorTypes.NUMERIC,
+  new BigNumber(Number.MIN_VALUE), new BigNumber(Number.MAX_VALUE))
 
 /** Validates a JS integer number */
-const intNumber = parsableNumberValidator(parseInt10, ErrorTypes.INVALID_INTEGER_NUMBER, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, INTEGER_REGEXP)
+const intNumber = getIntegerInRangeValidator(Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER)
 
 /** Validates a JS integer positive number */
-const positiveIntNumber = parsableNumberValidator(parseInt10, ErrorTypes.INVALID_POSITIVE_INTEGER_NUMBER, 0, Number.MAX_SAFE_INTEGER, INTEGER_REGEXP)
+const positiveIntNumber = parsableNumberValidator(ErrorTypes.INVALID_POSITIVE_INTEGER_NUMBER,
+  new BigNumber(0), new BigNumber(Number.MAX_SAFE_INTEGER), INTEGER_REGEXP)
 
 /** Validates a standard Java byte */
-const javaByteValidator = parsableNumberValidator(parseInt10, ErrorTypes.INVALID_INTEGER_NUMBER, -(2 ** 7), (2 ** 7) - 1, INTEGER_REGEXP)
+const javaByteValidator = parsableNumberValidator(ErrorTypes.INVALID_INTEGER_NUMBER,
+  new BigNumber('-128'), new BigNumber(127), INTEGER_REGEXP)
+
 /** Validates a standard Java Short */
-const javaShortValidator = parsableNumberValidator(parseInt10, ErrorTypes.INVALID_INTEGER_NUMBER, -(2 ** 15), (2 ** 15) - 1, INTEGER_REGEXP)
+const javaShortValidator = parsableNumberValidator(ErrorTypes.INVALID_INTEGER_NUMBER,
+  new BigNumber('-32,768'), new BigNumber('32,767'), INTEGER_REGEXP)
+
 /** Validates a standard Java Integer */
-const javaIntegerValidator = parsableNumberValidator(parseInt10, ErrorTypes.INVALID_INTEGER_NUMBER, -(2 ** 31), (2 ** 31) - 1, INTEGER_REGEXP)
+const javaIntegerValidator = parsableNumberValidator(ErrorTypes.INVALID_INTEGER_NUMBER,
+  new BigNumber('-2147483648'), new BigNumber('2147483647'), INTEGER_REGEXP)
+
 /** Validates a standard Java Long. Please note that Java long is greater than max safe value in JS, so we limit it to JS value */
-const javaLongValidator = intNumber
+const javaLongValidator = parsableNumberValidator(ErrorTypes.INVALID_INTEGER_NUMBER,
+  new BigNumber('-9223372036854775808'), new BigNumber('9223372036854775807'), INTEGER_REGEXP)
 
 /** Validates a standard Float Double. Please note that Java double is (slightly) greater than max JS value, so we limit it to JS value */
-const javaDoubleValidator = parsableNumberValidator(parseFloat, ErrorTypes.INVALID_FLOATING_NUMBER, Number.MIN_VALUE, Number.MAX_VALUE)
+const javaDoubleValidator = parsableNumberValidator(ErrorTypes.INVALID_FLOATING_NUMBER,
+  new BigNumber('4.9E-324'), new BigNumber('1.7976931348623157E308'))
+
 /**
  * Validates a standard Java Float. Note: according with https://stackoverflow.com/questions/9746850/min-value-of-float-in-java-is-positive-why,
  * it seems reverted MAX_VALUE is the actual minimum value for Java floats
  */
-const javaFloatMaxValue = 3.402823466 * (10 ** 38)
-const javaFloatValidator = parsableNumberValidator(parseFloat, ErrorTypes.INVALID_FLOATING_NUMBER, -javaFloatMaxValue, javaFloatMaxValue)
+const javaFloatValidator = parsableNumberValidator(ErrorTypes.INVALID_FLOATING_NUMBER,
+  new BigNumber('1.4E-45'), new BigNumber('3.4028235E38'))
 
 /** Character validator */
 const characterValidator = value => value && value.length && value.length !== 1 ? ErrorTypes.INVALID_CHARACTER : undefined
@@ -298,6 +311,7 @@ export default {
   number,
   intNumber,
   positiveIntNumber,
+  getIntegerInRangeValidator,
   url,
   uri,
   characterValidator,

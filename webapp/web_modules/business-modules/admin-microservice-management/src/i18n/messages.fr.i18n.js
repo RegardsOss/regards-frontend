@@ -55,12 +55,12 @@ const messages = Object.assign({
   'microservice-management.plugin.configuration.delete.confirmation.title': 'Suppression de la configuration de plugin {name}',
   'microservice-management.plugin.configuration.delete.confirmation.text': 'Supprimer la configuration de plugin ?',
   'microservice-management.plugin.configuration.delete.cancel': 'Annuler',
-  'microservice-management.plugin.configuration.edit': 'Editer',
+  'microservice-management.plugin.configuration.edit': 'Éditer',
   'microservice-management.plugin.configuration.priorityOrder': 'Priorité',
   'microservice-management.plugin.configuration.parameters': 'Paramètres',
 
   'microservice-management.plugin.configuration.form.create.title': 'Ajouter une configuration',
-  'microservice-management.plugin.configuration.form.edit.title': 'Editer la configuration',
+  'microservice-management.plugin.configuration.form.edit.title': 'Éditer la configuration',
   'microservice-management.plugin.configuration.form.pluginClassName': 'Classe du plugin (chemin complet)',
   'microservice-management.plugin.configuration.form.label': 'Label *',
   'microservice-management.plugin.configuration.form.version': 'Version *',
@@ -87,7 +87,7 @@ const messages = Object.assign({
   'microservice-management.plugin.configurations.empty': 'Aucune configuration définie',
 
 
-  'renderer.fileField.button.select.label': 'Selectionner un fichier JSON',
+  'renderer.fileField.button.select.label': 'Sélectionner un fichier JSON',
   'microservice.conf-backup.title': 'Import et téléchargement de configuration de {name}',
   'microservice.conf-backup.action.export': 'Télécharger',
   'microservice.conf-backup.action.back': 'Retour',

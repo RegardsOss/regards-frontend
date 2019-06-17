@@ -20,7 +20,7 @@ const webpackConfigurator = require('@regardsoss/webpack-config-front')
 const webpack = require('webpack')
 
 const PLUGIN_TYPE = 'service'
-const PLUGIN_NAME = 'example'
+const PLUGIN_NAME = '<%= name %>'
 
 const conf = webpackConfigurator
   .generateConfig({

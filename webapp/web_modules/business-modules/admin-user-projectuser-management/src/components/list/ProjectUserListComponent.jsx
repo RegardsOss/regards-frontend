@@ -28,7 +28,7 @@ import {
   ShowableAtRender, InfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLine, TableHeaderText,
   TableHeaderContentBox, TableHeaderLoadingComponent, StringValueRender, DateValueRender, TableHeaderCheckbox,
 } from '@regardsoss/components'
-import { addDependencies } from '../../dependencies'
+import dependencies from '../../dependencies'
 import { projectUserSignalActions } from '../../clients/ProjectUserSignalClient'
 import AccessGroupFilterComponent from './AccessGroupFilterComponent'
 import EditProjectUserComponent from './options/EditProjectUserComponent'
@@ -251,7 +251,7 @@ export class ProjectUserListComponent extends React.Component {
               url={createUrl}
               disabled={isLoading}
               // Add endpoints rights
-              resourceDependencies={addDependencies}
+              resourceDependencies={dependencies.addDependencies}
               hideDisabled={false}
               className="selenium-userCreate"
             />

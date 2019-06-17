@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { TagTypes } from '@regardsoss/domain/catalog'
+import { TAG_TYPES_ENUM } from '@regardsoss/domain/catalog'
 import TagComponent from '../../../../components/user/properties/tags/TagComponent'
 
 /**
@@ -34,7 +34,7 @@ class SimpleTagContainer extends React.Component {
     const { onSearchTag, tag } = this.props
     if (onSearchTag) {
       onSearchTag({
-        type: TagTypes.WORD,
+        type: TAG_TYPES_ENUM.WORD,
         data: tag,
       })
     }

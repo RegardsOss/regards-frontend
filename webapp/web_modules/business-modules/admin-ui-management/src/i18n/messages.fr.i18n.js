@@ -25,7 +25,7 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'portal.layout.title': 'Agencement du portail',
   'project.layout.title': 'Agencement',
-  'project.layout.description': 'L\'agencement permet de définir les sections dans lesquelles vous pouvez positioner les modules',
+  'project.layout.description': 'L\'agencement permet de définir les sections dans lesquelles vous pouvez positionner les modules',
   'project.layout.tooltip': 'Agencement',
 
   'portal.module.title': 'Modules du portail',
@@ -33,7 +33,7 @@ const messages = Object.assign({
   'project.module.description': 'Configuration des modules de l\'interface utilisateur.',
 
   'project.service.title': 'Services',
-  'project.service.description': 'Les services IHM (plugins de type service) sont des fonctionnalités additionelles sur les entités de votre catalogue de données. ',
+  'project.service.description': 'Les services IHM (plugins de type service) sont des fonctionnalités additionnelles sur les entités de votre catalogue de données. ',
 
   'project.plugin.title': 'Plugins',
   'project.plugin.description': 'Les plugins utilisés sur l\'interface projet. Il existe deux types de plugin: les plugins critères, qui sont des champs de formulaire, et les plugins services, pour apporter des fonctionnalités supplémentaires sur les données du catalogue',

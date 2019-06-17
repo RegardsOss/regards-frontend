@@ -27,6 +27,7 @@ class ContainerConfigurationProvider extends React.Component {
     hideDynamicContentOption: PropTypes.bool,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func,
+    open: PropTypes.bool,
   }
 
   render() {
@@ -35,6 +36,7 @@ class ContainerConfigurationProvider extends React.Component {
         <ContainerConfigurationComponent
           container={this.props.container}
           hideDynamicContentOption={this.props.hideDynamicContentOption}
+          open={this.props.open}
           onCancel={this.props.onCancel}
           onSubmit={this.props.onSubmit}
         />

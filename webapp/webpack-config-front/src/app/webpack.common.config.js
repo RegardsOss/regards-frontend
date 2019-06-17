@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const alias = require('../utils/alias')
 
 module.exports = function (projectContextPath, mode = 'dev') {
   return {
@@ -28,15 +29,37 @@ module.exports = function (projectContextPath, mode = 'dev') {
         'web_modules',
         'node_modules',
       ],
+      alias: alias(projectContextPath),
     },
     module: {
       rules: [
+        mode === 'test' || mode === 'coverage' ? {
+          test: /MizarLoader/,
+          loader: 'file-loader',
+        } : {},
         // Transpile ES6 Javascript into ES5 with babel loader
         {
           test: /\.jsx?$/,
           // Exclude the DLL folder build from the transpilation
           // and staticConfiguration this file is just copied not interpreted
-          exclude: [/node_modules/, /dist/, /staticConfiguration(\.dev)?\.js$/],
+          exclude: [
+            /node_modules/,
+            /dist/,
+            /staticConfiguration(\.dev)?\.js$/,
+            /\/mizar\//,
+            /rconfig.js$/,
+            /requirejs\//,
+            /path\//,
+            /underscore\//,
+            /jquery\//,
+            /jquery-ui-dist\//,
+            /string\//,
+            /file-saver\//,
+            /jszip\//,
+            /xmltojson\//,
+            /jsvotable\//,
+            /jscsv\//,
+          ],
           use: [
             'thread-loader',
             // used to cache the results of the loader.
@@ -44,6 +67,47 @@ module.exports = function (projectContextPath, mode = 'dev') {
             // the cache is different depending of the value of NODE_ENV
             'babel-loader?cacheDirectory',
           ],
+        },
+        // Special for Mizar
+        {
+          test: /\/mizar\//,
+          loader: 'file-loader',
+          options: {
+            regExp: /\/mizar\/(.+)$/,
+            name: '[1]',
+            outputPath: 'mizar/',
+          },
+        },
+        {
+          test: [
+            /requirejs\//,
+            /path\//,
+            /underscore\//,
+            /jquery\//,
+            /jquery-ui-dist\//,
+            /string\//,
+            /file-saver\//,
+            /jszip\//,
+            /xmltojson\//,
+            /wms-capabilities\//,
+            /moment\/min\//,
+            /jsvotable\//,
+            /jscsv\//,
+          ],
+          loader: 'file-loader',
+          options: {
+            regExp: /\/node_modules\/(.+)$/,
+            name: '[1]',
+            outputPath: 'mizar/node_modules/',
+          },
+        },
+        {
+          test: /\/rconfig.js$/,
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'mizar/src/',
+          },
         },
         { // @regardsoss-modules icon handler
           test: /default-icon\.svg$/,

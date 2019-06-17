@@ -34,7 +34,7 @@ const messages = {
   'order-cart.module.order.label': 'Commander',
   'order-cart.module.order.tooltip': 'Finaliser la commande du contenu du panier',
   'order-cart.module.order.confirmation.title': 'Commander',
-  'order-cart.module.order.confirmation.message': 'Cette action démarrera la commande et videra le panier. Vos commandes seront ensuite affichées. Voulez-vous continuer?',
+  'order-cart.module.order.confirmation.message': 'Cette action démarrera la commande et videra le panier. Vos commandes seront ensuite affichées. Voulez-vous continuer ?',
   'order-cart.module.clear.label': 'Effacer',
   'order-cart.module.clear.tooltip': 'Effacer le contenu du panier',
   'order-cart.module.clear.confirmation.title': 'Vider le panier',
@@ -50,7 +50,7 @@ const messages = {
   'order-cart.module.basket.table.column.objects.count': 'Nombre d\'objets',
   'order-cart.module.basket.table.column.files.size': 'Taille totale des fichiers',
   'order-cart.module.basket.table.column.options': 'Options',
-  'order-cart.module.basket.table.delete.dataset.tooltip': 'Supprimer les selections d\'objets de ce jeu de données',
+  'order-cart.module.basket.table.delete.dataset.tooltip': 'Supprimer les sélections d\'objets de ce jeu de données',
   'order-cart.module.basket.table.delete.dataset.confirm.message': 'Cette opération supprimera du panier tous les objets de toutes les sélections de ce jeu de données. Elle ne peut pas être annulée',
   'order-cart.module.basket.table.delete.dataset.confirm.title': 'Supprimer les sélections',
   'order-cart.module.basket.table.delete.selection.tooltip': 'Supprimer la sélection',
@@ -61,7 +61,7 @@ const messages = {
   'order-cart.module.basket.items.group.selection.detail.title.without.dataset': 'Objets sélectionnés le {date}',
   'order-cart.module.basket.items.group.selection.detail.close': 'Fermer',
   'order-cart.module.basket.items.group.selection.detail.no.data.title': 'Aucun élément',
-  'order-cart.module.basket.items.group.selection.detail.no.data.message': 'Il n\'y a plus d\'élément dans ce groupe de sélection. Ceux-ci ont pu être supprimés ou leurs droits d\'accès ont pus être modifiés.',
+  'order-cart.module.basket.items.group.selection.detail.no.data.message': 'Il n\'y a plus d\'élément dans ce groupe de sélection. Ceux-ci ont pu être supprimés ou leurs droits d\'accès ont pu être modifiés.',
   // adds capicity formatting messages
   ...storage.messages.fr,
 }

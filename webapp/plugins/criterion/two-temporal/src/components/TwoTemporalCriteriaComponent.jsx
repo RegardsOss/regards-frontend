@@ -16,30 +16,69 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
-import { PluginCriterionContainer } from '@regardsoss/plugins-api'
-import SingleAttributeContainer from '../containers/SingleAttributeContainer'
-import MultipleAttributesContainer from '../containers/MultipleAttributesContainer'
+import Arrow from 'material-ui/svg-icons/navigation/arrow-forward'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import { AttributeModelWithBounds } from '@regardsoss/plugins-api'
+import TemporalCriterionComponent from './TemporalCriterionComponent'
 
 /**
- * Main plugin component: it does nothing but redirection to adequate container: SingleAttributeContainer when configuration
- * holds a single attribute, MultipleAttributesContainer otherwise (therefore it is a component)
- *
- * @author Xavier-Alexandre Brochard
+ * Main plugin display component
+ * @author Raphaël Mechali
  */
-export class TwoTemporalCriteriaComponent extends React.Component {
+class TwoTemporalCriteriaComponent extends React.Component {
   static propTypes = {
-    ...PluginCriterionContainer.propTypes,
+    attribute1: AttributeModelWithBounds.isRequired,
+    attribute2: AttributeModelWithBounds.isRequired, // provide here the same reference than attribute 1 if same attribute
+    value1: PropTypes.instanceOf(Date),
+    value2: PropTypes.instanceOf(Date),
+    onDate1Changed: PropTypes.func.isRequired, // value 1 update callback like: (Date) => ()
+    onDate2Changed: PropTypes.func.isRequired, // value 2 update callback like: (Date) => ()
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {
-    // gather different attributes list values(this.props.attributes)
-    const allKeys = values(this.props.attributes).reduce(
-      (acc, attribute) => acc.includes(attribute.jsonPath) ? acc : [...acc, attribute.jsonPath], [])
-    return allKeys.length <= 1
-      ? <SingleAttributeContainer {...this.props} />
-      : <MultipleAttributesContainer {...this.props} />
+    const {
+      attribute1, value1, onDate1Changed,
+      attribute2, value2, onDate2Changed,
+    } = this.props
+    const { intl: { formatMessage }, moduleTheme: { rootStyle, labelSpanStyle } } = this.context
+
+    return (
+      <div style={rootStyle}>
+        <span style={labelSpanStyle}>
+          { // Message
+          attribute1.jsonPath === attribute2.jsonPath
+            // single attribute message
+            ? formatMessage({ id: 'single.attributes.label' }, { label: attribute1.label })
+            // Two attributes (range) message
+            : formatMessage({ id: 'multiple.attributes.label' }, {
+              label1: attribute1.label,
+              label2: attribute2.label,
+            })
+        }
+        </span>
+        <TemporalCriterionComponent
+          searchAttribute={attribute1}
+          value={value1}
+          hintDate={attribute1.boundsInformation.lowerBound}
+          onDateChanged={onDate1Changed}
+          isStopDate={false}
+        />
+        <Arrow />
+        <TemporalCriterionComponent
+          searchAttribute={attribute2}
+          value={value2}
+          hintDate={attribute2.boundsInformation.upperBound}
+          onDateChanged={onDate2Changed}
+          isStopDate
+        />
+      </div>
+    )
   }
 }
-
 export default TwoTemporalCriteriaComponent

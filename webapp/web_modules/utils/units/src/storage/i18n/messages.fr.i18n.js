@@ -32,7 +32,7 @@ const messages = {
   'storage.capacity.monitoring.units.scale.bytes.si.prefix': 'Octets avec préfixe binaire',
   // bits
   'storage.capacity.monitoring.unit.b': 'b',
-  'storage.capacity.monitoring.unit.kb': 'Kb',
+  'storage.capacity.monitoring.unit.kb': 'kb',
   'storage.capacity.monitoring.unit.mb': 'Mb',
   'storage.capacity.monitoring.unit.gb': 'Gb',
   'storage.capacity.monitoring.unit.tb': 'Tb',
@@ -51,7 +51,7 @@ const messages = {
   'storage.capacity.monitoring.unit.yib': 'Yib',
   // bytes
   'storage.capacity.monitoring.unit.B': 'o',
-  'storage.capacity.monitoring.unit.KB': 'Ko',
+  'storage.capacity.monitoring.unit.KB': 'ko',
   'storage.capacity.monitoring.unit.MB': 'Mo',
   'storage.capacity.monitoring.unit.GB': 'Go',
   'storage.capacity.monitoring.unit.TB': 'To',

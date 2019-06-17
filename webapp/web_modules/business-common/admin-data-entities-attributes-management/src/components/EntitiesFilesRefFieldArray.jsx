@@ -32,6 +32,7 @@ import messages from '../i18n'
 export class EntitiesFilesRefFieldArray extends React.Component {
   static propTypes = {
     mimeTypeList: PropTypes.arrayOf(PropTypes.string),
+    allowImage: PropTypes.bool.isRequired,
     name: PropTypes.string.isRequired,
   }
 
@@ -42,7 +43,7 @@ export class EntitiesFilesRefFieldArray extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { mimeTypeList, name } = this.props
+    const { mimeTypeList, name, allowImage } = this.props
     return (
       <div>
         <Field
@@ -75,20 +76,24 @@ export class EntitiesFilesRefFieldArray extends React.Component {
           type="text"
           label={formatMessage({ id: 'entities-files.form.filename' })}
         />
-        <Field
-          name={`${name}.imageWidth`}
-          fullWidth
-          component={RenderTextField}
-          type="text"
-          label={formatMessage({ id: 'entities-files.form.imageWidth' })}
-        />
-        <Field
-          name={`${name}.imageHeight`}
-          fullWidth
-          component={RenderTextField}
-          type="text"
-          label={formatMessage({ id: 'entities-files.form.imageHeight' })}
-        />
+        {allowImage ? [
+          <Field
+            key="imageWidth"
+            name={`${name}.imageWidth`}
+            fullWidth
+            component={RenderTextField}
+            type="text"
+            label={formatMessage({ id: 'entities-files.form.imageWidth' })}
+          />,
+          <Field
+            key="imageHeight"
+            name={`${name}.imageHeight`}
+            fullWidth
+            component={RenderTextField}
+            type="text"
+            label={formatMessage({ id: 'entities-files.form.imageHeight' })}
+          />,
+        ] : null}
       </div>
     )
   }

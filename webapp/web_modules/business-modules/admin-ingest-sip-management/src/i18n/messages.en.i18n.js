@@ -16,10 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { IngestDomain } from '@regardsoss/domain'
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-
+  ...IngestDomain.enMessages,
   'sips.button.filter': 'Filter',
   'sips.button.back': 'Back',
   'sips.list.subtitle': 'List of SIPs for selected session',
@@ -108,31 +109,17 @@ const messages = Object.assign({
   'sips.submit.submit.button': 'Submit',
 
   'sips.submission-summary.title': 'Data submission summary',
-  'sips.submission-summary.details': 'Your datas will be allocate through the {allocationStrategy} strategy to the datastorages : {storages}',
-  'sips.submission-summary.subtitle': 'This summary allows you know accepted entities by the system. If yours data are accepted, so they will be handled for storage soon.',
+  'sips.submission-summary.details': 'Your data will be allocated through the {allocationStrategy} strategy to the datastorages : {storages}',
+  'sips.submission-summary.subtitle': 'This summary allows you to know accepted entities by the system. If yours data are accepted, so they will be handled for storage soon.',
   'sips.submission-summary.back.button': 'Ok',
 
   'sips.submission.not.ready.title': 'Configuration is needed before data submission',
-  'sips.submission.not.ready.information.message': 'Your system is not configured to allows data submission. Please ensure that you have well configured your data storages.',
-  'sips.submission.not.ready.server.message': 'The storage service unavaibility response message is : ',
+  'sips.submission.not.ready.information.message': 'Your system is not configured to allow data submission. Please ensure that you have well configured your data storages.',
+  'sips.submission.not.ready.server.message': 'The storage service unavailability response message is : ',
   'sips.submission.not.ready.config.allocations.link.button': 'Configure allocation strategies',
   'sips.submission.not.ready.config.storages.link.button': 'Configure storage locations',
   'sips.submission.not.ready.config.catalog.security.link.button': 'Configure data access security',
   'sips.submission.not.ready.back.button': 'Back',
-
-  CREATED: 'CREATED',
-  DELETED: 'DELETED',
-  REJECTED: 'REJECTED',
-  QUEUED: 'QUEUED',
-  VALID: 'VALID',
-  INVALID: 'INVALID',
-  AIP_GEN_ERROR: 'AIP_GEN_ERROR',
-  AIP_CREATED: 'AIP_CREATED',
-  STORED: 'STORED',
-  STORE_ERROR: 'STORE_ERROR',
-  INDEXED: 'INDEXED',
-  INDEX_ERROR: 'INDEX_ERROR',
-  INCOMPLETE: 'INCOMPLETE',
 }, Locales.en)
 
 export default messages

@@ -53,11 +53,12 @@ export class CollectionFormContainer extends React.Component {
     isFetchingModelAttribute: PropTypes.bool,
     isFetchingModel: PropTypes.bool,
     // from mapDispatchToProps
-    createCollection: PropTypes.func,
-    updateCollection: PropTypes.func,
-    fetchCollection: PropTypes.func,
-    fetchModelList: PropTypes.func,
-    fetchModelAttributeList: PropTypes.func,
+    createCollection: PropTypes.func.isRequired,
+    updateCollection: PropTypes.func.isRequired,
+    fetchCollection: PropTypes.func.isRequired,
+    fetchModelList: PropTypes.func.isRequired,
+    fetchModelAttributeList: PropTypes.func.isRequired,
+    clearModelAttributeList: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -83,6 +84,12 @@ export class CollectionFormContainer extends React.Component {
         })
     }
   }
+
+  componentWillUnmount() {
+    // leave store in blank state for next edition
+    this.props.clearModelAttributeList()
+  }
+
 
   getBackUrl = () => {
     const { params: { project } } = this.props
@@ -140,7 +147,7 @@ export class CollectionFormContainer extends React.Component {
       },
       // descriptionFile,
       model,
-      entityType: ENTITY_TYPES_ENUM.COLLECTION,
+      type: ENTITY_TYPES_ENUM.COLLECTION,
     })
 
     Promise.resolve(this.props.createCollection(apiValues))
@@ -210,6 +217,7 @@ const mapDispatchToProps = dispatch => ({
   updateCollection: (id, values) => dispatch(collectionActions.updateEntity(id, values)),
   fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: ENTITY_TYPES_ENUM.COLLECTION })),
   fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+  clearModelAttributeList: () => dispatch(modelAttributesActions.flush()),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
 })
 

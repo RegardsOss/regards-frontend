@@ -26,6 +26,7 @@ export default PropTypes.shape({
   }),
   isFetching: PropTypes.bool,
   authenticateDate: PropTypes.number,
+  authenticateExpirationDate: PropTypes.number,
   sessionLocked: PropTypes.bool,
   result: PropTypes.shape({
     project: PropTypes.string,

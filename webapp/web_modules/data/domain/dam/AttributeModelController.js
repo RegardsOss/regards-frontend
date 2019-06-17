@@ -36,6 +36,7 @@ const standardAttributesKeys = {
   id: 'id', // === URN
   providerId: 'providerId',
   label: 'label',
+  geometry: 'geometry',
   model: 'model',
   tags: 'tags',
   thumbnail: 'thumbnail',
@@ -87,6 +88,13 @@ const standardAttributes = {
     label: 'Thumbnail',
     type: MODEL_ATTR_TYPES.URL,
     jsonPath: `files.${DataTypesEnum.THUMBNAIL}[0]`,
+  },
+  [standardAttributesKeys.geometry]: {
+    key: standardAttributesKeys.geometry,
+    id: -7,
+    label: 'Geometry',
+    type: MODEL_ATTR_TYPES.STRING,
+    jsonPath: 'geometry',
   },
 }
 

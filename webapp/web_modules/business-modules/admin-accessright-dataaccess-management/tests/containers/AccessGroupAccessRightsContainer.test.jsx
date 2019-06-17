@@ -42,8 +42,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
 
   it('Render properly a loading component', () => {
     const fetchAccessGroupSpy = stub().returns({})
-    const fetchPluginConfsSpy = stub().returns({})
-    const fetchPluginMetaSpy = stub().returns({})
     const props = {
       // from router
       params: {
@@ -52,13 +50,9 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
       },
       // from mapStateToProps
       accessGroup: DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup'),
-      pluginConfigurationList: {},
-      pluginMetaDataList: {},
 
       // from mapDispatchToProps
       fetchAccessGroup: fetchAccessGroupSpy,
-      fetchPluginConfigurationList: fetchPluginConfsSpy,
-      fetchPluginMetaDataList: fetchPluginMetaSpy,
     }
     const enzymeWrapper = shallow(<AccessGroupAccessRightsContainer {...props} />, {
       context,
@@ -67,16 +61,12 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
 
     assert.isTrue(fetchAccessGroupSpy.calledOnce, 'The fetch AccessGroup method should be fetch once.')
-    assert.isTrue(fetchPluginConfsSpy.calledOnce, 'The fetch plugin configurations method should be fetch once.')
-    assert.isTrue(fetchPluginMetaSpy.calledOnce, 'The fetch plugin metadata method should be fetch once.')
 
     assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')
   })
 
   it('Render properly', () => {
     const fetchAccessGroupSpy = stub().returns({})
-    const fetchPluginConfsSpy = stub().returns({})
-    const fetchPluginMetaSpy = stub().returns({})
     const props = {
       // from router
       params: {
@@ -85,13 +75,9 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
       },
       // from mapStateToProps
       accessGroup: DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup'),
-      pluginConfigurationList: {},
-      pluginMetaDataList: {},
 
       // from mapDispatchToProps
       fetchAccessGroup: fetchAccessGroupSpy,
-      fetchPluginConfigurationList: fetchPluginConfsSpy,
-      fetchPluginMetaDataList: fetchPluginMetaSpy,
     }
 
     const enzymeWrapper = shallow(<AccessGroupAccessRightsContainer {...props} />, {

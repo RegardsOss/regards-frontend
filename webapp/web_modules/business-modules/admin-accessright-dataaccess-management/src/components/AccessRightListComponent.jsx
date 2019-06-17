@@ -39,7 +39,7 @@ import {
 import { FormattedMessage } from 'react-intl'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { tableActions, tableSelectors } from '../clients/TableClient'
 import { datasetWithAccessRightActions, datasetWithAccessRightSelectors } from '../clients/DatasetWithAccessRightClient'
@@ -63,19 +63,18 @@ export class AccessRightListComponent extends React.Component {
   static propTypes = {
     // Access group to configure.
     accessGroup: DataManagementShapes.AccessGroupContent.isRequired,
-    // Availables plugin configuration for custom access rights delegated to plugins
-    pluginConfigurationList: CommonShapes.PluginConfigurationList.isRequired,
-    // Availables plugin definitions for custom access rights delegated to plugins
-    pluginMetaDataList: CommonShapes.PluginMetaDataList.isRequired,
     // Callback to delete an AccessRight
     deleteAccessRight: PropTypes.func.isRequired,
     // Callback to submit AccessRight(s) configuration (updates and creation)
     submitAccessRights: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    filters: PropTypes.object,
     selectedDatasetsWithAccessright: PropTypes.arrayOf(PropTypes.object).isRequired,
     // Callback to navigate to dataset creation
     navigateToCreateDataset: PropTypes.func.isRequired,
     backURL: PropTypes.string.isRequired,
     onRefresh: PropTypes.func.isRequired,
+    onFilter: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -201,8 +200,6 @@ export class AccessRightListComponent extends React.Component {
             errorMessage={this.state.submitError ? this.context.intl.formatMessage({ id: 'accessright.form.error.message' }) : null}
             selectedDatasetsWithAccessright={selectedDatasetsWithAccessright}
             currentAccessRight={this.state.accessRightToEdit}
-            pluginConfigurationList={this.props.pluginConfigurationList}
-            pluginMetaDataList={this.props.pluginMetaDataList}
           />
         </Dialog>
       </ShowableAtRender>
@@ -264,7 +261,7 @@ export class AccessRightListComponent extends React.Component {
 
   render() {
     const {
-      accessGroup, navigateToCreateDataset, backURL,
+      accessGroup, navigateToCreateDataset, backURL, filters,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -331,7 +328,7 @@ export class AccessRightListComponent extends React.Component {
           {this.renderDeleteConfirmDialog()}
           <TableLayout>
             <AccessRightListFiltersComponent
-              onRefresh={this.props.onRefresh}
+              onFilter={this.props.onFilter}
             />
             {this.renderActionsLine()}
             <PageableInfiniteTableContainer
@@ -344,6 +341,7 @@ export class AccessRightListComponent extends React.Component {
               pageSize={AccessRightListComponent.PAGE_SIZE}
               columns={columns}
               pathParams={pathParams}
+              requestParams={filters}
               emptyComponent={emptyComponent}
               displayColumnsHeader
             />

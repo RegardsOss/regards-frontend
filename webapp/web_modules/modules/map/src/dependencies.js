@@ -25,7 +25,10 @@
  * Mandatory Dependencies to display module in user interface
  * @type {Array}
  */
-const user = []
+const user = [
+  // there is no client for this endpoint
+  `${STATIC_CONF.MSERVICES.ACCESS_PROJECT}@/applications/{applicationId}/modules/{moduleId}/map@GET`,
+]
 
 /**
  * Mandatory Dependencies to display module in admin interface

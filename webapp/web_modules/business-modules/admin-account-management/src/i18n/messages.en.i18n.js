@@ -21,8 +21,8 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'accounts.title': 'Accounts',
   'accounts.subtitle': 'Manage user accounts',
-  'account.list.table.firstName': 'Firstname',
-  'account.list.table.lastName': 'Lastname',
+  'account.list.table.firstName': 'First name',
+  'account.list.table.lastName': 'Last name',
   'account.list.table.email': 'E-mail',
   'account.list.table.status': 'Status',
   'account.list.table.status.label.PENDING': 'Waiting administrator validation',
@@ -48,8 +48,8 @@ const messages = Object.assign({
   'account.list.info.why-cant-remove-account-having-project-user': 'You can\'t delete an account if it has a project user',
   'account.list.action.cancel': 'Cancel',
 
-  'account.form.input.firstName': 'Firstname',
-  'account.form.input.lastName': 'Lastname',
+  'account.form.input.firstName': 'First name',
+  'account.form.input.lastName': 'Last name',
   'account.form.input.email': 'E-mail',
   'account.form.edit.title': 'Edit the {firstName} {lastName} account',
   'account.form.create.title': 'Create an account',

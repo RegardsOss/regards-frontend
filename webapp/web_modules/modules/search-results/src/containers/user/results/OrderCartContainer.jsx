@@ -20,19 +20,17 @@ import find from 'lodash/find'
 import get from 'lodash/get'
 import forEach from 'lodash/forEach'
 import isEqual from 'lodash/isEqual'
-import omit from 'lodash/omit'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
-import { DamDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { AccessProjectClient, OrderClient } from '@regardsoss/client'
 import { EntityIdTester } from '@regardsoss/domain/common'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, CommonShapes } from '@regardsoss/shape'
 import { modulesManager } from '@regardsoss/modules'
 import { TableSelectionModes } from '@regardsoss/components'
 import { allMatchHateoasDisplayLogic, HOCUtils } from '@regardsoss/display-control'
-import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/navigation/TableDisplayModeEnum'
 import { tableSelectors } from '../../../clients/TableClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 
@@ -47,7 +45,9 @@ const basketDependencies = [
 ]
 
 /**
- * Container for cart management functionalities and related feedback
+ * Container for cart management functionalities and related feedback. It provides to children the following properties:
+ * - onAddElementToCart: callback to add one element to cart, null if functionality is not available
+ * - onAddSelectionToCart: callback to add an elements selection to cart, null if functionality is not available
  * @author Raphaël Mechali
  */
 export class OrderCartContainer extends React.Component {
@@ -84,18 +84,16 @@ export class OrderCartContainer extends React.Component {
       /**
        * Dispatches add to cart action (sends add to cart command to server), showing then hiding feedback
        * @param ids entities ID (URN) list to add to cart, when request is null, or to exclude from add request when it isn't
-       * @param restrictionRequest request to retrieve elements to add, when not null
+       * @param requestParameters Open search request parameters
        * @return {Promise} add to cart promise
        */
-      dispatchAddToCart: (includedIds, excludedIds, restrictionRequest, datasetUrn) => dispatch(defaultBasketActions.addToBasket(includedIds, excludedIds, restrictionRequest, datasetUrn)),
+      dispatchAddToCart: (includedIds, excludedIds, requestParameters, datasetUrn) => dispatch(defaultBasketActions.addToBasket(includedIds, excludedIds, requestParameters, datasetUrn)),
     }
   }
 
   static propTypes = {
-    // initial open search query value (used when computing dataset's dataobjects add query)
-    initialSearchQuery: PropTypes.string,
     // current open search query value (used when computing selection add query)
-    openSearchQuery: PropTypes.string.isRequired,
+    requestParameters: CommonShapes.RequestParameters.isRequired, // current open search request parameters
     // this property is used by this container and sub components (used only in onPropertiesChanged)
     // eslint-disable-next-line react/no-unused-prop-types
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
@@ -105,7 +103,16 @@ export class OrderCartContainer extends React.Component {
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
     ]),
-    tableViewMode: PropTypes.oneOf(TableDisplayModeValues).isRequired, // Display mode
+    tableViewMode: PropTypes.oneOf(UIDomain.RESULTS_VIEW_MODES).isRequired, // Display mode
+    // from parent HOCs
+    // eslint-disable-next-line react/no-unused-prop-types
+    onShowDescription: PropTypes.func, // used only in onPropertiesChanged
+    // eslint-disable-next-line react/no-unused-prop-types
+    isDescAvailableFor: PropTypes.func, // used only in onPropertiesChanged
+    // eslint-disable-next-line react/no-unused-prop-types
+    selectionServices: AccessShapes.PluginServiceWithContentArray, // used only in onPropertiesChanged
+    // eslint-disable-next-line react/no-unused-prop-types
+    onStartSelectionService: PropTypes.func, // used only in onPropertiesChanged
     // from mapStateToProps
     // cart availability related
     // eslint-disable-next-line react/no-unused-prop-types
@@ -121,25 +128,7 @@ export class OrderCartContainer extends React.Component {
     emptySelection: PropTypes.bool.isRequired,
     // from map dispatch to props
     dispatchAddToCart: PropTypes.func.isRequired,
-    // ... child component properties
-
   }
-
-  /** Keys of properties that should not be reported to this children */
-  static NON_REPORTED_PROPS = [
-    'initialSearchQuery',
-    'openSearchQuery',
-    'viewObjectType',
-    'children',
-    'tableViewMode',
-    'isAuthenticated',
-    'modules',
-    'availableDependencies',
-    'toggledElements',
-    'selectionMode',
-    'emptySelection',
-    'dispatchAddToCart',
-  ]
 
   static DEFAULT_STATE = {
     children: [], // pre rendered children
@@ -168,7 +157,8 @@ export class OrderCartContainer extends React.Component {
     // when dependencies, modules, layout or authentication changes, update the state properties related to displaying cart
     // note that it may throw an exception to inform the administor that the module configuration is wrong
     const oldState = this.state || {}
-    const newState = { ...(oldState || OrderCartContainer.DEFAULT_STATE) }
+    const newState = { ...(this.state || OrderCartContainer.DEFAULT_STATE) }
+
     if (!isEqual(oldProps.isAuthenticated, newProps.isAuthenticated)
       || !isEqual(oldProps.modules, newProps.modules)
       || !isEqual(oldProps.toggledElements, newProps.toggledElements)
@@ -197,14 +187,23 @@ export class OrderCartContainer extends React.Component {
       }
     }
 
-    // when callbacks or children changed, re render children
-    if (HOCUtils.shouldCloneChildren(oldProps, newProps, OrderCartContainer.NON_REPORTED_PROPS)
+    // when callbacks, children changed or parent HOC props changed, re render children
+    if (oldProps.children !== newProps.children
+      || !isEqual(oldProps.isDescAvailableFor, newProps.isDescAvailableFor)
+      || !isEqual(oldProps.onShowDescription, newProps.onShowDescription)
+      || !isEqual(oldProps.selectionServices, newProps.selectionServices)
+      || !isEqual(oldProps.onStartSelectionService, newProps.onStartSelectionService)
       || !isEqual(oldState.onAddElementToBasket, newState.onAddElementToBasket)
       || !isEqual(oldState.onAddSelectionToBasket, newState.onAddSelectionToBasket)) {
       // pre render children (attempt to enhance render performances)
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
-        ...omit(newProps, OrderCartContainer.NON_REPORTED_PROPS), // this will report injected service data
-        // report cart information
+        // From description HOC
+        isDescAvailableFor: newProps.isDescAvailableFor,
+        onShowDescription: newProps.onShowDescription,
+        // From services HOC
+        selectionServices: newProps.selectionServices,
+        onStartSelectionService: newProps.onStartSelectionService,
+        // This HOC properties
         onAddElementToCart: newState.onAddElementToBasket,
         onAddSelectionToCart: newState.onAddSelectionToBasket,
       })
@@ -219,7 +218,7 @@ export class OrderCartContainer extends React.Component {
     const { dispatchAddToCart } = this.props
     // ID of the single object to push in basket
     const ids = [get(dataobjectEntity, 'content.id')]
-    if (this.props.tableViewMode === TableDisplayModeEnum.QUICKLOOK) {
+    if (this.props.tableViewMode === UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK) {
       // Quicklook view specific behavior:
       // Also add IDs of linked dataobject to push in basket
       const tags = get(dataobjectEntity, 'content.tags')
@@ -237,24 +236,26 @@ export class OrderCartContainer extends React.Component {
    */
   onAddDataObjectsSelectionToBasket = () => {
     const {
-      openSearchQuery, selectionMode, toggledElements, dispatchAddToCart,
+      requestParameters, selectionMode, toggledElements, dispatchAddToCart,
     } = this.props
     const ids = values(toggledElements).map(element => get(element, 'content.id'))
-    const [includeIds, excludedIds, query] = selectionMode === TableSelectionModes.includeSelected
-      ? [ids, null, null] // inclusive selection: clear query and excluded elements to get the backend understanding it is an inclusive push
-      : [null, ids, decodeURIComponent(openSearchQuery)] // exclusive selection: provide query and elements to exclude
-    dispatchAddToCart(includeIds, excludedIds, query)
+    if (selectionMode === TableSelectionModes.includeSelected) {
+      // inclusive selection: provide only included elements from selection (parameters useless)
+      dispatchAddToCart(ids)
+    } else {
+      // exclusive selection: provide request parameters and elements to exclude from selection
+      dispatchAddToCart(null, ids, requestParameters)
+    }
   }
 
   /**
-   * User adds a dataset to basket (ie: every dataset dataobjects)
+   * User adds a dataset to basket (ie: every dataset dataobjects currently retrieved)
    * @param datasetEntity dataset entity
    */
   onAddDatasetToBasket = (datasetEntity) => {
-    const { initialSearchQuery, dispatchAddToCart } = this.props
-    // Provide initial query, if any, decoded as it is used in body
-    const restrictionQuery = initialSearchQuery ? decodeURIComponent(initialSearchQuery) : undefined
-    dispatchAddToCart(null, null, restrictionQuery, datasetEntity.content.id)
+    const { requestParameters, dispatchAddToCart } = this.props
+    // Provide current parameters as restriction on dataset
+    dispatchAddToCart(null, null, requestParameters, datasetEntity.content.id)
   }
 
   /**

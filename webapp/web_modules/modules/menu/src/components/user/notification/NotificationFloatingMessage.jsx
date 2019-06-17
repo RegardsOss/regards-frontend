@@ -45,7 +45,6 @@ class NotificationFloatingMessage extends React.Component {
       <div
         role="presentation"
         style={notificationSystemStyle.message.rootStyle}
-        onClick={() => this.handleOpen(notification)}
       >
         <NotificationIcon notification={notification} />
         <div style={floatingMessageTheme.containerStyle}>
@@ -62,7 +61,7 @@ class NotificationFloatingMessage extends React.Component {
               switch (notification.mimeType) {
                 case MIME_TYPES.HTML_MIME_TYPE:
                   // eslint-disable-next-line
-                  return <div class="html-notification" dangerouslySetInnerHTML={{ __html:notification.message}} />
+                  return <div className="html-notification" dangerouslySetInnerHTML={{ __html:notification.message}} />
                 case MIME_TYPES.TEXT:
                 default:
                   return notification.message

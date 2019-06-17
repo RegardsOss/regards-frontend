@@ -47,7 +47,7 @@ describe('[Entities Common] Testing PluginDisplayerContainer', () => {
     localTarget: buildManyElementsTarget(['a', 'b', 'd']),
   }, {
     testMessage: 'should render plugin component with QUERY target and dynamic properties',
-    localTarget: buildQueryTarget('a=a&b=b', ENTITY_TYPES_ENUM.DATA, 15, []),
+    localTarget: buildQueryTarget({ q: 'a=a&b=b' }, ENTITY_TYPES_ENUM.DATA, 15, []),
   }]
   testCases.forEach(({ testMessage, localTarget }) => it(testMessage, () => {
     const FakePluginComponent = () => <div />

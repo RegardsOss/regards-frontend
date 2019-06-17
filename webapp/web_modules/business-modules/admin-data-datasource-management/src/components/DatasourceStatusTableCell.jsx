@@ -55,7 +55,8 @@ class DatasourceStatusTableCell extends React.Component {
     const status = get(entity, 'content.status', null)
     // display an icon if the status can contains a stacktrace
     let icon = null
-    if (status === DamDomain.DataSourcesStatusEnum.ERROR || status === DamDomain.DataSourcesStatusEnum.FINISHED_WITH_WARNINGS) {
+    if (status === DamDomain.DataSourcesStatusEnum.ERROR || status === DamDomain.DataSourcesStatusEnum.FINISHED_WITH_WARNINGS
+      || DamDomain.DataSourcesStatusEnum.NOT_FINISHED) {
       icon = (
         <IconButton
           title={formatMessage({ id: 'crawler.list.show.stacktrace.tooltip' })}

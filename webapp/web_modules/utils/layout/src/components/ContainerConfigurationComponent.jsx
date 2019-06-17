@@ -20,7 +20,8 @@ import map from 'lodash/map'
 import join from 'lodash/join'
 import split from 'lodash/split'
 import MenuItem from 'material-ui/MenuItem'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { Dialog, FlatButton, RaisedButton } from 'material-ui'
+import { ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
@@ -48,6 +49,7 @@ class ContainerConfigurationComponent extends React.Component {
     hideDynamicContentOption: PropTypes.bool,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func,
+    open: PropTypes.bool,
 
     // from reduxForm
     submitting: PropTypes.bool,
@@ -76,6 +78,8 @@ class ContainerConfigurationComponent extends React.Component {
     classes: [],
     styles: {},
   }
+
+  static SELECT_FIELD_STYLES = { marginBottom: '12px' }
 
   state = {
     advanced: false,
@@ -115,7 +119,7 @@ class ContainerConfigurationComponent extends React.Component {
 
   render() {
     const {
-      hideDynamicContentOption, pristine, submitting, invalid, container, handleSubmit, onSubmit, onCancel,
+      hideDynamicContentOption, pristine, submitting, invalid, container, handleSubmit, onSubmit, onCancel, open,
     } = this.props
     const { intl: { formatMessage } } = this.context
     const { advanced } = this.state
@@ -123,72 +127,91 @@ class ContainerConfigurationComponent extends React.Component {
     const containerModel = container && ALL_CONTAINERS[container.type]
     // dynamic options (layout and main container) are available for non root container (ie new ones or inUserApp marked layouts)
     const hasDynamicOptions = !container || containerModel.inUserApp
+    const dialogTitle = formatMessage({ id: 'container.configuration.edit.dialog.title' })
+
+    const actions = [
+      <FlatButton
+        key="cancel"
+        onClick={onCancel}
+        label={formatMessage({ id: 'container.form.cancel.button' })}
+      />,
+      <RaisedButton
+        key="submit"
+        onClick={handleSubmit(onSubmit)}
+        disabled={pristine || submitting || invalid}
+        label={formatMessage({ id: container ? 'container.form.update.button' : 'container.form.submit.button' })}
+      />,
+    ]
 
     return (
-      <form
-        onSubmit={handleSubmit(onSubmit)}
+      <Dialog
+        title={dialogTitle}
+        modal={false}
+        open={open}
+        actions={actions}
+        onRequestClose={onCancel}
+        autoDetectWindowHeight
+        autoScrollBodyContent
       >
-        <div>
-          <Field
-            name="id"
-            fullWidth
-            component={RenderTextField}
-            type="text"
-            disabled={container !== null}
-            label={formatMessage({ id: 'container.form.id' })}
-            validate={ValidationHelpers.required}
-          />
-          {hasDynamicOptions // available for new elements and
-            ? <Field
-              name="type"
-              fullWidth
-              component={RenderSelectField}
-              type="text"
-              onSelect={this.selectContainerType}
-              label={formatMessage({ id: 'container.form.type' })}
-              validate={ValidationHelpers.required}
-            >
-              { /** Show option (remove container types used for root container) */
-                map(
-                  hideDynamicContentOption ? STATIC_CONTAINERS : ALL_CONTAINERS,
-                  (containerOption, containerKey) => containerOption.inUserApp
-                    ? <MenuItem value={containerKey} key={containerKey} primaryText={formatMessage({ id: containerOption.i18nKey })} />
-                    : null)
-              }
-            </Field> : null}
-          {!this.props.hideDynamicContentOption && hasDynamicOptions
-            ? <DynamicContentField change={this.props.change} />
-            : null}
-          <ShowHideAdvancedOptions advanced={advanced} onClick={this.onAdvancedClick} />
-          <ShowableAtRender
-            show={advanced}
-          >
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div>
             <Field
-              name="classes"
-              format={classesFormat}
-              parse={classesParse}
+              name="id"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={formatMessage({ id: 'container.form.classes' })}
+              disabled={container !== null}
+              label={formatMessage({ id: 'container.form.id' })}
+              validate={ValidationHelpers.required}
             />
-            <Field
-              name="styles"
-              fullWidth
-              validate={this.validatedJSON}
-              component={RenderJsonCodeEditorField}
-              label={formatMessage({ id: 'container.form.styles' })}
-            />
-          </ShowableAtRender>
-          <CardActionsComponent
-            mainButtonLabel={formatMessage({ id: container ? 'container.form.update.button' : 'container.form.submit.button' })}
-            mainButtonType="submit"
-            isMainButtonDisabled={pristine || submitting || invalid}
-            secondaryButtonLabel={formatMessage({ id: 'container.form.cancel.button' })}
-            secondaryButtonClick={onCancel}
-          />
-        </div>
-      </form>
+            {hasDynamicOptions // available for new elements and
+              ? <Field
+                name="type"
+                fullWidth
+                component={RenderSelectField}
+                type="text"
+                onSelect={this.selectContainerType}
+                label={formatMessage({ id: 'container.form.type' })}
+                validate={ValidationHelpers.required}
+                style={ContainerConfigurationComponent.SELECT_FIELD_STYLES}
+              >
+                { /** Show option (remove container types used for root container) */
+                  map(
+                    hideDynamicContentOption ? STATIC_CONTAINERS : ALL_CONTAINERS,
+                    (containerOption, containerKey) => containerOption.inUserApp
+                      ? <MenuItem value={containerKey} key={containerKey} primaryText={formatMessage({ id: containerOption.i18nKey })} />
+                      : null)
+                }
+              </Field> : null}
+            {!this.props.hideDynamicContentOption && hasDynamicOptions
+              ? <DynamicContentField change={this.props.change} />
+              : null}
+            <ShowHideAdvancedOptions advanced={advanced} onClick={this.onAdvancedClick} />
+            <ShowableAtRender
+              show={advanced}
+            >
+              <Field
+                name="classes"
+                format={classesFormat}
+                parse={classesParse}
+                fullWidth
+                component={RenderTextField}
+                type="text"
+                label={formatMessage({ id: 'container.form.classes' })}
+              />
+              <Field
+                name="styles"
+                fullWidth
+                validate={this.validatedJSON}
+                component={RenderJsonCodeEditorField}
+                label={formatMessage({ id: 'container.form.styles' })}
+              />
+            </ShowableAtRender>
+          </div>
+        </form>
+      </Dialog>
     )
   }
 }

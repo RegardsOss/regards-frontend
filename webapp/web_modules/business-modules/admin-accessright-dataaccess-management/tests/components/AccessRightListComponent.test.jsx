@@ -44,14 +44,13 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
     const props = {
       accessGroup: DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup'),
       selectedDatasetsWithAccessright: [],
-      pluginConfigurationList: {},
-      pluginMetaDataList: {},
       deleteAccessRight: () => { },
       submitAccessRights: () => { },
       navigateToCreateDataset: spy(),
       backURL: '#test',
       setFilters: () => { },
       onRefresh: () => { },
+      onFilter: () => { },
     }
 
     const enzymeWrapper = shallow(<AccessRightListComponent {...props} />, { context, lifecycleExperimental: true })

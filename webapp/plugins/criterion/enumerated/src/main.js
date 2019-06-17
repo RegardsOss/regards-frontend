@@ -18,8 +18,8 @@
  **/
 import { initPlugin } from '@regardsoss/plugins-api'
 import getReducer from './reducer'
-import EnumeratedCriteriaContainer from './containers/EnumeratedCriteriaContainer'
+import EnumeratedCriterionContainer from './containers/EnumeratedCriterionContainer'
 import styles from './styles'
 import pluginInfo from './plugin-info.json'
 
-initPlugin(EnumeratedCriteriaContainer, pluginInfo, getReducer, null, styles)
+initPlugin(EnumeratedCriterionContainer, pluginInfo, getReducer, null, styles)

@@ -36,6 +36,7 @@ class BasicPageableReducer extends BasicListReducers {
         return {
           ...newState,
           metadata: action.payload.metadata,
+          links: action.payload.links,
         }
       default:
         return newState
