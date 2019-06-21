@@ -96,11 +96,11 @@ class CriteriaConfigurationComponent extends React.Component {
   render() {
     const { criteria: criteriaStyle } = this.context.moduleTheme
     return (
-      <>
+      <React.Fragment>
         <div style={criteriaStyle.title}>{`${this.props.plugin.info.name} configuration`}</div>
         <div style={criteriaStyle.subtitle}>{this.props.plugin.info.description}</div>
         {map(this.props.plugin.info.conf.attributes, attribute => this.renderCriteriaAttributeConf(attribute))}
-      </>
+      </React.Fragment>
     )
   }
 }
