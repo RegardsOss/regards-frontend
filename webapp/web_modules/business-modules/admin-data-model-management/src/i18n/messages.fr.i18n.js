@@ -29,7 +29,7 @@ const messages = Object.assign({
   'model.list.action.cancel': 'Annuler',
   'model.list.action.export': 'Télécharger',
   'model.list.action.bind': 'Associer des attributs',
-  'model.list.action.edit': 'Editer',
+  'model.list.action.edit': 'Éditer',
   'model.list.action.duplicate': 'Dupliquer',
   'model.list.action.delete': 'Supprimer',
   'model.list.delete.title': 'Supprimer le modèle {name} ?',
@@ -41,7 +41,7 @@ const messages = Object.assign({
   'model.type.collection': 'Collection',
   'model.type.document': 'Document',
 
-  'model.edit.title': 'Editer le modèle {name}',
+  'model.edit.title': 'Éditer le modèle {name}',
   'model.create.title': 'Ajouter un modèle',
   'model.duplicate.title': 'Dupliquer le modèle {name}',
   'model.duplicate.warning': 'Attention, les plugins de calcul associés aux attributs du modèle d\'origine ne seront pas reportés',

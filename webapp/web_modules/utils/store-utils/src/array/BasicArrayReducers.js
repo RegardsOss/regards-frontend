@@ -34,7 +34,7 @@ const defaultState = {
 /**
  *  Handle reduction for arrays
  */
-class BasicArrayReducer extends BasicReducer {
+class BasicArrayReducers extends BasicReducer {
   constructor(basicArrayActionInstance) {
     super(basicArrayActionInstance, defaultState)
     this.basicArrayActionInstance = basicArrayActionInstance
@@ -76,10 +76,7 @@ class BasicArrayReducer extends BasicReducer {
           ...newState,
           isFetching: false,
           error: defaultState.error,
-          items: {
-            ...newState.items,
-            ...action.payload,
-          },
+          items: action.payload,
         }
       default:
         return newState
@@ -87,4 +84,4 @@ class BasicArrayReducer extends BasicReducer {
   }
 }
 
-export default BasicArrayReducer
+export default BasicArrayReducers

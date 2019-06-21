@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import root from 'window-or-global'
-import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
@@ -52,9 +51,12 @@ export class SessionManagementContainer extends React.Component {
     project: '_default',
   }
 
+  static SESSION_TIMEOUT_DURATION = 5000
+
   state = {
     initialized: false,
   }
+
 
   /**
    * Lifecycle method component will mount: used here to listen for window focus events (broken timers workaround)
@@ -75,7 +77,7 @@ export class SessionManagementContainer extends React.Component {
     const currentAuthData = this.props.authentication || {}
     const nextAuthData = nextProps.authentication || {}
     if (!isEqual(currentAuthData.authenticateDate, nextAuthData.authenticateDate) && !nextAuthData.isFetching) {
-      this.onAuthenticationStateChanged(nextProps)
+      this.jobCheckingAuthenticationExpired(nextProps.authentication)
       this.updateAuthenticationInLocalStorage(nextAuthData.result, nextAuthData.authenticateDate)
     }
   }
@@ -91,30 +93,31 @@ export class SessionManagementContainer extends React.Component {
    * On focus gained detected. Check the locked state when focus change, as many browsers do not keep the timers accurate when
    * they are no longer focused
    */
-  onWindowFocused = () => this.onAuthenticationStateChanged(this.props)
+  onWindowFocused = () => this.jobCheckingAuthenticationExpired(this.props.authentication)
 
   /**
-   * On authentication state changed (or focus state changed): check again the token validity
-   * @param {*} properties component properties to consider
+   * Check the token validity
+   * @param {*} properties component property authentication to consider
    */
-  onAuthenticationStateChanged = ({ authentication }) => {
+  jobCheckingAuthenticationExpired = (authentication) => {
     // get back transient data from this attributes (not stored in state, as they are useless for graphics)
     if (this.sessionLockTimer) {
       clearTimeout(this.sessionLockTimer)
       this.sessionLockTimer = null
     }
     // is login in or changing role?
-    const authenticationResponse = authentication.result
-    if (authentication.authenticateDate && !isEmpty(authenticationResponse)) {
+    if (authentication.authenticateExpirationDate) {
       // Is in past? - note that such case may happen, due to inactive windows systems
-      const expiresInMS = authenticationResponse.expires_in * 1000 // backend unit is seconds
-      const expiresIn = authentication.authenticateDate + expiresInMS - Date.now()
+      const expiresIn = authentication.authenticateExpirationDate - Date.now()
       if (expiresIn < 0) {
         // immediate time out
         this.onSessionTimeout()
       } else {
-        // later time out
-        this.sessionLockTimer = setTimeout(() => this.onSessionTimeout(), expiresIn)
+        // test again in few seconds
+        this.sessionLockTimer = setTimeout(
+          () => this.jobCheckingAuthenticationExpired(authentication),
+          SessionManagementContainer.SESSION_TIMEOUT_DURATION,
+        )
       }
     }
     // else: not authentified, no session lock for the unknown user =D

@@ -21,7 +21,7 @@ const messages = {
   'user.board.tooltip.add': 'Add',
   'user.board.settings.tooltip': 'Settings',
 
-  'user.board.project-user.description': 'View and manage project users and project access requests',
+  'user.board.project-user.description': 'View and manage project users and project access request',
   'user.board.project-user.title': 'Users',
 
   'user.board.role.description': 'View and manage allowed functionalities by user role',

@@ -31,11 +31,11 @@ const messages = Object.assign({
   'attrmodel.list.table.actions': 'Actions',
   'attrmodel.list.action.add': 'Ajouter',
   'attrmodel.list.action.cancel': 'Annuler',
-  'attrmodel.list.action.edit': 'Editer',
+  'attrmodel.list.action.edit': 'Éditer',
   'attrmodel.list.action.delete': 'Supprimer',
   'attrmodel.list.delete.title': 'Supprimer l\'attribut {name} ?',
 
-  'attrmodel.edit.title': 'Editer l\'attribut de modèle {name}',
+  'attrmodel.edit.title': 'Éditer l\'attribut de modèle {name}',
   'attrmodel.create.title': 'Ajouter un attribut de modèle',
   'attrmodel.form.name': 'Nom du l\'attribut',
   'attrmodel.form.label': 'Label de l\'attribut',
@@ -52,7 +52,7 @@ const messages = Object.assign({
 
   'attrmodel.form.unit.description.dialog.title': 'Unité de l\'attribut',
   'attrmodel.form.unit.description.dialog.content':
-    'Ce paramètre vous permet de déterminer l\'unité de mesure associée à votre attribut.<br/> Les unités de stockage (taille des fichiers) sont gérées pour un meilleur affichage das l\'interface utilisateur veuillez donc utiliser la norme IEEE 1541 <br /><br/>'
+    'Saisissez l\'unité de mesure associée aux valeurs de l\'attribut, en suivant la norme IEEE 1541.<br/>'
     + 'Vous pouvez utiliser : <ul>'
     + '<li> - octets, octet, , ko, mo, go, to, po, eo</li>'
     + '<li> - bit, bits, b, kb, mb, gb, tb, pb, eb</li>'
@@ -65,7 +65,7 @@ const messages = Object.assign({
   'attrmodel.form.restriction.NUMBER_RANGE.max': 'Valeur maximale autorisée',
   'attrmodel.form.restriction.NUMBER_RANGE.isMaxInclusive': 'Borne maximale incluse dans l\'ensemble',
 
-  'attrmodel.form.restriction.ENUMERATION.add': 'Ajouter une valeur:',
+  'attrmodel.form.restriction.ENUMERATION.add': 'Ajouter une valeur :',
   'attrmodel.form.restriction.ENUMERATION.value': 'Valeur',
   'attrmodel.form.restriction.ENUMERATION.active': 'Définir l\'ensemble des valeurs autorisées à l\'aide d\'une énumération',
   'attrmodel.form.restriction.ENUMERATION.addinput': 'Nouvelle valeur de l\'ensemble',

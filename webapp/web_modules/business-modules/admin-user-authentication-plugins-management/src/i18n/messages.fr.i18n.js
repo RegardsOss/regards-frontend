@@ -28,7 +28,7 @@ const messages = Object.assign({
   'user.authentication.plugins.list.header.name.label': 'Libellé',
   'user.authentication.plugins.list.header.type.label': 'Type d\'authentification',
   'user.authentication.plugins.list.header.active.label': 'Activer',
-  'user.authentication.plugins.list.edit.button': 'Editer la configuration',
+  'user.authentication.plugins.list.edit.button': 'Éditer la configuration',
   'user.authentication.plugins.list.duplicate.button': 'Dupliquer la configuration',
   'user.authentication.plugins.list.active.on.button': 'Activer ce système d\'authentification',
   'user.authentication.plugins.list.active.off.button': 'Désactiver ce système d\'authentification',
@@ -38,7 +38,7 @@ const messages = Object.assign({
   'user.authentication.plugins.list.add.button': 'Ajouter un système d\'authentification',
 
   'user.authentication.plugins.form.create.title': 'Ajout d\'un nouveau système d\'authentification',
-  'user.authentication.plugins.form.edit.title': 'Edition du système d\'authentification "{name}"',
+  'user.authentication.plugins.form.edit.title': 'Édition du système d\'authentification "{name}"',
   'user.authentication.plugins.form.create.subtitle': 'Après avoir sélectionné le type de système d\'authentification, veuillez renseigner les paramètres de configuration associés.',
   'user.authentication.plugins.form.edit.subtitle': 'Veuillez renseigner les paramètres de configuration associés.',
   'user.authentication.plugins.form.type.select.title': 'Type de système d\'authentification',

@@ -53,7 +53,7 @@ export class SIPSubmissionFormContainer extends React.Component {
    * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps = dispatch => ({
-    submitSips: file => dispatch(sipImportActions.createEntityUsingMultiPart({}, { file })),
+    submitSips: file => dispatch(sipImportActions.createEntitiesUsingMultiPart({}, { file })),
     isStorageReady: () => dispatch(storageReadyActions.sendSignal('GET', null, { microserviceName: 'rs-storage' })),
   })
 

@@ -23,12 +23,12 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = Object.assign({
   'dataaccess.services.list.title': 'Configuration des services applicables aux données du catalogue',
-  'dataaccess.services.list.subtitle': 'Cette section vous permet de configurer services applicables aux données du catalogueue.',
+  'dataaccess.services.list.subtitle': 'Cette section vous permet de configurer les services applicables aux données du catalogue.',
   'dataaccess.services.list.header.id.label': 'Identifiant',
   'dataaccess.services.list.header.name.label': 'Libellé',
   'dataaccess.services.list.header.type.label': 'Type de service',
   'dataaccess.services.list.header.active.label': 'Activer',
-  'dataaccess.services.list.edit.button': 'Editer la configuration',
+  'dataaccess.services.list.edit.button': 'Éditer la configuration',
   'dataaccess.services.list.duplicate.button': 'Dupliquer la configuration',
   'dataaccess.services.list.active.on.button': 'Activer ce service',
   'dataaccess.services.list.active.off.button': 'Désactiver ce service',
@@ -38,7 +38,7 @@ const messages = Object.assign({
   'dataaccess.services.list.add.button': 'Ajouter un service',
 
   'dataaccess.services.form.create.title': 'Ajout d\'un nouveau service',
-  'dataaccess.services.form.edit.title': 'Edition du service "{name}"',
+  'dataaccess.services.form.edit.title': 'Édition du service "{name}"',
   'dataaccess.services.form.create.subtitle': 'Après avoir sélectionné le type de service, veuillez renseigner les paramètres de configuration associés.',
   'dataaccess.services.form.edit.subtitle': 'Veuillez renseigner les paramètres de configuration associés.',
   'dataaccess.services.form.type.select.title': 'Type de service',

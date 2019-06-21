@@ -41,6 +41,7 @@ class AuthenticateReducers extends BasicSignalReducers {
         return {
           ...newState, // flush handled with parent state
           authenticateDate: null,
+          authenticateExpirationDate: null,
           sessionLocked: false,
           error: {
             loginError: null,
@@ -62,16 +63,20 @@ class AuthenticateReducers extends BasicSignalReducers {
         }
       }
       // update authentication date and unlock session
-      case this.basicSignalActionInstance.SIGNAL_SUCCESS:
+      case this.basicSignalActionInstance.SIGNAL_SUCCESS: {
+        const expiresInSeconds = get(newState, 'result.expires_in', null)
+        const authExpirationDate = Date.now() + (expiresInSeconds * 1000)
         return {
           ...newState,
           sessionLocked: false,
           authenticateDate: Date.now(),
+          authenticateExpirationDate: authExpirationDate,
           error: {
             loginError: null,
             ...error,
           },
         }
+      }
       // mark session locked, keep authentication date
       case this.basicSignalActionInstance.LOCK_SESSION:
         return {
@@ -79,15 +84,20 @@ class AuthenticateReducers extends BasicSignalReducers {
           sessionLocked: true,
         }
       // renew authentication data (action result, see AuthenticateActions)
-      case this.basicSignalActionInstance.AUTHENTICATION_CHANGED:
+      case this.basicSignalActionInstance.AUTHENTICATION_CHANGED: {
+        const newResult = { ...(state.result), ...action.result }
+        const expiresInSeconds = get(newResult, 'expires_in', null)
+        const authExpirationDate = Date.now() + (expiresInSeconds * 1000)
         return {
           // recover previous state
           ...state,
           // update token authentication date
           authenticateDate: Date.now(),
+          authenticateExpirationDate: authExpirationDate,
           // use new action result authentication state
-          result: { ...(state.result), ...action.result },
+          result: newResult,
         }
+      }
       case this.basicSignalActionInstance.CLEAR_AUTH_ERROR:
         return {
           // recover previous state

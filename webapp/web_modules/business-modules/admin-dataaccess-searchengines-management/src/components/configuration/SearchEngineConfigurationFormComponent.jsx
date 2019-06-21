@@ -26,7 +26,7 @@ import {
 } from 'material-ui/Card'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { CatalogShapes, CommonShapes } from '@regardsoss/shape'
+import { CatalogShapes, CommonShapes, DataManagementShapes } from '@regardsoss/shape'
 import {
   reduxForm, Field, RenderTextField,
   ValidationHelpers, RenderPageableAutoCompleteField,
@@ -65,6 +65,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
     change: PropTypes.func,
+    dataset: DataManagementShapes.DatasetContent,
   }
 
   static defaultProps = {}
@@ -81,22 +82,26 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
   }
 
   componentWillMount = () => {
-    const { searchEngineConfiguration, initialize, pluginMetaDataList } = this.props
+    const {
+      searchEngineConfiguration,
+      initialize,
+      pluginMetaDataList,
+      dataset,
+    } = this.props
     if (searchEngineConfiguration) {
-      initialize(searchEngineConfiguration.content)
+      initialize({ ...searchEngineConfiguration.content, dataset: dataset ? dataset.feature : null })
       let pluginMeta = null
       const { configuration } = searchEngineConfiguration.content
       if (configuration && pluginMetaDataList && pluginMetaDataList[configuration.pluginId]) {
         pluginMeta = pluginMetaDataList[configuration.pluginId].content
       }
-      if (searchEngineConfiguration.content.dataset) {
+      if (dataset !== undefined) {
         this.setState({ pluginToConfigure: pluginMeta, datasetSelector: 'selected' })
       } else {
         this.setState({ pluginToConfigure: pluginMeta })
       }
     }
   }
-
 
   onSubmit = (values) => {
     const searchConf = Object.assign(values, { datasetUrn: get(values, 'dataset.id', null), dataset: null })
@@ -132,7 +137,10 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
     return this.props.change('configuration', selectedConf || null)
   }
 
-  onChangeDatasetSelector = (event, value) => this.setState({ datasetSelector: value })
+  onChangeDatasetSelector = (event, value) => {
+    this.setState({ datasetSelector: value })
+    this.props.change('dataset', null)
+  }
 
   handleCloseDescriptionDialog = () => this.setState({ descriptionOpen: false })
 
@@ -261,7 +269,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
       return (
         <Card>
           <NoContentComponent
-            title={formatMessage({ id: 'dataaccess.searchengines.form.no.plugin.avalaible' })}
+            title={formatMessage({ id: 'dataaccess.searchengines.form.no.plugin.available' })}
             Icon={MoodIcon}
           />
         </Card>
@@ -274,6 +282,9 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
     const subtitle = mode === 'edit'
       ? formatMessage({ id: 'dataaccess.searchengines.form.edit.subtitle' })
       : formatMessage({ id: 'dataaccess.searchengines.form.create.subtitle' })
+    const buttonLabel = mode === 'edit'
+      ? formatMessage({ id: 'search-engines.form.update.action' })
+      : formatMessage({ id: 'search-engines.form.create.action' })
     return (
       <form
         onSubmit={handleSubmit(this.onSubmit)}
@@ -310,10 +321,10 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={this.context.intl.formatMessage({ id: 'search-engines.form.action.save' })}
+              mainButtonLabel={buttonLabel}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'search-engines.form.action.cancel' })}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'search-engines.form.cancel.action' })}
               secondaryButtonClick={onBack}
             />
           </CardActions>

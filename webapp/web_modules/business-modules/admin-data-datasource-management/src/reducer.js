@@ -23,6 +23,7 @@ import { datasourceReducer } from './clients/DatasourceClient'
 import { connectionTableReducer } from './clients/ConnectionTableClient'
 import { connectionTableAttributesReducer } from './clients/ConnectionTableAttributesClient'
 import { modelAttributesReducer } from './clients/ModelAttributesClient'
+import { descriptorReducer } from './clients/OpensearchDescriptorClient'
 import { pluginMetaDataReducer } from './clients/PluginMetaDataClient'
 import { crawlerDatasourceReducer } from './clients/CrawlerDatasourceClient'
 
@@ -32,6 +33,7 @@ const datasourceDataManagementReducer = combineReducers({
   connection: connectionReducer,
   model: modelReducer,
   'model-attributes': modelAttributesReducer,
+  'opensearch-descriptor': descriptorReducer,
   'connection-table': connectionTableReducer,
   'connection-table-attributes': connectionTableAttributesReducer,
   'plugin-meta-data': pluginMetaDataReducer,

@@ -28,7 +28,7 @@ const messages = Object.assign({
   'aips.list.filters.tag.label': 'Tags',
   'aips.list.remove-tag.button': 'Delete tag',
   'aips.list.add-tag.button': 'Add tag',
-  'aips.list.table.headers.providerId': 'Identifiant producteur',
+  'aips.list.table.headers.providerId': 'Provider id',
   'aips.list.table.headers.type': 'Type',
   'aips.list.table.headers.state': 'State',
   'aips.list.table.headers.data.storages': 'Stored on',

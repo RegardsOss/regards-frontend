@@ -20,12 +20,13 @@ import { combineReducers } from 'redux'
 import { searchEngineConfigurationsReducer } from './clients/SearchEngineConfigurationsClient'
 import { pluginConfigurationReducer } from './clients/PluginConfigurationClient'
 import { pluginMetaDataReducer } from './clients/PluginMetadataClient'
-
+import { datasetReducer } from './clients/DatasetClient'
 
 const searchEnginesReducer = combineReducers({
   configurations: searchEngineConfigurationsReducer,
   pluginConfiguration: pluginConfigurationReducer,
   pluginMetadata: pluginMetaDataReducer,
+  dataset: datasetReducer,
 })
 
 export default searchEnginesReducer

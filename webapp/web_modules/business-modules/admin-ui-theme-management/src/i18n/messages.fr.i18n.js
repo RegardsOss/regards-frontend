@@ -29,7 +29,7 @@ const messages = Object.assign({
   'theme.list.subtitle': 'Liste des personnalisations des thèmes REGARDS',
   'theme.list.table.label': 'Nom du thème',
   'theme.list.table.actions': 'Actions',
-  'theme.list.tooltip.edit': 'Editer',
+  'theme.list.tooltip.edit': 'Éditer',
   'theme.list.tooltip.duplicate': 'Dupliquer',
   'theme.list.tooltip.delete': 'Supprimer',
   'theme.list.action.cancel': 'Annuler',
@@ -37,9 +37,9 @@ const messages = Object.assign({
 
 
   'theme.create.title': 'Créer un nouveau thème',
-  'theme.edit.title': 'Editer le thème {name}',
+  'theme.edit.title': 'Éditer le thème {name}',
   'theme.duplicate.title': 'Dupliquer le thème {name}',
-  'theme.form.baseTheme': 'Theme de base',
+  'theme.form.baseTheme': 'Thème de base',
   'theme.form.name': 'Nom du thème',
   'theme.form.name.not.unique.error': 'Il existe déjà un thème portant ce nom',
   'theme.form.active': 'Actif par défaut',

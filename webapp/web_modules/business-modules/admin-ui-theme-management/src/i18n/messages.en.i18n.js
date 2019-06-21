@@ -26,7 +26,7 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'theme.list.delete.title': 'Remove theme {name}?',
   'theme.list.title': 'Theme list',
-  'theme.list.subtitle': 'List of personalisations of REGARDS themes',
+  'theme.list.subtitle': 'Personifications list of REGARDS themes',
   'theme.list.table.label': 'Theme name',
   'theme.list.table.actions': 'Actions',
   'theme.list.tooltip.edit': 'Edit',

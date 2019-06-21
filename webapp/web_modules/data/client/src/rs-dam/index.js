@@ -113,6 +113,7 @@ export { default as DatasetDataAttributesSelectors } from './dataset/DatasetData
 export { default as DatasetAttributesActions } from './dataset/DatasetAttributesActions'
 export { default as DatasetAttributesReducer } from './dataset/DatasetAttributesReducer'
 export { default as DatasetAttributesSelectors } from './dataset/DatasetAttributesSelectors'
+export { default as DatasetByIpIdActions } from './dataset/DatasetByIpIdActions'
 
 export { default as DatasetValidSubsettingTestActions } from './datasetValidSubsettingTest/DatasetValidSubsettingTestActions'
 export { default as getDatasetValidSubsettingTestReducer } from './datasetValidSubsettingTest/DatasetValidSubsettingTestReducer'
@@ -145,3 +146,7 @@ export { default as getUserGroupSelectors } from './userGroup/UserGroupSelectors
 export { default as EntityAttachmentActions } from './entityAttachment/EntityAttachmentActions'
 export { default as getEntityAttachmentReducer } from './entityAttachment/EntityAttachmentReducer'
 export { default as getEntityAttachmentSelectors } from './entityAttachment/EntityAttachmentSelectors'
+
+export { default as OpensearchDescriptorSelectors } from './opensearchDescriptor/OpensearchDescriptorSelectors'
+export { default as OpensearchDescriptorActions } from './opensearchDescriptor/OpensearchDescriptorActions'
+export { default as OpensearchDescriptorReducer } from './opensearchDescriptor/OpensearchDescriptorReducer'

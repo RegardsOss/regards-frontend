@@ -22,9 +22,8 @@ import nock from 'nock'
 import { expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { PROJECT, PROJECT_ARRAY } from '@regardsoss/api'
+import { apiMiddleware } from 'redux-api-middleware'
 import BasicListActions from '../../src/list/BasicListActions'
-
-const { apiMiddleware } = require('redux-api-middleware')
 
 const middlewares = [thunk, apiMiddleware]
 const mockStore = configureStore(middlewares)

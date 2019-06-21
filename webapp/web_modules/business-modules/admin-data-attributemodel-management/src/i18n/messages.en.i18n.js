@@ -22,7 +22,7 @@ import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 const messages = Object.assign({
   'attrmodel.list.delete.conditions': 'You can delete attributes which are not associated to a model.',
   'attrmodel.list.title': 'Attribute models',
-  'attrmodel.list.subtitle': 'All atttribute models for the project',
+  'attrmodel.list.subtitle': 'All attribute models for the project',
   'attrmodel.list.table.fragment': 'Fragment',
   'attrmodel.list.table.name': 'Name',
   'attrmodel.list.table.label': 'Label',
@@ -52,8 +52,8 @@ const messages = Object.assign({
 
   'attrmodel.form.unit.description.dialog.title': 'Attribute parameter unit',
   'attrmodel.form.unit.description.dialog.content':
-    'This parameter allows to define the unit of the parameter.<br/> Storage units are handle for better render in user interface. So, please use the standard IEEE 1541 specification.<br />'
-    + 'You can use : <ul>'
+    'Select here the attributes values unit, following the IEEE 1541 specification.<br />'
+    + 'Allowed units are : <ul>'
     + '<li> - bytes, byte, B, kB, mB, gB, tB, pB, eB</li>'
     + '<li> - bit, bits, b, kb, mb, gb, tb, pb, eb</li>'
     + '</ul>',
@@ -61,20 +61,20 @@ const messages = Object.assign({
 
 
   'attrmodel.form.restriction.NUMBER_RANGE.active': 'Activate a range restriction',
-  'attrmodel.form.restriction.NUMBER_RANGE.min': 'Minimal value autorized',
+  'attrmodel.form.restriction.NUMBER_RANGE.min': 'Minimal value authorized',
   'attrmodel.form.restriction.NUMBER_RANGE.isMinInclusive': 'Minimal limit included in the set',
-  'attrmodel.form.restriction.NUMBER_RANGE.max': 'Maximal value autorized',
+  'attrmodel.form.restriction.NUMBER_RANGE.max': 'Maximal value authorized',
   'attrmodel.form.restriction.NUMBER_RANGE.isMaxInclusive': 'Maximal limit included in the set',
 
   'attrmodel.form.restriction.ENUMERATION.add': 'Add a value:',
   'attrmodel.form.restriction.ENUMERATION.value': 'Value',
-  'attrmodel.form.restriction.ENUMERATION.active': 'Define the autorized value set',
+  'attrmodel.form.restriction.ENUMERATION.active': 'Define the authorized value set',
   'attrmodel.form.restriction.ENUMERATION.addinput': 'New value',
 
   'attrmodel.form.restriction.PATTERN.pattern': 'Pattern',
   'attrmodel.form.restriction.PATTERN.active': 'Activate the pattern restriction',
 
-  'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used': 'Adding a new mandatory attribute to a fragment already used by models can cause issues during future ingestions and data updates',
+  'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used': 'Adding a new mandatory attribute to a fragment already used by models can cause issues during future ingestion and data updates',
 
   'invalid.only_1_restriction_on_the_same_time': 'You can\'t activate more than one restriction',
 }, Locales.en)

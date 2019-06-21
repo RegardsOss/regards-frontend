@@ -16,9 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { RSAA, getJSON } from 'redux-api-middleware'
 import BasicActions from '../BasicActions'
-
-const { RSAA, getJSON } = require('redux-api-middleware')
 /**
  *  Provide actions to retrieve an array of value
  *
@@ -55,14 +54,14 @@ class BasicArrayActions extends BasicActions {
 
   /**
   * Allows to send multiple objects on the same time
-  * Requires that the API send back a new entity
+  * Requires that the API send back new entities
   * @param objectValues Object containing key - values with key expected by the API and value an object, a string,...
   * @param files Object containing key - values with key expected by the API and value a file
   * @param pathParams
   * @param queryParams
   * @returns {{}}
   */
-  createEntityUsingMultiPart(objectValues, files, pathParams, queryParams) {
+  createEntitiesUsingMultiPart(objectValues, files, pathParams, queryParams) {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)

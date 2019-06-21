@@ -44,7 +44,7 @@ export const createDBDatasourcePickConnectionRoute = {
   path: 'db/create/connection',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const DBDatasourceCreateOrPickConnectionContainer = require('./containers/DBDatasourceCreateOrPickConnectionContainer')
+      const DBDatasourceCreateOrPickConnectionContainer = require('./containers/db/DBDatasourceCreateOrPickConnectionContainer')
       cb(null, {
         content: DBDatasourceCreateOrPickConnectionContainer.default,
       })
@@ -56,7 +56,7 @@ export const createDBDatasourceRoute = {
   path: 'db/create/:connectionId',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const DBDatasourceFormContainer = require('./containers/DBDatasourceFormContainer')
+      const DBDatasourceFormContainer = require('./containers/db/DBDatasourceFormContainer')
       cb(null, {
         content: DBDatasourceFormContainer.default,
       })
@@ -68,7 +68,7 @@ export const editDBDatasourceRoute = {
   path: 'db/:datasourceId/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const DBDatasourceFormContainer = require('./containers/DBDatasourceFormContainer')
+      const DBDatasourceFormContainer = require('./containers/db/DBDatasourceFormContainer')
       cb(null, {
         content: DBDatasourceFormContainer.default,
       })
@@ -80,7 +80,7 @@ export const editAIPDatasourceRoute = {
   path: 'aip/:datasourceId/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const AIPDatasourceFormContainer = require('./containers/AIPDatasourceFormContainer')
+      const AIPDatasourceFormContainer = require('./containers/aip/AIPDatasourceFormContainer')
       cb(null, {
         content: AIPDatasourceFormContainer.default,
       })
@@ -92,9 +92,33 @@ export const createAIPDatasourceRoute = {
   path: 'aip/create',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const AIPDatasourceFormContainer = require('./containers/AIPDatasourceFormContainer')
+      const AIPDatasourceFormContainer = require('./containers/aip/AIPDatasourceFormContainer')
       cb(null, {
         content: AIPDatasourceFormContainer.default,
+      })
+    })
+  },
+}
+
+export const createOSDatasourceRoute = {
+  path: 'opensearch/create',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const OSConfigurationFormContainer = require('./containers/opensearch/OSConfigurationFormContainer')
+      cb(null, {
+        content: OSConfigurationFormContainer.default,
+      })
+    })
+  },
+}
+
+export const editOSDatasourceRoute = {
+  path: 'opensearch/:datasourceId/edit',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const OSConfigurationFormContainer = require('./containers/opensearch/OSConfigurationFormContainer')
+      cb(null, {
+        content: OSConfigurationFormContainer.default,
       })
     })
   },
@@ -123,6 +147,8 @@ const datasourceDataManagementRouter = {
     monitorDatasourcesRoute,
     editAIPDatasourceRoute,
     createAIPDatasourceRoute,
+    createOSDatasourceRoute,
+    editOSDatasourceRoute,
   ],
 }
 

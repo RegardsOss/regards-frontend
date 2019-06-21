@@ -46,6 +46,7 @@ describe('[ADMIN SEARCH ENGINES] Testing SearchEngineConfigurationFormComponent'
       onCreate: () => { },
       pluginConfigurationList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
       pluginMetaDataList: DumpProvider.get('CommonClient', 'PluginMetaData'),
+      dataset: DumpProvider.getFirstEntityContent('DataManagementClient', 'Dataset'),
       // from reduxForm
       submitting: false,
       invalid: false,
@@ -81,6 +82,7 @@ describe('[ADMIN SEARCH ENGINES] Testing SearchEngineConfigurationFormComponent'
       onCreate: () => { },
       pluginConfigurationList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
       pluginMetaDataList: DumpProvider.get('CommonClient', 'PluginMetaData'),
+      dataset: DumpProvider.getFirstEntityContent('DataManagementClient', 'Dataset'),
       // from reduxForm
       submitting: false,
       invalid: false,

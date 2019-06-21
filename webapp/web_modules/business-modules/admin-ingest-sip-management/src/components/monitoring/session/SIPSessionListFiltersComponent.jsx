@@ -18,7 +18,6 @@
  **/
 import get from 'lodash/get'
 import values from 'lodash/values'
-import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
 import FlatButton from 'material-ui/FlatButton'
@@ -37,7 +36,6 @@ class SIPSessionListFiltersComponent extends React.Component {
   static propTypes = {
     initialFilters: PropTypes.objectOf(PropTypes.string),
     applyFilters: PropTypes.func.isRequired,
-    handleRefresh: PropTypes.func.isRequired,
   }
 
   static defaultProps = {}
@@ -120,7 +118,6 @@ class SIPSessionListFiltersComponent extends React.Component {
 
   render = () => {
     const { intl, moduleTheme: { filter } } = this.context
-    const { handleRefresh } = this.props
     return (
       <TableHeaderLine>
         <TableHeaderOptionsArea reducible alignLeft>
@@ -149,6 +146,8 @@ class SIPSessionListFiltersComponent extends React.Component {
               locale={intl.locale}
             />
           </TableHeaderOptionGroup>
+        </TableHeaderOptionsArea>
+        <TableHeaderOptionsArea reducible>
           <TableHeaderOptionGroup>
             <FlatButton
               label={intl.formatMessage({ id: 'sips.session.clear.filters.button' })}
@@ -160,15 +159,6 @@ class SIPSessionListFiltersComponent extends React.Component {
               label={intl.formatMessage({ id: 'sips.session.apply.filters.button' })}
               icon={<Filter />}
               onClick={this.handleFilter}
-            />
-          </TableHeaderOptionGroup>
-        </TableHeaderOptionsArea>
-        <TableHeaderOptionsArea>
-          <TableHeaderOptionGroup>
-            <FlatButton
-              label={intl.formatMessage({ id: 'sips.session.refresh.button' })}
-              icon={<Refresh />}
-              onClick={handleRefresh}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>

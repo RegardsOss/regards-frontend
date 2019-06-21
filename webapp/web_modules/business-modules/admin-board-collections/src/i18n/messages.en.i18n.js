@@ -21,7 +21,7 @@ const messages = {
   'data.board.action.add.tooltip': 'Add',
 
   'data.board.collection.title': 'Collections',
-  'data.board.collection.description': 'Collections are clusterings of data by topic',
+  'data.board.collection.description': 'Collections are data cluster by topic',
 
   'data.board.dataset.title': 'Datasets',
   'data.board.dataset.description': 'Datasets contain data',

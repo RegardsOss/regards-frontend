@@ -38,14 +38,14 @@ const messages = Object.assign({
   // 1.3 actions
   'acquisition-chain.list.addnew.button': 'Ajouter',
   'acquisition-chain.list.back.button': 'Retour',
-  'acquisition-chain.list.edit.tooltip': 'Editer',
+  'acquisition-chain.list.edit.tooltip': 'Éditer',
   'acquisition-chain.list.duplicate.tooltip': 'Dupliquer',
   'acquisition-chain.list.delete.confirm.title': 'Etes-vous sûr de vouloir supprimer la chaîne d\'acquisition : {label}',
 
   // 2 Chain creation/edition form
   // 2.1 Header section
   'acquisition-chain.form.create.title': 'Créer une nouvelle chaîne de d\'acquisition de données',
-  'acquisition-chain.form.edit.title': 'Edition de la chaine : {name}',
+  'acquisition-chain.form.edit.title': 'Édition de la chaine : {name}',
   'acquisition-chain.form.duplicate.title': 'Duplication de la chaîne : {name}',
   'acquisition-chain.form.informations-1': 'Une chaîne d\'acquisition de données doit, pour fonctionner, être associée aux éléments ci-dessous. Remarque : Les champs marqués (*) correspondent aux champs obligatoires.',
   'acquisition-chain.form.informations-2': '1. Informations générales de la chaîne.',
@@ -57,7 +57,7 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.label': 'Nom de la chaîne (*)',
   'acquisition-chain.form.general.section.active': 'Chaîne active',
   'acquisition-chain.form.general.generationRetryEnabled': 'Autoriser la re-génération des SIP associés à des produits en erreur.',
-  'acquisition-chain.form.general.section.periodicity': 'Période d\'activation (secondes). Uniquement utile pour une chaîne automatique.',
+  'acquisition-chain.form.general.section.periodicity': 'Période d\'activation (secondes). Utile uniquement pour une chaîne automatique.',
   'acquisition-chain.form.general.section.session': 'Session (*)',
   'acquisition-chain.form.general.section.mode': 'Mode (*)',
   'acquisition-chain.form.general.section.mode.AUTO': 'Automatique',
@@ -210,7 +210,7 @@ const messages = Object.assign({
   'acquisition-product.informaton.dialog.close.button': 'Fermer',
   'acquisition-product.informaton.global.error': 'Erreur durant l\'acquisition : ',
   'acquisition-product.informaton.generation.job.title': 'Informations sur le processus de génération du produit',
-  'acquisition-product.informaton.submition.job.title': 'Information sur le processus de soumission du SIP',
+  'acquisition-product.informaton.submission.job.title': 'Information sur le processus de soumission du SIP',
   'acquisition-product.informaton.dialog.job.info.percentCompleted': 'Avancement : ',
   'acquisition-product.informaton.dialog.job.info.queuedDate': 'Date de création : ',
   'acquisition-product.informaton.dialog.job.info.startDate': 'Date de début : ',

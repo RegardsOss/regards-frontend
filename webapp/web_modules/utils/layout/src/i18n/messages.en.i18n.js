@@ -30,7 +30,7 @@ const messages = Object.assign({
   'container.form.dynamicContent': 'Main container',
   'container.form.dynamicContent.info': 'The application\'s menu will be composed of this container\'s modules',
   'container.form.dynamicContent.modal.title': 'Make it the main container?',
-  'container.form.dynamicContent.modal.content': 'The application\'s menu will be composed of this container\'s modules. If you had an other main container, it will be converted to a static container',
+  'container.form.dynamicContent.modal.content': 'The application\'s menu will be composed of this container\'s modules. If you had another main container, it will be converted to a static container',
   'container.form.dynamicContent.modal.cancel': 'Cancel',
   'container.form.dynamicContent.modal.ok': 'OK',
   'container.form.update.button': 'Update',
