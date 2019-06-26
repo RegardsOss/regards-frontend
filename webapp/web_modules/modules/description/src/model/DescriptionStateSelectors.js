@@ -16,15 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import DescriptionLevelActions from '../model/DescriptionLevelActions'
-import getDescriptionLevelReducer from '../model/DescriptionLevelReducer'
-import getDescriptionLevelSelectors from '../model/DescriptionLevelSelectors'
+import { BasicSelector } from '@regardsoss/store-utils'
 
 /**
- * Inner client for description level model
+ * Description state selectors
  * @author Raphaël Mechali
  */
-
-export const descriptionLevelsActions = new DescriptionLevelActions()
-export const descriptionLevelsReducer = getDescriptionLevelReducer()
-export const descriptionLevelsSelectors = getDescriptionLevelSelectors()
+export class DescriptionStateSelectors extends BasicSelector {
+  /**
+   * @param {*} state redux store
+   * @return {[number]} selected entry path
+   */
+  getSelectedPath(state) {
+    return super.uncombineStore(state).selectedPath
+  }
+}

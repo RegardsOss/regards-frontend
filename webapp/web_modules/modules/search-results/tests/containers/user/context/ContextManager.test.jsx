@@ -66,7 +66,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       // cannot test tags here (promise system is way harder to mock...)
       },
     },
-    tags: [{
+    levels: [{
       // simple word tag
       label: 'coffee', // label is search key
       type: CatalogDomain.TAG_TYPES_ENUM.WORD,
@@ -92,7 +92,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       // cannot test tags here (promise system is way harder to mock...)
       },
     },
-    tags: [{
+    levels: [{
       // simple word tag
       label: 'tea', // label is search key
       type: CatalogDomain.TAG_TYPES_ENUM.WORD,
@@ -183,7 +183,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       },
       // just added
       criteria: {
-        tags: [CriterionBuilder.buildEntityTagCriterion(datasetEntity)],
+        levels: [CriterionBuilder.buildEntityTagCriterion(datasetEntity)],
       },
     }
     enzymeWrapper.setProps({
@@ -205,7 +205,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     nextContext = {
       ...nextContext,
       criteria: {
-        tags: [
+        levels: [
           // From previous context
           CriterionBuilder.buildEntityTagCriterion(datasetEntity), {
           // New word tag
@@ -291,7 +291,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     nextContext = {
       ...nextContext,
       criteria: {
-        tags: [CriterionBuilder.buildEntityTagCriterion(documentEntity)],
+        levels: [CriterionBuilder.buildEntityTagCriterion(documentEntity)],
       },
     }
     enzymeWrapper.setProps({
@@ -308,11 +308,11 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         [ContextManager.MODULE_URL_PARAMETERS.SEARCH_TAGS_PARAMETER]: documentEntity.content.id,
       },
     })
-    // Clear tags
+    // Clear levels
     nextContext = {
       ...nextContext,
       criteria: {
-        tags: [],
+        levels: [],
       },
     }
     enzymeWrapper.setProps({

@@ -36,7 +36,7 @@ class LoadingDisplayerComponent extends React.Component {
     const { message } = this.props
     const {
       rootStyle, circleSize, circleThickness, messageStyle,
-    } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.loading
+    } = this.context.moduleTheme.user.card.media.tabs.tab.loading
 
     return (
       <div style={rootStyle}>

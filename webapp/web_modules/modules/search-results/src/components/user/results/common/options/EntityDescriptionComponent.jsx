@@ -18,7 +18,7 @@
  **/
 import omit from 'lodash/omit'
 import IconButton from 'material-ui/IconButton'
-import InfoIcon from 'material-ui/svg-icons/action/info-outline'
+import DescriptionIcon from 'material-ui/svg-icons/action/info-outline'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
@@ -58,7 +58,7 @@ class EntityDescriptionComponent extends React.Component {
         onClick={this.onShowDescription}
         {...omit(this.props, EntityDescriptionComponent.NON_REPORTED_PROPS)}
       >
-        <InfoIcon />
+        <DescriptionIcon />
       </IconButton>
     )
   }

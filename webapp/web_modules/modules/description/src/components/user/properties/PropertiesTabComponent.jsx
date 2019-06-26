@@ -46,7 +46,7 @@ class PropertiesTabComponent extends React.Component {
       entity, onSearchTag, moduleConf, typeConfiguration,
       accessToken, projectName,
     } = this.props
-    const { rootStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
+    const { rootStyle } = this.context.moduleTheme.user.card.media.tabs.tab.propertiesTab
 
     return (
       <div style={rootStyle}>

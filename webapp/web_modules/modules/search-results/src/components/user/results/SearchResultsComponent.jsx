@@ -19,6 +19,7 @@
 import { AccessShapes, CommonShapes, UIShapes } from '@regardsoss/shape'
 import { UIDomain } from '@regardsoss/domain'
 import { BasicPageableActions } from '@regardsoss/store-utils'
+import { LazyModuleComponent } from '@regardsoss/modules'
 import { TableLayout } from '@regardsoss/components'
 import OptionsHeaderRowComponent from './header/OptionsHeaderRowComponent'
 import ResultFacetsHeaderRowContainer from '../../../containers/user/results/header/ResultFacetsHeaderRowContainer'
@@ -29,7 +30,8 @@ import QuicklooksViewContainer from '../../../containers/user/results/quickooks/
 import MapViewContainer from '../../../containers/user/results/map/MapViewContainer'
 
 /**
- * Search results root component: it shows table layout with headers and render an inner container according with current
+ * Search results root component: it shows either:
+ * - Description module when it it shows table layout with headers and render an inner container according with current
  * view type and mode
  * @author Raphaël Mechali
  */
@@ -39,9 +41,15 @@ class SearchResultsComponent extends React.Component {
     resultsContext: UIShapes.ResultsContext.isRequired,
     requestParameters: CommonShapes.RequestParameters.isRequired,
     searchActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
-    // Description management
+    // Description management (optional elements due to HOC system, always provided)
+    showDescription: PropTypes.bool,
+    descriptionModuleProps: PropTypes.shape({
+      appName: PropTypes.string.isRequired,
+      project: PropTypes.string.isRequired,
+      module: PropTypes.object.isRequired,
+    }),
     onShowDescription: PropTypes.func,
-    isDescAvailableFor: PropTypes.func, // always provided but optional for initial render (before HOC injected it)
+    isDescAvailableFor: PropTypes.func,
     // Basket management callbacks (when callback is not provided, functionnality is not available)
     onAddElementToCart: PropTypes.func,
     onAddSelectionToCart: PropTypes.func,
@@ -58,8 +66,8 @@ class SearchResultsComponent extends React.Component {
   render() {
     const {
       moduleId, resultsContext, requestParameters, searchActions,
-      onShowDescription, isDescAvailableFor, onSearchEntity,
-      onAddElementToCart, onAddSelectionToCart,
+      showDescription, descriptionModuleProps, onShowDescription, isDescAvailableFor,
+      onSearchEntity, onAddElementToCart, onAddSelectionToCart,
       selectionServices, onStartSelectionService,
       accessToken, projectName,
     } = this.props
@@ -83,8 +91,13 @@ class SearchResultsComponent extends React.Component {
           moduleId={moduleId}
           resultsContext={resultsContext}
         />
-        {/* Render the view according with current type */
+        {/* Render the view according with current view mode (or description if opened) */
           (() => {
+            if (showDescription) {
+              // Replace current results by the description view
+              return <LazyModuleComponent {...descriptionModuleProps} />
+            }
+            // render regular results in the right mode
             const { mode } = UIDomain.ResultsContextConstants.getViewData(resultsContext)
             switch (mode) {
               case UIDomain.RESULTS_VIEW_MODES_ENUM.LIST:

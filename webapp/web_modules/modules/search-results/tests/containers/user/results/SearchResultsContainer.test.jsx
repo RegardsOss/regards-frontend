@@ -163,7 +163,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
               new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, 'coffee').toQueryString(),
           },
         }],
-        tags: [{
+        levels: [{
           // simple word tag
           label: 'tea', // label is search key
           type: CatalogDomain.TAG_TYPES_ENUM.WORD,
@@ -189,7 +189,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
     nextContext = UIClient.ResultsContextHelper.mergeDeep(nextContext, {
       type: DamDomain.ENTITY_TYPES_ENUM.DATA,
       criteria: {
-        tags: [...nextContext.criteria.tags,
+        levels: [...nextContext.criteria.levels,
           CriterionBuilder.buildEntityTagCriterion({
             content: {
               ...datasetEntity.content,
@@ -245,7 +245,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
       resultsContext: {
         ...documentsContext,
         criteria: {
-          tags: [
+          levels: [
             CriterionBuilder.buildEntityTagCriterion(documentEntity), {
               // simple word tag
               label: 'tea', // label is search key

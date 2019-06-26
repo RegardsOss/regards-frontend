@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { DamDomain } from '@regardsoss/domain'
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, CatalogShapes } from '@regardsoss/shape'
 
 /**
  * Describes module configuration shape
@@ -55,4 +55,9 @@ export const ModuleConfiguration = PropTypes.shape({
   [DamDomain.ENTITY_TYPES_ENUM.DATASET]: DescriptionConfiguration,
   [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]: DescriptionConfiguration,
   [DamDomain.ENTITY_TYPES_ENUM.DATA]: DescriptionConfiguration,
+  // runtime data
+  runtime: PropTypes.shape({
+    entity: CatalogShapes.Entity, // entity to show
+    onNavigate: PropTypes.func.isRequired,
+  }),
 })

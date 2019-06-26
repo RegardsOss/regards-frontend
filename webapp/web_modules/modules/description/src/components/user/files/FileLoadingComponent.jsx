@@ -32,7 +32,7 @@ class FileLoadingComponent extends React.Component {
 
   render() {
     const { intl: { formatMessage }, moduleTheme } = this.context
-    const { centeredFileContent } = moduleTheme.descriptionDialog.card.media.tabs.tab.filesTab
+    const { centeredFileContent } = moduleTheme.user.card.media.tabs.tab.filesTab
     return (
       <div style={centeredFileContent}>
         <LoadingDisplayerComponent message={formatMessage({ id: 'module.description.file.loading' })} />

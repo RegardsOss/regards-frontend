@@ -16,20 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
-import { UIClient } from '@regardsoss/client'
-import { AccessShapes, CatalogShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-utils'
-import { buildDescriptionModuleConsumerID } from '@regardsoss/entities-common'
-import { descriptionLevelsActions, descriptionLevelsSelectors } from '../../clients/DescriptionLevelClient'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
-import { DESCRIPTION_TABS } from '../../model/DescriptionTabsEnum'
+import { descriptionStateActions, descriptionStateSelectors } from '../../clients/DescriptionStateClient'
 import EntityDescriptionComponent from '../../components/user/EntityDescriptionComponent'
-
-// get default client actions and selectors
-const dialogActions = new UIClient.DialogRequestsActions()
-const dialogSelectors = UIClient.getDialogRequestsSelectors()
+import { TreePath } from '../../shapes/NavigationTree'
 
 /**
  * Module container for runtime. This container handles dialog requests. When it should be handled by this module,
@@ -45,14 +38,10 @@ export class UserContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
-      dialogState: dialogSelectors.getDialogState(state),
       // user auth info
       accessToken: AuthenticationClient.authenticationSelectors.getAccessToken(state),
       projectName: AuthenticationParametersSelectors.getProject(state),
-      // currently shown entity from context (intialized and binded by this container)
-      shownEntity: descriptionLevelsSelectors.getShownEntity(state),
-      // currently shown tab from context
-      currentTab: descriptionLevelsSelectors.getCurrentTab(state),
+      selectedPath: descriptionStateSelectors.getSelectedPath(state),
     }
   }
 
@@ -64,32 +53,8 @@ export class UserContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      initializeContext: entity => dispatch(descriptionLevelsActions.initializeContext(entity)),
-      onClose: () => {
-        // dispose navigation context (locally reported context)
-        dispatch(descriptionLevelsActions.closeDescription())
-        // clear dialog request in dialog state
-        dispatch(dialogActions.hide())
-      },
-      onChangeTab: newTab => dispatch(descriptionLevelsActions.changeTab(newTab)),
+      setSelectedPath: entryPath => dispatch(descriptionStateActions.selectEntryPath()),
     }
-  }
-
-  /**
-   * Computes if module instance should be visible, given its consumer ID, the current dialog request state and module configuration
-   * @param {string} consumerID module instance consumer ID
-   * @param {*} dialogState dialog state (see DialogRequests model, from UIClient)
-   * @param {ModuleConfiguration} modeulConf module instance configuration
-   * @return {boolean} true when module should be visible (ie: matches with current dialog request AND accepts request for entity by configuration)
-   */
-  static isDialogVisible(consumerID, dialogState = { visible: false }, moduleConf) {
-    if (dialogState.visible && dialogState.consumerID === consumerID) {
-      // there is currently a dialog request for this module.
-      // Should module handle it?
-      const entityType = get(dialogState, 'parameters.entity.content.entityType')
-      return moduleConf[entityType].showDescription
-    }
-    return false
   }
 
   static propTypes = {
@@ -99,57 +64,12 @@ export class UserContainer extends React.Component {
     moduleConf: ModuleConfiguration.isRequired,
 
     // from map state to props
-    // current dialog request, maybe handled by this component
-    dialogState: PropTypes.shape({
-      visible: PropTypes.bool.isRequired,
-      consumerID: PropTypes.string, // provided only when visible
-      parameters: PropTypes.object, // depends on request, this module expects { entity, onSearchTag }
-    }).isRequired,
-    // bound from current description context
-    shownEntity: CatalogShapes.Entity, // entity shown or null
-    currentTab: PropTypes.oneOf(DESCRIPTION_TABS),
-
+    selectedPath: TreePath.isRequired,
     accessToken: PropTypes.string,
     projectName: PropTypes.string.isRequired,
 
     // from map dispatch to props
-    initializeContext: PropTypes.func.isRequired, // initializes or releases the current description context
-    onClose: PropTypes.func.isRequired, // closes the current dialog request
-    onChangeTab: PropTypes.func.isRequired,
-  }
-
-  constructor(props) {
-    super(props)
-    // keep this module dialog consumer ID
-    this.consumerID = buildDescriptionModuleConsumerID(props.id)
-  }
-
-  /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
-   * Properties change detected: update the description context
-   * @param oldProps previous component properties
-   * @param newProps next component properties
-   */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    const { dialogState, moduleConf, initializeContext } = newProps
-    // detect dialog request or dialog close for this module (on main dialog client)
-    // on change, report it in description level context (locally used context)
-    const wasVisible = UserContainer.isDialogVisible(this.consumerID, oldProps.dialogState, oldProps.moduleConf)
-    const becomesVisible = UserContainer.isDialogVisible(this.consumerID, dialogState, moduleConf)
-    if (!wasVisible && becomesVisible) {
-      const { entity } = dialogState.parameters
-      initializeContext(entity)
-    }
+    setSelectedPath: PropTypes.func.isRequired,
   }
 
   /**
@@ -158,32 +78,42 @@ export class UserContainer extends React.Component {
    * @param tag searched tag
    */
   onSearchTag = (tag) => {
-    // pre: on search tag is always available when entering here (current navigation context is set)
-    const { dialogState, onClose } = this.props
-    const onSearchTag = get(dialogState, 'parameters.onSearchTag')
-    onSearchTag(tag)
-    onClose()
+    // TODO change that (old code)
+    // const { dialogState, onClose } = this.props
+    // const onSearchTag = get(dialogState, 'parameters.onSearchTag')
+    // onSearchTag(tag)
+    // onClose()
+  }
+
+  // TODO we certainly want to create the tree model here!
+
+  /**
+   * Computes if this module is shadow module (ie the module statically injected that should never be shown)
+   * @return {boolean} true if that module is shadow module
+   */
+  isShadowModule() {
+    const { moduleConf } = this.props
+    return !moduleConf.runtime // shadow when runtime fields are not provided
   }
 
   render() {
     const {
-      currentTab, shownEntity, accessToken, projectName, moduleConf, onChangeTab, onClose,
+      selectedPath, setSelectedPath,
+      accessToken, projectName, moduleConf,
     } = this.props
+
+    if (this.isShadowModule()) {
+      return null
+    }
 
     // render component with currently shown entity (it will hide if entity is undefined)
     return (
       <EntityDescriptionComponent
-        currentTab={currentTab}
-        entity={shownEntity}
-        moduleConf={moduleConf}
-        open={!!shownEntity}
-
         accessToken={accessToken}
         projectName={projectName}
-
-        onSearchTag={this.onSearchTag}
-        onChangeTab={onChangeTab}
-        onClose={onClose}
+        moduleConf={moduleConf}
+        selectedPath={selectedPath}
+        setSelectedPath={setSelectedPath}
       />)
   }
 }

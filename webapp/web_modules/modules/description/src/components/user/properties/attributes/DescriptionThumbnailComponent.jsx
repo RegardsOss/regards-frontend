@@ -37,7 +37,7 @@ class DescriptionThumbnailComponent extends React.Component {
   render() {
     const { thumbnailURL } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
-    const { thumbnailStyle } = moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
+    const { thumbnailStyle } = moduleTheme.user.card.media.tabs.tab.propertiesTab
 
     return (
       <img

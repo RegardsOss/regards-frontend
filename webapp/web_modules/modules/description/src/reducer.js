@@ -21,7 +21,7 @@ import { dataAttributeModelReducer } from './clients/DataobjectAttributeModelCli
 import { datasetAttributeModelReducer } from './clients/DatasetAttributeModelClient'
 import { documentAttributeModelReducer } from './clients/DocumentAttributeModelClient'
 import { modelAttributesReducer } from './clients/ModelAttributesClient'
-import { descriptionLevelsReducer } from './clients/DescriptionLevelClient'
+import { descriptionStateReducer } from './clients/DescriptionStateClient'
 
 /**
  * Reducers for description module
@@ -35,7 +35,7 @@ const searchResultsReducers = {
   'documents-attributes': documentAttributeModelReducer,
   // user reducer
   model: modelAttributesReducer,
-  levels: descriptionLevelsReducer,
+  descriptionState: descriptionStateReducer,
 }
 
 export default searchResultsReducers

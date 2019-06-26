@@ -20,11 +20,11 @@ import values from 'lodash/values'
 import LockIcon from 'material-ui/svg-icons/action/lock'
 import InformationIcon from 'material-ui/svg-icons/action/info-outline'
 import IconButton from 'material-ui/IconButton'
-import { DamDomain } from '@regardsoss/domain'
 import { CatalogShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
+import { DescriptionProperties } from '../../shapes/DescriptionProperties'
 
 /**
 * Shows an item label taking in account the locked state and exposing over state. Please note that over state is computed for  main action,
@@ -80,9 +80,8 @@ class ItemLink extends React.Component {
     onMouseOver: PropTypes.func.isRequired,
     onMouseOut: PropTypes.func.isRequired,
     onLinkClicked: PropTypes.func.isRequired,
-    // from description HOC
-    onShowDescription: PropTypes.func,
-    isDescAvailableFor: PropTypes.func,
+    // description control (From root HOC)
+    descriptionProperties: DescriptionProperties.isRequired, // From description HOC
     // show state of this component
     displayState: PropTypes.oneOf(values(ItemLink.States)).isRequired,
   }
@@ -105,7 +104,7 @@ class ItemLink extends React.Component {
    * User callback: show description
    */
   onShowDescription = () => {
-    const { entity, onShowDescription } = this.props
+    const { descriptionProperties: { onShowDescription }, entity } = this.props
     onShowDescription(entity)
   }
 
@@ -128,7 +127,8 @@ class ItemLink extends React.Component {
   render() {
     const {
       Icon, entity, displayState, additiveLineComponent,
-      onMouseOver, onMouseOut, onLinkClicked, isDescAvailableFor,
+      onMouseOver, onMouseOut, onLinkClicked,
+      descriptionProperties: { showDescriptionOption, isDescriptionAvailableFor },
     } = this.props
     const { rootStyles, textStyles, iconStyles } = this.state
     const {
@@ -166,19 +166,17 @@ class ItemLink extends React.Component {
           /* Additive line component if any */
           additiveLineComponent || null
         }
-        {/* Show description button, when it is available for collection OR datasets (to align all elements together).
-          * If available for none: hide it
-          */
-          isDescAvailableFor(DamDomain.ENTITY_TYPES_ENUM.DATASET) || isDescAvailableFor(DamDomain.ENTITY_TYPES_ENUM.COLLECTION) ? (
-            <IconButton
-              title={formatMessage({ id: 'search.graph.entity.detail.tooltip' })}
-              iconStyle={informationButton.iconStyles}
-              style={informationButton.styles}
-              onClick={this.onShowDescription}
-              disabled={!isDescAvailableFor(entity.content.entityType)}
-            >
-              <InformationIcon />
-            </IconButton>) : null
+        {/* Show description button, when it is available for collection OR datasets (to align all elements together) */
+         showDescriptionOption ? (
+           <IconButton
+             title={formatMessage({ id: 'search.graph.entity.detail.tooltip' })}
+             iconStyle={informationButton.iconStyles}
+             style={informationButton.styles}
+             onClick={this.onShowDescription}
+             disabled={!isDescriptionAvailableFor(entity.content.entityType)}
+           >
+             <InformationIcon />
+           </IconButton>) : null
         }
       </div>
     )

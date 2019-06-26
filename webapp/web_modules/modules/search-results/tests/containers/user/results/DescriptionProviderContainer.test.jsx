@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { DamDomain } from '@regardsoss/domain'
 import { modulesManager } from '@regardsoss/modules'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DescriptionProviderContainer } from '../../../src/containers/description/DescriptionProviderContainer'
+import { DescriptionProviderContainer } from '../../../../src/containers/user/results/DescriptionProviderContainer'
 
 const context = buildTestContext()
 

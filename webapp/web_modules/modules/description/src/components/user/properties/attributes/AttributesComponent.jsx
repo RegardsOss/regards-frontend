@@ -47,7 +47,7 @@ class AttributesComponent extends React.Component {
   render() {
     const { loading, attributeGroups, thumbnailURL } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
-    const { attributes: { rootStyle, attributesContainer, scrollArea }, messageContainerStyle, loadingContainerStyle } = moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
+    const { attributes: { rootStyle, attributesContainer, scrollArea }, messageContainerStyle, loadingContainerStyle } = moduleTheme.user.card.media.tabs.tab.propertiesTab
 
     const noData = !attributeGroups.length
 

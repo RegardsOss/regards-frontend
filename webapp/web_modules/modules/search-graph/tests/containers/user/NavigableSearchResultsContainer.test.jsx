@@ -71,7 +71,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
     assert.deepEqual(spiedStateDiff, {
       criteria: {
         contextTags: [],
-        tags: [],
+        levels: [],
       },
     }, 'Container should initiale controlled module (results context)')
     // Mimic a tag change (word)
@@ -92,7 +92,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
             [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: `${CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME}:myWord`,
           },
         }],
-        tags: [],
+        levels: [],
       },
     }, 'Container should update controlled module results context with word tag')
     // Mimic a tag change (entity)
@@ -109,7 +109,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
             entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
             files: {},
             properties: {},
-            tags: [],
+            levels: [],
           },
         },
       },
@@ -124,7 +124,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
             [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: `${CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME}:"URN:DATASET:TEST"`,
           },
         }],
-        tags: [],
+        levels: [],
       },
     }, 'Container should update controlled module results context with entity tag')
     // Mimic a tag reset
@@ -135,7 +135,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
     assert.deepEqual(spiedStateDiff, {
       criteria: {
         contextTags: [],
-        tags: [],
+        levels: [],
       },
     }, 'Container should update controlled module results context with no tag')
   })

@@ -171,6 +171,14 @@ export class PluginServicesContainer extends React.Component {
 
     // From parent HOC
     // eslint-disable-next-line react/no-unused-prop-types
+    showDescription: PropTypes.bool, // used only in onPropertiesChanged
+    // eslint-disable-next-line react/no-unused-prop-types
+    descriptionModuleProps: PropTypes.shape({ // used only in onPropertiesChanged
+      appName: PropTypes.string.isRequired,
+      project: PropTypes.string.isRequired,
+      module: PropTypes.object.isRequired,
+    }),
+    // eslint-disable-next-line react/no-unused-prop-types
     onShowDescription: PropTypes.func, // used only in onPropertiesChanged
     // eslint-disable-next-line react/no-unused-prop-types
     isDescAvailableFor: PropTypes.func, // used only in onPropertiesChanged
@@ -230,11 +238,15 @@ export class PluginServicesContainer extends React.Component {
 
     // when children changed or selection services changed, recompute children
     if (oldProps.children !== newProps.children
+     || !isEqual(oldProps.showDescription, newProps.showDescription)
+     || !isEqual(oldProps.descriptionModuleProps, newProps.descriptionModuleProps)
      || !isEqual(oldProps.isDescAvailableFor, newProps.isDescAvailableFor)
      || !isEqual(oldProps.onShowDescription, newProps.onShowDescription)
      || !isEqual(oldState.selectionServices, newState.selectionServices)) {
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
         // From description HOC
+        showDescription: newProps.showDescription,
+        descriptionModuleProps: newProps.descriptionModuleProps,
         isDescAvailableFor: newProps.isDescAvailableFor,
         onShowDescription: newProps.onShowDescription,
         // This HOC properties

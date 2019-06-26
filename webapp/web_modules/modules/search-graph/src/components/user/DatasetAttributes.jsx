@@ -21,7 +21,7 @@ import { FormattedMessage } from 'react-intl'
 import { ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { ResolvedDatasetAttributesArray } from '../../model/DatasetAttributesForGraph'
+import { ResolvedDatasetAttributesArray } from '../../shapes/DatasetAttributesForGraph'
 import ItemLink from './ItemLink'
 
 /**

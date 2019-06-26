@@ -17,16 +17,18 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
-import { UIDomain, CatalogDomain } from '@regardsoss/domain'
-import { AccessShapes, CatalogShapes } from '@regardsoss/shape'
+import last from 'lodash/last'
+import { UIDomain, CatalogDomain, DamDomain } from '@regardsoss/domain'
+import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { UIClient } from '@regardsoss/client'
 import { i18nContextType, i18nSelectors } from '@regardsoss/i18n'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
+import { SelectionPath } from '../../shapes/SelectionShape'
+import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 import { resultsContextActions } from '../../clients/ResultsContextClient'
 import graphContextSelectors from '../../model/graph/GraphContextSelectors'
-import ModuleConfiguration from '../../model/ModuleConfiguration'
 
 /** Module pane state actions default instance */
 const moduleExpandedStateActions = new UIClient.ModuleExpandedStateActions()
@@ -45,7 +47,7 @@ export class NavigableSearchResultsContainer extends React.Component {
   static mapStateToProps(state) {
     return {
       locale: i18nSelectors.getLocale(state),
-      searchTag: graphContextSelectors.getSearchTag(state),
+      selectionPath: graphContextSelectors.getSelectionPath(state),
     }
   }
 
@@ -71,7 +73,7 @@ export class NavigableSearchResultsContainer extends React.Component {
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
     // from mapStateToProps
-    searchTag: CatalogShapes.Tag,
+    selectionPath: SelectionPath.isRequired,
     locale: PropTypes.string, // used only in onPropertiesUpdated to update the module title
     // from map dispatch to props
     dispatchExpandResults: PropTypes.func.isRequired,
@@ -105,17 +107,16 @@ export class NavigableSearchResultsContainer extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      id, appName, moduleConf, searchTag, locale,
+      id, appName, moduleConf, selectionPath, locale,
       dispatchExpandResults, dispatchCollapseGraph,
       dispatchUpdateResultsContext,
     } = newProps
     const { intl: { formatMessage } } = this.context
 
-    // When any property used in module configuration changes, store new module configuration in state
+    // 1 - When any property used in module configuration changes, store new module configuration in state
     if (!isEqual(oldProps.id, id)
     || !isEqual(oldProps.appName, appName)
     || !isEqual(oldProps.moduleConf, moduleConf)
-    || !isEqual(oldProps.searchTag, searchTag)
     || !isEqual(oldProps.locale, locale)) {
       this.setState({
         // results module configuration
@@ -128,41 +129,48 @@ export class NavigableSearchResultsContainer extends React.Component {
           description: formatMessage({ id: 'search.graph.results.title.without.tag' }),
           conf: moduleConf.searchResult,
         },
-      }, () => {
-        // after updating state:
-        if (!isEqual(oldProps.searchTag, searchTag)) {
-          // 1 - set context tags in driven results context
-          // 1.a - build the new tag, when there is one
-          let newResultsTag = null
-          if (searchTag) {
-            const label = searchTag.type === CatalogDomain.TAG_TYPES_ENUM.WORD ? searchTag.data : searchTag.data.content.label
-            const searchKey = searchTag.type === CatalogDomain.TAG_TYPES_ENUM.WORD ? searchTag.data : searchTag.data.content.id
-            newResultsTag = {
-              type: searchTag.type,
-              label,
-              searchKey,
-              requestParameters: {
-                // restrict using q tag param
-                [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
-                  new CatalogDomain.OpenSearchQueryParameter(
-                    CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, searchKey).toQueryString(),
-              },
-            }
-          }
-          // 1.b - update context tags list (as it controlled by this container only, we replace it)
-          dispatchUpdateResultsContext({
-            criteria: {
-              contextTags: newResultsTag ? [newResultsTag] : [],
-              tags: [], // reset user tags list when changing context
-            },
-          })
-          // 2 - When tag exists (ie it was not cleared), attempt graph collapsing and results opening
-          if (searchTag) {
-            dispatchExpandResults()
-            dispatchCollapseGraph()
-          }
-        }
       })
+    }
+
+    // 2 - When selected dataset changes, update context tag
+    // retrieve last selected element
+    let previousSelectedDatasetElt = last(oldProps.selectionPath || [])
+    previousSelectedDatasetElt = previousSelectedDatasetElt && previousSelectedDatasetElt.entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET
+      ? previousSelectedDatasetElt : null
+    let newSelectedDatasetElt = last(selectionPath)
+    newSelectedDatasetElt = newSelectedDatasetElt && newSelectedDatasetElt.entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET
+      ? newSelectedDatasetElt : null
+    if (!isEqual(previousSelectedDatasetElt, newSelectedDatasetElt)) {
+      // 2.a - update new results context tags and levels
+      let stateDiff = {}
+      if (newSelectedDatasetElt) {
+        // when selecting a dataset, clear the current breacrumb elements (levels) and set the dataset as context tag
+        stateDiff = {
+          criteria: {
+            contextTags: [{
+              type: newSelectedDatasetElt.entityType,
+              label: newSelectedDatasetElt.label,
+              searchKey: newSelectedDatasetElt.id,
+              requestParameters: {
+              // restrict using q tag param
+                [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
+                new CatalogDomain.OpenSearchQueryParameter(
+                  CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, newSelectedDatasetElt.id).toQueryString(),
+              },
+            }],
+            levels: [], // levels reset
+          },
+        }
+      } else {
+        // when unselecting a dataset, leave breacrumb unchanged and clear root tag context
+        stateDiff.criteria = { contextTags: [] }
+      }
+      dispatchUpdateResultsContext(stateDiff)
+      // 2.b - When there are context tag, attempt graph collapsing and results opening (searching for a new dataset contexnt)
+      if (stateDiff.criteria.contextTags.length) {
+        dispatchExpandResults()
+        dispatchCollapseGraph()
+      }
     }
   }
 

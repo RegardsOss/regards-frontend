@@ -17,16 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-// Description
-
-export { DescriptionHelper } from './definitions/DescriptionHelper'
-
-// Services
-export { default as ServiceContainer } from './containers/services/ServiceContainer'
-export { PluginServiceRunModel } from './definitions/PluginServiceRunModel'
-export { default as target } from './definitions/ServiceTarget'
-
-export { default as BooleanParameterField } from './components/services/parameters/BooleanParameterField'
-export { default as ChoiceParameterField } from './components/services/parameters/ChoiceParameterField'
-export { default as DateParameterField } from './components/services/parameters/DateParameterField'
-export { default as TextParameterField } from './components/services/parameters/TextParameterField'
+/**
+ * Description control related properties (grouped to avoid many properties in every object of the search graph module)
+ * @author Raphaël Mechali
+ */
+export const DescriptionProperties = PropTypes.shape({
+  showDescriptionOption: PropTypes.bool.isRequired, // when true, description option should be shown
+  isDescriptionAvailableFor: PropTypes.func.isRequired, // (entityType) => (boolean) Should description be shown for entity type as parameter
+  onShowDescription: PropTypes.func.isRequired, // (entity) => () Callback to show description
+})

@@ -42,10 +42,7 @@ const styles = theme => ({
       },
     },
   },
-  descriptionDialog: {
-    widthPercent: 88,
-    heightPercent: 88,
-    body: { padding: '0', overflowY: 'none' },
+  user: {
     card: {
       style: {
         ...growingFlexElement,

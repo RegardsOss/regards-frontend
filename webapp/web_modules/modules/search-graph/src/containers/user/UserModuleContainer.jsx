@@ -30,15 +30,16 @@ import { modulesManager } from '@regardsoss/modules'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { withValueRenderContext } from '@regardsoss/components'
-import ModuleConfiguration from '../../model/ModuleConfiguration'
-import { SelectionPath } from '../../model/graph/SelectionShape'
+import ModuleConfiguration from '../../shapes/ModuleConfiguration'
+import { SelectionPath } from '../../shapes/SelectionShape'
 import graphContextActions from '../../model/graph/GraphContextActions'
 import fetchGraphCollectionsActions from '../../model/graph/FetchGraphCollectionsActions'
 import fetchGraphDatasetsActions from '../../model/graph/FetchGraphDatasetsActions'
 import graphContextSelectors from '../../model/graph/GraphContextSelectors'
 import graphLevelCollectionActions from '../../model/graph/GraphLevelCollectionActions'
 import graphLevelDatasetActions from '../../model/graph/GraphLevelDatasetActions'
-import getLevelPartitionKey from '../../model/graph/PartitionsConstants'
+import getLevelPartitionKey from '../../domain/PartitionsConstants'
+import DescriptionProviderContainer from './DescriptionProviderContainer'
 import NavigableSearchResultsContainer from './NavigableSearchResultsContainer'
 import SearchGraph from '../../components/user/SearchGraph'
 
@@ -48,7 +49,8 @@ const moduleExpandedStateSelectors = UIClient.getModuleExpandedStateSelectors()
 const attributeModelSelectors = DataManagementClient.AttributeModelSelectors()
 
 /**
- * Module container for user interface
+ * Module container for user interface. It resolves description control for sub elemenets (to avoid resolving it at items level)
+ * @author Raphaël Mechali
  **/
 export class UserModuleContainer extends React.Component {
   static mapStateToProps = (state, { type, id }) => {
@@ -186,15 +188,17 @@ export class UserModuleContainer extends React.Component {
   }
 
   render() {
-    const { presentationState } = this.props
+    const { id, presentationState } = this.props
     const { graphDatasetAttributes } = this.state
     return (
       <React.Fragment>
-        <SearchGraph
-          graphDatasetAttributes={graphDatasetAttributes}
-          presentationState={presentationState}
-          {...modulesHelper.getReportedUserModuleProps(this.props)}
-        />
+        <DescriptionProviderContainer id={id}>
+          <SearchGraph
+            graphDatasetAttributes={graphDatasetAttributes}
+            presentationState={presentationState}
+            {...modulesHelper.getReportedUserModuleProps(this.props)}
+          />
+        </DescriptionProviderContainer>
         <NavigableSearchResultsContainer
           {...modulesHelper.getReportedUserModuleProps(this.props)}
         />

@@ -37,7 +37,7 @@ export class NavigationContainer extends React.Component {
   static mapStateToProps(state, { moduleId }) {
     return {
       contextTags: resultsContextSelectors.getContextTags(state, moduleId),
-      tags: resultsContextSelectors.getTags(state, moduleId),
+      levels: resultsContextSelectors.getLevels(state, moduleId),
     }
   }
 
@@ -67,8 +67,7 @@ export class NavigationContainer extends React.Component {
     // from mapStateToProps
     // context tags (usually set by any module driving this one)
     contextTags: UIShapes.TagsArray.isRequired,
-    // tags (usually set by user within this module)
-    tags: UIShapes.TagsArray.isRequired,
+    levels: UIShapes.LevelsArray.isRequired, // levels currently shown (set by user in this module or controlling one)
     // from mapDispatchToProps
     updateResultsContext: PropTypes.func.isRequired,
   }
@@ -105,21 +104,22 @@ export class NavigationContainer extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      description, page, tags, contextTags,
+      description, page, levels, contextTags,
     } = newProps
 
-    // Update levels list (always, as tags and context tags are the only mutable properties in component)
+    // Update displayed levels list (always, as levels and context tags are the only mutable properties in component)
     const navigationLevels = []
     // 1. Add root level if it was provided in configuration (there is a page or a description) and no context tag
     // (Context tags replace root)
     if (NavigationContainer.hasRootTag(newProps) && !contextTags.length) {
       navigationLevels.push({
+        type: NavigationComponent.ROOT_TAG,
         label: {
           en: get(page, 'title.en', description),
           fr: get(page, 'title.fr', description),
         },
         // navigation is allowed to root level only when there is no next context tags and there are
-        // tags after (meaningless otherwise)
+        // levels after (meaningless otherwise)
         isNavigationAllowed: !contextTags.length,
       })
     }
@@ -127,7 +127,8 @@ export class NavigationContainer extends React.Component {
     // 2. Add all levels from context. Allow navigation only for the last element (to avoid user
     // removing any contextual element), when there are following tags (meaningless otherwise)
     if (contextTags.length) {
-      navigationLevels.push(...contextTags.map(({ label }) => ({
+      navigationLevels.push(...contextTags.map(({ type, label }) => ({
+        type,
         label: {
           en: label,
           fr: label,
@@ -136,15 +137,19 @@ export class NavigationContainer extends React.Component {
       })))
       navigationLevels[navigationLevels.length - 1].isNavigationAllowed = true
     }
-    // 3. Finally add user tags, that can always be navigated through (last one will never be, due to Breadcrumb automations)
-    if (tags.length) {
-      navigationLevels.push(...tags.map(({ label }) => ({
-        label: {
-          en: label,
-          fr: label,
-        },
-        isNavigationAllowed: true,
-      })))
+    // 3. Finally add user levels, that can always be navigated through (last one will never be, due to Breadcrumb automations)
+    if (levels.length) {
+      navigationLevels.push(...levels.map(({ type, label, entity }) => {
+        let locLabel
+        switch (type) {
+          case UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL: // description level: label can be found in entity
+            locLabel = get(entity, 'content.label')
+            break
+          default: // Word or entity tag: use label in tag directly
+            locLabel = label
+        }
+        return { type, label: { en: locLabel, fr: locLabel }, isNavigationAllowed: true }
+      }))
     }
 
     const newState = { navigationLevels }
@@ -154,21 +159,21 @@ export class NavigationContainer extends React.Component {
   }
 
   /**
-   * On user level selected: tags after the one clicked should be removed (all if the last root/context tag was clicked)
+   * On user level selected: levels after the one clicked should be removed (all if the last root/context tag was clicked)
    * @param {*} level as it was initially provided to subcomponent
    * @param {number} index level index (0 to N-1)
    */
   onLevelSelected = (level, index) => {
-    const { tags, contextTags, updateResultsContext } = this.props
-    // compute last static tag index (as tag level is expressed as a relative number to previous context / root tags),
+    const { levels, contextTags, updateResultsContext } = this.props
+    // compute last static tag index (as level is expressed at a relative position to previous context / root levels),
     // as [0 ; N-1] index
     const lastContextTagIndex = (NavigationContainer.hasRootTag(this.props) ? 1 : 0) + contextTags.length - 1
-    // compute last element index to NOT KEEP in tags (...if 2, elements 0, 1 are kept, if 1; element 0 is kept; if 0 itself, empty array)
+    // compute last element index to NOT KEEP in levels (...if 2, elements 0, 1 are kept, if 1; element 0 is kept; if 0 itself, empty array)
     const remainingTagsCount = index - lastContextTagIndex
-    const nextTags = tags.slice(0, remainingTagsCount)
+    const nextLevels = levels.slice(0, remainingTagsCount)
     updateResultsContext({
       criteria: {
-        tags: nextTags,
+        levels: nextLevels,
       },
     })
   }
@@ -176,7 +181,6 @@ export class NavigationContainer extends React.Component {
   render() {
     const { page, type } = this.props
     const { navigationLevels } = this.state
-
     return (
       <NavigationComponent
         page={page}

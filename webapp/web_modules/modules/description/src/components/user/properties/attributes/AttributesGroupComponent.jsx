@@ -42,7 +42,7 @@ class AttributesGroupComponent extends React.Component {
       },
     } = this.props
     const { intl: { locale }, moduleTheme } = this.context
-    const { attributes: { attributesContainer } } = moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
+    const { attributes: { attributesContainer } } = moduleTheme.user.card.media.tabs.tab.propertiesTab
 
     // Note: we work here within fragments to not break parent grid layout
     return (

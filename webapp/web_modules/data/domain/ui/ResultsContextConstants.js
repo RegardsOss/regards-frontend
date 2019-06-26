@@ -20,6 +20,7 @@ import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
 import { MAP_SELECTION_MODES_ENUM } from './MapSelectionModeEnum'
 import { MIZAR_LAYER_TYPES_ENUM } from './mizar-api/MizarLayerTypes'
 import { RESULTS_VIEW_MODES_ENUM } from './ResultsViewModeEnum'
+import { ResultsContextConstants } from '.'
 
 /**
  * Holds constants and accessors related to results context
@@ -30,6 +31,9 @@ import { RESULTS_VIEW_MODES_ENUM } from './ResultsViewModeEnum'
 /** Default view mode for data */
 const DEFAULT_VIEW_MODE = RESULTS_VIEW_MODES_ENUM.LIST
 
+/** Description level type */
+const DESCRIPTION_LEVEL = 'DESCRIPTION'
+
 /** To be used as default */
 const DISABLED_VIEW_MODE_STATE = {
   enabled: false,
@@ -39,6 +43,7 @@ const DISABLED_VIEW_MODE_STATE = {
 
 /** To be used as default for map state mode */
 const DISABLED_MAP_VIEW_MODE_STATE = {
+  ...DISABLED_VIEW_MODE_STATE,
   enabled: false,
   enableSelection: false,
   presentationModels: [],
@@ -61,12 +66,15 @@ const DISABLED_TYPE_STATE = {
   isInInitialSorting: true,
   mode: DEFAULT_VIEW_MODE,
   facets: { allowed: false, enabled: false, list: [] },
-  criteria: {},
   modeState: {
     [RESULTS_VIEW_MODES_ENUM.LIST]: DISABLED_VIEW_MODE_STATE,
     [RESULTS_VIEW_MODES_ENUM.TABLE]: DISABLED_VIEW_MODE_STATE,
     [RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: DISABLED_VIEW_MODE_STATE,
     [RESULTS_VIEW_MODES_ENUM.MAP]: DISABLED_MAP_VIEW_MODE_STATE,
+  },
+  criteria: {
+    requestFacets: [],
+    sorting: [],
   },
 }
 
@@ -172,6 +180,7 @@ function getNavigateToViewType(type) {
 }
 
 export default {
+  DESCRIPTION_LEVEL,
   DEFAULT_VIEW_MODE,
   DISABLED_VIEW_MODE_STATE,
   DISABLED_MAP_VIEW_MODE_STATE,

@@ -105,6 +105,15 @@ export class OrderCartContainer extends React.Component {
     ]),
     tableViewMode: PropTypes.oneOf(UIDomain.RESULTS_VIEW_MODES).isRequired, // Display mode
     // from parent HOCs
+    // Description management (optional elements due to HOC system, always provided)
+    // eslint-disable-next-line react/no-unused-prop-types
+    showDescription: PropTypes.bool, // used only in onPropertiesChanged
+    // eslint-disable-next-line react/no-unused-prop-types
+    descriptionModuleProps: PropTypes.shape({ // used only in onPropertiesChanged
+      appName: PropTypes.string.isRequired,
+      project: PropTypes.string.isRequired,
+      module: PropTypes.object.isRequired,
+    }),
     // eslint-disable-next-line react/no-unused-prop-types
     onShowDescription: PropTypes.func, // used only in onPropertiesChanged
     // eslint-disable-next-line react/no-unused-prop-types
@@ -189,6 +198,8 @@ export class OrderCartContainer extends React.Component {
 
     // when callbacks, children changed or parent HOC props changed, re render children
     if (oldProps.children !== newProps.children
+      || !isEqual(oldProps.showDescription, newProps.showDescription)
+      || !isEqual(oldProps.descriptionModuleProps, newProps.descriptionModuleProps)
       || !isEqual(oldProps.isDescAvailableFor, newProps.isDescAvailableFor)
       || !isEqual(oldProps.onShowDescription, newProps.onShowDescription)
       || !isEqual(oldProps.selectionServices, newProps.selectionServices)
@@ -198,6 +209,8 @@ export class OrderCartContainer extends React.Component {
       // pre render children (attempt to enhance render performances)
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
         // From description HOC
+        showDescription: newProps.showDescription,
+        descriptionModuleProps: newProps.descriptionModuleProps,
         isDescAvailableFor: newProps.isDescAvailableFor,
         onShowDescription: newProps.onShowDescription,
         // From services HOC

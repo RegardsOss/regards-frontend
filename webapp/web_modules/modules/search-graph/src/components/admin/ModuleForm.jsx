@@ -26,7 +26,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { FieldArray, FormPresentation, FieldsGroup } from '@regardsoss/form-utils'
 import { ModulePaneStateField } from '@regardsoss/modules-api'
 import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
-import ModuleConfiguration from '../../model/ModuleConfiguration'
+import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 import SelectedLevelFormRender from './levels/SelectedLevelFormRender'
 import SearchResultForm from './SearchResultForm'
 

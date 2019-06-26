@@ -16,37 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-class GraphContextActions {
-  constructor() {
-    this.ENTITY_SELECTED = 'search-graph/ENTITY_SELECTED'
-    this.SET_DATASET_ATTRIBUTES_VISIBLE = 'search-graph/SET_DATASET_VISIBLE'
+
+/**
+ * Description state module user dialog management actions
+ * @author Raphaël Mechali
+ */
+export class DescriptionStateActions {
+  /**
+   * Constructor
+   * @param {*} namespace actions namespace
+   */
+  constructor(namespace) {
+    this.SELECT_TREE_ENTRY = `${namespace}/select-tree-entry`
   }
 
   /**
-   * Changes selected entity for a given level
-   * @param {*} levelIndex level index (0 to N-1)
-   * @param {*} entity entity selected (contains ID and type) or null to remove level selection
-   * @return action to return
+   * @param {[number]} selectedPath selected entry path in tree, where successive index are ranging from 0 to N-1
+   * @return {{type: string}} redux action to dispatch to select entry by its path
    */
-  selectEntity(levelIndex, entity) {
+  selectEntryPath(selectedPath = []) {
     return {
-      type: this.ENTITY_SELECTED,
-      levelIndex,
-      entity,
-    }
-  }
-
-  /**
-   * Set datasets attributes visible or hidden
-   * @param bool visible is visible?
-   * @return action to return
-   */
-  setDatasetAttributesVisible(visible) {
-    return {
-      type: this.SET_DATASET_ATTRIBUTES_VISIBLE,
-      visible,
+      type: this.SELECT_TREE_ENTRY,
+      selectedPath,
     }
   }
 }
-
-export default new GraphContextActions()

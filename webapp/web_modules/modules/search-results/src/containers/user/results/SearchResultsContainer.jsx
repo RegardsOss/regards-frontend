@@ -25,8 +25,7 @@ import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { CatalogDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
-import { AuthenticationClient, AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
-import { DescriptionProviderContainer } from '@regardsoss/entities-common'
+import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { CatalogSearchQueryHelper } from '@regardsoss/domain/catalog'
 import { resultsContextActions, resultsContextSelectors } from '../../../clients/ResultsContextClient'
 import {
@@ -37,6 +36,7 @@ import {
 } from '../../../clients/SearchEntitiesClient'
 import PluginServicesContainer from './PluginServicesContainer'
 import OrderCartContainer from './OrderCartContainer'
+import DescriptionProviderContainer from './DescriptionProviderContainer'
 import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
 import { CriterionBuilder } from '../../../definitions/CriterionBuilder'
 
@@ -60,7 +60,6 @@ export class SearchResultsContainer extends React.Component {
   static mapStateToProps(state, { moduleId }) {
     return {
       accessToken: AuthenticationClient.authenticationSelectors.getAccessToken(state),
-      projectName: AuthenticationParametersSelectors.getProject(state),
       resultsContext: resultsContextSelectors.getResultsContext(state, moduleId),
     }
   }
@@ -89,23 +88,13 @@ export class SearchResultsContainer extends React.Component {
 
   static propTypes = {
     moduleId: PropTypes.number.isRequired,
+    project: PropTypes.string.isRequired,
+    appName: PropTypes.string.isRequired,
     // from mapStateToProps
     resultsContext: UIShapes.ResultsContext.isRequired,
     accessToken: PropTypes.string,
-    projectName: PropTypes.string.isRequired,
     // from mapDispatchToProps
     updateResultsContext: PropTypes.func.isRequired,
-  }
-
-  /**
-   * Compares a tag to a type and key.
-   * @param {*} tag tag to check
-   * @param {*} comparedType comparison type
-   * @param {*} comparedKey comparison search key
-   * @returns {boolean} true when tags stands for that type and key, false otherwise
-   */
-  static isSameTag(tag, comparedType, comparedKey) {
-    return tag.type === comparedType && tag.searchKey === comparedKey
   }
 
   state = {
@@ -148,13 +137,14 @@ export class SearchResultsContainer extends React.Component {
       // A - Update restricted dataset Ids
       newState.restrictedDatasetsIds = Array.from(new Set([
         ...get(resultsContext.criteria, 'contextTags', []).filter(t => t.type === CatalogDomain.TAG_TYPES_ENUM.DATASET),
-        ...get(resultsContext.criteria, 'tags', []).filter(t => t.type === CatalogDomain.TAG_TYPES_ENUM.DATASET),
+        ...get(resultsContext.criteria, 'levels', []).filter(t => t.type === CatalogDomain.TAG_TYPES_ENUM.DATASET),
       ].map(datasetTag => datasetTag.searchKey)))
 
       // B - Collect all request parameters from applying criteria as a map string:Array(string), where array holds all values found for
       // parameter
-      const nextRequestParameters = newState.applyingCriteria.reduce((acc, { requestParameters }) => {
+      const nextRequestParameters = newState.applyingCriteria.reduce((acc, level) => {
         const nextAcc = { ...acc }
+        const requestParameters = level.requestParameters || {} // nota: request parameters can be ommitted for description levels for instance
         // Add in local accumulator all parameters of the current criterion (preserving other values)
         forEach(requestParameters, (paramValue, paramKey) => {
           if (paramValue && paramKey) { // avoid empty / null parmeter values
@@ -203,66 +193,67 @@ export class SearchResultsContainer extends React.Component {
     }
   }
 
+  /**
+   * Inner callback to navigate to a level (tag or description). It behaves as following:
+   * - If the level is a context tag, removes dynamic levels.
+   * - If it is already presents, moves backward in levels list.
+   * - Otherwise append it at levels list end.
+   * @param {string} type next view type (may be unchanged, required)
+   * @param {{type: string}} level level to add
+   */
+  onNavigateToLevel = (type, level) => {
+    const { moduleId, resultsContext: { criteria: { contextTags, levels: currentLevels } }, updateResultsContext } = this.props
+
+    let levels
+    if (contextTags.find(lvl => isEqual(lvl, level))) {
+      // backward to context tags (flaw case: the context tag is not the last one, in such case, it will feel a bit weird)
+      levels = [] // clear all levels after
+    } else {
+      // not a context tag. Is it already present in levels list?
+      const levelIndex = currentLevels.findIndex(lvl => isEqual(lvl, level))
+      levels = levelIndex >= 0
+        ? currentLevels.slice(0, levelIndex + 1) // already present, forward levels to that element
+        : [...currentLevels, level] // append at end
+    }
+    updateResultsContext(moduleId, { type, criteria: { levels } })
+  }
+
 
   /**
-   * On search tag added, from description view - appends new tag in results context
-   * @param {type: string, data: {string}} descriptionTag description tag, as callback from tag selection in description component
+   * On Callback: navigate to level (when called from description)
+   * @param {string} type level type, one of ResultsContextConstants.DESCRIPTION_LEVEL, CatalogDomain.TagTypes
+   * @param {string|{*}} data level data, can be string for a word or catalog entity otherwise
    */
-  onAddSearchTagFromDescription = ({ type, data }) => {
-    const { moduleId, resultsContext: { criteria: { contextTags, tags: currentTags } }, updateResultsContext } = this.props
-    // 1 - pack tag
-    const newTag = { type }
+  onNavigate = (type, data) => {
+    const { resultsContext: { type: viewType } } = this.props
+    // pack level
+    let newLevel
     switch (type) {
-      case CatalogDomain.TAG_TYPES_ENUM.WORD: // data is a simple word
-        newTag.label = data
-        newTag.searchKey = data
+      case UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL:
+        newLevel = { type, entity: data } // description level, no search parameter
         break
-      default: // data is an entity
-        newTag.label = data.content.label
-        newTag.searchKey = data.content.id
+      case CatalogDomain.TAG_TYPES_ENUM.WORD: // data is a simple word
+        newLevel = CriterionBuilder.buildWordTagCriterion(data)
+        break
+      default: // entity tag level
+        newLevel = CriterionBuilder.buildEntityTagCriterion(data)
     }
-    // in both cases, query is q=tag:xxx
-    newTag.requestParameters = {
-      [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
-      new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, newTag.searchKey).toQueryString(),
-    }
-    // 2 - update state by diff with the previous one. Make sure the added tag is present only once, at end (remove it from previous tags if found)
-    // Nota: refuse adding a tag that already exists in context tags
-    if (!contextTags.find(t => SearchResultsContainer.isSameTag(t, newTag.type, newTag.searchKey))) {
-      updateResultsContext(moduleId, {
-        criteria: {
-          tags: [
-            ...currentTags.filter(t => !SearchResultsContainer.isSameTag(t, newTag.type, newTag.searchKey)),
-            newTag,
-          ],
-        },
-      })
-    }
+    // user inner callback to add it
+    this.onNavigateToLevel(viewType, newLevel)
   }
 
   /**
-   * Search entity callback: restrict results to those holding entity URN as tag
+   * Search entity callback: Navigate to corresponding entity level and restrict results
    * @param {*} entity selected entity (matches EntityWithServices shape)
    */
   onSearchEntity = (entity) => {
-    const { moduleId, updateResultsContext, resultsContext: { type: currentType, criteria: { contextTags, tags: currentTags } } } = this.props
-    const { content: { entityType, id } } = entity
-    // Deny adding a tag that is already in context
-    const shouldUpdateTags = !contextTags.find(t => SearchResultsContainer.isSameTag(t, entityType, id))
-    updateResultsContext(moduleId, {
-      type: UIDomain.ResultsContextConstants.getNavigateToViewType(currentType), // swap to next view type
-      criteria: {
-        tags: shouldUpdateTags ? [ // report current tags EXCEPT the one currently added, then add it at end
-          ...currentTags.filter(t => SearchResultsContainer.isSameTag(t, entityType, id)),
-          CriterionBuilder.buildEntityTagCriterion(entity),
-        ] : currentTags,
-      },
-    })
+    const { resultsContext: { type: viewType } } = this.props
+    this.onNavigateToLevel(UIDomain.ResultsContextConstants.getNavigateToViewType(viewType), CriterionBuilder.buildEntityTagCriterion(entity))
   }
 
   render() {
     const {
-      moduleId, resultsContext, accessToken, projectName,
+      moduleId, resultsContext, accessToken, project, appName,
     } = this.props
     const { restrictedDatasetsIds, requestParameters, searchActions } = this.state
     const currentType = resultsContext.type
@@ -271,7 +262,12 @@ export class SearchResultsContainer extends React.Component {
     return (
       <React.Fragment>
         {/* Enable entities description management */}
-        <DescriptionProviderContainer onSearchTag={this.onAddSearchTagFromDescription}>
+        <DescriptionProviderContainer
+          levels={resultsContext.criteria.levels}
+          project={project}
+          appName={appName}
+          onNavigate={this.onNavigate}
+        >
           {/* enable the services functionnalities */}
           <PluginServicesContainer
             viewObjectType={currentType}
@@ -291,7 +287,7 @@ export class SearchResultsContainer extends React.Component {
                 requestParameters={requestParameters}
                 searchActions={searchActions}
                 accessToken={accessToken}
-                projectName={projectName}
+                projectName={project}
                 onSearchEntity={this.onSearchEntity}
               />
             </OrderCartContainer>

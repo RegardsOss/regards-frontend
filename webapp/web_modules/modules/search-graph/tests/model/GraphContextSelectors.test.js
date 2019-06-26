@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { assert } from 'chai'
-import { TAG_TYPES_ENUM } from '@regardsoss/domain/catalog'
 import graphContextActions from '../../src/model/graph/GraphContextActions'
 import reduce, { REDUCER_PATH } from '../../src/model/graph/GraphContextReducers'
 import graphContextSelectors from '../../src/model/graph/GraphContextSelectors'
@@ -46,11 +45,5 @@ describe('[Search Graph] Test GraphContextSelectors', () => {
     assert.isFalse(graphContextSelectors.areDatasetAttributesVisible(fakeStore), [], 'Should select false for dataset attributes visible')
     fakeStore = mockReduce(fakeStore, graphContextActions.setDatasetAttributesVisible(true))
     assert.isTrue(graphContextSelectors.areDatasetAttributesVisible(fakeStore), [], 'Should select true for dataset attributes visible')
-  })
-  it('Should select searchTag state', () => {
-    let fakeStore = buildMockStore()
-    assert.isNull(graphContextSelectors.getSearchTag(fakeStore), 'Should select null for initial search label')
-    fakeStore = mockReduce(fakeStore, graphContextActions.setSearchTag({ type: TAG_TYPES_ENUM.WORD, label: 'w' }))
-    assert.deepEqual(graphContextSelectors.getSearchTag(fakeStore), { type: TAG_TYPES_ENUM.WORD, label: 'w' }, 'Should select new value for search tag')
   })
 })

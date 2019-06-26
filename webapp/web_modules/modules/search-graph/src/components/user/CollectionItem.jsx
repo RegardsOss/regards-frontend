@@ -20,6 +20,7 @@ import CollectionIcon from 'material-ui/svg-icons/file/folder'
 import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down'
 import { themeContextType } from '@regardsoss/theme'
 import { CatalogShapes } from '@regardsoss/shape'
+import { DescriptionProperties } from '../../shapes/DescriptionProperties'
 import ItemLinkContainer from '../../containers/user/ItemLinkContainer'
 import ItemLink from './ItemLink'
 
@@ -29,6 +30,7 @@ import ItemLink from './ItemLink'
 class CollectionItem extends React.Component {
   static propTypes = {
     collection: CatalogShapes.Entity.isRequired,
+    descriptionProperties: DescriptionProperties.isRequired, // From description HOC
     expensible: PropTypes.bool.isRequired,
     selected: PropTypes.bool.isRequired,
     onSelect: PropTypes.func.isRequired,
@@ -57,7 +59,7 @@ class CollectionItem extends React.Component {
 
   render() {
     const {
-      collection, expensible, selected, onSelect,
+      collection, descriptionProperties, expensible, selected, onSelect,
     } = this.props
     const { arrowStyles } = this.state
     const { moduleTheme: { user: { collectionItem } } } = this.context
@@ -65,6 +67,7 @@ class CollectionItem extends React.Component {
       <div style={collectionItem.styles}>
         <ItemLinkContainer
           entity={collection}
+          descriptionProperties={descriptionProperties}
           Icon={CollectionIcon}
           additiveLineComponent={expensible ? <ArrowDown style={arrowStyles} /> : null}
           onSelect={onSelect}

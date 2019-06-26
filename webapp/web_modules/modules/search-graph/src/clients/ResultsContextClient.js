@@ -20,3 +20,4 @@ import { UIClient } from '@regardsoss/client'
 
 // Using default namespace and path to make sure client will be handled by the reducer installed in user app
 export const resultsContextActions = new UIClient.ResultsContextActions()
+export const resultsContextSelectors = UIClient.getResultsContextSelectors()

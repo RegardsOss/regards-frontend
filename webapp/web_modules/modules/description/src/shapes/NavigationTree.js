@@ -17,16 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-// Description
+/**
+ * Holds shapes for tree browsing in description module
+ * @author Raphaël Mechali
+ */
 
-export { DescriptionHelper } from './definitions/DescriptionHelper'
-
-// Services
-export { default as ServiceContainer } from './containers/services/ServiceContainer'
-export { PluginServiceRunModel } from './definitions/PluginServiceRunModel'
-export { default as target } from './definitions/ServiceTarget'
-
-export { default as BooleanParameterField } from './components/services/parameters/BooleanParameterField'
-export { default as ChoiceParameterField } from './components/services/parameters/ChoiceParameterField'
-export { default as DateParameterField } from './components/services/parameters/DateParameterField'
-export { default as TextParameterField } from './components/services/parameters/TextParameterField'
+/** A tree path, expressed from parent to deeper child, wher index are ranging in  [0; N-1] */
+export const TreePath = PropTypes.arrayOf(PropTypes.number)

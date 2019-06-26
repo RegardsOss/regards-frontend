@@ -43,8 +43,8 @@ export class ResultsContextSelectors extends BasicSelector {
    * @param {*} moduleId  module ID
    * @return {[{*}]} tags as a TagsArray (see ResultsContext.js)
    */
-  getTags(state, moduleId) {
-    return get(this.getResultsContext(state, moduleId), 'criteria.tags', EMPTY_ARRAY)
+  getLevels(state, moduleId) {
+    return get(this.getResultsContext(state, moduleId), 'criteria.levels', EMPTY_ARRAY)
   }
 
   /**

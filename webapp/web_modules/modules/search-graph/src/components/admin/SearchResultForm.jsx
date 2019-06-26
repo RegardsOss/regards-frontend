@@ -18,7 +18,7 @@
  **/
 import { UIDomain } from '@regardsoss/domain'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
-import ModuleConfiguration from '../../model/ModuleConfiguration'
+import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 
 /**
 * Search result configuration form, using search result module

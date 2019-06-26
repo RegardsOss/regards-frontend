@@ -61,7 +61,7 @@ class DataQuicklookComponent extends React.Component {
     } = this.state
     const {
       imageContainerZoomOut, imageContainerZoomIn, imageZoomOut, imageZoomIn,
-    } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.quicklook
+    } = this.context.moduleTheme.user.card.media.tabs.tab.quicklook
 
     let imageSrc
     if (isZoomed && has(entity, 'content.files.QUICKLOOK_HD[0].uri')) {

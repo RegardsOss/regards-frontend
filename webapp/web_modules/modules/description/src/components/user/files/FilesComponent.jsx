@@ -48,7 +48,7 @@ export class FilesComponent extends React.Component {
 
     const {
       rootStyle, fileOptions, fileContent,
-    } = moduleTheme.descriptionDialog.card.media.tabs.tab.filesTab
+    } = moduleTheme.user.card.media.tabs.tab.filesTab
 
     if (files.length === 0 || !selectedFile) {
       // No file: should never happen (see DescriptionTabsEnum)

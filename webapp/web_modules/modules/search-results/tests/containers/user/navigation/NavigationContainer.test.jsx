@@ -48,7 +48,7 @@ describe('[Search Results] Testing NavigationContainer', () => {
       type: modulesManager.VisibleModuleTypes.SEARCH_RESULTS,
 
       contextTags: [CriterionBuilder.buildEntityTagCriterion(datasetEntity), CriterionBuilder.buildEntityTagCriterion(documentEntity)],
-      tags: [],
+      levels: [],
       updateResultsContext: () => {},
     }
     const enzymeWrapper = shallow(<NavigationContainer {...props} />, { context })
@@ -91,7 +91,7 @@ describe('[Search Results] Testing NavigationContainer', () => {
       type: modulesManager.VisibleModuleTypes.SEARCH_RESULTS,
 
       contextTags: [],
-      tags: [],
+      levels: [],
       updateResultsContext: () => {},
     }
     const enzymeWrapper = shallow(<NavigationContainer {...props} />, { context })
@@ -134,7 +134,7 @@ describe('[Search Results] Testing NavigationContainer', () => {
           new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, 'coffee').toQueryString(),
         },
       }],
-      tags: [{
+      levels: [{
         // simple word tag
         label: 'tea', // label is search key
         type: CatalogDomain.TAG_TYPES_ENUM.WORD,
@@ -197,7 +197,7 @@ describe('[Search Results] Testing NavigationContainer', () => {
       },
       type: modulesManager.VisibleModuleTypes.SEARCH_RESULTS,
       contextTags: [],
-      tags: [CriterionBuilder.buildEntityTagCriterion(documentEntity), {
+      levels: [CriterionBuilder.buildEntityTagCriterion(documentEntity), {
         // simple word tag
         label: 'tea', // label is search key
         type: CatalogDomain.TAG_TYPES_ENUM.WORD,

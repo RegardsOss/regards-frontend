@@ -46,6 +46,8 @@ class ModuleComponent extends React.Component {
 
   render() {
     const {
+      project,
+      appName,
       id: moduleId,
       description,
       page,
@@ -69,7 +71,11 @@ class ModuleComponent extends React.Component {
           moduleConf={moduleConf}
           {...this.props}
         >
-          <SearchResultsContainer moduleId={moduleId} />
+          <SearchResultsContainer
+            project={project}
+            appName={appName}
+            moduleId={moduleId}
+          />
         </DynamicModulePane>
         {/* Feedback handling for long actions in module */}
         <FeedbackDisplayContainer />

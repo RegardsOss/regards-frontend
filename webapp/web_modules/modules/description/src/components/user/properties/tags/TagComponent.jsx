@@ -49,7 +49,7 @@ class TagComponent extends React.Component {
     } = this.props
     const {
       rowStyle, iconCellStyle, iconStyle, infoIconStyle, labelStyle, actionStyle, buttonStyle,
-    } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab.tags.tagsContainer
+    } = this.context.moduleTheme.user.card.media.tabs.tab.propertiesTab.tags.tagsContainer
     const { intl: { formatMessage } } = this.context
     return (
       <div style={rowStyle}>

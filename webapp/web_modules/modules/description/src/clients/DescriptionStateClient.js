@@ -16,17 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { DescriptionStateActions } from '../model/DescriptionStateActions'
+import { buildDescriptionStateReducer } from '../model/DescriptionStateReducer'
+import { DescriptionStateSelectors } from '../model/DescriptionStateSelectors'
 
 /**
- * Shares, beetwen display and consumers, the ID build method
+ * Client for description state management
  * @author Raphaël Mechali
  */
+const REDUX_ACTION_NAMESPACE = 'ENTITIES-DESCRIPTION-STATE'
+const ENTITIES_STORE_PATH = ['modules.description', 'descriptionState']
 
-/**
- * Builds ID for a description module consumer
- * @param {number} moduleID module id
- * @return {string} consumer ID
- */
-export function buildDescriptionModuleConsumerID(moduleID) {
-  return `description-module-${moduleID}`
-}
+export const descriptionStateActions = new DescriptionStateActions(REDUX_ACTION_NAMESPACE)
+export const descriptionStateReducer = buildDescriptionStateReducer(REDUX_ACTION_NAMESPACE)
+export const descriptionStateSelectors = new DescriptionStateSelectors(ENTITIES_STORE_PATH)

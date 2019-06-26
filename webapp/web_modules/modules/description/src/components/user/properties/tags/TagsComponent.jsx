@@ -79,7 +79,7 @@ class TagsComponent extends React.Component {
         sectionStyle, tagsContainer, scrollArea, scrollAreaContent,
       },
       loadingContainerStyle, messageContainerStyle,
-    } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
+    } = this.context.moduleTheme.user.card.media.tabs.tab.propertiesTab
     return (
       <ScrollArea horizontal={false} vertical contentStyle={scrollAreaContent} style={scrollArea}>
         <div style={sectionStyle}>
@@ -127,7 +127,7 @@ class TagsComponent extends React.Component {
   render() {
     const {
       rootStyle, tagsRootStyle, documentsRootStyle, horizontalAreaSeparator,
-    } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab.tags
+    } = this.context.moduleTheme.user.card.media.tabs.tab.propertiesTab.tags
     const {
       moduleConf, simpleTags, entityTags, documentTags, showTags, showLinkedDocuments,
     } = this.props

@@ -72,7 +72,7 @@ export class FileComponent extends React.Component {
     const { loading, error, file } = this.props
     const { displayAreaStyle } = this.state
     const { moduleTheme } = this.context
-    const { fileMeaureDiv, contentBackground } = moduleTheme.descriptionDialog.card.media.tabs.tab.filesTab
+    const { fileMeaureDiv, contentBackground } = moduleTheme.user.card.media.tabs.tab.filesTab
 
     // measure self
     return (

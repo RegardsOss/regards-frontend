@@ -174,7 +174,7 @@ export class ContextInitializationHelper {
       criteria: {
         contextTags: [],
         otherFilters: [],
-        tags: [],
+        levels: [],
         quicklookFiltering: [],
         appliedFacets: [],
         geometry: [],

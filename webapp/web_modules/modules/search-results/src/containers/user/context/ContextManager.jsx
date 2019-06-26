@@ -44,7 +44,7 @@ export class ContextManager extends React.Component {
    */
   static MODULE_URL_PARAMETERS = {
     VIEW_TYPE_PARAMETER: 't',
-    SEARCH_TAGS_PARAMETER: 'tags',
+    SEARCH_TAGS_PARAMETER: 'l',
     RESULTS_DISPLAY_MODE_PARAMETER: 'd',
   }
 
@@ -114,7 +114,7 @@ export class ContextManager extends React.Component {
 
     const viewTypeFromURL = query[ContextManager.MODULE_URL_PARAMETERS.VIEW_TYPE_PARAMETER]
     const viewModeFromURL = query[ContextManager.MODULE_URL_PARAMETERS.RESULTS_DISPLAY_MODE_PARAMETER]
-    const tagsFromURL = get(query, ContextManager.MODULE_URL_PARAMETERS.SEARCH_TAGS_PARAMETER, '')
+    const tagsFromURL = get(query, ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER, '')
     const tagsArrayFromURL = tagsFromURL ? tagsFromURL.split(ContextManager.TAG_VALUES_SEPARATOR) : []
 
     // 2 - Resolve tags from URL before computing initial context
@@ -151,25 +151,54 @@ export class ContextManager extends React.Component {
   onAuthenticationChanged = () => {
     const { moduleId, updateResultsContext } = this.props
     const { query } = browserHistory.getCurrentLocation()
-    const tagsFromURL = get(query, ContextManager.MODULE_URL_PARAMETERS.SEARCH_TAGS_PARAMETER, '')
+    const tagsFromURL = get(query, ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER, '')
     const tagsArrayFromURL = tagsFromURL ? tagsFromURL.split(ContextManager.TAG_VALUES_SEPARATOR) : []
     if (tagsFromURL.length) {
       // resolve tags from URL
       this.resolveURLTags(tagsArrayFromURL).then((resolvedTags) => {
         updateResultsContext(moduleId, {
           criteria: {
-            tags: resolvedTags,
+            levels: resolvedTags,
           },
         })
       }).catch((e) => {
         // some entities are forbidden for current user: remove them in context
         updateResultsContext(moduleId, {
           criteria: {
-            tags: [],
+            levels: [],
           },
         })
       })
     }
+  }
+
+  /** Marks a description level in URL levels array */
+  static DESCRIPTION_LEVEL_URL_MARKER = 'd'
+
+  /** Marks a word tag in URL levels array */
+  static WORD_TAG_LEVEL_URL_MARKER = 'w'
+
+  /** Marks an entity tag in URL levels array */
+  static ENTITY_TAG_LEVEL_URL_MARKER = 'e'
+
+  /**
+   * Builds URL representation for level as parameter
+   * @param {*} level to represent matching ResultsContext.Level shape
+   * @return {string} URL string for level
+   */
+  static toURLLevel(level) {
+    switch (level.type) {
+      case UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL:
+        return `${ContextManager.DESCRIPTION_LEVEL_URL_MARKER}:${level.entity.content.id}`
+      case CatalogDomain.TAG_TYPES_ENUM.WORD:
+        return `${ContextManager.WORD_TAG_LEVEL_URL_MARKER}:${level.searchKey}`
+      default:
+        return `${ContextManager.ENTITY_TAG_LEVEL_URL_MARKER}:${level.searchKey}`
+    }
+  }
+
+  static fromURLLevel() {
+    enPause.ici.puis.tests()
   }
 
   /**
@@ -181,20 +210,21 @@ export class ContextManager extends React.Component {
     const { type, mode } = UIDomain.ResultsContextConstants.getViewData(newResultsContext)
     const { type: oldType, mode: oldMode } = UIDomain.ResultsContextConstants.getViewData(oldResultsContext)
     if (!isEqual(oldType, type) || !isEqual(oldMode, mode)
-      || !isEqual(oldResultsContext.criteria.tags, newResultsContext.criteria.tags)) {
+      || !isEqual(oldResultsContext.criteria.levels, newResultsContext.criteria.levels)) {
       const { pathname, query } = browserHistory.getCurrentLocation()
-      // Compute next query
+      // Compute next queryo
       const nextBrowserQuery = { ...query }
       // type
       nextBrowserQuery[ContextManager.MODULE_URL_PARAMETERS.VIEW_TYPE_PARAMETER] = type
       // mode
       nextBrowserQuery[ContextManager.MODULE_URL_PARAMETERS.RESULTS_DISPLAY_MODE_PARAMETER] = mode
-      // tags (serialized by the tag searchKey)
-      const searchTagParameterValue = newResultsContext.criteria.tags.map(({ searchKey }) => searchKey).join(ContextManager.TAG_VALUES_SEPARATOR)
+      // levels (serialized by the tag searchKey or the entity ID for description levels)
+
+      const searchTagParameterValue = newResultsContext.criteria.levels.map(ContextManager.toURLLevel).join(ContextManager.TAG_VALUES_SEPARATOR)
       if (searchTagParameterValue) {
-        nextBrowserQuery[ContextManager.MODULE_URL_PARAMETERS.SEARCH_TAGS_PARAMETER] = searchTagParameterValue
+        nextBrowserQuery[ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER] = searchTagParameterValue
       } else { // clear the parameter
-        delete nextBrowserQuery[ContextManager.MODULE_URL_PARAMETERS.SEARCH_TAGS_PARAMETER]
+        delete nextBrowserQuery[ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER]
       }
       // Update browser query (do not push to avoid crazy history)
       browserHistory.replace({ pathname, query: nextBrowserQuery })
@@ -267,7 +297,7 @@ export class ContextManager extends React.Component {
     }
 
     // B.2 - Restore found tags in default state
-    defaultState.criteria.tags = resolvedTags
+    defaultState.criteria.levels = resolvedTags
 
     // B.3 - Make sure any parent tags array is kept
     defaultState.criteria.contextTags = get(resultsContext, 'criteria.contextTags', defaultState.criteria.contextTags)

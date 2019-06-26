@@ -52,10 +52,6 @@ const messages = {
 
   // user
   'module.description.breadcrumb.root': 'Description: {entityLabel}',
-  'module.description.properties.tabs': 'Properties',
-  'module.description.description.tabs': 'Description',
-  'module.description.files.tabs': 'Files',
-  'module.description.quicklook.tabs': 'Quicklook',
   'module.description.file.subheader': 'Click on a file to download it',
   'module.description.close.button': 'Close',
   'module.description.properties.attributes': 'Attributes',

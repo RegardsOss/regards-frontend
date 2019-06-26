@@ -19,9 +19,9 @@
 import {
   CommonDomain, DamDomain, UIDomain, CatalogDomain,
 } from '@regardsoss/domain'
-import { getChainableTypeChecker } from '../../rs-common'
-import { AttributeModel } from '../../rs-dam/AttributeModel'
 import { RequestParameters } from '../../rs-common/RequestParameters'
+import { AttributeModel } from '../../rs-dam/AttributeModel'
+import { Entity } from '../../rs-catalog/entity/Entity'
 
 
 /**
@@ -119,39 +119,24 @@ export const EntitiesSelectionCriterion = PropTypes.shape({
 /** A tags array */
 export const TagsArray = PropTypes.arrayOf(TagCriterion)
 
+/** A level (may be a tag or a description display) */
+export const Level = PropTypes.oneOfType([
+  TagCriterion, // Regular tag criterion
+  PropTypes.shape({ // Description level
+    type: PropTypes.oneOf([UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL]).isRequired,
+    entity: Entity.isRequired,
+  }),
+])
+
+/** A levels array */
+export const LevelsArray = PropTypes.arrayOf(Level)
+
 /** A sorting criterion */
 export const SortingCriterion = PropTypes.shape({
   attribute: AttributeModel.isRequired, // corresponding attribute
   sortOrder: PropTypes.oneOf([CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER, CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER]), // one the ASCENDING / DESCENDING orders (NONE should not be seen here)
   ...commonCriterionFields,
 })
-
-/** Defines a common criteria arrays map, without specific fields */
-const criteriaArraysMap = PropTypes.objectOf(PropTypes.arrayOf(BasicCriterion))
-
-/**
- * Criteria part validator: it validates each key in criteria is a BasicCriterion array and optionnaly checks a shape (fieldsValidator)
- * For the sake of default state creation, it is possible to turn off specific shape checking when the parent element is disabled
- * (parameter whenEnabled = true)
- * @param {Function} fieldsValidator PropType validator to apply to criteria field, null allowed
- * @param {boolean} whenEnabled when true, if properties bag does not hold enabled:true, no check will be performed
- */
-function getCriteriaWithFieldsValidator(fieldsValidator = null, whenEnabled = true) {
-  // build a chainable checker
-  return getChainableTypeChecker((props, propName, componentName) => {
-    if (whenEnabled && !props.enabled) {
-      return null
-    }
-
-    // A - Check each mandatory search results field is present
-    if (fieldsValidator) {
-      PropTypes.checkPropTypes(fieldsValidator, props, propName, componentName)
-    }
-    // B - check all object properties are criteria arrays
-    PropTypes.checkPropTypes(criteriaArraysMap.isRequired, props, propName, componentName)
-    return null
-  })
-}
 
 /** An attribute presentation model */
 export const AttributePresentationModel = PropTypes.shape({
@@ -255,11 +240,11 @@ export const ViewsGroupState = PropTypes.shape({
     list: PropTypes.arrayOf(RequestFacetCriterion).isRequired,
   }).isRequired,
   // Criteria that apply for whole type group (facets, sortables.....). Free fields allowed for external controllers
-  criteria: getCriteriaWithFieldsValidator(PropTypes.shape({
+  criteria: PropTypes.shape({
     requestFacets: PropTypes.arrayOf(RequestFacetCriterion).isRequired, // List of requested facets on results
     // Sorting attributes with sorting types. The first sorting in array is the first applied when in multi-sort
     sorting: PropTypes.arrayOf(SortingCriterion).isRequired,
-  }).isRequired),
+  }).isRequired,
   // state by mode
   modeState: PropTypes.shape({
     [UIDomain.RESULTS_VIEW_MODES_ENUM.LIST]: ListViewModeState.isRequired,
@@ -273,18 +258,19 @@ export const ViewsGroupState = PropTypes.shape({
 export const ResultsContext = PropTypes.shape({
   // current entity type
   type: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
-  // criteria applying to the whole results view (free fields allowed for external controllers)
-  criteria: getCriteriaWithFieldsValidator(PropTypes.shape({
+  // criteria applying to the whole results view (free fields allowed for external controllers: if they do
+  // not hold any request parameters, they will be ignored at request time)
+  criteria: PropTypes.shape({
     // Parent control criteria
-    contextTags: PropTypes.arrayOf(TagCriterion).isRequired, // Tags from context
+    contextTags: TagsArray.isRequired, // Tags from context
     otherFilters: PropTypes.arrayOf(BasicCriterion).isRequired, // Other restrictions
     // locally handled filters
-    tags: PropTypes.arrayOf(TagCriterion).isRequired, // user added tags
+    levels: LevelsArray.isRequired, // user added levels
     quicklookFiltering: PropTypes.arrayOf(BasicCriterion).isRequired, // filtering elements with quicklooks
     appliedFacets: PropTypes.arrayOf(SelectedFacetCriterion).isRequired, // List of selected facets
     geometry: PropTypes.arrayOf(GeometryCriterion).isRequired, // Selected filtering geometry criteria
     entitiesSelection: PropTypes.arrayOf(EntitiesSelectionCriterion).isRequired, // Selected entities set criteria
-  }).isRequired, false),
+  }).isRequired,
   // view state for each entity type
   typeState: PropTypes.shape({
     [DamDomain.ENTITY_TYPES_ENUM.DATA]: ViewsGroupState.isRequired,

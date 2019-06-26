@@ -17,6 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import CollectionsIcon from 'mdi-material-ui/FileTree'
+import DatasetsIcon from 'mdi-material-ui/Archive'
+import DataIcon from 'mdi-material-ui/FileDocument'
+import DocumentsIcon from 'mdi-material-ui/FileImage'
+import DescriptionIcon from 'material-ui/svg-icons/action/info-outline'
+import WordIcon from 'mdi-material-ui/FileWordBox'
+import { UIDomain, CatalogDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Breadcrumb, ModuleIcon } from '@regardsoss/components'
@@ -27,6 +34,9 @@ import { Breadcrumb, ModuleIcon } from '@regardsoss/components'
  * @author Sébastien binda
  */
 class NavigationComponent extends React.Component {
+  /** Root tag type */
+  static ROOT_TAG = 'ROOT_TAG'
+
   static propTypes = {
     // module page definition
     page: AccessShapes.ModulePage,
@@ -34,6 +44,11 @@ class NavigationComponent extends React.Component {
     // navigation levels currently defined (necessarily one or more elements)
     navigationLevels: PropTypes.arrayOf(
       PropTypes.shape({
+        type: PropTypes.oneOf([
+          NavigationComponent.ROOT_TAG,
+          UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL,
+          ...CatalogDomain.TAG_TYPES,
+        ]).isRequired,
         label: PropTypes.shape({
           en: PropTypes.string.isRequired,
           fr: PropTypes.string.isRequired,
@@ -57,19 +72,55 @@ class NavigationComponent extends React.Component {
     return levelTag.label[locale]
   }
 
-  render() {
-    const {
-      page, defaultIconURL, navigationLevels, onLevelSelected,
-    } = this.props
-    return (
-      <Breadcrumb
-        rootIcon={<ModuleIcon
+  /**
+   * @returns {boolean} true if navigation is allowed for element as parameter
+   */
+  isNavigationAllowed = (elt, index) => elt.isNavigationAllowed
+
+  /**
+   * Provides icon to use for level (handles root level)
+   * @param {*} element corresponding element
+   * @param {number} index corresponding element index in breadcrumb
+   * @return {React.Element} built icon
+   */
+  getLevelIcon = (element, index) => {
+    const { page, defaultIconURL } = this.props
+    if (index === 0) {
+      return (
+        <ModuleIcon
+          key="rootIcon"
           iconDisplayMode={get(page, 'iconType')}
           defaultIconURL={defaultIconURL}
           customIconURL={get(page, 'customIconURL')}
-        />}
+        />)
+    }
+    switch (element.type) {
+      case UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL:
+        return <DescriptionIcon key="index" />
+      case CatalogDomain.TAG_TYPES_ENUM.COLLECTION:
+        return <CollectionsIcon key="index" />
+      case CatalogDomain.TAG_TYPES_ENUM.DATA:
+        return <DataIcon key="index" />
+      case CatalogDomain.TAG_TYPES_ENUM.DATASET:
+        return <DatasetsIcon key="index" />
+      case CatalogDomain.TAG_TYPES_ENUM.DOCUMENT:
+        return <DocumentsIcon key="index" />
+      case CatalogDomain.TAG_TYPES_ENUM.WORD:
+        return <WordIcon key="index" />
+      case NavigationComponent.ROOT_TAG:
+      default:
+        throw new Error(`Unexpected navigation level type ${element.type}`)
+    }
+  }
+
+  render() {
+    const { navigationLevels, onLevelSelected } = this.props
+    return (
+      <Breadcrumb
         elements={navigationLevels}
         labelGenerator={this.getLevelLabel}
+        iconGenerator={this.getLevelIcon}
+        navigationAllowedPredicate={this.isNavigationAllowed}
         onAction={onLevelSelected}
       />
     )
