@@ -167,7 +167,7 @@ class MapViewComponent extends React.Component {
               <div
                 style={mapViewStyles.quicklookViewLayout}
                 // see force redraw workaround comment above
-                key={`quicklook-view:width-${leftPaneWidth}`}
+                key={`quicklook-view:width-${leftPaneWidth}x${height}`}
               >
                 <QuicklooksViewContainer
                   resultsContext={resultsContext}

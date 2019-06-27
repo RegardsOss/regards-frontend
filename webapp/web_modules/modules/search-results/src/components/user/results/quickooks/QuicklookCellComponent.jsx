@@ -97,7 +97,7 @@ class QuicklookCellComponent extends React.PureComponent {
     }
     // Check if the entity has a quicklook to display
     const image = get(props, 'content.files.QUICKLOOK_SD[0]')
-    const hasIssueWithImage = get(image, 'imageWidth') || !get(image, 'imageHeight')
+    const hasIssueWithImage = !get(image, 'imageWidth') || !get(image, 'imageHeight')
 
     // A - There is a valid picture OR quicklook is embedded in map (map quicklooks have constant height)
     if ((image && !hasIssueWithImage) || itemProps.embedInMap) {
