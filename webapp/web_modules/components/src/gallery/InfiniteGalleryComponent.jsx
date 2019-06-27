@@ -147,6 +147,9 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
    * On scroll update: performs bounds visibility check and starts loading data if required
    */
   onScrollUpdate = throttle(() => {
+    if (!this.node) {
+      return
+    }
     const bounds = this.node.getBoundingClientRect()
     this.checkVisibility()
     this.checkInfiniteLoad(bounds)

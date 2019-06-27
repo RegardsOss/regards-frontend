@@ -197,6 +197,7 @@ const styles = theme => ({
         flexBasis: 0, // required to get same columns sizes (as well as valueCellStyle maxWidth)
         flexGrow: 1,
         flexShrink: 1,
+        minWidth: 0,
       },
       valueCellStyle: { // for groups
         margin: '5px 0 0 0',
