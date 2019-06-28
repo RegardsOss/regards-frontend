@@ -40,18 +40,6 @@ import { CriterionBuilder } from '../../../definitions/CriterionBuilder'
  */
 export class ContextManager extends React.Component {
   /**
-   * module URL parameters
-   */
-  static MODULE_URL_PARAMETERS = {
-    VIEW_TYPE_PARAMETER: 't',
-    SEARCH_TAGS_PARAMETER: 'l',
-    RESULTS_DISPLAY_MODE_PARAMETER: 'd',
-  }
-
-  /** Tag values separator in local URL parameter */
-  static TAG_VALUES_SEPARATOR = ','
-
-  /**
    * Redux: map state to props function
    * @param {*} state: current redux state
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
@@ -99,10 +87,51 @@ export class ContextManager extends React.Component {
     updateResultsContext: PropTypes.func.isRequired,
   }
 
+  /**
+   * module URL parameters
+   */
+  static MODULE_URL_PARAMETERS = {
+    VIEW_TYPE_PARAMETER: 't',
+    SEARCH_TAGS_PARAMETER: 'l',
+    RESULTS_DISPLAY_MODE_PARAMETER: 'd',
+  }
+
+  /** Separator used in local URL between each level URL value */
+  static LEVELS_URL_SEPARATOR = ','
+
+  /** Marks a description level in URL levels array */
+  static DESCRIPTION_LEVEL_URL_MARKER = 'd'
+
+  /** Marks a word tag in URL levels array */
+  static WORD_TAG_LEVEL_URL_MARKER = 'w'
+
+  /** Marks an entity tag in URL levels array */
+  static ENTITY_TAG_LEVEL_URL_MARKER = 'e'
+
+  /* Separates in URL the level type from its value */
+  static LEVEL_TYPE_SEPARATOR = '_'
+
+  /**
+   * Builds URL representation for level as parameter
+   * @param {*} level to represent matching ResultsContext.Level shape
+   * @return {string} URL string for level
+   */
+  static toURLLevel(level) {
+    switch (level.type) {
+      case UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL:
+        return `${ContextManager.DESCRIPTION_LEVEL_URL_MARKER}${ContextManager.LEVEL_TYPE_SEPARATOR}${level.entity.content.id}`
+      case CatalogDomain.TAG_TYPES_ENUM.WORD:
+        return `${ContextManager.WORD_TAG_LEVEL_URL_MARKER}${ContextManager.LEVEL_TYPE_SEPARATOR}${level.searchKey}`
+      default:
+        return `${ContextManager.ENTITY_TAG_LEVEL_URL_MARKER}${ContextManager.LEVEL_TYPE_SEPARATOR}${level.searchKey}`
+    }
+  }
+
   /** Initial state */
   state = {
     initialized: false,
   }
+
 
   /**
    * When component mounted: resolve initial context from URL if there is any then push in redux a valid
@@ -114,12 +143,13 @@ export class ContextManager extends React.Component {
 
     const viewTypeFromURL = query[ContextManager.MODULE_URL_PARAMETERS.VIEW_TYPE_PARAMETER]
     const viewModeFromURL = query[ContextManager.MODULE_URL_PARAMETERS.RESULTS_DISPLAY_MODE_PARAMETER]
-    const tagsFromURL = get(query, ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER, '')
-    const tagsArrayFromURL = tagsFromURL ? tagsFromURL.split(ContextManager.TAG_VALUES_SEPARATOR) : []
+    const levelsFromURL = get(query, ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER, '')
+    const levelsArrayFromURL = levelsFromURL ? levelsFromURL.split(ContextManager.LEVELS_URL_SEPARATOR) : []
 
     // 2 - Resolve tags from URL before computing initial context
-    this.resolveURLTags(tagsArrayFromURL).then((resolvedTags) => {
-      this.initializeState(viewTypeFromURL, viewModeFromURL, resolvedTags)
+    this.resolveURLLevels(levelsArrayFromURL).then((resolvedTags) => {
+      // initialize with tags, filtering null ones
+      this.initializeState(viewTypeFromURL, viewModeFromURL, resolvedTags.filter(t => !!t))
     }).catch((e) => {
       this.initializeState(viewTypeFromURL, viewModeFromURL, [])
     })
@@ -151,14 +181,14 @@ export class ContextManager extends React.Component {
   onAuthenticationChanged = () => {
     const { moduleId, updateResultsContext } = this.props
     const { query } = browserHistory.getCurrentLocation()
-    const tagsFromURL = get(query, ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER, '')
-    const tagsArrayFromURL = tagsFromURL ? tagsFromURL.split(ContextManager.TAG_VALUES_SEPARATOR) : []
-    if (tagsFromURL.length) {
+    const levelsFromURL = get(query, ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER, '')
+    const levelsArrayFromURL = levelsFromURL ? levelsFromURL.split(ContextManager.LEVELS_URL_SEPARATOR) : []
+    if (levelsFromURL.length) {
       // resolve tags from URL
-      this.resolveURLTags(tagsArrayFromURL).then((resolvedTags) => {
+      this.resolveURLLevels(levelsArrayFromURL).then((resolvedTags) => {
         updateResultsContext(moduleId, {
           criteria: {
-            levels: resolvedTags,
+            levels: resolvedTags.filter(t => !!t), // remove null resolved tags
           },
         })
       }).catch((e) => {
@@ -170,35 +200,6 @@ export class ContextManager extends React.Component {
         })
       })
     }
-  }
-
-  /** Marks a description level in URL levels array */
-  static DESCRIPTION_LEVEL_URL_MARKER = 'd'
-
-  /** Marks a word tag in URL levels array */
-  static WORD_TAG_LEVEL_URL_MARKER = 'w'
-
-  /** Marks an entity tag in URL levels array */
-  static ENTITY_TAG_LEVEL_URL_MARKER = 'e'
-
-  /**
-   * Builds URL representation for level as parameter
-   * @param {*} level to represent matching ResultsContext.Level shape
-   * @return {string} URL string for level
-   */
-  static toURLLevel(level) {
-    switch (level.type) {
-      case UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL:
-        return `${ContextManager.DESCRIPTION_LEVEL_URL_MARKER}:${level.entity.content.id}`
-      case CatalogDomain.TAG_TYPES_ENUM.WORD:
-        return `${ContextManager.WORD_TAG_LEVEL_URL_MARKER}:${level.searchKey}`
-      default:
-        return `${ContextManager.ENTITY_TAG_LEVEL_URL_MARKER}:${level.searchKey}`
-    }
-  }
-
-  static fromURLLevel() {
-    enPause.ici.puis.tests()
   }
 
   /**
@@ -220,7 +221,7 @@ export class ContextManager extends React.Component {
       nextBrowserQuery[ContextManager.MODULE_URL_PARAMETERS.RESULTS_DISPLAY_MODE_PARAMETER] = mode
       // levels (serialized by the tag searchKey or the entity ID for description levels)
 
-      const searchTagParameterValue = newResultsContext.criteria.levels.map(ContextManager.toURLLevel).join(ContextManager.TAG_VALUES_SEPARATOR)
+      const searchTagParameterValue = newResultsContext.criteria.levels.map(ContextManager.toURLLevel).join(ContextManager.LEVELS_URL_SEPARATOR)
       if (searchTagParameterValue) {
         nextBrowserQuery[ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER] = searchTagParameterValue
       } else { // clear the parameter
@@ -232,33 +233,30 @@ export class ContextManager extends React.Component {
   }
 
   /**
-   * Resolves tags by their search key (from URL) into tag models usable for search context
-   * @param {[string]} tags
+   * Resolves usable levels for search context from their URL parameter value
+   * @param {[string]} levels levels parameter value
    * @return {Promise} resolution promise
    */
-  resolveURLTags = (tags) => {
+  resolveURLLevels = (levels) => {
     const { fetchEntity } = this.props
-    return Promise.all(tags.map((tagSearchKey) => {
-      if (CatalogDomain.isURNTag(tagSearchKey)) {
-        // 1 - An entity tag: resolve through fetching
-        return fetchEntity(tagSearchKey).then(({ payload }) => {
-          // entity was retrieved
-          if (payload.error || !payload.content || !payload.content.id) {
-            throw new Error(`Fetching entity for URN "${tagSearchKey}" failed.`)
+    return Promise.all(levels.map((urlValue) => {
+      // parse level url value as it was built using toURLLevel
+      const [typeMaker, levelValue] = urlValue.split(ContextManager.LEVEL_TYPE_SEPARATOR)
+      if (typeMaker === ContextManager.ENTITY_TAG_LEVEL_URL_MARKER || typeMaker === ContextManager.DESCRIPTION_LEVEL_URL_MARKER) {
+        // 1 - For entity tags and description: retrieve entity first (level value is entity id)
+        return fetchEntity(levelValue).then(({ payload }) => { // entity was retrieved
+          if (payload.error || !payload.content || !payload.content.id) { // retrieval failure
+            return null
           }
-          return CriterionBuilder.buildEntityTagCriterion(payload)
+          return typeMaker === ContextManager.DESCRIPTION_LEVEL_URL_MARKER
+            ? { type: UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL, entity: payload } // a description level, no request parameter
+            : CriterionBuilder.buildEntityTagCriterion(payload) // a tag, used as filter on results
         })
       }
-      // 2 - a word tag: return immediately resolved promise
-      return new Promise(resolve => resolve({
-        label: tagSearchKey, // label is search key
-        type: CatalogDomain.TAG_TYPES_ENUM.WORD,
-        searchKey: tagSearchKey,
-        requestParameters: {
-          [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
-            new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, tagSearchKey).toQueryString(),
-        },
-      }))
+      // 2 - invalid or word level: return immediately resolved promise
+      return new Promise(resolve => resolve(typeMaker === ContextManager.WORD_TAG_LEVEL_URL_MARKER && levelValue
+        ? CriterionBuilder.buildWordTagCriterion(levelValue) // a word tag level
+        : null)) // not a valid level
     }))
   }
 

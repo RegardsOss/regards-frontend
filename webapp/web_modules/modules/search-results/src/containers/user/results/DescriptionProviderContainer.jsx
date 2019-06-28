@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import last from 'lodash/last'
 import { connect } from '@regardsoss/redux'
@@ -85,8 +86,7 @@ export class DescriptionProviderContainer extends React.Component {
   /** Initial state */
   state = {
     descriptionModule: null,
-    descriptionModuleProps: {},
-    showDescription: false,
+    describedEntity: null, // entity for wich description is currently shown
   }
 
   /**
@@ -115,59 +115,52 @@ export class DescriptionProviderContainer extends React.Component {
     const newState = { ...this.state }
     if (!isEqual(oldProps.availableDependencies, availableDependencies)
       || !isEqual(oldProps.dynamicContainerId, dynamicContainerId)
-      || !isEqual(oldProps.modules, modules)
-      || !isEqual(oldProps.onNavigate, onNavigate)) {
-      const originalModule = DescriptionHelper.getFirstDescriptionModule(
+      || !isEqual(oldProps.modules, modules)) {
+      const descriptionModule = DescriptionHelper.getFirstDescriptionModule(
         availableDependencies, dynamicContainerId, modules)
-      // when module is found, store in state the module configuration to use at render time (copied from the found module)
-      newState.descriptionModule = originalModule ? {
-        id: originalModule.content.id,
-        type: modulesManager.AllDynamicModuleTypes.DESCRIPTION,
-        active: true,
-        applicationId: appName,
-        conf: {
-          ...originalModule.content.conf,
-          runtime: {
-            onNavigate,
-            entity: null, // computed in levels lifecycle
-          },
-        },
-      } : null
+      // when module is found, store in state the module configuration
+      newState.descriptionModule = get(descriptionModule, 'content')
     }
-    // handle levels lifecycle: keep entity to describe
+    // handle levels lifecycle: keep entity to describe or null if no entity to describe currently
     if (!isEqual(oldProps.levels, levels)) {
       const lastLevel = last(levels)
       // when last level is a description AND there is a description module, prepare data to show it
-      let nextEntity = null
-      newState.showDescription = false
       if (lastLevel && lastLevel.type === UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL && newState.descriptionModule) {
-        newState.showDescription = true
-        nextEntity = lastLevel.entity
-      }
-      newState.descriptionModule = {
-        ...newState.descriptionModule,
-        conf: {
-          ...newState.descriptionModule.conf,
-          runtime: {
-            onNavigate,
-            entity: nextEntity,
-          },
-        },
+        newState.describedEntity = lastLevel.entity
+      } else {
+        newState.describedEntity = null
       }
     }
 
     // when description module ID changes, or children list changed
     if (!isEqual(this.state.descriptionModule, newState.descriptionModule)
-      || !isEqual(this.state.showDescription, newState.showDescription)
+      || !isEqual(this.state.describedEntity, newState.describedEntity)
+      || !isEqual(oldProps.onNavigate, onNavigate)
       || oldProps.children !== newProps.children) {
+      const showDescription = !!newState.descriptionModule && !!newState.describedEntity
+      // compile the description module props with runtime data, so that children can display it
+      const descriptionModuleProps = newState.descriptionModule ? {
+        appName,
+        project,
+        module: {
+          id: newState.descriptionModule.id,
+          type: modulesManager.AllDynamicModuleTypes.DESCRIPTION,
+          active: true,
+          applicationId: appName,
+          conf: {
+            ...newState.descriptionModule.conf,
+            runtime: {
+              onNavigate,
+              entity: newState.describedEntity, // computed in levels lifecycle
+            },
+          },
+        },
+      } : {} // no configuration available
+
       // clone all children with new props and update state
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
-        showDescription: newState.showDescription,
-        descriptionModuleProps: {
-          appName,
-          project,
-          module: newState.descriptionModule,
-        },
+        showDescription,
+        descriptionModuleProps,
         // provide callbacks to children
         onShowDescription: this.onShowDescription,
         isDescAvailableFor: this.isDescAvailableFor,

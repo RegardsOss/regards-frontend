@@ -167,13 +167,6 @@ export class DescriptionProviderContainer extends React.Component {
     // If not present, append description at breadcrumb levels end
     // else  go backward in breadcrumb to show it
     const foundLvlIndex = levels.findIndex(lvl => isEqual(lvl, descriptionLevel))
-    console.error('PUBLISHING', id, {
-      criteria: {
-        levels: foundLvlIndex >= 0
-          ? levels.slice(0, foundLvlIndex + 1) // keep breadcrumb up to corresponding level
-          : [...levels, descriptionLevel], // append level at breadcrumb end
-      },
-    })
     updateResultsContext(id, {
       criteria: {
         levels: foundLvlIndex >= 0
