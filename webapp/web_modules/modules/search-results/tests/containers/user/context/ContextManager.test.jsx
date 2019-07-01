@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { UIDomain, DamDomain, CatalogDomain } from '@regardsoss/domain'
+import { UIDomain, DamDomain } from '@regardsoss/domain'
 import { ContextManager } from '../../../../src/containers/user/context/ContextManager'
 import { ContextInitializationHelper } from '../../../../src/definitions/ContextInitializationHelper'
 import { CriterionBuilder } from '../../../../src/definitions/CriterionBuilder'
@@ -66,18 +66,11 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       // cannot test tags here (promise system is way harder to mock...)
       },
     },
-    levels: [{
-      // simple word tag
-      label: 'coffee', // label is search key
-      type: CatalogDomain.TAG_TYPES_ENUM.WORD,
-      searchKey: 'coffee',
-      requestParameters: {
-        [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
-            new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, 'coffee').toQueryString(),
-      },
-    }, // some entities tags
-    CriterionBuilder.buildEntityTagCriterion(dataEntity),
-    CriterionBuilder.buildEntityTagCriterion(datasetEntity),
+    levels: [
+      CriterionBuilder.buildEntityTagCriterion(dataEntity),
+      { type: UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL, entity: documentEntity },
+      CriterionBuilder.buildWordTagCriterion('coffee'),
+      CriterionBuilder.buildEntityTagCriterion(datasetEntity),
     ],
   }, {
     label: 'with documents configuration',
@@ -92,21 +85,14 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       // cannot test tags here (promise system is way harder to mock...)
       },
     },
-    levels: [{
-      // simple word tag
-      label: 'tea', // label is search key
-      type: CatalogDomain.TAG_TYPES_ENUM.WORD,
-      searchKey: 'tea',
-      requestParameters: {
-        [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
-            new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, 'tea').toQueryString(),
-      },
-    }, // some entities tags
-    CriterionBuilder.buildEntityTagCriterion(documentEntity),
+    levels: [
+      CriterionBuilder.buildEntityTagCriterion(documentEntity),
+      CriterionBuilder.buildWordTagCriterion('tea'),
+      { type: UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL, entity: dataEntity },
     ],
   }]
   testCases.forEach(({
-    label, moduleConf, location, tags, initType, initMode,
+    label, moduleConf, location, levels, initType, initMode,
   }) => it(`should render correctly ${label}`, () => {
     currentLocation = location // init location to be returned by the browser history
     let spiedResultsContext = null
@@ -134,14 +120,14 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
 
     // 2 - Simulate Tags resolution and check render
     // Note due to asynchronous componentDidMount system, it is pretty hard to test here the real tags resolution...
-    enzymeWrapper.instance().initializeState(initType, initMode, tags)
+    enzymeWrapper.instance().initializeState(initType, initMode, levels)
     // Children should now be visible
     assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'test-div'), 1, 'Children should now be visible')
     // The context should have been initialized with resolved context configuration, in initType/initMode view
     assert.equal(spiedModuleId, 1, 'Module ID should be correctly provided when updating results context')
     const expectedContext = ContextInitializationHelper.buildDefaultResultsContext(moduleConf, attributes)
     expectedContext.type = initType
-    expectedContext.criteria.tags = tags
+    expectedContext.criteria.levels = levels
     expectedContext.typeState[initType].mode = initMode
     assert.deepEqual(spiedResultsContext, expectedContext, 'Context should be initialized correctly')
   }))
@@ -168,7 +154,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     enzymeWrapper.instance().initializeState(DamDomain.ENTITY_TYPES_ENUM.DATASET, UIDomain.RESULTS_VIEW_MODES_ENUM.LIST, [])
     // Check not updated yet
     assert.isTrue(previousLocation === currentLocation, 'Location reference should not have changed (no initial update!)')
-    // 1 - simulate tags added
+    // 1 - simulate levels added
     const configurationContext = ContextInitializationHelper.buildDefaultResultsContext(dataConfiguration, attributes)
     let nextContext = {
       // initial
@@ -197,7 +183,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         [ContextManager.MODULE_URL_PARAMETERS.VIEW_TYPE_PARAMETER]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
         [ContextManager.MODULE_URL_PARAMETERS.RESULTS_DISPLAY_MODE_PARAMETER]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
         // expected added tags
-        [ContextManager.MODULE_URL_PARAMETERS.SEARCH_TAGS_PARAMETER]: datasetEntity.content.id,
+        [ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER]: `e_${datasetEntity.content.id}`,
       },
     })
 
@@ -207,17 +193,11 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       criteria: {
         levels: [
           // From previous context
-          CriterionBuilder.buildEntityTagCriterion(datasetEntity), {
-          // New word tag
-            label: 'coffee', // label is search key
-            type: CatalogDomain.TAG_TYPES_ENUM.WORD,
-            searchKey: 'coffee',
-            requestParameters: {
-              [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
-            new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, 'coffee').toQueryString(),
-            },
-          }, // new document tag
+          CriterionBuilder.buildEntityTagCriterion(datasetEntity),
+          // New tags
+          CriterionBuilder.buildWordTagCriterion('coffee'),
           CriterionBuilder.buildEntityTagCriterion(documentEntity),
+          { type: UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL, entity: dataEntity },
         ],
       },
     }
@@ -232,7 +212,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         [ContextManager.MODULE_URL_PARAMETERS.VIEW_TYPE_PARAMETER]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
         [ContextManager.MODULE_URL_PARAMETERS.RESULTS_DISPLAY_MODE_PARAMETER]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
         // expected added tags
-        [ContextManager.MODULE_URL_PARAMETERS.SEARCH_TAGS_PARAMETER]: `${datasetEntity.content.id},coffee,${documentEntity.content.id}`,
+        [ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER]: `e_${datasetEntity.content.id},w_coffee,e_${documentEntity.content.id},d_${dataEntity.content.id}`,
       },
     })
 
@@ -255,11 +235,9 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     assert.deepEqual(currentLocation, {
       pathname: 'www.test2.com/test2',
       query: {
-        // initial
         [ContextManager.MODULE_URL_PARAMETERS.VIEW_TYPE_PARAMETER]: DamDomain.ENTITY_TYPES_ENUM.DATA,
         [ContextManager.MODULE_URL_PARAMETERS.RESULTS_DISPLAY_MODE_PARAMETER]: UIDomain.RESULTS_VIEW_MODES_ENUM.MAP,
-        // expected added tags
-        [ContextManager.MODULE_URL_PARAMETERS.SEARCH_TAGS_PARAMETER]: `${datasetEntity.content.id},coffee,${documentEntity.content.id}`,
+        [ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER]: `e_${datasetEntity.content.id},w_coffee,e_${documentEntity.content.id},d_${dataEntity.content.id}`,
       },
     })
     // Change view mode only
@@ -280,11 +258,9 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     assert.deepEqual(currentLocation, {
       pathname: 'www.test2.com/test2',
       query: {
-        // initial
         [ContextManager.MODULE_URL_PARAMETERS.VIEW_TYPE_PARAMETER]: DamDomain.ENTITY_TYPES_ENUM.DATA,
         [ContextManager.MODULE_URL_PARAMETERS.RESULTS_DISPLAY_MODE_PARAMETER]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
-        // expected added tags
-        [ContextManager.MODULE_URL_PARAMETERS.SEARCH_TAGS_PARAMETER]: `${datasetEntity.content.id},coffee,${documentEntity.content.id}`,
+        [ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER]: `e_${datasetEntity.content.id},w_coffee,e_${documentEntity.content.id},d_${dataEntity.content.id}`,
       },
     })
     // remove some tags
@@ -305,7 +281,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         [ContextManager.MODULE_URL_PARAMETERS.VIEW_TYPE_PARAMETER]: DamDomain.ENTITY_TYPES_ENUM.DATA,
         [ContextManager.MODULE_URL_PARAMETERS.RESULTS_DISPLAY_MODE_PARAMETER]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
         // expected added tags
-        [ContextManager.MODULE_URL_PARAMETERS.SEARCH_TAGS_PARAMETER]: documentEntity.content.id,
+        [ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER]: `e_${documentEntity.content.id}`,
       },
     })
     // Clear levels

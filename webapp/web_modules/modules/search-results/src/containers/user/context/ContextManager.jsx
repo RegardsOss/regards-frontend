@@ -92,7 +92,7 @@ export class ContextManager extends React.Component {
    */
   static MODULE_URL_PARAMETERS = {
     VIEW_TYPE_PARAMETER: 't',
-    SEARCH_TAGS_PARAMETER: 'l',
+    LEVELS_PARAMETER: 'l',
     RESULTS_DISPLAY_MODE_PARAMETER: 'd',
   }
 

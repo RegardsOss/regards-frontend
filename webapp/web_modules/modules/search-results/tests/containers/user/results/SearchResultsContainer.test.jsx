@@ -19,13 +19,15 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DamDomain, CatalogDomain, CommonDomain } from '@regardsoss/domain'
-import { DescriptionProviderContainer } from '@regardsoss/entities-common'
+import {
+  DamDomain, CatalogDomain, CommonDomain, UIDomain,
+} from '@regardsoss/domain'
 import { UIClient } from '@regardsoss/client'
 import {
   searchDataobjectsActions, searchDatasetsActions, searchDatasetsFromDataObjectsActions, searchDocumentsActions,
 } from '../../../../src/clients/SearchEntitiesClient'
 import { SearchResultsContainer } from '../../../../src/containers/user/results/SearchResultsContainer'
+import DescriptionProviderContainer from '../../../../src/containers/user/results/DescriptionProviderContainer'
 import PluginServicesContainer from '../../../../src/containers/user/results/PluginServicesContainer'
 import OrderCartContainer from '../../../../src/containers/user/results/OrderCartContainer'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
@@ -50,17 +52,21 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
   it('should render correctly with data context', () => {
     const props = {
       moduleId: 1,
+      project: 'p1',
+      appName: 'user',
       resultsContext: dataContext,
-      accessToken: 'abc',
-      projectName: 'def',
       updateResultsContext: () => {},
     }
     const enzymeWrapper = shallow(<SearchResultsContainer {...props} />, { context })
 
     const descriptionProvider = enzymeWrapper.find(DescriptionProviderContainer)
     assert.lengthOf(descriptionProvider, 1, 'It should render the description provider')
-    assert.equal(descriptionProvider.props().onSearchTag, enzymeWrapper.instance().onAddSearchTagFromDescription,
-      'Description provider callback should be correctly set')
+    testSuiteHelpers.assertWrapperProperties(descriptionProvider, {
+      levels: props.resultsContext.criteria.levels,
+      project: props.project,
+      appName: props.appName,
+      onNavigate: enzymeWrapper.instance().onNavigate,
+    }, 'Description provider HOC properties should be correctly set')
 
     const servicesProvider = descriptionProvider.find(PluginServicesContainer)
     assert.lengthOf(servicesProvider, 1, 'It should render the service container')
@@ -86,24 +92,28 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
       requestParameters: enzymeWrapper.state().requestParameters,
       searchActions: enzymeWrapper.state().searchActions,
       accessToken: props.accessToken,
-      projectName: props.projectName,
+      projectName: props.project,
       onSearchEntity: enzymeWrapper.instance().onSearchEntity,
     }, 'Results component properties should be correctly set')
   })
   it('should render correctly with documents context', () => {
     const props = {
       moduleId: 1,
+      project: 'p1',
+      appName: 'user',
       resultsContext: documentsContext,
-      accessToken: 'abc',
-      projectName: 'def',
       updateResultsContext: () => {},
     }
     const enzymeWrapper = shallow(<SearchResultsContainer {...props} />, { context })
 
     const descriptionProvider = enzymeWrapper.find(DescriptionProviderContainer)
     assert.lengthOf(descriptionProvider, 1, 'It should render the description provider')
-    assert.equal(descriptionProvider.props().onSearchTag, enzymeWrapper.instance().onAddSearchTagFromDescription,
-      'Description provider callback should be correctly set')
+    testSuiteHelpers.assertWrapperProperties(descriptionProvider, {
+      levels: props.resultsContext.criteria.levels,
+      project: props.project,
+      appName: props.appName,
+      onNavigate: enzymeWrapper.instance().onNavigate,
+    }, 'Description provider HOC properties should be correctly set')
 
     const servicesProvider = descriptionProvider.find(PluginServicesContainer)
     assert.lengthOf(servicesProvider, 1, 'It should render the service container')
@@ -129,7 +139,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
       requestParameters: enzymeWrapper.state().requestParameters,
       searchActions: enzymeWrapper.state().searchActions,
       accessToken: props.accessToken,
-      projectName: props.projectName,
+      projectName: props.project,
       onSearchEntity: enzymeWrapper.instance().onSearchEntity,
     }, 'Results component properties should be correctly set')
   })
@@ -137,9 +147,9 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
     // start from empty data context (datasets should be initially selected)
     const props = {
       moduleId: 1,
+      project: 'p1',
+      appName: 'user',
       resultsContext: dataContext,
-      accessToken: 'abc',
-      projectName: 'def',
       updateResultsContext: () => {},
     }
     const enzymeWrapper = shallow(<SearchResultsContainer {...props} />, { context })
@@ -153,6 +163,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
     let nextContext = {
       ...dataContext,
       criteria: {
+        ...dataContext.criteria,
         contextTags: [CriterionBuilder.buildEntityTagCriterion(datasetEntity), {
           // simple word tag
           label: 'coffee', // label is search key
@@ -172,6 +183,10 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
             [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
               new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, 'tea').toQueryString(),
           },
+        }, {
+          // A description level that should be ignored in requests
+          type: UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL,
+          entity: datasetEntity,
         }, CriterionBuilder.buildEntityTagCriterion(documentEntity)],
       },
     }
@@ -245,6 +260,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
       resultsContext: {
         ...documentsContext,
         criteria: {
+          ...documentsContext.criteria,
           levels: [
             CriterionBuilder.buildEntityTagCriterion(documentEntity), {
               // simple word tag

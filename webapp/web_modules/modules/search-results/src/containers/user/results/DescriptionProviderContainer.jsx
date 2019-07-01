@@ -125,11 +125,8 @@ export class DescriptionProviderContainer extends React.Component {
     if (!isEqual(oldProps.levels, levels)) {
       const lastLevel = last(levels)
       // when last level is a description AND there is a description module, prepare data to show it
-      if (lastLevel && lastLevel.type === UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL && newState.descriptionModule) {
-        newState.describedEntity = lastLevel.entity
-      } else {
-        newState.describedEntity = null
-      }
+      newState.describedEntity = lastLevel && lastLevel.type === UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL
+        ? lastLevel.entity : null
     }
 
     // when description module ID changes, or children list changed

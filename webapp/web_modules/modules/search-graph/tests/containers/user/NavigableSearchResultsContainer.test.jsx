@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CatalogDomain, DamDomain } from '@regardsoss/domain'
+import { DamDomain } from '@regardsoss/domain'
 import { modulesManager, LazyModuleComponent } from '@regardsoss/modules'
 import { NavigableSearchResultsContainer } from '../../../src/containers/user/NavigableSearchResultsContainer'
 import styles from '../../../src/styles/styles'
@@ -43,7 +43,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
       searchQuery: null, // search query if a dataset is selected
       // Module configuration
       moduleConf: configuration1,
-      searchTag: null,
+      selectionPath: [],
       dispatchExpandResults: () => { },
       dispatchCollapseGraph: () => { },
       dispatchUpdateResultsContext: (stateDiff) => {
@@ -68,75 +68,70 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
     }, 'Module configuration should be computed in state')
     assert.deepEqual(lazyModuleProps.module, resultsConfiguration, 'Module configuration should be reported from state')
 
-    assert.deepEqual(spiedStateDiff, {
-      criteria: {
-        contextTags: [],
-        levels: [],
-      },
-    }, 'Container should initiale controlled module (results context)')
-    // Mimic a tag change (word)
+    assert.isNull(spiedStateDiff, 'No update should be dispatched as there is no selected dataset')
+    // Mimic browing in collections
     enzymeWrapper.setProps({
       ...props,
-      searchTag: {
-        type: CatalogDomain.TAG_TYPES_ENUM.WORD,
-        data: 'myWord',
-      },
+      selectionPath: [{
+        label: 'c1',
+        entityType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
+        id: 'URN:COLLECTION:c1',
+        requestParameters: {},
+      }, {
+        label: 'c2',
+        entityType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
+        id: 'URN:COLLECTION:c2',
+        requestParameters: {},
+      }],
+    })
+    assert.isNull(spiedStateDiff, 'No update should be dispatched as there is no selected dataset')
+    // Mimic dataset selection (that should update context)
+    enzymeWrapper.setProps({
+      ...props,
+      selectionPath: [{
+        label: 'c1',
+        entityType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
+        id: 'URN:COLLECTION:c1',
+        requestParameters: {},
+      }, {
+        label: 'c2',
+        entityType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
+        id: 'URN:COLLECTION:c2',
+        requestParameters: {},
+      }, {
+        label: 'd1',
+        entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+        id: 'URN:DATASET:d1',
+        requestParameters: {},
+      }],
     })
     assert.deepEqual(spiedStateDiff, {
       criteria: {
         contextTags: [{
-          type: CatalogDomain.TAG_TYPES_ENUM.WORD,
-          label: 'myWord',
-          searchKey: 'myWord',
-          requestParameters: {
-            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: `${CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME}:myWord`,
-          },
-        }],
-        levels: [],
-      },
-    }, 'Container should update controlled module results context with word tag')
-    // Mimic a tag change (entity)
-    enzymeWrapper.setProps({
-      ...props,
-      searchTag: {
-        type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-        data: {
-          content: {
-            id: 'URN:DATASET:TEST',
-            model: 'myModel',
-            providerId: 'myProviderId',
-            label: 'myLabel',
-            entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-            files: {},
-            properties: {},
-            levels: [],
-          },
-        },
-      },
-    })
-    assert.deepEqual(spiedStateDiff, {
-      criteria: {
-        contextTags: [{
+          label: 'd1',
           type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-          label: 'myLabel',
-          searchKey: 'URN:DATASET:TEST',
+          searchKey: 'URN:DATASET:d1',
           requestParameters: {
-            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: `${CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME}:"URN:DATASET:TEST"`,
+            q: 'tags:"URN:DATASET:d1"',
           },
         }],
         levels: [],
       },
-    }, 'Container should update controlled module results context with entity tag')
-    // Mimic a tag reset
+    }, 'Dataset should be selected as new context root in results')
+    // Mimic browsing other collections, unselecting dataset
     enzymeWrapper.setProps({
       ...props,
-      searchTag: null,
+      selectionPath: [{
+        label: 'c4',
+        entityType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
+        id: 'URN:COLLECTION:c4',
+        requestParameters: {},
+      }],
     })
     assert.deepEqual(spiedStateDiff, {
       criteria: {
         contextTags: [],
-        levels: [],
       },
-    }, 'Container should update controlled module results context with no tag')
+    }, 'Previously selected dataset should have been removed from the results context')
   })
 })

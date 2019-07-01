@@ -35,6 +35,11 @@ describe('[Search Graph] Testing GraphLevelDisplayerContainer', () => {
   it('should render properly', () => {
     const props = {
       graphDatasetAttributes: [],
+      descriptionProperties: {
+        showDescriptionOption: true,
+        isDescriptionAvailableFor: () => true,
+        onShowDescription: () => {},
+      },
       levelIndex: 0,
       isFirstLevel: true,
       isLastLevel: false,

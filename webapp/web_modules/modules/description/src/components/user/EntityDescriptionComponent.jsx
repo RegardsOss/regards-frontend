@@ -34,10 +34,13 @@ class EntityDescriptionComponent extends React.Component {
     projectName: PropTypes.string.isRequired,
     // configuration (holding runtime data)
     moduleConf: ModuleConfiguration.isRequired,
+    // tree selection
     selectedPath: TreePath.isRequired,
 
     // control callback
-    setSelectedPath: PropTypes.func.isRequired,
+    onSelectTreePath: PropTypes.func.isRequired, // tree selection callback: path => ()
+    onShowDescription: PropTypes.func.isRequired, // show description callback: entity => ()
+    onSearch: PropTypes.func.isRequired, // search callback: entity|string => ()
   }
 
   static contextTypes = {
@@ -60,6 +63,7 @@ class EntityDescriptionComponent extends React.Component {
    * @return {DescriptionConfiguration} configuration for current entity (or default configuration)
    */
   getCurrentEntityConfiguration = () => {
+    // TODO: it should be used above to compute tree!
     const { entity, moduleConf } = this.props
     if (entity) {
       const { entityType } = entity.content

@@ -18,11 +18,11 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
-import { DESCRIPTION_TABS_ENUM } from '../../../src/model/DescriptionTabsEnum'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import EntityDescriptionComponent from '../../../src/components/user/EntityDescriptionComponent'
 import styles from '../../../src/styles/styles'
 import { fullModuleConf } from '../../dumps/configuration.dump'
+import { dataEntity } from '../../dumps/entities.dump'
 
 const context = buildTestContext(styles)
 
@@ -32,36 +32,23 @@ describe('[Description] Testing EntityDescriptionComponent', () => {
   it('should exists', () => {
     assert.isDefined(EntityDescriptionComponent)
   })
-  it('should render correctly no data', () => {
+  it('should render correctly', () => {
     const props = {
-      moduleConf: fullModuleConf,
-      // component API
-      entity: null,
-      currentTab: null,
       projectName: 'project1',
       accessToken: 'abcdef....',
-
-      // control callback
-      onSearchTag: null,
-      onClose: () => { },
-      onChangeTab: () => { },
+      moduleConf: {
+        ...fullModuleConf,
+        runtime: {
+          entity: dataEntity,
+          onNavigate: () => {},
+        },
+      },
+      selectedPath: [0],
+      onSelectTreePath: () => {},
+      onShowDescription: () => {},
+      onSearch: () => {},
     }
     shallow(<EntityDescriptionComponent {...props} />, { context })
-  })
-  it('should render correctly with data', () => {
-    const props = {
-      moduleConf: fullModuleConf,
-      // component API
-      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DataobjectEntity'),
-      currentTab: DESCRIPTION_TABS_ENUM.DESCRIPTION,
-      projectName: 'project1',
-      accessToken: 'abcdef....',
-
-      // control callback
-      onSearchTag: null,
-      onClose: () => { },
-      onChangeTab: () => { },
-    }
-    shallow(<EntityDescriptionComponent {...props} />, { context })
+    // TODO more tests
   })
 })

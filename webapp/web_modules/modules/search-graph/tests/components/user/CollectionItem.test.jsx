@@ -35,6 +35,11 @@ describe('[Search Graph] Testing CollectionItem', () => {
   it('should render properly', () => {
     const props = {
       collection: DumpProvider.getFirstEntity('AccessProjectClient', 'CollectionEntity'),
+      descriptionProperties: {
+        showDescriptionOption: true,
+        isDescriptionAvailableFor: () => true,
+        onShowDescription: () => {},
+      },
       expensible: false,
       selected: false,
       onSelect: () => { },

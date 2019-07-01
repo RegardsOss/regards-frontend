@@ -41,10 +41,10 @@ describe('[Components] Testing BreadcrumbElement', () => {
       isLast: true,
       onAction: () => { },
       label: 'root',
-      rootIcon: <TestIcon />,
+      icon: <TestIcon />,
     }
     const wrapper = shallow(<BreadcrumbElement {...props} />, { context })
-    assert.lengthOf(wrapper.find(TestIcon), 1, 'There should be the icon for root element')
+    assert.lengthOf(wrapper.find(TestIcon), 1, 'There should be the icon')
     assert.include(wrapper.debug(), props.label, 'Element label should be rendered')
   })
   it('should render properly last item', () => {
@@ -56,10 +56,9 @@ describe('[Components] Testing BreadcrumbElement', () => {
       isLast: true,
       onAction: () => { },
       label: 'any',
-      rootIcon: <TestIcon />,
+      icon: null,
     }
     const wrapper = shallow(<BreadcrumbElement {...props} />, { context })
-    assert.lengthOf(wrapper.find(TestIcon), 0, 'There should not be the icon as element is not root')
     assert.include(wrapper.debug(), props.label, 'Element label should be rendered')
   })
   it('should call onAction when item is navigation (not last element)', () => {
@@ -72,7 +71,7 @@ describe('[Components] Testing BreadcrumbElement', () => {
       isLast: false,
       onAction: () => { spiedCalls += 1 },
       label: 'root',
-      rootIcon: <TestIcon />,
+      icon: <TestIcon />,
     }
     const wrapper = shallow(<BreadcrumbElement {...props} />, { context })
     wrapper.instance().onClick()
@@ -88,7 +87,7 @@ describe('[Components] Testing BreadcrumbElement', () => {
       isLast: true,
       onAction: () => { spiedCalls += 1 },
       label: 'root',
-      rootIcon: <TestIcon />,
+      icon: <TestIcon />,
     }
     const wrapper = shallow(<BreadcrumbElement {...props} />, { context })
     wrapper.instance().onClick()
@@ -104,7 +103,7 @@ describe('[Components] Testing BreadcrumbElement', () => {
       isLast: false,
       onAction: () => { spiedCalls += 1 },
       label: 'root',
-      rootIcon: <TestIcon />,
+      icon: <TestIcon />,
     }
     const wrapper = shallow(<BreadcrumbElement {...props} />, { context })
     wrapper.instance().onClick()

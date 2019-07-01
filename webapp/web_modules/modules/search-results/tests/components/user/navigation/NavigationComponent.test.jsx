@@ -20,7 +20,9 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Breadcrumb } from '@regardsoss/components'
-import { AccessDomain } from '@regardsoss/domain'
+import {
+  AccessDomain, UIDomain, DamDomain, CatalogDomain,
+} from '@regardsoss/domain'
 import NavigationComponent from '../../../../src/components/user/navigation/NavigationComponent'
 import styles from '../../../../src/styles/styles'
 
@@ -38,12 +40,14 @@ describe('[SEARCH RESULTS] Testing NavigationComponent', () => {
       page: null,
       defaultIconURL: 'hello.png',
       navigationLevels: [{
+        type: NavigationComponent.ROOT_TAG,
         label: {
           en: 'hello',
           fr: 'bijour',
         },
         isNavigationAllowed: false,
       }, {
+        type: UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL,
         label: {
           en: 'bye',
           fr: 'au rivoir',
@@ -78,12 +82,14 @@ describe('[SEARCH RESULTS] Testing NavigationComponent', () => {
         },
       },
       navigationLevels: [{
+        type: DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
         label: {
           en: 'hello',
           fr: 'bijour',
         },
         isNavigationAllowed: false,
       }, {
+        type: CatalogDomain.TAG_TYPES_ENUM.WORD,
         label: {
           en: 'bye',
           fr: 'au rivoir',

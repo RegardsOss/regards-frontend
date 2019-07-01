@@ -35,6 +35,11 @@ describe('[Search Graph] Testing CollectionItemContainer', () => {
   it('should render properly', () => {
     const props = {
       collection: DumpProvider.getFirstEntity('AccessProjectClient', 'CollectionEntity'),
+      descriptionProperties: {
+        showDescriptionOption: true,
+        isDescriptionAvailableFor: () => true,
+        onShowDescription: () => {},
+      },
       isLastLevel: false,
       selected: false,
       // from map dispatch to props

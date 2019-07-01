@@ -19,6 +19,7 @@
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-utils'
+import { isEqual } from 'date-fns'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
 import { descriptionStateActions, descriptionStateSelectors } from '../../clients/DescriptionStateClient'
 import EntityDescriptionComponent from '../../components/user/EntityDescriptionComponent'
@@ -53,7 +54,7 @@ export class UserContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      setSelectedPath: entryPath => dispatch(descriptionStateActions.selectEntryPath()),
+      setSelectedPath: entryPath => dispatch(descriptionStateActions.selectEntryPath(entryPath)),
     }
   }
 
@@ -72,20 +73,35 @@ export class UserContainer extends React.Component {
     setSelectedPath: PropTypes.func.isRequired,
   }
 
+  // TODO create treee model from configuration in this class
+
   /**
-   * Local on search tag implementation: closes the description dialog when user searches a tag
-   * @note: this method must be called with onSearchTag method only
-   * @param tag searched tag
+   * User callback: On select tree path
+   * @param {[number]} path selected path
    */
-  onSearchTag = (tag) => {
-    // TODO change that (old code)
-    // const { dialogState, onClose } = this.props
-    // const onSearchTag = get(dialogState, 'parameters.onSearchTag')
-    // onSearchTag(tag)
-    // onClose()
+  onSelectTreePath = (path) => {
+    const { selectedPath, setSelectedPath } = this.props
+    if (!isEqual(path, selectedPath)) {
+      setSelectedPath(path)
+    }
   }
 
-  // TODO we certainly want to create the tree model here!
+  /**
+   * User callback: on show description
+   * @param {*} entity entity for which description should be shown (matches CatalogShapes.Entity, mandatory)
+   */
+  onShowDescription = (entity) => {
+    // TODO implementation
+  }
+
+  /**
+   * User callback: on show description
+   * @param {string|{*}} searchElement word or entity tag to search
+   */
+  onSearch = (searchElement) => {
+    // TODO implementation
+  }
+
 
   /**
    * Computes if this module is shadow module (ie the module statically injected that should never be shown)
@@ -96,10 +112,10 @@ export class UserContainer extends React.Component {
     return !moduleConf.runtime // shadow when runtime fields are not provided
   }
 
+
   render() {
     const {
-      selectedPath, setSelectedPath,
-      accessToken, projectName, moduleConf,
+      selectedPath, accessToken, projectName, moduleConf,
     } = this.props
 
     if (this.isShadowModule()) {
@@ -113,7 +129,9 @@ export class UserContainer extends React.Component {
         projectName={projectName}
         moduleConf={moduleConf}
         selectedPath={selectedPath}
-        setSelectedPath={setSelectedPath}
+        onSelectTreePath={this.onSelectTreePath}
+        onShowDescription={this.onShowDescription}
+        onSearch={this.onSearch}
       />)
   }
 }

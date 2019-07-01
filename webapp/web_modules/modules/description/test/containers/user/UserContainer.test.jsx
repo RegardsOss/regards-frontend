@@ -19,11 +19,11 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DESCRIPTION_TABS_ENUM } from '../../../src/model/DescriptionTabsEnum'
 import { UserContainer } from '../../../src/containers/user/UserContainer'
 import EntityDescriptionComponent from '../../../src/components/user/EntityDescriptionComponent'
 import styles from '../../../src/styles/styles'
 import { fullModuleConf } from '../../dumps/configuration.dump'
+import { dataEntity } from '../../dumps/entities.dump'
 
 const context = buildTestContext(styles)
 
@@ -35,147 +35,52 @@ describe('[Description] Testing UserContainer', () => {
   it('should exists', () => {
     assert.isDefined(UserContainer)
   })
-  it('should render correctly when not requested', () => {
+  it('should not render when shadow module (configuration storage only)', () => {
     const props = {
       projectName: 'project1',
       accessToken: 'abcdef....',
       appName: 'any',
       type: 'description',
-      moduleConf: fullModuleConf,
-      dialogState: {
-        visible: false,
-      },
-      shownEntity: null,
-      currentTab: null,
-      initializeContext: () => { },
-      onClose: () => { },
-      onChangeTab: () => { },
+      moduleConf: fullModuleConf, // missing runtime => shadow
+
+      selectedPath: [0],
+
+      setSelectedPath: () => {},
     }
 
     const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
     const component = enzymeWrapper.find(EntityDescriptionComponent)
-    assert.lengthOf(component, 1, 'Component should be rendered')
-    assert.isNotOk(component.props().entity, 'The entity should not be set (so component will not show up)')
+    assert.lengthOf(component, 0, 'Shadow module should hide sub components')
   })
 
-  it('should render correctly when current context is currently set', () => {
+  it('should render correctly with runtime data', () => {
     const props = {
       projectName: 'project1',
       accessToken: 'abcdef....',
       appName: 'any',
       type: 'description',
-      moduleConf: fullModuleConf,
-      currentTab: DESCRIPTION_TABS_ENUM.PROPERTIES,
-      dialogState: {
-        visible: false,
-      },
-      shownEntity: {
-        content: {
-          id: 'URN:helloooooooooooooo Nanny!',
-          providerId: 'UnLapin',
-          label: 'Hello, dear nanny',
-          entityType: 'COLLECTION',
-          model: '1',
-          files: {},
-          tags: [],
+      moduleConf: {
+        ...fullModuleConf, // missing runtime => shadow
+        runtime: {
+          entity: dataEntity,
+          onNavigate: () => {},
         },
       },
-      initializeContext: () => { },
-      onClose: () => { },
-      onChangeTab: () => { },
+      selectedPath: [0],
+      setSelectedPath: () => {},
     }
     const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
     const component = enzymeWrapper.find(EntityDescriptionComponent)
     assert.lengthOf(component, 1, 'Component should be rendered')
-    assert.equal(component.props().entity, props.shownEntity, 'The entity should be set (so component will show up)')
-    assert.equal(component.props().currentTab, props.currentTab, 'The current tab should be correctly set')
-  })
-
-  it('should ignore request that are no pointing out this module', () => {
-    let spiedInitCount = 0
-    const props = {
-      projectName: 'project1',
-      accessToken: 'abcdef....',
-      appName: 'any',
-      type: 'description',
-      moduleConf: fullModuleConf,
-      currentTab: null,
-      dialogState: {
-        visible: false,
-      },
-      shownEntity: null,
-      initializeContext: () => {
-        spiedInitCount += 1
-      },
-      onClose: () => { },
-      onChangeTab: () => { },
-    }
-
-    const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
-    assert.equal(spiedInitCount, 0, 'Initialize context should not have initially been called')
-
-    enzymeWrapper.setProps({
-      visible: true,
-      consumerID: 'not-that-module',
-    })
-    assert.equal(spiedInitCount, 0, 'Initialize context should not be called for another consumer ID')
-  })
-
-  it('should initialize context when a dialog request for this module comes in', () => {
-    let spiedInitEntity = null
-    const props = {
-      projectName: 'project1',
-      accessToken: 'abcdef....',
-      appName: 'any',
-      type: 'description',
-      moduleConf: fullModuleConf,
-      currentTab: DESCRIPTION_TABS_ENUM.PROPERTIES,
-      dialogState: {
-        visible: false,
-      },
-      shownEntity: null,
-      initializeContext: (initEntity) => {
-        spiedInitEntity = initEntity
-      },
-      onClose: () => { },
-      onChangeTab: () => { },
-    }
-
-    // Init without request
-    const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
-    assert.isNull(spiedInitEntity)
-
-    // Mimics a reduced dialog state change
-    const descriptionEntity = {
-      content: {
-        id: 'URN:helloooooooooooooo Nanny!',
-        model: {
-          id: 1,
-        },
-        label: 'Hello, dear nanny',
-        tags: [],
-        entityType: 'DATA',
-      },
-    }
-
-    let spiedOnSearchCalledCount = 0
-    const spiedOnSearch = () => { spiedOnSearchCalledCount += 1 } // simple marker toc
-
-    enzymeWrapper.setProps({
-      ...props,
-      dialogState: {
-        visible: true,
-        consumerID: enzymeWrapper.instance().consumerID,
-        parameters: {
-          entity: descriptionEntity,
-          onSearchTag: spiedOnSearch,
-        },
-      },
-    })
-    // check that initialization was correctly dispatched to show dialog window
-    assert.deepEqual(spiedInitEntity, descriptionEntity, 'The initialization entity should be retrieved from dialog state parameters')
-    // test that the right search call back is used (from dialog state parameters)
-    enzymeWrapper.instance().onSearchTag('xxx')
-    assert.equal(spiedOnSearchCalledCount, 1, 'On search tag should have been call using dialog state parameters method')
+    testSuiteHelpers.assertWrapperProperties(component, {
+      accessToken: props.accessToken,
+      projectName: props.projectName,
+      moduleConf: props.moduleConf,
+      selectedPath: props.selectedPath,
+      onSelectTreePath: enzymeWrapper.instance().onSelectTreePath,
+      onShowDescription: enzymeWrapper.instance().onShowDescription,
+      onSearch: enzymeWrapper.instance().onSearch,
+    }, 'component properties should be correctly computed')
+    // TODO more tests when tree model is ready to be transfered to children
   })
 })
