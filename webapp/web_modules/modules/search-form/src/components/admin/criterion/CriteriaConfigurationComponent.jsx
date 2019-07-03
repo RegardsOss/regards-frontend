@@ -81,7 +81,7 @@ class CriteriaConfigurationComponent extends React.Component {
               <MenuItem
                 key={attribute.content.id}
                 value={attribute.content.jsonPath}
-                primaryText={DamDomain.AttributeModelController.getAttributeModelFullLabel(attribute)}
+                primaryText={DamDomain.AttributeModelController.getAttributeModelFullName(attribute)}
               />))
           }
         </Field>
