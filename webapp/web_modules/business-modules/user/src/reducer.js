@@ -40,6 +40,5 @@ export default combineReducers({
   authenticationDialog: authenticationDialogReducer,
   modulesPanesStates: moduleExpandedStateReducer,
   resultsContext: resultsContextReducer,
-  dialogRequests: UIClient.getDialogRequestsReducer(), // Install default dialog requests reducer
   appState: UIClient.getSelectedDynamicModuleReducer(), // install user app state reducer (contains selected module so far...)
 })
