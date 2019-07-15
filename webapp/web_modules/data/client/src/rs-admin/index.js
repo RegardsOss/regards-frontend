@@ -76,6 +76,10 @@ export { default as NotificationActions } from './notification/NotificationActio
 export { default as getNotificationReducer } from './notification/NotificationReducer'
 export { default as getNotificationSelectors } from './notification/NotificationSelectors'
 
+export { default as NotificationDetailsActions } from './notification/NotificationDetailsActions'
+export { default as getNotificationDetailsReducer } from './notification/NotificationDetailsReducer'
+export { default as getNotificationDetailsSelectors } from './notification/NotificationDetailsSelectors'
+
 export { default as ReadNotificationActions } from './notification/read/ReadNotificationActions'
 export { default as getReadNotificationReducer } from './notification/read/ReadNotificationReducer'
 export { default as getReadNotificationSelectors } from './notification/read/ReadNotificationSelectors'

@@ -16,14 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AdminClient } from '@regardsoss/client'
+import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
-export const readNotificationActions = new AdminClient.ReadNotificationActions()
-export const readNotificationReducer = AdminClient.getReadNotificationReducer()
-export const readNotificationInstanceActions = new AdminClient.ReadNotificationActions(true)
-export const readNotificationInstanceReducer = AdminClient.getReadNotificationReducer(true)
-export const readNotificationSelectors = AdminClient.getReadNotificationSelectors([
-  'modules.menu',
-  'readNotification',
-])
-export const readNotificationDetailsReducer = AdminClient.getNotificationDetailsReducer(true)
+/**
+ * Store selector to access projects entities.
+ *
+ * To use this selector, you need to pass a parameter : <storePath>.
+ *
+ * storePath : Array<String>, exemple :  ['common','enitites'].
+ * With this exemple, all projects will be stored in the subpart 'common.entities' of the global
+ * application store.
+ *
+ * @author Simon MILHAU
+ */
+export default storePath => new BasicSignalSelectors(storePath)
