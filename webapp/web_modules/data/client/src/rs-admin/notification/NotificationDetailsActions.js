@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,15 +15,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { AdminClient } from '@regardsoss/client'
+ */
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
-export const readNotificationActions = new AdminClient.ReadNotificationActions()
-export const readNotificationReducer = AdminClient.getReadNotificationReducer()
-export const readNotificationInstanceActions = new AdminClient.ReadNotificationActions(true)
-export const readNotificationInstanceReducer = AdminClient.getReadNotificationReducer(true)
-export const readNotificationSelectors = AdminClient.getReadNotificationSelectors([
-  'modules.menu',
-  'readNotification',
-])
-export const readNotificationDetailsReducer = AdminClient.getNotificationDetailsReducer(true)
+export default class NotificationDetailsActions extends BasicSignalActions {
+  constructor(namespace, instance = false) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${
+        instance ? STATIC_CONF.IMSERVICES.ADMIN_INSTANCE : STATIC_CONF.MSERVICES.ADMIN
+      }/notifications/{notification_id}`,
+    })
+  }
+}

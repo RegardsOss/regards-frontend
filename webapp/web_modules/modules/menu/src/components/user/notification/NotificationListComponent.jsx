@@ -40,7 +40,7 @@ import { CardActions } from 'material-ui/Card'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import { tableActions } from '../../../clients/TableClient'
 import NotificationItemComponent from './NotificationItemComponent'
-import NotificationDetailComponent from './NotificationDetailComponent'
+import NotificationDetailContainer from '../../../containers/user/notification/NotificationDetailContainer'
 import NotificationFloatingMessage from './NotificationFloatingMessage'
 
 const MODE = {
@@ -234,8 +234,9 @@ class NotificationListComponent extends React.Component {
    */
   renderNotificationDialog = () => {
     const { moduleTheme: { notifications: { dialog } } } = this.context
-
-    return this.state.openedNotification ? (
+    const { openedNotification } = this.state
+    const { isInstance } = this.props
+    return openedNotification ? (
       <PositionedDialog
         modal
         open={!!this.state.openedNotification}
@@ -250,7 +251,7 @@ class NotificationListComponent extends React.Component {
             {this.renderNotificationList(MODE.DISPLAY_READ)}
           </div>
           <div className="col-xs-65 col-lg-75" style={dialog.details.container.style}>
-            <NotificationDetailComponent notification={this.state.openedNotification} />
+            <NotificationDetailContainer isInstance={isInstance} notificationId={openedNotification ? openedNotification.id : -1} />
           </div>
         </div>
         <CardActions style={dialog.details.actions.style}>
