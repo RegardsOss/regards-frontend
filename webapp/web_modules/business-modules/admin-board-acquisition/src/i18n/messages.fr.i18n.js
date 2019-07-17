@@ -30,6 +30,7 @@ const messages = {
   'data-provider.board.description': 'Permet de configurer des processus d\'acquisition de nouvelles données détectées (la méthode de détection est configurable). Pour chaque donnée détectée, un paquet d\'information (SIP) est généré et ensuite fourni au système pour ingestion.',
   'data-provider.board.action.chain.list.tooltip': 'Configurer les chaînes d\'acquisition',
   'data-provider.board.action.monitoring.tooltip': 'Suivre l\'activité des chaînes d\'acquisition',
+  'data-provider.board.action.sessions.tooltip': 'Suivre toute la chaine d\'acquisition',
 
   'ingest.board.external.datasources.title': 'Aspiration',
   'ingest.board.external.datasources.description': 'Permet d\'aspirer des données depuis une source de données déjà existante en associant les champs de la source de données aux modèles de données.',
