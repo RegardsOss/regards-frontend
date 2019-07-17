@@ -44,7 +44,7 @@ class AccessRightsDataAccessTableCustomCell extends React.Component {
     const { accessRight } = this.props.entity.content
     const metaAccessLevel = get(accessRight, 'accessLevel', AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS)
     let accessLevel = AccessRightsDataAccessTableCustomCell.NOT_APPLICABLE
-    if (metaAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS) {
+    if (metaAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS || metaAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.CUSTOM_ACCESS) {
       accessLevel = get(accessRight, 'dataAccessRight.dataAccessLevel', AccessRightsEnum.DATA_ACCESS_ENUM.NO_ACCESS)
     }
     return (
