@@ -22,6 +22,7 @@ import { AcquisitionProcessingChainMonitorReducer } from './clients/AcquisitionP
 import { tableReducer, tableMonitorReducer } from './clients/TableClient'
 import { AcquisitionFileReducer } from './clients/AcquisitionFileClient'
 import { ProductReducer } from './clients/ProductClient'
+import { sessionsReducer } from './clients/session/SessionsClient'
 /**
  * @author Sébastien Binda
  */
@@ -32,6 +33,7 @@ const dataProviderManagementReducer = combineReducers({
   processingChainTable: tableReducer,
   processingChainMonitorTable: tableMonitorReducer,
   product: ProductReducer,
+  sessions: sessionsReducer,
 })
 
 export default dataProviderManagementReducer

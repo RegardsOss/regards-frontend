@@ -40,3 +40,4 @@ export { ThemeContent, Theme, ThemeList } from './Theme'
 
 export { PluginService, PluginServiceWithContent, PluginServiceWithContentArray } from './PluginService'
 export { EntityWithServices } from './EntityWithServices'
+export { Session, SessionArray, SessionList } from './Sessions'

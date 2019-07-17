@@ -18,10 +18,19 @@
  **/
 
 
-export { default as defaultTheme } from './defaultTheme'
-export { PAGE_MODULE_ICON_TYPES, PAGE_MODULE_ICON_TYPES_ENUM } from './PageModuleIconType'
-export { applicationModes, pluginTypes } from './PluginServiceConstants'
-export { RuntimeTargetTypes } from './RuntimeTargetTypes'
-export { UI_PLUGIN_INFO_TYPES_ENUM, UI_PLUGIN_INFO_TYPES } from './UIPluginInfoTypes'
-export { UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM, UI_PLUGIN_CONF_PARAMETER_TYPES } from './UIPluginConfParameterTypes'
-export { SESSION_STATUS, SESSION_STATUS_ENUM } from './SessionStatus'
+import values from 'lodash/values'
+
+/**
+ * List of possible statues for session
+ */
+export const SESSION_STATUS_ENUM = {
+  ERROR: 'ERROR',
+  OK: 'OK',
+  DELETED: 'DELETED',
+  ACKNOWLEDGED: 'ACKNOWLEDGED',
+}
+
+/**
+ * Return an array of Session status
+ */
+export const SESSION_STATUS = values(SESSION_STATUS_ENUM)

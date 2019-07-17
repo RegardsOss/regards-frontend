@@ -104,6 +104,18 @@ export const AcquisitionFileRoute = {
   },
 }
 
+export const SessionRoute = {
+  path: 'sessions',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/session/SessionsMonitoringContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 const dataProviderManagementRouter = {
   childRoutes: [
     AcquisitionProcessingChainRoute,
@@ -113,6 +125,7 @@ const dataProviderManagementRouter = {
     ProductRoute,
     ProductFilesRoute,
     AcquisitionFileRoute,
+    SessionRoute,
   ],
 }
 
