@@ -54,3 +54,7 @@ export { default as SearchDatasetsActions } from './search/SearchDatasetsActions
 export { default as SearchEntitiesActions } from './search/SearchEntitiesActions'
 export { default as getSearchEntitiesReducer } from './search/SearchEntitiesReducer'
 export { default as getSearchEntitiesSelectors } from './search/SearchEntitiesSelectors'
+
+export { default as SessionsActions } from './session/SessionsActions'
+export { default as getSessionsReducer } from './session/SessionsReducer'
+export { default as getSessionsSelectors } from './session/SessionsSelectors'
