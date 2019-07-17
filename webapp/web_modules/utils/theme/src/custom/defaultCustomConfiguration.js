@@ -209,7 +209,7 @@ export default baseTheme => ({
   },
   sessionsMonitoring: {
     rowHeight: 110,
-    sessionState: { // TODO Kevin complete
+    sessionState: {
       errorColor: baseTheme.textField.errorColor,
     },
     acquiredProductRunningColor: '#4CAF50',

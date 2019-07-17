@@ -24,7 +24,7 @@ const styles = theme => ({
     iconColor: {
       [AccessDomain.SESSION_STATUS_ENUM.OK]: theme.sessionsMonitoring.acquiredProductRunningColor,
       [AccessDomain.SESSION_STATUS_ENUM.DELETED]: theme.formsExtensions.validation.errorColor,
-      [AccessDomain.SESSION_STATUS_ENUM.ACKNOWLEDGED]: 'orange', //TODO
+      [AccessDomain.SESSION_STATUS_ENUM.ACKNOWLEDGED]: theme.tableHeaderColumn.textColor,
       [AccessDomain.SESSION_STATUS_ENUM.ERROR]: theme.formsExtensions.validation.errorColor,
     },
     cell: {
