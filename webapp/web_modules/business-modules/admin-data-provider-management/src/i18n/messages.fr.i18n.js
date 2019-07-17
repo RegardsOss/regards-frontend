@@ -217,6 +217,42 @@ const messages = Object.assign({
   'acquisition-product.informaton.dialog.job.info.stopDate': 'Date de fin : ',
   'acquisition-product.informaton.dialog.job.info.status': 'Etat : ',
 
+  //7. Sessions Monitor
+  'acquisition-sessions.empty-response': 'Aucune session disponible',
+  'acquisition-sessions.title': 'Sessions',
+  'acquisition-sessions.subtitle': 'Suivi de l\'avancement global de l\'aquisition et traitement des données',
+  'acquisition-sessions.back.button': 'Retour',
+
+  //7.1 Table headers
+  'acquisition-sessions.table.name': 'Session',
+  'acquisition-sessions.table.source': 'Source',
+  'acquisition-sessions.table.creation-date': 'Date de création',
+  'acquisition-sessions.table.state': 'Etat',
+  'acquisition-sessions.table.sip-generated': 'Produits acquis',
+  'acquisition-sessions.table.sip-treated': 'Produits ingérés',
+  'acquisition-sessions.table.aip-generated': 'Produits pour archivage',
+  'acquisition-sessions.table.aip-stored': 'Produits archivés',
+  'acquisition-sessions.table.indexed': 'Produits catalogués',
+
+  //7.2 Table Headers tooltip
+  'acquisition-sessions.table.sip-generated.tooltip': 'Produits préparés pour l’ingestion (SIP générés)',
+  'acquisition-sessions.table.sip-treated.tooltip': 'Produits traités par l’ingestion (SIP traités)',
+  'acquisition-sessions.table.aip-generated.tooltip': 'Produits prêts pour l’archivage (AIP générés)',
+  'acquisition-sessions.table.aip-stored.tooltip': 'Produits enregistrés auprès du stockage (AIP stockés)',
+  'acquisition-sessions.table.indexed.tooltip': 'Produits indexés au catalogue',
+
+  //7.3 Products states
+  'acquisition-sessions.states.completed': 'Complété',
+  'acquisition-sessions.states.incomplete': 'Incomplet',
+  'acquisition-sessions.states.error': 'Erreur',
+  'acquisition-sessions.states.processed': 'Traité',
+  'acquisition-sessions.states.pending': 'En attente',
+  'acquisition-sessions.states.stored': 'Archivé',
+  'acquisition-sessions.states.invalid': 'Invalide',
+  'acquisition-sessions.states.refused': 'Refusé',
+  'acquisition-sessions.states.running': 'En cours',
+  'acquisition-sessions.states.acknowledge': 'Acquitter l\'erreur de session',
+
 }, Locales.fr)
 
 export default messages

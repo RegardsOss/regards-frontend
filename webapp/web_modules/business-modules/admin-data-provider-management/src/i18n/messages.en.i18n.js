@@ -217,6 +217,42 @@ const messages = Object.assign({
   'acquisition-product.informaton.dialog.job.info.stopDate': 'Stop date : ',
   'acquisition-product.informaton.dialog.job.info.status': 'Status : ',
 
+  //7. Sessions Monitor
+  'acquisition-sessions.empty-response': 'No session available',
+  'acquisition-sessions.title': 'Sessions',
+  'acquisition-sessions.subtitle': 'Monitor all data ingesting and indexation',
+  'acquisition-sessions.back.button': 'Back',
+
+  //7.1 Table headers
+  'acquisition-sessions.table.name': 'Session',
+  'acquisition-sessions.table.source': 'Source',
+  'acquisition-sessions.table.creation-date': 'Creation Date',
+  'acquisition-sessions.table.state': 'State',
+  'acquisition-sessions.table.sip-generated': 'Processed products',
+  'acquisition-sessions.table.sip-treated': 'Ingested products',
+  'acquisition-sessions.table.aip-generated': 'Archive ready products',
+  'acquisition-sessions.table.aip-stored': 'Archived products',
+  'acquisition-sessions.table.indexed': 'Indexed products',
+
+  //7.2 Table Headers tooltip
+  'acquisition-sessions.table.sip-generated.tooltip': 'Prepared products for ingestion (SIP processed)',
+  'acquisition-sessions.table.sip-treated.tooltip': 'Treated products for ingestion (SIP ingested)',
+  'acquisition-sessions.table.aip-generated.tooltip': 'Products ready for storage (AIP generated)',
+  'acquisition-sessions.table.aip-stored.tooltip': 'Products stored (AIP stored)',
+  'acquisition-sessions.table.indexed.tooltip': 'Indexed products in catalog',
+
+  //7.3 Products states
+  'acquisition-sessions.states.completed': 'Completed',
+  'acquisition-sessions.states.incomplete': 'Incomplete',
+  'acquisition-sessions.states.error': 'Error',
+  'acquisition-sessions.states.processed': 'Processed',
+  'acquisition-sessions.states.pending': 'Pending',
+  'acquisition-sessions.states.stored': 'Stored',
+  'acquisition-sessions.states.invalid': 'Invalid',
+  'acquisition-sessions.states.refused': 'Refused',
+  'acquisition-sessions.states.running': 'Running',
+  'acquisition-sessions.states.acknowledge': 'Acknowledge this session error',
+
 }, Locales.en)
 
 export default messages
