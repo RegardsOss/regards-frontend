@@ -49,6 +49,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
       navigateToCreateDataset: spy(),
       backURL: '#test',
       setFilters: () => { },
+      isFetching: false,
       onRefresh: () => { },
       onFilter: () => { },
     }
