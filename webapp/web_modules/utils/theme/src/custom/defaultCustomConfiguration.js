@@ -207,4 +207,11 @@ export default baseTheme => ({
   criterion: {
     minHeight: 72,
   },
+  sessionsMonitoring: {
+    rowHeight: 110,
+    sessionState: { // TODO Kevin complete
+      errorColor: baseTheme.textField.errorColor,
+    },
+    acquiredProductRunningColor: '#4CAF50',
+  },
 })
