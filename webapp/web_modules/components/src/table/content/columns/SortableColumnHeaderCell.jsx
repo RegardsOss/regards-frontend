@@ -39,6 +39,7 @@ class SortableColumnHeaderCell extends React.Component {
     sortIndex: PropTypes.number,
     hideLabel: PropTypes.bool.isRequired,
     sortable: PropTypes.bool.isRequired,
+    tooltip: PropTypes.string,
     onSort: PropTypes.func.isRequired,
   }
 
@@ -64,13 +65,13 @@ class SortableColumnHeaderCell extends React.Component {
 
   render() {
     const {
-      label, hideLabel, sortable, sortingOrder, sortIndex,
+      label, hideLabel, sortable, sortingOrder, sortIndex, tooltip,
     } = this.props
     const {
       style, sortButtonStyle, sortComposedIconStyle, sortIndexStyle,
     } = this.context.moduleTheme.header.sortableHeader
     return (
-      <div style={style}>
+      <div style={style} title={tooltip}>
         {
           sortable ? (
             <IconButton
