@@ -31,7 +31,7 @@ import {
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
   NoContentComponent,
-  TableColumnBuilder, TableHeaderLine, TableLayout, TableHeaderOptionsArea, TableHeaderOptionGroup,
+  TableColumnBuilder, TableHeaderLine, TableLayout, TableHeaderOptionsArea, TableHeaderOptionGroup, TableHeaderLoadingComponent,
   PageableInfiniteTableContainer,
   ShowableAtRender,
   CardActionsComponent,
@@ -69,6 +69,7 @@ export class AccessRightListComponent extends React.Component {
     submitAccessRights: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     filters: PropTypes.object,
+    isFetching: PropTypes.bool.isRequired,
     selectedDatasetsWithAccessright: PropTypes.arrayOf(PropTypes.object).isRequired,
     // Callback to navigate to dataset creation
     navigateToCreateDataset: PropTypes.func.isRequired,
@@ -228,7 +229,7 @@ export class AccessRightListComponent extends React.Component {
   }
 
   renderActionsLine = () => {
-    const { selectedDatasetsWithAccessright } = this.props
+    const { selectedDatasetsWithAccessright, isFetching } = this.props
     const { intl: { formatMessage } } = this.context
     let configureButton = null
     if (selectedDatasetsWithAccessright && selectedDatasetsWithAccessright.length > 0) {
@@ -246,6 +247,7 @@ export class AccessRightListComponent extends React.Component {
         <TableHeaderOptionsArea>
           {configureButton}
         </TableHeaderOptionsArea>
+        <TableHeaderLoadingComponent loading={isFetching} />
         <TableHeaderOptionsArea>
           <TableHeaderOptionGroup>
             <FlatButton
