@@ -197,7 +197,7 @@ class BasicListActions extends BasicActions {
     }
   }
 
-  updateEntity(keyValue, values, pathParams, queryParams, endpoint = null) {
+  updateEntity(keyValue, values, pathParams, queryParams, endpoint = null, verb = 'PUT') {
     let endpointRequest = endpoint || this.entityEndpoint
     const pathParamsRequest = Object.assign({}, pathParams)
     // 1. Add entity identifier into endpoint.
@@ -224,7 +224,7 @@ class BasicListActions extends BasicActions {
           this.buildFailureAction(this.UPDATE_ENTITY_FAILURE),
         ],
         endpoint: endpointRequest,
-        method: 'PUT',
+        method: verb,
         body: JSON.stringify(values),
       },
     }
