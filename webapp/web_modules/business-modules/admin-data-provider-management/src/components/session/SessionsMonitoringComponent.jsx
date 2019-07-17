@@ -143,7 +143,6 @@ export class SessionsMonitoringComponent extends React.Component {
       />
     )
 
-
     return (
       <Card>
         <CardTitle

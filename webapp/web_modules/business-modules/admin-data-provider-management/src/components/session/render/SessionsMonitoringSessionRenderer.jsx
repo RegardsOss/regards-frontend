@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import Menu from 'material-ui/svg-icons/navigation/more-vert'
+import { MenuItem } from 'material-ui'
+import { DropDownButton } from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -36,7 +38,7 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage }, muiTheme, moduleTheme: { sessionsStyles: { gridSessionCell: { gridSessionContainer, headerSession, infosSession } } } } = this.context
+    const { intl: { formatMessage }, muiTheme, moduleTheme: { sessionsStyles: { menuDropDown, gridSessionCell: { gridSessionContainer, headerSession, infosSession } } } } = this.context
     const { entity } = this.props
     return (
       <div style={gridSessionContainer}>
@@ -44,7 +46,18 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
           {entity.content.name}
         </div>
         <div style={infosSession}>
-          <Menu />
+          <DropDownButton
+            title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
+            style={menuDropDown}
+            icon={<Menu />}
+          >
+            <MenuItem
+              primaryText="Supprimer les produits associés"
+            />
+            <MenuItem
+              primaryText="Supprimer définitivement la Session"
+            />
+          </DropDownButton>
         </div>
       </div>
     )

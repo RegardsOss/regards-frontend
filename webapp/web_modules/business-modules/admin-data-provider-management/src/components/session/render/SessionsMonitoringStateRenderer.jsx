@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import React from 'react'
 import OkIcon from 'material-ui/svg-icons/action/done'
 import AcknowledgedIcon from 'material-ui/svg-icons/action/check-circle'

@@ -16,6 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import Menu from 'material-ui/svg-icons/navigation/more-vert'
+import { MenuItem } from 'material-ui'
+import { DropDownButton } from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -35,12 +38,23 @@ export class SessionsMonitoringIndexedRenderer extends React.Component {
   }
 
   render() {
-    const { intl: { formatNumber }, muiTheme, moduleTheme: { sessionsStyles: { gridSessionCell: { gridSessionContainer, headerSession } } } } = this.context
+    const { intl: { formatMessage, formatNumber }, muiTheme, moduleTheme: { sessionsStyles: { menuDropDown, gridSessionCell: { gridSessionContainer, headerSession, infosSession } } } } = this.context
     const { entity } = this.props
     return (
       <div style={gridSessionContainer}>
         <div style={headerSession}>
           {formatNumber(entity.content.lifeCycle.aip.indexed)}
+        </div>
+        <div style={infosSession}>
+          <DropDownButton
+            title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
+            style={menuDropDown}
+            icon={<Menu />}
+          >
+            <MenuItem
+              primaryText="Lister les AIPs indexés"
+            />
+          </DropDownButton>
         </div>
       </div>
     )

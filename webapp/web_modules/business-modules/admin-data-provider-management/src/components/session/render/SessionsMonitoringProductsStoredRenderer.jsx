@@ -22,6 +22,8 @@
  * @author Kevin Picart
  */
 import Menu from 'material-ui/svg-icons/navigation/more-vert'
+import { MenuItem } from 'material-ui'
+import { DropDownButton } from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -42,6 +44,7 @@ class SessionsMonitoringProductsStored extends React.Component {
       muiTheme,
       moduleTheme: {
         sessionsStyles: {
+          menuDropDown,
           gridCell: {
             gridContainer, gridHeaderContainer, infosContainer, lineContainer, listValues, barGraphContainer,
             barGraph: {
@@ -109,7 +112,21 @@ class SessionsMonitoringProductsStored extends React.Component {
             <div style={three}>{formatNumber(entity.content.lifeCycle.aip.errors)}</div>
           </div>
           <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
-            <Menu />
+            <DropDownButton
+              title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
+              style={menuDropDown}
+              icon={<Menu />}
+            >
+              <MenuItem
+                primaryText="Relancer le stockage des AIPs en erreur"
+              />
+              <MenuItem
+                primaryText="Lister les AIPs"
+              />
+              <MenuItem
+                primaryText="Lister les AIPs en erreur"
+              />
+            </DropDownButton>
           </div>
         </div>
       </div>
