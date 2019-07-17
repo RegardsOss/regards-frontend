@@ -182,9 +182,23 @@ function buildLocalServices(gatewayURL) {
         handler: (req, resp) => {
           return { content: 'ABCDE', contentType: 'text/unkown' }
         },
+      },
+      getSession: {
+        url: 'rs-access-project/sessions',
+        handler: (req, resp) => {
+          return { content: JSON.parse(loadFile('mocks/proxy/resources/mock-sessions.json')) }
+        },
       }
     },
     PUT: {
+      stateUpdate: {
+        url: 'rs-access-project/sessions/3/acknowledge',
+        handler: (req, resp) => {
+          const result = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions.json')).content[3]
+          result.content.state= 'ACKNOWLEDGED'
+          return { content: result }
+        },
+      }
     },
     POST: {
     },
