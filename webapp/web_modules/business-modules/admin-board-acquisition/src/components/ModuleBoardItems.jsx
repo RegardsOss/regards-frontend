@@ -22,6 +22,7 @@ import PageView from 'material-ui/svg-icons/action/pageview'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import Security from 'material-ui/svg-icons/hardware/security'
+import Details from 'material-ui/svg-icons/action/visibility'
 import Database from 'mdi-material-ui/Database'
 import Archive from 'mdi-material-ui/Archive'
 import CallSplit from 'mdi-material-ui/CallSplit'
@@ -56,6 +57,12 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/acquisition/dataprovider/monitoring/chains`,
         icon: <PageView />,
         tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.monitoring.tooltip' }),
+        hateoasDependencies: dataProviderDependencies.listDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/dataprovider/sessions`,
+        icon: <Details />,
+        tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.sessions.tooltip' }),
         hateoasDependencies: dataProviderDependencies.listDependencies,
       },
     ],
