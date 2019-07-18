@@ -68,6 +68,19 @@ const items = (projectName, intl) => [
     ],
   },
   {
+    title: intl.formatMessage({ id: 'data.board.oais.title' }),
+    description: intl.formatMessage({ id: 'data.board.oais.description' }),
+    advanced: false,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/acquisition/document/list`,
+        icon: <Details />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.oais.tooltip.see' }),
+        hateoasDependencies: documentDependencies.listDependencies,
+      },
+    ],
+  },
+  {
     title: intl.formatMessage({ id: 'ingest.board.title' }),
     description: intl.formatMessage({ id: 'ingest.board.description' }),
     advanced: false,

@@ -48,6 +48,9 @@ const messages = {
   'data.board.action.monitoring.tooltip': 'Monitor data storage occupation',
   'data.board.action.security.tooltip': 'Configure archived files access rights',
   'data.board.action.aip-management.tooltip': 'Monitor AIPs',
+
+  'data.board.oais.title': 'Package Manager (OAIS)',
+  'data.board.oais.description': 'Package Manager (OAIS) allows you to manage SIP (Submission Information Package) and AIP (Archive Information Package).',
 }
 
 export default messages

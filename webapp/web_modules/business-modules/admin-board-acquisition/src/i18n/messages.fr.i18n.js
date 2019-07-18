@@ -48,6 +48,11 @@ const messages = {
   'data.board.action.monitoring.tooltip': 'Taux d\'occupation des espaces de stockage',
   'data.board.action.security.tooltip': 'Configurer les droits d\'accès aux fichiers archivés',
   'data.board.action.aip-management.tooltip': 'Visualiser les AIPs',
+
+  'data.board.oais.title': 'Manager de paquets (OAIS)',
+  'data.board.oais.description': 'Manager de paquets (OAIS) vous permet de gérer les SIP (Submission Information Package) et AIP (Archive Information Package).',
+  'data.board.oais.tooltip.see': 'Suivre les ingestions et le stockage',
+
 }
 
 export default messages
