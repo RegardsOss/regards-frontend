@@ -27,6 +27,7 @@ import { AdminClient } from '@regardsoss/client'
 const namespacePoller = 'menu/notification'
 const namespaceReadPoller = 'menu/notification-read'
 const namespaceResearch = 'menu/notification-research'
+const namespaceDetails = 'menu/notification-details'
 
 // Used to fetch is there is a new notification
 export const notificationPollerActions = new AdminClient.NotificationActions(namespacePoller)
@@ -47,3 +48,9 @@ export const notificationReducer = AdminClient.getNotificationReducer(namespaceR
 export const notificationInstanceActions = new AdminClient.NotificationActions(namespaceResearch, true)
 export const notificationInstanceReducer = AdminClient.getNotificationReducer(namespaceResearch, true)
 export const notificationSelectors = AdminClient.getNotificationSelectors(['modules.menu', 'notification'])
+
+export const notificationDetailsActions = new AdminClient.NotificationDetailsActions(namespaceDetails)
+export const notificationDetailsReducer = AdminClient.getNotificationDetailsReducer(namespaceDetails)
+export const notificationDetailsSelectors = AdminClient.getNotificationDetailsSelectors(['modules.menu', 'notificationDetails'])
+export const notificationDetailsInstanceActions = new AdminClient.NotificationDetailsActions(namespaceDetails, true)
+export const notificationDetailsInstanceReducer = AdminClient.getNotificationDetailsReducer(namespaceDetails, true)

@@ -76,4 +76,5 @@ class NotificationDetailComponent extends React.Component {
       </React.Fragment>)
   }
 }
+
 export default NotificationDetailComponent

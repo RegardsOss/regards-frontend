@@ -16,14 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AdminClient } from '@regardsoss/client'
+import { BasicSignalReducers } from '@regardsoss/store-utils'
+import NotificationDetailsActions from './NotificationDetailsActions'
 
-export const readNotificationActions = new AdminClient.ReadNotificationActions()
-export const readNotificationReducer = AdminClient.getReadNotificationReducer()
-export const readNotificationInstanceActions = new AdminClient.ReadNotificationActions(true)
-export const readNotificationInstanceReducer = AdminClient.getReadNotificationReducer(true)
-export const readNotificationSelectors = AdminClient.getReadNotificationSelectors([
-  'modules.menu',
-  'readNotification',
-])
-export const readNotificationDetailsReducer = AdminClient.getNotificationDetailsReducer(true)
+class NotificationDetailsReducer extends BasicSignalReducers {
+  constructor(namespace, instance) {
+    super(new NotificationDetailsActions(namespace, instance), null)
+  }
+}
+
+export default (namespace, instance = false) => {
+  const reducerInstance = new NotificationDetailsReducer(namespace, instance)
+  return (state, action) => reducerInstance.reduce(state, action)
+}
