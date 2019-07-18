@@ -103,7 +103,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
               icon={<Menu />}
             >
               <MenuItem
-                primaryText="Relancer les produits en erreur"
+                primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.relaunch' })}
               />
             </DropDownButton>
           </div>

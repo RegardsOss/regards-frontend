@@ -52,7 +52,7 @@ export class SessionsMonitoringIndexedRenderer extends React.Component {
             icon={<Menu />}
           >
             <MenuItem
-              primaryText="Lister les AIPs indexés"
+              primaryText={formatMessage({ id: 'acquisition-sessions.menus.indexed.list' })}
             />
           </DropDownButton>
         </div>

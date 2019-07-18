@@ -120,13 +120,13 @@ class SessionsMonitoringProductsGenerated extends React.Component {
               icon={<Menu />}
             >
               <MenuItem
-                primaryText="Relancer traitement SIPs en erreur"
+                primaryText={formatMessage({ id: 'acquisition-sessions.menus.ingested.relaunch' })}
               />
               <MenuItem
-                primaryText="Lister les SIPs"
+                primaryText={formatMessage({ id: 'acquisition-sessions.menus.ingested.list' })}
               />
               <MenuItem
-                primaryText="Lister les SIPs en erreur"
+                primaryText={formatMessage({ id: 'acquisition-sessions.menus.ingested.list.error' })}
               />
             </DropDownButton>
           </div>

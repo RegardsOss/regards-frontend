@@ -253,6 +253,18 @@ const messages = Object.assign({
   'acquisition-sessions.states.running': 'Running',
   'acquisition-sessions.states.acknowledge': 'Acknowledge this session error',
 
+  //7.4 Cell's Menus
+  'acquisition-sessions.menus.session.delete': 'Delete associated products',
+  'acquisition-sessions.menus.session.delete.definitely': 'Delete the session definitely',
+  'acquisition-sessions.menus.products.relaunch': 'Relaunch errored products',
+  'acquisition-sessions.menus.ingested.relaunch': 'Relaunch processing of errored SIPs',
+  'acquisition-sessions.menus.ingested.list': 'List all SIPs',
+  'acquisition-sessions.menus.ingested.list.error': 'List all errored SIPs',
+  'acquisition-sessions.menus.archives.relaunch': 'Relaunch storing of errored AIPs',
+  'acquisition-sessions.menus.archives.list': 'List all AIPs',
+  'acquisition-sessions.menus.archives.list.error': 'List all errored AIPs',
+  'acquisition-sessions.menus.indexed.list': 'List all indexed AIPs',
+
 }, Locales.en)
 
 export default messages

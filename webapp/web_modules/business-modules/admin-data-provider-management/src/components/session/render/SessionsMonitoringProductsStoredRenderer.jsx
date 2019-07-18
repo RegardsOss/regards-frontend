@@ -118,13 +118,13 @@ class SessionsMonitoringProductsStored extends React.Component {
               icon={<Menu />}
             >
               <MenuItem
-                primaryText="Relancer le stockage des AIPs en erreur"
+                primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.relaunch' })}
               />
               <MenuItem
-                primaryText="Lister les AIPs"
+                primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list' })}
               />
               <MenuItem
-                primaryText="Lister les AIPs en erreur"
+                primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list.error' })}
               />
             </DropDownButton>
           </div>

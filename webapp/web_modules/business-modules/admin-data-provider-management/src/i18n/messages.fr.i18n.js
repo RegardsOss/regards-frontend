@@ -253,6 +253,18 @@ const messages = Object.assign({
   'acquisition-sessions.states.running': 'En cours',
   'acquisition-sessions.states.acknowledge': 'Acquitter l\'erreur de session',
 
+  //7.4 Cell's Menus
+  'acquisition-sessions.menus.session.delete': 'Supprimer les produits associés',
+  'acquisition-sessions.menus.session.delete.definitely': 'Supprimer définitivement la session',
+  'acquisition-sessions.menus.products.relaunch': 'Relancer les produits en erreur',
+  'acquisition-sessions.menus.ingested.relaunch': 'Relancer le traitement des SIPs en erreur',
+  'acquisition-sessions.menus.ingested.list': 'Lister les SIPs',
+  'acquisition-sessions.menus.ingested.list.error': 'Lister les SIPs en erreur',
+  'acquisition-sessions.menus.archives.relaunch': 'Relancer le stockage des AIPs en erreur',
+  'acquisition-sessions.menus.archives.list': 'Lister les AIPs',
+  'acquisition-sessions.menus.archives.list.error': 'Lister les AIPs en erreur',
+  'acquisition-sessions.menus.indexed.list': 'Liste les AIPs indexés',
+
 }, Locales.fr)
 
 export default messages

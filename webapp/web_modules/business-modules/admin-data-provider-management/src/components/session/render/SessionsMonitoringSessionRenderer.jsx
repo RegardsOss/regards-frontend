@@ -52,10 +52,10 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
             icon={<Menu />}
           >
             <MenuItem
-              primaryText="Supprimer les produits associés"
+              primaryText={formatMessage({ id: 'acquisition-sessions.menus.session.delete' })}
             />
             <MenuItem
-              primaryText="Supprimer définitivement la Session"
+              primaryText={formatMessage({ id: 'acquisition-sessions.menus.session.delete.definitely' })}
             />
           </DropDownButton>
         </div>
