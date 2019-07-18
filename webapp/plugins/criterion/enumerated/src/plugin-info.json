@@ -3,10 +3,13 @@
   "description": "Enumerated values criteria plugin for Regards search forms",
   "version": "1.0.0",
   "author": "Raphaël Mechali",
-  "company": "C-S",
-  "email": "raphael.mechali@c-s.fr",
-  "url": "",
-  "license": "GPL-V3",
+  "company": "CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
+  "email": "regards@c-s.fr",
+  "url": "http://www.cnes.fr",
+  "license": "GPLv3",
   "type": "CRITERIA",
   "conf": {
     "attributes": [
