@@ -57,6 +57,7 @@ class NotificationListComponent extends React.Component {
     registerNotify: PropTypes.func,
     readNotification: PropTypes.func,
     readAllNotifications: PropTypes.func,
+    deleteReadNotifications: PropTypes.func,
     notificationActions: PropTypes.instanceOf(BasicPageableActions).isRequired, // BasicPageableActions to retrieve entities from server
     notificationSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // BasicPageableActions to retrieve entities from server
     nbNotification: PropTypes.number,
@@ -255,6 +256,14 @@ class NotificationListComponent extends React.Component {
           </div>
         </div>
         <CardActions style={dialog.details.actions.style}>
+          <FlatButton
+            label={
+              <FormattedMessage id="user.menu.notification.action.delete.read" />
+            }
+            key="delete"
+            primary
+            onClick={this.props.deleteReadNotifications}
+          />
           <FlatButton
             label={
               <FormattedMessage id="user.menu.notification.action.close" />

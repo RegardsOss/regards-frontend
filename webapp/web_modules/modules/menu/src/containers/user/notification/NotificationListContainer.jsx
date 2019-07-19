@@ -36,6 +36,8 @@ import {
   notificationReadPollerActions,
   notificationReadPollerInstanceActions,
   notificationReadPollerSelectors,
+  deleteNotificationActions,
+  deleteNotificationInstanceActions,
 } from '../../../clients/NotificationClient'
 import {
   readNotificationActions,
@@ -89,6 +91,11 @@ export class NotificationListContainer extends React.Component {
           ? readNotificationInstanceActions.markAllNotificationRead()
           : readNotificationActions.markAllNotificationRead(),
       ),
+      deleteReadNotifications: (instance = false) => dispatch(
+        instance
+          ? deleteNotificationInstanceActions.sendSignal('DELETE')
+          : deleteNotificationActions.sendSignal('DELETE'),
+      ),
     }
   }
 
@@ -107,6 +114,7 @@ export class NotificationListContainer extends React.Component {
     markAllNotificationRead: PropTypes.func.isRequired,
     fetchNotification: PropTypes.func.isRequired,
     fetchLastReadNotification: PropTypes.func.isRequired,
+    deleteReadNotifications: PropTypes.func.isRequired,
   }
 
   static getNotif(notification) {
@@ -191,6 +199,13 @@ export class NotificationListContainer extends React.Component {
       })
   }
 
+  deleteReadNotifications = () => {
+    this.props.deleteReadNotifications(this.state.isInstance)
+      .then(() => {
+        this.refreshEverything()
+      })
+  }
+
   registerNotify = (notify) => {
     this.notify = notify
   }
@@ -202,6 +217,7 @@ export class NotificationListContainer extends React.Component {
         <NotificationListComponent
           readAllNotifications={this.readAllNotifications}
           readNotification={this.readNotification}
+          deleteReadNotifications={this.deleteReadNotifications}
           registerNotify={this.registerNotify}
           notificationActions={isInstance ? notificationInstanceActions : notificationActions}
           notificationSelectors={notificationSelectors}
