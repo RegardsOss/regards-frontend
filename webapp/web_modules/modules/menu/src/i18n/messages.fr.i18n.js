@@ -136,6 +136,7 @@ const messages = {
   'user.menu.notification.details.sentby': 'Envoyé par {sender}',
   'user.menu.notification.clearAll': 'Tout marquer comme lu',
   'user.menu.notification.action.close': 'Fermer',
+  'user.menu.notification.action.delete.read': 'Supprimer les notifications lues',
 
   'user.menu.profile.leftbar.title': 'Options utilisateur',
   'user.menu.profile.leftbar.profile': 'Profil',

@@ -20,7 +20,9 @@ import { borrowRoleReducer } from './clients/BorrowRoleClient'
 import { borrowableRolesReducer } from './clients/BorrowableRolesClient'
 import { myUserReducer } from './clients/MyUserClient'
 import {
-  notificationReducer, notificationDetailsReducer, notificationInstanceReducer, notificationReadPollerReducer, notificationReadPollerInstanceReducer, notificationPollerReducer, notificationPollerInstanceReducer,
+  notificationReducer, notificationDetailsReducer, notificationInstanceReducer,
+  notificationReadPollerReducer, notificationReadPollerInstanceReducer, notificationPollerReducer,
+  notificationPollerInstanceReducer, deleteNotificationReducer,
 } from './clients/NotificationClient'
 import { readNotificationReducer, readNotificationInstanceReducer } from './clients/ReadNotificationClient'
 import { notificationSettingsReducer } from './clients/NotificationSettingsClient'
@@ -47,6 +49,7 @@ export default {
   notificationPollerInstance: notificationPollerInstanceReducer,
   notificationReadPoller: notificationReadPollerReducer,
   notificationReadPollerInstance: notificationReadPollerInstanceReducer,
+  notificationDelete: deleteNotificationReducer,
 
   readNotification: readNotificationReducer,
   readNotificationInstance: readNotificationInstanceReducer,
