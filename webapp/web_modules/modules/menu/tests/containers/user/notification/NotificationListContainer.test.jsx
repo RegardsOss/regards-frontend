@@ -47,6 +47,7 @@ describe('[Menu] Testing NotificationListContainer', () => {
       markAllNotificationRead: () => { },
       fetchNotification: () => { },
       fetchLastReadNotification: () => { },
+      deleteReadNotifications: () => { },
 
       project: 'project1',
 
