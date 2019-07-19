@@ -182,7 +182,7 @@ class NotificationListComponent extends React.Component {
    * Renders a notification list
    * @param mode display mode
    */
-  renderNotificationList = (mode) => {
+  renderNotificationList = (mode, nbNotif) => {
     const { moduleTheme: { notifications: notificationStyle } } = this.context
     const column = [
       new TableColumnBuilder('label-notif').rowCellDefinition({
@@ -202,7 +202,7 @@ class NotificationListComponent extends React.Component {
         >
           <div style={notificationStyle.list.subHeader.titleWrapper}>
             {mode === this.state.mode ? <Less /> : <More />}
-            <FormattedMessage id={`user.menu.notification.${mode === MODE.DISPLAY_UNREAD ? 'unread.' : ''}title`} />
+            <FormattedMessage id={`user.menu.notification.${mode === MODE.DISPLAY_UNREAD ? 'unread.' : ''}title`} values={{ count: nbNotif }} />
           </div>
           {mode === MODE.DISPLAY_UNREAD
             ? <IconButton
@@ -248,8 +248,8 @@ class NotificationListComponent extends React.Component {
       >
         <div style={dialog.wrapper.style}>
           <div style={dialog.list.style} className="col-xs-35 col-lg-25">
-            {this.renderNotificationList(MODE.DISPLAY_UNREAD)}
-            {this.renderNotificationList(MODE.DISPLAY_READ)}
+            {this.renderNotificationList(MODE.DISPLAY_UNREAD, this.props.nbNotification)}
+            {this.renderNotificationList(MODE.DISPLAY_READ, this.props.nbReadNotification)}
           </div>
           <div className="col-xs-65 col-lg-75" style={dialog.details.container.style}>
             <NotificationDetailContainer isInstance={isInstance} notificationId={openedNotification ? openedNotification.id : -1} />
