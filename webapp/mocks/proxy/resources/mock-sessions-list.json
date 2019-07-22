@@ -1,0 +1,27 @@
+{
+  "metadata": {
+    "size": 2,
+    "totalElements": 2,
+    "totalPages": 1,
+    "number": 0
+  },
+  "content": [
+    {
+      "content": {
+        "id" : "0",
+        "text": "Volumétrie",
+        "value": "Volumétrie",
+      },
+      "links": []
+    },
+    {
+      "content": {
+        "id" : "1",
+        "text": "SESSION_01",
+        "value": "SESSION_01",
+      },
+      "links": []
+    },
+  ]
+}
+

@@ -96,6 +96,16 @@ export const storageManagementRouter = {
   },
 }
 
+export const oaisManagementRouter = {
+  path: 'oais',
+  getChildRoutes(nextState, cb) {
+    require.ensure([], (require) => {
+      const oaisManagement = require('@regardsoss/admin-oais-management')
+      cb(null, [oaisManagement.oaisManagementRouter])
+    })
+  },
+}
+
 const acquisitionRouter = {
   childRoutes: [
     boardRoute,
@@ -106,6 +116,7 @@ const acquisitionRouter = {
     datasourceManagementRouter,
     connectionManagementRouter,
     storageManagementRouter,
+    oaisManagementRouter,
   ],
 }
 

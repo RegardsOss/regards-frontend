@@ -35,6 +35,7 @@ import { dataProviderDependencies } from '@regardsoss/admin-data-provider-manage
 import { sipDependencies } from '@regardsoss/admin-ingest-sip-management'
 import { storageManagementDependencies } from '@regardsoss/admin-storage-management'
 import { aipDependencies } from '@regardsoss/admin-storage-aip-management'
+import { oaisDependencies } from '../../../admin-oais-management'
 
 /**
  * BoardItems configuration for ingest module
@@ -73,10 +74,22 @@ const items = (projectName, intl) => [
     advanced: false,
     actions: [
       {
-        path: `/admin/${projectName}/data/acquisition/document/list`,
+        path: `/admin/${projectName}/data/acquisition/chain/list`,
+        icon: <Build />,
+        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.chain.list.tooltip' }),
+        hateoasDependencies: processingChainDependencies.listDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/sip/submission`,
+        icon: <AddIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.sumition.tooltip' }),
+        hateoasDependencies: sipDependencies.addDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/oais/aip/Volumétrie/list`,
         icon: <Details />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.oais.tooltip.see' }),
-        hateoasDependencies: documentDependencies.listDependencies,
+        hateoasDependencies: oaisDependencies.listDependencies,
       },
     ],
   },

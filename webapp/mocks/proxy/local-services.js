@@ -188,6 +188,12 @@ function buildLocalServices(gatewayURL) {
         handler: (req, resp) => {
           return { content: JSON.parse(loadFile('mocks/proxy/resources/mock-sessions.json')) }
         },
+      },
+      getSessionList: {
+        url: 'rs-access-project/sessions-list',
+        handler: (req, resp) => {
+          return { content: JSON.parse(loadFile('mocks/proxy/resources/mock-sessions-list.json')) }
+        },
       }
     },
     PUT: {

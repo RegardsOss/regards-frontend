@@ -25,6 +25,7 @@ import { sipManagementReducer } from '@regardsoss/admin-ingest-sip-management'
 import { storageManagementReducer } from '@regardsoss/admin-storage-management'
 import { aipManagementReducer } from '@regardsoss/admin-storage-aip-management'
 import { dataProviderManagementReducer } from '@regardsoss/admin-data-provider-management'
+import { oaisManagementReducer } from '@regardsoss/admin-oais-management'
 
 const acquisitionReducers = combineReducers({
   connection: connectionDataManagementReducer,
@@ -35,6 +36,7 @@ const acquisitionReducers = combineReducers({
   sip: sipManagementReducer,
   storage: storageManagementReducer,
   aip: aipManagementReducer,
+  oais: oaisManagementReducer,
 })
 
 
