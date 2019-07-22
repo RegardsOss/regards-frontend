@@ -53,7 +53,7 @@ class IFrameURLContentDisplayer extends React.Component {
   }
 
   static isSupportedType(mimeType) {
-    return IFrameURLContentDisplayer.MIMETypes.includes(mimeType)
+    return IFrameURLContentDisplayer.MIMETypes.includes(mimeType.split(';')[0])
   }
 
   render() {
