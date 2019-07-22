@@ -24,6 +24,7 @@ import Empty from 'material-ui/svg-icons/image/crop-free'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { CommonDomain } from '@regardsoss/domain'
 import {
   PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLineLoadingAndResults,
   NoContentComponent, ConfirmDialogComponentTypes, ConfirmDialogComponent, CardActionsComponent, FormErrorMessage, Breadcrumb,
@@ -41,8 +42,14 @@ import { SessionsMonitoringIndexedRenderer } from './render/SessionsMonitoringIn
 
 export class SessionsMonitoringComponent extends React.Component {
   static propTypes = {
+    columnsSorting: PropTypes.arrayOf(PropTypes.shape({
+      columnKey: PropTypes.string,
+      order: PropTypes.oneOf(CommonDomain.SORT_ORDERS),
+    })).isRequired,
+    requestParameters: PropTypes.objectOf(PropTypes.array).isRequired,
     onBack: PropTypes.func.isRequired,
     onAcknowledge: PropTypes.func.isRequired,
+    onSort: PropTypes.func.isRequired,
   }
 
   static defaultProps = {}
@@ -53,6 +60,18 @@ export class SessionsMonitoringComponent extends React.Component {
   }
 
   static PAGE_SIZE = 100
+
+  static SORTABLE_COLUMNS = {
+    SOURCE: 'column.source',
+    NAME: 'column.name',
+    CREATION_DATE: 'column.creationDate',
+    STATE: 'column.state',
+  }
+
+  static getColumnSortingData(columnsSorting, columnKey) {
+    const foundColumnIndex = columnsSorting.findIndex(({ columnKey: localColumnKey }) => localColumnKey === columnKey)
+    return foundColumnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[foundColumnIndex].order, foundColumnIndex]
+  }
 
   state = {
     errorMessage: null,
@@ -98,25 +117,35 @@ export class SessionsMonitoringComponent extends React.Component {
     this.onCloseAcknowledge()
   }
 
+
   render() {
     const { intl: { formatMessage }, muiTheme: { sessionsMonitoring: { rowHeight }, components: { infiniteTable: { admin: { minRowCount, maxRowCount } } } } } = this.context
     const {
-      onBack,
+      onBack, onSort, columnsSorting, requestParameters
     } = this.props
     const { appliedFilters, errorMessage, sessionToAcknowledge } = this.state
 
-
     const columns = [
-      new TableColumnBuilder('column.source').titleHeaderCell().rowCellDefinition({ Constructor: SessionsMonitoringSourceRenderer })
+      new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE)
+        .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE), onSort)
+        .rowCellDefinition({ Constructor: SessionsMonitoringSourceRenderer })
         .label(formatMessage({ id: 'acquisition-sessions.table.source' }))
         .build(),
-      new TableColumnBuilder('column.name').titleHeaderCell().rowCellDefinition({ Constructor: SessionsMonitoringSessionRenderer })
+      new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME)
+        .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME), onSort)
+        .rowCellDefinition({ Constructor: SessionsMonitoringSessionRenderer })
         .label(formatMessage({ id: 'acquisition-sessions.table.name' }))
         .build(),
-      new TableColumnBuilder('column.creationDate').optionsSizing(2).titleHeaderCell().rowCellDefinition({ Constructor: SessionsMonitoringCreationDateRenderer })
+      new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.CREATION_DATE)
+        .optionsSizing(2)
+        .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.CREATION_DATE), onSort)
+        .rowCellDefinition({ Constructor: SessionsMonitoringCreationDateRenderer })
         .label(formatMessage({ id: 'acquisition-sessions.table.creation-date' }))
         .build(),
-      new TableColumnBuilder('column.state').optionsSizing(1).titleHeaderCell().rowCellDefinition({ Constructor: SessionsMonitoringStateRenderer, props: { onShowAcknowledge: this.onShowAcknowledge } })
+      new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.STATE)
+        .optionsSizing(2)
+        .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.STATE), onSort)
+        .rowCellDefinition({ Constructor: SessionsMonitoringStateRenderer, props: { onShowAcknowledge: this.onShowAcknowledge } })
         .label(formatMessage({ id: 'acquisition-sessions.table.state' }))
         .build(),
       new TableColumnBuilder('column.products').titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.sip-generated.tooltip' })).rowCellDefinition({ Constructor: SessionsMonitoringProductsGeneratedRenderer })
@@ -162,7 +191,7 @@ export class SessionsMonitoringComponent extends React.Component {
               pageActions={sessionsActions}
               pageSelectors={sessionsSelectors}
             // tableActions={tableActions}
-            // requestParams={appliedFilters}
+              requestParams={requestParameters}
               columns={columns}
               emptyComponent={emptyComponent}
               minRowCount={minRowCount}

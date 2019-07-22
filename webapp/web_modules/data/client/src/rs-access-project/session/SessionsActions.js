@@ -20,10 +20,9 @@ import { SESSIONS, SESSIONS_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 export default class SessionsActions extends BasicPageableActions {
-
   static ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/sessions`
 
-  static ENTITY_ID =  'session_id'
+  static ENTITY_ID = 'session_id'
 
   constructor(namespace) {
     super({
@@ -36,6 +35,4 @@ export default class SessionsActions extends BasicPageableActions {
       },
     })
   }
-
-
 }

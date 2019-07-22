@@ -20,10 +20,11 @@
 import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
+import { CommonDomain } from '@regardsoss/domain'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import {
- sessionsSelectors, sessionsActions, SESSION_ENDPOINT, SESSION_ENTITY_ID 
+  sessionsSelectors, sessionsActions, SESSION_ENDPOINT, SESSION_ENTITY_ID,
 } from '../../clients/session/SessionsClient'
 import { SessionsMonitoringComponent } from '../../components/session/SessionsMonitoringComponent'
 
@@ -32,20 +33,35 @@ import styles from '../../styles'
 
 export class SessionsMonitoringContainer extends React.Component {
   static mapStateToProps = (state, ownProps) => ({
+    //TODO A EFFACER
   })
 
   static mapDispatchToProps = dispatch => ({
-    fetchSessions: () => dispatch(sessionsActions.fetchPagedEntityList(0, 100)),
+    // TODO 0 100 C'est pas bon DELETE ME OR USE ME
+    //fetchSessions: () => dispatch(sessionsActions.fetchPagedEntityList(0, 100)),
     acknowledgeSessionState: id => dispatch(sessionsActions.updateEntity(id, null, null, null, `${SESSION_ENDPOINT}/{${SESSION_ENTITY_ID}}/acknowledge`)),
   })
 
+
   static propTypes = {
-    fetchSessions: PropTypes.func.isRequired,
     acknowledgeSessionState: PropTypes.func.isRequired,
   }
 
-  componentWillMount = () => {
-    this.props.fetchSessions()
+  static COLUMN_KEY_TO_QUERY = {
+    'column.name': 'name',
+    'column.source': 'source',
+    'column.creationDate': 'creationDate',
+    'column.state': 'state',
+  }
+
+  static COLUMN_ORDER_TO_QUERY = {
+    ASCENDING_ORDER: 'ASC',
+    DESCENDING_ORDER: 'DESC',
+  }
+
+  state = {
+    columnsSorting: [],
+    requestParameters: {},
   }
 
   onBack = () => {
@@ -54,12 +70,46 @@ export class SessionsMonitoringContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  render = () => (
-    <SessionsMonitoringComponent
-      onBack={this.onBack}
-      onAcknowledge={this.props.acknowledgeSessionState}
-    />
-  )
+  /**
+   * Manage column sorting
+   */
+  onSort = (columnKey, order) => {
+    const { columnsSorting } = this.state
+    const newOrder = columnsSorting
+    const columnIndex = newOrder.findIndex(columnArray => columnArray.columnKey === columnKey)
+    if (order === CommonDomain.SORT_ORDERS_ENUM.NO_SORT) {
+      newOrder.splice(columnIndex, 1)
+    } else if (columnIndex === -1) {
+      newOrder.push({ columnKey, order })
+    } else {
+      newOrder.splice(columnIndex, 1)
+      newOrder.push({ columnKey, order })
+    }
+    this.onStateUpdated({ columnsSorting: newOrder })
+  }
+
+  onStateUpdated = (stateDiff) => {
+    const nextState = { ...this.state, ...stateDiff }
+    nextState.requestParameters = {
+      sort: nextState.columnsSorting.map(({ columnKey, order }) => `${SessionsMonitoringContainer.COLUMN_KEY_TO_QUERY[columnKey]}, ${SessionsMonitoringContainer.COLUMN_ORDER_TO_QUERY[order]}`),
+    }
+    this.setState(nextState)
+  }
+
+  render = () => {
+    const { acknowledgeSessionState } = this.props
+    const { columnsSorting, requestParameters } = this.state
+
+    return (
+      <SessionsMonitoringComponent
+        onBack={this.onBack}
+        onAcknowledge={acknowledgeSessionState}
+        onSort={this.onSort}
+        columnsSorting={columnsSorting}
+        requestParameters={requestParameters}
+      />
+    )
+  }
 }
 
 export default compose(
