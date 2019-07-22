@@ -127,6 +127,21 @@ function getResourcesDependencies({ content, links, metadata }, pathParams, quer
   }
 }
 
+function compareOrder(attribute, order='ASC') {
+  return function (a, b) {
+    const stringA = a.content[attribute].toUpperCase()
+    const stringB = b.content[attribute].toUpperCase()
+
+    let comparison = 0
+    if (stringA > stringB) {
+      comparison = 1
+    } else if (stringA < stringB) {
+      comparison = -1
+    }
+    return (order ==='DESC' ? (comparison * -1) : comparison)
+  }
+}
+
 function buildLocalServices(gatewayURL) {
   return {
     GET: {
@@ -185,14 +200,30 @@ function buildLocalServices(gatewayURL) {
       },
       getSession: {
         url: 'rs-access-project/sessions',
-        handler: (req, resp) => {
-          return { content: JSON.parse(loadFile('mocks/proxy/resources/mock-sessions.json')) }
+        handler: (req, resp, pathParams, requestParams) => {
+          let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions.json'))
+          
+          if (requestParams.sort) {
+            let param = requestParams.sort
+            let content = [...myMock.content]
+            if (!Array.isArray(requestParams.sort)) {
+              param = [requestParams.sort]
+            }
+            param.reverse().forEach((element) => {
+              let split = element.split(',')
+              content.sort(compareOrder(split[0], split[1]))
+            })
+            myMock.content = content
+          }
+          return { content: myMock }
         },
       },
       getSessionList: {
         url: 'rs-access-project/sessions-list',
         handler: (req, resp) => {
-          return { content: JSON.parse(loadFile('mocks/proxy/resources/mock-sessions-list.json')) }
+          let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions-list.json'))
+          console.log(myMock)
+          return { content: myMock }
         },
       }
     },

@@ -9,8 +9,8 @@
     {
       "content": {
         "id" : 0,
-        "name": "2018-07-09 14:37:00",
-        "source": "JASON2_COMMON_MOE",
+        "name": "2018-07-09 12:37:00",
+        "source": "JASON_COMMON_MOE",
         "creationDate": "2018-07-09T14:37:00Z",
         "lastUpdateDate": "2018-07-09T14:37:00Z",
         "state": "OK",
@@ -48,7 +48,7 @@
         "source": "JASON_BOURNE_MOE",
         "creationDate": "2018-07-09T14:37:00Z",
         "lastUpdateDate": "2018-07-09T14:37:00Z",
-        "state": "ACKNOWLEDGED",
+        "state": "OK",
         "lifeCycle": {
           "products": {
             "running": false,
@@ -118,7 +118,7 @@
         "source": "JASON_MOMOA_MOE",
         "creationDate": "2018-07-09T14:37:00Z",
         "lastUpdateDate": "2018-07-09T14:37:00Z",
-        "state": "ERROR",
+        "state": "DELETED",
         "lifeCycle": {
           "products": {
             "running": false,

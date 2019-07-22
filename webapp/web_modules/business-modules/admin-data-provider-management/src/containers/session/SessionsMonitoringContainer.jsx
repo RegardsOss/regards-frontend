@@ -91,7 +91,7 @@ export class SessionsMonitoringContainer extends React.Component {
   onStateUpdated = (stateDiff) => {
     const nextState = { ...this.state, ...stateDiff }
     nextState.requestParameters = {
-      sort: nextState.columnsSorting.map(({ columnKey, order }) => `${SessionsMonitoringContainer.COLUMN_KEY_TO_QUERY[columnKey]}, ${SessionsMonitoringContainer.COLUMN_ORDER_TO_QUERY[order]}`),
+      sort: nextState.columnsSorting.map(({ columnKey, order }) => `${SessionsMonitoringContainer.COLUMN_KEY_TO_QUERY[columnKey]},${SessionsMonitoringContainer.COLUMN_ORDER_TO_QUERY[order]}`),
     }
     this.setState(nextState)
   }
