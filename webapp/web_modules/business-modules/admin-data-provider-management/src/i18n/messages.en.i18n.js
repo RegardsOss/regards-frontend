@@ -233,6 +233,7 @@ const messages = Object.assign({
   'acquisition-sessions.table.aip-generated': 'Archive ready products',
   'acquisition-sessions.table.aip-stored': 'Archived products',
   'acquisition-sessions.table.indexed': 'Indexed products',
+  'acquisition-sessions.table.last-modification': 'Last modification',
 
   //7.2 Table Headers tooltip
   'acquisition-sessions.table.sip-generated.tooltip': 'Prepared products for ingestion (SIP processed)',
@@ -264,6 +265,14 @@ const messages = Object.assign({
   'acquisition-sessions.menus.archives.list': 'List all AIPs',
   'acquisition-sessions.menus.archives.list.error': 'List all errored AIPs',
   'acquisition-sessions.menus.indexed.list': 'List all indexed AIPs',
+
+  //7.5 Filters
+  'acquisition-sessions.filters.source': 'Source',
+  'acquisition-sessions.filters.session': 'Session',
+  'acquisition-sessions.filters.from.label': 'From',
+  'acquisition-sessions.filters.to.label': 'To',
+  'acquisition-sessions.filters.last-session': 'Last session only',
+  'acquisition-sessions.filters.errors-only': 'Errors only',
 
 }, Locales.en)
 

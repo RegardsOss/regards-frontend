@@ -233,6 +233,7 @@ const messages = Object.assign({
   'acquisition-sessions.table.aip-generated': 'Produits pour archivage',
   'acquisition-sessions.table.aip-stored': 'Produits archivés',
   'acquisition-sessions.table.indexed': 'Produits catalogués',
+  'acquisition-sessions.table.last-modification': 'Dernière modification',
 
   //7.2 Table Headers tooltip
   'acquisition-sessions.table.sip-generated.tooltip': 'Produits préparés pour l’ingestion (SIP générés)',
@@ -264,6 +265,14 @@ const messages = Object.assign({
   'acquisition-sessions.menus.archives.list': 'Lister les AIPs',
   'acquisition-sessions.menus.archives.list.error': 'Lister les AIPs en erreur',
   'acquisition-sessions.menus.indexed.list': 'Liste les AIPs indexés',
+
+  //7.5 Filters
+  'acquisition-sessions.filters.source': 'Source',
+  'acquisition-sessions.filters.session': 'Session',
+  'acquisition-sessions.filters.from.label': 'Du',
+  'acquisition-sessions.filters.to.label': 'Au',
+  'acquisition-sessions.filters.last-session': 'Dernière session seulement',
+  'acquisition-sessions.filters.errors-only': 'Erreurs seulement',
 
 }, Locales.fr)
 

@@ -20,14 +20,13 @@
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import Empty from 'material-ui/svg-icons/image/crop-free'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CommonDomain } from '@regardsoss/domain'
 import {
   PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLineLoadingAndResults,
-  NoContentComponent, ConfirmDialogComponentTypes, ConfirmDialogComponent, CardActionsComponent, FormErrorMessage, Breadcrumb,
+  ConfirmDialogComponentTypes, ConfirmDialogComponent, CardActionsComponent, FormErrorMessage, Breadcrumb,
 } from '@regardsoss/components'
 import { sessionsActions, sessionsSelectors } from '../../clients/session/SessionsClient'
 import { SessionsMonitoringSourceRenderer } from './render/SessionsMonitoringSourceRenderer'
@@ -39,6 +38,9 @@ import SessionsMonitoringProductsIngestedRenderer from './render/SessionsMonitor
 import SessionsMonitoringProductsStoredRenderer from './render/SessionsMonitoringProductsStoredRenderer'
 import { SessionsMonitoringGeneratedAipRenderer } from './render/SessionsMonitoringGeneratedAipRenderer'
 import { SessionsMonitoringIndexedRenderer } from './render/SessionsMonitoringIndexedRenderer'
+import { SessionsEmptyComponent } from './SessionsEmptyComponent'
+import { SessionsMonitoringFiltersComponent } from './SessionsMonitoringFiltersComponent'
+import { SessionsMonitoringLastModificationRenderer } from './render/SessionsMonitoringLastModificationRenderer'
 
 export class SessionsMonitoringComponent extends React.Component {
   static propTypes = {
@@ -50,6 +52,7 @@ export class SessionsMonitoringComponent extends React.Component {
     onBack: PropTypes.func.isRequired,
     onAcknowledge: PropTypes.func.isRequired,
     onSort: PropTypes.func.isRequired,
+    filters: PropTypes.objectOf(PropTypes.string),
   }
 
   static defaultProps = {}
@@ -77,6 +80,12 @@ export class SessionsMonitoringComponent extends React.Component {
     errorMessage: null,
     appliedFilters: {},
     sessionToAcknowledge: null,
+  }
+
+  applyFilters = (filters) => {
+    this.setState({
+      appliedFilters: filters,
+    })
   }
 
   renderBreadCrump = () => {
@@ -121,9 +130,11 @@ export class SessionsMonitoringComponent extends React.Component {
   render() {
     const { intl: { formatMessage }, muiTheme: { sessionsMonitoring: { rowHeight }, components: { infiniteTable: { admin: { minRowCount, maxRowCount } } } } } = this.context
     const {
-      onBack, onSort, columnsSorting, requestParameters
+      onBack, onSort, columnsSorting, requestParameters,
     } = this.props
-    const { appliedFilters, errorMessage, sessionToAcknowledge } = this.state
+    const {
+      appliedFilters, errorMessage, sessionToAcknowledge, filters,
+    } = this.state
 
     const columns = [
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE)
@@ -163,14 +174,11 @@ export class SessionsMonitoringComponent extends React.Component {
       new TableColumnBuilder('column.indexed').optionsSizing(3).titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.indexed.tooltip' })).rowCellDefinition({ Constructor: SessionsMonitoringIndexedRenderer })
         .label(formatMessage({ id: 'acquisition-sessions.table.indexed' }))
         .build(),
+      new TableColumnBuilder('column.last-modification').visible(false).optionsSizing(2).titleHeaderCell()
+        .rowCellDefinition({ Constructor: SessionsMonitoringLastModificationRenderer })
+        .label(formatMessage({ id: 'acquisition-sessions.table.last-modification' }))
+        .build(),
     ]
-    // TODO Extraire la class
-    const emptyComponent = (
-      <NoContentComponent
-        title={formatMessage({ id: 'acquisition-sessions.empty-response' })}
-        Icon={Empty}
-      />
-    )
 
     return (
       <Card>
@@ -187,13 +195,18 @@ export class SessionsMonitoringComponent extends React.Component {
             open={!!sessionToAcknowledge}
           />
           <TableLayout>
+            <SessionsMonitoringFiltersComponent
+              initialFilters={filters}
+              applyFilters={this.applyFilters}
+            />
+            {/* Loading, results and refresh button */}
             <PageableInfiniteTableContainer
               pageActions={sessionsActions}
               pageSelectors={sessionsSelectors}
             // tableActions={tableActions}
               requestParams={requestParameters}
               columns={columns}
-              emptyComponent={emptyComponent}
+              emptyComponent={<SessionsEmptyComponent />}
               minRowCount={minRowCount}
               maxRowCount={maxRowCount}
               queryPageSize={SessionsMonitoringComponent.PAGE_SIZE}
