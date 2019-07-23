@@ -51,7 +51,7 @@ export class SessionsMonitoringIndexedRenderer extends React.Component {
         ) : (
           <div style={gridSessionContainer}>
             <div style={headerSession}>
-              {formatNumber((entity.content.lifeCycle.aip.indexed ? entity.content.lifeCycle.aip.indexed : 0 ))}
+              {formatNumber((entity.content.lifeCycle.aip.indexed ? entity.content.lifeCycle.aip.indexed : 0))}
             </div>
             <div style={infosSession}>
               <DropDownButton
