@@ -47,7 +47,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
         sessionsStyles: {
           menuDropDown,
           gridCell: {
-            gridContainer, gridHeaderContainer, infosContainer, lineContainer, listValues,
+            gridContainer, gridHeaderContainer, infosContainer, lineContainer, listValues, cellContainer,
             acquiredProductState: {
               runningContainer,
               runningIconColor,
@@ -63,51 +63,61 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     const { entity } = this.props
 
     return (
-      <div style={gridContainer}>
-        <div style={gridHeaderContainer}>
-          { entity.content.lifeCycle.products.running ? (
-            <div style={runningContainer}>
-              <Play color={runningIconColor} />
-              <div style={running}>
-                {formatMessage({ id: 'acquisition-sessions.states.running' })}
+      <div style={cellContainer}>
+        { !entity.content.lifeCycle.products ? (
+          <div style={gridContainer}>
+            <div style={gridHeaderContainer}>
+              -
+            </div>
+          </div>
+        ) : (
+          <div style={gridContainer}>
+            <div style={gridHeaderContainer}>
+              { entity.content.lifeCycle.products.running ? (
+                <div style={runningContainer}>
+                  <Play color={runningIconColor} />
+                  <div style={running}>
+                    {formatMessage({ id: 'acquisition-sessions.states.running' })}
+                  </div>
+                </div>
+              ) : (
+                <div />
+              ) }
+            </div>
+            <div style={infosContainer}>
+              <div style={lineContainer}>
+                <div style={one}>
+                  {formatMessage({ id: 'acquisition-sessions.states.completed' })}
+                  :
+                </div>
+                <div style={two}>
+                  {formatMessage({ id: 'acquisition-sessions.states.incomplete' })}
+                  :
+                </div>
+                <div style={three}>
+                  {formatMessage({ id: 'acquisition-sessions.states.error' })}
+                  :
+                </div>
+              </div>
+              <div style={listValues}>
+                <div style={one}>{formatNumber((entity.content.lifeCycle.products.done ? entity.content.lifeCycle.products.done : 0))}</div>
+                <div style={two}>{formatNumber((entity.content.lifeCycle.products.incomplete ? entity.content.lifeCycle.products.incomplete : 0))}</div>
+                <div style={three}>{formatNumber((entity.content.lifeCycle.products.errors ? entity.content.lifeCycle.products.errors : 0))}</div>
+              </div>
+              <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
+                <DropDownButton
+                  title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
+                  style={menuDropDown}
+                  icon={<Menu />}
+                >
+                  <MenuItem
+                    primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.relaunch' })}
+                  />
+                </DropDownButton>
               </div>
             </div>
-          ) : (
-            <div />
-          ) }
-        </div>
-        <div style={infosContainer}>
-          <div style={lineContainer}>
-            <div style={one}>
-              {formatMessage({ id: 'acquisition-sessions.states.completed' })}
-              :
-            </div>
-            <div style={two}>
-              {formatMessage({ id: 'acquisition-sessions.states.incomplete' })}
-              :
-            </div>
-            <div style={three}>
-              {formatMessage({ id: 'acquisition-sessions.states.error' })}
-              :
-            </div>
           </div>
-          <div style={listValues}>
-            <div style={one}>{formatNumber(entity.content.lifeCycle.products.done)}</div>
-            <div style={two}>{formatNumber(entity.content.lifeCycle.products.incomplete)}</div>
-            <div style={three}>{formatNumber(entity.content.lifeCycle.products.errors)}</div>
-          </div>
-          <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
-            <DropDownButton
-              title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
-              style={menuDropDown}
-              icon={<Menu />}
-            >
-              <MenuItem
-                primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.relaunch' })}
-              />
-            </DropDownButton>
-          </div>
-        </div>
+        )}
       </div>
     )
   }

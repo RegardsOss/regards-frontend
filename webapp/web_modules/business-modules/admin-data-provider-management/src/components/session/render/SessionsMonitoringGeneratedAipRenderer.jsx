@@ -40,7 +40,11 @@ export class SessionsMonitoringGeneratedAipRenderer extends React.Component {
     return (
       <div style={gridSessionContainer}>
         <div style={headerSession}>
-          {formatNumber(entity.content.lifeCycle.aip.done)}
+          { !entity.content.lifeCycle.aip ? (
+            <div>-</div>
+          ) : (
+            <div>{formatNumber((entity.content.lifeCycle.aip.done ? entity.content.lifeCycle.aip.done : 0))}</div>
+          )}
         </div>
       </div>
     )

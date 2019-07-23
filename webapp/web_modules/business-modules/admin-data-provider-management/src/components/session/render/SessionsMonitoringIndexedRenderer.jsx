@@ -38,24 +38,34 @@ export class SessionsMonitoringIndexedRenderer extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage, formatNumber }, muiTheme, moduleTheme: { sessionsStyles: { menuDropDown, gridSessionCell: { gridSessionContainer, headerSession, infosSession } } } } = this.context
+    const { intl: { formatMessage, formatNumber }, muiTheme, moduleTheme: { sessionsStyles: { menuDropDown, gridSessionCell: { gridSessionContainer, headerSession, infosSession }, gridCell: { cellContainer } } } } = this.context
     const { entity } = this.props
     return (
-      <div style={gridSessionContainer}>
-        <div style={headerSession}>
-          {formatNumber(entity.content.lifeCycle.aip.indexed)}
-        </div>
-        <div style={infosSession}>
-          <DropDownButton
-            title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
-            style={menuDropDown}
-            icon={<Menu />}
-          >
-            <MenuItem
-              primaryText={formatMessage({ id: 'acquisition-sessions.menus.indexed.list' })}
-            />
-          </DropDownButton>
-        </div>
+      <div style={cellContainer}>
+        { !entity.content.lifeCycle.aip ? (
+          <div style={gridSessionContainer}>
+            <div style={headerSession}>
+            -
+            </div>
+          </div>
+        ) : (
+          <div style={gridSessionContainer}>
+            <div style={headerSession}>
+              {formatNumber((entity.content.lifeCycle.aip.indexed ? entity.content.lifeCycle.aip.indexed : 0 ))}
+            </div>
+            <div style={infosSession}>
+              <DropDownButton
+                title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
+                style={menuDropDown}
+                icon={<Menu />}
+              >
+                <MenuItem
+                  primaryText={formatMessage({ id: 'acquisition-sessions.menus.indexed.list' })}
+                />
+              </DropDownButton>
+            </div>
+          </div>
+        )}
       </div>
     )
   }

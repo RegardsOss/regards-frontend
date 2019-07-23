@@ -31,11 +31,9 @@
             "generatedAIP": 65
           },
           "aip": {
-            "done": 800000000,
             "total": 10,
             "pending": 5,
-            "errors": 1,
-            "indexed": 2
+            "errors": 1
           }
         }
       },
@@ -57,12 +55,9 @@
             "incomplete": 0
           },
           "sip": {
-            "done": 599450,
             "total": 600000,
-            "pending": 10450,
             "invalid": 0,
-            "refused": 0,
-            "errors": 0,
+            "errors": 1,
             "generatedAIP": 65
           },
           "aip": {
@@ -85,21 +80,6 @@
         "lastUpdateDate": "2018-07-09T14:37:00Z",
         "state": "DELETED",
         "lifeCycle": {
-          "products": {
-            "running": false,
-            "done": 50,
-            "errors": 2,
-            "incomplete": 8
-          },
-          "sip": {
-            "done": 30,
-            "total": 60,
-            "pending": 10,
-            "invalid": 1,
-            "refused": 0,
-            "errors": 2,
-            "generatedAIP": 65
-          },
           "aip": {
             "done": 5,
             "total": 10,
@@ -122,25 +102,17 @@
         "lifeCycle": {
           "products": {
             "running": false,
-            "done": 50,
             "errors": 2,
             "incomplete": 8
           },
           "sip": {
-            "done": 30,
+            "done": 0,
             "total": 60,
             "pending": 10,
-            "invalid": 1,
+            "invalid": 0,
             "refused": 0,
-            "errors": 2,
+            "errors": 0,
             "generatedAIP": 65
-          },
-          "aip": {
-            "done": 0,
-            "total": 10,
-            "pending": 5,
-            "errors": 1,
-            "indexed": 2
           }
         }
       },

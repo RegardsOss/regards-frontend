@@ -84,6 +84,10 @@ const styles = theme => ({
       barGraphContainer: {
         height: '18px',
       },
+      cellContainer: {
+        width: '100%',
+        height: '100%',
+      },
       barGraph: {
         done: {
           display: 'inline-block',
