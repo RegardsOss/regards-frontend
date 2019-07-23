@@ -47,6 +47,7 @@ const messages = Object.assign({
   'datasource.list.action.delete': 'Delete',
   'datasource.list.delete.title': 'Delete datasource {name} ?',
   'datasource.list.empty.title': 'No existing datasource',
+  'datasource.list.empty.subtitle': 'Create your first datasource',
   'datasource.list.table.active': 'Active/deactivate',
   'datasource.list.action.desactivate': 'Deactivate the datasource',
   'datasource.list.action.activate': 'Activate the datasource',

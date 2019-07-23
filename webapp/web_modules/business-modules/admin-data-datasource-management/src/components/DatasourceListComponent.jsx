@@ -19,6 +19,8 @@
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
+import { browserHistory } from 'react-router'
 import { FormattedMessage } from 'react-intl'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
@@ -26,6 +28,7 @@ import {
   NoContentComponent, TableHeaderLineLoadingAndResults, TableDeleteOption, ConfirmDialogComponent,
   ConfirmDialogComponentTypes, CardActionsComponent, ShowableAtRender,
 } from '@regardsoss/components'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
@@ -33,6 +36,9 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { datasourceActions } from '../clients/DatasourceClient'
 import DatasourceListEditAction from './DatasourceListEditAction'
 import DatasourceListActivationAction from './DatasourceListActivationAction'
+import dependencies from '../dependencies'
+
+const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButton)
 
 /**
  * React component to list datasources.
@@ -94,6 +100,10 @@ export default class DatasourceListComponent extends React.Component {
     )
   }
 
+  navigateToCreateDatasource = () => {
+    browserHistory.push(this.props.createUrl)
+  }
+
   render() {
     const {
       datasourceList, onToggleState, handleEdit, createUrl, backUrl, refreshDatasourceList,
@@ -132,10 +142,20 @@ export default class DatasourceListComponent extends React.Component {
       }]).build(),
     ]
 
+    const emptyContentAction = (
+      <FlatButtonWithResourceDisplayControl
+        resourceDependencies={dependencies.addDependencies}
+        label={formatMessage({ id: 'datasource.list.empty.subtitle' })}
+        onClick={this.navigateToCreateDatasource}
+        primary
+      />
+    )
+
     const emptyComponent = (
       <NoContentComponent
         title={formatMessage({ id: 'datasource.list.empty.title' })}
         Icon={AddToPhotos}
+        action={emptyContentAction}
       />
     )
 
