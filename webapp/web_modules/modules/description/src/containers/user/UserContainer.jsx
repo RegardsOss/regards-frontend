@@ -73,10 +73,6 @@ export class UserContainer extends React.Component {
     setSelectedPath: PropTypes.func.isRequired,
   }
 
-  // TODO: fetch attributes in shadow module and bind it in other instances
- ici.apresPM44()
-  // TODO create treee model from configuration in this class
-
   /**
    * User callback: On select tree path
    * @param {[number]} path selected path

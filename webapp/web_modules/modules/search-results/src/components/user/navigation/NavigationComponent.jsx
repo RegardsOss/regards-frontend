@@ -33,7 +33,7 @@ import { Breadcrumb, ModuleIcon } from '@regardsoss/components'
  *
  * @author Sébastien binda
  */
-class NavigationComponent extends React.Component {
+class NavigationComponent extends React.Component { // TODO : delete me after partial recovering in description view
   /** Root tag type */
   static ROOT_TAG = 'ROOT_TAG'
 

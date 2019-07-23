@@ -75,6 +75,9 @@ const messages = {
   'search.results.form.configuration.result.MAP.background.layer.type': 'Type',
 
   // User messages
+  'search.results.tab.main.results': 'Résultats',
+  'search.results.tab.description': 'Description',
+  'search.results.tab.tag.results': '{tabName}',
   'search.results.configure.columns.option': 'Colonnes',
   'search.results.configure.columns.summary.text': '{columnsCount} colonnes disponibles pour ce tableau',
   'search.results.configure.columns.toggle.all.visible': 'Tout Afficher',

@@ -18,8 +18,8 @@
  **/
 import get from 'lodash/get'
 import { CatalogDomain, DamDomain, UIDomain } from '@regardsoss/domain'
+import { CriterionBuilder } from '../../../definitions/CriterionBuilder'
 import { PresentationHelper } from './PresentationHelper'
-import { CriterionBuilder } from './CriterionBuilder'
 
 /**
  * Helper to create initial results context from module configuration
@@ -121,7 +121,7 @@ export class ContextInitializationHelper {
    * Builds default state for entity type as parameter
    * @param {*} typeConfiguration configuration for type, as defined in ModuleConfiguration shapes
    * @param {*} attributeModels attributes found on server (respects DataManagementShapes.AttributeModelList shapes)
-   * @param {string} type view entities type, from RESULTS_VIEW_MODES_ENUM
+   * @param {string} type view entities type, from ENTITY_TYPES_ENUM
    * @return modeState field
    */
   static buildDefaultTypeState(typeConfiguration, attributeModels, type) {
@@ -142,14 +142,14 @@ export class ContextInitializationHelper {
         enableSearchEntity: UIDomain.ResultsContextConstants.allowNavigateTo(type),
         initialSorting,
         isInInitialSorting: true,
-        mode: typeConfiguration.initialMode || UIDomain.ResultsContextConstants.DEFAULT_VIEW_MODE,
+        selectedMode: typeConfiguration.initialMode || UIDomain.ResultsContextConstants.DEFAULT_VIEW_MODE,
         label: typeConfiguration.tabTitle, // label when provided in configuration
         facets,
         criteria: {
           requestFacets: facets.enabled ? facets.list : [],
           sorting: initialSorting,
         },
-        modeState: UIDomain.RESULTS_VIEW_MODES.reduce((acc, mode) => ({
+        modes: UIDomain.RESULTS_VIEW_MODES.reduce((acc, mode) => ({
           ...acc,
           [mode]: ContextInitializationHelper.buildDefaultModeState(
             // report list configuration on table (only table is configured)
@@ -168,25 +168,29 @@ export class ContextInitializationHelper {
    * @return {*} default results context state
    */
   static buildDefaultResultsContext(configuration, attributeModels) {
-    // 1 - Build default state
-    const defaultState = {
-      type: null, // set just after
-      criteria: {
-        contextTags: [],
-        otherFilters: [],
-        levels: [],
-        quicklookFiltering: [],
-        appliedFacets: [],
-        geometry: [],
-        entitiesSelection: [],
+    // 1 - Build default state for data (as it is common to both main results and results tag view)
+    const dataType = ContextInitializationHelper.buildDefaultTypeState(
+      get(configuration, `viewsGroups.${DamDomain.ENTITY_TYPES_ENUM.DATA}`, {}), attributeModels, DamDomain.ENTITY_TYPES_ENUM.DATA)
+    // 2 - complete default state to provide data and dataset type in results views
+    return {
+      ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT,
+      tabs: {
+        ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs,
+        [UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS]: {
+          ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS],
+          types: {
+            [DamDomain.ENTITY_TYPES_ENUM.DATA]: dataType,
+            [DamDomain.ENTITY_TYPES_ENUM.DATASET]: ContextInitializationHelper.buildDefaultTypeState(
+              get(configuration, `viewsGroups.${DamDomain.ENTITY_TYPES_ENUM.DATASET}`, {}), attributeModels, DamDomain.ENTITY_TYPES_ENUM.DATASET),
+          },
+        },
+        [UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS]: {
+          ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS],
+          types: {
+            [DamDomain.ENTITY_TYPES_ENUM.DATA]: dataType,
+          },
+        },
       },
-      typeState: DamDomain.ENTITY_TYPES.reduce((acc, type) => ({
-        ...acc,
-        [type]: ContextInitializationHelper.buildDefaultTypeState(get(configuration, `viewsGroups.${type}`, {}), attributeModels, type),
-      }), { }),
     }
-    // 2 - set initial view type based on preferred order AND enabled views
-    defaultState.type = ContextInitializationHelper.INITIAL_TYPE_PREFERENCE.find(type => defaultState.typeState[type].enabled)
-    return defaultState
   }
 }

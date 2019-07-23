@@ -54,7 +54,7 @@ const messages = {
   'search.graph.level.fetch.model.failed': 'La récupération des collections et jeux de données a échoué',
   'search.graph.level.no.model': 'La collection est vide',
   'search.graph.dataset.attribute.no.value': '-',
-  'search.graph.results.title.without.tag': 'Résultat pour la sélection',
+  'search.graph.results.title.without.tag': 'Sélection du graphe',
 
   ...Locales.fr,
 }

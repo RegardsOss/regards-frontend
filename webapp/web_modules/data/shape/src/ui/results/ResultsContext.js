@@ -21,7 +21,7 @@ import {
 } from '@regardsoss/domain'
 import { RequestParameters } from '../../rs-common/RequestParameters'
 import { AttributeModel } from '../../rs-dam/AttributeModel'
-import { Entity } from '../../rs-catalog/entity/Entity'
+import { EntityWithServices } from '../../rs-access/EntityWithServices'
 
 
 /**
@@ -119,18 +119,6 @@ export const EntitiesSelectionCriterion = PropTypes.shape({
 /** A tags array */
 export const TagsArray = PropTypes.arrayOf(TagCriterion)
 
-/** A level (may be a tag or a description display) */
-export const Level = PropTypes.oneOfType([
-  TagCriterion, // Regular tag criterion
-  PropTypes.shape({ // Description level
-    type: PropTypes.oneOf([UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL]).isRequired,
-    entity: Entity.isRequired,
-  }),
-])
-
-/** A levels array */
-export const LevelsArray = PropTypes.arrayOf(Level)
-
 /** A sorting criterion */
 export const SortingCriterion = PropTypes.shape({
   attribute: AttributeModel.isRequired, // corresponding attribute
@@ -226,8 +214,6 @@ export const ViewsGroupState = PropTypes.shape({
   initialSorting: PropTypes.arrayOf(SortingCriterion).isRequired,
   // Is currently in initial sorting state
   isInInitialSorting: PropTypes.bool.isRequired,
-  // current mode in view group
-  mode: PropTypes.oneOf(UIDomain.RESULTS_VIEW_MODES).isRequired,
   // optional group label (from configuration)
   label: PropTypes.shape({
     en: PropTypes.string,
@@ -245,8 +231,10 @@ export const ViewsGroupState = PropTypes.shape({
     // Sorting attributes with sorting types. The first sorting in array is the first applied when in multi-sort
     sorting: PropTypes.arrayOf(SortingCriterion).isRequired,
   }).isRequired,
+  // selected mode in view group
+  selectedMode: PropTypes.oneOf(UIDomain.RESULTS_VIEW_MODES).isRequired,
   // state by mode
-  modeState: PropTypes.shape({
+  modes: PropTypes.shape({
     [UIDomain.RESULTS_VIEW_MODES_ENUM.LIST]: ListViewModeState.isRequired,
     [UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE]: TableViewModeState.isRequired,
     [UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: QuicklookViewModeState.isRequired,
@@ -254,28 +242,55 @@ export const ViewsGroupState = PropTypes.shape({
   }).isRequired,
 })
 
-/** Complete results context */
-export const ResultsContext = PropTypes.shape({
-  // current entity type
-  type: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
-  // criteria applying to the whole results view (free fields allowed for external controllers: if they do
-  // not hold any request parameters, they will be ignored at request time)
+/**
+ * Common to all results views
+ */
+const commonResultsTabFields = {
   criteria: PropTypes.shape({
-    // Parent control criteria
-    contextTags: TagsArray.isRequired, // Tags from context
+    contextTags: TagsArray.isRequired, // Tags from context (parent control in results tab, main tag in tag tab)
     otherFilters: PropTypes.arrayOf(BasicCriterion).isRequired, // Other restrictions
-    // locally handled filters
-    levels: LevelsArray.isRequired, // user added levels
     quicklookFiltering: PropTypes.arrayOf(BasicCriterion).isRequired, // filtering elements with quicklooks
     appliedFacets: PropTypes.arrayOf(SelectedFacetCriterion).isRequired, // List of selected facets
     geometry: PropTypes.arrayOf(GeometryCriterion).isRequired, // Selected filtering geometry criteria
     entitiesSelection: PropTypes.arrayOf(EntitiesSelectionCriterion).isRequired, // Selected entities set criteria
-  }).isRequired,
-  // view state for each entity type
-  typeState: PropTypes.shape({
+    tagsFiltering: TagsArray.isRequired, // Locally added tags
+  }),
+  selectedType: PropTypes.oneOf([DamDomain.ENTITY_TYPES_ENUM.DATA, DamDomain.ENTITY_TYPES_ENUM.DATASET]).isRequired,
+  types: PropTypes.shape({
     [DamDomain.ENTITY_TYPES_ENUM.DATA]: ViewsGroupState.isRequired,
     [DamDomain.ENTITY_TYPES_ENUM.DATASET]: ViewsGroupState.isRequired,
-    [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]: ViewsGroupState.isRequired,
-    [DamDomain.ENTITY_TYPES_ENUM.COLLECTION]: ViewsGroupState.isRequired,
   }).isRequired,
+}
+
+/** Main results tab model */
+export const MainResultsTabModel = PropTypes.shape({
+  ...commonResultsTabFields,
+})
+
+/**
+ * Description results tab model
+ */
+export const DescriptionTabModel = PropTypes.shape({
+  // Entities in current description path (empty when no description)
+  descriptionPath: PropTypes.arrayOf(EntityWithServices).isRequired,
+})
+
+/** Tag filtered results tab model */
+export const TagTabModel = PropTypes.shape({
+  ...commonResultsTabFields,
+  // showing only data
+  selectedType: PropTypes.oneOf([DamDomain.ENTITY_TYPES_ENUM.DATA]).isRequired,
+  types: PropTypes.shape({
+    [DamDomain.ENTITY_TYPES_ENUM.DATA]: ViewsGroupState.isRequired,
+  }).isRequired,
+})
+
+/** Complete results context: holds only the three tabs */
+export const ResultsContext = PropTypes.shape({
+  selectedTab: PropTypes.oneOf(UIDomain.ResultsContextConstants.TABS).isRequired,
+  tabs: PropTypes.shape({
+    [UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS]: MainResultsTabModel.isRequired,
+    [UIDomain.ResultsContextConstants.TABS_ENUM.DESCRIPTION]: DescriptionTabModel.isRequired,
+    [UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS]: TagTabModel.isRequired,
+  }),
 })

@@ -49,6 +49,7 @@ export const DescriptionConfiguration = PropTypes.shape({
  * Module configuration: description pane configuration by entity type
  */
 export const ModuleConfiguration = PropTypes.shape({
+  documentsModelName: PropTypes.string, // identifies a data as document if it holds that model
   allowTagSearch: PropTypes.bool,
   // configuration by entity type
   [DamDomain.ENTITY_TYPES_ENUM.COLLECTION]: DescriptionConfiguration,

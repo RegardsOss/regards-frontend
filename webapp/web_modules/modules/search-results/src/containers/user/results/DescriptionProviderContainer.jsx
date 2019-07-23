@@ -44,7 +44,7 @@ const modulesSelectors = AccessProjectClient.ModuleSelectors()
  *
  * @author Raphaël Mechali
  */
-export class DescriptionProviderContainer extends React.Component {
+export class DescriptionProviderContainer extends React.Component { // TODO : delete me after partial recovering in description view
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -69,7 +69,7 @@ export class DescriptionProviderContainer extends React.Component {
     appName: PropTypes.string.isRequired, // used only in onPropertiesUpdated
     // current levels list
     // eslint-disable-next-line react/no-unused-prop-types
-    levels: UIShapes.LevelsArray.isRequired, // used only in onPropertiesUpdated
+    // levels: UIShapes.LevelsArray.isRequired, TODO this is now very wrong
     // callback: user navigated in description view
     onNavigate: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types

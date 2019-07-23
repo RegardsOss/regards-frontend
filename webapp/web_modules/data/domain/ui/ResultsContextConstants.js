@@ -16,23 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
 import { MAP_SELECTION_MODES_ENUM } from './MapSelectionModeEnum'
 import { MIZAR_LAYER_TYPES_ENUM } from './mizar-api/MizarLayerTypes'
 import { RESULTS_VIEW_MODES_ENUM } from './ResultsViewModeEnum'
-import { ResultsContextConstants } from '.'
 
 /**
  * Holds constants and accessors related to results context
  * @author Raphaël Mechali
  */
 
+/** Available tabs in results model */
+const TABS_ENUM = {
+  MAIN_RESULTS: 'MAIN_RESULTS',
+  DESCRIPTION: 'DESCRIPTION',
+  TAG_RESULTS: 'TAG_RESULTS',
+}
+
+const TABS = values(TABS_ENUM)
 
 /** Default view mode for data */
 const DEFAULT_VIEW_MODE = RESULTS_VIEW_MODES_ENUM.LIST
-
-/** Description level type */
-const DESCRIPTION_LEVEL = 'DESCRIPTION'
 
 /** To be used as default */
 const DISABLED_VIEW_MODE_STATE = {
@@ -64,9 +69,9 @@ const DISABLED_TYPE_STATE = {
   enableSearchEntity: false,
   initialSorting: [],
   isInInitialSorting: true,
-  mode: DEFAULT_VIEW_MODE,
+  selectedMode: DEFAULT_VIEW_MODE,
   facets: { allowed: false, enabled: false, list: [] },
-  modeState: {
+  modes: {
     [RESULTS_VIEW_MODES_ENUM.LIST]: DISABLED_VIEW_MODE_STATE,
     [RESULTS_VIEW_MODES_ENUM.TABLE]: DISABLED_VIEW_MODE_STATE,
     [RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: DISABLED_VIEW_MODE_STATE,
@@ -75,6 +80,46 @@ const DISABLED_TYPE_STATE = {
   criteria: {
     requestFacets: [],
     sorting: [],
+  },
+}
+
+
+/** Default results context */
+const DEFAULT_RESULTS_CONTEXT = {
+  selectedTab: TABS_ENUM.MAIN_RESULTS,
+  tabs: {
+    [TABS_ENUM.MAIN_RESULTS]: {
+      criteria: {
+        contextTags: [],
+        otherFilters: [],
+        quicklookFiltering: [],
+        appliedFacets: [],
+        geometry: [],
+        entitiesSelection: [],
+        tagsFiltering: [],
+      },
+      selectedType: ENTITY_TYPES_ENUM.DATA,
+      types: PropTypes.shape({
+        [ENTITY_TYPES_ENUM.DATA]: DISABLED_TYPE_STATE,
+        [ENTITY_TYPES_ENUM.DATASET]: DISABLED_TYPE_STATE,
+      }).isRequired,
+    },
+    [TABS_ENUM.DESCRIPTION]: { descriptionPath: [] },
+    [TABS_ENUM.TAG_RESULTS]: {
+      criteria: {
+        contextTags: [],
+        otherFilters: [],
+        quicklookFiltering: [],
+        appliedFacets: [],
+        geometry: [],
+        entitiesSelection: [],
+        tagsFiltering: [],
+      },
+      selectedType: ENTITY_TYPES_ENUM.DATA,
+      types: PropTypes.shape({
+        [ENTITY_TYPES_ENUM.DATA]: DISABLED_TYPE_STATE,
+      }).isRequired,
+    },
   },
 }
 
@@ -96,7 +141,7 @@ function getViewData(resultsContext = {}) {
 }
 
 /** Types for which download is allowed */
-const DOWNLOAD_ALLOWED_TYPES = [ENTITY_TYPES_ENUM.DATA, ENTITY_TYPES_ENUM.DOCUMENT]
+const DOWNLOAD_ALLOWED_TYPES = [ENTITY_TYPES_ENUM.DATA]
 
 /**
  * Is download allowed for entity type as parameter
@@ -108,7 +153,7 @@ function allowDownload(type) {
 }
 
 /** Types for which sorting is allowed */
-const SORTING_ALLOWED_TYPES = [ENTITY_TYPES_ENUM.DATA, ENTITY_TYPES_ENUM.DOCUMENT]
+const SORTING_ALLOWED_TYPES = [ENTITY_TYPES_ENUM.DATA]
 
 /**
  * Is sorting allowed for entity type as parameter (ie can entity be used to filter results?)
@@ -180,7 +225,9 @@ function getNavigateToViewType(type) {
 }
 
 export default {
-  DESCRIPTION_LEVEL,
+  TABS,
+  TABS_ENUM,
+  DEFAULT_RESULTS_CONTEXT,
   DEFAULT_VIEW_MODE,
   DISABLED_VIEW_MODE_STATE,
   DISABLED_MAP_VIEW_MODE_STATE,

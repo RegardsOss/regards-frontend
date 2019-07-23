@@ -85,6 +85,7 @@ export { default as DynamicModulePane } from './module/DynamicModulePane'
 export { default as HorizontalAreasSeparator } from './module/HorizontalAreasSeparator'
 export { default as ModuleIcon } from './module/ModuleIcon'
 export { default as ModuleTitleText } from './module/ModuleTitleText'
+export { default as DefaultModuleTitleComponent } from './module/DefaultModuleTitleComponent'
 
 export { default as URLPicture } from './picture/URLPicture'
 export { default as URLPictureResolver } from './picture/URLPictureResolver'

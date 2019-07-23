@@ -84,6 +84,81 @@ const styles = theme => ({
     },
   },
   user: {
+    titleBar: {
+      container: {
+        display: 'flex',
+        grow: 1,
+        shrink: 1,
+        justifyContent: 'space-between',
+      },
+      title: {
+        grow: 0,
+        shrink: 0,
+      },
+      tabsContainer: {
+        display: 'flex',
+        grow: 0,
+        shrink: 0,
+        alignSelf: 'flex-end',
+      },
+      tab: {
+        selectedContainer: {
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: theme.palette.accent1Color, // TODO external
+          margin: '0 2px 0 0', // TODO external
+          minWidth: 200, // TODO external
+          maxWidth: 200, // TODO external
+        },
+        unselectedContainer: {
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: '#FFFFFF20', // TODO external
+          margin: '0 2px 0 0', // TODO external
+          minWidth: 200, // TODO external
+          maxWidth: 200, // TODO external
+        },
+        iconAndTextGroup: {
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          cursor: 'pointer',
+          flexGrow: 1,
+          flexShrink: 1,
+          margin: '5px', // TODO external
+        },
+        iconColor: theme.palette.textColor, // TODO external
+        icon: {
+          flexGrow: 0,
+          flexShrink: 0,
+        },
+        label: {
+          flexGrow: 0,
+          flexShrink: 1,
+          padding: '0 5px 0 7px', // TODO external
+          color: theme.palette.textColor, // TODO external
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        },
+        closeIconButton: {
+          padding: 0,
+          flexGrow: 0,
+          flexShrink: 0,
+          alignSelf: 'flex-start',
+          margin: '0 0 0 5px', // TODO external
+          width: 15, // TODO external
+          height: 15, // TODO external
+        },
+        closeIcon: {
+          width: 15, // TODO external
+          height: 15, // TODO external
+        },
+        tabsSeparator: {
+
+        },
+      },
+    },
     rootModuleContainer: {
       flexGrow: 1,
       flexShrink: 1,
