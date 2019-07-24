@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -112,20 +112,20 @@ pipeline {
             steps {
                 parallel(
                     //sonar: {
-                    //    sh 'docker run \
-                    //        --rm -i \
-                    //        -v ${WORKSPACE}/webapp:/app_to_build \
-                    //        rs_node ./run_coverage.sh'
-                    //    sh 'sed -i s/app_to_build/data/g webapp/reports/coverage/lcov.info'
-                    //    sh 'TAG=$(./jenkins/nginx/getPackageVersion.sh ./webapp) && \
-                    //      docker run --rm \
-                    //      --entrypoint /opt/sonar-runner-2.4/bin/sonar-runner \
-                    //      -v ${WORKSPACE}/webapp:/data \
-                    //      sebp/sonar-runner \
-                    //      -Dsonar.projectVersion=${TAG} \
-                    //      -Dsonar.host.url=http://172.26.47.129:9000/'
-                    //    sh 'chmod -R 0777 webapp/.sonar || true'
-                    //    sh 'rm -rf webapp/.sonar || true'
+                      // sh 'docker run \
+                      //     --rm -i \
+                      //     -v ${WORKSPACE}/webapp:/app_to_build \
+                      //     rs_node ./run_coverage.sh'
+                      // sh 'sed -i s/app_to_build/data/g webapp/reports/coverage/lcov.info'
+                      // sh 'TAG=$(./jenkins/nginx/getPackageVersion.sh ./webapp) && \
+                      //   docker run --rm \
+                      //   --entrypoint /opt/sonar-runner-2.4/bin/sonar-runner \
+                      //   -v ${WORKSPACE}/webapp:/data \
+                      //   sebp/sonar-runner \
+                      //   -Dsonar.projectVersion=${TAG} \
+                      //   -Dsonar.host.url=http://172.26.47.129:9000/'
+                      // sh 'chmod -R 0777 webapp/.sonar || true'
+                      // sh 'rm -rf webapp/.sonar || true'
                     //},
                     maven: {
                         sh 'docker run --rm -i \
