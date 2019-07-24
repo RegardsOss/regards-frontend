@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -26,3 +26,4 @@ export const readNotificationSelectors = AdminClient.getReadNotificationSelector
   'modules.menu',
   'readNotification',
 ])
+export const readNotificationDetailsReducer = AdminClient.getNotificationDetailsReducer(true)

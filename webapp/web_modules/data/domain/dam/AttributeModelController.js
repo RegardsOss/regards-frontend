@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -208,11 +208,29 @@ function getAttributeModelFullLabel(attribute) {
   return fullAttributeLabel
 }
 
+function getAttributeModelFullName(attribute) {
+  let fullAttributeName = ''
+  const fragment = get(attribute, 'content.fragment.name')
+  if (fragment && (fragment !== DEFAULT_FRAGMENT)) {
+    fullAttributeName = `${fragment} - `
+  }
+
+  const attributeName = get(attribute, 'content.name')
+  if (attributeName) {
+    fullAttributeName = `${fullAttributeName}${attributeName}`
+  } else {
+    fullAttributeName = `${fullAttributeName}undefined`
+  }
+
+  return fullAttributeName
+}
+
 export default {
   getEntityAttributeValue,
   getStandardAttributeModel,
   findModelFromAttributeFullyQualifiedName,
   getAttributeModelFullLabel,
+  getAttributeModelFullName,
   isSearchableAttribute,
   standardAttributesKeys,
   standardAttributesAsModel,

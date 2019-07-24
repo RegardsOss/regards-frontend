@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -169,7 +169,7 @@ export class InfiniteGalleryContainer extends React.Component {
     // size is lower)
     this.setState({
       width,
-      height: this.state.height >= height ? height - 100 : height,
+      height: this.state.height >= height ? Math.min(height - 100, 1) : height,
     })
   }
 

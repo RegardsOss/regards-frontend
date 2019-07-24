@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -167,7 +167,7 @@ class MapViewComponent extends React.Component {
               <div
                 style={mapViewStyles.quicklookViewLayout}
                 // see force redraw workaround comment above
-                key={`quicklook-view:width-${leftPaneWidth}`}
+                key={`quicklook-view:width-${leftPaneWidth}x${height}`}
               >
                 <QuicklooksViewContainer
                   resultsContext={resultsContext}

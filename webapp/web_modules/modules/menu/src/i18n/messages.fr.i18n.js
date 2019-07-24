@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -130,12 +130,13 @@ const messages = {
     other {Vous avez {elementsCount} nouvelles notifications}
   }`,
   'user.menu.notification.no-notification-for-instance': 'L\'utilisateur instance ne reçoit pas de notification',
-  'user.menu.notification.title': 'Notifications lues',
-  'user.menu.notification.unread.title': 'Notifications non lues',
+  'user.menu.notification.title': 'Notifications lues ({count})',
+  'user.menu.notification.unread.title': 'Notifications non lues ({count})',
   'user.menu.notification.empty': 'Pas de nouvelles notifications',
   'user.menu.notification.details.sentby': 'Envoyé par {sender}',
   'user.menu.notification.clearAll': 'Tout marquer comme lu',
   'user.menu.notification.action.close': 'Fermer',
+  'user.menu.notification.action.delete.read': 'Supprimer les notifications lues',
 
   'user.menu.profile.leftbar.title': 'Options utilisateur',
   'user.menu.profile.leftbar.profile': 'Profil',

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -47,6 +47,7 @@ const messages = Object.assign({
   'datasource.list.action.delete': 'Supprimer',
   'datasource.list.delete.title': 'Supprimer la source de données {name} ?',
   'datasource.list.empty.title': 'Aucune source de données n\'existe',
+  'datasource.list.empty.subtitle': 'Créez votre première source de données',
   'datasource.list.table.active': 'Activer/désactiver',
   'datasource.list.action.desactivate': 'Désactiver la source de données',
   'datasource.list.action.activate': 'Activer la source de données',
