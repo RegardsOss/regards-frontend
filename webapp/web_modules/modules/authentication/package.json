@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss-modules/authentication",
-  "version":"0.4.1",
+  "version" :"0.5.0-SNAPSHOT",,
   "private": true,
   "sideEffects": false,
   "description": "",
