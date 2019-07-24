@@ -194,6 +194,7 @@ class NotificationListComponent extends React.Component {
         },
       }).build(),
     ]
+    const values = { count: nbNotif }
     return [
       <List key={`title-${mode}`}>
         <Subheader
@@ -202,7 +203,7 @@ class NotificationListComponent extends React.Component {
         >
           <div style={notificationStyle.list.subHeader.titleWrapper}>
             {mode === this.state.mode ? <Less /> : <More />}
-            <FormattedMessage id={`user.menu.notification.${mode === MODE.DISPLAY_UNREAD ? 'unread.' : ''}title`} values={{ count: nbNotif }} />
+            <FormattedMessage id={`user.menu.notification.${mode === MODE.DISPLAY_UNREAD ? 'unread.' : ''}title`} values={values} />
           </div>
           {mode === MODE.DISPLAY_UNREAD
             ? <IconButton
