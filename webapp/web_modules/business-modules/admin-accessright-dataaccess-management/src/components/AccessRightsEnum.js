@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -33,8 +33,6 @@ const DATA_ACCESS_ENUM = {
   AUTHORIZED: 'INHERITED_ACCESS',
   // Access denied to files of dataobjets
   REFUSED: 'NO_ACCESS',
-  // Custom access to files of dataobjects. Cusstom means that the access is defined by a plugin
-  AUTHORIZED_BY_PLUGIN: 'CUSTOM_ACCESS',
 }
 
 const QUALITY_LEVEL_ENUM = {

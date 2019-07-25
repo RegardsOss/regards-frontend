@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -130,12 +130,13 @@ const messages = {
     other {{elementsCount} new notifications}
   }`,
   'user.menu.notification.no-notification-for-instance': 'There is no notification for the instance user',
-  'user.menu.notification.title': 'Old notifications',
-  'user.menu.notification.unread.title': 'New notifications',
+  'user.menu.notification.title': 'Old notifications ({count})',
+  'user.menu.notification.unread.title': 'New notifications ({count})',
   'user.menu.notification.empty': 'No new notifications',
   'user.menu.notification.details.sentby': 'Sent by {sender}',
   'user.menu.notification.clearAll': 'Clear all new notifications',
   'user.menu.notification.action.close': 'Close',
+  'user.menu.notification.action.delete.read': 'Delete all read notifications',
 
   'user.menu.profile.leftbar.title': 'User options',
   'user.menu.profile.leftbar.profile': 'Profile',
