@@ -27,6 +27,9 @@ const styles = theme => ({
       [AccessDomain.SESSION_STATUS_ENUM.ACKNOWLEDGED]: theme.tableHeaderColumn.textColor,
       [AccessDomain.SESSION_STATUS_ENUM.ERROR]: theme.formsExtensions.validation.errorColor,
     },
+    smallIconButton: {
+      minWidth: theme.button.iconButtonSize,
+    },
     menuDropDown: {
       minWidth: '0px',
     },

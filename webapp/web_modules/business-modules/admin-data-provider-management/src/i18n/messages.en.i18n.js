@@ -273,6 +273,9 @@ const messages = Object.assign({
   'acquisition-sessions.filters.to.label': 'To',
   'acquisition-sessions.filters.last-session': 'Last session only',
   'acquisition-sessions.filters.errors-only': 'Errors only',
+  'acquisition-sessions.filters.reset': 'Clear filters',
+  'acquisition-sessions.filters.apply': 'Apply filters',
+  'acquisition-sessions.filters.column-selector': 'Select columns to show',
 
 }, Locales.en)
 

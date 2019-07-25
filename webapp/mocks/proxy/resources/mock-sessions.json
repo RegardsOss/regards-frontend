@@ -78,7 +78,7 @@
         "source": "JASON_STATHAM_MOE",
         "creationDate": "2018-07-09T14:37:00Z",
         "lastUpdateDate": "2018-07-09T14:37:00Z",
-        "state": "DELETED",
+        "state": "ERROR",
         "lifeCycle": {
           "aip": {
             "done": 5,
@@ -98,7 +98,7 @@
         "source": "JASON_MOMOA_MOE",
         "creationDate": "2018-07-09T14:37:00Z",
         "lastUpdateDate": "2018-07-09T14:37:00Z",
-        "state": "DELETED",
+        "state": "ERROR",
         "lifeCycle": {
           "products": {
             "running": false,

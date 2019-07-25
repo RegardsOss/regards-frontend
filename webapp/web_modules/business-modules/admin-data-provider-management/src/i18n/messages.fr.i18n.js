@@ -273,6 +273,9 @@ const messages = Object.assign({
   'acquisition-sessions.filters.to.label': 'Au',
   'acquisition-sessions.filters.last-session': 'Dernière session seulement',
   'acquisition-sessions.filters.errors-only': 'Erreurs seulement',
+  'acquisition-sessions.filters.reset': 'Vider les filtres',
+  'acquisition-sessions.filters.apply': 'Appliquer les filtres',
+  'acquisition-sessions.filters.column-selector': 'Selectionnez les colonnes à afficher',
 
 }, Locales.fr)
 

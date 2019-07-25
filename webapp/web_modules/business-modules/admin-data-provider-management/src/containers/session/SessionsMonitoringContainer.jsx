@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import isNil from 'lodash/isNil'
+import isEqual from 'lodash/isEqual'
 import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
@@ -37,8 +39,6 @@ export class SessionsMonitoringContainer extends React.Component {
   })
 
   static mapDispatchToProps = dispatch => ({
-    // TODO 0 100 C'est pas bon DELETE ME OR USE ME
-    //fetchSessions: () => dispatch(sessionsActions.fetchPagedEntityList(0, 100)),
     acknowledgeSessionState: id => dispatch(sessionsActions.updateEntity(id, null, null, null, `${SESSION_ENDPOINT}/{${SESSION_ENTITY_ID}}/acknowledge`)),
   })
 
@@ -54,14 +54,57 @@ export class SessionsMonitoringContainer extends React.Component {
     'column.state': 'state',
   }
 
+  /**
+   * Convert column order to request parameters value
+   */
   static COLUMN_ORDER_TO_QUERY = {
-    ASCENDING_ORDER: 'ASC',
-    DESCENDING_ORDER: 'DESC',
+    [CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER]: 'ASC',
+    [CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER]: 'DESC',
   }
 
+  /**
+   * Default state for filters edition
+   */
+  static DEFAULT_FILTERS_STATE = {
+    source: '',
+    session: '',
+    lastSessionOnly: true,
+    errorsOnly: false,
+    from: null,
+    to: null,
+  }
+
+  /**
+   * Converts columns order and filters state into request parameters
+   * @param {[{columnKey: string, order: string}]} columnsSorting columns sorting definition, where order is a
+   * @param {*} applyingFiltersState filters state from component state
+   * @returns {*} requestParameters as an object compound of string and string arrays
+   */
+  static buildRequestParameters(columnsSorting, applyingFiltersState) {
+    const requestParameters = {
+      sort: columnsSorting.map(({ columnKey, order }) => `${SessionsMonitoringContainer.COLUMN_KEY_TO_QUERY[columnKey]},${SessionsMonitoringContainer.COLUMN_ORDER_TO_QUERY[order]}`),
+    }
+    if (applyingFiltersState.source) {
+      requestParameters.sourceName = applyingFiltersState.source
+    }
+    if (applyingFiltersState.errorsOnly) {
+      // TODO : Voir comment renvoyer la requête à léo
+      requestParameters.filters = [`errorsOnly,${applyingFiltersState.errorsOnly}`]
+    }
+    console.error(requestParameters)
+
+    return requestParameters
+  }
+
+  /**
+   * Initial state
+   */
   state = {
     columnsSorting: [],
-    requestParameters: {},
+    editionFiltersState: SessionsMonitoringContainer.DEFAULT_FILTERS_STATE,
+    applyingFiltersState: SessionsMonitoringContainer.DEFAULT_FILTERS_STATE,
+    requestParameters: SessionsMonitoringContainer.buildRequestParameters([], SessionsMonitoringContainer.DEFAULT_FILTERS_STATE),
+    filtersEdited: false,
   }
 
   onBack = () => {
@@ -88,17 +131,90 @@ export class SessionsMonitoringContainer extends React.Component {
     this.onStateUpdated({ columnsSorting: newOrder })
   }
 
+  /**
+   * User cb : Toggle Errors filter
+   */
+  onToggleErrorsOnly = () => {
+    const { editionFiltersState } = this.state
+    this.onStateUpdated({
+      editionFiltersState: {
+        ...editionFiltersState,
+        errorsOnly: !editionFiltersState.errorsOnly,
+      },
+    })
+  }
+
+  /**
+   * User cb : Toggle Last Session filter
+   */
+  onToggleLastSession = () => {
+    const { editionFiltersState } = this.state
+    this.onStateUpdated({
+      editionFiltersState: {
+        ...editionFiltersState,
+        lastSessionOnly: !editionFiltersState.lastSessionOnly,
+      },
+    })
+  }
+
+  /**
+   * User cb: Change Date From
+   */
+  onChangeFrom = (newDate) => {
+    const { editionFiltersState } = this.state
+    this.onStateUpdated({
+      editionFiltersState: {
+        ...editionFiltersState,
+        from: newDate,
+      },
+    })
+  }
+
+  /**
+   * User cb: Change Date To
+   */
+  onChangeTo = (newDate) => {
+    const { editionFiltersState } = this.state
+    this.onStateUpdated({
+      editionFiltersState: {
+        ...editionFiltersState,
+        to: newDate,
+      },
+    })
+  }
+
+  /**
+   * User callback: Apply edited filters to current request
+   */
+  onApplyFilters = () => {
+    const { editionFiltersState } = this.state
+    this.onStateUpdated({ applyingFiltersState: editionFiltersState })
+  }
+
+  /**
+   * User callback: Reset filter to default
+   */
+  onClearFilters = () => this.onStateUpdated({
+    applyingFiltersState: SessionsMonitoringContainer.DEFAULT_FILTERS_STATE,
+    editionFiltersState: SessionsMonitoringContainer.DEFAULT_FILTERS_STATE,
+  })
+
+
+  /**
+   * Update full state based on changes
+   */
   onStateUpdated = (stateDiff) => {
     const nextState = { ...this.state, ...stateDiff }
-    nextState.requestParameters = {
-      sort: nextState.columnsSorting.map(({ columnKey, order }) => `${SessionsMonitoringContainer.COLUMN_KEY_TO_QUERY[columnKey]},${SessionsMonitoringContainer.COLUMN_ORDER_TO_QUERY[order]}`),
-    }
+    nextState.filtersEdited = !isEqual(nextState.applyingFiltersState, nextState.editionFiltersState)
+    nextState.requestParameters = SessionsMonitoringContainer.buildRequestParameters(nextState.columnsSorting, nextState.applyingFiltersState)
     this.setState(nextState)
   }
 
   render = () => {
     const { acknowledgeSessionState } = this.props
-    const { columnsSorting, requestParameters } = this.state
+    const {
+      columnsSorting, requestParameters, filters, filtersEdited, editionFiltersState,
+    } = this.state
 
     return (
       <SessionsMonitoringComponent
@@ -107,6 +223,14 @@ export class SessionsMonitoringContainer extends React.Component {
         onSort={this.onSort}
         columnsSorting={columnsSorting}
         requestParameters={requestParameters}
+        initialFilters={editionFiltersState}
+        onApplyFilters={this.onApplyFilters}
+        onClearFilters={this.onClearFilters}
+        filtersEdited={filtersEdited}
+        onToggleErrorsOnly={this.onToggleErrorsOnly}
+        onToggleLastSession={this.onToggleLastSession}
+        onChangeFrom={this.onChangeFrom}
+        onChangeTo={this.onChangeTo}
       />
     )
   }

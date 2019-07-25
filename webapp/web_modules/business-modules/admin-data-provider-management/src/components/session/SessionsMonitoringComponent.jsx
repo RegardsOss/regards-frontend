@@ -52,7 +52,21 @@ export class SessionsMonitoringComponent extends React.Component {
     onBack: PropTypes.func.isRequired,
     onAcknowledge: PropTypes.func.isRequired,
     onSort: PropTypes.func.isRequired,
-    filters: PropTypes.objectOf(PropTypes.string),
+    initialFilters: PropTypes.shape({
+      source: PropTypes.string.isRequired,
+      session: PropTypes.string.isRequired,
+      lastSessionOnly: PropTypes.bool.isRequired,
+      errorsOnly: PropTypes.bool.isRequired,
+      from: PropTypes.date,
+      to: PropTypes.date,
+    }).isRequired,
+    onApplyFilters: PropTypes.func.isRequired, // () => ()
+    onClearFilters: PropTypes.func.isRequired, // () => ()
+    filtersEdited: PropTypes.bool.isRequired,
+    onToggleErrorsOnly: PropTypes.func.isRequired,
+    onToggleLastSession: PropTypes.func.isRequired,
+    onChangeFrom: PropTypes.func.isRequired,
+    onChangeTo: PropTypes.func.isRequired,
   }
 
   static defaultProps = {}
@@ -130,10 +144,10 @@ export class SessionsMonitoringComponent extends React.Component {
   render() {
     const { intl: { formatMessage }, muiTheme: { sessionsMonitoring: { rowHeight }, components: { infiniteTable: { admin: { minRowCount, maxRowCount } } } } } = this.context
     const {
-      onBack, onSort, columnsSorting, requestParameters,
+      onBack, onSort, columnsSorting, requestParameters, onApplyFilters, onClearFilters, filtersEdited, onToggleErrorsOnly, onToggleLastSession, initialFilters, onChangeFrom, onChangeTo,
     } = this.props
     const {
-      appliedFilters, errorMessage, sessionToAcknowledge, filters,
+      appliedFilters, errorMessage, sessionToAcknowledge,
     } = this.state
 
     const columns = [
@@ -196,8 +210,14 @@ export class SessionsMonitoringComponent extends React.Component {
           />
           <TableLayout>
             <SessionsMonitoringFiltersComponent
-              initialFilters={filters}
-              applyFilters={this.applyFilters}
+              initialFilters={initialFilters}
+              onApplyFilters={onApplyFilters}
+              onClearFilters={onClearFilters}
+              onToggleErrorsOnly={onToggleErrorsOnly}
+              onToggleLastSession={onToggleLastSession}
+              onChangeFrom={onChangeFrom}
+              onChangeTo={onChangeTo}
+              filtersEdited={filtersEdited}
             />
             {/* Loading, results and refresh button */}
             <PageableInfiniteTableContainer
