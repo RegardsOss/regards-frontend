@@ -9,7 +9,7 @@
   ],
   "email": "leo.mieulet@c-s.fr",
   "url": "http://www.cnes.fr",
-  "license": "GPL-3.0",
+  "license": "GPLv3",
   "type": "SERVICE",
   "conf": {
     "applicationModes": [

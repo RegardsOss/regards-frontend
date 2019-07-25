@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -57,6 +57,7 @@ class NotificationListComponent extends React.Component {
     registerNotify: PropTypes.func,
     readNotification: PropTypes.func,
     readAllNotifications: PropTypes.func,
+    deleteReadNotifications: PropTypes.func,
     notificationActions: PropTypes.instanceOf(BasicPageableActions).isRequired, // BasicPageableActions to retrieve entities from server
     notificationSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // BasicPageableActions to retrieve entities from server
     nbNotification: PropTypes.number,
@@ -181,7 +182,7 @@ class NotificationListComponent extends React.Component {
    * Renders a notification list
    * @param mode display mode
    */
-  renderNotificationList = (mode) => {
+  renderNotificationList = (mode, nbNotif) => {
     const { moduleTheme: { notifications: notificationStyle } } = this.context
     const column = [
       new TableColumnBuilder('label-notif').rowCellDefinition({
@@ -193,6 +194,7 @@ class NotificationListComponent extends React.Component {
         },
       }).build(),
     ]
+    const values = { count: nbNotif }
     return [
       <List key={`title-${mode}`}>
         <Subheader
@@ -201,7 +203,7 @@ class NotificationListComponent extends React.Component {
         >
           <div style={notificationStyle.list.subHeader.titleWrapper}>
             {mode === this.state.mode ? <Less /> : <More />}
-            <FormattedMessage id={`user.menu.notification.${mode === MODE.DISPLAY_UNREAD ? 'unread.' : ''}title`} />
+            <FormattedMessage id={`user.menu.notification.${mode === MODE.DISPLAY_UNREAD ? 'unread.' : ''}title`} values={values} />
           </div>
           {mode === MODE.DISPLAY_UNREAD
             ? <IconButton
@@ -247,14 +249,22 @@ class NotificationListComponent extends React.Component {
       >
         <div style={dialog.wrapper.style}>
           <div style={dialog.list.style} className="col-xs-35 col-lg-25">
-            {this.renderNotificationList(MODE.DISPLAY_UNREAD)}
-            {this.renderNotificationList(MODE.DISPLAY_READ)}
+            {this.renderNotificationList(MODE.DISPLAY_UNREAD, this.props.nbNotification)}
+            {this.renderNotificationList(MODE.DISPLAY_READ, this.props.nbReadNotification)}
           </div>
           <div className="col-xs-65 col-lg-75" style={dialog.details.container.style}>
             <NotificationDetailContainer isInstance={isInstance} notificationId={openedNotification ? openedNotification.id : -1} />
           </div>
         </div>
         <CardActions style={dialog.details.actions.style}>
+          <FlatButton
+            label={
+              <FormattedMessage id="user.menu.notification.action.delete.read" />
+            }
+            key="delete"
+            primary
+            onClick={this.props.deleteReadNotifications}
+          />
           <FlatButton
             label={
               <FormattedMessage id="user.menu.notification.action.close" />

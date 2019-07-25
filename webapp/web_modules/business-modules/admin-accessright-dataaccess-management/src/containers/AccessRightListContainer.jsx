@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -43,6 +43,7 @@ export class AccessRightListContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
+    isFetching: PropTypes.bool.isRequired,
     fetchDatasetWithAccessRightPage: PropTypes.func.isRequired,
     clearSelection: PropTypes.func.isRequired,
     deleteAccessRight: PropTypes.func.isRequired,
@@ -150,6 +151,7 @@ export class AccessRightListContainer extends React.Component {
         onRefresh={this.refresh}
         onFilter={this.filter}
         filters={this.state.filters}
+        isFetching={this.props.isFetching}
       />
     )
   }
@@ -158,6 +160,7 @@ export class AccessRightListContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   meta: datasetWithAccessRightSelectors.getMetaData(state),
   selectedDatasetsWithAccessright: tableSelectors.getToggledElementsAsList(state),
+  isFetching: datasetWithAccessRightSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({

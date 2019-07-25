@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -79,6 +79,10 @@ export { default as getNotificationSelectors } from './notification/Notification
 export { default as NotificationDetailsActions } from './notification/NotificationDetailsActions'
 export { default as getNotificationDetailsReducer } from './notification/NotificationDetailsReducer'
 export { default as getNotificationDetailsSelectors } from './notification/NotificationDetailsSelectors'
+
+export { default as DeleteNotificationActions } from './notification/delete/DeleteNotificationActions'
+export { default as getDeleteNotificationReducer } from './notification/delete/DeleteNotificationReducer'
+export { default as getDeleteNotificationSelectors } from './notification/delete/DeleteNotificationSelectors'
 
 export { default as ReadNotificationActions } from './notification/read/ReadNotificationActions'
 export { default as getReadNotificationReducer } from './notification/read/ReadNotificationReducer'

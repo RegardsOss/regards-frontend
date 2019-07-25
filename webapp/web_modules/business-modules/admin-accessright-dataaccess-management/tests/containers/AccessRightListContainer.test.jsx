@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -67,6 +67,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
         totalElements: 100,
       },
       clearSelection: clearSelectionSpy,
+      isFetching: false,
       fetchDatasetWithAccessRightPage: fetchAccessRightsSpy,
       deleteAccessRight: deleteSpy,
       updateAccessRight: updateSpy,
@@ -96,6 +97,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
         totalElements: 100,
       },
       clearSelection: clearSelectionSpy,
+      isFetching: false,
       fetchDatasetWithAccessRightPage: fetchAccessRightsSpy,
       deleteAccessRight: deleteSpy,
       updateAccessRight: updateSpy,
@@ -144,6 +146,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
         totalElements: 100,
       },
       clearSelection: clearSelectionSpy,
+      isFetching: false,
       fetchDatasetWithAccessRightPage: fetchAccessRightsSpy,
       deleteAccessRight: deleteSpy,
       updateAccessRight: updateSpy,
@@ -194,6 +197,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
         totalElements: 100,
       },
       clearSelection: clearSelectionSpy,
+      isFetching: false,
       fetchDatasetWithAccessRightPage: fetchAccessRightsSpy,
       deleteAccessRight: deleteSpy,
       updateAccessRight: updateSpy,

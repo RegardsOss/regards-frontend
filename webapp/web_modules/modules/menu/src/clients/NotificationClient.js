@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -28,6 +28,7 @@ const namespacePoller = 'menu/notification'
 const namespaceReadPoller = 'menu/notification-read'
 const namespaceResearch = 'menu/notification-research'
 const namespaceDetails = 'menu/notification-details'
+const namespaceDelete = 'menu/notification-delete-read'
 
 // Used to fetch is there is a new notification
 export const notificationPollerActions = new AdminClient.NotificationActions(namespacePoller)
@@ -54,3 +55,9 @@ export const notificationDetailsReducer = AdminClient.getNotificationDetailsRedu
 export const notificationDetailsSelectors = AdminClient.getNotificationDetailsSelectors(['modules.menu', 'notificationDetails'])
 export const notificationDetailsInstanceActions = new AdminClient.NotificationDetailsActions(namespaceDetails, true)
 export const notificationDetailsInstanceReducer = AdminClient.getNotificationDetailsReducer(namespaceDetails, true)
+
+export const deleteNotificationActions = new AdminClient.DeleteNotificationActions(namespaceDelete)
+export const deleteNotificationReducer = AdminClient.getDeleteNotificationReducer(namespaceDelete)
+export const deleteNotificationSelectors = AdminClient.getDeleteNotificationSelectors(['modules.menu', 'notificationDelete'])
+export const deleteNotificationInstanceActions = new AdminClient.DeleteNotificationActions(namespaceDelete, true)
+export const deleteNotificationInstanceReducer = AdminClient.getDeleteNotificationReducer(namespaceDelete, true)

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,7 +20,9 @@ import { borrowRoleReducer } from './clients/BorrowRoleClient'
 import { borrowableRolesReducer } from './clients/BorrowableRolesClient'
 import { myUserReducer } from './clients/MyUserClient'
 import {
-  notificationReducer, notificationDetailsReducer, notificationInstanceReducer, notificationReadPollerReducer, notificationReadPollerInstanceReducer, notificationPollerReducer, notificationPollerInstanceReducer,
+  notificationReducer, notificationDetailsReducer, notificationInstanceReducer,
+  notificationReadPollerReducer, notificationReadPollerInstanceReducer, notificationPollerReducer,
+  notificationPollerInstanceReducer, deleteNotificationReducer,
 } from './clients/NotificationClient'
 import { readNotificationReducer, readNotificationInstanceReducer } from './clients/ReadNotificationClient'
 import { notificationSettingsReducer } from './clients/NotificationSettingsClient'
@@ -47,6 +49,7 @@ export default {
   notificationPollerInstance: notificationPollerInstanceReducer,
   notificationReadPoller: notificationReadPollerReducer,
   notificationReadPollerInstance: notificationReadPollerInstanceReducer,
+  notificationDelete: deleteNotificationReducer,
 
   readNotification: readNotificationReducer,
   readNotificationInstance: readNotificationInstanceReducer,
