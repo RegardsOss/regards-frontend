@@ -21,12 +21,12 @@ import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
 import PageView from 'material-ui/svg-icons/action/pageview'
-import { withI18n, i18nContextType } from '@regardsoss/i18n'
-import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import { CommonDomain } from '@regardsoss/domain'
 import {
-  PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLineLoadingAndResults,
-  ConfirmDialogComponentTypes, ConfirmDialogComponent, CardActionsComponent, FormErrorMessage, Breadcrumb,
+  PageableInfiniteTableContainer, TableColumnBuilder, TableLayout,
+  ConfirmDialogComponentTypes, ConfirmDialogComponent, CardActionsComponent, Breadcrumb,
 } from '@regardsoss/components'
 import { sessionsActions, sessionsSelectors } from '../../clients/session/SessionsClient'
 import { SessionsMonitoringSourceRenderer } from './render/SessionsMonitoringSourceRenderer'
@@ -57,8 +57,8 @@ export class SessionsMonitoringComponent extends React.Component {
       session: PropTypes.string.isRequired,
       lastSessionOnly: PropTypes.bool.isRequired,
       errorsOnly: PropTypes.bool.isRequired,
-      from: PropTypes.date,
-      to: PropTypes.date,
+      from: PropTypes.instanceOf(Date),
+      to: PropTypes.instanceOf(Date),
     }).isRequired,
     onApplyFilters: PropTypes.func.isRequired, // () => ()
     onClearFilters: PropTypes.func.isRequired, // () => ()
@@ -67,6 +67,9 @@ export class SessionsMonitoringComponent extends React.Component {
     onToggleLastSession: PropTypes.func.isRequired,
     onChangeFrom: PropTypes.func.isRequired,
     onChangeTo: PropTypes.func.isRequired,
+    onChangeSource: PropTypes.func.isRequired,
+    onChangeSession: PropTypes.func.isRequired,
+    onColumnsSelector: PropTypes.func.isRequired,
   }
 
   static defaultProps = {}
@@ -91,15 +94,7 @@ export class SessionsMonitoringComponent extends React.Component {
   }
 
   state = {
-    errorMessage: null,
-    appliedFilters: {},
     sessionToAcknowledge: null,
-  }
-
-  applyFilters = (filters) => {
-    this.setState({
-      appliedFilters: filters,
-    })
   }
 
   renderBreadCrump = () => {
@@ -140,15 +135,13 @@ export class SessionsMonitoringComponent extends React.Component {
     this.onCloseAcknowledge()
   }
 
-
   render() {
     const { intl: { formatMessage }, muiTheme: { sessionsMonitoring: { rowHeight }, components: { infiniteTable: { admin: { minRowCount, maxRowCount } } } } } = this.context
     const {
-      onBack, onSort, columnsSorting, requestParameters, onApplyFilters, onClearFilters, filtersEdited, onToggleErrorsOnly, onToggleLastSession, initialFilters, onChangeFrom, onChangeTo,
+      onBack, onSort, columnsSorting, requestParameters, onApplyFilters, onClearFilters, filtersEdited, onToggleErrorsOnly, onToggleLastSession,
+      initialFilters, onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onColumnsSelector,
     } = this.props
-    const {
-      appliedFilters, errorMessage, sessionToAcknowledge,
-    } = this.state
+    const { sessionToAcknowledge } = this.state
 
     const columns = [
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE)
@@ -213,11 +206,14 @@ export class SessionsMonitoringComponent extends React.Component {
               initialFilters={initialFilters}
               onApplyFilters={onApplyFilters}
               onClearFilters={onClearFilters}
+              onChangeSource={onChangeSource}
+              onChangeSession={onChangeSession}
               onToggleErrorsOnly={onToggleErrorsOnly}
               onToggleLastSession={onToggleLastSession}
               onChangeFrom={onChangeFrom}
               onChangeTo={onChangeTo}
               filtersEdited={filtersEdited}
+              onColumnsSelector={onColumnsSelector}
             />
             {/* Loading, results and refresh button */}
             <PageableInfiniteTableContainer

@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import isNil from 'lodash/isNil'
 import isEqual from 'lodash/isEqual'
 import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
@@ -26,7 +25,7 @@ import { CommonDomain } from '@regardsoss/domain'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import {
-  sessionsSelectors, sessionsActions, SESSION_ENDPOINT, SESSION_ENTITY_ID,
+  sessionsActions, SESSION_ENDPOINT, SESSION_ENTITY_ID,
 } from '../../clients/session/SessionsClient'
 import { SessionsMonitoringComponent } from '../../components/session/SessionsMonitoringComponent'
 
@@ -42,11 +41,13 @@ export class SessionsMonitoringContainer extends React.Component {
     acknowledgeSessionState: id => dispatch(sessionsActions.updateEntity(id, null, null, null, `${SESSION_ENDPOINT}/{${SESSION_ENTITY_ID}}/acknowledge`)),
   })
 
-
   static propTypes = {
     acknowledgeSessionState: PropTypes.func.isRequired,
   }
 
+  /**
+   * Convert column id to query corresponding names
+   */
   static COLUMN_KEY_TO_QUERY = {
     'column.name': 'name',
     'column.source': 'source',
@@ -85,11 +86,24 @@ export class SessionsMonitoringContainer extends React.Component {
       sort: columnsSorting.map(({ columnKey, order }) => `${SessionsMonitoringContainer.COLUMN_KEY_TO_QUERY[columnKey]},${SessionsMonitoringContainer.COLUMN_ORDER_TO_QUERY[order]}`),
     }
     if (applyingFiltersState.source) {
-      requestParameters.sourceName = applyingFiltersState.source
+      requestParameters.source = [applyingFiltersState.source]
+    }
+    if (applyingFiltersState.session) {
+      requestParameters.name = [applyingFiltersState.session]
     }
     if (applyingFiltersState.errorsOnly) {
-      // TODO : Voir comment renvoyer la requête à léo
-      requestParameters.filters = [`errorsOnly,${applyingFiltersState.errorsOnly}`]
+      requestParameters.state = ['']
+    }
+    if (applyingFiltersState.lastSessionOnly) {
+      requestParameters.onlyLastSession = ['']
+    }
+    if (applyingFiltersState.from) {
+      const dateFrom = new Date(applyingFiltersState.from)
+      requestParameters.from = [dateFrom.toISOString()]
+    }
+    if (applyingFiltersState.to) {
+      const dateTo = new Date(applyingFiltersState.to)
+      requestParameters.to = [dateTo.toISOString()]
     }
     console.error(requestParameters)
 
@@ -107,6 +121,9 @@ export class SessionsMonitoringContainer extends React.Component {
     filtersEdited: false,
   }
 
+  /**
+   * User cb: Back to board
+   */
   onBack = () => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/acquisition/board`
@@ -114,7 +131,7 @@ export class SessionsMonitoringContainer extends React.Component {
   }
 
   /**
-   * Manage column sorting
+   * User cb: Manage column sorting
    */
   onSort = (columnKey, order) => {
     const { columnsSorting } = this.state
@@ -132,7 +149,33 @@ export class SessionsMonitoringContainer extends React.Component {
   }
 
   /**
-   * User cb : Toggle Errors filter
+   * User cb: Change source filter
+   */
+  onChangeSource = (event, newSource) => {
+    const { editionFiltersState } = this.state
+    this.onStateUpdated({
+      editionFiltersState: {
+        ...editionFiltersState,
+        source: newSource,
+      },
+    })
+  }
+
+  /**
+   * User cb: Change session filter
+   */
+  onChangeSession = (event, newSession) => {
+    const { editionFiltersState } = this.state
+    this.onStateUpdated({
+      editionFiltersState: {
+        ...editionFiltersState,
+        session: newSession,
+      },
+    })
+  }
+
+  /**
+   * User cb: Toggle Errors filter
    */
   onToggleErrorsOnly = () => {
     const { editionFiltersState } = this.state
@@ -199,6 +242,12 @@ export class SessionsMonitoringContainer extends React.Component {
     editionFiltersState: SessionsMonitoringContainer.DEFAULT_FILTERS_STATE,
   })
 
+  /**
+   * User cb: Columns Selector
+   */
+  onColumnsSelector = () => {
+    //TODO: Columns Selector
+  }
 
   /**
    * Update full state based on changes
@@ -213,7 +262,7 @@ export class SessionsMonitoringContainer extends React.Component {
   render = () => {
     const { acknowledgeSessionState } = this.props
     const {
-      columnsSorting, requestParameters, filters, filtersEdited, editionFiltersState,
+      columnsSorting, requestParameters, filtersEdited, editionFiltersState,
     } = this.state
 
     return (
@@ -227,10 +276,13 @@ export class SessionsMonitoringContainer extends React.Component {
         onApplyFilters={this.onApplyFilters}
         onClearFilters={this.onClearFilters}
         filtersEdited={filtersEdited}
+        onChangeSource={this.onChangeSource}
+        onChangeSession={this.onChangeSession}
         onToggleErrorsOnly={this.onToggleErrorsOnly}
         onToggleLastSession={this.onToggleLastSession}
         onChangeFrom={this.onChangeFrom}
         onChangeTo={this.onChangeTo}
+        onColumnsSelector={this.onColumnsSelector}
       />
     )
   }

@@ -16,17 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Filter from 'mdi-material-ui/Filter'
-import Close from 'mdi-material-ui/Close'
-import FlatButton from 'material-ui/FlatButton'
-import Menu from 'mdi-material-ui/ViewSequential'
-import TextField from 'material-ui/TextField'
-import Checkbox from 'material-ui/Checkbox'
 import {
-  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField,
+  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
 } from '@regardsoss/components'
-import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
+import { SessionsMonitoringFilterErrorsOnlyComponent } from './filters/SessionsMonitoringFilterErrorsOnlyComponent'
+import { SessionsMonitoringFilterLastSessionComponent } from './filters/SessionsMonitoringFilterLastSessionComponent'
+import { SessionsMonitoringFilterSourceComponent } from './filters/SessionsMonitoringFilterSourceComponent'
+import { SessionsMonitoringFilterSessionComponent } from './filters/SessionsMonitoringFilterSessionComponent'
+import { SessionsMonitoringFilterFromComponent } from './filters/SessionsMonitoringFilterFromComponent'
+import { SessionsMonitoringFilterToComponent } from './filters/SessionsMonitoringFilterToComponent'
+import { SessionsMonitoringFilterClearComponent } from './filters/SessionsMonitoringFilterClearComponent'
+import { SessionsMonitoringFilterApplyComponent } from './filters/SessionsMonitoringFilterApplyComponent'
+import { SessionsMonitoringFilterColumnsSelectorComponent } from './filters/SessionsMonitoringFilterColumnsSelectorComponent'
 
 /**
  * Filter component for session board
@@ -39,8 +40,8 @@ export class SessionsMonitoringFiltersComponent extends React.Component {
       session: PropTypes.string.isRequired,
       lastSessionOnly: PropTypes.bool.isRequired,
       errorsOnly: PropTypes.bool.isRequired,
-      from: PropTypes.date,
-      to: PropTypes.date,
+      from: PropTypes.instanceOf(Date),
+      to: PropTypes.instanceOf(Date),
     }).isRequired,
     onApplyFilters: PropTypes.func.isRequired,
     onClearFilters: PropTypes.func.isRequired,
@@ -49,85 +50,64 @@ export class SessionsMonitoringFiltersComponent extends React.Component {
     onToggleLastSession: PropTypes.func.isRequired,
     onChangeFrom: PropTypes.func.isRequired,
     onChangeTo: PropTypes.func.isRequired,
-  }
-
-  static defaultProps = {}
-
-  static contextTypes = {
-    ...i18nContextType,
-    ...themeContextType,
+    onChangeSource: PropTypes.func.isRequired,
+    onChangeSession: PropTypes.func.isRequired,
+    onColumnsSelector: PropTypes.func.isRequired,
   }
 
   render() {
     const {
-      filtersEdited, onToggleErrorsOnly, onApplyFilters, onClearFilters, onToggleLastSession, onChangeFrom, onChangeTo,
+      filtersEdited, onToggleErrorsOnly, onApplyFilters, onClearFilters, onToggleLastSession, onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onColumnsSelector,
       initialFilters: {
         source, session, lastSessionOnly, errorsOnly, from, to,
       },
     } = this.props
-    const { intl, moduleTheme: { sessionsStyles: { smallIconButton } } } = this.context
+
     return (
       <TableHeaderLine>
         <TableHeaderOptionsArea reducible alignLeft>
           <TableHeaderOptionGroup>
-            <TextField
-              // style={filter.fieldStyle}
-              hintText={intl.formatMessage({
-                id: 'acquisition-sessions.filters.source',
-              })}
-              onChange={this.changeId}
-              defaultValue={source}
-              // value={get(this.state, 'filters.id', '')}
+            <SessionsMonitoringFilterSourceComponent
+              onChangeSource={onChangeSource}
+              source={source}
+            />
+            <SessionsMonitoringFilterSessionComponent
+              onChangeSession={onChangeSession}
+              session={session}
             />
           </TableHeaderOptionGroup>
           <TableHeaderOptionGroup>
-            <Checkbox
-              label={intl.formatMessage({ id: 'acquisition-sessions.filters.last-session' })}
-              onCheck={onToggleLastSession}
-              checked={lastSessionOnly}
+            <SessionsMonitoringFilterLastSessionComponent
+              onToggleLastSession={onToggleLastSession}
+              lastSession={lastSessionOnly}
             />
-            <Checkbox
-              label={intl.formatMessage({ id: 'acquisition-sessions.filters.errors-only' })}
-              onCheck={onToggleErrorsOnly}
-              checked={errorsOnly}
+            <SessionsMonitoringFilterErrorsOnlyComponent
+              onToggleErrorsOnly={onToggleErrorsOnly}
+              errorsOnly={errorsOnly}
             />
           </TableHeaderOptionGroup>
           <TableHeaderOptionGroup>
-            <DatePickerField
-              dateHintText={intl.formatMessage({ id: 'acquisition-sessions.filters.from.label' })}
-              onChange={onChangeFrom}
-              locale={intl.locale}
-              value={from}
+            <SessionsMonitoringFilterFromComponent
+              onChangeFrom={onChangeFrom}
+              from={from}
             />
-            <DatePickerField
-              value={to}
-              defaultTime="23:59:59"
-              dateHintText={intl.formatMessage({ id: 'acquisition-sessions.filters.to.label' })}
-              onChange={onChangeTo}
-              locale={intl.locale}
+            <SessionsMonitoringFilterToComponent
+              onChangeTo={onChangeTo}
+              to={to}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
         <TableHeaderOptionsArea reducible>
           <TableHeaderOptionGroup>
-            <FlatButton
-              label={intl.formatMessage({ id: 'acquisition-sessions.filters.reset' })}
-              icon={<Close />}
-              //disabled={!this.state.filters.id && !this.state.filters.to && !this.state.filters.from}
-              onClick={onClearFilters}
+            <SessionsMonitoringFilterClearComponent
+              onClearFilters={onClearFilters}
             />
-            <FlatButton
-              label={intl.formatMessage({ id: 'acquisition-sessions.filters.apply' })}
-              icon={<Filter />}
-              disabled={!filtersEdited}
-              onClick={onApplyFilters}
+            <SessionsMonitoringFilterApplyComponent
+              onApplyFilters={onApplyFilters}
+              filtersEdited={filtersEdited}
             />
-            <FlatButton
-              icon={<Menu />}
-              fullWidth={false}
-              onClick={this.handleColumnFilter}
-              style={smallIconButton}
-              title={intl.formatMessage({ id: 'acquisition-sessions.filters.column-selector' })}
+            <SessionsMonitoringFilterColumnsSelectorComponent
+              onColumnsSelector={onColumnsSelector}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>

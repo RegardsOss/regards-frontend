@@ -16,17 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccessShapes } from '@regardsoss/shape'
+
+import TextField from 'material-ui/TextField'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { DateValueRender } from '@regardsoss/components'
+
 /**
- * Comment Here
- * @author Kevin Picart
+ * Session filter
+ * @author Kévin Picart
  */
-export class SessionsMonitoringCreationDateRenderer extends React.Component {
+export class SessionsMonitoringFilterSessionComponent extends React.Component {
   static propTypes = {
-    entity: AccessShapes.Session.isRequired,
+    onChangeSession: PropTypes.func.isRequired,
+    session: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -35,14 +37,15 @@ export class SessionsMonitoringCreationDateRenderer extends React.Component {
   }
 
   render() {
-    const { moduleTheme: { sessionsStyles: { gridSessionCell: { gridSessionContainer, headerSession } } } } = this.context
-    const { entity } = this.props
+    const { onChangeSession, session } = this.props
+    const { intl: { formatMessage }, moduleTheme } = this.context
     return (
-      <div style={gridSessionContainer}>
-        <div style={headerSession}>
-          <DateValueRender value={entity.content.creationDate} multilineDisplay />
-        </div>
-      </div>
+      <TextField
+      // style={filter.fieldStyle}
+        hintText={formatMessage({ id: 'acquisition-sessions.filters.session' })}
+        onChange={onChangeSession}
+        defaultValue={session}
+      />
     )
   }
 }

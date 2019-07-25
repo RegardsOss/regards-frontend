@@ -35,7 +35,7 @@ export class SessionsMonitoringSourceRenderer extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage }, muiTheme, moduleTheme: { sessionsStyles: { gridSessionCell: { gridSessionContainer, headerSession } } } } = this.context
+    const { moduleTheme: { sessionsStyles: { gridSessionCell: { gridSessionContainer, headerSession } } } } = this.context
     const { entity } = this.props
     return (
       <div style={gridSessionContainer}>

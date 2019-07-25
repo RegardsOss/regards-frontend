@@ -16,33 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccessShapes } from '@regardsoss/shape'
+
+import Checkbox from 'material-ui/Checkbox'
 import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
-import { DateValueRender } from '@regardsoss/components'
+
 /**
- * Comment Here
- * @author Kevin Picart
+ * Filter render for Last Session Only
+ * @author Kévin Picart
  */
-export class SessionsMonitoringCreationDateRenderer extends React.Component {
+export class SessionsMonitoringFilterLastSessionComponent extends React.Component {
   static propTypes = {
-    entity: AccessShapes.Session.isRequired,
+    onToggleLastSession: PropTypes.func.isRequired,
+    lastSession: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
-    ...themeContextType,
     ...i18nContextType,
   }
 
   render() {
-    const { moduleTheme: { sessionsStyles: { gridSessionCell: { gridSessionContainer, headerSession } } } } = this.context
-    const { entity } = this.props
+    const { onToggleLastSession, lastSession } = this.props
+    const { intl: { formatMessage } } = this.context
     return (
-      <div style={gridSessionContainer}>
-        <div style={headerSession}>
-          <DateValueRender value={entity.content.creationDate} multilineDisplay />
-        </div>
-      </div>
+      <Checkbox
+        label={formatMessage({ id: 'acquisition-sessions.filters.last-session' })}
+        onCheck={onToggleLastSession}
+        checked={lastSession}
+      />
     )
   }
 }

@@ -36,7 +36,7 @@ export class SessionsMonitoringLastModificationRenderer extends React.Component 
   }
 
   render() {
-    const { intl: { formatNumber }, moduleTheme: { sessionsStyles: { gridSessionCell: { gridSessionContainer, headerSession } } } } = this.context
+    const { moduleTheme: { sessionsStyles: { gridSessionCell: { gridSessionContainer, headerSession } } } } = this.context
     const { entity } = this.props
     return (
       <div style={gridSessionContainer}>

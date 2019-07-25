@@ -16,33 +16,35 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccessShapes } from '@regardsoss/shape'
+
+import FlatButton from 'material-ui/FlatButton'
+import Filter from 'mdi-material-ui/Filter'
 import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
-import { DateValueRender } from '@regardsoss/components'
+
 /**
- * Comment Here
- * @author Kevin Picart
+ * Apply filters renderer
+ * @author Kévin Picart
  */
-export class SessionsMonitoringCreationDateRenderer extends React.Component {
+export class SessionsMonitoringFilterApplyComponent extends React.Component {
   static propTypes = {
-    entity: AccessShapes.Session.isRequired,
+    onApplyFilters: PropTypes.func.isRequired,
+    filtersEdited: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
-    ...themeContextType,
     ...i18nContextType,
   }
 
   render() {
-    const { moduleTheme: { sessionsStyles: { gridSessionCell: { gridSessionContainer, headerSession } } } } = this.context
-    const { entity } = this.props
+    const { onApplyFilters, filtersEdited } = this.props
+    const { intl: { formatMessage } } = this.context
     return (
-      <div style={gridSessionContainer}>
-        <div style={headerSession}>
-          <DateValueRender value={entity.content.creationDate} multilineDisplay />
-        </div>
-      </div>
+      <FlatButton
+        label={formatMessage({ id: 'acquisition-sessions.filters.apply' })}
+        icon={<Filter />}
+        disabled={!filtersEdited}
+        onClick={onApplyFilters}
+      />
     )
   }
 }

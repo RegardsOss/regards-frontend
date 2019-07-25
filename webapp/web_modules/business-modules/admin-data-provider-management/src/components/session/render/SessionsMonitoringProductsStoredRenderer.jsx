@@ -41,7 +41,6 @@ class SessionsMonitoringProductsStored extends React.Component {
   render() {
     const {
       intl: { formatMessage, formatNumber },
-      muiTheme,
       moduleTheme: {
         sessionsStyles: {
           menuDropDown,
@@ -49,10 +48,6 @@ class SessionsMonitoringProductsStored extends React.Component {
             gridContainer, gridHeaderContainer, infosContainer, lineContainer, listValues, barGraphContainer, cellContainer,
             barGraph: {
               done, pending, error,
-            },
-            acquiredProductState: {
-              runningIconColor,
-              running,
             },
             lines: {
               one, two, three,

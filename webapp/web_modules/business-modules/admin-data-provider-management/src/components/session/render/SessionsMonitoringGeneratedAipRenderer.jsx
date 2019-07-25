@@ -35,7 +35,7 @@ export class SessionsMonitoringGeneratedAipRenderer extends React.Component {
   }
 
   render() {
-    const { intl: { formatNumber }, muiTheme, moduleTheme: { sessionsStyles: { gridSessionCell: { gridSessionContainer, headerSession } } } } = this.context
+    const { intl: { formatNumber }, moduleTheme: { sessionsStyles: { gridSessionCell: { gridSessionContainer, headerSession } } } } = this.context
     const { entity } = this.props
     return (
       <div style={gridSessionContainer}>

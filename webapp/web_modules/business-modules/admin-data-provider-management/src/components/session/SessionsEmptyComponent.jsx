@@ -27,7 +27,6 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 
 export class SessionsEmptyComponent extends React.Component {
-
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,

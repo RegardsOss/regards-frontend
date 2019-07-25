@@ -16,33 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccessShapes } from '@regardsoss/shape'
+
+import FlatButton from 'material-ui/FlatButton'
+import Menu from 'mdi-material-ui/ViewSequential'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { DateValueRender } from '@regardsoss/components'
+
 /**
- * Comment Here
- * @author Kevin Picart
+ * Columns Selector
+ * @author Kévin Picart
  */
-export class SessionsMonitoringCreationDateRenderer extends React.Component {
+export class SessionsMonitoringFilterColumnsSelectorComponent extends React.Component {
   static propTypes = {
-    entity: AccessShapes.Session.isRequired,
+    onColumnsSelector: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
-    ...themeContextType,
     ...i18nContextType,
+    ...themeContextType,
   }
 
   render() {
-    const { moduleTheme: { sessionsStyles: { gridSessionCell: { gridSessionContainer, headerSession } } } } = this.context
-    const { entity } = this.props
+    const { onColumnsSelector } = this.props
+    const { intl: { formatMessage }, moduleTheme: { sessionsStyles: { smallIconButton } } } = this.context
+
     return (
-      <div style={gridSessionContainer}>
-        <div style={headerSession}>
-          <DateValueRender value={entity.content.creationDate} multilineDisplay />
-        </div>
-      </div>
+      <FlatButton
+        icon={<Menu />}
+        fullWidth={false}
+        onClick={onColumnsSelector}
+        style={smallIconButton}
+        title={formatMessage({ id: 'acquisition-sessions.filters.column-selector' })}
+      />
     )
   }
 }

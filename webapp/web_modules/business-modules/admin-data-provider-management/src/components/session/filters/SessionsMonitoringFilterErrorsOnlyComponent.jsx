@@ -16,33 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccessShapes } from '@regardsoss/shape'
+
+import Checkbox from 'material-ui/Checkbox'
 import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
-import { DateValueRender } from '@regardsoss/components'
+
 /**
- * Comment Here
- * @author Kevin Picart
+ * Filter ErrorOnly
+ * @author Kévin Picart
  */
-export class SessionsMonitoringCreationDateRenderer extends React.Component {
+export class SessionsMonitoringFilterErrorsOnlyComponent extends React.Component {
   static propTypes = {
-    entity: AccessShapes.Session.isRequired,
+    onToggleErrorsOnly: PropTypes.func.isRequired,
+    errorsOnly: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
-    ...themeContextType,
     ...i18nContextType,
   }
 
   render() {
-    const { moduleTheme: { sessionsStyles: { gridSessionCell: { gridSessionContainer, headerSession } } } } = this.context
-    const { entity } = this.props
+    const { onToggleErrorsOnly, errorsOnly } = this.props
+    const { intl: { formatMessage } } = this.context
+
     return (
-      <div style={gridSessionContainer}>
-        <div style={headerSession}>
-          <DateValueRender value={entity.content.creationDate} multilineDisplay />
-        </div>
-      </div>
+      <Checkbox
+        label={formatMessage({ id: 'acquisition-sessions.filters.errors-only' })}
+        onCheck={onToggleErrorsOnly}
+        checked={errorsOnly}
+      />
     )
   }
 }

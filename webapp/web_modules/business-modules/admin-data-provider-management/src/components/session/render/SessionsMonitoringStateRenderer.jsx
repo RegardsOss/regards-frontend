@@ -58,7 +58,6 @@ export class SessionsMonitoringStateRenderer extends React.Component {
   render() {
     const {
       intl: { formatMessage },
-      muiTheme,
       moduleTheme: {
         sessionsStyles: {
           iconColor,
