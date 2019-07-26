@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -67,15 +67,15 @@ export class TitleAndTabsContainer extends React.Component {
 
   /** Defines tabs in the order they be shown */
   static TABS_ORDER = [
-    UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS,
-    UIDomain.ResultsContextConstants.TABS_ENUM.DESCRIPTION,
-    UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS,
+    UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+    UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
+    UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
   ]
 
   /** Closable tabs */
   static CLOSABLE_TABS = [
-    UIDomain.ResultsContextConstants.TABS_ENUM.DESCRIPTION,
-    UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS,
+    UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
+    UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
   ]
 
   /** Default state: only results visible */
@@ -85,7 +85,7 @@ export class TitleAndTabsContainer extends React.Component {
       fr: '',
     },
     tabs: [{
-      type: UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS,
+      type: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       selected: true,
     }],
   }
@@ -110,7 +110,7 @@ export class TitleAndTabsContainer extends React.Component {
     const { resultsContext, description, page } = newProps
     const newState = { ...this.state }
     // 1 - Compute localized title: parent selected entity, page or description
-    const resultsContextTags = resultsContext.tabs[UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS].criteria.contextTags
+    const resultsContextTags = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.contextTags
     if (resultsContextTags.length) {
       const mainTagLabel = resultsContextTags[0].label
       newState.localizedTitle = { en: mainTagLabel, fr: mainTagLabel }
@@ -122,14 +122,14 @@ export class TitleAndTabsContainer extends React.Component {
       let tabVisible
       let tabName = null
       switch (tabType) {
-        case UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS:
-          tabVisible = true
+        case UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS:
+          tabVisible = true // always visible
           break
-        case UIDomain.ResultsContextConstants.TABS_ENUM.DESCRIPTION:
+        case UIDomain.RESULTS_TABS_ENUM.DESCRIPTION:
           // visible when there is at least one described entity
-          tabVisible = resultsContext.tabs[tabType].descriptionPath > 0
+          tabVisible = resultsContext.tabs[tabType].descriptionPath.length > 0
           break
-        case UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS: {
+        case UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS: {
           const { contextTags } = resultsContext.tabs[tabType].criteria
           // visible when there is root context tag
           tabVisible = contextTags.length > 0
@@ -139,7 +139,6 @@ export class TitleAndTabsContainer extends React.Component {
         default:
           throw new Error(`Unknwon tab type ${tabType}`)
       }
-      tabVisible = true // TODO delete
       return tabVisible ? [
         ...acc, {
           tabType,
@@ -157,7 +156,7 @@ export class TitleAndTabsContainer extends React.Component {
 
   /**
    * User callback: Updates results context with selected tab.
-   * @param {string} selectedTab selected tab type, one of UIDomain.ResultsContextConstants.TABS
+   * @param {string} selectedTab selected tab type, one of UIDomain.RESULTS_TABS
    */
   onTabSelected = (selectedTab) => {
     const { moduleId, resultsContext, updateResultsContext } = this.props
@@ -168,22 +167,22 @@ export class TitleAndTabsContainer extends React.Component {
 
   /**
    * User callback: Updates results context with selected tab.
-   * @param {string} closedTabType closed tab type, one of UIDomain.ResultsContextConstants.TABS
+   * @param {string} closedTabType closed tab type, one of UIDomain.RESULTS_TABS
    */
   onTabClosed = (closedTabType) => {
     const { moduleId, updateResultsContext } = this.props
     switch (closedTabType) {
-      case UIDomain.ResultsContextConstants.TABS_ENUM.DESCRIPTION:
+      case UIDomain.RESULTS_TABS_ENUM.DESCRIPTION:
         updateResultsContext(moduleId, {
-          selectedTab: UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS,
+          selectedTab: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
           tabs: {
             [closedTabType]: { descriptionPath: [] },
           },
         })
         break
-      case UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS:
+      case UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS:
         updateResultsContext(moduleId, {
-          selectedTab: UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS,
+          selectedTab: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
           tabs: {
             [closedTabType]: {
               criteria: { contextTags: [] },
@@ -191,7 +190,7 @@ export class TitleAndTabsContainer extends React.Component {
           },
         })
         break
-      case UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS:
+      case UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS:
         throw new Error(`Unclosable tab type ${closedTabType}`)
       default:
         throw new Error(`Unknwon tab type ${closedTabType}`)

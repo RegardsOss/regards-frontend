@@ -144,10 +144,10 @@ export class ContextManager extends React.Component {
     // 1 - Convert module configuration into results context
     const contextFromConfiguration = ContextInitializationHelper.buildDefaultResultsContext(configuration, attributeModels)
     // 2 - Report any parent control already added in resolved context
-    const { contextTags = [], otherFilters = [] } = get(resultsContext, `tabs.${UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS}.criteria`, {})
-    contextFromConfiguration.tabs[UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS].criteria.contextTags = contextTags
-    contextFromConfiguration.tabs[UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS].criteria.otherFilters = otherFilters
-
+    const { contextTags = [], otherFilters = [] } = get(resultsContext, `tabs.${UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS}.criteria`, {})
+    contextFromConfiguration.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.contextTags = contextTags
+    contextFromConfiguration.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.otherFilters = otherFilters
+    // TODO: check coherency (due to non retrieved URNs)
     // 3 - Resolve context from URL then commit it to module state
     URLContextHelper.resolveContextFromURL(contextFromConfiguration, fetchEntity)
       .then((contextWithURL) => {

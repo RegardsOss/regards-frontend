@@ -28,4 +28,5 @@ export {
 export { PRESENTATION_STATE_ENUM, PRESENTATION_STATE } from './ModulePresentationState'
 export { default as ResultsContextConstants } from './ResultsContextConstants'
 export { RESULTS_VIEW_MODES_ENUM, RESULTS_VIEW_MODES } from './ResultsViewModeEnum'
+export { RESULTS_TABS, RESULTS_LIST_TABS, RESULTS_TABS_ENUM } from './ResultsTabs'
 export { getAdminURL, getModuleURL, getModuleDefaultIconURL } from './URLHelper'

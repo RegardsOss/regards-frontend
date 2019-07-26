@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -30,7 +30,7 @@ import { themeContextType } from '@regardsoss/theme'
  */
 class TabComponent extends React.Component {
   static propTypes = {
-    tabType: PropTypes.oneOf(UIDomain.ResultsContextConstants.TABS).isRequired,
+    tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
     tabName: PropTypes.string, // specific parameter for tabs with name
     selected: PropTypes.bool.isRequired,
     closable: PropTypes.bool.isRequired,
@@ -47,15 +47,15 @@ class TabComponent extends React.Component {
 
   /** Render data by type */
   static RENDER_DATA_BY_TYPE = {
-    [UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS]: {
+    [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
       labelKey: 'search.results.tab.main.results',
       IconConstructor: ResultsIcon,
     },
-    [UIDomain.ResultsContextConstants.TABS_ENUM.DESCRIPTION]: {
+    [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
       labelKey: 'search.results.tab.description',
       IconConstructor: DescriptionIcon,
     },
-    [UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS]: {
+    [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
       labelKey: 'search.results.tab.tag.results',
       IconConstructor: ResultsIcon,
     },

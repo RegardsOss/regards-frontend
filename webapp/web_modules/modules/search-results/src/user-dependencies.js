@@ -17,14 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { searchDatasetsActions, searchDataobjectsActions } from './clients/SearchEntitiesClient'
-
+import {
+  mainSearchDataobjectsActions,
+  mainSearchDatasetsActions,
+  mainSearchDatasetsFromDataObjectsActions,
+} from './clients/SearchEntitiesClient'
 
 /**
  * User module dependencies, not exported but used internally to let the module show dependencies / authentication messages
  * @author Raphaël Mechali
  */
 export const dependencies = [
-  searchDatasetsActions.getDependency(RequestVerbEnum.GET_LIST),
-  searchDataobjectsActions.getDependency(RequestVerbEnum.GET_LIST),
+  // Nota: main / tag actions have same dependencies
+  mainSearchDataobjectsActions.getDependency(RequestVerbEnum.GET_LIST),
+  mainSearchDatasetsActions.getDependency(RequestVerbEnum.GET_LIST),
+  mainSearchDatasetsFromDataObjectsActions.getDependency(RequestVerbEnum.GET_LIST),
 ]

@@ -22,22 +22,6 @@ import { DamDomain, AccessDomain, CommonDomain } from '@regardsoss/domain'
  * Holds some entities for tests
  * @author Raphaël Mechali
  */
-
-export const documentEntity = {
-  content: {
-    entityType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
-    id: 'URN:AIP:DOCUMENT:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1',
-    providerId: 'provider1',
-    label: 'EmptyDoc',
-    model: '1',
-    tags: [],
-    groups: ['PublicDocumentGroup'],
-    properties: {},
-    services: [],
-    files: {},
-  },
-}
-
 export const datasetEntity = {
   content: {
     entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
@@ -118,5 +102,23 @@ export const dataEntityWithServices = {
         type: AccessDomain.pluginTypes.CATALOG,
       },
     }],
+  },
+}
+
+export const anotherDataEntity = {
+  content: {
+    entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+    id: 'URN:AIP:DATA:project1:XXX:V1',
+    providerId: 'Provider2',
+    label: 'my data2',
+    model: '1',
+    files: { },
+    my: {
+      attr: {
+        1: 'someValue',
+        2: 'someOtherValue',
+      },
+    },
+    tags: ['test-tag2'],
   },
 }

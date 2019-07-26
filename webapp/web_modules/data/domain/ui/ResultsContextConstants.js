@@ -16,25 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
 import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
 import { MAP_SELECTION_MODES_ENUM } from './MapSelectionModeEnum'
 import { MIZAR_LAYER_TYPES_ENUM } from './mizar-api/MizarLayerTypes'
 import { RESULTS_VIEW_MODES_ENUM } from './ResultsViewModeEnum'
+import { RESULTS_TABS, RESULTS_TABS_ENUM } from './ResultsTabs'
 
 /**
  * Holds constants and accessors related to results context
  * @author Raphaël Mechali
  */
 
-/** Available tabs in results model */
-const TABS_ENUM = {
-  MAIN_RESULTS: 'MAIN_RESULTS',
-  DESCRIPTION: 'DESCRIPTION',
-  TAG_RESULTS: 'TAG_RESULTS',
-}
-
-const TABS = values(TABS_ENUM)
+/** Preferred initial entity type in results types */
+const RESULTS_INITIAL_TYPE_PREFERENCE = [
+  ENTITY_TYPES_ENUM.DATASET,
+  ENTITY_TYPES_ENUM.DATA,
+]
 
 /** Default view mode for data */
 const DEFAULT_VIEW_MODE = RESULTS_VIEW_MODES_ENUM.LIST
@@ -86,9 +83,9 @@ const DISABLED_TYPE_STATE = {
 
 /** Default results context */
 const DEFAULT_RESULTS_CONTEXT = {
-  selectedTab: TABS_ENUM.MAIN_RESULTS,
+  selectedTab: RESULTS_TABS_ENUM.MAIN_RESULTS,
   tabs: {
-    [TABS_ENUM.MAIN_RESULTS]: {
+    [RESULTS_TABS_ENUM.MAIN_RESULTS]: {
       criteria: {
         contextTags: [],
         otherFilters: [],
@@ -104,8 +101,8 @@ const DEFAULT_RESULTS_CONTEXT = {
         [ENTITY_TYPES_ENUM.DATASET]: DISABLED_TYPE_STATE,
       }).isRequired,
     },
-    [TABS_ENUM.DESCRIPTION]: { descriptionPath: [] },
-    [TABS_ENUM.TAG_RESULTS]: {
+    [RESULTS_TABS_ENUM.DESCRIPTION]: { descriptionPath: [] },
+    [RESULTS_TABS_ENUM.TAG_RESULTS]: {
       criteria: {
         contextTags: [],
         otherFilters: [],
@@ -118,6 +115,7 @@ const DEFAULT_RESULTS_CONTEXT = {
       selectedType: ENTITY_TYPES_ENUM.DATA,
       types: PropTypes.shape({
         [ENTITY_TYPES_ENUM.DATA]: DISABLED_TYPE_STATE,
+        [ENTITY_TYPES_ENUM.DATASET]: DISABLED_TYPE_STATE,
       }).isRequired,
     },
   },
@@ -125,18 +123,26 @@ const DEFAULT_RESULTS_CONTEXT = {
 
 
 /**
- * Extracts and returns current view state (type and mode)
+ * Extracts and returns current view state (type and mode) in results tab
  * @param {*} resultsContext results context (respects corresponding shape)
- * @return {{type: string, mode: string, currentTypeState: *, currentModeState: *}} current type, current type state, current mode and current mode
+ * @param {string} tabType tab (one of RESULTS_TABS_ENUM.MAIN_RESULTS | RESULTS_TABS_ENUM.TAG_RESULTS)
+ * @return {{tab: *, selectedType: string, selectedMode: string, selectedTypeState: *, selectedModeState: *}} tab, selected type,
+ * selected type state, selected mode and selected mode
  */
-function getViewData(resultsContext = {}) {
-  const { type, typeState } = resultsContext
-  const currentTypeState = typeState && type ? typeState[type] : DISABLED_TYPE_STATE
+function getResultsViewData(resultsContext = {}, tabType) {
+  // check tab type
+  if (!RESULTS_TABS.includes(tabType)) {
+    throw new Error(`Invalid tab type ${tabType}`)
+  }
+  const tab = resultsContext.tabs[tabType]
+  const { selectedType, types } = tab
+  const selectedTypeState = selectedType && types ? types[selectedType] : DISABLED_TYPE_STATE
   return {
-    type,
-    mode: currentTypeState.mode,
-    currentTypeState,
-    currentModeState: currentTypeState.modeState[currentTypeState.mode],
+    tab,
+    selectedType,
+    selectedMode: selectedTypeState.selectedMode,
+    selectedTypeState,
+    selectedModeState: selectedTypeState.modes[selectedTypeState.selectedMode],
   }
 }
 
@@ -211,8 +217,6 @@ function allowNavigateTo(type) {
 const NAVIGATE_TO_VIEW_TYPE = {
   [ENTITY_TYPES_ENUM.DATASET]: ENTITY_TYPES_ENUM.DATA, // show matching data
   [ENTITY_TYPES_ENUM.DATA]: ENTITY_TYPES_ENUM.DATA, // no change
-  [ENTITY_TYPES_ENUM.COLLECTION]: ENTITY_TYPES_ENUM.COLLECTION, // no change
-  [ENTITY_TYPES_ENUM.DOCUMENT]: ENTITY_TYPES_ENUM.DOCUMENT, // no change
 }
 
 /**
@@ -225,14 +229,13 @@ function getNavigateToViewType(type) {
 }
 
 export default {
-  TABS,
-  TABS_ENUM,
+  RESULTS_INITIAL_TYPE_PREFERENCE,
   DEFAULT_RESULTS_CONTEXT,
   DEFAULT_VIEW_MODE,
   DISABLED_VIEW_MODE_STATE,
   DISABLED_MAP_VIEW_MODE_STATE,
   DISABLED_TYPE_STATE,
-  getViewData,
+  getViewData: getResultsViewData,
   allowDownload,
   allowSorting,
   allowSelection,

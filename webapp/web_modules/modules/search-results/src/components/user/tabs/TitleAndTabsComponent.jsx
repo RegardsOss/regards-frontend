@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -33,7 +33,7 @@ class TitleAndTabsComponent extends React.Component {
     localizedTitle: PropTypes.objectOf(PropTypes.string).isRequired,
     // list of visible tabs: contains at least results tab
     tabs: PropTypes.arrayOf(PropTypes.shape({
-      tabType: PropTypes.oneOf(UIDomain.ResultsContextConstants.TABS).isRequired,
+      tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
       tabName: PropTypes.string, // specific parameter for tabs with name
       selected: PropTypes.bool.isRequired,
       closable: PropTypes.bool.isRequired,

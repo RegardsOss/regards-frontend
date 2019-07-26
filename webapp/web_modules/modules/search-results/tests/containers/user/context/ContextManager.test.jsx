@@ -21,13 +21,12 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { UIDomain, DamDomain } from '@regardsoss/domain'
 import { ContextManager } from '../../../../src/containers/user/context/ContextManager'
-import { ContextInitializationHelper } from '../../../../src/definitions/ContextInitializationHelper'
+import { ContextInitializationHelper } from '../../../../src/containers/user/context/ContextInitializationHelper'
 import { CriterionBuilder } from '../../../../src/definitions/CriterionBuilder'
 import styles from '../../../../src/styles'
 import { configuration as dataConfiguration } from '../../../dumps/data.configuration.dump'
-import { configuration as documentConfiguration } from '../../../dumps/documents.configuration.dump'
 import { attributes } from '../../../dumps/attributes.dump'
-import { dataEntity, documentEntity, datasetEntity } from '../../../dumps/entities.dump'
+import { dataEntity, datasetEntity, anotherDataEntity } from '../../../dumps/entities.dump'
 
 const context = buildTestContext(styles)
 const router = require('react-router')
@@ -53,53 +52,27 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
   it('should exists', () => {
     assert.isDefined(ContextManager)
   })
-  const testCases = [{
-    label: 'with data configuration',
-    moduleConf: dataConfiguration,
-    initType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-    initMode: UIDomain.RESULTS_VIEW_MODES_ENUM.MAP,
-    location: {
+  it('should render correctly with data configuration', () => {
+    currentLocation = {
       pathname: 'www.test.com/test',
       query: {
         [ContextManager.MODULE_URL_PARAMETERS.VIEW_TYPE_PARAMETER]: DamDomain.ENTITY_TYPES_ENUM.DATA,
         [ContextManager.MODULE_URL_PARAMETERS.RESULTS_DISPLAY_MODE_PARAMETER]: UIDomain.RESULTS_VIEW_MODES_ENUM.MAP,
       // cannot test tags here (promise system is way harder to mock...)
       },
-    },
-    levels: [
+    }
+    const initType = DamDomain.ENTITY_TYPES_ENUM.DATA
+    const initMode = UIDomain.RESULTS_VIEW_MODES_ENUM.MAP
+    const levels = [
       CriterionBuilder.buildEntityTagCriterion(dataEntity),
-      { type: UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL, entity: documentEntity },
       CriterionBuilder.buildWordTagCriterion('coffee'),
       CriterionBuilder.buildEntityTagCriterion(datasetEntity),
-    ],
-  }, {
-    label: 'with documents configuration',
-    moduleConf: documentConfiguration,
-    initType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
-    initMode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
-    location: {
-      pathname: 'www.test2.com/test2',
-      query: {
-        [ContextManager.MODULE_URL_PARAMETERS.VIEW_TYPE_PARAMETER]: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
-        [ContextManager.MODULE_URL_PARAMETERS.RESULTS_DISPLAY_MODE_PARAMETER]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
-      // cannot test tags here (promise system is way harder to mock...)
-      },
-    },
-    levels: [
-      CriterionBuilder.buildEntityTagCriterion(documentEntity),
-      CriterionBuilder.buildWordTagCriterion('tea'),
-      { type: UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL, entity: dataEntity },
-    ],
-  }]
-  testCases.forEach(({
-    label, moduleConf, location, levels, initType, initMode,
-  }) => it(`should render correctly ${label}`, () => {
-    currentLocation = location // init location to be returned by the browser history
+    ]
     let spiedResultsContext = null
     let spiedModuleId = null
     const props = {
       moduleId: 1,
-      configuration: moduleConf,
+      configuration: dataConfiguration,
       attributeModels: attributes,
       children: <div id="test-div" />,
       authentication: {
@@ -125,12 +98,12 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'test-div'), 1, 'Children should now be visible')
     // The context should have been initialized with resolved context configuration, in initType/initMode view
     assert.equal(spiedModuleId, 1, 'Module ID should be correctly provided when updating results context')
-    const expectedContext = ContextInitializationHelper.buildDefaultResultsContext(moduleConf, attributes)
+    const expectedContext = ContextInitializationHelper.buildDefaultResultsContext(dataConfiguration, attributes)
     expectedContext.type = initType
     expectedContext.criteria.levels = levels
     expectedContext.typeState[initType].mode = initMode
     assert.deepEqual(spiedResultsContext, expectedContext, 'Context should be initialized correctly')
-  }))
+  })
   it('Update URL as context changes (bound from redux)', () => {
     const previousLocation = {
       pathname: 'www.test2.com/test2',
@@ -196,8 +169,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
           CriterionBuilder.buildEntityTagCriterion(datasetEntity),
           // New tags
           CriterionBuilder.buildWordTagCriterion('coffee'),
-          CriterionBuilder.buildEntityTagCriterion(documentEntity),
-          { type: UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL, entity: dataEntity },
+          CriterionBuilder.buildEntityTagCriterion(anotherDataEntity),
         ],
       },
     }
@@ -212,7 +184,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         [ContextManager.MODULE_URL_PARAMETERS.VIEW_TYPE_PARAMETER]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
         [ContextManager.MODULE_URL_PARAMETERS.RESULTS_DISPLAY_MODE_PARAMETER]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
         // expected added tags
-        [ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER]: `e_${datasetEntity.content.id},w_coffee,e_${documentEntity.content.id},d_${dataEntity.content.id}`,
+        [ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER]: `e_${datasetEntity.content.id},w_coffee,e_${anotherDataEntity.content.id},d_${dataEntity.content.id}`,
       },
     })
 
@@ -237,7 +209,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       query: {
         [ContextManager.MODULE_URL_PARAMETERS.VIEW_TYPE_PARAMETER]: DamDomain.ENTITY_TYPES_ENUM.DATA,
         [ContextManager.MODULE_URL_PARAMETERS.RESULTS_DISPLAY_MODE_PARAMETER]: UIDomain.RESULTS_VIEW_MODES_ENUM.MAP,
-        [ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER]: `e_${datasetEntity.content.id},w_coffee,e_${documentEntity.content.id},d_${dataEntity.content.id}`,
+        [ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER]: `e_${datasetEntity.content.id},w_coffee,e_${anotherDataEntity.content.id},d_${dataEntity.content.id}`,
       },
     })
     // Change view mode only
@@ -260,14 +232,14 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       query: {
         [ContextManager.MODULE_URL_PARAMETERS.VIEW_TYPE_PARAMETER]: DamDomain.ENTITY_TYPES_ENUM.DATA,
         [ContextManager.MODULE_URL_PARAMETERS.RESULTS_DISPLAY_MODE_PARAMETER]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
-        [ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER]: `e_${datasetEntity.content.id},w_coffee,e_${documentEntity.content.id},d_${dataEntity.content.id}`,
+        [ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER]: `e_${datasetEntity.content.id},w_coffee,e_${anotherDataEntity.content.id},d_${dataEntity.content.id}`,
       },
     })
     // remove some tags
     nextContext = {
       ...nextContext,
       criteria: {
-        levels: [CriterionBuilder.buildEntityTagCriterion(documentEntity)],
+        levels: [CriterionBuilder.buildEntityTagCriterion(anotherDataEntity)],
       },
     }
     enzymeWrapper.setProps({
@@ -281,7 +253,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         [ContextManager.MODULE_URL_PARAMETERS.VIEW_TYPE_PARAMETER]: DamDomain.ENTITY_TYPES_ENUM.DATA,
         [ContextManager.MODULE_URL_PARAMETERS.RESULTS_DISPLAY_MODE_PARAMETER]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
         // expected added tags
-        [ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER]: `e_${documentEntity.content.id}`,
+        [ContextManager.MODULE_URL_PARAMETERS.LEVELS_PARAMETER]: `e_${anotherDataEntity.content.id}`,
       },
     })
     // Clear levels

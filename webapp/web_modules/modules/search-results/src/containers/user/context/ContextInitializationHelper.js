@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -27,12 +27,6 @@ import { PresentationHelper } from './PresentationHelper'
  * @author Raphaël Mechali
  */
 export class ContextInitializationHelper {
-  /** View entities type by preference order */
-  static INITIAL_TYPE_PREFERENCE = [
-    DamDomain.ENTITY_TYPES_ENUM.DATASET,
-    DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
-    DamDomain.ENTITY_TYPES_ENUM.DATA]
-
   /**
    * Builds default state for mode as parameter
    * @param {*} modeConfiguration configuration for mode, as defined in ModuleConfiguration shapes
@@ -172,25 +166,34 @@ export class ContextInitializationHelper {
     const dataType = ContextInitializationHelper.buildDefaultTypeState(
       get(configuration, `viewsGroups.${DamDomain.ENTITY_TYPES_ENUM.DATA}`, {}), attributeModels, DamDomain.ENTITY_TYPES_ENUM.DATA)
     // 2 - complete default state to provide data and dataset type in results views
-    return {
+    const defaultContext = {
       ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT,
       tabs: {
         ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs,
-        [UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS]: {
-          ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS],
+        [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+          ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS],
           types: {
             [DamDomain.ENTITY_TYPES_ENUM.DATA]: dataType,
             [DamDomain.ENTITY_TYPES_ENUM.DATASET]: ContextInitializationHelper.buildDefaultTypeState(
               get(configuration, `viewsGroups.${DamDomain.ENTITY_TYPES_ENUM.DATASET}`, {}), attributeModels, DamDomain.ENTITY_TYPES_ENUM.DATASET),
           },
         },
-        [UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS]: {
-          ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS],
+        [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
+          ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS],
           types: {
             [DamDomain.ENTITY_TYPES_ENUM.DATA]: dataType,
+            [DamDomain.ENTITY_TYPES_ENUM.DATASET]: UIDomain.ResultsContextConstants.DISABLED_TYPE_STATE,
           },
         },
       },
     }
+    // update initial type in results tags
+    UIDomain.RESULTS_LIST_TABS.forEach((tabType) => {
+      const resultTab = defaultContext.tabs[tabType]
+      // algorithm: keep the first enable type by preference order or default to DATA
+      resultTab.selectedType = UIDomain.ResultsContextConstants.RESULTS_INITIAL_TYPE_PREFERENCE.find(
+        type => resultTab.types[type].enabled) || DamDomain.ENTITY_TYPES_ENUM.DATA
+    })
+    return defaultContext
   }
 }

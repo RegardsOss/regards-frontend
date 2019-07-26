@@ -28,7 +28,6 @@ import { PAGES_BY_TYPE } from '../../src/domain/form/FormPagesByType'
 import { configuration as dataConfiguration } from '../dumps/data.configuration.dump'
 import styles from '../../src/styles'
 import { attributes } from '../dumps/attributes.dump'
-import { configuration as documentsConfiguration } from '../dumps/documents.configuration.dump'
 
 const context = buildTestContext(styles)
 
@@ -61,10 +60,6 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
     label: 'data and dataset (no configuration)',
     formValues: dataConfiguration,
     expectedTypeSections: [DamDomain.ENTITY_TYPES_ENUM.DATA, DamDomain.ENTITY_TYPES_ENUM.DATASET],
-  }, {
-    label: 'documents (no configuration)',
-    formValues: documentsConfiguration,
-    expectedTypeSections: [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT],
   }, {
     label: 'data and dataset (with configuration)',
     formValues: dataConfiguration,

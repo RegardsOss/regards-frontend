@@ -46,14 +46,12 @@ class MainConfigurationComponent extends React.Component {
   static DISPLAYED_TYPES_CHOICES = {
     DATA: 'DATA',
     DATA_AND_DATASET: 'DATA_AND_DATASET',
-    DOCUMENTS: 'DOCUMENTS',
   }
 
   /** As choices are necessary string, define here the matching views list to enable by choice */
   static ENABLED_VIEWS_BY_TYPES_CHOICE = {
     [MainConfigurationComponent.DISPLAYED_TYPES_CHOICES.DATA]: [DamDomain.ENTITY_TYPES_ENUM.DATA],
     [MainConfigurationComponent.DISPLAYED_TYPES_CHOICES.DATA_AND_DATASET]: [DamDomain.ENTITY_TYPES_ENUM.DATA, DamDomain.ENTITY_TYPES_ENUM.DATASET],
-    [MainConfigurationComponent.DISPLAYED_TYPES_CHOICES.DOCUMENTS]: [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT],
   }
 
   /**
@@ -83,6 +81,7 @@ class MainConfigurationComponent extends React.Component {
   getCurrentDisplayedTypesChoices = () => {
     const { currentFormValues: { viewsGroups } } = this.props
     if (viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DOCUMENT].enabled) {
+      // TODO must delete all references to documents
       return MainConfigurationComponent.DISPLAYED_TYPES_CHOICES.DOCUMENTS
     }
     if (viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DATA].enabled

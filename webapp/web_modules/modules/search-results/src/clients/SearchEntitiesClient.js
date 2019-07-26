@@ -16,19 +16,69 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import { AccessProjectClient } from '@regardsoss/client'
 
-const ENTITIES_STORE_PATH = ['modules.search-results', 'searchCatalog']
-const REDUX_ACTION_NAMESPACE = 'search-results/search-catalog'
+/**
+ * Catalog entitites clients, by tab
+ * @author Raphaël Mechali
+ */
+
+/**
+ * Client to search in catalog for main results tab
+ */
+const MAIN_ENTITIES_STORE_PATH = ['modules.search-results', 'mainSearchCatalog']
+const MAIN_REDUX_ACTION_NAMESPACE = 'search-results/main-results/search-catalog'
+export const mainSearchDataobjectsActions = new AccessProjectClient.SearchDataobjectsActions(MAIN_REDUX_ACTION_NAMESPACE)
+export const mainSearchDatasetsActions = new AccessProjectClient.SearchDatasetsActions(MAIN_REDUX_ACTION_NAMESPACE)
+export const mainSearchDatasetsFromDataObjectsActions = new AccessProjectClient.SearchDatasetsFromDataObjectsActions(MAIN_REDUX_ACTION_NAMESPACE)
+export const mainSearchReducer = AccessProjectClient.getSearchEntitiesReducer(MAIN_REDUX_ACTION_NAMESPACE)
+export const mainSearchSelectors = AccessProjectClient.getSearchEntitiesSelectors(MAIN_ENTITIES_STORE_PATH)
+const mainResultsCatalogClient = {
+  searchDataobjectsActions: mainSearchDataobjectsActions,
+  searchDatasetsActions: mainSearchDatasetsActions,
+  searchDatasetsFromDataObjectsActions: mainSearchDatasetsFromDataObjectsActions,
+  searchReducer: mainSearchReducer,
+  searchSelectors: mainSearchSelectors,
+}
+
+/**
+ * Client to search in catalog for tag results tab
+ */
+const TAG_ENTITIES_STORE_PATH = ['modules.search-results', 'tagSearchCatalog']
+const TAG_REDUX_ACTION_NAMESPACE = 'search-results/tag-results/search-catalog'
+export const tagSearchDataobjectsActions = new AccessProjectClient.SearchDataobjectsActions(TAG_REDUX_ACTION_NAMESPACE)
+export const tagSearchDatasetsActions = new AccessProjectClient.SearchDatasetsActions(TAG_REDUX_ACTION_NAMESPACE)
+export const tagSearchDatasetsFromDataObjectsActions = new AccessProjectClient.SearchDatasetsFromDataObjectsActions(TAG_REDUX_ACTION_NAMESPACE)
+export const tagSearchReducer = AccessProjectClient.getSearchEntitiesReducer(TAG_REDUX_ACTION_NAMESPACE)
+export const tagSearchSelectors = AccessProjectClient.getSearchEntitiesSelectors(TAG_ENTITIES_STORE_PATH)
+const tagResultsCatalogClient = {
+  searchDataobjectsActions: tagSearchDataobjectsActions,
+  searchDatasetsActions: tagSearchDatasetsActions,
+  searchDatasetsFromDataObjectsActions: tagSearchDatasetsFromDataObjectsActions,
+  searchReducer: tagSearchReducer,
+  searchSelectors: tagSearchSelectors,
+}
 
 
 /**
- * Client to search in catalog.
- * Note: this clients exports multiple actions for the same reducer
+ * Returns client to use for tab type
+ * @param {*} tabType tab type
+ * @return {{
+ * searchDataobjectsActions: *,
+ * searchDatasetsActions: *,
+ * searchDatasetsFromDataObjectsActions: *,
+ * searchReducer: Function,
+ * searchSelectors: *,
+ * }} results client to use for current tab
  */
-export const searchDataobjectsActions = new AccessProjectClient.SearchDataobjectsActions(REDUX_ACTION_NAMESPACE)
-export const searchDatasetsFromDataObjectsActions = new AccessProjectClient.SearchDatasetsFromDataObjectsActions(REDUX_ACTION_NAMESPACE)
-export const searchDatasetsActions = new AccessProjectClient.SearchDatasetsActions(REDUX_ACTION_NAMESPACE)
-export const searchDocumentsActions = new AccessProjectClient.SearchDocumentsActions(REDUX_ACTION_NAMESPACE)
-export const reducer = AccessProjectClient.getSearchEntitiesReducer(REDUX_ACTION_NAMESPACE)
-export const selectors = AccessProjectClient.getSearchEntitiesSelectors(ENTITIES_STORE_PATH)
+export function getSearchCatalogClient(tabType) {
+  switch (tabType) {
+    case UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS:
+      return mainResultsCatalogClient
+    case UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS:
+      return tagResultsCatalogClient
+    default:
+      throw new Error(`Cannot get table client for tab ${tabType}`)
+  }
+}

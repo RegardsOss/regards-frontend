@@ -67,7 +67,6 @@ export class DescriptionHelper {
     return staticDescriptionModules.length ? staticDescriptionModules[0] : null
   }
 
-
   /**
    * Is description available for entity type in module as parameter
    * @param {*} module module (must match AccessShapes.ModuleWithoutContent shape, ie <em>outside content field</em>)

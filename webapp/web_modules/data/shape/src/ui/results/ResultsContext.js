@@ -245,7 +245,7 @@ export const ViewsGroupState = PropTypes.shape({
 /**
  * Common to all results views
  */
-const commonResultsTabFields = {
+const ResultsTab = PropTypes.shape({
   criteria: PropTypes.shape({
     contextTags: TagsArray.isRequired, // Tags from context (parent control in results tab, main tag in tag tab)
     otherFilters: PropTypes.arrayOf(BasicCriterion).isRequired, // Other restrictions
@@ -260,11 +260,6 @@ const commonResultsTabFields = {
     [DamDomain.ENTITY_TYPES_ENUM.DATA]: ViewsGroupState.isRequired,
     [DamDomain.ENTITY_TYPES_ENUM.DATASET]: ViewsGroupState.isRequired,
   }).isRequired,
-}
-
-/** Main results tab model */
-export const MainResultsTabModel = PropTypes.shape({
-  ...commonResultsTabFields,
 })
 
 /**
@@ -275,22 +270,12 @@ export const DescriptionTabModel = PropTypes.shape({
   descriptionPath: PropTypes.arrayOf(EntityWithServices).isRequired,
 })
 
-/** Tag filtered results tab model */
-export const TagTabModel = PropTypes.shape({
-  ...commonResultsTabFields,
-  // showing only data
-  selectedType: PropTypes.oneOf([DamDomain.ENTITY_TYPES_ENUM.DATA]).isRequired,
-  types: PropTypes.shape({
-    [DamDomain.ENTITY_TYPES_ENUM.DATA]: ViewsGroupState.isRequired,
-  }).isRequired,
-})
-
 /** Complete results context: holds only the three tabs */
 export const ResultsContext = PropTypes.shape({
-  selectedTab: PropTypes.oneOf(UIDomain.ResultsContextConstants.TABS).isRequired,
+  selectedTab: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
   tabs: PropTypes.shape({
-    [UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS]: MainResultsTabModel.isRequired,
-    [UIDomain.ResultsContextConstants.TABS_ENUM.DESCRIPTION]: DescriptionTabModel.isRequired,
-    [UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS]: TagTabModel.isRequired,
+    [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: ResultsTab.isRequired,
+    [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: DescriptionTabModel.isRequired,
+    [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: ResultsTab.isRequired,
   }),
 })

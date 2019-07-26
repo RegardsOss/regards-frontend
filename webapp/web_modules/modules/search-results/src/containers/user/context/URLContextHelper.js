@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -95,25 +95,25 @@ export class URLContextHelper {
         selectedTab => ({ selectedTab })),
     }, { // main reults entities type
       name: 'rt',
-      toParameterValue: resultsContext => resultsContext.tabs[UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS].selectedType,
+      toParameterValue: resultsContext => resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].selectedType,
       fromParameterValue: (resultsContext, value, fetchEntity) => URLContextHelper.resolveElementInContext(resultsContext, value, fetchEntity,
         selectedType => ({
           tabs: {
-            [UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS]: { selectedType },
+            [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: { selectedType },
           },
         })),
     }, { // main results display mode
       name: 'rd',
       toParameterValue: (resultsContext) => {
-        const resultsTab = resultsContext.tabs[UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS]
+        const resultsTab = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]
         return resultsTab.types[resultsTab.selectedType].selectedMode
       },
       fromParameterValue: (resultsContext, value, fetchEntity) => URLContextHelper.resolveElementInContext(resultsContext, value, fetchEntity,
         (selectedMode) => {
-          const resultsTabType = get(resultsContext, `tabs.${UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS}.selectedType`, DamDomain.ENTITY_TYPES_ENUM.DATA)
+          const resultsTabType = get(resultsContext, `tabs.${UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS}.selectedType`, DamDomain.ENTITY_TYPES_ENUM.DATA)
           return {
             tabs: {
-              [UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS]: {
+              [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
                 types: {
                   [resultsTabType]: { selectedMode },
                 },
@@ -124,7 +124,7 @@ export class URLContextHelper {
     }, { // main results user filters
       name: 'rf',
       toParameterValue: (resultsContext) => {
-        const resultsTab = resultsContext.tabs[UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS]
+        const resultsTab = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]
         const { tagsFiltering } = resultsTab.criteria
         // optional filter tag
         return tagsFiltering.length ? tagsFiltering[0].searchKey : null
@@ -132,7 +132,7 @@ export class URLContextHelper {
       fromParameterValue: (resultsContext, value, fetchEntity) => URLContextHelper.resolveElementInContext(resultsContext, value, fetchEntity,
         tagModel => ({
           tabs: {
-            [UIDomain.ResultsContextConstants.TABS_ENUM.MAIN_RESULTS]: {
+            [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
               criteria: {
                 tagsFiltering: [URLContextHelper.buildTagFrom(tagModel)],
               },
@@ -142,14 +142,14 @@ export class URLContextHelper {
     }, { // last description entity
       name: 'd',
       toParameterValue: (resultsContext) => {
-        const { descriptionPath } = resultsContext.tabs[UIDomain.ResultsContextConstants.TABS_ENUM.DESCRIPTION]
+        const { descriptionPath } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]
         // optional description path
         return descriptionPath.length ? last(descriptionPath).content.id : null
       },
       fromParameterValue: (resultsContext, value, fetchEntity) => URLContextHelper.resolveElementInContext(resultsContext, value, fetchEntity,
         entity => ({
           tabs: {
-            [UIDomain.ResultsContextConstants.TABS_ENUM.DESCRIPTION]: {
+            [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
               descriptionPath: [entity],
             },
           },
@@ -157,7 +157,7 @@ export class URLContextHelper {
     }, { // tag view main tag
       name: 'st',
       toParameterValue: (resultsContext) => {
-        const tagsTab = resultsContext.tabs[UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS]
+        const tagsTab = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]
         const { contextTags } = tagsTab.criteria
         // view is hidden when there is no context tag
         return contextTags.length ? contextTags[0].searchKey : null
@@ -165,7 +165,7 @@ export class URLContextHelper {
       fromParameterValue: (resultsContext, value, fetchEntity) => URLContextHelper.resolveElementInContext(resultsContext, value, fetchEntity,
         tagModel => ({
           tabs: {
-            [UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS]: {
+            [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
               criteria: { // restore context tag
                 contextTags: [URLContextHelper.buildTagFrom(tagModel)],
               },
@@ -175,7 +175,7 @@ export class URLContextHelper {
     }, { // tag view display mode
       name: 'td',
       toParameterValue: (resultsContext) => {
-        const tagsTab = resultsContext.tabs[UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS]
+        const tagsTab = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]
         const { contextTags } = tagsTab.criteria
         // view is hidden when there is no context tag (do no append in URL when hidden)
         return contextTags.length ? tagsTab.types[tagsTab.selectedType].selectedMode : null
@@ -183,7 +183,7 @@ export class URLContextHelper {
       fromParameterValue: (resultsContext, value, fetchEntity) => URLContextHelper.resolveElementInContext(resultsContext, value, fetchEntity,
         selectedMode => ({
           tabs: {
-            [UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS]: {
+            [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
               types: {
                 [DamDomain.ENTITY_TYPES_ENUM.DATA]: { selectedMode },
               },
@@ -193,7 +193,7 @@ export class URLContextHelper {
     }, { // tag view user filter
       name: 'tf',
       toParameterValue: (resultsContext) => {
-        const tagsTab = resultsContext.tabs[UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS]
+        const tagsTab = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]
         const { contextTags, tagsFiltering } = tagsTab.criteria
         // user filtering tag, when view is visible (has context tag)
         return contextTags.length && tagsFiltering.length ? tagsFiltering[0].searchKey : null
@@ -201,7 +201,7 @@ export class URLContextHelper {
       fromParameterValue: (resultsContext, value, fetchEntity) => URLContextHelper.resolveElementInContext(resultsContext, value, fetchEntity,
         tagModel => ({
           tabs: {
-            [UIDomain.ResultsContextConstants.TABS_ENUM.TAG_RESULTS]: {
+            [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
               criteria: { // restore as user tag
                 tagsFiltering: [URLContextHelper.buildTagFrom(tagModel)],
               },

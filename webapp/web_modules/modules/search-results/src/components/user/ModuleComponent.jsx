@@ -23,7 +23,7 @@ import { DynamicModulePane } from '@regardsoss/components'
 import { dependencies } from '../../user-dependencies'
 import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 import TitleAndTabsContainer from '../../containers/user/tabs/TitleAndTabsContainer'
-import SearchResultsContainer from '../../containers/user/results/SearchResultsContainer'
+import TabsContentContainer from '../../containers/user/tabs/TabsContentContainer'
 import FeedbackDisplayContainer from '../../containers/user/feedback/FeedbackDisplayContainer'
 
 /**
@@ -62,6 +62,7 @@ class ModuleComponent extends React.Component {
           id={moduleId}
           moduleConf={moduleConf}
           titleComponent={
+            // Title and tabs selection displayer
             <TitleAndTabsContainer
               moduleId={moduleId}
               description={description}
@@ -70,12 +71,12 @@ class ModuleComponent extends React.Component {
           }
           {...this.props}
         >
-          {/* TODO add tabs management here! */}
-          {/* <SearchResultsContainer
+          {/* Tabs content displayer */}
+          <TabsContentContainer
             project={project}
             appName={appName}
             moduleId={moduleId}
-          /> */}
+          />
         </DynamicModulePane>
         {/* Feedback handling for long actions in module */}
         <FeedbackDisplayContainer />

@@ -33,7 +33,6 @@ import SortingConfigurationComponent from '../../../src/components/admin/content
 import ViewTypeConfigurationComponent from '../../../src/components/admin/content/ViewTypeConfigurationComponent'
 import { attributes } from '../../dumps/attributes.dump'
 import { configuration as dataConfiguration } from '../../dumps/data.configuration.dump'
-import { configuration as documentsConfiguration } from '../../dumps/documents.configuration.dump'
 
 const context = buildTestContext(styles)
 
@@ -57,9 +56,6 @@ describe('[SEARCH RESULTS] Testing MainFormComponent', () => {
     }, {
       type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
       enabled: false,
-    }, {
-      type: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
-      enabled: false,
     }],
     values: dataConfiguration,
     documentsForbidden: true,
@@ -71,25 +67,8 @@ describe('[SEARCH RESULTS] Testing MainFormComponent', () => {
     }, {
       type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
       enabled: true,
-    }, {
-      type: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
-      enabled: false,
     }],
     values: dataConfiguration,
-    documentsForbidden: false,
-  }, {
-    label: 'documents',
-    viewsGroups: [{
-      type: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      enabled: false,
-    }, {
-      type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-      enabled: false,
-    }, {
-      type: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
-      enabled: true,
-    }],
-    values: documentsConfiguration,
     documentsForbidden: false,
   }]
 

@@ -167,6 +167,21 @@ export default baseTheme => ({
         columnWidth: 400,
         columnGap: 20,
       },
+      tabs: {
+        selectedColor: baseTheme.raisedButton.secondaryColor,
+        unselectedColor: baseTheme.raisedButton.disabledColor,
+        externalMargin: '0 2px 0 0',
+        minWidth: '200px',
+        maxWidth: '200px',
+        iconAndTextMargin: '5px',
+        textMargin: '0 5px 0 7px',
+        closeButton: {
+          margin: '0 0 0 5px',
+          size: 15,
+          alignSelf: 'flex-start',
+        },
+        tabBottomLineSize: 1,
+      },
       map: {
         background: 'black', // related with mizar background
         mizar: {

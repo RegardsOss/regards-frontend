@@ -105,18 +105,18 @@ const styles = theme => ({
         selectedContainer: {
           display: 'flex',
           alignItems: 'center',
-          backgroundColor: theme.palette.accent1Color, // TODO external
-          margin: '0 2px 0 0', // TODO external
-          minWidth: 200, // TODO external
-          maxWidth: 200, // TODO external
+          backgroundColor: theme.module.searchResults.tabs.selectedColor,
+          margin: theme.module.searchResults.tabs.externalMargin,
+          minWidth: theme.module.searchResults.tabs.minWidth,
+          maxWidth: theme.module.searchResults.tabs.maxWidth,
         },
         unselectedContainer: {
           display: 'flex',
           alignItems: 'center',
-          backgroundColor: '#FFFFFF20', // TODO external
-          margin: '0 2px 0 0', // TODO external
-          minWidth: 200, // TODO external
-          maxWidth: 200, // TODO external
+          backgroundColor: theme.module.searchResults.tabs.unselectedColor,
+          margin: theme.module.searchResults.tabs.externalMargin,
+          minWidth: theme.module.searchResults.tabs.minWidth,
+          maxWidth: theme.module.searchResults.tabs.maxWidth,
         },
         iconAndTextGroup: {
           display: 'flex',
@@ -125,9 +125,9 @@ const styles = theme => ({
           cursor: 'pointer',
           flexGrow: 1,
           flexShrink: 1,
-          margin: '5px', // TODO external
+          margin: theme.module.searchResults.tabs.iconAndTextMargin,
         },
-        iconColor: theme.palette.textColor, // TODO external
+        iconColor: theme.palette.textColor,
         icon: {
           flexGrow: 0,
           flexShrink: 0,
@@ -135,8 +135,8 @@ const styles = theme => ({
         label: {
           flexGrow: 0,
           flexShrink: 1,
-          padding: '0 5px 0 7px', // TODO external
-          color: theme.palette.textColor, // TODO external
+          padding: theme.module.searchResults.tabs.textMargin,
+          color: theme.palette.textColor,
           whiteSpace: 'nowrap',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
@@ -145,17 +145,14 @@ const styles = theme => ({
           padding: 0,
           flexGrow: 0,
           flexShrink: 0,
-          alignSelf: 'flex-start',
-          margin: '0 0 0 5px', // TODO external
-          width: 15, // TODO external
-          height: 15, // TODO external
+          alignSelf: theme.module.searchResults.tabs.closeButton.alignSelf,
+          margin: theme.module.searchResults.tabs.closeButton.margin,
+          width: theme.module.searchResults.tabs.closeButton.size,
+          height: theme.module.searchResults.tabs.closeButton.size,
         },
         closeIcon: {
-          width: 15, // TODO external
-          height: 15, // TODO external
-        },
-        tabsSeparator: {
-
+          width: theme.module.searchResults.tabs.closeButton.size,
+          height: theme.module.searchResults.tabs.closeButton.size,
         },
       },
     },
@@ -164,6 +161,55 @@ const styles = theme => ({
       flexShrink: 1,
       display: 'flex',
       flexDirection: 'column',
+    },
+    tabContent: {
+      borderDisplayer: {
+        withTabs: {
+          flexGrow: 1,
+          flexShrink: 1,
+          display: 'flex',
+          alignItems: 'stretch',
+          borderTopColor: theme.module.searchResults.tabs.selectedColor,
+          borderTopWidth: theme.module.searchResults.tabs.tabBottomLineSize,
+          borderTopStyle: 'solid',
+        },
+        withoutTab: {
+          flexGrow: 1,
+          flexShrink: 1,
+          display: 'flex',
+          alignItems: 'stretch',
+          borderTopColor: theme.palette.canvasColor,
+          borderTopWidth: theme.module.searchResults.tabs.tabBottomLineSize,
+          borderTopStyle: 'solid',
+        },
+      },
+      layoutContainer: {
+        flexGrow: 1,
+        flexShrink: 1,
+        position: 'relative',
+      },
+      hiddenTabContent: {
+        zIndex: 0,
+        backgroundColor: theme.palette.canvasColor,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      shownTabContent: {
+        zIndex: 1,
+        backgroundColor: theme.palette.canvasColor,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+      },
     },
     viewModeButton: {
       minWidth: theme.button.iconButtonSize,

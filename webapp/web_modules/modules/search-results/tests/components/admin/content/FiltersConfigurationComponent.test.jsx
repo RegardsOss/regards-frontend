@@ -25,7 +25,6 @@ import FiltersConfigurationComponent from '../../../../src/components/admin/cont
 import styles from '../../../../src/styles'
 import { attributes } from '../../../dumps/attributes.dump'
 import { configuration as dataConfiguration } from '../../../dumps/data.configuration.dump'
-import { configuration as documentsConfiguration } from '../../../dumps/documents.configuration.dump'
 
 const context = buildTestContext(styles)
 
@@ -40,22 +39,14 @@ describe('[SEARCH RESULTS] Testing FiltersConfigurationComponent', () => {
   it('should exists', () => {
     assert.isDefined(FiltersConfigurationComponent)
   })
-  const testCases = [{
-    type: DamDomain.ENTITY_TYPES_ENUM.DATA,
-    values: dataConfiguration.viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DATA],
-  }, {
-    type: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
-    values: documentsConfiguration.viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DOCUMENT],
-  }]
-
-  testCases.forEach(({ type, values }) => it(`should render correctly with ${type} form values`, () => {
+  it('should render correctly', () => {
     // NOTE: we emulate an empty namespace below, as configuration holds form values at root
-    const rootNamespace = `viewsGroups.${type}`
+    const rootNamespace = `viewsGroups.${DamDomain.ENTITY_TYPES_ENUM.DATA}`
     const props = {
       availableAttributes: attributes,
-      type,
+      type: DamDomain.ENTITY_TYPES_ENUM.DATA,
       currentTypeNamespace: rootNamespace,
-      currentTypeFormValues: values,
+      currentTypeFormValues: dataConfiguration.viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DATA],
       changeField: () => {},
     }
     const enzymeWrapper = shallow(<FiltersConfigurationComponent {...props} />, { context })
@@ -77,5 +68,5 @@ describe('[SEARCH RESULTS] Testing FiltersConfigurationComponent', () => {
       allowAttributesRegroupements: false,
       allowLabel: true,
     }, 'Attributes list field properties should be correctly set up')
-  }))
+  })
 })

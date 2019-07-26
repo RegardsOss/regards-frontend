@@ -113,7 +113,7 @@ const messages = {
   'download.no.online.file.tooltip': 'Tous les fichiers sont hors ligne',
   'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Détail',
-  'search.related.objects': 'Voir le contenu du jeu',
+  'filter.related.data': 'Filtrer uniquement les données liées',
   'add.to.cart.tooltip': 'Ajouter l\'élément à mon panier',
   'add.selection.to.cart.label': 'Ajouter au panier',
   'add.selection.to.cart.tooltip': 'Ajouter les éléments sélectionnés à mon panier',
