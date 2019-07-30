@@ -276,6 +276,8 @@ const messages = Object.assign({
   'acquisition-sessions.filters.reset': 'Clear filters',
   'acquisition-sessions.filters.apply': 'Apply filters',
   'acquisition-sessions.filters.column-selector': 'Select columns to show',
+  'acquisition-sessions.filters.sources-hint': 'Sources',
+  'acquisition-sessions.filters.sessions-hint': 'Sessions',
 
 }, Locales.en)
 

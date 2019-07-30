@@ -276,6 +276,8 @@ const messages = Object.assign({
   'acquisition-sessions.filters.reset': 'Vider les filtres',
   'acquisition-sessions.filters.apply': 'Appliquer les filtres',
   'acquisition-sessions.filters.column-selector': 'Selectionnez les colonnes à afficher',
+  'acquisition-sessions.filters.sources-hint': 'Sources',
+  'acquisition-sessions.filters.sessions-hint': 'Sessions',
 
 }, Locales.fr)
 

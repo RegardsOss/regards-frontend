@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import Checkbox from 'material-ui/Checkbox'
+import { TableHeaderCheckbox } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-
+import { themeContextType } from '@regardsoss/theme'
 /**
  * Filter render for Last Session Only
  * @author Kévin Picart
@@ -31,17 +31,19 @@ export class SessionsMonitoringFilterLastSessionComponent extends React.Componen
   }
 
   static contextTypes = {
+    ...themeContextType,
     ...i18nContextType,
   }
 
   render() {
     const { onToggleLastSession, lastSession } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { sessionsStyles: { filters: { checkboxLabel } } } } = this.context
     return (
-      <Checkbox
+      <TableHeaderCheckbox
         label={formatMessage({ id: 'acquisition-sessions.filters.last-session' })}
         onCheck={onToggleLastSession}
         checked={lastSession}
+        labelStyle={checkboxLabel}
       />
     )
   }

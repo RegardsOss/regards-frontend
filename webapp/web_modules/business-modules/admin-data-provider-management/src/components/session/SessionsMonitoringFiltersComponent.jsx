@@ -19,15 +19,18 @@
 import {
   TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
 } from '@regardsoss/components'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { SessionsMonitoringFilterErrorsOnlyComponent } from './filters/SessionsMonitoringFilterErrorsOnlyComponent'
 import { SessionsMonitoringFilterLastSessionComponent } from './filters/SessionsMonitoringFilterLastSessionComponent'
-import { SessionsMonitoringFilterSourceComponent } from './filters/SessionsMonitoringFilterSourceComponent'
-import { SessionsMonitoringFilterSessionComponent } from './filters/SessionsMonitoringFilterSessionComponent'
 import { SessionsMonitoringFilterFromComponent } from './filters/SessionsMonitoringFilterFromComponent'
 import { SessionsMonitoringFilterToComponent } from './filters/SessionsMonitoringFilterToComponent'
 import { SessionsMonitoringFilterClearComponent } from './filters/SessionsMonitoringFilterClearComponent'
 import { SessionsMonitoringFilterApplyComponent } from './filters/SessionsMonitoringFilterApplyComponent'
 import { SessionsMonitoringFilterColumnsSelectorComponent } from './filters/SessionsMonitoringFilterColumnsSelectorComponent'
+import SessionsMonitoringAutoCompleteContainer from '../../containers/session/SessionsMonitoringAutoCompleteContainer'
+import { searchSourcesActions, searchSourcesSelectors } from '../../clients/session/SearchSourcesClient'
+import { searchSessionsActions, searchSessionsSelectors } from '../../clients/session/SearchSessionsClient'
 
 /**
  * Filter component for session board
@@ -55,6 +58,11 @@ export class SessionsMonitoringFiltersComponent extends React.Component {
     onColumnsSelector: PropTypes.func.isRequired,
   }
 
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
+
   render() {
     const {
       filtersEdited, onToggleErrorsOnly, onApplyFilters, onClearFilters, onToggleLastSession, onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onColumnsSelector,
@@ -62,18 +70,33 @@ export class SessionsMonitoringFiltersComponent extends React.Component {
         source, session, lastSessionOnly, errorsOnly, from, to,
       },
     } = this.props
+    const { intl: { formatMessage }, moduleTheme: { sessionsStyles: { filters: { autocompleteContainer } } } } = this.context
 
     return (
       <TableHeaderLine>
         <TableHeaderOptionsArea reducible alignLeft>
           <TableHeaderOptionGroup>
-            <SessionsMonitoringFilterSourceComponent
-              onChangeSource={onChangeSource}
-              source={source}
+            <SessionsMonitoringAutoCompleteContainer
+              onChangeText={onChangeSource}
+              text={source}
+              arrayActions={searchSourcesActions}
+              arraySelectors={searchSourcesSelectors}
+              hintText={formatMessage({ id: 'acquisition-sessions.filters.sources-hint' })}
             />
-            <SessionsMonitoringFilterSessionComponent
-              onChangeSession={onChangeSession}
-              session={session}
+            <SessionsMonitoringAutoCompleteContainer
+              onChangeText={onChangeSession}
+              text={session}
+              arrayActions={searchSessionsActions}
+              arraySelectors={searchSessionsSelectors}
+              hintText={formatMessage({ id: 'acquisition-sessions.filters.sessions-hint' })}
+            />
+            <SessionsMonitoringFilterFromComponent
+              onChangeFrom={onChangeFrom}
+              from={from}
+            />
+            <SessionsMonitoringFilterToComponent
+              onChangeTo={onChangeTo}
+              to={to}
             />
           </TableHeaderOptionGroup>
           <TableHeaderOptionGroup>
@@ -84,16 +107,6 @@ export class SessionsMonitoringFiltersComponent extends React.Component {
             <SessionsMonitoringFilterErrorsOnlyComponent
               onToggleErrorsOnly={onToggleErrorsOnly}
               errorsOnly={errorsOnly}
-            />
-          </TableHeaderOptionGroup>
-          <TableHeaderOptionGroup>
-            <SessionsMonitoringFilterFromComponent
-              onChangeFrom={onChangeFrom}
-              from={from}
-            />
-            <SessionsMonitoringFilterToComponent
-              onChangeTo={onChangeTo}
-              to={to}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
@@ -111,7 +124,6 @@ export class SessionsMonitoringFiltersComponent extends React.Component {
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
-      </TableHeaderLine>
-    )
+      </TableHeaderLine>)
   }
 }

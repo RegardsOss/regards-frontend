@@ -33,6 +33,15 @@ const styles = theme => ({
     menuDropDown: {
       minWidth: '0px',
     },
+    filters: {
+      autocomplete: {
+        marginRight: '10px',
+      },
+      checkboxLabel: {
+        whiteSpace: 'nowrap',
+        paddingRight: '20px',
+      },
+    },
     cell: {
       flexGrow: 1,
       flexShrink: 1,

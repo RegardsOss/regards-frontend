@@ -28,7 +28,6 @@ import {
   sessionsActions, SESSION_ENDPOINT, SESSION_ENTITY_ID,
 } from '../../clients/session/SessionsClient'
 import { SessionsMonitoringComponent } from '../../components/session/SessionsMonitoringComponent'
-
 import messages from '../../i18n'
 import styles from '../../styles'
 
@@ -105,7 +104,6 @@ export class SessionsMonitoringContainer extends React.Component {
       const dateTo = new Date(applyingFiltersState.to)
       requestParameters.to = [dateTo.toISOString()]
     }
-    console.error(requestParameters)
 
     return requestParameters
   }
@@ -151,7 +149,7 @@ export class SessionsMonitoringContainer extends React.Component {
   /**
    * User cb: Change source filter
    */
-  onChangeSource = (event, newSource) => {
+  onChangeSource = (newSource) => {
     const { editionFiltersState } = this.state
     this.onStateUpdated({
       editionFiltersState: {
@@ -164,7 +162,7 @@ export class SessionsMonitoringContainer extends React.Component {
   /**
    * User cb: Change session filter
    */
-  onChangeSession = (event, newSession) => {
+  onChangeSession = (newSession) => {
     const { editionFiltersState } = this.state
     this.onStateUpdated({
       editionFiltersState: {
