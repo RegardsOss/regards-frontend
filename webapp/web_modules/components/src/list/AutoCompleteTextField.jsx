@@ -107,6 +107,7 @@ class AutoCompleteTextField extends React.Component {
     'isInError',
     'isFetching',
     'onFilterSelected',
+    'onUpdateInput', // from MUI but locally wrapped
   ]
 
   static contextTypes = {
@@ -134,11 +135,27 @@ class AutoCompleteTextField extends React.Component {
    * @param {*} nextProps next properties
    */
   componentWillReceiveProps(nextProps) {
-    if (this.props.currentHintText !== nextProps.currentHintText) {
-      nextProps.onUpdateInput(nextProps.currentHintText)
+    const { currentHintText } = nextProps
+    const { currentHintText: oldText } = this.props
+    if (oldText !== currentHintText) {
+      if (currentHintText !== this.lastUserInputText) {
+        nextProps.onUpdateInput(nextProps.currentHintText)
+      }
+      // reset last text field input
+      this.lastUserInputText = null
     }
   }
 
+  /**
+   * User typed some text in textfield: keep track of it to avoid multiple updates
+   * @param {string} newText typed text
+   */
+  onUpdateInput = (newText = '') => {
+    const { onUpdateInput } = this.props
+    // store a transient state to avoid calling onTextInput twice for the same event (see componentWillReceiveProps)
+    this.lastUserInputText = newText
+    onUpdateInput(newText)
+  }
 
   /**
    * On new request: before callback, check if item is complete or just a string (user typed enter key).
@@ -200,6 +217,7 @@ class AutoCompleteTextField extends React.Component {
         searchText={currentHintText}
         errorText={isInError ? errorMessage : null}
         onNewRequest={this.onNewRequest}
+        onUpdateInput={this.onUpdateInput}
         {...reportedProps}
       />
     )
