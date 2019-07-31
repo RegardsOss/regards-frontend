@@ -159,7 +159,8 @@ export class SessionsMonitoringComponent extends React.Component {
     const columns = [
       new TableColumnBuilder(TableColumnBuilder.selectionColumnKey)
         .visible(get(columnsVisibility, TableColumnBuilder.selectionColumnKey, true))
-        .selectionColumn(false, sessionsSelectors, tableSessionsActions, tableSessionsSelectors).build(),
+        .selectionColumn(false, sessionsSelectors, tableSessionsActions, tableSessionsSelectors)
+        .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE, true))
         .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE), onSort)
