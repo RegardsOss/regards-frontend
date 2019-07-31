@@ -19,7 +19,6 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import { UIClient } from '@regardsoss/client'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ToggleFiltersComponent from '../../../../../../../src/components/user/tabs/results/header/options/ToggleFiltersComponent'
 import { ToggleFiltersContainer } from '../../../../../../../src/containers/user/tabs/results/header/options/ToggleFiltersContainer'
@@ -41,25 +40,29 @@ describe('[SEARCH RESULTS] Testing ToggleFiltersContainer', () => {
   })
 
   const testCases = [{
+    tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
     type: DamDomain.ENTITY_TYPES_ENUM.DATA,
     mode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
     resultsContext: dataContext,
   }, {
+    tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
     type: DamDomain.ENTITY_TYPES_ENUM.DATA,
     mode: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
     resultsContext: dataContext,
   }, {
+    tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     type: DamDomain.ENTITY_TYPES_ENUM.DATA,
     mode: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
     resultsContext: dataContext,
   }, {
+    tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     type: DamDomain.ENTITY_TYPES_ENUM.DATA,
     mode: UIDomain.RESULTS_VIEW_MODES_ENUM.MAP,
     resultsContext: dataContext,
   }]
 
   testCases.forEach(({
-    type, mode, resultsContext, filtersInitiallyEnabled,
+    tabType, type, mode, resultsContext,
   }) => it(`should render correctly for ${type} (${mode})`, () => {
     const spiedUpdateData = {
       moduleId: null,
@@ -67,10 +70,17 @@ describe('[SEARCH RESULTS] Testing ToggleFiltersContainer', () => {
     }
     const props = {
       moduleId: 1,
-      resultsContext: UIClient.ResultsContextHelper.mergeDeep(resultsContext, {
-        type,
-        typeState: {
-          [type]: { mode },
+      tabType,
+      resultsContext: UIDomain.ResultsContextHelper.deepMerge(resultsContext, {
+        tabs: {
+          [tabType]: {
+            selectedType: type,
+            types: {
+              [type]: {
+                selectedMode: mode,
+              },
+            },
+          },
         },
       }),
       updateResultsContext: (moduleId, stateDiff) => {
@@ -92,13 +102,13 @@ describe('[SEARCH RESULTS] Testing ToggleFiltersContainer', () => {
     assert.equal(spiedUpdateData.moduleId, props.moduleId, 'Spied data should have been called (module id)')
     assert.isNotNull(spiedUpdateData.stateDiff, 'Spied data should have been called (state diff)')
     // check criterion has been removed
-    assert.isEmpty(spiedUpdateData.stateDiff.typeState[type].criteria.requestFacets, 'Facets should not longer be requested')
-    assert.isFalse(spiedUpdateData.stateDiff.typeState[type].facets.enabled, 'Facets should no longer be enabled')
+    assert.isEmpty(spiedUpdateData.stateDiff.tabs[tabType].types[type].criteria.requestFacets, 'Facets should not longer be requested')
+    assert.isFalse(spiedUpdateData.stateDiff.tabs[tabType].types[type].facets.enabled, 'Facets should no longer be enabled')
 
     // 2 - Re-render with new context, check component properties and callback when toggling on
     enzymeWrapper.setProps({
       ...props,
-      resultsContext: UIClient.ResultsContextHelper.mergeDeep(props.resultsContext, spiedUpdateData.stateDiff),
+      resultsContext: UIDomain.ResultsContextHelper.deepMerge(props.resultsContext, spiedUpdateData.stateDiff),
     })
     componentWrapper = enzymeWrapper.find(ToggleFiltersComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
@@ -108,13 +118,15 @@ describe('[SEARCH RESULTS] Testing ToggleFiltersContainer', () => {
     }, 'Component should filters should be correctly updated')
     enzymeWrapper.instance().onFiltersToggled()
     assert.equal(spiedUpdateData.moduleId, props.moduleId, 'Spied data should have been called (module id)')
-    assert.isNotEmpty(spiedUpdateData.stateDiff.typeState[type].criteria.requestFacets, 'Facets should be requested again')
-    assert.isTrue(spiedUpdateData.stateDiff.typeState[type].facets.enabled, 'Facets should be enabled again')
+    assert.isNotEmpty(spiedUpdateData.stateDiff.tabs[tabType].types[type].criteria.requestFacets, 'Facets should be requested again')
+    assert.isTrue(spiedUpdateData.stateDiff.tabs[tabType].types[type].facets.enabled, 'Facets should be enabled again')
   }))
   it('should hide component when facets are forbidden', () => {
     const props = {
       moduleId: 1,
-      resultsContext: dataContext, // initially in DATASET type, which forbids facets,
+      // initially in DATASET type, which forbids facets,
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+      resultsContext: dataContext,
       updateResultsContext: () => {},
     }
     const enzymeWrapper = shallow(<ToggleFiltersContainer {...props} />, { context })

@@ -20,7 +20,7 @@ import { CatalogDomain } from '@regardsoss/domain'
 import { Entity } from './Entity'
 
 /** Tag shape, as considered by the UI */
-export default PropTypes.shape({ // TODO: still used?
+export default PropTypes.shape({
   type: PropTypes.oneOf(CatalogDomain.TAG_TYPES).isRequired,
   data: PropTypes.oneOfType([PropTypes.string, Entity]).isRequired,
 })

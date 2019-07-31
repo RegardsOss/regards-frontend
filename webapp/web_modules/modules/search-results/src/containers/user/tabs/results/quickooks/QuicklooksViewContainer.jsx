@@ -110,13 +110,13 @@ export class QuicklooksViewContainer extends React.Component {
     const {
       selectedTypeState: { enableDownload, enableServices },
       selectedModeState: { presentationModels },
-    } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     const { resultsContext: oldContext, tabType: oldTabType } = oldProps
     const {
       selectedTypeState: { enableDownload: oldEnableDownload, enableServices: oldEnableServices },
       selectedModeState: { presentationModels: oldPresentationModels },
-    } = oldContext && oldTabType ? UIDomain.ResultsContextConstants.getViewData(oldProps.resultsContext, oldTabType) : {
+    } = oldContext && oldTabType ? UIDomain.ResultsContextHelper.getViewData(oldProps.resultsContext, oldTabType) : {
       selectedTypeState: {},
       selectedModeState: {},
     }

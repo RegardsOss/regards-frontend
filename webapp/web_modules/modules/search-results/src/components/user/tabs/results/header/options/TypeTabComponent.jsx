@@ -51,7 +51,7 @@ class TypeTabComponent extends React.Component {
     } = this.props
     const { intl: { locale, formatMessage } } = this.context
     const IconConstructor = TypeTabComponent.ICON_CONSTRUCTOR_BY_TYPE[type]
-    const { selectedType, tab } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedType, tab } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
       <FlatButton
         // label from configuration when provided, default otherwise

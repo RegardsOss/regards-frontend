@@ -19,8 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import FlatButton from 'material-ui/FlatButton'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DamDomain } from '@regardsoss/domain'
 import TypeTabComponent from '../../../../../../../src/components/user/tabs/results/header/options/TypeTabComponent'
 import styles from '../../../../../../../src/styles'
 import { dataContext } from '../../../../../../dumps/data.context.dump'
@@ -41,9 +41,11 @@ describe('[SEARCH RESULTS] Testing TypeTabComponent', () => {
   it('should render correctly selected (from context)', () => {
     const props = {
       type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       resultsContext: dataContext,
       onTypeSelected: () => {},
     }
+
     const enzymeWrapper = shallow(<TypeTabComponent {...props} />, { context })
     const button = enzymeWrapper.find(FlatButton)
     assert.lengthOf(button, 1)
@@ -57,6 +59,7 @@ describe('[SEARCH RESULTS] Testing TypeTabComponent', () => {
   it('should render correctly unselected (from context)', () => {
     const props = {
       type: DamDomain.ENTITY_TYPES_ENUM.DATA,
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       resultsContext: dataContext,
       onTypeSelected: () => {},
     }

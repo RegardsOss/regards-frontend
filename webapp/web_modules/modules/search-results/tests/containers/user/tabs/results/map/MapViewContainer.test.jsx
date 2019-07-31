@@ -19,7 +19,6 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import { UIClient } from '@regardsoss/client'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { getSearchCatalogClient } from '../../../../../../src/clients/SearchEntitiesClient'
 import MapViewComponent from '../../../../../../src/components/user/tabs/results/map/MapViewComponent'
@@ -41,17 +40,20 @@ describe('[SEARCH RESULTS] Testing MapViewContainer', () => {
     assert.isDefined(MapViewContainer)
   })
   const testCases = [{
+    tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     descriptionAvailable: true,
     enableCart: true,
   }, {
+    tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
     descriptionAvailable: false,
     enableCart: false,
   }]
-  testCases.forEach(({ descriptionAvailable, enableCart }) => it(
+  testCases.forEach(({ tabType, descriptionAvailable, enableCart }) => it(
     `should render correctly, ${enableCart ? 'with' : 'without'} cart and ${descriptionAvailable ? 'with' : 'without'} desciption`, () => {
       const props = {
         moduleId: 1,
-        resultsContext: UIClient.ResultsContextHelper.mergeDeep(dataContext, {
+        tabType,
+        resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
           type: DamDomain.ENTITY_TYPES_ENUM.DATA,
           typeState: {
             [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
@@ -73,6 +75,7 @@ describe('[SEARCH RESULTS] Testing MapViewContainer', () => {
       assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
       testSuiteHelpers.assertWrapperProperties(componentWrapper, {
         moduleId: props.moduleId,
+        tabType,
         resultsContext: props.resultsContext,
         requestParameters: props.requestParameters,
         searchActions: props.searchActions,

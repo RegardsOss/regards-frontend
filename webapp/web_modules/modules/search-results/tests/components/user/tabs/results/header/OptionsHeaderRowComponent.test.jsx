@@ -70,7 +70,11 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
       },
     }],
     hasMultipleTypes: true,
-  }, // TODO add here a test with DATA only and no service
+  }, {
+    context: dataContext,
+    services: [],
+    hasMultipleTypes: true,
+  },
   ]
 
   testCases.forEach(({ context, services, hasMultipleTypes }) => {

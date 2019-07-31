@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { TableSelectAllOption } from '@regardsoss/components'
 import { SelectAllContainer } from '../../../../../../../src/containers/user/tabs/results/header/options/SelectAllContainer'
@@ -38,6 +39,7 @@ describe('[SEARCH RESULTS] Testing SelectAllContainer', () => {
   })
   it('should render correctly when there is no data', () => {
     const props = {
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       allSelected: false,
       pageMetadata: {
         number: 1,
@@ -58,6 +60,7 @@ describe('[SEARCH RESULTS] Testing SelectAllContainer', () => {
   })
   it('should render correctly when all elements are selected', () => {
     const props = {
+      tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
       allSelected: true,
       pageMetadata: {
         number: 1,
@@ -78,6 +81,7 @@ describe('[SEARCH RESULTS] Testing SelectAllContainer', () => {
   })
   it('should render correctly when some elements are not selected', () => {
     const props = {
+      tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
       allSelected: false,
       pageMetadata: {
         number: 1,

@@ -84,7 +84,7 @@ class OptionsHeaderRowComponent extends React.Component {
 
     const {
       tab, selectedMode, selectedTypeState, selectedModeState,
-    } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     const showTypeTabs = reduce(tab.types, (count, typeState) => typeState.enabled ? count + 1 : count, 0) > 1
     return (

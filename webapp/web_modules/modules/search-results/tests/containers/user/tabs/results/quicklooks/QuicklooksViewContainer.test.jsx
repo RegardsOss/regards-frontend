@@ -19,7 +19,6 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import { UIClient } from '@regardsoss/client'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { getSearchCatalogClient } from '../../../../../../src/clients/SearchEntitiesClient'
 import QuicklooksViewComponent from '../../../../../../src/components/user/tabs/results/quickooks/QuicklooksViewComponent'
@@ -43,11 +42,17 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
   it('should render correctly in standalone quicklooks view', () => {
     const { searchDataobjectsActions } = getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS)
     const props = {
-      resultsContext: UIClient.ResultsContextHelper.mergeDeep(dataContext, {
-        type: DamDomain.ENTITY_TYPES_ENUM.DATA,
-        typeState: {
-          [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
-            mode: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+      resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
+        selectedTab: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+        tabs: {
+          [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+            selectedType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+            types: {
+              [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
+                selectedMode: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
+              },
+            },
           },
         },
       }),
@@ -73,6 +78,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
 
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      tabType: props.tabType,
       requestParameters: props.requestParameters,
       searchActions: searchDataobjectsActions,
       embedInMap: false,
@@ -95,11 +101,17 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
   it('should render correctly embedded in map view', () => {
     const { searchDataobjectsActions } = getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS)
     const props = {
-      resultsContext: UIClient.ResultsContextHelper.mergeDeep(dataContext, {
-        type: DamDomain.ENTITY_TYPES_ENUM.DATA,
-        typeState: {
-          [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
-            mode: UIDomain.RESULTS_VIEW_MODES_ENUM.MAP,
+      tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
+      resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
+        selectedTab: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
+        tabs: {
+          [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
+            selectedType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+            types: {
+              [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
+                selectedMode: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
+              },
+            },
           },
         },
       }),
@@ -125,11 +137,12 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
 
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      tabType: props.tabType,
       requestParameters: props.requestParameters,
       searchActions: searchDataobjectsActions,
       embedInMap: true,
       cellProperties: {
-        presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK].presentationModels,
+        presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK].presentationModels,
         enableServices: true,
         descriptionAvailable: false,
         onAddElementToCart: props.onAddElementToCart,

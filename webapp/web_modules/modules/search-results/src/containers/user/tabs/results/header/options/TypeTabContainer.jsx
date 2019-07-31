@@ -54,7 +54,7 @@ export class TypeTabContainer extends React.Component {
     const {
       moduleId, type, tabType, resultsContext, updateResultsContext,
     } = this.props
-    const { selectedType } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedType } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     if (selectedType !== type) {
       // update state by diff (only set the new type field value)
       updateResultsContext(moduleId, {

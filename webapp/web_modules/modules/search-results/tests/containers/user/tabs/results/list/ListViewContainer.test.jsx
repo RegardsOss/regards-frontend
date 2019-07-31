@@ -20,7 +20,6 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import { UIClient } from '@regardsoss/client'
 import ListViewComponent from '../../../../../../src/components/user/tabs/results/list/ListViewComponent'
 import { ListViewContainer } from '../../../../../../src/containers/user/tabs/results/list/ListViewContainer'
 import { getSearchCatalogClient } from '../../../../../../src/clients/SearchEntitiesClient'
@@ -41,9 +40,9 @@ describe('[SEARCH RESULTS] Testing ListViewContainer', () => {
     assert.isDefined(ListViewContainer)
   })
   const testCases = [{
+    tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
     type: DamDomain.ENTITY_TYPES_ENUM.DATA,
     resultsContext: dataContext,
-    tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
     descriptionAvailable: true,
     enableCart: true,
     expectThumbnail: true,
@@ -52,9 +51,9 @@ describe('[SEARCH RESULTS] Testing ListViewContainer', () => {
     expectServicesEnabled: true,
     expectSearchEnabled: false,
   }, {
+    tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
     resultsContext: dataContext,
-    tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     descriptionAvailable: false,
     enableCart: false,
     expectThumbnail: false,
@@ -65,7 +64,7 @@ describe('[SEARCH RESULTS] Testing ListViewContainer', () => {
   }]
 
   testCases.forEach(({
-    type, resultsContext, tabType,
+    tabType, type, resultsContext,
     descriptionAvailable, enableCart,
     expectThumbnail, expectSelectionEnabled, expectDownloadEnabled,
     expectServicesEnabled, expectSearchEnabled,
@@ -73,11 +72,18 @@ describe('[SEARCH RESULTS] Testing ListViewContainer', () => {
     const { searchDataobjectsActions, searchDatasetsActions } = getSearchCatalogClient(tabType)
     const searchActions = type === DamDomain.ENTITY_TYPES_ENUM.DATASET ? searchDatasetsActions : searchDataobjectsActions
     const props = {
-      resultsContext: UIClient.ResultsContextHelper.mergeDeep(resultsContext, {
-        type,
-        typeState: {
-          [type]: { mode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST },
-          [type]: { mode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST },
+      tabType,
+      resultsContext: UIDomain.ResultsContextHelper.deepMerge(resultsContext, {
+        selectedTab: tabType,
+        tabs: {
+          [tabType]: {
+            selectedType: type,
+            types: {
+              [type]: {
+                selectedMode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
+              },
+            },
+          },
         },
       }),
       requestParameters: {},
@@ -94,6 +100,7 @@ describe('[SEARCH RESULTS] Testing ListViewContainer', () => {
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     const { thumbnailRenderData, gridAttributesRenderData } = enzymeWrapper.state()
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      tabType,
       type,
       requestParameters: props.requestParameters,
       searchActions: props.searchActions,
@@ -117,7 +124,7 @@ describe('[SEARCH RESULTS] Testing ListViewContainer', () => {
       assert.isNotOk(thumbnailRenderData, 'Thumbnail should not be built')
     }
     // check built attributes
-    const initialModels = resultsContext.typeState[type].modeState[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST].presentationModels
+    const initialModels = resultsContext.tabs[tabType].types[type].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST].presentationModels
     assert.lengthOf(gridAttributesRenderData, initialModels.length - (expectThumbnail ? 1 : 0),
       'All attributes should have been rebuilt (except thumbnail if present)')
   }))

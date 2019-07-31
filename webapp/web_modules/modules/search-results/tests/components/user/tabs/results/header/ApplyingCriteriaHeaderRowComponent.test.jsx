@@ -21,7 +21,9 @@ import { assert } from 'chai'
 import { CatalogDomain } from '@regardsoss/domain'
 import { ShowableAtRender } from '@regardsoss/display-control'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { CriterionBuilder } from '../../../../../../src/definitions/CriterionBuilder'
 import ApplyingCriteriaHeaderRowComponent from '../../../../../../src/components/user/tabs/results/header/ApplyingCriteriaHeaderRowComponent'
+import TagCriterionComponent from '../../../../../../src/components/user/tabs/results/header/filter/TagCriterionComponent'
 import SelectedBooleanFacetComponent from '../../../../../../src/components/user/tabs/results/header/filter/facets/SelectedBooleanFacetComponent'
 import SelectedDateRangeFacetComponent from '../../../../../../src/components/user/tabs/results/header/filter/facets/SelectedDateRangeFacetComponent'
 import SelectedNumberRangeFacetComponent from '../../../../../../src/components/user/tabs/results/header/filter/facets/SelectedNumberRangeFacetComponent'
@@ -30,9 +32,12 @@ import GeometryCriterionComponent from '../../../../../../src/components/user/ta
 import EntitiesSelectionCriterionComponent from '../../../../../../src/components/user/tabs/results/header/filter/EntitiesSelectionCriterionComponent'
 import styles from '../../../../../../src/styles'
 import resultsDump from '../../../../../dumps/results.dump'
+import { datasetEntity } from '../../../../../dumps/entities.dump'
 import { attributes } from '../../../../../dumps/attributes.dump'
 
 const context = buildTestContext(styles)
+
+const aDatasetTag = CriterionBuilder.buildEntityTagCriterion(datasetEntity)
 
 // Some criteria def (common to all tests below)
 const boolFacet = {
@@ -97,9 +102,11 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
   })
   it('should render hidden when no criterion is applying', () => {
     const props = {
+      tagsFiltering: [],
       facetValues: [],
       geometries: [],
       entitiesSelections: [],
+      onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
@@ -109,11 +116,29 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
     assert.lengthOf(showable, 1)
     assert.isFalse(showable.props().show)
   })
+  it('should render visible with one tag filter only', () => {
+    const props = {
+      tagsFiltering: [aDatasetTag],
+      facetValues: [],
+      geometries: [],
+      entitiesSelections: [],
+      onUnselectTagFilter: () => {},
+      onUnselectFacetValue: () => {},
+      onUnselectGeometry: () => {},
+      onUnselectEntitiesSelection: () => {},
+    }
+    const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
+    const showable = enzymeWrapper.find(ShowableAtRender)
+    assert.lengthOf(showable, 1)
+    assert.isTrue(showable.props().show)
+  })
   it('should render visible whth one facet only', () => {
     const props = {
+      tagsFiltering: [],
       facetValues: [boolFacet],
       geometries: [],
       entitiesSelections: [],
+      onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
@@ -125,9 +150,11 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
   })
   it('should render visible whth one entities selection only', () => {
     const props = {
+      tagsFiltering: [],
       facetValues: [],
       geometries: [],
       entitiesSelections: [entitiesSelection],
+      onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
@@ -139,9 +166,11 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
   })
   it('should render visible whth one geometry selection only', () => {
     const props = {
+      tagsFiltering: [],
       facetValues: [],
       geometries: [geometrySelection],
       entitiesSelections: [],
+      onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
@@ -153,9 +182,11 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
   })
   it('should render all available filters', () => {
     const props = {
+      tagsFiltering: [aDatasetTag],
       facetValues: [boolFacet, dateRangeFacet, numberRangeFacet, wordFacet],
       geometries: [geometrySelection],
       entitiesSelections: [entitiesSelection],
+      onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
@@ -164,6 +195,13 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
     const showable = enzymeWrapper.find(ShowableAtRender)
     assert.lengthOf(showable, 1)
     assert.isTrue(showable.props().show)
+
+    const tagFilterComponent = enzymeWrapper.find(TagCriterionComponent)
+    assert.lengthOf(tagFilterComponent, 1, 'There should be a tag criterion filter component')
+    testSuiteHelpers.assertWrapperProperties(tagFilterComponent, {
+      tagCriterion: aDatasetTag,
+      onUnselectTagFilter: props.onUnselectTagFilter,
+    }, 'Tag filter component properties should be correctly set')
 
     const boolFacetComponent = enzymeWrapper.find(SelectedBooleanFacetComponent)
     assert.lengthOf(boolFacetComponent, 1, 'There should be selected boolean facet displayer')

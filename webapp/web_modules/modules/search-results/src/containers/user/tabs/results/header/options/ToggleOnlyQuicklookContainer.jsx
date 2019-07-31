@@ -76,7 +76,7 @@ export class ToggleOnlyQuicklookContainer extends React.Component {
    */
   isFilteringOnlyQuicklook = () => {
     const { tabType, resultsContext } = this.props
-    const { tab } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { tab } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return tab.criteria.quicklookFiltering.includes(ToggleOnlyQuicklookContainer.ONLY_QUICKLOOK_CRITERION)
   }
 

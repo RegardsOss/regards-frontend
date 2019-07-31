@@ -20,7 +20,6 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { UIDomain, DamDomain } from '@regardsoss/domain'
-import { UIClient } from '@regardsoss/client'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { getSearchCatalogClient } from '../../../../../../src/clients/SearchEntitiesClient'
 import TableViewComponent from '../../../../../../src/components/user/tabs/results/table/TableViewComponent'
@@ -43,6 +42,7 @@ describe('[SEARCH RESULTS] Testing TableViewContainer', () => {
   })
   const testCases = [{
     type: DamDomain.ENTITY_TYPES_ENUM.DATA,
+    tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
     resultsContext: dataContext,
     searchActions: getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS).searchDataobjectsActions,
     descriptionAvailable: true,
@@ -52,6 +52,7 @@ describe('[SEARCH RESULTS] Testing TableViewContainer', () => {
     expectSearchEnabled: false,
   }, {
     type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+    tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     resultsContext: dataContext,
     searchActions: getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS).searchDatasetsActions,
     descriptionAvailable: false,
@@ -62,16 +63,24 @@ describe('[SEARCH RESULTS] Testing TableViewContainer', () => {
   }]
 
   testCases.forEach(({
-    type, resultsContext, searchActions,
+    type, tabType, resultsContext, searchActions,
     descriptionAvailable, enableCart,
     expectDownloadEnabled, expectServicesEnabled, expectSearchEnabled,
   }) => it(`should render correctly for ${type}`, () => {
     const props = {
       moduleId: 1,
-      resultsContext: UIClient.ResultsContextHelper.mergeDeep(resultsContext, {
-        type,
-        typeState: {
-          [type]: { mode: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE },
+      tabType,
+      resultsContext: UIDomain.ResultsContextHelper.deepMerge(resultsContext, {
+        selectedTab: tabType,
+        tabs: {
+          [tabType]: {
+            selectedType: type,
+            types: {
+              [type]: {
+                selectedMode: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
+              },
+            },
+          },
         },
       }),
       requestParameters: {},
@@ -89,6 +98,7 @@ describe('[SEARCH RESULTS] Testing TableViewContainer', () => {
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     const { columnPresentationModels } = enzymeWrapper.state()
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      tabType,
       type,
       columnPresentationModels,
       requestParameters: props.requestParameters,
@@ -105,7 +115,7 @@ describe('[SEARCH RESULTS] Testing TableViewContainer', () => {
       onSort: enzymeWrapper.instance().onSort,
     }, 'Component should define the expected properties')
     assert.lengthOf(columnPresentationModels,
-      resultsContext.typeState[type].modeState[UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE].presentationModels.length,
+      props.resultsContext.tabs[tabType].types[type].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE].presentationModels.length,
       'There should be one column presentation model for each configured column')
   }))
 })

@@ -111,7 +111,7 @@ export class TableViewContainer extends React.Component {
     // when presentation models changed or sorting changed, remerge into pre-built presentation models with sorting
     // extract current presentation models and sorting
     const { resultsContext, tabType } = newProps
-    const { selectedTypeState, selectedModeState } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedTypeState, selectedModeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     const newAppliedSorting = selectedTypeState.criteria.sorting
     const newPresentationModels = selectedModeState.presentationModels
 
@@ -120,7 +120,7 @@ export class TableViewContainer extends React.Component {
     let oldAppliedSorting = null
     let oldPresentationModels = null
     if (oldResultsContext && oldTabType) {
-      const { selectedTypeState: oldTypeState, selectedModeState: oldModeState } = UIDomain.ResultsContextConstants.getViewData(oldResultsContext, oldTabType)
+      const { selectedTypeState: oldTypeState, selectedModeState: oldModeState } = UIDomain.ResultsContextHelper.getViewData(oldResultsContext, oldTabType)
       oldAppliedSorting = oldTypeState.criteria.sorting
       oldPresentationModels = oldModeState.presentationModels
     }
@@ -153,7 +153,7 @@ export class TableViewContainer extends React.Component {
         isInInitialSorting, initialSorting, criteria: { sorting },
       },
       selectedModeState: { presentationModels },
-    } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     const updatedSortingModel = presentationModels.find(({ key }) => key === presentationModelKey)
     const sortingAttribute = updatedSortingModel.attributes[0]
 
@@ -215,7 +215,7 @@ export class TableViewContainer extends React.Component {
       onSearchEntity,
     } = this.props
     const { columnPresentationModels } = this.state
-    const { selectedType, selectedTypeState } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedType, selectedTypeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     return (
       <TableViewComponent

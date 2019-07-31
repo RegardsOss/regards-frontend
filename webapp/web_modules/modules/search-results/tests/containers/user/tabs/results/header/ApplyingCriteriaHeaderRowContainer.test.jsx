@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { UIDomain } from '@regardsoss/domain'
 import ApplyingCriteriaHeaderRowComponent from '../../../../../../src/components/user/tabs/results/header/ApplyingCriteriaHeaderRowComponent'
 import { ApplyingCriteriaHeaderRowContainer } from '../../../../../../src/containers/user/tabs/results/header/ApplyingCriteriaHeaderRowContainer'
 import styles from '../../../../../../src/styles'
@@ -40,6 +41,7 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowContainer', () => {
   it('should render correctly with data context', () => {
     const props = {
       moduleId: 1,
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       resultsContext: dataContext,
       updateResultsContext: () => {},
     }
@@ -47,9 +49,11 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowContainer', () => {
     const componentWrapper = enzymeWrapper.find(ApplyingCriteriaHeaderRowComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      tagsFiltering: [],
       facetValues: [],
       geometries: [],
       entitiesSelections: [],
+      onUnselectTagFilter: enzymeWrapper.instance().onUnselectTagFilter,
       onUnselectFacetValue: enzymeWrapper.instance().onUnselectFacetValue,
       onUnselectGeometry: enzymeWrapper.instance().onUnselectGeometry,
       onUnselectEntitiesSelection: enzymeWrapper.instance().onUnselectEntitiesSelection,

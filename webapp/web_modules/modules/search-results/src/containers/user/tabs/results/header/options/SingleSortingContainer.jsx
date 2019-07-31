@@ -80,7 +80,7 @@ export class SingleSortingContainer extends React.Component {
       selectedTypeState: {
         enableSorting, isInInitialSorting, initialSorting, criteria: { sorting: currentSorting },
       }, selectedModeState: { presentationModels },
-    } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     const newState = {
       enableSorting,
@@ -133,7 +133,7 @@ export class SingleSortingContainer extends React.Component {
       const {
         moduleId, resultsContext, tabType, updateResultsContext,
       } = this.props
-      const { selectedType } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+      const { selectedType } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
       updateResultsContext(moduleId, {
         tabs: {
           [tabType]: {

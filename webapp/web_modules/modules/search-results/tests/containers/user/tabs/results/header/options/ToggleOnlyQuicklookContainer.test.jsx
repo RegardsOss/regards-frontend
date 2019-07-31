@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { UIClient } from '@regardsoss/client'
+import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ToggleOnlyQuicklookComponent from '../../../../../../../src/components/user/tabs/results/header/options/ToggleOnlyQuicklookComponent'
 import { ToggleOnlyQuicklookContainer } from '../../../../../../../src/containers/user/tabs/results/header/options/ToggleOnlyQuicklookContainer'
@@ -45,6 +45,7 @@ describe('[SEARCH RESULTS] Testing ToggleOnlyQuicklookContainer', () => {
     }
     const props = {
       moduleId: 1,
+      tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
       resultsContext: dataContext,
       updateResultsContext: (moduleId, stateDiff) => {
         spiedUpdateData.moduleId = moduleId
@@ -63,11 +64,11 @@ describe('[SEARCH RESULTS] Testing ToggleOnlyQuicklookContainer', () => {
     enzymeWrapper.instance().onQuicklookOnlyToggled()
     assert.equal(spiedUpdateData.moduleId, props.moduleId, 'Update results context should have been called with the right module id')
     assert.isNotNull(spiedUpdateData.stateDiff, 'Update results context should have been called with state diff')
-    assert.include(spiedUpdateData.stateDiff.criteria.quicklookFiltering, ToggleOnlyQuicklookContainer.ONLY_QUICKLOOK_CRITERION, 'Only quicklooks criterion should now be part of the request')
+    assert.include(spiedUpdateData.stateDiff.tabs[props.tabType].criteria.quicklookFiltering, ToggleOnlyQuicklookContainer.ONLY_QUICKLOOK_CRITERION, 'Only quicklooks criterion should now be part of the request')
     // Update to test toggle off
     enzymeWrapper.setProps({
       ...props,
-      resultsContext: UIClient.ResultsContextHelper.mergeDeep(dataContext, spiedUpdateData.stateDiff),
+      resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, spiedUpdateData.stateDiff),
     })
     componentWrapper = enzymeWrapper.find(ToggleOnlyQuicklookComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
@@ -78,6 +79,6 @@ describe('[SEARCH RESULTS] Testing ToggleOnlyQuicklookContainer', () => {
     enzymeWrapper.instance().onQuicklookOnlyToggled()
     assert.equal(spiedUpdateData.moduleId, props.moduleId, '(2) Update results context should have been called with the right module id')
     assert.isNotNull(spiedUpdateData.stateDiff, '(2) Update results context should have been called with state diff')
-    assert.isEmpty(spiedUpdateData.stateDiff.criteria.quicklookFiltering, '(2) Only quicklooks criterion should have been removed from request')
+    assert.isEmpty(spiedUpdateData.stateDiff.tabs[props.tabType].criteria.quicklookFiltering, '(2) Only quicklooks criterion should have been removed from request')
   })
 })

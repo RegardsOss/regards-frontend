@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import ResultsContextActions from './ResultsContextActions'
-import { ResultsContextHelper } from './ResultsContextHelper'
 
 /**
  * Results context actions: used to drive each results module context, by their module ID. That client
@@ -51,7 +51,7 @@ export class ResultsContextReducer {
       case this.actionsModel.UPDATE_CONTEXT: {
         return {
           ...state,
-          [action.moduleId]: ResultsContextHelper.mergeDeep(state[action.moduleId], action.stateDiff),
+          [action.moduleId]: UIDomain.ResultsContextHelper.deepMerge(state[action.moduleId], action.stateDiff),
         }
       }
       default:

@@ -23,7 +23,6 @@ import isString from 'lodash/isString'
 import last from 'lodash/last'
 import { browserHistory } from 'react-router'
 import { UIDomain, CatalogDomain, DamDomain } from '@regardsoss/domain'
-import { UIClient } from '@regardsoss/client'
 import { CriterionBuilder } from '../../../definitions/CriterionBuilder'
 
 /**
@@ -58,13 +57,13 @@ export class URLContextHelper {
               resolve(previousContext) // (2.b)
             }
             // 2.a - successful entity resolution, complete context
-            resolve(UIClient.ResultsContextHelper.mergeDeep(previousContext, buildContext(payload)))
+            resolve(UIDomain.ResultsContextHelper.deepMerge(previousContext, buildContext(payload)))
           })
           // Entity resolution failed (2.b)
-          .catch(err => console.error('THERE is an error', err) || resolve(previousContext)) // TODO delete console error
+          .catch(err => resolve(previousContext))
       } else {
         // 1.b -> 2.a : a simple value, resolve immediately
-        resolve(UIClient.ResultsContextHelper.mergeDeep(previousContext, buildContext(value)))
+        resolve(UIDomain.ResultsContextHelper.deepMerge(previousContext, buildContext(value)))
       }
     })
   }
@@ -247,7 +246,7 @@ export class URLContextHelper {
   static buildURLQuery(resultsContext) {
     return URLContextHelper.MODULE_URL_PARAMETERS.reduce((acc, { name, toParameterValue }) => {
       const parameterValue = toParameterValue(resultsContext)
-      // TODO remove parameters when they worth default value?
+      // TODO remove parameters worthing default configuration value
       return isNil(parameterValue) ? acc : {
         ...acc,
         [name]: parameterValue,

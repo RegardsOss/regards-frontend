@@ -45,6 +45,7 @@ describe('[SEARCH RESULTS] Testing ListCellContainer', () => {
   const testCases = [{
     label: 'data with services',
     entity: dataEntityWithServices,
+    tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
     presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST].presentationModels,
     enableSelection: true,
     descriptionAvailable: true,
@@ -55,6 +56,7 @@ describe('[SEARCH RESULTS] Testing ListCellContainer', () => {
   }, {
     label: 'data without service',
     entity: dataEntity,
+    tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST].presentationModels,
     enableSelection: true,
     descriptionAvailable: false,
@@ -65,6 +67,7 @@ describe('[SEARCH RESULTS] Testing ListCellContainer', () => {
   }, {
     label: 'dataset',
     entity: datasetEntity,
+    tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATASET].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST].presentationModels,
     enableSelection: false,
     descriptionAvailable: true,
@@ -75,13 +78,14 @@ describe('[SEARCH RESULTS] Testing ListCellContainer', () => {
   }]
 
   testCases.forEach(({
-    label, entity, presentationModels,
+    tabType, label, entity, presentationModels,
     enableSelection, descriptionAvailable, enableDownload,
     enableCart, enableServices, enableSearchEntity,
   }) => it(`It should render correctly ${label}`, () => {
     const props = {
       rowIndex: 1,
       entity,
+      tabType,
       thumbnailRenderData: ListViewContainer.buildThumbnailRenderData(presentationModels),
       gridAttributesRenderData: ListViewContainer.buildGridAttributesRenderData(presentationModels),
       enableSelection,

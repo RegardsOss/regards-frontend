@@ -120,7 +120,7 @@ export class SearchResultsContainer extends React.Component {
     const newState = { ...this.state }
 
     // 1 - Gather all applying criteria and store them in state (to know when request parameters should be recomputed)
-    const { tab, selectedType, selectedTypeState } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { tab, selectedType, selectedTypeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     newState.applyingCriteria = [
       ...SearchResultsContainer.getCriteriaMapAsArray(tab.criteria),
@@ -196,7 +196,7 @@ export class SearchResultsContainer extends React.Component {
       moduleId, resultsContext, tabType, updateResultsContext,
     } = this.props
 
-    const { selectedType } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedType } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     updateResultsContext(moduleId, {
       tabs: {
@@ -218,7 +218,7 @@ export class SearchResultsContainer extends React.Component {
       accessToken, project,
     } = this.props
     const { restrictedDatasetsIds, requestParameters, searchActions } = this.state
-    const { selectedType, selectedMode } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedType, selectedMode } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     return (
       <React.Fragment>

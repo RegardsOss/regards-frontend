@@ -40,7 +40,7 @@ describe('[SEARCH RESULTS] Testing MainConfigurationComponent', () => {
     assert.isDefined(MainConfigurationComponent)
   })
 
-  it(`should render correctly DATA and DATASET form values`, () => {
+  it('should render correctly DATA and DATASET form values', () => {
     const props = {
       currentNamespace: 'conf',
       currentFormValues: dataConfiguration,

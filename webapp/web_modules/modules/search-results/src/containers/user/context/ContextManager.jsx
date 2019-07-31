@@ -126,20 +126,42 @@ export class ContextManager extends React.Component {
    * tags (as some tag entities may not be available to all users)
    **/
   onAuthenticationChanged = () => {
-    const { moduleId, updateResultsContext, fetchEntity } = this.props
+    const { fetchEntity } = this.props
     // Attempt current context reolsution from URL (handles URL sharing cases with authentication required and context update on
     // profile change). Nota: we use here an initial void state diff to avoid overriding parent control and user changes
-    URLContextHelper.resolveContextFromURL({}, fetchEntity)
-      .then((contextWithURL) => {
-        updateResultsContext(moduleId, contextWithURL)
-        this.setState({ initialized: true })
-      })
+    URLContextHelper.resolveContextFromURL({}, fetchEntity).then(contextWithURL => this.commitCoherentContext(contextWithURL))
   }
 
+  /**
+   * Checks and corrects a resolved context from URL, then commits it to redux store and marks the component initialized
+   * @param {*} contextDiff partial context to commit
+   */
+  commitCoherentContext = (contextDiff) => {
+    const { moduleId, updateResultsContext, resultsContext } = this.props
+    const contextToCommit = { ...contextDiff }
+    // compute the resulting next context
+    const nextFullContext = UIDomain.ResultsContextHelper.deepMerge(resultsContext, contextDiff)
+    // Is description tab without entities?
+    if (nextFullContext.selectedTab === UIDomain.RESULTS_TABS_ENUM.DESCRIPTION
+      && !get(nextFullContext, `tabs.${UIDomain.RESULTS_TABS_ENUM.DESCRIPTION}.descriptionPath.length`, 0)) {
+      contextToCommit.selectedTab = UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS
+    }
+    // Is tag results with context tag?
+    if (nextFullContext.selectedTab === UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS
+      && !get(nextFullContext, `tabs.${UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS}.criteria.contextTags.length`, 0)) {
+      contextToCommit.selectedTab = UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS
+    }
+
+    updateResultsContext(moduleId, contextToCommit)
+    this.setState({ initialized: true })
+  }
+
+  /**
+   * Initializes results context from current URL
+   */
   initializeFromURL() {
     const {
-      configuration, resultsContext, attributeModels,
-      moduleId, updateResultsContext, fetchEntity,
+      configuration, resultsContext, attributeModels, fetchEntity,
     } = this.props
     // 1 - Convert module configuration into results context
     const contextFromConfiguration = ContextInitializationHelper.buildDefaultResultsContext(configuration, attributeModels)
@@ -147,16 +169,9 @@ export class ContextManager extends React.Component {
     const { contextTags = [], otherFilters = [] } = get(resultsContext, `tabs.${UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS}.criteria`, {})
     contextFromConfiguration.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.contextTags = contextTags
     contextFromConfiguration.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.otherFilters = otherFilters
-    // TODO: check coherency (due to non retrieved URNs)
     // 3 - Resolve context from URL then commit it to module state
-    URLContextHelper.resolveContextFromURL(contextFromConfiguration, fetchEntity)
-      .then((contextWithURL) => {
-        console.error('I resolved from URL', contextWithURL, contextWithURL instanceof Promise)
-        updateResultsContext(moduleId, contextWithURL)
-        this.setState({ initialized: true })
-      })
+    URLContextHelper.resolveContextFromURL(contextFromConfiguration, fetchEntity).then(contextWithURL => this.commitCoherentContext(contextWithURL))
   }
-
 
   render() {
     const { children } = this.props

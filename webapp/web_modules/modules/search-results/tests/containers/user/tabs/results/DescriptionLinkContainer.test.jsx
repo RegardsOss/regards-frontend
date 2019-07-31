@@ -18,14 +18,11 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { DamDomain, UIDomain } from '@regardsoss/domain'
+import { DamDomain } from '@regardsoss/domain'
 import { DescriptionHelper } from '@regardsoss/entities-common'
-import { modulesManager } from '@regardsoss/modules'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CriterionBuilder } from '../../../../../src/definitions/CriterionBuilder'
 import { DescriptionLinkContainer } from '../../../../../src/containers/user/tabs/results/DescriptionLinkContainer'
 import { modulesDumpWithDescription } from '../../../../dumps/description.module.dump'
-import { dataEntity, datasetEntity } from '../../../../dumps/entities.dump'
 
 const context = buildTestContext()
 
@@ -42,13 +39,11 @@ describe('[Entities Common] Testing DescriptionLinkContainer', () => {
   })
   it('should show not show description when module is not available', () => {
     const props = {
-      project: 'p1',
-      appName: 'user',
-      levels: [{ type: UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL, entity: dataEntity }],
+      moduleId: 1,
       availableDependencies: DescriptionLinkContainer.DESCRIPTION_DEPENDENCIES,
       modules: {},
       dynamicContainerId: 'IDK',
-      onNavigate: () => {},
+      updateResultsContext: () => {},
     }
     const TestComponent = () => <div />
     const enzymeWrapper = shallow(
@@ -56,15 +51,12 @@ describe('[Entities Common] Testing DescriptionLinkContainer', () => {
         <TestComponent />
       </DescriptionLinkContainer>,
       { context })
-    assert.deepEqual(enzymeWrapper.state().describedEntity, dataEntity, 'Described entity should be present, as current last level is a description')
     assert.isNotOk(enzymeWrapper.state().descriptionModule, 'Module should not have been stored in state (not found)')
 
     // Check properties reporting
     const testCompWrapper = enzymeWrapper.find(TestComponent)
     const { onShowDescription, isDescAvailableFor } = enzymeWrapper.instance()
     testSuiteHelpers.assertWrapperProperties(testCompWrapper, {
-      showDescription: false, // module not resolved
-      descriptionModuleProps: {}, // module not resolved
       onShowDescription,
       isDescAvailableFor,
     })
@@ -75,15 +67,13 @@ describe('[Entities Common] Testing DescriptionLinkContainer', () => {
     assert.isFalse(isDescAvailableFor(DamDomain.ENTITY_TYPES_ENUM.COLLECTION), 'isDescAvailableFor: Description should not be available for COLLECTION: no module found')
     assert.isFalse(isDescAvailableFor(DamDomain.ENTITY_TYPES_ENUM.DOCUMENT), 'isDescAvailableFor: Description should not be available for DOCUMENT: no module found')
   })
-  it('should show not show description when last level is not description', () => {
+  it('should resolve description context when module is found', () => {
     const props = {
-      project: 'p1',
-      appName: 'user',
-      levels: [],
+      moduleId: 1,
       availableDependencies: DescriptionHelper.DESCRIPTION_DEPENDENCIES,
       modules: modulesDumpWithDescription,
       dynamicContainerId: 'IDK',
-      onNavigate: () => {},
+      updateResultsContext: () => {},
     }
     const TestComponent = () => <div />
     const enzymeWrapper = shallow(
@@ -91,31 +81,12 @@ describe('[Entities Common] Testing DescriptionLinkContainer', () => {
         <TestComponent />
       </DescriptionLinkContainer>,
       { context })
-    assert.isNull(enzymeWrapper.state().describedEntity, 'Described entity should not be present, as current last level is not a description')
     assert.equal(enzymeWrapper.state().descriptionModule, modulesDumpWithDescription[8].content, 'Module should have been stored in state (found)')
 
     // Check properties reporting
     const testCompWrapper = enzymeWrapper.find(TestComponent)
     const { onShowDescription, isDescAvailableFor } = enzymeWrapper.instance()
     testSuiteHelpers.assertWrapperProperties(testCompWrapper, {
-      showDescription: false, // module not resolved
-      descriptionModuleProps: {
-        appName: props.appName,
-        project: props.project,
-        module: {
-          id: 8,
-          type: modulesManager.AllDynamicModuleTypes.DESCRIPTION,
-          active: true,
-          applicationId: props.appName,
-          conf: {
-            ...modulesDumpWithDescription[8].content.conf,
-            runtime: {
-              onNavigate: props.onNavigate,
-              entity: null,
-            },
-          },
-        },
-      },
       onShowDescription,
       isDescAvailableFor,
     })
@@ -129,102 +100,5 @@ describe('[Entities Common] Testing DescriptionLinkContainer', () => {
       'isDescAvailableFor: Description should not be available for COLLECTION, from found module configuration')
     assert.isTrue(isDescAvailableFor(DamDomain.ENTITY_TYPES_ENUM.DOCUMENT),
       'isDescAvailableFor: Description should be available for DOCUMENT, from found module configuration')
-  })
-  it('should show / hide description as last level changes (with module)', () => {
-    const props = {
-      project: 'p1',
-      appName: 'user',
-      levels: [CriterionBuilder.buildWordTagCriterion('first-tag')],
-      availableDependencies: DescriptionHelper.DESCRIPTION_DEPENDENCIES,
-      modules: modulesDumpWithDescription,
-      dynamicContainerId: 'IDK',
-      onNavigate: () => {},
-    }
-    const TestComponent = () => <div />
-    const enzymeWrapper = shallow(
-      <DescriptionLinkContainer {...props}>
-        <TestComponent />
-      </DescriptionLinkContainer>,
-      { context })
-
-    // Check description hidden
-    let testCompWrapper = enzymeWrapper.find(TestComponent)
-    testSuiteHelpers.assertWrapperProperties(testCompWrapper, {
-      showDescription: false,
-      descriptionModuleProps: {
-        appName: props.appName,
-        project: props.project,
-        module: {
-          id: 8,
-          type: modulesManager.AllDynamicModuleTypes.DESCRIPTION,
-          active: true,
-          applicationId: props.appName,
-          conf: {
-            ...modulesDumpWithDescription[8].content.conf,
-            runtime: {
-              onNavigate: props.onNavigate,
-              entity: null,
-            },
-          },
-        },
-      },
-    })
-
-    // set a description as last level
-    const props2 = {
-      ...props,
-      levels: [...props.levels, { type: UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL, entity: dataEntity }],
-    }
-    enzymeWrapper.setProps(props2)
-    testCompWrapper = enzymeWrapper.find(TestComponent)
-    // check description shown
-    testSuiteHelpers.assertWrapperProperties(testCompWrapper, {
-      showDescription: true,
-      descriptionModuleProps: {
-        appName: props.appName,
-        project: props.project,
-        module: {
-          id: 8,
-          type: modulesManager.AllDynamicModuleTypes.DESCRIPTION,
-          active: true,
-          applicationId: props.appName,
-          conf: {
-            ...modulesDumpWithDescription[8].content.conf,
-            runtime: {
-              onNavigate: props.onNavigate,
-              entity: dataEntity,
-            },
-          },
-        },
-      },
-    })
-    // Add a non description level
-    const props3 = {
-      ...props,
-      levels: [...props2.levels, CriterionBuilder.buildEntityTagCriterion(datasetEntity)],
-    }
-    enzymeWrapper.setProps(props3)
-    testCompWrapper = enzymeWrapper.find(TestComponent)
-    // check description hidden
-    testSuiteHelpers.assertWrapperProperties(testCompWrapper, {
-      showDescription: false,
-      descriptionModuleProps: {
-        appName: props.appName,
-        project: props.project,
-        module: {
-          id: 8,
-          type: modulesManager.AllDynamicModuleTypes.DESCRIPTION,
-          active: true,
-          applicationId: props.appName,
-          conf: {
-            ...modulesDumpWithDescription[8].content.conf,
-            runtime: {
-              onNavigate: props.onNavigate,
-              entity: null,
-            },
-          },
-        },
-      },
-    })
   })
 })

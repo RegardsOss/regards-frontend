@@ -18,6 +18,8 @@
  **/
 import isPlainObject from 'lodash/isPlainObject'
 import keys from 'lodash/keys'
+import { RESULTS_TABS } from './ResultsTabs'
+import ResultsContextConstants from './ResultsContextConstants'
 
 /**
  * Helper for results context (holds merge deep common method)
@@ -31,7 +33,7 @@ export class ResultsContextHelper {
    * @param {*} diff diff object
    * @return {*} merged object
    */
-  static mergeDeep(source, diff) {
+  static deepMerge(source, diff) {
     // Merge break case A: a primary type (or previously null value) => return diff specified value
     if (!isPlainObject(source)) {
       return diff
@@ -49,12 +51,36 @@ export class ResultsContextHelper {
         mergedValue = source[key] // merge break case C: only source holds that value (keep source value)
       } else {
         // recursive loop case: value has been defined in both objects: merge one level below
-        mergedValue = ResultsContextHelper.mergeDeep(source[key], diff[key])
+        mergedValue = ResultsContextHelper.deepMerge(source[key], diff[key])
       }
       return {
         ...acc,
         [key]: mergedValue,
       }
     }, {})
+  }
+
+  /**
+ * Extracts and returns current view state (type and mode) in results tab
+ * @param {*} resultsContext results context (respects corresponding shape)
+ * @param {string} tabType tab (one of RESULTS_TABS_ENUM.MAIN_RESULTS | RESULTS_TABS_ENUM.TAG_RESULTS)
+ * @return {{tab: *, selectedType: string, selectedMode: string, selectedTypeState: *, selectedModeState: *}} tab, selected type,
+ * selected type state, selected mode and selected mode
+ */
+  static getViewData(resultsContext = {}, tabType) {
+  // check tab type
+    if (!RESULTS_TABS.includes(tabType)) {
+      throw new Error(`Invalid tab type ${tabType}`)
+    }
+    const tab = resultsContext.tabs[tabType]
+    const { selectedType, types } = tab
+    const selectedTypeState = selectedType && types ? types[selectedType] : ResultsContextConstants.DISABLED_TYPE_STATE
+    return {
+      tab,
+      selectedType,
+      selectedMode: selectedTypeState.selectedMode,
+      selectedTypeState,
+      selectedModeState: selectedTypeState.modes[selectedTypeState.selectedMode],
+    }
   }
 }

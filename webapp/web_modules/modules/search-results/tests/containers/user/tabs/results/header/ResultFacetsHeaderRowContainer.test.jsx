@@ -18,8 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { UIClient } from '@regardsoss/client'
-import { DamDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ResultFacetsHeaderRowComponent from '../../../../../../src/components/user/tabs/results/header/ResultFacetsHeaderRowComponent'
 import { ResultFacetsHeaderRowContainer } from '../../../../../../src/containers/user/tabs/results/header/ResultFacetsHeaderRowContainer'
@@ -43,6 +42,7 @@ describe('[SEARCH RESULTS] Testing ResultFacetsHeaderRowContainer', () => {
   it('should render correctly fetching', () => {
     const props = {
       moduleId: 1,
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       resultsContext: dataContext,
       isFetching: true,
       loadedResultsCount: 0,
@@ -65,7 +65,8 @@ describe('[SEARCH RESULTS] Testing ResultFacetsHeaderRowContainer', () => {
   it('should render correctly with facets', () => {
     const props = {
       moduleId: 1,
-      resultsContext: UIClient.ResultsContextHelper.mergeDeep(dataContext, {
+      tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
+      resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
         type: DamDomain.ENTITY_TYPES_ENUM.DATA,
       }),
       isFetching: false,

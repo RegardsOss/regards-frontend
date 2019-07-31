@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { AccessDomain, DamDomain } from '@regardsoss/domain'
+import { AccessDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { TableSelectionModes } from '@regardsoss/components'
 import { PluginServicesContainer } from '../../../../../src/containers/user/tabs/results/PluginServicesContainer'
@@ -30,6 +30,7 @@ const context = buildTestContext(styles)
 const TestComponent = () => <div />
 
 const commonProperties = {
+  tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
   viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
   requestParameters: {},
   restrictedDatasetsIds: [],

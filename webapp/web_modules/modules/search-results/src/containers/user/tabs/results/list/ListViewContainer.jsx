@@ -118,13 +118,13 @@ export class ListViewContainer extends React.Component {
     const {
       selectedType,
       selectedModeState: { presentationModels: newPresentationModels },
-    } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     const { resultsContext: oldContext, tabType: oldTabType } = oldProps
     const {
       selectedType: oldSelectedType,
       selectedModeState: { presentationModels: oldPresentationModels },
-    } = oldContext && oldTabType ? UIDomain.ResultsContextConstants.getViewData(oldContext, oldTabType) : {
+    } = oldContext && oldTabType ? UIDomain.ResultsContextHelper.getViewData(oldContext, oldTabType) : {
       selectedType: null,
       selectedModeState: {},
     }
@@ -154,7 +154,7 @@ export class ListViewContainer extends React.Component {
       accessToken, projectName, onAddElementToCart,
     } = this.props
     const { enableSelection, thumbnailRenderData, gridAttributesRenderData } = this.state
-    const { selectedType, selectedTypeState } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedType, selectedTypeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     return (
       <ListViewComponent

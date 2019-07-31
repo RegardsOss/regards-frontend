@@ -74,6 +74,7 @@ describe('[SEARCH RESULTS] Testing OrderCartContainer', () => {
   const emptySelectionVals = [true, false]
 
   const commonProps = { // properties not used in dynamic computations
+    tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     requestParameters: {},
     selectionMode: TableSelectionModes.excludeSelected,
     toggledElements: {},

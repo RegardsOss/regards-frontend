@@ -54,7 +54,7 @@ export class ToggleFiltersContainer extends React.Component {
     const {
       moduleId, resultsContext, tabType, updateResultsContext,
     } = this.props
-    const { selectedType, selectedTypeState: { facets } } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedType, selectedTypeState: { facets } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     // create minimal diff with previous state to toggle the filters on / off (requires state enabled AND request parameters)
     const nextEnabled = !facets.enabled
     updateResultsContext(moduleId, {
@@ -78,7 +78,7 @@ export class ToggleFiltersContainer extends React.Component {
 
   render() {
     const { resultsContext, tabType } = this.props
-    const { selectedTypeState: { facets } } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedTypeState: { facets } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     // when filters are not allowed, auto hide
     return facets.allowed ? (
       <ToggleFiltersComponent filtersEnabled={facets.enabled} onFiltersToggled={this.onFiltersToggled} />

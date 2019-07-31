@@ -19,7 +19,6 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import { UIClient } from '@regardsoss/client'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import EditColumnsSettingsComponent from '../../../../../../../src/components/user/tabs/results/header/options/columns/EditColumnsSettingsComponent'
 import { EditColumnsSettingsContainer } from '../../../../../../../src/containers/user/tabs/results/header/options/EditColumnsSettingsContainer'
@@ -42,11 +41,15 @@ describe('[SEARCH RESULTS] Testing EditColumnsSettingsContainer', () => {
   it('should render correctly in data context (table mode)', () => {
     const props = {
       moduleId: 1,
-      resultsContext: UIClient.ResultsContextHelper.mergeDeep(dataContext, {
-        type: DamDomain.ENTITY_TYPES_ENUM.DATA,
-        typeState: {
-          [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
-            mode: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
+      tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
+      resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
+        tabs: {
+          [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
+            types: {
+              [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
+                selectedMode: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
+              },
+            },
           },
         },
       }),
@@ -56,7 +59,7 @@ describe('[SEARCH RESULTS] Testing EditColumnsSettingsContainer', () => {
     const componentWrapper = enzymeWrapper.find(EditColumnsSettingsComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      presentationModels: props.resultsContext.typeState[DamDomain.ENTITY_TYPES_ENUM.DATA].modeState[UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE].presentationModels,
+      presentationModels: props.resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE].presentationModels,
       onApply: enzymeWrapper.instance().onApply,
       onReset: enzymeWrapper.instance().onReset,
     }, 'Component should define the expected properties')

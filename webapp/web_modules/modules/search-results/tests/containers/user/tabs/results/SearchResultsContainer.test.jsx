@@ -22,7 +22,6 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import {
   DamDomain, CatalogDomain, CommonDomain, UIDomain,
 } from '@regardsoss/domain'
-import { UIClient } from '@regardsoss/client'
 import { getSearchCatalogClient } from '../../../../../src/clients/SearchEntitiesClient'
 import { SearchResultsContainer } from '../../../../../src/containers/user/tabs/results/SearchResultsContainer'
 import DescriptionLinkContainer from '../../../../../src/containers/user/tabs/results/DescriptionLinkContainer'
@@ -30,7 +29,7 @@ import PluginServicesContainer from '../../../../../src/containers/user/tabs/res
 import OrderCartContainer from '../../../../../src/containers/user/tabs/results/OrderCartContainer'
 import SearchResultsComponent from '../../../../../src/components/user/tabs/results/SearchResultsComponent'
 import styles from '../../../../../src/styles/styles'
-import { dataEntity, datasetEntity } from '../../../../dumps/entities.dump'
+import { datasetEntity, anotherDatasetEntity } from '../../../../dumps/entities.dump'
 import { dataContext } from '../../../../dumps/data.context.dump'
 import { CriterionBuilder } from '../../../../../src/definitions/CriterionBuilder'
 import { attributes } from '../../../../dumps/attributes.dump'
@@ -49,6 +48,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
   it('should render correctly with data context', () => {
     const props = {
       moduleId: 1,
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       project: 'p1',
       appName: 'user',
       resultsContext: dataContext,
@@ -59,25 +59,26 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
     const descriptionContainer = enzymeWrapper.find(DescriptionLinkContainer)
     assert.lengthOf(descriptionContainer, 1, 'It should render the description provider')
     testSuiteHelpers.assertWrapperProperties(descriptionContainer, {
-      levels: props.resultsContext.criteria.levels,
-      project: props.project,
-      appName: props.appName,
-      onNavigate: enzymeWrapper.instance().onNavigate,
-    }, 'Description provider HOC properties should be correctly set')
+      moduleId: props.moduleId,
+    }, 'Description link provider properties should be correctly set')
 
     const servicesProvider = descriptionContainer.find(PluginServicesContainer)
     assert.lengthOf(servicesProvider, 1, 'It should render the service container')
+    const expectedSelectedType = props.resultsContext.tabs[props.tabType].selectedType
     testSuiteHelpers.assertWrapperProperties(servicesProvider, {
-      viewObjectType: props.resultsContext.type,
+      tabType: props.tabType,
+      viewObjectType: expectedSelectedType,
       restrictedDatasetsIds: enzymeWrapper.state().restrictedDatasetsIds,
       requestParameters: enzymeWrapper.state().requestParameters,
     }, 'Services provider properties should be correctly set')
 
     const cartContainer = servicesProvider.find(OrderCartContainer)
+    const expectedSelectedMode = props.resultsContext.tabs[props.tabType].types[expectedSelectedType].selectedMode
     assert.lengthOf(cartContainer, 1, 'It should render order cart enabling container')
     testSuiteHelpers.assertWrapperProperties(cartContainer, {
-      viewObjectType: props.resultsContext.type,
-      tableViewMode: props.resultsContext.typeState[props.resultsContext.type].mode,
+      tabType: props.tabType,
+      viewObjectType: expectedSelectedType,
+      tableViewMode: expectedSelectedMode,
       requestParameters: enzymeWrapper.state().requestParameters,
     }, 'Cart container properties should be correctly set')
 
@@ -85,6 +86,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
     assert.lengthOf(resultsComponent, 1, 'It should render a search results component')
     testSuiteHelpers.assertWrapperProperties(resultsComponent, {
       moduleId: props.moduleId,
+      tabType: props.tabType,
       resultsContext: props.resultsContext,
       requestParameters: enzymeWrapper.state().requestParameters,
       searchActions: enzymeWrapper.state().searchActions,
@@ -97,9 +99,9 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
     // start from empty data context (datasets should be initially selected)
     const props = {
       moduleId: 1,
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       project: 'p1',
       appName: 'user',
-      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       resultsContext: dataContext,
       updateResultsContext: () => {},
     }
@@ -111,82 +113,14 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
     assert.deepEqual(state.searchActions, getSearchCatalogClient(props.tabType).searchDatasetsActions, '(1) Search actions should be correctly computed for empty / DATASET')
 
     // add 2 tags (context and user, container should not differenciate them)
-    let nextContext = {
-      ...dataContext,
-      criteria: {
-        ...dataContext.criteria,
-        contextTags: [CriterionBuilder.buildEntityTagCriterion(datasetEntity), {
-          // simple word tag
-          label: 'coffee', // label is search key
-          type: CatalogDomain.TAG_TYPES_ENUM.WORD,
-          searchKey: 'coffee',
-          requestParameters: {
-            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
-              new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, 'coffee').toQueryString(),
-          },
-        }],
-        levels: [{
-          // simple word tag
-          label: 'tea', // label is search key
-          type: CatalogDomain.TAG_TYPES_ENUM.WORD,
-          searchKey: 'tea',
-          requestParameters: {
-            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
-              new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, 'tea').toQueryString(),
-          },
-        }, {
-          // A description level that should be ignored in requests
-          type: UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL,
-          entity: datasetEntity,
-        }, CriterionBuilder.buildEntityTagCriterion(dataEntity)],
-      },
-    }
-    enzymeWrapper.setProps({
-      ...props,
-      resultsContext: nextContext,
-    })
-    state = enzymeWrapper.state()
-    assert.deepEqual(state.restrictedDatasetsIds, [datasetEntity.content.id], '(2) Dataset restrictions should be correctly computed for DATASET with query')
-    assert.deepEqual(state.requestParameters, {
-      q: 'tags:"URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1" AND tags:coffee AND tags:tea AND tags:"URN:AIP:DOCUMENT:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1"',
-    }, '(2) Request parameters should be correctly computed for DATASET with query')
-    assert.deepEqual(state.searchActions, getSearchCatalogClient(props.tabType).searchDatasetsFromDataObjectsActions, '(2) Search actions should be correctly computed for DATASET with query')
-    // Enter data mode, add sorting, facets request, active facets, quicklook filter and one more dataset tag
-    nextContext = UIClient.ResultsContextHelper.mergeDeep(nextContext, {
-      type: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      criteria: {
-        levels: [...nextContext.criteria.levels,
-          CriterionBuilder.buildEntityTagCriterion({
-            content: {
-              ...datasetEntity.content,
-              id: 'URN:AIP:DATASET:anotherDataset',
-            },
-          }),
-        ],
-        appliedFacets: [{
-          facetLabels: { en: 'idc.facet.value', fr: 'jmf.valeur.facette' },
-          attribute: attributes[1],
-          facetType: CatalogDomain.FACET_TYPES_ENUM.STRING,
-          facetValue: 'coffee',
-          requestParameters: {
-            q: 'my.attr.1=coffee',
-          },
-        }],
-        quicklooksFiltering: [ToggleOnlyQuicklookContainer.ONLY_QUICKLOOK_CRITERION],
-      },
-      typeState: {
-        [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
-          isInInitialSorting: false,
+    let nextContext = UIDomain.ResultsContextHelper.deepMerge(dataContext, {
+      selectedTab: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+      tabs: {
+        [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
           criteria: {
-            sorting: [
-              CriterionBuilder.buildSortCriterion(attributes[1], CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER),
-              CriterionBuilder.buildSortCriterion(attributes[2], CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER),
-            ],
-            requestFacets: [{
-              facetLabels: { en: 'idc.facet', fr: 'jmf.facette' },
-              attribute: attributes[1],
-              requestParameters: { [CatalogDomain.CatalogSearchQueryHelper.FACETS_PARAMETER_NAME]: attributes[1].content.jsonPath },
-            }],
+            contextTags: [
+              CriterionBuilder.buildEntityTagCriterion(datasetEntity),
+              CriterionBuilder.buildWordTagCriterion('coffee')],
           },
         },
       },
@@ -196,16 +130,63 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
       resultsContext: nextContext,
     })
     state = enzymeWrapper.state()
-    assert.deepEqual(state.restrictedDatasetsIds, [datasetEntity.content.id, 'URN:AIP:DATASET:anotherDataset'], '(3) Dataset restrictions should be correctly computed for DATA with query')
+    assert.deepEqual(state.restrictedDatasetsIds, [datasetEntity.content.id], '(2) Dataset restrictions should be correctly computed for DATASET with query')
+    assert.deepEqual(state.requestParameters, {
+      q: 'tags:"URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1" AND tags:coffee',
+    }, '(2) Request parameters should be correctly computed for DATASET with query')
+    assert.deepEqual(state.searchActions, getSearchCatalogClient(props.tabType).searchDatasetsFromDataObjectsActions, '(2) Search actions should be correctly computed for DATASET with query')
+    // Enter data mode, add sorting, facets request, active facets, quicklook filter and a dataset filter tag
+    nextContext = UIDomain.ResultsContextHelper.deepMerge(nextContext, {
+      tabs: {
+        [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+          selectedType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+          criteria: {
+            appliedFacets: [{
+              facetLabels: { en: 'idc.facet.value', fr: 'jmf.valeur.facette' },
+              attribute: attributes[1],
+              facetType: CatalogDomain.FACET_TYPES_ENUM.STRING,
+              facetValue: 'coffee',
+              requestParameters: {
+                q: 'my.attr.1=coffee',
+              },
+            }],
+            tagsFiltering: [CriterionBuilder.buildEntityTagCriterion(anotherDatasetEntity)],
+            quicklooksFiltering: [ToggleOnlyQuicklookContainer.ONLY_QUICKLOOK_CRITERION],
+          },
+          types: {
+            [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
+              isInInitialSorting: false,
+              criteria: {
+                sorting: [
+                  CriterionBuilder.buildSortCriterion(attributes[1], CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER),
+                  CriterionBuilder.buildSortCriterion(attributes[2], CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER),
+                ],
+                requestFacets: [{
+                  facetLabels: { en: 'idc.facet', fr: 'jmf.facette' },
+                  attribute: attributes[1],
+                  requestParameters: { [CatalogDomain.CatalogSearchQueryHelper.FACETS_PARAMETER_NAME]: attributes[1].content.jsonPath },
+                }],
+              },
+            },
+          },
+        },
+      },
+    })
+    enzymeWrapper.setProps({
+      ...props,
+      resultsContext: nextContext,
+    })
+    state = enzymeWrapper.state()
+    assert.deepEqual(state.restrictedDatasetsIds, [datasetEntity.content.id, anotherDatasetEntity.content.id], '(3) Dataset restrictions should be correctly computed for DATA with query')
     assert.deepEqual(state.requestParameters, {
       // tags, applying facets and quicklooks restriction
-      q: 'tags:"URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1" AND tags:coffee AND tags:tea AND tags:"URN:AIP:DOCUMENT:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1" AND tags:"URN:AIP:DATASET:anotherDataset" AND my.attr.1=coffee',
+      q: 'tags:"URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1" AND tags:coffee AND my.attr.1=coffee AND tags:"URN:AIP:DATASET:project1:XXXX:V1"',
       sort: ['my.attr.1,DESC', 'my.attr.2,ASC'], // sort
       facets: ['my.attr.1'], // requested facets
       exists: ['feature.files.QUICKLOOK_SD'], // quicklook exists filter
     }, '(3) Request parameters should be correctly computed for DATA with query')
     assert.deepEqual(state.searchActions, getSearchCatalogClient(props.tabType).searchDataobjectsActions, '(3) Search actions should be correctly computed for DATA with query')
 
-    // TODO correct, rerun test for tab type TAG_RESULTS
+    // Now change other tab context and ch
   })
 })

@@ -41,6 +41,7 @@ describe('[SEARCH RESULTS] Testing MapViewComponent', () => {
   it('should render correctly', () => {
     const props = {
       moduleId: 1,
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       resultsContext: {
         ...dataContext,
         tabs: {

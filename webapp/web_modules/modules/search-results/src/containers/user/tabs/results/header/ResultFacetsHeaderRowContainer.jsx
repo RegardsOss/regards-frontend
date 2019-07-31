@@ -122,9 +122,9 @@ export class ResultFacetsHeaderRowContainer extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const { tabType, resultsContext, facets: resultsFacets } = newProps
-    const { selectedTypeState: { facets } } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedTypeState: { facets } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     const oldFacets = oldProps.resultsContext
-      ? get(UIDomain.ResultsContextConstants.getViewData(oldProps.resultsContext, oldProps.tabType), 'selectedTypeState.facets')
+      ? get(UIDomain.ResultsContextHelper.getViewData(oldProps.resultsContext, oldProps.tabType), 'selectedTypeState.facets')
       : null
     // when results facets or selected type facets state changed, update resolved facets (store them in state to avoid
     // computing it at render time
@@ -145,7 +145,7 @@ export class ResultFacetsHeaderRowContainer extends React.Component {
     const {
       moduleId, updateResultsContext, tabType, resultsContext,
     } = this.props
-    const { tab: { criteria: { appliedFacets } } } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { tab: { criteria: { appliedFacets } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     // 1 - build new applying facets list: remove facet on that attribute if any was already there, then add the new selected facet value
     const nextAppliedFacets = appliedFacets.filter(({ attribute: { content: { jsonPath } } }) => selectedFacet.attribute.content.jsonPath !== jsonPath)
     nextAppliedFacets.push({
@@ -176,7 +176,7 @@ export class ResultFacetsHeaderRowContainer extends React.Component {
       isFetching, loadedResultsCount, resultsCount,
     } = this.props
     const { facets } = this.state
-    const { selectedTypeState } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedTypeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
       <ResultFacetsHeaderRowComponent
         isFetching={isFetching}

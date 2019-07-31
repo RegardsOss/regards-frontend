@@ -170,11 +170,12 @@ export class TitleAndTabsContainer extends React.Component {
    * @param {string} closedTabType closed tab type, one of UIDomain.RESULTS_TABS
    */
   onTabClosed = (closedTabType) => {
-    const { moduleId, updateResultsContext } = this.props
+    const { moduleId, updateResultsContext, resultsContext } = this.props
+    const nextTabType = resultsContext.selectedTab === closedTabType ? UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS : resultsContext.selectedTab
     switch (closedTabType) {
       case UIDomain.RESULTS_TABS_ENUM.DESCRIPTION:
         updateResultsContext(moduleId, {
-          selectedTab: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+          selectedTab: nextTabType,
           tabs: {
             [closedTabType]: { descriptionPath: [] },
           },
@@ -182,7 +183,7 @@ export class TitleAndTabsContainer extends React.Component {
         break
       case UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS:
         updateResultsContext(moduleId, {
-          selectedTab: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+          selectedTab: nextTabType,
           tabs: {
             [closedTabType]: {
               criteria: { contextTags: [] },

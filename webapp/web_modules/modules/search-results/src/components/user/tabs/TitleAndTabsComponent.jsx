@@ -54,7 +54,7 @@ class TitleAndTabsComponent extends React.Component {
       page, localizedTitle, tabs, onTabSelected, onTabClosed,
     } = this.props
     const { moduleTheme: { user: { titleBar: { container, title, tabsContainer } } } } = this.context
-    return ( // TODO paused here: externalise the styles and add a separator
+    return (
       <div style={container}>
         {/* 1. Module title */}
         <div style={title}>

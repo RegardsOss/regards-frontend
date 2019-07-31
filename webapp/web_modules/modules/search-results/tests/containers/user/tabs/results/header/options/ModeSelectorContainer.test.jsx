@@ -18,8 +18,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { UIDomain } from '@regardsoss/domain'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ModeSelectorComponent from '../../../../../../../src/components/user/tabs/results/header/options/ModeSelectorComponent'
 import { ModeSelectorContainer } from '../../../../../../../src/containers/user/tabs/results/header/options/ModeSelectorContainer'
 import styles from '../../../../../../../src/styles'
@@ -42,6 +42,7 @@ describe('[SEARCH RESULTS] Testing ModeSelectorContainer', () => {
     const props = {
       moduleId: 1,
       mode: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       resultsContext: dataContext,
       updateResultsContext: () => {},
     }
@@ -58,6 +59,7 @@ describe('[SEARCH RESULTS] Testing ModeSelectorContainer', () => {
     const props = {
       moduleId: 1,
       mode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
+      tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
       resultsContext: dataContext,
       updateResultsContext: () => {},
     }

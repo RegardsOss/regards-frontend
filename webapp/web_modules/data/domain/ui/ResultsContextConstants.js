@@ -20,7 +20,7 @@ import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
 import { MAP_SELECTION_MODES_ENUM } from './MapSelectionModeEnum'
 import { MIZAR_LAYER_TYPES_ENUM } from './mizar-api/MizarLayerTypes'
 import { RESULTS_VIEW_MODES_ENUM } from './ResultsViewModeEnum'
-import { RESULTS_TABS, RESULTS_TABS_ENUM } from './ResultsTabs'
+import { RESULTS_TABS_ENUM } from './ResultsTabs'
 
 /**
  * Holds constants and accessors related to results context
@@ -122,30 +122,6 @@ const DEFAULT_RESULTS_CONTEXT = {
 }
 
 
-/**
- * Extracts and returns current view state (type and mode) in results tab
- * @param {*} resultsContext results context (respects corresponding shape)
- * @param {string} tabType tab (one of RESULTS_TABS_ENUM.MAIN_RESULTS | RESULTS_TABS_ENUM.TAG_RESULTS)
- * @return {{tab: *, selectedType: string, selectedMode: string, selectedTypeState: *, selectedModeState: *}} tab, selected type,
- * selected type state, selected mode and selected mode
- */
-function getResultsViewData(resultsContext = {}, tabType) {
-  // check tab type
-  if (!RESULTS_TABS.includes(tabType)) {
-    throw new Error(`Invalid tab type ${tabType}`)
-  }
-  const tab = resultsContext.tabs[tabType]
-  const { selectedType, types } = tab
-  const selectedTypeState = selectedType && types ? types[selectedType] : DISABLED_TYPE_STATE
-  return {
-    tab,
-    selectedType,
-    selectedMode: selectedTypeState.selectedMode,
-    selectedTypeState,
-    selectedModeState: selectedTypeState.modes[selectedTypeState.selectedMode],
-  }
-}
-
 /** Types for which download is allowed */
 const DOWNLOAD_ALLOWED_TYPES = [ENTITY_TYPES_ENUM.DATA]
 
@@ -235,7 +211,6 @@ export default {
   DISABLED_VIEW_MODE_STATE,
   DISABLED_MAP_VIEW_MODE_STATE,
   DISABLED_TYPE_STATE,
-  getViewData: getResultsViewData,
   allowDownload,
   allowSorting,
   allowSelection,

@@ -18,7 +18,6 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { UIClient } from '@regardsoss/client'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import SingleSortingComponent from '../../../../../../../src/components/user/tabs/results/header/options/SingleSortingComponent'
@@ -42,11 +41,16 @@ describe('[SEARCH RESULTS] Testing SingleSortingContainer', () => {
   it('should render correctly when sortable', () => {
     const props = {
       moduleId: 1,
-      resultsContext: UIClient.ResultsContextHelper.mergeDeep(dataContext, {
-        type: DamDomain.ENTITY_TYPES_ENUM.DATA,
-        typeState: {
-          [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
-            mode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
+      tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
+      resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
+        tabs: {
+          [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
+            selectedType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+            types: {
+              [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
+                selectedMode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
+              },
+            },
           },
         },
       }),
@@ -74,6 +78,7 @@ describe('[SEARCH RESULTS] Testing SingleSortingContainer', () => {
   it('should render correctly when not sortable', () => {
     const props = {
       moduleId: 1,
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       resultsContext: dataContext, // DATASETS forbid sorting
       updateResultsContext: () => {},
     }

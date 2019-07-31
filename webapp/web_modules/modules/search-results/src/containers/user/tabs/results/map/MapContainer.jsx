@@ -151,9 +151,9 @@ export class MapContainer extends React.Component {
     }
 
     // Handle feedback displayed area: each time selection mode change, reset it to empty
-    const { tab, selectedModeState: { selectionMode } } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { tab, selectedModeState: { selectionMode } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     const { tab: oldTab, selectedModeState: { selectionMode: oldSelectionMode } } = oldResultsContext && oldTabType
-      ? UIDomain.ResultsContextConstants.getViewData(oldResultsContext, oldTabType)
+      ? UIDomain.ResultsContextHelper.getViewData(oldResultsContext, oldTabType)
       : { tab: null, selectedModeState: {} }
     if (!isEqual(oldSelectionMode, selectionMode)) {
       nextState.currentlyDrawingAreas = []
@@ -179,7 +179,7 @@ export class MapContainer extends React.Component {
     const {
       moduleId, tabType, updateResultsContext, resultsContext,
     } = this.props
-    const { selectedType, selectedModeState } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedType, selectedModeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     // update only when there is some change
     if (selectionMode !== selectedModeState.selectionMode) {
       // update selection mode in mode state
@@ -223,7 +223,7 @@ export class MapContainer extends React.Component {
     const {
       moduleId, tabType, updateResultsContext, resultsContext,
     } = this.props
-    const { selectedType } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedType } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     const {
       minX, maxX, minY, maxY, empty,
@@ -297,7 +297,7 @@ export class MapContainer extends React.Component {
     const { featuresCollection, currentlyDrawingAreas, criteriaAreas } = this.state
 
     // pre: respects necessarily MapViewModeState shapes
-    const { selectedModeState: { backgroundLayer, selectionMode } } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedModeState: { backgroundLayer, selectionMode } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
       <MapComponent
         featuresCollection={featuresCollection}

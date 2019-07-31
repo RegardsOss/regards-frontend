@@ -66,7 +66,7 @@ export class MapViewContainer extends React.Component {
     const {
       moduleId, tabType, resultsContext, updateResultsContext,
     } = this.props
-    const { selectedType } = UIDomain.ResultsContextConstants.getViewData(resultsContext)
+    const { selectedType } = UIDomain.ResultsContextHelper.getViewData(resultsContext)
     // update current mode state by diff
     updateResultsContext(moduleId, {
       // update, for current tab and type, the split position in map mode state

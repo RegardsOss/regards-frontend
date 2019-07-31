@@ -99,7 +99,7 @@ class MapViewComponent extends React.Component {
     const { width } = this.state
     const { quicklooks, mizar } = this.context.muiTheme.module.searchResults.map
     // recover split position
-    const { selectedModeState: { splitPosition } } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedModeState: { splitPosition } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     if (isNumber(width)) {
       if (isNumber(splitPosition)) {

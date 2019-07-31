@@ -65,7 +65,7 @@ class SearchResultsComponent extends React.Component {
       selectionServices, onStartSelectionService,
       accessToken, projectName,
     } = this.props
-    const { tab } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { tab } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
       <TableLayout>
         {/* First header row : switch view type and mode, other view options */}
@@ -92,7 +92,7 @@ class SearchResultsComponent extends React.Component {
         {/* Render the view according with current view mode (or description if opened) */
           (() => {
             // render regular results in the right mode
-            const { selectedMode } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+            const { selectedMode } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
             switch (selectedMode) {
               case UIDomain.RESULTS_VIEW_MODES_ENUM.LIST:
                 return (

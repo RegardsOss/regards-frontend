@@ -21,7 +21,6 @@ import { assert } from 'chai'
 import { TableLayout } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import { UIClient } from '@regardsoss/client'
 import SearchResultsComponent from '../../../../../src/components/user/tabs/results/SearchResultsComponent'
 import OptionsHeaderRowComponent from '../../../../../src/components/user/tabs/results/header/OptionsHeaderRowComponent'
 import ResultFacetsHeaderRowContainer from '../../../../../src/containers/user/tabs/results/header/ResultFacetsHeaderRowContainer'
@@ -50,9 +49,10 @@ describe('[SEARCH RESULTS] Testing SearchResultsComponent', () => {
   it('should render correctly data and dataset, for each possible view type and mode', () => {
     const props = {
       moduleId: 1,
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       resultsContext: dataContext,
       requestParameters: {},
-      searchActions: getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS),
+      searchActions: getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS).searchDataobjectsActions,
       onShowDescription: () => {},
       isDescAvailableFor: () => true,
       onAddElementToCart: () => {},
@@ -82,7 +82,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsComponent', () => {
       resultsContext: props.resultsContext,
     }, 'Options header row properties should be correctly set')
     const applyingCriteriaHeaderRow = enzymeWrapper.find(ApplyingCriteriaHeaderRowContainer)
-    assert.lengthOf(resultsFacetHeaderRow, 1, 'There should be applying criteria header row')
+    assert.lengthOf(applyingCriteriaHeaderRow, 1, 'There should be applying criteria header row')
     testSuiteHelpers.assertWrapperProperties(applyingCriteriaHeaderRow, {
       moduleId: props.moduleId,
       resultsContext: props.resultsContext,
@@ -97,21 +97,37 @@ describe('[SEARCH RESULTS] Testing SearchResultsComponent', () => {
         UIDomain.RESULTS_VIEW_MODES_ENUM.MAP,
         UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
       ],
+      tabs: [
+        UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+        UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
+      ],
     }, {
       type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
       modes: [
         UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
         UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
       ],
+      tabs: [
+        UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+        UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
+      ],
     }]
-    testViews.forEach(({ type, modes }) => modes.forEach((mode) => {
+    testViews.forEach(({ type, modes, tabs }) => tabs.forEach(tab => modes.forEach((mode) => {
       enzymeWrapper.setProps({
         ...props,
+        tabType: tab,
         // create here a context with expected type and mode selected
-        resultsContext: UIClient.ResultsContextHelper.mergeDeep(dataContext, {
-          type, // select type
-          typeState: {
-            [type]: { mode }, // select mode in type
+        resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
+          selectedTab: tab,
+          tabs: {
+            [tab]: {
+              selectedType: type,
+              types: {
+                [type]: {
+                  selectedMode: mode,
+                },
+              },
+            },
           },
         }),
       })
@@ -119,28 +135,28 @@ describe('[SEARCH RESULTS] Testing SearchResultsComponent', () => {
         case UIDomain.RESULTS_VIEW_MODES_ENUM.LIST:
           {
             const listViewContainer = enzymeWrapper.find(ListViewContainer)
-            assert.lengthOf(listViewContainer, 1, 'There should be the list container')
-            assert.lengthOf(enzymeWrapper.find(TableViewContainer), 0, 'There should not be the table container')
-            assert.lengthOf(enzymeWrapper.find(QuicklooksViewContainer), 0, 'There should not be the quicklook container')
-            assert.lengthOf(enzymeWrapper.find(MapViewContainer), 0, 'There should not be the map container')
+            assert.lengthOf(listViewContainer, 1, `[${tab}/${type}/${mode}] There should be the list container`)
+            assert.lengthOf(enzymeWrapper.find(TableViewContainer), 0, `[${tab}/${type}/${mode}] There should not be the table container`)
+            assert.lengthOf(enzymeWrapper.find(QuicklooksViewContainer), 0, `[${tab}/${type}/${mode}] There should not be the quicklook container`)
+            assert.lengthOf(enzymeWrapper.find(MapViewContainer), 0, `[${tab}/${type}/${mode}] There should not be the map container`)
           }
           break
         case UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE:
           {
             const tableViewContainer = enzymeWrapper.find(TableViewContainer)
-            assert.lengthOf(tableViewContainer, 1, 'There should be the table container')
-            assert.lengthOf(enzymeWrapper.find(ListViewContainer), 0, 'There should not be the list container')
-            assert.lengthOf(enzymeWrapper.find(QuicklooksViewContainer), 0, 'There should not be the quicklooks container')
-            assert.lengthOf(enzymeWrapper.find(MapViewContainer), 0, 'There should not be the map container')
+            assert.lengthOf(tableViewContainer, 1, `[${tab}/${type}/${mode}] There should be the table container`)
+            assert.lengthOf(enzymeWrapper.find(ListViewContainer), 0, `[${tab}/${type}/${mode}] There should not be the list container`)
+            assert.lengthOf(enzymeWrapper.find(QuicklooksViewContainer), 0, `[${tab}/${type}/${mode}] There should not be the quicklooks container`)
+            assert.lengthOf(enzymeWrapper.find(MapViewContainer), 0, `[${tab}/${type}/${mode}] There should not be the map container`)
           }
           break
         case UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK:
           {
             const quicklooksViewContainer = enzymeWrapper.find(QuicklooksViewContainer)
-            assert.lengthOf(quicklooksViewContainer, 1, 'There should be the quicklooks container')
-            assert.lengthOf(enzymeWrapper.find(ListViewContainer), 0, 'There should not be the list container')
-            assert.lengthOf(enzymeWrapper.find(TableViewContainer), 0, 'There should not be the table container')
-            assert.lengthOf(enzymeWrapper.find(MapViewContainer), 0, 'There should not be the map container')
+            assert.lengthOf(quicklooksViewContainer, 1, `[${tab}/${type}/${mode}] There should be the quicklooks container`)
+            assert.lengthOf(enzymeWrapper.find(ListViewContainer), 0, `[${tab}/${type}/${mode}] There should not be the list container`)
+            assert.lengthOf(enzymeWrapper.find(TableViewContainer), 0, `[${tab}/${type}/${mode}] There should not be the table container`)
+            assert.lengthOf(enzymeWrapper.find(MapViewContainer), 0, `[${tab}/${type}/${mode}] There should not be the map container`)
           }
           break
         case UIDomain.RESULTS_VIEW_MODES_ENUM.MAP:
@@ -155,6 +171,6 @@ describe('[SEARCH RESULTS] Testing SearchResultsComponent', () => {
         default:
           throw new Error('FAIL type!')
       }
-    }))
+    })))
   })
 })

@@ -32,8 +32,8 @@ export class DefaultModuleTitleComponent extends React.Component {
   static propTypes = {
     // module type (from Module fields)
     type: PropTypes.string.isRequired,
-    // title map, with locales as keys (as module may defined it from other souces than page configuration)
-    localizedTitle: PropTypes.objectOf(PropTypes.string).isRequired,
+    // title map, with locales as keys (as module may define it from other souces than page configuration)
+    localizedTitle: PropTypes.objectOf(PropTypes.string),
     // optional module description
     description: PropTypes.string,
     // module page (from module fields)

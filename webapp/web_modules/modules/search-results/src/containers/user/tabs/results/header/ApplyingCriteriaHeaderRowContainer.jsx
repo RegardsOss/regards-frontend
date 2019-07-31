@@ -56,7 +56,7 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
     const {
       moduleId, updateResultsContext, resultsContext, tabType,
     } = this.props
-    const { tab: { criteria: { tagsFiltering } } } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { tab: { criteria: { tagsFiltering } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     updateResultsContext(moduleId, { // update results context by diff
       tabs: {
         [tabType]: {
@@ -77,7 +77,7 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
     const {
       moduleId, updateResultsContext, resultsContext, tabType,
     } = this.props
-    const { tab: { criteria: { appliedFacets } } } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { tab: { criteria: { appliedFacets } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     updateResultsContext(moduleId, { // update results context by diff
       tabs: {
         [tabType]: {
@@ -98,7 +98,7 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
     const {
       moduleId, updateResultsContext, resultsContext, tabType,
     } = this.props
-    const { tab: { criteria: { geometry } } } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { tab: { criteria: { geometry } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     updateResultsContext(moduleId, { // update results context by diff
       tabs: {
         [tabType]: {
@@ -118,7 +118,7 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
     const {
       moduleId, updateResultsContext, resultsContext, tabType,
     } = this.props
-    const { tab: { criteria: { entitiesSelection } } } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { tab: { criteria: { entitiesSelection } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     updateResultsContext(moduleId, { // update results context by diff
       tabs: {
         [tabType]: {
@@ -139,7 +139,7 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
           tagsFiltering, appliedFacets, geometry, entitiesSelection,
         },
       },
-    } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
       <ApplyingCriteriaHeaderRowComponent
         tagsFiltering={tagsFiltering}

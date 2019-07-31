@@ -40,8 +40,9 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
     assert.isDefined(QuicklooksViewComponent)
   })
   it('should render correctly embedded in map', () => {
-    const { searchDataobjectsActions, searchSelectors } = getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS)
+    const { searchDataobjectsActions, searchSelectors } = getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS)
     const props = {
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       requestParameters: {},
       searchActions: searchDataobjectsActions,
       cellProperties: {
@@ -74,8 +75,9 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
     assert.isOk(galleryWrapper.props().columnGutter, 'Column gutter should be provided')
   })
   it('should render correctly as standalone view', () => {
-    const { searchDataobjectsActions, searchSelectors } = getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS)
+    const { searchDataobjectsActions, searchSelectors } = getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS)
     const props = {
+      tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
       requestParameters: {},
       searchActions: searchDataobjectsActions,
       cellProperties: {

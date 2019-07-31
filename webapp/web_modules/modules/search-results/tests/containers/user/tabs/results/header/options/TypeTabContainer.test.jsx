@@ -18,8 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { UIClient } from '@regardsoss/client'
-import { DamDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import TypeTabComponent from '../../../../../../../src/components/user/tabs/results/header/options/TypeTabComponent'
 import { TypeTabContainer } from '../../../../../../../src/containers/user/tabs/results/header/options/TypeTabContainer'
@@ -41,19 +40,23 @@ describe('[SEARCH RESULTS] Testing TypeTabContainer', () => {
   })
 
   const testCases = [{
+    tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
     initType: DamDomain.ENTITY_TYPES_ENUM.DATA,
     targetType: DamDomain.ENTITY_TYPES_ENUM.DATA,
   }, {
+    tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     initType: DamDomain.ENTITY_TYPES_ENUM.DATA,
     targetType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
   }, {
+    tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     initType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
     targetType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
   }, {
+    tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     initType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
     targetType: DamDomain.ENTITY_TYPES_ENUM.DATA,
   }]
-  testCases.forEach(({ initType, targetType }) => it(`should render correctly for ${targetType} when selected type is ${initType}`, () => {
+  testCases.forEach(({ tabType, initType, targetType }) => it(`should render correctly for ${targetType} when selected type is ${initType}`, () => {
     const spiedUpdateData = {
       moduleId: null,
       stateDiff: null,
@@ -61,7 +64,14 @@ describe('[SEARCH RESULTS] Testing TypeTabContainer', () => {
     const props = {
       moduleId: 1,
       type: targetType,
-      resultsContext: UIClient.ResultsContextHelper.mergeDeep(dataContext, { type: initType }),
+      tabType,
+      resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
+        tabs: {
+          [tabType]: {
+            selectedType: initType,
+          },
+        },
+      }),
       updateResultsContext: (moduleId, stateDiff) => {
         spiedUpdateData.moduleId = moduleId
         spiedUpdateData.stateDiff = stateDiff
@@ -72,6 +82,7 @@ describe('[SEARCH RESULTS] Testing TypeTabContainer', () => {
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       type: targetType,
+      tabType,
       resultsContext: props.resultsContext,
       onTypeSelected: enzymeWrapper.instance().onTypeSelected,
     }, 'Component should define the expected properties')
@@ -82,7 +93,7 @@ describe('[SEARCH RESULTS] Testing TypeTabContainer', () => {
     } else {
       assert.equal(spiedUpdateData.moduleId, props.moduleId, 'Update results context should have been called with the right module id')
       assert.isNotNull(spiedUpdateData.stateDiff, 'Update results context should have been called with state diff')
-      assert.equal(spiedUpdateData.stateDiff.type, targetType, 'Update results context should have been called for the right type')
+      assert.equal(spiedUpdateData.stateDiff.tabs[tabType].selectedType, targetType, 'Update results context should have been called for the right type')
     }
   }))
 })

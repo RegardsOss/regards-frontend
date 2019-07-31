@@ -18,7 +18,6 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { UIClient } from '@regardsoss/client'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MapComponent from '../../../../../../src/components/user/tabs/results/map/MapComponent'
@@ -44,11 +43,16 @@ describe('[SEARCH RESULTS] Testing MapContainer', () => {
   it('should render correctly', () => {
     const props = {
       moduleId: 1,
-      resultsContext: UIClient.ResultsContextHelper.mergeDeep(dataContext, {
-        type: DamDomain.ENTITY_TYPES_ENUM.DATA,
-        typeState: {
-          [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
-            mode: UIDomain.RESULTS_VIEW_MODES_ENUM.MAP,
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+      resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
+        tabs: {
+          [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+            selectedType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+            types: {
+              [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
+                selectedMode: UIDomain.RESULTS_VIEW_MODES_ENUM.MAP,
+              },
+            },
           },
         },
       }),

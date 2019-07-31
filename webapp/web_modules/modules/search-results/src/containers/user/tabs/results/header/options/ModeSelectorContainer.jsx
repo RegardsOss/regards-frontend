@@ -55,7 +55,7 @@ export class ModeSelectorContainer extends React.Component {
     const {
       moduleId, mode, tabType, resultsContext, updateResultsContext,
     } = this.props
-    const { selectedType, selectedMode } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedType, selectedMode } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     if (selectedMode !== mode) {
       updateResultsContext(moduleId, {
         tabs: {
@@ -74,7 +74,7 @@ export class ModeSelectorContainer extends React.Component {
 
   render() {
     const { mode, tabType, resultsContext } = this.props
-    const { selectedMode } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedMode } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
       <ModeSelectorComponent mode={mode} selected={selectedMode === mode} onModeSelected={this.onModeSelected} />
     )

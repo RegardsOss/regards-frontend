@@ -58,7 +58,7 @@ export class EditColumnsSettingsContainer extends React.Component {
     const {
       moduleId, resultsContext, tabType, updateResultsContext,
     } = this.props
-    const { selectedType, selectedTypeState, selectedMode } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedType, selectedTypeState, selectedMode } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     // A - compute sorting differences (remove sorting on hidden presentation models)
     const { isInInitialSorting, initialSorting, criteria: { sorting } } = selectedTypeState
@@ -102,13 +102,13 @@ export class EditColumnsSettingsContainer extends React.Component {
    */
   onReset = () => {
     const { tabType, resultsContext } = this.props
-    const { selectedModeState: { initialPresentationModels } } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedModeState: { initialPresentationModels } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     this.onApply(initialPresentationModels, true)
   }
 
   render() {
     const { tabType, resultsContext } = this.props
-    const { selectedModeState: { presentationModels } } = UIDomain.ResultsContextConstants.getViewData(resultsContext, tabType)
+    const { selectedModeState: { presentationModels } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
       <EditColumnsSettingsComponent
         presentationModels={presentationModels}
