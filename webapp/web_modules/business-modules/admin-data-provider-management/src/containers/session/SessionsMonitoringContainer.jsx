@@ -116,7 +116,9 @@ export class SessionsMonitoringContainer extends React.Component {
     editionFiltersState: SessionsMonitoringContainer.DEFAULT_FILTERS_STATE,
     applyingFiltersState: SessionsMonitoringContainer.DEFAULT_FILTERS_STATE,
     requestParameters: SessionsMonitoringContainer.buildRequestParameters([], SessionsMonitoringContainer.DEFAULT_FILTERS_STATE),
-    filtersEdited: false,
+    filtersEdited: false,    
+    /** columns visibility map (no assertion on child columns keys) */
+    columnsVisibility: {}, // note: empty by default, when column isn't found it should be considered visible
   }
 
   /**
@@ -151,6 +153,7 @@ export class SessionsMonitoringContainer extends React.Component {
    */
   onChangeSource = (newSource) => {
     const { editionFiltersState } = this.state
+
     this.onStateUpdated({
       editionFiltersState: {
         ...editionFiltersState,
@@ -241,10 +244,16 @@ export class SessionsMonitoringContainer extends React.Component {
   })
 
   /**
-   * User cb: Columns Selector
+   * User cb: Columns visibility selector
    */
-  onColumnsSelector = () => {
-    //TODO: Columns Selector
+  onChangeColumnsVisibility = (updatedColumns) => {
+    this.setState({
+      // map: associate each column key with its visible stae
+      columnsVisibility: updatedColumns.reduce((acc, { key, visible }) => ({
+        ...acc,
+        [key]: visible,
+      }), {}),
+    })
   }
 
   /**
@@ -260,7 +269,7 @@ export class SessionsMonitoringContainer extends React.Component {
   render = () => {
     const { acknowledgeSessionState } = this.props
     const {
-      columnsSorting, requestParameters, filtersEdited, editionFiltersState,
+      columnsSorting, requestParameters, filtersEdited, editionFiltersState, columnsVisibility,
     } = this.state
 
     return (
@@ -269,18 +278,19 @@ export class SessionsMonitoringContainer extends React.Component {
         onAcknowledge={acknowledgeSessionState}
         onSort={this.onSort}
         columnsSorting={columnsSorting}
+        columnsVisibility={columnsVisibility}
         requestParameters={requestParameters}
         initialFilters={editionFiltersState}
+        filtersEdited={filtersEdited}
         onApplyFilters={this.onApplyFilters}
         onClearFilters={this.onClearFilters}
-        filtersEdited={filtersEdited}
         onChangeSource={this.onChangeSource}
         onChangeSession={this.onChangeSession}
         onToggleErrorsOnly={this.onToggleErrorsOnly}
         onToggleLastSession={this.onToggleLastSession}
         onChangeFrom={this.onChangeFrom}
         onChangeTo={this.onChangeTo}
-        onColumnsSelector={this.onColumnsSelector}
+        onChangeColumnsVisibility={this.onChangeColumnsVisibility}
       />
     )
   }

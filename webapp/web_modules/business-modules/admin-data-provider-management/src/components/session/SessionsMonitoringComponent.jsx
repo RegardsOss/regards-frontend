@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import get from 'lodash/get'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
@@ -29,6 +30,7 @@ import {
   ConfirmDialogComponentTypes, ConfirmDialogComponent, CardActionsComponent, Breadcrumb,
 } from '@regardsoss/components'
 import { sessionsActions, sessionsSelectors } from '../../clients/session/SessionsClient'
+import { tableSessionsActions, tableSessionsSelectors } from '../../clients/TableClient'
 import { SessionsMonitoringSourceRenderer } from './render/SessionsMonitoringSourceRenderer'
 import { SessionsMonitoringSessionRenderer } from './render/SessionsMonitoringSessionRenderer'
 import { SessionsMonitoringCreationDateRenderer } from './render/SessionsMonitoringCreationDateRenderer'
@@ -69,7 +71,9 @@ export class SessionsMonitoringComponent extends React.Component {
     onChangeTo: PropTypes.func.isRequired,
     onChangeSource: PropTypes.func.isRequired,
     onChangeSession: PropTypes.func.isRequired,
-    onColumnsSelector: PropTypes.func.isRequired,
+    onChangeColumnsVisibility: PropTypes.func.isRequired,
+    // columns visibility, like (string: columnKey):(boolean: column visible)
+    columnsVisibility: PropTypes.objectOf(PropTypes.bool).isRequired,
   }
 
   static defaultProps = {}
@@ -86,6 +90,15 @@ export class SessionsMonitoringComponent extends React.Component {
     NAME: 'column.name',
     CREATION_DATE: 'column.creationDate',
     STATE: 'column.state',
+  }
+
+  static UNSORTABLE_COLUMNS = {
+    PRODUCTS: 'column.products',
+    SIP: 'column.sip',
+    AIP_GENERATED: 'column.aip-generated',
+    AIP_STORED: 'column.aip-stored',
+    INDEXED: 'column.indexed',
+    LAST_MODIFICATION: 'column.last-modification',
   }
 
   static getColumnSortingData(columnsSorting, columnKey) {
@@ -139,54 +152,80 @@ export class SessionsMonitoringComponent extends React.Component {
     const { intl: { formatMessage }, muiTheme: { sessionsMonitoring: { rowHeight }, components: { infiniteTable: { admin: { minRowCount, maxRowCount } } } } } = this.context
     const {
       onBack, onSort, columnsSorting, requestParameters, onApplyFilters, onClearFilters, filtersEdited, onToggleErrorsOnly, onToggleLastSession,
-      initialFilters, onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onColumnsSelector,
+      initialFilters, onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onChangeColumnsVisibility, columnsVisibility,
     } = this.props
     const { sessionToAcknowledge } = this.state
 
     const columns = [
+      new TableColumnBuilder(TableColumnBuilder.selectionColumnKey)
+        .visible(get(columnsVisibility, TableColumnBuilder.selectionColumnKey, true))
+        .selectionColumn(false, sessionsSelectors, tableSessionsActions, tableSessionsSelectors).build(),
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE)
+        .visible(get(columnsVisibility, SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE, true))
         .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE), onSort)
         .rowCellDefinition({ Constructor: SessionsMonitoringSourceRenderer })
         .label(formatMessage({ id: 'acquisition-sessions.table.source' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME)
+        .visible(get(columnsVisibility, SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME, true))
         .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME), onSort)
         .rowCellDefinition({ Constructor: SessionsMonitoringSessionRenderer })
         .label(formatMessage({ id: 'acquisition-sessions.table.name' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.CREATION_DATE)
+        .visible(get(columnsVisibility, SessionsMonitoringComponent.SORTABLE_COLUMNS.CREATION_DATE, true))
         .optionsSizing(2)
         .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.CREATION_DATE), onSort)
         .rowCellDefinition({ Constructor: SessionsMonitoringCreationDateRenderer })
         .label(formatMessage({ id: 'acquisition-sessions.table.creation-date' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.STATE)
+        .visible(get(columnsVisibility, SessionsMonitoringComponent.SORTABLE_COLUMNS.STATE, true))
         .optionsSizing(2)
         .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.STATE), onSort)
         .rowCellDefinition({ Constructor: SessionsMonitoringStateRenderer, props: { onShowAcknowledge: this.onShowAcknowledge } })
         .label(formatMessage({ id: 'acquisition-sessions.table.state' }))
         .build(),
-      new TableColumnBuilder('column.products').titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.sip-generated.tooltip' })).rowCellDefinition({ Constructor: SessionsMonitoringProductsGeneratedRenderer })
+      new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.PRODUCTS)
+        .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.PRODUCTS, true))
+        .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.sip-generated.tooltip' }))
+        .rowCellDefinition({ Constructor: SessionsMonitoringProductsGeneratedRenderer })
         .label(formatMessage({ id: 'acquisition-sessions.table.sip-generated' }))
         .build(),
-      new TableColumnBuilder('column.sip').titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.sip-treated.tooltip' })).rowCellDefinition({ Constructor: SessionsMonitoringProductsIngestedRenderer })
+      new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.SIP)
+        .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.SIP, true))
+        .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.sip-treated.tooltip' }))
+        .rowCellDefinition({ Constructor: SessionsMonitoringProductsIngestedRenderer })
         .label(formatMessage({ id: 'acquisition-sessions.table.sip-treated' }))
         .build(),
-      new TableColumnBuilder('column.aip-generated').optionsSizing(3).titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.aip-generated.tooltip' })).rowCellDefinition({ Constructor: SessionsMonitoringGeneratedAipRenderer })
+      new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_GENERATED)
+        .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_GENERATED, true))
+        .optionsSizing(3)
+        .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.aip-generated.tooltip' }))
+        .rowCellDefinition({ Constructor: SessionsMonitoringGeneratedAipRenderer })
         .label(formatMessage({ id: 'acquisition-sessions.table.aip-generated' }))
         .build(),
-      new TableColumnBuilder('column.aip-stored').titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.aip-stored.tooltip' })).rowCellDefinition({ Constructor: SessionsMonitoringProductsStoredRenderer })
+      new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_STORED)
+        .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_STORED, true))
+        .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.aip-stored.tooltip' }))
+        .rowCellDefinition({ Constructor: SessionsMonitoringProductsStoredRenderer })
         .label(formatMessage({ id: 'acquisition-sessions.table.aip-stored' }))
         .build(),
-      new TableColumnBuilder('column.indexed').optionsSizing(3).titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.indexed.tooltip' })).rowCellDefinition({ Constructor: SessionsMonitoringIndexedRenderer })
+      new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.INDEXED)
+        .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.INDEXED, true))
+        .optionsSizing(3)
+        .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.indexed.tooltip' }))
+        .rowCellDefinition({ Constructor: SessionsMonitoringIndexedRenderer })
         .label(formatMessage({ id: 'acquisition-sessions.table.indexed' }))
         .build(),
-      new TableColumnBuilder('column.last-modification').visible(false).optionsSizing(2).titleHeaderCell()
+      new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.LAST_MODIFICATION)
+        .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.LAST_MODIFICATION, false))
+        .optionsSizing(2)
+        .titleHeaderCell()
         .rowCellDefinition({ Constructor: SessionsMonitoringLastModificationRenderer })
         .label(formatMessage({ id: 'acquisition-sessions.table.last-modification' }))
         .build(),
     ]
-
     return (
       <Card>
         <CardTitle
@@ -213,7 +252,8 @@ export class SessionsMonitoringComponent extends React.Component {
               onChangeFrom={onChangeFrom}
               onChangeTo={onChangeTo}
               filtersEdited={filtersEdited}
-              onColumnsSelector={onColumnsSelector}
+              onChangeColumnsVisibility={onChangeColumnsVisibility}
+              columns={columns}
             />
             {/* Loading, results and refresh button */}
             <PageableInfiniteTableContainer

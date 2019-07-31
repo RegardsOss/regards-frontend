@@ -27,7 +27,7 @@ import { SessionsMonitoringFilterFromComponent } from './filters/SessionsMonitor
 import { SessionsMonitoringFilterToComponent } from './filters/SessionsMonitoringFilterToComponent'
 import { SessionsMonitoringFilterClearComponent } from './filters/SessionsMonitoringFilterClearComponent'
 import { SessionsMonitoringFilterApplyComponent } from './filters/SessionsMonitoringFilterApplyComponent'
-import { SessionsMonitoringFilterColumnsSelectorComponent } from './filters/SessionsMonitoringFilterColumnsSelectorComponent'
+import { SessionsMonitoringChooseColumnsComponent } from './filters/SessionsMonitoringChooseColumnsComponent'
 import SessionsMonitoringAutoCompleteContainer from '../../containers/session/SessionsMonitoringAutoCompleteContainer'
 import { searchSourcesActions, searchSourcesSelectors } from '../../clients/session/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../../clients/session/SearchSessionsClient'
@@ -55,7 +55,12 @@ export class SessionsMonitoringFiltersComponent extends React.Component {
     onChangeTo: PropTypes.func.isRequired,
     onChangeSource: PropTypes.func.isRequired,
     onChangeSession: PropTypes.func.isRequired,
-    onColumnsSelector: PropTypes.func.isRequired,
+    onChangeColumnsVisibility: PropTypes.func.isRequired,
+    columns: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      visible: PropTypes.bool.isRequired,
+    })).isRequired,
   }
 
   static contextTypes = {
@@ -65,12 +70,13 @@ export class SessionsMonitoringFiltersComponent extends React.Component {
 
   render() {
     const {
-      filtersEdited, onToggleErrorsOnly, onApplyFilters, onClearFilters, onToggleLastSession, onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onColumnsSelector,
+      filtersEdited, onToggleErrorsOnly, onApplyFilters, onClearFilters, onToggleLastSession,
+      onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onChangeColumnsVisibility, columns,
       initialFilters: {
         source, session, lastSessionOnly, errorsOnly, from, to,
       },
     } = this.props
-    const { intl: { formatMessage }, moduleTheme: { sessionsStyles: { filters: { autocompleteContainer } } } } = this.context
+    const { intl: { formatMessage } } = this.context
 
     return (
       <TableHeaderLine>
@@ -119,8 +125,9 @@ export class SessionsMonitoringFiltersComponent extends React.Component {
               onApplyFilters={onApplyFilters}
               filtersEdited={filtersEdited}
             />
-            <SessionsMonitoringFilterColumnsSelectorComponent
-              onColumnsSelector={onColumnsSelector}
+            <SessionsMonitoringChooseColumnsComponent
+              onChangeColumnsVisibility={onChangeColumnsVisibility}
+              columns={columns}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
