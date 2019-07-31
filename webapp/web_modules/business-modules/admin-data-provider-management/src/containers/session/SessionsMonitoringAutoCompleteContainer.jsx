@@ -16,9 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+
+import throttle from 'lodash/throttle'
 import { connect } from '@regardsoss/redux'
 import { BasicArrayActions, BasicArraySelectors } from '@regardsoss/store-utils'
 import SessionsMonitoringAutoCompleteComponent from '../../components/session/SessionsMonitoringAutoCompleteComponent'
+
+/** Throttle delay for values list queries (avoids flooding the network) */
+const THROTTLE_DELAY_MS = 300
 
 /**
  * Session Filter Autocomplete
@@ -47,7 +52,9 @@ export class SessionsMonitoringAutoCompleteContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, { arrayActions }) {
     return {
-      getSearchHints: text => dispatch(arrayActions.fetchEntityList(null, { searchText: text })),
+      getSearchHints:
+        // Note: we throttle here the emitted network requests to avoid dispatching for each key user pressed
+        throttle(text => dispatch(arrayActions.fetchEntityList(null, { searchText: text })), THROTTLE_DELAY_MS, { leading: true }),
     }
   }
 

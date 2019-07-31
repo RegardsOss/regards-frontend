@@ -35,9 +35,11 @@ class SessionsMonitoringAutoCompleteComponent extends React.Component {
     noData: PropTypes.bool.isRequired,
     hintsArray: PropTypes.arrayOf(PropTypes.string).isRequired,
   }
+
   static contextTypes = {
     ...themeContextType,
   }
+
   state = {
     currentHints: [],
   }
