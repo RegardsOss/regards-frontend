@@ -46,11 +46,9 @@ class MainFormComponent extends React.Component {
     // current form and configuration
     currentNamespace: PropTypes.string.isRequired,
     currentFormValues: ModuleConfiguration.isRequired,
-    documentsForbidden: PropTypes.bool.isRequired,
     // Attributes pull by type
     dataAttributeModels: DataManagementShapes.AttributeModelList.isRequired,
     datasetAttributeModels: DataManagementShapes.AttributeModelList.isRequired,
-    documentAttributeModels: DataManagementShapes.AttributeModelList.isRequired,
     // Callbacks
     // redux change field callback
     changeField: PropTypes.func.isRequired,
@@ -68,14 +66,12 @@ class MainFormComponent extends React.Component {
    * @return [*] available attributes, matching  DataManagementShapes.AttributeModelList shape
    */
   getAvailableAttributesFor = (sectionType) => {
-    const { dataAttributeModels, datasetAttributeModels, documentAttributeModels } = this.props
+    const { dataAttributeModels, datasetAttributeModels } = this.props
     switch (sectionType) {
       case DamDomain.ENTITY_TYPES_ENUM.DATA:
         return dataAttributeModels
       case DamDomain.ENTITY_TYPES_ENUM.DATASET:
         return datasetAttributeModels
-      case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT:
-        return documentAttributeModels
       default:
         throw new Error(`Cannot return attributes pool for type ${sectionType}`)
     }
@@ -87,7 +83,7 @@ class MainFormComponent extends React.Component {
   renderCurrentPage = () => {
     const {
       selectedSectionType, selectedPageType, changeField,
-      documentsForbidden, currentFormValues, currentNamespace,
+      currentFormValues, currentNamespace,
     } = this.props
     switch (selectedSectionType) {
       case FORM_SECTIONS_ENUM.MAIN:
@@ -96,12 +92,10 @@ class MainFormComponent extends React.Component {
           <MainConfigurationComponent
             currentNamespace={currentNamespace}
             currentFormValues={currentFormValues}
-            documentsForbidden={documentsForbidden}
             changeField={changeField}
           />)
       case DamDomain.ENTITY_TYPES_ENUM.DATA:
-      case DamDomain.ENTITY_TYPES_ENUM.DATASET:
-      case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT: {
+      case DamDomain.ENTITY_TYPES_ENUM.DATASET: {
         // main case: section is edited entity type group
         const currentTypeNamespace = `${currentNamespace}.viewsGroups.${selectedSectionType}`
         const currentTypeFormValues = get(currentFormValues, `viewsGroups.${selectedSectionType}`)

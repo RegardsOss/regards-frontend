@@ -23,21 +23,6 @@ import { DamDomain, AccessDomain, CommonDomain } from '@regardsoss/domain'
  * @author Raphaël Mechali
  */
 
-export const documentEntity = {
-  content: {
-    entityType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
-    id: 'URN:AIP:DOCUMENT:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1',
-    providerId: 'provider1',
-    label: 'EmptyDoc',
-    model: '1',
-    tags: [],
-    groups: ['PublicDocumentGroup'],
-    properties: {},
-    services: [],
-    files: {},
-  },
-}
-
 export const datasetEntity = {
   content: {
     entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,

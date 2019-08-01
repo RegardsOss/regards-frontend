@@ -22,6 +22,7 @@ import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { CriterionBuilder } from '../../../../src/definitions/CriterionBuilder'
 import SearchResultsContainer from '../../../../src/containers/user/tabs/results/SearchResultsContainer'
+import DescriptionContainer from '../../../../src/containers/user/tabs/description/DescriptionContainer'
 import TabsContentComponent from '../../../../src/components/user/tabs/TabsContentComponent'
 import styles from '../../../../src/styles'
 import { dataContext } from '../../../dumps/data.context.dump'
@@ -80,7 +81,7 @@ describe('[SEARCH RESULTS] Testing TabsContentComponent', () => {
       hasTabs,
     }
     const enzymeWrapper = shallow(<TabsContentComponent {...props} />, { context })
-    // retrieve each tab container
+    // retrieve each tab container and check they are correctly displayed / hidden
     const mainResultsContainer = enzymeWrapper.find(SearchResultsContainer).findWhere(c => c.props().tabType === UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS)
     assert.lengthOf(mainResultsContainer, 1, 'There should be a results container for each main results')
     testSuiteHelpers.assertWrapperProperties(mainResultsContainer, {
@@ -94,7 +95,22 @@ describe('[SEARCH RESULTS] Testing TabsContentComponent', () => {
     } else {
       assert.deepEqual(mainResultsContainer.parent().props().style, hiddenTabContent, 'Main results tab should be currently hidden')
     }
-    // TODO add description container too
+
+    const descriptionContainer = enzymeWrapper.find(DescriptionContainer)
+    assert.lengthOf(descriptionContainer, 1, 'There should be the description container')
+    testSuiteHelpers.assertWrapperProperties(descriptionContainer, {
+      moduleId: props.moduleId,
+      project: props.project,
+      appName: props.appName,
+      resultsContext: props.resultsContext,
+    }, 'Description container properties should be correctly set')
+    if (resultsContext.selectedTab === UIDomain.RESULTS_TABS_ENUM.DESCRIPTION) {
+      assert.deepEqual(descriptionContainer.parent().props().style, shownTabContent, 'Description tab should be currently shown')
+    } else {
+      assert.deepEqual(descriptionContainer.parent().props().style, hiddenTabContent, 'Description tab should be currently hidden')
+    }
+
+
     const tagResultsContainer = enzymeWrapper.find(SearchResultsContainer).findWhere(c => c.props().tabType === UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS)
     assert.lengthOf(tagResultsContainer, 1, 'There should be a results container for each tag results')
     testSuiteHelpers.assertWrapperProperties(tagResultsContainer, {

@@ -58,7 +58,13 @@ export const ModuleConfiguration = PropTypes.shape({
   [DamDomain.ENTITY_TYPES_ENUM.DATA]: DescriptionConfiguration,
   // runtime data
   runtime: PropTypes.shape({
-    entity: CatalogShapes.Entity, // entity to show
-    onNavigate: PropTypes.func.isRequired,
+    // breacrumb entities, where last entity is the one currently shown (empty array to show no data)
+    descriptionPath: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
+    // Callback to change description path: newPath:[CatalogShapes.Entity] => ()
+    setDescriptionPath: PropTypes.func.isRequired,
+    // Callback search a word tag: word:string => ()
+    onSearchWord: PropTypes.func.isRequired,
+    // Callback search an entity tag: entity:CatalogShapes.Entity => ()
+    onSearchEntity: PropTypes.func.isRequired,
   }),
 })

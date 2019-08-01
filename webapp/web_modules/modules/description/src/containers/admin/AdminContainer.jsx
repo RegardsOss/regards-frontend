@@ -24,7 +24,6 @@ import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
 import { collectionAttributeModelActions, collectionAttributeModelSelectors } from '../../clients/CollectionAttributeModelClient'
 import { dataAttributeModelActions, dataAttributeModelSelectors } from '../../clients/DataobjectAttributeModelClient'
 import { datasetAttributeModelActions, datasetAttributeModelSelectors } from '../../clients/DatasetAttributeModelClient'
-import { documentAttributeModelActions, documentAttributeModelSelectors } from '../../clients/DocumentAttributeModelClient'
 import AdminFormComponent from '../../components/admin/AdminFormComponent'
 
 /**
@@ -43,7 +42,6 @@ export class AdminContainer extends React.Component {
       collectionAttributeModels: collectionAttributeModelSelectors.getList(state),
       dataAttributeModels: dataAttributeModelSelectors.getList(state),
       datasetAttributeModels: datasetAttributeModelSelectors.getList(state),
-      documentAttributeModels: documentAttributeModelSelectors.getList(state),
     }
   }
 
@@ -58,7 +56,6 @@ export class AdminContainer extends React.Component {
       fetchAllCollectionAttributes: () => dispatch(collectionAttributeModelActions.fetchEntityList({ modelType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION })),
       fetchAllDataAttributes: () => dispatch(dataAttributeModelActions.fetchEntityList({ modelType: DamDomain.ENTITY_TYPES_ENUM.DATA })),
       fetchAllDatasetModelsAttributes: () => dispatch(datasetAttributeModelActions.fetchEntityList({ modelType: DamDomain.ENTITY_TYPES_ENUM.DATASET })),
-      fetchAllDocumentModelsAttributes: () => dispatch(documentAttributeModelActions.fetchEntityList({ modelType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT })),
     }
   }
 
@@ -71,12 +68,10 @@ export class AdminContainer extends React.Component {
     collectionAttributeModels: DataManagementShapes.AttributeModelList,
     dataAttributeModels: DataManagementShapes.AttributeModelList,
     datasetAttributeModels: DataManagementShapes.AttributeModelList,
-    documentAttributeModels: DataManagementShapes.AttributeModelList,
     // Set by mapDispatchToProps
     fetchAllCollectionAttributes: PropTypes.func.isRequired,
     fetchAllDataAttributes: PropTypes.func.isRequired,
     fetchAllDatasetModelsAttributes: PropTypes.func.isRequired,
-    fetchAllDocumentModelsAttributes: PropTypes.func.isRequired,
   }
 
   /** Initial state */
@@ -92,13 +87,11 @@ export class AdminContainer extends React.Component {
       fetchAllCollectionAttributes,
       fetchAllDataAttributes,
       fetchAllDatasetModelsAttributes,
-      fetchAllDocumentModelsAttributes,
     } = this.props
     Promise.all([
       fetchAllCollectionAttributes(),
       fetchAllDataAttributes(),
-      fetchAllDatasetModelsAttributes(),
-      fetchAllDocumentModelsAttributes()]).then(() => this.setState({ loading: false }))
+      fetchAllDatasetModelsAttributes()]).then(() => this.setState({ loading: false }))
   }
 
 
@@ -108,7 +101,6 @@ export class AdminContainer extends React.Component {
       collectionAttributeModels,
       dataAttributeModels,
       datasetAttributeModels,
-      documentAttributeModels,
       adminForm: { currentNamespace, changeField, isCreating },
     } = this.props
     return (
@@ -123,7 +115,6 @@ export class AdminContainer extends React.Component {
           collectionAttributeModels={collectionAttributeModels}
           dataAttributeModels={dataAttributeModels}
           datasetAttributeModels={datasetAttributeModels}
-          documentAttributeModels={documentAttributeModels}
         />
       </LoadableContentDisplayDecorator>
     )

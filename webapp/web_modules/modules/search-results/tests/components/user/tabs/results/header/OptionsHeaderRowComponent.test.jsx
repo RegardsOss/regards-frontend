@@ -78,7 +78,7 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
   ]
 
   testCases.forEach(({ context, services, hasMultipleTypes }) => {
-    // render once for each available view and mode in context (allows testing all views of DATA, DATASET and Documents)
+    // render once for each available view and mode in context (allows testing all views of DATA, DATASET)
     forEach(context.typeState, (groupState, groupType) => {
       if (groupState.enabled) {
         forEach(groupState.modeState, (modeState, modeType) => {

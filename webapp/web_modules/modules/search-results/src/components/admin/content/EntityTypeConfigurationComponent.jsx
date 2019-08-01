@@ -23,7 +23,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import {
   RenderCheckbox, RenderRadio, RenderTextField, Field, FieldsGroup,
 } from '@regardsoss/form-utils'
-import { DataViewsConfiguration, DatasetViewsConfiguration, DocumentsViewsConfiguration } from '../../../shapes/ModuleConfiguration'
+import { DataViewsConfiguration, DatasetViewsConfiguration } from '../../../shapes/ModuleConfiguration'
 
 /**
  * Entity type general configuration
@@ -37,7 +37,6 @@ class EntityTypeConfigurationComponent extends React.Component {
     currentTypeFormValues: PropTypes.oneOfType([
       DataViewsConfiguration,
       DatasetViewsConfiguration,
-      DocumentsViewsConfiguration,
     ]).isRequired,
   }
 

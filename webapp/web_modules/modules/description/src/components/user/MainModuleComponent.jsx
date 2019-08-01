@@ -24,7 +24,7 @@ import { TreePath } from '../../shapes/NavigationTree'
 
 
 /**
- * Main description module component. It show entity description view.
+ * Main description module component. It show entity description view and breadcrumb in table layout.
  * @author Raphaël Mechali
  */
 class EntityDescriptionComponent extends React.Component {
@@ -35,12 +35,10 @@ class EntityDescriptionComponent extends React.Component {
     // configuration (holding runtime data)
     moduleConf: ModuleConfiguration.isRequired,
     // tree selection
-    selectedPath: TreePath.isRequired,
+    selectedTreePath: TreePath.isRequired,
 
     // control callback
     onSelectTreePath: PropTypes.func.isRequired, // tree selection callback: path => ()
-    onShowDescription: PropTypes.func.isRequired, // show description callback: entity => ()
-    onSearch: PropTypes.func.isRequired, // search callback: entity|string => ()
   }
 
   static contextTypes = {
@@ -74,7 +72,7 @@ class EntityDescriptionComponent extends React.Component {
 
   render() {
     const {
-      accessToken, projectName, moduleConf, selectedPath, setSelectedPath,
+      accessToken, projectName, moduleConf, selectedTreePath, setSelectedPath,
     } = this.props
     const { moduleTheme: { user } } = this.context
     return ( // TODO no more card, see later!

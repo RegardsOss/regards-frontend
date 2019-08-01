@@ -40,7 +40,7 @@ describe('[Entities Common] Testing DescriptionLinkContainer', () => {
   it('should show not show description when module is not available', () => {
     const props = {
       moduleId: 1,
-      availableDependencies: DescriptionLinkContainer.DESCRIPTION_DEPENDENCIES,
+      availableDependencies: DescriptionHelper.DESCRIPTION_DEPENDENCIES,
       modules: {},
       dynamicContainerId: 'IDK',
       updateResultsContext: () => {},
@@ -65,7 +65,6 @@ describe('[Entities Common] Testing DescriptionLinkContainer', () => {
     assert.isFalse(isDescAvailableFor(DamDomain.ENTITY_TYPES_ENUM.DATA), 'isDescAvailableFor: Description should not be available for DATA: no module found')
     assert.isFalse(isDescAvailableFor(DamDomain.ENTITY_TYPES_ENUM.DATASET), 'isDescAvailableFor: Description should not be available for DATASET: no module found')
     assert.isFalse(isDescAvailableFor(DamDomain.ENTITY_TYPES_ENUM.COLLECTION), 'isDescAvailableFor: Description should not be available for COLLECTION: no module found')
-    assert.isFalse(isDescAvailableFor(DamDomain.ENTITY_TYPES_ENUM.DOCUMENT), 'isDescAvailableFor: Description should not be available for DOCUMENT: no module found')
   })
   it('should resolve description context when module is found', () => {
     const props = {
@@ -98,7 +97,5 @@ describe('[Entities Common] Testing DescriptionLinkContainer', () => {
       'isDescAvailableFor: Description should not be available for DATASET, from found module configuration')
     assert.isFalse(isDescAvailableFor(DamDomain.ENTITY_TYPES_ENUM.COLLECTION),
       'isDescAvailableFor: Description should not be available for COLLECTION, from found module configuration')
-    assert.isTrue(isDescAvailableFor(DamDomain.ENTITY_TYPES_ENUM.DOCUMENT),
-      'isDescAvailableFor: Description should be available for DOCUMENT, from found module configuration')
   })
 })

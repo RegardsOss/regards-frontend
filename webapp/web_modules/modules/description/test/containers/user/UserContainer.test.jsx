@@ -20,10 +20,10 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { UserContainer } from '../../../src/containers/user/UserContainer'
-import EntityDescriptionComponent from '../../../src/components/user/EntityDescriptionComponent'
+import EntityModelResolutionContainer from '../../../src/containers/user/EntityModelResolutionContainer'
 import styles from '../../../src/styles/styles'
 import { fullModuleConf } from '../../dumps/configuration.dump'
-import { dataEntity } from '../../dumps/entities.dump'
+import { dataEntity, datasetEntity } from '../../dumps/entities.dump'
 
 const context = buildTestContext(styles)
 
@@ -42,14 +42,12 @@ describe('[Description] Testing UserContainer', () => {
       appName: 'any',
       type: 'description',
       moduleConf: fullModuleConf, // missing runtime => shadow
-
-      selectedPath: [0],
-
+      selectedTreePath: [0],
       setSelectedPath: () => {},
     }
 
     const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
-    const component = enzymeWrapper.find(EntityDescriptionComponent)
+    const component = enzymeWrapper.find(EntityModelResolutionContainer)
     assert.lengthOf(component, 0, 'Shadow module should hide sub components')
   })
 
@@ -62,25 +60,24 @@ describe('[Description] Testing UserContainer', () => {
       moduleConf: {
         ...fullModuleConf, // missing runtime => shadow
         runtime: {
-          entity: dataEntity,
-          onNavigate: () => {},
+          descriptionPath: [datasetEntity, dataEntity],
+          setDescriptionPath: () => {},
+          onSearchWord: () => {},
+          onSearchEntity: () => {},
         },
       },
-      selectedPath: [0],
+      selectedTreePath: [0],
       setSelectedPath: () => {},
     }
     const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
-    const component = enzymeWrapper.find(EntityDescriptionComponent)
+    const component = enzymeWrapper.find(EntityModelResolutionContainer)
     assert.lengthOf(component, 1, 'Component should be rendered')
     testSuiteHelpers.assertWrapperProperties(component, {
       accessToken: props.accessToken,
       projectName: props.projectName,
       moduleConf: props.moduleConf,
-      selectedPath: props.selectedPath,
+      selectedTreePath: props.selectedTreePath,
       onSelectTreePath: enzymeWrapper.instance().onSelectTreePath,
-      onShowDescription: enzymeWrapper.instance().onShowDescription,
-      onSearch: enzymeWrapper.instance().onSearch,
     }, 'component properties should be correctly computed')
-    // TODO more tests when tree model is ready to be transfered to children
   })
 })

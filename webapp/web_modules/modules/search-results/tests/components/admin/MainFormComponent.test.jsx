@@ -58,7 +58,6 @@ describe('[SEARCH RESULTS] Testing MainFormComponent', () => {
       enabled: false,
     }],
     values: dataConfiguration,
-    documentsForbidden: true,
   }, {
     label: 'data and datasets',
     viewsGroups: [{
@@ -69,11 +68,10 @@ describe('[SEARCH RESULTS] Testing MainFormComponent', () => {
       enabled: true,
     }],
     values: dataConfiguration,
-    documentsForbidden: false,
   }]
 
   testCases.forEach(({
-    label, viewsGroups, values, documentsForbidden,
+    label, viewsGroups, values, 
   }) => it(`should render correctly for ${label}`, () => {
     const props = {
       // we use here AdminContainer converter, which is tested in its own file
@@ -82,10 +80,8 @@ describe('[SEARCH RESULTS] Testing MainFormComponent', () => {
       selectedPageType: FORM_PAGES_ENUM.MAIN,
       currentNamespace: 'any',
       currentFormValues: values,
-      documentsForbidden,
       dataAttributeModels: attributes,
       datasetAttributeModels: attributes,
-      documentAttributeModels: attributes,
       changeField: () => {},
       onBrowseToPage: () => {},
     }

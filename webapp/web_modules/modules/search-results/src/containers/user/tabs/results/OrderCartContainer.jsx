@@ -271,8 +271,8 @@ export class OrderCartContainer extends React.Component {
     isAuthenticated, modules, availableDependencies, viewObjectType,
   }) => {
     // Available if...
-    // A - User is logged in - and not displaying documents
-    if (isAuthenticated && viewObjectType !== DamDomain.ENTITY_TYPES_ENUM.DOCUMENT) {
+    // A - User is logged in
+    if (isAuthenticated) {
       // B - There is / are active Order cart module(s)
       const hasOrderCartModule = find((modules || {}), module => (get(module, 'content.type', '') === modulesManager.AllDynamicModuleTypes.ORDER_CART
         && get(module, 'content.active', false)))

@@ -18,7 +18,6 @@
  **/
 import DatasetsIcon from 'material-ui/svg-icons/image/collections-bookmark'
 import DataIcon from 'material-ui/svg-icons/av/library-books'
-import DocumentsIcon from 'mdi-material-ui/ImageMultiple'
 import ListViewIcon from 'mdi-material-ui/ViewSequential'
 import QuicklookViewIcon from 'mdi-material-ui/ImageAlbum'
 import MapViewIcon from 'material-ui/svg-icons/maps/map'
@@ -55,7 +54,6 @@ class BrowsingTreeCell extends React.Component {
     [FORM_SECTIONS_ENUM.MAIN]: MainSettingIcon,
     [DamDomain.ENTITY_TYPES_ENUM.DATA]: DatasetsIcon,
     [DamDomain.ENTITY_TYPES_ENUM.DATASET]: DataIcon,
-    [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]: DocumentsIcon,
   }
 
   /** Page icon constructors by page type */

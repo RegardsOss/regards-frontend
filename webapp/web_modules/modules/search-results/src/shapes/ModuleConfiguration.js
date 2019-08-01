@@ -90,16 +90,6 @@ export const DatasetViewsConfiguration = PropTypes.shape({
 })
 
 /**
- * Document view configuration
- */
-export const DocumentsViewsConfiguration = PropTypes.shape({
-  ...commonViewsGroupFields,
-  enableDownload: PropTypes.bool,
-  facets: FacetsConfiguration,
-  sorting: AccessShapes.AttributeListConfigurationModel,
-})
-
-/**
  * Form entity description
  * @author Sébastien binda
  */
@@ -110,7 +100,6 @@ const ModuleConfiguration = PropTypes.shape({
   viewsGroups: PropTypes.shape({
     [ENTITY_TYPES_ENUM.DATA]: DataViewsConfiguration,
     [ENTITY_TYPES_ENUM.DATASET]: DatasetViewsConfiguration,
-    [ENTITY_TYPES_ENUM.DOCUMENT]: DocumentsViewsConfiguration,
   }),
 })
 

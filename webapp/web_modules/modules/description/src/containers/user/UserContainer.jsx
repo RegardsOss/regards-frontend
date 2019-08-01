@@ -22,7 +22,7 @@ import { AuthenticationParametersSelectors, AuthenticationClient } from '@regard
 import { isEqual } from 'date-fns'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
 import { descriptionStateActions, descriptionStateSelectors } from '../../clients/DescriptionStateClient'
-import EntityDescriptionComponent from '../../components/user/EntityDescriptionComponent'
+import EntityModelResolutionContainer from './EntityModelResolutionContainer'
 import { TreePath } from '../../shapes/NavigationTree'
 
 /**
@@ -42,7 +42,7 @@ export class UserContainer extends React.Component {
       // user auth info
       accessToken: AuthenticationClient.authenticationSelectors.getAccessToken(state),
       projectName: AuthenticationParametersSelectors.getProject(state),
-      selectedPath: descriptionStateSelectors.getSelectedPath(state),
+      selectedTreePath: descriptionStateSelectors.getSelectedPath(state),
     }
   }
 
@@ -65,7 +65,7 @@ export class UserContainer extends React.Component {
     moduleConf: ModuleConfiguration.isRequired,
 
     // from map state to props
-    selectedPath: TreePath.isRequired,
+    selectedTreePath: TreePath.isRequired,
     accessToken: PropTypes.string,
     projectName: PropTypes.string.isRequired,
 
@@ -85,23 +85,6 @@ export class UserContainer extends React.Component {
   }
 
   /**
-   * User callback: on show description
-   * @param {*} entity entity for which description should be shown (matches CatalogShapes.Entity, mandatory)
-   */
-  onShowDescription = (entity) => {
-    // TODO implementation
-  }
-
-  /**
-   * User callback: on show description
-   * @param {string|{*}} searchElement word or entity tag to search
-   */
-  onSearch = (searchElement) => {
-    // TODO implementation
-  }
-
-
-  /**
    * Computes if this module is shadow module (ie the module statically injected that should never be shown)
    * @return {boolean} true if that module is shadow module
    */
@@ -113,7 +96,7 @@ export class UserContainer extends React.Component {
 
   render() {
     const {
-      selectedPath, accessToken, projectName, moduleConf,
+      selectedTreePath, accessToken, projectName, moduleConf,
     } = this.props
 
     if (this.isShadowModule()) {
@@ -122,14 +105,12 @@ export class UserContainer extends React.Component {
 
     // render component with currently shown entity (it will hide if entity is undefined)
     return (
-      <EntityDescriptionComponent
+      <EntityModelResolutionContainer
         accessToken={accessToken}
         projectName={projectName}
         moduleConf={moduleConf}
-        selectedPath={selectedPath}
+        selectedTreePath={selectedTreePath}
         onSelectTreePath={this.onSelectTreePath}
-        onShowDescription={this.onShowDescription}
-        onSearch={this.onSearch}
       />)
   }
 }

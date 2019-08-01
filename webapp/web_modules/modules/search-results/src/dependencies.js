@@ -19,7 +19,6 @@
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { DataAttributeModelActions } from './clients/DataobjectAttributeModelClient'
 import { DatasetAttributeModelActions } from './clients/DatasetAttributeModelClient'
-import { DocumentAttributeModelActions } from './clients/DocumentAttributeModelClient'
 
 /**
  * Dependencies needed to display user page of the module
@@ -36,7 +35,6 @@ const user = [
 const admin = [
   DataAttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
   DatasetAttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
-  DocumentAttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 export default {

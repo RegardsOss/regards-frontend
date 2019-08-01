@@ -32,8 +32,6 @@ class MainConfigurationComponent extends React.Component {
   static propTypes = {
     currentNamespace: PropTypes.string.isRequired,
     currentFormValues: ModuleConfiguration.isRequired,
-    // are documents forbidden in current module form?
-    documentsForbidden: PropTypes.bool.isRequired,
     // redux change field method
     changeField: PropTypes.func.isRequired,
   }
@@ -80,10 +78,6 @@ class MainConfigurationComponent extends React.Component {
    */
   getCurrentDisplayedTypesChoices = () => {
     const { currentFormValues: { viewsGroups } } = this.props
-    if (viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DOCUMENT].enabled) {
-      // TODO must delete all references to documents
-      return MainConfigurationComponent.DISPLAYED_TYPES_CHOICES.DOCUMENTS
-    }
     if (viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DATA].enabled
       && viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DATASET].enabled) {
       return MainConfigurationComponent.DISPLAYED_TYPES_CHOICES.DATA_AND_DATASET
@@ -95,7 +89,7 @@ class MainConfigurationComponent extends React.Component {
   }
 
   render() {
-    const { currentNamespace, documentsForbidden } = this.props
+    const { currentNamespace } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <div>
@@ -115,11 +109,6 @@ class MainConfigurationComponent extends React.Component {
             <RadioButton
               value={MainConfigurationComponent.DISPLAYED_TYPES_CHOICES.DATA_AND_DATASET}
               label={formatMessage({ id: 'search.results.form.configuration.result.type.data.and.datasets' })}
-            />
-            <RadioButton
-              value={MainConfigurationComponent.DISPLAYED_TYPES_CHOICES.DOCUMENTS}
-              label={formatMessage({ id: 'search.results.form.main.configuration.display.types.documents' })}
-              disabled={documentsForbidden}
             />
           </RadioButtonGroup>
         </FieldsGroup>

@@ -37,7 +37,6 @@ class AdminFormComponent extends React.Component {
     collectionAttributeModels: DataManagementShapes.AttributeModelList.isRequired,
     dataAttributeModels: DataManagementShapes.AttributeModelList.isRequired,
     datasetAttributeModels: DataManagementShapes.AttributeModelList.isRequired,
-    documentAttributeModels: DataManagementShapes.AttributeModelList.isRequired,
   }
 
   static contextTypes = {
@@ -49,7 +48,6 @@ class AdminFormComponent extends React.Component {
   static CONFIGURATION_ENTITY_TYPES = [
     DamDomain.ENTITY_TYPES_ENUM.DATA,
     DamDomain.ENTITY_TYPES_ENUM.DATASET,
-    DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
     DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
   ]
 
@@ -73,15 +71,13 @@ class AdminFormComponent extends React.Component {
    */
   getAvailableAttributes = (entityType) => {
     const {
-      collectionAttributeModels, dataAttributeModels, datasetAttributeModels, documentAttributeModels,
+      collectionAttributeModels, dataAttributeModels, datasetAttributeModels,
     } = this.props
     switch (entityType) {
       case DamDomain.ENTITY_TYPES_ENUM.DATA:
         return dataAttributeModels
       case DamDomain.ENTITY_TYPES_ENUM.DATASET:
         return datasetAttributeModels
-      case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT:
-        return documentAttributeModels
       case DamDomain.ENTITY_TYPES_ENUM.COLLECTION:
         return collectionAttributeModels
       default:

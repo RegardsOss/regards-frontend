@@ -18,7 +18,6 @@
  **/
 import { mainSearchReducer, tagSearchReducer } from './clients/SearchEntitiesClient'
 import { DatasetAttributeModelReducer } from './clients/DatasetAttributeModelClient'
-import { DocumentAttributeModelReducer } from './clients/DocumentAttributeModelClient'
 import { DataAttributeModelReducer } from './clients/DataobjectAttributeModelClient'
 import { mainTableReducer, tagTableReducer } from './clients/TableClient'
 import { pluginServiceReducer } from './clients/PluginServiceClient'
@@ -30,7 +29,6 @@ import runPluginServiceReducer from './models/services/RunPluginServiceReducer'
  */
 const searchResultsReducers = {
   'datasets-attributes': DatasetAttributeModelReducer,
-  'documents-attributes': DocumentAttributeModelReducer,
   'dataobjects-attributes': DataAttributeModelReducer,
   mainSearchCatalog: mainSearchReducer,
   tagSearchCatalog: tagSearchReducer,

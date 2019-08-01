@@ -50,11 +50,9 @@ describe('[Description] Testing AdminContainer', () => {
       collectionAttributeModels: {},
       dataAttributeModels: {},
       datasetAttributeModels: {},
-      documentAttributeModels: {},
       fetchAllCollectionAttributes: () => { },
       fetchAllDataAttributes: () => { },
       fetchAllDatasetModelsAttributes: () => { },
-      fetchAllDocumentModelsAttributes: () => { },
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(AdminComponent)
@@ -66,7 +64,6 @@ describe('[Description] Testing AdminContainer', () => {
       collectionAttributeModels: props.collectionAttributeModels,
       dataAttributeModels: props.dataAttributeModels,
       datasetAttributeModels: props.datasetAttributeModels,
-      documentAttributeModels: props.documentAttributeModels,
     }, 'Component should define the expected properties')
   })
 })

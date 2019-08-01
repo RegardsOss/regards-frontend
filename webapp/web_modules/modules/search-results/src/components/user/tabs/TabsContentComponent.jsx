@@ -20,6 +20,7 @@ import { UIDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import SearchResultsContainer from '../../../containers/user/tabs/results/SearchResultsContainer'
+import DescriptionContainer from '../../../containers/user/tabs/description/DescriptionContainer'
 
 /**
  * Tabs content display component: keeps a copy of each visible tab and swaps them as selection changes. Each child is
@@ -73,7 +74,12 @@ class TabsContentComponent extends React.Component {
               case UIDomain.RESULTS_TABS_ENUM.DESCRIPTION:
                 return (
                   <div key={tabType} style={style}>
-                    {/* TODO */}
+                    <DescriptionContainer
+                      moduleId={moduleId}
+                      project={project}
+                      appName={appName}
+                      resultsContext={resultsContext}
+                    />
                     <div />
                   </div>)
               case UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS:

@@ -109,8 +109,6 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
           },
         },
       },
-      // Forbid documents displaying in module
-      documentsForbidden: true,
     },
   }]
 
@@ -131,10 +129,8 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
       },
       dataAttributeModels: attributes,
       datasetAttributeModels: attributes,
-      documentAttributeModels: attributes,
       fetchAllDataAttributes: () => new Promise(resolve => resolve()),
       fetchAllDatasetModelsAttributes: () => new Promise(resolve => resolve()),
-      fetchAllDocumentModelsAttributes: () => new Promise(resolve => resolve()),
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     // 1 - check state is as expected
@@ -167,10 +163,8 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
       selectedPageType, // from state
       currentNamespace: 'myForm',
       currentFormValues: formValues,
-      documentsForbidden: conf ? conf.documentsForbidden : false,
       dataAttributeModels: conf ? conf.selectableDataObjectsAttributes : props.dataAttributeModels,
       datasetAttributeModels: conf ? conf.selectableDataSetsAttributes : props.datasetAttributeModels,
-      documentAttributeModels: props.documentAttributeModels,
       changeField: props.adminForm.changeField,
       onBrowseToPage: enzymeWrapper.instance().onBrowseToPage,
     }, 'Component should define the expected properties')
@@ -197,10 +191,8 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
       },
       dataAttributeModels: attributes,
       datasetAttributeModels: attributes,
-      documentAttributeModels: attributes,
       fetchAllDataAttributes: () => new Promise(resolve => resolve()),
       fetchAllDatasetModelsAttributes: () => new Promise(resolve => resolve()),
-      fetchAllDocumentModelsAttributes: () => new Promise(resolve => resolve()),
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     // 1 - check state there are currently the main, data and dataset sections
@@ -210,19 +202,20 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
     assert.equal(navigationSections[1].type, DamDomain.ENTITY_TYPES_ENUM.DATA, 'Second section should be data')
     assert.equal(navigationSections[2].type, DamDomain.ENTITY_TYPES_ENUM.DATASET, 'Third section should be dataset')
     // 2 - set in document view enabled mode
-    enzymeWrapper.setProps({
-      ...props,
-      adminForm: {
-        currentNamespace: 'myForm',
-        form: {
-          myForm: documentsConfiguration,
-        },
-        changeField: () => {},
-      },
-    })
-    navigationSections = enzymeWrapper.state().navigationSections
-    assert.lengthOf(navigationSections, 2, 'There should be 2 sections, after update')
-    assert.equal(navigationSections[0].type, FORM_SECTIONS_ENUM.MAIN, 'First section should be main, after update')
-    assert.equal(navigationSections[1].type, DamDomain.ENTITY_TYPES_ENUM.DOCUMENT, 'Second section should be document, after update')
+    // TODO restore for data only (no longer document)
+    // enzymeWrapper.setProps({
+    //   ...props,
+    //   adminForm: {
+    //     currentNamespace: 'myForm',
+    //     form: {
+    //       myForm: documentsConfiguration,
+    //     },
+    //     changeField: () => {},
+    //   },
+    // })
+    // navigationSections = enzymeWrapper.state().navigationSections
+    // assert.lengthOf(navigationSections, 2, 'There should be 2 sections, after update')
+    // assert.equal(navigationSections[0].type, FORM_SECTIONS_ENUM.MAIN, 'First section should be main, after update')
+    // assert.equal(navigationSections[1].type, DamDomain.ENTITY_TYPES_ENUM.DOCUMENT, 'Second section should be document, after update')
   })
 })
