@@ -30,7 +30,6 @@ import {
   ConfirmDialogComponentTypes, ConfirmDialogComponent, CardActionsComponent, Breadcrumb,
 } from '@regardsoss/components'
 import { sessionsActions, sessionsSelectors } from '../../clients/session/SessionsClient'
-import { tableSessionsActions, tableSessionsSelectors } from '../../clients/TableClient'
 import { SessionsMonitoringSourceRenderer } from './render/SessionsMonitoringSourceRenderer'
 import { SessionsMonitoringSessionRenderer } from './render/SessionsMonitoringSessionRenderer'
 import { SessionsMonitoringCreationDateRenderer } from './render/SessionsMonitoringCreationDateRenderer'

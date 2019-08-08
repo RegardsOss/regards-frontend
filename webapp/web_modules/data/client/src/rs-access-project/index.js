@@ -66,3 +66,5 @@ export { default as getSearchSessionsSelectors } from './session/SearchSessionsS
 export { default as SearchSourcesActions } from './session/SearchSourcesActions'
 export { default as getSearchSourcesReducer } from './session/SearchSourcesReducer'
 export { default as getSearchSourcesSelectors } from './session/SearchSourcesSelectors'
+
+export { default as SessionsRelaunchActions } from './session/SessionsRelaunchActions'

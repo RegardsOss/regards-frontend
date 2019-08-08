@@ -15,27 +15,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { BasicArrayActions } from '@regardsoss/store-utils'
+ **/
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
-export default class SearchSessionsActions extends BasicArrayActions {
-  static ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/sessions/names`
-
-  static ENTITY_ID = 'session_id'
-
+export default class SessionsRelaunchActions extends BasicSignalActions {
   constructor(namespace) {
     super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/sesssssssion`,
       namespace,
-      entityEndpoint: SearchSessionsActions.ENDPOINT,
-      entityPathVariable: SearchSessionsActions.ENTITY_ID,
     })
   }
 
   /**
-   * Action's function to call and set parameters for the dispatch
-   * @param {*} text string
+   * Send license updated notification accepted licenses
+   * @param project project
    */
-  autoCompleteActionDispatch(text) {
-    return this.fetchEntityList(null, { name: text })
+  relaunchProducts(source, name) {
+    console.error('Yey ==>', source)
+    return this.sendSignal('PUT', null, { source })
   }
 }

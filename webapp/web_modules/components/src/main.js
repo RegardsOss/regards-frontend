@@ -105,6 +105,7 @@ export { TableColumnConfiguration } from './table/content/columns/model/TableCol
 export { default as TableColumnConfigurationController } from './table/content/columns/model/ColumnConfigurationController'
 export { default as TableColumnsVisibilityOption } from './table/content/columns/options/TableColumnsVisibilityOption'
 export { default as TableHeaderAutoCompleteFilter } from './table/header/TableHeaderAutoCompleteFilter'
+export { default as TableHeaderAutoCompleteFilterContainer } from './table/header/TableHeaderAutoCompleteFilterContainer'
 export { default as TableHeaderCheckbox } from './table/header/TableHeaderCheckbox'
 
 export { default as TableHeaderContentBox } from './table/header/TableHeaderContentBox'

@@ -19,7 +19,7 @@
 import { BasicArrayActions } from '@regardsoss/store-utils'
 
 export default class SearchSessionsActions extends BasicArrayActions {
-  static ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/sessions/sources`
+  static ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/sessions/sources`
 
   static ENTITY_ID = 'session_id'
 
@@ -29,5 +29,9 @@ export default class SearchSessionsActions extends BasicArrayActions {
       entityEndpoint: SearchSessionsActions.ENDPOINT,
       entityPathVariable: SearchSessionsActions.ENTITY_ID,
     })
+  }
+
+  autoCompleteActionDispatch(text) {
+    return this.fetchEntityList(null, { source: text })
   }
 }

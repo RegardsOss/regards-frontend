@@ -17,6 +17,18 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+export const aipFullListRoute = {
+  path: 'aip/list',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/aip/AIPListContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 export const aipListRoute = {
   path: 'aip/:session/list',
   getComponents(nextState, cb) {
@@ -34,6 +46,18 @@ export const aipFileListRoute = {
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const container = require('./containers/file/AIPFileListContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
+export const sipFullListRoute = {
+  path: 'sip/list',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/sip/SIPListContainer')
       cb(null, {
         content: container.default,
       })
@@ -67,8 +91,9 @@ export const sipHistoryListRoute = {
 
 const aipManagementRouter = {
   childRoutes: [
-    // aipSessionRoute,
+    aipFullListRoute,
     sipListRoute,
+    sipFullListRoute,
     sipHistoryListRoute,
     aipListRoute,
     aipFileListRoute,

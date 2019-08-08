@@ -24,6 +24,8 @@ import { tableReducer } from './clients/TableClient'
 import { aipFileReducer } from './clients/AIPFileClient'
 import { deleteAIPsOnSomeStoragesClientReducer } from './clients/DeleteAIPOnSomeStoragesClient'
 import { deleteAIPsOnAllStoragesClientReducer } from './clients/DeleteAIPOnAllStoragesClient'
+import { searchSessionsReducer } from './clients/session/SearchSessionsClient'
+import { searchSourcesReducer } from './clients/session/SearchSourcesClient'
 
 import { sipReducer } from './clients/SIPClient'
 import { sipSignalReducer } from './clients/SIPSignalClient'
@@ -44,6 +46,8 @@ const oaisManagementReducer = combineReducers({
   sipSignal: sipSignalReducer,
   session: sessionReducer,
   chain: processingChainReducer,
+  searchSessions: searchSessionsReducer,
+  searchSources: searchSourcesReducer,
 })
 
 export default oaisManagementReducer

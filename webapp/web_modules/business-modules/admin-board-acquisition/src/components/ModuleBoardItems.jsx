@@ -86,7 +86,7 @@ const items = (projectName, intl) => [
         hateoasDependencies: sipDependencies.addDependencies,
       },
       {
-        path: `/admin/${projectName}/data/acquisition/oais/aip/Volumétrie/list`,
+        path: `/admin/${projectName}/data/acquisition/oais/sip/list`,
         icon: <Details />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.oais.tooltip.see' }),
         hateoasDependencies: oaisDependencies.listDependencies,
