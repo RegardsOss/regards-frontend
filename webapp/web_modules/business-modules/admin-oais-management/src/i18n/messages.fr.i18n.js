@@ -139,5 +139,8 @@ export default {
   'oais.sips.session.clear.filters.button': 'Vider les filtres',
   'oais.sips.session.apply.filters.button': 'Appliquer les filtres',
 
+  'oais.filters.session.title': 'Session',
+  'oais.filters.source.title': 'Source',
+
 }
 

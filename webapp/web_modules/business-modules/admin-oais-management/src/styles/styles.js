@@ -30,6 +30,10 @@ const aipManagementStyles = theme => ({
       width: '120px',
       margin: '0px 10px',
     },
+    autocomplete: {
+      marginRight: '10px',
+      marginLeft: '10px',
+    },
   },
   session: {
     error: {

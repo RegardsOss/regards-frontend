@@ -33,6 +33,9 @@ const styles = theme => ({
     menuDropDown: {
       minWidth: '0px',
     },
+    cellErrorBackground: {
+      backgroundColor: 'rgba(255,0,0,0.2)',
+    },
     filters: {
       autocomplete: {
         marginRight: '10px',
@@ -61,6 +64,7 @@ const styles = theme => ({
       headerSession: {
         gridArea: 'header',
         alignSelf: 'center',
+        wordBreak: 'break-word',
       },
       infosSession: {
         gridArea: 'infos',
