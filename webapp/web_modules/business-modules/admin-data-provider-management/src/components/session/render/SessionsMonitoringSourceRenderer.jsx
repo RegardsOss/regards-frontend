@@ -19,6 +19,7 @@
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoringTableBackgroundComponent'
 
 /**
  * Comment Here
@@ -38,11 +39,15 @@ export class SessionsMonitoringSourceRenderer extends React.Component {
     const { moduleTheme: { sessionsStyles: { gridSessionCell: { gridSessionContainer, headerSession } } } } = this.context
     const { entity } = this.props
     return (
-      <div style={gridSessionContainer}>
-        <div style={headerSession}>
-          {entity.content.source}
+      <SessionsMonitoringTableBackgroundComponent
+        isInError={entity.content.state === 'ERROR'}
+      >
+        <div style={gridSessionContainer}>
+          <div style={headerSession}>
+            {entity.content.source}
+          </div>
         </div>
-      </div>
+      </SessionsMonitoringTableBackgroundComponent>
     )
   }
 }

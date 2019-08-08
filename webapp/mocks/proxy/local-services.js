@@ -199,7 +199,7 @@ function buildLocalServices(gatewayURL) {
         },
       },
       getSession: {
-        url: 'rs-access-project/sessions',
+        url: 'rs-access-project/sessions2',
         handler: (req, resp, pathParams, requestParams) => {
           let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions.json'))
           
@@ -219,14 +219,14 @@ function buildLocalServices(gatewayURL) {
         },
       },
       getSourcesList: {
-        url: 'rs-access-project/sessions/sources',
+        url: 'rs-access-project/sessions/sources2',
         handler: (req, resp) => {
           let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions-list.json'))
           return myMock
         },
       },
       getSessionsList: {
-        url: 'rs-access-project/sessions/names',
+        url: 'rs-access-project/sessions/names2',
         handler: (req, resp) => {
           let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions-list.json'))
           return myMock

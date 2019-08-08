@@ -27,10 +27,13 @@ import { DropDownButton } from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoringTableBackgroundComponent'
 
 class SessionsMonitoringProductsGenerated extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
+    onClickRelaunchSIP: PropTypes.func.isRequired,
+    onClickListSIP: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -39,6 +42,21 @@ class SessionsMonitoringProductsGenerated extends React.Component {
   }
 
   numberWithCommas = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+  onClickRelaunchSIP = () => {
+    const { entity, onClickRelaunchSIP } = this.props
+    onClickRelaunchSIP(entity.content.source, entity.content.name)
+  }
+
+  onClickListSIP = () => {
+    const { entity, onClickListSIP } = this.props
+    onClickListSIP(entity.content.source, entity.content.name)
+  }
+
+  onClickListSIPErrorOnly = () => {
+    const { entity, onClickListSIP } = this.props
+    onClickListSIP(entity.content.source, entity.content.name, true)
+  }
 
   render() {
     const {
@@ -105,23 +123,26 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     }
 
     return (
-      <div style={cellContainer}>
-        { !entity.content.lifeCycle.sip ? (
-          <div style={gridContainer}>
-            <div style={gridHeaderContainer}>
+      <SessionsMonitoringTableBackgroundComponent
+        isInError={entity.content.state === 'ERROR'}
+      >
+        <div style={cellContainer}>
+          { !entity.content.lifeCycle.sip ? (
+            <div style={gridContainer}>
+              <div style={gridHeaderContainer}>
               -
+              </div>
             </div>
-          </div>
-        ) : (
-          <div style={gridContainer}>
-            <div style={gridHeaderContainer}>
+          ) : (
+            <div style={gridContainer}>
+              <div style={gridHeaderContainer}>
               <div style={barGraphContainer}>
                 <div style={donePlusWidth} title={`${sipDone} ${formatMessage({ id: 'acquisition-sessions.states.stored' })}`} />
                 <div style={errorPlusWidth} title={`${sipErrors} ${formatMessage({ id: 'acquisition-sessions.states.error' })}\n${sipInvalid} ${formatMessage({ id: 'acquisition-sessions.states.invalid' })}\n${sipRefused} ${formatMessage({ id: 'acquisition-sessions.states.refused' })}`} />
                 <div style={pendingPlusWidth} title={`${sipPending} ${formatMessage({ id: 'acquisition-sessions.states.pending' })}`} />
               </div>
             </div>
-            <div style={infosContainer}>
+              <div style={infosContainer}>
               <div style={lineContainer}>
                 <div style={one}>
                   {formatMessage({ id: 'acquisition-sessions.states.processed' })}
@@ -149,19 +170,23 @@ class SessionsMonitoringProductsGenerated extends React.Component {
                 >
                   <MenuItem
                     primaryText={formatMessage({ id: 'acquisition-sessions.menus.ingested.relaunch' })}
+                    onClick={this.onClickRelaunchSIP}
                   />
                   <MenuItem
                     primaryText={formatMessage({ id: 'acquisition-sessions.menus.ingested.list' })}
+                    onClick={this.onClickListSIP}
                   />
                   <MenuItem
                     primaryText={formatMessage({ id: 'acquisition-sessions.menus.ingested.list.error' })}
+                    onClick={this.onClickListSIPErrorOnly}
                   />
                 </DropDownButton>
               </div>
             </div>
-          </div>
-        )}
-      </div>
+            </div>
+          )}
+        </div>
+      </SessionsMonitoringTableBackgroundComponent>
     )
   }
 }

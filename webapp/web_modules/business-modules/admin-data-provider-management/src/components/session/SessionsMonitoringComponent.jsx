@@ -65,6 +65,7 @@ export class SessionsMonitoringComponent extends React.Component {
     onApplyFilters: PropTypes.func.isRequired, // () => ()
     onClearFilters: PropTypes.func.isRequired, // () => ()
     filtersEdited: PropTypes.bool.isRequired,
+    canEmptyFilters: PropTypes.bool.isRequired,
     onToggleErrorsOnly: PropTypes.func.isRequired,
     onToggleLastSession: PropTypes.func.isRequired,
     onChangeFrom: PropTypes.func.isRequired,
@@ -74,6 +75,15 @@ export class SessionsMonitoringComponent extends React.Component {
     onChangeColumnsVisibility: PropTypes.func.isRequired,
     // columns visibility, like (string: columnKey):(boolean: column visible)
     columnsVisibility: PropTypes.objectOf(PropTypes.bool).isRequired,
+
+    // Sessions action menu items
+    onDeleteProducts: PropTypes.func.isRequired,
+    onClickListIndexed: PropTypes.func.isRequired,
+    onClickListSIP: PropTypes.func.isRequired,
+    onClickListAIP: PropTypes.func.isRequired,
+    onClickRelaunchAIP: PropTypes.func.isRequired,
+    onClickRelaunchSIP: PropTypes.func.isRequired,
+    onClickRelaunchProducts: PropTypes.func.isRequired,
   }
 
   static defaultProps = {}
@@ -88,17 +98,17 @@ export class SessionsMonitoringComponent extends React.Component {
   static SORTABLE_COLUMNS = {
     SOURCE: 'column.source',
     NAME: 'column.name',
-    CREATION_DATE: 'column.creationDate',
     STATE: 'column.state',
+    LAST_UPDATE: 'column.lastUpdateDate',
   }
 
   static UNSORTABLE_COLUMNS = {
+    CREATION_DATE: 'column.creationDate',
     PRODUCTS: 'column.products',
     SIP: 'column.sip',
     AIP_GENERATED: 'column.aip-generated',
     AIP_STORED: 'column.aip-stored',
     INDEXED: 'column.indexed',
-    LAST_MODIFICATION: 'column.last-modification',
   }
 
   static getColumnSortingData(columnsSorting, columnKey) {
@@ -151,16 +161,13 @@ export class SessionsMonitoringComponent extends React.Component {
   render() {
     const { intl: { formatMessage }, muiTheme: { sessionsMonitoring: { rowHeight }, components: { infiniteTable: { admin: { minRowCount, maxRowCount } } } } } = this.context
     const {
-      onBack, onSort, columnsSorting, requestParameters, onApplyFilters, onClearFilters, filtersEdited, onToggleErrorsOnly, onToggleLastSession,
+      onBack, onSort, columnsSorting, requestParameters, onApplyFilters, onClearFilters, filtersEdited, canEmptyFilters, onToggleErrorsOnly, onToggleLastSession,
       initialFilters, onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onChangeColumnsVisibility, columnsVisibility,
+      onDeleteProducts, onClickListIndexed, onClickRelaunchAIP, onClickRelaunchSIP, onClickRelaunchProducts, onClickListSIP, onClickListAIP,
     } = this.props
     const { sessionToAcknowledge } = this.state
 
     const columns = [
-      new TableColumnBuilder(TableColumnBuilder.selectionColumnKey)
-        .visible(get(columnsVisibility, TableColumnBuilder.selectionColumnKey, true))
-        .selectionColumn(false, sessionsSelectors, tableSessionsActions, tableSessionsSelectors)
-        .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE, true))
         .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE), onSort)
@@ -170,37 +177,38 @@ export class SessionsMonitoringComponent extends React.Component {
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME, true))
         .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME), onSort)
-        .rowCellDefinition({ Constructor: SessionsMonitoringSessionRenderer })
+        .rowCellDefinition({ Constructor: SessionsMonitoringSessionRenderer, props: { onDeleteProducts, onShowAcknowledge: this.onShowAcknowledge } })
         .label(formatMessage({ id: 'acquisition-sessions.table.name' }))
         .build(),
-      new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.CREATION_DATE)
-        .visible(get(columnsVisibility, SessionsMonitoringComponent.SORTABLE_COLUMNS.CREATION_DATE, true))
-        .optionsSizing(2)
-        .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.CREATION_DATE), onSort)
-        .rowCellDefinition({ Constructor: SessionsMonitoringCreationDateRenderer })
-        .label(formatMessage({ id: 'acquisition-sessions.table.creation-date' }))
+      new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.LAST_UPDATE)
+        .visible(get(columnsVisibility, SessionsMonitoringComponent.SORTABLE_COLUMNS.LAST_UPDATE, true))
+        .optionsSizing(3)
+        .titleHeaderCell()
+        .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.LAST_UPDATE), onSort)
+        .rowCellDefinition({ Constructor: SessionsMonitoringLastModificationRenderer })
+        .label(formatMessage({ id: 'acquisition-sessions.table.last-modification' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.STATE)
-        .visible(get(columnsVisibility, SessionsMonitoringComponent.SORTABLE_COLUMNS.STATE, true))
+        .visible(get(columnsVisibility, SessionsMonitoringComponent.SORTABLE_COLUMNS.STATE, false))
         .optionsSizing(2)
         .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.STATE), onSort)
-        .rowCellDefinition({ Constructor: SessionsMonitoringStateRenderer, props: { onShowAcknowledge: this.onShowAcknowledge } })
+        .rowCellDefinition({ Constructor: SessionsMonitoringStateRenderer })
         .label(formatMessage({ id: 'acquisition-sessions.table.state' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.PRODUCTS)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.PRODUCTS, true))
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.sip-generated.tooltip' }))
-        .rowCellDefinition({ Constructor: SessionsMonitoringProductsGeneratedRenderer })
+        .rowCellDefinition({ Constructor: SessionsMonitoringProductsGeneratedRenderer, props: { onClickRelaunchProducts } })
         .label(formatMessage({ id: 'acquisition-sessions.table.sip-generated' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.SIP)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.SIP, true))
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.sip-treated.tooltip' }))
-        .rowCellDefinition({ Constructor: SessionsMonitoringProductsIngestedRenderer })
+        .rowCellDefinition({ Constructor: SessionsMonitoringProductsIngestedRenderer, props: { onClickRelaunchSIP, onClickListSIP } })
         .label(formatMessage({ id: 'acquisition-sessions.table.sip-treated' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_GENERATED)
-        .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_GENERATED, true))
+        .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_GENERATED, false))
         .optionsSizing(3)
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.aip-generated.tooltip' }))
         .rowCellDefinition({ Constructor: SessionsMonitoringGeneratedAipRenderer })
@@ -209,22 +217,22 @@ export class SessionsMonitoringComponent extends React.Component {
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_STORED)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_STORED, true))
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.aip-stored.tooltip' }))
-        .rowCellDefinition({ Constructor: SessionsMonitoringProductsStoredRenderer })
+        .rowCellDefinition({ Constructor: SessionsMonitoringProductsStoredRenderer, props: { onClickRelaunchAIP, onClickListAIP } })
         .label(formatMessage({ id: 'acquisition-sessions.table.aip-stored' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.INDEXED)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.INDEXED, true))
         .optionsSizing(3)
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.indexed.tooltip' }))
-        .rowCellDefinition({ Constructor: SessionsMonitoringIndexedRenderer })
+        .rowCellDefinition({ Constructor: SessionsMonitoringIndexedRenderer, props: { onClickListIndexed } })
         .label(formatMessage({ id: 'acquisition-sessions.table.indexed' }))
         .build(),
-      new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.LAST_MODIFICATION)
-        .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.LAST_MODIFICATION, false))
+      new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.CREATION_DATE)
+        .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.CREATION_DATE, false))
         .optionsSizing(2)
         .titleHeaderCell()
-        .rowCellDefinition({ Constructor: SessionsMonitoringLastModificationRenderer })
-        .label(formatMessage({ id: 'acquisition-sessions.table.last-modification' }))
+        .rowCellDefinition({ Constructor: SessionsMonitoringCreationDateRenderer })
+        .label(formatMessage({ id: 'acquisition-sessions.table.creation-date' }))
         .build(),
     ]
     return (
@@ -253,6 +261,7 @@ export class SessionsMonitoringComponent extends React.Component {
               onChangeFrom={onChangeFrom}
               onChangeTo={onChangeTo}
               filtersEdited={filtersEdited}
+              canEmptyFilters={canEmptyFilters}
               onChangeColumnsVisibility={onChangeColumnsVisibility}
               columns={columns}
             />

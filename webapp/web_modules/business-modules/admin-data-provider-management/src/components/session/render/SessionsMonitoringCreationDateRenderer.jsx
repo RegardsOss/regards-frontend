@@ -20,6 +20,7 @@ import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DateValueRender } from '@regardsoss/components'
+import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoringTableBackgroundComponent'
 /**
  * Comment Here
  * @author Kevin Picart
@@ -38,11 +39,15 @@ export class SessionsMonitoringCreationDateRenderer extends React.Component {
     const { moduleTheme: { sessionsStyles: { gridSessionCell: { gridSessionContainer, headerSession } } } } = this.context
     const { entity } = this.props
     return (
-      <div style={gridSessionContainer}>
-        <div style={headerSession}>
-          <DateValueRender value={entity.content.creationDate} multilineDisplay />
+      <SessionsMonitoringTableBackgroundComponent
+        isInError={entity.content.state === 'ERROR'}
+      >
+        <div style={gridSessionContainer}>
+          <div style={headerSession}>
+            <DateValueRender value={entity.content.creationDate} multilineDisplay />
+          </div>
         </div>
-      </div>
+      </SessionsMonitoringTableBackgroundComponent>
     )
   }
 }

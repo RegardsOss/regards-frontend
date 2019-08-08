@@ -16,36 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
-import FlatButton from 'material-ui/FlatButton'
-import Close from 'mdi-material-ui/Close'
-import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
- * Clear filters renderer
+ * Component to make line red if isInError is true
  * @author Kévin Picart
  */
-export class SessionsMonitoringFilterClearComponent extends React.Component {
+export class SessionsMonitoringTableBackgroundComponent extends React.Component {
   static propTypes = {
-    onClearFilters: PropTypes.func.isRequired,
-    canEmptyFilters: PropTypes.bool.isRequired,
+    isInError: PropTypes.bool.isRequired,
+    children: PropTypes.node.isRequired,
   }
 
   static contextTypes = {
-    ...i18nContextType,
+    ...themeContextType,
   }
 
   render() {
-    const { onClearFilters, canEmptyFilters } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { moduleTheme: { sessionsStyles: { cellErrorBackground, gridCell: { cellContainer } } } } = this.context
+    const { children, isInError } = this.props
+    let style = cellContainer
+    if (isInError) {
+      style = { ...cellErrorBackground, ...cellContainer  }
+    }
     return (
-      <FlatButton
-        label={formatMessage({ id: 'acquisition-sessions.filters.reset' })}
-        icon={<Close />}
-        disabled={!canEmptyFilters}
-        // disabled={!this.state.filters.id && !this.state.filters.to && !this.state.filters.from}
-        onClick={onClearFilters}
-      />
+      <div style={style}>
+        {children}
+      </div>
     )
   }
 }

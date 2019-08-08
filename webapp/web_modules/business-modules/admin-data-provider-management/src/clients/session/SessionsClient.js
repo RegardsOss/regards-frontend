@@ -29,5 +29,7 @@ export const sessionsActions = new AccessProjectClient.SessionsActions(REDUX_ACT
 export const sessionsReducer = AccessProjectClient.getSessionsReducer(REDUX_ACTION_NAMESPACE)
 export const sessionsSelectors = AccessProjectClient.getSessionsSelectors(ENTITIES_STORE_PATH)
 
+export const sessionsRelaunchActions = new AccessProjectClient.SessionsRelaunchActions(REDUX_ACTION_NAMESPACE)
+
 export const SESSION_ENDPOINT = AccessProjectClient.SessionsActions.ENDPOINT
 export const SESSION_ENTITY_ID = AccessProjectClient.SessionsActions.ENTITY_ID

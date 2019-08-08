@@ -27,15 +27,33 @@ import { DropDownButton } from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoringTableBackgroundComponent'
 
 class SessionsMonitoringProductsStored extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
+    onClickRelaunchAIP: PropTypes.func.isRequired,
+    onClickListAIP: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
+  }
+
+  onClickRelaunchAIP = () => {
+    const { entity, onClickRelaunchAIP } = this.props
+    onClickRelaunchAIP(entity.content.name, entity.content.source)
+  }
+
+  onClickListAIP = () => {
+    const { entity, onClickListAIP } = this.props
+    onClickListAIP(entity.content.source, entity.content.name)
+  }
+
+  onClickListAIPErrorOnly = () => {
+    const { entity, onClickListAIP } = this.props
+    onClickListAIP(entity.content.source, entity.content.name, true)
   }
 
   render() {
@@ -98,63 +116,70 @@ class SessionsMonitoringProductsStored extends React.Component {
     }
 
     return (
-      <div style={cellContainer}>
-        { !entity.content.lifeCycle.aip ? (
-          <div style={gridContainer}>
-            <div style={gridHeaderContainer}>
+      <SessionsMonitoringTableBackgroundComponent
+        isInError={entity.content.state === 'ERROR'}
+      >
+        <div style={cellContainer}>
+          { !entity.content.lifeCycle.aip ? (
+            <div style={gridContainer}>
+              <div style={gridHeaderContainer}>
             -
-            </div>
-          </div>
-        ) : (
-          <div style={gridContainer}>
-            <div style={gridHeaderContainer}>
-              <div style={barGraphContainer}>
-                <div style={donePlusWidth} title={`${aipDone} ${formatMessage({ id: 'acquisition-sessions.states.processed' })}`} />
-                <div style={errorPlusWidth} title={`${aipErrors} ${formatMessage({ id: 'acquisition-sessions.states.error' })}`} />
-                <div style={pendingPlusWidth} title={`${aipPending} ${formatMessage({ id: 'acquisition-sessions.states.pending' })}`} />
               </div>
             </div>
-            <div style={infosContainer}>
-              <div style={lineContainer}>
-                <div style={one}>
+          ) : (
+            <div style={gridContainer}>
+              <div style={gridHeaderContainer}>
+                <div style={barGraphContainer}>
+                  <div style={donePlusWidth} title={`${aipDone} ${formatMessage({ id: 'acquisition-sessions.states.processed' })}`} />
+                  <div style={errorPlusWidth} title={`${aipErrors} ${formatMessage({ id: 'acquisition-sessions.states.error' })}`} />
+                  <div style={pendingPlusWidth} title={`${aipPending} ${formatMessage({ id: 'acquisition-sessions.states.pending' })}`} />
+                </div>
+              </div>
+              <div style={infosContainer}>
+                <div style={lineContainer}>
+                  <div style={one}>
                   {formatMessage({ id: 'acquisition-sessions.states.stored' })}
                   :
                 </div>
-                <div style={two}>
+                  <div style={two}>
                   {formatMessage({ id: 'acquisition-sessions.states.pending' })}
                   :
                 </div>
-                <div style={three}>
+                  <div style={three}>
                   {formatMessage({ id: 'acquisition-sessions.states.error' })}
                   :
                 </div>
-              </div>
-              <div style={listValues}>
-                <div style={one}>{formatNumber(aipDone)}</div>
-                <div style={two}>{formatNumber(aipPending)}</div>
-                <div style={three}>{formatNumber(aipErrors)}</div>
-              </div>
-              <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
-                <DropDownButton
-                  title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
+                </div>
+                <div style={listValues}>
+                  <div style={one}>{formatNumber(aipDone)}</div>
+                  <div style={two}>{formatNumber(aipPending)}</div>
+                  <div style={three}>{formatNumber(aipErrors)}</div>
+                </div>
+                <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
+                  <DropDownButton
+                  title={formatMessage({ id: 'acquisition-sessions.table.aip-generated' })}
                   style={menuDropDown}
                   icon={<Menu />}
                 >
                   <MenuItem
                     primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.relaunch' })}
+                    onClick={this.onClickRelaunchAIP}
                   />
                   <MenuItem
                     primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list' })}
+                    onClick={this.onClickListAIP}
                   />
                   <MenuItem
                     primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list.error' })}
+                    onClick={this.onClickListAIPErrorOnly}
                   />
                 </DropDownButton>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </SessionsMonitoringTableBackgroundComponent>
     )
   }
 }

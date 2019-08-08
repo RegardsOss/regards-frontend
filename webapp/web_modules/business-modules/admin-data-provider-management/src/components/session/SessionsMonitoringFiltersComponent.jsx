@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import {
-  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
+  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, TableHeaderAutoCompleteFilterContainer,
 } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -28,7 +28,6 @@ import { SessionsMonitoringFilterToComponent } from './filters/SessionsMonitorin
 import { SessionsMonitoringFilterClearComponent } from './filters/SessionsMonitoringFilterClearComponent'
 import { SessionsMonitoringFilterApplyComponent } from './filters/SessionsMonitoringFilterApplyComponent'
 import { SessionsMonitoringChooseColumnsComponent } from './filters/SessionsMonitoringChooseColumnsComponent'
-import SessionsMonitoringAutoCompleteContainer from '../../containers/session/SessionsMonitoringAutoCompleteContainer'
 import { searchSourcesActions, searchSourcesSelectors } from '../../clients/session/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../../clients/session/SearchSessionsClient'
 
@@ -49,6 +48,7 @@ export class SessionsMonitoringFiltersComponent extends React.Component {
     onApplyFilters: PropTypes.func.isRequired,
     onClearFilters: PropTypes.func.isRequired,
     filtersEdited: PropTypes.bool.isRequired,
+    canEmptyFilters: PropTypes.bool.isRequired,
     onToggleErrorsOnly: PropTypes.func.isRequired,
     onToggleLastSession: PropTypes.func.isRequired,
     onChangeFrom: PropTypes.func.isRequired,
@@ -71,30 +71,33 @@ export class SessionsMonitoringFiltersComponent extends React.Component {
   render() {
     const {
       filtersEdited, onToggleErrorsOnly, onApplyFilters, onClearFilters, onToggleLastSession,
-      onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onChangeColumnsVisibility, columns,
+      onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onChangeColumnsVisibility, columns, canEmptyFilters,
       initialFilters: {
         source, session, lastSessionOnly, errorsOnly, from, to,
       },
     } = this.props
     const { intl: { formatMessage } } = this.context
+    const { moduleTheme: { sessionsStyles: { filters: { autocomplete } } } } = this.context
 
     return (
       <TableHeaderLine>
         <TableHeaderOptionsArea reducible alignLeft>
           <TableHeaderOptionGroup>
-            <SessionsMonitoringAutoCompleteContainer
+            <TableHeaderAutoCompleteFilterContainer
               onChangeText={onChangeSource}
               text={source}
               arrayActions={searchSourcesActions}
               arraySelectors={searchSourcesSelectors}
               hintText={formatMessage({ id: 'acquisition-sessions.filters.sources-hint' })}
+              style={autocomplete}
             />
-            <SessionsMonitoringAutoCompleteContainer
+            <TableHeaderAutoCompleteFilterContainer
               onChangeText={onChangeSession}
               text={session}
               arrayActions={searchSessionsActions}
               arraySelectors={searchSessionsSelectors}
               hintText={formatMessage({ id: 'acquisition-sessions.filters.sessions-hint' })}
+              style={autocomplete}
             />
             <SessionsMonitoringFilterFromComponent
               onChangeFrom={onChangeFrom}
@@ -120,6 +123,7 @@ export class SessionsMonitoringFiltersComponent extends React.Component {
           <TableHeaderOptionGroup>
             <SessionsMonitoringFilterClearComponent
               onClearFilters={onClearFilters}
+              canEmptyFilters={canEmptyFilters}
             />
             <SessionsMonitoringFilterApplyComponent
               onApplyFilters={onApplyFilters}

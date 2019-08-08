@@ -22,6 +22,7 @@ import { DropDownButton } from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoringTableBackgroundComponent'
 
 /**
  * Comment Here
@@ -30,6 +31,8 @@ import { themeContextType } from '@regardsoss/theme'
 export class SessionsMonitoringSessionRenderer extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
+    onShowAcknowledge: PropTypes.func.isRequired,
+    onDeleteProducts: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -37,29 +40,68 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
     ...i18nContextType,
   }
 
+  onDeleteProducts = () => {
+    const { entity, onDeleteProducts } = this.props
+    onDeleteProducts(entity.content.id, false)
+  }
+
+  onDeleteProductsForce = () => {
+    const { entity, onDeleteProducts } = this.props
+    onDeleteProducts(entity.content.id, true)
+  }
+
+  onShowAcknowledgeDialog = () => {
+    const { entity, onShowAcknowledge } = this.props
+    onShowAcknowledge(entity)
+  }
+
+  nothing = () => {
+    //
+  }
+
   render() {
     const { intl: { formatMessage }, moduleTheme: { sessionsStyles: { menuDropDown, gridSessionCell: { gridSessionContainer, headerSession, infosSession } } } } = this.context
     const { entity } = this.props
     return (
-      <div style={gridSessionContainer}>
-        <div style={headerSession}>
-          {entity.content.name}
+      <SessionsMonitoringTableBackgroundComponent
+        isInError={entity.content.state === 'ERROR'}
+      >
+        <div style={gridSessionContainer}>
+          <div style={headerSession}>
+            {entity.content.name}
+          </div>
+          <div style={infosSession}>
+            <DropDownButton
+              title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
+              style={menuDropDown}
+              icon={<Menu />}
+            >
+              { entity.content.state === 'ERROR' ? (
+                <MenuItem
+                  primaryText={formatMessage({ id: 'acquisition-sessions.states.acknowledge' })}
+                  onClick={this.onShowAcknowledgeDialog}
+                  value={null}
+                />) : (
+                  <div />
+              )}
+              { entity.content.state !== 'DELETED' ? (
+                <MenuItem
+                  primaryText={formatMessage({ id: 'acquisition-sessions.menus.session.delete' })}
+                  onClick={this.onDeleteProducts}
+                  value={null}
+                />
+              ) : (
+                <div />
+              )}
+              <MenuItem
+                primaryText={formatMessage({ id: 'acquisition-sessions.menus.session.delete.definitely' })}
+                onClick={this.onDeleteProductsForce}
+                value={null}
+              />
+            </DropDownButton>
+          </div>
         </div>
-        <div style={infosSession}>
-          <DropDownButton
-            title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
-            style={menuDropDown}
-            icon={<Menu />}
-          >
-            <MenuItem
-              primaryText={formatMessage({ id: 'acquisition-sessions.menus.session.delete' })}
-            />
-            <MenuItem
-              primaryText={formatMessage({ id: 'acquisition-sessions.menus.session.delete.definitely' })}
-            />
-          </DropDownButton>
-        </div>
-      </div>
+      </SessionsMonitoringTableBackgroundComponent>
     )
   }
 }

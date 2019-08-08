@@ -25,22 +25,26 @@ import { CommonDomain } from '@regardsoss/domain'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import {
-  sessionsActions, SESSION_ENDPOINT, SESSION_ENTITY_ID,
+  sessionsActions, SESSION_ENDPOINT, SESSION_ENTITY_ID, sessionsRelaunchActions,
 } from '../../clients/session/SessionsClient'
 import { SessionsMonitoringComponent } from '../../components/session/SessionsMonitoringComponent'
 import messages from '../../i18n'
 import styles from '../../styles'
 
 export class SessionsMonitoringContainer extends React.Component {
-  static mapStateToProps = (state, ownProps) => ({
-    //TODO A EFFACER
-  })
-
   static mapDispatchToProps = dispatch => ({
-    acknowledgeSessionState: id => dispatch(sessionsActions.updateEntity(id, null, null, null, `${SESSION_ENDPOINT}/{${SESSION_ENTITY_ID}}/acknowledge`)),
+    deleteSession: (id, force = false) => dispatch(sessionsActions.fetchPagedEntityList(0, null, { force })),
+    relaunchProducts: (source, name) => dispatch(sessionsRelaunchActions.relaunchProducts(source, name)),
+    acknowledgeSessionState: (id, body, endpoint, verb) => dispatch(sessionsActions.updateEntity(id, body, null, null, endpoint, verb)),
   })
 
   static propTypes = {
+    // from router
+    params: PropTypes.shape({
+      project: PropTypes.string,
+    }),
+    deleteSession: PropTypes.func.isRequired,
+    relaunchProducts: PropTypes.func.isRequired,
     acknowledgeSessionState: PropTypes.func.isRequired,
   }
 
@@ -51,6 +55,7 @@ export class SessionsMonitoringContainer extends React.Component {
     'column.name': 'name',
     'column.source': 'source',
     'column.creationDate': 'creationDate',
+    'column.lastUpdateDate': 'lastUpdateDate',
     'column.state': 'state',
   }
 
@@ -68,8 +73,8 @@ export class SessionsMonitoringContainer extends React.Component {
   static DEFAULT_FILTERS_STATE = {
     source: '',
     session: '',
-    lastSessionOnly: true,
-    errorsOnly: false,
+    lastSessionOnly: false,
+    errorsOnly: true,
     from: null,
     to: null,
   }
@@ -91,10 +96,10 @@ export class SessionsMonitoringContainer extends React.Component {
       requestParameters.name = [applyingFiltersState.session]
     }
     if (applyingFiltersState.errorsOnly) {
-      requestParameters.state = ['']
+      requestParameters.state = ['ERROR']
     }
     if (applyingFiltersState.lastSessionOnly) {
-      requestParameters.onlyLastSession = ['']
+      requestParameters.onlyLastSession = [true]
     }
     if (applyingFiltersState.from) {
       const dateFrom = new Date(applyingFiltersState.from)
@@ -113,12 +118,108 @@ export class SessionsMonitoringContainer extends React.Component {
    */
   state = {
     columnsSorting: [],
+    initialFiltersState: SessionsMonitoringContainer.DEFAULT_FILTERS_STATE,
     editionFiltersState: SessionsMonitoringContainer.DEFAULT_FILTERS_STATE,
     applyingFiltersState: SessionsMonitoringContainer.DEFAULT_FILTERS_STATE,
     requestParameters: SessionsMonitoringContainer.buildRequestParameters([], SessionsMonitoringContainer.DEFAULT_FILTERS_STATE),
-    filtersEdited: false,    
+    filtersEdited: false,
+    canEmptyFilters: false,
     /** columns visibility map (no assertion on child columns keys) */
     columnsVisibility: {}, // note: empty by default, when column isn't found it should be considered visible
+  }
+
+  /**
+   * User cb: On acknowledge
+   */
+  acknowledgeSessionState = (id) => {
+    const { acknowledgeSessionState } = this.props
+    acknowledgeSessionState(id, { state: 'ACKNOWLEDGED' }, `${SESSION_ENDPOINT}/{${SESSION_ENTITY_ID}}`, 'PATCH')
+  }
+
+  /**
+   * User cb: Delete products
+   * @param {sessionId} Session Id
+   * @param {force} Choose whether to use force delete or not
+   */
+  onDeleteProducts = (sessionId, force = false) => {
+    const { params: { project }, deleteSession } = this.props
+    deleteSession(sessionId.toString(), force)
+  }
+
+  /**
+   * User cb: Redirect to Indexed List
+   */
+  onClickListIndexed = (source, session) => {
+    const { params: { project } } = this.props
+    const urlParams = {
+      source,
+      session,
+    }
+    const queryString = Object.keys(urlParams).map(key => `${key}=${urlParams[key]}`).join('&')
+    const url = `/admin/${project}/data/acquisition/oais/aip/list?${queryString}`
+    browserHistory.push(url)
+  }
+
+  /**
+   * User cb: Redirect to Indexed List
+   */
+  onClickListAIP = (source, session, error = false) => {
+    const { params: { project } } = this.props
+    const urlParams = {
+      source,
+      session,
+    }
+    if (error) {
+      urlParams.state = 'STORAGE_ERROR'
+    }
+    const queryString = Object.keys(urlParams).map(key => `${key}=${urlParams[key]}`).join('&')
+    const url = `/admin/${project}/data/acquisition/oais/aip/list?${queryString}`
+    browserHistory.push(url)
+  }
+
+  /**
+   * User cb: Redirect to Indexed List
+   */
+  onClickListSIP = (source, session, error = false) => {
+    const { params: { project } } = this.props
+    const urlParams = {
+      source,
+      session,
+    }
+    if (error) {
+      urlParams.state = 'STORE_ERROR,AIP_GEN_ERROR'
+    }
+    const queryString = Object.keys(urlParams).map(key => `${key}=${urlParams[key]}`).join('&')
+    const url = `/admin/${project}/data/acquisition/oais/sip/list?${queryString}`
+    browserHistory.push(url)
+  }
+
+  /**
+   * User cb: Relaunch Errored AIP
+   */
+  onClickRelaunchAIP = (source, name) => {
+    const { params: { project } } = this.props
+    // TODO Relaunch
+    console.error('Relaunch AIP errored')
+  }
+
+  /**
+   * User cb: Relaunch Errored SIP
+   */
+  onClickRelaunchSIP = (source, name) => {
+    const { params: { project } } = this.props
+    console.error('Relaunch SIP errored')
+    //
+  }
+
+  /**
+   * User cb: Relaunch Errored Products
+   */
+  onClickRelaunchProducts = (source, name) => {
+    const { params: { project }, relaunchProducts } = this.props
+    relaunchProducts(name, source)
+    console.error('Relaunch Products errored')
+    //
   }
 
   /**
@@ -180,10 +281,16 @@ export class SessionsMonitoringContainer extends React.Component {
    */
   onToggleErrorsOnly = () => {
     const { editionFiltersState } = this.state
+    const newFilters = {}
+    if (editionFiltersState.errorsOnly === false) {
+      // We toggle Error Only. Both filters cannot be true together
+      newFilters.lastSessionOnly = false
+    }
+    newFilters.errorsOnly = !editionFiltersState.errorsOnly
     this.onStateUpdated({
       editionFiltersState: {
         ...editionFiltersState,
-        errorsOnly: !editionFiltersState.errorsOnly,
+        ...newFilters,
       },
     })
   }
@@ -193,10 +300,16 @@ export class SessionsMonitoringContainer extends React.Component {
    */
   onToggleLastSession = () => {
     const { editionFiltersState } = this.state
+    const newFilters = {}
+    if (editionFiltersState.lastSessionOnly === false) {
+      // We toggle Error Only. Both filters cannot be true together
+      newFilters.errorsOnly = false
+    }
+    newFilters.lastSessionOnly = !editionFiltersState.lastSessionOnly
     this.onStateUpdated({
       editionFiltersState: {
         ...editionFiltersState,
-        lastSessionOnly: !editionFiltersState.lastSessionOnly,
+        ...newFilters,
       },
     })
   }
@@ -262,6 +375,7 @@ export class SessionsMonitoringContainer extends React.Component {
   onStateUpdated = (stateDiff) => {
     const nextState = { ...this.state, ...stateDiff }
     nextState.filtersEdited = !isEqual(nextState.applyingFiltersState, nextState.editionFiltersState)
+    nextState.canEmptyFilters = !isEqual(nextState.editionFiltersState, nextState.initialFiltersState)
     nextState.requestParameters = SessionsMonitoringContainer.buildRequestParameters(nextState.columnsSorting, nextState.applyingFiltersState)
     this.setState(nextState)
   }
@@ -269,19 +383,20 @@ export class SessionsMonitoringContainer extends React.Component {
   render = () => {
     const { acknowledgeSessionState } = this.props
     const {
-      columnsSorting, requestParameters, filtersEdited, editionFiltersState, columnsVisibility,
+      columnsSorting, requestParameters, filtersEdited, canEmptyFilters, editionFiltersState, columnsVisibility,
     } = this.state
 
     return (
       <SessionsMonitoringComponent
         onBack={this.onBack}
-        onAcknowledge={acknowledgeSessionState}
+        onAcknowledge={this.acknowledgeSessionState}
         onSort={this.onSort}
         columnsSorting={columnsSorting}
         columnsVisibility={columnsVisibility}
         requestParameters={requestParameters}
         initialFilters={editionFiltersState}
         filtersEdited={filtersEdited}
+        canEmptyFilters={canEmptyFilters}
         onApplyFilters={this.onApplyFilters}
         onClearFilters={this.onClearFilters}
         onChangeSource={this.onChangeSource}
@@ -291,6 +406,13 @@ export class SessionsMonitoringContainer extends React.Component {
         onChangeFrom={this.onChangeFrom}
         onChangeTo={this.onChangeTo}
         onChangeColumnsVisibility={this.onChangeColumnsVisibility}
+        onDeleteProducts={this.onDeleteProducts}
+        onClickListIndexed={this.onClickListIndexed}
+        onClickListAIP={this.onClickListAIP}
+        onClickListSIP={this.onClickListSIP}
+        onClickRelaunchAIP={this.onClickRelaunchAIP}
+        onClickRelaunchSIP={this.onClickRelaunchSIP}
+        onClickRelaunchProducts={this.onClickRelaunchProducts}
       />
     )
   }

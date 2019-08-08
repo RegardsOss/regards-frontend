@@ -19,6 +19,7 @@
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoringTableBackgroundComponent'
 
 /**
  * Comment Here
@@ -38,15 +39,19 @@ export class SessionsMonitoringGeneratedAipRenderer extends React.Component {
     const { intl: { formatNumber }, moduleTheme: { sessionsStyles: { gridSessionCell: { gridSessionContainer, headerSession } } } } = this.context
     const { entity } = this.props
     return (
-      <div style={gridSessionContainer}>
-        <div style={headerSession}>
-          { !entity.content.lifeCycle.aip ? (
-            <div>-</div>
-          ) : (
-            <div>{formatNumber((entity.content.lifeCycle.aip.done ? entity.content.lifeCycle.aip.done : 0))}</div>
-          )}
+      <SessionsMonitoringTableBackgroundComponent
+        isInError={entity.content.state === 'ERROR'}
+      >
+        <div style={gridSessionContainer}>
+          <div style={headerSession}>
+            { !entity.content.lifeCycle.aip ? (
+              <div>-</div>
+            ) : (
+              <div>{formatNumber((entity.content.lifeCycle.aip.done ? entity.content.lifeCycle.aip.done : 0))}</div>
+            )}
+          </div>
         </div>
-      </div>
+      </SessionsMonitoringTableBackgroundComponent>
     )
   }
 }

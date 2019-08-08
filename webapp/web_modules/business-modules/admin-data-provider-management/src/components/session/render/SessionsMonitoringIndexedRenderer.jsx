@@ -16,12 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+
+import { browserHistory } from 'react-router'
 import Menu from 'material-ui/svg-icons/navigation/more-vert'
 import { MenuItem } from 'material-ui'
 import { DropDownButton } from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoringTableBackgroundComponent'
 
 /**
  * Comment Here
@@ -30,6 +33,7 @@ import { themeContextType } from '@regardsoss/theme'
 export class SessionsMonitoringIndexedRenderer extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
+    onClickListIndexed: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -37,36 +41,46 @@ export class SessionsMonitoringIndexedRenderer extends React.Component {
     ...i18nContextType,
   }
 
+  onClickListIndexed = () => {
+    const { entity, onClickListIndexed } = this.props
+    onClickListIndexed(entity.content.source, entity.content.session)
+  }
+
   render() {
     const { intl: { formatMessage, formatNumber }, moduleTheme: { sessionsStyles: { menuDropDown, gridSessionCell: { gridSessionContainer, headerSession, infosSession }, gridCell: { cellContainer } } } } = this.context
     const { entity } = this.props
     return (
-      <div style={cellContainer}>
-        { !entity.content.lifeCycle.aip ? (
-          <div style={gridSessionContainer}>
-            <div style={headerSession}>
+      <SessionsMonitoringTableBackgroundComponent
+        isInError={entity.content.state === 'ERROR'}
+      >
+        <div style={cellContainer}>
+          { !entity.content.lifeCycle.aip ? (
+            <div style={gridSessionContainer}>
+              <div style={headerSession}>
             -
+              </div>
             </div>
-          </div>
-        ) : (
-          <div style={gridSessionContainer}>
-            <div style={headerSession}>
-              {formatNumber((entity.content.lifeCycle.aip.indexed ? entity.content.lifeCycle.aip.indexed : 0))}
+          ) : (
+            <div style={gridSessionContainer}>
+              <div style={headerSession}>
+                {formatNumber((entity.content.lifeCycle.aip.indexed ? entity.content.lifeCycle.aip.indexed : 0))}
+              </div>
+              <div style={infosSession}>
+                <DropDownButton
+                  title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
+                  style={menuDropDown}
+                  icon={<Menu />}
+                >
+                  <MenuItem
+                    primaryText={formatMessage({ id: 'acquisition-sessions.menus.indexed.list' })}
+                    onClick={this.onClickListIndexed}
+                  />
+                </DropDownButton>
+              </div>
             </div>
-            <div style={infosSession}>
-              <DropDownButton
-                title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
-                style={menuDropDown}
-                icon={<Menu />}
-              >
-                <MenuItem
-                  primaryText={formatMessage({ id: 'acquisition-sessions.menus.indexed.list' })}
-                />
-              </DropDownButton>
-            </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </SessionsMonitoringTableBackgroundComponent>
     )
   }
 }

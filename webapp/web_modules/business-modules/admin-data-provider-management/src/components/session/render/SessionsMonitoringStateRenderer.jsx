@@ -21,11 +21,11 @@ import OkIcon from 'material-ui/svg-icons/action/done'
 import AcknowledgedIcon from 'material-ui/svg-icons/action/check-circle'
 import DeletedIcon from 'material-ui/svg-icons/action/delete-forever'
 import ErrorIcon from 'material-ui/svg-icons/alert/error'
-
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { AccessDomain } from '@regardsoss/domain'
+import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoringTableBackgroundComponent'
 
 /**
  * Comment Here
@@ -34,7 +34,6 @@ import { AccessDomain } from '@regardsoss/domain'
 export class SessionsMonitoringStateRenderer extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
-    onShowAcknowledge: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -50,19 +49,13 @@ export class SessionsMonitoringStateRenderer extends React.Component {
     [AccessDomain.SESSION_STATUS_ENUM.DELETED]: DeletedIcon,
   }
 
-  onShowAcknowledgeDialog = () => {
-    const { entity, onShowAcknowledge } = this.props
-    onShowAcknowledge(entity)
-  }
-
   render() {
     const {
-      intl: { formatMessage },
       moduleTheme: {
         sessionsStyles: {
           iconColor,
           gridSessionCell: {
-            gridSessionContainer, headerSession, buttonStateContainer, buttonState,
+            gridSessionContainer, headerSession,
           },
         },
       },
@@ -72,18 +65,15 @@ export class SessionsMonitoringStateRenderer extends React.Component {
     const IconConstructor = SessionsMonitoringStateRenderer.STATUS_ICON_CONSTRUCTOR[entity.content.state]
 
     return (
-      <div style={gridSessionContainer}>
-        <div style={headerSession} title={entity.content.state}>
-          <IconConstructor color={iconColor[entity.content.state]} />
+      <SessionsMonitoringTableBackgroundComponent
+        isInError={entity.content.state === 'ERROR'}
+      >
+        <div style={gridSessionContainer}>
+          <div style={headerSession} title={entity.content.state}>
+            <IconConstructor color={iconColor[entity.content.state]} />
+          </div>
         </div>
-        <div style={buttonStateContainer}>
-          { entity.content.state === 'ERROR' ? (
-            <button type="button" style={buttonState} onClick={this.onShowAcknowledgeDialog} title={formatMessage({ id: 'acquisition-sessions.states.acknowledge' })}><AcknowledgedIcon color={iconColor.ACKNOWLEDGED} /></button>
-          ) : (
-            <div />
-          )}
-        </div>
-      </div>
+      </SessionsMonitoringTableBackgroundComponent>
     )
   }
 }
