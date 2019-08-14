@@ -34,7 +34,6 @@ export const AcquisitionProcessingChainMonitorContent = PropTypes.shape({
   nbProductsInProgress: PropTypes.number.isRequired,
   nbProductAcquisitionJob: PropTypes.number.isRequired,
   nbSIPGenerationJobs: PropTypes.number.isRequired,
-  nbSIPSubmissionJobs: PropTypes.number.isRequired,
 })
 
 export const AcquisitionProcessingChainMonitor = PropTypes.shape({
