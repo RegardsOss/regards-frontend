@@ -49,6 +49,7 @@ export default {
   'oais.aips.list.snackbar.job-add-tag': 'Add tag job is running',
   'oais.aips.list.snackbar.job-add-tag-failed': 'Add tag job cannot be run',
   'oais.aips.list.snackbar.job-failed': 'Error : a job of the same kind is already running',
+  'oais.aips.list.relaunch.button': 'Relaunch all',
 
   'oais.aip.confirm.delete.title': 'Delete AIP',
   'oais.aip.confirm.delete.message': 'Do you want to fully delete selected AIP on all storage spaces?',
@@ -120,6 +121,8 @@ export default {
   'oais.sips.listtable.tooltip.go-to-aip-management': 'Go to aip storage monitoring to see errors.',
   'oais.sips.listtable.tooltip.go-to-datasources-management': 'Go to datasources monitoring',
   'oais.sip.list.retry.action': 'Retry sip ingest',
+  'oais.sips.list.relaunch.button': 'Relaunch all',
+  'oais.sips.list.delete.button': 'Delete all',
 
   'oais.sip.confirm.delete.title': 'Data deletion (SIP ID : {id})',
   'oais.sip.confirm.delete.message': 'Do you want to delete only the selected data or all the data with the same provider identifier ?',
@@ -141,5 +144,12 @@ export default {
 
   'oais.filters.session.title': 'Session',
   'oais.filters.source.title': 'Source',
-  
+  'oais.button.relaunch-all.label': 'Relaunch all',
+  'oais.button.relaunch-all.title': 'Relaunch all selected AIPs',
+  'oais.session.title': 'List of OAIS packages',
+  'oais.button.switch-to.AIP': 'See AIPs',
+  'oais.button.switch-to.AIP-title': 'Open AIPs panel',
+  'oais.button.switch-to.SIP': 'See SIPs',
+  'oais.button.switch-to.SIP-title': 'Open SIPs panel',
+
 }

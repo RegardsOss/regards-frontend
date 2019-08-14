@@ -49,6 +49,7 @@ export default {
   'oais.aips.list.snackbar.job-add-tag': 'Un job d\'ajout de tag a été lancé',
   'oais.aips.list.snackbar.job-add-tag-failed': 'Le job d\'ajout de tag n\'a pas pu être lancé',
   'oais.aips.list.snackbar.job-failed': 'Erreur : un job du même type est déjà lancé',
+  'oais.aips.list.relaunch.button': 'Relancer tout',
 
   'oais.aip.confirm.delete.title': 'Suppression d\'AIP',
   'oais.aip.confirm.delete.message': 'Voulez-vous supprimer intégralement les AIP sélectionnés de tous les espaces de stockage ?',
@@ -120,6 +121,8 @@ export default {
   'oais.sips.listtable.tooltip.go-to-aip-management': 'Aller au suivi du stockage des AIPs pour visualiser l\'erreur.',
   'oais.sips.listtable.tooltip.go-to-datasources-management': 'Aller au suivi des aspirations',
   'oais.sip.list.retry.action': 'Relancer l\'ingestion du SIP',
+  'oais.sips.list.relaunch.button': 'Relancer tout',
+  'oais.sips.list.delete.button': 'Supprimer tout',
 
   'oais.sip.confirm.delete.title': 'Suppression de données (identifiant producteur : {id})',
   'oais.sip.confirm.delete.message': 'Voulez-vous supprimer uniquement la donnée sélectionnée ou toutes les données de même identifiant fournisseur ?',
@@ -141,6 +144,12 @@ export default {
 
   'oais.filters.session.title': 'Session',
   'oais.filters.source.title': 'Source',
+  'oais.button.relaunch-all.label': 'Relancer tout',
+  'oais.button.relaunch-all.title': 'Relancer tous les AIPs selectionnés',
+  'oais.session.title': 'Liste des paquets OAIS',
+  'oais.button.switch-to.AIP': 'Voir les AIPs',
+  'oais.button.switch-to.AIP-title': 'Ouvre le panneau des AIPs',
+  'oais.button.switch-to.SIP': 'Voir les SIPs',
+  'oais.button.switch-to.SIP-title': 'Ouvre le panneau des SIPs',
 
 }
-

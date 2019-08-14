@@ -18,9 +18,10 @@
  **/
 import get from 'lodash/get'
 import values from 'lodash/values'
-import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
+import { connect } from '@regardsoss/redux'
 import { IngestShapes } from '@regardsoss/shape'
+import { tableSelectors, tableActions } from '../../clients/TableClient'
 import SIPListComponent from '../../components/sip/SIPListComponent'
 import { processingChainActions, processingChainSelectors } from '../../clients/ProcessingChainClient'
 import { sipActions, sipSelectors } from '../../clients/SIPClient'
@@ -43,6 +44,10 @@ export class SIPListContainer extends React.Component {
       chains: processingChainSelectors.getList(state),
       meta: sipSelectors.getMetaData(state),
       entitiesLoading: sipSelectors.isFetching(state),
+      isEmptySelection: tableSelectors.isEmptySelection(state, sipSelectors),
+      selectionMode: tableSelectors.getSelectionMode(state),
+      elementsSelected: tableSelectors.getToggledElementsAsList(state),
+      areAllSelected: tableSelectors.areAllSelected(state, sipSelectors),
     }
   }
 
@@ -53,6 +58,7 @@ export class SIPListContainer extends React.Component {
    * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps = dispatch => ({
+    clearSelection: () => dispatch(tableActions.unselectAll()),
     fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
     deleteSIPBySipId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(sip.sipId)),
     deleteSIPByProviderId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(undefined, {}, { providerId: sip.providerId })),
@@ -81,6 +87,10 @@ export class SIPListContainer extends React.Component {
     // from mapStateToProps
     entitiesLoading: PropTypes.bool.isRequired,
     chains: IngestShapes.IngestProcessingChainList.isRequired,
+    isEmptySelection: PropTypes.bool.isRequired,
+    selectionMode: PropTypes.string,
+    elementsSelected: PropTypes.arrayOf(IngestShapes.IngestSIP),
+    areAllSelected: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -136,27 +146,16 @@ export class SIPListContainer extends React.Component {
     browserHistory.push(`/admin/${project}/data/acquisition/datasource/monitor`)
   }
 
-  handleGoBack = (level) => {
-    const { params: { project, session, sip } } = this.props
-    const encodedSessionName = encodeURIComponent(session)
-    let url
-    switch (level) {
-      case 0:
-        // Go back to sessions
-        url = `/admin/${project}/data/acquisition/sip/session`
-        break
-      case 1:
-        // Go back to sips of the given session
-        url = `/admin/${project}/data/acquisition/oais/sip/${encodedSessionName}/list`
-        break
-      default:
-        if (sip) {
-          url = `/admin/${project}/data/acquisition/oais/sip/${encodedSessionName}/list`
-        } else {
-          url = `/admin/${project}/data/acquisition/sip/session`
-        }
-        break
-    }
+  handleGoBack = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/dataprovider/sessions`
+    browserHistory.push(url)
+  }
+
+  /** User callback:  */
+  onGoToAIP = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/oais/aip/list`
     browserHistory.push(url)
   }
 
@@ -189,7 +188,7 @@ export class SIPListContainer extends React.Component {
   render() {
     const {
       meta, fetchPage, deleteSIPBySipId, deleteSIPByProviderId,
-      params: { session, sip }, entitiesLoading,
+      params: { session, sip }, entitiesLoading, isEmptySelection,
     } = this.props
     const { urlFilters, contextFilters } = this.state
     return (
@@ -200,10 +199,13 @@ export class SIPListContainer extends React.Component {
         pageSize={SIPListContainer.PAGE_SIZE}
         resultsCount={meta.totalElements}
         contextFilters={contextFilters}
+        isEmptySelection={isEmptySelection}
         initialFilters={urlFilters}
         entitiesLoading={entitiesLoading}
         handleFilter={this.handleFilter}
+        onSort={this.onSort}
         onBack={this.handleGoBack}
+        onGoToAIP={this.onGoToAIP}
         onRefresh={this.onRefresh}
         onDeleteBySipId={deleteSIPBySipId}
         onDeleteByProviderId={deleteSIPByProviderId}

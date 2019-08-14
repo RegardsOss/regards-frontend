@@ -26,7 +26,8 @@ import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import Snackbar from 'material-ui/Snackbar'
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
-import { StorageShapes } from '@regardsoss/shape'
+import { CommonDomain } from '@regardsoss/domain'
+import { StorageShapes, CommonShapes } from '@regardsoss/shape'
 import {
   Breadcrumb, NoContentComponent, CardActionsComponent, TableColumnBuilder,
   TableLayout, TableHeaderLine, TableHeaderContentBox, TableHeaderOptionsArea,
@@ -42,6 +43,7 @@ import DeleteAIPOnAllStoragesDialogContainer from '../../containers/aip/dialogs/
 import DeleteAIPOnSomeStoragesDialogContainer from '../../containers/aip/dialogs/DeleteAIPOnSomeStoragesDialogContainer'
 import DeleteSelectedAIPsOnAllStoragesOptionContainer from '../../containers/aip/options/DeleteSelectedAIPsOnAllStoragesOptionContainer'
 import DeleteSelectedAIPsOnSomeStoragesOptionContainer from '../../containers/aip/options/DeleteSelectedAIPsOnSomeStoragesOptionContainer'
+import RelaunchSelectedAIPsContainer from '../../containers/aip/options/RelaunchSelectedAIPsContainer'
 import AIPRemoveTagDialog from './dialogs/AIPRemoveTagDialog'
 import AIPAddTagDialog from './dialogs/AIPAddTagDialog'
 import AIPStoreRetryOption from './options/AIPStoreRetryOption'
@@ -52,10 +54,12 @@ import AIPListUpdateDateColumnRenderer from './render/AIPListUpdateDateColumnRen
 import AIPListNbFilesColumnRenderer from './render/AIPListNbFilesColumnRenderer'
 import AIPListStateRenderer from './render/AIPListStateRenderer'
 import AIPListStoragesRenderComponent from './render/AIPListStoragesRenderComponent'
+import { AIPSwitchToSIPComponent } from './AIPSwitchToSIPComponent'
 
 /**
  * AIP list
  * @author Léo Mieulet
+ * @author Kévin Picart
  */
 class AIPListComponent extends React.Component {
   static propTypes = {
@@ -74,10 +78,13 @@ class AIPListComponent extends React.Component {
     currentFilters: PropTypes.objectOf(PropTypes.any),
     // contextual data
     dataStorages: PropTypes.arrayOf(StorageShapes.PrioritizedDataStorageContent),
-    session: PropTypes.string.isRequired,
-
+    columnsSorting: PropTypes.arrayOf(PropTypes.shape({
+      columnKey: PropTypes.string,
+      order: PropTypes.oneOf(CommonDomain.SORT_ORDERS),
+    })).isRequired,
     // callbacks
     onGoBack: PropTypes.func.isRequired,
+    onGoToSIP: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
     onRetryAIPStorage: PropTypes.func.isRequired,
     onApplyFilters: PropTypes.func.isRequired,
@@ -85,6 +92,8 @@ class AIPListComponent extends React.Component {
     fetchCommonTags: PropTypes.func.isRequired,
     addTags: PropTypes.func.isRequired,
     removeTags: PropTypes.func.isRequired,
+    onSort: PropTypes.func.isRequired,
+    requestParameters: CommonShapes.RequestParameters,
   }
 
   static defaultProps = {
@@ -102,6 +111,16 @@ class AIPListComponent extends React.Component {
   }
 
   static SNACKBAR_DURATION = 7000
+
+  static SORTABLE_COLUMNS = {
+    PROVIDER_ID: 'column.providerId',
+    STATE: 'column.state',
+  }
+
+  static getColumnSortingData(columnsSorting, columnKey) {
+    const foundColumnIndex = columnsSorting.findIndex(({ columnKey: localColumnKey }) => localColumnKey === columnKey)
+    return foundColumnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[foundColumnIndex].order, foundColumnIndex]
+  }
 
   state = {
     aipToView: null,
@@ -261,6 +280,13 @@ class AIPListComponent extends React.Component {
   onRetryAIPStorage = aip => this.props.onRetryAIPStorage(aip)
 
   /**
+   * User cb : Relaunch selected AIPS
+   */
+  onRelaunch = () => {
+    // TODO
+  }
+
+  /**
    * Renders delete dialog for current deletion context (mode and selection)
    */
   renderDeleteDialog = () => {
@@ -333,7 +359,7 @@ class AIPListComponent extends React.Component {
     const { intl } = this.context
     const {
       currentFilters, pageSize, resultsCount, entitiesLoading, isEmptySelection, sessionTags,
-      searchingSessionTags, dataStorages, onRefresh, onApplyFilters,
+      searchingSessionTags, dataStorages, onRefresh, onApplyFilters, onSort, columnsSorting, requestParameters,
     } = this.props
 
     const emptyComponent = (
@@ -348,8 +374,9 @@ class AIPListComponent extends React.Component {
       new TableColumnBuilder()
         .selectionColumn(true, aipSelectors, tableActions, tableSelectors)
         .build(),
-      new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.aip.providerId')
+      new TableColumnBuilder(AIPListComponent.SORTABLE_COLUMNS.PROVIDER_ID).titleHeaderCell().propertyRenderCell('content.aip.providerId')
         .label(intl.formatMessage({ id: 'oais.aips.list.table.headers.providerId' }))
+        .sortableHeaderCell(...AIPListComponent.getColumnSortingData(columnsSorting, AIPListComponent.SORTABLE_COLUMNS.PROVIDER_ID), onSort)
         .build(),
       new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.aip.ipType')
         .label(intl.formatMessage({ id: 'oais.aips.list.table.headers.type' }))
@@ -361,7 +388,7 @@ class AIPListComponent extends React.Component {
         })
         .label(intl.formatMessage({ id: 'oais.aips.list.table.headers.data.storages' }))
         .build(),
-      new TableColumnBuilder('column.state').titleHeaderCell()
+      new TableColumnBuilder(AIPListComponent.SORTABLE_COLUMNS.STATE).titleHeaderCell()
         .rowCellDefinition({
           Constructor: AIPListStateRenderer,
           props: {
@@ -369,12 +396,12 @@ class AIPListComponent extends React.Component {
           },
         })
         .label(intl.formatMessage({ id: 'oais.aips.list.table.headers.state' }))
+        .sortableHeaderCell(...AIPListComponent.getColumnSortingData(columnsSorting, AIPListComponent.SORTABLE_COLUMNS.STATE), onSort)
         .build(),
       new TableColumnBuilder('column.lastUpdate').titleHeaderCell()
         .rowCellDefinition({ Constructor: AIPListUpdateDateColumnRenderer })
         .label(intl.formatMessage({ id: 'oais.aips.list.table.headers.lastUpdate' }))
         .build(),
-
       new TableColumnBuilder('column.nbFiles').titleHeaderCell()
         .propertyRenderCell('content', AIPListNbFilesColumnRenderer, {
           handleClick: this.goToAipFiles,
@@ -423,6 +450,7 @@ class AIPListComponent extends React.Component {
             <TableHeaderLoadingComponent loading={entitiesLoading} />
             <TableHeaderOptionsArea reducible>
               <TableHeaderOptionGroup>
+                <RelaunchSelectedAIPsContainer onRelaunch={this.onRelaunch} />
                 <DeleteSelectedAIPsOnSomeStoragesOptionContainer onDelete={this.onDeleteOnSomeStorages} />
                 <DeleteSelectedAIPsOnAllStoragesOptionContainer onDelete={this.onDeleteEverywhere} />
               </TableHeaderOptionGroup>
@@ -439,7 +467,7 @@ class AIPListComponent extends React.Component {
             pageSize={pageSize}
             columns={columns}
             emptyComponent={emptyComponent}
-            currentFilters={currentFilters}
+            currentFilters={requestParameters}
           />
         </TableLayout>
       </CardMedia>
@@ -469,7 +497,7 @@ class AIPListComponent extends React.Component {
   renderBreadCrump = () => {
     const { session } = this.props
     const { intl: { formatMessage } } = this.context
-    const elements = [formatMessage({ id: 'oais.aips.session.title' }), formatMessage({ id: 'oais.aips.session.aips.title' }, { session })]
+    const elements = [formatMessage({ id: 'oais.session.title' })]
     return (
       <Breadcrumb
         rootIcon={<PageView />}
@@ -491,12 +519,15 @@ class AIPListComponent extends React.Component {
 
   render() {
     const { intl } = this.context
+    const { onGoToSIP } = this.props
     return (
       <div>
         <Card>
           <CardTitle
             title={this.renderBreadCrump()}
-            subtitle={intl.formatMessage({ id: 'oais.aips.list.subtitle' })}
+          />
+          <AIPSwitchToSIPComponent
+            onGoToSIP={onGoToSIP}
           />
           {this.renderTable()}
           <CardActions>

@@ -22,6 +22,7 @@ import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
 import compose from 'lodash/fp/compose'
+import { CommonDomain } from '@regardsoss/domain'
 import { connect } from '@regardsoss/redux'
 import { StorageShapes } from '@regardsoss/shape'
 import { withI18n } from '@regardsoss/i18n'
@@ -78,7 +79,6 @@ export class AIPListContainer extends React.Component {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
-      session: PropTypes.string,
     }),
     meta: PropTypes.shape({ // use only in onPropertiesUpdate
       number: PropTypes.number,
@@ -109,9 +109,37 @@ export class AIPListContainer extends React.Component {
 
   static PAGE_SIZE = 20
 
+  /**
+   * Convert column id to query corresponding names
+   */
+  static COLUMN_KEY_TO_QUERY = {
+    'column.providerId': 'providerId',
+    'column.state': 'state',
+  }
+
+  /**
+   * Convert column order to request parameters value
+   */
+  static COLUMN_ORDER_TO_QUERY = {
+    [CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER]: 'ASC',
+    [CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER]: 'DESC',
+  }
+
+  static buildRequestParameters(columnsSorting, appliedFilters) {
+    const requestParameters = {
+      sort: columnsSorting.map(({ columnKey, order }) => `${AIPListContainer.COLUMN_KEY_TO_QUERY[columnKey]},${AIPListContainer.COLUMN_ORDER_TO_QUERY[order]}`),
+      ...appliedFilters,
+    }
+    console.error(requestParameters)
+    return requestParameters
+  }
+
   state = {
     contextFilters: {},
     currentFilters: {},
+    columnsSorting: [],
+    // requestParameters: AIPListContainer.buildRequestParameters([], this.state.contextFilters),
+    requestParameters: {},
     // Store tags for delete dialog
     tags: [],
     searchingTags: false,
@@ -148,14 +176,14 @@ export class AIPListContainer extends React.Component {
     const newState = { ...this.state }
 
     // handle fitlers from parameters
-    if (!isEqual(params.session, get(oldProps, 'params.session')) && params.session) {
-      newState.contextFilters = {
-        session: params.session,
-      }
-      newState.currentFilters = {
-        ...newState.contextFilters,
-      }
-    }
+    // if (!isEqual(params.session, get(oldProps, 'params.session')) && params.session) {
+    //   newState.contextFilters = {
+    //     session: params.session,
+    //   }
+    //   newState.currentFilters = {
+    //     ...newState.contextFilters,
+    //   }
+    // }
 
     // Intialization case: restore filters from URL, if any
     if (isEmpty(oldProps)) {
@@ -165,7 +193,11 @@ export class AIPListContainer extends React.Component {
         newState.currentFilters = {
           ...newState.currentFilters,
           state: query.state,
+          session: query.session,
+          source: query.source,
         }
+        console.error('hi ==> ', newState.currentFilters)
+        newState.requestParameters = AIPListContainer.buildRequestParameters([], newState.currentFilters)
       }
     }
 
@@ -175,13 +207,38 @@ export class AIPListContainer extends React.Component {
     }
   }
 
+  onStateUpdated = (stateDiff) => {
+    const nextState = { ...this.state, ...stateDiff }
+    console.error('AppliedFilters: ', nextState.appliedFilters)
+    nextState.requestParameters = AIPListContainer.buildRequestParameters(nextState.columnsSorting, nextState.currentFilters)
+    this.setState(nextState)
+  }
+
+  /**
+   * User cb: Manage column sorting
+   */
+  onSort = (columnKey, order) => {
+    const { columnsSorting } = this.state
+    const newOrder = columnsSorting
+    const columnIndex = newOrder.findIndex(columnArray => columnArray.columnKey === columnKey)
+    if (order === CommonDomain.SORT_ORDERS_ENUM.NO_SORT) {
+      newOrder.splice(columnIndex, 1)
+    } else if (columnIndex === -1) {
+      newOrder.push({ columnKey, order })
+    } else {
+      newOrder.splice(columnIndex, 1)
+      newOrder.push({ columnKey, order })
+    }
+    this.onStateUpdated({ columnsSorting: newOrder })
+  }
+
   /**
    * User callback: new filters selected
    */
   onApplyFilters = (filters) => {
     const { contextFilters } = this.state
     const currentFilters = { ...filters, ...contextFilters }
-    this.setState({ currentFilters })
+    this.onStateUpdated({ currentFilters })
   }
 
   /**
@@ -210,7 +267,14 @@ export class AIPListContainer extends React.Component {
   /** User callback: back operation (through breadcrumb) */
   onGoBack = (level) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/storage/aip/session`
+    const url = `/admin/${project}/data/acquisition/dataprovider/sessions`
+    browserHistory.push(url)
+  }
+
+  /** User callback:  */
+  onGoToSIP = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/oais/sip/list`
     browserHistory.push(url)
   }
 
@@ -220,12 +284,10 @@ export class AIPListContainer extends React.Component {
    */
   getAIPRequestBody = () => {
     const {
-      selectionMode, areAllSelected, elementsSelected, params,
+      selectionMode, areAllSelected, elementsSelected,
     } = this.props
     const { currentFilters } = this.state
-    const bodyParams = {
-      session: params.session,
-    }
+    const bodyParams = {}
     if (has(currentFilters, 'state')) {
       bodyParams.state = currentFilters.state
     }
@@ -240,6 +302,12 @@ export class AIPListContainer extends React.Component {
     }
     if (has(currentFilters, 'tags')) {
       bodyParams.tags = currentFilters.tags
+    }
+    if (has(currentFilters, 'session')) {
+      bodyParams.session = currentFilters.session
+    }
+    if (has(currentFilters, 'source')) {
+      bodyParams.source = currentFilters.source
     }
     if (elementsSelected && !areAllSelected) {
       if (selectionMode === TableSelectionModes.includeSelected) {
@@ -285,11 +353,11 @@ export class AIPListContainer extends React.Component {
 
   render() {
     const {
-      meta, params: { session }, entitiesLoading, isEmptySelection, dataStorages,
+      meta, entitiesLoading, isEmptySelection, dataStorages,
     } = this.props
     const {
       tags, searchingTags, searchingSessionTags, sessionTags,
-      currentFilters,
+      currentFilters, columnsSorting, requestParameters,
     } = this.state
     return (
       <AIPListComponent
@@ -308,10 +376,10 @@ export class AIPListContainer extends React.Component {
         currentFilters={currentFilters}
         // contextual data
         dataStorages={dataStorages}
-        session={session}
 
         // callbacks
         onGoBack={this.onGoBack}
+        onGoToSIP={this.onGoToSIP}
         onRefresh={this.onRefresh}
         onRetryAIPStorage={this.onRetryAIPStorage}
         onApplyFilters={this.onApplyFilters}
@@ -319,6 +387,9 @@ export class AIPListContainer extends React.Component {
         fetchCommonTags={this.fetchCommonTags}
         addTags={this.addTags}
         removeTags={this.removeTags}
+        onSort={this.onSort}
+        columnsSorting={columnsSorting}
+        requestParameters={requestParameters}
       />
     )
   }

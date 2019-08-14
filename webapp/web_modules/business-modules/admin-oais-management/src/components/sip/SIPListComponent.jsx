@@ -31,9 +31,12 @@ import {
   TableLayout, TableHeaderLineLoadingAndResults, PageableInfiniteTableContainer, Breadcrumb,
   CardActionsComponent,
 } from '@regardsoss/components'
+import { CommonDomain } from '@regardsoss/domain'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { IngestShapes } from '@regardsoss/shape'
+import { tableSelectors, tableActions } from '../../clients/TableClient'
+import { SIPSwitchToAIPComponent } from './SIPSwitchToAIPComponent'
 import SIPListDateColumnRenderer from './SIPListDateColumnRenderer'
 import SIPDetailComponent from './SIPDetailComponent'
 import SIPDetailTableAction from './SIPDetailTableAction'
@@ -53,11 +56,12 @@ import styles from '../../styles'
  */
 class SIPListComponent extends React.Component {
   static propTypes = {
-    session: PropTypes.string.isRequired,
+    session: PropTypes.string,
     sip: PropTypes.string, // Not mandatory. If a SIP is set (providerId) then display only SIPs with the same providerId
     pageSize: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
     onBack: PropTypes.func.isRequired,
+    onGoToAIP: PropTypes.func.isRequired,
     chains: IngestShapes.IngestProcessingChainList.isRequired,
     entitiesLoading: PropTypes.bool.isRequired,
     fetchPage: PropTypes.func.isRequired,
@@ -70,6 +74,8 @@ class SIPListComponent extends React.Component {
     goToDataSourcesMonitoring: PropTypes.func.isRequired,
     initialFilters: PropTypes.objectOf(PropTypes.string),
     contextFilters: PropTypes.objectOf(PropTypes.string),
+    // selection management
+    isEmptySelection: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -77,11 +83,59 @@ class SIPListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static SORTABLE_COLUMNS = {
+    PROVIDER_ID: 'column.providerId',
+    TYPE: 'column.type',
+    STATE: 'column.state',
+    ACTIVE: 'column.active',
+    VERSION: 'column.version',
+  }
+
+  /**
+   * Convert column id to query corresponding names
+   */
+  static COLUMN_KEY_TO_QUERY = {
+    'column.providerId': 'providerId',
+    'column.type': 'type',
+    'column.state': 'state',
+    'column.active': 'ingestDate',
+    'column.version': 'version',
+  }
+
+  /**
+   * Convert column order to request parameters value
+   */
+  static COLUMN_ORDER_TO_QUERY = {
+    [CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER]: 'ASC',
+    [CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER]: 'DESC',
+  }
+
+  /**
+   * Converts columns order and filters state into request parameters
+   * @param {[{columnKey: string, order: string}]} columnsSorting columns sorting definition, where order is a
+   * @param {*} applyingFiltersState filters state from component state
+   * @returns {*} requestParameters as an object compound of string and string arrays
+   */
+  static buildRequestParameters(columnsSorting, appliedFilters) {
+    const requestParameters = {
+      sort: columnsSorting.map(({ columnKey, order }) => `${SIPListComponent.COLUMN_KEY_TO_QUERY[columnKey]},${SIPListComponent.COLUMN_ORDER_TO_QUERY[order]}`),
+      ...appliedFilters,
+    }
+    return requestParameters
+  }
+
+  static getColumnSortingData(columnsSorting, columnKey) {
+    const foundColumnIndex = columnsSorting.findIndex(({ columnKey: localColumnKey }) => localColumnKey === columnKey)
+    return foundColumnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[foundColumnIndex].order, foundColumnIndex]
+  }
+
   state = {
     appliedFilters: {},
     sipToView: null,
     sipToDelete: null,
     deletionErrors: [],
+    requestParameters: SIPListComponent.buildRequestParameters([], this.props.contextFilters),
+    columnsSorting: [],
   }
 
   componentWillMount() {
@@ -91,11 +145,43 @@ class SIPListComponent extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!isEqual(nextProps.contextFilters, this.props.contextFilters)) {
+    const { contextFilters } = this.props
+
+    if (!isEqual(nextProps.contextFilters, contextFilters)) {
       this.setState({
         appliedFilters: nextProps.contextFilters,
       })
     }
+  }
+
+  onStateUpdated = (stateDiff) => {
+    const nextState = { ...this.state, ...stateDiff }
+    nextState.requestParameters = SIPListComponent.buildRequestParameters(nextState.columnsSorting, nextState.appliedFilters)
+    this.setState(nextState)
+  }
+
+  /**
+   * User cb: Manage column sorting
+   */
+  onSort = (columnKey, order) => {
+    const { columnsSorting } = this.state
+    const newOrder = columnsSorting
+    const columnIndex = newOrder.findIndex(columnArray => columnArray.columnKey === columnKey)
+    if (order === CommonDomain.SORT_ORDERS_ENUM.NO_SORT) {
+      newOrder.splice(columnIndex, 1)
+    } else if (columnIndex === -1) {
+      newOrder.push({ columnKey, order })
+    } else {
+      newOrder.splice(columnIndex, 1)
+      newOrder.push({ columnKey, order })
+    }
+    this.onStateUpdated({ columnsSorting: newOrder })
+  }
+
+  applyFilters = (filters) => {
+    const { contextFilters } = this.props
+    const appliedFilters = { ...filters, ...contextFilters }
+    this.onStateUpdated({ appliedFilters })
   }
 
   onCloseDetails = () => {
@@ -160,12 +246,6 @@ class SIPListComponent extends React.Component {
     })
   }
 
-  applyFilters = (filters) => {
-    const { contextFilters } = this.props
-    const appliedFilters = { ...filters, ...contextFilters }
-    this.setState({ appliedFilters })
-  }
-
   closeDeleteDialog = () => {
     this.setState({
       sipToDelete: null,
@@ -208,8 +288,9 @@ class SIPListComponent extends React.Component {
     const { sip } = this.props
     const {
       pageSize, resultsCount, initialFilters, chains, entitiesLoading, goToSessionAIPsMonitoring, session,
-      goToDataSourcesMonitoring,
+      goToDataSourcesMonitoring, isEmptySelection,
     } = this.props
+    const { columnsSorting } = this.state
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
@@ -220,14 +301,18 @@ class SIPListComponent extends React.Component {
     )
 
     const columns = [
-      // id column
-      new TableColumnBuilder('column.providerId').titleHeaderCell().propertyRenderCell('content.providerId')
-        .label(intl.formatMessage({ id: 'oais.sips.listtable.headers.providerId' }))
+      new TableColumnBuilder()
+        .selectionColumn(true, sipSelectors, tableActions, tableSelectors)
         .build(),
-      new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.sip.ipType')
+      // id column
+      new TableColumnBuilder(SIPListComponent.SORTABLE_COLUMNS.PROVIDER_ID).titleHeaderCell().propertyRenderCell('content.providerId')
+        .label(intl.formatMessage({ id: 'oais.sips.listtable.headers.providerId' }))
+        .sortableHeaderCell(...SIPListComponent.getColumnSortingData(columnsSorting, SIPListComponent.SORTABLE_COLUMNS.PROVIDER_ID), this.onSort)
+        .build(),
+      new TableColumnBuilder(SIPListComponent.SORTABLE_COLUMNS.TYPE).titleHeaderCell().propertyRenderCell('content.sip.ipType')
         .label(intl.formatMessage({ id: 'oais.sips.listtable.headers.type' }))
         .build(),
-      new TableColumnBuilder('column.state').titleHeaderCell()
+      new TableColumnBuilder(SIPListComponent.SORTABLE_COLUMNS.STATE).titleHeaderCell()
         .rowCellDefinition({
           Constructor: SIPListStateRenderer,
           props: {
@@ -237,13 +322,16 @@ class SIPListComponent extends React.Component {
           },
         })
         .label(intl.formatMessage({ id: 'oais.sips.listtable.headers.state' }))
+        .sortableHeaderCell(...SIPListComponent.getColumnSortingData(columnsSorting, SIPListComponent.SORTABLE_COLUMNS.STATE), this.onSort)
         .build(),
-      new TableColumnBuilder('column.active').titleHeaderCell()
+      new TableColumnBuilder(SIPListComponent.SORTABLE_COLUMNS.ACTIVE).titleHeaderCell()
         .rowCellDefinition({ Constructor: SIPListDateColumnRenderer })
         .label(intl.formatMessage({ id: 'oais.sips.listtable.headers.date' }))
+        .sortableHeaderCell(...SIPListComponent.getColumnSortingData(columnsSorting, SIPListComponent.SORTABLE_COLUMNS.ACTIVE), this.onSort)
         .build(),
-      new TableColumnBuilder('column.version').titleHeaderCell().propertyRenderCell('content.version')
+      new TableColumnBuilder(SIPListComponent.SORTABLE_COLUMNS.VERSION).titleHeaderCell().propertyRenderCell('content.version')
         .label(intl.formatMessage({ id: 'oais.sips.listtable.headers.version' }))
+        .sortableHeaderCell(...SIPListComponent.getColumnSortingData(columnsSorting, SIPListComponent.SORTABLE_COLUMNS.VERSION), this.onSort)
         .build(),
       new TableColumnBuilder().optionsColumn(sip ? [{ // sip detail options
         OptionConstructor: SIPDetailTableAction,
@@ -292,6 +380,8 @@ class SIPListComponent extends React.Component {
             applyFilters={this.applyFilters}
             handleRefresh={this.handleRefresh}
             chains={chains}
+            emptyComponent={emptyComponent}
+            isEmptySelection={isEmptySelection}
           />
           <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
           <PageableInfiniteTableContainer
@@ -302,8 +392,7 @@ class SIPListComponent extends React.Component {
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}
             columns={columns}
-            requestParams={this.state.appliedFilters}
-            emptyComponent={emptyComponent}
+            requestParams={this.state.requestParameters}
           />
         </TableLayout>
       </CardMedia>
@@ -331,9 +420,9 @@ class SIPListComponent extends React.Component {
   }
 
   renderBreadCrump = () => {
-    const { session, sip } = this.props
+    const { sip } = this.props
     const { intl: { formatMessage } } = this.context
-    const elements = [formatMessage({ id: 'oais.sips.session.title' }), formatMessage({ id: 'oais.sips.session.sips.title' }, { session })]
+    const elements = [formatMessage({ id: 'oais.session.title' })]
     if (sip) {
       elements.push(sip)
     }
@@ -349,13 +438,15 @@ class SIPListComponent extends React.Component {
 
   render() {
     const { intl } = this.context
-
+    const { onGoToAIP } = this.props
     return (
       <div>
         <Card>
           <CardTitle
             title={this.renderBreadCrump()}
-            subtitle={intl.formatMessage({ id: 'oais.sips.listsubtitle' })}
+          />
+          <SIPSwitchToAIPComponent
+            onGoToAIP={onGoToAIP}
           />
           {this.renderTable()}
           <CardActions>

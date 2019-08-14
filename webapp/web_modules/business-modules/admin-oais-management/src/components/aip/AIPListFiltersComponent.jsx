@@ -33,9 +33,10 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { StringComparison } from '@regardsoss/form-utils'
 import {
-  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField, AutoCompleteTextField,
+  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField, TableHeaderAutoCompleteFilterContainer,
 } from '@regardsoss/components'
-
+import { searchSourcesActions, searchSourcesSelectors } from '../../clients/session/SearchSourcesClient'
+import { searchSessionsActions, searchSessionsSelectors } from '../../clients/session/SearchSessionsClient'
 /**
 * Component to display filters on AIPListComponent
 * @author Léo Mieulet
@@ -66,7 +67,7 @@ class AIPListFiltersComponent extends React.Component {
    * @return {*} state converted from request filters
    */
   static convertFiltersToState({
-    state, providerId, tags, storedOn, from, to,
+    state, providerId, tags, storedOn, from, to, session, source,
   }) {
     return {
       state,
@@ -75,6 +76,8 @@ class AIPListFiltersComponent extends React.Component {
       storedOn,
       from: from && new Date(from), // convert string to date (or returns undefined)
       to: to && new Date(to), // convert string to date (or returns undefined)
+      session,
+      source,
     }
   }
 
@@ -84,7 +87,7 @@ class AIPListFiltersComponent extends React.Component {
      * @return {*} request filters converted from state
      */
   static convertStateToFilters({
-    from, to, state, tags, providerId, storedOn,
+    from, to, state, tags, providerId, storedOn, session, source,
   }) {
     return {
       state,
@@ -93,6 +96,8 @@ class AIPListFiltersComponent extends React.Component {
       storedOn,
       from: from && from.toISOString(), // convert date to string
       to: to && to.toISOString(), // convert date to string
+      session,
+      source,
     }
   }
 
@@ -131,7 +136,6 @@ class AIPListFiltersComponent extends React.Component {
       newState.selectableDataStorages = [...dataStorages].sort((str1, str2) => StringComparison.compare(
         str1.dataStorageConfiguration.label, str2.dataStorageConfiguration.label))
     }
-
 
     // Apply computed diff
     if (!isEqual(this.state, newState)) {
@@ -197,6 +201,23 @@ class AIPListFiltersComponent extends React.Component {
     }
   }
 
+  changeSessionFilter = (newValue) => {
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        session: newValue && newValue !== '' ? newValue : undefined,
+      },
+    })
+  }
+
+  changeSourceFilter = (newValue) => {
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        source: newValue && newValue !== '' ? newValue : undefined,
+      },
+    })
+  }
 
   /**
    * On or many storages were selected, update filters state
@@ -213,14 +234,6 @@ class AIPListFiltersComponent extends React.Component {
     })
   }
 
-  onAttributeSelected = () => {
-    // TODO function that do what ?
-  }
-
-  onUpdateInput = (searchText = '') => {
-    //TODO function that update query session
-  }
-
   /**
    * @return {*} Rendered filters as React components
    */
@@ -229,61 +242,82 @@ class AIPListFiltersComponent extends React.Component {
     const { intl: { formatMessage, locale }, moduleTheme: { filter } } = this.context
     const { selectableDataStorages } = this.state // get ordered data storages list
     return (
-      <TableHeaderLine key="filtersLine">
-        <TableHeaderOptionsArea key="filtersArea" reducible alignLeft>
-          <TableHeaderOptionGroup key="second">
-            { /* Session selector */ }
-            <AutoCompleteTextField
-              name="attributeSelector"
-              currentHintText=""
-              currentHints={[{ id: '0', text: 'test', value: 'boom' },{ id: '1', text: 'testy', value: 'boom2' }]}
-              onUpdateInput={this.onUpdateInput}
-              onFilterSelected={this.onAttributeSelected}
-            />
-            { /* AIP data storage (as multiple choices) */ }
-            <SelectField
-              style={filter.fieldStyle}
-              hintText={formatMessage({
-                id: 'oais.aips.list.filters.data.storage.label',
-              })}
-              value={get(this.state, 'filters.storedOn', [])}
-              onChange={this.onStorageSelected}
-              multiple
-            >
-              {selectableDataStorages.map(storage => (<MenuItem
-                key={storage.id}
-                value={storage.id}
-                primaryText={storage.dataStorageConfiguration.label}
-              />))}
-            </SelectField>
-            { /* AIP status (as single choice) */ }
-            <SelectField
-              style={filter.fieldStyle}
-              hintText={formatMessage({ id: 'oais.aips.list.filters.status.label' })}
-              value={get(this.state, 'filters.state', null)}
-              onChange={this.changeStateFilter}
-            >
-              <MenuItem value={null} primaryText="" />
-              {StorageDomain.AIP_STATUS.map(status => (<MenuItem
-                key={status}
-                value={status}
-                primaryText={formatMessage({
-                  id: status,
+      <React.Fragment key="imLine">
+        <TableHeaderLine key="idLine">
+          <TableHeaderOptionsArea key="idLini" reducible alignLeft>
+            <TableHeaderOptionGroup key="idLina">
+              { /* Source/Session filters */ }
+              <TableHeaderAutoCompleteFilterContainer
+                onChangeText={this.changeSourceFilter}
+                text={get(this.state, 'filters.source', '')}
+                arrayActions={searchSourcesActions}
+                arraySelectors={searchSourcesSelectors}
+                hintText={formatMessage({ id: 'oais.filters.source.title' })}
+                style={filter.autocomplete}
+                key="sourceAuto"
+              />
+              <TableHeaderAutoCompleteFilterContainer
+                onChangeText={this.changeSessionFilter}
+                text={get(this.state, 'filters.session', '')}
+                arrayActions={searchSessionsActions}
+                arraySelectors={searchSessionsSelectors}
+                hintText={formatMessage({ id: 'oais.filters.session.title' })}
+                style={filter.autocomplete}
+                key="sessionAuto"
+              />
+            </TableHeaderOptionGroup>
+          </TableHeaderOptionsArea>
+        </TableHeaderLine>
+        <TableHeaderLine key="filtersLine">
+          <TableHeaderOptionsArea key="filtersArea" reducible alignLeft>
+            <TableHeaderOptionGroup key="selectForm">
+              { /* AIP data storage (as multiple choices) */ }
+              <SelectField
+                style={filter.fieldStyle}
+                hintText={formatMessage({
+                  id: 'oais.aips.list.filters.data.storage.label',
                 })}
-              />))}
-            </SelectField>
-            { /* AIP provider ID (input field) */ }
-            <TextField
-              value={get(this.state, 'filters.providerId', '')}
-              onChange={this.changeProviderIdFilter}
-              hintText={formatMessage({ id: 'oais.aips.list.filters.providerId.label' })}
-              style={filter.fieldStyle}
-            />
-          </TableHeaderOptionGroup>
+                value={get(this.state, 'filters.storedOn', [])}
+                onChange={this.onStorageSelected}
+                multiple
+                key="firstSelect"
+              >
+                {selectableDataStorages.map(storage => (<MenuItem
+                  key={storage.id}
+                  value={storage.id}
+                  primaryText={storage.dataStorageConfiguration.label}
+                />))}
+              </SelectField>
+              { /* AIP status (as single choice) */ }
+              <SelectField
+                style={filter.fieldStyle}
+                hintText={formatMessage({ id: 'oais.aips.list.filters.status.label' })}
+                value={get(this.state, 'filters.state', null)}
+                onChange={this.changeStateFilter}
+                key="secondSelect"
+              >
+                <MenuItem value={null} primaryText="" />
+                {StorageDomain.AIP_STATUS.map(status => (<MenuItem
+                  key={status}
+                  value={status}
+                  primaryText={formatMessage({
+                    id: status,
+                  })}
+                />))}
+              </SelectField>
+              { /* AIP provider ID (input field) */ }
+              <TextField
+                value={get(this.state, 'filters.providerId', '')}
+                onChange={this.changeProviderIdFilter}
+                hintText={formatMessage({ id: 'oais.aips.list.filters.providerId.label' })}
+                style={filter.fieldStyle}
+                key="thirdSelect"
+              />
+            </TableHeaderOptionGroup>
 
-          { /* AIP status (as multiple choices) */
+            { /* AIP status (as multiple choices) */
             !searchingSessionTags ? (
-              <TableHeaderOptionGroup key="tags">
+              <TableHeaderOptionGroup key="filterstags">
                 <SelectField
                   style={filter.fieldStyle}
                   hintText={formatMessage({
@@ -292,6 +326,7 @@ class AIPListFiltersComponent extends React.Component {
                   value={get(this.state, 'filters.tags', [])}
                   onChange={this.changeTagsFilter}
                   multiple
+                  key="machin"
                 >
                   {map(sessionTags, tag => (<MenuItem
                     key={tag}
@@ -301,33 +336,36 @@ class AIPListFiltersComponent extends React.Component {
                 </SelectField>
               </TableHeaderOptionGroup>
             ) : null}
-          { /* AIP Dates selectors */ }
-          <TableHeaderOptionGroup>
-            <DatePickerField
-              value={get(this.state, 'filters.from', undefined)}
-              dateHintText={formatMessage({
-                id: 'oais.aips.list.filters.from.label',
-              })}
-              onChange={this.changeFrom}
-              locale={locale}
-            />
-            <DatePickerField
-              value={this.state.filters.to}
-              defaultTime="23:59:59"
-              dateHintText={formatMessage({ id: 'oais.aips.list.filters.to.label' })}
-              onChange={this.changeTo}
-              locale={locale}
-            />
-          </TableHeaderOptionGroup>
-        </TableHeaderOptionsArea>
-      </TableHeaderLine>
+            { /* AIP Dates selectors */ }
+            <TableHeaderOptionGroup key="dateForm">
+              <DatePickerField
+                value={get(this.state, 'filters.from', undefined)}
+                dateHintText={formatMessage({
+                  id: 'oais.aips.list.filters.from.label',
+                })}
+                onChange={this.changeFrom}
+                locale={locale}
+                key="datefrom"
+              />
+              <DatePickerField
+                value={this.state.filters.to}
+                defaultTime="23:59:59"
+                dateHintText={formatMessage({ id: 'oais.aips.list.filters.to.label' })}
+                onChange={this.changeTo}
+                locale={locale}
+                key="dateto"
+              />
+            </TableHeaderOptionGroup>
+          </TableHeaderOptionsArea>
+        </TableHeaderLine>
+      </React.Fragment>
     )
   }
 
 
   renderRefreshLine = () => (
     <TableHeaderLine key="buttonsLine">
-      <TableHeaderOptionsArea>
+      <TableHeaderOptionsArea key="tagArea">
         <TableHeaderOptionGroup>
           <FlatButton
             key="add tag"
@@ -356,6 +394,8 @@ class AIPListFiltersComponent extends React.Component {
               && !get(this.state, 'filters.state')
               && !get(this.state, 'filters.tags')
               && !get(this.state, 'filters.providerId')
+              && !get(this.state, 'filters.session')
+              && !get(this.state, 'filters.source')
               && !get(this.state, 'filters.dataStorages', []).length
             }
             onClick={this.handleClearFilters}

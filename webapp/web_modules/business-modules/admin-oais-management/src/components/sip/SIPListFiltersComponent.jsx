@@ -22,17 +22,21 @@ import values from 'lodash/values'
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
+import DeleteOnAllIcon from 'material-ui/svg-icons/action/delete-forever'
+import Relaunch from 'material-ui/svg-icons/image/rotate-right'
 import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
 import {
-  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField,
+  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField, TableHeaderAutoCompleteFilterContainer,
 } from '@regardsoss/components'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { IngestDomain } from '@regardsoss/domain'
+import { searchSourcesActions, searchSourcesSelectors } from '../../clients/session/SearchSourcesClient'
+import { searchSessionsActions, searchSessionsSelectors } from '../../clients/session/SearchSessionsClient'
 
 /**
 * Component to display filters on SIPListComponent
@@ -44,6 +48,7 @@ class SIPListFiltersComponent extends React.Component {
     applyFilters: PropTypes.func.isRequired,
     handleRefresh: PropTypes.func.isRequired,
     chains: IngestShapes.IngestProcessingChainList.isRequired,
+    isEmptySelection: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {}
@@ -94,7 +99,7 @@ class SIPListFiltersComponent extends React.Component {
 
   handleFilter = () => {
     const {
-      processing, from, state, providerId,
+      processing, from, state, providerId, source, session,
     } = this.state.filters
     const newFilters = {}
     if (processing) {
@@ -105,6 +110,12 @@ class SIPListFiltersComponent extends React.Component {
     }
     if (state) {
       newFilters.state = state
+    }
+    if (source) {
+      newFilters.source = source
+    }
+    if (session) {
+      newFilters.name = session
     }
     if (providerId) {
       // Add '%' caracter at starts and ends of the string to search for matching pattern and not strict value.
@@ -142,6 +153,28 @@ class SIPListFiltersComponent extends React.Component {
     }
   }
 
+  changeSessionFilter = (newValues) => {
+    if (newValues !== null) {
+      this.setState({
+        filters: {
+          ...this.state.filters,
+          session: newValues,
+        },
+      })
+    }
+  }
+
+  changeSourceFilter = (newValues) => {
+    if (newValues !== null) {
+      this.setState({
+        filters: {
+          ...this.state.filters,
+          source: newValues,
+        },
+      })
+    }
+  }
+
   changeProviderIdFilter = (event, newValue) => {
     this.setState({
       filters: {
@@ -158,6 +191,24 @@ class SIPListFiltersComponent extends React.Component {
       <TableHeaderLine key="filtersLine">
         <TableHeaderOptionsArea key="filtersArea" reducible alignLeft>
           <TableHeaderOptionGroup key="first">
+            <TableHeaderAutoCompleteFilterContainer
+              onChangeText={this.changeSourceFilter}
+              text={get(this.state, 'filters.source', '')}
+              arrayActions={searchSourcesActions}
+              arraySelectors={searchSourcesSelectors}
+              hintText={intl.formatMessage({ id: 'oais.filters.source.title' })}
+              style={filter.autocomplete}
+            />
+            <TableHeaderAutoCompleteFilterContainer
+              onChangeText={this.changeSessionFilter}
+              text={get(this.state, 'filters.session', '')}
+              arrayActions={searchSessionsActions}
+              arraySelectors={searchSessionsSelectors}
+              hintText={intl.formatMessage({ id: 'oais.filters.session.title' })}
+              style={filter.autocomplete}
+            />
+          </TableHeaderOptionGroup>
+          <TableHeaderOptionGroup key="second">
             <SelectField
               autoWidth
               style={filter.fieldStyle}
@@ -177,7 +228,7 @@ class SIPListFiltersComponent extends React.Component {
               style={filter.fieldStyle}
             />
           </TableHeaderOptionGroup>
-          <TableHeaderOptionGroup key="second">
+          <TableHeaderOptionGroup key="third">
             <SelectField
               autoWidth
               multiple
@@ -213,7 +264,7 @@ class SIPListFiltersComponent extends React.Component {
 
   renderRefreshLine = () => (
     <TableHeaderLine key="buttonsLine">
-      <TableHeaderOptionsArea>
+      <TableHeaderOptionsArea key="headerLine">
         <TableHeaderOptionGroup>
           <FlatButton
             key="clear"
@@ -224,6 +275,8 @@ class SIPListFiltersComponent extends React.Component {
               && !get(this.state, 'filters.state')
               && !get(this.state, 'filters.processing')
               && !get(this.state, 'filters.providerId')
+              && !get(this.state, 'filters.source')
+              && !get(this.state, 'filters.session')
             }
             onClick={this.handleClearFilters}
           />
@@ -232,6 +285,20 @@ class SIPListFiltersComponent extends React.Component {
             label={this.context.intl.formatMessage({ id: 'oais.sips.session.apply.filters.button' })}
             icon={<Filter />}
             onClick={this.handleFilter}
+          />
+          <FlatButton
+            key="relaunch"
+            label={this.context.intl.formatMessage({ id: 'oais.sips.list.relaunch.button' })}
+            icon={<Relaunch />}
+            disabled={this.props.isEmptySelection}
+            onClick={this.props.openAddTagModal}
+          />
+          <FlatButton
+            key="delete"
+            label={this.context.intl.formatMessage({ id: 'oais.sips.list.delete.button' })}
+            icon={<DeleteOnAllIcon />}
+            disabled={this.props.isEmptySelection}
+            onClick={this.props.openAddTagModal}
           />
         </TableHeaderOptionGroup>
       </TableHeaderOptionsArea>
