@@ -102,7 +102,8 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.mode': 'Mode',
   'acquisition-chain.monitor.list.mode.AUTO': 'Automatique',
   'acquisition-chain.monitor.list.mode.MANUAL': 'Manuel',
-  'acquisition-chain.monitor.list.running': 'Etat',
+  'acquisition-chain.monitor.list.running': 'Actif',
+  'acquisition-chain.monitor.list.state': 'Etat',
   'acquisition-chain.monitor.list.activity.not.running': 'Arrêtée',
   'acquisition-chain.monitor.list.activity.not.running.date': 'Arrêtée depuis le {date}',
   'acquisition-chain.monitor.list.total-nb-products': 'Produits',
@@ -119,6 +120,11 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.run.error': 'Erreur durant le lancement de la chaîne de traitement {label} ({chainId})',
   'acquisition-chain.monitor.list.stop.tooltip': 'Arrêter la chaîne',
   'acquisition-chain.monitor.list.stop.error': 'Erreur durant l\'arrêt de la chaîne de traitement {label} ({chainId})',
+  'acquisition-chain.monitor.list.list.tooltip': 'Voir les détails de la session',
+  'acquisition-chain.monitor.list.mode.manual': 'Manuel',
+  'acquisition-chain.monitor.list.mode.auto': 'Auto',
+  'acquisition-chain.monitor.list.enabled.true': 'Activé',
+  'acquisition-chain.monitor.list.enabled.false': 'Désactivé',
 
   // 3.1.4 Table filters
   'acquisition-chain.monitor.list.filters.label': 'Libellé',
@@ -133,6 +139,8 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.filters.apply.button': 'Appliquer les filtres',
   'acquisition-chain.monitor.list.filters.clear.button': 'Vider',
   'acquisition-chain.monitor.list.refresh.button': 'Rafraîchir',
+  'acquisition-chain.monitor.list.enable-selected.button': 'Activer la selection',
+  'acquisition-chain.monitor.list.disable-selected.button': 'Désactiver la selection',
   'acquisition-chain.monitor.list.back.button': 'Retour',
 
   // 3.2 Chain jobs

@@ -18,6 +18,7 @@
  **/
 
 import isEqual from 'lodash/isEqual'
+import values from 'lodash/values'
 import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
@@ -126,6 +127,21 @@ export class SessionsMonitoringContainer extends React.Component {
     canEmptyFilters: false,
     /** columns visibility map (no assertion on child columns keys) */
     columnsVisibility: {}, // note: empty by default, when column isn't found it should be considered visible
+  }
+
+  componentWillMount() {
+    this.initializeFiltersFromURL()
+  }
+
+  initializeFiltersFromURL = () => {
+    const { query } = browserHistory.getCurrentLocation()
+    if (values(query).length > 0) {
+      this.setState({
+        initialFiltersState: query,
+        editionFiltersState: query,
+        applyingFiltersState: query,
+      })
+    }
   }
 
   /**

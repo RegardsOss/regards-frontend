@@ -243,6 +243,27 @@ const styles = theme => ({
     },
   },
   monitoring: {
+    toggles: {
+      toggleContainer: {
+        width: '100%',
+        display: 'grid',
+        gridTemplateAreas: '"label" "toggle"',
+        gridTmplateColumns: '100%',
+      },
+      toggleModeColor: {
+        backgroundColor: '#2196f3',
+      },
+      toggleStyle: {
+        margin: 'auto',
+        width: 'inherit',
+      },
+      toggleGridLabel: {
+        gridArea: 'label',
+      },
+      toggleGridToggle: {
+        gridArea: 'toggle',
+      },
+    },
     totalStyle: {
       fontSize: '1.2em',
       textDecoration: 'underline',

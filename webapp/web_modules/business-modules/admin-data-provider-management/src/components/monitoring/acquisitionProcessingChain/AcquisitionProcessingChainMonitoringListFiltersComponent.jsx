@@ -21,11 +21,14 @@ import values from 'lodash/values'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
-import Refresh from 'material-ui/svg-icons/navigation/refresh'
+import Enable from 'material-ui/svg-icons/av/play-arrow'
+import Disable from 'material-ui/svg-icons/av/stop'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
 import TextField from 'material-ui/TextField/TextField'
-import { TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup } from '@regardsoss/components'
+import {
+  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
+} from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
@@ -37,7 +40,8 @@ class AcquisitionProcessingChainMonitoringListFiltersComponent extends React.Com
   static propTypes = {
     initialFilters: PropTypes.objectOf(PropTypes.string),
     applyFilters: PropTypes.func.isRequired,
-    handleRefresh: PropTypes.func.isRequired,
+    onMultiToggleSelection: PropTypes.func.isRequired,
+    isOneCheckboxToggled: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {}
@@ -64,6 +68,16 @@ class AcquisitionProcessingChainMonitoringListFiltersComponent extends React.Com
     if (values(this.state.filters).length > 0) {
       this.handleFilter()
     }
+  }
+
+  onDisableSelection = () => {
+    const { onMultiToggleSelection } = this.props
+    onMultiToggleSelection('ONLY_ACTIVITY', false)
+  }
+
+  onEnableSelection = () => {
+    const { onMultiToggleSelection } = this.props
+    onMultiToggleSelection('ONLY_ACTIVITY', true)
   }
 
   /**
@@ -206,40 +220,49 @@ class AcquisitionProcessingChainMonitoringListFiltersComponent extends React.Com
               onChange={this.changeLabelFilter}
             />
           </TableHeaderOptionGroup>
-
         </TableHeaderOptionsArea>
       </TableHeaderLine>
     )
   }
 
-  renderActionsLine = () => (
-    <TableHeaderLine key="options">
-      <TableHeaderOptionsArea>
-        <TableHeaderOptionGroup>
-          <FlatButton
-            label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.filters.clear.button' })}
-            icon={<Close />}
-            disabled={!get(this.state, 'filters.running') && !get(this.state, 'filters.label') && !get(this.state, 'filters.mode')}
-            onClick={this.handleClearFilters}
-          />
-          <FlatButton
-            label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.filters.apply.button' })}
-            icon={<Filter />}
-            onClick={this.handleFilter}
-          />
-        </TableHeaderOptionGroup>
-      </TableHeaderOptionsArea>
-      <TableHeaderOptionsArea>
-        <TableHeaderOptionGroup>
-          <FlatButton
-            label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.refresh.button' })}
-            icon={<Refresh />}
-            onClick={this.props.handleRefresh}
-          />
-        </TableHeaderOptionGroup>
-      </TableHeaderOptionsArea>
-    </TableHeaderLine>
-  )
+  renderActionsLine = () => {
+    const { isOneCheckboxToggled } = this.props
+    return (
+      <TableHeaderLine key="options">
+        <TableHeaderOptionsArea>
+          <TableHeaderOptionGroup>
+            <FlatButton
+              label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.filters.clear.button' })}
+              icon={<Close />}
+              disabled={!get(this.state, 'filters.running') && !get(this.state, 'filters.label') && !get(this.state, 'filters.mode')}
+              onClick={this.handleClearFilters}
+            />
+            <FlatButton
+              label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.filters.apply.button' })}
+              icon={<Filter />}
+              onClick={this.handleFilter}
+            />
+          </TableHeaderOptionGroup>
+        </TableHeaderOptionsArea>
+        <TableHeaderOptionsArea>
+          <TableHeaderOptionGroup>
+            <FlatButton
+              label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.disable-selected.button' })}
+              icon={<Disable />}
+              onClick={this.onDisableSelection}
+              disabled={!isOneCheckboxToggled}
+            />
+            <FlatButton
+              label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.enable-selected.button' })}
+              icon={<Enable />}
+              onClick={this.onEnableSelection}
+              disabled={!isOneCheckboxToggled}
+            />
+          </TableHeaderOptionGroup>
+        </TableHeaderOptionsArea>
+      </TableHeaderLine>
+    )
+  }
 
   render() {
     return [

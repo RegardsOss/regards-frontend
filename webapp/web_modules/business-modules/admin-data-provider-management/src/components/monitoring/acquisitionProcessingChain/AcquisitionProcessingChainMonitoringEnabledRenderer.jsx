@@ -21,10 +21,10 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
 /**
- * Renderer for acquisition processing chain mode
- * @author Raphaël Mechali
+ * Switch renderer for mode selection
+ * @author Kévin Picart
  */
-export class AcquisitionProcessingChainMonitorModeRenderer extends React.Component {
+export class AcquisitionProcessingChainMonitoringEnabledRenderer extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
@@ -40,41 +40,31 @@ export class AcquisitionProcessingChainMonitorModeRenderer extends React.Compone
 
   onToggle = () => {
     const { entity, onToggle } = this.props
-    let toggleMode = 'MANUAL'
-    if (entity.content.chain.mode === 'MANUAL') {
-      toggleMode = 'AUTO'
-    }
-    onToggle(entity.content.chainId, 'ONLY_MODE', toggleMode)
+    onToggle(entity.content.chainId, 'ONLY_ACTIVITY', !entity.content.chain.active)
   }
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { entity: { content: { chain: { mode } } } } = this.props
+    const { entity: { content: { chain: { active } } } } = this.props
     const {
       moduleTheme: {
         monitoring: {
           toggles: {
-            toggleContainer, toggleModeColor, toggleStyle, toggleGridLabel, toggleGridToggle,
+            toggleContainer, toggleStyle, toggleGridLabel, toggleGridToggle,
           },
         },
       },
     } = this.context
-    let isToggled = true
-    if (mode === 'MANUAL') {
-      isToggled = false
-    }
 
     return (
       <div style={toggleContainer}>
         <div style={toggleGridLabel}>
-          { isToggled ? formatMessage({ id: 'acquisition-chain.monitor.list.mode.auto' }) : formatMessage({ id: 'acquisition-chain.monitor.list.mode.manual' }) }
+          { active ? formatMessage({ id: 'acquisition-chain.monitor.list.enabled.true' }) : formatMessage({ id: 'acquisition-chain.monitor.list.enabled.false' }) }
         </div>
         <div style={toggleGridToggle}>
           <Toggle
-            toggled={isToggled}
+            toggled={active}
             onToggle={this.onToggle}
-            thumbStyle={toggleModeColor}
-            thumbSwitchedStyle={toggleModeColor}
             style={toggleStyle}
           />
         </div>

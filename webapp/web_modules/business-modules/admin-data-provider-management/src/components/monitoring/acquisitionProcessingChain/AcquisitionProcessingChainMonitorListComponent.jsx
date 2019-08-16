@@ -21,24 +21,29 @@ import {
 } from 'material-ui/Card'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import PageView from 'material-ui/svg-icons/action/pageview'
+import { CommonDomain } from '@regardsoss/domain'
 import {
   PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLineLoadingAndResults,
-  NoContentComponent, CardActionsComponent, FormErrorMessage, Breadcrumb,
+  NoContentComponent, CardActionsComponent, FormErrorMessage, Breadcrumb, TableDeleteOption, ConfirmDialogComponent,
+  ConfirmDialogComponentTypes,
 } from '@regardsoss/components'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import AcquisitionProcessingChainMonitoringTableRunAction from './AcquisitionProcessingChainMonitoringTableRunAction'
+import AcquisitionProcessingChainMonitoringTableListAction from './AcquisitionProcessingChainMonitoringTableListAction'
 import AcquisitionProcessingChainMonitoringTableStopAction from './AcquisitionProcessingChainMonitoringTableStopAction'
 import AcquisitionProcessingChainMonitoringActivityRenderer from './AcquisitionProcessingChainMonitoringActivityRenderer'
-import AcquisitionProcessingChainMonitoringProductsRenderer from './AcquisitionProcessingChainMonitoringProductsRenderer'
-import AcquisitionProcessingChainMonitoringFilesRenderer from './AcquisitionProcessingChainMonitoringFilesRenderer'
-import AcquisitionProcessingChainMonitorModeRenderer from './AcquisitionProcessingChainMonitorModeRenderer'
+import { AcquisitionProcessingChainMonitorModeRenderer } from './AcquisitionProcessingChainMonitorModeRenderer'
+import { AcquisitionProcessingChainMonitoringEnabledRenderer } from './AcquisitionProcessingChainMonitoringEnabledRenderer'
 import AcquisitionProcessingChainMonitoringListFiltersComponent from './AcquisitionProcessingChainMonitoringListFiltersComponent'
 import { AcquisitionProcessingChainMonitorActions, AcquisitionProcessingChainMonitorSelectors }
   from '../../../clients/AcquisitionProcessingChainMonitorClient'
-import { tableActions } from '../../../clients/TableClient'
+//import { AcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors } from '../../clients/AcquisitionProcessingChainClient'
+import AcquisitionProcessingChainTableEditAction from './AcquisitionProcessingChainTableEditAction'
+import { tableActions, tableSelectors } from '../../../clients/TableClient'
 import messages from '../../../i18n'
 import styles from '../../../styles'
+import dependencies from '../../../dependencies'
 
 /**
 * Component to display list of acquisition processing chains monitoring
@@ -46,15 +51,22 @@ import styles from '../../../styles'
 */
 export class AcquisitionProcessingChainMonitorListComponent extends React.Component {
   static propTypes = {
-    project: PropTypes.string.isRequired,
     initialFilters: PropTypes.objectOf(PropTypes.string),
     pageSize: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
     entitiesLoading: PropTypes.bool.isRequired,
     onRefresh: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
     onRunChain: PropTypes.func.isRequired,
     onStopChain: PropTypes.func.isRequired,
+    onListChainAction: PropTypes.func.isRequired,
+    onCreate: PropTypes.func.isRequired,
+    fetchPage: PropTypes.func.isRequired,
+    onMultiToggleSelection: PropTypes.func.isRequired,
+    onToggle: PropTypes.func.isRequired,
+    isOneCheckboxToggled: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {}
@@ -66,9 +78,45 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
 
   static AUTO_REFRESH_PERIOD = 20000
 
+  static getColumnSortingData(columnsSorting, columnKey) {
+    const foundColumnIndex = columnsSorting.findIndex(({ columnKey: localColumnKey }) => localColumnKey === columnKey)
+    return foundColumnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[foundColumnIndex].order, foundColumnIndex]
+  }
+
+  /**
+   * Convert column id to query corresponding names
+   */
+  static COLUMN_KEY_TO_QUERY = {
+    'column.name': 'label',
+  }
+
+  /**
+   * Convert column order to request parameters value
+   */
+  static COLUMN_ORDER_TO_QUERY = {
+    [CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER]: 'ASC',
+    [CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER]: 'DESC',
+  }
+
+  /**
+   * Converts columns order and filters state into request parameters
+   * @param {[{columnKey: string, order: string}]} columnsSorting columns sorting definition, where order is a
+   * @param {*} applyingFiltersState filters state from component state
+   * @returns {*} requestParameters as an object compound of string and string arrays
+   */
+  static buildRequestParameters(columnsSorting, applyingFiltersState) {
+    const requestParameters = {
+      ...applyingFiltersState,
+      sort: columnsSorting.map(({ columnKey, order }) => `${AcquisitionProcessingChainMonitorListComponent.COLUMN_KEY_TO_QUERY[columnKey]},${AcquisitionProcessingChainMonitorListComponent.COLUMN_ORDER_TO_QUERY[order]}`),
+    }
+    return requestParameters
+  }
+
   state = {
     errorMessage: null,
     appliedFilters: {},
+    columnsSorting: [],
+    requestParams: {},
   }
 
   /**
@@ -83,6 +131,15 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
    */
   componentWillUnmount() {
     clearTimeout(this.timeout)
+  }
+
+  /**
+   * Update full state based on changes
+   */
+  onStateUpdated = (stateDiff) => {
+    const nextState = { ...this.state, ...stateDiff }
+    nextState.requestParams = AcquisitionProcessingChainMonitorListComponent.buildRequestParameters(nextState.columnsSorting, nextState.appliedFilters)
+    this.setState(nextState)
   }
 
   /**
@@ -103,7 +160,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
   * @param callback : callback called when state is updated with new filters
   */
   applyFilters = (filters, callback) => {
-    this.setState({ appliedFilters: filters }, callback)
+    this.onStateUpdated({ appliedFilters: filters }, callback)
   }
 
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
@@ -149,12 +206,74 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     )
   }
 
+  /**
+   * Callback to open the delete confirm dialog
+   * @param {*} chain : chain to delete
+   */
+  onDelete = (chain) => {
+    this.setState({
+      chainToDelete: chain,
+    })
+  }
+
+  /**
+   * Callback for deletion confirmation
+   */
+  onConfirmDelete = () => {
+    this.closeDeleteDialog()
+    if (this.state.chainToDelete) {
+      this.props.onDelete(this.state.chainToDelete)
+    }
+  }
+
+  /**
+   * User cb: Manage column sorting
+   */
+  onSort = (columnKey, order) => {
+    const { columnsSorting } = this.state
+    const newOrder = columnsSorting
+    const columnIndex = newOrder.findIndex(columnArray => columnArray.columnKey === columnKey)
+    if (order === CommonDomain.SORT_ORDERS_ENUM.NO_SORT) {
+      newOrder.splice(columnIndex, 1)
+    } else if (columnIndex === -1) {
+      newOrder.push({ columnKey, order })
+    } else {
+      newOrder.splice(columnIndex, 1)
+      newOrder.push({ columnKey, order })
+    }
+    this.onStateUpdated({ columnsSorting: newOrder })
+  }
+
+  /**
+   * Callback to close delete confirm dialog
+   */
+  closeDeleteDialog = () => {
+    this.setState({
+      chainToDelete: null,
+    })
+  }
+
+  renderDeleteConfirmDialog = () => {
+    if (this.state.chainToDelete) {
+      return (
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponentTypes.DELETE}
+          title={this.context.intl.formatMessage({ id: 'acquisition-chain.list.delete.confirm.title' }, { label: this.state.chainToDelete.content.label })}
+          onConfirm={this.onConfirmDelete}
+          onClose={this.closeDeleteDialog}
+        />
+      )
+    }
+    return null
+  }
+
   render() {
     const { intl: { formatMessage }, muiTheme } = this.context
     const {
-      onBack, pageSize, resultsCount, entitiesLoading, project, initialFilters,
+      onBack, pageSize, resultsCount, entitiesLoading, initialFilters, onListChainAction, onEdit, onCreate, fetchPage,
+      onMultiToggleSelection, isOneCheckboxToggled, onToggle,
     } = this.props
-    const { appliedFilters, errorMessage } = this.state
+    const { errorMessage, columnsSorting, requestParams } = this.state
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
@@ -165,38 +284,46 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     )
 
     const columns = [
+      new TableColumnBuilder()
+        .selectionColumn(false, AcquisitionProcessingChainMonitorSelectors, tableActions, tableSelectors)
+        .build(),
       new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.chain.label')
+        .sortableHeaderCell(...AcquisitionProcessingChainMonitorListComponent.getColumnSortingData(columnsSorting, 'column.name'), this.onSort)
         .label(formatMessage({ id: 'acquisition-chain.monitor.list.label' }))
         .build(),
       new TableColumnBuilder('column.mode').titleHeaderCell()
-        .propertyRenderCell('content.chain.mode', AcquisitionProcessingChainMonitorModeRenderer)
+        .rowCellDefinition({ Constructor: AcquisitionProcessingChainMonitorModeRenderer, props: { onToggle } })
         .label(formatMessage({ id: 'acquisition-chain.monitor.list.mode' }))
         .build(),
       new TableColumnBuilder('column.running').titleHeaderCell()
-        .rowCellDefinition({ Constructor: AcquisitionProcessingChainMonitoringActivityRenderer })
+        .rowCellDefinition({ Constructor: AcquisitionProcessingChainMonitoringEnabledRenderer, props: { onToggle } })
         .label(formatMessage({ id: 'acquisition-chain.monitor.list.running' }))
         .build(),
-      new TableColumnBuilder('column.products').titleHeaderCell()
-        .rowCellDefinition({
-          Constructor: AcquisitionProcessingChainMonitoringProductsRenderer,
-          props: { project },
-        })
-        .label(formatMessage({ id: 'acquisition-chain.monitor.list.total-nb-products' }))
-        .build(),
-      new TableColumnBuilder('column.files').titleHeaderCell()
-        .rowCellDefinition({
-          Constructor: AcquisitionProcessingChainMonitoringFilesRenderer,
-          props: { project },
-        })
-        .label(formatMessage({ id: 'acquisition-chain.monitor.list.total-nb-files' }))
+      new TableColumnBuilder('column.state').titleHeaderCell()
+        .rowCellDefinition({ Constructor: AcquisitionProcessingChainMonitoringActivityRenderer })
+        .label(formatMessage({ id: 'acquisition-chain.monitor.list.state' }))
         .build(),
       new TableColumnBuilder().optionsColumn([{
+        OptionConstructor: AcquisitionProcessingChainMonitoringTableListAction,
+        optionProps: { onListChain: onListChainAction },
+      }, {
         OptionConstructor: AcquisitionProcessingChainMonitoringTableRunAction,
         optionProps: { onRunChain: this.runChainAction },
-      },
-      {
+      }, {
         OptionConstructor: AcquisitionProcessingChainMonitoringTableStopAction,
         optionProps: { onStopChain: this.stopChainAction },
+      }, {
+        OptionConstructor: AcquisitionProcessingChainTableEditAction,
+        optionProps: { onEdit },
+      }, {
+        OptionConstructor: TableDeleteOption,
+        optionProps: {
+          fetchPage,
+          disableInsteadOfHide: true,
+          onDelete: this.onDelete,
+          queryPageSize: pageSize,
+          handleHateoas: true,
+        },
       }]).build(),
     ]
     return (
@@ -211,7 +338,8 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
             <AcquisitionProcessingChainMonitoringListFiltersComponent
               initialFilters={initialFilters}
               applyFilters={this.applyFilters}
-              handleRefresh={this.handleRefresh}
+              onMultiToggleSelection={onMultiToggleSelection}
+              isOneCheckboxToggled={isOneCheckboxToggled}
             />
             <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
             <PageableInfiniteTableContainer
@@ -219,7 +347,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
               pageActions={AcquisitionProcessingChainMonitorActions}
               pageSelectors={AcquisitionProcessingChainMonitorSelectors}
               tableActions={tableActions}
-              requestParams={appliedFilters}
+              requestParams={requestParams}
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
@@ -231,8 +359,11 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonClick={onBack}
-            mainButtonLabel={formatMessage({ id: 'acquisition-chain.monitor.list.back.button' })}
+            mainButtonClick={onCreate}
+            mainHateoasDependencies={dependencies.addDependencies}
+            mainButtonLabel={formatMessage({ id: 'acquisition-chain.list.addnew.button' })}
+            secondaryButtonLabel={formatMessage({ id: 'acquisition-chain.list.back.button' })}
+            secondaryButtonClick={onBack}
           />
         </CardActions>
       </Card>
