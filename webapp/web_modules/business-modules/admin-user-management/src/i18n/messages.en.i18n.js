@@ -33,6 +33,11 @@ const messages = {
   'user.board.authentication-plugins.title': 'Authentication system',
   'user.board.authentication-plugins.description': 'User authentication method configuration.',
 
+  'accessright.board.tooltip.list': 'List',
+  'accessright.board.tooltip.add': 'Add',
+  'accessright.board.accessgroup.title': 'Access group',
+  'accessright.board.accessgroup.description': 'Access groups allow limiting access to data for users.',
+
 }
 
 export default messages

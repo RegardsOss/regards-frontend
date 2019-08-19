@@ -38,9 +38,6 @@ const messages = {
   'ingest.board.action.connection.list.tooltip': 'Sources de données externes',
   'ingest.board.action.datasource.monitor.tooltip': 'Suivi des aspirations de données',
 
-  'data.board.document.title': 'Documents',
-  'data.board.document.description': 'Consulter/ajouter des documents. Les documents sont des données consultables par prévisualisation ou par téléchargement depuis l\'interface utilisateur.',
-
   'data.board.storage.title': 'Stockage',
   'data.board.storage.description': 'Permet de configurer un ou plusieurs espaces de stockage des données ainsi que la stratégie de répartition que le système utilisera.',
   'data.board.action.storages.tooltip': 'Espaces de stockage',

@@ -26,11 +26,6 @@ const messages = {
   'dataaccess.board.searchengines.title': 'Protocoles de recherche',
   'dataaccess.board.searchengines.description': 'Configuration des protocoles de recherche de données dans le catalogue projet. Le protocole \'Legacy\' est le protocole spécifique à REGARDS. Les autres protocoles peuvent être configurés pour l\'interopérabilité avec d\'autre systèmes qui voudraient interroger le catalogue de données.',
 
-  'accessright.board.tooltip.list': 'Liste',
-  'accessright.board.tooltip.add': 'Ajouter',
-  'accessright.board.accessgroup.title': 'Groupes d\'accès',
-  'accessright.board.accessgroup.description': 'Les groupes d\'accès permettent de limiter l\'accès aux données du catalogue à certains utilisateurs. Ils permettent également d\'affiner le niveau d\'accès en accordant l\'accès aux métadonnées ou aux données ou aux deux.',
-
   'accessright.board.index.title': 'Catalogue des données',
   'accessright.board.index.description': 'Cette section vous permet de gérer le catalogue des données',
   'accessright.board.index.delete': 'Réinitialiser le catalogue',

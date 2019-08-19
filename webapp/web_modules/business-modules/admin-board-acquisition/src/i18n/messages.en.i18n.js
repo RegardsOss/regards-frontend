@@ -38,9 +38,6 @@ const messages = {
   'ingest.board.action.connection.list.tooltip': 'External datasources',
   'ingest.board.action.datasource.monitor.tooltip': 'Monitor data crawling',
 
-  'data.board.document.title': 'Documents',
-  'data.board.document.description': 'Visualize/add documents. Documents are directly accessible to be visualized or downloaded from the user interfaces.',
-
   'data.board.storage.title': 'Storage',
   'data.board.storage.description': 'Configure one or multiples data storage locations and also the strategy to define wich location system will use.',
   'data.board.action.storages.tooltip': 'Configure locations',

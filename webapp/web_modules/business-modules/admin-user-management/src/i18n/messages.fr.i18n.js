@@ -32,6 +32,12 @@ const messages = {
 
   'user.board.authentication-plugins.title': 'Système d\'authentification',
   'user.board.authentication-plugins.description': 'Configuration du système de connexion des utilisateurs.',
+  
+  'accessright.board.tooltip.list': 'Liste',
+  'accessright.board.tooltip.add': 'Ajouter',
+  'accessright.board.accessgroup.title': 'Groupes d\'accès',
+  'accessright.board.accessgroup.description': 'Les groupes d\'accès permettent de limiter l\'accès aux données du catalogue à certains utilisateurs. Ils permettent également d\'affiner le niveau d\'accès en accordant l\'accès aux métadonnées ou aux données ou aux deux.',
+
 }
 
 export default messages
