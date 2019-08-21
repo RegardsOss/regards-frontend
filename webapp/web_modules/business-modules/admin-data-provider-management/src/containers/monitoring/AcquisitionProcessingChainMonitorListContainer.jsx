@@ -21,6 +21,9 @@ import map from 'lodash/map'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { IngestShapes } from '@regardsoss/shape'
+import { CommonEndpointClient } from '@regardsoss/endpoints-common'
+import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { AcquisitionProcessingChainMonitorActions, AcquisitionProcessingChainMonitorSelectors }
   from '../../clients/AcquisitionProcessingChainMonitorClient'
 import {
@@ -52,6 +55,7 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
       entitiesLoading: AcquisitionProcessingChainMonitorSelectors.isFetching(state),
       toggledChains,
       isOneCheckboxToggled: toggledChains.length > 0,
+      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
     }
   }
 
@@ -76,6 +80,8 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
+    displayLogic: PropTypes.func,
+
     // from mapStateToProps
     meta: PropTypes.shape({ // use only in onPropertiesUpdate
       number: PropTypes.number,
@@ -90,6 +96,7 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
       content: IngestShapes.IngestProcessingChain,
       links: PropTypes.array,
     })),
+    availableDependencies: PropTypes.arrayOf(PropTypes.string),
 
     // from mapDispatchToProps
     fetchPage: PropTypes.func.isRequired,
@@ -102,9 +109,13 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
     meta: {
       totalElements: 0,
     },
+    displayLogic: allMatchHateoasDisplayLogic,
   }
 
   static PAGE_SIZE = 100
+
+  /** List of dependencies required for toggling multiple chains state  */
+  static TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES = [MultiToggleAcquisitionProcessingChainActions.getDependency(RequestVerbEnum.PATCH)]
 
   /**
    * Callback to return to the acquisition board
@@ -171,8 +182,10 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
 
   render() {
     const {
-      meta, entitiesLoading, runChain, stopChain, params: { project }, isOneCheckboxToggled,
+      meta, entitiesLoading, runChain, stopChain, params: { project }, isOneCheckboxToggled, displayLogic, availableDependencies,
     } = this.props
+
+    const hasAccess = displayLogic(AcquisitionProcessingChainMonitorListContainer.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES, availableDependencies)
     return (
       <AcquisitionProcessingChainMonitorListComponent
         project={project}
@@ -192,6 +205,7 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
         onToggle={this.onToggle}
         onToggleEnable={this.onToggleEnable}
         isOneCheckboxToggled={isOneCheckboxToggled}
+        hasAccess={hasAccess}
       />
     )
   }

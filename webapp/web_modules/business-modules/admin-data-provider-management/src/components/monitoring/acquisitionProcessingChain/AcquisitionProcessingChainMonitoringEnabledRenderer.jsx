@@ -20,6 +20,11 @@ import Toggle from 'material-ui/Toggle'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
+import { withHateoasDisplayControl } from '@regardsoss/display-control'
+
+/** HATEOAS-able button, exported for tests */
+export const HateoasToggle = withHateoasDisplayControl(Toggle)
+
 /**
  * Switch renderer for mode selection
  * @author Kévin Picart
@@ -38,6 +43,9 @@ export class AcquisitionProcessingChainMonitoringEnabledRenderer extends React.C
     ...themeContextType,
   }
 
+  /** HateOAS Link to delete on All storages  */
+  static CHANGE_ENABLE_LINK = 'changeEnable'
+
   onToggle = () => {
     const { entity, onToggle } = this.props
     onToggle(entity.content.chainId, 'ONLY_ACTIVITY', !entity.content.chain.active)
@@ -45,7 +53,7 @@ export class AcquisitionProcessingChainMonitoringEnabledRenderer extends React.C
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { entity: { content: { chain: { active } } } } = this.props
+    const { entity: { content: { chain: { active } }, links } } = this.props
     const {
       moduleTheme: {
         monitoring: {
@@ -62,7 +70,11 @@ export class AcquisitionProcessingChainMonitoringEnabledRenderer extends React.C
           { active ? formatMessage({ id: 'acquisition-chain.monitor.list.enabled.true' }) : formatMessage({ id: 'acquisition-chain.monitor.list.enabled.false' }) }
         </div>
         <div style={toggleGridToggle}>
-          <Toggle
+          <HateoasToggle
+            entityLinks={links}
+            hateoasKey={AcquisitionProcessingChainMonitoringEnabledRenderer.CHANGE_MODE_LINK}
+            alwaysDisplayforInstanceUser={false}
+            disableInsteadOfHide
             toggled={active}
             onToggle={this.onToggle}
             style={toggleStyle}

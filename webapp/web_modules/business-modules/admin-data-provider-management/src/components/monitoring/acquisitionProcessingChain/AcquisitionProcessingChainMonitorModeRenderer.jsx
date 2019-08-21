@@ -20,6 +20,10 @@ import Toggle from 'material-ui/Toggle'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
+import { withHateoasDisplayControl } from '@regardsoss/display-control'
+
+/** HATEOAS-able button, exported for tests */
+export const HateoasToggle = withHateoasDisplayControl(Toggle)
 /**
  * Renderer for acquisition processing chain mode
  * @author Raphaël Mechali
@@ -38,6 +42,9 @@ export class AcquisitionProcessingChainMonitorModeRenderer extends React.Compone
     ...themeContextType,
   }
 
+  /** HateOAS Link to delete on All storages  */
+  static CHANGE_MODE_LINK = 'changeMode'
+
   onToggle = () => {
     const { entity, onToggle } = this.props
     let toggleMode = 'MANUAL'
@@ -49,7 +56,7 @@ export class AcquisitionProcessingChainMonitorModeRenderer extends React.Compone
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { entity: { content: { chain: { mode } } } } = this.props
+    const { entity: { content: { chain: { mode } }, links } } = this.props
     const {
       moduleTheme: {
         monitoring: {
@@ -65,12 +72,17 @@ export class AcquisitionProcessingChainMonitorModeRenderer extends React.Compone
     }
 
     return (
+
       <div style={toggleContainer}>
         <div style={toggleGridLabel}>
           { isToggled ? formatMessage({ id: 'acquisition-chain.monitor.list.mode.auto' }) : formatMessage({ id: 'acquisition-chain.monitor.list.mode.manual' }) }
         </div>
         <div style={toggleGridToggle}>
-          <Toggle
+          <HateoasToggle
+            entityLinks={links}
+            hateoasKey={AcquisitionProcessingChainMonitorModeRenderer.CHANGE_MODE_LINK}
+            alwaysDisplayforInstanceUser={false}
+            disableInsteadOfHide
             toggled={isToggled}
             onToggle={this.onToggle}
             thumbStyle={toggleModeColor}
@@ -79,6 +91,7 @@ export class AcquisitionProcessingChainMonitorModeRenderer extends React.Compone
           />
         </div>
       </div>
+
     )
   }
 }

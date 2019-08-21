@@ -184,6 +184,7 @@ class BasicActions {
         case RequestVerbEnum.GET:
         case RequestVerbEnum.DELETE:
         case RequestVerbEnum.PUT:
+        case RequestVerbEnum.PATCH:
           endpoint = `${endpoint}/{${this.entityPathVariable}}`
           break
         case RequestVerbEnum.GET_LIST:

@@ -67,6 +67,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     onMultiToggleSelection: PropTypes.func.isRequired,
     onToggle: PropTypes.func.isRequired,
     isOneCheckboxToggled: PropTypes.bool.isRequired,
+    hasAccess: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {}
@@ -271,7 +272,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     const { intl: { formatMessage }, muiTheme } = this.context
     const {
       onBack, pageSize, resultsCount, entitiesLoading, initialFilters, onListChainAction, onEdit, onCreate, fetchPage,
-      onMultiToggleSelection, isOneCheckboxToggled, onToggle,
+      onMultiToggleSelection, isOneCheckboxToggled, onToggle, hasAccess,
     } = this.props
     const { errorMessage, columnsSorting, requestParams } = this.state
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -283,10 +284,16 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
       />
     )
 
-    const columns = [
-      new TableColumnBuilder()
+    let columnSelectable = []
+    /** Checkboxes are shown only if user have the right to use them */
+    if (hasAccess) {
+      columnSelectable = [new TableColumnBuilder()
         .selectionColumn(false, AcquisitionProcessingChainMonitorSelectors, tableActions, tableSelectors)
-        .build(),
+        .build()]
+    }
+
+    const columns = [
+      ...columnSelectable,
       new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.chain.label')
         .sortableHeaderCell(...AcquisitionProcessingChainMonitorListComponent.getColumnSortingData(columnsSorting, 'column.name'), this.onSort)
         .label(formatMessage({ id: 'acquisition-chain.monitor.list.label' }))

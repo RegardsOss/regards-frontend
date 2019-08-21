@@ -26,11 +26,19 @@ import Disable from 'material-ui/svg-icons/av/stop'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
 import TextField from 'material-ui/TextField/TextField'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import {
   TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
 } from '@regardsoss/components'
+import {
+  withResourceDisplayControl,
+} from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { MultiToggleAcquisitionProcessingChainActions } from '../../../clients/AcquisitionProcessingChainClient'
+import { AcquisitionProcessingChainMonitorListContainer } from '../../../containers/monitoring/AcquisitionProcessingChainMonitorListContainer'
+
+const ResourceIconAction = withResourceDisplayControl(FlatButton)
 
 /**
 * Component to display list filters
@@ -246,17 +254,19 @@ class AcquisitionProcessingChainMonitoringListFiltersComponent extends React.Com
         </TableHeaderOptionsArea>
         <TableHeaderOptionsArea>
           <TableHeaderOptionGroup>
-            <FlatButton
+            <ResourceIconAction
               label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.disable-selected.button' })}
               icon={<Disable />}
               onClick={this.onDisableSelection}
               disabled={!isOneCheckboxToggled}
+              resourceDependencies={AcquisitionProcessingChainMonitorListContainer.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES}
             />
-            <FlatButton
+            <ResourceIconAction
               label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.enable-selected.button' })}
               icon={<Enable />}
               onClick={this.onEnableSelection}
               disabled={!isOneCheckboxToggled}
+              resourceDependencies={AcquisitionProcessingChainMonitorListContainer.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
