@@ -21,7 +21,7 @@ import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { IngestShapes } from '@regardsoss/shape'
-import { tableSelectors, tableActions } from '../../clients/TableClient'
+import { sipTableSelectors, sipTableActions } from '../../clients/SIPTableClient'
 import SIPListComponent from '../../components/sip/SIPListComponent'
 import { processingChainActions, processingChainSelectors } from '../../clients/ProcessingChainClient'
 import { sipActions, sipSelectors } from '../../clients/SIPClient'
@@ -44,10 +44,10 @@ export class SIPListContainer extends React.Component {
       chains: processingChainSelectors.getList(state),
       meta: sipSelectors.getMetaData(state),
       entitiesLoading: sipSelectors.isFetching(state),
-      isEmptySelection: tableSelectors.isEmptySelection(state, sipSelectors),
-      selectionMode: tableSelectors.getSelectionMode(state),
-      elementsSelected: tableSelectors.getToggledElementsAsList(state),
-      areAllSelected: tableSelectors.areAllSelected(state, sipSelectors),
+      isEmptySelection: sipTableSelectors.isEmptySelection(state, sipSelectors),
+      selectionMode: sipTableSelectors.getSelectionMode(state),
+      elementsSelected: sipTableSelectors.getToggledElementsAsList(state),
+      areAllSelected: sipTableSelectors.areAllSelected(state, sipSelectors),
     }
   }
 
@@ -58,7 +58,7 @@ export class SIPListContainer extends React.Component {
    * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps = dispatch => ({
-    clearSelection: () => dispatch(tableActions.unselectAll()),
+    clearSelection: () => dispatch(sipTableActions.unselectAll()),
     fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
     deleteSIPBySipId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(sip.sipId)),
     deleteSIPByProviderId: sip => dispatch(sipActions.deleteEntityWithPayloadResponse(undefined, {}, { providerId: sip.providerId })),

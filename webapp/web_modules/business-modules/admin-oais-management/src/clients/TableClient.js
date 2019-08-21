@@ -18,8 +18,8 @@
  **/
 import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
 
-const NAMESPACE = 'admin-ingest-aip-management/aip-table'
-const STORE_PATH = ['admin', 'acquisition', 'aip', 'aip-table']
+const NAMESPACE = 'admin-oais-management/aip-table'
+const STORE_PATH = ['admin', 'acquisition', 'oais', 'aip-table']
 
 export const tableActions = new TableActions(NAMESPACE)
 export const tableReducer = getTableReducer(NAMESPACE)

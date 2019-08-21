@@ -22,8 +22,6 @@ import values from 'lodash/values'
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
-import DeleteOnAllIcon from 'material-ui/svg-icons/action/delete-forever'
-import Relaunch from 'material-ui/svg-icons/image/rotate-right'
 import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
@@ -35,6 +33,8 @@ import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { IngestDomain } from '@regardsoss/domain'
+import RelaunchSelectedSIPsContainer from '../../containers/sip/options/RelaunchSelectedSIPsContainer'
+import DeleteSelectedSIPsContainer from '../../containers/sip/options/DeleteSelectedSIPsContainer'
 import { searchSourcesActions, searchSourcesSelectors } from '../../clients/session/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../../clients/session/SearchSessionsClient'
 
@@ -49,6 +49,8 @@ class SIPListFiltersComponent extends React.Component {
     handleRefresh: PropTypes.func.isRequired,
     chains: IngestShapes.IngestProcessingChainList.isRequired,
     isEmptySelection: PropTypes.bool.isRequired,
+    onRelaunchSelectedDialog: PropTypes.func.isRequired,
+    onDeleteSelectedDialog: PropTypes.func.isRequired,
   }
 
   static defaultProps = {}
@@ -286,19 +288,13 @@ class SIPListFiltersComponent extends React.Component {
             icon={<Filter />}
             onClick={this.handleFilter}
           />
-          <FlatButton
-            key="relaunch"
-            label={this.context.intl.formatMessage({ id: 'oais.sips.list.relaunch.button' })}
-            icon={<Relaunch />}
+          <RelaunchSelectedSIPsContainer
             disabled={this.props.isEmptySelection}
-            onClick={this.props.openAddTagModal}
+            onRelaunch={this.props.onRelaunchSelectedDialog}
           />
-          <FlatButton
-            key="delete"
-            label={this.context.intl.formatMessage({ id: 'oais.sips.list.delete.button' })}
-            icon={<DeleteOnAllIcon />}
+          <DeleteSelectedSIPsContainer
             disabled={this.props.isEmptySelection}
-            onClick={this.props.openAddTagModal}
+            onDelete={this.props.onDeleteSelectedDialog}
           />
         </TableHeaderOptionGroup>
       </TableHeaderOptionsArea>

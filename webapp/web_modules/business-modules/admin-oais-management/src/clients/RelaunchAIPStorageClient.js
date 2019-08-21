@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,17 +15,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { StorageClient } from '@regardsoss/client'
 
 /**
- * AIP Tags client.
- *
- * @author Léo Mieulet
+ * Redux AIP middleware instance to fetch AIP relaunch
+ * @author Kévin Picart
  */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'oais', 'aip-tag']
-const REDUX_ACTION_NAMESPACE = 'admin-oais-management/aip-tag'
 
-export const aipTagActions = new StorageClient.AIPTagActions(REDUX_ACTION_NAMESPACE)
-export const aipTagReducer = StorageClient.getAIPTagReducer(REDUX_ACTION_NAMESPACE)
-export const aipTagSelectors = StorageClient.getAIPTagSelectors(ENTITIES_STORE_PATH)
+const namespace = 'admin-oais-management/relaunch-aip'
+export const relaunchAIPsStorageActions = new StorageClient.RelaunchAIPsStorageActions(namespace)
+export const relaunchAIPsStorageReducer = StorageClient.getRelaunchAIPsStorageReducer(namespace)
+export const relaunchAIPsStorageSelectors = StorageClient.getRelaunchAIPsStorageSelectors(['admin', 'acquisition', 'oais', 'relaunch-aip'])

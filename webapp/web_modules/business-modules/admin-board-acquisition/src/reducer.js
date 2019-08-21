@@ -21,9 +21,7 @@ import { connectionDataManagementReducer } from '@regardsoss/admin-data-connecti
 import { datasourceDataManagementReducer } from '@regardsoss/admin-data-datasource-management'
 import { documentDataManagementReducer } from '@regardsoss/admin-data-document-management'
 import { processingChainManagementReducer } from '@regardsoss/admin-ingest-processing-chain-management'
-import { sipManagementReducer } from '@regardsoss/admin-ingest-sip-management'
 import { storageManagementReducer } from '@regardsoss/admin-storage-management'
-import { aipManagementReducer } from '@regardsoss/admin-storage-aip-management'
 import { dataProviderManagementReducer } from '@regardsoss/admin-data-provider-management'
 import { oaisManagementReducer } from '@regardsoss/admin-oais-management'
 
@@ -33,9 +31,7 @@ const acquisitionReducers = combineReducers({
   datasource: datasourceDataManagementReducer,
   document: documentDataManagementReducer,
   processingChain: processingChainManagementReducer,
-  sip: sipManagementReducer,
   storage: storageManagementReducer,
-  aip: aipManagementReducer,
   oais: oaisManagementReducer,
 })
 

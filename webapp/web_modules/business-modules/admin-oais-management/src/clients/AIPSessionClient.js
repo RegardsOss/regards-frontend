@@ -23,8 +23,8 @@ import { StorageClient } from '@regardsoss/client'
  *
  * @author Léo Mieulet
  */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'aip', 'aip-session']
-const REDUX_ACTION_NAMESPACE = 'admin-storage-aip-management/aip-session'
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'oais', 'aip-session']
+const REDUX_ACTION_NAMESPACE = 'admin-oais-management/aip-session'
 
 export const aipSessionActions = new StorageClient.AIPSessionActions(REDUX_ACTION_NAMESPACE)
 export const aipSessionReducer = StorageClient.getAIPSessionReducer(REDUX_ACTION_NAMESPACE)

@@ -56,6 +56,21 @@ export default {
   'oais.aip.confirm.delete.aip': 'Delete',
   'oais.aip.cancel.delete': 'Cancel',
 
+  'oais.aip.confirm.relaunch.title': 'Relaunch AIP storage',
+  'oais.aip.confirm.relaunch.message': 'Do you want to relaunch the storage of all selected AIPs ?',
+  'oais.aip.confirm.relaunch.aip': 'Relaunch',
+  'oais.aip.cancel.relaunch': 'Cancel',
+
+  'oais.sip.cancel.relaunch': 'Cancel',
+  'oais.sip.confirm.relaunch': 'Relaunch',
+  'oais.sip.confirm.relaunch.title': 'Relaunch SIPs',
+  'oais.sip.confirm.relaunch.message': 'Do you really want to relaunch selected SIPs ?',
+
+  'oais.sip.cancel.selected.delete': 'Cancel',
+  'oais.sip.confirm.selected.delete': 'Delete',
+  'oais.sip.confirm.delete.selected.title': 'Delete SIPs',
+  'oais.sip.confirm.delete.selected.message': 'Do you really want to delete selected SIPs ?',
+
   'oais.aip.delete.on.storages.title': 'Delete selected AIP files',
   'oais.aip.delete.on.storages.message': 'On which storage spaces should the selected AIP files be deleted? AIP will be deleted on checked storage spaces only if they are still available on a storage space after the operation.',
   'oais.aip.delete.on.selected.storages.messages': 'Selected AIP files will be deleted on the following data storages: {datastorages}. Perform deletion?',

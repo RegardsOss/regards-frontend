@@ -23,8 +23,8 @@ import { IngestClient } from '@regardsoss/client'
  *
  * @author Sébastien Binda
  */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'sip', 'sipImport']
-const REDUX_ACTION_NAMESPACE = 'admin-ingest-sip-management/sipsimport'
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'oais', 'sipImport']
+const REDUX_ACTION_NAMESPACE = 'admin-oais-management/sipsimport'
 
 export const sipImportActions = new IngestClient.SIPImportActions(REDUX_ACTION_NAMESPACE)
 export const sipImportReducer = IngestClient.getSIPImportReducer(REDUX_ACTION_NAMESPACE)

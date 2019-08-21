@@ -23,6 +23,6 @@ import { CommonClient } from '@regardsoss/client'
  *
  * @author Sébastien Binda
  */
-const REDUX_ACTION_NAMESPACE = 'admin-ingest-sip-management/storage-ready'
+const REDUX_ACTION_NAMESPACE = 'admin-oais-management/storage-ready'
 
 export const storageReadyActions = new CommonClient.MicroserviceReadyActions(REDUX_ACTION_NAMESPACE)

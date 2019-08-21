@@ -35,11 +35,13 @@ import { CommonDomain } from '@regardsoss/domain'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { IngestShapes } from '@regardsoss/shape'
-import { tableSelectors, tableActions } from '../../clients/TableClient'
+import { sipTableSelectors, sipTableActions } from '../../clients/SIPTableClient'
 import { SIPSwitchToAIPComponent } from './SIPSwitchToAIPComponent'
 import SIPListDateColumnRenderer from './SIPListDateColumnRenderer'
 import SIPDetailComponent from './SIPDetailComponent'
 import SIPDetailTableAction from './SIPDetailTableAction'
+import RelaunchSelectedSIPsDialogContainer from '../../containers/sip/dialogs/RelaunchSelectedSIPsDialogContainer'
+import DeleteSelectedSIPsDialogContainer from '../../containers/sip/dialogs/DeleteSelectedSIPsDialogContainer'
 import SIPConfirmDeleteDialog from './SIPConfirmDeleteDialog'
 import SIPListFiltersComponent from './SIPListFiltersComponent'
 import SIPDeletionErrorDialog from './SIPDeletionErrorDialog'
@@ -133,6 +135,8 @@ class SIPListComponent extends React.Component {
     appliedFilters: {},
     sipToView: null,
     sipToDelete: null,
+    relaunchOperation: null,
+    deleteOperation: null,
     deletionErrors: [],
     requestParameters: SIPListComponent.buildRequestParameters([], this.props.contextFilters),
     columnsSorting: [],
@@ -283,6 +287,88 @@ class SIPListComponent extends React.Component {
     return null
   }
 
+  /**
+   * User cb : Open Dialog Relaunch for selected SIPS
+   */
+  onRelaunchSelectedDialog = (sipSelectionMode, toggleSIPs) => {
+    this.setState({
+      relaunchOperation: {
+        sipSelectionMode,
+        toggleSIPs,
+      },
+    })
+  }
+
+  /**
+   * Renders relaunch dialog for current selection with mode
+   */
+  renderSelectedRelaunchConfirmDialog = () => {
+    const { onRefresh } = this.props
+    const { appliedFilters, relaunchOperation } = this.state
+    if (relaunchOperation) {
+      return (
+        <RelaunchSelectedSIPsDialogContainer
+          toggleSIPs={relaunchOperation.toggleSIPs}
+          sipSelectionMode={relaunchOperation.sipSelectionMode}
+          currentFilters={appliedFilters}
+          onRefresh={onRefresh}
+          onClose={this.onCloseRelaunchDialog}
+        />
+      )
+    }
+    return null
+  }
+
+  /**
+   * After delete request was confirmed and performed or cancelled. Hide dialog
+   */
+  onCloseRelaunchDialog = () => {
+    this.setState({
+      relaunchOperation: null,
+    })
+  }
+
+  /**
+   * User cb : Open Dialog Delete for selected SIPS
+   */
+  onDeleteSelectedDialog = (sipSelectionMode, toggleSIPs) => {
+    this.setState({
+      deleteOperation: {
+        sipSelectionMode,
+        toggleSIPs,
+      },
+    })
+  }
+
+  /**
+   * Renders delete dialog for current selection with mode
+   */
+  renderSelectedDeleteConfirmDialog = () => {
+    const { onRefresh } = this.props
+    const { appliedFilters, deleteOperation } = this.state
+    if (deleteOperation) {
+      return (
+        <DeleteSelectedSIPsDialogContainer
+          toggleSIPs={deleteOperation.toggleSIPs}
+          sipSelectionMode={deleteOperation.sipSelectionMode}
+          currentFilters={appliedFilters}
+          onRefresh={onRefresh}
+          onClose={this.onCloseDeleteSelectedDialog}
+        />
+      )
+    }
+    return null
+  }
+
+  /**
+   * After delete request was confirmed and performed or cancelled. Hide dialog
+   */
+  onCloseDeleteSelectedDialog = () => {
+    this.setState({
+      deleteOperation: null,
+    })
+  }
+
   renderTable = () => {
     const { intl, muiTheme } = this.context
     const { sip } = this.props
@@ -302,7 +388,7 @@ class SIPListComponent extends React.Component {
 
     const columns = [
       new TableColumnBuilder()
-        .selectionColumn(true, sipSelectors, tableActions, tableSelectors)
+        .selectionColumn(true, sipSelectors, sipTableActions, sipTableSelectors)
         .build(),
       // id column
       new TableColumnBuilder(SIPListComponent.SORTABLE_COLUMNS.PROVIDER_ID).titleHeaderCell().propertyRenderCell('content.providerId')
@@ -382,6 +468,8 @@ class SIPListComponent extends React.Component {
             chains={chains}
             emptyComponent={emptyComponent}
             isEmptySelection={isEmptySelection}
+            onRelaunchSelectedDialog={this.onRelaunchSelectedDialog}
+            onDeleteSelectedDialog={this.onDeleteSelectedDialog}
           />
           <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
           <PageableInfiniteTableContainer
@@ -458,6 +546,8 @@ class SIPListComponent extends React.Component {
         </Card>
         {this.renderSIPDetail()}
         {this.renderDeleteConfirmDialog()}
+        {this.renderSelectedRelaunchConfirmDialog()}
+        {this.renderSelectedDeleteConfirmDialog()}
         <SIPDeletionErrorDialog
           providerId={this.state.deletionErrorsId}
           errors={this.state.deletionErrors}

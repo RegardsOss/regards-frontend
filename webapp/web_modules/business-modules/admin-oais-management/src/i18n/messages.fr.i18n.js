@@ -56,6 +56,21 @@ export default {
   'oais.aip.confirm.delete.aip': 'Supprimer',
   'oais.aip.cancel.delete': 'Annuler',
 
+  'oais.aip.confirm.relaunch.title': 'Relance de stockage d\'AIP',
+  'oais.aip.confirm.relaunch.message': 'Voulez-vous relancer les AIP sélectionnés ?',
+  'oais.aip.confirm.relaunch.aip': 'Relancer',
+  'oais.aip.cancel.relaunch': 'Annuler',
+
+  'oais.sip.cancel.relaunch': 'Annuler',
+  'oais.sip.confirm.relaunch': 'Relancer',
+  'oais.sip.confirm.relaunch.title': 'Relance de SIPs',
+  'oais.sip.confirm.relaunch.message': 'Etes-vous sur de vouloir relancer les SIPs selectionnés ?',
+
+  'oais.sip.cancel.selected.delete': 'Annuler',
+  'oais.sip.confirm.selected.delete': 'Supprimer',
+  'oais.sip.confirm.delete.selected.title': 'Suppression de SIPs',
+  'oais.sip.confirm.delete.selected.message': 'Etes-vous sur de vouloir supprimer les SIPs selectionnés ?',
+
   'oais.aip.delete.on.storages.title': 'Suppression de fichiers des AIP sélectionnés',
   'oais.aip.delete.on.storages.message': 'Sur quels espaces de stockage voulez-vous supprimer les fichiers des AIP sélectionnés ? Les AIP seront supprimés sur les espaces de stockage cochés uniquement s\'ils sont toujours présents sur un espace de stockage après l\'opération',
   'oais.aip.delete.on.selected.storages.messages': 'Les fichiers des AIP sélectionnés seront supprimés des espaces de stockage suivants : {datastorages}. Veuillez confirmer cette opération.',

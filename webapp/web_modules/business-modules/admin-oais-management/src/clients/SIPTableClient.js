@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,17 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { StorageClient } from '@regardsoss/client'
+ **/
+import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
 
-/**
- * AIP Tags client.
- *
- * @author Léo Mieulet
- */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'oais', 'aip-tag']
-const REDUX_ACTION_NAMESPACE = 'admin-oais-management/aip-tag'
+const NAMESPACE = 'admin-oais-management/sips-table'
+const STORE_PATH = ['admin', 'acquisition', 'oais', 'sip-table']
 
-export const aipTagActions = new StorageClient.AIPTagActions(REDUX_ACTION_NAMESPACE)
-export const aipTagReducer = StorageClient.getAIPTagReducer(REDUX_ACTION_NAMESPACE)
-export const aipTagSelectors = StorageClient.getAIPTagSelectors(ENTITIES_STORE_PATH)
+export const sipTableActions = new TableActions(NAMESPACE)
+export const sipTableReducer = getTableReducer(NAMESPACE)
+export const sipTableSelectors = getTableSelectors(STORE_PATH)

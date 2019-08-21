@@ -39,6 +39,7 @@ import AIPListFiltersComponent from './AIPListFiltersComponent'
 import { aipSelectors } from '../../clients/AIPClient'
 import { tableSelectors, tableActions } from '../../clients/TableClient'
 import InfiniteAIPTableContainer from '../../containers/aip/InfiniteAIPTableContainer'
+import RelaunchAIPStorageDialogContainer from '../../containers/aip/dialogs/RelaunchAIPStorageDialogContainer'
 import DeleteAIPOnAllStoragesDialogContainer from '../../containers/aip/dialogs/DeleteAIPOnAllStoragesDialogContainer'
 import DeleteAIPOnSomeStoragesDialogContainer from '../../containers/aip/dialogs/DeleteAIPOnSomeStoragesDialogContainer'
 import DeleteSelectedAIPsOnAllStoragesOptionContainer from '../../containers/aip/options/DeleteSelectedAIPsOnAllStoragesOptionContainer'
@@ -125,6 +126,7 @@ class AIPListComponent extends React.Component {
   state = {
     aipToView: null,
     deleteOperation: null, // current delete operation or null
+    relaunchOperation: null, // current relaunch operation or null
     showAddTagDialog: false,
     showRemoveTagDialog: false,
     showSnackbar: false,
@@ -192,11 +194,32 @@ class AIPListComponent extends React.Component {
   }
 
   /**
+   * User cb : Relaunch selected AIPS
+   */
+  onRelaunch = (aipSelectionMode, toggleAIPs) => {
+    this.setState({
+      relaunchOperation: {
+        aipSelectionMode,
+        toggleAIPs,
+      },
+    })
+  }
+
+  /**
    * After delete request was confirmed and performed or cancelled. Hide dialog
    */
   onCloseDeleteDialog = () => {
     this.setState({
       deleteOperation: null,
+    })
+  }
+
+  /**
+   * After delete request was confirmed and performed or cancelled. Hide dialog
+   */
+  onCloseRelaunchDialog = () => {
+    this.setState({
+      relaunchOperation: null,
     })
   }
 
@@ -280,13 +303,6 @@ class AIPListComponent extends React.Component {
   onRetryAIPStorage = aip => this.props.onRetryAIPStorage(aip)
 
   /**
-   * User cb : Relaunch selected AIPS
-   */
-  onRelaunch = () => {
-    // TODO
-  }
-
-  /**
    * Renders delete dialog for current deletion context (mode and selection)
    */
   renderDeleteDialog = () => {
@@ -320,6 +336,26 @@ class AIPListComponent extends React.Component {
     return null
   }
 
+  /**
+   * Renders relaunch dialog for current selection with mode
+   */
+  renderRelaunchDialog = () => {
+    const { currentFilters, onRefresh } = this.props
+    const { relaunchOperation } = this.state
+
+    if (relaunchOperation) {
+      return (
+        <RelaunchAIPStorageDialogContainer
+          aipSelectionMode={relaunchOperation.aipSelectionMode}
+          toggleAIPs={relaunchOperation.toggleAIPs}
+          currentFilters={currentFilters}
+          onRefresh={onRefresh}
+          onClose={this.onCloseRelaunchDialog}
+        />
+      )
+    }
+    return null
+  }
 
   renderAddTagDialog = () => {
     const { showAddTagDialog } = this.state
@@ -541,6 +577,7 @@ class AIPListComponent extends React.Component {
         {this.renderRemoveTagDialog()}
         {this.renderAddTagDialog()}
         {this.renderDeleteDialog()}
+        {this.renderRelaunchDialog()}
         {this.renderSnackbar()}
       </div>
     )

@@ -23,7 +23,7 @@ import { StorageClient } from '@regardsoss/client'
  * @author Raphaël Mechali
  */
 
-const namespace = 'admin-ingest-aip-management/delete-aip-on-all-storages'
+const namespace = 'admin-oais-management/delete-aip-on-all-storages'
 export const deleteAIPssOnAllStoragesClientActions = new StorageClient.DeleteAIPsOnAllStoragesActions(namespace)
 export const deleteAIPsOnAllStoragesClientReducer = StorageClient.getDeleteAIPsOnAllStoragesReducer(namespace)
-export const deleteAIPsOnAllStoragesClientSelectors = StorageClient.getDeleteAIPsOnAllStoragesSelectors(['admin', 'acquisition', 'aip', 'delete-aip-on-all-storages'])
+export const deleteAIPsOnAllStoragesClientSelectors = StorageClient.getDeleteAIPsOnAllStoragesSelectors(['admin', 'acquisition', 'oais', 'delete-aip-on-all-storages'])

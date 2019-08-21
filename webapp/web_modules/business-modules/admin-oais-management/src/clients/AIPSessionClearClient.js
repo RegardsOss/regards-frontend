@@ -21,6 +21,6 @@ import { StorageClient } from '@regardsoss/client'
 /**
  * @author Léo Mieulet
  */
-const REDUX_ACTION_NAMESPACE = 'admin-storage-aip-management/aip-session-clear'
+const REDUX_ACTION_NAMESPACE = 'admin-oais-management/aip-session-clear'
 
 export const aipSessionClearActions = new StorageClient.AIPSessionClearActions(REDUX_ACTION_NAMESPACE)

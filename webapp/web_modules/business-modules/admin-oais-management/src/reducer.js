@@ -21,12 +21,15 @@ import { aipReducer } from './clients/AIPClient'
 import { aipSessionReducer } from './clients/AIPSessionClient'
 import { aipTagReducer } from './clients/AIPTagClient'
 import { tableReducer } from './clients/TableClient'
+import { sipTableReducer } from './clients/SIPTableClient'
 import { aipFileReducer } from './clients/AIPFileClient'
 import { deleteAIPsOnSomeStoragesClientReducer } from './clients/DeleteAIPOnSomeStoragesClient'
 import { deleteAIPsOnAllStoragesClientReducer } from './clients/DeleteAIPOnAllStoragesClient'
+import { relaunchAIPsStorageReducer } from './clients/RelaunchAIPStorageClient'
+import { relaunchSIPsReducer } from './clients/RelaunchSIPClient'
+import { deleteSIPsReducer } from './clients/DeleteSIPClient'
 import { searchSessionsReducer } from './clients/session/SearchSessionsClient'
 import { searchSourcesReducer } from './clients/session/SearchSourcesClient'
-
 import { sipReducer } from './clients/SIPClient'
 import { sipSignalReducer } from './clients/SIPSignalClient'
 import { sipImportReducer } from './clients/SIPImportClient'
@@ -41,6 +44,10 @@ const oaisManagementReducer = combineReducers({
   'aip-table': tableReducer,
   'delete-aip-on-some-storages': deleteAIPsOnSomeStoragesClientReducer,
   'delete-aip-on-all-storages': deleteAIPsOnAllStoragesClientReducer,
+  'relaunch-aip': relaunchAIPsStorageReducer,
+  'sip-table': sipTableReducer,
+  'relaunch-sip': relaunchSIPsReducer,
+  'delete-sip': deleteSIPsReducer,
   sip: sipReducer,
   sipImport: sipImportReducer,
   sipSignal: sipSignalReducer,
