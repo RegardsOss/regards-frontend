@@ -28,7 +28,6 @@ import RelaunchSelectedSIPsComponent from '../../../components/sip/options/Relau
  * @author Kévin Picart
  */
 export class RelaunchSelectedSIPsContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state

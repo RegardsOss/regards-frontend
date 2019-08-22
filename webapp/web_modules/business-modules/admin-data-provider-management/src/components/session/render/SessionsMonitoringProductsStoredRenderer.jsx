@@ -138,17 +138,17 @@ class SessionsMonitoringProductsStored extends React.Component {
               <div style={infosContainer}>
                 <div style={lineContainer}>
                   <div style={one}>
-                  {formatMessage({ id: 'acquisition-sessions.states.stored' })}
+                    {formatMessage({ id: 'acquisition-sessions.states.stored' })}
                   :
-                </div>
+                  </div>
                   <div style={two}>
-                  {formatMessage({ id: 'acquisition-sessions.states.pending' })}
+                    {formatMessage({ id: 'acquisition-sessions.states.pending' })}
                   :
-                </div>
+                  </div>
                   <div style={three}>
-                  {formatMessage({ id: 'acquisition-sessions.states.error' })}
+                    {formatMessage({ id: 'acquisition-sessions.states.error' })}
                   :
-                </div>
+                  </div>
                 </div>
                 <div style={listValues}>
                   <div style={one}>{formatNumber(aipDone)}</div>
@@ -157,23 +157,23 @@ class SessionsMonitoringProductsStored extends React.Component {
                 </div>
                 <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
                   <DropDownButton
-                  title={formatMessage({ id: 'acquisition-sessions.table.aip-generated' })}
-                  style={menuDropDown}
-                  icon={<Menu />}
-                >
-                  <MenuItem
-                    primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.relaunch' })}
-                    onClick={this.onClickRelaunchAIP}
-                  />
-                  <MenuItem
-                    primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list' })}
-                    onClick={this.onClickListAIP}
-                  />
-                  <MenuItem
-                    primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list.error' })}
-                    onClick={this.onClickListAIPErrorOnly}
-                  />
-                </DropDownButton>
+                    title={formatMessage({ id: 'acquisition-sessions.table.aip-generated' })}
+                    style={menuDropDown}
+                    icon={<Menu />}
+                  >
+                    <MenuItem
+                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.relaunch' })}
+                      onClick={this.onClickRelaunchAIP}
+                    />
+                    <MenuItem
+                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list' })}
+                      onClick={this.onClickListAIP}
+                    />
+                    <MenuItem
+                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list.error' })}
+                      onClick={this.onClickListAIPErrorOnly}
+                    />
+                  </DropDownButton>
                 </div>
               </div>
             </div>

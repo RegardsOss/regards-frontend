@@ -18,7 +18,6 @@
  **/
 import React from 'react'
 import OkIcon from 'material-ui/svg-icons/action/done'
-import AcknowledgedIcon from 'material-ui/svg-icons/action/check-circle'
 import DeletedIcon from 'material-ui/svg-icons/action/delete-forever'
 import ErrorIcon from 'material-ui/svg-icons/alert/error'
 import { AccessShapes } from '@regardsoss/shape'

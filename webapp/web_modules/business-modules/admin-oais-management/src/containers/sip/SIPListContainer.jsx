@@ -45,9 +45,6 @@ export class SIPListContainer extends React.Component {
       meta: sipSelectors.getMetaData(state),
       entitiesLoading: sipSelectors.isFetching(state),
       isEmptySelection: sipTableSelectors.isEmptySelection(state, sipSelectors),
-      selectionMode: sipTableSelectors.getSelectionMode(state),
-      elementsSelected: sipTableSelectors.getToggledElementsAsList(state),
-      areAllSelected: sipTableSelectors.areAllSelected(state, sipSelectors),
     }
   }
 
@@ -88,9 +85,6 @@ export class SIPListContainer extends React.Component {
     entitiesLoading: PropTypes.bool.isRequired,
     chains: IngestShapes.IngestProcessingChainList.isRequired,
     isEmptySelection: PropTypes.bool.isRequired,
-    selectionMode: PropTypes.string,
-    elementsSelected: PropTypes.arrayOf(IngestShapes.IngestSIP),
-    areAllSelected: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {

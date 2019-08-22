@@ -61,7 +61,6 @@ class SessionsMonitoringProductsGenerated extends React.Component {
   render() {
     const {
       intl: { formatMessage, formatNumber },
-      muiTheme,
       moduleTheme: {
         sessionsStyles: {
           menuDropDown,
@@ -136,53 +135,53 @@ class SessionsMonitoringProductsGenerated extends React.Component {
           ) : (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
-              <div style={barGraphContainer}>
-                <div style={donePlusWidth} title={`${sipDone} ${formatMessage({ id: 'acquisition-sessions.states.stored' })}`} />
-                <div style={errorPlusWidth} title={`${sipErrors} ${formatMessage({ id: 'acquisition-sessions.states.error' })}\n${sipInvalid} ${formatMessage({ id: 'acquisition-sessions.states.invalid' })}\n${sipRefused} ${formatMessage({ id: 'acquisition-sessions.states.refused' })}`} />
-                <div style={pendingPlusWidth} title={`${sipPending} ${formatMessage({ id: 'acquisition-sessions.states.pending' })}`} />
+                <div style={barGraphContainer}>
+                  <div style={donePlusWidth} title={`${sipDone} ${formatMessage({ id: 'acquisition-sessions.states.stored' })}`} />
+                  <div style={errorPlusWidth} title={`${sipErrors} ${formatMessage({ id: 'acquisition-sessions.states.error' })}\n${sipInvalid} ${formatMessage({ id: 'acquisition-sessions.states.invalid' })}\n${sipRefused} ${formatMessage({ id: 'acquisition-sessions.states.refused' })}`} />
+                  <div style={pendingPlusWidth} title={`${sipPending} ${formatMessage({ id: 'acquisition-sessions.states.pending' })}`} />
+                </div>
               </div>
-            </div>
               <div style={infosContainer}>
-              <div style={lineContainer}>
-                <div style={one}>
-                  {formatMessage({ id: 'acquisition-sessions.states.processed' })}
+                <div style={lineContainer}>
+                  <div style={one}>
+                    {formatMessage({ id: 'acquisition-sessions.states.processed' })}
                   :
+                  </div>
+                  <div style={two}>
+                    {formatMessage({ id: 'acquisition-sessions.states.pending' })}
+                  :
+                  </div>
+                  <div style={three}>
+                    {formatMessage({ id: 'acquisition-sessions.states.error' })}
+                  :
+                  </div>
                 </div>
-                <div style={two}>
-                  {formatMessage({ id: 'acquisition-sessions.states.pending' })}
-                  :
+                <div style={listValues}>
+                  <div style={one}>{formatNumber(sipDone)}</div>
+                  <div style={two}>{formatNumber(sipPending)}</div>
+                  <div style={three}>{formatNumber(sipErrors)}</div>
                 </div>
-                <div style={three}>
-                  {formatMessage({ id: 'acquisition-sessions.states.error' })}
-                  :
+                <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
+                  <DropDownButton
+                    title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
+                    style={menuDropDown}
+                    icon={<Menu />}
+                  >
+                    <MenuItem
+                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.ingested.relaunch' })}
+                      onClick={this.onClickRelaunchSIP}
+                    />
+                    <MenuItem
+                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.ingested.list' })}
+                      onClick={this.onClickListSIP}
+                    />
+                    <MenuItem
+                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.ingested.list.error' })}
+                      onClick={this.onClickListSIPErrorOnly}
+                    />
+                  </DropDownButton>
                 </div>
               </div>
-              <div style={listValues}>
-                <div style={one}>{formatNumber(sipDone)}</div>
-                <div style={two}>{formatNumber(sipPending)}</div>
-                <div style={three}>{formatNumber(sipErrors)}</div>
-              </div>
-              <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
-                <DropDownButton
-                  title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
-                  style={menuDropDown}
-                  icon={<Menu />}
-                >
-                  <MenuItem
-                    primaryText={formatMessage({ id: 'acquisition-sessions.menus.ingested.relaunch' })}
-                    onClick={this.onClickRelaunchSIP}
-                  />
-                  <MenuItem
-                    primaryText={formatMessage({ id: 'acquisition-sessions.menus.ingested.list' })}
-                    onClick={this.onClickListSIP}
-                  />
-                  <MenuItem
-                    primaryText={formatMessage({ id: 'acquisition-sessions.menus.ingested.list.error' })}
-                    onClick={this.onClickListSIPErrorOnly}
-                  />
-                </DropDownButton>
-              </div>
-            </div>
             </div>
           )}
         </div>

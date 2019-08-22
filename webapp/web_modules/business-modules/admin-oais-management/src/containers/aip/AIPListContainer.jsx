@@ -172,7 +172,6 @@ export class AIPListContainer extends React.Component {
   * @param newProps next component properties
   */
   onPropertiesUpdated = (oldProps, newProps) => {
-    const { params = {} } = newProps
     const newState = { ...this.state }
 
     // handle fitlers from parameters

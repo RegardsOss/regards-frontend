@@ -162,7 +162,7 @@ export class SessionsMonitoringContainer extends React.Component {
    * @param {force} Choose whether to use force delete or not
    */
   onDeleteProducts = (sessionId, force = false) => {
-    const { params: { project }, deleteSession } = this.props
+    const { deleteSession } = this.props
     deleteSession(sessionId.toString(), force)
   }
 
@@ -218,30 +218,24 @@ export class SessionsMonitoringContainer extends React.Component {
    * User cb: Relaunch Errored AIP
    */
   onClickRelaunchAIP = (source, name) => {
-    const { params: { project }, relaunchAIP } = this.props
-    // TODO Relaunch
+    const { relaunchAIP } = this.props
     relaunchAIP(source, name)
-    console.error('Relaunch AIP errored')
   }
 
   /**
    * User cb: Relaunch Errored SIP
    */
   onClickRelaunchSIP = (source, name) => {
-    const { params: { project }, relaunchSIP } = this.props
+    const { relaunchSIP } = this.props
     relaunchSIP(source, name)
-    console.error('Relaunch SIP errored')
-    //
   }
 
   /**
    * User cb: Relaunch Errored Products
    */
   onClickRelaunchProducts = (source, name) => {
-    const { params: { project }, relaunchProducts } = this.props
+    const { relaunchProducts } = this.props
     relaunchProducts(source, name)
-    console.error('Relaunch Products errored')
-    //
   }
 
   /**
@@ -403,7 +397,6 @@ export class SessionsMonitoringContainer extends React.Component {
   }
 
   render = () => {
-    const { acknowledgeSessionState } = this.props
     const {
       columnsSorting, requestParameters, filtersEdited, canEmptyFilters, editionFiltersState, columnsVisibility,
     } = this.state

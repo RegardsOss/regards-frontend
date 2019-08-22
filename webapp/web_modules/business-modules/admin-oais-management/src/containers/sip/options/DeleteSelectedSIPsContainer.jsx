@@ -28,7 +28,6 @@ import DeleteSelectedSIPsComponent from '../../../components/sip/options/DeleteS
  * @author Kévin Picart
  */
 export class DeleteSelectedSIPsContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state

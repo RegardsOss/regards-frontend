@@ -40,7 +40,7 @@ export class AIPSwitchToSIPComponent extends React.Component {
           label={formatMessage({ id: 'oais.button.switch-to.SIP' })}
           title={formatMessage({ id: 'oais.button.switch-to.SIP-title' })}
           onClick={onGoToSIP}
-          />
+        />
         <FlatButton
           label={formatMessage({ id: 'oais.button.switch-to.AIP' })}
           title={formatMessage({ id: 'oais.button.switch-to.AIP-title' })}

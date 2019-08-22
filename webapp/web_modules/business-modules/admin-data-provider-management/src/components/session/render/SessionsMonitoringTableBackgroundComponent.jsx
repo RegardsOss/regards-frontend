@@ -37,7 +37,7 @@ export class SessionsMonitoringTableBackgroundComponent extends React.Component 
     const { children, isInError } = this.props
     let style = cellContainer
     if (isInError) {
-      style = { ...cellErrorBackground, ...cellContainer  }
+      style = { ...cellErrorBackground, ...cellContainer }
     }
     return (
       <div style={style}>

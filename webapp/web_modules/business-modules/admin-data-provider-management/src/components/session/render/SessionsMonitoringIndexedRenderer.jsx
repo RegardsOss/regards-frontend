@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { browserHistory } from 'react-router'
 import Menu from 'material-ui/svg-icons/navigation/more-vert'
 import { MenuItem } from 'material-ui'
 import { DropDownButton } from '@regardsoss/components'

@@ -531,7 +531,6 @@ class AIPListComponent extends React.Component {
   }
 
   renderBreadCrump = () => {
-    const { session } = this.props
     const { intl: { formatMessage } } = this.context
     const elements = [formatMessage({ id: 'oais.session.title' })]
     return (
