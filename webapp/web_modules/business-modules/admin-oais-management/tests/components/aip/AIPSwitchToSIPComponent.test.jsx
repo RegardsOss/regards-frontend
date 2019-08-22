@@ -16,24 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import keys from 'lodash/keys'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import MessagesFr from '../../src/i18n/messages.fr.i18n'
-import MessagesEn from '../../src/i18n/messages.en.i18n'
+import FlatButton from 'material-ui/FlatButton'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { AIPSwitchToSIPComponent } from '../../../src/components/aip/AIPSwitchToSIPComponent'
+import styles from '../../../src/styles'
+
+const context = buildTestContext(styles)
 
 /**
- * @author Léo Mieulet
+ * Test AIPSwitchToSIPComponent
+ * @author Kévin Picart
  */
-describe('[OAIS MANAGEMENT] Testing i18n', () => {
+describe('[ Module name] Testing AIPSwitchToSIPComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('should exist', () => {
-    assert.isNotNull(MessagesFr)
-    assert.isNotNull(MessagesEn)
+  it('should exists', () => {
+    assert.isDefined(AIPSwitchToSIPComponent)
   })
-  it('should define same sentences', () => {
-    assert.deepEqual(keys(MessagesFr), keys(MessagesEn))
+  it('should render correctly', () => {
+    const props = {
+      onGoToSIP: () => {},
+    }
+    const enzymeWrapper = shallow(<AIPSwitchToSIPComponent {...props} />, { context })
+
+    const button = enzymeWrapper.find(FlatButton)
+    assert.lengthOf(button, 2, 'There should be 2 flat buttons')
   })
 })

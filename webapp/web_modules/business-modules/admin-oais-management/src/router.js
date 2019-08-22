@@ -92,11 +92,11 @@ export const sipHistoryListRoute = {
 const aipManagementRouter = {
   childRoutes: [
     aipFullListRoute,
-    sipListRoute,
-    sipFullListRoute,
-    sipHistoryListRoute,
     aipListRoute,
     aipFileListRoute,
+    sipFullListRoute,
+    sipListRoute,
+    sipHistoryListRoute,
   ],
 }
 

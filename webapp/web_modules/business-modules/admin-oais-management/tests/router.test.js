@@ -19,39 +19,60 @@
 import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
-import AIPSessionListContainer from '../src/containers/session/AIPSessionListContainer'
 import AIPListContainer from '../src/containers/aip/AIPListContainer'
 import AIPFileListContainer from '../src/containers/file/AIPFileListContainer'
+import SIPListContainer from '../src/containers/sip/SIPListContainer'
 
 /**
  * @author Léo Mieulet
  */
-describe('[ADMIN STORAGE AIP MANAGEMENT] Testing router', () => {
+describe('[OAIS MANAGEMENT] Testing router', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(3)
-    expect(Routes.childRoutes[0].path).to.eq('session')
-    expect(Routes.childRoutes[1].path).to.eq(':session/list')
-    expect(Routes.childRoutes[2].path).to.eq(':session/:aipId/file')
+    expect(Routes.childRoutes).to.have.length(6)
+    expect(Routes.childRoutes[0].path).to.eq('aip/list')
+    expect(Routes.childRoutes[1].path).to.eq('aip/:session/list')
+    expect(Routes.childRoutes[2].path).to.eq('aip/:session/:aipId/file')
+    expect(Routes.childRoutes[3].path).to.eq('sip/list')
+    expect(Routes.childRoutes[4].path).to.eq('sip/:session/list')
+    expect(Routes.childRoutes[5].path).to.eq('sip/:session/:sip/history')
   })
-  it('session should return AIPSessionContainer', (done) => {
+  it('aip/list should return AIPListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(AIPSessionListContainer)
+      expect(component.content).to.eq(AIPListContainer)
       done()
     })
   })
-  it(':session/list should return AIPListContainer', (done) => {
+  it('aip/:session/list should return AIPListContainer', (done) => {
     Routes.childRoutes[1].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(AIPListContainer)
       done()
     })
   })
-  it(':session/:aipId/file should return AIPFileListContainer', (done) => {
+  it('aip/:session/:aipId/file should return AIPFileListContainer', (done) => {
     Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(AIPFileListContainer)
+      done()
+    })
+  })
+  it('sip/list should return SIPListContainer', (done) => {
+    Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(SIPListContainer)
+      done()
+    })
+  })
+  it('sip/:session/list should return SIPListContainer', (done) => {
+    Routes.childRoutes[4].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(SIPListContainer)
+      done()
+    })
+  })
+  it('sip/:session/:sip/history should return SIPListContainer', (done) => {
+    Routes.childRoutes[5].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(SIPListContainer)
       done()
     })
   })

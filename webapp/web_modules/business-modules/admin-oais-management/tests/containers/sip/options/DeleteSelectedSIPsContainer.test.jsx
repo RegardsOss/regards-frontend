@@ -19,50 +19,37 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import SIPListComponent from '../../../src/components/sip/SIPListComponent'
-import { SIPListContainer } from '../../../src/containers/sip/SIPListContainer'
-import styles from '../../../src/styles'
+import DeleteSelectedSIPsComponent from '../../../../src/components/sip/options/DeleteSelectedSIPsComponent'
+import { DeleteSelectedSIPsContainer } from '../../../../src/containers/sip/options/DeleteSelectedSIPsContainer'
+import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SIPListContainer
+ * Test DeleteSelectedSIPsContainer
  * @author Kévin Picart
  */
-describe('[OAIS MANAGEMENT] Testing SIPListContainer', () => {
+describe('[OAIS MANAGEMENT] Testing DeleteSelectedSIPsContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPListContainer)
+    assert.isDefined(DeleteSelectedSIPsContainer)
   })
-  it('should render correctly when loaded', () => {
+  it('should render correctly', () => {
     const props = {
-      // params: {
-      //   project: '',
-      //   session: '',
-      //   sip: '',
-      // },
-      meta: {
-        // number: 0,
-        // size: 0,
-        // totalElements: 0,
-      },
-      fetchProcessingChains: () => {},
-      deleteSIPBySipId: () => {},
-      deleteSIPByProviderId: () => {},
-      fetchPage: () => {},
-      retrySip: () => {},
-      entitiesLoading: false,
-      chains:  {}, // TODO dump?
-      isEmptySelection: false,
-      areAllSelected: false,
+      onDelete: () => {},
+      disabled: false,
+      toggledSIPs: [],
+      selectionMode: 'include.selected',
     }
-    const enzymeWrapper = shallow(<SIPListContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(SIPListComponent)
+    const enzymeWrapper = shallow(<DeleteSelectedSIPsContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(DeleteSelectedSIPsComponent)
+    const wrapperInstance = enzymeWrapper.instance()
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      
+      disabled: false,
+      onDelete: wrapperInstance.onDelete,
     }, 'Component should define the expected properties')
   })
 })
