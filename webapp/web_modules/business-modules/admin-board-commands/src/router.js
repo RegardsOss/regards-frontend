@@ -16,23 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const messages = {
-  'menu.logout': 'Deconnexion',
-  'menu.projects': 'Projets',
-  'menu.users': 'Utilisateurs',
-  'menu.accounts': 'Comptes',
-  'menu.ui.configuration': 'Interface Utilisateur',
-  'menu.instance.ui.configuration': 'Portail',
-  'menu.microservices': 'Microservices',
-  'menu.plugins': 'Plugins',
-  'menu.collections': 'Collections & Jeux',
-  'menu.datamodels': 'Modèles de données',
-  'menu.dataaccessrights': 'Droits d\'accès',
-  'menu.dataaccess': 'Accès aux données',
-  'menu.dataacquisition': 'Ajout de données',
-  'menu.instance': 'Administration instance',
-  'menu.back': 'Retour',
-  'menu.commands': 'Commandes',
+export const boardRoute = {
+  path: 'board',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const moduleContainer = require('./components/ModuleContainer')
+      cb(null, { content: moduleContainer.default })
+    })
+  },
 }
 
-export default messages
+export const commandsManagementRouter = {
+  path: 'history',
+  getChildRoutes(nextState, cb) {
+    require.ensure([], (require) => {
+      const orderManagement = require('@regardsoss/admin-order-management')
+      cb(null, [orderManagement.orderRouter])
+    })
+  },
+}
+
+const commandsRouter = {
+  childRoutes: [
+    boardRoute,
+    commandsManagementRouter,
+  ],
+}
+
+export default commandsRouter

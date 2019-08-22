@@ -27,9 +27,6 @@ const messages = {
   'user.board.role.description': 'Consulter et éditer les fonctionnalités accessibles par rôle utilisateur',
   'user.board.role.title': 'Rôles',
 
-  'user.board.orders.title': 'Commandes',
-  'orders.board.orders.description': 'Consulter et gérer les commandes lancées par les utilisateurs du projet',
-
   'user.board.authentication-plugins.title': 'Système d\'authentification',
   'user.board.authentication-plugins.description': 'Configuration du système de connexion des utilisateurs.',
   

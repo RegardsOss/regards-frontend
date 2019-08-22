@@ -16,23 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const messages = {
-  'menu.logout': 'Deconnexion',
-  'menu.projects': 'Projets',
-  'menu.users': 'Utilisateurs',
-  'menu.accounts': 'Comptes',
-  'menu.ui.configuration': 'Interface Utilisateur',
-  'menu.instance.ui.configuration': 'Portail',
-  'menu.microservices': 'Microservices',
-  'menu.plugins': 'Plugins',
-  'menu.collections': 'Collections & Jeux',
-  'menu.datamodels': 'Modèles de données',
-  'menu.dataaccessrights': 'Droits d\'accès',
-  'menu.dataaccess': 'Accès aux données',
-  'menu.dataacquisition': 'Ajout de données',
-  'menu.instance': 'Administration instance',
-  'menu.back': 'Retour',
-  'menu.commands': 'Commandes',
+import { BoardComponent } from '@regardsoss/components'
+import { i18nContextType } from '@regardsoss/i18n'
+import boardItems from './ModuleBoardItems'
+
+/**
+ * Board to display datamangement module foncionalities.
+ */
+class ModuleBoardComponent extends React.Component {
+  static propTypes = {
+    project: PropTypes.string.isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  render() {
+    const { project } = this.props
+    const items = boardItems(project, this.context.intl)
+    return (
+      <BoardComponent items={items} />
+    )
+  }
 }
 
-export default messages
+export default ModuleBoardComponent

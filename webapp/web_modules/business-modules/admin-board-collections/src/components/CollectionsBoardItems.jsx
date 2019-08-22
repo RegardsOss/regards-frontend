@@ -73,13 +73,13 @@ const items = (projectName, intl) => [
     advanced: false,
     actions: [
       {
-        path: `/admin/${projectName}/data/acquisition/document/list`,
+        path: `/admin/${projectName}/data/collections/document/list`,
         icon: <ViewLinesIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
         hateoasDependencies: documentDependencies.listDependencies,
       },
       {
-        path: `/admin/${projectName}/data/acquisition/document/create`,
+        path: `/admin/${projectName}/data/collections/document/create`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
         hateoasDependencies: documentDependencies.addDependencies,

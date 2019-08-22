@@ -17,22 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 const messages = {
-  'menu.logout': 'Deconnexion',
-  'menu.projects': 'Projets',
-  'menu.users': 'Utilisateurs',
-  'menu.accounts': 'Comptes',
-  'menu.ui.configuration': 'Interface Utilisateur',
-  'menu.instance.ui.configuration': 'Portail',
-  'menu.microservices': 'Microservices',
-  'menu.plugins': 'Plugins',
-  'menu.collections': 'Collections & Jeux',
-  'menu.datamodels': 'Modèles de données',
-  'menu.dataaccessrights': 'Droits d\'accès',
-  'menu.dataaccess': 'Accès aux données',
-  'menu.dataacquisition': 'Ajout de données',
-  'menu.instance': 'Administration instance',
-  'menu.back': 'Retour',
-  'menu.commands': 'Commandes',
+  'commands.board.orders.title': 'Orders',
+  'commands.board.orders.description': 'View and manage user orders on the project',
+  'commands.board.tooltip.list': 'List',
 }
 
 export default messages

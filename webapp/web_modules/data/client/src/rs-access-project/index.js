@@ -67,4 +67,6 @@ export { default as SearchSourcesActions } from './session/SearchSourcesActions'
 export { default as getSearchSourcesReducer } from './session/SearchSourcesReducer'
 export { default as getSearchSourcesSelectors } from './session/SearchSourcesSelectors'
 
-export { default as SessionsRelaunchActions } from './session/SessionsRelaunchActions'
+export { default as SessionsRelaunchProductActions } from './session/SessionsRelaunchProductActions'
+export { default as SessionsRelaunchSIPActions } from './session/SessionsRelaunchSIPActions'
+export { default as SessionsRelaunchAIPActions } from './session/SessionsRelaunchAIPActions'

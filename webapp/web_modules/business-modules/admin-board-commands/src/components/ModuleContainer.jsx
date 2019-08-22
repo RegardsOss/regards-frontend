@@ -16,23 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const messages = {
-  'menu.logout': 'Deconnexion',
-  'menu.projects': 'Projets',
-  'menu.users': 'Utilisateurs',
-  'menu.accounts': 'Comptes',
-  'menu.ui.configuration': 'Interface Utilisateur',
-  'menu.instance.ui.configuration': 'Portail',
-  'menu.microservices': 'Microservices',
-  'menu.plugins': 'Plugins',
-  'menu.collections': 'Collections & Jeux',
-  'menu.datamodels': 'Modèles de données',
-  'menu.dataaccessrights': 'Droits d\'accès',
-  'menu.dataaccess': 'Accès aux données',
-  'menu.dataacquisition': 'Ajout de données',
-  'menu.instance': 'Administration instance',
-  'menu.back': 'Retour',
-  'menu.commands': 'Commandes',
+import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
+import ModuleBoardComponent from './ModuleBoardComponent'
+import messages from '../i18n'
+
+/**
+ * Main container to render for the ingest management module
+ */
+class ModuleContainer extends React.Component {
+  static propTypes = {
+    params: PropTypes.shape({
+      project: PropTypes.string,
+    }),
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  render() {
+    const { project } = this.props.params
+    return (
+      <I18nProvider messages={messages}>
+        <ModuleBoardComponent project={project} />
+      </I18nProvider>
+    )
+  }
 }
 
-export default messages
+export default ModuleContainer

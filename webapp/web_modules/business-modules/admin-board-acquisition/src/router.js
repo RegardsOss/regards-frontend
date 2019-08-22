@@ -46,16 +46,6 @@ export const sipManagementRouter = {
   },
 }
 
-export const documentManagementRouter = {
-  path: 'document',
-  getChildRoutes(nextState, cb) {
-    require.ensure([], (require) => {
-      const adminDataDocumentManagement = require('@regardsoss/admin-data-document-management')
-      cb(null, [adminDataDocumentManagement.documentDataManagementRouter])
-    })
-  },
-}
-
 export const dataproviderManagementRouter = {
   path: 'dataprovider',
   getChildRoutes(nextState, cb) {
@@ -111,7 +101,6 @@ const acquisitionRouter = {
     boardRoute,
     processingChainManagementRouter,
     sipManagementRouter,
-    documentManagementRouter,
     dataproviderManagementRouter,
     datasourceManagementRouter,
     connectionManagementRouter,

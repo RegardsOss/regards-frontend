@@ -68,6 +68,7 @@
     "@regardsoss/admin-board-account": "file:web_modules/business-modules/admin-board-account",
     "@regardsoss/admin-board-acquisition": "file:web_modules/business-modules/admin-board-acquisition",
     "@regardsoss/admin-board-collections": "file:web_modules/business-modules/admin-board-collections",
+    "@regardsoss/admin-board-commands": "file:web_modules/business-modules/admin-board-commands",
     "@regardsoss/admin-board-dataaccess": "file:web_modules/business-modules/admin-board-dataaccess",
     "@regardsoss/admin-board-models": "file:web_modules/business-modules/admin-board-models",
     "@regardsoss/admin-data-attribute-plugins-management": "file:web_modules/business-modules/admin-data-attribute-plugins-management",

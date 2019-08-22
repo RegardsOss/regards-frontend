@@ -15,23 +15,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+ */
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import MessagesFr from '../../src/i18n/messages.fr.i18n'
+import MessagesEn from '../../src/i18n/messages.en.i18n'
 
-export default class SessionsRelaunchActions extends BasicSignalActions {
-  constructor(namespace) {
-    super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/sesssssssion`,
-      namespace,
-    })
-  }
+describe('[ADMIN INGEST MANAGEMENT] Testing i18n', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
-  /**
-   * Send license updated notification accepted licenses
-   * @param project project
-   */
-  relaunchProducts(source, name) {
-    console.error('Yey ==>', source)
-    return this.sendSignal('PUT', null, { source })
-  }
-}
+  it('should exist', () => {
+    assert.isNotNull(MessagesFr)
+    assert.isNotNull(MessagesEn)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFr), keys(MessagesEn))
+  })
+})

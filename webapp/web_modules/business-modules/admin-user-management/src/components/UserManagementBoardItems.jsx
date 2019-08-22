@@ -76,31 +76,18 @@ export default (project, intl) => [
       hateoasDependencies: roleDependencies.addDependencies,
     }],
   },
-  // orders list card
-  {
-    title: intl.formatMessage({ id: 'user.board.orders.title' }),
-    description: intl.formatMessage({ id: 'orders.board.orders.description' }),
-    advanced: false,
-    actions: [{
-      path: `/admin/${project}/user/order/list`,
-      icon: <ViewLinesIcon />,
-      className: 'selenium-ordersList',
-      tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
-      hateoasDependencies: orderDependencies.listDependencies,
-    }],
-  },
   {
     title: intl.formatMessage({ id: 'accessright.board.accessgroup.title' }),
     description: intl.formatMessage({ id: 'accessright.board.accessgroup.description' }),
     advanced: false,
     actions: [{
-      path: `/admin/${project}/dataaccess/access-group/list`,
+      path: `/admin/${project}/user/access-group/list`,
       icon: <ViewLinesIcon />,
       className: 'selenium-accessgroupList',
       tooltipMsg: intl.formatMessage({ id: 'accessright.board.tooltip.list' }),
       hateoasDependencies: accessGroupDependencies.listDependencies,
     }, {
-      path: `/admin/${project}/dataaccess/access-group/create`,
+      path: `/admin/${project}/user/access-group/create`,
       icon: <AddIcon />,
       className: 'selenium-accessgroupCreate',
       tooltipMsg: intl.formatMessage({ id: 'accessright.board.tooltip.add' }),

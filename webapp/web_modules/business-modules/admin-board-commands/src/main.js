@@ -16,23 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const messages = {
-  'menu.logout': 'Deconnexion',
-  'menu.projects': 'Projets',
-  'menu.users': 'Utilisateurs',
-  'menu.accounts': 'Comptes',
-  'menu.ui.configuration': 'Interface Utilisateur',
-  'menu.instance.ui.configuration': 'Portail',
-  'menu.microservices': 'Microservices',
-  'menu.plugins': 'Plugins',
-  'menu.collections': 'Collections & Jeux',
-  'menu.datamodels': 'Modèles de données',
-  'menu.dataaccessrights': 'Droits d\'accès',
-  'menu.dataaccess': 'Accès aux données',
-  'menu.dataacquisition': 'Ajout de données',
-  'menu.instance': 'Administration instance',
-  'menu.back': 'Retour',
-  'menu.commands': 'Commandes',
-}
-
-export default messages
+export { default as commandsRouter } from './router'
+export { default as commandsReducers } from './reducer'
+export { default as commandsDependencies } from './dependencies'

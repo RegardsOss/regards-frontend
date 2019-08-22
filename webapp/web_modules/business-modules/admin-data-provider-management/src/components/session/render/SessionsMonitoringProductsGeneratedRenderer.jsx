@@ -43,13 +43,12 @@ class SessionsMonitoringProductsGenerated extends React.Component {
 
   onClickRelaunchProducts = () => {
     const { entity, onClickRelaunchProducts } = this.props
-    onClickRelaunchProducts(entity.content.name, entity.content.source)
+    onClickRelaunchProducts(entity.content.source, entity.content.name)
   }
 
   render() {
     const {
       intl: { formatMessage, formatNumber },
-      muiTheme,
       moduleTheme: {
         sessionsStyles: {
           menuDropDown,
@@ -85,29 +84,29 @@ class SessionsMonitoringProductsGenerated extends React.Component {
               <div style={gridHeaderContainer}>
                 { entity.content.lifeCycle.products.running ? (
                   <div style={runningContainer}>
-                  <Play color={runningIconColor} />
-                  <div style={running}>
-                    {formatMessage({ id: 'acquisition-sessions.states.running' })}
+                    <Play color={runningIconColor} />
+                    <div style={running}>
+                      {formatMessage({ id: 'acquisition-sessions.states.running' })}
+                    </div>
                   </div>
-                </div>
                 ) : (
-                <div />
+                  <div />
                 ) }
               </div>
               <div style={infosContainer}>
                 <div style={lineContainer}>
                   <div style={one}>
-                  {formatMessage({ id: 'acquisition-sessions.states.completed' })}
+                    {formatMessage({ id: 'acquisition-sessions.states.completed' })}
                   :
-                </div>
+                  </div>
                   <div style={two}>
-                  {formatMessage({ id: 'acquisition-sessions.states.incomplete' })}
+                    {formatMessage({ id: 'acquisition-sessions.states.incomplete' })}
                   :
-                </div>
+                  </div>
                   <div style={three}>
-                  {formatMessage({ id: 'acquisition-sessions.states.error' })}
+                    {formatMessage({ id: 'acquisition-sessions.states.error' })}
                   :
-                </div>
+                  </div>
                 </div>
                 <div style={listValues}>
                   <div style={one}>{formatNumber((entity.content.lifeCycle.products.done ? entity.content.lifeCycle.products.done : 0))}</div>
@@ -116,15 +115,15 @@ class SessionsMonitoringProductsGenerated extends React.Component {
                 </div>
                 <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
                   <DropDownButton
-                  title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
-                  style={menuDropDown}
-                  icon={<Menu />}
-                >
-                  <MenuItem
-                    primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.relaunch' })}
-                    onClick={this.onClickRelaunchProducts}
-                  />
-                </DropDownButton>
+                    title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
+                    style={menuDropDown}
+                    icon={<Menu />}
+                  >
+                    <MenuItem
+                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.relaunch' })}
+                      onClick={this.onClickRelaunchProducts}
+                    />
+                  </DropDownButton>
                 </div>
               </div>
             </div>

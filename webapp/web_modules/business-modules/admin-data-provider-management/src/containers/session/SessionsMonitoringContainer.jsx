@@ -26,7 +26,7 @@ import { CommonDomain } from '@regardsoss/domain'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import {
-  sessionsActions, SESSION_ENDPOINT, SESSION_ENTITY_ID, sessionsRelaunchActions,
+  sessionsActions, SESSION_ENDPOINT, SESSION_ENTITY_ID, sessionsRelaunchProductActions, sessionsRelaunchSIPActions, sessionsRelaunchAIPActions,
 } from '../../clients/session/SessionsClient'
 import { SessionsMonitoringComponent } from '../../components/session/SessionsMonitoringComponent'
 import messages from '../../i18n'
@@ -35,7 +35,9 @@ import styles from '../../styles'
 export class SessionsMonitoringContainer extends React.Component {
   static mapDispatchToProps = dispatch => ({
     deleteSession: (id, force = false) => dispatch(sessionsActions.fetchPagedEntityList(0, null, { force })),
-    relaunchProducts: (source, name) => dispatch(sessionsRelaunchActions.relaunchProducts(source, name)),
+    relaunchProducts: (source, name) => dispatch(sessionsRelaunchProductActions.relaunchProducts(source, name)),
+    relaunchAIP: (source, name) => dispatch(sessionsRelaunchAIPActions.relaunchProducts(source, name)),
+    relaunchSIP: (source, name) => dispatch(sessionsRelaunchSIPActions.relaunchProducts(source, name)),
     acknowledgeSessionState: (id, body, endpoint, verb) => dispatch(sessionsActions.updateEntity(id, body, null, null, endpoint, verb)),
   })
 
@@ -46,6 +48,8 @@ export class SessionsMonitoringContainer extends React.Component {
     }),
     deleteSession: PropTypes.func.isRequired,
     relaunchProducts: PropTypes.func.isRequired,
+    relaunchAIP: PropTypes.func.isRequired,
+    relaunchSIP: PropTypes.func.isRequired,
     acknowledgeSessionState: PropTypes.func.isRequired,
   }
 
@@ -214,8 +218,9 @@ export class SessionsMonitoringContainer extends React.Component {
    * User cb: Relaunch Errored AIP
    */
   onClickRelaunchAIP = (source, name) => {
-    const { params: { project } } = this.props
+    const { params: { project }, relaunchAIP } = this.props
     // TODO Relaunch
+    relaunchAIP(source, name)
     console.error('Relaunch AIP errored')
   }
 
@@ -223,7 +228,8 @@ export class SessionsMonitoringContainer extends React.Component {
    * User cb: Relaunch Errored SIP
    */
   onClickRelaunchSIP = (source, name) => {
-    const { params: { project } } = this.props
+    const { params: { project }, relaunchSIP } = this.props
+    relaunchSIP(source, name)
     console.error('Relaunch SIP errored')
     //
   }
@@ -233,7 +239,7 @@ export class SessionsMonitoringContainer extends React.Component {
    */
   onClickRelaunchProducts = (source, name) => {
     const { params: { project }, relaunchProducts } = this.props
-    relaunchProducts(name, source)
+    relaunchProducts(source, name)
     console.error('Relaunch Products errored')
     //
   }

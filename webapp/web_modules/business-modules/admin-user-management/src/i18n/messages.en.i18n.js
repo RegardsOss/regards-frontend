@@ -27,9 +27,6 @@ const messages = {
   'user.board.role.description': 'View and manage allowed functionalities by user role',
   'user.board.role.title': 'Roles',
 
-  'user.board.orders.title': 'Orders',
-  'orders.board.orders.description': 'View and manage user orders on the project',
-
   'user.board.authentication-plugins.title': 'Authentication system',
   'user.board.authentication-plugins.description': 'User authentication method configuration.',
 
