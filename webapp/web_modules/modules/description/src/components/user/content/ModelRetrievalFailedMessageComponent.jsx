@@ -16,15 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import NoDataIcon from 'material-ui/svg-icons/social/sentiment-dissatisfied'
+import { i18nContextType } from '@regardsoss/i18n'
+import { NoContentComponent } from '@regardsoss/components'
 
 /**
- * Holds shapes for data files as they are resolved by the file container for runtime
+ * Shows entity model retrieval error message
  * @author Raphaël Mechali
  */
+class ModelRetrievalFailedMessageComponent extends React.Component {
+  static contextTypes = {
+    ...i18nContextType,
+  }
 
-export const RuntimeDataFile = PropTypes.shape({
-  filename: PropTypes.string.isRequired,
-  mimeType: PropTypes.string.isRequired,
-  filesize: PropTypes.number,
-  uri: PropTypes.string.isRequired,
-})
+  render() {
+    const { intl: { formatMessage } } = this.context
+    return (
+      <NoContentComponent
+        title={formatMessage({ id: 'module.description.model.retrieval.failed.title' })}
+        message={formatMessage({ id: 'module.description.model.retrieval.failed.message' })}
+        Icon={NoDataIcon}
+      />
+    )
+  }
+}
+export default ModelRetrievalFailedMessageComponent

@@ -143,6 +143,7 @@ export class DescriptionLinkContainer extends React.Component {
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
           // replace the current description path
           descriptionPath: [entity],
+          selectedIndex: 0,
         },
       },
     })

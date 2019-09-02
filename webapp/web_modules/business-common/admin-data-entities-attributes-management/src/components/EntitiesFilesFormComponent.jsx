@@ -24,7 +24,7 @@ import size from 'lodash/size'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { DamDomain, CommonDomain } from '@regardsoss/domain'
+import { CommonDomain } from '@regardsoss/domain'
 import { List, ListItem, makeSelectable } from 'material-ui/List'
 import Badge from 'material-ui/Badge'
 import Paper from 'material-ui/Paper'
@@ -90,7 +90,7 @@ export class EntitiesFilesFormComponent extends React.Component {
     super(props)
     this.state = {
       nbInputs: 1,
-      type: get(props, 'allowedDataType[0]', DamDomain.DATATYPE_ENUM.DESCRIPTION),
+      type: get(props, 'allowedDataType[0]', CommonDomain.DATA_TYPES_ENUM.DESCRIPTION),
       state: STATE.INIT,
     }
   }
@@ -116,11 +116,11 @@ export class EntitiesFilesFormComponent extends React.Component {
    */
   getAcceptTypesForFileInput = () => {
     switch (this.state.type) {
-      case DamDomain.DATATYPE_ENUM.THUMBNAIL:
+      case CommonDomain.DATA_TYPES_ENUM.THUMBNAIL:
         return '.jpg,.jpeg,.png,.gif'
-      case DamDomain.DATATYPE_ENUM.DESCRIPTION:
+      case CommonDomain.DATA_TYPES_ENUM.DESCRIPTION:
         return '.md,.pdf,.html'
-      case DamDomain.DATATYPE_ENUM.DOCUMENT:
+      case CommonDomain.DATA_TYPES_ENUM.DOCUMENT:
         return '.md,.pdf,.html,.zip,.tar,.rar'
       default:
         return ''
@@ -160,11 +160,11 @@ export class EntitiesFilesFormComponent extends React.Component {
    */
   getMimeTypeAuthorised = () => {
     switch (this.state.type) {
-      case DamDomain.DATATYPE_ENUM.THUMBNAIL:
+      case CommonDomain.DATA_TYPES_ENUM.THUMBNAIL:
         return [CommonDomain.MimeTypes.jpg, CommonDomain.MimeTypes.png, CommonDomain.MimeTypes.gif]
-      case DamDomain.DATATYPE_ENUM.DESCRIPTION:
+      case CommonDomain.DATA_TYPES_ENUM.DESCRIPTION:
         return [CommonDomain.MimeTypes.pdf, CommonDomain.MimeTypes.md, CommonDomain.MimeTypes.html]
-      case DamDomain.DATATYPE_ENUM.DOCUMENT:
+      case CommonDomain.DATA_TYPES_ENUM.DOCUMENT:
         return [CommonDomain.MimeTypes.pdf, CommonDomain.MimeTypes.md, CommonDomain.MimeTypes.html, CommonDomain.MimeTypes.zip, CommonDomain.MimeTypes.tar, CommonDomain.MimeTypes.rar]
       default:
         return []
@@ -176,7 +176,7 @@ export class EntitiesFilesFormComponent extends React.Component {
    */
   getFilesRefProps = () => ({
     mimeTypeList: this.getMimeTypeAuthorised(),
-    allowImage: this.state.type === DamDomain.DATATYPE_ENUM.THUMBNAIL,
+    allowImage: this.state.type === CommonDomain.DATA_TYPES_ENUM.THUMBNAIL,
   })
 
   /**
@@ -303,9 +303,9 @@ export class EntitiesFilesFormComponent extends React.Component {
   renderTypeList = () => (
     <div className="col-sm-25">
       <SelectableList value={this.state.type} onChange={this.handleChangeDataType}>
-        {this.renderType(DamDomain.DATATYPE_ENUM.THUMBNAIL)}
-        {this.renderType(DamDomain.DATATYPE_ENUM.DOCUMENT)}
-        {this.renderType(DamDomain.DATATYPE_ENUM.DESCRIPTION)}
+        {this.renderType(CommonDomain.DATA_TYPES_ENUM.THUMBNAIL)}
+        {this.renderType(CommonDomain.DATA_TYPES_ENUM.DOCUMENT)}
+        {this.renderType(CommonDomain.DATA_TYPES_ENUM.DESCRIPTION)}
       </SelectableList>
     </div>
   )

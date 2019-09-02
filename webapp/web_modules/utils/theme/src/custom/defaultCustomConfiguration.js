@@ -58,6 +58,12 @@ export default baseTheme => ({
       },
       fixedContentMarginBottom: 5,
     },
+    treeTable: {
+      expandIconSize: 32,
+      expandIconPadding: 8,
+      firstLevelIndentation: 8,
+      nextLevelsIndentation: 24,
+    },
   },
   formsExtensions: {
     dateField: {
@@ -97,6 +103,73 @@ export default baseTheme => ({
     },
     // description module
     description: {
+      breadcrumb: {
+        link: {
+          iconSize: 24,
+          selectedColor: baseTheme.raisedButton.secondaryColor,
+          unselectedColor: baseTheme.palette.textColor,
+          textPadding: '2px 0 0 5px',
+          fontWeight: 500,
+          fontSize: '1.1em',
+        },
+      },
+      tree: {
+        width: 400,
+        borderColor: baseTheme.toolbar.separatorColor,
+        borderWidth: '0 1px 0 0',
+        iconButtonPadding: 4,
+        iconSize: 24,
+        iconToTextGap: 5,
+        selectedColor: baseTheme.palette.accent1Color,
+        unselectedColor: baseTheme.palette.textColor,
+        section: {
+          fontSize: '18px',
+          linkTextDecoration: 'none',
+          textTextDecoration: 'none',
+          fontWeight: 500,
+        },
+        element: {
+          fontSize: '16px',
+          linkTextDecoration: 'underline',
+          textTextDecoration: 'none',
+          fontWeight: 400,
+        },
+      },
+      loading: {
+        container: {
+          padding: '24px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        circle: {
+          size: 192,
+          thickness: 1.5,
+          color: baseTheme.subheader.color,
+        },
+        message: {
+          fontWeight: '1em',
+          padding: '24px 0 0 0',
+          color: baseTheme.subheader.color,
+        },
+      },
+      listPage: {
+        mainPadding: '5px 21px 5px 21px',
+        element: {
+          padding: 3,
+          fontSize: '16px',
+          fontWeight: 400,
+          iconToTextGap: 5,
+          linkTextDecoration: 'underline',
+        },
+        rightIconButton: {
+          size: 24,
+          padding: 0,
+          margin: '0 0 0 24px',
+        },
+      },
+      // TODO: old -> delete or reuse
       thumbnail: {
         maxSize: 128,
         margin: '1em 0 0.4em 20px',

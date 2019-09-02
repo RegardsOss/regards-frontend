@@ -27,17 +27,48 @@ export class DescriptionStateActions {
    * @param {*} namespace actions namespace
    */
   constructor(namespace) {
-    this.SELECT_TREE_ENTRY = `${namespace}/select-tree-entry`
+    this.SET_DESCRIPTION_PATH = `${namespace}/set-description-path`
+    this.SET_SELECTED_TREE_ENTRY = `${namespace}/set-selected-tree-entry`
+    this.SET_BROWSING_TREE_VISIBLE = `${namespace}/set-show-browsing-tree`
   }
 
   /**
-   * @param {[number]} selectedPath selected entry path in tree, where successive index are ranging from 0 to N-1
-   * @return {{type: string}} redux action to dispatch to select entry by its path
+   * Sets the current description path (nota: it may also be used for loading, as each entity holds its loading status)
+   * @param {[*]} descriptionPath path to set
+   * @param {number} selectedIndex index that should be selected in path (if undefined / null, previous will be preserved)
+   * @returns {*} action to dispatch
    */
-  selectEntryPath(selectedPath = []) {
+  setDescriptionPath(descriptionPath = [], selectedIndex = null) {
     return {
-      type: this.SELECT_TREE_ENTRY,
-      selectedPath,
+      type: this.SET_DESCRIPTION_PATH,
+      descriptionPath,
+      selectedIndex,
+    }
+  }
+
+  /**
+   * Sets selected tree entry in currently selected entity
+   * @param {number} entityIndex entity index in description path
+   * @param {{section: string, child: number}} selectedEntry selected entry
+   * @returns {*} action to dispatch
+   */
+  setSelectedTreeEntry(entityIndex, treeEntry) {
+    return {
+      type: this.SET_SELECTED_TREE_ENTRY,
+      entityIndex,
+      treeEntry,
+    }
+  }
+
+  /**
+   * Set rowsing tree visible
+   * @param {boolean} browsingTreeVisible true to show browsing tree, false to hide it
+   * @returns {*} action to dispatch
+   */
+  setBrowsingTreeVisible(browsingTreeVisible) {
+    return {
+      type: this.SET_BROWSING_TREE_VISIBLE,
+      browsingTreeVisible,
     }
   }
 }

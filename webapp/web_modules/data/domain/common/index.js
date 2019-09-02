@@ -22,7 +22,7 @@ export { default as PluginConfParamsUtils } from './PluginConfParamsUtils'
 
 export { default as EntityIdTester } from './EntityIdTester'
 // Data types
-export { DataTypes, DataTypesEnum } from './DataTypes'
+export { DATA_TYPES, DATA_TYPES_ENUM } from './DataTypes'
 export { default as URLAuthInjector } from './URLAuthInjector'
 export { EnumNumericalComparator, EnumNumericalComparators } from './EnumNumericalComparator'
 export { default as durationParser } from './DurationParser'

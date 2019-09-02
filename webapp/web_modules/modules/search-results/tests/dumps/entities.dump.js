@@ -54,8 +54,8 @@ export const dataEntity = {
     label: 'my data',
     model: '1',
     files: {
-      [DamDomain.DATATYPE_ENUM.QUICKLOOK_SD]: [{
-        dataType: CommonDomain.DataTypesEnum.QUICKLOOK_SD,
+      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD]: [{
+        dataType: CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD,
         reference: true,
         uri: 'http://russia.clearly.ru/one-more-forbidden-file.png',
         mimeType: 'image/png',

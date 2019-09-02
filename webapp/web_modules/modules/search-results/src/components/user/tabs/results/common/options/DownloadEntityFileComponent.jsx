@@ -64,8 +64,8 @@ class DownloadEntityFileComponent extends React.Component {
 
   /** File types available through download option */
   static DOWNLOADABLE_FILES_TYPES = [
-    CommonDomain.DataTypesEnum.RAWDATA,
-    CommonDomain.DataTypesEnum.DOCUMENT,
+    CommonDomain.DATA_TYPES_ENUM.RAWDATA,
+    CommonDomain.DATA_TYPES_ENUM.DOCUMENT,
   ]
 
   /** @return {[*]} download files for entity, in current state and with current user rights */

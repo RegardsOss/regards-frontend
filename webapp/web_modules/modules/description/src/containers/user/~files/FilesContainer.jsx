@@ -31,7 +31,7 @@ export class FilesContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     entity: CatalogShapes.Entity, // used only in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
-    fileType: PropTypes.oneOf(CommonDomain.DataTypes).isRequired, // used only in onPropertiesUpdated
+    fileType: PropTypes.oneOf(CommonDomain.DATA_TYPES).isRequired, // used only in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
     accessToken: PropTypes.string, // used only in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types

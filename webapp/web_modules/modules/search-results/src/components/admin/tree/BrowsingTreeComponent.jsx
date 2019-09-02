@@ -26,7 +26,7 @@ import BrowsingTreeCellComponent from './BrowsingTreeCellComponent'
  * Left browsing edition tree for module
  * @author Raphaël Mechali
  */
-class BrowsingTree extends React.Component {
+class BrowsingTreeComponent extends React.Component {
   static propTypes = {
     // navigation data
     navigationSections: PropTypes.arrayOf(FormSection).isRequired,
@@ -102,7 +102,7 @@ class BrowsingTree extends React.Component {
         model={navigationSections}
         buildTreeTableRows={this.buildTreeTableRows}
         buildCellComponent={this.buildCellComponent}
-        columns={BrowsingTree.COLUMNS_FILLER}
+        columns={BrowsingTreeComponent.COLUMNS_FILLER}
         onCellClick={this.onCellClicked}
         stripeLevelColors={false}
         displayTableRowBorder={false}
@@ -111,4 +111,4 @@ class BrowsingTree extends React.Component {
     )
   }
 }
-export default BrowsingTree
+export default BrowsingTreeComponent

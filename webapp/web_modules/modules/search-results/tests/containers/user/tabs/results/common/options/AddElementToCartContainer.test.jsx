@@ -62,8 +62,8 @@ describe('[SEARCH RESULTS] Testing AddElementToCartContainer', () => {
         content: {
           ...dataEntity.content,
           files: {
-            [CommonDomain.DataTypesEnum.RAWDATA]: [{
-              dataType: CommonDomain.DataTypesEnum.RAWDATA,
+            [CommonDomain.DATA_TYPES_ENUM.RAWDATA]: [{
+              dataType: CommonDomain.DATA_TYPES_ENUM.RAWDATA,
               reference: true,
               uri: 'http://somewhere.com/somefile.csv',
               mimeType: 'text/csv',
@@ -89,8 +89,8 @@ describe('[SEARCH RESULTS] Testing AddElementToCartContainer', () => {
         content: {
           ...dataEntity.content,
           files: {
-            [CommonDomain.DataTypesEnum.QUICKLOOK_MD]: [{
-              dataType: CommonDomain.DataTypesEnum.QUICKLOOK_MD,
+            [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD]: [{
+              dataType: CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD,
               reference: true,
               uri: 'http://somewhere.com/somefile.csv',
               mimeType: 'text/csv',
@@ -130,8 +130,8 @@ describe('[SEARCH RESULTS] Testing AddElementToCartContainer', () => {
           ...dataEntity.content,
           entityType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
           files: {
-            [CommonDomain.DataTypesEnum.QUICKLOOK_MD]: [{
-              dataType: CommonDomain.DataTypesEnum.QUICKLOOK_MD,
+            [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD]: [{
+              dataType: CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD,
               reference: true,
               uri: 'http://somewhere.com/somefile.csv',
               mimeType: 'text/csv',

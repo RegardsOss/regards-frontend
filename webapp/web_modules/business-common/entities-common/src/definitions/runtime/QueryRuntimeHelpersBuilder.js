@@ -43,8 +43,6 @@ export class QueryRuntimeHelpersBuilder {
         return new AccessProjectClient.SearchCollectionsActions(namespace)
       case DamDomain.ENTITY_TYPES_ENUM.DATASET:
         return new AccessProjectClient.SearchDatasetsActions(namespace)
-      case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT:
-        return new AccessProjectClient.SearchDocumentsActions(namespace)
       case DamDomain.ENTITY_TYPES_ENUM.DATA:
         return new AccessProjectClient.SearchDataobjectsActions(namespace)
       default: // covers ulterior cases with mixed up entity types

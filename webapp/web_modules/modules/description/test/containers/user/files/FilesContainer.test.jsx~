@@ -59,7 +59,7 @@ describe('[Description] Testing FilesContainer', () => {
   it('should render correctly', () => {
     const props = {
       entity: baseEntity,
-      fileType: CommonDomain.DataTypesEnum.DOCUMENT,
+      fileType: CommonDomain.DATA_TYPES_ENUM.DOCUMENT,
     }
     const enzymeWrapper = shallow(<FilesContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(FilesComponent)
@@ -76,11 +76,11 @@ describe('[Description] Testing FilesContainer', () => {
         content: {
           ...baseEntity.content,
           files: {
-            [CommonDomain.DataTypesEnum.DOCUMENT]: dataFilesDump,
+            [CommonDomain.DATA_TYPES_ENUM.DOCUMENT]: dataFilesDump,
           },
         },
       },
-      fileType: CommonDomain.DataTypesEnum.DOCUMENT,
+      fileType: CommonDomain.DATA_TYPES_ENUM.DOCUMENT,
       accessToken: 'ABCDE',
       projectName: 'test-project',
     }
@@ -114,11 +114,11 @@ describe('[Description] Testing FilesContainer', () => {
         content: {
           ...baseEntity.content,
           files: {
-            [CommonDomain.DataTypesEnum.DOCUMENT]: dataFilesDump,
+            [CommonDomain.DATA_TYPES_ENUM.DOCUMENT]: dataFilesDump,
           },
         },
       },
-      fileType: CommonDomain.DataTypesEnum.DOCUMENT,
+      fileType: CommonDomain.DATA_TYPES_ENUM.DOCUMENT,
       accessToken: null,
       projectName: 'test-project',
     }

@@ -111,8 +111,8 @@ describe('[Description] Testing AttributesContainer', () => {
           entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
           model: 'MODEL_1',
           files: { // provide a thumbnail for test
-            [CommonDomain.DataTypesEnum.THUMBNAIL]: [{
-              dataType: CommonDomain.DataTypesEnum.THUMBNAIL,
+            [CommonDomain.DATA_TYPES_ENUM.THUMBNAIL]: [{
+              dataType: CommonDomain.DATA_TYPES_ENUM.THUMBNAIL,
               uri: 'test:thumnail.png',
               reference: false,
               mimeType: 'image/png',

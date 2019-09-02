@@ -25,7 +25,10 @@ import { DescriptionStateActions } from './DescriptionStateActions'
 export class DescriptionStateReducer {
   /** Default reducer state: at first tree element */
   static DEFAULT_STATE = {
-    selectedPath: [0],
+    // shown description path
+    descriptionPath: [],
+    // is browsing tree currently visible?
+    browsingTreeVisible: true,
   }
 
   /**
@@ -43,10 +46,30 @@ export class DescriptionStateReducer {
    * @return {*} next reducer state for action
    */
   reduce(state = DescriptionStateReducer.DEFAULT_STATE, action) {
-    if (action.type === this.actions.SELECT_TREE_ENTRY) {
-      return { selectedPath: action.selectedPath }
+    switch (action.type) {
+      case this.actions.SET_DESCRIPTION_PATH:
+        return {
+          ...state,
+          descriptionPath: action.descriptionPath,
+        }
+      case this.actions.SET_SELECTED_TREE_ENTRY:
+        return {
+          ...state,
+          // update the element currently displayed (using action entityIndex value)
+          descriptionPath: state.descriptionPath.map((descriptionEntity, index) => index === action.entityIndex ? {
+            // That entity is the selected one, update its selected entry path
+            ...descriptionEntity,
+            selectedTreeEntry: action.treeEntry,
+          } : descriptionEntity),
+        }
+      case this.actions.SET_BROWSING_TREE_VISIBLE:
+        return {
+          ...state,
+          browsingTreeVisible: action.browsingTreeVisible,
+        }
+      default:
+        return state
     }
-    return state
   }
 }
 

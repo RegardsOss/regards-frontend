@@ -24,10 +24,29 @@ import { BasicSelector } from '@regardsoss/store-utils'
  */
 export class DescriptionStateSelectors extends BasicSelector {
   /**
-   * @param {*} state redux store
-   * @return {[number]} selected entry path
+   * Returns description state
+   * @param {*} state Redux state
+   * @return {*} description state matching DescriptionState.DescriptionState shape
    */
-  getSelectedPath(state) {
-    return super.uncombineStore(state).selectedPath
+  getDescriptionState(state) {
+    return super.uncombineStore(state)
+  }
+
+  /**
+   * Returns description path
+   * @param {*} state Redux state
+   * @return {[*]} description path as an array of elements matching DescriptionState.DescriptionEntity shape
+   */
+  getDescriptionPath(state) {
+    return this.getDescriptionState(state).descriptionPath
+  }
+
+  /**
+   * Is browsing tree visible?
+   * @param {*} state Redux state
+   * @return {boolean} is showing browsing tree
+   */
+  isBrowsingTreeVisible(state) {
+    return this.getDescriptionState(state).browsingTreeVisible
   }
 }

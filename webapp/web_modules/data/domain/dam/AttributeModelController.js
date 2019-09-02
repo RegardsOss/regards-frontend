@@ -22,7 +22,7 @@ import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import isString from 'lodash/isString'
 
-import { DataTypesEnum } from '../common/DataTypes'
+import { DATA_TYPES_ENUM } from '../common/DataTypes'
 import MODEL_ATTR_TYPES from './ModelAttrTypes'
 
 /**
@@ -87,7 +87,7 @@ const standardAttributes = {
     id: -6,
     label: 'Thumbnail',
     type: MODEL_ATTR_TYPES.URL,
-    jsonPath: `files.${DataTypesEnum.THUMBNAIL}[0]`,
+    jsonPath: `files.${DATA_TYPES_ENUM.THUMBNAIL}[0]`,
   },
   [standardAttributesKeys.geometry]: {
     key: standardAttributesKeys.geometry,

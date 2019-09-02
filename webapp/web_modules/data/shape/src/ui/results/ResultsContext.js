@@ -268,6 +268,8 @@ const ResultsTab = PropTypes.shape({
 export const DescriptionTabModel = PropTypes.shape({
   // Entities in current description path (empty when no description)
   descriptionPath: PropTypes.arrayOf(EntityWithServices).isRequired,
+  // Displayed entity index in current description path
+  selectedIndex: PropTypes.number.isRequired,
 })
 
 /** Complete results context: holds only the three tabs */

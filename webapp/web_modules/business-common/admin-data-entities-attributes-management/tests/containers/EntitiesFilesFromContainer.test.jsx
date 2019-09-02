@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { DamDomain } from '@regardsoss/domain'
+import { CommonDomain } from '@regardsoss/domain'
 import { EntitiesFilesFormContainer } from '../../src/containers/EntitiesFilesFormContainer'
 import EntitiesFilesFormComponent from '../../src/components/EntitiesFilesFormComponent'
 
@@ -39,7 +39,7 @@ describe('[ADMIN DATA ENTITIES ATTRIBUTES MANAGEMENT] Testing EntitiesFilesFormC
   it('Render properly', () => {
     const props = {
       currentEntity: DumpProvider.getFirstEntity('DataManagementClient', 'Collection'),
-      allowedDataType: [DamDomain.DATATYPE_ENUM.DESCRIPTION],
+      allowedDataType: [CommonDomain.DATA_TYPES_ENUM.DESCRIPTION],
 
       handleRefreshEntity: () => { },
       handleUpdateEntity: () => { },

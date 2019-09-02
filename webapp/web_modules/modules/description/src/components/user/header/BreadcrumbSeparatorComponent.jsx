@@ -16,26 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
-
-import values from 'lodash/values'
+import SeparatorIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 
 /**
- * List of possible types for entity files
+ * Breadcrumb Separator displayer
+ * @author Raphaël Mechali
  */
-export const DATATYPE_ENUM = {
-  RAWDATA: 'RAWDATA',
-  QUICKLOOK_SD: 'QUICKLOOK_SD',
-  QUICKLOOK_MD: 'QUICKLOOK_MD',
-  QUICKLOOK_HD: 'QUICKLOOK_HD',
-  DOCUMENT: 'DOCUMENT',
-  THUMBNAIL: 'THUMBNAIL',
-  OTHER: 'OTHER',
-  AIP: 'AIP',
-  DESCRIPTION: 'DESCRIPTION',
+class BreadcrumbSeparatorComponent extends React.Component {
+  render() {
+    // TODO more styles when testable
+    return (
+      <SeparatorIcon />
+    )
+  }
 }
-
-/**
- * Return an array of DataTypes values
- */
-export const DATATYPE = values(DATATYPE_ENUM)
+export default BreadcrumbSeparatorComponent

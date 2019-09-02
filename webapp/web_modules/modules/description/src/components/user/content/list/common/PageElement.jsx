@@ -16,13 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import SearchEntitiesActions from './SearchEntitiesActions'
+import { themeContextType } from '@regardsoss/theme'
+import { HOCUtils } from '@regardsoss/display-control'
 
 /**
- * Actions to search for catalog documents
+ * A page element: shows children in element layout
+ * @author Raphaël Mechali
  */
-export default class CatalogDocumentEntityActions extends SearchEntitiesActions {
-  constructor(namespace) {
-    super(namespace, `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/documents/search`)
+class PageElement extends React.Component {
+  static propTypes = {
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+  }
+
+  render() {
+    const { moduleTheme: { user: { main: { content: { listPage } } } } } = this.context
+    const { children } = this.props
+    return (
+      <div style={listPage.elementContainer}>
+        {HOCUtils.renderChildren(children)}
+      </div>
+    )
   }
 }
+export default PageElement

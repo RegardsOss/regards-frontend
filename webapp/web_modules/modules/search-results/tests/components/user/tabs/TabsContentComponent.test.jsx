@@ -53,6 +53,7 @@ describe('[SEARCH RESULTS] Testing TabsContentComponent', () => {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
           descriptionPath: [dataEntity],
+          selectedIndex: 0,
         },
       },
     }),
@@ -109,7 +110,6 @@ describe('[SEARCH RESULTS] Testing TabsContentComponent', () => {
     } else {
       assert.deepEqual(descriptionContainer.parent().props().style, hiddenTabContent, 'Description tab should be currently hidden')
     }
-
 
     const tagResultsContainer = enzymeWrapper.find(SearchResultsContainer).findWhere(c => c.props().tabType === UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS)
     assert.lengthOf(tagResultsContainer, 1, 'There should be a results container for each tag results')

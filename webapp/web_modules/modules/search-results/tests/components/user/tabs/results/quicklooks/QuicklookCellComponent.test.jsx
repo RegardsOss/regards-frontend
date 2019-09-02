@@ -21,7 +21,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import NoPictureIcon from 'mdi-material-ui/ImageOff'
 import BrokenPictureIcon from 'mdi-material-ui/ImageBroken'
-import { DamDomain, UIDomain } from '@regardsoss/domain'
+import { CommonDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import QuicklookCellComponent from '../../../../../../src/components/user/tabs/results/quickooks/QuicklookCellComponent'
 import QuicklookCellAttributesComponent from '../../../../../../src/components/user/tabs/results/quickooks/QuicklookCellAttributesComponent'
@@ -70,8 +70,8 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
       content: {
         ...dataEntityWithServices.content,
         files: {
-          [DamDomain.DATATYPE_ENUM.QUICKLOOK_SD]: [{
-            ...dataEntityWithServices.content.files[DamDomain.DATATYPE_ENUM.QUICKLOOK_SD][0],
+          [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD]: [{
+            ...dataEntityWithServices.content.files[CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD][0],
             imageWidth: null,
             imageHeight: null,
           }],
@@ -92,7 +92,7 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
       content: {
         ...dataEntity.content,
         files: {
-          [DamDomain.DATATYPE_ENUM.QUICKLOOK_SD]: [],
+          [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD]: [],
         },
       },
     },

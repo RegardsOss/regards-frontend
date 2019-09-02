@@ -19,11 +19,11 @@
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
+import { CommonDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { DamDomain } from '@regardsoss/domain'
+import { CardActionsComponent } from '@regardsoss/components'
 import { EntitiesFilesFormContainer } from '@regardsoss/admin-data-entities-attributes-management'
 import DocumentStepperContainer from '../containers/DocumentStepperContainer'
 
@@ -50,7 +50,7 @@ export class DocumentEditFilesComponent extends React.Component {
     justifyContent: 'space-between',
   }
 
-  static allowedDataTypes = [DamDomain.DATATYPE_ENUM.DOCUMENT]
+  static allowedDataTypes = [CommonDomain.DATA_TYPES_ENUM.DOCUMENT]
 
   render() {
     const {

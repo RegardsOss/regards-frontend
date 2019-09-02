@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import IconButton from 'material-ui/IconButton'
-import { CommonDomain, DamDomain } from '@regardsoss/domain'
+import { CommonDomain } from '@regardsoss/domain'
 import { DropDownButton } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import DownloadEntityFileComponent from '../../../../../../../src/components/user/tabs/results/common/options/DownloadEntityFileComponent'
@@ -48,7 +48,7 @@ describe('[SEARCH RESULTS] Testing DownloadEntityFileComponent', () => {
         content: {
           ...datasetEntity.content,
           files: {
-            [DamDomain.DATATYPE_ENUM.RAWDATA]: [onlineRawData],
+            [CommonDomain.DATA_TYPES_ENUM.RAWDATA]: [onlineRawData],
           },
         },
       },
@@ -81,7 +81,7 @@ describe('[SEARCH RESULTS] Testing DownloadEntityFileComponent', () => {
         content: {
           ...dataEntity.content,
           files: {
-            [CommonDomain.DataTypesEnum.QUICKLOOK_MD]: [notDownloadableFile],
+            [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD]: [notDownloadableFile],
           },
         },
       },
@@ -105,7 +105,7 @@ describe('[SEARCH RESULTS] Testing DownloadEntityFileComponent', () => {
         content: {
           ...dataEntity.content,
           files: {
-            [DamDomain.DATATYPE_ENUM.RAWDATA]: [offlineRawData, offlineRawData], // twice to test list reducing methods
+            [CommonDomain.DATA_TYPES_ENUM.RAWDATA]: [offlineRawData, offlineRawData], // twice to test list reducing methods
           },
         },
       },
@@ -123,7 +123,7 @@ describe('[SEARCH RESULTS] Testing DownloadEntityFileComponent', () => {
         content: {
           ...dataEntity.content,
           files: {
-            [DamDomain.DATATYPE_ENUM.RAWDATA]: [onlineRawData],
+            [CommonDomain.DATA_TYPES_ENUM.RAWDATA]: [onlineRawData],
           },
         },
       },
@@ -141,8 +141,8 @@ describe('[SEARCH RESULTS] Testing DownloadEntityFileComponent', () => {
         content: {
           ...dataEntity.content,
           files: {
-            [DamDomain.DATATYPE_ENUM.RAWDATA]: [offlineRawData],
-            [DamDomain.DATATYPE_ENUM.DOCUMENT]: [onlineDocRef],
+            [CommonDomain.DATA_TYPES_ENUM.RAWDATA]: [offlineRawData],
+            [CommonDomain.DATA_TYPES_ENUM.DOCUMENT]: [onlineDocRef],
           },
         },
       },
@@ -160,8 +160,8 @@ describe('[SEARCH RESULTS] Testing DownloadEntityFileComponent', () => {
         content: {
           ...dataEntity.content,
           files: {
-            [DamDomain.DATATYPE_ENUM.RAWDATA]: [onlineRawData, offlineRawData],
-            [DamDomain.DATATYPE_ENUM.DOCUMENT]: [onlineDocRef],
+            [CommonDomain.DATA_TYPES_ENUM.RAWDATA]: [onlineRawData, offlineRawData],
+            [CommonDomain.DATA_TYPES_ENUM.DOCUMENT]: [onlineDocRef],
           },
         },
       },

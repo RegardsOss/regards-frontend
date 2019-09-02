@@ -1,0 +1,82 @@
+/**
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+import SearchIcon from 'material-ui/svg-icons/action/search'
+import DescriptionIcon from 'material-ui/svg-icons/action/info-outline'
+import { CatalogShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
+import PageElement from '../common/PageElement'
+import PageLinkCellComponent from '../common/PageLinkCellComponent'
+import PageElementOption from '../common/PageElementOption'
+
+/**
+ * Display an entity as link, or simple text when it has no description, and corresponding search option in entities list page
+ * @author Raphaël Mechali
+ */
+class EntityLinkComponent extends React.Component {
+  static propTypes = {
+    entity: CatalogShapes.Entity.isRequired,
+    isDescriptionAllowed: PropTypes.func.isRequired,
+    // Callback: user selected an entity link. (entity:CalaogShapes.Entity) => ()
+    onSelectEntityLink: PropTypes.func.isRequired,
+    // on search word tag
+    onSearchEntity: PropTypes.func.isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  /**
+   * User callback: On search entity clicked. Search for related entities
+   */
+  onSearchEntity = () => {
+    const { entity, onSearchEntity } = this.props
+    onSearchEntity(entity)
+  }
+
+  /**
+   * User callback: on entity link clicked. Show entity description
+   */
+  onSelectEntityLink = () => {
+    const { entity, onSelectEntityLink } = this.props
+    onSelectEntityLink(entity)
+  }
+
+
+  render() {
+    const { entity, isDescriptionAllowed } = this.props
+    const { intl: { formatMessage } } = this.context
+    const descriptionAllowed = isDescriptionAllowed(entity)
+    return (
+      <PageElement>
+        <PageLinkCellComponent
+          text={entity.content.label}
+          LinkIconConstructor={DescriptionIcon}
+          disabled={!descriptionAllowed}
+          onClick={this.onSelectEntityLink}
+        />
+        <PageElementOption
+          IconConstructor={SearchIcon}
+          tooltip={formatMessage({ id: 'module.description.common.search.entity.tooltip' })}
+          onClick={this.onSearchEntity}
+        />
+      </PageElement>)
+  }
+}
+export default EntityLinkComponent

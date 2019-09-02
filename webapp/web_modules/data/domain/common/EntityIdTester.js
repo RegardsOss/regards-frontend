@@ -26,8 +26,6 @@ function isDatasetURN(id) { return id.match(/URN:AIP:DATASET:.*/) }
 
 function isCollectionURN(id) { return id.match(/URN:AIP:COLLECTION:.*/) }
 
-function isDocumentURN(id) { return id.match(/URN:AIP:DOCUMENT:.*/) }
-
 function isDataURN(id) { return id.match(/URN:AIP:DATA:.*/) }
 
 function getTypeForURN(id) {
@@ -37,8 +35,6 @@ function getTypeForURN(id) {
     return ENTITY_TYPES_ENUM.DATASET
   } if (isDataURN(id)) {
     return ENTITY_TYPES_ENUM.DATA
-  } if (isDocumentURN(id)) {
-    return ENTITY_TYPES_ENUM.DOCUMENT
   }
   throw new Error(`Unknow id type received: ${id}`)
 }
@@ -46,7 +42,6 @@ function getTypeForURN(id) {
 export default {
   isDatasetURN,
   isCollectionURN,
-  isDocumentURN,
   isDataURN,
   getTypeForURN,
 }

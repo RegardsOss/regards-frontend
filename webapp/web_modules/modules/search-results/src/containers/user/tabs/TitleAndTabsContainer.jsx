@@ -177,7 +177,7 @@ export class TitleAndTabsContainer extends React.Component {
         updateResultsContext(moduleId, {
           selectedTab: nextTabType,
           tabs: {
-            [closedTabType]: { descriptionPath: [] },
+            [closedTabType]: { descriptionPath: [], selectedIndex: 0 },
           },
         })
         break

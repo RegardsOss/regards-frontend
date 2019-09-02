@@ -16,29 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardMedia, CardTitle } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
-import { TreePath } from '../../shapes/NavigationTree'
+import { TableLayout } from '@regardsoss/components'
+import { DescriptionEntity, DescriptionState } from '../../shapes/DescriptionState'
+import HeaderBarComponent from './header/HeaderBarComponent'
+import ContentDisplayComponent from './content/ContentDisplayComponent'
+import BrowsingTreeComponent from './tree/BrowsingTreeComponent'
 
 
 /**
  * Main description module component. It show entity description view and breadcrumb in table layout.
  * @author Raphaël Mechali
  */
-class EntityDescriptionComponent extends React.Component {
+class MainModuleComponent extends React.Component {
   static propTypes = {
-    // user auth info
-    accessToken: PropTypes.string,
-    projectName: PropTypes.string.isRequired,
-    // configuration (holding runtime data)
-    moduleConf: ModuleConfiguration.isRequired,
-    // tree selection
-    selectedTreePath: TreePath.isRequired,
-
-    // control callback
-    onSelectTreePath: PropTypes.func.isRequired, // tree selection callback: path => ()
+    descriptionEntity: DescriptionEntity.isRequired,
+    selectedEntityIndex: PropTypes.number.isRequired,
+    descriptionPath: PropTypes.arrayOf(DescriptionEntity).isRequired,
+    browsingTreeVisible: PropTypes.bool.isRequired,
+    // is description allowed function, like (entity: CatalogShapes.Entity) => (boolean)
+    isDescriptionAllowed: PropTypes.func.isRequired,
+    // Callback: user selected an inner link. (section:BROWSING_SECTION_ENUM, child: number) => ()
+    onSelectInnerLink: PropTypes.func.isRequired,
+    // Callback: user selected an entity link. (entity:CalaogShapes.Entity) => ()
+    onSelectEntityLink: PropTypes.func.isRequired,
+    // Callback: user searched for a word tag (tag:string) => ()
+    onSearchWord: PropTypes.func.isRequired,
+    // Callback: user searched for an entity tag (tag:CalaogShapes.Entity) => ()
+    onSearchEntity: PropTypes.func.isRequired,
+    // Callback: user selected an entity by its index in path (index: number) => ()
+    onSelectEntityIndex: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -49,7 +57,7 @@ class EntityDescriptionComponent extends React.Component {
   /**
    * Default type configuration (to be used when there is no entity)
    */
-  static DEFAULT_TYPE_CONFIGURATION = {
+  static DEFAULT_TYPE_CONFIGURATION = { // TODO delete or adapt
     showDescription: true,
     showTags: true,
     showLinkedDocuments: true,
@@ -57,38 +65,43 @@ class EntityDescriptionComponent extends React.Component {
     groups: [],
   }
 
-  /**
-   * @return {DescriptionConfiguration} configuration for current entity (or default configuration)
-   */
-  getCurrentEntityConfiguration = () => {
-    // TODO: it should be used above to compute tree!
-    const { entity, moduleConf } = this.props
-    if (entity) {
-      const { entityType } = entity.content
-      return moduleConf[entityType]
-    }
-    return EntityDescriptionComponent.DEFAULT_TYPE_CONFIGURATION
-  }
-
   render() {
     const {
-      accessToken, projectName, moduleConf, selectedTreePath, setSelectedPath,
+      descriptionEntity, browsingTreeVisible, isDescriptionAllowed, descriptionPath, selectedEntityIndex,
+      onSelectInnerLink, onSelectEntityLink, onSearchWord, onSearchEntity, onSelectEntityIndex,
     } = this.props
-    const { moduleTheme: { user } } = this.context
-    return ( // TODO no more card, see later!
-      <Card style={user.card.style} containerStyle={user.card.containerStyle}>
-        <CardTitle
-          title="Une description!"
-          style={user.card.titleStyle}
+    const { moduleTheme: { user: { main: { root } } } } = this.context
+
+    return (
+      <TableLayout>
+        <HeaderBarComponent
+          descriptionEntity={descriptionEntity}
+          selectedEntityIndex={selectedEntityIndex}
+          descriptionPath={descriptionPath}
+          onSelectEntityIndex={onSelectEntityIndex}
+          onSearchEntity={onSearchEntity}
         />
-        <CardMedia style={user.card.media.rootStyle} mediaStyle={user.card.media.mediaStyle}>
-          <div style={user.card.media.tabs.rootStyle}>
-             Coucou, je suis
-            {' '}
-            {moduleConf.runtime.entity.content.label}
-          </div>
-        </CardMedia>
-      </Card>)
+        <div style={root}>
+          <BrowsingTreeComponent
+            browsingTreeVisible={browsingTreeVisible}
+            descriptionEntity={descriptionEntity}
+            isDescriptionAllowed={isDescriptionAllowed}
+            onSelectInnerLink={onSelectInnerLink}
+            onSelectEntityLink={onSelectEntityLink}
+            onSearchWord={onSearchWord}
+            onSearchEntity={onSearchEntity}
+          />
+          <ContentDisplayComponent
+            descriptionEntity={descriptionEntity}
+            isDescriptionAllowed={isDescriptionAllowed}
+            onSelectInnerLink={onSelectInnerLink}
+            onSelectEntityLink={onSelectEntityLink}
+            onSearchWord={onSearchWord}
+            onSearchEntity={onSearchEntity}
+          />
+        </div>
+      </TableLayout>
+    )
   }
 }
-export default EntityDescriptionComponent
+export default MainModuleComponent

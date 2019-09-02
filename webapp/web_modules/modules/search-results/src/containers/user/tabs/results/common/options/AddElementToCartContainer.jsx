@@ -44,10 +44,10 @@ export class AddElementToCartContainer extends React.Component {
 
   /** Orderable data files types */
   static ORDERABLE_FILES_TYPES = [
-    CommonDomain.DataTypesEnum.QUICKLOOK_HD,
-    CommonDomain.DataTypesEnum.QUICKLOOK_MD,
-    CommonDomain.DataTypesEnum.QUICKLOOK_SD,
-    CommonDomain.DataTypesEnum.RAWDATA,
+    CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD,
+    CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD,
+    CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD,
+    CommonDomain.DATA_TYPES_ENUM.RAWDATA,
   ]
 
   /**

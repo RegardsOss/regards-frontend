@@ -30,3 +30,6 @@ export { default as BooleanParameterField } from './components/services/paramete
 export { default as ChoiceParameterField } from './components/services/parameters/ChoiceParameterField'
 export { default as DateParameterField } from './components/services/parameters/DateParameterField'
 export { default as TextParameterField } from './components/services/parameters/TextParameterField'
+
+// Constants
+export { EntityTypeIcon } from './definitions/EntityTypeIcon'

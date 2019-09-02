@@ -19,7 +19,6 @@
 import { collectionAttributeModelReducer } from './clients/CollectionAttributeModelClient'
 import { dataAttributeModelReducer } from './clients/DataobjectAttributeModelClient'
 import { datasetAttributeModelReducer } from './clients/DatasetAttributeModelClient'
-import { modelAttributesReducer } from './clients/ModelAttributesClient'
 import { descriptionStateReducer } from './clients/DescriptionStateClient'
 
 /**
@@ -32,7 +31,6 @@ const searchResultsReducers = {
   'dataobjects-attributes': dataAttributeModelReducer,
   'datasets-attributes': datasetAttributeModelReducer,
   // user reducer
-  model: modelAttributesReducer,
   descriptionState: descriptionStateReducer,
 }
 

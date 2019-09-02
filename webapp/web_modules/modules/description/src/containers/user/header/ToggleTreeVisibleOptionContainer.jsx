@@ -17,15 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
-import { TreePath } from '../../shapes/NavigationTree'
-import MainModuleComponent from '../../components/user/MainModuleComponent'
+import { descriptionStateActions, descriptionStateSelectors } from '../../../clients/DescriptionStateClient'
+import ToggleTreeVisibleOptionComponent from '../../../components/user/header/ToggleTreeVisibleOptionComponent'
 
 /**
- * Comment Here
+ * Toggle tree visible option container
  * @author Raphaël Mechali
  */
-export class EntityModelResolutionContainer extends React.Component {
+export class ToggleTreeVisibleOptionContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -33,7 +32,9 @@ export class EntityModelResolutionContainer extends React.Component {
    * @return {*} list of component properties extracted from redux state
    */
   static mapStateToProps(state) {
-    return {}
+    return {
+      browsingTreeVisible: descriptionStateSelectors.isBrowsingTreeVisible(state),
+    }
   }
 
   /**
@@ -43,29 +44,36 @@ export class EntityModelResolutionContainer extends React.Component {
    * @return {*} list of component properties extracted from redux state
    */
   static mapDispatchToProps(dispatch) {
-    return {}
+    return {
+      setBrowsingTreeVisible: visible => dispatch(descriptionStateActions.setBrowsingTreeVisible(visible)),
+    }
   }
 
   static propTypes = {
-    // children properties
-    accessToken: PropTypes.string,
-    projectName: PropTypes.string.isRequired,
-    moduleConf: ModuleConfiguration.isRequired,
-    selectedTreePath: TreePath.isRequired,
-    onSelectTreePath: PropTypes.func.isRequired, // tree selection callback: path => ()
-  // from mapStateToProps
-  // from mapDispatchToProps
+    // from mapStateToProps
+    browsingTreeVisible: PropTypes.bool.isRequired,
+    // from mapDispatchToProps
+    setBrowsingTreeVisible: PropTypes.func.isRequired,
   }
 
-  // TODO resolve entity from module conf into an array of entity with tree model, then show child MainModuleComponent
+  /**
+   * User callback: toggles browsing tree visible option
+   */
+  onToggleVisible = () => {
+    const { browsingTreeVisible, setBrowsingTreeVisible } = this.props
+    setBrowsingTreeVisible(!browsingTreeVisible)
+  }
 
   render() {
-    const { maProp } = this.props
+    const { browsingTreeVisible } = this.props
     return (
-      <div />
+      <ToggleTreeVisibleOptionComponent
+        browsingTreeVisible={browsingTreeVisible}
+        onToggleVisible={this.onToggleVisible}
+      />
     )
   }
 }
 export default connect(
-  EntityModelResolutionContainer.mapStateToProps,
-  EntityModelResolutionContainer.mapDispatchToProps)(EntityModelResolutionContainer)
+  ToggleTreeVisibleOptionContainer.mapStateToProps,
+  ToggleTreeVisibleOptionContainer.mapDispatchToProps)(ToggleTreeVisibleOptionContainer)

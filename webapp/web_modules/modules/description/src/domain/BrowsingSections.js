@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,11 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 
 /**
- * Holds shapes for tree browsing in description module
+ * Available sections for browsing in description
  * @author Raphaël Mechali
  */
+export const BROWSING_SECTIONS_ENUM = {
+  PARAMETERS: 'PARAMETERS',
+  INFORMATION: 'INFORMATION',
+  QUICKLOOKS: 'QUICKLOOKS',
+  SIMPLE_TAGS: 'SIMPLE_TAGS',
+  LINKED_ENTITIES: 'LINKED_ENTITIES',
+  COUPLED_TAGS: 'COUPLED_TAGS',
+  LINKED_DOCUMENTS: 'LINKED_DOCUMENTS',
+  FILES: 'FILES',
+}
 
-/** A tree path, expressed from parent to deeper child, wher index are ranging in  [0; N-1] */
-export const TreePath = PropTypes.arrayOf(PropTypes.number)
+/** All possible value */
+export const BROWSING_SECTIONS = values(BROWSING_SECTIONS_ENUM)

@@ -16,16 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import CircularProgress from 'material-ui/CircularProgress'
+import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
- * Loading displayer for description view
+ * Shows a list element option as an IconButton
  * @author Raphaël Mechali
  */
-class LoadingDisplayerComponent extends React.Component {
+class PageElementOption extends React.Component {
   static propTypes = {
-    message: PropTypes.string.isRequired,
+    IconConstructor: PropTypes.func.isRequired,
+    tooltip: PropTypes.string,
+    onClick: PropTypes.func,
   }
 
   static contextTypes = {
@@ -33,17 +35,17 @@ class LoadingDisplayerComponent extends React.Component {
   }
 
   render() {
-    const { message } = this.props
-    const {
-      rootStyle, circleSize, circleThickness, messageStyle,
-    } = this.context.moduleTheme.user.card.media.tabs.tab.loading
-
+    const { IconConstructor, tooltip, onClick } = this.props
+    const { moduleTheme: { user: { main: { content: { listPage } } } } } = this.context
     return (
-      <div style={rootStyle}>
-        <CircularProgress size={circleSize} thickness={circleThickness} />
-        <div style={messageStyle}>{message}</div>
-      </div>
+      <IconButton
+        title={tooltip}
+        onClick={onClick}
+        style={listPage.rigthIconButton}
+      >
+        <IconConstructor />
+      </IconButton>
     )
   }
 }
-export default LoadingDisplayerComponent
+export default PageElementOption

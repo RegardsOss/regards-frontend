@@ -18,11 +18,10 @@
  **/
 import get from 'lodash/get'
 import FlatButton from 'material-ui/FlatButton'
-import DatasetsIcon from 'mdi-material-ui/Archive'
-import DataIcon from 'mdi-material-ui/FileDocument'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import { EntityTypeIcon } from '@regardsoss/entities-common'
 
 /**
  * Component to display entities type tab
@@ -36,11 +35,6 @@ class TypeTabComponent extends React.Component {
     onTypeSelected: PropTypes.func.isRequired,
   }
 
-  static ICON_CONSTRUCTOR_BY_TYPE = {
-    [DamDomain.ENTITY_TYPES_ENUM.DATASET]: DatasetsIcon,
-    [DamDomain.ENTITY_TYPES_ENUM.DATA]: DataIcon,
-  }
-
   static contextTypes = {
     ...i18nContextType,
   }
@@ -50,7 +44,7 @@ class TypeTabComponent extends React.Component {
       type, tabType, resultsContext, onTypeSelected,
     } = this.props
     const { intl: { locale, formatMessage } } = this.context
-    const IconConstructor = TypeTabComponent.ICON_CONSTRUCTOR_BY_TYPE[type]
+    const IconConstructor = EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE[type]
     const { selectedType, tab } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
       <FlatButton

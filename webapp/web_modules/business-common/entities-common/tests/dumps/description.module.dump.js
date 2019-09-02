@@ -47,13 +47,6 @@ export const modulesDumpWithDescription = {
           showThumbnail: false,
           groups: [],
         },
-        [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]: {
-          showDescription: true,
-          showTags: true,
-          showLinkedDocuments: true,
-          showThumbnail: true,
-          groups: [],
-        },
         [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
           showDescription: true,
           showTags: true,

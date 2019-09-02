@@ -47,7 +47,7 @@ export class URLContextHelper {
   static resolveElementInContext(previousContext, value, fetchEntity, buildContext) {
     return new Promise((resolve) => {
       // 1 - Value resolution
-      if (CatalogDomain.isURNTag(value)) {
+      if (CatalogDomain.TagsHelper.isURNTag(value)) {
         // 1.a
         fetchEntity(value)
           // Entity resolution successful
@@ -138,18 +138,19 @@ export class URLContextHelper {
             },
           },
         })),
-    }, { // last description entity
+    }, { // description entity
       name: 'd',
       toParameterValue: (resultsContext) => {
-        const { descriptionPath } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]
+        const { descriptionPath, selectedIndex } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]
         // optional description path
-        return descriptionPath.length ? last(descriptionPath).content.id : null
+        return descriptionPath.length ? descriptionPath[selectedIndex].content.id : null
       },
       fromParameterValue: (resultsContext, value, fetchEntity) => URLContextHelper.resolveElementInContext(resultsContext, value, fetchEntity,
         entity => ({
           tabs: {
             [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
               descriptionPath: [entity],
+              selectedIndex: 0,
             },
           },
         })),

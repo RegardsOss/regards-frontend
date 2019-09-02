@@ -50,6 +50,7 @@ describe('[SEARCH RESULTS] Testing TabsContentContainer', () => {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
           descriptionPath: [anotherDataEntity, anotherDatasetEntity],
+          setDescriptionPath: 1,
         },
       },
     }),

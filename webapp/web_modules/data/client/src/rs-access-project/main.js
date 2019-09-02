@@ -49,7 +49,6 @@ export { default as getLinkUIPluginDatasetSelectors } from './linkUIPluginDatase
 export { default as SearchCollectionsActions } from './search/SearchCollectionsActions'
 export { default as SearchDataobjectsActions } from './search/SearchDataobjectsActions'
 export { default as SearchDatasetsFromDataObjectsActions } from './search/SearchDatasetsFromDataObjectsActions'
-export { default as SearchDocumentsActions } from './search/SearchDocumentsActions'
 export { default as SearchDatasetsActions } from './search/SearchDatasetsActions'
 export { default as SearchEntitiesActions } from './search/SearchEntitiesActions'
 export { default as getSearchEntitiesReducer } from './search/SearchEntitiesReducer'

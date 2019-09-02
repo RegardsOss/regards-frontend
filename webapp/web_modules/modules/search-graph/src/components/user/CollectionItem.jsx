@@ -68,7 +68,7 @@ class CollectionItem extends React.Component {
         <ItemLinkContainer
           entity={collection}
           descriptionProperties={descriptionProperties}
-          Icon={CollectionIcon}
+          Icon={CollectionIcon} // TODO Change for EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE? see when it works again
           additiveLineComponent={expensible ? <ArrowDown style={arrowStyles} /> : null}
           onSelect={onSelect}
           selected={selected}

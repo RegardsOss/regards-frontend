@@ -72,7 +72,7 @@ describe('[Description] Testing DescriptionConfigurationFormComponent', () => {
   it('should leave form unchanged when editing', () => {
     let spiedCalledCount = 0
     const props = {
-      entityType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
+      entityType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT, // TODO very wrong now
       isCreating: false,
       changeField: () => {
         spiedCalledCount += 1

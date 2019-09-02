@@ -18,7 +18,8 @@
  **/
 
 export { FACET_TYPES, FACET_TYPES_ENUM } from './FacetType'
-export { isURNTag, TAG_TYPES_ENUM, TAG_TYPES } from './Tags'
+export { TAG_TYPES_ENUM, TAG_TYPES } from './TagTypes'
+export { TagsHelper } from './TagsHelper'
 export { default as GEOMETRY_TYPES } from './geo/Geometry'
 export { LEGACY_SEARCH_ENGINE } from './SearchConstants'
 export { default as OpenSearchQuery } from './query/OpenSearchQuery'

@@ -43,6 +43,241 @@ const styles = theme => ({
     },
   },
   user: {
+    header: {
+      flatIconButtonStyle: {
+        minWidth: theme.button.iconButtonSize,
+      },
+      breadcrumb: {
+        root: {
+          display: 'flex',
+          alignItems: 'center',
+          flexGrow: 1,
+          flexShrink: 1,
+        },
+        selectedLink: {
+          root: {
+            display: 'flex',
+            flexGrow: 0,
+            flexShrink: 0,
+            alignItems: 'center',
+            cursor: 'pointer',
+          },
+          icon: {
+            color: theme.module.description.breadcrumb.link.selectedColor,
+            style: {
+              width: theme.module.description.breadcrumb.link.iconSize,
+              height: theme.module.description.breadcrumb.link.iconSize,
+            },
+          },
+          text: {
+            padding: theme.module.description.breadcrumb.link.textPadding,
+            color: theme.module.description.breadcrumb.link.selectedColor,
+            fontWeight: theme.module.description.breadcrumb.link.fontWeight,
+            fontSize: theme.module.description.breadcrumb.link.fontSize,
+          },
+        },
+        unselectedLink: {
+          root: {
+            display: 'flex',
+            flexGrow: 0,
+            flexShrink: 1,
+            alignItems: 'center',
+            cursor: 'pointer',
+          },
+          icon: {
+            color: theme.module.description.breadcrumb.link.unselectedColor,
+            style: {
+              width: theme.module.description.breadcrumb.link.iconSize,
+              height: theme.module.description.breadcrumb.link.iconSize,
+            },
+          },
+          text: {
+            padding: theme.module.description.breadcrumb.link.textPadding,
+            color: theme.module.description.breadcrumb.link.unselectedColor,
+            fontWeight: theme.module.description.breadcrumb.link.fontWeight,
+            fontSize: theme.module.description.breadcrumb.link.fontSize,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          },
+
+        },
+      },
+    },
+    main: {
+      root: {
+        display: 'flex',
+        alignItems: 'stretch',
+        flexGrow: 1,
+        flexShrink: 1,
+      },
+      tree: {
+        container: {
+          flexBasis: theme.module.description.tree.width,
+          borderColor: theme.module.description.tree.borderColor,
+          borderWidth: theme.module.description.tree.borderWidth,
+          borderStyle: 'solid',
+          flexGrow: 0,
+          flexShrink: 0,
+        },
+        cell: {
+          optionCell: {
+            padding: 0,
+            width: theme.button.iconButtonSize,
+          },
+          iconButton: {
+            style: {
+              width: theme.button.iconButtonSize,
+              height: theme.button.iconButtonSize,
+              padding: theme.module.description.tree.iconButtonPadding,
+            },
+            iconStyle: {
+              width: theme.module.description.tree.iconSize,
+              height: theme.module.description.tree.iconSize,
+            },
+          },
+          text: {
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'default',
+          },
+          link: {
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+          },
+          icon: {
+            width: theme.module.description.tree.iconSize,
+            height: theme.module.description.tree.iconSize,
+            flexGrow: 0,
+            flexShrink: 0,
+          },
+          ...[ // build ready to use styles for selected and unselected states (both are very similar)
+            { key: 'selected', stateColor: theme.module.description.tree.selectedColor },
+            { key: 'unselected', stateColor: theme.module.description.tree.unselectedColor }]
+            .reduce((acc, { key, stateColor }) => {
+              const textCommon = {
+                flexGrow: 1,
+                flexShrink: 1,
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }
+              return {
+                ...acc,
+                [key]: {
+                  iconColor: stateColor,
+                  sectionText: {
+                    color: stateColor,
+                    fontWeight: theme.module.description.tree.section.fontWeight,
+                    fontSize: theme.module.description.tree.section.fontSize,
+                    textDecoration: theme.module.description.tree.section.textTextDecoration,
+                    ...textCommon,
+                  },
+                  sectionLink: {
+                    color: stateColor,
+                    fontWeight: theme.module.description.tree.section.fontWeight,
+                    fontSize: theme.module.description.tree.section.fontSize,
+                    textDecoration: theme.module.description.tree.section.linkTextDecoration,
+                    ...textCommon,
+                  },
+                  elementText: {
+                    color: stateColor,
+                    marginLeft: theme.module.description.tree.iconToTextGap,
+                    fontSize: theme.module.description.tree.element.fontSize,
+                    textDecoration: theme.module.description.tree.element.textTextDecoration,
+                    ...textCommon,
+                  },
+                  elementLink: {
+                    color: stateColor,
+                    marginLeft: theme.module.description.tree.iconToTextGap,
+                    fontSize: theme.module.description.tree.element.fontSize,
+                    textDecoration: theme.module.description.tree.element.linkTextDecoration,
+                    ...textCommon,
+                  },
+                },
+              }
+            }, {}),
+        },
+      },
+      content: {
+        loading: {
+          container: {
+            ...theme.module.description.loading.container,
+            flexGrow: 1,
+            flexShrink: 1,
+          },
+          circle: theme.module.description.loading.circle,
+          message: theme.module.description.loading.message,
+        },
+        listPage: {
+          scrollArea: {
+            flexGrow: 1,
+            flexShrink: 1,
+            flexBasis: 0,
+          },
+          scrollAreaContent: {
+            minHeight: '100%',
+          },
+          contentRoot: {
+            display: 'flex',
+          },
+          listContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'stretch',
+            padding: theme.module.description.listPage.mainPadding,
+            minWidth: 0,
+          },
+          elementContainer: {
+            display: 'flex',
+            alignItems: 'center',
+            padding: theme.module.description.listPage.element.padding,
+          },
+          elementIcon: {
+            flexGrow: 0,
+            flexShrink: 0,
+          },
+          rigthIconButton: {
+            flexGrow: 0,
+            flexShrink: 0,
+            width: theme.module.description.listPage.rightIconButton.size,
+            height: theme.module.description.listPage.rightIconButton.size,
+            padding: theme.module.description.listPage.rightIconButton.padding,
+            margin: theme.module.description.listPage.rightIconButton.margin,
+          },
+          textCell: {
+            flexGrow: 1,
+            flexShrink: 1,
+            fontSize: theme.module.description.listPage.element.fontSize,
+            fontWeight: theme.module.description.listPage.element.fontWeight,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            cursor: 'default',
+          },
+          linkAndIconCell: {
+            flexGrow: 1,
+            flexShrink: 1,
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+          },
+          linkText: {
+            flexGrow: 1,
+            flexShrink: 1,
+            marginLeft: theme.module.description.listPage.element.iconToTextGap,
+            fontSize: theme.module.description.listPage.element.fontSize,
+            fontWeight: theme.module.description.listPage.element.fontWeight,
+            textDecoration: theme.module.description.listPage.element.linkTextDecoration,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          },
+        },
+      },
+    },
+    // TODO: that whole object should be deleted at end
     card: {
       style: {
         ...growingFlexElement,
@@ -62,14 +297,6 @@ const styles = theme => ({
           contentContainerStyle: growingVerticalLayout,
           tabTemplateStyle: growingVerticalLayout,
           tab: {
-            loading: {
-              rootStyle: {
-                padding: '24px', display: 'flex', flexDirection: 'row', alignItems: 'center',
-              },
-              circleSize: 32,
-              circleThickness: 1.5,
-              messageStyle: { fontWeight: '0.8em', padding: '16px 0 0 16px', color: theme.subheader.color },
-            },
             quicklook: {
               imageContainerZoomOut: {
                 display: 'flex',

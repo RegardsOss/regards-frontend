@@ -17,12 +17,10 @@
  * along w
  * ith REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import CollectionsIcon from 'mdi-material-ui/FileTree'
-import DatasetsIcon from 'mdi-material-ui/Archive'
 import WordTagIcon from 'mdi-material-ui/AlphaTbox'
-import DataIcon from 'mdi-material-ui/FileDocument'
 import { UIShapes } from '@regardsoss/shape'
 import { CatalogDomain } from '@regardsoss/domain'
+import { EntityTypeIcon } from '@regardsoss/entities-common'
 import ApplyingCriterionComponent from './ApplyingCriterionComponent'
 
 /**
@@ -36,14 +34,26 @@ class TagCriterionComponent extends React.Component {
     onUnselectTagFilter: PropTypes.func.isRequired,
   }
 
-  /** Icon for selected geometry criterion */
-  static TAG_TYPE_TO_ICON = {
-    [CatalogDomain.TAG_TYPES_ENUM.COLLECTION]: <CollectionsIcon />,
-    [CatalogDomain.TAG_TYPES_ENUM.DATA]: <DataIcon />,
-    [CatalogDomain.TAG_TYPES_ENUM.DATASET]: <DatasetsIcon />,
-    [CatalogDomain.TAG_TYPES_ENUM.WORD]: <WordTagIcon />,
-
-  }
+  /** Icon for selected entity criterion */
+  static TAG_TYPE_TO_ICON = CatalogDomain.TAG_TYPES.reduce((acc, tagType) => {
+    let IconConstructor = null
+    switch (tagType) {
+      case CatalogDomain.TAG_TYPES_ENUM.WORD:
+        IconConstructor = WordTagIcon
+        break
+      case CatalogDomain.TAG_TYPES_ENUM.COLLECTION:
+      case CatalogDomain.TAG_TYPES_ENUM.DATA:
+      case CatalogDomain.TAG_TYPES_ENUM.DATASET:
+        IconConstructor = EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE[tagType]
+        break
+      default:
+        throw new Error(`Unhandled tag type ${tagType}`)
+    }
+    return {
+      ...acc,
+      [tagType]: <IconConstructor />,
+    }
+  })
 
   render() {
     const { tagCriterion, onUnselectTagFilter } = this.props

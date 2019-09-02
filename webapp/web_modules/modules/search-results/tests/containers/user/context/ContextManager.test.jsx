@@ -158,6 +158,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
           },
           [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
             descriptionPath: [anotherDataEntity],
+            selectedIndex: 0,
           },
           [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
             selectedType: DamDomain.ENTITY_TYPES_ENUM.DATA,
@@ -428,6 +429,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
           descriptionPath: [datasetEntity, anotherDatasetEntity],
+          selectedIndex: 0,
         },
       },
     })
@@ -441,7 +443,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         [URLContextHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
         [URLContextHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
         [URLContextHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
-        [URLContextHelper.MODULE_URL_PARAMETERS[4].name]: anotherDatasetEntity.content.id, // only last element
+        [URLContextHelper.MODULE_URL_PARAMETERS[4].name]: datasetEntity.content.id, // only last element
       },
     })
 
@@ -473,7 +475,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         [URLContextHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
         [URLContextHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
         [URLContextHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
-        [URLContextHelper.MODULE_URL_PARAMETERS[4].name]: anotherDatasetEntity.content.id, // only last element
+        [URLContextHelper.MODULE_URL_PARAMETERS[4].name]: datasetEntity.content.id, // only last element
         [URLContextHelper.MODULE_URL_PARAMETERS[5].name]: 'coffee',
         [URLContextHelper.MODULE_URL_PARAMETERS[6].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
         [URLContextHelper.MODULE_URL_PARAMETERS[7].name]: dataEntity.content.id,
@@ -492,6 +494,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         },
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
           descriptionPath: [],
+          selectedIndex: 0,
         },
       },
     })

@@ -71,7 +71,7 @@ class DatasetItem extends React.Component {
         <ItemLinkContainer
           entity={dataset}
           descriptionProperties={descriptionProperties}
-          Icon={DatasetIcon}
+          Icon={DatasetIcon} // TODO Change for EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE? see when it works again
           onSelect={onSelect}
           selected={selected}
           locked={locked}

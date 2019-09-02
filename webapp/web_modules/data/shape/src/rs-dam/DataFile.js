@@ -25,7 +25,7 @@ import { CommonDomain } from '@regardsoss/domain'
 
 /** only fields (for extending files to re-use) */
 export const dataFileFields = {
-  dataType: PropTypes.oneOf(CommonDomain.DataTypes),
+  dataType: PropTypes.oneOf(CommonDomain.DATA_TYPES),
   reference: PropTypes.bool.isRequired, // Does the file is a external reference ? not stored by regards.
   uri: PropTypes.string.isRequired,
   mimeType: PropTypes.string.isRequired,

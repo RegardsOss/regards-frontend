@@ -81,6 +81,7 @@ describe('[SEARCH RESULTS] Testing DescriptionContainer', () => {
         // add runtime render data
         runtime: {
           descriptionPath: [],
+          selectedIndex: 0,
           setDescriptionPath: enzymeWrapper.instance().setDescriptionPath,
           onSearchWord: enzymeWrapper.instance().onSearchWord,
           onSearchEntity: enzymeWrapper.instance().onSearchEntity,
@@ -102,6 +103,7 @@ describe('[SEARCH RESULTS] Testing DescriptionContainer', () => {
         tabs: {
           [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
             descriptionPath: [datasetEntity, dataEntity, anotherDataEntity],
+            selectedIndex: 1,
           },
         },
       }),
@@ -121,6 +123,7 @@ describe('[SEARCH RESULTS] Testing DescriptionContainer', () => {
           // add runtime render data
           runtime: {
             descriptionPath: [datasetEntity, dataEntity, anotherDataEntity],
+            selectedIndex: 1,
             setDescriptionPath: enzymeWrapper.instance().setDescriptionPath,
             onSearchWord: enzymeWrapper.instance().onSearchWord,
             onSearchEntity: enzymeWrapper.instance().onSearchEntity,
@@ -150,12 +153,13 @@ describe('[SEARCH RESULTS] Testing DescriptionContainer', () => {
     }
     const enzymeWrapper = shallow(<DescriptionContainer {...props} />, { context })
     assert.deepEqual(spiedUpdateContext, { moduleId: null, resultsContext: null }, 'Update context should not have been called yet')
-    enzymeWrapper.instance().setDescriptionPath([dataEntity, datasetEntity])
+    enzymeWrapper.instance().setDescriptionPath([dataEntity, datasetEntity], 0)
     assert.equal(spiedUpdateContext.moduleId, props.moduleId, 'Update context should be called for the right module ID')
     assert.deepEqual(spiedUpdateContext.resultsContext, {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
           descriptionPath: [dataEntity, datasetEntity],
+          selectedIndex: 0,
         },
       },
     }, 'Context diff description path should be valid')

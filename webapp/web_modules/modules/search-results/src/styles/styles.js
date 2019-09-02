@@ -126,6 +126,7 @@ const styles = theme => ({
           flexGrow: 1,
           flexShrink: 1,
           margin: theme.module.searchResults.tabs.iconAndTextMargin,
+          minWidth: 0,
         },
         iconColor: theme.palette.textColor,
         icon: {

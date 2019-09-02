@@ -124,12 +124,12 @@ export class DescriptionContainer extends React.Component {
     }
 
     // 2 - Update linked description module properties
-    const { descriptionPath } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]
-    const oldDescriptionPath = get(oldProps.resultsContext, `tabs.${UIDomain.RESULTS_TABS_ENUM.DESCRIPTION}.descriptionPath`)
+    const descriptionState = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]
+    const oldDescriptionState = get(oldProps.resultsContext, `tabs.${UIDomain.RESULTS_TABS_ENUM.DESCRIPTION}`, {})
 
     // 3 - When module or path changed, update state to store them and pre computed module properties
     if (!isEqual(this.state.descriptionModule, descriptionModule)
-      || !isEqual(oldDescriptionPath, descriptionPath)) {
+      || !isEqual(oldDescriptionState, descriptionState)) {
       this.setState({
         descriptionModule,
         descriptionModuleProperties: descriptionModule ? {
@@ -141,7 +141,9 @@ export class DescriptionContainer extends React.Component {
             ...descriptionModule.conf,
             // add runtime render data
             runtime: {
-              descriptionPath,
+              // report descriptionPath and selectedIndex
+              ...descriptionState,
+              // provide call
               setDescriptionPath: this.setDescriptionPath,
               onSearchWord: this.onSearchWord,
               onSearchEntity: this.onSearchEntity,
@@ -155,13 +157,15 @@ export class DescriptionContainer extends React.Component {
   /**
    * On set description path from description: updates description path in results context
    * @param {[*]} newPath as an array of CatalogShapes.Entity
+   * @param {number} selectedIndex selected index in path
    */
-  setDescriptionPath = (newPath) => {
+  setDescriptionPath = (newPath, selectedIndex) => {
     const { moduleId, updateResultsContext } = this.props
     updateResultsContext(moduleId, {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
           descriptionPath: newPath,
+          selectedIndex,
         },
       },
     })

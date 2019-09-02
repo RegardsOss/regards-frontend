@@ -19,23 +19,20 @@
 import values from 'lodash/values'
 import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
 
-/** URN tag pattern */
-const URN_PATTERN = /^URN:/
-
-/** Is an URN tag?
- * @param tag tag
- * @return true if tag is an URN, false otherwise
+/**
+ * Lists pseudo entity types for UI: all available data management types plus document, allowing configuration for that
+ * pseudo type
+ * @author Raphaël Mechali
  */
-export function isURNTag(tag) {
-  return URN_PATTERN.test(tag)
+/**
+ * List of possible types for entities
+ */
+export const PSEUDO_TYPES_ENUM = {
+  ...ENTITY_TYPES_ENUM,
+  DOCUMENT: 'DOCUMENT',
 }
 
 /**
- * Locally defined tag types: a simple word or any entity type
+ * Return an array of Entity types
  */
-export const TAG_TYPES_ENUM = {
-  WORD: 'tag.word',
-  ...ENTITY_TYPES_ENUM,
-}
-
-export const TAG_TYPES = values(TAG_TYPES_ENUM)
+export const PSEUDO_TYPES = values(PSEUDO_TYPES_ENUM)
