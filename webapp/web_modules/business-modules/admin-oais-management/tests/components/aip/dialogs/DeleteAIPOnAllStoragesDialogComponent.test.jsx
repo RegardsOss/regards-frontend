@@ -17,32 +17,34 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
+import Dialog from 'material-ui/Dialog'
 import { assert } from 'chai'
-import FlatButton from 'material-ui/FlatButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SIPSwitchToAIPComponent } from '../../../src/components/sip/SIPSwitchToAIPComponent'
-import styles from '../../../src/styles'
+import DeleteAIPOnAllStoragesDialogComponent from '../../../../src/components/aip/dialogs/DeleteAIPOnAllStoragesDialogComponent'
+import styles from '../../../../src/styles'
+
 
 const context = buildTestContext(styles)
 
 /**
- * Test SIPSwitchToAIPComponent
- * @author Kévin Picart
+ * Test DeleteAIPOnAllStoragesDialogComponent
+ * @author Raphaël Mechali
  */
-describe('[OAIS SIP MANAGEMENT] Testing SIPSwitchToAIPComponent', () => {
+describe('[OAIS AIP MANAGEMENT] Testing DeleteAIPOnAllStoragesDialogComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPSwitchToAIPComponent)
+    assert.isDefined(DeleteAIPOnAllStoragesDialogComponent)
   })
   it('should render correctly', () => {
     const props = {
-      onGoToAIP: () => {},
+      onDelete: () => {},
+      onClose: () => {},
     }
-    const enzymeWrapper = shallow(<SIPSwitchToAIPComponent {...props} />, { context })
-
-    const button = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(button, 2, 'There should be 2 flat buttons')
+    const enzymeWrapper = shallow(<DeleteAIPOnAllStoragesDialogComponent {...props} />, { context })
+    const dialogWrapper = enzymeWrapper.find(Dialog)
+    assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
+    assert.isTrue(dialogWrapper.props().open, 'It should be opened')
   })
 })

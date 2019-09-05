@@ -18,31 +18,31 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import FlatButton from 'material-ui/FlatButton'
+import { TableHeaderCheckbox } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SIPSwitchToAIPComponent } from '../../../src/components/sip/SIPSwitchToAIPComponent'
-import styles from '../../../src/styles'
+import { SessionsMonitoringFilterErrorsOnlyComponent } from '../../../../src/components/session/filters/SessionsMonitoringFilterErrorsOnlyComponent'
+import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SIPSwitchToAIPComponent
+ * Test SessionsMonitoringFilterErrorsOnlyComponent
  * @author Kévin Picart
  */
-describe('[OAIS SIP MANAGEMENT] Testing SIPSwitchToAIPComponent', () => {
+describe('[] Testing SessionsMonitoringFilterErrorsOnlyComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPSwitchToAIPComponent)
+    assert.isDefined(SessionsMonitoringFilterErrorsOnlyComponent)
   })
   it('should render correctly', () => {
     const props = {
-      onGoToAIP: () => {},
+      onToggleErrorsOnly: () => {},
+      errorsOnly: false,
     }
-    const enzymeWrapper = shallow(<SIPSwitchToAIPComponent {...props} />, { context })
-
-    const button = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(button, 2, 'There should be 2 flat buttons')
+    const enzymeWrapper = shallow(<SessionsMonitoringFilterErrorsOnlyComponent {...props} />, { context })
+    const tableHeaderCheckbox = enzymeWrapper.find(TableHeaderCheckbox)
+    assert.lengthOf(tableHeaderCheckbox, 1, 'There should be 1 TableHeaderCheckbox')
   })
 })

@@ -18,31 +18,28 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import FlatButton from 'material-ui/FlatButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SIPSwitchToAIPComponent } from '../../../src/components/sip/SIPSwitchToAIPComponent'
-import styles from '../../../src/styles'
+import AIPAddTagDialog from '../../../../src/components/aip/dialogs/AIPAddTagDialog'
+import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SIPSwitchToAIPComponent
- * @author Kévin Picart
+ * Test AIPAddTagDialog
+ * @author Raphaël Mechali
  */
-describe('[OAIS SIP MANAGEMENT] Testing SIPSwitchToAIPComponent', () => {
+describe('[OAIS AIP MANAGEMENT] Testing AIPAddTagDialog', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPSwitchToAIPComponent)
+    assert.isDefined(AIPAddTagDialog)
   })
   it('should render correctly', () => {
     const props = {
-      onGoToAIP: () => {},
+      onClose: () => {},
+      onSubmit: () => {},
     }
-    const enzymeWrapper = shallow(<SIPSwitchToAIPComponent {...props} />, { context })
-
-    const button = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(button, 2, 'There should be 2 flat buttons')
+    shallow(<AIPAddTagDialog {...props} />, { context })
   })
 })

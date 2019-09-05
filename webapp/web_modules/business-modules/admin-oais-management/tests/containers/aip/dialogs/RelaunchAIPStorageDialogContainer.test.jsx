@@ -29,7 +29,7 @@ const context = buildTestContext(styles)
  * Test RelaunchAIPStorageDialogContainer
  * @author Kévin Picart
  */
-describe('[OAIS MANAGEMENT] Testing RelaunchAIPStorageDialogContainer', () => {
+describe('[OAIS AIP MANAGEMENT] Testing RelaunchAIPStorageDialogContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

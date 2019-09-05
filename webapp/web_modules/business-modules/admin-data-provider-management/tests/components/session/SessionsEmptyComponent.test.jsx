@@ -18,31 +18,27 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import FlatButton from 'material-ui/FlatButton'
+import { NoContentComponent } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SIPSwitchToAIPComponent } from '../../../src/components/sip/SIPSwitchToAIPComponent'
+import { SessionsEmptyComponent } from '../../../src/components/session/SessionsEmptyComponent'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SIPSwitchToAIPComponent
+ * Test SessionsEmptyComponent
  * @author Kévin Picart
  */
-describe('[OAIS SIP MANAGEMENT] Testing SIPSwitchToAIPComponent', () => {
+describe('[] Testing SessionsEmptyComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPSwitchToAIPComponent)
+    assert.isDefined(SessionsEmptyComponent)
   })
   it('should render correctly', () => {
-    const props = {
-      onGoToAIP: () => {},
-    }
-    const enzymeWrapper = shallow(<SIPSwitchToAIPComponent {...props} />, { context })
-
-    const button = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(button, 2, 'There should be 2 flat buttons')
+    const enzymeWrapper = shallow(<SessionsEmptyComponent />, { context })
+    const componentWrapper = enzymeWrapper.find(NoContentComponent)
+    assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
   })
 })

@@ -18,31 +18,37 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import FlatButton from 'material-ui/FlatButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SIPSwitchToAIPComponent } from '../../../src/components/sip/SIPSwitchToAIPComponent'
+import { AceEditorAdapter } from '@regardsoss/adapters'
+import { CardActionsComponent } from '@regardsoss/components'
+import AIPDetailComponent from '../../../src/components/aip/AIPDetailComponent'
 import styles from '../../../src/styles'
+import { storedAIP } from '../../dumps/AIPWithStorages.dump'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SIPSwitchToAIPComponent
- * @author Kévin Picart
+ * Test AIPDetailComponent
+ * @author Raphaël Mechali
  */
-describe('[OAIS SIP MANAGEMENT] Testing SIPSwitchToAIPComponent', () => {
+describe('[OAIS AIP MANAGEMENT] Testing AIPDetailComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPSwitchToAIPComponent)
+    assert.isDefined(AIPDetailComponent)
   })
   it('should render correctly', () => {
     const props = {
-      onGoToAIP: () => {},
+      aip: storedAIP.content,
+      onClose: () => {},
     }
-    const enzymeWrapper = shallow(<SIPSwitchToAIPComponent {...props} />, { context })
-
-    const button = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(button, 2, 'There should be 2 flat buttons')
+    const enzymeWrapper = shallow(<AIPDetailComponent {...props} />, { context })
+    const jsonRenderWrapper = enzymeWrapper.find(AceEditorAdapter)
+    assert.lengthOf(jsonRenderWrapper, 1, 'There should be AIP as JSON render')
+    assert.isOk(jsonRenderWrapper.props().value, 'AIP JSON value should be found')
+    const closeButtonWrapper = enzymeWrapper.find(CardActionsComponent)
+    assert.lengthOf(closeButtonWrapper, 1, 'There should be the close button')
+    assert.equal(closeButtonWrapper.props().mainButtonClick, props.onClose, 'Close callback should be correctly reported')
   })
 })

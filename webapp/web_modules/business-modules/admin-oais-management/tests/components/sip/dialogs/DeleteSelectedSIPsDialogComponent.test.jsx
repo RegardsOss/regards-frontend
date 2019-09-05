@@ -18,31 +18,35 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import FlatButton from 'material-ui/FlatButton'
+import Dialog from 'material-ui/Dialog'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SIPSwitchToAIPComponent } from '../../../src/components/sip/SIPSwitchToAIPComponent'
-import styles from '../../../src/styles'
+import DeleteSelectedSIPsDialogComponent from '../../../../src/components/sip/dialogs/DeleteSelectedSIPsDialogComponent'
+import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SIPSwitchToAIPComponent
+ * Test DeleteSelectedSIPsDialogComponent
  * @author Kévin Picart
  */
-describe('[OAIS SIP MANAGEMENT] Testing SIPSwitchToAIPComponent', () => {
+describe('[OAIS SIP MANAGEMENT] Testing DeleteSelectedSIPsDialogComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPSwitchToAIPComponent)
+    assert.isDefined(DeleteSelectedSIPsDialogComponent)
   })
   it('should render correctly', () => {
     const props = {
-      onGoToAIP: () => {},
+      onDelete: () => {},
+      onClose: () => {},
     }
-    const enzymeWrapper = shallow(<SIPSwitchToAIPComponent {...props} />, { context })
-
-    const button = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(button, 2, 'There should be 2 flat buttons')
+    const enzymeWrapper = shallow(<DeleteSelectedSIPsDialogComponent {...props} />, { context })
+    const dialog = enzymeWrapper.find(Dialog)
+    assert.lengthOf(dialog, 1, 'There should be the order display container that displays the dialog')
+    testSuiteHelpers.assertWrapperProperties(dialog, {
+      modal: true,
+      open: true,
+    }, 'The dialog should be correctly configured')
   })
 })

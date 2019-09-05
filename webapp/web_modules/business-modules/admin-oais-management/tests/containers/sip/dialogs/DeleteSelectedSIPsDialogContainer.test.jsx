@@ -29,7 +29,7 @@ const context = buildTestContext(styles)
  * Test DeleteSelectedSIPsDialogContainer
  * @author Kévin Picart
  */
-describe('[OAIS MANAGEMENT] Testing DeleteSelectedSIPsDialogContainer', () => {
+describe('[OAIS SIP MANAGEMENT] Testing DeleteSelectedSIPsDialogContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

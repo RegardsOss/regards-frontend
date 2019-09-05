@@ -18,31 +18,34 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import FlatButton from 'material-ui/FlatButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SIPSwitchToAIPComponent } from '../../../src/components/sip/SIPSwitchToAIPComponent'
-import styles from '../../../src/styles'
+import { StringArrayValueRender } from '@regardsoss/components'
+import AIPListStoragesRenderComponent from '../../../../src/components/aip/render/AIPListStoragesRenderComponent'
+import styles from '../../../../src/styles'
+import { storedAIP } from '../../../dumps/AIPWithStorages.dump'
+import { storage1, storage2 } from '../../../dumps/DataStorages.dump'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SIPSwitchToAIPComponent
- * @author Kévin Picart
+ * Test AIPListStoragesRenderComponent
+ * @author Raphaël Mechali
  */
-describe('[OAIS SIP MANAGEMENT] Testing SIPSwitchToAIPComponent', () => {
+describe('[OAIS AIP MANAGEMENT] Testing AIPListStoragesRenderComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPSwitchToAIPComponent)
+    assert.isDefined(AIPListStoragesRenderComponent)
   })
   it('should render correctly', () => {
     const props = {
-      onGoToAIP: () => {},
+      entity: storedAIP,
+      dataStorages: [storage2, storage1],
     }
-    const enzymeWrapper = shallow(<SIPSwitchToAIPComponent {...props} />, { context })
-
-    const button = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(button, 2, 'There should be 2 flat buttons')
+    const enzymeWrapper = shallow(<AIPListStoragesRenderComponent {...props} />, { context })
+    const delegateRenderWrapper = enzymeWrapper.find(StringArrayValueRender)
+    assert.lengthOf(delegateRenderWrapper, 1, 'There should be delegate render')
+    assert.deepEqual(delegateRenderWrapper.props().value, ['storage1', 'storage2'], 'storage labels should be correctly provided (and sorted) to delegate render')
   })
 })

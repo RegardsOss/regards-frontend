@@ -18,31 +18,32 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import FlatButton from 'material-ui/FlatButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SIPSwitchToAIPComponent } from '../../../src/components/sip/SIPSwitchToAIPComponent'
-import styles from '../../../src/styles'
+import { DateValueRender } from '@regardsoss/components'
+import AIPListUpdateDateColumnRenderer from '../../../../src/components/aip/render/AIPListUpdateDateColumnRenderer'
+import styles from '../../../../src/styles'
+import { storedAIP } from '../../../dumps/AIPWithStorages.dump'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SIPSwitchToAIPComponent
- * @author Kévin Picart
+ * Test AIPListUpdateDateColumnRenderer
+ * @author Raphaël Mechali
  */
-describe('[OAIS SIP MANAGEMENT] Testing SIPSwitchToAIPComponent', () => {
+describe('[OAIS AIP MANAGEMENT] Testing AIPListUpdateDateColumnRenderer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPSwitchToAIPComponent)
+    assert.isDefined(AIPListUpdateDateColumnRenderer)
   })
   it('should render correctly', () => {
     const props = {
-      onGoToAIP: () => {},
+      entity: storedAIP,
     }
-    const enzymeWrapper = shallow(<SIPSwitchToAIPComponent {...props} />, { context })
-
-    const button = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(button, 2, 'There should be 2 flat buttons')
+    const enzymeWrapper = shallow(<AIPListUpdateDateColumnRenderer {...props} />, { context })
+    const delegateRenderWrapper = enzymeWrapper.find(DateValueRender)
+    assert.lengthOf(delegateRenderWrapper, 1, 'There should be delegate render')
+    assert.deepEqual(delegateRenderWrapper.props().value, '2018-12-21T10:55:45.046Z', 'storage labels should be correctly provided (and sorted) to delegate render')
   })
 })

@@ -18,31 +18,31 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import FlatButton from 'material-ui/FlatButton'
+import { DatePickerField } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SIPSwitchToAIPComponent } from '../../../src/components/sip/SIPSwitchToAIPComponent'
-import styles from '../../../src/styles'
+import { SessionsMonitoringFilterFromComponent } from '../../../../src/components/session/filters/SessionsMonitoringFilterFromComponent'
+import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SIPSwitchToAIPComponent
+ * Test SessionsMonitoringFilterFromComponent
  * @author Kévin Picart
  */
-describe('[OAIS SIP MANAGEMENT] Testing SIPSwitchToAIPComponent', () => {
+describe('[] Testing SessionsMonitoringFilterFromComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPSwitchToAIPComponent)
+    assert.isDefined(SessionsMonitoringFilterFromComponent)
   })
   it('should render correctly', () => {
     const props = {
-      onGoToAIP: () => {},
+      onChangeFrom: () => {},
+      from: new Date(),
     }
-    const enzymeWrapper = shallow(<SIPSwitchToAIPComponent {...props} />, { context })
-
-    const button = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(button, 2, 'There should be 2 flat buttons')
+    const enzymeWrapper = shallow(<SessionsMonitoringFilterFromComponent {...props} />, { context })
+    const datePickerField = enzymeWrapper.find(DatePickerField)
+    assert.lengthOf(datePickerField, 1, 'There should be 1 DatePickerField')
   })
 })

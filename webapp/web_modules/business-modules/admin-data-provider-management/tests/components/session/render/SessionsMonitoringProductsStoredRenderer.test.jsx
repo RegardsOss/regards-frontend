@@ -18,26 +18,55 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { MenuItem } from 'material-ui'
 import { DropDownButton } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SessionsMonitoringSessionRenderer } from '../../../../src/components/session/render/SessionsMonitoringSessionRenderer'
+import SessionsMonitoringProductsStoredRenderer from '../../../../src/components/session/render/SessionsMonitoringProductsStoredRenderer'
 import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SessionsMonitoringSessionRenderer
+ * Test SessionsMonitoringProductsStoredRenderer
  * @author Kévin Picart
  */
-describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringSessionRenderer', () => {
+describe('[] Testing SessionsMonitoringProductsStoredRenderer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SessionsMonitoringSessionRenderer)
+    assert.isDefined(SessionsMonitoringProductsStoredRenderer)
   })
   it('should render correctly', () => {
+    const props = {
+      entity: {
+        content: {
+          id: 9,
+          name: 'Name',
+          source: 'Source 3',
+          creationDate: '2019-07-30T08:38:27.177Z',
+          lastUpdateDate: '2019-07-30T08:38:27.184Z',
+          isLatest: true,
+          state: 'ERROR',
+          lifeCycle: {
+            aip: {
+              done: 599450,
+              total: 599450,
+              errors: 0,
+              indexed: 599450,
+              pending: 0,
+            },
+          },
+        },
+        links: [],
+      },
+      onClickRelaunchAIP: () => {},
+      onClickListAIP: () => {},
+    }
+    const enzymeWrapper = shallow(<SessionsMonitoringProductsStoredRenderer {...props} />, { context })
+    const dropDownButton = enzymeWrapper.find(DropDownButton)
+    assert.lengthOf(dropDownButton, 1, 'There should be 1 DropDownButton')
+  })
+  it('should render correctly without aip', () => {
     const props = {
       entity: {
         content: {
@@ -52,61 +81,11 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringSessionRend
         },
         links: [],
       },
-      onShowAcknowledge: () => {},
-      onDeleteProducts: () => {},
+      onClickRelaunchAIP: () => {},
+      onClickListAIP: () => {},
     }
-    const enzymeWrapper = shallow(<SessionsMonitoringSessionRenderer {...props} />, { context })
+    const enzymeWrapper = shallow(<SessionsMonitoringProductsStoredRenderer {...props} />, { context })
     const dropDownButton = enzymeWrapper.find(DropDownButton)
-    assert.lengthOf(dropDownButton, 1, 'There should be 1 DropDownButton')
-    const menuItem = enzymeWrapper.find(MenuItem)
-    assert.lengthOf(menuItem, 3, 'There should be 3 MenuItem')
-  })
-  it('should render correctly DELETED', () => {
-    const props = {
-      entity: {
-        content: {
-          id: 9,
-          name: 'Name',
-          source: 'Source 3',
-          creationDate: '2019-07-30T08:38:27.177Z',
-          lastUpdateDate: '2019-07-30T08:38:27.184Z',
-          isLatest: true,
-          state: 'DELETED',
-          lifeCycle: {},
-        },
-        links: [],
-      },
-      onShowAcknowledge: () => {},
-      onDeleteProducts: () => {},
-    }
-    const enzymeWrapper = shallow(<SessionsMonitoringSessionRenderer {...props} />, { context })
-    const dropDownButton = enzymeWrapper.find(DropDownButton)
-    assert.lengthOf(dropDownButton, 1, 'There should be 1 DropDownButton')
-    const menuItem = enzymeWrapper.find(MenuItem)
-    assert.lengthOf(menuItem, 1, 'There should be 1 MenuItem')
-  })
-  it('should render correctly OK', () => {
-    const props = {
-      entity: {
-        content: {
-          id: 9,
-          name: 'Name',
-          source: 'Source 3',
-          creationDate: '2019-07-30T08:38:27.177Z',
-          lastUpdateDate: '2019-07-30T08:38:27.184Z',
-          isLatest: true,
-          state: 'OK',
-          lifeCycle: {},
-        },
-        links: [],
-      },
-      onShowAcknowledge: () => {},
-      onDeleteProducts: () => {},
-    }
-    const enzymeWrapper = shallow(<SessionsMonitoringSessionRenderer {...props} />, { context })
-    const dropDownButton = enzymeWrapper.find(DropDownButton)
-    assert.lengthOf(dropDownButton, 1, 'There should be 1 DropDownButton')
-    const menuItem = enzymeWrapper.find(MenuItem)
-    assert.lengthOf(menuItem, 2, 'There should be 2 MenuItem')
+    assert.lengthOf(dropDownButton, 0, 'There should be 0 DropDownButton')
   })
 })

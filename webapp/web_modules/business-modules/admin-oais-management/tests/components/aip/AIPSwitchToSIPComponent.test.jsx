@@ -29,7 +29,7 @@ const context = buildTestContext(styles)
  * Test AIPSwitchToSIPComponent
  * @author Kévin Picart
  */
-describe('[ Module name] Testing AIPSwitchToSIPComponent', () => {
+describe('[OAIS AIP MANAGEMENT] Testing AIPSwitchToSIPComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

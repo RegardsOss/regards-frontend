@@ -18,31 +18,38 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import FlatButton from 'material-ui/FlatButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SIPSwitchToAIPComponent } from '../../../src/components/sip/SIPSwitchToAIPComponent'
+import AIPListFiltersComponent from '../../../src/components/aip/AIPListFiltersComponent'
 import styles from '../../../src/styles'
+import { storage1, storage2 } from '../../dumps/DataStorages.dump'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SIPSwitchToAIPComponent
- * @author Kévin Picart
+ * Test AIPListFiltersComponent
+ * @author Raphaël Mechali
  */
-describe('[OAIS SIP MANAGEMENT] Testing SIPSwitchToAIPComponent', () => {
+describe('[OAIS AIP MANAGEMENT] Testing AIPListFiltersComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPSwitchToAIPComponent)
+    assert.isDefined(AIPListFiltersComponent)
   })
   it('should render correctly', () => {
     const props = {
-      onGoToAIP: () => {},
-    }
-    const enzymeWrapper = shallow(<SIPSwitchToAIPComponent {...props} />, { context })
+      currentFilters: {
+        state: 'VALID',
+      },
+      isEmptySelection: false,
+      sessionTags: ['s01', 's02'],
+      searchingSessionTags: false,
+      dataStorages: [storage2, storage1],
 
-    const button = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(button, 2, 'There should be 2 flat buttons')
+      onApplyFilters: (filters) => {},
+      openAddTagModal: () => {},
+      openRemoveTagModal: () => {},
+    }
+    shallow(<AIPListFiltersComponent {...props} />, { context })
   })
 })

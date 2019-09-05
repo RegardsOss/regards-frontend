@@ -18,31 +18,35 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import FlatButton from 'material-ui/FlatButton'
+import { TableColumnsVisibilityOption } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SIPSwitchToAIPComponent } from '../../../src/components/sip/SIPSwitchToAIPComponent'
-import styles from '../../../src/styles'
+import { SessionsMonitoringChooseColumnsComponent } from '../../../../src/components/session/filters/SessionsMonitoringChooseColumnsComponent'
+import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SIPSwitchToAIPComponent
+ * Test SessionsMonitoringChooseColumnsComponent
  * @author Kévin Picart
  */
-describe('[OAIS SIP MANAGEMENT] Testing SIPSwitchToAIPComponent', () => {
+describe('[] Testing SessionsMonitoringChooseColumnsComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPSwitchToAIPComponent)
+    assert.isDefined(SessionsMonitoringChooseColumnsComponent)
   })
   it('should render correctly', () => {
     const props = {
-      onGoToAIP: () => {},
+      onChangeColumnsVisibility: () => {},
+      columns: [{
+        key: 'mavhcin',
+        label: 'string',
+        visible: true,
+      }],
     }
-    const enzymeWrapper = shallow(<SIPSwitchToAIPComponent {...props} />, { context })
-
-    const button = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(button, 2, 'There should be 2 flat buttons')
+    const enzymeWrapper = shallow(<SessionsMonitoringChooseColumnsComponent {...props} />, { context })
+    const tableColumnsVisibilityOption = enzymeWrapper.find(TableColumnsVisibilityOption)
+    assert.lengthOf(tableColumnsVisibilityOption, 1, 'There should be 1 TableColumnsVisibilityOption')
   })
 })

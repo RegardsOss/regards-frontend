@@ -18,31 +18,53 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import FlatButton from 'material-ui/FlatButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SIPSwitchToAIPComponent } from '../../../src/components/sip/SIPSwitchToAIPComponent'
+import AIPListComponent from '../../../src/components/aip/AIPListComponent'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SIPSwitchToAIPComponent
- * @author Kévin Picart
+ * Test AIPListComponent
+ * @author Raphaël Mechali
  */
-describe('[OAIS SIP MANAGEMENT] Testing SIPSwitchToAIPComponent', () => {
+describe('[OAIS AIP MANAGEMENT] Testing AIPListComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPSwitchToAIPComponent)
+    assert.isDefined(AIPListComponent)
   })
   it('should render correctly', () => {
     const props = {
-      onGoToAIP: () => {},
-    }
-    const enzymeWrapper = shallow(<SIPSwitchToAIPComponent {...props} />, { context })
+      pageSize: 20,
+      resultsCount: 70,
+      entitiesLoading: false,
+      isEmptySelection: false,
+      tags: ['tag1', 'tag2'],
+      searchingTags: false,
+      sessionTags: ['sTag1', 'sTag2'],
+      searchingSessionTags: false,
+      currentFilters: { any: 'ok' },
+      requestParameters: {},
 
-    const button = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(button, 2, 'There should be 2 flat buttons')
+      dataStorages: [],
+      columnsSorting: [{
+        columnKey: 'column.providerId',
+        order: 'ASCENDING_ORDER',
+      }],
+
+      onSort: () => {},
+      onGoToSIP: () => {},
+      onGoBack: () => {},
+      onRefresh: () => {},
+      onRetryAIPStorage: () => {},
+      onApplyFilters: () => {},
+      goToAipFiles: () => {},
+      fetchCommonTags: () => {},
+      addTags: () => {},
+      removeTags: () => {},
+    }
+    shallow(<AIPListComponent {...props} />, { context })
   })
 })
