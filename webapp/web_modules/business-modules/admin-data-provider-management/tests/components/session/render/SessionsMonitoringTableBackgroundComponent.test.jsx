@@ -28,7 +28,7 @@ const context = buildTestContext(styles)
  * Test SessionsMonitoringTableBackgroundComponent
  * @author Kévin Picart
  */
-describe('[] Testing SessionsMonitoringTableBackgroundComponent', () => {
+describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringTableBackgroundComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

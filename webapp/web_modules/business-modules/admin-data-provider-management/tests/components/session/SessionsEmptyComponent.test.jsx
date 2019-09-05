@@ -29,7 +29,7 @@ const context = buildTestContext(styles)
  * Test SessionsEmptyComponent
  * @author Kévin Picart
  */
-describe('[] Testing SessionsEmptyComponent', () => {
+describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsEmptyComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

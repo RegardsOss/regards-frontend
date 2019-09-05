@@ -29,7 +29,7 @@ const context = buildTestContext(styles)
  * Test SessionsMonitoringGeneratedAipRenderer
  * @author Kévin Picart
  */
-describe('[] Testing SessionsMonitoringGeneratedAipRenderer', () => {
+describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringGeneratedAipRenderer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

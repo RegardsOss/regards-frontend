@@ -29,7 +29,7 @@ const context = buildTestContext(styles)
  * Test SessionsMonitoringChooseColumnsComponent
  * @author Kévin Picart
  */
-describe('[] Testing SessionsMonitoringChooseColumnsComponent', () => {
+describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringChooseColumnsComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

@@ -28,7 +28,7 @@ const context = buildTestContext(styles)
  * Test SessionsMonitoringSourceRenderer
  * @author Kévin Picart
  */
-describe('[] Testing SessionsMonitoringSourceRenderer', () => {
+describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringSourceRenderer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

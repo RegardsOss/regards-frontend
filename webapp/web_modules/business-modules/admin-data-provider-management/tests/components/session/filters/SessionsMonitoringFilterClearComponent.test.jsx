@@ -29,7 +29,7 @@ const context = buildTestContext(styles)
  * Test SessionsMonitoringFilterClearComponent
  * @author Kévin Picart
  */
-describe('[] Testing SessionsMonitoringFilterClearComponent', () => {
+describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringFilterClearComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
