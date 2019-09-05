@@ -42,7 +42,6 @@ export class AIPFileListComponent extends React.Component {
     onBack: PropTypes.func.isRequired,
     entities: StorageShapes.DataObjectArray,
     isLoading: PropTypes.bool.isRequired,
-    session: PropTypes.string.isRequired,
   }
 
   static defaultProps = {}
@@ -118,11 +117,9 @@ export class AIPFileListComponent extends React.Component {
   )
 
   renderBreadCrump = () => {
-    const { session } = this.props
     const { intl: { formatMessage } } = this.context
     const elements = [
-      formatMessage({ id: 'oais.aips.session.title' }),
-      formatMessage({ id: 'oais.aips.session.aips.title' }, { session }),
+      formatMessage({ id: 'oais.session.title' }),
       formatMessage({ id: 'oais.aips.files.title' }),
     ]
     return (

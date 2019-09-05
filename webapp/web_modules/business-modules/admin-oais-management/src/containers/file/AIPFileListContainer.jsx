@@ -60,7 +60,6 @@ export class AIPFileListContainer extends React.Component {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
-      session: PropTypes.string,
       aipId: PropTypes.string,
     }),
     // from mapStateToProps
@@ -77,39 +76,20 @@ export class AIPFileListContainer extends React.Component {
   }
 
   onBack = (level) => {
-    const { params: { project, session, aipId } } = this.props
-    const encodedSessionName = encodeURIComponent(session)
-    let url
-    switch (level) {
-      case 0:
-        // Go back to sessions
-        url = `/admin/${project}/data/acquisition/storage/aip/session`
-        break
-      case 1:
-        // Go back to sips of the given session
-        url = `/admin/${project}/data/acquisition/storage/aip/${encodedSessionName}/list`
-        break
-      default:
-        if (aipId) {
-          url = `/admin/${project}/data/acquisition/storage/aip/${encodedSessionName}/list`
-        } else {
-          url = `/admin/${project}/data/acquisition/storage/aip/session`
-        }
-        break
-    }
+    const { params: { project, aipId } } = this.props
+    const url = `/admin/${project}/data/acquisition/oais/aip/list`
     browserHistory.push(url)
   }
 
   render() {
     const {
-      entities, entitiesLoading, params: { session },
+      entities, entitiesLoading,
     } = this.props
     return (
       <AIPFileListComponent
         isLoading={entitiesLoading}
         onBack={this.onBack}
         entities={entities}
-        session={session}
       />
     )
   }

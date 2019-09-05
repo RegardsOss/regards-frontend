@@ -29,20 +29,8 @@ export const aipFullListRoute = {
   },
 }
 
-export const aipListRoute = {
-  path: 'aip/:session/list',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/aip/AIPListContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
 export const aipFileListRoute = {
-  path: 'aip/:session/:aipId/file',
+  path: 'aip/:aipId/file',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const container = require('./containers/file/AIPFileListContainer')
@@ -55,18 +43,6 @@ export const aipFileListRoute = {
 
 export const sipFullListRoute = {
   path: 'sip/list',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/sip/SIPListContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-export const sipListRoute = {
-  path: 'sip/:session/list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const container = require('./containers/sip/SIPListContainer')
@@ -92,10 +68,8 @@ export const sipHistoryListRoute = {
 const aipManagementRouter = {
   childRoutes: [
     aipFullListRoute,
-    aipListRoute,
     aipFileListRoute,
     sipFullListRoute,
-    sipListRoute,
     sipHistoryListRoute,
   ],
 }

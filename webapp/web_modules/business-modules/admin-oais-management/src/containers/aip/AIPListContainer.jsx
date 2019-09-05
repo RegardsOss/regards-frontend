@@ -266,7 +266,7 @@ export class AIPListContainer extends React.Component {
   /** User callback: back operation (through breadcrumb) */
   onGoBack = (level) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/dataprovider/sessions`
+    const url = `/admin/${project}/data/acquisition/oais/aip/list`
     browserHistory.push(url)
   }
 
@@ -343,10 +343,9 @@ export class AIPListContainer extends React.Component {
 
 
   goToAipFiles = (aipId) => {
-    const { params: { project, session } } = this.props
-    const encodedSessionName = encodeURIComponent(session)
+    const { params: { project } } = this.props
     const encodedAipId = encodeURIComponent(aipId)
-    const url = `/admin/${project}/data/acquisition/oais/aip/${encodedSessionName}/${encodedAipId}/file`
+    const url = `/admin/${project}/data/acquisition/oais/aip/${encodedAipId}/file`
     browserHistory.push(url)
   }
 
