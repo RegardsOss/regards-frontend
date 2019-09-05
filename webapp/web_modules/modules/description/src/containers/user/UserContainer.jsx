@@ -21,7 +21,7 @@ import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { CatalogClient } from '@regardsoss/client'
 import { AccessShapes } from '@regardsoss/shape'
-import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
+import { AuthenticationClient, AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
 import { modelAttributesActions } from '../../clients/ModelAttributesClient'
 import { descriptionStateActions, descriptionStateSelectors } from '../../clients/DescriptionStateClient'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
@@ -48,8 +48,9 @@ export class UserContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
-      authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
       descriptionState: descriptionStateSelectors.getDescriptionState(state),
+      accessToken: AuthenticationClient.authenticationSelectors.getAccessToken(state),
+      projectName: AuthenticationParametersSelectors.getProject(state),
     }
   }
 
@@ -76,8 +77,9 @@ export class UserContainer extends React.Component {
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
     // from map state to props
-    authentication: AuthenticateShape.isRequired,
     descriptionState: DescriptionState.isRequired,
+    accessToken: PropTypes.string,
+    projectName: PropTypes.string.isRequired,
     // from mapDispatchToProps
     fetchEntity: PropTypes.func.isRequired,
     fetchModelAttributes: PropTypes.func.isRequired,
@@ -116,11 +118,12 @@ export class UserContainer extends React.Component {
       return
     }
 
-    const { authentication, moduleConf: { runtime: { descriptionPath } } } = newProps
-    const { authentication: oldAuthentication, moduleConf: oldModuleConf } = oldProps
+    const { accessToken, projectName, moduleConf: { runtime: { descriptionPath } } } = newProps
+    const { accessToken: oldAccessToken, projectName: oldProjectName, moduleConf: oldModuleConf } = oldProps
     const oldDescriptionPath = get(oldModuleConf, 'runtime.descriptionPath', [])
-    if (!isEqual(oldAuthentication, authentication)) {
-      // 1. When authentication changes, rebuild all from scratch
+    if (!isEqual(accessToken, oldAccessToken)
+    || !isEqual(projectName, oldProjectName)) {
+      // 1. When project / token change, rebuild all from scratch
       this.onDescriptionRequestUpdated(newProps, true)
     } else if (!isEqual(oldDescriptionPath, descriptionPath)) {
       // 2. Path changed, rebuild new elements and reuse previous ones when unchanged
@@ -134,7 +137,8 @@ export class UserContainer extends React.Component {
    * @param {boolean} reloading true when reloading on inner event: in such case, index in path should be preseved and all entities should be updated
    */
   onDescriptionRequestUpdated = ({
-    moduleConf: { runtime: { descriptionPath }, ...moduleConfiguration }, descriptionState,
+    accessToken, projectName, descriptionState,
+    moduleConf: { runtime: { descriptionPath }, ...moduleConfiguration },
     fetchModelAttributes, fetchEntity, setModuleDescriptionPath,
   }, reloading) => {
     // A - Mark loading the elements that need to be reloaded
@@ -156,7 +160,8 @@ export class UserContainer extends React.Component {
       if (descriptionEntity.loading) {
         // start loading entities that required it through helper promise (should never enter in catch case)
         DescriptionEntityHelper.resolveDescriptionEntity(moduleConfiguration, descriptionEntity,
-          fetchEntity, fetchModelAttributes, this.descriptionUpdateGroupId)
+          fetchEntity, fetchModelAttributes, accessToken, projectName,
+          this.descriptionUpdateGroupId)
           .then(this.onDescriptionEntityResolved)
       }
     })

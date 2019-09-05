@@ -16,18 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Subheader from 'material-ui/Subheader'
+import flatMap from 'lodash/flatMap'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { AttributesGroup } from '../../../../shapes/AttributeGroupRuntime'
+import { AttributeGroup } from '../../../../shapes/DescriptionState'
 
 /**
- * Component to render an attributes group
+ * Displays an attribute group in parameters section
  * @author Raphaël Mechali
  */
 class AttributesGroupComponent extends React.Component {
   static propTypes = {
-    group: AttributesGroup.isRequired,
+    group: AttributeGroup.isRequired,
   }
 
   static contextTypes = {
@@ -41,36 +41,50 @@ class AttributesGroupComponent extends React.Component {
         key, showTitle, title, elements,
       },
     } = this.props
-    const { intl: { locale }, moduleTheme } = this.context
-    const { attributes: { attributesContainer } } = moduleTheme.user.card.media.tabs.tab.propertiesTab
+    const {
+      intl: { locale }, moduleTheme: {
+        user: {
+          main: {
+            content: {
+              parameters: { attributesGroupsContainer },
+            },
+          },
+        },
+      },
+    } = this.context
 
     // Note: we work here within fragments to not break parent grid layout
     return (
       <React.Fragment>
         { /* 1. Show group title if configured */
           showTitle ? ( // title
-            <Subheader key={`title.${key}`} style={attributesContainer.groupTitleStyle}>
+            <div key={`title.${key}`} style={attributesGroupsContainer.groupTitleStyle}>
               {title[locale]}
-            </Subheader>) : ( // no title, show placeholder
-              <div style={attributesContainer.groupTitlePlaceholdStyle} />
+            </div>) : ( // no title, show placeholder
+              <div style={attributesGroupsContainer.groupTitlePlaceholdStyle} />
           )
         }
         { /* 2. Show group elements */
-          elements.map(({ key: elementKey, label, attributes }) => (
+          elements.map(({ key: elementKey, label, displayedAttributes }) => (
             <React.Fragment key={elementKey}>
-              <div style={attributesContainer.labelStyle}>
+              <div style={attributesGroupsContainer.labelStyle}>
                 {label[locale]}
               </div>
-              <div style={attributesContainer.valueStyle}>
+              <div style={attributesGroupsContainer.valueStyle}>
                 { /** Render attributes values */
-                  attributes.map(({
+                  flatMap(displayedAttributes, (({
                     key: attributeKey, Renderer, renderValue, renderUnit,
-                  }) => (<Renderer
-                    key={attributeKey}
-                    value={renderValue}
-                    unit={renderUnit}
-                    multilineDisplay
-                  />))
+                  }, index) => [
+                    index
+                    // append next value separator, when not first element
+                      ? <div key={`separator.${attributeKey}`} style={attributesGroupsContainer.valuesSeparator} />
+                      : null,
+                    <Renderer
+                      key={`value.${attributeKey}`}
+                      value={renderValue}
+                      unit={renderUnit}
+                      multilineDisplay
+                    />]))
                 }
               </div>
             </React.Fragment>

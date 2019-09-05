@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-
+// TODO delete that!
 const fixedFlexElement = { flexShrink: '0', flexGrow: '0' }
 const growingFlexElement = { flexShrink: '1', flexGrow: '1', minHeight: '0' }
 const verticalLayout = { display: 'flex', flexDirection: 'column', alignItems: 'stretch' }
@@ -112,13 +112,17 @@ const styles = theme => ({
         flexShrink: 1,
       },
       tree: {
-        container: {
+        scrollArea: { // TODO use me!
           flexBasis: theme.module.description.tree.width,
           borderColor: theme.module.description.tree.borderColor,
           borderWidth: theme.module.description.tree.borderWidth,
           borderStyle: 'solid',
           flexGrow: 0,
           flexShrink: 0,
+        },
+        scrollAreaContent: {
+          minWidth: '100%',
+          maxHeight: '100',
         },
         cell: {
           optionCell: {
@@ -210,7 +214,7 @@ const styles = theme => ({
           circle: theme.module.description.loading.circle,
           message: theme.module.description.loading.message,
         },
-        listPage: {
+        scrolling: {
           scrollArea: {
             flexGrow: 1,
             flexShrink: 1,
@@ -218,16 +222,20 @@ const styles = theme => ({
           },
           scrollAreaContent: {
             minHeight: '100%',
+            maxWidth: '100%',
           },
+        },
+        listPage: {
           contentRoot: {
             display: 'flex',
           },
           listContainer: {
+            // Nota: layouting as column is impossible here,
+            // see https://stackoverflow.com/questions/39095473/flexbox-wrong-width-calculation-when-flex-direction-column-flex-wrap-wrap
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'stretch',
-            padding: theme.module.description.listPage.mainPadding,
-            minWidth: 0,
+            padding: theme.module.description.contentPadding,
           },
           elementContainer: {
             display: 'flex',
@@ -273,6 +281,60 @@ const styles = theme => ({
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
+          },
+        },
+        parameters: {
+          root: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'stretch',
+            padding: theme.module.description.contentPadding,
+          },
+          thumbnail: {
+            display: 'block',
+            maxWidth: theme.module.description.parameters.thumbnail.maxSize,
+            maxHeight: theme.module.description.parameters.thumbnail.maxSize,
+            margin: theme.module.description.parameters.thumbnail.margin,
+            flexGrow: 0,
+            flexShrink: 0,
+          },
+          attributesGroupsContainer: {
+            root: {
+              display: 'grid',
+              flexGrow: 1,
+              flexShrink: 0,
+              gridTemplateColumns: 'min-content auto',
+            },
+            groupTitlePlaceholdStyle: {
+              padding: theme.module.description.parameters.group.titlePlaceholder.padding,
+              gridColumnEnd: 'span 2',
+            },
+            groupTitleStyle: {
+              color: theme.module.description.parameters.group.title.color,
+              padding: theme.module.description.parameters.group.title.padding,
+              fontSize: theme.module.description.parameters.group.title.fontSize,
+              justifySelf: 'left',
+              gridColumnEnd: 'span 2',
+              lineHeight: 1,
+            },
+            labelStyle: {
+              padding: theme.module.description.parameters.group.attribute.label.padding,
+              textDecoration: theme.module.description.parameters.group.attribute.label.textDecoration,
+              justifySelf: 'left',
+              lineHeight: 1,
+              whiteSpace: 'nowrap',
+            },
+            valueStyle: {
+              justifySelf: 'stretch',
+              display: 'block',
+              padding: theme.module.description.parameters.group.attribute.value.padding,
+              textDecoration: theme.module.description.parameters.group.attribute.value.textDecoration,
+              minWidth: 0,
+              lineHeight: 1,
+            },
+            valuesSeparator: {
+              height: theme.module.description.parameters.group.attribute.multipleValuesSpacing,
+            },
           },
         },
       },
@@ -358,113 +420,6 @@ const styles = theme => ({
                 height: '100%',
                 width: '100%',
                 background: theme.module.description.fileContentBackground,
-              },
-            },
-            propertiesTab: {
-              rootStyle: {
-                display: 'flex', flexDirection: 'row', alignItems: 'stretch', ...growingFlexElement,
-              },
-              loadingContainerStyle: { display: 'flex', alignItems: 'flex-start' },
-              messageContainerStyle: { display: 'flex', alignItems: 'flex-start', paddingLeft: '24px' },
-              thumbnailStyle: {
-                display: 'block',
-                maxWidth: theme.module.description.thumbnail.maxSize,
-                maxHeight: theme.module.description.thumbnail.maxSize,
-                margin: theme.module.description.thumbnail.margin,
-                borderWidth: theme.module.description.thumbnail.borderWidth,
-                borderStyle: theme.module.description.thumbnail.borderStyle,
-                borderColor: theme.module.description.thumbnail.borderColor,
-              },
-              attributes: {
-                scrollArea: {
-                  flexShrink: '1',
-                  flexGrow: '2',
-                  flexBasis: 0,
-                },
-                rootStyle: { ...growingFlexElement, ...verticalLayout },
-                attributesContainer: {
-                  rootStyle: {
-                    display: 'grid',
-                    gridTemplateColumns: 'auto auto',
-                    padding: '0 15px 0 20px',
-                  },
-                  groupTitlePlaceholdStyle: {
-                    padding: theme.module.description.attributeGroupTitlePlaceholderPadding,
-                    gridColumnEnd: 'span 2',
-                  },
-                  groupTitleStyle: {
-                    color: theme.module.description.attributeGroupTitleColor,
-                    padding: theme.module.description.attributeGroupTitlePadding,
-                    justifySelf: 'left',
-                    gridColumnEnd: 'span 2',
-                    lineHeight: 1,
-                  },
-                  labelStyle: {
-                    padding: theme.module.description.attributeLabelPadding,
-                    textDecoration: theme.module.description.attributeLabelTextDecoration,
-                    justifySelf: 'left',
-                    lineHeight: 1,
-                  },
-                  valueStyle: {
-                    padding: theme.module.description.attributeValuesPadding,
-                    textDecoration: theme.module.description.attributeValuesTextDecoration,
-                    justifySelf: 'stretch',
-                    minWidth: 0,
-                    lineHeight: 1,
-                  },
-                },
-              },
-              tags: {
-                rootStyle: {
-                  display: 'flex',
-                  flexDirection: 'column',
-                  flexShrink: '1',
-                  flexGrow: '1',
-                  flexBasis: 0,
-                },
-                tagsRootStyle: {
-                  flexGrow: 1,
-                  height: '100%',
-                },
-                documentsRootStyle: {
-                  flexGrow: 1,
-                  height: '100%',
-                },
-                horizontalAreaSeparator: {
-                  flexGrow: 0,
-                  minHeight: 1,
-                  backgroundColor: theme.toolbar.separatorColor,
-                },
-                scrollArea: {
-                  height: '100%',
-                },
-                scrollAreaContent: {
-                  borderWidth: '0 0 0 1px',
-                  borderColor: theme.toolbar.separatorColor,
-                  borderStyle: 'solid',
-                  minHeight: '100%',
-                },
-                sectionStyle: {
-                  ...verticalLayout,
-                  padding: '0 12px 0 12px',
-                },
-                tagsContainer: {
-                  rootStyle: { display: 'table', paddingLeft: '24px' },
-                  rowStyle: { display: 'table-row' },
-                  iconCellStyle: { display: 'table-cell', padding: '0 0 0.4em 0' },
-                  searchIconStyle: { height: '24px', width: '24px' },
-                  infoIconStyle: {
-                    height: '24px', width: '24px', color: theme.palette.accent2Color, opacity: 0.7,
-                  },
-                  buttonStyle: { height: '24px', width: '24px', padding: 0 },
-                  labelStyle: {
-                    display: 'table-cell',
-                    padding: '0 20px 0.4em 10px',
-                    maxWidth: '350px',
-                    overflowWrap: 'break-word',
-                  },
-                  actionStyle: { display: 'table-cell', padding: '0 20px 0.4em 0' },
-                },
               },
             },
           },

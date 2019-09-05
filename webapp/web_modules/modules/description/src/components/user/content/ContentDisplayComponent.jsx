@@ -16,13 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
 import { DescriptionEntity } from '../../../shapes/DescriptionState'
-import InvalidEntityMessageComponent from './InvalidEntityMessageComponent'
-import LoadingComponent from './LoadingComponent'
-import ModelRetrievalFailedMessageComponent from './ModelRetrievalFailedMessageComponent'
+import LoadingComponent from './feedback/LoadingComponent'
 import { BROWSING_SECTIONS_ENUM } from '../../../domain/BrowsingSections'
+import FilePageContainer from '../../../containers/user/content/file/FilePageContainer'
+import ParametersSectionComponent from './parameters/ParametersSectionComponent'
 import TagsSectionPageComponent from './list/tag/TagsSectionPageComponent'
 import EntitiesSectionPageComponent from './list/entity/EntitiesSectionPageComponent'
+import FilesSectionPageComponent from './list/file/FilesSectionPageComponent'
+import NoDataMessageComponent from './feedback/NoDataMessageComponent'
 
 /**
  * Main component to display content area: shows loading / errors / content according with selected tree entry
@@ -50,192 +53,43 @@ class ContentDisplayComponent extends React.Component {
     } = this.props
     // loading
     if (descriptionEntity.loading) {
-      return <LoadingComponent />
+      return <LoadingComponent type={LoadingComponent.LOADING_TYPES_ENUM.MAIN} />
     }
     // invalid entity type for current configuration (message)
     if (descriptionEntity.invalid) {
-      return <InvalidEntityMessageComponent />
+      return <NoDataMessageComponent type={NoDataMessageComponent.NO_DATA_TYPE_ENUM.INVALID_ENTITY} />
     }
     // model retrieval failed for entity (message)
     if (descriptionEntity.modelRetrievalFailed) {
-      return <ModelRetrievalFailedMessageComponent />
+      return <NoDataMessageComponent type={NoDataMessageComponent.NO_DATA_TYPE_ENUM.MODEL_RETRIEVAL_FAILED} />
     }
     // Show content on current path
-    // TODO
     const {
       selectedTreeEntry: { section, child },
       displayModel: {
-        attributesGroups,
+        thumbnail, attributesGroups,
         descriptionFiles, quicklookFiles, otherFiles,
         wordTags, couplingTags, linkedEntities, linkedDocuments,
       },
     } = descriptionEntity
     switch (section) {
       case BROWSING_SECTIONS_ENUM.PARAMETERS:
-        // TODO
-        return null
-      case BROWSING_SECTIONS_ENUM.INFORMATION:
-        // TODO
-        return null
+        return <ParametersSectionComponent thumbnail={thumbnail} attributesGroups={attributesGroups} />
       case BROWSING_SECTIONS_ENUM.QUICKLOOKS:
         // TODO
         return null
       case BROWSING_SECTIONS_ENUM.SIMPLE_TAGS:
-        return <TagsSectionPageComponent
-          tags={[
-            'Temp: fake tag -> a1',
-            'Temp: fake tag -> a2',
-            'Temp: fake tag -> a3',
-            'Temp: fake tag -> a4',
-            'Temp: fake tag -> a5',
-            'Temp: fake tag -> a6',
-            'Temp: fake tag -> a7',
-            'Temp: fake tag -> a8',
-            'Temp: fake tag -> a9',
-            'Temp: fake tag -> b1',
-            'Temp: fake tag -> b2',
-            'Temp: fake tag -> b3',
-            'Temp: fake tag -> b4',
-            'Temp: fake tag -> b5',
-            'Temp: fake tag -> b6',
-            'Temp: fake tag -> b7',
-            'Temp: fake tag -> b8',
-            'Temp: fake tag -> b9',
-            'Temp: fake tag -> c1',
-            'Temp: fake tag -> c2',
-            'Temp: fake tag -> c3',
-            'Temp: fake tag -> c4',
-            'Temp: fake tag -> c5',
-            'Temp: fake tag -> c6',
-            'Temp: fake tag -> c7',
-            'Temp: fake tag -> c8',
-            'Temp: fake tag -> c9',
-            'Temp: fake tag -> d1',
-            'Temp: fake tag -> d2',
-            'Temp: fake tag -> d3',
-            'Temp: fake tag -> d4',
-            'Temp: fake tag -> d5',
-            'Temp: fake tag -> d6',
-            'Temp: fake tag -> d7',
-            'Temp: fake tag -> d8',
-            'Temp: fake tag -> d9',
-            'Temp: fake tag -> e1',
-            'Temp: fake tag -> e2',
-            'Temp: fake tag -> e3',
-            'Temp: fake tag -> e4',
-            'Temp: fake tag -> e5',
-            'Temp: fake tag -> e6',
-            'Temp: fake tag -> e7',
-            'Temp: fake tag -> e8',
-            'Temp: fake tag -> e9',
-            'Temp: fake tag -> f1',
-            'Temp: fake tag -> f2',
-            'Temp: fake tag -> f3',
-            'Temp: fake tag -> f4',
-            'Temp: fake tag -> f5',
-            'Temp: fake tag -> f6',
-            'Temp: fake tag -> f7',
-            'Temp: fake tag -> f8',
-            'Temp: fake tag -> f9',
-            'Temp: fake tag -> g1',
-            'Temp: fake tag -> g2',
-            'Temp: fake tag -> g3',
-            'Temp: fake tag -> g4',
-            'Temp: fake tag -> g5',
-            'Temp: fake tag -> g6',
-            'Temp: fake tag -> g7',
-            'Temp: fake tag -> g8',
-            'Temp: fake tag -> g9',
-          ]}
-          onSearchWord={onSearchWord}
-        />
+        return <TagsSectionPageComponent tags={wordTags} onSearchWord={onSearchWord} />
       case BROWSING_SECTIONS_ENUM.COUPLED_TAGS:
         return <TagsSectionPageComponent tags={couplingTags} onSearchWord={onSearchWord} />
       case BROWSING_SECTIONS_ENUM.LINKED_ENTITIES:
         return <EntitiesSectionPageComponent
-          entities={
-        [
-          'Temp: fake tag -> a1',
-          'Temp: fake tag -> a2',
-          'Temp: fake tag -> a3',
-          'Temp: fake tag -> a4',
-          'Temp: fake tag -> a5',
-          'Temp: fake tag -> a6',
-          'Temp: fake tag -> a7',
-          'Temp: fake tag -> a8',
-          'Temp: fake tag -> a9',
-          'Temp: fake tag -> b1',
-          'Temp: fake tag -> b2',
-          'Temp: fake tag -> b3',
-          'Temp: fake tag -> b4',
-          'Temp: fake tag -> b5',
-          'Temp: fake tag -> b6',
-          'Temp: fake tag -> b7',
-          'Temp: fake tag -> b8',
-          'Temp: fake tag -> b9',
-          'Temp: fake tag -> c1',
-          'Temp: fake tag -> c2',
-          'Temp: fake tag -> c3',
-          'Temp: fake tag -> c4',
-          'Temp: fake tag -> c5',
-          'Temp: fake tag -> c6',
-          'Temp: fake tag -> c7',
-          'Temp: fake tag -> c8',
-          'Temp: fake tag -> c9',
-          'Temp: fake tag -> d1',
-          'Temp: fake tag -> d2',
-          'Temp: fake tag -> d3',
-          'Temp: fake tag -> d4',
-          'Temp: fake tag -> d5',
-          'Temp: fake tag -> d6',
-          'Temp: fake tag -> d7',
-          'Temp: fake tag -> d8',
-          'Temp: fake tag -> d9',
-          'Temp: fake tag -> e1',
-          'Temp: fake tag -> e2',
-          'Temp: fake tag -> e3',
-          'Temp: fake tag -> e4',
-          'Temp: fake tag -> e5',
-          'Temp: fake tag -> e6',
-          'Temp: fake tag -> e7',
-          'Temp: fake tag -> e8',
-          'Temp: fake tag -> e9',
-          'Temp: fake tag -> f1',
-          'Temp: fake tag -> f2',
-          'Temp: fake tag -> f3',
-          'Temp: fake tag -> f4',
-          'Temp: fake tag -> f5',
-          'Temp: fake tag -> f6',
-          'Temp: fake tag -> f7',
-          'Temp: fake tag -> f8',
-          'Temp: fake tag -> f9',
-          'Temp: fake tag -> g1',
-          'Temp: fake tag -> g2',
-          'Temp: fake tag -> g3',
-          'Temp: fake tag -> g4',
-          'Temp: fake tag -> g5',
-          'Temp: fake tag -> g6',
-          'Temp: fake tag -> g7',
-          'Temp: fake tag -> g8',
-          'Temp: fake tag -> g9',
-        ].map(text => ({
-          content: {
-            id: `URN:DATASET:${text}`,
-            model: 'myModel',
-            providerId: text,
-            label: text,
-            entityType: 'DATASET',
-            files: {},
-            properties: {},
-            tags: [],
-          },
-        }))}
+          entities={linkedEntities}
           isDescriptionAllowed={isDescriptionAllowed}
           onSearchEntity={onSearchEntity}
           onSelectEntityLink={onSelectEntityLink}
         />
       case BROWSING_SECTIONS_ENUM.LINKED_DOCUMENTS:
-        // TODO
         return (
           <EntitiesSectionPageComponent
             entities={linkedDocuments}
@@ -243,9 +97,20 @@ class ContentDisplayComponent extends React.Component {
             onSearchEntity={onSearchEntity}
             onSelectEntityLink={onSelectEntityLink}
           />)
+      case BROWSING_SECTIONS_ENUM.INFORMATION:
+        return isNil(child) ? (
+          <FilesSectionPageComponent
+            section={section}
+            files={descriptionFiles}
+            onSelectInnerLink={onSelectInnerLink}
+          />) : <FilePageContainer file={descriptionFiles[child]} />
       case BROWSING_SECTIONS_ENUM.FILES:
-        // TODO
-        return null
+        return isNil(child) ? (
+          <FilesSectionPageComponent
+            section={section}
+            files={otherFiles}
+            onSelectInnerLink={onSelectInnerLink}
+          />) : <FilePageContainer file={otherFiles[child]} />
       default:
         throw new Error(`Unknown browsing section ${section}`)
     }

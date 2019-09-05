@@ -18,6 +18,7 @@
  **/
 import get from 'lodash/get'
 import isString from 'lodash/isString'
+import root from 'window-or-global'
 import reduce from 'lodash/reduce'
 import {
   CatalogDomain, CommonDomain, DamDomain, UIDomain,
@@ -90,10 +91,15 @@ export class DescriptionEntityHelper {
    * @param {*} descriptionEntity description entity model matching DescriptionState.DescriptionEntity
    * @param {function} fetchEntity function to fetch an entity: (id) => Promise
    * @param {function} fetchModelAttributes function to fetch model attributes on model name: (name) => Promise
+   * @param {string} accessToken when there is one
+   * @param {string} projectName current project (tenant) name
    * @param {*} descriptionUpdateGroupId promise group ID, that must be returned for concurrency management
    * @return {Promise} entity resolution promise, that returns an object like {descriptionEntity: {*}, descriptionUpdateGroupId}
    */
-  static resolveDescriptionEntity(moduleConfiguration, descriptionEntity, fetchEntity, fetchModelAttributes, descriptionUpdateGroupId) {
+  static resolveDescriptionEntity(
+    moduleConfiguration, descriptionEntity,
+    fetchEntity, fetchModelAttributes, accessToken, projectName,
+    descriptionUpdateGroupId) {
     const { entity: { content: { tags, model: modelName } } } = descriptionEntity
     // 1 - resolve all tags
     return new Promise(resolve => Promise.all(tags
@@ -113,7 +119,8 @@ export class DescriptionEntityHelper {
         // resolve entity display model
         resolve({
           descriptionEntity: DescriptionEntityHelper.buildFullDescriptionEntity(
-            moduleConfiguration, modelAttributes, descriptionEntity, resolvedTags, modelRetrievalFailed),
+            moduleConfiguration, modelAttributes, descriptionEntity,
+            resolvedTags, accessToken, projectName, modelRetrievalFailed),
           descriptionUpdateGroupId,
         })
       }
@@ -167,10 +174,14 @@ export class DescriptionEntityHelper {
    * @param {*} attributes model attributes map as DataManagementShapes.AttributeModelList
    * @param {*} descriptionEntity description entity model matching DescriptionState.DescriptionEntity
    * @param {string|*} tags resolved tags, containing either word tags or elements matching CatalogShapes.Entity
+   * @param {string} accessToken when there is one
+   * @param {string} projectName current project (tenant) name
    * @param {boolean} modelRetrievalFailed has model retrieval failed?
    * @return {*} build display model, matching DescriptionState.DescriptionEntity shape
    */
-  static buildFullDescriptionEntity(moduleConfiguration, attributes, descriptionEntity, tags, modelRetrievalFailed) {
+  static buildFullDescriptionEntity(
+    moduleConfiguration, attributes, descriptionEntity,
+    tags, accessToken, projectName, modelRetrievalFailed) {
     const { entity, displayModel: initialDisplayModel } = descriptionEntity
     const typeConfiguration = moduleConfiguration[entity.content.entityType]
     const hasValidConfiguration = get(typeConfiguration, 'showDescription', false)
@@ -181,11 +192,11 @@ export class DescriptionEntityHelper {
       modelRetrievalFailed,
       displayModel: hasValidConfiguration ? {
         // compile to display model when configuration is valid
+        thumbnail: DescriptionEntityHelper.packThumbnail(typeConfiguration, entity, accessToken, projectName),
         attributesGroups: DescriptionEntityHelper.filterAndConvertGroups(typeConfiguration, attributes, entity),
-        // retrieve description files to display
-        descriptionFiles: DescriptionEntityHelper.packDescriptionFiles(typeConfiguration, attributes, entity),
-        quicklookFiles: DescriptionEntityHelper.packQuicklooks(entity),
-        otherFiles: DescriptionEntityHelper.packOtherFiles(entity),
+        descriptionFiles: DescriptionEntityHelper.packDescriptionFiles(typeConfiguration, attributes, entity, accessToken, projectName),
+        quicklookFiles: DescriptionEntityHelper.packQuicklooks(entity, accessToken, projectName),
+        otherFiles: DescriptionEntityHelper.packOtherFiles(entity, accessToken, projectName),
         ...DescriptionEntityHelper.splitAndSortTags(tags),
       } : initialDisplayModel, // default to initial display model
     }
@@ -270,27 +281,49 @@ export class DescriptionEntityHelper {
    * Converts entity files into common description file data elements
    * @param {*} entity entity
    * @param {*} fileDataType file data
+   * @param {string} accessToken when there is one
+   * @param {string} projectName current project (tenant) name
+   * @return {[*]} converted files matching DescriptionState.FileData
    */
-  static toFileData(entity, fileDataType) {
-    return get(entity.content, `files.${fileDataType}`, []).map(({
-      reference, uri, mimeType, filename, online,
-    }) => ({
-      label: filename,
-      online,
-      uri,
-      external: reference,
-      mimeType,
+  static toFileData(entity, fileDataType, accessToken, projectName) {
+    const uriOriginParam = `&origin=${root.location.protocol}//${root.location.host}`
+    return get(entity.content, `files.${fileDataType}`, []).map(dataFile => ({
+      label: dataFile.filename,
+      available: dataFile.online || dataFile.reference,
+      // append token / project when data file is not a reference. Also add this location to bypass cross domain issues
+      uri: `${DamDomain.DataFileController.getFileURI(dataFile, accessToken, projectName)}${dataFile.reference ? '' : uriOriginParam}`,
     }))
   }
 
   /**
-   * Packs description files to show for the entity and configuration as parameter
+   * Packs thumbnail file for display model when it should be displayed (returns null otherwise)
+   * @param {*} typeConfiguration entity type configuration
    * @param {*} entity matching CatalogShapes.Entity
    * @param {*} attributes model attributes map as DataManagementShapes.AttributeModelList
+   * @param {string} accessToken when there is one
+   * @param {string} projectName current project (tenant) name
+   * @return {*} thumbnail as DescriptionState.FileData or null
+   */
+  static packThumbnail(typeConfiguration, entity, accessToken, projectName) {
+    if (typeConfiguration.showThumbnail) {
+      const thumbnails = DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.THUMBNAIL, accessToken, projectName)
+      if (thumbnails.length) {
+        return thumbnails[0]
+      }
+    }
+    return null
+  }
+
+  /**
+   * Packs description files to show for the entity and configuration as parameter
    * @param {*} typeConfiguration entity type configuration
+   * @param {*} entity matching CatalogShapes.Entity
+   * @param {*} attributes model attributes map as DataManagementShapes.AttributeModelList
+   * @param {string} accessToken when there is one
+   * @param {string} projectName current project (tenant) name
    * @return [*] array of description files as NavigationTree.DescriptionFile
    */
-  static packDescriptionFiles(typeConfiguration, attributes, entity) {
+  static packDescriptionFiles(typeConfiguration, attributes, entity, accessToken, projectName) {
     return [
       // map attributes configured as description files (single attribute configurations)
       ...typeConfiguration.attributeToDescriptionFiles.map(({ attributes: [attribute] }) => {
@@ -307,10 +340,8 @@ export class DescriptionEntityHelper {
               const { uri, name } = DamDomain.URLAttributeHelper.parseURIValue(attributeValue)
               return {
                 label: name,
-                online: true,
-                uri,
-                external: true,
-                mimeType: null, // TODO SBA: should fetch and resolved? (the hard way? xD)
+                available: true,
+                uri: DamDomain.DataFileController.getURI(uri, true, accessToken, projectName),
               }
             }
           }
@@ -319,29 +350,33 @@ export class DescriptionEntityHelper {
         return null // cannot be resolved
       }).filter(f => !!f),
       // map entity native description files
-      ...DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.DESCRIPTION),
+      ...DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.DESCRIPTION, accessToken, projectName),
     ]
   }
 
   /**
    * Packs entity quicklook definitions and sorts them
    * @param {*} entity matching CatalogShapes.Entity
+   * @param {string} accessToken when there is one
+   * @param {string} projectName current project (tenant) name
    * @return {[*]} quicklook definitions as an array of UIShapes.QuicklookDefinition
    */
-  static packQuicklooks(entity) {
-    return UIDomain.QuicklookHelper.getQuicklooksIn(entity).sort((qd1, qd2) => StringComparison.compare(qd1.label, qd2.label))
+  static packQuicklooks(entity, accessToken, projectName) {
+    return UIDomain.QuicklookHelper.getQuicklooksIn(entity, accessToken, projectName).sort((qd1, qd2) => StringComparison.compare(qd1.label, qd2.label))
   }
 
   /**
    * Packs entity other files and sorts them
    * @param {*} entity matching CatalogShapes.Entity
+   * @param {string} accessToken when there is one
+   * @param {string} projectName current project (tenant) name
    * @return {[*]} other files to display in description, as an array of DataManagementShapes.DataFile
    */
-  static packOtherFiles(entity) {
+  static packOtherFiles(entity, accessToken, projectName) {
     // Files to show: documents or raw data files (in standard cases, an entity should not have both)
     return [
-      ...DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.RAWDATA),
-      ...DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.DOCUMENT),
+      ...DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.RAWDATA, accessToken, projectName),
+      ...DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.DOCUMENT, accessToken, projectName),
     ].sort((f1, f2) => StringComparison.compare(f1.filename, f2.filename))
   }
 

@@ -18,16 +18,16 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { FileData } from '../../../../shapes/DescriptionState'
 
 /**
- * Shows entity thumbnail in description view
+ * Shows thumbnail in parameters section
  * @author Raphaël Mechali
  */
-class DescriptionThumbnailComponent extends React.Component {
+class ThumbnailComponent extends React.Component {
   static propTypes = {
-    thumbnailURL: PropTypes.string.isRequired,
+    thumbnail: FileData.isRequired,
   }
-
 
   static contextTypes = {
     ...themeContextType,
@@ -35,17 +35,14 @@ class DescriptionThumbnailComponent extends React.Component {
   }
 
   render() {
-    const { thumbnailURL } = this.props
-    const { intl: { formatMessage }, moduleTheme } = this.context
-    const { thumbnailStyle } = moduleTheme.user.card.media.tabs.tab.propertiesTab
-
+    const { thumbnail: { uri, label } } = this.props
+    const { intl: { formatMessage }, moduleTheme: { user: { main: { content: { parameters } } } } } = this.context
     return (
       <img
-        src={thumbnailURL}
-        style={thumbnailStyle}
-        alt={formatMessage({ id: 'module.description.properties.thumbnail.alt.text' })}
-      />
-    )
+        src={uri}
+        style={parameters.thumbnail}
+        alt={formatMessage({ id: 'module.description.content.parameters.thumbnail.alt.text' }, { label })}
+      />)
   }
 }
-export default DescriptionThumbnailComponent
+export default ThumbnailComponent

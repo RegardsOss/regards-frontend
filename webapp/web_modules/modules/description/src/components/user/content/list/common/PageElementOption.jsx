@@ -26,7 +26,7 @@ import { themeContextType } from '@regardsoss/theme'
 class PageElementOption extends React.Component {
   static propTypes = {
     IconConstructor: PropTypes.func.isRequired,
-    tooltip: PropTypes.string,
+    title: PropTypes.string, // tooltip
     onClick: PropTypes.func,
   }
 
@@ -35,11 +35,11 @@ class PageElementOption extends React.Component {
   }
 
   render() {
-    const { IconConstructor, tooltip, onClick } = this.props
+    const { IconConstructor, title, onClick } = this.props
     const { moduleTheme: { user: { main: { content: { listPage } } } } } = this.context
     return (
       <IconButton
-        title={tooltip}
+        title={title}
         onClick={onClick}
         style={listPage.rigthIconButton}
       >

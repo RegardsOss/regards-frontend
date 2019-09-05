@@ -19,12 +19,16 @@
 import get from 'lodash/get'
 import reduce from 'lodash/reduce'
 import { DATA_TYPES_ENUM } from '../common/DataTypes'
+import DataFileController from '../dam/DataFileController'
 
 /**
  * Helps handling quicklooks in entities
  * @author Raphaël Mechali
  */
 export class QuicklookHelper {
+  /** All quicklook types (used as iterator) */
+  static ALL_QUICKLOOK_TYPES = [DATA_TYPES_ENUM.QUICKLOOK_SD, DATA_TYPES_ENUM.QUICKLOOK_MD, DATA_TYPES_ENUM.QUICKLOOK_HD]
+
   /**
    * Stores, by quicklook type, the fallback preferences order
    */
@@ -50,16 +54,27 @@ export class QuicklookHelper {
   /**
    * Returns quicklooks found in entity compiled as an array of quicklook definitions
    * @param {*} entity matching CatalogShapes.Entity
-   * @return {[*]} entity quicklook definitions, as an array of UIShapes.QuicklookDefinition
+   * @param {string} accessToken current user access when there is one. Used to compute files access URI
+   * @param {string} projectName current project (tenant) name. Used to compute files access URI
+   * @return {[*]} entity quicklook definitions, as an array of UIShapes.QuicklookDefinition where data file URI has been computed with access token and project name
    */
-  static getQuicklooksIn(entity) {
-    // Extract actual quickloks groups files
+  static getQuicklooksIn(entity, accessToken, projectName) {
+    // Extract actual quickloks groups files (update URI to use token project name when internal data files)
     const actualMap = { // TODO: current version: support multiple quicklook groups system
-      main: {
-        [DATA_TYPES_ENUM.QUICKLOOK_SD]: get(entity, `content.files.${DATA_TYPES_ENUM.QUICKLOOK_SD}[0]`, null),
-        [DATA_TYPES_ENUM.QUICKLOOK_MD]: get(entity, `content.files.${DATA_TYPES_ENUM.QUICKLOOK_MD}[0]`, null),
-        [DATA_TYPES_ENUM.QUICKLOOK_HD]: get(entity, `content.files.${DATA_TYPES_ENUM.QUICKLOOK_HD}[0]`, null),
-      },
+      main: QuicklookHelper.ALL_QUICKLOOK_TYPES.reduce((acc, type) => {
+        const file = get(entity, `content.files.${type}[0]`, null)
+        if (file) {
+          return {
+            ...acc,
+            [type]: {
+              ...file,
+              uri: DataFileController.getFileURI(file, accessToken, projectName),
+            },
+          }
+        }
+        // type not found
+        return acc
+      }, {}),
     }
 
     // B - Return definition with group name and quicklook files, using fallback when required
@@ -68,9 +83,13 @@ export class QuicklookHelper {
         return [
           ...acc, {
             label: groupName,
-            [DATA_TYPES_ENUM.QUICKLOOK_SD]: QuicklookHelper.getQuicklookOrFallback(DATA_TYPES_ENUM.QUICKLOOK_SD, quicklooks),
-            [DATA_TYPES_ENUM.QUICKLOOK_MD]: QuicklookHelper.getQuicklookOrFallback(DATA_TYPES_ENUM.QUICKLOOK_MD, quicklooks),
-            [DATA_TYPES_ENUM.QUICKLOOK_HD]: QuicklookHelper.getQuicklookOrFallback(DATA_TYPES_ENUM.QUICKLOOK_HD, quicklooks),
+            ...QuicklookHelper.ALL_QUICKLOOK_TYPES.reduce((qlAcc, type) => {
+              const quickookForType = QuicklookHelper.getQuicklookOrFallback(type, quicklooks)
+              return {
+                ...qlAcc,
+                [type]: quickookForType,
+              }
+            }, {}),
           }]
       }
       return acc

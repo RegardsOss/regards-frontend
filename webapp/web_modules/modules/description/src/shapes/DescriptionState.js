@@ -59,10 +59,8 @@ export const AttributeGroup = PropTypes.shape({
 /** An entity description file (may come either from file map or linked description attributes) */
 export const FileData = PropTypes.shape({
   label: PropTypes.string.isRequired,
-  online: PropTypes.bool.isRequired,
+  available: PropTypes.bool.isRequired,
   uri: PropTypes.string.isRequired,
-  external: PropTypes.bool.isRequired,
-  mimeType: PropTypes.string.isRequired, // TODO SBA according with answer, make optional?
 })
 
 /** Points out a tree entry */
@@ -86,6 +84,7 @@ export const DescriptionEntity = PropTypes.shape({
   selectedTreeEntry: TreeEntryPointer.isRequired,
   // Resolved model for displaying
   displayModel: PropTypes.shape({
+    thumbnail: FileData,
     attributesGroups: PropTypes.arrayOf(AttributeGroup).isRequired,
     descriptionFiles: PropTypes.arrayOf(FileData).isRequired,
     quicklookFiles: PropTypes.arrayOf(UIShapes.QuicklookDefinition).isRequired,

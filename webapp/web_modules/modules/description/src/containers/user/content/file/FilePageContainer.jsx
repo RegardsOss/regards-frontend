@@ -17,15 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import FileComponent from '../../../components/user/files/FileComponent'
-import { downloadEntityFileActions } from '../../../clients/DownloadEntityFileActions'
-import { RuntimeDataFile } from '../../../shapes/DataFileRuntime'
+import { FileData } from '../../../../shapes/DescriptionState'
+import { downloadEntityFileActions } from '../../../../clients/DownloadEntityFileActions'
+import FilePageComponent from '../../../../components/user/content/file/FilePageComponent'
 
 /**
- * File container:
+ * File page container: it loads file to show and provides loading state, error or file content to its child component
  * @author Raphaël Mechali
  */
-export class FileContainer extends React.Component {
+export class FilePageContainer extends React.Component {
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
@@ -40,26 +40,21 @@ export class FileContainer extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    file: RuntimeDataFile.isRequired, // used only in on properties changed
+    file: FileData.isRequired, // Nota: file must be available when in this container
     // from mapDispatchToProps
+    // eslint-disable-next-line react/no-unused-prop-types
     downloadFile: PropTypes.func.isRequired,
   }
 
-  /**
-   * Constructor
-   * @param {*} props props
-   */
-  constructor(props) {
-    super(props)
-    // store current promise index
-    this.currentFile = null
-    this.state = {
-      loading: false,
-      error: false,
-      resolvedFile: null,
-    }
-  }
+  /** Reference to the file being currently downloaded (for promises callback concurrency management) */
+  currentFile = null
 
+  /** Initial state */
+  state = {
+    loading: false,
+    error: false,
+    resolvedFile: null,
+  }
 
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
@@ -84,18 +79,18 @@ export class FileContainer extends React.Component {
    * @param oldProps previous component properties
    * @param newProps next component properties
    */
-  onPropertiesUpdated = (oldProps, { file }) => {
+  onPropertiesUpdated = (oldProps, { downloadFile, file }) => {
     if (oldProps.file !== file) {
-      this.onStartDownloadFile(file)
+      this.onStartDownloadFile(downloadFile, file)
     }
   }
 
   /**
    * On start download
-   * @param {RuntimeDataFile} file file to display
+   * @param {function} downloadFile download file function like (uri) => Promise
+   * @param {*} file file to display, matching DescriptionState.FileData
    */
-  onStartDownloadFile = (file) => {
-    const { downloadFile } = this.props
+  onStartDownloadFile = (downloadFile, file) => {
     // 1 - store entity in instance (concurrency management)
     this.currentFile = file
     // 2 - mark loading
@@ -115,7 +110,7 @@ export class FileContainer extends React.Component {
 
   /**
    * Callback: download was succesfully performed
-   * @param {RuntimeDataFile} downloadedFile file that was downloaded
+   * @param {*} downloadedFile file that was downloaded, matching DescriptionState.FileData
    * @param {{content: *, contentType: string}} resolvedFile downloaded file content and type
    */
   onDownloadSuccess = (downloadedFile, resolvedFile) => {
@@ -127,7 +122,7 @@ export class FileContainer extends React.Component {
 
   /**
    * Callback: download finished in error
-   * @param {RuntimeDataFile} downloadedFile file that failed downloading
+   * @param {*} downloadedFile file that failed downloading, matching DescriptionState.FileData
    */
   onDownloadError = (downloadedFile) => {
     // prevent updating when component was unmounted OR another file download was triggered
@@ -138,13 +133,13 @@ export class FileContainer extends React.Component {
 
   render() {
     const { loading, error, resolvedFile } = this.state
+
     return (
-      <FileComponent
+      <FilePageComponent
         loading={loading}
         error={error}
         file={resolvedFile}
-      />
-    )
+      />)
   }
 }
-export default connect(null, FileContainer.mapDispatchToProps)(FileContainer)
+export default connect(null, FilePageContainer.mapDispatchToProps)(FilePageContainer)

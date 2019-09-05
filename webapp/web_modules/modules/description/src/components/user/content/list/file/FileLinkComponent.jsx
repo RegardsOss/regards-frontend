@@ -17,21 +17,24 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FileIcon from 'mdi-material-ui/FileImage'
+import DownloadIcon from 'material-ui/svg-icons/action/get-app'
 import { i18nContextType } from '@regardsoss/i18n'
+import { DownloadButton } from '@regardsoss/components'
 import { BROWSING_SECTIONS } from '../../../../../domain/BrowsingSections'
 import { FileData } from '../../../../../shapes/DescriptionState'
-import TreeLinkComponent from './TreeLinkComponent'
+import PageLinkCellComponent from '../common/PageLinkCellComponent'
+import PageElement from '../common/PageElement'
+import PageElementOption from '../common/PageElementOption'
 
 /**
- * Shows a tree cell for file as parameter
+ * A file link component for list page displaying (displays as simple text when file is offline)
  * @author Raphaël Mechali
  */
-class FileCellComponent extends React.Component {
+class FileLinkComponent extends React.Component {
   static propTypes = {
-    type: PropTypes.oneOf(BROWSING_SECTIONS).isRequired,
+    section: PropTypes.oneOf(BROWSING_SECTIONS).isRequired,
     index: PropTypes.number.isRequired,
     file: FileData.isRequired,
-    selected: PropTypes.bool.isRequired,
     // Callback: user selected an inner link. (section:BROWSING_SECTION_ENUM, child: number) => ()
     onSelectInnerLink: PropTypes.func.isRequired,
   }
@@ -43,24 +46,33 @@ class FileCellComponent extends React.Component {
   /**
    * User callback: file link clicked. Notify parent of this link selection
    */
-  onLinkClicked = () => {
-    const { type, index, onSelectInnerLink } = this.props
-    onSelectInnerLink(type, index)
+  onFileLinkClicked = () => {
+    const { section, index, onSelectInnerLink } = this.props
+    onSelectInnerLink(section, index)
   }
 
   render() {
-    const { file: { label, available }, selected } = this.props
+    const { file: { label, available, uri } } = this.props
     const { intl: { formatMessage } } = this.context
     return (
-      <TreeLinkComponent
-        text={label}
-        tooltip={formatMessage({ id: 'module.description.tree.section.file.tooltip' })}
-        selected={selected}
-        IconConstructor={FileIcon}
-        section={false}
-        onClick={this.onLinkClicked}
-        disabled={!available}
-      />)
+      <PageElement>
+        <PageLinkCellComponent
+          text={label}
+          LinkIconConstructor={FileIcon}
+          disabled={!available}
+          onClick={this.onFileLinkClicked}
+        />
+        { // Download button when URI is available
+           available ? (
+             <DownloadButton
+               ButtonConstructor={PageElementOption}
+               tooltip={formatMessage({ id: 'module.description.common.download.file.tooltip' })}
+               downloadURL={uri}
+               IconConstructor={DownloadIcon}
+             />) : null // hide option when not available
+        }
+      </PageElement>
+    )
   }
 }
-export default FileCellComponent
+export default FileLinkComponent

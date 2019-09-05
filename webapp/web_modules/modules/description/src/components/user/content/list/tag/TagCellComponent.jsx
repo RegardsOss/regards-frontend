@@ -57,7 +57,7 @@ class TagCellComponent extends React.Component {
         <PageTextCellComponent text={tagLabel} />
         <PageElementOption
           IconConstructor={SearchIcon}
-          tooltip={formatMessage({
+          title={formatMessage({
             id: couplingTag
               ? 'module.description.common.search.coupling.tag.tooltip'
               : 'module.description.common.search.simple.tag.tooltip',

@@ -154,8 +154,8 @@ export default baseTheme => ({
           color: baseTheme.subheader.color,
         },
       },
+      contentPadding: '5px 21px 5px 21px',
       listPage: {
-        mainPadding: '5px 21px 5px 21px',
         element: {
           padding: 3,
           fontSize: '16px',
@@ -169,21 +169,34 @@ export default baseTheme => ({
           margin: '0 0 0 24px',
         },
       },
-      // TODO: old -> delete or reuse
-      thumbnail: {
-        maxSize: 128,
-        margin: '1em 0 0.4em 20px',
-        borderWidth: '1px',
-        borderStyle: 'solid',
-        borderColor: baseTheme.palette.textColor,
+      parameters: {
+        thumbnail: {
+          maxSize: 256,
+          margin: '0 0 8px 0',
+        },
+        group: {
+          title: {
+            padding: '1em 0 0.5em 0',
+            color: baseTheme.palette.accent1Color,
+            fontSize: '18px',
+          },
+          titlePlaceholder: {
+            padding: '1em 0 0.5em 0', //attributeGroupTitlePlaceholderPadding
+          },
+          attribute: {
+            label: {
+              padding: '0.4em 24px 0.4em 0',
+              textDecoration: 'underline',
+            },
+            value: {
+              padding: '0.4em 20px 0.4em 0',
+              textDecoration: 'none',
+            },
+            multipleValuesSpacing: '0.7em',
+          },
+        },
       },
-      attributeGroupTitlePadding: '1em 0 0.4em 0',
-      attributeGroupTitleColor: baseTheme.palette.accent1Color,
-      attributeGroupTitlePlaceholderPadding: '1em 0 0.4em 0',
-      attributeLabelPadding: '0.4em 20px 0.4em 0',
-      attributeLabelTextDecoration: 'underline',
-      attributeValuesPadding: '0.4em 20px 0.4em 0',
-      attributeValuesTextDecoration: 'none',
+      // TODO delete below when unused
       fileContentBackground: 'white',
       filesOptions: {
         top: 60,

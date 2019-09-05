@@ -16,51 +16,49 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import FileIcon from 'mdi-material-ui/FileImage'
-import { i18nContextType } from '@regardsoss/i18n'
 import { BROWSING_SECTIONS } from '../../../../../domain/BrowsingSections'
 import { FileData } from '../../../../../shapes/DescriptionState'
-import TreeLinkComponent from './TreeLinkComponent'
+import ListSectionPageComponent from '../common/ListSectionPageComponent'
+import FileLinkComponent from './FileLinkComponent'
 
 /**
- * Shows a tree cell for file as parameter
+ * Files section page component, showing files list
  * @author Raphaël Mechali
  */
-class FileCellComponent extends React.Component {
+class FilesSectionPageComponent extends React.Component {
   static propTypes = {
-    type: PropTypes.oneOf(BROWSING_SECTIONS).isRequired,
-    index: PropTypes.number.isRequired,
-    file: FileData.isRequired,
-    selected: PropTypes.bool.isRequired,
+    section: PropTypes.oneOf(BROWSING_SECTIONS).isRequired,
+    files: PropTypes.arrayOf(FileData).isRequired,
     // Callback: user selected an inner link. (section:BROWSING_SECTION_ENUM, child: number) => ()
     onSelectInnerLink: PropTypes.func.isRequired,
   }
 
-  static contextTypes = {
-    ...i18nContextType,
-  }
-
   /**
-   * User callback: file link clicked. Notify parent of this link selection
+   * Renders a file
+   * @param {*} file matching DescriptionState.FileData
+   * @param {number} fileIndex file index in files array
+   * @return {React.ReactElement} render element
    */
-  onLinkClicked = () => {
-    const { type, index, onSelectInnerLink } = this.props
-    onSelectInnerLink(type, index)
+  renderFile = (file, fileIndex) => {
+    const { section, onSelectInnerLink } = this.props
+    return (
+      <FileLinkComponent
+        key={file.uri}
+        section={section}
+        index={fileIndex}
+        file={file}
+        onSelectInnerLink={onSelectInnerLink}
+      />)
   }
 
   render() {
-    const { file: { label, available }, selected } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { files } = this.props
     return (
-      <TreeLinkComponent
-        text={label}
-        tooltip={formatMessage({ id: 'module.description.tree.section.file.tooltip' })}
-        selected={selected}
-        IconConstructor={FileIcon}
-        section={false}
-        onClick={this.onLinkClicked}
-        disabled={!available}
-      />)
+      <ListSectionPageComponent
+        elements={files}
+        buildElementNode={this.renderFile}
+      />
+    )
   }
 }
-export default FileCellComponent
+export default FilesSectionPageComponent

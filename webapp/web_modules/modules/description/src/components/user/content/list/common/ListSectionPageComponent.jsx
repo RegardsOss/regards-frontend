@@ -38,10 +38,10 @@ class ListSectionPageComponent extends React.Component {
   }
 
   render() {
-    const { moduleTheme: { user: { main: { content: { listPage } } } } } = this.context
+    const { moduleTheme: { user: { main: { content: { listPage, scrolling } } } } } = this.context
     const { elements, buildElementNode } = this.props
     return (
-      <ScrollArea horizontal contentStyle={listPage.scrollAreaContent} style={listPage.scrollArea}>
+      <ScrollArea vertical contentStyle={scrolling.scrollAreaContent} style={scrolling.scrollArea}>
         {/* Root container: decoralates list dimensions of the scroll area dimensions (spanning otherwise) */}
         <div style={listPage.contentRoot}>
           {/* List elements container */}

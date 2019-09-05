@@ -19,16 +19,17 @@
 import isNil from 'lodash/isNil'
 import { TableHeaderColumn, TableRowColumn } from 'material-ui/Table'
 import { themeContextType } from '@regardsoss/theme'
+import { ScrollArea } from '@regardsoss/adapters'
 import { TreeTableComponent, TreeTableRow } from '@regardsoss/components'
 import { BROWSING_SECTIONS_ENUM } from '../../../domain/BrowsingSections'
 import { DescriptionEntity } from '../../../shapes/DescriptionState'
-import DownloadCellContainer from '../../../containers/user/tree/cells/options/DownloadCellContainer'
 import SectionCellComponent from './cells/links/SectionCellComponent'
 import FileCellComponent from './cells/links/FileCellComponent'
 import TagCellComponent from './cells/links/TagCellComponent'
 import EntityCellComponent from './cells/links/EntityCellComponent'
 import SearchEntityCellComponent from './cells/options/SearchEntityCellComponent'
 import SearchTagCellComonent from './cells/options/SearchTagCellComonent'
+import DownloadCellComponent from './cells/options/DownloadCellComponent'
 
 
 /**
@@ -283,7 +284,7 @@ class BrowsingTreeComponent extends React.Component {
                   onSelectInnerLink={onSelectInnerLink}
                 />)
             case BrowsingTreeComponent.CELL_TYPES.DOWNLOAD_FILE:
-              return <DownloadCellContainer file={data} />
+              return <DownloadCellComponent file={data} />
             case BrowsingTreeComponent.CELL_TYPES.EMPTY_CELL:
               return null
             default:
@@ -296,9 +297,9 @@ class BrowsingTreeComponent extends React.Component {
 
   render() {
     const { browsingTreeVisible, descriptionEntity } = this.props
-    const { moduleTheme: { user: { main: { tree: { container } } } } } = this.context
+    const { moduleTheme: { user: { main: { tree: { scrollArea, scrollAreaContent } } } } } = this.context
     return browsingTreeVisible ? (
-      <div style={container}>
+      <ScrollArea vertical contentStyle={scrollAreaContent} style={scrollArea}>
         <TreeTableComponent
           model={descriptionEntity}
           buildTreeTableRows={this.buildTreeTableRows}
@@ -308,7 +309,7 @@ class BrowsingTreeComponent extends React.Component {
           displayTableRowBorder={false}
           hideHeader
         />
-      </div>
+      </ScrollArea>
     ) : null
   }
 }

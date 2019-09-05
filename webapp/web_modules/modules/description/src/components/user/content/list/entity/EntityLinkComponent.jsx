@@ -73,7 +73,7 @@ class EntityLinkComponent extends React.Component {
         />
         <PageElementOption
           IconConstructor={SearchIcon}
-          tooltip={formatMessage({ id: 'module.description.common.search.entity.tooltip' })}
+          title={formatMessage({ id: 'module.description.common.search.entity.tooltip' })}
           onClick={this.onSearchEntity}
         />
       </PageElement>)

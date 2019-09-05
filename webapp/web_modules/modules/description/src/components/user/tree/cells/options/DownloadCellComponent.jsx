@@ -32,8 +32,7 @@ const DownloadInnerButton = props => <IconButton {...props}><DownloadIcon /></Ic
  */
 class DownloadCellComponent extends React.Component {
   static propTypes = {
-    // URL: when not provided, link is disabled
-    uri: PropTypes.string,
+    file: FileData.isRequired,
   }
 
   static contextTypes = {
@@ -42,14 +41,14 @@ class DownloadCellComponent extends React.Component {
   }
 
   render() {
-    const { uri } = this.props
+    const { file: { available, uri } } = this.props
     const { intl: { formatMessage }, moduleTheme: { user: { main: { tree: { cell: { iconButton } } } } } } = this.context
 
-    return uri ? (
+    return available ? (
       <DownloadButton
         ButtonConstructor={DownloadInnerButton}
         downloadURL={uri}
-        tooltip={formatMessage({ id: 'module.description.tree.download.file.tooltip' })}
+        tooltip={formatMessage({ id: 'module.description.common.download.file.tooltip' })}
         style={iconButton.style}
         iconStyle={iconButton.iconStyle}
       />) : null // hide option when not available

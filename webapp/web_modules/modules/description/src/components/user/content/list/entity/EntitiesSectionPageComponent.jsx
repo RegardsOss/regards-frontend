@@ -21,7 +21,7 @@ import ListSectionPageComponent from '../common/ListSectionPageComponent'
 import EntityLinkComponent from './EntityLinkComponent'
 
 /**
- * Entities section page component, showing tags list
+ * Entities section page component
  * @author Raphaël Mechali
  */
 class EntitiesSectionPageComponent extends React.Component {
