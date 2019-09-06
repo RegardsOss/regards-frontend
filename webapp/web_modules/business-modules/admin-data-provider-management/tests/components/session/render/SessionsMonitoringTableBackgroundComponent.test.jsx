@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import SessionsMonitoringTableBackgroundComponent from '../../../../src/components/session/render/SessionsMonitoringTableBackgroundComponent'
+import { SessionsMonitoringTableBackgroundComponent } from '../../../../src/components/session/render/SessionsMonitoringTableBackgroundComponent'
 import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
@@ -38,7 +38,7 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringTableBackgr
   it('should render correctly', () => {
     const props = {
       isInError: true,
-      children: {},
+      children: <div />,
     }
     const enzymeWrapper = shallow(<SessionsMonitoringTableBackgroundComponent {...props} />, { context })
   })
