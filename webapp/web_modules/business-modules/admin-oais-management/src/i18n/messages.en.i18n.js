@@ -167,4 +167,24 @@ export default {
   'oais.button.switch-to.SIP': 'See SIPs',
   'oais.button.switch-to.SIP-title': 'Open SIPs panel',
 
+  'sips.submit.title': 'Data submission',
+  'sips.submit.subtitle': 'This section allows you to run a data submission thought a local file (geoson format) containing entities to submit',
+  'sips.submit.error.message': 'An error occured during submission of your data. Please check the format of your provided entities.',
+  'sips.submit.select.file.button': 'Select file containing data to submit (SIPs)',
+  'sips.submit.change.file.button': 'Change selected file',
+  'sips.submit.back.button': 'Back',
+  'sips.submit.submit.button': 'Submit',
+
+  'sips.submission-summary.title': 'Data submission summary',
+  'sips.submission-summary.details': 'Your data will be allocated through the {allocationStrategy} strategy to the datastorages : {storages}',
+  'sips.submission-summary.subtitle': 'This summary allows you to know accepted entities by the system. If yours data are accepted, so they will be handled for storage soon.',
+  'sips.submission-summary.back.button': 'Ok',
+
+  'sips.submission.not.ready.title': 'Configuration is needed before data submission',
+  'sips.submission.not.ready.information.message': 'Your system is not configured to allow data submission. Please ensure that you have well configured your data storages.',
+  'sips.submission.not.ready.server.message': 'The storage service unavailability response message is : ',
+  'sips.submission.not.ready.config.allocations.link.button': 'Configure allocation strategies',
+  'sips.submission.not.ready.config.storages.link.button': 'Configure storage locations',
+  'sips.submission.not.ready.config.catalog.security.link.button': 'Configure data access security',
+  'sips.submission.not.ready.back.button': 'Back',
 }

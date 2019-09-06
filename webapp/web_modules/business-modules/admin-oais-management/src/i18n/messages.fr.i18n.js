@@ -167,4 +167,25 @@ export default {
   'oais.button.switch-to.SIP': 'Voir les SIPs',
   'oais.button.switch-to.SIP-title': 'Ouvre le panneau des SIPs',
 
+  'sips.submit.title': 'Soumission de données',
+  'sips.submit.subtitle': 'Vous pouvez ici lancer une ingestion de données au travers d\'un fichier au format GeoJSON contenant le ou les entités',
+  'sips.submit.error.message': 'Une erreur est survenue lors de la soumission de vos données. Merci de vérifier le format des entités.',
+  'sips.submit.select.file.button': 'Sélectionner le fichier contenant les données (SIPs)',
+  'sips.submit.change.file.button': 'Changer le fichier sélectionné',
+  'sips.submit.back.button': 'Retour',
+  'sips.submit.submit.button': 'Soumettre',
+
+  'sips.submission-summary.title': 'Compte-rendu de soumission de vos données',
+  'sips.submission-summary.details': 'Vos données seront réparties grâce à la stratégie {allocationStrategy} vers les espaces de stockage : {storages}',
+  'sips.submission-summary.subtitle': 'Ce compte-rendu affiche l\'état de prise en compte de vos données par le système. Si vos données sont acceptées alors elles seront prises en compte prochainement pour être stockées',
+  'sips.submission-summary.back.button': 'Retour',
+
+  'sips.submission.not.ready.title': 'Configuration manquante pour la soumission de données',
+  'sips.submission.not.ready.information.message': 'Votre configuration du système est incomplète et vous interdit de soumettre de nouvelles données. Merci de vous assurer que vous avez bien configuré votre ou vos systèmes de stockage des données. Le système nécessite au moins un espace de stockage et une stratégie de répartition pour pouvoir stocker les données soumises.',
+  'sips.submission.not.ready.server.message': 'Le service de stockage indique : ',
+  'sips.submission.not.ready.config.allocations.link.button': 'Configurer la répartition',
+  'sips.submission.not.ready.config.storages.link.button': 'Configurer les espaces de stockage',
+  'sips.submission.not.ready.config.catalog.security.link.button': 'Sécuriser l\'accès aux données',
+  'sips.submission.not.ready.back.button': 'Retour',
+
 }

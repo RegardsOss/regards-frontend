@@ -65,12 +65,38 @@ export const sipHistoryListRoute = {
   },
 }
 
+export const sipSumitionRoute = {
+  path: 'sip/submission',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/sip/SIPSubmissionFormContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
+export const sipSumitionSummaryRoute = {
+  path: 'sip/submission-summary',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/sip/SIPSubmissionSummaryContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 const aipManagementRouter = {
   childRoutes: [
     aipFullListRoute,
     aipFileListRoute,
     sipFullListRoute,
     sipHistoryListRoute,
+    sipSumitionRoute,
+    sipSumitionSummaryRoute,
   ],
 }
 
