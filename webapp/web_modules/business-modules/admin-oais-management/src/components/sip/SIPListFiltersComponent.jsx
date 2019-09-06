@@ -16,9 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import map from 'lodash/map'
-import values from 'lodash/values'
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
@@ -44,158 +42,44 @@ import { searchSessionsActions, searchSessionsSelectors } from '../../clients/se
 */
 class SIPListFiltersComponent extends React.Component {
   static propTypes = {
-    initialFilters: PropTypes.objectOf(PropTypes.string),
-    applyFilters: PropTypes.func.isRequired,
+    editedFilters: PropTypes.objectOf(PropTypes.any),
     handleRefresh: PropTypes.func.isRequired,
     chains: IngestShapes.IngestProcessingChainList.isRequired,
     isEmptySelection: PropTypes.bool.isRequired,
     onRelaunchSelectedDialog: PropTypes.func.isRequired,
     onDeleteSelectedDialog: PropTypes.func.isRequired,
+    onApplyFilters: PropTypes.func.isRequired,
+    onFilterUpdated: PropTypes.func.isRequired,
+    onClearFilters: PropTypes.func.isRequired,
   }
-
-  static defaultProps = {}
 
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
   }
 
-  state = {
-    filters: {},
-  }
+  changeChainFilter = (event, key, newValue) => this.props.onFilterUpdated({ processing: newValue })
 
-  componentWillMount() {
-    const { initialFilters } = this.props
-    if (initialFilters) {
-      let filters = {}
-      if (initialFilters.state) {
-        filters = {
-          ...initialFilters,
-          state: initialFilters.state.includes(',') ? initialFilters.state.split(',') : [initialFilters.state],
-        }
-      } else {
-        filters = {
-          ...initialFilters,
-        }
-      }
+  changeDateFilter = newValue => this.props.onFilterUpdated({ from: newValue })
 
-      this.setState({
-        filters,
-      })
-    }
-  }
+  changeStateFilter = (event, key, newValues) => this.props.onFilterUpdated({ state: newValues })
 
-  componentDidMount() {
-    if (values(this.state.filters).length > 0) {
-      this.handleFilter()
-    }
-  }
+  changeSessionFilter = newValues => this.props.onFilterUpdated({ session: newValues })
 
-  /**
-    * Clear all filters
-    */
-  handleClearFilters = () => {
-    this.setState({ filters: {} })
-    this.props.applyFilters({})
-  }
+  changeSourceFilter = newValues => this.props.onFilterUpdated({ source: newValues })
 
-  handleFilter = () => {
-    const {
-      processing, from, state, providerId, source, session,
-    } = this.state.filters
-    const newFilters = {}
-    if (processing) {
-      newFilters.processing = processing
-    }
-    if (from) {
-      newFilters.from = from.toISOString()
-    }
-    if (state) {
-      newFilters.state = state
-    }
-    if (source) {
-      newFilters.source = source
-    }
-    if (session) {
-      newFilters.name = session
-    }
-    if (providerId) {
-      // Add '%' caracter at starts and ends of the string to search for matching pattern and not strict value.
-      newFilters.providerId = `%${providerId}%`
-    }
-    this.props.applyFilters(newFilters)
-  }
-
-  changeChainFilter = (event, key, newValue) => {
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        processing: newValue,
-      },
-    })
-  }
-
-  changeDateFilter = (newValue) => {
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        from: newValue,
-      },
-    })
-  }
-
-  changeStateFilter = (event, key, newValues) => {
-    if (newValues !== null && newValues.length > 0) {
-      this.setState({
-        filters: {
-          ...this.state.filters,
-          state: newValues,
-        },
-      })
-    }
-  }
-
-  changeSessionFilter = (newValues) => {
-    if (newValues !== null) {
-      this.setState({
-        filters: {
-          ...this.state.filters,
-          session: newValues,
-        },
-      })
-    }
-  }
-
-  changeSourceFilter = (newValues) => {
-    if (newValues !== null) {
-      this.setState({
-        filters: {
-          ...this.state.filters,
-          source: newValues,
-        },
-      })
-    }
-  }
-
-  changeProviderIdFilter = (event, newValue) => {
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        providerId: newValue,
-      },
-    })
-  }
+  changeProviderIdFilter = (event, newValues) => this.props.onFilterUpdated({ providerId: newValues })
 
   renderFilters = () => {
     const { intl, moduleTheme: { filter } } = this.context
-    const { chains } = this.props
+    const { chains, editedFilters } = this.props
     return (
       <TableHeaderLine key="filtersLine">
         <TableHeaderOptionsArea key="filtersArea" reducible alignLeft>
           <TableHeaderOptionGroup key="first">
             <TableHeaderAutoCompleteFilterContainer
               onChangeText={this.changeSourceFilter}
-              text={get(this.state, 'filters.source', '')}
+              text={editedFilters.source || ''}
               arrayActions={searchSourcesActions}
               arraySelectors={searchSourcesSelectors}
               hintText={intl.formatMessage({ id: 'oais.filters.source.title' })}
@@ -203,7 +87,7 @@ class SIPListFiltersComponent extends React.Component {
             />
             <TableHeaderAutoCompleteFilterContainer
               onChangeText={this.changeSessionFilter}
-              text={get(this.state, 'filters.session', '')}
+              text={editedFilters.session || ''}
               arrayActions={searchSessionsActions}
               arraySelectors={searchSessionsSelectors}
               hintText={intl.formatMessage({ id: 'oais.filters.session.title' })}
@@ -217,14 +101,14 @@ class SIPListFiltersComponent extends React.Component {
               hintText={intl.formatMessage({
                 id: 'oais.sips.listfilters.chain.label',
               })}
-              value={get(this.state, 'filters.processing', undefined)}
+              value={editedFilters.processing || ''}
               onChange={this.changeChainFilter}
             >
               <MenuItem value={null} primaryText="" />
               {map(chains, chain => <MenuItem key={chain.content.name} value={chain.content.name} primaryText={chain.content.name} />)}
             </SelectField>
             <TextField
-              value={get(this.state, 'filters.providerId', '')}
+              value={editedFilters.providerId || ''}
               onChange={this.changeProviderIdFilter}
               hintText={intl.formatMessage({ id: 'oais.sips.listfilters.providerId.label' })}
               style={filter.fieldStyle}
@@ -238,7 +122,7 @@ class SIPListFiltersComponent extends React.Component {
               hintText={intl.formatMessage({
                 id: 'oais.sips.listfilters.status.label',
               })}
-              value={get(this.state, 'filters.state', undefined)}
+              value={editedFilters.state || ''}
               onChange={this.changeStateFilter}
             >
               <MenuItem value={null} primaryText="" />
@@ -251,7 +135,7 @@ class SIPListFiltersComponent extends React.Component {
               />))}
             </SelectField>
             <DatePickerField
-              value={get(this.state, 'filters.from', undefined)}
+              value={editedFilters.from || undefined}
               dateHintText={intl.formatMessage({
                 id: 'oais.sips.listfilters.date.label',
               })}
@@ -273,20 +157,20 @@ class SIPListFiltersComponent extends React.Component {
             label={this.context.intl.formatMessage({ id: 'oais.sips.session.clear.filters.button' })}
             icon={<Close />}
             disabled={
-              !get(this.state, 'filters.from')
-              && !get(this.state, 'filters.state')
-              && !get(this.state, 'filters.processing')
-              && !get(this.state, 'filters.providerId')
-              && !get(this.state, 'filters.source')
-              && !get(this.state, 'filters.session')
+              !this.props.editedFilters.from
+              && !this.props.editedFilters.state
+              && !this.props.editedFilters.processing
+              && !this.props.editedFilters.providerId
+              && !this.props.editedFilters.source
+              && !this.props.editedFilters.session
             }
-            onClick={this.handleClearFilters}
+            onClick={this.props.onClearFilters}
           />
           <FlatButton
             key="apply"
             label={this.context.intl.formatMessage({ id: 'oais.sips.session.apply.filters.button' })}
             icon={<Filter />}
-            onClick={this.handleFilter}
+            onClick={this.props.onApplyFilters}
           />
           <RelaunchSelectedSIPsContainer
             disabled={this.props.isEmptySelection}

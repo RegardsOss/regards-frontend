@@ -110,7 +110,7 @@ export class SIPListContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.params.sip !== this.props.params.sip || nextProps.params.session !== this.props.params.session) {
+    if (nextProps.params.sip !== this.props.params.sip) {
       this.initializeContextFilters(nextProps)
     }
   }
@@ -140,9 +140,14 @@ export class SIPListContainer extends React.Component {
     browserHistory.push(`/admin/${project}/data/acquisition/datasource/monitor`)
   }
 
-  handleGoBack = () => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/dataprovider/sessions`
+  handleGoBack = (level) => {
+    const { params: { project, sip } } = this.props
+    let url
+    if (sip) {
+      url = `/admin/${project}/data/acquisition/oais/sip/list`
+    } else {
+      url = `/admin/${project}/data/acquisition/dataprovider/sessions`
+    }
     browserHistory.push(url)
   }
 
@@ -154,12 +159,10 @@ export class SIPListContainer extends React.Component {
   }
 
   initializeContextFilters = (props) => {
-    const { params: { session, sip } } = props
+    const { params: { sip } } = props
     const contextFilters = {}
     if (sip) {
       contextFilters.providerId = sip
-    } else if (session) {
-      contextFilters.sessionId = session
     }
     this.setState({ contextFilters })
   }
@@ -172,10 +175,9 @@ export class SIPListContainer extends React.Component {
   }
 
   goToSipHistory = (providerId) => {
-    const { params: { project, session } } = this.props
-    const encodedSessionName = encodeURIComponent(session)
+    const { params: { project } } = this.props
     const encodedProviderId = encodeURIComponent(providerId)
-    const url = `/admin/${project}/data/acquisition/oais/sip/${encodedSessionName}/${encodedProviderId}/history`
+    const url = `/admin/${project}/data/acquisition/oais/sip/${encodedProviderId}/history`
     browserHistory.push(url)
   }
 

@@ -119,9 +119,32 @@ class SIPListComponent extends React.Component {
    * @returns {*} requestParameters as an object compound of string and string arrays
    */
   static buildRequestParameters(columnsSorting, appliedFilters) {
+    const {
+      processing, from, state, providerId, source, session,
+    } = appliedFilters
+    const newFilters = {}
+    if (processing) {
+      newFilters.processing = processing
+    }
+    if (from) {
+      newFilters.from = from.toISOString()
+    }
+    if (state) {
+      newFilters.state = state
+    }
+    if (source) {
+      newFilters.source = source
+    }
+    if (session) {
+      newFilters.name = session
+    }
+    if (providerId) {
+      // Add '%' caracter at starts and ends of the string to search for matching pattern and not strict value.
+      newFilters.providerId = `%${providerId}%`
+    }
     const requestParameters = {
       sort: columnsSorting.map(({ columnKey, order }) => `${SIPListComponent.COLUMN_KEY_TO_QUERY[columnKey]},${SIPListComponent.COLUMN_ORDER_TO_QUERY[order]}`),
-      ...appliedFilters,
+      ...newFilters,
     }
     return requestParameters
   }
@@ -132,7 +155,9 @@ class SIPListComponent extends React.Component {
   }
 
   state = {
-    appliedFilters: {},
+    appliedFilters: this.props.contextFilters,
+    editedFilters: { ...this.props.contextFilters },
+    previouslyAppliedFilters: {},
     sipToView: null,
     sipToDelete: null,
     relaunchOperation: null,
@@ -142,18 +167,20 @@ class SIPListComponent extends React.Component {
     columnsSorting: [],
   }
 
-  componentWillMount() {
-    this.setState({
-      appliedFilters: this.props.contextFilters,
-    })
-  }
-
   componentWillReceiveProps(nextProps) {
     const { contextFilters } = this.props
+    const { appliedFilters, previouslyAppliedFilters } = this.state
+    let newFilters
 
     if (!isEqual(nextProps.contextFilters, contextFilters)) {
-      this.setState({
-        appliedFilters: nextProps.contextFilters,
+      if (Object.keys(nextProps.contextFilters).length === 0 && nextProps.contextFilters.constructor === Object) {
+        newFilters = previouslyAppliedFilters
+      } else {
+        newFilters = nextProps.contextFilters
+      }
+      this.onStateUpdated({
+        appliedFilters: newFilters,
+        previouslyAppliedFilters: appliedFilters,
       })
     }
   }
@@ -182,10 +209,26 @@ class SIPListComponent extends React.Component {
     this.onStateUpdated({ columnsSorting: newOrder })
   }
 
-  applyFilters = (filters) => {
+  onApplyFilters = () => {
     const { contextFilters } = this.props
-    const appliedFilters = { ...filters, ...contextFilters }
+    const { editedFilters } = this.state
+    const appliedFilters = { ...editedFilters, ...contextFilters }
     this.onStateUpdated({ appliedFilters })
+  }
+
+  onFilterUpdated = (newFilterValue) => {
+    const { editedFilters } = this.state
+
+    this.onStateUpdated({
+      editedFilters: {
+        ...editedFilters,
+        ...newFilterValue,
+      },
+    })
+  }
+
+  onClearFilters = () => {
+    this.onStateUpdated({ appliedFilters: {}, editedFilters: {} })
   }
 
   onCloseDetails = () => {
@@ -373,10 +416,10 @@ class SIPListComponent extends React.Component {
     const { intl, muiTheme } = this.context
     const { sip } = this.props
     const {
-      pageSize, resultsCount, initialFilters, chains, entitiesLoading, goToSessionAIPsMonitoring, session,
+      pageSize, resultsCount, chains, initialFilters, entitiesLoading, goToSessionAIPsMonitoring, session,
       goToDataSourcesMonitoring, isEmptySelection,
     } = this.props
-    const { columnsSorting } = this.state
+    const { columnsSorting, editedFilters } = this.state
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
@@ -460,17 +503,23 @@ class SIPListComponent extends React.Component {
     return (
       <CardMedia>
         <TableLayout>
-          <SIPListFiltersComponent
-            key={this.props.sip ? 'sip-history' : 'session-sips'}
-            initialFilters={!this.props.sip ? initialFilters : null}
-            applyFilters={this.applyFilters}
-            handleRefresh={this.handleRefresh}
-            chains={chains}
-            emptyComponent={emptyComponent}
-            isEmptySelection={isEmptySelection}
-            onRelaunchSelectedDialog={this.onRelaunchSelectedDialog}
-            onDeleteSelectedDialog={this.onDeleteSelectedDialog}
-          />
+          { !this.props.sip ? (
+            <SIPListFiltersComponent
+              key={this.props.sip ? 'sip-history' : 'session-sips'}
+              editedFilters={!this.props.sip ? editedFilters : null}
+              onApplyFilters={this.onApplyFilters}
+              handleRefresh={this.handleRefresh}
+              chains={chains}
+              emptyComponent={emptyComponent}
+              isEmptySelection={isEmptySelection}
+              onRelaunchSelectedDialog={this.onRelaunchSelectedDialog}
+              onDeleteSelectedDialog={this.onDeleteSelectedDialog}
+              onFilterUpdated={this.onFilterUpdated}
+              onClearFilters={this.onClearFilters}
+            />
+          ) : (
+            <div />
+          )}
           <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
           <PageableInfiniteTableContainer
             name="sip-management-session-table"
