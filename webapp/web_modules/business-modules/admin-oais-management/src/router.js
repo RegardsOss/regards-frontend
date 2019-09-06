@@ -54,7 +54,7 @@ export const sipFullListRoute = {
 }
 
 export const sipHistoryListRoute = {
-  path: 'sip/:session/:sip/history',
+  path: 'sip/:sip/history',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const container = require('./containers/sip/SIPListContainer')
