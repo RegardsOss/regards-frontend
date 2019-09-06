@@ -30,7 +30,6 @@ import { connectionDependencies } from '@regardsoss/admin-data-connection-manage
 import { datasourceDependencies } from '@regardsoss/admin-data-datasource-management'
 import { processingChainDependencies } from '@regardsoss/admin-ingest-processing-chain-management'
 import { dataProviderDependencies } from '@regardsoss/admin-data-provider-management'
-import { sipDependencies } from '@regardsoss/admin-ingest-sip-management'
 import { storageManagementDependencies } from '@regardsoss/admin-storage-management'
 import { oaisDependencies } from '../../../admin-oais-management'
 
@@ -74,7 +73,7 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/acquisition/oais/sip/submission`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.sumition.tooltip' }),
-        hateoasDependencies: sipDependencies.addDependencies,
+        hateoasDependencies: oaisDependencies.addDependencies,
       },
       {
         path: `/admin/${projectName}/data/acquisition/oais/sip/list`,
