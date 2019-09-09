@@ -25,6 +25,7 @@ import CloudQueue from 'material-ui/svg-icons/file/cloud-queue'
 import Brush from 'material-ui/svg-icons/image/brush'
 import Divider from 'material-ui/Divider'
 import GroupWork from 'material-ui/svg-icons/action/group-work'
+import Commands from 'material-ui/svg-icons/action/shopping-cart'
 import Back from 'material-ui/svg-icons/navigation/arrow-back'
 import MenuItem from 'material-ui/MenuItem'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
@@ -35,6 +36,7 @@ import { userDependencies } from '@regardsoss/admin-user-management'
 import { modelsDependencies } from '@regardsoss/admin-board-models'
 import { collectionsDependencies } from '@regardsoss/admin-board-collections'
 import { acquisitionDependencies } from '@regardsoss/admin-board-acquisition'
+import { commandsDependencies } from '@regardsoss/admin-board-commands'
 import { dataAccessDependencies } from '@regardsoss/admin-board-dataaccess'
 import { microserviceDependencies } from '@regardsoss/admin-microservice-management'
 import { ShowableAtRender, someMatchHateoasDisplayLogic, withResourceDisplayControl } from '@regardsoss/display-control'
@@ -164,6 +166,17 @@ class ProjectSidebarComponent extends React.Component {
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.ui.configuration' })}
           leftIcon={<Brush
+            color={this.context.muiTheme.svgIcon.color}
+          />}
+        />
+        <SidebarElementWithResourceDisplayControl
+          key="8"
+          resourceDependencies={commandsDependencies}
+          displayLogic={someMatchHateoasDisplayLogic}
+          to={`/admin/${projectName}/commands/board`}
+          currentPath={this.props.currentPath}
+          primaryText={this.context.intl.formatMessage({ id: 'menu.commands' })}
+          leftIcon={<Commands
             color={this.context.muiTheme.svgIcon.color}
           />}
         />

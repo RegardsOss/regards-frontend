@@ -16,29 +16,82 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DataProviderDomain } from '@regardsoss/domain'
-import { StringValueRender } from '@regardsoss/components'
+import Toggle from 'material-ui/Toggle'
 import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import { DataProviderShapes } from '@regardsoss/shape'
+import { withHateoasDisplayControl } from '@regardsoss/display-control'
 
+/** HATEOAS-able button, exported for tests */
+export const HateoasToggle = withHateoasDisplayControl(Toggle)
 /**
  * Renderer for acquisition processing chain mode
  * @author Raphaël Mechali
  */
-class AcquisitionProcessingChainMonitorModeRenderer extends React.Component {
+export class AcquisitionProcessingChainMonitorModeRenderer extends React.Component {
   static propTypes = {
-    value: PropTypes.oneOf(DataProviderDomain.AcquisitionProcessingChainModes).isRequired,
+    entity: PropTypes.shape({
+      content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
+      links: PropTypes.array,
+    }),
+    onToggle: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
+  }
+
+  /** HateOAS Link to delete on All storages  */
+  static CHANGE_MODE_LINK = 'changeMode'
+
+  onToggle = () => {
+    const { entity, onToggle } = this.props
+    let toggleMode = 'MANUAL'
+    if (entity.content.chain.mode === 'MANUAL') {
+      toggleMode = 'AUTO'
+    }
+    onToggle(entity.content.chainId, 'ONLY_MODE', toggleMode)
   }
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { value } = this.props
+    const { entity: { content: { chain: { mode } }, links } } = this.props
+    const {
+      moduleTheme: {
+        monitoring: {
+          toggles: {
+            toggleContainer, toggleModeColor, toggleStyle, toggleGridLabel, toggleGridToggle,
+          },
+        },
+      },
+    } = this.context
+    let isToggled = true
+    if (mode === 'MANUAL') {
+      isToggled = false
+    }
+
     return (
-      <StringValueRender value={formatMessage({ id: `acquisition-chain.monitor.list.mode.${value}` })} />
+
+      <div style={toggleContainer}>
+        <div style={toggleGridLabel}>
+          { isToggled ? formatMessage({ id: 'acquisition-chain.monitor.list.mode.auto' }) : formatMessage({ id: 'acquisition-chain.monitor.list.mode.manual' }) }
+        </div>
+        <div style={toggleGridToggle}>
+          <HateoasToggle
+            entityLinks={links}
+            hateoasKey={AcquisitionProcessingChainMonitorModeRenderer.CHANGE_MODE_LINK}
+            alwaysDisplayforInstanceUser={false}
+            disableInsteadOfHide
+            toggled={isToggled}
+            onToggle={this.onToggle}
+            thumbStyle={toggleModeColor}
+            thumbSwitchedStyle={toggleModeColor}
+            style={toggleStyle}
+          />
+        </div>
+      </div>
+
     )
   }
 }
-export default AcquisitionProcessingChainMonitorModeRenderer

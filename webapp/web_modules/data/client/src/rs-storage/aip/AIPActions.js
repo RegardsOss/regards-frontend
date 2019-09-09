@@ -49,7 +49,7 @@ export default class AIPActions extends BasicPageableActions {
    */
   fetchPagedEntityList(pageNumber, size, contextFilters = {}) {
     // modify parent request to use POST and body
-    const parentRequest = super.fetchPagedEntityList(pageNumber, size)
+    const parentRequest = super.fetchPagedEntityList(pageNumber, size, {}, contextFilters.sort ? { sort : contextFilters.sort} : {})
     parentRequest[RSAA].method = 'POST'
     parentRequest[RSAA].body = JSON.stringify(contextFilters)
     return parentRequest

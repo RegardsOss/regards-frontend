@@ -20,7 +20,6 @@ import { connectionDependencies } from '@regardsoss/admin-data-connection-manage
 import { datasourceDependencies } from '@regardsoss/admin-data-datasource-management'
 import { dataProviderDependencies } from '@regardsoss/admin-data-provider-management'
 import { processingChainDependencies } from '@regardsoss/admin-ingest-processing-chain-management'
-import { sipDependencies } from '@regardsoss/admin-ingest-sip-management'
 import { storageManagementDependencies } from '@regardsoss/admin-storage-management'
 
 /**
@@ -33,7 +32,6 @@ export default [
   ...datasourceDependencies.addDependencies,
   ...dataProviderDependencies.addDependencies,
   ...processingChainDependencies.addDependencies,
-  ...sipDependencies.addDependencies,
   ...storageManagementDependencies.addPluginDependencies,
   ...storageManagementDependencies.monitoringDependencies,
 ]

@@ -50,6 +50,15 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainMon
       onBack: () => new Promise(() => { }),
       onRunChain: () => new Promise(() => { }),
       onStopChain: () => new Promise(() => { }),
+      onDelete: () => {},
+      onEdit: () => {},
+      onListChainAction: () => {},
+      onCreate: () => {},
+      fetchPage: () => {},
+      onMultiToggleSelection: () => {},
+      onToggle: () => {},
+      isOneCheckboxToggled: true,
+      hasAccess: true,
     }
     const enzymeWrapper = shallow(<AcquisitionProcessingChainMonitorListComponent {...props} />, { context })
     const filters = enzymeWrapper.find(AcquisitionProcessingChainMonitoringListFiltersComponent)
