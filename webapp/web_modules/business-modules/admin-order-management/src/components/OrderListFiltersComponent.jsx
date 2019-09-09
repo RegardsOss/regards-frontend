@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
 import IconButton from 'material-ui/IconButton'
 import { MenuItem } from 'material-ui/Menu'
 import ClearFilter from 'material-ui/svg-icons/content/backspace'
@@ -53,7 +52,6 @@ class OrderListFiltersComponent extends React.Component {
     text: email, // text field output when a user is selected
     value: <MenuItem primaryText={email} />, // graphic render
   })
-
 
   render() {
     const {

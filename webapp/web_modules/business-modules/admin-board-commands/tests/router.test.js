@@ -18,7 +18,7 @@
  **/
 import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { orderRouter } from '@regardsoss/admin-user-management'
+import { orderRouter } from '@regardsoss/admin-order-management'
 import Routes from '../src/router'
 import ModuleContainer from '../src/components/ModuleContainer'
 
@@ -28,7 +28,7 @@ describe('[ADMIN BOARD COMMANDS] Testing acquisition board router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(8)
+    expect(Routes.childRoutes).to.have.length(2)
     expect(Routes.childRoutes[0].path).to.eq('board')
     expect(Routes.childRoutes[1].path).to.eq('history')
   })

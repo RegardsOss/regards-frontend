@@ -20,7 +20,6 @@ import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { servicesManagementRouter } from '@regardsoss/admin-dataaccess-services-management'
 import { searchEnginesRouter } from '@regardsoss/admin-dataaccess-searchengines-management'
-import { accessGroupManagementRouter } from '@regardsoss/admin-accessright-accessgroup-management'
 import { accessRightManagementRouter } from '@regardsoss/admin-accessright-dataaccess-management'
 import Routes from '../src/router'
 import ModuleContainer from '../src/containers/ModuleContainer'
@@ -31,12 +30,11 @@ describe('[ADMIN BOARD DATA ACCESS] Testing dataaccess board router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(5)
+    expect(Routes.childRoutes).to.have.length(4)
     expect(Routes.childRoutes[0].path).to.eq('board')
     expect(Routes.childRoutes[1].path).to.eq('services')
     expect(Routes.childRoutes[2].path).to.eq('searchengines')
-    expect(Routes.childRoutes[3].path).to.eq('access-group')
-    expect(Routes.childRoutes[4].path).to.eq('access-rights')
+    expect(Routes.childRoutes[3].path).to.eq('access-rights')
   })
 
 
@@ -58,14 +56,8 @@ describe('[ADMIN BOARD DATA ACCESS] Testing dataaccess board router', () => {
       done()
     })
   })
-  it('should return accessGroupManagementRouter', (done) => {
-    Routes.childRoutes[3].getChildRoutes(undefined, (smth, component) => {
-      expect(component[0]).to.eq(accessGroupManagementRouter)
-      done()
-    })
-  })
   it('should return accessRightManagementRouter', (done) => {
-    Routes.childRoutes[4].getChildRoutes(undefined, (smth, component) => {
+    Routes.childRoutes[3].getChildRoutes(undefined, (smth, component) => {
       expect(component[0]).to.eq(accessRightManagementRouter)
       done()
     })
