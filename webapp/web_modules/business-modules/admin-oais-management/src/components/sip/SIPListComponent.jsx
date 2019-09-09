@@ -122,6 +122,7 @@ class SIPListComponent extends React.Component {
     const {
       processing, from, state, providerId, source, session,
     } = appliedFilters
+
     const newFilters = {}
     if (processing) {
       newFilters.processing = processing
@@ -167,21 +168,39 @@ class SIPListComponent extends React.Component {
     columnsSorting: [],
   }
 
+  componentWillMount = () => {
+    const { initialFilters, contextFilters } = this.props
+    const combinedInitialFilters = {
+      ...initialFilters,
+      ...contextFilters,
+    }
+    this.onStateUpdated({
+      appliedFilters: combinedInitialFilters,
+      editedFilters: combinedInitialFilters,
+    })
+  }
+
   componentWillReceiveProps(nextProps) {
     const { contextFilters } = this.props
     const { appliedFilters, previouslyAppliedFilters } = this.state
     let newFilters
-
     if (!isEqual(nextProps.contextFilters, contextFilters)) {
       if (Object.keys(nextProps.contextFilters).length === 0 && nextProps.contextFilters.constructor === Object) {
-        newFilters = previouslyAppliedFilters
+        newFilters = {
+          ...nextProps.initialFilters,
+          ...previouslyAppliedFilters,
+        }
+        this.onStateUpdated({
+          appliedFilters: newFilters,
+          editedFilters: newFilters,
+        })
       } else {
         newFilters = nextProps.contextFilters
+        this.onStateUpdated({
+          appliedFilters: newFilters,
+          previouslyAppliedFilters: appliedFilters,
+        })
       }
-      this.onStateUpdated({
-        appliedFilters: newFilters,
-        previouslyAppliedFilters: appliedFilters,
-      })
     }
   }
 

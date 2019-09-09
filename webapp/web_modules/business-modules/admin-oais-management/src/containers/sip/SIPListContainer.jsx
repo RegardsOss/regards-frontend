@@ -111,7 +111,8 @@ export class SIPListContainer extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.params.sip !== this.props.params.sip) {
-      this.initializeContextFilters(nextProps)
+    this.initializeFiltersFromURL()
+    this.initializeContextFilters(nextProps)
     }
   }
 
@@ -142,13 +143,11 @@ export class SIPListContainer extends React.Component {
 
   handleGoBack = (level) => {
     const { params: { project, sip } } = this.props
-    let url
     if (sip) {
-      url = `/admin/${project}/data/acquisition/oais/sip/list`
+      browserHistory.goBack()
     } else {
-      url = `/admin/${project}/data/acquisition/dataprovider/sessions`
+      browserHistory.push(`/admin/${project}/data/acquisition/dataprovider/sessions`)
     }
-    browserHistory.push(url)
   }
 
   /** User callback:  */

@@ -174,16 +174,6 @@ export class AIPListContainer extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     const newState = { ...this.state }
 
-    // handle fitlers from parameters
-    // if (!isEqual(params.session, get(oldProps, 'params.session')) && params.session) {
-    //   newState.contextFilters = {
-    //     session: params.session,
-    //   }
-    //   newState.currentFilters = {
-    //     ...newState.contextFilters,
-    //   }
-    // }
-
     // Intialization case: restore filters from URL, if any
     if (isEmpty(oldProps)) {
       const { query } = browserHistory.getCurrentLocation()
@@ -195,7 +185,6 @@ export class AIPListContainer extends React.Component {
           session: query.session,
           source: query.source,
         }
-        console.error('hi ==> ', newState.currentFilters)
         newState.requestParameters = AIPListContainer.buildRequestParameters([], newState.currentFilters)
       }
     }
@@ -208,7 +197,6 @@ export class AIPListContainer extends React.Component {
 
   onStateUpdated = (stateDiff) => {
     const nextState = { ...this.state, ...stateDiff }
-    console.error('AppliedFilters: ', nextState.appliedFilters)
     nextState.requestParameters = AIPListContainer.buildRequestParameters(nextState.columnsSorting, nextState.currentFilters)
     this.setState(nextState)
   }
