@@ -20,21 +20,36 @@ import { MIME_TYPES } from '@regardsoss/mime-types'
 
 /**
  * Shows content of any accepted browser type within an iFrame (required for PDF/ HTML, ...), contained in a dialog
-* You can use all accepted dialog properties
-*/
+ * You can use all accepted dialog properties
+ */
 class IFrameURLContentDisplayer extends React.Component {
   /**
    * Maps MIME type to editor mode
    */
-  static MIMETypes = [
+  static SUPPORTED_MIME_TYPES = [
     MIME_TYPES.TEXT,
     MIME_TYPES.HTML_MIME_TYPE,
     MIME_TYPES.PDF_MIME_TYPE,
     MIME_TYPES.XHTML_MIME_TYPE,
   ]
 
+  static getSupportedMIMETypes() {
+    return IFrameURLContentDisplayer.MIMETypes
+  }
+
+  /**
+   * Is supported content type for this component?
+   * @param {string} contentType to test
+   * @return {boolean} true if content type is supported, false otherwise
+   */
+  static isSupportedContentType(contentType) {
+    const lowerContentType = contentType.toLowerCase()
+    return IFrameURLContentDisplayer.SUPPORTED_MIME_TYPES.some(mimeType => lowerContentType.includes(mimeType))
+  }
+
+
   static propTypes = {
-    contentURL: PropTypes.string.isRequired,
+    source: PropTypes.string.isRequired,
     onContentLoaded: PropTypes.func, // callback, called when IFrame content was loaded
     onContentError: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
@@ -48,23 +63,15 @@ class IFrameURLContentDisplayer extends React.Component {
     height: '100%', width: '100%', background: 'white',
   }
 
-  static getSupportedMIMETypes() {
-    return IFrameURLContentDisplayer.MIMETypes
-  }
-
-  static isSupportedType(mimeType) {
-    return IFrameURLContentDisplayer.MIMETypes.includes(mimeType.split(';')[0])
-  }
-
   render() {
-    const { contentURL, onContentLoaded, onContentError } = this.props
+    const { source, onContentLoaded, onContentError } = this.props
     const styles = this.props.style ? this.props.style : IFrameURLContentDisplayer.DEFAULT_STYLES
     return (
       <div style={IFrameURLContentDisplayer.LAYOUT_STYLE}>
         <iframe
           title="content-displayer"
           style={styles}
-          src={contentURL}
+          src={source}
           onLoad={onContentLoaded}
           onError={onContentError}
         />

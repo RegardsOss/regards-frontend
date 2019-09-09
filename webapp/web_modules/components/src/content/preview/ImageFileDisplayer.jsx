@@ -25,26 +25,27 @@ import { MIME_TYPES } from '@regardsoss/mime-types'
 * @author Raphaël Mechali
 */
 class ImageFileDisplayer extends React.Component {
-  /**
-   * Maps MIME type to editor mode
-   */
-  static MIMETypes = [
+  /** Supported MIME types */
+  static SUPPORTED_MIME_TYPES = [
     MIME_TYPES.JPEG_MIME_TYPE,
     MIME_TYPES.GIF_MIME_TYPE,
     MIME_TYPES.PNG_MIME_TYPE,
     MIME_TYPES.TIF_MIME_TYPE,
   ]
 
-  static getSupportedMIMETypes() {
-    return ImageFileDisplayer.MIMETypes
+  /**
+   * Is supported content type for this component?
+   * @param {string} contentType to test
+   * @return {boolean} true if content type is supported, false otherwise
+   */
+  static isSupportedContentType(contentType) {
+    const lowerContentType = contentType.toLowerCase()
+    return ImageFileDisplayer.SUPPORTED_MIME_TYPES.some(mimeType => lowerContentType.includes(mimeType))
   }
 
-  static isSupportedType(mimeType) {
-    return ImageFileDisplayer.MIMETypes.includes(mimeType)
-  }
 
   static propTypes = {
-    imageURL: PropTypes.string.isRequired,
+    source: PropTypes.string,
   }
 
   static contextTypes = {
@@ -53,12 +54,18 @@ class ImageFileDisplayer extends React.Component {
   }
 
   render() {
-    const { imageURL } = this.props
+    const { source } = this.props
     const { intl: { formatMessage }, moduleTheme: { image } } = this.context
+    // Do not display without source URL
+    if (!source) {
+      return null
+    }
+
+
     return (
       <div style={image.containerStyles}>
         <img
-          src={imageURL}
+          src={source}
           alt={formatMessage({ id: 'image.file.not.displayed' })}
           style={image.styles}
         />

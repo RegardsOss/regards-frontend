@@ -182,7 +182,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-microservice-management/src/containers/plugin/PluginConfigurationListContainer.jsx'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-user-role-resource-access-management/src/containers/ResourceAccessFormContainer.jsx'),
       new webpack.PrefetchPlugin('./web_modules/components/src/main.js'),
-      new webpack.PrefetchPlugin('./web_modules/components/src/content/MarkdownFileContentDisplayer.jsx'),
+      new webpack.PrefetchPlugin('./web_modules/components/src/content/preview/MarkdownFileContentDisplayer.jsx'),
       new webpack.PrefetchPlugin('./web_modules/modules/search-results/src/containers/AdminContainer.jsx'),
       new webpack.PrefetchPlugin('./web_modules/modules/search-results/src/containers/ModuleContainer.jsx'),
       new webpack.PrefetchPlugin('./web_modules/modules/search-graph/src/containers/user/UserModuleContainer.jsx'),

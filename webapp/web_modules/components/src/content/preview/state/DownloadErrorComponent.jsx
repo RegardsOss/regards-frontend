@@ -16,27 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ImageOff from 'mdi-material-ui/ImageOff'
+import MessageIconConstructor from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { i18nContextType } from '@regardsoss/i18n'
-import NoContentComponent from './NoContentComponent'
+import NoContentComponent from '../../feedback/NoContentComponent'
 
 /**
-* Displays picture files
-* @author Sébastien Binda
-*/
-class NoPreviewDisplayer extends React.Component {
+ * Default download error message
+ * @author Raphaël Mechali
+ */
+class DownloadErrorComponent extends React.Component {
   static contextTypes = {
     ...i18nContextType,
   }
 
   render() {
+    const { intl: { formatMessage } } = this.context
     return (
       <NoContentComponent
-        title={this.context.intl.formatMessage({ id: 'file.displayer.no.preview.message' })}
-        Icon={ImageOff}
+        title={formatMessage({ id: 'default.file.download.error.title' })}
+        message={formatMessage({ id: 'default.file.download.error.message' })}
+        Icon={MessageIconConstructor}
       />
     )
   }
 }
 
-export default NoPreviewDisplayer
+export default DownloadErrorComponent

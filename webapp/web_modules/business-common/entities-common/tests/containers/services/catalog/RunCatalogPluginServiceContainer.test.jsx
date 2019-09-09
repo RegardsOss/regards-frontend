@@ -22,6 +22,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { AdminPluginConfigurationSchemaConfiguration, PluginMetaDataConfiguration } from '@regardsoss/api'
 import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { FileContentDisplayer } from '@regardsoss/components'
+import { LocalURLProvider } from '@regardsoss/display-control'
 import RunServiceDialogConnectedComponent, { RunServiceDialogComponent } from '../../../../src/components/services/RunServiceDialogComponent'
 import { buildOneElementTarget, buildManyElementsTarget, buildQueryTarget } from '../../../../src/definitions/ServiceTarget'
 import { RunCatalogPluginServiceContainer } from '../../../../src/containers/services/catalog/RunCatalogPluginServiceContainer'
@@ -109,13 +110,13 @@ const getContentObjectWithParameters = (model, parameters = []) => ({
 describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
   let toRestore
   before(() => {
-    // stub FileContentDisplayer.buildLocalAccessURL to not use blobs and URL
-    toRestore = FileContentDisplayer.buildLocalAccessURL
-    FileContentDisplayer.buildLocalAccessURL = fakeContent => fakeContent.text
+    // stub LocalURLProvider.buildLocalAccessURL to not use blobs and URL
+    toRestore = LocalURLProvider.buildLocalAccessURL
+    LocalURLProvider.buildLocalAccessURL = fakeContent => fakeContent.text
     testSuiteHelpers.before()
   })
   after(() => {
-    FileContentDisplayer.buildLocalAccessURL = toRestore
+    LocalURLProvider.buildLocalAccessURL = toRestore
     testSuiteHelpers.after()
   })
 

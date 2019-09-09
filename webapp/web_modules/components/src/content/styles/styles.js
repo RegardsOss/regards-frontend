@@ -46,44 +46,68 @@ const styles = theme => ({
       borderBottomColor: theme.palette.primary1Color,
     },
   },
+  loading: {
+    container: {
+      ...theme.components.loadingContent.container,
+      flexGrow: 1,
+      flexShrink: 1,
+      width: '100%',
+      height: '100%',
+    },
+    circle: theme.components.loadingContent.circle,
+    message: theme.components.loadingContent.message,
+  },
   noContent: {
     wrapper: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       flexDirection: 'column',
-      minHeight: '30vh',
-      // auto alignement in flex container
+      minHeight: theme.components.noData.minHeight,
       flexGrow: 1,
       flexShrink: 1,
-    },
-    iconStyle: {
-      width: '128px',
-      height: '128px',
-      opacity: '0.2',
-    },
-    titleWrapper: {
-      maxWidth: '300px',
-      marginTop: '0.2em',
-      color: theme.palette.textColor,
-      fontSize: '1.5em',
-    },
-    messageWrapper: {
-      maxWidth: '300px',
-      marginTop: '0.6em',
-      color: theme.palette.secondaryTextColor,
-      textAlign: 'center',
-      fontSize: '1em',
-    },
-    actionWrapper: {
-    },
-  },
-  code: {
-    styles: {
       width: '100%',
       height: '100%',
     },
+    iconStyle: {
+      width: theme.components.noData.icon.size,
+      height: theme.components.noData.icon.size,
+      opacity: theme.components.noData.icon.opacity,
+    },
+    titleWrapper: {
+      maxWidth: theme.components.noData.maxWidth,
+      marginTop: theme.components.noData.title.marginTop,
+      color: theme.components.noData.title.color,
+      fontSize: theme.components.noData.title.fontSize,
+    },
+    messageWrapper: {
+      maxWidth: theme.components.noData.maxWidth,
+      marginTop: theme.components.noData.text.marginTop,
+      color: theme.components.noData.text.color,
+      fontSize: theme.components.noData.text.fontSize,
+      textAlign: theme.components.noData.text.textAlign,
+    },
+    actionWrapper: {},
   },
+  fileContent: {
+    statusContainer: { // style to use as root for every status display (allow them growing using the default styles)
+      width: '100%',
+      height: '100%',
+      flexGrow: 1,
+      flexShrink: 1,
+      display: 'flex',
+      alignItems: 'strech',
+    },
+    // TODO: not working
+    markdownPreviewContainer: { // layout a markdown subcomponent
+      width: '100%',
+      height: '100%',
+      flexGrow: 1,
+      flexShrink: 1,
+      display: 'block',
+    },
+  },
+  // TODO: elements below should probably be deleted or embedded in section above
   image: {
     containerStyles: {
       width: '100%',
@@ -101,18 +125,6 @@ const styles = theme => ({
       background: '#0366d6',
       borderRadius: '3px',
       width: '6px',
-    },
-  },
-  noPreview: {
-    container: {
-      display: 'flex',
-      flexDirection: 'column',
-      margin: 'auto',
-      width: '256px',
-    },
-    text: { width: '256px', textAlign: 'center' },
-    icon: {
-      width: '256px',
     },
   },
 })

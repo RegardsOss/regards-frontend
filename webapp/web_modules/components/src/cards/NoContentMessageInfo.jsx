@@ -18,7 +18,7 @@
  **/
 import DefaultIcon from 'material-ui/svg-icons/social/sentiment-very-satisfied'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import NoContentComponent from '../content/NoContentComponent'
+import NoContentComponent from '../content/feedback/NoContentComponent'
 import styles from './styles'
 
 /**

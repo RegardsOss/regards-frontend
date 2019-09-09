@@ -21,6 +21,7 @@
 
 .markdown-body .pl-c {
     color: #6a737d;
+    min-height: 100%,
 }
 
 .markdown-body .pl-c1,

@@ -64,6 +64,45 @@ export default baseTheme => ({
       firstLevelIndentation: 8,
       nextLevelsIndentation: 24,
     },
+    loadingContent: {
+      container: {
+        padding: '24px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      circle: {
+        size: 192,
+        thickness: 1.5,
+        color: baseTheme.subheader.color,
+      },
+      message: {
+        fontWeight: '1em',
+        padding: '24px 0 0 0',
+        color: baseTheme.subheader.color,
+      },
+    },
+    noData: {
+      maxWidth: 400,
+      minHeight: '30vh',
+      icon: {
+        size: 128,
+        opacity: 0.2,
+        color: baseTheme.palette.primary1Color,
+      },
+      title: {
+        marginTop: '0.2em',
+        color: baseTheme.palette.textColor,
+        fontSize: '1.5em',
+      },
+      text: {
+        marginTop: '0.6em',
+        color: baseTheme.palette.textColor,
+        fontSize: '1em',
+        textAlign: 'center',
+      },
+    },
   },
   formsExtensions: {
     dateField: {
@@ -133,25 +172,6 @@ export default baseTheme => ({
           linkTextDecoration: 'underline',
           textTextDecoration: 'none',
           fontWeight: 400,
-        },
-      },
-      loading: {
-        container: {
-          padding: '24px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-        circle: {
-          size: 192,
-          thickness: 1.5,
-          color: baseTheme.subheader.color,
-        },
-        message: {
-          fontWeight: '1em',
-          padding: '24px 0 0 0',
-          color: baseTheme.subheader.color,
         },
       },
       contentPadding: '5px 21px 5px 21px',

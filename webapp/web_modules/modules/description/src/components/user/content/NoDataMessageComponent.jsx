@@ -35,10 +35,6 @@ class NoDataMessageComponent extends React.Component {
     MODEL_RETRIEVAL_FAILED: 'MODEL_RETRIEVAL_FAILED',
     /** No parameter to show */
     NO_PARAMETER: 'NO_PARAMETER',
-    /** No preview for MIME type */
-    NO_PREVIEW_FOR_FILE: 'NO_PREVIEW_FOR_FILE',
-    /** File download error */
-    FILE_DOWNLOAD_ERROR: 'FILE_DOWNLOAD_ERROR',
   }
 
   /** Graphics data associated with no data type */
@@ -58,18 +54,6 @@ class NoDataMessageComponent extends React.Component {
       messageKey: 'module.description.no.parameter.message',
       IconConstructor: EmptyIcon,
     },
-    [NoDataMessageComponent.NO_DATA_TYPE_ENUM.NO_PREVIEW_FOR_FILE]: {
-      titleKey: 'module.description.unsuported.file.media.type.title',
-      messageKey: 'module.description.unsuported.file.media.type.message',
-      IconConstructor: EmptyIcon,
-    },
-    [NoDataMessageComponent.NO_DATA_TYPE_ENUM.FILE_DOWNLOAD_ERROR]: {
-      titleKey: 'module.description.file.download.error.title',
-      messageKey: 'module.description.file.download.error.message',
-      IconConstructor: ErrorIcon,
-    },
-
-
   }
 
   static propTypes = {

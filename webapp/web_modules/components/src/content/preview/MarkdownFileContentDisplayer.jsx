@@ -17,16 +17,35 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { ScrollArea } from '@regardsoss/adapters'
-import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import ReactMarkdown from 'react-remarkable'
-import './styles/github-markdown-styles.css'
-import styles from './styles'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { MIME_TYPES } from '@regardsoss/mime-types'
+import '../styles/github-markdown-styles.css'
+import styles from '../styles'
 
 export class MarkdownFileContentDisplayer extends React.Component {
   static propTypes = {
+    // source: content or URL or the content
     source: PropTypes.string.isRequired,
     // optionals, specifies the viewport height
     heightToFit: PropTypes.number,
+  }
+
+  /**
+   * Maps MIME type to editor mode
+   */
+  static SUPPORTED_MIME_TYPES = [
+    MIME_TYPES.MARKDOWN_MIME_TYPE,
+  ]
+
+  /**
+   * Is supported content type for this component?
+   * @param {string} contentType to test
+   * @return {boolean} true if content type is supported, false otherwise
+   */
+  static isSupportedContentType(contentType) {
+    const lowerContentType = contentType.toLowerCase()
+    return MarkdownFileContentDisplayer.SUPPORTED_MIME_TYPES.some(mimeType => lowerContentType.includes(mimeType))
   }
 
   static contextTypes = {
@@ -49,8 +68,8 @@ export class MarkdownFileContentDisplayer extends React.Component {
     const { moduleTheme: { markdown: { scrollbarStyle } } } = this.context
     return (
       <ScrollArea
-        style={scrollAreaStyle}
-        contentStyle={scrollContentStyle}
+        style={{ height: '100%', width: '100%' }}
+        contentStyle={{ minHeight: '100%' }}
         verticalScrollbarStyle={scrollbarStyle}
         horizontal={false}
         vertical

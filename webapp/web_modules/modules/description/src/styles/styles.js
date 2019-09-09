@@ -110,6 +110,7 @@ const styles = theme => ({
         alignItems: 'stretch',
         flexGrow: 1,
         flexShrink: 1,
+        minHeight: 0,
       },
       tree: {
         scrollArea: { // TODO use me!
@@ -205,15 +206,6 @@ const styles = theme => ({
         },
       },
       content: {
-        loading: {
-          container: {
-            ...theme.module.description.loading.container,
-            flexGrow: 1,
-            flexShrink: 1,
-          },
-          circle: theme.module.description.loading.circle,
-          message: theme.module.description.loading.message,
-        },
         scrolling: {
           scrollArea: {
             flexGrow: 1,

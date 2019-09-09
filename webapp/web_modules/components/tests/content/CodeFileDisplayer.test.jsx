@@ -46,36 +46,36 @@ describe('[Components] Testing CodeFileDisplayer', () => {
 
   const testCases = [{
     file: {
-      content: new TestBlob(`
+      content: `
         a {
           color: red;
-        }`),
+        }`,
       contentType: 'text/css',
     },
   }, {
     file: {
-      content: new TestBlob(`
+      content: `
         function a(){
           return { color: red, sizes: [] }
-        }`),
+        }`,
       contentType: 'application/js',
     },
   }, {
     file: {
-      content: new TestBlob(`
+      content: `
         {
           "color": "red",
           "sizes": []
-        }`),
+        }`,
       contentType: 'application/json',
     },
   }, {
     file: {
-      content: new TestBlob(`
+      content: `
       <root>
         <color>red</color>
         <sizes/>
-      </root>`),
+      </root>`,
       contentType: 'application/xml',
     },
   },
@@ -85,11 +85,10 @@ describe('[Components] Testing CodeFileDisplayer', () => {
     assert.isDefined(CodeFileDisplayer)
   })
 
-  testCases.forEach(({ file }) => it(`Should render correctly for file type ${file.contentType}`, () => {
-    const render = shallow(<CodeFileDisplayer file={file} />, { context })
+  testCases.forEach(({ file: { content, contentType } }) => it(`Should render correctly for file type ${contentType}`, () => {
+    const render = shallow(<CodeFileDisplayer content={content} contentType={contentType} />, { context })
     const editor = render.find(AceEditorAdapter)
-    assert.lengthOf(editor, 1, `There should be exactly one editor to show content (${file.contentType})`)
-    const blobText = file.content.text
-    assert.equal(editor.props().value, blobText, `The editor value should be extracted from blob (${file.contentType})`)
+    assert.lengthOf(editor, 1, `There should be one editor to show content (${contentType})`)
+    assert.equal(editor.props().value, content, `The editor value should be file content (${contentType})`)
   }))
 })

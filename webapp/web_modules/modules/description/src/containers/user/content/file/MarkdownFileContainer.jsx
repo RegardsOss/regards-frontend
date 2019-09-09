@@ -20,6 +20,8 @@ import root from 'window-or-global'
 import { MIME_TYPES } from '@regardsoss/mime-types'
 import { MarkdownFileContentDisplayer } from '@regardsoss/components'
 
+// TODO delete me
+
 /**
  * Container to resolve markdown content and displays it
  * @author Raphaël Mechali

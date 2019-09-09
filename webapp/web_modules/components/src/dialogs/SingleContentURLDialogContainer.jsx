@@ -18,7 +18,7 @@
  **/
 import { CommonShapes } from '@regardsoss/shape'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import IFrameURLContentDisplayer from '../content/IFrameURLContentDisplayer'
+import IFrameURLContentDisplayer from '../content/preview/IFrameURLContentDisplayer'
 import LoadableContentDialogContainer from './LoadableContentDialogContainer'
 import styles from './styles'
 

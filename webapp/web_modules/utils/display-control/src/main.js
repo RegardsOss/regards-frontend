@@ -26,4 +26,6 @@ export { default as someMatchHateoasDisplayLogic } from './logics/someMatchHateo
 export { default as someListMatchHateoasDisplayLogic } from './logics/someListMatchHateoasDisplayLogic'
 export { default as LoadableContentDisplayDecorator } from './async/LoadableContentDisplayDecorator'
 export { default as LoadingComponent } from './async/loading/LoadingComponent'
+export { default as FileContentReader } from './blob/FileContentReader'
+export { default as LocalURLProvider } from './blob/LocalURLProvider'
 export { default as HOCUtils } from './hoc/HOCUtils'

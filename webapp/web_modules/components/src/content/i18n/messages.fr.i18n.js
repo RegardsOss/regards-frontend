@@ -18,8 +18,13 @@
  **/
 
 const messages = {
+  'default.content.loading.message': 'Chargement du contenu...',
+  'default.file.loading.message': 'Chargement du fichier...',
+  'default.unsuported.file.media.type.title': 'Prévisualisation impossible',
+  'default.unsuported.file.media.type.message': 'La prévisualisation du fichier ne peut pas être affichée car ce type contenu n\'est pas supporté',
+  'default.file.download.error.title': 'Erreur de téléchargement',
+  'default.file.download.error.message': 'Le téléchargement du fichier a échoué',
   'image.file.not.displayed': 'L\'image ne peut pas être affichée',
-  'file.displayer.no.preview.message': 'Aucune prévisualisation disponible',
 }
 
 export default messages

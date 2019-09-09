@@ -21,7 +21,7 @@ import { ScrollArea } from '@regardsoss/adapters'
 import { AttributeGroup, FileData } from '../../../../shapes/DescriptionState'
 import AttributesGroupComponent from './AttributesGroupComponent'
 import ThumbnailComponent from './DescriptionThumbnailComponent'
-import NoDataMessageComponent from '../feedback/NoDataMessageComponent'
+import NoDataMessageComponent from '../NoDataMessageComponent'
 
 /**
  * Parameters section component: shows thumbnail,  attributes and groups

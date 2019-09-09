@@ -51,18 +51,12 @@ const messages = {
   'module.description.configuration.group.remove.action.tooltip': 'Remove this group',
 
   // user
-  'module.description.main.loading.message': 'Loading content...',
-  'module.description.file.loading.message': 'Loading file...',
   'module.description.invalid.entity.title': 'Invalid data',
   'module.description.invalid.entity.message': 'The requested data cannot be displayed as it has no description configuration. Was website configuration recently updated? Please contact the administrator.',
   'module.description.model.retrieval.failed.title': 'Loading error',
   'module.description.model.retrieval.failed.message': 'The requested data cannot be displayed as its model could not be retrieved.',
   'module.description.no.parameter.title': 'No parameter',
   'module.description.no.parameter.message': 'There is no parameter to show for that data',
-  'module.description.unsuported.file.media.type.title': 'No preview',
-  'module.description.unsuported.file.media.type.message': 'File preview can not be displayed as media type is unsupported',
-  'module.description.file.download.error.title': 'Download error',
-  'module.description.file.download.error.message': 'The file could not be downloaded',
   'module.description.common.search.simple.tag.tooltip': 'Search results for that tag',
   'module.description.common.search.coupling.tag.tooltip': 'Search coupled data',
   'module.description.common.search.entity.tooltip': 'Search data linked to that one',

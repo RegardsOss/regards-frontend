@@ -22,6 +22,7 @@ import { CommonClient, CatalogClient } from '@regardsoss/client'
 import { AdminPluginConfigurationSchemaConfiguration, PluginMetaDataConfiguration } from '@regardsoss/api'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import { LocalURLProvider } from '@regardsoss/display-control'
 import { FileContentDisplayer } from '@regardsoss/components'
 import { ServiceTargetShape } from '../../../model/ServiceTargetShape'
 import RunServiceDialogConnectedComponent, { RunServiceDialogComponent } from '../../../components/services/RunServiceDialogComponent'
@@ -178,7 +179,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
       const fileName = (resultFile.contentDisposition || '').split('filename=')[1]
       this.setState({
         step: RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_RESULT,
-        localAccessURL: resultFile && resultFile.content ? FileContentDisplayer.buildLocalAccessURL(resultFile.content) : null,
+        localAccessURL: resultFile && resultFile.content ? LocalURLProvider.buildLocalAccessURL(resultFile.content) : null,
         fileName,
         resultFile,
       })
@@ -229,6 +230,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
       case RunCatalogPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION:
         return RunServiceDialogComponent.buildParametersConfigurationStep(resolvedParameters, userParametersValues, this.onConfigurationDone)
       // run results state
+      // TODO: not working that way anylonger!
       case RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_RESULT: {
         // 1 - if there is some usable result, provide a result displaying step
         if (localAccessURL) {
@@ -237,7 +239,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
               key="download.button"
               localAccessURL={localAccessURL}
               fileName={fileName}
-              forcedownload={!FileContentDisplayer.isSupportedMIMEType(resultFile)}
+              forcedownload={!FileContentDisplayer.isSupportedContentType(resultFile)}
             />, // custom options: download
             this.renderPreviousOption()]) // custom options: previous
         }

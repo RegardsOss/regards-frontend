@@ -51,18 +51,12 @@ const messages = {
   'module.description.configuration.group.remove.action.tooltip': 'Supprimer ce groupe',
 
   // user
-  'module.description.main.loading.message': 'Chargement du contenu...',
-  'module.description.file.loading.message': 'Chargement du fichier...',
   'module.description.invalid.entity.title': 'Donnée invalide',
   'module.description.invalid.entity.message': 'La donnée demandée ne peut être affichée car elle n\'a pas de configuration de description. La configuration du site Web a-t-elle été modifiée récemment? Veuillez contacter l\'administrateur.',
   'module.description.model.retrieval.failed.title': 'Erreur de chargement',
   'module.description.model.retrieval.failed.message': 'La donnée demandée ne peut pas être affichée car son modèle n\'a pas pu être téléchargé.',
   'module.description.no.parameter.title': 'Aucun paramètre',
   'module.description.no.parameter.message': 'Cette donnée ne dispose d\'aucun paramètre à afficher.',
-  'module.description.unsuported.file.media.type.title': 'Prévisualisation impossible',
-  'module.description.unsuported.file.media.type.message': 'La prévisualisation du fichier ne peut pas être affichée car ce type contenu n\'est pas supporté',
-  'module.description.file.download.error.title': 'Erreur de téléchargement',
-  'module.description.file.download.error.message': 'Le téléchargement du fichier a échoué',
   'module.description.common.search.simple.tag.tooltip': 'Rechercher les resultats pour ce mot-clé',
   'module.description.common.search.coupling.tag.tooltip': 'Rechercher les données couplées',
   'module.description.common.search.entity.tooltip': 'Rechercher les données liées à celle-ci',

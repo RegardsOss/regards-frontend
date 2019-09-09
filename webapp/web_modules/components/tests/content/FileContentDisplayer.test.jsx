@@ -58,15 +58,15 @@ describe('[Components] Testing FileContentDisplayer', () => {
 
   // MIME types tests
   const testCases = [{
-    contentTypes: CodeFileDisplayer.getSupportedMIMETypes(),
+    contentTypes: CodeFileDisplayer.SUPPORTED_MIME_TYPES,
     expectedComponent: CodeFileDisplayer,
     message: 'should render code MIME types through CodeFileDisplayer for type',
   }, {
-    contentTypes: ImageFileDisplayer.getSupportedMIMETypes(),
+    contentTypes: ImageFileDisplayer.SUPPORTED_MIME_TYPES,
     expectedComponent: ImageFileDisplayer,
     message: 'should render image MIME types through ImageFileDisplayer for type',
   }, {
-    contentTypes: IFrameURLContentDisplayer.getSupportedMIMETypes(),
+    contentTypes: IFrameURLContentDisplayer.SUPPORTED_MIME_TYPES,
     expectedComponent: IFrameURLContentDisplayer,
     message: 'should render pdf and html MIME type through IFrameURLContentDisplayer for type',
   },

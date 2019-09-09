@@ -17,15 +17,16 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNil from 'lodash/isNil'
+import { themeContextType } from '@regardsoss/theme'
+import { ContentLoadingComponent } from '@regardsoss/components'
 import { DescriptionEntity } from '../../../shapes/DescriptionState'
-import LoadingComponent from './feedback/LoadingComponent'
 import { BROWSING_SECTIONS_ENUM } from '../../../domain/BrowsingSections'
-import FilePageContainer from '../../../containers/user/content/file/FilePageContainer'
 import ParametersSectionComponent from './parameters/ParametersSectionComponent'
 import TagsSectionPageComponent from './list/tag/TagsSectionPageComponent'
 import EntitiesSectionPageComponent from './list/entity/EntitiesSectionPageComponent'
 import FilesSectionPageComponent from './list/file/FilesSectionPageComponent'
-import NoDataMessageComponent from './feedback/NoDataMessageComponent'
+import NoDataMessageComponent from './NoDataMessageComponent'
+import FilePageComponent from './file/FilePageComponent'
 
 /**
  * Main component to display content area: shows loading / errors / content according with selected tree entry
@@ -46,6 +47,10 @@ class ContentDisplayComponent extends React.Component {
     onSearchEntity: PropTypes.func.isRequired,
   }
 
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   render() {
     const {
       descriptionEntity, isDescriptionAllowed,
@@ -53,7 +58,7 @@ class ContentDisplayComponent extends React.Component {
     } = this.props
     // loading
     if (descriptionEntity.loading) {
-      return <LoadingComponent type={LoadingComponent.LOADING_TYPES_ENUM.MAIN} />
+      return <ContentLoadingComponent /> //style={growingCenterArea}
     }
     // invalid entity type for current configuration (message)
     if (descriptionEntity.invalid) {
@@ -72,6 +77,29 @@ class ContentDisplayComponent extends React.Component {
         wordTags, couplingTags, linkedEntities, linkedDocuments,
       },
     } = descriptionEntity
+
+    const TEMPFILES = [
+      'CSS-TEST',
+      'GIF-TEST',
+      'HTML-TEST',
+      'JPEG-TEST',
+      'JPEG-BIG-TEST',
+      'JSON-TEST',
+      'JS-TEST',
+      'MD-TEST',
+      'PDF-TEST',
+      'PNG-TEST',
+      'TEXT-TEST',
+      'XHTML-TEST',
+      'XML-TEST',
+      'TEST-UNKNOWN',
+      'UNEXISTING',
+    ].map((v, i) => ({
+      label: v,
+      available: true,
+      uri: `http://localhost:3000/api/v1/tempFiles?fileIndex=${i}`,
+    }))
+
     switch (section) {
       case BROWSING_SECTIONS_ENUM.PARAMETERS:
         return <ParametersSectionComponent thumbnail={thumbnail} attributesGroups={attributesGroups} />
@@ -103,14 +131,21 @@ class ContentDisplayComponent extends React.Component {
             section={section}
             files={descriptionFiles}
             onSelectInnerLink={onSelectInnerLink}
-          />) : <FilePageContainer file={descriptionFiles[child]} />
+          />) : <FilePageComponent file={descriptionFiles[child]} />
       case BROWSING_SECTIONS_ENUM.FILES:
         return isNil(child) ? (
           <FilesSectionPageComponent
             section={section}
-            files={otherFiles}
+            files={
+              // TODO otherFiles
+              TEMPFILES
+            }
             onSelectInnerLink={onSelectInnerLink}
-          />) : <FilePageContainer file={otherFiles[child]} />
+          />) : <FilePageComponent file={
+            // TODO otherFiles[child]
+            TEMPFILES[child]
+          }
+          />
       default:
         throw new Error(`Unknown browsing section ${section}`)
     }

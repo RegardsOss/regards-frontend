@@ -182,6 +182,29 @@ class BrowsingTreeComponent extends React.Component {
     return { type: BrowsingTreeComponent.CELL_TYPES.SEARCH_ENTITY, data: entity }
   }
 
+  // TODO delete ASAP
+  static TEMPFILES = [
+    'CSS-TEST',
+    'GIF-TEST',
+    'HTML-TEST',
+    'JPEG-TEST',
+    'JPEG-BIG-TEST',
+    'JSON-TEST',
+    'JS-TEST',
+    'MD-TEST',
+    'PDF-TEST',
+    'PNG-TEST',
+    'TEXT-TEST',
+    'XHTML-TEST',
+    'XML-TEST',
+    'TEST-UNKNOWN',
+    'UNEXISTING',
+  ].map((v, i) => ({
+    label: v,
+    available: true,
+    uri: `http://localhost:3000/api/v1/tempFiles?fileIndex=${i}`,
+  }))
+
   /**
    * Builds tree table rows for current description entity model
    * @param {*} descriptionEntity matching DescriptionState.DescriptionEntity
@@ -224,9 +247,10 @@ class BrowsingTreeComponent extends React.Component {
       BROWSING_SECTIONS_ENUM.LINKED_DOCUMENTS, BrowsingTreeComponent.CELL_TYPES.ENTITY, linkedDocuments,
       BrowsingTreeComponent.buildEntityOptionCellModel, selectedTreeEntry),
     // 8 - Other files
+    // TODO use other files back
     BrowsingTreeComponent.buildlListSectionRow(
       BROWSING_SECTIONS_ENUM.FILES, BrowsingTreeComponent.CELL_TYPES.FILE,
-      otherFiles, BrowsingTreeComponent.buildFileOptionCellModel, selectedTreeEntry),
+      BrowsingTreeComponent.TEMPFILES, BrowsingTreeComponent.buildFileOptionCellModel, selectedTreeEntry),
   ].filter(row => !!row) // remove null rows
 
   /**

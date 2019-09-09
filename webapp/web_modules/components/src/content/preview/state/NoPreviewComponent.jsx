@@ -16,31 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DownloadFileActions } from '@regardsoss/store-utils'
-
-// TODO delete me when done
+import MessageIconConstructor from 'mdi-material-ui/MonitorOff'
+import { i18nContextType } from '@regardsoss/i18n'
+import NoContentComponent from '../../feedback/NoContentComponent'
 
 /**
- * Actions to download entity files
+ * Shows download file error message
  * @author Raphaël Mechali
- **/
-class DownloadEntityFileActions extends DownloadFileActions {
-  constructor() {
-    super({
-      entityEndpoint: '{filePath}',
-      namespace: 'description/download/file',
-      bypassErrorMiddleware: true,
-    })
+ */
+class NoPreviewComponent extends React.Component {
+  static contextTypes = {
+    ...i18nContextType,
   }
 
-  /**
-   * Builds and returns action to download a file
-   * @param {string} filePath file path
-   * @return {*} redux action to start downloading file
-   */
-  downloadFile(filePath) {
-    return this.download({ filePath })
+  render() {
+    const { intl: { formatMessage } } = this.context
+    return (
+      <NoContentComponent
+        title={formatMessage({ id: 'default.unsuported.file.media.type.title' })}
+        message={formatMessage({ id: 'default.unsuported.file.media.type.message' })}
+        Icon={MessageIconConstructor}
+      />
+    )
   }
 }
 
-export const downloadEntityFileActions = new DownloadEntityFileActions()
+export default NoPreviewComponent
