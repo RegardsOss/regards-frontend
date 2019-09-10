@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
 import IconButton from 'material-ui/IconButton'
 import { MenuItem } from 'material-ui/Menu'
 import ClearFilter from 'material-ui/svg-icons/content/backspace'
@@ -48,45 +47,18 @@ class OrderListFiltersComponent extends React.Component {
     ...themeContextType,
   }
 
-  /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
-   * Properties change detected: update local state
-   * @param oldProps previous component properties
-   * @param newProps next component properties
-   */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    // detect matching users list changes to prepare hint models
-    if (oldProps.matchingUsers !== newProps.matchingUsers) {
-      let usersAsHints = []
-      if (newProps.matchingUsers) {
-        usersAsHints = values(newProps.matchingUsers).map(
-          ({ content: { email } }) => ({
-            id: email, // the value that interests us here
-            text: email, // text field output when a user is selected
-            value: <MenuItem primaryText={email} />, // graphic render
-          }))
-      }
-      this.setState({ usersAsHints })
-    }
-  }
+  prepareHints = ({ content: { email } }) => ({
+    id: email, // the value that interests us here
+    text: email, // text field output when a user is selected
+    value: <MenuItem primaryText={email} />, // graphic render
+  })
 
   render() {
     const {
-      usersFilterText, isFetching, isInError,
+      usersFilterText, isFetching, isInError, matchingUsers,
       onUpdateUsersFilter, onUserFilterSelected, onUserFilterCleared,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { orderList: { clearFilterButton } } } = this.context
-    const { usersAsHints } = this.state
     return (
       <TableHeaderLine>
         {/* left position: header text for bar */}
@@ -98,12 +70,13 @@ class OrderListFiltersComponent extends React.Component {
           {/* filter text box with autocompletion */}
           <TableHeaderAutoCompleteFilter
             hintText={formatMessage({ id: 'order.list.filter.by.email.hint' })}
-            currentHintText={usersFilterText}
-            currentHints={usersAsHints}
+            text={usersFilterText}
+            currentHints={matchingUsers}
             isFetching={isFetching}
-            isInError={isInError}
+            noData={isInError}
             onUpdateInput={onUpdateUsersFilter}
             onFilterSelected={onUserFilterSelected}
+            prepareHints={this.prepareHints}
           />
           <IconButton
             title={formatMessage({ id: 'order.list.clear.filter.tooltip' })}

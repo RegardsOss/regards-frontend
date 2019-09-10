@@ -36,26 +36,6 @@ export const processingChainManagementRouter = {
   },
 }
 
-export const sipManagementRouter = {
-  path: 'sip',
-  getChildRoutes(nextState, cb) {
-    const sipManagement = require('@regardsoss/admin-ingest-sip-management')
-    require.ensure([], (require) => {
-      cb(null, [sipManagement.sipManagementRouter])
-    })
-  },
-}
-
-export const documentManagementRouter = {
-  path: 'document',
-  getChildRoutes(nextState, cb) {
-    require.ensure([], (require) => {
-      const adminDataDocumentManagement = require('@regardsoss/admin-data-document-management')
-      cb(null, [adminDataDocumentManagement.documentDataManagementRouter])
-    })
-  },
-}
-
 export const dataproviderManagementRouter = {
   path: 'dataprovider',
   getChildRoutes(nextState, cb) {
@@ -96,16 +76,25 @@ export const storageManagementRouter = {
   },
 }
 
+export const oaisManagementRouter = {
+  path: 'oais',
+  getChildRoutes(nextState, cb) {
+    require.ensure([], (require) => {
+      const oaisManagement = require('@regardsoss/admin-oais-management')
+      cb(null, [oaisManagement.oaisManagementRouter])
+    })
+  },
+}
+
 const acquisitionRouter = {
   childRoutes: [
     boardRoute,
     processingChainManagementRouter,
-    sipManagementRouter,
-    documentManagementRouter,
     dataproviderManagementRouter,
     datasourceManagementRouter,
     connectionManagementRouter,
     storageManagementRouter,
+    oaisManagementRouter,
   ],
 }
 

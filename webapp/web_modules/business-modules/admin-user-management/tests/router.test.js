@@ -20,7 +20,7 @@ import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { projectUserManagementRouter } from '@regardsoss/admin-user-projectuser-management'
 import { roleManagementRouter } from '@regardsoss/admin-user-role-management'
-import { orderRouter } from '@regardsoss/admin-order-management'
+import { accessGroupManagementRouter } from '@regardsoss/admin-accessright-accessgroup-management'
 import { roleResourceAccessManagementRouter } from '@regardsoss/admin-user-role-resource-access-management'
 import { authenticationPluginManagementRouter } from '@regardsoss/admin-user-authentication-plugins-management'
 import Routes from '../src/router'
@@ -37,8 +37,8 @@ describe('[ADMIN USER MANAGEMENT] Testing user board router', () => {
     expect(Routes.childRoutes[1].path).to.eq('role-resource-access')
     expect(Routes.childRoutes[2].path).to.eq('project-user')
     expect(Routes.childRoutes[3].path).to.eq('role')
-    expect(Routes.childRoutes[4].path).to.eq('order')
-    expect(Routes.childRoutes[5].path).to.eq('authenticationplugins')
+    expect(Routes.childRoutes[4].path).to.eq('authenticationplugins')
+    expect(Routes.childRoutes[5].path).to.eq('access-group')
   })
   it('list should return BoardContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -66,16 +66,17 @@ describe('[ADMIN USER MANAGEMENT] Testing user board router', () => {
     })
   })
 
-  it('order should return orderRouter', (done) => {
+  it('authenticationplugins should return authenticationPluginManagementRouter', (done) => {
     Routes.childRoutes[4].getChildRoutes(undefined, (smth, component) => {
-      expect(component[0]).to.eq(orderRouter)
+      expect(component[0]).to.eq(authenticationPluginManagementRouter)
       done()
     })
   })
 
-  it('authenticationplugins should return authenticationPluginManagementRouter', (done) => {
+
+  it('order should return accessGroupManagementRouter', (done) => {
     Routes.childRoutes[5].getChildRoutes(undefined, (smth, component) => {
-      expect(component[0]).to.eq(authenticationPluginManagementRouter)
+      expect(component[0]).to.eq(accessGroupManagementRouter)
       done()
     })
   })

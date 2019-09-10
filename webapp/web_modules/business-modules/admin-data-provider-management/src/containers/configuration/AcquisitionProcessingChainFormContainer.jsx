@@ -103,7 +103,7 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
    */
   onBack = () => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/dataprovider/chain/list`
+    const url = `/admin/${project}/data/acquisition/dataprovider/monitoring/chains`
     browserHistory.push(url)
   }
 

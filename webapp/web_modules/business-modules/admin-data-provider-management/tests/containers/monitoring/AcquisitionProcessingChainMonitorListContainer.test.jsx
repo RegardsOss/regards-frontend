@@ -47,6 +47,11 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainMo
       fetchPage: sinon.spy(),
       runChain: sinon.spy(),
       stopChain: sinon.spy(),
+      multiToggleChain: () => {},
+      deleteChain: () => {},
+      toggleChain: () => {},
+      isOneCheckboxToggled: true,
+
     }
     const enzymeWrapper = shallow(<AcquisitionProcessingChainMonitorListContainer {...props} />, { context })
     const components = enzymeWrapper.find(AcquisitionProcessingChainMonitorListComponent)

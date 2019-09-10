@@ -64,7 +64,7 @@ class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Compone
         },
       },
     } = this.props
-    const { intl: { formatMessage, formatDate }, moduleTheme: { monitoring: { totalStyle, inProgressStyle } } } = this.context
+    const { intl: { formatMessage, formatDate } } = this.context
     if (active) {
       return [
         <RefreshIndicator
@@ -75,8 +75,6 @@ class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Compone
           status="loading"
           style={AcquisitionProcessingChainMonitoringActivityRenderer.style.refresh}
         />,
-        <span key="acq" title="Acquisition jobs" style={totalStyle}>{this.props.entity.content.nbProductAcquisitionJob}</span>,
-        <span key="gen" title="AIP generation jobs" style={inProgressStyle}>{this.props.entity.content.nbSIPGenerationJobs}</span>,
       ]
     }
     const label = chain.lastActivationDate

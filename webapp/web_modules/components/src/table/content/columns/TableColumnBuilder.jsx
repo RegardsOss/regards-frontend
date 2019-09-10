@@ -237,9 +237,15 @@ export default class TableColumnBuilder {
 
   /**
    * @return {TableColumnBuilder} builder configured for simple title header cell
+   * @param {String} tooltip  Optional tooltip text
    */
-  titleHeaderCell() {
-    return this.headerCellDefinition({ Constructor: SimpleTitleColumnHeaderCell })
+  titleHeaderCell(tooltip) {
+    return this.headerCellDefinition({
+      Constructor: SimpleTitleColumnHeaderCell,
+      props: {
+        tooltip,
+      },
+    })
   }
 
 
@@ -249,9 +255,10 @@ export default class TableColumnBuilder {
    * @param {function} onSort on sort callback like (columnKey: string, newOrder: string from SortOrdersEnum) => ()
    * @param {boolean} hideLabel Should hide column label
    * @param {boolean} sortable  Should allow sorting?
+   * @param {String} tooltip  Optional tooltip text
    * @return {TableColumnBuilder} builder configured for sortable header cell
    */
-  sortableHeaderCell(sortingOrder, sortIndex, onSort, hideLabel = false, sortable = true) {
+  sortableHeaderCell(sortingOrder, sortIndex, onSort, hideLabel = false, sortable = true, tooltip) {
     return this.headerCellDefinition({
       Constructor: SortableColumnHeaderCell,
       props: {
@@ -260,6 +267,7 @@ export default class TableColumnBuilder {
         sortingOrder,
         sortIndex,
         onSort,
+        tooltip,
       },
     })
   }
