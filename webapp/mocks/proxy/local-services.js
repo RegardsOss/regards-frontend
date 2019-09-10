@@ -127,6 +127,21 @@ function getResourcesDependencies({ content, links, metadata }, pathParams, quer
   }
 }
 
+function compareOrder(attribute, order='ASC') {
+  return function (a, b) {
+    const stringA = a.content[attribute].toUpperCase()
+    const stringB = b.content[attribute].toUpperCase()
+
+    let comparison = 0
+    if (stringA > stringB) {
+      comparison = 1
+    } else if (stringA < stringB) {
+      comparison = -1
+    }
+    return (order ==='DESC' ? (comparison * -1) : comparison)
+  }
+}
+
 function buildLocalServices(gatewayURL) {
   return {
     GET: {
@@ -182,9 +197,51 @@ function buildLocalServices(gatewayURL) {
         handler: (req, resp) => {
           return { content: 'ABCDE', contentType: 'text/unkown' }
         },
+      },
+      getSession: {
+        url: 'rs-access-project/sessions2',
+        handler: (req, resp, pathParams, requestParams) => {
+          let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions.json'))
+          
+          if (requestParams.sort) {
+            let param = requestParams.sort
+            let content = [...myMock.content]
+            if (!Array.isArray(requestParams.sort)) {
+              param = [requestParams.sort]
+            }
+            param.reverse().forEach((element) => {
+              let split = element.split(',')
+              content.sort(compareOrder(split[0], split[1]))
+            })
+            myMock.content = content
+          }
+          return { content: myMock }
+        },
+      },
+      getSourcesList: {
+        url: 'rs-access-project/sessions/sources2',
+        handler: (req, resp) => {
+          let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions-list.json'))
+          return myMock
+        },
+      },
+      getSessionsList: {
+        url: 'rs-access-project/sessions/names2',
+        handler: (req, resp) => {
+          let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions-list.json'))
+          return myMock
+        },
       }
     },
     PUT: {
+      stateUpdate: {
+        url: 'rs-access-project/sessions/3/acknowledge',
+        handler: (req, resp) => {
+          const result = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions.json')).content[3]
+          result.content.state= 'ACKNOWLEDGED'
+          return { content: result }
+        },
+      }
     },
     POST: {
     },

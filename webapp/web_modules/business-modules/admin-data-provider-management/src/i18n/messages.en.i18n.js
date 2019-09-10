@@ -102,7 +102,8 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.mode': 'Mode',
   'acquisition-chain.monitor.list.mode.AUTO': 'Automatic',
   'acquisition-chain.monitor.list.mode.MANUAL': 'Manual',
-  'acquisition-chain.monitor.list.running': 'Status',
+  'acquisition-chain.monitor.list.running': 'Enabled',
+  'acquisition-chain.monitor.list.state': 'State',
   'acquisition-chain.monitor.list.activity.not.running': 'Stopped',
   'acquisition-chain.monitor.list.activity.not.running.date': 'Stopped since {date}',
   'acquisition-chain.monitor.list.total-nb-products': 'Products',
@@ -119,6 +120,11 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.run.error': 'Error running acquisition chain {label} ({chainId})',
   'acquisition-chain.monitor.list.stop.tooltip': 'Stop acquisition chain',
   'acquisition-chain.monitor.list.stop.error': 'Error stopping acquisition chain {label} ({chainId})',
+  'acquisition-chain.monitor.list.list.tooltip': 'See session\'s details',
+  'acquisition-chain.monitor.list.mode.manual': 'Manual',
+  'acquisition-chain.monitor.list.mode.auto': 'Auto',
+  'acquisition-chain.monitor.list.enabled.true': 'True',
+  'acquisition-chain.monitor.list.enabled.false': 'False',
 
   // 3.1.4 Table filters
   'acquisition-chain.monitor.list.filters.label': 'Label',
@@ -133,6 +139,8 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.filters.apply.button': 'Apply filters',
   'acquisition-chain.monitor.list.filters.clear.button': 'Clear',
   'acquisition-chain.monitor.list.refresh.button': 'Refresh',
+  'acquisition-chain.monitor.list.enable-selected.button': 'Enable selected chains',
+  'acquisition-chain.monitor.list.disable-selected.button': 'Disable selected chains',
   'acquisition-chain.monitor.list.back.button': 'Cancel',
 
   // 3.2 Chain jobs
@@ -216,6 +224,68 @@ const messages = Object.assign({
   'acquisition-product.informaton.dialog.job.info.startDate': 'Start date : ',
   'acquisition-product.informaton.dialog.job.info.stopDate': 'Stop date : ',
   'acquisition-product.informaton.dialog.job.info.status': 'Status : ',
+
+  //7. Sessions Monitor
+  'acquisition-sessions.empty-response': 'No session available',
+  'acquisition-sessions.title': 'Sessions',
+  'acquisition-sessions.subtitle': 'Monitor all data ingesting and indexation',
+  'acquisition-sessions.back.button': 'Back',
+
+  //7.1 Table headers
+  'acquisition-sessions.table.name': 'Session',
+  'acquisition-sessions.table.source': 'Source',
+  'acquisition-sessions.table.creation-date': 'Creation Date',
+  'acquisition-sessions.table.state': 'State',
+  'acquisition-sessions.table.sip-generated': 'Processed products',
+  'acquisition-sessions.table.sip-treated': 'Ingested products',
+  'acquisition-sessions.table.aip-generated': 'Archive ready products',
+  'acquisition-sessions.table.aip-stored': 'Archived products',
+  'acquisition-sessions.table.indexed': 'Indexed products',
+  'acquisition-sessions.table.last-modification': 'Last modification',
+
+  //7.2 Table Headers tooltip
+  'acquisition-sessions.table.sip-generated.tooltip': 'Prepared products for ingestion (SIP processed)',
+  'acquisition-sessions.table.sip-treated.tooltip': 'Treated products for ingestion (SIP ingested)',
+  'acquisition-sessions.table.aip-generated.tooltip': 'Products ready for storage (AIP generated)',
+  'acquisition-sessions.table.aip-stored.tooltip': 'Products stored (AIP stored)',
+  'acquisition-sessions.table.indexed.tooltip': 'Indexed products in catalog',
+
+  //7.3 Products states
+  'acquisition-sessions.states.completed': 'Completed',
+  'acquisition-sessions.states.incomplete': 'Incomplete',
+  'acquisition-sessions.states.error': 'Error',
+  'acquisition-sessions.states.processed': 'Processed',
+  'acquisition-sessions.states.pending': 'Pending',
+  'acquisition-sessions.states.stored': 'Stored',
+  'acquisition-sessions.states.invalid': 'Invalid',
+  'acquisition-sessions.states.refused': 'Refused',
+  'acquisition-sessions.states.running': 'Running',
+  'acquisition-sessions.states.acknowledge': 'Acknowledge this session error',
+
+  //7.4 Cell's Menus
+  'acquisition-sessions.menus.session.delete': 'Delete associated products',
+  'acquisition-sessions.menus.session.delete.definitely': 'Delete the session definitely',
+  'acquisition-sessions.menus.products.relaunch': 'Relaunch errored products',
+  'acquisition-sessions.menus.ingested.relaunch': 'Relaunch processing of errored SIPs',
+  'acquisition-sessions.menus.ingested.list': 'List all SIPs',
+  'acquisition-sessions.menus.ingested.list.error': 'List all errored SIPs',
+  'acquisition-sessions.menus.archives.relaunch': 'Relaunch storing of errored AIPs',
+  'acquisition-sessions.menus.archives.list': 'List all AIPs',
+  'acquisition-sessions.menus.archives.list.error': 'List all errored AIPs',
+  'acquisition-sessions.menus.indexed.list': 'List all indexed AIPs',
+
+  //7.5 Filters
+  'acquisition-sessions.filters.source': 'Source',
+  'acquisition-sessions.filters.session': 'Session',
+  'acquisition-sessions.filters.from.label': 'From',
+  'acquisition-sessions.filters.to.label': 'To',
+  'acquisition-sessions.filters.last-session': 'Last session only',
+  'acquisition-sessions.filters.errors-only': 'Errors only',
+  'acquisition-sessions.filters.reset': 'Clear filters',
+  'acquisition-sessions.filters.apply': 'Apply filters',
+  'acquisition-sessions.filters.column-selector': 'Select columns to show',
+  'acquisition-sessions.filters.sources-hint': 'Sources',
+  'acquisition-sessions.filters.sessions-hint': 'Sessions',
 
 }, Locales.en)
 

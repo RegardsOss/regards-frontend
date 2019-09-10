@@ -21,7 +21,6 @@ import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import DeleteIcon from 'material-ui/svg-icons/action/delete'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { servicesManagementDependencies } from '@regardsoss/admin-dataaccess-services-management'
-import { accessGroupDependencies } from '@regardsoss/admin-accessright-accessgroup-management'
 import { indexActions, RESET_INDEX_ACTION } from '../clients/IndexClient'
 
 /**
@@ -67,24 +66,6 @@ const items = (projectName, intl, onResetIndex) => [
         hateoasDependencies: servicesManagementDependencies.addDependencies,
       },
     ],
-  },
-  {
-    title: intl.formatMessage({ id: 'accessright.board.accessgroup.title' }),
-    description: intl.formatMessage({ id: 'accessright.board.accessgroup.description' }),
-    advanced: false,
-    actions: [{
-      path: `/admin/${projectName}/dataaccess/access-group/list`,
-      icon: <ViewLinesIcon />,
-      className: 'selenium-accessgroupList',
-      tooltipMsg: intl.formatMessage({ id: 'accessright.board.tooltip.list' }),
-      hateoasDependencies: accessGroupDependencies.listDependencies,
-    }, {
-      path: `/admin/${projectName}/dataaccess/access-group/create`,
-      icon: <AddIcon />,
-      className: 'selenium-accessgroupCreate',
-      tooltipMsg: intl.formatMessage({ id: 'accessright.board.tooltip.add' }),
-      hateoasDependencies: accessGroupDependencies.addDependencies,
-    }],
   },
   {
     title: intl.formatMessage({ id: 'accessright.board.index.title' }),

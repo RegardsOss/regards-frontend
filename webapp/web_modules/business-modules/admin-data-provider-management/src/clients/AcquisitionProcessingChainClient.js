@@ -26,9 +26,12 @@ const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'chain']
 const REDUX_ACTION_NAMESPACE = 'admin-data-provider-management/chains'
 const REDUX_START_ACTION_NAMESPACE = 'admin-data-provider-management/chain-run'
 const REDUX_STOP_ACTION_NAMESPACE = 'admin-data-provider-management/chain-stop'
+const REDUX_TOGGLE_ACTION_NAMESPACE = 'admin-data-provider-management/chain-toggle-mode'
 
 export const AcquisitionProcessingChainActions = new DataProviderClient.AcquisitionProcessingChainActions(REDUX_ACTION_NAMESPACE)
 export const AcquisitionProcessingChainReducer = DataProviderClient.getAcquisitionProcessingChainReducer(REDUX_ACTION_NAMESPACE)
 export const AcquisitionProcessingChainSelectors = DataProviderClient.getAcquisitionProcessingChainSelectors(ENTITIES_STORE_PATH)
 export const RunAcquisitionProcessingChainActions = new DataProviderClient.RunAcquisitionProcessingChainActions(REDUX_START_ACTION_NAMESPACE)
 export const StopAcquisitionProcessingChainActions = new DataProviderClient.StopAcquisitionProcessingChainActions(REDUX_STOP_ACTION_NAMESPACE)
+export const ToggleAcquisitionProcessingChainActions = new DataProviderClient.ToggleAcquisitionProcessingChainActions(REDUX_TOGGLE_ACTION_NAMESPACE)
+export const MultiToggleAcquisitionProcessingChainActions = new DataProviderClient.MultiToggleAcquisitionProcessingChainActions(REDUX_TOGGLE_ACTION_NAMESPACE)

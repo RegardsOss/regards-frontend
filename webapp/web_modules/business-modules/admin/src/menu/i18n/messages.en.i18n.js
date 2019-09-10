@@ -32,6 +32,7 @@ const messages = {
   'menu.dataacquisition': 'Add data',
   'menu.instance': 'Instance administration',
   'menu.back': 'Back',
+  'menu.commands': 'Commands',
 }
 
 export default messages

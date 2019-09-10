@@ -48,16 +48,6 @@ export const searchenginesManagementRouter = {
   },
 }
 
-export const accessGroupAdminRouter = {
-  path: 'access-group',
-  getChildRoutes(nextState, cb) {
-    const adminAccessGroupManagement = require('@regardsoss/admin-accessright-accessgroup-management')
-    require.ensure([], (require) => {
-      cb(null, [adminAccessGroupManagement.accessGroupManagementRouter])
-    })
-  },
-}
-
 export const accessRightsAdminRouter = {
   path: 'access-rights',
   getChildRoutes(nextState, cb) {
@@ -73,7 +63,6 @@ const modelsRouter = {
     boardRoute,
     servicesManagementRouter,
     searchenginesManagementRouter,
-    accessGroupAdminRouter,
     accessRightsAdminRouter,
   ],
 }

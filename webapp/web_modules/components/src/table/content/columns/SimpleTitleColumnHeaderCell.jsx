@@ -24,10 +24,16 @@
 class SimpleTitleColumnHeaderCell extends React.Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
+    tooltip: PropTypes.string,
   }
 
   render() {
-    return this.props.label || null
+    const { tooltip } = this.props
+    return (
+      <div title={tooltip}>
+        {this.props.label || null}
+      </div>
+    )
   }
 }
 
