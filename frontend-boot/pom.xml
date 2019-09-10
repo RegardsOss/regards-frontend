@@ -99,6 +99,12 @@
 				<version>3.0.0</version>
 				<configuration>
 					<webResources>
+						<resource>
+							<directory>${webapp.dir}</directory>
+							<includes>
+								<include>package-lock.json</include>
+							</includes>	
+				   		</resource>
 			            <resource>
 				              <directory>src/main/webapp</directory>
 			            </resource>
