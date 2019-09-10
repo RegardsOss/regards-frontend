@@ -39,10 +39,23 @@ class URLValueRender extends React.Component {
 
   render() {
     const { value } = this.props
+    // Regex url
+    const regexMarkdownUrl = /\[(.*?)\]\((http.*?)\)/i
+    let label = value
+    let url = value
+    if (value && value.includes('(') && value.includes(')') && value.includes('[') && value.includes(']')) {
+      const found = value.match(regexMarkdownUrl)
+      if (found) {
+        label = found[1] ? found[1] : found[2]
+        url = found[2]
+      }
+    }
+
     return value ? (
       <LinkComponent
         target="_blank"
-        link={value}
+        link={url}
+        label={label}
       />) : null
   }
 }
