@@ -68,7 +68,7 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
   static mapDispatchToProps(dispatch) {
     return {
       fetchPage: (pageIndex, pageSize, requestParams) => dispatch(AcquisitionProcessingChainMonitorActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
-      runChain: chainId => dispatch(RunAcquisitionProcessingChainActions.run(chainId)),
+      runChain: (chainId, sessionName) => dispatch(RunAcquisitionProcessingChainActions.run(chainId, sessionName)),
       stopChain: chainId => dispatch(StopAcquisitionProcessingChainActions.stop(chainId)),
       deleteChain: id => dispatch(AcquisitionProcessingChainActions.deleteEntity(id)),
       toggleChain: (chainId, target, nextValue) => dispatch(ToggleAcquisitionProcessingChainActions.toggle(chainId, target, nextValue)),
