@@ -38,7 +38,6 @@ describe('[COMPONENTS] Testing SingleContentURLDialogContainer', () => {
       contentURL="http://www.google.com"
       dialogHeightPercent={50}
       dialogWidthPercent={50}
-      loadingMessage="Loading..."
       open
     />, { context })
     // 1 - test initial

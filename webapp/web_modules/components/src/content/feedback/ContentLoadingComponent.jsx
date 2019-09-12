@@ -26,16 +26,11 @@ import styles from '../styles'
 /**
  * Displays wide loading message.
  * In order to adapt its parent size, style is defined as, flexGrow/flexShrink: 1. That can be
- * overriden using style property
+ * overriden using style property, but flex layouting  properties should be preserved for
+ * children to resize correctly.
  * @author Raphaël Mechali
  */
 export class ContentLoadingComponent extends React.Component {
-  /** Default style to attempt spanning all available space */
-  static DEFAULT_LAYOUT_STYLE = {
-    flexGrow: 1,
-    flexShrink: 1,
-  }
-
   static DEFAULT_MESSAGES_KEYS = {
     LOADING_CONTENT: 'default.content.loading.message',
     LOADING_FILE: 'default.file.loading.message',
@@ -49,8 +44,12 @@ export class ContentLoadingComponent extends React.Component {
   }
 
   static defaultProps = {
-    style: ContentLoadingComponent.DEFAULT_LAYOUT_STYLE,
-    loadingMessageKey: 'default.file.loading.message',
+    style: {
+      flexGrow: 1,
+      flexShrink: 1,
+      display: 'flex',
+    },
+    loadingMessageKey: ContentLoadingComponent.DEFAULT_MESSAGES_KEYS.LOADING_CONTENT,
   }
 
   static contextTypes = {

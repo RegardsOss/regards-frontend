@@ -143,7 +143,7 @@ class AdminContainer extends React.Component {
           >
             <IFrameURLContentDisplayer
               style={moduleTheme.iFrame}
-              contentURL={path}
+              source={path}
               onContentLoaded={this.finishTest}
             />
           </Paper>

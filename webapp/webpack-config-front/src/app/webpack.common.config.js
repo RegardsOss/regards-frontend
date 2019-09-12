@@ -210,7 +210,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ingest-processing-chain-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-user-projectuser-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-board-collections/src/main.js'),
-      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ingest-sip-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-user-role-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-board-models/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-microservice-management/src/main.js'),

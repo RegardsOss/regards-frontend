@@ -29,7 +29,6 @@ const messages = Object.assign({
   'project.about.page.hide': 'Don\'t show again',
   'project.about.page.admin.url': 'HTML file URL',
   'project.about.page.admin.test': 'Test',
-  'project.about.page.loading.message': 'Loading project about page, please wait...',
 }, Locales.en)
 
 export default messages

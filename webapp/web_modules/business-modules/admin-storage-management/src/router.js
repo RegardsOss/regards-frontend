@@ -144,16 +144,6 @@ export const storagePluginMonitoringRoute = {
   },
 }
 
-export const sipManagementRouter = {
-  path: 'aip',
-  getChildRoutes(nextState, cb) {
-    const aipManagement = require('@regardsoss/admin-storage-aip-management')
-    require.ensure([], (require) => {
-      cb(null, [aipManagement.aipManagementRouter])
-    })
-  },
-}
-
 const storageManagementRouter = {
   childRoutes: [
     storagePluginListRoute,
@@ -166,7 +156,6 @@ const storageManagementRouter = {
     securityPluginListRoute,
     securityPluginCreateFormRoute,
     securityPluginEditFormRoute,
-    sipManagementRouter,
   ],
 }
 

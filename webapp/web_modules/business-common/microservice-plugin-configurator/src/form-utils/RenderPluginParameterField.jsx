@@ -378,7 +378,7 @@ export class RenderPluginParameterField extends React.PureComponent {
       >
         {/* Show only markdown description */}
         {!pluginParameterType.description && pluginParameterType.markdown && <MarkdownFileContentDisplayer
-          heightToFit={400}
+          style={markdownDialog.markdownView}
           source={pluginParameterType.markdown}
         />}
         {/* Show only regular description */}

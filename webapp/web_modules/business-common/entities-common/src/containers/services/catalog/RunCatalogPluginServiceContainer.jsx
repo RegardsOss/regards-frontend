@@ -230,16 +230,19 @@ export class RunCatalogPluginServiceContainer extends React.Component {
       case RunCatalogPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION:
         return RunServiceDialogComponent.buildParametersConfigurationStep(resolvedParameters, userParametersValues, this.onConfigurationDone)
       // run results state
-      // TODO: not working that way anylonger!
       case RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_RESULT: {
         // 1 - if there is some usable result, provide a result displaying step
         if (localAccessURL) {
-          return RunServiceDialogComponent.buildResultsStep(<FileContentDisplayer fileAccessURL={localAccessURL} file={resultFile} />, [
+          return RunServiceDialogComponent.buildResultsStep(<FileContentDisplayer
+            loading={false}
+            error={false}
+            file={resultFile}
+          />, [
             <DownloadResultButton
               key="download.button"
               localAccessURL={localAccessURL}
               fileName={fileName}
-              forcedownload={!FileContentDisplayer.isSupportedContentType(resultFile)}
+              forcedownload={!FileContentDisplayer.isSupportedFileType(resultFile)}
             />, // custom options: download
             this.renderPreviousOption()]) // custom options: previous
         }

@@ -103,6 +103,10 @@ export default baseTheme => ({
         textAlign: 'center',
       },
     },
+    filePreview: {
+      iFrameBackground: 'white',
+      markdownScrollbarColor: '#00202f',
+    },
   },
   formsExtensions: {
     dateField: {
@@ -216,14 +220,6 @@ export default baseTheme => ({
           },
         },
       },
-      // TODO delete below when unused
-      fileContentBackground: 'white',
-      filesOptions: {
-        top: 60,
-        right: 40,
-        padding: '0 0 0 10px',
-        background: baseTheme.palette.primary1Color,
-      },
     },
     // menu module
     menu: {
@@ -327,5 +323,12 @@ export default baseTheme => ({
   },
   criterion: {
     minHeight: 72,
+  },
+  sessionsMonitoring: {
+    rowHeight: 110,
+    sessionState: {
+      errorColor: baseTheme.textField.errorColor,
+    },
+    acquiredProductRunningColor: '#4CAF50',
   },
 })

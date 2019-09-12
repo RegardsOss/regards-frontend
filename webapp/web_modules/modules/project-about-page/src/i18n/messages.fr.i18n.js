@@ -29,7 +29,6 @@ const messages = Object.assign({
   'project.about.page.hide': 'Ne plus afficher',
   'project.about.page.admin.url': 'URL du fichier HTML',
   'project.about.page.admin.test': 'Tester',
-  'project.about.page.loading.message': 'Page de démarrage du projet en cours de chargement, veuillez patienter...',
 }, Locales.fr)
 
 export default messages

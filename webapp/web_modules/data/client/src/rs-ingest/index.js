@@ -33,3 +33,11 @@ export { default as getSessionSelectors } from './session/SessionSelectors'
 export { default as SIPSignalActions } from './sip/SIPSignalActions'
 export { default as getSipSignalReducer } from './sip/SIPSignalReducer'
 export { default as getSipSignalSelectors } from './sip/SIPSignalSelectors'
+
+export { default as RelaunchSIPsActions } from './sip/RelaunchSIPsActions'
+export { default as getRelaunchSIPsReducer } from './sip/RelaunchSIPsReducer'
+export { default as getRelaunchSIPsSelectors } from './sip/RelaunchSIPsSelectors'
+
+export { default as DeleteSIPsActions } from './sip/DeleteSIPsActions'
+export { default as getDeleteSIPsReducer } from './sip/DeleteSIPsReducer'
+export { default as getDeleteSIPsSelectors } from './sip/DeleteSIPsSelectors'

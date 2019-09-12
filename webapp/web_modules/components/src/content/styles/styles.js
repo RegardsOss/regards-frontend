@@ -51,8 +51,6 @@ const styles = theme => ({
       ...theme.components.loadingContent.container,
       flexGrow: 1,
       flexShrink: 1,
-      width: '100%',
-      height: '100%',
     },
     circle: theme.components.loadingContent.circle,
     message: theme.components.loadingContent.message,
@@ -66,8 +64,6 @@ const styles = theme => ({
       minHeight: theme.components.noData.minHeight,
       flexGrow: 1,
       flexShrink: 1,
-      width: '100%',
-      height: '100%',
     },
     iconStyle: {
       width: theme.components.noData.icon.size,
@@ -91,40 +87,45 @@ const styles = theme => ({
   },
   fileContent: {
     statusContainer: { // style to use as root for every status display (allow them growing using the default styles)
-      width: '100%',
-      height: '100%',
       flexGrow: 1,
       flexShrink: 1,
       display: 'flex',
       alignItems: 'strech',
     },
-    // TODO: not working
-    markdownPreviewContainer: { // layout a markdown subcomponent
-      width: '100%',
-      height: '100%',
-      flexGrow: 1,
-      flexShrink: 1,
-      display: 'block',
+    image: {
+      container: {
+        width: '100%',
+        height: '100%',
+        minWidth: 0,
+        minHeight: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      img: {
+        flexGrow: 0,
+        flexShrink: 1,
+        maxWidth: '100%',
+        maxHeight: '100%',
+      },
     },
-  },
-  // TODO: elements below should probably be deleted or embedded in section above
-  image: {
-    containerStyles: {
-      width: '100%',
-      height: '100%',
-      textAlign: 'center',
+    iFrame: {
+      background: theme.components.filePreview.iFrameBackground,
     },
-    styles: {
-      maxWidth: '100%',
-      maxHeight: '100%',
-      objectFit: 'contain',
-    },
-  },
-  markdown: {
-    scrollbarStyle: {
-      background: '#0366d6',
-      borderRadius: '3px',
-      width: '6px',
+    markdown: {
+      scrollbarStyle: {
+        background: theme.components.filePreview.markdownScrollbarColor,
+        borderRadius: '3px',
+        width: '6px',
+      },
+      scrollableContent: {
+        // span all size
+        minHeight: '100%',
+        width: '100%',
+        // this trick allows filling the whole page background (as markdown component itself refuses changing size)
+        // color matches github-markdown-styles.css.markdown-body.background
+        background: 'white',
+      },
     },
   },
 })

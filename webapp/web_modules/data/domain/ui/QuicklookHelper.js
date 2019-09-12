@@ -60,6 +60,7 @@ export class QuicklookHelper {
    */
   static getQuicklooksIn(entity, accessToken, projectName) {
     // Extract actual quickloks groups files (update URI to use token project name when internal data files)
+    // TODO: also take in account online status
     const actualMap = { // TODO: current version: support multiple quicklook groups system
       main: QuicklookHelper.ALL_QUICKLOOK_TYPES.reduce((acc, type) => {
         const file = get(entity, `content.files.${type}[0]`, null)

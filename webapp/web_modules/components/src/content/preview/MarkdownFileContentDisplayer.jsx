@@ -21,16 +21,10 @@ import ReactMarkdown from 'react-remarkable'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { MIME_TYPES } from '@regardsoss/mime-types'
 import '../styles/github-markdown-styles.css'
+import { MeasureResultProvider } from '@regardsoss/display-control'
 import styles from '../styles'
 
 export class MarkdownFileContentDisplayer extends React.Component {
-  static propTypes = {
-    // source: content or URL or the content
-    source: PropTypes.string.isRequired,
-    // optionals, specifies the viewport height
-    heightToFit: PropTypes.number,
-  }
-
   /**
    * Maps MIME type to editor mode
    */
@@ -48,6 +42,29 @@ export class MarkdownFileContentDisplayer extends React.Component {
     return MarkdownFileContentDisplayer.SUPPORTED_MIME_TYPES.some(mimeType => lowerContentType.includes(mimeType))
   }
 
+  /** Default options for the viewer */
+  static DEFAULT_MD_VIEWER_OPTIONS = {
+    html: true,
+    xhtmlOut: true,
+  }
+
+  static propTypes = {
+    // source: content or URL
+    source: PropTypes.string,
+    // style to dimension / decorate the component (must keep display:block to avoid unexpected behaviors)
+    style: PropTypes.objectOf(PropTypes.any),
+    // MD viewer options
+    options: PropTypes.objectOf(PropTypes.any),
+  }
+
+  static defaultProps = {
+    style: {
+      flexGrow: 1,
+      flexShrink: 1,
+    },
+    options: MarkdownFileContentDisplayer.DEFAULT_MD_VIEWER_OPTIONS,
+  }
+
   static contextTypes = {
     ...themeContextType,
   }
@@ -56,31 +73,27 @@ export class MarkdownFileContentDisplayer extends React.Component {
     display: 'flex',
   }
 
-  static DEFAULT_MD_VIEWER_OPTIONS = {
-    html: true,
-    xhtmlOut: true,
-  }
-
   render() {
-    const { source, heightToFit } = this.props
-    const scrollAreaStyle = { height: heightToFit } // undefined if none
-    const scrollContentStyle = { ...MarkdownFileContentDisplayer.EXPANDABLE_BODY_LAYOUT_STYLES, minHeight: heightToFit } // undefined if none
-    const { moduleTheme: { markdown: { scrollbarStyle } } } = this.context
+    const { source, style, options } = this.props
+    const { moduleTheme: { fileContent: { markdown: { scrollbarStyle, scrollableContent } } } } = this.context
     return (
-      <ScrollArea
-        style={{ height: '100%', width: '100%' }}
-        contentStyle={{ minHeight: '100%' }}
-        verticalScrollbarStyle={scrollbarStyle}
-        horizontal={false}
-        vertical
-      >
-        <div className="markdown-body">
-          <ReactMarkdown
-            source={source}
-            options={MarkdownFileContentDisplayer.DEFAULT_MD_VIEWER_OPTIONS}
-          />
-        </div>
-      </ScrollArea>
+      <MeasureResultProvider style={style} targetPropertyName="style">
+        <ScrollArea
+          contentStyle={scrollableContent} // content style (preserving display:'relative' style)
+          verticalScrollbarStyle={scrollbarStyle}
+          horizontal={false}
+          vertical
+        >
+          {/* Markdown style injector */}
+          <div className="markdown-body">
+            {/* Markdown render */}
+            <ReactMarkdown
+              source={source}
+              options={options}
+            />
+          </div>
+        </ScrollArea>
+      </MeasureResultProvider>
     )
   }
 }

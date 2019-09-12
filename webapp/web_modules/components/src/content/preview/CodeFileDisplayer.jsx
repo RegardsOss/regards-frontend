@@ -31,6 +31,7 @@ class CodeFileDisplayer extends React.Component {
     MIME_TYPES.JAVASCRIPT_MIME_TYPE,
     MIME_TYPES.JSON_MIME_TYPE,
     MIME_TYPES.XML_MIME_TYPE,
+    MIME_TYPES.XML_TEXT_MIME_TYPE,
   ]
 
   /**
@@ -41,6 +42,7 @@ class CodeFileDisplayer extends React.Component {
     [MIME_TYPES.JAVASCRIPT_MIME_TYPE]: 'javascript',
     [MIME_TYPES.JSON_MIME_TYPE]: 'json',
     [MIME_TYPES.XML_MIME_TYPE]: 'xml',
+    [MIME_TYPES.XML_TEXT_MIME_TYPE]: 'xml',
   }
 
   /**
@@ -53,37 +55,45 @@ class CodeFileDisplayer extends React.Component {
     return CodeFileDisplayer.SUPPORTED_MIME_TYPES.some(mimeType => lowerContentType.includes(mimeType))
   }
 
-  static EDITOR_PROPS = {
-    showLineNumbers: true,
-    readOnly: true,
-  }
-
   static propTypes = {
     content: PropTypes.string,
     contentType: PropTypes.string.isRequired,
     // style to dimension / decorate the component (must keep display:block to avoid unexpected behaviors)
-    // eslint-disable-next-line react/forbid-prop-types
-    style: PropTypes.object,
+    style: PropTypes.objectOf(PropTypes.any),
+    // editor options
+    options: PropTypes.objectOf(PropTypes.any),
   }
 
   static defaultProps = {
     content: '',
     style: {
-      width: '100%',
-      height: '100%',
+      flexGrow: 1,
+      flexShrink: 1,
+      // resets the sub component default dimensions
+      width: undefined,
+      height: undefined,
+    },
+    options: {
+      showPrintMargin: false,
+      showGutter: true,
+      showLineNumbers: true,
+      readOnly: true,
+      highlightActiveLine: true,
+      wrapEnabled: true,
     },
   }
 
   render() {
-    const { style, content, contentType } = this.props
+    const {
+      style, content, contentType, options,
+    } = this.props
     return (
       <AceEditorAdapter
         mode={CodeFileDisplayer.MIMETypeToMode[contentType]}
         value={content}
-        setOptions={CodeFileDisplayer.EDITOR_PROPS}
         style={style}
-        showPrintMargin={false}
-        showGutter
+        {...options}
+
       />)
   }
 }

@@ -195,7 +195,6 @@ export class RunServiceDialogComponent extends React.Component {
           dialogWidthPercent={pluginServiceDialog.widthPercent}
           actions={this.renderActions()}
           loaded={stepType !== RunServiceDialogComponent.Steps.LOADING}
-          loadingMessage={stepType === RunServiceDialogComponent.Steps.LOADING ? currentStep.message : ''}
           bodyStyle={stepType === RunServiceDialogComponent.Steps.RESULTS
             ? pluginServiceDialog.resultsBodyStyle
             : pluginServiceDialog.commonBodyStyles}

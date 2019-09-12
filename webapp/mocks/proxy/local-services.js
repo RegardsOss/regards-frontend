@@ -154,7 +154,7 @@ const tempFilesMap = [{
 }, {
   name: 'JS-TEST.js',
   binary: false,
-  mimeType: 'application/js', 
+  mimeType: 'application/javascript', 
 }, {
   name: 'MD-TEST.md',
   binary: false,
@@ -184,6 +184,21 @@ const tempFilesMap = [{
   binary: false,
   mimeType: 'text/unknown', 
 }]
+
+function compareOrder(attribute, order='ASC') {
+  return function (a, b) {
+    const stringA = a.content[attribute].toUpperCase()
+    const stringB = b.content[attribute].toUpperCase()
+
+    let comparison = 0
+    if (stringA > stringB) {
+      comparison = 1
+    } else if (stringA < stringB) {
+      comparison = -1
+    }
+    return (order ==='DESC' ? (comparison * -1) : comparison)
+  }
+}
 
 function buildLocalServices(gatewayURL) {
   return {
@@ -220,8 +235,50 @@ function buildLocalServices(gatewayURL) {
           return { content: 'Invalid file index', code: 404 }
         }
       },
+      getSession: {
+        url: 'rs-admin/sessions',
+        handler: (req, resp, pathParams, requestParams) => {
+          let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions.json'))
+          
+          if (requestParams.sort) {
+            let param = requestParams.sort
+            let content = [...myMock.content]
+            if (!Array.isArray(requestParams.sort)) {
+              param = [requestParams.sort]
+            }
+            param.reverse().forEach((element) => {
+              let split = element.split(',')
+              content.sort(compareOrder(split[0], split[1]))
+            })
+            myMock.content = content
+          }
+          return { content: myMock }
+        },
+      },
+      getSourcesList: {
+        url: 'rs-admin/sessions/sources',
+        handler: (req, resp) => {
+          let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions-list.json'))
+          return myMock
+        },
+      },
+      getSessionsList: {
+        url: 'rs-admin/sessions/names',
+        handler: (req, resp) => {
+          let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions-list.json'))
+          return myMock
+        },
+      }
     },
     PUT: {
+      stateUpdate: {
+        url: 'rs-admin/sessions/3/acknowledge',
+        handler: (req, resp) => {
+          const result = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions.json')).content[3]
+          result.content.state= 'ACKNOWLEDGED'
+          return { content: result }
+        },
+      }
     },
     POST: {
     },

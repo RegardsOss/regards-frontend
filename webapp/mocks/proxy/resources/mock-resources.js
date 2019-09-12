@@ -27,6 +27,18 @@ const MOCK_RESOURCES = [
     },
     links: [],
   },
+  {
+    content: {
+      controllerSimpleName: 'ToggleController',
+      defaultRole: 'PROJECT_ADMIN',
+      description: 'Enable toggle',
+      id: 699997,
+      microservice: 'rs-dataprovider',
+      resource: '/chains',
+      verb: 'PATCH',
+    },
+    links: [],
+  },
 ]
 
 module.exports = {

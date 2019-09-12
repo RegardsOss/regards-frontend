@@ -29,6 +29,7 @@ class DownloadFileActions extends BasicSignalActions {
         Accept: '*/*', // Accept: all
         ...headers, // if Accept is overriden, use the provided one
       },
+      options: { mode: 'cors' },
       ...otherOptions,
     })
   }

@@ -78,7 +78,7 @@ export class ModuleContainer extends React.Component {
     const urlForLocale = urlByLocale[locale] || find(urlByLocale, url => !!url)
     return urlForLocale ? (
       <IFrameURLContentDisplayer
-        contentURL={urlForLocale}
+        source={urlForLocale}
         style={renderStyles}
       />
     ) : null

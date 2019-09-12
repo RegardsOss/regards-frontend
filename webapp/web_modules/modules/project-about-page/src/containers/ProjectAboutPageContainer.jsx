@@ -136,14 +136,12 @@ class ProjectAboutPageContainer extends React.Component {
         >
           <HomeIcone />
         </FloatingActionButton>)
-
     return (
       <div>
         {runtimeButton}
         <SingleContentURLDialogContainer
           open={dialogOpen}
           contentURL={this.getFullPath(htmlPath)}
-          loadingMessage={this.context.intl.formatMessage({ id: 'project.about.page.loading.message' })}
           dialogHeightPercent={heightPercent}
           dialogWidthPercent={widthPercent}
           onRequestClose={this.onClose}

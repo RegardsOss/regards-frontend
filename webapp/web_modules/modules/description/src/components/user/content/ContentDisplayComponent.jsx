@@ -18,7 +18,7 @@
  **/
 import isNil from 'lodash/isNil'
 import { themeContextType } from '@regardsoss/theme'
-import { ContentLoadingComponent } from '@regardsoss/components'
+import { ContentLoadingComponent, URIContentDisplayer } from '@regardsoss/components'
 import { DescriptionEntity } from '../../../shapes/DescriptionState'
 import { BROWSING_SECTIONS_ENUM } from '../../../domain/BrowsingSections'
 import ParametersSectionComponent from './parameters/ParametersSectionComponent'
@@ -26,7 +26,7 @@ import TagsSectionPageComponent from './list/tag/TagsSectionPageComponent'
 import EntitiesSectionPageComponent from './list/entity/EntitiesSectionPageComponent'
 import FilesSectionPageComponent from './list/file/FilesSectionPageComponent'
 import NoDataMessageComponent from './NoDataMessageComponent'
-import FilePageComponent from './file/FilePageComponent'
+import QuicklookComponent from './quicklook/QuicklookComponent'
 
 /**
  * Main component to display content area: shows loading / errors / content according with selected tree entry
@@ -95,17 +95,16 @@ class ContentDisplayComponent extends React.Component {
       'TEST-UNKNOWN',
       'UNEXISTING',
     ].map((v, i) => ({
+      // TODO
       label: v,
       available: true,
       uri: `http://localhost:3000/api/v1/tempFiles?fileIndex=${i}`,
     }))
-
     switch (section) {
       case BROWSING_SECTIONS_ENUM.PARAMETERS:
         return <ParametersSectionComponent thumbnail={thumbnail} attributesGroups={attributesGroups} />
       case BROWSING_SECTIONS_ENUM.QUICKLOOKS:
-        // TODO
-        return null
+        return <QuicklookComponent quicklookFiles={quicklookFiles} />
       case BROWSING_SECTIONS_ENUM.SIMPLE_TAGS:
         return <TagsSectionPageComponent tags={wordTags} onSearchWord={onSearchWord} />
       case BROWSING_SECTIONS_ENUM.COUPLED_TAGS:
@@ -131,7 +130,7 @@ class ContentDisplayComponent extends React.Component {
             section={section}
             files={descriptionFiles}
             onSelectInnerLink={onSelectInnerLink}
-          />) : <FilePageComponent file={descriptionFiles[child]} />
+          />) : <URIContentDisplayer uri={descriptionFiles[child].uri} />
       case BROWSING_SECTIONS_ENUM.FILES:
         return isNil(child) ? (
           <FilesSectionPageComponent
@@ -141,9 +140,9 @@ class ContentDisplayComponent extends React.Component {
               TEMPFILES
             }
             onSelectInnerLink={onSelectInnerLink}
-          />) : <FilePageComponent file={
+          />) : <URIContentDisplayer uri={
             // TODO otherFiles[child]
-            TEMPFILES[child]
+            TEMPFILES[child].uri
           }
           />
       default:

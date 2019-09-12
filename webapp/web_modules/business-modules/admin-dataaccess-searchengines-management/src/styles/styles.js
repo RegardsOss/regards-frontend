@@ -33,6 +33,14 @@ const storageManagementStyles = theme => ({
       marginLeft: 10,
     },
   },
+  searchEngineURLInfo: {
+    fontWeight: 500,
+    background: 'white',
+    display: 'block',
+    padding: 8,
+    color: theme.palette.accent2Color,
+    wordBreak: 'break-all',
+  },
 })
 
 export default storageManagementStyles

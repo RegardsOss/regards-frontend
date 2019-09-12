@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import root from 'window-or-global'
+import isEqual from 'lodash/isEqual'
 import HOCUtils from '../hoc/HOCUtils'
 
 /**
@@ -35,7 +36,8 @@ class FileContentReader extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     targetPropertyName: PropTypes.string,
     // eslint-disable-next-line react/no-unused-prop-types
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node).isRequired]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)]),
+    // other properties should be reported to children
   }
 
   static defaultProps = {
@@ -58,20 +60,25 @@ class FileContentReader extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
    * @param {*} oldProps previous component properties
    * @param {*} newProps next component properties
    */
-  onPropertiesUpdated = (
-    { blob: oldBlob, children: oldChildren, targetPropertyName: oldPropName },
-    { blob, children, targetPropertyName }) => {
-    if (oldBlob !== blob) {
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      blob: oldBlob, children: oldChildren, targetPropertyName: oldPropName, ...oldOtherProperties
+    } = oldProps
+    const {
+      blob, children, targetPropertyName, ...otherProperties
+    } = newProps
+    if (!isEqual(oldBlob, blob)) {
+      // XXX-BUG: when the browser changes, children type is lost (REACT bug, can be seen using RunCatalogPluginServiceContainer)
       const readingIndex = this.state.readingIndex + 1
       // re-initialize state
-      this.storeChildrenWithContent('', targetPropertyName, children, readingIndex)
+      this.storeChildrenWithContent('', targetPropertyName, children, otherProperties, readingIndex)
       // extract file content from blob
       const reader = new FileReader()
       // callback: on done
@@ -79,13 +86,13 @@ class FileContentReader extends React.Component {
         // handle only when no new reading was started
         if (this.state.readingIndex === readingIndex) {
           const content = reader.result
-          this.storeChildrenWithContent(content, targetPropertyName, children)
+          this.storeChildrenWithContent(content, targetPropertyName, children, otherProperties)
         }
       })
       // start reading blob
       reader.readAsText(blob)
-    } else if (oldPropName !== targetPropertyName || oldChildren !== children) {
-      this.storeChildrenWithContent(this.state.content, targetPropertyName, children)
+    } else if (oldPropName !== targetPropertyName || oldChildren !== children || !isEqual(oldOtherProperties, otherProperties)) {
+      this.storeChildrenWithContent(this.state.content, targetPropertyName, otherProperties, children, otherProperties)
     }
   }
 
@@ -94,14 +101,16 @@ class FileContentReader extends React.Component {
    * @param {string} content read blob content
    * @param {string} targetPropertyName target property name in children
    * @param {[*]]} children children list
-   * @param {number} reading index (leave empty to not update)
+   * @param {*} otherProperties other properties to be reported to children
+   * @param {number} readingIndex (leave empty to not update)
    */
-  storeChildrenWithContent(content, targetPropertyName, children, readingIndex) {
+  storeChildrenWithContent(content, targetPropertyName, children, otherProperties, readingIndex) {
     this.setState({
       readingIndex: readingIndex || this.state.readingIndex,
       content,
       children: HOCUtils.cloneChildrenWith(children, {
         [targetPropertyName]: content,
+        ...otherProperties,
       }),
     })
   }

@@ -83,6 +83,7 @@ const messages = {
   'module.description.tree.section.file.tooltip': 'Afficher la prévisualisation du fichier',
   'module.description.tree.show.entity.description.tooltip': 'Afficher la description de cette donnée',
   'module.description.content.parameters.thumbnail.alt.text': 'Vignette: {label}',
+  'module.description.content.quicklook.alt.message': 'Vignette',
   // TODO old: delete or move
   'module.description.breadcrumb.root': 'Description: {entityLabel}',
   'module.description.file.subheader': 'Cliquez sur un des fichiers ci-dessous pour le télécharger',

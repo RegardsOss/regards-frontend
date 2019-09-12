@@ -119,7 +119,7 @@ class BrowsingTreeComponent extends React.Component {
   static buildLinkSectionRow(type, selectedTreeEntry) {
     return new TreeTableRow(`SECTION.${type}`, [{
       type,
-      selected: BrowsingTreeComponent.isSelectedEntry(BROWSING_SECTIONS_ENUM.PARAMETERS, null, selectedTreeEntry),
+      selected: BrowsingTreeComponent.isSelectedEntry(type, null, selectedTreeEntry),
     }, BrowsingTreeComponent.EMPTY_CELL_MODEL], [], true)
   }
 
@@ -229,7 +229,7 @@ class BrowsingTreeComponent extends React.Component {
       BROWSING_SECTIONS_ENUM.INFORMATION, BrowsingTreeComponent.CELL_TYPES.FILE, descriptionFiles,
       BrowsingTreeComponent.buildFileOptionCellModel, selectedTreeEntry),
     // 3 - Quicklooks
-    quicklookFiles.length ? BrowsingTreeComponent.buildLinkSectionRow(BROWSING_SECTIONS_ENUM.PARAMETERS, selectedTreeEntry) : null,
+    quicklookFiles.length ? BrowsingTreeComponent.buildLinkSectionRow(BROWSING_SECTIONS_ENUM.QUICKLOOKS, selectedTreeEntry) : null,
     // 4 - Simple tags
     BrowsingTreeComponent.buildlListSectionRow(
       BROWSING_SECTIONS_ENUM.SIMPLE_TAGS, BrowsingTreeComponent.CELL_TYPES.TAG, wordTags,

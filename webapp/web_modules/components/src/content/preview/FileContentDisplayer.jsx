@@ -19,7 +19,7 @@
 import root from 'window-or-global'
 import compose from 'lodash/fp/compose'
 import { withI18n } from '@regardsoss/i18n'
-import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { withModuleStyle } from '@regardsoss/theme'
 import { FileContentReader } from '@regardsoss/display-control'
 import LocalURLProvider from '@regardsoss/display-control/src/blob/LocalURLProvider'
 import IFrameURLContentDisplayer from './IFrameURLContentDisplayer'
@@ -71,8 +71,7 @@ export class FileContentDisplayer extends React.Component {
       contentType: PropTypes.string.isRequired,
     }),
     // style to dimension / decorate the component (must keep display:block to avoid unexpected behaviors)
-    // eslint-disable-next-line react/forbid-prop-types
-    style: PropTypes.object,
+    style: PropTypes.objectOf(PropTypes.any),
     // Component to display when loading
     loadingComponent: PropTypes.node,
     // Component to display when file download failed
@@ -87,14 +86,13 @@ export class FileContentDisplayer extends React.Component {
     style: {
       flexGrow: 1,
       flexShrink: 1,
+      minHeight: 0,
+      minWidth: 0,
+      display: 'flex',
     },
     loadingComponent: <ContentLoadingComponent loadingMessageKey={ContentLoadingComponent.DEFAULT_MESSAGES_KEYS.LOADING_FILE} />,
     errorComponent: <DownloadErrorComponent />,
     noPreviewComponent: <NoPreviewComponent />,
-  }
-
-  static contextTypes = {
-    ...themeContextType,
   }
 
   render() {
@@ -102,13 +100,6 @@ export class FileContentDisplayer extends React.Component {
       loading, error, file, style,
       loadingComponent, errorComponent, noPreviewComponent,
     } = this.props
-    const {
-      moduleTheme: {
-        fileContent: {
-          statusContainer, markdownPreviewContainer,
-        },
-      },
-    } = this.context
 
     return (
       // Outer layout, provided by API user
@@ -116,10 +107,10 @@ export class FileContentDisplayer extends React.Component {
         { /** IIFE to render content according with state and MIME type */
             (() => {
               if (loading) {
-                return <div style={statusContainer}>{loadingComponent || null}</div>
+                return loadingComponent || null
               }
               if (error) {
-                return <div style={statusContainer}>{errorComponent || null}</div>
+                return errorComponent || null
               }
               const { content, contentType } = file
               if (CodeFileDisplayer.isSupportedContentType(contentType)) {
@@ -130,40 +121,33 @@ export class FileContentDisplayer extends React.Component {
               }
               // 2 - Render through image view for corresponding MIME types, using access URL
               if (ImageFileDisplayer.isSupportedContentType(contentType)) {
-                return (// TODO: scrolling, centrage
+                return (
                   <LocalURLProvider blob={content} targetPropertyName="source">
                     <ImageFileDisplayer />
                   </LocalURLProvider>)
               }
-              /* TODO:
-               Code (CSS, JS, JSON, XML) : OK
-               Pictures: (GIF, JPEG, JPEG-BIG, PNG) : TODO
-               Web (HTML, XHTML, PDF, TEXT): TODO
-               Markdown: TODO
-               Errors: OK
-              */
               // 3 - render through an iFrame, using access URL
               if (IFrameURLContentDisplayer.isSupportedContentType(contentType)) {
                 return (
                   <LocalURLProvider blob={content} targetPropertyName="source">
-                    <IFrameURLContentDisplayer style={style} />
+                    <IFrameURLContentDisplayer />
                   </LocalURLProvider>)
               }
               if (MarkdownFileContentDisplayer.isSupportedContentType(contentType)) {
-                // TODO: report here the blob reading plinciples from description
-                // TODO this is temporary
                 return (
-                  <div style={markdownPreviewContainer} targetPropertyName="source">
-                    <FileContentReader blob={content}>
-                      <MarkdownFileContentDisplayer heightToFit={500} />
-                    </FileContentReader>
-                  </div>)
+                  <FileContentReader blob={content} targetPropertyName="source">
+                    <MarkdownFileContentDisplayer />
+                  </FileContentReader>)
               }
-              return <div style={statusContainer}>{noPreviewComponent || null}</div>
+              return noPreviewComponent || null
             })()
         }
       </div>)
   }
 }
 
-export default compose(withI18n(messages), withModuleStyle(styles))(FileContentDisplayer)
+// report static methods to avoid import mess
+const WithContext = compose(withI18n(messages, true), withModuleStyle(styles, true))(FileContentDisplayer)
+WithContext.isSupportedFileType = FileContentDisplayer.isSupportedFileType
+WithContext.isSupportedContentType = FileContentDisplayer.isSupportedContentType
+export default WithContext

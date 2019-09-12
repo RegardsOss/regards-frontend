@@ -55,14 +55,10 @@ class URIContentDisplayer extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     uri: PropTypes.string.isRequired, // used only in onPropertiesUpdated
-    // other props are reporetd to FileContentDisplayer
-    // eslint-disable-next-line react/forbid-prop-types
-    style: PropTypes.object,
-    // Component to display when loading
+    // other props are reporetd to FileContentDisplayer (see it for more information)
+    style: PropTypes.objectOf(PropTypes.any),
     loadingComponent: PropTypes.node,
-    // Component to display when file download failed
     errorComponent: PropTypes.node,
-    // Component to display when preview is not available
     noPreviewComponent: PropTypes.node,
     // from mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types

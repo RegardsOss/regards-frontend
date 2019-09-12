@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import root from 'window-or-global'
+import isEqual from 'lodash/isEqual'
 import HOCUtils from '../hoc/HOCUtils'
 
 /**
@@ -44,7 +45,8 @@ class LocalURLProvider extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     targetPropertyName: PropTypes.string,
     // eslint-disable-next-line react/no-unused-prop-types
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node).isRequired]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)]),
+    // other properties should be reported to children
   }
 
   static defaultProps = {
@@ -84,31 +86,38 @@ class LocalURLProvider extends React.Component {
    * @param oldProps previous component properties
    * @param newProps next component properties
    */
-  onPropertiesUpdated = (
-    { blob: oldBlob, children: oldChildren, targetPropertyName: oldPropName },
-    { blob, children, targetPropertyName }) => {
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      blob: oldBlob, children: oldChildren, targetPropertyName: oldPropName, ...oldOtherProperties
+    } = oldProps
+    const {
+      blob, children, targetPropertyName, ...otherProperties
+    } = newProps
     if (oldBlob !== blob) {
       // 1 - Revoke old URL if there was one
       if (this.state.localAccessURL) {
         root.URL.revokeObjectURL(this.state.localAccessURL)
       }
       // 2 - Use new URL if there is a new file content, clear old one in any case
-      this.storeChildrenWithURL(blob ? LocalURLProvider.buildLocalAccessURL(blob) : null, targetPropertyName, children)
-    } else if (oldPropName !== targetPropertyName || oldChildren !== children) {
-      this.storeChildrenWithURL(this.state.localAccessURL, targetPropertyName, children)
+      this.storeChildrenWithURL(blob ? LocalURLProvider.buildLocalAccessURL(blob) : null, targetPropertyName, children, otherProperties)
+    } else if (oldPropName !== targetPropertyName || oldChildren !== children || !isEqual(oldOtherProperties, otherProperties)) {
+      this.storeChildrenWithURL(this.state.localAccessURL, targetPropertyName, children, otherProperties)
     }
   }
 
   /**
    * Stores children in state with URL
-   * @param {string} URL
-   * @param {string} targetPropertyName
+   * @param {string} localAccessURL localAccessURL
+   * @param {string} targetPropertyName name of the property to set in children
+   * @param {* | [*]} children
+   * @param {*} otherProperties other properties to be reported to children
    */
-  storeChildrenWithURL = (localAccessURL, targetPropertyName, children) => {
+  storeChildrenWithURL = (localAccessURL, targetPropertyName, children, otherProperties) => {
     this.setState({
       localAccessURL,
       children: HOCUtils.cloneChildrenWith(children, {
         [targetPropertyName]: localAccessURL,
+        ...otherProperties,
       }),
     })
   }

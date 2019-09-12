@@ -23,7 +23,6 @@ import { FormattedMessage } from 'react-intl'
 import { CatalogShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { MarkdownFileContentDisplayer } from '@regardsoss/components'
 import { withAuthInfo } from '@regardsoss/authentication-utils'
 
 
@@ -53,7 +52,7 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
 
   render() {
     const { searchEngineConfiguration, onClose } = this.props
-    const { intl: { formatMessage }, muiTheme } = this.context
+    const { intl: { formatMessage }, muiTheme, moduleTheme: { searchEngineURLInfo } } = this.context
     if (!searchEngineConfiguration) {
       return null
     }
@@ -87,6 +86,8 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
       content = formatMessage({ id: 'dataaccess.searchengines.info.content.all' })
     }
 
+    const searchRootLink = this.getSearchLink()
+
     return (
       <Dialog
         actions={actions}
@@ -97,11 +98,15 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
         {content}
         <br />
         <br />
-        <MarkdownFileContentDisplayer
-          source={this.getSearchLink()}
-        />
-        <br />
-        <br />
+        {searchRootLink ? (
+          <React.Fragment>
+            <div style={searchEngineURLInfo}>
+              {searchRootLink}
+            </div>
+            <br />
+            <br />
+          </React.Fragment>
+        ) : null}
         <a style={{ color: muiTheme.palette.accent1Color }} href={this.getSearchLink(true)} target="_blanck">{formatMessage({ id: 'dataaccess.searchengines.info.test' })}</a>
       </Dialog>
     )

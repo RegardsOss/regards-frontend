@@ -33,7 +33,6 @@ export default {
         label: 'tototo',
         active: false,
         generationRetryEnabled: true,
-        submissionRetryEnabled: true,
         mode: 'AUTO',
         locked: false,
         lastActivationDate: '2018 - 02 - 20T09: 32: 10.722Z',

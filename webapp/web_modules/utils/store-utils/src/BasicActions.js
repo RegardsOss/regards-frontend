@@ -43,7 +43,7 @@ class BasicActions {
    *
    * @param options Object containing :
    * { entityEndpoint: string, entityPathVariable: string,namespace : string ,
-   * headers: Object ,bypassErrorMiddleware : bool }
+   * headers: Object ,bypassErrorMiddleware : bool, options: {*} }
    */
   constructor(options) {
     this.entityEndpoint = options.entityEndpoint
@@ -51,6 +51,7 @@ class BasicActions {
     this.FLUSH = `${options.namespace}/FLUSH`
     this.headers = options.headers || {}
     this.bypassErrorMiddleware = !!options.bypassErrorMiddleware
+    this.options = options.options
   }
 
 
@@ -184,6 +185,7 @@ class BasicActions {
         case RequestVerbEnum.GET:
         case RequestVerbEnum.DELETE:
         case RequestVerbEnum.PUT:
+        case RequestVerbEnum.PATCH:
           endpoint = `${endpoint}/{${this.entityPathVariable}}`
           break
         case RequestVerbEnum.GET_LIST:

@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ImageFileDisplayer from '../../src/content/ImageFileDisplayer'
+import ImageFileDisplayer from '../../src/content/preview/ImageFileDisplayer'
 import styles from '../../src/content/styles/styles'
 
 const context = buildTestContext(styles)
@@ -37,6 +37,6 @@ describe('[Components] Testing ImageFileDisplayer', () => {
   })
 
   it('should render correctly', () => {
-    shallow(<ImageFileDisplayer imageURL="./local" />, { context })
+    shallow(<ImageFileDisplayer source="./local" />, { context })
   })
 })

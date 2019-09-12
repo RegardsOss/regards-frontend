@@ -46,6 +46,15 @@ class ImageFileDisplayer extends React.Component {
 
   static propTypes = {
     source: PropTypes.string,
+    // style to dimension / decorate the component (must keep display:block to avoid unexpected behaviors)
+    style: PropTypes.objectOf(PropTypes.any),
+  }
+
+  static defaultProps = {
+    style: {
+      flexGrow: 1,
+      flexShrink: 1,
+    },
   }
 
   static contextTypes = {
@@ -54,21 +63,24 @@ class ImageFileDisplayer extends React.Component {
   }
 
   render() {
-    const { source } = this.props
-    const { intl: { formatMessage }, moduleTheme: { image } } = this.context
+    const { source, style } = this.props
+    const { intl: { formatMessage }, moduleTheme: { fileContent: { image } } } = this.context
     // Do not display without source URL
     if (!source) {
       return null
     }
 
-
     return (
-      <div style={image.containerStyles}>
-        <img
-          src={source}
-          alt={formatMessage({ id: 'image.file.not.displayed' })}
-          style={image.styles}
-        />
+      // External dimension
+      <div style={style}>
+        {/* Inner layout: center pictures to small, cap pictures to big */}
+        <div style={image.container}>
+          <img
+            src={source}
+            alt={formatMessage({ id: 'image.file.not.displayed' })}
+            style={image.img}
+          />
+        </div>
       </div>
     )
   }

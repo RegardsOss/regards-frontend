@@ -76,7 +76,7 @@ class PluginDescriptionDialog extends React.Component {
         repositionOnUpdate={false}
       >
         <MarkdownFileContentDisplayer
-          heightToFit={400}
+          style={markdownDialog.markdownView}
           source={pluginMetaData.markdown}
         />
       </Dialog>

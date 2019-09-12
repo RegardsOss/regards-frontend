@@ -1,0 +1,151 @@
+{
+  "metadata": {
+    "size": 2,
+    "totalElements": 2,
+    "totalPages": 1,
+    "number": 0
+  },
+  "content": [
+    {
+      "content": {
+        "id" : 3,
+        "name": "2019-07-09 14:37:00",
+        "source": "JASON_MOMOA_MOE",
+        "creationDate": "2018-07-09T14:37:00Z",
+        "lastUpdateDate": "2018-07-09T14:37:00Z",
+        "state": "ERROR",
+        "lifeCycle": {
+          "products": {
+            "running": false,
+            "done": 50,
+            "errors": 2,
+            "incomplete": 8
+          },
+          "sip": {
+            "done": 30,
+            "total": 60,
+            "pending": 10,
+            "invalid": 1,
+            "refused": 0,
+            "errors": 2,
+            "generatedAIP": 65
+          },
+          "aip": {
+            "done": 0,
+            "total": 10,
+            "pending": 5,
+            "errors": 1,
+            "indexed": 2
+          }
+        }
+      },
+      "links": []
+    },
+    {
+      "content": {
+        "id" : 2,
+        "name": "2019-07-09 14:37:00",
+        "source": "JASON_STATHAM_MOE",
+        "creationDate": "2018-07-09T14:37:00Z",
+        "lastUpdateDate": "2018-07-09T14:37:00Z",
+        "state": "DELETED",
+        "lifeCycle": {
+          "products": {
+            "running": false,
+            "done": 50,
+            "errors": 2,
+            "incomplete": 8
+          },
+          "sip": {
+            "done": 30,
+            "total": 60,
+            "pending": 10,
+            "invalid": 1,
+            "refused": 0,
+            "errors": 2,
+            "generatedAIP": 65
+          },
+          "aip": {
+            "done": 5,
+            "total": 10,
+            "pending": 5,
+            "errors": 1,
+            "indexed": 2
+          }
+        }
+      },
+      "links": []
+    },
+    {
+      "content": {
+        "id" : 0,
+        "name": "2018-07-09 14:37:00",
+        "source": "JASON2_COMMON_MOE",
+        "creationDate": "2018-07-09T14:37:00Z",
+        "lastUpdateDate": "2018-07-09T14:37:00Z",
+        "state": "OK",
+        "lifeCycle": {
+          "products": {
+            "running": true,
+            "done": 800000000,
+            "errors": 20554545,
+            "incomplete": 8
+          },
+          "sip": {
+            "done": 800000000,
+            "total": 75,
+            "pending": 10,
+            "invalid": 1,
+            "refused": 0,
+            "errors": 2,
+            "generatedAIP": 65
+          },
+          "aip": {
+            "done": 800000000,
+            "total": 10,
+            "pending": 5,
+            "errors": 1,
+            "indexed": 2
+          }
+        }
+      },
+      "links": []
+    },
+    {
+      "content": {
+        "id" : 1,
+        "name": "2019-07-09 14:37:00",
+        "source": "JASON_BOURNE_MOE",
+        "creationDate": "2018-07-09T14:37:00Z",
+        "lastUpdateDate": "2018-07-09T14:37:00Z",
+        "state": "ACKNOWLEDGED",
+        "lifeCycle": {
+          "products": {
+            "running": false,
+            "done": 5054876,
+            "errors": 0,
+            "incomplete": 0
+          },
+          "sip": {
+            "done": 599450,
+            "total": 600000,
+            "pending": 10450,
+            "invalid": 0,
+            "refused": 0,
+            "errors": 0,
+            "generatedAIP": 65
+          },
+          "aip": {
+            "done": 599450,
+            "total": 599450,
+            "pending": 0,
+            "errors": 0,
+            "indexed": 599450
+          }
+        }
+      },
+      "links": []
+    }
+  ]
+}
+

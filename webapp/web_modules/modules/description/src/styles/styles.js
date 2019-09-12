@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-// TODO delete that!
-const fixedFlexElement = { flexShrink: '0', flexGrow: '0' }
-const growingFlexElement = { flexShrink: '1', flexGrow: '1', minHeight: '0' }
-const verticalLayout = { display: 'flex', flexDirection: 'column', alignItems: 'stretch' }
-const growingVerticalLayout = { ...growingFlexElement, ...verticalLayout }
 
 /**
  * Module styles builder
@@ -113,7 +108,7 @@ const styles = theme => ({
         minHeight: 0,
       },
       tree: {
-        scrollArea: { // TODO use me!
+        scrollArea: {
           flexBasis: theme.module.description.tree.width,
           borderColor: theme.module.description.tree.borderColor,
           borderWidth: theme.module.description.tree.borderWidth,
@@ -329,89 +324,32 @@ const styles = theme => ({
             },
           },
         },
-      },
-    },
-    // TODO: that whole object should be deleted at end
-    card: {
-      style: {
-        ...growingFlexElement,
-        ...verticalLayout,
-      },
-      containerStyle: {
-        ...growingFlexElement,
-        ...verticalLayout,
-      },
-      titleStyle: fixedFlexElement,
-      media: {
-        rootStyle: growingVerticalLayout,
-        mediaStyle: growingVerticalLayout,
-        tabs: {
-          rootStyle: growingVerticalLayout,
-          tabItemContainerStyle: fixedFlexElement,
-          contentContainerStyle: growingVerticalLayout,
-          tabTemplateStyle: growingVerticalLayout,
-          tab: {
-            quicklook: {
-              imageContainerZoomOut: {
+        quicklook: {
+          view: {
+            normal: {
+              container: {
                 display: 'flex',
                 justifyContent: 'center',
-                maxHeight: '100%',
-                cursor: 'zoom-in',
-              },
-              imageContainerZoomIn: {
-                cursor: 'zoom-out',
-                overflow: 'auto',
-              },
-              imageZoomOut: {
-                maxHeight: '100%',
-                objectFit: 'contain',
-              },
-              imageZoomIn: {
-                display: 'block',
-                margin: 'auto',
-              },
-            },
-            filesTab: {
-              rootStyle: {
-                position: 'relative',
-                width: '100%',
-                height: '100%',
+                alignItems: 'center',
                 flexGrow: 1,
                 flexShrink: 1,
+                cursor: 'zoom-in',
               },
-              fileOptions: {
-                position: 'absolute',
-                top: theme.module.description.filesOptions.top,
-                right: theme.module.description.filesOptions.right,
-                background: theme.module.description.filesOptions.background,
-                padding: theme.module.description.filesOptions.padding,
-                display: 'flex',
-                alignItems: 'center',
-                zIndex: 1,
+              img: {
+                flexGrow: 0,
+                flexShrink: 1,
+                maxWidth: '100%',
+                maxHeight: '100%',
               },
-              fileContent: {
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                zIndex: 0,
+            },
+            magnified: {
+              container: {
+                overflow: 'auto',
+                cursor: 'zoom-out',
               },
-              fileMeaureDiv: {
-                width: '100%',
-                height: '100%',
-              },
-              centeredFileContent: {
-                height: '100%',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              },
-              contentBackground: {
-                height: '100%',
-                width: '100%',
-                background: theme.module.description.fileContentBackground,
+              img: {
+                display: 'block',
+                margin: 'auto',
               },
             },
           },
