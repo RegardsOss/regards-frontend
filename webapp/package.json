@@ -1,6 +1,6 @@
 {
   "name": "frontend-webapp",
-  "version":"0.4.1",
+  "version": "0.4.1",
   "description": "REGARDS frontend webapp",
   "private": true,
   "scripts": {
@@ -37,7 +37,8 @@
     "test:watch": "node --max_old_space_size=8192 ./node_modules/.bin/mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"web_modules/**/*.test.js{,x}\" --inline-diffs --watch",
     "esdoc": "esdoc -c esdoc.json",
     "lint": "eslint web_modules src --ext .js,.jsx",
-    "lint:fix": "eslint --fix web_modules src --ext .js,.jsx"
+    "lint:fix": "eslint --fix web_modules src --ext .js,.jsx",
+    "retire": "retire -p --jspath ./dist/prod/ --nodepath ./ --outputpath ./depchek-report-frontend.xml --outputformat depcheck"
   },
   "author": "CNES (https://cnes.fr)",
   "contributors": [
@@ -247,7 +248,8 @@
     "webpack": "4.32.2",
     "webpack-cli": "3.3.2",
     "webpack-dev-server": "~3.4.0",
-    "xunit-file": "~1.0.0"
+    "xunit-file": "~1.0.0",
+    "retire": "2.0.3"
   },
   "engines": {
     "node": ">=6.11.2",
