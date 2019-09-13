@@ -84,28 +84,6 @@ const messages = {
   'module.description.tree.show.entity.description.tooltip': 'Afficher la description de cette donnée',
   'module.description.content.parameters.thumbnail.alt.text': 'Vignette: {label}',
   'module.description.content.quicklook.alt.message': 'Vignette',
-  // TODO old: delete or move
-  'module.description.breadcrumb.root': 'Description: {entityLabel}',
-  'module.description.file.subheader': 'Cliquez sur un des fichiers ci-dessous pour le télécharger',
-  'module.description.close.button': 'Fermer',
-  'module.description.properties.attributes': 'Attributs',
-  'module.description.properties.loading.attributes': 'Chargement des attributs',
-  'module.description.properties.no.attribute': 'Aucun attribut à afficher',
-  'module.description.properties.tags.entities': 'Mot-clefs liés',
-  'module.description.properties.documents.entities': 'Documents associés',
-  'module.description.properties.document.entities': 'Documents associés',
-  'module.description.properties.loading.tags': 'Chargement des mot-clefs',
-  'module.description.properties.loading.document': 'Chargement des documents',
-  'module.description.properties.no.tag': 'Cette entité n\'a pas de mot-clef',
-  'module.description.properties.no.document': 'Cette entité n\'a pas de document',
-  'module.description.properties.tag.search.tooltip': 'Rechercher les entités portant ce tag',
-  'module.description.properties.tag.show.description.tooltip': 'Afficher les détails de l\'entité',
-
-  'module.description.file.selector.file.label': '{filename} ({sizeMessage})',
-  'module.description.file.selector.file.unkown.size': 'taille inconnue',
-  'module.description.files.download.button': 'Télécharger',
-  'module.description.file.loading': 'Chargement du fichier',
-
   // Forms i18n messages for admin
   ...Locales.fr,
   // Storage units messages

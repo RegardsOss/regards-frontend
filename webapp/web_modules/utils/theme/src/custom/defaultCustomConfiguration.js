@@ -148,12 +148,26 @@ export default baseTheme => ({
     description: {
       breadcrumb: {
         link: {
-          iconSize: 24,
-          selectedColor: baseTheme.raisedButton.secondaryColor,
-          unselectedColor: baseTheme.palette.textColor,
           textPadding: '2px 0 0 5px',
-          fontWeight: 500,
-          fontSize: '1.1em',
+          selected: {
+            color: baseTheme.raisedButton.secondaryColor,
+            fontSize: '18px',
+            fontWeight: 500,
+            iconSize: 24,
+          },
+          unselected: {
+            color: baseTheme.palette.textColor,
+            fontSize: '16px',
+            fontWeight: 400,
+            iconSize: 24,
+            minWidth: 60,
+          },
+        },
+        separator: {
+          width: 32,
+          height: 32,
+          margin: '2px 0 0 0',
+          color: baseTheme.palette.textColor,
         },
       },
       tree: {

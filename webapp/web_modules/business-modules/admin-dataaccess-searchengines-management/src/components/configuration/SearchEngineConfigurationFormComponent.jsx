@@ -269,7 +269,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
       return (
         <Card>
           <NoContentComponent
-            title={formatMessage({ id: 'dataaccess.searchengines.form.no.plugin.available' })}
+            titleKey="dataaccess.searchengines.form.no.plugin.available"
             Icon={MoodIcon}
           />
         </Card>

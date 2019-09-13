@@ -16,12 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import NoParameterIcon from 'mdi-material-ui/MonitorOff'
 import { themeContextType } from '@regardsoss/theme'
 import { ScrollArea } from '@regardsoss/adapters'
+import { NoContentComponent } from '@regardsoss/components'
 import { AttributeGroup, FileData } from '../../../../shapes/DescriptionState'
 import AttributesGroupComponent from './AttributesGroupComponent'
 import ThumbnailComponent from './DescriptionThumbnailComponent'
-import NoDataMessageComponent from '../NoDataMessageComponent'
 
 /**
  * Parameters section component: shows thumbnail,  attributes and groups
@@ -57,7 +58,12 @@ class ParametersSectionComponent extends React.Component {
       },
     } = this.context
     return !attributesGroups.length && !thumbnail
-      ? <NoDataMessageComponent type={NoDataMessageComponent.NO_DATA_TYPE_ENUM.NO_PARAMETER} />
+      ? (
+        <NoContentComponent
+          titleKey="module.description.no.parameter.title"
+          messageKey="module.description.no.parameter.message"
+          Icon={NoParameterIcon}
+        />)
       : (
         <ScrollArea vertical contentStyle={scrolling.scrollAreaContent} style={scrolling.scrollArea}>
           <div style={root}>

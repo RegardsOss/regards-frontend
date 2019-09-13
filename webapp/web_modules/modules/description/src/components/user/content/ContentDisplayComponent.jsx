@@ -17,15 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNil from 'lodash/isNil'
+import ErrorMessageIcon from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { themeContextType } from '@regardsoss/theme'
-import { ContentLoadingComponent, URIContentDisplayer } from '@regardsoss/components'
+import { ContentLoadingComponent, URIContentDisplayer, NoContentComponent } from '@regardsoss/components'
 import { DescriptionEntity } from '../../../shapes/DescriptionState'
 import { BROWSING_SECTIONS_ENUM } from '../../../domain/BrowsingSections'
 import ParametersSectionComponent from './parameters/ParametersSectionComponent'
 import TagsSectionPageComponent from './list/tag/TagsSectionPageComponent'
 import EntitiesSectionPageComponent from './list/entity/EntitiesSectionPageComponent'
 import FilesSectionPageComponent from './list/file/FilesSectionPageComponent'
-import NoDataMessageComponent from './NoDataMessageComponent'
 import QuicklookComponent from './quicklook/QuicklookComponent'
 
 /**
@@ -62,11 +62,21 @@ class ContentDisplayComponent extends React.Component {
     }
     // invalid entity type for current configuration (message)
     if (descriptionEntity.invalid) {
-      return <NoDataMessageComponent type={NoDataMessageComponent.NO_DATA_TYPE_ENUM.INVALID_ENTITY} />
+      return (
+        <NoContentComponent
+          titleKey="module.description.invalid.entity.title"
+          messageKey="module.description.invalid.entity.message"
+          Icon={ErrorMessageIcon}
+        />)
     }
     // model retrieval failed for entity (message)
     if (descriptionEntity.modelRetrievalFailed) {
-      return <NoDataMessageComponent type={NoDataMessageComponent.NO_DATA_TYPE_ENUM.MODEL_RETRIEVAL_FAILED} />
+      return (
+        <NoContentComponent
+          titleKey="module.description.model.retrieval.failed.title"
+          messageKey="module.description.model.retrieval.failed.message"
+          Icon={ErrorMessageIcon}
+        />)
     }
     // Show content on current path
     const {
@@ -78,6 +88,7 @@ class ContentDisplayComponent extends React.Component {
       },
     } = descriptionEntity
 
+    // TODO delete
     const TEMPFILES = [
       'CSS-TEST',
       'GIF-TEST',
@@ -95,7 +106,6 @@ class ContentDisplayComponent extends React.Component {
       'TEST-UNKNOWN',
       'UNEXISTING',
     ].map((v, i) => ({
-      // TODO
       label: v,
       available: true,
       uri: `http://localhost:3000/api/v1/tempFiles?fileIndex=${i}`,

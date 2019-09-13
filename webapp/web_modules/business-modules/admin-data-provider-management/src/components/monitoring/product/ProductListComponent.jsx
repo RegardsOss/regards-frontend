@@ -158,7 +158,7 @@ export class ProductListComponent extends React.Component {
     const { appliedFilters } = this.state
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'acquisition-product.empty.title' })}
+        titleKey="acquisition-product.empty.title"
         Icon={AddToPhotos}
       />
     )

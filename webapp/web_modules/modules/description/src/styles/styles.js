@@ -42,12 +42,26 @@ const styles = theme => ({
       flatIconButtonStyle: {
         minWidth: theme.button.iconButtonSize,
       },
+      leftGroup: { // breadcrumb and options
+        display: 'flex',
+        flexGrow: 0,
+        flexShrink: 1,
+        minWidth: theme.module.description.tree.width, // re use tree width: min left size
+      },
+      rightGroup: { // right options (search)
+        display: 'flex',
+        justifyContent: 'stretch',
+        minWidth: 'fit-content',
+        flexShrink: 0,
+        flexGrow: 0,
+      },
       breadcrumb: {
         root: {
           display: 'flex',
           alignItems: 'center',
           flexGrow: 1,
           flexShrink: 1,
+          minWidth: 0,
         },
         selectedLink: {
           root: {
@@ -58,17 +72,19 @@ const styles = theme => ({
             cursor: 'pointer',
           },
           icon: {
-            color: theme.module.description.breadcrumb.link.selectedColor,
+            color: theme.module.description.breadcrumb.link.selected.color,
             style: {
-              width: theme.module.description.breadcrumb.link.iconSize,
-              height: theme.module.description.breadcrumb.link.iconSize,
+              width: theme.module.description.breadcrumb.link.selected.iconSize,
+              height: theme.module.description.breadcrumb.link.selected.iconSize,
+              flexShrink: 0,
             },
           },
           text: {
             padding: theme.module.description.breadcrumb.link.textPadding,
-            color: theme.module.description.breadcrumb.link.selectedColor,
-            fontWeight: theme.module.description.breadcrumb.link.fontWeight,
-            fontSize: theme.module.description.breadcrumb.link.fontSize,
+            color: theme.module.description.breadcrumb.link.selected.color,
+            fontWeight: theme.module.description.breadcrumb.link.selected.fontWeight,
+            fontSize: theme.module.description.breadcrumb.link.selected.fontSize,
+            flexShrink: 0,
           },
         },
         unselectedLink: {
@@ -76,26 +92,33 @@ const styles = theme => ({
             display: 'flex',
             flexGrow: 0,
             flexShrink: 1,
+            minWidth: theme.module.description.breadcrumb.link.unselected.minWidth,
             alignItems: 'center',
             cursor: 'pointer',
           },
           icon: {
-            color: theme.module.description.breadcrumb.link.unselectedColor,
+            color: theme.module.description.breadcrumb.link.unselected.color,
             style: {
-              width: theme.module.description.breadcrumb.link.iconSize,
-              height: theme.module.description.breadcrumb.link.iconSize,
+              width: theme.module.description.breadcrumb.link.unselected.iconSize,
+              height: theme.module.description.breadcrumb.link.unselected.iconSize,
+              flexShrink: 0,
             },
           },
           text: {
             padding: theme.module.description.breadcrumb.link.textPadding,
-            color: theme.module.description.breadcrumb.link.unselectedColor,
-            fontWeight: theme.module.description.breadcrumb.link.fontWeight,
-            fontSize: theme.module.description.breadcrumb.link.fontSize,
+            color: theme.module.description.breadcrumb.link.unselected.color,
+            fontWeight: theme.module.description.breadcrumb.link.unselected.fontWeight,
+            fontSize: theme.module.description.breadcrumb.link.unselected.fontSize,
+            minWidth: 0,
+            flexShrink: 1,
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
           },
-
+        },
+        separator: {
+          ...theme.module.description.breadcrumb.separator,
+          flexShrink: 0,
         },
       },
     },

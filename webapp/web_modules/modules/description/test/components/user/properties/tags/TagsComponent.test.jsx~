@@ -27,6 +27,8 @@ import LoadingDisplayerComponent from '../../../../../src/components/user/Loadin
 import styles from '../../../../../src/styles/styles'
 import { fullModuleConf } from '../../../../dumps/configuration.dump'
 
+// TODO delete me and other ~ when test partially recovered
+
 const context = buildTestContext(styles)
 
 describe('[Description] Testing TagsComponent', () => {

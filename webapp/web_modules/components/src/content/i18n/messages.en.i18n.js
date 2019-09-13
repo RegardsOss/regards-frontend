@@ -18,6 +18,7 @@
  **/
 
 const messages = {
+  'default.no.content.title': 'No data',
   'default.content.loading.message': 'Loading content...',
   'default.file.loading.message': 'Loading file...',
   'default.unsuported.file.media.type.title': 'No preview',

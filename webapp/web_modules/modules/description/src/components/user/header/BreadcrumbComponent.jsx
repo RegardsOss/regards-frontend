@@ -41,8 +41,6 @@ class BreadcrumbComponent extends React.Component {
   render() {
     const { descriptionPath, selectedEntityIndex, onSelectEntityIndex } = this.props
     const { moduleTheme: { user: { header: { breadcrumb: { root } } } } } = this.context
-    // TODO test overflowing styles when testable
-
     return (
       <div style={root}>
         { // map each path element to element + separator

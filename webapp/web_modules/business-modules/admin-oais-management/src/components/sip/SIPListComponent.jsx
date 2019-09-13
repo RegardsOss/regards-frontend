@@ -435,7 +435,7 @@ class SIPListComponent extends React.Component {
     const { intl, muiTheme } = this.context
     const { sip } = this.props
     const {
-      pageSize, resultsCount, chains, initialFilters, entitiesLoading, goToSessionAIPsMonitoring, session,
+      pageSize, resultsCount, chains, entitiesLoading, goToSessionAIPsMonitoring, session,
       goToDataSourcesMonitoring, isEmptySelection,
     } = this.props
     const { columnsSorting, editedFilters } = this.state
@@ -443,7 +443,7 @@ class SIPListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={intl.formatMessage({ id: 'oais.sips.listempty.title' })}
+        titleKey={intl.formatMessage({ id: 'oais.sips.listempty.title' })}
         Icon={AddToPhotos}
       />
     )

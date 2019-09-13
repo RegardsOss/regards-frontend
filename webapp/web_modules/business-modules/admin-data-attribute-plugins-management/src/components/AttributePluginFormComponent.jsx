@@ -73,7 +73,7 @@ export class AttributePluginFormComponent extends React.Component {
     if (mode !== 'create' && !pluginConfiguration) {
       return (
         <NoContentComponent
-          title={formatMessage({ id: 'model.attribute.calculation.plugins.form.invalid.id' })}
+          titleKey="model.attribute.calculation.plugins.form.invalid.id"
           Icon={MoodIcon}
         />
       )

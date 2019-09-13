@@ -74,7 +74,7 @@ export class SecurityDelegationFormComponent extends React.Component {
     if (mode !== 'create' && !pluginConfiguration) {
       return (
         <NoContentComponent
-          title={formatMessage({ id: 'storage.plugins.security.form.invalid.id' })}
+          titleKey="storage.plugins.security.form.invalid.id"
           Icon={MoodIcon}
         />
       )

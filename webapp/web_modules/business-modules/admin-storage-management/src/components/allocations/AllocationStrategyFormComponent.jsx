@@ -73,7 +73,7 @@ export class AllocationStrategyFormComponent extends React.Component {
     if (mode !== 'create' && !pluginConfiguration) {
       return (
         <NoContentComponent
-          title={formatMessage({ id: 'storage.plugins.allocation.form.invalid.id' })}
+          titleKey="storage.plugins.allocation.form.invalid.id"
           Icon={MoodIcon}
         />
       )

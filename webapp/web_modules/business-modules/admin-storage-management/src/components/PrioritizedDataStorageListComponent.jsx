@@ -161,7 +161,7 @@ export class PrioritizedDataStorageListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'storage.data-storage.plugins.list.empty.title' })}
+        titleKey="storage.data-storage.plugins.list.empty.title"
         Icon={AddToPhotos}
       />
     )

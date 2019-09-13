@@ -145,7 +145,7 @@ export class ServiceListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'dataaccess.services.list.empty.title' })}
+        titleKey="dataaccess.services.list.empty.title"
         Icon={AddToPhotos}
       />
     )

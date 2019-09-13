@@ -54,8 +54,6 @@ export class UserContainer extends React.Component {
     }
   }
 
-  // TODO module dependencies to show a message preventing user accessing module using URL!
-
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function

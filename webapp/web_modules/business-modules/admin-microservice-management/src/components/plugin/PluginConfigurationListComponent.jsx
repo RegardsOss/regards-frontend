@@ -29,7 +29,7 @@ import Subheader from 'material-ui/Subheader'
 import { CommonShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
-import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
+import { I18nProvider } from '@regardsoss/i18n'
 import { ShowableAtRender, CardActionsComponent, NoContentComponent } from '@regardsoss/components'
 import PluginConfigurationContainer from '../../containers/plugin/PluginConfigurationContainer'
 import { pluginConfigurationByPluginIdActions } from '../../clients/PluginConfigurationClient'
@@ -58,7 +58,6 @@ export default class PluginConfigurationListComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
-    ...i18nContextType,
   }
 
   static getCreateDependencies = microserviceName => [pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, microserviceName)]
@@ -76,8 +75,6 @@ export default class PluginConfigurationListComponent extends React.Component {
       getAddURL,
       getBackURL,
     } = this.props
-
-    const { intl } = this.context
 
     const activeConfs = flow(
       fpfilter(pluginConfiguration => pluginConfiguration.content.active),
@@ -119,7 +116,7 @@ export default class PluginConfigurationListComponent extends React.Component {
               </ShowableAtRender>
               <ShowableAtRender show={!inactiveConfs.length && !activeConfs.length}>
                 <NoContentComponent
-                  title={intl.formatMessage({ id: 'microservice-management.plugin.configurations.empty' })}
+                  titleKey="microservice-management.plugin.configurations.empty"
                   Icon={AddToPhotos}
                 />
               </ShowableAtRender>

@@ -17,7 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { TableHeaderLine, TableHeaderOptionsArea } from '@regardsoss/components'
+import { themeContextType } from '@regardsoss/theme'
+import { TableHeaderLine, TableHeaderOptionsSeparator } from '@regardsoss/components'
 import ToggleTreeVisibleOptionContainer from '../../../containers/user/header/ToggleTreeVisibleOptionContainer'
 import { DescriptionEntity } from '../../../shapes/DescriptionState'
 import SearchEntityOptionComponent from './SearchEntityOptionComponent'
@@ -38,24 +39,31 @@ class HeaderBarComponent extends React.Component {
     onSearchEntity: PropTypes.func.isRequired,
   }
 
+
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   render() {
     const {
       descriptionEntity, selectedEntityIndex, descriptionPath,
       onSelectEntityIndex, onSearchEntity,
     } = this.props
+    const { moduleTheme: { user: { header: { leftGroup, rightGroup } } } } = this.context
     return (
       <TableHeaderLine>
-        <TableHeaderOptionsArea reducible>
+        <div style={leftGroup}>
           <ToggleTreeVisibleOptionContainer />
+          <TableHeaderOptionsSeparator />
           <BreadcrumbComponent
             selectedEntityIndex={selectedEntityIndex}
             descriptionPath={descriptionPath}
             onSelectEntityIndex={onSelectEntityIndex}
           />
-        </TableHeaderOptionsArea>
-        <TableHeaderOptionsArea reducible>
+        </div>
+        <div style={rightGroup}>
           <SearchEntityOptionComponent descriptionEntity={descriptionEntity} onSearchEntity={onSearchEntity} />
-        </TableHeaderOptionsArea>
+        </div>
       </TableHeaderLine>
     )
   }

@@ -162,7 +162,7 @@ export class AIPFileListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'oais.aips.files.table.empty.title' })}
+        titleKey="oais.aips.files.table.empty.title"
         Icon={AddToPhotos}
       />
     )

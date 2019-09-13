@@ -318,8 +318,8 @@ export class EntitiesFilesFormComponent extends React.Component {
     const { formatMessage } = this.context.intl
     const content = fileList.length === 0 ? (
       <NoContentComponent
-        title={this.context.intl.formatMessage({ id: 'entities-files.form.no-file.title' })}
-        message={formatMessage({ id: 'entities-files.form.no-file.message' })}
+        titleKey="entities-files.form.no-file.title"
+        messageKey="entities-files.form.no-file.message"
         Icon={IconEmptyList}
       />
     ) : map(this.getFileList(), file => (

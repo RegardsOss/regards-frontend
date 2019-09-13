@@ -149,8 +149,8 @@ export class ModelListComponent extends React.Component {
         />
         <NoContentMessageInfo
           noContent={isEmpty(modelList)}
-          title={this.context.intl.formatMessage({ id: 'model.list.table.no.content.title' })}
-          message={this.context.intl.formatMessage({ id: 'model.list.no.content.message' })}
+          titleKey="model.list.table.no.content.title"
+          messageKey="model.list.no.content.message"
         >
           <CardText>
             {this.renderDeleteConfirmDialog()}

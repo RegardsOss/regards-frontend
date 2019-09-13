@@ -145,7 +145,7 @@ export class AttributePluginListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'model.attribute.calculation.plugins.list.empty.title' })}
+        titleKey="model.attribute.calculation.plugins.list.empty.title"
         Icon={AddToPhotos}
       />
     )

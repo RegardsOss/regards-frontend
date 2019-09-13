@@ -84,28 +84,6 @@ const messages = {
   'module.description.tree.show.entity.description.tooltip': 'Show data description',
   'module.description.content.parameters.thumbnail.alt.text': 'Thumbnail: {label}',
   'module.description.content.quicklook.alt.message': 'Quicklook picture',
-  // TODO old: delete or move
-  'module.description.breadcrumb.root': 'Description: {entityLabel}',
-  'module.description.file.subheader': 'Click on a file to download it',
-  'module.description.close.button': 'Close',
-  'module.description.properties.attributes': 'Attributes',
-  'module.description.properties.loading.attributes': 'Loading attributes information',
-  'module.description.properties.no.attribute': 'No attribute to display',
-  'module.description.properties.tags.entities': 'Related tags',
-  'module.description.properties.documents.entities': 'Related documents',
-  'module.description.properties.document.entities': 'Related documents',
-  'module.description.properties.loading.tags': 'Loading tags information',
-  'module.description.properties.loading.document': 'Loading documents information',
-  'module.description.properties.no.tag': 'This entity has no tag',
-  'module.description.properties.no.document': 'This entity has no document',
-  'module.description.properties.tag.search.tooltip': 'Search for entities with that tag',
-  'module.description.properties.tag.show.description.tooltip': 'Show entity detail',
-
-  'module.description.file.selector.file.label': '{filename} ({sizeMessage})',
-  'module.description.file.selector.file.unkown.size': 'unknown size',
-  'module.description.files.download.button': 'Download',
-  'module.description.file.loading': 'Loading file',
-
   // Forms i18n messages for admin
   ...Locales.en,
   // Storage units messages

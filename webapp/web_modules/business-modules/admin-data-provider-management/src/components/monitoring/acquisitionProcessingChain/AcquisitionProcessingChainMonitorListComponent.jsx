@@ -279,7 +279,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
 
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'acquisition-chain.monitor.empty.title' })}
+        titleKey="acquisition-chain.monitor.empty.title"
         Icon={AddToPhotos}
       />
     )

@@ -24,7 +24,7 @@ import isString from 'lodash/isString'
  */
 export class URLAttributeHelper {
   /** Specific format for URL attributes holding both URL and file name */
-  static URL_WITH_NAME_REGEXP = /\[(.*)\]\((.*)\)/ // TODO check with SBA
+  static URL_WITH_NAME_REGEXP = /\[(.*)\]\((.*)\)/
 
   /**
    * Is an URL with name value?

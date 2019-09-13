@@ -121,7 +121,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'acquisition-chain.list.empty.title' })}
+        titleKey="acquisition-chain.list.empty.title"
         Icon={AddToPhotos}
       />
     )

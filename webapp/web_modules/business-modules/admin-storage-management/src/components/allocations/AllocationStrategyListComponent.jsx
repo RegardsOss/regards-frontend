@@ -139,7 +139,7 @@ export class AllocationStrategyListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'storage.allocation-strategy.plugins.list.empty.title' })}
+        titleKey="storage.allocation-strategy.plugins.list.empty.title"
         Icon={AddToPhotos}
       />
     )

@@ -60,11 +60,10 @@ class BreadcrumbLinkComponent extends React.Component {
     const IconConstructor = EntityTypeIcon.getIconConstructor(descriptionEntity.entity)
     // Select styles for entity state (selected or not)
     const { root, icon, text } = selected ? selectedLink : unselectedLink
-    // TODO more styles when testable
     return (
       <div style={root} onClick={this.onClick}>
         <IconConstructor style={icon.style} color={icon.color} />
-        <div style={text}>
+        <div style={text} title={descriptionEntity.entity.content.label}>
           {descriptionEntity.entity.content.label}
         </div>
       </div>

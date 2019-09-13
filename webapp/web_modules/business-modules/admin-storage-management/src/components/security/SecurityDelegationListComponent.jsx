@@ -139,7 +139,7 @@ export class SecurityDelegationListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'storage.security-delegation.plugins.list.empty.title' })}
+        titleKey="storage.security-delegation.plugins.list.empty.title"
         Icon={AddToPhotos}
       />
     )

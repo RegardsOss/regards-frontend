@@ -40,13 +40,13 @@ class NoDataMessageComponent extends React.Component {
   /** Graphics data associated with no data type */
   static NO_DATA_TYPE_DATA = {
     [NoDataMessageComponent.NO_DATA_TYPE_ENUM.INVALID_ENTITY]: {
-      titleKey: 'module.description.invalid.entity.title',
-      messageKey: 'module.description.invalid.entity.message',
+      titleKey: '',
+      messageKey: '',
       IconConstructor: ErrorIcon,
     },
     [NoDataMessageComponent.NO_DATA_TYPE_ENUM.MODEL_RETRIEVAL_FAILED]: {
-      titleKey: 'module.description.model.retrieval.failed.title',
-      messageKey: 'module.description.model.retrieval.failed.message',
+      titleKey: '',
+      messageKey: '',
       IconConstructor: ErrorIcon,
     },
     [NoDataMessageComponent.NO_DATA_TYPE_ENUM.NO_PARAMETER]: {

@@ -148,7 +148,7 @@ export class SearchEngineConfigurationListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'dataaccess.searchengines.list.empty.title' })}
+        titleKey="dataaccess.searchengines.list.empty.title"
         Icon={AddToPhotos}
       />
     )

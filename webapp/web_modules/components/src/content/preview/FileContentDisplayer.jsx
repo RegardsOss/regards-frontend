@@ -18,17 +18,18 @@
  **/
 import root from 'window-or-global'
 import compose from 'lodash/fp/compose'
+import DownloadErrorIcon from 'material-ui/svg-icons/social/sentiment-dissatisfied'
+import NoPreviewIcon from 'mdi-material-ui/MonitorOff'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import { FileContentReader } from '@regardsoss/display-control'
 import LocalURLProvider from '@regardsoss/display-control/src/blob/LocalURLProvider'
+import NoContentComponent from '../feedback/NoContentComponent'
 import IFrameURLContentDisplayer from './IFrameURLContentDisplayer'
 import CodeFileDisplayer from './CodeFileDisplayer'
 import ImageFileDisplayer from './ImageFileDisplayer'
 import { MarkdownFileContentDisplayer } from './MarkdownFileContentDisplayer'
 import { ContentLoadingComponent } from '../feedback/ContentLoadingComponent'
-import DownloadErrorComponent from './state/DownloadErrorComponent'
-import NoPreviewComponent from './state/NoPreviewComponent'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -91,8 +92,16 @@ export class FileContentDisplayer extends React.Component {
       display: 'flex',
     },
     loadingComponent: <ContentLoadingComponent loadingMessageKey={ContentLoadingComponent.DEFAULT_MESSAGES_KEYS.LOADING_FILE} />,
-    errorComponent: <DownloadErrorComponent />,
-    noPreviewComponent: <NoPreviewComponent />,
+    errorComponent: <NoContentComponent
+      titleKey="default.file.download.error.title"
+      messageKey="default.file.download.error.message"
+      Icon={DownloadErrorIcon}
+    />,
+    noPreviewComponent: <NoContentComponent
+      titleKey="default.unsuported.file.media.type.title"
+      messageKey="default.unsuported.file.media.type.message"
+      Icon={NoPreviewIcon}
+    />,
   }
 
   render() {

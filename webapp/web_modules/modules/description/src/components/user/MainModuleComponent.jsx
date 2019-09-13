@@ -19,7 +19,7 @@
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { TableLayout } from '@regardsoss/components'
-import { DescriptionEntity, DescriptionState } from '../../shapes/DescriptionState'
+import { DescriptionEntity } from '../../shapes/DescriptionState'
 import HeaderBarComponent from './header/HeaderBarComponent'
 import ContentDisplayComponent from './content/ContentDisplayComponent'
 import BrowsingTreeComponent from './tree/BrowsingTreeComponent'
@@ -52,17 +52,6 @@ class MainModuleComponent extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
-  }
-
-  /**
-   * Default type configuration (to be used when there is no entity)
-   */
-  static DEFAULT_TYPE_CONFIGURATION = { // TODO delete or adapt
-    showDescription: true,
-    showTags: true,
-    showLinkedDocuments: true,
-    showThumbnail: false,
-    groups: [],
   }
 
   render() {

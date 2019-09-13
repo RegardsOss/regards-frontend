@@ -156,11 +156,7 @@ class DocumentListComponent extends React.Component {
       }]).build(),
     ]
 
-    const emptyComponent = (
-      <NoContentComponent
-        title={intl.formatMessage({ id: 'document.no.document.title' })}
-      />
-    )
+    const emptyComponent = <NoContentComponent titleKey="document.no.document.title" />
 
     return (
       <Card>

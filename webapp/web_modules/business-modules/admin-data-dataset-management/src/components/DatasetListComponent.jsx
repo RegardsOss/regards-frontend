@@ -139,7 +139,7 @@ export class DatasetListComponent extends React.Component {
     )
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'dataset.no.dataset.title' })}
+        titleKey="dataset.no.dataset.title"
         Icon={AddToPhotos}
         action={emptyContentAction}
       />

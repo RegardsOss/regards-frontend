@@ -100,7 +100,7 @@ class PrioritizedDataStorageFormComponent extends React.Component {
     if (mode !== 'create' && !pluginConfiguration) {
       return (
         <NoContentComponent
-          title={formatMessage({ id: 'storage.plugins.storage.form.invalid.id' })}
+          titleKey="storage.plugins.storage.form.invalid.id"
           Icon={MoodIcon}
         />
       )

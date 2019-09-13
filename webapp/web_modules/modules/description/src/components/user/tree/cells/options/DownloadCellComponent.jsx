@@ -41,12 +41,12 @@ class DownloadCellComponent extends React.Component {
   }
 
   render() {
-    const { file: { available, uri } } = this.props
+    const { file: { available, label, uri } } = this.props
     const { intl: { formatMessage }, moduleTheme: { user: { main: { tree: { cell: { iconButton } } } } } } = this.context
-
     return available ? (
       <DownloadButton
         ButtonConstructor={DownloadInnerButton}
+        downloadName={label}
         downloadURL={uri}
         tooltip={formatMessage({ id: 'module.description.common.download.file.tooltip' })}
         style={iconButton.style}

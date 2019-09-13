@@ -83,7 +83,7 @@ class QuicklookComponent extends React.Component {
       >
         <img
           src={uri}
-          alt={formatMessage({ id: 'module.description.content.quicklook.alt.message' })} // TODO
+          alt={formatMessage({ id: 'module.description.content.quicklook.alt.message' })}
           style={img}
         />
       </div>

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { themeContextType } from '@regardsoss/theme'
 import SeparatorIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 
 /**
@@ -23,10 +24,14 @@ import SeparatorIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
  * @author Raphaël Mechali
  */
 class BreadcrumbSeparatorComponent extends React.Component {
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   render() {
-    // TODO more styles when testable
+    const { moduleTheme: { user: { header: { breadcrumb: { separator } } } } } = this.context
     return (
-      <SeparatorIcon />
+      <SeparatorIcon style={separator} />
     )
   }
 }

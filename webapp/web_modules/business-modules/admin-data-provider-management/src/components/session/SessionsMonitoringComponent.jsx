@@ -22,11 +22,12 @@ import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
 import PageView from 'material-ui/svg-icons/action/pageview'
+import NoSessionIcon from 'material-ui/svg-icons/image/crop-free'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonDomain } from '@regardsoss/domain'
 import {
-  PageableInfiniteTableContainer, TableColumnBuilder, TableLayout,
+  PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, NoContentComponent,
   ConfirmDialogComponentTypes, ConfirmDialogComponent, CardActionsComponent, Breadcrumb,
 } from '@regardsoss/components'
 import { sessionsActions, sessionsSelectors } from '../../clients/session/SessionsClient'
@@ -39,7 +40,6 @@ import SessionsMonitoringProductsIngestedRenderer from './render/SessionsMonitor
 import SessionsMonitoringProductsStoredRenderer from './render/SessionsMonitoringProductsStoredRenderer'
 import { SessionsMonitoringGeneratedAipRenderer } from './render/SessionsMonitoringGeneratedAipRenderer'
 import { SessionsMonitoringIndexedRenderer } from './render/SessionsMonitoringIndexedRenderer'
-import { SessionsEmptyComponent } from './SessionsEmptyComponent'
 import { SessionsMonitoringFiltersComponent } from './SessionsMonitoringFiltersComponent'
 import { SessionsMonitoringLastModificationRenderer } from './render/SessionsMonitoringLastModificationRenderer'
 
@@ -85,12 +85,15 @@ export class SessionsMonitoringComponent extends React.Component {
     onClickRelaunchProducts: PropTypes.func.isRequired,
   }
 
-  static defaultProps = {}
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
   }
+
+  static EMPTY_COMPONENT = <NoContentComponent
+    titleKey="acquisition-sessions.empty-response"
+    Icon={NoSessionIcon}
+  />
 
   static PAGE_SIZE = 100
 
@@ -271,7 +274,7 @@ export class SessionsMonitoringComponent extends React.Component {
             // tableActions={tableActions}
               requestParams={requestParameters}
               columns={columns}
-              emptyComponent={<SessionsEmptyComponent />}
+              emptyComponent={SessionsMonitoringComponent.EMPTY_COMPONENT}
               minRowCount={minRowCount}
               maxRowCount={maxRowCount}
               queryPageSize={SessionsMonitoringComponent.PAGE_SIZE}

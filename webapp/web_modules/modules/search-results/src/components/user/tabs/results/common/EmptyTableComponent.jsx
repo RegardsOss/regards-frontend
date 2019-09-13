@@ -16,8 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { i18nContextType } from '@regardsoss/i18n'
-import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
+import Icon from 'mdi-material-ui/FolderSearchOutline'
 import { NoContentComponent } from '@regardsoss/components'
 /**
 * Shows empty component
@@ -28,18 +27,12 @@ class EmptyTableComponent extends React.Component {
     // no props
   }
 
-  static contextTypes = {
-    ...i18nContextType,
-  }
-
-
   render() {
-    const { intl: { formatMessage } } = this.context
     return (
       <NoContentComponent
-        title={formatMessage({ id: 'results.no.content.title' })}
-        message={formatMessage({ id: 'results.no.content.subtitle' })}
-        Icon={Disatisfied}
+        titleKey="results.no.content.title"
+        messageKey="results.no.content.subtitle"
+        Icon={Icon}
       />)
   }
 }

@@ -204,14 +204,14 @@ export class RunUIPluginServiceContainer extends React.Component {
       // loading states
       case RunUIPluginServiceContainer.Steps.FETCH_PLUGIN_CONFIGURATION:
       case RunUIPluginServiceContainer.Steps.LOAD_PLUGIN_INSTANCE:
-        return RunServiceDialogComponent.buildLoadingStep(formatMessage({ id: 'entities.common.services.loading.plugin.information' }))
+        return RunServiceDialogComponent.buildLoadingStep()
       case RunUIPluginServiceContainer.Steps.PLUGIN_CONFIGURATION_ERROR:
       case RunUIPluginServiceContainer.Steps.PLUGIN_INSTANCE_ERROR:
-        return RunServiceDialogComponent.buildMessageStep(formatMessage({ id: 'entities.common.services.loading.plugin.failed' }), true)
+        return RunServiceDialogComponent.buildMessageStep('entities.common.services.loading.plugin.failed', true)
       case RunUIPluginServiceContainer.Steps.PARAMETERS_CONVERSION_ERROR:
-        return RunServiceDialogComponent.buildMessageStep(formatMessage({ id: 'entities.common.services.plugin.parameters.error' }), true)
+        return RunServiceDialogComponent.buildMessageStep('entities.common.services.plugin.parameters.error', true)
       case RunUIPluginServiceContainer.Steps.RUNNING_SERVICE_FAILED:
-        return RunServiceDialogComponent.buildMessageStep(formatMessage({ id: 'entities.common.services.ui.plugin.running.error' }), true)
+        return RunServiceDialogComponent.buildMessageStep('entities.common.services.ui.plugin.running.error', true)
       case RunUIPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION:
         return RunServiceDialogComponent.buildParametersConfigurationStep(resolvedParameters, userParametersValues, this.onConfigurationDone)
       case RunUIPluginServiceContainer.Steps.RUNNING_SERVICE:

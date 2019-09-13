@@ -18,6 +18,8 @@
  **/
 
 const messages = {
+  'default.no.content.title': 'Aucun contenu',
+  'default.no.content.message': 'Il n\'y a aucun élement à afficher',
   'default.content.loading.message': 'Chargement du contenu...',
   'default.file.loading.message': 'Chargement du fichier...',
   'default.unsuported.file.media.type.title': 'Prévisualisation impossible',
