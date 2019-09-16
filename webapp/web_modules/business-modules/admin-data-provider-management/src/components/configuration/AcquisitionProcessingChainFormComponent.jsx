@@ -19,23 +19,29 @@
 import get from 'lodash/get'
 import map from 'lodash/map'
 import omit from 'lodash/omit'
+import some from 'lodash/some'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { DataProviderShapes } from '@regardsoss/shape'
+import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
 import {
   Card, CardActions, CardTitle, CardText,
 } from 'material-ui/Card'
-import { CardActionsComponent, HelpMessageComponent } from '@regardsoss/components'
+import {
+  CardActionsComponent, HelpMessageComponent,
+} from '@regardsoss/components'
 import {
   RenderTextField, RenderPageableAutoCompleteField, RenderSelectField, reduxForm,
-  RenderArrayObjectField, RenderCheckbox, ValidationHelpers, Field, FieldArray,
+  RenderArrayObjectField, RenderCheckbox, ValidationHelpers, Field, FieldArray, StringComparison,
 } from '@regardsoss/form-utils'
 import { DataProviderDomain } from '@regardsoss/domain'
+import { pathToFileURL } from 'url'
+import { getSearchEngineConfigurationsReducer } from '@regardsoss/client/src/rs-catalog'
 import { ingestProcessingChainActions, ingestProcessingChainEntitiesKey } from '../../clients/IngestProcessingChainClient'
 import AcquisitionProcessingChainFormPluginsComponent from './AcquisitionProcessingChainFormPluginsComponent'
 import AcquisitionFileInfoComponent from './AcquisitionFileInfoComponent'
+import { StoragesFieldArrayRenderer } from './StoragesFieldArrayRenderer'
 import styles from '../../styles'
 import messages from '../../i18n'
 
@@ -54,6 +60,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     mode: PropTypes.oneOf(['edit', 'create', 'duplicate']),
     onSubmit: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
+    storages: CommonShapes.PluginConfigurationArray.isRequired,
     // from reduxForm
     initialize: PropTypes.func,
     invalid: PropTypes.bool,
@@ -121,18 +128,64 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     }
   }
 
+  static validateStorages(value) {
+    return some(value, { active: true }) ? undefined : true
+  }
+
   componentWillMount() {
-    const { chain, mode } = this.props
-    if (chain && mode !== 'create') {
-      if (mode === 'duplicate') {
-        this.props.initialize(AcquisitionProcessingChainFormComponent.getDuplicatedInitialValues(chain))
-      } else if (mode === 'edit') {
-        this.props.initialize(chain.content)
-      }
-    } else {
-      const initialValues = AcquisitionProcessingChainFormComponent.getNewIntialValues()
-      this.props.initialize(initialValues)
+    const {
+      chain, mode, storages, initialize,
+    } = this.props
+    let initialValues
+    let loadedStorages
+    if (mode !== 'create') {
+      loadedStorages = storages.map((serverStorage) => {
+        const findStorage = chain.content.storages.find(configuredStorage => serverStorage.content.label === configuredStorage.storage)
+        return {
+          label: serverStorage.content.label,
+          active: !!findStorage,
+          path: findStorage ? findStorage.storageSubDirectory : '',
+        }
+      },
+      ).sort(({ label: l1 }, { label: l2 }) => StringComparison.compare(l1, l2))
     }
+
+    switch (mode) {
+      case 'create':
+        initialValues = {
+          ...AcquisitionProcessingChainFormComponent.getNewIntialValues(),
+          storages: storages.map(serverStorage => ({
+            label: serverStorage.content.label,
+            active: false,
+            path: '',
+          })),
+        }
+        break
+      case 'duplicate':
+        if (chain) {
+          initialValues = {
+            ...AcquisitionProcessingChainFormComponent.getDuplicatedInitialValues(chain),
+            storages: loadedStorages,
+          }
+        } else {
+          throw new Error('No chain loaded')
+        }
+        break
+      case 'edit':
+        if (chain) {
+          initialValues = {
+            ...chain.content,
+            storages: loadedStorages,
+          }
+        } else {
+          throw new Error('No chain loaded')
+        }
+        break
+      default:
+        throw new Error(`Unknown mode : ${mode}`)
+    }
+
+    initialize(initialValues)
   }
 
   handleModeChange = (event, index, value, input) => {
@@ -280,6 +333,13 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   entitiesConfig={ingestProcessingChainConfig}
                   validate={required}
                 />
+                <FieldArray
+                  name="storages"
+                  component={StoragesFieldArrayRenderer}
+                  elementLabel="Test"
+                  canBeEmpty={false}
+                  validate={AcquisitionProcessingChainFormComponent.validateStorages}
+                />
               </Tab>
               <Tab
                 label={formatMessage({ id: 'acquisition-chain.form.fileInfos.section' })}
@@ -313,17 +373,8 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
   }
 }
 
-function validate(fieldValues) {
-  const errors = {}
-  if (!fieldValues.checkAcquisitionPluginConf) {
-    errors.checkAcquisitionPluginConf = 'required !'
-  }
-  return errors
-}
-
 const connectedReduxForm = reduxForm({
   form: 'acquisition-chain-form',
-  validate,
 })(AcquisitionProcessingChainFormComponent)
 
 export default withI18n(messages)(withModuleStyle(styles)(connectedReduxForm))

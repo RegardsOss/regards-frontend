@@ -313,6 +313,28 @@ const styles = theme => ({
       },
     },
   },
+  chainForm: {
+    info: {
+      marginTop: '20px',
+    },
+    table: {
+      width: '100%',
+    },
+    tr: {
+      padding: '0',
+      
+    },
+    tdCheckbox: {
+      padding: '0 20px 0 0',
+    },
+    tdTextField: {
+      padding: '0',
+    },
+    input: {
+      minWidth: '400px',
+      margin: '-7px 0 0 0',
+    },
+  },
 })
 
 export default styles

@@ -135,6 +135,16 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
     const url = `/admin/${project}/data/acquisition/dataprovider/chain/${chainIdToEdit}/edit`
     browserHistory.push(url)
   }
+  
+  /**
+   * Callback to go to the duplication page of the given chain.
+   * @param {*} chainIdToDuplicate : Identifier of the chain to duplicate
+   */
+  onDuplicate = (chainIdToDuplicate) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/dataprovider/chain/${chainIdToDuplicate}/duplicate`
+    browserHistory.push(url)
+  }
 
   /**
    * Callback to return to the acquisition board
@@ -194,6 +204,7 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
         onCreate={this.onCreate}
         onDelete={this.onDelete}
         onEdit={this.onEdit}
+        onDuplicate={this.onDuplicate}
         fetchPage={this.props.fetchPage}
         onListChainAction={this.onListChainAction}
         onRunChain={runChain}

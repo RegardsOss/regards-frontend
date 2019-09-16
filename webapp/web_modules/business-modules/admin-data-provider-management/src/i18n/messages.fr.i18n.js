@@ -64,6 +64,8 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.mode.MANUAL': 'Manuel',
   'acquisition-chain.form.general.section.ingestChain.select': 'Chaîne d\'ingestion (*)',
   'acquisition-chain.form.general.section.ingestChain.select.hint': 'Sélectionner une chaîne d\'ingestion existante... ',
+  'acquisition-chain.form.general.section.path': 'Répertoire de stockage (optionnel)',
+  'acquisition-chain.form.general.section.info': 'Selectionner un ou plusieurs espaces de stockage des fichiers',
 
   // 2.3 Files configuration section
   'acquisition-chain.form.fileInfos.section': 'Fichiers',

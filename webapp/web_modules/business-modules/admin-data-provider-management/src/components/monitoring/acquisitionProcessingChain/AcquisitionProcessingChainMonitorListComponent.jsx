@@ -36,6 +36,7 @@ import AcquisitionProcessingChainMonitoringActivityRenderer from './AcquisitionP
 import { AcquisitionProcessingChainMonitorModeRenderer } from './AcquisitionProcessingChainMonitorModeRenderer'
 import { AcquisitionProcessingChainMonitoringEnabledRenderer } from './AcquisitionProcessingChainMonitoringEnabledRenderer'
 import AcquisitionProcessingChainMonitoringListFiltersComponent from './AcquisitionProcessingChainMonitoringListFiltersComponent'
+import AcquisitionProcessingChainTableDuplicateAction from './AcquisitionProcessingChainTableDuplicateAction'
 import { AcquisitionProcessingChainMonitorActions, AcquisitionProcessingChainMonitorSelectors }
   from '../../../clients/AcquisitionProcessingChainMonitorClient'
 //import { AcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors } from '../../clients/AcquisitionProcessingChainClient'
@@ -59,6 +60,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     onBack: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
+    onDuplicate: PropTypes.func.isRequired,
     onRunChain: PropTypes.func.isRequired,
     onStopChain: PropTypes.func.isRequired,
     onListChainAction: PropTypes.func.isRequired,
@@ -272,7 +274,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     const { intl: { formatMessage }, muiTheme } = this.context
     const {
       onBack, pageSize, resultsCount, entitiesLoading, initialFilters, onListChainAction, onEdit, onCreate, fetchPage,
-      onMultiToggleSelection, isOneCheckboxToggled, onToggle, hasAccess,
+      onMultiToggleSelection, isOneCheckboxToggled, onToggle, hasAccess, onDuplicate,
     } = this.props
     const { errorMessage, columnsSorting, requestParams } = this.state
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -322,6 +324,9 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
       }, {
         OptionConstructor: AcquisitionProcessingChainTableEditAction,
         optionProps: { onEdit },
+      }, {
+        OptionConstructor: AcquisitionProcessingChainTableDuplicateAction,
+        optionProps: { onDuplicate },
       }, {
         OptionConstructor: TableDeleteOption,
         optionProps: {
