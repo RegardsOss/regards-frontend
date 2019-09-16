@@ -68,7 +68,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringContainer',
       onSort: wrapperInstance.onSort,
       columnsSorting: [],
       columnsVisibility: {},
-      requestParameters: { sort: [], state: [ 'ERROR' ] },
+      requestParameters: { sort: [], state: ['ERROR'] },
       initialFilters: {
         source: '',
         session: '',

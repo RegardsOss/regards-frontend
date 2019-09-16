@@ -40,6 +40,6 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringTableBackgr
       isInError: true,
       children: <div />,
     }
-    const enzymeWrapper = shallow(<SessionsMonitoringTableBackgroundComponent {...props} />, { context })
+    shallow(<SessionsMonitoringTableBackgroundComponent {...props} />, { context })
   })
 })

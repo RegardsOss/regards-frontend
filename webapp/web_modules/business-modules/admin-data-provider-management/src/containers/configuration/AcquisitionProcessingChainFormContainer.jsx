@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import map from 'lodash/map'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
@@ -125,14 +124,10 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
     // Convert storages for API query
     const serverValues = {
       ...values,
-      storages: values.storages.filter(storages => storages.active).map((configuredStorage) => {
-        if (configuredStorage.active) {
-          return {
-            storage: configuredStorage.label,
-            storageSubDirectory: configuredStorage.path ? configuredStorage.path : '',
-          }
-        }
-      }),
+      storages: values.storages.filter(storages => storages.active).map(configuredStorage => ({
+        storage: configuredStorage.label,
+        storageSubDirectory: configuredStorage.path ? configuredStorage.path : '',
+      })),
     }
 
     if (mode === 'edit') {

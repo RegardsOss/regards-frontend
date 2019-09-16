@@ -82,6 +82,5 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringFiltersComp
     assert.lengthOf(sessionsMonitoringFilterApplyComponent, 1, 'There should be 1 SessionsMonitoringFilterApplyComponent')
     const sessionsMonitoringChooseColumnsComponent = enzymeWrapper.find(SessionsMonitoringChooseColumnsComponent)
     assert.lengthOf(sessionsMonitoringChooseColumnsComponent, 1, 'There should be 1 SessionsMonitoringChooseColumnsComponent')
-
   })
 })

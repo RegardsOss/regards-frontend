@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
 import {
   RenderTextField, RenderCheckbox, Field,
 } from '@regardsoss/form-utils'
@@ -28,7 +27,11 @@ import { themeContextType } from '@regardsoss/theme'
  */
 export class StoragesFieldArrayRenderer extends React.Component {
   static propTypes = {
-    fields: PropTypes.object.isRequired,
+    fields: PropTypes.shape({
+      getAll: PropTypes.func.isRequired,
+      push: PropTypes.func.isRequired,
+      remove: PropTypes.func.isRequired,
+    }),
   }
 
   static contextTypes = {

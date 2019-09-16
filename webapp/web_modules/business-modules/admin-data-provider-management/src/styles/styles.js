@@ -322,7 +322,7 @@ const styles = theme => ({
     },
     tr: {
       padding: '0',
-      
+
     },
     tdCheckbox: {
       padding: '0 20px 0 0',

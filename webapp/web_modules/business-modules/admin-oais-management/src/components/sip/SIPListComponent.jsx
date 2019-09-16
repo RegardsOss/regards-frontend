@@ -435,7 +435,7 @@ class SIPListComponent extends React.Component {
     const { intl, muiTheme } = this.context
     const { sip } = this.props
     const {
-      pageSize, resultsCount, chains, initialFilters, entitiesLoading, goToSessionAIPsMonitoring, session,
+      pageSize, resultsCount, chains, entitiesLoading, goToSessionAIPsMonitoring, session,
       goToDataSourcesMonitoring, isEmptySelection,
     } = this.props
     const { columnsSorting, editedFilters } = this.state

@@ -135,7 +135,7 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
     const url = `/admin/${project}/data/acquisition/dataprovider/chain/${chainIdToEdit}/edit`
     browserHistory.push(url)
   }
-  
+
   /**
    * Callback to go to the duplication page of the given chain.
    * @param {*} chainIdToDuplicate : Identifier of the chain to duplicate

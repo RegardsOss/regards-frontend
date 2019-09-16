@@ -29,7 +29,7 @@ const messages = {
 
   'user.board.authentication-plugins.title': 'Système d\'authentification',
   'user.board.authentication-plugins.description': 'Configuration du système de connexion des utilisateurs.',
-  
+
   'accessright.board.tooltip.list': 'Liste',
   'accessright.board.tooltip.add': 'Ajouter',
   'accessright.board.accessgroup.title': 'Groupes d\'accès',

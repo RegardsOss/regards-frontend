@@ -76,7 +76,7 @@ export class AIPFileListContainer extends React.Component {
   }
 
   onBack = (level) => {
-    const { params: { project, aipId } } = this.props
+    const { params: { project } } = this.props
     const url = `/admin/${project}/data/acquisition/oais/aip/list`
     browserHistory.push(url)
   }

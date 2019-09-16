@@ -36,8 +36,6 @@ import {
   RenderArrayObjectField, RenderCheckbox, ValidationHelpers, Field, FieldArray, StringComparison,
 } from '@regardsoss/form-utils'
 import { DataProviderDomain } from '@regardsoss/domain'
-import { pathToFileURL } from 'url'
-import { getSearchEngineConfigurationsReducer } from '@regardsoss/client/src/rs-catalog'
 import { ingestProcessingChainActions, ingestProcessingChainEntitiesKey } from '../../clients/IngestProcessingChainClient'
 import AcquisitionProcessingChainFormPluginsComponent from './AcquisitionProcessingChainFormPluginsComponent'
 import AcquisitionFileInfoComponent from './AcquisitionFileInfoComponent'
