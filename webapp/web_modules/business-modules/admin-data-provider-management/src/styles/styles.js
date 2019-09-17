@@ -315,7 +315,8 @@ const styles = theme => ({
   },
   chainForm: {
     info: {
-      marginTop: '20px',
+      marginTop: '26px',
+      marginBottom: '-8px',
     },
     table: {
       width: '100%',
@@ -333,6 +334,13 @@ const styles = theme => ({
     input: {
       minWidth: '400px',
       margin: '-7px 0 0 0',
+    },
+    chip: {
+      margin: 4,
+    },
+    chipWrapper: {
+      display: 'flex',
+      flexWrap: 'wrap',
     },
   },
 })

@@ -75,7 +75,7 @@ export class StoragesFieldArrayRenderer extends React.Component {
     const { intl: { formatMessage }, moduleTheme: { chainForm: { info } } } = this.context
     return (
       <React.Fragment>
-        <p style={info}>{formatMessage({ id: 'acquisition-chain.form.general.section.info' })}</p>
+        <p style={info}>{formatMessage({ id: 'acquisition-chain.form.general.section.info.storage' })}</p>
         <table>
           <tbody>
             {fields.map(this.renderStorageCheckbox)}

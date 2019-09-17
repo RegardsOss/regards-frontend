@@ -16,6 +16,9 @@
                 "storageSubDirectory": ""
             }
         ],
+        "categories": [
+            "pikachu", "soyouz", "vendetta"
+        ],
         "lastActivationDate": "2019-09-11T08:44:18.046Z",
         "ingestChain": "Departements",
         "fileInfos": [

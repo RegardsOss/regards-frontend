@@ -40,6 +40,7 @@ import { ingestProcessingChainActions, ingestProcessingChainEntitiesKey } from '
 import AcquisitionProcessingChainFormPluginsComponent from './AcquisitionProcessingChainFormPluginsComponent'
 import AcquisitionFileInfoComponent from './AcquisitionFileInfoComponent'
 import { StoragesFieldArrayRenderer } from './StoragesFieldArrayRenderer'
+import { CategoriesFieldArrayRenderer } from './CategoriesFieldArrayRenderer'
 import styles from '../../styles'
 import messages from '../../i18n'
 
@@ -330,6 +331,13 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   entitiesPayloadKey={ingestProcessingChainEntitiesKey}
                   entitiesConfig={ingestProcessingChainConfig}
                   validate={required}
+                />
+                <FieldArray
+                  name="categories"
+                  fullWidth
+                  component={CategoriesFieldArrayRenderer}
+                  canBeEmpty
+                  label={formatMessage({ id: 'acquisition-chain.form.general.section.periodicity' })}
                 />
                 <FieldArray
                   name="storages"
