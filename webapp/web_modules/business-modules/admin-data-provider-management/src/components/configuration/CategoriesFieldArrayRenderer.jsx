@@ -17,11 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import Chip from 'material-ui/Chip'
-import map from 'lodash/map'
 import { TextField } from 'material-ui'
-import AddSvg from 'material-ui/svg-icons/content/add'
-import Avatar from 'material-ui/Avatar'
-import { change } from 'redux-form'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 /**
@@ -46,22 +42,13 @@ export class CategoriesFieldArrayRenderer extends React.Component {
     ...themeContextType,
   }
 
-  handleRemoveGroup = () => {
-    //
-  }
-
   onRemoveCategory = (index) => {
     //
     const { fields } = this.props
     fields.remove(index)
   }
 
-  onAddCategory = () => {
-    //
-    //this.props.change('categories', "newValue");
-  }
-
-  onKeyPress = (ev) => {
+  onAddCategory = (ev) => {
     const { fields } = this.props
     const { categoryField } = this.state
     if (ev.key === 'Enter') {
@@ -115,7 +102,7 @@ export class CategoriesFieldArrayRenderer extends React.Component {
           hintText={formatMessage({ id: 'acquisition-chain.form.general.section.category-hint' })}
           floatingLabelText={formatMessage({ id: 'acquisition-chain.form.general.section.category-hint' })}
           fullWidth
-          onKeyPress={this.onKeyPress}
+          onKeyPress={this.onAddCategory}
           value={categoryField}
           onChange={this.onChangeValue}
         />
