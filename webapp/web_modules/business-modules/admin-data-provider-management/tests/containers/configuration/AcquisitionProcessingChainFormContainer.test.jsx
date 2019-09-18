@@ -48,6 +48,17 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       fetch: sinon.stub().callsFake(() => new Promise(() => { })),
       create: sinon.stub().callsFake(() => new Promise(() => { })),
       update: sinon.stub().callsFake(() => new Promise(() => { })),
+      storages: [
+        {
+          storage: 'LocalDataStorage',
+          storageSubDirectory: '/machin/chose',
+        },
+        {
+          storage: 'Sacoche Infini',
+          storageSubDirectory: '',
+        },
+      ],
+      getStorages: sinon.stub().callsFake(() => new Promise(() => { })),
     }
     const enzymeWrapper = shallow(<AcquisitionProcessingChainFormContainer {...props} />, { context })
     const components = enzymeWrapper.find(AcquisitionProcessingChainFormComponent)
@@ -63,8 +74,24 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     assert.isTrue(isFunction(component.props().onSubmit), 'Invalid onSubmit parameter')
     assert.isTrue(isFunction(component.props().onBack), 'Invalid onSubmit parameter')
     // Check action called when submit the form
-    enzymeWrapper.instance().onSubmit({})
-    assert.isTrue(props.create.called, 'Create callback should not be called for submission')
+    enzymeWrapper.instance().onSubmit({
+      storages: [
+        {
+          content: {
+            label: 'LocalDataStorage',
+          },
+        }, {
+          content: {
+            label: 'Sacoche Infini',
+          },
+        }, {
+          content: {
+            label: 'Turkmenistan',
+          },
+        },
+      ],
+    })
+    assert.isTrue(props.create.called, 'Create callback should be called for submission')
     assert.isFalse(props.update.called, 'Update callback should not be called for submission')
   })
   it('should render correctly a form to edit an existing acquisition processing chain', () => {
@@ -78,6 +105,17 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       fetch: sinon.stub().callsFake(() => new Promise(() => { })),
       create: sinon.stub().callsFake(() => new Promise(() => { })),
       update: sinon.stub().callsFake(() => new Promise(() => { })),
+      storages: [
+        {
+          storage: 'LocalDataStorage',
+          storageSubDirectory: '/machin/chose',
+        },
+        {
+          storage: 'Sacoche Infini',
+          storageSubDirectory: '',
+        },
+      ],
+      getStorages: sinon.stub().callsFake(() => new Promise(() => { })),
     }
     const enzymeWrapper = shallow(<AcquisitionProcessingChainFormContainer {...props} />, { context })
     const components = enzymeWrapper.find(AcquisitionProcessingChainFormComponent)
@@ -93,7 +131,23 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     assert.isTrue(isFunction(component.props().onSubmit), 'Invalid onSubmit parameter')
     assert.isTrue(isFunction(component.props().onBack), 'Invalid onSubmit parameter')
     // Check action called when submit the form
-    enzymeWrapper.instance().onSubmit({})
+    enzymeWrapper.instance().onSubmit({
+      storages: [
+        {
+          content: {
+            label: 'LocalDataStorage',
+          },
+        }, {
+          content: {
+            label: 'Sacoche Infini',
+          },
+        }, {
+          content: {
+            label: 'Turkmenistan',
+          },
+        },
+      ],
+    })
     assert.isTrue(props.update.called, 'Create callback should be called for submission')
     assert.isFalse(props.create.called, 'Create callback should not be called for submission')
   })
@@ -108,6 +162,17 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       fetch: sinon.stub().callsFake(() => new Promise(() => { })),
       create: sinon.stub().callsFake(() => new Promise(() => { })),
       update: sinon.stub().callsFake(() => new Promise(() => { })),
+      storages: [
+        {
+          storage: 'LocalDataStorage',
+          storageSubDirectory: '/machin/chose',
+        },
+        {
+          storage: 'Sacoche Infini',
+          storageSubDirectory: '',
+        },
+      ],
+      getStorages: sinon.stub().callsFake(() => new Promise(() => { })),
     }
     const enzymeWrapper = shallow(<AcquisitionProcessingChainFormContainer {...props} />, { context })
     const components = enzymeWrapper.find(AcquisitionProcessingChainFormComponent)
@@ -123,7 +188,23 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     assert.isTrue(isFunction(component.props().onSubmit), 'Invalid onSubmit parameter')
     assert.isTrue(isFunction(component.props().onBack), 'Invalid onSubmit parameter')
     // Check action called when submit the form
-    enzymeWrapper.instance().onSubmit({})
+    enzymeWrapper.instance().onSubmit({
+      storages: [
+        {
+          content: {
+            label: 'LocalDataStorage',
+          },
+        }, {
+          content: {
+            label: 'Sacoche Infini',
+          },
+        }, {
+          content: {
+            label: 'Turkmenistan',
+          },
+        },
+      ],
+    })
     assert.isTrue(props.create.called, 'Create callback should be called for submission')
     assert.isFalse(props.update.called, 'Update callback should not be called for submission')
   })

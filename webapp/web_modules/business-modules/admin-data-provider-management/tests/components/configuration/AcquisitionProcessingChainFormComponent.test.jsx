@@ -49,13 +49,47 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       invalid: false,
       submitting: false,
       handleSubmit: sinon.spy(),
+      storages: [
+        {
+          content: {
+            label: 'LocalDataStorage',
+          },
+        }, {
+          content: {
+            label: 'Sacoche Infini',
+          },
+        }, {
+          content: {
+            label: 'Turkmenistan',
+          },
+        },
+      ],
     }
     const enzymeWrapper = shallow(<AcquisitionProcessingChainFormComponent {...props} />, { context })
     // Check that the form is well initialized
     assert.isTrue(props.initialize.called, 'The initialize method should be called.')
     // In creation mode the initializ method should be call without specific values
     const initializeValues = props.initialize.getCall(0).args[0]
-    assert.deepEqual(initializeValues, AcquisitionProcessingChainFormComponent.getNewIntialValues())
+    assert.deepEqual(initializeValues, {
+      ...AcquisitionProcessingChainFormComponent.getNewIntialValues(),
+      storages: [
+        {
+          active: false,
+          label: 'LocalDataStorage',
+          path: '',
+        },
+        {
+          active: false,
+          label: 'Sacoche Infini',
+          path: '',
+        },
+        {
+          active: false,
+          label: 'Turkmenistan',
+          path: '',
+        },
+      ],
+    })
     // Check that all fields are rendered
     const fields = enzymeWrapper.find(Field)
     assert.equal(fields.length, 7, 'There should be 7 parameter Field rendered in this form')
@@ -67,7 +101,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     assert.isTrue(fields.find({ name: 'periodicity' }).exists(), 'The periodicity Field is missing')
     assert.isTrue(fields.find({ name: 'ingestChain' }).exists(), 'The ingestChain Field is missing')
     const filedArrays = enzymeWrapper.find(FieldArray)
-    assert.equal(filedArrays.length, 1, 'There should be 1 parameter FieldArray rendered in this form')
+    assert.equal(filedArrays.length, 3, 'There should be 3 parameter FieldArray rendered in this form')
     assert.isTrue(filedArrays.find({ name: 'fileInfos' }).exists(), 'The fileInfos Field is missing')
     assert.equal(enzymeWrapper.find(AcquisitionProcessingChainFormPluginsComponent).length, 1, 'The plugin form parts should be rendered')
   })
@@ -82,13 +116,47 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       invalid: false,
       submitting: false,
       handleSubmit: sinon.spy(),
+      storages: [
+        {
+          content: {
+            label: 'LocalDataStorage',
+          },
+        }, {
+          content: {
+            label: 'Sacoche Infini',
+          },
+        }, {
+          content: {
+            label: 'Turkmenistan',
+          },
+        },
+      ],
     }
     const enzymeWrapper = shallow(<AcquisitionProcessingChainFormComponent {...props} />, { context })
     // Check that the form is well initialized
     assert.isTrue(props.initialize.called, 'The initialize method should be called.')
     // In edition mode the initialie method should be call with the given chain to edit
     const initializeValues = props.initialize.getCall(0).args[0]
-    assert.deepEqual(initializeValues, props.chain.content)
+    assert.deepEqual(initializeValues, {
+      ...props.chain.content,
+      storages: [
+        {
+          active: true,
+          label: 'LocalDataStorage',
+          path: '/machin/chose',
+        },
+        {
+          active: true,
+          label: 'Sacoche Infini',
+          path: '',
+        },
+        {
+          active: false,
+          label: 'Turkmenistan',
+          path: '',
+        },
+      ],
+    })
     // Check that all fields are rendered
     const fields = enzymeWrapper.find(Field)
     assert.equal(fields.length, 7, 'There should be 7 parameter Field rendered in this form')
@@ -100,7 +168,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     assert.isTrue(fields.find({ name: 'periodicity' }).exists(), 'The periodicity Field is missing')
     assert.isTrue(fields.find({ name: 'ingestChain' }).exists(), 'The ingestChain Field is missing')
     const filedArrays = enzymeWrapper.find(FieldArray)
-    assert.equal(filedArrays.length, 1, 'There should be 1 parameter FieldArray rendered in this form')
+    assert.equal(filedArrays.length, 3, 'There should be 3 parameter FieldArray rendered in this form')
     assert.isTrue(filedArrays.find({ name: 'fileInfos' }).exists(), 'The fileInfos Field is missing')
     assert.equal(enzymeWrapper.find(AcquisitionProcessingChainFormPluginsComponent).length, 1, 'The plugin form parts should be rendered')
   })
@@ -115,6 +183,21 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       invalid: false,
       submitting: false,
       handleSubmit: sinon.spy(),
+      storages: [
+        {
+          content: {
+            label: 'LocalDataStorage',
+          },
+        }, {
+          content: {
+            label: 'Sacoche Infini',
+          },
+        }, {
+          content: {
+            label: 'Turkmenistan',
+          },
+        },
+      ],
     }
     const enzymeWrapper = shallow(<AcquisitionProcessingChainFormComponent {...props} />, { context })
     // Check that the form is well initialized
@@ -143,7 +226,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     assert.isTrue(fields.find({ name: 'periodicity' }).exists(), 'The periodicity Field is missing')
     assert.isTrue(fields.find({ name: 'ingestChain' }).exists(), 'The ingestChain Field is missing')
     const filedArrays = enzymeWrapper.find(FieldArray)
-    assert.equal(filedArrays.length, 1, 'There should be 1 parameter FieldArray rendered in this form')
+    assert.equal(filedArrays.length, 3, 'There should be 3 parameter FieldArray rendered in this form')
     assert.isTrue(filedArrays.find({ name: 'fileInfos' }).exists(), 'The fileInfos Field is missing')
     assert.equal(enzymeWrapper.find(AcquisitionProcessingChainFormPluginsComponent).length, 1, 'The plugin form parts should be rendered')
   })

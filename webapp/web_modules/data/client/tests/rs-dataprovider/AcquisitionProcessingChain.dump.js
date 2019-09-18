@@ -29,6 +29,19 @@ export default {
         locked: false,
         lastActivationDate: '2018-02-19T14:11:19.181Z',
         ingestChain: 'firstIngestChain4DataProvider',
+        storages: [
+          {
+            storage: 'LocalDataStorage',
+            storageSubDirectory: '/machin/chose',
+          },
+          {
+            storage: 'Sacoche Infini',
+            storageSubDirectory: '',
+          },
+        ],
+        categories: [
+          'pikachu', 'soyouz', 'vendetta',
+        ],
         fileInfos: [{
           id: 1,
           mandatory: true,
