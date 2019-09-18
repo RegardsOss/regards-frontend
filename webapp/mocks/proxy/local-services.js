@@ -231,7 +231,14 @@ function buildLocalServices(gatewayURL) {
           let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions-list.json'))
           return myMock
         },
-      }
+      },
+      getChainInfo: {
+        url: 'rs-dataprovider/chains/1',
+        handler: (req, resp) => {
+          let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-chain-edit.json'))
+          return { content: myMock }
+        },
+      },
     },
     PUT: {
       stateUpdate: {

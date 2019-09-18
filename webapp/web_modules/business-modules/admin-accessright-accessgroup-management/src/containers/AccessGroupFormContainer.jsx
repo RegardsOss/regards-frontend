@@ -80,7 +80,7 @@ export class AccessGroupFormContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/dataaccess/access-group/list`
+    return `/admin/${project}/user/access-group/list`
   }
 
   /**

@@ -56,7 +56,7 @@ export class OrderListContainer extends React.Component {
 
   getBackURL = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/user/board`
+    return `/admin/${project}/commands/board`
   }
 
   render() {

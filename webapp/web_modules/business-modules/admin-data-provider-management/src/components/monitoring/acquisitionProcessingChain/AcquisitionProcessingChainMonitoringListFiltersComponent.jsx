@@ -26,7 +26,6 @@ import Disable from 'material-ui/svg-icons/av/stop'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
 import TextField from 'material-ui/TextField/TextField'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
 import {
   TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
 } from '@regardsoss/components'
@@ -35,7 +34,6 @@ import {
 } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { MultiToggleAcquisitionProcessingChainActions } from '../../../clients/AcquisitionProcessingChainClient'
 import { AcquisitionProcessingChainMonitorListContainer } from '../../../containers/monitoring/AcquisitionProcessingChainMonitorListContainer'
 
 const ResourceIconAction = withResourceDisplayControl(FlatButton)

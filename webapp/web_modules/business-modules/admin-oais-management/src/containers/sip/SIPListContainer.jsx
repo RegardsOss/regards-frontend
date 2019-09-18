@@ -111,8 +111,8 @@ export class SIPListContainer extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.params.sip !== this.props.params.sip) {
-    this.initializeFiltersFromURL()
-    this.initializeContextFilters(nextProps)
+      this.initializeFiltersFromURL()
+      this.initializeContextFilters(nextProps)
     }
   }
 

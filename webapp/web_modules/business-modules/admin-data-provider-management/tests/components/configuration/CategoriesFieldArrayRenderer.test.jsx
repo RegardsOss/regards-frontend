@@ -19,27 +19,43 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SessionsMonitoringTableBackgroundComponent } from '../../../../src/components/session/render/SessionsMonitoringTableBackgroundComponent'
-import styles from '../../../../src/styles'
+import Chip from 'material-ui/Chip'
+import { TextField } from 'material-ui'
+import { CategoriesFieldArrayRenderer } from '../../../src/components/configuration/CategoriesFieldArrayRenderer'
+import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SessionsMonitoringTableBackgroundComponent
+ * Test CategoriesFieldArrayRenderer
  * @author Kévin Picart
  */
-describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringTableBackgroundComponent', () => {
+describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing CategoriesFieldArrayRenderer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SessionsMonitoringTableBackgroundComponent)
+    assert.isDefined(CategoriesFieldArrayRenderer)
   })
   it('should render correctly', () => {
+    const fieldValues = [
+      'pikachu', 'soyouz', 'vendetta',
+    ]
     const props = {
-      isInError: true,
-      children: <div />,
+      fields: {
+        getAll: () => [
+          'pikachu', 'soyouz', 'vendetta',
+        ],
+        push: () => { },
+        remove: () => { },
+        map: f => fieldValues.map((member, index, fields) => f(member, index, props.fields)),
+        get: i => fieldValues[i],
+      },
     }
-    shallow(<SessionsMonitoringTableBackgroundComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<CategoriesFieldArrayRenderer {...props} />, { context })
+    const chip = enzymeWrapper.find(Chip)
+    assert.equal(chip.length, 3, 'There should be 3 Chip rendered in this form')
+    const fields = enzymeWrapper.find(TextField)
+    assert.equal(fields.length, 1, 'There should be 1 TextField rendered in this form')
   })
 })

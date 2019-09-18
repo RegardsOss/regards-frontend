@@ -64,6 +64,10 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.mode.MANUAL': 'Manual',
   'acquisition-chain.form.general.section.ingestChain.select': 'Ingest chain (*)',
   'acquisition-chain.form.general.section.ingestChain.select.hint': 'Select an existing ingest chain ... ',
+  'acquisition-chain.form.general.section.path': 'Storage folder (optional)',
+  'acquisition-chain.form.general.section.info.storage': 'Select one or more storages for the files',
+  'acquisition-chain.form.general.section.info.category': 'Categories allow you to filter the AIPs for datasources crawling',
+  'acquisition-chain.form.general.section.category-hint': 'Add one on more categories (Hit Enter to validate)',
 
   // 2.3 Files configuration section
   'acquisition-chain.form.fileInfos.section': 'Files',

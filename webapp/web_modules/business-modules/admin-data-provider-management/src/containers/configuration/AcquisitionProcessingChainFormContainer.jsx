@@ -19,11 +19,13 @@
 import get from 'lodash/get'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { DataProviderShapes } from '@regardsoss/shape'
+import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ErrorCardComponent } from '@regardsoss/components'
+import { StorageDomain } from '@regardsoss/domain'
 import AcquisitionProcessingChainFormComponent from '../../components/configuration/AcquisitionProcessingChainFormComponent'
 import { AcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors } from '../../clients/AcquisitionProcessingChainClient'
+import { storagesListActions, storagesListSelectors } from '../../clients/StoragesListClient'
 
 /**
 * Container to display a form of AcquisitionProcessingChain entity
@@ -39,6 +41,7 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
   static mapStateToProps(state, ownProps) {
     return {
       chain: get(ownProps, 'params.chainId', false) ? AcquisitionProcessingChainSelectors.getById(state, ownProps.params.chainId) : undefined,
+      storages: storagesListSelectors.getOrderedList(state),
     }
   }
 
@@ -53,6 +56,7 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
       fetch: id => dispatch(AcquisitionProcessingChainActions.fetchEntity(id)),
       create: values => dispatch(AcquisitionProcessingChainActions.createEntity(values)),
       update: (id, values) => dispatch(AcquisitionProcessingChainActions.updateEntity(id, values)),
+      getStorages: (microserviceName, pluginType) => dispatch(storagesListActions.getPluginConfigurationsByType(microserviceName, pluginType)),
     }
   }
 
@@ -64,38 +68,41 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
     }),
     // from mapStateToProps
     chain: DataProviderShapes.AcquisitionProcessingChain,
+    storages: CommonShapes.PluginConfigurationArray.isRequired,
     // from mapDispatchToProps
     fetch: PropTypes.func.isRequired,
     create: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired,
+    getStorages: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props)
-    const isLoading = !(props.params.chainId === undefined)
+    const isLoadingChain = !(props.params.chainId === undefined)
     this.state = {
-      isLoading,
-      isLoadingError: false,
+      isLoadingChain,
+      isLoadingChainError: false,
+      isLoadingStorages: true,
+      isLoadingStoragesError: false,
     }
   }
 
   componentDidMount() {
-    const { params: { chainId }, fetch } = this.props
+    const { params: { chainId }, fetch, getStorages } = this.props
     if (chainId) {
       fetch(chainId).then((actionResults) => {
-        if (actionResults.error) {
-          this.setState({
-            isLoading: false,
-            isLoadingError: true,
-          })
-        } else {
-          this.setState({
-            isLoading: false,
-            isLoadingError: false,
-          })
-        }
+        this.setState({
+          isLoadingChain: false,
+          isLoadingChainError: !!actionResults.error,
+        })
       })
     }
+    getStorages(STATIC_CONF.MSERVICES.STORAGE, StorageDomain.PluginTypeEnum.STORAGE).then((results) => {
+      this.setState({
+        isLoadingStorages: false,
+        isLoadingStoragesError: !!results.error,
+      })
+    })
   }
 
   /**
@@ -114,10 +121,19 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
   onSubmit = (values) => {
     const { params: { mode } } = this.props
     let action
+    // Convert storages for API query
+    const serverValues = {
+      ...values,
+      storages: values.storages.filter(storages => storages.active).map(configuredStorage => ({
+        storage: configuredStorage.label,
+        storageSubDirectory: configuredStorage.path ? configuredStorage.path : '',
+      })),
+    }
+
     if (mode === 'edit') {
-      action = this.props.update(values.id, values)
+      action = this.props.update(serverValues.id, serverValues)
     } else {
-      action = this.props.create(values)
+      action = this.props.create(serverValues)
     }
     action.then((actionResults) => {
       if (!actionResults.error) {
@@ -127,12 +143,14 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
   }
 
   render() {
-    const { chain, params: { mode } } = this.props
-    const { isLoading, isLoadingError } = this.state
+    const { chain, storages, params: { mode } } = this.props
+    const {
+      isLoadingChain, isLoadingChainError, isLoadingStorages, isLoadingStoragesError,
+    } = this.state
     return (
       <LoadableContentDisplayDecorator
-        isLoading={isLoading}
-        isContentError={isLoadingError}
+        isLoading={isLoadingChain || isLoadingStorages}
+        isContentError={isLoadingChainError || isLoadingStoragesError}
         contentErrorComponent={<ErrorCardComponent />}
       >
         <AcquisitionProcessingChainFormComponent
@@ -140,6 +158,7 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
           mode={mode || 'create'}
           onSubmit={this.onSubmit}
           onBack={this.onBack}
+          storages={storages}
         />
       </LoadableContentDisplayDecorator>
     )

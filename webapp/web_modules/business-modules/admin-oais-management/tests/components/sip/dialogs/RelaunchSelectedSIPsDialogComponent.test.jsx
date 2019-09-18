@@ -19,7 +19,6 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import RelaunchSelectedSIPsDialogComponent from '../../../../src/components/sip/dialogs/RelaunchSelectedSIPsDialogComponent'
 import styles from '../../../../src/styles'
