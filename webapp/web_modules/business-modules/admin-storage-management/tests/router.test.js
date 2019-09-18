@@ -22,8 +22,6 @@ import Routes from '../src/router'
 import PrioritizedDataStorageFormContainer from '../src/containers/PrioritizedDataStorageFormContainer'
 import PrioritizedDataStoragesComponent from '../src/components/PrioritizedDataStoragesComponent'
 import StoragePluginMonitoringComponent from '../src/components/StoragePluginMonitoringComponent'
-import AllocationStrategyListContainer from '../src/containers/allocations/AllocationStrategyListContainer'
-import AllocationStrategyFormContainer from '../src/containers/allocations/AllocationStrategyFormContainer'
 import SecurityDelegationListContainer from '../src/containers/security/SecurityDelegationListContainer'
 import SecurityDelegationFormContainer from '../src/containers/security/SecurityDelegationFormContainer'
 /**
@@ -35,17 +33,14 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing storage router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(10)
+    expect(Routes.childRoutes).to.have.length(7)
     expect(Routes.childRoutes[0].path).to.eq('storages')
     expect(Routes.childRoutes[1].path).to.eq('storages/:type/create')
     expect(Routes.childRoutes[2].path).to.eq('storages/:type/:id/:mode')
     expect(Routes.childRoutes[3].path).to.eq('storages/monitoring')
-    expect(Routes.childRoutes[4].path).to.eq('allocations')
-    expect(Routes.childRoutes[5].path).to.eq('allocations/create')
-    expect(Routes.childRoutes[6].path).to.eq('allocations/:id/:mode')
-    expect(Routes.childRoutes[7].path).to.eq('security')
-    expect(Routes.childRoutes[8].path).to.eq('security/create')
-    expect(Routes.childRoutes[9].path).to.eq('security/:id/:mode')
+    expect(Routes.childRoutes[4].path).to.eq('security')
+    expect(Routes.childRoutes[5].path).to.eq('security/create')
+    expect(Routes.childRoutes[6].path).to.eq('security/:id/:mode')
   })
   it('board should return PrioritizedDataStoragesComponent', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -71,38 +66,20 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing storage router', () => {
       done()
     })
   })
-  it('allocations should return AllocationPluginsConfContainer', (done) => {
-    Routes.childRoutes[4].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(AllocationStrategyListContainer)
-      done()
-    })
-  })
-  it('allocations/create should return AllocationStrategyFormContainer', (done) => {
-    Routes.childRoutes[5].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(AllocationStrategyFormContainer)
-      done()
-    })
-  })
-  it('allocations/:id/:mode should return AllocationStrategyFormContainer', (done) => {
-    Routes.childRoutes[6].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(AllocationStrategyFormContainer)
-      done()
-    })
-  })
   it('security should return SecurityDelegationListContainer', (done) => {
-    Routes.childRoutes[7].getComponents(undefined, (smth, component) => {
+    Routes.childRoutes[4].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(SecurityDelegationListContainer)
       done()
     })
   })
   it('security/create should return SecurityPlugSecurityDelegationFormContainerinsConfContainer', (done) => {
-    Routes.childRoutes[8].getComponents(undefined, (smth, component) => {
+    Routes.childRoutes[5].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(SecurityDelegationFormContainer)
       done()
     })
   })
   it('security/:id/:mode should return SecurityDelegationFormContainer', (done) => {
-    Routes.childRoutes[9].getComponents(undefined, (smth, component) => {
+    Routes.childRoutes[6].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(SecurityDelegationFormContainer)
       done()
     })

@@ -18,7 +18,6 @@
  **/
 import { combineReducers } from 'redux'
 import { onlinePrioritizedDataStorageReducer, nearlinePrioritizedDataStorageReducer } from './clients/PrioritizedDataStorageClient'
-import { allocationStrategyReducer } from './clients/AllocationStrategyClient'
 import { securityDelegationReducer } from './clients/SecurityDelegationClient'
 
 /**
@@ -26,7 +25,6 @@ import { securityDelegationReducer } from './clients/SecurityDelegationClient'
  */
 const microserviceManagementReducer = combineReducers({
   'security-delegation': securityDelegationReducer,
-  'allocation-strategy': allocationStrategyReducer,
   'prioritized-datastorage-online': onlinePrioritizedDataStorageReducer,
   'prioritized-datastorage-nearline': nearlinePrioritizedDataStorageReducer,
 })

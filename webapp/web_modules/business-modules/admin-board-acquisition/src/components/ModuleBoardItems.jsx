@@ -123,15 +123,6 @@ const items = (projectName, intl) => [
         ],
       },
       {
-        path: `/admin/${projectName}/data/acquisition/storage/allocations`,
-        icon: <CallSplit />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.allocations.tooltip' }),
-        hateoasDependencies: [
-          ...storageManagementDependencies.listPluginDependencies,
-          ...storageManagementDependencies.addPluginDependencies,
-        ],
-      },
-      {
         path: `/admin/${projectName}/data/acquisition/storage/storages/monitoring`,
         icon: <PieChart />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.monitoring.tooltip' }),
