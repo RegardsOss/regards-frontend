@@ -22,10 +22,12 @@ import {
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import { CommonDomain } from '@regardsoss/domain'
+import FlatButton from 'material-ui/FlatButton'
+import TextField from 'material-ui/TextField'
 import {
   PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLineLoadingAndResults,
   NoContentComponent, CardActionsComponent, FormErrorMessage, Breadcrumb, TableDeleteOption, ConfirmDialogComponent,
-  ConfirmDialogComponentTypes,
+  ConfirmDialogComponentTypes, PositionedDialog,
 } from '@regardsoss/components'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -120,6 +122,10 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     appliedFilters: {},
     columnsSorting: [],
     requestParams: {},
+    sessionNameDialog: false,
+    runLabel: null,
+    runId: null,
+    sessionRename: '',
   }
 
   /**
@@ -168,8 +174,8 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
 
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
 
-  runChainAction = (label, chainId) => {
-    this.props.onRunChain(chainId).then(
+  runChainAction = (label, chainId, sessionName) => {
+    this.props.onRunChain(chainId, sessionName).then(
       (ActionResult) => {
         if (!ActionResult.error) {
           this.autoRefresh()
@@ -270,13 +276,49 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     return null
   }
 
+  onCloseDialog = () => {
+    this.setState({
+      sessionNameDialog: false,
+      runLabel: null,
+      runId: null,
+    })
+  }
+
+  onConfirmDialog = () => {
+    const { runLabel, runId, sessionRename } = this.state
+    this.runChainAction(runLabel, runId, sessionRename)
+    this.setState({
+      sessionNameDialog: false,
+      runLabel: null,
+      runId: null,
+      sessionRename: '',
+    })
+  }
+
+  onOpenDialog = (label, id) => {
+    this.setState({
+      sessionNameDialog: true,
+      runLabel: label,
+      runId: id,
+      sessionRename: '',
+    })
+  }
+
+  onChangeSessionName = (event, value) => {
+    this.setState({
+      sessionRename: value,
+    })
+  }
+
   render() {
     const { intl: { formatMessage }, muiTheme } = this.context
     const {
       onBack, pageSize, resultsCount, entitiesLoading, initialFilters, onListChainAction, onEdit, onCreate, fetchPage,
       onMultiToggleSelection, isOneCheckboxToggled, onToggle, hasAccess, onDuplicate,
     } = this.props
-    const { errorMessage, columnsSorting, requestParams } = this.state
+    const {
+      errorMessage, columnsSorting, requestParams, sessionRename,
+    } = this.state
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     const emptyComponent = (
@@ -317,7 +359,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
         optionProps: { onListChain: onListChainAction },
       }, {
         OptionConstructor: AcquisitionProcessingChainMonitoringTableRunAction,
-        optionProps: { onRunChain: this.runChainAction },
+        optionProps: { onRunChain: this.onOpenDialog },
       }, {
         OptionConstructor: AcquisitionProcessingChainMonitoringTableStopAction,
         optionProps: { onStopChain: this.stopChainAction },
@@ -338,8 +380,44 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
         },
       }]).build(),
     ]
+
+    const actions = [
+      <FlatButton
+        key="close"
+        label={formatMessage({ id: 'acquisition-product.run.dialog.close.button' })}
+        primary
+        onClick={this.onCloseDialog}
+      />,
+      <FlatButton
+        key="confirm"
+        label={formatMessage({ id: 'acquisition-product.run.dialog.confirm.button' })}
+        primary
+        onClick={this.onConfirmDialog}
+      />,
+    ]
+
+    const defaultDateSessionName = new Date()
+
     return (
       <Card>
+        <PositionedDialog
+          title={formatMessage({ id: 'acquisition-product.run.dialog.title' })}
+          open={this.state.sessionNameDialog}
+          autoScrollBodyContent
+          actions={actions}
+          dialogWidthPercent={60}
+          onRequestClose={this.onCloseDialog}
+        >
+          <p>
+            {formatMessage({ id: 'acquisition-product.run.dialog.message' })}
+          </p>
+          <TextField
+            fullWidth
+            hintText={defaultDateSessionName.toLocaleString()}
+            onChange={this.onChangeSessionName}
+            value={sessionRename}
+          />
+        </PositionedDialog>
         <CardTitle
           title={this.renderBreadCrump()}
           subtitle={formatMessage({ id: 'acquisition-chain.monitor.list.subtitle' })}

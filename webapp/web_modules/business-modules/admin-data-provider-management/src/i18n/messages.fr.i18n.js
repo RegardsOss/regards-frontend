@@ -291,6 +291,12 @@ const messages = Object.assign({
   'acquisition-sessions.filters.sources-hint': 'Sources',
   'acquisition-sessions.filters.sessions-hint': 'Sessions',
 
+  //8 Run Confirm Dialog
+  'acquisition-product.run.dialog.title': 'Souhaitez-vous renommer cette session ?',
+  'acquisition-product.run.dialog.message': 'Vous pouvez directement confirmer si vous ne souhaitez pas la renommer.',
+  'acquisition-product.run.dialog.confirm.button': 'Confirmer',
+  'acquisition-product.run.dialog.close.button': 'Fermer',
+
 }, Locales.fr)
 
 export default messages
