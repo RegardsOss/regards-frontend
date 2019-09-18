@@ -18,13 +18,11 @@
  **/
 import { combineReducers } from 'redux'
 import { onlinePrioritizedDataStorageReducer, nearlinePrioritizedDataStorageReducer } from './clients/PrioritizedDataStorageClient'
-import { securityDelegationReducer } from './clients/SecurityDelegationClient'
 
 /**
  * @author Sébastien Binda
  */
 const microserviceManagementReducer = combineReducers({
-  'security-delegation': securityDelegationReducer,
   'prioritized-datastorage-online': onlinePrioritizedDataStorageReducer,
   'prioritized-datastorage-nearline': nearlinePrioritizedDataStorageReducer,
 })

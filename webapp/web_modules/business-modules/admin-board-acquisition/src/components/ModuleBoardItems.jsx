@@ -128,15 +128,6 @@ const items = (projectName, intl) => [
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.monitoring.tooltip' }),
         hateoasDependencies: storageManagementDependencies.monitoringDependencies,
       },
-      {
-        path: `/admin/${projectName}/data/acquisition/storage/security`,
-        icon: <Security />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.security.tooltip' }),
-        hateoasDependencies: [
-          ...storageManagementDependencies.listPluginDependencies,
-          ...storageManagementDependencies.addPluginDependencies,
-        ],
-      },
     ],
   },
 ]
