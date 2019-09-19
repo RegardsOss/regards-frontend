@@ -28,6 +28,7 @@ class EntitiesSectionPageComponent extends React.Component {
   static propTypes = {
     entities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
     isDescriptionAllowed: PropTypes.func.isRequired,
+    allowSearching: PropTypes.bool,
     onSearchEntity: PropTypes.func.isRequired,
     // Callback: user selected an entity link. (entity:CalaogShapes.Entity) => ()
     onSelectEntityLink: PropTypes.func.isRequired,
@@ -39,12 +40,15 @@ class EntitiesSectionPageComponent extends React.Component {
    * @return {React.ReactElement} render element
    */
   renderEntity = (entity) => {
-    const { isDescriptionAllowed, onSelectEntityLink, onSearchEntity } = this.props
+    const {
+      isDescriptionAllowed, allowSearching, onSelectEntityLink, onSearchEntity,
+    } = this.props
     return (
       <EntityLinkComponent
         key={entity.content.id}
         entity={entity}
         isDescriptionAllowed={isDescriptionAllowed}
+        allowSearching={allowSearching}
         onSelectEntityLink={onSelectEntityLink}
         onSearchEntity={onSearchEntity}
       />)

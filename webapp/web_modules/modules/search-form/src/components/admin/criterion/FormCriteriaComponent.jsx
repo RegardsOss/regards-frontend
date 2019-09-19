@@ -180,8 +180,6 @@ class FormCriteriaComponent extends React.Component {
    * @returns {*}
    */
   renderCriteriaConfiguration = () => {
-    const { intl: { formatMessage } } = this.context
-
     if (!isNil(this.state.selectedCriteria) && !this.props.criterionFetching) {
       return (
         <PluginProvider
@@ -212,8 +210,7 @@ class FormCriteriaComponent extends React.Component {
     const {
       pristine, submitting, invalid, criterion, criteria, handleSubmit,
     } = this.props
-    const { criteria: criteriaStyle } = this.context.moduleTheme
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { criteria: criteriaStyle } } = this.context
     const { selectedIndex } = this.state
 
     const required = [ValidationHelpers.required]

@@ -183,7 +183,7 @@ export class RunServiceDialogComponent extends React.Component {
     const {
       serviceName, currentStep, handleSubmit, initialize, ...otherDialogProps
     } = this.props
-    const { moduleTheme: { pluginServiceDialog }, intl: { formatMessage } } = this.context
+    const { moduleTheme: { pluginServiceDialog } } = this.context
     const stepType = currentStep.step
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>

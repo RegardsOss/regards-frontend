@@ -34,6 +34,7 @@ import QuicklookComponent from './quicklook/QuicklookComponent'
  */
 class ContentDisplayComponent extends React.Component {
   static propTypes = {
+    allowSearching: PropTypes.bool,
     descriptionEntity: DescriptionEntity.isRequired,
     // is description allowed function, like (entity: CatalogShapes.Entity) => (boolean)
     isDescriptionAllowed: PropTypes.func.isRequired,
@@ -53,7 +54,7 @@ class ContentDisplayComponent extends React.Component {
 
   render() {
     const {
-      descriptionEntity, isDescriptionAllowed,
+      descriptionEntity, isDescriptionAllowed, allowSearching,
       onSelectInnerLink, onSelectEntityLink, onSearchWord, onSearchEntity,
     } = this.props
     // loading
@@ -88,41 +89,28 @@ class ContentDisplayComponent extends React.Component {
       },
     } = descriptionEntity
 
-    // TODO delete
-    const TEMPFILES = [
-      'CSS-TEST',
-      'GIF-TEST',
-      'HTML-TEST',
-      'JPEG-TEST',
-      'JPEG-BIG-TEST',
-      'JSON-TEST',
-      'JS-TEST',
-      'MD-TEST',
-      'PDF-TEST',
-      'PNG-TEST',
-      'TEXT-TEST',
-      'XHTML-TEST',
-      'XML-TEST',
-      'TEST-UNKNOWN',
-      'UNEXISTING',
-    ].map((v, i) => ({
-      label: v,
-      available: true,
-      uri: `http://localhost:3000/api/v1/tempFiles?fileIndex=${i}`,
-    }))
     switch (section) {
       case BROWSING_SECTIONS_ENUM.PARAMETERS:
         return <ParametersSectionComponent thumbnail={thumbnail} attributesGroups={attributesGroups} />
       case BROWSING_SECTIONS_ENUM.QUICKLOOKS:
         return <QuicklookComponent quicklookFiles={quicklookFiles} />
       case BROWSING_SECTIONS_ENUM.SIMPLE_TAGS:
-        return <TagsSectionPageComponent tags={wordTags} onSearchWord={onSearchWord} />
+        return <TagsSectionPageComponent
+          tags={wordTags}
+          allowSearching={allowSearching}
+          onSearchWord={onSearchWord}
+        />
       case BROWSING_SECTIONS_ENUM.COUPLED_TAGS:
-        return <TagsSectionPageComponent tags={couplingTags} onSearchWord={onSearchWord} />
+        return <TagsSectionPageComponent
+          tags={couplingTags}
+          allowSearching={allowSearching}
+          onSearchWord={onSearchWord}
+        />
       case BROWSING_SECTIONS_ENUM.LINKED_ENTITIES:
         return <EntitiesSectionPageComponent
           entities={linkedEntities}
           isDescriptionAllowed={isDescriptionAllowed}
+          allowSearching={allowSearching}
           onSearchEntity={onSearchEntity}
           onSelectEntityLink={onSelectEntityLink}
         />
@@ -131,6 +119,7 @@ class ContentDisplayComponent extends React.Component {
           <EntitiesSectionPageComponent
             entities={linkedDocuments}
             isDescriptionAllowed={isDescriptionAllowed}
+            allowSearching={allowSearching}
             onSearchEntity={onSearchEntity}
             onSelectEntityLink={onSelectEntityLink}
           />)
@@ -145,16 +134,9 @@ class ContentDisplayComponent extends React.Component {
         return isNil(child) ? (
           <FilesSectionPageComponent
             section={section}
-            files={
-              // TODO otherFiles
-              TEMPFILES
-            }
+            files={otherFiles}
             onSelectInnerLink={onSelectInnerLink}
-          />) : <URIContentDisplayer uri={
-            // TODO otherFiles[child]
-            TEMPFILES[child].uri
-          }
-          />
+          />) : <URIContentDisplayer uri={otherFiles[child].uri} />
       default:
         throw new Error(`Unknown browsing section ${section}`)
     }

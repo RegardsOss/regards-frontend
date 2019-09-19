@@ -47,12 +47,15 @@ class SearchTagCellComonent extends React.Component {
     const { tag } = this.props
     const { intl: { formatMessage } } = this.context
     const couplingTag = CatalogDomain.TagsHelper.isCouplingTag(tag)
+    const tagLabel = couplingTag ? CatalogDomain.TagsHelper.parseCouplingTag(tag).label : tag
     return (
       <SearchOptionComponent
         tooltip={formatMessage({
           id: couplingTag
             ? 'module.description.common.search.coupling.tag.tooltip'
             : 'module.description.common.search.simple.tag.tooltip',
+        }, {
+          tag: tagLabel,
         })}
         onSearch={this.onSearch}
       />)

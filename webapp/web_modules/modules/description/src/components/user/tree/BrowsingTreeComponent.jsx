@@ -38,6 +38,7 @@ import DownloadCellComponent from './cells/options/DownloadCellComponent'
  */
 class BrowsingTreeComponent extends React.Component {
   static propTypes = {
+    allowSearching: PropTypes.bool,
     browsingTreeVisible: PropTypes.bool.isRequired,
     descriptionEntity: DescriptionEntity.isRequired,
     // is description allowed function, like (entity: CatalogShapes.Entity) => (boolean)
@@ -272,7 +273,8 @@ class BrowsingTreeComponent extends React.Component {
         { // IIFE: return directly the right cell for element
         (() => {
           const {
-            isDescriptionAllowed, onSearchWord, onSearchEntity,
+            allowSearching, isDescriptionAllowed,
+            onSearchWord, onSearchEntity,
             onSelectInnerLink, onSelectEntityLink,
           } = this.props
 
@@ -293,11 +295,11 @@ class BrowsingTreeComponent extends React.Component {
                 onSelectEntityLink={onSelectEntityLink}
               />
             case BrowsingTreeComponent.CELL_TYPES.SEARCH_ENTITY:
-              return <SearchEntityCellComponent entity={data} onSearchEntity={onSearchEntity} />
+              return allowSearching ? <SearchEntityCellComponent entity={data} onSearchEntity={onSearchEntity} /> : null
             case BrowsingTreeComponent.CELL_TYPES.TAG:
               return <TagCellComponent tag={data} />
             case BrowsingTreeComponent.CELL_TYPES.SEARCH_TAG:
-              return <SearchTagCellComonent tag={data} onSearchWord={onSearchWord} />
+              return allowSearching ? <SearchTagCellComonent tag={data} onSearchWord={onSearchWord} /> : null
             case BrowsingTreeComponent.CELL_TYPES.FILE:
               return (
                 <FileCellComponent

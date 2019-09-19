@@ -54,7 +54,7 @@ const messages = {
   'search.graph.level.fetch.model.failed': 'Failed retrieving collections and datasets',
   'search.graph.level.no.model': 'Empty collection',
   'search.graph.dataset.attribute.no.value': '-',
-  'search.graph.results.title.without.tag': 'Graph selection',
+  'search.graph.results.title': 'Results',
 
   ...Locales.en,
 }

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DamDomain } from '@regardsoss/domain'
+import { UIDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
@@ -30,7 +30,7 @@ import GroupsFieldComponent from './GroupsFieldComponent'
  */
 class DescriptionConfigurationFormComponent extends React.Component {
   static propTypes = {
-    entityType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
+    entityType: PropTypes.oneOf(UIDomain.PSEUDO_TYPES).isRequired,
     isCreating: PropTypes.bool.isRequired,
     changeField: PropTypes.func.isRequired,
     currentNamespace: PropTypes.string.isRequired,
@@ -54,9 +54,12 @@ class DescriptionConfigurationFormComponent extends React.Component {
         // default configuration for description
         showDescription: true,
         showTags: true,
+        showCoupling: true,
         showLinkedDocuments: true,
+        showLinkedEntities: true,
         showThumbnail: false,
         groups: [],
+        attributeToDescriptionFiles: [],
       })
     }
   }
@@ -94,10 +97,24 @@ class DescriptionConfigurationFormComponent extends React.Component {
               component={RenderCheckbox}
               fullWidth
             />
+            {/* Show coupling field */}
+            <Field
+              name={`${currentNamespace}.${entityType}.showCoupling`}
+              label={formatMessage({ id: 'module.description.configuration.show.coupling' })}
+              component={RenderCheckbox}
+              fullWidth
+            />
             {/* Show linked documents field */}
             <Field
               name={`${currentNamespace}.${entityType}.showLinkedDocuments`}
               label={formatMessage({ id: 'module.description.configuration.show.linked.documents' })}
+              component={RenderCheckbox}
+              fullWidth
+            />
+            {/* Show linked entities field */}
+            <Field
+              name={`${currentNamespace}.${entityType}.showLinkedEntities`}
+              label={formatMessage({ id: 'module.description.configuration.show.linked.entities' })}
               component={RenderCheckbox}
               fullWidth
             />
@@ -117,6 +134,7 @@ class DescriptionConfigurationFormComponent extends React.Component {
           availableAttributes={availableAttributes}
           validate={this.validateGroups}
         />
+        {/* TODO URL attributes field! */}
       </FormPresentation>
     )
   }

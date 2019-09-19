@@ -251,6 +251,7 @@ const styles = theme => ({
             display: 'flex',
             alignItems: 'center',
             padding: theme.module.description.listPage.element.padding,
+            minHeight: theme.module.description.listPage.rightIconButton.size,
           },
           elementIcon: {
             flexGrow: 0,

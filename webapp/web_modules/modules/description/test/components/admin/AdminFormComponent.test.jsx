@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { Tab } from 'material-ui/Tabs'
-import { DamDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AdminFormComponent from '../../../src/components/admin/AdminFormComponent'
 import styles from '../../../src/styles'
@@ -48,7 +48,7 @@ describe('[Description] Testing AdminFormComponent', () => {
       datasetAttributeModels: {},
     }
     const enzymeWrapper = shallow(<AdminFormComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.allowTagSearch'), 1, 'There should be allow search tag field for current namespace')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.allowSearching'), 1, 'There should be allow search tag field for current namespace')
 
     // check there is one tab by entity type
     const tabsWrapper = enzymeWrapper.find(Tab)
@@ -56,7 +56,7 @@ describe('[Description] Testing AdminFormComponent', () => {
       DamDomain.ENTITY_TYPES_ENUM.DATA,
       DamDomain.ENTITY_TYPES_ENUM.DATASET,
       DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
-      // TODO probably add back here the document pseudo type, based on model
+      UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT,
     ]
     typesToConfigure.forEach((entityType) => {
       const entityTabWrapper = tabsWrapper.findWhere(n => n.props().entityType === entityType)

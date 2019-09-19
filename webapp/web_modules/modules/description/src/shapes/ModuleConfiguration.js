@@ -40,7 +40,9 @@ export const DescriptionGroup = PropTypes.shape({
 export const DescriptionConfiguration = PropTypes.shape({
   showDescription: PropTypes.bool.isRequired,
   showTags: PropTypes.bool.isRequired,
+  showCoupling: PropTypes.bool.isRequired,
   showLinkedDocuments: PropTypes.bool.isRequired,
+  showLinkedEntities: PropTypes.bool.isRequired,
   showThumbnail: PropTypes.bool.isRequired,
   groups: PropTypes.arrayOf(DescriptionGroup).isRequired,
   // list of attribute to be displayed as description file (single attribute configuration, no label)
@@ -65,8 +67,7 @@ export const DescriptionRuntime = PropTypes.shape({
  * Module configuration: description pane configuration by entity type
  */
 export const ModuleConfiguration = PropTypes.shape({
-  documentsModelName: PropTypes.string, // identifies a data as document if it holds that model
-  allowTagSearch: PropTypes.bool,
+  allowSearching: PropTypes.bool,
   // configuration by entity type
   [DamDomain.ENTITY_TYPES_ENUM.COLLECTION]: DescriptionConfiguration,
   [DamDomain.ENTITY_TYPES_ENUM.DATASET]: DescriptionConfiguration,

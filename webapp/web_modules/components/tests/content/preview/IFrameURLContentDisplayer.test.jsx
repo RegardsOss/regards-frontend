@@ -19,24 +19,24 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ImageFileDisplayer from '../../src/content/preview/ImageFileDisplayer'
-import styles from '../../src/content/styles/styles'
+import IFrameURLContentDisplayer from '../../../src/content/preview/IFrameURLContentDisplayer'
+import styles from '../../../src/content/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Tests ImageFileDisplayer
+* Tests IFrameURLContentDisplayer
 * @author Raphaël Mechali
 */
-describe('[Components] Testing ImageFileDisplayer', () => {
+describe('[Components] Testing IFrameURLContentDisplayer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ImageFileDisplayer)
+    assert.isDefined(IFrameURLContentDisplayer)
   })
 
   it('should render correctly', () => {
-    shallow(<ImageFileDisplayer source="./local" />, { context })
+    shallow(<IFrameURLContentDisplayer source="./local" />, { context })
   })
 })

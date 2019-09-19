@@ -21,12 +21,12 @@ import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { UIDomain, DamDomain } from '@regardsoss/domain'
 import { AccessProjectClient, UIClient } from '@regardsoss/client'
-import { AccessShapes, UIShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { modulesManager } from '@regardsoss/modules'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { HOCUtils } from '@regardsoss/display-control'
 import { DescriptionHelper } from '@regardsoss/entities-common'
-import { resultsContextActions, resultsContextSelectors } from '../../clients/ResultsContextClient'
+import { resultsContextActions } from '../../clients/ResultsContextClient'
 
 // get default layout client selectors - required to check that containers are or not dynamic
 const layoutSelectors = AccessProjectClient.LayoutSelectors()
@@ -59,8 +59,6 @@ export class DescriptionProviderContainer extends React.Component {
       modules: modulesSelectors.getList(state),
       // bind dynamic container ID (we need the module to be any container BUT THAT ONE)
       dynamicContainerId: layoutSelectors.getDynamicContainerId(state),
-      // current results context
-      resultsContext: resultsContextSelectors.getResultsContext(state, id),
     }
   }
 
@@ -86,7 +84,6 @@ export class DescriptionProviderContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]), // used in on onPropertiesUpdated
     // from mapStateToProps
-    resultsContext: UIShapes.ResultsContext, // Nota: undefined before the search-results mount for first time only, mandatory after
     // eslint-disable-next-line react/no-unused-prop-types
     availableDependencies: PropTypes.arrayOf(PropTypes.string), // used only in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
@@ -160,18 +157,16 @@ export class DescriptionProviderContainer extends React.Component {
    */
   onShowDescription = (entity) => {
     const {
-      id, resultsContext: { criteria: { levels } },
-      dispatchExpandResults, dispatchCollapseGraph, updateResultsContext,
+      id, dispatchExpandResults, dispatchCollapseGraph, updateResultsContext,
     } = this.props
-    const descriptionLevel = { type: UIDomain.ResultsContextConstants.DESCRIPTION_LEVEL, entity }
-    // If not present, append description at breadcrumb levels end
-    // else  go backward in breadcrumb to show it
-    const foundLvlIndex = levels.findIndex(lvl => isEqual(lvl, descriptionLevel))
+    // Reset description path to that entity and show description tab
     updateResultsContext(id, {
-      criteria: {
-        levels: foundLvlIndex >= 0
-          ? levels.slice(0, foundLvlIndex + 1) // keep breadcrumb up to corresponding level
-          : [...levels, descriptionLevel], // append level at breadcrumb end
+      selectedTab: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
+      tabs: {
+        [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+          descriptionPath: [entity],
+          selectedIndex: 0,
+        },
       },
     })
     // Attempt to show results and hide graph

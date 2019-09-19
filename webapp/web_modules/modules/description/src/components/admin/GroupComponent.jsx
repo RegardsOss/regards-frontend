@@ -166,7 +166,6 @@ class GroupComponent extends React.Component {
       index, group: { showTitle, title, elements }, availableAttributes, allGroups,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { admin: { group } } } = this.context
-
     return (
       <Card>
         <CardTitle title={formatMessage({ id: 'module.description.configuration.group.title' }, { number: index + 1 })} />

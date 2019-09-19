@@ -23,9 +23,9 @@ import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import { UIClient, DataManagementClient } from '@regardsoss/client'
-import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
+import { UIClient, DataManagementClient } from '@regardsoss/client'
+import { i18nContextType } from '@regardsoss/i18n'
 import { modulesManager } from '@regardsoss/modules'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { getTypeRender } from '@regardsoss/attributes-common'
@@ -103,6 +103,10 @@ export class UserModuleContainer extends React.Component {
     presentationState: UIDomain.PRESENTATION_STATE_ENUM.NORMAL, // default for admin or when not initialized
   }
 
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
   componentWillMount = () => {
     this.onPropertiesChanged(undefined, this.props)
   }
@@ -170,7 +174,7 @@ export class UserModuleContainer extends React.Component {
           if (!retrievedParentSelection) {
             // (break case) the parent level selection could not be restored: remove it from selection then stop
             dispatchClearLevelSelection(level - 1)
-          } else if (selectedParentType !== ENTITY_TYPES_ENUM.DATASET) {
+          } else if (selectedParentType !== DamDomain.ENTITY_TYPES_ENUM.DATASET) {
             // loop case: resolve next
             const parentPath = selectionPath.slice(0, level).map(({ id }) => id) // prepare parent path for datasets
             Promise.all([
@@ -190,6 +194,7 @@ export class UserModuleContainer extends React.Component {
   render() {
     const { id, presentationState } = this.props
     const { graphDatasetAttributes } = this.state
+    const { intl: { formatMessage } } = this.context
     return (
       <React.Fragment>
         <DescriptionProviderContainer id={id}>
@@ -200,6 +205,7 @@ export class UserModuleContainer extends React.Component {
           />
         </DescriptionProviderContainer>
         <NavigableSearchResultsContainer
+          resultsModuleTitle={formatMessage({ id: 'search.graph.results.title' })}
           {...modulesHelper.getReportedUserModuleProps(this.props)}
         />
       </React.Fragment>)

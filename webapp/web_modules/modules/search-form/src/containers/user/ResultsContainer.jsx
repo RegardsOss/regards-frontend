@@ -45,6 +45,8 @@ export class ResultsContainer extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
+    resultsModuleTitle: PropTypes.string.isRequired, // used in onPropertiesUpdated
+    // eslint-disable-next-line react/no-unused-prop-types
     id: PropTypes.number, // used in onPropertiesUpdated
     appName: PropTypes.string.isRequired,
     project: PropTypes.string,
@@ -82,9 +84,8 @@ export class ResultsContainer extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      id, appName, searchResultsConfiguration,
+      id, appName, searchResultsConfiguration, resultsModuleTitle,
     } = newProps
-    const { intl: { formatMessage } } = this.context
     const nextState = {
       module: {
         id,
@@ -92,7 +93,7 @@ export class ResultsContainer extends React.Component {
         active: true,
         applicationId: appName,
         // replaces page definition
-        description: formatMessage({ id: 'results.module.title' }),
+        description: resultsModuleTitle,
         conf: searchResultsConfiguration,
       },
     }

@@ -25,6 +25,7 @@ import TagCellComponent from './TagCellComponent'
  */
 class TagsSectionPageComponent extends React.Component {
   static propTypes = {
+    allowSearching: PropTypes.bool,
     tags: PropTypes.arrayOf(PropTypes.string).isRequired,
     onSearchWord: PropTypes.func.isRequired,
   }
@@ -35,8 +36,13 @@ class TagsSectionPageComponent extends React.Component {
    * @return {React.ReactElement} render element
    */
   renderTag = (tag) => {
-    const { onSearchWord } = this.props
-    return <TagCellComponent key={tag} tag={tag} onSearchWord={onSearchWord} />
+    const { onSearchWord, allowSearching } = this.props
+    return <TagCellComponent
+      key={tag}
+      tag={tag}
+      allowSearching={allowSearching}
+      onSearchWord={onSearchWord}
+    />
   }
 
   render() {

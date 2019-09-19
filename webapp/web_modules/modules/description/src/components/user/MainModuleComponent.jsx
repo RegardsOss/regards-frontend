@@ -34,6 +34,7 @@ class MainModuleComponent extends React.Component {
     descriptionEntity: DescriptionEntity.isRequired,
     selectedEntityIndex: PropTypes.number.isRequired,
     descriptionPath: PropTypes.arrayOf(DescriptionEntity).isRequired,
+    allowSearching: PropTypes.bool,
     browsingTreeVisible: PropTypes.bool.isRequired,
     // is description allowed function, like (entity: CatalogShapes.Entity) => (boolean)
     isDescriptionAllowed: PropTypes.func.isRequired,
@@ -56,8 +57,8 @@ class MainModuleComponent extends React.Component {
 
   render() {
     const {
-      descriptionEntity, browsingTreeVisible, isDescriptionAllowed, descriptionPath, selectedEntityIndex,
-      onSelectInnerLink, onSelectEntityLink, onSearchWord, onSearchEntity, onSelectEntityIndex,
+      descriptionEntity, allowSearching, browsingTreeVisible, isDescriptionAllowed, descriptionPath,
+      selectedEntityIndex, onSelectInnerLink, onSelectEntityLink, onSearchWord, onSearchEntity, onSelectEntityIndex,
     } = this.props
     const { moduleTheme: { user: { main: { root } } } } = this.context
 
@@ -67,11 +68,13 @@ class MainModuleComponent extends React.Component {
           descriptionEntity={descriptionEntity}
           selectedEntityIndex={selectedEntityIndex}
           descriptionPath={descriptionPath}
+          allowSearching={allowSearching}
           onSelectEntityIndex={onSelectEntityIndex}
           onSearchEntity={onSearchEntity}
         />
         <div style={root}>
           <BrowsingTreeComponent
+            allowSearching={allowSearching}
             browsingTreeVisible={browsingTreeVisible}
             descriptionEntity={descriptionEntity}
             isDescriptionAllowed={isDescriptionAllowed}
@@ -83,6 +86,7 @@ class MainModuleComponent extends React.Component {
           <ContentDisplayComponent
             descriptionEntity={descriptionEntity}
             isDescriptionAllowed={isDescriptionAllowed}
+            allowSearching={allowSearching}
             onSelectInnerLink={onSelectInnerLink}
             onSelectEntityLink={onSelectEntityLink}
             onSearchWord={onSearchWord}

@@ -48,7 +48,7 @@ class DownloadCellComponent extends React.Component {
         ButtonConstructor={DownloadInnerButton}
         downloadName={label}
         downloadURL={uri}
-        tooltip={formatMessage({ id: 'module.description.common.download.file.tooltip' })}
+        tooltip={formatMessage({ id: 'module.description.common.download.file.tooltip' }, { fileName: label })}
         style={iconButton.style}
         iconStyle={iconButton.iconStyle}
       />) : null // hide option when not available

@@ -99,33 +99,33 @@ class GroupsFieldComponent extends React.Component {
     const allGroups = getAll() || []
     return (
       <FormRow>
-        { /** Add groups separator if there is any group */
-          allGroups.length ? <div style={topSeparator} /> : null
-        }
-        <div style={topSeparator} />
-        { /** Show currently defined groups */
-          allGroups.map((group, index) => (
-            <GroupComponent
+        { /** Nota: here we have to send an array instead of many evaluated blocks  */
+          [ /** Add groups separator if there is any group */
+            allGroups.length ? <div key="top.spacing" style={topSeparator} /> : null,
+            /** Show currently defined groups */
+            ...allGroups.map((group, index) => (
+              <GroupComponent
               // eslint-disable-next-line react/no-array-index-key
-              key={index} // no better key in such array
-              index={index}
-              group={group}
-              allGroups={allGroups}
-              availableAttributes={availableAttributes}
-              onGroupUpdated={this.onGroupUpdated}
-              onGroupMoved={this.onGroupMoved}
-              onGroupRemoved={this.onGroupRemoved}
-            />))
+                key={index} // no better key here
+                index={index}
+                group={group}
+                allGroups={allGroups}
+                availableAttributes={availableAttributes}
+                onGroupUpdated={this.onGroupUpdated}
+                onGroupMoved={this.onGroupMoved}
+                onGroupRemoved={this.onGroupRemoved}
+              />)),
+            /* Add group button */
+            <FieldsGroup key="bottom.options" spanFullWidth>
+              <div style={topSeparator} />
+              <RaisedButton
+                label={formatMessage({ id: 'module.description.configuration.add.group' })}
+                icon={<AddIcon />}
+                onClick={this.onAddGroup}
+              />
+            </FieldsGroup>,
+          ]
         }
-        {/* Add group button */}
-        <FieldsGroup spanFullWidth>
-          <div style={topSeparator} />
-          <RaisedButton
-            label={formatMessage({ id: 'module.description.configuration.add.group' })}
-            icon={<AddIcon />}
-            onClick={this.onAddGroup}
-          />
-        </FieldsGroup>
       </FormRow>
     )
   }

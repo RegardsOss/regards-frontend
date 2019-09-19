@@ -71,7 +71,7 @@ describe('[SEARCH RESULTS] Testing MainFormComponent', () => {
   }]
 
   testCases.forEach(({
-    label, viewsGroups, values, 
+    label, viewsGroups, values,
   }) => it(`should render correctly for ${label}`, () => {
     const props = {
       // we use here AdminContainer converter, which is tested in its own file

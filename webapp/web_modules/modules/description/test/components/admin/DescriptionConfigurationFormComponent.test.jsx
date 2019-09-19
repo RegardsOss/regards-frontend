@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { DamDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { FieldArray } from '@regardsoss/form-utils'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import DescriptionConfigurationFormComponent from '../../../src/components/admin/DescriptionConfigurationFormComponent'
@@ -72,7 +72,7 @@ describe('[Description] Testing DescriptionConfigurationFormComponent', () => {
   it('should leave form unchanged when editing', () => {
     let spiedCalledCount = 0
     const props = {
-      entityType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT, // TODO very wrong now
+      entityType: UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT,
       isCreating: false,
       changeField: () => {
         spiedCalledCount += 1

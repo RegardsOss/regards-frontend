@@ -19,10 +19,10 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
+import { UIDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
 import { HOCUtils } from '@regardsoss/display-control'
-import { UIDomain } from '@regardsoss/domain'
 import ModuleConfiguration from '../../../shapes/ModuleConfiguration'
 import { actions as searchEntityActions } from '../../../clients/SearchEntityClient'
 import { resultsContextActions, resultsContextSelectors } from '../../../clients/ResultsContextClient'
@@ -77,7 +77,7 @@ export class ContextManager extends React.Component {
       PropTypes.node,
     ]),
     // from mapStateToProps
-    // Optional object, as a parent module could have set state partially (only contextTags expected so far)
+    // Optional object, as a parent module could have set state partially
     // eslint-disable-next-line react/forbid-prop-types
     resultsContext: PropTypes.object,
     authentication: AuthenticateShape.isRequired, // used only to ge authentication change notification in componentWillReceiveProps
@@ -166,11 +166,9 @@ export class ContextManager extends React.Component {
     // 1 - Convert module configuration into results context
     const contextFromConfiguration = ContextInitializationHelper.buildDefaultResultsContext(configuration, attributeModels)
     // 2 - Report any parent control already added in resolved context
-    const { contextTags = [], otherFilters = [] } = get(resultsContext, `tabs.${UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS}.criteria`, {})
-    contextFromConfiguration.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.contextTags = contextTags
-    contextFromConfiguration.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.otherFilters = otherFilters
+    const contextWithParentControl = UIDomain.ResultsContextHelper.deepMerge(contextFromConfiguration, resultsContext)
     // 3 - Resolve context from URL then commit it to module state
-    URLContextHelper.resolveContextFromURL(contextFromConfiguration, fetchEntity).then(contextWithURL => this.commitCoherentContext(contextWithURL))
+    URLContextHelper.resolveContextFromURL(contextWithParentControl, fetchEntity).then(contextWithURL => this.commitCoherentContext(contextWithURL))
   }
 
   render() {

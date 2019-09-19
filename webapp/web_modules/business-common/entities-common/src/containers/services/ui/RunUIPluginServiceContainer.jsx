@@ -21,7 +21,6 @@ import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { AccessProjectClient } from '@regardsoss/client'
 import { UIPluginConfConfiguration } from '@regardsoss/api'
-import { i18nContextType } from '@regardsoss/i18n'
 import { loadPlugin } from '@regardsoss/plugins'
 import { ServiceTargetShape } from '../../../model/ServiceTargetShape'
 import {
@@ -65,10 +64,6 @@ export class RunUIPluginServiceContainer extends React.Component {
 
     // from map dispatch to props
     dispatchFetchPluginConfiguration: PropTypes.func.isRequired,
-  }
-
-  static contextTypes = {
-    ...i18nContextType,
   }
 
   static DEFAULT_STATE = {
@@ -198,7 +193,6 @@ export class RunUIPluginServiceContainer extends React.Component {
    * @return a consumable step for RunServiceDialogComponent
    */
   renderCurrentStep = () => {
-    const { intl: { formatMessage } } = this.context
     const { step, resolvedParameters, userParametersValues } = this.state
     switch (step) {
       // loading states

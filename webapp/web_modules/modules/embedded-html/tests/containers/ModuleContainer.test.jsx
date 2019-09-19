@@ -45,7 +45,7 @@ describe('[Embedded-html] Testing ModuleContainer', () => {
       type: 'any',
       moduleConf: {
       },
-      locale: UIDomain.LOCALES_ENUM.en,
+      i18n: UIDomain.LOCALES_ENUM.en,
     }
     const wrapper = shallow(<ModuleContainer {...props} />, { context })
     const iFrame = wrapper.find(IFrameURLContentDisplayer)
@@ -62,7 +62,7 @@ describe('[Embedded-html] Testing ModuleContainer', () => {
           [UIDomain.LOCALES_ENUM.fr]: 'URL-test.fr',
         },
       },
-      locale: UIDomain.LOCALES_ENUM.en,
+      i18n: UIDomain.LOCALES_ENUM.en,
     }
     const wrapper = shallow(<ModuleContainer {...props} />, { context })
     const iFrame = wrapper.find(IFrameURLContentDisplayer)
@@ -80,7 +80,7 @@ describe('[Embedded-html] Testing ModuleContainer', () => {
           [UIDomain.LOCALES_ENUM.fr]: 'URL-test.fr',
         },
       },
-      locale: UIDomain.LOCALES_ENUM.fr,
+      i18n: UIDomain.LOCALES_ENUM.fr,
     }
     const wrapper = shallow(<ModuleContainer {...props} />, { context })
     const iFrame = wrapper.find(IFrameURLContentDisplayer)
@@ -97,7 +97,7 @@ describe('[Embedded-html] Testing ModuleContainer', () => {
           [UIDomain.LOCALES_ENUM.fr]: 'URL-test.fr',
         },
       },
-      locale: UIDomain.LOCALES_ENUM.en,
+      i18n: UIDomain.LOCALES_ENUM.en,
     }
     const wrapper = shallow(<ModuleContainer {...props} />, { context })
     const iFrame = wrapper.find(IFrameURLContentDisplayer)

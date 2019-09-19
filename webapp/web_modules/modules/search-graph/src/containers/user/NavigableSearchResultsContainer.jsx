@@ -22,7 +22,6 @@ import { UIDomain, CatalogDomain, DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { UIClient } from '@regardsoss/client'
-import { i18nContextType, i18nSelectors } from '@regardsoss/i18n'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { SelectionPath } from '../../shapes/SelectionShape'
@@ -46,7 +45,6 @@ export class NavigableSearchResultsContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
-      locale: i18nSelectors.getLocale(state),
       selectionPath: graphContextSelectors.getSelectionPath(state),
     }
   }
@@ -68,25 +66,17 @@ export class NavigableSearchResultsContainer extends React.Component {
   }
 
   static propTypes = {
+    resultsModuleTitle: PropTypes.string.isRequired,
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
     // from mapStateToProps
     selectionPath: SelectionPath.isRequired,
-    locale: PropTypes.string, // used only in onPropertiesUpdated to update the module title
     // from map dispatch to props
     dispatchExpandResults: PropTypes.func.isRequired,
     dispatchCollapseGraph: PropTypes.func.isRequired,
     dispatchUpdateResultsContext: PropTypes.func.isRequired,
-  }
-
-  static DEFAULT_PROPS = {
-    locale: UIDomain.LOCALES_ENUM.en,
-  }
-
-  static contextTypes = {
-    ...i18nContextType,
   }
 
   /**
@@ -107,17 +97,15 @@ export class NavigableSearchResultsContainer extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      id, appName, moduleConf, selectionPath, locale,
+      id, appName, moduleConf, selectionPath, resultsModuleTitle,
       dispatchExpandResults, dispatchCollapseGraph,
       dispatchUpdateResultsContext,
     } = newProps
-    const { intl: { formatMessage } } = this.context
-
     // 1 - When any property used in module configuration changes, store new module configuration in state
     if (!isEqual(oldProps.id, id)
     || !isEqual(oldProps.appName, appName)
     || !isEqual(oldProps.moduleConf, moduleConf)
-    || !isEqual(oldProps.locale, locale)) {
+    || !isEqual(oldProps.resultsModuleTitle, resultsModuleTitle)) {
       this.setState({
         // results module configuration
         resultsConfiguration: {
@@ -126,7 +114,7 @@ export class NavigableSearchResultsContainer extends React.Component {
           type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
           active: true,
           // set default title (used only when there is no root tag)
-          description: formatMessage({ id: 'search.graph.results.title.without.tag' }),
+          description: resultsModuleTitle,
           conf: moduleConf.searchResult,
         },
       })
@@ -141,33 +129,29 @@ export class NavigableSearchResultsContainer extends React.Component {
     newSelectedDatasetElt = newSelectedDatasetElt && newSelectedDatasetElt.entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET
       ? newSelectedDatasetElt : null
     if (!isEqual(previousSelectedDatasetElt, newSelectedDatasetElt)) {
-      // 2.a - update new results context tags and levels
-      let stateDiff = {}
       if (newSelectedDatasetElt) {
-        // when selecting a dataset, clear the current breacrumb elements (levels) and set the dataset as context tag
-        stateDiff = {
-          criteria: {
-            contextTags: [{
-              type: newSelectedDatasetElt.entityType,
-              label: newSelectedDatasetElt.label,
-              searchKey: newSelectedDatasetElt.id,
-              requestParameters: {
-              // restrict using q tag param
-                [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
-                new CatalogDomain.OpenSearchQueryParameter(
-                  CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, newSelectedDatasetElt.id).toQueryString(),
+        // apply dataset as current filter (only when there is a dataset)
+        dispatchUpdateResultsContext({
+          selectedTab: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS, // show main results
+          tabs: {
+            [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: { // set dataset tag as single context text in main results
+              criteria: {
+                tagsFiltering: [{
+                  type: newSelectedDatasetElt.entityType,
+                  label: newSelectedDatasetElt.label,
+                  searchKey: newSelectedDatasetElt.id,
+                  requestParameters: {
+                    // restrict using q tag param
+                    [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
+                      new CatalogDomain.OpenSearchQueryParameter(
+                        CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, newSelectedDatasetElt.id).toQueryString(),
+                  },
+                }],
               },
-            }],
-            levels: [], // levels reset
+            },
           },
-        }
-      } else {
-        // when unselecting a dataset, leave breacrumb unchanged and clear root tag context
-        stateDiff.criteria = { contextTags: [] }
-      }
-      dispatchUpdateResultsContext(stateDiff)
-      // 2.b - When there are context tag, attempt graph collapsing and results opening (searching for a new dataset contexnt)
-      if (stateDiff.criteria.contextTags.length) {
+        })
+        // attempt collapsing graph and showing results
         dispatchExpandResults()
         dispatchCollapseGraph()
       }

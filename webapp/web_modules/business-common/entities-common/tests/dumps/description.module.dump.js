@@ -32,7 +32,7 @@ export const modulesDumpWithDescription = {
       active: true,
       container: 'test-static-container',
       conf: {
-        allowTagSearch: true,
+        allowSearching: true,
         [DamDomain.ENTITY_TYPES_ENUM.COLLECTION]: {
           showDescription: false,
           showTags: false,

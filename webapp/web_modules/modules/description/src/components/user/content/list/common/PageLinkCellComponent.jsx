@@ -26,6 +26,7 @@ import PageTextCellComponent from './PageTextCellComponent'
 class PageLinkCellComponent extends React.Component {
   static propTypes = {
     text: PropTypes.string.isRequired,
+    tooltip: PropTypes.string,
     LinkIconConstructor: PropTypes.func.isRequired,
     disabled: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired,
@@ -37,7 +38,7 @@ class PageLinkCellComponent extends React.Component {
 
   render() {
     const {
-      text, LinkIconConstructor, disabled, onClick,
+      text, tooltip, LinkIconConstructor, disabled, onClick,
     } = this.props
     const { moduleTheme: { user: { main: { content: { listPage } } } } } = this.context
     if (disabled) {
@@ -45,7 +46,11 @@ class PageLinkCellComponent extends React.Component {
       return <PageTextCellComponent text={text} />
     }
     return (
-      <div onClick={onClick} style={listPage.linkAndIconCell}>
+      <div
+        title={tooltip}
+        onClick={onClick}
+        style={listPage.linkAndIconCell}
+      >
         <LinkIconConstructor style={listPage.elementIcon} />
         <div style={listPage.linkText}>
           {text}

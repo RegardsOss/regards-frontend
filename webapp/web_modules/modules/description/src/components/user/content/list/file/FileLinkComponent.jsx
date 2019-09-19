@@ -58,6 +58,7 @@ class FileLinkComponent extends React.Component {
       <PageElement>
         <PageLinkCellComponent
           text={label}
+          tooltip={formatMessage({ id: 'module.description.common.file.preview.tooltip' }, { fileName: label })}
           LinkIconConstructor={FileIcon}
           disabled={!available}
           onClick={this.onFileLinkClicked}
@@ -66,7 +67,7 @@ class FileLinkComponent extends React.Component {
            available ? (
              <DownloadButton
                ButtonConstructor={PageElementOption}
-               tooltip={formatMessage({ id: 'module.description.common.download.file.tooltip' })}
+               tooltip={formatMessage({ id: 'module.description.common.download.file.tooltip' }, { fileName: label })}
                downloadURL={uri}
                IconConstructor={DownloadIcon}
              />) : null // hide option when not available

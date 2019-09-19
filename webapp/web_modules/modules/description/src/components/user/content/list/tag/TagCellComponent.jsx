@@ -29,6 +29,7 @@ import PageElement from '../common/PageElement'
  */
 class TagCellComponent extends React.Component {
   static propTypes = {
+    allowSearching: PropTypes.bool,
     tag: PropTypes.string.isRequired,
     // on search word tag
     onSearchWord: PropTypes.func.isRequired,
@@ -48,22 +49,24 @@ class TagCellComponent extends React.Component {
 
 
   render() {
-    const { tag } = this.props
+    const { tag, allowSearching } = this.props
     const { intl: { formatMessage } } = this.context
     const couplingTag = CatalogDomain.TagsHelper.isCouplingTag(tag)
     const tagLabel = couplingTag ? CatalogDomain.TagsHelper.parseCouplingTag(tag).label : tag
     return (
       <PageElement>
         <PageTextCellComponent text={tagLabel} />
-        <PageElementOption
-          IconConstructor={SearchIcon}
-          title={formatMessage({
-            id: couplingTag
-              ? 'module.description.common.search.coupling.tag.tooltip'
-              : 'module.description.common.search.simple.tag.tooltip',
-          })}
-          onClick={this.onSearchTag}
-        />
+        { allowSearching ? (
+          <PageElementOption
+            IconConstructor={SearchIcon}
+            title={formatMessage({
+              id: couplingTag
+                ? 'module.description.common.search.coupling.tag.tooltip'
+                : 'module.description.common.search.simple.tag.tooltip',
+            }, { tag: tagLabel })}
+            onClick={this.onSearchTag}
+          />) : null
+        }
       </PageElement>)
   }
 }

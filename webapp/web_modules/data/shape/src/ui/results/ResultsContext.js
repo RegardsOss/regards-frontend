@@ -247,13 +247,13 @@ export const ViewsGroupState = PropTypes.shape({
  */
 const ResultsTab = PropTypes.shape({
   criteria: PropTypes.shape({
-    contextTags: TagsArray.isRequired, // Tags from context (parent control in results tab, main tag in tag tab)
+    contextTags: PropTypes.arrayOf(BasicCriterion).isRequired, // Other filters (especially used by tag results tab)
     otherFilters: PropTypes.arrayOf(BasicCriterion).isRequired, // Other restrictions
     quicklookFiltering: PropTypes.arrayOf(BasicCriterion).isRequired, // filtering elements with quicklooks
     appliedFacets: PropTypes.arrayOf(SelectedFacetCriterion).isRequired, // List of selected facets
     geometry: PropTypes.arrayOf(GeometryCriterion).isRequired, // Selected filtering geometry criteria
     entitiesSelection: PropTypes.arrayOf(EntitiesSelectionCriterion).isRequired, // Selected entities set criteria
-    tagsFiltering: TagsArray.isRequired, // Locally added tags
+    tagsFiltering: TagsArray.isRequired, // applying tags (parent can set some here)
   }),
   selectedType: PropTypes.oneOf([DamDomain.ENTITY_TYPES_ENUM.DATA, DamDomain.ENTITY_TYPES_ENUM.DATASET]).isRequired,
   types: PropTypes.shape({

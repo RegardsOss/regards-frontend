@@ -165,24 +165,13 @@ const styles = theme => ({
     },
     tabContent: {
       borderDisplayer: {
-        withTabs: {
-          flexGrow: 1,
-          flexShrink: 1,
-          display: 'flex',
-          alignItems: 'stretch',
-          borderTopColor: theme.module.searchResults.tabs.selectedColor,
-          borderTopWidth: theme.module.searchResults.tabs.tabBottomLineSize,
-          borderTopStyle: 'solid',
-        },
-        withoutTab: {
-          flexGrow: 1,
-          flexShrink: 1,
-          display: 'flex',
-          alignItems: 'stretch',
-          borderTopColor: theme.palette.canvasColor,
-          borderTopWidth: theme.module.searchResults.tabs.tabBottomLineSize,
-          borderTopStyle: 'solid',
-        },
+        flexGrow: 1,
+        flexShrink: 1,
+        display: 'flex',
+        alignItems: 'stretch',
+        borderTopColor: theme.module.searchResults.tabs.selectedColor,
+        borderTopWidth: theme.module.searchResults.tabs.tabBottomLineSize,
+        borderTopStyle: 'solid',
       },
       layoutContainer: {
         flexGrow: 1,

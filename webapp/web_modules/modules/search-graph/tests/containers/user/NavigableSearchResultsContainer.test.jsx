@@ -36,6 +36,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
   })
   it('should render correctly and update controlled results context', () => {
     let spiedStateDiff = null
+    let stateUpdateCount = 0
     const props = {
       appName: 'any',
       project: 'any',
@@ -48,6 +49,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
       dispatchCollapseGraph: () => { },
       dispatchUpdateResultsContext: (stateDiff) => {
         spiedStateDiff = stateDiff
+        stateUpdateCount += 1
       },
     }
     const enzymeWrapper = shallow(<NavigableSearchResultsContainer {...props} />, { context, lifecycleExperimental: true })
@@ -63,7 +65,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
       id: props.id,
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
       active: true,
-      description: 'search.graph.results.title.without.tag',
+      description: 'search.graph.results.title',
       conf: props.moduleConf.searchResult,
     }, 'Module configuration should be computed in state')
     assert.deepEqual(lazyModuleProps.module, resultsConfiguration, 'Module configuration should be reported from state')
@@ -105,9 +107,10 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
         requestParameters: {},
       }],
     })
+    assert.equal(stateUpdateCount, 1, 'Filtering should have been updated for data selection')
     assert.deepEqual(spiedStateDiff, {
       criteria: {
-        contextTags: [{
+        tagsFiltering: [{
           label: 'd1',
           type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
           searchKey: 'URN:DATASET:d1',
@@ -128,10 +131,6 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
         requestParameters: {},
       }],
     })
-    assert.deepEqual(spiedStateDiff, {
-      criteria: {
-        contextTags: [],
-      },
-    }, 'Previously selected dataset should have been removed from the results context')
+    assert.equal(stateUpdateCount, 1, 'Filtering should not have been updated for any other selection')
   })
 })

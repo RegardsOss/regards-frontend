@@ -18,14 +18,11 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CriterionBuilder } from '../../../../src/definitions/CriterionBuilder'
 import TabsContentComponent from '../../../../src/components/user/tabs/TabsContentComponent'
 import { TabsContentContainer } from '../../../../src/containers/user/tabs/TabsContentContainer'
 import styles from '../../../../src/styles'
 import { dataContext } from '../../../dumps/data.context.dump'
-import { anotherDataEntity, anotherDatasetEntity } from '../../../dumps/entities.dump'
 
 const context = buildTestContext(styles)
 
@@ -40,40 +37,12 @@ describe('[SEARCH RESULTS] Testing TabsContentContainer', () => {
   it('should exists', () => {
     assert.isDefined(TabsContentContainer)
   })
-  const testCases = [{
-    label: 'without tab',
-    resultsContext: dataContext,
-    expectedHasTabs: false,
-  }, {
-    label: 'with description tab',
-    resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
-      tabs: {
-        [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
-          descriptionPath: [anotherDataEntity, anotherDatasetEntity],
-          setDescriptionPath: 1,
-        },
-      },
-    }),
-    expectedHasTabs: true,
-  }, {
-    label: 'with tag results tab',
-    resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
-      tabs: {
-        [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
-          criteria: {
-            contextTags: [CriterionBuilder.buildWordTagCriterion('Hello tag')],
-          },
-        },
-      },
-    }),
-    expectedHasTabs: true,
-  }]
-  testCases.forEach(({ label, resultsContext, expectedHasTabs }) => it(`should render correctly ${label}`, () => {
+  it('should render correctly', () => {
     const props = {
       moduleId: 1,
       appName: 'app',
       project: 'project',
-      resultsContext,
+      resultsContext: dataContext,
     }
     const enzymeWrapper = shallow(<TabsContentContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(TabsContentComponent)
@@ -82,8 +51,7 @@ describe('[SEARCH RESULTS] Testing TabsContentContainer', () => {
       moduleId: props.moduleId,
       appName: props.appName,
       project: props.project,
-      resultsContext,
-      hasTabs: expectedHasTabs,
+      resultsContext: dataContext,
     }, 'Component should define the expected properties')
-  }))
+  })
 })

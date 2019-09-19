@@ -21,8 +21,6 @@ import { connect } from '@regardsoss/redux'
 import { UIDomain } from '@regardsoss/domain'
 import { CommonShapes, UIShapes, AccessShapes } from '@regardsoss/shape'
 import { BasicPageableActions } from '@regardsoss/store-utils'
-import { i18nSelectors } from '@regardsoss/i18n'
-import { getCurrentTheme } from '@regardsoss/theme'
 import QuicklooksViewComponent from '../../../../../components/user/tabs/results/quickooks/QuicklooksViewComponent'
 
 /**
@@ -32,21 +30,6 @@ import QuicklooksViewComponent from '../../../../../components/user/tabs/results
  * @author Raphaël Mechali
  */
 export class QuicklooksViewContainer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state) {
-    return {
-      // bind current theme and locale onto the quicklook cell to ensure it redraws on change (pure component workaround)
-      currentTheme: getCurrentTheme(state),
-      locale: i18nSelectors.getLocale(state),
-    }
-  }
-
-
   static propTypes = {
     tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -73,9 +56,9 @@ export class QuicklooksViewContainer extends React.Component {
 
     // From map state to props
     // eslint-disable-next-line react/no-unused-prop-types
-    currentTheme: AccessShapes.Theme.isRequired, // used in onPropertiesUpdated
+    theme: AccessShapes.Theme.isRequired, // used in onPropertiesUpdated, automatically add by REGARDS connect method
     // eslint-disable-next-line react/no-unused-prop-types
-    locale: PropTypes.string.isRequired, // used in onPropertiesUpdated
+    i18n: PropTypes.string.isRequired, // used in onPropertiesUpdated, automatically add by REGARDS connect method
   }
 
   static defaultProps = {
@@ -105,7 +88,7 @@ export class QuicklooksViewContainer extends React.Component {
       tabType, resultsContext, descriptionAvailable, onShowDescription,
       accessToken, projectName, onAddElementToCart,
       embedInMap, mapThumbnailHeight,
-      currentTheme, locale,
+      theme, i18n,
     } = newProps
     const {
       selectedTypeState: { enableDownload, enableServices },
@@ -131,8 +114,8 @@ export class QuicklooksViewContainer extends React.Component {
       || !isEqual(oldProps.projectName, projectName)
       || !isEqual(oldProps.embedInMap, embedInMap)
       || !isEqual(oldProps.mapThumbnailHeight, mapThumbnailHeight)
-      || !isEqual(oldProps.currentTheme, currentTheme)
-      || !isEqual(oldProps.locale, locale)
+      || !isEqual(oldProps.theme, theme)
+      || !isEqual(oldProps.i18n, i18n)
     ) {
       this.setState({
         cellProperties: {
@@ -147,8 +130,8 @@ export class QuicklooksViewContainer extends React.Component {
           embedInMap,
           mapThumbnailHeight,
           // Quicklooks cells are be pure components so they require the theme and locale to redraw
-          currentTheme,
-          locale,
+          currentTheme: theme,
+          locale: i18n,
         },
       })
     }
@@ -172,4 +155,4 @@ export class QuicklooksViewContainer extends React.Component {
   }
 }
 
-export default connect(QuicklooksViewContainer.mapStateToProps)(QuicklooksViewContainer)
+export default connect()(QuicklooksViewContainer)

@@ -16,10 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import CollectionIcon from 'material-ui/svg-icons/file/folder'
 import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down'
-import { themeContextType } from '@regardsoss/theme'
+import { DamDomain } from '@regardsoss/domain'
 import { CatalogShapes } from '@regardsoss/shape'
+import { themeContextType } from '@regardsoss/theme'
+import { EntityTypeIcon } from '@regardsoss/entities-common'
 import { DescriptionProperties } from '../../shapes/DescriptionProperties'
 import ItemLinkContainer from '../../containers/user/ItemLinkContainer'
 import ItemLink from './ItemLink'
@@ -68,7 +69,7 @@ class CollectionItem extends React.Component {
         <ItemLinkContainer
           entity={collection}
           descriptionProperties={descriptionProperties}
-          Icon={CollectionIcon} // TODO Change for EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE? see when it works again
+          Icon={EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE[DamDomain.ENTITY_TYPES_ENUM.COLLECTION]}
           additiveLineComponent={expensible ? <ArrowDown style={arrowStyles} /> : null}
           onSelect={onSelect}
           selected={selected}

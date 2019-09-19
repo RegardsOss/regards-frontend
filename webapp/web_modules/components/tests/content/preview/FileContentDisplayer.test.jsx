@@ -20,12 +20,13 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import root from 'window-or-global'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import FileContentDisplayer from '../../src/content/FileContentDisplayer'
-import CodeFileDisplayer from '../../src/content/CodeFileDisplayer'
-import ImageFileDisplayer from '../../src/content/ImageFileDisplayer'
-import IFrameURLContentDisplayer from '../../src/content/IFrameURLContentDisplayer'
-import NoPreviewDisplayer from '../../src/content/NoPreviewDisplayer'
-import styles from '../../src/content/styles/styles'
+import FileContentDisplayer from '../../../src/content/preview/FileContentDisplayer'
+import CodeFileDisplayer from '../../../src/content/preview/CodeFileDisplayer'
+import ImageFileDisplayer from '../../../src/content/preview/ImageFileDisplayer'
+import IFrameURLContentDisplayer from '../../../src/content/preview/IFrameURLContentDisplayer'
+import { NoContentComponent } from '../../../src/content/feedback/NoContentComponent'
+import ContentLoadingComponent from '../../../src/content/feedback/ContentLoadingComponent'
+import styles from '../../../src/content/styles/styles'
 import { TestBlob } from './TestBlob'
 import { TestFileReader } from './TestFileReader'
 
@@ -56,6 +57,9 @@ describe('[Components] Testing FileContentDisplayer', () => {
     assert.isDefined(FileContentDisplayer)
   })
 
+  // TODO test loading
+  // TODO test loading error
+
   // MIME types tests
   const testCases = [{
     contentTypes: CodeFileDisplayer.SUPPORTED_MIME_TYPES,
@@ -72,8 +76,8 @@ describe('[Components] Testing FileContentDisplayer', () => {
   },
   {
     contentTypes: ['invalid/mimeType'],
-    expectedComponent: NoPreviewDisplayer,
-    message: 'should render any other MIME type through NoPreviewDisplayer for type',
+    expectedComponent: NoContentComponent,
+    message: 'should render any other MIME type through no preview display for type',
   }]
 
   testCases.forEach(({ contentTypes, expectedComponent, message }) => contentTypes.forEach(mimeType => it(`${message} "${mimeType}"`, () => {

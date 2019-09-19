@@ -207,7 +207,7 @@ export class TreeTableComponent extends React.Component {
   renderRow = (row, indexInLevel, parentIndexChain = [], leftIndentation = this.context.muiTheme.components.treeTable.firstLevelIndentation) => {
     const {
       moduleTheme: {
-        oddLevelRowStyle, evenLevelRowStyle, expandCell, firstCell,
+        oddLevelRowStyle, evenLevelRowStyle, expandCell,
       },
     } = this.context
     const { stripeLevelColors, displayTableRowBorder } = this.props

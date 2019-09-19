@@ -43,11 +43,10 @@ describe('[SEARCH RESULTS] Testing TabsContentComponent', () => {
     assert.isDefined(TabsContentComponent)
   })
   const testCases = [{
-    testLabel: 'in main results context (no tab)',
+    testLabel: 'in main results context',
     resultsContext: dataContext,
-    hasTabs: false,
   }, {
-    testLabel: 'in description  context (with tabs)',
+    testLabel: 'in description  context',
     resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
       selectedTab: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
       tabs: {
@@ -57,9 +56,8 @@ describe('[SEARCH RESULTS] Testing TabsContentComponent', () => {
         },
       },
     }),
-    hasTabs: true,
   }, {
-    testLabel: 'in tag results context (with tabs)',
+    testLabel: 'in tag results context',
     resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
       selectedTab: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
       tabs: {
@@ -70,16 +68,14 @@ describe('[SEARCH RESULTS] Testing TabsContentComponent', () => {
         },
       },
     }),
-    hasTabs: false,
   }]
-  testCases.forEach(({ testLabel, resultsContext, hasTabs }) => it(`should render correctly ${testLabel}`, () => {
+  testCases.forEach(({ testLabel, resultsContext }) => it(`should render correctly ${testLabel}`, () => {
     const { shownTabContent, hiddenTabContent } = context.moduleTheme.user.tabContent
     const props = {
       moduleId: 1,
       appName: 'app',
       project: 'project',
       resultsContext,
-      hasTabs,
     }
     const enzymeWrapper = shallow(<TabsContentComponent {...props} />, { context })
     // retrieve each tab container and check they are correctly displayed / hidden

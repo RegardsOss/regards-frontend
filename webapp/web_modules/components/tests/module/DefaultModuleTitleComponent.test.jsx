@@ -48,10 +48,6 @@ describe('[Components] Testing DefaultModuleTitleComponent', () => {
     const props = {
       type: 'any',
       description: 'module description',
-      localizedTitle: {
-        [UIDomain.LOCALES_ENUM.en]: 'English title',
-        [UIDomain.LOCALES_ENUM.fr]: 'Titre français',
-      },
       page: {
         home: true,
         iconType: 'DEFAULT',
@@ -74,7 +70,7 @@ describe('[Components] Testing DefaultModuleTitleComponent', () => {
 
     const moduleTitleTextComp = enzymeWrapper.find(ModuleTitleText)
     testSuiteHelpers.assertWrapperProperties(moduleTitleTextComp, {
-      title: props.localizedTitle,
+      title: props.page.title,
       description: props.description,
     }, 'Module title text should be correctly computed (localized title should be used and not page title)')
   })

@@ -91,4 +91,4 @@ export class NoContentComponent extends React.Component {
   }
 }
 
-export default compose(withI18n(messages, true), withModuleStyle(styles))(NoContentComponent)
+export default compose(withI18n(messages, true), withModuleStyle(styles, true))(NoContentComponent)

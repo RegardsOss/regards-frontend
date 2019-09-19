@@ -19,28 +19,24 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import NoContentComponent from '../../src/content/NoContentComponent'
-import styles from '../../src/content/styles/styles'
+import ImageFileDisplayer from '../../../src/content/preview/ImageFileDisplayer'
+import styles from '../../../src/content/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Tests NoContentComponent
+* Tests ImageFileDisplayer
 * @author Raphaël Mechali
 */
-describe('[Components] Testing NoContentComponent', () => {
+describe('[Components] Testing ImageFileDisplayer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(NoContentComponent)
+    assert.isDefined(ImageFileDisplayer)
   })
 
   it('should render correctly', () => {
-    shallow(<NoContentComponent
-      titleKey="titleKey"
-      messageKey="messageKey"
-      Icon={() => <div />}
-    />, { context })
+    shallow(<ImageFileDisplayer source="./local" />, { context })
   })
 })

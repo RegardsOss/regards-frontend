@@ -29,8 +29,8 @@ import TabComponent from './TabComponent'
  */
 class TitleAndTabsComponent extends React.Component {
   static propTypes = {
+    description: PropTypes.string,
     page: AccessShapes.ModulePage,
-    localizedTitle: PropTypes.objectOf(PropTypes.string).isRequired,
     // list of visible tabs: contains at least results tab
     tabs: PropTypes.arrayOf(PropTypes.shape({
       tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
@@ -51,7 +51,7 @@ class TitleAndTabsComponent extends React.Component {
 
   render() {
     const {
-      page, localizedTitle, tabs, onTabSelected, onTabClosed,
+      description, page, tabs, onTabSelected, onTabClosed,
     } = this.props
     const { moduleTheme: { user: { titleBar: { container, title, tabsContainer } } } } = this.context
     return (
@@ -60,15 +60,14 @@ class TitleAndTabsComponent extends React.Component {
         <div style={title}>
           <DefaultModuleTitleComponent
             type={modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS}
-            localizedTitle={localizedTitle}
+            description={description}
             page={page}
           />
         </div>
         {/* 2. tabs (center aligned) */ }
         <div style={tabsContainer}>
           { /** Show tabs only when more than 1 */
-           tabs.length > 1
-             ? tabs.map(({
+             tabs.map(({
                tabType, tabName, selected, closable,
              }) => <TabComponent
                key={tabType}
@@ -79,7 +78,6 @@ class TitleAndTabsComponent extends React.Component {
                onTabSelected={onTabSelected}
                onTabClosed={onTabClosed}
              />)
-             : null // hide when only one tab
         }
         </div>
         {/* Right spacer */}

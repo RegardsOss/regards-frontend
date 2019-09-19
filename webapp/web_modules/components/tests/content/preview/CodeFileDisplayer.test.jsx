@@ -21,10 +21,11 @@ import { assert } from 'chai'
 import root from 'window-or-global'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { AceEditorAdapter } from '@regardsoss/adapters'
-import CodeFileDisplayer from '../../src/content/CodeFileDisplayer'
-import styles from '../../src/content/styles/styles'
+import CodeFileDisplayer from '../../../src/content/preview/CodeFileDisplayer'
+import styles from '../../../src/content/styles/styles'
 import { TestBlob } from './TestBlob'
 import { TestFileReader } from './TestFileReader'
+// TODO other tests in that folder
 
 const context = buildTestContext(styles)
 

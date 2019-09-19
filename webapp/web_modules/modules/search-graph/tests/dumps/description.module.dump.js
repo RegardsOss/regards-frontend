@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DamDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { modulesManager } from '@regardsoss/modules'
 
 /**
@@ -32,32 +32,40 @@ export const modulesDumpWithDescription = {
       active: true,
       container: 'test-static-container',
       conf: {
-        allowTagSearch: true,
+        allowSearching: true,
         [DamDomain.ENTITY_TYPES_ENUM.COLLECTION]: {
           showDescription: false,
           showTags: false,
+          showCoupling: false,
           showLinkedDocuments: false,
+          showLinkedEntities: false,
           showThumbnail: false,
           groups: [],
         },
         [DamDomain.ENTITY_TYPES_ENUM.DATASET]: {
           showDescription: false,
           showTags: false,
+          showCoupling: false,
           showLinkedDocuments: false,
+          showLinkedEntities: false,
           showThumbnail: false,
           groups: [],
         },
-        [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]: {
+        [UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT]: {
           showDescription: true,
-          showTags: true,
-          showLinkedDocuments: true,
+          showTags: false,
+          showCoupling: false,
+          showLinkedDocuments: false,
+          showLinkedEntities: false,
           showThumbnail: true,
           groups: [],
         },
         [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
           showDescription: true,
-          showTags: true,
-          showLinkedDocuments: true,
+          showTags: false,
+          showCoupling: false,
+          showLinkedDocuments: false,
+          showLinkedEntities: false,
           showThumbnail: true,
           groups: [],
         },

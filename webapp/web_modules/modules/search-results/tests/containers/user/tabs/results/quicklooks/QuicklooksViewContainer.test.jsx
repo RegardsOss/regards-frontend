@@ -65,13 +65,13 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
       onAddElementToCart: null,
       embedInMap: false,
       mapThumbnailHeight: null,
-      currentTheme: {
+      theme: {
         id: 11,
         name: 'Fake thme',
         active: true,
         configuration: { fakeColor: '#Z0V5YY' },
       },
-      locale: 'en',
+      i18n: 'en',
     }
     const enzymeWrapper = shallow(<QuicklooksViewContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(QuicklooksViewComponent)
@@ -93,8 +93,8 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         projectName: props.projectName,
         embedInMap: false,
         mapThumbnailHeight: null,
-        currentTheme: props.currentTheme,
-        locale: props.locale,
+        currentTheme: props.theme,
+        locale: props.i18n,
       },
     }, 'Component should define the expected properties')
   })
@@ -124,13 +124,13 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
       onAddElementToCart: () => {},
       embedInMap: true,
       mapThumbnailHeight: 55,
-      currentTheme: {
+      theme: {
         id: 11,
         name: 'Fake thme',
         active: true,
         configuration: { fakeColor: '#Z0V5YY' },
       },
-      locale: 'en',
+      i18n: 'en',
     }
     const enzymeWrapper = shallow(<QuicklooksViewContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(QuicklooksViewComponent)
@@ -152,8 +152,8 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         projectName: props.projectName,
         embedInMap: true,
         mapThumbnailHeight: 55,
-        currentTheme: props.currentTheme,
-        locale: props.locale,
+        currentTheme: props.theme,
+        locale: props.i18n,
       },
     }, 'Component should define the expected properties')
   })

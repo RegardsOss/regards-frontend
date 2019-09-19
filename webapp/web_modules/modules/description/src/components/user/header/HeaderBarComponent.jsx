@@ -33,6 +33,7 @@ class HeaderBarComponent extends React.Component {
     descriptionEntity: DescriptionEntity.isRequired,
     selectedEntityIndex: PropTypes.number.isRequired,
     descriptionPath: PropTypes.arrayOf(DescriptionEntity).isRequired,
+    allowSearching: PropTypes.bool,
     // On selected entity index callback (index: number) => ()
     onSelectEntityIndex: PropTypes.func.isRequired,
     // Callback: user searched for an entity tag (tag:CalaogShapes.Entity) => ()
@@ -47,7 +48,7 @@ class HeaderBarComponent extends React.Component {
   render() {
     const {
       descriptionEntity, selectedEntityIndex, descriptionPath,
-      onSelectEntityIndex, onSearchEntity,
+      allowSearching, onSelectEntityIndex, onSearchEntity,
     } = this.props
     const { moduleTheme: { user: { header: { leftGroup, rightGroup } } } } = this.context
     return (
@@ -62,7 +63,10 @@ class HeaderBarComponent extends React.Component {
           />
         </div>
         <div style={rightGroup}>
-          <SearchEntityOptionComponent descriptionEntity={descriptionEntity} onSearchEntity={onSearchEntity} />
+          {allowSearching ? (
+            <SearchEntityOptionComponent descriptionEntity={descriptionEntity} onSearchEntity={onSearchEntity} />)
+            : null
+          }
         </div>
       </TableHeaderLine>
     )

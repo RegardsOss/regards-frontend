@@ -32,6 +32,7 @@ class EntityLinkComponent extends React.Component {
   static propTypes = {
     entity: CatalogShapes.Entity.isRequired,
     isDescriptionAllowed: PropTypes.func.isRequired,
+    allowSearching: PropTypes.bool,
     // Callback: user selected an entity link. (entity:CalaogShapes.Entity) => ()
     onSelectEntityLink: PropTypes.func.isRequired,
     // on search word tag
@@ -60,22 +61,26 @@ class EntityLinkComponent extends React.Component {
 
 
   render() {
-    const { entity, isDescriptionAllowed } = this.props
+    const { entity, isDescriptionAllowed, allowSearching } = this.props
     const { intl: { formatMessage } } = this.context
     const descriptionAllowed = isDescriptionAllowed(entity)
+    const { content: { label } } = entity
     return (
       <PageElement>
         <PageLinkCellComponent
           text={entity.content.label}
+          tooltip={formatMessage({ id: 'module.description.common.show.entity.description.tootlip' }, { entityLabel: label })}
           LinkIconConstructor={DescriptionIcon}
           disabled={!descriptionAllowed}
           onClick={this.onSelectEntityLink}
         />
-        <PageElementOption
-          IconConstructor={SearchIcon}
-          title={formatMessage({ id: 'module.description.common.search.entity.tooltip' })}
-          onClick={this.onSearchEntity}
-        />
+        { allowSearching ? (
+          <PageElementOption
+            IconConstructor={SearchIcon}
+            title={formatMessage({ id: 'module.description.common.search.entity.tooltip' }, { entityLabel: label })}
+            onClick={this.onSearchEntity}
+          />) : null
+        }
       </PageElement>)
   }
 }

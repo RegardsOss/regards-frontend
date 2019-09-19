@@ -16,9 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import DatasetIcon from 'material-ui/svg-icons/device/widgets'
-import { themeContextType } from '@regardsoss/theme'
+import { DamDomain } from '@regardsoss/domain'
 import { CatalogShapes } from '@regardsoss/shape'
+import { themeContextType } from '@regardsoss/theme'
+import { EntityTypeIcon } from '@regardsoss/entities-common'
 import { DescriptionProperties } from '../../shapes/DescriptionProperties'
 import { ResolvedDatasetAttributesArray } from '../../shapes/DatasetAttributesForGraph'
 import DatasetAttributes from './DatasetAttributes'
@@ -71,7 +72,7 @@ class DatasetItem extends React.Component {
         <ItemLinkContainer
           entity={dataset}
           descriptionProperties={descriptionProperties}
-          Icon={DatasetIcon} // TODO Change for EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE? see when it works again
+          Icon={EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE[DamDomain.ENTITY_TYPES_ENUM.DATASET]}
           onSelect={onSelect}
           selected={selected}
           locked={locked}

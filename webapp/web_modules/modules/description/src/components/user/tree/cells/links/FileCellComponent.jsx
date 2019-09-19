@@ -54,7 +54,7 @@ class FileCellComponent extends React.Component {
     return (
       <TreeLinkComponent
         text={label}
-        tooltip={formatMessage({ id: 'module.description.tree.section.file.tooltip' })}
+        tooltip={formatMessage({ id: 'module.description.common.file.preview.tooltip' }, { fileName: label })}
         selected={selected}
         IconConstructor={FileIcon}
         section={false}

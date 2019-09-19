@@ -19,24 +19,30 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import IFrameURLContentDisplayer from '../../src/content/IFrameURLContentDisplayer'
-import styles from '../../src/content/styles/styles'
+import NoContentComponent from '../../../src/content/feedback/NoContentComponent'
+import styles from '../../../src/content/styles/styles'
+
+// TODO other tests in that folder
 
 const context = buildTestContext(styles)
 
 /**
-* Tests IFrameURLContentDisplayer
+* Tests NoContentComponent
 * @author Raphaël Mechali
 */
-describe('[Components] Testing IFrameURLContentDisplayer', () => {
+describe('[Components] Testing NoContentComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(IFrameURLContentDisplayer)
+    assert.isDefined(NoContentComponent)
   })
 
   it('should render correctly', () => {
-    shallow(<IFrameURLContentDisplayer source="./local" />, { context })
+    shallow(<NoContentComponent
+      titleKey="titleKey"
+      messageKey="messageKey"
+      Icon={() => <div />}
+    />, { context })
   })
 })

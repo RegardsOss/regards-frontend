@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import { CardHeader } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
 import ExpandedIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
@@ -130,7 +129,6 @@ export class ModuleTitle extends React.Component {
               {/* 1 - Icon and title OR title component when provided */
                 titleComponent || (<DefaultModuleTitleComponent
                   type={type}
-                  localizedTitle={get(page, 'title')}
                   description={description}
                   page={page}
                 />)

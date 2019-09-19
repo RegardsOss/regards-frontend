@@ -44,10 +44,11 @@ class SearchEntityCellComponent extends React.Component {
   }
 
   render() {
+    const { entity: { content: { label } } } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <SearchOptionComponent
-        tooltip={formatMessage({ id: 'module.description.common.search.entity.tooltip' })}
+        tooltip={formatMessage({ id: 'module.description.common.search.entity.tooltip' }, { entityLabel: label })}
         onSearch={this.onSearch}
       />)
   }

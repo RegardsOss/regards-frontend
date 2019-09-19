@@ -155,9 +155,11 @@ export class SearchResultsContainer extends React.Component {
         })
         return nextAcc
       }, {})
-      // in parameters, merge specifically the Q parameter (it must not be merged using "&q=" !)
-      const qParts = nextRequestParameters[CatalogSearchQueryHelper.Q_PARAMETER_NAME]
-      nextRequestParameters[CatalogSearchQueryHelper.Q_PARAMETER_NAME] = CatalogSearchQueryHelper.mergeQueryParameter(qParts)
+      // in parameters, merge specifically the Q parameter (it must not be merged using "&q=" !), when not empty
+      const qValue = CatalogSearchQueryHelper.mergeQueryParameter(nextRequestParameters[CatalogSearchQueryHelper.Q_PARAMETER_NAME])
+      if (qValue) {
+        nextRequestParameters[CatalogSearchQueryHelper.Q_PARAMETER_NAME] = qValue
+      }
       //  compute resulting parameters as map string:string
       newState.requestParameters = nextRequestParameters
     }

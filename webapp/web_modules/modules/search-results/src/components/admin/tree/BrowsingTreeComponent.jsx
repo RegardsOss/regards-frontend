@@ -64,7 +64,7 @@ class BrowsingTreeComponent extends React.Component {
    * Builds tree table page row
    * @param {*} section parent section, matches FormSection
    * @param {*} page page model for that row
-   * @return {}
+   * @return {TreeTableRow}
    */
   buildPageRow = (section, page) => new TreeTableRow(`${section.type}/${page.type}`, [{ section, page }])
 

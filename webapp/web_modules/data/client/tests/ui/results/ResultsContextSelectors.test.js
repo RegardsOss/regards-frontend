@@ -58,8 +58,6 @@ describe('[Client] Testing ResultsContextSelectors', () => {
         contextTags: [{ label: 'idk' }],
       },
     })
-    assert.deepEqual(testSelectors.getContextTags(fakeStore, 'module1'), [{ label: 'idk' }])
-    assert.deepEqual(testSelectors.getLevels(fakeStore, 'module1'), [])
     assert.isNotOk(testSelectors.getResultsContext(fakeStore, 'module2'))
 
     // create module 2 context
@@ -84,10 +82,6 @@ describe('[Client] Testing ResultsContextSelectors', () => {
         contextTags: [],
       },
     })
-    assert.deepEqual(testSelectors.getContextTags(fakeStore, 'module1'), [{ label: 'idk' }])
-    assert.deepEqual(testSelectors.getLevels(fakeStore, 'module1'), [])
-    assert.deepEqual(testSelectors.getContextTags(fakeStore, 'module2'), [])
-    assert.deepEqual(testSelectors.getLevels(fakeStore, 'module2'), [{ label: 'idk2' }])
     // Update module 1
     fakeStore = mockReduce(fakeStore, testActions.updateResultsContext('module1', {
       name: 'module1',

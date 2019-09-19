@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Tabs, Tab } from 'material-ui/Tabs'
-import { DamDomain } from '@regardsoss/domain'
+import { UIDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -46,9 +46,10 @@ class AdminFormComponent extends React.Component {
 
   /** Entity types ordered as they should be presented to user */
   static CONFIGURATION_ENTITY_TYPES = [
-    DamDomain.ENTITY_TYPES_ENUM.DATA,
-    DamDomain.ENTITY_TYPES_ENUM.DATASET,
-    DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
+    UIDomain.PSEUDO_TYPES_ENUM.DATA,
+    UIDomain.PSEUDO_TYPES_ENUM.DATASET,
+    UIDomain.PSEUDO_TYPES_ENUM.COLLECTION,
+    UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT,
   ]
 
   /**
@@ -60,7 +61,7 @@ class AdminFormComponent extends React.Component {
     } = this.props
     if (isCreating) {
       // initialize root form value for entity type
-      changeField(`${currentNamespace}.allowTagSearch`, true)
+      changeField(`${currentNamespace}.allowSearching`, true)
     }
   }
 
@@ -74,11 +75,12 @@ class AdminFormComponent extends React.Component {
       collectionAttributeModels, dataAttributeModels, datasetAttributeModels,
     } = this.props
     switch (entityType) {
-      case DamDomain.ENTITY_TYPES_ENUM.DATA:
+      case UIDomain.PSEUDO_TYPES_ENUM.DATA:
+      case UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT:
         return dataAttributeModels
-      case DamDomain.ENTITY_TYPES_ENUM.DATASET:
+      case UIDomain.PSEUDO_TYPES_ENUM.DATASET:
         return datasetAttributeModels
-      case DamDomain.ENTITY_TYPES_ENUM.COLLECTION:
+      case UIDomain.PSEUDO_TYPES_ENUM.COLLECTION:
         return collectionAttributeModels
       default:
         throw new Error('Unknown entity type', entityType)
@@ -93,8 +95,8 @@ class AdminFormComponent extends React.Component {
       <div>
         {/* main configuration */}
         <Field
-          name={`${currentNamespace}.allowTagSearch`}
-          label={formatMessage({ id: 'module.description.configuration.allow.tag.search' })}
+          name={`${currentNamespace}.allowSearching`}
+          label={formatMessage({ id: 'module.description.configuration.allow.searching' })}
           component={RenderCheckbox}
           fullWidth
         />

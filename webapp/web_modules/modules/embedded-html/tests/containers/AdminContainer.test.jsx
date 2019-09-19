@@ -76,7 +76,7 @@ describe('[Embedded-html] Testing AdminContainer', () => {
         cssWidth: undefined,
         urlByLocale: undefined,
       },
-      locale: wrapper.state().previewLocale,
+      i18n: wrapper.state().previewLocale,
     }, 'Container properties should be correctly computed')
   })
 })

@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes, UIShapes } from '@regardsoss/shape'
@@ -55,7 +54,6 @@ export class TitleAndTabsContainer extends React.Component {
 
   static propTypes = {
     moduleId: PropTypes.number.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
     description: PropTypes.string, // used only in onPropertiesUpdated
     // module page definition
     page: AccessShapes.ModulePage,
@@ -80,10 +78,6 @@ export class TitleAndTabsContainer extends React.Component {
 
   /** Default state: only results visible */
   state = {
-    localizedTitle: {
-      en: '',
-      fr: '',
-    },
     tabs: [{
       type: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       selected: true,
@@ -107,17 +101,9 @@ export class TitleAndTabsContainer extends React.Component {
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
-    const { resultsContext, description, page } = newProps
+    const { resultsContext } = newProps
     const newState = { ...this.state }
-    // 1 - Compute localized title: parent selected entity, page or description
-    const resultsContextTags = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.contextTags
-    if (resultsContextTags.length) {
-      const mainTagLabel = resultsContextTags[0].label
-      newState.localizedTitle = { en: mainTagLabel, fr: mainTagLabel }
-    } else {
-      newState.localizedTitle = { en: get(page, 'title.en', description), fr: get(page, 'title.fr', description) }
-    }
-
+    // compute tabs state
     newState.tabs = TitleAndTabsContainer.TABS_ORDER.reduce((acc, tabType) => {
       let tabVisible
       let tabName = null
@@ -199,12 +185,12 @@ export class TitleAndTabsContainer extends React.Component {
   }
 
   render() {
-    const { page } = this.props
-    const { tabs, localizedTitle } = this.state
+    const { description, page } = this.props
+    const { tabs } = this.state
     return (
       <TitleAndTabsComponent
+        description={description}
         page={page}
-        localizedTitle={localizedTitle}
         tabs={tabs}
         onTabSelected={this.onTabSelected}
         onTabClosed={this.onTabClosed}

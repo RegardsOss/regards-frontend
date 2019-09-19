@@ -33,7 +33,6 @@ class TabsContentComponent extends React.Component {
     appName: PropTypes.string.isRequired,
     project: PropTypes.string.isRequired,
     resultsContext: UIShapes.ResultsContext.isRequired,
-    hasTabs: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -42,8 +41,7 @@ class TabsContentComponent extends React.Component {
 
   render() {
     const {
-      moduleId, project, appName,
-      resultsContext, hasTabs,
+      moduleId, project, appName, resultsContext,
     } = this.props
     const {
       moduleTheme: {
@@ -55,7 +53,7 @@ class TabsContentComponent extends React.Component {
       },
     } = this.context
     return (
-      <div style={hasTabs ? borderDisplayer.withTabs : borderDisplayer.withoutTab}>
+      <div style={borderDisplayer}>
         <div style={layoutContainer}>
           { /* Show one tab for each tab type. Show the selected one above using z-index */
           UIDomain.RESULTS_TABS.map((tabType) => {

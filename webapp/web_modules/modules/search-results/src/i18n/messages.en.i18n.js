@@ -110,7 +110,7 @@ const messages = {
   'download.no.online.file.tooltip': 'All files are offline',
   'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Details',
-  'filter.related.data': 'Filter only related data',
+  'filter.related.data': 'Display data',
   'add.to.cart.tooltip': 'Add item to my cart',
   'add.selection.to.cart.label': 'Add to basket',
   'add.selection.to.cart.tooltip': 'Add selected items to my cart',

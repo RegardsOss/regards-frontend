@@ -20,7 +20,7 @@ import find from 'lodash/find'
 import { connect } from '@regardsoss/redux'
 import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
-import { i18nContextType, i18nSelectors } from '@regardsoss/i18n'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { IFrameURLContentDisplayer } from '@regardsoss/components'
 import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
@@ -31,29 +31,17 @@ import { LOCALES_ENUM } from '../../../../data/domain/ui'
  * @author Sébastien Binda
  **/
 export class ModuleContainer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state) {
-    return {
-      locale: i18nSelectors.getLocale(state),
-    }
-  }
-
   static propTypes = {
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
     // redefines expected configuration shape
     moduleConf: ModuleConfigurationShape,
     // from mapStateToProps
-    locale: PropTypes.oneOf(UIDomain.LOCALES),
+    i18n: PropTypes.oneOf(UIDomain.LOCALES), // automatically add by REGARDS connect method
   }
 
   static defaultProps = {
-    locale: LOCALES_ENUM.en, // for init case, when locale is not yet available
+    i18n: LOCALES_ENUM.en, // for init case, when locale is not yet available
   }
 
   static contextTypes = {
@@ -73,9 +61,9 @@ export class ModuleContainer extends React.Component {
       width: this.props.moduleConf.cssWidth || ModuleContainer.DEFAULT_CSS_WIDTH,
       height: this.props.moduleConf.cssHeight || ModuleContainer.DEFAULT_CSS_HEIGHT,
     }
-    const { moduleConf: { urlByLocale = {} }, locale } = this.props
+    const { moduleConf: { urlByLocale = {} }, i18n } = this.props
     // URL: current locale URL if available. If not available, first available locale URL.
-    const urlForLocale = urlByLocale[locale] || find(urlByLocale, url => !!url)
+    const urlForLocale = urlByLocale[i18n] || find(urlByLocale, url => !!url)
     return urlForLocale ? (
       <IFrameURLContentDisplayer
         source={urlForLocale}
@@ -85,4 +73,4 @@ export class ModuleContainer extends React.Component {
   }
 }
 
-export default connect(ModuleContainer.mapStateToProps)(ModuleContainer)
+export default connect()(ModuleContainer)

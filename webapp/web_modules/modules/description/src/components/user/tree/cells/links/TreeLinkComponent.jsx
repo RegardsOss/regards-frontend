@@ -56,7 +56,11 @@ class TreeLinkComponent extends React.Component {
     }
 
     return (
-      <div onClick={disabled ? null : onClick} style={disabled ? cell.text : cell.link}>
+      <div
+        title={disabled ? null : tooltip}
+        onClick={disabled ? null : onClick}
+        style={disabled ? cell.text : cell.link}
+      >
         {/* 1. icon: shown when icon constructor is provided AND link is enabled */
             IconConstructor && !disabled ? (
               <IconConstructor
@@ -65,10 +69,7 @@ class TreeLinkComponent extends React.Component {
               />) : null
           }
         {/* 2. Text (as link when not disabled) */}
-        <div
-          title={tooltip}
-          style={textStyle}
-        >
+        <div style={textStyle}>
           {text}
         </div>
       </div>

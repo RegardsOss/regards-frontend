@@ -32,8 +32,6 @@ export class DefaultModuleTitleComponent extends React.Component {
   static propTypes = {
     // module type (from Module fields)
     type: PropTypes.string.isRequired,
-    // title map, with locales as keys (as module may define it from other souces than page configuration)
-    localizedTitle: PropTypes.objectOf(PropTypes.string),
     // optional module description
     description: PropTypes.string,
     // module page (from module fields)
@@ -46,7 +44,7 @@ export class DefaultModuleTitleComponent extends React.Component {
 
   render() {
     const {
-      type, description, localizedTitle, page,
+      type, description, page,
     } = this.props
     const { moduleTheme: { module: { moduleTitle } } } = this.context
     return (
@@ -61,7 +59,7 @@ export class DefaultModuleTitleComponent extends React.Component {
         </div>
         <div style={moduleTitle.labelStyle}>
           <ModuleTitleText
-            title={localizedTitle}
+            title={get(page, 'title')}
             description={description}
           />
         </div>

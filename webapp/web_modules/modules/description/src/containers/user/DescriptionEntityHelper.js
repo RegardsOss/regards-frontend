@@ -101,7 +101,7 @@ export class DescriptionEntityHelper {
     fetchEntity, fetchModelAttributes, accessToken, projectName,
     descriptionUpdateGroupId) {
     const { entity: { content: { tags, model: modelName } } } = descriptionEntity
-    // 1 - resolve all tags
+    // 1 - resolve all tags (apply tags filter from configuration)
     return new Promise(resolve => Promise.all(tags
       .map(tag => DescriptionEntityHelper.resolveEntityTag(tag, fetchEntity))).then((resolvedTags) => {
       // 2 - Retrieve or fetch model (prepare functions with local parameters)
@@ -158,8 +158,10 @@ export class DescriptionEntityHelper {
             if (payload.error || !payload.content || !payload.content.id) { // retrieval failure
               resolve(null) // failed silently
             }
-            // sucesfully  retrieved the entity
-            resolve(payload)
+            // No resolution error: is it a model refused by configuration?
+            return STATIC_CONF.ENTITY_DESCRIPTION.TAGS.MODEL_NAME_FILTERS.some(exclusionPattern => exclusionPattern.test(payload.content.model))
+              ? resolve(null) // yes: resolve none
+              : resolve(payload) // no: return retrieved entity
           })
           .catch(() => resolve(null)) // failed with network error
       })
@@ -197,7 +199,7 @@ export class DescriptionEntityHelper {
         descriptionFiles: DescriptionEntityHelper.packDescriptionFiles(typeConfiguration, attributes, entity, accessToken, projectName),
         quicklookFiles: DescriptionEntityHelper.packQuicklooks(entity, accessToken, projectName),
         otherFiles: DescriptionEntityHelper.packOtherFiles(entity, accessToken, projectName),
-        ...DescriptionEntityHelper.splitAndSortTags(tags),
+        ...DescriptionEntityHelper.splitAndSortTags(typeConfiguration, tags),
       } : initialDisplayModel, // default to initial display model
     }
   }
@@ -297,7 +299,7 @@ export class DescriptionEntityHelper {
 
   /**
    * Packs thumbnail file for display model when it should be displayed (returns null otherwise)
-   * @param {*} typeConfiguration entity type configuration
+   * @param {*} typeConfiguration entity type configuration (see ModuleConfiguration.DescriptionConfiguration)
    * @param {*} entity matching CatalogShapes.Entity
    * @param {*} attributes model attributes map as DataManagementShapes.AttributeModelList
    * @param {string} accessToken when there is one
@@ -316,7 +318,7 @@ export class DescriptionEntityHelper {
 
   /**
    * Packs description files to show for the entity and configuration as parameter
-   * @param {*} typeConfiguration entity type configuration
+   * @param {*} typeConfiguration entity type configuration (see ModuleConfiguration.DescriptionConfiguration)
    * @param {*} entity matching CatalogShapes.Entity
    * @param {*} attributes model attributes map as DataManagementShapes.AttributeModelList
    * @param {string} accessToken when there is one
@@ -381,12 +383,16 @@ export class DescriptionEntityHelper {
   }
 
   /**
-   * Splits and sorts tags an
+   * Splits and sorts tags (filters elements hidden by configuration)
+   * @param {*} typeConfiguration entity type configuration (see ModuleConfiguration.DescriptionConfiguration)
    * @param {string|*} tags resolved tags, containing either word tags or elements matching CatalogShapes.Entity
    * @return { wordTags: [string], couplingTags: [string], linkedEntities: [*], linkedDocuments: [*]} where linked entities
    * and documents match CatalogShape.Entity
    */
-  static splitAndSortTags(tags) {
+  static splitAndSortTags(typeConfiguration, tags) {
+    const {
+      showTags, showCoupling, showLinkedDocuments, showLinkedEntities,
+    } = typeConfiguration
     const {
       wT: wordTags, cT: couplingTags, lE: linkedEntities, lD: linkedDocuments,
     } = tags.reduce((acc, resolvedTag) => {
@@ -394,14 +400,14 @@ export class DescriptionEntityHelper {
         if (isString(resolvedTag)) {
           // 1 - simple word or coupling tag
           if (CatalogDomain.TagsHelper.isCouplingTag(resolvedTag)) {
-            return { ...acc, cT: [...acc.cT, resolvedTag] }
+            return showCoupling ? { ...acc, cT: [...acc.cT, resolvedTag] } : acc
           }
-          return { ...acc, wT: [...acc.wT, resolvedTag] }
+          return showTags ? { ...acc, wT: [...acc.wT, resolvedTag] } : acc
         }
         // 2 - An entity tag
         // Use globally defined document model to  identify documents
         // TODO: new client, fetch at app starting, reload when model changes. Use it to populate lD
-        return { ...acc, lE: [...acc.lE, resolvedTag] }
+        return showLinkedEntities ? { ...acc, lE: [...acc.lE, resolvedTag] } : acc
       }
       return acc
     }, {
