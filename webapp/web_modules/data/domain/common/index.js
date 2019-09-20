@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 // Plugin
-export { PluginParameterTypes, PluginParamType, JavaPrimitiveTypes } from './PluginParamType'
+export { PluginParameterTypes, PluginParamType } from './PluginParamType'
 export { default as PluginConfParamsUtils } from './PluginConfParamsUtils'
 
 export { default as EntityIdTester } from './EntityIdTester'

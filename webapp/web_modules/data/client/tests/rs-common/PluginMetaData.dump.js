@@ -82,11 +82,8 @@ export default [
         label: 'List of string',
         description: 'List of string description',
         type: 'COLLECTION',
-        parameterizedSubTypes: ['java.lang.String'],
+        parameterizedSubTypes: ['STRING'],
         optional: false,
-        parameters: [
-          'message', 'message', 'STRING',
-        ],
       }, {
         name: 'sListPojo',
         label: 'List of objects',

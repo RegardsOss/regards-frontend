@@ -75,8 +75,8 @@ class PluginFormUtils {
   static createComplexParameterConf(name, type, value = undefined) {
     return {
       name,
-      value,
       type,
+      value,
     }
   }
 
@@ -111,7 +111,7 @@ class PluginFormUtils {
           return ''
         }
         let defaultValue = ''
-        if (parameterMetadata.type === 'java.lang.Boolean') {
+        if (parameterMetadata.type === 'BOOLEAN') {
           defaultValue = parameterMetadata.defaultValue === 'true'
         }
         return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.type, defaultValue) : undefined

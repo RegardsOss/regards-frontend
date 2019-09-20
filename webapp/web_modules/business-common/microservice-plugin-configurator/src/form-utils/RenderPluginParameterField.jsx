@@ -77,7 +77,7 @@ export class RenderPluginParameterField extends React.PureComponent {
   static getFieldValidators(pluginParameterType) {
     const validators = []
     // 1 - By type validator
-    if (pluginParameterType.type === 'PRIMITIVE' || pluginParameterType.type === 'STRING') {
+    if (pluginParameterType.type === 'STRING') {
       const typeValidator = getPrimitiveJavaTypeValidator(pluginParameterType.type)
       if (typeValidator) {
         validators.push(typeValidator)
@@ -87,8 +87,14 @@ export class RenderPluginParameterField extends React.PureComponent {
     const isRequired = !pluginParameterType.optional && !pluginParameterType.defaultValue
     if (isRequired) {
       switch (pluginParameterType.type) {
-        case 'PRIMITIVE':
         case 'STRING':
+        case 'INTEGER':
+        case 'BYTE':
+        case 'SHORT':
+        case 'LONG':
+        case 'FLOAT':
+        case 'DOUBLE':
+        case 'BOOLEAN':
         case 'PLUGIN':
         case 'OBJECT':
           validators.push(ValidationHelpers.required)
@@ -404,7 +410,13 @@ export class RenderPluginParameterField extends React.PureComponent {
 
     const validators = RenderPluginParameterField.getFieldValidators(pluginParameterType)
     switch (pluginParameterType.type) {
-      case 'PRIMITIVE':
+      case 'BYTE':
+      case 'SHORT':
+      case 'INTEGER':
+      case 'LONG':
+      case 'FLOAT':
+      case 'DOUBLE':
+      case 'BOOLEAN':
       case 'STRING':
         return this.renderPrimitiveParameter(label, validators)
       case 'PLUGIN':
