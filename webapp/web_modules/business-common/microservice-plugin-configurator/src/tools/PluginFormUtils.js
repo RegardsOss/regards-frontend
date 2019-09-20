@@ -69,16 +69,14 @@ class PluginFormUtils {
   /**
    * Build a complex plugin parameter structure
    * @param {*} name
+   * @param {*} type
    * @param {*} value
-   * @param {*} dynamic
-   * @param {*} dynamicsValues
    */
-  static createComplexParameterConf(name, value = undefined, dynamic = false, dynamicsValues = []) {
+  static createComplexParameterConf(name, type, value = undefined) {
     return {
-      dynamic,
-      dynamicsValues,
       name,
       value,
+      type,
     }
   }
 
@@ -88,12 +86,12 @@ class PluginFormUtils {
    * @param {*} complex only roots parameters are considered as complex
    */
   static createNewParameterConf(parameterMetadata, complex = true) {
-    switch (parameterMetadata.paramType) {
+    switch (parameterMetadata.type) {
       case 'OBJECT': {
         if (parameterMetadata.unconfigurable) {
           return {}
         }
-        const parameterConf = complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, {}) : {}
+        const parameterConf = complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.type, {}) : {}
         if (parameterMetadata.parameters.length > 0) {
           forEach(parameterMetadata.parameters, (innerParameterMetadata) => {
             parameterConf.value[innerParameterMetadata.name] = PluginFormUtils.createNewParameterConf(innerParameterMetadata, false)
@@ -101,7 +99,14 @@ class PluginFormUtils {
         }
         return parameterConf
       }
-      case 'PRIMITIVE': {
+      case 'INTEGER':
+      case 'BYTE':
+      case 'SHORT':
+      case 'LONG':
+      case 'FLOAT':
+      case 'DOUBLE':
+      case 'BOOLEAN':
+      case 'STRING': {
         if (parameterMetadata.unconfigurable) {
           return ''
         }
@@ -109,19 +114,19 @@ class PluginFormUtils {
         if (parameterMetadata.type === 'java.lang.Boolean') {
           defaultValue = parameterMetadata.defaultValue === 'true'
         }
-        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, defaultValue) : undefined
+        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.type, defaultValue) : undefined
       }
       case 'COLLECTION':
         if (parameterMetadata.unconfigurable) {
           return []
         }
-        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, []) : []
+        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.type, []) : []
       case 'PLUGIN':
       case 'MAP':
         if (parameterMetadata.unconfigurable) {
           return {}
         }
-        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, {}) : {}
+        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.type, {}) : {}
       default:
         throw new Error('Unexpected type of parameter')
     }
@@ -139,7 +144,7 @@ class PluginFormUtils {
     }
     let formatedConf = !isNil(parameterConfValue) ? parameterConfValue : undefined
     // If the parameter to format is a MAP parameter format keys
-    if (parameterMetaData.paramType === CommonDomain.PluginParameterTypes.MAP) {
+    if (parameterMetaData.type === CommonDomain.PluginParameterTypes.MAP) {
       formatedConf = PluginFormUtils.formatMapParameterKeys(parameterMetaData, parameterConfValue, forInit)
     }
 

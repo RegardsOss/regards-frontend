@@ -121,6 +121,7 @@ export class AttributePluginFormComponent extends React.Component {
     const subtitle = mode === 'edit'
       ? formatMessage({ id: 'model.attribute.calculation.plugins.form.edit.subtitle' })
       : formatMessage({ id: 'model.attribute.calculation.plugins.form.create.subtitle' })
+    console.error('====>', pluginConfiguration)
     return (
       <Card>
         <CardTitle

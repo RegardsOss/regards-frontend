@@ -22,13 +22,20 @@ import values from 'lodash/values'
  * Possible parameter types
  */
 export const PluginParameterTypes = {
-  PRIMITIVE: 'PRIMITIVE',
+  STRING: 'STRING',
   PLUGIN: 'PLUGIN',
-  OBJECT: 'OBJECT',
   COLLECTION: 'COLLECTION',
+  POJO: 'POJO',
   MAP: 'MAP',
+  INTEGER: 'INTEGER',
+  BYTE: 'BYTE',
+  SHORT: 'SHORT',
+  LONG: 'LONG',
+  FLOAT: 'FLOAT',
+  DOUBLE: 'DOUBLE',
+  BOOLEAN: 'BOOLEAN',
 }
-
+//TODO DELETE
 /**
  * Possible primitive types
  */
