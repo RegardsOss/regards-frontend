@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
@@ -101,7 +102,9 @@ export class AdminContainer extends React.Component {
       collectionAttributeModels,
       dataAttributeModels,
       datasetAttributeModels,
-      adminForm: { currentNamespace, changeField, isCreating },
+      adminForm: {
+        form = {}, currentNamespace, changeField, isCreating,
+      },
     } = this.props
     return (
       <LoadableContentDisplayDecorator
@@ -109,6 +112,7 @@ export class AdminContainer extends React.Component {
       >
         <AdminFormComponent
           currentNamespace={currentNamespace}
+          currentFormValues={get(form, currentNamespace)}
           changeField={changeField}
           isCreating={isCreating}
 

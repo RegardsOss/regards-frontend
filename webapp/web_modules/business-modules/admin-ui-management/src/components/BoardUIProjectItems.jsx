@@ -101,8 +101,8 @@ export default (project, intl) => [
       icon: <ExtensionIcon />,
       tooltipMsg: intl.formatMessage({ id: 'action.service.list.tooltip' }),
       hateoasDependencies: [
-        serviceUIDependencies.boardListRequiredDependencies,
-        serviceUIDependencies.boardAddRequiredDependencies,
+        ...serviceUIDependencies.boardListRequiredDependencies,
+        ...serviceUIDependencies.boardAddRequiredDependencies,
       ],
     }],
   },

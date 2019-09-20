@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import size from 'lodash/size'
 import FlatButton from 'material-ui/FlatButton'
 import AddManyIcon from 'material-ui/svg-icons/av/playlist-add'
 import AddOneIcon from 'mdi-material-ui/Plus'
@@ -114,7 +115,7 @@ class AttributeListTableComponent extends React.Component {
 
   render() {
     const {
-      hintMessageKey, attributesList, onAddOneItem, onAddManyItems,
+      hintMessageKey, attributesList, attributeModels, onAddOneItem, onAddManyItems,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { configuration: { tableContainer } } } = this.context
     return (
@@ -131,12 +132,14 @@ class AttributeListTableComponent extends React.Component {
                   label={formatMessage({ id: 'attributes.configuration.add.one.item.label' })}
                   icon={<AddOneIcon />}
                   onClick={onAddOneItem}
+                  disabled={!size(attributeModels)}
                 />
                 {/* Add many elements */}
                 <FlatButton
                   label={formatMessage({ id: 'attributes.configuration.add.many.items.label' })}
                   icon={<AddManyIcon />}
                   onClick={onAddManyItems}
+                  disabled={!size(attributeModels)}
                 />
               </TableHeaderOptionGroup>
             </TableHeaderOptionsArea>

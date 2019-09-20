@@ -98,11 +98,9 @@ class GroupsFieldComponent extends React.Component {
     const { intl: { formatMessage }, moduleTheme: { admin: { topSeparator } } } = this.context
     const allGroups = getAll() || []
     return (
-      <FormRow>
+      <React.Fragment>
         { /** Nota: here we have to send an array instead of many evaluated blocks  */
-          [ /** Add groups separator if there is any group */
-            allGroups.length ? <div key="top.spacing" style={topSeparator} /> : null,
-            /** Show currently defined groups */
+          [ /** Show currently defined groups */
             ...allGroups.map((group, index) => (
               <GroupComponent
               // eslint-disable-next-line react/no-array-index-key
@@ -116,17 +114,19 @@ class GroupsFieldComponent extends React.Component {
                 onGroupRemoved={this.onGroupRemoved}
               />)),
             /* Add group button */
-            <FieldsGroup key="bottom.options" spanFullWidth>
-              <div style={topSeparator} />
-              <RaisedButton
-                label={formatMessage({ id: 'module.description.configuration.add.group' })}
-                icon={<AddIcon />}
-                onClick={this.onAddGroup}
-              />
-            </FieldsGroup>,
+            <FormRow key="bottom.options.row">
+              <FieldsGroup spanFullWidth>
+                <div style={topSeparator} />
+                <RaisedButton
+                  label={formatMessage({ id: 'module.description.configuration.add.group' })}
+                  icon={<AddIcon />}
+                  onClick={this.onAddGroup}
+                />
+              </FieldsGroup>
+            </FormRow>,
           ]
         }
-      </FormRow>
+      </React.Fragment>
     )
   }
 }

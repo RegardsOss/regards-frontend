@@ -38,6 +38,9 @@ const messages = {
   'module.description.configuration.show.linked.documents': 'Display linked documents',
   'module.description.configuration.show.linked.entities': 'Display linked entities',
   'module.description.configuration.show.thumbnail': 'Display thumbnail',
+  'module.description.configuration.description.files.title': 'Description files',
+  'module.description.configuration.description.files.hint': 'Enter here URL attributes to use as description files',
+  'module.description.configuration.description.files': 'Description files',
   'module.description.configuration.add.group': 'Add display groups',
   'module.description.configuration.group.title': 'Group #{number}',
   'module.description.configuration.group.show.title': 'Show group title',
@@ -63,8 +66,8 @@ const messages = {
   'module.description.common.search.coupling.tag.tooltip': 'Search data coupled by {tag}',
   'module.description.common.show.entity.description.tootlip': 'Show {entityLabel} description ',
   'module.description.common.search.entity.tooltip': 'Search data linked to {entityLabel}',
-  'module.description.common.download.file.tooltip': 'Download file {fileName}', //TODO
-  'module.description.common.file.preview.tooltip': 'Show preview of {fileName}', //TODO
+  'module.description.common.download.file.tooltip': 'Download file {fileName}',
+  'module.description.common.file.preview.tooltip': 'Show preview of {fileName}',
   'module.description.header.toggle.tree.visible.tooltip': 'Show / hide description browsing tree',
   'module.description.header.search.entity.label': 'Search related data',
   'module.description.header.search.entity.tooltip': 'Search data related with the one currenly displayed',

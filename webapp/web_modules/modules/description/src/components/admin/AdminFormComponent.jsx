@@ -22,6 +22,7 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { Field, RenderCheckbox } from '@regardsoss/form-utils'
+import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
 import DescriptionConfigurationFormComponent from './DescriptionConfigurationFormComponent'
 
 /**
@@ -31,6 +32,7 @@ import DescriptionConfigurationFormComponent from './DescriptionConfigurationFor
 class AdminFormComponent extends React.Component {
   static propTypes = {
     currentNamespace: PropTypes.string.isRequired,
+    currentFormValues: ModuleConfiguration,
     changeField: PropTypes.func.isRequired,
     isCreating: PropTypes.bool.isRequired,
 
@@ -89,7 +91,9 @@ class AdminFormComponent extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { isCreating, changeField, currentNamespace } = this.props
+    const {
+      isCreating, changeField, currentFormValues, currentNamespace,
+    } = this.props
     const { moduleTheme: { admin: { topSeparator } } } = this.context
     return (
       <div>
@@ -109,6 +113,7 @@ class AdminFormComponent extends React.Component {
                   entityType={entityType}
                   isCreating={isCreating}
                   changeField={changeField}
+                  currentTypeValues={currentFormValues[entityType]}
                   currentNamespace={currentNamespace}
                   availableAttributes={this.getAvailableAttributes(entityType)}
                 />

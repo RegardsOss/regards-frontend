@@ -38,6 +38,8 @@ const messages = {
   'module.description.configuration.show.linked.documents': 'Afficher les documents liés',
   'module.description.configuration.show.linked.entities': 'Afficher les entités liées',
   'module.description.configuration.show.thumbnail': 'Afficher la vignette',
+  'module.description.configuration.description.files.title': 'Fichiers de description',
+  'module.description.configuration.description.files.hint': 'Saisissez ici les attributs URL à utiliser comme fichiers de description',
   'module.description.configuration.add.group': 'Ajouter un groupe d\'attributs',
   'module.description.configuration.group.title': 'Groupe n°{number}',
   'module.description.configuration.group.show.title': 'Afficher le titre du groupe',
