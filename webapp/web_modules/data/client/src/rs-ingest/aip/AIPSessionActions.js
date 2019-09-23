@@ -31,7 +31,7 @@ export default class SessionActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/sessions`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/sessions`,
       schemaTypes: {
         ENTITY: AIP_SESSION,
         ENTITY_ARRAY: AIP_SESSION_ARRAY,
