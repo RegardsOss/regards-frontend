@@ -23,20 +23,9 @@ import values from 'lodash/values'
  * @author Sébastien Binda
  */
 export const SIPStateEnum = {
-  CREATED: 'CREATED',
-  REJECTED: 'REJECTED',
-  QUEUED: 'QUEUED',
-  VALID: 'VALID',
-  INVALID: 'INVALID',
-  AIP_CREATED: 'AIP_CREATED',
-  AIP_GEN_ERROR: 'AIP_GEN_ERROR',
-  AIP_SUBMITTED: 'AIP_SUBMITTED',
+  INGESTED: 'INGESTED',
   STORED: 'STORED',
-  STORE_ERROR: 'STORE_ERROR',
-  TO_BE_DELETED: 'TO_BE_DELETED',
   DELETED: 'DELETED',
-  INCOMPLETE: 'INCOMPLETE',
-  INDEXED: 'INDEXED',
-  INDEX_ERROR: 'INDEX_ERROR',
+  ERROR: 'ERROR',
 }
 export const SIPStateValues = values(SIPStateEnum)

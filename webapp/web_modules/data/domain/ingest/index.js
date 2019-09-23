@@ -18,4 +18,5 @@
  **/
 
 export { SIPStateEnum, SIPStateValues } from './SIPStateEnum'
+export { AIP_STATUS, AIP_STATUS_ENUM } from './AIPStatusEnum'
 export { enMessages, frMessages } from './i18n'

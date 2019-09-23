@@ -31,7 +31,7 @@ const PRODUCT_RUNNING_SIP_STATES = [
 const PRODUCT_ERROR_SIP_STATES = [
   DataProviderDomain.ProductSIPStateEnum.GENERATION_ERROR,
   DataProviderDomain.ProductSIPStateEnum.NOT_SCHEDULED_INVALID,
-  IngestDomain.SIPStateEnum.REJECTED,
+  IngestDomain.SIPStateEnum.ERROR,
 ]
 
 /**

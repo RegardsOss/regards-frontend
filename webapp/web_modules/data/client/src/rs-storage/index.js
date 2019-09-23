@@ -17,40 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export { default as AIPStatusActions } from './aip/AIPStatusActions'
-export { default as getAIPStatusReducer } from './aip/AIPStatusReducer'
-export { default as getAIPStatusSelectors } from './aip/AIPStatusSelectors'
-
-export { default as AIPActions } from './aip/AIPActions'
-export { default as getAIPReducer } from './aip/AIPReducer'
-export { default as getAIPSelectors } from './aip/AIPSelectors'
-
-export { default as AIPTagActions } from './aip/AIPTagActions'
-export { default as getAIPTagReducer } from './aip/AIPTagReducer'
-export { default as getAIPTagSelectors } from './aip/AIPTagSelectors'
-
-export { default as AIPSessionActions } from './aip/AIPSessionActions'
-export { default as getAIPSessionReducer } from './aip/AIPSessionReducer'
-export { default as getAIPSessionSelectors } from './aip/AIPSessionSelectors'
-
-export { default as AIPSessionClearActions } from './aip/AIPSessionClearActions'
-
-export { default as AIPFileActions } from './aip/AIPFileActions'
-export { default as getAIPFileReducer } from './aip/AIPFileReducer'
-export { default as getAIPFileSelectors } from './aip/AIPFileSelectors'
-
-export { default as DeleteAIPsOnAllStoragesActions } from './aip/storage/DeleteAIPsOnAllStoragesActions'
-export { default as getDeleteAIPsOnAllStoragesReducer } from './aip/storage/DeleteAIPsOnAllStoragesReducer'
-export { default as getDeleteAIPsOnAllStoragesSelectors } from './aip/storage/DeleteAIPsOnAllStoragesSelectors'
-
-export { default as DeleteAIPsOnSomeStoragesActions } from './aip/storage/DeleteAIPsOnSomeStoragesActions'
-export { default as getDeleteAIPsOnSomeStoragesReducer } from './aip/storage/DeleteAIPsOnSomeStoragesReducer'
-export { default as getDeleteAIPsOnSomeStoragesSelectors } from './aip/storage/DeleteAIPsOnSomeStoragesSelectors'
-
-export { default as RelaunchAIPsStorageActions } from './aip/storage/RelaunchAIPsStorageActions'
-export { default as getRelaunchAIPsStorageReducer } from './aip/storage/RelaunchAIPsStorageReducer'
-export { default as getRelaunchAIPsStorageSelectors } from './aip/storage/RelaunchAIPsStorageSelectors'
-
 export { default as StorageMonitoringActions } from './monitoring/StorageMonitoringActions'
 export { default as getStorageMonitoringReducer } from './monitoring/StorageMonitoringReducer'
 export { default as getStorageMonitoringSelectors } from './monitoring/StorageMonitoringSelectors'

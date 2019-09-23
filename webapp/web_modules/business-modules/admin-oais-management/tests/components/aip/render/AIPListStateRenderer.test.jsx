@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import IconButton from 'material-ui/IconButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { StorageDomain } from '@regardsoss/domain'
+import { IngestDomain } from '@regardsoss/domain'
 import AIPListStateRenderer from '../../../../src/components/aip/render/AIPListStateRenderer'
 import styles from '../../../../src/styles'
 import { storedAIP } from '../../../dumps/AIPWithStorages.dump'
@@ -51,7 +51,7 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPListStateRenderer', () => {
           ...storedAIP.content,
           aip: {
             ...storedAIP.content.aip,
-            state: StorageDomain.AIP_STATUS_ENUM.STORAGE_ERROR,
+            state: IngestDomain.AIP_STATUS_ENUM.ERROR,
           },
         },
       },
@@ -61,7 +61,7 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPListStateRenderer', () => {
       },
     }
     const enzymeWrapper = shallow(<AIPListStateRenderer {...props} />, { context })
-    assert.include(enzymeWrapper.debug(), StorageDomain.AIP_STATUS_ENUM.STORAGE_ERROR, 'AIP state should be displayed')
+    assert.include(enzymeWrapper.debug(), IngestDomain.AIP_STATUS_ENUM.ERROR, 'AIP state should be displayed')
     const buttonWrapper = enzymeWrapper.find(IconButton)
     assert.lengthOf(buttonWrapper, 1, 'There should be detail button as status is error')
     assert.equal(buttonWrapper.props().onClick, enzymeWrapper.instance().onClick, 'Button callback should be correctly set')

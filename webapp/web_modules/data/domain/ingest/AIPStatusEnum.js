@@ -23,12 +23,9 @@ import values from 'lodash/values'
  * @author Léo Mieulet
  */
 export const AIP_STATUS_ENUM = {
-  VALID: 'VALID',
-  PENDING: 'PENDING',
-  STORING_METADATA: 'STORING_METADATA',
+  GENERATED: 'GENERATED',
   STORED: 'STORED',
-  STORAGE_ERROR: 'STORAGE_ERROR',
-  UPDATED: 'UPDATED',
+  ERROR: 'ERROR',
   DELETED: 'DELETED',
 }
 

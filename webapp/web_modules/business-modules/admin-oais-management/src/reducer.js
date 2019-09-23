@@ -18,7 +18,6 @@
  **/
 import { combineReducers } from 'redux'
 import { aipReducer } from './clients/AIPClient'
-import { aipSessionReducer } from './clients/AIPSessionClient'
 import { aipTagReducer } from './clients/AIPTagClient'
 import { tableReducer } from './clients/TableClient'
 import { sipTableReducer } from './clients/SIPTableClient'
@@ -38,7 +37,6 @@ import { processingChainReducer } from './clients/ProcessingChainClient'
 
 const oaisManagementReducer = combineReducers({
   aip: aipReducer,
-  'aip-session': aipSessionReducer,
   'aip-tag': aipTagReducer,
   'aip-file': aipFileReducer,
   'aip-table': tableReducer,

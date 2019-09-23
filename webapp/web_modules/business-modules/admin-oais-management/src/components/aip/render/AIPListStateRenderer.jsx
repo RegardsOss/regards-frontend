@@ -18,7 +18,7 @@
  **/
 import IconButton from 'material-ui/IconButton'
 import Report from 'material-ui/svg-icons/content/report'
-import { StorageDomain } from '@regardsoss/domain'
+import { IngestDomain } from '@regardsoss/domain'
 import { StorageShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 /**
@@ -59,7 +59,7 @@ class AIPListStateRenderer extends React.Component {
       <div style={AIPListStateRenderer.lineWrapper}>
         {status}
         { // Render show file for AIPs in error state
-          status === StorageDomain.AIP_STATUS_ENUM.STORAGE_ERROR ? (
+          status === IngestDomain.AIP_STATUS_ENUM.ERROR ? (
             <IconButton
               title={formatMessage({ id: 'oais.aips.files.table.tooltip.show-error-files' })}
               iconStyle={AIPListStateRenderer.iconStyle}

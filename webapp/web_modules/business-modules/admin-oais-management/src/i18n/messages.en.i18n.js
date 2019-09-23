@@ -87,13 +87,10 @@ export default {
   'oais.aips.session.clear.filters.button': 'Clear filters',
   'oais.aips.session.apply.filters.button': 'Apply filters',
 
-  VALID: 'VALID',
-  PENDING: 'PENDING',
-  STORING_METADATA: 'STORING_METADATA',
   STORED: 'STORED',
-  STORAGE_ERROR: 'STORAGE_ERROR',
-  UPDATED: 'UPDATED',
   DELETED: 'DELETED',
+  ERROR: 'ERROR',
+  GENERATED: 'GENERATED',
 
   'oais.aips.files.modal.action.close': 'Close',
   'oais.aips.files.modal.title': 'Trace ..',

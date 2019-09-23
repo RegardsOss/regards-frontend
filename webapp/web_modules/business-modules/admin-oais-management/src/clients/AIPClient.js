@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { StorageClient } from '@regardsoss/client'
+import { IngestClient } from '@regardsoss/client'
 
 /**
  * Model attributes entities client.
@@ -26,6 +26,6 @@ import { StorageClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'oais', 'aip']
 const REDUX_ACTION_NAMESPACE = 'admin-oais-management/aips'
 
-export const aipActions = new StorageClient.AIPActions(REDUX_ACTION_NAMESPACE)
-export const aipReducer = StorageClient.getAIPReducer(REDUX_ACTION_NAMESPACE)
-export const aipSelectors = StorageClient.getAIPSelectors(ENTITIES_STORE_PATH)
+export const aipActions = new IngestClient.AIPActions(REDUX_ACTION_NAMESPACE)
+export const aipReducer = IngestClient.getAIPReducer(REDUX_ACTION_NAMESPACE)
+export const aipSelectors = IngestClient.getAIPSelectors(ENTITIES_STORE_PATH)

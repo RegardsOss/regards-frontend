@@ -39,7 +39,7 @@ export class SIPSubmissionComponent extends React.Component {
     ...themeContextType,
   }
 
-  static VALID_STATE = 'CREATED'
+  static VALID_STATE = 'INGESTED'
 
   static iconStyle = {
     width: 60,

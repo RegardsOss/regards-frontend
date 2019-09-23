@@ -17,25 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 const catIngest = 'Ingestion - '
-const catStorage = 'Stockage - '
 const messages = {
-  // -- INGEST
-  'sip.state.CREATED': `${catIngest}SIP accepté`,
-  'sip.state.REJECTED': `${catIngest}SIP refusé`,
-  'sip.state.QUEUED': `${catIngest}Ingestion du SIP planifiée`,
-  'sip.state.VALID': `${catIngest}SIP valide`,
-  'sip.state.INVALID': `${catIngest}SIP invalide`,
-  'sip.state.AIP_GEN_ERROR': `${catIngest}Erreur génération AIP`,
-  'sip.state.AIP_CREATED': `${catIngest}AIP généré`,
-  'sip.state.AIP_SUBMITTED': `${catIngest}AIP soumis`,
-  // -- STORAGE & CATALOG
-  'sip.state.STORED': `${catStorage}Stocké`,
-  'sip.state.STORE_ERROR': `${catStorage}Erreur de stockage`,
-  'sip.state.INCOMPLETE': `${catStorage}Incomplet`,
-  'sip.state.TO_BE_DELETED': `${catStorage}À supprimer`,
-  'sip.state.DELETED': `${catStorage}Supprimé`,
-  'sip.state.INDEXED': 'Indexé',
-  'sip.state.INDEX_ERROR': 'Erreur indexation',
+  // -- SIP
+  'sip.state.INGESTED': `${catIngest}Ingéré`,
+  'sip.state.STORED': `${catIngest}Stocké`,
+  'sip.state.DELETED': `${catIngest}Supprimé`,
+  'sip.state.ERROR': `${catIngest}Erreur`,
+  // -- AIP
+  'aip.state.GENERATED': `${catIngest}Généré`,
+  'aip.state.STORED': `${catIngest}Stocké`,
+  'aip.state.DELETED': `${catIngest}Supprimé`,
+  'aip.state.ERROR': `${catIngest}Erreur`,
 }
 
 export default messages
