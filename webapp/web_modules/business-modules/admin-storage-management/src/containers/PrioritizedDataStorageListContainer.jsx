@@ -91,8 +91,8 @@ export class PrioritizedDataStorageListContainer extends React.Component {
 
   onActivateToggle = (entity) => {
     const updatedObject = Object.assign({}, entity)
-    updatedObject.dataStorageConfiguration = Object.assign({}, entity.dataStorageConfiguration, {
-      active: !entity.dataStorageConfiguration.active,
+    updatedObject.storageConfiguration = Object.assign({}, entity.storageConfiguration, {
+      active: !entity.storageConfiguration.active,
     })
     this.props.update(updatedObject)
   }

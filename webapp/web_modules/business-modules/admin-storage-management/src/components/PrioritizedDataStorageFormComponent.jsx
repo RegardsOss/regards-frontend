@@ -60,8 +60,8 @@ class PrioritizedDataStorageFormComponent extends React.Component {
   }
 
   getPluginConfiguration = (props) => {
-    const dataStorageConfiguration = get(props ? props.entity : this.props.entity, 'content.dataStorageConfiguration', null)
-    return dataStorageConfiguration ? { content: dataStorageConfiguration } : null
+    const storageConfiguration = get(props ? props.entity : this.props.entity, 'content.storageConfiguration', null)
+    return storageConfiguration ? { content: storageConfiguration } : null
   }
 
   selectPluginType = (plugin) => {
@@ -76,7 +76,7 @@ class PrioritizedDataStorageFormComponent extends React.Component {
   updatePrioritizedDataStorage = (newPluginConfiguration, microservice, pluginId, pluginConfId) => {
     const { onUpdate, entity } = this.props
     const prioritizedDataStorageToUpdate = Object.assign({}, entity.content)
-    prioritizedDataStorageToUpdate.dataStorageConfiguration = newPluginConfiguration
+    prioritizedDataStorageToUpdate.storageConfiguration = newPluginConfiguration
     return onUpdate(entity.content.id, prioritizedDataStorageToUpdate)
   }
 
@@ -86,7 +86,7 @@ class PrioritizedDataStorageFormComponent extends React.Component {
   createPrioritizedDataStorage = (newPluginConfiguration, microservice, pluginId) => {
     const { onCreate } = this.props
     const prioritizedDataStorageToUpdate = {
-      dataStorageConfiguration: newPluginConfiguration,
+      storageConfiguration: newPluginConfiguration,
     }
     return onCreate(prioritizedDataStorageToUpdate)
   }

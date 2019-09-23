@@ -26,8 +26,8 @@ import { StorageDomain } from '@regardsoss/domain'
 export const storage1 = {
   id: 1,
   priority: 1,
-  dataStorageType: StorageDomain.DataStorageTypeEnum.NEARLINE,
-  dataStorageConfiguration: {
+  storageType: StorageDomain.DataStorageTypeEnum.NEARLINE,
+  storageConfiguration: {
     id: 1,
     pluginId: '1',
     label: 'storage1',
@@ -41,8 +41,8 @@ export const storage1 = {
 export const storage2 = {
   id: 2,
   priority: 2,
-  dataStorageType: StorageDomain.DataStorageTypeEnum.NEARLINE,
-  dataStorageConfiguration: {
+  storageType: StorageDomain.DataStorageTypeEnum.NEARLINE,
+  storageConfiguration: {
     id: 2,
     pluginId: '2',
     label: 'storage2',

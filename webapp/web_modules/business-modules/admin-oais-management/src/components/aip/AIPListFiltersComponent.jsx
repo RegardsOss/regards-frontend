@@ -134,7 +134,7 @@ class AIPListFiltersComponent extends React.Component {
     // 2 - Prepare ordered datastorages pool for selection
     if (!isEqual(oldProps.dataStorages, dataStorages)) {
       newState.selectableDataStorages = [...dataStorages].sort((str1, str2) => StringComparison.compare(
-        str1.dataStorageConfiguration.label, str2.dataStorageConfiguration.label))
+        str1.storageConfiguration.label, str2.storageConfiguration.label))
     }
 
     // Apply computed diff
@@ -285,7 +285,7 @@ class AIPListFiltersComponent extends React.Component {
                 {selectableDataStorages.map(storage => (<MenuItem
                   key={storage.id}
                   value={storage.id}
-                  primaryText={storage.dataStorageConfiguration.label}
+                  primaryText={storage.storageConfiguration.label}
                 />))}
               </SelectField>
               { /* AIP status (as single choice) */ }

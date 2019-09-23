@@ -52,15 +52,15 @@ class PrioritizedDataStorageActivationAction extends React.Component {
   }
 
   render() {
-    const { entity: { content: { dataStorageConfiguration } } } = this.props
+    const { entity: { content: { storageConfiguration } } } = this.props
     const { intl: { formatMessage } } = this.context
-    const title = dataStorageConfiguration.active
+    const title = storageConfiguration.active
       ? formatMessage({ id: 'storage.data-storage.plugins.list.active.off.button' })
       : formatMessage({ id: 'storage.data-storage.plugins.list.active.on.button' })
     return (
       <div style={{ margin: 'auto' }}>
         <Toggle
-          toggled={dataStorageConfiguration.active}
+          toggled={storageConfiguration.active}
           onToggle={this.onToggle}
           title={title}
           disabled={!this.isEditable()}

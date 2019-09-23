@@ -86,7 +86,7 @@ export class PrioritizedDataStorageListComponent extends React.Component {
   renderDeleteConfirmDialog = () => {
     const { entitytoDelete } = this.state
     if (entitytoDelete) {
-      const name = entitytoDelete.content.dataStorageConfiguration.label
+      const name = entitytoDelete.content.storageConfiguration.label
       return (
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
@@ -113,13 +113,13 @@ export class PrioritizedDataStorageListComponent extends React.Component {
         .optionsSizing(2) // fix width
         .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.priority.label' }))
         .build(),
-      new TableColumnBuilder('column.id').titleHeaderCell().propertyRenderCell('content.dataStorageConfiguration.id')
+      new TableColumnBuilder('column.id').titleHeaderCell().propertyRenderCell('content.storageConfiguration.id')
         .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.id.label' }))
         .build(),
-      new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.dataStorageConfiguration.label')
+      new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.storageConfiguration.label')
         .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.name.label' }))
         .build(),
-      new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.dataStorageConfiguration.pluginId')
+      new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.storageConfiguration.pluginId')
         .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.type.label' }))
         .build(),
       new TableColumnBuilder('column.active').titleHeaderCell()
