@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,31 +15,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { BoardComponent } from '@regardsoss/components'
-import { i18nContextType } from '@regardsoss/i18n'
-import boardItems from './ModuleBoardItems'
+ */
+import { DataManagementClient } from '@regardsoss/client'
 
 /**
- * Board to display datamangement module foncionalities.
+ * Index client.
+ *
+ * @author Sébastien Binda
  */
-class ModuleBoardComponent extends React.Component {
-  static propTypes = {
-    project: PropTypes.string.isRequired,
-    onResetIndex: PropTypes.func.isRequired,
-  }
+const REDUX_ACTION_NAMESPACE = 'admin-dataaccess/index'
 
-  static contextTypes = {
-    ...i18nContextType,
-  }
-
-  render() {
-    const { project } = this.props
-    const items = boardItems(project, this.context.intl, this.props.onResetIndex)
-    return (
-      <BoardComponent items={items} />
-    )
-  }
-}
-
-export default ModuleBoardComponent
+export const indexActions = new DataManagementClient.IndexActions(REDUX_ACTION_NAMESPACE)
+export const { RESET_INDEX_ACTION } = DataManagementClient.IndexActions
