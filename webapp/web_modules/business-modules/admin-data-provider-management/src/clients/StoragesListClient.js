@@ -19,14 +19,12 @@
 import { CommonClient } from '@regardsoss/client'
 
 /**
- * allocationStrategy entities client.
- *
+ * Dataprovider generation chain entities client.
  * @author Sébastien Binda
  */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'storage', 'allocation-strategy']
-const REDUX_ACTION_NAMESPACE = 'admin-storage/allocation-strategy'
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'storages']
+const REDUX_ACTION_NAMESPACE = 'admin-data-provider-management/storages'
 
-export const allocationStrategyReducer = CommonClient.getPluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
-export const allocationStrategyActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_NAMESPACE)
-export const allocationStrategyByPluginIdActions = new CommonClient.PluginConfigurationByPluginIdActions(REDUX_ACTION_NAMESPACE)
-export const allocationStrategySelectors = CommonClient.getPluginConfigurationSelectors(ENTITIES_STORE_PATH)
+export const storagesListActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_NAMESPACE)
+export const storagesListReducer = CommonClient.getPluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
+export const storagesListSelectors = CommonClient.getPluginConfigurationSelectors(ENTITIES_STORE_PATH)

@@ -85,7 +85,7 @@ export class DocumentFormContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/acquisition/document/list`
+    return `/admin/${project}/data/collections/document/list`
   }
 
   getComponent = () => {
@@ -104,7 +104,7 @@ export class DocumentFormContainer extends React.Component {
 
   redirectToFilesPage = (documentId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/document/${documentId}/files`
+    const url = `/admin/${project}/data/collections/document/${documentId}/files`
     browserHistory.push(url)
   }
 

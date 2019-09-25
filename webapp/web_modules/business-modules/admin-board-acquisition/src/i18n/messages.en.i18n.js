@@ -48,6 +48,8 @@ const messages = {
 
   'data.board.oais.title': 'Package Manager (OAIS)',
   'data.board.oais.description': 'Package Manager (OAIS) allows you to manage SIP (Submission Information Package) and AIP (Archive Information Package).',
+  'data.board.oais.tooltip.see': 'Show ingest and storage',
+
 }
 
 export default messages

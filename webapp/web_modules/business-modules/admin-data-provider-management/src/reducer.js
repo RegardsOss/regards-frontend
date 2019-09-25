@@ -25,6 +25,7 @@ import { ProductReducer } from './clients/ProductClient'
 import { searchSessionsReducer } from './clients/session/SearchSessionsClient'
 import { searchSourcesReducer } from './clients/session/SearchSourcesClient'
 import { sessionsReducer } from './clients/session/SessionsClient'
+import { storagesListReducer } from './clients/StoragesListClient'
 /**
  * @author Sébastien Binda
  */
@@ -39,6 +40,7 @@ const dataProviderManagementReducer = combineReducers({
   searchSessions: searchSessionsReducer,
   searchSources: searchSourcesReducer,
   sessionsTable: tableSessionsReducer,
+  storages: storagesListReducer,
 })
 
 export default dataProviderManagementReducer

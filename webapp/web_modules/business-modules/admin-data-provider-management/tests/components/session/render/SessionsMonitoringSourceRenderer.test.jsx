@@ -51,6 +51,6 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringSourceRende
         links: [],
       },
     }
-    const enzymeWrapper = shallow(<SessionsMonitoringSourceRenderer {...props} />, { context })
+    shallow(<SessionsMonitoringSourceRenderer {...props} />, { context })
   })
 })

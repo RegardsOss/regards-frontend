@@ -52,6 +52,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainMon
       onStopChain: () => new Promise(() => { }),
       onDelete: () => {},
       onEdit: () => {},
+      onDuplicate: () => {},
       onListChainAction: () => {},
       onCreate: () => {},
       fetchPage: () => {},

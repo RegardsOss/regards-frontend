@@ -64,6 +64,10 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.mode.MANUAL': 'Manual',
   'acquisition-chain.form.general.section.ingestChain.select': 'Ingest chain (*)',
   'acquisition-chain.form.general.section.ingestChain.select.hint': 'Select an existing ingest chain ... ',
+  'acquisition-chain.form.general.section.path': 'Storage folder (optional)',
+  'acquisition-chain.form.general.section.info.storage': 'Select one or more storages for the files',
+  'acquisition-chain.form.general.section.info.category': 'Categories allow you to filter the AIPs for datasources crawling',
+  'acquisition-chain.form.general.section.category-hint': 'Add one on more categories (Hit Enter to validate)',
 
   // 2.3 Files configuration section
   'acquisition-chain.form.fileInfos.section': 'Files',
@@ -286,6 +290,12 @@ const messages = Object.assign({
   'acquisition-sessions.filters.column-selector': 'Select columns to show',
   'acquisition-sessions.filters.sources-hint': 'Sources',
   'acquisition-sessions.filters.sessions-hint': 'Sessions',
+
+  //8 Run Confirm Dialog
+  'acquisition-product.run.dialog.title': 'Would you like to rename this session?',
+  'acquisition-product.run.dialog.message': 'You can directly confirm if you don\'t need to rename it.',
+  'acquisition-product.run.dialog.confirm.button': 'Confirm',
+  'acquisition-product.run.dialog.close.button': 'Close',
 
 }, Locales.en)
 

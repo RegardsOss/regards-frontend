@@ -44,7 +44,7 @@ describe('[Admin Order Management] Testing OrderListContainer', () => {
     }
     const enzymeWrapper = shallow(<OrderListContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(OrderListComponent)
-    assert.equal(enzymeWrapper.instance().getBackURL(), '/admin/test1/user/board', 'The back URL should be correctly defined')
+    assert.equal(enzymeWrapper.instance().getBackURL(), '/admin/test1/commands/board', 'The back URL should be correctly defined')
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       backUrl: enzymeWrapper.instance().getBackURL(),

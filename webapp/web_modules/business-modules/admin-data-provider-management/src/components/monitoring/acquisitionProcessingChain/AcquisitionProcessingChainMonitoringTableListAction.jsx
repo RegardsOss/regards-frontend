@@ -22,7 +22,7 @@ import { DataProviderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
-* User Callback, onclick will show list 
+* User Callback, onclick will show list
 * @author Sébastien Binda
 */
 class AcquisitionProcessingChainMonitoringTableListAction extends React.Component {

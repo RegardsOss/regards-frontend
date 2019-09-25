@@ -53,7 +53,6 @@ class OrderListFiltersComponent extends React.Component {
     value: <MenuItem primaryText={email} />, // graphic render
   })
 
-
   render() {
     const {
       usersFilterText, isFetching, isInError, matchingUsers,
