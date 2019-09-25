@@ -16,6 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export * from './results/ResultsContext'
-export * from './QuicklookDefinition'
-export { UISettings } from './UISettings'
+import { AccessProjectClient } from '@regardsoss/client'
+
+/**
+ * Default UI client instance to fetch data accross user app
+ **/
+export const uiSettingsActions = new AccessProjectClient.UISettingsActions()
+export const uiSettingsReducer = AccessProjectClient.getUISettingsReducer()
+export const uiSettingsSelectors = AccessProjectClient.getUISettingsSelectors()

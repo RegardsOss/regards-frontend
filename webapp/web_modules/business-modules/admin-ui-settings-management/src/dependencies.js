@@ -16,6 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export * from './results/ResultsContext'
-export * from './QuicklookDefinition'
-export { UISettings } from './UISettings'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { modelActions } from './clients/ModelClient'
+import { uiSettingsActions } from './clients/UISettingsClient'
+
+/**
+ * Mandatory Dependencies to display module in parent board
+ * @author Raphaël Mechali
+ */
+export default {
+  editSettingsDependencies: [
+    uiSettingsActions.getDependency(RequestVerbEnum.GET), // show
+    uiSettingsActions.getDependency(RequestVerbEnum.POST), // create first
+    uiSettingsActions.getDependency(RequestVerbEnum.PUT), // update
+    modelActions.getDependency(RequestVerbEnum.GET_LIST), // the list of models to use
+  ],
+}

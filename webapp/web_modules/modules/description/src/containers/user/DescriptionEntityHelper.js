@@ -87,8 +87,8 @@ export class DescriptionEntityHelper {
   /**
    * Resolves description entity for model as parameter (usually a loading description entity)
    * @param {*} moduleConfiguration module configuration matching ModuleConfiguration shape
-   * @param {*} attributeModels known attribute models (DataManagementShapes.AttributeModelList)
    * @param {*} descriptionEntity description entity model matching DescriptionState.DescriptionEntity
+   * @param {*} uiSettings matching UIShapes.UISettings
    * @param {function} fetchEntity function to fetch an entity: (id) => Promise
    * @param {function} fetchModelAttributes function to fetch model attributes on model name: (name) => Promise
    * @param {string} accessToken when there is one
@@ -97,7 +97,7 @@ export class DescriptionEntityHelper {
    * @return {Promise} entity resolution promise, that returns an object like {descriptionEntity: {*}, descriptionUpdateGroupId}
    */
   static resolveDescriptionEntity(
-    moduleConfiguration, descriptionEntity,
+    moduleConfiguration, descriptionEntity, uiSettings,
     fetchEntity, fetchModelAttributes, accessToken, projectName,
     descriptionUpdateGroupId) {
     const { entity: { content: { tags, model: modelName } } } = descriptionEntity
@@ -119,7 +119,7 @@ export class DescriptionEntityHelper {
         // resolve entity display model
         resolve({
           descriptionEntity: DescriptionEntityHelper.buildFullDescriptionEntity(
-            moduleConfiguration, modelAttributes, descriptionEntity,
+            uiSettings, moduleConfiguration, modelAttributes, descriptionEntity,
             resolvedTags, accessToken, projectName, modelRetrievalFailed),
           descriptionUpdateGroupId,
         })
@@ -172,6 +172,7 @@ export class DescriptionEntityHelper {
 
   /**
    * Packs entity with
+   * @param {*} uiSettings matching UIShapes.UISettings
    * @param {*} moduleConfiguration module configuration matching ModuleConfiguration shape
    * @param {*} attributes model attributes map as DataManagementShapes.AttributeModelList
    * @param {*} descriptionEntity description entity model matching DescriptionState.DescriptionEntity
@@ -182,7 +183,7 @@ export class DescriptionEntityHelper {
    * @return {*} build display model, matching DescriptionState.DescriptionEntity shape
    */
   static buildFullDescriptionEntity(
-    moduleConfiguration, attributes, descriptionEntity,
+    uiSettings, moduleConfiguration, attributes, descriptionEntity,
     tags, accessToken, projectName, modelRetrievalFailed) {
     const { entity, displayModel: initialDisplayModel } = descriptionEntity
     const typeConfiguration = moduleConfiguration[entity.content.entityType]
@@ -199,7 +200,7 @@ export class DescriptionEntityHelper {
         descriptionFiles: DescriptionEntityHelper.packDescriptionFiles(typeConfiguration, attributes, entity, accessToken, projectName),
         quicklookFiles: DescriptionEntityHelper.packQuicklooks(entity, accessToken, projectName),
         otherFiles: DescriptionEntityHelper.packOtherFiles(entity, accessToken, projectName),
-        ...DescriptionEntityHelper.splitAndSortTags(typeConfiguration, tags),
+        ...DescriptionEntityHelper.splitAndSortTags(uiSettings, typeConfiguration, tags),
       } : initialDisplayModel, // default to initial display model
     }
   }
@@ -384,12 +385,13 @@ export class DescriptionEntityHelper {
 
   /**
    * Splits and sorts tags (filters elements hidden by configuration)
+   * @param {*} uiSettings matching UIShapes.UISettings
    * @param {*} typeConfiguration entity type configuration (see ModuleConfiguration.DescriptionConfiguration)
    * @param {string|*} tags resolved tags, containing either word tags or elements matching CatalogShapes.Entity
    * @return { wordTags: [string], couplingTags: [string], linkedEntities: [*], linkedDocuments: [*]} where linked entities
    * and documents match CatalogShape.Entity
    */
-  static splitAndSortTags(typeConfiguration, tags) {
+  static splitAndSortTags(uiSettings, typeConfiguration, tags) {
     const {
       showTags, showCoupling, showLinkedDocuments, showLinkedEntities,
     } = typeConfiguration
@@ -404,9 +406,13 @@ export class DescriptionEntityHelper {
           }
           return showTags ? { ...acc, wT: [...acc.wT, resolvedTag] } : acc
         }
-        // 2 - An entity tag
-        // Use globally defined document model to  identify documents
-        // TODO: new client, fetch at app starting, reload when model changes. Use it to populate lD
+        // 2 - An entity tag (document or any)
+        // 2.a - Is it a pseudo type document?
+        if (UIDomain.isDocumentEntity(uiSettings, resolvedTag)) {
+          // yes (found in UI settings document models)
+          return showLinkedDocuments ? { ...acc, lD: [...acc.lD, resolvedTag] } : acc
+        }
+        // no: any entity type
         return showLinkedEntities ? { ...acc, lE: [...acc.lE, resolvedTag] } : acc
       }
       return acc

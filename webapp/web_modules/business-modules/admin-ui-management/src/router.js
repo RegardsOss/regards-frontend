@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+
 /**
  * UI-Configuration module routes.
  */
@@ -31,6 +32,16 @@ export const boardRoute = {
       cb(null, {
         content: boardContainer.default,
       })
+    })
+  },
+}
+
+export const settingsRoute = {
+  path: 'settings',
+  getChildRoutes(nextState, cb) {
+    const moduleUISettings = require('@regardsoss/admin-ui-settings-management')
+    require.ensure([], (require) => {
+      cb(null, [moduleUISettings.uiSettingsRouter])
     })
   },
 }
@@ -94,6 +105,7 @@ export const layoutUiManagementRouter = {
 const uiConfigurationRouter = {
   childRoutes: [
     boardRoute,
+    settingsRoute,
     moduleUiManagementRouter,
     serviceUiManagementRouter,
     themeUiManagementRouter,

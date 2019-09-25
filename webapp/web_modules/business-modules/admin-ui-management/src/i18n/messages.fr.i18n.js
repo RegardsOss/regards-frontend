@@ -23,6 +23,10 @@ import { Locales } from '@regardsoss/form-utils'
  * @author Sébastien binda
  */
 const messages = Object.assign({
+  'ui.settings.title': 'Paramètres IHM',
+  'ui.settings.description': 'Configuration des paramètres principaux de l\'IHM utilisateur',
+  'ui.settings.edit.tooltip': 'Editer les paramètres IHM',
+
   'portal.layout.title': 'Agencement du portail',
   'project.layout.title': 'Agencement',
   'project.layout.description': 'L\'agencement permet de définir les sections dans lesquelles vous pouvez positionner les modules',
@@ -40,7 +44,7 @@ const messages = Object.assign({
 
   'portal.theme.title': 'Thèmes du portail',
   'project.theme.title': 'Thèmes',
-  'project.theme.description': 'Personnalisez l`apparence de REGARDS',
+  'project.theme.description': 'Personnaliser l\'apparence de REGARDS',
 
   'action.list.tooltip': 'Liste',
   'action.add.tooltip': 'Ajouter',

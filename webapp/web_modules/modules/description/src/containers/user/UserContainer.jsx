@@ -19,8 +19,8 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
-import { CatalogClient } from '@regardsoss/client'
-import { AccessShapes } from '@regardsoss/shape'
+import { CatalogClient, AccessProjectClient } from '@regardsoss/client'
+import { AccessShapes, UIShapes } from '@regardsoss/shape'
 import { AuthenticationClient, AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
 import { modelAttributesActions } from '../../clients/ModelAttributesClient'
 import { descriptionStateActions, descriptionStateSelectors } from '../../clients/DescriptionStateClient'
@@ -31,6 +31,9 @@ import { DescriptionEntityHelper } from './DescriptionEntityHelper'
 
 /** Builds actions to fetch single entities */
 const fetchEntityActions = new CatalogClient.SearchEntityActions('description-entity-resolver', true)
+
+/** Common UI settings selectors */
+const uiSettingsSelectors = AccessProjectClient.getUISettingsSelectors()
 
 /**
  * Module container: instantiated as first module component it:
@@ -49,6 +52,7 @@ export class UserContainer extends React.Component {
   static mapStateToProps(state) {
     return {
       descriptionState: descriptionStateSelectors.getDescriptionState(state),
+      settings: uiSettingsSelectors.getSettings(state),
       accessToken: AuthenticationClient.authenticationSelectors.getAccessToken(state),
       projectName: AuthenticationParametersSelectors.getProject(state),
     }
@@ -76,6 +80,7 @@ export class UserContainer extends React.Component {
     moduleConf: ModuleConfiguration.isRequired,
     // from map state to props
     descriptionState: DescriptionState.isRequired,
+    settings: UIShapes.UISettings.isRequired,
     accessToken: PropTypes.string,
     projectName: PropTypes.string.isRequired,
     // from mapDispatchToProps
@@ -135,7 +140,7 @@ export class UserContainer extends React.Component {
    * @param {boolean} reloading true when reloading on inner event: in such case, index in path should be preseved and all entities should be updated
    */
   onDescriptionRequestUpdated = ({
-    accessToken, projectName, descriptionState,
+    accessToken, projectName, descriptionState, settings,
     moduleConf: { runtime: { descriptionPath }, ...moduleConfiguration },
     fetchModelAttributes, fetchEntity, setModuleDescriptionPath,
   }, reloading) => {
@@ -157,7 +162,8 @@ export class UserContainer extends React.Component {
     loadingDescriptionPath.forEach((descriptionEntity) => {
       if (descriptionEntity.loading) {
         // start loading entities that required it through helper promise (should never enter in catch case)
-        DescriptionEntityHelper.resolveDescriptionEntity(moduleConfiguration, descriptionEntity,
+        DescriptionEntityHelper.resolveDescriptionEntity(
+          moduleConfiguration, descriptionEntity, settings,
           fetchEntity, fetchModelAttributes, accessToken, projectName,
           this.descriptionUpdateGroupId)
           .then(this.onDescriptionEntityResolved)
@@ -240,17 +246,18 @@ export class UserContainer extends React.Component {
     }
 
     const {
-      descriptionState: { descriptionPath, browsingTreeVisible },
+      descriptionState: { descriptionPath, browsingTreeVisible }, settings,
       moduleConf: { allowSearching, runtime: { selectedIndex, onSearchWord, onSearchEntity } },
     } = this.props
 
     // Exit when no entity exists (should not happen)
     const descriptionEntity = descriptionPath.length ? descriptionPath[selectedIndex] : null
-    if (!descriptionEntity) {
+    if (!descriptionEntity || !settings) {
       return null
     }
     return (
       <MainModuleComponent
+        settings={settings}
         descriptionEntity={descriptionEntity}
         selectedEntityIndex={selectedIndex}
         descriptionPath={descriptionPath}

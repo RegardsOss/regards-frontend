@@ -69,3 +69,7 @@ export { default as getSearchSourcesSelectors } from './session/SearchSourcesSel
 export { default as SessionsRelaunchProductActions } from './session/SessionsRelaunchProductActions'
 export { default as SessionsRelaunchSIPActions } from './session/SessionsRelaunchSIPActions'
 export { default as SessionsRelaunchAIPActions } from './session/SessionsRelaunchAIPActions'
+
+export { UISettingsActions } from './settings/UISettingsActions'
+export { getUISettingsReducer } from './settings/UISettingsReducer'
+export { getUISettingsSelectors } from './settings/UISettingsSelectors'

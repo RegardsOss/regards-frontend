@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import flatMap from 'lodash/flatMap'
+import { UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { DescriptionEntity } from '../../../shapes/DescriptionState'
 import BreadcrumbLinkComponent from './BreadcrumbLinkComponent'
@@ -28,6 +29,7 @@ import BreadcrumbSeparatorComponent from './BreadcrumbSeparatorComponent'
  */
 class BreadcrumbComponent extends React.Component {
   static propTypes = {
+    settings: UIShapes.UISettings.isRequired,
     selectedEntityIndex: PropTypes.number.isRequired,
     descriptionPath: PropTypes.arrayOf(DescriptionEntity).isRequired,
     // On selected entity index callback (index: number) => ()
@@ -39,7 +41,7 @@ class BreadcrumbComponent extends React.Component {
   }
 
   render() {
-    const { descriptionPath, selectedEntityIndex, onSelectEntityIndex } = this.props
+    const { settings, descriptionPath, selectedEntityIndex, onSelectEntityIndex } = this.props
     const { moduleTheme: { user: { header: { breadcrumb: { root } } } } } = this.context
     return (
       <div style={root}>
@@ -50,6 +52,7 @@ class BreadcrumbComponent extends React.Component {
           // 2 - Link
           <BreadcrumbLinkComponent
             key={`${descriptionEntity.entity.content.id}.link`}
+            settings={settings}
             descriptionEntity={descriptionEntity}
             entityIndex={index}
             selected={index === selectedEntityIndex}

@@ -15,7 +15,34 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-export * from './results/ResultsContext'
-export * from './QuicklookDefinition'
-export { UISettings } from './UISettings'
+ */
+
+/**
+ * Module styles
+ * @author Raphaël Mechali
+ */
+const storageManagementStyles = theme => ({
+  documentModels: {
+    root: {
+      display: 'flex',
+      alignItems: 'strech',
+    },
+    fitTableRowsCount: 8,
+    tableHolder: {
+      display: 'flex',
+      flexDirection: 'column',
+      flexGrow: 1,
+      flexShrink: 1,
+      flexBasis: 0,
+    },
+    separator: {
+      margin: `${theme.components.infiniteTable.minHeaderRowHeight}px 20px 0 20px`,
+      background: theme.toolbar.separatorColor,
+      flexGrow: 0,
+      flexShrink: 0,
+      flexBasis: 1,
+    },
+  },
+})
+
+export default storageManagementStyles

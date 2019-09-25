@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { TableLayout } from '@regardsoss/components'
@@ -31,6 +32,7 @@ import BrowsingTreeComponent from './tree/BrowsingTreeComponent'
  */
 class MainModuleComponent extends React.Component {
   static propTypes = {
+    settings: UIShapes.UISettings.isRequired,
     descriptionEntity: DescriptionEntity.isRequired,
     selectedEntityIndex: PropTypes.number.isRequired,
     descriptionPath: PropTypes.arrayOf(DescriptionEntity).isRequired,
@@ -57,7 +59,7 @@ class MainModuleComponent extends React.Component {
 
   render() {
     const {
-      descriptionEntity, allowSearching, browsingTreeVisible, isDescriptionAllowed, descriptionPath,
+      settings, descriptionEntity, allowSearching, browsingTreeVisible, isDescriptionAllowed, descriptionPath,
       selectedEntityIndex, onSelectInnerLink, onSelectEntityLink, onSearchWord, onSearchEntity, onSelectEntityIndex,
     } = this.props
     const { moduleTheme: { user: { main: { root } } } } = this.context
@@ -65,6 +67,7 @@ class MainModuleComponent extends React.Component {
     return (
       <TableLayout>
         <HeaderBarComponent
+          settings={settings}
           descriptionEntity={descriptionEntity}
           selectedEntityIndex={selectedEntityIndex}
           descriptionPath={descriptionPath}

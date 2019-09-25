@@ -17,6 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { TableHeaderLine, TableHeaderOptionsSeparator } from '@regardsoss/components'
 import ToggleTreeVisibleOptionContainer from '../../../containers/user/header/ToggleTreeVisibleOptionContainer'
@@ -30,6 +31,7 @@ import BreadcrumbComponent from './BreadcrumbComponent'
  */
 class HeaderBarComponent extends React.Component {
   static propTypes = {
+    settings: UIShapes.UISettings.isRequired,
     descriptionEntity: DescriptionEntity.isRequired,
     selectedEntityIndex: PropTypes.number.isRequired,
     descriptionPath: PropTypes.arrayOf(DescriptionEntity).isRequired,
@@ -47,7 +49,7 @@ class HeaderBarComponent extends React.Component {
 
   render() {
     const {
-      descriptionEntity, selectedEntityIndex, descriptionPath,
+      settings, descriptionEntity, selectedEntityIndex, descriptionPath,
       allowSearching, onSelectEntityIndex, onSearchEntity,
     } = this.props
     const { moduleTheme: { user: { header: { leftGroup, rightGroup } } } } = this.context
@@ -57,6 +59,7 @@ class HeaderBarComponent extends React.Component {
           <ToggleTreeVisibleOptionContainer />
           <TableHeaderOptionsSeparator />
           <BreadcrumbComponent
+            settings={settings}
             selectedEntityIndex={selectedEntityIndex}
             descriptionPath={descriptionPath}
             onSelectEntityIndex={onSelectEntityIndex}

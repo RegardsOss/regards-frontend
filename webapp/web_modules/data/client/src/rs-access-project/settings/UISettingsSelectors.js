@@ -16,6 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export * from './results/ResultsContext'
-export * from './QuicklookDefinition'
-export { UISettings } from './UISettings'
+import { BasicSignalSelectors } from '@regardsoss/store-utils'
+import { UIDomain } from '@regardsoss/domain'
+
+/**
+ * UI settings selectors. Provides default path for user application none is required
+ * @author Raphaël Mechali
+ */
+class UISettingsSelectors extends BasicSignalSelectors {
+  /**
+   * @param {*} state
+   * @return {*} settings, matching UIShapes.UISettings (returns default when not found)
+   */
+  getSettings(state) {
+    const results = this.getResult(state)
+    return results || UIDomain.UISettingsConstants.DEFAULT_SETTINGS
+  }
+}
+
+export function getUISettingsSelectors(storePath = ['user', 'uiSettings']) {
+  return new UISettingsSelectors(storePath)
+}

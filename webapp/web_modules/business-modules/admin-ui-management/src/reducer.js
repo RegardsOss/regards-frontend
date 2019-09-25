@@ -21,6 +21,7 @@ import { moduleUIReducer } from '@regardsoss/admin-ui-module-management'
 import { layoutUIReducer } from '@regardsoss/admin-ui-layout-management'
 import { pluginUIReducer } from '@regardsoss/admin-ui-plugin-management'
 import { serviceUIReducer } from '@regardsoss/admin-ui-service-management'
+import { uiSettingsReducer } from '@regardsoss/admin-ui-settings-management'
 
 /**
  * UI-management module reducers
@@ -32,6 +33,7 @@ const uiManagementReducer = combineReducers({
   plugin: pluginUIReducer,
   module: moduleUIReducer,
   service: serviceUIReducer,
+  settings: uiSettingsReducer,
 })
 
 export default uiManagementReducer

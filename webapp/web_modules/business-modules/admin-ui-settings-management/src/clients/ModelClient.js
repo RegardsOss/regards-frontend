@@ -16,6 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export * from './results/ResultsContext'
-export * from './QuicklookDefinition'
-export { UISettings } from './UISettings'
+import { DataManagementClient } from '@regardsoss/client'
+
+const namespace = 'admin/ui-settings/models'
+export const modelActions = new DataManagementClient.ModelActions(namespace)
+export const modelReducer = DataManagementClient.ModelReducer(namespace)
+export const modelSelectors = DataManagementClient.ModelSelectors(['admin', 'ui', 'settings', 'models'])

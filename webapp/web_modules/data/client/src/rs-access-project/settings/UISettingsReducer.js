@@ -16,6 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export * from './results/ResultsContext'
-export * from './QuicklookDefinition'
-export { UISettings } from './UISettings'
+import { BasicSignalReducers } from '@regardsoss/store-utils'
+import { UISettingsActions } from './UISettingsActions'
+
+/**
+ * UI settings reducer. Provides default namespace for user application when it is left blank
+ * @param {string} namespace, leave it blank to get default user app namespace
+ * @author Raphaël Mechali
+ */
+export function getUISettingsReducer(namespace) {
+  const reducerInstance = new BasicSignalReducers(new UISettingsActions(namespace), null)
+  // reduce function
+  return (state, action) => reducerInstance.reduce(state, action)
+}

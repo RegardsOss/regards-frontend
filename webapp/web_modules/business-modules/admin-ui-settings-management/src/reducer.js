@@ -16,6 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export * from './results/ResultsContext'
-export * from './QuicklookDefinition'
-export { UISettings } from './UISettings'
+import { combineReducers } from 'redux'
+import { modelReducer } from './clients/ModelClient'
+import { uiSettingsReducer } from './clients/UISettingsClient'
+
+const uiSettingsRouter = combineReducers({
+  models: modelReducer,
+  uiSettings: uiSettingsReducer,
+})
+
+
+export default uiSettingsRouter

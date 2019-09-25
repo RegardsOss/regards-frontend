@@ -34,12 +34,51 @@ import { AuthenticationParametersActions, AuthenticationClient } from '@regardso
 import { attributeModelActions, attributeModelSelectors } from '../clients/AttributeModelClient'
 import { layoutActions, layoutSelectors } from '../clients/LayoutClient'
 import { moduleActions, moduleSelectors } from '../clients/ModuleClient'
+import { uiSettingsActions, uiSettingsSelectors } from '../clients/UISettingsClients'
 import AuthenticationContainer from './AuthenticationContainer'
 
 /**
  * Provides the theme to sub containers
  */
 export class UserApp extends React.Component {
+/**
+ * Redux: map state to props function
+ * @param {*} state: current redux state
+ * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+ * @return {*} list of component properties extracted from redux state
+ */
+  static mapStateToProps(state) {
+    const authenticationResult = AuthenticationClient.authenticationSelectors.getResult(state)
+    return {
+      isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
+      currentRole: (authenticationResult && authenticationResult.role) || '',
+      dataFetching: layoutSelectors.isFetching(state)
+      || moduleSelectors.isFetching(state)
+      || attributeModelSelectors.isFetching(state)
+      || uiSettingsSelectors.isFetching(state),
+      layout: layoutSelectors.getById(state, 'user'),
+      modules: moduleSelectors.getList(state),
+    }
+  }
+
+  /**
+ * Redux: map dispatch to props function
+ * @param {*} dispatch: redux dispatch function
+ * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+ * @return {*} list of component properties extracted from redux state
+ */
+  static mapDispatchToProps(dispatch) {
+    return {
+      initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
+      fetchAttributes: () => dispatch(attributeModelActions.fetchEntityList(null, { noLink: true })),
+      fetchLayout: () => dispatch(layoutActions.fetchEntity('user')),
+      fetchModules: () => dispatch(moduleActions.fetchPagedEntityList(0, 100, { applicationId: 'user' })),
+      flushModules: () => dispatch(moduleActions.flush(true)),
+      fetchEndpoints: () => dispatch(CommonEndpointClient.endpointActions.fetchPagedEntityList(0, 10000)),
+      fetchUISettings: () => dispatch(uiSettingsActions.getSettings()),
+    }
+  }
+
   /**
    * @type {{theme: string, content: React.Component}}
    */
@@ -63,6 +102,7 @@ export class UserApp extends React.Component {
     flushModules: PropTypes.func.isRequired,
     fetchEndpoints: PropTypes.func.isRequired,
     fetchAttributes: PropTypes.func.isRequired,
+    fetchUISettings: PropTypes.func.isRequired,
   }
 
   static applicationStyle = {
@@ -78,6 +118,7 @@ export class UserApp extends React.Component {
     const {
       params: { project }, initializeApplication,
       fetchLayout, fetchModules, fetchAttributes,
+      fetchUISettings,
     } = this.props
 
     // Redux store space init for user app
@@ -90,6 +131,7 @@ export class UserApp extends React.Component {
     fetchLayout()
     fetchModules()
     fetchAttributes()
+    fetchUISettings()
   }
 
   /**
@@ -197,24 +239,7 @@ export class UserApp extends React.Component {
     )
   }
 }
-const mapStateToProps = (state, ownProps) => {
-  const authenticationResult = AuthenticationClient.authenticationSelectors.getResult(state)
-  return {
-    layout: layoutSelectors.getById(state, 'user'),
-    modules: moduleSelectors.getList(state),
-    dataFetching: layoutSelectors.isFetching(state) || moduleSelectors.isFetching(state) || attributeModelSelectors.isFetching(state),
-    currentRole: (authenticationResult && authenticationResult.role) || '',
-    isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
-  }
-}
 
-const mapDispatchToProps = dispatch => ({
-  initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
-  fetchLayout: () => dispatch(layoutActions.fetchEntity('user')),
-  fetchModules: () => dispatch(moduleActions.fetchPagedEntityList(0, 100, { applicationId: 'user' })),
-  flushModules: () => dispatch(moduleActions.flush(true)),
-  fetchEndpoints: () => dispatch(CommonEndpointClient.endpointActions.fetchPagedEntityList(0, 10000)),
-  fetchAttributes: () => dispatch(attributeModelActions.fetchEntityList(null, { noLink: true })),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserApp)
+export default connect(
+  UserApp.mapStateToProps,
+  UserApp.mapDispatchToProps)(UserApp)

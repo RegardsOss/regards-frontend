@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { EntityTypeIcon } from '@regardsoss/entities-common'
+import { UIDomain } from '@regardsoss/domain'
 import { DescriptionEntity } from '../../../shapes/DescriptionState'
 
 /**
@@ -26,6 +28,7 @@ import { DescriptionEntity } from '../../../shapes/DescriptionState'
  */
 class BreadcrumbLinkComponent extends React.Component {
   static propTypes = {
+    settings: UIShapes.UISettings.isRequired,
     descriptionEntity: DescriptionEntity.isRequired,
     entityIndex: PropTypes.number.isRequired,
     selected: PropTypes.bool.isRequired,
@@ -55,16 +58,17 @@ class BreadcrumbLinkComponent extends React.Component {
         },
       },
     } = this.context
-    const { descriptionEntity, selected } = this.props
+    const { settings, descriptionEntity: { entity }, selected } = this.props
     // Select icon constructor for current entity type
-    const IconConstructor = EntityTypeIcon.getIconConstructor(descriptionEntity.entity)
+    const IconConstructor = EntityTypeIcon.getIconConstructor(entity,
+      UIDomain.isDocumentEntity(settings, entity))
     // Select styles for entity state (selected or not)
     const { root, icon, text } = selected ? selectedLink : unselectedLink
     return (
       <div style={root} onClick={this.onClick}>
         <IconConstructor style={icon.style} color={icon.color} />
-        <div style={text} title={descriptionEntity.entity.content.label}>
-          {descriptionEntity.entity.content.label}
+        <div style={text} title={entity.content.label}>
+          {entity.content.label}
         </div>
       </div>
     )

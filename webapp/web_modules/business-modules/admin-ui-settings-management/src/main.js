@@ -16,6 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export * from './results/ResultsContext'
-export * from './QuicklookDefinition'
-export { UISettings } from './UISettings'
+export { default as uiSettingsRouter } from './router'
+export { default as uiSettingsReducer } from './reducer'
+export { default as uiSettingsDependencies } from './dependencies'
