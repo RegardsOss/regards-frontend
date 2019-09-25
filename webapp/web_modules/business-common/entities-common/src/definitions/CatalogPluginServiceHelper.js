@@ -21,9 +21,8 @@ import { PluginParameterTypes } from '@regardsoss/domain/common'
 import { RuntimeTargetTypes } from '@regardsoss/domain/access'
 import { OpenSearchQuery } from '@regardsoss/domain/catalog'
 import { ValidationHelpers } from '@regardsoss/form-utils'
+import { CommonDomain } from '@regardsoss/domain'
 import { Parameter } from './parameters/Parameter'
-import { CommonShapes } from '@regardsoss/shape';
-import { CommonDomain } from '@regardsoss/domain';
 
 /**
  * Tools to convert catalog plugin service configuration and metadata into common form parameters model

@@ -39,16 +39,16 @@ const messages = {
   'ingest.board.action.datasource.monitor.tooltip': 'Monitor data crawling',
 
   'data.board.storage.title': 'Storage',
-  'data.board.storage.description': 'Configure one or multiples data storage locations and also the strategy to define wich location system will use.',
+  'data.board.storage.description': 'Configure one or multiples data storage locations.',
   'data.board.action.storages.tooltip': 'Configure locations',
-  'data.board.action.allocations.tooltip': 'Configure strategies',
-  'data.board.action.monitoring.tooltip': 'Monitor data storage occupation',
-  'data.board.action.security.tooltip': 'Configure archived files access rights',
-  'data.board.action.aip-management.tooltip': 'Monitor AIPs',
 
   'data.board.oais.title': 'Package Manager (OAIS)',
   'data.board.oais.description': 'Package Manager (OAIS) allows you to manage SIP (Submission Information Package) and AIP (Archive Information Package).',
   'data.board.oais.tooltip.see': 'Show ingest and storage',
+
+  'data.board.index.delete': 'Reset data catalog',
+  'data.board.index.delete.confirm': 'Warning : If you reset the data catalog index, then all data will be deleted and re-indexed thanks to configured data crawlers.',
+  'data.board.index.delete.error.message': 'Error occured during catalog reset action.',
 
 }
 

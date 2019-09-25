@@ -25,12 +25,6 @@ const messages = {
 
   'dataaccess.board.searchengines.title': 'Protocoles de recherche',
   'dataaccess.board.searchengines.description': 'Configuration des protocoles de recherche de données dans le catalogue projet. Le protocole \'Legacy\' est le protocole spécifique à REGARDS. Les autres protocoles peuvent être configurés pour l\'interopérabilité avec d\'autre systèmes qui voudraient interroger le catalogue de données.',
-
-  'accessright.board.index.title': 'Catalogue des données',
-  'accessright.board.index.description': 'Cette section vous permet de gérer le catalogue des données',
-  'accessright.board.index.delete': 'Réinitialiser le catalogue',
-  'accessright.board.index.delete.confirm': 'Attention, si vous lancez la réinitialisation du catalogue de données, toutes les données seront supprimées du catalogue. Ce dernier sera alors reconstruit automatiquement par les aspirations de données configurées.',
-  'accessright.board.index.delete.error.message': 'Une erreur est survenue durant la réinitialisation du catalogue de données.',
 }
 
 export default messages
