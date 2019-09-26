@@ -56,6 +56,7 @@ export const fullModuleConf = {
     showLinkedEntities: false,
     showThumbnail: false,
     groups: [],
+    attributeToDescriptionFiles: [],
   },
   [DamDomain.ENTITY_TYPES_ENUM.DATASET]: {
     showDescription: false,
@@ -65,6 +66,7 @@ export const fullModuleConf = {
     showLinkedEntities: false,
     showThumbnail: false,
     groups: [],
+    attributeToDescriptionFiles: [],
   },
   [UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT]: {
     showDescription: false,
@@ -74,6 +76,7 @@ export const fullModuleConf = {
     showLinkedEntities: false,
     showThumbnail: false,
     groups: [],
+    attributeToDescriptionFiles: [],
   },
   [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
     showDescription: true,
@@ -83,5 +86,19 @@ export const fullModuleConf = {
     showLinkedEntities: false,
     showThumbnail: true,
     groups: someGroups,
+    attributeToDescriptionFiles: [{
+      attributes: [
+        {
+          name: 'properties.TestDescFile1',
+        },
+      ],
+    },
+    {
+      attributes: [
+        {
+          name: 'properties.TestDescFile2',
+        },
+      ],
+    }],
   },
 }

@@ -19,10 +19,11 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { Tab } from 'material-ui/Tabs'
-import { DamDomain, UIDomain } from '@regardsoss/domain'
+import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AdminFormComponent from '../../../src/components/admin/AdminFormComponent'
 import styles from '../../../src/styles'
+import { fullModuleConf } from '../../dumps/configuration.dump'
 
 const context = buildTestContext(styles)
 
@@ -37,11 +38,21 @@ describe('[Description] Testing AdminFormComponent', () => {
   it('should exists', () => {
     assert.isDefined(AdminFormComponent)
   })
-  it('should render correctly', () => {
+  const testCases = [{
+    editionMode: 'creating',
+    isCreating: true,
+    currentFormValues: {},
+  }, {
+    editionMode: 'editing',
+    isCreating: false,
+    currentFormValues: fullModuleConf,
+  }]
+  testCases.forEach(({ editionMode, isCreating, currentFormValues }) => it(`should render correctly ${editionMode}`, () => {
     const props = {
       currentNamespace: 'test',
+      currentFormValues,
       changeField: () => { },
-      isCreating: true,
+      isCreating,
 
       collectionAttributeModels: {},
       dataAttributeModels: {},
@@ -52,21 +63,17 @@ describe('[Description] Testing AdminFormComponent', () => {
 
     // check there is one tab by entity type
     const tabsWrapper = enzymeWrapper.find(Tab)
-    const typesToConfigure = [
-      DamDomain.ENTITY_TYPES_ENUM.DATA,
-      DamDomain.ENTITY_TYPES_ENUM.DATASET,
-      DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
-      UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT,
-    ]
-    typesToConfigure.forEach((entityType) => {
+    UIDomain.PSEUDO_TYPES.forEach((entityType) => {
       const entityTabWrapper = tabsWrapper.findWhere(n => n.props().entityType === entityType)
       assert.lengthOf(entityTabWrapper, 1, `There should be a tab for ${entityType} type`)
       testSuiteHelpers.assertWrapperProperties(entityTabWrapper, {
+        entityType,
+        currentTypeValues: props.currentFormValues[entityType],
         isCreating: props.isCreating,
         changeField: props.changeField,
         currentNamespace: props.currentNamespace,
         availableAttributes: enzymeWrapper.instance().getAvailableAttributes(entityType),
       }, `Tab properties should be correctly reported for ${entityType} type tab`)
     })
-  })
+  }))
 })

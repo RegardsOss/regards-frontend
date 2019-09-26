@@ -74,7 +74,6 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsContainer', () => {
     assert.lengthOf(componentWrapper, 1, '1 - There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       page: props.page,
-      localizedTitle: enzymeWrapper.state().localizedTitle,
       tabs: enzymeWrapper.state().tabs,
       onTabSelected: enzymeWrapper.instance().onTabSelected,
       onTabClosed: enzymeWrapper.instance().onTabClosed,
@@ -108,7 +107,6 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsContainer', () => {
     assert.lengthOf(componentWrapper, 1, '2 - There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       page: props.page,
-      localizedTitle: enzymeWrapper.state().localizedTitle,
       tabs: enzymeWrapper.state().tabs,
       onTabSelected: enzymeWrapper.instance().onTabSelected,
       onTabClosed: enzymeWrapper.instance().onTabClosed,
@@ -140,7 +138,6 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsContainer', () => {
     assert.lengthOf(componentWrapper, 1, '3 - There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       page: props.page,
-      localizedTitle: enzymeWrapper.state().localizedTitle,
       tabs: enzymeWrapper.state().tabs,
       onTabSelected: enzymeWrapper.instance().onTabSelected,
       onTabClosed: enzymeWrapper.instance().onTabClosed,
@@ -167,7 +164,6 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsContainer', () => {
     assert.lengthOf(componentWrapper, 1, '4 - There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       page: props.page,
-      localizedTitle: enzymeWrapper.state().localizedTitle,
       tabs: enzymeWrapper.state().tabs,
       onTabSelected: enzymeWrapper.instance().onTabSelected,
       onTabClosed: enzymeWrapper.instance().onTabClosed,
@@ -180,71 +176,5 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsContainer', () => {
     }], '4 - Tabs list should be correctly computed')
     // also check that context was modified back to default configuration context (ensures the component has no issue with context changes)
     assert.deepEqual(props4.resultsContext, dataContext, '4 - Should fallback on default configured state')
-  })
-  it('should render module title with main tab context, page and description', () => {
-    // 1 - test from page title
-    const props = {
-      moduleId: 1,
-      description: 'any description',
-      page: {
-        home: false,
-        iconType: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT,
-        title: {
-          [UIDomain.LOCALES_ENUM.en]: 'My title',
-          [UIDomain.LOCALES_ENUM.fr]: 'Mon titre',
-        },
-      },
-      // default: no context tag
-      resultsContext: dataContext,
-      updateResultsContext: () => {},
-    }
-    const enzymeWrapper = shallow(<TitleAndTabsContainer {...props} />, { context })
-    let componentWrapper = enzymeWrapper.find(TitleAndTabsComponent)
-    assert.lengthOf(componentWrapper, 1, '1 - There should be the corresponding component')
-    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      localizedTitle: {
-        [UIDomain.LOCALES_ENUM.en]: 'My title',
-        [UIDomain.LOCALES_ENUM.fr]: 'Mon titre',
-      },
-    }, '1 - Localized title should be computed from page')
-    // 2 - test from description (no page title nor context)
-    const props2 = {
-      ...props,
-      page: {
-        home: false,
-        iconType: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT,
-      },
-    }
-    enzymeWrapper.setProps(props2)
-    componentWrapper = enzymeWrapper.find(TitleAndTabsComponent)
-    assert.lengthOf(componentWrapper, 1, '2 - There should be the corresponding component')
-    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      localizedTitle: {
-        [UIDomain.LOCALES_ENUM.en]: props.description,
-        [UIDomain.LOCALES_ENUM.fr]: props.description,
-      },
-    }, '2 - Localized title should be computed from description')
-    // 3 - test from context (context tag should have highest priority)
-    const props3 = {
-      ...props,
-      resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
-        tabs: {
-          [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
-            criteria: {
-              contextTags: [CriterionBuilder.buildEntityTagCriterion(anotherDataEntity)],
-            },
-          },
-        },
-      }),
-    }
-    enzymeWrapper.setProps(props3)
-    componentWrapper = enzymeWrapper.find(TitleAndTabsComponent)
-    assert.lengthOf(componentWrapper, 1, '3 - There should be the corresponding component')
-    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      localizedTitle: {
-        [UIDomain.LOCALES_ENUM.en]: anotherDataEntity.content.label,
-        [UIDomain.LOCALES_ENUM.fr]: anotherDataEntity.content.label,
-      },
-    }, '3 - Localized title should be computed from description')
   })
 })

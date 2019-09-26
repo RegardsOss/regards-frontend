@@ -67,7 +67,7 @@ describe('[Embedded-html] Testing ModuleContainer', () => {
     const wrapper = shallow(<ModuleContainer {...props} />, { context })
     const iFrame = wrapper.find(IFrameURLContentDisplayer)
     assert.lengthOf(iFrame, 1, 'There should be the page')
-    assert.equal(iFrame.props().contentURL, props.moduleConf.urlByLocale[UIDomain.LOCALES_ENUM.en], 'English page should have been selected')
+    assert.equal(iFrame.props().source, props.moduleConf.urlByLocale[UIDomain.LOCALES_ENUM.en], 'English page should have been selected')
   })
   it('should render correctly with french URL', () => {
     const props = {
@@ -85,7 +85,7 @@ describe('[Embedded-html] Testing ModuleContainer', () => {
     const wrapper = shallow(<ModuleContainer {...props} />, { context })
     const iFrame = wrapper.find(IFrameURLContentDisplayer)
     assert.lengthOf(iFrame, 1, 'There should be the page')
-    assert.equal(iFrame.props().contentURL, props.moduleConf.urlByLocale[UIDomain.LOCALES_ENUM.fr], 'French page should have been selected')
+    assert.equal(iFrame.props().source, props.moduleConf.urlByLocale[UIDomain.LOCALES_ENUM.fr], 'French page should have been selected')
   })
   it('should render correctly, fallbacking on other locale when one is not found', () => {
     const props = {
@@ -102,6 +102,6 @@ describe('[Embedded-html] Testing ModuleContainer', () => {
     const wrapper = shallow(<ModuleContainer {...props} />, { context })
     const iFrame = wrapper.find(IFrameURLContentDisplayer)
     assert.lengthOf(iFrame, 1, 'There should be the page')
-    assert.equal(iFrame.props().contentURL, props.moduleConf.urlByLocale[UIDomain.LOCALES_ENUM.fr], 'French page should have been selected')
+    assert.equal(iFrame.props().source, props.moduleConf.urlByLocale[UIDomain.LOCALES_ENUM.fr], 'French page should have been selected')
   })
 })

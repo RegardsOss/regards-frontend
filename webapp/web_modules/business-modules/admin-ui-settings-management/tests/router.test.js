@@ -30,7 +30,7 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing user board router', () => {
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
     assert.lengthOf(Routes.childRoutes, 1)
-    assert.equal(Routes.childRoutes[0].path, 'settings')
+    assert.equal(Routes.childRoutes[0].path, 'edit')
   })
   it('settings should return edit settings container', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {

@@ -23,6 +23,7 @@ import { modulesManager } from '@regardsoss/modules'
 import AdminComponent from '../../../src/components/admin/AdminFormComponent'
 import { AdminContainer } from '../../../src/containers/admin/AdminContainer'
 import styles from '../../../src/styles'
+import { fullModuleConf } from '../../dumps/configuration.dump'
 
 const context = buildTestContext(styles)
 
@@ -45,7 +46,9 @@ describe('[Description] Testing AdminContainer', () => {
         currentNamespace: 'test',
         isCreating: false,
         changeField: () => { },
-        form: {},
+        form: {
+          test: fullModuleConf,
+        },
       },
       collectionAttributeModels: {},
       dataAttributeModels: {},
@@ -64,6 +67,7 @@ describe('[Description] Testing AdminContainer', () => {
       collectionAttributeModels: props.collectionAttributeModels,
       dataAttributeModels: props.dataAttributeModels,
       datasetAttributeModels: props.datasetAttributeModels,
+      currentFormValues: props.adminForm.form.test,
     }, 'Component should define the expected properties')
   })
 })

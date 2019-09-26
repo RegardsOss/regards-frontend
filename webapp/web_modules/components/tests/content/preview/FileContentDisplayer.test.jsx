@@ -20,12 +20,13 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import root from 'window-or-global'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import FileContentDisplayer from '../../../src/content/preview/FileContentDisplayer'
+import { FileContentDisplayer } from '../../../src/content/preview/FileContentDisplayer'
 import CodeFileDisplayer from '../../../src/content/preview/CodeFileDisplayer'
 import ImageFileDisplayer from '../../../src/content/preview/ImageFileDisplayer'
 import IFrameURLContentDisplayer from '../../../src/content/preview/IFrameURLContentDisplayer'
+import { MarkdownFileContentDisplayer } from '../../../src/content/preview/MarkdownFileContentDisplayer'
 import { NoContentComponent } from '../../../src/content/feedback/NoContentComponent'
-import ContentLoadingComponent from '../../../src/content/feedback/ContentLoadingComponent'
+import { ContentLoadingComponent } from '../../../src/content/feedback/ContentLoadingComponent'
 import styles from '../../../src/content/styles/styles'
 import { TestBlob } from './TestBlob'
 import { TestFileReader } from './TestFileReader'
@@ -56,65 +57,73 @@ describe('[Components] Testing FileContentDisplayer', () => {
   it('should exists', () => {
     assert.isDefined(FileContentDisplayer)
   })
-
-  // TODO test loading
-  // TODO test loading error
+  it('should render correctly loading', () => {
+    const props = {
+      loading: true,
+      error: false,
+      loadingComponent: <ContentLoadingComponent loadingMessageKey="some.example" />,
+    }
+    const renderWrapper = shallow(<FileContentDisplayer {...props} />, { context })
+    const loadingComp = renderWrapper.find(ContentLoadingComponent)
+    assert.lengthOf(loadingComp, 1)
+    assert.equal(loadingComp.props().loadingMessageKey, 'some.example')
+  })
+  it('should render correctly in error', () => {
+    const props = {
+      loading: false,
+      error: true,
+      errorComponent: <NoContentComponent titleKey="some.example" />,
+    }
+    const renderWrapper = shallow(<FileContentDisplayer {...props} />, { context })
+    const errorComp = renderWrapper.find(NoContentComponent)
+    assert.lengthOf(errorComp, 1)
+    assert.equal(errorComp.props().titleKey, 'some.example')
+  })
+  it('should render correctly when preview is available for MIME type', () => {
+    const props = {
+      loading: false,
+      error: false,
+      file: {
+        content: new TestBlob('local'),
+        contentType: 'invalid/mimeType',
+      },
+      noPreviewComponent: <NoContentComponent titleKey="some.example" />,
+    }
+    const renderWrapper = shallow(<FileContentDisplayer {...props} />, { context })
+    const noPreviewComp = renderWrapper.find(NoContentComponent)
+    assert.lengthOf(noPreviewComp, 1)
+    assert.equal(noPreviewComp.props().titleKey, 'some.example')
+  })
 
   // MIME types tests
   const testCases = [{
     contentTypes: CodeFileDisplayer.SUPPORTED_MIME_TYPES,
     expectedComponent: CodeFileDisplayer,
-    message: 'should render code MIME types through CodeFileDisplayer for type',
+    message: 'should render code MIME types through code file displayer for type',
   }, {
     contentTypes: ImageFileDisplayer.SUPPORTED_MIME_TYPES,
     expectedComponent: ImageFileDisplayer,
-    message: 'should render image MIME types through ImageFileDisplayer for type',
+    message: 'should render image MIME types through image file displayer for type',
   }, {
     contentTypes: IFrameURLContentDisplayer.SUPPORTED_MIME_TYPES,
     expectedComponent: IFrameURLContentDisplayer,
-    message: 'should render pdf and html MIME type through IFrameURLContentDisplayer for type',
-  },
-  {
-    contentTypes: ['invalid/mimeType'],
-    expectedComponent: NoContentComponent,
-    message: 'should render any other MIME type through no preview display for type',
+    message: 'should render pdf and html MIME type through IFrame URL content displayer for type',
+  }, {
+    contentTypes: MarkdownFileContentDisplayer.SUPPORTED_MIME_TYPES,
+    expectedComponent: MarkdownFileContentDisplayer,
+    message: 'should render markdown MIME type through Markdown file displayer for type',
   }]
 
   testCases.forEach(({ contentTypes, expectedComponent, message }) => contentTypes.forEach(mimeType => it(`${message} "${mimeType}"`, () => {
-    const file = {
-      content: new TestBlob('local'),
-      contentType: mimeType,
-    }
-    const render = shallow(<FileContentDisplayer file={file} />, { context })
-    assert.lengthOf(render.find(expectedComponent), 1, `The component for MIME type should be a(n) ${expectedComponent}`)
-  })))
-
-
-  it('should create local URLs when they are not provided', () => {
-    const file1 = {
-      content: new TestBlob('t1'),
-      contentType: 'any/any',
-    }
-    const render = shallow(<FileContentDisplayer file={file1} />, { context })
-    assert.equal(render.state('localAccessURL'), file1.content.text, 'URL should be test blob text extracted from file 1, due to test mocks')
-
-    const file2 = {
-      content: new TestBlob('t2'),
-      contentType: 'any/any',
-    }
-    render.setProps({ file: file2 })
-    assert.equal(render.state('localAccessURL'), file2.content.text, 'URL should be test blob text extracted from file 2, due to test mocks')
-  })
-
-  it('should use local URLs provided when they are', () => {
     const props = {
+      loading: false,
+      error: false,
       file: {
-        content: new TestBlob('not-the-url'),
-        contentType: 'any/any',
+        content: new TestBlob('local'),
+        contentType: mimeType,
       },
-      fileAccessURL: 'i-should-use-that-one',
     }
-    const render = shallow(<FileContentDisplayer {...props} />, { context })
-    assert.equal(render.state('localAccessURL'), props.fileAccessURL, 'URL should be the provided one, not test blob text extracted')
-  })
+    const renderWrapper = shallow(<FileContentDisplayer {...props} />, { context })
+    assert.lengthOf(renderWrapper.find(expectedComponent), 1, `The component for MIME type should be a(n) ${expectedComponent}`)
+  })))
 })

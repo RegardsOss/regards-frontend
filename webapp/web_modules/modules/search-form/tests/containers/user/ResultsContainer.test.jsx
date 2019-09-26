@@ -42,6 +42,7 @@ describe('[SEARCH FORM] Testing ResultsContainer', () => {
       id: 1,
       appName: 'anyApp',
       project: 'anyProject',
+      resultsModuleTitle: 'anyTitle',
       searchResultsConfiguration: conf1.searchResult,
       restrictedDatasetsIds: conf1.datasets.selectedDatasets,
       locale: 'en',
@@ -56,7 +57,7 @@ describe('[SEARCH FORM] Testing ResultsContainer', () => {
         type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
         active: true,
         applicationId: props.appName,
-        description: 'results.module.title',
+        description: 'anyTitle',
         conf: props.searchResultsConfiguration,
       },
     }, 'Module conf be correctly computed in state from component properties')
@@ -76,6 +77,7 @@ describe('[SEARCH FORM] Testing ResultsContainer', () => {
       id: 1,
       appName: 'anyApp',
       project: 'anyProject',
+      resultsModuleTitle: 'anyTitle',
       searchResultsConfiguration: conf1.searchResult,
       searchParameters: {
         q: 'anyQuery',

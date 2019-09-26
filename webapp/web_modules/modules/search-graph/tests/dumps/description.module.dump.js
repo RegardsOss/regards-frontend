@@ -41,6 +41,7 @@ export const modulesDumpWithDescription = {
           showLinkedEntities: false,
           showThumbnail: false,
           groups: [],
+          attributeToDescriptionFiles: [],
         },
         [DamDomain.ENTITY_TYPES_ENUM.DATASET]: {
           showDescription: false,
@@ -50,6 +51,7 @@ export const modulesDumpWithDescription = {
           showLinkedEntities: false,
           showThumbnail: false,
           groups: [],
+          attributeToDescriptionFiles: [],
         },
         [UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT]: {
           showDescription: true,
@@ -59,6 +61,7 @@ export const modulesDumpWithDescription = {
           showLinkedEntities: false,
           showThumbnail: true,
           groups: [],
+          attributeToDescriptionFiles: [],
         },
         [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
           showDescription: true,
@@ -68,6 +71,7 @@ export const modulesDumpWithDescription = {
           showLinkedEntities: false,
           showThumbnail: true,
           groups: [],
+          attributeToDescriptionFiles: [],
         },
       },
     },

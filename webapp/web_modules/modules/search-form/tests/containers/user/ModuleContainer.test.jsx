@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { CatalogDomain } from '@regardsoss/domain'
+import { CatalogDomain, UIDomain } from '@regardsoss/domain'
 import { ModuleContainer } from '../../../src/containers/user/ModuleContainer'
 import FormContainer from '../../../src/containers/user/FormContainer'
 import styles from '../../../src/styles/styles'
@@ -187,17 +187,22 @@ describe('[SEARCH FORM] Testing ModuleContainer', () => {
 
     // Check on search statecontext update
     assert.deepEqual(spiedStateDiff, {
-      criteria: {
-        otherFilters: [{ // p1
-          requestParameters: {
-            q: 'ABCD',
+      selectedTab: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+      tabs: {
+        [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+          criteria: {
+            otherFilters: [{ // p1
+              requestParameters: {
+                q: 'ABCD',
+              },
+            }, { // p2
+              requestParameters: {
+                a: 'b',
+                b: 'c',
+              },
+            }],
           },
-        }, { // p2
-          requestParameters: {
-            a: 'b',
-            b: 'c',
-          },
-        }],
+        },
       },
     }, 'On search should have updated correctly results context')
   })

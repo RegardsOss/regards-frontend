@@ -32,7 +32,7 @@ import DescriptionConfigurationFormComponent from './DescriptionConfigurationFor
 class AdminFormComponent extends React.Component {
   static propTypes = {
     currentNamespace: PropTypes.string.isRequired,
-    currentFormValues: ModuleConfiguration,
+    currentFormValues: ModuleConfiguration.isRequired,
     changeField: PropTypes.func.isRequired,
     isCreating: PropTypes.bool.isRequired,
 
@@ -111,9 +111,9 @@ class AdminFormComponent extends React.Component {
               <Tab key={entityType} label={formatMessage({ id: `module.description.configuration.type.${entityType}` })}>
                 <DescriptionConfigurationFormComponent
                   entityType={entityType}
+                  currentTypeValues={currentFormValues[entityType]}
                   isCreating={isCreating}
                   changeField={changeField}
-                  currentTypeValues={currentFormValues[entityType]}
                   currentNamespace={currentNamespace}
                   availableAttributes={this.getAvailableAttributes(entityType)}
                 />

@@ -40,7 +40,6 @@ const messages = {
   'module.description.configuration.show.thumbnail': 'Display thumbnail',
   'module.description.configuration.description.files.title': 'Description files',
   'module.description.configuration.description.files.hint': 'Enter here URL attributes to use as description files',
-  'module.description.configuration.description.files': 'Description files',
   'module.description.configuration.add.group': 'Add display groups',
   'module.description.configuration.group.title': 'Group #{number}',
   'module.description.configuration.group.show.title': 'Show group title',

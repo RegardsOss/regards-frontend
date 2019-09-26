@@ -41,7 +41,9 @@ class BreadcrumbComponent extends React.Component {
   }
 
   render() {
-    const { settings, descriptionPath, selectedEntityIndex, onSelectEntityIndex } = this.props
+    const {
+      settings, descriptionPath, selectedEntityIndex, onSelectEntityIndex,
+    } = this.props
     const { moduleTheme: { user: { header: { breadcrumb: { root } } } } } = this.context
     return (
       <div style={root}>

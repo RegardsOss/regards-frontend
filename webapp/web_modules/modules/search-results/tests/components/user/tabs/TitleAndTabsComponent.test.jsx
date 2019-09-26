@@ -42,13 +42,10 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsComponent', () => {
 
   it('should render correctly with only one tab', () => {
     const props = {
+      description: 'any',
       page: {
         home: true,
         iconType: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT,
-      },
-      localizedTitle: {
-        [UIDomain.LOCALES_ENUM.en]: 'My title',
-        [UIDomain.LOCALES_ENUM.fr]: 'Mon titre',
       },
       tabs: [{
         tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
@@ -64,12 +61,12 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsComponent', () => {
     assert.lengthOf(titleComp, 1, 'There should be the title component')
     testSuiteHelpers.assertWrapperProperties(titleComp, {
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
-      localizedTitle: props.localizedTitle,
       page: props.page,
+      description: props.description,
     }, 'Title properties should be correctly reported')
     // 2 - Tabs: none
     const tabs = enzymeWrapper.find(TabComponent)
-    assert.lengthOf(tabs, 0, 'Tabs should be hidden as there is currently only one tab (main results)')
+    assert.lengthOf(tabs, 1, 'Tabs should remain visible when there is only one (main results)')
   })
   it('should render correctly with only all tabs', () => {
     const props = {
@@ -77,10 +74,7 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsComponent', () => {
         home: false,
         iconType: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT,
       },
-      localizedTitle: {
-        [UIDomain.LOCALES_ENUM.en]: 'My title 2',
-        [UIDomain.LOCALES_ENUM.fr]: 'Mon titre 2',
-      },
+      description: 'any',
       tabs: [{
         tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
         selected: false,
@@ -104,7 +98,7 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsComponent', () => {
     assert.lengthOf(titleComp, 1, 'There should be the title component')
     testSuiteHelpers.assertWrapperProperties(titleComp, {
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
-      localizedTitle: props.localizedTitle,
+      description: props.description,
       page: props.page,
     }, 'Title properties should be correctly reported')
     // 2 - Tabs: none

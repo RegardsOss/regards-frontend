@@ -195,27 +195,11 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
       fetchAllDatasetModelsAttributes: () => new Promise(resolve => resolve()),
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
-    // 1 - check state there are currently the main, data and dataset sections
-    let { navigationSections } = enzymeWrapper.state()
+    // 1 - check there are currently the main, data and dataset sections
+    const { navigationSections } = enzymeWrapper.state()
     assert.lengthOf(navigationSections, 3, 'There should be 3 sections')
     assert.equal(navigationSections[0].type, FORM_SECTIONS_ENUM.MAIN, 'First section should be main')
     assert.equal(navigationSections[1].type, DamDomain.ENTITY_TYPES_ENUM.DATA, 'Second section should be data')
     assert.equal(navigationSections[2].type, DamDomain.ENTITY_TYPES_ENUM.DATASET, 'Third section should be dataset')
-    // 2 - set in document view enabled mode
-    // TODO restore for data only (no longer document)
-    // enzymeWrapper.setProps({
-    //   ...props,
-    //   adminForm: {
-    //     currentNamespace: 'myForm',
-    //     form: {
-    //       myForm: documentsConfiguration,
-    //     },
-    //     changeField: () => {},
-    //   },
-    // })
-    // navigationSections = enzymeWrapper.state().navigationSections
-    // assert.lengthOf(navigationSections, 2, 'There should be 2 sections, after update')
-    // assert.equal(navigationSections[0].type, FORM_SECTIONS_ENUM.MAIN, 'First section should be main, after update')
-    // assert.equal(navigationSections[1].type, DamDomain.ENTITY_TYPES_ENUM.DOCUMENT, 'Second section should be document, after update')
   })
 })
