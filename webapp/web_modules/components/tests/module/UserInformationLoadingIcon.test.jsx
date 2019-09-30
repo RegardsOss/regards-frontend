@@ -15,28 +15,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
-**/
+ **/
+import { shallow } from 'enzyme'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import UserInformationLoadingIcon from '../../src/module/UserInformationLoadingIcon'
+import styles from '../../src/module/styles'
+
+const context = buildTestContext(styles)
 
 /**
- * @author lmieulet
- * @author Xavier-Alexandre Brochard
+ * Test UserInformationLoadingIcon
+ * @author Raphaël Mechali
  */
-import { expect } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import allMatchHateoasDisplayLogic from '../../src/logics/allMatchHateoasDisplayLogic'
-
-describe('[DISPLAY CONTROL] Testing allMatchHateoasDisplayLogic', () => {
+describe('[Components] Testing UserInformationLoadingIcon', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('should return true when all match', () => {
-    const required = ['titi', 'tutu']
-    const available = ['tutu', 'titi', 'tata']
-    expect(allMatchHateoasDisplayLogic(required, available)).to.eql(true)
+  it('should exists', () => {
+    assert.isDefined(UserInformationLoadingIcon)
   })
-  it('should return false if at least one does not match', () => {
-    const required = ['titi', 'tutu']
-    const available = ['toto', 'titi', 'tata']
-    expect(allMatchHateoasDisplayLogic(required, available)).to.eql(false)
+  it('should render correctly', () => {
+    shallow(<UserInformationLoadingIcon />, { context })
   })
 })

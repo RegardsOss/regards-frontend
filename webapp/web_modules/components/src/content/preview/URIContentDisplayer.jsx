@@ -39,7 +39,7 @@ const downloadFileActions = new DownloadFileActions({
  * See FileContentDisplayer for more information about layout and properties
  * @author Raphaël Mechali
  */
-class URIContentDisplayer extends React.Component {
+export class URIContentDisplayer extends React.Component {
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function

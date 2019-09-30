@@ -46,6 +46,25 @@ export const settingsRoute = {
   },
 }
 
+export const layoutUiManagementRouter = {
+  path: 'layout',
+  getChildRoutes(nextState, cb) {
+    const layoutUiManagement = require('@regardsoss/admin-ui-layout-management')
+    require.ensure([], (require) => {
+      cb(null, [layoutUiManagement.layoutUIRouter])
+    })
+  },
+}
+
+export const themeUiManagementRouter = {
+  path: 'theme',
+  getChildRoutes(nextState, cb) {
+    const themeUiManagement = require('@regardsoss/admin-ui-theme-management')
+    require.ensure([], (require) => {
+      cb(null, [themeUiManagement.themeUIRouter])
+    })
+  },
+}
 
 export const moduleUiManagementRouter = {
   path: 'module',
@@ -78,26 +97,6 @@ export const serviceUiManagementRouter = {
   },
 }
 
-export const themeUiManagementRouter = {
-  path: 'theme',
-  getChildRoutes(nextState, cb) {
-    const themeUiManagement = require('@regardsoss/admin-ui-theme-management')
-    require.ensure([], (require) => {
-      cb(null, [themeUiManagement.themeUIRouter])
-    })
-  },
-}
-
-export const layoutUiManagementRouter = {
-  path: 'layout',
-  getChildRoutes(nextState, cb) {
-    const layoutUiManagement = require('@regardsoss/admin-ui-layout-management')
-    require.ensure([], (require) => {
-      cb(null, [layoutUiManagement.layoutUIRouter])
-    })
-  },
-}
-
 /**
  *
  * @type {{childRoutes: [*]}}
@@ -106,11 +105,11 @@ const uiConfigurationRouter = {
   childRoutes: [
     boardRoute,
     settingsRoute,
-    moduleUiManagementRouter,
-    serviceUiManagementRouter,
-    themeUiManagementRouter,
-    pluginUiManagementRouter,
     layoutUiManagementRouter,
+    themeUiManagementRouter,
+    moduleUiManagementRouter,
+    pluginUiManagementRouter,
+    serviceUiManagementRouter,
   ],
 }
 

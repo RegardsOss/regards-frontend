@@ -27,7 +27,6 @@ import HOCUtils from '../hoc/HOCUtils'
  * @author Raphaël Mechali
  */
 class FileContentReader extends React.Component {
-  // TODO tests!
   static propTypes = {
     /** File content as blob to read */
     // eslint-disable-next-line react/no-unused-prop-types
@@ -80,7 +79,7 @@ class FileContentReader extends React.Component {
       // re-initialize state
       this.storeChildrenWithContent('', targetPropertyName, children, otherProperties, readingIndex)
       // extract file content from blob
-      const reader = new FileReader()
+      const reader = new root.FileReader()
       // callback: on done
       reader.addEventListener('loadend', () => {
         // handle only when no new reading was started

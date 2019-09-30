@@ -26,8 +26,6 @@ import HOCUtils from '../hoc/HOCUtils'
  * @author Raphaël Mechali
  */
 class LocalURLProvider extends React.Component {
-  // TODO tests!
-
   /**
    * Creates local access URL for blob as parameter
    * @param {*} blob blob

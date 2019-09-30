@@ -24,7 +24,7 @@ import { expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import someMatchHateoasDisplayLogic from '../../src/logics/someMatchHateoasDisplayLogic'
 
-describe('[DISPLAY CONTROL UTILS] Testing someMatchHateoasDisplayLogic', () => {
+describe('[DISPLAY CONTROL] Testing someMatchHateoasDisplayLogic', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

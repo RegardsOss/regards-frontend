@@ -21,11 +21,11 @@ import { assert } from 'chai'
 import root from 'window-or-global'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { AceEditorAdapter } from '@regardsoss/adapters'
+import { MIME_TYPES } from '@regardsoss/mime-types'
 import CodeFileDisplayer from '../../../src/content/preview/CodeFileDisplayer'
 import styles from '../../../src/content/styles/styles'
 import { TestBlob } from './TestBlob'
 import { TestFileReader } from './TestFileReader'
-// TODO other tests in that folder
 
 const context = buildTestContext(styles)
 
@@ -51,7 +51,7 @@ describe('[Components] Testing CodeFileDisplayer', () => {
         a {
           color: red;
         }`,
-      contentType: 'text/css',
+      contentType: MIME_TYPES.CSS_MIME_TYPE,
     },
   }, {
     file: {
@@ -68,7 +68,7 @@ describe('[Components] Testing CodeFileDisplayer', () => {
           "color": "red",
           "sizes": []
         }`,
-      contentType: 'application/json',
+      contentType: MIME_TYPES.JSON_MIME_TYPE,
     },
   }, {
     file: {
@@ -77,10 +77,28 @@ describe('[Components] Testing CodeFileDisplayer', () => {
         <color>red</color>
         <sizes/>
       </root>`,
-      contentType: 'application/xml',
+      contentType: MIME_TYPES.XML_MIME_TYPE,
     },
-  },
-  ]
+  }, {
+    file: {
+      content: `
+      <root>
+        <color>red</color>
+        <sizes/>
+      </root>`,
+      contentType: MIME_TYPES.XML_TEXT_MIME_TYPE,
+    },
+  }, {
+    file: {
+      content: `
+      function potatoes(potato){
+        return this.fry(potato)
+      }
+      `,
+      contentType: MIME_TYPES.JAVASCRIPT_MIME_TYPE,
+    },
+  }]
+  //
 
   it('should exists', () => {
     assert.isDefined(CodeFileDisplayer)
