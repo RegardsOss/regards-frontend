@@ -16,19 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
-import { Schema, arrayOf } from 'normalizr'
+import { BasicListReducers } from '@regardsoss/store-utils'
+import { PrioritizedDataStorageConfiguration } from '@regardsoss/api'
+import StoragesPluginActions from './StoragesPluginActions'
 
 /**
- * Storage plugin management for normalizer
+ * PrioritizedDataStorage fetch reducer
+ * @author Raphaël Mechali
  */
-export const PrioritizedDataStorageConfiguration = {
-  entityKey: 'name',
-  normalizrKey: 'prioritized-datastorage-conf',
+class StoragesPluginReducer extends BasicListReducers {
+  constructor(namespace) {
+    super(PrioritizedDataStorageConfiguration, new StoragesPluginActions(namespace))
+  }
 }
 
-export const PRIORIZED_DATASTORAGE = new Schema(PrioritizedDataStorageConfiguration.normalizrKey, {
-  idAttribute: model => model.content[PrioritizedDataStorageConfiguration.entityKey]
-  ,
-})
-export const PRIORIZED_DATASTORAGE_ARRAY = arrayOf(PRIORIZED_DATASTORAGE)
+/**
+ * Exports the reducer builder on namespace
+ * @param {string} namespace namespace
+ * @return {function} reduce function
+ */
+export default (namespace) => {
+  const instance = new StoragesPluginReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

@@ -25,6 +25,8 @@ import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
+import { formValueSelector } from 'redux-form'
+import { connect } from 'react-redux'
 import {
   Card, CardActions, CardTitle, CardText,
 } from 'material-ui/Card'
@@ -48,6 +50,8 @@ const {
   required, validStringSize,
 } = ValidationHelpers
 const validRequiredString255 = [required, validStringSize(1, 255)]
+const validateCron = value => value && !/^0 \* ((\*|\?|\d+((\/|\-){0,1}(\d+))*)\s*){4}$/i.test(value)
+  ? 'invalid.cron.expression' : undefined
 
 /**
 * Component to display a form of AcquisitionProcessingChain entity
@@ -65,6 +69,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     invalid: PropTypes.bool,
     submitting: PropTypes.bool,
     handleSubmit: PropTypes.func,
+    hasModeAuto: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -79,6 +84,9 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     fileInfos: [{
       mandatory: true,
     }],
+    categories: [],
+    mode: 'MANUAL',
+    periodicity: '0 * ',
   })
 
   /**
@@ -216,7 +224,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
 
   render() {
     const {
-      chain, onSubmit, handleSubmit, mode,
+      chain, onSubmit, handleSubmit, mode, hasModeAuto,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
@@ -251,7 +259,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
       text: 'name',
       value: 'name',
     }
-
     return (
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -304,21 +311,16 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                     />
                   ))}
                 </Field>
-                <Field
-                  name="session"
-                  fullWidth
-                  component={RenderTextField}
-                  type="text"
-                  label={formatMessage({ id: 'acquisition-chain.form.general.section.session' })}
-                  validate={required}
-                />
-                <Field
-                  name="periodicity"
-                  fullWidth
-                  component={RenderTextField}
-                  type="number"
-                  label={formatMessage({ id: 'acquisition-chain.form.general.section.periodicity' })}
-                />
+                {hasModeAuto ? (
+                  <Field
+                    name="periodicity"
+                    fullWidth
+                    component={RenderTextField}
+                    type="text"
+                    label={formatMessage({ id: 'acquisition-chain.form.general.section.periodicity' })}
+                    validate={validateCron}
+                  />
+                ) : (<div />)}
                 <Field
                   name="ingestChain"
                   fullWidth
@@ -379,8 +381,20 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
   }
 }
 
-const connectedReduxForm = reduxForm({
+let connectedReduxForm = reduxForm({
   form: 'acquisition-chain-form',
 })(AcquisitionProcessingChainFormComponent)
+
+const selector = formValueSelector('acquisition-chain-form')
+
+connectedReduxForm = connect(
+  (state) => {
+    // can select values individually
+    const hasModeAuto = selector(state, 'mode') === 'AUTO'
+    return {
+      hasModeAuto,
+    }
+  },
+)(connectedReduxForm)
 
 export default withI18n(messages)(withModuleStyle(styles)(connectedReduxForm))

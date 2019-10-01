@@ -24,45 +24,36 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { StorageDomain } from '@regardsoss/domain'
 import PrioritizedDataStorageListContainer from '../containers/PrioritizedDataStorageListContainer'
 import { storagesPluginActions } from '../clients/StoragesPluginClient'
 import messages from '../i18n'
 import styles from '../styles'
-
 /**
-* Comment Here
-* @author Sébastien Binda
-*/
-class PrioritizedDataStoragesComponent extends React.Component {
-  static addDependencies = [storagesPluginActions.getDependency(RequestVerbEnum.POST)]
-
+ * Storage plugin list component
+ * @author Kévin Picart
+ */
+class StoragesPluginListComponent extends React.Component {
   static propTypes = {
     params: PropTypes.shape({
       project: PropTypes.string.isRequired,
     }),
   }
 
-  static defaultProps = {}
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
   }
+
+  static addDependencies = [storagesPluginActions.getDependency(RequestVerbEnum.POST)]
 
   goToBoard = () => {
     const { params: { project } } = this.props
     browserHistory.push(`/admin/${project}/data/acquisition/board`)
   }
 
-  goToCreateOnlineForm = () => {
+  goToCreateStorageForm = () => {
     const { params: { project } } = this.props
     browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/create`)
-  }
-
-  goToCreateNearlineForm = () => {
-    const { params: { project } } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${StorageDomain.PluginTypeEnum.NEARLINE}/create`)
   }
 
   render() {
@@ -75,43 +66,21 @@ class PrioritizedDataStoragesComponent extends React.Component {
           subtitle={formatMessage({ id: 'storage.data-storage.plugins.list.subtitle' })}
         />
         <CardText style={moduleTheme.root}>
-          <CardTitle
-            title={formatMessage({ id: 'storage.data-storage.plugins.online.list.title' })}
-            subtitle={formatMessage({ id: 'storage.data-storage.plugins.online.list.subtitle' })}
-          />
           <PrioritizedDataStorageListContainer
-            key="online"
             project={project}
-            type={StorageDomain.DataStorageTypeEnum.ONLINE}
-          />
-          <CardActionsComponent
-            mainButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.online.list.add.button' })}
-            mainButtonClick={this.goToCreateOnlineForm}
-            mainHateoasDependencies={PrioritizedDataStoragesComponent.addDependencies}
-          />
-          <CardTitle
-            title={formatMessage({ id: 'storage.data-storage.plugins.nearline.list.title' })}
-            subtitle={formatMessage({ id: 'storage.data-storage.plugins.nearline.list.subtitle' })}
-          />
-          <PrioritizedDataStorageListContainer
-            key="nearline"
-            project={project}
-            type={StorageDomain.DataStorageTypeEnum.NEARLINE}
-          />
-          <CardActionsComponent
-            mainButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.nearline.list.add.button' })}
-            mainButtonClick={this.goToCreateNearlineForm}
-            mainHateoasDependencies={PrioritizedDataStoragesComponent.addDependencies}
           />
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.list.back.button' })}
-            mainButtonClick={this.goToBoard}
+            mainButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.list.add.button' })}
+            mainButtonClick={this.goToCreateStorageForm}
+            mainHateoasDependencies={StoragesPluginListComponent.addDependencies}
+            secondaryButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.list.back.button' })}
+            secondaryButtonClick={this.goToBoard}
           />
         </CardActions>
       </Card>
     )
   }
 }
-export default withModuleStyle(styles)(withI18n(messages)(PrioritizedDataStoragesComponent))
+export default withModuleStyle(styles)(withI18n(messages)(StoragesPluginListComponent))

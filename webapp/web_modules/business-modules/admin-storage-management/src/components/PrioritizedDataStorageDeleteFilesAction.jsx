@@ -16,20 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import IconButton from 'material-ui/IconButton'
+import DeleteFiles from 'mdi-material-ui/FileExcel'
 import { StorageShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import IconButton from 'material-ui/IconButton'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { storagesPluginActions } from '../clients/StoragesPluginClient'
 
+const IconButtonWithResources = withResourceDisplayControl(IconButton)
 /**
-* Edit table action for datasourceIngestions
-* @author Sébastien Binda
-*/
-class PrioritizedDataStorageEditAction extends React.Component {
+ * Delete Storage Files Button
+ * @author Kévin Picart
+ */
+class PrioritizedDataStorageDeleteFilesAction extends React.Component {
   static propTypes = {
     entity: StorageShapes.PrioritizedDataStorage,
-    onEdit: PropTypes.func.isRequired,
+    onDeleteFiles: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -40,26 +43,21 @@ class PrioritizedDataStorageEditAction extends React.Component {
 
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
-  isEditable = () => {
-    const { links } = this.props.entity
-    return !!find(links, l => l.rel === 'update')
-  }
-
   render() {
     const { intl: { formatMessage } } = this.context
-    const { entity: { content: { configuration } }, onEdit } = this.props
+    const { entity } = this.props
     return (
-      <IconButton
-        className={`selenium-edit-${configuration.id}`}
-        title={formatMessage({ id: 'storage.data-storage.plugins.list.edit.button' })}
-        iconStyle={PrioritizedDataStorageEditAction.iconStyle}
-        style={PrioritizedDataStorageEditAction.buttonStyle}
-        onClick={() => onEdit(configuration)}
-        disabled={!this.isEditable()}
+      <IconButtonWithResources
+        title={formatMessage({ id: 'storage.data-storage.plugins.list.duplicate.button' })}
+        iconStyle={PrioritizedDataStorageDeleteFilesAction.iconStyle}
+        style={PrioritizedDataStorageDeleteFilesAction.buttonStyle}
+        onClick={() => this.props.onDeleteFiles(entity)}
+        resourceDependencies={storagesPluginActions.getDependency(RequestVerbEnum.POST)}
+        hideDisabled={false}
       >
-        <Edit />
-      </IconButton>
+        <DeleteFiles />
+      </IconButtonWithResources>
     )
   }
 }
-export default PrioritizedDataStorageEditAction
+export default PrioritizedDataStorageDeleteFilesAction

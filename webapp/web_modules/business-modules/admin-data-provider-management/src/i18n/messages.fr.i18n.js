@@ -57,7 +57,7 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.label': 'Nom de la chaîne (*)',
   'acquisition-chain.form.general.section.active': 'Chaîne active',
   'acquisition-chain.form.general.generationRetryEnabled': 'Autoriser la re-génération des SIP associés à des produits en erreur.',
-  'acquisition-chain.form.general.section.periodicity': 'Période d\'activation (secondes). Utile uniquement pour une chaîne automatique.',
+  'acquisition-chain.form.general.section.periodicity': 'Cron d\'activation. (ex : "0 * 0 * *", il doit démarrer par "0 *")',
   'acquisition-chain.form.general.section.session': 'Session (*)',
   'acquisition-chain.form.general.section.mode': 'Mode (*)',
   'acquisition-chain.form.general.section.mode.AUTO': 'Automatique',
@@ -296,6 +296,8 @@ const messages = Object.assign({
   'acquisition-product.run.dialog.message': 'Vous pouvez directement confirmer si vous ne souhaitez pas la renommer.',
   'acquisition-product.run.dialog.confirm.button': 'Confirmer',
   'acquisition-product.run.dialog.close.button': 'Fermer',
+
+  'invalid.cron.expression': 'Cron invalide',
 
 }, Locales.fr)
 

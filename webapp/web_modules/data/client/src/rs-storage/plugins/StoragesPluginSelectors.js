@@ -15,20 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-
-import { Schema, arrayOf } from 'normalizr'
+ */
+import { BasicListSelectors } from '@regardsoss/store-utils'
 
 /**
- * Storage plugin management for normalizer
+ * Export selectors builder on store path.
+ * @param storePath redux store path to access reduced data
+ * @return selectors instance
  */
-export const PrioritizedDataStorageConfiguration = {
-  entityKey: 'name',
-  normalizrKey: 'prioritized-datastorage-conf',
-}
-
-export const PRIORIZED_DATASTORAGE = new Schema(PrioritizedDataStorageConfiguration.normalizrKey, {
-  idAttribute: model => model.content[PrioritizedDataStorageConfiguration.entityKey]
-  ,
-})
-export const PRIORIZED_DATASTORAGE_ARRAY = arrayOf(PRIORIZED_DATASTORAGE)
+export default storePath => new BasicListSelectors(storePath)

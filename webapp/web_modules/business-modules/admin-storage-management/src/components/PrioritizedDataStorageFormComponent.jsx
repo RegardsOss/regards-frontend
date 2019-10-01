@@ -19,14 +19,18 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import MoodIcon from 'material-ui/svg-icons/social/mood'
+import { browserHistory } from 'react-router'
 import {
   Card, CardActions, CardText, CardTitle,
 } from 'material-ui/Card'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
+import {
+  RenderTextField, reduxForm, ValidationHelpers, Field,
+} from '@regardsoss/form-utils'
 import { StorageDomain } from '@regardsoss/domain'
-import { PluginListContainer, PluginFormContainer } from '@regardsoss/microservice-plugin-configurator'
+import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
 import { StorageShapes } from '@regardsoss/shape'
 import messages from '../i18n'
 import styles from '../styles'
@@ -35,69 +39,90 @@ import styles from '../styles'
 * Component to create/edit/diplicate a storage location plugin configuration
 * @author Sébastien Binda
 */
+const validateName = value => value && !/^[a-zA-Z0-9_-]+$/g.test(value)
+  ? 'invalid.name.expression' : undefined
+
 class PrioritizedDataStorageFormComponent extends React.Component {
   static propTypes = {
     mode: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(StorageDomain.DataStorageTypeEnumValues).isRequired,
     entity: StorageShapes.PrioritizedDataStorage,
     backUrl: PropTypes.string.isRequired,
     onUpdate: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
+    // from redux form
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
-
-  static defaultProps = {}
 
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedPlugin: get(this.getPluginConfiguration(props), 'content', null),
+  componentDidMount(prevProps) {
+    this.handleInitialize()
+  }
+
+  handleInitialize = () => {
+    const { mode, entity, initialize } = this.props
+    if (mode === 'edit' && entity) {
+      initialize({
+        name: entity.content.configuration.name,
+        allocatedSizeInKo: entity.content.configuration.allocatedSizeInKo,
+        pluginConfiguration: entity.content.configuration.pluginConfiguration,
+      })
     }
   }
 
-  getPluginConfiguration = (props) => {
-    const storageConfiguration = get(props ? props.entity : this.props.entity, 'content.storageConfiguration', null)
-    return storageConfiguration ? { content: storageConfiguration } : null
-  }
-
-  selectPluginType = (plugin) => {
-    if (!isEqual(this.state.selectedPlugin, plugin)) {
-      this.setState({ selectedPlugin: plugin })
-    }
+  onBack = () => {
+    const { backUrl } = this.props
+    browserHistory.push(backUrl)
   }
 
   /**
-   * Update a PrioritizedDataStorage entity from the given updated PluginConfiguration.
+   * Update a storageLocationConf entity from the given updated PluginConfiguration.
    */
-  updatePrioritizedDataStorage = (newPluginConfiguration, microservice, pluginId, pluginConfId) => {
+  updateStorageLocationConf = (fields) => {
     const { onUpdate, entity } = this.props
-    const prioritizedDataStorageToUpdate = Object.assign({}, entity.content)
-    prioritizedDataStorageToUpdate.storageConfiguration = newPluginConfiguration
-    return onUpdate(entity.content.id, prioritizedDataStorageToUpdate)
+    const storageLocationConfToUpdate = {
+      name: entity.content.configuration.name,
+      configuration: {
+        name: entity.content.configuration.name,
+        allocatedSizeInKo: fields.allocatedSizeInKo,
+        pluginConfiguration: fields.pluginConfiguration ? fields.pluginConfiguration : null,
+      },
+    }
+    onUpdate(entity.content.configuration.name, storageLocationConfToUpdate).then((actionResults) => {
+      if (!actionResults.error) {
+        this.onBack()
+      }
+    })
   }
 
   /**
-   * Create a PrioritizedDataStorage entity from the given updated PluginConfiguration.
+   * Create a storageLocationConf entity from the given updated PluginConfiguration.
    */
-  createPrioritizedDataStorage = (newPluginConfiguration, microservice, pluginId) => {
+  createStorageLocationConf = (fields) => {
     const { onCreate } = this.props
-    const prioritizedDataStorageToUpdate = {
-      storageConfiguration: newPluginConfiguration,
+    const storageLocationConf = {
+      name: fields.name,
+      configuration: {
+        allocatedSizeInKo: fields.allocatedSizeInKo,
+        pluginConfiguration: fields.pluginConfiguration ? fields.pluginConfiguration : null,
+      },
     }
-    return onCreate(prioritizedDataStorageToUpdate)
+    onCreate(storageLocationConf).then((actionResults) => {
+      if (!actionResults.error) {
+        this.onBack()
+      }
+    })
   }
 
-  renderContent = (pluginConfiguration, selectedPluginId) => {
-    const { type, mode, backUrl } = this.props
+  renderContent = () => {
+    const { mode, entity } = this.props
     const { intl: { formatMessage } } = this.context
-    const pluginType = type === StorageDomain.DataStorageTypeEnum.ONLINE
-      ? StorageDomain.PluginTypeEnum.ONLINE_STORAGE
-      : StorageDomain.PluginTypeEnum.NEARLINE_STORAGE
-    if (mode !== 'create' && !pluginConfiguration) {
+    const pluginType = StorageDomain.PluginTypeEnum.STORAGE
+    if (mode !== 'create' && !entity) {
       return (
         <NoContentComponent
           title={formatMessage({ id: 'storage.plugins.storage.form.invalid.id' })}
@@ -107,70 +132,77 @@ class PrioritizedDataStorageFormComponent extends React.Component {
     }
     return (
       <div>
-        <PluginListContainer
-          title={formatMessage({ id: 'storage.plugins.storage.form.type.select.title' })}
-          selectLabel={formatMessage({ id: 'storage.plugins.storage.form.type.select.label' })}
-          microserviceName={STATIC_CONF.MSERVICES.STORAGE}
-          pluginType={pluginType}
-          selectedPluginId={selectedPluginId}
-          disabled={!!pluginConfiguration}
-          handleSelect={this.selectPluginType}
-          errorText=""
+        <Field
+          name="name"
+          fullWidth
+          component={RenderTextField}
+          type="text"
+          value=""
+          label={formatMessage({ id: 'storage.plugins.storage.form.name.label' })}
+          validate={validateName}
+          disabled={mode !== 'create'}
         />
-        {selectedPluginId
-          ? <PluginFormContainer
-            key={`plugin-conf-${selectedPluginId}`}
-            microserviceName={STATIC_CONF.MSERVICES.STORAGE}
-            pluginId={selectedPluginId}
-            pluginConfiguration={pluginConfiguration}
-            formMode={mode}
-            backUrl={backUrl}
-            cardStyle={false}
-            simpleGlobalParameterConf
-            hideDynamicParameterConf
-            onUpdatePluginConfiguration={this.updatePrioritizedDataStorage}
-            onCreatePluginConfiguration={this.createPrioritizedDataStorage}
-          /> : null
-        }
+        <Field
+          name="allocatedSizeInKo"
+          fullWidth
+          component={RenderTextField}
+          type="number"
+          validate={ValidationHelpers.required}
+          label={formatMessage({ id: 'storage.plugins.storage.form.allocated-size.label' })}
+        />
+        <Field
+          key="scanPlugin"
+          name="pluginConfiguration"
+          component={RenderPluginField}
+          title={formatMessage({ id: 'storage.plugins.storage.form.plugin.label' })}
+          selectLabel={formatMessage({ id: 'storage.plugins.storage.form.plugin.label' })}
+          pluginType={pluginType}
+          microserviceName={STATIC_CONF.MSERVICES.STORAGE}
+          hideDynamicParameterConf
+          hideGlobalParameterConf
+        />
       </div>
     )
   }
 
   render() {
-    const { backUrl, mode } = this.props
-    const pluginConfiguration = this.getPluginConfiguration()
-    const { selectedPlugin } = this.state
-    const selectedPluginId = get(selectedPlugin, 'pluginId', null)
+    const {
+      backUrl, mode, handleSubmit, entity,
+    } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
 
     const title = mode === 'edit'
-      ? formatMessage({ id: 'storage.plugins.storage.form.edit.title' }, { name: get(pluginConfiguration, 'content.label', '<>') })
+      ? formatMessage({ id: 'storage.plugins.storage.form.edit.title' }, { name: entity.content.name })
       : formatMessage({ id: 'storage.plugins.storage.form.create.title' })
-    const subtitle = mode === 'edit'
-      ? formatMessage({ id: 'storage.plugins.storage.form.edit.subtitle' })
-      : formatMessage({ id: 'storage.plugins.storage.form.create.subtitle' })
+    const buttonTitle = mode === 'edit'
+      ? formatMessage({ id: 'storage.plugins.storage.form.submit.edit.button' })
+      : formatMessage({ id: 'storage.plugins.storage.form.submit.button' })
     return (
       <Card>
         <CardTitle
           title={title}
-          subtitle={subtitle}
+          subtitle={formatMessage({ id: 'storage.plugins.storage.form.subtitle' })}
         />
-        <CardText style={moduleTheme.root}>
-          {this.renderContent(pluginConfiguration, selectedPluginId)}
-        </CardText>
-        {selectedPluginId ? null
-          : (
-            <CardActions>
-              <CardActionsComponent
-                mainButtonLabel={formatMessage({ id: 'storage.plugins.storage.form.back.button' })}
-                mainButtonUrl={backUrl}
-              />
-            </CardActions>
-          )
-        }
+        <form onSubmit={handleSubmit(mode === 'create' ? this.createStorageLocationConf : this.updateStorageLocationConf)}>
+          <CardText style={moduleTheme.root}>
+            {this.renderContent()}
+          </CardText>
+          <CardActions>
+            <CardActionsComponent
+              mainButtonLabel={buttonTitle}
+              mainButtonType="submit"
+              secondaryButtonLabel={formatMessage({ id: 'storage.plugins.storage.form.back.button' })}
+              secondaryButtonUrl={backUrl}
+            />
+          </CardActions>
+        </form>
       </Card>
     )
   }
 }
 
-export default withModuleStyle(styles)(withI18n(messages)(PrioritizedDataStorageFormComponent))
+const connectedReduxForm = reduxForm({
+  form: 'storage-form',
+})(PrioritizedDataStorageFormComponent)
+// [a-zA-Z0-9_\-]+
+export default withModuleStyle(styles)(withI18n(messages)(connectedReduxForm))

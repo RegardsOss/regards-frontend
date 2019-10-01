@@ -21,13 +21,16 @@ import { PluginConfigurationContent } from '../rs-common'
 
 export const PrioritizedDataStorageContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
-  storageConfiguration: PluginConfigurationContent.isRequired,
+  name: PropTypes.string.isRequired,
+  pluginConfiguration: PluginConfigurationContent,
   storageType: PropTypes.oneOf(StorageDomain.DataStorageTypeEnumValues).isRequired,
   priority: PropTypes.number.isRequired,
 })
 
 export const PrioritizedDataStorage = PropTypes.shape({
-  content: PrioritizedDataStorageContent.isRequired,
+  content: PropTypes.shape({
+    configuration: PrioritizedDataStorageContent.isRequired,
+  }),
 })
 
 export const PrioritizedDataStorageList = PropTypes.objectOf(PrioritizedDataStorage)

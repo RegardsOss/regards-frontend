@@ -24,5 +24,10 @@ export { default as getStorageMonitoringSelectors } from './monitoring/StorageMo
 export { default as PrioritizedDataStorageActions } from './plugins/PrioritizedDataStorageActions'
 export { default as getPrioritizedDataStorageReducer } from './plugins/PrioritizedDataStorageReducer'
 export { default as getPrioritizedDataStorageSelectors } from './plugins/PrioritizedDataStorageSelectors'
-export { default as PrioritizedDataStorageUpActions } from './plugins/PrioritizedDataStorageUpActions'
-export { default as PrioritizedDataStorageDownActions } from './plugins/PrioritizedDataStorageDownActions'
+
+export { default as StoragesPluginActions } from './plugins/StoragesPluginActions'
+export { default as getStoragesPluginReducer } from './plugins/StoragesPluginReducer'
+export { default as getStoragesPluginSelectors } from './plugins/StoragesPluginSelectors'
+export { default as StoragesPluginUpActions } from './plugins/StoragesPluginUpActions'
+export { default as StoragesPluginDownActions } from './plugins/StoragesPluginDownActions'
+export { default as StoragesPluginDeleteFilesActions } from './plugins/StoragesPluginDeleteFilesActions'

@@ -61,6 +61,43 @@ const storageManagementStyles = theme => ({
       alignItems: 'center',
     },
   },
+  storageTable: {
+    percentageColumn: {
+      percentage: {
+        position: 'absolute',
+        left: '0px',
+        top: '0px',
+        zIndex: '1',
+        height: 'calc(100% - 1px)',
+      },
+      container: {
+        background: 'rgb(155, 155, 155)',
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      size: {
+        position: 'relative',
+        zIndex: '2',
+      },
+    },
+    errorColumn: {
+      container: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      relaunchButton: {
+        position: 'absolute',
+        right: '0px',
+        bottom: '0px',
+      },
+    },
+  },
 })
 
 export default storageManagementStyles

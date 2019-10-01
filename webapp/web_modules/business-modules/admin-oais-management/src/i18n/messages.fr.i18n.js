@@ -89,8 +89,8 @@ export default {
 
   STORED: 'STORED',
   DELETED: 'DELETED',
-  GENERATED: 'GENERATED',
   ERROR: 'ERROR',
+  GENERATED: 'GENERATED',
 
   'oais.aips.files.modal.action.close': 'Fermer',
   'oais.aips.files.modal.title': 'Trace ...',
