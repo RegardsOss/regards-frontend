@@ -29,10 +29,16 @@ const REDUX_ACTION_NAMESPACE = 'admin-storage/storagesPlugin'
 const UP_NAMESPACE = 'admin-storage/prioritizedDataStorage/up'
 const DOWN_NAMESPACE = 'admin-storage/prioritizedDataStorage/up'
 const DELETE_FILES_NAMESPACE = 'admin-storage/prioritizedDataStorage/deleteFiles'
+const COPY_FILES_NAMESPACE = 'admin-storage/prioritizedDataStorage/copyFiles'
+const ERRORS_RETRY_NAMESPACE = 'admin-storage/prioritizedDataStorage/errorsRetry'
+const ERRORS_DELETE_NAMESPACE = 'admin-storage/prioritizedDataStorage/errorsDelete'
+const RELAUNCH_MONITORING_NAMESPACE = 'admin-storage/prioritizedDataStorage/relaunchMonitoring'
 
 const {
   StoragesPluginActions, getStoragesPluginReducer, getStoragesPluginSelectors,
   StoragesPluginDownActions, StoragesPluginUpActions, StoragesPluginDeleteFilesActions,
+  StoragesPluginCopyFilesActions, StoragesPluginErrorsRetryActions, StoragesPluginErrorsDeleteActions,
+  StoragesPluginRelaunchMonitoringActions,
 } = StorageClient
 
 export const storagesPluginReducer = getStoragesPluginReducer(REDUX_ACTION_NAMESPACE)
@@ -42,3 +48,9 @@ export const storagesPluginSelectors = getStoragesPluginSelectors(ENTITIES_STORE
 export const storagesPluginUpActions = new StoragesPluginUpActions(UP_NAMESPACE)
 export const storagesPluginDownActions = new StoragesPluginDownActions(DOWN_NAMESPACE)
 export const storagesPluginDeleteFilesActions = new StoragesPluginDeleteFilesActions(DELETE_FILES_NAMESPACE)
+export const storagesPluginCopyFilesActions = new StoragesPluginCopyFilesActions(COPY_FILES_NAMESPACE)
+
+export const storagesPluginErrorsRetryActions = new StoragesPluginErrorsRetryActions(ERRORS_RETRY_NAMESPACE)
+export const storagesPluginErrorsDeleteActions = new StoragesPluginErrorsDeleteActions(ERRORS_DELETE_NAMESPACE)
+
+export const storagesPluginRelaunchMonitoringActions = new StoragesPluginRelaunchMonitoringActions(RELAUNCH_MONITORING_NAMESPACE)

@@ -22,15 +22,15 @@ import { BasicSignalActions, RequestVerbEnum } from '@regardsoss/store-utils'
  * Actions to get PrioritizedDataStorage information
  * @author Picart Kevin
  */
-class StoragesPluginDeleteFilesActions extends BasicSignalActions {
+class StoragesPluginErrorsRetryActions extends BasicSignalActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/{name}/files`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/{name}/files/retry/{type}`,
     })
   }
 
-  deleteFiles = (name, force) => this.sendSignal(RequestVerbEnum.DELETE, {}, { name }, { force })
+  retryErrors = (name, type) => this.sendSignal(RequestVerbEnum.GET, {}, { name, type }, {})
 }
 
-export default StoragesPluginDeleteFilesActions
+export default StoragesPluginErrorsRetryActions

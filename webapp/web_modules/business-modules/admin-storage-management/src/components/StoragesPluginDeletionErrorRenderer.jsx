@@ -19,8 +19,10 @@
 import { StorageShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import Delete from 'material-ui/svg-icons/action/delete'
 import IconButton from 'material-ui/IconButton'
 import Relaunch from 'material-ui/svg-icons/image/rotate-right'
+import { PrioritizedDataStorageListComponent } from './PrioritizedDataStorageListComponent';
 /**
  * Show Deletion Errors and a button to relauch
  * @author Kévin Picart
@@ -28,7 +30,7 @@ import Relaunch from 'material-ui/svg-icons/image/rotate-right'
 class StoragesPluginDeletionErrorRenderer extends React.Component {
   static propTypes = {
     entity: StorageShapes.PrioritizedDataStorage,
-    onRelaunchDeletionsErrors: PropTypes.func.isRequired,
+    onDeletionErrors: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -40,9 +42,14 @@ class StoragesPluginDeletionErrorRenderer extends React.Component {
 
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
-  onRelaunchDeletionErrors = () => {
-    //
-    this.props.onRelaunchDeletionsErrors()
+  onRelaunchDeletingErrors = () => {
+    const { entity } = this.props
+    this.props.onDeletionErrors(entity, PrioritizedDataStorageListComponent.DIALOGS_TYPES.RELAUNCH_ERRORS)
+  }
+
+  onDeleteDeleteingErrors = () => {
+    const { entity } = this.props
+    this.props.onDeletionErrors(entity, PrioritizedDataStorageListComponent.DIALOGS_TYPES.DELETE_ERRORS)
   }
 
   render() {
@@ -53,16 +60,26 @@ class StoragesPluginDeletionErrorRenderer extends React.Component {
       <div style={container}>
         { entity.content.nbDeletionError ? entity.content.nbDeletionError : '-' }
         { entity.content.nbDeletionError > 0 ? (
-          <div style={relaunchButton}>
-            <IconButton
-              title={formatMessage({ id: 'storage.data-storage.plugins.list.relaunch.deletion' })}
-              iconStyle={StoragesPluginDeletionErrorRenderer.iconStyle}
-              style={StoragesPluginDeletionErrorRenderer.buttonStyle}
-              onClick={this.onRelaunchDeletionErrors()}
-            >
-              <Relaunch />
-            </IconButton>
-          </div>
+          <React.Fragment>
+            <div style={relaunchButton}>
+              <IconButton
+                title={formatMessage({ id: 'storage.data-storage.plugins.list.relaunch.deletion' })}
+                iconStyle={StoragesPluginDeletionErrorRenderer.iconStyle}
+                style={StoragesPluginDeletionErrorRenderer.buttonStyle}
+                onClick={this.onRelaunchDeletingErrors}
+              >
+                <Relaunch />
+              </IconButton>
+              <IconButton
+                title={formatMessage({ id: 'storage.data-storage.plugins.list.delete.deletion' })}
+                iconStyle={StoragesPluginDeletionErrorRenderer.iconStyle}
+                style={StoragesPluginDeletionErrorRenderer.buttonStyle}
+                onClick={this.onDeleteDeleteingErrors}
+              >
+                <Delete />
+              </IconButton>
+            </div>
+          </React.Fragment>
         ) : null }
       </div>
     )

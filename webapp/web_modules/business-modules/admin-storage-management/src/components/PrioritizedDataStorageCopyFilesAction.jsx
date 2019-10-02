@@ -29,7 +29,7 @@ const IconButtonWithResources = withResourceDisplayControl(IconButton)
 * Delete table action for datasourceIngestions
 * @author Sébastien Binda
 */
-class PrioritizedDataStorageDuplicateAction extends React.Component {
+class PrioritizedDataStorageCopyFilesAction extends React.Component {
   static propTypes = {
     entity: StorageShapes.PrioritizedDataStorage,
     onCopyFiles: PropTypes.func.isRequired,
@@ -45,14 +45,13 @@ class PrioritizedDataStorageDuplicateAction extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { entity: { content: { configuration } } } = this.props
+    const { entity } = this.props
     return (
       <IconButtonWithResources
-        className={`selenium-edit-${configuration.id}`}
-        title={formatMessage({ id: 'storage.data-storage.plugins.list.duplicate.button' })}
-        iconStyle={PrioritizedDataStorageDuplicateAction.iconStyle}
-        style={PrioritizedDataStorageDuplicateAction.buttonStyle}
-        onClick={() => this.props.onCopyFiles(configuration)}
+        title={formatMessage({ id: 'storage.data-storage.plugins.list.copy.button' })}
+        iconStyle={PrioritizedDataStorageCopyFilesAction.iconStyle}
+        style={PrioritizedDataStorageCopyFilesAction.buttonStyle}
+        onClick={() => this.props.onCopyFiles(entity)}
         resourceDependencies={storagesPluginActions.getDependency(RequestVerbEnum.POST)}
         hideDisabled={false}
       >
@@ -61,4 +60,4 @@ class PrioritizedDataStorageDuplicateAction extends React.Component {
     )
   }
 }
-export default PrioritizedDataStorageDuplicateAction
+export default PrioritizedDataStorageCopyFilesAction

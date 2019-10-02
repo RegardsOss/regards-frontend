@@ -26,11 +26,11 @@ class StoragesPluginDeleteFilesActions extends BasicSignalActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/{name}/files`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/monitoring/run`,
     })
   }
 
-  deleteFiles = (name, force) => this.sendSignal(RequestVerbEnum.DELETE, {}, { name }, { force })
+  relaunchMonitoring = reset => this.sendSignal(RequestVerbEnum.GET, {}, {}, { reset })
 }
 
 export default StoragesPluginDeleteFilesActions

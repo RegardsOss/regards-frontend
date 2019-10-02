@@ -19,8 +19,10 @@
 import { StorageShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import Delete from 'material-ui/svg-icons/action/delete'
 import Relaunch from 'material-ui/svg-icons/image/rotate-right'
 import IconButton from 'material-ui/IconButton'
+import { PrioritizedDataStorageListComponent } from './PrioritizedDataStorageListComponent';
 /**
  * Show storage errors and a relauch button
  * @author Kévin Picart
@@ -28,7 +30,7 @@ import IconButton from 'material-ui/IconButton'
 class StoragesPluginStorageErrorRenderer extends React.Component {
   static propTypes = {
     entity: StorageShapes.PrioritizedDataStorage,
-    onRelaunchStoragesErrors: PropTypes.func.isRequired,
+    onStorageErrors: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -41,8 +43,13 @@ class StoragesPluginStorageErrorRenderer extends React.Component {
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
   onRelaunchStoragesErrors = () => {
-    //
-    this.props.onRelaunchStoragesErrors()
+    const { entity } = this.props
+    this.props.onStorageErrors(entity, PrioritizedDataStorageListComponent.DIALOGS_TYPES.RELAUNCH_ERRORS)
+  }
+
+  onDeleteStoragesErrors = () => {
+    const { entity } = this.props
+    this.props.onStorageErrors(entity, PrioritizedDataStorageListComponent.DIALOGS_TYPES.DELETE_ERRORS)
   }
 
   render() {
@@ -53,16 +60,26 @@ class StoragesPluginStorageErrorRenderer extends React.Component {
       <div style={container}>
         { entity.content.nbStorageError ? entity.content.nbStorageError : '-' }
         { entity.content.nbStorageError > 0 ? (
-          <div style={relaunchButton}>
-            <IconButton
-              title={formatMessage({ id: 'storage.data-storage.plugins.list.relaunch.storage' })}
-              iconStyle={StoragesPluginStorageErrorRenderer.iconStyle}
-              style={StoragesPluginStorageErrorRenderer.buttonStyle}
-              onClick={this.onRelaunchStoragesErrors()}
-            >
-              <Relaunch />
-            </IconButton>
-          </div>
+          <React.Fragment>
+            <div style={relaunchButton}>
+              <IconButton
+                title={formatMessage({ id: 'storage.data-storage.plugins.list.relaunch.storage' })}
+                iconStyle={StoragesPluginStorageErrorRenderer.iconStyle}
+                style={StoragesPluginStorageErrorRenderer.buttonStyle}
+                onClick={this.onRelaunchStoragesErrors}
+              >
+                <Relaunch />
+              </IconButton>
+              <IconButton
+                title={formatMessage({ id: 'storage.data-storage.plugins.list.delete.storage' })}
+                iconStyle={StoragesPluginStorageErrorRenderer.iconStyle}
+                style={StoragesPluginStorageErrorRenderer.buttonStyle}
+                onClick={this.onDeleteStoragesErrors}
+              >
+                <Delete />
+              </IconButton>
+            </div>
+          </React.Fragment>
         ) : null }
       </div>
     )

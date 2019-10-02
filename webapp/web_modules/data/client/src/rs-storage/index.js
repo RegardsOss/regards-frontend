@@ -31,3 +31,9 @@ export { default as getStoragesPluginSelectors } from './plugins/StoragesPluginS
 export { default as StoragesPluginUpActions } from './plugins/StoragesPluginUpActions'
 export { default as StoragesPluginDownActions } from './plugins/StoragesPluginDownActions'
 export { default as StoragesPluginDeleteFilesActions } from './plugins/StoragesPluginDeleteFilesActions'
+export { default as StoragesPluginCopyFilesActions } from './plugins/StoragesPluginCopyFilesActions'
+
+export { default as StoragesPluginErrorsRetryActions } from './plugins/StoragesPluginErrorsRetryActions'
+export { default as StoragesPluginErrorsDeleteActions } from './plugins/StoragesPluginErrorsDeleteActions'
+
+export { default as StoragesPluginRelaunchMonitoringActions } from './plugins/StoragesPluginRelaunchMonitoringActions'

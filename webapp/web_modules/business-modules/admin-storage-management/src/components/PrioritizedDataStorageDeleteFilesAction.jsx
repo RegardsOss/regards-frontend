@@ -48,7 +48,7 @@ class PrioritizedDataStorageDeleteFilesAction extends React.Component {
     const { entity } = this.props
     return (
       <IconButtonWithResources
-        title={formatMessage({ id: 'storage.data-storage.plugins.list.duplicate.button' })}
+        title={formatMessage({ id: 'storage.data-storage.plugins.list.delete-files.button' })}
         iconStyle={PrioritizedDataStorageDeleteFilesAction.iconStyle}
         style={PrioritizedDataStorageDeleteFilesAction.buttonStyle}
         onClick={() => this.props.onDeleteFiles(entity)}

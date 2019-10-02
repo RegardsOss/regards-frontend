@@ -20,7 +20,8 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { StorageShapes } from '@regardsoss/shape'
 import {
-  storagesPluginActions, storagesPluginSelectors, storagesPluginDownActions, storagesPluginUpActions, storagesPluginDeleteFilesActions,
+  storagesPluginActions, storagesPluginSelectors, storagesPluginDownActions, storagesPluginUpActions, storagesPluginDeleteFilesActions, storagesPluginCopyFilesActions,
+  storagesPluginErrorsRetryActions, storagesPluginErrorsDeleteActions, storagesPluginRelaunchMonitoringActions,
 } from '../clients/StoragesPluginClient'
 import PrioritizedDataStorageListComponent from '../components/PrioritizedDataStorageListComponent'
 
@@ -54,8 +55,12 @@ export class PrioritizedDataStorageListContainer extends React.Component {
       update: prioritizedDataStorage => dispatch(storagesPluginActions.updateEntity(prioritizedDataStorage.id, prioritizedDataStorage)),
       delete: name => dispatch(storagesPluginActions.deleteEntity(name)),
       deleteFiles: (name, force) => dispatch(storagesPluginDeleteFilesActions.deleteFiles(name, force)),
+      copyFiles: (nameSource, pathSource, nameTarget, pathTarget) => dispatch(storagesPluginCopyFilesActions.copyFiles(nameSource, pathSource, nameTarget, pathTarget)),
       upPriority: (name, conf) => dispatch(storagesPluginUpActions.upPriority(name, conf)),
       downPriority: (name, conf) => dispatch(storagesPluginDownActions.downPriority(name, conf)),
+      retryErrors: (name, type) => dispatch(storagesPluginErrorsRetryActions.retryErrors(name, type)),
+      deleteErrors: (name, type) => dispatch(storagesPluginErrorsDeleteActions.deleteErrors(name, type)),
+      relaunchMonitoring: reset => dispatch(storagesPluginRelaunchMonitoringActions.relaunchMonitoring(reset)),
     }
   }
 
@@ -69,8 +74,12 @@ export class PrioritizedDataStorageListContainer extends React.Component {
     update: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
     deleteFiles: PropTypes.func.isRequired,
+    copyFiles: PropTypes.func.isRequired,
     upPriority: PropTypes.func.isRequired,
     downPriority: PropTypes.func.isRequired,
+    retryErrors: PropTypes.func.isRequired,
+    deleteErrors: PropTypes.func.isRequired,
+    relaunchMonitoring: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
@@ -85,24 +94,6 @@ export class PrioritizedDataStorageListContainer extends React.Component {
   onEdit = (priotitizedDataStorageToEdit) => {
     const { project } = this.props
     browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${priotitizedDataStorageToEdit.name}/edit`)
-  }
-
-  onDeleteFiles = (storageName) => {
-    const { deleteFiles } = this.props
-    deleteFiles(storageName).then((actionResult) => {
-      this.props.fetch()
-    })
-  }
-
-  onCopyFiles = (storageName) => {
-    // const { copyFiles } = this.props
-    // copyFiles(storageName).then((actionResult) => {
-    //   this.props.fetch()
-    // })
-  }
-
-  onDelete = (name) => {
-    this.props.delete(name)
   }
 
   onActivateToggle = (entity) => {
@@ -129,19 +120,6 @@ export class PrioritizedDataStorageListContainer extends React.Component {
         })
   }
 
-  goToCreateForm = () => {
-    const { project, type } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${type}/create`)
-  }
-
-  onRelaunchDeletionsErrors = () => {
-    //
-  }
-
-  onRelaunchStoragesErrors = () => {
-    //
-  }
-
   render() {
     return (
       <PrioritizedDataStorageListComponent
@@ -149,16 +127,16 @@ export class PrioritizedDataStorageListContainer extends React.Component {
         onUpPriority={this.onUpPriority}
         onDownPriority={this.onDownPriority}
         onDuplicate={this.onDuplicate}
-        onDelete={this.onDelete}
-        onDeleteFiles={this.onDeleteFiles}
-        onCopyFiles={this.onCopyFiles}
+        onDelete={this.props.delete}
+        onRetryErrors={this.props.retryErrors}
+        onDeleteErrors={this.props.deleteErrors}
+        onDeleteFiles={this.props.deleteFiles}
+        onCopyFiles={this.props.copyFiles}
         onActivateToggle={this.onActivateToggle}
         onRefresh={this.props.fetch}
         entities={this.props.entities}
         isLoading={this.props.isLoading}
-        goToCreateForm={this.goToCreateForm}
-        onRelaunchDeletionsErrors={this.onRelaunchDeletionsErrors}
-        onRelaunchStoragesErrors={this.onRelaunchStoragesErrors}
+        onRelaunchMonitoring={this.props.relaunchMonitoring}
       />
     )
   }

@@ -98,6 +98,9 @@ const storageManagementStyles = theme => ({
       },
     },
   },
+  dropdown: {
+    minWidth: '300px',
+  },
 })
 
 export default storageManagementStyles
