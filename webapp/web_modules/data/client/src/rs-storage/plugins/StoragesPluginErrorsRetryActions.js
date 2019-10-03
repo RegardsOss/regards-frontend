@@ -16,26 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { PRIORIZED_DATASTORAGE, PRIORIZED_DATASTORAGE_ARRAY } from '@regardsoss/api'
 import { BasicSignalActions, RequestVerbEnum } from '@regardsoss/store-utils'
 
 /**
  * Actions to get PrioritizedDataStorage information
- * @author Raphaël Mechali
+ * @author Picart Kevin
  */
-class PrioritizedDataStorageUpDownActions extends BasicSignalActions {
+class StoragesPluginErrorsRetryActions extends BasicSignalActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/{id}/up`,
-      schemaTypes: {
-        ENTITY: PRIORIZED_DATASTORAGE,
-        ENTITY_ARRAY: PRIORIZED_DATASTORAGE_ARRAY,
-      },
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/{name}/files/retry/{type}`,
     })
   }
 
-  upPriority = (prioritizedDataStorageId, prioritizedDataStorage) => this.sendSignal(RequestVerbEnum.PUT, prioritizedDataStorage, { id: prioritizedDataStorageId }, {})
+  retryErrors = (name, type) => this.sendSignal(RequestVerbEnum.GET, {}, { name, type }, {})
 }
 
-export default PrioritizedDataStorageUpDownActions
+export default StoragesPluginErrorsRetryActions

@@ -92,7 +92,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     })
     // Check that all fields are rendered
     const fields = enzymeWrapper.find(Field)
-    assert.equal(fields.length, 7, 'There should be 7 parameter Field rendered in this form')
+    assert.equal(fields.length, 6, 'There should be 6 parameter Field rendered in this form')
     assert.isTrue(fields.find({ name: 'label' }).exists(), 'The label Field is missing')
     assert.isTrue(fields.find({ name: 'active' }).exists(), 'The active Field is missing')
     assert.isTrue(fields.find({ name: 'generationRetryEnabled' }).exists(), 'The generationRetryEnabled  Field is missing')
@@ -159,7 +159,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     })
     // Check that all fields are rendered
     const fields = enzymeWrapper.find(Field)
-    assert.equal(fields.length, 7, 'There should be 7 parameter Field rendered in this form')
+    assert.equal(fields.length, 6, 'There should be 6 parameter Field rendered in this form')
     assert.isTrue(fields.find({ name: 'label' }).exists(), 'The label Field is missing')
     assert.isTrue(fields.find({ name: 'active' }).exists(), 'The active Field is missing')
     assert.isTrue(fields.find({ name: 'generationRetryEnabled' }).exists(), 'The generationRetryEnabled  Field is missing')
@@ -217,7 +217,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     assert.equal(initializeValues.fileInfos.length, chain.fileInfos.length, 'The fileInfos should be duplicated')
     // Check that all fields are rendered
     const fields = enzymeWrapper.find(Field)
-    assert.equal(fields.length, 7, 'There should be 7 parameter Field rendered in this form')
+    assert.equal(fields.length, 6, 'There should be 6 parameter Field rendered in this form')
     assert.isTrue(fields.find({ name: 'label' }).exists(), 'The label Field is missing')
     assert.isTrue(fields.find({ name: 'active' }).exists(), 'The active Field is missing')
     assert.isTrue(fields.find({ name: 'generationRetryEnabled' }).exists(), 'The generationRetryEnabled  Field is missing')

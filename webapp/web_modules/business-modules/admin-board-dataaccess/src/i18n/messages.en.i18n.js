@@ -25,12 +25,6 @@ const messages = {
 
   'dataaccess.board.searchengines.title': 'Search protocols',
   'dataaccess.board.searchengines.description': 'Search protocols configuration. Legacy protocol is the REGARDS standard protocol. Others protocols can be configured in order to allow external systems to consult your project data catalog.',
-
-  'accessright.board.index.title': 'Data catalog',
-  'accessright.board.index.description': 'This section allows you to manage data catalog',
-  'accessright.board.index.delete': 'Reset data catalog',
-  'accessright.board.index.delete.confirm': 'Warning : If you reset the data catalog index, then all data will be deleted and re-indexed thanks to configured data crawlers.',
-  'accessright.board.index.delete.error.message': 'Error occured during catalog reset action.',
 }
 
 export default messages

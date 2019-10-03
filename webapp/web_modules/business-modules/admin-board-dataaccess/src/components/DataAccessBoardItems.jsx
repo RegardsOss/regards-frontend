@@ -18,17 +18,15 @@
  **/
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
-import DeleteIcon from 'material-ui/svg-icons/action/delete'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
+
 import { servicesManagementDependencies } from '@regardsoss/admin-dataaccess-services-management'
-import { indexActions, RESET_INDEX_ACTION } from '../clients/IndexClient'
 
 /**
  * BoardItems configuration for data access module
  * @param projectName
  * @param intl
  */
-const items = (projectName, intl, onResetIndex) => [
+const items = (projectName, intl) => [
   {
     title: intl.formatMessage({ id: 'dataaccess.board.searchengines.title' }),
     description: intl.formatMessage({ id: 'dataaccess.board.searchengines.description' }),
@@ -66,21 +64,6 @@ const items = (projectName, intl, onResetIndex) => [
         hateoasDependencies: servicesManagementDependencies.addDependencies,
       },
     ],
-  },
-  {
-    title: intl.formatMessage({ id: 'accessright.board.index.title' }),
-    description: intl.formatMessage({ id: 'accessright.board.index.description' }),
-    advanced: false,
-    actions: [{
-      icon: <DeleteIcon />,
-      tooltipMsg: intl.formatMessage({ id: 'accessright.board.index.delete' }),
-      confirmMessage: intl.formatMessage({ id: 'accessright.board.index.delete.confirm' }),
-      errorMessage: intl.formatMessage({ id: 'accessright.board.index.delete.error.message' }),
-      touchTapAction: onResetIndex,
-      hateoasDependencies: [
-        indexActions.getSubAction(RESET_INDEX_ACTION).getDependency(RequestVerbEnum.DELETE),
-      ],
-    }],
   },
 ]
 

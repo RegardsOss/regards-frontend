@@ -20,7 +20,7 @@ import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { StorageShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { getActions, getSelectors } from '../clients/PrioritizedDataStorageClient'
+import { storagesPluginActions, storagesPluginSelectors } from '../clients/StoragesPluginClient'
 import PrioritizedDataStorageFormComponent from '../components/PrioritizedDataStorageFormComponent'
 
 /**
@@ -36,7 +36,7 @@ export class PrioritizedDataStorageFormContainer extends React.Component {
    */
   static mapStateToProps(state, ownProps) {
     return {
-      entity: get(ownProps, 'params.id') ? getSelectors(ownProps.params.type).getById(state, ownProps.params.id) : null,
+      entity: get(ownProps, 'params.name') ? storagesPluginSelectors.getById(state, ownProps.params.name) : null,
     }
   }
 
@@ -48,9 +48,9 @@ export class PrioritizedDataStorageFormContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, ownProps) {
     return {
-      fetch: entityId => dispatch(getActions(ownProps.params.type).fetchEntity(entityId)),
-      create: entity => dispatch(getActions(ownProps.params.type).createEntity(entity)),
-      update: (entityId, entity) => dispatch(getActions(ownProps.params.type).updateEntity(entityId, entity)),
+      fetch: entityName => dispatch(storagesPluginActions.fetchEntity(entityName)),
+      create: entity => dispatch(storagesPluginActions.createEntity(entity)),
+      update: (entityName, entity) => dispatch(storagesPluginActions.updateEntity(entityName, entity)),
     }
   }
 
@@ -58,8 +58,7 @@ export class PrioritizedDataStorageFormContainer extends React.Component {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      id: PropTypes.string,
+      name: PropTypes.string,
       mode: PropTypes.string,
     }),
     // from mapStateToProps
@@ -73,20 +72,20 @@ export class PrioritizedDataStorageFormContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: !!get(props, 'params.id', false),
+      isLoading: !!get(props, 'params.name', false),
     }
   }
 
   componentWillMount() {
-    const { params: { id }, fetch } = this.props
-    if (id) {
-      fetch(id).then(() => this.setState({ isLoading: false }))
+    const { params: { name }, fetch } = this.props
+    if (name) {
+      fetch(name).then(() => this.setState({ isLoading: false }))
     }
   }
 
   render() {
     const {
-      params: { mode, project, type }, entity, update, create,
+      params: { mode, project }, entity, update, create,
     } = this.props
     return (
       <LoadableContentDisplayDecorator
@@ -96,7 +95,6 @@ export class PrioritizedDataStorageFormContainer extends React.Component {
           <PrioritizedDataStorageFormComponent
             mode={mode || 'create'}
             entity={entity}
-            type={type}
             backUrl={`/admin/${project}/data/acquisition/storage/storages`}
             onUpdate={update}
             onCreate={create}

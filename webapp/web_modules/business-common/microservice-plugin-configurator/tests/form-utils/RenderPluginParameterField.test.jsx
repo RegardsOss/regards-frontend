@@ -50,7 +50,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderPluginParameterField'
   const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
   assert.isDefined(pluginMetaData)
   forEach(pluginMetaData.parameters, (parameter) => {
-    it(`should render correctly field ${parameter.paramType} - ${parameter.type}`, () => {
+    it(`should render correctly field ${parameter.type}`, () => {
       assert.isDefined(parameter)
       const parameterConf = find(pluginConf.parameters, p => p.name === parameter.name)
       assert.isDefined(parameterConf, `Parameter configuration does not contains a parameter named ${parameter.name}`)
@@ -65,8 +65,15 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderPluginParameterField'
       }
       const enzymeWrapper = shallow(<RenderPluginParameterField {...props} />, { context })
       const primitiveParameters = getPrimitiveJavaTypeRenderParameters(parameter.type)
-      switch (parameter.paramType) {
-        case 'PRIMITIVE':
+      switch (parameter.type) {
+        case 'STRING':
+        case 'INTEGER':
+        case 'BYTE':
+        case 'SHORT':
+        case 'LONG':
+        case 'FLOAT':
+        case 'DOUBLE':
+        case 'BOOLEAN':
           assert.isDefined(primitiveParameters, `Error calculating Field Component parameters for primitive type ${parameter.type}`)
           assert.equal(enzymeWrapper.find(FieldArray).length, 0, 'There should not be a FieldArray defined as the parameter is not configured as dynamic')
           assert.equal(enzymeWrapper.find(Field).find({ name: 'conf.dynamic' }).length, 1, 'There should be a Field for dynamic configuration defined')
@@ -96,7 +103,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderPluginParameterField'
           break
       }
     })
-    it(`should render correctly field ${parameter.paramType} - ${parameter.type} as disabled`, () => {
+    it(`should render correctly field ${parameter.type} as disabled`, () => {
       assert.isDefined(parameter)
       const parameterConf = find(pluginConf.parameters, p => p.name === parameter.name)
       assert.isDefined(parameterConf, `Parameter configuration does not contains a parameter named ${parameter.name}`)
@@ -111,8 +118,15 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderPluginParameterField'
       }
       const enzymeWrapper = shallow(<RenderPluginParameterField {...props} />, { context })
       const primitiveParameters = getPrimitiveJavaTypeRenderParameters(parameter.type)
-      switch (parameter.paramType) {
-        case 'PRIMITIVE':
+      switch (parameter.type) {
+        case 'STRING':
+        case 'INTEGER':
+        case 'BYTE':
+        case 'SHORT':
+        case 'LONG':
+        case 'FLOAT':
+        case 'DOUBLE':
+        case 'BOOLEAN':
           assert.isDefined(primitiveParameters, `Error calculating Field Component parameters for primitive type ${parameter.type}`)
           assert.equal(enzymeWrapper.find(FieldArray).length, 0, 'There should not be a FieldArray defined as the parameter is not configured as dynamic')
           assert.equal(enzymeWrapper.find(Field).find({ name: 'conf.dynamic' }).length, 0, 'There should not be a Field for dynamic configuration defined as the prop hideDynamicParameterConf is true')

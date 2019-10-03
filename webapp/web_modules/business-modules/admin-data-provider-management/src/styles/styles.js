@@ -342,6 +342,10 @@ const styles = theme => ({
       display: 'flex',
       flexWrap: 'wrap',
     },
+    checkboxesInline: {
+      background: 'red',
+      //display: 'inline-block',
+    },
   },
 })
 

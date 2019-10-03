@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { StorageClient } from '@regardsoss/client'
+import { IngestClient } from '@regardsoss/client'
 
 /**
  * Redux AIP middleware instance to fetch AIP deletion on some storage spaces
@@ -24,6 +24,6 @@ import { StorageClient } from '@regardsoss/client'
  */
 
 const namespace = 'admin-oais-management/delete-aip-on-some-storages'
-export const deleteAIPssOnSomeStoragesClientActions = new StorageClient.DeleteAIPsOnSomeStoragesActions(namespace)
-export const deleteAIPsOnSomeStoragesClientReducer = StorageClient.getDeleteAIPsOnSomeStoragesReducer(namespace)
-export const deleteAIPsOnSomeStoragesClientSelectors = StorageClient.getDeleteAIPsOnSomeStoragesSelectors(['admin', 'acquisition', 'oais', 'delete-aip-on-some-storages'])
+export const deleteAIPssOnSomeStoragesClientActions = new IngestClient.DeleteAIPsOnSomeStoragesActions(namespace)
+export const deleteAIPsOnSomeStoragesClientReducer = IngestClient.getDeleteAIPsOnSomeStoragesReducer(namespace)
+export const deleteAIPsOnSomeStoragesClientSelectors = IngestClient.getDeleteAIPsOnSomeStoragesSelectors(['admin', 'acquisition', 'oais', 'delete-aip-on-some-storages'])

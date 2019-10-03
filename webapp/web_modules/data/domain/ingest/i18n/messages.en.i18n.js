@@ -17,25 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 const catIngest = 'Ingest - '
-const catStorage = 'Storage - '
 const messages = {
-  // -- INGEST
-  'sip.state.CREATED': `${catIngest}SIP accepted`,
-  'sip.state.REJECTED': `${catIngest}SIP rejected`,
-  'sip.state.QUEUED': `${catIngest}SIP ingest scheduled`,
-  'sip.state.VALID': `${catIngest}Valid SIP`,
-  'sip.state.INVALID': `${catIngest}Invalid SIP`,
-  'sip.state.AIP_GEN_ERROR': `${catIngest}AIP generation error`,
-  'sip.state.AIP_CREATED': `${catIngest}AIP generated`,
-  'sip.state.AIP_SUBMITTED': `${catIngest}AIP submitted`,
-  // -- STORAGE & CATALOG
-  'sip.state.STORED': `${catStorage}Stored`,
-  'sip.state.STORE_ERROR': `${catStorage}Storage error`,
-  'sip.state.INCOMPLETE': `${catStorage}Incomplete`,
-  'sip.state.TO_BE_DELETED': `${catStorage}To be deleted`,
-  'sip.state.DELETED': `${catStorage}Deleted`,
-  'sip.state.INDEXED': 'Indexed',
-  'sip.state.INDEX_ERROR': 'Indexing error',
+  // -- SIP
+  'sip.state.INGESTED': `${catIngest}Ingested`,
+  'sip.state.STORED': `${catIngest}Stored`,
+  'sip.state.DELETED': `${catIngest}Deleted`,
+  'sip.state.ERROR': `${catIngest}Error`,
+  // -- AIP
+  'aip.state.GENERATED': `${catIngest}Generated`,
+  'aip.state.STORED': `${catIngest}Stored`,
+  'aip.state.DELETED': `${catIngest}Deleted`,
+  'aip.state.ERROR': `${catIngest}Error`,
 }
 
 export default messages

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,27 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { AIP_SESSION, AIP_SESSION_ARRAY } from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+ **/
+import values from 'lodash/values'
 
 /**
- * Redux actions to handle Session entities from backend server.
+ * AIP possible status
  * @author Léo Mieulet
  */
-export default class SessionActions extends BasicPageableActions {
-  /**
-   * Construtor
-   * @param namespace
-   */
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/sessions`,
-      schemaTypes: {
-        ENTITY: AIP_SESSION,
-        ENTITY_ARRAY: AIP_SESSION_ARRAY,
-      },
-    })
-  }
+export const AIP_STATUS_ENUM = {
+  GENERATED: 'GENERATED',
+  STORED: 'STORED',
+  ERROR: 'ERROR',
+  DELETED: 'DELETED',
 }
+
+export const AIP_STATUS = values(AIP_STATUS_ENUM)

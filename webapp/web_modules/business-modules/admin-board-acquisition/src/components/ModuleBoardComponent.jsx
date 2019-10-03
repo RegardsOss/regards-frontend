@@ -26,6 +26,7 @@ import boardItems from './ModuleBoardItems'
 class ModuleBoardComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
+    onResetIndex: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -34,7 +35,7 @@ class ModuleBoardComponent extends React.Component {
 
   render() {
     const { project } = this.props
-    const items = boardItems(project, this.context.intl)
+    const items = boardItems(project, this.context.intl, this.props.onResetIndex)
     return (
       <BoardComponent items={items} />
     )

@@ -19,7 +19,7 @@
 export default [{
   content: {
     id: 1,
-    dataStorageConfiguration: {
+    storageConfiguration: {
       id: 1,
       pluginId: 'LocalDataStorage',
       label: 'Disk storage 1',
@@ -29,14 +29,14 @@ export default [{
       pluginClassName: 'className',
       parameters: [],
     },
-    dataStorageType: 'ONLINE',
+    storageType: 'ONLINE',
     priority: 1,
   },
   links: [],
 }, {
   content: {
     id: 2,
-    dataStorageConfiguration: {
+    storageConfiguration: {
       id: 2,
       pluginId: 'LocalDataStorage',
       label: 'Disk storage 2',
@@ -46,14 +46,14 @@ export default [{
       pluginClassName: 'className',
       parameters: [],
     },
-    dataStorageType: 'ONLINE',
+    storageType: 'ONLINE',
     priority: 2,
   },
   links: [],
 }, {
   content: {
     id: 3,
-    dataStorageConfiguration: {
+    storageConfiguration: {
       id: 3,
       pluginId: 'StafDataStorage',
       label: 'STAF storage 1',
@@ -63,14 +63,14 @@ export default [{
       pluginClassName: 'className2',
       parameters: [],
     },
-    dataStorageType: 'NEARLINE',
+    storageType: 'NEARLINE',
     priority: 3,
   },
   links: [],
 }, {
   content: {
     id: 4,
-    dataStorageConfiguration: {
+    storageConfiguration: {
       id: 4,
       pluginId: 'StafDataStorage',
       label: 'STAF storage 2',
@@ -80,7 +80,7 @@ export default [{
       pluginClassName: 'className2',
       parameters: [],
     },
-    dataStorageType: 'NEARLINE',
+    storageType: 'NEARLINE',
     priority: 4,
   },
   links: [],

@@ -24,6 +24,7 @@ import values from 'lodash/values'
 export const DataStorageTypeEnum = {
   ONLINE: 'ONLINE',
   NEARLINE: 'NEARLINE',
+  OFFLINE: 'OFFLINE',
 }
 
 export const DataStorageTypeEnumValues = values(DataStorageTypeEnum)

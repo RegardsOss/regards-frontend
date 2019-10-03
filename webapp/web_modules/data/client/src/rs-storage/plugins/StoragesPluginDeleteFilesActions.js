@@ -15,21 +15,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import values from 'lodash/values'
+ */
+import { BasicSignalActions, RequestVerbEnum } from '@regardsoss/store-utils'
 
 /**
- * AIP possible status
- * @author Léo Mieulet
+ * Actions to get PrioritizedDataStorage information
+ * @author Picart Kevin
  */
-export const AIP_STATUS_ENUM = {
-  VALID: 'VALID',
-  PENDING: 'PENDING',
-  STORING_METADATA: 'STORING_METADATA',
-  STORED: 'STORED',
-  STORAGE_ERROR: 'STORAGE_ERROR',
-  UPDATED: 'UPDATED',
-  DELETED: 'DELETED',
+class StoragesPluginDeleteFilesActions extends BasicSignalActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/{name}/files`,
+    })
+  }
+
+  deleteFiles = (name, force) => this.sendSignal(RequestVerbEnum.DELETE, {}, { name }, { force })
 }
 
-export const AIP_STATUS = values(AIP_STATUS_ENUM)
+export default StoragesPluginDeleteFilesActions

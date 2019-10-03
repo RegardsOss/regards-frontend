@@ -44,7 +44,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderObjectParameterField'
   it('should render correctly an OBECT Plugin parameter', () => {
     const pluginConf = DumpProvider.getEntityContentBy('CommonClient', 'PluginConfiguration', 'content.id', 202)
     assert.isDefined(pluginConf)
-    const parameters = filter(pluginConf.parameters, p => p.paramType === 'OBJECT')
+    const parameters = filter(pluginConf.parameters, p => p.type === 'OBJECT')
     assert.isDefined(parameters)
     const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
     assert.isDefined(pluginMetaData)
@@ -66,14 +66,14 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderObjectParameterField'
     })
   })
 
-  it('should render correctly a disabled OBECT Plugin parameter', () => {
+  it('should render correctly a disabled POJO Plugin parameter', () => {
     const pluginConf = DumpProvider.getEntityContentBy('CommonClient', 'PluginConfiguration', 'content.id', 202)
     assert.isDefined(pluginConf)
     const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
     assert.isDefined(pluginMetaData)
-    const parameters = filter(pluginMetaData.parameters, p => p.paramType === 'OBJECT')
+    const parameters = filter(pluginMetaData.parameters, p => p.type === 'POJO')
     assert.isDefined(parameters)
-    assert.isTrue(parameters.length > 0, 'Invalid configuration for tests. There should be at least on parameter of type OBJECT')
+    assert.isTrue(parameters.length > 0, 'Invalid configuration for tests. There should be at least on parameter of type POJO')
     forEach(parameters, (parameter) => {
       const props = {
         microserviceName: 'rs-test',
@@ -83,7 +83,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderObjectParameterField'
       }
       const enzymeWrapper = shallow(<RenderObjectParameterField {...props} />, { context })
       const objectNbParameters = parameter.parameters.length
-      assert.isTrue(objectNbParameters > 0, 'Invalid parameter configuration. This OBJECT Plugin parameter should have at least one parameter.')
+      assert.isTrue(objectNbParameters > 0, 'Invalid parameter configuration. This POJO Plugin parameter should have at least one parameter.')
       // Into an object plugin parameter all rendered parameters should not be complex and dynamoc parameter conf should be disabled
       assert.equal(enzymeWrapper.find(Field).find({
         component: RenderPluginParameterField,

@@ -28,7 +28,7 @@ export const storagePluginListRoute = {
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       //const container = require('./containers/PluginStorageConfigurationListContainer')
-      const container = require('./components/PrioritizedDataStoragesComponent')
+      const container = require('./components/StoragesPluginListComponent')
       cb(null, {
         content: container.default,
       })
@@ -37,7 +37,7 @@ export const storagePluginListRoute = {
 }
 
 export const storagePluginCreateFormRoute = {
-  path: 'storages/:type/create',
+  path: 'storages/create',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const container = require('./containers/PrioritizedDataStorageFormContainer')
@@ -49,7 +49,7 @@ export const storagePluginCreateFormRoute = {
 }
 
 export const storagePluginEditFormRoute = {
-  path: 'storages/:type/:id/:mode',
+  path: 'storages/:name/:mode',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const container = require('./containers/PrioritizedDataStorageFormContainer')
