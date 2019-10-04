@@ -27,7 +27,8 @@ export const storage1 = {
   id: 1,
   priority: 1,
   storageType: StorageDomain.DataStorageTypeEnum.NEARLINE,
-  storageConfiguration: {
+  name: 'storage1',
+  pluginConfiguration: {
     id: 1,
     pluginId: '1',
     label: 'storage1',
@@ -42,7 +43,8 @@ export const storage2 = {
   id: 2,
   priority: 2,
   storageType: StorageDomain.DataStorageTypeEnum.NEARLINE,
-  storageConfiguration: {
+  name: 'storage2',
+  pluginConfiguration: {
     id: 2,
     pluginId: '2',
     label: 'storage2',

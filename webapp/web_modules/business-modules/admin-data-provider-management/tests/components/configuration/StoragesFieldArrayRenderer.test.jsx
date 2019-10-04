@@ -81,6 +81,6 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing StoragesFieldArrayRenderer', 
     }
     const enzymeWrapper = shallow(<StoragesFieldArrayRenderer {...props} />, { context })
     const fields = enzymeWrapper.find(Field)
-    assert.equal(fields.length, 6, 'There should be 6 parameter Field rendered in this form')
+    assert.equal(fields.length, 27, 'There should be 27 parameter Field rendered in this form')
   })
 })

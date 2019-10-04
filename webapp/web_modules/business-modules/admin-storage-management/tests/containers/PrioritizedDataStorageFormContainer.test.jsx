@@ -43,7 +43,6 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing  PrioritizedDataStorageFormContaine
       // from router
       params: {
         project: 'test',
-        type: StorageDomain.DataStorageTypeEnum.ONLINE,
       },
       entity: null,
       fetch: () => new Promise(() => { }),
@@ -62,7 +61,6 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing  PrioritizedDataStorageFormContaine
     const expectedProps = {
       mode: 'create',
       entity: null,
-      type: StorageDomain.DataStorageTypeEnum.ONLINE,
       backUrl: `/admin/${props.params.project}/data/acquisition/storage/storages`,
       onUpdate: props.update,
       onCreate: props.create,
@@ -75,9 +73,8 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing  PrioritizedDataStorageFormContaine
       // from router
       params: {
         project: 'test',
-        type: StorageDomain.DataStorageTypeEnum.ONLINE,
         mode: 'edit',
-        id: `${entity.content.id}`,
+        name: `${entity.content.name}`,
       },
       entity,
       fetch: () => new Promise(() => { }),
@@ -100,7 +97,6 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing  PrioritizedDataStorageFormContaine
     const expectedProps = {
       mode: 'edit',
       entity,
-      type: StorageDomain.DataStorageTypeEnum.ONLINE,
       backUrl: `/admin/${props.params.project}/data/acquisition/storage/storages`,
       onUpdate: props.update,
       onCreate: props.create,
