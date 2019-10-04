@@ -35,14 +35,12 @@ export class DescriptionStateActions {
   /**
    * Sets the current description path (nota: it may also be used for loading, as each entity holds its loading status)
    * @param {[*]} descriptionPath path to set
-   * @param {number} selectedIndex index that should be selected in path (if undefined / null, previous will be preserved)
    * @returns {*} action to dispatch
    */
-  setDescriptionPath(descriptionPath = [], selectedIndex = null) {
+  setDescriptionPath(descriptionPath = []) {
     return {
       type: this.SET_DESCRIPTION_PATH,
       descriptionPath,
-      selectedIndex,
     }
   }
 

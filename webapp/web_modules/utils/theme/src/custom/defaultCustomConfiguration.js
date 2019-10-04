@@ -219,12 +219,13 @@ export default baseTheme => ({
             fontSize: '18px',
           },
           titlePlaceholder: {
-            padding: '1em 0 0.5em 0', //attributeGroupTitlePlaceholderPadding
+            padding: '1em 0 0.5em 0',
           },
           attribute: {
             label: {
               padding: '0.4em 24px 0.4em 0',
               textDecoration: 'underline',
+              maxWidth: 400,
             },
             value: {
               padding: '0.4em 20px 0.4em 0',

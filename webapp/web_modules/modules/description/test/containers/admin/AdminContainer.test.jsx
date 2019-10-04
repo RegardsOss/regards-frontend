@@ -62,12 +62,12 @@ describe('[Description] Testing AdminContainer', () => {
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       currentNamespace: props.adminForm.currentNamespace,
+      currentFormValues: props.adminForm.form.test,
       changeField: props.adminForm.changeField,
       isCreating: props.adminForm.isCreating,
       collectionAttributeModels: props.collectionAttributeModels,
       dataAttributeModels: props.dataAttributeModels,
       datasetAttributeModels: props.datasetAttributeModels,
-      currentFormValues: props.adminForm.form.test,
     }, 'Component should define the expected properties')
   })
 })

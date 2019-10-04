@@ -16,31 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import IconButton from 'material-ui/IconButton'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import NoContentComponent from '../../../src/content/feedback/NoContentComponent'
-import styles from '../../../src/content/styles/styles'
+import SearchOptionComponent from '../../../../../../src/components/user/tree/cells/options/SearchOptionComponent'
+import styles from '../../../../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Tests NoContentComponent
-* @author Raphaël Mechali
-*/
-describe('[Components] Testing NoContentComponent', () => {
+ * Test SearchOptionComponent
+ * @author Raphaël Mechali
+ */
+describe('[Description] Testing SearchOptionComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(NoContentComponent)
+    assert.isDefined(SearchOptionComponent)
   })
-
   it('should render correctly', () => {
-    shallow(<NoContentComponent
-      titleKey="titleKey"
-      messageKey="messageKey"
-      Icon={() => <div />}
-    />, { context })
+    const props = {
+      tooltip: 'My tooltip',
+      onSearch: () => {},
+    }
+    const enzymeWrapper = shallow(<SearchOptionComponent {...props} />, { context })
+    const buttonWrapper = enzymeWrapper.find(IconButton)
+    assert.lengthOf(buttonWrapper, 1, 'There should be the button')
+    testSuiteHelpers.assertWrapperProperties(buttonWrapper, {
+      title: props.tooltip,
+      onClick: props.onSearch,
+    }, 'Button properties should be correctly set')
   })
 })

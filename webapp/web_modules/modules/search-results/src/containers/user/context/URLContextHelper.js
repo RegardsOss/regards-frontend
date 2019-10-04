@@ -246,7 +246,6 @@ export class URLContextHelper {
   static buildURLQuery(resultsContext) {
     return URLContextHelper.MODULE_URL_PARAMETERS.reduce((acc, { name, toParameterValue }) => {
       const parameterValue = toParameterValue(resultsContext)
-      // TODO remove parameters worthing default configuration value
       return isNil(parameterValue) ? acc : {
         ...acc,
         [name]: parameterValue,

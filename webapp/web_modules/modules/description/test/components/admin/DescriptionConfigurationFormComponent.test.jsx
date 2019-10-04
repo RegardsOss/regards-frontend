@@ -105,7 +105,7 @@ describe('[Description] Testing DescriptionConfigurationFormComponent', () => {
     shallow(<DescriptionConfigurationFormComponent {...props} />, { context })
     assert.equal(spiedCalledCount, 1, 'The component should initialize values for new modules')
   })
-  it('should leave form unchanged when editing', () => {
+  it('should leave form unchanged when entering edition', () => {
     let spiedCalledCount = 0
     const props = {
       entityType: UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT,

@@ -19,28 +19,27 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import NoContentComponent from '../../../src/content/feedback/NoContentComponent'
-import styles from '../../../src/content/styles/styles'
+import PageElement from '../../../../../../src/components/user/content/list/common/PageElement'
+import styles from '../../../../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Tests NoContentComponent
-* @author Raphaël Mechali
-*/
-describe('[Components] Testing NoContentComponent', () => {
+ * Test PageElement
+ * @author Raphaël Mechali
+ */
+describe('[Description] Testing PageElement', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(NoContentComponent)
+    assert.isDefined(PageElement)
   })
-
   it('should render correctly', () => {
-    shallow(<NoContentComponent
-      titleKey="titleKey"
-      messageKey="messageKey"
-      Icon={() => <div />}
-    />, { context })
+    const enzymeWrapper = shallow(
+      <PageElement>
+        <div id="my.child" />
+      </PageElement>, { context })
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'my.child'), 1, 'Child should be rendered by PageElement graphical HOC')
   })
 })

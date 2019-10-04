@@ -19,28 +19,27 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import NoContentComponent from '../../../src/content/feedback/NoContentComponent'
-import styles from '../../../src/content/styles/styles'
+import PageTextCellComponent from '../../../../../../src/components/user/content/list/common/PageTextCellComponent'
+import styles from '../../../../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Tests NoContentComponent
-* @author Raphaël Mechali
-*/
-describe('[Components] Testing NoContentComponent', () => {
+ * Test PageTextCellComponent
+ * @author Raphaël Mechali
+ */
+describe('[Description] Testing PageTextCellComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(NoContentComponent)
+    assert.isDefined(PageTextCellComponent)
   })
-
   it('should render correctly', () => {
-    shallow(<NoContentComponent
-      titleKey="titleKey"
-      messageKey="messageKey"
-      Icon={() => <div />}
-    />, { context })
+    const props = {
+      text: 'My text',
+    }
+    const enzymeWrapper = shallow(<PageTextCellComponent {...props} />, { context })
+    assert.include(enzymeWrapper.debug(), props.text, 'Text should be rendered')
   })
 })

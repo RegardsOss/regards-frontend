@@ -19,28 +19,31 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import NoContentComponent from '../../../src/content/feedback/NoContentComponent'
-import styles from '../../../src/content/styles/styles'
+import ListSectionPageComponent from '../../../../../../src/components/user/content/list/common/ListSectionPageComponent'
+import styles from '../../../../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Tests NoContentComponent
-* @author Raphaël Mechali
-*/
-describe('[Components] Testing NoContentComponent', () => {
+ * Test ListSectionPageComponent
+ * @author Raphaël Mechali
+ */
+describe('[Description] Testing ListSectionPageComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(NoContentComponent)
+    assert.isDefined(ListSectionPageComponent)
   })
-
   it('should render correctly', () => {
-    shallow(<NoContentComponent
-      titleKey="titleKey"
-      messageKey="messageKey"
-      Icon={() => <div />}
-    />, { context })
+    const props = {
+      elements: ['a', 'b', 'c'],
+      buildElementNode: elt => <div key={elt} id={elt} />,
+    }
+    const enzymeWrapper = shallow(<ListSectionPageComponent {...props} />, { context })
+    props.elements.forEach((elt) => {
+      const eltComponent = enzymeWrapper.findWhere(n => n.props().id === elt)
+      assert.lengthOf(eltComponent, 1, 'There should be element render, based on buildElementNode')
+    })
   })
 })

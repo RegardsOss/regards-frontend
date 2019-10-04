@@ -57,7 +57,7 @@ class TreeLinkComponent extends React.Component {
 
     return (
       <div
-        title={disabled ? null : tooltip}
+        title={tooltip}
         onClick={disabled ? null : onClick}
         style={disabled ? cell.text : cell.link}
       >

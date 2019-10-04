@@ -34,7 +34,7 @@ export class TagsHelper {
     return TagsHelper.URN_PATTERN.test(tag)
   }
 
-  /** Coupling tag pattern TODO check with SBA */
+  /** Coupling tag pattern */
   static COUPLING_PATTERN = /^coupling:(.*):(.*)$/
 
   /**

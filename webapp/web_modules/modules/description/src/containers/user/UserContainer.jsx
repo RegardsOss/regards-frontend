@@ -66,7 +66,7 @@ export class UserContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      setModuleDescriptionPath: (path, index) => dispatch(descriptionStateActions.setDescriptionPath(path, index)),
+      setModuleDescriptionPath: path => dispatch(descriptionStateActions.setDescriptionPath(path)),
       setSelectedTreeEntry: (entityIndex, treeEntry) => dispatch(descriptionStateActions.setSelectedTreeEntry(entityIndex, treeEntry)),
       fetchEntity: id => dispatch(fetchEntityActions.getEntity(id)),
       fetchModelAttributes: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
@@ -151,10 +151,7 @@ export class UserContainer extends React.Component {
       // fallback on initial loading model when reloading or not found
       return previousDescriptionModel || DescriptionEntityHelper.buildLoadingModel(entity)
     })
-    setModuleDescriptionPath(
-      loadingDescriptionPath,
-      // preserve selected entity index when reloading
-      reloading ? descriptionState.selectedEntityIndex : descriptionPath.length - 1)
+    setModuleDescriptionPath(loadingDescriptionPath)
 
     // B - For each loading element, start a resolution promise that will update resolved entity
     // Nota: to handle promises concurrency, we ugrade here the promises group ID
@@ -207,7 +204,7 @@ export class UserContainer extends React.Component {
     // 1 - algorithm:
     // a - if entity is already in path, just "jump" to that entity
     // b - otherwise, keep elements in path up to the current index and replace end with the new entity
-    const foundEntityIndex = descriptionPath.find(pathEntity => pathEntity.content.id === entity.content.id)
+    const foundEntityIndex = descriptionPath.findIndex(pathEntity => pathEntity.content.id === entity.content.id)
     if (foundEntityIndex >= 0) {
       // 1.a - Yes: just update the displayed index
       setDescriptionPath(descriptionPath, foundEntityIndex)

@@ -334,6 +334,9 @@ const styles = theme => ({
               justifySelf: 'left',
               lineHeight: 1,
               whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              maxWidth: theme.module.description.parameters.group.attribute.label.maxWidth,
             },
             valueStyle: {
               justifySelf: 'stretch',

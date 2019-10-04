@@ -16,30 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CatalogDomain } from '@regardsoss/domain'
-import TreeLinkComponent from './TreeLinkComponent'
+import { shallow } from 'enzyme'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import BreadcrumbSeparatorComponent from '../../../../src/components/user/header/BreadcrumbSeparatorComponent'
+import styles from '../../../../src/styles'
+
+const context = buildTestContext(styles)
 
 /**
- * Word tag cell component
+ * Test BreadcrumbSeparatorComponent
  * @author Raphaël Mechali
  */
-class TagCellComponent extends React.Component {
-  static propTypes = {
-    tag: PropTypes.string.isRequired,
-  }
+describe('[Description] Testing BreadcrumbSeparatorComponent', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
-  render() {
-    const { tag } = this.props
-    const couplingTag = CatalogDomain.TagsHelper.isCouplingTag(tag)
-    const tagLabel = couplingTag ? CatalogDomain.TagsHelper.parseCouplingTag(tag).label : tag
-    return (
-      <TreeLinkComponent
-        text={tagLabel}
-        tooltip={tagLabel}
-        selected={false} // not selectable
-        disabled // simple text, not a link
-        section={false}
-      />)
-  }
-}
-export default TagCellComponent
+  it('should exists', () => {
+    assert.isDefined(BreadcrumbSeparatorComponent)
+  })
+  it('should render correctly', () => {
+    shallow(<BreadcrumbSeparatorComponent />, { context })
+  })
+})

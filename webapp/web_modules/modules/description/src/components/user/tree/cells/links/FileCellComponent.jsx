@@ -54,7 +54,8 @@ class FileCellComponent extends React.Component {
     return (
       <TreeLinkComponent
         text={label}
-        tooltip={formatMessage({ id: 'module.description.common.file.preview.tooltip' }, { fileName: label })}
+        // when available, show action tooltip, otherwise, show file name
+        tooltip={available ? formatMessage({ id: 'module.description.common.file.preview.tooltip' }, { fileName: label }) : label}
         selected={selected}
         IconConstructor={FileIcon}
         section={false}

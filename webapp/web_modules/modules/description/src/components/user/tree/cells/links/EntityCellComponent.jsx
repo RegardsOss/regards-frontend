@@ -50,12 +50,14 @@ class EntityCellComponent extends React.Component {
     const { entity, isDescriptionAllowed } = this.props
     const { intl: { formatMessage } } = this.context
     const { content: { label } } = entity
+    const disabled = !isDescriptionAllowed(entity)
     return (
       <TreeLinkComponent
         text={label}
-        tooltip={formatMessage({ id: 'module.description.common.show.entity.description.tootlip' }, { entityLabel: label })}
+        // when available, show action tooltip, otherwise, show entity name
+        tooltip={disabled ? label : formatMessage({ id: 'module.description.common.show.entity.description.tootlip' }, { entityLabel: label })}
         selected={false} // cannot be selected
-        disabled={!isDescriptionAllowed(entity)}
+        disabled={disabled}
         onClick={this.onClick}
         IconConstructor={DescriptionIcon}
         section={false}
