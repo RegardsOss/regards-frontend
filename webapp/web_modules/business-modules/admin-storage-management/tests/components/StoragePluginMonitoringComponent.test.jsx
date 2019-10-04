@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
-import { Card, CardActions } from 'material-ui/Card'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import StoragePluginMonitoringComponent from '../../src/components/StoragePluginMonitoringComponent'
