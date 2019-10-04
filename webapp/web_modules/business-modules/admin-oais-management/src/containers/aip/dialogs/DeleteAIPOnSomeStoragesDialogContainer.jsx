@@ -108,7 +108,7 @@ export class DeleteAIPOnSomeStoragesDialogContainer extends React.Component {
         throw new Error(`Unhandled selection mode ${aipSelectionMode}`)
     }
     // 2 - Sort storages on their label
-    availableStorages.sort((str1, str2) => StringComparison.compare(str1.storageConfiguration.label, str2.storageConfiguration.label))
+    availableStorages.sort((str1, str2) => StringComparison.compare(str1.name, str2.name))
 
     this.setState({
       storagesSelectionModel: availableStorages.map(storage => ({ selected: false, storage })),

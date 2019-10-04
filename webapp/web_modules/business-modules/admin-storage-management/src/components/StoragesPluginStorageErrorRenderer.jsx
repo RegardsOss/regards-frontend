@@ -22,7 +22,7 @@ import { themeContextType } from '@regardsoss/theme'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Relaunch from 'material-ui/svg-icons/image/rotate-right'
 import IconButton from 'material-ui/IconButton'
-import { PrioritizedDataStorageListComponent } from './PrioritizedDataStorageListComponent';
+import { PrioritizedDataStorageListComponent } from './PrioritizedDataStorageListComponent'
 /**
  * Show storage errors and a relauch button
  * @author Kévin Picart

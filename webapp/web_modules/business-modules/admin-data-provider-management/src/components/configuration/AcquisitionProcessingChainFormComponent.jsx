@@ -50,7 +50,7 @@ const {
   required, validStringSize,
 } = ValidationHelpers
 const validRequiredString255 = [required, validStringSize(1, 255)]
-const validateCron = value => value && !/^0 \* ((\*|\?|\d+((\/|\-){0,1}(\d+))*)\s*){4}$/i.test(value)
+const validateCron = value => value && !/^0 \* ((\*|\?|\d+((\/|-){0,1}(\d+))*)\s*){4}$/i.test(value)
   ? 'invalid.cron.expression' : undefined
 
 /**
@@ -69,7 +69,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     invalid: PropTypes.bool,
     submitting: PropTypes.bool,
     handleSubmit: PropTypes.func,
-    hasModeAuto: PropTypes.bool.isRequired,
+    hasModeAuto: PropTypes.bool,
   }
 
   static contextTypes = {

@@ -43,7 +43,7 @@ render() {
   const { storage, selected } = this.props
   return (
     <Checkbox
-      label={storage.storageConfiguration.label}
+      label={storage.name}
       checked={selected}
       onCheck={this.onToggle}
     />

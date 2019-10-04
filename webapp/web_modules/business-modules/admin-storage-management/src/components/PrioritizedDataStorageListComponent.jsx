@@ -229,7 +229,7 @@ export class PrioritizedDataStorageListComponent extends React.Component {
           key="confirm"
           label={formatMessage({ id: 'storage.data-storage.plugins.dialogs.confirm' })}
           primary
-          onClick={this.onConfirmDeleteFiles}
+          onClick={this.onConfirmSimpleDialog}
         />,
       ]
       return (
