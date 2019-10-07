@@ -26,10 +26,8 @@ const messages = {
   // services
   'entities.common.services.error.title': 'Service error',
   'entities.common.services.notice.title': 'Service done',
-  'entities.common.services.loading.plugin.information': 'Loading service',
   'entities.common.services.loading.plugin.failed': 'Failed loading service',
   'entities.common.services.plugin.parameters.error': 'Service configuration contains errors',
-  'entities.common.services.loading.results': 'Service processing',
   'entities.common.services.parameter.required': '{label} (*)',
   'entities.common.services.parameter.description.dialog.title': '{parameter} description',
   'entities.common.services.parameter.description.dialog.close': 'Close',

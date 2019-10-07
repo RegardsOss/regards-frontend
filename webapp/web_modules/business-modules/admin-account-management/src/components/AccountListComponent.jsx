@@ -232,8 +232,8 @@ export class AccountListComponent extends React.Component {
     } = this.props
     const { intl: { formatMessage } } = this.context
     const emptyComponent = (<NoContentComponent
-      title={formatMessage({ id: 'account.list.table.no.content.title' })}
-      message={formatMessage({ id: tabContent.noDataMessageKey })}
+      titleKey="account.list.table.no.content.title"
+      messageKey={tabContent.noDataMessageKey}
     />)
 
     return (

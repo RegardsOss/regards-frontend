@@ -20,9 +20,11 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { modulesManager } from '@regardsoss/modules'
+import { UIDomain } from '@regardsoss/domain'
 import AdminComponent from '../../../src/components/admin/AdminFormComponent'
 import { AdminContainer } from '../../../src/containers/admin/AdminContainer'
 import styles from '../../../src/styles'
+import { fullModuleConf } from '../../dumps/configuration.dump'
 
 const context = buildTestContext(styles)
 
@@ -45,22 +47,27 @@ describe('[Description] Testing AdminContainer', () => {
         currentNamespace: 'test',
         isCreating: false,
         changeField: () => { },
-        form: {},
+        form: {
+          test: fullModuleConf,
+        },
       },
       collectionAttributeModels: {},
       dataAttributeModels: {},
       datasetAttributeModels: {},
       documentAttributeModels: {},
+      uiSettings: UIDomain.UISettingsConstants.DEFAULT_SETTINGS,
       fetchAllCollectionAttributes: () => { },
       fetchAllDataAttributes: () => { },
       fetchAllDatasetModelsAttributes: () => { },
-      fetchAllDocumentModelsAttributes: () => { },
+      fetchAllDocumentAttributes: () => {},
+      fetchUISettings: () => new Promise(resolve => resolve(true)),
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(AdminComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       currentNamespace: props.adminForm.currentNamespace,
+      currentFormValues: props.adminForm.form.test,
       changeField: props.adminForm.changeField,
       isCreating: props.adminForm.isCreating,
       collectionAttributeModels: props.collectionAttributeModels,

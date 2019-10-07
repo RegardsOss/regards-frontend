@@ -222,7 +222,6 @@ export class EditItemForm extends React.Component {
       <form onSubmit={handleSubmit(this.onSubmit)} style={editDialog.formStyle}>
         {/* All fields, in scroll area */}
         <ScrollArea
-          //height="100%"
           vertical
           style={editDialog.scrollableAreaStyle}
         >

@@ -42,21 +42,20 @@ export class RunServiceDialogComponent extends React.Component {
 
   /**
    * Builds loading step
-   * @param message loading message
    * @return usable step for this component
    */
-  static buildLoadingStep = message => ({ step: RunServiceDialogComponent.Steps.LOADING, message })
+  static buildLoadingStep = () => ({ step: RunServiceDialogComponent.Steps.LOADING })
 
   /**
    * Builds a message step, that can be used for both error and no data messages
-   * @param message message
+   * @param messageKey message key
    * @param error is in error?
    * @param customOptions options for that step
    * @return usable step for this component
    */
-  static buildMessageStep = (message, error, customOptions = []) => ({
+  static buildMessageStep = (messageKey, error, customOptions = []) => ({
     step: RunServiceDialogComponent.Steps.MESSAGE,
-    message,
+    messageKey,
     error,
     customOptions,
   })
@@ -93,12 +92,11 @@ export class RunServiceDialogComponent extends React.Component {
       // loading step
       PropTypes.shape({
         step: PropTypes.oneOf([RunServiceDialogComponent.Steps.LOADING]),
-        message: PropTypes.string.isRequired,
       }),
       // a message step
       PropTypes.shape({
         step: PropTypes.oneOf([RunServiceDialogComponent.Steps.MESSAGE]),
-        message: PropTypes.string.isRequired,
+        messageKey: PropTypes.string.isRequired,
         error: PropTypes.bool.isRequired,
         // custom step dialog options as react components
         customOptions: PropTypes.arrayOf(PropTypes.element).isRequired,
@@ -185,7 +183,7 @@ export class RunServiceDialogComponent extends React.Component {
     const {
       serviceName, currentStep, handleSubmit, initialize, ...otherDialogProps
     } = this.props
-    const { moduleTheme: { pluginServiceDialog }, intl: { formatMessage } } = this.context
+    const { moduleTheme: { pluginServiceDialog } } = this.context
     const stepType = currentStep.step
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
@@ -195,7 +193,6 @@ export class RunServiceDialogComponent extends React.Component {
           dialogWidthPercent={pluginServiceDialog.widthPercent}
           actions={this.renderActions()}
           loaded={stepType !== RunServiceDialogComponent.Steps.LOADING}
-          loadingMessage={stepType === RunServiceDialogComponent.Steps.LOADING ? currentStep.message : ''}
           bodyStyle={stepType === RunServiceDialogComponent.Steps.RESULTS
             ? pluginServiceDialog.resultsBodyStyle
             : pluginServiceDialog.commonBodyStyles}
@@ -205,8 +202,8 @@ export class RunServiceDialogComponent extends React.Component {
         >
           <NoContentMessageInfo // content: message or provided component (messages are used to show error / no result)
             noContent={stepType === RunServiceDialogComponent.Steps.MESSAGE}
-            title={formatMessage({ id: currentStep.error ? 'entities.common.services.error.title' : 'entities.common.services.notice.title' })}
-            message={stepType === RunServiceDialogComponent.Steps.MESSAGE ? currentStep.message : ''}
+            titleKey={currentStep.error ? 'entities.common.services.error.title' : 'entities.common.services.notice.title'}
+            messageKey={stepType === RunServiceDialogComponent.Steps.MESSAGE ? currentStep.messageKey : null}
             Icon={currentStep.error ? ErrorIcon : MessageIcon}
           >
             { // render interactive steps: configuration or results

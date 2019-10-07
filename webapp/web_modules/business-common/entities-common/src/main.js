@@ -16,9 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+
 // Description
-export { default as DescriptionProviderContainer } from './containers/description/DescriptionProviderContainer'
-export { buildDescriptionModuleConsumerID } from './definitions/description/DescriptionConsumerID'
+
+export { DescriptionHelper } from './definitions/DescriptionHelper'
 
 // Services
 export { default as ServiceContainer } from './containers/services/ServiceContainer'
@@ -29,3 +30,6 @@ export { default as BooleanParameterField } from './components/services/paramete
 export { default as ChoiceParameterField } from './components/services/parameters/ChoiceParameterField'
 export { default as DateParameterField } from './components/services/parameters/DateParameterField'
 export { default as TextParameterField } from './components/services/parameters/TextParameterField'
+
+// Constants
+export { EntityTypeIcon } from './definitions/EntityTypeIcon'

@@ -22,9 +22,9 @@ import { themeContextType } from '@regardsoss/theme'
 import { DynamicModulePane } from '@regardsoss/components'
 import { dependencies } from '../../user-dependencies'
 import ModuleConfiguration from '../../shapes/ModuleConfiguration'
-import SearchResultsContainer from '../../containers/user/results/SearchResultsContainer'
+import TitleAndTabsContainer from '../../containers/user/tabs/TitleAndTabsContainer'
+import TabsContentContainer from '../../containers/user/tabs/TabsContentContainer'
 import FeedbackDisplayContainer from '../../containers/user/feedback/FeedbackDisplayContainer'
-import NavigationContainer from '../../containers/user/navigation/NavigationContainer'
 
 /**
  * Search results module view
@@ -46,6 +46,8 @@ class ModuleComponent extends React.Component {
 
   render() {
     const {
+      project,
+      appName,
       id: moduleId,
       description,
       page,
@@ -56,20 +58,25 @@ class ModuleComponent extends React.Component {
       <div style={rootModuleContainer}>
         {/* Main pane */}
         <DynamicModulePane
+          requiredDependencies={dependencies}
+          id={moduleId}
+          moduleConf={moduleConf}
           titleComponent={
-            <NavigationContainer
+            // Title and tabs selection displayer
+            <TitleAndTabsContainer
               moduleId={moduleId}
-              type={this.props.type}
               description={description}
               page={page}
             />
           }
-          requiredDependencies={dependencies}
-          id={moduleId}
-          moduleConf={moduleConf}
           {...this.props}
         >
-          <SearchResultsContainer moduleId={moduleId} />
+          {/* Tabs content displayer */}
+          <TabsContentContainer
+            project={project}
+            appName={appName}
+            moduleId={moduleId}
+          />
         </DynamicModulePane>
         {/* Feedback handling for long actions in module */}
         <FeedbackDisplayContainer />

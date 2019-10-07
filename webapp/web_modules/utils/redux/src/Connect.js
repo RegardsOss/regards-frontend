@@ -27,7 +27,7 @@ import { i18nSelectors } from '@regardsoss/i18n'
  */
 const mergeMapStateToProps = mapStateToProps => (
   (state, ownProps) => ({
-    ...mapStateToProps(state, ownProps),
+    ...(mapStateToProps ? mapStateToProps(state, ownProps) : {}),
     theme: getCurrentTheme(state),
     i18n: i18nSelectors.getLocale(state),
   })
@@ -35,14 +35,11 @@ const mergeMapStateToProps = mapStateToProps => (
 
 /**
  * Overrides connect from redux library. It is necessary to ensure that the connected react components are
- * refreshed when theme or i18n messages changed.
+ * refreshed when theme or i18n messages changed (redux blocks context updates otherwise).
  * @param mapStateToProps
  * @param mapDispatchToProps
  * @author Sébastien Binda
  */
-const connect = (mapStateToProps, mapDispatchToProps) => {
-  const newMapStateToProps = mapStateToProps ? mergeMapStateToProps(mapStateToProps) : null
-  return reduxConnect(newMapStateToProps, mapDispatchToProps)
-}
+const connect = (mapStateToProps, mapDispatchToProps) => reduxConnect(mergeMapStateToProps(mapStateToProps), mapDispatchToProps)
 
 export default connect

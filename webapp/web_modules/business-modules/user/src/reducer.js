@@ -21,25 +21,26 @@
  */
 import { combineReducers } from 'redux'
 import { OrderClient, UIClient } from '@regardsoss/client'
-import { attributeModelReducer } from './clients/AttributeModelClient'
 import { authenticationDialogReducer } from './clients/AuthenticationDialogUIClient'
+import { attributeModelReducer } from './clients/AttributeModelClient'
 import { layoutReducer } from './clients/LayoutClient'
 import { moduleReducer } from './clients/ModuleClient'
 import { moduleExpandedStateReducer } from './clients/ModuleExpandedStateClient'
 import { resultsContextReducer } from './clients/ResultsContextClient'
+import { uiSettingsReducer } from './clients/UISettingsClients'
 
 /**
  * Reducers for user module
  * @author Sébastien binda
  */
 export default combineReducers({
+  appState: UIClient.getSelectedDynamicModuleReducer(), // install user app state reducer (contains selected module so far...)
   attributes: attributeModelReducer,
+  authenticationDialog: authenticationDialogReducer,
   layout: layoutReducer,
   'layout.modules': moduleReducer,
-  'order-basket': OrderClient.getOrderBasketReducer(), // install default order basket reducer reducer
-  authenticationDialog: authenticationDialogReducer,
   modulesPanesStates: moduleExpandedStateReducer,
-  resultsContext: resultsContextReducer,
-  dialogRequests: UIClient.getDialogRequestsReducer(), // Install default dialog requests reducer
-  appState: UIClient.getSelectedDynamicModuleReducer(), // install user app state reducer (contains selected module so far...)
+  'order-basket': OrderClient.getOrderBasketReducer(), // install default order basket reducer reducer
+  resultsContext: resultsContextReducer, // install results context sharing system
+  uiSettings: uiSettingsReducer, // install common settings retrieval and sharing system
 })

@@ -27,7 +27,6 @@ import ViewTypeConfigurationComponent from '../../../../src/components/admin/con
 import styles from '../../../../src/styles'
 import { attributes } from '../../../dumps/attributes.dump'
 import { configuration as dataConfiguration } from '../../../dumps/data.configuration.dump'
-import { configuration as documentsConfiguration } from '../../../dumps/documents.configuration.dump'
 
 const context = buildTestContext(styles)
 
@@ -66,12 +65,6 @@ describe('[SEARCH RESULTS] Testing ViewTypeConfigurationComponent', () => {
     pageType: FORM_PAGES_ENUM.LIST_AND_TABLE,
     viewType: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
     values: dataConfiguration.viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DATASET],
-    selectorDisabled: true, // single view type enabled
-  }, {
-    entityType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
-    pageType: FORM_PAGES_ENUM.LIST_AND_TABLE,
-    viewType: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
-    values: documentsConfiguration.viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DOCUMENT],
     selectorDisabled: true, // single view type enabled
   }]
   testCases.forEach(({

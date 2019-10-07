@@ -27,16 +27,6 @@ import { AcquisitionProcessingChainActions } from '../../clients/AcquisitionProc
 */
 export class AcquisitionProcessingChainListContainer extends React.Component {
   /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state) {
-    return {}
-  }
-
-  /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
@@ -120,7 +110,4 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
     )
   }
 }
-export default connect(
-  AcquisitionProcessingChainListContainer.mapStateToProps,
-  AcquisitionProcessingChainListContainer.mapDispatchToProps,
-)(AcquisitionProcessingChainListContainer)
+export default connect(null, AcquisitionProcessingChainListContainer.mapDispatchToProps)(AcquisitionProcessingChainListContainer)

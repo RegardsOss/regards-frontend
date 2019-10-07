@@ -24,5 +24,7 @@ export default theme => ({
     textOverflow: 'ellipsis',
   },
   // no specific style for multiline text
-  multilineTextRenderCell: {},
+  multilineTextRenderCell: {
+    overflowWrap: 'break-word',
+  },
 })

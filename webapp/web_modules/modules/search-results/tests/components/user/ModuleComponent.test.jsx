@@ -24,13 +24,11 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DynamicModulePane } from '@regardsoss/components'
 import ModuleComponent from '../../../src/components/user/ModuleComponent'
 import FeedbackDisplayContainer from '../../../src/containers/user/feedback/FeedbackDisplayContainer'
-import SearchResultsContainer from '../../../src/containers/user/results/SearchResultsContainer'
+import TabsContentContainer from '../../../src/containers/user/tabs/TabsContentContainer'
 import { dependencies } from '../../../src/user-dependencies'
 import styles from '../../../src/styles'
 import { attributes } from '../../dumps/attributes.dump'
 import { configuration as dataConfiguration } from '../../dumps/data.configuration.dump'
-import { configuration as documentConfiguration } from '../../dumps/documents.configuration.dump'
-
 
 const context = buildTestContext(styles)
 
@@ -45,14 +43,8 @@ describe('[SEARCH RESULTS] Testing ModuleComponent', () => {
   it('should exists', () => {
     assert.isDefined(ModuleComponent)
   })
-  const testCases = [{
-    label: 'with data configuration',
-    moduleConf: dataConfiguration,
-  }, {
-    label: 'with documents configuration',
-    moduleConf: documentConfiguration,
-  }]
-  testCases.forEach(({ label, moduleConf }) => it(`should render correctly ${label}`, () => {
+
+  it('should render correctly with data and dataset configuration', () => {
     const props = {
       appName: 'app',
       project: 'projet',
@@ -70,11 +62,11 @@ describe('[SEARCH RESULTS] Testing ModuleComponent', () => {
           fr: 'Test des résultats',
         },
       },
-      moduleConf,
+      moduleConf: dataConfiguration,
       attributeModels: attributes,
     }
     const enzymeWrapper = shallow(<ModuleComponent {...props} />, { context })
-    // Note: We cannot test here navigation container (embedded in an HOC)
+    // Note: We cannot test here title container (embedded in an HOC)
     const feedbackDisplayer = enzymeWrapper.find(FeedbackDisplayContainer)
     assert.lengthOf(feedbackDisplayer, 1, 'There should be the feedback displayer')
     // check module pane has the right properties
@@ -89,8 +81,12 @@ describe('[SEARCH RESULTS] Testing ModuleComponent', () => {
     }, 'Module pane displayer properties should be correctly set')
 
     // Check results displayed in module displayer children
-    const resultsDisplayer = moduleDisplayer.find(SearchResultsContainer)
-    assert.lengthOf(resultsDisplayer, 1, 'There should be')
-    assert.equal(resultsDisplayer.props().moduleId, props.id, 'Module id should be correctly reported to results displayer')
-  }))
+    const tabsDisplayer = moduleDisplayer.find(TabsContentContainer)
+    assert.lengthOf(tabsDisplayer, 1, 'There should be the tabs content container')
+    testSuiteHelpers.assertWrapperProperties(tabsDisplayer, {
+      project: props.project,
+      appName: props.appName,
+      moduleId: props.id,
+    }, 'Tabs displayer properties should be correctly reported')
+  })
 })

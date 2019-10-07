@@ -41,16 +41,6 @@ export class SIPSubmissionSummaryContainer extends React.Component {
     }
   }
 
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of actions ready to be dispatched in the redux store
-   */
-  static mapDispatchToProps(dispatch) {
-    return {}
-  }
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -76,7 +66,4 @@ export class SIPSubmissionSummaryContainer extends React.Component {
     )
   }
 }
-export default connect(
-  SIPSubmissionSummaryContainer.mapStateToProps,
-  SIPSubmissionSummaryContainer.mapDispatchToProps,
-)(withI18n(messages)(SIPSubmissionSummaryContainer))
+export default connect(SIPSubmissionSummaryContainer.mapStateToProps)(withI18n(messages)(SIPSubmissionSummaryContainer))

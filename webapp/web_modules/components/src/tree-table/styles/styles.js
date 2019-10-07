@@ -33,27 +33,24 @@ export default theme => ({
   },
   expandCell: {
     style: {
-      height: 48,
-      width: 48,
+      height: theme.button.iconButtonSize,
+      width: theme.button.iconButtonSize,
       padding: 0,
     },
   },
   expandButton: {
     style: {
-      height: 48,
-      width: 48,
-      padding: 0,
+      height: theme.button.iconButtonSize,
+      width: theme.button.iconButtonSize,
+      padding: theme.components.treeTable.expandIconPadding,
     },
   },
   expandIcon: {
     style: {
-      width: 32,
-      height: 32,
-      cursor: 'pointer',
+      width: theme.components.treeTable.expandIconSize,
+      height: theme.components.treeTable.expandIconSize,
+      // cursor: 'pointer',
       color: theme.palette.accent1Color,
     },
-  },
-  firstCell: {
-    leftMarginForLevel: theme.tableRowColumn.spacing,
   },
 })

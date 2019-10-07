@@ -24,7 +24,6 @@ import { connect } from '@regardsoss/redux'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { DataAttributeModelActions, DataAttributeModelSelectors } from '../clients/DataobjectAttributeModelClient'
 import { DatasetAttributeModelActions, DatasetAttributeModelSelectors } from '../clients/DatasetAttributeModelClient'
-import { DocumentAttributeModelActions, DocumentAttributeModelSelectors } from '../clients/DocumentAttributeModelClient'
 import ModuleConfiguration from '../shapes/ModuleConfiguration'
 import { INITIAL_FORM_STATE } from '../domain/form/InitialFormState'
 import { FORM_SECTIONS_ENUM } from '../domain/form/FormSectionsEnum'
@@ -48,7 +47,6 @@ export class AdminContainer extends React.Component {
     return {
       dataAttributeModels: DataAttributeModelSelectors.getList(state),
       datasetAttributeModels: DatasetAttributeModelSelectors.getList(state),
-      documentAttributeModels: DocumentAttributeModelSelectors.getList(state),
     }
   }
 
@@ -62,7 +60,6 @@ export class AdminContainer extends React.Component {
     return {
       fetchAllDataAttributes: () => dispatch(DataAttributeModelActions.fetchEntityList({ modelType: 'DATA' })),
       fetchAllDatasetModelsAttributes: () => dispatch(DatasetAttributeModelActions.fetchEntityList({ modelType: 'DATASET' })),
-      fetchAllDocumentModelsAttributes: () => dispatch(DocumentAttributeModelActions.fetchEntityList({ modelType: 'DOCUMENT' })),
     }
   }
 
@@ -74,11 +71,9 @@ export class AdminContainer extends React.Component {
     // Set by mapStateToProps
     dataAttributeModels: DataManagementShapes.AttributeModelList,
     datasetAttributeModels: DataManagementShapes.AttributeModelList,
-    documentAttributeModels: DataManagementShapes.AttributeModelList,
     // Set by mapDispatchToProps
     fetchAllDataAttributes: PropTypes.func,
     fetchAllDatasetModelsAttributes: PropTypes.func,
-    fetchAllDocumentModelsAttributes: PropTypes.func,
   }
 
   /**
@@ -140,7 +135,7 @@ export class AdminContainer extends React.Component {
   componentDidMount() {
     const {
       adminForm: { changeField, isCreating, currentNamespace },
-      fetchAllDatasetModelsAttributes, fetchAllDocumentModelsAttributes, fetchAllDataAttributes,
+      fetchAllDatasetModelsAttributes, fetchAllDataAttributes,
     } = this.props
     // 1 - Initialize form module state when creating a new module
     if (isCreating) {
@@ -149,7 +144,6 @@ export class AdminContainer extends React.Component {
     // 2 - pull required data
     Promise.all([
       fetchAllDatasetModelsAttributes(),
-      fetchAllDocumentModelsAttributes(),
       fetchAllDataAttributes(),
     ]).then(() => this.setState({ isLoading: false }))
   }
@@ -198,7 +192,7 @@ export class AdminContainer extends React.Component {
       isLoading, navigationSections, selectedSectionType, selectedPageType,
     } = this.state
     const {
-      dataAttributeModels, datasetAttributeModels, documentAttributeModels,
+      dataAttributeModels, datasetAttributeModels,
       adminForm: {
         form = {}, currentNamespace, changeField, conf = {},
       },
@@ -216,12 +210,10 @@ export class AdminContainer extends React.Component {
 
             currentNamespace={currentNamespace}
             currentFormValues={get(form, currentNamespace)}
-            documentsForbidden={!!conf.documentsForbidden}
 
             // use restricted attributes models from conf or fetched ones
             dataAttributeModels={conf.selectableDataObjectsAttributes || dataAttributeModels}
             datasetAttributeModels={conf.selectableDataSetsAttributes || datasetAttributeModels}
-            documentAttributeModels={documentAttributeModels}
 
             changeField={changeField}
             onBrowseToPage={this.onBrowseToPage}

@@ -267,24 +267,6 @@ export const conf1 = {
           },
         },
       },
-      DOCUMENT: {
-        enabled: false,
-        tabTitle: {},
-        initialMode: 'TABLE',
-        enableDownload: false,
-        facets: {
-          enabled: false,
-          initiallyEnabled: false,
-          list: [],
-        },
-        sorting: [],
-        views: {
-          TABLE: {
-            enabled: true,
-            attributes: [],
-          },
-        },
-      },
     },
   },
 }

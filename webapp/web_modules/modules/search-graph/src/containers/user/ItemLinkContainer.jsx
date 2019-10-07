@@ -16,30 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { connect } from '@regardsoss/redux'
 import { CatalogShapes } from '@regardsoss/shape'
-import { DescriptionProviderContainer } from '@regardsoss/entities-common'
-import graphContextActions from '../../model/graph/GraphContextActions'
+import { DescriptionProperties } from '../../shapes/DescriptionProperties'
 import ItemLink from '../../components/user/ItemLink'
 
 /**
 * Item link container (provides links to store)
 */
 export class ItemLinkContainer extends React.Component {
-  static mapDispatchToProps = dispatch => ({
-    dispatchSetSearchTag: tag => dispatch(graphContextActions.setSearchTag(tag)),
-  })
-
   static propTypes = {
     Icon: PropTypes.func.isRequired,
     entity: CatalogShapes.Entity.isRequired,
+    descriptionProperties: DescriptionProperties.isRequired, // From description HOC
     additiveLineComponent: PropTypes.node, // an optional additive line component
     onSelect: PropTypes.func.isRequired,
     locked: PropTypes.bool.isRequired,
     selected: PropTypes.bool.isRequired,
     onStateChange: PropTypes.func, // optional callback on state change: (newState:ItemLink.States) => void
-    // from mapDispatchToProps
-    dispatchSetSearchTag: PropTypes.func.isRequired,
   }
 
   componentWillMount = () => {
@@ -113,22 +106,21 @@ export class ItemLinkContainer extends React.Component {
 
   render() {
     const {
-      Icon, entity, dispatchSetSearchTag, additiveLineComponent,
+      Icon, entity, additiveLineComponent, descriptionProperties,
     } = this.props
     const { displayState } = this.state
     return ( // Provide description callbacks to sub component
-      <DescriptionProviderContainer onSearchTag={dispatchSetSearchTag}>
-        <ItemLink
-          entity={entity}
-          Icon={Icon}
-          additiveLineComponent={additiveLineComponent}
-          displayState={displayState}
-          onMouseOver={this.onMouseOver}
-          onMouseOut={this.onMouseOut}
-          onLinkClicked={this.onLinkClicked}
-        />
-      </DescriptionProviderContainer>
+      <ItemLink
+        entity={entity}
+        descriptionProperties={descriptionProperties}
+        Icon={Icon}
+        additiveLineComponent={additiveLineComponent}
+        displayState={displayState}
+        onMouseOver={this.onMouseOver}
+        onMouseOut={this.onMouseOut}
+        onLinkClicked={this.onLinkClicked}
+      />
     )
   }
 }
-export default connect(null, ItemLinkContainer.mapDispatchToProps)(ItemLinkContainer)
+export default ItemLinkContainer

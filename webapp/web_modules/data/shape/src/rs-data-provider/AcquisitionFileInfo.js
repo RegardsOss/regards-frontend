@@ -31,7 +31,7 @@ export const AcquisitionFileInfoContent = PropTypes.shape({
   scanPlugin: PluginConfigurationContent.isRequired,
   lastModificationDate: PropTypes.string,
   mimeType: PropTypes.string.isRequired,
-  dataType: PropTypes.oneOf(CommonDomain.DataTypes),
+  dataType: PropTypes.oneOf(CommonDomain.DATA_TYPES),
   comment: PropTypes.string,
 })
 

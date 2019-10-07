@@ -443,7 +443,7 @@ class SIPListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={intl.formatMessage({ id: 'oais.sips.listempty.title' })}
+        titleKey={intl.formatMessage({ id: 'oais.sips.listempty.title' })}
         Icon={AddToPhotos}
       />
     )

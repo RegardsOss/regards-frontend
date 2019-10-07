@@ -26,6 +26,13 @@ export {
   MODULE_PANE_DISPLAY_MODES_ENUM, MODULE_PANE_DISPLAY_MODES, isModulePaneExpanded, isModulePaneExpansible,
 } from './ModulePaneDisplayModes'
 export { PRESENTATION_STATE_ENUM, PRESENTATION_STATE } from './ModulePresentationState'
+export {
+  PSEUDO_TYPES_ENUM, PSEUDO_TYPES, isDocumentEntity, isDocumentModel,
+} from './PseudoEntityTypes'
+export { QuicklookHelper } from './QuicklookHelper'
 export { default as ResultsContextConstants } from './ResultsContextConstants'
+export { ResultsContextHelper } from './ResultsContextHelper'
 export { RESULTS_VIEW_MODES_ENUM, RESULTS_VIEW_MODES } from './ResultsViewModeEnum'
+export { RESULTS_TABS, RESULTS_LIST_TABS, RESULTS_TABS_ENUM } from './ResultsTabs'
+export { UISettingsConstants } from './UISettingsConstants'
 export { getAdminURL, getModuleURL, getModuleDefaultIconURL } from './URLHelper'

@@ -73,7 +73,7 @@ export class ServiceFormComponent extends React.Component {
     if (mode !== 'create' && !pluginConfiguration) {
       return (
         <NoContentComponent
-          title={formatMessage({ id: 'dataaccess.services.form.invalid.id' })}
+          titleKey="dataaccess.services.form.invalid.id"
           Icon={MoodIcon}
         />
       )

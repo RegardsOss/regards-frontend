@@ -49,7 +49,6 @@ export { default as getLinkUIPluginDatasetSelectors } from './linkUIPluginDatase
 export { default as SearchCollectionsActions } from './search/SearchCollectionsActions'
 export { default as SearchDataobjectsActions } from './search/SearchDataobjectsActions'
 export { default as SearchDatasetsFromDataObjectsActions } from './search/SearchDatasetsFromDataObjectsActions'
-export { default as SearchDocumentsActions } from './search/SearchDocumentsActions'
 export { default as SearchDatasetsActions } from './search/SearchDatasetsActions'
 export { default as SearchEntitiesActions } from './search/SearchEntitiesActions'
 export { default as getSearchEntitiesReducer } from './search/SearchEntitiesReducer'
@@ -70,3 +69,7 @@ export { default as getSearchSourcesSelectors } from './session/SearchSourcesSel
 export { default as SessionsRelaunchProductActions } from './session/SessionsRelaunchProductActions'
 export { default as SessionsRelaunchSIPActions } from './session/SessionsRelaunchSIPActions'
 export { default as SessionsRelaunchAIPActions } from './session/SessionsRelaunchAIPActions'
+
+export { UISettingsActions } from './settings/UISettingsActions'
+export { getUISettingsReducer } from './settings/UISettingsReducer'
+export { getUISettingsSelectors } from './settings/UISettingsSelectors'

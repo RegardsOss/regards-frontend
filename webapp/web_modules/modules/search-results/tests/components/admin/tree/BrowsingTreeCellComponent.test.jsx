@@ -72,16 +72,6 @@ describe('[SEARCH RESULTS] Testing BrowsingTreeCellComponent', () => {
     level: 0,
   }, {
     section: {
-      type: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
-      pages: [],
-    },
-    page: {
-      type: FORM_PAGES_ENUM.LIST_AND_TABLE,
-      selected: true,
-    },
-    level: 1,
-  }, {
-    section: {
       type: DamDomain.ENTITY_TYPES_ENUM.DATA,
       pages: [],
     },

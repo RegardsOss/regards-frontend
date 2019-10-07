@@ -127,6 +127,64 @@ function getResourcesDependencies({ content, links, metadata }, pathParams, quer
   }
 }
 
+const tempFilesMap = [{
+  name: 'CSS-TEST.css',
+  binary: false,
+  mimeType: 'text/css', 
+}, {
+  name: 'GIF-TEST.gif',
+  binary: true,
+  mimeType: 'image/gif', 
+}, {
+  name: 'HTML-TEST.html',
+  binary: false,
+  mimeType: 'text/html', 
+}, {
+  name: 'JPEG-TEST.jpeg',
+  binary: true,
+  mimeType: 'image/jpeg', 
+}, {
+  name: 'JPEG-BIG-TEST.jpeg',
+  binary: true,
+  mimeType: 'image/jpeg', 
+},  {
+  name: 'JSON-TEST.json',
+  binary: false,
+  mimeType: 'application/json', 
+}, {
+  name: 'JS-TEST.js',
+  binary: false,
+  mimeType: 'application/javascript', 
+}, {
+  name: 'MD-TEST.md',
+  binary: false,
+  mimeType: 'text/markdown', 
+}, {
+  name: 'PDF-TEST.pdf',
+  binary: true,
+  mimeType: 'application/pdf', 
+}, {
+  name: 'PNG-TEST.png',
+  binary: true,
+  mimeType: 'image/png', 
+}, {
+  name: 'TEXT-TEST.txt',
+  binary: false,
+  mimeType: 'text/plain', 
+}, {
+  name: 'XHTML-TEST.xhtml',
+  binary: false,
+  mimeType: 'application/xhtml+xml', 
+}, {
+  name: 'XML-TEST.xml',
+  binary: false,
+  mimeType: 'application/xml', 
+}, {
+  name: 'TEST-UNKNOWN.unk',
+  binary: false,
+  mimeType: 'text/unknown', 
+}]
+
 function compareOrder(attribute, order='ASC') {
   return function (a, b) {
     const stringA = a.content[attribute].toUpperCase()
@@ -162,44 +220,23 @@ function buildLocalServices(gatewayURL) {
           return { content: JSON.parse(loadFile('mocks/proxy/resources/mock-searchengine.json')) }
         }
       },
-      tempFilePDF: {
-        url: 'files/temp.pdf',
-        handler: (req, resp) => {
-          return { content: loadFile('mocks/proxy/resources/files/temp-file.pdf', 'binary'), contentType: 'application/pdf', binary: true }
+      getTempFile: {
+        url: 'tempFiles',
+        handler: (req, resp, pathParams, {fileIndex}) => {
+          const fileIndexAsNumber = parseInt(fileIndex, 10)
+          if (!isNaN(fileIndex) && fileIndex >= 0 && fileIndex < tempFilesMap.length){
+            const fileData = tempFilesMap[fileIndexAsNumber]
+            return {
+              content: loadFile(`mocks/proxy/resources/files/${fileData.name}`, fileData.binary  ? 'binary' : 'utf-8'),
+              contentType: fileData.mimeType,
+              binary:  fileData.binary,
+            }
+          }
+          return { content: 'Invalid file index', code: 404 }
         }
       },
-      tempFileMD: {
-        url: 'files/temp.md',
-        handler: (req, resp) => {
-          return { content: loadFile('mocks/proxy/resources/files/temp-file.md', 'utf-8'), contentType: 'text/markdown' }
-        },
-      },
-      tempFileTXT: {
-        url: 'files/temp.txt',
-        handler: (req, resp) => {
-          return { content: loadFile('mocks/proxy/resources/files/temp-file.txt', 'utf-8'), contentType: 'text/plain' }
-        },
-      },
-      tempFileXML: {
-        url: 'files/temp.xml',
-        handler: (req, resp) => {
-          return { content: loadFile('mocks/proxy/resources/files/temp-file.xml', 'utf-8'), contentType: 'application/xml' }
-        },
-      },
-      tempFileJPG: {
-        url: 'files/temp.jpg',
-        handler: (req, resp) => {
-          return { content: loadFile('mocks/proxy/resources/files/temp-file.jpg', 'binary'), contentType: 'image/jpeg', binary: true }
-        },
-      },
-      tempUnknownFile: {
-        url: 'files/temp.unknow',
-        handler: (req, resp) => {
-          return { content: 'ABCDE', contentType: 'text/unkown' }
-        },
-      },
       getSession: {
-        url: 'rs-access-project/sessions2',
+        url: 'rs-admin/sessions',
         handler: (req, resp, pathParams, requestParams) => {
           let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions.json'))
           
@@ -219,14 +256,14 @@ function buildLocalServices(gatewayURL) {
         },
       },
       getSourcesList: {
-        url: 'rs-access-project/sessions/sources2',
+        url: 'rs-admin/sessions/sources',
         handler: (req, resp) => {
           let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions-list.json'))
           return myMock
         },
       },
       getSessionsList: {
-        url: 'rs-access-project/sessions/names2',
+        url: 'rs-admin/sessions/names',
         handler: (req, resp) => {
           let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions-list.json'))
           return myMock
@@ -242,7 +279,7 @@ function buildLocalServices(gatewayURL) {
     },
     PUT: {
       stateUpdate: {
-        url: 'rs-access-project/sessions/3/acknowledge',
+        url: 'rs-admin/sessions/3/acknowledge',
         handler: (req, resp) => {
           const result = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions.json')).content[3]
           result.content.state= 'ACKNOWLEDGED'

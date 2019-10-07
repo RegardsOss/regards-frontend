@@ -58,6 +58,55 @@ export default baseTheme => ({
       },
       fixedContentMarginBottom: 5,
     },
+    treeTable: {
+      expandIconSize: 32,
+      expandIconPadding: 8,
+      firstLevelIndentation: 8,
+      nextLevelsIndentation: 24,
+    },
+    loadingContent: {
+      container: {
+        padding: '24px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      circle: {
+        size: 192,
+        thickness: 1.5,
+        color: baseTheme.subheader.color,
+      },
+      message: {
+        fontWeight: '1em',
+        padding: '24px 0 0 0',
+        color: baseTheme.subheader.color,
+      },
+    },
+    noData: {
+      maxWidth: 400,
+      minHeight: '30vh',
+      icon: {
+        size: 128,
+        opacity: 0.2,
+        color: baseTheme.palette.primary1Color,
+      },
+      title: {
+        marginTop: '0.2em',
+        color: baseTheme.palette.textColor,
+        fontSize: '1.5em',
+      },
+      text: {
+        marginTop: '0.6em',
+        color: baseTheme.palette.textColor,
+        fontSize: '1em',
+        textAlign: 'center',
+      },
+    },
+    filePreview: {
+      iFrameBackground: 'white',
+      markdownScrollbarColor: '#00202f',
+    },
   },
   formsExtensions: {
     dateField: {
@@ -97,26 +146,94 @@ export default baseTheme => ({
     },
     // description module
     description: {
-      thumbnail: {
-        maxSize: 128,
-        margin: '1em 0 0.4em 20px',
-        borderWidth: '1px',
-        borderStyle: 'solid',
-        borderColor: baseTheme.palette.textColor,
+      breadcrumb: {
+        link: {
+          textPadding: '2px 0 0 5px',
+          selected: {
+            color: baseTheme.raisedButton.secondaryColor,
+            fontSize: '18px',
+            fontWeight: 500,
+            iconSize: 24,
+          },
+          unselected: {
+            color: baseTheme.palette.textColor,
+            fontSize: '16px',
+            fontWeight: 400,
+            iconSize: 24,
+            minWidth: 60,
+          },
+        },
+        separator: {
+          width: 32,
+          height: 32,
+          margin: '2px 0 0 0',
+          color: baseTheme.palette.textColor,
+        },
       },
-      attributeGroupTitlePadding: '1em 0 0.4em 0',
-      attributeGroupTitleColor: baseTheme.palette.accent1Color,
-      attributeGroupTitlePlaceholderPadding: '1em 0 0.4em 0',
-      attributeLabelPadding: '0.4em 20px 0.4em 0',
-      attributeLabelTextDecoration: 'underline',
-      attributeValuesPadding: '0.4em 20px 0.4em 0',
-      attributeValuesTextDecoration: 'none',
-      fileContentBackground: 'white',
-      filesOptions: {
-        top: 60,
-        right: 40,
-        padding: '0 0 0 10px',
-        background: baseTheme.palette.primary1Color,
+      tree: {
+        width: 400,
+        borderColor: baseTheme.toolbar.separatorColor,
+        borderWidth: '0 1px 0 0',
+        iconButtonPadding: 4,
+        iconSize: 24,
+        iconToTextGap: 5,
+        selectedColor: baseTheme.palette.accent1Color,
+        unselectedColor: baseTheme.palette.textColor,
+        section: {
+          fontSize: '18px',
+          linkTextDecoration: 'none',
+          textTextDecoration: 'none',
+          fontWeight: 500,
+        },
+        element: {
+          fontSize: '16px',
+          linkTextDecoration: 'underline',
+          textTextDecoration: 'none',
+          fontWeight: 400,
+        },
+      },
+      contentPadding: '5px 21px 5px 21px',
+      listPage: {
+        element: {
+          padding: 3,
+          fontSize: '16px',
+          fontWeight: 400,
+          iconToTextGap: 5,
+          linkTextDecoration: 'underline',
+        },
+        rightIconButton: {
+          size: 24,
+          padding: 0,
+          margin: '0 0 0 24px',
+        },
+      },
+      parameters: {
+        thumbnail: {
+          maxSize: 256,
+          margin: '0 0 8px 0',
+        },
+        group: {
+          title: {
+            padding: '1em 0 0.5em 0',
+            color: baseTheme.palette.accent1Color,
+            fontSize: '18px',
+          },
+          titlePlaceholder: {
+            padding: '1em 0 0.5em 0',
+          },
+          attribute: {
+            label: {
+              padding: '0.4em 24px 0.4em 0',
+              textDecoration: 'underline',
+              maxWidth: 400,
+            },
+            value: {
+              padding: '0.4em 20px 0.4em 0',
+              textDecoration: 'none',
+            },
+            multipleValuesSpacing: '0.7em',
+          },
+        },
       },
     },
     // menu module
@@ -166,6 +283,21 @@ export default baseTheme => ({
       quicklooks: {
         columnWidth: 400,
         columnGap: 20,
+      },
+      tabs: {
+        selectedColor: baseTheme.raisedButton.secondaryColor,
+        unselectedColor: baseTheme.raisedButton.disabledColor,
+        externalMargin: '0 2px 0 0',
+        minWidth: '200px',
+        maxWidth: '200px',
+        iconAndTextMargin: '5px',
+        textMargin: '0 5px 0 7px',
+        closeButton: {
+          margin: '0 0 0 5px',
+          size: 15,
+          alignSelf: 'flex-start',
+        },
+        tabBottomLineSize: 1,
       },
       map: {
         background: 'black', // related with mizar background

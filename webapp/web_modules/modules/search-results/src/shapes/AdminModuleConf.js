@@ -27,8 +27,6 @@ const AdminModuleConf = PropTypes.shape({
   // Data and datasets restricted attributes: when provided, use those instead of featching available ones
   selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
   selectableDataSetsAttributes: DataManagementShapes.AttributeModelList,
-  // Forbid documents displaying in module
-  documentsForbidden: PropTypes.bool,
 })
 
 export default AdminModuleConf

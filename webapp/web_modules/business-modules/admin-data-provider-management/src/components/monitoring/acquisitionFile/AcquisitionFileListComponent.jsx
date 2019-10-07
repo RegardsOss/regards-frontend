@@ -145,7 +145,7 @@ export class AcquisitionFileListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'acquisition.file.empty.title' })}
+        titleKey="acquisition.file.empty.title"
         Icon={AddToPhotos}
       />
     )

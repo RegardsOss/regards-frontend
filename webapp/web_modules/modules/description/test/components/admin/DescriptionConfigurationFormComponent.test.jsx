@@ -18,10 +18,12 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { DamDomain } from '@regardsoss/domain'
-import { FieldArray } from '@regardsoss/form-utils'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
+import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import DescriptionConfigurationFormComponent from '../../../src/components/admin/DescriptionConfigurationFormComponent'
+import GroupsFieldComponent from '../../../src/components/admin/GroupsFieldComponent'
+import { fullModuleConf } from '../../dumps/configuration.dump'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
@@ -37,28 +39,62 @@ describe('[Description] Testing DescriptionConfigurationFormComponent', () => {
   it('should exists', () => {
     assert.isDefined(DescriptionConfigurationFormComponent)
   })
-  it('should render correctly', () => {
+  it('Should not render when form values are not initialized', () => {
     const props = {
       entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+      currentTypeValues: null,
       isCreating: false,
       changeField: () => { },
       currentNamespace: 'test',
       availableAttributes: {},
     }
     const enzymeWrapper = shallow(<DescriptionConfigurationFormComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATASET.showDescription'), 1, 'there should be the showDescription field')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATASET.showTags'), 1, 'there should be the showTags field')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATASET.showLinkedDocuments'), 1, 'there should be the showLinkedDocuments field')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATASET.showThumbnail'), 1, 'there should be the showThumbnail field')
+    assert.lengthOf(enzymeWrapper.children(), 0, 'There should be no child (hidden)')
+  })
+  it('should render correctly with form values', () => {
+    const props = {
+      entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+      currentTypeValues: fullModuleConf[DamDomain.ENTITY_TYPES_ENUM.DATA],
+      isCreating: false,
+      changeField: () => { },
+      currentNamespace: 'test',
+      availableAttributes: {},
+    }
+    const enzymeWrapper = shallow(<DescriptionConfigurationFormComponent {...props} />, { context })
+    assert.isTrue(enzymeWrapper.children().length > 0, 'There should be children (shown)')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.showDescription'), 1, 'there should be the showDescription field')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.showTags'), 1, 'there should be the showTags field')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.showCoupling'), 1, 'there should be the showCoupling field')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.showLinkedDocuments'), 1, 'there should be the showLinkedDocuments field')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.showLinkedEntities'), 1, 'there should be the showLinkedEntities field')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.showThumbnail'), 1, 'there should be the showThumbnail field')
 
-    const fieldArrayWrapper = enzymeWrapper.find(FieldArray)
-    assert.lengthOf(fieldArrayWrapper, 1, 'There should be the field array for groups')
-    assert.equal(fieldArrayWrapper.props().name, 'test.DATASET.groups', 'Groups form field name should be correctly computed')
+    const groupsField = enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.groups')
+    assert.lengthOf(groupsField, 1, 'There should be groups field array')
+    testSuiteHelpers.assertWrapperProperties(groupsField, {
+      component: GroupsFieldComponent,
+      availableAttributes: props.availableAttributes,
+      validate: enzymeWrapper.instance().validateGroups,
+    }, 'Groups field array properties should be correctly reported')
+
+    const urlDescFilesField = enzymeWrapper.find(AttributesListConfigurationComponent)
+    assert.lengthOf(urlDescFilesField, 1, 'There should be url attributes to description file field')
+    testSuiteHelpers.assertWrapperProperties(urlDescFilesField, {
+      selectableAttributes: props.availableAttributes,
+      attributesFilter: DescriptionConfigurationFormComponent.filterURLAttributes,
+      attributesList: props.currentTypeValues.attributeToDescriptionFiles,
+      attributesListFieldName: 'test.DATA.attributeToDescriptionFiles',
+      hintMessageKey: 'module.description.configuration.description.files.hint',
+      changeField: props.changeField,
+      allowAttributesRegroupements: false,
+      allowLabel: false,
+    }, 'URL attributes to description file field properties should be correctly reported')
   })
   it('should initialize form values when creating', () => {
     let spiedCalledCount = 0
     const props = {
       entityType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
+      currentTypeValues: null,
       isCreating: true,
       changeField: () => {
         spiedCalledCount += 1
@@ -69,10 +105,11 @@ describe('[Description] Testing DescriptionConfigurationFormComponent', () => {
     shallow(<DescriptionConfigurationFormComponent {...props} />, { context })
     assert.equal(spiedCalledCount, 1, 'The component should initialize values for new modules')
   })
-  it('should leave form unchanged when editing', () => {
+  it('should leave form unchanged when entering edition', () => {
     let spiedCalledCount = 0
     const props = {
-      entityType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
+      entityType: UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT,
+      currentTypeValues: fullModuleConf[DamDomain.ENTITY_TYPES_ENUM.DOCUMENT],
       isCreating: false,
       changeField: () => {
         spiedCalledCount += 1

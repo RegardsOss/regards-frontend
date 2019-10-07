@@ -131,7 +131,7 @@ export class IngestProcessingChainListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={intl.formatMessage({ id: 'processing-chain.empty.title' })}
+        titleKey="processing-chain.empty.title"
         Icon={AddToPhotos}
       />
     )

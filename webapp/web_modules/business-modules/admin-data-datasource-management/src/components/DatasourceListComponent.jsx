@@ -153,7 +153,7 @@ export default class DatasourceListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'datasource.list.empty.title' })}
+        titleKey="datasource.list.empty.title"
         Icon={AddToPhotos}
         action={emptyContentAction}
       />

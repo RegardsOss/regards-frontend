@@ -32,16 +32,6 @@ import messages from '../i18n/Locales'
 */
 class RenderPageableAutoCompleteField extends React.Component {
   /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, ownProps) {
-    return {}
-  }
-
-  /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
@@ -164,9 +154,6 @@ class RenderPageableAutoCompleteField extends React.Component {
     )
   }
 }
-const connected = connect(
-  RenderPageableAutoCompleteField.mapStateToProps,
-  RenderPageableAutoCompleteField.mapDispatchToProps,
-)(RenderPageableAutoCompleteField)
+const connected = connect(null, RenderPageableAutoCompleteField.mapDispatchToProps)(RenderPageableAutoCompleteField)
 
 export default withI18n(messages)(withModuleStyle(styles)(connected))

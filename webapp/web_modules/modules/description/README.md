@@ -4,7 +4,7 @@
 
 This module is a dynamic configurable module to be used in REGARDS user interfaces.
 It manages data objects description window, letting user select the attributs and groups that should be shown by type 
-(data / dataset / document / collection).
+(data / dataset / collection).
 It is intended to be used as a static module (as it it exposes a contextual dialog window)
 To be used programattically (user part), provide as module configuration the data object that should be shown. Module is 
 hidden when no data object is provided.

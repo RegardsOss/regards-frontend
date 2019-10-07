@@ -1,4 +1,4 @@
-import { ContextInitializationHelper } from '../../src/definitions/ContextInitializationHelper'
+import { ContextInitializationHelper } from '../../src/containers/user/context/ContextInitializationHelper'
 
 /**
  * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES

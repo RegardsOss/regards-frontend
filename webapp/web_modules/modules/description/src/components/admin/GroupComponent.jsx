@@ -20,9 +20,7 @@ import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
 import MenuItem from 'material-ui/MenuItem'
-import {
-  Card, CardActions, CardTitle, CardText,
-} from 'material-ui/Card'
+import { FormRow, FieldsGroup } from '@regardsoss/form-utils'
 import MoveIcon from 'material-ui/svg-icons/content/redo'
 import DeleteIcon from 'material-ui/svg-icons/action/delete'
 import { DamDomain } from '@regardsoss/domain'
@@ -166,11 +164,12 @@ class GroupComponent extends React.Component {
       index, group: { showTitle, title, elements }, availableAttributes, allGroups,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { admin: { group } } } = this.context
-
     return (
-      <Card>
-        <CardTitle title={formatMessage({ id: 'module.description.configuration.group.title' }, { number: index + 1 })} />
-        <CardText>
+      <FormRow>
+        <FieldsGroup
+          title={formatMessage({ id: 'module.description.configuration.group.title' }, { number: index + 1 })}
+          spanFullWidth
+        >
           {/* show title option */}
           <Checkbox
             label={formatMessage({ id: 'module.description.configuration.group.show.title' })}
@@ -208,29 +207,29 @@ class GroupComponent extends React.Component {
               attributesFilter={DamDomain.AttributeModelController.isSearchableAttribute}
             />
           </div>
-        </CardText>
-        <CardActions style={group.options}>
-          <DropDownButton
-            getLabel={this.getMoveButtonLabel}
-            title={formatMessage({ id: 'module.description.configuration.group.move.action.tooltip' })}
-            icon={<MoveIcon />}
-            disabled={allGroups.length <= 1}
-            value={null}
-            onChange={this.onGroupMoved}
-          >
-            { /** Create menu item for each possible position */
+          <div style={group.options}>
+            <DropDownButton
+              getLabel={this.getMoveButtonLabel}
+              title={formatMessage({ id: 'module.description.configuration.group.move.action.tooltip' })}
+              icon={<MoveIcon />}
+              disabled={allGroups.length <= 1}
+              value={null}
+              onChange={this.onGroupMoved}
+            >
+              { /** Create menu item for each possible position */
               allGroups.map(this.renderMoveAtMenuItem)
             }
-          </DropDownButton>
-          <FlatButton
-            label={formatMessage({ id: 'module.description.configuration.group.remove.action.label' })}
-            title={formatMessage({ id: 'module.description.configuration.group.remove.action.tooltip' })}
-            icon={<DeleteIcon />}
-            onClick={this.onGroupRemoved}
-            secondary
-          />
-        </CardActions>
-      </Card>
+            </DropDownButton>
+            <FlatButton
+              label={formatMessage({ id: 'module.description.configuration.group.remove.action.label' })}
+              title={formatMessage({ id: 'module.description.configuration.group.remove.action.tooltip' })}
+              icon={<DeleteIcon />}
+              onClick={this.onGroupRemoved}
+              secondary
+            />
+          </div>
+        </FieldsGroup>
+      </FormRow>
     )
   }
 }

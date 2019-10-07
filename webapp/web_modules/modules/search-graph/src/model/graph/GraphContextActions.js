@@ -20,7 +20,6 @@ class GraphContextActions {
   constructor() {
     this.ENTITY_SELECTED = 'search-graph/ENTITY_SELECTED'
     this.SET_DATASET_ATTRIBUTES_VISIBLE = 'search-graph/SET_DATASET_VISIBLE'
-    this.SET_SEARCH_TAG = 'search-graph/SET_SEARCH_TAG'
   }
 
   /**
@@ -46,18 +45,6 @@ class GraphContextActions {
     return {
       type: this.SET_DATASET_ATTRIBUTES_VISIBLE,
       visible,
-    }
-  }
-
-  /**
-   * Dispatches a search tag change
-   * @param {string} searchTag search tag (see @regardsoss/domain/catalog/Tag)
-   * @return action to return
-   */
-  setSearchTag(searchTag) {
-    return {
-      type: this.SET_SEARCH_TAG,
-      searchTag,
     }
   }
 }

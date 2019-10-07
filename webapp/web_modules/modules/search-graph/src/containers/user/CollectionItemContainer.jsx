@@ -18,6 +18,7 @@
  **/
 import { CatalogShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
+import { DescriptionProperties } from '../../shapes/DescriptionProperties'
 import GraphContextActions from '../../model/graph/GraphContextActions'
 import GraphContextSelectors from '../../model/graph/GraphContextSelectors'
 import CollectionItem from '../../components/user/CollectionItem'
@@ -41,6 +42,7 @@ export class CollectionItemContainer extends React.Component {
 
   static propTypes = {
     collection: CatalogShapes.Entity.isRequired,
+    descriptionProperties: DescriptionProperties.isRequired, // From description HOC
     isLastLevel: PropTypes.bool.isRequired,
     // from map state to props
     selected: PropTypes.bool.isRequired,
@@ -54,10 +56,13 @@ export class CollectionItemContainer extends React.Component {
   }
 
   render() {
-    const { isLastLevel, collection, selected } = this.props
+    const {
+      isLastLevel, collection, descriptionProperties, selected,
+    } = this.props
     return (
       <CollectionItem
         collection={collection}
+        descriptionProperties={descriptionProperties}
         selected={selected}
         onSelect={this.onSelected}
         expensible={!isLastLevel}

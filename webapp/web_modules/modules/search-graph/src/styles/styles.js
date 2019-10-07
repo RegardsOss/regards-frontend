@@ -231,8 +231,8 @@ const menuStyles = (theme) => {
           styles: {
             position: 'absolute',
             zIndex: '1',
-            width: 14,
-            height: 14,
+            width: 12,
+            height: 12,
             right: 0,
             bottom: 0,
             color: theme.palette.accent1Color,

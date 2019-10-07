@@ -21,7 +21,6 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'license.refuse': 'Se déconnecter',
   'license.accept': 'Accepter la licence',
-  'license.loading.message': 'Chargement de la licence du projet, veuillez patienter...',
 }, Locales.fr)
 
 export default messages

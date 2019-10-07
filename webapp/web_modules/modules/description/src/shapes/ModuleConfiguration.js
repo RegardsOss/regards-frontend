@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DamDomain } from '@regardsoss/domain'
-import { AccessShapes } from '@regardsoss/shape'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
+import { AccessShapes, CatalogShapes } from '@regardsoss/shape'
 
 /**
  * Describes module configuration shape
@@ -40,19 +40,39 @@ export const DescriptionGroup = PropTypes.shape({
 export const DescriptionConfiguration = PropTypes.shape({
   showDescription: PropTypes.bool.isRequired,
   showTags: PropTypes.bool.isRequired,
+  showCoupling: PropTypes.bool.isRequired,
   showLinkedDocuments: PropTypes.bool.isRequired,
+  showLinkedEntities: PropTypes.bool.isRequired,
   showThumbnail: PropTypes.bool.isRequired,
   groups: PropTypes.arrayOf(DescriptionGroup).isRequired,
+  // list of attribute to be displayed as description file (single attribute configuration, no label)
+  attributeToDescriptionFiles: AccessShapes.AttributeListConfigurationModel.isRequired,
+})
+
+/** Runtime description data and callbacks */
+export const DescriptionRuntime = PropTypes.shape({
+  // Selected index in description path
+  selectedIndex: PropTypes.number.isRequired,
+  // breacrumb entities, where last entity is the one currently shown (empty array to show no data)
+  descriptionPath: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
+  // Callback to change description path: newPath:[CatalogShapes.Entity], selectedIndex:number => ()
+  setDescriptionPath: PropTypes.func.isRequired,
+  // Callback search a word tag: word:string => ()
+  onSearchWord: PropTypes.func.isRequired,
+  // Callback search an entity tag: entity:CatalogShapes.Entity => ()
+  onSearchEntity: PropTypes.func.isRequired,
 })
 
 /**
  * Module configuration: description pane configuration by entity type
  */
 export const ModuleConfiguration = PropTypes.shape({
-  allowTagSearch: PropTypes.bool,
+  allowSearching: PropTypes.bool,
   // configuration by entity type
   [DamDomain.ENTITY_TYPES_ENUM.COLLECTION]: DescriptionConfiguration,
   [DamDomain.ENTITY_TYPES_ENUM.DATASET]: DescriptionConfiguration,
-  [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]: DescriptionConfiguration,
+  [UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT]: DescriptionConfiguration,
   [DamDomain.ENTITY_TYPES_ENUM.DATA]: DescriptionConfiguration,
+  // runtime data
+  runtime: DescriptionRuntime,
 })

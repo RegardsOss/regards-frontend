@@ -139,7 +139,7 @@ export class AuthenticationPluginListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'user.authentication.plugins.list.empty.title' })}
+        titleKey="user.authentication.plugins.list.empty.title"
         Icon={AddToPhotos}
       />
     )

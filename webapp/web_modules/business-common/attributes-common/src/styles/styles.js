@@ -48,6 +48,31 @@ export default theme => ({
       borderStyle: 'solid',
       borderColor: theme.palette.borderColor,
     },
+    addManyDialog: {
+      widthPercent: 40,
+      heightPercent: 80,
+      dialogBodyStyle: { paddingBottom: 0 },
+      contentStyle: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        flexGrow: 1,
+        flexShrink: 1,
+        minHeight: 0, // mandatory to get scroll area working on firefox (Thor #183319)
+      },
+      scrollableAreaStyle: {
+        flexGrow: 1,
+        flexShrink: 1,
+      },
+      actionsStyle: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexGrow: 0,
+        flexShrink: 0,
+        padding: '10px 0',
+      },
+    },
     editDialog: {
       widthPercent: 80,
       heightPercent: 80,

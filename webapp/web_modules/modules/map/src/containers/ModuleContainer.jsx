@@ -67,7 +67,7 @@ export class ModuleContainer extends React.Component {
 
     return (
       <IFrameURLContentDisplayer
-        contentURL={this.getMizarContextURL()}
+        source={this.getMizarContextURL()}
         style={renderStyles}
       />
     )

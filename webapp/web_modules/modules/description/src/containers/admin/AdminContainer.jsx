@@ -16,16 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
-import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
+import { AccessShapes, DataManagementShapes, UIShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
 import { collectionAttributeModelActions, collectionAttributeModelSelectors } from '../../clients/CollectionAttributeModelClient'
 import { dataAttributeModelActions, dataAttributeModelSelectors } from '../../clients/DataobjectAttributeModelClient'
 import { datasetAttributeModelActions, datasetAttributeModelSelectors } from '../../clients/DatasetAttributeModelClient'
-import { documentAttributeModelActions, documentAttributeModelSelectors } from '../../clients/DocumentAttributeModelClient'
 import AdminFormComponent from '../../components/admin/AdminFormComponent'
+import { uiSettingsActions, uiSettingsSelectors } from '../../clients/UISettingsClient'
+import { attributeModelSelectors, attributeModelActions } from '../../clients/AttributeModelClient'
 
 /**
  * Module container for admin interface display (configuration)
@@ -43,7 +45,8 @@ export class AdminContainer extends React.Component {
       collectionAttributeModels: collectionAttributeModelSelectors.getList(state),
       dataAttributeModels: dataAttributeModelSelectors.getList(state),
       datasetAttributeModels: datasetAttributeModelSelectors.getList(state),
-      documentAttributeModels: documentAttributeModelSelectors.getList(state),
+      documentAttributeModels: attributeModelSelectors.getList(state),
+      uiSettings: uiSettingsSelectors.getSettings(state),
     }
   }
 
@@ -55,10 +58,11 @@ export class AdminContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
+      fetchAllDocumentAttributes: modelNames => dispatch(attributeModelActions.fetchEntityList(null, { modelNames })),
       fetchAllCollectionAttributes: () => dispatch(collectionAttributeModelActions.fetchEntityList({ modelType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION })),
       fetchAllDataAttributes: () => dispatch(dataAttributeModelActions.fetchEntityList({ modelType: DamDomain.ENTITY_TYPES_ENUM.DATA })),
       fetchAllDatasetModelsAttributes: () => dispatch(datasetAttributeModelActions.fetchEntityList({ modelType: DamDomain.ENTITY_TYPES_ENUM.DATASET })),
-      fetchAllDocumentModelsAttributes: () => dispatch(documentAttributeModelActions.fetchEntityList({ modelType: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT })),
+      fetchUISettings: () => dispatch(uiSettingsActions.getSettings()),
     }
   }
 
@@ -68,15 +72,17 @@ export class AdminContainer extends React.Component {
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration,
     // Set by mapStateToProps
+    documentAttributeModels: DataManagementShapes.AttributeModelList,
     collectionAttributeModels: DataManagementShapes.AttributeModelList,
     dataAttributeModels: DataManagementShapes.AttributeModelList,
     datasetAttributeModels: DataManagementShapes.AttributeModelList,
-    documentAttributeModels: DataManagementShapes.AttributeModelList,
+    uiSettings: UIShapes.UISettings,
     // Set by mapDispatchToProps
     fetchAllCollectionAttributes: PropTypes.func.isRequired,
     fetchAllDataAttributes: PropTypes.func.isRequired,
     fetchAllDatasetModelsAttributes: PropTypes.func.isRequired,
-    fetchAllDocumentModelsAttributes: PropTypes.func.isRequired,
+    fetchAllDocumentAttributes: PropTypes.func.isRequired,
+    fetchUISettings: PropTypes.func.isRequired,
   }
 
   /** Initial state */
@@ -92,13 +98,23 @@ export class AdminContainer extends React.Component {
       fetchAllCollectionAttributes,
       fetchAllDataAttributes,
       fetchAllDatasetModelsAttributes,
-      fetchAllDocumentModelsAttributes,
+      fetchAllDocumentAttributes,
+      fetchUISettings,
     } = this.props
     Promise.all([
       fetchAllCollectionAttributes(),
       fetchAllDataAttributes(),
       fetchAllDatasetModelsAttributes(),
-      fetchAllDocumentModelsAttributes()]).then(() => this.setState({ loading: false }))
+      // Document attributes: first pull the document model names
+      fetchUISettings().then(() => {
+        // Then pull document model (Resolved by promise.all)
+        const { uiSettings: { documentModels } } = this.props
+        if (!documentModels.length) {
+          return true // Immediate resolution: no document model => no document attribute
+        }
+        return fetchAllDocumentAttributes(documentModels)
+      }),
+    ]).then(() => this.setState({ loading: false }))
   }
 
 
@@ -109,7 +125,9 @@ export class AdminContainer extends React.Component {
       dataAttributeModels,
       datasetAttributeModels,
       documentAttributeModels,
-      adminForm: { currentNamespace, changeField, isCreating },
+      adminForm: {
+        form = {}, currentNamespace, changeField, isCreating,
+      },
     } = this.props
     return (
       <LoadableContentDisplayDecorator
@@ -117,6 +135,7 @@ export class AdminContainer extends React.Component {
       >
         <AdminFormComponent
           currentNamespace={currentNamespace}
+          currentFormValues={get(form, currentNamespace)}
           changeField={changeField}
           isCreating={isCreating}
 

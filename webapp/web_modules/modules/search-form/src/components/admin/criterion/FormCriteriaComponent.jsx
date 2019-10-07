@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNil from 'lodash/isNil'
-import Settings from 'mdi-material-ui/Settings'
+import NoDataIcon from 'mdi-material-ui/Settings'
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -180,8 +180,6 @@ class FormCriteriaComponent extends React.Component {
    * @returns {*}
    */
   renderCriteriaConfiguration = () => {
-    const { intl: { formatMessage } } = this.context
-
     if (!isNil(this.state.selectedCriteria) && !this.props.criterionFetching) {
       return (
         <PluginProvider
@@ -198,9 +196,9 @@ class FormCriteriaComponent extends React.Component {
       )
     }
     return <NoContentComponent
-      title={formatMessage({ id: 'form.criterion.criteria.no.config.title' })}
-      message={formatMessage({ id: 'form.criterion.criteria.no.config.message' })}
-      Icon={Settings}
+      titleKey="form.criterion.criteria.no.config.title"
+      messageKey="form.criterion.criteria.no.config.message"
+      Icon={NoDataIcon}
     />
   }
 
@@ -212,8 +210,7 @@ class FormCriteriaComponent extends React.Component {
     const {
       pristine, submitting, invalid, criterion, criteria, handleSubmit,
     } = this.props
-    const { criteria: criteriaStyle } = this.context.moduleTheme
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { criteria: criteriaStyle } } = this.context
     const { selectedIndex } = this.state
 
     const required = [ValidationHelpers.required]

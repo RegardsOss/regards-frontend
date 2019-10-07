@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DamDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 
 /**
  * Some configuration dumps
@@ -47,33 +47,58 @@ export const someGroups = [{ // Group 1
 
 /** A full module configuration */
 export const fullModuleConf = {
-  allowTagSearch: true,
+  allowSearching: true,
   [DamDomain.ENTITY_TYPES_ENUM.COLLECTION]: {
     showDescription: false,
     showTags: false,
+    showCoupling: false,
     showLinkedDocuments: false,
+    showLinkedEntities: false,
     showThumbnail: false,
     groups: [],
+    attributeToDescriptionFiles: [],
   },
   [DamDomain.ENTITY_TYPES_ENUM.DATASET]: {
     showDescription: false,
     showTags: false,
+    showCoupling: false,
     showLinkedDocuments: false,
+    showLinkedEntities: false,
     showThumbnail: false,
     groups: [],
+    attributeToDescriptionFiles: [],
   },
-  [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]: {
+  [UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT]: {
     showDescription: false,
     showTags: false,
+    showCoupling: false,
     showLinkedDocuments: false,
+    showLinkedEntities: false,
     showThumbnail: false,
     groups: [],
+    attributeToDescriptionFiles: [],
   },
   [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
     showDescription: true,
-    showTags: true,
-    showLinkedDocuments: true,
+    showTags: false,
+    showCoupling: false,
+    showLinkedDocuments: false,
+    showLinkedEntities: false,
     showThumbnail: true,
     groups: someGroups,
+    attributeToDescriptionFiles: [{
+      attributes: [
+        {
+          name: 'properties.TestDescFile1',
+        },
+      ],
+    },
+    {
+      attributes: [
+        {
+          name: 'properties.TestDescFile2',
+        },
+      ],
+    }],
   },
 }

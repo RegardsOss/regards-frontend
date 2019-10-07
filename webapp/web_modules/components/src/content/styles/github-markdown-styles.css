@@ -7,8 +7,8 @@
     /* REGARDS specific */
     background: White;
     flex-grow: 1;
-    flex-shrink: 1;
-    padding: 5px 10px;
+    flex-shrink: 0;
+    padding: 8px 24px;
     /* Defaults */
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
@@ -21,6 +21,7 @@
 
 .markdown-body .pl-c {
     color: #6a737d;
+    min-height: 100%,
 }
 
 .markdown-body .pl-c1,

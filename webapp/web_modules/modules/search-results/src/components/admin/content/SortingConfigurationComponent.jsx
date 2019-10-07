@@ -22,7 +22,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { FieldsGroup } from '@regardsoss/form-utils'
 import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
-import { DataViewsConfiguration, DatasetViewsConfiguration, DocumentsViewsConfiguration } from '../../../shapes/ModuleConfiguration'
+import { DataViewsConfiguration, DatasetViewsConfiguration } from '../../../shapes/ModuleConfiguration'
 
 /**
  * Initial sorting configuration component
@@ -36,7 +36,6 @@ class SortingConfigurationComponent extends React.Component {
     currentTypeFormValues: PropTypes.oneOfType([
       DataViewsConfiguration,
       DatasetViewsConfiguration,
-      DocumentsViewsConfiguration,
     ]).isRequired,
     // redux change field method
     changeField: PropTypes.func.isRequired,

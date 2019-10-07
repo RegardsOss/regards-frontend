@@ -108,7 +108,7 @@ export class AcquisitionFileInfoComponent extends React.PureComponent {
         component={RenderAutoCompleteField}
         hintText={formatMessage({ id: 'acquisition-chain.form.fileInfo.dataType' })}
         floatingLabelText={formatMessage({ id: 'acquisition-chain.form.fileInfo.dataType' })}
-        dataSource={CommonDomain.DataTypes}
+        dataSource={CommonDomain.DATA_TYPES}
         filter={AutoComplete.caseInsensitiveFilter}
         validate={required}
       />,

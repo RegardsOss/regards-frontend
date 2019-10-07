@@ -24,6 +24,7 @@ import { connect } from '@regardsoss/redux'
 import { UIDomain, CatalogDomain } from '@regardsoss/domain'
 import { UIClient } from '@regardsoss/client'
 import { AccessShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
 import { modulesManager } from '@regardsoss/modules'
 import { modulesHelper } from '@regardsoss/modules-api'
 import DatasetSelectionTypes from '../../domain/DatasetSelectionTypes'
@@ -75,6 +76,11 @@ export class ModuleContainer extends React.Component {
     dispatchCollapseForm: PropTypes.func.isRequired,
     dispatchInitializeWithOpenedResults: PropTypes.func.isRequired,
     dispatchUpdateSearchContext: PropTypes.func.isRequired,
+  }
+
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   /**
@@ -155,13 +161,18 @@ export class ModuleContainer extends React.Component {
       dispatchInitializeWithOpenedResults, dispatchUpdateSearchContext,
     } = this.props
     const { contextResultsCriteria } = this.state
-    // 1 - Publish new criteria list in otherFilters
+    // 1 - Publish new criteria list in results tab (otherFilters part), and select results tab
     dispatchUpdateSearchContext({
-      criteria: { // add both context and current criteria values
-        otherFilters: [
-          ...contextResultsCriteria,
-          ...ModuleContainer.buildResultsCriteria(pluginsState),
-        ],
+      selectedTab: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+      tabs: {
+        [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+          criteria: {
+            otherFilters: [
+              ...contextResultsCriteria, // TODO (PM 033 - documents rights): this would move in configuration filters, handled by search results module
+              ...ModuleContainer.buildResultsCriteria(pluginsState),
+            ],
+          },
+        },
       },
     })
     // 2 - Expand results and collapse form, when it is possible
@@ -179,6 +190,7 @@ export class ModuleContainer extends React.Component {
       moduleConf: { preview, searchResult },
     } = this.props
     const { contextQuery } = this.state
+    const { intl: { formatMessage } } = this.context
     return (
       <React.Fragment>
         {/* 1. Form */}
@@ -190,6 +202,7 @@ export class ModuleContainer extends React.Component {
         />
         {/* 2. Results, when not in preview */ }
         <ResultsContainer
+          resultsModuleTitle={formatMessage({ id: 'results.module.title' })}
           preview={preview}
           id={id}
           appName={appName}

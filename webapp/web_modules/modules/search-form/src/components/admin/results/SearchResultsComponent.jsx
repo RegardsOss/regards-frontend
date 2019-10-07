@@ -61,8 +61,6 @@ class SearchResultsComponent extends React.Component {
         // limit the number of attributes visible
         selectableDataObjectsAttributes: this.props.selectableDataObjectsAttributes,
         selectableDataSetsAttributes: this.props.selectableDataSetsAttributes,
-        // admin should not search document results
-        documentsForbidden: true,
         primaryPane: UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE,
       },
     }

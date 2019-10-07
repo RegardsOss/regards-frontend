@@ -110,8 +110,8 @@ class OrderCartComponent extends React.Component {
           {/* 1.a - Empty basket display */}
           <NoContentMessageInfo
             noContent={isNoContent}
-            title={formatMessage({ id: noContentTitleKey })}
-            message={formatMessage({ id: noContentMesageKey })}
+            titleKey={noContentTitleKey}
+            messageKey={noContentMesageKey}
             Icon={NoContentIconConstructor}
           >
             {/* 1.b - content  */}

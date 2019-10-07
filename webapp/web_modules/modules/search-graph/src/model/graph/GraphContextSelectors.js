@@ -66,9 +66,6 @@ class GraphContextSelectors extends BasicSelector {
    * @return bool
    */
   areDatasetAttributesVisible = state => this.uncombineStore(state).datasetsAttributesVisible
-
-  /** @return current search tag as a (see @regardsoss/domain/catalog/Tag)  */
-  getSearchTag = state => this.uncombineStore(state).searchTag
 }
 
 export default new GraphContextSelectors(['modules.search-graph', REDUCER_PATH])

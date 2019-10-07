@@ -29,8 +29,8 @@ const getNewSelectionPath = (previousSelectionPath, { levelIndex, entity }) => {
   if (levelIndex > previousSelectionPath.length) {
     throw new Error('Invalid state: the selection path must be complete up to the new selection level (cannot "jump over" selection levels)')
   }
-  // when selecting a new element, the elements after in selection should be cutted (tree navigation).
-  // Note: slice gets us a copy of the array, better for redux behaviors ;-)
+  // when selecting a new element, the elements after in selection should be cut (tree navigation).
+  // Note: slice creates a copy of the array
   const newSelectionPath = previousSelectionPath.slice(0, levelIndex)
   // if selected entity is not null, ie not a selection reset on level, then consider it in selection path
   if (entity) {
@@ -43,18 +43,15 @@ const getNewSelectionPath = (previousSelectionPath, { levelIndex, entity }) => {
 export const DEFAULT_STATE = {
   selectionPath: [],
   datasetsAttributesVisible: false,
-  searchTag: null,
 }
 
 const reduce = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case graphContextActions.ENTITY_SELECTED:
       // reset search tag
-      return { ...state, searchTag: null, selectionPath: getNewSelectionPath(state.selectionPath, action) }
+      return { ...state, selectionPath: getNewSelectionPath(state.selectionPath, action) }
     case graphContextActions.SET_DATASET_ATTRIBUTES_VISIBLE:
       return { ...state, datasetsAttributesVisible: action.visible }
-    case graphContextActions.SET_SEARCH_TAG:
-      return { ...state, searchTag: action.searchTag }
     default:
       return state
   }

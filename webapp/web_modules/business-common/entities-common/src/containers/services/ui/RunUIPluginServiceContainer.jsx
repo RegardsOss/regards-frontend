@@ -21,7 +21,6 @@ import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { AccessProjectClient } from '@regardsoss/client'
 import { UIPluginConfConfiguration } from '@regardsoss/api'
-import { i18nContextType } from '@regardsoss/i18n'
 import { loadPlugin } from '@regardsoss/plugins'
 import { ServiceTargetShape } from '../../../model/ServiceTargetShape'
 import {
@@ -65,10 +64,6 @@ export class RunUIPluginServiceContainer extends React.Component {
 
     // from map dispatch to props
     dispatchFetchPluginConfiguration: PropTypes.func.isRequired,
-  }
-
-  static contextTypes = {
-    ...i18nContextType,
   }
 
   static DEFAULT_STATE = {
@@ -198,20 +193,19 @@ export class RunUIPluginServiceContainer extends React.Component {
    * @return a consumable step for RunServiceDialogComponent
    */
   renderCurrentStep = () => {
-    const { intl: { formatMessage } } = this.context
     const { step, resolvedParameters, userParametersValues } = this.state
     switch (step) {
       // loading states
       case RunUIPluginServiceContainer.Steps.FETCH_PLUGIN_CONFIGURATION:
       case RunUIPluginServiceContainer.Steps.LOAD_PLUGIN_INSTANCE:
-        return RunServiceDialogComponent.buildLoadingStep(formatMessage({ id: 'entities.common.services.loading.plugin.information' }))
+        return RunServiceDialogComponent.buildLoadingStep()
       case RunUIPluginServiceContainer.Steps.PLUGIN_CONFIGURATION_ERROR:
       case RunUIPluginServiceContainer.Steps.PLUGIN_INSTANCE_ERROR:
-        return RunServiceDialogComponent.buildMessageStep(formatMessage({ id: 'entities.common.services.loading.plugin.failed' }), true)
+        return RunServiceDialogComponent.buildMessageStep('entities.common.services.loading.plugin.failed', true)
       case RunUIPluginServiceContainer.Steps.PARAMETERS_CONVERSION_ERROR:
-        return RunServiceDialogComponent.buildMessageStep(formatMessage({ id: 'entities.common.services.plugin.parameters.error' }), true)
+        return RunServiceDialogComponent.buildMessageStep('entities.common.services.plugin.parameters.error', true)
       case RunUIPluginServiceContainer.Steps.RUNNING_SERVICE_FAILED:
-        return RunServiceDialogComponent.buildMessageStep(formatMessage({ id: 'entities.common.services.ui.plugin.running.error' }), true)
+        return RunServiceDialogComponent.buildMessageStep('entities.common.services.ui.plugin.running.error', true)
       case RunUIPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION:
         return RunServiceDialogComponent.buildParametersConfigurationStep(resolvedParameters, userParametersValues, this.onConfigurationDone)
       case RunUIPluginServiceContainer.Steps.RUNNING_SERVICE:

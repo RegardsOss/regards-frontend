@@ -21,7 +21,7 @@ import values from 'lodash/values'
 /**
  * Possible data types
  */
-export const DataTypesEnum = {
+export const DATA_TYPES_ENUM = {
   RAWDATA: 'RAWDATA',
   QUICKLOOK_SD: 'QUICKLOOK_SD',
   QUICKLOOK_MD: 'QUICKLOOK_MD',
@@ -32,4 +32,8 @@ export const DataTypesEnum = {
   AIP: 'AIP',
   DESCRIPTION: 'DESCRIPTION',
 }
-export const DataTypes = values(DataTypesEnum)
+export const DATA_TYPES = values(DATA_TYPES_ENUM)
+
+// OLD ones: DATA_TYPES_ENUM, DataTypes
+// DATATYPE, DATATYPE_ENUM
+// NEW ones: DATA_TYPES_ENUM, DATA_TYPES

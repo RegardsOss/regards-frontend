@@ -146,7 +146,7 @@ export class CollectionListComponent extends React.Component {
     )
     const emptyComponent = (
       <NoContentComponent
-        title={intl.formatMessage({ id: 'collection.no.collection.title' })}
+        titleKey="collection.no.collection.title"
         Icon={AddToPhotos}
         action={emptyContentAction}
       />

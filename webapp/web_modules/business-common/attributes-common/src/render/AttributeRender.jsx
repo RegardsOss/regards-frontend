@@ -51,7 +51,6 @@ class AttributeRender extends React.Component {
     }
     pathElements.push(name)
     const path = pathElements.join(intl.formatMessage({ id: 'attribute.render.path.join.string' }))
-    //
     return intl.formatMessage({ id: 'attribute.render.label' }, { label, path })
   }
 

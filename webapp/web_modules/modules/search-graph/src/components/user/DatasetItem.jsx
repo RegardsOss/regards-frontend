@@ -16,10 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import DatasetIcon from 'material-ui/svg-icons/device/widgets'
-import { themeContextType } from '@regardsoss/theme'
+import { DamDomain } from '@regardsoss/domain'
 import { CatalogShapes } from '@regardsoss/shape'
-import { ResolvedDatasetAttributesArray } from '../../model/DatasetAttributesForGraph'
+import { themeContextType } from '@regardsoss/theme'
+import { EntityTypeIcon } from '@regardsoss/entities-common'
+import { DescriptionProperties } from '../../shapes/DescriptionProperties'
+import { ResolvedDatasetAttributesArray } from '../../shapes/DatasetAttributesForGraph'
 import DatasetAttributes from './DatasetAttributes'
 import ItemLinkContainer from '../../containers/user/ItemLinkContainer'
 import ItemLink from './ItemLink'
@@ -29,8 +31,9 @@ import ItemLink from './ItemLink'
 */
 class DatasetItem extends React.Component {
   static propTypes = {
-    locked: PropTypes.bool.isRequired,
     dataset: CatalogShapes.Entity.isRequired,
+    descriptionProperties: DescriptionProperties.isRequired, // From description HOC
+    locked: PropTypes.bool.isRequired,
     datasetAttributes: ResolvedDatasetAttributesArray.isRequired, // resolved attributes, empty array allowed
     attributesVisible: PropTypes.bool.isRequired,
     selected: PropTypes.bool.isRequired,
@@ -59,7 +62,8 @@ class DatasetItem extends React.Component {
 
   render() {
     const {
-      dataset, datasetAttributes, locked, selected, attributesVisible, onSelect,
+      dataset, datasetAttributes, descriptionProperties,
+      locked, selected, attributesVisible, onSelect,
     } = this.props
     const { detailState } = this.state
     const { moduleTheme: { user } } = this.context
@@ -67,7 +71,8 @@ class DatasetItem extends React.Component {
       <div style={user.datasetItem.styles}>
         <ItemLinkContainer
           entity={dataset}
-          Icon={DatasetIcon}
+          descriptionProperties={descriptionProperties}
+          Icon={EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE[DamDomain.ENTITY_TYPES_ENUM.DATASET]}
           onSelect={onSelect}
           selected={selected}
           locked={locked}

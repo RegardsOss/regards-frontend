@@ -29,7 +29,7 @@ import { connect } from '@regardsoss/redux'
 import { HOCUtils, ShowableAtRender } from '@regardsoss/display-control'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType, SwitchThemeDecorator } from '@regardsoss/theme'
 import { moduleExpandedStateActions, moduleExpandedStateSelectors } from './clients/ModuleExpandedStateClient'
 import NoContentMessageInfo from '../cards/NoContentMessageInfo'
@@ -151,7 +151,6 @@ export class DynamicModulePane extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
-    ...i18nContextType,
   }
 
   static DEFAULT_STATE = {
@@ -263,7 +262,7 @@ export class DynamicModulePane extends React.Component {
       noData, loading, noDataTitleKey, noDataMessageKey,
     } = this.state
     const {
-      intl: { formatMessage }, moduleTheme: {
+      moduleTheme: {
         module: {
           cardRootContainerStyle,
           content: {
@@ -304,8 +303,8 @@ export class DynamicModulePane extends React.Component {
               {/* prevent children to show when missing rights  */}
               <NoContentMessageInfo
                 noContent={noData || loading}
-                title={formatMessage({ id: noDataTitleKey })}
-                message={formatMessage({ id: noDataMessageKey })}
+                titleKey={noDataTitleKey}
+                messageKey={noDataMessageKey}
                 Icon={loading ? UserInformationLoadingIcon : NotLoggedIcon}
               >
                 <div style={moduleContentStyle}>

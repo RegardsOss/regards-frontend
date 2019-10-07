@@ -27,7 +27,7 @@ import { DataFile } from '../../rs-dam/DataFile'
  */
 
 /* Entity files attribute as key: file type, value: file array */
-export const entityFiles = PropTypes.shape(CommonDomain.DataTypes.reduce((acc, fileType) => ({
+export const entityFiles = PropTypes.shape(CommonDomain.DATA_TYPES.reduce((acc, fileType) => ({
   ...acc,
   [fileType]: PropTypes.arrayOf(DataFile),
 }), {}))

@@ -26,11 +26,10 @@ import { HOCUtils } from '@regardsoss/display-control'
 import {
   PageableInfiniteTableContainer, AutoRefreshPageableTableHOC, TableColumnBuilder, TableLayout, TableHeaderLine,
   TableHeaderOptionsArea, TableHeaderContentBox, TableHeaderOptionGroup, TableHeaderLoadingComponent,
-  TableColumnsVisibilityOption, DateValueRender, StorageCapacityRender,
+  TableColumnsVisibilityOption, DateValueRender, StorageCapacityRender, NoContentComponent,
 } from '@regardsoss/components'
 import { ORDER_DISPLAY_MODES } from '../../model/OrderDisplayModes'
 import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
-import NoOrderComponent from './NoOrderComponent'
 import OrderCountHeaderMessage from './OrderCountHeaderMessage'
 import DeleteOrderContainer from '../../containers/orders/options/DeleteOrderContainer'
 import DownloadOrdersCSVSummaryContainer from '../../containers/orders/options/DownloadOrdersCSVSummaryContainer'
@@ -131,7 +130,10 @@ class OrderListComponent extends React.Component {
   }
 
   /** No data component (avoids re-rendering it) */
-  static EMPTY_COMPONENT = <NoOrderComponent />
+  static EMPTY_COMPONENT = <NoContentComponent
+    titleKey="no.order.information.title"
+    messageKey="no.order.information.message"
+  />
 
   /**
    * Sums up all properties from datasets tasks in order (must be a path to a numeric property)

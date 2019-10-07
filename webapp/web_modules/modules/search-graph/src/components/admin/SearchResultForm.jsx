@@ -18,7 +18,7 @@
  **/
 import { UIDomain } from '@regardsoss/domain'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
-import ModuleConfiguration from '../../model/ModuleConfiguration'
+import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 
 /**
 * Search result configuration form, using search result module
@@ -51,7 +51,6 @@ class SearchResultFormComponent extends React.Component {
       currentNamespace: `${adminForm.currentNamespace}.searchResult`,
       conf: {
         displayMode: 'data',
-        documentsForbidden: true,
         primaryPane: UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE,
       },
     }

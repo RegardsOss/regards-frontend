@@ -19,10 +19,11 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { Tab } from 'material-ui/Tabs'
-import { DamDomain } from '@regardsoss/domain'
+import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AdminFormComponent from '../../../src/components/admin/AdminFormComponent'
 import styles from '../../../src/styles'
+import { fullModuleConf } from '../../dumps/configuration.dump'
 
 const context = buildTestContext(styles)
 
@@ -37,11 +38,21 @@ describe('[Description] Testing AdminFormComponent', () => {
   it('should exists', () => {
     assert.isDefined(AdminFormComponent)
   })
-  it('should render correctly', () => {
+  const testCases = [{
+    editionMode: 'creating',
+    isCreating: true,
+    currentFormValues: {},
+  }, {
+    editionMode: 'editing',
+    isCreating: false,
+    currentFormValues: fullModuleConf,
+  }]
+  testCases.forEach(({ editionMode, isCreating, currentFormValues }) => it(`should render correctly ${editionMode}`, () => {
     const props = {
       currentNamespace: 'test',
+      currentFormValues,
       changeField: () => { },
-      isCreating: true,
+      isCreating,
 
       collectionAttributeModels: {},
       dataAttributeModels: {},
@@ -49,19 +60,21 @@ describe('[Description] Testing AdminFormComponent', () => {
       documentAttributeModels: {},
     }
     const enzymeWrapper = shallow(<AdminFormComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.allowTagSearch'), 1, 'There should be allow search tag field for current namespace')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.allowSearching'), 1, 'There should be allow search tag field for current namespace')
 
     // check there is one tab by entity type
     const tabsWrapper = enzymeWrapper.find(Tab)
-    DamDomain.ENTITY_TYPES.forEach((entityType) => {
+    UIDomain.PSEUDO_TYPES.forEach((entityType) => {
       const entityTabWrapper = tabsWrapper.findWhere(n => n.props().entityType === entityType)
       assert.lengthOf(entityTabWrapper, 1, `There should be a tab for ${entityType} type`)
       testSuiteHelpers.assertWrapperProperties(entityTabWrapper, {
+        entityType,
+        currentTypeValues: props.currentFormValues[entityType],
         isCreating: props.isCreating,
         changeField: props.changeField,
         currentNamespace: props.currentNamespace,
         availableAttributes: enzymeWrapper.instance().getAvailableAttributes(entityType),
       }, `Tab properties should be correctly reported for ${entityType} type tab`)
     })
-  })
+  }))
 })

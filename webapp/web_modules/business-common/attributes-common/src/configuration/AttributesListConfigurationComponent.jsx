@@ -23,13 +23,14 @@ import { connect } from '@regardsoss/redux'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { withModuleStyle } from '@regardsoss/theme'
-import { withI18n, i18nSelectors, i18nContextType } from '@regardsoss/i18n'
+import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { StringComparison } from '@regardsoss/form-utils'
 import AttributeListTableComponent from './table/AttributeListTableComponent'
 import styles from '../styles'
 import messages from '../i18n'
 import EditItemDialog from './dialog/edit/EditItemDialog'
 import AttributeRender from '../render/AttributeRender'
+import AddManyDialog from './dialog/add/AddManyDialog'
 
 /**
  * Component to display and edit attributes configuration list.
@@ -37,18 +38,6 @@ import AttributeRender from '../render/AttributeRender'
  * @author Raphaël Mechali
  */
 export class AttributesListConfigurationComponent extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state) {
-    return {
-      locale: i18nSelectors.getLocale(state), // bind locale to get componentWillReceiveProps called and thus update sorting on intl label
-    }
-  }
-
   static propTypes = {
     // Available Attributes for configuration
     // eslint-disable-next-line react/no-unused-prop-types
@@ -70,14 +59,14 @@ export class AttributesListConfigurationComponent extends React.Component {
     changeField: PropTypes.func.isRequired,
     // From mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
-    locale: PropTypes.string, // used only in onPropertiesUpdated
+    i18n: PropTypes.string, // used only in onPropertiesUpdated, automatically add by REGARDS connect method
   }
 
   static defaultProps = {
     allowLabel: false,
     attributesFilter: AttributesListConfigurationComponent.filterNone,
     attributesList: [],
-    locale: UIDomain.LOCALES_ENUM.en,
+    i18n: UIDomain.LOCALES_ENUM.en,
   }
 
   static contextTypes = {
@@ -114,6 +103,7 @@ export class AttributesListConfigurationComponent extends React.Component {
   state = {
     attributeModels: [], // list of models containing standard attributes
     editionData: null, // current edition data (for corresponding dialog)
+    multipleSelectionData: null, // current multiple edition data
   }
 
 
@@ -145,9 +135,9 @@ export class AttributesListConfigurationComponent extends React.Component {
     // 1 - Update current configurations when selectable attributes change
     const oldState = this.state || {}
     const newState = { ...oldState }
-    if ((!isEqual(selectableAttributes, oldProps.selectableAttributes)
-      || !isEqual(attributesFilter, oldProps.attributesFilter)
-      || !isEqual(oldProps.locale, newProps.locale)) && selectableAttributes) {
+    if ((!isEqual(oldProps.selectableAttributes, selectableAttributes)
+      || !isEqual(oldProps.attributesFilter, attributesFilter)
+      || !isEqual(oldProps.i18n, newProps.i18n)) && selectableAttributes) {
       // 1.a - prepare the list of attributes that user can select, allowing standard attributes and sorted on label
       newState.attributeModels = [
         ...DamDomain.AttributeModelController.standardAttributesAsModel, // all standard attributes
@@ -172,7 +162,7 @@ export class AttributesListConfigurationComponent extends React.Component {
   /**
    * User callback: add option clicked. Show add dialog
    */
-  onShowAddDialog = () => {
+  onShowAddOneItemDialog = () => {
     const { attributesList } = this.props
     this.setState({
       editionData: {
@@ -201,9 +191,7 @@ export class AttributesListConfigurationComponent extends React.Component {
   /**
    * User callback: edition / add cancelled
    */
-  onCancelEdit = () => {
-    this.setState({ editionData: null })
-  }
+  onCancelEdit = () => this.setState({ editionData: null })
 
   /**
    * User callback: edition / add confirmed
@@ -222,6 +210,56 @@ export class AttributesListConfigurationComponent extends React.Component {
     const { attributesList } = this.props
     this.onCommit(attributesList.filter((item, index) => index !== deleteIndex))
   }
+
+  /**
+   * Use callback: add many items clicked. Show attributes selection dialog
+   */
+  onAddManyItemsDialog = () => {
+    const { attributeModels } = this.state
+    const { attributesList } = this.props
+    this.setState({
+      // Enable dialog by providing the edition list as [{attributeModel, selected}].
+      multipleSelectionData: values(attributeModels).map(attributeModel => ({
+        attributeModel,
+        // Attribute is initially selected when there is no group using it
+        selected: !attributesList.some(
+          attributesGroup => attributesGroup.attributes.some(
+            attrConf => attrConf.name === attributeModel.content.jsonPath)),
+      })),
+    })
+  }
+
+  /**
+   * User callback: add many cancelled
+   */
+  onCancelAddMany = () => this.setState({ multipleSelectionData: null })
+
+  /**
+   * User callback: add many confirmed, commit changes in attributes list
+   * @param {[{attributeModel: *, selected: boolean}]} selectionModel edited selection model
+   */
+  onConfirmAddMany = (selectionModel) => {
+    const { allowLabel, attributesList } = this.props
+    this.setState({ multipleSelectionData: null })
+    this.onCommit([
+      ...attributesList,
+      // add all selected attributes
+      ...selectionModel.reduce((acc, { attributeModel: { content: { label, jsonPath } }, selected }) => {
+        if (selected) {
+          const newGroup = { attributes: [{ name: jsonPath }] }
+          if (allowLabel) {
+            newGroup.label = {
+              [UIDomain.LOCALES_ENUM.en]: label,
+              [UIDomain.LOCALES_ENUM.fr]: label,
+            }
+          }
+          return [...acc, newGroup]
+        }
+        return acc
+      }, []),
+    ])
+  }
+
 
   /**
    * Inner event: this component commits a new field value
@@ -253,7 +291,7 @@ export class AttributesListConfigurationComponent extends React.Component {
     const {
       hintMessageKey, attributesList, allowAttributesRegroupements, allowLabel,
     } = this.props
-    const { attributeModels, editionData } = this.state
+    const { attributeModels, editionData, multipleSelectionData } = this.state
     return (
       <React.Fragment>
         {/* 1. show edit dialog when there is edition data */}
@@ -265,7 +303,13 @@ export class AttributesListConfigurationComponent extends React.Component {
           onCancel={this.onCancelEdit}
           onConfirm={this.onConfirmEdit}
         />
-        {/* 2. show currently defined attributes elements */}
+        {/* 2. Show add many dialog when requested */ }
+        <AddManyDialog
+          initialSelectionModel={multipleSelectionData}
+          onCancel={this.onCancelAddMany}
+          onConfirm={this.onConfirmAddMany}
+        />
+        {/* 3. show currently defined attributes elements */}
         <AttributeListTableComponent
           hintMessageKey={hintMessageKey}
           attributesList={attributesList}
@@ -273,7 +317,8 @@ export class AttributesListConfigurationComponent extends React.Component {
           allowAttributesRegroupements={allowAttributesRegroupements}
           allowLabel={allowLabel}
           // callbacks to show dialogs
-          onAdd={this.onShowAddDialog}
+          onAddOneItem={this.onShowAddOneItemDialog}
+          onAddManyItems={this.onAddManyItemsDialog}
           onEdit={this.onShowEditDialog}
           onDelete={this.onDelete}
         />
@@ -282,6 +327,4 @@ export class AttributesListConfigurationComponent extends React.Component {
   }
 }
 // note: we stack calling context messages to get the hint key correctly resolved in parent context
-export default compose(connect(AttributesListConfigurationComponent.mapStateToProps),
-  withI18n(messages, true),
-  withModuleStyle(styles))(AttributesListConfigurationComponent)
+export default compose(connect(), withI18n(messages, true), withModuleStyle(styles))(AttributesListConfigurationComponent)

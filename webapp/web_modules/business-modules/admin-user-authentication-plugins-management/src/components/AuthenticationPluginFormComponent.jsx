@@ -73,7 +73,7 @@ export class AuthenticationPluginFormComponent extends React.Component {
     if (mode !== 'create' && !pluginConfiguration) {
       return (
         <NoContentComponent
-          title={formatMessage({ id: 'user.authentication.plugins.form.invalid.id' })}
+          titleKey="user.authentication.plugins.form.invalid.id"
           Icon={MoodIcon}
         />
       )

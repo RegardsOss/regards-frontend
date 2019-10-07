@@ -400,7 +400,7 @@ class AIPListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={intl.formatMessage({ id: 'oais.aips.list.empty.title' })}
+        titleKey="oais.aips.list.empty.title"
         Icon={AddToPhotos}
       />
     )

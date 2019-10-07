@@ -19,7 +19,6 @@
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { assert } from 'chai'
-import { TAG_TYPES_ENUM } from '@regardsoss/domain/catalog'
 import graphContextActions from '../../src/model/graph/GraphContextActions'
 
 
@@ -58,14 +57,4 @@ describe('[Search Graph] Test GraphContextActions', () => {
     type: graphContextActions.SET_DATASET_ATTRIBUTES_VISIBLE,
     visible: true,
   }, buildMockStore({})))
-
-  it('It should dispatch set search tag event', () => {
-    dispatchAndCheck(graphContextActions.setSearchTag({ type: TAG_TYPES_ENUM.WORD, data: 'w' }), {
-      type: graphContextActions.SET_SEARCH_TAG,
-      searchTag: {
-        type: TAG_TYPES_ENUM.WORD,
-        data: 'w',
-      },
-    }, buildMockStore({}))
-  })
 })

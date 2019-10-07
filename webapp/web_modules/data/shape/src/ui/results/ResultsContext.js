@@ -19,9 +19,9 @@
 import {
   CommonDomain, DamDomain, UIDomain, CatalogDomain,
 } from '@regardsoss/domain'
-import { getChainableTypeChecker } from '../../rs-common'
-import { AttributeModel } from '../../rs-dam/AttributeModel'
 import { RequestParameters } from '../../rs-common/RequestParameters'
+import { AttributeModel } from '../../rs-dam/AttributeModel'
+import { EntityWithServices } from '../../rs-access/EntityWithServices'
 
 
 /**
@@ -126,33 +126,6 @@ export const SortingCriterion = PropTypes.shape({
   ...commonCriterionFields,
 })
 
-/** Defines a common criteria arrays map, without specific fields */
-const criteriaArraysMap = PropTypes.objectOf(PropTypes.arrayOf(BasicCriterion))
-
-/**
- * Criteria part validator: it validates each key in criteria is a BasicCriterion array and optionnaly checks a shape (fieldsValidator)
- * For the sake of default state creation, it is possible to turn off specific shape checking when the parent element is disabled
- * (parameter whenEnabled = true)
- * @param {Function} fieldsValidator PropType validator to apply to criteria field, null allowed
- * @param {boolean} whenEnabled when true, if properties bag does not hold enabled:true, no check will be performed
- */
-function getCriteriaWithFieldsValidator(fieldsValidator = null, whenEnabled = true) {
-  // build a chainable checker
-  return getChainableTypeChecker((props, propName, componentName) => {
-    if (whenEnabled && !props.enabled) {
-      return null
-    }
-
-    // A - Check each mandatory search results field is present
-    if (fieldsValidator) {
-      PropTypes.checkPropTypes(fieldsValidator, props, propName, componentName)
-    }
-    // B - check all object properties are criteria arrays
-    PropTypes.checkPropTypes(criteriaArraysMap.isRequired, props, propName, componentName)
-    return null
-  })
-}
-
 /** An attribute presentation model */
 export const AttributePresentationModel = PropTypes.shape({
   // The key used to refer to this model (for custom columns, it identifies them too)
@@ -241,8 +214,6 @@ export const ViewsGroupState = PropTypes.shape({
   initialSorting: PropTypes.arrayOf(SortingCriterion).isRequired,
   // Is currently in initial sorting state
   isInInitialSorting: PropTypes.bool.isRequired,
-  // current mode in view group
-  mode: PropTypes.oneOf(UIDomain.RESULTS_VIEW_MODES).isRequired,
   // optional group label (from configuration)
   label: PropTypes.shape({
     en: PropTypes.string,
@@ -255,13 +226,15 @@ export const ViewsGroupState = PropTypes.shape({
     list: PropTypes.arrayOf(RequestFacetCriterion).isRequired,
   }).isRequired,
   // Criteria that apply for whole type group (facets, sortables.....). Free fields allowed for external controllers
-  criteria: getCriteriaWithFieldsValidator(PropTypes.shape({
+  criteria: PropTypes.shape({
     requestFacets: PropTypes.arrayOf(RequestFacetCriterion).isRequired, // List of requested facets on results
     // Sorting attributes with sorting types. The first sorting in array is the first applied when in multi-sort
     sorting: PropTypes.arrayOf(SortingCriterion).isRequired,
-  }).isRequired),
+  }).isRequired,
+  // selected mode in view group
+  selectedMode: PropTypes.oneOf(UIDomain.RESULTS_VIEW_MODES).isRequired,
   // state by mode
-  modeState: PropTypes.shape({
+  modes: PropTypes.shape({
     [UIDomain.RESULTS_VIEW_MODES_ENUM.LIST]: ListViewModeState.isRequired,
     [UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE]: TableViewModeState.isRequired,
     [UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: QuicklookViewModeState.isRequired,
@@ -269,27 +242,42 @@ export const ViewsGroupState = PropTypes.shape({
   }).isRequired,
 })
 
-/** Complete results context */
-export const ResultsContext = PropTypes.shape({
-  // current entity type
-  type: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
-  // criteria applying to the whole results view (free fields allowed for external controllers)
-  criteria: getCriteriaWithFieldsValidator(PropTypes.shape({
-    // Parent control criteria
-    contextTags: PropTypes.arrayOf(TagCriterion).isRequired, // Tags from context
+/**
+ * Common to all results views
+ */
+const ResultsTab = PropTypes.shape({
+  criteria: PropTypes.shape({
+    contextTags: PropTypes.arrayOf(BasicCriterion).isRequired, // Other filters (especially used by tag results tab)
     otherFilters: PropTypes.arrayOf(BasicCriterion).isRequired, // Other restrictions
-    // locally handled filters
-    tags: PropTypes.arrayOf(TagCriterion).isRequired, // user added tags
     quicklookFiltering: PropTypes.arrayOf(BasicCriterion).isRequired, // filtering elements with quicklooks
     appliedFacets: PropTypes.arrayOf(SelectedFacetCriterion).isRequired, // List of selected facets
     geometry: PropTypes.arrayOf(GeometryCriterion).isRequired, // Selected filtering geometry criteria
     entitiesSelection: PropTypes.arrayOf(EntitiesSelectionCriterion).isRequired, // Selected entities set criteria
-  }).isRequired, false),
-  // view state for each entity type
-  typeState: PropTypes.shape({
+    tagsFiltering: TagsArray.isRequired, // applying tags (parent can set some here)
+  }),
+  selectedType: PropTypes.oneOf([DamDomain.ENTITY_TYPES_ENUM.DATA, DamDomain.ENTITY_TYPES_ENUM.DATASET]).isRequired,
+  types: PropTypes.shape({
     [DamDomain.ENTITY_TYPES_ENUM.DATA]: ViewsGroupState.isRequired,
     [DamDomain.ENTITY_TYPES_ENUM.DATASET]: ViewsGroupState.isRequired,
-    [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]: ViewsGroupState.isRequired,
-    [DamDomain.ENTITY_TYPES_ENUM.COLLECTION]: ViewsGroupState.isRequired,
   }).isRequired,
+})
+
+/**
+ * Description results tab model
+ */
+export const DescriptionTabModel = PropTypes.shape({
+  // Entities in current description path (empty when no description)
+  descriptionPath: PropTypes.arrayOf(EntityWithServices).isRequired,
+  // Displayed entity index in current description path
+  selectedIndex: PropTypes.number.isRequired,
+})
+
+/** Complete results context: holds only the three tabs */
+export const ResultsContext = PropTypes.shape({
+  selectedTab: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
+  tabs: PropTypes.shape({
+    [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: ResultsTab.isRequired,
+    [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: DescriptionTabModel.isRequired,
+    [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: ResultsTab.isRequired,
+  }),
 })

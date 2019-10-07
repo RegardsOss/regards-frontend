@@ -46,73 +46,86 @@ const styles = theme => ({
       borderBottomColor: theme.palette.primary1Color,
     },
   },
+  loading: {
+    container: {
+      ...theme.components.loadingContent.container,
+      flexGrow: 1,
+      flexShrink: 1,
+    },
+    circle: theme.components.loadingContent.circle,
+    message: theme.components.loadingContent.message,
+  },
   noContent: {
     wrapper: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       flexDirection: 'column',
-      minHeight: '30vh',
-      // auto alignement in flex container
+      minHeight: theme.components.noData.minHeight,
       flexGrow: 1,
       flexShrink: 1,
     },
     iconStyle: {
-      width: '128px',
-      height: '128px',
-      opacity: '0.2',
+      width: theme.components.noData.icon.size,
+      height: theme.components.noData.icon.size,
+      opacity: theme.components.noData.icon.opacity,
     },
     titleWrapper: {
-      maxWidth: '300px',
-      marginTop: '0.2em',
-      color: theme.palette.textColor,
-      fontSize: '1.5em',
+      maxWidth: theme.components.noData.maxWidth,
+      marginTop: theme.components.noData.title.marginTop,
+      color: theme.components.noData.title.color,
+      fontSize: theme.components.noData.title.fontSize,
     },
     messageWrapper: {
-      maxWidth: '300px',
-      marginTop: '0.6em',
-      color: theme.palette.secondaryTextColor,
-      textAlign: 'center',
-      fontSize: '1em',
+      maxWidth: theme.components.noData.maxWidth,
+      marginTop: theme.components.noData.text.marginTop,
+      color: theme.components.noData.text.color,
+      fontSize: theme.components.noData.text.fontSize,
+      textAlign: theme.components.noData.text.textAlign,
     },
-    actionWrapper: {
-    },
+    actionWrapper: {},
   },
-  code: {
-    styles: {
-      width: '100%',
-      height: '100%',
-    },
-  },
-  image: {
-    containerStyles: {
-      width: '100%',
-      height: '100%',
-      textAlign: 'center',
-    },
-    styles: {
-      maxWidth: '100%',
-      maxHeight: '100%',
-      objectFit: 'contain',
-    },
-  },
-  markdown: {
-    scrollbarStyle: {
-      background: '#0366d6',
-      borderRadius: '3px',
-      width: '6px',
-    },
-  },
-  noPreview: {
-    container: {
+  fileContent: {
+    statusContainer: { // style to use as root for every status display (allow them growing using the default styles)
+      flexGrow: 1,
+      flexShrink: 1,
       display: 'flex',
-      flexDirection: 'column',
-      margin: 'auto',
-      width: '256px',
+      alignItems: 'strech',
     },
-    text: { width: '256px', textAlign: 'center' },
-    icon: {
-      width: '256px',
+    image: {
+      container: {
+        width: '100%',
+        height: '100%',
+        minWidth: 0,
+        minHeight: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      img: {
+        flexGrow: 0,
+        flexShrink: 1,
+        maxWidth: '100%',
+        maxHeight: '100%',
+      },
+    },
+    iFrame: {
+      background: theme.components.filePreview.iFrameBackground,
+    },
+    markdown: {
+      scrollbarStyle: {
+        background: theme.components.filePreview.markdownScrollbarColor,
+        borderRadius: '3px',
+        width: '6px',
+      },
+      scrollableContent: {
+        // span all size
+        minHeight: '100%',
+        width: '100%',
+        // this trick allows filling the whole page background (as markdown component itself refuses changing size)
+        // color matches github-markdown-styles.css.markdown-body.background
+        background: 'white',
+      },
     },
   },
 })

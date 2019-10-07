@@ -309,7 +309,7 @@ export class AccessRightListComponent extends React.Component {
     )
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'accessright.no.dataset.title' })}
+        titleKey="accessright.no.dataset.title"
         Icon={AddToPhotos}
         action={emptyContentAction}
       />

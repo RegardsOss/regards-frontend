@@ -37,8 +37,8 @@ export { default as IAIPDatasourceParamsEnum } from './IAIPDatasourceParamsEnum'
 
 export { default as DATASOURCE_PLUGIN_TYPE_ENUM } from './DatasourcePluginTypeEnum'
 
-export { DATATYPE, DATATYPE_ENUM } from './DataType'
-
 export { PluginTypeEnum, PluginTypeEnumValues } from './PluginTypeEnum'
 
 export { DataSourcesStatusEnum, DataSourcesStatusValues } from './DataSourcesStatusEnum'
+
+export { URLAttributeHelper } from './URLAttributeHelper'

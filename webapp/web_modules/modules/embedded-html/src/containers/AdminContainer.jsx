@@ -109,7 +109,7 @@ class AdminContainer extends React.Component {
           project={project}
           type={modulesManager.AllDynamicModuleTypes.EMBEDDED_HMTL}
           moduleConf={moduleConfiguration}
-          locale={previewLocale}
+          i18n={previewLocale}
         />
       </React.Fragment>)
   }

@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
+import { DatasetAttributesArrayForGraph } from '../../shapes/DatasetAttributesForGraph'
 import graphContextActions from '../../model/graph/GraphContextActions'
 import graphContextSelectors from '../../model/graph/GraphContextSelectors'
 import ToggleDatasetDetails from '../../components/user/ToggleDatasetDetails'

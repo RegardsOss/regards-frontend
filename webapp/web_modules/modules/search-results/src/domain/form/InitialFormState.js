@@ -68,23 +68,5 @@ export const INITIAL_FORM_STATE = {
         },
       },
     },
-    [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]: {
-      enabled: false,
-      tabTitle: {},
-      initialMode: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
-      enableDownload: false,
-      facets: {
-        enabled: false,
-        initiallyEnabled: false,
-        list: [],
-      },
-      sorting: [],
-      views: {
-        [UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE]: {
-          enabled: true,
-          attributes: [],
-        },
-      },
-    },
   },
 }

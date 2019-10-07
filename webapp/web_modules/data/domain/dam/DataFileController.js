@@ -23,24 +23,42 @@ import URLAuthInjector from '../common/URLAuthInjector'
  * @author Raphaël Mechali
  */
 
+
+/**
+ * @param {string} uri initial uri
+ * @param {boolean} reference is external reference or is in REGARDS website?
+ * @param {string} accessToken access token if used is logged, optional
+ * @param {string} projectName project name (that will be used as scope when used is not logged)
+ * @return {string} URI to address URI as parameter, null if empty URI
+ */
+function getURI(uri, reference, accessToken, projectName) {
+  if (!uri) {
+    return null
+  }
+  if (reference) {
+    // URI can be used unchanged to access external websites
+    return uri
+  }
+  // local REGARDS file, address that URI using token / scope
+  return URLAuthInjector(uri, accessToken, projectName)
+}
+
 /**
  * Computes a file URI for a given DAM DataFile with authentication state as next parameters
  * @param {DataFile} dataFile data file, optional
  * @param {string} accessToken access token if used is logged, optional
  * @param {string} projectName project name (that will be used as scope when used is not logged)
- * @return {string} file URI, null if no file
+ * @return {string} URI to address file as parameter, null if no file
  */
 function getFileURI(dataFile, accessToken, projectName) {
   if (!dataFile) {
     return null
   }
-  if (dataFile.reference) {
-    // when file is a reference, return URI unchanged
-    return dataFile.uri
-  }
-  return URLAuthInjector(dataFile.uri, accessToken, projectName)
+  return getURI(dataFile.uri, dataFile.reference, accessToken, projectName)
 }
+
 
 export default {
   getFileURI,
+  getURI,
 }

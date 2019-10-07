@@ -36,6 +36,11 @@ describe('[Search Graph] Testing DatasetItem', () => {
   it('should render properly', () => {
     const props = {
       dataset: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
+      descriptionProperties: {
+        showDescriptionOption: true,
+        isDescriptionAvailableFor: () => true,
+        onShowDescription: () => {},
+      },
       attributesVisible: false,
       locked: false,
       selected: false,

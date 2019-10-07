@@ -17,11 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Card, CardActions, CardMedia } from 'material-ui/Card'
-import { CardActionsComponent } from '@regardsoss/components'
-import { AceEditorAdapter } from '@regardsoss/adapters'
+import { StorageShapes } from '@regardsoss/shape'
+import { MIME_TYPES } from '@regardsoss/mime-types'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { StorageShapes } from '@regardsoss/shape'
+import { CardActionsComponent, CodeFileDisplayer } from '@regardsoss/components'
 
 /**
 * AIPDetailComponent
@@ -46,17 +46,10 @@ class AIPDetailComponent extends React.Component {
     return (
       <Card>
         <CardMedia>
-          <AceEditorAdapter
-            mode="json"
-            theme="monokai"
-            value={JSON.stringify(aip, null, '\t')}
-            showPrintMargin={false}
+          <CodeFileDisplayer
+            content={JSON.stringify(aip, null, '\t')}
+            contentType={MIME_TYPES.JSON_MIME_TYPE}
             style={moduleTheme.aipDetailsStyle}
-            showGutter
-            showLineNumbers
-            readOnly
-            highlightActiveLine
-            wrapEnabled
           />
         </CardMedia>
         <CardActions>

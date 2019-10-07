@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import DatasetsIcon from 'material-ui/svg-icons/image/collections-bookmark'
-import DataIcon from 'material-ui/svg-icons/av/library-books'
-import DocumentsIcon from 'mdi-material-ui/ImageMultiple'
 import ListViewIcon from 'mdi-material-ui/ViewSequential'
 import QuicklookViewIcon from 'mdi-material-ui/ImageAlbum'
 import MapViewIcon from 'material-ui/svg-icons/maps/map'
@@ -29,6 +26,7 @@ import ViewSettingIcon from 'mdi-material-ui/TableSettings'
 import { DamDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { EntityTypeIcon } from '@regardsoss/entities-common'
 import { FormSection, FormPage } from '../../../shapes/form/FormSections'
 import { FORM_SECTIONS_ENUM } from '../../../domain/form/FormSectionsEnum'
 import { FORM_PAGES_ENUM } from '../../../domain/form/FormPagesEnum'
@@ -53,9 +51,8 @@ class BrowsingTreeCell extends React.Component {
   /** Section icons constructors by section type */
   static SECTION_ICON_CONSTRUCTORS = {
     [FORM_SECTIONS_ENUM.MAIN]: MainSettingIcon,
-    [DamDomain.ENTITY_TYPES_ENUM.DATA]: DatasetsIcon,
-    [DamDomain.ENTITY_TYPES_ENUM.DATASET]: DataIcon,
-    [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]: DocumentsIcon,
+    [DamDomain.ENTITY_TYPES_ENUM.DATA]: EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE[DamDomain.ENTITY_TYPES_ENUM.DATA],
+    [DamDomain.ENTITY_TYPES_ENUM.DATASET]: EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE[DamDomain.ENTITY_TYPES_ENUM.DATASET],
   }
 
   /** Page icon constructors by page type */
