@@ -28,7 +28,7 @@ import {
   RenderTextField, reduxForm, ValidationHelpers, Field,
 } from '@regardsoss/form-utils'
 import { StorageDomain } from '@regardsoss/domain'
-import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
+import { RenderPluginField, PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { StorageShapes } from '@regardsoss/shape'
 import messages from '../i18n'
 import styles from '../styles'
@@ -102,11 +102,13 @@ class PrioritizedDataStorageFormComponent extends React.Component {
    */
   createStorageLocationConf = (fields) => {
     const { onCreate } = this.props
+    const pluginConf = fields.pluginConfiguration ? fields.pluginConfiguration : null
+    const formatedPluginConf = PluginFormUtils.formatPluginConf(pluginConf)
     const storageLocationConf = {
       name: fields.name,
       configuration: {
         allocatedSizeInKo: fields.allocatedSizeInKo,
-        pluginConfiguration: fields.pluginConfiguration ? fields.pluginConfiguration : null,
+        pluginConfiguration: formatedPluginConf,
       },
     }
     onCreate(storageLocationConf).then((actionResults) => {
@@ -149,7 +151,7 @@ class PrioritizedDataStorageFormComponent extends React.Component {
           label={formatMessage({ id: 'storage.plugins.storage.form.allocated-size.label' })}
         />
         <Field
-          key="scanPlugin"
+          key="storagePlugin"
           name="pluginConfiguration"
           component={RenderPluginField}
           title={formatMessage({ id: 'storage.plugins.storage.form.plugin.label' })}

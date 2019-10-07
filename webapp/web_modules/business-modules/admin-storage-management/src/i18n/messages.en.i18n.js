@@ -66,7 +66,7 @@ const messages = Object.assign({
   'storage.plugins.storage.form.type.select.label': 'Select a mode ...',
   'storage.plugins.storage.form.invalid.id': 'Storage configuration selected does not exists anymore.',
   'storage.plugins.storage.form.back.button': 'Cancel',
-  'storage.plugins.storage.form.plugin.label': 'Plugin to detect new data',
+  'storage.plugins.storage.form.plugin.label': 'Data access plugin',
   'storage.plugins.storage.form.allocated-size.label': 'Allocated size',
   'storage.plugins.storage.form.name.label': 'Name',
   'storage.plugins.storage.form.submit.button': 'Create',

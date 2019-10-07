@@ -194,18 +194,27 @@ class PluginFormUtils {
    */
   static formatPluginConf(pluginConfiguration, pluginMetaData, forInit = false) {
     const formatedConf = cloneDeep(omit(pluginConfiguration, ['parameters']))
-    if (pluginMetaData.parameters) {
+    let configurableParameters = pluginConfiguration.parameters
+    if (pluginMetaData && pluginMetaData.parameters) {
       formatedConf.parameters = []
-      const configurableParameters = filter(pluginMetaData.parameters, ['unconfigurable', false])
-      forEach(configurableParameters, (p) => {
-        const parameterConf = find(pluginConfiguration.parameters, { name: p.name })
-        const formatedParameter = PluginFormUtils.formatPluginParameterConf(p, parameterConf, forInit)
-        if (formatedParameter !== null) {
-          formatedConf.parameters.push(formatedParameter)
-        }
-      })
+      configurableParameters = filter(pluginMetaData.parameters, ['unconfigurable', false])
     }
+    formatedConf.parameters = PluginFormUtils.formatPluginConfParameters(configurableParameters, forInit)
     return formatedConf
+  }
+
+  static formatPluginConfParameters(parameters, forInit) {
+    const parametersWithoutEmpty = []
+    forEach(parameters, (p) => {
+      const parameterConf = find(parameters, { name: p.name })
+      const formatedParameter = PluginFormUtils.formatPluginParameterConf(p, parameterConf, forInit)
+      if (formatedParameter !== null) {
+        if (forInit || (formatedParameter.value !== null && formatedParameter.value.length !== 0)) {
+          parametersWithoutEmpty.push(formatedParameter)
+        }
+      }
+    })
+    return parametersWithoutEmpty
   }
 
   /**
