@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import Build from 'material-ui/svg-icons/action/build'
-import PieChart from 'material-ui/svg-icons/editor/pie-chart'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import DeleteIcon from 'material-ui/svg-icons/action/delete'
@@ -132,12 +131,6 @@ const items = (projectName, intl, onResetIndex) => [
           ...storageManagementDependencies.listPluginDependencies,
           ...storageManagementDependencies.addPluginDependencies,
         ],
-      },
-      {
-        path: `/admin/${projectName}/data/acquisition/storage/storages/monitoring`,
-        icon: <PieChart />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.monitoring.tooltip' }),
-        hateoasDependencies: storageManagementDependencies.monitoringDependencies,
       },
     ],
   },
