@@ -24,7 +24,7 @@ import { BasicSignalsActions } from '@regardsoss/store-utils'
  */
 export default class AIPTagActions extends BasicSignalsActions {
   /** Root endpoints for order state actions */
-  static ROOT_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/aips`
+  static ROOT_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/aips`
 
   static STORE_RETRY_ACTIONS = 'storeRetryEndpoint'
 

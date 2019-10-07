@@ -19,4 +19,3 @@
 
 export { PluginTypeEnum, PluginTypeEnumValues } from './PluginTypeEnum'
 export { DataStorageTypeEnum, DataStorageTypeEnumValues } from './DataStorageTypeEnum'
-export { AIP_STATUS, AIP_STATUS_ENUM } from './AIPStatusEnum'

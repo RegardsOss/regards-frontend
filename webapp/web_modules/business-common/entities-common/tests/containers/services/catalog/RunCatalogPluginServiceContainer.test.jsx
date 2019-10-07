@@ -275,7 +275,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
       payload: getPayloadWithParameters(PluginMetaDataConfiguration.normalizrKey, basicConfiguration.pluginId, basicMetadata, [
         // this parameter will be resolved (note: all types tested in resolution helper )
         {
-          name: 'test.field', type: 'java.lang.Boolean', paramType: 'PRIMITIVE', optional: false,
+          name: 'test.field', type: 'BOOLEAN', optional: false,
         }]),
     }, getContentObjectWithParameters(basicConfiguration, [
       // this parameter will be resolved

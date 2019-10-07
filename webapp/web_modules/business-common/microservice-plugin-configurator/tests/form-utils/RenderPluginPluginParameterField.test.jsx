@@ -47,7 +47,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderPluginPluginParameter
     assert.isDefined(pluginConf)
     const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
     assert.isDefined(pluginMetaData)
-    const parameter = find(pluginMetaData.parameters, p => p.paramType === 'PLUGIN')
+    const parameter = find(pluginMetaData.parameters, p => p.type === 'PLUGIN')
     assert.isDefined(parameter)
     const input = ReduxFormTestHelper.getInputFieldProps('conf', parameter)
     const props = {

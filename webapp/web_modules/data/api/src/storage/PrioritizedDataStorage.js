@@ -23,7 +23,7 @@ import { Schema, arrayOf } from 'normalizr'
  * Storage plugin management for normalizer
  */
 export const PrioritizedDataStorageConfiguration = {
-  entityKey: 'id',
+  entityKey: 'name',
   normalizrKey: 'prioritized-datastorage-conf',
 }
 

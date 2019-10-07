@@ -18,8 +18,8 @@
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { aipActions } from './clients/AIPClient'
-import { aipSessionActions } from './clients/AIPSessionClient'
 import { sipActions } from './clients/SIPClient'
+import { sipImportActions } from './clients/SIPImportClient'
 
 /**
  * Module hateoas depencies
@@ -30,8 +30,7 @@ import { sipActions } from './clients/SIPClient'
  * @type {Array}
  */
 const listDependencies = [
-  aipSessionActions.getDependency(RequestVerbEnum.GET_LIST),
-  aipActions.getDependency(RequestVerbEnum.POST),
+  aipActions.getDependency(RequestVerbEnum.GET),
   sipActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
@@ -40,8 +39,7 @@ const listDependencies = [
  * @type {Array}
  */
 const addDependencies = [
-  aipActions.getDependency(RequestVerbEnum.POST),
-  sipActions.getDependency(RequestVerbEnum.POST),
+  sipImportActions.getDependency(RequestVerbEnum.POST),
 ]
 
 export default {

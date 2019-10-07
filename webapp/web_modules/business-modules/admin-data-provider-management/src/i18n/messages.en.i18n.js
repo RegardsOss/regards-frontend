@@ -57,7 +57,7 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.label': 'Chain name (*)',
   'acquisition-chain.form.general.section.active': 'Activate chain',
   'acquisition-chain.form.general.generationRetryEnabled': 'Enable SIP re-generation for products in error state.',
-  'acquisition-chain.form.general.section.periodicity': 'Activation periodicity (seconds). Only for automatic chain. ',
+  'acquisition-chain.form.general.section.periodicity': 'Activation cron. (eg: "0 * 0 * *", must start with "0 *")',
   'acquisition-chain.form.general.section.session': 'Session name (*)',
   'acquisition-chain.form.general.section.mode': 'Mode (*)',
   'acquisition-chain.form.general.section.mode.AUTO': 'Automatic',
@@ -65,7 +65,7 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.ingestChain.select': 'Ingest chain (*)',
   'acquisition-chain.form.general.section.ingestChain.select.hint': 'Select an existing ingest chain ... ',
   'acquisition-chain.form.general.section.path': 'Storage folder (optional)',
-  'acquisition-chain.form.general.section.info.storage': 'Select one or more storages for the files',
+  'acquisition-chain.form.general.section.info.storage': 'Select one or more storages for the files. Select the kind of file you want to store for each storage selected.',
   'acquisition-chain.form.general.section.info.category': 'Categories allow you to filter the AIPs for datasources crawling',
   'acquisition-chain.form.general.section.category-hint': 'Add one on more categories (Hit Enter to validate)',
 
@@ -296,6 +296,8 @@ const messages = Object.assign({
   'acquisition-product.run.dialog.message': 'You can directly confirm if you don\'t need to rename it.',
   'acquisition-product.run.dialog.confirm.button': 'Confirm',
   'acquisition-product.run.dialog.close.button': 'Close',
+
+  'invalid.cron.expression': 'Invalid cron',
 
 }, Locales.en)
 

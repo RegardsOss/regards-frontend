@@ -17,14 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { combineReducers } from 'redux'
-import { onlinePrioritizedDataStorageReducer, nearlinePrioritizedDataStorageReducer } from './clients/PrioritizedDataStorageClient'
+import { storagesPluginReducer } from './clients/StoragesPluginClient'
 
 /**
  * @author Sébastien Binda
  */
 const microserviceManagementReducer = combineReducers({
-  'prioritized-datastorage-online': onlinePrioritizedDataStorageReducer,
-  'prioritized-datastorage-nearline': nearlinePrioritizedDataStorageReducer,
+  'storages-plugin': storagesPluginReducer,
 })
 
 export default microserviceManagementReducer

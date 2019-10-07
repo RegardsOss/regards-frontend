@@ -39,16 +39,16 @@ const messages = {
   'ingest.board.action.datasource.monitor.tooltip': 'Suivi des aspirations de données',
 
   'data.board.storage.title': 'Stockage',
-  'data.board.storage.description': 'Permet de configurer un ou plusieurs espaces de stockage des données ainsi que la stratégie de répartition que le système utilisera.',
+  'data.board.storage.description': 'Permet de configurer un ou plusieurs espaces de stockage des données.',
   'data.board.action.storages.tooltip': 'Espaces de stockage',
-  'data.board.action.allocations.tooltip': 'Stratégies de répartition',
-  'data.board.action.monitoring.tooltip': 'Taux d\'occupation des espaces de stockage',
-  'data.board.action.security.tooltip': 'Configurer les droits d\'accès aux fichiers archivés',
-  'data.board.action.aip-management.tooltip': 'Visualiser les AIPs',
 
   'data.board.oais.title': 'Manager de paquets (OAIS)',
   'data.board.oais.description': 'Manager de paquets (OAIS) vous permet de gérer les SIP (Submission Information Package) et AIP (Archive Information Package).',
   'data.board.oais.tooltip.see': 'Suivre les ingestions et le stockage',
+
+  'data.board.index.delete': 'Réinitialiser le catalogue',
+  'data.board.index.delete.confirm': 'Attention, si vous lancez la réinitialisation du catalogue de données, toutes les données seront supprimées du catalogue. Ce dernier sera alors reconstruit automatiquement par les aspirations de données configurées.',
+  'data.board.index.delete.error.message': 'Une erreur est survenue durant la réinitialisation du catalogue de données.',
 
 }
 

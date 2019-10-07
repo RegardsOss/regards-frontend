@@ -33,7 +33,7 @@ export default class AIPActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/aips/search`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/aips`,
       schemaTypes: {
         ENTITY: AIP,
         ENTITY_ARRAY: AIP_ARRAY,
@@ -50,7 +50,7 @@ export default class AIPActions extends BasicPageableActions {
   fetchPagedEntityList(pageNumber, size, contextFilters = {}) {
     // modify parent request to use POST and body
     const parentRequest = super.fetchPagedEntityList(pageNumber, size, {}, contextFilters.sort ? { sort: contextFilters.sort } : {})
-    parentRequest[RSAA].method = 'POST'
+    parentRequest[RSAA].method = 'GET'
     parentRequest[RSAA].body = JSON.stringify(contextFilters)
     return parentRequest
   }

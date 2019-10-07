@@ -56,7 +56,7 @@ class SIPListStateRenderer extends React.Component {
     const textValue = intl.formatMessage({ id: `sip.state.${status}` })
     // display an icon if the status can contains a stacktrace
     let icon = null
-    if (status === IngestDomain.SIPStateEnum.STORE_ERROR) {
+    if (status === IngestDomain.SIPStateEnum.ERROR) {
       icon = (
         <IconButton
           title={formatMessage({ id: 'oais.sips.listtable.tooltip.go-to-aip-management' })}
@@ -67,7 +67,7 @@ class SIPListStateRenderer extends React.Component {
           <Report />
         </IconButton>
       )
-    } else if (status === IngestDomain.SIPStateEnum.INDEX_ERROR) {
+    } else if (status === IngestDomain.SIPStateEnum.ERROR) {
       icon = (
         <IconButton
           title={formatMessage({ id: 'oais.sips.listtable.tooltip.go-to-datasources-management' })}

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { StorageClient } from '@regardsoss/client'
+import { IngestClient } from '@regardsoss/client'
 
 /**
  * Model attributes entities client.
@@ -26,6 +26,6 @@ import { StorageClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'oais', 'aip-file']
 const REDUX_ACTION_NAMESPACE = 'admin-oais-management/aip-files'
 
-export const aipFileActions = new StorageClient.AIPFileActions(REDUX_ACTION_NAMESPACE)
-export const aipFileReducer = StorageClient.getAIPFileReducer(REDUX_ACTION_NAMESPACE)
-export const aipFileSelectors = StorageClient.getAIPFileSelectors(ENTITIES_STORE_PATH)
+export const aipFileActions = new IngestClient.AIPFileActions(REDUX_ACTION_NAMESPACE)
+export const aipFileReducer = IngestClient.getAIPFileReducer(REDUX_ACTION_NAMESPACE)
+export const aipFileSelectors = IngestClient.getAIPFileSelectors(ENTITIES_STORE_PATH)

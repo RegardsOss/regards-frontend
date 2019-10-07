@@ -43,7 +43,6 @@ export class CategoriesFieldArrayRenderer extends React.Component {
   }
 
   onRemoveCategory = (index) => {
-    //
     const { fields } = this.props
     fields.remove(index)
   }

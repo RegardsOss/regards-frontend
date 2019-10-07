@@ -47,14 +47,14 @@ class PrioritizedDataStorageEditAction extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { entity: { content }, onEdit } = this.props
+    const { entity: { content: { configuration } }, onEdit } = this.props
     return (
       <IconButton
-        className={`selenium-edit-${content.id}`}
+        className={`selenium-edit-${configuration.id}`}
         title={formatMessage({ id: 'storage.data-storage.plugins.list.edit.button' })}
         iconStyle={PrioritizedDataStorageEditAction.iconStyle}
         style={PrioritizedDataStorageEditAction.buttonStyle}
-        onClick={() => onEdit(content)}
+        onClick={() => onEdit(configuration)}
         disabled={!this.isEditable()}
       >
         <Edit />

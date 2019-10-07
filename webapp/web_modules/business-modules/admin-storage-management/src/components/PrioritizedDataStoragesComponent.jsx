@@ -26,7 +26,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { StorageDomain } from '@regardsoss/domain'
 import PrioritizedDataStorageListContainer from '../containers/PrioritizedDataStorageListContainer'
-import { onlinePrioritizedDataStorageActions } from '../clients/PrioritizedDataStorageClient'
+import { storagesPluginActions } from '../clients/StoragesPluginClient'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -35,7 +35,7 @@ import styles from '../styles'
 * @author Sébastien Binda
 */
 class PrioritizedDataStoragesComponent extends React.Component {
-  static addDependencies = [onlinePrioritizedDataStorageActions.getDependency(RequestVerbEnum.POST)]
+  static addDependencies = [storagesPluginActions.getDependency(RequestVerbEnum.POST)]
 
   static propTypes = {
     params: PropTypes.shape({
@@ -57,12 +57,12 @@ class PrioritizedDataStoragesComponent extends React.Component {
 
   goToCreateOnlineForm = () => {
     const { params: { project } } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${StorageDomain.DataStorageTypeEnum.ONLINE}/create`)
+    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/create`)
   }
 
   goToCreateNearlineForm = () => {
     const { params: { project } } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${StorageDomain.DataStorageTypeEnum.NEARLINE}/create`)
+    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${StorageDomain.PluginTypeEnum.NEARLINE}/create`)
   }
 
   render() {

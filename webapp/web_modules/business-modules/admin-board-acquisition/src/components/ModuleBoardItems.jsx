@@ -17,18 +17,20 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import Build from 'material-ui/svg-icons/action/build'
-import PieChart from 'material-ui/svg-icons/editor/pie-chart'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
+import DeleteIcon from 'material-ui/svg-icons/action/delete'
 import Details from 'material-ui/svg-icons/action/visibility'
 import Database from 'mdi-material-ui/Database'
 import Archive from 'mdi-material-ui/Archive'
 
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { connectionDependencies } from '@regardsoss/admin-data-connection-management'
 import { datasourceDependencies } from '@regardsoss/admin-data-datasource-management'
 import { processingChainDependencies } from '@regardsoss/admin-ingest-processing-chain-management'
 import { dataProviderDependencies } from '@regardsoss/admin-data-provider-management'
 import { storageManagementDependencies } from '@regardsoss/admin-storage-management'
+import { indexActions, RESET_INDEX_ACTION } from '../clients/IndexClient'
 import { oaisDependencies } from '../../../admin-oais-management'
 
 /**
@@ -36,7 +38,7 @@ import { oaisDependencies } from '../../../admin-oais-management'
  * @param projectName
  * @param intl
  */
-const items = (projectName, intl) => [
+const items = (projectName, intl, onResetIndex) => [
   {
     title: intl.formatMessage({ id: 'data-provider.board.title' }),
     description: intl.formatMessage({ id: 'data-provider.board.description' }),
@@ -104,6 +106,16 @@ const items = (projectName, intl) => [
         tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.datasource.monitor.tooltip' }),
         hateoasDependencies: datasourceDependencies.crawlerDependencies,
       },
+      {
+        icon: <DeleteIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.index.delete' }),
+        confirmMessage: intl.formatMessage({ id: 'data.board.index.delete.confirm' }),
+        errorMessage: intl.formatMessage({ id: 'data.board.index.delete.error.message' }),
+        touchTapAction: onResetIndex,
+        hateoasDependencies: [
+          indexActions.getSubAction(RESET_INDEX_ACTION).getDependency(RequestVerbEnum.DELETE),
+        ],
+      },
     ],
   },
   {
@@ -119,12 +131,6 @@ const items = (projectName, intl) => [
           ...storageManagementDependencies.listPluginDependencies,
           ...storageManagementDependencies.addPluginDependencies,
         ],
-      },
-      {
-        path: `/admin/${projectName}/data/acquisition/storage/storages/monitoring`,
-        icon: <PieChart />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.monitoring.tooltip' }),
-        hateoasDependencies: storageManagementDependencies.monitoringDependencies,
       },
     ],
   },

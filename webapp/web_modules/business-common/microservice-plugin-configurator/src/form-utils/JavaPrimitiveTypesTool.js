@@ -17,61 +17,31 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RenderTextField, RenderCheckbox, ValidationHelpers } from '@regardsoss/form-utils'
+import { PluginParameterTypes } from '@regardsoss/domain/common'
 
 /**
- * Java primitive tools to handle forms
- * @author Sébastien Binda
- */
-
-/** Supported Java Primitive types */
-export const PRIMITIVE_JAVA_TYPES = {
-  Boolean: 'java.lang.Boolean',
-  boolean: 'boolean',
-  Byte: 'java.lang.Byte',
-  byte: 'byte',
-  Double: 'java.lang.Double',
-  double: 'double',
-  Float: 'java.lang.Float',
-  float: 'float',
-  Integer: 'java.lang.Integer',
-  int: 'int',
-  Long: 'java.lang.Long',
-  long: 'long',
-  Short: 'java.lang.Short',
-  short: 'short',
-  String: 'java.lang.String',
-}
-
-/**
- * Map a Java primitive type to an object { component: ReduxFormFieldComponent, type: fieldTypeParameter }
+ * Map a PluginParameterType to an object { component: ReduxFormFieldComponent, type: fieldTypeParameter }
  * @param {string} type
  * @return {{component: React.Component, type: string}} component class and type for primitive or null
  */
 export const getPrimitiveJavaTypeRenderParameters = (type) => {
   switch (type) {
-    case PRIMITIVE_JAVA_TYPES.String:
+    case PluginParameterTypes.STRING:
       return {
         component: RenderTextField,
         type: 'text',
       }
-    case PRIMITIVE_JAVA_TYPES.Byte:
-    case PRIMITIVE_JAVA_TYPES.byte:
-    case PRIMITIVE_JAVA_TYPES.Integer:
-    case PRIMITIVE_JAVA_TYPES.int:
-    case PRIMITIVE_JAVA_TYPES.Long:
-    case PRIMITIVE_JAVA_TYPES.long:
-    case PRIMITIVE_JAVA_TYPES.Float:
-    case PRIMITIVE_JAVA_TYPES.float:
-    case PRIMITIVE_JAVA_TYPES.Double:
-    case PRIMITIVE_JAVA_TYPES.double:
-    case PRIMITIVE_JAVA_TYPES.Short:
-    case PRIMITIVE_JAVA_TYPES.short:
+    case PluginParameterTypes.INTEGER:
+    case PluginParameterTypes.BYTE:
+    case PluginParameterTypes.SHORT:
+    case PluginParameterTypes.LONG:
+    case PluginParameterTypes.FLOAT:
+    case PluginParameterTypes.DOUBLE:
       return {
         component: RenderTextField,
         type: 'number',
       }
-    case PRIMITIVE_JAVA_TYPES.Boolean:
-    case PRIMITIVE_JAVA_TYPES.boolean:
+    case PluginParameterTypes.BOOLEAN:
       return {
         component: RenderCheckbox,
         type: 'boolean',
@@ -82,29 +52,23 @@ export const getPrimitiveJavaTypeRenderParameters = (type) => {
 }
 
 /**
- * Map a Java primitive type to an optional field validator (might be empty)
+ * Map a PluginParameterType to an optional field validator (might be empty)
  * @param {*} type
  * @return {Function} validator function or none
  */
 export const getPrimitiveJavaTypeValidators = (type) => {
   switch (type) {
-    case PRIMITIVE_JAVA_TYPES.Byte:
-    case PRIMITIVE_JAVA_TYPES.byte:
+    case PluginParameterTypes.BYTE:
       return ValidationHelpers.javaByteValidator
-    case PRIMITIVE_JAVA_TYPES.Integer:
-    case PRIMITIVE_JAVA_TYPES.int:
+    case PluginParameterTypes.INTEGER:
       return ValidationHelpers.javaIntegerValidator
-    case PRIMITIVE_JAVA_TYPES.Long:
-    case PRIMITIVE_JAVA_TYPES.long:
+    case PluginParameterTypes.LONG:
       return ValidationHelpers.javaLongValidator
-    case PRIMITIVE_JAVA_TYPES.Float:
-    case PRIMITIVE_JAVA_TYPES.float:
+    case PluginParameterTypes.FLOAT:
       return ValidationHelpers.javaFloatValidator
-    case PRIMITIVE_JAVA_TYPES.Double:
-    case PRIMITIVE_JAVA_TYPES.double:
+    case PluginParameterTypes.DOUBLE:
       return ValidationHelpers.javaDoubleValidator
-    case PRIMITIVE_JAVA_TYPES.Short:
-    case PRIMITIVE_JAVA_TYPES.short:
+    case PluginParameterTypes.SHORT:
       return ValidationHelpers.javaShortValidator
     default:
       return null

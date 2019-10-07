@@ -19,14 +19,14 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { StorageShapes } from '@regardsoss/shape'
-import { StorageDomain } from '@regardsoss/domain'
 import {
-  getActions, getSelectors, prioritizedDataStorageDownActions, prioritizedDataStorageUpActions,
-} from '../clients/PrioritizedDataStorageClient'
+  storagesPluginActions, storagesPluginSelectors, storagesPluginDownActions, storagesPluginUpActions, storagesPluginDeleteFilesActions, storagesPluginCopyFilesActions,
+  storagesPluginErrorsRetryActions, storagesPluginErrorsDeleteActions, storagesPluginRelaunchMonitoringActions,
+} from '../clients/StoragesPluginClient'
 import PrioritizedDataStorageListComponent from '../components/PrioritizedDataStorageListComponent'
 
 /**
-*Comment Here
+* List all the storages Online and nearline
 * @author Sébastien Binda
 */
 export class PrioritizedDataStorageListContainer extends React.Component {
@@ -36,10 +36,10 @@ export class PrioritizedDataStorageListContainer extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state, props) {
+  static mapStateToProps(state) {
     return {
-      entities: getSelectors(props.type).getOrderedList(state),
-      isLoading: getSelectors(props.type).isFetching(state),
+      entities: storagesPluginSelectors.getOrderedList(state),
+      isLoading: storagesPluginSelectors.isFetching(state),
     }
   }
 
@@ -51,19 +51,21 @@ export class PrioritizedDataStorageListContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, props) {
     return {
-      fetch: () => dispatch(getActions(props.type).fetchEntityList({}, { type: props.type })),
-      update: prioritizedDataStorage => dispatch(getActions(props.type).updateEntity(prioritizedDataStorage.id, prioritizedDataStorage)),
-      delete: id => dispatch(getActions(props.type).deleteEntity(id)),
-      upPriority: (id, conf) => dispatch(prioritizedDataStorageUpActions.upPriority(id, conf)),
-      downPriority: (id, conf) => dispatch(prioritizedDataStorageDownActions.downPriority(id, conf)),
+      fetch: () => dispatch(storagesPluginActions.fetchEntityList({}, { type: props.type })),
+      update: prioritizedDataStorage => dispatch(storagesPluginActions.updateEntity(prioritizedDataStorage.id, prioritizedDataStorage)),
+      delete: name => dispatch(storagesPluginActions.deleteEntity(name)),
+      deleteFiles: (name, force) => dispatch(storagesPluginDeleteFilesActions.deleteFiles(name, force)),
+      copyFiles: (nameSource, pathSource, nameTarget, pathTarget) => dispatch(storagesPluginCopyFilesActions.copyFiles(nameSource, pathSource, nameTarget, pathTarget)),
+      upPriority: (name, conf) => dispatch(storagesPluginUpActions.upPriority(name, conf)),
+      downPriority: (name, conf) => dispatch(storagesPluginDownActions.downPriority(name, conf)),
+      retryErrors: (name, type) => dispatch(storagesPluginErrorsRetryActions.retryErrors(name, type)),
+      deleteErrors: (name, type) => dispatch(storagesPluginErrorsDeleteActions.deleteErrors(name, type)),
+      relaunchMonitoring: reset => dispatch(storagesPluginRelaunchMonitoringActions.relaunchMonitoring(reset)),
     }
   }
 
   static propTypes = {
     project: PropTypes.string.isRequired,
-    // Used only on mapStateToProps and mapDispatchToProps
-    // eslint-disable-next-line react/no-unused-prop-types
-    type: PropTypes.oneOf(StorageDomain.DataStorageTypeEnumValues).isRequired,
     // from mapStateToProps
     entities: StorageShapes.PrioritizedDataStorageArray,
     isLoading: PropTypes.bool.isRequired,
@@ -71,8 +73,13 @@ export class PrioritizedDataStorageListContainer extends React.Component {
     fetch: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
+    deleteFiles: PropTypes.func.isRequired,
+    copyFiles: PropTypes.func.isRequired,
     upPriority: PropTypes.func.isRequired,
     downPriority: PropTypes.func.isRequired,
+    retryErrors: PropTypes.func.isRequired,
+    deleteErrors: PropTypes.func.isRequired,
+    relaunchMonitoring: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
@@ -80,29 +87,25 @@ export class PrioritizedDataStorageListContainer extends React.Component {
   }
 
   onDuplicate = (priotitizedDataStorageToDuplicate) => {
-    const { project, type } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${type}/${priotitizedDataStorageToDuplicate.id}/copy`)
+    const { project } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${priotitizedDataStorageToDuplicate.name}/copy`)
   }
 
   onEdit = (priotitizedDataStorageToEdit) => {
-    const { project, type } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${type}/${priotitizedDataStorageToEdit.id}/edit`)
+    const { project } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${priotitizedDataStorageToEdit.name}/edit`)
   }
 
   onActivateToggle = (entity) => {
     const updatedObject = Object.assign({}, entity)
-    updatedObject.dataStorageConfiguration = Object.assign({}, entity.dataStorageConfiguration, {
-      active: !entity.dataStorageConfiguration.active,
+    updatedObject.configuration.pluginConfiguration = Object.assign({}, entity.configuration.pluginConfiguration, {
+      active: !entity.configuration.pluginConfiguration.active,
     })
     this.props.update(updatedObject)
   }
 
-  onDelete = (entity) => {
-    this.props.delete(entity.id)
-  }
-
   onUpPriority = (prioritizedDataStorage) => {
-    this.props.upPriority(prioritizedDataStorage.id, prioritizedDataStorage)
+    this.props.upPriority(prioritizedDataStorage.name, prioritizedDataStorage)
       .then(
         (actionResult) => {
           this.props.fetch()
@@ -110,16 +113,11 @@ export class PrioritizedDataStorageListContainer extends React.Component {
   }
 
   onDownPriority = (prioritizedDataStorage) => {
-    this.props.downPriority(prioritizedDataStorage.id, prioritizedDataStorage)
+    this.props.downPriority(prioritizedDataStorage.name, prioritizedDataStorage)
       .then(
         (actionResult) => {
           this.props.fetch()
         })
-  }
-
-  goToCreateForm = () => {
-    const { project, type } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${type}/create`)
   }
 
   render() {
@@ -129,12 +127,16 @@ export class PrioritizedDataStorageListContainer extends React.Component {
         onUpPriority={this.onUpPriority}
         onDownPriority={this.onDownPriority}
         onDuplicate={this.onDuplicate}
-        onDelete={this.onDelete}
+        onDelete={this.props.delete}
+        onRetryErrors={this.props.retryErrors}
+        onDeleteErrors={this.props.deleteErrors}
+        onDeleteFiles={this.props.deleteFiles}
+        onCopyFiles={this.props.copyFiles}
         onActivateToggle={this.onActivateToggle}
         onRefresh={this.props.fetch}
         entities={this.props.entities}
         isLoading={this.props.isLoading}
-        goToCreateForm={this.goToCreateForm}
+        onRelaunchMonitoring={this.props.relaunchMonitoring}
       />
     )
   }

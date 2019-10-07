@@ -16,23 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Copy from 'material-ui/svg-icons/content/content-copy'
+import Copy from 'mdi-material-ui/FileReplace'
 import IconButton from 'material-ui/IconButton'
 import { StorageShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
-import { onlinePrioritizedDataStorageActions } from '../clients/PrioritizedDataStorageClient'
+import { storagesPluginActions } from '../clients/StoragesPluginClient'
 
 const IconButtonWithResources = withResourceDisplayControl(IconButton)
 /**
 * Delete table action for datasourceIngestions
 * @author Sébastien Binda
 */
-class PrioritizedDataStorageDuplicateAction extends React.Component {
+class PrioritizedDataStorageCopyFilesAction extends React.Component {
   static propTypes = {
     entity: StorageShapes.PrioritizedDataStorage,
-    onDuplicate: PropTypes.func.isRequired,
+    onCopyFiles: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -45,15 +45,14 @@ class PrioritizedDataStorageDuplicateAction extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { entity: { content } } = this.props
+    const { entity } = this.props
     return (
       <IconButtonWithResources
-        className={`selenium-edit-${content.id}`}
-        title={formatMessage({ id: 'storage.data-storage.plugins.list.duplicate.button' })}
-        iconStyle={PrioritizedDataStorageDuplicateAction.iconStyle}
-        style={PrioritizedDataStorageDuplicateAction.buttonStyle}
-        onClick={() => this.props.onDuplicate(content)}
-        resourceDependencies={onlinePrioritizedDataStorageActions.getDependency(RequestVerbEnum.POST)}
+        title={formatMessage({ id: 'storage.data-storage.plugins.list.copy.button' })}
+        iconStyle={PrioritizedDataStorageCopyFilesAction.iconStyle}
+        style={PrioritizedDataStorageCopyFilesAction.buttonStyle}
+        onClick={() => this.props.onCopyFiles(entity)}
+        resourceDependencies={storagesPluginActions.getDependency(RequestVerbEnum.POST)}
         hideDisabled={false}
       >
         <Copy />
@@ -61,4 +60,4 @@ class PrioritizedDataStorageDuplicateAction extends React.Component {
     )
   }
 }
-export default PrioritizedDataStorageDuplicateAction
+export default PrioritizedDataStorageCopyFilesAction

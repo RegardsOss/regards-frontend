@@ -59,7 +59,7 @@ class PrioritizedDataStoragePriorityAction extends React.Component {
       : formatMessage({ id: 'storage.data-storage.plugins.list.down.priority.button' })
     return (
       <IconButton
-        className={`selenium-edit-${content.id}`}
+        className={`selenium-edit-${content.configuration.id}`}
         title={title}
         iconStyle={PrioritizedDataStoragePriorityAction.iconStyle}
         style={PrioritizedDataStoragePriorityAction.buttonStyle}

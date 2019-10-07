@@ -64,7 +64,7 @@ class ConfirmDeleteOnSomeStoragesDialogComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     const { selectedStorages } = this.props
     // compute list label
-    const datastorages = selectedStorages.map(({ dataStorageConfiguration: { label } }) => label).join(formatMessage({ id: 'oais.aip.delete.on.selected.storages.label.separator' }))
+    const datastorages = selectedStorages.map(({ name }) => name).join(formatMessage({ id: 'oais.aip.delete.on.selected.storages.label.separator' }))
     return (
       <Dialog
         title={formatMessage({ id: 'oais.aip.confirm.delete.title' })}

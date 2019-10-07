@@ -57,7 +57,7 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.label': 'Nom de la chaîne (*)',
   'acquisition-chain.form.general.section.active': 'Chaîne active',
   'acquisition-chain.form.general.generationRetryEnabled': 'Autoriser la re-génération des SIP associés à des produits en erreur.',
-  'acquisition-chain.form.general.section.periodicity': 'Période d\'activation (secondes). Utile uniquement pour une chaîne automatique.',
+  'acquisition-chain.form.general.section.periodicity': 'Cron d\'activation. (ex : "0 * 0 * *", il doit démarrer par "0 *")',
   'acquisition-chain.form.general.section.session': 'Session (*)',
   'acquisition-chain.form.general.section.mode': 'Mode (*)',
   'acquisition-chain.form.general.section.mode.AUTO': 'Automatique',
@@ -65,7 +65,7 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.ingestChain.select': 'Chaîne d\'ingestion (*)',
   'acquisition-chain.form.general.section.ingestChain.select.hint': 'Sélectionner une chaîne d\'ingestion existante... ',
   'acquisition-chain.form.general.section.path': 'Répertoire de stockage (optionnel)',
-  'acquisition-chain.form.general.section.info.storage': 'Selectionner un ou plusieurs espaces de stockage des fichiers',
+  'acquisition-chain.form.general.section.info.storage': 'Selectionner un ou plusieurs espaces de stockage des fichiers. Pour chaque espace de stockage, veuillez selectionner les types de fichiers à stocker.',
   'acquisition-chain.form.general.section.info.category': 'Les catégories permettent de filtrer les AIPs à aspirer par les sources de données',
   'acquisition-chain.form.general.section.category-hint': 'Ajouter une ou plusieurs catégories (Presser Entrer pour valider)',
 
@@ -296,6 +296,8 @@ const messages = Object.assign({
   'acquisition-product.run.dialog.message': 'Vous pouvez directement confirmer si vous ne souhaitez pas la renommer.',
   'acquisition-product.run.dialog.confirm.button': 'Confirmer',
   'acquisition-product.run.dialog.close.button': 'Fermer',
+
+  'invalid.cron.expression': 'Cron invalide',
 
 }, Locales.fr)
 

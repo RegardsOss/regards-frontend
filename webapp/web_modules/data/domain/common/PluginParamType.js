@@ -22,25 +22,18 @@ import values from 'lodash/values'
  * Possible parameter types
  */
 export const PluginParameterTypes = {
-  PRIMITIVE: 'PRIMITIVE',
-  PLUGIN: 'PLUGIN',
-  OBJECT: 'OBJECT',
-  COLLECTION: 'COLLECTION',
+  STRING: 'STRING',
+  BYTE: 'BYTE',
+  SHORT: 'SHORT',
+  INTEGER: 'INTEGER',
+  LONG: 'LONG',
+  FLOAT: 'FLOAT',
+  DOUBLE: 'DOUBLE',
+  BOOLEAN: 'BOOLEAN',
   MAP: 'MAP',
+  COLLECTION: 'COLLECTION',
+  POJO: 'POJO',
+  PLUGIN: 'PLUGIN',
 }
 
-/**
- * Possible primitive types
- */
-export const JavaPrimitiveTypes = {
-  BOOLEAN: 'java.lang.Boolean',
-  BYTE: 'java.lang.Byte',
-  CHARACTER: 'java.lang.Character',
-  DOUBLE: 'java.lang.Double',
-  FLOAT: 'java.lang.Float',
-  INTEGER: 'java.lang.Integer',
-  LONG: 'java.lang.Long',
-  SHORT: 'java.lang.Short',
-  STRING: 'java.lang.String',
-}
 export const PluginParamType = values(PluginParameterTypes)

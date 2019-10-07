@@ -19,6 +19,8 @@
 import {
   RenderTextField, RenderCheckbox, Field,
 } from '@regardsoss/form-utils'
+import Paper from 'material-ui/Paper'
+import Storage from 'material-ui/svg-icons/device/storage'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 /**
@@ -43,44 +45,92 @@ export class StoragesFieldArrayRenderer extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         chainForm: {
-          tr, tdCheckbox, tdTextField, input,
+          papers, paperContainer,
         },
       },
     } = this.context
     return (
-      <tr style={tr} key={`${member}tr`}>
-        <td style={tdCheckbox} key={`${member}active`}>
+      <Paper style={papers} zDepth={3} key={`${member}-paper`}>
+        <div style={{ position: 'absolute', top: '10px', right: '10px' }}><Storage /></div>
+        <Field
+          name={`${member}.active`}
+          component={RenderCheckbox}
+          label={fields.get(index).label}
+        />
+        <Field
+          name={`${member}.path`}
+          component={RenderTextField}
+          type="text"
+          label={`${formatMessage({ id: 'acquisition-chain.form.general.section.path' })}`}
+            // style={input}
+          fullWidth
+        />
+        <div
+          style={paperContainer}
+          key={`${member}type`}
+        >
           <Field
             //key={`${member}active`}
-            name={`${member}.active`}
+            name={`${member}.rawdata`}
             component={RenderCheckbox}
-            label={fields.get(index).label}
+            label="Rawdata"
           />
-        </td>
-        <td style={tdTextField} key={`${member}path`}>
           <Field
-            name={`${member}.path`}
-            component={RenderTextField}
-            type="text"
-            label={`${formatMessage({ id: 'acquisition-chain.form.general.section.path' })}`}
-            style={input}
+            //key={`${member}active`}
+            name={`${member}.quicklook`}
+            component={RenderCheckbox}
+            label="Quicklook"
           />
-        </td>
-      </tr>
+          <Field
+            //key={`${member}active`}
+            name={`${member}.document`}
+            component={RenderCheckbox}
+            label="Document"
+          />
+          <Field
+            //key={`${member}active`}
+            name={`${member}.thumbnail`}
+            component={RenderCheckbox}
+            label="Thumbnail"
+          />
+          <Field
+            //key={`${member}active`}
+            name={`${member}.aip`}
+            component={RenderCheckbox}
+            label="Aip"
+          />
+          <Field
+            //key={`${member}active`}
+            name={`${member}.description`}
+            component={RenderCheckbox}
+            label="Description"
+          />
+          <Field
+            //key={`${member}active`}
+            name={`${member}.other`}
+            component={RenderCheckbox}
+            label="Other"
+          />
+        </div>
+      </Paper>
     )
   }
 
   render() {
     const { fields } = this.props
-    const { intl: { formatMessage }, moduleTheme: { chainForm: { info } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { chainForm: { info, paperFlexContainer } } } = this.context
     return (
       <React.Fragment>
         <p style={info}>{formatMessage({ id: 'acquisition-chain.form.general.section.info.storage' })}</p>
-        <table>
-          <tbody>
-            {fields.map(this.renderStorageCheckbox)}
-          </tbody>
-        </table>
+        <div style={paperFlexContainer}>
+          {fields.map(this.renderStorageCheckbox)}
+          {/* <div>
+            {fields.map(this.renderStoragePaths)}
+          </div>
+          <div style={{ flexGrow: '2' }}>
+            {fields.map(this.renderStorageCheckboxes)}
+          </div> */}
+        </div>
       </React.Fragment>
     )
   }

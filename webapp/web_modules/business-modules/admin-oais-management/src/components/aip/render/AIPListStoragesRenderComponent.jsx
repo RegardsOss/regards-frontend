@@ -38,7 +38,7 @@ class AIPListStoragesRenderComponent extends React.Component {
       <StringArrayValueRender value={
         // retrieve storages by Id and sort them by label
         dataStorageIds
-          .map(id => dataStorages.find(str => str.id === id).dataStorageConfiguration.label)
+          .map(id => dataStorages.find(str => str.id === id).name)
           .sort(StringComparison.compare)
         }
       />

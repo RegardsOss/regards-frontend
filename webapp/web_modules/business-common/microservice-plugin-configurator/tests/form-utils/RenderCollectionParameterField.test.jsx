@@ -48,7 +48,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderCollectionParameterFi
     assert.isDefined(pluginConf)
     const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
     assert.isDefined(pluginMetaData)
-    const parameters = filter(pluginMetaData.parameters, p => p.paramType === 'COLLECTION')
+    const parameters = filter(pluginMetaData.parameters, p => p.type === 'COLLECTION')
     assert.isDefined(parameters)
     assert.isTrue(parameters.length > 0, 'Invalid configuration for tests. There should be at least on parameter of type COLLECTION')
     forEach(parameters, (parameter) => {
@@ -92,7 +92,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderCollectionParameterFi
     assert.isDefined(pluginConf)
     const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
     assert.isDefined(pluginMetaData)
-    const parameters = filter(pluginMetaData.parameters, p => p.paramType === 'COLLECTION')
+    const parameters = filter(pluginMetaData.parameters, p => p.type === 'COLLECTION')
     assert.isDefined(parameters)
     assert.isTrue(parameters.length > 0, 'Invalid configuration for tests. There should be at least on parameter of type COLLECTION')
     forEach(parameters, (parameter) => {

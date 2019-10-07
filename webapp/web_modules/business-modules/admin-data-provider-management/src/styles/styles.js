@@ -314,22 +314,26 @@ const styles = theme => ({
     },
   },
   chainForm: {
+    paperFlexContainer: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+    },
+    papers: {
+      flex: 1,
+      maxWidth: '300px',
+      padding: '0 20px 20px 20px',
+      margin: '20px',
+      minWidth: '300px',
+    },
+    paperContainer: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      flexWrap: 'wrap',
+    },
     info: {
       marginTop: '26px',
-      marginBottom: '-8px',
-    },
-    table: {
-      width: '100%',
-    },
-    tr: {
-      padding: '0',
-
-    },
-    tdCheckbox: {
-      padding: '0 20px 0 0',
-    },
-    tdTextField: {
-      padding: '0',
+      marginBottom: '8px',
     },
     input: {
       minWidth: '400px',
@@ -341,6 +345,9 @@ const styles = theme => ({
     chipWrapper: {
       display: 'flex',
       flexWrap: 'wrap',
+    },
+    checkboxesInline: {
+      background: 'red',
     },
   },
 })
