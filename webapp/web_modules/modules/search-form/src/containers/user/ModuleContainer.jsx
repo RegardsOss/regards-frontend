@@ -168,7 +168,7 @@ export class ModuleContainer extends React.Component {
         [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
           criteria: {
             otherFilters: [
-              ...contextResultsCriteria, // TODO (PM doc): this would move in configuration filters, handled by search results module
+              ...contextResultsCriteria, // TODO (PM 033 - documents rights): this would move in configuration filters, handled by search results module
               ...ModuleContainer.buildResultsCriteria(pluginsState),
             ],
           },

@@ -20,6 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { modulesManager } from '@regardsoss/modules'
+import { UIDomain } from '@regardsoss/domain'
 import AdminComponent from '../../../src/components/admin/AdminFormComponent'
 import { AdminContainer } from '../../../src/containers/admin/AdminContainer'
 import styles from '../../../src/styles'
@@ -53,9 +54,13 @@ describe('[Description] Testing AdminContainer', () => {
       collectionAttributeModels: {},
       dataAttributeModels: {},
       datasetAttributeModels: {},
+      documentAttributeModels: {},
+      uiSettings: UIDomain.UISettingsConstants.DEFAULT_SETTINGS,
       fetchAllCollectionAttributes: () => { },
       fetchAllDataAttributes: () => { },
       fetchAllDatasetModelsAttributes: () => { },
+      fetchAllDocumentAttributes: () => {},
+      fetchUISettings: () => new Promise(resolve => resolve(true)),
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(AdminComponent)
@@ -68,6 +73,7 @@ describe('[Description] Testing AdminContainer', () => {
       collectionAttributeModels: props.collectionAttributeModels,
       dataAttributeModels: props.dataAttributeModels,
       datasetAttributeModels: props.datasetAttributeModels,
+      documentAttributeModels: props.documentAttributeModels,
     }, 'Component should define the expected properties')
   })
 })

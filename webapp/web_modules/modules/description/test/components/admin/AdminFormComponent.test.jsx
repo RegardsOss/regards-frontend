@@ -57,6 +57,7 @@ describe('[Description] Testing AdminFormComponent', () => {
       collectionAttributeModels: {},
       dataAttributeModels: {},
       datasetAttributeModels: {},
+      documentAttributeModels: {},
     }
     const enzymeWrapper = shallow(<AdminFormComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.allowSearching'), 1, 'There should be allow search tag field for current namespace')

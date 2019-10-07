@@ -23,7 +23,8 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  * Retrieve DataObjects attributes for given datasets or dataset models
  * Query params :
  * - datasetIds : List of dataset identifier to retrieve dataobject attributes for.
- * - modelIds : List of dataset models identifier to retrieve dataobject attrbutes for.
+ * - modelIds : List of dataset model IDs to retrieve dataobject attrbutes for.
+ * - modelNames : Same as before but using model names.
  * @author Sébastien Binda
  */
 export default class DatasetAttributesActions extends BasicPageableActions {

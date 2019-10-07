@@ -16,9 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { attributeModelReducer } from './clients/AttributeModelClient'
 import { collectionAttributeModelReducer } from './clients/CollectionAttributeModelClient'
 import { dataAttributeModelReducer } from './clients/DataobjectAttributeModelClient'
 import { datasetAttributeModelReducer } from './clients/DatasetAttributeModelClient'
+import { uiSettingsReducer } from './clients/UISettingsClient'
 import { descriptionStateReducer } from './clients/DescriptionStateClient'
 
 /**
@@ -27,9 +29,11 @@ import { descriptionStateReducer } from './clients/DescriptionStateClient'
  */
 const searchResultsReducers = {
   // admin reducers
+  'documents-attributes': attributeModelReducer,
   'collections-attributes': collectionAttributeModelReducer,
   'dataobjects-attributes': dataAttributeModelReducer,
   'datasets-attributes': datasetAttributeModelReducer,
+  uiSettings: uiSettingsReducer,
   // user reducer
   descriptionState: descriptionStateReducer,
 }
