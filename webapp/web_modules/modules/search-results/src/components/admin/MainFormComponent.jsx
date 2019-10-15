@@ -27,6 +27,7 @@ import { FORM_PAGES, FORM_PAGES_ENUM } from '../../domain/form/FormPagesEnum'
 import { FORM_SECTIONS, FORM_SECTIONS_ENUM } from '../../domain/form/FormSectionsEnum'
 import BrowsingTreeComponent from './tree/BrowsingTreeComponent'
 import MainConfigurationComponent from './content/MainConfigurationComponent'
+import RestrictionsConfigurationComponent from './content/restrictions/RestrictionsConfigurationComponent'
 import EntityTypeConfigurationComponent from './content/EntityTypeConfigurationComponent'
 import FiltersConfigurationComponent from './content/FiltersConfigurationComponent'
 import SortingConfigurationComponent from './content/SortingConfigurationComponent'
@@ -46,6 +47,9 @@ class MainFormComponent extends React.Component {
     // current form and configuration
     currentNamespace: PropTypes.string.isRequired,
     currentFormValues: ModuleConfiguration.isRequired,
+    // datasets and models
+    datasets: DataManagementShapes.DatasetList.isRequired,
+    datasetModels: DataManagementShapes.ModelList.isRequired,
     // Attributes pull by type
     dataAttributeModels: DataManagementShapes.AttributeModelList.isRequired,
     datasetAttributeModels: DataManagementShapes.AttributeModelList.isRequired,
@@ -83,6 +87,7 @@ class MainFormComponent extends React.Component {
   renderCurrentPage = () => {
     const {
       selectedSectionType, selectedPageType, changeField,
+      datasets, datasetModels,
       currentFormValues, currentNamespace,
     } = this.props
     switch (selectedSectionType) {
@@ -92,6 +97,15 @@ class MainFormComponent extends React.Component {
           <MainConfigurationComponent
             currentNamespace={currentNamespace}
             currentFormValues={currentFormValues}
+            changeField={changeField}
+          />)
+      case FORM_SECTIONS_ENUM.RESTRICTIONS:
+        return (
+          <RestrictionsConfigurationComponent
+            currentNamespace={currentNamespace}
+            currentRestrictionsValues={currentFormValues.restrictions}
+            datasets={datasets}
+            datasetModels={datasetModels}
             changeField={changeField}
           />)
       case DamDomain.ENTITY_TYPES_ENUM.DATA:

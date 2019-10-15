@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import { UIDomain } from '@regardsoss/domain'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { DataManagementShapes } from '@regardsoss/shape'
 import ModuleConfiguration from '../../../shapes/ModuleConfiguration'
@@ -61,7 +60,6 @@ class SearchResultsComponent extends React.Component {
         // limit the number of attributes visible
         selectableDataObjectsAttributes: this.props.selectableDataObjectsAttributes,
         selectableDataSetsAttributes: this.props.selectableDataSetsAttributes,
-        primaryPane: UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE,
       },
     }
     return (

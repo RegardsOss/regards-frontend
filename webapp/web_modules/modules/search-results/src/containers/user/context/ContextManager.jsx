@@ -20,7 +20,7 @@ import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { UIDomain } from '@regardsoss/domain'
-import { DataManagementShapes } from '@regardsoss/shape'
+import { DataManagementShapes, UIShapes } from '@regardsoss/shape'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
 import { HOCUtils } from '@regardsoss/display-control'
 import ModuleConfiguration from '../../../shapes/ModuleConfiguration'
@@ -77,9 +77,10 @@ export class ContextManager extends React.Component {
       PropTypes.node,
     ]),
     // from mapStateToProps
-    // Optional object, as a parent module could have set state partially
-    // eslint-disable-next-line react/forbid-prop-types
-    resultsContext: PropTypes.object,
+    resultsContext: PropTypes.oneOfType([
+      PropTypes.object, // during initialization
+      UIShapes.ResultsContext, // after initialization
+    ]),
     authentication: AuthenticateShape.isRequired, // used only to ge authentication change notification in componentWillReceiveProps
     // from mapDispatchToProps
     fetchEntity: PropTypes.func.isRequired,

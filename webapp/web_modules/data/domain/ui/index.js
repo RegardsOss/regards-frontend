@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+export * from './DatasetRescrictionsTypes'
 export { default as LocalStorageUser } from './LocalStorageUser'
 export { default as LocalStorageData } from './LocalStorageData'
 export { LOCALES_ENUM, LOCALES } from './Locales'

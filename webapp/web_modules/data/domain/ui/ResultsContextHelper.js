@@ -16,10 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import forEach from 'lodash/forEach'
+import isArray from 'lodash/isArray'
 import isPlainObject from 'lodash/isPlainObject'
 import keys from 'lodash/keys'
 import { RESULTS_TABS } from './ResultsTabs'
 import ResultsContextConstants from './ResultsContextConstants'
+import { CatalogSearchQueryHelper } from '../catalog'
 
 /**
  * Helper for results context (holds merge deep common method)
@@ -82,5 +85,37 @@ export class ResultsContextHelper {
       selectedTypeState,
       selectedModeState: selectedTypeState.modes[selectedTypeState.selectedMode],
     }
+  }
+
+  /**
+   * Builds query for criteria array as parameter
+   * @param {[*]} criteria array of criteria, matching UIShapes.BasicCriterion
+   * @param {*} criteria parameters (where q parts have merged together)
+   */
+  static getQueryParametersFromCriteria(criteria) {
+    // collect all parameters in criteria, grouping them in arrays by key
+    const requestParameters = criteria.reduce((acc, criterion) => {
+      const nextAcc = { ...acc }
+      // Add in local accumulator all parameters of the current criterion (preserving other values)
+      forEach(criterion.requestParameters || {}, (paramValue, paramKey) => {
+        if (paramValue && paramKey) { // avoid empty / null parmeter values
+          const previousParameterValues = nextAcc[paramKey]
+          if (previousParameterValues && CatalogSearchQueryHelper.isAllowingMultipleValues(paramKey)) {
+            // That parameter can accept many values, add new one at end
+            nextAcc[paramKey] = [...nextAcc[paramKey], ...(isArray(paramValue) ? paramValue : [paramValue])]
+          } else if (!previousParameterValues) {
+            // first value found for parameter
+            nextAcc[paramKey] = isArray(paramValue) ? paramValue : [paramValue]
+          }
+        }
+      })
+      return nextAcc
+    }, {})
+    // group q parts into a single string for value
+    const qValue = CatalogSearchQueryHelper.mergeQueryParameter(requestParameters[CatalogSearchQueryHelper.Q_PARAMETER_NAME])
+    if (qValue) {
+      requestParameters[CatalogSearchQueryHelper.Q_PARAMETER_NAME] = qValue
+    }
+    return requestParameters
   }
 }

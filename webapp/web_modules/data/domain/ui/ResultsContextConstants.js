@@ -87,6 +87,7 @@ const DEFAULT_RESULTS_CONTEXT = {
   tabs: {
     [RESULTS_TABS_ENUM.MAIN_RESULTS]: {
       criteria: {
+        configurationRestrictions: [],
         contextTags: [],
         otherFilters: [],
         quicklookFiltering: [],
@@ -104,6 +105,7 @@ const DEFAULT_RESULTS_CONTEXT = {
     [RESULTS_TABS_ENUM.DESCRIPTION]: { descriptionPath: [], selectedIndex: 0 },
     [RESULTS_TABS_ENUM.TAG_RESULTS]: {
       criteria: {
+        configurationRestrictions: [],
         contextTags: [],
         otherFilters: [],
         quicklookFiltering: [],

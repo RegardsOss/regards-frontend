@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { UIDomain } from '@regardsoss/domain'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 
@@ -37,7 +36,6 @@ class SearchResultFormComponent extends React.Component {
     }),
   }
 
-  static defaultProps = {}
 
   render() {
     const { project, appName, adminForm } = this.props
@@ -50,8 +48,7 @@ class SearchResultFormComponent extends React.Component {
       ...adminForm,
       currentNamespace: `${adminForm.currentNamespace}.searchResult`,
       conf: {
-        displayMode: 'data',
-        primaryPane: UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE,
+        forbidRestrictions: true,
       },
     }
 

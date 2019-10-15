@@ -38,7 +38,7 @@ export default class OpenSearchQuery extends Query {
   static ID_PARAM_NAME = 'id'
 
   /** Open search query parameter name: Entity parent dataset model Ids */
-  static DATASET_MODEL_IDS_PARAM = 'datasetModelIds'
+  static DATASET_MODEL_NAMES_PARAM = 'datasetModelNames'
 
   /**
    * Builds a tag parameter

@@ -43,10 +43,8 @@ describe('[SEARCH FORM] Testing ResultsContainer', () => {
       appName: 'anyApp',
       project: 'anyProject',
       resultsModuleTitle: 'anyTitle',
-      searchResultsConfiguration: conf1.searchResult,
-      restrictedDatasetsIds: conf1.datasets.selectedDatasets,
-      locale: 'en',
       preview: false,
+      searchResultsConfiguration: conf1.searchResult,
     }
     const enzymeWrapper = shallow(<ResultsContainer {...props} />, { context })
 
@@ -78,14 +76,8 @@ describe('[SEARCH FORM] Testing ResultsContainer', () => {
       appName: 'anyApp',
       project: 'anyProject',
       resultsModuleTitle: 'anyTitle',
-      searchResultsConfiguration: conf1.searchResult,
-      searchParameters: {
-        q: 'anyQuery',
-        sort: 'anySort',
-      },
-      restrictedDatasetsIds: conf1.datasets.selectedDatasets,
-      locale: 'en',
       preview: true,
+      searchResultsConfiguration: conf1.searchResult,
     }
     const enzymeWrapper = shallow(<ResultsContainer {...props} />, { context })
     const resultsModule = enzymeWrapper.find(LazyModuleComponent)

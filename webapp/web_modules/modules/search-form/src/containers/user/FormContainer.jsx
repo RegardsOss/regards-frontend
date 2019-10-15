@@ -19,13 +19,15 @@
 import get from 'lodash/get'
 import root from 'window-or-global'
 import { browserHistory } from 'react-router'
-import { UIDomain } from '@regardsoss/domain'
-import { AccessShapes } from '@regardsoss/shape'
+import { UIDomain, CatalogDomain } from '@regardsoss/domain'
+import { AccessShapes, UIShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AllCriteriaData, pluginStateActions, pluginStateSelectors } from '@regardsoss/plugins'
 import { modulesHelper } from '@regardsoss/modules-api'
+import { isEqual } from 'date-fns'
 import PluginsConfigurationProvider from './PluginsConfigurationProvider'
 import FormComponent from '../../components/user/FormComponent'
+import { resultsContextSelectors } from '../../clients/ResultsContextClient'
 
 /**
  * Container for module form. It handles:
@@ -42,8 +44,9 @@ export class FormContainer extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state) {
+  static mapStateToProps(state, { id }) {
     return {
+      resultsContext: resultsContextSelectors.getResultsContext(state, id),
       pluginsState: pluginStateSelectors.getAllCriteriaData(state),
     }
   }
@@ -64,10 +67,13 @@ export class FormContainer extends React.Component {
   static propTypes = {
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
-    contextQuery: PropTypes.string.isRequired,
     onSearch: PropTypes.func.isRequired,
     // from mapStateToProps
     pluginsState: AllCriteriaData.isRequired,
+    resultsContext: PropTypes.oneOfType([
+      PropTypes.object, // during initialization
+      UIShapes.ResultsContext, // after initialization
+    ]),
     // from mapDispatchToProps
     dispatchClearAll: PropTypes.func.isRequired,
     publishAllStates: PropTypes.func.isRequired,
@@ -96,6 +102,11 @@ export class FormContainer extends React.Component {
    */
   static deserializePluginState(serializedState) {
     return JSON.parse(root.atob(serializedState))
+  }
+
+  state = {
+    configurationQuery: '',
+    pluginsProps: { initialQuery: '' },
   }
 
   /**
@@ -137,6 +148,33 @@ export class FormContainer extends React.Component {
     // C - Search immediately when a previous research could be restored
     if (searchImmediately) {
       onSearch(initialPluginsState, true)
+    }
+    // D - Initialize state if context is already available
+    this.onPropertiesUpdated({}, this.props)
+  }
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const nextState = { ...this.state }
+    const oldConfigurationRestrictions = get(oldProps, `resultsContext.tabs.${UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS}.criteria.configurationRestrictions`)
+    const newConfigurationRestrictions = get(newProps, `resultsContext.tabs.${UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS}.criteria.configurationRestrictions`, [])
+    if (!isEqual(oldConfigurationRestrictions, newConfigurationRestrictions)) {
+      const configurationParameters = UIDomain.ResultsContextHelper.getQueryParametersFromCriteria(newConfigurationRestrictions)
+      nextState.configurationQuery = configurationParameters[CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME] || ''
+      nextState.pluginsProps = { initialQuery: nextState.configurationQuery }
+    }
+    if (!isEqual(this.state, nextState)) {
+      this.setState(nextState)
     }
   }
 
@@ -196,13 +234,13 @@ export class FormContainer extends React.Component {
   }
 
   render() {
-    const { moduleConf, contextQuery } = this.props
-    const pluginsProps = { initialQuery: contextQuery }
+    const { moduleConf } = this.props
+    const { configurationQuery, pluginsProps } = this.state
     return (
       <PluginsConfigurationProvider
         criteria={moduleConf.criterion}
         preview={moduleConf.preview}
-        contextQuery={contextQuery}
+        contextQuery={configurationQuery}
       >
         <FormComponent
           pluginsProps={pluginsProps}

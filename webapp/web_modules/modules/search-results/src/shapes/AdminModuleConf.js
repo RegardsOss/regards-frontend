@@ -24,6 +24,8 @@ import { DataManagementShapes } from '@regardsoss/shape'
  * @author Léo Mieulet
  */
 const AdminModuleConf = PropTypes.shape({
+  // When set to true, prevents user adding restrictions to form configuration
+  forbidRestrictions: PropTypes.bool,
   // Data and datasets restricted attributes: when provided, use those instead of featching available ones
   selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
   selectableDataSetsAttributes: DataManagementShapes.AttributeModelList,

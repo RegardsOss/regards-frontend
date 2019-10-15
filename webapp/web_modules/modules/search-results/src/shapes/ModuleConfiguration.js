@@ -21,6 +21,11 @@ import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 
 /**
+ * Module configuration shapes
+ * @author Raphaël Mechali
+ */
+
+/**
  * Fields that are commmon to all views (table / list / quicklooks / map)
  */
 const commonViewFields = {
@@ -89,13 +94,40 @@ export const DatasetViewsConfiguration = PropTypes.shape({
   ...commonViewsGroupFields,
 })
 
+/** Possible restrictions on datasets to show: none, by dataset selection or by dataset models selection */
+export const NoDatasetRescriction = PropTypes.shape({
+  type: PropTypes.oneOf([UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE]),
+})
+
+export const DatasetSelectionRescriction = PropTypes.shape({
+  type: PropTypes.oneOf([UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS]),
+  selection: PropTypes.arrayOf(PropTypes.string).isRequired, // in that case, selection is a list of URN
+})
+
+export const DatasetModelsRestriction = PropTypes.shape({
+  type: PropTypes.oneOf([UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS]),
+  selection: PropTypes.arrayOf(PropTypes.string).isRequired, // in that case, selection is a list of model names
+})
+
+export const DatasetRestriction = PropTypes.oneOfType([
+  NoDatasetRescriction,
+  DatasetSelectionRescriction,
+  DatasetModelsRestriction,
+])
+
+/** Configuration of results restrictions */
+export const RestrictionsConfiguration = PropTypes.shape({
+  byDataset: DatasetRestriction,
+})
+
 /**
- * Form entity description
- * @author Sébastien binda
+ * Module configuration
  */
 const ModuleConfiguration = PropTypes.shape({
-  // Special configuration given if the module is not loaded as an independent module
+  // Special configuration provided if the module is not loaded as an independent module
   selectableAttributes: DataManagementShapes.AttributeModelList,
+  // Results restricitons
+  restrictions: RestrictionsConfiguration,
   // Views configurations (by their entities type)
   viewsGroups: PropTypes.shape({
     [ENTITY_TYPES_ENUM.DATA]: DataViewsConfiguration,

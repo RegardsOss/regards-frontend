@@ -51,6 +51,7 @@ class BrowsingTreeCell extends React.Component {
   /** Section icons constructors by section type */
   static SECTION_ICON_CONSTRUCTORS = {
     [FORM_SECTIONS_ENUM.MAIN]: MainSettingIcon,
+    [FORM_SECTIONS_ENUM.RESTRICTIONS]: FiltersIcon,
     [DamDomain.ENTITY_TYPES_ENUM.DATA]: EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE[DamDomain.ENTITY_TYPES_ENUM.DATA],
     [DamDomain.ENTITY_TYPES_ENUM.DATASET]: EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE[DamDomain.ENTITY_TYPES_ENUM.DATASET],
   }

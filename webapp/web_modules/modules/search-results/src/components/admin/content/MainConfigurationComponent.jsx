@@ -55,7 +55,7 @@ class MainConfigurationComponent extends React.Component {
   /**
    * Callbak: User changed displayed entity types. Update for values
    * @param {*} event MUI event
-   * @param {string} value selected value, DISPLAYED_TYPES_CHOICES
+   * @param {string} value selected value, one of DISPLAYED_TYPES_CHOICES
    */
   onChangeDisplayedTypes = (event, typesChoice) => {
     const { currentNamespace, currentFormValues, changeField } = this.props

@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { datasetReducer } from './clients/DatasetClient'
-import { modelReducer } from './clients/ModelClient'
 import { uiPluginDefinitionReducers } from './clients/UIPluginDefinitionClient'
 import { dataObjectAttributesReducer } from './clients/DataObjectAttributesClient'
 import { dataSetAttributesReducer } from './clients/DataSetAttributesClient'
@@ -31,8 +29,6 @@ import { attributesBoundsReducer } from './clients/AttributesBoundsClient'
 const formReducers = {
   dataobjectAttributes: dataObjectAttributesReducer,
   datasetAttributes: dataSetAttributesReducer,
-  datasets: datasetReducer,
-  models: modelReducer,
   criterion: uiPluginDefinitionReducers,
   attributesBounds: attributesBoundsReducer,
 }

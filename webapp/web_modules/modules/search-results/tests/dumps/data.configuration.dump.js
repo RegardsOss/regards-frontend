@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 
 /**
  * Module configuration dump for data and datasets display
@@ -23,6 +24,12 @@
  */
 export const configuration = {
   primaryPane: 'EXPANDED_COLLAPSIBLE',
+  restrictions: {
+    byDataset: {
+      type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
+      selection: ['URN:DATASET:EXAMPLE1'],
+    },
+  },
   viewsGroups: {
     DATA: {
       enabled: true,

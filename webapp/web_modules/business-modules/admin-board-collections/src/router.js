@@ -48,22 +48,11 @@ export const datasetManagementRouter = {
   },
 }
 
-export const documentManagementRouter = {
-  path: 'document',
-  getChildRoutes(nextState, cb) {
-    require.ensure([], (require) => {
-      const adminDataDocumentManagement = require('@regardsoss/admin-data-document-management')
-      cb(null, [adminDataDocumentManagement.documentDataManagementRouter])
-    })
-  },
-}
-
 const collectionsRouter = {
   childRoutes: [
     boardRoute,
     collectionManagementRouter,
     datasetManagementRouter,
-    documentManagementRouter,
   ],
 }
 

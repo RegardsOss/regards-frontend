@@ -156,6 +156,32 @@ export class ContextInitializationHelper {
   }
 
   /**
+   * Builds restrictions criteria from configuration
+   * @param {*} restrictions matching ModuleConfiguration.RestrictionsConfiguration
+   * @return {[*]} built criteria for configured restrictions
+   */
+  static buildConfigurationCriteria(restrictions) {
+    // Dataset ID / models restrictions
+    const { type, selection } = get(restrictions, 'byDataset', {})
+    switch (type) {
+      case UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS:
+        return [{
+          requestParameters: {
+            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, selection).toQueryString(),
+          },
+        }]
+      case UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS:
+        return [{
+          requestParameters: {
+            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.DATASET_MODEL_NAMES_PARAM, selection).toQueryString(),
+          },
+        }]
+      default: // no restriction
+        return []
+    }
+  }
+
+  /**
    * Builds default state based on module configuration
    * @param {*} configuration module configuration matching ModuleConfiguration shape
    * @param {*} attributeModels attributes found on server (respects DataManagementShapes.AttributeModelList shapes)
@@ -172,6 +198,10 @@ export class ContextInitializationHelper {
         ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs,
         [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
           ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS],
+          criteria: {
+            ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria,
+            configurationRestrictions: ContextInitializationHelper.buildConfigurationCriteria(configuration.restrictions),
+          },
           types: {
             [DamDomain.ENTITY_TYPES_ENUM.DATA]: dataType,
             [DamDomain.ENTITY_TYPES_ENUM.DATASET]: ContextInitializationHelper.buildDefaultTypeState(

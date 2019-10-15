@@ -17,8 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { mainSearchReducer, tagSearchReducer } from './clients/SearchEntitiesClient'
-import { DatasetAttributeModelReducer } from './clients/DatasetAttributeModelClient'
-import { DataAttributeModelReducer } from './clients/DataobjectAttributeModelClient'
+import { datasetReducer } from './clients/DatasetClient'
+import { datasetModelReducer } from './clients/DatasetModelClient'
+import { dataSetAttributesReducer } from './clients/DataSetAttributesClient'
+import { dataObjectAttributesReducer } from './clients/DataObjectAttributesClient'
 import { mainTableReducer, tagTableReducer } from './clients/TableClient'
 import { pluginServiceReducer } from './clients/PluginServiceClient'
 import runPluginServiceReducer from './models/services/RunPluginServiceReducer'
@@ -28,8 +30,10 @@ import runPluginServiceReducer from './models/services/RunPluginServiceReducer'
  * @author Sébastien binda
  */
 const searchResultsReducers = {
-  'datasets-attributes': DatasetAttributeModelReducer,
-  'dataobjects-attributes': DataAttributeModelReducer,
+  dataObjectsAttributes: dataObjectAttributesReducer,
+  dataSetsAttributes: dataSetAttributesReducer,
+  datasets: datasetReducer,
+  datasetsModels: datasetModelReducer,
   mainSearchCatalog: mainSearchReducer,
   tagSearchCatalog: tagSearchReducer,
   mainResultsTable: mainTableReducer,

@@ -194,7 +194,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-datasource-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ui-module-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-accessright-accessgroup-management/src/main.js'),
-      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-document-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ui-plugin-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-accessright-dataaccess-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-fragment-management/src/main.js'),
