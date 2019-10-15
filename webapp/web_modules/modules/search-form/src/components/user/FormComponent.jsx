@@ -48,9 +48,9 @@ class FormComponent extends React.Component {
   }
 
   onKeyPress = (e) => {
-    const { handleSearch } = this.props
+    const { onSearch } = this.props
     if (e.charCode === 13) { // seach on enter key pressed
-      handleSearch()
+      onSearch()
     }
   }
 
