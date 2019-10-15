@@ -385,6 +385,7 @@ export class PrioritizedDataStorageListComponent extends React.Component {
         .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.name.label' }))
         .build(),
       new TableColumnBuilder('column.storageType').titleHeaderCell().propertyRenderCell('content.configuration.storageType')
+        .optionsSizing(2)
         .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.type.label' }))
         .build(),
       new TableColumnBuilder('column.nbFilesStored').titleHeaderCell().propertyRenderCell('content.nbFilesStored')
@@ -392,14 +393,17 @@ export class PrioritizedDataStorageListComponent extends React.Component {
         .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.stored-file.label' }))
         .build(),
       new TableColumnBuilder('column.totalSized').titleHeaderCell()
+        .optionsSizing(3)
         .rowCellDefinition({ Constructor: StoragesPluginSizeRenderer })
         .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.total-size.label' }))
         .build(),
       new TableColumnBuilder('column.nbStorageError').titleHeaderCell()
+        .optionsSizing(2)
         .rowCellDefinition({ Constructor: StoragesPluginStorageErrorRenderer, props: { onStorageErrors: this.onStorageErrors } })
         .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.storage-error.label' }))
         .build(),
       new TableColumnBuilder('column.nbDeletionError').titleHeaderCell()
+        .optionsSizing(2)
         .rowCellDefinition({ Constructor: StoragesPluginDeletionErrorRenderer, props: { onDeletionErrors: this.onDeletionErrors } })
         .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.deletion-error.label' }))
         .build(),
