@@ -20,8 +20,6 @@ import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import { datasetDependencies } from '@regardsoss/admin-data-dataset-management'
 import { collectionDependencies } from '@regardsoss/admin-data-collection-management'
-import { documentDependencies } from '@regardsoss/admin-data-document-management'
-
 
 /**
  * BoardItems configuration for Datamanagement module
@@ -64,25 +62,6 @@ const items = (projectName, intl) => [
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
         hateoasDependencies: datasetDependencies.addDependencies,
-      },
-    ],
-  },
-  {
-    title: intl.formatMessage({ id: 'data.board.document.title' }),
-    description: intl.formatMessage({ id: 'data.board.document.description' }),
-    advanced: false,
-    actions: [
-      {
-        path: `/admin/${projectName}/data/collections/document/list`,
-        icon: <ViewLinesIcon />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
-        hateoasDependencies: documentDependencies.listDependencies,
-      },
-      {
-        path: `/admin/${projectName}/data/collections/document/create`,
-        icon: <AddIcon />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
-        hateoasDependencies: documentDependencies.addDependencies,
       },
     ],
   },

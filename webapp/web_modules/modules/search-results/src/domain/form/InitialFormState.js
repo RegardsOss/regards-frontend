@@ -25,6 +25,12 @@ import { DamDomain, UIDomain } from '@regardsoss/domain'
 
 export const INITIAL_FORM_STATE = {
   primaryPane: UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE,
+  restrictions: {
+    byDataset: {
+      type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE,
+      selection: [],
+    },
+  },
   viewsGroups: {
     [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
       enabled: true,

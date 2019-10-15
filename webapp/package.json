@@ -78,7 +78,6 @@
     "@regardsoss/admin-data-connection-management": "file:web_modules/business-modules/admin-data-connection-management",
     "@regardsoss/admin-data-dataset-management": "file:web_modules/business-modules/admin-data-dataset-management",
     "@regardsoss/admin-data-datasource-management": "file:web_modules/business-modules/admin-data-datasource-management",
-    "@regardsoss/admin-data-document-management": "file:web_modules/business-modules/admin-data-document-management",
     "@regardsoss/admin-data-entities-attributes-management": "file:web_modules/business-common/admin-data-entities-attributes-management",
     "@regardsoss/admin-data-fragment-management": "file:web_modules/business-modules/admin-data-fragment-management",
     "@regardsoss/admin-data-model-management": "file:web_modules/business-modules/admin-data-model-management",

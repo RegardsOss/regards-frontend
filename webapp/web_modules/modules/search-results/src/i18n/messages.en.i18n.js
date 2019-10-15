@@ -30,9 +30,8 @@ const messages = {
   ...storage.messages.en,
 
   // Administration messages
-
-  // Configuration tab
   'search.results.form.configuration.tree.section.label.MAIN': 'Main',
+  'search.results.form.configuration.tree.section.label.RESTRICTIONS': 'Results restriction',
   'search.results.form.configuration.tree.section.label.DATA': 'Data',
   'search.results.form.configuration.tree.section.label.DATASET': 'Dataset',
   'search.results.form.configuration.tree.page.label.MAIN': 'View',
@@ -44,6 +43,22 @@ const messages = {
   'search.results.form.main.configuration.display.types.message': 'Results types to display',
   'search.results.form.main.configuration.display.types.data': 'Data',
   'search.results.form.configuration.result.type.data.and.datasets': 'Data and datasets',
+  'search.results.form.restrictions.configuration.display.types.message': 'Restrictions on results by dataset',
+  'search.results.form.restrictions.configuration.display.type.NONE': 'No restriction',
+  'search.results.form.restrictions.configuration.display.type.SELECTED_DATASETS': 'Restrict to selected datasets',
+  'search.results.form.restrictions.configuration.display.type.SELECTED_MODELS': 'Restrict to selected dataset models',
+  'search.results.form.restrictions.configuration.no.selection.messsage': 'No selection',
+  'search.results.form.restrictions.configuration.selection.count.message': `{selectionCount} selected element{selectionCount, plural, 
+    =0 {} 
+    one {} 
+    other {s}
+  }`,
+  'search.results.form.restrictions.configuration.filter.by.name.message': 'Filter',
+  'search.results.form.restrictions.configuration.no.data.title': 'No data',
+  'search.results.form.restrictions.configuration.no.dataset.existing.message': 'There is no dataset, please select another results restriction mode.',
+  'search.results.form.restrictions.configuration.no.dataset.matching.message': 'There is no dataset matching current filter.',
+  'search.results.form.restrictions.configuration.no.dataset.model.existing.message': 'There is no dataset model, please select another results restriction mode.',
+  'search.results.form.restrictions.configuration.no.dataset.model.matching.message': 'There is no dataset model matching current filter.',
   'search.results.form.configuration.result.type.tab.title.message': 'View title',
   'search.results.form.configuration.result.type.tab.hint': 'Result type tab title, leave empty for default value',
   'search.results.form.configuration.result.type.tab.label.en': 'English',

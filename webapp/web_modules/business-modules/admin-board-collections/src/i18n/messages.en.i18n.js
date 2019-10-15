@@ -26,8 +26,6 @@ const messages = {
   'data.board.dataset.title': 'Datasets',
   'data.board.dataset.description': 'Datasets contain data',
 
-  'data.board.document.title': 'Documents',
-  'data.board.document.description': 'Visualize/add documents. Documents are directly accessible to be visualized or downloaded from the user interfaces.',
 }
 
 export default messages

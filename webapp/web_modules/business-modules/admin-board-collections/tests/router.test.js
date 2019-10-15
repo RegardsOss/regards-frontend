@@ -20,7 +20,6 @@ import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { collectionDataManagementRouter } from '@regardsoss/admin-data-collection-management'
 import { datasetDataManagementRouter } from '@regardsoss/admin-data-dataset-management'
-import { documentDataManagementRouter } from '@regardsoss/admin-data-document-management'
 import Routes from '../src/router'
 import ModuleContainer from '../src/components/ModuleContainer'
 
@@ -30,11 +29,10 @@ describe('[ADMIN BOARD COLLECTIONS] Testing collections board router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(4)
+    expect(Routes.childRoutes).to.have.length(3)
     expect(Routes.childRoutes[0].path).to.eq('board')
     expect(Routes.childRoutes[1].path).to.eq('collection')
     expect(Routes.childRoutes[2].path).to.eq('dataset')
-    expect(Routes.childRoutes[3].path).to.eq('document')
   })
 
 
@@ -53,12 +51,6 @@ describe('[ADMIN BOARD COLLECTIONS] Testing collections board router', () => {
   it('should return datasetDataManagementRouter', (done) => {
     Routes.childRoutes[2].getChildRoutes(undefined, (smth, component) => {
       expect(component[0]).to.eq(datasetDataManagementRouter)
-      done()
-    })
-  })
-  it('should return documentDataManagementRouter', (done) => {
-    Routes.childRoutes[3].getChildRoutes(undefined, (smth, component) => {
-      expect(component[0]).to.eq(documentDataManagementRouter)
       done()
     })
   })

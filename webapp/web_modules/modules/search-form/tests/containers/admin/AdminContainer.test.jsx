@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { UnconnectedAdminContainer } from '../../../src/containers/admin/AdminContainer'
+import { AdminContainer } from '../../../src/containers/admin/AdminContainer'
 
 /**
  * Tests for AdminContainer
@@ -64,6 +64,6 @@ describe('[SEARCH FORM] Testing Admin Container', () => {
       fetchDataSetAttributes: () => { },
     }
 
-    shallow(<UnconnectedAdminContainer {...props} />)
+    shallow(<AdminContainer {...props} />)
   })
 })

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
@@ -338,7 +339,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       assert.deepEqual(spiedUpdateResultsContext.newContext, dataContext, 'State should be unchanged compared to configuration')
     }).catch(err => assert.fail(`Failed with error ${err}`))
   })
-  it('should Update URL as context changes (bound from redux)', () => {
+  it('should update URL as context changes (bound from redux)', () => {
     const previousLocation = {
       pathname: 'www.test2.com/test2',
       query: { },
@@ -511,5 +512,126 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         [URLContextHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
       },
     })
+  })
+  it('should resolve correctly initial dataset restrictions from configuration', () => {
+    const spyUpdateResultsContext = {
+      moduleId: null,
+      contextToCommit: null,
+    }
+    const props = {
+      moduleId: 36,
+      configuration: dataConfiguration,
+      attributeModels: attributes,
+      children: <div id="test-div" />,
+      authentication: {
+        isFetching: false,
+        // initially not authentified
+      },
+      resultsContext: dataConfiguration, // ignored here
+      fetchEntity: () => new Promise(resolve => resolve({ payload: { error: true } })),
+      updateResultsContext: (moduleId, contextToCommit) => {
+        spyUpdateResultsContext.moduleId = moduleId
+        spyUpdateResultsContext.contextToCommit = contextToCommit
+      },
+    }
+    const enzymeWrapper = shallow(<ContextManager {...props} />, { context })
+    assert.isNull(spyUpdateResultsContext.moduleId, 'Context should not have been set yet')
+    // Simulate initial resolution and check context contains configuration restrictions
+    enzymeWrapper.instance().commitCoherentContext(ContextInitializationHelper.buildDefaultResultsContext({
+      ...dataConfiguration,
+      restrictions: {
+        byDataset: {
+          type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
+          selection: ['URN:DATASET:EXAMPLE1', 'URN:DATASET:EXAMPLE2'],
+        },
+      },
+    }, attributes))
+    assert.equal(spyUpdateResultsContext.moduleId, props.moduleId, 'Context should have been set for the right module ID')
+    assert.deepEqual(
+      get(spyUpdateResultsContext.contextToCommit, `tabs.${UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS}.criteria.configurationRestrictions`),
+      [{
+        requestParameters: {
+          q: 'tags:("URN:DATASET:EXAMPLE1" OR "URN:DATASET:EXAMPLE2")',
+        },
+      }], 'Configuration criteria should have been correctly initialized')
+  })
+  it('should resolve correctly initial dataset models restrictions from configuration', () => {
+    const spyUpdateResultsContext = {
+      moduleId: null,
+      contextToCommit: null,
+    }
+    const props = {
+      moduleId: 11,
+      configuration: dataConfiguration,
+      attributeModels: attributes,
+      children: <div id="test-div" />,
+      authentication: {
+        isFetching: false,
+        // initially not authentified
+      },
+      resultsContext: dataConfiguration, // ignored here
+      fetchEntity: () => new Promise(resolve => resolve({ payload: { error: true } })),
+      updateResultsContext: (moduleId, contextToCommit) => {
+        spyUpdateResultsContext.moduleId = moduleId
+        spyUpdateResultsContext.contextToCommit = contextToCommit
+      },
+    }
+    const enzymeWrapper = shallow(<ContextManager {...props} />, { context })
+    assert.isNull(spyUpdateResultsContext.moduleId, 'Context should not have been set yet')
+    // Simulate initial resolution and check context contains configuration restrictions
+    enzymeWrapper.instance().commitCoherentContext(ContextInitializationHelper.buildDefaultResultsContext({
+      ...dataConfiguration,
+      restrictions: {
+        byDataset: {
+          type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS,
+          selection: ['myModel1', 'myModelTartempion'],
+        },
+      },
+    }, attributes))
+    assert.equal(spyUpdateResultsContext.moduleId, props.moduleId, 'Context should have been set for the right module ID')
+    assert.deepEqual(
+      get(spyUpdateResultsContext.contextToCommit, `tabs.${UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS}.criteria.configurationRestrictions`),
+      [{
+        requestParameters: {
+          q: 'datasetModelNames:(myModel1 OR myModelTartempion)',
+        },
+      }], 'Configuration criteria should have been correctly initialized')
+  })
+  it('should resolve correctly initial context without restriction from configuration', () => {
+    const spyUpdateResultsContext = {
+      moduleId: null,
+      contextToCommit: null,
+    }
+    const props = {
+      moduleId: 28,
+      configuration: dataConfiguration,
+      attributeModels: attributes,
+      children: <div id="test-div" />,
+      authentication: {
+        isFetching: false,
+        // initially not authentified
+      },
+      resultsContext: dataConfiguration, // ignored here
+      fetchEntity: () => new Promise(resolve => resolve({ payload: { error: true } })),
+      updateResultsContext: (moduleId, contextToCommit) => {
+        spyUpdateResultsContext.moduleId = moduleId
+        spyUpdateResultsContext.contextToCommit = contextToCommit
+      },
+    }
+    const enzymeWrapper = shallow(<ContextManager {...props} />, { context })
+    assert.isNull(spyUpdateResultsContext.moduleId, 'Context should not have been set yet')
+    // Simulate initial resolution and check context contains configuration restrictions
+    enzymeWrapper.instance().commitCoherentContext(ContextInitializationHelper.buildDefaultResultsContext({
+      ...dataConfiguration,
+      restrictions: {
+        byDataset: {
+          type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE,
+        },
+      },
+    }, attributes))
+    assert.equal(spyUpdateResultsContext.moduleId, props.moduleId, 'Context should have been set for the right module ID')
+    assert.isEmpty(
+      get(spyUpdateResultsContext.contextToCommit, `tabs.${UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS}.criteria.configurationRestrictions`),
+      'Configuration criteria should have been correctly initialized')
   })
 })

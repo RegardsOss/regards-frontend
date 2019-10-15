@@ -21,7 +21,6 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 import SearchResultsComponent from './results/SearchResultsComponent'
-import FormDatasetsConfigurationComponent from './datasets/FormDatasetsConfigurationComponent'
 import FormLayoutComponent from './layout/FormLayoutComponent'
 import FormCriteriaComponent from './criterion/FormCriterionComponent'
 import FormPreviewComponent from './preview/FormPreviewComponent'
@@ -51,7 +50,6 @@ class FormTabsComponent extends React.Component {
     selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
     selectableDataSetsAttributes: DataManagementShapes.AttributeModelList,
     attributesLoading: PropTypes.bool,
-    disableChangeDatasets: PropTypes.bool,
     availableCriterion: AccessShapes.UIPluginDefinitionList,
     criterionFetching: PropTypes.bool,
   }
@@ -80,33 +78,7 @@ class FormTabsComponent extends React.Component {
   render() {
     return (
       <Tabs>
-        <Tab label={this.context.intl.formatMessage({ id: 'form.dataset.selection.tab.label' })}>
-          <FormDatasetsConfigurationComponent
-            changeField={this.props.adminForm.changeField}
-            defaultType={this.props.defaultConf.datasets.type}
-            defaultSelectedDatasets={this.props.defaultConf.datasets.selectedDatasets}
-            defaultSelectedDatasetModels={this.props.defaultConf.datasets.selectedModels}
-            disableChangeDatasets={this.props.disableChangeDatasets}
-            currentNamespace={this.props.adminForm.currentNamespace}
-          />
-        </Tab>
-        <Tab label={this.context.intl.formatMessage({ id: 'form.layout.tab.label' })}>
-          <FormLayoutComponent
-            defaultLayout={this.props.defaultConf.layout}
-            changeField={this.props.adminForm.changeField}
-            currentNamespace={this.props.adminForm.currentNamespace}
-          />
-        </Tab>
-        <Tab label={this.context.intl.formatMessage({ id: 'form.criterions.tab.label' })}>
-          {this.renderCriterionTab()}
-        </Tab>
-        <Tab label={this.context.intl.formatMessage({ id: 'form.preview.tab.label' })}>
-          <FormPreviewComponent
-            project={this.props.project}
-            module={this.props.adminForm.form}
-            currentNamespace={this.props.adminForm.currentNamespace}
-          />
-        </Tab>
+        {/* Results and results restrictions */}
         <Tab label={this.context.intl.formatMessage({ id: 'form.configuration.tab.label' })}>
           <SearchResultsComponent
             project={this.props.project}
@@ -114,6 +86,26 @@ class FormTabsComponent extends React.Component {
             adminForm={this.props.adminForm}
             selectableDataObjectsAttributes={this.props.selectableDataObjectsAttributes}
             selectableDataSetsAttributes={this.props.selectableDataSetsAttributes}
+          />
+        </Tab>
+        {/* Form layout */}
+        <Tab label={this.context.intl.formatMessage({ id: 'form.layout.tab.label' })}>
+          <FormLayoutComponent
+            defaultLayout={this.props.defaultConf.layout}
+            changeField={this.props.adminForm.changeField}
+            currentNamespace={this.props.adminForm.currentNamespace}
+          />
+        </Tab>
+        {/* Form criteria */}
+        <Tab label={this.context.intl.formatMessage({ id: 'form.criterions.tab.label' })}>
+          {this.renderCriterionTab()}
+        </Tab>
+        {/* Form preview */}
+        <Tab label={this.context.intl.formatMessage({ id: 'form.preview.tab.label' })}>
+          <FormPreviewComponent
+            project={this.props.project}
+            module={this.props.adminForm.form}
+            currentNamespace={this.props.adminForm.currentNamespace}
           />
         </Tab>
       </Tabs>

@@ -97,6 +97,7 @@ export { default as PluginConfigurationPickerComponent } from './plugin/PluginCo
 export { default as ActionsMenuCell } from './table/content/cells/ActionsMenuCell'
 export { default as AutoRefreshPageableTableHOC } from './table/options/AutoRefreshPageableTableHOC'
 export { default as CheckBoxCell } from './table/content/cells/CheckBoxCell'
+export { default as TableSelectionCell } from './table/content/cells/TableSelectionCell'
 export { default as InfiniteTableContainer } from './table/InfiniteTableContainer'
 export { default as getTableReducer } from './table/model/TableReducer'
 export { default as getTableSelectors } from './table/model/TableSelectors'

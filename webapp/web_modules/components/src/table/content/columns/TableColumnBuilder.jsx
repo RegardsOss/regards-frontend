@@ -25,7 +25,7 @@ import SimpleTitleColumnHeaderCell from './SimpleTitleColumnHeaderCell'
 import CheckboxColumnHeaderCell from './CheckboxColumnHeaderCell'
 import ValuesRenderCell from '../cells/ValuesRenderCell'
 import OptionsCell from '../cells/OptionsCell'
-import CheckBoxCell from '../cells/CheckBoxCell'
+import TableSelectionCell from '../cells/TableSelectionCell'
 import ProgressRenderCell from '../cells/ProgressRenderCell'
 import PercentProgressRenderCell from '../cells/PercentProgressRenderCell'
 
@@ -287,7 +287,7 @@ export default class TableColumnBuilder {
         },
       })
       .rowCellDefinition({
-        Constructor: CheckBoxCell,
+        Constructor: TableSelectionCell,
         props: { tableActions, tableSelectors },
       })
   }

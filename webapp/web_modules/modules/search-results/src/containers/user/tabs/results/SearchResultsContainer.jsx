@@ -16,9 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import forEach from 'lodash/forEach'
 import get from 'lodash/get'
-import isArray from 'lodash/isArray'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import values from 'lodash/values'
@@ -26,7 +24,6 @@ import { connect } from '@regardsoss/redux'
 import { CatalogDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
-import { CatalogSearchQueryHelper } from '@regardsoss/domain/catalog'
 import { resultsContextActions } from '../../../../clients/ResultsContextClient'
 import { getSearchCatalogClient } from '../../../../clients/SearchEntitiesClient'
 import { CriterionBuilder } from '../../../../definitions/CriterionBuilder'
@@ -135,33 +132,8 @@ export class SearchResultsContainer extends React.Component {
         ...tab.criteria.tagsFiltering.filter(t => t.type === CatalogDomain.TAG_TYPES_ENUM.DATASET),
       ].map(datasetTag => datasetTag.searchKey)))
 
-      // B - Collect all request parameters from applying criteria as a map string:Array(string), where array holds all values found for
-      // parameter
-      const nextRequestParameters = newState.applyingCriteria.reduce((acc, level) => {
-        const nextAcc = { ...acc }
-        const requestParameters = level.requestParameters || {} // nota: request parameters can be ommitted for description levels for instance
-        // Add in local accumulator all parameters of the current criterion (preserving other values)
-        forEach(requestParameters, (paramValue, paramKey) => {
-          if (paramValue && paramKey) { // avoid empty / null parmeter values
-            const previousParameterValues = nextAcc[paramKey]
-            if (previousParameterValues && CatalogSearchQueryHelper.isAllowingMultipleValues(paramKey)) {
-              // That parameter can accept many values, add new one at end
-              nextAcc[paramKey] = [...nextAcc[paramKey], ...(isArray(paramValue) ? paramValue : [paramValue])]
-            } else if (!previousParameterValues) {
-              // first value found for parameter
-              nextAcc[paramKey] = isArray(paramValue) ? paramValue : [paramValue]
-            }
-          }
-        })
-        return nextAcc
-      }, {})
-      // in parameters, merge specifically the Q parameter (it must not be merged using "&q=" !), when not empty
-      const qValue = CatalogSearchQueryHelper.mergeQueryParameter(nextRequestParameters[CatalogSearchQueryHelper.Q_PARAMETER_NAME])
-      if (qValue) {
-        nextRequestParameters[CatalogSearchQueryHelper.Q_PARAMETER_NAME] = qValue
-      }
-      //  compute resulting parameters as map string:string
-      newState.requestParameters = nextRequestParameters
+      // B - Compute new applying request parameters
+      newState.requestParameters = UIDomain.ResultsContextHelper.getQueryParametersFromCriteria(newState.applyingCriteria)
     }
 
     // 3 - update actions if view type or parameters changed

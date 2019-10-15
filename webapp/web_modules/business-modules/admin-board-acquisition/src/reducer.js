@@ -19,7 +19,6 @@
 import { combineReducers } from 'redux'
 import { connectionDataManagementReducer } from '@regardsoss/admin-data-connection-management'
 import { datasourceDataManagementReducer } from '@regardsoss/admin-data-datasource-management'
-import { documentDataManagementReducer } from '@regardsoss/admin-data-document-management'
 import { processingChainManagementReducer } from '@regardsoss/admin-ingest-processing-chain-management'
 import { storageManagementReducer } from '@regardsoss/admin-storage-management'
 import { dataProviderManagementReducer } from '@regardsoss/admin-data-provider-management'
@@ -29,7 +28,6 @@ const acquisitionReducers = combineReducers({
   connection: connectionDataManagementReducer,
   dataProvider: dataProviderManagementReducer,
   datasource: datasourceDataManagementReducer,
-  document: documentDataManagementReducer,
   processingChain: processingChainManagementReducer,
   storage: storageManagementReducer,
   oais: oaisManagementReducer,

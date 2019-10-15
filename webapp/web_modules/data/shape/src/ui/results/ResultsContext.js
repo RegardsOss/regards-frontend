@@ -247,8 +247,9 @@ export const ViewsGroupState = PropTypes.shape({
  */
 const ResultsTab = PropTypes.shape({
   criteria: PropTypes.shape({
+    configurationRestrictions: PropTypes.arrayOf(BasicCriterion).isRequired, // Restrictions from configuration
     contextTags: PropTypes.arrayOf(BasicCriterion).isRequired, // Other filters (especially used by tag results tab)
-    otherFilters: PropTypes.arrayOf(BasicCriterion).isRequired, // Other restrictions
+    otherFilters: PropTypes.arrayOf(BasicCriterion).isRequired, // Other restrictions (usually used by a parent controller)
     quicklookFiltering: PropTypes.arrayOf(BasicCriterion).isRequired, // filtering elements with quicklooks
     appliedFacets: PropTypes.arrayOf(SelectedFacetCriterion).isRequired, // List of selected facets
     geometry: PropTypes.arrayOf(GeometryCriterion).isRequired, // Selected filtering geometry criteria

@@ -34,7 +34,6 @@ const messages = {
 
   // Tabulation labels
   'form.configuration.tab.label': 'Results',
-  'form.dataset.selection.tab.label': 'Datasets',
   'form.layout.tab.label': 'Layout',
   'form.criterions.tab.label': 'Criteria',
   'form.criterion.tab.title': 'Configure all the criteria of your form. Each criterion can be inserted into a specific section of your designed layout.',
@@ -64,14 +63,6 @@ const messages = {
   'form.attributes.regroupement.edit': 'Edit',
   'form.attributes.delete.confirm.title': 'Remove attributes clustering {name}?',
   'form.attributes.regroupement.form.title.update': 'Update clustering : {name}',
-  // Datasets tab
-  'form.datasets.tab.title': 'Link this search form to one or many datasets, or to one or many models of dataset',
-  'form.datasets.all.label': 'Link with all datasets',
-  'form.datasets.reset.all': 'Reset all association to this search form',
-  'form.datasets.selected.label': 'Link with one or many datasets',
-  'form.datasets.model.selected.label': 'Link with one or many models of dataset',
-  'form.datasets.select.dataset.list.title': 'Select datasets to link with search form',
-  'form.datasets.select.dataset.models.list.title': 'Select dataset models to link with search form',
   // Layout tab
   'form.layout.tab.title': 'Criteria layout',
   'form.layout.tab.reset': 'Reset',

@@ -22,18 +22,47 @@ import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { UIDomain } from '@regardsoss/domain'
 import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 import { dataObjectAttributesActions, dataObjectAttributesSelectors } from '../../clients/DataObjectAttributesClient'
 import { dataSetAttributesActions, dataSetAttributesSelectors } from '../../clients/DataSetAttributesClient'
 import { uiPluginDefinitionActions, uiPluginDefinitionSelectors } from '../../clients/UIPluginDefinitionClient'
-import DatasetSelectionTypes from '../../domain/DatasetSelectionTypes'
 import FormTabsComponent from '../../components/admin/FormTabsComponent'
 
 /**
  * Main container to display administration view of the module form.
  * @author Sébastien binda
  */
-class AdminContainer extends React.Component {
+export class AdminContainer extends React.Component {
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      selectableDataObjectsAttributes: dataObjectAttributesSelectors.getList(state),
+      selectableDataSetsAttributes: dataSetAttributesSelectors.getList(state),
+      availableCriterion: uiPluginDefinitionSelectors.getList(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      // Function to retrieve all available criterion plugins
+      fetchCriterion: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 1000, {}, { type: 'CRITERIA' })),
+      fetchDataObjectAttributes: (modelNames, datasetIds) => dispatch(dataObjectAttributesActions.fetchPagedEntityListByPost(0, 10000, null, { modelNames, datasetIds })),
+      fetchDataSetAttributes: (modelNames, datasetIds) => dispatch(dataSetAttributesActions.fetchPagedEntityListByPost(0, 10000, null, { modelNames, datasetIds })),
+    }
+  }
+
   static propTypes = {
     // Props supplied by LazyModuleComponent
     appName: PropTypes.string,
@@ -82,9 +111,6 @@ class AdminContainer extends React.Component {
   constructor(props) {
     super(props)
     this.CONF_DATASETS = `${props.adminForm.currentNamespace}.datasets`
-    this.CONF_DATASETS_TYPES = `${props.adminForm.currentNamespace}.datasets.type`
-    this.CONF_DATASETS_SELECTED_MODELS = `${props.adminForm.currentNamespace}.datasets.selectedModels`
-    this.CONF_DATASETS_SELECTED_DATASETS = `${props.adminForm.currentNamespace}.datasets.selectedDatasets`
     this.CONF_SEARCH_RESULT = `${props.adminForm.currentNamespace}.searchResult`
   }
 
@@ -93,79 +119,81 @@ class AdminContainer extends React.Component {
     criterionLoading: true,
   }
 
-  componentWillMount() {
-    if (!this.props.adminForm.isCreating) {
-      this.updateSelectableAttributes(
-        get(this.props.adminForm.form, this.CONF_DATASETS_TYPES),
-        get(this.props.adminForm.form, this.CONF_DATASETS_SELECTED_MODELS),
-        get(this.props.adminForm.form, this.CONF_DATASETS_SELECTED_DATASETS),
-      )
-    } else {
-      this.updateSelectableAttributes()
-    }
+  /**
+   * Lifecycle method: component did mount, used here to:
+   * - initialize the available attributes list through current dataset restrictions
+   * - initialize criteria list
+   */
+  componentDidMount() {
     // Load available criterion plugins
-    return Promise.resolve(this.props.fetchCriterion()).then(() => this.setState({
+    Promise.resolve(this.props.fetchCriterion()).then(() => this.setState({
       criterionLoading: false,
     }))
+    // Initialize attributes pool from current configuration
+    this.onPropertiesUpdated(null, this.props)
   }
 
-  componentWillReceiveProps(nextProps) {
-    // Check if the selectable attributes have to be updated
-    const datasetsConf = get(this.props.adminForm.form, this.CONF_DATASETS, null)
-    const newDatasetsConf = get(nextProps.adminForm.form, this.CONF_DATASETS, null)
-    if (datasetsConf && newDatasetsConf && !isEqual(datasetsConf, newDatasetsConf)) {
-      this.updateSelectableAttributes(
-        newDatasetsConf.type,
-        newDatasetsConf.selectedModels,
-        newDatasetsConf.selectedDatasets,
-      )
+  /**
+   * Lifecycle method: component will receive props. Used here to update the list of selectable attributes
+   * @param {*} nextProps next component props
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: used here to load or reload attributes list as restrictions change
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    // Pull available attribute when loading or on dataset retrictions update
+    const datasetRestrictions = get(newProps, `adminForm.form.${this.CONF_SEARCH_RESULT}.restrictions.byDataset`,
+      { type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE, selection: [] })
+    const previousDatasetRestrictions = get(oldProps, `adminForm.form.${this.CONF_SEARCH_RESULT}.restrictions.byDataset`,
+      { type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE, selection: [] })
+    if (!oldProps || !isEqual(datasetRestrictions, previousDatasetRestrictions)) {
+      this.onDatasetRestrictionsUpdate(datasetRestrictions.type, datasetRestrictions.selection)
     }
   }
 
-  updateSelectableAttributes = (type, modelIds, datasetIds) => {
-    const tasks = []
-    if (type === DatasetSelectionTypes.DATASET_MODEL_TYPE && modelIds && modelIds.length > 0) {
-      tasks.push(this.props.fetchDataObjectAttributes(modelIds))
-      tasks.push(this.props.fetchDataSetAttributes(modelIds))
-    } else if (type === DatasetSelectionTypes.DATASET_TYPE && datasetIds && datasetIds.length > 0) {
-      tasks.push(this.props.fetchDataObjectAttributes(null, datasetIds))
-      tasks.push(this.props.fetchDataSetAttributes(null, datasetIds))
-    } else {
-      tasks.push(this.props.fetchDataObjectAttributes())
-      tasks.push(this.props.fetchDataSetAttributes())
-    }
-
-    return Promise.all(tasks).then(() => this.setState({ attributesLoading: false }))
+  /**
+   * Updates the list of selectable attributes on dataset restrictions change
+   * @param {string} datasetRestrictionType one of UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM values
+   * @param {[string]} selection applying selection for restriction type
+   */
+  onDatasetRestrictionsUpdate = (datasetRestrictionType = UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE, selection = []) => {
+    const modelNames = datasetRestrictionType === UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS ? selection : null
+    const datasetIds = datasetRestrictionType === UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS ? selection : null
+    return Promise.all([
+      this.props.fetchDataObjectAttributes(modelNames, datasetIds),
+      this.props.fetchDataSetAttributes(modelNames, datasetIds),
+    ]).then(() => this.setState({ attributesLoading: false }))
   }
 
-  initEmptyProps() {
-    return {
-      appName: this.props.appName,
-      project: this.props.project,
-      adminForm: this.props.adminForm,
-      currentNamespace: this.props.adminForm.currentNamespace,
-      changeField: this.props.adminForm.changeField,
-      defaultConf: {
-        datasets: this.props.moduleConf.datasets ? this.props.moduleConf.datasets : {
-          type: 'all',
-        },
-        criterion: this.props.moduleConf.criterion ? this.props.moduleConf.criterion : [],
-        layout: this.props.moduleConf.layout,
-      },
-      selectableDataObjectsAttributes: this.props.selectableDataObjectsAttributes,
-      selectableDataSetsAttributes: this.props.selectableDataSetsAttributes,
-      attributesLoading: this.state.attributesLoading,
-      disableChangeDatasets: this.state.attributesLoading,
-      availableCriterion: this.props.availableCriterion,
-      criterionFetching: this.state.criterionLoading,
-    }
+  /**
+   * Renders tabs (lazy called, after loading)
+   */
+  renderTabs = () => {
+    const {
+      appName, project, adminForm, moduleConf,
+      availableCriterion, selectableDataObjectsAttributes, selectableDataSetsAttributes,
+    } = this.props
+    const { attributesLoading, criterionLoading } = this.state
+    return (
+      <FormTabsComponent
+        appName={appName}
+        project={project}
+        adminForm={adminForm}
+        currentNamespace={adminForm.currentNamespace}
+        changeField={adminForm.changeField}
+        defaultConf={moduleConf}
+        selectableDataObjectsAttributes={selectableDataObjectsAttributes}
+        selectableDataSetsAttributes={selectableDataSetsAttributes}
+        attributesLoading={attributesLoading}
+        availableCriterion={availableCriterion}
+        criterionFetching={criterionLoading}
+      />
+    )
   }
-
-  renderTabs = () => (
-    <FormTabsComponent
-      {...this.initEmptyProps()}
-    />
-  )
 
   render() {
     return (
@@ -178,21 +206,6 @@ class AdminContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  selectableDataObjectsAttributes: dataObjectAttributesSelectors.getList(state),
-  selectableDataSetsAttributes: dataSetAttributesSelectors.getList(state),
-  availableCriterion: uiPluginDefinitionSelectors.getList(state),
-})
-
-const mapDispatchToProps = dispatch => ({
-  // Function to retrieve all available criterion plugins
-  fetchCriterion: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 100, {}, { type: 'CRITERIA' })),
-  fetchDataObjectAttributes: (modelIds, datasetIds) => dispatch(dataObjectAttributesActions.fetchPagedEntityListByPost(0, 10000, {}, { modelIds, datasetIds })),
-  // Function to retrieve dataset atributes
-  fetchDataSetAttributes: (modelIds, datasetIds) => dispatch(dataSetAttributesActions.fetchPagedEntityListByPost(0, 10000, {}, { modelIds, datasetIds })),
-})
-
-const UnconnectedAdminContainer = AdminContainer
-export { UnconnectedAdminContainer }
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminContainer)
+export default connect(
+  AdminContainer.mapStateToProps,
+  AdminContainer.mapDispatchToProps)(AdminContainer)

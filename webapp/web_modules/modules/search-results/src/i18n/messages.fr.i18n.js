@@ -30,9 +30,8 @@ const messages = {
   ...storage.messages.fr,
 
   // Administration messages
-
-  // Configuration tab
   'search.results.form.configuration.tree.section.label.MAIN': 'Général',
+  'search.results.form.configuration.tree.section.label.RESTRICTIONS': 'Restriction des résultats',
   'search.results.form.configuration.tree.section.label.DATA': 'Données',
   'search.results.form.configuration.tree.section.label.DATASET': 'Jeux de données',
   'search.results.form.configuration.tree.page.label.MAIN': 'Vue',
@@ -44,6 +43,26 @@ const messages = {
   'search.results.form.main.configuration.display.types.message': 'Types de résultats à afficher',
   'search.results.form.main.configuration.display.types.data': 'Données',
   'search.results.form.configuration.result.type.data.and.datasets': 'Données et jeux de données',
+  'search.results.form.restrictions.configuration.display.types.message': 'Restrictions des résultats par les jeux de données',
+  'search.results.form.restrictions.configuration.display.type.NONE': 'Aucune restriction',
+  'search.results.form.restrictions.configuration.display.type.SELECTED_DATASETS': 'Restreindre aux jeux sélectionnés',
+  'search.results.form.restrictions.configuration.display.type.SELECTED_MODELS': 'Restreindre aux modèles de jeux sélectionnés',
+  'search.results.form.restrictions.configuration.no.selection.messsage': 'Aucune sélection',
+  'search.results.form.restrictions.configuration.selection.count.message': `{selectionCount} element{selectionCount, plural, 
+    =0 {} 
+    one {} 
+    other {s}
+  } sélectionné{selectionCount, plural, 
+    =0 {} 
+    one {} 
+    other {s}
+  }`,
+  'search.results.form.restrictions.configuration.filter.by.name.message': 'Filtre',
+  'search.results.form.restrictions.configuration.no.data.title': 'Aucun élément',
+  'search.results.form.restrictions.configuration.no.dataset.existing.message': 'Il n\'y a aucun jeu de données, veuillez sélectionner un autre mode de restriction des résultats.',
+  'search.results.form.restrictions.configuration.no.dataset.matching.message': 'Il n\'y a aucun jeu de données correspondant au filtre saisi.',
+  'search.results.form.restrictions.configuration.no.dataset.model.existing.message': 'Il n\'y a aucun modèle de jeux de données, veuillez sélectionner un autre mode de restriction des résultats.',
+  'search.results.form.restrictions.configuration.no.dataset.model.matching.message': 'Il n\'y a aucun modèle de jeux de données correspondant au filtre saisi.',
   'search.results.form.configuration.result.type.tab.title.message': 'Titre de la vue',
   'search.results.form.configuration.result.type.tab.hint': 'Titre de l\'onglet pour ce type, laisser vide pour la valeur par défaut',
   'search.results.form.configuration.result.type.tab.label.en': 'Anglais',

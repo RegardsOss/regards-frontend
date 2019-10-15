@@ -21,6 +21,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { modulesHelper } from '@regardsoss/modules-api'
+import { UIDomain } from '@regardsoss/domain'
 import FormComponent from '../../../src/components/user/FormComponent'
 import { FormContainer } from '../../../src/containers/user/FormContainer'
 import PluginsConfigurationProvider from '../../../src/containers/user/PluginsConfigurationProvider'
@@ -57,7 +58,7 @@ describe('[SEARCH FORM] Testing FormContainer', () => {
   it('should exists', () => {
     assert.isDefined(FormContainer)
   })
-  it('should render correctly', () => {
+  it('should render correctly, taking in account configuration restrictions', () => {
     let clearAllCalledCount = 0
     let publishAllCalledCount = 0
     const props = {
@@ -67,7 +68,36 @@ describe('[SEARCH FORM] Testing FormContainer', () => {
       type: 'any',
       description: 'Test',
       moduleConf: conf1,
-      contextQuery: 'anyQuery',
+      // incomplete results context, jsut to add some restrictions and check they
+      // are correctly transferred to PluginsConfigurationProvider
+      resultsContext: {
+        selectedTab: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+        tabs: {
+          [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+            criteria: {
+              // q parts should be retrieved from here
+              configurationRestrictions: [{
+                requestParameters: {
+                  a: 'any.a.value', // should be ignored
+                  q: 'datasetModelIds:URN:DATASET:MyDataset:V1',
+                },
+              }, {
+                requestParameters: {
+                  b: 'any.b.value', // should be ignored
+                  q: 'tag:myTag',
+                },
+              }],
+              // other criteria should be ignored
+              contextTags: [{
+                requestParameters: {
+                  a: 'any.a.value', // should be ignored
+                  q: 'tag:myTag2',
+                },
+              }],
+            },
+          },
+        },
+      },
       pluginsState: {
         p1: {
           state: {
@@ -97,13 +127,19 @@ describe('[SEARCH FORM] Testing FormContainer', () => {
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
     }, 'Component should define the expected properties')
+    // Check built configuration query (q parts from configurationRestrictions criteria )
+    const expectedQuery = 'datasetModelIds:URN:DATASET:MyDataset:V1 AND tag:myTag'
+    assert.deepEqual(enzymeWrapper.state(), {
+      configurationQuery: expectedQuery,
+      pluginsProps: { initialQuery: expectedQuery },
+    }, 'State should be correctly built for current results context')
 
     // Check parameters passed to PluginsConfiguration provider
     const pluginConfProvider = enzymeWrapper.find(PluginsConfigurationProvider)
     assert.lengthOf(pluginConfProvider, 1, 'There should be the plugin configuration provider')
     testSuiteHelpers.assertWrapperProperties(pluginConfProvider, {
       criteria: props.moduleConf.criterion,
-      contextQuery: props.contextQuery,
+      contextQuery: enzymeWrapper.state().configurationQuery,
       preview: props.moduleConf.preview,
     }, 'PluginsConfigurationProvider properties should be correctly provided ')
 
@@ -111,7 +147,7 @@ describe('[SEARCH FORM] Testing FormContainer', () => {
     const formComponent = enzymeWrapper.find(FormComponent)
     assert.lengthOf(formComponent, 1, 'There should be the form component provider')
     testSuiteHelpers.assertWrapperProperties(formComponent, {
-      pluginsProps: { initialQuery: props.contextQuery },
+      pluginsProps: enzymeWrapper.state().pluginsProps,
       onSearch: enzymeWrapper.instance().onSearch,
       onClearAll: enzymeWrapper.instance().onClearAll,
       ...modulesHelper.getReportedUserModuleProps(props),
@@ -145,7 +181,34 @@ describe('[SEARCH FORM] Testing FormContainer', () => {
         ...conf1,
         preview: true,
       },
-      contextQuery: 'anyQuery',
+      resultsContext: {
+        selectedTab: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+        tabs: {
+          [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+            criteria: {
+              // q parts should be retrieved from here
+              configurationRestrictions: [{
+                requestParameters: {
+                  a: 'any.a.value', // should be ignored
+                  q: 'datasetModelIds:URN:DATASET:MyDataset:V1',
+                },
+              }, {
+                requestParameters: {
+                  b: 'any.b.value', // should be ignored
+                  q: 'tag:myTag',
+                },
+              }],
+              // other criteria should be ignored
+              contextTags: [{
+                requestParameters: {
+                  a: 'any.a.value', // should be ignored
+                  q: 'tag:myTag2',
+                },
+              }],
+            },
+          },
+        },
+      },
       pluginsState: {
         p1: {
           state: {

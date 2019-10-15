@@ -25,10 +25,6 @@ const messages = {
 
   'data.board.dataset.title': 'Jeux de données',
   'data.board.dataset.description': 'Les jeux de données contiennent les données',
-
-  'data.board.document.title': 'Documents',
-  'data.board.document.description': 'Consulter/ajouter des documents. Les documents sont des données consultables par prévisualisation ou par téléchargement depuis l\'interface utilisateur.',
-
 }
 
 export default messages

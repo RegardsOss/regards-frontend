@@ -37,7 +37,7 @@ export const datasetEntity = {
 export const anotherDatasetEntity = {
   content: {
     entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-    id: 'URN:AIP:DATASET:project1:XXXX:V1',
+    id: 'URN:AIP:DATASET:project1:XXXX2:V1',
     providerId: 'Provider2dataset',
     label: 'my dataset2',
     model: '1',

@@ -51,7 +51,7 @@ class BrowsingTreeComponent extends React.Component {
    */
   buildSectionRow = (navigationSection) => {
     // 1 - specific case: main configuration row
-    if (navigationSection.type === FORM_SECTIONS_ENUM.MAIN) {
+    if (navigationSection.type === FORM_SECTIONS_ENUM.MAIN || navigationSection.type === FORM_SECTIONS_ENUM.RESTRICTIONS) {
       // build section row using page builder
       return this.buildPageRow(navigationSection, navigationSection.pages[0])
     }
