@@ -51,7 +51,7 @@ class AcquisitionProcessingChainMonitoringTableListAction extends React.Componen
         title={formatMessage({ id: 'acquisition-chain.monitor.list.list.tooltip' })}
         iconStyle={AcquisitionProcessingChainMonitoringTableListAction.iconStyle}
         style={AcquisitionProcessingChainMonitoringTableListAction.buttonStyle}
-        onClick={() => this.props.onListChain(chain.ingestChain)}
+        onClick={() => this.props.onListChain(chain.label)}
       >
         <RunIcon />
       </IconButton>
