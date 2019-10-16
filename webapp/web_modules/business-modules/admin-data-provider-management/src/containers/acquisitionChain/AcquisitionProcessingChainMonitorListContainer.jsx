@@ -33,8 +33,8 @@ import {
 }
   from '../../clients/AcquisitionProcessingChainClient'
 import AcquisitionProcessingChainMonitorListComponent
-  from '../../components/monitoring/acquisitionProcessingChain/AcquisitionProcessingChainMonitorListComponent'
-import { tableSelectors } from '../../clients/TableClient'
+  from '../../components/acquisitionChain/AcquisitionProcessingChainMonitorListComponent'
+import { tableMonitorSelectors } from '../../clients/TableClient'
 
 /**
 * Container to handle monitoring AcquisitionProcessingChains.
@@ -48,7 +48,7 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
    * @return {*} list of component properties extracted from redux state
    */
   static mapStateToProps(state) {
-    const toggledChains = tableSelectors.getToggledElementsAsList(state)
+    const toggledChains = tableMonitorSelectors.getToggledElementsAsList(state)
 
     return {
       meta: AcquisitionProcessingChainMonitorSelectors.getMetaData(state),

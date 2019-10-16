@@ -40,13 +40,13 @@ import { AcquisitionProcessingChainMonitoringEnabledRenderer } from './Acquisiti
 import AcquisitionProcessingChainMonitoringListFiltersComponent from './AcquisitionProcessingChainMonitoringListFiltersComponent'
 import AcquisitionProcessingChainTableDuplicateAction from './AcquisitionProcessingChainTableDuplicateAction'
 import { AcquisitionProcessingChainMonitorActions, AcquisitionProcessingChainMonitorSelectors }
-  from '../../../clients/AcquisitionProcessingChainMonitorClient'
+  from '../../clients/AcquisitionProcessingChainMonitorClient'
 //import { AcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors } from '../../clients/AcquisitionProcessingChainClient'
 import AcquisitionProcessingChainTableEditAction from './AcquisitionProcessingChainTableEditAction'
-import { tableActions, tableSelectors } from '../../../clients/TableClient'
-import messages from '../../../i18n'
-import styles from '../../../styles'
-import dependencies from '../../../dependencies'
+import { tableMonitorActions, tableMonitorSelectors } from '../../clients/TableClient'
+import messages from '../../i18n'
+import styles from '../../styles'
+import dependencies from '../../dependencies'
 
 /**
 * Component to display list of acquisition processing chains monitoring
@@ -332,7 +332,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     /** Checkboxes are shown only if user have the right to use them */
     if (hasAccess) {
       columnSelectable = [new TableColumnBuilder()
-        .selectionColumn(false, AcquisitionProcessingChainMonitorSelectors, tableActions, tableSelectors)
+        .selectionColumn(false, AcquisitionProcessingChainMonitorSelectors, tableMonitorActions, tableMonitorSelectors)
         .build()]
     }
 
@@ -436,7 +436,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
               name="acquisition-chain-monitor-table"
               pageActions={AcquisitionProcessingChainMonitorActions}
               pageSelectors={AcquisitionProcessingChainMonitorSelectors}
-              tableActions={tableActions}
+              tableActions={tableMonitorActions}
               requestParams={requestParams}
               columns={columns}
               emptyComponent={emptyComponent}

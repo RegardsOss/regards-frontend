@@ -19,9 +19,7 @@
 import { combineReducers } from 'redux'
 import { AcquisitionProcessingChainReducer } from './clients/AcquisitionProcessingChainClient'
 import { AcquisitionProcessingChainMonitorReducer } from './clients/AcquisitionProcessingChainMonitorClient'
-import { tableReducer, tableMonitorReducer, tableSessionsReducer } from './clients/TableClient'
-import { AcquisitionFileReducer } from './clients/AcquisitionFileClient'
-import { ProductReducer } from './clients/ProductClient'
+import { tableMonitorReducer, tableSessionsReducer } from './clients/TableClient'
 import { searchSessionsReducer } from './clients/session/SearchSessionsClient'
 import { searchSourcesReducer } from './clients/session/SearchSourcesClient'
 import { sessionsReducer } from './clients/session/SessionsClient'
@@ -30,12 +28,9 @@ import { storagesListReducer } from './clients/StoragesListClient'
  * @author Sébastien Binda
  */
 const dataProviderManagementReducer = combineReducers({
-  acquisitionFile: AcquisitionFileReducer,
   chain: AcquisitionProcessingChainReducer,
   chainMonitor: AcquisitionProcessingChainMonitorReducer,
-  processingChainTable: tableReducer,
   processingChainMonitorTable: tableMonitorReducer,
-  product: ProductReducer,
   sessions: sessionsReducer,
   searchSessions: searchSessionsReducer,
   searchSources: searchSourcesReducer,

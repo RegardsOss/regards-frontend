@@ -45,7 +45,7 @@ const items = (projectName, intl, onResetIndex) => [
     advanced: false,
     actions: [
       {
-        path: `/admin/${projectName}/data/acquisition/dataprovider/monitoring/chains`,
+        path: `/admin/${projectName}/data/acquisition/dataprovider/chains`,
         icon: <Build />,
         tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.monitoring.tooltip' }),
         hateoasDependencies: dataProviderDependencies.listDependencies,

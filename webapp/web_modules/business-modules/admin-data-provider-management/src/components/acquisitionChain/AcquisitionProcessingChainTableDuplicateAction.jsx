@@ -16,23 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import IconButton from 'material-ui/IconButton'
 import { IngestShapes } from '@regardsoss/shape'
+import { withResourceDisplayControl, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
+import dependencies from '../../dependencies'
+
+const IconButtonWithResourceDisplayControl = withResourceDisplayControl(IconButton)
 
 /**
 * Edit button action cell for the infinite table used to display ingest processing chains
 * @author Sébastien Binda
 */
-class AcquisitionProcessingChainTableEditAction extends React.Component {
+class AcquisitionProcessingChainTableDuplicateAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: IngestShapes.IngestProcessingChain,
       links: PropTypes.array,
     }),
-    onEdit: PropTypes.func.isRequired,
+    onDuplicate: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -43,26 +46,22 @@ class AcquisitionProcessingChainTableEditAction extends React.Component {
 
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
-  isEditable = () => {
-    const { links } = this.props.entity
-    return find(links, l => l.rel === 'update', false) !== false
-  }
-
   render() {
     const { intl: { formatMessage } } = this.context
     const chain = this.props.entity.content
     return (
-      <IconButton
+      <IconButtonWithResourceDisplayControl
         className={`selenium-edit-${chain.id}`}
-        title={formatMessage({ id: 'acquisition-chain.list.edit.tooltip' })}
-        iconStyle={AcquisitionProcessingChainTableEditAction.iconStyle}
-        style={AcquisitionProcessingChainTableEditAction.buttonStyle}
-        onClick={() => this.props.onEdit(chain.id)}
-        disabled={!this.isEditable()}
+        title={formatMessage({ id: 'acquisition-chain.list.duplicate.tooltip' })}
+        iconStyle={AcquisitionProcessingChainTableDuplicateAction.iconStyle}
+        style={AcquisitionProcessingChainTableDuplicateAction.buttonStyle}
+        onClick={() => this.props.onDuplicate(chain.chainId)}
+        resourceDependencies={dependencies.addDependencies}
+        displayLogic={allMatchHateoasDisplayLogic}
       >
-        <Edit />
-      </IconButton>
+        <ContentCopy />
+      </IconButtonWithResourceDisplayControl>
     )
   }
 }
-export default AcquisitionProcessingChainTableEditAction
+export default AcquisitionProcessingChainTableDuplicateAction

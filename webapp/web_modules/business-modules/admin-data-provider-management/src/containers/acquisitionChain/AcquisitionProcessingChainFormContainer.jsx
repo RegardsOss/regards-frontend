@@ -25,7 +25,7 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ErrorCardComponent } from '@regardsoss/components'
 import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { StorageDomain } from '@regardsoss/domain'
-import AcquisitionProcessingChainFormComponent from '../../components/configuration/AcquisitionProcessingChainFormComponent'
+import AcquisitionProcessingChainFormComponent from '../../components/acquisitionChain/AcquisitionProcessingChainFormComponent'
 import { AcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors } from '../../clients/AcquisitionProcessingChainClient'
 import { storagesListActions, storagesListSelectors } from '../../clients/StoragesListClient'
 

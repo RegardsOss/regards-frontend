@@ -34,7 +34,7 @@ import {
 } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { AcquisitionProcessingChainMonitorListContainer } from '../../../containers/monitoring/AcquisitionProcessingChainMonitorListContainer'
+import { AcquisitionProcessingChainMonitorListContainer } from '../../containers/acquisitionChain/AcquisitionProcessingChainMonitorListContainer'
 
 const ResourceIconAction = withResourceDisplayControl(FlatButton)
 
