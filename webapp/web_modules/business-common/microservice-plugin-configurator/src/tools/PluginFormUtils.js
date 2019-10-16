@@ -193,14 +193,17 @@ class PluginFormUtils {
    * @param {*} forInit
    */
   static formatPluginConf(pluginConfiguration, pluginMetaData, forInit = false) {
-    const formatedConf = cloneDeep(omit(pluginConfiguration, ['parameters']))
-    let configurableParameters = pluginConfiguration.parameters
-    if (pluginMetaData && pluginMetaData.parameters) {
-      formatedConf.parameters = []
-      configurableParameters = filter(pluginMetaData.parameters, ['unconfigurable', false])
+    if (pluginConfiguration) {
+      const formatedConf = cloneDeep(omit(pluginConfiguration, ['parameters']))
+      let configurableParameters = pluginConfiguration.parameters
+      if (pluginMetaData && pluginMetaData.parameters) {
+        formatedConf.parameters = []
+        configurableParameters = filter(pluginMetaData.parameters, ['unconfigurable', false])
+      }
+      formatedConf.parameters = PluginFormUtils.formatPluginConfParameters(configurableParameters, forInit)
+      return formatedConf
     }
-    formatedConf.parameters = PluginFormUtils.formatPluginConfParameters(configurableParameters, forInit)
-    return formatedConf
+    return pluginConfiguration
   }
 
   static formatPluginConfParameters(parameters, forInit) {

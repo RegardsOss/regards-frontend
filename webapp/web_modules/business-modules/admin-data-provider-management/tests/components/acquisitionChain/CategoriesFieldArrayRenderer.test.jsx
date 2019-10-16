@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Chip from 'material-ui/Chip'
 import { TextField } from 'material-ui'
-import { CategoriesFieldArrayRenderer } from '../../../src/components/configuration/CategoriesFieldArrayRenderer'
+import { CategoriesFieldArrayRenderer } from '../../../src/components/acquisitionChain/CategoriesFieldArrayRenderer'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)

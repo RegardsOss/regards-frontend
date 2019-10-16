@@ -125,6 +125,7 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
     let action
     const { fileInfos } = values
     forEach(values.fileInfos, (fi) => {
+      // eslint-disable-next-line no-param-reassign
       fi.scanPlugin = PluginFormUtils.formatPluginConf(fi.scanPlugin)
     })
     // Convert storages for API query

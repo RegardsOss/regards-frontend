@@ -19,11 +19,8 @@
 import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
-import AcquisitionProcessingChainListContainer from '../src/containers/configuration/AcquisitionProcessingChainListContainer'
-import AcquisitionProcessingChainFormContainer from '../src/containers/configuration/AcquisitionProcessingChainFormContainer'
-import AcquisitionProcessingChainMonitorListContainer from '../src/containers/monitoring/AcquisitionProcessingChainMonitorListContainer'
-import ProductListContainer from '../src/containers/monitoring/ProductListContainer'
-import AcquisitionFileListContainer from '../src/containers/monitoring/AcquisitionFileListContainer'
+import AcquisitionProcessingChainFormContainer from '../src/containers/acquisitionChain/AcquisitionProcessingChainFormContainer'
+import AcquisitionProcessingChainMonitorListContainer from '../src/containers/acquisitionChain/AcquisitionProcessingChainMonitorListContainer'
 import SessionsMonitoringContainer from '../src/containers/session/SessionsMonitoringContainer'
 
 /**
@@ -36,19 +33,15 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing router', () => {
 
   it('should return the correct value', () => {
     assert.isDefined(Routes)
-    expect(Routes.childRoutes).to.have.length(8)
-    expect(Routes.childRoutes[0].path).to.eq('chain/list')
+    expect(Routes.childRoutes).to.have.length(4)
+    expect(Routes.childRoutes[0].path).to.eq('chains')
     expect(Routes.childRoutes[1].path).to.eq('chain/create')
     expect(Routes.childRoutes[2].path).to.eq('chain/:chainId/:mode')
-    expect(Routes.childRoutes[3].path).to.eq('monitoring/chains')
-    expect(Routes.childRoutes[4].path).to.eq('monitoring/chains/:chainId/products')
-    expect(Routes.childRoutes[5].path).to.eq('monitoring/chains/:chainId/products/:productId/files')
-    expect(Routes.childRoutes[6].path).to.eq('monitoring/chains/:chainId/files')
-    expect(Routes.childRoutes[7].path).to.eq('sessions')
+    expect(Routes.childRoutes[3].path).to.eq('sessions')
   })
-  it('list should return AcquisitionProcessingChainListContainer for listing of existing chains', (done) => {
+  it('monitoring/chains should return AcquisitionProcessingChainMonitorListContainer for listing of existing chains', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(AcquisitionProcessingChainListContainer)
+      expect(component.content).to.eq(AcquisitionProcessingChainMonitorListContainer)
       done()
     })
   })
@@ -64,32 +57,8 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing router', () => {
       done()
     })
   })
-  it('monitoring/chains should return AcquisitionProcessingChainMonitorListContainer for listing of existing chains', (done) => {
-    Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(AcquisitionProcessingChainMonitorListContainer)
-      done()
-    })
-  })
-  it('monitoring/chains/:chainId/products should return ProductListContainer for listing of existing products', (done) => {
-    Routes.childRoutes[4].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(ProductListContainer)
-      done()
-    })
-  })
-  it('monitoring/chains/:chainId/products/:productId/files should return AcquisitionFileListContainer for listing of existing files', (done) => {
-    Routes.childRoutes[5].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(AcquisitionFileListContainer)
-      done()
-    })
-  })
-  it('monitoring/chains/:chainId/files should return AcquisitionFileListContainer for listing of existing files', (done) => {
-    Routes.childRoutes[6].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(AcquisitionFileListContainer)
-      done()
-    })
-  })
   it('sessions should return SessionsMonitoringContainer for listing of existing files', (done) => {
-    Routes.childRoutes[7].getComponents(undefined, (smth, component) => {
+    Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(SessionsMonitoringContainer)
       done()
     })

@@ -21,8 +21,8 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import isFunction from 'lodash/isFunction'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import AcquisitionProcessingChainMonitorListComponent from '../../../src/components/monitoring/acquisitionProcessingChain/AcquisitionProcessingChainMonitorListComponent'
-import { AcquisitionProcessingChainMonitorListContainer } from '../../../src/containers/monitoring/AcquisitionProcessingChainMonitorListContainer'
+import AcquisitionProcessingChainMonitorListComponent from '../../../src/components/acquisitionChain/AcquisitionProcessingChainMonitorListComponent'
+import { AcquisitionProcessingChainMonitorListContainer } from '../../../src/containers/acquisitionChain/AcquisitionProcessingChainMonitorListContainer'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)

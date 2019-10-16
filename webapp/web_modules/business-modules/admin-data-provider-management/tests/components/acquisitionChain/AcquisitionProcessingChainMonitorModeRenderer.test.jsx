@@ -20,8 +20,8 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { DataProviderDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { AcquisitionProcessingChainMonitorModeRenderer } from '../../../../src/components/monitoring/acquisitionProcessingChain/AcquisitionProcessingChainMonitorModeRenderer'
-import styles from '../../../../src/styles'
+import { AcquisitionProcessingChainMonitorModeRenderer } from '../../../src/components/acquisitionChain/AcquisitionProcessingChainMonitorModeRenderer'
+import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
 
@@ -51,14 +51,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainMon
             productPluginConf: {},
             generateSipPluginConf: {},
           },
-          nbFileErrors: 0,
-          nbFiles: 0,
-          nbFilesInProgress: 0,
-          nbProductErrors: 0,
-          nbProducts: 0,
-          nbProductsInProgress: 0,
-          nbProductAcquisitionJob: 0,
-          nbSIPGenerationJobs: 0,
+          active: true,
         },
       },
       onToggle: () => {},
@@ -81,14 +74,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainMon
             productPluginConf: {},
             generateSipPluginConf: {},
           },
-          nbFileErrors: 0,
-          nbFiles: 0,
-          nbFilesInProgress: 0,
-          nbProductErrors: 0,
-          nbProducts: 0,
-          nbProductsInProgress: 0,
-          nbProductAcquisitionJob: 0,
-          nbSIPGenerationJobs: 0,
+          active: true,
         },
       },
       onToggle: () => {},

@@ -18,48 +18,60 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { PageableInfiniteTableContainer } from '@regardsoss/components'
-import { ProductListComponent } from '../../../../src/components/monitoring/product/ProductListComponent'
-import ProducListFiltersComponent from '../../../../src/components/monitoring/product/ProducListFiltersComponent'
-import styles from '../../../../src/styles/styles'
+import { AcquisitionProcessingChainMonitorListComponent }
+  from '../../../src/components/acquisitionChain/AcquisitionProcessingChainMonitorListComponent'
+import AcquisitionProcessingChainMonitoringListFiltersComponent
+  from '../../../src/components/acquisitionChain/AcquisitionProcessingChainMonitoringListFiltersComponent'
+import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test ProductListComponent
+* Test AcquisitionProcessingChainMonitorListComponent
 * @author Sébastien Binda
 */
-describe('[ Module name] Testing ProductListComponent', () => {
+describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainMonitorListComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ProductListComponent)
+    assert.isDefined(AcquisitionProcessingChainMonitorListComponent)
   })
   it('should render correctly', () => {
     const props = {
       project: 'test-project',
-      chain: DumpProvider.getFirstEntity('DataProviderClient', 'AcquisitionProcessingChain'),
-      initialFilters: {},
-      contextFilters: { chainId: '12' },
+      initialFilters: { state: 'IN_PROGRESS' },
       pageSize: 100,
       resultsCount: 10,
       entitiesLoading: false,
       onRefresh: () => new Promise(() => { }),
       onBack: () => new Promise(() => { }),
+      onRunChain: () => new Promise(() => { }),
+      onStopChain: () => new Promise(() => { }),
+      onDelete: () => {},
+      onEdit: () => {},
+      onDuplicate: () => {},
+      onListChainAction: () => {},
+      onCreate: () => {},
+      fetchPage: () => {},
+      onMultiToggleSelection: () => {},
+      onToggle: () => {},
+      isOneCheckboxToggled: true,
+      hasAccess: true,
     }
-    const enzymeWrapper = shallow(<ProductListComponent {...props} />, { context })
-    const filters = enzymeWrapper.find(ProducListFiltersComponent)
+    const enzymeWrapper = shallow(<AcquisitionProcessingChainMonitorListComponent {...props} />, { context })
+    const filters = enzymeWrapper.find(AcquisitionProcessingChainMonitoringListFiltersComponent)
     assert.equal(filters.length, 1, 'The filters should be rendered')
     const tables = enzymeWrapper.find(PageableInfiniteTableContainer)
     assert.equal(tables.length, 1, 'The PageableInfiniteTableContainer should be rendered')
     const table = tables.at(0)
-    // As the ProducListFiltersComponent is not mounted by shallow, the initialFilters are not applyed
-    let expectedRequestParams = props.contextFilters
+    // As the AcquisitionProcessingChainMonitoringListFiltersComponent is not mounted by shallow, the initialFilters are not applyed
+    let expectedRequestParams = {}
     assert.equal(table.props().queryPageSize, props.pageSize, 'Table queryPageSize invalid')
     assert.deepEqual(table.props().requestParams, expectedRequestParams, 'Table requestParams invalid')
-    // Simulate new filters applied by the subcomponent ProducListFiltersComponent
+    // Simulate new filters applied by the subcomponent AcquisitionProcessingChainMonitoringListFiltersComponent
     const newFilters = { newFilter: 'value', state: 'TERMINATED' }
     enzymeWrapper.instance().applyFilters(newFilters, () => {
       enzymeWrapper.update()
