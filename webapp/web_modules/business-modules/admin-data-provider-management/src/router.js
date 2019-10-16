@@ -17,26 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-/**
- * @author Sébastien Binda
- */
-export const AcquisitionProcessingChainRoute = {
-  path: 'chain/list',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/configuration/AcquisitionProcessingChainListContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
 export const AcquisitionProcessingChainCreateRoute = {
   path: 'chain/create',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/configuration/AcquisitionProcessingChainFormContainer')
+      const container = require('./containers/acquisitionChain/AcquisitionProcessingChainFormContainer')
       cb(null, {
         content: container.default,
       })
@@ -48,7 +33,7 @@ export const AcquisitionProcessingChainEditOrDuplicateRoute = {
   path: 'chain/:chainId/:mode',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/configuration/AcquisitionProcessingChainFormContainer')
+      const container = require('./containers/acquisitionChain/AcquisitionProcessingChainFormContainer')
       cb(null, {
         content: container.default,
       })
@@ -56,47 +41,11 @@ export const AcquisitionProcessingChainEditOrDuplicateRoute = {
   },
 }
 
-export const AcquisitionProcessingChainMonitoringRoute = {
-  path: 'monitoring/chains',
+export const AcquisitionProcessingChainsRoute = {
+  path: 'chains',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/monitoring/AcquisitionProcessingChainMonitorListContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-export const ProductRoute = {
-  path: 'monitoring/chains/:chainId/products',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/monitoring/ProductListContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-export const ProductFilesRoute = {
-  path: 'monitoring/chains/:chainId/products/:productId/files',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/monitoring/AcquisitionFileListContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-export const AcquisitionFileRoute = {
-  path: 'monitoring/chains/:chainId/files',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/monitoring/AcquisitionFileListContainer')
+      const container = require('./containers/acquisitionChain/AcquisitionProcessingChainMonitorListContainer')
       cb(null, {
         content: container.default,
       })
@@ -118,13 +67,9 @@ export const SessionRoute = {
 
 const dataProviderManagementRouter = {
   childRoutes: [
-    AcquisitionProcessingChainRoute,
+    AcquisitionProcessingChainsRoute,
     AcquisitionProcessingChainCreateRoute,
     AcquisitionProcessingChainEditOrDuplicateRoute,
-    AcquisitionProcessingChainMonitoringRoute,
-    ProductRoute,
-    ProductFilesRoute,
-    AcquisitionFileRoute,
     SessionRoute,
   ],
 }

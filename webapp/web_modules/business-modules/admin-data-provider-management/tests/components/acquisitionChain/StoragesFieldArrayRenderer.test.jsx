@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
-import { StoragesFieldArrayRenderer } from '../../../src/components/configuration/StoragesFieldArrayRenderer'
+import { StoragesFieldArrayRenderer } from '../../../src/components/acquisitionChain/StoragesFieldArrayRenderer'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)

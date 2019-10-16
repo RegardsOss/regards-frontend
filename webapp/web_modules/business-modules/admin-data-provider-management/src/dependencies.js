@@ -18,6 +18,9 @@
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { AcquisitionProcessingChainActions } from './clients/AcquisitionProcessingChainClient'
+import { AcquisitionProcessingChainMonitorActions } from './clients/AcquisitionProcessingChainMonitorClient'
+import { ingestProcessingChainActions } from './clients/IngestProcessingChainClient'
+import { storagesListActions } from './clients/StoragesListClient'
 /**
  * Module hateoas dependencies
  * @author Sébastien Binda
@@ -29,6 +32,7 @@ import { AcquisitionProcessingChainActions } from './clients/AcquisitionProcessi
  */
 const listDependencies = [
   AcquisitionProcessingChainActions.getDependency(RequestVerbEnum.GET_LIST),
+  AcquisitionProcessingChainMonitorActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 /**
@@ -37,6 +41,8 @@ const listDependencies = [
  */
 const addDependencies = [
   AcquisitionProcessingChainActions.getDependency(RequestVerbEnum.POST),
+  ingestProcessingChainActions.getDependency(RequestVerbEnum.GET_LIST),
+  storagesListActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 

@@ -22,8 +22,8 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { Field, FieldArray } from '@regardsoss/form-utils'
 import { AcquisitionProcessingChainFormComponent }
-  from '../../../src/components/configuration/AcquisitionProcessingChainFormComponent'
-import AcquisitionProcessingChainFormPluginsComponent from '../../../src/components/configuration/AcquisitionProcessingChainFormPluginsComponent'
+  from '../../../src/components/acquisitionChain/AcquisitionProcessingChainFormComponent'
+import AcquisitionProcessingChainFormPluginsComponent from '../../../src/components/acquisitionChain/AcquisitionProcessingChainFormPluginsComponent'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)

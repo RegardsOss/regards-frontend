@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
-import AcquisitionProcessingChainFormPluginsComponent from '../../../src/components/configuration/AcquisitionProcessingChainFormPluginsComponent'
+import AcquisitionProcessingChainFormPluginsComponent from '../../../src/components/acquisitionChain/AcquisitionProcessingChainFormPluginsComponent'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
