@@ -16,12 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import forEach from 'lodash/forEach'
 import get from 'lodash/get'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ErrorCardComponent } from '@regardsoss/components'
+import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { StorageDomain } from '@regardsoss/domain'
 import AcquisitionProcessingChainFormComponent from '../../components/configuration/AcquisitionProcessingChainFormComponent'
 import { AcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors } from '../../clients/AcquisitionProcessingChainClient'
@@ -121,12 +123,21 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
   onSubmit = (values) => {
     const { params: { mode } } = this.props
     let action
+    const { fileInfos } = values
+    forEach(values.fileInfos, (fi) => {
+      fi.scanPlugin = PluginFormUtils.formatPluginConf(fi.scanPlugin)
+    })
     // Convert storages for API query
     const serverValues = {
       ...values,
+      fileInfos,
+      generateSipPluginConf: PluginFormUtils.formatPluginConf(values.generateSipPluginConf),
+      productPluginConf: PluginFormUtils.formatPluginConf(values.productPluginConf),
+      validationPluginConf: PluginFormUtils.formatPluginConf(values.validationPluginConf),
       storages: values.storages.filter(storages => storages.active).map(configuredStorage => ({
-        storage: configuredStorage.label,
-        storageSubDirectory: configuredStorage.path ? configuredStorage.path : '',
+        pluginBusinessId: configuredStorage.label,
+        storePath: configuredStorage.path ? configuredStorage.path : '',
+        targetTypes: configuredStorage.targetTypes || [],
       })),
     }
 
