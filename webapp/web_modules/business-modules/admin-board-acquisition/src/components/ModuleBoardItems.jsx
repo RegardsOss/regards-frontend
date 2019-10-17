@@ -128,8 +128,7 @@ const items = (projectName, intl, onResetIndex) => [
         icon: <Archive />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.tooltip' }),
         hateoasDependencies: [
-          ...storageManagementDependencies.listPluginDependencies,
-          ...storageManagementDependencies.addPluginDependencies,
+          ...storageManagementDependencies.listDependencies,
         ],
       },
     ],

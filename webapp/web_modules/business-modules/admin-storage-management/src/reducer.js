@@ -17,13 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { combineReducers } from 'redux'
-import { storagesPluginReducer } from './clients/StoragesPluginClient'
+import { storageLocationReducer } from './clients/StorageLocationClient'
 
 /**
  * @author Sébastien Binda
  */
 const microserviceManagementReducer = combineReducers({
-  'storages-plugin': storagesPluginReducer,
+  'storage-location': storageLocationReducer,
 })
 
 export default microserviceManagementReducer

@@ -29,18 +29,6 @@ export const aipFullListRoute = {
   },
 }
 
-export const aipFileListRoute = {
-  path: 'aip/:aipId/file',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/file/AIPFileListContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
 export const sipFullListRoute = {
   path: 'sip/list',
   getComponents(nextState, cb) {
@@ -92,7 +80,6 @@ export const sipSumitionSummaryRoute = {
 const aipManagementRouter = {
   childRoutes: [
     aipFullListRoute,
-    aipFileListRoute,
     sipFullListRoute,
     sipHistoryListRoute,
     sipSumitionRoute,

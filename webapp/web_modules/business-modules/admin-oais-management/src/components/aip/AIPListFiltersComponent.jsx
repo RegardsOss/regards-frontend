@@ -49,7 +49,7 @@ class AIPListFiltersComponent extends React.Component {
     sessionTags: PropTypes.arrayOf(PropTypes.string),
     searchingSessionTags: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    dataStorages: PropTypes.arrayOf(StorageShapes.PrioritizedDataStorageContent), // used only in onPropertiesUpdated
+    dataStorages: PropTypes.arrayOf(StorageShapes.StorageLocationContent), // used only in onPropertiesUpdated
 
     onApplyFilters: PropTypes.func.isRequired,
     openAddTagModal: PropTypes.func.isRequired,

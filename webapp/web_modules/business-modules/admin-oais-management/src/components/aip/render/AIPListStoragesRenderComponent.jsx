@@ -27,7 +27,7 @@ import { StringArrayValueRender } from '@regardsoss/components'
 class AIPListStoragesRenderComponent extends React.Component {
   static propTypes = {
     entity: StorageShapes.AIPWithStorages.isRequired, // from table cell API
-    dataStorages: PropTypes.arrayOf(StorageShapes.PrioritizedDataStorageContent).isRequired,
+    dataStorages: PropTypes.arrayOf(StorageShapes.StorageLocationContent).isRequired,
   }
 
   static defaultProps = {}

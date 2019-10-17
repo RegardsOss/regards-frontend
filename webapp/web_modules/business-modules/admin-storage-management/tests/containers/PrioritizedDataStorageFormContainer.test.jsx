@@ -20,22 +20,22 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import PrioritizedDataStorageFormComponent from '../../src/components/PrioritizedDataStorageFormComponent'
-import { PrioritizedDataStorageFormContainer } from '../../src/containers/PrioritizedDataStorageFormContainer'
+import StorageLocationFormComponent from '../../src/components/StorageLocationFormComponent'
+import { StorageLocationFormContainer } from '../../src/containers/StorageLocationFormContainer'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test  PrioritizedDataStorageFormContainer
+* Test  StorageLocationFormContainer
 * @author Sébastien Binda
 */
-describe('[ADMIN STORAGE MANAGEMENT] Testing  PrioritizedDataStorageFormContainer', () => {
+describe('[ADMIN STORAGE MANAGEMENT] Testing  StorageLocationFormContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(PrioritizedDataStorageFormContainer)
+    assert.isDefined(StorageLocationFormContainer)
   })
   it('should render correctly a form for creation', () => {
     const props = {
@@ -48,14 +48,14 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing  PrioritizedDataStorageFormContaine
       update: () => new Promise(() => { }),
       create: () => new Promise(() => { }),
     }
-    const enzymeWrapper = shallow(<PrioritizedDataStorageFormContainer {...props} />, { context })
+    const enzymeWrapper = shallow(<StorageLocationFormContainer {...props} />, { context })
     const loadings = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.equal(loadings.length, 1, 'There should have a loading component rendered')
     assert.equal(loadings.at(0).props().isLoading, false, 'Loading should be false')
 
     const divedComponent = loadings.at(0).dive()
-    const components = divedComponent.find(PrioritizedDataStorageFormComponent)
-    assert.equal(components.length, 1, 'There should have a PrioritizedDataStorageFormComponent rendered')
+    const components = divedComponent.find(StorageLocationFormComponent)
+    assert.equal(components.length, 1, 'There should have a StorageLocationFormComponent rendered')
     const component = components.at(0)
     const expectedProps = {
       mode: 'create',
@@ -67,7 +67,7 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing  PrioritizedDataStorageFormContaine
     assert.deepEqual(component.props(), expectedProps, 'Props passed to component from container is not valid')
   })
   it('should render correctly a form for edition', () => {
-    const entity = DumpProvider.getFirstEntity('StorageClient', 'PrioritizedDataStorage')
+    const entity = DumpProvider.getFirstEntity('StorageClient', 'StorageLocation')
     const props = {
       // from router
       params: {
@@ -81,7 +81,7 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing  PrioritizedDataStorageFormContaine
       create: () => new Promise(() => { }),
     }
     assert.isNotNull(props.entity, 'Dump entity not valid')
-    const enzymeWrapper = shallow(<PrioritizedDataStorageFormContainer {...props} />, { context })
+    const enzymeWrapper = shallow(<StorageLocationFormContainer {...props} />, { context })
     let loadings = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.equal(loadings.length, 1, 'There should have a loading component rendered')
     assert.equal(loadings.at(0).props().isLoading, true, 'Loading should be true')
@@ -90,8 +90,8 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing  PrioritizedDataStorageFormContaine
     assert.equal(loadings.at(0).props().isLoading, false, 'Loading should be false')
 
     const divedComponent = loadings.at(0).dive()
-    const components = divedComponent.find(PrioritizedDataStorageFormComponent)
-    assert.equal(components.length, 1, 'There should have a PrioritizedDataStorageFormComponent rendered')
+    const components = divedComponent.find(StorageLocationFormComponent)
+    assert.equal(components.length, 1, 'There should have a StorageLocationFormComponent rendered')
     const component = components.at(0)
     const expectedProps = {
       mode: 'edit',

@@ -31,7 +31,6 @@ import { TableSelectionModes } from '@regardsoss/components'
 import { browserHistory } from 'react-router'
 import { aipSelectors, aipActions } from '../../clients/AIPClient'
 import { tableSelectors, tableActions } from '../../clients/TableClient'
-import { aipTagActions } from '../../clients/AIPTagClient'
 import AIPListComponent from '../../components/aip/AIPListComponent'
 import messages from '../../i18n'
 import styles from '../../styles'
@@ -68,11 +67,15 @@ export class AIPListContainer extends React.Component {
    */
   static mapDispatchToProps = dispatch => ({
     clearSelection: () => dispatch(tableActions.unselectAll()),
-    onRetry: aip => dispatch(aipTagActions.storeRetry(aip.aip.id)),
-    fetchCommonTags: requestParams => dispatch(aipTagActions.fetchCommonTags(requestParams)),
-    removeTags: body => dispatch(aipTagActions.removeTags(body)),
+    // FIXME : New actions
+    onRetry: (aip) => {},
+    // FIXME : New actions
+    fetchCommonTags: (requestParams) => {},
+    // FIXME : New actions
+    removeTags: (body) => {},
     fetchPage: (pageIndex, pageSize, contextFilters) => dispatch(aipActions.fetchPagedEntityList(pageIndex, pageSize, contextFilters)),
-    addTags: body => dispatch(aipTagActions.addTags(body)),
+    // FIXME : New actions
+    addTags: (body) => {},
   })
 
   static propTypes = {
@@ -85,7 +88,7 @@ export class AIPListContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
-    dataStorages: PropTypes.arrayOf(StorageShapes.PrioritizedDataStorageContent),
+    dataStorages: PropTypes.arrayOf(StorageShapes.StorageLocationContent),
     // from mapDistpathToProps
     clearSelection: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
@@ -154,10 +157,11 @@ export class AIPListContainer extends React.Component {
   componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   componentDidMount() {
+    // FIXME : add update aip function
     // fetch session tags
-    this.props.fetchCommonTags(this.getAIPRequestBody()).then((actionResults) => {
-      this.setState({ sessionTags: actionResults.payload, searchingSessionTags: false })
-    })
+    // this.props.fetchCommonTags(this.getAIPRequestBody()).then((actionResults) => {
+    //   this.setState({ sessionTags: actionResults.payload, searchingSessionTags: false })
+    // })
   }
 
   /**

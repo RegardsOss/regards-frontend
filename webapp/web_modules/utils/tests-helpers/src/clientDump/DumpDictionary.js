@@ -55,7 +55,7 @@ import AcquisitionFileDump from '@regardsoss/client/tests/rs-dataprovider/Acquis
 import AcquisitionProcessingChainDump from '@regardsoss/client/tests/rs-dataprovider/AcquisitionProcessingChain.dump'
 import AcquisitionProcessingChainMonitorDump from '@regardsoss/client/tests/rs-dataprovider/AcquisitionProcessingChainMonitor.dump'
 
-import PrioritizedDataStorageDump from '@regardsoss/client/tests/rs-storage/PrioritizedDataStorage.dump'
+import StorageLocationDump from '@regardsoss/client/tests/rs-storage/StorageLocation.dump'
 import StorageMonitoringDump from '@regardsoss/client/tests/rs-storage/StorageMonitoring.dump'
 
 import {
@@ -145,8 +145,8 @@ import {
   AcquisitionFileConfiguration,
   ACQUISITION_FILE_ARRAY,
 
-  PRIORIZED_DATASTORAGE_ARRAY,
-  PrioritizedDataStorageConfiguration,
+  STORAGE_LOCATION_ARRAY,
+  StorageLocationConfiguration,
 
   STORAGE_MONITORING_ARRAY,
   StorageMonitoringConfiguration,
@@ -165,11 +165,11 @@ import {
  */
 export default {
   StorageClient: {
-    PrioritizedDataStorage: {
+    StorageLocation: {
       isPageable: false,
-      dump: PrioritizedDataStorageDump,
-      ENTITY_ARRAY: PRIORIZED_DATASTORAGE_ARRAY,
-      normalizrKey: PrioritizedDataStorageConfiguration.normalizrKey,
+      dump: StorageLocationDump,
+      ENTITY_ARRAY: STORAGE_LOCATION_ARRAY,
+      normalizrKey: StorageLocationConfiguration.normalizrKey,
     },
     StorageMonitoring: {
       isPageable: false,

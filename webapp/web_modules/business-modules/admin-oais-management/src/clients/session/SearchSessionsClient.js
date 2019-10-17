@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { AccessProjectClient } from '@regardsoss/client'
+import { AdminClient } from '@regardsoss/client'
 
 /**
  * Dataprovider product entities client.
@@ -25,9 +25,9 @@ import { AccessProjectClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'oais', 'searchSessions']
 const REDUX_ACTION_NAMESPACE = 'admin-oais-management/search-sessions'
 
-export const searchSessionsActions = new AccessProjectClient.SearchSessionsActions(REDUX_ACTION_NAMESPACE)
-export const searchSessionsReducer = AccessProjectClient.getSearchSessionsReducer(REDUX_ACTION_NAMESPACE)
-export const searchSessionsSelectors = AccessProjectClient.getSearchSessionsSelectors(ENTITIES_STORE_PATH)
+export const searchSessionsActions = new AdminClient.SearchSessionsActions(REDUX_ACTION_NAMESPACE)
+export const searchSessionsReducer = AdminClient.getSearchSessionsReducer(REDUX_ACTION_NAMESPACE)
+export const searchSessionsSelectors = AdminClient.getSearchSessionsSelectors(ENTITIES_STORE_PATH)
 
-export const SEARCH_SESSIONS_ENDPOINT = AccessProjectClient.SearchSessionsActions.ENDPOINT
-export const SEARCH_SESSIONS_ENTITY_ID = AccessProjectClient.SearchSessionsActions.ENTITY_ID
+export const SEARCH_SESSIONS_ENDPOINT = AdminClient.SearchSessionsActions.ENDPOINT
+export const SEARCH_SESSIONS_ENTITY_ID = AdminClient.SearchSessionsActions.ENTITY_ID

@@ -18,38 +18,24 @@
  **/
 import { combineReducers } from 'redux'
 import { aipReducer } from './clients/AIPClient'
-import { aipTagReducer } from './clients/AIPTagClient'
 import { tableReducer } from './clients/TableClient'
 import { sipTableReducer } from './clients/SIPTableClient'
-import { aipFileReducer } from './clients/AIPFileClient'
-import { deleteAIPsOnSomeStoragesClientReducer } from './clients/DeleteAIPOnSomeStoragesClient'
-import { deleteAIPsOnAllStoragesClientReducer } from './clients/DeleteAIPOnAllStoragesClient'
-import { relaunchAIPsStorageReducer } from './clients/RelaunchAIPStorageClient'
-import { relaunchSIPsReducer } from './clients/RelaunchSIPClient'
 import { deleteSIPsReducer } from './clients/DeleteSIPClient'
 import { searchSessionsReducer } from './clients/session/SearchSessionsClient'
 import { searchSourcesReducer } from './clients/session/SearchSourcesClient'
 import { sipReducer } from './clients/SIPClient'
 import { sipSignalReducer } from './clients/SIPSignalClient'
 import { sipImportReducer } from './clients/SIPImportClient'
-import { sessionReducer } from './clients/SessionClient'
 import { processingChainReducer } from './clients/ProcessingChainClient'
 
 const oaisManagementReducer = combineReducers({
   aip: aipReducer,
-  'aip-tag': aipTagReducer,
-  'aip-file': aipFileReducer,
   'aip-table': tableReducer,
-  'delete-aip-on-some-storages': deleteAIPsOnSomeStoragesClientReducer,
-  'delete-aip-on-all-storages': deleteAIPsOnAllStoragesClientReducer,
-  'relaunch-aip': relaunchAIPsStorageReducer,
   'sip-table': sipTableReducer,
-  'relaunch-sip': relaunchSIPsReducer,
   'delete-sip': deleteSIPsReducer,
   sip: sipReducer,
   sipImport: sipImportReducer,
   sipSignal: sipSignalReducer,
-  session: sessionReducer,
   chain: processingChainReducer,
   searchSessions: searchSessionsReducer,
   searchSources: searchSourcesReducer,

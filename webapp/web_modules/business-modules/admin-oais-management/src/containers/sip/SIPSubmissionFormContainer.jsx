@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
-import reduce from 'lodash/reduce'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -26,7 +24,6 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import messages from '../../i18n'
 import styles from '../../styles/styles'
 import { sipImportActions } from '../../clients/SIPImportClient'
-import { storageReadyActions } from '../../clients/StorageReadyClient'
 import SIPsubmissionFormComponent from '../../components/sip/submission/SIPSubmissionFormComponent'
 import SIPSubmissionNotReadyComponent from '../../components/sip/submission/SIPSubmissionNotReadyComponent'
 
@@ -54,7 +51,6 @@ export class SIPSubmissionFormContainer extends React.Component {
    */
   static mapDispatchToProps = dispatch => ({
     submitSips: file => dispatch(sipImportActions.createEntitiesUsingMultiPart({}, { file })),
-    isStorageReady: () => dispatch(storageReadyActions.sendSignal('GET', null, { microserviceName: 'rs-storage' })),
   })
 
   static propTypes = {
@@ -64,7 +60,6 @@ export class SIPSubmissionFormContainer extends React.Component {
     }).isRequired,
     // from mapDispatchToProps
     submitSips: PropTypes.func.isRequired,
-    isStorageReady: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -76,28 +71,6 @@ export class SIPSubmissionFormContainer extends React.Component {
       serverMessage: undefined,
       storageSpecifications: null,
     }
-  }
-
-  componentDidMount() {
-    this.props.isStorageReady().then((actionResults) => {
-      const ready = get(actionResults, 'payload.ready')
-      const specifications = get(actionResults, 'payload.specifications')
-      if (!ready) {
-        const reasons = get(actionResults, 'payload.reasons', [get(actionResults, 'payload.message', '')])
-        this.setState({
-          storageReady: false,
-          storageSpecifications: specifications,
-          isLoading: false,
-          serverMessage: reduce(reasons, (serverMessage, r) => `${serverMessage} ${r}`, ''),
-        })
-      } else {
-        this.setState({
-          storageReady: true,
-          storageSpecifications: specifications,
-          isLoading: false,
-        })
-      }
-    })
   }
 
   onSucceed = () => {
