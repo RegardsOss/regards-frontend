@@ -20,21 +20,21 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { DataProviderDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { AcquisitionProcessingChainMonitorModeRenderer } from '../../../src/components/acquisitionChain/AcquisitionProcessingChainMonitorModeRenderer'
+import { AcquisitionProcessingChainModeRenderer } from '../../../src/components/acquisitionChain/AcquisitionProcessingChainModeRenderer'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test AcquisitionProcessingChainMonitorModeRenderer
+ * Test AcquisitionProcessingChainModeRenderer
  * @author Raphaël Mechali
  */
-describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainMonitorModeRenderer', () => {
+describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainModeRenderer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(AcquisitionProcessingChainMonitorModeRenderer)
+    assert.isDefined(AcquisitionProcessingChainModeRenderer)
   })
   it('should render correctly mode AUTO', () => {
     const props = {
@@ -56,8 +56,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainMon
       },
       onToggle: () => {},
     }
-    shallow(<AcquisitionProcessingChainMonitorModeRenderer {...props} />, { context })
-    // assert.equal(render.props().value, 'acquisition-chain.monitor.list.mode.AUTO')
+    shallow(<AcquisitionProcessingChainModeRenderer {...props} />, { context })
   })
   it('should render correctly mode MANUAL', () => {
     const props = {
@@ -79,7 +78,6 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainMon
       },
       onToggle: () => {},
     }
-    shallow(<AcquisitionProcessingChainMonitorModeRenderer {...props} />, { context })
-    // assert.equal(render.props().value, 'acquisition-chain.monitor.list.mode.MANUAL')
+    shallow(<AcquisitionProcessingChainModeRenderer {...props} />, { context })
   })
 })

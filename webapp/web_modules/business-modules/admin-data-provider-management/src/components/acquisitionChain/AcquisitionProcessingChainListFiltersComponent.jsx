@@ -34,7 +34,7 @@ import {
 } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { AcquisitionProcessingChainMonitorListContainer } from '../../containers/acquisitionChain/AcquisitionProcessingChainMonitorListContainer'
+import { AcquisitionProcessingChainListContainer } from '../../containers/acquisitionChain/AcquisitionProcessingChainListContainer'
 
 const ResourceIconAction = withResourceDisplayControl(FlatButton)
 
@@ -42,7 +42,7 @@ const ResourceIconAction = withResourceDisplayControl(FlatButton)
 * Component to display list filters
 * @author Sébastien Binda
 */
-class AcquisitionProcessingChainMonitoringListFiltersComponent extends React.Component {
+class AcquisitionProcessingChainListFiltersComponent extends React.Component {
   static propTypes = {
     initialFilters: PropTypes.objectOf(PropTypes.string),
     applyFilters: PropTypes.func.isRequired,
@@ -158,7 +158,7 @@ class AcquisitionProcessingChainMonitoringListFiltersComponent extends React.Com
   }
 
   renderFilters = () => {
-    const { intl: { formatMessage }, moduleTheme: { monitoring: { filters } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { chains: { filters } } } = this.context
     return (
       <TableHeaderLine key="filters">
         <TableHeaderOptionsArea reducible>
@@ -166,7 +166,7 @@ class AcquisitionProcessingChainMonitoringListFiltersComponent extends React.Com
             <SelectField
               style={filters.fieldStyle}
               hintText={formatMessage({
-                id: 'acquisition-chain.monitor.list.filters.running',
+                id: 'acquisition-chain.list.filters.running',
               })}
               value={get(this.state, 'filters.running', undefined)}
               onChange={this.changeRunningFilter}
@@ -174,26 +174,26 @@ class AcquisitionProcessingChainMonitoringListFiltersComponent extends React.Com
               <MenuItem
                 value="all"
                 primaryText={formatMessage({
-                  id: 'acquisition-chain.monitor.list.filters.running.all',
+                  id: 'acquisition-chain.list.filters.running.all',
                 })}
               />
               <MenuItem
                 value="running"
                 primaryText={formatMessage({
-                  id: 'acquisition-chain.monitor.list.filters.running.running',
+                  id: 'acquisition-chain.list.filters.running.running',
                 })}
               />
               <MenuItem
                 value="stopped"
                 primaryText={formatMessage({
-                  id: 'acquisition-chain.monitor.list.filters.running.stopped',
+                  id: 'acquisition-chain.list.filters.running.stopped',
                 })}
               />
             </SelectField>
             <SelectField
               style={filters.fieldStyle}
               hintText={formatMessage({
-                id: 'acquisition-chain.monitor.list.filters.mode',
+                id: 'acquisition-chain.list.filters.mode',
               })}
               value={get(this.state, 'filters.mode', undefined)}
               onChange={this.changeModeFilter}
@@ -201,25 +201,25 @@ class AcquisitionProcessingChainMonitoringListFiltersComponent extends React.Com
               <MenuItem
                 value="all"
                 primaryText={formatMessage({
-                  id: 'acquisition-chain.monitor.list.filters.mode.all',
+                  id: 'acquisition-chain.list.filters.mode.all',
                 })}
               />
               <MenuItem
                 value="AUTO"
                 primaryText={formatMessage({
-                  id: 'acquisition-chain.monitor.list.filters.mode.auto',
+                  id: 'acquisition-chain.list.filters.mode.auto',
                 })}
               />
               <MenuItem
                 value="MANUAL"
                 primaryText={formatMessage({
-                  id: 'acquisition-chain.monitor.list.filters.mode.manual',
+                  id: 'acquisition-chain.list.filters.mode.manual',
                 })}
               />
             </SelectField>
             <TextField
               hintText={formatMessage({
-                id: 'acquisition-chain.monitor.list.filters.label',
+                id: 'acquisition-chain.list.filters.label',
               })}
               style={filters.fieldStyle}
               value={get(this.state, 'filters.label', '')}
@@ -238,13 +238,13 @@ class AcquisitionProcessingChainMonitoringListFiltersComponent extends React.Com
         <TableHeaderOptionsArea>
           <TableHeaderOptionGroup>
             <FlatButton
-              label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.filters.clear.button' })}
+              label={this.context.intl.formatMessage({ id: 'acquisition-chain.list.filters.clear.button' })}
               icon={<Close />}
               disabled={!get(this.state, 'filters.running') && !get(this.state, 'filters.label') && !get(this.state, 'filters.mode')}
               onClick={this.handleClearFilters}
             />
             <FlatButton
-              label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.filters.apply.button' })}
+              label={this.context.intl.formatMessage({ id: 'acquisition-chain.list.filters.apply.button' })}
               icon={<Filter />}
               onClick={this.handleFilter}
             />
@@ -253,18 +253,18 @@ class AcquisitionProcessingChainMonitoringListFiltersComponent extends React.Com
         <TableHeaderOptionsArea>
           <TableHeaderOptionGroup>
             <ResourceIconAction
-              label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.disable-selected.button' })}
+              label={this.context.intl.formatMessage({ id: 'acquisition-chain.list.disable-selected.button' })}
               icon={<Disable />}
               onClick={this.onDisableSelection}
               disabled={!isOneCheckboxToggled}
-              resourceDependencies={AcquisitionProcessingChainMonitorListContainer.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES}
+              resourceDependencies={AcquisitionProcessingChainListContainer.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES}
             />
             <ResourceIconAction
-              label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.enable-selected.button' })}
+              label={this.context.intl.formatMessage({ id: 'acquisition-chain.list.enable-selected.button' })}
               icon={<Enable />}
               onClick={this.onEnableSelection}
               disabled={!isOneCheckboxToggled}
-              resourceDependencies={AcquisitionProcessingChainMonitorListContainer.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES}
+              resourceDependencies={AcquisitionProcessingChainListContainer.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
@@ -279,4 +279,4 @@ class AcquisitionProcessingChainMonitoringListFiltersComponent extends React.Com
     ]
   }
 }
-export default AcquisitionProcessingChainMonitoringListFiltersComponent
+export default AcquisitionProcessingChainListFiltersComponent

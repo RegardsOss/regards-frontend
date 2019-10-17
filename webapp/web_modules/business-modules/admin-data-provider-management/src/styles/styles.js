@@ -242,7 +242,7 @@ const styles = theme => ({
       overflow: 'auto',
     },
   },
-  monitoring: {
+  chains: {
     toggles: {
       toggleContainer: {
         width: '100%',

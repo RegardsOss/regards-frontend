@@ -17,9 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { combineReducers } from 'redux'
-import { AcquisitionProcessingChainReducer } from './clients/AcquisitionProcessingChainClient'
-import { AcquisitionProcessingChainMonitorReducer } from './clients/AcquisitionProcessingChainMonitorClient'
-import { tableMonitorReducer, tableSessionsReducer } from './clients/TableClient'
+import { AcquisitionProcessingChainReducer, AcquisitionProcessingChainEditReducer } from './clients/AcquisitionProcessingChainClient'
+import { tableReducer, tableSessionsReducer } from './clients/TableClient'
 import { searchSessionsReducer } from './clients/session/SearchSessionsClient'
 import { searchSourcesReducer } from './clients/session/SearchSourcesClient'
 import { sessionsReducer } from './clients/session/SessionsClient'
@@ -28,9 +27,9 @@ import { storagesListReducer } from './clients/StoragesListClient'
  * @author Sébastien Binda
  */
 const dataProviderManagementReducer = combineReducers({
-  chain: AcquisitionProcessingChainReducer,
-  chainMonitor: AcquisitionProcessingChainMonitorReducer,
-  processingChainMonitorTable: tableMonitorReducer,
+  monitoredChains: AcquisitionProcessingChainReducer,
+  chains: AcquisitionProcessingChainEditReducer,
+  processingChainTable: tableReducer,
   sessions: sessionsReducer,
   searchSessions: searchSessionsReducer,
   searchSources: searchSourcesReducer,

@@ -25,13 +25,13 @@ import { i18nContextType } from '@regardsoss/i18n'
 * User Callback, onclick will show list
 * @author Sébastien Binda
 */
-class AcquisitionProcessingChainMonitoringTableListAction extends React.Component {
+class AcquisitionProcessingChainTableListSessionsAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
       links: PropTypes.array,
     }),
-    onListChain: PropTypes.func.isRequired,
+    onListSessions: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -48,14 +48,14 @@ class AcquisitionProcessingChainMonitoringTableListAction extends React.Componen
     return (
       <IconButton
         className={`selenium-run-${chain.id}`}
-        title={formatMessage({ id: 'acquisition-chain.monitor.list.list.tooltip' })}
-        iconStyle={AcquisitionProcessingChainMonitoringTableListAction.iconStyle}
-        style={AcquisitionProcessingChainMonitoringTableListAction.buttonStyle}
-        onClick={() => this.props.onListChain(chain.label)}
+        title={formatMessage({ id: 'acquisition-chain.list.list.tooltip' })}
+        iconStyle={AcquisitionProcessingChainTableListSessionsAction.iconStyle}
+        style={AcquisitionProcessingChainTableListSessionsAction.buttonStyle}
+        onClick={() => this.props.onListSessions(chain.label)}
       >
         <RunIcon />
       </IconButton>
     )
   }
 }
-export default AcquisitionProcessingChainMonitoringTableListAction
+export default AcquisitionProcessingChainTableListSessionsAction

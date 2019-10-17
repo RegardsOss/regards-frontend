@@ -31,28 +31,28 @@ import {
 } from '@regardsoss/components'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import AcquisitionProcessingChainMonitoringTableRunAction from './AcquisitionProcessingChainMonitoringTableRunAction'
-import AcquisitionProcessingChainMonitoringTableListAction from './AcquisitionProcessingChainMonitoringTableListAction'
-import AcquisitionProcessingChainMonitoringTableStopAction from './AcquisitionProcessingChainMonitoringTableStopAction'
-import AcquisitionProcessingChainMonitoringActivityRenderer from './AcquisitionProcessingChainMonitoringActivityRenderer'
-import { AcquisitionProcessingChainMonitorModeRenderer } from './AcquisitionProcessingChainMonitorModeRenderer'
-import { AcquisitionProcessingChainMonitoringEnabledRenderer } from './AcquisitionProcessingChainMonitoringEnabledRenderer'
-import AcquisitionProcessingChainMonitoringListFiltersComponent from './AcquisitionProcessingChainMonitoringListFiltersComponent'
+import AcquisitionProcessingChainTableRunAction from './AcquisitionProcessingChainTableRunAction'
+import AcquisitionProcessingChainTableListSessionsAction from './AcquisitionProcessingChainTableListSessionsAction'
+import AcquisitionProcessingChainTableStopAction from './AcquisitionProcessingChainTableStopAction'
+import AcquisitionProcessingChainActivityRenderer from './AcquisitionProcessingChainActivityRenderer'
+import { AcquisitionProcessingChainModeRenderer } from './AcquisitionProcessingChainModeRenderer'
+import { AcquisitionProcessingChainEnabledRenderer } from './AcquisitionProcessingChainEnabledRenderer'
+import AcquisitionProcessingChainListFiltersComponent from './AcquisitionProcessingChainListFiltersComponent'
 import AcquisitionProcessingChainTableDuplicateAction from './AcquisitionProcessingChainTableDuplicateAction'
-import { AcquisitionProcessingChainMonitorActions, AcquisitionProcessingChainMonitorSelectors }
-  from '../../clients/AcquisitionProcessingChainMonitorClient'
+import { AcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors }
+  from '../../clients/AcquisitionProcessingChainClient'
 //import { AcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors } from '../../clients/AcquisitionProcessingChainClient'
 import AcquisitionProcessingChainTableEditAction from './AcquisitionProcessingChainTableEditAction'
-import { tableMonitorActions, tableMonitorSelectors } from '../../clients/TableClient'
+import { tableActions, tableSelectors } from '../../clients/TableClient'
 import messages from '../../i18n'
 import styles from '../../styles'
 import dependencies from '../../dependencies'
 
 /**
-* Component to display list of acquisition processing chains monitoring
+* Component to display list of acquisition processing chains
 * @author Sébastien Binda
 */
-export class AcquisitionProcessingChainMonitorListComponent extends React.Component {
+export class AcquisitionProcessingChainListComponent extends React.Component {
   static propTypes = {
     initialFilters: PropTypes.objectOf(PropTypes.string),
     pageSize: PropTypes.number.isRequired,
@@ -65,7 +65,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     onDuplicate: PropTypes.func.isRequired,
     onRunChain: PropTypes.func.isRequired,
     onStopChain: PropTypes.func.isRequired,
-    onListChainAction: PropTypes.func.isRequired,
+    onListSessions: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     onMultiToggleSelection: PropTypes.func.isRequired,
@@ -112,7 +112,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
   static buildRequestParameters(columnsSorting, applyingFiltersState) {
     const requestParameters = {
       ...applyingFiltersState,
-      sort: columnsSorting.map(({ columnKey, order }) => `${AcquisitionProcessingChainMonitorListComponent.COLUMN_KEY_TO_QUERY[columnKey]},${AcquisitionProcessingChainMonitorListComponent.COLUMN_ORDER_TO_QUERY[order]}`),
+      sort: columnsSorting.map(({ columnKey, order }) => `${AcquisitionProcessingChainListComponent.COLUMN_KEY_TO_QUERY[columnKey]},${AcquisitionProcessingChainListComponent.COLUMN_ORDER_TO_QUERY[order]}`),
     }
     return requestParameters
   }
@@ -132,7 +132,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
    * At component mount, run acquisition chains auto refresh
    */
   componentDidMount = () => {
-    // this.autoRefresh()
+    this.autoRefresh()
   }
 
   /**
@@ -147,7 +147,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
    */
   onStateUpdated = (stateDiff) => {
     const nextState = { ...this.state, ...stateDiff }
-    nextState.requestParams = AcquisitionProcessingChainMonitorListComponent.buildRequestParameters(nextState.columnsSorting, nextState.appliedFilters)
+    nextState.requestParams = AcquisitionProcessingChainListComponent.buildRequestParameters(nextState.columnsSorting, nextState.appliedFilters)
     this.setState(nextState)
   }
 
@@ -159,7 +159,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
       clearTimeout(this.timeout)
     }
     this.handleRefresh().then(() => {
-      this.timeout = setTimeout(this.autoRefresh, AcquisitionProcessingChainMonitorListComponent.AUTO_REFRESH_PERIOD)
+      this.timeout = setTimeout(this.autoRefresh, AcquisitionProcessingChainListComponent.AUTO_REFRESH_PERIOD)
     })
   }
 
@@ -174,6 +174,20 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
 
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
 
+  onToggle = (chainId, target, nextValue) => {
+    this.props.onToggle(chainId, target, nextValue).then(
+      (ActionResult) => {
+        if (!ActionResult.error) {
+          this.handleRefresh()
+        } else {
+          this.setState({
+            errorMessage: this.context.intl.formatMessage({ id: 'acquisition-chain.list.toggle.error' }, { chainId }),
+          })
+        }
+      },
+    )
+  }
+
   runChainAction = (label, chainId, sessionName) => {
     this.props.onRunChain(chainId, sessionName).then(
       (ActionResult) => {
@@ -181,7 +195,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
           this.autoRefresh()
         } else {
           this.setState({
-            errorMessage: this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.run.error' }, { label, chainId }),
+            errorMessage: this.context.intl.formatMessage({ id: 'acquisition-chain.list.run.error' }, { label, chainId }),
           })
         }
       },
@@ -195,7 +209,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
           this.autoRefresh()
         } else {
           this.setState({
-            errorMessage: this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.stop.error' }, { label, chainId }),
+            errorMessage: this.context.intl.formatMessage({ id: 'acquisition-chain.list.stop.error' }, { label, chainId }),
           })
         }
       },
@@ -204,7 +218,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
 
   renderBreadCrump = () => {
     const { intl: { formatMessage } } = this.context
-    const elements = [formatMessage({ id: 'acquisition-chain-monitor.breadcrumb.label' })]
+    const elements = [formatMessage({ id: 'acquisition-chain-breadcrumb.label' })]
     return (
       <Breadcrumb
         rootIcon={<PageView />}
@@ -313,8 +327,8 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
   render() {
     const { intl: { formatMessage }, muiTheme } = this.context
     const {
-      onBack, pageSize, resultsCount, entitiesLoading, initialFilters, onListChainAction, onEdit, onCreate, fetchPage,
-      onMultiToggleSelection, isOneCheckboxToggled, onToggle, hasAccess, onDuplicate,
+      onBack, pageSize, resultsCount, entitiesLoading, initialFilters, onListSessions, onEdit, onCreate, fetchPage,
+      onMultiToggleSelection, isOneCheckboxToggled, hasAccess, onDuplicate,
     } = this.props
     const {
       errorMessage, columnsSorting, requestParams, sessionRename,
@@ -323,7 +337,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
 
     const emptyComponent = (
       <NoContentComponent
-        titleKey="acquisition-chain.monitor.empty.title"
+        titleKey="acquisition-chain.empty.title"
         Icon={AddToPhotos}
       />
     )
@@ -332,36 +346,36 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     /** Checkboxes are shown only if user have the right to use them */
     if (hasAccess) {
       columnSelectable = [new TableColumnBuilder()
-        .selectionColumn(false, AcquisitionProcessingChainMonitorSelectors, tableMonitorActions, tableMonitorSelectors)
+        .selectionColumn(false, AcquisitionProcessingChainSelectors, tableActions, tableSelectors)
         .build()]
     }
 
     const columns = [
       ...columnSelectable,
       new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.chain.label')
-        .sortableHeaderCell(...AcquisitionProcessingChainMonitorListComponent.getColumnSortingData(columnsSorting, 'column.name'), this.onSort)
-        .label(formatMessage({ id: 'acquisition-chain.monitor.list.label' }))
+        .sortableHeaderCell(...AcquisitionProcessingChainListComponent.getColumnSortingData(columnsSorting, 'column.name'), this.onSort)
+        .label(formatMessage({ id: 'acquisition-chain.list.label' }))
         .build(),
       new TableColumnBuilder('column.mode').titleHeaderCell()
-        .rowCellDefinition({ Constructor: AcquisitionProcessingChainMonitorModeRenderer, props: { onToggle } })
-        .label(formatMessage({ id: 'acquisition-chain.monitor.list.mode' }))
+        .rowCellDefinition({ Constructor: AcquisitionProcessingChainModeRenderer, props: { onToggle: this.onToggle } })
+        .label(formatMessage({ id: 'acquisition-chain.list.mode' }))
         .build(),
       new TableColumnBuilder('column.running').titleHeaderCell()
-        .rowCellDefinition({ Constructor: AcquisitionProcessingChainMonitoringEnabledRenderer, props: { onToggle } })
-        .label(formatMessage({ id: 'acquisition-chain.monitor.list.running' }))
+        .rowCellDefinition({ Constructor: AcquisitionProcessingChainEnabledRenderer, props: { onToggle: this.onToggle } })
+        .label(formatMessage({ id: 'acquisition-chain.list.running' }))
         .build(),
       new TableColumnBuilder('column.state').titleHeaderCell()
-        .rowCellDefinition({ Constructor: AcquisitionProcessingChainMonitoringActivityRenderer })
-        .label(formatMessage({ id: 'acquisition-chain.monitor.list.state' }))
+        .rowCellDefinition({ Constructor: AcquisitionProcessingChainActivityRenderer })
+        .label(formatMessage({ id: 'acquisition-chain.list.state' }))
         .build(),
       new TableColumnBuilder().optionsColumn([{
-        OptionConstructor: AcquisitionProcessingChainMonitoringTableListAction,
-        optionProps: { onListChain: onListChainAction },
+        OptionConstructor: AcquisitionProcessingChainTableListSessionsAction,
+        optionProps: { onListSessions },
       }, {
-        OptionConstructor: AcquisitionProcessingChainMonitoringTableRunAction,
+        OptionConstructor: AcquisitionProcessingChainTableRunAction,
         optionProps: { onRunChain: this.onOpenDialog },
       }, {
-        OptionConstructor: AcquisitionProcessingChainMonitoringTableStopAction,
+        OptionConstructor: AcquisitionProcessingChainTableStopAction,
         optionProps: { onStopChain: this.stopChainAction },
       }, {
         OptionConstructor: AcquisitionProcessingChainTableEditAction,
@@ -406,6 +420,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
           autoScrollBodyContent
           actions={actions}
           dialogWidthPercent={60}
+          dialogHeightPercent={30}
           onRequestClose={this.onCloseDialog}
         >
           <p>
@@ -420,12 +435,12 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
         </PositionedDialog>
         <CardTitle
           title={this.renderBreadCrump()}
-          subtitle={formatMessage({ id: 'acquisition-chain.monitor.list.subtitle' })}
+          subtitle={formatMessage({ id: 'acquisition-chain.list.subtitle' })}
         />
         <CardText>
           <FormErrorMessage>{errorMessage}</FormErrorMessage>
           <TableLayout>
-            <AcquisitionProcessingChainMonitoringListFiltersComponent
+            <AcquisitionProcessingChainListFiltersComponent
               initialFilters={initialFilters}
               applyFilters={this.applyFilters}
               onMultiToggleSelection={onMultiToggleSelection}
@@ -433,10 +448,10 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
             />
             <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
             <PageableInfiniteTableContainer
-              name="acquisition-chain-monitor-table"
-              pageActions={AcquisitionProcessingChainMonitorActions}
-              pageSelectors={AcquisitionProcessingChainMonitorSelectors}
-              tableActions={tableMonitorActions}
+              name="acquisition-chain-table"
+              pageActions={AcquisitionProcessingChainActions}
+              pageSelectors={AcquisitionProcessingChainSelectors}
+              tableActions={tableActions}
               requestParams={requestParams}
               columns={columns}
               emptyComponent={emptyComponent}
@@ -460,4 +475,4 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     )
   }
 }
-export default withModuleStyle(styles)(withI18n(messages)(AcquisitionProcessingChainMonitorListComponent))
+export default withModuleStyle(styles)(withI18n(messages)(AcquisitionProcessingChainListComponent))

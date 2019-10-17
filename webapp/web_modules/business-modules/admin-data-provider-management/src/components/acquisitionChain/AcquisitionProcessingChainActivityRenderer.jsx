@@ -22,10 +22,10 @@ import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
 
 /**
-* Component to render the activity indicator for ne chain into the chain monitoring list
+* Component to render the activity indicator for ne chain into the chain  list
 * @author Sébastien Binda
 */
-class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Component {
+class AcquisitionProcessingChainActivityRenderer extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
@@ -73,14 +73,14 @@ class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Compone
           left={0}
           top={0}
           status="loading"
-          style={AcquisitionProcessingChainMonitoringActivityRenderer.style.refresh}
+          style={AcquisitionProcessingChainActivityRenderer.style.refresh}
         />,
       ]
     }
     const label = chain.lastActivationDate
-      ? formatMessage({ id: 'acquisition-chain.monitor.list.activity.not.running.date' },
-        { date: formatDate(chain.lastActivationDate, AcquisitionProcessingChainMonitoringActivityRenderer.DATETIME_OPTIONS) },
-      ) : formatMessage({ id: 'acquisition-chain.monitor.list.activity.not.running' })
+      ? formatMessage({ id: 'acquisition-chain.list.activity.not.running.date' },
+        { date: formatDate(chain.lastActivationDate, AcquisitionProcessingChainActivityRenderer.DATETIME_OPTIONS) },
+      ) : formatMessage({ id: 'acquisition-chain.list.activity.not.running' })
     return (
       <div>
         {label}
@@ -88,4 +88,4 @@ class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Compone
     )
   }
 }
-export default AcquisitionProcessingChainMonitoringActivityRenderer
+export default AcquisitionProcessingChainActivityRenderer
