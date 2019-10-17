@@ -30,7 +30,6 @@ import EditColumnsSettingsContainer from '../../../../../containers/user/tabs/re
 import SelectionServiceComponent from './options/SelectionServiceComponent'
 import AddSelectionToCartComponent from './options/AddSelectionToCartComponent'
 
-
 /**
  * Options header row: shows options available (filters, services...) and allows user browing between available view mode and types
  * @author Raphaël Mechali
@@ -180,7 +179,7 @@ class OptionsHeaderRowComponent extends React.Component {
               resultsContext={resultsContext}
             />
           </TableHeaderOptionGroup>
-          {/* 2.6 - View mode selectors (list / table / quicklook / map), when more than 1 is available*/}
+          {/* 2.5 - View mode selectors (list / table / quicklook / map), when more than 1 is available*/}
           <TableHeaderOptionGroup show={reduce(selectedTypeState.modes, (count, modeState) => modeState.enabled ? count + 1 : count, 0) > 1}>
             {
               OptionsHeaderRowComponent.MODE_DISPLAY_ORDER.map(aMode => selectedTypeState.modes[aMode].enabled ? (
