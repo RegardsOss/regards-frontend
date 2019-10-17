@@ -21,27 +21,30 @@ import PropertiesShape from '../rs-common/IP'
 /**
  * Describes a SIP shape and related sub objects
  * @author Maxime Bouveron
+ * @author Sébastien Binda
  */
 
-export const Session = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  lastActivationDate: PropTypes.string,
-  sipsCount: PropTypes.number,
-  indexedSipsCount: PropTypes.number,
-  storedSipsCount: PropTypes.number,
-  generatedSipsCount: PropTypes.number,
-  errorSipsCount: PropTypes.number,
-  deletedSipsCount: PropTypes.number,
+export const Storage = PropTypes.shape({
+  pluginBusinessId: PropTypes.string.isRequired,
+  storePath: PropTypes.string.isRequired,
+  targetTypes: PropTypes.arrayOf(PropTypes.string),
 })
 
 export const IngestSIPContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   sipId: PropTypes.string.isRequired,
   providerId: PropTypes.string.isRequired,
+  session: PropTypes.string.isRequired,
+  sessionOwner: PropTypes.string.isRequired,
+  creationDate: PropTypes.string,
+  lastUpdate: PropTypes.string,
   owner: PropTypes.string,
   version: PropTypes.number,
   state: PropTypes.string,
   checksum: PropTypes.string.isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string),
+  ingestChain: PropTypes.string.isRequired,
+  storages: PropTypes.arrayOf(Storage),
   sip: PropTypes.shape({
     ipType: PropTypes.string,
     id: PropTypes.string.isRequired,
@@ -49,9 +52,6 @@ export const IngestSIPContent = PropTypes.shape({
     properties: PropertiesShape,
     type: PropTypes.string,
   }),
-  ingestDate: PropTypes.string,
-  processing: PropTypes.string,
-  session: Session,
 })
 
 export const IngestSIP = PropTypes.shape({

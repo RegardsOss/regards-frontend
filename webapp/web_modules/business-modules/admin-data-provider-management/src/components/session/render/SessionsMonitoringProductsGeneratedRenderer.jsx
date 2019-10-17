@@ -73,7 +73,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
         isInError={entity.content.state === 'ERROR'}
       >
         <div style={cellContainer}>
-          { !entity.content.lifeCycle.products ? (
+          { !entity.content.lifeCycle.PRODUCTS ? (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
               -
@@ -82,7 +82,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
           ) : (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
-                { entity.content.lifeCycle.products.running ? (
+                { entity.content.lifeCycle.PRODUCTS.state === 'running' ? (
                   <div style={runningContainer}>
                     <Play color={runningIconColor} />
                     <div style={running}>
@@ -109,9 +109,9 @@ class SessionsMonitoringProductsGenerated extends React.Component {
                   </div>
                 </div>
                 <div style={listValues}>
-                  <div style={one}>{formatNumber((entity.content.lifeCycle.products.done ? entity.content.lifeCycle.products.done : 0))}</div>
-                  <div style={two}>{formatNumber((entity.content.lifeCycle.products.incomplete ? entity.content.lifeCycle.products.incomplete : 0))}</div>
-                  <div style={three}>{formatNumber((entity.content.lifeCycle.products.errors ? entity.content.lifeCycle.products.errors : 0))}</div>
+                  <div style={one}>{formatNumber((entity.content.lifeCycle.PRODUCTS.generated ? entity.content.lifeCycle.PRODUCTS.generated : 0))}</div>
+                  <div style={two}>{formatNumber((entity.content.lifeCycle.PRODUCTS.incomplete ? entity.content.lifeCycle.PRODUCTS.incomplete : 0))}</div>
+                  <div style={three}>{formatNumber((entity.content.lifeCycle.PRODUCTS.generation_error ? entity.content.lifeCycle.PRODUCTS.generation_error : 0))}</div>
                 </div>
                 <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
                   <DropDownButton

@@ -36,10 +36,10 @@ class SIPListDateColumnRenderer extends React.Component {
   static defaultProps = {}
 
   render() {
-    const { entity: { content: { ingestDate, lastUpdateDate } } } = this.props
+    const { entity: { content: { creationDate, lastUpdate } } } = this.props
     return (
       <DateValueRender
-        value={lastUpdateDate || ingestDate}
+        value={lastUpdate || creationDate}
       />
     )
   }
