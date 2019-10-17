@@ -45,7 +45,7 @@ export const AcquisitionProcessingChainsRoute = {
   path: 'chains',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/acquisitionChain/AcquisitionProcessingChainMonitorListContainer')
+      const container = require('./containers/acquisitionChain/AcquisitionProcessingChainListContainer')
       cb(null, {
         content: container.default,
       })

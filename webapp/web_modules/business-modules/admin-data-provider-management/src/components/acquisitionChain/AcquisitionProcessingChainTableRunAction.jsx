@@ -26,7 +26,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 * Run button action cell for the infinite table used to run a processing chain
 * @author Sébastien Binda
 */
-class AcquisitionProcessingChainMonitoringTableRunAction extends React.Component {
+class AcquisitionProcessingChainTableRunAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
@@ -54,9 +54,9 @@ class AcquisitionProcessingChainMonitoringTableRunAction extends React.Component
     return (
       <IconButton
         className={`selenium-run-${chain.id}`}
-        title={formatMessage({ id: 'acquisition-chain.monitor.list.run.tooltip' })}
-        iconStyle={AcquisitionProcessingChainMonitoringTableRunAction.iconStyle}
-        style={AcquisitionProcessingChainMonitoringTableRunAction.buttonStyle}
+        title={formatMessage({ id: 'acquisition-chain.list.run.tooltip' })}
+        iconStyle={AcquisitionProcessingChainTableRunAction.iconStyle}
+        style={AcquisitionProcessingChainTableRunAction.buttonStyle}
         onClick={() => this.props.onRunChain(chain.label, chain.id)}
         disabled={!this.isRunnable()}
       >
@@ -65,4 +65,4 @@ class AcquisitionProcessingChainMonitoringTableRunAction extends React.Component
     )
   }
 }
-export default AcquisitionProcessingChainMonitoringTableRunAction
+export default AcquisitionProcessingChainTableRunAction

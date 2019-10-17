@@ -24,12 +24,11 @@ import { withHateoasDisplayControl } from '@regardsoss/display-control'
 
 /** HATEOAS-able button, exported for tests */
 export const HateoasToggle = withHateoasDisplayControl(Toggle)
-
 /**
- * Switch renderer for mode selection
- * @author Kévin Picart
+ * Renderer for acquisition processing chain mode
+ * @author Raphaël Mechali
  */
-export class AcquisitionProcessingChainMonitoringEnabledRenderer extends React.Component {
+export class AcquisitionProcessingChainModeRenderer extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
@@ -44,43 +43,55 @@ export class AcquisitionProcessingChainMonitoringEnabledRenderer extends React.C
   }
 
   /** HateOAS Link to delete on All storages  */
-  static CHANGE_ENABLE_LINK = 'changeEnable'
+  static CHANGE_MODE_LINK = 'patch'
 
   onToggle = () => {
     const { entity, onToggle } = this.props
-    onToggle(entity.content.chainId, 'ONLY_ACTIVITY', !entity.content.chain.active)
+    let toggleMode = 'MANUAL'
+    if (entity.content.chain.mode === 'MANUAL') {
+      toggleMode = 'AUTO'
+    }
+    onToggle(entity.content.chainId, 'ONLY_MODE', toggleMode)
   }
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { entity: { content: { chain: { active } }, links } } = this.props
+    const { entity: { content: { chain: { mode } }, links } } = this.props
     const {
       moduleTheme: {
-        monitoring: {
+        chains: {
           toggles: {
-            toggleContainer, toggleStyle, toggleGridLabel, toggleGridToggle,
+            toggleContainer, toggleModeColor, toggleStyle, toggleGridLabel, toggleGridToggle,
           },
         },
       },
     } = this.context
+    let isToggled = true
+    if (mode === 'MANUAL') {
+      isToggled = false
+    }
 
     return (
+
       <div style={toggleContainer}>
         <div style={toggleGridLabel}>
-          { active ? formatMessage({ id: 'acquisition-chain.monitor.list.enabled.true' }) : formatMessage({ id: 'acquisition-chain.monitor.list.enabled.false' }) }
+          { isToggled ? formatMessage({ id: 'acquisition-chain.list.mode.auto' }) : formatMessage({ id: 'acquisition-chain.list.mode.manual' }) }
         </div>
         <div style={toggleGridToggle}>
           <HateoasToggle
             entityLinks={links}
-            hateoasKey={AcquisitionProcessingChainMonitoringEnabledRenderer.CHANGE_MODE_LINK}
+            hateoasKey={AcquisitionProcessingChainModeRenderer.CHANGE_MODE_LINK}
             alwaysDisplayforInstanceUser={false}
             disableInsteadOfHide
-            toggled={active}
+            toggled={isToggled}
             onToggle={this.onToggle}
+            thumbStyle={toggleModeColor}
+            thumbSwitchedStyle={toggleModeColor}
             style={toggleStyle}
           />
         </div>
       </div>
+
     )
   }
 }

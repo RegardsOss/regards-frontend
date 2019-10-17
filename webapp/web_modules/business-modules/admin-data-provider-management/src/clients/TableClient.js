@@ -22,15 +22,15 @@ import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/co
  * Infinite table actions client.
  * @author Sébastien Binda
  */
-const ACQUISITION_PROCESSING_CHAIN_MONITOR_NAMESPACE = 'data-provider-management/acquisition-processing-chain-monitor-table'
-const ACQUISITION_PROCESSING_CHAIN_MONITOR_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'processingChainMonitorTable']
+const ACQUISITION_PROCESSING_CHAIN_NAMESPACE = 'data-provider-management/acquisition-processing-chain-table'
+const ACQUISITION_PROCESSING_CHAIN_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'processingChainTable']
 
 const SESSIONS_TABLE_NAMESPACE = 'data-provider-management/sessions-table'
 const SESSIONS_TABLE_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'sessionsTable']
 
-export const tableMonitorActions = new TableActions(ACQUISITION_PROCESSING_CHAIN_MONITOR_NAMESPACE)
-export const tableMonitorReducer = getTableReducer(ACQUISITION_PROCESSING_CHAIN_MONITOR_NAMESPACE)
-export const tableMonitorSelectors = getTableSelectors(ACQUISITION_PROCESSING_CHAIN_MONITOR_STORE_PATH)
+export const tableActions = new TableActions(ACQUISITION_PROCESSING_CHAIN_NAMESPACE)
+export const tableReducer = getTableReducer(ACQUISITION_PROCESSING_CHAIN_NAMESPACE)
+export const tableSelectors = getTableSelectors(ACQUISITION_PROCESSING_CHAIN_STORE_PATH)
 
 export const tableSessionsActions = new TableActions(SESSIONS_TABLE_NAMESPACE)
 export const tableSessionsReducer = getTableReducer(SESSIONS_TABLE_NAMESPACE)

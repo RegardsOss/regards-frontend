@@ -26,7 +26,7 @@ import { ErrorCardComponent } from '@regardsoss/components'
 import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { StorageDomain } from '@regardsoss/domain'
 import AcquisitionProcessingChainFormComponent from '../../components/acquisitionChain/AcquisitionProcessingChainFormComponent'
-import { AcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors } from '../../clients/AcquisitionProcessingChainClient'
+import { AcquisitionProcessingChainEditActions, AcquisitionProcessingChainEditSelectors } from '../../clients/AcquisitionProcessingChainClient'
 import { storagesListActions, storagesListSelectors } from '../../clients/StoragesListClient'
 
 /**
@@ -42,7 +42,7 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
    */
   static mapStateToProps(state, ownProps) {
     return {
-      chain: get(ownProps, 'params.chainId', false) ? AcquisitionProcessingChainSelectors.getById(state, ownProps.params.chainId) : undefined,
+      chain: get(ownProps, 'params.chainId', false) ? AcquisitionProcessingChainEditSelectors.getById(state, ownProps.params.chainId) : undefined,
       storages: storagesListSelectors.getOrderedList(state),
     }
   }
@@ -55,9 +55,9 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      fetch: id => dispatch(AcquisitionProcessingChainActions.fetchEntity(id)),
-      create: values => dispatch(AcquisitionProcessingChainActions.createEntity(values)),
-      update: (id, values) => dispatch(AcquisitionProcessingChainActions.updateEntity(id, values)),
+      fetch: id => dispatch(AcquisitionProcessingChainEditActions.fetchEntity(id)),
+      create: values => dispatch(AcquisitionProcessingChainEditActions.createEntity(values)),
+      update: (id, values) => dispatch(AcquisitionProcessingChainEditActions.updateEntity(id, values)),
       getStorages: (microserviceName, pluginType) => dispatch(storagesListActions.getPluginConfigurationsByType(microserviceName, pluginType)),
     }
   }
@@ -112,7 +112,7 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
    */
   onBack = () => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/dataprovider/monitoring/chains`
+    const url = `/admin/${project}/data/acquisition/dataprovider/chains`
     browserHistory.push(url)
   }
 

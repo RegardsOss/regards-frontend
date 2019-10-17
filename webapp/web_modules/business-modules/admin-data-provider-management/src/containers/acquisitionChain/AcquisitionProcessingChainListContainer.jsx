@@ -24,23 +24,21 @@ import { IngestShapes } from '@regardsoss/shape'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { AcquisitionProcessingChainMonitorActions, AcquisitionProcessingChainMonitorSelectors }
-  from '../../clients/AcquisitionProcessingChainMonitorClient'
 import {
   RunAcquisitionProcessingChainActions, StopAcquisitionProcessingChainActions,
   ToggleAcquisitionProcessingChainActions, AcquisitionProcessingChainActions,
-  MultiToggleAcquisitionProcessingChainActions,
+  MultiToggleAcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors,
 }
   from '../../clients/AcquisitionProcessingChainClient'
-import AcquisitionProcessingChainMonitorListComponent
-  from '../../components/acquisitionChain/AcquisitionProcessingChainMonitorListComponent'
-import { tableMonitorSelectors } from '../../clients/TableClient'
+import AcquisitionProcessingChainListComponent
+  from '../../components/acquisitionChain/AcquisitionProcessingChainListComponent'
+import { tableSelectors } from '../../clients/TableClient'
 
 /**
-* Container to handle monitoring AcquisitionProcessingChains.
+* Container to handle AcquisitionProcessingChains.
 * @author Sébastien Binda
 */
-export class AcquisitionProcessingChainMonitorListContainer extends React.Component {
+export class AcquisitionProcessingChainListContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -48,11 +46,11 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
    * @return {*} list of component properties extracted from redux state
    */
   static mapStateToProps(state) {
-    const toggledChains = tableMonitorSelectors.getToggledElementsAsList(state)
+    const toggledChains = tableSelectors.getToggledElementsAsList(state)
 
     return {
-      meta: AcquisitionProcessingChainMonitorSelectors.getMetaData(state),
-      entitiesLoading: AcquisitionProcessingChainMonitorSelectors.isFetching(state),
+      meta: AcquisitionProcessingChainSelectors.getMetaData(state),
+      entitiesLoading: AcquisitionProcessingChainSelectors.isFetching(state),
       toggledChains,
       isOneCheckboxToggled: toggledChains.length > 0,
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
@@ -67,7 +65,7 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
    */
   static mapDispatchToProps(dispatch) {
     return {
-      fetchPage: (pageIndex, pageSize, requestParams) => dispatch(AcquisitionProcessingChainMonitorActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
+      fetchPage: (pageIndex, pageSize, requestParams) => dispatch(AcquisitionProcessingChainActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
       runChain: (chainId, sessionName) => dispatch(RunAcquisitionProcessingChainActions.run(chainId, sessionName)),
       stopChain: chainId => dispatch(StopAcquisitionProcessingChainActions.stop(chainId)),
       deleteChain: id => dispatch(AcquisitionProcessingChainActions.deleteEntity(id)),
@@ -147,9 +145,9 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
   }
 
   /**
-   * Callback to return to the acquisition board
+   * Callback to go to session list associated to the given acquisition chain
    */
-  onListChainAction = (source) => {
+  onListSessions = (source) => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/acquisition/dataprovider/sessions?source=${source}`
     browserHistory.push(url)
@@ -158,7 +156,7 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
   onRefresh = (filters) => {
     const { meta, fetchPage } = this.props
     const curentPage = get(meta, 'number', 0)
-    return fetchPage(0, AcquisitionProcessingChainMonitorListContainer.PAGE_SIZE * (curentPage + 1), filters)
+    return fetchPage(0, AcquisitionProcessingChainListContainer.PAGE_SIZE * (curentPage + 1), filters)
   }
 
   /**
@@ -185,9 +183,7 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
     multiToggleChain(chainList, target, nextValue)
   }
 
-  onToggle = (chainId, target, nextValue) => {
-    this.props.toggleChain(chainId, target, nextValue)
-  }
+  onToggle = (chainId, target, nextValue) => this.props.toggleChain(chainId, target, nextValue)
 
 
   render() {
@@ -195,9 +191,9 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
       meta, entitiesLoading, runChain, stopChain, params: { project }, isOneCheckboxToggled, displayLogic, availableDependencies,
     } = this.props
 
-    const hasAccess = displayLogic(AcquisitionProcessingChainMonitorListContainer.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES, availableDependencies)
+    const hasAccess = displayLogic(AcquisitionProcessingChainListContainer.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES, availableDependencies)
     return (
-      <AcquisitionProcessingChainMonitorListComponent
+      <AcquisitionProcessingChainListComponent
         project={project}
         onRefresh={this.onRefresh}
         onBack={this.onBack}
@@ -206,10 +202,10 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
         onEdit={this.onEdit}
         onDuplicate={this.onDuplicate}
         fetchPage={this.props.fetchPage}
-        onListChainAction={this.onListChainAction}
+        onListSessions={this.onListSessions}
         onRunChain={runChain}
         onStopChain={stopChain}
-        pageSize={AcquisitionProcessingChainMonitorListContainer.PAGE_SIZE}
+        pageSize={AcquisitionProcessingChainListContainer.PAGE_SIZE}
         resultsCount={meta.totalElements}
         entitiesLoading={entitiesLoading}
         onMultiToggleSelection={this.onMultiToggleSelection}
@@ -222,5 +218,5 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
   }
 }
 export default connect(
-  AcquisitionProcessingChainMonitorListContainer.mapStateToProps,
-  AcquisitionProcessingChainMonitorListContainer.mapDispatchToProps)(AcquisitionProcessingChainMonitorListContainer)
+  AcquisitionProcessingChainListContainer.mapStateToProps,
+  AcquisitionProcessingChainListContainer.mapDispatchToProps)(AcquisitionProcessingChainListContainer)

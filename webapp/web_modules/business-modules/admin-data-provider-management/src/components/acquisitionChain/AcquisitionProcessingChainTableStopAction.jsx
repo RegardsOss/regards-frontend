@@ -26,7 +26,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 * Stop button action cell for the infinite table used to stop a running processing chain
 * @author Sébastien Binda
 */
-class AcquisitionProcessingChainMonitoringTableStopAction extends React.Component {
+class AcquisitionProcessingChainTableStopAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
@@ -54,9 +54,9 @@ class AcquisitionProcessingChainMonitoringTableStopAction extends React.Componen
     return (
       <IconButton
         className={`selenium-stop-${chain.id}`}
-        title={formatMessage({ id: 'acquisition-chain.monitor.list.stop.tooltip' })}
-        iconStyle={AcquisitionProcessingChainMonitoringTableStopAction.iconStyle}
-        style={AcquisitionProcessingChainMonitoringTableStopAction.buttonStyle}
+        title={formatMessage({ id: 'acquisition-chain.list.stop.tooltip' })}
+        iconStyle={AcquisitionProcessingChainTableStopAction.iconStyle}
+        style={AcquisitionProcessingChainTableStopAction.buttonStyle}
         onClick={() => this.props.onStopChain(chain.label, chain.id)}
         disabled={!this.isStoppable()}
       >
@@ -65,4 +65,4 @@ class AcquisitionProcessingChainMonitoringTableStopAction extends React.Componen
     )
   }
 }
-export default AcquisitionProcessingChainMonitoringTableStopAction
+export default AcquisitionProcessingChainTableStopAction

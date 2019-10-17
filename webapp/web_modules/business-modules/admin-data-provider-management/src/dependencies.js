@@ -18,7 +18,6 @@
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { AcquisitionProcessingChainActions } from './clients/AcquisitionProcessingChainClient'
-import { AcquisitionProcessingChainMonitorActions } from './clients/AcquisitionProcessingChainMonitorClient'
 import { ingestProcessingChainActions } from './clients/IngestProcessingChainClient'
 import { storagesListActions } from './clients/StoragesListClient'
 /**
@@ -32,7 +31,7 @@ import { storagesListActions } from './clients/StoragesListClient'
  */
 const listDependencies = [
   AcquisitionProcessingChainActions.getDependency(RequestVerbEnum.GET_LIST),
-  AcquisitionProcessingChainMonitorActions.getDependency(RequestVerbEnum.GET_LIST),
+  AcquisitionProcessingChainActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 /**
