@@ -20,7 +20,6 @@ import Build from 'material-ui/svg-icons/action/build'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import DeleteIcon from 'material-ui/svg-icons/action/delete'
-import Details from 'material-ui/svg-icons/action/visibility'
 import Database from 'mdi-material-ui/Database'
 import Archive from 'mdi-material-ui/Archive'
 
@@ -47,12 +46,12 @@ const items = (projectName, intl, onResetIndex) => [
       {
         path: `/admin/${projectName}/data/acquisition/dataprovider/chains`,
         icon: <Build />,
-        tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.monitoring.tooltip' }),
+        tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.configure.tooltip' }),
         hateoasDependencies: dataProviderDependencies.listDependencies,
       },
       {
         path: `/admin/${projectName}/data/acquisition/dataprovider/sessions`,
-        icon: <Details />,
+        icon: <PageView />,
         tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.sessions.tooltip' }),
         hateoasDependencies: dataProviderDependencies.listDependencies,
       },
@@ -77,7 +76,7 @@ const items = (projectName, intl, onResetIndex) => [
       },
       {
         path: `/admin/${projectName}/data/acquisition/oais/sip/list`,
-        icon: <Details />,
+        icon: <PageView />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.oais.tooltip.see' }),
         hateoasDependencies: oaisDependencies.listDependencies,
       },
