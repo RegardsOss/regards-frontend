@@ -157,11 +157,11 @@ const messages = Object.assign({
   'acquisition-sessions.table.indexed.tooltip': 'Produits indexés au catalogue',
 
   //3.3 Products states
-  'acquisition-sessions.states.completed': 'Complété',
+  'acquisition-sessions.states.completed': 'Complet',
   'acquisition-sessions.states.incomplete': 'Incomplet',
   'acquisition-sessions.states.error': 'Erreur',
   'acquisition-sessions.states.processed': 'Traité',
-  'acquisition-sessions.states.pending': 'En attente',
+  'acquisition-sessions.states.pending': 'En cours',
   'acquisition-sessions.states.stored': 'Archivé',
   'acquisition-sessions.states.invalid': 'Invalide',
   'acquisition-sessions.states.refused': 'Refusé',

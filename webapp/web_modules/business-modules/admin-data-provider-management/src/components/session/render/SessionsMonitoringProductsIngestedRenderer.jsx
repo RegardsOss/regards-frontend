@@ -87,12 +87,10 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     let sipInvalid
     let sipRefused
 
-    if (entity.content.lifeCycle.sip) {
-      sipDone = (entity.content.lifeCycle.sip.done ? entity.content.lifeCycle.sip.done : 0)
-      sipErrors = (entity.content.lifeCycle.sip.errors ? entity.content.lifeCycle.sip.errors : 0)
-      sipPending = (entity.content.lifeCycle.sip.pending ? entity.content.lifeCycle.sip.pending : 0)
-      sipInvalid = (entity.content.lifeCycle.sip.invalid ? entity.content.lifeCycle.sip.invalid : 0)
-      sipRefused = (entity.content.lifeCycle.sip.refused ? entity.content.lifeCycle.sip.refused : 0)
+    if (entity.content.lifeCycle.OAIS) {
+      sipDone = (entity.content.lifeCycle.OAIS.sip_total ? entity.content.lifeCycle.OAIS.sip_total : 0)
+      sipErrors = (entity.content.lifeCycle.OAIS.sip_error ? entity.content.lifeCycle.OAIS.sip_error : 0)
+      sipPending = (entity.content.lifeCycle.OAIS.sip_ingesting ? entity.content.lifeCycle.OAIS.sip_ingesting : 0)
 
       const totalSIP = (sipDone + sipPending + sipErrors)
 
@@ -126,7 +124,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
         isInError={entity.content.state === 'ERROR'}
       >
         <div style={cellContainer}>
-          { !entity.content.lifeCycle.sip ? (
+          { !entity.content.lifeCycle.OAIS ? (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
               -

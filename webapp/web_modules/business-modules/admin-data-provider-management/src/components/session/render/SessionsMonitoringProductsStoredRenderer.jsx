@@ -83,10 +83,10 @@ class SessionsMonitoringProductsStored extends React.Component {
     let aipErrors
     let aipPending
 
-    if (entity.content.lifeCycle.aip) {
-      aipDone = (entity.content.lifeCycle.aip.done ? entity.content.lifeCycle.aip.done : 0)
-      aipErrors = (entity.content.lifeCycle.aip.errors ? entity.content.lifeCycle.aip.errors : 0)
-      aipPending = (entity.content.lifeCycle.aip.pending ? entity.content.lifeCycle.aip.pending : 0)
+    if (entity.content.lifeCycle.OAIS) {
+      aipDone = (entity.content.lifeCycle.OAIS.aip_stored ? entity.content.lifeCycle.OAIS.aip_stored : 0)
+      aipErrors = (entity.content.lifeCycle.OAIS.aip_error ? entity.content.lifeCycle.OAIS.aip_error : 0)
+      aipPending = (entity.content.lifeCycle.OAIS.aip_generated ? entity.content.lifeCycle.OAIS.aip_generated : 0)
 
       const totalAIP = (aipDone + aipPending + aipErrors)
 
@@ -120,7 +120,7 @@ class SessionsMonitoringProductsStored extends React.Component {
         isInError={entity.content.state === 'ERROR'}
       >
         <div style={cellContainer}>
-          { !entity.content.lifeCycle.aip ? (
+          { !entity.content.lifeCycle.OAIS ? (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
             -
