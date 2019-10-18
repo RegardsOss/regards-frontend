@@ -48,12 +48,15 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsSto
           isLatest: true,
           state: 'ERROR',
           lifeCycle: {
-            aip: {
-              done: 599450,
-              total: 599450,
-              errors: 0,
-              indexed: 599450,
-              pending: 0,
+            OAIS: {
+              sip_ingesting: 0,
+              sip_deleting: 0,
+              sip_total: 51234,
+              sip_error: 0,
+              generated_aip: 51234,
+              aip_stored: 51234,
+              aip_deleting: 0,
+              aip_error: 0,
             },
           },
         },

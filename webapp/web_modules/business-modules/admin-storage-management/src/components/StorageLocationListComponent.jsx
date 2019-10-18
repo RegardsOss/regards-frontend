@@ -476,4 +476,8 @@ export class StorageLocationListComponent extends React.Component {
     )
   }
 }
-export default withModuleStyle(styles)(withI18n(messages)(StorageLocationListComponent))
+
+// report static for ease of use
+const ConnectedComponent = withModuleStyle(styles)(withI18n(messages)(StorageLocationListComponent))
+ConnectedComponent.DIALOGS_TYPES = StorageLocationListComponent.DIALOGS_TYPES
+export default ConnectedComponent

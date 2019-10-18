@@ -48,18 +48,15 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsIng
           isLatest: true,
           state: 'ERROR',
           lifeCycle: {
-            aip: {
-              done: 599450,
-              total: 599450,
-              errors: 0,
-              indexed: 599450,
-              pending: 0,
-            },
-            sip: {
-              total: 600000,
-              errors: 1,
-              invalid: 0,
-              generatedAIP: 65,
+            OAIS: {
+              sip_ingesting: 0,
+              sip_deleting: 0,
+              sip_total: 0,
+              sip_error: 5,
+              generated_aip: 0,
+              aip_stored: 0,
+              aip_deleting: 0,
+              aip_error: 0,
             },
           },
         },
@@ -84,13 +81,7 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsIng
           isLatest: true,
           state: 'ERROR',
           lifeCycle: {
-            aip: {
-              done: 599450,
-              total: 599450,
-              errors: 0,
-              indexed: 599450,
-              pending: 0,
-            },
+
           },
         },
         links: [],
