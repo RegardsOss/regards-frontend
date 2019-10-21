@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
+import DeleteFiles from 'mdi-material-ui/FileExcel'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Copy from 'mdi-material-ui/FileReplace'
@@ -31,12 +31,13 @@ import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-cont
 import { StorageShapes } from '@regardsoss/shape'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const actionsBreakpoints = [1300, 1350, 1400, 1450, 1500]
+const actionsBreakpoints = [1300, 1350, 1400, 1450, 1500, 1550]
 
 class StorageLocationListActions extends React.Component {
   static propTypes = {
     entity: StorageShapes.StorageLocation.isRequired,
     onEdit: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
     onCopyFiles: PropTypes.func.isrequired,
     onUp: PropTypes.func.isRequired,
     onDown: PropTypes.func.isRequired,
@@ -51,7 +52,7 @@ class StorageLocationListActions extends React.Component {
 
   render() {
     const {
-      entity, onEdit, onCopyFiles, onUp, onDown, onDeleteFiles, onRefresh,
+      entity, onEdit, onCopyFiles, onUp, onDown, onDeleteFiles, onDelete, onRefresh,
     } = this.props
     const { entity: { content: { configuration } } } = this.props
     const { intl } = this.context
@@ -79,7 +80,7 @@ class StorageLocationListActions extends React.Component {
           hateoasKey="copy"
           disableInsteadOfHide
           onClick={() => onCopyFiles(entity)}
-          title={intl.formatMessage({ id: 'storage.location.list.edit.button' })}
+          title={intl.formatMessage({ id: 'storage.location.list.copy.button' })}
         >
           <Copy hoverColor={style.hoverButtonEdit} />
         </HateoasIconAction>
@@ -89,7 +90,7 @@ class StorageLocationListActions extends React.Component {
           hateoasKey="up"
           disableInsteadOfHide
           onClick={() => onUp(entity.content)}
-          title={intl.formatMessage({ id: 'storage.location.list.edit.button' })}
+          title={intl.formatMessage({ id: 'storage.location.list.up.priority.button' })}
         >
           <ArrowUp hoverColor={style.hoverButtonEdit} />
         </HateoasIconAction>
@@ -99,13 +100,20 @@ class StorageLocationListActions extends React.Component {
           hateoasKey="down"
           disableInsteadOfHide
           onClick={() => onDown(entity.content)}
-          title={intl.formatMessage({ id: 'storage.location.list.edit.button' })}
+          title={intl.formatMessage({ id: 'storage.location.list.down.priority.button' })}
         >
           <ArrowDown hoverColor={style.hoverButtonEdit} />
         </HateoasIconAction>
+        <IconButton
+          key="deleteFiles"
+          onClick={() => onDeleteFiles(entity)}
+          title={intl.formatMessage({ id: 'storage.location.list.delete-files.button' })}
+        >
+          <DeleteFiles hoverColor={style.hoverButtonEdit} />
+        </IconButton>
         <TableDeleteOption
           entity={entity}
-          onDelete={onDeleteFiles}
+          onDelete={() => onDelete(entity.content)}
           fetchPage={onRefresh}
           handleHateoas
           disableInsteadOfHide

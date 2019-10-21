@@ -26,6 +26,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
+import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import StaticAttributeListDB from '../../domain/db/StaticAttributeListDB'
@@ -137,7 +138,7 @@ export class DBDatasourceFormContainer extends React.Component {
    * @param newDatasource
    */
   handleUpdate = (updatedDatasource) => {
-    Promise.resolve(this.props.updateDatasource(updatedDatasource.content.id, updatedDatasource.content))
+    Promise.resolve(this.props.updateDatasource(updatedDatasource.content.businessId, PluginFormUtils.formatPluginConf(updatedDatasource.content)))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -151,7 +152,7 @@ export class DBDatasourceFormContainer extends React.Component {
    * @param newDatasource
    */
   handleCreate = (newDatasource) => {
-    Promise.resolve(this.props.createDatasource(newDatasource.content))
+    Promise.resolve(this.props.createDatasource(PluginFormUtils.formatPluginConf(newDatasource.content)))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -179,20 +180,23 @@ export class DBDatasourceFormContainer extends React.Component {
           parameters: [
             {
               name: IDBDatasourceParamsEnum.CONNECTION,
-              pluginConfiguration: {
-                id: this.props.params.connectionId,
-              },
+              TYPE: 'PLUGIN',
+              value: this.props.params.connectionId,
             },
             {
               name: IDBDatasourceParamsEnum.MODEL,
+              TYPE: 'STRING',
               value: values.model,
             },
             {
               name: IDBDatasourceParamsEnum.REFRESH_RATE,
+              TYPE: 'INTEGER',
               value: parseInt(values.refreshRate, 10),
             },
             {
               name: IDBDatasourceParamsEnum.TAGS,
+              TYPE: 'COLLECTION',
+              clazz: 'java.lang.String',
               value: values.tags,
             },
           ],
