@@ -114,7 +114,7 @@ export class AccessRightListContainer extends React.Component {
 
   getBackURL = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/dataaccess/access-group/list`
+    return `/admin/${project}/user/access-group/list`
   }
 
   navigateToCreateDataset = () => {
