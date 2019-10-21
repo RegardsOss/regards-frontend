@@ -315,12 +315,7 @@ export default baseTheme => ({
           padding: '12px 5px 5px 0',
         },
         resizerSeparator: {
-          backgroundColor: baseTheme.palette.canvasColor,
-          borderLeftColor: baseTheme.palette.borderColor,
-          borderLeftWidth: 1,
-          borderLeftStyle: 'solid',
-          minWidth: 14,
-          cursor: 'col-resize',
+          backgroundColor: baseTheme.palette.borderColor,
         },
       },
     },
