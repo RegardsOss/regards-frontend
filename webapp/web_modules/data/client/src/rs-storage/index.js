@@ -23,8 +23,11 @@ export { default as getStorageLocationSelectors } from './location/SotrageLocati
 
 export { default as StorageLocationCopyFilesActions } from './location/StorageLocationCopyFilesActions'
 export { default as StorageLocationDeleteFilesActions } from './location/StorageLocationDeleteFilesActions'
-export { default as StorageLocationErrorsDeleteActions } from './location/StorageLocationErrorsDeleteActions'
 export { default as StorageLocationErrorsRetryActions } from './location/StorageLocationErrorsRetryActions'
 export { default as StorageLocationMonitoringActions } from './location/StorageLocationMonitoringActions'
 export { default as StorageLocationPriorityDownActions } from './location/StorageLocationPriorityDownActions'
 export { default as StorageLocationPriorityUpActions } from './location/StorageLocationPriorityUpActions'
+
+export { default as StorageRequestActions } from './requests/StorageRequestActions'
+export { default as getStorageRequestReducers } from './requests/StorageRequestReducers'
+export { default as getStorageRequestSelectors } from './requests/SotrageRequestSelectors'

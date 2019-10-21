@@ -16,16 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { storageLocationReducer } from './clients/StorageLocationClient'
-import { storageRequestReducers } from './clients/StorageRequestClient'
+
+import { Schema, arrayOf } from 'normalizr'
 
 /**
- * @author Sébastien Binda
+ * Storage plugin management for normalizer
  */
-const microserviceManagementReducer = combineReducers({
-  'storage-location': storageLocationReducer,
-  'storage-request': storageRequestReducers,
-})
+export const StorageRequestConfiguration = {
+  entityKey: 'id',
+  normalizrKey: 'storage-request',
+}
 
-export default microserviceManagementReducer
+export const STORAGE_REQUEST = new Schema(StorageRequestConfiguration.normalizrKey, {
+  idAttribute: model => model.content[StorageRequestConfiguration.entityKey]
+  ,
+})
+export const STORAGE_REQUEST_ARRAY = arrayOf(STORAGE_REQUEST)

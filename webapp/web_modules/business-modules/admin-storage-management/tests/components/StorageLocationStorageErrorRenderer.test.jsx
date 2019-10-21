@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import IconButton from 'material-ui/IconButton'
+import MenuItem from 'material-ui/MenuItem'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import StorageLocationStorageErrorRenderer from '../../src/components/StorageLocationStorageErrorRenderer'
 import styles from '../../src/styles'
@@ -43,7 +43,7 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing StorageLocationStorageErrorRenderer
       onStorageErrors: () => {},
     }
     const enzymeWrapper = shallow(<StorageLocationStorageErrorRenderer {...props} />, { context })
-    const iconButton = enzymeWrapper.find(IconButton)
+    const iconButton = enzymeWrapper.find(MenuItem)
     assert.equal(iconButton.length, 0, 'There should have 0 IconButton rendered')
   })
   it('should render correctly with errors', () => {
@@ -54,7 +54,7 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing StorageLocationStorageErrorRenderer
       onStorageErrors: () => {},
     }
     const enzymeWrapper = shallow(<StorageLocationStorageErrorRenderer {...props} />, { context })
-    const iconButton = enzymeWrapper.find(IconButton)
-    assert.equal(iconButton.length, 2, 'There should have two IconButton rendered')
+    const iconButton = enzymeWrapper.find(MenuItem)
+    assert.equal(iconButton.length, 3, 'There should have 3 MenuItem rendered')
   })
 })

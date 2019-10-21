@@ -19,9 +19,10 @@
 import { StorageShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import Delete from 'material-ui/svg-icons/action/delete'
+import IconMenu from 'material-ui/IconMenu'
+import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
-import Relaunch from 'material-ui/svg-icons/image/rotate-right'
+import MoreVertIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
 import StorageLocationListComponent from './StorageLocationListComponent'
 /**
  * Show Deletion Errors and a button to relauch
@@ -47,39 +48,39 @@ class StorageLocationDeletionErrorRenderer extends React.Component {
     this.props.onDeletionErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.RELAUNCH_ERRORS)
   }
 
-  onDeleteDeleteingErrors = () => {
+  onDeleteDeletingErrors = () => {
     const { entity } = this.props
     this.props.onDeletionErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.DELETE_ERRORS)
   }
 
+  onViewDeletionErrors = () => {
+
+  }
+
   render() {
     const { entity } = this.props
-    const { intl: { formatMessage }, moduleTheme: { storageTable: { errorColumn: { container, relaunchButton } } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { storageTable: { errorColumn: { container, icon } } } } = this.context
 
     return (
       <div style={container}>
         { entity.content.nbDeletionError ? entity.content.nbDeletionError : '-' }
         { entity.content.nbDeletionError > 0 ? (
-          <React.Fragment>
-            <div style={relaunchButton}>
-              <IconButton
-                title={formatMessage({ id: 'storage.data-storage.plugins.list.relaunch.deletion' })}
-                iconStyle={StorageLocationDeletionErrorRenderer.iconStyle}
-                style={StorageLocationDeletionErrorRenderer.buttonStyle}
-                onClick={this.onRelaunchDeletingErrors}
-              >
-                <Relaunch />
-              </IconButton>
-              <IconButton
-                title={formatMessage({ id: 'storage.data-storage.plugins.list.delete.deletion' })}
-                iconStyle={StorageLocationDeletionErrorRenderer.iconStyle}
-                style={StorageLocationDeletionErrorRenderer.buttonStyle}
-                onClick={this.onDeleteDeleteingErrors}
-              >
-                <Delete />
-              </IconButton>
-            </div>
-          </React.Fragment>
+          <IconMenu
+            iconButtonElement={<IconButton style={icon}><MoreVertIcon /></IconButton>}
+          >
+            <MenuItem
+              primaryText={formatMessage({ id: 'storage.location.list.relaunch.deletion' })}
+              onClick={this.onRelaunchDeletingErrors}
+            />
+            <MenuItem
+              primaryText={formatMessage({ id: 'storage.location.list.delete.deletion' })}
+              onClick={this.onDeleteDeletingErrors}
+            />
+            <MenuItem
+              primaryText={formatMessage({ id: 'storage.location.list.view.deletion' })}
+              onClick={this.onViewDeletionErrors}
+            />
+          </IconMenu>
         ) : null }
       </div>
     )

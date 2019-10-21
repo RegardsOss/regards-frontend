@@ -31,14 +31,12 @@ const DOWN_NAMESPACE = 'admin-storage/storageLocation/up'
 const DELETE_FILES_NAMESPACE = 'admin-storage/storageLocation/deleteFiles'
 const COPY_FILES_NAMESPACE = 'admin-storage/storageLocation/copyFiles'
 const ERRORS_RETRY_NAMESPACE = 'admin-storage/storageLocation/errorsRetry'
-const ERRORS_DELETE_NAMESPACE = 'admin-storage/storageLocation/errorsDelete'
 const RELAUNCH_MONITORING_NAMESPACE = 'admin-storage/storageLocation/relaunchMonitoring'
 
 const {
   StorageLocationActions, getStorageLocationReducers, getStorageLocationSelectors,
   StorageLocationPriorityDownActions, StorageLocationPriorityUpActions, StorageLocationDeleteFilesActions,
-  StorageLocationCopyFilesActions, StorageLocationErrorsRetryActions, StorageLocationErrorsDeleteActions,
-  StorageLocationMonitoringActions,
+  StorageLocationCopyFilesActions, StorageLocationErrorsRetryActions, StorageLocationMonitoringActions,
 } = StorageClient
 
 export const storageLocationReducer = getStorageLocationReducers(REDUX_ACTION_NAMESPACE)
@@ -51,6 +49,5 @@ export const storageLocationDeleteFilesActions = new StorageLocationDeleteFilesA
 export const storageLocationCopyFilesActions = new StorageLocationCopyFilesActions(COPY_FILES_NAMESPACE)
 
 export const storageLocationErrorsRetryActions = new StorageLocationErrorsRetryActions(ERRORS_RETRY_NAMESPACE)
-export const storageLocationErrorsDeleteActions = new StorageLocationErrorsDeleteActions(ERRORS_DELETE_NAMESPACE)
 
 export const storageLocationMonitoringActions = new StorageLocationMonitoringActions(RELAUNCH_MONITORING_NAMESPACE)

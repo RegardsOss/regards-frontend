@@ -51,7 +51,7 @@ class StorageLocationEditAction extends React.Component {
     return (
       <IconButton
         className={`selenium-edit-${configuration.id}`}
-        title={formatMessage({ id: 'storage.data-storage.plugins.list.edit.button' })}
+        title={formatMessage({ id: 'storage.location.list.edit.button' })}
         iconStyle={StorageLocationEditAction.iconStyle}
         style={StorageLocationEditAction.buttonStyle}
         onClick={() => onEdit(configuration)}

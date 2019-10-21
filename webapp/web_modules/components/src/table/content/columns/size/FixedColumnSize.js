@@ -16,16 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { storageLocationReducer } from './clients/StorageLocationClient'
-import { storageRequestReducers } from './clients/StorageRequestClient'
+import { ColumnSize } from './ColumnSize'
 
 /**
+ * Points out a fixed column size
  * @author Sébastien Binda
  */
-const microserviceManagementReducer = combineReducers({
-  'storage-location': storageLocationReducer,
-  'storage-request': storageRequestReducers,
-})
+export class FixedColumnSize extends ColumnSize {
+  /** Used by layout to determine the sizing type it is handling */
+  static TYPE = 'FIXED_COLUMN_SIZE'
 
-export default microserviceManagementReducer
+  constructor(size) {
+    super(FixedColumnSize.TYPE)
+    this.size = size
+  }
+}

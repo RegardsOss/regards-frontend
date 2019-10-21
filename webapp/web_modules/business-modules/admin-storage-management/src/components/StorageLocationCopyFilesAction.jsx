@@ -48,7 +48,7 @@ class StorageLocationCopyFilesAction extends React.Component {
     const { entity } = this.props
     return (
       <IconButtonWithResources
-        title={formatMessage({ id: 'storage.data-storage.plugins.list.copy.button' })}
+        title={formatMessage({ id: 'storage.location.list.copy.button' })}
         iconStyle={StorageLocationCopyFilesAction.iconStyle}
         style={StorageLocationCopyFilesAction.buttonStyle}
         onClick={() => this.props.onCopyFiles(entity)}

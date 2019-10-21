@@ -48,7 +48,7 @@ class StorageLocationDeleteFilesAction extends React.Component {
     const { entity } = this.props
     return (
       <IconButtonWithResources
-        title={formatMessage({ id: 'storage.data-storage.plugins.list.delete-files.button' })}
+        title={formatMessage({ id: 'storage.location.list.delete-files.button' })}
         iconStyle={StorageLocationDeleteFilesAction.iconStyle}
         style={StorageLocationDeleteFilesAction.buttonStyle}
         onClick={() => this.props.onDeleteFiles(entity)}

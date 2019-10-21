@@ -62,6 +62,7 @@ export { AdminPluginConfigurationSchemaConfiguration, PLUGIN_CONFIGURATION, PLUG
 export { PLUGIN_PARAMETER_ARRAY, PLUGIN_PARAMETER, PluginParameterConfiguration } from './common/PluginParameter'
 // Storage
 export { STORAGE_LOCATION, STORAGE_LOCATION_ARRAY, StorageLocationConfiguration } from './storage/StorageLocation'
+export { STORAGE_REQUEST, STORAGE_REQUEST_ARRAY, StorageRequestConfiguration } from './storage/StorageRequest'
 export { StorageMonitoringConfiguration, STORAGE_MONITORING, STORAGE_MONITORING_ARRAY } from './storage/StorageMonitoring'
 // Admin
 export { RESOURCE_ACCESS, RESOURCE_ACCESS_ARRAY, ResourceAccessConfiguration } from './admin/ResourceAccess'

@@ -55,8 +55,8 @@ class StorageLocationPriorityAction extends React.Component {
     const { entity: { content } } = this.props
 
     const title = this.props.onUp
-      ? formatMessage({ id: 'storage.data-storage.plugins.list.up.priority.button' })
-      : formatMessage({ id: 'storage.data-storage.plugins.list.down.priority.button' })
+      ? formatMessage({ id: 'storage.location.list.up.priority.button' })
+      : formatMessage({ id: 'storage.location.list.down.priority.button' })
     return (
       <IconButton
         className={`selenium-edit-${content.configuration.id}`}

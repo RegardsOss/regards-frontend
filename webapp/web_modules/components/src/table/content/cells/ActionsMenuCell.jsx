@@ -57,7 +57,7 @@ class ActionsMenuCell extends React.Component {
     const styles = moduleStyles(muiTheme)
 
     return (
-      <div style={styles.actionsMenuCellWrapper}>
+      <div id="plop-menu" style={styles.actionsMenuCellWrapper}>
         {map(children, (child, index) => (
           <MediaQuery key={index} minWidth={breakpoints[index]}>
             {child}

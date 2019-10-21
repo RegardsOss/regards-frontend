@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,17 +15,19 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { combineReducers } from 'redux'
-import { storageLocationReducer } from './clients/StorageLocationClient'
-import { storageRequestReducers } from './clients/StorageRequestClient'
+ */
+import { StorageClient } from '@regardsoss/client'
 
 /**
+ * StorageRequest entities client.
+ *
  * @author Sébastien Binda
  */
-const microserviceManagementReducer = combineReducers({
-  'storage-location': storageLocationReducer,
-  'storage-request': storageRequestReducers,
-})
+const { StorageRequestActions, getStorageRequestReducers, getStorageRequestSelectors } = StorageClient
 
-export default microserviceManagementReducer
+const STORAGE_REQUEST_NAMESPACE = 'admin-storage/storageRequest'
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'storage', 'storage-request']
+
+export const storageRequestActions = new StorageRequestActions(STORAGE_REQUEST_NAMESPACE)
+export const storageRequestReducers = getStorageRequestReducers(STORAGE_REQUEST_NAMESPACE)
+export const storageRequestSelectors = getStorageRequestSelectors(ENTITIES_STORE_PATH)
