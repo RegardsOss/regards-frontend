@@ -87,7 +87,7 @@ class StorageLocationFormComponent extends React.Component {
       configuration: {
         name: entity.content.configuration.name,
         allocatedSizeInKo: fields.allocatedSizeInKo,
-        pluginConfiguration: fields.pluginConfiguration ? fields.pluginConfiguration : null,
+        pluginConfiguration: fields.pluginConfiguration ? PluginFormUtils.formatPluginConf(fields.pluginConfiguration) : null,
       },
     }
     onUpdate(entity.content.configuration.name, storageLocationConfToUpdate).then((actionResults) => {

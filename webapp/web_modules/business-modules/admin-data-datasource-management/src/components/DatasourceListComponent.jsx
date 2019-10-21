@@ -91,7 +91,7 @@ export default class DatasourceListComponent extends React.Component {
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => {
-            this.props.handleDelete(this.state.entityToDelete.content.id)
+            this.props.handleDelete(this.state.entityToDelete.content.businessId)
           }}
           onClose={this.closeDeleteDialog}
           title={title}

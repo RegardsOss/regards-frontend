@@ -174,6 +174,7 @@ export class AIPDatasourceFormComponent extends React.Component {
       const modelName = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.MODEL), 'value')
       const tags = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.TAGS), 'value', [])
       const subsettingTags = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.SUBSETTING_TAGS), 'value', [])
+      const subsettingCategories = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.SUBSETTING_CATEGORIES), 'value', [])
       const attributeFileSize = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.ATTRIBUTE_FILE_SIZE), 'value', '')
       const mappingRaw = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.BINDMAP_MAP), 'value', [])
       // Replace the caracter . inside the binding into the caracter @
@@ -187,6 +188,7 @@ export class AIPDatasourceFormComponent extends React.Component {
         refreshRate,
         tags,
         subsettingTags,
+        subsettingCategories,
         mapping,
         attributeFileSize,
       }
@@ -282,6 +284,11 @@ export class AIPDatasourceFormComponent extends React.Component {
               name="subsettingTags"
               component={RenderArrayTextField}
               fieldsListLabel={this.context.intl.formatMessage({ id: 'datasource.form.subsettingTags' })}
+            />
+            <FieldArray
+              name="subsettingCategories"
+              component={RenderArrayTextField}
+              fieldsListLabel={this.context.intl.formatMessage({ id: 'datasource.form.subsettingCategories' })}
             />
             <ShowableAtRender
               show={modelAttributeFetched}

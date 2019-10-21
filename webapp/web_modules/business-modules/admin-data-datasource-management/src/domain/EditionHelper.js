@@ -21,14 +21,15 @@ import { DATASOURCE_PLUGIN_TYPE_ENUM } from '@regardsoss/domain/dam'
 export class EditionHelper {
   static getDatasourcePluginType(datasource) {
     let type = ''
-    if (datasource.content.pluginClassName === DATASOURCE_PLUGIN_TYPE_ENUM.AIP) {
+    if (datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.AIP) {
       type = 'aip'
-    } else if (datasource.content.pluginClassName === DATASOURCE_PLUGIN_TYPE_ENUM.OPENSEARCH) {
+    } else if (datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.OPENSEARCH) {
       type = 'opensearch'
-    } else if (datasource.content.interfaceNames.includes(DATASOURCE_PLUGIN_TYPE_ENUM.DB)) {
+    } else if (datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.DB_ORACLE
+      || datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.DB_POSTGRES) {
       type = 'db'
     } else {
-      throw new Error('Datasource Plugin type not recognized :', datasource.content.pluginClassName)
+      throw new Error('Datasource Plugin type not recognized :', datasource.content.pluginId)
     }
 
     return type
