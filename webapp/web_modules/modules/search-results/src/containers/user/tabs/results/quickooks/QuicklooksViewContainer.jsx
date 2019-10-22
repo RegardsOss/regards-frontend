@@ -129,7 +129,7 @@ export class QuicklooksViewContainer extends React.Component {
           projectName,
           embedInMap,
           mapThumbnailHeight,
-          // Quicklooks cells are be pure components so they require the theme and locale to redraw
+          // Quicklooks cells are pure components so they require the theme and locale to redraw
           currentTheme: theme,
           locale: i18n,
         },

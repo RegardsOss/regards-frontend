@@ -27,5 +27,6 @@ export class UISettingsConstants {
    */
   static DEFAULT_SETTINGS = {
     documentModels: [],
+    primaryQuicklookGroup: 'primary',
   }
 }
