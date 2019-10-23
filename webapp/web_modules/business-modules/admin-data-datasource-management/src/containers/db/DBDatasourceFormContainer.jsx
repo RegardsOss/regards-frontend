@@ -293,8 +293,6 @@ export class DBDatasourceFormContainer extends React.Component {
       currentDatasource,
     })
     if (this.state.isEditing) {
-      //should be useless, right ?
-      //currentDatasource.content.id = this.props.params.datasourceId
       this.handleUpdate(currentDatasource)
     } else {
       this.handleCreate(currentDatasource)

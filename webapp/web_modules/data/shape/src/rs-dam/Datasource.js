@@ -21,11 +21,10 @@ import PluginParameterContent from '../rs-common/Plugin/PluginParameter'
 export const Datasource = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
-    pluginClassName: PropTypes.string,
     pluginId: PropTypes.string,
+    businessId: PropTypes.string,
     label: PropTypes.string,
     version: PropTypes.string,
-    interfaceNames: PropTypes.arrayOf(PropTypes.string),
     parameters: PropTypes.arrayOf(PluginParameterContent).isRequired,
   }),
 })
