@@ -21,49 +21,49 @@ export default [
     content: {
       label: 'Hello Toulouse',
       id: 1353,
+      businessId: 'toulouse',
       version: 'V1',
       priorityOrder: '42',
       active: false,
-      pluginClassName: 'fr.cnes.regards.framework.plugins.SampleErrorPlugin',
       parameters: [
         {
           name: 'user',
           value: 'admin',
-          dynamic: false,
+          TYPE: 'STRING',
         },
         {
           name: 'password',
           value: 'admin',
-          dynamic: false,
+          TYPE: 'STRING',
         },
         {
           name: 'dbHost',
           value: 'localhost',
-          dynamic: false,
+          TYPE: 'STRING',
         },
         {
           name: 'dbPort',
           value: '1256',
-          dynamic: false,
+          TYPE: 'STRING',
         },
         {
           name: 'dbName',
           value: 'pierre',
-          dynamic: false,
+          TYPE: 'STRING',
         },
         {
           name: 'driver',
-          dynamic: false,
+          TYPE: 'STRING',
         },
         {
           name: 'maxPoolSize',
           value: '20',
-          dynamic: false,
+          TYPE: 'STRING',
         },
         {
           name: 'minPoolSize',
           value: '5',
-          dynamic: false,
+          TYPE: 'STRING',
         },
       ],
     },

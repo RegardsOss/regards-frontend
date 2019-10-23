@@ -16,9 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import {
-  Card, CardTitle, CardMedia, CardActions,
-} from 'material-ui/Card'
+import { CardMedia } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
