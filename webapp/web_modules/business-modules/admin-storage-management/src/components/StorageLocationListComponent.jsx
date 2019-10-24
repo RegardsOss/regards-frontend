@@ -33,6 +33,7 @@ import {
 } from '@regardsoss/components'
 import { StorageShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { timingSafeEqual } from 'crypto'
 import { storageLocationActions } from '../clients/StorageLocationClient'
 import StorageLocationSizeRenderer from './StorageLocationSizeRenderer'
 import StorageLocationStorageErrorRenderer from './StorageLocationStorageErrorRenderer'
@@ -203,7 +204,7 @@ export class StorageLocationListComponent extends React.Component {
     const { entityTargeted, dialogType, errorsType } = this.state
     const { intl: { formatMessage } } = this.context
     if (entityTargeted && dialogSwitch === dialogType) {
-      const { name } = entityTargeted.content.configuration
+      const { name } = entityTargeted.content
       if (dialogType === StorageLocationListComponent.DIALOGS_TYPES.VIEW_ERRORS) {
         const actions = [
           <FlatButton
@@ -453,6 +454,7 @@ export class StorageLocationListComponent extends React.Component {
             onUp: onUpPriority,
             onDown: onDownPriority,
             onDeleteFiles: this.onDeleteFiles,
+            onDelete: this.onDelete,
             onRefresh,
           },
         })
@@ -469,6 +471,14 @@ export class StorageLocationListComponent extends React.Component {
       margin: 5,
     }
     const orderTypes = { ONLINE: 1, NEARLINE: 2, OFFLINE: 3 }
+    const sortedEntities = entities.sort(
+      (entityA, entityB) => {
+        const storageTypeA = entityA.content.configuration ? entityA.content.configuration.storageType : 'OFFLINE'
+        const priorityA = entityA.content.configuration ? entityA.content.configuration.priority : 0
+        const storageTypeB = entityB.content.configuration ? entityB.content.configuration.storageType : 'OFFLINE'
+        const priorityB = entityB.content.configuration ? entityB.content.configuration.priority : 0
+        return orderTypes[storageTypeA] - orderTypes[storageTypeB] || priorityA - priorityB
+      })
     return (
       <div>
         {this.renderRequestsDialog(ConfirmDialogComponentTypes.DELETE, 'storage.location.list.confirm.title', StorageLocationListComponent.DIALOGS_TYPES.DELETE)}
@@ -500,7 +510,7 @@ export class StorageLocationListComponent extends React.Component {
           </TableHeaderLine>
           <InfiniteTableContainer
             columns={columns}
-            entities={entities.sort((entityA, entityB) => orderTypes[entityA.content.configuration.storageType] - orderTypes[entityB.content.configuration.storageType] || entityA.content.configuration.priority - entityB.content.configuration.priority)}
+            entities={sortedEntities}
             emptyComponent={emptyComponent}
             entitiesCount={entities.length}
             minRowCount={minRowCount}

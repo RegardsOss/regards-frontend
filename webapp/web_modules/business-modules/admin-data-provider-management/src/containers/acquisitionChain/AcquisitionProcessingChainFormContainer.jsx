@@ -25,6 +25,7 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ErrorCardComponent } from '@regardsoss/components'
 import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { StorageDomain } from '@regardsoss/domain'
+import { DATA_TYPES_ENUM } from '../../components/acquisitionChain/StoragesFieldArrayRenderer'
 import AcquisitionProcessingChainFormComponent from '../../components/acquisitionChain/AcquisitionProcessingChainFormComponent'
 import { AcquisitionProcessingChainEditActions, AcquisitionProcessingChainEditSelectors } from '../../clients/AcquisitionProcessingChainClient'
 import { storagesListActions, storagesListSelectors } from '../../clients/StoragesListClient'
@@ -128,6 +129,7 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
       // eslint-disable-next-line no-param-reassign
       fi.scanPlugin = PluginFormUtils.formatPluginConf(fi.scanPlugin)
     })
+    console.error('values.storages', values.storages)
     // Convert storages for API query
     const serverValues = {
       ...values,
@@ -137,10 +139,20 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
       validationPluginConf: PluginFormUtils.formatPluginConf(values.validationPluginConf),
       storages: values.storages.filter(storages => storages.active).map(configuredStorage => ({
         pluginBusinessId: configuredStorage.label,
-        storePath: configuredStorage.path ? configuredStorage.path : '',
-        targetTypes: configuredStorage.targetTypes || [],
+        storePath: configuredStorage.storePath ? configuredStorage.storePath : '',
+        targetTypes: [
+          configuredStorage.rawdata ? DATA_TYPES_ENUM.RAWDATA : undefined,
+          configuredStorage.aip ? DATA_TYPES_ENUM.AIP : undefined,
+          configuredStorage.description ? DATA_TYPES_ENUM.DESCRIPTION : undefined,
+          configuredStorage.document ? DATA_TYPES_ENUM.DOCUMENT : undefined,
+          configuredStorage.quicklook ? DATA_TYPES_ENUM.QUICKLOOK : undefined,
+          configuredStorage.thumbnail ? DATA_TYPES_ENUM.THUMBNAIL : undefined,
+          configuredStorage.other ? DATA_TYPES_ENUM.OTHER : undefined,
+        ],
       })),
     }
+
+    console.error('sending', serverValues)
 
     if (mode === 'edit') {
       action = this.props.update(serverValues.id, serverValues)

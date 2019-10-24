@@ -317,7 +317,6 @@ const styles = theme => ({
     paperFlexContainer: {
       display: 'flex',
       flexWrap: 'wrap',
-      justifyContent: 'space-between',
     },
     papers: {
       flex: 1,

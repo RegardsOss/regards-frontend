@@ -43,7 +43,7 @@ const validateName = value => value && !/^[a-zA-Z0-9_-]+$/g.test(value)
 class StorageLocationFormComponent extends React.Component {
   static propTypes = {
     mode: PropTypes.string.isRequired,
-    entity: StorageShapes.StorageLocation,
+    entity: StorageShapes.StorageMonitoring,
     backUrl: PropTypes.string.isRequired,
     onUpdate: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
@@ -65,9 +65,9 @@ class StorageLocationFormComponent extends React.Component {
     const { mode, entity, initialize } = this.props
     if (mode === 'edit' && entity) {
       initialize({
-        name: entity.content.configuration.name,
-        allocatedSizeInKo: entity.content.configuration.allocatedSizeInKo,
-        pluginConfiguration: entity.content.configuration.pluginConfiguration,
+        name: entity.content.name,
+        allocatedSizeInKo: entity.content.configuration ? entity.content.configuration.allocatedSizeInKo : null,
+        pluginConfiguration: entity.content.configuration ? entity.content.configuration.pluginConfiguration : null,
       })
     }
   }
@@ -83,14 +83,17 @@ class StorageLocationFormComponent extends React.Component {
   updateStorageLocationConf = (fields) => {
     const { onUpdate, entity } = this.props
     const storageLocationConfToUpdate = {
-      name: entity.content.configuration.name,
+      name: entity.content.name,
       configuration: {
-        name: entity.content.configuration.name,
-        allocatedSizeInKo: fields.allocatedSizeInKo,
-        pluginConfiguration: fields.pluginConfiguration ? PluginFormUtils.formatPluginConf(fields.pluginConfiguration) : null,
+        name: entity.content.name,
+        configuration: {
+          ...entity.content.configuration,
+          allocatedSizeInKo: fields.allocatedSizeInKo,
+          pluginConfiguration: fields.pluginConfiguration ? PluginFormUtils.formatPluginConf(fields.pluginConfiguration) : null,
+        },
       },
     }
-    onUpdate(entity.content.configuration.name, storageLocationConfToUpdate).then((actionResults) => {
+    onUpdate(entity.content.name, storageLocationConfToUpdate).then((actionResults) => {
       if (!actionResults.error) {
         this.onBack()
       }
@@ -167,8 +170,12 @@ class StorageLocationFormComponent extends React.Component {
 
   render() {
     const {
-      backUrl, mode, handleSubmit, entity,
+      backUrl, handleSubmit, entity, mode,
     } = this.props
+
+    let onSubmitAction = entity.content.configuration && entity.content.configuration.id ? this.updateStorageLocationConf : this.createStorageLocationConf
+    onSubmitAction = mode === 'create' ? this.createStorageLocationConf : onSubmitAction
+
     const { intl: { formatMessage }, moduleTheme } = this.context
 
     const title = mode === 'edit'
@@ -183,7 +190,7 @@ class StorageLocationFormComponent extends React.Component {
           title={title}
           subtitle={formatMessage({ id: 'storage.location.form.subtitle' })}
         />
-        <form onSubmit={handleSubmit(mode === 'create' ? this.createStorageLocationConf : this.updateStorageLocationConf)}>
+        <form onSubmit={handleSubmit(onSubmitAction)}>
           <CardText style={moduleTheme.root}>
             {this.renderContent()}
           </CardText>

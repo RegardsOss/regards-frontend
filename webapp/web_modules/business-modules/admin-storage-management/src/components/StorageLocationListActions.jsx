@@ -106,6 +106,9 @@ class StorageLocationListActions extends React.Component {
         </HateoasIconAction>
         <IconButton
           key="deleteFiles"
+          entityLinks={entity.links}
+          hateoasKey="deleteFiles"
+          disableInsteadOfHide
           onClick={() => onDeleteFiles(entity)}
           title={intl.formatMessage({ id: 'storage.location.list.delete-files.button' })}
         >
@@ -113,7 +116,7 @@ class StorageLocationListActions extends React.Component {
         </IconButton>
         <TableDeleteOption
           entity={entity}
-          onDelete={() => onDelete(entity.content)}
+          onDelete={() => onDelete(entity)}
           fetchPage={onRefresh}
           handleHateoas
           disableInsteadOfHide
