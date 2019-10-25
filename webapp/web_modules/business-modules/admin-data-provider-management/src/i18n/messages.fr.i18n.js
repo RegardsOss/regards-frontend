@@ -136,6 +136,7 @@ const messages = Object.assign({
   'acquisition-sessions.title': 'Sessions',
   'acquisition-sessions.subtitle': 'Suivi de l\'avancement global de l\'aquisition et traitement des données',
   'acquisition-sessions.back.button': 'Retour',
+  'acquisition-sessions.refresh.button': 'Raffraîchir',
 
   //3.1 Table headers
   'acquisition-sessions.table.name': 'Session',

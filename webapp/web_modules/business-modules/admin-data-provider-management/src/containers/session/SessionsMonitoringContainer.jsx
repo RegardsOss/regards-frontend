@@ -25,8 +25,9 @@ import { browserHistory } from 'react-router'
 import { CommonDomain } from '@regardsoss/domain'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
+import { RefreshPageableTableOption } from '@regardsoss/components'
 import {
-  sessionsActions, SESSION_ENDPOINT, SESSION_ENTITY_ID, sessionsRelaunchProductActions, sessionsRelaunchSIPActions, sessionsRelaunchAIPActions,
+  sessionsActions, sessionsSelectors, SESSION_ENDPOINT, SESSION_ENTITY_ID, sessionsRelaunchProductActions, sessionsRelaunchSIPActions, sessionsRelaunchAIPActions,
 } from '../../clients/session/SessionsClient'
 import { SessionsMonitoringComponent } from '../../components/session/SessionsMonitoringComponent'
 import messages from '../../i18n'
@@ -34,12 +35,15 @@ import styles from '../../styles'
 
 export class SessionsMonitoringContainer extends React.Component {
   static mapDispatchToProps = dispatch => ({
-    deleteSession: (id, force = false) => dispatch(sessionsActions.fetchPagedEntityList(0, null, { force })),
+    fetchSessions: (pageIndex, pageSize, pathParams, requestParams) => dispatch(sessionsActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, requestParams)),
+    deleteSession: (id, force = false) => dispatch(sessionsActions.deleteEntity(id, null, { source: force })),
     relaunchProducts: (source, name) => dispatch(sessionsRelaunchProductActions.relaunchProducts(source, name)),
     relaunchAIP: (source, name) => dispatch(sessionsRelaunchAIPActions.relaunchProducts(source, name)),
     relaunchSIP: (source, name) => dispatch(sessionsRelaunchSIPActions.relaunchProducts(source, name)),
     acknowledgeSessionState: (id, body, endpoint, verb) => dispatch(sessionsActions.updateEntity(id, body, null, null, endpoint, verb)),
   })
+
+  static mapStateToProps = state => RefreshPageableTableOption.mapStateToProps(state, { pageableTableSelectors: sessionsSelectors })
 
   static propTypes = {
     // from router
@@ -51,6 +55,13 @@ export class SessionsMonitoringContainer extends React.Component {
     relaunchAIP: PropTypes.func.isRequired,
     relaunchSIP: PropTypes.func.isRequired,
     acknowledgeSessionState: PropTypes.func.isRequired,
+    // From mapstate to props
+    fetchSessions: PropTypes.func.isRequired,
+    pageMetadata: PropTypes.shape({
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
   }
 
   /**
@@ -163,7 +174,14 @@ export class SessionsMonitoringContainer extends React.Component {
    */
   onDeleteProducts = (sessionId, force = false) => {
     const { deleteSession } = this.props
-    deleteSession(sessionId.toString(), force)
+    deleteSession(sessionId.toString(), force).then(() => {
+      this.onRefresh()
+    })
+  }
+
+  onRefresh = () => {
+    const { pageMetadata, fetchSessions } = this.props
+    RefreshPageableTableOption.refreshTable(fetchSessions, SessionsMonitoringComponent.PAGE_SIZE, true, pageMetadata, {}, this.state.requestParameters)
   }
 
   /**
@@ -428,6 +446,7 @@ export class SessionsMonitoringContainer extends React.Component {
         onClickRelaunchAIP={this.onClickRelaunchAIP}
         onClickRelaunchSIP={this.onClickRelaunchSIP}
         onClickRelaunchProducts={this.onClickRelaunchProducts}
+        onRefresh={this.onRefresh}
       />
     )
   }

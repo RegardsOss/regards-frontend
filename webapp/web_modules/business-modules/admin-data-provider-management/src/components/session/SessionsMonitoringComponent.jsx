@@ -23,6 +23,7 @@ import {
 } from 'material-ui/Card'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import NoSessionIcon from 'material-ui/svg-icons/image/crop-free'
+import RaisedButton from 'material-ui/RaisedButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonDomain } from '@regardsoss/domain'
@@ -72,6 +73,7 @@ export class SessionsMonitoringComponent extends React.Component {
     onChangeSource: PropTypes.func.isRequired,
     onChangeSession: PropTypes.func.isRequired,
     onChangeColumnsVisibility: PropTypes.func.isRequired,
+    onRefresh: PropTypes.string.isRequired,
     // columns visibility, like (string: columnKey):(boolean: column visible)
     columnsVisibility: PropTypes.objectOf(PropTypes.bool).isRequired,
 
@@ -168,6 +170,9 @@ export class SessionsMonitoringComponent extends React.Component {
       onDeleteProducts, onClickListIndexed, onClickRelaunchAIP, onClickRelaunchSIP, onClickRelaunchProducts, onClickListSIP, onClickListAIP,
     } = this.props
     const { sessionToAcknowledge } = this.state
+    const iconStyle = {
+      margin: 5,
+    }
 
     const columns = [
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE)
@@ -251,6 +256,12 @@ export class SessionsMonitoringComponent extends React.Component {
             onClose={this.onCloseAcknowledge}
             open={!!sessionToAcknowledge}
           />
+          <RaisedButton
+            label={formatMessage({ id: 'acquisition-sessions.refresh.button' })}
+            onClick={this.props.onRefresh}
+            primary
+            style={iconStyle}
+          />
           <TableLayout>
             <SessionsMonitoringFiltersComponent
               initialFilters={initialFilters}
@@ -271,7 +282,6 @@ export class SessionsMonitoringComponent extends React.Component {
             <PageableInfiniteTableContainer
               pageActions={sessionsActions}
               pageSelectors={sessionsSelectors}
-            // tableActions={tableActions}
               requestParams={requestParameters}
               columns={columns}
               emptyComponent={SessionsMonitoringComponent.EMPTY_COMPONENT}

@@ -136,6 +136,7 @@ const messages = Object.assign({
   'acquisition-sessions.title': 'Sessions',
   'acquisition-sessions.subtitle': 'Monitor all data ingesting and indexation',
   'acquisition-sessions.back.button': 'Back',
+  'acquisition-sessions.refresh.button': 'Refresh',
 
   //3.1 Table headers
   'acquisition-sessions.table.name': 'Session',
