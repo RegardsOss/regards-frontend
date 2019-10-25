@@ -73,11 +73,12 @@ export class SessionsMonitoringComponent extends React.Component {
     onChangeSource: PropTypes.func.isRequired,
     onChangeSession: PropTypes.func.isRequired,
     onChangeColumnsVisibility: PropTypes.func.isRequired,
-    onRefresh: PropTypes.string.isRequired,
+    onRefresh: PropTypes.func.isRequired,
     // columns visibility, like (string: columnKey):(boolean: column visible)
     columnsVisibility: PropTypes.objectOf(PropTypes.bool).isRequired,
 
     // Sessions action menu items
+    onDeleteSession: PropTypes.func.isRequired,
     onDeleteProducts: PropTypes.func.isRequired,
     onClickListIndexed: PropTypes.func.isRequired,
     onClickListSIP: PropTypes.func.isRequired,
@@ -167,7 +168,8 @@ export class SessionsMonitoringComponent extends React.Component {
     const {
       onBack, onSort, columnsSorting, requestParameters, onApplyFilters, onClearFilters, filtersEdited, canEmptyFilters, onToggleErrorsOnly, onToggleLastSession,
       initialFilters, onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onChangeColumnsVisibility, columnsVisibility,
-      onDeleteProducts, onClickListIndexed, onClickRelaunchAIP, onClickRelaunchSIP, onClickRelaunchProducts, onClickListSIP, onClickListAIP,
+      onDeleteSession, onClickListIndexed, onClickRelaunchAIP, onClickRelaunchSIP, onClickRelaunchProducts, onClickListSIP, onClickListAIP,
+      onDeleteProducts,
     } = this.props
     const { sessionToAcknowledge } = this.state
     const iconStyle = {
@@ -184,7 +186,7 @@ export class SessionsMonitoringComponent extends React.Component {
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME, true))
         .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME), onSort)
-        .rowCellDefinition({ Constructor: SessionsMonitoringSessionRenderer, props: { onDeleteProducts, onShowAcknowledge: this.onShowAcknowledge } })
+        .rowCellDefinition({ Constructor: SessionsMonitoringSessionRenderer, props: { onDeleteSession, onShowAcknowledge: this.onShowAcknowledge } })
         .label(formatMessage({ id: 'acquisition-sessions.table.name' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.LAST_UPDATE)
@@ -205,7 +207,7 @@ export class SessionsMonitoringComponent extends React.Component {
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.PRODUCTS)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.PRODUCTS, true))
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.sip-generated.tooltip' }))
-        .rowCellDefinition({ Constructor: SessionsMonitoringProductsGeneratedRenderer, props: { onClickRelaunchProducts } })
+        .rowCellDefinition({ Constructor: SessionsMonitoringProductsGeneratedRenderer, props: { onClickRelaunchProducts, onDeleteProducts } })
         .label(formatMessage({ id: 'acquisition-sessions.table.sip-generated' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.SIP)

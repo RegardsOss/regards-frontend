@@ -168,15 +168,19 @@ export class SessionsMonitoringContainer extends React.Component {
   }
 
   /**
-   * User cb: Delete products
+   * User cb: Delete sesion
    * @param {sessionId} Session Id
    * @param {force} Choose whether to use force delete or not
    */
-  onDeleteProducts = (sessionId, force = false) => {
+  onDeleteSession = (sessionId, force = false) => {
     const { deleteSession } = this.props
     deleteSession(sessionId.toString(), force).then(() => {
       this.onRefresh()
     })
+  }
+
+  onDeleteProducts = (session) => {
+
   }
 
   onRefresh = () => {
@@ -439,6 +443,7 @@ export class SessionsMonitoringContainer extends React.Component {
         onChangeFrom={this.onChangeFrom}
         onChangeTo={this.onChangeTo}
         onChangeColumnsVisibility={this.onChangeColumnsVisibility}
+        onDeleteSession={this.onDeleteSession}
         onDeleteProducts={this.onDeleteProducts}
         onClickListIndexed={this.onClickListIndexed}
         onClickListAIP={this.onClickListAIP}

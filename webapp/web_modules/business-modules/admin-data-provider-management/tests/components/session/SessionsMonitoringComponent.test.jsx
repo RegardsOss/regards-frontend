@@ -79,6 +79,7 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringComponent',
       onClickRelaunchAIP: () => {},
       onClickRelaunchSIP: () => {},
       onClickRelaunchProducts: () => {},
+      onRefresh: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringComponent {...props} />, { context })
     const wrapperInstance = enzymeWrapper.instance()

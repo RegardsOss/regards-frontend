@@ -170,9 +170,10 @@ const messages = Object.assign({
   'acquisition-sessions.states.acknowledge': 'Acquitter l\'erreur de session',
 
   //3.4 Cell's Menus
-  'acquisition-sessions.menus.session.delete': 'Supprimer les produits associés',
+  'acquisition-sessions.menus.session.delete': 'Supprimer la session',
   'acquisition-sessions.menus.session.delete.definitely': 'Supprimer définitivement la session',
   'acquisition-sessions.menus.products.relaunch': 'Relancer les produits en erreur',
+  'acquisition-sessions.menus.products.delete': 'Supprimer tous les produits',
   'acquisition-sessions.menus.ingested.relaunch': 'Relancer le traitement des SIPs en erreur',
   'acquisition-sessions.menus.ingested.list': 'Lister les SIPs',
   'acquisition-sessions.menus.ingested.list.error': 'Lister les SIPs en erreur',

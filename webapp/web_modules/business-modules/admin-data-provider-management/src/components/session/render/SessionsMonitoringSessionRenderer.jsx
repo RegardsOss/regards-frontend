@@ -32,7 +32,7 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
     onShowAcknowledge: PropTypes.func.isRequired,
-    onDeleteProducts: PropTypes.func.isRequired,
+    onDeleteSession: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -40,14 +40,14 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
     ...i18nContextType,
   }
 
-  onDeleteProducts = () => {
-    const { entity, onDeleteProducts } = this.props
-    onDeleteProducts(entity.content.id, false)
+  onDeleteSession = () => {
+    const { entity, onDeleteSession } = this.props
+    onDeleteSession(entity.content.id, false)
   }
 
-  onDeleteProductsForce = () => {
-    const { entity, onDeleteProducts } = this.props
-    onDeleteProducts(entity.content.id, true)
+  onDeleteSessionForce = () => {
+    const { entity, onDeleteSession } = this.props
+    onDeleteSession(entity.content.id, true)
   }
 
   onShowAcknowledgeDialog = () => {
@@ -87,7 +87,7 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
               { entity.content.state !== 'DELETED' ? (
                 <MenuItem
                   primaryText={formatMessage({ id: 'acquisition-sessions.menus.session.delete' })}
-                  onClick={this.onDeleteProducts}
+                  onClick={this.onDeleteSession}
                   value={null}
                 />
               ) : (
@@ -95,7 +95,7 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
               )}
               <MenuItem
                 primaryText={formatMessage({ id: 'acquisition-sessions.menus.session.delete.definitely' })}
-                onClick={this.onDeleteProductsForce}
+                onClick={this.onDeleteSessionForce}
                 value={null}
               />
             </DropDownButton>

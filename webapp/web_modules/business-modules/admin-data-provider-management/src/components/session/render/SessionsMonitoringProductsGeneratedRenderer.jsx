@@ -34,6 +34,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
     onClickRelaunchProducts: PropTypes.func.isRequired,
+    onDeleteProducts: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -44,6 +45,11 @@ class SessionsMonitoringProductsGenerated extends React.Component {
   onClickRelaunchProducts = () => {
     const { entity, onClickRelaunchProducts } = this.props
     onClickRelaunchProducts(entity.content.source, entity.content.name)
+  }
+
+  onDeleteProducts =() => {
+    const { entity, onDeleteProducts } = this.props
+    onDeleteProducts(entity)
   }
 
   render() {
@@ -122,6 +128,10 @@ class SessionsMonitoringProductsGenerated extends React.Component {
                     <MenuItem
                       primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.relaunch' })}
                       onClick={this.onClickRelaunchProducts}
+                    />
+                    <MenuItem
+                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.delete' })}
+                      onClick={this.onDeleteProducts}
                     />
                   </DropDownButton>
                 </div>
