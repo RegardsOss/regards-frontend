@@ -129,7 +129,6 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
       // eslint-disable-next-line no-param-reassign
       fi.scanPlugin = PluginFormUtils.formatPluginConf(fi.scanPlugin)
     })
-    console.error('values.storages', values.storages)
     // Convert storages for API query
     const serverValues = {
       ...values,
@@ -151,8 +150,6 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
         ],
       })),
     }
-
-    console.error('sending', serverValues)
 
     if (mode === 'edit') {
       action = this.props.update(serverValues.id, serverValues)

@@ -172,7 +172,14 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
           storages: storages.map(serverStorage => ({
             label: serverStorage.content.label,
             active: false,
-            path: '',
+            storePath: '',
+            aip: false,
+            description: false,
+            document: false,
+            other: false,
+            rawdata: false,
+            thumbnail: false,
+            quicklook: false,
           })),
         }
         break

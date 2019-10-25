@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { withModuleStyle } from '@regardsoss/theme'
-import { StorageShapes } from '@regardsoss/shape'
 import { storage } from '@regardsoss/units'
 import StoragePluginComponent from '../../components/user/StoragePluginComponent'
 
@@ -32,8 +31,8 @@ export class StoragePluginContainer extends React.Component {
     userApp: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     scale: storage.StorageUnitScaleShape.isRequired, // used only in onPropertiesChanged
-    // eslint-disable-next-line react/no-unused-prop-types
-    plugin: StorageShapes.StorageMonitoring.isRequired, // used only in onPropertiesChanged
+    // eslint-disable-next-line react/no-unused-prop-types,react/forbid-prop-types
+    plugin: PropTypes.any, // used only in onPropertiesChanged
   }
 
   /**
