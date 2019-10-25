@@ -235,6 +235,27 @@ export default baseTheme => ({
           },
         },
       },
+      quicklook: {
+        groupLists: {
+          width: 200,
+          borderColor: baseTheme.toolbar.separatorColor,
+          borderWidth: '0 1px 0 0',
+          padding: 20,
+          picturesGap: 20,
+          picture: {
+            width: 150,
+            height: 150,
+            borderWidth: 5,
+            selectedColor: baseTheme.palette.accent1Color,
+            unselectedColor: baseTheme.palette.canvasColor,
+          },
+        },
+        normalPadding: 10,
+        caption: {
+          color: baseTheme.palette.accent1Color,
+          padding: '10px 0 0 0',
+        },
+      },
     },
     // menu module
     menu: {

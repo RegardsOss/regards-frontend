@@ -1,3 +1,5 @@
+import { CommonDomain } from '@regardsoss/domain'
+
 /**
  * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -18,13 +20,28 @@
  **/
 
 /**
- * UI settings shape
- *
+ * Holds quicklooks definition builder for tests. Returns groups as resolved for runtime
  * @author Raphaël Mechali
  */
-export const UISettings = PropTypes.shape({
-  // Identifies data model of entities to consider as documents
-  documentModels: PropTypes.arrayOf(PropTypes.string).isRequired,
-  // Datafile.types keyword: when present in a quicklook, marks its assignement in primary group (it is not a group name!)
-  primaryQuicklookGroup: PropTypes.string.isRequired,
-})
+
+export function buildQuicklookGroupFor(groupName, primary) {
+  return [
+    CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD,
+    CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD,
+    CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD].reduce((acc, dataType) => ({
+    ...acc,
+    [dataType]: {
+      dataType,
+      reference: false,
+      uri: `http://test/${dataType}.jpg`,
+      mimeType: 'image/jpeg',
+      imageWidth: 105,
+      imageHeight: 88,
+      online: true,
+      checksum: 'IDKIDKIDK',
+      digestAlgorithm: 'MD5',
+      filesize: 13453,
+      filename: `${dataType}.jpg`,
+    },
+  }), { label: groupName, primary })
+}

@@ -352,27 +352,88 @@ const styles = theme => ({
           },
         },
         quicklook: {
+          groupLists: {
+            scrollArea: {
+              flexBasis: theme.module.description.quicklook.groupLists.width,
+              borderColor: theme.module.description.quicklook.groupLists.borderColor,
+              borderWidth: theme.module.description.quicklook.groupLists.borderWidth,
+              borderStyle: 'solid',
+              flexGrow: 0,
+              flexShrink: 0,
+            },
+            scrollAreaContent: {
+              minWidth: '100%',
+              maxHeight: '100',
+            },
+            listContainer: {
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'stretch',
+              padding: theme.module.description.quicklook.groupLists.padding,
+            },
+            picturesSeparator: {
+              marginTop: theme.module.description.quicklook.groupLists.picturesGap,
+            },
+            pictureContainer: {
+              selected: {
+                width: theme.module.description.quicklook.groupLists.picture.width,
+                height: theme.module.description.quicklook.groupLists.picture.height,
+                cursor: 'default',
+                borderWidth: theme.module.description.quicklook.groupLists.picture.borderWidth,
+                borderColor: theme.module.description.quicklook.groupLists.picture.selectedColor,
+                borderStyle: 'solid',
+              },
+              unselected: {
+                width: theme.module.description.quicklook.groupLists.picture.width,
+                height: theme.module.description.quicklook.groupLists.picture.height,
+                cursor: 'pointer',
+                borderWidth: theme.module.description.quicklook.groupLists.picture.borderWidth,
+                borderColor: theme.module.description.quicklook.groupLists.picture.unselectedColor,
+                borderStyle: 'solid',
+              },
+            },
+            picture: {
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            },
+          },
           view: {
             normal: {
               container: {
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
                 flexGrow: 1,
                 flexShrink: 1,
+                padding: theme.module.description.quicklook.normalPadding,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
                 cursor: 'zoom-in',
               },
-              img: {
-                flexGrow: 0,
+              imgContainer: {
+                minHeight: 0,
                 flexShrink: 1,
+                textAlign: 'center',
+              },
+              img: {
+                // fitContent: 'contain',
                 maxWidth: '100%',
                 maxHeight: '100%',
+              },
+              caption: {
+                color: theme.module.description.quicklook.caption.color,
+                padding: theme.module.description.quicklook.caption.padding,
               },
             },
             magnified: {
               container: {
+                flexGrow: 1,
+                flexShrink: 1,
                 overflow: 'auto',
                 cursor: 'zoom-out',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
               },
               img: {
                 display: 'block',

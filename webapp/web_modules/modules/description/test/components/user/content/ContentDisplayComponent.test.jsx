@@ -25,7 +25,7 @@ import ParametersSectionComponent from '../../../../src/components/user/content/
 import TagsSectionPageComponent from '../../../../src/components/user/content/list/tag/TagsSectionPageComponent'
 import EntitiesSectionPageComponent from '../../../../src/components/user/content/list/entity/EntitiesSectionPageComponent'
 import FilesSectionPageComponent from '../../../../src/components/user/content/list/file/FilesSectionPageComponent'
-import QuicklookComponent from '../../../../src/components/user/content/quicklook/QuicklookComponent'
+import QuicklookViewComponent from '../../../../src/components/user/content/quicklook/QuicklookViewComponent'
 import styles from '../../../../src/styles'
 import { resolvedDataEntity, resolvedDatasetEntity } from '../../../dumps/resolved.dump'
 import { BROWSING_SECTIONS_ENUM } from '../../../../src/domain/BrowsingSections'
@@ -173,7 +173,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
       section: BROWSING_SECTIONS_ENUM.QUICKLOOKS,
     },
     descriptionEntity: resolvedDataEntity,
-    ExpectedComponent: QuicklookComponent,
+    ExpectedComponent: QuicklookViewComponent,
     expectedProperties: {
       quicklookFiles: resolvedDataEntity.displayModel.quicklookFiles,
     },
