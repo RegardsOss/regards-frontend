@@ -117,6 +117,32 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
     browserHistory.push(url)
   }
 
+  getTargetTypes = (storage) => {
+    const targetTypes = []
+    if (storage.rawdata) {
+      targetTypes.push(DATA_TYPES_ENUM.RAWDATA)
+    }
+    if (storage.aip) {
+      targetTypes.push(DATA_TYPES_ENUM.AIP)
+    }
+    if (storage.description) {
+      targetTypes.push(DATA_TYPES_ENUM.DESCRIPTION)
+    }
+    if (storage.document) {
+      targetTypes.push(DATA_TYPES_ENUM.DOCUMENT)
+    }
+    if (storage.quicklook) {
+      targetTypes.push(DATA_TYPES_ENUM.QUICKLOOK)
+    }
+    if (storage.thumbnail) {
+      targetTypes.push(DATA_TYPES_ENUM.THUMBNAIL)
+    }
+    if (storage.other) {
+      targetTypes.push(DATA_TYPES_ENUM.OTHER)
+    }
+    return targetTypes
+  }
+
   /**
    * Callback to submit form values
    * @param {*} values : AcquisitionProcessingChain object to submit (update or create)
@@ -139,15 +165,7 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
       storages: values.storages.filter(storages => storages.active).map(configuredStorage => ({
         pluginBusinessId: configuredStorage.label,
         storePath: configuredStorage.storePath ? configuredStorage.storePath : '',
-        targetTypes: [
-          configuredStorage.rawdata ? DATA_TYPES_ENUM.RAWDATA : undefined,
-          configuredStorage.aip ? DATA_TYPES_ENUM.AIP : undefined,
-          configuredStorage.description ? DATA_TYPES_ENUM.DESCRIPTION : undefined,
-          configuredStorage.document ? DATA_TYPES_ENUM.DOCUMENT : undefined,
-          configuredStorage.quicklook ? DATA_TYPES_ENUM.QUICKLOOK : undefined,
-          configuredStorage.thumbnail ? DATA_TYPES_ENUM.THUMBNAIL : undefined,
-          configuredStorage.other ? DATA_TYPES_ENUM.OTHER : undefined,
-        ],
+        targetTypes: this.getTargetTypes(configuredStorage),
       })),
     }
 

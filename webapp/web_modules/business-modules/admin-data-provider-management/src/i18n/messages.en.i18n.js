@@ -158,7 +158,7 @@ const messages = Object.assign({
   'acquisition-sessions.table.indexed.tooltip': 'Indexed products in catalog',
 
   //3.3 Products states
-  'acquisition-sessions.states.completed': 'Complet',
+  'acquisition-sessions.states.ingested': 'Processed',
   'acquisition-sessions.states.incomplete': 'Incomplete',
   'acquisition-sessions.states.error': 'Error',
   'acquisition-sessions.states.processed': 'Processed',

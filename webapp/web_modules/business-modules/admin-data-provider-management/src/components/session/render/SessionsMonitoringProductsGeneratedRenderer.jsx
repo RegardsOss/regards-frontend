@@ -21,6 +21,7 @@
  * Comment Here
  * @author Kevin Picart
  */
+import get from 'lodash/get'
 import Menu from 'material-ui/svg-icons/navigation/more-vert'
 import Play from 'material-ui/svg-icons/av/play-arrow'
 import { MenuItem } from 'material-ui'
@@ -52,6 +53,20 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     onDeleteProducts(entity)
   }
 
+  getPending = (entity) => {
+    const { intl: { formatNumber } } = this.context
+    const submitted = get(entity, 'content.lifeCycle.PRODUCTS.submitted', 0)
+    const generated = get(entity, 'content.lifeCycle.PRODUCTS.generated', 0)
+    return formatNumber(parseInt(submitted, 10) + parseInt(generated, 10))
+  }
+
+  getErrors = (entity) => {
+    const { intl: { formatNumber } } = this.context
+    const error = get(entity, 'content.lifeCycle.PRODUCTS.generation_error', 0)
+    const ingFailed = get(entity, 'content.lifeCycle.PRODUCTS.ingestion_failed', 0)
+    return formatNumber(parseInt(error, 10) + parseInt(ingFailed, 10))
+  }
+
   render() {
     const {
       intl: { formatMessage, formatNumber },
@@ -59,14 +74,14 @@ class SessionsMonitoringProductsGenerated extends React.Component {
         sessionsStyles: {
           menuDropDown,
           gridCell: {
-            gridContainer, gridHeaderContainer, infosContainer, lineContainer, listValues, cellContainer,
+            gridContainer, gridHeaderContainer, infosContainer, lineFourContainer, listFourValues, cellContainer,
             acquiredProductState: {
               runningContainer,
               runningIconColor,
               running,
             },
             lines: {
-              one, two, three,
+              one, two, three, four,
             },
           },
         },
@@ -100,24 +115,29 @@ class SessionsMonitoringProductsGenerated extends React.Component {
                 ) }
               </div>
               <div style={infosContainer}>
-                <div style={lineContainer}>
+                <div style={lineFourContainer}>
                   <div style={one}>
-                    {formatMessage({ id: 'acquisition-sessions.states.completed' })}
+                    {formatMessage({ id: 'acquisition-sessions.states.ingested' })}
                   :
                   </div>
                   <div style={two}>
-                    {formatMessage({ id: 'acquisition-sessions.states.incomplete' })}
+                    {formatMessage({ id: 'acquisition-sessions.states.pending' })}
                   :
                   </div>
                   <div style={three}>
+                    {formatMessage({ id: 'acquisition-sessions.states.incomplete' })}
+                  :
+                  </div>
+                  <div style={four}>
                     {formatMessage({ id: 'acquisition-sessions.states.error' })}
                   :
                   </div>
                 </div>
-                <div style={listValues}>
-                  <div style={one}>{formatNumber((entity.content.lifeCycle.PRODUCTS.generated ? entity.content.lifeCycle.PRODUCTS.generated : 0))}</div>
-                  <div style={two}>{formatNumber((entity.content.lifeCycle.PRODUCTS.incomplete ? entity.content.lifeCycle.PRODUCTS.incomplete : 0))}</div>
-                  <div style={three}>{formatNumber((entity.content.lifeCycle.PRODUCTS.generation_error ? entity.content.lifeCycle.PRODUCTS.generation_error : 0))}</div>
+                <div style={listFourValues}>
+                  <div style={one}>{formatNumber((entity.content.lifeCycle.PRODUCTS.ingested ? entity.content.lifeCycle.PRODUCTS.ingested : 0))}</div>
+                  <div style={two}>{this.getPending(entity)}</div>
+                  <div style={three}>{formatNumber((entity.content.lifeCycle.PRODUCTS.incomplete ? entity.content.lifeCycle.PRODUCTS.incomplete : 0))}</div>
+                  <div style={four}>{this.getErrors(entity)}</div>
                 </div>
                 <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
                   <DropDownButton

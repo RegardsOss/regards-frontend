@@ -54,6 +54,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringSessionRend
       },
       onShowAcknowledge: () => {},
       onDeleteProducts: () => {},
+      onDeleteSession: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringSessionRenderer {...props} />, { context })
     const dropDownButton = enzymeWrapper.find(DropDownButton)
@@ -78,6 +79,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringSessionRend
       },
       onShowAcknowledge: () => {},
       onDeleteProducts: () => {},
+      onDeleteSession: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringSessionRenderer {...props} />, { context })
     const dropDownButton = enzymeWrapper.find(DropDownButton)
@@ -102,6 +104,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringSessionRend
       },
       onShowAcknowledge: () => {},
       onDeleteProducts: () => {},
+      onDeleteSession: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringSessionRenderer {...props} />, { context })
     const dropDownButton = enzymeWrapper.find(DropDownButton)

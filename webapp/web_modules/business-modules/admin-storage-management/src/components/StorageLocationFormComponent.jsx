@@ -173,8 +173,12 @@ class StorageLocationFormComponent extends React.Component {
       backUrl, handleSubmit, entity, mode,
     } = this.props
 
-    let onSubmitAction = entity.content.configuration && entity.content.configuration.id ? this.updateStorageLocationConf : this.createStorageLocationConf
-    onSubmitAction = mode === 'create' ? this.createStorageLocationConf : onSubmitAction
+    let onSubmitAction
+    if (mode === 'create') {
+      onSubmitAction = this.createStorageLocationConf
+    } else {
+      onSubmitAction = entity.content.configuration && entity.content.configuration.id ? this.updateStorageLocationConf : this.createStorageLocationConf
+    }
 
     const { intl: { formatMessage }, moduleTheme } = this.context
 

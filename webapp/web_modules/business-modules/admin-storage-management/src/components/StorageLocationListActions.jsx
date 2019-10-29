@@ -38,7 +38,7 @@ class StorageLocationListActions extends React.Component {
     entity: StorageShapes.StorageLocation.isRequired,
     onEdit: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
-    onCopyFiles: PropTypes.func.isrequired,
+    onCopyFiles: PropTypes.func.isRequired,
     onUp: PropTypes.func.isRequired,
     onDown: PropTypes.func.isRequired,
     onDeleteFiles: PropTypes.func.isRequired,
@@ -104,7 +104,7 @@ class StorageLocationListActions extends React.Component {
         >
           <ArrowDown hoverColor={style.hoverButtonEdit} />
         </HateoasIconAction>
-        <IconButton
+        <HateoasIconAction
           key="deleteFiles"
           entityLinks={entity.links}
           hateoasKey="deleteFiles"
@@ -113,7 +113,7 @@ class StorageLocationListActions extends React.Component {
           title={intl.formatMessage({ id: 'storage.location.list.delete-files.button' })}
         >
           <DeleteFiles hoverColor={style.hoverButtonEdit} />
-        </IconButton>
+        </HateoasIconAction>
         <TableDeleteOption
           entity={entity}
           onDelete={() => onDelete(entity)}
