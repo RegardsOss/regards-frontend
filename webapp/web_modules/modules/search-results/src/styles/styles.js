@@ -286,7 +286,7 @@ const styles = theme => ({
         alignItems: 'stretch',
       },
       labelColumnStyles: {
-        margin: '10px 0 5px 0',
+        margin: '10px 0 10px 0',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -323,11 +323,17 @@ const styles = theme => ({
       },
     },
     quicklookViewStyles: {
+      cardContentContainer: {
+        display: 'flex',
+      },
       imageStyle: {
         maxWidth: '100%',
       },
-      imageAndOptionsContainer: {
+      pictureAndAttributesContainer: {
         display: 'flex',
+        flexDirection: 'column',
+        flexGrow: 1,
+        flexShrink: 1,
       },
       quicklookContainerStyle: {
         cursor: 'zoom-in',
@@ -337,6 +343,9 @@ const styles = theme => ({
         width: '50%',
         height: '50%',
         margin: 'auto',
+      },
+      attributesContainer: {
+        padding: 0,
       },
       optionsBarStyles: {
         display: 'flex',
@@ -353,9 +362,7 @@ const styles = theme => ({
           height: 24,
         },
       },
-      attributesContainer: {
-        padding: 0,
-      },
+
     },
     mapViewStyles: {
       geoLayout: {
@@ -378,8 +385,9 @@ const styles = theme => ({
         padding: theme.module.searchResults.map.quicklooks.padding,
       },
       quicklookImage: {
-        maxWidth: '100%',
+        width: '100%',
         height: theme.module.searchResults.map.quicklooks.thumbnailHeight,
+        objectFit: 'contain',
       },
       toolsBox: {
         // overlay position

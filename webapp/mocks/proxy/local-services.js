@@ -209,11 +209,13 @@ const quicklooksDataFiles = quicklooksFiles.reduce((acc,fileName, index) => {
     } else {
       width = commonDef.size
       height = commonDef.size
-      if (groupName === 'square'){
-        types.push('primary')
-      }
     }
   }
+
+  if (groupName === 'diamond'){
+    types.push('primary')
+  }
+
   // add the data file in corresponding group
   return {
     ...acc,
@@ -251,6 +253,27 @@ function getDescriptionEntityWithMockQuicklooks({content, links}){
       links,
     },
   }
+}
+
+function getCatalogPageWithMockQuicklooks({content, facets, links, metadata}){
+  return {
+    content: {
+      content: content.map(entity => ({
+        content: {
+          ...entity.content,
+          files: {
+            ...entity.content.files,
+            ...quicklooksDataFiles,
+          },
+        },
+        links: entity.links,
+      })),
+      facets,
+      links,
+      metadata,
+    }
+  }
+
 }
 
 const tempFilesMap = [
@@ -354,12 +377,14 @@ function buildLocalServices(gatewayURL) {
           return { content: JSON.parse(loadFile('mocks/proxy/resources/mock-searchengine.json')) }
         }
       },
-      // TODO
       getDescriptionEntityWithMockQuicklooks: {
          url: 'rs-catalog/engines/legacy/entities/{entity}',
          handler: withProxyFetcher(buildREGARDSPassthroughProxiedURL(gatewayURL), getDescriptionEntityWithMockQuicklooks)
       },
-      // TODO demain: 
+      searchEntitiesWithMockQuicklooks: {
+        url: 'rs-access-project/dataobjects/search',
+        handler: withProxyFetcher(buildREGARDSPassthroughProxiedURL(gatewayURL), getCatalogPageWithMockQuicklooks)
+      },
 
       // wrap (description) http://localhost:3000/api/v1/rs-catalog/engines/legacy/entities/URN:AIP:DATA:project1:8239915a-bcc0-30a6-94bd-5435bf1539ad:V1
       // wrap (ql): http://localhost:3000/api/v1/rs-access-project/dataobjects/search?q=datasetModelNames%3AEmptyDataset&sort=properties.CREATION_DATE%2CASC&offset=0&page=0&size=500
