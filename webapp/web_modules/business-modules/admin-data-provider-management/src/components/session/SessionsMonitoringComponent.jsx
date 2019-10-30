@@ -37,9 +37,7 @@ import { SessionsMonitoringSessionRenderer } from './render/SessionsMonitoringSe
 import { SessionsMonitoringCreationDateRenderer } from './render/SessionsMonitoringCreationDateRenderer'
 import { SessionsMonitoringStateRenderer } from './render/SessionsMonitoringStateRenderer'
 import SessionsMonitoringProductsGeneratedRenderer from './render/SessionsMonitoringProductsGeneratedRenderer'
-import SessionsMonitoringProductsIngestedRenderer from './render/SessionsMonitoringProductsIngestedRenderer'
 import SessionsMonitoringProductsStoredRenderer from './render/SessionsMonitoringProductsStoredRenderer'
-import { SessionsMonitoringGeneratedAipRenderer } from './render/SessionsMonitoringGeneratedAipRenderer'
 import { SessionsMonitoringIndexedRenderer } from './render/SessionsMonitoringIndexedRenderer'
 import { SessionsMonitoringFiltersComponent } from './SessionsMonitoringFiltersComponent'
 import { SessionsMonitoringLastModificationRenderer } from './render/SessionsMonitoringLastModificationRenderer'
@@ -81,10 +79,8 @@ export class SessionsMonitoringComponent extends React.Component {
     onDeleteSession: PropTypes.func.isRequired,
     onDeleteProducts: PropTypes.func.isRequired,
     onClickListIndexed: PropTypes.func.isRequired,
-    onClickListSIP: PropTypes.func.isRequired,
     onClickListAIP: PropTypes.func.isRequired,
     onClickRelaunchAIP: PropTypes.func.isRequired,
-    onClickRelaunchSIP: PropTypes.func.isRequired,
     onClickRelaunchProducts: PropTypes.func.isRequired,
   }
 
@@ -168,7 +164,7 @@ export class SessionsMonitoringComponent extends React.Component {
     const {
       onBack, onSort, columnsSorting, requestParameters, onApplyFilters, onClearFilters, filtersEdited, canEmptyFilters, onToggleErrorsOnly, onToggleLastSession,
       initialFilters, onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onChangeColumnsVisibility, columnsVisibility,
-      onDeleteSession, onClickListIndexed, onClickRelaunchAIP, onClickRelaunchSIP, onClickRelaunchProducts, onClickListSIP, onClickListAIP,
+      onDeleteSession, onClickListIndexed, onClickRelaunchAIP, onClickRelaunchProducts, onClickListAIP,
       onDeleteProducts,
     } = this.props
     const { sessionToAcknowledge } = this.state
@@ -209,19 +205,6 @@ export class SessionsMonitoringComponent extends React.Component {
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.sip-generated.tooltip' }))
         .rowCellDefinition({ Constructor: SessionsMonitoringProductsGeneratedRenderer, props: { onClickRelaunchProducts, onDeleteProducts } })
         .label(formatMessage({ id: 'acquisition-sessions.table.sip-generated' }))
-        .build(),
-      new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.SIP)
-        .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.SIP, true))
-        .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.sip-treated.tooltip' }))
-        .rowCellDefinition({ Constructor: SessionsMonitoringProductsIngestedRenderer, props: { onClickRelaunchSIP, onClickListSIP } })
-        .label(formatMessage({ id: 'acquisition-sessions.table.sip-treated' }))
-        .build(),
-      new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_GENERATED)
-        .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_GENERATED, false))
-        .optionsSizing(3)
-        .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.aip-generated.tooltip' }))
-        .rowCellDefinition({ Constructor: SessionsMonitoringGeneratedAipRenderer })
-        .label(formatMessage({ id: 'acquisition-sessions.table.aip-generated' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_STORED)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_STORED, true))

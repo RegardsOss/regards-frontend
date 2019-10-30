@@ -158,11 +158,13 @@ const messages = Object.assign({
   'acquisition-sessions.table.indexed.tooltip': 'Indexed products in catalog',
 
   //3.3 Products states
-  'acquisition-sessions.states.ingested': 'Processed',
+  'acquisition-sessions.states.complet': 'Processed',
   'acquisition-sessions.states.incomplete': 'Incomplete',
   'acquisition-sessions.states.error': 'Error',
   'acquisition-sessions.states.processed': 'Processed',
   'acquisition-sessions.states.pending': 'Pending',
+  'acquisition-sessions.states.generating': 'To generate',
+  'acquisition-sessions.states.storing': 'To store',
   'acquisition-sessions.states.stored': 'Stored',
   'acquisition-sessions.states.invalid': 'Invalid',
   'acquisition-sessions.states.refused': 'Refused',
@@ -174,13 +176,9 @@ const messages = Object.assign({
   'acquisition-sessions.menus.session.delete.definitely': 'Delete the session definitely',
   'acquisition-sessions.menus.products.relaunch': 'Relaunch errored products',
   'acquisition-sessions.menus.products.delete': 'Delete products',
-  'acquisition-sessions.menus.ingested.relaunch': 'Relaunch processing of errored SIPs',
-  'acquisition-sessions.menus.ingested.list': 'List all SIPs',
-  'acquisition-sessions.menus.ingested.list.error': 'List all errored SIPs',
-  'acquisition-sessions.menus.archives.relaunch': 'Relaunch storing of errored AIPs',
-  'acquisition-sessions.menus.archives.list': 'List all AIPs',
-  'acquisition-sessions.menus.archives.list.error': 'List all errored AIPs',
-  'acquisition-sessions.menus.indexed.list': 'List all indexed AIPs',
+  'acquisition-sessions.menus.archives.relaunch': 'Relaunch Processing in error',
+  'acquisition-sessions.menus.archives.list': 'List products',
+  'acquisition-sessions.menus.archives.list.error': 'List Processing in error',
 
   //3.5 Filters
   'acquisition-sessions.filters.source': 'Source',

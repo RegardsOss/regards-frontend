@@ -53,11 +53,18 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     onDeleteProducts(entity)
   }
 
-  getPending = (entity) => {
+  getGenerated = (entity) => {
     const { intl: { formatNumber } } = this.context
     const submitted = get(entity, 'content.lifeCycle.PRODUCTS.submitted', 0)
     const generated = get(entity, 'content.lifeCycle.PRODUCTS.generated', 0)
-    return formatNumber(parseInt(submitted, 10) + parseInt(generated, 10))
+    const ingested = get(entity, 'content.lifeCycle.PRODUCTS.ingested', 0)
+    return formatNumber(parseInt(submitted, 10) + parseInt(generated, 10) + parseInt(ingested, 10))
+  }
+
+  getIncompletes = (entity) => {
+    const { intl: { formatNumber } } = this.context
+    const incompletes = get(entity, 'content.lifeCycle.PRODUCTS.incomplete', 0)
+    return formatNumber(parseInt(incompletes, 10))
   }
 
   getErrors = (entity) => {
@@ -69,19 +76,19 @@ class SessionsMonitoringProductsGenerated extends React.Component {
 
   render() {
     const {
-      intl: { formatMessage, formatNumber },
+      intl: { formatMessage },
       moduleTheme: {
         sessionsStyles: {
           menuDropDown,
           gridCell: {
-            gridContainer, gridHeaderContainer, infosContainer, lineFourContainer, listFourValues, cellContainer,
+            gridContainer, gridHeaderContainer, infosContainer, lineContainer, listValues, cellContainer,
             acquiredProductState: {
               runningContainer,
               runningIconColor,
               running,
             },
             lines: {
-              one, two, three, four,
+              one, two, three,
             },
           },
         },
@@ -103,7 +110,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
           ) : (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
-                { entity.content.lifeCycle.PRODUCTS.state === 'running' ? (
+                { entity.content.lifeCycle.PRODUCTS.state === 'RUNNING' ? (
                   <div style={runningContainer}>
                     <Play color={runningIconColor} />
                     <div style={running}>
@@ -115,29 +122,24 @@ class SessionsMonitoringProductsGenerated extends React.Component {
                 ) }
               </div>
               <div style={infosContainer}>
-                <div style={lineFourContainer}>
+                <div style={lineContainer}>
                   <div style={one}>
-                    {formatMessage({ id: 'acquisition-sessions.states.ingested' })}
+                    {formatMessage({ id: 'acquisition-sessions.states.complet' })}
                   :
                   </div>
                   <div style={two}>
-                    {formatMessage({ id: 'acquisition-sessions.states.pending' })}
-                  :
-                  </div>
-                  <div style={three}>
                     {formatMessage({ id: 'acquisition-sessions.states.incomplete' })}
                   :
                   </div>
-                  <div style={four}>
+                  <div style={three}>
                     {formatMessage({ id: 'acquisition-sessions.states.error' })}
                   :
                   </div>
                 </div>
-                <div style={listFourValues}>
-                  <div style={one}>{formatNumber((entity.content.lifeCycle.PRODUCTS.ingested ? entity.content.lifeCycle.PRODUCTS.ingested : 0))}</div>
-                  <div style={two}>{this.getPending(entity)}</div>
-                  <div style={three}>{formatNumber((entity.content.lifeCycle.PRODUCTS.incomplete ? entity.content.lifeCycle.PRODUCTS.incomplete : 0))}</div>
-                  <div style={four}>{this.getErrors(entity)}</div>
+                <div style={listValues}>
+                  <div style={one}>{this.getGenerated(entity)}</div>
+                  <div style={two}>{this.getIncompletes(entity)}</div>
+                  <div style={three}>{this.getErrors(entity)}</div>
                 </div>
                 <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
                   <DropDownButton

@@ -158,11 +158,13 @@ const messages = Object.assign({
   'acquisition-sessions.table.indexed.tooltip': 'Produits indexés au catalogue',
 
   //3.3 Products states
-  'acquisition-sessions.states.ingested': 'Traité',
+  'acquisition-sessions.states.complet': 'Traité',
   'acquisition-sessions.states.incomplete': 'Incomplet',
   'acquisition-sessions.states.error': 'Erreur',
   'acquisition-sessions.states.processed': 'Traité',
   'acquisition-sessions.states.pending': 'En cours',
+  'acquisition-sessions.states.generating': 'En génération',
+  'acquisition-sessions.states.storing': 'A stocker',
   'acquisition-sessions.states.stored': 'Archivé',
   'acquisition-sessions.states.invalid': 'Invalide',
   'acquisition-sessions.states.refused': 'Refusé',
@@ -174,13 +176,9 @@ const messages = Object.assign({
   'acquisition-sessions.menus.session.delete.definitely': 'Supprimer définitivement la session',
   'acquisition-sessions.menus.products.relaunch': 'Relancer les produits en erreur',
   'acquisition-sessions.menus.products.delete': 'Supprimer tous les produits',
-  'acquisition-sessions.menus.ingested.relaunch': 'Relancer le traitement des SIPs en erreur',
-  'acquisition-sessions.menus.ingested.list': 'Lister les SIPs',
-  'acquisition-sessions.menus.ingested.list.error': 'Lister les SIPs en erreur',
-  'acquisition-sessions.menus.archives.relaunch': 'Relancer le stockage des AIPs en erreur',
-  'acquisition-sessions.menus.archives.list': 'Lister les AIPs',
-  'acquisition-sessions.menus.archives.list.error': 'Lister les AIPs en erreur',
-  'acquisition-sessions.menus.indexed.list': 'Liste les AIPs indexés',
+  'acquisition-sessions.menus.archives.relaunch': 'Relancer les produits en erreur',
+  'acquisition-sessions.menus.archives.list': 'Lister les Produits',
+  'acquisition-sessions.menus.archives.list.error': 'Lister les Traitements en erreur',
 
   //3.5 Filters
   'acquisition-sessions.filters.source': 'Source',

@@ -21,6 +21,7 @@
  * Comment Here
  * @author Kevin Picart
  */
+import get from 'lodash/get'
 import Menu from 'material-ui/svg-icons/navigation/more-vert'
 import { MenuItem } from 'material-ui'
 import { DropDownButton } from '@regardsoss/components'
@@ -41,19 +42,48 @@ class SessionsMonitoringProductsStored extends React.Component {
     ...i18nContextType,
   }
 
-  onClickRelaunchAIP = () => {
+  onClickRelaunch = () => {
+    // TODO
     const { entity, onClickRelaunchAIP } = this.props
     onClickRelaunchAIP(entity.content.name, entity.content.source)
   }
 
   onClickListAIP = () => {
+    // TODO
     const { entity, onClickListAIP } = this.props
     onClickListAIP(entity.content.source, entity.content.name)
   }
 
-  onClickListAIPErrorOnly = () => {
+  onClickListRequestErrors = () => {
+    // TODO
     const { entity, onClickListAIP } = this.props
     onClickListAIP(entity.content.source, entity.content.name, true)
+  }
+
+  getStored = (entity) => {
+    const stored = get(entity, 'content.lifeCycle.OAIS.aip_stored', 0)
+    return parseInt(stored, 10)
+  }
+
+  getStoragePending = (entity) => {
+    const pending = get(entity, 'content.lifeCycle.OAIS.aip_generated', 0)
+    return parseInt(pending, 10)
+  }
+
+  getGenerating = (entity) => {
+    const pending = get(entity, 'content.lifeCycle.OAIS.sip_ingesting', 0)
+    return parseInt(pending, 10)
+  }
+
+  getErrors = (entity) => {
+    const errorSip = get(entity, 'content.lifeCycle.OAIS.sip_error', 0)
+    const errorAip = get(entity, 'content.lifeCycle.OAIS.aip_error', 0)
+    return parseInt(errorSip, 10) + parseInt(errorAip, 10)
+  }
+
+  getTotal = (entity) => {
+    const stored = get(entity, 'content.lifeCycle.OAIS.sip_total', 0)
+    return parseInt(stored, 10)
   }
 
   render() {
@@ -63,12 +93,12 @@ class SessionsMonitoringProductsStored extends React.Component {
         sessionsStyles: {
           menuDropDown,
           gridCell: {
-            gridContainer, gridHeaderContainer, infosContainer, lineContainer, listValues, barGraphContainer, cellContainer,
+            gridContainer, gridHeaderContainer, infosContainer, lineFourContainer, listFourValues, barGraphContainer, cellContainer,
             barGraph: {
               done, pending, error,
             },
             lines: {
-              one, two, three,
+              one, two, three, four,
             },
           },
         },
@@ -79,36 +109,17 @@ class SessionsMonitoringProductsStored extends React.Component {
     let donePlusWidth
     let errorPlusWidth
     let pendingPlusWidth
-    let aipDone
-    let aipErrors
-    let aipPending
+    const stored = this.getStored(entity)
+    const storagePending = this.getStoragePending(entity)
+    const generating = this.getGenerating(entity)
+    const pendings = storagePending + generating
+    const errors = this.getErrors(entity)
+    const total = errors + pendings + stored
 
     if (entity.content.lifeCycle.OAIS) {
-      aipDone = (entity.content.lifeCycle.OAIS.aip_stored ? entity.content.lifeCycle.OAIS.aip_stored : 0)
-      aipErrors = (entity.content.lifeCycle.OAIS.aip_error ? entity.content.lifeCycle.OAIS.aip_error : 0)
-      aipPending = (entity.content.lifeCycle.OAIS.aip_generated ? entity.content.lifeCycle.OAIS.aip_generated : 0)
-
-      const totalAIP = (aipDone + aipPending + aipErrors)
-
-      let errorWidth = aipErrors > 0 ? Math.round(aipErrors * 100 / totalAIP) : 0
-      let pendingWidth = aipPending > 0 ? Math.round(aipPending * 100 / totalAIP) : 0
-      let processedWidth = aipDone > 0 ? Math.round(aipDone * 100 / totalAIP) : 0
-      // If there is at least 1 error or pending, show it in the loader
-      if (aipErrors > 0 && errorWidth <= 1) {
-        pendingWidth -= 2
-        processedWidth -= 2
-        errorWidth += 4
-      }
-      if (aipPending > 0 && pendingWidth <= 1) {
-        errorWidth -= 2
-        processedWidth -= 2
-        pendingWidth += 4
-      }
-      if (aipDone > 0 && processedWidth <= 1) {
-        errorWidth -= 2
-        pendingWidth -= 2
-        processedWidth += 4
-      }
+      const errorWidth = errors > 0 ? Math.round(errors * 100 / total) : 0
+      const pendingWidth = pendings > 0 ? Math.round(pendings * 100 / total) : 0
+      const processedWidth = stored > 0 ? Math.round(stored * 100 / total) : 0
 
       donePlusWidth = { ...done, width: `${processedWidth}%` }
       errorPlusWidth = { ...error, width: `${errorWidth}%` }
@@ -130,30 +141,35 @@ class SessionsMonitoringProductsStored extends React.Component {
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
                 <div style={barGraphContainer}>
-                  <div style={donePlusWidth} title={`${aipDone} ${formatMessage({ id: 'acquisition-sessions.states.processed' })}`} />
-                  <div style={errorPlusWidth} title={`${aipErrors} ${formatMessage({ id: 'acquisition-sessions.states.error' })}`} />
-                  <div style={pendingPlusWidth} title={`${aipPending} ${formatMessage({ id: 'acquisition-sessions.states.pending' })}`} />
+                  <div style={donePlusWidth} title={`${stored} ${formatMessage({ id: 'acquisition-sessions.states.processed' })}`} />
+                  <div style={errorPlusWidth} title={`${errors} ${formatMessage({ id: 'acquisition-sessions.states.error' })}`} />
+                  <div style={pendingPlusWidth} title={`${pendings} ${formatMessage({ id: 'acquisition-sessions.states.pending' })}`} />
                 </div>
               </div>
               <div style={infosContainer}>
-                <div style={lineContainer}>
+                <div style={lineFourContainer}>
                   <div style={one}>
                     {formatMessage({ id: 'acquisition-sessions.states.stored' })}
                   :
                   </div>
                   <div style={two}>
-                    {formatMessage({ id: 'acquisition-sessions.states.pending' })}
+                    {formatMessage({ id: 'acquisition-sessions.states.generating' })}
                   :
                   </div>
                   <div style={three}>
+                    {formatMessage({ id: 'acquisition-sessions.states.storing' })}
+                  :
+                  </div>
+                  <div style={four}>
                     {formatMessage({ id: 'acquisition-sessions.states.error' })}
                   :
                   </div>
                 </div>
-                <div style={listValues}>
-                  <div style={one}>{formatNumber(aipDone)}</div>
-                  <div style={two}>{formatNumber(aipPending)}</div>
-                  <div style={three}>{formatNumber(aipErrors)}</div>
+                <div style={listFourValues}>
+                  <div style={one}>{formatNumber(stored)}</div>
+                  <div style={two}>{formatNumber(generating)}</div>
+                  <div style={three}>{formatNumber(storagePending)}</div>
+                  <div style={four}>{formatNumber(errors)}</div>
                 </div>
                 <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
                   <DropDownButton
@@ -163,7 +179,7 @@ class SessionsMonitoringProductsStored extends React.Component {
                   >
                     <MenuItem
                       primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.relaunch' })}
-                      onClick={this.onClickRelaunchAIP}
+                      onClick={this.onClickRelaunch}
                     />
                     <MenuItem
                       primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list' })}
@@ -171,7 +187,7 @@ class SessionsMonitoringProductsStored extends React.Component {
                     />
                     <MenuItem
                       primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list.error' })}
-                      onClick={this.onClickListAIPErrorOnly}
+                      onClick={this.onClickListRequestErrors}
                     />
                   </DropDownButton>
                 </div>
