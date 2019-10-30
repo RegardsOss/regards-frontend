@@ -247,6 +247,17 @@ function getDescriptionEntityWithMockQuicklooks({content, links}){
         ...content,
         files: {
           ...content.files,
+          THUMBNAIL: [{
+            dataType: 'THUMBNAIL',
+            reference: true,
+            uri: `http://localhost:3000/api/v1/tempFiles?fileIndex=10`,
+            mimeType: 'image/png',
+            imageWidth: 64,
+            imageHeight: 64,
+            online: true,
+            checksum: '0',
+            filename: 'myThumbnail', 
+          }],
           ...quicklooksDataFiles,
         }
       },
@@ -263,6 +274,17 @@ function getCatalogPageWithMockQuicklooks({content, facets, links, metadata}){
           ...entity.content,
           files: {
             ...entity.content.files,
+            THUMBNAIL: [{
+              dataType: 'THUMBNAIL',
+              reference: true,
+              uri: `http://localhost:3000/api/v1/tempFiles?fileIndex=10`,
+              mimeType: 'image/png',
+              imageWidth: 300,
+              imageHeight: 4000,
+              online: true,
+              checksum: '0', 
+              filename: 'myThumbnail', 
+            }],
             ...quicklooksDataFiles,
           },
         },

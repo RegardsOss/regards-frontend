@@ -36,6 +36,11 @@ import styles from '../styles'
 export class ThumbnailAttributeRender extends React.Component {
   static propTypes = {
     value: DataManagementShapes.DataFile,
+    // thumbnail dimansions (defaults to table one when not provided)
+    dimensions: PropTypes.shape({
+      width: PropTypes.number.isRequired,
+      height: PropTypes.number.isRequired,
+    }),
     projectName: PropTypes.string,
     accessToken: PropTypes.string,
   }
@@ -49,7 +54,15 @@ export class ThumbnailAttributeRender extends React.Component {
     displayFullSize: false,
   }
 
-  displayFullSize = (uri) => {
+  handleToggleDialog = () => {
+    this.setState({ displayFullSize: !this.state.displayFullSize })
+  }
+
+  /**
+   * Renders full size dialog
+   * @param {string} uri thumbnail URI
+   */
+  renderDialog = (uri) => {
     if (this.state.displayFullSize) {
       const { intl: { formatMessage } } = this.context
       const actions = [
@@ -64,41 +77,39 @@ export class ThumbnailAttributeRender extends React.Component {
         <FitContentDialog
           modal={false}
           onRequestClose={this.handleToggleDialog}
+          autoScrollBodyContent
           open
           actions={actions}
         >
-          <div>
-            <img
-              src={uri}
-              alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
-            />
-          </div>
+          <img
+            src={uri}
+            alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
+          />
         </FitContentDialog>
       )
     }
     return null
   }
 
-  handleToggleDialog = () => {
-    this.setState({ displayFullSize: !this.state.displayFullSize })
-  }
-
   render() {
-    const { value, accessToken, projectName } = this.props
+    const {
+      value, dimensions,
+      accessToken, projectName,
+    } = this.props
     // in resolved attributes, get the first data, if any
-    const { intl: { formatMessage }, moduleTheme: { thumbnailRoot, thumbnailCell, noThumbnailIcon } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { defaultThumbnailDimensions, thumbnailPicture, noThumbnailIcon } } = this.context
     const thumbnailURI = value
       ? DamDomain.DataFileController.getFileURI(value, accessToken, projectName) : null
     return (
       <div
-        style={thumbnailRoot}
+        style={dimensions || defaultThumbnailDimensions}
         title={thumbnailURI ? null : formatMessage({ id: 'attribute.thumbnail.alt' })}
       >
         {
           thumbnailURI ? (
             <img
               src={thumbnailURI}
-              style={thumbnailCell}
+              style={thumbnailPicture}
               alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
               onClick={this.handleToggleDialog}
             />) : (
@@ -106,7 +117,7 @@ export class ThumbnailAttributeRender extends React.Component {
                 style={noThumbnailIcon}
               />)
         }
-        {this.displayFullSize(thumbnailURI)}
+        {this.renderDialog(thumbnailURI)}
       </div>
     )
   }

@@ -303,9 +303,11 @@ const styles = theme => ({
           },
           thumbnail: {
             display: 'block',
-            maxWidth: theme.module.description.parameters.thumbnail.maxSize,
-            maxHeight: theme.module.description.parameters.thumbnail.maxSize,
+            width: theme.module.description.parameters.thumbnail.maxSize,
+            height: theme.module.description.parameters.thumbnail.maxSize,
             margin: theme.module.description.parameters.thumbnail.margin,
+            objectFit: 'contain',
+            alignSelf: 'flex-start',
             flexGrow: 0,
             flexShrink: 0,
           },

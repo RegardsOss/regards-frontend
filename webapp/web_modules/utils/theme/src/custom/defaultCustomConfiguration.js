@@ -299,26 +299,19 @@ export default baseTheme => ({
     },
     // search results module
     searchResults: {
-      listLineHeight: 160,
-      listRowsByColumnCount: 4,
+      list: {
+        lineHeight: 160,
+        rowsByColumnCount: 4,
+        thumbnailSize: 110,
+        thumbnailMargin: '0px 0px 10px 10px',
+        attribute: {
+          labelMargin: '10px 0 5px 10px',
+          valueMargin: '5px 0 0 0',
+        },
+      },
       quicklooks: {
         columnWidth: 400,
         columnGap: 20,
-      },
-      tabs: {
-        selectedColor: baseTheme.raisedButton.secondaryColor,
-        unselectedColor: baseTheme.raisedButton.disabledColor,
-        externalMargin: '0 2px 0 0',
-        minWidth: '200px',
-        maxWidth: '200px',
-        iconAndTextMargin: '5px',
-        textMargin: '0 5px 0 7px',
-        closeButton: {
-          margin: '0 0 0 5px',
-          size: 15,
-          alignSelf: 'flex-start',
-        },
-        tabBottomLineSize: 1,
       },
       map: {
         background: 'black', // related with mizar background
@@ -338,6 +331,21 @@ export default baseTheme => ({
         resizerSeparator: {
           backgroundColor: baseTheme.palette.borderColor,
         },
+      },
+      tabs: {
+        selectedColor: baseTheme.raisedButton.secondaryColor,
+        unselectedColor: baseTheme.raisedButton.disabledColor,
+        externalMargin: '0 2px 0 0',
+        minWidth: '200px',
+        maxWidth: '200px',
+        iconAndTextMargin: '5px',
+        textMargin: '0 5px 0 7px',
+        closeButton: {
+          margin: '0 0 0 5px',
+          size: 15,
+          alignSelf: 'flex-start',
+        },
+        tabBottomLineSize: 1,
       },
     },
     // storage plugins module

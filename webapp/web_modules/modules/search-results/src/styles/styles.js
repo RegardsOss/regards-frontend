@@ -299,7 +299,7 @@ const styles = theme => ({
         margin: '5px 0 0 0',
       },
       valueColumnStyles: {
-        margin: '10px 0 5px 10px',
+        margin: theme.module.searchResults.list.attribute.labelMargin,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -311,15 +311,17 @@ const styles = theme => ({
         minWidth: 0,
       },
       valueCellStyle: { // for groups
-        margin: '5px 0 0 0',
+        margin: theme.module.searchResults.list.attribute.valueMargin,
         display: 'flex',
         justifyContent: 'flex-start',
         maxWidth: '100%', // required to diminish contained cells width (text 'pushes' column width otherwise)
       },
       thumbnailColumnStyle: {
-        width: '110px',
-        display: 'block',
-        padding: '5px 0px 10px 10px',
+        margin: theme.module.searchResults.list.thumbnailMargin,
+      },
+      thumbnailDimensions: {
+        width: theme.module.searchResults.list.thumbnailSize,
+        height: theme.module.searchResults.list.thumbnailSize,
       },
     },
     quicklookViewStyles: {

@@ -28,7 +28,7 @@ import URLAuthInjector from '../common/URLAuthInjector'
  * @param {string} uri initial uri
  * @param {boolean} reference is external reference or is in REGARDS website?
  * @param {string} accessToken access token if used is logged, optional
- * @param {string} projectName project name (that will be used as scope when used is not logged)
+ * @param {string} projectName project name (that will be used as scope when user is not logged)
  * @return {string} URI to address URI as parameter, null if empty URI
  */
 function getURI(uri, reference, accessToken, projectName) {
@@ -47,7 +47,7 @@ function getURI(uri, reference, accessToken, projectName) {
  * Computes a file URI for a given DAM DataFile with authentication state as next parameters
  * @param {DataFile} dataFile data file, optional
  * @param {string} accessToken access token if used is logged, optional
- * @param {string} projectName project name (that will be used as scope when used is not logged)
+ * @param {string} projectName project name (that will be used as scope when user is not logged)
  * @return {string} URI to address file as parameter, null if no file
  */
 function getFileURI(dataFile, accessToken, projectName) {
