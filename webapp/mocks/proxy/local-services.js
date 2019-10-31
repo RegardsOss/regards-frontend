@@ -250,7 +250,7 @@ function getDescriptionEntityWithMockQuicklooks({content, links}){
           THUMBNAIL: [{
             dataType: 'THUMBNAIL',
             reference: true,
-            uri: `http://localhost:3000/api/v1/tempFiles?fileIndex=10`,
+            uri: `http://localhost:3000/api/v1/tempFiles?fileIndex=0`,
             mimeType: 'image/png',
             imageWidth: 64,
             imageHeight: 64,
@@ -277,7 +277,7 @@ function getCatalogPageWithMockQuicklooks({content, facets, links, metadata}){
             THUMBNAIL: [{
               dataType: 'THUMBNAIL',
               reference: true,
-              uri: `http://localhost:3000/api/v1/tempFiles?fileIndex=10`,
+              uri: `http://localhost:3000/api/v1/tempFiles?fileIndex=13`,
               mimeType: 'image/png',
               imageWidth: 300,
               imageHeight: 4000,

@@ -22,6 +22,7 @@ import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { ThumbnailAttributeRender } from '../../src/render/ThumbnailAttributeRender'
 import styles from '../../src/styles'
+import ThumbnailFullSizePictureDialog from '../../src/render/ThumbnailFullSizePictureDialog'
 
 const context = buildTestContext(styles)
 
@@ -46,8 +47,8 @@ describe('[Attributes Common] Testing ThumbnailAttributeRender', () => {
     assert.lengthOf(wrapper.find(NoDataIcon), 1, 'no file ==>  no data icon')
   })
 
-  it('Should render the first available Thumbmail file', () => {
-    // No thumbnail file in files array
+  it('Should render correctly thumbnail and allow full size displaying', () => {
+    // 1 - Initial render
     const file = {
       uri: 'http://rd1.com',
       dataType: 'THUMBNAIL',
@@ -62,6 +63,36 @@ describe('[Attributes Common] Testing ThumbnailAttributeRender', () => {
       filename: 'hello.jpg',
     }
     const wrapper = shallow(<ThumbnailAttributeRender value={file} projectName="project" />, { context })
-    assert.lengthOf(wrapper.findWhere(n => n.props().src === 'http://rd1.com?scope=project'), 1, 'There should be an image with thubnail URI as source, adding scope')
+    const picture = wrapper.findWhere(n => n.props().src === 'http://rd1.com?scope=project')
+    assert.lengthOf(picture, 1, 'There should be a picture with the right URL')
+    testSuiteHelpers.assertWrapperProperties(picture, {
+      alt: 'attribute.thumbnail.alt',
+      onClick: wrapper.instance().onShowFullSizeDialog,
+    }, 'Picture should define callback and alternative internationlized text ')
+    let fullSizeDialog = wrapper.find(ThumbnailFullSizePictureDialog)
+    assert.lengthOf(fullSizeDialog, 1, '1 - There should be the full size dialog')
+    testSuiteHelpers.assertWrapperProperties(fullSizeDialog, {
+      thumbnailURI: 'http://rd1.com?scope=project',
+      open: false,
+      onClose: wrapper.instance().onCloseFullSizeDialog,
+    }, '1 - Dialog should be closed and define the expected properties')
+    // 2 - Open full size picture
+    picture.props().onClick()
+    fullSizeDialog = wrapper.find(ThumbnailFullSizePictureDialog)
+    assert.lengthOf(fullSizeDialog, 1, '2 - There should be the full size dialog')
+    testSuiteHelpers.assertWrapperProperties(fullSizeDialog, {
+      thumbnailURI: 'http://rd1.com?scope=project',
+      open: true,
+      onClose: wrapper.instance().onCloseFullSizeDialog,
+    }, '2 - Dialog should be opened')
+    // 3 - Close full size dialog
+    fullSizeDialog.props().onClose()
+    fullSizeDialog = wrapper.find(ThumbnailFullSizePictureDialog)
+    assert.lengthOf(fullSizeDialog, 1, '3 - There should be the full size dialog')
+    testSuiteHelpers.assertWrapperProperties(fullSizeDialog, {
+      thumbnailURI: 'http://rd1.com?scope=project',
+      open: false,
+      onClose: wrapper.instance().onCloseFullSizeDialog,
+    }, '3 - Dialog should be closed')
   })
 })

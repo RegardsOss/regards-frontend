@@ -58,6 +58,7 @@ class FitContentDialog extends React.Component {
     const actionsContainerStyle = { customActionsContainerStyle, ...dialogCommon.actionsContainerStyle }
     const contentStyle = { customContentStyle, ...fitContentDialog.contentStyle }
 
+
     return (
       <SwitchThemeDecorator
         useMainTheme

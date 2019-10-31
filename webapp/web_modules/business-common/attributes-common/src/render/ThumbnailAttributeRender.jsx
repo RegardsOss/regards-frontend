@@ -17,16 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
-import FlatButton from 'material-ui/FlatButton'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { withAuthInfo } from '@regardsoss/authentication-utils'
-import { FitContentDialog } from '@regardsoss/components'
 import { DamDomain } from '@regardsoss/domain'
 import messages from '../i18n'
 import styles from '../styles'
+import ThumbnailFullSizePictureDialog from './ThumbnailFullSizePictureDialog'
 /**
  * Component to render thumbnail attributes group
  * note: Thumbnail render expects to receive the first thumbnail value
@@ -51,51 +50,30 @@ export class ThumbnailAttributeRender extends React.Component {
   }
 
   state = {
-    displayFullSize: false,
-  }
-
-  handleToggleDialog = () => {
-    this.setState({ displayFullSize: !this.state.displayFullSize })
+    showFullSizeDialog: false,
   }
 
   /**
-   * Renders full size dialog
-   * @param {string} uri thumbnail URI
+   * Callback: user clicked on cell, requesting full size picture dialog
    */
-  renderDialog = (uri) => {
-    if (this.state.displayFullSize) {
-      const { intl: { formatMessage } } = this.context
-      const actions = [
-        <FlatButton
-          key="cancel"
-          label={formatMessage({ id: 'attribute.thumbnail.action.close' })}
-          primary
-          onClick={this.handleToggleDialog}
-        />,
-      ]
-      return (
-        <FitContentDialog
-          modal={false}
-          onRequestClose={this.handleToggleDialog}
-          autoScrollBodyContent
-          open
-          actions={actions}
-        >
-          <img
-            src={uri}
-            alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
-          />
-        </FitContentDialog>
-      )
-    }
-    return null
+  onShowFullSizeDialog = () => {
+    this.setState({ showFullSizeDialog: true })
   }
+
+  /**
+   * Callback: user closed full size picture dialog
+   */
+  onCloseFullSizeDialog = () => {
+    this.setState({ showFullSizeDialog: false })
+  }
+
 
   render() {
     const {
       value, dimensions,
       accessToken, projectName,
     } = this.props
+    const { showFullSizeDialog } = this.state
     // in resolved attributes, get the first data, if any
     const { intl: { formatMessage }, moduleTheme: { defaultThumbnailDimensions, thumbnailPicture, noThumbnailIcon } } = this.context
     const thumbnailURI = value
@@ -111,13 +89,17 @@ export class ThumbnailAttributeRender extends React.Component {
               src={thumbnailURI}
               style={thumbnailPicture}
               alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
-              onClick={this.handleToggleDialog}
+              onClick={this.onShowFullSizeDialog}
             />) : (
               <NoDataIcon
                 style={noThumbnailIcon}
               />)
         }
-        {this.renderDialog(thumbnailURI)}
+        <ThumbnailFullSizePictureDialog
+          thumbnailURI={thumbnailURI}
+          open={showFullSizeDialog}
+          onClose={this.onCloseFullSizeDialog}
+        />
       </div>
     )
   }

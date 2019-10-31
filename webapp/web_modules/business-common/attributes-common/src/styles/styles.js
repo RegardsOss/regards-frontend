@@ -34,6 +34,11 @@ export default theme => ({
     height: '100%',
     width: '100%',
   },
+  thumbnailDialog: {
+    content: {
+      padding: 0,
+    },
+  },
   // attributes configuration
   configuration: {
     tableContainer: {
