@@ -19,9 +19,10 @@
 import { StorageShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import Delete from 'material-ui/svg-icons/action/delete'
-import Relaunch from 'material-ui/svg-icons/image/rotate-right'
+import IconMenu from 'material-ui/IconMenu'
+import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
+import MoreVertIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
 import StorageLocationListComponent from './StorageLocationListComponent'
 /**
  * Show storage errors and a relauch button
@@ -52,34 +53,35 @@ class StorageLocationStorageErrorRenderer extends React.Component {
     this.props.onStorageErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.DELETE_ERRORS)
   }
 
+  onViewStorageErrors = () => {
+    const { entity } = this.props
+    this.props.onStorageErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.VIEW_ERRORS)
+  }
+
   render() {
     const { entity } = this.props
-    const { intl: { formatMessage }, moduleTheme: { storageTable: { errorColumn: { container, relaunchButton } } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { storageTable: { errorColumn: { container, icon } } } } = this.context
 
     return (
       <div style={container}>
         { entity.content.nbStorageError ? entity.content.nbStorageError : '-' }
         { entity.content.nbStorageError > 0 ? (
-          <React.Fragment>
-            <div style={relaunchButton}>
-              <IconButton
-                title={formatMessage({ id: 'storage.data-storage.plugins.list.relaunch.storage' })}
-                iconStyle={StorageLocationStorageErrorRenderer.iconStyle}
-                style={StorageLocationStorageErrorRenderer.buttonStyle}
-                onClick={this.onRelaunchStoragesErrors}
-              >
-                <Relaunch />
-              </IconButton>
-              <IconButton
-                title={formatMessage({ id: 'storage.data-storage.plugins.list.delete.storage' })}
-                iconStyle={StorageLocationStorageErrorRenderer.iconStyle}
-                style={StorageLocationStorageErrorRenderer.buttonStyle}
-                onClick={this.onDeleteStoragesErrors}
-              >
-                <Delete />
-              </IconButton>
-            </div>
-          </React.Fragment>
+          <IconMenu
+            iconButtonElement={<IconButton style={icon}><MoreVertIcon /></IconButton>}
+          >
+            <MenuItem
+              primaryText={formatMessage({ id: 'storage.location.list.relaunch.storage' })}
+              onClick={this.onRelaunchStoragesErrors}
+            />
+            <MenuItem
+              primaryText={formatMessage({ id: 'storage.location.list.delete.storage' })}
+              onClick={this.onDeleteStoragesErrors}
+            />
+            <MenuItem
+              primaryText={formatMessage({ id: 'storage.location.list.view.storage' })}
+              onClick={this.onViewStorageErrors}
+            />
+          </IconMenu>
         ) : null }
       </div>
     )

@@ -19,7 +19,6 @@
 import isUndefined from 'lodash/isUndefined'
 import map from 'lodash/map'
 import size from 'lodash/size'
-import { StorageShapes } from '@regardsoss/shape'
 import { storage } from '@regardsoss/units'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -36,7 +35,8 @@ class StorageMonitoringComponent extends React.Component {
   static propTypes = {
     userApp: PropTypes.bool.isRequired,
     scale: storage.StorageUnitScaleShape.isRequired,
-    storagePlugins: StorageShapes.StorageMonitoringList.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    storagePlugins: PropTypes.any,
     isFetching: PropTypes.bool.isRequired,
     hasError: PropTypes.bool.isRequired,
   }

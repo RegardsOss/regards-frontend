@@ -15,15 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-const IAIPDatasourceParamsEnum = {
-  MODEL: 'modelName',
-  BINDMAP_MAP: 'binding map',
-  REFRESH_RATE: 'refreshRate',
-  TAGS: 'tags',
-  SUBSETTING_TAGS: 'subsettingTags',
-  SUBSETTING_CATEGORIES: 'subsettingCategories',
-  ATTRIBUTE_FILE_SIZE: 'attribute file size',
-}
+ */
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-export default IAIPDatasourceParamsEnum
+/**
+ * Export selectors builder on store path.
+ * @param storePath redux store path to access reduced data
+ * @return selectors instance
+ */
+export default storePath => new BasicPageableSelectors(storePath)

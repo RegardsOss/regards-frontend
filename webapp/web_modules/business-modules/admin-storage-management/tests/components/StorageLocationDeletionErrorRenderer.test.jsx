@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import IconButton from 'material-ui/IconButton'
+import MenuItem from 'material-ui/MenuItem'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import StorageLocationDeletionErrorRenderer from '../../src/components/StorageLocationDeletionErrorRenderer'
 import styles from '../../src/styles'
@@ -43,8 +43,8 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing StorageLocationDeletionErrorRendere
       onDeletionErrors: () => {},
     }
     const enzymeWrapper = shallow(<StorageLocationDeletionErrorRenderer {...props} />, { context })
-    const iconButton = enzymeWrapper.find(IconButton)
-    assert.equal(iconButton.length, 0, 'There should have 0 IconButton rendered')
+    const iconButton = enzymeWrapper.find(MenuItem)
+    assert.equal(iconButton.length, 0, 'There should have 0 MenuItem rendered')
   })
   it('should render correctly with errors', () => {
     const entity = DumpProvider.getFirstEntity('StorageClient', 'StorageLocation')
@@ -54,7 +54,7 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing StorageLocationDeletionErrorRendere
       onDeletionErrors: () => {},
     }
     const enzymeWrapper = shallow(<StorageLocationDeletionErrorRenderer {...props} />, { context })
-    const iconButton = enzymeWrapper.find(IconButton)
-    assert.equal(iconButton.length, 2, 'There should have two IconButton rendered')
+    const iconButton = enzymeWrapper.find(MenuItem)
+    assert.equal(iconButton.length, 3, 'There should have 3 MenuItem rendered')
   })
 })

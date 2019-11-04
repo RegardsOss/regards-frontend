@@ -160,12 +160,12 @@ export class DatasetFormAttributesComponent extends React.Component {
             />
             <SelectField
               floatingLabelText={this.context.intl.formatMessage({ id: 'dataset.form.datasource' })}
-              value={currentDatasource.content.id}
+              value={currentDatasource.content.businessId}
               fullWidth
               disabled
             >
               <MenuItem
-                value={currentDatasource.content.id}
+                value={currentDatasource.content.businessId}
                 primaryText={currentDatasource.content.label}
               />
             </SelectField>

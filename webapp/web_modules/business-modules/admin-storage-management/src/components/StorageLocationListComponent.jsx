@@ -25,21 +25,20 @@ import { Checkbox } from 'material-ui'
 import TextField from 'material-ui/TextField'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
 import {
-  TableLayout, InfiniteTableContainer, TableColumnBuilder,
-  NoContentComponent, TableHeaderLineLoadingAndResults, TableDeleteOption, ConfirmDialogComponent,
+  TableLayout, InfiniteTableContainer, TableColumnBuilder, TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
+  NoContentComponent, TableHeaderLineLoadingAndResults, ConfirmDialogComponent,
   ConfirmDialogComponentTypes, PositionedDialog,
 } from '@regardsoss/components'
 import { StorageShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import StorageLocationEditAction from './StorageLocationEditAction'
-import StorageLocationCopyFilesAction from './StorageLocationCopyFilesAction'
-import StorageLocationPriorityAction from './StorageLocationPriorityAction'
 import { storageLocationActions } from '../clients/StorageLocationClient'
 import StorageLocationSizeRenderer from './StorageLocationSizeRenderer'
 import StorageLocationStorageErrorRenderer from './StorageLocationStorageErrorRenderer'
 import StorageLocationDeletionErrorRenderer from './StorageLocationDeletionErrorRenderer'
-import StorageLocationDeleteFilesAction from './StorageLocationDeleteFilesAction'
+import StorageLocationListActions from './StorageLocationListActions'
+import StorageRequestListComponent from './StorageRequestListComponent'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -74,6 +73,7 @@ export class StorageLocationListComponent extends React.Component {
     DELETE: 'DELETE',
     RELAUNCH_ERRORS: 'RELAUNCH_ERRORS',
     DELETE_ERRORS: 'DELETE_ERRORS',
+    VIEW_ERRORS: 'VIEW_ERRORS',
     DELETE_FILES: 'DELETE_FILES',
   }
 
@@ -96,22 +96,30 @@ export class StorageLocationListComponent extends React.Component {
     switch (dialogType) {
       case StorageLocationListComponent.DIALOGS_TYPES.DELETE:
         if (this.state.entityTargeted) {
-          this.props.onDelete(this.state.entityTargeted.content.configuration.name)
+          this.props.onDelete(this.state.entityTargeted.content.configuration.name).then(() => {
+            this.props.onRefresh()
+          })
         }
         break
       case StorageLocationListComponent.DIALOGS_TYPES.RELAUNCH_ERRORS:
         if (this.state.entityTargeted) {
-          this.props.onRetryErrors(this.state.entityTargeted.content.configuration.name, errorsType)
+          this.props.onRetryErrors(this.state.entityTargeted.content.configuration.name, errorsType).then(() => {
+            this.props.onRefresh()
+          })
         }
         break
       case StorageLocationListComponent.DIALOGS_TYPES.DELETE_ERRORS:
         if (this.state.entityTargeted) {
-          this.props.onDeleteErrors(this.state.entityTargeted.content.configuration.name, errorsType)
+          this.props.onDeleteErrors(this.state.entityTargeted.content.configuration.name, errorsType).then(() => {
+            this.props.onRefresh()
+          })
         }
         break
       case StorageLocationListComponent.DIALOGS_TYPES.DELETE_FILES:
         if (this.state.entitytoDeleteFiles) {
-          this.props.onDeleteFiles(this.state.entitytoDeleteFiles.content.configuration.name, this.state.deleteFilesForce)
+          this.props.onDeleteFiles(this.state.entitytoDeleteFiles.content.configuration.name, this.state.deleteFilesForce).then(() => {
+            this.props.onRefresh()
+          })
         }
         break
       default:
@@ -189,12 +197,37 @@ export class StorageLocationListComponent extends React.Component {
   }
 
   /**
-   * Dialog for Simple Confirm
+   * Dialog to display actions about storage location requests
    */
-  renderConfirmDialog = (dialogKind, title, dialogSwitch) => {
-    const { entityTargeted, dialogType } = this.state
+  renderRequestsDialog = (dialogKind, title, dialogSwitch) => {
+    const { entityTargeted, dialogType, errorsType } = this.state
+    const { intl: { formatMessage } } = this.context
     if (entityTargeted && dialogSwitch === dialogType) {
-      const { name } = entityTargeted.content.configuration
+      const { name } = entityTargeted.content
+      if (dialogType === StorageLocationListComponent.DIALOGS_TYPES.VIEW_ERRORS) {
+        const actions = [
+          <FlatButton
+            key="close"
+            label={formatMessage({ id: 'storage.location.dialogs.cancel' })}
+            onClick={this.closeDialogs}
+          />,
+        ]
+        return (
+          <PositionedDialog
+            dialogType={ConfirmDialogComponentTypes.DELETE}
+            title={this.context.intl.formatMessage({ id: title }, { name })}
+            open={!!dialogType}
+            actions={actions}
+            dialogWidthPercent={75}
+          >
+            <StorageRequestListComponent
+              storageLocation={name}
+              requestsType={errorsType}
+              requestsStatus="ERROR"
+            />
+          </PositionedDialog>
+        )
+      }
       return (
         <ConfirmDialogComponent
           dialogType={dialogKind}
@@ -222,12 +255,12 @@ export class StorageLocationListComponent extends React.Component {
       const actions = [
         <FlatButton
           key="close"
-          label={formatMessage({ id: 'storage.data-storage.plugins.dialogs.cancel' })}
+          label={formatMessage({ id: 'storage.location.dialogs.cancel' })}
           onClick={this.closeDialogs}
         />,
         <FlatButton
           key="confirm"
-          label={formatMessage({ id: 'storage.data-storage.plugins.dialogs.confirm' })}
+          label={formatMessage({ id: 'storage.location.dialogs.confirm' })}
           primary
           onClick={this.onConfirmSimpleDialog}
         />,
@@ -235,12 +268,12 @@ export class StorageLocationListComponent extends React.Component {
       return (
         <PositionedDialog
           dialogType={ConfirmDialogComponentTypes.DELETE}
-          title={formatMessage({ id: 'storage.data-storage.plugins.delete.confirm.title' }, { name })}
+          title={formatMessage({ id: 'storage.location.delete.confirm.title' }, { name })}
           open={!!entitytoDeleteFiles}
           actions={actions}
           dialogWidthPercent={50}
         >
-          <Checkbox onCheck={this.onCheckForceDelete} name="confirm-delete-file-force" checked={deleteFilesForce} label={formatMessage({ id: 'storage.data-storage.plugins.delete.confirm.option' }, { name })} />
+          <Checkbox onCheck={this.onCheckForceDelete} name="confirm-delete-file-force" checked={deleteFilesForce} label={formatMessage({ id: 'storage.location.delete.confirm.option' }, { name })} />
         </PositionedDialog>
       )
     }
@@ -258,12 +291,12 @@ export class StorageLocationListComponent extends React.Component {
       const actions = [
         <FlatButton
           key="close"
-          label={formatMessage({ id: 'storage.data-storage.plugins.dialogs.cancel' })}
+          label={formatMessage({ id: 'storage.location.dialogs.cancel' })}
           onClick={this.closeDialogs}
         />,
         <FlatButton
           key="confirm"
-          label={formatMessage({ id: 'storage.data-storage.plugins.dialogs.confirm' })}
+          label={formatMessage({ id: 'storage.location.dialogs.confirm' })}
           primary
           onClick={this.onConfirmRelaunchMonitoring}
         />,
@@ -275,8 +308,11 @@ export class StorageLocationListComponent extends React.Component {
           open={!!relaunchMonitoringDialog}
           actions={actions}
           dialogWidthPercent={50}
+          dialogHeightPercent={30}
         >
-          {formatMessage({ id: 'storage.data-storage.monitoring.dialog.checkbox' })}
+          <div>
+            {formatMessage({ id: 'storage.data-storage.monitoring.dialog.checkbox' })}
+          </div>
         </PositionedDialog>
       )
     }
@@ -309,12 +345,12 @@ export class StorageLocationListComponent extends React.Component {
       const actions = [
         <FlatButton
           key="close"
-          label={formatMessage({ id: 'storage.data-storage.plugins.dialogs.cancel' })}
+          label={formatMessage({ id: 'storage.location.dialogs.cancel' })}
           onClick={this.closeDialogs}
         />,
         <FlatButton
           key="confirm"
-          label={formatMessage({ id: 'storage.data-storage.plugins.dialogs.confirm' })}
+          label={formatMessage({ id: 'storage.location.dialogs.confirm' })}
           primary
           onClick={this.onConfirmCopyFiles}
           disabled={!copyStorageTarget}
@@ -323,7 +359,7 @@ export class StorageLocationListComponent extends React.Component {
       return (
         <PositionedDialog
           dialogType={ConfirmDialogComponentTypes.CONFIRM}
-          title={formatMessage({ id: 'storage.data-storage.plugins.copy.confirm.title' }, { name })}
+          title={formatMessage({ id: 'storage.location.copy.confirm.title' }, { name })}
           open={!!entitytoCopyFiles}
           actions={actions}
           dialogWidthPercent={50}
@@ -335,7 +371,7 @@ export class StorageLocationListComponent extends React.Component {
               {name}
             </div>
             <TextField
-              hintText={formatMessage({ id: 'storage.data-storage.plugins.copy.confirm.path-source' })}
+              hintText={formatMessage({ id: 'storage.location.copy.confirm.path-source' })}
               value={copyPathSource}
               onChange={this.handlePathSource}
               fullWidth
@@ -360,7 +396,7 @@ export class StorageLocationListComponent extends React.Component {
               </DropDownMenu>
             </span>
             <TextField
-              hintText={formatMessage({ id: 'storage.data-storage.plugins.copy.confirm.path-destination' })}
+              hintText={formatMessage({ id: 'storage.location.copy.confirm.path-destination' })}
               value={copyPathTarget}
               onChange={this.handlePathDestination}
               fullWidth
@@ -382,90 +418,98 @@ export class StorageLocationListComponent extends React.Component {
     // Table columns to display
     const columns = [
       new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.name')
-        .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.name.label' }))
+        .label(formatMessage({ id: 'storage.location.list.header.name.label' }))
+        .fixedSizing(150)
         .build(),
       new TableColumnBuilder('column.storageType').titleHeaderCell().propertyRenderCell('content.configuration.storageType')
-        .optionsSizing(2)
-        .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.type.label' }))
+        .label(formatMessage({ id: 'storage.location.list.header.type.label' }))
+        .fixedSizing(100)
         .build(),
       new TableColumnBuilder('column.nbFilesStored').titleHeaderCell().propertyRenderCell('content.nbFilesStored')
-        .optionsSizing(3)
-        .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.stored-file.label' }))
+        .label(formatMessage({ id: 'storage.location.list.header.stored-file.label' }))
+        .fixedSizing(150)
         .build(),
       new TableColumnBuilder('column.totalSized').titleHeaderCell()
-        .optionsSizing(3)
+        .fixedSizing(150)
         .rowCellDefinition({ Constructor: StorageLocationSizeRenderer })
-        .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.total-size.label' }))
+        .label(formatMessage({ id: 'storage.location.list.header.total-size.label' }))
         .build(),
       new TableColumnBuilder('column.nbStorageError').titleHeaderCell()
-        .optionsSizing(2)
         .rowCellDefinition({ Constructor: StorageLocationStorageErrorRenderer, props: { onStorageErrors: this.onStorageErrors } })
-        .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.storage-error.label' }))
+        .fixedSizing(110)
+        .label(formatMessage({ id: 'storage.location.list.header.storage-error.label' }))
         .build(),
       new TableColumnBuilder('column.nbDeletionError').titleHeaderCell()
-        .optionsSizing(2)
         .rowCellDefinition({ Constructor: StorageLocationDeletionErrorRenderer, props: { onDeletionErrors: this.onDeletionErrors } })
-        .label(formatMessage({ id: 'storage.data-storage.plugins.list.header.deletion-error.label' }))
+        .fixedSizing(110)
+        .label(formatMessage({ id: 'storage.location.list.header.deletion-error.label' }))
         .build(),
-      new TableColumnBuilder().optionsColumn([{
-        OptionConstructor: StorageLocationEditAction,
-        optionProps: { onEdit },
-      },
-      {
-        OptionConstructor: StorageLocationCopyFilesAction,
-        optionProps: { onCopyFiles: this.onCopyFiles },
-      },
-      {
-        OptionConstructor: StorageLocationPriorityAction,
-        optionProps: { onUp: onUpPriority },
-      },
-      {
-        OptionConstructor: StorageLocationPriorityAction,
-        optionProps: { onDown: onDownPriority },
-      },
-      {
-        OptionConstructor: StorageLocationDeleteFilesAction,
-        optionProps: { onDeleteFiles: this.onDeleteFiles },
-      },
-      {
-        OptionConstructor: TableDeleteOption,
-        optionProps: {
-          onDelete: this.onDelete,
-          fetchPage: onRefresh,
-          handleHateoas: true,
-          disableInsteadOfHide: true,
-          queryPageSize: 20,
-        },
-      },
-      ])
+      new TableColumnBuilder('column.customActions').titleHeaderCell()
+        .rowCellDefinition({
+          Constructor: StorageLocationListActions,
+          props: {
+            onEdit,
+            onCopyFiles: this.onCopyFiles,
+            onUp: onUpPriority,
+            onDown: onDownPriority,
+            onDeleteFiles: this.onDeleteFiles,
+            onDelete: this.onDelete,
+            onRefresh,
+          },
+        })
         .build(),
     ]
 
     const emptyComponent = (
       <NoContentComponent
-        titleKey="storage.data-storage.plugins.list.empty.title"
+        titleKey="storage.location.list.empty.title"
         Icon={AddToPhotos}
       />
     )
+    const iconStyle = {
+      margin: 5,
+    }
     const orderTypes = { ONLINE: 1, NEARLINE: 2, OFFLINE: 3 }
+    const sortedEntities = entities.sort(
+      (entityA, entityB) => {
+        const storageTypeA = entityA.content.configuration ? entityA.content.configuration.storageType : 'OFFLINE'
+        const priorityA = entityA.content.configuration ? entityA.content.configuration.priority : 0
+        const storageTypeB = entityB.content.configuration ? entityB.content.configuration.storageType : 'OFFLINE'
+        const priorityB = entityB.content.configuration ? entityB.content.configuration.priority : 0
+        return orderTypes[storageTypeA] - orderTypes[storageTypeB] || priorityA - priorityB
+      })
     return (
       <div>
-        {this.renderConfirmDialog(ConfirmDialogComponentTypes.DELETE, 'storage.data-storage.plugins.list.confirm.title', StorageLocationListComponent.DIALOGS_TYPES.DELETE)}
-        {this.renderConfirmDialog(ConfirmDialogComponentTypes.POST, 'storage.data-storage.plugins.errors.relaunch.confirm.title', StorageLocationListComponent.DIALOGS_TYPES.RELAUNCH_ERRORS)}
-        {this.renderConfirmDialog(ConfirmDialogComponentTypes.DELETE, 'storage.data-storage.plugins.errors.delete.confirm.title', StorageLocationListComponent.DIALOGS_TYPES.DELETE_ERRORS)}
+        {this.renderRequestsDialog(ConfirmDialogComponentTypes.DELETE, 'storage.location.list.confirm.title', StorageLocationListComponent.DIALOGS_TYPES.DELETE)}
+        {this.renderRequestsDialog(ConfirmDialogComponentTypes.POST, 'storage.location.errors.relaunch.confirm.title', StorageLocationListComponent.DIALOGS_TYPES.RELAUNCH_ERRORS)}
+        {this.renderRequestsDialog(ConfirmDialogComponentTypes.DELETE, 'storage.location.errors.delete.confirm.title', StorageLocationListComponent.DIALOGS_TYPES.DELETE_ERRORS)}
+        {this.renderRequestsDialog(null, 'storage.location.errors.view.title', StorageLocationListComponent.DIALOGS_TYPES.VIEW_ERRORS)}
         {this.renderDeleteFilesConfirmDialog()}
         {this.renderCopyFilesConfirmDialog()}
         {this.renderRelaunchMonitoringConfirmDialog()}
         <TableLayout>
-          <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={entities.length}>
-            <FlatButton
-              label={formatMessage({ id: 'storage.data-storage.monitoring.button' })}
-              onClick={this.onRelaunchMonitoring}
-            />
-          </TableHeaderLineLoadingAndResults>
+          <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={entities.length} />
+          <TableHeaderLine key="filtersLine">
+            <TableHeaderOptionsArea key="filtersArea" reducible alignRight>
+              <TableHeaderOptionGroup>
+                <RaisedButton
+                  label={formatMessage({ id: 'storage.data-storage.monitoring.button' })}
+                  onClick={this.onRelaunchMonitoring}
+                  primary
+                  style={iconStyle}
+                />
+                <RaisedButton
+                  label={formatMessage({ id: 'storage.data-storage.refresh.button' })}
+                  onClick={this.props.onRefresh}
+                  primary
+                  style={iconStyle}
+                />
+              </TableHeaderOptionGroup>
+            </TableHeaderOptionsArea>
+          </TableHeaderLine>
           <InfiniteTableContainer
             columns={columns}
-            entities={entities.sort((entityA, entityB) => orderTypes[entityA.content.configuration.storageType] - orderTypes[entityB.content.configuration.storageType] || entityA.content.configuration.priority - entityB.content.configuration.priority)}
+            entities={sortedEntities}
             emptyComponent={emptyComponent}
             entitiesCount={entities.length}
             minRowCount={minRowCount}

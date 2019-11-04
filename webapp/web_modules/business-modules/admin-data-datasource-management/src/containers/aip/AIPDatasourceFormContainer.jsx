@@ -16,14 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { browserHistory } from 'react-router'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import forEach from 'lodash/forEach'
+import { browserHistory } from 'react-router'
+import { getFormValues } from 'redux-form'
 import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
-import { getFormValues } from 'redux-form'
+import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { IAIPDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
@@ -193,7 +194,7 @@ export class AIPDatasourceFormContainer extends React.Component {
    * @param updatedDatasource
    */
   handleUpdate = (updatedDatasource) => {
-    Promise.resolve(this.props.updateDatasource(updatedDatasource.id, updatedDatasource))
+    Promise.resolve(this.props.updateDatasource(updatedDatasource.businessId, updatedDatasource))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -222,42 +223,56 @@ export class AIPDatasourceFormContainer extends React.Component {
     const parameters = [
       {
         name: IAIPDatasourceParamsEnum.BINDMAP_MAP,
+        type: 'MAP',
+        clazz: 'java.lang.String',
         value: mappings,
       },
       {
         name: IAIPDatasourceParamsEnum.MODEL,
+        type: 'STRING',
         value: values.model,
       },
       {
         name: IAIPDatasourceParamsEnum.REFRESH_RATE,
+        type: 'INTEGER',
         value: parseInt(values.refreshRate, 10),
       },
       {
         name: IAIPDatasourceParamsEnum.TAGS,
+        type: 'COLLECTION',
+        clazz: 'java.lang.String',
         value: values.tags,
       },
       {
         name: IAIPDatasourceParamsEnum.SUBSETTING_TAGS,
+        type: 'COLLECTION',
+        clazz: 'java.lang.String',
         value: values.subsettingTags,
+      },
+      {
+        name: IAIPDatasourceParamsEnum.SUBSETTING_CATEGORIES,
+        type: 'COLLECTION',
+        clazz: 'java.lang.String',
+        value: values.subsettingCategories,
       },
     ]
     if (!isEmpty(values.attributeFileSize)) {
       parameters.push(
         {
           name: IAIPDatasourceParamsEnum.ATTRIBUTE_FILE_SIZE,
+          type: 'LONG',
           value: values.attributeFileSize,
         },
       )
     }
     if (isCreating) {
       const datasource = {
-        label: values.label,
-        pluginClassName: 'fr.cnes.regards.modules.dam.plugins.datasources.AipDataSourcePlugin',
         pluginId: 'aip-storage-datasource',
-        interfaceNames: ['fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourcePlugin'],
+        businessId: values.label.replace(/[` ~!@#$%^&*()_|+\-=?;:'",.<>{}[\]\\/]/gi, ''),
+        label: values.label,
         parameters,
       }
-      this.handleCreate(datasource)
+      this.handleCreate(PluginFormUtils.formatPluginConf(datasource))
     } else {
       const updatedDatasource = {
         ...this.props.currentDatasource.content,

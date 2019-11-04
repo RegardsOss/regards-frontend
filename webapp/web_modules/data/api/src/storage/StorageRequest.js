@@ -16,14 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const IAIPDatasourceParamsEnum = {
-  MODEL: 'modelName',
-  BINDMAP_MAP: 'binding map',
-  REFRESH_RATE: 'refreshRate',
-  TAGS: 'tags',
-  SUBSETTING_TAGS: 'subsettingTags',
-  SUBSETTING_CATEGORIES: 'subsettingCategories',
-  ATTRIBUTE_FILE_SIZE: 'attribute file size',
+
+import { Schema, arrayOf } from 'normalizr'
+
+/**
+ * Storage plugin management for normalizer
+ */
+export const StorageRequestConfiguration = {
+  entityKey: 'id',
+  normalizrKey: 'storage-request',
 }
 
-export default IAIPDatasourceParamsEnum
+export const STORAGE_REQUEST = new Schema(StorageRequestConfiguration.normalizrKey, {
+  idAttribute: model => model.content[StorageRequestConfiguration.entityKey]
+  ,
+})
+export const STORAGE_REQUEST_ARRAY = arrayOf(STORAGE_REQUEST)

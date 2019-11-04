@@ -78,14 +78,17 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       storages: [
         {
           content: {
+            businessId: 'LocalDataStorage',
             label: 'LocalDataStorage',
           },
         }, {
           content: {
+            businessId: 'SacocheInfini',
             label: 'Sacoche Infini',
           },
         }, {
           content: {
+            businessId: 'Turkmenistan',
             label: 'Turkmenistan',
           },
         },
@@ -107,12 +110,28 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       update: sinon.stub().callsFake(() => new Promise(() => { })),
       storages: [
         {
-          storage: 'LocalDataStorage',
-          storageSubDirectory: '/machin/chose',
+          active: true,
+          label: 'LocalDataStorage',
+          storePath: '/machin/chose',
+          aip: false,
+          description: false,
+          document: false,
+          other: false,
+          rawdata: false,
+          thumbnail: false,
+          quicklook: false,
         },
         {
-          storage: 'Sacoche Infini',
-          storageSubDirectory: '',
+          active: true,
+          label: 'Sacoche Infini',
+          storePath: '',
+          aip: false,
+          description: false,
+          document: false,
+          other: false,
+          rawdata: false,
+          thumbnail: false,
+          quicklook: false,
         },
       ],
       getStorages: sinon.stub().callsFake(() => new Promise(() => { })),
@@ -135,14 +154,17 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       storages: [
         {
           content: {
+            businessId: 'LocalDataStorage',
             label: 'LocalDataStorage',
           },
         }, {
           content: {
+            businessId: 'SacocheInfini',
             label: 'Sacoche Infini',
           },
         }, {
           content: {
+            businessId: 'Turkmenistan',
             label: 'Turkmenistan',
           },
         },
@@ -164,12 +186,28 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       update: sinon.stub().callsFake(() => new Promise(() => { })),
       storages: [
         {
-          storage: 'LocalDataStorage',
-          storageSubDirectory: '/machin/chose',
+          active: true,
+          label: 'LocalDataStorage',
+          storePath: '/machin/chose',
+          aip: false,
+          description: false,
+          document: false,
+          other: false,
+          rawdata: false,
+          thumbnail: false,
+          quicklook: false,
         },
         {
-          storage: 'Sacoche Infini',
-          storageSubDirectory: '',
+          active: true,
+          label: 'Sacoche Infini',
+          storePath: '',
+          aip: false,
+          description: false,
+          document: false,
+          other: false,
+          rawdata: false,
+          thumbnail: false,
+          quicklook: false,
         },
       ],
       getStorages: sinon.stub().callsFake(() => new Promise(() => { })),
@@ -192,14 +230,17 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       storages: [
         {
           content: {
+            businessId: 'LocalDataStorage',
             label: 'LocalDataStorage',
           },
         }, {
           content: {
+            businessId: 'SacocheInfini',
             label: 'Sacoche Infini',
           },
         }, {
           content: {
+            businessId: 'Turkmenistan',
             label: 'Turkmenistan',
           },
         },

@@ -16,21 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { BasicSignalActions, RequestVerbEnum } from '@regardsoss/store-utils'
+import { STORAGE_REQUEST, STORAGE_REQUEST_ARRAY } from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
- * Actions to get StorageLocation information
- * @author Picart Kevin
+ * Actions to get StorageRequest information
+ * @author Sébastien Binda
  */
-class StorageLocationErrorsDeleteActions extends BasicSignalActions {
+class StorageRequestActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/{name}/requests/{type}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/requests/{storage}/{type}`,
+      schemaTypes: {
+        ENTITY: STORAGE_REQUEST,
+        ENTITY_ARRAY: STORAGE_REQUEST_ARRAY,
+      },
     })
   }
-
-  deleteErrors = (name, type) => this.sendSignal(RequestVerbEnum.DELETE, {}, { name, type }, {})
 }
 
-export default StorageLocationErrorsDeleteActions
+export default StorageRequestActions

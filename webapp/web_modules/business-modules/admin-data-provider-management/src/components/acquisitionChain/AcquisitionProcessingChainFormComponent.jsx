@@ -20,6 +20,7 @@ import get from 'lodash/get'
 import map from 'lodash/map'
 import omit from 'lodash/omit'
 import some from 'lodash/some'
+import find from 'lodash/find'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
@@ -41,7 +42,7 @@ import { DataProviderDomain } from '@regardsoss/domain'
 import { ingestProcessingChainActions, ingestProcessingChainEntitiesKey } from '../../clients/IngestProcessingChainClient'
 import AcquisitionProcessingChainFormPluginsComponent from './AcquisitionProcessingChainFormPluginsComponent'
 import AcquisitionFileInfoComponent from './AcquisitionFileInfoComponent'
-import { StoragesFieldArrayRenderer } from './StoragesFieldArrayRenderer'
+import { StoragesFieldArrayRenderer, DATA_TYPES_ENUM } from './StoragesFieldArrayRenderer'
 import { CategoriesFieldArrayRenderer } from './CategoriesFieldArrayRenderer'
 import styles from '../../styles'
 import messages from '../../i18n'
@@ -147,11 +148,18 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     let loadedStorages
     if (mode !== 'create') {
       loadedStorages = storages.map((serverStorage) => {
-        const findStorage = chain.content.storages.find(configuredStorage => serverStorage.content.label === configuredStorage.storage)
+        const findStorage = chain.content.storages.find(configuredStorage => serverStorage.content.businessId === configuredStorage.pluginBusinessId)
         return {
           label: serverStorage.content.label,
           active: !!findStorage,
-          path: findStorage ? findStorage.storageSubDirectory : '',
+          storePath: findStorage ? findStorage.storePath : '',
+          aip: findStorage && findStorage.targetTypes ? findStorage.targetTypes.includes(DATA_TYPES_ENUM.AIP) : false,
+          rawdata: findStorage && findStorage.targetTypes ? findStorage.targetTypes.includes(DATA_TYPES_ENUM.RAWDATA) : false,
+          document: findStorage && findStorage.targetTypes ? findStorage.targetTypes.includes(DATA_TYPES_ENUM.DOCUMENT) : false,
+          description: findStorage && findStorage.targetTypes ? findStorage.targetTypes.includes(DATA_TYPES_ENUM.DESCRIPTION) : false,
+          thumbnail: findStorage && findStorage.targetTypes ? findStorage.targetTypes.includes(DATA_TYPES_ENUM.THUMBNAIL) : false,
+          quicklook: findStorage && findStorage.targetTypes ? findStorage.targetTypes.includes(DATA_TYPES_ENUM.QUICKLOOK) : false,
+          other: findStorage && findStorage.targetTypes ? findStorage.targetTypes.includes(DATA_TYPES_ENUM.OTHER) : false,
         }
       },
       ).sort(({ label: l1 }, { label: l2 }) => StringComparison.compare(l1, l2))
@@ -164,7 +172,14 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
           storages: storages.map(serverStorage => ({
             label: serverStorage.content.label,
             active: false,
-            path: '',
+            storePath: '',
+            aip: false,
+            description: false,
+            document: false,
+            other: false,
+            rawdata: false,
+            thumbnail: false,
+            quicklook: false,
           })),
         }
         break

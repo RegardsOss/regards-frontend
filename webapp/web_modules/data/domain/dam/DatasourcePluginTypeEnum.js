@@ -16,10 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const IDBDatasourceParamsEnum = {
-  AIP: 'fr.cnes.regards.modules.dam.plugins.datasources.AipDataSourcePlugin',
-  OPENSEARCH: 'fr.cnes.regards.modules.dam.plugins.datasources.webservice.WebserviceDatasourcePlugin',
-  DB: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourcePlugin',
+
+const DataSourcePluginTypeEnum = {
+  AIP: 'aip-storage-datasource',
+  OPENSEARCH: 'webservice-datasource',
+  DB_POSTGRES: 'postgresql-datasource',
+  DB_ORACLE: 'oracle-datasource-single-table',
 }
 
-export default IDBDatasourceParamsEnum
+export default DataSourcePluginTypeEnum

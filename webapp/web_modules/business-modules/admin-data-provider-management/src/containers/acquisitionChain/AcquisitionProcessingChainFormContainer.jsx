@@ -25,6 +25,7 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ErrorCardComponent } from '@regardsoss/components'
 import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { StorageDomain } from '@regardsoss/domain'
+import { DATA_TYPES_ENUM } from '../../components/acquisitionChain/StoragesFieldArrayRenderer'
 import AcquisitionProcessingChainFormComponent from '../../components/acquisitionChain/AcquisitionProcessingChainFormComponent'
 import { AcquisitionProcessingChainEditActions, AcquisitionProcessingChainEditSelectors } from '../../clients/AcquisitionProcessingChainClient'
 import { storagesListActions, storagesListSelectors } from '../../clients/StoragesListClient'
@@ -116,6 +117,32 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
     browserHistory.push(url)
   }
 
+  getTargetTypes = (storage) => {
+    const targetTypes = []
+    if (storage.rawdata) {
+      targetTypes.push(DATA_TYPES_ENUM.RAWDATA)
+    }
+    if (storage.aip) {
+      targetTypes.push(DATA_TYPES_ENUM.AIP)
+    }
+    if (storage.description) {
+      targetTypes.push(DATA_TYPES_ENUM.DESCRIPTION)
+    }
+    if (storage.document) {
+      targetTypes.push(DATA_TYPES_ENUM.DOCUMENT)
+    }
+    if (storage.quicklook) {
+      targetTypes.push(DATA_TYPES_ENUM.QUICKLOOK)
+    }
+    if (storage.thumbnail) {
+      targetTypes.push(DATA_TYPES_ENUM.THUMBNAIL)
+    }
+    if (storage.other) {
+      targetTypes.push(DATA_TYPES_ENUM.OTHER)
+    }
+    return targetTypes
+  }
+
   /**
    * Callback to submit form values
    * @param {*} values : AcquisitionProcessingChain object to submit (update or create)
@@ -137,8 +164,8 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
       validationPluginConf: PluginFormUtils.formatPluginConf(values.validationPluginConf),
       storages: values.storages.filter(storages => storages.active).map(configuredStorage => ({
         pluginBusinessId: configuredStorage.label,
-        storePath: configuredStorage.path ? configuredStorage.path : '',
-        targetTypes: configuredStorage.targetTypes || [],
+        storePath: configuredStorage.storePath ? configuredStorage.storePath : '',
+        targetTypes: this.getTargetTypes(configuredStorage),
       })),
     }
 

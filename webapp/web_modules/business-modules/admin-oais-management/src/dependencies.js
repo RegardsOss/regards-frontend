@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { aipActions } from './clients/AIPClient'
 import { sipActions } from './clients/SIPClient'
 import { sipImportActions } from './clients/SIPImportClient'
 
@@ -30,8 +29,7 @@ import { sipImportActions } from './clients/SIPImportClient'
  * @type {Array}
  */
 const listDependencies = [
-  aipActions.getDependency(RequestVerbEnum.GET),
-  sipActions.getDependency(RequestVerbEnum.GET_LIST),
+  sipActions.getDependency(RequestVerbEnum.POST),
 ]
 
 /**

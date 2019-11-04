@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { StorageShapes } from '@regardsoss/shape'
 import { storage } from '@regardsoss/units'
 import { storageMonitoringActions, storageMonitoringSelectors } from '../../clients/StorageMonitoringClient'
 import StorageMonitoringComponent from '../../components/user/StorageMonitoringComponent'
@@ -30,7 +29,8 @@ export class StorageMonitoringContainer extends React.Component {
     scale: storage.StorageUnitScaleShape.isRequired,
     userApp: PropTypes.bool.isRequired,
     // from mapStateToProps
-    storagePlugins: StorageShapes.StorageMonitoringList.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    storagePlugins: PropTypes.any,
     isFetching: PropTypes.bool,
     hasError: PropTypes.bool,
     // from mapDispatchToProps

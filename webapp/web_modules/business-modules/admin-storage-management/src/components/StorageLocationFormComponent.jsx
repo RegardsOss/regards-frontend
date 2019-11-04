@@ -43,7 +43,7 @@ const validateName = value => value && !/^[a-zA-Z0-9_-]+$/g.test(value)
 class StorageLocationFormComponent extends React.Component {
   static propTypes = {
     mode: PropTypes.string.isRequired,
-    entity: StorageShapes.StorageLocation,
+    entity: StorageShapes.StorageMonitoring,
     backUrl: PropTypes.string.isRequired,
     onUpdate: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
@@ -65,9 +65,9 @@ class StorageLocationFormComponent extends React.Component {
     const { mode, entity, initialize } = this.props
     if (mode === 'edit' && entity) {
       initialize({
-        name: entity.content.configuration.name,
-        allocatedSizeInKo: entity.content.configuration.allocatedSizeInKo,
-        pluginConfiguration: entity.content.configuration.pluginConfiguration,
+        name: entity.content.name,
+        allocatedSizeInKo: entity.content.configuration ? entity.content.configuration.allocatedSizeInKo : null,
+        pluginConfiguration: entity.content.configuration ? entity.content.configuration.pluginConfiguration : null,
       })
     }
   }
@@ -83,14 +83,17 @@ class StorageLocationFormComponent extends React.Component {
   updateStorageLocationConf = (fields) => {
     const { onUpdate, entity } = this.props
     const storageLocationConfToUpdate = {
-      name: entity.content.configuration.name,
+      name: entity.content.name,
       configuration: {
-        name: entity.content.configuration.name,
-        allocatedSizeInKo: fields.allocatedSizeInKo,
-        pluginConfiguration: fields.pluginConfiguration ? fields.pluginConfiguration : null,
+        name: entity.content.name,
+        configuration: {
+          ...entity.content.configuration,
+          allocatedSizeInKo: fields.allocatedSizeInKo,
+          pluginConfiguration: fields.pluginConfiguration ? PluginFormUtils.formatPluginConf(fields.pluginConfiguration) : null,
+        },
       },
     }
-    onUpdate(entity.content.configuration.name, storageLocationConfToUpdate).then((actionResults) => {
+    onUpdate(entity.content.name, storageLocationConfToUpdate).then((actionResults) => {
       if (!actionResults.error) {
         this.onBack()
       }
@@ -125,7 +128,7 @@ class StorageLocationFormComponent extends React.Component {
     if (mode !== 'create' && !entity) {
       return (
         <NoContentComponent
-          titleKey="storage.plugins.storage.form.invalid.id"
+          titleKey="storage.location.form.invalid.id"
           Icon={MoodIcon}
         />
       )
@@ -138,7 +141,7 @@ class StorageLocationFormComponent extends React.Component {
           component={RenderTextField}
           type="text"
           value=""
-          label={formatMessage({ id: 'storage.plugins.storage.form.name.label' })}
+          label={formatMessage({ id: 'storage.location.form.name.label' })}
           validate={validateName}
           disabled={mode !== 'create'}
         />
@@ -148,14 +151,14 @@ class StorageLocationFormComponent extends React.Component {
           component={RenderTextField}
           type="number"
           validate={ValidationHelpers.required}
-          label={formatMessage({ id: 'storage.plugins.storage.form.allocated-size.label' })}
+          label={formatMessage({ id: 'storage.location.form.allocated-size.label' })}
         />
         <Field
           key="storagePlugin"
           name="pluginConfiguration"
           component={RenderPluginField}
-          title={formatMessage({ id: 'storage.plugins.storage.form.plugin.label' })}
-          selectLabel={formatMessage({ id: 'storage.plugins.storage.form.plugin.label' })}
+          title={formatMessage({ id: 'storage.location.form.plugin.label' })}
+          selectLabel={formatMessage({ id: 'storage.location.form.plugin.label' })}
           pluginType={pluginType}
           microserviceName={STATIC_CONF.MSERVICES.STORAGE}
           hideDynamicParameterConf
@@ -167,23 +170,31 @@ class StorageLocationFormComponent extends React.Component {
 
   render() {
     const {
-      backUrl, mode, handleSubmit, entity,
+      backUrl, handleSubmit, entity, mode,
     } = this.props
+
+    let onSubmitAction
+    if (mode === 'create') {
+      onSubmitAction = this.createStorageLocationConf
+    } else {
+      onSubmitAction = entity.content.configuration && entity.content.configuration.id ? this.updateStorageLocationConf : this.createStorageLocationConf
+    }
+
     const { intl: { formatMessage }, moduleTheme } = this.context
 
     const title = mode === 'edit'
-      ? formatMessage({ id: 'storage.plugins.storage.form.edit.title' }, { name: entity.content.name })
-      : formatMessage({ id: 'storage.plugins.storage.form.create.title' })
+      ? formatMessage({ id: 'storage.location.form.edit.title' }, { name: entity.content.name })
+      : formatMessage({ id: 'storage.location.form.create.title' })
     const buttonTitle = mode === 'edit'
-      ? formatMessage({ id: 'storage.plugins.storage.form.submit.edit.button' })
-      : formatMessage({ id: 'storage.plugins.storage.form.submit.button' })
+      ? formatMessage({ id: 'storage.location.form.submit.edit.button' })
+      : formatMessage({ id: 'storage.location.form.submit.button' })
     return (
       <Card>
         <CardTitle
           title={title}
-          subtitle={formatMessage({ id: 'storage.plugins.storage.form.subtitle' })}
+          subtitle={formatMessage({ id: 'storage.location.form.subtitle' })}
         />
-        <form onSubmit={handleSubmit(mode === 'create' ? this.createStorageLocationConf : this.updateStorageLocationConf)}>
+        <form onSubmit={handleSubmit(onSubmitAction)}>
           <CardText style={moduleTheme.root}>
             {this.renderContent()}
           </CardText>
@@ -191,7 +202,7 @@ class StorageLocationFormComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={buttonTitle}
               mainButtonType="submit"
-              secondaryButtonLabel={formatMessage({ id: 'storage.plugins.storage.form.back.button' })}
+              secondaryButtonLabel={formatMessage({ id: 'storage.location.form.back.button' })}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>

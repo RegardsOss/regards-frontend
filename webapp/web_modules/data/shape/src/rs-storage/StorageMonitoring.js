@@ -16,12 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { StorageLocationContent } from './StorageLocation'
+
 export const StorageMonitoringContent = PropTypes.shape({
-  confId: PropTypes.number.isRequired,
-  label: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  totalSize: PropTypes.string,
-  usedSize: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  nbFilesStored: PropTypes.number,
+  totalStoredFilesSizeKo: PropTypes.number,
+  nbStorageError: PropTypes.number,
+  nbDeletionError: PropTypes.number,
+  configuration: StorageLocationContent,
 }).isRequired
 
 export const StorageMonitoring = PropTypes.shape({

@@ -41,10 +41,12 @@ class StorageLocationSizeRenderer extends React.Component {
     let color
 
     const storageUnit = storage.StorageUnitScale.getMatchingUnit('ko')
-    const allocatedSize = entity.content.configuration.allocatedSizeInKo
-    const valueWithUnit = new storage.StorageCapacity(allocatedSize, storageUnit).scaleAndConvert(storageUnit.scale)
-    const allocatedSizeUnitConverted = storage.formatStorageCapacity(formatMessage, formatNumber, valueWithUnit)
-
+    const allocatedSize = entity.content.configuration ? entity.content.configuration.allocatedSizeInKo : null
+    let allocatedSizeUnitConverted = null
+    if (allocatedSize) {
+      const valueWithUnit = new storage.StorageCapacity(allocatedSize, storageUnit).scaleAndConvert(storageUnit.scale)
+      allocatedSizeUnitConverted = storage.formatStorageCapacity(formatMessage, formatNumber, valueWithUnit)
+    }
     const usedSize = entity.content.totalStoredFilesSizeKo
     const valueWithUnitUsed = new storage.StorageCapacity(usedSize, storageUnit).scaleAndConvert(storageUnit.scale)
     const usedSizeUnitConverted = storage.formatStorageCapacity(formatMessage, formatNumber, valueWithUnitUsed)
@@ -64,12 +66,17 @@ class StorageLocationSizeRenderer extends React.Component {
       width: `${width}%`,
     }
 
-    return (
-      <div style={container} title={`${realWidth}%`}>
-        <div style={percentageComputedSize} />
-        <div style={size}>{`${usedSizeUnitConverted} / ${allocatedSizeUnitConverted}`}</div>
-      </div>
-    )
+    if (allocatedSizeUnitConverted) {
+      return (
+        <div style={container} title={`${realWidth}%`}>
+          <div style={percentageComputedSize} />
+          <div style={size}>{`${usedSizeUnitConverted} / ${allocatedSizeUnitConverted}`}</div>
+        </div>
+      )
+    }
+    return <div style={container} title={`${realWidth}%`}>
+      <div style={size}>{`${usedSizeUnitConverted}`}</div>
+    </div>
   }
 }
 

@@ -21,6 +21,7 @@
  * Comment Here
  * @author Kevin Picart
  */
+import get from 'lodash/get'
 import Menu from 'material-ui/svg-icons/navigation/more-vert'
 import Play from 'material-ui/svg-icons/av/play-arrow'
 import { MenuItem } from 'material-ui'
@@ -34,6 +35,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
     onClickRelaunchProducts: PropTypes.func.isRequired,
+    onDeleteProducts: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -46,9 +48,35 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     onClickRelaunchProducts(entity.content.source, entity.content.name)
   }
 
+  onDeleteProducts =() => {
+    const { entity, onDeleteProducts } = this.props
+    onDeleteProducts(entity)
+  }
+
+  getGenerated = (entity) => {
+    const { intl: { formatNumber } } = this.context
+    const submitted = get(entity, 'content.lifeCycle.PRODUCTS.submitted', 0)
+    const generated = get(entity, 'content.lifeCycle.PRODUCTS.generated', 0)
+    const ingested = get(entity, 'content.lifeCycle.PRODUCTS.ingested', 0)
+    return formatNumber(parseInt(submitted, 10) + parseInt(generated, 10) + parseInt(ingested, 10))
+  }
+
+  getIncompletes = (entity) => {
+    const { intl: { formatNumber } } = this.context
+    const incompletes = get(entity, 'content.lifeCycle.PRODUCTS.incomplete', 0)
+    return formatNumber(parseInt(incompletes, 10))
+  }
+
+  getErrors = (entity) => {
+    const { intl: { formatNumber } } = this.context
+    const error = get(entity, 'content.lifeCycle.PRODUCTS.generation_error', 0)
+    const ingFailed = get(entity, 'content.lifeCycle.PRODUCTS.ingestion_failed', 0)
+    return formatNumber(parseInt(error, 10) + parseInt(ingFailed, 10))
+  }
+
   render() {
     const {
-      intl: { formatMessage, formatNumber },
+      intl: { formatMessage },
       moduleTheme: {
         sessionsStyles: {
           menuDropDown,
@@ -82,7 +110,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
           ) : (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
-                { entity.content.lifeCycle.PRODUCTS.state === 'running' ? (
+                { entity.content.lifeCycle.PRODUCTS.state === 'RUNNING' ? (
                   <div style={runningContainer}>
                     <Play color={runningIconColor} />
                     <div style={running}>
@@ -96,7 +124,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
               <div style={infosContainer}>
                 <div style={lineContainer}>
                   <div style={one}>
-                    {formatMessage({ id: 'acquisition-sessions.states.completed' })}
+                    {formatMessage({ id: 'acquisition-sessions.states.complet' })}
                   :
                   </div>
                   <div style={two}>
@@ -109,9 +137,9 @@ class SessionsMonitoringProductsGenerated extends React.Component {
                   </div>
                 </div>
                 <div style={listValues}>
-                  <div style={one}>{formatNumber((entity.content.lifeCycle.PRODUCTS.generated ? entity.content.lifeCycle.PRODUCTS.generated : 0))}</div>
-                  <div style={two}>{formatNumber((entity.content.lifeCycle.PRODUCTS.incomplete ? entity.content.lifeCycle.PRODUCTS.incomplete : 0))}</div>
-                  <div style={three}>{formatNumber((entity.content.lifeCycle.PRODUCTS.generation_error ? entity.content.lifeCycle.PRODUCTS.generation_error : 0))}</div>
+                  <div style={one}>{this.getGenerated(entity)}</div>
+                  <div style={two}>{this.getIncompletes(entity)}</div>
+                  <div style={three}>{this.getErrors(entity)}</div>
                 </div>
                 <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
                   <DropDownButton
@@ -122,6 +150,10 @@ class SessionsMonitoringProductsGenerated extends React.Component {
                     <MenuItem
                       primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.relaunch' })}
                       onClick={this.onClickRelaunchProducts}
+                    />
+                    <MenuItem
+                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.delete' })}
+                      onClick={this.onDeleteProducts}
                     />
                   </DropDownButton>
                 </div>

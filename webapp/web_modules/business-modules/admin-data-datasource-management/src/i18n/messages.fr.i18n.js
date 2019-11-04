@@ -72,6 +72,7 @@ const messages = Object.assign({
   'datasource.form.subtitle': 'Gestion des attributs d\'une source de données',
   'datasource.form.tags': 'Liste des tags ajoutés à toutes les données aspirées',
   'datasource.form.subsettingTags': 'Aspirer uniquement les données contenant l\'un de ces tags (vide = toutes les données sont aspirées)',
+  'datasource.form.subsettingCategories': 'Aspirer uniquement les données de certaines catégories (vide = toutes les categories de données sont aspirées)',
   'datasource.form.attributeFileSize': 'Sélectionner l\'attribut du modèle qui contiendra la somme des tailles de tous les fichiers de l\'AIP',
 
   'datasource.edit.title': 'Édition de la source de données {name}',

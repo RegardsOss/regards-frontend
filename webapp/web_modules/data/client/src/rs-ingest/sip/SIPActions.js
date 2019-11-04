@@ -38,4 +38,6 @@ export default class SIPActions extends BasicPageableActions {
       },
     })
   }
+
+  fetchPagedEntityList =(pageNumber, size, pathParams, queryParams) => super.fetchPagedEntityListByPost(pageNumber, size, pathParams, {})
 }

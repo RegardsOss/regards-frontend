@@ -22,8 +22,9 @@ import { StorageShapes } from '@regardsoss/shape'
 import {
   storageLocationActions, storageLocationSelectors, storageLocationPriorityDownActions, storageLocationPriorityUpActions,
   storageLocationDeleteFilesActions, storageLocationCopyFilesActions, storageLocationErrorsRetryActions,
-  storageLocationErrorsDeleteActions, storageLocationMonitoringActions,
+  storageLocationMonitoringActions,
 } from '../clients/StorageLocationClient'
+import { storageRequestActions } from '../clients/StorageRequestClient'
 import StorageLocationListComponent from '../components/StorageLocationListComponent'
 
 /**
@@ -60,7 +61,8 @@ export class StorageLocationListContainer extends React.Component {
       upPriority: (name, conf) => dispatch(storageLocationPriorityUpActions.upPriority(name, conf)),
       downPriority: (name, conf) => dispatch(storageLocationPriorityDownActions.downPriority(name, conf)),
       retryErrors: (name, type) => dispatch(storageLocationErrorsRetryActions.retryErrors(name, type)),
-      deleteErrors: (name, type) => dispatch(storageLocationErrorsDeleteActions.deleteErrors(name, type)),
+      deleteErrors: (storage, type) => dispatch(storageRequestActions.deleteEntity(null, { storage, type })),
+      fetchErrors: (storage, type) => dispatch(storageRequestActions.fetchPagedEntityList(0, 100, { storage, type }, { status: 'ERROR' })),
       relaunchMonitoring: reset => dispatch(storageLocationMonitoringActions.relaunchMonitoring(reset)),
     }
   }
@@ -79,6 +81,7 @@ export class StorageLocationListContainer extends React.Component {
     upPriority: PropTypes.func.isRequired,
     downPriority: PropTypes.func.isRequired,
     retryErrors: PropTypes.func.isRequired,
+    fetchErrors: PropTypes.func.isRequired,
     deleteErrors: PropTypes.func.isRequired,
     relaunchMonitoring: PropTypes.func.isRequired,
   }
@@ -131,6 +134,7 @@ export class StorageLocationListContainer extends React.Component {
         onDelete={this.props.delete}
         onRetryErrors={this.props.retryErrors}
         onDeleteErrors={this.props.deleteErrors}
+        onViewErrors={this.props.fetchErrors}
         onDeleteFiles={this.props.deleteFiles}
         onCopyFiles={this.props.copyFiles}
         onActivateToggle={this.onActivateToggle}

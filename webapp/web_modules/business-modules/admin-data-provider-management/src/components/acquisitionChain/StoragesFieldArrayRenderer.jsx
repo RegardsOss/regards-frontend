@@ -23,10 +23,20 @@ import Paper from 'material-ui/Paper'
 import Storage from 'material-ui/svg-icons/device/storage'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+
 /**
  * Fields Array Renderer for List of storages
  * @author Kévin Picart
  */
+export const DATA_TYPES_ENUM = {
+  RAWDATA: 'RAWDATA',
+  QUICKLOOK: 'QUICKLOOK',
+  DOCUMENT: 'DOCUMENT',
+  THUMBNAIL: 'THUMBNAIL',
+  OTHER: 'OTHER',
+  AIP: 'AIP',
+  DESCRIPTION: 'DESCRIPTION',
+}
 export class StoragesFieldArrayRenderer extends React.Component {
   static propTypes = {
     fields: PropTypes.shape({
@@ -58,11 +68,10 @@ export class StoragesFieldArrayRenderer extends React.Component {
           label={fields.get(index).label}
         />
         <Field
-          name={`${member}.path`}
+          name={`${member}.storePath`}
           component={RenderTextField}
           type="text"
           label={`${formatMessage({ id: 'acquisition-chain.form.general.section.path' })}`}
-            // style={input}
           fullWidth
         />
         <div
@@ -70,43 +79,36 @@ export class StoragesFieldArrayRenderer extends React.Component {
           key={`${member}type`}
         >
           <Field
-            //key={`${member}active`}
             name={`${member}.rawdata`}
             component={RenderCheckbox}
             label="Rawdata"
           />
           <Field
-            //key={`${member}active`}
             name={`${member}.quicklook`}
             component={RenderCheckbox}
             label="Quicklook"
           />
           <Field
-            //key={`${member}active`}
             name={`${member}.document`}
             component={RenderCheckbox}
             label="Document"
           />
           <Field
-            //key={`${member}active`}
             name={`${member}.thumbnail`}
             component={RenderCheckbox}
             label="Thumbnail"
           />
           <Field
-            //key={`${member}active`}
             name={`${member}.aip`}
             component={RenderCheckbox}
             label="Aip"
           />
           <Field
-            //key={`${member}active`}
             name={`${member}.description`}
             component={RenderCheckbox}
             label="Description"
           />
           <Field
-            //key={`${member}active`}
             name={`${member}.other`}
             component={RenderCheckbox}
             label="Other"
@@ -124,12 +126,6 @@ export class StoragesFieldArrayRenderer extends React.Component {
         <p style={info}>{formatMessage({ id: 'acquisition-chain.form.general.section.info.storage' })}</p>
         <div style={paperFlexContainer}>
           {fields.map(this.renderStorageCheckbox)}
-          {/* <div>
-            {fields.map(this.renderStoragePaths)}
-          </div>
-          <div style={{ flexGrow: '2' }}>
-            {fields.map(this.renderStorageCheckboxes)}
-          </div> */}
         </div>
       </React.Fragment>
     )

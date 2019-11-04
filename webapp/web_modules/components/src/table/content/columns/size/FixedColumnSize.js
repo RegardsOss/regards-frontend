@@ -16,14 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const IAIPDatasourceParamsEnum = {
-  MODEL: 'modelName',
-  BINDMAP_MAP: 'binding map',
-  REFRESH_RATE: 'refreshRate',
-  TAGS: 'tags',
-  SUBSETTING_TAGS: 'subsettingTags',
-  SUBSETTING_CATEGORIES: 'subsettingCategories',
-  ATTRIBUTE_FILE_SIZE: 'attribute file size',
-}
+import { ColumnSize } from './ColumnSize'
 
-export default IAIPDatasourceParamsEnum
+/**
+ * Points out a fixed column size
+ * @author Sébastien Binda
+ */
+export class FixedColumnSize extends ColumnSize {
+  /** Used by layout to determine the sizing type it is handling */
+  static TYPE = 'FIXED_COLUMN_SIZE'
+
+  constructor(size) {
+    super(FixedColumnSize.TYPE)
+    this.size = size
+  }
+}

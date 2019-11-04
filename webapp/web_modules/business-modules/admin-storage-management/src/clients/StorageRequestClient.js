@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,15 +15,19 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-const IAIPDatasourceParamsEnum = {
-  MODEL: 'modelName',
-  BINDMAP_MAP: 'binding map',
-  REFRESH_RATE: 'refreshRate',
-  TAGS: 'tags',
-  SUBSETTING_TAGS: 'subsettingTags',
-  SUBSETTING_CATEGORIES: 'subsettingCategories',
-  ATTRIBUTE_FILE_SIZE: 'attribute file size',
-}
+ */
+import { StorageClient } from '@regardsoss/client'
 
-export default IAIPDatasourceParamsEnum
+/**
+ * StorageRequest entities client.
+ *
+ * @author Sébastien Binda
+ */
+const { StorageRequestActions, getStorageRequestReducers, getStorageRequestSelectors } = StorageClient
+
+const STORAGE_REQUEST_NAMESPACE = 'admin-storage/storageRequest'
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'storage', 'storage-request']
+
+export const storageRequestActions = new StorageRequestActions(STORAGE_REQUEST_NAMESPACE)
+export const storageRequestReducers = getStorageRequestReducers(STORAGE_REQUEST_NAMESPACE)
+export const storageRequestSelectors = getStorageRequestSelectors(ENTITIES_STORE_PATH)

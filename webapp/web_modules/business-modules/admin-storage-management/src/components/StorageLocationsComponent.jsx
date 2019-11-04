@@ -62,8 +62,8 @@ class StorageLocationListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={formatMessage({ id: 'storage.data-storage.plugins.list.title' })}
-          subtitle={formatMessage({ id: 'storage.data-storage.plugins.list.subtitle' })}
+          title={formatMessage({ id: 'storage.location.list.title' })}
+          subtitle={formatMessage({ id: 'storage.location.list.subtitle' })}
         />
         <CardText style={moduleTheme.root}>
           <StorageLocationListContainer
@@ -72,10 +72,10 @@ class StorageLocationListComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.list.add.button' })}
+            mainButtonLabel={formatMessage({ id: 'storage.location.list.add.button' })}
             mainButtonClick={this.goToCreateStorageForm}
             mainHateoasDependencies={StorageLocationListComponent.addDependencies}
-            secondaryButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.list.back.button' })}
+            secondaryButtonLabel={formatMessage({ id: 'storage.location.list.back.button' })}
             secondaryButtonClick={this.goToBoard}
           />
         </CardActions>
