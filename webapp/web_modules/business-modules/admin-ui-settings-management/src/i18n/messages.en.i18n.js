@@ -19,6 +19,8 @@
 const messages = {
   'ui.admin.settings.title': 'User interface settings',
   'ui.admin.settings.subtitle': 'Common user interface configuration, applying to all modules',
+  'ui.admin.settings.main.quicklook.group.key.label': 'Main quicklook keyword',
+  'ui.admin.settings.models.title': 'Data and documents models',
   'ui.admin.settings.data.models.header': 'Data models: {count}',
   'ui.admin.settings.no.data.model.title': 'No data model',
   'ui.admin.settings.add.to.document.models.title': 'Add to document models',

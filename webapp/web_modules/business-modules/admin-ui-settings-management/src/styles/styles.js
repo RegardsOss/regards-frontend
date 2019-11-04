@@ -22,6 +22,9 @@
  * @author Raphaël Mechali
  */
 const storageManagementStyles = theme => ({
+  modelsSpacer: {
+    marginTop: 20,
+  },
   documentModels: {
     root: {
       display: 'flex',

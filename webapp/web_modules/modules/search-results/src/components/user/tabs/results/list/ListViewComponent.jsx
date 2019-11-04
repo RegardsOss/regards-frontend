@@ -105,7 +105,7 @@ class ListViewComponent extends React.Component {
     const {
       searchActions, tabType, type, requestParameters,
     } = this.props
-    const { listLineHeight } = this.context.muiTheme.module.searchResults
+    const { lineHeight } = this.context.muiTheme.module.searchResults.list
     return (
       <PageableInfiniteTableContainer
         key={type} // unmount the table when change entity type (using key trick)
@@ -115,7 +115,7 @@ class ListViewComponent extends React.Component {
         tableActions={getTableClient(tabType).tableActions}
 
         displayColumnsHeader={false}
-        lineHeight={listLineHeight}
+        lineHeight={lineHeight}
         columns={this.buildListColumn()}
         queryPageSize={ListViewComponent.RESULTS_PAGE_SIZE}
         requestParams={requestParameters}

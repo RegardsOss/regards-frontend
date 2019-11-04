@@ -26,7 +26,7 @@ import ParametersSectionComponent from './parameters/ParametersSectionComponent'
 import TagsSectionPageComponent from './list/tag/TagsSectionPageComponent'
 import EntitiesSectionPageComponent from './list/entity/EntitiesSectionPageComponent'
 import FilesSectionPageComponent from './list/file/FilesSectionPageComponent'
-import QuicklookComponent from './quicklook/QuicklookComponent'
+import QuicklookViewComponent from './quicklook/QuicklookViewComponent'
 
 /**
  * Main component to display content area: shows loading / errors / content according with selected tree entry
@@ -93,7 +93,7 @@ class ContentDisplayComponent extends React.Component {
       case BROWSING_SECTIONS_ENUM.PARAMETERS:
         return <ParametersSectionComponent thumbnail={thumbnail} attributesGroups={attributesGroups} />
       case BROWSING_SECTIONS_ENUM.QUICKLOOKS:
-        return <QuicklookComponent quicklookFiles={quicklookFiles} />
+        return <QuicklookViewComponent quicklookFiles={quicklookFiles} />
       case BROWSING_SECTIONS_ENUM.SIMPLE_TAGS:
         return <TagsSectionPageComponent
           tags={wordTags}

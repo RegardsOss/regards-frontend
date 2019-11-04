@@ -41,7 +41,10 @@ describe('[Description] Testing HeaderBarComponent', () => {
   })
   it('should render correctly with search option', () => {
     const props = {
-      settings: { documentModels: [] },
+      settings: {
+        documentModels: [],
+        primaryQuicklookGroup: 'primary',
+      },
       descriptionEntity: resolvedDataEntity,
       selectedEntityIndex: 0,
       descriptionPath: [resolvedDataEntity, resolvedDatasetEntity],
@@ -68,7 +71,10 @@ describe('[Description] Testing HeaderBarComponent', () => {
   })
   it('should render correctly without search option', () => {
     const props = {
-      settings: { documentModels: ['plop'] },
+      settings: {
+        documentModels: ['plop'],
+        primaryQuicklookGroup: 'primary',
+      },
       descriptionEntity: resolvedDatasetEntity,
       selectedEntityIndex: 0,
       descriptionPath: [resolvedDatasetEntity],

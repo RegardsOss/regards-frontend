@@ -187,8 +187,27 @@ class ListCellComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     return flatMap(renderers, ({ path, RenderConstructor }, index) => [
       // insert separator if mutilple values
-      index > 0 ? (<div key={`separator.${path}`}>{formatMessage({ id: 'results.cell.multiple.values.separator' })}</div>) : null,
-      <RenderConstructor key={path} value={get(entity, path)} unit={unit} />])
+      index > 0 ? (<div key={`separator.${key}`}>{formatMessage({ id: 'results.cell.multiple.values.separator' })}</div>) : null,
+      <RenderConstructor key={key} value={get(entity, path)} unit={unit} />])
+  }
+
+
+  /**
+   * Renders thumbnail
+   * @param {*} thumbnailRenderData matching ListThumbnailRenderData
+   */
+  renderThumbnail = (thumbnailRenderData) => {
+    if (thumbnailRenderData) {
+      const { entity } = this.props
+      const { key, renderers: [{ path, RenderConstructor }] } = thumbnailRenderData
+      const { moduleTheme: { user: { listViewStyles: { thumbnailColumnStyle, thumbnailDimensions } } } } = this.context
+      return (
+        <div style={thumbnailColumnStyle}>
+          <RenderConstructor key={key} value={get(entity, path)} dimensions={thumbnailDimensions} />
+        </div>
+      )
+    }
+    return null
   }
 
   /**
@@ -201,13 +220,13 @@ class ListCellComponent extends React.Component {
   renderAsColumns = (gridAttributeModels) => {
     const { muiTheme, moduleTheme, intl: { locale } } = this.context
     const { labelCellStyle, valueCellStyle } = moduleTheme.user.listViewStyles
-    const { listRowsByColumnCount } = muiTheme.module.searchResults
+    const { rowsByColumnCount } = muiTheme.module.searchResults.list
     return gridAttributeModels.reduce((columnsAcc, model, index) => {
       // 1 - Render label and value
       const labelCell = <div key={model.key} style={labelCellStyle}>{model.label[locale]}</div>
       const valueCell = <div key={model.key} style={valueCellStyle}>{this.renderAttributeValue(model)}</div>
       // 2 assign them to the current columns (or new columns if required), knowing we build two columns for one attribute
-      const columnIndex = (index / listRowsByColumnCount) * 2
+      const columnIndex = (index / rowsByColumnCount) * 2
       if (columnIndex >= columnsAcc.length) {
         // 2.a - Add new columns
         return [...columnsAcc, [labelCell], [valueCell]]
@@ -228,7 +247,7 @@ class ListCellComponent extends React.Component {
     const { moduleTheme } = this.context
 
     const {
-      attributesStyles, thumbnailColumnStyle, labelColumnStyles, valueColumnStyles,
+      attributesStyles, labelColumnStyles, valueColumnStyles,
     } = moduleTheme.user.listViewStyles
 
     // 2 - prepare label columns and value columns
@@ -237,12 +256,7 @@ class ListCellComponent extends React.Component {
     return (
       <div style={attributesStyles}>
         {/* 1. show thumbnail column if configured */
-          thumbnailRenderData ? (
-            <div style={thumbnailColumnStyle}>
-              {
-                this.renderAttributeValue(thumbnailRenderData, false)
-              }
-            </div>) : null
+          this.renderThumbnail(thumbnailRenderData)
         }
         {/* 2. show label/values alternated columns */}
         {asColumns.map((column, index) => (

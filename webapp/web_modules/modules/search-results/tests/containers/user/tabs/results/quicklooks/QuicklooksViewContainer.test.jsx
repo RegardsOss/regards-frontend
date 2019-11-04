@@ -65,6 +65,10 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
       onAddElementToCart: null,
       embedInMap: false,
       mapThumbnailHeight: null,
+      settings: {
+        primaryQuicklookGroup: 'myMainGroup',
+        documentModels: [''],
+      },
       theme: {
         id: 11,
         name: 'Fake thme',
@@ -93,6 +97,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         projectName: props.projectName,
         embedInMap: false,
         mapThumbnailHeight: null,
+        primaryQuicklookGroup: 'myMainGroup',
         currentTheme: props.theme,
         locale: props.i18n,
       },
@@ -124,6 +129,10 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
       onAddElementToCart: () => {},
       embedInMap: true,
       mapThumbnailHeight: 55,
+      settings: {
+        primaryQuicklookGroup: 'myMainGroup',
+        documentModels: [''],
+      },
       theme: {
         id: 11,
         name: 'Fake thme',
@@ -152,6 +161,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         projectName: props.projectName,
         embedInMap: true,
         mapThumbnailHeight: 55,
+        primaryQuicklookGroup: 'myMainGroup',
         currentTheme: props.theme,
         locale: props.i18n,
       },

@@ -133,6 +133,7 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
       onAddElementToCart: enableCart ? () => {} : null,
       embedInMap,
       mapThumbnailHeight: 100,
+      primaryQuicklookGroup: 'myMainGroup',
       locale,
     }
     const enzymeWrapper = shallow(<QuicklookCellComponent {...props} />, { context })

@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import reduce from 'lodash/reduce'
+import values from 'lodash/values'
 import { DATA_TYPES_ENUM } from '../common/DataTypes'
 import DataFileController from '../dam/DataFileController'
 
@@ -38,17 +38,20 @@ export class QuicklookHelper {
     [DATA_TYPES_ENUM.QUICKLOOK_HD]: [DATA_TYPES_ENUM.QUICKLOOK_HD, DATA_TYPES_ENUM.QUICKLOOK_MD, DATA_TYPES_ENUM.QUICKLOOK_SD],
   }
 
+  /** Unknown group */
+  static UNKNOWN_GROUPNAME = 'UNKNOWN_QUICKLOOK_GROUPNAME'
+
   /**
    * Returns matching quicklook or fallback. pre: should not be null
    * @param {string} quicklookType quicklook data file type
-   * @param {*} quicklooks map holding actual quicklooks by data file type
+   * @param {*} group quicklook group, matching QuicklookDefinition but without fallback applied
    * @return {*} found quicklook or fallback, as a DataManagementShapes.DataFile, granted to be defined
-   * if at least one quicklook in quicklooks parameter is
+   * if at least one quicklook in group as parameter is defined.
    */
-  static getQuicklookOrFallback(quicklookType, quicklooks) {
+  static getQuicklookOrFallback(quicklookType, group) {
     // search the first defined quicklook file by preference order
     return QuicklookHelper.QUICKLOOK_FALLBACK_PREFERENCE[quicklookType].reduce(
-      (acc, nextType) => acc || quicklooks[nextType], null)
+      (acc, nextType) => acc || group[nextType], null)
   }
 
   /**
@@ -56,43 +59,65 @@ export class QuicklookHelper {
    * @param {*} entity matching CatalogShapes.Entity
    * @param {string} accessToken current user access when there is one. Used to compute files access URI
    * @param {string} projectName current project (tenant) name. Used to compute files access URI
-   * @return {[*]} entity quicklook definitions, as an array of UIShapes.QuicklookDefinition where data file URI has been computed with access token and project name
+   * @return {[*]} entity quicklook definitions, as an array of UIShapes.QuicklookDefinition where data file URI has been
+   * computed with access token and project name. Groups are ordered primary first, then, in sub partitions, by group label
    */
-  static getQuicklooksIn(entity, accessToken, projectName) {
-    // Extract actual quickloks groups files (update URI to use token project name when internal data files)
-    const actualMap = { // TODO: current version: support multiple quicklook groups system
-      main: QuicklookHelper.ALL_QUICKLOOK_TYPES.reduce((acc, type) => {
-        const file = get(entity, `content.files.${type}[0]`, null)
-        if (file && (file.online || file.reference)) {
-          return {
-            ...acc,
+  static getQuicklooksIn(entity, primaryGroupKey, accessToken, projectName) {
+    // A - Group quickloks y group name in map (update URI to use token project name when internal data files)
+    const groupsMap = QuicklookHelper.ALL_QUICKLOOK_TYPES.reduce((acc, type) => {
+      const files = get(entity, `content.files.${type}`, [])
+      return files.reduce((acc2, file) => {
+        // 0 - Ignore offline files
+        if (!file.reference && !file.online) {
+          return acc2
+        }
+        // 1 - identify file group and check if the file is part of primary group
+        const fileMetaTypes = get(file, 'types', [])
+        const groupName = fileMetaTypes.find(keyword => keyword !== primaryGroupKey)
+        const groupKey = groupName || QuicklookHelper.UNKNOWN_GROUPNAME
+        const primary = fileMetaTypes.some(keyword => keyword === primaryGroupKey)
+        // 2 - assemble group, re-using it from accumulator, as that group may have already found
+        const previouslyFoundGroup = acc2[groupKey] || { }
+        return {
+          ...acc2,
+          // Nota: undefined label (groupName) is allowed, but group key must have a value
+          [groupKey]: {
+            // report any previous encoutended group data (for previously encountered types)
+            ...previouslyFoundGroup,
+            // group def
+            label: groupName,
+            primary: previouslyFoundGroup.primary || primary,
+            // report the file in current type (override any previously known QL with same resolution)
             [type]: {
               ...file,
               uri: DataFileController.getFileURI(file, accessToken, projectName),
             },
-          }
+          },
         }
-        // type not found
-        return acc
-      }, {}),
-    }
-
-    // B - Return definition with group name and quicklook files, using fallback when required
-    return reduce(actualMap, (acc, quicklooks, groupName) => {
-      if (quicklooks[DATA_TYPES_ENUM.QUICKLOOK_SD] || quicklooks[DATA_TYPES_ENUM.QUICKLOOK_MD] || quicklooks[DATA_TYPES_ENUM.QUICKLOOK_HD]) {
-        return [
-          ...acc, {
-            label: groupName,
-            ...QuicklookHelper.ALL_QUICKLOOK_TYPES.reduce((qlAcc, type) => {
-              const quickookForType = QuicklookHelper.getQuicklookOrFallback(type, quicklooks)
-              return {
-                ...qlAcc,
-                [type]: quickookForType,
-              }
-            }, {}),
-          }]
-      }
-      return acc
-    }, [])
+      }, acc)
+    }, {})
+    // B - complete each group to hold an SD/MD/HD file (with fallback mechanism), then sort on primary / group name
+    return values(groupsMap)
+      .map(group => ({
+      // report main group definition (label / primary)
+        ...group,
+        // complete SD/MD/HD quicklooks if not present
+        ...QuicklookHelper.ALL_QUICKLOOK_TYPES.reduce((acc, type) => ({
+          ...acc,
+          [type]: QuicklookHelper.getQuicklookOrFallback(type, group),
+        }), {}),
+      }))
+      .sort((group1, group2) => {
+        if (group1.primary && !group2.primary) {
+          return -1 // primary first
+        }
+        if (!group1.primary && group2.primary) {
+          return 1 // primary first
+        }
+        // when primary is same value, sort on label
+        const g1ComparisonLabel = group1.label ? group1.label.toLowerCase() : ''
+        const g2ComparisonLabel = group2.label ? group2.label.toLowerCase() : ''
+        return g1ComparisonLabel.localeCompare(g2ComparisonLabel) // locale compare is OK here (as label will not change on locale)
+      })
   }
 }

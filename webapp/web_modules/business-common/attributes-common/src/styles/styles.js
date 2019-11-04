@@ -18,21 +18,26 @@
  **/
 
 export default theme => ({
-  thumbnailRoot: {
+  defaultThumbnailDimensions: {
+    width: theme.components.infiniteTable.lineHeight,
+    height: theme.components.infiniteTable.lineHeight,
+  },
+  thumbnailPicture: {
+    cursor: 'pointer',
     height: '100%',
     width: '100%',
-  },
-  thumbnailCell: {
-    display: 'block',
-    cursor: 'pointer',
-    maxWidth: '100%',
-    maxHeight: '100%',
+    objectFit: 'contain',
     padding: theme.components.infiniteTable.thumbnailPadding,
   },
   noThumbnailIcon: {
-    padding: 5,
+    padding: theme.components.infiniteTable.thumbnailPadding,
     height: '100%',
     width: '100%',
+  },
+  thumbnailDialog: {
+    content: {
+      padding: 0,
+    },
   },
   // attributes configuration
   configuration: {

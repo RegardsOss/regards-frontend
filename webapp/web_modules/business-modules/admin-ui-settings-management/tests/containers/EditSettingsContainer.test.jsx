@@ -191,6 +191,7 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsContainer', () => {
       fetchingSettings: false,
       settings: {
         documentModels: ['STAFnvc_model', 'CRAWL_DATA_MODEL'],
+        primaryQuicklookGroup: 'meinGrüpe',
       },
     }
     enzymeWrapper.setProps(props2)

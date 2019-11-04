@@ -20,8 +20,7 @@ import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { Measure } from '@regardsoss/adapters'
+import { MeasureResultProvider } from '@regardsoss/display-control'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import InfiniteGalleryComponent from './InfiniteGalleryComponent'
 import GalleryLoadingComponent from './GalleryLoadingComponent'
@@ -68,7 +67,7 @@ export class InfiniteGalleryContainer extends React.Component {
     ]).isRequired,
     columnWidth: PropTypes.number,
     columnGutter: PropTypes.number,
-    loadingElement: PropTypes.element,
+    loadingComponent: PropTypes.element,
     emptyComponent: PropTypes.element,
     // eslint-disable-next-line react/no-unused-prop-types
     queryPageSize: PropTypes.number,
@@ -112,7 +111,7 @@ export class InfiniteGalleryContainer extends React.Component {
 
   static defaultProps = {
     queryPageSize: 20,
-    loadingElement: (<GalleryLoadingComponent />),
+    loadingComponent: (<GalleryLoadingComponent />),
   }
 
 
@@ -196,9 +195,10 @@ export class InfiniteGalleryContainer extends React.Component {
   }
 
   fetchMoreEntities = () => {
+    const { entitiesFetching, pageMetadata } = this.props
     // Is table incomplete? (prevent fetching when already in progress)
-    if (this.hasMoreEntities() && !this.props.entitiesFetching) {
-      const nextPage = get(this.props.pageMetadata, 'number', 0) + 1
+    if (this.hasMoreEntities() && !entitiesFetching) {
+      const nextPage = get(pageMetadata, 'number', 0) + 1
       this.fetchEntityPage(this.props, nextPage)
     }
   }
@@ -209,45 +209,33 @@ export class InfiniteGalleryContainer extends React.Component {
     // except actions / selectors, we need all properties through
     const { entities, width, height } = this.state
     const {
-      itemComponent, columnWidth, columnGutter, entitiesFetching, loadingElement, emptyComponent, itemProps,
+      itemComponent, columnWidth, columnGutter, entitiesFetching, loadingComponent, emptyComponent, itemProps,
     } = this.props
     const currentTotalEntities = this.getCurrentTotalEntities()
     return (
-      <Measure bounds onMeasure={this.onComponentResized}>
-        {
-          ({ bind }) => (
-            <div style={InfiniteGalleryContainer.SPAN_ALL_STYLE} {...bind('measureDiv')}>
-              <LoadableContentDisplayDecorator
-                isLoading={!currentTotalEntities && entitiesFetching}
-                loadingComponent={loadingElement}
-                isEmpty={!currentTotalEntities}
-                emptyComponent={emptyComponent}
-              >
-                <InfiniteGalleryComponent
-                  items={entities}
-                  itemComponent={itemComponent}
-                  itemProps={itemProps}
-                  columnWidth={columnWidth}
-                  columnGutter={columnGutter}
+      <MeasureResultProvider style={InfiniteGalleryContainer.SPAN_ALL_STYLE} targetPropertyName="componentSize">
+        <InfiniteGalleryComponent
+          items={entities}
+          itemComponent={itemComponent}
+          itemProps={itemProps}
+          columnWidth={columnWidth}
+          columnGutter={columnGutter}
 
-                  hasMore
-                  isLoading={entitiesFetching}
-                  loadingElement={loadingElement}
-                  alignCenter
-                  onInfiniteLoad={this.fetchMoreEntities}
-                  getState={this.getItemState}
+          isEmpty={!currentTotalEntities}
+          isLoading={entitiesFetching}
+          loadingComponent={loadingComponent}
+          emptyComponent={emptyComponent}
+          alignCenter
+          onInfiniteLoad={this.fetchMoreEntities}
+          getState={this.getItemState}
 
-                  width={width}
-                  height={height}
-                />
-              </LoadableContentDisplayDecorator>
-            </div>)
-        }
-      </Measure>
+          width={width}
+          height={height}
+        />
+      </MeasureResultProvider>
     )
   }
 }
-
 
 export default connect(
   InfiniteGalleryContainer.mapStateToProps,

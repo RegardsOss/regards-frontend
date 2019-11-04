@@ -18,6 +18,7 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import LinkComponent from '../links/LinkComponent'
+import StringValueRender from './StringValueRender'
 
 /**
  * Component to display url link values group value
@@ -56,7 +57,9 @@ class URLValueRender extends React.Component {
         target="_blank"
         link={url}
         label={label}
-      />) : null
+      />) : (
+        <StringValueRender value={null} />
+    )
   }
 }
 

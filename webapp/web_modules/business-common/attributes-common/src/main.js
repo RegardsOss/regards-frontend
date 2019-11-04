@@ -26,4 +26,6 @@ export { buildRenderDelegate, getTypeRender } from './render/AttributesTypeToRen
 
 export { default as AttributeModelRender } from './render/AttributeRender'
 
+export { default as ThumbnailAttributeRender } from './render/ThumbnailAttributeRender'
+
 export { default as messages } from './i18n'

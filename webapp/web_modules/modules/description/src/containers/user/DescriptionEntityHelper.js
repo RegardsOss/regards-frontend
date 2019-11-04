@@ -198,7 +198,7 @@ export class DescriptionEntityHelper {
         thumbnail: DescriptionEntityHelper.packThumbnail(typeConfiguration, entity, accessToken, projectName),
         attributesGroups: DescriptionEntityHelper.filterAndConvertGroups(typeConfiguration, attributes, entity),
         descriptionFiles: DescriptionEntityHelper.packDescriptionFiles(typeConfiguration, attributes, entity, accessToken, projectName),
-        quicklookFiles: DescriptionEntityHelper.packQuicklooks(entity, accessToken, projectName),
+        quicklookFiles: DescriptionEntityHelper.packQuicklooks(entity, uiSettings.primaryQuicklookGroup, accessToken, projectName),
         otherFiles: DescriptionEntityHelper.packOtherFiles(entity, accessToken, projectName),
         ...DescriptionEntityHelper.splitAndSortTags(uiSettings, typeConfiguration, tags),
       } : initialDisplayModel, // default to initial display model
@@ -358,14 +358,15 @@ export class DescriptionEntityHelper {
   }
 
   /**
-   * Packs entity quicklook definitions and sorts them
+   * Packs entity quicklook definitions
    * @param {*} entity matching CatalogShapes.Entity
+   * @param {string} primaryQLGroupKey primary quicklooks group key
    * @param {string} accessToken when there is one
    * @param {string} projectName current project (tenant) name
    * @return {[*]} quicklook definitions as an array of UIShapes.QuicklookDefinition
    */
-  static packQuicklooks(entity, accessToken, projectName) {
-    return UIDomain.QuicklookHelper.getQuicklooksIn(entity, accessToken, projectName).sort((qd1, qd2) => StringComparison.compare(qd1.label, qd2.label))
+  static packQuicklooks(entity, primaryQLGroupKey, accessToken, projectName) {
+    return UIDomain.QuicklookHelper.getQuicklooksIn(entity, primaryQLGroupKey, accessToken, projectName)
   }
 
   /**

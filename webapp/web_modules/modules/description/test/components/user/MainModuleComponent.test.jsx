@@ -43,6 +43,7 @@ describe('[Description] Testing MainModuleComponent', () => {
     const props = {
       settings: {
         documentModels: ['any'],
+        primaryQuicklookGroup: 'primary',
       },
       descriptionEntity: resolvedDataEntity,
       selectedEntityIndex: 1,

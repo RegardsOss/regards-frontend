@@ -22,7 +22,10 @@ import {
 import { UIShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FieldArray, reduxForm } from '@regardsoss/form-utils'
+import { themeContextType } from '@regardsoss/theme'
+import {
+  FieldArray, Field, reduxForm, RenderTextField, ValidationHelpers, FieldsGroup, FormRow, FormPresentation,
+} from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { uiSettingsActions } from '../clients/UISettingsClient'
 import DocumentModelsFieldArrayComponent from './DocumentModelsFieldArrayComponent'
@@ -47,6 +50,7 @@ export class EditSettingsComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   /** Required dependencies to submit settings */
@@ -68,14 +72,13 @@ export class EditSettingsComponent extends React.Component {
     initialize(editedSettings)
   }
 
-
   render() {
     const {
       dataModelNames,
       submitting, pristine, invalid,
       handleSubmit, onBack, onSubmit,
     } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { modelsSpacer } } = this.context
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card>
@@ -84,11 +87,31 @@ export class EditSettingsComponent extends React.Component {
             subtitle={formatMessage({ id: 'ui.admin.settings.subtitle' })}
           />
           <CardText>
-            <FieldArray
-              name="documentModels"
-              dataModelNames={dataModelNames}
-              component={DocumentModelsFieldArrayComponent}
-            />
+            <FormPresentation>
+              <FormRow>
+                <Field
+                  name="primaryQuicklookGroup"
+                  fullWidth
+                  component={RenderTextField}
+                  type="text"
+                  label={formatMessage({ id: 'ui.admin.settings.main.quicklook.group.key.label' })}
+                  validate={ValidationHelpers.required}
+                />
+              </FormRow>
+              <div style={modelsSpacer} />
+              <FormRow>
+                <FieldsGroup
+                  title={formatMessage({ id: 'ui.admin.settings.models.title' })}
+                  spanFullWidth
+                >
+                  <FieldArray
+                    name="documentModels"
+                    dataModelNames={dataModelNames}
+                    component={DocumentModelsFieldArrayComponent}
+                  />
+                </FieldsGroup>
+              </FormRow>
+            </FormPresentation>
           </CardText>
           <CardActions>
             <CardActionsComponent

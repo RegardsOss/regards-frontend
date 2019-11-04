@@ -56,7 +56,6 @@ describe('[COMPONENTS] Testing InfiniteGalleryContainer', () => {
       itemProps: {
         question: 'answer',
       },
-      flushEntities: () => { },
       fetchEntities: () => { },
       authentication: {
 

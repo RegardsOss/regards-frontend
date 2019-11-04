@@ -19,6 +19,8 @@
 const messages = {
   'ui.admin.settings.title': 'Paramètres de l\'interface utilisateur',
   'ui.admin.settings.subtitle': 'Saisie des éléments de configuration communs, s\'appliquant à tous les modules utilisateurs.',
+  'ui.admin.settings.main.quicklook.group.key.label': 'Mot-clé du quicklook principal',
+  'ui.admin.settings.models.title': 'Modèles de données et de documents',
   'ui.admin.settings.data.models.header': 'Modèles de données: {count}',
   'ui.admin.settings.no.data.model.title': 'Aucun modèle de donnée',
   'ui.admin.settings.add.to.document.models.title': 'Ajouter aux modèles de document',
