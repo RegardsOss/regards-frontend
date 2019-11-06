@@ -76,13 +76,13 @@ export class ResultFacetsHeaderRowContainer extends React.Component {
   /**
    * Builds facets models from results facets list, current configuration and current attribute models
    * @param {[{*}]} resultsFacets results facets
-   * @param {[{*}]} stateFacets resolved facets from state (that do not hold their values)
+   * @param {[{*}]} stateFacets view resolved facets, built from configuration (that do not hold their values)
    * @param {*} attributeModels current attribute models list (or map)
    * @return facets list
    */
-  static buildFacetModels(resultsFacets = [], stateFacets = []) {
+  static buildFacetModels(resultsFacets = [], viewFacets = []) {
     // build the facet list in the order configured for view
-    return stateFacets.reduce((acc, { facetLabels, attribute }) => {
+    return viewFacets.reduce((acc, { facetLabels, attribute }) => {
       // check if corresponding facet is present in results, has enough values and a valid attribute model
       const correspondingResultFacet = resultsFacets.find(({ attributeName }) => attributeName === attribute.content.jsonPath)
       if (correspondingResultFacet) {
@@ -122,15 +122,15 @@ export class ResultFacetsHeaderRowContainer extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const { tabType, resultsContext, facets: resultsFacets } = newProps
-    const { selectedTypeState: { facets } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    const { tab: { facets } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     const oldFacets = oldProps.resultsContext
-      ? get(UIDomain.ResultsContextHelper.getViewData(oldProps.resultsContext, oldProps.tabType), 'selectedTypeState.facets')
+      ? get(UIDomain.ResultsContextHelper.getViewData(oldProps.resultsContext, oldProps.tabType), 'tab.facets')
       : null
     // when results facets or selected type facets state changed, update resolved facets (store them in state to avoid
     // computing it at render time
     if (!isEqual(oldProps.facets, resultsFacets) || !isEqual(oldFacets, facets)) {
       this.setState({
-        facets: ResultFacetsHeaderRowContainer.buildFacetModels(resultsFacets, facets.list),
+        facets: ResultFacetsHeaderRowContainer.buildFacetModels(resultsFacets || [], facets.list),
       })
     }
   }
@@ -176,13 +176,14 @@ export class ResultFacetsHeaderRowContainer extends React.Component {
       isFetching, loadedResultsCount, resultsCount,
     } = this.props
     const { facets } = this.state
-    const { selectedTypeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    const { tab, selectedTypeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+
     return (
       <ResultFacetsHeaderRowComponent
         isFetching={isFetching}
         loadedResultsCount={loadedResultsCount}
         resultsCount={resultsCount}
-        facetsEnabled={selectedTypeState.facets.enabled && facets.length > 0}
+        facetsEnabled={tab.facets.enabled && selectedTypeState.facetsAllowed && facets.length > 0}
         facets={facets}
         onSelectFacetValue={this.onSelectFacetValue}
       />

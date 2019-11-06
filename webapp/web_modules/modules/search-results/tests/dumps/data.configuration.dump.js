@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { UIDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 
 /**
  * Module configuration dump for data and datasets display
@@ -24,6 +24,17 @@ import { UIDomain } from '@regardsoss/domain'
  */
 export const configuration = {
   primaryPane: 'EXPANDED_COLLAPSIBLE',
+  facets: {
+    enabledFor: {
+      [DamDomain.ENTITY_TYPES_ENUM.DATA]: true,
+      [DamDomain.ENTITY_TYPES_ENUM.DATASET]: true,
+    },
+    initiallyEnabled: true,
+    list: [
+      { attributes: [{ name: 'my.attr.1' }], label: { en: 'My attribute 1', fr: 'Mon attribute 1' } },
+      { attributes: [{ name: 'my.attr.2' }], label: { en: 'My attribute 2', fr: 'Mon attribute 2' } },
+    ],
+  },
   restrictions: {
     byDataset: {
       type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
@@ -35,14 +46,6 @@ export const configuration = {
       enabled: true,
       initialMode: 'MAP',
       enableDownload: true,
-      facets: {
-        enabled: true,
-        initiallyEnabled: true,
-        list: [
-          { attributes: [{ name: 'my.attr.1' }], label: { en: 'My attribute 1', fr: 'Mon attribute 1' } },
-          { attributes: [{ name: 'my.attr.2' }], label: { en: 'My attribute 2', fr: 'Mon attribute 2' } },
-        ],
-      },
       sorting: [{ attributes: [{ name: 'properties.start_date' }] }, { attributes: [{ name: 'label' }] }],
       views: {
         TABLE: {

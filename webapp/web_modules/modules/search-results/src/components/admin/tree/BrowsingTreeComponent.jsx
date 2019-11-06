@@ -50,8 +50,10 @@ class BrowsingTreeComponent extends React.Component {
    * @return {TreeTableRow} tree table row, where cells are an array of objects like: { section: FormSection, page: FormPage} (nota: page is null if section should be shown as parent)
    */
   buildSectionRow = (navigationSection) => {
-    // 1 - specific case: main configuration row
-    if (navigationSection.type === FORM_SECTIONS_ENUM.MAIN || navigationSection.type === FORM_SECTIONS_ENUM.RESTRICTIONS) {
+    // 1 - specific cases: single section pages
+    if (navigationSection.type === FORM_SECTIONS_ENUM.MAIN
+      || navigationSection.type === FORM_SECTIONS_ENUM.RESTRICTIONS
+      || navigationSection.type === FORM_SECTIONS_ENUM.FILTERS) {
       // build section row using page builder
       return this.buildPageRow(navigationSection, navigationSection.pages[0])
     }

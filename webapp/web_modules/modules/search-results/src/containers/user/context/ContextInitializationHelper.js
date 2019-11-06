@@ -86,12 +86,20 @@ export class ContextInitializationHelper {
 
   /**
    * Converts facets state from facets configuration as parameter
-   * @param {*} facetsConfiguration facets configuration (see module shape)
+   * @param {*} configuration facets configuration (see module shape)
    * @param {*} attributeModels attributes found on server (respects DataManagementShapes.AttributeModelList shapes)
-   * @return {[*]} facets initial state with unexisting facets filtered
+   * @return {{enabled: boolean, list: [*]}} facets initial state with unexisting facets filtered
    */
-  static buildFacetsState(facetsConfiguration, attributeModels) {
+  static buildFacetsState(configuration, attributeModels) {
     // 1 - convert all facets
+    const facetsConfiguration = configuration.facets || { // default state for working
+      enabledFor: {
+        [DamDomain.ENTITY_TYPES_ENUM.DATA]: false,
+        [DamDomain.ENTITY_TYPES_ENUM.DATASET]: false,
+      },
+      initiallyEnabled: false,
+      list: [],
+    }
     const convertedFacets = facetsConfiguration.list.reduce((acc, { label, attributes }) => {
       // resolve facet attribute (nota: facets can only have one attribute in configuration)
       const attribute = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attributes[0].name, attributeModels)
@@ -102,29 +110,26 @@ export class ContextInitializationHelper {
         requestParameters: { [CatalogDomain.CatalogSearchQueryHelper.FACETS_PARAMETER_NAME]: attributes[0].name },
       }] : acc
     }, [])
-    // 2 - convert state
-    const facetsAllowed = facetsConfiguration.enabled && convertedFacets.length > 0
     return {
-      allowed: facetsAllowed,
-      enabled: facetsAllowed && facetsConfiguration.initiallyEnabled,
+      enabled: facetsConfiguration.initiallyEnabled,
       list: convertedFacets,
     }
   }
 
   /**
    * Builds default state for entity type as parameter
-   * @param {*} typeConfiguration configuration for type, as defined in ModuleConfiguration shapes
+   * @param {*} configuration module configuration, matching ModuleConfiguration shape
    * @param {*} attributeModels attributes found on server (respects DataManagementShapes.AttributeModelList shapes)
    * @param {string} type view entities type, from ENTITY_TYPES_ENUM
    * @return modeState field
    */
-  static buildDefaultTypeState(typeConfiguration, attributeModels, type) {
+  static buildDefaultTypeState(configuration, attributeModels, type) {
+    const typeConfiguration = get(configuration, `viewsGroups.${type}`, {})
     // is view type enabled (type enabled and at least one view mode enabled)
     const enabled = typeConfiguration.enabled && UIDomain.RESULTS_VIEW_MODES.some(mode => get(typeConfiguration, `views.${mode}.enabled`, false))
     if (enabled) {
       // resolve facets
-      const facetsConfiguration = get(typeConfiguration, 'facets', { enabled: false, initiallyEnabled: false, list: [] })
-      const facets = ContextInitializationHelper.buildFacetsState(facetsConfiguration, attributeModels)
+      const facetsAllowed = get(configuration, `facets.enabledFor.${type}`, false)
       // Resolve sorting
       const initialSorting = ContextInitializationHelper.buildSortingCriteria(typeConfiguration.sorting, attributeModels)
       // return initial state for type
@@ -138,9 +143,8 @@ export class ContextInitializationHelper {
         isInInitialSorting: true,
         selectedMode: typeConfiguration.initialMode || UIDomain.ResultsContextConstants.DEFAULT_VIEW_MODE,
         label: typeConfiguration.tabTitle, // label when provided in configuration
-        facets,
+        facetsAllowed,
         criteria: {
-          requestFacets: facets.enabled ? facets.list : [],
           sorting: initialSorting,
         },
         modes: UIDomain.RESULTS_VIEW_MODES.reduce((acc, mode) => ({
@@ -189,27 +193,35 @@ export class ContextInitializationHelper {
    */
   static buildDefaultResultsContext(configuration, attributeModels) {
     // 1 - Build default state for data (as it is common to both main results and results tag view)
-    const dataType = ContextInitializationHelper.buildDefaultTypeState(
-      get(configuration, `viewsGroups.${DamDomain.ENTITY_TYPES_ENUM.DATA}`, {}), attributeModels, DamDomain.ENTITY_TYPES_ENUM.DATA)
-    // 2 - complete default state to provide data and dataset type in results views
+    const dataType = ContextInitializationHelper.buildDefaultTypeState(configuration, attributeModels, DamDomain.ENTITY_TYPES_ENUM.DATA)
+    // 2 - Compute initial facets state
+    const facets = ContextInitializationHelper.buildFacetsState(configuration, attributeModels)
+    // 3 - complete default state to provide data and dataset type in results views
     const defaultContext = {
       ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT,
       tabs: {
         ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs,
         [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
           ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS],
+          facets,
           criteria: {
             ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria,
             configurationRestrictions: ContextInitializationHelper.buildConfigurationCriteria(configuration.restrictions),
+            requestFacets: facets.enabled ? facets.list : [],
           },
           types: {
             [DamDomain.ENTITY_TYPES_ENUM.DATA]: dataType,
             [DamDomain.ENTITY_TYPES_ENUM.DATASET]: ContextInitializationHelper.buildDefaultTypeState(
-              get(configuration, `viewsGroups.${DamDomain.ENTITY_TYPES_ENUM.DATASET}`, {}), attributeModels, DamDomain.ENTITY_TYPES_ENUM.DATASET),
+              configuration, attributeModels, DamDomain.ENTITY_TYPES_ENUM.DATASET),
           },
         },
         [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
           ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS],
+          facets,
+          criteria: {
+            ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].criteria,
+            requestFacets: facets.enabled ? facets.list : [],
+          },
           types: {
             [DamDomain.ENTITY_TYPES_ENUM.DATA]: dataType,
             [DamDomain.ENTITY_TYPES_ENUM.DATASET]: UIDomain.ResultsContextConstants.DISABLED_TYPE_STATE,

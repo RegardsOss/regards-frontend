@@ -118,8 +118,15 @@ export class AdminContainer extends React.Component {
           type: FORM_PAGES_ENUM.MAIN,
           selected: true,
         }],
+      }, {
+        // Filters page, always available (contains only main page)
+        type: FORM_SECTIONS_ENUM.FILTERS,
+        pages: [{
+          type: FORM_PAGES_ENUM.MAIN,
+          selected: false,
+        }],
       }, forbidRestrictions ? null : {
-        // Restrictions page, always available (contains only main page)
+        // Restrictions page (contains only main page)
         type: FORM_SECTIONS_ENUM.RESTRICTIONS,
         pages: [{
           type: FORM_PAGES_ENUM.MAIN,
@@ -164,7 +171,7 @@ export class AdminContainer extends React.Component {
     if (isCreating) {
       changeField(currentNamespace, INITIAL_FORM_STATE)
     }
-    // 2 - Load initial attributes and lket
+    // 2 - Load initial attributes and datasets
     Promise.all([fetchDatasets(), fetchDatasetModels()]).then(() => this.setState({ hasLoadedDatasetsAndModels: true }))
     // 3 - Initialize available attributes through onPropertiesUpdated
     this.onPropertiesUpdated(null, this.props)

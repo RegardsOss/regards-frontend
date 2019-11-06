@@ -30,14 +30,12 @@ import { AccessProjectClient } from '@regardsoss/client'
 const MAIN_ENTITIES_STORE_PATH = ['modules.search-results', 'mainSearchCatalog']
 const MAIN_REDUX_ACTION_NAMESPACE = 'search-results/main-results/search-catalog'
 export const mainSearchDataobjectsActions = new AccessProjectClient.SearchDataobjectsActions(MAIN_REDUX_ACTION_NAMESPACE)
-export const mainSearchDatasetsActions = new AccessProjectClient.SearchDatasetsActions(MAIN_REDUX_ACTION_NAMESPACE)
-export const mainSearchDatasetsFromDataObjectsActions = new AccessProjectClient.SearchDatasetsFromDataObjectsActions(MAIN_REDUX_ACTION_NAMESPACE)
+export const mainSearchDatasetsActions = new AccessProjectClient.SearchDatasetsFromDataObjectsActions(MAIN_REDUX_ACTION_NAMESPACE)
 export const mainSearchReducer = AccessProjectClient.getSearchEntitiesReducer(MAIN_REDUX_ACTION_NAMESPACE)
 export const mainSearchSelectors = AccessProjectClient.getSearchEntitiesSelectors(MAIN_ENTITIES_STORE_PATH)
 const mainResultsCatalogClient = {
   searchDataobjectsActions: mainSearchDataobjectsActions,
   searchDatasetsActions: mainSearchDatasetsActions,
-  searchDatasetsFromDataObjectsActions: mainSearchDatasetsFromDataObjectsActions,
   searchReducer: mainSearchReducer,
   searchSelectors: mainSearchSelectors,
 }
@@ -48,14 +46,12 @@ const mainResultsCatalogClient = {
 const TAG_ENTITIES_STORE_PATH = ['modules.search-results', 'tagSearchCatalog']
 const TAG_REDUX_ACTION_NAMESPACE = 'search-results/tag-results/search-catalog'
 export const tagSearchDataobjectsActions = new AccessProjectClient.SearchDataobjectsActions(TAG_REDUX_ACTION_NAMESPACE)
-export const tagSearchDatasetsActions = new AccessProjectClient.SearchDatasetsActions(TAG_REDUX_ACTION_NAMESPACE)
-export const tagSearchDatasetsFromDataObjectsActions = new AccessProjectClient.SearchDatasetsFromDataObjectsActions(TAG_REDUX_ACTION_NAMESPACE)
+export const tagSearchDatasetsActions = new AccessProjectClient.SearchDatasetsFromDataObjectsActions(TAG_REDUX_ACTION_NAMESPACE)
 export const tagSearchReducer = AccessProjectClient.getSearchEntitiesReducer(TAG_REDUX_ACTION_NAMESPACE)
 export const tagSearchSelectors = AccessProjectClient.getSearchEntitiesSelectors(TAG_ENTITIES_STORE_PATH)
 const tagResultsCatalogClient = {
   searchDataobjectsActions: tagSearchDataobjectsActions,
   searchDatasetsActions: tagSearchDatasetsActions,
-  searchDatasetsFromDataObjectsActions: tagSearchDatasetsFromDataObjectsActions,
   searchReducer: tagSearchReducer,
   searchSelectors: tagSearchSelectors,
 }
@@ -67,7 +63,6 @@ const tagResultsCatalogClient = {
  * @return {{
  * searchDataobjectsActions: *,
  * searchDatasetsActions: *,
- * searchDatasetsFromDataObjectsActions: *,
  * searchReducer: Function,
  * searchSelectors: *,
  * }} results client to use for current tab

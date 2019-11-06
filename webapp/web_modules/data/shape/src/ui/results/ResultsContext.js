@@ -219,15 +219,9 @@ export const ViewsGroupState = PropTypes.shape({
     en: PropTypes.string,
     fr: PropTypes.string,
   }),
-  // facets related state
-  facets: PropTypes.shape({
-    allowed: PropTypes.bool.isRequired,
-    enabled: PropTypes.bool.isRequired,
-    list: PropTypes.arrayOf(RequestFacetCriterion).isRequired,
-  }).isRequired,
+  facetsAllowed: PropTypes.bool.isRequired,
   // Criteria that apply for whole type group (facets, sortables.....). Free fields allowed for external controllers
   criteria: PropTypes.shape({
-    requestFacets: PropTypes.arrayOf(RequestFacetCriterion).isRequired, // List of requested facets on results
     // Sorting attributes with sorting types. The first sorting in array is the first applied when in multi-sort
     sorting: PropTypes.arrayOf(SortingCriterion).isRequired,
   }).isRequired,
@@ -246,6 +240,10 @@ export const ViewsGroupState = PropTypes.shape({
  * Common to all results views
  */
 const ResultsTab = PropTypes.shape({
+  facets: PropTypes.shape({
+    enabled: PropTypes.bool.isRequired,
+    list: PropTypes.arrayOf(RequestFacetCriterion).isRequired,
+  }).isRequired,
   criteria: PropTypes.shape({
     configurationRestrictions: PropTypes.arrayOf(BasicCriterion).isRequired, // Restrictions from configuration
     contextTags: PropTypes.arrayOf(BasicCriterion).isRequired, // Other filters (especially used by tag results tab)
@@ -254,6 +252,7 @@ const ResultsTab = PropTypes.shape({
     appliedFacets: PropTypes.arrayOf(SelectedFacetCriterion).isRequired, // List of selected facets
     geometry: PropTypes.arrayOf(GeometryCriterion).isRequired, // Selected filtering geometry criteria
     entitiesSelection: PropTypes.arrayOf(EntitiesSelectionCriterion).isRequired, // Selected entities set criteria
+    requestFacets: PropTypes.arrayOf(RequestFacetCriterion).isRequired, // List of requested facets on results
     tagsFiltering: TagsArray.isRequired, // applying tags (parent can set some here)
   }),
   selectedType: PropTypes.oneOf([DamDomain.ENTITY_TYPES_ENUM.DATA, DamDomain.ENTITY_TYPES_ENUM.DATASET]).isRequired,

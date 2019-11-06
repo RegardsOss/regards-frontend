@@ -54,22 +54,17 @@ export class ToggleFiltersContainer extends React.Component {
     const {
       moduleId, resultsContext, tabType, updateResultsContext,
     } = this.props
-    const { selectedType, selectedTypeState: { facets } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    const { tab: { facets } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     // create minimal diff with previous state to toggle the filters on / off (requires state enabled AND request parameters)
     const nextEnabled = !facets.enabled
     updateResultsContext(moduleId, {
       tabs: {
         [tabType]: {
-          types: {
-            [selectedType]: {
-              facets: {
-                enabled: nextEnabled, // switch enable on in facets state
-              },
-              criteria: {
-                // report requested facets in current request criteria when enabled (no criterion otherwise)
-                requestFacets: nextEnabled ? facets.list : [],
-              },
-            },
+          facets: {
+            enabled: nextEnabled,
+          },
+          criteria: {
+            requestFacets: nextEnabled ? facets.list : [],
           },
         },
       },
@@ -78,9 +73,9 @@ export class ToggleFiltersContainer extends React.Component {
 
   render() {
     const { resultsContext, tabType } = this.props
-    const { selectedTypeState: { facets } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    const { tab: { facets }, selectedTypeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     // when filters are not allowed, auto hide
-    return facets.allowed ? (
+    return selectedTypeState.facetsAllowed ? (
       <ToggleFiltersComponent filtersEnabled={facets.enabled} onFiltersToggled={this.onFiltersToggled} />
     ) : null
   }
