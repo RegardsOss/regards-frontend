@@ -308,7 +308,6 @@ class OAISPackageManagerComponent extends React.Component {
           />
         </TableLayout>
         {this.renderAIPDetail()}
-        {this.renderRelaunchDialog()}
         {this.renderDeleteDialog()}
       </div>
     )
