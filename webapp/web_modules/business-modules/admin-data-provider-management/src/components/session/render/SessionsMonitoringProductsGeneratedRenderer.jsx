@@ -53,6 +53,12 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     onDeleteProducts(entity)
   }
 
+  getFilesAcquired = (entity) => {
+    const { intl: { formatNumber } } = this.context
+    const acquired = get(entity, 'content.lifeCycle.PRODUCTS.files_acquired', 0)
+    return formatNumber(parseInt(acquired, 10))
+  }
+
   getGenerated = (entity) => {
     const { intl: { formatNumber } } = this.context
     const submitted = get(entity, 'content.lifeCycle.PRODUCTS.submitted', 0)
@@ -81,14 +87,14 @@ class SessionsMonitoringProductsGenerated extends React.Component {
         sessionsStyles: {
           menuDropDown,
           gridCell: {
-            gridContainer, gridHeaderContainer, infosContainer, lineContainer, listValues, cellContainer,
+            gridContainer, gridHeaderContainer, infosContainer, lineFourContainer, listFourValues, cellContainer,
             acquiredProductState: {
               runningContainer,
               runningIconColor,
               running,
             },
             lines: {
-              one, two, three,
+              one, two, three, four,
             },
           },
         },
@@ -122,24 +128,29 @@ class SessionsMonitoringProductsGenerated extends React.Component {
                 ) }
               </div>
               <div style={infosContainer}>
-                <div style={lineContainer}>
+                <div style={lineFourContainer}>
                   <div style={one}>
                     {formatMessage({ id: 'acquisition-sessions.states.complet' })}
                   :
                   </div>
                   <div style={two}>
-                    {formatMessage({ id: 'acquisition-sessions.states.incomplete' })}
+                    {formatMessage({ id: 'acquisition-sessions.states.files_acquired' })}
                   :
                   </div>
                   <div style={three}>
+                    {formatMessage({ id: 'acquisition-sessions.states.incomplete' })}
+                  :
+                  </div>
+                  <div style={four}>
                     {formatMessage({ id: 'acquisition-sessions.states.error' })}
                   :
                   </div>
                 </div>
-                <div style={listValues}>
+                <div style={listFourValues}>
                   <div style={one}>{this.getGenerated(entity)}</div>
-                  <div style={two}>{this.getIncompletes(entity)}</div>
-                  <div style={three}>{this.getErrors(entity)}</div>
+                  <div style={two}>{this.getFilesAcquired(entity)}</div>
+                  <div style={three}>{this.getIncompletes(entity)}</div>
+                  <div style={four}>{this.getErrors(entity)}</div>
                 </div>
                 <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
                   <DropDownButton
