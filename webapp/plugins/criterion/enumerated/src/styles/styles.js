@@ -36,7 +36,9 @@ const pluginStyles = theme => ({
     width: 180,
     margin: '0px 10px',
   },
-  buttonStyle: {},
+  menuStyle: {
+    marginRight: 20,
+  },
 })
 
 export default pluginStyles
