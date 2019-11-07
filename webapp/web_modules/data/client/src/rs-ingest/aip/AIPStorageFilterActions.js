@@ -17,13 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import { AIP, AIP_ARRAY } from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+import { BasicArrayActions } from '@regardsoss/store-utils'
 
 /**
  * Redux actions to handle AIP entities from backend server.
- * @author Léo Mieulet
+ * @author Simon MILHAU
  */
-export default class AIPActions extends BasicPageableActions {
+export default class AIPStorageFilterActions extends BasicArrayActions {
   /**
    * Construtor
    * @param namespace
@@ -31,27 +31,11 @@ export default class AIPActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/aips`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/aips/storages/search`,
       schemaTypes: {
         ENTITY: AIP,
         ENTITY_ARRAY: AIP_ARRAY,
       },
     })
-  }
-
-  fetchPagedEntityList(pageNumber, size, pathParams, queryParams) {
-    return super.fetchPagedEntityListByPost(pageNumber, size, pathParams, queryParams)
-  }
-
-  /**
-   * Override to add the data storages field
-   * @param {*} json network payload
-   * @return {*} action result payload
-   */
-  normalizeEntitiesPagePayload(json) {
-    return {
-      ...super.normalizeEntitiesPagePayload(json),
-      dataStorages: json.dataStorages,
-    }
   }
 }

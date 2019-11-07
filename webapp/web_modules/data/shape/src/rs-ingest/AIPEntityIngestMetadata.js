@@ -16,18 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { AIPStatusContent, AIPStatus, AIPStatusList } from '../rs-ingest/AIPStatus'
-export { AIPSession } from '../rs-ingest/AIPSession'
-export { AIP } from '../rs-ingest/AIP'
-export { AIPEntity, AIPEntityContent } from '../rs-ingest/AIPEntity'
-export { AIPDeletionError, AIPDeletionErrorsArray } from '../rs-ingest/AIPDeletionError'
-export {
-  StorageMonitoring, StorageMonitoringContent, StorageMonitoringList, StorageMonitoringArray,
-} from './StorageMonitoring'
-export {
-  PrioritizedDataStorage, PrioritizedDataStorageContent, PrioritizedDataStorageList, PrioritizedDataStorageArray,
-}
-  from './PrioritizedDataStorage'
-export {
-  DataObject, DataObjectContent, DataObjectList, DataObjectArray,
-} from './DataObject'
+
+/**
+ * Describes Ingest Metadatas in the AIPEntity
+ * @author Simon MILHAU
+ */
+export const AIPEntityIngestMetadataStorages = PropTypes.shape({
+  pluginBusinessId: PropTypes.string.isRequired,
+  storePath: PropTypes.string.isRequired,
+  targetTypes: PropTypes.array,
+})
+
+export const AIPEntityIngestMetadata = PropTypes.shape({
+  ingestMetadata: PropTypes.shape({
+    sessionOwner: PropTypes.string.isRequired,
+    session: PropTypes.string.isRequired,
+    ingestChain: PropTypes.string.isRequired,
+    storages: PropTypes.arrayOf(AIPEntityIngestMetadataStorages),
+    categories: PropTypes.array.isRequired,
+  }).isRequired,
+})

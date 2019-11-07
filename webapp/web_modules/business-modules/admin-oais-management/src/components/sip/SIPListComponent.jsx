@@ -237,7 +237,6 @@ class SIPListComponent extends React.Component {
 
   onFilterUpdated = (newFilterValue) => {
     const { editedFilters } = this.state
-
     this.onStateUpdated({
       editedFilters: {
         ...editedFilters,

@@ -16,18 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { AIPStatusContent, AIPStatus, AIPStatusList } from '../rs-ingest/AIPStatus'
-export { AIPSession } from '../rs-ingest/AIPSession'
-export { AIP } from '../rs-ingest/AIP'
-export { AIPEntity, AIPEntityContent } from '../rs-ingest/AIPEntity'
-export { AIPDeletionError, AIPDeletionErrorsArray } from '../rs-ingest/AIPDeletionError'
-export {
-  StorageMonitoring, StorageMonitoringContent, StorageMonitoringList, StorageMonitoringArray,
-} from './StorageMonitoring'
-export {
-  PrioritizedDataStorage, PrioritizedDataStorageContent, PrioritizedDataStorageList, PrioritizedDataStorageArray,
+import { BasicSignalsReducers } from '@regardsoss/store-utils'
+import AIPSignalActions from './AIPSignalActions'
+
+/**
+ * Redux Reducer for AIP actions
+ * @author Simon MILHAU
+ */
+export default function getAipSignalReducer(namespace) {
+  const instance = new BasicSignalsReducers(new AIPSignalActions(namespace))
+  return (state, action) => instance.reduce(state, action)
 }
-  from './PrioritizedDataStorage'
-export {
-  DataObject, DataObjectContent, DataObjectList, DataObjectArray,
-} from './DataObject'

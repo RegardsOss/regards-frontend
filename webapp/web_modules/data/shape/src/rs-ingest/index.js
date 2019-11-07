@@ -26,3 +26,9 @@ export {
   IngestSession, IngestSessionContent, IngestSessionList, IngestSessionArray,
 } from './IngestSession'
 export { SIPSubmited } from './SIPSubmited'
+export {
+  AIPEntityContent, AIPEntity,
+} from './AIPEntity'
+export { AIP } from './AIP'
+export { SIP, SIPEntity } from './SIPEntity'
+export { AIPEntityIngestMetadataStorages, AIPEntityIngestMetadata } from './AIPEntityIngestMetadata'

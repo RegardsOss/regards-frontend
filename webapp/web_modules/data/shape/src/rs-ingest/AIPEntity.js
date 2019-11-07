@@ -16,18 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { AIPStatusContent, AIPStatus, AIPStatusList } from '../rs-ingest/AIPStatus'
-export { AIPSession } from '../rs-ingest/AIPSession'
-export { AIP } from '../rs-ingest/AIP'
-export { AIPEntity, AIPEntityContent } from '../rs-ingest/AIPEntity'
-export { AIPDeletionError, AIPDeletionErrorsArray } from '../rs-ingest/AIPDeletionError'
-export {
-  StorageMonitoring, StorageMonitoringContent, StorageMonitoringList, StorageMonitoringArray,
-} from './StorageMonitoring'
-export {
-  PrioritizedDataStorage, PrioritizedDataStorageContent, PrioritizedDataStorageList, PrioritizedDataStorageArray,
-}
-  from './PrioritizedDataStorage'
-export {
-  DataObject, DataObjectContent, DataObjectList, DataObjectArray,
-} from './DataObject'
+import { AIP } from './AIP'
+import { AIPEntityIngestMetadata } from './AIPEntityIngestMetadata'
+import { SIPEntity } from './SIPEntity'
+
+/**
+ * Describes an AIP Entity shape and related sub objects
+ * @author Simon MILHAU
+ */
+
+export const AIPEntityContent = PropTypes.shape({
+  content: {
+    id: PropTypes.number,
+    aipId: PropTypes.string,
+    state: PropTypes.string,
+    sip: SIPEntity,
+    aip: AIP,
+    ingestMetadata: AIPEntityIngestMetadata,
+    providerId: PropTypes.string.isRequired,
+    tags: PropTypes.array,
+    creationDate: PropTypes.string,
+    lastUpdate: PropTypes.string,
+  },
+})
+
+export const AIPEntity = PropTypes.shape({
+  content: PropTypes.arrayOf(AIPEntityContent).isRequired,
+  links: PropTypes.array,
+})

@@ -76,7 +76,7 @@ const items = (projectName, intl, onResetIndex) => [
         hateoasDependencies: oaisDependencies.addDependencies,
       },
       {
-        path: `/admin/${projectName}/data/acquisition/oais/sip/list`,
+        path: `/admin/${projectName}/data/acquisition/oais/featureManager`,
         icon: <Details />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.oais.tooltip.see' }),
         hateoasDependencies: oaisDependencies.listDependencies,

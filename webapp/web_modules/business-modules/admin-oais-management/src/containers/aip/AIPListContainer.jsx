@@ -130,7 +130,6 @@ export class AIPListContainer extends React.Component {
       sort: columnsSorting.map(({ columnKey, order }) => `${AIPListContainer.COLUMN_KEY_TO_QUERY[columnKey]},${AIPListContainer.COLUMN_ORDER_TO_QUERY[order]}`),
       ...appliedFilters,
     }
-    console.error(requestParameters)
     return requestParameters
   }
 

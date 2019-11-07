@@ -27,8 +27,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 */
 class AIPDetailOption extends React.Component {
   static propTypes = {
-    entity: StorageShapes.AIPWithStorages.isRequired,
-    onViewDetail: PropTypes.func.isRequired,
+    // entity: StorageShapes.AIPEntity.isRequired,
+    // onViewDetail: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -39,7 +39,7 @@ class AIPDetailOption extends React.Component {
    * User callback: button was clicked
    */
   onClick = () => {
-    this.props.onViewDetail(this.props.entity.content)
+    // this.props.onViewDetail(this.props.entity.content)
   }
 
   render() {

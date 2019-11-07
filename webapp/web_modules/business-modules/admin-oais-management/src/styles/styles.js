@@ -21,6 +21,12 @@ const aipManagementStyles = theme => ({
     errorColor: theme.formsExtensions.validation.errorColor,
     validColor: theme.formsExtensions.validation.validColor,
   },
+  displayBlock: {
+    display: 'block',
+  },
+  displayNone: {
+    display: 'none',
+  },
   filter: {
     fieldStyle: {
       width: '190px',

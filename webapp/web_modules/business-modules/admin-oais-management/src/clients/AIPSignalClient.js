@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,19 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-export { AIPStatusContent, AIPStatus, AIPStatusList } from '../rs-ingest/AIPStatus'
-export { AIPSession } from '../rs-ingest/AIPSession'
-export { AIP } from '../rs-ingest/AIP'
-export { AIPEntity, AIPEntityContent } from '../rs-ingest/AIPEntity'
-export { AIPDeletionError, AIPDeletionErrorsArray } from '../rs-ingest/AIPDeletionError'
-export {
-  StorageMonitoring, StorageMonitoringContent, StorageMonitoringList, StorageMonitoringArray,
-} from './StorageMonitoring'
-export {
-  PrioritizedDataStorage, PrioritizedDataStorageContent, PrioritizedDataStorageList, PrioritizedDataStorageArray,
-}
-  from './PrioritizedDataStorage'
-export {
-  DataObject, DataObjectContent, DataObjectList, DataObjectArray,
-} from './DataObject'
+ */
+import { IngestClient } from '@regardsoss/client'
+
+/**
+ * AIP Tags client.
+ *
+ * @author Léo Mieulet
+ */
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'oais', 'aipSignal']
+const REDUX_ACTION_NAMESPACE = 'admin-oais-management/aips/signals'
+
+export const aipSignalActions = new IngestClient.SIPSignalActions(REDUX_ACTION_NAMESPACE)
+export const apSignalReducer = IngestClient.getAIPSignalReducer(REDUX_ACTION_NAMESPACE)
+export const aipSignalSelectors = IngestClient.getAIPSignalSelectors(ENTITIES_STORE_PATH)

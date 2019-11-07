@@ -163,6 +163,9 @@ export default {
   'oais.button.switch-to.AIP-title': 'Ouvre le panneau des AIPs',
   'oais.button.switch-to.SIP': 'Voir les SIPs',
   'oais.button.switch-to.SIP-title': 'Ouvre le panneau des SIPs',
+  'oais.button.switch-to.Processes': 'Voir les traitements',
+  'oais.button.switch-to.Processes-title': 'Ouvre le panneau des traitements',
+
 
   'sips.submit.title': 'Soumission de données',
   'sips.submit.subtitle': 'Vous pouvez ici lancer une ingestion de données au travers d\'un fichier au format GeoJSON contenant le ou les entités',

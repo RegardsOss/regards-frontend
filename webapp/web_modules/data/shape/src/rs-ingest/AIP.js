@@ -16,28 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { IngestDomain } from '@regardsoss/domain'
 import PropertiesShape from '../rs-common/IP'
+
 /**
- * Describes an AIP shape and related sub objects
- * @author Léo Mieulet
+ * Describes an AIP shape
+ * @author Simon MILHAU
  */
-
-export const AIPContentWithStorages = PropTypes.shape({
+export const AIP = PropTypes.shape({
   aip: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    ipType: PropTypes.string,
-    geometry: PropTypes.any,
+    providerId: PropTypes.string.isRequired,
     sipId: PropTypes.string, // Not required as datasets, collections and documents are not produced by SIP sessions
-    state: PropTypes.oneOf(IngestDomain.AIP_STATUS),
-    type: PropTypes.string,
+    ipType: PropTypes.string,
+    id: PropTypes.string.isRequired,
+    geometry: PropTypes.any,
+    normalizedGeometry: PropTypes.any,
     properties: PropertiesShape,
+    type: PropTypes.string,
   }).isRequired,
-  dataStorageIds: PropTypes.arrayOf(PropTypes.number).isRequired,
 })
-
-export const AIPWithStorages = PropTypes.shape({
-  content: AIPContentWithStorages,
-})
-export const AIPWithStoragesList = PropTypes.objectOf(AIPWithStorages)
-export const AIPWithStoragesArray = PropTypes.arrayOf(AIPWithStorages)

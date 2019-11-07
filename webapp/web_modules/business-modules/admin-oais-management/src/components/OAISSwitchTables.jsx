@@ -16,43 +16,42 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isNil from 'lodash/isNil'
-import find from 'lodash/find'
-import Redo from 'material-ui/svg-icons/content/redo'
-import IconButton from 'material-ui/IconButton'
-import { StorageShapes } from '@regardsoss/shape'
+import FlatButton from 'material-ui/FlatButton'
 import { i18nContextType } from '@regardsoss/i18n'
-
 /**
-* Action button to retry storage for AIP in error state
- * @author Sébastien Binda
-*/
-class AIPStoreRetryOption extends React.Component {
+ * Switch between the two tables
+ * @author Simon MILHAU
+ */
+class OAISSwitchTables extends React.Component {
   static propTypes = {
-    // entity: StorageShapes.AIPEntityContent.isRequired,
-  //   onRetry: PropTypes.func.isRequired,
+    onSwitch: PropTypes.func.isRequired,
+    isPackageManagerVisible: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
   }
 
-  onClick = () => {
-    // this.props.onRetry(this.props.entity.content)
-  }
-
   render() {
     const { intl: { formatMessage } } = this.context
-    // const { entity: { links } } = this.props
+    const { isPackageManagerVisible, onSwitch } = this.props
     return (
-      <IconButton
-        // disabled={isNil(find(links, { rel: 'retry' }))}
-        title={formatMessage({ id: 'oais.aips.list.aip-retry.title' })}
-        onClick={this.onClick}
-      >
-        <Redo />
-      </IconButton>
+      <React.Fragment>
+        <FlatButton
+          label={formatMessage({ id: 'oais.button.switch-to.packages' })}
+          title={formatMessage({ id: 'oais.button.switch-to.packages-title' })}
+          onClick={onSwitch}
+          disabled={isPackageManagerVisible}
+        />
+        <FlatButton
+          label={formatMessage({ id: 'oais.button.switch-to.requests' })}
+          title={formatMessage({ id: 'oais.button.switch-to.requests-title' })}
+          onClick={onSwitch}
+          disabled={!isPackageManagerVisible}
+        />
+      </React.Fragment>
     )
   }
 }
-export default AIPStoreRetryOption
+
+export default OAISSwitchTables

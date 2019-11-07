@@ -34,9 +34,9 @@ export const HateoasIconAction = withHateoasDisplayControl(IconButton)
 class DeleteAIPOnSomeStoragesOption extends React.Component {
   static propTypes = {
     // Entity. Note: when used in options column, this is provided by the table cell API
-    entity: StorageShapes.AIPWithStorages.isRequired,
+    // entity: StorageShapes.AIPEntity.isRequired,
     // callback: on delete (selectionMode, [AIPs]) => ()
-    onDelete: PropTypes.func.isRequired,
+    // onDelete: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -50,24 +50,24 @@ class DeleteAIPOnSomeStoragesOption extends React.Component {
    * On button clicked callback
    */
   onClick = () => {
-    const { entity, onDelete } = this.props
-    onDelete(TableSelectionModes.includeSelected, [entity])
+    // const { entity, onDelete } = this.props
+    // onDelete(TableSelectionModes.includeSelected, [entity])
   }
 
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { entity } = this.props
+    // const { entity } = this.props
     return (
       <HateoasIconAction
-        entityLinks={entity.links}
+        // entityLinks={entity.links}
         hateoasKey={DeleteAIPOnSomeStoragesOption.DELETE_ON_SOME_LINK}
         title={formatMessage({ id: 'oais.aips.list.delete.files.on.some.storages.title' })}
         onClick={this.onClick}
         alwaysDisplayforInstanceUser={false}
         disableInsteadOfHide
         // Delete partially is only allowed when there is more than one storage
-        disabled={entity.content.dataStorageIds.length <= 1}
+        // disabled={entity.content.ingestMetadata.storages.length <= 1}
       >
         <DeleteOnSomeIcon className="selenium-deleteOnSomeButton" />
       </HateoasIconAction>

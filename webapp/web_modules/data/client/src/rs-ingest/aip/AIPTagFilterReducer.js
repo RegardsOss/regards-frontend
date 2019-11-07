@@ -16,18 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { AIPStatusContent, AIPStatus, AIPStatusList } from '../rs-ingest/AIPStatus'
-export { AIPSession } from '../rs-ingest/AIPSession'
-export { AIP } from '../rs-ingest/AIP'
-export { AIPEntity, AIPEntityContent } from '../rs-ingest/AIPEntity'
-export { AIPDeletionError, AIPDeletionErrorsArray } from '../rs-ingest/AIPDeletionError'
-export {
-  StorageMonitoring, StorageMonitoringContent, StorageMonitoringList, StorageMonitoringArray,
-} from './StorageMonitoring'
-export {
-  PrioritizedDataStorage, PrioritizedDataStorageContent, PrioritizedDataStorageList, PrioritizedDataStorageArray,
+import { BasicArrayReducers } from '@regardsoss/store-utils'
+import AIPTagFilterActions from './AIPTagFilterActions'
+
+/**
+ * Redux Reducer for AIP Tag filter actions.
+ *
+ * To use those actions, you need to pass the <namespace> parameter
+ *
+ * namespace : String, must be the same namespace defined in the associated Reducer.
+ *
+ * @author Simon MILHAU
+ */
+class AIPTagFilterReducer extends BasicArrayReducers {
+  constructor(namespace) {
+    super(new AIPTagFilterActions(namespace))
+  }
 }
-  from './PrioritizedDataStorage'
-export {
-  DataObject, DataObjectContent, DataObjectList, DataObjectArray,
-} from './DataObject'
+
+export default (namespace) => {
+  const instance = new AIPTagFilterReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

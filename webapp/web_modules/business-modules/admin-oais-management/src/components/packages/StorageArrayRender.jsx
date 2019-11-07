@@ -16,18 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { AIPStatusContent, AIPStatus, AIPStatusList } from '../rs-ingest/AIPStatus'
-export { AIPSession } from '../rs-ingest/AIPSession'
-export { AIP } from '../rs-ingest/AIP'
-export { AIPEntity, AIPEntityContent } from '../rs-ingest/AIPEntity'
-export { AIPDeletionError, AIPDeletionErrorsArray } from '../rs-ingest/AIPDeletionError'
-export {
-  StorageMonitoring, StorageMonitoringContent, StorageMonitoringList, StorageMonitoringArray,
-} from './StorageMonitoring'
-export {
-  PrioritizedDataStorage, PrioritizedDataStorageContent, PrioritizedDataStorageList, PrioritizedDataStorageArray,
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import { IngestShapes } from '@regardsoss/shape'
+import { StringArrayValueRender } from '@regardsoss/components'
+
+class StorageArrayRender extends React.Component {
+  static propTypes = {
+    value: PropTypes.arrayOf(IngestShapes.AIPEntityIngestMetadataStorages).isRequired,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
+
+  render() {
+    const { value } = this.props
+    return (
+      <StringArrayValueRender value={value.map(storage => storage.pluginBusinessId)} />
+    )
+  }
 }
-  from './PrioritizedDataStorage'
-export {
-  DataObject, DataObjectContent, DataObjectList, DataObjectArray,
-} from './DataObject'
+
+export default StorageArrayRender

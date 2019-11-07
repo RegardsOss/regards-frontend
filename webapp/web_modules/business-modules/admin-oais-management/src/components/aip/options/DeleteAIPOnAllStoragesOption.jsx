@@ -34,9 +34,9 @@ export const HateoasIconAction = withHateoasDisplayControl(IconButton)
 class DeleteAIPOnAllStoragesOption extends React.Component {
   static propTypes = {
     // Entity. Note: when used in options column, this is provided by the table cell API
-    entity: StorageShapes.AIPWithStorages.isRequired,
+    // entity: StorageShapes.AIPEntity.isRequired,
     // callback: on delete (selectionMode, [AIPs]) => ()
-    onDelete: PropTypes.func.isRequired,
+    // onDelete: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -50,16 +50,16 @@ class DeleteAIPOnAllStoragesOption extends React.Component {
    * On button clicked callback
    */
   onClick = () => {
-    const { entity, onDelete } = this.props
-    onDelete(TableSelectionModes.includeSelected, [entity])
+    // const { entity, onDelete } = this.props
+    // onDelete(TableSelectionModes.includeSelected, [entity])
   }
 
   render() {
-    const { entity } = this.props
+    // const { entity } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <HateoasIconAction
-        entityLinks={entity.links}
+        // entityLinks={entity.links}
         hateoasKey={DeleteAIPOnAllStoragesOption.DELETE_ON_ALL_LINK}
         title={formatMessage({ id: 'oais.aips.list.delete.files.on.all.storages.title' })}
         onClick={this.onClick}

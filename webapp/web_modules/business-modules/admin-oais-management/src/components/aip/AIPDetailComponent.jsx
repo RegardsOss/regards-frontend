@@ -29,7 +29,7 @@ import { CardActionsComponent, CodeFileDisplayer } from '@regardsoss/components'
 */
 class AIPDetailComponent extends React.Component {
   static propTypes = {
-    aip: StorageShapes.AIPContentWithStorages.isRequired,
+    aip: StorageShapes.AIPEntity.isRequired,
     onClose: PropTypes.func.isRequired,
   }
 
