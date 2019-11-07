@@ -17,23 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export { default as StorageMonitoringActions } from './monitoring/StorageMonitoringActions'
-export { default as getStorageMonitoringReducer } from './monitoring/StorageMonitoringReducer'
-export { default as getStorageMonitoringSelectors } from './monitoring/StorageMonitoringSelectors'
+export { default as StorageLocationActions } from './location/StorageLocationActions'
+export { default as getStorageLocationReducers } from './location/StorageLocationReducers'
+export { default as getStorageLocationSelectors } from './location/SotrageLocationSelectors'
 
-export { default as PrioritizedDataStorageActions } from './plugins/PrioritizedDataStorageActions'
-export { default as getPrioritizedDataStorageReducer } from './plugins/PrioritizedDataStorageReducer'
-export { default as getPrioritizedDataStorageSelectors } from './plugins/PrioritizedDataStorageSelectors'
+export { default as StorageLocationCopyFilesActions } from './location/StorageLocationCopyFilesActions'
+export { default as StorageLocationDeleteFilesActions } from './location/StorageLocationDeleteFilesActions'
+export { default as StorageLocationErrorsRetryActions } from './location/StorageLocationErrorsRetryActions'
+export { default as StorageLocationMonitoringActions } from './location/StorageLocationMonitoringActions'
+export { default as StorageLocationPriorityDownActions } from './location/StorageLocationPriorityDownActions'
+export { default as StorageLocationPriorityUpActions } from './location/StorageLocationPriorityUpActions'
 
-export { default as StoragesPluginActions } from './plugins/StoragesPluginActions'
-export { default as getStoragesPluginReducer } from './plugins/StoragesPluginReducer'
-export { default as getStoragesPluginSelectors } from './plugins/StoragesPluginSelectors'
-export { default as StoragesPluginUpActions } from './plugins/StoragesPluginUpActions'
-export { default as StoragesPluginDownActions } from './plugins/StoragesPluginDownActions'
-export { default as StoragesPluginDeleteFilesActions } from './plugins/StoragesPluginDeleteFilesActions'
-export { default as StoragesPluginCopyFilesActions } from './plugins/StoragesPluginCopyFilesActions'
-
-export { default as StoragesPluginErrorsRetryActions } from './plugins/StoragesPluginErrorsRetryActions'
-export { default as StoragesPluginErrorsDeleteActions } from './plugins/StoragesPluginErrorsDeleteActions'
-
-export { default as StoragesPluginRelaunchMonitoringActions } from './plugins/StoragesPluginRelaunchMonitoringActions'
+export { default as StorageRequestActions } from './requests/StorageRequestActions'
+export { default as getStorageRequestReducers } from './requests/StorageRequestReducers'
+export { default as getStorageRequestSelectors } from './requests/SotrageRequestSelectors'

@@ -16,9 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { StorageClient } from '@regardsoss/client'
 
-const namespace = 'storage-plugins-module/informations'
-export const storageMonitoringActions = new StorageClient.StorageMonitoringActions(namespace)
-export const storageMonitoringReducer = StorageClient.getStorageMonitoringReducer(namespace)
-export const storageMonitoringSelectors = StorageClient.getStorageMonitoringSelectors(['modules.storage-monitoring', 'storagePlugins'])
+export const storageMonitoringActions = null
+export const storageMonitoringReducer = null
+export const storageMonitoringSelectors = null

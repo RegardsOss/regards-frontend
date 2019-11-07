@@ -39,14 +39,8 @@ import AIPListFiltersComponent from './AIPListFiltersComponent'
 import { aipSelectors } from '../../clients/AIPClient'
 import { tableSelectors, tableActions } from '../../clients/TableClient'
 import InfiniteAIPTableContainer from '../../containers/aip/InfiniteAIPTableContainer'
-import RelaunchAIPStorageDialogContainer from '../../containers/aip/dialogs/RelaunchAIPStorageDialogContainer'
-import DeleteAIPOnAllStoragesDialogContainer from '../../containers/aip/dialogs/DeleteAIPOnAllStoragesDialogContainer'
-import DeleteAIPOnSomeStoragesDialogContainer from '../../containers/aip/dialogs/DeleteAIPOnSomeStoragesDialogContainer'
 import DeleteSelectedAIPsOnAllStoragesOptionContainer from '../../containers/aip/options/DeleteSelectedAIPsOnAllStoragesOptionContainer'
 import DeleteSelectedAIPsOnSomeStoragesOptionContainer from '../../containers/aip/options/DeleteSelectedAIPsOnSomeStoragesOptionContainer'
-import RelaunchSelectedAIPsContainer from '../../containers/aip/options/RelaunchSelectedAIPsContainer'
-import AIPRemoveTagDialog from './dialogs/AIPRemoveTagDialog'
-import AIPAddTagDialog from './dialogs/AIPAddTagDialog'
 import AIPStoreRetryOption from './options/AIPStoreRetryOption'
 import AIPDetailOption from './options/AIPDetailOption'
 import DeleteAIPOnAllStoragesOption from './options/DeleteAIPOnAllStoragesOption'
@@ -70,15 +64,18 @@ class AIPListComponent extends React.Component {
     entitiesLoading: PropTypes.bool.isRequired,
     // selection management
     isEmptySelection: PropTypes.bool.isRequired,
-    // tags management
+    // FIME New action to implement
+    // eslint-disable-next-line react/no-unused-prop-types
     tags: PropTypes.arrayOf(PropTypes.string),
+    // FIME New action to implement
+    // eslint-disable-next-line react/no-unused-prop-types
     searchingTags: PropTypes.bool.isRequired,
     sessionTags: PropTypes.arrayOf(PropTypes.string),
     searchingSessionTags: PropTypes.bool.isRequired,
     // Filter management
     currentFilters: PropTypes.objectOf(PropTypes.any),
     // contextual data
-    dataStorages: PropTypes.arrayOf(StorageShapes.PrioritizedDataStorageContent),
+    dataStorages: PropTypes.arrayOf(StorageShapes.StorageLocationContent),
     columnsSorting: PropTypes.arrayOf(PropTypes.shape({
       columnKey: PropTypes.string,
       order: PropTypes.oneOf(CommonDomain.SORT_ORDERS),
@@ -89,7 +86,8 @@ class AIPListComponent extends React.Component {
     onRefresh: PropTypes.func.isRequired,
     onRetryAIPStorage: PropTypes.func.isRequired,
     onApplyFilters: PropTypes.func.isRequired,
-    goToAipFiles: PropTypes.func.isRequired,
+    // FIME New action to implement
+    // eslint-disable-next-line react/no-unused-prop-types
     fetchCommonTags: PropTypes.func.isRequired,
     addTags: PropTypes.func.isRequired,
     removeTags: PropTypes.func.isRequired,
@@ -125,10 +123,6 @@ class AIPListComponent extends React.Component {
 
   state = {
     aipToView: null,
-    deleteOperation: null, // current delete operation or null
-    relaunchOperation: null, // current relaunch operation or null
-    showAddTagDialog: false,
-    showRemoveTagDialog: false,
     showSnackbar: false,
     snackbarMessage: '',
   }
@@ -140,15 +134,11 @@ class AIPListComponent extends React.Component {
   }
 
   onCloseAddTags = () => {
-    this.setState({
-      showAddTagDialog: false,
-    })
+    // FIME New action to implement
   }
 
   onCloseRemoveTags = () => {
-    this.setState({
-      showRemoveTagDialog: false,
-    })
+    // FIME New action to implement
   }
 
 
@@ -169,13 +159,7 @@ class AIPListComponent extends React.Component {
    * @param {[*]} toggleAIPs toggled AIP list (either to include or exclude from deletion request)
    */
   onDeleteEverywhere = (aipSelectionMode, toggleAIPs) => {
-    this.setState({
-      deleteOperation: {
-        aipDeletionMode: AIPListComponent.DELETION_MODE.DELETE_ON_ALL_STORAGES,
-        aipSelectionMode,
-        toggleAIPs,
-      },
-    })
+    // FIME New action to implement
   }
 
   /**
@@ -184,62 +168,23 @@ class AIPListComponent extends React.Component {
    * @param {[*]} toggleAIPs toggled AIP list (either to include or exclude from deletion request)
    */
   onDeleteOnSomeStorages = (aipSelectionMode, toggleAIPs) => {
-    this.setState({
-      deleteOperation: {
-        aipDeletionMode: AIPListComponent.DELETION_MODE.DELETE_ON_SOME_STORAGES,
-        aipSelectionMode,
-        toggleAIPs,
-      },
-    })
-  }
-
-  /**
-   * User cb : Relaunch selected AIPS
-   */
-  onRelaunch = (aipSelectionMode, toggleAIPs) => {
-    this.setState({
-      relaunchOperation: {
-        aipSelectionMode,
-        toggleAIPs,
-      },
-    })
+    // FIME New action to implement
   }
 
   /**
    * After delete request was confirmed and performed or cancelled. Hide dialog
    */
   onCloseDeleteDialog = () => {
-    this.setState({
-      deleteOperation: null,
-    })
-  }
-
-  /**
-   * After delete request was confirmed and performed or cancelled. Hide dialog
-   */
-  onCloseRelaunchDialog = () => {
-    this.setState({
-      relaunchOperation: null,
-    })
-  }
-
-  goToAipFiles = (entity) => {
-    this.props.goToAipFiles(entity.aip.id)
+    // FIME New action to implement
   }
 
 
   onOpenAddTagDialog = () => {
-    this.props.fetchCommonTags()
-    this.setState({
-      showAddTagDialog: true,
-    })
+    // FIME New action to implement
   }
 
   onOpenRemoveTagDialog = () => {
-    this.props.fetchCommonTags()
-    this.setState({
-      showRemoveTagDialog: true,
-    })
+    // FIME New action to implement
   }
 
   handleRemoveTags = (tags) => {
@@ -302,93 +247,13 @@ class AIPListComponent extends React.Component {
    */
   onRetryAIPStorage = aip => this.props.onRetryAIPStorage(aip)
 
-  /**
-   * Renders delete dialog for current deletion context (mode and selection)
-   */
-  renderDeleteDialog = () => {
-    const { currentFilters, onRefresh } = this.props
-    const { deleteOperation } = this.state
 
-    if (deleteOperation) {
-      switch (deleteOperation.aipDeletionMode) {
-        case AIPListComponent.DELETION_MODE.DELETE_ON_ALL_STORAGES:
-          return (
-            <DeleteAIPOnAllStoragesDialogContainer
-              aipSelectionMode={deleteOperation.aipSelectionMode}
-              toggleAIPs={deleteOperation.toggleAIPs}
-              currentFilters={currentFilters}
-              onRefresh={onRefresh}
-              onClose={this.onCloseDeleteDialog}
-            />)
-        case AIPListComponent.DELETION_MODE.DELETE_ON_SOME_STORAGES:
-          return (
-            <DeleteAIPOnSomeStoragesDialogContainer
-              aipSelectionMode={deleteOperation.aipSelectionMode}
-              toggleAIPs={deleteOperation.toggleAIPs}
-              currentFilters={currentFilters}
-              onRefresh={onRefresh}
-              onClose={this.onCloseDeleteDialog}
-            />)
-        default:
-          throw new Error(`Unkown delete AIP mode ${deleteOperation.aipDeletionMode}`)
-      }
-    }
-    return null
-  }
-
-  /**
-   * Renders relaunch dialog for current selection with mode
-   */
-  renderRelaunchDialog = () => {
-    const { currentFilters, onRefresh } = this.props
-    const { relaunchOperation } = this.state
-
-    if (relaunchOperation) {
-      return (
-        <RelaunchAIPStorageDialogContainer
-          aipSelectionMode={relaunchOperation.aipSelectionMode}
-          toggleAIPs={relaunchOperation.toggleAIPs}
-          currentFilters={currentFilters}
-          onRefresh={onRefresh}
-          onClose={this.onCloseRelaunchDialog}
-        />
-      )
-    }
-    return null
-  }
-
-  renderAddTagDialog = () => {
-    const { showAddTagDialog } = this.state
-    const { tags, searchingTags } = this.props
-    if (showAddTagDialog) {
-      return (
-        <AIPAddTagDialog
-          onClose={this.onCloseAddTags}
-          tags={tags}
-          searchingTags={searchingTags}
-          onSubmit={this.handleAddTags}
-        />
-      )
-    }
-    return null
-  }
+  // FIME New action to implement
+  renderAddTagDialog = () => null
 
 
-  renderRemoveTagDialog = () => {
-    const { showRemoveTagDialog } = this.state
-    const { tags, searchingTags } = this.props
-    if (showRemoveTagDialog) {
-      return (
-        <AIPRemoveTagDialog
-          onClose={this.onCloseRemoveTags}
-          tags={tags}
-          searchingTags={searchingTags}
-          onSubmit={this.handleRemoveTags}
-        />
-      )
-    }
-    return null
-  }
+  // FIME New action to implement
+  renderRemoveTagDialog = () => null
 
 
   renderTable = () => {
@@ -486,7 +351,6 @@ class AIPListComponent extends React.Component {
             <TableHeaderLoadingComponent loading={entitiesLoading} />
             <TableHeaderOptionsArea reducible>
               <TableHeaderOptionGroup>
-                <RelaunchSelectedAIPsContainer onRelaunch={this.onRelaunch} />
                 <DeleteSelectedAIPsOnSomeStoragesOptionContainer onDelete={this.onDeleteOnSomeStorages} />
                 <DeleteSelectedAIPsOnAllStoragesOptionContainer onDelete={this.onDeleteEverywhere} />
               </TableHeaderOptionGroup>
@@ -575,8 +439,6 @@ class AIPListComponent extends React.Component {
         {this.renderAIPDetail()}
         {this.renderRemoveTagDialog()}
         {this.renderAddTagDialog()}
-        {this.renderDeleteDialog()}
-        {this.renderRelaunchDialog()}
         {this.renderSnackbar()}
       </div>
     )

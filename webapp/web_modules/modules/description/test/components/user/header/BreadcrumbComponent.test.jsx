@@ -41,6 +41,7 @@ describe('[Description] Testing BreadcrumbComponent', () => {
     const props = {
       settings: {
         documentModels: [],
+        primaryQuicklookGroup: 'primary',
       },
       selectedEntityIndex: 0,
       descriptionPath: [resolvedDataEntity, resolvedDatasetEntity],

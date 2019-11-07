@@ -40,7 +40,6 @@ import { SIPSwitchToAIPComponent } from './SIPSwitchToAIPComponent'
 import SIPListDateColumnRenderer from './SIPListDateColumnRenderer'
 import SIPDetailComponent from './SIPDetailComponent'
 import SIPDetailTableAction from './SIPDetailTableAction'
-import RelaunchSelectedSIPsDialogContainer from '../../containers/sip/dialogs/RelaunchSelectedSIPsDialogContainer'
 import DeleteSelectedSIPsDialogContainer from '../../containers/sip/dialogs/DeleteSelectedSIPsDialogContainer'
 import SIPConfirmDeleteDialog from './SIPConfirmDeleteDialog'
 import SIPListFiltersComponent from './SIPListFiltersComponent'
@@ -161,7 +160,6 @@ class SIPListComponent extends React.Component {
     previouslyAppliedFilters: {},
     sipToView: null,
     sipToDelete: null,
-    relaunchOperation: null,
     deleteOperation: null,
     deletionErrors: [],
     requestParameters: SIPListComponent.buildRequestParameters([], this.props.contextFilters),
@@ -349,47 +347,6 @@ class SIPListComponent extends React.Component {
   }
 
   /**
-   * User cb : Open Dialog Relaunch for selected SIPS
-   */
-  onRelaunchSelectedDialog = (sipSelectionMode, toggleSIPs) => {
-    this.setState({
-      relaunchOperation: {
-        sipSelectionMode,
-        toggleSIPs,
-      },
-    })
-  }
-
-  /**
-   * Renders relaunch dialog for current selection with mode
-   */
-  renderSelectedRelaunchConfirmDialog = () => {
-    const { onRefresh } = this.props
-    const { appliedFilters, relaunchOperation } = this.state
-    if (relaunchOperation) {
-      return (
-        <RelaunchSelectedSIPsDialogContainer
-          toggleSIPs={relaunchOperation.toggleSIPs}
-          sipSelectionMode={relaunchOperation.sipSelectionMode}
-          currentFilters={appliedFilters}
-          onRefresh={onRefresh}
-          onClose={this.onCloseRelaunchDialog}
-        />
-      )
-    }
-    return null
-  }
-
-  /**
-   * After delete request was confirmed and performed or cancelled. Hide dialog
-   */
-  onCloseRelaunchDialog = () => {
-    this.setState({
-      relaunchOperation: null,
-    })
-  }
-
-  /**
    * User cb : Open Dialog Delete for selected SIPS
    */
   onDeleteSelectedDialog = (sipSelectionMode, toggleSIPs) => {
@@ -530,7 +487,6 @@ class SIPListComponent extends React.Component {
               chains={chains}
               emptyComponent={emptyComponent}
               isEmptySelection={isEmptySelection}
-              onRelaunchSelectedDialog={this.onRelaunchSelectedDialog}
               onDeleteSelectedDialog={this.onDeleteSelectedDialog}
               onFilterUpdated={this.onFilterUpdated}
               onClearFilters={this.onClearFilters}
@@ -613,7 +569,6 @@ class SIPListComponent extends React.Component {
         </Card>
         {this.renderSIPDetail()}
         {this.renderDeleteConfirmDialog()}
-        {this.renderSelectedRelaunchConfirmDialog()}
         {this.renderSelectedDeleteConfirmDialog()}
         <SIPDeletionErrorDialog
           providerId={this.state.deletionErrorsId}

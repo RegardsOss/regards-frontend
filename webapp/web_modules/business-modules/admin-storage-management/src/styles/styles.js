@@ -91,10 +91,9 @@ const storageManagementStyles = theme => ({
         alignItems: 'center',
         justifyContent: 'center',
       },
-      relaunchButton: {
-        position: 'absolute',
-        right: '0px',
-        bottom: '0px',
+      icon: {
+        padding: 0,
+        margin: 0,
       },
     },
   },

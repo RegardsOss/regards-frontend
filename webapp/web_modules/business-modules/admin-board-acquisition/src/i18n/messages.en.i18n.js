@@ -28,9 +28,8 @@ const messages = {
 
   'data-provider.board.title': 'Data acquisition',
   'data-provider.board.description': 'Configure data acquisition chains allowing to acquire new detected data (detection method is configurable). These processes generate Submission Information Package (SIP) to be provided to the system for ingestion.',
-  'data-provider.board.action.chain.list.tooltip': 'Configure acquisition chains',
-  'data-provider.board.action.monitoring.tooltip': 'Monitor acquisition chains activity',
-  'data-provider.board.action.sessions.tooltip': 'Monitor all acquisition chain',
+  'data-provider.board.action.configure.tooltip': 'Configure acquisition chains',
+  'data-provider.board.action.sessions.tooltip': 'Monitor aquisition sessions',
 
   'ingest.board.external.datasources.title': 'Crawling',
   'ingest.board.external.datasources.description': 'This feature allows you to configure data crawling process. A data crawling process is the addition of adding data through external data sources.',

@@ -23,12 +23,11 @@
  *
  * @type {{path: string, getComponents: ((nextState, cb))}}
  */
-export const storagePluginListRoute = {
+export const storageLocationListRoute = {
   path: 'storages',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      //const container = require('./containers/PluginStorageConfigurationListContainer')
-      const container = require('./components/StoragesPluginListComponent')
+      const container = require('./components/StorageLocationsComponent')
       cb(null, {
         content: container.default,
       })
@@ -36,11 +35,11 @@ export const storagePluginListRoute = {
   },
 }
 
-export const storagePluginCreateFormRoute = {
+export const storageLocationCreateFormRoute = {
   path: 'storages/create',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/PrioritizedDataStorageFormContainer')
+      const container = require('./containers/StorageLocationFormContainer')
       cb(null, {
         content: container.default,
       })
@@ -48,23 +47,11 @@ export const storagePluginCreateFormRoute = {
   },
 }
 
-export const storagePluginEditFormRoute = {
+export const storageLocationEditFormRoute = {
   path: 'storages/:name/:mode',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/PrioritizedDataStorageFormContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-export const storagePluginMonitoringRoute = {
-  path: 'storages/monitoring',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./components/StoragePluginMonitoringComponent')
+      const container = require('./containers/StorageLocationFormContainer')
       cb(null, {
         content: container.default,
       })
@@ -74,10 +61,9 @@ export const storagePluginMonitoringRoute = {
 
 const storageManagementRouter = {
   childRoutes: [
-    storagePluginListRoute,
-    storagePluginCreateFormRoute,
-    storagePluginEditFormRoute,
-    storagePluginMonitoringRoute,
+    storageLocationListRoute,
+    storageLocationCreateFormRoute,
+    storageLocationEditFormRoute,
   ],
 }
 

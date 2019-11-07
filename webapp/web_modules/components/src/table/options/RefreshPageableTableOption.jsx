@@ -120,8 +120,9 @@ export class RefreshPageableTableOption extends React.Component {
     )
   }
 }
-
-export default connect(
+const connected = connect(
   RefreshPageableTableOption.mapStateToProps,
   RefreshPageableTableOption.mapDispatchToProps,
 )(RefreshPageableTableOption)
+connected.refreshTable = RefreshPageableTableOption.refreshTable
+export default connected

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { UIDomain } from '@regardsoss/domain'
+import { UIDomain, DamDomain } from '@regardsoss/domain'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 
@@ -54,8 +54,11 @@ export const MapViewConfiguration = PropTypes.shape({
 
 /** Facets sub configuration */
 const FacetsConfiguration = PropTypes.shape({
-  enabled: PropTypes.bool,
-  initiallyEnabled: PropTypes.bool, // is initially enabled? (ignored when disabled)
+  enabledFor: PropTypes.shape({
+    [DamDomain.ENTITY_TYPES_ENUM.DATA]: PropTypes.bool,
+    [DamDomain.ENTITY_TYPES_ENUM.DATASET]: PropTypes.bool,
+  }),
+  initiallyEnabled: PropTypes.bool, // is initially enabled?
   list: AccessShapes.AttributeListConfigurationModel, // facets list (facets are considered disabled when empty)
 })
 
@@ -83,7 +86,6 @@ const commonViewsGroupFields = {
 export const DataViewsConfiguration = PropTypes.shape({
   ...commonViewsGroupFields,
   enableDownload: PropTypes.bool,
-  facets: FacetsConfiguration,
   sorting: AccessShapes.AttributeListConfigurationModel,
 })
 
@@ -126,6 +128,8 @@ export const RestrictionsConfiguration = PropTypes.shape({
 const ModuleConfiguration = PropTypes.shape({
   // Special configuration provided if the module is not loaded as an independent module
   selectableAttributes: DataManagementShapes.AttributeModelList,
+  // Results facets configuration
+  facets: FacetsConfiguration,
   // Results restricitons
   restrictions: RestrictionsConfiguration,
   // Views configurations (by their entities type)

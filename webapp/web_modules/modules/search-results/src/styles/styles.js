@@ -286,7 +286,7 @@ const styles = theme => ({
         alignItems: 'stretch',
       },
       labelColumnStyles: {
-        margin: '10px 0 5px 0',
+        margin: '10px 0 10px 0',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -299,7 +299,7 @@ const styles = theme => ({
         margin: '5px 0 0 0',
       },
       valueColumnStyles: {
-        margin: '10px 0 5px 10px',
+        margin: theme.module.searchResults.list.attribute.labelMargin,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -311,23 +311,31 @@ const styles = theme => ({
         minWidth: 0,
       },
       valueCellStyle: { // for groups
-        margin: '5px 0 0 0',
+        margin: theme.module.searchResults.list.attribute.valueMargin,
         display: 'flex',
         justifyContent: 'flex-start',
         maxWidth: '100%', // required to diminish contained cells width (text 'pushes' column width otherwise)
       },
       thumbnailColumnStyle: {
-        width: '110px',
-        display: 'block',
-        padding: '5px 0px 10px 10px',
+        margin: theme.module.searchResults.list.thumbnailMargin,
+      },
+      thumbnailDimensions: {
+        width: theme.module.searchResults.list.thumbnailSize,
+        height: theme.module.searchResults.list.thumbnailSize,
       },
     },
     quicklookViewStyles: {
+      cardContentContainer: {
+        display: 'flex',
+      },
       imageStyle: {
         maxWidth: '100%',
       },
-      imageAndOptionsContainer: {
+      pictureAndAttributesContainer: {
         display: 'flex',
+        flexDirection: 'column',
+        flexGrow: 1,
+        flexShrink: 1,
       },
       quicklookContainerStyle: {
         cursor: 'zoom-in',
@@ -337,6 +345,9 @@ const styles = theme => ({
         width: '50%',
         height: '50%',
         margin: 'auto',
+      },
+      attributesContainer: {
+        padding: 0,
       },
       optionsBarStyles: {
         display: 'flex',
@@ -353,9 +364,7 @@ const styles = theme => ({
           height: 24,
         },
       },
-      attributesContainer: {
-        padding: 0,
-      },
+
     },
     mapViewStyles: {
       geoLayout: {
@@ -378,8 +387,9 @@ const styles = theme => ({
         padding: theme.module.searchResults.map.quicklooks.padding,
       },
       quicklookImage: {
-        maxWidth: '100%',
+        width: '100%',
         height: theme.module.searchResults.map.quicklooks.thumbnailHeight,
+        objectFit: 'contain',
       },
       toolsBox: {
         // overlay position

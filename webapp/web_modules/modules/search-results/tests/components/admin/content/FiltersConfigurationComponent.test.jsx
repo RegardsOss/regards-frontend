@@ -41,19 +41,21 @@ describe('[SEARCH RESULTS] Testing FiltersConfigurationComponent', () => {
   })
   it('should render correctly', () => {
     // NOTE: we emulate an empty namespace below, as configuration holds form values at root
-    const rootNamespace = `viewsGroups.${DamDomain.ENTITY_TYPES_ENUM.DATA}`
+    const rootNamespace = 'any'
     const props = {
       availableAttributes: attributes,
-      type: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      currentTypeNamespace: rootNamespace,
-      currentTypeFormValues: dataConfiguration.viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DATA],
+      currentNamespace: rootNamespace,
+      currentFormValues: dataConfiguration,
       changeField: () => {},
     }
     const enzymeWrapper = shallow(<FiltersConfigurationComponent {...props} />, { context })
-    // 1 - Facets enabled
-    assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.facets.enabled`), 1,
-      'There should be facets enabled field')
-    // 2 - Facets initially enabled
+    // 1 - DATA facets enabled
+    assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.facets.enabledFor.${DamDomain.ENTITY_TYPES_ENUM.DATA}`), 1,
+      'There should be facets enabled for DATA field')
+    // 2 - DATASET facets enabled
+    assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.facets.enabledFor.${DamDomain.ENTITY_TYPES_ENUM.DATASET}`), 1,
+      'There should be facets enabled for DATASETfield')
+    // 3 - Facets initially enabled
     assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.facets.initiallyEnabled`), 1,
       'There should be facets initially enabled field')
     // 3 - Attributes list field
@@ -62,7 +64,7 @@ describe('[SEARCH RESULTS] Testing FiltersConfigurationComponent', () => {
     testSuiteHelpers.assertWrapperProperties(attributesListField, {
       selectableAttributes: props.availableAttributes,
       attributesFilter: DamDomain.AttributeModelController.isSearchableAttribute,
-      attributesList: props.currentTypeFormValues.facets.list,
+      attributesList: props.currentFormValues.facets.list,
       attributesListFieldName: `${rootNamespace}.facets.list`,
       changeField: props.changeField,
       allowAttributesRegroupements: false,

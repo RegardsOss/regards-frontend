@@ -102,8 +102,8 @@ describe('[SEARCH RESULTS] Testing ToggleFiltersContainer', () => {
     assert.equal(spiedUpdateData.moduleId, props.moduleId, 'Spied data should have been called (module id)')
     assert.isNotNull(spiedUpdateData.stateDiff, 'Spied data should have been called (state diff)')
     // check criterion has been removed
-    assert.isEmpty(spiedUpdateData.stateDiff.tabs[tabType].types[type].criteria.requestFacets, 'Facets should not longer be requested')
-    assert.isFalse(spiedUpdateData.stateDiff.tabs[tabType].types[type].facets.enabled, 'Facets should no longer be enabled')
+    assert.isEmpty(spiedUpdateData.stateDiff.tabs[tabType].criteria.requestFacets, 'Facets should not longer be requested')
+    assert.isFalse(spiedUpdateData.stateDiff.tabs[tabType].facets.enabled, 'Facets should no longer be enabled')
 
     // 2 - Re-render with new context, check component properties and callback when toggling on
     enzymeWrapper.setProps({
@@ -118,15 +118,33 @@ describe('[SEARCH RESULTS] Testing ToggleFiltersContainer', () => {
     }, 'Component should filters should be correctly updated')
     enzymeWrapper.instance().onFiltersToggled()
     assert.equal(spiedUpdateData.moduleId, props.moduleId, 'Spied data should have been called (module id)')
-    assert.isNotEmpty(spiedUpdateData.stateDiff.tabs[tabType].types[type].criteria.requestFacets, 'Facets should be requested again')
-    assert.isTrue(spiedUpdateData.stateDiff.tabs[tabType].types[type].facets.enabled, 'Facets should be enabled again')
+    assert.isNotEmpty(spiedUpdateData.stateDiff.tabs[tabType].criteria.requestFacets, 'Facets should be requested again')
+    assert.isTrue(spiedUpdateData.stateDiff.tabs[tabType].facets.enabled, 'Facets should be enabled again')
   }))
   it('should hide component when facets are forbidden', () => {
     const props = {
       moduleId: 1,
       // initially in DATASET type, which forbids facets,
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
-      resultsContext: dataContext,
+      resultsContext: {
+        ...dataContext,
+        tabs: {
+          ...dataContext.tabs,
+          [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+            ...dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS],
+            types: {
+              [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
+                ...dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA],
+                facetsAllowed: false,
+              },
+              [DamDomain.ENTITY_TYPES_ENUM.DATASET]: {
+                ...dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATASET],
+                facetsAllowed: false,
+              },
+            },
+          },
+        },
+      },
       updateResultsContext: () => {},
     }
     const enzymeWrapper = shallow(<ToggleFiltersContainer {...props} />, { context })

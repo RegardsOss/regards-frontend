@@ -73,12 +73,14 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringComponent',
       onChangeColumnsVisibility: () => {},
       columnsVisibility: {},
       onDeleteProducts: () => {},
+      onDeleteSession: () => {},
       onClickListIndexed: () => {},
       onClickListSIP: () => {},
       onClickListAIP: () => {},
       onClickRelaunchAIP: () => {},
       onClickRelaunchSIP: () => {},
       onClickRelaunchProducts: () => {},
+      onRefresh: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringComponent {...props} />, { context })
     const wrapperInstance = enzymeWrapper.instance()

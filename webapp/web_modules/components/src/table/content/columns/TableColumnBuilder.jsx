@@ -19,6 +19,7 @@
 import get from 'lodash/get'
 import { GrowingColumnSize } from './size/GrowingColumnSize'
 import { OptionsColumnSize } from './size/OptionColumnSize'
+import { FixedColumnSize } from './size/FixedColumnSize'
 import StringValueRender from '../../../values/StringValueRender'
 import SortableColumnHeaderCell from './SortableColumnHeaderCell'
 import SimpleTitleColumnHeaderCell from './SimpleTitleColumnHeaderCell'
@@ -173,6 +174,10 @@ export default class TableColumnBuilder {
    */
   optionsSizing(optionsCount) {
     return this.sizing(new OptionsColumnSize(optionsCount))
+  }
+
+  fixedSizing(size) {
+    return this.sizing(new FixedColumnSize(size))
   }
 
   /**

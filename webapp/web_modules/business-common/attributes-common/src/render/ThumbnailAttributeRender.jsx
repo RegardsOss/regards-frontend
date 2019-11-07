@@ -17,16 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
-import FlatButton from 'material-ui/FlatButton'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { withAuthInfo } from '@regardsoss/authentication-utils'
-import { FitContentDialog } from '@regardsoss/components'
 import { DamDomain } from '@regardsoss/domain'
 import messages from '../i18n'
 import styles from '../styles'
+import ThumbnailFullSizePictureDialog from './ThumbnailFullSizePictureDialog'
 /**
  * Component to render thumbnail attributes group
  * note: Thumbnail render expects to receive the first thumbnail value
@@ -36,6 +35,11 @@ import styles from '../styles'
 export class ThumbnailAttributeRender extends React.Component {
   static propTypes = {
     value: DataManagementShapes.DataFile,
+    // thumbnail dimansions (defaults to table one when not provided)
+    dimensions: PropTypes.shape({
+      width: PropTypes.number.isRequired,
+      height: PropTypes.number.isRequired,
+    }),
     projectName: PropTypes.string,
     accessToken: PropTypes.string,
   }
@@ -46,67 +50,56 @@ export class ThumbnailAttributeRender extends React.Component {
   }
 
   state = {
-    displayFullSize: false,
+    showFullSizeDialog: false,
   }
 
-  displayFullSize = (uri) => {
-    if (this.state.displayFullSize) {
-      const { intl: { formatMessage } } = this.context
-      const actions = [
-        <FlatButton
-          key="cancel"
-          label={formatMessage({ id: 'attribute.thumbnail.action.close' })}
-          primary
-          onClick={this.handleToggleDialog}
-        />,
-      ]
-      return (
-        <FitContentDialog
-          modal={false}
-          onRequestClose={this.handleToggleDialog}
-          open
-          actions={actions}
-        >
-          <div>
-            <img
-              src={uri}
-              alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
-            />
-          </div>
-        </FitContentDialog>
-      )
-    }
-    return null
+  /**
+   * Callback: user clicked on cell, requesting full size picture dialog
+   */
+  onShowFullSizeDialog = () => {
+    this.setState({ showFullSizeDialog: true })
   }
 
-  handleToggleDialog = () => {
-    this.setState({ displayFullSize: !this.state.displayFullSize })
+  /**
+   * Callback: user closed full size picture dialog
+   */
+  onCloseFullSizeDialog = () => {
+    this.setState({ showFullSizeDialog: false })
   }
+
 
   render() {
-    const { value, accessToken, projectName } = this.props
+    const {
+      value, dimensions,
+      accessToken, projectName,
+    } = this.props
+    const { showFullSizeDialog } = this.state
     // in resolved attributes, get the first data, if any
-    const { intl: { formatMessage }, moduleTheme: { thumbnailRoot, thumbnailCell, noThumbnailIcon } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { defaultThumbnailDimensions, thumbnailPicture, noThumbnailIcon } } = this.context
     const thumbnailURI = value
       ? DamDomain.DataFileController.getFileURI(value, accessToken, projectName) : null
     return (
       <div
-        style={thumbnailRoot}
+        style={dimensions || defaultThumbnailDimensions}
         title={thumbnailURI ? null : formatMessage({ id: 'attribute.thumbnail.alt' })}
       >
         {
           thumbnailURI ? (
             <img
               src={thumbnailURI}
-              style={thumbnailCell}
+              style={thumbnailPicture}
               alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
-              onClick={this.handleToggleDialog}
+              onClick={this.onShowFullSizeDialog}
             />) : (
               <NoDataIcon
                 style={noThumbnailIcon}
               />)
         }
-        {this.displayFullSize(thumbnailURI)}
+        <ThumbnailFullSizePictureDialog
+          thumbnailURI={thumbnailURI}
+          open={showFullSizeDialog}
+          onClose={this.onCloseFullSizeDialog}
+        />
       </div>
     )
   }

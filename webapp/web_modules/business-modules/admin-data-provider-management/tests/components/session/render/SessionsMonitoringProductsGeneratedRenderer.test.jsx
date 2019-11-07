@@ -62,16 +62,17 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsGen
               invalid: 0,
               generatedAIP: 65,
             },
-            products: {
-              done: 5054876,
-              errors: 0,
-              running: false,
+            PRODUCTS: {
+              generated: 5054876,
+              generation_error: 0,
+              state: 'DONE',
               incomplete: 0,
             },
           },
         },
         links: [],
       },
+      onDeleteProducts: () => {},
       onClickRelaunchProducts: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringProductsGeneratedRenderer {...props} />, { context })
@@ -110,6 +111,7 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsGen
         links: [],
       },
       onClickRelaunchProducts: () => {},
+      onDeleteProducts: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringProductsGeneratedRenderer {...props} />, { context })
     const play = enzymeWrapper.find(Play)

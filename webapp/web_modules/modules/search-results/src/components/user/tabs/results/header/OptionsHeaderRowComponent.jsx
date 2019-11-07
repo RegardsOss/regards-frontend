@@ -30,7 +30,6 @@ import EditColumnsSettingsContainer from '../../../../../containers/user/tabs/re
 import SelectionServiceComponent from './options/SelectionServiceComponent'
 import AddSelectionToCartComponent from './options/AddSelectionToCartComponent'
 
-
 /**
  * Options header row: shows options available (filters, services...) and allows user browing between available view mode and types
  * @author Raphaël Mechali
@@ -127,7 +126,7 @@ class OptionsHeaderRowComponent extends React.Component {
           {/* 2.B Extended options: filter quicklook only (when it can be applied) and toggle filters */}
           <TableHeaderOptionGroup show={
             OptionsHeaderRowComponent.shouldShowQuicklooksFilter(tab)
-            || selectedTypeState.facets.allowed
+            || selectedTypeState.facetsAllowed
           }
           >
             { /** 2.B.1 - Filter entities with quicklook only (only when project configured quicklooks / map views and for DATA/DATASET types) */
@@ -147,7 +146,7 @@ class OptionsHeaderRowComponent extends React.Component {
               resultsContext={resultsContext}
             />
           </TableHeaderOptionGroup>
-          {/* 2.C Results options:
+          {/* 2.C - Results options:
             1- select all / none (when mode allows selection but not in table mode as that option is provided through column headers)
             2- sort on single attribute (when type allows sorting but not in table mode as that option is provided through column headers)
           */}
@@ -180,7 +179,7 @@ class OptionsHeaderRowComponent extends React.Component {
               resultsContext={resultsContext}
             />
           </TableHeaderOptionGroup>
-          {/* 2.6 - View mode selectors (list / table / quicklook / map), when more than 1 is available*/}
+          {/* 2.5 - View mode selectors (list / table / quicklook / map), when more than 1 is available*/}
           <TableHeaderOptionGroup show={reduce(selectedTypeState.modes, (count, modeState) => modeState.enabled ? count + 1 : count, 0) > 1}>
             {
               OptionsHeaderRowComponent.MODE_DISPLAY_ORDER.map(aMode => selectedTypeState.modes[aMode].enabled ? (

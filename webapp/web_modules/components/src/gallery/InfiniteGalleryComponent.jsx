@@ -20,9 +20,8 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isNaN from 'lodash/isNaN'
-import throttle from 'lodash/throttle'
 import { ScrollArea } from '@regardsoss/adapters'
-import { ShowableAtRender } from '@regardsoss/display-control'
+import { ShowableAtRender, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 
 const noPage = { stop: 0 }
 const sortAscending = (a, b) => a - b
@@ -47,7 +46,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     containerClassName: classNamePropType,
     layoutClassName: classNamePropType,
     pageClassName: classNamePropType,
-    hasMore: PropTypes.bool.isRequired,
+    isEmpty: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.object).isRequired,
     itemComponent: PropTypes.oneOfType([
@@ -56,17 +55,16 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     ]).isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     itemProps: PropTypes.object,
-    loadingElement: PropTypes.oneOfType([
-      PropTypes.element,
-      PropTypes.func,
-    ]),
+    emptyComponent: PropTypes.element,
     onInfiniteLoad: PropTypes.func.isRequired,
     // current content height ratio: when over, the component triggers next page download (ranges in ]0; 1[])
     threshold: PropTypes.number,
 
     // component current dimensions
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
+    componentSize: PropTypes.shape({
+      width: PropTypes.number.isRequired,
+      height: PropTypes.number.isRequired,
+    }), // not required as it exists in HOC
   }
 
   static defaultProps = {
@@ -126,8 +124,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
    */
   componentWillReceiveProps(nextProps) {
     if (!isEqual(nextProps.items, this.props.items)
-      || nextProps.width !== this.props.width
-      || nextProps.height !== this.props.height) {
+      || !isEqual(nextProps.componentSize, this.props.componentSize)) {
       this.layout(nextProps)
     }
   }
@@ -146,14 +143,14 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
   /**
    * On scroll update: performs bounds visibility check and starts loading data if required
    */
-  onScrollUpdate = throttle(() => {
+  onScrollUpdate = () => {
     if (!this.node) {
       return
     }
     const bounds = this.node.getBoundingClientRect()
     this.checkVisibility()
     this.checkInfiniteLoad(bounds)
-  }, 100)
+  }
 
   /**
    * Stores content node reference
@@ -297,6 +294,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       columnGutter,
       items,
       itemComponent,
+      componentSize,
     } = props
 
     const heightSelector = itemComponent.getHeightFromProps
@@ -304,8 +302,8 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
 
     // Decide a starter position for centering
     // Use the node width if there is a scrollbar, otherwise subtract LARGE_SCROLLBAR_WIDTH
-    const viewableWidth = props.width
-    const viewableHeight = props.height
+    const viewableWidth = componentSize.width
+    const viewableHeight = componentSize.height
 
     const maxColumns = Math.floor(viewableWidth / (columnWidth + columnGutter))
     const spannableWidth = (maxColumns * columnWidth) + (columnGutter * (maxColumns - 1))
@@ -479,9 +477,10 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
    */
   checkVisibility() {
     let isChanged = false
+
     const pages = this.state.pages.map((page) => {
       const visible = InfiniteGalleryComponent.isPageVisible(
-        page.start, page.stop, this.scrollBottom, this.props.height)
+        page.start, page.stop, this.scrollBottom, this.props.componentSize.height)
 
       isChanged = isChanged || page.visible !== visible
 
@@ -502,15 +501,15 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
    * @param {*} bounds component bounds
    */
   checkInfiniteLoad(bounds) {
-    const { items } = this.props
+    const { items, threshold, onInfiniteLoad } = this.props
     if (!items || !items.length) {
       // Initialization case, just ignore bounds check
       return
     }
     const contentHeight = this.node.getBoundingClientRect().height
     // Update when content height > 0 (initialization of graphics constraints not respected)
-    if (!!contentHeight && this.scrollBottom >= contentHeight * this.props.threshold) {
-      this.props.onInfiniteLoad()
+    if (!!contentHeight && this.scrollBottom >= contentHeight * threshold) {
+      onInfiniteLoad() // TODO-V1: dispatch is very laggy! find out a way to improve
     }
   }
 
@@ -554,11 +553,11 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     const {
       containerClassName,
       layoutClassName,
-      hasMore,
-      loadingElement,
+      loadingComponent,
+      emptyComponent,
       isLoading,
-      width,
-      height,
+      isEmpty,
+      componentSize,
     } = this.props
 
     const {
@@ -566,28 +565,32 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       layoutStyle,
     } = this.state
 
-    const scrollAreaSize = { width, height }
     return (
-      <ScrollArea
-        onScroll={this.onScroll}
-        style={scrollAreaSize}
-        vertical
+      <LoadableContentDisplayDecorator
+        isEmpty={isEmpty && !isLoading}
+        emptyComponent={emptyComponent}
       >
-        <div
-          ref={this.onReference}
-          className={containerClassName}
+        <ScrollArea
+          onScroll={this.onScroll}
+          style={componentSize}
+          vertical
         >
           <div
-            className={layoutClassName}
-            style={layoutStyle}
+            ref={this.onReference}
+            className={containerClassName}
           >
-            {pages.map(this.renderPage)}
+            <div
+              className={layoutClassName}
+              style={layoutStyle}
+            >
+              {pages.map(this.renderPage)}
+            </div>
+            <ShowableAtRender show={isLoading && !!loadingComponent}>
+              {loadingComponent}
+            </ShowableAtRender>
           </div>
-          <ShowableAtRender show={hasMore && isLoading}>
-            {loadingElement}
-          </ShowableAtRender>
-        </div>
-      </ScrollArea>
+        </ScrollArea>
+      </LoadableContentDisplayDecorator>
     )
   }
 }

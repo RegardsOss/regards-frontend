@@ -25,9 +25,9 @@ export {
   StorageMonitoring, StorageMonitoringContent, StorageMonitoringList, StorageMonitoringArray,
 } from './StorageMonitoring'
 export {
-  PrioritizedDataStorage, PrioritizedDataStorageContent, PrioritizedDataStorageList, PrioritizedDataStorageArray,
+  StorageLocation, StorageLocationContent, StorageLocationList, StorageLocationArray,
 }
-  from './PrioritizedDataStorage'
+  from './StorageLocation'
 export {
   DataObject, DataObjectContent, DataObjectList, DataObjectArray,
 } from './DataObject'

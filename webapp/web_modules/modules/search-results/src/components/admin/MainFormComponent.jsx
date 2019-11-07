@@ -87,7 +87,7 @@ class MainFormComponent extends React.Component {
   renderCurrentPage = () => {
     const {
       selectedSectionType, selectedPageType, changeField,
-      datasets, datasetModels,
+      datasets, datasetModels, dataAttributeModels,
       currentFormValues, currentNamespace,
     } = this.props
     switch (selectedSectionType) {
@@ -95,6 +95,14 @@ class MainFormComponent extends React.Component {
         // specific case: main section with only main configuration page
         return (
           <MainConfigurationComponent
+            currentNamespace={currentNamespace}
+            currentFormValues={currentFormValues}
+            changeField={changeField}
+          />)
+      case FORM_SECTIONS_ENUM.FILTERS:
+        return (
+          <FiltersConfigurationComponent
+            availableAttributes={dataAttributeModels}
             currentNamespace={currentNamespace}
             currentFormValues={currentFormValues}
             changeField={changeField}
@@ -121,14 +129,6 @@ class MainFormComponent extends React.Component {
                 type={selectedSectionType}
                 currentTypeNamespace={currentTypeNamespace}
                 currentTypeFormValues={currentTypeFormValues}
-              />)
-          case FORM_PAGES_ENUM.FILTERS:
-            return (
-              <FiltersConfigurationComponent
-                availableAttributes={availableAttributes}
-                currentTypeNamespace={currentTypeNamespace}
-                currentTypeFormValues={currentTypeFormValues}
-                changeField={changeField}
               />)
           case FORM_PAGES_ENUM.SORTING:
             return (

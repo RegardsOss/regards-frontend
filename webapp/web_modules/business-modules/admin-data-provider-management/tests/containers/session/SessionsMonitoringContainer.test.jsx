@@ -56,6 +56,8 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringContainer',
       relaunchProducts: () => {},
       relaunchAIP: () => {},
       relaunchSIP: () => {},
+      fetchSessions: () => {},
+      onRefresh: () => {},
       acknowledgeSessionState: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringContainer {...props} />, { context })

@@ -19,7 +19,12 @@
 
 /**
  * UI settings shape
+ *
+ * @author Raphaël Mechali
  */
 export const UISettings = PropTypes.shape({
+  // Identifies data model of entities to consider as documents
   documentModels: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // Datafile.types keyword: when present in a quicklook, marks its assignement in primary group (it is not a group name!)
+  primaryQuicklookGroup: PropTypes.string.isRequired,
 })

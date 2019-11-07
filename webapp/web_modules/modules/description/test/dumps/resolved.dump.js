@@ -212,6 +212,7 @@ export const resolvedDataEntity = {
     quicklookFiles: [{
 
       label: 'main',
+      primary: true,
       QUICKLOOK_SD: {
         dataType: 'QUICKLOOK_SD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/8432df3b3928ba7601cda6d3254c3f02?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4', mimeType: 'image/jpeg', imageWidth: 105, imageHeight: 88, online: true, checksum: '8432df3b3928ba7601cda6d3254c3f02', digestAlgorithm: 'MD5', filesize: 13453, filename: 'Toulouse_France_small.jpg',
       },

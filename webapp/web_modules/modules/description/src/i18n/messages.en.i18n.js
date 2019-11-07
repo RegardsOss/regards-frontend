@@ -88,6 +88,7 @@ const messages = {
   'module.description.tree.section.FILES.tooltip': 'Files',
   'module.description.tree.show.entity.description.tooltip': 'Show data description',
   'module.description.content.parameters.thumbnail.alt.text': 'Thumbnail: {label}',
+  'module.description.content.quicklook.group.unknown': 'Unnamed group',
   'module.description.content.quicklook.alt.message': 'Quicklook picture',
   // Forms i18n messages for admin
   ...Locales.en,

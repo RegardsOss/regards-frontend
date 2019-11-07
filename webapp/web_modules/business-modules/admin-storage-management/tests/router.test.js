@@ -19,9 +19,8 @@
 import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
-import PrioritizedDataStorageFormContainer from '../src/containers/PrioritizedDataStorageFormContainer'
-import StoragesPluginListComponent from '../src/components/StoragesPluginListComponent'
-import StoragePluginMonitoringComponent from '../src/components/StoragePluginMonitoringComponent'
+import StorageLocationFormContainer from '../src/containers/StorageLocationFormContainer'
+import StorageLocationsComponent from '../src/components/StorageLocationsComponent'
 /**
  * @author Sébastien Binda
  */
@@ -31,33 +30,26 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing storage router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(4)
+    expect(Routes.childRoutes).to.have.length(3)
     expect(Routes.childRoutes[0].path).to.eq('storages')
     expect(Routes.childRoutes[1].path).to.eq('storages/create')
     expect(Routes.childRoutes[2].path).to.eq('storages/:name/:mode')
-    expect(Routes.childRoutes[3].path).to.eq('storages/monitoring')
   })
   it('board should return StoragesPluginListComponent', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(StoragesPluginListComponent)
+      expect(component.content).to.eq(StorageLocationsComponent)
       done()
     })
   })
-  it('board should return PrioritizedDataStorageFormContainer for creation mode', (done) => {
+  it('board should return StorageLocationFormContainer for creation mode', (done) => {
     Routes.childRoutes[1].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(PrioritizedDataStorageFormContainer)
+      expect(component.content).to.eq(StorageLocationFormContainer)
       done()
     })
   })
-  it('board should return PrioritizedDataStorageFormContainer dor edition/copy mode', (done) => {
+  it('board should return StorageLocationFormContainer dor edition/copy mode', (done) => {
     Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(PrioritizedDataStorageFormContainer)
-      done()
-    })
-  })
-  it('board should return StoragePluginMonitoringComponent', (done) => {
-    Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(StoragePluginMonitoringComponent)
+      expect(component.content).to.eq(StorageLocationFormContainer)
       done()
     })
   })

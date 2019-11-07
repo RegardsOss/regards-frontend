@@ -140,15 +140,15 @@ export class SearchResultsContainer extends React.Component {
     const oldSelectedTab = get(oldProps.resultsContext, 'selectedTab')
     const oldSelectedType = oldSelectedTab ? get(oldProps.resultsContext, `tabs.${oldSelectedTab}.selectedType`) : null
     if (!isEqual(oldSelectedType, selectedType) || !isEqual(this.state.requestParameters, newState.requestParameters)) {
-      const { searchDataobjectsActions, searchDatasetsActions, searchDatasetsFromDataObjectsActions } = getSearchCatalogClient(tabType)
+      const { searchDataobjectsActions, searchDatasetsActions } = getSearchCatalogClient(tabType)
       switch (selectedType) {
         case DamDomain.ENTITY_TYPES_ENUM.DATA:
           newState.searchActions = searchDataobjectsActions
           break
         case DamDomain.ENTITY_TYPES_ENUM.DATASET:
           // when in dataset mode, use basic dataset actions without query and parameters. Use dataset
+          newState.searchActions = searchDatasetsActions
           // actions with dataobject query otherwise
-          newState.searchActions = isEmpty(newState.requestParameters) ? searchDatasetsActions : searchDatasetsFromDataObjectsActions
           break
         default:
           throw new Error(`Unsupported results type: ${selectedType}`)

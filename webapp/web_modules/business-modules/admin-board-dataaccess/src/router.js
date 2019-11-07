@@ -48,22 +48,11 @@ export const searchenginesManagementRouter = {
   },
 }
 
-export const accessRightsAdminRouter = {
-  path: 'access-rights',
-  getChildRoutes(nextState, cb) {
-    const adminDataAccessManagement = require('@regardsoss/admin-accessright-dataaccess-management')
-    require.ensure([], (require) => {
-      cb(null, [adminDataAccessManagement.accessRightManagementRouter])
-    })
-  },
-}
-
 const modelsRouter = {
   childRoutes: [
     boardRoute,
     servicesManagementRouter,
     searchenginesManagementRouter,
-    accessRightsAdminRouter,
   ],
 }
 

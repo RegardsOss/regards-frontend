@@ -22,7 +22,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { FieldsGroup, Field, RenderCheckbox } from '@regardsoss/form-utils'
 import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
-import { DataViewsConfiguration, DatasetViewsConfiguration } from '../../../shapes/ModuleConfiguration'
+import ModuleConfiguration from '../../../shapes/ModuleConfiguration'
 
 /**
  * Filters (facets) configuration component
@@ -31,12 +31,8 @@ import { DataViewsConfiguration, DatasetViewsConfiguration } from '../../../shap
 class FiltersConfigurationComponent extends React.Component {
   static propTypes = {
     availableAttributes: DataManagementShapes.AttributeModelList.isRequired,
-    // Namespace and current form values are provided for type
-    currentTypeNamespace: PropTypes.string.isRequired,
-    currentTypeFormValues: PropTypes.oneOfType([
-      DataViewsConfiguration,
-      DatasetViewsConfiguration,
-    ]).isRequired,
+    currentNamespace: PropTypes.string.isRequired,
+    currentFormValues: ModuleConfiguration.isRequired,
     // redux change field method
     changeField: PropTypes.func.isRequired,
   }
@@ -48,30 +44,40 @@ class FiltersConfigurationComponent extends React.Component {
 
   render() {
     const {
-      availableAttributes, currentTypeNamespace, currentTypeFormValues, changeField,
+      availableAttributes, currentNamespace, currentFormValues, changeField,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { configuration: { content } } } = this.context
+
     return (
       <FieldsGroup spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.filters' })}>
         <Field
-          name={`${currentTypeNamespace}.facets.enabled`}
+          name={`${currentNamespace}.facets.enabledFor.${DamDomain.ENTITY_TYPES_ENUM.DATA}`}
           fullWidth
           component={RenderCheckbox}
-          label={formatMessage({ id: 'search.results.form.configuration.result.enable.filters' })}
+          label={formatMessage({ id: 'search.results.form.configuration.result.enable.filters.data' })}
+          disabled={!currentFormValues.viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DATA].enabled}
         />
         <Field
-          name={`${currentTypeNamespace}.facets.initiallyEnabled`}
+          name={`${currentNamespace}.facets.enabledFor.${DamDomain.ENTITY_TYPES_ENUM.DATASET}`}
+          fullWidth
+          component={RenderCheckbox}
+          label={formatMessage({ id: 'search.results.form.configuration.result.enable.filters.dataset' })}
+          disabled={!currentFormValues.viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DATASET].enabled}
+        />
+        <Field
+          name={`${currentNamespace}.facets.initiallyEnabled`}
           fullWidth
           component={RenderCheckbox}
           label={formatMessage({ id: 'search.results.form.configuration.result.enable.filters.initially' })}
-          disabled={!currentTypeFormValues.facets.enabled}
+          disabled={!(currentFormValues.facets.enabledFor[DamDomain.ENTITY_TYPES_ENUM.DATA]
+            || currentFormValues.facets.enabledFor[DamDomain.ENTITY_TYPES_ENUM.DATASET])}
         />
         <div style={content.tableFieldSpacer}>
           <AttributesListConfigurationComponent
             selectableAttributes={availableAttributes}
             attributesFilter={DamDomain.AttributeModelController.isSearchableAttribute}
-            attributesList={currentTypeFormValues.facets.list}
-            attributesListFieldName={`${currentTypeNamespace}.facets.list`}
+            attributesList={currentFormValues.facets.list}
+            attributesListFieldName={`${currentNamespace}.facets.list`}
             hintMessageKey="search.results.form.configuration.result.no.filter"
             changeField={changeField}
             allowAttributesRegroupements={false}

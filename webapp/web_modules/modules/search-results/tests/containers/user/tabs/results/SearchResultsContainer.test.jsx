@@ -110,9 +110,13 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
     let state = enzymeWrapper.state()
     assert.deepEqual(state.restrictedDatasetsIds, [], '(1) Dataset restrictions should be correctly computed for empty / DATASET')
     assert.deepEqual(state.requestParameters, {
+      facets: [
+        'my.attr.1',
+        'my.attr.2',
+      ],
       q: 'tags:"URN:DATASET:EXAMPLE1"',
     }, '(1) Request parameters should contain only configured restriction datasets')
-    assert.deepEqual(state.searchActions, getSearchCatalogClient(props.tabType).searchDatasetsFromDataObjectsActions, '(1) Search actions should be correctly computed for empty / DATASET')
+    assert.deepEqual(state.searchActions, getSearchCatalogClient(props.tabType).searchDatasetsActions, '(1) Search actions should be correctly computed for empty / DATASET')
 
     // add 2 tags (context and user, container should not differenciate them)
     let nextContext = UIDomain.ResultsContextHelper.deepMerge(dataContext, {
@@ -134,9 +138,13 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
     state = enzymeWrapper.state()
     assert.deepEqual(state.restrictedDatasetsIds, [datasetEntity.content.id], '(2) Dataset restrictions should be correctly computed for DATASET with query')
     assert.deepEqual(state.requestParameters, {
+      facets: [
+        'my.attr.1',
+        'my.attr.2',
+      ],
       q: 'tags:"URN:DATASET:EXAMPLE1" AND tags:"URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1" AND tags:coffee',
     }, '(2) Request parameters should be correctly computed for DATASET with query')
-    assert.deepEqual(state.searchActions, getSearchCatalogClient(props.tabType).searchDatasetsFromDataObjectsActions, '(2) Search actions should be correctly computed for DATASET with query')
+    assert.deepEqual(state.searchActions, getSearchCatalogClient(props.tabType).searchDatasetsActions, '(2) Search actions should be correctly computed for DATASET with query')
     // Enter data mode, add sorting, facets request, active facets, quicklook filter and a dataset filter tag
     nextContext = UIDomain.ResultsContextHelper.deepMerge(nextContext, {
       tabs: {
@@ -154,6 +162,11 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
             }],
             tagsFiltering: [CriterionBuilder.buildEntityTagCriterion(anotherDatasetEntity)],
             quicklooksFiltering: [ToggleOnlyQuicklookContainer.ONLY_QUICKLOOK_CRITERION],
+            requestFacets: [{
+              facetLabels: { en: 'idc.facet', fr: 'jmf.facette' },
+              attribute: attributes[1],
+              requestParameters: { [CatalogDomain.CatalogSearchQueryHelper.FACETS_PARAMETER_NAME]: attributes[1].content.jsonPath },
+            }],
           },
           types: {
             [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
@@ -163,11 +176,6 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
                   CriterionBuilder.buildSortCriterion(attributes[1], CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER),
                   CriterionBuilder.buildSortCriterion(attributes[2], CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER),
                 ],
-                requestFacets: [{
-                  facetLabels: { en: 'idc.facet', fr: 'jmf.facette' },
-                  attribute: attributes[1],
-                  requestParameters: { [CatalogDomain.CatalogSearchQueryHelper.FACETS_PARAMETER_NAME]: attributes[1].content.jsonPath },
-                }],
               },
             },
           },

@@ -70,7 +70,7 @@ export class DatasourceListContainer extends React.Component {
    */
   handleEdit = (datasource) => {
     const { params: { project } } = this.props
-    const datasourceId = datasource.content.id
+    const datasourceId = datasource.content.businessId
     const type = EditionHelper.getDatasourcePluginType(datasource)
 
     const url = `/admin/${project}/data/acquisition/datasource/${type}/${datasourceId}/edit`

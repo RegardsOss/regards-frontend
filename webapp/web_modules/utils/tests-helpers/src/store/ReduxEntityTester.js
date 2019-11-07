@@ -144,6 +144,10 @@ export default class ReduxEntityTester {
       .get(entityEndpoint.replace(GATEWAY_HOSTNAME, ''))
       .reply(200, this.backendServerResultList)
 
+    nock(GATEWAY_HOSTNAME)
+      .post(entityEndpoint.replace(GATEWAY_HOSTNAME, ''))
+      .reply(200, this.backendServerResultList)
+
 
     // Since react will console.error propType manual that we use in pure JS to check if normalized
     // entities matches Shapes, we use sinon.js to stub it into throwing only others errors

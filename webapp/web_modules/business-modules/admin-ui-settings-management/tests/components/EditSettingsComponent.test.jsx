@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { FieldArray } from '@regardsoss/form-utils'
+import { FieldArray, Field, RenderTextField } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { EditSettingsComponent } from '../../src/components/EditSettingsComponent'
@@ -69,6 +69,7 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsComponent', () => {
     const props = {
       settings: {
         documentModels: ['model3'],
+        primaryQuicklookGroup: 'customMain',
       },
       dataModelNames: [1, 2, 3, 4, 5].map(v => `model${v}`),
       onBack: () => {},
@@ -81,7 +82,14 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsComponent', () => {
       handleSubmit: () => {},
     }
     const enzymeWrapper = shallow(<EditSettingsComponent {...props} />, { context })
+    const quicklookMainField = enzymeWrapper.find(Field)
+    assert.lengthOf(quicklookMainField, 1, 'There should be main quicklook keyword field')
+    testSuiteHelpers.assertWrapperProperties(quicklookMainField, {
+      name: 'primaryQuicklookGroup',
+      component: RenderTextField,
+    }, 'Selection field properties should be correctly set')
     const selectionField = enzymeWrapper.find(FieldArray)
+    assert.lengthOf(selectionField, 1, 'There should be the field array')
     assert.lengthOf(selectionField, 1, 'There should be the field array')
     testSuiteHelpers.assertWrapperProperties(selectionField, {
       name: 'documentModels',

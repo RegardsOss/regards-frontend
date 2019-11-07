@@ -32,6 +32,5 @@ export default [
   ...datasourceDependencies.addDependencies,
   ...dataProviderDependencies.addDependencies,
   ...processingChainDependencies.addDependencies,
-  ...storageManagementDependencies.addPluginDependencies,
-  ...storageManagementDependencies.monitoringDependencies,
+  ...storageManagementDependencies.addDependencies,
 ]

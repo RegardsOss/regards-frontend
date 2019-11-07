@@ -22,6 +22,7 @@ const IAIPDatasourceParamsEnum = {
   REFRESH_RATE: 'refreshRate',
   TAGS: 'tags',
   SUBSETTING_TAGS: 'subsettingTags',
+  SUBSETTING_CATEGORIES: 'subsettingCategories',
   ATTRIBUTE_FILE_SIZE: 'attribute file size',
 }
 

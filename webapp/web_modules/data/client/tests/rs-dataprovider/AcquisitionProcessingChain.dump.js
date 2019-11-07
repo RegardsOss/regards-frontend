@@ -31,12 +31,14 @@ export default {
         ingestChain: 'firstIngestChain4DataProvider',
         storages: [
           {
-            storage: 'LocalDataStorage',
-            storageSubDirectory: '/machin/chose',
+            pluginBusinessId: 'LocalDataStorage',
+            storePath: '/machin/chose',
+            targetTypes: [],
           },
           {
-            storage: 'Sacoche Infini',
-            storageSubDirectory: '',
+            pluginBusinessId: 'SacocheInfini',
+            storePath: '',
+            targetTypes: [],
           },
         ],
         categories: [

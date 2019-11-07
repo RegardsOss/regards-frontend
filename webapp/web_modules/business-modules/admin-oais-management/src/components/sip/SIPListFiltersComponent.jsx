@@ -31,7 +31,6 @@ import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { IngestDomain } from '@regardsoss/domain'
-import RelaunchSelectedSIPsContainer from '../../containers/sip/options/RelaunchSelectedSIPsContainer'
 import DeleteSelectedSIPsContainer from '../../containers/sip/options/DeleteSelectedSIPsContainer'
 import { searchSourcesActions, searchSourcesSelectors } from '../../clients/session/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../../clients/session/SearchSessionsClient'
@@ -46,7 +45,6 @@ class SIPListFiltersComponent extends React.Component {
     handleRefresh: PropTypes.func.isRequired,
     chains: IngestShapes.IngestProcessingChainList.isRequired,
     isEmptySelection: PropTypes.bool.isRequired,
-    onRelaunchSelectedDialog: PropTypes.func.isRequired,
     onDeleteSelectedDialog: PropTypes.func.isRequired,
     onApplyFilters: PropTypes.func.isRequired,
     onFilterUpdated: PropTypes.func.isRequired,
@@ -171,10 +169,6 @@ class SIPListFiltersComponent extends React.Component {
             label={this.context.intl.formatMessage({ id: 'oais.sips.session.apply.filters.button' })}
             icon={<Filter />}
             onClick={this.props.onApplyFilters}
-          />
-          <RelaunchSelectedSIPsContainer
-            disabled={this.props.isEmptySelection}
-            onRelaunch={this.props.onRelaunchSelectedDialog}
           />
           <DeleteSelectedSIPsContainer
             disabled={this.props.isEmptySelection}

@@ -25,6 +25,14 @@ import { DamDomain, UIDomain } from '@regardsoss/domain'
 
 export const INITIAL_FORM_STATE = {
   primaryPane: UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE,
+  facets: {
+    enabledFor: {
+      [DamDomain.ENTITY_TYPES_ENUM.DATA]: true,
+      [DamDomain.ENTITY_TYPES_ENUM.DATASET]: true,
+    },
+    initiallyEnabled: true,
+    list: [],
+  },
   restrictions: {
     byDataset: {
       type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE,
@@ -37,11 +45,6 @@ export const INITIAL_FORM_STATE = {
       tabTitle: {},
       initialMode: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
       enableDownload: false,
-      facets: {
-        enabled: false,
-        initiallyEnabled: false,
-        list: [],
-      },
       sorting: [],
       views: {
         [UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE]: {

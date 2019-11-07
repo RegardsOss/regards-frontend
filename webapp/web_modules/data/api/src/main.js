@@ -43,7 +43,6 @@ export { LINK_UI_PLUGIN_DATASET, LINK_UI_PLUGIN_DATASET_ARRAY, LinkUIPluginDatas
 export { THEME, THEME_ARRAY, ThemeConfiguration } from './access/Theme'
 export { PLUGIN_ARRAY, PLUGIN, PluginConfiguration } from './access/Plugin'
 export { UI_PLUGIN_CONFIGURATION, UI_PLUGIN_CONFIGURATION_ARRAY, UIPluginConfConfiguration } from './access/UIPluginConf'
-export { SESSIONS, SESSIONS_ARRAY, SessionsConfiguration } from './access/Sessions'
 // DAM
 export { FragmentConfiguration, FRAGMENT, FRAGMENT_ARRAY } from './dam/Fragment'
 export { DatasetConfiguration, DATASET, DATASET_ARRAY } from './dam/Dataset'
@@ -62,15 +61,13 @@ export { PluginMetaDataConfiguration, PLUGIN_META_DATA, PLUGIN_META_DATA_ARRAY }
 export { AdminPluginConfigurationSchemaConfiguration, PLUGIN_CONFIGURATION, PLUGIN_CONFIGURATION_ARRAY } from './common/PluginConfiguration'
 export { PLUGIN_PARAMETER_ARRAY, PLUGIN_PARAMETER, PluginParameterConfiguration } from './common/PluginParameter'
 // Storage
-export { PRIORIZED_DATASTORAGE, PRIORIZED_DATASTORAGE_ARRAY, PrioritizedDataStorageConfiguration } from './storage/PrioritizedDataStorage'
+export { STORAGE_LOCATION, STORAGE_LOCATION_ARRAY, StorageLocationConfiguration } from './storage/StorageLocation'
+export { STORAGE_REQUEST, STORAGE_REQUEST_ARRAY, StorageRequestConfiguration } from './storage/StorageRequest'
 export { StorageMonitoringConfiguration, STORAGE_MONITORING, STORAGE_MONITORING_ARRAY } from './storage/StorageMonitoring'
-export { AIP_STATUS, AIP_STATUS_ARRAY, AIPStatusConfiguration } from './storage/AIPStatus'
-export { AIPSessionConfiguration, AIP_SESSION_ARRAY, AIP_SESSION } from './storage/AIPSession'
-export { AIPConfiguration, AIP, AIP_ARRAY } from './storage/AIP'
-export { AIPFileConfiguration, AIP_FILE_ARRAY, AIP_FILE } from './storage/AIPFile'
 // Admin
 export { RESOURCE_ACCESS, RESOURCE_ACCESS_ARRAY, ResourceAccessConfiguration } from './admin/ResourceAccess'
 export { ENDPOINT, ENDPOINT_ARRAY, EndpointConfiguration } from './admin/Endpoint'
+export { SESSION, SESSION_ARRAY, SessionConfiguration } from './admin/Session'
 // Catalog
 export { ATTRIBUTE_BOUNDS, ATTRIBUTE_BOUNDS_ARRAY, AttributeBoundsConfiguration } from './catalog/AttributeBounds'
 export { ENTITY_ARRAY, ENTITY, EntityConfiguration } from './catalog/Entity'
@@ -82,7 +79,7 @@ export { ORDER_FILE, ORDER_FILE_ARRAY, OrderFileConfiguration } from './order/Or
 // Ingest
 export { PROCESSING_CHAIN, PROCESSING_CHAIN_ARRAY, ProcessingChainConfiguration } from './ingest/ProcessingChain'
 export { SIP, SIP_ARRAY, SIPConfiguration } from './ingest/SIP'
-export { SESSION, SESSION_ARRAY, SessionConfiguration } from './ingest/Session'
+export { AIPConfiguration, AIP, AIP_ARRAY } from './ingest/AIP'
 // Data Provider
 export { ACQUISITION_PROCESSING_CHAIN, ACQUISITION_PROCESSING_CHAIN_ARRAY, AcquisitionProcessingChainConfiguration } from './data-provider/AcquisitionProcessingChain'
 export { ACQUISITION_PROCESSING_CHAIN_MONITOR_ARRAY, ACQUISITION_PROCESSING_CHAIN_MONITOR, AcquisitionProcessingChainMonitorConfiguration } from './data-provider/AcquisitionProcessingChainMonitor'

@@ -24,6 +24,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import { connect } from '@regardsoss/redux'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { datasourceSelectors, datasourceActions } from '../../clients/DatasourceClient'
 import OSCrawlerConfigurationContainer from './OSCrawlerConfigurationContainer'
 import OSQueryConfigurationContainer from './OSQueryConfigurationContainer'
@@ -123,9 +124,11 @@ export class OSConfigurationFormContainer extends React.Component {
       pluginClassName: 'fr.cnes.regards.modules.dam.plugins.datasources.webservice.WebserviceDatasourcePlugin',
       parameters: [{
         name: 'refreshRate',
+        type: 'INTEGER',
         value: crawler.refreshRate && parseInt(crawler.refreshRate, 10),
       }, {
         name: 'webserviceConfiguration',
+        type: 'POJO',
         value: {
           // descriptor URL from crawler edition
           opensearchDescriptorURL: crawler.opensearchDescriptorURL,
@@ -134,11 +137,12 @@ export class OSConfigurationFormContainer extends React.Component {
           startPageIndex: query.startPageIndex && parseInt(query.startPageIndex, 10),
           pagesSize: query.pagesSize && parseInt(query.pagesSize, 10),
         },
-        type: 'fr.cnes.regards.modules.dam.plugins.datasources.webservice.configuration.WebserviceConfiguration',
+        clazz: 'fr.cnes.regards.modules.dam.plugins.datasources.webservice.configuration.WebserviceConfiguration',
       }, {
         name: 'conversionConfiguration',
         value: results, // strictly the same than converted output edition model
-        type: 'fr.cnes.regards.modules.dam.plugins.datasources.webservice.configuration.ConversionConfiguration',
+        type: 'POJO',
+        clazz: 'fr.cnes.regards.modules.dam.plugins.datasources.webservice.configuration.ConversionConfiguration',
       }],
     }
   }
@@ -266,7 +270,7 @@ export class OSConfigurationFormContainer extends React.Component {
   publishPluginConfiguration = () => {
     const { isEditing, formValues } = this.state
     const { createDatasource, updateDatasouce, params } = this.props
-    const pluginConfiguration = OSConfigurationFormContainer.getPluginModelFromEdition(formValues, isEditing ? params.datasourceId : null)
+    const pluginConfiguration = PluginFormUtils.formatPluginConf(OSConfigurationFormContainer.getPluginModelFromEdition(formValues, isEditing ? params.datasourceId : null))
     Promise.resolve(isEditing ? updateDatasouce(params.datasourceId, pluginConfiguration) : createDatasource(pluginConfiguration))
       .then((actionResults) => {
         if (!actionResults.error) {

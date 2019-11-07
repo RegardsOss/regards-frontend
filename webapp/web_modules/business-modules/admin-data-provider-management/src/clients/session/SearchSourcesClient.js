@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { AccessProjectClient } from '@regardsoss/client'
+import { AdminClient } from '@regardsoss/client'
 
 /**
  * Dataprovider product entities client.
@@ -25,9 +25,9 @@ import { AccessProjectClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'searchSources']
 const REDUX_ACTION_NAMESPACE = 'admin-data-provider-management/search-sources'
 
-export const searchSourcesActions = new AccessProjectClient.SearchSourcesActions(REDUX_ACTION_NAMESPACE)
-export const searchSourcesReducer = AccessProjectClient.getSearchSourcesReducer(REDUX_ACTION_NAMESPACE)
-export const searchSourcesSelectors = AccessProjectClient.getSearchSourcesSelectors(ENTITIES_STORE_PATH)
+export const searchSourcesActions = new AdminClient.SearchSourcesActions(REDUX_ACTION_NAMESPACE)
+export const searchSourcesReducer = AdminClient.getSearchSourcesReducer(REDUX_ACTION_NAMESPACE)
+export const searchSourcesSelectors = AdminClient.getSearchSourcesSelectors(ENTITIES_STORE_PATH)
 
-export const SEARCH_SOURCES_ENDPOINT = AccessProjectClient.SearchSourcesActions.ENDPOINT
-export const SEARCH_SOURCES_ENTITY_ID = AccessProjectClient.SearchSourcesActions.ENTITY_ID
+export const SEARCH_SOURCES_ENDPOINT = AdminClient.SearchSourcesActions.ENDPOINT
+export const SEARCH_SOURCES_ENTITY_ID = AdminClient.SearchSourcesActions.ENTITY_ID

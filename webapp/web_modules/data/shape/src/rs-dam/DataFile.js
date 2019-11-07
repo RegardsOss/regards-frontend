@@ -36,6 +36,8 @@ export const dataFileFields = {
   digestAlgorithm: PropTypes.string,
   filesize: PropTypes.number,
   filename: PropTypes.string.isRequired,
+  // types metadata on file
+  types: PropTypes.arrayOf(PropTypes.string),
 }
 
 /** complete object */

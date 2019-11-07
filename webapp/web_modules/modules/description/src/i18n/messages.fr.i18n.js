@@ -88,6 +88,7 @@ const messages = {
   'module.description.tree.section.FILES.tooltip': 'Fichiers',
   'module.description.tree.show.entity.description.tooltip': 'Afficher la description de cette donnée',
   'module.description.content.parameters.thumbnail.alt.text': 'Vignette: {label}',
+  'module.description.content.quicklook.group.unknown': 'Groupe anonyme',
   'module.description.content.quicklook.alt.message': 'Vignette',
   // Forms i18n messages for admin
   ...Locales.fr,

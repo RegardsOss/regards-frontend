@@ -33,7 +33,7 @@ class DeleteAIPOnSomeStoragesDialogComponent extends React.Component {
     // List of storages
     storagesSelectionModel: PropTypes.arrayOf(PropTypes.shape({
       selected: PropTypes.bool.isRequired,
-      storage: StorageShapes.PrioritizedDataStorageContent.isRequired,
+      storage: StorageShapes.StorageLocationContent.isRequired,
     })).isRequired,
     // is delete confirmation currently allowed?
     canDelete: PropTypes.bool.isRequired,

@@ -20,7 +20,6 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import {
   mainSearchDataobjectsActions,
   mainSearchDatasetsActions,
-  mainSearchDatasetsFromDataObjectsActions,
 } from './clients/SearchEntitiesClient'
 
 /**
@@ -31,5 +30,4 @@ export const dependencies = [
   // Nota: main / tag actions have same dependencies
   mainSearchDataobjectsActions.getDependency(RequestVerbEnum.GET_LIST),
   mainSearchDatasetsActions.getDependency(RequestVerbEnum.GET_LIST),
-  mainSearchDatasetsFromDataObjectsActions.getDependency(RequestVerbEnum.GET_LIST),
 ]

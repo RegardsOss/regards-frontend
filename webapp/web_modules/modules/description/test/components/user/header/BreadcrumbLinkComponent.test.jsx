@@ -41,6 +41,7 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
     const props = {
       settings: {
         documentModels: [],
+        primaryQuicklookGroup: 'primary',
       },
       descriptionEntity: resolvedDataEntity,
       entityIndex: 25,
@@ -66,6 +67,7 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
     const props = {
       settings: {
         documentModels: [],
+        primaryQuicklookGroup: 'primary',
       },
       descriptionEntity: resolvedDatasetEntity,
       entityIndex: 18,

@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { AcquisitionProcessingChainActions } from './clients/AcquisitionProcessingChainClient'
+import { AcquisitionProcessingChainActions, AcquisitionProcessingChainEditActions } from './clients/AcquisitionProcessingChainClient'
+import { ingestProcessingChainActions } from './clients/IngestProcessingChainClient'
+import { storagesListActions } from './clients/StoragesListClient'
 /**
  * Module hateoas dependencies
  * @author Sébastien Binda
@@ -36,7 +38,9 @@ const listDependencies = [
  * @type {Array}
  */
 const addDependencies = [
-  AcquisitionProcessingChainActions.getDependency(RequestVerbEnum.POST),
+  AcquisitionProcessingChainEditActions.getDependency(RequestVerbEnum.POST),
+  ingestProcessingChainActions.getDependency(RequestVerbEnum.GET_LIST),
+  storagesListActions.getMsDependency(RequestVerbEnum.GET_LIST, STATIC_CONF.MSERVICES.STORAGE),
 ]
 
 

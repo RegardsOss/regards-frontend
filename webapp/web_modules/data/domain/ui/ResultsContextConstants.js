@@ -67,7 +67,7 @@ const DISABLED_TYPE_STATE = {
   initialSorting: [],
   isInInitialSorting: true,
   selectedMode: DEFAULT_VIEW_MODE,
-  facets: { allowed: false, enabled: false, list: [] },
+  facetsAllowed: false,
   modes: {
     [RESULTS_VIEW_MODES_ENUM.LIST]: DISABLED_VIEW_MODE_STATE,
     [RESULTS_VIEW_MODES_ENUM.TABLE]: DISABLED_VIEW_MODE_STATE,
@@ -75,7 +75,6 @@ const DISABLED_TYPE_STATE = {
     [RESULTS_VIEW_MODES_ENUM.MAP]: DISABLED_MAP_VIEW_MODE_STATE,
   },
   criteria: {
-    requestFacets: [],
     sorting: [],
   },
 }
@@ -86,6 +85,10 @@ const DEFAULT_RESULTS_CONTEXT = {
   selectedTab: RESULTS_TABS_ENUM.MAIN_RESULTS,
   tabs: {
     [RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+      facets: {
+        enabled: false,
+        list: [],
+      },
       criteria: {
         configurationRestrictions: [],
         contextTags: [],
@@ -95,6 +98,7 @@ const DEFAULT_RESULTS_CONTEXT = {
         geometry: [],
         entitiesSelection: [],
         tagsFiltering: [],
+        requestFacets: [],
       },
       selectedType: ENTITY_TYPES_ENUM.DATA,
       types: PropTypes.shape({
@@ -104,6 +108,10 @@ const DEFAULT_RESULTS_CONTEXT = {
     },
     [RESULTS_TABS_ENUM.DESCRIPTION]: { descriptionPath: [], selectedIndex: 0 },
     [RESULTS_TABS_ENUM.TAG_RESULTS]: {
+      facets: {
+        enabled: false,
+        list: [],
+      },
       criteria: {
         configurationRestrictions: [],
         contextTags: [],
@@ -113,6 +121,7 @@ const DEFAULT_RESULTS_CONTEXT = {
         geometry: [],
         entitiesSelection: [],
         tagsFiltering: [],
+        requestFacets: [],
       },
       selectedType: ENTITY_TYPES_ENUM.DATA,
       types: PropTypes.shape({

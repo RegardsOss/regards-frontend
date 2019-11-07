@@ -54,22 +54,6 @@ export { default as SearchEntitiesActions } from './search/SearchEntitiesActions
 export { default as getSearchEntitiesReducer } from './search/SearchEntitiesReducer'
 export { default as getSearchEntitiesSelectors } from './search/SearchEntitiesSelectors'
 
-export { default as SessionsActions } from './session/SessionsActions'
-export { default as getSessionsReducer } from './session/SessionsReducer'
-export { default as getSessionsSelectors } from './session/SessionsSelectors'
-
-export { default as SearchSessionsActions } from './session/SearchSessionsActions'
-export { default as getSearchSessionsReducer } from './session/SearchSessionsReducer'
-export { default as getSearchSessionsSelectors } from './session/SearchSessionsSelectors'
-
-export { default as SearchSourcesActions } from './session/SearchSourcesActions'
-export { default as getSearchSourcesReducer } from './session/SearchSourcesReducer'
-export { default as getSearchSourcesSelectors } from './session/SearchSourcesSelectors'
-
-export { default as SessionsRelaunchProductActions } from './session/SessionsRelaunchProductActions'
-export { default as SessionsRelaunchSIPActions } from './session/SessionsRelaunchSIPActions'
-export { default as SessionsRelaunchAIPActions } from './session/SessionsRelaunchAIPActions'
-
 export { UISettingsActions } from './settings/UISettingsActions'
 export { getUISettingsReducer } from './settings/UISettingsReducer'
 export { getUISettingsSelectors } from './settings/UISettingsSelectors'
