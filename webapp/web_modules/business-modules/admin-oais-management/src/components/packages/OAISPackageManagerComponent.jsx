@@ -226,7 +226,7 @@ class OAISPackageManagerComponent extends React.Component {
       new TableColumnBuilder('column.lastUpdate').titleHeaderCell().propertyRenderCell('content.lastUpdate')
         .label(intl.formatMessage({ id: 'oais.aips.list.table.headers.lastUpdate' }))
         .build(),
-      new TableColumnBuilder('column.version').titleHeaderCell().propertyRenderCell('content.aipId')
+      new TableColumnBuilder('column.version').titleHeaderCell().propertyRenderCell('content.sip.version')
         .label(intl.formatMessage({ id: 'oais.aips.list.table.headers.version' }))
         .build(),
       new TableColumnBuilder('column.storages').titleHeaderCell()
