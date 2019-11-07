@@ -18,6 +18,8 @@
  **/
 import { combineReducers } from 'redux'
 import { aipReducer } from './clients/AIPClient'
+import { aipTagReducer } from './clients/AIPTagClient'
+import { relaunchSIPsReducer } from './clients/RelaunchSIPClient'
 import { tableReducer } from './clients/TableClient'
 import { sipTableReducer } from './clients/SIPTableClient'
 import { deleteSIPsReducer } from './clients/DeleteSIPClient'
@@ -30,6 +32,7 @@ import { processingChainReducer } from './clients/ProcessingChainClient'
 
 const oaisManagementReducer = combineReducers({
   aip: aipReducer,
+  'aip-tag': aipTagReducer,
   'aip-table': tableReducer,
   'sip-table': sipTableReducer,
   'delete-sip': deleteSIPsReducer,
@@ -37,6 +40,7 @@ const oaisManagementReducer = combineReducers({
   sipImport: sipImportReducer,
   sipSignal: sipSignalReducer,
   chain: processingChainReducer,
+  'relaunch-sip': relaunchSIPsReducer,
   searchSessions: searchSessionsReducer,
   searchSources: searchSourcesReducer,
 })

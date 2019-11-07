@@ -64,3 +64,7 @@ export { default as getDeleteSIPsSelectors } from './sip/DeleteSIPsSelectors'
 export { default as AIPActions } from './aip/AIPActions'
 export { default as getAIPReducer } from './aip/AIPReducer'
 export { default as getAIPSelectors } from './aip/AIPSelectors'
+
+export { default as AIPTagActions } from './aip/AIPTagActions'
+export { default as getAIPTagReducer } from './aip/AIPTagReducer'
+export { default as getAIPTagSelectors } from './aip/AIPTagSelectors'

@@ -42,10 +42,6 @@ import AIPDetailOption from '../aip/options/AIPDetailOption'
 import DeleteAIPOnSomeStoragesOption from '../aip/options/DeleteAIPOnSomeStoragesOption'
 import DeleteAIPOnAllStoragesOption from '../aip/options/DeleteAIPOnAllStoragesOption'
 import AIPDetailComponent from '../aip/AIPDetailComponent'
-import RelaunchAIPStorageDialogContainer from '../../containers/aip/dialogs/RelaunchAIPStorageDialogContainer'
-import DeleteAIPOnAllStoragesDialogContainer from '../../containers/aip/dialogs/DeleteAIPOnAllStoragesDialogContainer'
-import DeleteAIPOnSomeStoragesDialogContainer from '../../containers/aip/dialogs/DeleteAIPOnSomeStoragesDialogContainer'
-import { RequestParameters } from '@regardsoss/shape/src/rs-common'
 
 /**
  * Displays the list of OAIS packages
@@ -69,7 +65,6 @@ class OAISPackageManagerComponent extends React.Component {
     requestParameters: {},
     aipToView: null,
     deleteOperation: null, // current delete operation or null
-    relaunchOperation: null, // current relaunch operation or null
   }
 
   componentWillReceiveProps(nextProps) {
@@ -197,57 +192,12 @@ class OAISPackageManagerComponent extends React.Component {
   }
 
   /**
-   * Renders relaunch dialog for current selection with mode
-   */
-  renderRelaunchDialog = () => {
-    const { onRefresh } = this.props
-    const { relaunchOperation, requestParameters } = this.state
-
-    if (relaunchOperation) {
-      return (
-        <RelaunchAIPStorageDialogContainer
-          aipSelectionMode={relaunchOperation.aipSelectionMode}
-          toggleAIPs={relaunchOperation.toggleAIPs}
-          currentFilters={requestParameters}
-          onRefresh={onRefresh}
-          onClose={this.onCloseRelaunchDialog}
-        />
-      )
-    }
-    return null
-  }
-
-  /**
    * Renders delete dialog for current deletion context (mode and selection)
    */
   renderDeleteDialog = () => {
     const { onRefresh } = this.props
     const { deleteOperation, requestParameters } = this.state
-
-    if (deleteOperation) {
-      switch (deleteOperation.aipDeletionMode) {
-        case 'DELETE_ON_ALL_STORAGES':
-          return (
-            <DeleteAIPOnAllStoragesDialogContainer
-              aipSelectionMode={deleteOperation.aipSelectionMode}
-              toggleAIPs={deleteOperation.toggleAIPs}
-              currentFilters={requestParameters}
-              onRefresh={onRefresh}
-              onClose={this.onCloseDeleteDialog}
-            />)
-        case 'DELETE_ON_SOME_STORAGES':
-          return (
-            <DeleteAIPOnSomeStoragesDialogContainer
-              aipSelectionMode={deleteOperation.aipSelectionMode}
-              toggleAIPs={deleteOperation.toggleAIPs}
-              currentFilters={requestParameters}
-              onRefresh={onRefresh}
-              onClose={this.onCloseDeleteDialog}
-            />)
-        default:
-          throw new Error(`Unkown delete AIP mode ${deleteOperation.aipDeletionMode}`)
-      }
-    }
+    // TODO
     return null
   }
 
