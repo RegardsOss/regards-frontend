@@ -87,7 +87,11 @@ export class EnumeratedCriterionComponent extends React.Component {
       onUpdateTextFilter, onFilterSelected,
     } = this.props
     const { currentHints } = this.state
-    const { intl, moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle } } = this.context
+    const {
+      intl, moduleTheme: {
+        rootStyle, labelSpanStyle, textFieldStyle, menuStyle,
+      },
+    } = this.context
     return (
       <div style={rootStyle}>
         {/* attribute label */}
@@ -105,6 +109,7 @@ export class EnumeratedCriterionComponent extends React.Component {
           onUpdateInput={onUpdateTextFilter}
           onFilterSelected={onFilterSelected}
           textFieldStyle={textFieldStyle}
+          menuStyle={menuStyle}
         />
       </div>
     )
