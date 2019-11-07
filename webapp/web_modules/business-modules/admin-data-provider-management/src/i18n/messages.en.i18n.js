@@ -164,6 +164,7 @@ const messages = Object.assign({
   'acquisition-sessions.states.processed': 'Processed',
   'acquisition-sessions.states.pending': 'Pending',
   'acquisition-sessions.states.generating': 'To generate',
+  'acquisition-sessions.states.files_acquired': 'Files acquired',
   'acquisition-sessions.states.storing': 'To store',
   'acquisition-sessions.states.stored': 'Stored',
   'acquisition-sessions.states.invalid': 'Invalid',
