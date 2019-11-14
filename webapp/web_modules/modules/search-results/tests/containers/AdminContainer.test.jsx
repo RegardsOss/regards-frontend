@@ -72,6 +72,7 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
       adminForm: {
         conf,
         currentNamespace: 'myForm',
+        isPage: true,
         form: {
           myForm: formValues,
         },
@@ -146,6 +147,7 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
       type: 'any',
       adminForm: {
         currentNamespace: 'myForm',
+        isPage: true,
         form: {
           myForm: dataConfiguration,
         },
@@ -196,6 +198,7 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
       project: 'someProject',
       type: 'any',
       adminForm: {
+        isPage: true,
         currentNamespace: 'myForm',
         conf: {
           forbidRestrictions: true,

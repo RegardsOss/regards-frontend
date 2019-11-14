@@ -43,6 +43,7 @@ describe('[Storage monitoring] Testing AdminModuleContainer', () => {
       type: 'any',
       adminForm: {
         currentNamespace: 'conf',
+        isPage: true,
         form: {},
       },
     }

@@ -16,37 +16,47 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import compose from 'lodash/fp/compose'
 import find from 'lodash/find'
+import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
-import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
-import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { IFrameURLContentDisplayer } from '@regardsoss/components'
+import { AccessProjectClient } from '@regardsoss/client'
 import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
-import { LOCALES_ENUM } from '../../../../data/domain/ui'
+import { LOCALES } from '../../../../data/domain/ui'
+import messages from '../i18n'
+
+// get default layout client actions and reducers instances - required to check that containers are or not dynamic
+const layoutSelectors = AccessProjectClient.LayoutSelectors()
+
+// get default modules client actions and reducers instances - required to check a basket exists AND is in a dynamic container
+const modulesSelectors = AccessProjectClient.ModuleSelectors()
 
 /**
  * Main component of module menu
  * @author Sébastien Binda
  **/
 export class ModuleContainer extends React.Component {
-  static propTypes = {
-    // default modules properties
-    ...AccessShapes.runtimeDispayModuleFields,
-    // redefines expected configuration shape
-    moduleConf: ModuleConfigurationShape,
-    // from mapStateToProps
-    i18n: PropTypes.oneOf(UIDomain.LOCALES), // automatically add by REGARDS connect method
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      dynamicContainerId: layoutSelectors.getDynamicContainerId(state),
+      modules: modulesSelectors.getList(state),
+    }
   }
 
-  static defaultProps = {
-    i18n: LOCALES_ENUM.en, // for init case, when locale is not yet available
-  }
-
-  static contextTypes = {
-    ...themeContextType,
-    ...i18nContextType,
+  /** Style to use when rendering a page in final app */
+  static PAGE_RENDER_STYLE = {
+    flexGrow: 1,
+    flexShrink: 1,
   }
 
   /** Default CSS property for width, when not user provided */
@@ -55,15 +65,77 @@ export class ModuleContainer extends React.Component {
   /** Default CSS property for height, when not user provided */
   static DEFAULT_CSS_HEIGHT = '100px'
 
+  /**
+   * React lifecycle method, called on properties change to build next state
+   * @return
+   */
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const {
+      id, dynamicContainerId, modules, moduleConf,
+    } = nextProps
+    const nextState = { ...prevState }
+    // 1 - Prepare styles (preview, page styles or configuration)
+    if (moduleConf.preview) {
+      // 1.a - preview: use parent provided styles, from configuration
+      nextState.renderStyles = {
+        width: moduleConf.cssWidth,
+        height: moduleConf.cssHeight,
+      }
+    } else {
+      // 1.b - in user app: page or element?
+      const thisModuleDefinition = find(modules, m => m.content.id === id)
+      if (thisModuleDefinition && dynamicContainerId === thisModuleDefinition.content.container) {
+        // 1.b.1 - page style, grow the available height in user app
+        nextState.renderStyles = ModuleContainer.PAGE_RENDER_STYLE
+      } else {
+        // 1.b.2 configuration styles, from configuration or defaulting
+        nextState.renderStyles = {
+          width: moduleConf.cssWidth || ModuleContainer.DEFAULT_CSS_WIDTH,
+          height: moduleConf.cssHeight || ModuleContainer.DEFAULT_CSS_HEIGHT,
+        }
+      }
+    }
+    // 2 - Prepare the locales URL by locale (it remains possible for URL to be empty in each locale,
+    // in specific configuration case)
+    const anyNonEmptyLocale = find(moduleConf.urlByLocale, url => !!url)
+    nextState.urlByLocale = LOCALES.reduce((acc, locale) => ({
+      ...acc,
+      [locale]: get(moduleConf.urlByLocale, locale) || anyNonEmptyLocale,
+    }), {})
+
+    return !isEqual(prevState, nextState) ? nextState : null
+  }
+
+  static propTypes = {
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+    // redefines expected configuration shape
+    moduleConf: ModuleConfigurationShape,
+
+    // from mapStateToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    dynamicContainerId: PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
+    modules: AccessShapes.ModuleList,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  state = {
+    renderStyles: {},
+    urlByLocale: {},
+  }
 
   render() {
-    const renderStyles = {
-      width: this.props.moduleConf.cssWidth || ModuleContainer.DEFAULT_CSS_WIDTH,
-      height: this.props.moduleConf.cssHeight || ModuleContainer.DEFAULT_CSS_HEIGHT,
-    }
-    const { moduleConf: { urlByLocale = {} }, i18n } = this.props
+    const { moduleConf: { previewLocale } } = this.props
+    const { renderStyles, urlByLocale } = this.state
+    const { intl: { locale } } = this.context
+    // define the runtime locale (preview or context one when not in preview)
+    const runtimeLocale = previewLocale || locale
     // URL: current locale URL if available. If not available, first available locale URL.
-    const urlForLocale = urlByLocale[i18n] || find(urlByLocale, url => !!url)
+    const urlForLocale = urlByLocale[runtimeLocale]
     return urlForLocale ? (
       <IFrameURLContentDisplayer
         source={urlForLocale}
@@ -73,4 +145,6 @@ export class ModuleContainer extends React.Component {
   }
 }
 
-export default connect()(ModuleContainer)
+export default compose(
+  connect(ModuleContainer.mapStateToProps),
+  withI18n(messages))(ModuleContainer)

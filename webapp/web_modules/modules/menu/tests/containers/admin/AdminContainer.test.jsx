@@ -39,6 +39,7 @@ describe('[Menu] Testing AdminContainer', () => {
       type: 'any',
       roleList: {},
       adminForm: {
+        isPage: false,
         changeField: () => { },
         currentNamespace: 'conf',
         form: {},
@@ -64,6 +65,7 @@ describe('[Menu] Testing AdminContainer', () => {
         },
       },
       adminForm: {
+        isPage: false,
         changeField: () => { },
         currentNamespace: 'conf',
         form: {},
