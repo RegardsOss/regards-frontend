@@ -67,7 +67,7 @@ export class ModuleContainer extends React.Component {
 
   /**
    * React lifecycle method, called on properties change to build next state
-   * @return
+   * @return {*} Next state or null when there is no difference
    */
   static getDerivedStateFromProps(nextProps, prevState) {
     const {
