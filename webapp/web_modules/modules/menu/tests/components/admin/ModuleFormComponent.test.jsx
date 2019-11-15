@@ -56,6 +56,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
       roleList,
       adminForm: {
         changeField: () => { },
+        isPage: false,
         currentNamespace: 'conf',
         form: {},
       },
@@ -82,6 +83,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
       adminForm: {
         changeField: () => { },
         currentNamespace: 'conf',
+        isPage: false,
         form: {
           conf: {
             home: {
@@ -127,6 +129,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
       roleList,
       dynamicModule: [],
       adminForm: {
+        isPage: false,
         changeField: () => { },
         currentNamespace: 'conf',
         form: {

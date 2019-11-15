@@ -43,6 +43,7 @@ describe('[Order History] Testing AdminModuleContainer', () => {
       type: 'any',
       adminForm: {
         currentNamespace: 'conf',
+        isPage: true,
         form: {},
       },
     }

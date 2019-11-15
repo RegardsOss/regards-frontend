@@ -16,15 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { MIME_TYPES } from '@regardsoss/mime-types'
-import { themeContextType } from '@regardsoss/theme'
+import styles from '../styles'
 import { MeasureResultProvider } from '../../../../utils/display-control/src/main'
 
 /**
  * Shows content of any accepted browser type within an iFrame (required for PDF/ HTML, ...), contained in a dialog
  * You can use all accepted dialog properties
  */
-class IFrameURLContentDisplayer extends React.Component {
+export class IFrameURLContentDisplayer extends React.Component {
   /**
    * Maps MIME type to editor mode
    */
@@ -106,4 +107,10 @@ class IFrameURLContentDisplayer extends React.Component {
   }
 }
 
-export default IFrameURLContentDisplayer
+// Export for external consumers with style context and static methods
+const WithContext = withModuleStyle(styles)(IFrameURLContentDisplayer)
+WithContext.SUPPORTED_MIME_TYPES = IFrameURLContentDisplayer.SUPPORTED_MIME_TYPES
+WithContext.getSupportedMIMETypes = IFrameURLContentDisplayer.getSupportedMIMETypes
+WithContext.isSupportedContentType = IFrameURLContentDisplayer.isSupportedContentType
+
+export default WithContext

@@ -78,6 +78,7 @@ export const moduleAdminForm = PropTypes.shape({
   isCreating: PropTypes.bool,
   isDuplicating: PropTypes.bool,
   isEditing: PropTypes.bool,
+  isPage: PropTypes.bool.isRequired,
   // Form changeField function.
   changeField: PropTypes.func,
   // Configuration from another admin module

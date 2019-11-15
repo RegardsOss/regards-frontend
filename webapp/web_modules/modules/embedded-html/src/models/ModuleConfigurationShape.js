@@ -23,6 +23,8 @@ import { UIDomain } from '@regardsoss/domain'
  * @author Sébastien Binda
  */
 const ModuleConfigurationShape = PropTypes.shape({
+  preview: PropTypes.bool, // is in preview (undefined when not)
+  previewLocale: PropTypes.oneOf(UIDomain.LOCALES), // preview locale (undefined when not in preview)
   cssHeight: PropTypes.string,
   cssWidth: PropTypes.string,
   urlByLocale: PropTypes.shape({

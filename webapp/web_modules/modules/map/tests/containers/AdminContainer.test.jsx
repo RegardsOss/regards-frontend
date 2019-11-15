@@ -45,6 +45,7 @@ describe('[Map] Testing AdminContainer', () => {
         isCreating: true,
         isDuplicating: false,
         isEditing: false,
+        isPage: true,
         changeField: () => { },
         form: {},
       },
