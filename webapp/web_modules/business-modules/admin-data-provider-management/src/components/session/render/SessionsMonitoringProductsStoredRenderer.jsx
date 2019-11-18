@@ -61,28 +61,28 @@ class SessionsMonitoringProductsStored extends React.Component {
   }
 
   getStored = (entity) => {
-    const stored = get(entity, 'content.lifeCycle.OAIS.aip_stored', 0)
+    const stored = get(entity, 'content.lifeCycle.oais.products_stored', 0)
     return parseInt(stored, 10)
   }
 
   getStoragePending = (entity) => {
-    const pending = get(entity, 'content.lifeCycle.OAIS.aip_generated', 0)
+    const pending = get(entity, 'content.lifeCycle.oais.products_store_pending', 0)
     return parseInt(pending, 10)
   }
 
   getGenerating = (entity) => {
-    const pending = get(entity, 'content.lifeCycle.OAIS.sip_ingesting', 0)
+    const pending = get(entity, 'content.lifeCycle.oais.products_gen_pending', 0)
     return parseInt(pending, 10)
   }
 
   getErrors = (entity) => {
-    const errorSip = get(entity, 'content.lifeCycle.OAIS.sip_error', 0)
-    const errorAip = get(entity, 'content.lifeCycle.OAIS.aip_error', 0)
+    const errorSip = get(entity, 'content.lifeCycle.oais.products_gen_error', 0)
+    const errorAip = get(entity, 'content.lifeCycle.oais.products_store_error', 0)
     return parseInt(errorSip, 10) + parseInt(errorAip, 10)
   }
 
   getTotal = (entity) => {
-    const stored = get(entity, 'content.lifeCycle.OAIS.sip_total', 0)
+    const stored = get(entity, 'content.lifeCycle.oais.products', 0)
     return parseInt(stored, 10)
   }
 
@@ -116,7 +116,7 @@ class SessionsMonitoringProductsStored extends React.Component {
     const errors = this.getErrors(entity)
     const total = errors + pendings + stored
 
-    if (entity.content.lifeCycle.OAIS) {
+    if (entity.content.lifeCycle.oais) {
       const errorWidth = errors > 0 ? Math.round(errors * 100 / total) : 0
       const pendingWidth = pendings > 0 ? Math.round(pendings * 100 / total) : 0
       const processedWidth = stored > 0 ? Math.round(stored * 100 / total) : 0
@@ -131,7 +131,7 @@ class SessionsMonitoringProductsStored extends React.Component {
         isInError={entity.content.state === 'ERROR'}
       >
         <div style={cellContainer}>
-          { !entity.content.lifeCycle.OAIS ? (
+          { !entity.content.lifeCycle.oais ? (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
             -
