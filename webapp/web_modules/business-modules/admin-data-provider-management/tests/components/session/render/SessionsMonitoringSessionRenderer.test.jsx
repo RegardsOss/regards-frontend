@@ -53,14 +53,13 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringSessionRend
         links: [],
       },
       onShowAcknowledge: () => {},
-      onDeleteProducts: () => {},
-      onDeleteSession: () => {},
+      onShowDeleteConfirm: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringSessionRenderer {...props} />, { context })
     const dropDownButton = enzymeWrapper.find(DropDownButton)
     assert.lengthOf(dropDownButton, 1, 'There should be 1 DropDownButton')
     const menuItem = enzymeWrapper.find(MenuItem)
-    assert.lengthOf(menuItem, 3, 'There should be 3 MenuItem')
+    assert.lengthOf(menuItem, 2, 'There should be 2 MenuItem')
   })
   it('should render correctly DELETED', () => {
     const props = {
@@ -78,8 +77,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringSessionRend
         links: [],
       },
       onShowAcknowledge: () => {},
-      onDeleteProducts: () => {},
-      onDeleteSession: () => {},
+      onShowDeleteConfirm: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringSessionRenderer {...props} />, { context })
     const dropDownButton = enzymeWrapper.find(DropDownButton)
@@ -103,13 +101,12 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringSessionRend
         links: [],
       },
       onShowAcknowledge: () => {},
-      onDeleteProducts: () => {},
-      onDeleteSession: () => {},
+      onShowDeleteConfirm: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringSessionRenderer {...props} />, { context })
     const dropDownButton = enzymeWrapper.find(DropDownButton)
     assert.lengthOf(dropDownButton, 1, 'There should be 1 DropDownButton')
     const menuItem = enzymeWrapper.find(MenuItem)
-    assert.lengthOf(menuItem, 2, 'There should be 2 MenuItem')
+    assert.lengthOf(menuItem, 1, 'There should be 1 MenuItem')
   })
 })

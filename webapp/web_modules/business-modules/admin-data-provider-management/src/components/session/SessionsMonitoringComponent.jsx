@@ -77,11 +77,10 @@ export class SessionsMonitoringComponent extends React.Component {
 
     // Sessions action menu items
     onDeleteSession: PropTypes.func.isRequired,
-    onDeleteProducts: PropTypes.func.isRequired,
-    onClickListIndexed: PropTypes.func.isRequired,
-    onClickListAIP: PropTypes.func.isRequired,
-    onClickRelaunchAIP: PropTypes.func.isRequired,
-    onClickRelaunchProducts: PropTypes.func.isRequired,
+    onRelaunchProducts: PropTypes.func.isRequired,
+    onViewProductsOAIS: PropTypes.func.isRequired,
+    onViewRequestsOAIS: PropTypes.func.isRequired,
+    onRelaunchProductsOAIS: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -119,6 +118,7 @@ export class SessionsMonitoringComponent extends React.Component {
 
   state = {
     sessionToAcknowledge: null,
+    sessionToDelete: null,
   }
 
   renderBreadCrump = () => {
@@ -150,12 +150,35 @@ export class SessionsMonitoringComponent extends React.Component {
   }
 
   /**
+  * Show acknowledge confirm dialog
+  * @param sessionToAcknowledge : session to acknowledge
+  */
+ onShowDeleteConfirm = (sessionToDelete) => {
+   this.setState({ sessionToDelete })
+ }
+
+  onCloseDeleteConfirm = () => {
+    this.setState({ sessionToDelete: null })
+  }
+
+  onConfirmDelete = () => {
+    const { sessionToDelete } = this.state
+    const { onDeleteSession } = this.props
+    if (get(sessionToDelete, 'content.id')) {
+      onDeleteSession(sessionToDelete.content.id)
+    }
+    this.onCloseDeleteConfirm()
+  }
+
+  /**
   * Confirm dialog call action to update state
   */
   onConfirmAcknowledge = () => {
     const { sessionToAcknowledge } = this.state
     const { onAcknowledge } = this.props
-    onAcknowledge(sessionToAcknowledge.content.id)
+    if (get(sessionToAcknowledge, 'content.id')) {
+      onAcknowledge(sessionToAcknowledge.content.id)
+    }
     this.onCloseAcknowledge()
   }
 
@@ -164,10 +187,9 @@ export class SessionsMonitoringComponent extends React.Component {
     const {
       onBack, onSort, columnsSorting, requestParameters, onApplyFilters, onClearFilters, filtersEdited, canEmptyFilters, onToggleErrorsOnly, onToggleLastSession,
       initialFilters, onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onChangeColumnsVisibility, columnsVisibility,
-      onDeleteSession, onClickListIndexed, onClickRelaunchAIP, onClickRelaunchProducts, onClickListAIP,
-      onDeleteProducts,
+      onDeleteSession, onViewProductsOAIS, onRelaunchProductsOAIS, onViewRequestsOAIS, onRelaunchProducts,
     } = this.props
-    const { sessionToAcknowledge } = this.state
+    const { sessionToAcknowledge, sessionToDelete } = this.state
     const iconStyle = {
       margin: 5,
     }
@@ -182,7 +204,7 @@ export class SessionsMonitoringComponent extends React.Component {
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME, true))
         .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME), onSort)
-        .rowCellDefinition({ Constructor: SessionsMonitoringSessionRenderer, props: { onDeleteSession, onShowAcknowledge: this.onShowAcknowledge } })
+        .rowCellDefinition({ Constructor: SessionsMonitoringSessionRenderer, props: { onDeleteSession, onShowAcknowledge: this.onShowAcknowledge, onShowDeleteConfirm: this.onShowDeleteConfirm } })
         .label(formatMessage({ id: 'acquisition-sessions.table.name' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.LAST_UPDATE)
@@ -203,20 +225,20 @@ export class SessionsMonitoringComponent extends React.Component {
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.PRODUCTS)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.PRODUCTS, true))
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.sip-generated.tooltip' }))
-        .rowCellDefinition({ Constructor: SessionsMonitoringProductsGeneratedRenderer, props: { onClickRelaunchProducts, onDeleteProducts } })
+        .rowCellDefinition({ Constructor: SessionsMonitoringProductsGeneratedRenderer, props: { onRelaunchProducts } })
         .label(formatMessage({ id: 'acquisition-sessions.table.sip-generated' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_STORED)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_STORED, true))
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.aip-stored.tooltip' }))
-        .rowCellDefinition({ Constructor: SessionsMonitoringProductsStoredRenderer, props: { onClickRelaunchAIP, onClickListAIP } })
+        .rowCellDefinition({ Constructor: SessionsMonitoringProductsStoredRenderer, props: { onRelaunchProductsOAIS, onViewProductsOAIS, onViewRequestsOAIS } })
         .label(formatMessage({ id: 'acquisition-sessions.table.aip-stored' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.INDEXED)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.INDEXED, true))
         .optionsSizing(3)
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.indexed.tooltip' }))
-        .rowCellDefinition({ Constructor: SessionsMonitoringIndexedRenderer, props: { onClickListIndexed } })
+        .rowCellDefinition({ Constructor: SessionsMonitoringIndexedRenderer })
         .label(formatMessage({ id: 'acquisition-sessions.table.indexed' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.CREATION_DATE)
@@ -240,6 +262,14 @@ export class SessionsMonitoringComponent extends React.Component {
             onConfirm={this.onConfirmAcknowledge}
             onClose={this.onCloseAcknowledge}
             open={!!sessionToAcknowledge}
+          />
+          <ConfirmDialogComponent
+            dialogType={ConfirmDialogComponentTypes.CONFIRM}
+            title={formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.title' }, { source: get(sessionToDelete, 'content.source'), name: get(sessionToDelete, 'content.name') })}
+            message={formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.message' })}
+            onConfirm={this.onConfirmDelete}
+            onClose={this.onCloseDeleteConfirm}
+            open={!!sessionToDelete}
           />
           <RaisedButton
             label={formatMessage({ id: 'acquisition-sessions.refresh.button' })}

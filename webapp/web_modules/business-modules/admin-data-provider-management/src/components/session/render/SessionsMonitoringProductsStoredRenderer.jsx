@@ -33,8 +33,9 @@ import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoring
 class SessionsMonitoringProductsStored extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
-    onClickRelaunchAIP: PropTypes.func.isRequired,
-    onClickListAIP: PropTypes.func.isRequired,
+    onRelaunchProductsOAIS: PropTypes.func.isRequired,
+    onViewProductsOAIS: PropTypes.func.isRequired,
+    onViewRequestsOAIS: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -43,21 +44,18 @@ class SessionsMonitoringProductsStored extends React.Component {
   }
 
   onClickRelaunch = () => {
-    // TODO
-    const { entity, onClickRelaunchAIP } = this.props
-    onClickRelaunchAIP(entity.content.name, entity.content.source)
+    const { entity, onRelaunchProductsOAIS } = this.props
+    onRelaunchProductsOAIS(entity.content.name, entity.content.source)
   }
 
   onClickListAIP = () => {
-    // TODO
-    const { entity, onClickListAIP } = this.props
-    onClickListAIP(entity.content.source, entity.content.name)
+    const { entity, onViewProductsOAIS } = this.props
+    onViewProductsOAIS(entity.content.source, entity.content.name)
   }
 
   onClickListRequestErrors = () => {
-    // TODO
-    const { entity, onClickListAIP } = this.props
-    onClickListAIP(entity.content.source, entity.content.name, true)
+    const { entity, onViewRequestsOAIS } = this.props
+    onViewRequestsOAIS(entity.content.source, entity.content.name, true)
   }
 
   getStored = (entity) => {
@@ -114,7 +112,7 @@ class SessionsMonitoringProductsStored extends React.Component {
     const generating = this.getGenerating(entity)
     const pendings = storagePending + generating
     const errors = this.getErrors(entity)
-    const total = errors + pendings + stored
+    const total = this.getTotal(entity)
 
     if (entity.content.lifeCycle.oais) {
       const errorWidth = errors > 0 ? Math.round(errors * 100 / total) : 0

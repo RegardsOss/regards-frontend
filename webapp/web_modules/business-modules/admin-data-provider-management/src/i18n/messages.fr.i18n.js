@@ -173,13 +173,14 @@ const messages = Object.assign({
   'acquisition-sessions.states.acknowledge': 'Acquitter l\'erreur de session',
 
   //3.4 Cell's Menus
-  'acquisition-sessions.menus.session.delete': 'Supprimer la session',
-  'acquisition-sessions.menus.session.delete.definitely': 'Supprimer définitivement la session',
+  'acquisition-sessions.menus.session.delete.button': 'Supprimer les produits de la session',
+  'acquisition-sessions.menus.session.delete.dialog.title': 'Supprimer les produits de la session <{source} - {name}>',
+  'acquisition-sessions.menus.session.delete.dialog.message': 'La suppression de cette session entrainera la suppression de tous les produits acquis et stockés.',
   'acquisition-sessions.menus.products.relaunch': 'Relancer les produits en erreur',
   'acquisition-sessions.menus.products.delete': 'Supprimer tous les produits',
   'acquisition-sessions.menus.archives.relaunch': 'Relancer les produits en erreur',
-  'acquisition-sessions.menus.archives.list': 'Lister les Produits',
-  'acquisition-sessions.menus.archives.list.error': 'Lister les Traitements en erreur',
+  'acquisition-sessions.menus.archives.list': 'Visualiser les Produits',
+  'acquisition-sessions.menus.archives.list.error': 'Visualiser les Traitements en erreur',
 
   //3.5 Filters
   'acquisition-sessions.filters.source': 'Source',

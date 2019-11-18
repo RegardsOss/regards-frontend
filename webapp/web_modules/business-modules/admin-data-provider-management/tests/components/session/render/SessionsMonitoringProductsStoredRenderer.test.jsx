@@ -63,8 +63,9 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsSto
         },
         links: [],
       },
-      onClickRelaunchAIP: () => {},
-      onClickListAIP: () => {},
+      onRelaunchProductsOAIS: () => {},
+      onViewProductsOAIS: () => {},
+      onViewRequestsOAIS: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringProductsStoredRenderer {...props} />, { context })
     const dropDownButton = enzymeWrapper.find(DropDownButton)
@@ -85,8 +86,9 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsSto
         },
         links: [],
       },
-      onClickRelaunchAIP: () => {},
-      onClickListAIP: () => {},
+      onRelaunchProductsOAIS: () => {},
+      onViewProductsOAIS: () => {},
+      onViewRequestsOAIS: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringProductsStoredRenderer {...props} />, { context })
     const dropDownButton = enzymeWrapper.find(DropDownButton)
