@@ -20,29 +20,16 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import messages from '../../i18n'
 import styles from '../../styles/styles'
 import { sipImportActions } from '../../clients/SIPImportClient'
 import SIPsubmissionFormComponent from '../../components/sip/submission/SIPSubmissionFormComponent'
-import SIPSubmissionNotReadyComponent from '../../components/sip/submission/SIPSubmissionNotReadyComponent'
 
 /**
 * Displays the SIPsubmissionForm
 * @author Sébastien Binda
 */
 export class SIPSubmissionFormContainer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state) {
-    return {
-    }
-  }
-
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
@@ -62,15 +49,9 @@ export class SIPSubmissionFormContainer extends React.Component {
     submitSips: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isError: false,
-      isLoading: true,
-      storageReady: false,
-      serverMessage: undefined,
-      storageSpecifications: null,
-    }
+  state = {
+    isError: false,
+    isLoading: false,
   }
 
   onSucceed = () => {
@@ -125,45 +106,22 @@ export class SIPSubmissionFormContainer extends React.Component {
       })
   }
 
-  renderSIPSubmissionForm = () => {
-    if (this.state.storageReady) {
-      return (
-        <SIPsubmissionFormComponent
-          isError={this.state.isError}
-          isLoading={this.state.isLoading}
-          submitSips={this.onSubmit}
-          onBack={this.onBack}
-          storageSpecifications={this.state.storageSpecifications}
-        />
-      )
-    }
-    return (
-      <SIPSubmissionNotReadyComponent
-        serverMessage={this.state.serverMessage}
-        onConfigureDataStorages={this.onConfigureDataStorages}
-        onConfigureAllocationStrategies={this.onConfigureAllocationStrategies}
-        onConfigureCatalogSecurity={this.onConfigureCatalogSecurity}
-        onBack={this.onBack}
-      />
-    )
-  }
-
   render() {
     const stylesObj = { styles }
 
     return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={stylesObj}>
-          <LoadableContentDisplayDecorator
+          <SIPsubmissionFormComponent
+            isError={this.state.isError}
             isLoading={this.state.isLoading}
-          >
-            {this.renderSIPSubmissionForm()}
-          </LoadableContentDisplayDecorator>
+            submitSips={this.onSubmit}
+            onBack={this.onBack}
+          />
         </ModuleStyleProvider>
       </I18nProvider>
     )
   }
 }
 
-export default connect(SIPSubmissionFormContainer.mapStateToProps,
-  SIPSubmissionFormContainer.mapDispatchToProps)(SIPSubmissionFormContainer)
+export default connect(null, SIPSubmissionFormContainer.mapDispatchToProps)(SIPSubmissionFormContainer)

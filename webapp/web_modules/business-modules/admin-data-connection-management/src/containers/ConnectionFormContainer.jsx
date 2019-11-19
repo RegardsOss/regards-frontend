@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import find from 'lodash/find'
 import map from 'lodash/map'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
@@ -67,6 +68,7 @@ export class ConnectionFormContainer extends React.Component {
     }
     Promise.all(tasks)
       .then(() => {
+        console.error('ALL THE META', this.props.pluginMetaDataList)
         this.setState({
           isLoading: false,
         })
@@ -78,13 +80,25 @@ export class ConnectionFormContainer extends React.Component {
     return `/admin/${project}/data/acquisition/connection/list`
   }
 
-  generateParameters = values => map(ConnectionFormContainer.PLUGIN_ATTRS, attr => ({
-    name: attr,
-    value: values[attr],
-    dynamic: false,
-    dynamicsValues: [],
-  }))
-
+  /**
+   * Generates parameter values to publish on server
+   * @param {*} values form values
+   * @return {[*]} list of parameters (matching PluginParameterType)
+   */
+  generateParameters = (values) => {
+    // A - retrieve the selected plugin data (necessary found, as it is mandatory and comes from server list)
+    const selectedPluginClassName = values.pluginClassName
+    const correspondingPlugin = find(this.props.pluginMetaDataList,
+      ({ content: { pluginClassName } }) => pluginClassName === selectedPluginClassName)
+    // B - Map attribute values to attributes array, with required elements
+    return map(ConnectionFormContainer.PLUGIN_ATTRS, attr => ({
+      name: attr,
+      type: correspondingPlugin.content.parameters.find(p => p.name === attr).type,
+      value: values[attr],
+      dynamic: false,
+      dynamicsValues: [],
+    }))
+  }
 
   handleCreate = (values) => {
     const parameters = this.generateParameters(values)
