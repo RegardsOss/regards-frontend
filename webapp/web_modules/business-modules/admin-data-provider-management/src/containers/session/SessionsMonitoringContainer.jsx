@@ -53,7 +53,6 @@ export class SessionsMonitoringContainer extends React.Component {
     deleteSession: PropTypes.func.isRequired,
     relaunchProducts: PropTypes.func.isRequired,
     relaunchAIP: PropTypes.func.isRequired,
-    relaunchSIP: PropTypes.func.isRequired,
     acknowledgeSessionState: PropTypes.func.isRequired,
     // From mapstate to props
     fetchSessions: PropTypes.func.isRequired,
@@ -179,10 +178,6 @@ export class SessionsMonitoringContainer extends React.Component {
     })
   }
 
-  onDeleteProducts = (session) => {
-
-  }
-
   onRefresh = () => {
     const { pageMetadata, fetchSessions } = this.props
     RefreshPageableTableOption.refreshTable(fetchSessions, SessionsMonitoringComponent.PAGE_SIZE, true, pageMetadata, {}, this.state.requestParameters)
@@ -191,7 +186,7 @@ export class SessionsMonitoringContainer extends React.Component {
   /**
    * User cb: Redirect to Indexed List
    */
-  onClickListIndexed = (source, session) => {
+  onViewProductsOAIS = (source, session) => {
     const { params: { project } } = this.props
     const urlParams = {
       source,
@@ -202,60 +197,29 @@ export class SessionsMonitoringContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  /**
-   * User cb: Redirect to Indexed List
-   */
-  onClickListAIP = (source, session, error = false) => {
+  onViewRequestsOAIS = (source, session, error = false) => {
     const { params: { project } } = this.props
     const urlParams = {
       source,
       session,
     }
-    if (error) {
-      urlParams.state = 'STORAGE_ERROR'
-    }
     const queryString = Object.keys(urlParams).map(key => `${key}=${urlParams[key]}`).join('&')
-    const url = `/admin/${project}/data/acquisition/oais/aip/list?${queryString}`
-    browserHistory.push(url)
-  }
-
-  /**
-   * User cb: Redirect to Indexed List
-   */
-  onClickListSIP = (source, session, error = false) => {
-    const { params: { project } } = this.props
-    const urlParams = {
-      source,
-      session,
-    }
-    if (error) {
-      urlParams.state = 'STORE_ERROR,AIP_GEN_ERROR'
-    }
-    const queryString = Object.keys(urlParams).map(key => `${key}=${urlParams[key]}`).join('&')
-    const url = `/admin/${project}/data/acquisition/oais/sip/list?${queryString}`
+    const url = `/admin/${project}/data/acquisition/oais/requests/list?${queryString}`
     browserHistory.push(url)
   }
 
   /**
    * User cb: Relaunch Errored AIP
    */
-  onClickRelaunchAIP = (source, name) => {
+  onRelaunchProductsOAIS = (source, name) => {
     const { relaunchAIP } = this.props
     relaunchAIP(source, name)
   }
 
   /**
-   * User cb: Relaunch Errored SIP
-   */
-  onClickRelaunchSIP = (source, name) => {
-    const { relaunchSIP } = this.props
-    relaunchSIP(source, name)
-  }
-
-  /**
    * User cb: Relaunch Errored Products
    */
-  onClickRelaunchProducts = (source, name) => {
+  onRelaunchProducts = (source, name) => {
     const { relaunchProducts } = this.props
     relaunchProducts(source, name)
   }
@@ -444,13 +408,10 @@ export class SessionsMonitoringContainer extends React.Component {
         onChangeTo={this.onChangeTo}
         onChangeColumnsVisibility={this.onChangeColumnsVisibility}
         onDeleteSession={this.onDeleteSession}
-        onDeleteProducts={this.onDeleteProducts}
-        onClickListIndexed={this.onClickListIndexed}
-        onClickListAIP={this.onClickListAIP}
-        onClickListSIP={this.onClickListSIP}
-        onClickRelaunchAIP={this.onClickRelaunchAIP}
-        onClickRelaunchSIP={this.onClickRelaunchSIP}
-        onClickRelaunchProducts={this.onClickRelaunchProducts}
+        onRelaunchProducts={this.onRelaunchProducts}
+        onViewProductsOAIS={this.onViewProductsOAIS}
+        onViewRequestsOAIS={this.onViewRequestsOAIS}
+        onRelaunchProductsOAIS={this.onRelaunchProductsOAIS}
         onRefresh={this.onRefresh}
       />
     )

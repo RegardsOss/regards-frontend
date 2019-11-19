@@ -173,8 +173,9 @@ const messages = Object.assign({
   'acquisition-sessions.states.acknowledge': 'Acknowledge this session error',
 
   //3.4 Cell's Menus
-  'acquisition-sessions.menus.session.delete': 'Delete session',
-  'acquisition-sessions.menus.session.delete.definitely': 'Delete the session definitely',
+  'acquisition-sessions.menus.session.delete.button': 'Delete session products',
+  'acquisition-sessions.menus.session.delete.dialog.title': 'Delete session <{source} - {name}> products',
+  'acquisition-sessions.menus.session.delete.dialog.message': 'The session deletion will delete all acquired products and all stored packages.',
   'acquisition-sessions.menus.products.relaunch': 'Relaunch errored products',
   'acquisition-sessions.menus.products.delete': 'Delete products',
   'acquisition-sessions.menus.archives.relaunch': 'Relaunch Processing in error',

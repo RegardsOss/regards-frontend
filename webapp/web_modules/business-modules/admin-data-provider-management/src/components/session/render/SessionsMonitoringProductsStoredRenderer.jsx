@@ -33,8 +33,9 @@ import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoring
 class SessionsMonitoringProductsStored extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
-    onClickRelaunchAIP: PropTypes.func.isRequired,
-    onClickListAIP: PropTypes.func.isRequired,
+    onRelaunchProductsOAIS: PropTypes.func.isRequired,
+    onViewProductsOAIS: PropTypes.func.isRequired,
+    onViewRequestsOAIS: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -43,46 +44,43 @@ class SessionsMonitoringProductsStored extends React.Component {
   }
 
   onClickRelaunch = () => {
-    // TODO
-    const { entity, onClickRelaunchAIP } = this.props
-    onClickRelaunchAIP(entity.content.name, entity.content.source)
+    const { entity, onRelaunchProductsOAIS } = this.props
+    onRelaunchProductsOAIS(entity.content.name, entity.content.source)
   }
 
   onClickListAIP = () => {
-    // TODO
-    const { entity, onClickListAIP } = this.props
-    onClickListAIP(entity.content.source, entity.content.name)
+    const { entity, onViewProductsOAIS } = this.props
+    onViewProductsOAIS(entity.content.source, entity.content.name)
   }
 
   onClickListRequestErrors = () => {
-    // TODO
-    const { entity, onClickListAIP } = this.props
-    onClickListAIP(entity.content.source, entity.content.name, true)
+    const { entity, onViewRequestsOAIS } = this.props
+    onViewRequestsOAIS(entity.content.source, entity.content.name, true)
   }
 
   getStored = (entity) => {
-    const stored = get(entity, 'content.lifeCycle.OAIS.aip_stored', 0)
+    const stored = get(entity, 'content.lifeCycle.oais.products_stored', 0)
     return parseInt(stored, 10)
   }
 
   getStoragePending = (entity) => {
-    const pending = get(entity, 'content.lifeCycle.OAIS.aip_generated', 0)
+    const pending = get(entity, 'content.lifeCycle.oais.products_store_pending', 0)
     return parseInt(pending, 10)
   }
 
   getGenerating = (entity) => {
-    const pending = get(entity, 'content.lifeCycle.OAIS.sip_ingesting', 0)
+    const pending = get(entity, 'content.lifeCycle.oais.products_gen_pending', 0)
     return parseInt(pending, 10)
   }
 
   getErrors = (entity) => {
-    const errorSip = get(entity, 'content.lifeCycle.OAIS.sip_error', 0)
-    const errorAip = get(entity, 'content.lifeCycle.OAIS.aip_error', 0)
+    const errorSip = get(entity, 'content.lifeCycle.oais.products_gen_error', 0)
+    const errorAip = get(entity, 'content.lifeCycle.oais.products_store_error', 0)
     return parseInt(errorSip, 10) + parseInt(errorAip, 10)
   }
 
   getTotal = (entity) => {
-    const stored = get(entity, 'content.lifeCycle.OAIS.sip_total', 0)
+    const stored = get(entity, 'content.lifeCycle.oais.products', 0)
     return parseInt(stored, 10)
   }
 
@@ -114,9 +112,9 @@ class SessionsMonitoringProductsStored extends React.Component {
     const generating = this.getGenerating(entity)
     const pendings = storagePending + generating
     const errors = this.getErrors(entity)
-    const total = errors + pendings + stored
+    const total = this.getTotal(entity)
 
-    if (entity.content.lifeCycle.OAIS) {
+    if (entity.content.lifeCycle.oais) {
       const errorWidth = errors > 0 ? Math.round(errors * 100 / total) : 0
       const pendingWidth = pendings > 0 ? Math.round(pendings * 100 / total) : 0
       const processedWidth = stored > 0 ? Math.round(stored * 100 / total) : 0
@@ -131,7 +129,7 @@ class SessionsMonitoringProductsStored extends React.Component {
         isInError={entity.content.state === 'ERROR'}
       >
         <div style={cellContainer}>
-          { !entity.content.lifeCycle.OAIS ? (
+          { !entity.content.lifeCycle.oais ? (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
             -

@@ -25,14 +25,14 @@ import { themeContextType } from '@regardsoss/theme'
 import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoringTableBackgroundComponent'
 
 /**
- * Comment Here
+ * SessionsMonitoringSessionRenderer
  * @author Kevin Picart
  */
 export class SessionsMonitoringSessionRenderer extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
     onShowAcknowledge: PropTypes.func.isRequired,
-    onDeleteSession: PropTypes.func.isRequired,
+    onShowDeleteConfirm: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -41,22 +41,13 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
   }
 
   onDeleteSession = () => {
-    const { entity, onDeleteSession } = this.props
-    onDeleteSession(entity.content.id, false)
-  }
-
-  onDeleteSessionForce = () => {
-    const { entity, onDeleteSession } = this.props
-    onDeleteSession(entity.content.id, true)
+    const { entity, onShowDeleteConfirm } = this.props
+    onShowDeleteConfirm(entity)
   }
 
   onShowAcknowledgeDialog = () => {
     const { entity, onShowAcknowledge } = this.props
     onShowAcknowledge(entity)
-  }
-
-  nothing = () => {
-    //
   }
 
   render() {
@@ -84,18 +75,9 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
                 />) : (
                   <div />
               )}
-              { entity.content.state !== 'DELETED' ? (
-                <MenuItem
-                  primaryText={formatMessage({ id: 'acquisition-sessions.menus.session.delete' })}
-                  onClick={this.onDeleteSession}
-                  value={null}
-                />
-              ) : (
-                <div />
-              )}
               <MenuItem
-                primaryText={formatMessage({ id: 'acquisition-sessions.menus.session.delete.definitely' })}
-                onClick={this.onDeleteSessionForce}
+                primaryText={formatMessage({ id: 'acquisition-sessions.menus.session.delete.button' })}
+                onClick={this.onDeleteSession}
                 value={null}
               />
             </DropDownButton>
