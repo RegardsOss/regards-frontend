@@ -68,7 +68,6 @@ export class ConnectionFormContainer extends React.Component {
     }
     Promise.all(tasks)
       .then(() => {
-        console.error('ALL THE META', this.props.pluginMetaDataList)
         this.setState({
           isLoading: false,
         })
